@@ -64,7 +64,7 @@ RANLIB = @RANLIB@
 VERSION = @VERSION@
 
 bin_PROGRAMS = civserver
-INCLUDES = -I ../common -I ../ai
+INCLUDES = -I $(srcdir)/../common -I $(srcdir)/../ai
 
 civserver_SOURCES = \
 		cityhand.c	\

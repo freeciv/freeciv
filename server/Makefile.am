@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 bin_PROGRAMS = civserver
-INCLUDES = -I ../common -I ../ai
+INCLUDES = -I $(srcdir)/../common -I $(srcdir)/../ai
 
 civserver_SOURCES = \
 		cityhand.c	\

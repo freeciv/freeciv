@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libcivcommon.a
 
-INCLUDES = -I ../ai
+INCLUDES = -I $(srcdir)/../ai
 
 libcivcommon_a_SOURCES = \
 		city.c		\
