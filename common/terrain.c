@@ -63,6 +63,7 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
   const char *flag_names[] = {
     /* Must match terrain flags in terrain.h. */
     "NoBarbs",
+    "NoPollution",
     "Oceanic"
   };
 

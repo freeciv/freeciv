@@ -73,6 +73,7 @@ enum tile_terrain_type {
 
 enum terrain_flag_id {
   TER_NO_BARBS, /* No barbarians summoned on this terrain. */
+  TER_NO_POLLUTION, /* This terrain cannot be polluted. */
   TER_OCEANIC, /* This is an ocean terrain. */
   TER_LAST
 };

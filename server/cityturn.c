@@ -1160,8 +1160,7 @@ static void check_pollution(struct city *pcity)
 	continue;
       }
 
-      if ((!is_ocean(map_get_terrain(mx, my))
-	   && map_get_terrain(mx, my) <= T_TUNDRA)
+      if (!terrain_has_flag(map_get_terrain(mx, my), TER_NO_POLLUTION)
 	  && !map_has_special(mx, my, S_POLLUTION)) {
 	map_set_special(mx, my, S_POLLUTION);
 	send_tile_info(NULL, mx, my);
