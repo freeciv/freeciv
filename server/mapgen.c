@@ -247,29 +247,32 @@ static void make_swamps(void)
 }
 
 /*************************************************************************
-  make_deserts calls make_desert until we have enough deserts actually
-  there is no map setting for how many we want, what happends is that
-  we choose a random coordinate between 20 and 30 degrees north and south 
-  (deserts tend to be between 15 and 35, make_desert will expand them) and 
-  if it's a grassland square we call make_desert with this coordinate, we 
-  try this 500 times for each region: north and south.
+  Make deserts until we have enough of them.
 **************************************************************************/
 static void make_deserts(void)
 {
   int x,y,i,j;
   i=map.deserts;
   j=0;
-  while (i > 0 && j < 500) {
+  while (i > 0 && j < 100 * map.deserts) {
     j++;
 
-    y=myrand(map.ysize*10/180)+map.ysize*110/180;
-    x=myrand(map.xsize);
-    if (map_get_terrain(x, y)==T_GRASSLAND) {
-      make_desert(x,y, hmap(x, y), 50);
-      i--;
+    if (has_poles) {
+      /* Choose a random coordinate between 20 and 30 degrees north/south
+       * (deserts tend to be between 15 and 35; make_desert will expand
+       * them). */
+      y = myrand(map.ysize * 10 / 180) + map.ysize * 60 / 180;
+      x = myrand(map.xsize);
+      if (myrand(2) != 0) {
+	y = map.ysize - 1 - y;
+      }
+    } else {
+      /* If there are no poles we can pick any location to be a desert. */
+      rand_map_pos(&x, &y);
     }
-    y=myrand(map.ysize*10/180)+map.ysize*60/180;
-    x=myrand(map.xsize);
+
+    /* If it's a grassland square call make_desert here.  We loop repeatedly
+     * since we may not always find grassland. */
     if (map_get_terrain(x, y)==T_GRASSLAND) {
       make_desert(x,y, hmap(x, y), 50);
       i--;
