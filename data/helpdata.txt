@@ -898,10 +898,8 @@ generate = "Units"
 
 [help_combat]
 name = _("Combat")
-text = _("\
-Default Combat Rules
---------------------- \
-"), _("\
+text = _("Default Combat Rules\n---------------------"),
+_("\
 When one unit attacks another unit, either the attacker will be \
 destroyed, or the defender will be destroyed -- never both (unless \
 the attacker was a missile).  The outcome depends on several \
@@ -998,10 +996,8 @@ defender.\
 
 [help_combat_modifying]
 name = _(" Modifying Combat Rules")
-text = _("
-Modifying Combat Rules
---------------------- \
-"), _("\
+text = _("Modifying Combat Rules\n----------------------"),
+_("\
 The combat rules described before can be modified by changing the \
 following modifiers in game.ruleset, section combat_rules: \
 "), _("\
