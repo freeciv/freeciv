@@ -268,12 +268,10 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 
 void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int unitid) 
 {
-  HBRUSH grey;
   int i;
   struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
-  grey=GetStockObject(LTGRAY_BRUSH);
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
       if(pdialog->present_unit_ids[i]==unitid)
@@ -309,7 +307,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
     rc.left=pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH);
     rc.right=rc.left+NORMAL_TILE_WIDTH;
     rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
-    FillRect(hdc,&rc,grey);
+    FillRect(hdc,&rc,(HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
   }
 }
 
@@ -320,7 +318,6 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
 void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
                                         int unitid)
 {
-  HBRUSH grey;
   int i;
   struct unit_list *plist;
   struct genlist_iterator myiter;
@@ -332,7 +329,6 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
     if(i==NUM_UNITS_SHOWN)
       unitid=0;
   } 
-  grey=GetStockObject(LTGRAY_BRUSH);
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_supported);
   } else {
@@ -360,7 +356,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
     rc.left=pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH);
     rc.right=rc.left+NORMAL_TILE_WIDTH;
     rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
-    FillRect(hdc,&rc,grey);
+    FillRect(hdc,&rc,(HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
     
   }
 }   
@@ -2057,8 +2053,11 @@ popup_city_dialog(struct city *pcity, bool make_modal)
 {
   struct city_dialog *pdialog;
  
-  if(!(pdialog=get_city_dialog(pcity)))
-    pdialog=create_city_dialog(pcity, make_modal);                                      
+  if(!(pdialog=get_city_dialog(pcity))) {
+    pdialog=create_city_dialog(pcity, make_modal); 
+  } else {
+    SetFocus(pdialog->mainwindow);
+  }
 }
 
 /**************************************************************************
