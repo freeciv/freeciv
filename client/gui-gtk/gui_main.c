@@ -180,6 +180,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Up:		key_move_north_west();		break;
     case GDK_9:
     case GDK_KP_9:
+    case GDK_Page_Up:
     case GDK_KP_Page_Up:	key_move_north();		break;
     case GDK_Right:
     case GDK_6:
@@ -187,6 +188,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Right:		key_move_north_east();		break;
     case GDK_3:
     case GDK_KP_3:
+    case GDK_Page_Down:
     case GDK_KP_Page_Down:	key_move_east();		break;
     case GDK_Down:
     case GDK_2:
@@ -194,6 +196,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Down:		key_move_south_east();		break;
     case GDK_1:
     case GDK_KP_1:
+    case GDK_End:
     case GDK_KP_End:		key_move_south();		break;
     case GDK_Left:
     case GDK_4:
@@ -201,6 +204,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Left:		key_move_south_west();		break;
     case GDK_7:
     case GDK_KP_7:
+    case GDK_Home:
     case GDK_KP_Home:		key_move_west();		break;
 
     case GDK_KP_Begin:
@@ -223,6 +227,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Up:		key_move_north();		break;
     case GDK_9:
     case GDK_KP_9:
+    case GDK_Page_Up:
     case GDK_KP_Page_Up:	key_move_north_east();		break;
     case GDK_Right:
     case GDK_6:
@@ -230,6 +235,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Right:		key_move_east();		break;
     case GDK_3:
     case GDK_KP_3:
+    case GDK_Page_Down:
     case GDK_KP_Page_Down:	key_move_south_east();		break;
     case GDK_Down:
     case GDK_2:
@@ -237,6 +243,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Down:		key_move_south();		break;
     case GDK_1:
     case GDK_KP_1:
+    case GDK_End:
     case GDK_KP_End:		key_move_south_west();		break;
     case GDK_Left:
     case GDK_4:
@@ -244,6 +251,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     case GDK_KP_Left:		key_move_west();		break;
     case GDK_7:
     case GDK_KP_7:
+    case GDK_Home:
     case GDK_KP_Home:		key_move_north_west();		break;
     case GDK_KP_Begin:
     case GDK_5:
