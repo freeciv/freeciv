@@ -362,14 +362,16 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
   if(a < game.num_tech_types) {
     a_str=advances[a].name;
   } else {
-    my_snprintf(text_a,sizeof(text_a), _("Researching Future Tech. %d"),a);
+    my_snprintf(text_a,sizeof(text_a), _("Researching Future Tech. %d"),
+		a - game.num_tech_types);
     a_str=text_a;
   }
 
   if(b < game.num_tech_types) {
     b_str=advances[b].name;
   } else {
-    my_snprintf(text_b,sizeof(text_b), _("Researching Future Tech. %d"),b);
+    my_snprintf(text_b,sizeof(text_b), _("Researching Future Tech. %d"),
+		b - game.num_tech_types);
     b_str=text_b;
   }
 
@@ -461,7 +463,8 @@ void science_dialog_update(void)
       data=advances[(gint)g_list_nth_data(sorting_list, i)].name;
     } else {
       my_snprintf(text, sizeof(text), _("Researching Future Tech. %d"),
-		  (gint)g_list_nth_data(sorting_list, i));
+		  (gint)g_list_nth_data(sorting_list, i)
+		  - game.num_tech_types);
       data=text;
     }
 
