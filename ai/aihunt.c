@@ -281,6 +281,7 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
       if (ptile->city
           || TEST_BIT(target->ai.hunted, pplayer->player_no)
           || (!is_ocean(ptile->terrain) && is_sailing_unit(punit))
+          || (is_ocean(ptile->terrain) && is_ground_unit(punit))
           || (!is_sailing_unit(target) && is_sailing_unit(punit))
           || (is_sailing_unit(target) && !is_sailing_unit(punit))
           || !goto_is_sane(punit, target->tile, TRUE)) {
