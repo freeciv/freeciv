@@ -770,7 +770,7 @@ void show_area(struct player *pplayer, int x, int y, int len)
 ***************************************************************/
 bool map_get_known(int x, int y, struct player *pplayer)
 {
-  return map_get_tile(x, y)->known & (1u<<pplayer->player_no);
+  return TEST_BIT(map_get_tile(x, y)->known, pplayer->player_no);
 }
 
 /***************************************************************
@@ -780,7 +780,7 @@ bool map_get_known_and_seen(int x, int y, struct player *pplayer)
 {
   int offset = map_inx(x, y);
 
-  return ((map.tiles + offset)->known) & (1u << (pplayer->player_no))
+  return TEST_BIT((map.tiles + offset)->known, pplayer->player_no)
       && (pplayer->private_map + offset)->seen;
 }
 
@@ -889,7 +889,7 @@ static void map_clear_sent(int x, int y, struct player *pplayer)
 ***************************************************************/
 static bool map_get_sent(int x, int y, struct player *pplayer)
 {
-  return map_get_tile(x, y)->sent & (1u<<pplayer->player_no);
+  return TEST_BIT(map_get_tile(x, y)->sent, pplayer->player_no);
 }
 
 /***************************************************************
@@ -1120,7 +1120,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (really_gives_vision(pplayer, pplayer2)
-	  && !(save_vision[pplayer->player_no] & (1<<pplayer2->player_no))) {
+	  && !TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
 	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
 	       pplayer->username, pplayer2->username);
 	whole_map_iterate(x, y) {
@@ -1174,7 +1174,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (!really_gives_vision(pplayer, pplayer2)
-	  && save_vision[pplayer->player_no] & (1<<pplayer2->player_no)) {
+	  && TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
 	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
 	       pplayer->username, pplayer2->username);
 	whole_map_iterate(x, y) {

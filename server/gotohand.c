@@ -846,7 +846,7 @@ static bool find_the_shortest_path(struct unit *punit,
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
 	  && !DIR_IS_CARDINAL(dir)) continue;
 
-      if (local_vector[x][y] & (1<<dir)) {
+      if (TEST_BIT(local_vector[x][y], dir)) {
 	move_cost = (move_type == SEA_MOVING) ? warmap.seacost[x1][y1] : warmap.cost[x1][y1];
 
         add_to_mapqueue(MAXCOST-1 - move_cost, x1, y1);
@@ -935,7 +935,7 @@ static int find_a_direction(struct unit *punit,
     int dir;
 
     if (base_get_direction_for_step(punit->x, punit->y, dest_x, dest_y, &dir)
-	&& warmap.vector[punit->x][punit->y] & (1 << dir)
+	&& TEST_BIT(warmap.vector[punit->x][punit->y], dir)
 	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY
 	     && !DIR_IS_CARDINAL(dir))) {
       return dir;
@@ -958,7 +958,7 @@ static int find_a_direction(struct unit *punit,
     /* 
      * Is it an allowed direction?  is it marked on the warmap?
      */
-    if (!(warmap.vector[punit->x][punit->y] & (1 << dir))
+    if (!TEST_BIT(warmap.vector[punit->x][punit->y], dir)
 	|| ((restriction == GOTO_MOVE_CARDINAL_ONLY)
 	    && !DIR_IS_CARDINAL(dir))) {
       /* make sure we don't select it later */

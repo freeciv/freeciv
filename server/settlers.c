@@ -418,7 +418,7 @@ static bool is_already_assigned(struct unit *myunit, struct player *pplayer, int
     unit_list_iterate_end;
     return FALSE;
   }
-  return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
+  return TEST_BIT(map_get_tile(x, y)->assigned, pplayer->player_no);
 }
 
 /*************************************************************************/
@@ -970,7 +970,7 @@ static int evaluate_city_building(struct unit *punit,
     int mv_cost;
     if (!is_already_assigned(punit, pplayer, x, y)
 	&& map_get_terrain(x, y) != T_OCEAN
-	&& (territory[x][y]&(1<<pplayer->player_no))
+	&& TEST_BIT(territory[x][y], pplayer->player_no)
 	/* pretty good, hope it's enough! -- Syela */
 	&& (near < 8 || map_get_continent(x, y) != ucont)
 	&& city_can_be_built_here(x,y)
@@ -1098,7 +1098,7 @@ static int evaluate_improvements(struct unit *punit,
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
       if (map_get_continent(x, y) == ucont
 	  && warmap.cost[x][y] <= THRESHOLD * mv_rate
-	  && (territory[x][y]&(1<<pplayer->player_no))
+	  && TEST_BIT(territory[x][y], pplayer->player_no)
 	  /* pretty good, hope it's enough! -- Syela */
 	  && !is_already_assigned(punit, pplayer, x, y)) {
 	/* calling is_already_assigned once instead of four times
