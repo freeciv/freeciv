@@ -552,12 +552,8 @@ static void setup_widgets(void)
       case 3: w = government_label;   break;
     }
 
-    g_object_set(w,
-		 "xalign", (gfloat)0.0,
-		 "yalign", (gfloat)0.0,
-		 "xpad",   (gint)0,
-		 "ypad",   (gint)0,
-		 NULL);
+    gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.0);
+    gtk_misc_set_padding(GTK_MISC(w), 0, 0);
     gtk_widget_set_size_request(w, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
     gtk_table_attach_defaults(GTK_TABLE(table), w, i, i + 1, 1, 2);
   }
@@ -695,8 +691,7 @@ static void setup_widgets(void)
 
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_widget_realize(text);
-
-  g_object_set(text, "left-margin", (gint)5, NULL);
+  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 5);
 
   main_message_area = GTK_TEXT_VIEW(text);
 

@@ -207,11 +207,8 @@ void gui_server_connect(void)
     label2=gtk_label_new (beta_message());
     gtk_widget_modify_fg(label2, GTK_STATE_NORMAL,
 	colors_standard[COLOR_STD_RED]);
-    g_object_set(label2,
-		 "xalign", (gfloat)0.5,
-		 "yalign", (gfloat)0.3,
-		 "justify", GTK_JUSTIFY_CENTER,
-		 NULL);
+    gtk_misc_set_alignment(GTK_MISC(label2), 0.5, 0.3);
+    gtk_label_set_justify(GTK_LABEL(label2), GTK_JUSTIFY_CENTER);
     gtk_box_pack_start(GTK_BOX(vbox), label2, TRUE, TRUE, 0);
   }
 #endif
