@@ -53,7 +53,9 @@ enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_PILLAGE };
 
 enum goto_move_restriction {
-  GOTO_MOVE_ANY, GOTO_MOVE_CARDINAL_ONLY, GOTO_MOVE_STRAIGHTEST
+  GOTO_MOVE_ANY,
+  GOTO_MOVE_CARDINAL_ONLY, /* No diagonal moves.  */
+  GOTO_MOVE_STRAIGHTEST
 };
 
 enum goto_route_type {
