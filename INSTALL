@@ -406,6 +406,13 @@ The configure script will give a warning if it had to add extra libs
 to make readline work. This should be harmless, and is just meant as
 a reminder to the folks who distribute readline. :)
 
+It is possible to make freeciv work with versions of readline earlier
+than 4.2 (but not with 4.2). To do this replace
+"rl_filename_completion_function" with "filename_completion_function" and
+"rl_completion_matches" with "completion_matches" in configure.in and
+server/stdinhand.c, and remove the const modifier from the first arg of
+server/stdinhand.c:freeciv_completion(). Then run autoconf and rebuild.
+
 
 7. Reinier's Solaris Installation Notes:
 ========================================
