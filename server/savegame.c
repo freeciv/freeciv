@@ -3468,10 +3468,15 @@ void game_load(struct section_file *file)
 		  technology_order_size); 
     }
 
+    /* Update all city information.  This must come after all cities are
+     * loaded (in player_load) but before player (dumb) cities are loaded
+     * (in player_map_load).  Cities are refreshed twice to account for
+     * trade routes: the first refresh initializes all cities tile_trade
+     * values; the second correctly updates all trade routes. */
     cities_iterate(pcity) {
-      /* Update all city information.  This must come after all cities are
-       * loaded (in player_load) but before player (dumb) cities are loaded
-       * (in player_map_load). */
+      generic_city_refresh(pcity, FALSE, NULL);
+    } cities_iterate_end;
+    cities_iterate(pcity) {
       generic_city_refresh(pcity, FALSE, NULL);
     } cities_iterate_end;
 

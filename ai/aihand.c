@@ -264,6 +264,7 @@ void ai_best_government(struct player *pplayer)
       check_player_government_rates(pplayer);
       city_list_iterate(pplayer->cities, acity) {
         acity->ai.celebrate = FALSE;
+	/* This isn't strictly necessary since it's done in aaw. */
         generic_city_refresh(acity, TRUE, NULL);
         auto_arrange_workers(acity);
       } city_list_iterate_end;
@@ -306,7 +307,8 @@ void ai_best_government(struct player *pplayer)
     /* Now reset our gov to it's real state. */
     pplayer->government = current_gov;
     city_list_iterate(pplayer->cities, acity) {
-      generic_city_refresh(acity, FALSE, NULL);
+      /* This isn't strictly necessary since it's done in aaw. */
+      generic_city_refresh(acity, TRUE, NULL);
       auto_arrange_workers(acity);
     } city_list_iterate_end;
     ai->govt_reeval = CLIP(5, city_list_size(&pplayer->cities), 20);
