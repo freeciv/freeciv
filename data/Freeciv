@@ -1222,7 +1222,7 @@ Freeciv*optionpopup.title:        _("Options")
 Freeciv*optionpopup*Label.background:   lightblue
 Freeciv*optionpopup*Toggle.background:  cyan
 
-Freeciv*optionpopup*Toggle.shapeStyle:     ShapeOval
+Freeciv*optionpopup*Toggle.shapeStyle:     oval
 Freeciv*optionpopup*Toggle.width:          50
 Freeciv*optionpopup*Toggle.internalHeight: 0
 
@@ -1252,7 +1252,7 @@ Freeciv*messageoptpopup.title:	_("Message Options")
 Freeciv*messageoptpopup*Label.background:  lightblue
 Freeciv*messageoptpopup*Label.borderWidth: 0
 Freeciv*messageoptpopup*Toggle.background: cyan
-Freeciv*messageoptpopup*Toggle.shapeStyle: ShapeOval
+Freeciv*messageoptpopup*Toggle.shapeStyle: oval
 Freeciv*messageoptpopup*Toggle.internalHeight: 0
 Freeciv*messageoptpopup*Toggle.label: Yes
 ! above is dummy label
@@ -1401,7 +1401,7 @@ Freeciv*sciencehelpnote.horizDistance:      15
 
 ! dummy label:
 Freeciv*sciencehelptoggle.label:          No\ 
-Freeciv*sciencehelptoggle.shapeStyle:     ShapeOval
+Freeciv*sciencehelptoggle.shapeStyle:     oval
 Freeciv*sciencehelptoggle.fromVert:       sciencechangemenubutton
 Freeciv*sciencehelptoggle.fromHoriz:      sciencehelpnote
 !*sciencehelptoggle.internalHeight: 0
@@ -1451,7 +1451,7 @@ Freeciv*cityoptpopup*Label.background:   lightblue
 Freeciv*cityoptpopup*Label.borderWidth:  0
 Freeciv*cityoptpopup*Toggle.label:       Yes
 Freeciv*cityoptpopup*Toggle.background:  cyan
-Freeciv*cityoptpopup*Toggle.shapeStyle:  ShapeOval
+Freeciv*cityoptpopup*Toggle.shapeStyle:  oval
 Freeciv*cityoptpopup*Toggle.internalHeight: 0
 
 Freeciv*cityoptlabel.borderWidth:       0
@@ -1672,7 +1672,7 @@ Freeciv*cityconfiglabel.label:         _("Set columns shown")
 Freeciv*cityconfiglabel.borderWidth:   0
 
 Freeciv*cityconfigtoggle.internalHeight: 0
-Freeciv*cityconfigtoggle.shapeStyle:     ShapeOval
+Freeciv*cityconfigtoggle.shapeStyle:     oval
 Freeciv*cityconfigtoggle.label:          Yes
 ! dummy label
 
@@ -2141,7 +2141,7 @@ Freeciv*worklistdialog.*.showadvancedlabel.right:	chainLeft
 Freeciv*worklistdialog.*.buttonshowadvanced.label: 	_("Yes")
 Freeciv*worklistdialog.*.buttonshowadvanced.foreground: Black
 Freeciv*worklistdialog.*.buttonshowadvanced.background: Cyan
-Freeciv*worklistdialog.*.buttonshowadvanced.shapeStyle: ShapeOval
+Freeciv*worklistdialog.*.buttonshowadvanced.shapeStyle: oval
 Freeciv*worklistdialog.*.buttonshowadvanced.top:	chainBottom
 Freeciv*worklistdialog.*.buttonshowadvanced.bottom:	chainBottom
 Freeciv*worklistdialog.*.buttonshowadvanced.left:	chainLeft
