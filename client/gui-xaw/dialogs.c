@@ -2183,6 +2183,9 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
   }
 }
 
+/* We store this value locally in case it changes globally. */
+static int nation_count;
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -2205,6 +2208,8 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 			 races_leader_pick_menubutton,
 			 NULL);
 
+  nation_count = game.nation_count;
+
   for(j=0; j<leader_count; j++) {
     entry =
       XtVaCreateManagedWidget(leaders[j],
@@ -2212,7 +2217,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 			      races_leader_pick_popupmenu,
 			      NULL);
     XtAddCallback(entry, XtNcallback, races_leader_pick_callback,
-		  INT_TO_XTPOINTER(MAX_NUM_NATIONS * race + j));
+		  INT_TO_XTPOINTER(nation_count * j + race));
   }
 
   races_leader_set_values(race, myrand(leader_count));
@@ -2229,8 +2234,8 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 void races_leader_pick_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
-  int race = XTPOINTER_TO_INT(client_data) / MAX_NUM_NATIONS;
-  int lead = XTPOINTER_TO_INT(client_data) - (MAX_NUM_NATIONS * race);
+  int lead = XTPOINTER_TO_INT(client_data) / nation_count;
+  int race = XTPOINTER_TO_INT(client_data) - (nation_count * lead);
 
   races_leader_set_values(race, lead);
 }
