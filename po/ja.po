@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.13.1-devel\n"
 "POT-Creation-Date: 2002-10-12 01:15+0200\n"
-"PO-Revision-Date: 2002-09-01 00:46+0900\n"
+"PO-Revision-Date: 2002-10-27 15:14-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -1090,7 +1090,7 @@ msgstr "Game: お金がないので、条約を承認できません。"
 
 # yasu
 #: server/diplhand.c:210 server/diplhand.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
 msgid_plural "Game: A treaty containing %d clauses was agreed upon."
 msgstr[0] "Game: %d 条項を含む条約が合意されました。"
@@ -4325,14 +4325,14 @@ msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定できません。"
 
 #: server/stdinhand.c:2117 server/stdinhand.c:2129 server/stdinhand.c:2146
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level set to '%s' for new players."
-msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定しました。"
+msgstr "新規プレイヤーのコマンド利用権レベルを '%s' に設定しました。"
 
 #: server/stdinhand.c:2122 server/stdinhand.c:2134 server/stdinhand.c:2141
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr "最初のプレイヤーが取得するコマンド利用権レベル: %s"
+msgstr "最初のプレイヤーが取得するコマンド利用権レベルを '%s' に設定しました。"
 
 #: server/stdinhand.c:2176
 msgid "The 'firstlevel' command makes no sense from the server command line."
@@ -4350,9 +4350,9 @@ msgid "Someone else already has command access level '%s' or better."
 msgstr "他の誰かが既にコマンド利用権レベル '%s' 以上を持っています。"
 
 #: server/stdinhand.c:2188
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level '%s' has been grabbed by connection %s."
-msgstr "接続 %2$s のコマンド利用権レベルを '%1$s' に設定しました。"
+msgstr "接続 %2$s にコマンド利用権レベル '%1$s' が取られました。"
 
 #: server/stdinhand.c:2219
 #, c-format
@@ -4439,9 +4439,9 @@ msgid "Server Options (ongoing)"
 msgstr "サーバオプション (進行中)"
 
 #: server/stdinhand.c:2473 server/stdinhand.c:2494 server/stdinhand.c:2505
-#, fuzzy, c-format
+#, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
+msgstr "プレイヤー '%s' は AI の手腕 '%s' になりました。"
 
 #: server/stdinhand.c:2498
 #, c-format
@@ -4449,9 +4449,9 @@ msgid "%s is not controlled by the AI."
 msgstr "%s は AI で制御されていません。"
 
 #: server/stdinhand.c:2511
-#, fuzzy, c-format
+#, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr "デフォルトコマンド利用権レベルを '%s' に設定しました。"
+msgstr "デフォルトの AI 手腕を '%s' に設定しました。"
 
 #: server/stdinhand.c:2542
 #, c-format
@@ -4620,9 +4620,8 @@ msgid "You are not allowed to use this command."
 msgstr "そのコマンドを利用できません。"
 
 #: server/stdinhand.c:3087
-#, fuzzy
 msgid "(server prompt)"
-msgstr " (観察者モード)"
+msgstr "(サーバ・プロンプト)"
 
 #: server/stdinhand.c:3167
 msgid "The game must be running before you can see the score."
@@ -5464,9 +5463,8 @@ msgid "(worklist)"
 msgstr "(作業リスト)"
 
 #: client/cityrepdata.c:204
-#, fuzzy
 msgid "?city:Name"
-msgstr "都市名"
+msgstr "?city:名前"
 
 #: client/cityrepdata.c:204
 msgid "City Name"
@@ -5474,7 +5472,7 @@ msgstr "都市名"
 
 #: client/cityrepdata.c:206
 msgid "?size:Sz"
-msgstr ""
+msgstr "?size:大"
 
 #: client/cityrepdata.c:206
 msgid "Size"
@@ -5501,7 +5499,7 @@ msgstr "労働者"
 
 #: client/cityrepdata.c:213
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "?happy/content/unhappy/angry:幸/普/不/怒"
 
 #: client/cityrepdata.c:214
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -5512,9 +5510,8 @@ msgid "Special"
 msgstr "専門家"
 
 #: client/cityrepdata.c:217
-#, fuzzy
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr "芸人, 科学者, 徴税者"
+msgstr "?entertainers/scientists/taxmen:芸/科/税"
 
 #: client/cityrepdata.c:218
 msgid "Entertainers, Scientists, Taxmen"
@@ -5525,9 +5522,8 @@ msgid "Surplus"
 msgstr "黒字"
 
 #: client/cityrepdata.c:220
-#, fuzzy
 msgid "?food/prod/trade:F/P/T"
-msgstr "食料/資源/交易: %s"
+msgstr "?food/prod/trade:食/生/交"
 
 #: client/cityrepdata.c:221
 msgid "Surplus: Food, Production, Trade"
@@ -5542,21 +5538,19 @@ msgstr "経済"
 
 #: client/cityrepdata.c:223
 msgid "?gold/lux/sci:G/L/S"
-msgstr ""
+msgstr "?gold/lux/sci:金/贅/科"
 
 #: client/cityrepdata.c:224
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "経済: 金, 贅沢, 科学"
 
 #: client/cityrepdata.c:226
-#, fuzzy
 msgid "?trade_routes:n"
-msgstr "交易路"
+msgstr "?trade_routes:交"
 
 #: client/cityrepdata.c:226
-#, fuzzy
 msgid "?trade_routes:T"
-msgstr "交易路"
+msgstr "?trade_routes:易"
 
 #: client/cityrepdata.c:227
 msgid "Number of Trade Routes"
@@ -5578,14 +5572,12 @@ msgid "Food Stock"
 msgstr "食料備蓄"
 
 #: client/cityrepdata.c:231
-#, fuzzy
 msgid "?pollution:Pol"
-msgstr "公害:"
+msgstr "?pollution:公"
 
 #: client/cityrepdata.c:233
-#, fuzzy
 msgid "?corruption:Cor"
-msgstr "汚職:"
+msgstr "?corruption:汚"
 
 #: client/cityrepdata.c:233
 msgid "Corruption"
@@ -10005,14 +9997,12 @@ msgid "What Nation Will You Be?"
 msgstr "あなたがなりたい民族は?"
 
 #: client/gui-gtk/dialogs.c:1966
-#, fuzzy
 msgid "Nation:"
-msgstr "民族"
+msgstr "民族:"
 
 #: client/gui-gtk/dialogs.c:1985
-#, fuzzy
 msgid "Leader:"
-msgstr "指揮"
+msgstr "指揮:"
 
 #: client/gui-gtk/dialogs.c:2075 client/gui-mui/gui_main.c:201
 #: client/gui-win32/dialogs.c:520 client/gui-xaw/menu.c:113 data/Freeciv:3078
@@ -17439,233 +17429,3 @@ msgstr "ズールー人"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "ズールー族"
-
-#~ msgid "Game: %s is now AI-controlled."
-#~ msgstr "Game: %s は AI が操作します。"
-
-#~ msgid "Game: %s is now human."
-#~ msgstr "Game: %s は人間が操作します。"
-
-#~ msgid "Game: You now have access level '%s'."
-#~ msgstr "Game: あなたの利用レベルは '%s' になりました。"
-
-#~ msgid "Game: All players now have access level '%s'."
-#~ msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
-
-#~ msgid "'First come' command access level also raised to '%s'."
-#~ msgstr "'first come' コマンド利用権レベルも '%s' へ引き上げられました。"
-
-#~ msgid "Game: New connections will have access level '%s'."
-#~ msgstr "Game: 新しい接続は利用権レベル '%s' を持ちます。"
-
-#~ msgid "'First come' command access level set to '%s'."
-#~ msgstr "'first come' コマンド利用権レベルを '%s' に設定しました。"
-
-#~ msgid "Game: 'First come' command access level set to '%s'."
-#~ msgstr "Game: 'first come' コマンド利用権レベルを '%s' に設定しました。"
-
-#~ msgid "Default command access level also lowered to '%s'."
-#~ msgstr "デフォルトコマンド利用権レベルも '%s' に下げました。"
-
-#~ msgid "Your command access level has been increased to '%s'."
-#~ msgstr "コマンド利用権レベルが '%s' へ上がりました。"
-
-#~ msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
-#~ msgstr "Game: 接続 '%s' は 'first come' の利用権レベル, '%s' を得ました。"
-
-#~ msgid "%s is now %s."
-#~ msgstr "%s は今では %s です。"
-
-#, fuzzy
-#~ msgid "Game: AI players now have skill level '%s'."
-#~ msgstr "Game: 全プレイヤーの利用権レベルは '%s' になりました。"
-
-#~ msgid "last message repeated once"
-#~ msgstr "最後のメッセージが一度繰り返されました。"
-
-#~ msgid "last message repeated %d times"
-#~ msgstr "最後のメッセージが %d回繰り返されました"
-
-#~ msgid " (total %d repeats)"
-#~ msgstr " (合計 %d回)"
-
-#~ msgid "Game: %s upgraded to %s in %s for %d gold."
-#~ msgstr "Game: %3$sに於いて%1$sを金%4$dで%2$sへアップグレードしました。"
-
-#~ msgid "Game: %s disbanded in %s."
-#~ msgstr "Game: %sは%sで解散しました。"
-
-#~ msgid "Metaserver connection opened."
-#~ msgstr "メタサーバ接続を開きました。"
-
-#~ msgid "Metaserver connection closed."
-#~ msgstr "メタサーバ接続は閉じています。"
-
-#~ msgid "Metaserver info string set."
-#~ msgstr "メタサーバ情報文字列を設定しました。"
-
-#~ msgid "Metaserver address set."
-#~ msgstr "メタサーバのアドレスをセットします。"
-
-#~ msgid "Created new AI player: %s."
-#~ msgstr "新しい AI プレイヤーを作りました: %s"
-
-#~ msgid "Setting game.skill_level to %d."
-#~ msgstr "game.skill_level を %d へセットしています。"
-
-#~ msgid "Sz"
-#~ msgstr "大"
-
-#~ msgid "H/C/U/A"
-#~ msgstr "幸/普/不/怒"
-
-#~ msgid "E/S/T"
-#~ msgstr "芸/科/税"
-
-#~ msgid "F/P/T"
-#~ msgstr "食/生/交"
-
-#~ msgid "G/L/S"
-#~ msgstr "金/贅/科"
-
-#~ msgid "n"
-#~ msgstr "交"
-
-#~ msgid "T"
-#~ msgstr "易"
-
-#~ msgid "Pol"
-#~ msgstr "公"
-
-#~ msgid "Cor"
-#~ msgstr "汚"
-
-#~ msgid "+1 tech to 1st"
-#~ msgstr "+1技術(最初)"
-
-#~ msgid "boats move +1"
-#~ msgstr "船移動+1"
-
-#~ msgid "bridges"
-#~ msgstr "橋"
-
-#~ msgid "railroads"
-#~ msgstr "鉄道"
-
-#~ msgid "fortresses"
-#~ msgstr "要塞"
-
-#~ msgid "pop. pollution"
-#~ msgstr "人口公害"
-
-# yasu
-#~ msgid "trade reduced"
-#~ msgstr "交易減少"
-
-#~ msgid "airbases"
-#~ msgstr "飛行場"
-
-#~ msgid "farmland"
-#~ msgstr "農地"
-
-#~ msgid "rulesout <rules-type> <file-name>"
-#~ msgstr "rulesout <ルール形式> <ファイル名>"
-
-#~ msgid "Write selected rules information to file."
-#~ msgstr "現在のルール情報をファイルへ書き出す。"
-
-#~ msgid ""
-#~ "Write a file with information from currently loaded ruleset data.  "
-#~ "Requires that the ruleset data has been loaded (e.g., after 'start').  "
-#~ "Currently the only option for <rules-type> is 'techs', which writes "
-#~ "information about all the advances (technologies).  This can be used by "
-#~ "the 'techtree' utility program to produce a graph of the advances."
-#~ msgstr ""
-#~ "現在ロードされているルールセット・データをファイルへ書き出します。ルール"
-#~ "セット・データは既にロードされている必要があります(具体的には 'start' の後"
-#~ "で呼びます)。現在は <ルール形式> のオプションは 'techs' だけです。これは全"
-#~ "ての科学を書き出します。これによって出力されたファイルは 'techtree' ユー"
-#~ "ティリティー・プログラムが科学ツリーを生成するのに使われます。"
-
-#~ msgid "Change server output style to 'RFC-style'."
-#~ msgstr "サーバの出力形式を 'RFC-style' に変更します。"
-
-#~ msgid "Cannot output rules: ruleset data not loaded (e.g., use '%sstart')."
-#~ msgstr ""
-#~ "ルールを出力できません: ルールセット・データはロードされていません。(例: "
-#~ "'%sstart' を使う)"
-
-#~ msgid "Bad rulesout type: '%s' (%s).  Try '%shelp rulesout'."
-#~ msgstr ""
-#~ "間違った rulesout タイプ: '%s' (%s)。 '%shelp rulesout' を試みて下さい。"
-
-#~ msgid "Saved techs rules data to '%s'."
-#~ msgstr "techs ルール・データを '%s' へ保存しました。"
-
-#~ msgid "Failed saving techs rules data to '%s'."
-#~ msgstr "techs ルール・データを '%s' へ保存失敗しました。"
-
-#~ msgid "Usage: rulesout <ruletype> <filename>.  Try '%shelp rulesout'."
-#~ msgstr ""
-#~ "使用法: rulesout <ルールタイプ> <ファイル名>  '%shelp rulesout' を試みて下"
-#~ "さい。"
-
-#~ msgid " 1 connection:"
-#~ msgstr " 1接続:"
-
-#~ msgid "Olympic"
-#~ msgstr "オリンピア人"
-
-#~ msgid "?plural:Olympians"
-#~ msgstr "オリンピア族"
-
-#~ msgid "log <message>"
-#~ msgstr "log <メッセージ>"
-
-#~ msgid "Generate a log message."
-#~ msgstr "ログメッセージを生成する。"
-
-#~ msgid ""
-#~ "Generates a 'log message' with level 1.  This is mostly useful for "
-#~ "debugging the logging system."
-#~ msgstr ""
-#~ "レベル 1 のログメッセージを生成します。ログシステムをデバックするのに大変"
-#~ "役立ちます。"
-
-#~ msgid "Abort the server and generate a 'core' file."
-#~ msgstr "サーバを中断して、 'core' ファイルを吐きます。"
-
-#~ msgid "This is mostly useful for debugging purposes."
-#~ msgstr "これはデバックするのに大変役立ちます。"
-
-#~ msgid "Crashing and burning."
-#~ msgstr "クラッシュして燃えている。"
-
-#~ msgid "Game: Aborting GOTO for AI attack procedures."
-#~ msgstr "Game: AI 攻撃処理のため、移動を中断します。"
-
-#~ msgid "Game: A %s cannot attack other units."
-#~ msgstr "Game: %sは他の部隊を攻撃できません。"
-
-#~ msgid "Game: %s doesn't want to leave its bodyguard."
-#~ msgstr "Game: %sはそのボディーガードから離れようとしません。"
-
-#~ msgid "Game: %s ending move early to stay out of trouble."
-#~ msgstr "Game: 問題を起こさないようにするために、動きを早めに終了する%s。"
-
-#~ msgid ""
-#~ "Makes a city the capital and the center of your government.  Corruption "
-#~ "in other cities is related to how far away from the capital they are, "
-#~ "except when the government is Democracy or Communism.  The cost of "
-#~ "inciting a revolt in a city also depends upon the city's distance from "
-#~ "the capital (under all forms of government).\n"
-#~ "\n"
-#~ "Take good care of your capital, as it's loss may result in your empire "
-#~ "plunging into civil war."
-#~ msgstr ""
-#~ "都市を首都にし、政府の中心になります。政治体制が民主制か共産主義以外の時に"
-#~ "は、他の都市の汚職は、首都からどのくらい離れているかに影響を受けます。同様"
-#~ "に、革命の煽動に必要な費用は、(全ての政治体制で)首都からの距離に関係しま"
-#~ "す。\n"
-#~ "\n"
-#~ "首都は大事に扱って下さい。首都を失なうと、内戦に突入するかもしれません。"
