@@ -44,6 +44,9 @@ struct Sprite **tile_sprites;
 struct Sprite *intro_gfx_sprite;
 struct Sprite *radar_gfx_sprite;
 int UNIT_TILES;
+int NORMAL_TILE_WIDTH;
+int NORMAL_TILE_HEIGHT;
+
 
 /***************************************************************************
 ...
@@ -84,23 +87,25 @@ void load_intro_gfx(void)
 void load_tile_gfx(void)
 {
   int i, x, y, ntiles, a;
-  struct Sprite *big_sprite, *unit_sprite;
+  struct Sprite *big_sprite, *small_sprite, *unit_sprite, *treaty_sprite;
 
   big_sprite  = load_xpmfile(datafilename("tiles.xpm"));
   unit_sprite = load_xpmfile(datafilename("units.xpm"));
+  small_sprite= load_xpmfile(datafilename("small.xpm"));
+  treaty_sprite=load_xpmfile(datafilename("treaty.xpm"));
 
-  ntiles=2*((big_sprite->width/NORMAL_TILE_WIDTH) *
-	    (big_sprite->height/NORMAL_TILE_HEIGHT) +
-	    (unit_sprite->width/NORMAL_TILE_WIDTH) *
-	    (unit_sprite->height/NORMAL_TILE_HEIGHT));
+  ntiles= (20*21) + (20*3) + (31*1) + 3;
 
   if(!(tile_sprites=malloc(ntiles*sizeof(struct Sprite *)))) {
     log(LOG_FATAL, "couldn't malloc tile_sprites array");
     exit(1);
   }
-  
+
+  NORMAL_TILE_WIDTH=big_sprite->width/20;
+  NORMAL_TILE_HEIGHT=big_sprite->height/21;
+
   i=0;
-  for(y=0, a=0; a<22 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT)
+  for(y=0, a=0; a<21 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT)
     for(x=0; x<big_sprite->width; x+=NORMAL_TILE_WIDTH) {
       GC plane_gc;
       Pixmap mypixmap, mask;
@@ -124,18 +129,32 @@ void load_tile_gfx(void)
       XFreeGC(display, plane_gc);
     }
 
-  for(x=0; x<big_sprite->width; x+=SMALL_TILE_WIDTH) {
+  for(x=0, y=0; x<small_sprite->width; x+=SMALL_TILE_WIDTH) {
     Pixmap mypixmap;
     
     mypixmap=XCreatePixmap(display, root_window, 
 			   SMALL_TILE_WIDTH, 
 			   SMALL_TILE_HEIGHT, 
 			   display_depth);
-    XCopyArea(display, big_sprite->pixmap, mypixmap, civ_gc, 
+    XCopyArea(display, small_sprite->pixmap, mypixmap, civ_gc, 
 	      x, y, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT, 0 ,0);
     
     tile_sprites[i++]=ctor_sprite(mypixmap, 
 				  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+  }
+
+  {
+    Pixmap mypixmap;
+
+    mypixmap=XCreatePixmap(display, root_window, 30,30, display_depth);
+    XCopyArea(display, treaty_sprite->pixmap, mypixmap, civ_gc, 0,0, 30,30, 0,0);
+    tile_sprites[i++]=ctor_sprite(mypixmap, 30,30);
+    mypixmap=XCreatePixmap(display, root_window, 30,30, display_depth);
+    XCopyArea(display, treaty_sprite->pixmap, mypixmap, civ_gc, 30,0, 30,30, 0,0);
+    tile_sprites[i++]=ctor_sprite(mypixmap, 30,30);
+/*  mypixmap=XCreatePixmap(display, root_window, 300,30, display_depth);
+    XCopyArea(display, treaty_sprite->pixmap, mypixmap, civ_gc, 60,0, 300,30, 0,0);
+    tile_sprites[i++]=ctor_sprite(mypixmap, 300,30); */
   }
 
   UNIT_TILES = i;
@@ -165,9 +184,9 @@ void load_tile_gfx(void)
     }
   free_sprite(unit_sprite);
   free_sprite(big_sprite);
+  free_sprite(small_sprite);
+  free_sprite(treaty_sprite);
 }
-
-
 
 
 /***************************************************************************

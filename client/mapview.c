@@ -49,11 +49,10 @@
 #define PLAINS_TILES     5*20
 #define SWAMP_TILES      6*20
 #define TUNDRA_TILES     7*20
-#define THUMB_TILES       7*20+16
 #define ROAD_TILES       8*20
 
 #define RIVER_TILES      9*20
-#define OUTLET_TILES      9*20+16
+#define OUTLET_TILES     9*20+16
 #define OCEAN_TILES      10*20
 #define HILLS_TILES      11*20
 #define FOREST_TILES     11*20+4
@@ -79,40 +78,39 @@ The tiles for the units are now stored in units.xpm
 */
 extern int UNIT_TILES;
 
-#define IRRIGATION_TILE  16*20+8
-#define HILLMINE_TILE    16*20+9
+#define IRRIGATION_TILE  15*20+8
+#define HILLMINE_TILE    15*20+9
+#define DESERTMINE_TILE  15*20+10
+#define POLLUTION_TILE   15*20+11
+#define CITY_TILE        15*20+12
+#define CITY_WALLS_TILE  15*20+13
+#define HUT_TILE         15*20+14
+#define FORTRESS_TILE    15*20+15
 
-/* Are these next two supposed to be the same? */
-#define DESERTMINE_TILE  16*20+10
-#define FORTIFY_TILE     16*20+10
-#define POLLUTION_TILE   16*20+11
-#define CITY_TILE        16*20+12
-#define CITY_WALLS_TILE  16*20+13
-#define HUT_TILE         16*20+14
-#define FORTRESS_TILE    16*20+15
+#define BORDER_TILES     16*20
 
-#define BORDER_TILES     17*20
+#define NUMBER_TILES     17*20
+#define NUMBER_MSD_TILES 17*20+9
 
-#define NUMBER_TILES     18*20
-#define NUMBER_MSD_TILES 18*20+9
+#define SHIELD_NUMBERS   18*20
+#define TRADE_NUMBERS    18*20+10
 
-#define SHIELD_NUMBERS   19*20
-#define TRADE_NUMBERS    19*20+10
+#define HP_BAR_TILES     19*20
 
-#define HP_BAR_TILES     20*20
+#define CITY_FLASH_TILE  19*20+14
+#define CITY_FOOD_TILES  19*20+15
+#define CITY_MASK_TILES  19*20+17
+#define CITY_SHIELD_TILE 19*20+19
 
-#define CITY_FLASH_TILE  20*20+14
-#define CITY_FOOD_TILES  20*20+15
-#define CITY_MASK_TILES  20*20+17
-#define CITY_SHIELD_TILE 20*20+19
+#define FOOD_NUMBERS     20*20
 
-#define FOOD_NUMBERS     21*20
+#define BULB_TILES       21*20
+#define GOVERNMENT_TILES 21*20+8
+#define SUN_TILES        21*20+14
+#define PEOPLE_TILES     21*20+22
+#define RIGHT_ARROW_TILE 21*20+30
 
-#define BULB_TILES        22*20
-#define GOVERNMENT_TILES  22*20+8
-#define SUN_TILES        22*20+14
-#define PEOPLE_TILES     22*20+22
-#define RIGHT_ARROW_TILE 22*20+30
+#define THUMB_TILES      21*20+31
 
 int terrain_to_tile_map[13]= {
   ARCTIC_TILES, DESERT_TILES, FOREST_TILES, GRASSLAND_TILES,
