@@ -49,7 +49,6 @@ void popup_bribe_dialog(struct unit *punit);
 void popup_sabotage_dialog(struct city *pcity);
 void popup_pillage_dialog(struct unit *punit,
 			  enum tile_special_type may_pillage);
-void popup_unit_connect_dialog (struct unit *punit, int dest_x, int dest_y);
 
 void popdown_all_game_dialogs(void);
 

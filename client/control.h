@@ -31,6 +31,7 @@ enum quickselect_type {
 
 extern int hover_unit; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
+extern enum unit_activity connect_activity;
 extern bool draw_goto_line;
 extern bool non_ai_unit_focus;
 
@@ -39,9 +40,12 @@ void do_unit_goto(int x, int y);
 void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, int x, int y);
 void do_unit_patrol_to(struct unit *punit, int x, int y);
+void do_unit_connect(struct unit *punit, int x, int y,
+		     enum unit_activity activity);
 void do_map_click(int xtile, int ytile, enum quickselect_type qtype);
 
-void set_hover_state(struct unit *punit, enum cursor_hover_state state);
+void set_hover_state(struct unit *punit, enum cursor_hover_state state,
+		     enum unit_activity activity);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
@@ -54,7 +58,7 @@ void request_unit_auto(struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);
 void request_unit_change_homecity(struct unit *punit);
-void request_unit_connect(void);
+void request_unit_connect(enum unit_activity activity);
 void request_unit_disband(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
 void request_unit_goto(void);
@@ -135,7 +139,7 @@ void key_unit_auto_explore(void);
 void key_unit_auto_settle(void);
 void key_unit_build_city(void);
 void key_unit_build_wonder(void);
-void key_unit_connect(void);
+void key_unit_connect(enum unit_activity activity);
 void key_unit_diplomat_actions(void);
 void key_unit_disband(void);
 void key_unit_done(void);

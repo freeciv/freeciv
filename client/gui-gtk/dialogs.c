@@ -164,12 +164,6 @@ struct pillage_data {
   enum tile_special_type what;
 };
 
-struct connect_data {
-  int unit_id;
-  int dest_x, dest_y;
-  enum unit_activity what;
-};
-		     
 /****************************************************************
 ...
 *****************************************************************/
@@ -1306,87 +1300,6 @@ void popup_pillage_dialog(struct unit *punit,
   base_popup_message_dialog(top_vbox, _("What To Pillage"),
 			    _("Select what to pillage:"),
 			    pillage_close_callback, datas, num, buttons);
-}
-
-/****************************************************************
-handle buttons in unit connect dialog
-*****************************************************************/
-static void unit_connect_callback(gpointer data)
-{
-  struct connect_data *pdata = data;
-
-  if (find_unit_by_id(pdata->unit_id)) {
-    struct packet_unit_connect req;
-
-    req.activity_type = pdata->what;
-    req.unit_id = pdata->unit_id;
-    req.dest_x = pdata->dest_x;
-    req.dest_y = pdata->dest_y;
-    send_packet_unit_connect(&aconnection, &req);
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void unit_connect_close_callback(gpointer data)
-{
-  struct connect_data *connect_datas = data;
-  struct unit *punit = find_unit_by_id(connect_datas[0].unit_id);
-
-  if (punit) {
-    update_unit_info_label(punit);
-  }
-
-  free(connect_datas);
-}
-
-/****************************************************************
-popup dialog which prompts for activity type (unit connect)
-*****************************************************************/
-void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
-{
-  /* +1 for cancel button */
-  int j, num = 1;
-  struct button_descr *buttons;
-  enum unit_activity activity;
-  struct connect_data *datas;
-
-  for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
-    if (!can_unit_do_connect(punit, activity)) {
-      continue;
-    }
-    num++;
-  }
-
-  buttons = fc_malloc(sizeof(struct button_descr) * num);
-  datas = fc_malloc(sizeof(struct connect_data) * num);
-
-  j = 0;
-  for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
-    if (!can_unit_do_connect(punit, activity)) {
-      continue;
-    }
-
-    datas[j].unit_id = punit->id;
-    datas[j].dest_x = dest_x;
-    datas[j].dest_y = dest_y;
-    datas[j].what = activity;
-
-    buttons[j].text = get_activity_text(activity);
-    buttons[j].callback = unit_connect_callback;
-    buttons[j].data = &datas[j];
-    buttons[j].sensitive = TRUE;
-    j++;
-  }
-
-  buttons[num - 1].text = _("Cancel");
-  buttons[num - 1].callback = NULL;
-
-  base_popup_message_dialog(top_vbox, _("Connect"),
-			    _("Choose unit activity:"),
-			    unit_connect_close_callback, datas, num,
-			    buttons);
 }
 
 /****************************************************************

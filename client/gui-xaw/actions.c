@@ -369,10 +369,22 @@ static void xaw_key_unit_build_wonder(Widget w, XEvent *event, String *argv, Car
     key_unit_build_wonder();
 }
 
-static void xaw_key_unit_connect(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_unit_connect_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT))
-    key_unit_connect();
+  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_ROAD))
+    key_unit_connect(ACTIVITY_ROAD);
+}
+
+static void xaw_key_unit_connect_rail(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_RAIL))
+    key_unit_connect(ACTIVITY_RAILROAD);
+}
+
+static void xaw_key_unit_connect_irrigate(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE))
+    key_unit_connect(ACTIVITY_IRRIGATE);
 }
 
 static void xaw_key_unit_diplomat_spy_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -656,7 +668,9 @@ static XtActionsRec Actions[] = {
   { "key-unit-build-city", xaw_key_unit_build_city },
   { "key-unit-build-city-or-wonder", xaw_key_unit_build_city_or_wonder },
   { "key-unit-build-wonder", xaw_key_unit_build_wonder },
-  { "key-unit-connect", xaw_key_unit_connect },
+  { "key-unit-connect-road", xaw_key_unit_connect_road },
+  { "key-unit-connect-rail", xaw_key_unit_connect_rail },
+  { "key-unit-connect-irrigate", xaw_key_unit_connect_irrigate },
   { "key-unit-diplomat-spy-action", xaw_key_unit_diplomat_spy_action },
   { "key-unit-disband", xaw_key_unit_disband },
   { "key-unit-done", xaw_key_unit_done },

@@ -118,7 +118,9 @@ enum MenuID {
   IDM_ORDERS_AUTOSETTLER,
   IDM_ORDERS_AUTOATTACK,
   IDM_ORDERS_AUTOEXPLORE,
-  IDM_ORDERS_CONNECT,
+  IDM_ORDERS_CONNECT_ROAD,
+  IDM_ORDERS_CONNECT_RAIL,
+  IDM_ORDERS_CONNECT_IRRIGATE,
   IDM_ORDERS_GOTO,
   IDM_ORDERS_AIRLIFT,
   IDM_ORDERS_RETURN,
@@ -340,7 +342,9 @@ static struct my_menu main_menu[]={
   {N_("Auto Settler") "\tA",IDM_ORDERS_AUTOSETTLER},
   {N_("Auto Attack") "\tShift+A",IDM_ORDERS_AUTOATTACK},
   {N_("Auto E_xplore") "\tX",IDM_ORDERS_AUTOEXPLORE},
-  {N_("_Connect") "\tShift+C",IDM_ORDERS_CONNECT},
+  {N_("Connect/_road") "\tCtl+Shift+R", IDM_ORDERS_CONNECT_ROAD},
+  {N_("Connect/rai_l") "\tCtl+Shift+L", IDM_ORDERS_CONNECT_RAIL},
+  {N_("Connect/_irrigate") "\tCtl+Shift+I", IDM_ORDERS_CONNECT_IRRIGATE},
   {N_("_Go to") "\tG",IDM_ORDERS_GOTO},
   {N_("Go/Airlift to City") "\tL",IDM_ORDERS_AIRLIFT},
   {N_("Return to nearest city") "\tShift+G", IDM_ORDERS_RETURN},
@@ -673,9 +677,14 @@ void handle_menu(int code)
       if(get_unit_in_focus())
 	request_new_unit_activity(get_unit_in_focus(), road_activity);
       break;
-    case IDM_ORDERS_CONNECT:
-      if(get_unit_in_focus())
-	request_unit_connect();
+    case IDM_ORDERS_CONNECT_ROAD:
+      request_unit_connect(ACTIVITY_ROAD);
+      break;
+    case IDM_ORDERS_CONNECT_RAIL:
+      request_unit_connect(ACTIVITY_RAILROAD);
+      break;
+    case IDM_ORDERS_CONNECT_IRRIGATE:
+      request_unit_connect(ACTIVITY_IRRIGATE);
       break;
     case IDM_ORDERS_POLLUTION:
       if(can_unit_paradrop(get_unit_in_focus()))
@@ -936,8 +945,12 @@ update_menus(void)
 	my_enable_menu(menu,IDM_ORDERS_ROAD,
 		       can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 		       can_unit_do_activity(punit, ACTIVITY_RAILROAD));
-	my_enable_menu(menu,IDM_ORDERS_CONNECT,
-		       can_unit_do_connect(punit, ACTIVITY_IDLE));
+	my_enable_menu(menu,IDM_ORDERS_CONNECT_ROAD,
+		       can_unit_do_connect(punit, ACTIVITY_ROAD));
+	my_enable_menu(menu,IDM_ORDERS_CONNECT_RAIL,
+		       can_unit_do_connect(punit, ACTIVITY_RAILROAD));
+	my_enable_menu(menu,IDM_ORDERS_CONNECT_IRRIGATE,
+		       can_unit_do_connect(punit, ACTIVITY_IRRIGATE));
 	my_enable_menu(menu,IDM_ORDERS_POLLUTION,
 		       can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 		       can_unit_paradrop(punit));

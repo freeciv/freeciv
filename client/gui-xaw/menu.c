@@ -185,7 +185,9 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Auto Settler"), 0         },     "a", MENU_ORDER_AUTO_SETTLER, 0 },
     { { N_("Auto Attack"), 0          },     "a", MENU_ORDER_AUTO_ATTACK, 0 },
     { { N_("Auto Explore"), 0         },     "x", MENU_ORDER_AUTO_EXPLORE, 0 },
-    { { N_("Connect"), 0              },     "C", MENU_ORDER_CONNECT, 0 },
+    { { N_("Connect/Road"), 0         }, "ctl-R", MENU_ORDER_CONNECT_ROAD, 0 },
+    { { N_("Connect/Rail"), 0         }, "ctl-L", MENU_ORDER_CONNECT_RAIL, 0 },
+    { { N_("Connect/Irrigation"), 0   }, "ctl-I", MENU_ORDER_CONNECT_IRRIGATE, 0 },
     { { N_("Patrol"), 0               },     "q", MENU_ORDER_PATROL, 0 },
     { { N_("Go to"), 0                },     "g", MENU_ORDER_GOTO, 0 },
     { { N_("Go/Airlift to City"), 0   },     "l", MENU_ORDER_GOTO_CITY, 0 },
@@ -376,8 +378,12 @@ void update_menus(void)
 			   !unit_flag(punit, F_UNDISBANDABLE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
-      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 
-			   can_unit_do_connect(punit, ACTIVITY_IDLE));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_ROAD,
+			   can_unit_do_connect(punit, ACTIVITY_ROAD));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_RAIL,
+			   can_unit_do_connect(punit, ACTIVITY_RAILROAD));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT_IRRIGATE,
+			   can_unit_do_connect(punit, ACTIVITY_IRRIGATE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,
 			   any_cities);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_WONDER,
@@ -660,8 +666,14 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
   case MENU_ORDER_AUTO_EXPLORE:
     key_unit_auto_explore();
     break;
-  case MENU_ORDER_CONNECT:
-    key_unit_connect();
+  case MENU_ORDER_CONNECT_ROAD:
+    key_unit_connect(ACTIVITY_ROAD);
+    break;
+  case MENU_ORDER_CONNECT_RAIL:
+    key_unit_connect(ACTIVITY_RAILROAD);
+    break;
+  case MENU_ORDER_CONNECT_IRRIGATE:
+    key_unit_connect(ACTIVITY_IRRIGATE);
     break;
   case MENU_ORDER_PATROL:
     key_unit_patrol();

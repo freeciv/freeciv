@@ -55,6 +55,7 @@ static int previous_focus_id = -1;
 /* These should be set via set_hover_state() */
 int hover_unit = 0; /* id of unit hover_state applies to */
 enum cursor_hover_state hover_state = HOVER_NONE;
+enum unit_activity connect_activity;
 /* This may only be here until client goto is fully implemented.
    It is reset each time the hower_state is reset. */
 bool draw_goto_line = TRUE;
@@ -79,15 +80,18 @@ static struct unit *quickselect(struct tile *ptile,
 /**************************************************************************
 ...
 **************************************************************************/
-void set_hover_state(struct unit *punit, enum cursor_hover_state state)
+void set_hover_state(struct unit *punit, enum cursor_hover_state state,
+		     enum unit_activity activity)
 {
   assert(punit != NULL || state == HOVER_NONE);
+  assert(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
   draw_goto_line = TRUE;
   if (punit)
     hover_unit = punit->id;
   else
     hover_unit = 0;
   hover_state = state;
+  connect_activity = activity;
   exit_goto_state();
 }
 
@@ -220,7 +224,7 @@ void advance_unit_focus(void)
   struct unit *punit_old_focus = punit_focus;
   struct unit *candidate = find_best_focus_candidate(FALSE);
 
-  set_hover_state(NULL, HOVER_NONE);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
   if (!can_client_change_view()) {
     return;
   }
@@ -601,7 +605,7 @@ void request_unit_goto(void)
     return;
 
   if (hover_state != HOVER_GOTO) {
-    set_hover_state(punit, HOVER_GOTO);
+    set_hover_state(punit, HOVER_GOTO, ACTIVITY_LAST);
     update_unit_info_label(punit);
     /* Not yet implemented for air units, including helicopters. */
     if (is_air_unit(punit) || is_heli_unit(punit)) {
@@ -620,10 +624,15 @@ void request_unit_goto(void)
 prompt player for entering destination point for unit connect
 (e.g. connecting with roads)
 **************************************************************************/
-void request_unit_connect(void)
+void request_unit_connect(enum unit_activity activity)
 {
-  if (punit_focus && can_unit_do_connect (punit_focus, ACTIVITY_IDLE)) {
-    set_hover_state(punit_focus, HOVER_CONNECT);
+  if (!punit_focus || !can_unit_do_connect(punit_focus, activity)) {
+    return;
+  }
+
+  if (hover_state != HOVER_CONNECT || connect_activity != activity) {
+    /* Enter or change the hover connect state. */
+    set_hover_state(punit_focus, HOVER_CONNECT, activity);
     update_unit_info_label(punit_focus);
   }
 }
@@ -926,7 +935,7 @@ void request_unit_nuke(struct unit *punit)
   if(punit->moves_left == 0)
     do_unit_nuke(punit);
   else {
-    set_hover_state(punit, HOVER_NUKE);
+    set_hover_state(punit, HOVER_NUKE, ACTIVITY_LAST);
     update_unit_info_label(punit);
   }
 }
@@ -943,7 +952,7 @@ void request_unit_paradrop(struct unit *punit)
   if(!can_unit_paradrop(punit))
     return;
 
-  set_hover_state(punit, HOVER_PARADROP);
+  set_hover_state(punit, HOVER_PARADROP, ACTIVITY_LAST);
   update_unit_info_label(punit);
 }
 
@@ -958,7 +967,7 @@ void request_unit_patrol(void)
     return;
 
   if (hover_state != HOVER_PATROL) {
-    set_hover_state(punit, HOVER_PATROL);
+    set_hover_state(punit, HOVER_PATROL, ACTIVITY_LAST);
     update_unit_info_label(punit);
     /* Not yet implemented for air units, including helicopters. */
     if (is_air_unit(punit) || is_heli_unit(punit)) {
@@ -1378,13 +1387,13 @@ void do_map_click(int xtile, int ytile, enum quickselect_type qtype)
       do_unit_paradrop_to(punit, xtile, ytile);
       break;
     case HOVER_CONNECT:
-      popup_unit_connect_dialog(punit, xtile, ytile);
+      do_unit_connect(punit, xtile, ytile, connect_activity);
       break;
     case HOVER_PATROL:
       do_unit_patrol_to(punit, xtile, ytile);
       break;	
     }
-    set_hover_state(NULL, HOVER_NONE);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
     update_unit_info_label(punit);
   }
 
@@ -1578,7 +1587,7 @@ void do_unit_goto(int x, int y)
     }
   }
 
-  set_hover_state(NULL, HOVER_NONE);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
 }
 
 /**************************************************************************
@@ -1616,7 +1625,22 @@ void do_unit_patrol_to(struct unit *punit, int x, int y)
     }
   }
 
-  set_hover_state(NULL, HOVER_NONE);
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+}
+ 
+/**************************************************************************
+  "Connect" to the given location.
+**************************************************************************/
+void do_unit_connect(struct unit *punit, int x, int y,
+		     enum unit_activity activity)
+{
+  struct packet_unit_connect req;
+
+  req.activity_type = activity;
+  req.unit_id = punit->id;
+  req.dest_x = x;
+  req.dest_y = y;
+  send_packet_unit_connect(&aconnection, &req);
 }
  
 /**************************************************************************
@@ -1635,7 +1659,7 @@ void key_cancel_action(void)
   if (hover_state != HOVER_NONE && !popped) {
     struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
-    set_hover_state(NULL, HOVER_NONE);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
     update_unit_info_label(punit);
 
     keyboardless_goto_button_down = FALSE;
@@ -1716,10 +1740,10 @@ void key_unit_build_wonder(void)
 /**************************************************************************
 handle user pressing key for 'Connect' command
 **************************************************************************/
-void key_unit_connect(void)
+void key_unit_connect(enum unit_activity activity)
 {
   if (punit_focus) {
-    request_unit_connect();
+    request_unit_connect(activity);
   }
 }
 

@@ -203,7 +203,7 @@ void update_unit_info_label(struct unit *punit)
     gtk_set_label(unit_info_label, buffer);
 
     if (hover_unit != punit->id)
-      set_hover_state(NULL, HOVER_NONE);
+      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
 
     switch (hover_state) {
     case HOVER_NONE:

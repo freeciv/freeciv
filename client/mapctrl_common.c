@@ -415,7 +415,7 @@ void release_goto_button(int canvas_x, int canvas_y)
     struct unit *punit =
         player_find_unit_by_id(game.player_ptr, hover_unit);
     do_unit_goto(tile_x, tile_y);
-    set_hover_state(NULL, HOVER_NONE);
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
     update_unit_info_label(punit);
   }
   keyboardless_goto_active = FALSE;

@@ -183,15 +183,6 @@ void popup_pillage_dialog(struct unit *punit,
 }
 
 /**************************************************************************
-  Popup a dialog asking the unit how they want to "connect" their
-  location to the destination.
-**************************************************************************/
-void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
   This function is called when the client disconnects or the game is
   over.  It should close all dialog windows for that game.
 **************************************************************************/

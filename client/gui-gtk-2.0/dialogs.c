@@ -119,11 +119,6 @@ static int diplomat_target_id;
 
 static GtkWidget *caravan_dialog;
 
-static int is_showing_unit_connect_dialog = FALSE;
-static int unit_to_use_to_connect;
-static int connect_unit_x;
-static int connect_unit_y;
-
 /**************************************************************************
   Popup a generic dialog to display some generic information.
 **************************************************************************/
@@ -1177,77 +1172,6 @@ void popup_pillage_dialog(struct unit *punit,
     g_signal_connect(shl, "destroy", G_CALLBACK(pillage_destroy_callback),
 		     NULL);   
   }
-}
-
-/****************************************************************
-handle buttons in unit connect dialog
-*****************************************************************/
-static void unit_connect_callback(GtkWidget *w, gpointer data)
-{
-  struct unit *punit;
-  int activity = GPOINTER_TO_INT(data);
-
-  punit = find_unit_by_id(unit_to_use_to_connect);
-
-  if (punit) {
-    if (activity != ACTIVITY_IDLE) {
-      struct packet_unit_connect req;
-      req.activity_type = activity;
-      req.unit_id = punit->id;
-      req.dest_x = connect_unit_x;
-      req.dest_y = connect_unit_y;
-      send_packet_unit_connect(&aconnection, &req);
-    }
-    else {
-      update_unit_info_label(punit);
-    }
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void unit_connect_destroy_callback(GtkWidget *w, gpointer data)
-{
-  is_showing_unit_connect_dialog = FALSE;
-}
-
-/****************************************************************
-popup dialog which prompts for activity type (unit connect)
-*****************************************************************/
-void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
-{
-  GtkWidget *shl;
-  int activity;
-
-  if (is_showing_unit_connect_dialog) 
-    return;
-
-  is_showing_unit_connect_dialog = TRUE;
-  unit_to_use_to_connect = punit->id;
-  connect_unit_x = dest_x;
-  connect_unit_y = dest_y;
-
-  shl = message_dialog_start(GTK_WINDOW(toplevel),
-			     _("Connect"),
-			     _("Choose unit activity:"));
-
-  for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
-    if (! can_unit_do_connect (punit, activity)) continue;
-
-    message_dialog_add(shl, get_activity_text(activity),
-		       G_CALLBACK(unit_connect_callback),
-		       GINT_TO_POINTER(activity));
-  }
-
-  message_dialog_add(shl, GTK_STOCK_CANCEL, 
-		     G_CALLBACK(unit_connect_callback),
-		     GINT_TO_POINTER(ACTIVITY_IDLE));
-
-  message_dialog_end(shl);
-
-  g_signal_connect(shl, "destroy",
-		   G_CALLBACK(unit_connect_destroy_callback), NULL);
 }
 
 /****************************************************************

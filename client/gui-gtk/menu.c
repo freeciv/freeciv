@@ -118,7 +118,9 @@ enum MenuID {
   MENU_ORDER_WAKEUP_OTHERS,
   MENU_ORDER_AUTO_SETTLER,   /* shared with AUTO_ATTACK */
   MENU_ORDER_AUTO_EXPLORE,
-  MENU_ORDER_CONNECT,
+  MENU_ORDER_CONNECT_ROAD,
+  MENU_ORDER_CONNECT_RAIL,
+  MENU_ORDER_CONNECT_IRRIGATE,
   MENU_ORDER_PATROL,
   MENU_ORDER_GOTO,
   MENU_ORDER_GOTO_CITY,
@@ -398,8 +400,14 @@ static void orders_menu_callback(gpointer callback_data,
    case MENU_ORDER_AUTO_EXPLORE:
     key_unit_auto_explore();
     break;
-   case MENU_ORDER_CONNECT:
-    key_unit_connect();
+   case MENU_ORDER_CONNECT_ROAD:
+    key_unit_connect(ACTIVITY_ROAD);
+    break;
+   case MENU_ORDER_CONNECT_RAIL:
+    key_unit_connect(ACTIVITY_RAILROAD);
+    break;
+   case MENU_ORDER_CONNECT_IRRIGATE:
+    key_unit_connect(ACTIVITY_IRRIGATE);
     break;
    case MENU_ORDER_PATROL:
     key_unit_patrol();
@@ -722,8 +730,12 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_AUTO_SETTLER					},
   { "/" N_("Orders") "/" N_("Auto E_xplore"),		"x",
 	orders_menu_callback,	MENU_ORDER_AUTO_EXPLORE					},
-  { "/" N_("Orders") "/" N_("_Connect"),		"<shift>c",
-	orders_menu_callback,	MENU_ORDER_CONNECT					},
+  {"/" N_("Orders") "/" N_("_Connect") "/" N_("_Road"), "<ctrl><shift>r",
+   orders_menu_callback, MENU_ORDER_CONNECT_ROAD},
+  {"/" N_("Orders") "/" N_("_Connect") "/" N_("Rai_l"), "<ctrl><shift>l",
+   orders_menu_callback, MENU_ORDER_CONNECT_RAIL},
+  {"/" N_("Orders") "/" N_("_Connect") "/" N_("_Irrigate"), "<ctrl><shift>i",
+   orders_menu_callback, MENU_ORDER_CONNECT_IRRIGATE},
   { "/" N_("Orders") "/" N_("Patrol (_Q)"),		"q",
 	orders_menu_callback,	MENU_ORDER_PATROL					},
   { "/" N_("Orders") "/" N_("_Go to"),			"g",
@@ -1162,8 +1174,12 @@ void update_menus(void)
                           can_unit_do_auto(punit));
       menus_set_sensitive("<main>/_Orders/Auto E_xplore",
                           can_unit_do_activity(punit, ACTIVITY_EXPLORE));
-      menus_set_sensitive("<main>/_Orders/_Connect",
-                          can_unit_do_connect(punit, ACTIVITY_IDLE));
+      menus_set_sensitive("<main>/_Orders/_Connect/_Road",
+                          can_unit_do_connect(punit, ACTIVITY_ROAD));
+      menus_set_sensitive("<main>/_Orders/_Connect/_Rail",
+                          can_unit_do_connect(punit, ACTIVITY_RAILROAD));
+      menus_set_sensitive("<main>/_Orders/_Connect/_Irrigate",
+                          can_unit_do_connect(punit, ACTIVITY_IRRIGATE));
       menus_set_sensitive("<main>/_Orders/Return to nearest city",
 			  !(is_air_unit(punit) || is_heli_unit(punit)));
       menus_set_sensitive("<main>/_Orders/_Disband Unit",
