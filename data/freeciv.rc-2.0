@@ -25,9 +25,18 @@ style "help_label"
 
 style "help_text"
 {
-  font_name = "Fixed Bold 12"
+  font_name = "Console 10"
   base[NORMAL] = { 0.0, 0.0, 0.0 }
   text[NORMAL] = { 0.7, 0.7, 0.7 }
+}
+
+style "chatline"
+{
+  font_name = "Console 10"
+  base[NORMAL] = { 0.0, 0.0, 0.0 }
+  text[NORMAL] = { 0.7, 0.7, 0.7 }
+  base[INSENSITIVE] = { 0.0, 0.0, 0.0 }
+  text[INSENSITIVE] = { 0.7, 0.7, 0.7 }
 }
 
 style "monospace_label"
@@ -43,3 +52,4 @@ widget	"Freeciv*.spaceship label"	style	"spaceship_label"
 widget	"Freeciv*.help label"		style	"help_label"
 widget	"Freeciv*.help text"		style	"help_text"
 widget	"*.prodmenu*.GtkAccelLabel"	style	"monospace_label"
+widget	"Freeciv*.chatline"		style	"chatline"
