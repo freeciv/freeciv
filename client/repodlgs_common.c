@@ -59,7 +59,7 @@ void get_economy_report_data(struct improvement_entry *entries,
   city_list_iterate(game.player_ptr->cities, pcity) {
     *total_income += pcity->tax_total;
     if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
-      *total_income += pcity->shield_surplus;
+      *total_income += MAX(0, pcity->shield_surplus);
     }
   } city_list_iterate_end;
 }

@@ -148,7 +148,7 @@ static char *cr_entry_building(struct city *pcity)
   if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
 		get_impr_name_ex(pcity, pcity->currently_building),
-		pcity->shield_stock, from_worklist);
+		MAX(0, pcity->shield_surplus), from_worklist);
   } else {
     int turns = city_turns_to_build(pcity, pcity->currently_building,
 				    pcity->is_building_unit, TRUE);

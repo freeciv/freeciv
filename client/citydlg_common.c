@@ -121,7 +121,7 @@ void get_city_dialog_production(struct city *pcity,
 
   if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
     my_snprintf(buffer, buffer_len, _("%3d gold per turn"),
-		pcity->shield_surplus);
+		MAX(0, pcity->shield_surplus));
   } else {
     char time[50];
 
@@ -161,9 +161,8 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 				     struct city *pcity)
 {
   if (!is_unit && id == B_CAPITAL) {
-    my_snprintf(buffer, buffer_len,
-		"%s (XX) %d/turn",
-		get_impr_name_ex(pcity, id), pcity->shield_surplus);
+    my_snprintf(buffer, buffer_len, "%s (XX) %d/turn",
+		get_impr_name_ex(pcity, id), MAX(0, pcity->shield_surplus));
   } else {
     int turns = city_turns_to_build(pcity, id, is_unit, TRUE);
     char *name;
@@ -246,7 +245,8 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
   /* Add the turns-to-build entry in the 4th position */
   if (pcity) {
     if (!is_unit && id == B_CAPITAL) {
-      my_snprintf(buf[3], column_size, "%d/turn", pcity->shield_surplus);
+      my_snprintf(buf[3], column_size, "%d/turn",
+		  MAX(0, pcity->shield_surplus));
     } else {
       int turns = city_turns_to_build(pcity, id, is_unit, FALSE);
       if (turns < 999) {
