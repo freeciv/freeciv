@@ -82,7 +82,7 @@ void real_append_output_window(const char *astring, int conn_id)
   Dimension windowwth;
   int maxlinelen;
   String theoutput;
-  char *newout, *rmcr, *astring = mystrdup(input_string);
+  char *newout, *rmcr, *astring2 = mystrdup(astring);
 
   if (!m_width) {
     /* Sometimes XtVaGetValues has garbage for the XtNfont; see PR#6452.
@@ -103,13 +103,13 @@ void real_append_output_window(const char *astring, int conn_id)
   freelog(LOG_DEBUG, "m_width %d windowwth %d maxlinelen %d",
 	  m_width, (int)windowwth, maxlinelen);
 
-  if (strlen(astring) > maxlinelen) {
-    wordwrap_string(astring, maxlinelen);
+  if (strlen(astring2) > maxlinelen) {
+    wordwrap_string(astring2, maxlinelen);
   }
   
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
-  newout=fc_malloc(strlen(astring)+strlen(theoutput)+2);
-  sprintf(newout, "%s\n%s", theoutput, astring);
+  newout=fc_malloc(strlen(astring2)+strlen(theoutput)+2);
+  sprintf(newout, "%s\n%s", theoutput, astring2);
 
   /* calc carret position - last line, first pos */ 
   for(rmcr=newout+strlen(newout); rmcr>newout; rmcr--)
@@ -123,7 +123,7 @@ void real_append_output_window(const char *astring, int conn_id)
   XawTextEnableRedisplay(outputwindow_text);
   
   free(newout);
-  free(astring);
+  free(astring2);
 }
 
 /**************************************************************************
