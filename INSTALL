@@ -84,8 +84,8 @@ will need to have the appropriate "development" packages installed.
    with the rest of X Windows, but some platforms (HP-UX 10 for
    example) only provide it in a limited form.
 
-   To compile the client using the "Xaw" library add "--with-xaw" to
-   the Freeciv configure script.  See the section below for more 
+   To compile the client using the "Xaw" library add "--enable-client=xaw"
+   to the Freeciv configure script.  See the section below for more 
    information about the configure script.
 
    Many modern Unix systems (such as Linux) ship with a variant called
@@ -205,9 +205,9 @@ configure script, try the --help option, like this:
   "--disable-cvs-deps" has no effect when run with a stable release.
 
 By default the configure script will choose the Gtk+ client if the 
-required libraries are found, or else fall back to the Xaw client 
-(possibly using Xaw3d).  If you prefer to override this default, you
-can give configure one of the options "--with-xaw" or "--with-xaw3d".
+required libraries are found, or else fall back to the Xaw client.
+If you prefer to override this default, you can give configure the
+"--enable-client=xaw" option.
 
 If you want to change the compiler options, set the CFLAGS environment
 variable in your shell before running "configure".  For example:
