@@ -285,12 +285,13 @@ bool contains_special(enum tile_special_type all,
 #define regular_map_pos_is_normal(x, y) (TRUE)
 
 /*
- * A "border position" is any one that has adjacent positions that are
- * not normal/proper.
+ * A "border position" is any one that _may have_ positions within
+ * map distance dist that are non-normal.  To see its correctness,
+ * consider the case where dist is 1 or 0.
  */
-#define IS_BORDER_MAP_POS(x, y)              \
-  ((y) == 0 || (x) == 0 ||                   \
-   (y) == map.ysize-1 || (x) == map.xsize-1)
+#define IS_BORDER_MAP_POS(x, y, dist)                         \
+  ((x) < (dist) || (x) >= map.xsize - (dist)                  \
+   || (y) < (dist) || (y) >= map.ysize - (dist))
 
 bool normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
@@ -378,6 +379,8 @@ extern struct tile_type tile_types[T_LAST];
   int MACRO_min_dx = -MACRO_max_dx - 1 + (map.xsize % 2);                     \
   bool MACRO_xcycle = TRUE;                                                   \
   bool MACRO_positive = FALSE;                                                \
+  bool MACRO_is_border = IS_BORDER_MAP_POS(ARG_start_x, ARG_start_y,          \
+                                           ARG_max_dist);                     \
   int MACRO_dxy = 0, MACRO_do_xy;                                             \
   CHECK_MAP_POS(ARG_start_x, ARG_start_y);                                    \
   while(MACRO_dxy <= (ARG_max_dist)) {                                        \
@@ -402,8 +405,9 @@ extern struct tile_type tile_types[T_LAST];
 	if (MACRO_dx > MACRO_max_dx || MACRO_dx < MACRO_min_dx)               \
 	  continue;                                                           \
       }                                                                       \
-      if (!normalize_map_pos(&ARG_x_itr, &ARG_y_itr))                         \
-	continue;
+      if (MACRO_is_border && !normalize_map_pos(&ARG_x_itr, &ARG_y_itr)) {    \
+	continue;                                                             \
+      }
 
 #define iterate_outward_end                                                   \
     }                                                                         \
@@ -428,14 +432,16 @@ extern struct tile_type tile_types[T_LAST];
                            dx_itr, dy_itr)                                    \
 {                                                                             \
   int dx_itr, dy_itr;                                                         \
+  bool _is_border = IS_BORDER_MAP_POS((center_x), (center_y), (radius));      \
   CHECK_MAP_POS((center_x), (center_y));                                      \
   for (dy_itr = -(radius); dy_itr <= (radius); dy_itr++) {                    \
     for (dx_itr = -(radius); dx_itr <= (radius); dx_itr++) {                  \
       int x_itr = dx_itr + (center_x), y_itr = dy_itr + (center_y);           \
-      if (normalize_map_pos(&x_itr, &y_itr)) {
+      if (_is_border && !normalize_map_pos(&x_itr, &y_itr)) {                 \
+        continue;                                                             \
+      }
 
 #define square_dxy_iterate_end                                                \
-      }                                                                       \
     }                                                                         \
   }                                                                           \
 }
@@ -473,23 +479,13 @@ extern struct tile_type tile_types[T_LAST];
 /* Iterate through all tiles adjacent to a tile */
 #define adjc_iterate(RI_center_x, RI_center_y, RI_x_itr, RI_y_itr)            \
 {                                                                             \
-  int RI_x_itr, RI_y_itr;                                                     \
-  int RI_x_itr1, RI_y_itr1;                                                   \
-  CHECK_MAP_POS(RI_center_x, RI_center_y);                                    \
-  for (RI_y_itr1 = RI_center_y - 1;                                           \
-       RI_y_itr1 <= RI_center_y + 1; RI_y_itr1++) {                           \
-    for (RI_x_itr1 = RI_center_x - 1;                                         \
-	 RI_x_itr1 <= RI_center_x + 1; RI_x_itr1++) {                         \
-      RI_x_itr = RI_x_itr1;                                                   \
-      RI_y_itr = RI_y_itr1;                                                   \
-      if (!normalize_map_pos(&RI_x_itr, &RI_y_itr))                           \
-        continue;                                                             \
-      if (RI_x_itr == RI_center_x && RI_y_itr == RI_center_y)                 \
-        continue; 
+  square_iterate(RI_center_x, RI_center_y, 1, RI_x_itr, RI_y_itr) {           \
+    if (RI_x_itr == RI_center_x && RI_y_itr == RI_center_y) {                 \
+      continue;                                                               \
+    }
 
 #define adjc_iterate_end                                                      \
-    }                                                                         \
-  }                                                                           \
+  } square_iterate_end;                                                       \
 }
 
 /* Iterate through all tiles adjacent to a tile.  dir_itr is the
@@ -498,17 +494,15 @@ extern struct tile_type tile_types[T_LAST];
 #define adjc_dir_iterate(center_x, center_y, x_itr, y_itr, dir_itr)           \
 {                                                                             \
   int x_itr, y_itr, dir_itr;                                                  \
-  bool MACRO_border;                                                          \
+  bool MACRO_border = IS_BORDER_MAP_POS((center_x), (center_y), 1);           \
   int MACRO_center_x = (center_x);                                            \
   int MACRO_center_y = (center_y);                                            \
   CHECK_MAP_POS(MACRO_center_x, MACRO_center_y);                              \
-  MACRO_border = IS_BORDER_MAP_POS(MACRO_center_x, MACRO_center_y);           \
   for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
     DIRSTEP(x_itr, y_itr, dir_itr);                                           \
     x_itr += MACRO_center_x;                                                  \
     y_itr += MACRO_center_y;                                                  \
-    if (MACRO_border) {                                                       \
-      if (!normalize_map_pos(&x_itr, &y_itr))                                 \
+    if (MACRO_border && !normalize_map_pos(&x_itr, &y_itr)) {                 \
 	continue;                                                             \
     }
 
@@ -575,20 +569,22 @@ extern const int DIR_DY[8];
 extern const int CAR_DIR_DX[4];
 extern const int CAR_DIR_DY[4];
 
-#define cartesian_adjacent_iterate(x, y, IAC_x, IAC_y) \
-{                                                      \
-  int IAC_i;                                           \
-  int IAC_x, IAC_y;                                    \
-  CHECK_MAP_POS(x, y);                                 \
-  for (IAC_i = 0; IAC_i < 4; IAC_i++) {                \
-    IAC_x = x + CAR_DIR_DX[IAC_i];                     \
-    IAC_y = y + CAR_DIR_DY[IAC_i];                     \
-                                                       \
-    if (normalize_map_pos(&IAC_x, &IAC_y)) {
+#define cartesian_adjacent_iterate(x, y, IAC_x, IAC_y)                        \
+{                                                                             \
+  int IAC_i;                                                                  \
+  int IAC_x, IAC_y;                                                           \
+  bool _is_border = IS_BORDER_MAP_POS(x, y, 1);                               \
+  CHECK_MAP_POS(x, y);                                                        \
+  for (IAC_i = 0; IAC_i < 4; IAC_i++) {                                       \
+    IAC_x = x + CAR_DIR_DX[IAC_i];                                            \
+    IAC_y = y + CAR_DIR_DY[IAC_i];                                            \
+                                                                              \
+    if (_is_border && !normalize_map_pos(&IAC_x, &IAC_y)) {                   \
+      continue;                                                               \
+    }
 
-#define cartesian_adjacent_iterate_end                 \
-    }                                                  \
-  }                                                    \
+#define cartesian_adjacent_iterate_end                                        \
+  }                                                                           \
 }
 
 #define MAP_DEFAULT_HUTS         50
