@@ -72,14 +72,21 @@ AC_ARG_ENABLE(client,
 [  --enable-client[=no/yes/type]
                           compile a client [default=yes] (if yes, guess type)],
 [case "${enableval}" in
-  yes) client=yes ;;
-  no)  client=no ;;
-  *)   client="${enableval}"
-       if test ! -d "client/gui-$client" ; then
-	 AC_MSG_ERROR(bad value ${enableval} for --enable-client)
-       fi ;;
+  yes)	  client=yes ;;
+  no)	  client=no ;;
+  xaw3d)  client=xaw
+	  WITH_XAW3D=1 ;;
+  *)	  client="${enableval}"
+	  if test ! -d "client/gui-$client" ; then
+	    AC_MSG_ERROR(bad value ${enableval} for --enable-client)
+	  fi ;;
 esac], [client=yes])
 AM_CONDITIONAL(CLIENT, test x$client != xno)
+
+AC_ARG_WITH(xaw,
+[  --with-xaw              use the Xaw widget set for the xaw client],
+WITH_XAW=1
+)
 
 AC_ARG_WITH(xaw3d,
 [  --with-xaw3d            use the Xaw3d widget set for the xaw client],
@@ -176,9 +183,11 @@ fi
 dnl Check and choose clients
 if test x$client != xno; then
 
-  dnl if specified --with-xaw3d, assume --enable-client=xaw
-  if test x$client = xyes && test -n "$WITH_XAW3D"; then
-    client=xaw
+  dnl if specified --with-xaw or --with-xaw3d, assume --enable-client=xaw
+  if test x$client = xyes; then
+    if test -n "$WITH_XAW" || test -n "$WITH_XAW3D"; then
+      client=xaw
+    fi
   fi
 
   dnl if need to guess client, announce checking
