@@ -42,12 +42,7 @@ struct tile_type tile_types[T_LAST]=
 
 struct isledata islands[100];
 
-
-struct tile void_tile={
-  T_UNKNOWN, S_NONE, 0, 0, 0, 
-  { {0}}, 0, 0, "abcdefg"
-};
-
+struct tile void_tile;
 
 /***************************************************************
 ...
@@ -437,6 +432,9 @@ void initialize_move_costs(void)
   int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
+
+  tile_init(&void_tile); /* maybe this is a weird place but it has to be done. -- Syela */
+  for (i = 0; i < 8; i++) void_tile.move_cost[i] = maxcost;
 
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
