@@ -1890,17 +1890,19 @@ gint button_down_citymap(GtkWidget *w, GdkEventButton *ev)
     struct packet_city_request packet;
 
     city_get_map_xy(ev->x, ev->y, &xtile, &ytile);
-    packet.city_id=pcity->id;
-    packet.worker_x=xtile;
-    packet.worker_y=ytile;
-    packet.name[0]='\0';
-    packet.worklist.name[0] = '\0';
-    
-    if(pcity->city_map[xtile][ytile]==C_TILE_WORKER)
-      send_packet_city_request(&aconnection, &packet, 
+    if (is_valid_city_coords(xtile, ytile)) {
+      packet.city_id=pcity->id;
+      packet.worker_x=xtile;
+      packet.worker_y=ytile;
+      packet.name[0]='\0';
+      packet.worklist.name[0] = '\0';
+
+      if(pcity->city_map[xtile][ytile]==C_TILE_WORKER)
+	send_packet_city_request(&aconnection, &packet, 
 			       PACKET_CITY_MAKE_SPECIALIST);
-    else if(pcity->city_map[xtile][ytile]==C_TILE_EMPTY)
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
+      else if(pcity->city_map[xtile][ytile]==C_TILE_EMPTY)
+	send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
+    }
   }
   return TRUE;
 }
