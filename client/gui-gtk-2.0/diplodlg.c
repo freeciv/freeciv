@@ -640,12 +640,10 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
     gtk_list_store_set(store, &it, 0, buf, -1);
   } clause_list_iterate_end;
 
-  gtk_image_set_from_pixmap(GTK_IMAGE(pdialog->image0),
-			    get_thumb_pixmap(pdialog->treaty.accept0),
-			    NULL);
-  gtk_image_set_from_pixmap(GTK_IMAGE(pdialog->image1),
-			    get_thumb_pixmap(pdialog->treaty.accept1),
-			    NULL);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image0),
+			    get_thumb_pixbuf(pdialog->treaty.accept0));
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image1),
+			    get_thumb_pixbuf(pdialog->treaty.accept1));
 }
 
 /****************************************************************

@@ -496,12 +496,9 @@ static GdkPixbuf *get_flag(struct nation_type *nation)
   assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
 
   /* croping */
-  im = gdk_pixbuf_get_from_drawable(NULL,
-				    flag->pixmap,
-				    gdk_colormap_get_system(),
-				    x0, y0,
-				    0, 0,
-				    w, h);
+  im = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(flag), x0, y0, w, h);
+  g_object_unref(im);
+  im = gdk_pixbuf_copy(im);
 
   /* and finaly store the scaled flag pixbuf in the static flags array */
   return im;

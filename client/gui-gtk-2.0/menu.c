@@ -1204,7 +1204,7 @@ void update_menus(void)
           item = gtk_image_menu_item_new_with_label(buf);
 
           gsprite = get_government(g->index)->sprite;
-          image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
+          image = gtk_image_new_from_pixbuf(sprite_get_pixbuf(gsprite));
           gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 
           gtk_widget_show(image);

@@ -1652,10 +1652,9 @@ static void create_races_dialog(void)
     gtk_list_store_append(store, &it);
 
     s = crop_blankspace(nation->flag_sprite);
-    img = gdk_pixbuf_new_from_sprite(s);
-    free_sprite(s);
+    img = sprite_get_pixbuf(s);
     gtk_list_store_set(store, &it, 0, i, 1, FALSE, 2, img, -1);
-    g_object_unref(img);
+    free_sprite(s);
 
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, nation->name);

@@ -128,23 +128,23 @@ void update_info_label( void )
   for (; d < game.player_ptr->economic.luxury /10; d++) {
     struct Sprite *sprite = sprites.tax_luxury;
 
-    gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
-			      sprite->pixmap, sprite->mask);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
+			      sprite_get_pixbuf(sprite));
   }
  
   for (; d < (game.player_ptr->economic.science
 	     + game.player_ptr->economic.luxury) / 10; d++) {
     struct Sprite *sprite = sprites.tax_science;
 
-    gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
-			      sprite->pixmap, sprite->mask);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
+			      sprite_get_pixbuf(sprite));
   }
  
   for (; d < 10; d++) {
     struct Sprite *sprite = sprites.tax_gold;
 
-    gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
-			      sprite->pixmap, sprite->mask);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
+			      sprite_get_pixbuf(sprite));
   }
  
   update_timeout_label();
@@ -216,9 +216,9 @@ void update_unit_info_label(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-GdkPixmap *get_thumb_pixmap(int onoff)
+GdkPixbuf *get_thumb_pixbuf(int onoff)
 {
-  return sprites.treaty_thumb[BOOL_VAL(onoff)]->pixmap;
+  return sprite_get_pixbuf(sprites.treaty_thumb[BOOL_VAL(onoff)]);
 }
 
 /**************************************************************************
@@ -232,12 +232,12 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
   flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);
 
-  gtk_image_set_from_pixmap(GTK_IMAGE(bulb_label),
-			    sprites.bulb[bulb]->pixmap, NULL);
-  gtk_image_set_from_pixmap(GTK_IMAGE(sun_label),
-			    sprites.warming[sol]->pixmap, NULL);
-  gtk_image_set_from_pixmap(GTK_IMAGE(flake_label),
-			    sprites.cooling[flake]->pixmap, NULL);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(bulb_label),
+			    sprite_get_pixbuf(sprites.bulb[bulb]));
+  gtk_image_set_from_pixbuf(GTK_IMAGE(sun_label),
+			    sprite_get_pixbuf(sprites.warming[sol]));
+  gtk_image_set_from_pixbuf(GTK_IMAGE(flake_label),
+			    sprite_get_pixbuf(sprites.cooling[flake]));
 
   if (game.government_count==0) {
     /* HACK: the UNHAPPY citizen is used for the government
@@ -248,8 +248,8 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   } else {
     gov_sprite = get_government(gov)->sprite;
   }
-  gtk_image_set_from_pixmap(GTK_IMAGE(government_label),
-			    gov_sprite->pixmap, NULL);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(government_label),
+			    sprite_get_pixbuf(gov_sprite));
 }
 
 /**************************************************************************
@@ -639,15 +639,23 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
   if (!ssprite) {
     return;
   }
-      
-  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
-  gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
 
-  gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
+  if (ssprite->pixmap) {
+    gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
+
+    gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
+		      0, 0,
+		      canvas_x, canvas_y,
+		      ssprite->width, ssprite->height);
+    gdk_gc_set_clip_mask(civ_gc, NULL);
+  } else {
+    gdk_draw_pixbuf(pixmap, civ_gc, ssprite->pixbuf,
 		    0, 0,
-		    canvas_x, canvas_y,
-		    ssprite->width, ssprite->height);
-  gdk_gc_set_clip_mask(civ_gc, NULL);
+		  canvas_x, canvas_y,
+		  ssprite->width, ssprite->height,
+		  GDK_RGB_DITHER_NONE, 0, 0);
+  }
 }
 
 /**************************************************************************
@@ -659,18 +667,27 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 			      int offset_x, int offset_y,
 			      int width, int height)
 {
-  if (ssprite->mask) {
-    gdk_gc_set_clip_origin(civ_gc, pixmap_x, pixmap_y);
-    gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
-  }
+  if (ssprite->pixmap) {
+    if (ssprite->mask) {
+      gdk_gc_set_clip_origin(civ_gc, pixmap_x, pixmap_y);
+      gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
+    }
 
-  gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
+    gdk_draw_drawable(pixmap, civ_gc, ssprite->pixmap,
+		      offset_x, offset_y,
+		      pixmap_x + offset_x, pixmap_y + offset_y,
+		      MIN(width, MAX(0, ssprite->width - offset_x)),
+		      MIN(height, MAX(0, ssprite->height - offset_y)));
+
+    gdk_gc_set_clip_mask(civ_gc, NULL);
+  } else {
+    gdk_draw_pixbuf(pixmap, civ_gc, ssprite->pixbuf,
 		    offset_x, offset_y,
 		    pixmap_x + offset_x, pixmap_y + offset_y,
 		    MIN(width, MAX(0, ssprite->width - offset_x)),
-		    MIN(height, MAX(0, ssprite->height - offset_y)));
-
-  gdk_gc_set_clip_mask(civ_gc, NULL);
+		    MIN(height, MAX(0, ssprite->height - offset_y)),
+		    GDK_RGB_DITHER_NONE, 0, 0);
+  }
 }
 
 /**************************************************************************
@@ -783,7 +800,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 {
   if (pcanvas->type == CANVAS_PIXMAP) {
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_bg_gc, psprite->mask);
+    gdk_gc_set_clip_mask(fill_bg_gc, sprite_get_mask(psprite));
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
 
     gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
@@ -801,7 +818,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
 {
   if (pcanvas->type == CANVAS_PIXMAP) {
     gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, psprite->mask);
+    gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(psprite));
     gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
     gdk_gc_set_stipple(fill_tile_gc, black50);
     gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
@@ -870,10 +887,14 @@ static void fog_sprite(struct Sprite *sprite)
   guchar *pixel;
   const int bright = 65; /* Brightness percentage */
 
-  fogged = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-			  sprite->width, sprite->height);
-  gdk_pixbuf_get_from_drawable(fogged, sprite->pixmap, NULL,
-			       0, 0, 0, 0, sprite->width, sprite->height);
+  if (sprite->pixmap) {
+    fogged = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+			    sprite->width, sprite->height);
+    gdk_pixbuf_get_from_drawable(fogged, sprite->pixmap, NULL,
+				 0, 0, 0, 0, sprite->width, sprite->height);
+  } else {
+    fogged = gdk_pixbuf_copy(sprite->pixbuf);
+  }
 
   /* Iterate over all pixels, reducing brightness by 50%. */
   for (x = 0; x < sprite->width; x++) {
@@ -888,9 +909,13 @@ static void fog_sprite(struct Sprite *sprite)
     }
   }
 
-  gdk_pixbuf_render_pixmap_and_mask(fogged, &sprite->fogged,
-				    NULL, 0);
-  g_object_unref(fogged);
+  if (sprite->pixmap) {
+    gdk_pixbuf_render_pixmap_and_mask(fogged, &sprite->pixmap_fogged,
+				      NULL, 0);
+    g_object_unref(fogged);
+  } else {
+    sprite->pixbuf_fogged = fogged;
+  }
 }
 
 /**************************************************************************
@@ -905,9 +930,12 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
     return;
   }
 
-  if (fog && better_fog && !ssprite->fogged) {
+  if (fog && better_fog
+      && ((ssprite->pixmap && !ssprite->pixmap_fogged)
+	  || (!ssprite->pixmap && !ssprite->pixbuf_fogged))) {
     fog_sprite(ssprite);
-    if (!ssprite->fogged) {
+    if ((ssprite->pixmap && !ssprite->pixmap_fogged)
+	|| (!ssprite->pixmap && !ssprite->pixbuf_fogged)) {
       freelog(LOG_NORMAL,
 	      _("Better fog will only work in truecolor.  Disabling it"));
       better_fog = FALSE;
@@ -915,16 +943,23 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
   }
 
   if (fog && better_fog) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, ssprite->mask);
-
-    gdk_draw_drawable(pixmap, fill_tile_gc,
-		      ssprite->fogged,
-		      0, 0,
-		      canvas_x, canvas_y,
-		      ssprite->width, ssprite->height);
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
-
+    if (ssprite->pixmap) {
+      if (ssprite->mask) {
+	gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
+	gdk_gc_set_clip_mask(civ_gc, ssprite->mask);
+      }
+      gdk_draw_drawable(pixmap, civ_gc,
+			ssprite->pixmap_fogged,
+			0, 0,
+			canvas_x, canvas_y,
+			ssprite->width, ssprite->height);
+      gdk_gc_set_clip_mask(civ_gc, NULL);
+    } else {
+      gdk_draw_pixbuf(pixmap, civ_gc, ssprite->pixbuf_fogged,
+		      0, 0, canvas_x, canvas_y, 
+		      ssprite->width, ssprite->height,
+		      GDK_RGB_DITHER_NONE, 0, 0);
+    }
     return;
   }
 
@@ -936,7 +971,7 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
      faster to just draw every second pixel black in the first place. */
   if (fog) {
     gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, ssprite->mask);
+    gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(ssprite));
     gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
     gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_stipple(fill_tile_gc, black50);
@@ -970,6 +1005,8 @@ void put_city_worker(struct canvas *pcanvas,
 		     enum color_std color, enum city_tile_type worker,
 		     int canvas_x, int canvas_y)
 {
+  GdkBitmap *mask;
+
   if (pcanvas->type == CANVAS_PIXMAP) {
     if (worker == C_TILE_EMPTY) {
       gdk_gc_set_stipple(fill_tile_gc, gray25);
@@ -982,9 +1019,9 @@ void put_city_worker(struct canvas *pcanvas,
     gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
 
-    if (sprites.black_tile && sprites.black_tile->mask) {
+    if (sprites.black_tile && (mask = sprite_get_mask(sprites.black_tile))) {
       gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-      gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
+      gdk_gc_set_clip_mask(fill_tile_gc, mask);
     }
 
     gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,

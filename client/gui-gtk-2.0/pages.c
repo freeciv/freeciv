@@ -1386,7 +1386,7 @@ static void nation_start_callback(void)
 static GdkPixbuf *get_flag(char *flag_str)
 {
   int x0, y0, x1, y1, w, h;
-  GdkPixbuf *im;
+  GdkPixbuf *im, *im2;
   SPRITE *flag;
 
   flag = load_sprite(flag_str);
@@ -1410,14 +1410,13 @@ static GdkPixbuf *get_flag(char *flag_str)
   assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
 
   /* get the pixbuf and crop*/
-  im = gdk_pixbuf_get_from_drawable(NULL, flag->pixmap,
-                                    gdk_colormap_get_system(),
-                                    x0, y0, 0, 0, w, h);
-
+  im = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(flag), x0, y0, w, h);
+  im2 = gdk_pixbuf_copy(im);
+  g_object_unref(im);
   unload_sprite(flag_str);
 
   /* and finaly store the scaled flag pixbuf in the static flags array */
-  return im;
+  return im2;
 }
 
 /**************************************************************************

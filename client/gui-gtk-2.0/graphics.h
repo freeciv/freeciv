@@ -20,13 +20,17 @@
 
 struct Sprite
 {
-  GdkPixmap *pixmap;
-  GdkPixmap *fogged;
+  /* A pixmap + mask is used if there's a 1-bit alpha channel.  mask may be
+   * NULL if there's no alpha.  For multi-bit alpha levels, a pixbuf will be
+   * used instead.  For consistency a pixbuf may be generated on-demand when
+   * doing drawing (into a gtkpixcomm or gtkimage), so it's important that
+   * the sprite data not be changed after the sprite is loaded. */
+  GdkPixmap *pixmap, *pixmap_fogged;
   GdkBitmap *mask;
+  GdkPixbuf *pixbuf, *pixbuf_fogged;
+
   int	     width;
   int	     height;
-
-  GdkPixbuf *pixbuf;
 };
 
 typedef struct Sprite SPRITE;
@@ -45,8 +49,7 @@ void gtk_draw_shadowed_string(GdkDrawable *drawable,
 			      GdkGC *white_gc,
 			      gint x, gint y, PangoLayout *layout);
 
-SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
-			 int width, int height);
+SPRITE *ctor_sprite(GdkPixbuf *pixbuf);
 SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h);
 void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y);
@@ -55,10 +58,10 @@ SPRITE *crop_blankspace(SPRITE *s);
 GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src);
   
 /********************************************************************
- NOTE: the pixmap and mask of a sprite must not change after this
-       function is called!
+  Note: a sprite cannot be changed after these functions are called!
  ********************************************************************/
 GdkPixbuf *sprite_get_pixbuf(SPRITE *sprite);
+GdkBitmap *sprite_get_mask(struct Sprite *sprite);
 
 #endif  /* FC__GRAPHICS_H */
 
