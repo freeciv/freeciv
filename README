@@ -223,8 +223,8 @@ Caveats:
  2) If the Metaserver button in the connection dialog doesn't work,
     check if your ISP uses a mandatory WWW proxy and make civclient
     use it through the $http_proxy environment variable.  For instance,
-    if the proxy is www-proxy.my-isp.com port 8888, set $http_proxy
-    to http://www-myisp.com:8888/ before starting the client.
+    if the proxy is proxy.myisp.com port 8888, set $http_proxy
+    to http://proxy.myisp.com:8888/ before starting the client.
 
  3) The metaserver usually lists several servers (5-10 on average),
     but only a few of them are 1.8.0.  This is due to noise elimination:
