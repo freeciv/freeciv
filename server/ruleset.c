@@ -558,7 +558,7 @@ static void load_ruleset_techs(struct section_file *file)
    * X has Y has a root tech, then any technology requiring X also has
    * Y as a root tech. */
 restart:
-  for (i = A_FIRST; i <= num_techs; i++) {
+  for (i = A_FIRST; i < A_FIRST + num_techs; i++) {
     a = &advances[i];
     if (a->root_req != A_LAST && tech_exists(i)) {
       int j;
@@ -566,7 +566,7 @@ restart:
 
       /* Now find any tech depending on this technology and update it's
        * root_req. */
-      for(j = A_FIRST; j < num_techs; j++) {
+      for(j = A_FIRST; j < A_FIRST + num_techs; j++) {
         struct advance *b = &advances[j];
         if ((b->req[0] == i || b->req[1] == i)
             && b->root_req == A_LAST
@@ -587,7 +587,7 @@ restart:
     }
   }
   /* Now rename A_LAST to A_NONE for consistency's sake */
-  for (i = A_NONE; i <= num_techs; i++) {
+  for (i = A_NONE; i < A_FIRST + num_techs; i++) {
     a = &advances[i];
     if (a->root_req == A_LAST) {
       a->root_req = A_NONE;
