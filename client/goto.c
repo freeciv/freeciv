@@ -324,8 +324,15 @@ static int get_EC(int x, int y, enum known_type known,
 static enum tile_behavior get_TB(int x, int y, enum known_type known,
 				 struct pf_parameter *param)
 {
+  struct tile *ptile = map_get_tile(x, y);
+
   if (known == TILE_UNKNOWN) {
     return TB_IGNORE;
+  }
+  if (is_non_allied_unit_tile(ptile, param->owner)
+      || is_non_allied_city_tile(ptile, param->owner)) {
+    /* Can attack but can't count on going through */
+    return TB_DONT_LEAVE;
   }
   return TB_NORMAL;
 }
