@@ -150,7 +150,7 @@ int map_colatitude(const struct tile *ptile)
    * "P" and the equator as a straight line along "/".
    *
    * This is explained more fully at
-   * http://rt.freeciv.org/Ticket/Display.html?id=8624. */
+   * http://bugs.freeciv.org/Ticket/Display.html?id=8624. */
   return MAX_COLATITUDE * (1.5 * (x * x * y + x * y * y) 
 		     - 0.5 * (x * x * x + y * y * y) 
 		     + 1.5 * (x * x + y * y));
