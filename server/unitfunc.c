@@ -1129,6 +1129,7 @@ int try_move_unit(struct unit *punit, int dest_x, int dest_y)
   }
   return punit->moves_left;
 }
+
 /**************************************************************************
   go by airline, if both cities have an airport and neither has been used this
   turn the unit will be transported by it and have it's moves set to 0
@@ -1137,29 +1138,31 @@ int do_airline(struct unit *punit, int x, int y)
 {
   struct city *city1, *city2;
   
-  if (!punit->moves_left)
-    return 0;
+
   if (!(city1=map_get_city(punit->x, punit->y))) 
     return 0;
   if (!(city2=map_get_city(x,y)))
     return 0;
-  if (city1->owner != city2->owner) 
-    return 0;
-  if (city1->airlift + city2->airlift < 2) 
+  if (!unit_can_airlift_to(punit,city2))
     return 0;
   city1->airlift=0;
   city2->airlift=0;
   punit->moves_left = 0;
+
   unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
-  punit->x = x;
-  punit->y = y;
-  send_unit_info(&game.players[punit->owner], punit, 0);
+  punit->x = x; punit->y = y;
   unit_list_insert(&map_get_tile(x, y)->units, punit);
+
+  connection_do_buffer(game.players[punit->owner].conn);
+  send_unit_info(&game.players[punit->owner], punit, 0);
+  send_city_info(&game.players[city1->owner], city1, 0);
+  send_city_info(&game.players[city2->owner], city2, 0);
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
 		   "Game: unit transported succesfully.");
+  connection_do_unbuffer(game.players[punit->owner].conn);
+  
   return 1;
 }
-
 
 /**************************************************************************
   called when a player conquers a city, remove buildings (not wonders and always palace) with game.razechance% chance
