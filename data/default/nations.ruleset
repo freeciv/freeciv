@@ -81,7 +81,7 @@ cities =
   "Trapezus", "Durocortorum", "Lutetia", "Burdigala", "Portus Namnetum",
   "Utica", "Lugdunum", "Londinium", "Aquae Sulis", "Camulodunum", "Dubris",
   "Eburacum", "Coriovallum", "Perusia", "Leptis Magna", "Corduba", "Edessa",
-  "Ariminum", "Tarraco", "Narbo Martius", "Pergamum", "Vienna", "Hispalis",
+  "Ariminum", "Narbo Martius", "Pergamum", "Vienna", "Hispalis",
   "Salonae", "Cyrenae", "Dyrrachium", "Luni", "Noreia", "Ephesus",
   "Panoramus", "Ancyra", "Caralis", "Patavium", "Petra", "Tolosa",
   "Pisae", "Palmyra", "Tyrus", "Cortona", "Arenate", "Brigantium",
@@ -389,7 +389,7 @@ expand=2
 civilized=2
 advisors=100,100,100,100,100,100,100
 
-tech_goals = "Monarchy", "Chivalry", "Philosophy", "The Republic", "Monotheism",
+tech_goals = "Monarchy", "Chivalry", "Philosophy", "The Republic",
              "Monotheism", "Engineering", "Navigation", "Railroad"
 wonder="Magellan's Expedition"
 government="Republic"
@@ -804,14 +804,15 @@ wonder="Copernicus' Observatory"
 government="Democracy"
 
 cities =
- "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Lódz",
- "Plock", "Wloclawek", "Torun", "Bydgoszcz", "Radom",
- "Kielce", "Lublin", "Bialystok", "Rzeszów", "Tarnów",
- "Katowice", "Bielsko-Biala", "Czestochowa", "Opole",
- "Sandomierz", "Legnica", "Walbrzych", "Olsztyn",
- "Gdansk", "Gdynia", "Koszalin", "Slupsk", "Szczecin",
- "Konin", "Kalisz", "Krosno", "Przemysl", "Tarnobrzeg",
- "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane"
+ "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Gdansk",
+ "Szczecin", "Lódz", "Torun", "Bydgoszcz", "Lublin", "Czestochowa",
+ "Olsztyn", "Wloclawek", "Radom", "Kielce", "Bialystok", "Opole",
+ "Plock", "Rzeszów", "Tarnów", "Katowice", "Bielsko-Biala",
+ "Sandomierz", "Legnica", "Walbrzych", "Gdynia", "Koszalin",
+ "Slupsk", "Piotrków", "Konin", "Kalisz", "Krosno", "Przemysl",
+ "Tarnobrzeg", "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane",
+ "Oswiecim", "Glogów", "Jawor", "Zielona Góra", "Jelenia Góra",
+ "Boleslawiec", "Gorzów"
 
 
 [nation22]
@@ -1390,6 +1391,70 @@ cities =
   "Guelph", "St. Catharines", "Barrie", "North Bay", "Belleville",
   "Kingston", "Cornwall", "Trois-Rivieres", "Chicoutimi", "Rimouski",
   "Moncton", "Dartmouth", "Glace Bay", "Corner Brook", "Gander"
+
+
+[nation38]
+
+name=_("Ukrainian")
+plural=_("?plural:Ukrainians")
+leader="Khmelnistkyi","Petlura"
+leader_sex="Male","Male"
+flag="f.ukraine"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",         "female_title"
+                 "Despotism",     _("Hetman"),          _("Hetman")
+               }
+
+attack=0
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Chivalry","The Republic","Gunpowder","Leadership","Explosives"
+wonder="Sun Tzu's War Academy"
+government="Communism"
+
+cities =
+  "Kyiv", "Lviv", "Zhytomyr", "Lutsk", "Pereyeslav", "Zaporizhzhia",
+  "Chernihiv", "Braclav", "Kherson", "Kharkiv", "Sumy",
+  "Odesa", "Cherkasy", "Donetsk", "Dnipropetrovsk",
+  "Poltava", "Rivne", "Chernobyl", "Sevastopol", "Yalta",
+  "Kamieniec", "White Church", "Chernivtsi", "Khmelnistkyi",
+  "Ternopil", "Ivano-frankivsk", "Uzhhorod", "Kirovohrad",
+  "Luhansk", "Mykolaiv", "Vinnytsya"
+
+
+[nation39]
+
+name=_("Lithuanian")
+plural=_("?plural:Lithuanians")
+leader="Gediminas","Jogaila"
+leader_sex="Male", "Male"
+flag="f.lithuania"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",         "female_title"
+                 "Monarchy",      _("Great Duke"),      _("Great Duchess")
+}
+
+attack=2
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy","Chivalry","The Republic","Railroad","Explosives"
+wonder="Copernicus' Observatory"
+government = "Republic"
+
+; Some of these names are not spelled correctly
+; Some of these names are not Lithuanian, but Latvian, Estian or Belarusian
+; they were in Lithuania in some part of history and are not in freeciv yet,
+; so I put them here
+cities =
+  "Vilnius", "Kaunas", "Klaipeda", "Grodno", "Riga", "Siauliai",
+  "Tallin", "Sluck", "Bobruysk", "Minsk", "Slonim",
+  "Brest Litovsk", "Tartu", "Kobrin", "Polock", "Daugavpilsk",
+  "Parnava", "Lipava", "Yelgava", "Yurmala", "Rosienie", "Vindava",
+  "Narva", "Kohtla-Järve"
 
 
 ;[nation??]
