@@ -1,7 +1,9 @@
-===========================
+Questo file si basa sulla versione cvs-1.37 di README.
+This file based on cvs-1.37's README.
+
+=====================
 Freeciv Versione 1.11
-Traduzione italiana V. 1.0 
-===========================
+=====================
 
        ******************************************************
        * Le note relative alla traduzione sono disponibili  *
@@ -10,24 +12,24 @@ Traduzione italiana V. 1.0
 
 Benvenuto in  Freeciv!
 
-Questo pacchetto contiene Freeciv, un clone libero di Civilization pregettato 
-per Unix.  
+Questo pacchetto contiene Freeciv, un clone libero di Civilization pregettato
+per Unix.
 Supporta la modalita' multiplayer in locale o su una rete, e una IA
 (Intelligenza Artificiale) che da' del filo da torcere a molti giocatori.
 
-Freeciv mira ad avere regole compatibili con Civilization II [tm], pubblicato 
-da Sid Meier e Microprose [tm]. Alcune regole sono state cambiate laddove 
-credevamo che potessero essere migliorate, e abbiamo reso personalizzabili 
+Freeciv mira ad avere regole compatibili con Civilization II [tm], pubblicato
+da Sid Meier e Microprose [tm]. Alcune regole sono state cambiate laddove
+credevamo che potessero essere migliorate, e abbiamo reso personalizzabili
 le partite con una montagna di parametri.
 
-Freeciv e' stato creato in modo del tutto indipendente da Civilization; non 
+Freeciv e' stato creato in modo del tutto indipendente da Civilization; non
 siete obbligati a possedere Civilization per giocare a Freeciv.
 
 In effetti la grafica non e' curata come quella di  Civilization II, ma le
 regole sono molto complete e il codice per il multiplayer e il gioco in rete e'
 eccellente.
 
-(Questo file e' la traduzione in italiano del'originale. Per eventuali errori e 
+(Questo file e' la traduzione in italiano del'originale. Per eventuali errori e
 correzioni scrivete a: slug-freeciv@siena.linux.it Ndt)
 
 
@@ -60,7 +62,7 @@ compilare ed installare Freeciv sulla vostra macchina.
 Iniziare un nuovo gioco:
 ========================
 
-Freeciv e' in verita' due programmi, un server e un client. Quando e' in corso 
+Freeciv e' in verita' due programmi, un server e un client. Quando e' in corso
 una partita saranno in esecuzione un server e tanti client quanti giocatori
 umani partecipano. Il server non richiede X Windows, i client si.
 
@@ -72,7 +74,7 @@ umani partecipano. Il server non richiede X Windows, i client si.
   Freeciv. Si usano esattamente allo stesso modo di "civclient" e "civserver".
 
 Eseguire Freeciv richiede l'esecuzione del server, poi del/dei client e della/e
-IA, quindi iniziando la partita digitando "START" sul server.  
+IA, quindi iniziando la partita digitando "START" sul server.
 Ecco i singoli passi:
 
 Server:
@@ -112,7 +114,7 @@ Server:
   |    quit   -  to exit
   |  >
 
-  Se volete, potete usare il comando 'set' per impostare le varie opzioni di 
+  Se volete, potete usare il comando 'set' per impostare le varie opzioni di
   gioco.  Potete ottenere una lista delle opzioni con il comando 'show', e le
   relative descrizioni dettagliate con il comando 'help <nome-dell'opzione>'.
 
@@ -147,7 +149,7 @@ Client:
   |  % civclient --server neptune
 
   Se siete l'unico giocatore umano, basta eseguire un solo client. Secondo la
-  normale sintassi di Unix potete avviare il client  in background 
+  normale sintassi di Unix potete avviare il client  in background
   aggiungendo in fondo una "e commerciale":
 
   |  % civclient &
@@ -155,7 +157,7 @@ Client:
   Un'altra opzione del client che potreste voler provare e' '--tiles',
   che puo' essere usata per scegliere diversi "tileset" (cioe' differenti
   temi per il terreno della mappa, le unita' e cosi' via). La distribuzione
-  include 2 tileset principali, "trident" e "engels", e due variantis, 
+  include 2 tileset principali, "trident" e "engels", e due variantis,
   "trident_shields" e "engels_shields". In questa versione "trident" e'
   quello predefinito (mentre in alcune versioni precedenti era "engels").
   I due tilest principali hanno stili grafici abbastanza diversi; potreste
@@ -177,13 +179,13 @@ Client:
 
 Giocatori Simulati:
 
-  Ci sono due modi per creare giocatori con IntelligenzaArtificiale. 
-  Il primo e' di impostare il numero totale di giocatori (umani e IA) 
+  Ci sono due modi per creare giocatori con IntelligenzaArtificiale.
+  Il primo e' di impostare il numero totale di giocatori (umani e IA)
   attraverso l'opzione 'aifill' del server.  Per esempio:
 
   |  > set aifill 7
 
-  Dopo aver usato il comando 'start' del server per iniziare il gioco, 
+  Dopo aver usato il comando 'start' del server per iniziare il gioco,
   ogni giocatore che non e' controllato da umani sara' controllato dall'IA.
   Per l'esempio sopra, se partecipassero 2 giocatori umani, verrebbero creati
   5 (cioe' 7 meno 2) giocatori con IA.
@@ -207,7 +209,7 @@ Giocatori Simulati:
 
 Server:
 
-  Quando tutti si sono connessi (usa il comando "list" per vedere chi lo ha 
+  Quando tutti si sono connessi (usa il comando "list" per vedere chi lo ha
   gia' fatto), iniziate il gioco col comando "start":
 
   |  > start
@@ -223,8 +225,8 @@ metaserver di Freeciv:
 
   http://meta.freeciv.org/metaserver/
 
-E' una lista di server Freeciv. Perche' il tuo server sia annunciato sul 
-metaserver, devi avviare civserver con l'opzione '--meta', o solo '-m' 
+E' una lista di server Freeciv. Perche' il tuo server sia annunciato sul
+metaserver, devi avviare civserver con l'opzione '--meta', o solo '-m'
 per brevita'.
 
 Attenzione:
@@ -232,7 +234,7 @@ Attenzione:
  1) A causa dell'inclusione di nuove caratteistiche, versioni differenti del
     client e del server sono spesso incompatibili.  Non tutte queste
     incompatibilita' possono essere individuate e rese note come vorremmo.
-    Un esempio e' il client 1.8.0 (o successivo) che si connette a un server 
+    Un esempio e' il client 1.8.0 (o successivo) che si connette a un server
     1.7.2: il client sembra connettersi, ma non ottiene alcuna risposta dal
     server.
 
@@ -246,14 +248,14 @@ Attenzione:
     causato in parte da una cambiamento di host del metaserver, per cui le
     versioni precedenti di Freeciv non possono trovarlo. Inoltre, i server non
     vengono piu' mostrati automaticamente sul metaserver; si deve usare in modo
-    esplicito l'opzione '--meta'. Se volete giocare sul metaserver ma non ci 
+    esplicito l'opzione '--meta'. Se volete giocare sul metaserver ma non ci
     sono giochi in corso, provate a crearne uno voi!
 
 
 Giocare:
 ========
 
-La partita puo' essere salvata ad ogni momento usando il comando "save" del 
+La partita puo' essere salvata ad ogni momento usando il comando "save" del
 server, per esempio cosi':
 
   |  > save miapartita.sav
@@ -279,7 +281,7 @@ Usate la finestra 'Players' (Giocatori) per vedere chi ha annunciato la fine
 del proprio turno, e chi invece si sta facendo aspettare. (Ehi amico, stai
 dormendo o cosa?? ;).
 
-Usate la riga di input in fondo alla pagina per trasmettere messaggi ad altri 
+Usate la riga di input in fondo alla pagina per trasmettere messaggi ad altri
 giocatori.
 
 Potete mandare un messaggio ad un singolo giocatore (es. 'matteo') cosi':
@@ -287,10 +289,10 @@ Potete mandare un messaggio ad un singolo giocatore (es. 'matteo') cosi':
   |  matteo: Ritira quel carro armato *ORA*!
 
 Il server e' abbastanza intelligente da completare i nomi, quindi se aveste
-scritto solo "mat:", avrebbe comunque trovato il giocatore che comincia per 
+scritto solo "mat:", avrebbe comunque trovato il giocatore che comincia per
 'mat'.
 
-Sui nuovi server (versione 1.8.1 o successiva, o alcune versioni 1.8.0 di 
+Sui nuovi server (versione 1.8.1 o successiva, o alcune versioni 1.8.0 di
 sviluppo) potete invocare comandi del server dalla riga di input del client:
 
   |  /list
@@ -299,16 +301,15 @@ sviluppo) potete invocare comandi del server dalla riga di input del client:
 
 Probabilmente il gestore del server vi lascera' invocare solo comandi
 informativi. Questo  perche' permettendo ai client di usare tutti i
-comandi del server si avrebbero ripercussioni sulla sicurezza; pensate 
-se un giocatore
- scrivesse:
+comandi del server si avrebbero ripercussioni sulla sicurezza; pensate
+se un giocatore scrivesse:
 
   |  /save /etc/passwd
 
 Ovviamente il server non dovrebbe MAI girare con i privilegi di ROOT, per
 ridurre questo tipo di rischi.
 
-Se giocate per la prima volta e volete farvi un'idea delle strategie, date 
+Se giocate per la prima volta e volete farvi un'idea delle strategie, date
 un'occhiata al Freeciv playing HOWTO, contenuto nel file HOWTOPLAY.
 
 Per molte piu' informazioni sul client, sul server esui concetti e le regole di
@@ -327,7 +328,7 @@ Ci sono tre modi in cui un gioco puo' finire:
 3) Un giocatore costruisce e lancia un'astronave, che raggiunge per prima
    Alpha Centauri.
 
-In ogni caso viene mostrata una tabella dei punteggi. 
+In ogni caso viene mostrata una tabella dei punteggi.
 Consiglio: il gestore del server puo', con l'opzione 'end-year', impostare il
 giorno del giudizio mentre il gioco si sta ancora svolgendo. Cio' e' utile
 quando il vincitore e' ovvio e non volete giocare la noiosa fase di "sterminio
@@ -368,8 +369,8 @@ Supporto per lingue locali:
 ===========================
 
 Freeciv supporta diverse lingue.
-(Per il momento l'Italiano non e' pronto. Appena tradotto pubblicheremo il 
-locale sul sito www.freeciv.org e su freeciv.siena.linux.it Ndt)  
+(Per il momento l'Italiano non e' pronto. Appena tradotto pubblicheremo il
+locale sul sito www.freeciv.org e su freeciv.siena.linux.it Ndt)
 
 Potete scegliere quale linguaggio usare specificando un "locale".
 Ogni locale ha un nome standard (es: 'de' per il Tedesco). Se avete installato
@@ -390,35 +391,36 @@ Messaggi di Log:
 ================
 
 Sia il client e il server danno messaggi conosciuti come "messaggi di log".
-Ci sono 4 categorie di messaggi di log: "fatal"(fatali), "normal"(normali),
-"verbose"(prolissi) e "debug".
+Ci sono cinque categorie di messaggi di log: "fatal"(fatali), "error"(errori),
+"normal"(normali), "verbose"(prolissi) e "debug".
 
-Per default, i messaggi fatali e normali sono scritti sullo standard output su
-cui il client o il server e' stato avviato. Potete scrivere i messaggi in un
-file invece che sullo schermo con le opzioni da linea di comando
-"--log nomefile" o "-l nomefile".
+Per default, i messaggi fatali, di errore e normali sono scritti sullo
+standard output su cui il client o il server e' stato avviato. Potete scrivere
+i messaggi in un file invece che sullo schermo con le opzioni da linea di
+comando "--log nomefile" o "-l nomefile".
 
 Potete cambiare il livello di mssaggi di log  mostrati con "--debug livello"
 o "-d livello" (o "-de livello" per il client Xaw, visto che "-d" e' ambiguo
-fra "-debug" e "-display"), dove "livello" is 0, 1, o 2. 0 mostra solo i
-messaggi fatali, 1 (predefinito) mostra i fatali e i normali, e 2 mostra tutti
-i messaggi, siano fatali, normali o prolissi.
+fra "-debug" e "-display"), dove "livello" is 0, 1, 2 o 3. 0 mostra solo i
+messaggi fatali, 1 mostra quelli fatali e gli errori, 2 (predefinito) mostra i
+fatali, gli errori e i normali, e 3 mostra tutti i messaggi, siano fatali,
+errori, normali o prolissi.
 
 Se avete compilato con DEBUG definito (un modo semplice per farlo e' fare
 configure con --enable-debug), potete avere i messaggi di debug impostando il
-livello 3. Inoltre e' possibile controllare i messaggi di debug (ma non gli
-altri) file per file o linea per linea. Per farlo usate "--debug 3:str1:str2"
-(avanti per quante linee volete, separate da due punti): cosi' qualsiasi nome di
-file che abbia quelle stringhe come substringa avra' i messaggi di debug attivi
-mentre gli altri saranno disattivati. Per controllare le linee, usate:
-"--debug 3:str1,min,max"
-Cosi' per i file che abbiano "str1" verranno mostrati solo messaggi di debug 
+livello 4. Inoltre e' possibile controllare i messaggi di debug (ma non gli
+altri) file per file o linea per linea. Per farlo usate "--debug 4:str1:str2"
+(avanti per quante linee volete, separate da due punti): cosi' qualsiasi nome
+di file che abbia quelle stringhe come substringa avra' i messaggi di debug
+attivi mentre gli altri saranno disattivati. Per controllare le linee, usate:
+"--debug 4:str1,min,max"
+Cosi' per i file che abbiano "str1" verranno mostrati solo messaggi di debug
 compresi fra le linee min e max specificate. Solo una coppia (min,max) puo'
 essere usata su un singolo file.
 
 Esempio:
 
-  |  % civserver -l mio.log -d 2
+  |  % civserver -l mio.log -d 3
 
 Questo manda tutti i messaggi del server, compresi i prolissi, nel file
 "mio.log".
@@ -431,20 +433,20 @@ Questo esclude tutti i messaggi del client che non siano fatali.
 
 Esempio:
 
-  |  % civserver -d 3:log:civserver,120,500:autoattack
+  |  % civserver -d 4:log:civserver,120,500:autoattack
 
-Questo attiva tutti i messaggi del server fatali, normali e prolissi, piu' i 
-messaggi di debug per certi moduli specificati.  Nota che "log" corrisponde
-sia a "gamelog.c" che a "log.c".  Per "civserver.c", solo i messaggi di debug
-fra le linee 120 e 500 saranno mostrati. Questo esempio funziona solo se il 
-server e' stato compilato con DEBUG.
+Questo attiva tutti i messaggi del server fatali, di errore, normali e
+prolissi, piu' i messaggi di debug per certi moduli specificati.  Nota che
+"log" corrisponde sia a "gamelog.c" che a "log.c".  Per "civserver.c", solo i
+messaggi di debug fra le linee 120 e 500 saranno mostrati. Questo esempio
+funziona solo se il server e' stato compilato con DEBUG.
 
 
 Bug:
 ====
 
 Avete trovato un bug?  Siamo ansiosi di averne notizie per rimediare.
-Leggete il file BUGS, per una lista di BUG noti in questa versione, e per 
+Leggete il file BUGS, per una lista di BUG noti in questa versione, e per
 informazioni su come farci sapere di nuovi bug.
 
 
@@ -463,7 +465,7 @@ Abbiamo 6 mailing list:
                    (Discussioni of set di regole, tileset, ecc.)
   freeciv-java     Sviluppo del client Freeciv per Java.
   freeciv-cvs      Notifiche di cambiamenti al server CVS.
-                   Questa e' una lista "solo in lettura", con messaggi 
+                   Questa e' una lista "solo in lettura", con messaggi
                    automatici.
                    In altre parole non potete postare, ma solo leggerla.
 
@@ -500,8 +502,9 @@ Per mandare una e-mail alle liste indirizzatela a:
 Nuove versioni:
 ===============
 
-Rilasciamo una nuova release stabile di Freeciv ogni tre mesi circa. Controllate
-il sito di Freeciv di tanto in tanto per vedere se c'e' una nuova versione!!
+Rilasciamo una nuova release stabile di Freeciv ogni tre mesi circa.
+Controllate il sito di Freeciv di tanto in tanto per vedere se c'e' una nuova
+versione!!
 
 
 E per finire:
@@ -518,13 +521,13 @@ Note per la traduzione in Italiano:
 Le note del traduttore sono segnate fra parentesi con 'Ndt'.
 Il traduttore non si assume nessuna responsabilita' per eventuali
 errori/omissioni nel presente documento.
-Comunicate eventuali inesattezze all'indirizzo email: 
+Comunicate eventuali inesattezze all'indirizzo email:
 
-slug-freeciv@siena.linux.it 
+slug-freeciv@siena.linux.it
 
 o consultate l'indirizzo web:
 
-http://freeciv.siena.linux.it 
+http://freeciv.siena.linux.it
 
 per eventuali aggiornamenti/revisioni.
 ===========================================================================
