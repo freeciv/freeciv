@@ -123,7 +123,6 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
     aconnection.established = TRUE;
     game.conn_id = packet->conn_id;
-    reports_freeze();
     agents_game_joined();
   } else {
     my_snprintf(msg, sizeof(msg),
@@ -1644,6 +1643,8 @@ void handle_select_nation(struct packet_nations_used *packet)
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
   int i;
+
+  reports_freeze();
 
   tilespec_free_city_tiles(game.styles_count);
   ruleset_data_free();
