@@ -2291,7 +2291,11 @@ void generic_city_refresh(struct city *pcity,
       struct city *pcity2 = find_city_by_id(pcity->trade[i]);
 
       if (pcity2) {
-	generic_city_refresh(pcity2, FALSE, send_unit_info);
+	/* We used to pass FALSE in here to avoid multiple recursion.  This
+	 * made it impossible to initialize a city for the first time
+	 * however, since it's not safe to recurse on an unitialized
+	 * city without doing a full refresh.  See PR#12498. */
+	generic_city_refresh(pcity2, TRUE, send_unit_info);
       }
     }
   }
