@@ -299,7 +299,12 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
     }
     if (id >= 0) {
       int cost = unit_upgrade_price(pplayer, punit->type, id);
-      if (pplayer->economic.gold - cost > limit) {
+      int real_limit = limit;
+      /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
+      if (unit_flag(punit, F_TRIREME)) {
+        real_limit = pplayer->ai.est_upkeep;
+      }
+      if (pplayer->economic.gold - cost > real_limit) {
         struct packet_unit_request packet;
         packet.unit_id = punit->id;
         packet.city_id = pcity->id;
@@ -471,15 +476,7 @@ static void ai_spend_gold(struct player *pplayer)
 
   /* Civilian upgrades now */
   city_list_iterate(pplayer->cities, pcity) {
-    struct tile *ptile = map_get_tile(pcity->x, pcity->y);
-    unit_list_iterate(ptile->units, punit) {
-      int limit = cached_limit;
-      /* Triremes are DANGEROUS!! */
-      if (unit_flag(punit, F_TRIREME)) {
-        limit = pplayer->ai.est_upkeep;
-      }
-      ai_upgrade_units(pcity, limit, FALSE);
-    } unit_list_iterate_end;
+    ai_upgrade_units(pcity, cached_limit, FALSE);
   } city_list_iterate_end;
 
   if (pplayer->economic.gold + cached_limit < pplayer->ai.maxbuycost) {
