@@ -737,18 +737,21 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
   char *tab_title = _("Production");
   GtkWidget *label = gtk_label_new(tab_title);
-  GtkWidget *page, *hbox, *editor, *bar, *frame;
+  GtkWidget *page, *hbox, *editor, *bar;
 
-  page = gtk_vbox_new(FALSE, 6);
+  page = gtk_vbox_new(FALSE, 0);
+  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   /* stuff that's being currently built */
 
   /* The label is set in city_dialog_update_building() */
-  frame = gtk_frame_new(_("Production"));
-  gtk_box_pack_start(GTK_BOX(page), frame, FALSE, FALSE, 0);
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "label", _("Production:"),
+		       "xalign", 0.0, "yalign", 0.5, NULL);
+  gtk_box_pack_start(GTK_BOX(page), label, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(frame), hbox);
+  gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 2);
 
   bar = gtk_progress_bar_new();
   pdialog->overview.progress_label = bar;
@@ -768,11 +771,9 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
 
   editor = create_worklist(&pdialog->pcity->worklist, pdialog->pcity);
-  gtk_box_pack_start(GTK_BOX(page), editor, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(page), editor, TRUE, TRUE, 6);
 
   gtk_widget_show_all(page);
-
-  gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 }
 
 /****************************************************************
