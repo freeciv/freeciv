@@ -1040,7 +1040,7 @@ void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   gy=-1;
 /* iterating over the whole map is just ridiculous.  let's only look at
 our own cities.  The old method wasted billions of CPU cycles and led to
-AI settlers improving enemy cities. */
+AI settlers improving enemy cities. */ /* arguably should include city_spot */
 
   city_list_iterate(pplayer->cities, pcity)
     city_map_iterate(i, j) {
@@ -1081,9 +1081,12 @@ AI settlers improving enemy cities. */
      } /* end city map iterate */
    city_list_iterate_end;
 /* ridiculous code is preserved above the #else for your amusement -- Syela */
-   if (gx!=-1 && gy!=-1) 
-     auto_settler_do_goto(pplayer, punit,gx, gy);
-   else 
+   if (gx!=-1 && gy!=-1) {
+     map_get_tile(gx, gy)->assigned =
+         map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
+     if (!same_pos(gx, gy, punit->x, punit->y))
+       auto_settler_do_goto(pplayer, punit,gx, gy);
+   } else
      punit->ai.control=0;
 
   if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) {
@@ -1102,10 +1105,12 @@ AI settlers improving enemy cities. */
 **************************************************************************/
 void auto_settlers_player(struct player *pplayer) 
 {
+#ifdef CHRONO
   int sec, usec;
   struct timeval tv;
   gettimeofday(&tv, 0);
   sec = tv.tv_sec; usec = tv.tv_usec; 
+#endif
   unit_list_iterate(pplayer->units, punit) {
 /* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
     if (punit->ai.control) {
@@ -1120,9 +1125,43 @@ void auto_settlers_player(struct player *pplayer)
     }
   }
   unit_list_iterate_end;
+#ifdef CHRONO
   gettimeofday(&tv, 0);
   printf("%s's autosettlers consumed %d microseconds.\n", pplayer->name, 
        (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+#endif
+}
+
+void assign_settlers_player(struct player *pplayer)
+{
+  short i = 1<<pplayer->player_no;
+  struct tile *ptile;
+  unit_list_iterate(pplayer->units, punit)
+    if (unit_flag(punit->type, F_SETTLERS)) {
+      if (punit->activity == ACTIVITY_GOTO) {
+        ptile = map_get_tile(punit->goto_dest_x, punit->goto_dest_y);
+        ptile->assigned = ptile->assigned | i; /* assigned for us only */
+      } else {
+        ptile = map_get_tile(punit->x, punit->y);
+        ptile->assigned = 32767; /* assigned for everyone */
+      }
+    } else {
+      ptile = map_get_tile(punit->x, punit->y);
+      ptile->assigned = ptile->assigned | (32767 ^ i); /* assigned for everyone else */
+    }
+  unit_list_iterate_end;
+}
+
+void assign_settlers()
+{
+  int i, x, y;
+  for (x = 0; x < map.xsize; x++)
+    for (y = 0; y < map.xsize; y++)
+      map_get_tile(x, y)->assigned = 0;
+
+  for (i = 0; i < game.nplayers; i++) {
+    assign_settlers_player(&game.players[i]);
+  }
 }
 
 /**************************************************************************
@@ -1132,6 +1171,7 @@ void auto_settlers_player(struct player *pplayer)
 void auto_settlers()
 {
   int i;
+  assign_settlers();
   for (i = 0; i < game.nplayers; i++) {
     auto_settlers_player(&game.players[i]);
   }

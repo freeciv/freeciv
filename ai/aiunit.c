@@ -39,19 +39,23 @@
 
 void ai_manage_units(struct player *pplayer) 
 {
+#ifdef CHRONO
   int sec, usec;
   struct timeval tv;
   gettimeofday(&tv, 0);
   sec = tv.tv_sec; usec = tv.tv_usec;
+#endif
 /*  printf("Managing units for %s\n", pplayer->name);  */
   unit_list_iterate(pplayer->units, punit)
 /*  printf("Managing %s's %s\n", pplayer->name, unit_types[punit->type].name); */
       ai_manage_unit(pplayer, punit); 
   unit_list_iterate_end;
 /*  printf("Managed units successfully.\n");  */
+#ifdef CHRONO
   gettimeofday(&tv, 0);
   printf("%s's units consumed %d microseconds.\n", pplayer->name,
        (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+#endif
 }
  
 /**************************************************************************

@@ -272,10 +272,10 @@ int main(int argc, char *argv[])
     force_end_of_sniff=0;
 /* printf("Shuffleplayers\n"); */
     shuffle_players();
-/* printf("Autosettlers\n"); */
-    auto_settlers();
 /* printf("Aistartturn\n"); */
     ai_start_turn();
+/* printf("Autosettlers\n"); */
+    auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
 /* printf("sniffingpackets\n"); */
     while(sniff_packets()==1);
 /* printf("Endturn\n"); */

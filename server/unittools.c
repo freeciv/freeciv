@@ -517,6 +517,15 @@ int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int 
   y=map_adjust_y(y);
   if (same_pos(myunit->x, myunit->y, x, y))
     return 0;
+  return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
+}
+
+int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+{
+  x=map_adjust_x(x);
+  y=map_adjust_y(y);
+  if (same_pos(myunit->x, myunit->y, x, y))
+    return 0;
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (myunit==punit) continue;
     if (punit->owner!=pplayer->player_no)

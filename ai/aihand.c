@@ -118,14 +118,18 @@ void ai_do_first_activities(struct player *pplayer)
 
 void ai_do_last_activities(struct player *pplayer)
 {
+#ifdef CHRONO
   int sec, usec;
   struct timeval tv;
   gettimeofday(&tv, 0);
   sec = tv.tv_sec; usec = tv.tv_usec;
+#endif
   ai_manage_cities(pplayer);
+#ifdef CHRONO
   gettimeofday(&tv, 0);
   printf("%s's cities consumed %d microseconds.\n", pplayer->name,
       (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+#endif
 /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
 /* printf("Managing %s's taxes.\n", pplayer->name); */
   ai_manage_taxes(pplayer); 
@@ -135,9 +139,11 @@ void ai_do_last_activities(struct player *pplayer)
   ai_manage_tech(pplayer); 
   ai_after_work(pplayer);
 /* printf("Done with %s.\n", pplayer->name); */
+#ifdef CHRONO
   gettimeofday(&tv, 0);
   printf("%s's last_activities consumed %d microseconds.\n", pplayer->name,
       (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+#endif
 }
 
 /**************************************************************************
