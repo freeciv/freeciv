@@ -34,7 +34,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2001-09-09 07:46+0200\n"
+"POT-Creation-Date: 2001-09-09 09:13+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -7193,7 +7193,7 @@ msgstr "(Nie)"
 #: client/gui-mui/helpdlg.c:162 client/gui-mui/helpdlg.c:231
 #: client/gui-mui/helpdlg.c:687 client/gui-mui/repodlgs.c:216
 #: client/gui-xaw/helpdlg.c:827 client/gui-xaw/helpdlg.c:869
-#: client/gui-xaw/helpdlg.c:888 data/civ2/units.ruleset:323
+#: client/gui-xaw/helpdlg.c:888
 msgid "None"
 msgstr "Nichts"
 
@@ -13136,7 +13136,13 @@ msgid ""
 "The maximum rate you can set for science, tax or luxuries is 80%.\n"
 "\n"
 "The maximum effective rate for science is 50%, the surplus is used for "
-"collecting tax, and furthermore the science production is"
+"collecting tax, and furthermore the science production is halved.\n"
+"\n"
+"Cities under Fundamentalism suffer a small amount of corruption.\n"
+"\n"
+"Improvement that normally convert unhappy citizens to content citizens, "
+"produces `tithes' (gold) equivalent to the number of people they would "
+"convert, and require no maintenance."
 msgstr ""
 "Fundamentalismus ist eine Regierungsform, die auf Glaubensregeln aufgebaut "
 "ist. Diese Glaubensregeln (üblicherweise eine Relegion) bestimmen sehr "
@@ -13145,13 +13151,22 @@ msgstr ""
 "In einer fundamentalistischen Gesellschaft sind Volk und Herrscher ihrem "
 "Glauben völlig ergeben und bereit zu seiner Verteidigung zu sterben.\n"
 "\n"
-"In einem solchen Staat können die Städte bis zu 10 Militäreinheiten "
-"ohne Kosten unterhalten. Zusätzliche Einheiten benötigen jeweils "
-"einen Schild. Fanatiker kosten nichts.\n"
+"In einem solchen Staat können die Städte bis zu 10 Militäreinheiten ohne "
+"Kosten unterhalten. Zusätzliche Einheiten benötigen jeweils einen Schild. "
+"Fanatiker kosten nichts.\n"
 "\n"
 "Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde.\n"
 "\n"
-"FEHLER"
+"Die Quoten für Forschung, Steuern und Luxus können bis zu 80 % betragen. "
+"Allerdings kann die effektive Quote für Forschung 50 % nicht übersteigen, "
+"da der Rest gebraucht wird, um die Steuern einzutreiben. Außerdem wird "
+"Forschung nur mit der halben Geschwindigkeit vorgenommen.\n"
+"\n"
+"Es gibt geringfügige Korruption.\n"
+"\n"
+"(Stadt-)erweiterungen, die unter anderen Regierungsformen unzufriedene "
+"Bürger zufrieden stellen, produzieren in fundamentalistischen Staaten "
+"Gold und benötigen keinen Erhaltungsaufwand."
 
 #: data/civ1/governments.ruleset:217
 msgid ""
@@ -13516,7 +13531,7 @@ msgid "Genetic Engineering"
 msgstr "Gentechnik"
 
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
-#: data/civ2/units.ruleset:322 data/default/techs.ruleset:249
+#: data/default/techs.ruleset:249
 msgid "Guerilla Warfare"
 msgstr "Guerillakrieg"
 
@@ -14602,27 +14617,11 @@ msgid ""
 "Only Fundamentalist nations can build Fanatic units.\n"
 "\n"
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
-"shields for upkeep.\\ )"
+"shields for upkeep."
 msgstr ""
 "Fanaktiker gibt es nur in fundamentalistischen Staaten.\n"
 "\n"
-"Diese Staaten können Fanatiker ohne Kosten  einsetzen."
-
-#: data/civ2/units.ruleset:321
-msgid "Land"
-msgstr "FEHLER"
-
-#: data/civ2/units.ruleset:324
-msgid "u.partisan"
-msgstr "FEHLER"
-
-#: data/civ2/units.ruleset:325
-msgid "-"
-msgstr "FEHLER"
-
-#: data/civ2/units.ruleset:340
-msgid "IgTer"
-msgstr "FEHLER"
+"Diese Staaten können Fanatiker ohne Erhaltungskosten  einsetzen."
 
 #: data/civ1/units.ruleset:95
 msgid ""
