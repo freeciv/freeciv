@@ -257,7 +257,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
                ferryboat->x, ferryboat->y);
     }
 
-    punit->ai.ferryboat = boatid;
+    ai_set_ferry(punit, ferryboat);
     if (!same_pos(punit->x, punit->y, ferryboat->x, ferryboat->y)
         && (!is_at_coast(punit->x, punit->y) 
             || is_tiles_adjacent(punit->x, punit->y, 
@@ -293,7 +293,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
       UNIT_LOG(LOGLEVEL_GOTHERE, punit, "got boat[%d], going (%d,%d)",
                ferryboat->id, dest_x, dest_y);
       handle_unit_activity_request(punit, ACTIVITY_SENTRY);
-      ferryboat->ai.passenger = punit->id;
+      ai_set_passenger(ferryboat, punit);
 
       /* If the location is not accessible directly from sea
        * or is defended and we are not marines, we will need a 
@@ -375,6 +375,11 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
   } else {
     UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Not moving");
     return FALSE;
+  }
+
+  if (punit->ai.ferryboat > 0 && punit->transported_by <= 0) {
+    /* We probably just landed, release our boat */
+    ai_clear_ferry(punit);
   }
   
   /* Dead unit shouldn't reach this point */

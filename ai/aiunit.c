@@ -2264,7 +2264,8 @@ static bool ai_ferry_findcargo(struct unit *punit)
     pf_next_get_position(map, &pos);
     
     unit_list_iterate(map_get_tile(pos.x, pos.y)->units, aunit) {
-      if (aunit->ai.ferryboat == FERRY_WANTED) {
+      if (punit->owner == aunit->owner 
+	  && aunit->ai.ferryboat == FERRY_WANTED) {
         UNIT_LOG(LOGLEVEL_FERRY, punit, 
                  "Found a potential cargo %s[%d](%d,%d), going there",
                  unit_type(aunit)->name, aunit->id, aunit->x, aunit->y);
@@ -2278,7 +2279,9 @@ static bool ai_ferry_findcargo(struct unit *punit)
     } unit_list_iterate_end;
   }
 
-  UNIT_LOG(LOG_ERROR, punit,
+  /* False positive can happen if we cannot find a route to the passenger
+   * because of an internal sea or enemy blocking the route */
+  UNIT_LOG(LOGLEVEL_FERRY, punit,
            "AI Passengers counting reported false positive %d", passengers);
   pf_destroy_map(map);
   return FALSE;
@@ -2321,7 +2324,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       && !unit_list_find(&ptile->units, punit->ai.passenger)) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "lost passenger-in-charge[%d], resetting",
              punit->ai.passenger);
-    punit->ai.passenger = 0;
+    ai_set_passenger(punit, NULL);
   }
 
   if (punit->ai.passenger <= 0) {
@@ -2498,6 +2501,10 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     return;
   }
 
+  /* Since military units re-evaluate their actions every turn,
+     we must make sure that previously reserved ferry is freed. */
+  ai_clear_ferry(punit);
+
   ai_military_findjob(pplayer, punit);
 
   switch (punit->ai.ai_role) {
@@ -2609,8 +2616,6 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     /* Can do nothing */
     return;
   }
-
-  ai_clear_ferry(punit);
 
   if ((unit_flag(punit, F_DIPLOMAT))
       || (unit_flag(punit, F_SPY))) {

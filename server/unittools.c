@@ -2899,17 +2899,6 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
   conn_list_do_buffer(&pplayer->connections);
 
-  if (punit->ai.ferryboat != 0) {
-    struct unit *ferryboat;
-    ferryboat = unit_list_find(&psrctile->units, punit->ai.ferryboat);
-    if (ferryboat) {
-      freelog(LOG_DEBUG, "%d disembarking from ferryboat %d",
-	      punit->id, punit->ai.ferryboat);
-      ferryboat->ai.passenger = 0;
-      punit->ai.ferryboat = 0;
-    }
-  }
-
   /* A transporter should not take units with it on an attack goto. */
   if ((unit_has_orders(punit)
        || punit->activity == ACTIVITY_GOTO)
