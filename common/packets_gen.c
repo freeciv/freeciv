@@ -20974,7 +20974,11 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_MAX; i++) {
+      if(real_packet->num_specialist_types > SP_MAX) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->num_specialist_types = SP_MAX;
+      }
+      for (i = 0; i < real_packet->num_specialist_types; i++) {
         dio_get_string(&din, real_packet->specialist_name[i], sizeof(real_packet->specialist_name[i]));
       }
     }
@@ -20984,7 +20988,11 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_MAX; i++) {
+      if(real_packet->num_specialist_types > SP_MAX) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->num_specialist_types = SP_MAX;
+      }
+      for (i = 0; i < real_packet->num_specialist_types; i++) {
         dio_get_string(&din, real_packet->specialist_short_name[i], sizeof(real_packet->specialist_short_name[i]));
       }
     }
@@ -20994,7 +21002,11 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     {
       int i;
     
-      for (i = 0; i < SP_MAX; i++) {
+      if(real_packet->num_specialist_types > SP_MAX) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->num_specialist_types = SP_MAX;
+      }
+      for (i = 0; i < real_packet->num_specialist_types; i++) {
         {
       int readin;
     
@@ -21240,10 +21252,10 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_MAX != SP_MAX);
+      differ = (old->num_specialist_types != real_packet->num_specialist_types);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_MAX; i++) {
+        for (i = 0; i < real_packet->num_specialist_types; i++) {
           if (strcmp(old->specialist_name[i], real_packet->specialist_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -21256,10 +21268,10 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_MAX != SP_MAX);
+      differ = (old->num_specialist_types != real_packet->num_specialist_types);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_MAX; i++) {
+        for (i = 0; i < real_packet->num_specialist_types; i++) {
           if (strcmp(old->specialist_short_name[i], real_packet->specialist_short_name[i]) != 0) {
             differ = TRUE;
             break;
@@ -21272,10 +21284,10 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
 
 
     {
-      differ = (SP_MAX != SP_MAX);
+      differ = (old->num_specialist_types != real_packet->num_specialist_types);
       if(!differ) {
         int i;
-        for (i = 0; i < SP_MAX; i++) {
+        for (i = 0; i < real_packet->num_specialist_types; i++) {
           if (old->specialist_min_size[i] != real_packet->specialist_min_size[i]) {
             differ = TRUE;
             break;
@@ -21475,7 +21487,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_MAX; i++) {
+      for (i = 0; i < real_packet->num_specialist_types; i++) {
         dio_put_string(&dout, real_packet->specialist_name[i]);
       }
     } 
@@ -21485,7 +21497,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_MAX; i++) {
+      for (i = 0; i < real_packet->num_specialist_types; i++) {
         dio_put_string(&dout, real_packet->specialist_short_name[i]);
       }
     } 
@@ -21495,7 +21507,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     {
       int i;
 
-      for (i = 0; i < SP_MAX; i++) {
+      for (i = 0; i < real_packet->num_specialist_types; i++) {
         dio_put_uint8(&dout, real_packet->specialist_min_size[i]);
       }
     } 
