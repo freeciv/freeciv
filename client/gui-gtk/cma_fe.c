@@ -250,7 +250,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
 
     gtk_signal_connect(GTK_OBJECT(pdialog->factor[i]), "value_changed",
 		       GTK_SIGNAL_FUNC(hscale_changed), pdialog);
-  } iterate_type_iterate_end;
+  } output_type_iterate_end;
 
   /* Happy Surplus and Factor */
 
