@@ -4,6 +4,9 @@ TODO:
    anylonger.
 
 1.5.5 
+- Instead of picking individual techs, players can now set a tech goal, and
+  let the actual patch to discovery be automated.
+
 - Fix to Makefile.noimake
 
 - Client option to display tiles sets with transparent flags better
