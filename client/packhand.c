@@ -579,6 +579,10 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 {
   int i;
 
+  if (city_owner(pcity) == game.player_ptr) {
+    generic_city_refresh(pcity, FALSE, 0);
+  }
+
   if(is_new) {
     unit_list_init(&pcity->units_supported);
     unit_list_init(&pcity->info_units_supported);
