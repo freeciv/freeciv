@@ -138,7 +138,10 @@ void connect_callback(Widget w, XtPointer client_data,
   
   if(connect_to_server(name, server_host, server_port, errbuf)!=-1) {
     XtDestroyWidget(XtParent(XtParent(w)));
-    if(meta_dialog_shell) XtDestroyWidget(meta_dialog_shell);
+    if(meta_dialog_shell) {
+      XtDestroyWidget(meta_dialog_shell);
+      meta_dialog_shell=0;
+    }
     XtSetSensitive(toplevel, True);
     return;
   }
