@@ -1172,7 +1172,7 @@ static void player_map_load(struct player *plr, int plrno,
 	y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
 	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
-	pdcity->has_walls = secfile_lookup_int(file, "player%d.dc%d.has_walls", plrno, j);    
+	pdcity->has_walls = secfile_lookup_bool(file, "player%d.dc%d.has_walls", plrno, j);    
 	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
 	map_get_player_tile(x, y, plr)->city = pdcity;
 	alloc_id(pdcity->id);
@@ -1553,7 +1553,7 @@ static void player_save(struct player *plr, int plrno,
 			     plrno, i);
 	  secfile_insert_int(file, pdcity->size, "player%d.dc%d.size",
 			     plrno, i);
-	  secfile_insert_int(file, pdcity->has_walls,
+	  secfile_insert_bool(file, pdcity->has_walls,
 			     "player%d.dc%d.has_walls", plrno, i);
 	  secfile_insert_int(file, pdcity->owner, "player%d.dc%d.owner",
 			     plrno, i);
