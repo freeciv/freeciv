@@ -308,10 +308,16 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
   
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++)
     {
+      RECT rc;
       punit=(struct unit*)ITERATOR_PTR(myiter);
       
       if(unitid && punit->id!=unitid)
 	continue;        
+      rc.top=pdialog->present_y;
+      rc.left=pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH);
+      rc.right=rc.left+NORMAL_TILE_WIDTH;
+      rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
+      FillRect(hdc,&rc,(HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
       put_unit_pixmap(punit,hdc,
 		      pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
 		      pdialog->present_y); 
@@ -356,10 +362,15 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
      
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++)
     {
+      RECT rc;
       punit=(struct unit*)ITERATOR_PTR(myiter);
       if(unitid && punit->id!=unitid)
 	continue;     
-      
+      rc.top=pdialog->supported_y;
+      rc.left=pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH);
+      rc.right=rc.left+NORMAL_TILE_WIDTH;
+      rc.bottom=rc.top+SMALL_TILE_HEIGHT+NORMAL_TILE_HEIGHT;
+      FillRect(hdc,&rc,(HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
       put_unit_pixmap(punit,hdc,
 		      pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
 		      pdialog->supported_y);
@@ -2143,16 +2154,16 @@ refresh_unit_city_dialogs(struct unit *punit)
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))     
     {
       HDC hdc;
-      hdc=GetDC(pdialog->mainwindow);
+      hdc=GetDC(pdialog->tab_childs[0]);
       city_dialog_update_supported_units(hdc,pdialog,0);
-      ReleaseDC(pdialog->mainwindow,hdc);
+      ReleaseDC(pdialog->tab_childs[0],hdc);
     }
   if(pcity_pre && (pdialog=get_city_dialog(pcity_pre)))   
     {
       HDC hdc;
-      hdc=GetDC(pdialog->mainwindow);
+      hdc=GetDC(pdialog->tab_childs[0]);
       city_dialog_update_present_units(hdc,pdialog,0);
-      ReleaseDC(pdialog->mainwindow,hdc);
+      ReleaseDC(pdialog->tab_childs[0],hdc);
     }
 }
 
