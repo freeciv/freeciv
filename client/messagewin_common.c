@@ -51,10 +51,7 @@ void update_meswin_dialog(void)
   if (!is_meswin_open() && messages_exists &&
       (!game.player_ptr->ai.control || ai_popup_windows)) {
     popup_meswin_dialog();
-    /* 
-     * Can return here because popup_meswin_dialog will call this very
-     * function again.
-     */
+    change = FALSE;
     return;
   }
 
