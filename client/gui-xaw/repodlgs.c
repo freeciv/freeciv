@@ -224,6 +224,7 @@ void create_science_dialog(int make_modal)
   char current_text[512];
   char goal_text[512];
   char *report_title;
+  int turns_to_advance;
   
   if (game.player_ptr->research.researching != A_NONE) {
     my_snprintf(current_text, sizeof(current_text),
@@ -265,9 +266,11 @@ void create_science_dialog(int make_modal)
 					 formWidgetClass,
 					 science_dialog_shell,
 					 NULL);   
-
-  my_snprintf(rate_text, sizeof(rate_text), _("\n(%d turns/advance)"),
-	      tech_turns_to_advance(game.player_ptr));
+  
+  turns_to_advance = tech_turns_to_advance(game.player_ptr);
+  my_snprintf(rate_text, sizeof(rate_text),
+	      PL_("\n(%d turn/advance)", "\n(%d turns/advance)",
+		  turns_to_advance), turns_to_advance);
   report_title=get_report_title_plus(_("Science"), rate_text);
   science_label = XtVaCreateManagedWidget("sciencelabel", 
 					  labelWidgetClass, 
@@ -502,9 +505,12 @@ void science_dialog_update(void)
     size_t i;
     char rate_text[128];
     char *report_title;
-
-    my_snprintf(rate_text, sizeof(rate_text), _("\n(%d turns/advance)"),
-		tech_turns_to_advance(game.player_ptr));
+    int turns_to_advance;
+    
+    turns_to_advance = tech_turns_to_advance(game.player_ptr);
+    my_snprintf(rate_text, sizeof(rate_text),
+		PL_("\n(%d turn/advance)", "\n(%d turns/advance)",
+		    turns_to_advance), turns_to_advance);
     report_title=get_report_title_plus(_("Science"), rate_text);
     xaw_set_label(science_label, report_title);
     free(report_title);

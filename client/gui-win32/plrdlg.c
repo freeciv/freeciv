@@ -190,7 +190,9 @@ static void build_row(char **row, int i, int update)
 
   /* text for idleness */
   if (game.players[i].nturns_idle > 3) {
-    my_snprintf(idlebuf, sizeof(idlebuf), _("(idle %d turns)"),
+    my_snprintf(idlebuf, sizeof(idlebuf),
+		PL_("(idle %d turn)", "(idle %d turns)",
+		    game.players[i].nturns_idle - 1),
 		game.players[i].nturns_idle - 1);
   } else {
     idlebuf[0] = '\0';

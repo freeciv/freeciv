@@ -108,13 +108,16 @@ science_dialog_update(void)
 {
  
   char text[512], rate[128];
-  int i, hist,id;
-  char *report_title; 
+  int i, hist, id, turns_to_advance;
+  char *report_title;
+
   if (!science_dlg) return;            
   report_title=get_report_title(_("Science"));
   sz_strlcpy(text, report_title);
-  my_snprintf(rate, sizeof(rate), _("\n(%d turns/advance)"),
-              tech_turns_to_advance(game.player_ptr));
+  turns_to_advance = tech_turns_to_advance(game.player_ptr);
+  my_snprintf(rate, sizeof(rate),
+	      PL_("\n(%d turn/advance)", "\n(%d turns/advance)",
+		  turns_to_advance), turns_to_advance);
   sz_strlcat(text, rate);
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_TOP),text);
   ListBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_LIST));

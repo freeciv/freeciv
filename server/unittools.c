@@ -1913,10 +1913,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i]>0) {
 	notify_player_ex(get_player(i), punit->x, punit->y, E_UNIT_LOST,
-			 _("Game: You lost %d units to an attack"
-			   " from %s's %s%s."),
-			 num_killed[i], destroyer->name,
-			 unit_name(pkiller->type), loc_str);
+			 PL_("Game: You lost %d unit to an attack "
+			     "from %s's %s%s.",
+			     "Game: You lost %d units to an attack "
+			     "from %s's %s%s.",
+			     num_killed[i]), num_killed[i],
+			 destroyer->name, unit_name(pkiller->type),
+			 loc_str);
       }
     }
 

@@ -152,6 +152,7 @@ void create_science_dialog(int make_modal)
   GtkWidget *frame, *hbox, *w;
   GtkAccelGroup *accel=gtk_accel_group_new();
   int i;
+  int turns_to_advance;
   char text[512];
 
   science_dialog_shell = gtk_dialog_new();
@@ -161,8 +162,11 @@ void create_science_dialog(int make_modal)
 
   gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science"));
 
-  my_snprintf(text, sizeof(text), _("Research speed: %d turns/advance"),
-	      tech_turns_to_advance(game.player_ptr));
+  turns_to_advance = tech_turns_to_advance(game.player_ptr);
+  my_snprintf(text, sizeof(text),
+	      PL_("Research speed: %d turn/advance",
+		  "Research speed: %d turns/advance", turns_to_advance),
+	      turns_to_advance);
   science_label = gtk_label_new(text);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
@@ -293,8 +297,9 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
     science_dialog_update();
   }
   else {  
-    my_snprintf(text, sizeof(text), _("(%d steps)"),
-	    num_unknown_techs_for_goal(game.player_ptr, to));
+    int steps = num_unknown_techs_for_goal(game.player_ptr, to);
+    my_snprintf(text, sizeof(text),
+		PL_("(%d step)", "(%d steps)", steps), steps);
     gtk_set_label(science_goal_label,text);
 
     packet.tech=to;
@@ -373,11 +378,17 @@ void science_dialog_update(void)
   GtkWidget *item;
   GList *sorting_list = NULL;
   gfloat pct;
+  int turns_to_advance;
+  int steps;
 
   if(delay_report_update) return;
 
-  my_snprintf(text, sizeof(text), _("Research speed: %d turns/advance"),
-	      tech_turns_to_advance(game.player_ptr));
+  turns_to_advance = tech_turns_to_advance(game.player_ptr);
+  my_snprintf(text, sizeof(text),
+	      PL_("Research speed: %d turn/advance",
+		  "Research speed: %d turns/advance", turns_to_advance),
+	      turns_to_advance);
+
   gtk_set_label(science_label, text);
 
   for (i=0; i<4; i++) {
@@ -473,10 +484,11 @@ void science_dialog_update(void)
 
   gtk_widget_destroy(goalmenu);
   goalmenu = gtk_menu_new();
-
-  my_snprintf(text, sizeof(text), _("(%d steps)"),
-	      num_unknown_techs_for_goal(game.player_ptr,
-					 game.player_ptr->ai.tech_goal));
+  
+  steps = num_unknown_techs_for_goal(game.player_ptr,
+				     game.player_ptr->ai.tech_goal);
+  my_snprintf(text, sizeof(text), PL_("(%d step)", "(%d steps)", steps),
+	      steps);
   gtk_set_label(science_goal_label,text);
 
   if (game.player_ptr->ai.tech_goal==A_NONE) {

@@ -361,7 +361,8 @@ static void happiness_dialog_update_units(struct happiness_dialog *pdialog)
     if (mlmax == 100)
       my_snprintf(bptr, nleft, _("no maximum, "));
     else
-      my_snprintf(bptr, nleft, _("%d units maximum, "), mlmax);
+      my_snprintf(bptr, nleft, PL_("%d unit maximum, ",
+				   "%d units maximum", mlmax), mlmax);
     bptr = end_of_strn(bptr, &nleft);
 
     my_snprintf(bptr, nleft, _("%d per unit). "), g->martial_law_per);

@@ -1701,8 +1701,8 @@ static void city_dialog_update_information(struct city_dialog *pdialog)
   } else if (granaryturns == 999) {
     my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), "never");
   } else {
-    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), "%d turn%s",
-		granaryturns, granaryturns == 1 ? "" : "s");
+    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]),
+		PL_("%d turn", "%d turns", granaryturns), granaryturns);
   }
   my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%2d",
 	      pcity->corruption);
@@ -1881,8 +1881,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     turns =
 	city_turns_to_build(pcity, pcity->currently_building, TRUE, TRUE);
     my_snprintf(buf, sizeof(buf),
-		concise_city_production ? "%3d/%3d:%3d" : turns ==
-		1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+		concise_city_production ? "%3d/%3d:%3d" :
+		PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
 		pcity->shield_stock,
 		get_unit_type(pcity->currently_building)->build_cost,
 		turns);
@@ -1905,12 +1905,11 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 	  city_turns_to_build(pcity, pcity->currently_building, FALSE,
 			      TRUE);
       my_snprintf(buf, sizeof(buf),
-		  concise_city_production ? "%3d/%3d:%3d" : turns ==
-		  1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+		  concise_city_production ? "%3d/%3d:%3d" :
+		  PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
 		  pcity->shield_stock,
-		  get_improvement_type(pcity->
-				       currently_building)->build_cost,
-		  turns);
+		  get_improvement_type(pcity->currently_building)->
+		  build_cost, turns);
 
       pct = (gfloat) pcity->shield_stock /
 	  (get_improvement_type(pcity->currently_building)->build_cost +

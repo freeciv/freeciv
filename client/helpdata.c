@@ -589,14 +589,20 @@ void helptext_unit(char *buf, int i, const char *user_text)
   buf[0] = '\0';
   if (utype->transport_capacity>0) {
     if (unit_type_flag(i, F_CARRIER)) {
-      sprintf(buf+strlen(buf), _("* Can carry and refuel %d air units.\n"),
-	      utype->transport_capacity);
+      sprintf(buf + strlen(buf),
+	      PL_("* Can carry and refuel %d air unit.\n",
+		  "* Can carry and refuel %d air units.\n",
+		  utype->transport_capacity), utype->transport_capacity);
     } else if (unit_type_flag(i, F_MISSILE_CARRIER)) {
-      sprintf(buf+strlen(buf), _("* Can carry and refuel %d missile units.\n"),
-	      utype->transport_capacity);
+      sprintf(buf + strlen(buf),
+	      PL_("* Can carry and refuel %d missile unit.\n",
+		  "* Can carry and refuel %d missile units.\n",
+		  utype->transport_capacity), utype->transport_capacity);
     } else {
-      sprintf(buf+strlen(buf), _("* Can carry %d ground units across water.\n"),
-	      utype->transport_capacity);
+      sprintf(buf + strlen(buf),
+	      PL_("* Can carry %d ground unit across water.\n",
+		  "* Can carry %d ground units across water.\n",
+		  utype->transport_capacity), utype->transport_capacity);
     }
   }
   if (unit_type_flag(i, F_CARAVAN)) {

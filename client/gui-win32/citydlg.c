@@ -412,10 +412,10 @@ void city_dialog_update_building(struct city_dialog *pdialog)
       turns = city_turns_to_build (pcity, pcity->currently_building, TRUE, TRUE);
       my_snprintf(buf, sizeof(buf),
 		  concise_city_production ? "%3d/%3d:%3d" :
-                  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
+		  PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
 		  pcity->shield_stock,
 		  get_unit_type(pcity->currently_building)->build_cost,
-		  turns);       
+		  turns);
     
       sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);  
     }
@@ -433,11 +433,10 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 	turns = city_turns_to_build (pcity, pcity->currently_building, FALSE, TRUE);
 	my_snprintf(buf, sizeof(buf),
 		    concise_city_production ? "%3d/%3d:%3d" :
-                    turns == 1 ? _("%3d/%3d %3d turn") :
-		    _("%3d/%3d %3d turns"),
+		    PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
 		    pcity->shield_stock,
-		    get_improvement_type(pcity->currently_building)->build_cost,
-		    turns);
+		    get_improvement_type(pcity->currently_building)->
+		    build_cost, turns);
       }
       sz_strlcpy(buf2, get_impr_name_ex(pcity, pcity->currently_building));
     }

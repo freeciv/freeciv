@@ -119,7 +119,10 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
     const struct player_diplstate *pds;
 
     if (game.players[i].nturns_idle > 3)
-      my_snprintf(idlebuf, sizeof(idlebuf), _("(idle %d turns)"), game.players[i].nturns_idle - 1);
+      my_snprintf(idlebuf, sizeof(idlebuf),
+		  PL_("(idle %d turn)", "(idle %d turns)",
+		      game.players[i].nturns_idle - 1),
+		  game.players[i].nturns_idle - 1);
     else
       idlebuf[0] = '\0';
 

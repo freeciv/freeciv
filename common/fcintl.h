@@ -29,12 +29,14 @@
 #define _(String) gettext(String)
 #define N_(String) String
 #define Q_(String) skip_intl_qualifier_prefix(gettext(String))
+#define PL_(String1, String2, n) ngettext((String1), (String2), (n))
 
 #else
 
 #define _(String) (String)
 #define N_(String) String
 #define Q_(String) skip_intl_qualifier_prefix(String)
+#define PL_(String1, String2, n) ((n) == 1 ? (String1) : (String2))
 
 #define textdomain(Domain)
 #define bindtextdomain(Package, Directory)

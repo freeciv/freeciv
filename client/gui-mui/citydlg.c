@@ -1496,8 +1496,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     max_shield = get_unit_type(pcity->currently_building)->build_cost;
 
     my_snprintf(buf, sizeof(buf),
- 		turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
- 		shield,max_shield,turns);
+		PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
+		shield, max_shield, turns);
     sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
   }
   else
@@ -1519,8 +1519,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       max_shield = get_improvement_type(pcity->currently_building)->build_cost;
 
       my_snprintf(buf, sizeof(buf),
-		  turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
-		  shield,max_shield, turns);
+		  PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
+		  shield, max_shield, turns);
 
     }
 

@@ -311,8 +311,7 @@ static void get_contents_of_progress(struct city_dialog *pdialog,
   } else {
     my_snprintf(retbuf, n,
 		concise_city_production ? " %3d/%3d:%3d " :
-		  turns == 1 ? _(" %3d/%3d %3d turn ") :
-		    _(" %3d/%3d %3d turns "),
+		PL_(" %3d/%3d %3d turn ", " %3d/%3d %3d turns ", turns),
 		stock, cost, turns);
   }
 }
@@ -2368,10 +2367,9 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	turns = city_turns_to_build(pdialog->pcity, i, FALSE, TRUE);
 	my_snprintf(pdialog->change_list_names[n],
 		    sizeof(pdialog->change_list_names[n]),
-		    turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
+		    PL_("%s (%d) %d turn", "%s (%d) %d turns", turns),
 		    get_impr_name_ex(pdialog->pcity, i),
-		    get_improvement_type(i)->build_cost,
-		    turns);
+		    get_improvement_type(i)->build_cost, turns);
       }
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
@@ -2385,10 +2383,8 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
       turns = city_turns_to_build(pdialog->pcity, i, TRUE, TRUE);
       my_snprintf(pdialog->change_list_names[n],
 		  sizeof(pdialog->change_list_names[n]),
-		  turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
-		  get_unit_name(i),
-		  get_unit_type(i)->build_cost,
-		  turns);
+		  PL_("%s (%d) %d turn", "%s (%d) %d turns", turns),
+		  get_unit_name(i), get_unit_type(i)->build_cost, turns);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }

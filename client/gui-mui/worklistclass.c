@@ -176,7 +176,8 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 	      struct player *pplr = game.player_ptr;
               int entries = worklist_length(&pplr->worklists[entry->id]);
 
-	      my_snprintf(buf,64,"%d %s",entries,entries==1?_("entry"):_("entries"));
+	      my_snprintf(buf, 64, "%d %s", entries,
+			  PL_("entry", "entries", entries));
 
 	      *array++ = pplr->worklists[entry->id].name;
 	      *array++ = buf;
