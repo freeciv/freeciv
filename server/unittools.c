@@ -117,7 +117,7 @@ bool maybe_make_veteran(struct unit *punit)
       || unit_flag(punit, F_NO_VETERAN)) {
     return FALSE;
   }
-  if (is_ground_unittype(punit->id)
+  if (is_ground_unittype(punit->type)
       && player_owns_active_wonder(get_player(punit->owner), B_SUNTZU)) {
     if (myrand(100) < 1.5 * game.veteran_chance[punit->veteran]) {
       punit->veteran++;
