@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2002-12-21 10:07+0100\n"
+"POT-Creation-Date: 2003-01-07 15:41+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -3491,7 +3491,7 @@ msgstr ""
 #
 #: server/stdinhand.c:809
 msgid "Whether to log player statistics"
-msgstr "Czy zapisywaæ statystyki graczów"
+msgstr "Czy zapisywaæ statystyki graczy"
 
 #: server/stdinhand.c:810
 msgid ""
@@ -9683,9 +9683,9 @@ msgid "Host"
 msgstr "Komputer"
 
 #: client/gui-gtk-2.0/plrdlg.c:193
-#, fuzzy
+#
 msgid "Idle Turns"
-msgstr "Tury"
+msgstr "Bezczynno¶æ"
 
 #: client/gui-gtk-2.0/plrdlg.c:301 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
@@ -17904,3 +17904,4 @@ msgstr "Zuluski"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "Zulusi"
+
