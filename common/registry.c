@@ -400,7 +400,8 @@ int section_file_load(struct section_file *sf, char *filename)
 	} else {
 	  astr_minsize(&entry_name, base_name.n + 20 + columns[i].n);
 	  sprintf(entry_name.str, "%s%d.%s,%d", base_name.str,
-		  table_lineno, columns[i].str, i-columns_tab.n+1);
+		  table_lineno, columns[columns_tab.n-1].str,
+		  i-columns_tab.n+1);
 	}
 	pentry = new_entry(sb, entry_name.str, tok);
 	entry_list_insert_back(&psection->entries, pentry);
