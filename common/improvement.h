@@ -24,16 +24,12 @@ struct player;
 
 
 /* Improvement types.
- * (This is the type for improvement types;
- *  improvement types are loaded from the buildings.ruleset file.)
- */
+ * improvement types are loaded from the buildings.ruleset file.) */
 typedef int Impr_Type_id;
 
-/* Improvement status
- * (for cities' lists of improvements)
+/* Improvement status (for cities' lists of improvements)
  * An enum or bitfield would be neater here, but we use a typedef for
- * a) less memory usage and b) compatibility with old behaviour
- */
+ * a) less memory usage and b) compatibility with old behaviour */
 typedef unsigned char Impr_Status;
 #define I_NONE       0   /* Improvement not built */
 #define I_ACTIVE     1   /* Improvement built, and having its effect */
@@ -43,6 +39,7 @@ typedef unsigned char Impr_Status;
 
 /* FIXME: Remove this define when there is per-file need for this enum. */
 #define OLD_IMPR_TYPE_ENUM
+
 /* FIXME: Remove this enum and the ifdef/endif when gen-impr implemented. */
 #ifdef OLD_IMPR_TYPE_ENUM
 enum improvement_type_id {
@@ -66,14 +63,11 @@ enum improvement_type_id {
 /* B_LAST is a value which is guaranteed to be larger than all
  * actual Impr_Type_id values.  It is used as a flag value;
  * it can also be used for fixed allocations to ensure ability
- * to hold full number of improvement types.
- */
+ * to hold full number of improvement types.  */
 #define B_LAST MAX_NUM_ITEMS
 
-/* Range of effects.
- * Used in equiv_range and effect.range fields.
- * (These must correspond to effect_range_names[] in improvement.c.)
- */
+/* Range of effects (used in equiv_range and effect.range fields)
+ * These must correspond to effect_range_names[] in improvement.c. */
 enum effect_range {
   EFR_NONE,
   EFR_BUILDING,
@@ -84,10 +78,8 @@ enum effect_range {
   EFR_LAST	/* keep this last */
 };
 
-/* Type of effects.
- * Used in effect.type field.
- * (These must correspond to effect_type_names[] in improvement.c.)
- */
+/* Type of effects. (Used in effect.type field)
+ * These must correspond to effect_type_names[] in improvement.c. */
 enum effect_type {
   EFT_ADV_PARASITE,
   EFT_AIRLIFT,
@@ -163,59 +155,53 @@ enum effect_type {
   EFT_LAST	/* keep this last */
 };
 
-/* An effect conferred by an improvement.
- */
+/* An effect conferred by an improvement. */
 struct impr_effect {
   enum effect_type type;
   enum effect_range range;
   int amount;
-  int survives;				/* 1 = effect survives wonder destruction */
-  Impr_Type_id cond_bldg;		/* B_LAST = unconditional */
-  int cond_gov;				/* game.government_count = unconditional */
-  Tech_Type_id cond_adv;		/* A_NONE = unconditional; A_LAST = never */
-  enum effect_type cond_eff;		/* EFT_LAST = unconditional */
-  Unit_Class_id aff_unit;		/* UCL_LAST = all */
-  enum tile_terrain_type aff_terr;	/* T_UNKNOWN = all; T_LAST = none */
-  enum tile_special_type aff_spec;	/* S_* bit mask of specials affected */
+  int survives;			   /* 1 = effect survives wonder destruction */
+  Impr_Type_id cond_bldg;	   /* B_LAST = unconditional */
+  int cond_gov;			   /* game.government_count = unconditional */
+  Tech_Type_id cond_adv;	   /* A_NONE = unconditional; A_LAST = never */
+  enum effect_type cond_eff;	   /* EFT_LAST = unconditional */
+  Unit_Class_id aff_unit;	   /* UCL_LAST = all */
+  enum tile_terrain_type aff_terr; /* T_UNKNOWN = all; T_LAST = none */
+  enum tile_special_type aff_spec; /* S_* bit mask of specials affected */
 };
 
-/* Status of a city's improvement effects (a bitfield: bit 0 set = first
- * effect active, etc.)
- */
+/* Status of a city's improvement effects 
+ * (a bitfield: bit 0 set = first effect active, etc.) */
 typedef unsigned Eff_Status;
 
-/* Maximum number of effects per improvement (this should not be more than
- * the number of bits in the Eff_Status type)
- */
+/* Maximum number of effects per improvement 
+ * (this should not be more than the number of bits in the Eff_Status type) */
 #define MAX_EFFECTS 16
 
-/* Keeps track of which improvement effects are active in a city.
- */
+/* Keeps track of which improvement effects are active in a city.  */
 struct eff_city {
   Impr_Type_id impr;   /* The ID of the improvement that confers the effects;
-			  if B_LAST, then this instance is unused and ready
-			  to be freed (or replaced with a new improvement */
+			* if B_LAST, then this instance is unused and ready
+			* to be freed (or replaced with a new improvement */
   Eff_Status active;   /* Which of the actual impr_effect effects are active */
 };
 
 /* Copy of eff_city effect activity for effects with Player-, Island-,
- * and World- ranges
- */
+ * and World- ranges */
 struct eff_global {
   struct eff_city eff; /* Should be updated whenever the corresponding
-			  structure in the improvement's home city is
-			  modified. N.B. Keep this first in the structure
-                          so that a (struct eff_city) cast works */
+			* structure in the improvement's home city is
+			* modified. N.B. Keep this first in the structure
+                        * so that a (struct eff_city) cast works */
   int cityid;	       /* ID of the city that owns the improvment (if -1,
-			  then the effect has survived the city destruction,
-			  and should therefore be placed in the savefile) */
+			* then the effect has survived the city destruction,
+			* and should therefore be placed in the savefile) */
+
   /* N.B. Could add further fields here for effects created by things
-     other than city improvements - e.g. certain government types */
+   * other than city improvements - e.g. certain government types */
 };
 
-/* Type of improvement.
- * (Read from buildings.ruleset file.)
- */
+/* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
   char name[MAX_LEN_NAME];
   char name_orig[MAX_LEN_NAME];		/* untranslated */
@@ -252,7 +238,6 @@ extern struct impr_type improvement_types[B_LAST];
 #include "specvec.h"
 
 /* improvement effect functions */
-
 enum effect_range effect_range_from_str(const char *str);
 const char *effect_range_name(enum effect_range id);
 enum effect_type effect_type_from_str(const char *str);
@@ -266,7 +251,6 @@ struct eff_city *append_ceff(struct ceff_vector *x);
 struct eff_global *append_geff(struct geff_vector *x);
 
 /* improvement functions */
-
 void improvement_free(Impr_Type_id id);
 void improvements_free(void);
 struct impr_type *get_improvement_type(Impr_Type_id id);
@@ -274,7 +258,10 @@ bool improvement_exists(Impr_Type_id id);
 int improvement_value(Impr_Type_id id);
 bool is_wonder(Impr_Type_id id);
 const char *get_improvement_name(Impr_Type_id id);
-int improvement_variant(Impr_Type_id id);	/* FIXME: remove when gen-impr obsoletes */
+
+/* FIXME: remove improvement_variant() when gen-impr obsoletes */
+int improvement_variant(Impr_Type_id id);  
+
 bool improvement_obsolete(struct player *pplayer, Impr_Type_id id);
 bool improvement_redundant(struct player *pplayer,struct city *pcity,
                           Impr_Type_id id, bool want_to_build);
@@ -284,24 +271,20 @@ Impr_Type_id find_improvement_by_name(const char *s);
 void improvement_status_init(Impr_Status * improvements, size_t elements);
 
 /* player related improvement and unit functions */
-
-bool could_player_eventually_build_improvement(struct player *p, Impr_Type_id id);
+bool could_player_eventually_build_improvement(struct player *p, 
+                                               Impr_Type_id id);
 bool could_player_build_improvement(struct player *p, Impr_Type_id id);
 bool can_player_build_improvement(struct player *p, Impr_Type_id id);
 
 /* city related improvement functions */
-
 void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);
 struct geff_vector *get_eff_world(void);
 struct geff_vector *get_eff_player(struct player *plr);
 struct geff_vector *get_eff_island(int cont, struct player *plr);
 struct ceff_vector *get_eff_city(struct city *pcity);
 
-/*
- * Iterates over all improvements. Creates a new variable names m_i
- * with type Impr_Type_id which holds the id of the current
- * improvement.
- */
+/* Iterates over all improvements. Creates a new variable names m_i
+ * with type Impr_Type_id which holds the id of the current improvement. */
 #define impr_type_iterate(m_i)                                                \
 {                                                                             \
   Impr_Type_id m_i;                                                           \
