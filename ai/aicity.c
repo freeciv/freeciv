@@ -53,6 +53,20 @@
 
 #include "aicity.h"
 
+/* Iterate over cities within a certain range around a given city
+ * (city_here) that exist within a given city list. */
+#define city_range_iterate(city_here, list, range, city)            \
+{                                                                   \
+  Continent_id continent = map_get_continent(pcity->x, pcity->y);   \
+  city_list_iterate(list, city) {                                   \
+    if ((range == EFR_CITY && city == city_here)                    \
+        || (range == EFR_LOCAL && acity == city_here)               \
+        || (range == EFR_CONTINENT                                  \
+            && map_get_continent(city->x, city->y) == continent)    \
+        || (range == EFR_PLAYER)) {
+#define city_range_iterate_end \
+  } } } city_list_iterate_end;
+
 #define CITY_EMERGENCY(pcity)                        \
  (pcity->shield_surplus < 0 || city_unhappy(pcity)   \
   || pcity->food_stock + pcity->food_surplus < 0)
@@ -87,6 +101,35 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 }
 
 /**************************************************************************
+  Calculates city want from some input values.
+**************************************************************************/
+static inline int city_want(struct city *acity, struct ai_data *ai,
+                            int food, int shields, int sci, int lux, int tax)
+{
+  int want = 0;
+
+  want += food * ai->food_priority;
+  if (shields != 0) {
+    want += ((shields * get_city_shield_bonus(acity)) / 100)
+            * ai->shield_priority;
+    want -= city_pollution(acity, shields) * ai->pollution_priority;
+  }
+  if (lux != 0) {
+    want += ((lux * get_city_luxury_bonus(acity)) / 100)
+            * ai->luxury_priority;
+  }
+  if (sci != 0) {
+    want += ((sci * get_city_science_bonus(acity)) / 100)
+            * ai->science_priority;
+  }
+  want += ((city_gold_surplus(acity, tax) 
+          * get_city_tax_bonus(acity)) / 100)
+          * ai->gold_priority;
+
+  return want;
+}
+
+/**************************************************************************
   Calculates want for some buildings by actually adding the building and
   measuring the effect.
 **************************************************************************/
@@ -95,7 +138,6 @@ static int base_want(struct player *pplayer, struct city *pcity,
 {
   struct ai_data *ai = ai_data_get(pplayer);
   int final_want = 0;
-  Continent_id continent = map_get_continent(pcity->x, pcity->y);
   struct city *capital = find_palace(pplayer);
 
   if (ai->impr_calc[id] == AI_IMPR_ESTIMATE) {
@@ -103,60 +145,26 @@ static int base_want(struct player *pplayer, struct city *pcity,
   }
 
   /* First calculate current worth */
-  city_list_iterate(pplayer->cities, acity) {
-    if ((ai->impr_range[id] == EFR_CITY && acity == pcity)
-        || (ai->impr_range[id] == EFR_LOCAL && acity == pcity)
-        || (ai->impr_range[id] == EFR_CONTINENT
-            && map_get_continent(acity->x, acity->y) == continent)
-        || (ai->impr_range[id] == EFR_PLAYER)) {
-      int food, trade, shields, lux, sci, tax, want = 0;
+  city_range_iterate(pcity, pplayer->cities, ai->impr_range[id], acity) {
+    int food, trade, shields, lux, sci, tax;
 
-      get_food_trade_shields(acity, &food, &trade, &shields);
-      get_tax_income(pplayer, trade, &sci, &lux, &tax);
-
-      want += food * ai->food_priority;
-      want += ((shields * get_city_shield_bonus(acity)) / 100) 
-              * ai->shield_priority;
-      want -= city_pollution(acity, shields) * ai->pollution_priority;
-      want += ((lux * get_city_luxury_bonus(acity)) / 100)
-              * ai->luxury_priority;
-      want += ((sci * get_city_science_bonus(acity)) / 100)
-              * ai->science_priority;
-      want += ((city_gold_surplus(acity, tax) 
-                * get_city_tax_bonus(acity)) / 100)
-              * ai->gold_priority;
-      acity->ai.worth = want;
-    }
-  } city_list_iterate_end;
+    get_food_trade_shields(acity, &food, &trade, &shields);
+    get_tax_income(pplayer, trade, &sci, &lux, &tax);
+    acity->ai.worth = city_want(acity, ai, food, shields, sci, lux, tax);
+  } city_range_iterate_end;
 
   /* Add the improvement */
   city_add_improvement(pcity, id);
 
   /* Stir, then compare notes */
-  city_list_iterate(pplayer->cities, acity) {
-    if ((ai->impr_range[id] == EFR_CITY && acity == pcity)
-        || (ai->impr_range[id] == EFR_LOCAL && acity == pcity)
-        || (ai->impr_range[id] == EFR_CONTINENT
-            && map_get_continent(acity->x, acity->y) == continent)
-        || (ai->impr_range[id] == EFR_PLAYER)) {
-      int food, trade, shields, lux, sci, tax, want = 0;
+  city_range_iterate(pcity, pplayer->cities, ai->impr_range[id], acity) {
+    int food, trade, shields, lux, sci, tax;
 
-      get_food_trade_shields(acity, &food, &trade, &shields);
-      get_tax_income(pplayer, trade, &sci, &lux, &tax);
-      want += food * ai->food_priority;
-      want += ((shields * get_city_shield_bonus(acity)) / 100) 
-              * ai->shield_priority;
-      want -= city_pollution(acity, shields) * ai->pollution_priority;
-      want += ((lux * get_city_luxury_bonus(acity)) / 100)
-              * ai->luxury_priority;
-      want += ((sci * get_city_science_bonus(acity)) / 100)
-              * ai->science_priority;
-      want += ((city_gold_surplus(acity, tax) 
-                * get_city_tax_bonus(acity)) / 100)
-              * ai->gold_priority;
-      final_want += want - acity->ai.worth;
-    }
-  } city_list_iterate_end;
+    get_food_trade_shields(acity, &food, &trade, &shields);
+    get_tax_income(pplayer, trade, &sci, &lux, &tax);
+    final_want += city_want(acity, ai, food, shields, sci, lux, tax)
+                  - acity->ai.worth;
+  } city_range_iterate_end;
 
   /* Restore */
   city_remove_improvement(pcity, id);
@@ -199,8 +207,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
   /* Base want is calculated above using a more direct approach. */
   v += base_want(pplayer, pcity, id);
   if (v != 0) {
-    CITY_LOG(LOG_DEBUG, pcity, "%s base_want is %d (range=%d, calc=%d)", 
-             get_improvement_name(id), v, ai->impr_range[id], ai->impr_calc[id]);
+    CITY_LOG(LOG_DEBUG, pcity, "%s base_want is %d (range=%d)", 
+             get_improvement_name(id), v, ai->impr_range[id]);
   }
 
   /* Find number of cities per range.  */
@@ -222,22 +230,20 @@ static void adjust_building_want_by_effects(struct city *pcity,
       if (is_effect_useful(TARGET_BUILDING, pplayer, pcity, id,
 			   NULL, id, peff)) {
 	int amount = peff->value, c = cities[peff->range];
+        struct city *palace = find_palace(pplayer);
 
 	switch (*ptype) {
-          /* TODO */
-	  case EFT_INCITE_DIST_PCT:
-	  case EFT_MAKE_CONTENT_MIL_PER:
-	  case EFT_MAKE_HAPPY:
-	  case EFT_UNIT_RECOVER:
-            break;
-
+	  case EFT_PROD_TO_GOLD:
+            /* Since coinage contains some entirely spurious ruleset values,
+             * we need to return here with some spurious want. */
+            pcity->ai.building_want[id] = TRADE_WEIGHTING;
+            return;
           /* These have already been evaluated in base_want() */
           case EFT_CAPITAL_CITY:
 	  case EFT_UPKEEP_FREE:
 	  case EFT_POLLU_POP_PCT:
 	  case EFT_POLLU_PROD_PCT:
 	  case EFT_TRADE_PER_TILE:
-	  case EFT_PROD_TO_GOLD:
 	  case EFT_TRADE_INC_TILE:
 	  case EFT_FOOD_INC_TILE:
 	  case EFT_TRADE_ADD_TILE:
@@ -256,6 +262,15 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    break;
 
           /* WAG evaluated effects */
+	  case EFT_INCITE_DIST_PCT:
+            v += real_map_distance(pcity->x, pcity->y, palace->x, palace->y);
+            break;
+	  case EFT_MAKE_HAPPY:
+            /* TODO */
+            break;
+	  case EFT_UNIT_RECOVER:
+            /* TODO */
+            break;
 	  case EFT_NO_UNHAPPY:
             v += (pcity->specialists[SP_ELVIS] + pcity->ppl_unhappy[0]) * 3;
             break;
@@ -265,6 +280,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	      v += 5 * c;
 	    }
 	    break;
+	  case EFT_MAKE_CONTENT_MIL_PER:
 	  case EFT_MAKE_CONTENT:
 	    if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
 	      v += pcity->ppl_unhappy[0] * amount;
@@ -284,10 +300,12 @@ static void adjust_building_want_by_effects(struct city *pcity,
 		* (nplayers - amount)) / (nplayers * amount * 100);
 	    break;
 	  case EFT_GROWTH_FOOD:
-	    v += c * 4 + 25;
+	    v += c * 4 + (amount / 7) * pcity->food_surplus;
 	    break;
 	  case EFT_AIRLIFT:
-	    v += c + ai->stats.units[UCL_LAND];
+            /* FIXME: We need some smart algorithm here. The below is 
+             * totally braindead. */
+	    v += c + MIN(ai->stats.units[UCL_LAND], 20);
 	    break;
 	  case EFT_ANY_GOVERNMENT:
 	    if (!can_change_to_government(pplayer, ai->goal.govt.idx)) {
