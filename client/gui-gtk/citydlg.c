@@ -266,10 +266,6 @@ static gint button_down_citymap(GtkWidget * w, GdkEventButton * ev);
 static void draw_map_canvas(struct city_dialog *pdialog);
 static gint city_map_canvas_expose(GtkWidget * w, GdkEventExpose * ev,
 				   gpointer data);
-static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x,
-			       int *canvas_y);
-static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x,
-			    int *map_y);
 
 static void buy_callback(GtkWidget * w, gpointer data);
 static gint buy_callback_delete(GtkWidget * w, GdkEvent * ev,
@@ -1778,7 +1774,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
 	if (tile_is_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
-	  city_get_canvas_xy(city_x, city_y, &canvas_x, &canvas_y);
+	  city_pos_to_canvas_pos(city_x, city_y, &canvas_x, &canvas_y);
 	  put_one_tile_full(pdialog->map_canvas_store, map_x, map_y,
 			    canvas_x, canvas_y, 1);
 	}
@@ -1789,7 +1785,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
     if (tile_is_known(map_x, map_y)) {
       int canvas_x, canvas_y;
-      city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y] == C_TILE_WORKER) {
 	put_city_tile_output(pdialog->map_canvas_store,
 			     canvas_x, canvas_y,
@@ -1808,7 +1804,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
     if (tile_is_known(map_x, map_y)) {
       int canvas_x, canvas_y;
-      city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+      city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
 	pixmap_frame_tile_red(pdialog->map_canvas_store,
 			      canvas_x, canvas_y);
@@ -2858,7 +2854,7 @@ static gint button_down_citymap(GtkWidget * w, GdkEventButton * ev)
     int xtile, ytile;
     struct packet_city_request packet;
 
-    city_get_map_xy(ev->x, ev->y, &xtile, &ytile);
+    canvas_pos_to_city_pos(ev->x, ev->y, &xtile, &ytile);
     packet.city_id = pcity->id;
     packet.worker_x = xtile;
     packet.worker_y = ytile;
@@ -2913,70 +2909,6 @@ static gint city_map_canvas_expose(GtkWidget * w, GdkEventExpose * ev,
   draw_map_canvas(pdialog);
 
   return TRUE;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x,
-			       int *canvas_y)
-{
-  if (is_isometric) {
-    int diff_xy;
-
-    /* The line at y=0 isometric has constant x+y=1(tiles) */
-    diff_xy = (map_x + map_y) - (1);
-    *canvas_y =
-	diff_xy / 2 * NORMAL_TILE_HEIGHT +
-	(diff_xy % 2) * (NORMAL_TILE_HEIGHT / 2);
-
-    /* The line at x=0 isometric has constant x-y=-3(tiles) */
-    diff_xy = map_x - map_y;
-    *canvas_x = (diff_xy + 3) * NORMAL_TILE_WIDTH / 2;
-  } else {
-    *canvas_x = map_x * NORMAL_TILE_WIDTH;
-    *canvas_y = map_y * NORMAL_TILE_HEIGHT;
-  }
-  freelog(LOG_DEBUG, "city_get_canvas_xy(pos=(%d,%d))=(%d,%d)", map_x,
-	  map_y, *canvas_x, *canvas_y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x,
-			    int *map_y)
-{
-  if (is_isometric) {
-    *map_x = -2;
-    *map_y = 2;
-
-    /* first find an equivalent position on the left side of the screen. */
-    *map_x += canvas_x / NORMAL_TILE_WIDTH;
-    *map_y -= canvas_x / NORMAL_TILE_WIDTH;
-    canvas_x %= NORMAL_TILE_WIDTH;
-
-    /* Then move op to the top corner. */
-    *map_x += canvas_y / NORMAL_TILE_HEIGHT;
-    *map_y += canvas_y / NORMAL_TILE_HEIGHT;
-    canvas_y %= NORMAL_TILE_HEIGHT;
-
-    assert(NORMAL_TILE_WIDTH == 2 * NORMAL_TILE_HEIGHT);
-    canvas_y *= 2;		/* now we have a square. */
-    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH / 2)
-      (*map_x)++;
-    if (canvas_x + canvas_y > 3 * NORMAL_TILE_WIDTH / 2)
-      (*map_x)++;
-    if (canvas_x - canvas_y > NORMAL_TILE_WIDTH / 2)
-      (*map_y)--;
-    if (canvas_y - canvas_x > NORMAL_TILE_WIDTH / 2)
-      (*map_y)++;
-  } else {
-    *map_x = canvas_x / NORMAL_TILE_WIDTH;
-    *map_y = canvas_y / NORMAL_TILE_HEIGHT;
-  }
-  freelog(LOG_DEBUG, "city_get_map_xy(pos=(%d,%d))=(%d,%d)", canvas_x,
-	  canvas_y, *map_x, *map_y);
 }
 
 /********* Callbacks for Buy, Change, Sell, Worklist ************/

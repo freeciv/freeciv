@@ -13,6 +13,8 @@
 #ifndef FC__CITYDLG_G_H
 #define FC__CITYDLG_G_H
 
+#include "citydlg_common.h"
+
 struct unit;
 struct city;
 

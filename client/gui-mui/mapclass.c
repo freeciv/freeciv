@@ -2150,59 +2150,6 @@ DISPATCHERPROTO(Map_Dispatcher)
  CityMap Custom Class
 *****************************************************************/
 
-/**************************************************************************
-...
-**************************************************************************/
-static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
-{
-  if (is_isometric) {
-    int diff_xy;
-
-    /* The line at y=0 isometric has constant x+y=1(tiles) */
-    diff_xy = (map_x + map_y) - (1);
-    *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
-
-    /* The line at x=0 isometric has constant x-y=-3(tiles) */
-    diff_xy = map_x - map_y;
-    *canvas_x = (diff_xy + 3) * NORMAL_TILE_WIDTH/2;
-  } else {
-    *canvas_x = map_x * NORMAL_TILE_WIDTH;
-    *canvas_y = map_y * NORMAL_TILE_HEIGHT;
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
-{
-  if (is_isometric) {
-    *map_x = -2;
-    *map_y = 2;
-
-    /* first find an equivalent position on the left side of the screen. */
-    *map_x += canvas_x/NORMAL_TILE_WIDTH;
-    *map_y -= canvas_x/NORMAL_TILE_WIDTH;
-    canvas_x %= NORMAL_TILE_WIDTH;
-
-    /* Then move op to the top corner. */
-    *map_x += canvas_y/NORMAL_TILE_HEIGHT;
-    *map_y += canvas_y/NORMAL_TILE_HEIGHT;
-    canvas_y %= NORMAL_TILE_HEIGHT;
-
-    assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
-    canvas_y *= 2; /* now we have a square. */
-    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH/2) (*map_x)++;
-    if (canvas_x + canvas_y > 3 * NORMAL_TILE_WIDTH/2) (*map_x)++;
-    if (canvas_x - canvas_y > NORMAL_TILE_WIDTH/2)  (*map_y)--;
-    if (canvas_y - canvas_x > NORMAL_TILE_WIDTH/2)  (*map_y)++;
-  } else {
-    *map_x = canvas_x/NORMAL_TILE_WIDTH;
-    *map_y = canvas_y/NORMAL_TILE_HEIGHT;
-  }
-}
-
-
 struct MUI_CustomClass *CL_CityMap;
 
 Object *MakeCityMap(struct city *pcity)
@@ -2355,7 +2302,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
 	if (tile_is_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
-	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
 	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o), canvas_y + _mtop(o), 1);
 	}
       } city_map_checked_iterate_end;
@@ -2364,7 +2311,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
 	if (tile_is_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
-	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
 	  if (pcity->city_map[x][y]==C_TILE_WORKER) {
 	    put_city_output_tile(_rp(o),
 			     city_get_food_tile(x, y, pcity),
@@ -2383,7 +2330,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	if (tile_is_known(map_x, map_y))
 	{
 	  int canvas_x, canvas_y;
-	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  city_pos_to_canvas_pos(x, y, &canvas_x, &canvas_y);
 
           canvas_x += _mleft(o);
           canvas_y += _mtop(o);
@@ -2470,7 +2417,7 @@ static ULONG CityMap_HandleInput(struct IClass * cl, Object * o, struct MUIP_Han
 	if (_isinobject(msg->imsg->MouseX, msg->imsg->MouseY))
 	{
 	  int x,y;
-	  city_get_map_xy(msg->imsg->MouseX - _mleft(o), msg->imsg->MouseY - _mtop(o), &x, &y);
+	  canvas_pos_to_city_pos(msg->imsg->MouseX - _mleft(o), msg->imsg->MouseY - _mtop(o), &x, &y);
 	  data->click.x = x;
 	  data->click.y = y;
 	  set(o, MUIA_CityMap_Click, &data->click);
