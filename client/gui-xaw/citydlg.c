@@ -64,6 +64,7 @@
 #include "repodlgs.h"
 #include "tilespec.h"
 #include "wldlg.h"
+#include "climisc.h"
 
 #include "citydlg.h"
 
