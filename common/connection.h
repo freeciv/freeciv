@@ -134,12 +134,6 @@ struct connection {
      * zero.
      */
     int request_id_of_currently_handled_packet;
-
-    /*
-     * Holds the request id of the last pong packet the client
-     * sent. Can be zero.
-     */
-    int request_id_of_last_pong;
   } client;
 
   struct {
@@ -169,7 +163,8 @@ struct connection {
    * this is impossible.
    */
   void (*outgoing_packet_notify) (struct connection * pc,
-				  int packet_type, int size);
+				  int packet_type, int size,
+				  int request_id);
 };
 
 

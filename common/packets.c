@@ -176,7 +176,7 @@ static int send_packet_data(struct connection *pc, unsigned char *data,
   }
 
   if (pc->outgoing_packet_notify) {
-    pc->outgoing_packet_notify(pc, data[2], len);
+    pc->outgoing_packet_notify(pc, data[2], len, result);
   }
 
 #if PACKET_SIZE_STATISTICS

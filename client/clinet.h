@@ -32,6 +32,8 @@ void input_from_server(int fd);
 void input_from_server_till_request_got_processed(int fd,
 						  int expected_request_id);
 void disconnect_from_server(void);
+void add_non_user_request(int request_id);
+int test_non_user_request_and_remove(int request_id);
 
 extern struct connection aconnection;
 /* this is the client's connection to the server */

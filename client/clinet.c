@@ -66,6 +66,7 @@
 #include "packets.h"
 #include "support.h"
 #include "version.h"
+#include "hash.h"
 
 #include "chatline_g.h"
 #include "civclient.h"
@@ -80,6 +81,7 @@
 
 struct connection aconnection;
 static struct sockaddr_in server_addr;
+static struct hash_table *non_user_requests;
 
 /**************************************************************************
   Close socket and cleanup.  This one doesn't print a message, so should
@@ -209,10 +211,11 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
   aconnection.last_write = 0;
   aconnection.client.last_request_id_used = 0;
   aconnection.client.last_processed_request_id_seen = 0;
-  aconnection.client.request_id_of_last_pong = 0;
   aconnection.incomming_packet_notify = notify_about_incomming_packet;
   aconnection.outgoing_packet_notify = notify_about_outgoing_packet;
   aconnection.used = 1;
+
+  non_user_requests = hash_new(hash_fval_int, hash_fcmp_int);
 
   /* call gui-dependent stuff in gui_main.c */
   add_net_input(aconnection.sock);
@@ -574,3 +577,40 @@ void delete_server_list(struct server_list *server_list)
 	free(server_list);
 }
 
+/**************************************************************************
+A request which wasn't directly caused by the user is called non-user
+request. Examples are PONG packets or attribute chunks which are sent
+at the end of the turn.
+**************************************************************************/
+void add_non_user_request(int request_id)
+{
+  int *key = fc_malloc(sizeof(int));
+
+  *key = request_id;
+
+  assert(!hash_key_exists(non_user_requests, key));
+  hash_insert(non_user_requests, key, key);
+
+  freelog(LOG_DEBUG, "add_non_user_request(request_id=%d)", request_id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int test_non_user_request_and_remove(int request_id)
+{
+  int *value;
+  int result;
+
+  value = hash_delete_entry(non_user_requests, &request_id);
+  if (value) {
+    assert(*value == request_id);
+    free(value);
+  }
+  result = (value != NULL);
+
+  freelog(LOG_DEBUG,
+	  "test_non_user_request_and_remove(request_id=%d) = %d",
+	  request_id, result);
+  return result;
+}

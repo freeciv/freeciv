@@ -65,5 +65,6 @@ void handle_processing_finished(void);
 void notify_about_incomming_packet(struct connection *pc,
 				   int packet_type, int size);
 void notify_about_outgoing_packet(struct connection *pc,
-				  int packet_type, int size);
+				  int packet_type, int size,
+				  int request_id);
 #endif /* FC__PACKHAND_H */
