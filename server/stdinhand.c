@@ -394,9 +394,9 @@ void set_ai_level(char *name, int level)
                 H_RATES+H_TARGETS+H_HUTS, 0, 0, 0, 0, 0 };
   int i;
 
-  if (test_player_name(name) != PNameOk) {
-      puts("Name is either empty or too long, so it cannot be a player.");
-      return;
+  if (test_player_name(name) == PNameTooLong) {
+    puts("Name is too long, so it cannot be a player.");
+    return;
   }
 
   assert(level >= 0 && level < 11);
