@@ -1342,7 +1342,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   if (!width || !(height || height_unit))
     return;
 
-  count = fill_tile_sprite_array_iso(tile_sprs, dither, &dither_count
+  count = fill_tile_sprite_array_iso(tile_sprs, dither, &dither_count,
                                      x, y, citymode, &solid_bg);
 
   if (count == -1) { /* tile is unknown */
