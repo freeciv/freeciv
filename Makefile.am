@@ -54,6 +54,7 @@ EXTRA_DIST=	acconfig.old			\
 		amiga/vsnprintf.c		\
 		bootstrap/civ.in		\
 		bootstrap/ser.in		\
+		bootstrap/freeciv.desktop.in	\
 		bootstrap/freeciv.spec.in	\
 		bootstrap/undep.sh.in		\
 		m4/ac_path_lib.m4		\
