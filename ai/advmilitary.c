@@ -376,9 +376,10 @@ void process_defender_want(struct player *pplayer, struct city *pcity, int dange
     if (desire[i]) {
       j = unit_types[i].tech_requirement;
       n = desire[i] * unit_types[bestid].build_cost / best;
-      pplayer->ai.tech_want[j] += n * pplayer->ai.tech_turns[j];
+      pplayer->ai.tech_want[j] += n; /* not the totally idiotic
+      pplayer->ai.tech_want[j] += n * pplayer->ai.tech_turns[j];  I amaze myself. -- Syela */
 /*      printf("%s wants %s for defense with desire %d <%d>\n",
-pcty->name, advances[j].name, n, desire[i]); */
+pcity->name, advances[j].name, n, desire[i]); */
     }
   }
   choice->choice = bestid;
