@@ -7,7 +7,10 @@ SUBDIRS = .
 # if the check fails.
 check:
 	rm -f check-output
-	./header_guard.sh $(top_srcdir) >> check-output
-	./va_list.sh $(top_srcdir) >> check-output
-	./copyright.sh $(top_srcdir) >> check-output
+	$(srcdir)/header_guard.sh $(top_srcdir) >> check-output
+	$(srcdir)/va_list.sh $(top_srcdir) >> check-output
+	$(srcdir)/copyright.sh $(top_srcdir) >> check-output
 	cat check-output | sed "s\\$(top_srcdir)/\\\\" > check-output
+
+check_SCRIPTS =	header_guard.sh			\
+		va_list.sh
