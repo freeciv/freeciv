@@ -1400,17 +1400,6 @@ Tue Dec 29 10:44:34 1998  David Pfitzner <dwp@mso.anu.edu.au>:
  	be after the call to unit_versus_unit(), so we get the correct
  	attack modifier for units with less than 1 movement point left.
 	
-	freeciv/client Freeciv.h citydlg.c civclient.c clinet.c clinet.h 
-	mapctrl.c menu.c packhand.c packhand.h
-	freeciv/common city.h packets.c packets.h shared.h unit.c unit.h
-	freeciv/data Freeciv helpdata.txt
-	freeciv/server Makefile.am Makefile.in cityhand.c cityhand.h 
-	civserver.c gotohand.c gotohand.h plrhand.c settlers.c unithand.c:
-	Autoattack-patch : unit can attach an approacing unit
-	to defend a town patch written by
-	sfischme@nexus.lzk.tuwien.ac.at and
-	David Pfitzner <dwp@mso.anu.edu.au>
-
 Sat Dec 26 03:02:37 1998  Mitch Davis <mjd@alphalink.com.au>:
 
 	* NEWS: Last minute changes, including AI difficulty levels and
