@@ -1378,8 +1378,7 @@ static void dither_tile(HDC hdc, struct Sprite **dither,
 {
   if (!width || !height)
     return;
-#if 0          
-  /* This does not work yet ! */
+  
   assert(offset_x == 0 || offset_x == NORMAL_TILE_WIDTH/2);
   assert(offset_y == 0 || offset_y == NORMAL_TILE_HEIGHT/2);
   assert(width == NORMAL_TILE_WIDTH || width == NORMAL_TILE_WIDTH/2);
@@ -1389,50 +1388,50 @@ static void dither_tile(HDC hdc, struct Sprite **dither,
   if (dither[0]
       && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
       && (offset_y == 0)) {
-    draw_sprite_part(dither[0],hdc,
-		     canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
-		     NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-		     NORMAL_TILE_WIDTH/2, 0);
+    draw_sprite_part_with_mask(dither[0],sprites.dither_tile,hdc,
+			       canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
+			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
+			       NORMAL_TILE_WIDTH/2, 0);
   }
 
   /* south */
   if (dither[1] && offset_x == 0
       && (offset_y == NORMAL_TILE_HEIGHT/2 || height == NORMAL_TILE_HEIGHT)) {
-    draw_sprite_part(dither[1],hdc,
-		     canvas_x,
-		     canvas_y + NORMAL_TILE_HEIGHT/2,
-		     NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-		     0, NORMAL_TILE_HEIGHT/2);
+    draw_sprite_part_with_mask(dither[1],sprites.dither_tile,hdc,
+			       canvas_x,
+			       canvas_y + NORMAL_TILE_HEIGHT/2,
+			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
+			       0, NORMAL_TILE_HEIGHT/2);
   }
 
   /* east */
   if (dither[2]
       && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
       && (offset_y != 0 || height == NORMAL_TILE_HEIGHT)) {
-    draw_sprite_part(dither[2],hdc,
-		     canvas_x + NORMAL_TILE_WIDTH/2,
-		     canvas_y + NORMAL_TILE_HEIGHT/2,
-		     NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-		     NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
+    draw_sprite_part_with_mask(dither[2],sprites.dither_tile,hdc,
+			       canvas_x + NORMAL_TILE_WIDTH/2,
+			       canvas_y + NORMAL_TILE_HEIGHT/2,
+			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
+			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
   }
 
   /* west */
   if (dither[3] && offset_x == 0 && offset_y == 0) {
-    draw_sprite_part(dither[3],hdc,
-		     canvas_x,
-		     canvas_y,
-		     NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-		     0,0);
+    draw_sprite_part_with_mask(dither[3],sprites.dither_tile,hdc,
+			       canvas_x,
+			       canvas_y,
+			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
+			       0,0);
   }
 
-  
+
   if (fog) {
-    draw_fog_part(hdc,canvas_x, canvas_y,
+    draw_fog_part(hdc,canvas_x+offset_x, canvas_y+offset_y,
 		  MIN(width, MAX(0, NORMAL_TILE_WIDTH-offset_x)),
 		  MIN(height, MAX(0, NORMAL_TILE_HEIGHT-offset_y)),
-		  canvas_x+offset_x,canvas_y+offset_y);
+		  offset_x,offset_y);
   }
-#endif
+
 }
 
 /**************************************************************************
@@ -1740,7 +1739,8 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
       dither_tile(hdc, dither, canvas_x, canvas_y,
                   offset_x, offset_y, width, height, fog);
       if (fog)
-	draw_fog_part(hdc,canvas_x,canvas_y,width,height,offset_x,offset_y);
+	draw_fog_part(hdc,canvas_x+offset_x,canvas_y+offset_y,
+		      width,height,offset_x,offset_y);
     }
   }
   

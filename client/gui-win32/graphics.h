@@ -24,9 +24,14 @@ struct Sprite
   int width;
   int height;
 };
-void  draw_sprite(struct Sprite *sprite,HDC hdc,int x, int y);
-void  draw_sprite_part(struct Sprite *sprite,HDC hdc,
+void draw_sprite(struct Sprite *sprite,HDC hdc,int x, int y);
+void draw_sprite_part(struct Sprite *sprite,HDC hdc,
 		       int x, int y, int w, int h,int xsrc,int ysrc);
+void draw_sprite_part_with_mask(struct Sprite *sprite,
+				struct Sprite *sprite_mask,
+				HDC hdc,
+				int x, int y, int w, int h,
+				int xsrc, int ysrc);
 void init_fog_bmp(void);
 void draw_fog_part(HDC hdc,int x, int y,int w, int h,
 		   int xsrc, int ysrc);

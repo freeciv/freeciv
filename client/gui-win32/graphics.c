@@ -363,8 +363,6 @@ HBITMAP BITMAP2HBITMAP(BITMAP *bmp)
 void init_fog_bmp(void)
 {
   int x,y;
-  POINT points[4];
-  HBRUSH oldbrush;
   HBITMAP old;
   HDC hdc;
   HBITMAP fog;
@@ -378,21 +376,8 @@ void init_fog_bmp(void)
   HBITMAP2BITMAP(fog,&fog_sprite.bmp);
   DeleteObject(fog);
   fog_sprite.has_mask=1;
-  fog=CreateBitmap(NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,1,1,NULL);
+  fog=BITMAP2HBITMAP(&sprites.black_tile->mask);
   old=SelectObject(hdc,fog);
-  BitBlt(hdc,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,NULL,0,0,WHITENESS);
-  SetBkMode(hdc,TRANSPARENT);
-  oldbrush=SelectObject(hdc,GetStockObject(BLACK_BRUSH));
-  points[0].x=NORMAL_TILE_WIDTH/2;
-  points[0].y=0;
-  points[1].x=0;
-  points[1].y=NORMAL_TILE_HEIGHT/2;
-  points[2].x=NORMAL_TILE_WIDTH/2;
-  points[2].y=NORMAL_TILE_HEIGHT;
-  points[3].x=NORMAL_TILE_WIDTH;
-  points[3].y=NORMAL_TILE_HEIGHT/2;
-  Polygon(hdc,points,4);
-  SelectObject(hdc,oldbrush);
   for(x=0;x<NORMAL_TILE_WIDTH;x++)
     for(y=0;y<NORMAL_TILE_HEIGHT;y++)
       {
@@ -409,7 +394,9 @@ void init_fog_bmp(void)
   
 }
 
+/**************************************************************************
 
+**************************************************************************/
 struct Sprite *
 crop_sprite(struct Sprite *source,
                            int x, int y, int width, int height)
@@ -489,33 +476,52 @@ crop_sprite(struct Sprite *source,
   return mysprite;
 }
 
+/**************************************************************************
 
+**************************************************************************/
 void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y)
 {
   draw_sprite_part(sprite,hdc,x,y,sprite->width,sprite->height,0,0);
 }
 
-void  draw_sprite_part(struct Sprite *sprite,HDC hdc,int x, int y,int w, int h,
-		       int xsrc, int ysrc)
+/**************************************************************************
+
+**************************************************************************/
+void  draw_sprite_part_with_mask(struct Sprite *sprite,
+				 struct Sprite *sprite_mask,
+				 HDC hdc,
+				 int x, int y,int w, int h,
+				 int xsrc, int ysrc)
 {
   static HDC hdccomp;
+  static HDC hdcmask;
   HBITMAP tempbit;
+  HBITMAP tempmask;
   HBITMAP bitmap;
   HBITMAP maskbit;
   if (!sprite) return;
   if (!hdccomp)
     hdccomp=CreateCompatibleDC(hdc);
+  if (!hdcmask)
+    hdcmask=CreateCompatibleDC(hdc);
   bitmap=BITMAP2HBITMAP(&sprite->bmp);
-  if (sprite->has_mask)
+  if (sprite_mask->has_mask)
     {
       COLORREF fgold,bgold;
       fgold=SetTextColor(hdc,RGB(0,0,0));
       bgold=SetBkColor(hdc,RGB(255,255,255));
-      maskbit=BITMAP2HBITMAP(&sprite->mask);
-      tempbit=SelectObject(hdccomp,maskbit);
-      BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCAND);
-      SelectObject(hdccomp,bitmap);
+      maskbit=BITMAP2HBITMAP(&sprite_mask->mask);
+      tempmask=SelectObject(hdcmask,maskbit);
+      BitBlt(hdc,x,y,w,h,hdcmask,xsrc,ysrc,SRCAND);
+      tempbit=SelectObject(hdccomp,bitmap);
+      SetTextColor(hdccomp,RGB(255,255,255));
+      SetBkColor(hdccomp,RGB(0,0,0));
+      if (sprite!=sprite_mask) {
+	BitBlt(hdccomp,0,0,sprite_mask->width,sprite_mask->height,
+	       hdcmask,0,0,SRCAND);
+      }
       BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCINVERT);
+      SelectObject(hdcmask,tempmask);
       DeleteObject(maskbit);
       SetBkColor(hdc,bgold);
       SetTextColor(hdc,fgold);
@@ -523,23 +529,41 @@ void  draw_sprite_part(struct Sprite *sprite,HDC hdc,int x, int y,int w, int h,
   else
     {
       tempbit=SelectObject(hdccomp,bitmap);
-      BitBlt(hdc,x,y,w,h,hdccomp,0,0,SRCCOPY);
+      BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCCOPY);
     }
   SelectObject(hdccomp,tempbit);
   /*  DeleteDC(hdccomp); */
   DeleteObject(bitmap);
 
 }
+/**************************************************************************
 
+**************************************************************************/
+void draw_sprite_part(struct Sprite *sprite,HDC hdc,
+		      int x,int y,int w,int h,int xsrc,int ysrc)
+{
+  draw_sprite_part_with_mask(sprite,sprite,hdc,x,y,w,h,xsrc,ysrc);
+}
+
+/**************************************************************************
+
+**************************************************************************/
 void draw_fog_part(HDC hdc,int x, int y,int w, int h,
 		   int xsrc, int ysrc)
 {
   draw_sprite_part(&fog_sprite,hdc,x,y,w,h,xsrc,ysrc);
 }
 
+/**************************************************************************
+
+**************************************************************************/
 void  crop_sprite_real(struct Sprite *source)
 {
-}         
+} 
+        
+/**************************************************************************
+
+**************************************************************************/
 void
 free_sprite(struct Sprite *s)
 {
@@ -556,17 +580,22 @@ free_sprite(struct Sprite *s)
     DeleteObject(bitmapcache);
   sprcache=NULL;
 }
+
+/**************************************************************************
+
+**************************************************************************/
 int
 isometric_view_supported(void)
 {
-        /* PORTME */
-        return 1;
+  return 1;
 }
- 
+
+/**************************************************************************
+
+**************************************************************************/
 int
 overhead_view_supported(void)
 {
-        /* PORTME */
-        return 1;
+  return 1;
 }
     
