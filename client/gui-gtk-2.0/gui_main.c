@@ -1037,7 +1037,8 @@ void ui_init(void)
     g_get_charset(&charset);
 
     if (!strcmp(charset, "ANSI_X3.4-1968")
-	|| !strcmp(charset, "ASCII")) {
+	|| !strcmp(charset, "ASCII")
+        || !strcmp(charset, "US-ASCII")) {
       charset = "ISO-8859-1";
     }
     
