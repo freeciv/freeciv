@@ -1141,8 +1141,9 @@ static void package_player_info(struct player *plr,
   enum plr_info_level info_level;
 
   info_level = player_info_level(plr, receiver);
-  if (info_level < min_info_level)
+  if (info_level < min_info_level) {
     info_level = min_info_level;
+  }
 
   if (info_level >= INFO_MEETING) {
     packet->gold            = plr->economic.gold;
@@ -1166,9 +1167,10 @@ static void package_player_info(struct player *plr,
     packet->inventions[i]   = '\0';
 
     /* Ideally, we should check whether receiver really sees any cities owned
-       by player before this. */
-    if (server_state == RUN_GAME_STATE)
+     * by player before this. */
+    if (server_state == RUN_GAME_STATE) {
       packet->inventions[city_styles[get_player_city_style(plr)].techreq] = '1';
+    }
 
     /* FIXME: temporary kludge */
     packet->government      = plr->government; /*G_MAGIC;*/
@@ -1182,14 +1184,15 @@ static void package_player_info(struct player *plr,
     packet->techs_researched= plr->research.techs_researched;
     packet->researching     = plr->research.researching;
     packet->future_tech     = plr->future_tech;
-    if (plr->revolution != 0)
+    if (plr->revolution != 0) {
       packet->revolution    = 1;
-    else
+    } else {
       packet->revolution    = 0;
+    }
 
     packet->embassy = plr->embassy;
     packet->gives_shared_vision = plr->gives_shared_vision;
-    for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+    for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
       packet->diplstates[i].type       = plr->diplstates[i].type;
       packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
       packet->diplstates[i].contact_turns_left = 
@@ -1206,16 +1209,18 @@ static void package_player_info(struct player *plr,
     packet->future_tech     = 0;
     packet->revolution      = 0;
 
-    if (!receiver || !player_has_embassy(plr, receiver))
+    if (!receiver || !player_has_embassy(plr, receiver)) {
       packet->embassy  = 0;
-    else
+    } else {
       packet->embassy  = 1 << receiver->player_no;
-    if (!receiver || !gives_shared_vision(plr, receiver))
+    }
+    if (!receiver || !gives_shared_vision(plr, receiver)) {
       packet->gives_shared_vision = 0;
-    else
+    } else {
       packet->gives_shared_vision = 1 << receiver->player_no;
+    }
 
-    for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
       packet->diplstates[i].type       = DS_NEUTRAL;
       packet->diplstates[i].turns_left = 0;
       packet->diplstates[i].has_reason_to_cancel = 0;
@@ -1257,12 +1262,15 @@ static void package_player_info(struct player *plr,
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver)
 {
-  if (plr == receiver)
+  if (plr == receiver) {
     return INFO_FULL;
-  if (receiver && player_has_embassy(receiver, plr))
+  }
+  if (receiver && player_has_embassy(receiver, plr)) {
     return INFO_EMBASSY;
-  if (receiver && find_treaty(plr, receiver))
+  }
+  if (receiver && find_treaty(plr, receiver)) {
     return INFO_MEETING;
+  }
   return INFO_MINIMUM;
 }
 
@@ -1357,7 +1365,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   }
   if (player_has_embassy(pplayer1, pplayer2)
       || player_has_embassy(pplayer2, pplayer1)) {
-    return;
+    return; /* Avoid sending too much info over the network */
   }
   pplayer1->diplstates[player2].contact_turns_left = game.contactturns;
   pplayer2->diplstates[player1].contact_turns_left = game.contactturns;
