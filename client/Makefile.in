@@ -59,8 +59,18 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 AWK = @AWK@
 CC = @CC@
+CLIENT_CFLAGS = @CLIENT_CFLAGS@
+CLIENT_LIBS = @CLIENT_LIBS@
 CPP = @CPP@
 CVS_DEPS = @CVS_DEPS@
+GDK_IMLIB_CFLAGS = @GDK_IMLIB_CFLAGS@
+GDK_IMLIB_LIBS = @GDK_IMLIB_LIBS@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_CONFIG = @GTK_CONFIG@
+GTK_LIBS = @GTK_LIBS@
+IMLIB_CFLAGS = @IMLIB_CFLAGS@
+IMLIB_CONFIG = @IMLIB_CONFIG@
+IMLIB_LIBS = @IMLIB_LIBS@
 LN_S = @LN_S@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
@@ -68,84 +78,20 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 SERVER_LIBS = @SERVER_LIBS@
 VERSION = @VERSION@
+gui_sources = @gui_sources@
+
+SUBDIRS = @gui_sources@
 
 bin_PROGRAMS = civclient
-INCLUDES = -I$(srcdir)/../common -I. $(X_CFLAGS)
 
-BUILT_SOURCES = Freeciv.h
-
-civclient_DEPENDENCIES = ad2c cityicon.ico freeciv.ico ../common/libcivcommon.a
-civclient_LDADD        = ../common/libcivcommon.a  $(X_LIBS) $(X_EXTRA_LIBS)
+INCLUDES = -Iinclude -I$(top_srcdir)/common -I@gui_sources@ @CLIENT_CFLAGS@
 
 civclient_SOURCES = \
-		cityicon.ico freeciv.ico ad2c \
-		Freeciv.h	\
-		canvas.c	\
-		canvas.h	\
-		canvasp.h	\
-		chatline.c	\
-		chatline.h	\
-		citydlg.c	\
-		citydlg.h	\
-		cityrep.c	\
-		cityrep.h	\
-		civclient.c	\
-		civclient.h	\
-		climisc.c	\
-		climisc.h	\
-		clinet.c	\
-		clinet.h	\
-		colors.c	\
-		colors.h	\
-		connectdlg.c	\
-		connectdlg.h	\
-		dialogs.c	\
-		dialogs.h	\
-		diplodlg.c	\
-		diplodlg.h	\
-		finddlg.c	\
-		finddlg.h	\
-		gotodlg.c	\
-		gotodlg.h	\
-		graphics.c	\
-		graphics.h	\
-		helpdlg.c	\
-		helpdlg.h	\
-		inputdlg.c	\
-		inputdlg.h	\
-		inteldlg.c	\
-		inteldlg.h	\
-		mapctrl.c	\
-		mapctrl.h	\
-		mapview.c	\
-		mapview.h	\
-		menu.c		\
-		menu.h		\
-		messagedlg.c	\
-		messagedlg.h	\
-		messagewin.c	\
-		meswindlg.h	\
-		optiondlg.c	\
-		optiondlg.h	\
-		packhand.c	\
-		packhand.h	\
-		pixcomm.c	\
-		pixcomm.h	\
-		pixcommp.h	\
-		plrdlg.c	\
-		plrdlg.h	\
-		ratesdlg.c	\
-		ratesdlg.h	\
-		repodlgs.c	\
-		repodlgs.h	\
-		resources.c	\
-		resources.h	\
-		spaceshipdlg.h	\
-		spaceshipdlg.c	\
-		xmain.c		\
-		xmain.h		\
-		xstuff.c	\
-		xstuff.h
+	civclient.c	\
+	packhand.c
+
+civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a
+civclient_LDADD        = @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
@@ -160,12 +106,7 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-civclient_OBJECTS =  canvas.o chatline.o citydlg.o cityrep.o civclient.o \
-climisc.o clinet.o colors.o connectdlg.o dialogs.o diplodlg.o finddlg.o \
-gotodlg.o graphics.o helpdlg.o inputdlg.o inteldlg.o mapctrl.o \
-mapview.o menu.o messagedlg.o messagewin.o optiondlg.o packhand.o \
-pixcomm.o plrdlg.o ratesdlg.o repodlgs.o resources.o spaceshipdlg.o \
-xmain.o xstuff.o
+civclient_OBJECTS =  civclient.o packhand.o
 civclient_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -177,19 +118,11 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DEP_FILES =  .deps/canvas.P .deps/chatline.P .deps/citydlg.P \
-.deps/cityrep.P .deps/civclient.P .deps/climisc.P .deps/clinet.P \
-.deps/colors.P .deps/connectdlg.P .deps/dialogs.P .deps/diplodlg.P \
-.deps/finddlg.P .deps/gotodlg.P .deps/graphics.P .deps/helpdlg.P \
-.deps/inputdlg.P .deps/inteldlg.P .deps/mapctrl.P .deps/mapview.P \
-.deps/menu.P .deps/messagedlg.P .deps/messagewin.P .deps/optiondlg.P \
-.deps/packhand.P .deps/pixcomm.P .deps/plrdlg.P .deps/ratesdlg.P \
-.deps/repodlgs.P .deps/resources.P .deps/spaceshipdlg.P .deps/xmain.P \
-.deps/xstuff.P
+DEP_FILES =  .deps/civclient.P .deps/packhand.P
 SOURCES = $(civclient_SOURCES)
 OBJECTS = $(civclient_OBJECTS)
 
-all: Makefile $(PROGRAMS)
+all: all-recursive all-am
 
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
@@ -246,15 +179,55 @@ civclient: $(civclient_OBJECTS) $(civclient_DEPENDENCIES)
 	@rm -f civclient
 	$(LINK) $(civclient_LDFLAGS) $(civclient_OBJECTS) $(civclient_LDADD) $(LIBS)
 
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+
+@SET_MAKE@
+
+all-recursive install-data-recursive install-exec-recursive \
+installdirs-recursive install-recursive uninstall-recursive  \
+check-recursive installcheck-recursive info-recursive dvi-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  target=`echo $@ | sed s/-recursive//`; \
+	  echo "Making $$target in $$subdir"; \
+	  (cd $$subdir && $(MAKE) $$target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+
+mostlyclean-recursive clean-recursive distclean-recursive \
+maintainer-clean-recursive:
+	@set fnord $(MAKEFLAGS); amf=$$2; \
+	rev=''; list='$(SUBDIRS)'; for subdir in $$list; do \
+	  rev="$$subdir $$rev"; \
+	done; \
+	for subdir in $$rev; do \
+	  target=`echo $@ | sed s/-recursive//`; \
+	  echo "Making $$target in $$subdir"; \
+	  (cd $$subdir && $(MAKE) $$target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  (cd $$subdir && $(MAKE) tags); \
+	done
+
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP)
 	here=`pwd` && cd $(srcdir) \
 	  && mkid -f$$here/ID $(SOURCES) $(HEADERS) $(LISP)
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \
 	here=`pwd`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test -f $$subdir/TAGS && tags="$$tags -i $$here/$$subdir/TAGS"; \
+	done; \
 	list='$(SOURCES) $(HEADERS)'; \
 	unique=`for i in $$list; do echo $$i; done | \
 	  awk '    { files[$$0] = 1; } \
@@ -287,6 +260,14 @@ distdir: $(DISTFILES)
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
+	for subdir in $(SUBDIRS); do \
+	  test -d $(distdir)/$$subdir \
+	  || mkdir $(distdir)/$$subdir \
+	  || exit 1; \
+	  chmod 777 $(distdir)/$$subdir; \
+	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
+	    || exit 1; \
+	done
 
 DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
 
@@ -311,25 +292,31 @@ maintainer-clean-depend:
 	@-sed -e 's/^\([^:]*\)\.o:/\1.lo \1.o:/' \
 	  < .deps/$(*F).p > .deps/$(*F).P
 	@-rm -f .deps/$(*F).p
-info:
-dvi:
-check: all
-	$(MAKE)
-installcheck:
-install-exec: install-binPROGRAMS
+info: info-recursive
+dvi: dvi-recursive
+check: all-am
+	$(MAKE) check-recursive
+installcheck: installcheck-recursive
+all-am: Makefile $(PROGRAMS)
+
+install-exec-am: install-binPROGRAMS
+
+uninstall-am: uninstall-binPROGRAMS
+
+install-exec: install-exec-recursive install-exec-am
 	@$(NORMAL_INSTALL)
 
-install-data: 
+install-data: install-data-recursive
 	@$(NORMAL_INSTALL)
 
-install: install-exec install-data all
+install: install-recursive install-exec-am
 	@:
 
-uninstall: uninstall-binPROGRAMS
+uninstall: uninstall-recursive uninstall-am
 
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
-installdirs:
+installdirs: installdirs-recursive
 	$(mkinstalldirs)  $(DATADIR)$(bindir)
 
 
@@ -347,38 +334,47 @@ distclean-generic:
 maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean:  mostlyclean-binPROGRAMS mostlyclean-compile \
+mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
 		mostlyclean-tags mostlyclean-depend mostlyclean-generic
 
-clean:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
-		clean-generic mostlyclean
+clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-depend \
+		clean-generic mostlyclean-am
 
-distclean:  distclean-binPROGRAMS distclean-compile distclean-tags \
-		distclean-depend distclean-generic clean
+distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
+		distclean-depend distclean-generic clean-am
+
+maintainer-clean-am:  maintainer-clean-binPROGRAMS \
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-depend maintainer-clean-generic \
+		distclean-am
+
+mostlyclean:  mostlyclean-recursive mostlyclean-am
+
+clean:  clean-recursive clean-am
+
+distclean:  distclean-recursive distclean-am
 	-rm -f config.status
 
-maintainer-clean:  maintainer-clean-binPROGRAMS maintainer-clean-compile \
-		maintainer-clean-tags maintainer-clean-depend \
-		maintainer-clean-generic distclean
+maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 .PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
 maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir mostlyclean-depend \
-distclean-depend clean-depend maintainer-clean-depend info dvi \
-installcheck install-exec install-data install uninstall all \
+maintainer-clean-compile install-data-recursive \
+uninstall-data-recursive install-exec-recursive \
+uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
+all-recursive check-recursive installcheck-recursive info-recursive \
+dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir \
+mostlyclean-depend distclean-depend clean-depend \
+maintainer-clean-depend info dvi installcheck all-am install-exec-am \
+uninstall-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
-
-Freeciv.h: $(srcdir)/../data/Freeciv
-	echo '/***********************************************/' > Freeciv.h
-	echo '/* DO NOT EDIT THIS FILE, EDIT ../data/Freeciv */' >> Freeciv.h
-	echo '/***********************************************/' >> Freeciv.h
-	$(srcdir)/ad2c $(srcdir)/../data/Freeciv >> Freeciv.h
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
