@@ -395,7 +395,7 @@ static void update_diplomatics(void)
   			  "out that the cease-fire with %s will run out soon."),
 			player2->name);
   	  break;
-  	case -1:
+  	case 0:
 	  notify_player(player1,
   			_("Game: The cease-fire with %s has "
   			  "run out. You are now neutral towards the %s."),
