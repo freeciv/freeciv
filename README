@@ -187,10 +187,12 @@ Server:
 
 And the game is on!
 
-Note:  If you want the server to send information to the worldwide
-meta-server, start the server with the '--meta' option, or just 
-'-m' for short.  This will allow other players to find you, and
-possibly join your game.
+Note:  If you want the server to send the list of players to the 
+worldwide meta-server, start the server with the '--meta' option, 
+or just '-m' for short.  This will allow people around the world to 
+connect to your game.  Many people prefer playing against humans 
+rather than just the AI, and connecting to the meta-server is one
+way you can find people to play against.
 
 Playing the game:
 =================
