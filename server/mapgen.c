@@ -1296,7 +1296,7 @@ static void makeisland(int islemass, int starters)
     if(totalmass>3000)
       freelog(LOG_NORMAL, _("High landmass - this may take a few seconds."));
 
-    i = map.riverlength + map.mountains
+    i = (map.riverlength / 10) + map.mountains
 		+ map.deserts + map.forestsize + map.swampsize;
     i = i <= 90 ? 100 : i * 11 / 10;
     tilefactor = totalmass / i;
