@@ -1947,7 +1947,7 @@ static void mapgenerator4(void)
 
   i = game.nplayers / 2;
   if ((game.nplayers % 2) == 1) {
-    make_island(bigweight * 3, 3, pstate);
+    make_island(bigweight * 3 * pstate->totalmass / totalweight, 3, pstate);
   } else {
     i++;
   }
