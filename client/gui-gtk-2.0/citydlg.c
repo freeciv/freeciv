@@ -1062,15 +1062,15 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
 
   pdialog->shell = gtk_dialog_new_with_buttons(pcity->name,
-	GTK_WINDOW(toplevel),
+	NULL,
   	0,
 	NULL);
+  gtk_window_set_type_hint(GTK_WINDOW(pdialog->shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   if (dialogs_on_top) {
     gtk_window_set_transient_for(GTK_WINDOW(pdialog->shell),
 				 GTK_WINDOW(toplevel));
   }
-  gtk_window_set_type_hint(GTK_WINDOW(pdialog->shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_window_set_role(GTK_WINDOW(pdialog->shell), "city");
 
   g_signal_connect(pdialog->shell, "destroy",
