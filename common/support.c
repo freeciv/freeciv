@@ -194,8 +194,8 @@ void myusleep(unsigned long usec)
 
  Result is always nul-terminated, whether or not truncation occurs,
  and the return value is the strlen the destination would have had
- without truncation.  Ie, a return value >= input n indicates
- truncation occured.
+ without truncation.  I.e., a return value >= input n indicates
+ truncation occurred.
 
  Will assume that if configure found strlcpy/strlcat they are ok.
  For replacement implementations, will keep it simple rather

@@ -108,7 +108,7 @@ void my_init_network(void)
   WSADATA wsa;
 
   if (WSAStartup(MAKEWORD(1, 1), &wsa) != 0) {
-    freelog(LOG_ERROR, "no useable WINSOCK.DLL: %s", mystrerror(errno));
+    freelog(LOG_ERROR, "no usable WINSOCK.DLL: %s", mystrerror(errno));
   }
 #endif
 

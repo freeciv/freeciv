@@ -632,7 +632,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   int y = pcity->y;
 
   /* Transfer enemy units in the city to the new owner.
-     Only relevant if we are transfering to another player. */
+   * Only relevant if we are transferring to another player. */
   if (pplayer != pvictim) {
     unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
       /* Don't transfer units already owned by new city-owner --wegge */ 

@@ -1555,7 +1555,7 @@ static void set_tax_income(struct city *pcity)
    * 2) sort the remaining fractions (called *_rest)
    * 3) divide the remaining trade among the targets starting with the
    * biggest fraction. If two targets have the same fraction the
-   * target with the smaller whole-numbered value is choosen.
+   * target with the smaller whole-numbered value is chosen.
    */
 
   sci = (rate * sci_rate) / 100;

@@ -1339,7 +1339,7 @@ void ui_init(void)
 }
 
 /****************************************************************
- Entry for the client dependend part of the client
+ Entry for the client dependent part of the client
 *****************************************************************/
 void ui_main(int argc, char *argv[])
 {

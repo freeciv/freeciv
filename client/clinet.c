@@ -244,7 +244,7 @@ socket becomes writeable and there is still data which should be sent
 to the server.
 
 Returns:
-    -1  :  an error occured - you should close the socket
+    -1  :  an error occurred - you should close the socket
     >0  :  number of bytes read
     =0  :  no data read, would block
 **************************************************************************/

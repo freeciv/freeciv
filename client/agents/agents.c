@@ -459,8 +459,8 @@ void agents_new_turn(void)
  Called from client/packhand.c. A call is created and added to the
  list of outstanding calls if an agent wants to be informed about this
  event and the change wasn't caused by the agent. We then try (this
- may no be successfull in every case since we can be frozen or another
- call_handle_methods is running higher up on the stack) to execute
+ may not be successful in every case since we can be frozen or another
+ call_handle_methods may be running higher up on the stack) to execute
  all outstanding calls.
 ***********************************************************************/
 void agents_unit_changed(struct unit *punit)

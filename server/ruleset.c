@@ -162,7 +162,7 @@ static void openload_ruleset_file(struct section_file *file, const char *whichse
 /**************************************************************************
   Ruleset files should have a capabilities string datafile.options
   This gets and returns that string, and checks that the required
-  capabilites specified are satisified.
+  capabilities specified are satisified.
 **************************************************************************/
 static char *check_ruleset_capabilities(struct section_file *file,
 					const char *us_capstr, const char *filename)

@@ -112,12 +112,12 @@ struct connection {
    */
   struct map_position *route;
   int route_length;
-  /* These are used when recieving goto routes; they are send split, and in
-     the time where the route is partially recieved it is stored here. */
+  /* These are used when recieving goto routes; they are sent split, and in
+   * the time where the route is partially received it is stored here. */
 
   bool delayed_disconnect;
-  /* Something has occured that means the connection should be closed, but
-     the closing has been postponed. */
+  /* Something has occurred that means the connection should be closed, but
+   * the closing has been postponed. */
 
   void (*notify_of_writable_data) (struct connection * pc,
 				   bool data_available_and_socket_full);

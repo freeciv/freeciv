@@ -215,7 +215,7 @@ static struct genlist_link *find_genlist_position(struct genlist *pgenlist,
 /************************************************************************
  Sort the elements of a genlist.
  
- The comparison function should be a function useable by qsort; note
+ The comparison function should be a function usable by qsort; note
  that the const void * arguments to compar should really be "pointers to
  void*", where the void* being pointed to are the genlist dataptrs.
  That is, there are two levels of indirection.

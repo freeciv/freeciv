@@ -63,7 +63,7 @@ There are two kinds of sound tags:
  - defined in the rulesets
  - defined in the program code
 
-While the former can be choosen freely the latter can't be changed.
+While the former can be chosen freely the latter can't be changed.
 
 The sound tags associated with improvements (wonders and normal
 buildings), unit movements and unit fights have to be set in the

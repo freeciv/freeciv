@@ -807,9 +807,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   transfer_city (pplayer, pcity, 1, TRUE, TRUE, FALSE);
 
   /* Check if a spy survives her mission. Diplomats never do.
-     _After_ transfering the city, or the city area is first fogged
-     when the diplomat is removed, and then unfogged when the city
-     is transfered. */
+   * _After_ transferring the city, or the city area is first fogged
+   * when the diplomat is removed, and then unfogged when the city
+   * is transferred. */
   diplomat_escape (pplayer, pdiplomat, pcity);
 
   /* Update the players gold in the client */

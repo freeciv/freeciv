@@ -154,7 +154,7 @@ WHAT'S CHANGED SINCE 1.11.4
  - Deserts are created primarily 15 to 35 degrees off the equator.
  - Only arctic tiles generated at poles.
  - The server will report when a new government becomes available.
- - Changed wording of message "famine feared" to "famine occured". New
+ - Changed wording of message "famine feared" to "famine occurred". New
   "famine feared" message just before food runs out.
  - "wonder soon build" message when another player is about to complete
    a wonder.

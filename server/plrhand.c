@@ -461,7 +461,7 @@ static bool choose_goal_tech(struct player *plr)
 **************************************************************************/
 void choose_random_tech(struct player *plr)
 {
-  int choosen, researchable = 0;
+  int chosen, researchable = 0;
   Tech_Type_id i;
 
   if (plr->research.bulbs_researched >0) {
@@ -476,12 +476,12 @@ void choose_random_tech(struct player *plr)
     plr->research.researching = A_FUTURE;
     return;
   }
-  choosen = myrand(researchable) + 1;
+  chosen = myrand(researchable) + 1;
   
   for (i = 0; i < game.num_tech_types; i++) {
     if (get_invention(plr, i) == TECH_REACHABLE) {
-      choosen--;
-      if (choosen == 0) {
+      chosen--;
+      if (chosen == 0) {
 	break;
       }
     }

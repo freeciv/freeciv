@@ -702,7 +702,7 @@ export CC="gcc -mno-cygwin"
 ./configure --with-included-gettext --prefix=.
 
 2. cross compiling from a real unix.
-replace X with a number which you have choosen when you have configured your 
+replace X with a number which you have chosen when you have configured your 
 cross compiler.
 
 export CC=iX86-mingw32-gcc

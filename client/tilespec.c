@@ -175,7 +175,7 @@ static char *tilespec_fullname(const char *tileset_name)
   }
 
   if (strcmp(tileset_name, tileset_default) == 0) {
-    freelog(LOG_FATAL, _("No useable default tileset found, aborting!"));
+    freelog(LOG_FATAL, _("No usable default tileset found, aborting!"));
     exit(EXIT_FAILURE);
   }
   freelog(LOG_ERROR, _("Trying \"%s\" tileset."), tileset_default);

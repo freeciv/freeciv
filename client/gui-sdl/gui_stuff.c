@@ -316,7 +316,7 @@ struct GUI *WidgetListScaner(const struct GUI *pGUI_List,
 /**************************************************************************
   Search in 'pGUI_List' == "Widget's list" and
   return ( not Disabled and not Hiden ) widget with 'Key' allias.
-  NOTE: This fuction ignore CapsLock and NumLock Keys.
+  NOTE: This function ignores CapsLock and NumLock Keys.
 **************************************************************************/
 struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List, SDL_keysym Key)
 {
@@ -335,8 +335,9 @@ struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List, SDL_keysym Key)
 }
 
 /**************************************************************************
-  Pointer to Main Widget list is declared staric in 'gui_stuff.c'
-  This fuction only call 'WidgetListScaner' in Main list 'pBeginWidgetList'
+  Pointer to Main Widget list is declared static in 'gui_stuff.c'
+  This function only calls 'WidgetListScaner' in Main list
+  'pBeginWidgetList'
 **************************************************************************/
 struct GUI *MainWidgetListScaner(SDL_MouseMotionEvent * pPosition)
 {
@@ -840,7 +841,7 @@ void move_widget_to_front_of_gui_list(struct GUI *pGUI)
     return;
   }
 
-  /* pGUI->prev allways exist because we don't do this to pBeginWidgetList */
+  /* pGUI->prev always exists because we don't do this to pBeginWidgetList */
   if (pGUI->next) {
     pGUI->prev->next = pGUI->next;
     pGUI->next->prev = pGUI->prev;

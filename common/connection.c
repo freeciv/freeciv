@@ -125,7 +125,7 @@ void close_socket_set_callback(CLOSE_FUN fun)
 /**************************************************************************
   Read data from socket, and check if a packet is ready.
   Returns:
-    -1  :  an error occured - you should close the socket
+    -1  :  an error occurred - you should close the socket
     >0  :  number of bytes read
     =0  :  non-blocking sockets only; no data read, would block
 **************************************************************************/

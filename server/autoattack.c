@@ -126,7 +126,7 @@ static struct unit *search_best_target(struct player *pplayer,
 
   enemy = best_enemy;
   
-  freelog(LOG_DEBUG,"choosen target=%s (%d/%d)",
+  freelog(LOG_DEBUG, "chosen target=%s (%d/%d)",
 	  get_unit_name(enemy->type), enemy->x,enemy->y);
 
   if((unit_type(enemy)->defense_strength) >

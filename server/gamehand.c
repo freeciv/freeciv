@@ -190,7 +190,7 @@ void send_year_to_clients(int year)
 
 
 /**************************************************************************
-  Send specifed state; should be a CLIENT_GAME_*_STATE ?
+  Send specified state; should be a CLIENT_GAME_*_STATE ?
   (But note client also changes state from other events.)
 **************************************************************************/
 void send_game_state(struct conn_list *dest, int state)

@@ -2547,7 +2547,7 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
       }
     } else { /** We are on a land tile **/
       /* If ordered to do so we take extra units with us, provided they
-	 are not already commited to another transporter on the tile */
+       * are not already committed to another transporter on the tile. */
       if (take_from_land) {
 	unit_list_iterate(ptile->units, pcargo) {
 	  if (capacity == 0)

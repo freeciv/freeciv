@@ -212,7 +212,7 @@ static size_t my_strcspn(const char *s, const char *reject)
 
 /***************************************************************
  Splits the string into tokens. The individual tokens are
- returned. The delimiterset can freely be choosen.
+ returned. The delimiterset can freely be chosen.
 
  i.e. "34 abc 54 87" with a delimiterset of " " will yield 
       tokens={"34", "abc", "54", "87"}
@@ -625,7 +625,7 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
  available in str, does not change the string. 
 
  Also like mystrlcat, returns the final length that str would have
- had without truncation.  Ie, if return is >= n, truncation occured.
+ had without truncation.  I.e., if return is >= n, truncation occurred.
 **********************************************************************/ 
 int cat_snprintf(char *str, size_t n, const char *format, ...)
 {
