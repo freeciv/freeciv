@@ -56,6 +56,7 @@ void init_standart_hook(void);
 'MAIN'  gui_main.c      init_gui()
 'MESS'  messagewin.c    create_meswin_dialog()
 'MILI'  repodlgs.c      create_activeunits_report_dialog()
+'OPTC'  cityrep.c       cityrep_configure()
 'OPTI'  gamedlgs.c      create_option_dialog()
 'OPTM'  messagedlg.c    popup_messageopt_dialog()
 'POGO'  dialogs.c       popup_notify_goto_dialog()

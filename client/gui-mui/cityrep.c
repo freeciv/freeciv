@@ -48,91 +48,19 @@
 IMPORT Object *app;
 IMPORT Object *main_wnd;
 
-/* TODO: Change button must be implemented and several other things */
-
 extern struct connection aconnection;
 extern int delay_report_update;
 
-/******************************************************************/
-void create_city_report_dialog(int make_modal);
-
-/****************************************************************
- Create the text for a line in the city report
-*****************************************************************/
-static void get_city_text(struct city *pcity, char *buf[])
-{
-  struct city_report_spec *spec;
-  int i;
-
-  for (i = 0, spec = city_report_specs; i < NUM_CREPORT_COLS; i++, spec++)
-  {
-    char *text;
-
-    buf[i][0] = '\0';
-/*
-    if (!spec->show)
-      continue;
-*/
-    text = (spec->func) (pcity);
-    if (text)
-    {
-      strncpy(buf[i], text, 63);
-      buf[i][63] = 0;
-    }
-  }
-}
-
-/****************************************************************
- Return text line for the column headers for the city report
-*****************************************************************/
-static void get_city_table_header(char *text[])
-{
-  struct city_report_spec *spec;
-  int i;
-
-  for (i = 0, spec = city_report_specs; i < NUM_CREPORT_COLS; i++, spec++)
-  {
-    if (spec->title1)
-    {
-      strcpy(text[i], spec->title1);
-      strcat(text[i], " ");
-    }
-    else
-      text[i][0] = 0;
-
-    if (spec->title2)
-    {
-      strcat(text[i], spec->title2);
-    }
-  }
-}
-
-
 STATIC Object *cityrep_wnd;
-STATIC Object *cityrep_title_text;
 STATIC Object *cityrep_listview;
 STATIC struct Hook cityreq_disphook;
 STATIC struct Hook cityreq_comparehook;
-STATIC Object *cityrep_close_button;
+STATIC Object *cityrep_title_text;
 STATIC Object *cityrep_center_button;
 STATIC Object *cityrep_popup_button;
 STATIC Object *cityrep_buy_button;
 STATIC Object *cityrep_change_button;
-STATIC Object *cityrep_refresh_button;
-
-/****************************************************************
-...
-****************************************************************/
-void popup_city_report_dialog(int make_modal)
-{
-  if (!cityrep_wnd)
-    create_city_report_dialog(make_modal);
-  if (cityrep_wnd)
-  {
-    city_report_dialog_update();
-    set(cityrep_wnd, MUIA_Window_Open, TRUE);
-  }
-}
+STATIC Object *cityrep_configure_objects[NUM_CREPORT_COLS];
 
 /**************************************************************************
  Display function for the listview in the city report window
@@ -140,21 +68,35 @@ void popup_city_report_dialog(int make_modal)
 __asm __saveds static int cityrep_display(register __a0 struct Hook *h, register __a2 char **array, register __a1 struct city *pcity)
 {
   static char buf[NUM_CREPORT_COLS][64];
-  int i;
+  int i, j = 0;
+  char *text;
 
-  if (pcity)
+  for(i = 0; i < NUM_CREPORT_COLS; i++)
   {
-    for (i = 0; i < NUM_CREPORT_COLS; i++)
-      array[i] = buf[i];
-
-    get_city_text(pcity, array);
-  }
-  else
-  {
-    for (i = 0; i < NUM_CREPORT_COLS; i++)
-      array[i] = buf[i];
-
-    get_city_table_header(array);
+    if(city_report_specs[i].show)
+    {
+      buf[j][0] = '\0';
+      if(pcity)
+      {
+        if((text = city_report_specs[i].func(pcity)))
+        {
+          strncpy(buf[j], text, 63);
+          buf[j][63] = 0;
+        }
+      }
+      else /* the header */
+      {
+        if(city_report_specs[i].title1)
+        {
+          strcpy(buf[j], city_report_specs[i].title1);
+          strcat(buf[j], " ");
+        }
+        if(city_report_specs[i].title2)
+          strcat(buf[j], city_report_specs[i].title2);
+      }
+      array[j] = buf[j];
+      ++j;
+    }
   }
   return 0;
 }
@@ -331,10 +273,115 @@ static int cityrep_refresh(void)
 }
 
 /****************************************************************
+ Callback for the Configure Ok button
+*****************************************************************/
+static void cityrep_configure_ok(void)
+{
+  UBYTE buffer[NUM_CREPORT_COLS+1];
+  LONG i, j = 0;
+
+  buffer[j++] = ','; /* the name! */
+  for(i = 1; i < NUM_CREPORT_COLS; ++i)
+  {
+    if((city_report_specs[i].show = xget(cityrep_configure_objects[i], MUIA_Selected)))
+      buffer[j++] = ',';
+  }
+  buffer[j] = 0;
+
+  set(cityrep_listview, MUIA_NList_Format, buffer);
+
+  city_report_dialog_update();
+}
+
+/****************************************************************
+ Callback for the Configure Button
+*****************************************************************/
+static void cityrep_configure(void)
+{
+  STATIC Object *config_wnd = 0;
+  LONG i, err = 0;
+
+  if(!config_wnd)
+  {
+    Object *group, *o;
+    Object *ok_button, *cancel_button;
+
+    config_wnd = WindowObject,
+      MUIA_Window_ID, 'OPTC',
+      MUIA_Window_Title, "Configure City Report",
+      WindowContents, VGroup,
+        Child, TextObject,
+          MUIA_Text_Contents,"Set columns shown",
+          MUIA_Text_PreParse, "\33c",
+          End,
+        Child, HGroup,
+          Child, HSpace(0),
+          Child, group = ColGroup(2), End,
+          Child, HSpace(0),
+          End,
+        Child, HGroup,
+          Child, ok_button = MakeButton("_Ok"),
+          Child, cancel_button = MakeButton("_Cancel"),
+          End,
+        End,
+      End;
+
+    if(config_wnd)
+    {
+      for(i = 1; i < NUM_CREPORT_COLS && !err; i++)
+      {
+        if((o = MakeLabel(city_report_specs[i].explanation)))
+          DoMethod(group, OM_ADDMEMBER, o);
+        else
+          ++err;
+
+        if((cityrep_configure_objects[i] = MakeCheck(city_report_specs[i].explanation, FALSE)))
+          DoMethod(group, OM_ADDMEMBER, cityrep_configure_objects[i]);
+        else
+          ++err;
+      }
+      if(!err)
+      {
+        DoMethod(config_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, config_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
+        DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, config_wnd, 3, MUIM_CallHook, &standart_hook, cityrep_configure_ok);
+        DoMethod(ok_button, MUIM_Notify, MUIA_Pressed, FALSE, config_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
+        DoMethod(cancel_button, MUIM_Notify, MUIA_Pressed, FALSE, config_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
+        DoMethod(app, OM_ADDMEMBER, config_wnd);
+      }
+      else
+      {
+        MUI_DisposeObject(config_wnd); config_wnd = 0; /* something went wrong */
+      }
+    }
+  }
+
+  if(config_wnd)
+  {
+    for(i = 0; i < NUM_CREPORT_COLS; ++i)
+      setcheckmark(cityrep_configure_objects[i], city_report_specs[i].show);
+    set(config_wnd, MUIA_Window_Open, TRUE);
+  }
+}
+
+/****************************************************************
  Create and initialize the city report window
 *****************************************************************/
 void create_city_report_dialog(int make_modal)
 {
+  Object *cityrep_close_button;
+  Object *cityrep_refresh_button;
+  Object *cityrep_configure_button;
+  UBYTE format[NUM_CREPORT_COLS+1];
+  LONG i, j = 0;
+
+  format[j++] = ','; /* the name! */
+  for(i = 1; i < NUM_CREPORT_COLS; ++i)
+  {
+    if(city_report_specs[i].show)
+      format[j++] = ',';
+  }
+  format[j] = 0;
+
   if (cityrep_wnd)
     return;
 
@@ -350,7 +397,7 @@ void create_city_report_dialog(int make_modal)
 	    End,
 	Child, cityrep_listview = NListviewObject,
 	    MUIA_NListview_NList, NListObject,
-		MUIA_NList_Format, ",,,,,,,,,,,,",
+		MUIA_NList_Format, format,
 		MUIA_NList_DisplayHook, &cityreq_disphook,
 		MUIA_NList_CompareHook, &cityreq_comparehook,
 		MUIA_NList_Title, TRUE,
@@ -363,6 +410,7 @@ void create_city_report_dialog(int make_modal)
 	    Child, cityrep_buy_button = MakeButton("_Buy"),
 	    Child, cityrep_change_button = MakeButton("Chan_ge"),
 	    Child, cityrep_refresh_button = MakeButton("_Refresh"),
+	    Child, cityrep_configure_button = MakeButton("Con_figure"),
 	    End,
 	End,
     End;
@@ -388,6 +436,7 @@ void create_city_report_dialog(int make_modal)
     DoMethod(cityrep_buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_buy);
     DoMethod(cityrep_change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_change);
     DoMethod(cityrep_refresh_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_refresh);
+    DoMethod(cityrep_configure_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, cityrep_configure);
     DoMethod(cityrep_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, cityrep_active);
     DoMethod(cityrep_listview, MUIM_Notify, MUIA_NList_DoubleClick, TRUE, app, 3, MUIM_CallHook, &standart_hook, cityrep_center);
 
@@ -455,3 +504,18 @@ void city_report_dialog_update_city(struct city *pcity)
   else
     city_report_dialog_update();
 }
+
+/****************************************************************
+...
+****************************************************************/
+void popup_city_report_dialog(int make_modal)
+{
+  if (!cityrep_wnd)
+    create_city_report_dialog(make_modal);
+  if (cityrep_wnd)
+  {
+    city_report_dialog_update();
+    set(cityrep_wnd, MUIA_Window_Open, TRUE);
+  }
+}
+
