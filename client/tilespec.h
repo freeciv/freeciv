@@ -32,13 +32,15 @@ struct tile_edge {
   enum {
     EDGE_NS, EDGE_EW
   } type;
-  struct tile *tile[2];
+#define NUM_EDGE_TILES 2
+  const struct tile *tile[NUM_EDGE_TILES];
 };
 
 /* A corner is the endpoint of several edges.  At each corner 4 tiles will
  * meet (3 in hex view).  Tiles are in clockwise order NESW. */
 struct tile_corner {
-  struct tile *tile[4];
+#define NUM_CORNER_TILES 4
+  const struct tile *tile[NUM_CORNER_TILES];
 };
 
 struct drawn_sprite {

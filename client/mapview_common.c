@@ -939,13 +939,13 @@ static void put_drawn_sprites(struct canvas *pcanvas,
   Draw one layer of a tile, edge, corner, unit, and/or city onto the
   canvas at the given position.
 **************************************************************************/
-static void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
-			    struct tile *ptile,
-			    const struct tile_edge *pedge,
-			    const struct tile_corner *pcorner,
-			    const struct unit *punit, struct city *pcity,
-			    int canvas_x, int canvas_y,
-			    const struct city *citymode)
+void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
+		     struct tile *ptile,
+		     const struct tile_edge *pedge,
+		     const struct tile_corner *pcorner,
+		     const struct unit *punit, struct city *pcity,
+		     int canvas_x, int canvas_y,
+		     const struct city *citymode)
 {
   struct drawn_sprite tile_sprs[80];
   int count = fill_sprite_array(tile_sprs, layer, ptile, pedge, pcorner,
@@ -1562,9 +1562,9 @@ static void tile_draw_grid(struct canvas *pcanvas, const struct tile *ptile,
 /**************************************************************************
   Draw some or all of a tile onto the canvas.
 **************************************************************************/
-void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
-		  struct tile *ptile, int canvas_x, int canvas_y,
-		  const struct city *citymode)
+static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
+			 struct tile *ptile, int canvas_x, int canvas_y,
+			 const struct city *citymode)
 {
   if (tile_get_known(ptile) != TILE_UNKNOWN) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL,
@@ -1632,7 +1632,9 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   mapview_layer_iterate(layer) {
     gui_rect_iterate(gui_x0, gui_y0, width,
 		     height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
-		     ptile, pedge, pcorner, cx, cy) {
+		     ptile, pedge, pcorner, gui_x, gui_y) {
+      const int cx = gui_x - mapview.gui_x0, cy = gui_y - mapview.gui_y0;
+
       if (ptile) {
 	put_one_tile(mapview.store, layer, ptile, cx, cy, NULL);
       } else if (pedge) {
@@ -1655,7 +1657,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * from adjacent tiles (if they're close enough). */
   gui_rect_iterate(gui_x0 - GOTO_WIDTH, gui_y0 - GOTO_WIDTH,
 		   width + 2 * GOTO_WIDTH, height + 2 * GOTO_WIDTH,
-		   ptile, pedge, pcorner, cx, cy) {
+		   ptile, pedge, pcorner, gui_x, gui_y) {
     if (!ptile) {
       continue;
     }
@@ -1668,7 +1670,10 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 
   /* Draw citymap overlays on top. */
   gui_rect_iterate(gui_x0, gui_y0, width, height,
-		   ptile, pedge, pcorner, canvas_x2, canvas_y2) {
+		   ptile, pedge, pcorner, gui_x, gui_y) {
+    const int canvas_x2 = gui_x - mapview.gui_x0;
+    const int canvas_y2 = gui_y - mapview.gui_y0;
+
     if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
       struct unit *punit;
       struct city *pcity;
@@ -1775,7 +1780,10 @@ void show_city_descriptions(int canvas_x, int canvas_y,
   gui_rect_iterate(mapview.gui_x0 + canvas_x - dx / 2,
 		   mapview.gui_y0 + canvas_y - dy,
 		   width + dx, height + dy - NORMAL_TILE_HEIGHT,
-		   ptile, pedge, pcorner, canvas_x, canvas_y) {
+		   ptile, pedge, pcorner, gui_x, gui_y) {
+    const int canvas_x = gui_x - mapview.gui_x0;
+    const int canvas_y = gui_y - mapview.gui_y0;
+
     if (ptile && ptile->city) {
       int width = 0, height = 0;
       struct city *pcity = ptile->city;

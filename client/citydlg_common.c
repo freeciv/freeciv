@@ -140,25 +140,29 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 
 /* Iterate over all known tiles in the city.  This iteration follows the
  * painter's algorithm and can be used for drawing. */
-#define citydlg_known_iterate(pcity, city_x, city_y,			    \
-			      ptile, canvas_x, canvas_y)		    \
-{                                                                           \
-  int _itr;								    \
-                                                                            \
-  /* We must go in order to preserve the painter's algorithm. */	    \
-  for (_itr = 0; _itr < CITY_MAP_SIZE * CITY_MAP_SIZE; _itr++) {            \
-    int city_x = _itr / CITY_MAP_SIZE, city_y = _itr % CITY_MAP_SIZE;	    \
-    int canvas_x, canvas_y;						    \
-    struct tile *ptile;							    \
-                                                                            \
-    if (is_valid_city_coords(city_x, city_y)				    \
-	&& (ptile = city_map_to_map(pcity, city_x, city_y))		    \
-	&& tile_get_known(ptile)					    \
-	&& city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {	    \
+#define citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y)   \
+{									    \
+  int _my_gui_x0, _my_gui_y0;						    \
+  struct city *_pcity = (pcity);					    \
+  const int _my_width = get_citydlg_canvas_width();			    \
+  const int _my_height = get_citydlg_canvas_height();			    \
+  									    \
+  map_to_gui_vector(&_my_gui_x0, &_my_gui_y0,				    \
+		    _pcity->tile->x, _pcity->tile->y);			    \
+  _my_gui_x0 -= (_my_width - NORMAL_TILE_WIDTH) / 2;			    \
+  _my_gui_y0 -= (_my_height - NORMAL_TILE_HEIGHT) / 2;			    \
+  freelog(LOG_DEBUG, "citydlg: %d,%d + %dx%d",				    \
+	  _my_gui_x0, _my_gui_y0, _my_width, _my_height);		    \
+									    \
+  gui_rect_iterate(_my_gui_x0, _my_gui_y0, _my_width, _my_height,	    \
+		   ptile, pedge, pcorner, _gui_x, _gui_y) {		    \
+    const int canvas_x = _gui_x - _my_gui_x0;				    \
+    const int canvas_y = _gui_y - _my_gui_y0;				    \
+    {
 
-#define citydlg_known_iterate_end                                           \
+#define citydlg_iterate_end						    \
     }                                                                       \
-  }                                                                         \
+  } gui_rect_iterate_end;						    \
 }
 
 /****************************************************************************
@@ -174,32 +178,36 @@ void city_dialog_redraw_map(struct city *pcity,
 		       get_citydlg_canvas_height());
 
   mapview_layer_iterate(layer) {
-    citydlg_known_iterate(pcity, city_x, city_y,
-			  ptile, canvas_x, canvas_y) {
-      put_one_tile(pcanvas, layer, ptile, canvas_x, canvas_y, pcity);
-    } citydlg_known_iterate_end;
+    citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y) {
+      struct unit *punit = ptile ? get_drawable_unit(ptile, pcity) : NULL;
+      struct city *pcity_draw = ptile ? ptile->city : NULL;
+
+      put_one_element(pcanvas, layer, ptile, pedge, pcorner,
+		      punit, pcity_draw, canvas_x, canvas_y, pcity);
+    } citydlg_iterate_end;
   } mapview_layer_iterate_end;
 
   /* We have to put the output afterwards or it will be covered
-   * in iso-view. */
-  citydlg_known_iterate(pcity, city_x, city_y,
-			ptile, canvas_x, canvas_y) {
-    if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
-      put_city_tile_output(pcity, city_x, city_y,
-			   pcanvas, canvas_x, canvas_y);
-    }
-  } citydlg_known_iterate_end;
-
-  /* This sometimes will draw one of the lines on top of a city or
+   * in iso-view.
+   *
+   * This sometimes will draw one of the lines on top of a city or
    * unit pixmap (in iso-view). This should maybe be moved to
    * put_one_tile to fix this, but maybe it wouldn't be a good idea because
    * the lines would get obscured. */
-  citydlg_known_iterate(pcity, city_x, city_y,
-			ptile, canvas_x, canvas_y) {
-    if (pcity->city_map[city_x][city_y] == C_TILE_UNAVAILABLE) {
-      put_red_frame_tile(pcanvas, canvas_x, canvas_y);
+  citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y) {
+    int city_x, city_y;
+
+    if (ptile && map_to_city_map(&city_x, &city_y, pcity, ptile)
+	&& tile_get_known(ptile) != TILE_UNKNOWN) {
+      if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
+	put_city_tile_output(pcity, city_x, city_y,
+			     pcanvas, canvas_x, canvas_y);
+      }
+      if (pcity->city_map[city_x][city_y] == C_TILE_UNAVAILABLE) {
+	put_red_frame_tile(pcanvas, canvas_x, canvas_y);
+      }
     }
-  } citydlg_known_iterate_end;
+  } citydlg_iterate_end;
 }
 
 /**************************************************************************

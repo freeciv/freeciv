@@ -2772,6 +2772,33 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
   bool do_draw_unit = (punit && (draw_units || !ptile
 				 || (draw_focus_unit && pfocus == punit)));
 
+  if (citymode) {
+    int count = 0, i, cx, cy;
+    const struct tile *const *tiles = NULL;
+    bool valid = FALSE;
+
+    if (ptile) {
+      tiles = &ptile;
+      count = 1;
+    } else if (pcorner) {
+      tiles = pcorner->tile;
+      count = NUM_CORNER_TILES;
+    } else if (pedge) {
+      tiles = pedge->tile;
+      count = NUM_EDGE_TILES;
+    }
+
+    for (i = 0; i < count; i++) {
+      if (tiles[i] && map_to_city_map(&cx, &cy, citymode, tiles[i])) {
+	valid = TRUE;
+	break;
+      }
+    }
+    if (!valid) {
+      return 0;
+    }
+  }
+
   if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
     build_tile_data(ptile,
 		    &ttype, &tspecial, ttype_near, tspecial_near);

@@ -86,7 +86,7 @@ extern bool can_slide;
  * or the other text in PR#12085.
  */
 #define gui_rect_iterate(GRI_gui_x0, GRI_gui_y0, width, height,		    \
-			 ptile, pedge, pcorner, canvas_x, canvas_y)	    \
+			 ptile, pedge, pcorner, gui_x, gui_y)		    \
 {									    \
   int _gui_x0 = (GRI_gui_x0), _gui_y0 = (GRI_gui_y0);			    \
   int _width = (width), _height = (height);				    \
@@ -110,13 +110,15 @@ extern bool can_slide;
     const int _count = (GRI_x1 - GRI_x0) * (GRI_y1 - GRI_y0);		    \
     int GRI_itr, GRI_x_itr, GRI_y_itr, GRI_sum, GRI_diff;		    \
 									    \
+    freelog(LOG_DEBUG, "Iterating over %d-%d x %d-%d rectangle.",	    \
+	    GRI_x1, GRI_x0, GRI_y1, GRI_y0);				    \
     for (GRI_itr = 0; GRI_itr < _count; GRI_itr++) {			    \
       struct tile *ptile = NULL;					    \
       struct tile_edge *pedge = NULL;					    \
       struct tile_corner *pcorner = NULL;				    \
       struct tile_edge GRI_edge;					    \
       struct tile_corner GRI_corner;					    \
-      int canvas_x, canvas_y;						    \
+      int gui_x, gui_y;							    \
 									    \
       GRI_x_itr = GRI_x0 + (GRI_itr % (GRI_x1 - GRI_x0));		    \
       GRI_y_itr = GRI_y0 + (GRI_itr / (GRI_x1 - GRI_x0));		    \
@@ -195,10 +197,8 @@ extern bool can_slide;
 	  }								    \
 	}								    \
       }									    \
-      canvas_x								    \
-	= GRI_x_itr * _W - NORMAL_TILE_WIDTH / 2 - mapview.gui_x0;	    \
-      canvas_y								    \
-	= GRI_y_itr * _H - NORMAL_TILE_HEIGHT / 2 - mapview.gui_y0;
+      gui_x = GRI_x_itr * _W - NORMAL_TILE_WIDTH / 2;			    \
+      gui_y = GRI_y_itr * _H - NORMAL_TILE_HEIGHT / 2;
 
 #define gui_rect_iterate_end						    \
     }									    \
@@ -253,9 +253,13 @@ void put_red_frame_tile(struct canvas *pcanvas,
 
 void put_nuke_mushroom_pixmaps(struct tile *ptile);
 
-void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
-		  struct tile *ptile, int canvas_x, int canvas_y,
-		  const struct city *citymode);
+void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
+		     struct tile *ptile,
+		     const struct tile_edge *pedge,
+		     const struct tile_corner *pcorner,
+		     const struct unit *punit, struct city *pcity,
+		     int canvas_x, int canvas_y,
+		     const struct city *citymode);
 
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height);
 void update_map_canvas_visible(void);
