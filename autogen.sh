@@ -147,8 +147,8 @@ fi
 version_check 1 "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 4 || DIE=1
 if [ "$FC_USE_NLS" = "yes" ]; then
   DIE2=0
-  version_check 1 "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE2=1
-  version_check 1 "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE2=1
+  version_check 1 "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 36 || DIE2=1
+  version_check 1 "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 36 || DIE2=1
   if [ "$DIE2" -eq 1 ]; then
     echo 
     echo "You may want to use --disable-nls to disable NLS."

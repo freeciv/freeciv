@@ -174,7 +174,7 @@ Try --with-included-gettext or --disable-nls. Read ABOUT-NLS.)
   fi
 
   if test "$IS_BETA_VERSION" = "1" || test "$IS_DEVEL_VERSION" = "1"; then
-    AC_MSG_CHECKING(for GNU xgettext version >= 0.10.38)
+    AC_MSG_CHECKING(for GNU xgettext version >= 0.10.36)
     xgettext_version=`$XGETTEXT --version 2>&1 | grep GNU | sed 's/"/ /g'`
     AC_TRY_RUN([
 #include <stdio.h>
@@ -192,7 +192,7 @@ int main()
     return 1;
   }
   sscanf(p, "%d.%d.%d", &major, &minor, &patch);
-  if (major < 1 && (minor < 10 || (minor == 10 && patch < 38))) {
+  if (major < 1 && (minor < 10 || (minor == 10 && patch < 36))) {
     return 1;
   }
   return 0;
