@@ -632,6 +632,100 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
   } impr_type_iterate_end;
 }
 
+/***************************************************************************
+ * Evaluate the need for units (like caravans) that aid wonder construction.
+ * If another city is building wonder and needs help but pplayer is not
+ * advanced enough to build caravans, the corresponding tech will be 
+ * stimulated.
+ ***************************************************************************/
+static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
+                           struct ai_choice *choice)
+{
+  /* Continent where the city is --- we won't be aiding any wonder 
+   * construction on another continent */
+  int continent = map_get_continent(pcity->x, pcity->y);
+  /* Total count of caravans available or already being built 
+   * on this continent */
+  int caravans = 0;
+  /* The type of the caravan */
+  Unit_Type_id unit_type;
+
+  if (num_role_units(F_HELP_WONDER) == 0) {
+    /* No such units available in the ruleset */
+    return;
+  }
+
+  /* Count existing caravans */
+  unit_list_iterate(pplayer->units, punit) {
+    if (unit_flag(punit, F_HELP_WONDER)
+        && map_get_continent(punit->x, punit->y) == continent)
+      caravans++;
+  } unit_list_iterate_end;
+
+  /* Count caravans being built */
+  city_list_iterate(pplayer->cities, acity) {
+    if (acity->is_building_unit
+        && unit_type_flag(acity->currently_building, F_HELP_WONDER)
+        && acity->shield_stock >=
+             get_unit_type(acity->currently_building)->build_cost
+        && map_get_continent(acity->x, acity->y) == continent)
+      caravans++;
+  } city_list_iterate_end;
+
+  /* Check all wonders in our cities being built, if one isn't worth a little
+   * help */
+  city_list_iterate(pplayer->cities, acity) {  
+    unit_type = best_role_unit(pcity, F_HELP_WONDER);
+    
+    if (unit_type == U_LAST) {
+      /* We cannot build such units yet
+       * but we will consider it to stimulate science */
+      unit_type = get_role_unit(F_HELP_WONDER, 0);
+    }
+
+    /* If we are building wonder there, the city is on same continent, we
+     * aren't in that city (stopping building wonder in order to build caravan
+     * to help it makes no sense) and we haven't already got enough caravans
+     * to finish the wonder. */
+    if (!acity->is_building_unit
+        && is_wonder(acity->currently_building)
+        && map_get_continent(acity->x, acity->y) == continent
+        && acity != pcity
+        && build_points_left(acity) >
+             get_unit_type(unit_type)->build_cost * caravans) {
+      
+      /* Desire for the wonder we are going to help - as much as we want to
+       * build it we want to help building it as well. */
+      int want = pcity->ai.building_want[acity->currently_building];
+
+      /* Distance to wonder city was established after ai_manage_buildings()
+       * and before this.  If we just started building a wonder during
+       * ai_city_choose_build(), the started_building notify comes equipped
+       * with an update.  It calls generate_warmap(), but this is a lot less
+       * warmap generation than there would be otherwise. -- Syela *
+       * Value of 8 is a total guess and could be wrong, but it's still better
+       * than 0. -- Syela */
+      int dist = pcity->ai.distance_to_wonder_city * 8 / 
+        get_unit_type(unit_type)->move_rate;
+
+      want -= dist;
+      
+      if (can_build_unit_direct(pcity, unit_type)) {
+        if (want > choice->want) {
+          choice->want = want;
+          choice->type = CT_NONMIL;
+          ai_choose_role_unit(pplayer, pcity, choice, F_HELP_WONDER, dist / 2);
+        }
+      } else {
+        int tech_req = get_unit_type(unit_type)->tech_requirement;
+
+        /* XXX (FIXME): Had to add the scientist guess here too. -- Syela */
+        pplayer->ai.tech_want[tech_req] += want;
+      }
+    }
+  } city_list_iterate_end;
+}
+
 /********************************************************************** 
 This function should assign a value, want and type to choice (that means what
 to build and how important it is).
@@ -650,10 +744,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   int est_food = pcity->food_surplus
                  + 2 * pcity->ppl_scientist
                  + 2 * pcity->ppl_taxman;
-  /* Total count of caravans available or already being built */
-  int caravans = 0;
-  /* Continent where the city is - important for caravans */
-  int continent = map_get_continent(pcity->x, pcity->y);
 
   init_choice(choice);
 
@@ -710,72 +800,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     }
   }
 
-  /* Count existing caravans */
-  unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit, F_HELP_WONDER)
-        && map_get_continent(punit->x, punit->y) == continent)
-      caravans++;
-  } unit_list_iterate_end;
-
-  /* Count caravans being built */
-  city_list_iterate(pplayer->cities, acity) {
-    if (acity->is_building_unit
-        && unit_type_flag(acity->currently_building, F_HELP_WONDER)
-        && acity->shield_stock >=
-             get_unit_type(acity->currently_building)->build_cost
-        && map_get_continent(acity->x, acity->y) == continent)
-      caravans++;
-  } city_list_iterate_end;
-
-  /* Check all wonders in our cities being built, if one isn't worth a little
-   * help */
-  city_list_iterate(pplayer->cities, acity) {  
-    unit_type = best_role_unit(pcity, F_HELP_WONDER);
-    
-    /* If we are building wonder there, the city is on same continent, we
-     * aren't in that city (stopping building wonder in order to build caravan
-     * to help it makes no sense) and we already didn't build enough caravans
-     * to finish the wonder. */
-    if (!acity->is_building_unit
-        && is_wonder(acity->currently_building)
-        && map_get_continent(acity->x, acity->y) == continent
-        && acity != pcity
-        && build_points_left(acity) >
-             get_unit_type(unit_type)->build_cost * caravans) {
-      
-      /* Desire for the wonder we are going to help - as much as we want to
-       * build it we want to help building it as well. */
-      int want = pcity->ai.building_want[acity->currently_building];
-
-      /* Distance to wonder city was established after ai_manage_buildings()
-       * and before this.  If we just started building a wonder during
-       * ai_city_choose_build(), the started_building notify comes equipped
-       * with an update.  It calls generate_warmap(), but this is a lot less
-       * warmap generation than there would be otherwise. -- Syela */
-      int dist;
-      
-      /* Value of 8 is a total guess and could be wrong, but it's still better
-       * than 0. -- Syela */
-      dist = pcity->ai.distance_to_wonder_city * 8 /
-             ((unit_type == U_LAST) ? SINGLE_MOVE
-                                    : get_unit_type(unit_type)->move_rate);
-      want -= dist;
-      
-      unit_type = get_role_unit(F_HELP_WONDER, 0);
-      if (can_build_unit_direct(pcity, unit_type)) {
-        if (want > choice->want) {
-          choice->want = want;
-          choice->type = CT_NONMIL;
-          ai_choose_role_unit(pplayer, pcity, choice, F_HELP_WONDER, dist / 2);
-        }
-      } else {
-        int tech_req = get_unit_type(unit_type)->tech_requirement;
-
-        /* XXX (FIXME): Had to add the scientist guess here too. -- Syela */
-        pplayer->ai.tech_want[tech_req] += want;
-      }
-    }
-  } city_list_iterate_end;
+  /* Consider building caravan-type units to aid wonder construction */  
+  ai_choose_help_wonder(pplayer, pcity, choice);
 
   {
     struct ai_choice cur;

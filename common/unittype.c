@@ -83,6 +83,7 @@ bool unit_type_exists(Unit_Type_id id)
 **************************************************************************/
 struct unit_type *get_unit_type(Unit_Type_id id)
 {
+  assert(id >= 0 && id < U_LAST && id < game.num_unit_types);
   return &unit_types[id];
 }
 
