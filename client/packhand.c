@@ -1026,6 +1026,20 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         refresh_unit_city_dialogs(punit);
       }
 
+      if (punit->transported_by != packet_unit->transported_by) {
+	struct unit *ptrans;
+
+	if (punit->transported_by != -1
+	    && (ptrans = find_unit_by_id(punit->transported_by))) {
+	  refresh_unit_city_dialogs(ptrans);
+	}
+
+	if (packet_unit->transported_by != -1
+	    && (ptrans = find_unit_by_id(packet_unit->transported_by))) {
+	  refresh_unit_city_dialogs(ptrans);
+	}
+      }
+
     } /*** End of Change in activity or activity's target. ***/
     
     /* These two lines force the menus to be updated as appropriate when
