@@ -454,12 +454,28 @@ dnl warnings.
 AC_OUTPUT_COMMANDS(
   [if test -f po/Makefile ; then
      if grep 'grep -v "is unknown; will try C"' po/Makefile >/dev/null 2>&1 ; then
-       # has already been extended
+       # has already been silenced
        :
      else
        echo silencing po/Makefile
        mv -f po/Makefile po/Makefile.tmp
        sed -e 's/--files-from=$(srcdir)\/POTFILES.in/--files-from=$(srcdir)\/POTFILES.in 2>\&1 | grep -v "is unknown; will try C"/' po/Makefile.tmp > po/Makefile
+       rm po/Makefile.tmp
+     fi
+   fi])
+
+dnl Finally, the default behavior of msgmerge breaks 2-byte character
+dnl encodings, as used in ja.po and others.
+dnl We fix this by forcing the "-w 0" option on all msgmerge calls.
+AC_OUTPUT_COMMANDS(
+  [if test -f po/Makefile ; then
+     if grep 'MSGMERGE = PATH=../src:$$PATH msgmerge -w 0' po/Makefile >/dev/null 2>&1 ; then
+       # has already been modified
+       :
+     else
+       echo modifying po/Makefile
+       mv -f po/Makefile po/Makefile.tmp
+       sed -e 's/MSGMERGE = PATH=..\/src:$$PATH msgmerge/MSGMERGE = PATH=..\/src:$$PATH msgmerge -w 0/' po/Makefile.tmp > po/Makefile
        rm po/Makefile.tmp
      fi
    fi])
