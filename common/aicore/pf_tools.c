@@ -544,7 +544,6 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   BV_CLR_ALL(parameter->unit_flags);
-  parameter->omniscience = TRUE;
 
   parameter->start_x = punit->x;
   parameter->start_y = punit->y;
