@@ -179,6 +179,7 @@ struct packet_city_info {
   int waste[O_MAX];
   int prod[O_MAX];
   int citizen_base[O_MAX];
+  int usage[O_MAX];
   int food_stock;
   int shield_stock;
   int trade[NUM_TRADEROUTES];

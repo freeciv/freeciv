@@ -461,6 +461,7 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->waste[o] = packet->waste[o];
     pcity->prod[o] = packet->prod[o];
     pcity->citizen_base[o] = packet->citizen_base[o];
+    pcity->usage[o] = packet->usage[o];
   } output_type_iterate_end;
 
   pcity->food_stock=packet->food_stock;

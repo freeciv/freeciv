@@ -404,6 +404,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
   UINT16 waste[O_MAX];
   UINT16 prod[O_MAX];
   SINT16 citizen_base[O_MAX];
+  SINT16 usage[O_MAX];
   UINT16 food_stock, shield_stock;
 
   UINT16 trade[NUM_TRADEROUTES];

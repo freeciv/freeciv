@@ -241,6 +241,7 @@ struct city {
   int waste[O_MAX]; /* Waste/corruption in each category. */
   int prod[O_MAX]; /* Production is total minus waste. */
   int citizen_base[O_MAX]; /* Base production from citizens. */
+  int usage[O_MAX]; /* Amount of each resource being used. */
 
   /* Cached values for CPU savings. */
   int bonus[O_MAX];
