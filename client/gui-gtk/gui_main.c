@@ -230,46 +230,64 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     return TRUE;
 }
 
-static void tearoff_callback (GtkWidget *but, GtkWidget *box)
+static gint tearoff_delete(GtkWidget *w, GdkEvent *ev, GtkWidget *box)
 {
-    GtkWidget *w, *p;
+  GtkWidget *p;
 
-    if (GTK_TOGGLE_BUTTON (but)->active)
-    {
-	w = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
+  gtk_widget_hide(w);
+  p = ((GtkBoxChild *)GTK_BOX(box)->children->data)->widget;
+  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(p), FALSE);
 
-	gtk_object_set_user_data (GTK_OBJECT (w), box->parent);
-	gtk_widget_reparent (box, w);
-	gtk_widget_show (w);
-    }
-    else
-    {
-        w = box->parent;
-	p = gtk_object_get_user_data (GTK_OBJECT (w));
-	gtk_widget_reparent (box, p);
-	gtk_widget_destroy (w);
-    }
+  p = gtk_object_get_user_data(GTK_OBJECT (w));
+  gtk_widget_reparent(box, p);
+  return TRUE;
 }
 
-static GtkWidget *detached_widget_new(GtkWidget **avbox)
+static void tearoff_callback (GtkWidget *but, GtkWidget *box)
 {
-    GtkWidget *ahbox, *b, *sep;
+  GtkWidget *w;
 
-    ahbox = gtk_hbox_new( FALSE, 2 );
+  if (GTK_TOGGLE_BUTTON(but)->active)
+  {
+    w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
+    gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
+    gtk_signal_connect(GTK_OBJECT(w), "delete_event",
+    		       GTK_SIGNAL_FUNC(tearoff_delete), box);
 
-    b = gtk_toggle_button_new();
-    gtk_box_pack_start( GTK_BOX( ahbox ), b, FALSE, FALSE, 0 );
-    gtk_signal_connect( GTK_OBJECT(b), "clicked",
-			GTK_SIGNAL_FUNC( tearoff_callback ), ahbox);
+    gtk_object_set_user_data(GTK_OBJECT (w), box->parent);
+    gtk_widget_reparent(box, w);
+    gtk_widget_show(w);
+  }
+  else
+  {
+    w = box->parent;
+    tearoff_delete(w, NULL, box);
+    gtk_widget_destroy(w);
+  }
+}
 
-    /* cosmetic effects */
-    sep = gtk_vseparator_new();
-    gtk_container_add( GTK_CONTAINER( b ), sep );
+static GtkWidget *detached_widget_new(void)
+{
+  return gtk_hbox_new(FALSE, 2);
+}
 
-    *avbox = gtk_vbox_new( FALSE, 0 );
-    gtk_box_pack_start( GTK_BOX( ahbox ), *avbox, TRUE, TRUE, 0 );
-    return ahbox;
+static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
+{
+  GtkWidget *b, *sep, *avbox;
+
+  b = gtk_toggle_button_new();
+  gtk_box_pack_start( GTK_BOX( ahbox ), b, FALSE, FALSE, 0 );
+  gtk_signal_connect( GTK_OBJECT(b), "clicked",
+        	      GTK_SIGNAL_FUNC( tearoff_callback ), ahbox);
+
+  /* cosmetic effects */
+  sep = gtk_vseparator_new();
+  gtk_container_add( GTK_CONTAINER( b ), sep );
+
+  avbox = gtk_vbox_new( FALSE, 0 );
+  gtk_box_pack_start( GTK_BOX( ahbox ), avbox, TRUE, TRUE, 0 );
+  return avbox;
 }
 
 static void select_pixmap_callback(GtkWidget *w, GdkEvent *ev, int i) 
@@ -296,6 +314,7 @@ static void setup_widgets(void)
   GtkWidget	      *hbox;
   GtkWidget	      *vbox1;
   GtkWidget           *avbox;
+  GtkWidget           *ahbox;
   GtkWidget	      *frame;
 
   GtkWidget	      *menubar;
@@ -319,7 +338,9 @@ static void setup_widgets(void)
   vbox1 = gtk_vbox_new( FALSE, 3 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
 
-  gtk_container_add(GTK_CONTAINER(vbox1), detached_widget_new (&avbox));
+  ahbox = detached_widget_new();
+  gtk_container_add(GTK_CONTAINER(vbox1), ahbox);
+  avbox = detached_widget_fill(ahbox);
 
   overview_canvas	      = gtk_drawing_area_new();
 
@@ -327,14 +348,16 @@ static void setup_widgets(void)
         			      | GDK_BUTTON_PRESS_MASK );
 
   gtk_drawing_area_size( GTK_DRAWING_AREA( overview_canvas ), 160, 100 );
-  gtk_box_pack_start(GTK_BOX(avbox), overview_canvas, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), overview_canvas, FALSE, FALSE, 0);
 
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "expose_event",
         	      (GtkSignalFunc) overview_canvas_expose, NULL );
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "button_press_event",
         	      (GtkSignalFunc) butt_down_overviewcanvas, NULL );
 
-  gtk_container_add(GTK_CONTAINER(vbox1), detached_widget_new (&avbox));
+  ahbox = detached_widget_new();
+  gtk_container_add(GTK_CONTAINER(vbox1), ahbox);
+  avbox = detached_widget_fill(ahbox);
 
   {   /* Info on player's civilization */
       GtkWidget *vbox4;
@@ -503,8 +526,9 @@ static void setup_widgets(void)
   {   /* the message window */
       GtkWidget *text;
 
-      gtk_paned_pack2(GTK_PANED(paned), detached_widget_new (&avbox),
-								TRUE, TRUE);
+      ahbox = detached_widget_new();
+      gtk_paned_pack2(GTK_PANED(paned), ahbox, TRUE, TRUE);
+      avbox = detached_widget_fill(ahbox);
 
       hbox = gtk_hbox_new(FALSE, 0);
       gtk_box_pack_start(GTK_BOX(avbox), hbox, TRUE, TRUE, 0);
