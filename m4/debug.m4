@@ -10,10 +10,10 @@ esac], [enable_debug=some])
 
 dnl -g is added by AC_PROG_CC if the compiler understands it
 if test "x$enable_debug" = "xyes"; then
-  CPPFLAGS="$CPPFLAGS -DDEBUG"
+  AC_DEFINE(DEBUG, 1, [Define if you want extra debugging.])
 else
   if test "x$enable_debug" = "xno"; then
-    CPPFLAGS="$CPPFLAGS -DNDEBUG"
+    AC_DEFINE(NDEBUG, 1, [Define if you want no debug support.])
   fi
 fi
 ])

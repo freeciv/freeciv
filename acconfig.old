@@ -26,6 +26,8 @@
 #undef IS_DEVEL_VERSION
 #undef IS_BETA_VERSION
 #undef VERSION_STRING
+#undef DEBUG
+#undef NDEBUG
 #undef HAVE_LIBICE
 #undef HAVE_LIBSM
 #undef HAVE_LIBX11
