@@ -1713,6 +1713,8 @@ static void player_load(struct player *plr, int plrno,
   plr->nturns_idle=0;
   plr->is_male=secfile_lookup_bool_default(file, TRUE, "player%d.is_male", plrno);
   plr->is_alive=secfile_lookup_bool(file, "player%d.is_alive", plrno);
+  plr->is_observer=secfile_lookup_bool_default(file, FALSE, 
+                                               "player%d.is_observer", plrno);
   plr->ai.control = secfile_lookup_bool(file, "player%d.ai.control", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
     plr->ai.love[i]
@@ -2436,6 +2438,7 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
+  secfile_insert_bool(file, plr->is_observer, "player%d.is_observer", plrno);
   secfile_insert_bool(file, plr->ai.control, "player%d.ai.control", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
     secfile_insert_int(file, plr->ai.love[i],
