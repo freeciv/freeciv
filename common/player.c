@@ -92,6 +92,7 @@ void player_init(struct player *plr)
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;
+  plr->research.changed_from = -1;
   player_limit_to_government_rates(plr);
   spaceship_init(&plr->spaceship);
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {

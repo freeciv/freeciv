@@ -56,6 +56,9 @@ struct player_research {
   int researched;     /* # bulbs reseached */
   int researchpoints; /* # bulbs to complete */
   int researching;    /* invention being researched in */
+  int changed_from;   /* if the player changed techs, which one changed from */
+  int before_researched;	/* if the player changed techs, how many */
+				/* points they had before the change */
   unsigned char inventions[A_LAST];
 };
 

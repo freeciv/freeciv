@@ -1384,6 +1384,7 @@ void update_player_activities(struct player *pplayer)
   if (city_list_size(&pplayer->cities)) /* has to be below the above for got_tech */ 
     update_tech(pplayer, city_list_size(&pplayer->cities));
 #endif
+  pplayer->research.changed_from=-1;
   update_unit_activities(pplayer);
   update_player_aliveness(pplayer);
 }
@@ -1606,9 +1607,16 @@ void choose_tech(struct player *plr, int tech)
   if (get_invention(plr, tech)!=TECH_REACHABLE) { /* can't research this */
     return;
   }
+  if (!plr->got_tech && plr->research.changed_from == -1) {
+    plr->research.before_researched = plr->research.researched;
+    plr->research.changed_from = plr->research.researching;
+    /* subtract a penalty because we changed subject */
+    plr->research.researched -= ((plr->research.researched * game.techpenalty) / 100);
+  } else if (tech == plr->research.changed_from) {
+    plr->research.researched = plr->research.before_researched;
+    plr->research.changed_from = -1;
+  }
   plr->research.researching=tech;
-  if (!plr->got_tech && plr->research.researched > 0)
-    plr->research.researched -= ((plr->research.researched * game.techpenalty) / 100);     /* subtract a penalty because we changed subject */
 }
 
 void choose_tech_goal(struct player *plr, int tech)
