@@ -155,11 +155,12 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
 
   /* this loop to prevent players from sending multiple lines
    * which can be abused */
-  for (cp = message; *cp != '\0'; cp++)
-    if(!my_isprint(*cp & 0x7f)) {
+  for (cp = message; *cp != '\0'; cp++) {
+    if (*cp == '\n' || *cp == '\r') {
       *cp='\0';
       break;
     }
+  }
 
   /* Server commands are prefixed with '/', which is an obvious
      but confusing choice: even before this feature existed,
