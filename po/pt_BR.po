@@ -3,6 +3,8 @@
 # Vasco Costa <vasc@camoes.rnl.ist.utl.pt>, 1999.
 # Lalo Martins <lalo@webcom.com>, 1999, 2000.
 #
+# FIXME: Insert some appropriate Plural-Forms: header.
+#
 #, fuzzy
 msgid ""
 msgstr ""

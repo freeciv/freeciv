@@ -3,6 +3,7 @@
 # Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # This translation is covered by the GNU General Public License Version 2.
 #
+# FIXME: Insert some appropriate Plural-Forms: header.
 #
 # === Authors
 #
