@@ -17,6 +17,11 @@
 
 #include <shared.h>
 
+#ifndef FREECIV_DATADIR
+#define FREECIV_DATADIR "data"
+#endif
+
+
 /* Random Number Generator variables */
 RANDOM_TYPE RandomState[56];
 int iRandJ, iRandK, iRandX; 
@@ -338,4 +343,32 @@ void save_restore_random(void)
       j=iRandJ; k=iRandK; x=iRandX;
    }
    mode = mode+1 % 2;
+}
+
+
+/***************************************************************************
+Prepend the data directory to the filename to get the
+relative path to a file in the data directory.
+Use environment variable and check that its sane.
+(Used to be in client/climisc.c)
+The returned pointer points to static memory, so this can
+only supply one filename at a time.
+***************************************************************************/
+char *datafilename(char *filename)
+{
+  static char* datadir=0;
+  static char  realfile[512];
+  if(!datadir) {
+    if((datadir = getenv("FREECIV_DATADIR"))) {
+      int i;
+      for(i=strlen(datadir)-1; i>=0 && isspace((int)datadir[i]); i--)
+	datadir[i] = '\0';
+      if(datadir[i] == '/')
+	datadir[i] = '\0';
+    } else {
+      datadir = FREECIV_DATADIR; /* correct if not 'data' is the default */
+    };
+  };
+  sprintf(realfile,"%s/%s",datadir,filename);
+  return(realfile);
 }

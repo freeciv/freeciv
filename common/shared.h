@@ -107,4 +107,6 @@ void mysrand(RANDOM_TYPE seed);
 int string_ptr_compare(const void *first, const void *second);
 void save_restore_random(void);
 
+char *datafilename(char *filename);    /* used to be in client/climisc */
+
 #endif

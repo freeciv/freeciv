@@ -13,9 +13,6 @@
 This module contains various general - mostly highlevel - functions
 used throughout the client.
 ***********************************************************************/
-#ifdef HAVE_CONFIG_H
-#include <config.h>		/* FREECIV_DATADIR */
-#endif
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -35,38 +32,11 @@ used throughout the client.
 #include <chatline.h>
 #include <log.h>
 
-#ifndef FREECIV_DATADIR
-#define FREECIV_DATADIR "data"
-#endif
-
 char *tile_set_dir=NULL;
 
 #ifndef DEBUG
 #define DEBUG 0
 #endif 
-
-/***************************************************************************
-...
-***************************************************************************/
-char *datafilename(char *filename)
-{
-  static char* datadir=0;
-  static char  realfile[512];
-  if(!datadir) {
-    if((datadir = getenv("FREECIV_DATADIR"))) {
-      int i;
-      for(i=strlen(datadir)-1; i>=0 && isspace((int)datadir[i]); i--)
-	datadir[i] = '\0';
-      if(datadir[i] == '/')
-	datadir[i] = '\0';
-    } else {
-      datadir = FREECIV_DATADIR; /* correct if not 'data' is the default */
-    };
-  };
-  sprintf(realfile,"%s/%s",datadir,filename);
-  return(realfile);
-}
-
 
 /**************************************************************************
   Search for the requested xpm file
