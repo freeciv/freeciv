@@ -9,6 +9,13 @@ and gives information about reporting new bugs.
 KNOWN BUGS:
 ===========
 
+ - The Gtk+ client sometimes has a problem where the focus gets stuck
+   on the chatline, and the arrow keys no longer work to move units in
+   the main window.  A way to get back to the main window is to use
+   the <Tab> key to advance to focus to some other widget.  Then the
+   arrow keys will work again.  (Notably, clicking on the main window
+   does *not* give it the focus, unfortunately.)
+
  - The easy AI is not easy enough for novice players.  If the AI is 
    beating you up early in the game, try setting the "generator" server 
    option to 2 or 3.  That is, in the server, before starting a game,
@@ -39,6 +46,9 @@ KNOWN BUGS:
  - When a unit is moved to the edge of the map display, the map should 
    shift sooner, before the unit actually gets to the edge.
 
+ - The Great Wall wonder, which acts as a city wall in every city,
+   disallows cities to build "proper" city walls that won't disappear 
+   when wonder becomes obsolete.
 
 REPORTING A BUG:
 ================
