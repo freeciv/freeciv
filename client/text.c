@@ -363,7 +363,7 @@ const char *unit_description(struct unit *punit)
   add("%s", ptype->name);
 
   if (ptype->veteran[punit->veteran].name[0] != '\0') {
-    add(" (%s)", ptype->veteran[punit->veteran].name);
+    add(" (%s)", _(ptype->veteran[punit->veteran].name));
   }
   add("\n");
   add_line("%s", unit_activity_text(punit));
