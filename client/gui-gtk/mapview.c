@@ -94,10 +94,6 @@ int map_view_x0, map_view_y0;
 /* used by map_canvas expose func */ 
 int force_full_repaint;
 
-/* this variable prevents that the map is drawn three times,  */
-/* if center_tile_mapcanvas or map_canvas_expose are called   */
-/* might be done without global variable someday              */
-static int no_redraw=0;
 
 extern GtkWidget *	toplevel;
 extern GdkWindow *	root_window;
@@ -634,7 +630,6 @@ void get_center_tile_mapcanvas(int *x, int *y)
 void center_tile_mapcanvas(int x, int y)
 {
   int new_map_view_x0, new_map_view_y0;
-  no_redraw=1;
 
   new_map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
   new_map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
@@ -647,7 +642,6 @@ void center_tile_mapcanvas(int x, int y)
   update_map_canvas(0, 0, map_canvas_store_twidth,map_canvas_store_theight, 1);
   update_map_canvas_scrollbars();
   
-  no_redraw=0;
   refresh_overview_viewrect();
 }
 
@@ -784,7 +778,6 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
   int tile_width, tile_height;
   gboolean map_resized;
 
-  no_redraw=1;
   gdk_window_get_size( widget->window, &width, &height );
 
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
@@ -858,8 +851,6 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
     }
     refresh_overview_canvas();
   }
-
-  no_redraw=0;
   return TRUE;
 }
 
@@ -1375,10 +1366,16 @@ void put_city_workers(struct city *pcity, int color)
 **************************************************************************/
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 {
+  int last_map_view_x0;
+  int last_map_view_y0;
+
   gfloat percent=adj->value;
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
      return;
+
+  last_map_view_x0=map_view_x0;
+  last_map_view_y0=map_view_y0;
 
   if(hscrollbar)
     map_view_x0=percent;
@@ -1389,11 +1386,8 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
        map.ysize-map_canvas_store_theight : map_view_y0;
   }
 
-   /* checks the global variable no_redraw to prevent that the map is */
-   /* drawn when not necessary. set in center_tile_mapcanvas and      */
-   /*  map_canvas_expose */
-   if (no_redraw==0) {
-     update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight,1);
-     refresh_overview_viewrect();
-   }
+  if(last_map_view_x0!=map_view_x0 || last_map_view_y0!=map_view_y0) {
+    update_map_canvas(0, 0,map_canvas_store_twidth, map_canvas_store_theight,1);
+    refresh_overview_viewrect();
+  }
 }
