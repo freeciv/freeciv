@@ -756,12 +756,12 @@ static void upgrade_building_prod(struct city *pcity)
 						  pcity->currently_building);
 
   if (can_build_improvement(pcity, upgrades_to)) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED,
+		     _("Game: Production of %s is upgraded to %s in %s."),
+		     get_improvement_type(pcity->currently_building)->name,
+		     get_improvement_type(upgrades_to)->name,
+		     pcity->name);
     pcity->currently_building = upgrades_to;
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED, 
-		  _("Game: Production of %s is upgraded to %s in %s."),
-		  get_improvement_type(pcity->currently_building)->name, 
-		  get_improvement_type(upgrades_to)->name , 
-		  pcity->name);
   }
 }
 
