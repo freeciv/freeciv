@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libagents.a
 
-INCLUDES = -I. -I$(srcdir)/.. -I$(top_srcdir)/common/aicore -I$(srcdir)/../include -I$(top_srcdir)/common -I../../intl -I$(srcdir)/../gui-gtk @CLIENT_CFLAGS@
+INCLUDES = -I. -I$(srcdir)/.. -I$(top_srcdir)/common/aicore -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I../../intl -I$(srcdir)/../gui-gtk @CLIENT_CFLAGS@
 
 libagents_a_SOURCES = 		\
 	agents.c		\

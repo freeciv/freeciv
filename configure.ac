@@ -683,6 +683,7 @@ AC_CONFIG_FILES([Makefile
 	  data/scenario/Makefile 
 	  data/nation/Makefile 
 	  data/history/Makefile 
+	  utility/Makefile
 	  common/Makefile 
 	  common/aicore/Makefile 
 	  ai/Makefile 

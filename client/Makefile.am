@@ -134,7 +134,7 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
 
 bin_PROGRAMS = civclient
 
-INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@
+INCLUDES = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
@@ -190,10 +190,11 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 
 civclient_LDFLAGS = @CLIENT_LDFLAGS@
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a \
-	../common/libcivcommon.a agents/libagents.a \
+	../utility/libcivutility.a ../common/libcivcommon.a agents/libagents.a \
         ../common/aicore/libaicore.a
 
 civclient_LDADD        = @gui_sources@/libguiclient.a \
 	@INTLLIBS@ ../common/aicore/libaicore.a \
-        ../common/libcivcommon.a agents/libagents.a ../common/aicore/libaicore.a \
+        ../utility/libcivutility.a ../common/libcivcommon.a \
+        agents/libagents.a ../common/aicore/libaicore.a \
 	@CLIENT_LIBS@ @SOUND_LIBS@

@@ -2,7 +2,7 @@
 
 noinst_LIBRARIES = libaicore.a
 
-INCLUDES = -I.. -I$(top_srcdir)/common -I../../intl
+INCLUDES = -I$(top_srcdir)/utility -I.. -I$(top_srcdir)/common -I../../intl
 
 libaicore_a_SOURCES = 		\
 	aisupport.c		\

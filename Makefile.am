@@ -19,7 +19,7 @@ DSUBDIRS =
 endif
 
 
-SUBDIRS=	$(DSUBDIRS) intl common tests $(SSUBDIRS) $(CSUBDIRS) po doc
+SUBDIRS=	$(DSUBDIRS) intl utility common tests $(SSUBDIRS) $(CSUBDIRS) po doc
 
 EXTRA_DIST=	acconfig.old			\
 		autogen.sh 			\
