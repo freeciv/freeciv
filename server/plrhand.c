@@ -903,6 +903,15 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     
     pcity=(struct city *)malloc(sizeof(struct city));
     pcity->ai.ai_role = AICITY_NONE;
+    pcity->ai.trade_want = 8; /* default value */
+    memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
+    pcity->ai.workremain = 1; /* there's always work to be done! */
+    pcity->ai.danger = -1; /* flag, may come in handy later */
+    pcity->corruption = 0;
+    pcity->shield_bonus = 100;
+    pcity->tax_bonus = 100;
+    pcity->science_bonus = 100;
+ 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     pcity->owner=plrno;
     pcity->x=secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
