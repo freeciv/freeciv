@@ -130,6 +130,11 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
   enum diplstate_type ds = 
                      pplayer_get_diplstate(ptreaty->plr0, ptreaty->plr1)->type;
 
+  if (type < 0 || type >= CLAUSE_LAST) {
+    freelog(LOG_ERROR, "Illegal clause type encountered.");
+    return FALSE;
+  }
+
   if (type == CLAUSE_ADVANCE && !tech_exists(val)) {
     freelog(LOG_ERROR, "Illegal tech value %i in clause.", val);
     return FALSE;

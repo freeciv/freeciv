@@ -461,8 +461,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       worth = 0; /* We don't need no stinkin' embassy, do we? */
     }
     break;
-  default:
-    die("Unknown clause type in advdiplomacy.c");
+  case CLAUSE_LAST:
     break;
   } /* end of switch */
 
