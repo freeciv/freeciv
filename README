@@ -3,8 +3,8 @@
                            =========================
 		       
 This archive contains Freeciv version 1.5, a free Civilization clone for 
-Unix and X. This version only allows multiplayer games, which means you 
-can't play against AI computer-players.
+Unix and X. This version only allows multiplayer games, and limited support
+for AI players.
 
 
 Compiling and installing:
@@ -66,6 +66,15 @@ Client:
 
   % civclient -server io
 
+Computer Player:
+   For each computer player that you wish to have, you must start a client
+   as if you were going to play multiple games. The person then issues the
+   command with the <ai> command like this:
+   > ai HumanKiller
+   Once the person running the client starts the game, and after the player
+   races has been picked, the clients that are AI controlled by the server
+   can be closed, as the server will now run that player.
+
 Server:
   When everybody has joined (use the (l)ist command to see who's in), the
   server-op starts the game with the (s)start command:
@@ -73,6 +82,7 @@ Server:
   starting game.
 
 And the game is on!
+
 
 
 Playing the game:
@@ -98,7 +108,10 @@ Use the 'Players' dialog to see who has announced their end of turn, and who
 you're waiting for.  (Hey feller, are you asleep or what?? ;).
 
 Use the input line at the bottom of the window for broadcasting messages to
-other players.
+other players. The server is smart enough to perform "name completion", so
+if  you type "pet:", it will pick find a player name that matches the part
+of the name you typed.
+
 You can send a message to an individual player (say, 'peter') like so:
 
   peter: move that armor away *NOW*!
@@ -168,7 +181,7 @@ The Freeciv team maintains a bug-list at the Freeciv homepage(address below).
 Homepage:
 =========
 We maintain a homepage for the game at:
-  http://www.daimi.aau.dk/~allan/freeciv.html
+  http://freeciv.ultraviolet.org/index.html
 
 You should check out the page, as it contains much more information than
 this file and the online help. This is also where we'll inform people about 
