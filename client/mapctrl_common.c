@@ -751,11 +751,12 @@ char* popup_info_text(int xtile, int ytile)
       if (ds[owner->player_no].type == DS_CEASEFIRE) {
 	int turns = ds[owner->player_no].turns_left;
 
+	/* TRANS: City: Warsaw (Polish, 5 turn ceasefire)" */
         add_line(out, sizeof(out), PL_("City: %s (%s, %d turn ceasefire)",
 				       "City: %s (%s, %d turn ceasefire)",
 				       turns),
+		 pcity->name,
 		 get_nation_name(owner->nation),
-		 diplo_city_adjectives[ds[owner->player_no].type],
 		 turns);
       } else {
         /* TRANS: "City: <name> (<nation>,<diplomatic_state>)" */
