@@ -743,6 +743,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
       if(scaled_intro_pixmap)
 	XFreePixmap(display, scaled_intro_pixmap);
 
+      if(!intro_gfx_sprite)  load_intro_gfx();
       scaled_intro_pixmap=x_scale_pixmap(intro_gfx_sprite->pixmap,
 					 intro_gfx_sprite->width,
 					 intro_gfx_sprite->height, 
@@ -759,6 +760,10 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		 event->xexpose.x, event->xexpose.y);
     return;
   }
+  if(scaled_intro_pixmap) {
+    XFreePixmap(display, scaled_intro_pixmap);
+    scaled_intro_pixmap=0;
+  };
   
   if(map.xsize) { /* do we have a map at all */
     int tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;

@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <xpm.h>
 
@@ -258,6 +259,16 @@ again:
   mysprite->height=attributes.height;
 
   return mysprite;
+}
+
+/***************************************************************************
+   Deletes a sprite.  These things can use a lot of memory.
+***************************************************************************/
+void free_sprite(struct Sprite *s)
+{
+  if(s->pixmap) XFreePixmap(display,s->pixmap);
+  if(s->has_mask) XFreePixmap(display,s->mask);
+  free(s);
 }
 
 /***************************************************************************

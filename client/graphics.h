@@ -57,6 +57,7 @@ struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask,
 				int width, int height);
 
 struct Sprite *load_xpmfile(char *filename);
+void free_sprite(struct Sprite *s);
 
 void dtor_sprite(struct Sprite *mysprite);
 
