@@ -1815,6 +1815,7 @@ static void create_races_dialog(void)
     img = gdk_pixbuf_new_from_sprite(s);
     free_sprite(s);
     gtk_list_store_set(store, &it, 0, i, 1, FALSE, 2, img, -1);
+    g_object_unref(img);
 
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, nation->name);
