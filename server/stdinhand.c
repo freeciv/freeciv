@@ -166,6 +166,7 @@ const char *sset_level_names[]= { N_("None"),
 				  N_("Vital"),
 				  N_("Situational"),
 				  N_("Rare") };
+#define OLEVELS_NUM ARRAY_SIZE(sset_level_names)
 
 #define SSET_MAX_LEN  16             /* max setting name length (plus nul) */
 #define TOKEN_DELIMITERS " \t\n,"
@@ -2606,8 +2607,26 @@ static bool firstlevel_command(struct connection *caller, bool check)
 }
 
 
-static const char *optname_accessor(int i) {
+/**************************************************************************
+  Returns possible parameters for the commands that take server options
+  as parameters (CMD_EXPLAIN and CMD_SET).
+**************************************************************************/
+static const char *optname_accessor(int i)
+{
   return settings[i].name;
+}
+
+/**************************************************************************
+  Returns possible parameters for the /show command.
+**************************************************************************/
+static const char *olvlname_accessor(int i)
+{
+  /* for 0->4, uses option levels, otherwise returns a setting name */
+  if (i < OLEVELS_NUM) {
+    return sset_level_names[i];
+  } else {
+    return settings[i-OLEVELS_NUM].name;
+  }
 }
 
 /**************************************************************************
@@ -5274,6 +5293,15 @@ static char *option_generator(const char *text, int state)
 }
 
 /**************************************************************************
+  The valid arguments to "show"
+**************************************************************************/
+static char *olevel_generator(const char *text, int state)
+{
+  return generic_generator(text, state, SETTINGS_NUM + OLEVELS_NUM,
+			   olvlname_accessor);
+}
+
+/**************************************************************************
 The player names.
 **************************************************************************/
 static const char *playername_accessor(int idx)
@@ -5475,25 +5503,57 @@ static bool is_cmdlevel_arg1(int start)
 }
 
 /**************************************************************************
-Commands that may be followed by a server option name
+  Commands that may be followed by a server option name
+
+  CMD_SHOW is handled by option_level_cmd, which is for both option levels
+  and server options
 **************************************************************************/
 static const int server_option_cmd[] = {
   CMD_EXPLAIN,
   CMD_SET,
-  CMD_SHOW,
   -1
 };
 
 /**************************************************************************
-...
+  Returns TRUE if the readline buffer string matches a server option at
+  the given position.
 **************************************************************************/
 static bool is_server_option(int start)
 {
   int i = 0;
 
   while (server_option_cmd[i] != -1) {
-    if (contains_str_before_start(start, commands[server_option_cmd[i]].name, FALSE))
+    if (contains_str_before_start(start, commands[server_option_cmd[i]].name,
+				  FALSE)) {
       return TRUE;
+    }
+    i++;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Commands that may be followed by an option level or server option
+**************************************************************************/
+static const int option_level_cmd[] = {
+  CMD_SHOW,
+  -1
+};
+
+/**************************************************************************
+  Returns true if the readline buffer string matches an option level or an
+  option at the given position.
+**************************************************************************/
+static bool is_option_level(int start)
+{
+  int i = 0;
+
+  while (option_level_cmd[i] != -1) {
+    if (contains_str_before_start(start, commands[option_level_cmd[i]].name,
+				  FALSE)) {
+      return TRUE;
+    }
     i++;
   }
 
@@ -5576,6 +5636,8 @@ char **freeciv_completion(char *text, int start, int end)
     matches = completion_matches(text, player_generator);
   } else if (is_server_option(start)) {
     matches = completion_matches(text, option_generator);
+  } else if (is_option_level(start)) {
+    matches = completion_matches(text, olevel_generator);
   } else if (is_filename(start)) {
     /* This function we get from readline */
     matches = completion_matches(text, filename_completion_function);
