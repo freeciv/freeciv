@@ -86,6 +86,7 @@ struct city_dialog
   Object *citizen_right_space;
   Object *citizen2_group;
 
+  Object *name_string;
   Object *title_text;
   Object *food_text;
   Object *shield_text;
@@ -114,7 +115,6 @@ struct city_dialog
   Object *supported_space;
 
   Object *close_button;
-  Object *rename_button;
   Object *trade_button;
   Object *activateunits_button;
   Object *unitlist_button;
@@ -317,7 +317,6 @@ void refresh_city_dialog(struct city *pcity)
 	set(pdialog->sell_button, MUIA_Disabled, TRUE);
 	set(pdialog->change_button, MUIA_Disabled, TRUE);
 	set(pdialog->worklist_button, MUIA_Disabled, TRUE);
-	set(pdialog->rename_button, MUIA_Disabled, TRUE);
 	set(pdialog->activateunits_button, MUIA_Disabled, TRUE);
 	set(pdialog->unitlist_button, MUIA_Disabled, TRUE);
 	set(pdialog->configure_button, MUIA_Disabled, TRUE);
@@ -728,36 +727,17 @@ static void city_trade(struct city_dialog **ppdialog)
 }
 
 /****************************************************************
-...
-*****************************************************************/
-static void rename_city_hook(struct input_dialog_data *data)
-{
-  struct city *pcity = (struct city *) data->data;
-
-  if(pcity)
-  {
-    struct packet_city_request packet;
-
-    packet.city_id=pcity->id;
-    packet.worklist.name[0] = '\0';
-    sz_strlcpy(packet.name, input_dialog_get_input(data->name));
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
-  }
-
-  input_dialog_destroy(data->wnd);
-}
-
-/****************************************************************
- Callback for the Rename button
+ Callback for the City Name String
 *****************************************************************/
 static void city_rename(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
+  struct packet_city_request packet;
 
-  input_dialog_create(pdialog->wnd,
-    "What should we rename the city to?", "_Rename City", pdialog->pcity->name,
-    (void*)rename_city_hook, pdialog->pcity,
-    (void*)rename_city_hook, 0);
+  packet.city_id=pdialog->pcity->id;
+  packet.worklist.name[0] = '\0';
+  sz_strlcpy(packet.name, (char*)xget(pdialog->name_string, MUIA_String_Contents));
+  send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
 }
 
 /**************************************************************************
@@ -1257,7 +1237,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   {
     prev_button = MakeButton("_<");
     next_button = MakeButton("_>");
-  } else prev_button = next_button = NULL;
+    pdialog->name_string = StringObject,
+	MUIA_String_Format, MUIV_String_Format_Center,
+	End;
+  } else prev_button = next_button = pdialog->name_string = NULL;
 
   pdialog->wnd = WindowObject,
     MUIA_Window_Title, "Freeciv - Cityview",
@@ -1266,9 +1249,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
  	Child, HGroup,
 	    Child, HVSpace,
 	    prev_button?Child:TAG_IGNORE, prev_button,
-	    Child, pdialog->title_text = TextObject,
+	    Child, VGroup,
 		MUIA_Weight, 200,
-		MUIA_Text_PreParse, "\33c",
+		pdialog->name_string ? Child:TAG_IGNORE, pdialog->name_string,
+		Child, pdialog->title_text = TextObject,
+		    MUIA_Text_PreParse, "\33c",
+		    End,
 		End,
 	    next_button?Child:TAG_IGNORE, next_button,
 	    Child, HVSpace,
@@ -1375,8 +1361,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 	    Child, HGroup,
 		Child, pdialog->close_button = MakeButton("_Close"),
 		Child, HSpace(0),
-		Child, pdialog->rename_button = MakeButton("_Rename"),
-		Child, HSpace(0),
 		Child, pdialog->trade_button = MakeButton("_Trade"),
 		Child, HSpace(0),
 		Child, pdialog->configure_button = MakeButton("Con_figure"),
@@ -1436,11 +1420,15 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
       DoMethod(next_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_browse, pdialog, 1);
     }
 
+    if (pdialog->name_string)
+    {
+      DoMethod(pdialog->name_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, city_rename, pdialog);
+    }
+
     DoMethod(pdialog->map_area, MUIM_Notify, MUIA_CityMap_Click, MUIV_EveryTime, app, 5, MUIM_CallHook, &civstandard_hook, city_click, pdialog, MUIV_TriggerValue);
     DoMethod(pdialog->change_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_change, pdialog);
     DoMethod(pdialog->worklist_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_worklist, pdialog);
     DoMethod(pdialog->buy_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_buy, pdialog);
-    DoMethod(pdialog->rename_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_rename, pdialog);
     DoMethod(pdialog->sell_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, city_sell, pdialog);
 
     DoMethod(pdialog->cityopt_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, MUIV_Notify_Self, 3, MUIM_Set, MUIA_Window_Open, FALSE);
@@ -1757,7 +1745,14 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
 *****************************************************************/
 static void city_dialog_update_title(struct city_dialog *pdialog)
 {
-  settextf(pdialog->title_text, "%s - %s citizens", pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
+  if (pdialog->name_string)
+  {
+    set(pdialog->name_string,MUIA_String_Contents, pdialog->pcity->name);
+    settextf(pdialog->title_text, "%s citizens", int_to_text(city_population(pdialog->pcity)));
+  } else
+  {
+    settextf(pdialog->title_text, "%s - %s citizens", pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
+  }
 }
 
 /****************************************************************
