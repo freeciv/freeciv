@@ -2556,8 +2556,13 @@ static enum command_id cmd_of_level(int level)
     case 3 : return CMD_EASY;
     case 5 : return CMD_NORMAL;
     case 7 : return CMD_HARD;
+    case 10 :
 #ifdef DEBUG
-    case 10 : return CMD_EXPERIMENTAL;
+      return CMD_EXPERIMENTAL;
+#else
+      freelog(LOG_NORMAL,
+	      _("Experimental AI isn't available; using hard instead."));
+      return CMD_HARD;
 #endif
   }
   assert(FALSE);
