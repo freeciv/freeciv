@@ -13,4 +13,4 @@ pkgdata_DATA = \
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = misc isotrident trident default civ1 civ2 scenario nation history
+SUBDIRS = misc flags isotrident trident default civ1 civ2 scenario nation history

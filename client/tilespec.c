@@ -137,8 +137,14 @@ struct specfile {
  */
 struct small_sprite {
   int ref_count;
-  int x, y, width, height;
+
+  /* The sprite is in this file. */
+  char *file;
+
+  /* Or, the sprite is in this file at the location. */
   struct specfile *sf;
+  int x, y, width, height;
+
   struct Sprite *sprite;
 };
 
@@ -428,12 +434,40 @@ void tilespec_reread_callback(struct client_option *option)
 }
 
 /**************************************************************************
+  Loads the given graphics file (found in the data path) into a newly
+  allocated sprite.
+**************************************************************************/
+static struct Sprite *load_gfx_file(const char *gfx_filename)
+{
+  const char **gfx_fileexts = gfx_fileextensions(), *gfx_fileext;
+  struct Sprite *s;
+
+  /* Try out all supported file extensions to find one that works. */
+  while ((gfx_fileext = *gfx_fileexts++)) {
+    char *real_full_name;
+    char full_name[strlen(gfx_filename) + strlen(gfx_fileext) + 2];
+
+    sprintf(full_name, "%s.%s", gfx_filename, gfx_fileext);
+    if ((real_full_name = datafilename(full_name))) {
+      freelog(LOG_DEBUG, "trying to load gfx file %s", real_full_name);
+      s = load_gfxfile(real_full_name);
+      if (s) {
+	return s;
+      }
+    }
+  }
+
+  freelog(LOG_VERBOSE, "Could not load gfx file %s.", gfx_filename);
+  return NULL;
+}
+
+/**************************************************************************
   Ensure that the big sprite of the given spec file is loaded.
 **************************************************************************/
 static void ensure_big_sprite(struct specfile *sf)
 {
   struct section_file the_file, *file = &the_file;
-  const char *gfx_filename, *gfx_current_fileext, **gfx_fileexts;
+  const char *gfx_filename;
 
   if (sf->big_sprite) {
     /* Looks like it's already loaded. */
@@ -453,26 +487,9 @@ static void ensure_big_sprite(struct specfile *sf)
     exit(EXIT_FAILURE);
   }
 
-  gfx_fileexts = gfx_fileextensions();
   gfx_filename = secfile_lookup_str(file, "file.gfx");
 
-  /* Try out all supported file extensions to find one that works. */
-  while (!sf->big_sprite && (gfx_current_fileext = *gfx_fileexts++)) {
-    char *real_full_name;
-    char *full_name =
-	fc_malloc(strlen(gfx_filename) + strlen(gfx_current_fileext) + 2);
-    sprintf(full_name, "%s.%s", gfx_filename, gfx_current_fileext);
-
-    if ((real_full_name = datafilename(full_name))) {
-      freelog(LOG_DEBUG, "trying to load gfx file %s", real_full_name);
-      sf->big_sprite = load_gfxfile(real_full_name);
-      if (!sf->big_sprite) {
-	freelog(LOG_VERBOSE, "loading the gfx file %s failed",
-		real_full_name);
-      }
-    }
-    free(full_name);
-  }
+  sf->big_sprite = load_gfx_file(gfx_filename);
 
   if (!sf->big_sprite) {
     freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file %s"),
@@ -504,13 +521,8 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
 
   /* currently unused */
   (void) section_file_lookup(file, "info.artists");
-  (void) secfile_lookup_str(file, "file.gfx");
 
   gridnames = secfile_get_secnames_prefix(file, "grid_", &num_grids);
-  if (num_grids == 0) {
-    freelog(LOG_FATAL, "spec %s has no grid_* sections", sf->file_name);
-    exit(EXIT_FAILURE);
-  }
 
   for (i = 0; i < num_grids; i++) {
     int j, k;
@@ -552,6 +564,7 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
       y1 = y_top_left + (dy + pixel_border) * row;
 
       ss->ref_count = 0;
+      ss->file = NULL;
       ss->x = x1;
       ss->y = y1;
       ss->width = dx;
@@ -579,6 +592,38 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
   }
   free(gridnames);
   gridnames = NULL;
+
+  /* Load "extra" sprites.  Each sprite is one file. */
+  i = -1;
+  while (secfile_lookup_str_default(file, NULL, "extra.sprites%d.tag", ++i)) {
+    struct small_sprite *ss = fc_malloc(sizeof(*ss));
+    char **tags;
+    char *filename;
+    int num_tags, k;
+
+    tags
+      = secfile_lookup_str_vec(file, &num_tags, "extra.sprites%d.tag", i);
+    filename = secfile_lookup_str(file, "extra.sprites%d.file", i);
+
+    ss->ref_count = 0;
+    ss->file = mystrdup(filename);
+    ss->sf = NULL;
+    ss->sprite = NULL;
+
+    small_sprite_list_insert(&small_sprites, ss);
+
+    if (!duplicates_ok) {
+      for (k = 0; k < num_tags; k++) {
+	if (!hash_insert(sprite_hash, mystrdup(tags[k]), ss)) {
+	  freelog(LOG_ERROR, "warning: already have a sprite for %s", tags[k]);
+	}
+      }
+    } else {
+      for (k = 0; k < num_tags; k++) {
+	(void) hash_replace(sprite_hash, mystrdup(tags[k]), ss);
+      }
+    }
+  }
 
   section_file_check_unused(file, sf->file_name);
   section_file_free(file);
@@ -2544,6 +2589,9 @@ void tilespec_free_tiles(void)
 
   small_sprite_list_iterate(small_sprites, ss) {
     small_sprite_list_unlink(&small_sprites, ss);
+    if (ss->file) {
+      free(ss->file);
+    }
     assert(ss->sprite == NULL);
     free(ss);
   } small_sprite_list_iterate_end;
@@ -2598,10 +2646,19 @@ struct Sprite *load_sprite(const char *tag_name)
   if (!ss->sprite) {
     /* If the sprite hasn't been loaded already, then load it. */
     assert(ss->ref_count == 0);
-    ensure_big_sprite(ss->sf);
-    ss->sprite =
-      crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
-		  NULL, -1, -1);
+    if (ss->file) {
+      ss->sprite = load_gfx_file(ss->file);
+      if (!ss->sprite) {
+	freelog(LOG_FATAL, _("Couldn't load gfx file %s for sprite %s"),
+		ss->file, tag_name);
+	exit(EXIT_FAILURE);
+      }
+    } else {
+      ensure_big_sprite(ss->sf);
+      ss->sprite =
+	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
+		    NULL, -1, -1);
+    }
   }
 
   /* Track the reference count so we know when to free the sprite. */

@@ -660,6 +660,7 @@ fi
 
 AC_OUTPUT(Makefile
           data/Makefile 
+	  data/flags/Makefile
 	  data/misc/Makefile 
 	  data/isotrident/Makefile 
 	  data/trident/Makefile 

@@ -674,6 +674,7 @@ fi
 
 AC_CONFIG_FILES([Makefile
           data/Makefile 
+	  data/flags/Makefile
 	  data/misc/Makefile 
 	  data/trident/Makefile 
 	  data/isotrident/Makefile 
