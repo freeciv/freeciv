@@ -1263,15 +1263,25 @@ Freeciv.iconName: Freeciv
 *reporttradeclosecommand.left:        chainLeft
 *reporttradeclosecommand.right:       chainLeft
 
-*reporttradeselloffcommand.label:       Sell Off
-*reporttradeselloffcommand.fromVert:    reporttradelabel2
-*reporttradeselloffcommand.fromHoriz:   reporttradeclosecommand
-*reporttradeselloffcommand.foreground:  white
-*reporttradeselloffcommand.background:  blue
-*reporttradeselloffcommand.top:         chainBottom
-*reporttradeselloffcommand.bottom:      chainBottom
-*reporttradeselloffcommand.left:        chainLeft
-*reporttradeselloffcommand.right:       chainLeft
+*reporttradesellobsoletecommand.label:       Sell Obsolete
+*reporttradesellobsoletecommand.fromVert:    reporttradelabel2
+*reporttradesellobsoletecommand.fromHoriz:   reporttradeclosecommand
+*reporttradesellobsoletecommand.foreground:  white
+*reporttradesellobsoletecommand.background:  blue
+*reporttradesellobsoletecommand.top:         chainBottom
+*reporttradesellobsoletecommand.bottom:      chainBottom
+*reporttradesellobsoletecommand.left:        chainLeft
+*reporttradesellobsoletecommand.right:       chainLeft
+
+*reporttradesellallcommand.label:       Sell All
+*reporttradesellallcommand.fromVert:    reporttradelabel2
+*reporttradesellallcommand.fromHoriz:   reporttradesellobsoletecommand
+*reporttradesellallcommand.foreground:  white
+*reporttradesellallcommand.background:  blue
+*reporttradesellallcommand.top:         chainBottom
+*reporttradesellallcommand.bottom:      chainBottom
+*reporttradesellallcommand.left:        chainLeft
+*reporttradesellallcommand.right:       chainLeft
 
 !
 !

@@ -199,6 +199,7 @@ void refresh_city_dialog(struct city *pcity)
     city_dialog_update_pollution(pdialog);
   }
   city_report_dialog_update(); /* ard's fix */
+  trade_report_dialog_update();
 }
 
 /****************************************************************

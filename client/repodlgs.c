@@ -116,7 +116,7 @@ int trade_improvement_type[B_LAST];
 Widget trade_dialog_shell;
 Widget trade_label, trade_label2;
 Widget trade_list, trade_list_label;
-Widget selloff_command;
+Widget sellall_command, sellobsolete_command;
 int trade_dialog_shell_is_modal;
 
 /******************************************************************/
@@ -979,15 +979,21 @@ void create_trade_report_dialog(int make_modal)
 					  trade_form,
 					  NULL);
 
-  selloff_command = XtVaCreateManagedWidget("reporttradeselloffcommand", 
-					  commandWidgetClass,
-					  trade_form,
-					  XtNsensitive, False,
-					  NULL);
+  sellobsolete_command = XtVaCreateManagedWidget("reporttradesellobsoletecommand", 
+					         commandWidgetClass,
+					         trade_form,
+					         XtNsensitive, False,
+					         NULL);
 
+  sellall_command  = XtVaCreateManagedWidget("reporttradesellallcommand", 
+					     commandWidgetClass,
+					     trade_form,
+					     XtNsensitive, False,
+					     NULL);
   XtAddCallback(trade_list, XtNcallback, trade_list_callback, NULL);
   XtAddCallback(close_command, XtNcallback, trade_close_callback, NULL);
-  XtAddCallback(selloff_command, XtNcallback, trade_selloff_callback, NULL);
+  XtAddCallback(sellobsolete_command, XtNcallback, trade_selloff_callback, (XtPointer)0);
+  XtAddCallback(sellall_command, XtNcallback, trade_selloff_callback, (XtPointer)1);
   XtRealizeWidget(trade_dialog_shell);
   trade_report_dialog_update();
 }
@@ -1007,10 +1013,12 @@ void trade_list_callback(Widget w, XtPointer client_data,
   if(ret->list_index!=XAW_LIST_NONE) {
     i=trade_improvement_type[ret->list_index];
     if(i>=0 && i<B_LAST && !is_wonder(i))
-      XtSetSensitive(selloff_command, TRUE);
+      XtSetSensitive(sellobsolete_command, TRUE);
+      XtSetSensitive(sellall_command, TRUE);
     return;
   }
-  XtSetSensitive(selloff_command, FALSE);
+  XtSetSensitive(sellobsolete_command, FALSE);
+  XtSetSensitive(sellall_command, FALSE);
 }
 
 /****************************************************************
@@ -1047,9 +1055,9 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
   for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
     pcity=(struct city *)ITERATOR_PTR(myiter);
     if(city_got_building(pcity, i) &&
-       (improvement_obsolete(game.player_ptr,i) || 
+       (client_data ||
+	improvement_obsolete(game.player_ptr,i) ||
         wonder_replacement(pcity, i) ))  {
-	fprintf(stderr,"Would sell the %s in %s\n",get_improvement_name(i),pcity->name);
 	count++; gold+=improvement_value(i);
         packet.city_id=pcity->id;
         packet.build_id=i;
