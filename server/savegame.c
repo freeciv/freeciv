@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -250,6 +251,173 @@ static char terrain2char(Terrain_type_id terr)
     assert(terr >= T_FIRST && terr < T_COUNT);
     return tile_types[terr].identifier;
   }
+}
+
+/****************************************************************************
+  Returns an order for a character identifier.  See also order2char.
+****************************************************************************/
+static enum unit_orders char2order(char order)
+{
+  switch (order) {
+  case 'm':
+  case 'M':
+    return ORDER_MOVE;
+  case 'w':
+  case 'W':
+    return ORDER_FINISH_TURN;
+  case 'a':
+  case 'A':
+    return ORDER_ACTIVITY;
+  }
+
+  /* This can happen if the savegame is invalid. */
+  return ORDER_LAST;
+}
+
+/****************************************************************************
+  Returns a character identifier for an order.  See also char2order.
+****************************************************************************/
+static char order2char(enum unit_orders order)
+{
+  switch (order) {
+  case ORDER_MOVE:
+    return 'm';
+  case ORDER_FINISH_TURN:
+    return 'w';
+  case ORDER_ACTIVITY:
+    return 'a';
+  case ORDER_LAST:
+    break;
+  }
+
+  assert(0);
+  return '?';
+}
+
+/****************************************************************************
+  Returns a direction for a character identifier.  See also dir2char.
+****************************************************************************/
+static enum direction8 char2dir(char dir)
+{
+  /* Numberpad values for the directions. */
+  switch (dir) {
+  case '1':
+    return DIR8_SOUTHWEST;
+  case '2':
+    return DIR8_SOUTH;
+  case '3':
+    return DIR8_SOUTHEAST;
+  case '4':
+    return DIR8_WEST;
+  case '6':
+    return DIR8_EAST;
+  case '7':
+    return DIR8_NORTHWEST;
+  case '8':
+    return DIR8_NORTH;
+  case '9':
+    return DIR8_NORTHEAST;
+  }
+
+  /* This can happen if the savegame is invalid. */
+  return DIR8_LAST;
+}
+
+/****************************************************************************
+  Returns a character identifier for a direction.  See also char2dir.
+****************************************************************************/
+static char dir2char(enum direction8 dir)
+{
+  /* Numberpad values for the directions. */
+  switch (dir) {
+  case DIR8_NORTH:
+    return '8';
+  case DIR8_SOUTH:
+    return '2';
+  case DIR8_EAST:
+    return '6';
+  case DIR8_WEST:
+    return '4';
+  case DIR8_NORTHEAST:
+    return '9';
+  case DIR8_NORTHWEST:
+    return '7';
+  case DIR8_SOUTHEAST:
+    return '3';
+  case DIR8_SOUTHWEST:
+    return '1';
+  }
+
+  assert(0);
+  return '?';
+}
+
+/****************************************************************************
+  Returns a character identifier for an activity.  See also char2activity.
+****************************************************************************/
+static char activity2char(enum unit_activity activity)
+{
+  switch (activity) {
+  case ACTIVITY_IDLE:
+    return 'w';
+  case ACTIVITY_POLLUTION:
+    return 'p';
+  case ACTIVITY_ROAD:
+    return 'r';
+  case ACTIVITY_MINE:
+    return 'm';
+  case ACTIVITY_IRRIGATE:
+    return 'i';
+  case ACTIVITY_FORTIFIED:
+    return 'f';
+  case ACTIVITY_FORTRESS:
+    return 't';
+  case ACTIVITY_SENTRY:
+    return 's';
+  case ACTIVITY_RAILROAD:
+    return 'l';
+  case ACTIVITY_PILLAGE:
+    return 'e';
+  case ACTIVITY_GOTO:
+    return 'g';
+  case ACTIVITY_EXPLORE:
+    return 'x';
+  case ACTIVITY_TRANSFORM:
+    return 'o';
+  case ACTIVITY_AIRBASE:
+    return 'a';
+  case ACTIVITY_FORTIFYING:
+    return 'y';
+  case ACTIVITY_FALLOUT:
+    return 'u';
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_PATROL_UNUSED:
+    return '?';
+  case ACTIVITY_LAST:
+    break;
+  }
+
+  assert(0);
+  return '?';
+}
+
+/****************************************************************************
+  Returns an activity for a character identifier.  See also activity2char.
+****************************************************************************/
+static enum unit_activity char2activity(char activity)
+{
+  enum unit_activity a;
+
+  for (a = 0; a < ACTIVITY_LAST; a++) {
+    char achar = activity2char(a);
+
+    if (activity == achar || activity == toupper(achar)) {
+      return a;
+    }
+  }
+
+  /* This can happen if the savegame is invalid. */
+  return ACTIVITY_LAST;
 }
 
 /***************************************************************
@@ -1345,15 +1513,27 @@ static void load_player_units(struct player *plr, int plrno,
 			"player%d.u%d.activity_list", plrno, i);
 	punit->has_orders = TRUE;
 	for (j = 0; j < len; j++) {
+	  struct unit_order *order = &punit->orders.list[j];
+
 	  if (orders_buf[j] == '\0' || dir_buf[j] == '\0'
 	      || act_buf[j] == '\0') {
 	    freelog(LOG_ERROR, _("Savegame error: invalid unit orders."));
 	    free_unit_orders(punit);
 	    break;
 	  }
-	  punit->orders.list[j].order = orders_buf[j] - 'a';
-	  punit->orders.list[j].dir = dir_buf[j] - 'a';
-	  punit->orders.list[j].activity = act_buf[j] - 'a';
+	  order->order = char2order(orders_buf[j]);
+	  order->dir = char2dir(dir_buf[j]);
+	  order->activity = char2activity(act_buf[j]);
+	  if (order->order == ORDER_LAST
+	      || (order->order == ORDER_MOVE && order->dir == DIR8_LAST)
+	      || (order->order == ORDER_ACTIVITY
+		  && order->activity == ACTIVITY_LAST)) {
+	    /* An invalid order.  Just drop the orders for this unit. */
+	    free(punit->orders.list);
+	    punit->orders.list = NULL;
+	    punit->has_orders = FALSE;
+	    break;
+	  }
 	}
       } else {
 	punit->has_orders = FALSE;
@@ -2461,9 +2641,20 @@ static void player_save(struct player *plr, int plrno,
 			  "player%d.u%d.orders_vigilant", plrno, i);
 
       for (j = 0; j < len; j++) {
-	orders_buf[j] = 'a' + punit->orders.list[j].order;
-	dir_buf[j] = 'a' + punit->orders.list[j].dir;
-	act_buf[j] = 'a' + punit->orders.list[j].activity;
+	orders_buf[j] = order2char(punit->orders.list[j].order);
+	dir_buf[j] = '?';
+	act_buf[j] = '?';
+	switch (punit->orders.list[j].order) {
+	case ORDER_MOVE:
+	  dir_buf[j] = dir2char(punit->orders.list[j].dir);
+	  break;
+	case ORDER_ACTIVITY:
+	  act_buf[j] = activity2char(punit->orders.list[j].activity);
+	  break;
+	case ORDER_FINISH_TURN:
+	case ORDER_LAST:
+	  break;
+	}
       }
       orders_buf[len] = dir_buf[len] = act_buf[len] = '\0';
 

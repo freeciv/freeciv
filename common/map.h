@@ -158,6 +158,8 @@ enum direction8 {
   DIR8_SOUTH = 6,
   DIR8_SOUTHEAST = 7
 };
+#define DIR8_LAST 8
+#define DIR8_COUNT DIR8_LAST
 
 struct civ_map {
   int topology_id;
