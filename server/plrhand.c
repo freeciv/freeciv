@@ -963,7 +963,8 @@ void handle_player_change_government(struct player *pplayer, int government)
   if (pplayer->government == game.government_when_anarchy) {
     /* Already having a revolution. */
     assert(pplayer->revolution_finishes >= 0);
-    if (pplayer->revolution_finishes <= game.turn) {
+    if (pplayer->revolution_finishes <= game.turn
+	&& government != game.government_when_anarchy) {
       /* The revolution was already over.  Now we should enter the new
        * government immediately. */
       finish_revolution(pplayer);
