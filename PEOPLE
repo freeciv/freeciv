@@ -130,7 +130,7 @@ contributions to the Freeciv project.
      Daniel Gudlat <gudlat@informatik.hu-berlin.de>
 	(scenario related patches 1.8.0, 1.7.2)
      Daniel Burrows <Daniel_Burrows@brown.edu> (hp regeneration patches 1.8.0)
-     Lalo Martins <lalo@debian.org> (patch 1.8.0 client --help, --version)
+     Lalo Martins <lalo@hackandroll.org> (patch 1.8.0 client --help, --version)
      Christopher C Chimelis <chris@classnet.med.miami.edu> (patch 1.8.0 Alpha)
      Bussi Andrea <bta@edu.al.unipmn.it> (patch 1.8.0 2-button mouse)
      Fabrice Noilhan <Fabrice.Noilhan@ens.fr> (patch 1.8.0 Solaris)
@@ -390,7 +390,7 @@ contributions to the Freeciv project.
      to contain the translations.)
 
      Manop Huber <Saphir@cs.tu-berlin.de> (de.po 1.9.0)
-     Lalo Martins <lalo@debian.org> (pt_BR.po 1.9.0)
+     Lalo Martins <lalo@hackandroll.org> (pt_BR.po 1.9.0)
      Vasco Costa <vasc@rnl.ist.utl.pt> (pt.po 1.9.0)
      Artur Biesiadowski <abies@pg.gda.pl> (pl.po 1.9.0)
      Denis Bodor <dbodor@linuxmag-france.org> (fr.po 1.9.0)
@@ -399,7 +399,7 @@ contributions to the Freeciv project.
 
   Package maintainers:
 
-     Lalo Martins <lalo@debian.org> (Debian GNU/Linux)
+     Lalo Martins <lalo@hackandroll.org> (Debian GNU/Linux)
      Martin Willemoes Hansen <mwh@stampede.org> (Stampede GNU/Linux)
      Todd Goodman <tsg1@earthlink.net> (Windows with Cygwin and X server)
      Hugo van der Kooji <hvdkooij@caiw.nl> (Redhat Linux)
