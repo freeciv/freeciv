@@ -1055,7 +1055,7 @@ static int find_a_direction(struct unit *punit,
 
       if (num_of_allied_units == 0) {
 	fitness[dir] = rating_of_unit;
-      } else if (pcity || ptile->special & S_FORTRESS) {
+      } else if (pcity || BOOL_VAL(ptile->special & S_FORTRESS)) {
 	fitness[dir] = MAX(rating_of_unit, rating_of_ally);
       } else if (rating_of_unit <= rating_of_ally) {
 	fitness[dir] = rating_of_ally * (num_of_allied_units /
@@ -1074,7 +1074,7 @@ static int find_a_direction(struct unit *punit,
      * In case we change directions next turn, roads and railroads are
      * nice.
      */
-    if ((ptile->special & S_ROAD) || (ptile->special & S_RAILROAD)) {
+    if (BOOL_VAL(ptile->special & S_ROAD) || BOOL_VAL(ptile->special & S_RAILROAD)) {
       fitness[dir] += 10;
     }
 
@@ -1456,7 +1456,7 @@ static void make_list_of_refuel_points(struct player *pplayer)
       refuels[refuellist_size++] = prefuel;
       continue;
     }
-    if ((ptile = map_get_tile(x, y))->special & S_AIRBASE) {
+    if (BOOL_VAL((ptile = map_get_tile(x, y))->special & S_AIRBASE)) {
       if (is_non_allied_unit_tile(ptile, pplayer))
 	continue;
       prefuel = fc_malloc(sizeof(struct refuel));

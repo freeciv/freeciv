@@ -101,7 +101,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
       text_obj = TextObject, MUIA_Text_Contents, s, End;
       DoMethod(group, OM_ADDMEMBER, text_obj);
 
-      if (ptile->special & S_HUT)
+      if (BOOL_VAL(ptile->special & S_HUT))
       {
 	text_obj = TextObject, MUIA_Text_Contents, _("Minor Tribe Village"), End;
 	DoMethod(group, OM_ADDMEMBER, text_obj);

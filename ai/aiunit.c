@@ -318,7 +318,7 @@ int ai_manage_explorer(struct unit *punit)
 	  else
 	    unknown += 9 * (threshold - warmap.cost[x1][y1]);
 	  if ((unknown > most_unknown || (unknown == most_unknown && myrand(2)))
-	      && !(is_barbarian(pplayer) && ptile->special & S_HUT)) {
+	      && !(is_barbarian(pplayer) && BOOL_VAL(ptile->special & S_HUT))) {
 	    best_x = x1;
 	    best_y = y1;
 	    most_unknown = unknown;

@@ -225,7 +225,7 @@ static int city_desirability(struct player *pplayer, int x, int y)
 	food[i][j] += 2 * MORT;
       }
       if (ptype->irrigation_result == ptile->terrain && con2 == con) {
-	if (ptile->special & S_IRRIGATION || is_city_center(i, j)) {
+	if (BOOL_VAL(ptile->special & S_IRRIGATION) || is_city_center(i, j)) {
 	  irrig[i][j] = MORT * ptype->irrigation_food_incr;
 	}
         else if (is_water_adjacent_to_tile(map_x, map_y) &&
@@ -243,13 +243,13 @@ as far out in the ocean as possible, which limits growth in the very long
 term (after SEWER).  These cities will all eventually have OFFSHORE, and
 I need to acknowledge that.  I probably shouldn't treat it as free, but
 that's the easiest, and I doubt pathological behavior will result. -- Syela */
-      if (ptile->special&S_MINE)
+      if (BOOL_VAL(ptile->special & S_MINE))
 	mine[i][j] = sh * ptype->mining_shield_incr;
       else if (ptile->terrain == T_HILLS && con2 == con)
 	mine[i][j] = sh * ptype->mining_shield_incr - 300; /* KLUGE */
       trade[i][j] = get_tile_trade_base(ptile) * t;
       if (ptype->road_trade_incr > 0) {
-	if (ptile->special & S_ROAD || is_city_center(i, j)) {
+	if (BOOL_VAL(ptile->special & S_ROAD) || is_city_center(i, j)) {
 	  road[i][j] = t * ptype->road_trade_incr;
 	}
         else if (con2 == con)
@@ -528,17 +528,17 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     ptile->special = s;
     return(m);
   } else if((ptile->terrain==type->irrigation_result &&
-     !(ptile->special&S_IRRIGATION) &&
-     !(ptile->special&S_MINE) && !(ptile->city) &&
+     !BOOL_VAL(ptile->special & S_IRRIGATION) &&
+     !BOOL_VAL(ptile->special & S_MINE) && !(ptile->city) &&
      (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
     map_set_special(x, y, S_IRRIGATION);
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_IRRIGATION);
     return(m);
   } else if((ptile->terrain==type->irrigation_result &&
-     (ptile->special&S_IRRIGATION) && !(ptile->special&S_FARMLAND) &&
+    BOOL_VAL(ptile->special & S_IRRIGATION) && !BOOL_VAL(ptile->special & S_FARMLAND) &&
      player_knows_techs_with_flag(pplayer, TF_FARMLAND) &&
-     !(ptile->special&S_MINE) && !(ptile->city) &&
+     !BOOL_VAL(ptile->special & S_MINE) && !(ptile->city) &&
      (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
     map_set_special(x, y, S_FARMLAND);
     m = city_tile_value(pcity, i, j, 0, 0);
@@ -578,7 +578,7 @@ static int ai_calc_mine(struct city *pcity, int i, int j)
 
   /* Note that this code means we will never try to mine a city into the ocean */
   if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
-      !(ptile->special&S_IRRIGATION) && !(ptile->special&S_MINE)) {
+      !BOOL_VAL(ptile->special & S_IRRIGATION) && !BOOL_VAL(ptile->special & S_MINE)) {
     map_set_special(x, y, S_MINE);
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_MINE);
@@ -694,9 +694,9 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
     return -1;
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
-      (((ptile->terrain != T_RIVER) && !(ptile->special&S_RIVER)) ||
+      (((ptile->terrain != T_RIVER) && !BOOL_VAL(ptile->special & S_RIVER)) ||
        player_knows_techs_with_flag(pplayer, TF_BRIDGE)) &&
-      !(ptile->special&S_ROAD)) {
+      !BOOL_VAL(ptile->special & S_ROAD)) {
     ptile->special|=S_ROAD; /* have to do this to avoid reset_move_costs -- Syela */
     m = city_tile_value(pcity, i, j, 0, 0);
     ptile->special&=~S_ROAD;
@@ -720,7 +720,7 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       player_knows_techs_with_flag(pplayer, TF_RAILROAD) &&
-      !(ptile->special&S_RAILROAD)) {
+      !BOOL_VAL(ptile->special & S_RAILROAD)) {
     spe_sav = ptile->special;
     ptile->special|=(S_ROAD | S_RAILROAD);
     m = city_tile_value(pcity, i, j, 0, 0);

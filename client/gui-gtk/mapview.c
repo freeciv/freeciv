@@ -2239,19 +2239,19 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 			 offset_x, offset_y_unit,
 			 width, height_unit, fog);
   }
-  if (special & S_AIRBASE && draw_fortress_airbase)
+  if (BOOL_VAL(special & S_AIRBASE) && draw_fortress_airbase)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 				 sprites.tx.airbase,
 				 offset_x, offset_y_unit,
 				 width, height_unit, fog);
-  if (special & S_FALLOUT && draw_pollution)
+  if (BOOL_VAL(special & S_FALLOUT) && draw_pollution)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y,
 				 sprites.tx.fallout,
 				 offset_x, offset_y,
 				 width, height, fog);
-  if (special & S_POLLUTION && draw_pollution)
+  if (BOOL_VAL(special & S_POLLUTION) && draw_pollution)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y,
 				 sprites.tx.pollution,
@@ -2287,7 +2287,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				   width, height_unit, fog);
   }
 
-  if (special & S_FORTRESS && draw_fortress_airbase)
+  if (BOOL_VAL(special & S_FORTRESS) && draw_fortress_airbase)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 				 sprites.tx.fortress,

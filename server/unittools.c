@@ -1547,7 +1547,7 @@ static int is_airunit_refuel_point(int x, int y, struct player *pplayer,
 
   if ((is_allied_city_tile(map_get_tile(x, y), pplayer)
        && !is_non_allied_unit_tile(map_get_tile(x, y), pplayer))
-      || (plrtile->special & S_AIRBASE
+      || (BOOL_VAL(plrtile->special & S_AIRBASE)
 	  && !is_non_allied_unit_tile(map_get_tile(x, y), pplayer)))
     return TRUE;
 
@@ -2568,7 +2568,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	map_get_player_tile(x, y, unit_owner(ptrans));
     int is_refuel_point =
 	is_allied_city_tile(map_get_tile(x, y), unit_owner(ptrans))
-	|| (plrtile->special & S_AIRBASE
+	|| (BOOL_VAL(plrtile->special & S_AIRBASE)
 	    && !is_non_allied_unit_tile(map_get_tile(x, y),
 					unit_owner(ptrans)));
     int missiles_only = unit_flag(ptrans, F_MISSILE_CARRIER)
@@ -2967,7 +2967,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
 
   /* Enhace vision if unit steps into a fortress */
   if (unit_profits_of_watchtower(punit)
-      && pdesttile->special & S_FORTRESS)
+      && BOOL_VAL(pdesttile->special & S_FORTRESS))
     unfog_area(pplayer, dest_x, dest_y, get_watchtower_vision(punit));
   else
     unfog_area(pplayer, dest_x, dest_y,
@@ -2996,7 +2996,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
   send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE, FALSE);
 
   if (unit_profits_of_watchtower(punit)
-      && psrctile->special & S_FORTRESS)
+      && BOOL_VAL(psrctile->special & S_FORTRESS))
     fog_area(pplayer, src_x, src_y, get_watchtower_vision(punit));
   else
     fog_area(pplayer, src_x, src_y,

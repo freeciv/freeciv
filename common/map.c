@@ -93,13 +93,13 @@ char *map_get_tile_info_text(int x, int y)
   int first;
 
   sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
-  if(ptile->special&S_RIVER) {
+  if (BOOL_VAL(ptile->special & S_RIVER)) {
     sz_strlcat(s, "/");
     sz_strlcat(s, _(get_special_name(S_RIVER)));
   }
 
   first = TRUE;
-  if (ptile->special & S_SPECIAL_1) {
+  if (BOOL_VAL(ptile->special & S_SPECIAL_1)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " (");
@@ -108,7 +108,7 @@ char *map_get_tile_info_text(int x, int y)
     }
     sz_strlcat(s, tile_types[ptile->terrain].special_1_name);
   }
-  if (ptile->special & S_SPECIAL_2) {
+  if (BOOL_VAL(ptile->special & S_SPECIAL_2)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " (");
@@ -122,7 +122,7 @@ char *map_get_tile_info_text(int x, int y)
   }
 
   first = TRUE;
-  if (ptile->special & S_POLLUTION) {
+  if (BOOL_VAL(ptile->special & S_POLLUTION)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " [");
@@ -131,7 +131,7 @@ char *map_get_tile_info_text(int x, int y)
     }
     sz_strlcat(s, _(get_special_name(S_POLLUTION)));
   }
-  if (ptile->special & S_FALLOUT) {
+  if (BOOL_VAL(ptile->special & S_FALLOUT)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " [");
@@ -554,9 +554,9 @@ int is_sea_usable(int x, int y)
 ***************************************************************/
 int get_tile_food_base(struct tile * ptile)
 {
-  if (ptile->special & S_SPECIAL_1) 
+  if (BOOL_VAL(ptile->special & S_SPECIAL_1)) 
     return tile_types[ptile->terrain].food_special_1;
-  else if (ptile->special & S_SPECIAL_2)
+  else if (BOOL_VAL(ptile->special & S_SPECIAL_2))
     return tile_types[ptile->terrain].food_special_2;
   else
     return tile_types[ptile->terrain].food;
@@ -567,9 +567,9 @@ int get_tile_food_base(struct tile * ptile)
 ***************************************************************/
 int get_tile_shield_base(struct tile * ptile)
 {
-  if (ptile->special & S_SPECIAL_1)
+  if (BOOL_VAL(ptile->special & S_SPECIAL_1))
     return tile_types[ptile->terrain].shield_special_1;
-  else if(ptile->special&S_SPECIAL_2)
+  else if(BOOL_VAL(ptile->special&S_SPECIAL_2))
     return tile_types[ptile->terrain].shield_special_2;
   else
     return tile_types[ptile->terrain].shield;
@@ -580,9 +580,9 @@ int get_tile_shield_base(struct tile * ptile)
 ***************************************************************/
 int get_tile_trade_base(struct tile * ptile)
 {
-  if (ptile->special & S_SPECIAL_1)
+  if (BOOL_VAL(ptile->special & S_SPECIAL_1))
     return tile_types[ptile->terrain].trade_special_1;
-  else if (ptile->special & S_SPECIAL_2)
+  else if (BOOL_VAL(ptile->special & S_SPECIAL_2))
     return tile_types[ptile->terrain].trade_special_2;
   else
     return tile_types[ptile->terrain].trade;
@@ -675,16 +675,16 @@ int is_water_adjacent_to_tile(int x, int y)
   ptile = map_get_tile(x, y);
   if (ptile->terrain == T_OCEAN
       || ptile->terrain == T_RIVER
-      || ptile->special & S_RIVER
-      || ptile->special & S_IRRIGATION)
+      || BOOL_VAL(ptile->special & S_RIVER)
+      || BOOL_VAL(ptile->special & S_IRRIGATION))
     return 1;
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
     ptile = map_get_tile(x1, y1);
     if (ptile->terrain == T_OCEAN
 	|| ptile->terrain == T_RIVER
-	|| ptile->special & S_RIVER
-	|| ptile->special & S_IRRIGATION)
+	|| BOOL_VAL(ptile->special & S_RIVER)
+	|| BOOL_VAL(ptile->special & S_IRRIGATION))
       return 1;
   } cartesian_adjacent_iterate_end;
 
@@ -967,16 +967,16 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 
   if (punit && !is_ground_unit(punit))
     return SINGLE_MOVE;
-  if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
+  if (BOOL_VAL(t1->special & S_RAILROAD) && BOOL_VAL(t2->special & S_RAILROAD))
     return MOVE_COST_RAIL;
 /* return (unit_move_rate(punit)/RAIL_MAX) */
   if (punit && unit_flag(punit, F_IGTER))
     return SINGLE_MOVE/3;
-  if( (t1->special&S_ROAD) && (t2->special&S_ROAD) )
+  if (BOOL_VAL(t1->special & S_ROAD) && BOOL_VAL(t2->special & S_ROAD))
     return MOVE_COST_ROAD;
 
-  if( ( (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) ) ||
-      ( (t1->special&S_RIVER) && (t2->special&S_RIVER) ) ) {
+  if (((t1->terrain == T_RIVER) && (t2->terrain == T_RIVER)) ||
+      (BOOL_VAL(t1->special & S_RIVER) && BOOL_VAL(t2->special & S_RIVER))) {
     cardinal_move = is_move_cardinal(x1, y1, x2, y2);
     switch (terrain_control.river_move_mode) {
     case RMV_NORMAL:

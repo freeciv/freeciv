@@ -1132,7 +1132,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       /* painted via coasts. */
 
       for (dir = 0; dir < 4; dir++) {
-    	if (tspecial_near[DIR4_TO_DIR8[dir]] & S_RIVER)
+	if (BOOL_VAL(tspecial_near[DIR4_TO_DIR8[dir]] & S_RIVER))
     	  *sprs++ = sprites.tx.river_outlet[dir];
       }
     } else {
@@ -1167,21 +1167,21 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     	break;
       }
      
-      if (tspecial & S_IRRIGATION && !pcity && draw_irrigation) {
-	if (tspecial & S_FARMLAND)
+      if (BOOL_VAL(tspecial & S_IRRIGATION) && !pcity && draw_irrigation) {
+	if (BOOL_VAL(tspecial & S_FARMLAND))
 	  *sprs++ = sprites.tx.farmland;
 	else
 	  *sprs++ = sprites.tx.irrigation;
       }
  
-      if (tspecial & S_RIVER) {
-      	tileno = INDEX_NSEW(tspecial_near[DIR8_NORTH] & S_RIVER
+      if (BOOL_VAL(tspecial & S_RIVER)) {
+	tileno = INDEX_NSEW(BOOL_VAL(tspecial_near[DIR8_NORTH] & S_RIVER)
       	      	      	    || ttype_near[DIR8_NORTH] == T_OCEAN,
-			    tspecial_near[DIR8_SOUTH] & S_RIVER
+			    BOOL_VAL(tspecial_near[DIR8_SOUTH] & S_RIVER)
 			    || ttype_near[DIR8_SOUTH] == T_OCEAN,
-			    tspecial_near[DIR8_EAST] & S_RIVER
+			    BOOL_VAL(tspecial_near[DIR8_EAST] & S_RIVER)
 			    || ttype_near[DIR8_EAST] == T_OCEAN,
-			    tspecial_near[DIR8_WEST] & S_RIVER
+			    BOOL_VAL(tspecial_near[DIR8_WEST] & S_RIVER)
 			    || ttype_near[DIR8_WEST] == T_OCEAN);
       	*sprs++ = sprites.tx.spec_river[tileno];
       }
@@ -1189,23 +1189,23 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   } else {
     *solid_bg = 1;
 
-    if (tspecial & S_IRRIGATION && !pcity && draw_irrigation) {
-      if (tspecial & S_FARMLAND)
+    if (BOOL_VAL(tspecial & S_IRRIGATION) && !pcity && draw_irrigation) {
+      if (BOOL_VAL(tspecial & S_FARMLAND))
       	*sprs++ = sprites.tx.farmland;
       else
         *sprs++ = sprites.tx.irrigation;
     }
   }
    
-  if (tspecial & S_MINE && draw_mines) {
+  if (BOOL_VAL(tspecial & S_MINE) && draw_mines) {
     /* We do not have an oil tower in isometric view yet... */
     *sprs++ = sprites.tx.mine;
   }
 
   if (draw_specials) {
-    if (tspecial & S_SPECIAL_1)
+    if (BOOL_VAL(tspecial & S_SPECIAL_1))
       *sprs++ = tile_types[ttype].special[0].sprite;
-    else if (tspecial & S_SPECIAL_2)
+    else if (BOOL_VAL(tspecial & S_SPECIAL_2))
       *sprs++ = tile_types[ttype].special[1].sprite;
   }
 
@@ -1233,14 +1233,14 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     }
   } else {
     if (draw_roads_rails) {
-      if (tspecial & S_RAILROAD) {
+      if (BOOL_VAL(tspecial & S_RAILROAD)) {
       	int found = 0;
 
 	for (dir = 0; dir < 8; dir++) {
-	  if (tspecial_near[dir] & S_RAILROAD) {
+	  if (BOOL_VAL(tspecial_near[dir] & S_RAILROAD)) {
 	    *sprs++ = sprites.rail.dir[dir];
 	    found = 1;
-	  } else if (tspecial_near[dir] & S_ROAD) {
+	  } else if (BOOL_VAL(tspecial_near[dir] & S_ROAD)) {
 	    *sprs++ = sprites.road.dir[dir];
 	    found = 1;
 	  }
@@ -1249,11 +1249,11 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 	if (!found && !pcity)
 	  *sprs++ = sprites.rail.isolated;
 
-      } else if (tspecial & S_ROAD) {
+      } else if (BOOL_VAL(tspecial & S_ROAD)) {
 	int found = 0;
 
 	for (dir = 0; dir < 8; dir++) {
-	  if (tspecial_near[dir] & S_ROAD) {
+	  if (BOOL_VAL(tspecial_near[dir] & S_ROAD)) {
 	    *sprs++ = sprites.road.dir[dir];
 	    found = 1;
 	  }
@@ -1264,12 +1264,12 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       }
     }
 
-    if (tspecial & S_HUT && draw_specials)
+    if (BOOL_VAL(tspecial & S_HUT) && draw_specials)
       *sprs++ = sprites.tx.village;
 
     /* These are drawn later in isometric view (on top of city.)
-       if (tspecial & S_POLLUTION) *sprs++ = sprites.tx.pollution;
-       if (tspecial & S_FALLOUT) *sprs++ = sprites.tx.fallout;
+       if (BOOL_VAL(tspecial & S_POLLUTION)) *sprs++ = sprites.tx.pollution;
+       if (BOOL_VAL(tspecial & S_FALLOUT)) *sprs++ = sprites.tx.fallout;
     */
   }
 
@@ -1414,31 +1414,31 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
       *sprs++ = sprites.tx.coast_cape[tileno];
 
     for (dir = 0; dir < 4; dir++) {
-      if (tspecial_near[DIR4_TO_DIR8[dir]] & S_RIVER ||
+      if (BOOL_VAL(tspecial_near[DIR4_TO_DIR8[dir]] & S_RIVER) ||
           ttype_near[DIR4_TO_DIR8[dir]] == T_RIVER) {
 	*sprs++ = sprites.tx.river_outlet[dir];
       }
     }
   }
 
-  if (tspecial&S_RIVER && draw_terrain) {
-    tileno = INDEX_NSEW(tspecial_near[DIR8_NORTH] & S_RIVER
+  if (BOOL_VAL(tspecial & S_RIVER) && draw_terrain) {
+    tileno = INDEX_NSEW(BOOL_VAL(tspecial_near[DIR8_NORTH] & S_RIVER)
 			|| ttype_near[DIR8_NORTH] == T_OCEAN,
-			tspecial_near[DIR8_SOUTH] & S_RIVER
+			BOOL_VAL(tspecial_near[DIR8_SOUTH] & S_RIVER)
 			|| ttype_near[DIR8_SOUTH] == T_OCEAN,
-			tspecial_near[DIR8_EAST] & S_RIVER
+			BOOL_VAL(tspecial_near[DIR8_EAST] & S_RIVER)
 			|| ttype_near[DIR8_EAST] == T_OCEAN,
-			tspecial_near[DIR8_WEST] & S_RIVER
+			BOOL_VAL(tspecial_near[DIR8_WEST] & S_RIVER)
 			|| ttype_near[DIR8_WEST] == T_OCEAN);
     *sprs++=sprites.tx.spec_river[tileno];
   }
 
-  if(tspecial & S_IRRIGATION && draw_irrigation) {
-    if(tspecial & S_FARMLAND) *sprs++=sprites.tx.farmland;
+  if(BOOL_VAL(tspecial & S_IRRIGATION) && draw_irrigation) {
+    if(BOOL_VAL(tspecial & S_FARMLAND)) *sprs++=sprites.tx.farmland;
     else *sprs++=sprites.tx.irrigation;
   }
 
-  if(((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) && draw_roads_rails) {
+  if((BOOL_VAL(tspecial & S_ROAD) || BOOL_VAL(tspecial & S_RAILROAD)) && draw_roads_rails) {
     int n, s, e, w;
 
     n = BOOL_VAL(tspecial_near[DIR8_NORTH] & S_RAILROAD);
@@ -1469,10 +1469,10 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     road_semi_count = n + s + e + w;
     road_semi_tileno = INDEX_NSEW(n,s,e,w);
 
-    if(tspecial & S_RAILROAD) {
+    if(BOOL_VAL(tspecial & S_RAILROAD)) {
       road_card_tileno&=~rail_card_tileno;
       road_semi_tileno&=~rail_semi_tileno;
-    } else if(tspecial & S_ROAD) {
+    } else if(BOOL_VAL(tspecial & S_ROAD)) {
       rail_card_tileno&=~road_card_tileno;
       rail_semi_tileno&=~road_semi_tileno;
     }
@@ -1511,13 +1511,13 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   }
 
   if(draw_specials) {
-    if(tspecial & S_SPECIAL_1)
+    if (BOOL_VAL(tspecial & S_SPECIAL_1))
       *sprs++ = tile_types[ttype].special[0].sprite;
-    else if(tspecial & S_SPECIAL_2)
+    else if (BOOL_VAL(tspecial & S_SPECIAL_2))
       *sprs++ = tile_types[ttype].special[1].sprite;
   }
 
-  if(tspecial & S_MINE && draw_mines) {
+  if(BOOL_VAL(tspecial & S_MINE) && draw_mines) {
     if(ttype==T_HILLS || ttype==T_MOUNTAINS)
       *sprs++ = sprites.tx.mine;
     else /* desert */
@@ -1525,14 +1525,14 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   }
   
   if (draw_roads_rails) {
-    if (tspecial & S_RAILROAD) {
+    if (BOOL_VAL(tspecial & S_RAILROAD)) {
       int adjacent = rail_card_tileno;
       if (draw_diagonal_roads)
 	adjacent |= rail_semi_tileno;
       if (!adjacent)
 	*sprs++ = sprites.rail.isolated;
     }
-    else if (tspecial & S_ROAD) {
+    else if (BOOL_VAL(tspecial & S_ROAD)) {
       int adjacent = (rail_card_tileno | road_card_tileno);
       if (draw_diagonal_roads)
 	adjacent |= (rail_semi_tileno | road_semi_tileno);
@@ -1541,11 +1541,11 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     }
   }
 
-  if(tspecial & S_HUT && draw_specials) *sprs++ = sprites.tx.village;
-  if(tspecial & S_FORTRESS && draw_fortress_airbase) *sprs++ = sprites.tx.fortress;
-  if(tspecial & S_AIRBASE && draw_fortress_airbase) *sprs++ = sprites.tx.airbase;
-  if(tspecial & S_POLLUTION && draw_pollution) *sprs++ = sprites.tx.pollution;
-  if(tspecial & S_FALLOUT && draw_pollution) *sprs++ = sprites.tx.fallout;
+  if(BOOL_VAL(tspecial & S_HUT) && draw_specials) *sprs++ = sprites.tx.village;
+  if(BOOL_VAL(tspecial & S_FORTRESS) && draw_fortress_airbase) *sprs++ = sprites.tx.fortress;
+  if(BOOL_VAL(tspecial & S_AIRBASE) && draw_fortress_airbase) *sprs++ = sprites.tx.airbase;
+  if(BOOL_VAL(tspecial & S_POLLUTION) && draw_pollution) *sprs++ = sprites.tx.pollution;
+  if(BOOL_VAL(tspecial & S_FALLOUT) && draw_pollution) *sprs++ = sprites.tx.fallout;
   if(tile_get_known(abs_x0,abs_y0) == TILE_KNOWN_FOGGED && draw_fog_of_war)
     *sprs++ = sprites.tx.fog;
 

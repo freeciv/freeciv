@@ -860,7 +860,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   struct city *pcity = pdesttile->city;
 
   /* barbarians shouldn't enter huts */
-  if (is_barbarian(pplayer) && pdesttile->special&S_HUT) {
+  if (is_barbarian(pplayer) && BOOL_VAL(pdesttile->special & S_HUT)) {
     return FALSE;
   }
 

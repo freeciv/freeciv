@@ -127,7 +127,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				    NULL);
     count++;
 
-    if(ptile->special&S_HUT) {
+    if (BOOL_VAL(ptile->special & S_HUT)) {
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", _("Minor Tribe Village"),
 				     NULL);
