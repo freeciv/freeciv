@@ -20,6 +20,7 @@
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
+#include "gamelog.h"
 #include "log.h"
 #include "packets.h"
 #include "shared.h"
