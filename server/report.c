@@ -504,6 +504,53 @@ static void dem_line_item(char *outptr, size_t out_size,
 }
 
 /*************************************************************************
+  Verify that a given demography string is valid.  See
+  game.demography.
+*************************************************************************/
+bool is_valid_demography(const char *demography, char **error_string)
+{
+  int len = strlen(demography), i;
+
+  /* We check each character individually to see if it's valid.  This
+   * does not check for duplicate entries. */
+  for (i = 0; i < len; i++) {
+    bool found = FALSE;
+    int j;
+
+    /* See if the character is a valid column label. */
+    for (j = 0; j < ARRAY_SIZE(coltable); j++) {
+      if (demography[i] == coltable[j].key) {
+	found = TRUE;
+	break;
+      }
+    }
+
+    if (found) {
+      continue;
+    }
+
+    /* See if the character is a valid row label. */
+    for (j = 0; j < ARRAY_SIZE(rowtable); j++) {
+      if (demography[i] == rowtable[j].key) {
+	found = TRUE;
+	break;
+      }
+    }
+
+    if (!found) {
+      /* The character is invalid. */
+      *error_string = _("Demography string contains invalid characters. "
+			"Try \"help demography\".");
+      return FALSE;
+    }
+  }
+
+  /* Looks like all characters were valid. */
+  *error_string = NULL;
+  return TRUE;
+}
+
+/*************************************************************************
   Send demographics report; what gets reported depends on value of
   demographics server option.  
 *************************************************************************/

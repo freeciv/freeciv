@@ -155,7 +155,7 @@ struct settings_s {
   /*** string part ***/
   char *string_value;
   char *string_default_value;
-  bool (*string_validate)(char *, char **);
+  bool (*string_validate)(const char *, char **);
   size_t string_value_size;	/* max size we can write into string_value */
 };
 
@@ -165,6 +165,8 @@ struct settings_s {
 static bool valid_notradesize(int value, char **reject_message);
 static bool valid_fulltradesize(int value, char **reject_message);
 static bool autotoggle(bool value, char **reject_message);
+static bool is_valid_allowconnect(const char *allow_connect,
+				  char **error_string);
 
 static bool valid_max_players(int v, char **r_m)
 {
@@ -677,7 +679,7 @@ static struct settings_s settings[] = {
 		"   - = Single observer only, no controllers;\n"
 		"   (none) = Single controller only.\n"
 		"Multiple connections and observer connections are "
-		"currently EXPERIMENTAL."), NULL,
+		"currently EXPERIMENTAL."), is_valid_allowconnect,
 	     GAME_DEFAULT_ALLOW_CONNECT)
 
   GEN_BOOL("autotoggle", game.auto_ai_toggle, SSET_META, SSET_TO_CLIENT,
@@ -762,7 +764,8 @@ static struct settings_s settings[] = {
 		"or not certain columns are displayed in the report:\n"
 		"    q = display \"quantity\" column    r = display \"rank\" column\n"
 		"    b = display \"best nation\" column\n"
-		"(The order of these characters is not significant, but their case is.)"), NULL,
+		"(The order of these characters is not significant, but their case is.)"),
+	     is_valid_demography,
 	     GAME_DEFAULT_DEMOGRAPHY)
 
   GEN_INT("saveturns", game.save_nturns, SSET_META, SSET_SERVER_ONLY,
@@ -3669,6 +3672,50 @@ static bool autotoggle(bool value, char **reject_message)
   } players_iterate_end;
 
   reject_message = NULL; /* we should modify this, but since we cannot fail... */
+  return TRUE;
+}
+
+/*************************************************************************
+  Verify that a given allowconnect string is valid.  See
+  game.allow_connect.
+*************************************************************************/
+static bool is_valid_allowconnect(const char *allow_connect,
+				  char **error_string)
+{
+  int len = strlen(allow_connect), i;
+  bool havecharacter_state = FALSE;
+
+  /* We check each character individually to see if it's valid.  This
+   * does not check for duplicate entries.
+   *
+   * We also track the state of the machine.  havecharacter_state is
+   * true if the preceeding character was a primary label, e.g.
+   * NHhAadb.  It is false if the preceeding character was a modifier
+   * or if this is the first character. */
+
+  for (i = 0; i < len; i++) {
+    /* Check to see if the character is a primary label. */
+    if (strchr("NHhAadb", allow_connect[i])) {
+      havecharacter_state = TRUE;
+      continue;
+    }
+
+    /* If we've already passed a primary label, check to see if the
+     * character is a modifier. */
+    if (havecharacter_state
+	&& strchr("*+=-", allow_connect[i])) {
+      havecharacter_state = FALSE;
+      continue;
+    }
+
+    /* Looks like the character was invalid. */
+    *error_string = _("Allowed connections string contains invalid\n"
+		      "characters.  Try \"help allowconnect\".");
+    return FALSE;
+  }
+
+  /* All characters were valid. */
+  *error_string = NULL;
   return TRUE;
 }
 
