@@ -114,10 +114,10 @@ int main(int argc, char *argv[])
 #endif
     fprintf(stderr, _("  -m, --meta HOST\tConnect to the metaserver at HOST\n"));
 #ifdef DEBUG
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2,3,"
-                                  "or 3:file1,min,max:...)\n"));
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
+                                  " or 4:file1,min,max:...)\n"));
 #else
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2)\n"));
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
    } else if (is_option("--version",argv[i])) {

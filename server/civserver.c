@@ -255,10 +255,10 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"));
     fprintf(stderr, _("  -s, --server HOST\tList this server as host HOST\n"));
 #ifdef DEBUG
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2,3,"
-	                                "or 3:file1,min,max:...)\n"));
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
+	                                " or 4:file1,min,max:...)\n"));
 #else
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0,1,2)\n"));
+    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);

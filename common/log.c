@@ -39,8 +39,8 @@ static int logd_num_files;
 static struct logd_fileinfo *logd_files;
 
 /**************************************************************************
-level_str should be either "0", "1", "2", "3" or
-"3:filename" or "3:file1:file2" or "3:filename,100,200" etc
+level_str should be either "0", "1", "2", "3", "4" or
+"4:filename" or "4:file1:file2" or "4:filename,100,200" etc
 
 If everything goes ok, returns the level.
 If there was a parsing problem, prints to stderr, and returns -1.
@@ -90,8 +90,8 @@ int log_parse_level_str(char *level_str)
   }
 
   c = level_str;
-  if (c[0] == '3' && c[1] == ':') {
-    level = 3;
+  if (c[0] == '4' && c[1] == ':') {
+    level = 4;
   } else {
     fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
     return -1;

@@ -18,9 +18,10 @@
 #include "attribute.h"
 
 #define LOG_FATAL   0
-#define LOG_NORMAL  1
-#define LOG_VERBOSE 2		/* not shown by default */
-#define LOG_DEBUG   3		/* suppressed unless DEBUG defined;
+#define LOG_ERROR   1		/* non-fatal errors */
+#define LOG_NORMAL  2
+#define LOG_VERBOSE 3		/* not shown by default */
+#define LOG_DEBUG   4		/* suppressed unless DEBUG defined;
 				   may be enabled on file/line basis */
 
 /* Some variables local to each file which includes log.h,
