@@ -1320,19 +1320,19 @@ static void ocean_to_land_fix_rivers(int x, int y)
   /* clear the river if it exists */
   map_clear_special(x, y, S_RIVER);
 
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     if (map_has_special(x1, y1, S_RIVER)) {
       bool ocean_near = FALSE;
-      cartesian_adjacent_iterate(x1, y1, x2, y2) {
+      cardinal_adjc_iterate(x1, y1, x2, y2) {
         if (is_ocean(map_get_terrain(x2, y2)))
           ocean_near = TRUE;
-      } cartesian_adjacent_iterate_end;
+      } cardinal_adjc_iterate_end;
       if (!ocean_near) {
         map_set_special(x, y, S_RIVER);
         return;
       }
     }
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 }
 
 /**************************************************************************

@@ -165,11 +165,11 @@ int adjacent_terrain_tiles4(int map_x, int map_y, enum tile_terrain_type t)
 {
   int num_adjacent = 0;
 
-  cartesian_adjacent_iterate(map_x, map_y, adjc_x, adjc_y) {
+  cardinal_adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
     if (map_get_terrain(adjc_x, adjc_y) == t) {
       num_adjacent++;
     }
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return num_adjacent;
 }
@@ -215,11 +215,11 @@ int adjacent_terrain_flag_tiles4(int map_x, int map_y,
 {
   int num_adjacent = 0;
 
-  cartesian_adjacent_iterate(map_x, map_y, adjc_x, adjc_y) {
+  cardinal_adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
     if (terrain_has_flag(map_get_terrain(adjc_x, adjc_y), flag)) {
       num_adjacent++;
     }
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return num_adjacent;
 }

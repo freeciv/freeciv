@@ -426,12 +426,12 @@ static void make_desert(int x, int y, int height, int diff, int base_T)
   if (abs(hmap(x, y) - height) < diff 
       && map_get_terrain(x, y) == T_GRASSLAND) {
     map_set_terrain(x, y, T_DESERT);
-    cartesian_adjacent_iterate(x, y, x1, y1) {
+    cardinal_adjc_iterate(x, y, x1, y1) {
       make_desert(x1, y1, height,
 		  diff - 1 - abs(map_temperature(x1, y1) - base_T) / DeltaT,
 		  base_T);
      
-    } cartesian_adjacent_iterate_end;
+    } cardinal_adjc_iterate_end;
   }
 }
 
@@ -455,11 +455,11 @@ static void make_forest(int map_x, int map_y, int height, int diff)
       map_set_terrain(map_x, map_y, T_FOREST);
     }
     if (abs(hmap(map_x, map_y) - height) < diff) {
-      cartesian_adjacent_iterate(map_x, map_y, x1, y1) {
+      cardinal_adjc_iterate(map_x, map_y, x1, y1) {
 	if (myrand(10) > 5) {
 	  make_forest(x1, y1, height, diff - 5);
 	}
-      } cartesian_adjacent_iterate_end;
+      } cardinal_adjc_iterate_end;
     }
     forests++;
   }
@@ -524,13 +524,13 @@ static void make_swamps(void)
     if (map_get_terrain(x, y) == T_GRASSLAND
 	&& hmap(x, y) < (maxval * 60) / 100) {
       map_set_terrain(x, y, T_SWAMP);
-      cartesian_adjacent_iterate(x, y, x1, y1) {
+      cardinal_adjc_iterate(x, y, x1, y1) {
  	if (myrand(10) > 5 && !is_ocean(map_get_terrain(x1, y1)) 
 	    && map_get_terrain(x1, y1) != T_SWAMP ) { 
 	  map_set_terrain(x1, y1, T_SWAMP);
 	  swamps++;
 	}
-      } cartesian_adjacent_iterate_end;
+      } cardinal_adjc_iterate_end;
       swamps++;
     }
   }
@@ -572,11 +572,11 @@ static int adjacent_river_tiles4(int x, int y)
 {
   int num_adjacent  = 0;
 
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     if (map_has_special(x1, y1, S_RIVER)) {
       num_adjacent++;
     }
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return num_adjacent;
 }
@@ -590,10 +590,10 @@ static int river_test_blocked(int x, int y)
     return 1;
 
   /* any un-blocked? */
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     if (!TEST_BIT(rmap(x1, y1), RS_BLOCKED))
       return 0;
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return 1; /* none non-blocked |- all blocked */
 }
@@ -675,9 +675,9 @@ static void river_blockmark(int x, int y)
 
   rmap(x, y) |= (1u << RS_BLOCKED);
 
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     rmap(x1, y1) |= (1u << RS_BLOCKED);
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 }
 
 struct test_func {
@@ -1078,13 +1078,13 @@ static void make_fair(void)
       if (!map_has_special(map_x, map_y, S_RIVER)) {
 	map_set_terrain(map_x, map_y, T_HILLS);
       }
-      cartesian_adjacent_iterate(map_x, map_y, x1, y1) {
+      cardinal_adjc_iterate(map_x, map_y, x1, y1) {
 	if (myrand(100) > 66
 	    && !is_ocean(map_get_terrain(x1, y1))
 	    && !map_has_special(x1, y1, S_RIVER)) {
 	  map_set_terrain(x1, y1, T_HILLS);
 	}
-      } cartesian_adjacent_iterate_end;
+      } cardinal_adjc_iterate_end;
     }
   } whole_map_iterate_end;
 }
@@ -1191,11 +1191,11 @@ static bool is_tiny_island(int x, int y)
     return FALSE;
   }
 
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     if (!is_ocean(map_get_terrain(x1, y1))) {
       return FALSE;
     }
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return TRUE;
 }
@@ -2034,11 +2034,11 @@ static int count_card_adjc_elevated_tiles(int x, int y)
 {
   int count = 0;
 
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     if (hmap(x1, y1) != 0) {
       count++;
     }
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return count;
 }

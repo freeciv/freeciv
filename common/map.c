@@ -529,11 +529,11 @@ int count_special_near_tile(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 bool is_at_coast(int x, int y)
 {
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     if (is_ocean(map_get_terrain(x1, y1))) {
       return TRUE;
     }
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return FALSE;
 }
@@ -699,13 +699,13 @@ bool is_water_adjacent_to_tile(int x, int y)
       || tile_has_special(ptile, S_IRRIGATION))
     return TRUE;
 
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     ptile = map_get_tile(x1, y1);
     if (is_ocean(ptile->terrain)
 	|| tile_has_special(ptile, S_RIVER)
 	|| tile_has_special(ptile, S_IRRIGATION))
       return TRUE;
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return FALSE;
 }

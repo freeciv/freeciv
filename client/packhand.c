@@ -2031,11 +2031,10 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* the "furry edges" on tiles adjacent to an TILE_UNKNOWN tile are
        removed here */
     if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
-      cartesian_adjacent_iterate(x, y, x1, y1) {
+      cardinal_adjc_iterate(x, y, x1, y1) {
 	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
 	  refresh_tile_mapcanvas(x1, y1, FALSE);
-      }
-      cartesian_adjacent_iterate_end;
+      } cardinal_adjc_iterate_end;
     }
   }
 

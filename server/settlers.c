@@ -551,10 +551,10 @@ static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
   if (is_wet(pplayer, x, y))
     return TRUE;
 
-  cartesian_adjacent_iterate(x, y, x1, y1) {
+  cardinal_adjc_iterate(x, y, x1, y1) {
     if (is_wet(pplayer, x1, y1))
       return TRUE;
-  } cartesian_adjacent_iterate_end;
+  } cardinal_adjc_iterate_end;
 
   return FALSE;
 }
