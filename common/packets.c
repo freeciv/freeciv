@@ -2534,7 +2534,7 @@ int send_packet_city_name_suggestion(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_CITY_NAME_SUGGESTION);
   
-  cptr=put_int8(cptr, packet->id);
+  cptr=put_int16(cptr, packet->id);
   cptr=put_string(cptr, packet->name);
 
   put_int16(buffer, cptr-buffer);
@@ -2553,7 +2553,7 @@ receive_packet_city_name_suggestion(struct connection *pc)
   
   pack_iter_init(&iter, pc);
 
-  iget_int8(&iter, &packet->id);
+  iget_int16(&iter, &packet->id);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   pack_iter_end(&iter, pc);

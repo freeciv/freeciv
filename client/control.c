@@ -256,7 +256,7 @@ all the server checks and messages here.)
 void request_unit_build_city(struct unit *punit)
 {
   if(can_unit_build_city(punit)) {
-    if (has_capability("citynamesuggest", aconnection.capability)) {
+    if (has_capability("citynamesuggest2", aconnection.capability)) {
       struct packet_generic_integer req;
       req.value = punit->id;
       send_packet_generic_integer(&aconnection,

@@ -70,7 +70,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
-    " +ruleset_control +ask_pillage citynamesuggest"
+    " +ruleset_control +ask_pillage citynamesuggest2"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -100,7 +100,8 @@ const char * const our_capability = our_capability_internal;
 
    "ask_pillage" means that the player is asked for what to pillage.
 
-   "citynamesuggest" means client can ask server for city name suggestions.
+   "citynamesuggest2" means client can ask server for city name
+   suggestions, now using the right bit-width for unit id.
 */
 
 void init_our_capability(void)
