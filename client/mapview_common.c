@@ -993,7 +993,7 @@ void put_unit_city_overlays(struct unit *punit,
  * This array can be added to without breaking anything elsewhere.
  */
 static int color_index = 0;
-#define NUM_CITY_COLORS (sprites.city.worked_tile_overlay.size)
+#define NUM_CITY_COLORS tileset_num_city_colors(tileset)
 
 
 /****************************************************************************
@@ -1038,7 +1038,7 @@ void toggle_unit_color(struct unit *punit)
 void put_nuke_mushroom_pixmaps(struct tile *ptile)
 {
   int canvas_x, canvas_y;
-  struct Sprite *mysprite = sprites.explode.nuke;
+  struct Sprite *mysprite = get_nuke_explode_sprite(tileset);
   int width, height;
 
   /* We can't count on the return value of tile_to_canvas_pos since the

@@ -375,6 +375,7 @@ struct Sprite *get_arrow_sprite(void);
 struct Sprite *get_tax_sprite(Output_type_id otype);
 struct Sprite *get_treaty_thumb_sprite(bool on_off);
 struct sprite_vector *get_unit_explode_animation(void);
+struct Sprite *get_nuke_explode_sprite(struct tileset *t);
 struct Sprite *get_cursor_sprite(enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
 struct Sprite *get_icon_sprite(struct tileset *t, enum icon_type icon);
@@ -437,6 +438,7 @@ int tileset_small_sprite_width(struct tileset *t);
 int tileset_small_sprite_height(struct tileset *t);
 const char *tileset_main_intro_filename(struct tileset *t);
 const char *tileset_mini_intro_filename(struct tileset *t);
+int tileset_num_city_colors(struct tileset *t);
 
 struct Sprite *load_sprite(struct tileset *t, const char *tag_name);
 void unload_sprite(struct tileset *t, const char *tag_name);

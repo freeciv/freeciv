@@ -315,6 +315,14 @@ const char *tileset_mini_intro_filename(struct tileset *t)
   return t->minimap_intro_filename;
 }
 
+/****************************************************************************
+  Return the number of possible colors for city overlays.
+****************************************************************************/
+int tileset_num_city_colors(struct tileset *t)
+{
+  return sprites.city.worked_tile_overlay.size;
+}
+
 /**************************************************************************
   Initialize.
 **************************************************************************/
@@ -3930,6 +3938,16 @@ struct Sprite *get_treaty_thumb_sprite(bool on_off)
 struct sprite_vector *get_unit_explode_animation(void)
 {
   return &sprites.explode.unit;
+}
+
+/****************************************************************************
+  Return a sprite contining the single nuke graphic.
+
+  TODO: This should be an animation like the unit explode animation.
+****************************************************************************/
+struct Sprite *get_nuke_explode_sprite(struct tileset *t)
+{
+  return sprites.explode.nuke;
 }
 
 /**************************************************************************
