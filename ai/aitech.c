@@ -126,55 +126,62 @@ static void ai_select_tech(struct player *pplayer,
   /* Fill in values for the techs: want of the tech 
    * + average want of those we will discover en route */
   tech_type_iterate(i) {
-    int steps = num_unknown_techs_for_goal(pplayer, i);
+    if (tech_exists(i)) {
+      int steps = num_unknown_techs_for_goal(pplayer, i);
 
-    /* We only want it if we haven't got it (so AI is human after all) */
-    if (steps > 0) { 
-      values[i] += pplayer->ai.tech_want[i];
-      tech_type_iterate(k) {
-	if (is_tech_a_req_for_goal(pplayer, k, i)) {
-	  values[k] += pplayer->ai.tech_want[i] / steps;
-	}
-      } tech_type_iterate_end;
+      /* We only want it if we haven't got it (so AI is human after all) */
+      if (steps > 0) { 
+	values[i] += pplayer->ai.tech_want[i];
+	tech_type_iterate(k) {
+	  if (is_tech_a_req_for_goal(pplayer, k, i)) {
+	    values[k] += pplayer->ai.tech_want[i] / steps;
+	  }
+	} tech_type_iterate_end;
+      }
     }
   } tech_type_iterate_end;
 
   /* Fill in the values for the tech goals */
   tech_type_iterate(i) {
-    int steps = num_unknown_techs_for_goal(pplayer, i);
+    if (tech_exists(i)) {
+      int steps = num_unknown_techs_for_goal(pplayer, i);
 
-    if (steps == 0) {
-      continue;
-    }
-
-    goal_values[i] = values[i];      
-    tech_type_iterate(k) {
-      if (is_tech_a_req_for_goal(pplayer, k, i)) {
-	goal_values[i] += values[k];
+      if (steps == 0) {
+	continue;
       }
-    } tech_type_iterate_end;
-    /* This is the best I could do.  It still sometimes does freaky stuff
-     * like setting goal to Republic and learning Monarchy, but that's what
-     * it's supposed to be doing; it just looks strange. -- Syela */
-    goal_values[i] /= steps;
-    if (steps < 6) {
-      freelog(LOG_DEBUG, "%s: want = %d, value = %d, goal_value = %d",
-	      get_tech_name(pplayer, i), pplayer->ai.tech_want[i],
-	      values[i], goal_values[i]);
+
+      goal_values[i] = values[i];      
+      tech_type_iterate(k) {
+	if (is_tech_a_req_for_goal(pplayer, k, i)) {
+	  goal_values[i] += values[k];
+	}
+      } tech_type_iterate_end;
+
+      /* This is the best I could do.  It still sometimes does freaky stuff
+       * like setting goal to Republic and learning Monarchy, but that's what
+       * it's supposed to be doing; it just looks strange. -- Syela */
+      goal_values[i] /= steps;
+      if (steps < 6) {
+	freelog(LOG_DEBUG, "%s: want = %d, value = %d, goal_value = %d",
+		get_tech_name(pplayer, i), pplayer->ai.tech_want[i],
+		values[i], goal_values[i]);
+      }
     }
   } tech_type_iterate_end;
 
   newtech = A_UNSET;
   newgoal = A_UNSET;
   tech_type_iterate(i) {
-    if (values[i] > values[newtech]
-        && tech_is_available(pplayer, i)
-        && get_invention(pplayer, i) == TECH_REACHABLE) {
-      newtech = i;
-    }
-    if (goal_values[i] > goal_values[newgoal]
-        && tech_is_available(pplayer, i)) {
-      newgoal = i;
+    if (tech_exists(i)) {
+      if (values[i] > values[newtech]
+	  && tech_is_available(pplayer, i)
+	  && get_invention(pplayer, i) == TECH_REACHABLE) {
+	newtech = i;
+      }
+      if (goal_values[i] > goal_values[newgoal]
+	  && tech_is_available(pplayer, i)) {
+	newgoal = i;
+      }
     }
   } tech_type_iterate_end;
   freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", 
