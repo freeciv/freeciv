@@ -1,4 +1,4 @@
-F#
+#
 #     Norwegian Translation
 #
 # This translation is covered by the GNU General Public License Version 2.
