@@ -78,41 +78,6 @@ static int frozen_level;
 static bool currently_running = FALSE;
 
 /***********************************************************************
- Called once per client startup.
-***********************************************************************/
-void agents_init(void)
-{
-  agents.entries_used = 0;
-  call_list_init(&agents.calls);
-
-  /* Add init calls of agents here */
-  cma_init();
-  cmafec_init();
-}
-
-/***********************************************************************
- Registers an agent.
-***********************************************************************/
-void register_agent(const struct agent *agent)
-{
-  struct my_agent *priv_agent = &agents.entries[agents.entries_used];
-
-  assert(agents.entries_used < MAX_AGENTS);
-  assert(agent->level > 0);
-
-  memcpy(&priv_agent->agent, agent, sizeof(struct agent));
-
-  priv_agent->first_outstanding_request_id = 0;
-  priv_agent->last_outstanding_request_id = 0;
-
-  priv_agent->stats.network_wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
-  priv_agent->stats.wait_at_network = 0;
-  priv_agent->stats.wait_at_network_requests = 0;
-
-  agents.entries_used++;
-}
-
-/***********************************************************************
  If the call described by the given arguments isn't contained in
  agents.calls list add the call to this list.
 ***********************************************************************/
@@ -318,6 +283,67 @@ static void print_stats(struct my_agent *agent)
 	  read_timer_seconds(agent->stats.network_wall_timer),
 	  agent->stats.wait_at_network_requests,
 	  agent->stats.wait_at_network);
+}
+
+/***********************************************************************
+ Called once per client startup.
+***********************************************************************/
+void agents_init(void)
+{
+  agents.entries_used = 0;
+  call_list_init(&agents.calls);
+
+  /* Add init calls of agents here */
+  cma_init();
+  cmafec_init();
+}
+
+/***********************************************************************
+ ...
+***********************************************************************/
+void agents_free(void)
+{
+  int i;
+
+  cmafec_free();
+  cma_free();
+
+  for (;;) {
+    struct call *pcall = remove_and_return_a_call();
+    if (!pcall) {
+      break;
+    }
+
+    free(pcall);
+  }
+
+  for (i = 0; i < agents.entries_used; i++) {
+    struct my_agent *agent = &agents.entries[i];
+
+    free_timer(agent->stats.network_wall_timer);
+  }
+}
+
+/***********************************************************************
+ Registers an agent.
+***********************************************************************/
+void register_agent(const struct agent *agent)
+{
+  struct my_agent *priv_agent = &agents.entries[agents.entries_used];
+
+  assert(agents.entries_used < MAX_AGENTS);
+  assert(agent->level > 0);
+
+  memcpy(&priv_agent->agent, agent, sizeof(struct agent));
+
+  priv_agent->first_outstanding_request_id = 0;
+  priv_agent->last_outstanding_request_id = 0;
+
+  priv_agent->stats.network_wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
+  priv_agent->stats.wait_at_network = 0;
+  priv_agent->stats.wait_at_network_requests = 0;
+
+  agents.entries_used++;
 }
 
 /***********************************************************************

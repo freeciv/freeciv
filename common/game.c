@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "assert.h"
+#include "capstr.h"
 #include "city.h"
 #include "connection.h"
 #include "fcintl.h"
@@ -740,7 +741,8 @@ void game_init(void)
   game.load_options.load_starts = TRUE;
   game.load_options.load_private_map = TRUE;
   game.load_options.load_settings = TRUE;
-    
+
+  init_our_capability();    
   map_init();
   idex_init();
   

@@ -2895,13 +2895,8 @@ void load_command(struct connection *caller, char *arg)
   cmd_reply(CMD_LOAD, caller, C_COMMENT, _("Loading saved game: %s..."), arg);
 
   /* we found it, free all structures */
+  server_game_free();
 
-  players_iterate(pplayer) {
-    player_map_free(pplayer);
-  } players_iterate_end;
-
-  game_free();
-  nation_city_names_free(misc_city_names);
   game_init();
 
   loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);

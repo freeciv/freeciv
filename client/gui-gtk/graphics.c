@@ -342,7 +342,7 @@ struct Sprite *load_gfxfile(const char *filename)
   mysprite->width     = w;
   mysprite->height    = h;
 
-  gdk_imlib_destroy_image (im);
+  gdk_imlib_kill_image (im);
 
   return mysprite;
 }

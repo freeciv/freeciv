@@ -63,6 +63,7 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
 					       WorklistCancelCallback
 					       cancel_cb,
 					       int embedded_in_city);
+void close_worklist_editor(struct worklist_editor *peditor);
 
 GtkWidget *popup_worklist(struct worklist *pwl, struct city *pcity,
 			  GtkWidget * parent, void *user_data,

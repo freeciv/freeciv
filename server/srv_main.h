@@ -54,6 +54,7 @@ void dealloc_id(int id);
 bool is_id_allocated(int id);
 void alloc_id(int id);
 int get_next_id_number(void);
+void server_game_free(void);
 
 extern struct server_arguments srvarg;
 

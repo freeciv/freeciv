@@ -84,7 +84,7 @@ static void check_help_nodes_init(void)
 /****************************************************************
   Free all allocations associated with help_nodes.
 *****************************************************************/
-static void free_help_nodes(void)
+void free_help_texts(void)
 {
   check_help_nodes_init();
   help_list_iterate(help_nodes, ptmp) {
@@ -197,7 +197,7 @@ void boot_help_texts(void)
     freelog(LOG_VERBOSE, "Booting help texts");
   } else {
     /* free memory allocated last time booted */
-    free_help_nodes();
+    free_help_texts();
     freelog(LOG_VERBOSE, "Rebooting help texts");
   }    
 

@@ -1791,6 +1791,7 @@ void popdown_races_dialog(void)
     races_dialog_shell = NULL;
     g_list_free(sorted_races_list);
     sorted_races_list = NULL;
+    free(races_toggles);
   } /* else there is no dialog shell to destroy */
 }
 

@@ -1442,6 +1442,14 @@ static void cleanup_worklist_editor(struct worklist_editor *peditor)
 /****************************************************************
 ...
 *****************************************************************/
+void close_worklist_editor(struct worklist_editor *peditor)
+{
+  cleanup_worklist_editor(peditor);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static gint worklist_editor_delete_callback(GtkWidget * w, GdkEvent * ev,
 					    gpointer data)
 {

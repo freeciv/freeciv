@@ -1826,7 +1826,6 @@ void srv_main(void)
   
   con_flush();
 
-  init_our_capability();
   game_init();
 
   /* init network */  
@@ -2021,5 +2020,18 @@ main_start_players:
   }
 
   close_connections_and_socket();
+  server_game_free();
+}
+
+/**************************************************************************
+ ...
+**************************************************************************/
+void server_game_free()
+{
+  players_iterate(pplayer) {
+    player_map_free(pplayer);
+  } players_iterate_end;
+
+  nation_city_names_free(misc_city_names);
   game_free();
 }

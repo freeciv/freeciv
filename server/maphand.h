@@ -72,7 +72,9 @@ void map_clear_known(int x, int y, struct player *pplayer);
 void map_know_all(struct player *pplayer);
 void map_know_and_see_all(struct player *pplayer);
 void show_map_to_all(void);
+
 void player_map_allocate(struct player *pplayer);
+void player_map_free(struct player *pplayer);
 struct player_tile *map_get_player_tile(int x, int y,
 					struct player *pplayer);
 void update_tile_knowledge(struct player *pplayer,int x, int y);

@@ -86,6 +86,16 @@ void cmafec_init(void)
 }
 
 /**************************************************************************
+ ...
+**************************************************************************/
+void cmafec_free(void)
+{
+  while (cmafec_preset_num() > 0) {
+    cmafec_preset_remove(0);
+  }
+}
+
+/**************************************************************************
  Sets the front-end parameter.
 **************************************************************************/
 void cmafec_set_fe_parameter(struct city *pcity,
@@ -155,6 +165,9 @@ void cmafec_preset_remove(int index)
 
   ppreset = preset_list_get(&preset_list, index);
   preset_list_unlink(&preset_list, ppreset);
+
+  free(ppreset->descr);
+  free(ppreset);
 }
 
 /**************************************************************************

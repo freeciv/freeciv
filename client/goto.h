@@ -26,6 +26,7 @@ struct client_goto_map {
 extern struct client_goto_map goto_map;
 
 void init_client_goto(void);
+void free_client_goto(void);
 void enter_goto_state(struct unit *punit);
 void exit_goto_state(void);
 bool goto_is_active(void);

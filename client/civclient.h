@@ -58,4 +58,7 @@ void wait_till_request_got_processed(int request_id);
 bool client_is_observer(void);
 void real_timer_callback(void);
 
+void client_game_init(void);
+void client_game_free(void);
+
 #endif  /* FC__CIVCLIENT_H */

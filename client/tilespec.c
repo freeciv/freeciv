@@ -38,7 +38,6 @@
 #include "nation.h"
 #include "player.h"
 #include "registry.h"
-#include "sbuffer.h"
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
@@ -85,9 +84,6 @@ static struct hash_table *sprite_hash = NULL;
    This is kept permanently after setup, for doing lookups on ruleset
    information (including on reconnections etc).
 */
-
-static struct sbuffer *sprite_key_sb;
-/* used to allocate keys for sprite_hash */
 
 #define TILESPEC_CAPSTR "+tilespec2 duplicates_ok"
 /*
@@ -408,8 +404,7 @@ static void tilespec_load_one(const char *spec_filename)
       for(k=0; k<num_tags; k++) {
 	/* don't free old sprite, since could be multiple tags
 	   pointing to it */
-	(void) hash_replace(sprite_hash, sbuf_strdup(sprite_key_sb, tags[k]),
-			    small_sprite);
+	(void) hash_replace(sprite_hash, mystrdup(tags[k]), small_sprite);
       }
       free(tags);
       tags = NULL;
@@ -698,7 +693,6 @@ void tilespec_load_tiles(void)
   
   assert(num_spec_files>0);
   sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
-  sprite_key_sb = sbuf_new();
 
   for(i=0; i<num_spec_files; i++) {
     tilespec_load_one(spec_filenames[i]);
@@ -1859,4 +1853,59 @@ struct unit *get_drawable_unit(int x, int y, bool citymode)
     return punit;
   else
     return NULL;
+}
+
+/**********************************************************************
+...
+***********************************************************************/
+static int my_cmp(const void *a1, const void *a2)
+{
+  const struct Sprite **b1 = (const struct Sprite **) a1;
+  const struct Sprite **b2 = (const struct Sprite **) a2;
+
+  const struct Sprite *c1 = *b1;
+  const struct Sprite *c2 = *b2;
+
+  if (c1 < c2) {
+    return -1;
+  }
+  if (c2 < c1) {
+    return 1;
+  }
+  return 0;
+}
+
+/**********************************************************************
+...
+***********************************************************************/
+void tilespec_free_tiles(void)
+{
+  int i, entries = hash_num_entries(sprite_hash);
+  struct Sprite **sprites = fc_malloc(sizeof(*sprites) * entries);
+  struct Sprite *last_sprite = NULL;
+
+  freelog(LOG_DEBUG, "tilespec_free_tiles");
+
+  for (i = 0; i < entries; i++) {
+    const char *key = hash_key_by_number(sprite_hash, 0);
+
+    sprites[i] = hash_delete_entry(sprite_hash, key);
+    free((void *) key);
+  }
+
+  qsort(sprites, entries, sizeof(sprites[0]), my_cmp);
+
+  for (i = 0; i < entries; i++) {
+    if (sprites[i] == last_sprite) {
+      continue;
+    }
+
+    last_sprite = sprites[i];
+    free_sprite(sprites[i]);
+  }
+
+  free(sprites);
+
+  hash_free(sprite_hash);
+  sprite_hash = NULL;
 }

@@ -57,6 +57,8 @@ static int waypoint_list_index = 0;
 
 static bool is_active = FALSE;
 
+static bool is_init = FALSE;
+static int old_xsize;
 struct client_goto_map goto_map;
 
 /* These are used for all GOTO's */
@@ -206,8 +208,6 @@ Called once per game.
 void init_client_goto(void)
 {
   int x_itr;
-  static bool is_init = FALSE;
-  static int old_xsize;
 
   if (!goto_array) {
     goto_array = fc_malloc(INITIAL_ARRAY_LENGTH
@@ -216,14 +216,7 @@ void init_client_goto(void)
   }
 
   if (is_init) {
-    for (x_itr = 0; x_itr < old_xsize; x_itr++) {
-      free(goto_map.move_cost[x_itr]);
-      free(goto_map.vector[x_itr]);
-      free(goto_map.drawn[x_itr]);
-    }
-    free(goto_map.move_cost);
-    free(goto_map.vector);
-    free(goto_map.drawn);
+    free_client_goto();
   }
 
   goto_map.move_cost = fc_malloc(map.xsize * sizeof(short *));
@@ -246,6 +239,32 @@ void init_client_goto(void)
 
   is_init = TRUE;
   old_xsize = map.xsize;
+}
+
+void free_client_goto()
+{
+  if (is_init) {
+    int x_itr;
+    for (x_itr = 0; x_itr < old_xsize; x_itr++) {
+      free(goto_map.move_cost[x_itr]);
+      free(goto_map.vector[x_itr]);
+      free(goto_map.drawn[x_itr]);
+    }
+    free(goto_map.move_cost);
+    free(goto_map.vector);
+    free(goto_map.drawn);
+
+    memset(&goto_map,0,sizeof(goto_map));
+
+    is_init = FALSE;
+  }
+
+  if (goto_array) {
+    free(goto_array);
+    free(waypoint_list);
+    goto_array = NULL;
+    waypoint_list = NULL;
+  }
 }
 
 /********************************************************************** 

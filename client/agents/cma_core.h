@@ -65,6 +65,8 @@ struct cma_result {
  */
 void cma_init(void);
 
+void cma_free(void);
+
 /*
  * Will try to meet the requirements and fill out the result. Caller
  * should test result->found_a_valid. cma_query_result will not change

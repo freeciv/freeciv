@@ -30,6 +30,7 @@ const char **get_tileset_list(void);
 
 void tilespec_read_toplevel(const char *tileset_name);
 void tilespec_load_tiles(void);
+void tilespec_free_tiles(void);
 
 void tilespec_setup_unit_type(int id);
 void tilespec_setup_tile_type(int id);

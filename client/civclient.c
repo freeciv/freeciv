@@ -53,6 +53,7 @@
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
 #include "gui_main_g.h"
+#include "goto.h"
 #include "helpdata.h"		/* boot_help_texts() */
 #include "mapctrl_g.h"
 #include "mapview_g.h"
@@ -191,16 +192,8 @@ int main(int argc, char *argv[])
   ui_init();
   my_init_network();
   init_messages_where();
-  init_our_capability();
   init_city_report_data();
-  game_init();
 
-  conn_list_init(&game.all_connections);
-  conn_list_init(&game.est_connections);
-  conn_list_init(&game.game_connections);
-
-  attribute_init();
-  agents_init();
   load_general_options();
 
   if (tile_set_name[0] == '\0') 
@@ -235,6 +228,8 @@ int main(int argc, char *argv[])
   /* termination */
   attribute_flush();
   my_shutdown_network();
+
+  client_game_free();
 
   exit(EXIT_SUCCESS);
 }
@@ -576,12 +571,40 @@ void send_report_request(enum report_type type)
 }
 
 /**************************************************************************
+ called whenever client is changed to pre-game state.
+**************************************************************************/
+void client_game_init()
+{
+  conn_list_init(&game.all_connections);
+  conn_list_init(&game.est_connections);
+  conn_list_init(&game.game_connections);
+
+  game_init();
+  attribute_init();
+  agents_init();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void client_game_free()
+{
+  client_remove_all_cli_conn();
+  free_client_goto();
+  free_help_texts();
+  attribute_free();
+  agents_free();
+  game_free();
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void set_client_state(enum client_states newstate)
 {
   bool connect_error = (client_state == CLIENT_PRE_GAME_STATE)
       && (newstate == CLIENT_PRE_GAME_STATE);
+  enum client_states oldstate = client_state;
 
   /*
    * We are currently ignoring the CLIENT_GAME_OVER_STATE state
@@ -628,13 +651,12 @@ void set_client_state(enum client_states newstate)
     else if(client_state==CLIENT_PRE_GAME_STATE) {
       popdown_all_city_dialogs();
       close_all_diplomacy_dialogs();
-      client_remove_all_cli_conn();
       set_unit_focus_no_center(NULL);
       clear_notify_window();
-      attribute_free();
-      attribute_init();
-      game_free();
-      game_init();
+      if (oldstate != CLIENT_BOOT_STATE) {
+	client_game_free();
+      }
+      client_game_init();
     }
     update_menus();
   }

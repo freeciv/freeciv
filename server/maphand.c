@@ -933,6 +933,27 @@ void player_map_allocate(struct player *pplayer)
 }
 
 /***************************************************************
+ frees a player's private map.
+***************************************************************/
+void player_map_free(struct player *pplayer)
+{
+  if (!pplayer->private_map) {
+    return;
+  }
+
+  whole_map_iterate(x, y) {
+    struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
+
+    if (plrtile->city) {
+      free(plrtile->city);
+    }
+  } whole_map_iterate_end;
+
+  free(pplayer->private_map);
+  pplayer->private_map = NULL;
+}
+
+/***************************************************************
 We need to use use fogofwar_old here, so the player's tiles get
 in the same state as the other players' tiles.
 ***************************************************************/

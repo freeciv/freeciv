@@ -3449,6 +3449,8 @@ static void close_city_dialog(struct city_dialog *pdialog)
     if(pdialog->wl_editor->changed){
       commit_worklist(pdialog->wl_editor);
     }
+
+    close_worklist_editor(pdialog->wl_editor);
     close_happiness_dialog(pdialog->pcity);
     close_cma_dialog(pdialog->pcity);
   }

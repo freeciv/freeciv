@@ -1908,6 +1908,16 @@ void cma_init(void)
 /****************************************************************************
 ...
 *****************************************************************************/
+void cma_free(void)
+{
+  free_timer(stats.wall_timer);
+  free(cache2.secondary_stats);
+  free(cache2.city_status);
+}
+
+/****************************************************************************
+...
+*****************************************************************************/
 void cma_query_result(struct city *pcity,
 		      const struct cma_parameter *const parameter,
 		      struct cma_result *result)

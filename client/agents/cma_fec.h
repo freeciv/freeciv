@@ -17,6 +17,7 @@
 #include "cma_core.h"
 
 void cmafec_init(void);
+void cmafec_free(void);
 
 void cmafec_set_fe_parameter(struct city *pcity,
 			     const struct cma_parameter *const parameter);

@@ -41,6 +41,7 @@ struct agent {
 };
 
 void agents_init(void);
+void agents_free(void);
 void register_agent(const struct agent *agent);
 bool agents_busy(void);
 

@@ -78,6 +78,7 @@ void attribute_free()
     const void *pkey = hash_key_by_number(attribute_hash, 0);
     void *pvalue = hash_delete_entry(attribute_hash, pkey);
 
+    free((void *) pkey);
     free(pvalue);
   }
 

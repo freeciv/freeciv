@@ -895,6 +895,9 @@ void ui_main(int argc, char **argv)
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   gtk_main();
+
+  free_color_system();
+  tilespec_free_tiles();
 }
 
 /**************************************************************************

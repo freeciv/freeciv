@@ -21,6 +21,7 @@ struct help_item {
 };
 
 void boot_help_texts(void);
+void free_help_texts(void);
 
 int num_help_items(void);
 const struct help_item *get_help_item(int pos);
