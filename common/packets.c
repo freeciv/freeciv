@@ -3140,7 +3140,6 @@ static int write_socket_data(struct connection *pc,
   int start, nput, nblock;
 
   for (start=0; start<len;) {
-#ifdef HAVE_FCNTL_H
     fd_set writefs;
     struct timeval tv;
 
@@ -3163,7 +3162,6 @@ static int write_socket_data(struct connection *pc,
     default:
       break;
     }
-#endif
 
     if (FD_ISSET(pc->sock, &writefs)) {
       nblock=MIN(len-start, MAX_LEN_PACKET);
