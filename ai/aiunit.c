@@ -1358,7 +1358,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
       punit->ai.ferryboat = boatid;
       freelog(LOG_DEBUG, "%s: %d@(%d, %d): Looking for BOAT (id=%d).",
 		    pplayer->name, punit->id, punit->x, punit->y, boatid);
-      if (!same_pos(x, y, bx, by)) {
+      if (boatid > 0 && !same_pos(x, y, bx, by)) {
 	if (!ai_unit_goto(punit, bx, by)) {
 	  return -1;		/* died */
 	}
