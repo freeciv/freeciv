@@ -80,7 +80,6 @@ static void establish_new_connection(struct connection *pconn)
   struct player *pplayer;
   struct packet_login_reply packet;
   char hostname[512];
-  char buf[512];
 
   /* zero out the password */
   memset(pconn->password, 0, MAX_LEN_NAME);
@@ -147,14 +146,16 @@ static void establish_new_connection(struct connection *pconn)
 
   /* remind the connection who he is */
   if (!pconn->player) {
-    my_snprintf(buf, sizeof(buf), _("no player"));
+    notify_conn(dest, _("You are logged in as '%s' connected to no player."),
+                pconn->username);
   } else if (strcmp(pconn->player->name, ANON_PLAYER_NAME) == 0) {
-    my_snprintf(buf, sizeof(buf), _("an anonymous player"));
+    notify_conn(dest, _("You are logged in as '%s' connected to an "
+                        "anonymous player."),
+		pconn->username);
   } else {
-    my_snprintf(buf, sizeof(buf), "'%s'", pconn->player->name);
+    notify_conn(dest, _("You are logged in as '%s' connected to %s."),
+                pconn->username, pconn->player->name);
   }
-  notify_conn(dest, _("You are logged in as '%s' connected to %s."),
-              pconn->username, buf);
 
   /* if need be, tell who we're waiting on to end the game turn */
   if (game.turnblock) {
