@@ -1915,6 +1915,8 @@ void game_load(struct section_file *file)
     game.warminglevel  = secfile_lookup_int(file, "game.warminglevel");
     game.nuclearwinter = secfile_lookup_int_default(file, 0, "game.nuclearwinter");
     game.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
+    game.notradesize   = secfile_lookup_int_default(file, 0, "game.notradesize");
+    game.fulltradesize = secfile_lookup_int_default(file, 1, "game.fulltradesize");
     game.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
     game.angrycitizen  = secfile_lookup_int_default(file, 0, "game.angrycitizen");
 
@@ -2277,6 +2279,8 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.warminglevel, "game.warminglevel");
   secfile_insert_int(file, game.nuclearwinter, "game.nuclearwinter");
   secfile_insert_int(file, game.coolinglevel, "game.coolinglevel");
+  secfile_insert_int(file, game.notradesize, "game.notradesize");
+  secfile_insert_int(file, game.fulltradesize, "game.fulltradesize");
   secfile_insert_int(file, game.unhappysize, "game.unhappysize");
   secfile_insert_int(file, game.angrycitizen, "game.angrycitizen");
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");

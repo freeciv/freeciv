@@ -75,6 +75,7 @@ struct civ_game {
   int civilwarsize;
   int min_players, max_players, nplayers;
   int aifill;
+  int notradesize, fulltradesize;
   int barbarianrate;
   int onsetbarbarian;
   int nbarbarians;
@@ -382,6 +383,14 @@ extern int is_server;
 #define GAME_DEFAULT_PINGTIMEOUT     60
 #define GAME_MIN_PINGTIMEOUT         60
 #define GAME_MAX_PINGTIMEOUT         1800
+
+#define GAME_DEFAULT_NOTRADESIZE     0
+#define GAME_MIN_NOTRADESIZE         0
+#define GAME_MAX_NOTRADESIZE         49
+
+#define GAME_DEFAULT_FULLTRADESIZE   1
+#define GAME_MIN_FULLTRADESIZE       1
+#define GAME_MAX_FULLTRADESIZE       50
 
 #define GAME_DEFAULT_BARBARIANRATE   2
 #define GAME_MIN_BARBARIANRATE       0

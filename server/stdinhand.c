@@ -140,6 +140,8 @@ Triggers used in settings_s.  valid_ruleset() is clumsy because of
 the fixed number of arguments and the reject_message - change? - rp
 *********************************************************************/
 
+static int valid_notradesize(int value, char **reject_message);
+static int valid_fulltradesize(int value, char **reject_message);
 static int autotoggle(int value, char **reject_message);
 
 static int valid_ruleset(char *whichset, char *subdir, char **reject_message)
@@ -489,7 +491,26 @@ static struct settings_s settings[] = {
     N_("If a city would expand, but it can't because it needs an Aqueduct "
        "(or Sewer System), it loses this percentage of its foodbox "
        "(or half that amount if it has a Granary).") },
-  
+
+  { "notradesize", &game.notradesize, valid_notradesize, NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE, GAME_DEFAULT_NOTRADESIZE,
+    N_("Maximum size of a city without trade"),
+    N_("All the cities of smaller or equal size to this do not produce trade "
+       "at all. The produced trade increases gradually for cities larger "
+       "than notradesize and smaller than fulltradesize.  "
+       "See also fulltradesize.") },
+
+  { "fulltradesize", &game.fulltradesize, valid_fulltradesize, NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, GAME_DEFAULT_FULLTRADESIZE,
+    N_("Minimum city size to get full trade"),
+    N_("There is a trade penalty in all cities smaller than this. "
+       "The penalty is 100% (no trade at all) for sizes up to "
+       "notradesize, and decreases gradually to 0% (no penalty except the "
+       "normal corruption) for size=fulltradesize.  "
+       "See also notradesize.") },
+
   { "unhappysize", &game.unhappysize, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
@@ -3326,6 +3347,32 @@ static void show_connections(struct connection *caller)
     conn_list_iterate_end;
   }
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/**************************************************************************
+  Verify that notradesize is always smaller than fulltradesize
+**************************************************************************/
+static int valid_notradesize(int value, char **reject_message)
+{
+  if (value < game.fulltradesize)
+    return 1;
+
+  *reject_message = _("notradesize must be always smaller than "
+		      "fulltradesize, keeping old value.");
+  return 0;
+}
+
+/**************************************************************************
+  Verify that fulltradesize is always bigger than notradesize
+**************************************************************************/
+static int valid_fulltradesize(int value, char **reject_message)
+{
+  if (value > game.notradesize)
+    return 1;
+
+  *reject_message = _("fulltradesize must be always bigger than "
+		      "notradesize, keeping old value.");
+  return 0;
 }
 
 static int autotoggle(int value, char **reject_message)

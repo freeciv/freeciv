@@ -715,6 +715,8 @@ void game_init(void)
   game.fogofwar    = GAME_DEFAULT_FOGOFWAR;
   game.fogofwar_old= game.fogofwar;
   game.auto_ai_toggle = GAME_DEFAULT_AUTO_AI_TOGGLE;
+  game.notradesize    = GAME_DEFAULT_NOTRADESIZE;
+  game.fulltradesize  = GAME_DEFAULT_FULLTRADESIZE;
   game.barbarianrate  = GAME_DEFAULT_BARBARIANRATE;
   game.onsetbarbarian = GAME_DEFAULT_ONSETBARBARIAN;
   game.nbarbarians = 0;

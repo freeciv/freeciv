@@ -1941,10 +1941,20 @@ int city_corruption(struct city *pcity, int trade)
   struct government *g = get_gov_pcity(pcity);
   struct city *capital;
   int dist;
-  int val;
+  int val, trade_penalty;
+
+  assert(game.notradesize < game.fulltradesize);
+  if (pcity->size <= game.notradesize) {
+    trade_penalty = trade;
+  } else if (pcity->size >= game.fulltradesize) {
+    trade_penalty = 0;
+  } else {
+    trade_penalty = trade * (game.fulltradesize - pcity->size) /
+	(game.fulltradesize - game.notradesize);
+  }
 
   if (g->corruption_level == 0) {
-    return 0;
+    return trade_penalty;
   }
   if (g->fixed_corruption_distance) {
     dist = g->fixed_corruption_distance;
@@ -1965,8 +1975,7 @@ int city_corruption(struct city *pcity, int trade)
       city_got_building(pcity, B_PALACE)) val /= 2;
   val *= g->corruption_level;
   val /= 100;
-  if (val > trade)
-    val = trade;
+  val = CLIP(trade_penalty, val, trade);
   return (val);			/* how did y'all let me forget this one? -- Syela */
 }
 
