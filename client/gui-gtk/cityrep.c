@@ -34,6 +34,7 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
+#include "clinet.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
@@ -45,7 +46,6 @@
 
 extern GtkWidget *toplevel;
 
-extern struct connection aconnection;
 extern int delay_report_update;
 
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))

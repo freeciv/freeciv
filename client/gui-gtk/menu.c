@@ -56,8 +56,6 @@ GtkItemFactory *item_factory=NULL;
 
 static void menus_rename(const char *path, char *s);
 
-extern struct connection aconnection;
-
 /****************************************************************
 ...
 *****************************************************************/

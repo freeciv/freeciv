@@ -31,9 +31,10 @@
 #include "packets.h"
 #include "worklist.h"
 
+#include "clinet.h"
+
 #include "wldlg.h"
 
-extern struct connection aconnection;
 extern GtkWidget *toplevel;
 
 #define WORKLIST_ADVANCED_TARGETS  1

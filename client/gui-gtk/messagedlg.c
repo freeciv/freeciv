@@ -29,6 +29,7 @@
 #include "player.h"
 #include "shared.h"
 
+#include "clinet.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
 #include "mapview.h"
@@ -38,8 +39,6 @@
 #include "messagedlg.h"
 
 extern GtkWidget *toplevel;
-
-extern struct connection aconnection;
 
 /*************************************************************************/
 GtkWidget *create_messageopt_dialog(void);

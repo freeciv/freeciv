@@ -32,6 +32,7 @@
 
 #include "cityrep.h"
 #include "civclient.h"
+#include "clinet.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
@@ -41,8 +42,6 @@
 
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
-
-extern struct connection aconnection;
 
 /******************************************************************/
 

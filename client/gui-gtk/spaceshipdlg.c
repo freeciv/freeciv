@@ -30,6 +30,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "clinet.h"
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
@@ -48,7 +49,6 @@ extern GdkGC *civ_gc, *fill_bg_gc;
 
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
-extern struct connection aconnection;
 
 struct spaceship_dialog {
   struct player *pplayer;

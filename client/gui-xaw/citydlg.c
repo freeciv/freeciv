@@ -48,6 +48,7 @@
 #include "support.h"
 
 #include "cityrep.h"
+#include "clinet.h"
 #include "colors.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "dialogs.h"
@@ -70,7 +71,6 @@
 extern Display	*display;
 extern Widget toplevel, main_form, map_canvas;
 extern int display_depth;
-extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
 extern GC fill_bg_gc;
 

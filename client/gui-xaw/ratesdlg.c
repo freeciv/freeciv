@@ -36,6 +36,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "clinet.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
@@ -43,7 +44,6 @@
 
 extern Widget toplevel, main_form;
 
-extern struct connection aconnection;
 extern Display	*display;
 
 

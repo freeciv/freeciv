@@ -34,6 +34,7 @@
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"
+#include "clinet.h"
 #include "gui_stuff.h"
 #include "options.h"
 
@@ -41,7 +42,6 @@
 #include "optiondlg.h"
 
 extern	GtkWidget *toplevel;
-extern struct connection aconnection;
 
 
 /******************************************************************/

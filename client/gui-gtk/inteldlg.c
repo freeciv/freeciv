@@ -29,13 +29,13 @@
 #include "shared.h"
 #include "support.h"
 
+#include "clinet.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
 #include "inteldlg.h"
 
 extern GtkWidget *toplevel;
-extern struct connection aconnection;
 
 /******************************************************************/
 GtkWidget *intel_dialog_shell;

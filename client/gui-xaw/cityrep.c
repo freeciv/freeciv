@@ -43,6 +43,7 @@
 #include "unit.h"
 
 #include "climisc.h"
+#include "clinet.h"
 
 #include "chatline.h"
 #include "citydlg.h"
@@ -59,7 +60,6 @@ extern Widget toplevel, main_form;
 extern Display *display;
 extern Atom wm_delete_window;
 
-extern struct connection aconnection;
 extern int delay_report_update;
 
 /******************************************************************/

@@ -39,6 +39,7 @@
 
 #include "chatline.h"
 #include "cityrep.h"
+#include "clinet.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "options.h"
@@ -47,7 +48,6 @@
 
 extern Widget toplevel, main_form;
 
-extern struct connection aconnection;
 extern Display	*display;
 
 Widget option_dialog_shell;

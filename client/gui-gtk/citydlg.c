@@ -37,6 +37,7 @@
 #include "cityrep.h"
 #include "colors.h"
 #include "control.h"
+#include "clinet.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"
@@ -54,7 +55,6 @@
 
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
-extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
 extern GdkGC *fill_bg_gc;
 extern GdkGC *civ_gc;

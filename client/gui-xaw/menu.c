@@ -54,8 +54,6 @@
 
 #include "menu.h"
 
-extern struct connection aconnection;
-
 /* stuff for run-time mutable menu text */
 
 #define MAX_LEN_TERR_NAME_DISP  9

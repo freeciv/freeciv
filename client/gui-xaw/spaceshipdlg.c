@@ -44,6 +44,7 @@
 #include "spaceship.h"
 #include "support.h"
 
+#include "clinet.h"
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
@@ -62,7 +63,6 @@ extern GC civ_gc, fill_bg_gc;
 extern Display *display;
 extern Widget toplevel, main_form;
 extern int display_depth;
-extern struct connection aconnection;
 
 struct spaceship_dialog {
   struct player *pplayer;

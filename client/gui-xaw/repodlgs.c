@@ -43,6 +43,7 @@
 #include "support.h"
 
 #include "cityrep.h"
+#include "clinet.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
@@ -53,8 +54,6 @@
 extern Display	*display;
 extern Atom wm_delete_window;
 extern Widget toplevel, main_form;
-
-extern struct connection aconnection;
 
 /******************************************************************/
 

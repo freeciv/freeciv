@@ -35,6 +35,7 @@
 #include "player.h"
 #include "shared.h"
 
+#include "clinet.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
@@ -44,7 +45,6 @@
 
 extern Widget toplevel, main_form;
 
-extern struct connection aconnection;
 extern Display	*display;
 
 /*************************************************************************/
