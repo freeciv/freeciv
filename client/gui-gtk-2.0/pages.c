@@ -46,6 +46,8 @@
 GtkWidget *start_message_area;
 GtkListStore *conn_model;       
 
+static GtkWidget *start_options_table;
+
 static GtkListStore *load_store, *scenario_store,
   *nation_store, *meta_store, *lan_store; 
 
@@ -158,8 +160,9 @@ GtkWidget *create_main_page(void)
   box = gtk_vbox_new(FALSE, 6);
   gtk_container_set_border_width(GTK_CONTAINER(box), 4);
 
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_container_add(GTK_CONTAINER(box), align);
+  align = gtk_alignment_new(0.5, 0.0, 0.0, 0.0);
+  gtk_container_set_border_width(GTK_CONTAINER(align), 18);
+  gtk_box_pack_start(GTK_BOX(box), align, FALSE, FALSE, 0);
 
   frame = gtk_frame_new(NULL);
   gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_ETCHED_OUT);
@@ -171,7 +174,7 @@ GtkWidget *create_main_page(void)
   gtk_container_add(GTK_CONTAINER(frame), image);
 
   align = gtk_alignment_new(0.5, 0.0, 0.0, 0.0);
-  gtk_container_add(GTK_CONTAINER(box), align);
+  gtk_box_pack_start(GTK_BOX(box), align, FALSE, FALSE, 0);
 
   sbox = gtk_vbox_new(FALSE, 18);
   gtk_container_add(GTK_CONTAINER(align), sbox);
@@ -888,7 +891,7 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 GtkWidget *create_start_page(void)
 {
-  GtkWidget *box, *sbox, *bbox, *table, *align;
+  GtkWidget *box, *sbox, *bbox, *table, *align, *vbox;
 
   GtkWidget *view, *sw, *text, *entry, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
@@ -907,10 +910,14 @@ GtkWidget *create_start_page(void)
   gtk_container_set_border_width(GTK_CONTAINER(align), 12);
   gtk_box_pack_start(GTK_BOX(sbox), align, FALSE, FALSE, 0);
 
-  table = gtk_table_new(3, 2, FALSE);
+  vbox = gtk_vbox_new(FALSE, 2);
+  gtk_container_add(GTK_CONTAINER(align), vbox);
+
+  table = gtk_table_new(2, 2, FALSE);
+  start_options_table = table;
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 12);
-  gtk_container_add(GTK_CONTAINER(align), table);
+  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
 
   adj = GTK_ADJUSTMENT(gtk_adjustment_new(1, 1, MAX_NUM_PLAYERS, 1, 1, 1));
   spin = gtk_spin_button_new(adj, 1, 0);
@@ -961,8 +968,7 @@ GtkWidget *create_start_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(game_options_callback), NULL);
   gtk_container_add(GTK_CONTAINER(align), button);
-  gtk_table_attach(GTK_TABLE(table), align, 0, 2, 2, 3,
-      GTK_FILL, GTK_FILL, 0, 8);
+  gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
   conn_model = gtk_list_store_new(1, G_TYPE_STRING); 
@@ -1570,6 +1576,12 @@ void set_client_page(enum client_pages page)
   case PAGE_MAIN:
     break;
   case PAGE_START:
+    if (is_server_running()) {
+      gtk_widget_show(start_options_table);
+    } else {
+      gtk_widget_hide(start_options_table);
+    }
+    break;
   case PAGE_NATION:
     break;
   case PAGE_GAME:
