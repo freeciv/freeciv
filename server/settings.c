@@ -473,7 +473,9 @@ struct settings_s settings[] = {
 	  N_("Number of initial techs per player"), 
 	  N_("At the beginning of the game, each player is given this "
 	     "many technologies. The technologies chosen are random for "
-	     "each player."), NULL,
+	     "each player. Depending on the value of tech_cost_style in "
+             "the ruleset, a big value for techlevel can make the next "
+             "techs really expensive."), NULL,
 	  GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL)
 
   GEN_INT("researchcost", game.researchcost,
