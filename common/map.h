@@ -207,6 +207,7 @@ void tile_init(struct tile *ptile);
 enum known_type tile_is_known(int x, int y);
 int is_real_tile(int x, int y);
 int normalize_map_pos(int *x, int *y);
+void rand_neighbour(int x0, int y0, int *x, int *y);
 
 int is_water_adjacent_to_tile(int x, int y);
 int is_tiles_adjacent(int x0, int y0, int x1, int y1);

@@ -71,37 +71,6 @@ int is_sea_barbarian(struct player *pplayer)
 }
 
 /**************************************************************************
-Random neighbouring cell - it maybe a stupid idea. Can anyone say how to
-move barbarians out of the hut?
-**************************************************************************/
-
-static void rand_neighbour( int x0, int y0, int *x, int *y)
-{
-  int choice;
-  int xoff[] = { -1,  0,  1, -1,  1, -1,  0,  1 };
-  int yoff[] = { -1, -1, -1,  0,  0,  1,  1,  1 };
-
-  if (y0 == 0) {
-    choice = 3 + myrand(5);
-  } else if(y0 == map.ysize-1){
-    choice = myrand(5);
-  } else {
-    choice = myrand(8);
-  }
-  *x = x0 + xoff[choice];
-  *y = y0 + yoff[choice];
-  
-#if 0
-  /* shouldn't need this now: */
-  *y = map_adjust_y(*y);
-  if( *x == x0 && *y == y0 ) /* might happen after y adjustments */
-    *x += 1;                 /* stupid but safe, rare anyway     */
-#endif
-  
-  *x = map_adjust_x(*x);
-}
-
-/**************************************************************************
 Creates the land/sea barbarian player and inits some stuff.
 If barbarian player already exists, return player pointer.
 If barbarians are dead, revive them with a new leader :-)

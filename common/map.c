@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "rand.h"
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
@@ -1189,4 +1190,24 @@ int normalize_map_pos(int *x, int *y) {
     *x += map.xsize;
 
   return TRUE;
+}
+
+/**************************************************************************
+Random neighbouring square.
+**************************************************************************/
+void rand_neighbour(int x0, int y0, int *x, int *y)
+{
+  int choice;
+
+  if (y0 == 0) {
+    choice = 3 + myrand(5);
+  } else if(y0 == map.ysize-1){
+    choice = myrand(5);
+  } else {
+    choice = myrand(8);
+  }
+  *x = x0 + DIR_DX[choice];
+  *y = y0 + DIR_DX[choice];
+
+  assert(normalize_map_pos(x, y));
 }
