@@ -256,6 +256,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			  pcity->name);
 	    goto cleanup;
 	  }
+	  break;
 	case CLAUSE_GOLD:
 	  if (other->economic.gold < pclause->value) {
 	    notify_player(plr0,
@@ -379,8 +380,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	give_shared_vision(pgiver, pdest);
 	notify_player(pgiver, _("Game: You give shared vision to %s."),
 		      pdest->name);
-	notify_player(pgiver, _("Game: %s gives you shared vision."),
-		      pdest->name);
+	notify_player(pdest, _("Game: %s gives you shared vision."),
+		      pgiver->name);
 	break;
       }
 
