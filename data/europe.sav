@@ -1,11 +1,11 @@
+
 [game]
-version=10700
+version=10702
 server_state=0
 metastring="Scenario: Europe v1.0"
 gold=50
 tech=3
-; generator=0
-skill_level=0
+skill_level=5
 timeout=0
 end_year=2000
 year=-4000
@@ -17,6 +17,7 @@ globalwarming=0
 warminglevel=8
 unhappysize=5
 cityfactor=15
+civilwarsize=10
 diplcost=100
 freecost=0
 conquercost=0
@@ -29,28 +30,34 @@ razechance=20
 civstyle=2
 save_nturns=1
 aifill=14
+scorelog=0
+spacerace=0
+diplchance=3
+aqueductloss=0
+randseed=0
+ruleset.techs="default"
+ruleset.units="default"
+ruleset.buildings="default"
 settlers=10
 explorer=10
 
 [savefile]
-options="1.7 startpos"
+options="1.7 startoptions spacerace rulesets startpos"
 
 [map]
-; xsize=200
-; ysize=100
-; seed=2032
-; landpercent=50
-; swampsize=100
-; deserts=100
-; riverlength=100
-; forestsize=100
-; mountains=100
 width=200
 height=100
-is_earth=0
-generator=0
+seed=0
+landpercent=45
 riches=250
+swampsize=0
+deserts=7
+riverlength=864
+mountains=175
+forestsize=14
 huts=50
+generator=0
+is_earth=0
 r0sx=64
 r0sy=81
 r1sx=58

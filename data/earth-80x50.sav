@@ -1,22 +1,23 @@
 
 [game]
-version=10700
+version=10702
 server_state=0
 metastring="Earth"
 gold=50
 tech=3
-skill_level=0
+skill_level=5
 timeout=0
 end_year=2000
 year=-4000
 techlevel=10
 min_players=1
 max_players=7
-nplayers=0 
+nplayers=0
 globalwarming=0
 warminglevel=8
 unhappysize=5
 cityfactor=15
+civilwarsize=10
 diplcost=100
 freecost=0
 conquercost=0
@@ -29,16 +30,31 @@ razechance=20
 civstyle=2
 save_nturns=10
 aifill=0
+scorelog=0
+spacerace=0
+diplchance=3
+aqueductloss=0
+randseed=0
+ruleset.techs="default"
+ruleset.units="default"
+ruleset.buildings="default"
 settlers=2
 explorer=2
 
 [savefile]
-options="1.7 startpos"
+options="1.7 startoptions spacerace rulesets startpos"
 
 [map]
 width=80
 height=50
+seed=0
+landpercent=34
 riches=250
+swampsize=2
+deserts=49
+riverlength=116
+mountains=46
+forestsize=137
 huts=50
 generator=0
 is_earth=1
@@ -62,7 +78,7 @@ r8sx=39
 r8sy=34
 r9sx=34
 r9sy=14
-r10sx=09
+r10sx=9
 r10sy=23
 r11sx=59
 r11sy=18
@@ -81,7 +97,7 @@ t007="     ttt     ta    ttaaaatt           ptptt     pt ttttfft trt  ttttt     
 t008="  tt      tt  ta    ttaatt           phfgppt ttffrrgftfffffgrgfffffpptttt   ttt "
 t009="tttptptttttp   pa    tatt  tt   h   ghf  fp pffhfrpgfffffffprrffgfffffgpptt  ttp"
 t010="tpfffptptt      pa   ttt      g g  fgg  gfffffhfgrrrrffgffffprfffpffffffp   tptt"
-t011="pfffffffptp           t      g  g  g g    g fgggfhfgrsfrgffffrrrrfffffg  f   ppt"
+t011="pfffffffptp           t      g  g    g    g fgggfhfgrsfrgffffrrrrfffffg  f   ppt"
 t012="pgpfpfffffpptp tp              gg  g   gffggrfhffrrgrrpffgrgffffg    fh     p   "
 t013="   gfffffffppttpff                 gppgffgfgrpfhgffgffgfffgppppg       hp       "
 t014="    phfggffffpgfffp             ggggrrrffggprrpppgpppppfppgpdppppg p g          "
