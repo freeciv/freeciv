@@ -401,7 +401,7 @@ void ai_eval_buildings(struct city *pcity)
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
-  int set, con, work, cit, i, want;
+  int set, con, i, want;
   struct ai_choice cur;
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
 /* had to add the scientist guess here too -- Syela */
@@ -412,8 +412,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   choice->type   = 0;
   set = city_get_settlers(pcity);
   con = map_get_continent(pcity->x, pcity->y); 
-  cit = get_cities_on_island(pplayer, con);
-  work = cit; /* was fnord, should be something intelligent -- Syela */
 
   if (est_food > (get_government(pcity->owner) >= G_REPUBLIC ? 2 : 1)) {
 /* allowing multiple settlers per city now.  I think this is correct. -- Syela */
@@ -493,7 +491,9 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       choice->choice = U_SPY;
     }
   }
-     
+  if (choice->want >= 200) choice->want = 199; /* otherwise we buy caravans in
+city X when we should be saving money to buy defenses for city Y. -- Syela */
+
   return;
 }
 
