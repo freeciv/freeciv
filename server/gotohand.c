@@ -74,9 +74,17 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
   struct tile *tile0;
+  struct player *pplayer;
 
-  if (pcity) { orig_x = pcity->x; orig_y = pcity->y; }
-  else { orig_x = punit->x; orig_y = punit->y; }
+  if (pcity) {
+    orig_x = pcity->x;
+    orig_y = pcity->y;
+    pplayer = &game.players[pcity->owner];
+  } else {
+    orig_x = punit->x;
+    orig_y = punit->y;
+    pplayer = &game.players[punit->owner];
+  }
 
   init_warmap(orig_x, orig_y, which);
   warstacksize = 0;
@@ -101,8 +109,11 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
     for (k = 0; k < 8; k++) {
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */
       if (which == LAND_MOVING) {
-        if (map_get_terrain(xx[i], yy[j]) == T_OCEAN) c = maxcost;
 /*        if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost;*/
+        if (map_get_terrain(xx[i], yy[j]) == T_OCEAN) {
+          if (punit && is_transporter_with_free_space(pplayer, xx[i], yy[j])) c = 3;
+          else c = maxcost;
+        }
         else if (igter) c = 3; /* NOT c = 1 */
         else if (punit) c = MIN(tile0->move_cost[k], unit_types[punit->type].move_rate);
         else c = tile0->move_cost[k];

@@ -257,8 +257,11 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   unit_list_iterate_end;
   punit->ai.passenger = 0;
 /* ok, not carrying anyone, even the ferryman */
+/*printf("Ferryboat %d@(%d, %d) is lonely.\n", punit->id, punit->x, punit->y);*/
+  set_unit_activity(punit, ACTIVITY_IDLE);
   unit_list_iterate(pplayer->units, aunit)
     if (aunit->ai.ferryboat == punit->id) {
+/*printf("Found a friend %d@(%d, %d)\n", aunit->id, aunit->x, aunit->y);*/
       punit->goto_dest_x = aunit->x;
       punit->goto_dest_y = aunit->y;
       punit->activity = ACTIVITY_GOTO;
@@ -272,6 +275,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   
   pcity = find_city_by_id(punit->homecity);
   if (pcity) {
+/*printf("No friends.  Going home.\n");*/
     punit->goto_dest_x = pcity->x;
     punit->goto_dest_y = pcity->y;
     punit->activity = ACTIVITY_GOTO;

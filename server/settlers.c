@@ -632,21 +632,14 @@ printf("%d disembarking from ferryboat %d\n", punit->id, punit->ai.ferryboat);
 int find_boat(struct player *pplayer, struct unit *punit, int *x, int *y)
 { /* this function uses the current warmap, whatever it may hold -- Syela */
   int best = 22, id = 0; /* arbitrary maximum distance, I will admit! */
-  int ii[9] = { -1, 0, 1, -1, 1, -1, 0, 1, 0 };
-  int jj[9] = { -1, -1, -1, 0, 0, 1, 1, 1, 0 };
-  int k;
   unit_list_iterate(pplayer->units, aunit)
     if (get_transporter_capacity(aunit) &&
         !unit_flag(aunit->type, F_CARRIER | F_SUBMARINE)) {
-/*printf("Boat at (%d, %d), passenger = %d\n", aunit->x, aunit->y, aunit->ai.passenger);*/
-/* warmaps don't deal with floating ferryboats very well ... */
-      for (k = 9; k >= 0; k--) {
-        if (warmap.cost[map_adjust_x(aunit->x+ii[k])][map_adjust_y(aunit->y+jj[k])] < best) {
-          id = aunit->id;
-          best = warmap.cost[map_adjust_x(aunit->x+ii[k])][map_adjust_y(aunit->y+jj[k])];
-          *x = aunit->x;
-          *y = aunit->y;
-        }
+      if (warmap.cost[aunit->x][aunit->y] < best) {
+        id = aunit->id;
+        best = warmap.cost[aunit->x][aunit->y];
+        *x = aunit->x;
+        *y = aunit->y;
       }
     }
   unit_list_iterate_end;
