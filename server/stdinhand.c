@@ -2396,6 +2396,7 @@ static void cut_player_connection(struct player *caller, char *playername)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
+  struct connection *pc;
 
   pplayer=find_player_by_name_prefix(playername, &match_result);
 
@@ -2404,12 +2405,11 @@ static void cut_player_connection(struct player *caller, char *playername)
     return;
   }
 
-  if(pplayer->conn) {
+  if((pc=pplayer->conn)) {
     cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
 	       _("Cutting connection to %s."), pplayer->name);
-    close_connection(pplayer->conn);
-    lost_connection_to_player(pplayer->conn);
-    pplayer->conn=NULL;
+    lost_connection_to_player(pc);
+    close_connection(pc);
   }
   else {
     cmd_reply(CMD_CUT, caller, C_FAIL, _("Sorry, %s is not connected."),
