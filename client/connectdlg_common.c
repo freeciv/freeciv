@@ -306,8 +306,8 @@ bool client_start_server(void)
       && !CreateProcess(NULL, cmdline3, NULL, NULL, TRUE,
 			DETACHED_PROCESS | NORMAL_PRIORITY_CLASS,
 			NULL, NULL, &si, &pi)) {
-    append_output_window(_("Couldn't start the server. You'll have to "
-			   "start one manually. Sorry..."));
+    append_output_window(_("Couldn't start the server."));
+    append_output_window(_("You'll have to " "start one manually. Sorry..."));
     return FALSE;
   }
   
@@ -338,9 +338,9 @@ bool client_start_server(void)
     /* possible that server is still running. kill it */ 
     client_kill_server();
 
-    append_output_window(_("Couldn't connect to the server. We probably "
-                           "couldn't start it from here. You'll have to "
-                           "start one manually. Sorry..."));
+    append_output_window(_("Couldn't connect to the server."));
+    append_output_window(_("We probably couldn't start it from here."));
+    append_output_window(_("You'll have to start one manually. Sorry..."));
     return FALSE;
   }
 

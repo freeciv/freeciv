@@ -60,6 +60,10 @@ static void update_nation_page(struct packet_game_load *packet);
 static guint lan_timer = 0;
 static int num_lanservers_timer = 0;
 
+static GtkWidget *statusbar, *statusbar_frame;
+static GQueue *statusbar_queue;
+static guint statusbar_timer = 0;
+
 
 /**************************************************************************
   spawn a server, if there isn't one, using the default settings.
@@ -175,13 +179,13 @@ GtkWidget *create_main_page(void)
   bbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(sbox), bbox);
 
-  button = gtk_button_new_with_mnemonic(_("_Start New Game"));
+  button = gtk_button_new_with_mnemonic(_("Start _New Game"));
   gtk_size_group_add_widget(size, button);
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
       G_CALLBACK(start_new_game_callback), NULL);
 
-  button = gtk_button_new_with_mnemonic(_("Start S_cenario Game"));
+  button = gtk_button_new_with_mnemonic(_("Start _Scenario Game"));
   gtk_size_group_add_widget(size, button);
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
@@ -196,7 +200,7 @@ GtkWidget *create_main_page(void)
   bbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(sbox), bbox);
 
-  button = gtk_button_new_with_mnemonic(_("Connect to _Network Game"));
+  button = gtk_button_new_with_mnemonic(_("C_onnect to Network Game"));
   gtk_size_group_add_widget(size, button);
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
@@ -235,8 +239,6 @@ static GtkWidget *network_host_label, *network_host;
 static GtkWidget *network_port_label, *network_port;
 static GtkWidget *network_password_label, *network_password;
 static GtkWidget *network_confirm_password_label, *network_confirm_password;
-
-static GtkWidget *network_statusbar;
 
 /**************************************************************************
   get the list of servers from the metaserver
@@ -353,15 +355,76 @@ enum connection_state {
 static enum connection_state connection_status;
 
 /**************************************************************************
+  update statusbar label text.
+**************************************************************************/
+static gboolean update_network_statusbar(gpointer data)
+{
+  if (!g_queue_is_empty(statusbar_queue)) {
+    char *txt;
+
+    txt = g_queue_pop_head(statusbar_queue);
+    gtk_label_set_text(GTK_LABEL(statusbar), txt);
+    free(txt);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  clear statusbar queue.
+**************************************************************************/
+static void clear_network_statusbar(void)
+{
+  while (!g_queue_is_empty(statusbar_queue)) {
+    char *txt;
+
+    txt = g_queue_pop_head(statusbar_queue);
+    free(txt);
+  }
+  gtk_label_set_text(GTK_LABEL(statusbar), "");
+}
+
+/**************************************************************************
+  queue statusbar label text change.
+**************************************************************************/
+void append_network_statusbar(const char *text, bool force)
+{
+  if (GTK_WIDGET_VISIBLE(statusbar_frame)) {
+    if (force) {
+      clear_network_statusbar();
+      gtk_label_set_text(GTK_LABEL(statusbar), text);
+    } else {
+      g_queue_push_tail(statusbar_queue, mystrdup(text));
+    }
+  }
+}
+
+/**************************************************************************
+  create statusbar.
+**************************************************************************/
+GtkWidget *create_statusbar(void)
+{
+  statusbar_frame = gtk_frame_new(NULL);
+  gtk_frame_set_shadow_type(GTK_FRAME(statusbar_frame), GTK_SHADOW_IN);
+
+  statusbar = gtk_label_new("");
+  gtk_misc_set_padding(GTK_MISC(statusbar), 2, 2);
+  gtk_container_add(GTK_CONTAINER(statusbar_frame), statusbar);
+
+  statusbar_queue = g_queue_new();
+  statusbar_timer = g_timeout_add(2000, update_network_statusbar, NULL);
+
+  return statusbar_frame;
+}
+
+/**************************************************************************
   update network page connection state.
 **************************************************************************/
 static void set_connection_state(enum connection_state state)
 {
   switch (state) {
   case LOGIN_TYPE:
-    while (GTK_STATUSBAR(network_statusbar)->messages) {
-      gtk_statusbar_pop(GTK_STATUSBAR(network_statusbar), 1);
-    }
+    append_network_statusbar("", FALSE);
 
     gtk_entry_set_text(GTK_ENTRY(network_password), "");
     gtk_entry_set_text(GTK_ENTRY(network_confirm_password), "");
@@ -403,9 +466,7 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_grab_focus(network_password);
     break;
   case WAITING_TYPE:
-    while (GTK_STATUSBAR(network_statusbar)->messages) {
-      gtk_statusbar_pop(GTK_STATUSBAR(network_statusbar), 1);
-    }
+    append_network_statusbar("", TRUE);
 
     gtk_widget_set_sensitive(network_login, FALSE);
     gtk_widget_set_sensitive(network_password_label, FALSE);
@@ -424,7 +485,7 @@ static void set_connection_state(enum connection_state state)
 **************************************************************************/
 void handle_authentication_req(enum authentication_type type, char *message)
 {
-  gtk_statusbar_push(GTK_STATUSBAR(network_statusbar), 1, message);
+  append_network_statusbar(message, TRUE);
 
   switch (type) {
   case AUTH_NEWUSER_FIRST:
@@ -471,7 +532,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
     if (connect_to_server(user_name, server_host, server_port,
                           errbuf, sizeof(errbuf)) != -1) {
     } else {
-      gtk_statusbar_push(GTK_STATUSBAR(network_statusbar), 1, errbuf);
+      append_network_statusbar(errbuf, TRUE);
 
       append_output_window(errbuf);
     }
@@ -488,8 +549,8 @@ static void connect_callback(GtkWidget *w, gpointer data)
 
 	set_connection_state(WAITING_TYPE);
       } else { 
-	gtk_statusbar_push(GTK_STATUSBAR(network_statusbar), 1,
-	    _("Passwords don't match, enter password."));
+	append_network_statusbar(_("Passwords don't match, enter password."),
+	    TRUE);
 
 	set_connection_state(NEW_PASSWORD_TYPE);
       }
@@ -774,9 +835,6 @@ GtkWidget *create_network_page(void)
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
       G_CALLBACK(connect_callback), NULL);
-
-  network_statusbar = gtk_statusbar_new();
-  gtk_box_pack_start(GTK_BOX(sbox), network_statusbar, FALSE, FALSE, 0);
 
   return box;
 }
@@ -1510,6 +1568,7 @@ void set_client_page(enum client_pages page)
 
   switch (new_page) {
   case PAGE_MAIN:
+    break;
   case PAGE_START:
   case PAGE_NATION:
     break;
@@ -1525,6 +1584,14 @@ void set_client_page(enum client_pages page)
   case PAGE_NETWORK:
     update_network_page();
     break;
+  }
+
+  /* hide/show statusbar. */
+  if (new_page == PAGE_START || new_page == PAGE_GAME) {
+    clear_network_statusbar();
+    gtk_widget_hide(statusbar_frame);
+  } else {
+    gtk_widget_show(statusbar_frame);
   }
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(toplevel_tabs), new_page);
