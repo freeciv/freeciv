@@ -49,7 +49,7 @@ int try_move_unit(struct unit *punit, int dest_x, int dest_y);
 int do_airline(struct unit *punit, int x, int y);
 void raze_city(struct city *pcity);
 void get_a_tech(struct player *pplayer, struct player *target);
-int place_partisan(struct city *pcity);
+void place_partisans(struct city *pcity,int count);
 void make_partisans(struct city *pcity);
 
 int auto_settler_do_goto(struct player *pplayer, struct unit *punit, 

@@ -792,37 +792,31 @@ void get_a_tech(struct player *pplayer, struct player *target)
 /**************************************************************************
   finds a spot around pcity and place a partisan.
 **************************************************************************/
-int place_partisan(struct city *pcity)
+void place_partisans(struct city *pcity,int count)
 {
-  int x,y;
-  int count;
+  int x,y,i;
+  int ok[25];
+  int total=0;
 
-  count = 0;
-  for (x = pcity->x -2; x < pcity->x + 3; x++)
-    for (y = pcity->y - 2; y < pcity->y + 3; y++) {
-      if (can_place_partisan(x, y)) 
-	count++;
+  for (i = 0,x = pcity->x -2; x < pcity->x + 3; x++) {
+    for (y = pcity->y - 2; y < pcity->y + 3; y++, i++) {
+      ok[i]=can_place_partisan(map_adjust_x(x), map_adjust_y(y));
+      if(ok[i]) total++;
     }
-  if (count) {
-    count = myrand(count) + 1;
-    for (x = pcity->x - 2; x < pcity->x + 3; x++)
-      for (y = pcity->y - 2; y < pcity->y + 3; y++) {
-	if (can_place_partisan(x, y))
-	  count--;
-	if (!count) {
-	  create_unit(&game.players[pcity->owner], x, y, U_PARTISAN, 0, 0);
-	  return 1;
-	}
-      }
-    printf("Bug in place partisan");
-    return 0;
-  } else 
-    return 0;
+  }
+
+  while(count && total)  {
+    for(i=0,x=myrand(total)+1;x;i++) if(ok[i]) x--;
+    ok[--i]=0; x=(i/5)-2+pcity->x; y=(i%5)-2+pcity->y;
+    create_unit(&game.players[pcity->owner], map_adjust_x(x), map_adjust_y(y),
+		U_PARTISAN, 0, 0);
+    count--; total--;
+  }
 }
 
 /**************************************************************************
   if requirements to make partisans when a city is conquered is fullfilled
-  this routine makes alot of partisan based on the city's size.
+  this routine makes a lot of partisans based on the city's size.
   To be candidate for partisans the following things must be satisfied:
   1) Guerilla warfare must be known by atleast 1 player
   2) The owner of the city is the original player.
@@ -845,7 +839,7 @@ void make_partisans(struct city *pcity)
   if (partisans > 8) 
     partisans = 8;
   
-  while (partisans && place_partisan(pcity)) partisans--;
+  place_partisans(pcity,partisans);
 }
 
 
