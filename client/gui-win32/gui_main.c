@@ -78,7 +78,7 @@ int overview_win_x;
 int overview_win_y;
 int overview_win_width;
 int overview_win_height;
-static int net_input;
+static int net_input=-1;
 
 
 extern int seconds_to_turndone;   
@@ -545,7 +545,6 @@ ui_main(int argc, char *argv[])
  
   set_client_state(CLIENT_PRE_GAME_STATE);
   
-  net_input=-1;
   SetTimer(root_window,1,100,socket_timer);
   SetTimer(root_window,2,500,blink_timer);
   while (GetMessage(&msg,NULL,0,0))
