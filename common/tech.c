@@ -95,8 +95,7 @@ static void build_required_techs_helper(struct player *pplayer,
 {
   /* The is_tech_a_req_for_goal condition is true if the tech is
    * already marked */
-  if (tech == A_NONE || !tech_exists(tech)
-      || get_invention(pplayer, tech) == TECH_KNOWN
+  if (!tech_exists(tech) || get_invention(pplayer, tech) == TECH_KNOWN
       || is_tech_a_req_for_goal(pplayer, tech, goal)) {
     return;
   }
@@ -223,8 +222,7 @@ static Tech_Type_id get_next_tech_rec(struct player *pplayer,
 **************************************************************************/
 Tech_Type_id get_next_tech(struct player *pplayer, Tech_Type_id goal)
 {
-  if (goal == A_NONE || !tech_exists(goal) ||
-      get_invention(pplayer, goal) == TECH_KNOWN) {
+  if (!tech_exists(goal) || get_invention(pplayer, goal) == TECH_KNOWN) {
     return A_NONE;
   }
   return (get_next_tech_rec(pplayer, goal));

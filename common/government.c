@@ -246,12 +246,12 @@ bool can_change_to_government(struct player *pplayer, int government)
 	 government >= 0 && government < game.government_count);
 
   req = governments[government].required_tech;
-  if (!tech_exists(req))
+  if (!tech_exists(req)) {
     return FALSE;
-  else 
-    return (req == A_NONE
-	    || (get_invention(pplayer, req) == TECH_KNOWN)
+  } else {
+    return (get_invention(pplayer, req) == TECH_KNOWN
 	    || player_owns_active_govchange_wonder(pplayer));
+  }
 }
 
 /***************************************************************
