@@ -111,7 +111,7 @@ int log_parse_level_str(char *level_str)
 	      level_str);
       FRETURN(-1);
     }
-    logd_files[i].name = strdup(tok);
+    logd_files[i].name = mystrdup(tok);
     i++;
     tok = strtok(NULL, ":");
   } while(tok != NULL);
