@@ -156,17 +156,12 @@ static int ai_goldequiv_clause(struct player *pplayer,
 {
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
-  int receiver, giver;
+  int giver;
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
 
   diplomacy_verbose = verbose;
 
   giver = pclause->from->player_no;
-  if (give) {
-    receiver = aplayer->player_no;
-  } else {
-    receiver = pplayer->player_no;
-  }
 
   switch (pclause->type) {
   case CLAUSE_ADVANCE:

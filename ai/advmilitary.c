@@ -930,7 +930,6 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   int bx = 0, by = 0;
   /* Type of the boat (real or a future one) */
   Unit_Type_id boattype = U_LAST;
-  int boatspeed;
   bool go_by_boat;
   /* Is the defender veteran? */
   bool def_vet;
@@ -968,7 +967,6 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       boattype = get_role_unit(L_FERRYBOAT, 0);
     }
   }
-  boatspeed = unit_types[boattype].move_rate;
 
   best_choice.want = find_something_to_kill(pplayer, myunit, &x, &y);
 

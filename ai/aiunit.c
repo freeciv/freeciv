@@ -106,13 +106,11 @@ static void ai_airlift(struct player *pplayer)
 {
   struct city *most_needed;
   int comparison;
-  struct city *least_needed;
   struct unit *transported;
 
   do {
     most_needed = NULL;
     comparison = 0;
-    least_needed = NULL;
     transported = NULL;
 
     city_list_iterate(pplayer->cities, pcity) {

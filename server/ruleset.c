@@ -496,10 +496,9 @@ static void load_ruleset_techs(struct section_file *file)
   struct advance *a;
   int num_techs; /* number of techs in the ruleset (means without A_NONE)*/
   int i;
-  char *datafile_options;
   const char *filename = secfile_filename(file);
   
-  datafile_options = check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, "+1.9", filename);
   sec = secfile_get_secnames_prefix(file, "advance_", &num_techs);
 
   /* Initialize dummy tech A_NONE */
@@ -672,14 +671,12 @@ static void load_unit_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_units(struct section_file *file)
 {
-  char *datafile_options;
   struct unit_type *u;
   int i, j, ival, nval;
   char *sval, **slist, **sec;
   const char *filename = secfile_filename(file);
 
-  datafile_options =
-    check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, "+1.9", filename);
 
   sec = secfile_get_secnames_prefix(file, "unit_", &nval);
 
@@ -988,7 +985,6 @@ static void load_building_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_buildings(struct section_file *file)
 {
-  char *datafile_options;
   char **sec, *item, **list;
   int i, j, k, nval, count;
   bool problem;
@@ -996,7 +992,7 @@ static void load_ruleset_buildings(struct section_file *file)
   struct impr_effect *e;
   const char *filename = secfile_filename(file);
 
-  datafile_options = check_ruleset_capabilities(file, "+1.10.1", filename);
+  (void) check_ruleset_capabilities(file, "+1.10.1", filename);
 
   sec = secfile_get_secnames_prefix(file, "building_", &nval);
 
@@ -1552,14 +1548,12 @@ static void load_government_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_governments(struct section_file *file)
 {
-  char *datafile_options;
   int i, j, nval;
   char *c;
   char **sec, **slist;
   const char *filename = secfile_filename(file);
 
-  datafile_options =
-    check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, "+1.9", filename);
 
   sec = secfile_get_secnames_prefix(file, "government_", &nval);
 
@@ -2060,7 +2054,7 @@ Load nations.ruleset file
 **************************************************************************/
 static void load_ruleset_nations(struct section_file *file)
 {
-  char *datafile_options, *bad_leader, *g;
+  char *bad_leader, *g;
   struct nation_type *pl;
   struct government *gov;
   int dim, val, i, j, k, nval;
@@ -2068,7 +2062,7 @@ static void load_ruleset_nations(struct section_file *file)
   char **techs, **leaders, **sec, **civilwar_nations;
   const char *filename = secfile_filename(file);
 
-  datafile_options = check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, "+1.9", filename);
 
   sec = secfile_get_secnames_prefix(file, "nation", &nval);
 
@@ -2339,12 +2333,11 @@ Load cities.ruleset file
 **************************************************************************/
 static void load_ruleset_cities(struct section_file *file)
 {
-  char *datafile_options;
   char **styles, *replacement;
   int i, nval;
   const char *filename = secfile_filename(file);
 
-  datafile_options = check_ruleset_capabilities(file, "+1.9", filename);
+  (void) check_ruleset_capabilities(file, "+1.9", filename);
 
   /* City Parameters */
 
@@ -2394,13 +2387,12 @@ Load ruleset file
 static void load_ruleset_game()
 {
   struct section_file file;
-  char *datafile_options;
   char *sval;
   const char *filename;
 
   openload_ruleset_file(&file, "game");
   filename = secfile_filename(&file);
-  datafile_options = check_ruleset_capabilities(&file, "+1.11.1", filename);
+  (void) check_ruleset_capabilities(&file, "+1.11.1", filename);
   (void) section_file_lookup(&file, "datafile.description");	/* unused */
 
   game.rgame.min_city_center_food =

@@ -577,7 +577,6 @@ before in this turn.
 **************************************************************************/
 bool can_unit_paradrop(struct unit *punit)
 {
-  struct city *pcity;
   struct unit_type *utype;
   struct tile *ptile;
 
@@ -596,7 +595,7 @@ bool can_unit_paradrop(struct unit *punit)
   if (tile_has_special(ptile, S_AIRBASE))
     return TRUE;
 
-  if(!(pcity = map_get_city(punit->x, punit->y)))
+  if(!map_get_city(punit->x, punit->y))
     return FALSE;
 
   return TRUE;

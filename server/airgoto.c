@@ -160,7 +160,6 @@ static void make_list_of_refuel_points(struct player *pplayer,
                                        int moves_per_turn, 
                                        int max_moves)
 {
-  struct city *pcity;
   struct tile *ptile;
 
   refuels.list_size = 1;
@@ -170,7 +169,7 @@ static void make_list_of_refuel_points(struct player *pplayer,
 
   whole_map_iterate(x, y) {
     ptile = map_get_tile(x, y);
-    if ((pcity = is_allied_city_tile(ptile, pplayer)) != NULL
+    if (is_allied_city_tile(ptile, pplayer)
 	&& !is_non_allied_unit_tile(ptile, pplayer) ) {
       add_refuel_point(x, y, FUEL_CITY, 
                        MAP_MAX_HEIGHT + MAP_MAX_WIDTH, 0, FALSE);
