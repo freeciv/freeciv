@@ -1197,3 +1197,41 @@ const char *freeciv_motto(void)
 {
   return _("'Cause civilization should be free!");
 }
+
+/***************************************************************************
+ Return whether two vectors: vec1 and vec2 both of size l (in bytes) have
+ common bits. 
+ (Don't call this function directly, use BV_CHECK_MASK macro instead)
+***************************************************************************/
+bool _bv_check_mask(unsigned char* vec1, unsigned char* vec2, int l)
+{
+  while(l >= sizeof(int)) {
+    l-=sizeof(int);
+    if (*(int*)(vec1 + l) & *(int*)(vec2 + l)) return TRUE;
+  }
+  /*
+   * This function will always be called with l%sizeof(int) != 0
+   * So there's no need  to put here
+   * if (l == 0) return FALSE
+   */
+  do {
+    l--;
+    if (vec1[l] & vec2[l]) return TRUE;
+  } while(l >= sizeof(int));
+
+  return FALSE;
+}
+
+/***************************************************************************
+ Return whether two vectors: vec1 and vec2 both of size l * sizeof(int) 
+ have common bits. 
+ (Don't call this function directly, use BV_CHECK_MASK macro instead)
+***************************************************************************/
+bool _bv_check_mask_int(unsigned int* vec1, unsigned int* vec2, int l)
+{
+  do {
+    l--;
+    if (vec1[l] & vec2[l]) return TRUE;
+  } while(l);
+  return FALSE;
+}

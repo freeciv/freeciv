@@ -86,6 +86,16 @@ typedef int bool;
   do { (bv).vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit); } while(FALSE)
 #define BV_CLR_ALL(bv) \
   do { memset((bv).vec, 0, sizeof((bv).vec)); } while(FALSE)
+bool _bv_check_mask(unsigned char* vec1, unsigned char* vec2, int l);
+bool _bv_check_mask_int(unsigned int* vec1, unsigned int* vec2, int l);
+#define BV_CHECK_MASK(vec1, vec2)                                             \
+  (                                                                           \
+   sizeof((vec1).vec) % sizeof(int) ?                                         \
+     _bv_check_mask((vec1).vec, (vec2).vec, sizeof((vec1).vec))               \
+   :                                                                          \
+     _bv_check_mask_int((int*)((vec1).vec), (int*)((vec2).vec),               \
+                        sizeof((vec1).vec) / sizeof(int))                     \
+  )  
 
 #define BV_DEFINE(name, bits) \
   typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name;
