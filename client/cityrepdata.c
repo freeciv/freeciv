@@ -18,10 +18,11 @@
 #include <string.h>
 
 #include "city.h"
+#include "cma_fec.h"
 #include "fcintl.h"
 #include "game.h"
+#include "map.h"
 #include "support.h"
-#include "cma_fec.h"
 
 #include "options.h"
 
@@ -81,6 +82,34 @@ static char *cr_entry_workers(struct city *pcity)
   return buf;
 }
 
+static char *cr_entry_happy(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_happy[4]);
+  return buf;
+}
+
+static char *cr_entry_content(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_content[4]);
+  return buf;
+}
+
+static char *cr_entry_unhappy(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_unhappy[4]);
+  return buf;
+}
+
+static char *cr_entry_angry(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_angry[4]);
+  return buf;
+}
+
 static char *cr_entry_specialists(struct city *pcity)
 {
   static char buf[32];
@@ -91,12 +120,149 @@ static char *cr_entry_specialists(struct city *pcity)
   return buf;
 }
 
+static char *cr_entry_entertainers(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_elvis);
+  return buf;
+}
+
+static char *cr_entry_scientists(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_scientist);
+  return buf;
+}
+
+static char *cr_entry_taxmen(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_taxman);
+  return buf;
+}
+
+static char *cr_entry_attack(struct city *pcity)
+{
+  static char buf[32];
+  int attack_best[4] = {-1, -1, -1, -1}, i;
+
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    /* What about allied units?  Should we just count them? */
+    attack_best[3] = get_unit_type(punit->type)->attack_strength;
+
+    /* Now that the element is appended to the end of the list, we simply
+       do an insertion sort. */
+    for (i = 2; i >= 0 && attack_best[i] < attack_best[i + 1]; i--) {
+      int tmp = attack_best[i];
+      attack_best[i] = attack_best[i + 1];
+      attack_best[i + 1] = tmp;
+    }
+  } unit_list_iterate_end;
+
+  buf[0] = '\0';
+  for (i = 0; i < 3; i++) {
+    if (attack_best[i] >= 0) {
+      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		  "%s%d", (i > 0) ? "/" : "", attack_best[i]);
+    } else {
+      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		  "%s-", (i > 0) ? "/" : "");
+    }
+  }
+
+  return buf;
+}
+
+static char *cr_entry_defense(struct city *pcity)
+{
+  static char buf[32];
+  int defense_best[4] = {-1, -1, -1, -1}, i;
+
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    /* What about allied units?  Should we just count them? */
+    defense_best[3] = get_unit_type(punit->type)->defense_strength;
+
+    /* Now that the element is appended to the end of the list, we simply
+       do an insertion sort. */
+    for (i = 2; i >= 0 && defense_best[i] < defense_best[i + 1]; i--) {
+      int tmp = defense_best[i];
+      defense_best[i] = defense_best[i + 1];
+      defense_best[i + 1] = tmp;
+    }
+  } unit_list_iterate_end;
+
+  buf[0] = '\0';
+  for (i = 0; i < 3; i++) {
+    if (defense_best[i] >= 0) {
+      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		  "%s%d", (i > 0) ? "/" : "", defense_best[i]);
+    } else {
+      my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+		  "%s-", (i > 0) ? "/" : "");
+    }
+  }
+
+  return buf;
+}
+
+static char *cr_entry_supported(struct city *pcity)
+{
+  static char buf[8];
+  int num_supported = 0;
+
+  unit_list_iterate(pcity->units_supported, punit) {
+    num_supported++;
+  } unit_list_iterate_end;
+
+  my_snprintf(buf, sizeof(buf), "%2d", num_supported);
+
+  return buf;
+}
+
+static char *cr_entry_present(struct city *pcity)
+{
+  static char buf[8];
+  int num_present = 0;
+
+  unit_list_iterate(map_get_tile(pcity->x,pcity->y)->units, punit) {
+    num_present++;
+  } unit_list_iterate_end;
+
+  my_snprintf(buf, sizeof(buf), "%2d", num_present);
+
+  return buf;
+}
+
 static char *cr_entry_resources(struct city *pcity)
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d/%d",
 	      pcity->food_surplus, 
 	      pcity->shield_surplus, 
+	      pcity->trade_prod);
+  return buf;
+}
+
+static char *cr_entry_foodplus(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%3d",
+	      pcity->food_surplus);
+  return buf;
+}
+
+static char *cr_entry_prodplus(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%3d",
+	      pcity->shield_surplus);
+  return buf;
+}
+
+static char *cr_entry_tradeplus(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%3d",
 	      pcity->trade_prod);
   return buf;
 }
@@ -115,12 +281,54 @@ static char *cr_entry_output(struct city *pcity)
   return buf;
 }
 
+static char *cr_entry_gold(struct city *pcity)
+{
+  static char buf[8];
+  int income = city_gold_surplus(pcity);
+  if (income > 0) {
+    my_snprintf(buf, sizeof(buf), "+%d", income);
+  } else {
+    my_snprintf(buf, sizeof(buf), "%3d", city_gold_surplus(pcity));
+  }
+  return buf;
+}
+
+static char *cr_entry_luxury(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%3d",
+	      pcity->luxury_total);
+  return buf;
+}
+
+static char *cr_entry_science(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%3d",
+	      pcity->science_total);
+  return buf;
+}
+
 static char *cr_entry_food(struct city *pcity)
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d",
 	      pcity->food_stock,
 	      city_granary_size(pcity->size) );
+  return buf;
+}
+
+static char *cr_entry_growturns(struct city *pcity)
+{
+  static char buf[8];
+  int turns = city_turns_to_grow(pcity);
+  if (turns == FC_INFINITY) {
+    /* 'never' wouldn't be easily translatable here. */
+    my_snprintf(buf, sizeof(buf), "-");
+  } else {
+    /* Shrinking cities get a negative value. */
+    my_snprintf(buf, sizeof(buf), "%4d", turns);
+  }
   return buf;
 }
 
@@ -213,16 +421,51 @@ struct city_report_spec city_report_specs[] = {
     N_("?happy/content/unhappy/angry:H/C/U/A"),
     N_("Workers: Happy, Content, Unhappy, Angry"),
     FUNC_TAG(workers) },
+  { FALSE, 2, 1, "", N_("?Happy workers:H"), N_("Workers: Happy"),
+    FUNC_TAG(happy) },
+  { FALSE, 2, 1, "", N_("?Content workers:C"), N_("Workers: Content"),
+    FUNC_TAG(content) },
+  { FALSE, 2, 1, "", N_("?Unhappy workers:U"), N_("Workers: Unhappy"),
+    FUNC_TAG(unhappy) },
+  { FALSE, 2, 1, "", N_("?Angry workers:A"), N_("Workers: Angry"),
+    FUNC_TAG(angry) },
   { FALSE, 7, 1, N_("Special"),
     N_("?entertainers/scientists/taxmen:E/S/T"),
     N_("Entertainers, Scientists, Taxmen"),
     FUNC_TAG(specialists) },
+  { FALSE, 2, 1, "", N_("?Entertainers:E"), N_("Entertainers"),
+    FUNC_TAG(entertainers) },
+  { FALSE, 2, 1, "", N_("?Scientists:S"), N_("Scientists"),
+    FUNC_TAG(scientists) },
+  { FALSE, 2, 1, "", N_("?Taxmen:T"), N_("Taxmen"),
+    FUNC_TAG(taxmen) },
+  { FALSE, 8, 1, N_("Best"), N_("attack"),
+    N_("Best attacking units"), FUNC_TAG(attack)},
+  { FALSE, 8, 1, N_("Best"), N_("defense"),
+    N_("Best defending units"), FUNC_TAG(defense)},
+  { FALSE, 2, 1, N_("Units"), N_("?Supported (units):Sup"),
+    N_("Number of units supported"), FUNC_TAG(supported) },
+  { FALSE, 2, 1, N_("Units"), N_("?Present (units):Prs"),
+    N_("Number of units present"), FUNC_TAG(present) },
+
   { TRUE,  10, 1, N_("Surplus"), N_("?food/prod/trade:F/P/T"),
                                  N_("Surplus: Food, Production, Trade"),
                                       FUNC_TAG(resources) },
+  { FALSE, 3, 1, "", N_("?Food surplus:F+"), N_("Surplus: Food"),
+    FUNC_TAG(foodplus) },
+  { FALSE, 3, 1, "", N_("?Production surplus:P+"),
+    N_("Surplus: Production"), FUNC_TAG(prodplus) },
+  { FALSE, 3, 1, "", N_("?Trade surplus:T+"), N_("Surplus: Trade"),
+    FUNC_TAG(tradeplus) },
   { TRUE,  10, 1, N_("Economy"), N_("?gold/lux/sci:G/L/S"),
                                  N_("Economy: Gold, Luxuries, Science"),
                                       FUNC_TAG(output) },
+  { FALSE, 3, 1, "", N_("?Gold:G"), N_("Economy: Gold"),
+    FUNC_TAG(gold) },
+  { FALSE, 3, 1, "", N_("?Luxury:L"), N_("Economy: Luxury"),
+    FUNC_TAG(luxury) },
+  { FALSE, 3, 1, "", N_("?Science:S"), N_("Economy: Science"),
+    FUNC_TAG(science) },
   { FALSE,  1, 1, N_("?trade_routes:n"), N_("?trade_routes:T"),
                                          N_("Number of Trade Routes"),
                                       FUNC_TAG(num_trade) },
@@ -230,6 +473,8 @@ struct city_report_spec city_report_specs[] = {
                                       FUNC_TAG(food) },
   { FALSE,  3, 1, NULL, N_("?pollution:Pol"),        N_("Pollution"),
                                       FUNC_TAG(pollution) },
+  { FALSE,  4, 1, N_("Grow"), N_("Turns"), N_("Turns until growth/famine"),
+    FUNC_TAG(growturns) },
   { FALSE,  3, 1, NULL, N_("?corruption:Cor"),        N_("Corruption"),
                                       FUNC_TAG(corruption) },
   { TRUE,  15, 1, NULL, N_("CMA"),	      N_("City Management Agent"),
@@ -239,10 +484,10 @@ struct city_report_spec city_report_specs[] = {
                                       FUNC_TAG(building) }
 };
 
-/* #define NUM_CREPORT_COLS \
-   sizeof(city_report_specs)/sizeof(city_report_specs[0])
-*/
-     
+#if 0
+const int num_report_cols = ARRAY_SIZE(city_report_specs);
+#endif
+
 /******************************************************************
 Some simple wrappers:
 ******************************************************************/

@@ -1367,7 +1367,7 @@ static void popup_city_report_config_dialog(void)
 *****************************************************************/
 static void create_city_report_config_dialog(void)
 {
-  GtkWidget *config_label, *config_ok_command;
+  GtkWidget *config_label, *config_ok_command, *box, *vbox;
   struct city_report_spec *spec;
   int i;
   
@@ -1379,11 +1379,24 @@ static void create_city_report_config_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(config_shell)->vbox), config_label,
 			FALSE, FALSE, 0);
 
+  box = gtk_hbox_new(TRUE,0);
+  gtk_widget_show(box);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(config_shell)->vbox), box,
+		     FALSE, FALSE, 0);
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_widget_show(vbox);
+  gtk_box_pack_start(GTK_BOX(box), vbox, FALSE, FALSE, 0);
+
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
+    if (i == NUM_CREPORT_COLS / 2 + 1) {
+      vbox = gtk_vbox_new(FALSE, 0);
+      gtk_widget_show(vbox);
+      gtk_box_pack_start(GTK_BOX(box), vbox, FALSE, FALSE, 0);
+    }
     config_toggle[i] = gtk_check_button_new_with_label(spec->explanation);
 
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(config_shell)->vbox), config_toggle[i],
-			FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), config_toggle[i], FALSE, FALSE, 0);
   }
 
   config_ok_command = gtk_button_new_with_label(_("Close"));
