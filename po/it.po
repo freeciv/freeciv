@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.5-devel\n"
-"POT-Creation-Date: 2001-08-03 20:24+0200\n"
-"PO-Revision-Date: 2001-07-11 19:48+02:00\n"
+"POT-Creation-Date: 2001-08-02 05:03-0700\n"
+"PO-Revision-Date: 2001-08-02 22:22+02:00\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -860,8 +860,8 @@ msgstr "  -q, --quitidle SEC\tEsce se non ci sono giocatori per SEC secondi\n"
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
-"  -d, --debug NUM\tImposta il livello di log per il debug (da 0 a 4, o 4:"
-"file1,min,max:...)\n"
+"  -d, --debug NUM\tImposta il livello di log per il debug (da 0 a 4, o "
+"4:file1,min,max:...)\n"
 
 #: client/civclient.c:125 server/civserver.c:139
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
@@ -1162,8 +1162,8 @@ msgstr ""
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
 msgstr ""
-"Gioco: avete catturato il %2$s %1$s che tentava di incitare una rivolta a %3"
-"$s!"
+"Gioco: avete catturato il %2$s %1$s che tentava di incitare una rivolta a "
+"%3$s!"
 
 #: server/diplomats.c:801
 #, c-format
@@ -1263,8 +1263,8 @@ msgstr ""
 #, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
 msgstr ""
-"Gioco: la vostra %s è stata catturata dopo aver compiuto la sua missione a %"
-"s."
+"Gioco: la vostra %s è stata catturata dopo aver compiuto la sua missione a "
+"%s."
 
 #: server/diplomats.c:1215
 #, c-format
@@ -1276,8 +1276,8 @@ msgstr ""
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
 msgstr ""
-"Gioco: avete provocato un incidente diplomatico tentando di corrompere un %2"
-"$s di %1$s."
+"Gioco: avete provocato un incidente diplomatico tentando di corrompere un "
+"%2$s di %1$s."
 
 #: server/diplomats.c:1261
 #, c-format
@@ -2654,8 +2654,8 @@ msgstr "Directory contenente buildings.ruleset"
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"buildings.ruleset\".  The building types (City Improvements and "
-"Wonders) in the game will be initialized from this file.  See also README."
-"rulesets."
+"Wonders) in the game will be initialized from this file.  See also "
+"README.rulesets."
 msgstr ""
 "Indica la directory (all'interno della directory \"data\") che contiene un "
 "file chiamato \"buildings.ruleset\".  Le costruzioni (Strutture Cittadine e "
@@ -2702,8 +2702,8 @@ msgid ""
 msgstr ""
 "Indica la directory (all'interno della directory \"data\") che contiene un "
 "file chiamato \"cities.ruleset\".  Il file è usato per inizializzare i dati "
-"sulle città (come gli stili delle città).  Vedete anche il file README."
-"rulesets."
+"sulle città (come gli stili delle città).  Vedete anche il file "
+"README.rulesets."
 
 #: server/stdinhand.c:386
 msgid "Data subdir containing game.ruleset"
@@ -3220,9 +3220,9 @@ msgstr "Registrare o no le statistiche dei giocatori"
 
 #: server/stdinhand.c:722
 msgid ""
-"If this is set to 1, player statistics are appended to the file \"civscore."
-"log\" every turn.  These statistics can be used to create power graphs after "
-"the game."
+"If this is set to 1, player statistics are appended to the file "
+"\"civscore.log\" every turn.  These statistics can be used to create power "
+"graphs after the game."
 msgstr ""
 "Se quest'opzione è impostata a 1, le statistiche dei giocatori saranno "
 "aggiunte in fondo al file \"civscore.log\" ogni turno.  Queste statistiche "
@@ -3252,9 +3252,9 @@ msgstr ""
 msgid ""
 "This command starts the game.  When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
-"required), and any desired changes to initial server options have been "
-"made.  After 'start', each human player will be able to choose their nation, "
-"and then the game will begin.  This command is also required after loading a "
+"required), and any desired changes to initial server options have been made. "
+" After 'start', each human player will be able to choose their nation, and "
+"then the game will begin.  This command is also required after loading a "
 "savegame for the game to recommence.  Once the game is running this command "
 "is no longer available, since it would have no effect."
 msgstr ""
@@ -3658,14 +3658,14 @@ msgstr "Salva la partita in un file."
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
-"To reload a savegame created by 'save', start the server with the command-"
-"line argument:\n"
+"To reload a savegame created by 'save', start the server with the "
+"command-line argument:\n"
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
 "Salva la partita attuale nel file <nome-file>.  Se non viene fornito il nome "
-"del file salva in \"<prefisso del salvataggio automatico><anno>m.sav[.gz]"
-"\".\n"
+"del file salva in \"<prefisso del salvataggio "
+"automatico><anno>m.sav[.gz]\".\n"
 "Per ricaricare una partita salvata con 'save', fate partire il server con "
 "l'argomento sulla linea di comando:\n"
 "    --file <nome-file>\n"
@@ -4217,7 +4217,7 @@ msgstr ""
 
 #: server/stdinhand.c:2539
 msgid "Value must be an integer."
-msgstr ""
+msgstr "Il valore deve essere un intero."
 
 #: server/stdinhand.c:2544 server/stdinhand.c:2547
 #, c-format
@@ -4246,8 +4246,8 @@ msgstr "Spiacente, non avete il permesso di usare comandi del server."
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
-"Attenzione: '%s' è stato interpretato come '%s', ma è ambiguo.  Provate '%"
-"shelp'."
+"Attenzione: '%s' è stato interpretato come '%s', ma è ambiguo.  Provate "
+"'%shelp'."
 
 #: server/stdinhand.c:2642
 #, c-format
@@ -4525,8 +4525,8 @@ msgstr ""
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
 msgstr ""
-"Gioco: il vostro %1$s%2$s è sopravvissuto al patetico attacco del %4$s di %3"
-"$s."
+"Gioco: il vostro %1$s%2$s è sopravvissuto al patetico attacco del %4$s di "
+"%3$s."
 
 #: server/unithand.c:690
 #, c-format
@@ -5202,8 +5202,8 @@ msgstr "Gioco: solo le unità di trasporto possono essere scaricate."
 
 #: client/control.c:761
 msgid ""
-"Game: Only settler units and military units in cities can be put in auto-"
-"mode."
+"Game: Only settler units and military units in cities can be put in "
+"auto-mode."
 msgstr ""
 "Gioco: solo le unità coloni ed i militari nelle città possono essere "
 "impostati in modalità automatica."
@@ -5268,8 +5268,8 @@ msgstr "Consente ad una città di crescere oltre la dimensione %d.  "
 #: client/helpdata.c:514
 #, c-format
 msgid ""
-"(The %s improvement is also required for a city to grow larger than size %"
-"d.)  "
+"(The %s improvement is also required for a city to grow larger than size "
+"%d.)  "
 msgstr ""
 "(perché una città possa crescere oltre la dimensione %2$d è anche richiesta "
 "la struttura %1$s).  "
@@ -5421,7 +5421,6 @@ msgstr ""
 "* Un'unità da battaglia: crea del malcontento anche se non è aggressiva.\n"
 
 #: client/helpdata.c:688
-#, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -6921,7 +6920,6 @@ msgstr "Bloccare"
 
 #: client/gui-gtk/gamedlgs.c:359 client/gui-mui/gamedlgs.c:258
 #: client/gui-xaw/ratesdlg.c:93
-#, c-format
 msgid "%s max rate: %d%%"
 msgstr "Tasso massimo per %s: %d%%"
 
@@ -6943,7 +6941,7 @@ msgstr "Scegliete una destinazione"
 msgid "_Goto"
 msgstr "_Vai a"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6962,7 +6960,7 @@ msgstr ""
 "è benvenuta a certe condizioni; vedete la voce \"Licenza\" nel menu Aiuto.\n"
 "Ora... spediteli all'inferno!"
 
-#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"
@@ -7194,19 +7192,16 @@ msgstr "Auri: %d"
 
 #: client/gui-gtk/inteldlg.c:117 client/gui-mui/inteldlg.c:143
 #: client/gui-xaw/inteldlg.c:126 client/gui-xaw/ratesdlg.c:303
-#, c-format
 msgid "Tax: %d%%"
 msgstr "Imposte: %d%%"
 
 #: client/gui-gtk/inteldlg.c:121 client/gui-mui/inteldlg.c:144
 #: client/gui-xaw/inteldlg.c:133 client/gui-xaw/ratesdlg.c:319
-#, c-format
 msgid "Science: %d%%"
 msgstr "Scienza: %d%%"
 
 #: client/gui-gtk/inteldlg.c:125 client/gui-mui/inteldlg.c:145
 #: client/gui-xaw/inteldlg.c:140 client/gui-xaw/ratesdlg.c:311
-#, c-format
 msgid "Luxury: %d%%"
 msgstr "Lusso: %d%%"
 
@@ -7298,7 +7293,6 @@ msgstr " V"
 
 #: client/gui-gtk/mapctrl.c:193 client/gui-mui/mapclass.c:199
 #: client/gui-xaw/mapctrl.c:175
-#, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "A:%d D:%d PF:%d PV:%d0%%"
 
@@ -8124,7 +8118,6 @@ msgid "Travel time:        N/A     "
 msgstr "Tempo di viaggio:     -     "
 
 #: client/gui-gtk/spaceshipdlg.c:270 client/gui-xaw/spaceshipdlg.c:271
-#, c-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -8986,7 +8979,6 @@ msgid "_Launch"
 msgstr "_Lancio"
 
 #: client/gui-mui/spaceshipdlg.c:265
-#, c-format
 msgid ""
 "%5d\n"
 "%5d %%\n"
@@ -9159,8 +9151,8 @@ msgstr "Versione del gioco: %s - Versione delle risorse: %s"
 #: client/gui-xaw/gui_main.c:305
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
-"Potreste avere un vecchio file di risorse di Freeciv in /usr/lib/X11/app-"
-"defaults"
+"Potreste avere un vecchio file di risorse di Freeciv in "
+"/usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:311
 msgid "Using fallback resources - which is OK"
@@ -9331,8 +9323,8 @@ msgid ""
 "Server Name                         Port  Version     Status  Players  "
 "Comment"
 msgstr ""
-"Nome server                         Porta Versione    Stato   Giocat.  "
-"Comm.  "
+"Nome server                         Porta Versione    Stato   Giocat.  Comm. "
+" "
 
 #: data/Freeciv:432 data/Freeciv:441
 msgid "Shared vision"
@@ -9612,11 +9604,11 @@ msgstr " Ok "
 
 #: data/Freeciv:3107
 msgid ""
-"Name             Nation       Embassy  Dipl.State      Vision   "
-"Reputation    State    Host"
+"Name             Nation       Embassy  Dipl.State      Vision   Reputation   "
+" State    Host"
 msgstr ""
-"Nome             Nazione      Ambasc.  Stato Dipl.     Visione  "
-"Reputazione   Stato    Host"
+"Nome             Nazione      Ambasc.  Stato Dipl.     Visione  Reputazione  "
+" Stato    Host"
 
 #: data/Freeciv:3127
 msgid "Intelligence"
@@ -9721,8 +9713,8 @@ msgstr ""
 "(verificate prima qui per vedere se una localizzazione è già in corso per la "
 "vostra lingua).\n"
 "\n"
-"Non esitate anche a mandare qualsiasi domanda alla mailing list freeciv-"
-"dev:\n"
+"Non esitate anche a mandare qualsiasi domanda alla mailing list "
+"freeciv-dev:\n"
 "\n"
 "  freeciv-dev@freeciv.org"
 
@@ -9907,8 +9899,8 @@ msgstr ""
 "  9: mossa a nord-est                 F11: apre Demografia\n"
 "                                      F12: apre Astronave\n"
 "\n"
-"  freccie: muovono l'unità      Control-g: griglia dei quadranti visibile/"
-"non visibile\n"
+"  freccie: muovono l'unità      Control-g: griglia dei quadranti "
+"visibile/non visibile\n"
 "   spazio: unità immobile       Control-n: nomi città visibili/non visibili\n"
 "    invio: fine turno           Control-p: produzione città visibile/non "
 "visibile\n"
@@ -10949,8 +10941,8 @@ msgstr ""
 #: data/helpdata.txt:1038
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
-"When choosing a place for a new city, make sure there are enough food-"
-"producing squares nearby to support your growing population."
+"When choosing a place for a new city, make sure there are enough "
+"food-producing squares nearby to support your growing population."
 msgstr ""
 "I differenti tipi di terreno hanno diversi pro e contro. Quando scegliete un "
 "posto per costruire una nuova città verificate di avere abbastanza "
@@ -11455,8 +11447,8 @@ msgstr ""
 #: data/helpdata.txt:1294
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
-"build a light spaceship with many propulsion units that will arrive "
-"earlier.  The only other option is to capture their capital."
+"build a light spaceship with many propulsion units that will arrive earlier. "
+" The only other option is to capture their capital."
 msgstr ""
 "SUGGERIMENTO: se una civiltà nemica ha lanciato un'astronave provate a "
 "costruirne rapidamente un'altra di tipo leggero con molti propulsori che "
@@ -11900,8 +11892,8 @@ msgstr "Batteria missili SAM"
 #: data/civ1/buildings.ruleset:777 data/civ2/buildings.ruleset:765
 #: data/default/buildings.ruleset:965
 msgid ""
-"Doubles the defense of all units inside the city when attacked by non-"
-"nuclear air units."
+"Doubles the defense of all units inside the city when attacked by "
+"non-nuclear air units."
 msgstr ""
 "Raddoppia la difesa di tutte le unità dentro una città quando questa viene "
 "attaccata da unità aeree non nucleari."
@@ -12621,10 +12613,10 @@ msgstr ""
 #: data/civ1/buildings.ruleset:259
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
-"strength of units within the city against ground, sea, and helicopter "
-"units.  They are ineffective against non-helicopter airborne units as well "
-"as Artillery.  City Walls also prevent the loss of population which occurs "
-"when a defending unit is destroyed by a land unit."
+"strength of units within the city against ground, sea, and helicopter units. "
+" They are ineffective against non-helicopter airborne units as well as "
+"Artillery.  City Walls also prevent the loss of population which occurs when "
+"a defending unit is destroyed by a land unit."
 msgstr ""
 "La Cinta Muraria rende più facile difendere una città; triplica la forza "
 "difensiva delle unità all'interno contro le unità terrestri e marine e "
@@ -12996,8 +12988,8 @@ msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
 "popular to remain in control, citizens are given a greater degree of "
-"freedom.  Citizens under the Republic become unhappy easily, but the self-"
-"sufficiency of your citizens allows high levels of trade.\n"
+"freedom.  Citizens under the Republic become unhappy easily, but the "
+"self-sufficiency of your citizens allows high levels of trade.\n"
 "\n"
 "Cities under the Republic suffer a small amount of corruption.\n"
 "\n"
@@ -13084,8 +13076,8 @@ msgid ""
 "There are no taxation limits under Democracy; you can set science, tax or "
 "luxuries to 100%.\n"
 "\n"
-"Under Democracy, military units require 1 production shield each for "
-"upkeep.  In addition the following units generate unhappiness:\n"
+"Under Democracy, military units require 1 production shield each for upkeep. "
+" In addition the following units generate unhappiness:\n"
 "\n"
 "- Units with an attack strength greater than 0 which are not inside a city, "
 "or inside a fortress within 3 squares of a friendly city, generate 2 unhappy "
@@ -13296,8 +13288,8 @@ msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
 "popular to remain in control, citizens are given a greater degree of "
-"freedom.  Citizens under the Republic become unhappy easily, but the self-"
-"sufficiency of your citizens allows high levels of trade.\n"
+"freedom.  Citizens under the Republic become unhappy easily, but the "
+"self-sufficiency of your citizens allows high levels of trade.\n"
 "\n"
 "Cities under the Republic suffer a small amount of corruption.\n"
 "\n"
@@ -13359,8 +13351,8 @@ msgid ""
 "Democratic cities which are celebrating grow at a rate of 1 citizen per "
 "turn; see Happiness for details.\n"
 "\n"
-"Under Democracy, military units require 1 production shield each for "
-"upkeep.  In addition the following units generate unhappiness:\n"
+"Under Democracy, military units require 1 production shield each for upkeep. "
+" In addition the following units generate unhappiness:\n"
 "\n"
 "- Units with an attack strength greater than 0 which are not inside a city, "
 "or inside a fortress within 3 squares of a friendly city, generate 2 unhappy "
@@ -14106,7 +14098,6 @@ msgid "Settlers"
 msgstr "Coloni"
 
 #: data/civ2/units.ruleset:85 data/default/units.ruleset:85
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses, airbases and "
@@ -14658,7 +14649,6 @@ msgstr ""
 "terra ed elicotteri."
 
 #: data/civ1/units.ruleset:94
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -15507,6 +15497,3 @@ msgstr "Zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulu"
-
-#~ msgid "got a packet of type %d outside RUN_GAME_STATE"
-#~ msgstr "ricevuto un pacchetto del tipo %d al di fuori di RUN_GAME_STATE"

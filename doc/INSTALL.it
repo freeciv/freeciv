@@ -1,5 +1,5 @@
-Questo file si basa sulla versione cvs-1.30 di INSTALL.
-This file based on cvs-1.30's INSTALL.
+Questo file si basa sulla versione cvs-1.31 di INSTALL.
+This file based on cvs-1.31's INSTALL.
 
 ========================
 COME INSTALLARE Freeciv:
@@ -168,7 +168,7 @@ di sviluppo (development) installate correttamente.
    X Windows permettendo agevolmente l'implementazioni di semplici operazioni
    grafiche (come disegnare linee, finestre, ecc.)
 
-   Freeciv richiede una versione di "Gtk+" superiore o uguale alla 1.2.1.
+   Freeciv richiede una versione di "Gtk+" superiore o uguale alla 1.2.5.
 
    In mancanza di cio' le potete ottenere al seguente link:
 
