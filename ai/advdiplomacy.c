@@ -627,10 +627,10 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
     }
   } players_iterate_end;
 
-  /* Modify by love */
+  /* Modify by love. Increase the divisor to make ai go to war earlier */
   kill_desire -= MAX(0, kill_desire 
                         * pplayer->ai.love[aplayer->player_no] 
-                        / 100);
+                        / 200);
 
   /* Amortize by distance */
   return amortize(kill_desire, adip->distance);
