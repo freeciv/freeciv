@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include <log.h>
 #include <player.h>
@@ -27,7 +28,6 @@
 #include <unit.h>
 #include <plrhand.h>
 #include <city.h>
-#include <log.h>
 #include <mapgen.h>
 #include <events.h>
 #include <shared.h>
@@ -150,7 +150,13 @@ int is_friendly_city_tile(int x, int y, int owner)
 }
 
 /**************************************************************************
-  is this square controlled by the units owner
+  Is this square controlled by the unit's owner?
+
+  Here "is_my_zoc" means essentially a square which is
+  *not* adjacent to an enemy unit on a land tile.
+  (Or, currently, an enemy city even if empty.)
+
+  Note this function only makes sense for ground units.
 **************************************************************************/
 int is_my_zoc(struct unit *myunit, int x0, int y0)
 {
@@ -158,21 +164,23 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
   int ax,ay;
   int owner=myunit->owner;
 
+  assert(is_ground_unit(myunit));
+     
   for (x=x0-1;x<x0+2;x++) for (y=y0-1;y<y0+2;y++) {
-    ax=map_adjust_x(x); ay=map_adjust_y(y);
+    ax=map_adjust_x(x);
+    ay=map_adjust_y(y);
+    if ((map_get_terrain(ax,ay)!=T_OCEAN) && is_enemy_unit_tile(ax,ay,owner))
+      return 0;
+    /* remove following case for empty cities to not impose zoc: */
     if (is_enemy_city_tile(ax,ay,owner))
       return 0;
-    if (is_enemy_unit_tile(ax,ay,owner))
-      if((is_sailing_unit(myunit) && (map_get_terrain(ax,ay)==T_OCEAN)) ||
-	 (!is_sailing_unit(myunit) && (map_get_terrain(ax,ay)!=T_OCEAN)) )
-        return 0;
   }
   return 1;
 }
 
 /**************************************************************************
-  return whether or not the square the unit wants to enter is blocked by
-  enemy units? 
+  Returns whether the unit is allowed (by ZOC) to move from (x1,y1)
+  to (x2,y2) (assumed adjacent).
   You CAN move if:
   1. You have units there already
   2. Your unit isn't a ground unit
@@ -180,20 +188,24 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
   4. You're moving from or to a city
   5. The spot you're moving from or to is in your ZOC
 **************************************************************************/
-int zoc_ok_move(struct unit *punit,int x, int y)
+int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
 {
-  struct unit_list *punit_list;
+  if (unit_really_ignores_zoc(punit))  /* !ground_unit or IGZOC */
+    return 1;
+  if (is_friendly_unit_tile(x2, y2, punit->owner))
+    return 1;
+  if (map_get_city(x1, y1) || map_get_city(x2, y2))
+    return 1;
+  return (is_my_zoc(punit, x1, y1) || is_my_zoc(punit, x2, y2)); 
+}
 
-  punit_list=&map_get_tile(x, y)->units;
-  /* if you have units there, you can move */
-  if (is_friendly_unit_tile(x,y,punit->owner))
-    return 1;
-  if (!is_ground_unit(punit) || unit_flag(punit->type, F_IGZOC))
-    return 1;
-  if (map_get_city(x,y) || map_get_city(punit->x, punit->y))
-    return 1;
-  return(is_my_zoc(punit, punit->x, punit->y) || 
-         is_my_zoc(punit, x, y)); 
+/**************************************************************************
+  Convenience wrapper for zoc_ok_move_gen(), using the unit's (x,y)
+  as the starting point.
+**************************************************************************/
+int zoc_ok_move(struct unit *punit, int x, int y)
+{
+  return zoc_ok_move_gen(punit, punit->x, punit->y, x, y);
 }
 
 /**************************************************************************
@@ -388,6 +400,14 @@ int get_defense_power(struct unit *punit)
   terra=map_get_terrain(punit->x, punit->y);
   power=(power*get_tile_type(terra)->defense_bonus)/10;
   return power;
+}
+
+/**************************************************************************
+  Takes into account unit move_type as well as IGZOC
+**************************************************************************/
+int unit_really_ignores_zoc(struct unit *punit)
+{
+  return (!is_ground_unit(punit)) || (unit_flag(punit->type, F_IGZOC));
 }
 
 /**************************************************************************

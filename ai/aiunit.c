@@ -65,16 +65,20 @@ int unit_move_turns(struct unit *punit, int x, int y)
   return(d);
 }
 
+/**************************************************************************
+  is there any hope of reaching this tile without violating ZOC? 
+**************************************************************************/
 int tile_is_accessible(struct unit *punit, int x, int y)
-{ /* is there any hope of reaching this tile without violating ZOC? */
+{
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int k;
-  if (!is_ground_unit(punit) || unit_flag(punit->type, F_IGZOC)) return 1;
-  if (is_my_zoc(punit, x, y)) return 1;
+  
+  if (unit_really_ignores_zoc(punit))  return 1;
+  if (is_my_zoc(punit, x, y))          return 1;
   for (k = 0; k < 8; k++)
-    if (map_get_terrain(x+ii[k], y+jj[k]) != T_OCEAN &&
-        is_my_zoc(punit, x + ii[k], y + jj[k])) return 1;
+    if (map_get_terrain(x+ii[k], y+jj[k]) != T_OCEAN
+	&& is_my_zoc(punit, x + ii[k], y + jj[k]))  return 1;
   return 0;
 }
  

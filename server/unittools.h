@@ -10,8 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __UNITTOOLS_H
-#define __UNITTOOLS_H
+#ifndef FC__UNITTOOLS_H
+#define FC__UNITTOOLS_H
+
 #include "packets.h"
 #include "unit.h"
 
@@ -22,6 +23,7 @@ int is_enemy_unit_tile(int x, int y, int owner);
 int is_friendly_unit_tile(int x, int y, int owner);
 int is_my_zoc(struct unit *myunit, int x0, int y0);
 int zoc_ok_move(struct unit *punit,int x, int y);
+int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
 int unit_bribe_cost(struct unit *punit);
 int diplomat_on_tile(int x, int y);
 int hp_gain_coord(struct unit *punit);
@@ -33,6 +35,7 @@ struct unit *get_attacker(struct player *pplayer, struct unit *aunit,
 			  int x, int y);
 int get_attack_power(struct unit *punit);
 int get_defense_power(struct unit *punit);
+int unit_really_ignores_zoc(struct unit *punit);
 int unit_ignores_citywalls(struct unit *punit);
 int unit_really_ignores_citywalls(struct unit *punit);
 int unit_behind_walls(struct unit *punit);
@@ -50,4 +53,5 @@ int enemies_at(struct unit *punit, int x, int y);
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost);
 struct unit *is_enemy_unit_on_tile(int x, int y, int owner);
 void resolve_unit_stack(int x, int y, int verbose);
-#endif
+
+#endif /* FC__UNITSTOOLS_H */

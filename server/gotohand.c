@@ -237,35 +237,63 @@ These if's might cost some CPU but hopefully less overall. -- Syela */
   }
 }
 
+/**************************************************************************
+  Similar to is_my_zoc(), but with some changes:
+  - destination (x0,y0) need not be adjacent?
+  - don't care about some directions?
+  
+  Note this function only makes sense for ground units.
+**************************************************************************/
 int could_be_my_zoc(struct unit *myunit, int x0, int y0)
-{ /* Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela */
+{
+  /* Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela */
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   int ax, ay, k;
   int owner=myunit->owner;
 
-  if (same_pos(x0, y0, myunit->x, myunit->y)) return 0; /* can't be my zoc */
-  if (is_tiles_adjacent(x0, y0, myunit->x, myunit->y) &&
-      !is_enemy_unit_tile(x0, y0, owner)) return 0;
+  assert(is_ground_unit(myunit));
+  
+  if (same_pos(x0, y0, myunit->x, myunit->y))
+    return 0; /* can't be my zoc */
+  if (is_tiles_adjacent(x0, y0, myunit->x, myunit->y)
+      && !is_enemy_unit_tile(x0, y0, owner))
+    return 0;
 
   for (k = 0; k < 8; k++) {
-    ax = map_adjust_x(myunit->x + ii[k]); ay = map_adjust_y(myunit->y + jj[k]);
+    ax = map_adjust_x(myunit->x + ii[k]);
+    ay = map_adjust_y(myunit->y + jj[k]);
+    
+    /* remove following case if/when empty cities do not impose zoc: */
     if (is_enemy_city_tile(ax,ay,owner))
       return 0;
-    if (!dir_ok(x0, y0, myunit->goto_dest_x, myunit->goto_dest_y, k)) continue;
-/* don't care too much about ZOC of units we've already gone past -- Syela */
-    if (is_enemy_unit_tile(ax,ay,owner))
-      if((is_sailing_unit(myunit) && (map_get_terrain(ax,ay)==T_OCEAN)) ||
-         (!is_sailing_unit(myunit) && (map_get_terrain(ax,ay)!=T_OCEAN)) )
-        return 0;
+    
+    if (!dir_ok(x0, y0, myunit->goto_dest_x, myunit->goto_dest_y, k))
+      continue;
+    /* don't care too much about ZOC of units we've already gone past -- Syela */
+    
+    if ((map_get_terrain(ax,ay)!=T_OCEAN) && is_enemy_unit_tile(ax,ay,owner))
+      return 0;
   }
-  return -1; /* flag value */
+  
+  return 1;
+  /* return was -1 as a flag value; I've moved -1 value into
+   * could_unit_move_to_tile(), since that's where it becomes
+   * distinct/relevant --dwp
+   */
 }
 
 
+/**************************************************************************
+  this WAS can_unit_move_to_tile with the notifys removed -- Syela 
+  but is now a little more complicated to allow non-adjacent tiles
+  returns:
+    0 if can't move
+    1 if zoc_ok
+   -1 if zoc could be ok?
+**************************************************************************/
 int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
-{ /* this WAS can_unit_move_to_tile with the notifys removed -- Syela */
-/* but is now a little more complicated to allow non-adjacent tiles */
+{
   struct tile *ptile,*ptile2;
   struct city *pcity;
 
@@ -309,16 +337,12 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
     }
   }
 
-/*  zoc = zoc_ok_move(punit, x, y);      can't use this, so reproducing ... */
-  /* if you have units there, you can move */
-  if (is_friendly_unit_tile(x,y,punit->owner))
+  if (zoc_ok_move_gen(punit, x0, y0, x, y))
     return 1;
-  if (!is_ground_unit(punit) || unit_flag(punit->type, F_IGZOC))
-    return 1;
-  if (map_get_city(x,y) || map_get_city(x0, y0))
-    return 1;
-  if (is_my_zoc(punit, x0, y0) || is_my_zoc(punit, x, y)) return 1;
-  return (could_be_my_zoc(punit, x0, y0));
+  else if(could_be_my_zoc(punit, x0, y0))
+    return -1;	/* flag value  */
+  else
+    return 0;
 }
 
 int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, int x1, int y1, int m)
@@ -337,7 +361,7 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
 /* arbitrary deterrent; if we wanted to attack, we wouldn't GOTO */
   } else {
     i = could_unit_move_to_tile(punit, x0, y0, x1, y1);
-    if (!i && !unit_flag(punit->type, F_IGZOC) && is_ground_unit(punit) &&
+    if (!i && !unit_really_ignores_zoc(punit) && 
         !is_my_zoc(punit, x0, y0) && !is_my_zoc(punit, x1, y1) &&
         !could_be_my_zoc(punit, x0, y0)) return(255);
     if (!i && !same_pos(x1, y1, punit->goto_dest_x, punit->goto_dest_y)) return(255);
