@@ -61,7 +61,7 @@ static void players_vision_callback(GtkMenuItem *item, gpointer data);
 static void players_intel_callback(GtkMenuItem *item, gpointer data);
 static void players_sship_callback(GtkMenuItem *item, gpointer data);
 
-#define NUM_COLUMNS 12                /* number of columns in total */
+#define NUM_COLUMNS 13                /* number of columns in total */
 #define DEF_SORT_COLUMN 2             /* default sort column (2 = nation) */
 #define COLOR_COLUMN (NUM_COLUMNS)    /* color column */
 #define PLRNO_COLUMN (NUM_COLUMNS+1)  /* plrno column */
@@ -166,7 +166,8 @@ void create_players_dialog(void)
     N_("Reputation"),
     N_("State"),
     N_("Host"),
-    N_("Idle Turns")
+    N_("Idle"),
+    N_("Ping")
   };
   static bool titles_done;
 
@@ -183,6 +184,7 @@ void create_players_dialog(void)
     G_TYPE_STRING,
     G_TYPE_STRING,
     G_TYPE_INT,
+    G_TYPE_STRING,
     G_TYPE_NONE,
     G_TYPE_INT
   };
@@ -235,13 +237,16 @@ void create_players_dialog(void)
         "active", i, NULL);
     } else {
       renderer = gtk_cell_renderer_text_new();
-      g_object_set(renderer,
-	"weight", "bold",
-	NULL);
+      g_object_set(renderer, "weight", "bold", NULL);
 
       col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
         "text", i, "foreground-gdk", COLOR_COLUMN, NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
+    }
+
+    if (model_types[i] == G_TYPE_INT || i == 12) {
+      g_object_set(renderer, "xalign", 1.0, NULL);
+      gtk_tree_view_column_set_alignment(col, 1.0);
     }
 
     gtk_tree_view_append_column(GTK_TREE_VIEW(players_list), col);
@@ -450,6 +455,7 @@ static void build_row(GtkTreeIter *it, int i)
      8, (gchar *)reputation_text(plr->reputation),
     10, (gchar *)player_addr_hack(plr),   	      	    /* Fixme */
     11, (gint)idle,
+    12, (gchar *)get_ping_time_text(plr),
     -1);
 
    /* set flag. */
