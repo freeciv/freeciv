@@ -92,6 +92,10 @@ static GtkWidget *change_cma_item;
 
 static GtkWidget *select_island_item;
 
+static GtkWidget *select_bunit_item;
+static GtkWidget *select_bimprovement_item;
+static GtkWidget *select_bwonder_item;
+
 static GtkWidget *select_supported_item;
 static GtkWidget *select_present_item;
 static GtkWidget *select_built_improvements_item;
@@ -545,7 +549,7 @@ static void cityrep_cell_data_func(GtkTreeViewColumn *col,
   struct city             *pcity;
   GValue                   value = { 0, };
   gint                     n;
-  char                     buf[64];
+  static char              buf[64];
 
   n = GPOINTER_TO_INT(data);
 
@@ -572,8 +576,8 @@ gint cityrep_sort_func(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
   GValue                   value = { 0, };
   struct city             *pcity1;
   struct city             *pcity2;
-  char                     buf1[64];
-  char                     buf2[64];
+  static char              buf1[64];
+  static char              buf2[64];
   gint                     n;
 
   n = GPOINTER_TO_INT(data);
@@ -601,11 +605,17 @@ static void create_city_report_dialog(bool make_modal)
   static char  buf    [NUM_CREPORT_COLS][64];
   struct city_report_spec *spec;
 
-  GtkWidget *w, *sw, *menubar, *toolbar, *stock, *hbox, *vbox;
+  GtkWidget *w, *sw, *menubar;
   int i;
   
-  city_dialog_shell = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title(GTK_WINDOW(city_dialog_shell), _("Cities"));
+  city_dialog_shell = gtk_dialog_new_with_buttons(_("Cities"),
+  	NULL,
+	0,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_CLOSE,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(city_dialog_shell),
+	GTK_RESPONSE_CLOSE);
 
   if (make_modal) {
     gtk_window_set_transient_for(GTK_WINDOW(city_dialog_shell),
@@ -613,65 +623,39 @@ static void create_city_report_dialog(bool make_modal)
     gtk_window_set_modal(GTK_WINDOW(city_dialog_shell), TRUE);
   }
 
+  g_signal_connect(city_dialog_shell, "response",
+		   G_CALLBACK(gtk_widget_destroy), NULL);
   g_signal_connect(city_dialog_shell, "destroy",
 		   G_CALLBACK(city_destroy_callback), NULL);
 
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(city_dialog_shell), vbox);
-
-  gtk_window_set_title(GTK_WINDOW(city_dialog_shell),_("Cities"));
-
   /* menubar */
   menubar = create_city_report_menubar();
-  gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(city_dialog_shell)->vbox),
+	menubar, FALSE, FALSE, 0);
 
-  /* toolbar */
-  hbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
-
-  toolbar = gtk_toolbar_new();
-  gtk_box_pack_start(GTK_BOX(hbox), toolbar, FALSE, FALSE, 0);
-  
-  stock = gtk_image_new_from_stock(GTK_STOCK_ZOOM_FIT,
-				   GTK_ICON_SIZE_SMALL_TOOLBAR);
-  w = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar),
-    _("Center"), _("Center"), NULL, stock, NULL, NULL);
+  /* buttons */
+  w = gtk_stockbutton_new(GTK_STOCK_ZOOM_FIT, _("Cen_ter"));
+  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
+	w, FALSE, TRUE, 0);
   g_signal_connect(w, "clicked", G_CALLBACK(city_center_callback), NULL);
   city_center_command = w;
 
-  stock = gtk_image_new_from_stock(GTK_STOCK_ZOOM_IN,
-				   GTK_ICON_SIZE_SMALL_TOOLBAR);
-  w = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar),
-    _("Popup"), _("Popup"), NULL, stock, NULL, NULL);
+  w = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Popup"));
+  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
+	w, FALSE, TRUE, 0);
   g_signal_connect(w, "clicked", G_CALLBACK(city_popup_callback), NULL);
   city_popup_command = w;
 
-  gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
-
-  stock = gtk_image_new_from_stock(GTK_STOCK_EXECUTE,
-				   GTK_ICON_SIZE_SMALL_TOOLBAR);
-  w = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar),
-    _("Buy"), _("Buy"), NULL, stock, NULL, NULL);
+  w = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Buy"));
+  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
+	w, FALSE, TRUE, 0);
   g_signal_connect(w, "clicked", G_CALLBACK(city_buy_callback), NULL);
   city_buy_command = w;
 
-  gtk_toolbar_append_space(GTK_TOOLBAR(toolbar));
-
-  stock = gtk_image_new_from_stock(GTK_STOCK_REFRESH,
-				   GTK_ICON_SIZE_SMALL_TOOLBAR);
-  w = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar),
-    _("Refresh"), _("Refresh"), NULL, stock, NULL, NULL);
+  w = gtk_stockbutton_new(GTK_STOCK_REFRESH, _("_Refresh"));
+  gtk_box_pack_end(GTK_BOX(GTK_DIALOG(city_dialog_shell)->action_area),
+	w, FALSE, TRUE, 0);
   g_signal_connect(w, "clicked", G_CALLBACK(city_refresh_callback), NULL);
-
-  toolbar = gtk_toolbar_new();
-  gtk_box_pack_end(GTK_BOX(hbox), toolbar, FALSE, FALSE, 0);
-  
-  stock = gtk_image_new_from_stock(GTK_STOCK_CLOSE,
-				   GTK_ICON_SIZE_SMALL_TOOLBAR);
-  w = gtk_toolbar_append_item(GTK_TOOLBAR(toolbar),
-    _("Close"), _("Close"), NULL, stock, NULL, NULL);
-  g_signal_connect_swapped(w, "clicked",
-  	G_CALLBACK(gtk_widget_destroy), city_dialog_shell);
 
   /* tree view */
   for (i=0; i<NUM_CREPORT_COLS; i++)
@@ -680,7 +664,6 @@ static void create_city_report_dialog(bool make_modal)
   get_city_table_header(titles, sizeof(buf[0]));
 
   city_model = gtk_list_store_new(2, G_TYPE_POINTER, G_TYPE_INT);
-  city_model_init();
 
   city_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(city_model));
   g_object_unref(city_model);
@@ -713,9 +696,12 @@ static void create_city_report_dialog(bool make_modal)
   gtk_widget_set_size_request(sw, -1, 350);
   gtk_container_add(GTK_CONTAINER(sw), city_view);
 
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(city_dialog_shell)->vbox),
+	sw, TRUE, TRUE, 0);
 
-  gtk_widget_show_all(vbox);
+  gtk_widget_show_all(GTK_DIALOG(city_dialog_shell)->vbox);
+  gtk_widget_show_all(GTK_DIALOG(city_dialog_shell)->action_area);
+  city_model_init();
 
   city_selection_changed_callback(city_selection);
 }
@@ -810,6 +796,34 @@ static void city_select_same_island_callback(GtkMenuItem *item, gpointer data)
   gtk_tree_selection_selected_foreach(city_selection,same_island_iterate,NULL);
 }
       
+/****************************************************************
+...
+*****************************************************************/
+static void city_select_building_callback(GtkMenuItem *item, gpointer data)
+{
+  enum production_class_type which = GPOINTER_TO_INT(data);
+  ITree it;
+  GtkTreeModel *model = GTK_TREE_MODEL(city_model);
+
+  gtk_tree_selection_unselect_all(city_selection);
+
+  for (itree_begin(model, &it); !itree_end(&it); itree_next(&it)) {
+    struct city *pcity;
+    gpointer res;
+
+    itree_get(&it, 0, &res, -1);
+    pcity = res;
+
+    if ( (which == TYPE_UNIT && pcity->is_building_unit)
+         || (which == TYPE_NORMAL_IMPROVEMENT && !pcity->is_building_unit
+             && !is_wonder(pcity->currently_building))
+         || (which == TYPE_WONDER && !pcity->is_building_unit
+             && is_wonder(pcity->currently_building)) ) {
+      itree_select(city_selection, &it);
+    }
+  }
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -1151,6 +1165,46 @@ static void create_select_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
 
+  item = gtk_menu_item_new_with_label(_("Building Units"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate",
+  		   G_CALLBACK(city_select_building_callback),
+		   GINT_TO_POINTER(TYPE_UNIT));
+
+  item = gtk_menu_item_new_with_label( _("Building Improvements"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate",
+  		   G_CALLBACK(city_select_building_callback),
+		   GINT_TO_POINTER(TYPE_NORMAL_IMPROVEMENT));
+
+  item = gtk_menu_item_new_with_label(_("Building Wonders"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate",
+  		   G_CALLBACK(city_select_building_callback),
+		   GINT_TO_POINTER(TYPE_WONDER));
+
+
+  item = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+
+  select_bunit_item =
+	gtk_menu_item_new_with_label(_("Building Unit"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_bunit_item);
+
+  select_bimprovement_item =
+	gtk_menu_item_new_with_label( _("Building Improvement"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_bimprovement_item);
+
+  select_bwonder_item =
+	gtk_menu_item_new_with_label(_("Building Wonder"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_bwonder_item);
+
+
+  item = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+
   item = gtk_menu_item_new_with_label(_("Coastal Cities"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate",
@@ -1202,6 +1256,14 @@ static void create_select_menu(GtkWidget *item)
 /****************************************************************
 ...
 *****************************************************************/
+bool city_building_impr_or_unit(struct city *pcity, cid cid)
+{
+  return (cid == cid_encode_from_city(pcity));
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
@@ -1212,6 +1274,19 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
   n = 0;
   gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
   gtk_widget_set_sensitive(select_island_item, (n > 0));
+
+  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_bunit_item),
+				  TRUE, FALSE, FALSE,
+				  city_building_impr_or_unit,
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
+  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_bimprovement_item),
+				  FALSE, FALSE, FALSE,
+				  city_building_impr_or_unit,
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
+  append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_bwonder_item),
+				  FALSE, TRUE, FALSE,
+				  city_building_impr_or_unit,
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_supported_item),
 				  TRUE, FALSE, FALSE,
