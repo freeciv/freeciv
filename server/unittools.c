@@ -762,13 +762,25 @@ void resolve_unit_stack(int x, int y, int verbose)
     punit = unit_list_get(&map_get_tile(x, y)->units, 0);
     if (!punit)
       return;
+    pcity = find_closest_owned_city(get_player(punit->owner), x, y,
+				    is_sailing_unit(punit), NULL);
+
+    /* If punit is in an enemy city we send it to the closest friendly city
+       This is not always caught by the other checks which require that
+       there are units from two nations on the tile */
+    ccity = map_get_city(x,y);
+    if (ccity && ccity->owner != punit->owner) {
+      if (pcity)
+	teleport_unit_to_city(punit, pcity, 0, verbose);
+      else
+	disband_stack_conflict_unit(punit, verbose);
+      continue;
+    }
 
     cunit = is_enemy_unit_on_tile(x, y, punit->owner);
     if (!cunit)
       break;
 
-    pcity = find_closest_owned_city(get_player(punit->owner), x, y,
-				    is_sailing_unit(punit), NULL);
     ccity = find_closest_owned_city(get_player(cunit->owner), x, y,
 				    is_sailing_unit(cunit), NULL);
 
