@@ -193,7 +193,7 @@ void create_science_dialog(bool make_modal)
 
   hbox = gtk_hbox_new(TRUE, 0);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(science_dialog_shell)->vbox),
-		     hbox, TRUE, TRUE, 0);
+		     hbox, TRUE, TRUE, 5);
 
 
 
