@@ -650,6 +650,10 @@ char *datafilename(const char *filename)
     path = getenv("FREECIV_PATH");
     if (!path) {
       path = DEFAULT_DATA_PATH;
+    } else if (*path == '\0') {
+      freelog(LOG_ERROR, _("FREECIV_PATH is set but empty; "
+			   "using default path instead."));
+      path = DEFAULT_DATA_PATH;
     }
     assert(path != NULL);
 
