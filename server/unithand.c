@@ -1440,10 +1440,17 @@ void handle_unit_activity_request_targeted(struct unit *punit,
 					   enum unit_activity new_activity,
 					   int new_target, int select_unit)
 {
-  if(can_unit_do_activity_targeted(punit, new_activity, new_target)) {
+  if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;
     int old_target = punit->activity_target;
     set_unit_activity_targeted(punit, new_activity, new_target);
+
+    if (punit->pgr != NULL) {
+      free(punit->pgr->pos);
+      free(punit->pgr);
+      punit->pgr = NULL;
+    }
+
     send_unit_info_to_onlookers(0, punit, punit->x, punit->y, 0, select_unit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
