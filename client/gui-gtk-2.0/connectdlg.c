@@ -96,6 +96,7 @@ static void lan_update_callback(GtkWidget *w, gpointer data);
 static void lan_list_callback(GtkTreeSelection *select, GtkTreeModel *model);
 static int get_lanservers(gpointer data);
 
+static guint lan_timer;
 static int num_lanservers_timer = 0;
 
 /**************************************************************************
@@ -248,7 +249,7 @@ static void meta_update_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
  This function updates the list of LAN servers every 100 ms for 5 seconds. 
 **************************************************************************/
-static int get_lanservers(gpointer data)
+static gboolean get_lanservers(gpointer data)
 {
   struct server_list *server_list = get_lan_server_list();
   gchar *row[6];
@@ -277,9 +278,10 @@ static int get_lanservers(gpointer data)
   if (num_lanservers_timer == 50) {
     finish_lanserver_scan();
     num_lanservers_timer = 0;
-    return 0;
+    lan_timer = 0;
+    return FALSE;
   }
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -287,13 +289,11 @@ static int get_lanservers(gpointer data)
 **************************************************************************/
 static void lan_update_callback(GtkWidget *w, gpointer data)
 {
-  int get_lanservers_timer = 0;
-
   if (num_lanservers_timer == 0) { 
     gtk_list_store_clear(storelan);
 
     if (begin_lanserver_scan()) {
-      get_lanservers_timer = gtk_timeout_add(100, get_lanservers, NULL);
+      lan_timer = g_timeout_add(100, get_lanservers, NULL);
     }
   }
 }
@@ -369,21 +369,23 @@ static void saved_click_callback(GtkTreeView *treeview,
 /**************************************************************************
 ...
 ***************************************************************************/
-static gboolean meta_click_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
+static void meta_click_callback(GtkTreeView *treeview,
+                                GtkTreePath *arg1,
+                                GtkTreeViewColumn *arg2,
+                                gpointer data)
 {
-  if (event->type==GDK_2BUTTON_PRESS) connect_callback(w, data);
-  return FALSE;
+  connect_callback(NULL, data);
 }
 
 /**************************************************************************
 ...
 ***************************************************************************/
-static gboolean lan_click_callback(GtkWidget *w, GdkEventButton *event, gpointer data)
+static void lan_click_callback(GtkTreeView *treeview,
+                               GtkTreePath *arg1,
+                               GtkTreeViewColumn *arg2,
+                               gpointer data)
 {
-  if (event->type == GDK_2BUTTON_PRESS) {
-    connect_callback(w, data);
-  }
-  return FALSE;
+  connect_callback(NULL, data);
 }
 
 /**************************************************************************
@@ -391,8 +393,11 @@ static gboolean lan_click_callback(GtkWidget *w, GdkEventButton *event, gpointer
 **************************************************************************/
 static void connect_destroy_callback(GtkWidget *w, gpointer data)
 {
+  if (lan_timer != 0) {
+    g_source_remove(lan_timer);
+  }
+
   dialog = NULL;
-  gtk_widget_set_sensitive(top_vbox, TRUE);
 }
 
 #define MIN_DIMENSION 5
@@ -767,6 +772,8 @@ void gui_server_connect(void)
 #endif
   dialog_config = LOGIN_TYPE;
 
+  lan_timer = 0;
+
   dialog = gtk_dialog_new_with_buttons(NULL,
                                        NULL,
                                        GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1099,14 +1106,14 @@ void gui_server_connect(void)
   g_signal_connect(selectionsaved, "changed",
                    G_CALLBACK(saved_list_callback), NULL);
 
-  g_signal_connect(listmeta, "button_press_event",
+  g_signal_connect(listmeta, "row_activated",
 		   G_CALLBACK(meta_click_callback), NULL);
   g_signal_connect(selectionmeta, "changed",
                    G_CALLBACK(meta_list_callback), NULL);
   g_signal_connect(updatemeta, "clicked",
 		   G_CALLBACK(meta_update_callback), NULL);
 
-  g_signal_connect(listlan, "button_press_event",
+  g_signal_connect(listlan, "row_activated",
                    G_CALLBACK(lan_click_callback), NULL);
   g_signal_connect(selectionlan, "changed",
                    G_CALLBACK(lan_list_callback), NULL);
