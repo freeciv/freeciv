@@ -567,6 +567,7 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
   freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
          gfx_filename);
   exit(EXIT_FAILURE);
+  return NULL;
 }
 
 /**********************************************************************
