@@ -1,0 +1,320 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set units <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well when using these
+; units, mainly because of the differences between Civ1 and Civ2
+; style combats (mainly hitpoints).
+
+[datafile]
+description="Civ1-style unit_type data for Freeciv"
+options="1.7"
+
+[unit_adjustments]
+max_hitpoints=10                ; 0 means no max
+max_firepower=1                 ; 0 means no max
+firepower_factor=10             ; Means effective hitpoints=1
+
+[units]
+
+; Unit_type lists:
+; Units should be in the same order as defined in common/unit.h
+; and have similar roles/effects, as some things are still hardwired.
+
+; First table:
+u1={ "name", "tech_requirement", "obsoleted_by"
+
+; Tech required: special values "None" (can always build), or "Never"
+; Obsolete by: special value "None"
+
+; First table data:
+; "Longname unit", "tech_required"       "obsolete_by"
+
+"Settlers",      "None",                   "None"
+"Engineers",       "Never",                "None"
+"Militia",       "None",                 "Musketeers"     ; Civ2 Warriors
+"Phalanx",         "Bronze Working",     "Musketeers"
+"Archers",           "Never",              "Musketeers"
+"Legion",          "Iron Working",       "Musketeers"
+"Pikemen",           "Never",              "Musketeers"
+"Musketeers",      "Gunpowder",          "Riflemen"
+"Fanatics",          "Never",              "None"
+"Partisan",          "Never",              "None"
+"Alpine Troops",     "Never",              "None"
+"Riflemen",        "Conscription",         "None"
+"Marines",           "Never",              "None"
+"Paratroopers",      "Never",              "None"
+"Mech. Inf.",      "Labor Union",          "None"
+"Cavalry",         "Horseback Riding",   "Musketeers"     ; Civ2 Horsemen
+"Chariot",         "The Wheel",          "Knights"
+"Elephants",         "Never",              "Crusaders"
+"Crusaders",         "Never",              "Dragoons"
+"Knights",         "Chivalry",           "Armor"
+"Dragoons",          "Never",              "Cavalry"
+"Civ2-Cavalry",      "Never",              "Armor"
+"Armor",           "Automobile",           "None"
+"Catapult",        "Mathematics",        "Cannon"
+"Cannon",          "Metallurgy",         "Artillery"
+"Civ2-Artillery",    "Never",              "Howitzer"
+"Artillery",       "Robotics",             "None"         ; Civ2 Howitzer
+
+; First table data continued:
+; "Longname unit", "tech_required",      "obsolete_by"
+
+"Fighter",         "Flight",               "None"
+"Bomber",          "Advanced Flight",      "None"
+"Helicopter",        "Never",              "None"
+"Stealth Fighter",   "Never",              "None"
+"Stealth Bomber",    "Never",              "None"
+"Trireme",         "Map Making",         "Sail"
+"Sail",            "Navigation",         "Frigate"        ; Civ2 Caravel
+"Galleon",           "Never",              "Transport"
+"Frigate",         "Magnetism",          "Transport"
+"Ironclad",        "Steam Engine",       "Cruiser"
+"Destroyer",         "Never",              "None"
+"Cruiser",         "Combustion",           "None"
+"AEGIS Cruiser",     "Never",              "None"
+"Battleship",      "Steel",                "None"
+"Submarine",       "Mass Production",      "None"
+"Carrier",         "Advanced Flight",      "None"
+"Transport",       "Industrialization",    "None"
+"Cruise Missile",    "Never",              "None"
+"Nuclear",         "Rocketry",             "None"
+"Diplomat",        "Writing",              "None"
+"Spy",               "Never",              "None"
+"Caravan",         "Trade",                "None"
+"Freight",           "Never",              "None"
+"Explorer",          "Never",              "Partisan"
+
+; First table data above:
+; "Longname unit", "tech_required",      "obsolete_by"
+
+}
+
+; Second table:
+u2={ "name","graphics","move_type","build_cost","attack_strength","defense_strength","move_rate","vision_range","transport_capacity","hitpoints","firepower","fuel"
+
+; Name: should be the same as table 1.
+; Move_type: 1=land, 2=sea, 3=heli, 4=air
+; Hitpoints: note max_hitpoints above
+; Firepower: note max_firepower above
+; Fuel: 0=none, 1=end of turn, 2=end of 2nd turn
+
+; Second table data:
+; "Longname unit", g#, T,  bc, at, de, mv, v, c, hp, f, u
+
+"Settlers",        24, 1,  40,  0,  1,  1, 1, 0, 20, 1, 0
+"Engineers",       42, 1,  40,  0,  2,  2, 1, 0, 20, 1, 0
+"Militia",         18, 1,  10,  1,  1,  1, 1, 0, 10, 1, 0
+"Phalanx",         21, 1,  20,  1,  2,  1, 1, 0, 10, 1, 0
+"Archers",         28, 1,  30,  3,  2,  1, 1, 0, 10, 1, 0
+"Legion",          16, 1,  20,  3,  1,  1, 1, 0, 10, 1, 0
+"Pikemen",         37, 1,  20,  1,  2,  1, 1, 0, 10, 1, 0
+"Musketeers",      19, 1,  30,  2,  3,  1, 1, 0, 20, 1, 0
+"Fanatics",        49, 1,  20,  4,  4,  1, 1, 0, 20, 1, 0
+"Partisan",        36, 1,  50,  4,  4,  1, 1, 0, 20, 1, 0
+"Alpine Troops",   45, 1,  50,  5,  5,  1, 1, 0, 20, 1, 0
+"Riflemen",        22, 1,  30,  3,  5,  1, 1, 0, 20, 1, 0
+"Marines",         40, 1,  60,  8,  5,  1, 1, 0, 20, 1, 0
+"Paratroopers",     0, 1,  60,  6,  4,  1, 1, 0, 20, 1, 0
+"Mech. Inf.",      17, 1,  50,  6,  6,  3, 1, 0, 30, 1, 0
+"Cavalry",          8, 1,  20,  2,  1,  2, 1, 0, 10, 1, 0
+"Chariot",          9, 1,  40,  4,  1,  2, 1, 0, 10, 1, 0
+"Elephants",       39, 1,  40,  4,  1,  2, 1, 0, 10, 1, 0
+"Crusaders",       38, 1,  40,  5,  1,  2, 1, 0, 10, 1, 0
+"Knights",         15, 1,  40,  4,  2,  2, 1, 0, 10, 1, 0
+"Dragoons",        32, 1,  50,  5,  2,  2, 1, 0, 20, 1, 0
+"Civ2-Cavalry",    29, 1,  60,  8,  3,  2, 1, 0, 20, 1, 0
+"Armor",            0, 1,  80, 10,  5,  3, 1, 0, 30, 1, 0
+"Catapult",         7, 1,  40,  6,  1,  1, 1, 0, 10, 1, 0
+"Cannon",           4, 1,  40,  8,  1,  1, 1, 0, 20, 1, 0
+"Civ2-Artillery",  43, 1,  50, 10,  1,  1, 1, 0, 20, 2, 0
+"Artillery",        1, 1,  60, 12,  2,  2, 1, 0, 30, 2, 0
+
+; Second table data, continued:
+; "Longname unit", g#, T,  bc, at, de, mv, v, c, hp, f, u
+
+"Fighter",         12, 4,  60,  4,  2, 10, 2, 0, 20, 2, 1
+"Bomber",           3, 4, 120, 12,  1,  8, 2, 0, 20, 2, 2
+"Helicopter",      44, 3, 100, 10,  3,  6, 2, 0, 20, 2, 0
+"Stealth Fighter", 47, 4,  80,  8,  4, 14, 2, 0, 20, 2, 1
+"Stealth Bomber",  46, 4, 160, 14,  5, 12, 2, 0, 20, 2, 2
+"Trireme",         27, 2,  40,  1,  0,  3, 1, 2, 10, 1, 0
+"Sail",            23, 2,  40,  1,  1,  3, 1, 3, 10, 1, 0
+"Galleon",         35, 2,  40,  0,  2,  4, 1, 4, 20, 1, 0
+"Frigate",         13, 2,  40,  2,  2,  3, 1, 4, 20, 1, 0
+"Ironclad",        14, 2,  60,  4,  4,  4, 1, 0, 30, 1, 0
+"Destroyer",       31, 2,  60,  4,  4,  6, 2, 0, 30, 1, 0
+"Cruiser",         10, 2,  80,  6,  6,  6, 2, 0, 30, 2, 0
+"AEGIS Cruiser",   48, 2, 100,  8,  8,  5, 2, 0, 30, 2, 0
+"Battleship",       2, 2, 160, 18, 12,  4, 2, 0, 40, 2, 0
+"Submarine",       25, 2,  50,  8,  2,  3, 2, 0, 30, 2, 0
+"Carrier",          6, 2, 160,  1, 12,  5, 2, 8, 40, 2, 0
+"Transport",       26, 2,  50,  0,  3,  4, 2, 8, 30, 1, 0
+"Cruise Missile",  30, 4,  60, 18,  0, 12, 1, 0, 10, 3, 1
+"Nuclear",         20, 4, 160, 99,  0, 16, 1, 0, 10, 1, 1
+"Diplomat",        11, 1,  30,  0,  0,  2, 1, 0, 10, 1, 0
+"Spy",             41, 1,  30,  0,  0,  3, 2, 0, 10, 1, 0
+"Caravan",          5, 1,  50,  0,  1,  1, 1, 0, 10, 1, 0
+"Freight",         34, 1,  50,  0,  1,  2, 1, 0, 10, 1, 0
+"Explorer",        33, 1,  30,  0,  1,  1, 1, 0, 10, 1, 0
+
+; Second table data above:
+; "Longname unit", g#, T,  bc, at, de, mv, v, c, hp, f, u
+
+}
+
+; Third table: special-effect flags
+
+; These following can be changed, but the meaning vs order is
+; hardwired in the order in common/unit.h:
+
+flag_names="Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier", "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS", "Fighter", "Marines", "Submarine", "Settlers", "Diplomat", "Trireme", "Nuclear", "Spy"
+
+; Third table data:
+u3={ "name", "flags"
+
+"Settlers",        "Settlers", "NonMil"
+"Engineers",       "Settlers", "NonMil"
+"Militia",         ""
+"Phalanx",         ""
+"Archers",         ""
+"Legion",          ""
+"Pikemen",         "Pikemen"
+"Musketeers",      ""
+"Fanatics",        ""
+"Partisan",        "IgTer", "IgZOC"
+"Alpine Troops",   "IgTer"
+"Riflemen",        ""
+"Marines",         "Marines"
+"Paratroopers",    ""
+"Mech. Inf.",      ""
+"Cavalry",         ""   ; "Horse"
+"Chariot",         ""   ; "Horse"
+"Elephants",       ""
+"Crusaders",       "Horse"
+"Knights",         ""   ; "Horse"
+"Dragoons",        "Horse"
+"Civ2-Cavalry",    ""           ; Note: not a "Horse" attack
+"Armor",           ""
+"Catapult",        ""
+"Cannon",          ""
+"Civ2-Artillery",  ""
+"Artillery",       "IgWall"
+
+"Fighter",         "FieldUnit", "Fighter"
+"Bomber",          "FieldUnit", "OneAttack"
+"Helicopter",      "FieldUnit", "OneAttack"
+"Stealth Fighter", "FieldUnit", "Fighter"
+"Stealth Bomber",  "FieldUnit", "OneAttack"
+"Trireme",         "FieldUnit", "Trireme"
+"Sail",            ""
+"Galleon",         ""
+"Frigate",         "FieldUnit"
+"Ironclad",        "FieldUnit"
+"Destroyer",       "FieldUnit"
+"Cruiser",         "FieldUnit"
+"AEGIS Cruiser",   "FieldUnit", "AEGIS"
+"Battleship",      "FieldUnit"
+"Submarine",       "FieldUnit", "Submarine"
+"Carrier",         "FieldUnit", "Carrier"
+"Transport",       ""
+"Cruise Missile",  "FieldUnit", "OneAttack", "Missile"
+"Nuclear",         "FieldUnit", "OneAttack", "Missile", "Nuclear"
+"Diplomat",        "Diplomat", "IgZOC", "NonMil"
+"Spy",             "Diplomat", "IgZOC", "NonMil", "Spy"
+"Caravan",         "Caravan",  "IgZOC", "NonMil"
+"Freight",         "Caravan",  "IgZOC", "NonMil"
+"Explorer",        "IgTer",    "IgZOC", "NonMil"
+}
+
+; Fourth table: special roles
+
+; These following can be changed, but the meaning vs order is
+; hardwired in the order in common/unit.h:
+
+role_names="FirstBuild", "Explorer", "Hut", "HutTech", "Partisan", "DefendOk", "DefendGood", "AttackFast", "AttackStrong", "Ferryboat"
+
+; FirstBuild: When a city is first built, it starts building these;
+;   the first one of these must have tech_required=None.  Land units only.
+; Explorer: Unit to give players as their explorer unit at start of game;
+;   must define at least one of these.
+; Hut: Unit can be found as a mercenary in a hut; must be at least one.
+; HutTech: Found in a hut, but tech must have been found (globally) first.
+; Partisan: Unit to be created in partisan conditions; may omit.
+; DefendOk: Unit is ok on defense (AI).
+; DefendGood: Unit's primary purpose is defense.
+; AttackFast: mobile attacking unit (Horse..Armor)
+; AttackStrong: powerful (but usually slow) attacking unit (Catapult..)
+; FerryBoat: Unit is good for ferrying other units overseas (AI).
+
+; Civ1 doesn't have initial explorers, but we want to do something
+; sensible if the explorer server option is left non-zero.
+; Likely options:
+; - Diplomat: nonmilitary (good), but a bit incongruous for a
+;   primitive civilization (and may still bribe etc).
+; - Cavalry: in character, but could overwhelm unlucky opponents.
+; - Militia: not much good for exploring, but an ok initial unit.
+;   (not likely to overwhelm anyone too quickly :-)
+
+; Fourth table data:
+u4={ "name", "roles"
+
+"Settlers",        ""
+"Engineers",       ""
+"Militia",         "DefendOk",   "FirstBuild"
+"Phalanx",         "DefendGood", "FirstBuild"
+"Archers",         "DefendOk"
+"Legion",          "DefendOk",   "Hut"
+"Pikemen",         "DefendGood", "FirstBuild"
+"Musketeers",      "DefendGood", "FirstBuild", "HutTech"
+"Fanatics",        "DefendGood"
+"Partisan",        "DefendGood", "Partisan"
+"Alpine Troops",   "DefendGood"
+"Riflemen",        "DefendGood", "FirstBuild"
+"Marines",         "DefendOk"
+"Paratroopers",    "DefendOk"
+"Mech. Inf.",      "DefendGood"
+"Cavalry",         "AttackFast", "Hut"
+"Chariot",         "AttackFast", "Hut"
+"Elephants",       "AttackFast"
+"Crusaders",       "AttackFast"
+"Knights",         "AttackFast","HutTech"
+"Dragoons",        "AttackFast"
+"Civ2-Cavalry",    "AttackFast"
+"Armor",           "AttackFast"
+"Catapult",        "AttackStrong"
+"Cannon",          "AttackStrong"
+"Civ2-Artillery",  "AttackStrong"
+"Artillery",       "AttackStrong"
+
+"Fighter",         ""
+"Bomber",          ""
+"Helicopter",      ""
+"Stealth Fighter", ""
+"Stealth Bomber",  ""
+"Trireme",         "Ferryboat"
+"Sail",            "Ferryboat"
+"Galleon",         "Ferryboat"
+"Frigate",         "Ferryboat"  ; Civ1: better capacity, obsoleted to Transport
+"Ironclad",        ""
+"Destroyer",       ""
+"Cruiser",         ""
+"AEGIS Cruiser",   ""
+"Battleship",      ""
+"Submarine",       ""
+"Carrier",         ""
+"Transport",       "Ferryboat"
+"Cruise Missile",  ""
+"Nuclear",         ""
+"Diplomat",        "Explorer"  ; see note above
+"Spy",             ""
+"Caravan",         ""
+"Freight",         ""
+"Explorer",        "Explorer"
+}

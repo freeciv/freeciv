@@ -1,0 +1,125 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set techs <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+[datafile]
+description="Default technology data for Freeciv (as Civ2, minus a few)"
+options="1.7"
+
+[advances]
+
+; Advances table: should be kept as close as possible to
+; original hard-wired version, since some other parts of
+; freeciv are still hardwired.
+; Must keep the same number of entries.
+; Special value: "Never"
+
+a={ "name", "req1", "req2"
+
+; Don't change the first line below!
+
+"None",                  "None",                "None"
+"Advanced Flight",       "Radio",               "Machine Tools"
+"Alphabet",              "None",                "None"
+"Amphibious Warfare",    "Navigation",          "Tactics"
+"Astronomy",             "Mysticism",           "Mathematics"
+"Atomic Theory",         "Theory of Gravity",   "Physics"
+"Automobile",            "Combustion",          "Steel"
+"Banking",               "Trade",               "The Republic"
+"Bridge Building",       "Iron Working",        "Construction"
+"Bronze Working",        "None",                "None"
+"Ceremonial Burial",     "None",                "None"
+"Chemistry",             "University",          "Medicine"
+"Chivalry",              "Feudalism",           "Horseback Riding"
+"Code of Laws",          "Alphabet",            "None"
+"Combined Arms",         "Mobile Warfare",      "Advanced Flight"
+"Combustion",            "Refining",            "Explosives"
+"Communism",             "Philosophy",          "Industrialization"
+"Computers",             "Mass Production",     "Miniaturization"
+"Conscription",          "Democracy",           "Metallurgy"
+"Construction",          "Masonry",             "Currency"
+"Currency",              "Bronze Working",      "None"
+"Democracy",             "Banking",             "Invention"
+"Economics",             "Banking",             "University"
+"Electricity",           "Metallurgy",          "Magnetism"
+"Electronics",           "The Corporation",     "Electricity"
+"Engineering",           "The Wheel",           "Construction"
+"Environmentalism",      "Never",               "Never"
+; "Environmentalism",      "Recycling",           "Space Flight"
+"Espionage",             "Communism",           "Democracy"
+"Explosives",            "Gunpowder",           "Chemistry"
+"Feudalism",             "Warrior Code",        "Monarchy"
+"Flight",                "Combustion",          "Theory of Gravity"
+"Fundamentalism",        "Never",               "Never"
+; "Fundamentalism",        "Theology",            "Conscription"
+"Fusion Power",          "Nuclear Power",       "Superconductors"
+"Genetic Engineering",   "Medicine",            "The Corporation"
+"Guerilla Warfare",      "Communism",           "Tactics"
+"Gunpowder",             "Invention",           "Iron Working"
+"Horseback Riding",      "None",                "None"
+"Industrialization",     "Railroad",            "Banking"
+"Invention",             "Engineering",         "Literacy"
+"Iron Working",          "Bronze Working",      "Warrior Code"
+"Labor Union",           "Mass Production",     "Guerilla Warfare"
+"Laser",                 "Mass Production",     "Nuclear Power"
+"Leadership",            "Chivalry",            "Gunpowder"
+"Literacy",              "Writing",             "Code of Laws"
+"Machine Tools",         "Steel",               "Tactics"
+"Magnetism",             "Iron Working",        "Physics"
+"Map Making",            "Alphabet",            "None"
+"Masonry",               "None",                "None"
+"Mass Production",       "Automobile",          "The Corporation"
+"Mathematics",           "Alphabet",            "Masonry"
+"Medicine",              "Philosophy",          "Trade"
+"Metallurgy",            "Gunpowder",           "University"
+"Miniaturization",       "Machine Tools",       "Electronics"
+"Mobile Warfare",        "Automobile",          "Tactics"
+"Monarchy",              "Ceremonial Burial",   "Code of Laws"
+"Monotheism",            "Philosophy",          "Polytheism"
+"Mysticism",             "Ceremonial Burial",   "None"
+"Navigation",            "Seafaring",           "Astronomy"
+"Nuclear Fission",       "Mass Production",     "Atomic Theory"
+"Nuclear Power",         "Nuclear Fission",     "Electronics"
+"Philosophy",            "Mysticism",           "Literacy"
+"Physics",               "Literacy",            "Navigation"
+"Plastics",              "Refining",            "Space Flight"
+"Polytheism",            "Horseback Riding",    "Ceremonial Burial"
+"Pottery",               "None",                "None"
+"Radio",                 "Flight",              "Electricity"
+"Railroad",              "Steam Engine",        "Bridge Building"
+"Recycling",             "Mass Production",     "Democracy"
+"Refining",              "Chemistry",           "The Corporation"
+"Refrigeration",         "Sanitation",          "Electricity"
+"Robotics",              "Mobile Warfare",      "Computers"
+"Rocketry",              "Advanced Flight",     "Electronics"
+"Sanitation",            "Engineering",         "Medicine"
+"Seafaring",             "Pottery",             "Map Making"
+"Space Flight",          "Computers",           "Rocketry"
+"Stealth",               "Superconductors",     "Robotics"
+"Steam Engine",          "Physics",             "Invention"
+"Steel",                 "Electricity",         "Industrialization"
+"Superconductors",       "Nuclear Power",       "Laser"
+"Tactics",               "Conscription",        "Leadership"
+"The Corporation",       "Economics",           "Industrialization"
+"The Republic",          "Code of Laws",        "Literacy"
+"The Wheel",             "Horseback Riding",    "None"
+"Theology",              "Feudalism",           "Monotheism"
+"Theory of Gravity",     "Astronomy",           "University"
+"Trade",                 "Currency",            "Code of Laws"
+"University",            "Mathematics",         "Philosophy"
+"Warrior Code",          "None",                "None"
+"Writing",               "Alphabet",            "None"
+
+}
+
+[a_special]
+
+; Advances which have a direct effect in the game
+
+bonus_tech="Philosophy"		; extra tech to first to research
+boat_fast="Nuclear Power"	; extra move point to ships

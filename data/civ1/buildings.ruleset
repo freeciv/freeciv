@@ -1,0 +1,124 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set buildings <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not play so well when using
+; these non-default building rules.
+
+; TODO: more variants?
+
+[datafile]
+description="Approximate Civ1-style buildings data for Freeciv"
+options="1.7"
+
+[buildings]
+
+; Buildings table: (City Improvements and Wonders)
+; should be kept as close as possible to original
+; hard-wired version, since the effects are still hardwired.
+; Must keep the same number of entries.
+; Special tech_required value: "Never"
+; Special obsolete_by value: "None"
+; Variant: controls hardwired effects options, unique to each
+; building; 0 means default effect.
+
+b={ "name", "is_wonder", "tech_requirement", "build_cost", "shield_upkeep", "variant", "obsolete_by"
+
+; City Improvements:
+; Name,        is_wonder, tech_required,    bcost, upk, var, obsolete_by:
+
+"Airport",           0, "Never",              160, 3,  0, "None"
+"Aqueduct",          0, "Construction",       120, 2,  0, "None"
+"Bank",              0, "Banking",            120, 3,  0, "None"
+"Barracks",          0, "None",                40, 0,  1, "Gunpowder"
+"Barracks II",       0, "Gunpowder",           40, 1,  0, "Combustion"
+"Barracks III",      0, "Combustion",          40, 2,  0, "None"
+"Cathedral",         0, "Religion",           160, 3,  0, "None"
+"City Walls",        0, "Masonry",            120, 2,  1, "None"
+"Coastal Defense",   0, "Never",               80, 1,  0, "None"
+"Colosseum",         0, "Construction",       100, 4,  0, "None"
+"Courthouse",        0, "Code of Laws",        80, 1,  0, "None"
+"Factory",           0, "Industrialization",  200, 4,  0, "None"
+"Granary",           0, "Pottery",             60, 1,  0, "None"
+"Harbour",           0, "Never",               60, 1,  0, "None"
+"Hydro Plant",       0, "Electronics",        240, 4,  0, "None"
+"Library",           0, "Writing",             80, 1,  0, "None"
+"Marketplace",       0, "Currency",            80, 1,  0, "None"
+"Mass Transit",      0, "Mass Production",    160, 4,  0, "None"
+"Mfg. Plant",        0, "Robotics",           320, 6,  0, "None"
+"Nuclear Plant",     0, "Nuclear Power",      160, 2,  0, "None"
+"Offshore Platform", 0, "Never",              160, 3,  0, "None"
+"Palace",            0, "Masonry",            200, 0,  0, "None"
+"Police Station",    0, "Never",               60, 2,  0, "None"
+"Port Facility",     0, "Never",               80, 3,  0, "None"
+"Power Plant",       0, "Refining",           160, 4,  0, "None"
+"Recycling Center",  0, "Recycling",          200, 2,  0, "None"
+"Research Lab",      0, "Never",              160, 3,  0, "None"
+"SAM Battery",       0, "Never",              100, 2,  0, "None"
+"SDI Defense",       0, "Superconductors",    200, 4,  0, "None"
+"Sewer System",      0, "Never",              120, 2,  0, "None"
+"Solar Plant",       0, "Never",              320, 4,  0, "None"
+"Space Component",   0, "Plastics",           160, 0,  0, "None"
+"Space Module",      0, "Superconductors",    320, 0,  0, "None"
+"Space Structural",  0, "Space Flight",        80, 0,  0, "None"
+"Stock Exchange",    0, "Never",              160, 4,  0, "None"
+"Super Highways",    0, "Never",              160, 3,  0, "None"
+"Supermarket",       0, "Never",              120, 3,  0, "None"
+"Temple",            0, "Ceremonial Burial",   40, 1,  0, "None"
+"University",        0, "University",         160, 3,  0, "None"
+
+; Wonders:
+; Name,             is_wonder, tech_required,    bcost, upk, var, obsolete_by:
+
+"Apollo Program",          1, "Space Flight",        600, 0, 0, "None"
+"A.Smith's Trading Co.",   1, "Never",               400, 0, 0, "None"
+"Colossus",                1, "Bronze Working",      200, 0, 0, "Flight"
+"Copernicus' Observatory", 1, "Astronomy",           300, 0, 0, "Automobile"
+"Cure For Cancer",         1, "Genetic Engineering", 600, 0, 0, "None"
+"Darwin's Voyage",         1, "Railroad",            300, 0, 0, "None"
+"Eiffel Tower",            1, "Never",               300, 0, 0, "None"
+"Great Library",           1, "Literacy",            300, 0, 0, "University"
+"Great Wall",              1, "Masonry",             300, 0, 0, "Gunpowder"
+"Hanging Gardens",         1, "Pottery",             300, 0, 0, "Invention"
+"Hoover Dam",              1, "Electronics",         600, 0, 1, "None"
+"Isaac Newton's College",  1, "Theory of Gravity",   400, 0, 0, "Nuclear Fission"
+"J.S. Bach's Cathedral",   1, "Religion",            400, 0, 1, "None"
+"King Richard's Crusade",  1, "Never",               300, 0, 0, "Industrialization"
+"Leonardo's Workshop",     1, "Never",               400, 0, 0, "Automobile"
+"Lighthouse",              1, "Map Making",          200, 0, 0, "Magnetism"
+"Magellan's Expedition",   1, "Navigation",          400, 0, 1, "None"
+"Manhattan Project",       1, "Nuclear Fission",     600, 0, 0, "None"
+"Marco Polo's Embassy",    1, "Never",               200, 0, 0, "Communism"
+"Michelangelo's Chapel",   1, "Religion",            300, 0, 0, "Communism"
+"Oracle",                  1, "Mysticism",           300, 0, 0, "Religion"
+"Pyramids",                1, "Masonry",             300, 0, 1, "Communism"
+"SETI Program",            1, "Computers",           600, 0, 0, "None"
+"Shakespeare's Theatre",   1, "Medicine",            400, 0, 0, "Electronics"
+"Statue of Liberty",       1, "Never",               400, 0, 0, "None"
+"Sun Tzu's War Academy",   1, "Never",               300, 0, 0, "Mobile Warfare"
+"United Nations",          1, "Communism",           600, 0, 1, "None"
+"Women's Suffrage",        1, "Industrialization",   600, 0, 1, "None"
+
+; Special:
+; Name,             is_wonder, tech_required,    bcost, upk, var, obsolete_by:
+"Capitalization",          0, "Never",               999, 0, 0, "None"
+
+}
+
+[b_special]
+
+; Special values:
+
+aqueduct_size=10;
+sewer_size=99;
+
+; Techs which modify building effects:
+
+cathedral_plus="Never"
+cathedral_minus="Never"
+colosseum_plus="Never"

@@ -6,9 +6,10 @@ pkgdata_DATA = Freeciv	\
 	earth-80x50.sav \
 	earth-160x90.sav\
 	europe.sav	\
+	civ1.serv	\
 	intro.xpm	\
 	radar.xpm
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = default
+SUBDIRS = default civ1

@@ -1,0 +1,125 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set techs <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+[datafile]
+description="Civ1-style technology data for Freeciv"
+options="1.7"
+
+[advances]
+
+; Advances table: should be kept as close as possible to
+; original hard-wired version, since some other parts of
+; freeciv are still hardwired.
+; Must keep the same number of entries.
+; Special value: "Never"
+
+a={ "name", "req1", "req2"
+
+; Don't change the first line below!
+
+"None",                  "None",                "None"
+"Advanced Flight",       "Flight",              "Electricity"
+"Alphabet",              "None",                "None"
+"Amphibious Warfare",    "Never",               "Never"
+"Astronomy",             "Mysticism",           "Mathematics"
+"Atomic Theory",         "Theory of Gravity",   "Physics"
+"Automobile",            "Combustion",          "Steel"
+"Banking",               "Trade",               "The Republic"
+"Bridge Building",       "Iron Working",        "Construction"
+"Bronze Working",        "None",                "None"
+"Ceremonial Burial",     "None",                "None"
+"Chemistry",             "University",          "Medicine"
+"Chivalry",              "Feudalism",           "Horseback Riding"
+"Code of Laws",          "Alphabet",            "None"
+"Combined Arms",         "Never",               "Never"
+"Combustion",            "Refining",            "Explosives"
+"Communism",             "Philosophy",          "Industrialization"
+"Computers",             "Mathematics",         "Electronics"
+"Conscription",          "The Republic",            "Explosives"
+"Construction",          "Masonry",             "Currency"
+"Currency",              "Bronze Working",      "None"
+"Democracy",             "Philosophy",          "Literacy"
+"Economics",             "Never",               "Never"
+"Electricity",           "Metallurgy",          "Magnetism"
+"Electronics",           "Engineering",         "Electricity"
+"Engineering",           "The Wheel",           "Construction"
+"Environmentalism",      "Never",               "Never"
+"Espionage",             "Never",               "Never"
+"Explosives",            "Gunpowder",           "Chemistry"
+"Feudalism",             "Masonry",             "Monarchy"
+"Flight",                "Combustion",          "Physics"
+"Fundamentalism",        "Never",               "Never"
+"Fusion Power",          "Nuclear Power",       "Superconductors"
+"Genetic Engineering",   "Medicine",            "The Corporation"
+"Guerilla Warfare",      "Never",               "Never"
+"Gunpowder",             "Invention",           "Iron Working"
+"Horseback Riding",      "None",                "None"
+"Industrialization",     "Railroad",            "Banking"
+"Invention",             "Engineering",         "Literacy"
+"Iron Working",          "Bronze Working",      "None"
+"Labor Union",           "Mass Production",     "Communism"
+"Laser",                 "Never",               "Never"
+"Leadership",            "Never",               "Never"
+"Literacy",              "Writing",             "Code of Laws"
+"Machine Tools",         "Never",               "Never"
+"Magnetism",             "Navigation",          "Physics"
+"Map Making",            "Alphabet",            "None"
+"Masonry",               "None",                "None"
+"Mass Production",       "Automobile",          "The Corporation"
+"Mathematics",           "Alphabet",            "Masonry"
+"Medicine",              "Philosophy",          "Trade"
+"Metallurgy",            "Gunpowder",           "University"
+"Miniaturization",       "Never",               "Never"
+"Mobile Warfare",        "Never",               "Never"
+"Monarchy",              "Ceremonial Burial",   "Code of Laws"
+"Monotheism",            "Never",               "Never"
+"Mysticism",             "Ceremonial Burial",   "None"
+"Navigation",            "Map Making",          "Astronomy"
+"Nuclear Fission",       "Mass Production",     "Atomic Theory"
+"Nuclear Power",         "Nuclear Fission",     "Electronics"
+"Philosophy",            "Mysticism",           "Literacy"
+"Physics",               "Mathematics",         "Navigation"
+"Plastics",              "Refining",            "Space Flight"
+"Polytheism",            "Never",               "Never"
+"Pottery",               "None",                "None"
+"Radio",                 "Never",               "Never"
+"Railroad",              "Steam Engine",        "Bridge Building"
+"Recycling",             "Mass Production",     "Democracy"
+"Refining",              "Chemistry",           "The Corporation"
+"Refrigeration",         "Never",               "Never"
+"Robotics",              "Plastics",            "Computers"
+"Rocketry",              "Advanced Flight",     "Electronics"
+"Sanitation",            "Never",               "Never"
+"Seafaring",             "Never",               "Never"
+"Space Flight",          "Computers",           "Rocketry"
+"Stealth",               "Never",               "Never"
+"Steam Engine",          "Physics",             "Invention"
+"Steel",                 "Metallurgy",          "Industrialization"
+"Superconductors",       "Plastics",            "Mass Production"
+"Tactics",               "Never",               "Never"
+"The Corporation",       "Banking",             "Industrialization"
+"The Republic",          "Code of Laws",        "Literacy"
+"The Wheel",             "None",                "None"
+"Religion",              "Philosophy",          "Writing"
+; Religion = Civ2 Theology
+"Theory of Gravity",     "Astronomy",           "University"
+"Trade",                 "Currency",            "Code of Laws"
+"University",            "Mathematics",         "Philosophy"
+"Warrior Code",          "Never",               "Never"
+"Writing",               "Alphabet",            "None"
+
+}
+
+[a_special]
+
+; Advances which have a direct effect in the game
+
+bonus_tech="Never"		; extra tech to first to research
+boat_fast="Never"		; extra move point to ships
+
