@@ -526,7 +526,6 @@ struct player *city_owner(struct city *pcity)
 
 int could_build_improvement(struct city *pcity, enum improvement_type_id id)
 { /* modularized so the AI can choose the tech it wants -- Syela */
-  struct player *p=city_owner(pcity);
   if (!improvement_exists(id))
     return 0;
   if (city_got_building(pcity, id))
@@ -552,9 +551,12 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
       && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
       && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER))
     return 0;
-  if(improvement_obsolete(p, id)) return 0;
-  if (is_wonder(id) && game.global_wonders[id])
-    return 0;
+  if (is_wonder(id)) {
+    if (game.global_wonders[id]) return 0;
+  } else {
+    struct player *pplayer=city_owner(pcity);
+    if (improvement_obsolete(pplayer, id)) return 0;
+  }
   return !wonder_replacement(pcity, id);
 }
 
