@@ -966,19 +966,9 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
         
   pcity = map_get_city(punit->x, punit->y);
 
-  if (get_government(pplayer->player_no) == G_REPUBLIC &&
-      pcity && (!punit->id || pcity->id == punit->homecity)
-      && !(improvement_variant(B_WOMENS)==1
-	   && city_got_effect(pcity, B_POLICE))) {
-    unit_list_iterate(pcity->units_supported, punit)
-      if (unit_being_aggressive(punit)) {
-        unhap++;
-      } else if (is_field_unit(punit)) {
-        unhap++;   
-      }
-    unit_list_iterate_end;
-    if (city_got_effect(pcity, B_POLICE)) unhap--;   
-  } /* handle other governments later */
+  if (pcity && (!punit->id || pcity->id == punit->homecity))
+      unhap = ai_assess_military_unhappiness(pcity, 
+                        get_government(pplayer->player_no));
 
   *x = punit->x; *y = punit->y;
   ab = unit_belligerence_basic(punit);

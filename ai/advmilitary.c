@@ -721,19 +721,9 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       vet = pdef->veteran;
     } /* end dealing with units */
 
-    if (get_government(pplayer->player_no) == G_REPUBLIC &&
-        (pcity->id == myunit->homecity || !myunit->id)
-	&& !(improvement_variant(B_WOMENS)==1
-	     && city_got_effect(pcity, B_POLICE))) {
-      unit_list_iterate(pcity->units_supported, punit)
-        if (unit_being_aggressive(punit)) {
-          unhap++;
-        } else if (is_field_unit(punit)) {
-          unhap++;
-        }
-      unit_list_iterate_end;
-      if (city_got_effect(pcity, B_POLICE)) unhap--;
-    } /* handle other governments later */
+    if (pcity->id == myunit->homecity || !myunit->id)
+        unhap = ai_assess_military_unhappiness(pcity, 
+                                   get_government(pplayer->player_no));
 
     if (is_ground_unit(myunit) && !sanity && !boatid)
       needferry = 40; /* cost of ferry */

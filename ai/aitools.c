@@ -26,6 +26,7 @@
 #include <mapgen.h>
 #include <unittools.h>
 #include <cityhand.h>
+#include <cityturn.h>
 #include <citytools.h>
 #include <plrhand.h>
 
@@ -154,4 +155,57 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   choice->want = want;
   choice->choice = id;
   choice->type = 0;
+}
+
+
+/**********************************************************************
+The following evaluates the unhappiness caused by military units
+in the field (or aggressive) at a city when at Republic or Democracy
+**********************************************************************/
+int ai_assess_military_unhappiness(struct city *pcity, int gov)
+{
+  int unhap=0;
+  int have_police;
+  int variant;
+  
+  if (gov < G_REPUBLIC)
+    return 0;
+  
+  have_police = city_got_effect(pcity, B_POLICE);
+  variant = improvement_variant(B_WOMENS);
+  
+  if (gov == G_REPUBLIC) {
+    if (have_police && variant==1 )
+      return 0;
+    
+    unit_list_iterate(pcity->units_supported, punit) {
+      if (unit_being_aggressive(punit) || is_field_unit(punit)) {
+	unhap++;
+      }
+    }
+    unit_list_iterate_end;
+    if (have_police) unhap--;
+  } 
+  else if (gov == G_DEMOCRACY) {
+    unit_list_iterate(pcity->units_supported, punit) {
+      if (have_police && variant==1) {
+	if (unit_being_aggressive(punit)) {
+	  unhap++;
+	}
+      } else {
+	if (unit_being_aggressive(punit)) {
+	  unhap += 2;
+	} else if (is_field_unit(punit)) {
+	  unhap += 1;
+	}
+      }
+    }
+    unit_list_iterate_end;
+    if (have_police && variant==0) {
+      unhap -= 2;
+    }
+  }
+  if (unhap < 0) unhap = 0;
+  
+  return unhap;
 }
