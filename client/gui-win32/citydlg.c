@@ -115,7 +115,6 @@ extern HFONT font_12courier;
 extern HFONT font_12arial;
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
-static HDC citydlgdc;
 static int city_map_width;
 static int city_map_height;
 static struct genlist dialog_list;
@@ -170,7 +169,8 @@ enum t_tab_pages {
 
 void refresh_city_dialog(struct city *pcity)
 {
-  HDC hdc; 
+  HDC hdc;
+  HDC hdcsrc;
   HBITMAP old;
   struct city_dialog *pdialog;
   if((pdialog=get_city_dialog(pcity))) {
@@ -184,10 +184,12 @@ void refresh_city_dialog(struct city *pcity)
     ReleaseDC(pdialog->tab_childs[0],hdc);
 
     hdc=GetDC(pdialog->tab_childs[PAGE_HAPPINESS]);
-    old=SelectObject(citydlgdc,pdialog->map_bmp);
+    hdcsrc = CreateCompatibleDC(NULL);
+    old=SelectObject(hdcsrc,pdialog->map_bmp);
     BitBlt(hdc,pdialog->maph.x,pdialog->maph.y,city_map_width,
-	   city_map_height,citydlgdc,0,0,SRCCOPY);
-    SelectObject(citydlgdc,old);
+	   city_map_height,hdcsrc,0,0,SRCCOPY);
+    SelectObject(hdcsrc, old);
+    DeleteDC(hdcsrc);
     ReleaseDC(pdialog->tab_childs[PAGE_HAPPINESS],hdc);
     
     city_dialog_update_improvement_list(pdialog);  
@@ -498,21 +500,24 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 **************************************************************************/
 void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog)
 {
+  HDC hdcsrc;
   HBITMAP oldbit;
   struct canvas store;
 
-  oldbit=SelectObject(citydlgdc,pdialog->map_bmp);
-  BitBlt(citydlgdc,0,0,pdialog->map_w,pdialog->map_h,
+  hdcsrc = CreateCompatibleDC(NULL);
+  oldbit=SelectObject(hdcsrc,pdialog->map_bmp);
+  BitBlt(hdcsrc,0,0,pdialog->map_w,pdialog->map_h,
 	 NULL,0,0,BLACKNESS);
 
-  store.hdc = citydlgdc;
+  store.hdc = hdcsrc;
   store.bitmap = NULL;
   city_dialog_redraw_map(pdialog->pcity, &store);
                            
   BitBlt(hdc,pdialog->map.x,pdialog->map.y,city_map_width,
 	 city_map_height,
-	 citydlgdc,0,0,SRCCOPY);
-  SelectObject(citydlgdc,oldbit);
+	 hdcsrc,0,0,SRCCOPY);
+  SelectObject(hdcsrc,oldbit);
+  DeleteDC(hdcsrc);
 }
 
 /**************************************************************************
@@ -522,17 +527,20 @@ void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog)
 
 void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
 {
+  HDC hdcsrc;
   int i;
   struct city *pcity=pdialog->pcity;
   RECT rc;
   HBITMAP oldbit;
   struct citizen_type citizens[MAX_CITY_SIZE];
-  oldbit=SelectObject(citydlgdc,pdialog->citizen_bmp);
+
+  hdcsrc = CreateCompatibleDC(NULL);
+  oldbit=SelectObject(hdcsrc,pdialog->citizen_bmp);
 
   get_city_citizen_types(pcity, 4, citizens);
 
   for (i = 0; i < pcity->size && i < NUM_CITIZENS_SHOWN; i++) {
-      draw_sprite(get_citizen_sprite(citizens[i], i, pcity), citydlgdc,
+      draw_sprite(get_citizen_sprite(citizens[i], i, pcity), hdcsrc,
 		  SMALL_TILE_WIDTH * i, 0);
   }
 
@@ -541,17 +549,18 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
     rc.right=NUM_CITIZENS_SHOWN*SMALL_TILE_WIDTH;
     rc.top=0;
     rc.bottom=SMALL_TILE_HEIGHT;
-    FillRect(citydlgdc,&rc,
+    FillRect(hdcsrc,&rc,
 	     (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
-    FrameRect(citydlgdc,&rc,
+    FrameRect(hdcsrc,&rc,
 	      (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
   }
     
   BitBlt(hdc,pdialog->pop_x,pdialog->pop_y,
 	 NUM_CITIZENS_SHOWN*SMALL_TILE_WIDTH,
 	 SMALL_TILE_HEIGHT,
-	 citydlgdc,0,0,SRCCOPY);
-  SelectObject(citydlgdc,oldbit);
+	 hdcsrc,0,0,SRCCOPY);
+  SelectObject(hdcsrc,oldbit);
+  DeleteDC(hdcsrc);
 }
 
 /**************************************************************************
@@ -702,11 +711,6 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   pdialog->supported_y=pdialog->map.y+pdialog->map_h+12;
   pdialog->present_y=pdialog->supported_y+NORMAL_TILE_HEIGHT+12+4+SMALL_TILE_HEIGHT;
   ybut=pdialog->present_y+NORMAL_TILE_HEIGHT+12+4+SMALL_TILE_HEIGHT;
-  if (!citydlgdc) {
-    hdc=GetDC(pdialog->mainwindow);
-    citydlgdc=CreateCompatibleDC(hdc);
-    ReleaseDC(pdialog->mainwindow,hdc);
-  }
     
   hdc=GetDC(pdialog->mainwindow);
   pdialog->map_bmp = CreateCompatibleBitmap(hdc, city_map_width,
@@ -1617,6 +1621,7 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
 {
   HBITMAP old;
   HDC hdc;
+  HDC hdcsrc;
   PAINTSTRUCT ps;
   int n,i;
   struct city_dialog *pdialog;
@@ -1634,11 +1639,14 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
       break;
     case WM_PAINT:
       hdc=BeginPaint(win,(LPPAINTSTRUCT)&ps);
-      old=SelectObject(citydlgdc,pdialog->map_bmp);
+      hdcsrc = CreateCompatibleDC(NULL);
+
+      old=SelectObject(hdcsrc,pdialog->map_bmp);
       BitBlt(hdc,pdialog->map.x,pdialog->map.y,
 	     pdialog->map_w,pdialog->map_h,
-	     citydlgdc,0,0,SRCCOPY);
-      SelectObject(citydlgdc,old);
+	     hdcsrc,0,0,SRCCOPY);
+      SelectObject(hdcsrc,old);
+      DeleteDC(hdcsrc);
       city_dialog_update_supported_units(hdc,pdialog, 0);
       city_dialog_update_present_units(hdc,pdialog, 0); 
       EndPaint(win,(LPPAINTSTRUCT)&ps);
@@ -1685,6 +1693,7 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
 static LONG APIENTRY CitydlgWndProc(HWND hWnd, UINT message,
 				    UINT wParam, LONG lParam)
 {
+  HDC hdcsrc;
   HBITMAP old;
   LPNMHDR nmhdr;
   HDC hdc;
@@ -1718,11 +1727,13 @@ static LONG APIENTRY CitydlgWndProc(HWND hWnd, UINT message,
       break;
     case WM_PAINT:
       hdc=BeginPaint(hWnd,(LPPAINTSTRUCT)&ps);
-      old=SelectObject(citydlgdc,pdialog->citizen_bmp);
+      hdcsrc = CreateCompatibleDC(NULL);
+      old=SelectObject(hdcsrc,pdialog->citizen_bmp);
       BitBlt(hdc,pdialog->pop_x,pdialog->pop_y,
 	     SMALL_TILE_WIDTH*NUM_CITIZENS_SHOWN,SMALL_TILE_HEIGHT,
-	     citydlgdc,0,0,SRCCOPY);
-      SelectObject(citydlgdc,old);
+	     hdcsrc,0,0,SRCCOPY);
+      SelectObject(hdcsrc,old);
+      DeleteDC(hdcsrc);
       /*
       city_dialog_update_map(hdc,pdialog);
       city_dialog_update_citizens(hdc,pdialog); */
@@ -2072,6 +2083,7 @@ static  LONG CALLBACK happiness_proc(HWND win, UINT message,
   int x,y;
   struct city_dialog *pdialog;
   HDC hdc;
+  HDC hdcsrc;
   HBITMAP old;
   PAINTSTRUCT ps;
   pdialog=fcwin_get_user_data(win);
@@ -2102,11 +2114,13 @@ static  LONG CALLBACK happiness_proc(HWND win, UINT message,
       break;
     case WM_PAINT:
       hdc=BeginPaint(win,(LPPAINTSTRUCT)&ps);
-      old=SelectObject(citydlgdc,pdialog->map_bmp); 
+      hdcsrc = CreateCompatibleDC(NULL);
+      old=SelectObject(hdcsrc,pdialog->map_bmp); 
       BitBlt(hdc,pdialog->maph.x,pdialog->maph.y,
 	     pdialog->map_w,pdialog->map_h,
-	     citydlgdc,0,0,SRCCOPY);
-      SelectObject(citydlgdc,old);
+	     hdcsrc,0,0,SRCCOPY);
+      SelectObject(hdcsrc,old);
+      DeleteDC(hdcsrc);
       repaint_happiness_box(pdialog->happiness,hdc); 
       EndPaint(win,(LPPAINTSTRUCT)&ps);
       break;

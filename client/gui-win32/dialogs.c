@@ -716,7 +716,7 @@ popup_unit_select_dialog(struct tile *ptile)
   POINT pt;
   RECT rc,rc2;
   HBITMAP old;
-  static HDC unitsel_dc;
+  HDC unitsel_dc;
   struct unit *unit_list[unit_list_size(&ptile->units)];
   
   fill_tile_unit_list(ptile, unit_list);
@@ -738,8 +738,7 @@ popup_unit_select_dialog(struct tile *ptile)
 				      NULL)))
     return;
   hdc=GetDC(unit_select_main);
-  if (!unitsel_dc)
-    unitsel_dc=CreateCompatibleDC(hdc);
+  unitsel_dc=CreateCompatibleDC(NULL);
   n=unit_list_size(&ptile->units);
   r=number_of_rows(n);
   c=number_of_columns(n);
@@ -798,7 +797,6 @@ popup_unit_select_dialog(struct tile *ptile)
       BitBlt(unitsel_dc,0,0,UNIT_TILE_WIDTH,UNIT_TILE_HEIGHT,NULL,
 	     0,0,WHITENESS);
       put_unit_full(punit,&canvas_store,0,0);
-      SelectObject(unitsel_dc,old);
       unit_select_but[i]=CreateWindow("BUTTON",NULL,
 				      WS_CHILD | WS_VISIBLE | BS_BITMAP,
 				      (i/r)*max_width,
@@ -813,6 +811,8 @@ popup_unit_select_dialog(struct tile *ptile)
 		  (LPARAM)unit_select_bitmaps[i]);
       
     }
+  SelectObject(unitsel_dc,old);
+  DeleteDC(unitsel_dc);
   unit_select_no=i;
   win_height=r*max_height;
   win_width=c*max_width;

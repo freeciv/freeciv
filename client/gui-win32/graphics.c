@@ -49,7 +49,6 @@ static SPRITE *sprcache;
 static HBITMAP bitmapcache;
 SPRITE *intro_gfx_sprite=NULL;
 SPRITE *radar_gfx_sprite=NULL;
-static HDC hdcbig,hdcsmall;
 static HBITMAP stipple;
 static HBITMAP fogmask;
 
@@ -169,6 +168,8 @@ struct Sprite *crop_sprite(struct Sprite *source,
 {
   SPRITE *mysprite;
   HDC hdc;
+  HDC hdcbig;
+  HDC hdcsmall;
   HBITMAP smallbitmap;
   HBITMAP smallmask;
   HBITMAP bigbitmap;
@@ -178,12 +179,10 @@ struct Sprite *crop_sprite(struct Sprite *source,
 
   hdc = GetDC(root_window);
   mysprite = NULL;
-  if (!hdcbig) {
-    hdcbig = CreateCompatibleDC(hdc);
-  }
-  if (!hdcsmall) {
-    hdcsmall = CreateCompatibleDC(hdc);
-  }
+
+  hdcbig = CreateCompatibleDC(hdc);
+  hdcsmall = CreateCompatibleDC(hdc);
+
   if (sprcache != source) {
     if (bitmapcache) {
       DeleteObject(bitmapcache);
@@ -248,6 +247,8 @@ struct Sprite *crop_sprite(struct Sprite *source,
   SelectObject(hdcbig, bigsave);
   SelectObject(hdcsmall, smallsave);
   ReleaseDC(root_window, hdc);
+  DeleteDC(hdcbig);
+  DeleteDC(hdcsmall);
   if (smallmask) {
     DeleteObject(smallmask);
   }
@@ -501,13 +502,11 @@ void draw_sprite_part(struct Sprite *sprite,HDC hdc,
 void draw_fog_part(HDC hdc,int x, int y,int w, int h,
 		   int xsrc, int ysrc, struct Sprite *sprite_mask)
 {
-  HDC hdccomp;
   HDC hdcmask;
-  HDC hdcmask2;
+  HDC hdcsrc;
 
-  HBITMAP tempbit;
   HBITMAP tempmask;
-  HBITMAP tempmask2;
+  HBITMAP tempsrc;
 
   HBITMAP maskbit;
   HBITMAP dummy;
@@ -526,27 +525,27 @@ void draw_fog_part(HDC hdc,int x, int y,int w, int h,
     ysrc = 0;
   }
 
-  hdccomp  = CreateCompatibleDC(NULL);
-  hdcmask  = CreateCompatibleDC(NULL);
-  hdcmask2 = CreateCompatibleDC(NULL);
-  
   sprite2hbitmap(sprite_mask,&dummy,&maskbit);
 
-  tempmask  = SelectObject(hdcmask,  maskbit); 
-  tempmask2 = SelectObject(hdcmask2, fogmask); 
-  tempbit   = SelectObject(hdccomp,  stipple);
+  hdcsrc = CreateCompatibleDC(NULL);
+  tempsrc = SelectObject(hdcsrc, maskbit); 
 
-  BitBlt(hdcmask2,0,0,w,h,hdcmask,xsrc,ysrc,SRCCOPY);
-  BitBlt(hdcmask2,0,0,w,h,hdccomp,xsrc,ysrc,SRCPAINT);
-  BitBlt(hdc,x,y,w,h,hdcmask2,0,0,SRCAND);
+  hdcmask = CreateCompatibleDC(NULL);
+  tempmask = SelectObject(hdcmask, fogmask); 
 
-  SelectObject(hdcmask,  tempmask);
-  SelectObject(hdccomp,  tempbit);
-  SelectObject(hdcmask2, tempmask2);
+  BitBlt(hdcmask,0,0,w,h,hdcsrc,xsrc,ysrc,SRCCOPY);
+  
+  SelectObject(hdcsrc, stipple);
 
-  DeleteDC(hdccomp);
+  BitBlt(hdcmask,0,0,w,h,hdcsrc,xsrc,ysrc,SRCPAINT);
+
+  SelectObject(hdcsrc, tempsrc);
+  DeleteDC(hdcsrc);
+
+  BitBlt(hdc,x,y,w,h,hdcmask,0,0,SRCAND);
+
+  SelectObject(hdcmask, tempmask);
   DeleteDC(hdcmask);
-  DeleteDC(hdcmask2);
 }
 
 #if 0

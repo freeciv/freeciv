@@ -112,8 +112,8 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 {
   HDC hdcsrc = NULL;
   HDC hdcdst = NULL;
-  HDC oldsrc = NULL;
-  HDC olddst = NULL;
+  HBITMAP oldsrc = NULL;
+  HBITMAP olddst = NULL;
   if (src->hdc) {
     hdcsrc = src->hdc;
   } else {
