@@ -1685,6 +1685,7 @@ static void mapgenerator2(void)
 
     if (placed_map_is_initialized()) {
       destroy_placed_map();
+      destroy_tmap();
     }
 
     initworld(pstate);
