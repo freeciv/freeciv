@@ -77,20 +77,83 @@ fi
 ])
 
 
-dnl AC_EXPAND_DIR(VARNAME, DIR)
+dnl FC_EXPAND_DIR(VARNAME, DIR)
 dnl expands occurrences of ${prefix} and ${exec_prefix} in the given DIR,
 dnl and assigns the resulting string to VARNAME
-dnl example: AC_EXPAND_DIR(LOCALEDIR, "$datadir/locale")
+dnl example: FC_EXPAND_DIR(LOCALEDIR, "$datadir/locale")
 dnl eg, then: AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR")
 dnl by Alexandre Oliva 
 dnl from http://www.cygnus.com/ml/automake/1998-Aug/0040.html
-AC_DEFUN(AC_EXPAND_DIR, [
+AC_DEFUN(FC_EXPAND_DIR, [
         $1=$2
         $1=`(
             test "x$prefix" = xNONE && prefix="$ac_default_prefix"
             test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
             eval echo \""[$]$1"\"
         )`
+])
+
+
+dnl FC_XPM_PATHS
+dnl Allow user to specify extra include/lib paths for Xpm, with
+dnl --with-xpm=prefix  --with-xpm-lib=dir  --with-xpm-include=dir
+dnl The latter two override the prefix form.
+dnl Sets variables xpm_libdir and xpm_incdir
+dnl If user supplies a path, use that.
+dnl If user specifies "no", set that, meaning "no extra path"
+dnl If user specifies "yes" (default), then use /usr/local if it looks
+dnl likely, else set to "no".
+dnl Doesn't do any cache stuff.
+dnl
+AC_DEFUN(FC_XPM_PATHS,
+[AC_MSG_CHECKING(extra paths for Xpm)
+dnl General Xpm prefix:
+dnl "no" means no prefix is required, "yes" means try /usr/local
+AC_ARG_WITH(xpm-prefix,
+    [  --with-xpm-prefix=DIR   Xpm files are in DIR/lib and DIR/include,
+                          or use the following to set them separately:],
+    xpm_prefix="$withval", 
+    xpm_prefix="yes"
+)
+if test "$xpm_prefix" = "yes" || test "$xpm_prefix" = "no"; then
+    xpm_libdir="$xpm_prefix"
+    xpm_incdir="$xpm_prefix"
+else
+    xpm_libdir="$xpm_prefix/lib"
+    xpm_incdir="$xpm_prefix/include"
+fi
+dnl May override general Xpm prefix with explicit individual paths:
+AC_ARG_WITH(xpm-lib,
+    [  --with-xpm-lib=DIR      Xpm library is in DIR],
+    xpm_libdir="$withval" 
+)
+AC_ARG_WITH(xpm-include,
+    [  --with-xpm-include=DIR  Xpm header file is in DIR (that is, DIR/X11/xpm.h)],
+    xpm_incdir="$withval" 
+)
+dnl If xpm-lib path was not specified, try /usr/local/lib if that 
+dnl looks likely; we don't actually try to link.
+fc_xpm_default=/usr/local
+if test "$xpm_libdir" = "yes"; then
+    xpm_libdir="no"
+    fc_xpm_default_lib="$fc_xpm_default/lib"
+    for fc_extension in a so sl; do
+        if test -r $fc_xpm_default_lib/libXpm.$fc_extension; then
+            xpm_libdir=$fc_xpm_default_lib
+            break
+        fi
+    done
+fi
+dnl Likewise for xpm-include with /usr/local/include;
+dnl we don't actually try to include.
+if test "$xpm_incdir" = "yes"; then
+    xpm_incdir="no"
+    fc_xpm_default_inc="$fc_xpm_default/include"
+    if test -r $fc_xpm_default_inc/X11/xpm.h; then
+        xpm_incdir=$fc_xpm_default_inc
+    fi
+fi
+AC_MSG_RESULT([library $xpm_libdir, include $xpm_incdir])
 ])
 
 # Like AC_CONFIG_HEADER, but automatically create stamp file.

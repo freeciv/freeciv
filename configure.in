@@ -86,7 +86,22 @@ dnl  AC_PROG_MAKE_SET
 if test x$client = xtrue; then
     dnl Checks for X:
     AC_PATH_XTRA
-    dnl CFLAGS="$CFLAGS $X_CFLAGS"
+
+    dnl Try to get additional Xpm paths:
+    FC_XPM_PATHS
+
+    if test "$xpm_incdir" != "no"; then
+        X_CFLAGS="$X_CFLAGS -I$xpm_incdir"
+    fi
+    if test "$xpm_libdir" != "no"; then
+        X_LIBS="$X_LIBS -L$xpm_libdir"
+	dnl Try using R values set in AC_PATH_XTRA:
+        if test "$ac_R_nospace" = "yes"; then
+            X_LIBS="$X_LIBS -R$xpm_libdir"
+        elif test "$ac_R_space" = "yes"; then
+            X_LIBS="$X_LIBS -R $xpm_libdir"
+        fi
+    fi
     X_LIBS="$X_LIBS $X_PRE_LIBS"
 
     dnl Checks for X libs:
@@ -153,7 +168,7 @@ dnl by the fact that the -lsocket is in X_EXTRA_LIBS and/or SERVER_LIBS,
 dnl and not in LIBS.
 
 dnl export where the datadir is going to be installed
-AC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
+FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 AC_DEFINE_UNQUOTED(FREECIV_DATADIR, "$FREECIV_DATADIR")
 
 AC_OUTPUT(Makefile data/Makefile common/Makefile ai/Makefile client/Makefile server/Makefile)
