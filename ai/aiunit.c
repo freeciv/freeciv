@@ -177,191 +177,317 @@ static int tile_is_accessible(struct unit *punit, int x, int y)
 }
  
 /**************************************************************************
-Explores unknown territory, finds huts.
+Handle eXplore mode of a unit (explorers are always in eXplore mode for AI) -
+explores unknown territory, finds huts.
+
 Returns whether there is any more territory to be explored.
 **************************************************************************/
 int ai_manage_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int x, y; /* is the position of the unit; updated inside the function */
-  int con; /* continent the unit is on */
-  struct city *pcity;
-  int id = punit->id; /* we can now die because easy AI may accidently
-			 stumble on huts it fuzzily ignored */
-  int best_x = -1, best_y = -1;
+  /* The position of the unit; updated inside the function */
+  int x = punit->x, y = punit->y;
+  /* Continent the unit is on */
+  int continent;
+  /* Unit's speed */
   int move_rate = unit_move_rate(punit);
+  /* Range of unit's vision */
   int range;
 
+  /* Get the range */
+  /* FIXME: The vision range should NOT take into account watchtower benefit.
+   * Now it is done in a wrong way: the watchtower bonus is computed locally,
+   * at the point where the unit is, and then it is applied at a faraway
+   * location, as if there is a watchtower there too. --gb */
+
   if (unit_profits_of_watchtower(punit)
-      && map_has_special(punit->x, punit->y, S_FORTRESS))
-    range =get_watchtower_vision(punit);
-  else
+      && map_has_special(punit->x, punit->y, S_FORTRESS)) {
+    range = get_watchtower_vision(punit);
+  } else {
     range = unit_type(punit)->vision_range;
+  }
 
-  if (punit->activity != ACTIVITY_IDLE)
+  /* Idle unit */
+
+  if (punit->activity != ACTIVITY_IDLE) {
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  }
 
-  x = punit->x; y = punit->y;
-  if (is_ground_unit(punit)) con = map_get_continent(x, y);
-  else con = 0; /* Thanks, Tony */
+  /* Localize the unit */
+  
+  if (is_ground_unit(punit)) {
+    continent = map_get_continent(x, y);
+  } else {
+    continent = 0;
+  }
+
+  /*
+   * PART 1: Look for huts
+   * Non-Barbarian Ground units ONLY.
+   */
 
   /* CPU-expensive but worth it -- Syela */
   generate_warmap(map_get_city(x, y), punit);
-
-  /* BEGIN PART ONE: Look for huts.  Non-Barbarian Ground units ONLY. */
+  
   if (!is_barbarian(pplayer)
-      && is_ground_unit(punit)) { /* boats don't hunt huts */
-    int maxcost = pplayer->ai.control ? 2 * THRESHOLD : 3;
-    int bestcost = maxcost * SINGLE_MOVE + 1;
+      && is_ground_unit(punit)) {
+    /* Maximal acceptable _number_ of moves to the target */
+    int maxmoves = pplayer->ai.control ? 2 * THRESHOLD : 3;
+    /* Move _cost_ to the best target (=> lower is better) */
+    int bestcost = maxmoves * SINGLE_MOVE + 1;
+    /* Desired destination */
+    int best_x = -1, best_y = -1;
 
-    /* Iterating outward so that with two tiles with the same movecost
-       the nearest is used */
-    iterate_outward(x, y, maxcost, x1, y1) {
+    /* We're iterating outward so that with two tiles with the same movecost
+     * the nearest is used. */
+    iterate_outward(x, y, maxmoves, x1, y1) {
       if (map_has_special(x1, y1, S_HUT)
-	  && warmap.cost[x1][y1] < bestcost
-	  && (!ai_handicap(pplayer, H_HUTS) || map_get_known(x1, y1, pplayer))
-	  && tile_is_accessible(punit, x1, y1)
-	  && ai_fuzzy(pplayer, 1)) {
-	best_x = x1;
-	best_y = y1;
-	bestcost = warmap.cost[best_x][best_y];
+          && warmap.cost[x1][y1] < bestcost
+          && (!ai_handicap(pplayer, H_HUTS) || map_get_known(x1, y1, pplayer))
+          && tile_is_accessible(punit, x1, y1)
+          && ai_fuzzy(pplayer, 1)) {
+        best_x = x1;
+        best_y = y1;
+        bestcost = warmap.cost[best_x][best_y];
       }
     } iterate_outward_end;
-    if (bestcost <= maxcost * SINGLE_MOVE) {
+    
+    if (bestcost <= maxmoves * SINGLE_MOVE) {
+      /* Go there! */
       punit->goto_dest_x = best_x;
       punit->goto_dest_y = best_y;
       set_unit_activity(punit, ACTIVITY_GOTO);
-      do_unit_goto(punit, GOTO_MOVE_ANY, 0);
-      if (!player_find_unit_by_id(pplayer, id))
-	return 0; /* died */
+      if (do_unit_goto(punit, GOTO_MOVE_ANY, 0) == GR_DIED) {
+        /* We're dead. */
+        return 0;
+      }
+
+      /* TODO: Take more advantage from the do_unit_goto() return value. */
 
       if (punit->moves_left > 0) {
-	if (punit->x == best_x && punit->y == best_y) {
-	  return ai_manage_explorer(punit);
-	} else {
-	  /* Something went wrong; fall through. This should almost never happen. */
-	  if (punit->x != x || punit->y != y)
-	    generate_warmap(map_get_city(punit->x, punit->y), punit);
-	  x = punit->x; y = punit->y;
-	  /* Fallthough to next fase */
-	}
+        /* We can still move on... */
+
+        if (punit->x == best_x && punit->y == best_y) {
+          /* ...and got into desired place. */
+          return ai_manage_explorer(punit);
+  
+        } else {
+          /* Something went wrong. This should almost never happen. */
+          if (punit->x != x || punit->y != y)
+            generate_warmap(map_get_city(punit->x, punit->y), punit);
+          
+          x = punit->x;
+          y = punit->y;
+          /* Fallthrough to next part. */
+        }
+
       } else {
-	return 1;
+        return 1;
       }
     }
   }
 
-  /* BEGIN PART TWO: Move into unexplored territory */
-  /* move the unit as long as moving will unveil unknown territory */
+  /* 
+   * PART 2: Move into unexplored territory
+   * Move the unit as long as moving will unveil unknown territory
+   */
+  
   while (punit->moves_left > 0) {
+    /* Best (highest) number of unknown tiles adjectent (in vision range) */
     int most_unknown = 0;
-    int unknown;
+    /* Desired destination */
+    int best_x = -1, best_y = -1;
 
-    /* evaluate all adjacent tiles */
+    /* Evaluate all adjacent tiles. */
+    
     square_iterate(x, y, 1, x1, y1) {
-      unknown = 0;
+      /* Number of unknown tiles in vision range around this tile */
+      int unknown = 0;
+      
       square_iterate(x1, y1, range, x2, y2) {
-	if (!map_get_known(x2, y2, pplayer))
-	  unknown++;
+        if (!map_get_known(x2, y2, pplayer))
+          unknown++;
       } square_iterate_end;
 
-      if (unknown > most_unknown && (!unit_flag(punit, F_TRIREME)
-				     || trireme_loss_pct(pplayer, x1,
-							 y1) == 0)
-	  && map_get_continent(x1, y1) == con
-	  && can_unit_move_to_tile_with_notify(punit, x1, y1, 0)
-	  && !((pcity = map_get_city(x1,y1))
-	       && (unit_flag(punit, F_DIPLOMAT)
-		   || unit_flag(punit, F_CARAVAN)))
-	  && !(is_barbarian(pplayer) && map_has_special(x1, y1, S_HUT))) {
-	most_unknown = unknown;
-	best_x = x1;
-	best_y = y1;
+      if (unknown > most_unknown) {
+        if (unit_flag(punit, F_TRIREME)
+            && trireme_loss_pct(pplayer, x1, y1) != 0)
+          continue;
+        
+        if (map_get_continent(x1, y1) != continent)
+          continue;
+        
+        if (!can_unit_move_to_tile_with_notify(punit, x1, y1, 0))
+          continue;
+
+        /* We won't travel into cities, unless we are able to do so - diplomats
+         * and caravans can. */
+        /* FIXME/TODO: special flag for this? --pasky */
+        /* FIXME: either comment or code is wrong here :-) --pasky */
+        if (map_get_city(x1, y1) && (unit_flag(punit, F_DIPLOMAT) ||
+                                     unit_flag(punit, F_CARAVAN)))
+          continue;
+
+        if (is_barbarian(pplayer) && map_has_special(x1, y1, S_HUT))
+          continue;
+          
+        most_unknown = unknown;
+        best_x = x1;
+        best_y = y1;
       }
     } square_iterate_end;
 
-    if (most_unknown > 0) { /* a tile have unexplored territory adjacent */
-      int res = handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE);
-      if (!res) /* This shouldn't happen */
-	break;
-      if (!player_find_unit_by_id(pplayer, id))
-	return 0; /* died */
-      x = punit->x; y = punit->y;
+    if (most_unknown > 0) {
+      /* We can die because easy AI may stumble on huts and so disappear in the
+       * wilderness - unit_id is used to check this */
+      int unit_id = punit->id;
+      
+      /* Some tile have unexplored territory adjacent, let's move there. */
+      
+      if (!handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE)) {
+        /* This shouldn't happen, but occassionally it can. */
+        break;
+      }
+      
+      if (!player_find_unit_by_id(pplayer, unit_id)) {
+        /* We're dead. */
+        return 0;
+      }
+      
+      x = punit->x;
+      y = punit->y;
+      
     } else {
+      /* Everything is already explored. */
       break;
     }
   }
 
-  if (punit->moves_left == 0) return 1;
+  if (punit->moves_left == 0) {
+    /* We can't move on anymore. */
+    return 1;
+  }
 
-  /* BEGIN PART THREE: Go towards unexplored territory */
-  /* no adjacent squares help us to explore - really slow part follows */
-  generate_warmap(map_get_city(x, y), punit);
+  /* 
+   * PART 3: Go towards unexplored territory
+   * No adjacent squares help us to explore - really slow part follows.
+   */
 
   {
-    int unknown, most_unknown = 0;
-    int threshold = THRESHOLD * move_rate;
+    /* Best (highest) number of unknown tiles adjectent (in vision range) */
+    int most_unknown = 0;
+    /* Desired destination */
+    int best_x = -1, best_y = -1;
+  
+    generate_warmap(map_get_city(x, y), punit);
+
+    /* XXX: There's some duplicate code here, but it's several tiny pieces,
+     * impossible to group together and not worth their own function
+     * separately. --pasky */
+    
     whole_map_iterate(x1, y1) {
+      /* The actual map tile */
       struct tile *ptile = map_get_tile(x1, y1);
-      unknown = 0;
-      if (ptile->continent == con
-	  && !is_non_allied_unit_tile(ptile, pplayer)
-	  && !is_non_allied_city_tile(ptile, pplayer)
-	  && tile_is_accessible(punit, x1, y1)) {
-	square_iterate(x1, y1, range, x2, y2) {
-	  if (!map_get_known(x2, y2, pplayer))
-	    unknown++;
-	} square_iterate_end;
-	if (unknown) {
-	  if (is_sailing_unit(punit))
-	    unknown += 9 * (threshold - warmap.seacost[x1][y1]);
-	  else
-	    unknown += 9 * (threshold - warmap.cost[x1][y1]);
-	  if ((unknown > most_unknown || (unknown == most_unknown && myrand(2)))
-	      && !(is_barbarian(pplayer) && BOOL_VAL(ptile->special & S_HUT))) {
-	    best_x = x1;
-	    best_y = y1;
-	    most_unknown = unknown;
-	  }
-	}
+      
+      if (ptile->continent == continent
+          && !is_non_allied_unit_tile(ptile, pplayer)
+          && !is_non_allied_city_tile(ptile, pplayer)
+          && tile_is_accessible(punit, x1, y1)) {
+        /* Number of unknown tiles in vision range around this tile */
+        int unknown = 0;
+        
+        square_iterate(x1, y1, range, x2, y2) {
+          if (!map_get_known(x2, y2, pplayer))
+            unknown++;
+        } square_iterate_end;
+        
+        if (unknown) {
+#define COSTWEIGHT 9
+          /* How far it's worth moving away */
+          int threshold = THRESHOLD * move_rate;
+          
+          if (is_sailing_unit(punit))
+            unknown += COSTWEIGHT * (threshold - warmap.seacost[x1][y1]);
+          else
+            unknown += COSTWEIGHT * (threshold - warmap.cost[x1][y1]);
+          
+          /* FIXME? Why we don't do same tests like in part 2? --pasky */
+          if (((unknown > most_unknown) ||
+               (unknown == most_unknown && myrand(2)))
+              && !(is_barbarian(pplayer) && BOOL_VAL(ptile->special & S_HUT))) {
+            best_x = x1;
+            best_y = y1;
+            most_unknown = unknown;
+          }
+#undef COSTWEIGHT
+        }
       }
     } whole_map_iterate_end;
 
     if (most_unknown > 0) {
+      /* Go there! */
+      
       punit->goto_dest_x = best_x;
       punit->goto_dest_y = best_y;
       handle_unit_activity_request(punit, ACTIVITY_GOTO);
       do_unit_goto(punit, GOTO_MOVE_ANY, 0);
+
+      /* FIXME? Why we don't test if the unit is still alive? */
+      /* TODO: Take more advantage from the do_unit_goto() return value. */
+      
       if (punit->moves_left > 0) {
-	if (punit->x != best_x || punit->y != best_y) {
-	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
-	  return 1; /* Something wrong; what to do but return? */
-	} else
-	  return ai_manage_explorer(punit);
+        /* We can still move on... */
+
+        if (punit->x == best_x && punit->y == best_y) {
+          /* ...and got into desired place. */
+          return ai_manage_explorer(punit);
+          
+        } else {
+          /* Something went wrong. What to do but return? */
+          handle_unit_activity_request(punit, ACTIVITY_IDLE);
+          return 1;
+        }
+        
       } else {
-	return 1;
+        return 1;
       }
-    } /* no candidates; fall-through */
+    }
+    
+    /* No candidates; fall-through. */
   }
 
-  /* BEGIN PART FOUR: maybe go to another continent */
+  /* We have nothing to explore, so we can go idle. */
+  
   freelog(LOG_DEBUG, "%s's %s at (%d,%d) failed to explore.",
-	  pplayer->name, unit_type(punit)->name, punit->x, punit->y);
+          pplayer->name, unit_type(punit)->name, punit->x, punit->y);
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  
+  /* 
+   * PART 4: Go home
+   * If we are AI controlled _military_ unit (so Explorers don't count, why?
+   * --pasky), we will return to our homecity, maybe even to another continent.
+   */
+  
   if (pplayer->ai.control && is_military_unit(punit)) {
-    pcity = find_city_by_id(punit->homecity);
-    if (pcity && map_get_continent(pcity->x, pcity->y) == con)
-      ai_military_gohome(pplayer, punit);
-    else if (pcity) {
-      if (!find_boat(pplayer, &x, &y, 0)) /* Gilligan's Island */
-        punit->ai.ferryboat = -1;
-      else {
-        punit->goto_dest_x = x;
-        punit->goto_dest_y = y;
-        do_unit_goto(punit, GOTO_MOVE_ANY, 0);
+    /* Unit's homecity */
+    struct city *pcity = find_city_by_id(punit->homecity);
+
+    if (pcity) {
+      if (map_get_continent(pcity->x, pcity->y) == continent) {
+        ai_military_gohome(pplayer, punit);
+      } else {
+        /* Sea travel */
+        if (!find_boat(pplayer, &x, &y, 0)) {
+          punit->ai.ferryboat = -1;
+        } else {
+          punit->goto_dest_x = x;
+          punit->goto_dest_y = y;
+          do_unit_goto(punit, GOTO_MOVE_ANY, 0);
+        }
       }
     }
   }
+
   return 0;
 }
 
