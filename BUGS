@@ -72,6 +72,9 @@ KNOWN BUGS:
    and after the human player each turn. This will sometimes give the
    impression that the AI moves twice.
 
+ - The xaw client does not work well with the KDE window manager.
+   Try using the gtk client or another window manager.
+
 REPORTING A BUG:
 ================
 
