@@ -34,6 +34,15 @@ nit-picky, but wars are fought over the silliest things...
 
 - An empty line should be placed between two separate blocks of code.
 
+- Place operators at the beginning of a line, not at the end.  It should be
+    if ((a
+         && b)
+        || c) {
+  instead of
+    if ((a &&
+         b) ||
+        c) {
+
 ================================
  Comments
 ================================
