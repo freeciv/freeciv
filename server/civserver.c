@@ -820,8 +820,9 @@ static void shuffle_players(void)
     shuffled[i] = &game.players[i];
   }
 
-  for(i=0; i<game.nplayers; i++) {
-    pos = myrand(game.nplayers);
+  for(i=0; i<game.nplayers-1; i++) {
+    /* for each run: shuffled[ <i ] is already shuffled [Kero+dwp] */
+    pos = i + myrand(game.nplayers-i);
     tmpplr = shuffled[i]; 
     shuffled[i] = shuffled[pos];
     shuffled[pos] = tmpplr;
