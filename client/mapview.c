@@ -987,7 +987,7 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
     pixmap_put_overlay_tile(pm, xtile, ytile, AUTO_TILE);
 
   pixmap_put_overlay_tile(pm, xtile, ytile, HP_BAR_TILES+
-			  (12*(get_unit_type(punit->type)->hp-punit->hp))/
+			  (11*(get_unit_type(punit->type)->hp-punit->hp))/
 			  (get_unit_type(punit->type)->hp));
 }
 
