@@ -760,6 +760,7 @@ void auto_arrange_workers(struct city *pcity)
 void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 {
   int turns_growth, turns_granary;
+  int can_grow;
 
   if (pcity->food_surplus > 0) {
     turns_growth = (((pcity->size+1) * game.foodbox) - pcity->food_stock - 1)
@@ -781,7 +782,12 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
       }
     }
 
-    if ((turns_growth <= 0) && !city_celebrating(pcity)) {
+    can_grow = (city_got_building(pcity, B_AQUEDUCT)
+		|| pcity->size < game.aqueduct_size)
+      && (city_got_building(pcity, B_SEWER)
+	  || pcity->size < game.sewer_size);
+
+    if ((turns_growth <= 0) && !city_celebrating(pcity) && can_grow) {
       notify_conn_ex(dest, pcity->x, pcity->y,
 		       E_CITY_MAY_SOON_GROW,
 		       _("Game: %s may soon grow to size %i."),
