@@ -217,6 +217,7 @@ int main(int argc, char *argv[])
   my_init_network();
   init_messages_where();
   init_city_report_data();
+  init_player_dlg_common();
   settable_options_init();
 
   load_general_options();

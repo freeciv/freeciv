@@ -21,6 +21,29 @@ void plrdlg_freeze(void);
 void plrdlg_thaw(void);
 void plrdlg_force_thaw(void);
 bool is_plrdlg_frozen(void);
+
+enum player_dlg_column_type {
+    COL_FLAG,
+    COL_COLOR,
+    COL_BOOLEAN,
+    COL_TEXT,
+    COL_RIGHT_TEXT    /* right aligned text */
+};
+
+struct player_dlg_column {
+    bool show;
+    enum player_dlg_column_type type;
+    const char *title;		      /* already translated */
+    const char *(*func)(struct player*); /* if type = COL_*TEXT */
+    bool (*bool_func)(struct player*);   /* if type = COL_BOOLEAN */
+    const char *tagname;	      /* for save_options */
+};
+
+extern struct player_dlg_column player_dlg_columns[];
+#define NUM_PLAYER_DLG_COLUMNS 14
+
 const char *get_ping_time_text(struct player *pplayer);
+void init_player_dlg_common(void);
+int player_dlg_default_sort_column(void);
 
 #endif  /* FC__PLRDLG_COMMON_H */

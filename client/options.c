@@ -37,6 +37,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "cma_fec.h"
+#include "plrdlg_common.h"
 #include "tilespec.h"
 
 #include "options.h"
@@ -478,6 +479,12 @@ void load_general_options(void)
     *ip = secfile_lookup_bool_default(&sf, *ip, "%s.city_report_%s", prefix,
 				     city_report_spec_tagname(i));
   }
+  
+  for(i = 1; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+    bool *show = &(player_dlg_columns[i].show);
+    *show = secfile_lookup_bool_default(&sf, *show, "%s.player_dlg_%s", prefix,
+                                        player_dlg_columns[i].tagname);
+  }
 
   /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
    * any, the order here should be reversed to keep the order the same */
@@ -572,6 +579,12 @@ void save_options(void)
     secfile_insert_bool(&sf, *(city_report_spec_show_ptr(i)),
 		       "client.city_report_%s",
 		       city_report_spec_tagname(i));
+  }
+  
+  for (i = 1; i < NUM_PLAYER_DLG_COLUMNS; i++) {
+    secfile_insert_bool(&sf, player_dlg_columns[i].show,
+                        "client.player_dlg_%s",
+                        player_dlg_columns[i].tagname);
   }
 
   /* insert global worklists */
