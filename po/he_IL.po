@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "POT-Creation-Date: 2002-11-22 22:58+0100\n"
-"PO-Revision-Date: 2002-12-15 18:51+0200\n"
+"PO-Revision-Date: 2002-12-16 14:59+0200\n"
 "Last-Translator: Nir Peled <Techdeck@Techdeck.org>\n"
 "Language-Team: Hebrew\n"
 "MIME-Version: 1.0\n"
@@ -35,16 +35,16 @@ msgstr ""
 #: common/connection.c:482
 #, c-format
 msgid "%s from %s"
-msgstr ""
+msgstr "%s מ %s"
 
 #: common/connection.c:488
 msgid " (connection incomplete)"
-msgstr ""
+msgstr "(חיבור לא הושלם)"
 
 #: common/connection.c:492
 #, c-format
 msgid " (player %s)"
-msgstr ""
+msgstr "(שחקן %s)"
 
 #: common/connection.c:496
 msgid " (observer)"
@@ -53,234 +53,234 @@ msgstr ""
 #: common/log.c:82
 #, c-format
 msgid "Bad log level \"%s\".\n"
-msgstr ""
+msgstr "רמת בדיקה נמוכה \"%s\".\n"
 
 #: common/log.c:88
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr ""
+msgstr "רמת בדיקה נמוכה %d ב \"%s\".\n"
 
 #: common/log.c:90 common/log.c:101
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr ""
+msgstr "הנך חייב להדר עם דגל ה-DEBUG כדי להשתמש ברמת בדיקה %d.\n"
 
 #: common/log.c:106 common/log.c:117 common/log.c:157
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr ""
+msgstr "רשמת נכון את רמת הבדיקה  \"%s\".\n"
 
 #: common/log.c:134 common/log.c:139
 #, c-format
 msgid "Not an integer: '%s'\n"
-msgstr ""
+msgstr "אינו מספר %s'\n"
 
 #: common/log.c:146
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
-msgstr ""
+msgstr "קובץ ריק ברמת שמירת הלוג \"%s\".\n"
 
 #: common/log.c:262
 #, c-format
 msgid "Couldn't open logfile: %s for appending.\n"
-msgstr ""
+msgstr "לא יכול לפתוח שמירה %s לעריכה.\n"
 
 #: common/log.c:275 common/log.c:294
 #, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
-msgstr[0] ""
+msgstr[0] "ההודעה האחרונה חזרה על עצמה %d פעמים"
 msgstr[1] ""
 
 #: common/log.c:280 common/log.c:299
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
-msgstr[0] ""
+msgstr[0] "(סך הכל %d חזר על עצמו)"
 msgstr[1] ""
 
 #: common/map.c:53
 msgid "Special1"
-msgstr ""
+msgstr "מיוחד1"
 
 #: common/map.c:54 common/map.c:614 common/unit.c:542
 msgid "Road"
-msgstr ""
+msgstr "כביש"
 
 #: common/map.c:55 common/map.c:620 common/unit.c:544
 #: client/gui-gtk-2.0/menu.c:616 client/gui-gtk/menu.c:615
 #: client/gui-mui/gui_main.c:222 client/gui-win32/menu.c:306
 #: client/gui-xaw/menu.c:136
 msgid "Irrigation"
-msgstr ""
+msgstr "תעלות"
 
 #: common/map.c:56 common/map.c:612 common/unit.c:549
 #: data/default/techs.ruleset:448 data/civ2/techs.ruleset:439
 #: data/civ1/techs.ruleset:439 data/history/techs.ruleset:448
 msgid "Railroad"
-msgstr ""
+msgstr "כביש-מתכת"
 
 #: common/map.c:57 common/map.c:623 common/unit.c:543
 msgid "Mine"
-msgstr ""
+msgstr "מכרה"
 
 #: common/map.c:58 common/unit.c:541 server/report.c:109
 #: client/cityrepdata.c:231
 msgid "Pollution"
-msgstr ""
+msgstr "זיהום"
 
 #: common/map.c:59
 msgid "Hut"
-msgstr ""
+msgstr "בקתה"
 
 #: common/map.c:60 common/map.c:626 common/unit.c:547
 msgid "Fortress"
-msgstr ""
+msgstr "מבצר"
 
 #: common/map.c:61
 msgid "Special2"
-msgstr ""
+msgstr "מיוחד2"
 
 #: common/map.c:62 data/civ1/terrain.ruleset:470
 msgid "River"
-msgstr ""
+msgstr "נהר"
 
 #: common/map.c:63 common/map.c:618
 msgid "Farmland"
-msgstr ""
+msgstr "אדמה חקלאית"
 
 #: common/map.c:64 common/map.c:629 common/unit.c:554
 msgid "Airbase"
-msgstr ""
+msgstr "בסיס חיל-אויר"
 
 #: common/map.c:65 common/unit.c:555
 msgid "Fallout"
-msgstr ""
+msgstr "נשורת"
 
 #: common/mem.c:40
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
-msgstr ""
+msgstr "חסר זיכרון מנסה ל %s %lu ביטים בשורה %d של %s."
 
 #: common/packets.c:3030
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
-msgstr ""
+msgstr "השרת שניסית להתחבר אליו הוא ישן מידי (1.12.0 או מוקדם יותר) נסה לבחור אחד אחר. להתראות."
 
 #: common/player.c:501
 msgid "Spotless"
-msgstr ""
+msgstr "חסר-מקום"
 
 #: common/player.c:503
 msgid "Excellent"
-msgstr ""
+msgstr "מעולה"
 
 #: common/player.c:505
 msgid "Honorable"
-msgstr ""
+msgstr "מכובד"
 
 #: common/player.c:507
 msgid "Questionable"
-msgstr ""
+msgstr "מפוקפק"
 
 #: common/player.c:509
 msgid "Dishonorable"
-msgstr ""
+msgstr "חסר כבוד"
 
 #: common/player.c:511
 msgid "Poor"
-msgstr ""
+msgstr "עני"
 
 #: common/player.c:513
 msgid "Despicable"
-msgstr ""
+msgstr "לא יאומן"
 
 #: common/player.c:515
 msgid "Atrocious"
-msgstr ""
+msgstr "אכזרי"
 
 #: common/player.c:525
 msgid "?diplomatic_state:Neutral"
-msgstr ""
+msgstr "?מצב_דיפלומטי: רגיל"
 
 #: common/player.c:526
 msgid "?diplomatic_state:War"
-msgstr ""
+msgstr "?מצב_דיפלומטי:מלחמה"
 
 #: common/player.c:527 client/gui-gtk-2.0/diplodlg.c:444
 #: client/gui-gtk/diplodlg.c:521 client/gui-mui/diplodlg.c:623
 #: client/gui-win32/diplodlg.c:295 client/gui-xaw/diplodlg.c:512
 msgid "?diplomatic_state:Cease-fire"
-msgstr ""
+msgstr "?מצב_דיפלומטי:הפסקת אש"
 
 #: common/player.c:528 client/gui-gtk-2.0/diplodlg.c:449
 #: client/gui-gtk/diplodlg.c:526 client/gui-mui/diplodlg.c:627
 #: client/gui-win32/diplodlg.c:296 client/gui-xaw/diplodlg.c:516
 msgid "?diplomatic_state:Peace"
-msgstr ""
+msgstr "?מצב_דיפלומטי:שלום"
 
 #: common/player.c:529 client/gui-gtk-2.0/diplodlg.c:454
 #: client/gui-gtk/diplodlg.c:531 client/gui-mui/diplodlg.c:631
 #: client/gui-win32/diplodlg.c:297 client/gui-xaw/diplodlg.c:520
 msgid "?diplomatic_state:Alliance"
-msgstr ""
+msgstr "?מצב_דיפלומטי:ברית"
 
 #: common/player.c:530
 msgid "?diplomatic_state:No Contact"
-msgstr ""
+msgstr "?מצב_דיפלומטי: לא נפגשו"
 
 #: common/shared.c:162
 #, c-format
 msgid "Empty argument for \"%s\".\n"
-msgstr ""
+msgstr "טיעון ריק בשביל \"%s\".\n"
 
 #: common/shared.c:166
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr ""
+msgstr "חסר טיעון בשביל \"%s\".\n"
 
 #: common/shared.c:413
 #, c-format
 msgid "%d BC"
-msgstr ""
+msgstr "%d לפני הספירה"
 
 #: common/shared.c:415
 #, c-format
 msgid "%d AD"
-msgstr ""
+msgstr "%d אחרי הספירה"
 
 #: common/shared.c:760
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr ""
+msgstr "המשתנה FREECIV_PATH נמצא אך ריק; משתמש בתקיה הנוכחית."
 
 #: common/shared.c:864
 #, c-format
 msgid "Could not read data directory %s: %s."
-msgstr ""
+msgstr "לא מצליח לקרוא מידע בספריה %s: %s."
 
 #: common/shared.c:994
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr ""
+msgstr "תקיית המידע צריכה להשתנות דרך המשתנה FREECIV_PATH"
 
 #: common/shared.c:996
 #, c-format
 msgid "Current data path is: \"%s\""
-msgstr ""
+msgstr "תקיית המידה הנוכחית היא: \"%s\""
 
 #: common/shared.c:998
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr ""
+msgstr "קובץ ה \"%s\"  נדרש... מבטל!"
 
 #: common/shared.c:1115
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr ""
+msgstr "%sשגיאה: אתה מנסה להריץ את המשחק כ-סופר משתמש.\n"
 
 #: common/shared.c:1117
 msgid "Use a non-privileged account instead.\n"
-msgstr ""
+msgstr "השתמש במשתמש חסר-זכויות במקום. \n"
 
 #: common/shared.c:1133
 msgid "exact match"
