@@ -21,7 +21,6 @@
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
-#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "support.h"
