@@ -195,15 +195,24 @@ int can_place_worker_here(struct city *pcity, int x, int y)
 }
 
 /**************************************************************************
-...
+The value of excees food is dependent on the amount of food it takes for a
+city to increase in size. This amount is in turn dependent on the citysize,
+hence this function.
+The value returned from this function does not take into account whether
+increasing a city's size is attractive, but only how effective the food
+will be.
 **************************************************************************/
-int food_weighting(int n)
+int food_weighting(int city_size)
 {
-  static int value[56] = { -1, 57, 38, 25, 19, 15, 12, 10, 9, 8, 7,
-                         6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3,
-                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-                         2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
-  return(value[n]);
+  int food_weighting_is_for = 4; /* FOOD_WEIGHTING applies to city with
+				    foodbox width of 4 */
+  int weighting = (food_weighting_is_for * FOOD_WEIGHTING) 
+    / (1+city_size);
+
+  /* If the citysize is 1 we assume it will not be so for long, and
+     so adjust the value a little downwards. */
+  if (city_size == 1) return ((weighting*3)/4);
+  else return weighting;
 }
 
 /**************************************************************************

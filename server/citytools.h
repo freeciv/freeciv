@@ -40,7 +40,7 @@ int build_points_left(struct city *pcity);
 int in_city_radius(int x, int y);
 int is_worked_here(int x, int y);
 int can_place_worker_here(struct city *pcity, int x, int y);
-int food_weighting(int n);
+int food_weighting(int city_size);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
 int settler_eats(struct city *pcity);
 int is_building_other_wonder(struct city *pc);
