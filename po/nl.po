@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2000-09-26 14:18+0200\n"
+"POT-Creation-Date: 2000-10-02 14:49+0200\n"
 "PO-Revision-Date: 2000-09-07 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -382,12 +382,12 @@ msgstr ""
 #: ai/aicity.c:242 server/cityhand.c:578
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
-msgstr "Spel: De %s zijn gestopt met het bouwen van De %s in %s."
+msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
 #: ai/aicity.c:251 server/cityhand.c:620
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
-msgstr "Spel: De %s zijn begonnen met het bouwen van De %s in %s."
+msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
 
 #: ai/aicity.c:359 ai/aicity.c:487
 #, c-format
@@ -1471,7 +1471,7 @@ msgstr "Spel: De %s hebben een ruimteschip gelanceerd! Het zal vermoedelijk in %
 
 #: server/spacerace.c:193
 msgid "Game: Spaceship action received, but you don't have a spaceship!"
-msgstr "Spel: Ruimteschip opdracht ontvangen, maar u heeft nog geen ruimteschip!"
+msgstr "Spel: Ruimteschip opdracht ontvangen, maar u hebt nog geen ruimteschip!"
 
 #: server/spacerace.c:202
 msgid "Game: You can't modify your spaceship after launch!"
@@ -1479,7 +1479,7 @@ msgstr "Spel: U kunt uw ruimteschip na de lancering niet meer wijzigen!"
 
 #: server/spacerace.c:211
 msgid "Game: You don't have any unplaced Space Structurals!"
-msgstr "Spel: U heeft geen ongeplaatste Ruimte Structuren!"
+msgstr "Spel: U hebt geen ongeplaatste Ruimte Structuren!"
 
 #: server/spacerace.c:216
 msgid "Game: That Space Structural would not be connected!"
@@ -1487,7 +1487,7 @@ msgstr "Spel: Die Ruimte Structuur zou niet vastzitten!"
 
 #: server/spacerace.c:230 server/spacerace.c:249
 msgid "Game: You don't have any unplaced Space Components!"
-msgstr "Spel: U heeft geen ongeplaatste Ruimte Componenten!"
+msgstr "Spel: U hebt geen ongeplaatste Ruimte Componenten!"
 
 #: server/spacerace.c:235
 msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
@@ -1499,7 +1499,7 @@ msgstr "Spel: Uw ruimteschip heeft al het maximum aantal Aandrijvings Componente
 
 #: server/spacerace.c:269 server/spacerace.c:289 server/spacerace.c:309
 msgid "Game: You don't have any unplaced Space Modules!"
-msgstr "Spel: U heeft geen ongelplaatste Ruimte Modules!"
+msgstr "Spel: U hebt geen ongeplaatste Ruimte Modules!"
 
 #: server/spacerace.c:274
 msgid "Game: Your spaceship already has the maximum number of Habitation Modules!"
@@ -2036,7 +2036,7 @@ msgstr "Percentage boete bij veranderen van technologische doelen"
 
 #: server/stdinhand.c:399
 msgid "If you change your current research technology, and you have positive research points, you lose this percentage of those research points.  This does not apply if you have just gained tech this turn."
-msgstr "Als u uw in onderzoek zijnde technologie wijzigt en u heeft positieve onderzoekspunten, dan verliest u dit percentage van die punten. Dit geldt niet als u zojuist in deze beurt een technologisch doel hebt bereikt."
+msgstr "Als u uw in onderzoek zijnde technologie wijzigt en u hebt positieve onderzoekspunten, dan verliest u dit percentage van die punten. Dit geldt niet als u zojuist in deze beurt een technologisch doel hebt bereikt."
 
 #: server/stdinhand.c:407
 msgid "Penalty when getting tech from treaty"
@@ -2755,7 +2755,7 @@ msgstr "Dit is zeer bruikbaar voor debugging doeleinden."
 msgid "(ambiguous)"
 msgstr "(dubbelzinnig)"
 
-#: client/packhand.c:850 server/stdinhand.c:1208
+#: client/packhand.c:871 server/stdinhand.c:1208
 msgid "(unknown)"
 msgstr "(onbekend)"
 
@@ -2976,7 +2976,7 @@ msgstr "Kan opdracht toegangsniveau '%s' niet verlagen voor verbinding '%s'; u h
 #: server/stdinhand.c:1880
 #, c-format
 msgid "Game: You now have access level '%s'."
-msgstr "Spel: U heeft nu toegangsniveau '%s'"
+msgstr "Spel: U hebt nu toegangsniveau '%s'"
 
 #: server/stdinhand.c:1928
 #, c-format
@@ -3058,7 +3058,7 @@ msgstr "De 'firstlevel' opdracht heeft geen zin vanaf de server's opdrachtregel.
 #: server/stdinhand.c:2087
 #, c-format
 msgid "You already have command access level '%s' or better."
-msgstr "U heeft al opdrachttoegangsniveau '%s' of beter."
+msgstr "U hebt al opdrachttoegangsniveau '%s' of beter."
 
 #: server/stdinhand.c:2091
 #, c-format
@@ -3157,7 +3157,7 @@ msgstr "Neergestort en in brand."
 #: server/stdinhand.c:2368
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr "Sorry, u heeft geen toegang om optie '%s' te bekijken."
+msgstr "Sorry, u hebt geen toegang om optie '%s' te bekijken."
 
 #: server/stdinhand.c:2373
 #, c-format
@@ -3463,7 +3463,7 @@ msgstr "Spel: U kunt eenheden van deze natie niet omkopen."
 #: server/unitfunc.c:461
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
-msgstr "Spel: U heeft niet genoeg goud om %s's %s om te kopen."
+msgstr "Spel: U hebt niet genoeg goud om %s's %s om te kopen."
 
 #: server/unitfunc.c:478
 #, c-format
@@ -3656,7 +3656,7 @@ msgstr "Spel: U hebt een schandaal veroorzaakt met het stelen van technologie va
 #: server/unitfunc.c:1293
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr "Spel: %s heeft een schandaal veroorzaakt met het stelen van technologie van u."
+msgstr "Spel: %s heeft een schandaal veroorzaakt met het stelen van uw technologie."
 
 #: server/unitfunc.c:1299
 #, c-format
@@ -3953,7 +3953,7 @@ msgstr "Spel: Hier is een verlaten dorp."
 
 #: server/unithand.c:788
 msgid "Game: You have unleashed a horde of barbarians!"
-msgstr "Spel: U heeft een horde barbaren ontketend!"
+msgstr "Spel: U hebt een horde barbaren ontketend!"
 
 #: server/unithand.c:791
 #, c-format
@@ -4085,7 +4085,7 @@ msgstr "Spel: Kan niet aanvallen vanuit zee."
 
 #: server/unittools.c:126 server/unittools.c:135
 msgid "Game: Cannot attack unless you declare war first."
-msgstr "Spel: Kan niet aanvallen voordat u de oorlog verklaard heeft."
+msgstr "Spel: U kunt niet aanvallen voordat u de oorlog verklaard heeft."
 
 #: server/unittools.c:143
 #, c-format
@@ -4907,31 +4907,31 @@ msgstr "Kan instellingen niet bewaren."
 msgid "Saved settings."
 msgstr "Instellingen bewaard."
 
-#: client/packhand.c:125
+#: client/packhand.c:126
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "U werd uit het spel gezet: %s"
 
-#: client/packhand.c:132
+#: client/packhand.c:133
 #, c-format
 msgid "Client capability string: %s"
 msgstr ""
 
-#: client/packhand.c:135
+#: client/packhand.c:136
 #, c-format
 msgid "Server capability string: %s"
 msgstr ""
 
-#: client/packhand.c:1066
+#: client/packhand.c:1087
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI-modus is nu %s."
 
-#: client/packhand.c:1067
+#: client/packhand.c:1088
 msgid "ON"
 msgstr "AAN"
 
-#: client/packhand.c:1067
+#: client/packhand.c:1088
 msgid "OFF"
 msgstr "UIT"
 
@@ -5430,7 +5430,7 @@ msgstr "Verander"
 #: client/gui-gtk/cityrep.c:1038 client/gui-mui/cityrep.c:197 client/gui-xaw/cityrep.c:445
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr "Spel: %s kost %d goud en u heeft slechts %d goud."
+msgstr "Spel: %s kost %d goud en u hebt slechts %d goud."
 
 #: client/gui-gtk/cityrep.c:1268 data/Freeciv:1666
 msgid "Configure Cities Report"
@@ -5440,7 +5440,7 @@ msgstr "Stel Steden Rapport in"
 msgid "Set columns shown"
 msgstr "Stel zichtbare kolommen in"
 
-#: client/gui-gtk/cityrep.c:1282 client/gui-gtk/dialogs.c:205 client/gui-gtk/dialogs.c:330 client/gui-gtk/dialogs.c:709 client/gui-gtk/dialogs.c:807 client/gui-gtk/dialogs.c:1775 client/gui-gtk/gamedlgs.c:438 client/gui-gtk/helpdlg.c:616 client/gui-gtk/inteldlg.c:184 client/gui-gtk/repodlgs.c:249 client/gui-gtk/repodlgs.c:609 client/gui-gtk/repodlgs.c:872 client/gui-gtk/spaceshipdlg.c:215 client/gui-gtk/wldlg.c:207 data/Freeciv:145 data/Freeciv:195 data/Freeciv:499 data/Freeciv:533 data/Freeciv:578 data/Freeciv:1439 data/Freeciv:1552 data/Freeciv:1648 data/Freeciv:1679 data/Freeciv:1812 data/Freeciv:1886 data/Freeciv:1928 data/Freeciv:2293 data/Freeciv:2335 data/Freeciv:2952 data/Freeciv:3115 data/Freeciv:3198
+#: client/gui-gtk/cityrep.c:1282 client/gui-gtk/dialogs.c:205 client/gui-gtk/dialogs.c:330 client/gui-gtk/dialogs.c:709 client/gui-gtk/dialogs.c:807 client/gui-gtk/dialogs.c:1775 client/gui-gtk/gamedlgs.c:447 client/gui-gtk/helpdlg.c:616 client/gui-gtk/inteldlg.c:184 client/gui-gtk/repodlgs.c:249 client/gui-gtk/repodlgs.c:609 client/gui-gtk/repodlgs.c:872 client/gui-gtk/spaceshipdlg.c:215 client/gui-gtk/wldlg.c:207 data/Freeciv:145 data/Freeciv:195 data/Freeciv:499 data/Freeciv:533 data/Freeciv:578 data/Freeciv:1439 data/Freeciv:1552 data/Freeciv:1648 data/Freeciv:1679 data/Freeciv:1812 data/Freeciv:1886 data/Freeciv:1928 data/Freeciv:2293 data/Freeciv:2335 data/Freeciv:2952 data/Freeciv:3115 data/Freeciv:3198
 msgid "Close"
 msgstr "Sluit"
 
@@ -5872,7 +5872,7 @@ msgstr "Op slot"
 msgid "%s max rate: %d%%"
 msgstr "%s max waarde: %d%%"
 
-#: client/gui-gtk/gamedlgs.c:415 client/gui-mui/gamedlgs.c:321 data/Freeciv:1229
+#: client/gui-gtk/gamedlgs.c:418 client/gui-mui/gamedlgs.c:321 data/Freeciv:1229
 msgid "Set local options"
 msgstr "Zet lokale opties"
 
@@ -7811,7 +7811,7 @@ msgstr "Geen versienummer in hulpbronnen."
 
 #: client/gui-xaw/gui_main.c:304
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
-msgstr "U heeft waarschijnlijk ergens een oud (circa V1.0) Freeciv hulpbestand."
+msgstr "U hebt waarschijnlijk ergens een oud (circa V1.0) Freeciv hulpbestand."
 
 #: client/gui-xaw/gui_main.c:312
 msgid "Game version does not match Resource version."
@@ -8499,7 +8499,7 @@ msgstr "  - Berichten beginnend met 'foo:' zijn privéberichten voor de speler me
 
 #: data/helpdata.txt:495
 msgid "  - Messages starting with '/' are interpreted as server commands (if the server is recent enough; regular 1.8.0 servers are not) and executed, if you have the required access rights."
-msgstr "  - Berichten beginnend met '/' worden geïnterpreteerd als server-opdrachten (als de server recent genoeg is; standaard 1.8.0 servers zijn dat niet) en uitgevoerd, mits u de vereiste toegangsrechten heeft."
+msgstr "  - Berichten beginnend met '/' worden geïnterpreteerd als server-opdrachten (als de server recent genoeg is; standaard 1.8.0 servers zijn dat niet) en uitgevoerd, mits u de vereiste toegangsrechten hebt."
 
 #: data/helpdata.txt:502
 msgid "Strategy and tactics"
@@ -8681,7 +8681,7 @@ msgstr ""
 
 #: data/helpdata.txt:651
 msgid "    If you have established an embassy with another human player, then you can arrange a diplomatic meeting. This is done by going to the `Game' menu, selecting players and clicking on the player with whom you wish to meet.  If you actually have an embassy (denoted by an X) and the other player is connected then a diplomacy menu will pop up."
-msgstr "    Als u een ambassade gevestigd heeft bij een andere menselijke speler, dan kunt u een diplomatieke ontmoeting regelen. Dit kan worden gedaan door naar het 'Spel' menu te gaan, 'Spelers' te kiezen en de speler met wie u een ontmoeting wilt aan te klikken. Als u daadwerkelijk een ambassade heeft (aangegeven door een X) en de andere speler heeft verbinding, dan zal het diplomatie menu verschijnen."
+msgstr "    Als u een ambassade gevestigd hebt bij een andere menselijke speler, dan kunt u een diplomatieke ontmoeting regelen. Dit kan worden gedaan door naar het 'Spel' menu te gaan, 'Spelers' te kiezen en de speler met wie u een ontmoeting wilt aan te klikken. Als u daadwerkelijk een ambassade hebt (aangegeven door een X) en de andere speler heeft verbinding, dan zal het diplomatie menu verschijnen."
 
 #: data/helpdata.txt:658
 msgid ""
@@ -8863,7 +8863,7 @@ msgstr "Stel dat een veteraan Kanon (A:8, V:1, SK:20, VK:1) met 2/3 bewegingspun
 
 #: data/helpdata.txt:895
 msgid "The attacker's base strength is 8.  Veteran status makes this 12, but because it only has 2/3 movement points its final strength is 8."
-msgstr "De basissterkte van de aanvaller (A) is 8. Veteraan status maakt dit 12, maar omdat het slechts 2/3 bewegingspunten overheeft, is de uiteindelijke sterkte 8."
+msgstr "De basissterkte van de aanvaller (A) is 8. Veteraan status maakt dit 12, maar omdat het slechts 2/3 bewegingspunten over heeft, is de uiteindelijke sterkte 8."
 
 #: data/helpdata.txt:898
 msgid "The defender's base strength is 3.  Because it is on a Forest tile, its strength becomes 4.5.  It is behind City Walls, so its strength is tripled, to 13.5.  It is a ground unit inside a city, so its strength is increased to 20.25."
@@ -9099,7 +9099,7 @@ msgstr "Spelers blijven slechts één beurt in een toestand van burgeroorlog, waar
 
 #: data/helpdata.txt:1156
 msgid "The capture of your capital does not always lead to civil war.  If you have treated your people with kindness, you are more likely to retain their loyalty.  Each city that is celebrating reduces the chance of civil war, while each revolting city increases the likelihood."
-msgstr "Het verliezen van uw hoofdstad leidt niet altijd tot burgeroorlog. Als u uw mensen vriendelijk behandeld hebt, heeft u een grotere kans om hun loyaliteit terug te winnen. Elke stad die iets te vieren heeft verkleint de kans op burgeroorlog, terwijl elke stad in wanorde deze kans vergroot."
+msgstr "Het verliezen van uw hoofdstad leidt niet altijd tot burgeroorlog. Als u uw mensen vriendelijk behandeld hebt, hebt u een grotere kans om hun loyaliteit terug te winnen. Elke stad die iets te vieren heeft verkleint de kans op burgeroorlog, terwijl elke stad in wanorde deze kans vergroot."
 
 #: data/helpdata.txt:1162
 msgid "In addition, the form of government directly contributes to the chance of civil war.  Governments with universal franchise are far less likely to revolt than those more despotic in nature."
@@ -9545,7 +9545,7 @@ msgstr "Samen met een Bibliotheek vergroot een Universiteit het wetenschappelijk
 
 #: data/civ1/buildings.ruleset:1071 data/civ2/buildings.ruleset:1062 data/default/buildings.ruleset:1267
 msgid "Apollo Program"
-msgstr "Apollo Programma"
+msgstr "Het Apollo Programma"
 
 #: data/civ2/buildings.ruleset:1080 data/default/buildings.ruleset:1285
 msgid "Entire map becomes visible for the player who owns it.  It allows all players to start building spaceship parts (assuming they have researched the necessary technologies)."
@@ -9561,7 +9561,7 @@ msgstr "Stadsverbeteringen die normaal een onderhoud van 1 zouden hebben zijn vr
 
 #: data/civ1/buildings.ruleset:1119 data/civ2/buildings.ruleset:1110 data/default/buildings.ruleset:1315
 msgid "Colossus"
-msgstr "Colossus"
+msgstr "De Colossus"
 
 #: data/civ1/buildings.ruleset:1136 data/civ2/buildings.ruleset:1127 data/default/buildings.ruleset:1332
 msgid "Each square around the city where this wonder is built that is already generating some trade produces one extra trade resource."
@@ -9594,7 +9594,7 @@ msgstr "Charles Darwin's reis markeerde de ontdekking van de evolutie van de soo
 
 #: data/civ1/buildings.ruleset:1211 data/civ2/buildings.ruleset:1202 data/default/buildings.ruleset:1409
 msgid "Eiffel Tower"
-msgstr "Eiffeltoren"
+msgstr "De Eiffeltoren"
 
 #: data/civ1/buildings.ruleset:1228 data/civ2/buildings.ruleset:1219 data/default/buildings.ruleset:1426
 #, c-format
@@ -9603,7 +9603,7 @@ msgstr "Wanneer deze wordt gebouwt, dan verbetert de houding van elke beschaving
 
 #: data/civ1/buildings.ruleset:1236 data/civ2/buildings.ruleset:1227 data/default/buildings.ruleset:1434
 msgid "Great Library"
-msgstr "Grote Bibliotheek"
+msgstr "De Grote Bibliotheek"
 
 #: data/civ1/buildings.ruleset:1253 data/civ2/buildings.ruleset:1244 data/default/buildings.ruleset:1451
 msgid "The civilization which builds the Great Library gets every advance that at least two other civilizations have achieved."
@@ -9611,7 +9611,7 @@ msgstr "De beschaving die de Grote Bibliotheek bouwt krijgt elke vooruitgang die
 
 #: data/civ1/buildings.ruleset:1259 data/civ2/buildings.ruleset:1250 data/default/buildings.ruleset:1457
 msgid "Great Wall"
-msgstr "Chinese Muur"
+msgstr "De Chinese Muur"
 
 #: data/civ1/buildings.ruleset:1278 data/civ2/buildings.ruleset:1269 data/default/buildings.ruleset:1475
 msgid "Works as a City Wall in all cities."
@@ -9619,7 +9619,7 @@ msgstr "Werkt als Stadswallen in elke stad."
 
 #: data/civ1/buildings.ruleset:1285 data/civ2/buildings.ruleset:1276 data/default/buildings.ruleset:1483
 msgid "Hanging Gardens"
-msgstr "Hangende Tuinen"
+msgstr "De Hangende Tuinen"
 
 #: data/civ1/buildings.ruleset:1303 data/civ2/buildings.ruleset:1294 data/default/buildings.ruleset:1501
 msgid "Makes one content citizen happy in every city. Makes two extra content citizens happy in the city containing the Hanging Gardens (that is, a total of 3).  In the unlikely event where there are no content citizens to get the effect of Hanging Gardens, the wonder applies to unhappy citizens (making them content instead)."
@@ -9627,7 +9627,7 @@ msgstr "Maakt één ontevreden burger tevreden in elke stad. Maakt twee extra tevr
 
 #: data/civ1/buildings.ruleset:1312 data/civ2/buildings.ruleset:1303 data/default/buildings.ruleset:1510
 msgid "Hoover Dam"
-msgstr "Hoover Dam"
+msgstr "De Hoover Dam"
 
 #: data/civ2/buildings.ruleset:1322 data/default/buildings.ruleset:1530
 msgid "Works as if you had a Hydro Plant in every city.  (This reduces pollution and increases the effects of Factories and Mfg. Plants.)"
@@ -9668,7 +9668,7 @@ msgstr "Waardeert een verouderde eenheid op per beurt."
 
 #: data/civ1/buildings.ruleset:1431 data/civ2/buildings.ruleset:1417 data/default/buildings.ruleset:1625
 msgid "Lighthouse"
-msgstr "Vuurtoren"
+msgstr "De Vuurtoren"
 
 #: data/civ1/buildings.ruleset:1450 data/civ2/buildings.ruleset:1436 data/default/buildings.ruleset:1644
 msgid "Gives all sea units 1 additional movement point and eliminates the risk of losing Triremes on the high seas.  Makes all new sea units veterans (for all cities)."
@@ -9684,7 +9684,7 @@ msgstr "Geeft alle zee-eenheden twee extra bewegingspunten."
 
 #: data/civ1/buildings.ruleset:1482 data/civ2/buildings.ruleset:1465 data/default/buildings.ruleset:1673
 msgid "Manhattan Project"
-msgstr "Manhattan Project"
+msgstr "Het Manhattan Project"
 
 #: data/civ1/buildings.ruleset:1499 data/civ2/buildings.ruleset:1482 data/default/buildings.ruleset:1690
 msgid "Allows all players with knowledge of Rocketry to build Nuclear units."
@@ -9708,7 +9708,7 @@ msgstr "Telt als een Kathedraal in elk van uw steden. Dit maakt drie ontevreden 
 
 #: data/civ1/buildings.ruleset:1549 data/civ2/buildings.ruleset:1538 data/default/buildings.ruleset:1746
 msgid "Oracle"
-msgstr "Orakel"
+msgstr "Het Orakel"
 
 #: data/civ1/buildings.ruleset:1567 data/civ2/buildings.ruleset:1556 data/default/buildings.ruleset:1764
 msgid "Doubles the effect of Temples, in all cities."
@@ -9716,7 +9716,7 @@ msgstr "Verdubbelt het effect van Tempels in alle steden."
 
 #: data/civ1/buildings.ruleset:1572 data/civ2/buildings.ruleset:1561 data/default/buildings.ruleset:1769
 msgid "Pyramids"
-msgstr "Pyramiden"
+msgstr "De Pyramiden"
 
 #: data/civ2/buildings.ruleset:1578 data/default/buildings.ruleset:1786
 msgid "Counts as having a Granary in every city."
@@ -9724,7 +9724,7 @@ msgstr "Telt als een Graanschuur in elke stad."
 
 #: data/civ1/buildings.ruleset:1598 data/civ2/buildings.ruleset:1583 data/default/buildings.ruleset:1791
 msgid "SETI Program"
-msgstr "SETI Programma"
+msgstr "Het SETI Programma"
 
 #: data/civ2/buildings.ruleset:1600 data/default/buildings.ruleset:1808
 msgid "Boosts science production in each city with a Library by 50%.  (Counts as having a Research Lab in all of your cities.)"
@@ -9740,7 +9740,7 @@ msgstr "Maakt alle ontevreden burgers tevreden in de stad waar hij staat."
 
 #: data/civ1/buildings.ruleset:1642 data/civ2/buildings.ruleset:1628 data/default/buildings.ruleset:1836
 msgid "Statue of Liberty"
-msgstr "Vrijheidsbeeld"
+msgstr "Het Vrijheidsbeeld"
 
 #: data/civ1/buildings.ruleset:1591 data/civ1/buildings.ruleset:1660 data/civ1/buildings.ruleset:1711 data/civ2/buildings.ruleset:1646 data/default/buildings.ruleset:1854
 msgid "Allows you to choose any government, including those that have not yet been researched by your civilization, and without the transition period of Anarchy."
@@ -9756,7 +9756,7 @@ msgstr "Al uw nieuwe grond-eenheden worden veteraan (in alle steden). De kans da
 
 #: data/civ1/buildings.ruleset:1692 data/civ2/buildings.ruleset:1678 data/default/buildings.ruleset:1886
 msgid "United Nations"
-msgstr "Verenigde Naties"
+msgstr "De Verenigde Naties"
 
 #: data/civ2/buildings.ruleset:1699 data/default/buildings.ruleset:1907
 msgid "Units regain two extra hitpoints per turn."
@@ -11105,7 +11105,7 @@ msgid ""
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city and have them ready to fix the fallout on the same turn it occurs!  This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"U kunt kernraket eenheden bouwen wanneer u de vereiste voorsprong heeft en het Manhattan Project wonder door één van de spelers gebouwd is.\n"
+"U kunt kernraket eenheden bouwen wanneer u de vereiste voorsprong hebt en het Manhattan Project wonder door één van de spelers gebouwd is.\n"
 "\n"
 "Bij inslag zal de explosie elke eenheid binnen een 3x3 vlak vernietigen, inclusief bevriende eenheden. Wanneer een stad geraakt wordt, wordt de stadsgrootte gehalveerd en wordt de omgeving besmet met radioaktief stof.\n"
 "\n"
@@ -11135,7 +11135,7 @@ msgstr ""
 "\n"
 "- Diplomaten kunnen ook een vijandelijke eenheid overhalen over te lopen indien die eenheid de enige is op zijn vlak.\n"
 "\n"
-"- Diplomaten kunnen zelfs een revolutie starten in een vijandelijke stad en deze omzetten in uw eigen stad, als u genoeg geld heeft!\n"
+"- Diplomaten kunnen zelfs een revolutie starten in een vijandelijke stad en deze omzetten in uw eigen stad, als u genoeg geld hebt!\n"
 "\n"
 "- In sommige spelstrategieën kunnen hordes Diplomaten worden gebruikt om de vijand in wanhoop te brengen. Geen wonder dat Diplomaten vaak met argwaan en angst worden bekeken!"
 
@@ -12370,7 +12370,7 @@ msgstr "?plural:Zoeloes"
 #~ msgstr "Waarde buiten bereik. Gebruik: set <optie> <waarde>."
 
 #~ msgid "Game: You don't have enough movement left."
-#~ msgstr "Spel: U heeft niet genoeg beweging over."
+#~ msgstr "Spel: U hebt niet genoeg beweging over."
 
 #~ msgid "Help Languages"
 #~ msgstr "Help Talen"
