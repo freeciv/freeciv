@@ -103,6 +103,7 @@ void handle_diplomat_action(struct player *pplayer,
   struct unit *pdiplomat=unit_list_find(&pplayer->units, packet->diplomat_id);
   struct unit *pvictim=find_unit_by_id(packet->target_id);
   struct city *pcity=find_city_by_id(packet->target_id);
+  if (!pdiplomat) return;
   if (!unit_flag(pdiplomat->type, F_DIPLOMAT)) 
     return;
   if(pdiplomat && pdiplomat->moves_left>0) {
