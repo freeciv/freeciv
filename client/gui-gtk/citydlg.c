@@ -92,6 +92,7 @@ struct city_dialog {
   GtkWidget *change_shell, *change_list;
   GtkWidget *rename_input;
   GtkWidget *worklist_shell;
+  GtkWidget *buy_shell, *sell_shell;
   
   Impr_Type_id sell_id;
   
@@ -468,7 +469,10 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   pdialog->change_command=gtk_accelbutton_new(_("_Change"), accel);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->change_command, TRUE, TRUE, 0);
-  
+
+  pdialog->buy_shell = NULL;
+  pdialog->sell_shell = NULL;
+
   pdialog->improvement_list=gtk_clist_new(1);
   gtk_clist_set_column_width(GTK_CLIST(pdialog->improvement_list), 0,
 	GTK_CLIST(pdialog->improvement_list)->clist_window_width);
@@ -1624,6 +1628,7 @@ gint taxman_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   return TRUE;
 }
 
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -1640,15 +1645,28 @@ static void buy_callback_yes(GtkWidget *w, gpointer data)
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 
   destroy_message_dialog(w);
+  pdialog->buy_shell=NULL;
 }
-
 
 /****************************************************************
 ...
 *****************************************************************/
 static void buy_callback_no(GtkWidget *w, gpointer data)
 {
+  struct city_dialog *pdialog=(struct city_dialog *)data;
   destroy_message_dialog(w);
+  pdialog->buy_shell=NULL;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static gint buy_callback_delete(GtkWidget *widget, GdkEvent *event,
+				gpointer data)
+{
+  struct city_dialog *pdialog=(struct city_dialog *)data;
+  pdialog->buy_shell=NULL;
+  return FALSE;
 }
 
 
@@ -1677,6 +1695,7 @@ void buy_callback(GtkWidget *w, gpointer data)
 	    _("Buy %s for %d gold?\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
 
+    pdialog->buy_shell=
     popup_message_dialog(pdialog->shell, /*"buydialog"*/ _("Buy It!"), buf,
 			 _("_Yes"), buy_callback_yes, pdialog,
 			 _("_No"), buy_callback_no, 0, 0);
@@ -1686,9 +1705,14 @@ void buy_callback(GtkWidget *w, gpointer data)
 	    _("%s costs %d gold.\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
 
+    pdialog->buy_shell=
     popup_message_dialog(pdialog->shell, /*"buynodialog"*/ _("Buy It!"), buf,
 			 _("Darn"), buy_callback_no, 0, 0);
   }
+
+  gtk_signal_connect(GTK_OBJECT(pdialog->buy_shell), "delete_event",
+    		     GTK_SIGNAL_FUNC(buy_callback_delete),
+		     data);
 }
 
 
@@ -2105,6 +2129,7 @@ void cancel_city_worklist(void *data) {
   pdialog->worklist_shell = NULL;
 }
 
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -2122,15 +2147,28 @@ static void sell_callback_yes(GtkWidget *w, gpointer data)
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
 
   destroy_message_dialog(w);
+  pdialog->sell_shell=NULL;
 }
-
 
 /****************************************************************
 ...
 *****************************************************************/
 static void sell_callback_no(GtkWidget *w, gpointer data)
 {
+  struct city_dialog *pdialog=(struct city_dialog *)data;
   destroy_message_dialog(w);
+  pdialog->sell_shell=NULL;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static gint sell_callback_delete(GtkWidget *widget, GdkEvent *event,
+				gpointer data)
+{
+  struct city_dialog *pdialog=(struct city_dialog *)data;
+  pdialog->sell_shell=NULL;
+  return FALSE;
 }
 
 
@@ -2160,9 +2198,13 @@ void sell_callback(GtkWidget *w, gpointer data)
 		  get_impr_name_ex(pdialog->pcity, i),
 		  improvement_value(i));
 
+	  pdialog->sell_shell=
 	  popup_message_dialog(pdialog->shell, /*"selldialog"*/ _("Sell It!"), buf,
 			       _("_Yes"), sell_callback_yes, pdialog,
 			       _("_No"), sell_callback_no, pdialog, 0);
+	  gtk_signal_connect(GTK_OBJECT(pdialog->sell_shell), "delete_event",
+    		     GTK_SIGNAL_FUNC(sell_callback_delete),
+		     data);
 	  return;
 	}
 	n++;
@@ -2186,6 +2228,11 @@ void close_city_dialog(struct city_dialog *pdialog)
 
   if (pdialog->change_shell)
     gtk_widget_destroy(pdialog->change_shell);
+
+  if (pdialog->buy_shell)
+    gtk_widget_destroy(pdialog->buy_shell);
+  if (pdialog->sell_shell)
+    gtk_widget_destroy(pdialog->sell_shell);
 
   unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
     free(psunit);
