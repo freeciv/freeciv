@@ -512,6 +512,8 @@ void set_mapview_origin(int gui_x0, int gui_y0)
 void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 			       int *xsize, int *ysize)
 {
+  int diff;
+
   *xsize = mapview_canvas.width;
   *ysize = mapview_canvas.height;
 
@@ -566,6 +568,20 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 
     *xmax = MAX(gui_x4, MAX(gui_x2, gui_x3)) + mapview_canvas.width / 2;
     *ymax = MAX(gui_y4, MAX(gui_y2, gui_y3)) + mapview_canvas.height / 2;
+  }
+
+  /* Make sure the scroll window is big enough to hold the mapview.  If
+   * not scrolling will be very ugly and the GUI may become confused. */
+  diff = *xsize - (*xmax - *xmin);
+  if (diff > 0) {
+    *xmin -= diff / 2;
+    *xmax += (diff + 1) / 2;
+  }
+
+  diff = *ysize - (*ymax - *ymin);
+  if (diff > 0) {
+    *ymin -= diff / 2;
+    *ymax += (diff + 1) / 2;
   }
 
   freelog(LOG_DEBUG, "x: %d<-%d->%d; y: %d<-%d->%d",
