@@ -1435,14 +1435,8 @@ int city_turns_to_grow(const struct city *pcity)
 ****************************************************************************/
 bool city_can_grow_to(const struct city *pcity, int pop_size)
 {
-  if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) > 0) {
-    return TRUE;
-  } else {
-    int max_size;
-                                                                               
-    max_size = game.aqueduct_size + get_city_bonus(pcity, EFT_SIZE_ADJ);
-    return (pop_size <= max_size);
-  }
+  return (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) > 0
+	  || pop_size <= get_city_bonus(pcity, EFT_SIZE_ADJ));
 }
 
 /**************************************************************************

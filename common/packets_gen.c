@@ -25675,7 +25675,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 20);
+BV_DEFINE(packet_ruleset_control_100_fields, 19);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -25704,7 +25704,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->aqueduct_size = readin;
+      real_packet->add_to_size_limit = readin;
     }
   }
   if (BV_ISSET(fields, 1)) {
@@ -25712,7 +25712,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->add_to_size_limit = readin;
+      real_packet->notradesize = readin;
     }
   }
   if (BV_ISSET(fields, 2)) {
@@ -25720,7 +25720,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->notradesize = readin;
+      real_packet->fulltradesize = readin;
     }
   }
   if (BV_ISSET(fields, 3)) {
@@ -25728,7 +25728,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->fulltradesize = readin;
+      real_packet->num_unit_types = readin;
     }
   }
   if (BV_ISSET(fields, 4)) {
@@ -25736,7 +25736,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->num_unit_types = readin;
+      real_packet->num_impr_types = readin;
     }
   }
   if (BV_ISSET(fields, 5)) {
@@ -25744,21 +25744,13 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->num_impr_types = readin;
-    }
-  }
-  if (BV_ISSET(fields, 6)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
       real_packet->num_tech_types = readin;
     }
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_get_tech_list(&din, real_packet->rtech_partisan_req);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     {
       int readin;
     
@@ -25766,7 +25758,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->government_when_anarchy = readin;
     }
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     {
       int readin;
     
@@ -25774,7 +25766,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->default_government = readin;
     }
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
     {
       int readin;
     
@@ -25782,7 +25774,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->government_count = readin;
     }
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
     {
       int readin;
     
@@ -25790,7 +25782,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->nation_count = readin;
     }
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
     {
       int readin;
     
@@ -25798,7 +25790,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->playable_nation_count = readin;
     }
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 12)) {
     {
       int readin;
     
@@ -25806,7 +25798,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->style_count = readin;
     }
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 13)) {
     {
       int readin;
     
@@ -25814,7 +25806,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->terrain_count = readin;
     }
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     {
       int readin;
     
@@ -25822,9 +25814,9 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->borders = readin;
     }
   }
-  real_packet->happyborders = BV_ISSET(fields, 16);
-  real_packet->slow_invasions = BV_ISSET(fields, 17);
-  if (BV_ISSET(fields, 18)) {
+  real_packet->happyborders = BV_ISSET(fields, 15);
+  real_packet->slow_invasions = BV_ISSET(fields, 16);
+  if (BV_ISSET(fields, 17)) {
     
     {
       int i;
@@ -25834,7 +25826,7 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       }
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     {
       int readin;
     
@@ -25876,33 +25868,29 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->aqueduct_size != real_packet->aqueduct_size);
+  differ = (old->add_to_size_limit != real_packet->add_to_size_limit);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->add_to_size_limit != real_packet->add_to_size_limit);
+  differ = (old->notradesize != real_packet->notradesize);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->notradesize != real_packet->notradesize);
+  differ = (old->fulltradesize != real_packet->fulltradesize);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->fulltradesize != real_packet->fulltradesize);
+  differ = (old->num_unit_types != real_packet->num_unit_types);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (old->num_unit_types != real_packet->num_unit_types);
+  differ = (old->num_impr_types != real_packet->num_impr_types);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->num_impr_types != real_packet->num_impr_types);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
   differ = (old->num_tech_types != real_packet->num_tech_types);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
+  if(differ) {BV_SET(fields, 5);}
 
 
     {
@@ -25918,47 +25906,47 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 6);}
 
   differ = (old->government_when_anarchy != real_packet->government_when_anarchy);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 7);}
 
   differ = (old->default_government != real_packet->default_government);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 8);}
 
   differ = (old->government_count != real_packet->government_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 9);}
 
   differ = (old->nation_count != real_packet->nation_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->playable_nation_count != real_packet->playable_nation_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->style_count != real_packet->style_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 12);}
 
   differ = (old->terrain_count != real_packet->terrain_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 13);}
 
   differ = (old->borders != real_packet->borders);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 14);}
 
   differ = (old->happyborders != real_packet->happyborders);
   if(differ) {different++;}
-  if(packet->happyborders) {BV_SET(fields, 16);}
+  if(packet->happyborders) {BV_SET(fields, 15);}
 
   differ = (old->slow_invasions != real_packet->slow_invasions);
   if(differ) {different++;}
-  if(packet->slow_invasions) {BV_SET(fields, 17);}
+  if(packet->slow_invasions) {BV_SET(fields, 16);}
 
 
     {
@@ -25974,11 +25962,11 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->default_building != real_packet->default_building);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 18);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -25987,56 +25975,53 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->aqueduct_size);
-  }
-  if (BV_ISSET(fields, 1)) {
     dio_put_uint8(&dout, real_packet->add_to_size_limit);
   }
-  if (BV_ISSET(fields, 2)) {
+  if (BV_ISSET(fields, 1)) {
     dio_put_uint8(&dout, real_packet->notradesize);
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 2)) {
     dio_put_uint8(&dout, real_packet->fulltradesize);
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
     dio_put_uint8(&dout, real_packet->num_unit_types);
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_uint8(&dout, real_packet->num_impr_types);
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 5)) {
     dio_put_uint8(&dout, real_packet->num_tech_types);
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_tech_list(&dout, real_packet->rtech_partisan_req);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->government_when_anarchy);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_uint8(&dout, real_packet->default_government);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->government_count);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_uint8(&dout, real_packet->nation_count);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint8(&dout, real_packet->playable_nation_count);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_uint8(&dout, real_packet->style_count);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->terrain_count);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_uint8(&dout, real_packet->borders);
   }
+  /* field 15 is folded into the header */
   /* field 16 is folded into the header */
-  /* field 17 is folded into the header */
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 17)) {
   
     {
       int i;
@@ -26046,7 +26031,7 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
       }
     } 
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint8(&dout, real_packet->default_building);
   }
 

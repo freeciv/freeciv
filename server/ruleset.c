@@ -1263,8 +1263,6 @@ static void load_ruleset_buildings(struct section_file *file)
     }
   } impr_type_iterate_end;
 
-  game.aqueduct_size = secfile_lookup_int(file, "b_special.aqueduct_size");
-
   item = secfile_lookup_str(file, "b_special.default");
   if (*item != '\0') {
     game.default_building = find_improvement_by_name(item);
@@ -1727,7 +1725,6 @@ static void send_ruleset_control(struct conn_list *dest)
   struct packet_ruleset_control packet;
   int i;
 
-  packet.aqueduct_size = game.aqueduct_size;
   packet.add_to_size_limit = game.add_to_size_limit;
   packet.notradesize = game.notradesize;
   packet.fulltradesize = game.fulltradesize;

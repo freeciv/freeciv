@@ -1206,7 +1206,6 @@ end
   info for its own "control" packet, done separately.)
 *********************************************************/
 PACKET_RULESET_CONTROL=106;sc,lsend
-  UINT8 aqueduct_size;
   UINT8 add_to_size_limit;
   UINT8 notradesize, fulltradesize;
   UINT8 num_unit_types;

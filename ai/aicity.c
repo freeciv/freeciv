@@ -435,16 +435,24 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  }
 	  break;
 	case EFT_SIZE_UNLIMIT:
-	  amount = 20; /* really big city */
-	  /* there not being a break here is deliberate, mind you */
-	case EFT_SIZE_ADJ: 
-	  if (!city_can_grow_to(pcity, pcity->size + 1)) {
-	    v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
-	    if (pcity->size == game.aqueduct_size) {
-	      v += 30 * pcity->surplus[O_FOOD];
-	    }
+	  /* Note we look up the SIZE_UNLIMIT again right below.  This could
+	   * be avoided... */
+	  if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
+	    amount = 20; /* really big city */
 	  }
-	  v += c * amount * 4 / game.aqueduct_size;
+	  /* there not being a break here is deliberate, mind you */
+	case EFT_SIZE_ADJ:
+	  if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
+	    const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);
+
+	    if (!city_can_grow_to(pcity, pcity->size + 1)) {
+	      v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
+	      if (pcity->size == aqueduct_size) {
+		v += 30 * pcity->surplus[O_FOOD];
+	      }
+	    }
+	    v += c * amount * 4 / aqueduct_size;
+	  }
 	  break;
 	case EFT_SS_STRUCTURAL:
 	case EFT_SS_COMPONENT:

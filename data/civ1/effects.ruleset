@@ -16,6 +16,11 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+; Base max city size of 10
+[effect_aqueduct_size]
+name    = "Size_Adj"
+value   = 10
+
 [effect_aqueduct]
 name	= "Size_Unlimit"
 value	= 1

@@ -137,7 +137,6 @@ struct civ_game {
   int razechance;
   bool scorelog;
   int seed;
-  int aqueduct_size;
   int add_to_size_limit;
   bool savepalace;
   bool natural_city_names;

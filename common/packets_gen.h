@@ -921,7 +921,6 @@ struct packet_ruleset_terrain {
 };
 
 struct packet_ruleset_control {
-  int aqueduct_size;
   int add_to_size_limit;
   int notradesize;
   int fulltradesize;

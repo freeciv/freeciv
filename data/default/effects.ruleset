@@ -40,6 +40,11 @@ reqs	=
       "Building", "Airport", "City"
     }
 
+; Base max city size of 8
+[effect_aqueduct_size]
+name    = "Size_Adj"
+value   = 8
+
 [effect_aqueduct]
 name	= "Size_Adj"
 value	= 4

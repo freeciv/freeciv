@@ -2081,7 +2081,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 
   ruleset_cache_init();
 
-  game.aqueduct_size = packet->aqueduct_size;
   game.add_to_size_limit = packet->add_to_size_limit;
   game.notradesize = packet->notradesize;
   game.fulltradesize = packet->fulltradesize;
