@@ -153,6 +153,7 @@ extern int seconds_to_turndone;
 extern int use_solid_color_behind_units;
 extern int flags_are_transparent;
 extern int ai_manual_turn_done;
+extern int draw_diagonal_roads;
 
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
@@ -1324,11 +1325,11 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       if(road_card_tileno!=0) {
 	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+road_card_tileno);
       }
-      if(road_semi_tileno!=0) {
+      if(road_semi_tileno!=0 && draw_diagonal_roads) {
 	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+16+road_semi_tileno);
       }
     } else {
-      if(road_semi_tileno!=0) {
+      if(road_semi_tileno!=0 && draw_diagonal_roads) {
 	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+16+road_semi_tileno);
       }
       if(road_card_tileno!=0) {
@@ -1340,11 +1341,11 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       if(rail_card_tileno!=0) {
 	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+rail_card_tileno);
       }
-      if(rail_semi_tileno!=0) {
+      if(rail_semi_tileno!=0 && draw_diagonal_roads) {
 	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+16+rail_semi_tileno);
       }
     } else {
-      if(rail_semi_tileno!=0) {
+      if(rail_semi_tileno!=0 && draw_diagonal_roads) {
 	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+16+rail_semi_tileno);
       }
       if(rail_card_tileno!=0) {

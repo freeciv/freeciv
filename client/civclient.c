@@ -54,6 +54,7 @@ int ai_popup_windows=0;
 int ai_manual_turn_done=1;
 int auto_center_on_unit=1;
 int wakeup_focus=1;
+int draw_diagonal_roads=1;
 
 int seconds_to_turndone;
 

@@ -54,6 +54,7 @@ extern int ai_popup_windows;
 extern int ai_manual_turn_done;
 extern int auto_center_on_unit;
 extern int wakeup_focus;
+extern int draw_diagonal_roads;
 
 /******************************************************************/
 
@@ -75,6 +76,7 @@ static opt_def opts[]= {
   GEN_OPT(ai_manual_turn_done),
   GEN_OPT(auto_center_on_unit),
   GEN_OPT(wakeup_focus),
+  GEN_OPT(draw_diagonal_roads),
   { NULL, NULL }
 };
 
@@ -88,6 +90,7 @@ Widget option_aipopup_toggle;
 Widget option_aiturndone_toggle;
 Widget option_autocenter_toggle;
 Widget option_wakeup_focus_toggle;
+Widget option_diagonal_roads_toggle;
 
 /******************************************************************/
 void create_option_dialog(void);
@@ -117,6 +120,8 @@ void popup_option_dialog(void)
                 XtNlabel, auto_center_on_unit?"Yes":"No", NULL);
   XtVaSetValues(option_wakeup_focus_toggle, XtNstate, wakeup_focus,
                 XtNlabel, wakeup_focus?"Yes":"No", NULL);
+  XtVaSetValues(option_diagonal_roads_toggle, XtNstate, draw_diagonal_roads,
+                XtNlabel, draw_diagonal_roads?"Yes":"No", NULL);
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -205,6 +210,14 @@ void create_option_dialog(void)
 						     toggleWidgetClass,
 						     option_form,
 						     NULL);
+  XtVaCreateManagedWidget("optiondiagonalroadslabel",
+                          labelWidgetClass,
+			  option_form, NULL);
+  option_diagonal_roads_toggle = XtVaCreateManagedWidget("optiondiagonalroadstoggle",
+                                                         toggleWidgetClass,
+							 option_form,
+							 NULL);
+
   option_ok_command = XtVaCreateManagedWidget("optionokcommand", 
 					      commandWidgetClass,
 					      option_form,
@@ -221,6 +234,7 @@ void create_option_dialog(void)
   XtAddCallback(option_aiturndone_toggle, XtNcallback, toggle_callback, NULL);
   XtAddCallback(option_autocenter_toggle, XtNcallback, toggle_callback, NULL);
   XtAddCallback(option_wakeup_focus_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_diagonal_roads_toggle, XtNcallback, toggle_callback, NULL);
   
 
   XtRealizeWidget(option_dialog_shell);
@@ -268,6 +282,8 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   auto_center_on_unit=b;
   XtVaGetValues(option_wakeup_focus_toggle, XtNstate, &b, NULL);
   wakeup_focus=b;
+  XtVaGetValues(option_diagonal_roads_toggle, XtNstate, &b, NULL);
+  draw_diagonal_roads=b;
 }
 
 /****************************************************************

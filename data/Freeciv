@@ -902,8 +902,17 @@ Freeciv*optionwakeupfocustoggle.fromVert:       optionautocentertoggle
 Freeciv*optionwakeupfocustoggle.fromHoriz:      optionwakeupfocuslabel
 Freeciv*optionwakeupfocustoggle.internalHeight: 0
 
+Freeciv*optiondiagonalroadslabel.label:	      Draw Diagonal Roads/Rails\ \ 
+Freeciv*optiondiagonalroadslabel.borderWidth: 0
+Freeciv*optiondiagonalroadslabel.fromVert:    optionwakeupfocustoggle
+
+Freeciv*optiondiagonalroadstoggle.label:	Yes
+Freeciv*optiondiagonalroadstoggle.fromVert:	optionwakeupfocustoggle
+Freeciv*optiondiagonalroadstoggle.fromHoriz:	optiondiagonalroadslabel
+Freeciv*optiondiagonalroadstoggle.internalHeight: 0
+
 Freeciv*optionokcommand.label:          Close
-Freeciv*optionokcommand.fromVert:       optionwakeupfocuslabel
+Freeciv*optionokcommand.fromVert:       optiondiagonalroadslabel
 
 !
 ! The message options dialog
