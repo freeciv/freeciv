@@ -66,6 +66,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 {
   int i, j, d, f, x, y, con, dest_x, dest_y, a, b, cur, best, ct = 10;
   int my_x[10], my_y[10]; /* to prevent getting stuck */
+  int id = punit->id;
   if (punit->activity == ACTIVITY_IDLE) {
     x = punit->x; y = punit->y;
     con = map_get_continent(x, y);
@@ -81,6 +82,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
             punit->goto_dest_y = y + j;
             punit->activity = ACTIVITY_GOTO;
             do_unit_goto(pplayer, punit);
+            if (!find_unit_by_id(id)) return; /* cowardly slaughtered! */
             if (!punit->moves_left) return; /* otherwise, had some ZOC problem ? */
           } /* end if HUT */
         } /* end for J */
@@ -121,6 +123,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
               punit->activity = ACTIVITY_GOTO;
               if (d > 1) do_unit_goto(pplayer, punit); /* don't trust goto for d == 1 */
               else handle_unit_move_request(pplayer, punit, dest_x, dest_y);
+              if (!find_unit_by_id(id)) return; /* cowardly slaughtered! */
               if (x != punit->x || y != punit->y) break; /* otherwise go elsewhere */
             }
           }
@@ -585,6 +588,7 @@ if (ai_military_findtarget(pplayer,punit) || punit->unhappiness)
    }
 else 
    {
+   printf("%s's %s doesn't know what to do!\n", pplayer->name, unit_types[punit->type].name);
    punit->ai.ai_role=AIUNIT_NONE;
    }
 }
