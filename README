@@ -1,13 +1,12 @@
-                           =========================
-                           Freeciv 1.9 documentation
-                           =========================
+====================
+Freeciv Version 1.10
+====================
 
 Welcome to Freeciv!
- 
-This archive contains Freeciv version 1.9, a free Civilization clone
-for X, primarily under Unix.  It has support for multiplayer games
-locally or over a network, and an AI which gives most people a run for
-their money.
+
+This archive contains Freeciv, a free Civilization clone for X,
+primarily under Unix.  It has support for multiplayer games locally or
+over a network, and an AI which gives most people a run for their money.
 
 Freeciv aims to be mostly rule-compatible with Civilization II[tm],
 published by Sid Meier and Microprose[tm].  A few rules are different
@@ -40,8 +39,8 @@ Freeciv metaserver, which records games being played around the world.
 License:
 ========
 
-Freeciv is released under the GNU General Public Licence.  In short, 
-you may copy this program (including source) freely, but see the 
+Freeciv is released under the GNU General Public License.  In short,
+you may copy this program (including source) freely, but see the
 COPYING file for full details.
 
 
@@ -53,7 +52,7 @@ Freeciv compiled and installed on your machine.
 
 
 Starting a new game:
-===================
+====================
 
 Freeciv is actually two programs, a server and a client.  When a game
 is in progress, there will be one server program running, and as many
@@ -154,17 +153,20 @@ Client:
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with two tilesets, called "trident" and "engels".
-  In this release the trident tileset is the default (in some previous
-  releases the engels tileset was the default).  The two tilesets have
-  quite different graphic style, so you may find you prefer one over
-  the other.  The trident tiles are smaller, so may be better if you
-  have a small display.  But try them both and decide for yourself --
-  to use the engels tileset start the client with:
+  distribution comes with two main tilesets, called "trident" and
+  "engels", and two variant tilesets, called "trident_shields" and
+  "engels_shields".  In this release the trident tileset is the default
+  (in some previous releases the engels tileset was the default).  The
+  two main tilesets have quite different graphic styles; you may find
+  you prefer one over the other.  The "_shields" variants use a shield-
+  shaped flag, which is smaller and may be less obscured.  The trident
+  tiles are smaller, so may be better if you have a small display.  But
+  try them both and decide for yourself -- to use the engels tileset
+  start the client with:
 
   |  % civclient --tiles engels
 
-  Other tilesets may be available from the ftp site.  
+  Other tilesets may be available from the ftp site.
 
   Clients can be authorized to issue server commands.  To allow them
   to use informational commands only, type at the server prompt
@@ -175,14 +177,14 @@ Client:
 
 Computer Players:
 
-  There are two ways to create AI players.  The first is to set 
+  There are two ways to create AI players.  The first is to set
   the number of players (human and AI) by setting the 'aifill'
   server option.  For example:
 
   |  > set aifill 7
 
-  After using the 'start' server command to start the game, any players 
-  which aren't controlled by humans will be AI players.  For the above, 
+  After using the 'start' server command to start the game, any players
+  which aren't controlled by humans will be AI players.  For the above,
   if two human players had joined, 5 AI players would be created.
 
   The second way is to explicitly create an AI with the 'create'
@@ -205,7 +207,7 @@ Computer Players:
 
 Server:
 
-  When everybody has joined (use the "list" command to see who's in), 
+  When everybody has joined (use the "list" command to see who's in),
   start the game with the "start" command:
 
   |  > start
@@ -251,15 +253,15 @@ Caveats:
 Playing the game:
 =================
 
-The game may be saved the game at any time using the 'save' server command,
-like so:
+The game may be saved the game at any time using the 'save' server
+command, like so:
 
   |  > save mygame
 
 The Freeciv client works pretty much as you would expect from a
-multiplayer civilization game. That is, the players move at the same
+multiplayer civilization game.  That is, the players move at the same
 time.  There's a turn timeout value, which is by default set to 0
-seconds (no timeout).  The server operator can alter this value at 
+seconds (no timeout).  The server operator can alter this value at
 any time with the 'set' command.
 
 Have a look at the online help system. All three mouse-buttons are
@@ -282,16 +284,16 @@ The server is smart enough to perform "name completion", so if you had
 typed "pet:", it will pick find a player name that matches the part of
 the name you typed.
 
-On newer servers (version 1.8.1 or later, or some development 1.8.0 
+On newer servers (version 1.8.1 or later, or some development 1.8.0
 versions) you can issue server commands from the client input line:
 
   |  /list
   |  /set settlers 4
   |  /save mygame.sav
 
-The server operator will probably let you issue informational commands only.
-This is partly because allowing clients to use all server commands has
-security implications; consider if a player tried:
+The server operator will probably let you issue informational commands
+only.  This is partly because allowing clients to use all server
+commands has security implications; consider if a player tried:
 
   |  /save /etc/passwd
 
@@ -319,7 +321,7 @@ There are three ways in which a game can end:
 3) A player builds and launches a spaceship, which reaches Alpha
    Centauri first.
 
-A score-table will be shown in all cases.  Hint: The server operator 
+A score-table will be shown in all cases.  Hint: The server operator
 can set the final year while the game is still going by changing the
 'end-year' option.  This is nice when the winner is obvious, but you
 don't want to play through the boring 'cleanup phase'.
@@ -334,7 +336,7 @@ You can restore a saved game by using the '-f' server option, eg:
 Now the players can rejoin the game:
 
   |  % civclient -n Alexander
-  
+
 Notice how the player-name is specified with the -n option. It's vital
 that the player uses the same name as they had when the game was running,
 if they're to be allowed in.
@@ -349,8 +351,8 @@ When the maximum number of players have connected, the server auto-starts.
 The maximum number of players can be set with the 'maxplayers' option.
 
 
-Native Language Support
-=======================
+Native Language Support:
+========================
 
 Freeciv supports several local languages.
 
@@ -375,30 +377,30 @@ Log messages:
 
 Both the client and server print messages known as "log messages".
 There are four categories of log messages: "fatal", "normal", "verbose",
-and "debug".  
+and "debug".
 
 By default, fatal and normal messages are printed to standard output
 where the client or server was started.  You can direct log messages
 to a file instead of the screen with the "--log filename", or "-l
 filename" command line options.
 
-You can change the level of log messages displayed with "--debug 
+You can change the level of log messages displayed with "--debug
 level" or "-d level" (or instead "-de level" for the Xaw client, since
-"-d" is ambiguous between "-debug" and "-display"), where "level" is 
-0, 1, or 2.  0 means show fatal messages only, 1 means show fatal and 
-normal messages (the default), and 2 means show all fatal, normal, and 
+"-d" is ambiguous between "-debug" and "-display"), where "level" is
+0, 1, or 2.  0 means show fatal messages only, 1 means show fatal and
+normal messages (the default), and 2 means show all fatal, normal, and
 verbose messages.
 
-If you compiled with DEBUG defined (an easy way to do this is to 
-configure with --enable-debug), then you can get debug level messages 
-by setting the level to 3.  Also, it is possible to control debug 
-level messages (but not other messages) on a per-file and per-line 
-basis.  To do this use "--debug 3:str1:str2" (as many strings as you 
-like, separated by colons) and any filenames which match those strings 
-as a substring will have debug log messages turned on, and all other 
+If you compiled with DEBUG defined (an easy way to do this is to
+configure with --enable-debug), then you can get debug level messages
+by setting the level to 3.  Also, it is possible to control debug
+level messages (but not other messages) on a per-file and per-line
+basis.  To do this use "--debug 3:str1:str2" (as many strings as you
+like, separated by colons) and any filenames which match those strings
+as a substring will have debug log messages turned on, and all other
 debug messages will be suppressed.  To control lines, use:
 "--debug 3:str1,min,max" and for files which match str1 only debug
-messages within the specified minimum and maximum lines will be 
+messages within the specified minimum and maximum lines will be
 printed.  Only one set of (min,max) can be applied to each file.
 
 Example:
@@ -418,10 +420,10 @@ Example:
 
   |  % civserver -d 3:log:civserver,120,500:autoattack
 
-This turns on all fatal, normal and verbose messages for the server, 
+This turns on all fatal, normal and verbose messages for the server,
 and debug level messages for some specified modules.  Note that "log"
 will match "gamelog.c" as well as "log.c".  For "civserver.c", only
-debug messages between lines 120 and 500 will be printed.  This 
+debug messages between lines 120 and 500 will be printed.  This
 example only works if the server was compiled with DEBUG.
 
 
@@ -429,7 +431,7 @@ Bugs:
 =====
 
 Found a bug?  We really want to hear from you so we can fix it.
-See the file BUGS, for a list of known bugs in this release, and 
+See the file BUGS, for a list of known bugs in this release, and
 information about reporting new bugs.
 
 
@@ -449,7 +451,7 @@ To send an email to the lists, address it to:
 
 or
 
-    <freeciv-dev@freeciv.org>    (For bug reports, and for Freeciv developers)
+    <freeciv-dev@freeciv.org>    (For bug reports, and Freeciv developers)
 
 To subscribe, send mail to <listar@freeciv.org>, with the single word
 "subscribe", followed by the name of the list.  (Put this in the body

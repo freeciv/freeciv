@@ -1,27 +1,32 @@
+============
 THINGS TO DO
 ============
 
 Freeciv is quite mature, and we think its already a great game,
-but there are always things to add or improve.  This file lists 
-some new features which are being worked on, or are planned, or 
+but there are always things to add or improve.  This file lists
+some new features which are being worked on, or are planned, or
 desired.  (See also the file BUGS, for some known deficiencies.)
 
 TODO:
+=====
 
-- City build lists.
 - Sound support.
-- Barbarians.
+- Fog Of War.
+- Server-side player scripting.
 - Alliances between players.
 - Better graphics for city styles.
-- Better internationalization (fix some problems, better gui 
+- Better internationalization (fix some problems, better gui
   handling for different-length words, mixed language client-server,
   more complete translations, more languages).
 - Make the rulesets for City Improvements and Wonders more flexible.
-- Extend governments ruleset to allow Fundamentalism, and fix up AI 
+- Extend governments ruleset to allow Fundamentalism, and fix up AI
   handling of variant governments.
 - Ports to Win32 and Mac are being worked on.
 
-Information on other projects, and the Freeciv development 
+FURTHER INFORMATION:
+====================
+
+Information on other projects, and the Freeciv development
 "roadmap", are available at the Freeciv website:
 
-            <http://www.freeciv.org>
+        http://www.freeciv.org/

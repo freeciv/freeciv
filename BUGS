@@ -1,9 +1,10 @@
+====
 BUGS
 ====
 
-Freeciv 1.9.0 is a "stable" release and is considered bug-free enough 
-for everyday use.  However if you do find a bug, we would really like to 
-know, so that we can fix it.  This file lists known bugs in this release, 
+Freeciv 1.10.0 is a "stable" release and is considered bug-free enough
+for everyday use.  However if you do find a bug, we would really like to
+know, so that we can fix it.  This file lists known bugs in this release,
 and gives information about reporting new bugs.
 
 KNOWN BUGS:
@@ -16,14 +17,14 @@ KNOWN BUGS:
    arrow keys will work again.  (Notably, clicking on the main window
    does *not* give it the focus, unfortunately.)
 
- - The easy AI is not easy enough for novice players.  If the AI is 
-   beating you up early in the game, try setting the "generator" server 
+ - The easy AI is not easy enough for novice players.  If the AI is
+   beating you up early in the game, try setting the "generator" server
    option to 2 or 3.  That is, in the server, before starting a game,
    type:  set generator 2
    or:    set generator 3
 
- - The hard AI is not hard enough for very experienced players, and 
-   still does some stupid things.  Eg, it prefers leaving cities in 
+ - The hard AI is not hard enough for very experienced players, and
+   still does some stupid things.  E.g., it prefers leaving cities in
    revolt rather than letting them starve/shrink.
 
  - If you scroll to the bottom of the map, sometimes the bottom row
@@ -34,20 +35,20 @@ KNOWN BUGS:
    the science report, such that the menu goes off the bottom of the
    screen and you cannot select some items.
 
- - Spies and diplomat special actions cannot be used when using "goto".
+ - Spy and diplomat special actions cannot be used when using "goto".
    (You will get a message "can't attack".)  You must move the spy or
-   diplomat (at least the last move, into the enemy) using the arrow 
+   diplomat (at least the last move, into the enemy) using the arrow
    keys instead of the "goto" command.
 
  - The server truncates the display of very long hostnames.
 
  - Units on goto can attack enemy units and cities unintentionally.
 
- - When a unit is moved to the edge of the map display, the map should 
+ - When a unit is moved to the edge of the map display, the map should
    shift sooner, before the unit actually gets to the edge.
 
  - The Great Wall wonder, which acts as a city wall in every city,
-   disallows cities to build "proper" city walls that won't disappear 
+   disallows cities to build "proper" city walls that won't disappear
    when wonder becomes obsolete.
 
 REPORTING A BUG:
@@ -62,28 +63,33 @@ Here's what to do:
 
    In particular, you might like to try a development snapshot,
    from our CVS repository.  You can FTP them from:
-        <http://www.freeciv.org/latest.html>
+
+        http://www.freeciv.org/latest.html
 
  - Check the Freeciv FAQ on the Freeciv website to see if we've
    published a way to work around your bug.
 
  - Check the Freeciv Bug Tracking System at:
-        <http://www.freeciv.org/cgi-bin/bugs>
+
+        http://www.freeciv.org/cgi-bin/bugs
+
    to see if the bug has already been reported.
 
- - Submit a bug report!  
+ - Submit a bug report!
 
-   You can submit a bug report either by sending email to 
+   You can submit a bug report either by sending email to
    <bugs@cvs.freeciv.org>, or via the web at
    <http://www.freeciv.org/cgi-bin/bugs>.
 
-   Or, if you want to send the Freeciv developers some comments 
-   but don't want to lodge a bug report, you can sent email to 
+   Or, if you want to send the Freeciv developers some comments
+   but don't want to lodge a bug report, you can sent email to
    <freeciv-dev@freeciv.org>, the Freeciv developer's mailing list.
 
    What to include in your bug report:
 
    - Describe the problem, including any messages that were displayed.
+
+   - Indicate which client(s) you are using (Gtk+ or Xaw).
 
    - Tell us the name and version of:
 
@@ -92,13 +98,13 @@ Here's what to do:
 
        - The version number of Freeciv.
 
-       - If you are using the Gtk+ client, the versions numbers
+       - If you are using the Gtk+ client, the version numbers
          (if you know them) of your Gtk+, glib, and imlib libraries.
 
        - If you are using the Xaw client, the version numbers (if you
-         know them) of the X libraries, the Xpm library, and the Xaw 
-         library, and particularly whether it is standard Xaw, or a 
-	 variant such as Xaw3d, Xaw95, or Nextaw.
+         know them) of the X libraries, the Xpm library, and the Xaw
+         library, and particularly whether it is standard Xaw, or a
+         variant such as Xaw3d, Xaw95, or Nextaw.
 
        - If you're compiling from source code, the name
          and version number of the compiler.
@@ -111,7 +117,9 @@ Here's what to do:
    give us a "stack trace".  You'll need the "core" file for this, so
    please hold onto it for a while.
 
+FURTHER INFORMATION:
+====================
 
 For more information, as always, see the Freeciv website:
 
-            <http://www.freeciv.org>
+        http://www.freeciv.org/
