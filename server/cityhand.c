@@ -948,6 +948,20 @@ void remove_city(struct city *pcity)
   map_fog_pseudo_city_area(pplayer, x, y);
 
   reset_move_costs(x, y);
+
+  /* Update available tiles in adjacent cities.
+     This is not the fastest way, but it is readable, and this func
+     is in no way critical. */
+  map_city_radius_iterate(x, y, x1, y1) {
+    /* For every tile the city could have used. */
+    map_city_radius_iterate(x1, y1, x2, y2) {
+      /* We see what cities are inside reach of the tile. */
+      struct city *pcity = map_get_city(x2, y2);
+      if (pcity && city_check_workers(pcity, 1)) {
+	send_city_info(city_owner(pcity), pcity);
+      }
+    } map_city_radius_iterate_end;
+  } map_city_radius_iterate_end;
 }
 
 
