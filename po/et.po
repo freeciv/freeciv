@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-1.14.0\n"
 "POT-Creation-Date: 2003-01-17 10:37+0100\n"
-"PO-Revision-Date: 2003-01-21 18:13+0200\n"
+"PO-Revision-Date: 2003-02-14 00:38+0200\n"
 "Last-Translator: Ahti Akel <akel@stallion.ee>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1113,7 +1113,7 @@ msgstr ""
 #: server/diplhand.c:382
 #, c-format
 msgid "Game: %s gives you shared vision."
-msgstr "Mäng: %s annab Sulle jagatud vaatevälja."
+msgstr "Mäng: %s annavad Sulle jagatud vaatevälja."
 
 #: server/diplhand.c:483
 #, c-format
@@ -5107,11 +5107,11 @@ msgstr ""
 
 #: client/cityrepdata.c:231
 msgid "?pollution:Pol"
-msgstr "?reostus:Reo"
+msgstr "?pollution:Reo"
 
 #: client/cityrepdata.c:233
 msgid "?corruption:Cor"
-msgstr "?korruptsioon:Kor"
+msgstr "?corruption:Kor"
 
 #: client/cityrepdata.c:233
 msgid "Corruption"
@@ -5188,11 +5188,11 @@ msgstr ""
 
 #: client/climisc.c:344
 msgid "?embassy:Both"
-msgstr "?saatkond:Mõlemal"
+msgstr "?embassy:Mõlemal"
 
 #: client/climisc.c:346
 msgid "?embassy:Yes"
-msgstr "?saatkond:Jah"
+msgstr "?embassy:Jah"
 
 #: client/climisc.c:348
 msgid "?embassy:With Us"
@@ -5228,12 +5228,12 @@ msgstr ""
 #: client/climisc.c:400
 #, c-format
 msgid "The %s give their worldmap"
-msgstr "%s annab oma maakaardi."
+msgstr "%s annavad oma maakaardi."
 
 #: client/climisc.c:404
 #, c-format
 msgid "The %s give their seamap"
-msgstr "%s annab oma merekaardi"
+msgstr "%s annavad oma merekaardi"
 
 #: client/climisc.c:408
 msgid "The parties agree on a cease-fire"
@@ -5250,7 +5250,7 @@ msgstr "Osapooled loovad liidu"
 #: client/climisc.c:417
 #, c-format
 msgid "The %s gives shared vision"
-msgstr "The %s annab jagatud vaate"
+msgstr "The %s annavad jagatud vaate"
 
 #: client/climisc.c:540
 #, c-format
@@ -7200,7 +7200,7 @@ msgstr "Kommentaar"
 #: client/gui-gtk-2.0/connectdlg.c:255 client/gui-gtk/connectdlg.c:222
 #: client/gui-win32/connectdlg.c:409 data/Freeciv:138
 msgid "Update"
-msgstr "Uuenda"
+msgstr "Värskenda vaadet"
 
 #: client/gui-gtk-2.0/connectdlg.c:334 client/gui-gtk/connectdlg.c:313
 #: client/gui-mui/connectdlg.c:271 client/gui-win32/connectdlg.c:446
@@ -7591,7 +7591,7 @@ msgstr "Kõik valmis"
 
 #: client/gui-gtk-2.0/dialogs.c:1896
 msgid " What Nation Will You Be?"
-msgstr "Mis rahvusest soovid olla ?"
+msgstr " Mis rahvusest soovid olla ?"
 
 #: client/gui-gtk-2.0/dialogs.c:1904 client/gui-gtk/dialogs.c:1921
 #: client/gui-win32/dialogs.c:481
@@ -12546,7 +12546,7 @@ msgstr ""
 #: data/default/buildings.ruleset:307 data/civ2/buildings.ruleset:116
 #: data/civ1/buildings.ruleset:115 data/history/buildings.ruleset:116
 msgid "Barracks"
-msgstr "Barrakid"
+msgstr "Kasarmud"
 
 #: data/default/buildings.ruleset:327 data/default/buildings.ruleset:356
 #: data/default/buildings.ruleset:385 data/civ2/buildings.ruleset:136
@@ -12563,12 +12563,12 @@ msgstr ""
 #: data/default/buildings.ruleset:336 data/civ2/buildings.ruleset:145
 #: data/civ1/buildings.ruleset:153 data/history/buildings.ruleset:145
 msgid "Barracks II"
-msgstr "Barrakid II"
+msgstr "Kasarmud II"
 
 #: data/default/buildings.ruleset:365 data/civ2/buildings.ruleset:174
 #: data/civ1/buildings.ruleset:190 data/history/buildings.ruleset:174
 msgid "Barracks III"
-msgstr "Barrakid III"
+msgstr "Kasarmud III"
 
 #: data/default/buildings.ruleset:394 data/civ2/buildings.ruleset:203
 #: data/civ1/buildings.ruleset:227 data/history/buildings.ruleset:203
