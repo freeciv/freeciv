@@ -28,6 +28,8 @@ libcivcommon_a_SOURCES = \
 		player.h	\
 		mem.c           \
 		mem.h		\
+		registry.c	\
+		registry.h	\
 		shared.c	\
 		shared.h	\
 		spaceship.c	\

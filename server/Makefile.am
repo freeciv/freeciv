@@ -33,8 +33,6 @@ civserver_SOURCES = \
 		meta.h		\
 		plrhand.c	\
 		plrhand.h	\
-		registry.c	\
-		registry.h	\
 		ruleset.c	\
 		ruleset.h	\
 		sernet.c	\
