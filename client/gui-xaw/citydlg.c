@@ -1696,9 +1696,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 					int unitid)
 {
   struct unit_list *plist;
-  int i, adj_base;
-  struct genlist_iterator myiter;
-  struct unit *punit;
+  int i, j, adj_base;
   Widget pixcomm;
 
   if(pdialog->pcity->owner != game.player_idx) {
@@ -1717,16 +1715,18 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
      pdialog->support_unit_prev_command
     );
 
-  genlist_iterator_init(&myiter,
-			&(plist->list),
-			pdialog->support_unit_base);
-
-  for(i=0;
-      i<pdialog->num_units_shown && ITERATOR_PTR(myiter);
-      ITERATOR_NEXT(myiter), i++) {
+  i = 0; /* number of displayed units */
+  j = 0; /* index into list */
+  unit_list_iterate(*plist, punit) {
     struct canvas_store store;
 
-    punit=(struct unit*)ITERATOR_PTR(myiter);
+    if (j++ < pdialog->support_unit_base) {
+      continue;
+    }
+    if (i >= pdialog->num_units_shown) {
+      break;
+    }
+
     pixcomm=pdialog->support_unit_pixcomms[i];
     store.pixmap = XawPixcommPixmap(pixcomm);
 
@@ -1744,8 +1744,10 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     XtAddCallback(pixcomm, XtNcallback,
 		  support_units_callback, INT_TO_XTPOINTER(punit->id));
     XtSetSensitive(pixcomm, TRUE);
-  }
+    i++;
+  } unit_list_iterate_end;
 
+  /* Disable any empty slots */
   for(; i<pdialog->num_units_shown; i++) {
     XawPixcommClear(pdialog->support_unit_pixcomms[i]);
     XtSetSensitive(pdialog->support_unit_pixcomms[i], FALSE);
@@ -1758,9 +1760,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 {
   struct unit_list *plist;
-  int i, adj_base;
-  struct genlist_iterator myiter;
-  struct unit *punit;
+  int i, j, adj_base;
   Widget pixcomm;
 
   if(pdialog->pcity->owner != game.player_idx) {
@@ -1779,16 +1779,18 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
      pdialog->present_unit_prev_command
     );
 
-  genlist_iterator_init(&myiter, 
-			&(plist->list),
-			pdialog->present_unit_base);
-
-  for(i=0;
-      i<pdialog->num_units_shown && ITERATOR_PTR(myiter);
-      ITERATOR_NEXT(myiter), i++) {
+  i = 0; /* number of displayed units */
+  j = 0; /* index into list */
+  unit_list_iterate(*plist, punit) {
     struct canvas_store store;
 
-    punit=(struct unit*)ITERATOR_PTR(myiter);
+    if (j++ < pdialog->present_unit_base) {
+      continue;
+    }
+    if (i >= pdialog->num_units_shown) {
+      break;
+    }
+
     pixcomm=pdialog->present_unit_pixcomms[i];
     store.pixmap = XawPixcommPixmap(pixcomm);
 
@@ -1804,7 +1806,8 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     XtAddCallback(pixcomm, XtNcallback, 
 		  present_units_callback, INT_TO_XTPOINTER(punit->id));
     XtSetSensitive(pixcomm, TRUE);
-  }
+    i++;
+  } unit_list_iterate_end;
 
   for(; i<pdialog->num_units_shown; i++) {
     XawPixcommClear(pdialog->present_unit_pixcomms[i]);
