@@ -71,7 +71,8 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"\
-" fund_added processing_packets angrycitizen tile_trade init_techs"
+" fund_added processing_packets angrycitizen tile_trade init_techs"\
+" short_worklists"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -103,6 +104,8 @@ const char * const our_capability = our_capability_internal;
 
    "init_techs" allows global and nation specific initial techs to be
    specified in rulesets.
+
+   "short_worklists" sends short worklists to reduce bandwidth used.
 */
 
 void init_our_capability(void)

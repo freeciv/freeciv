@@ -1330,20 +1330,31 @@ static void iget_tech_list(struct pack_iter *piter, int *techs)
  use separate packets, to avoid this problem (and would also
  reduce amount sent).  --dwp
 **************************************************************************/
-static unsigned char *put_worklist(unsigned char *buffer,
-                                   const struct worklist *pwl,
-				   int real_wl)
+static unsigned char *put_worklist(struct connection *pc,
+				   unsigned char *buffer,
+				   const struct worklist *pwl, int real_wl)
 {
-  int i;
+  int i, length, short_wls =
+      has_capability("short_worklists", pc->capability);
 
   buffer = put_uint8(buffer, pwl->is_valid);
-  if (real_wl)
-    buffer = put_string(buffer, pwl->name);
-  else
-    buffer = put_string(buffer, "\0");
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    buffer = put_uint8(buffer, pwl->wlefs[i]);
-    buffer = put_uint8(buffer, pwl->wlids[i]);
+
+  if ((short_wls && pwl->is_valid) || !short_wls) {
+    if (real_wl) {
+      buffer = put_string(buffer, pwl->name);
+    } else {
+      buffer = put_string(buffer, "\0");
+    }
+    if (short_wls) {
+      length = worklist_length(pwl);
+      buffer = put_uint8(buffer, length);
+    } else {
+      length = MAX_LEN_WORKLIST;
+    }
+    for (i = 0; i < length; i++) {
+      buffer = put_uint8(buffer, pwl->wlefs[i]);
+      buffer = put_uint8(buffer, pwl->wlids[i]);
+    }
   }
 
   return buffer;
@@ -1352,15 +1363,32 @@ static unsigned char *put_worklist(unsigned char *buffer,
 /**************************************************************************
 ...
 **************************************************************************/
-static void iget_worklist(struct pack_iter *piter, struct worklist *pwl)
+static void iget_worklist(struct connection *pc, struct pack_iter *piter,
+			  struct worklist *pwl)
 {
-  int i;
+  int i, length, short_wls =
+      has_capability("short_worklists", pc->capability);
 
   iget_uint8(piter, &pwl->is_valid);
-  iget_string(piter, pwl->name, MAX_LEN_NAME);
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    iget_uint8(piter, (int*)&pwl->wlefs[i]);
-    iget_uint8(piter, &pwl->wlids[i]);
+
+  if ((short_wls && pwl->is_valid) || !short_wls) {
+    iget_string(piter, pwl->name, MAX_LEN_NAME);
+
+    if (short_wls) {
+      iget_uint8(piter, &length);
+
+      if (length < MAX_LEN_WORKLIST) {
+	pwl->wlefs[length] = WEF_END;
+	pwl->wlids[length] = 0;
+      }
+    } else {
+      length = MAX_LEN_WORKLIST;
+    }
+
+    for (i = 0; i < length; i++) {
+      iget_uint8(piter, (int *) &pwl->wlefs[i]);
+      iget_uint8(piter, &pwl->wlids[i]);
+    }
   }
 }
     
@@ -1627,8 +1655,8 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->science);
   cptr=put_uint8(cptr, packet->government);
   cptr=put_uint8(cptr, packet->tech);
-  cptr=put_worklist(cptr, &packet->worklist,
-                    req_type == PACKET_PLAYER_WORKLIST);
+  cptr = put_worklist(pc, cptr, &packet->worklist,
+		      req_type == PACKET_PLAYER_WORKLIST);
   cptr=put_uint8(cptr, packet->wl_idx);
 
   if (pc && has_capability("attributes", pc->capability)) {
@@ -1657,7 +1685,7 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->science);
   iget_uint8(&iter, &preq->government);
   iget_uint8(&iter, &preq->tech);
-  iget_worklist(&iter, &preq->worklist);
+  iget_worklist(pc, &iter, &preq->worklist);
   iget_uint8(&iter, &preq->wl_idx);
   if (pc && has_capability("attributes", pc->capability))
     iget_uint8(&iter, &preq->attribute_block);
@@ -1686,7 +1714,7 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
   cptr=put_uint8(cptr, packet->specialist_to);
-  cptr=put_worklist(cptr, &packet->worklist, 1);
+  cptr = put_worklist(pc, cptr, &packet->worklist, 1);
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
@@ -1713,7 +1741,7 @@ receive_packet_city_request(struct connection *pc)
   iget_uint8(&iter, &preq->worker_y);
   iget_uint8(&iter, &preq->specialist_from);
   iget_uint8(&iter, &preq->specialist_to);
-  iget_worklist(&iter, &preq->worklist);
+  iget_worklist(pc, &iter, &preq->worklist);
   iget_string(&iter, preq->name, sizeof(preq->name));
   
   pack_iter_end(&iter, pc);
@@ -1771,7 +1799,7 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->is_barbarian);
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    cptr = put_worklist(cptr, &pinfo->worklists[i], 1);
+    cptr = put_worklist(pc, cptr, &pinfo->worklists[i], 1);
   }
 
   cptr=put_uint32(cptr, pinfo->gives_shared_vision);
@@ -1833,7 +1861,7 @@ receive_packet_player_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->is_barbarian);
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    iget_worklist(&iter, &pinfo->worklists[i]);
+    iget_worklist(pc, &iter, &pinfo->worklists[i]);
   }
 
   /* Unfortunately the second argument to iget_uint32 is int, not uint: */
@@ -2281,7 +2309,7 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint16(cptr, req->disbanded_shields);
   cptr=put_uint16(cptr, req->caravan_shields);
 
-  cptr=put_worklist(cptr, &req->worklist, 1);
+  cptr = put_worklist(pc, cptr, &req->worklist, 1);
 
   data=req->is_building_unit?1:0;
   data|=req->did_buy?2:0;
@@ -2374,7 +2402,7 @@ receive_packet_city_info(struct connection *pc)
   iget_uint16(&iter, &packet->disbanded_shields);
   iget_uint16(&iter, &packet->caravan_shields);
 
-  iget_worklist(&iter, &packet->worklist);
+  iget_worklist(pc, &iter, &packet->worklist);
 
   iget_uint8(&iter, &data);
   packet->is_building_unit = data&1;
