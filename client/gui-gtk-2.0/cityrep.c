@@ -679,7 +679,7 @@ static GtkWidget *create_city_report_menubar(void)
 
   menubar = gtk_menu_bar_new();
   
-  item = gtk_menu_item_new_with_mnemonic(_("_Change"));
+  item = gtk_menu_item_new_with_mnemonic(_("Chan_ge"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   city_change_command = item;
   create_change_menu(item);
