@@ -119,21 +119,22 @@ static bool could_be_my_zoc(struct unit *myunit, int x0, int y0)
     1 if zoc_ok
    -1 if zoc could be ok?
 **************************************************************************/
-int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
-			    int dest_x, int dest_y)
+int could_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y)
 {
   enum unit_move_result result;
 
   result =
       test_unit_move_to_tile(punit->type, unit_owner(punit),
-			     punit->activity, punit->connecting,
-			     punit->x, punit->y, dest_x, dest_y, FALSE);
-  if (result == MR_OK)
+                             ACTIVITY_IDLE, FALSE, punit->x, punit->y, 
+                             dest_x, dest_y, unit_flag(punit, F_IGZOC));
+  if (result == MR_OK) {
     return 1;
+  }
 
   if (result == MR_ZOC) {
-    if (could_be_my_zoc(punit, src_x, src_y))
+    if (could_be_my_zoc(punit, punit->x, punit->y)) {
       return -1;
+    }
   }
   return 0;
 }
@@ -154,7 +155,6 @@ static bool has_defense(struct city *pcity)
   unit_list_iterate_end;
   return FALSE;
 }
-
 
 /**********************************************************************
  Precondition: A warmap must already be generated for the punit.
@@ -391,8 +391,9 @@ bool ai_manage_explorer(struct unit *punit)
         if (map_get_continent(x1, y1) != continent)
           continue;
         
-        if (!can_unit_move_to_tile(punit, x1, y1, FALSE))
+        if (could_unit_move_to_tile(punit, x1, y1) == 0) {
           continue;
+        }
 
         /* We won't travel into cities, unless we are able to do so - diplomats
          * and caravans can. */
@@ -1019,7 +1020,7 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
 
       /* ...or tiny pleasant hut here! */
       if (map_has_special(x1, y1, S_HUT) && best < 99999
-          && could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) != 0
+          && could_unit_move_to_tile(punit, x1, y1) != 0
           && !is_barbarian(unit_owner(punit))
           && punit->ai.ai_role != AIUNIT_ESCORT
           && punit->ai.charge == BODYGUARD_NONE /* Above line doesn't seem to work. :( */
@@ -1031,7 +1032,7 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
       /* If we have nothing to do, we can at least pillage something, hmm? */
       if (is_land_barbarian(pplayer) && best == 0
           && get_tile_infrastructure_set(map_get_tile(x1, y1)) != S_NO_SPECIAL
-          && could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) != 0) {
+          && could_unit_move_to_tile(punit, x1, y1) != 0) {
         SET_BEST(1);
         continue;
       }
@@ -1924,7 +1925,6 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int dest_x, dest_y; 
   int id = punit->id;
   int ct = 10;
-  bool igzoc = unit_flag(punit, F_IGZOC);
 
   assert(punit != NULL);
   if (punit->activity == ACTIVITY_GOTO) {
@@ -1953,7 +1953,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
       repeat++;
       if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)
           || !can_unit_attack_tile(punit, dest_x, dest_y)
-          || !can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
+          || could_unit_move_to_tile(punit, dest_x, dest_y) == 0) {
         /* Can't attack or move usually means we are adjacent but
          * on a ferry. This fixes the problem (usually). */
         int i = ai_military_gothere(pplayer, punit, dest_x, dest_y);
@@ -2555,7 +2555,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
     square_iterate(leader->x, leader->y, 1, x, y) {
       if (warmap.cost[x][y] > safest
-	  && can_unit_move_to_tile(leader, x, y, FALSE)) {
+	  && could_unit_move_to_tile(leader, x, y) == 1) {
 	safest = warmap.cost[x][y];
 	freelog(LOG_DEBUG,
 		"Barbarian leader: safest is %d, %d, safeness %d", x, y,

@@ -40,8 +40,7 @@ struct ai_choice;
 extern Unit_Type_id simple_ai_types[U_LAST];
 
 void ai_manage_units(struct player *pplayer); 
-int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
-			    int dest_x, int dest_y);
+int could_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 

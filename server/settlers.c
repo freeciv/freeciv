@@ -1198,8 +1198,7 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 	|| (ferryboat
 	    && goto_is_sane(ferryboat, gx, gy, TRUE)
 	    && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
-		|| could_unit_move_to_tile(punit, punit->x, punit->y,
-					    gx, gy) == 0))) {
+		|| could_unit_move_to_tile(punit, gx, gy) == 0))) {
       int x, y;
       punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1); /* might need 2 */
       freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
@@ -1228,8 +1227,7 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 	&& punit->moves_left > 0
 	&& (!ferryboat
 	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
-		&& could_unit_move_to_tile(punit, punit->x, punit->y,
-					   gx, gy) != 0))) {
+		&& could_unit_move_to_tile(punit, gx, gy) != 0))) {
       auto_settler_do_goto(pplayer, punit, gx, gy);
       if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
       punit->ai.ferryboat = 0;

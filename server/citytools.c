@@ -1167,7 +1167,7 @@ void remove_city(struct city *pcity)
     moved = FALSE;
     adjc_iterate(x, y, x1, y1) {
       if (map_get_terrain(x1, y1) == T_OCEAN) {
-	if (could_unit_move_to_tile(punit, x, y, x1, y1) == 1) {
+	if (could_unit_move_to_tile(punit, x1, y1) == 1) {
 	  moved = handle_unit_move_request(punit, x1, y1, FALSE, TRUE);
 	  if (moved) {
 	    notify_player_ex(unit_owner(punit), -1, -1, E_NOEVENT,
