@@ -90,13 +90,17 @@ struct civ_game {
   int global_wonders[B_LAST];              /* contains city id's */
          /* global_wonders[] may also be (-1), or the id of a city
 	    which no longer exists, if the wonder has been destroyed */
-  int globalwarming;                       /* counter of how disturbed 
-					      mother nature is */
-  int heating;
-  int warminglevel;
-  int nuclearwinter;
-  int cooling;
-  int coolinglevel;
+
+  int heating; /* Number of polluted squares. */
+  int globalwarming; /* Total damage done. (counts towards a warming event.) */
+  int warminglevel; /* If globalwarming is higher than this number there is
+		       a chance of a warming event. */
+
+  int cooling; /* Number of irradiated squares. */
+  int nuclearwinter; /* Total damage done. (counts towards a cooling event.) */
+  int coolinglevel; /* If nuclearwinter is higher than this number there is
+		       a chance of a cooling event. */
+
   char save_name[MAX_LEN_NAME];
   int save_nturns;
   int save_compress_level;
@@ -196,6 +200,7 @@ struct civ_game {
   } load_options;
 };
 
+/* Unused? */
 struct lvldat {
   int advspeed;
 };
