@@ -733,15 +733,20 @@ const char *get_happiness_buildings(const struct city *pcity)
   get_city_bonus_effects(plist, pcity, EFT_MAKE_CONTENT);
 
   effect_list_iterate(plist, peffect) {
-    faces++;
+    if (faces != 0) {
+      add(_(", "));
+    }
     get_effect_req_text(peffect, buf, sizeof(buf));
-    add(_("%s. "), buf);
+    add(_("%s"), buf);
+    faces++;
   } effect_list_iterate_end;
   effect_list_unlink_all(plist);
   effect_list_free(plist);
 
   if (faces == 0) {
     add(_("None. "));
+  } else {
+    add(_("."));
   }
 
   RETURN;
@@ -763,9 +768,12 @@ const char *get_happiness_wonders(const struct city *pcity)
   get_city_bonus_effects(plist, pcity, EFT_NO_UNHAPPY);
 
   effect_list_iterate(plist, peffect) {
-    faces++;
+    if (faces != 0) {
+      add(_(", "));
+    }
     get_effect_req_text(peffect, buf, sizeof(buf));
-    add(_("%s. "), buf);
+    add(_("%s"), buf);
+    faces++;
   } effect_list_iterate_end;
 
   effect_list_unlink_all(plist);
@@ -773,6 +781,8 @@ const char *get_happiness_wonders(const struct city *pcity)
 
   if (faces == 0) {
     add(_("None. "));
+  } else {
+    add(_("."));
   }
 
   RETURN;

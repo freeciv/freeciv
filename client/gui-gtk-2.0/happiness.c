@@ -141,8 +141,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     gtk_misc_set_alignment(GTK_MISC(pdialog->hpixmaps[i]), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(pdialog->hlabels[i]), 0, 0);
     gtk_label_set_justify(GTK_LABEL(pdialog->hlabels[i]), GTK_JUSTIFY_LEFT);
-
-    /* gtk_label_set_line_wrap(GTK_LABEL(pdialog->hlabels[i]), TRUE); */
+    gtk_label_set_line_wrap(GTK_LABEL(pdialog->hlabels[i]), TRUE);
   }
 
   gtk_widget_show_all(pdialog->shell);
