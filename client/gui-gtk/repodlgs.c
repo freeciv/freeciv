@@ -152,7 +152,6 @@ void create_science_dialog(int make_modal)
   GtkWidget *frame, *hbox, *w;
   GtkAccelGroup *accel=gtk_accel_group_new();
   int i;
-  int turns_to_advance;
   char text[512];
 
   science_dialog_shell = gtk_dialog_new();
@@ -162,11 +161,7 @@ void create_science_dialog(int make_modal)
 
   gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science"));
 
-  turns_to_advance = tech_turns_to_advance(game.player_ptr);
-  my_snprintf(text, sizeof(text),
-	      PL_("Research speed: %d turn/advance",
-		  "Research speed: %d turns/advance", turns_to_advance),
-	      turns_to_advance);
+  my_snprintf(text, sizeof(text), "no text set yet");
   science_label = gtk_label_new(text);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
@@ -384,10 +379,14 @@ void science_dialog_update(void)
   if(delay_report_update) return;
 
   turns_to_advance = tech_turns_to_advance(game.player_ptr);
-  my_snprintf(text, sizeof(text),
-	      PL_("Research speed: %d turn/advance",
-		  "Research speed: %d turns/advance", turns_to_advance),
-	      turns_to_advance);
+  if (turns_to_advance == INFINITY) {
+    my_snprintf(text, sizeof(text), _("Research speed: no research"));
+  } else {
+    my_snprintf(text, sizeof(text),
+		PL_("Research speed: %d turn/advance",
+		    "Research speed: %d turns/advance", turns_to_advance),
+		turns_to_advance);
+  }
 
   gtk_set_label(science_label, text);
 

@@ -115,9 +115,13 @@ science_dialog_update(void)
   report_title=get_report_title(_("Science"));
   sz_strlcpy(text, report_title);
   turns_to_advance = tech_turns_to_advance(game.player_ptr);
-  my_snprintf(rate, sizeof(rate),
-	      PL_("\n(%d turn/advance)", "\n(%d turns/advance)",
-		  turns_to_advance), turns_to_advance);
+  if (turns_to_advance == INFINITY) {
+    my_snprintf(rate, sizeof(rate), _("\n(no research)"));
+  } else {
+    my_snprintf(rate, sizeof(rate),
+		PL_("\n(%d turn/advance)", "\n(%d turns/advance)",
+		    turns_to_advance), turns_to_advance);
+  }
   sz_strlcat(text, rate);
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_TOP),text);
   ListBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_LIST));
