@@ -29,6 +29,6 @@ struct Sprite
 };
 
 
-GdkPixmap *	create_overlay_unit	(int i);
+void	create_overlay_unit	(GtkWidget *pixcomm, int i);
 
 #endif  /* FC__GRAPHICS_H */

@@ -22,6 +22,7 @@
 #include <gtk/gtk.h>
 
 #include <gdk_imlib.h>
+#include "gtkpixcomm.h"
 
 #include "game.h"
 #include "log.h"
@@ -326,18 +327,10 @@ void free_sprite(SPRITE *s)
 /***************************************************************************
  ...
 ***************************************************************************/
-GdkPixmap *create_overlay_unit(int i)
+void create_overlay_unit(GtkWidget *pixcomm, int i)
 {
-  GdkPixmap *pm;
   enum color_std bg_color;
   
-  pm=gdk_pixmap_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
-
-  /* use -1 if you just want a tile, e.g. if the units aren't known yet */
-  if (i == -1) {
-    return pm;
-  }
-
   /* Give tile a background color, based on the type of unit */
   switch (get_unit_type(i)->move_type) {
     case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
@@ -346,34 +339,22 @@ GdkPixmap *create_overlay_unit(int i)
     case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
     default:	      bg_color = COLOR_STD_BLACK;  break;
   }
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[bg_color]);
-  gdk_draw_rectangle(pm, fill_bg_gc, TRUE, 0, 0,
-        	     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+  gtk_pixcomm_fill(GTK_PIXCOMM(pixcomm), colors_standard[bg_color], FALSE);
 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
     struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
 
-    gdk_gc_set_clip_origin(civ_gc, 0, 0);
-    gdk_gc_set_clip_mask(civ_gc, flag->mask);
-
-    gdk_draw_pixmap(pm, civ_gc, flag->pixmap, 0, 0, 0, 0,
-					flag->width, flag->height);
-    gdk_gc_set_clip_mask(civ_gc, NULL);
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), flag, 0, 0, FALSE);
   }
 
   /* Finally, put a picture of the unit in the tile */
   if(i<game.num_unit_types) {
     struct Sprite *s=get_unit_type(i)->sprite;
 
-    gdk_gc_set_clip_origin(civ_gc, 0, 0);
-    gdk_gc_set_clip_mask(civ_gc, s->mask);
-
-    gdk_draw_pixmap(pm, civ_gc, s->pixmap, 0, 0, 0, 0, s->width, s->height);
-    gdk_gc_set_clip_mask(civ_gc, NULL);
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pixcomm), s, 0, 0, FALSE);
   }
-
-  return pm;
+  gtk_pixcomm_changed(GTK_PIXCOMM(pixcomm));
 }
 
 /***************************************************************************

@@ -20,6 +20,7 @@
 #include <assert.h>
 
 #include <gtk/gtk.h>
+#include "gtkpixcomm.h"
 
 #include "city.h"
 #include "fcintl.h"
@@ -47,7 +48,7 @@
 #define TECH_TREE_EXPANDED_DEPTH 2
 
 extern GtkWidget *toplevel;
-extern GdkGC *civ_gc;
+extern GdkWindow *root_window;
 
 extern char long_buffer[64000];	      /* helpdata.c */
 
@@ -92,19 +93,19 @@ char *help_wlabel_name[6] =
 
 char *help_ulabel_name[5][5] =
 {
-    { N_("Cost:"),		"", "",	N_("Attack:"),	"" },
-    { N_("Defense:"),	"", "",	N_("Move:")	,	"" },
-    { N_("FirePower:"),	"", "",	N_("Hitpoints:"),	"" },
-    { N_("Basic Upkeep:"),	"", "",	N_("Vision:"),	"" },
+    { N_("Cost:"),		"", "",	N_("Attack:"),		"" },
+    { N_("Defense:"),		"", "",	N_("Move:")	,	"" },
+    { N_("FirePower:"),		"", "",	N_("Hitpoints:"),	"" },
+    { N_("Basic Upkeep:"),	"", "",	N_("Vision:"),		"" },
     { N_("Requirement:"),	"", "",	N_("Obsolete by:"),	"" }
 };
 
 char *help_tlabel_name[4][5] =
 {
-    { N_("Move/Defense:"),	"", "",	N_("Food/Res/Trade:"),	"" },
-    { N_("Sp1 F/R/T:"),	"", "",	N_("Sp2 F/R/T:"),		"" },
-    { N_("Road Rslt/Time:"),"", "",	N_("Irrig. Rslt/Time:"),	"" },
-    { N_("Mine Rslt/Time:"),"", "",	N_("Trans. Rslt/Time:"),	"" }
+    { N_("Move/Defense:"),	"", "",	N_("Food/Res/Trade:"),		"" },
+    { N_("Sp1 F/R/T:"),		"", "",	N_("Sp2 F/R/T:"),		"" },
+    { N_("Road Rslt/Time:"),	"", "",	N_("Irrig. Rslt/Time:"),	"" },
+    { N_("Mine Rslt/Time:"),	"", "",	N_("Trans. Rslt/Time:"),	"" }
 };
 
 
@@ -480,8 +481,8 @@ static void create_help_dialog(void)
   gtk_container_add( GTK_CONTAINER( help_frame ), help_box );
 
 
-  unit_tile = gtk_pixmap_new( create_overlay_unit( -1 ), NULL );
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(unit_tile), FALSE);
+  unit_tile = gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH,
+  					   NORMAL_TILE_HEIGHT);
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
   help_itable = gtk_table_new(1, 6, FALSE);
@@ -764,7 +765,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_widget_show(help_text);
     gtk_widget_show(help_text_scrolled);
 
-    gtk_pixmap_set(GTK_PIXMAP(unit_tile), create_overlay_unit(i), NULL);
+    create_overlay_unit(unit_tile, i);
     gtk_widget_show(unit_tile);
   }
   else {
