@@ -33,12 +33,12 @@
 
 #include "cityhand.h"
 #include "citytools.h"
-#include "civserver.h"
 #include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "settlers.h"
 #include "spacerace.h"
+#include "srv_main.h"
 #include "unitfunc.h"
 #include "unittools.h"
 

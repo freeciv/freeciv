@@ -29,6 +29,7 @@ server/plrhand.c
 server/ruleset.c
 server/rulesout.c
 server/spacerace.c
+server/srv_main.c
 server/stdinhand.c
 server/unitfunc.c
 server/unithand.c

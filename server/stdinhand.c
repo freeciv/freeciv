@@ -38,7 +38,6 @@
 #include "shared.h"
 #include "support.h"
 
-#include "civserver.h"
 #include "console.h"
 #include "gamehand.h"
 #include "gamelog.h"
@@ -47,23 +46,20 @@
 #include "plrhand.h"
 #include "rulesout.h"
 #include "sernet.h"
+#include "srv_main.h"
 
 #include "advmilitary.h"	/* assess_danger_player() */
 
 #include "stdinhand.h"
 
+
 #define MAX_LEN_CMD MAX_LEN_PACKET
   /* to be used more widely - rp */
 
 extern int gamelog_level;
-extern char metaserver_info_line[256];
-extern char metaserver_addr[256];
-extern int metaserver_port;
 
 enum cmdlevel_id default_access_level = ALLOW_INFO;
 enum cmdlevel_id   first_access_level = ALLOW_INFO;
-
-extern int force_end_of_sniff;
 
 static void cut_client_connection(struct connection *caller, char *playername);
 static void quit_game(struct connection *caller);
@@ -1383,13 +1379,13 @@ static void meta_command(struct connection *caller, char *arg)
 **************************************************************************/
 static void metainfo_command(struct connection *caller, char *arg)
 {
-  mystrlcpy(metaserver_info_line, arg, 256);
+  mystrlcpy(srvarg.metaserver_info_line, arg, 256);
   if (send_server_info_to_metaserver(1,0) == 0) {
     cmd_reply(CMD_META, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
   } else {
     notify_player(0, _("Metaserver infostring set to '%s'."),
-		  metaserver_info_line);
+		  srvarg.metaserver_info_line);
     cmd_reply(CMD_META, caller, C_OK,
 	      _("Metaserver info string set."));
   }
@@ -1402,7 +1398,7 @@ static void metaserver_command(struct connection *caller, char *arg)
 {
   close_metaserver_connection(caller);
 
-  mystrlcpy(metaserver_addr, arg, 256);
+  mystrlcpy(srvarg.metaserver_addr, arg, 256);
   meta_addr_split();
 
   notify_player(0, _("Metaserver is now [%s]."),
@@ -1714,16 +1710,16 @@ static void write_init_script(char *script_filename)
 	(game.skill_level >= 6) ?	"hard" :
 					"normal");
 
-    if (*metaserver_addr &&
-	((0 != strcmp(metaserver_addr, DEFAULT_META_SERVER_ADDR)) ||
-	 (metaserver_port != DEFAULT_META_SERVER_PORT))) {
+    if (*srvarg.metaserver_addr &&
+	((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)) ||
+	 (srvarg.metaserver_port != DEFAULT_META_SERVER_PORT))) {
       fprintf(script_file, "metaserver %s\n", meta_addr_port());
     }
 
-    if (*metaserver_info_line &&
-	(0 != strcmp(metaserver_info_line,
+    if (*srvarg.metaserver_info_line &&
+	(0 != strcmp(srvarg.metaserver_info_line,
 		     DEFAULT_META_SERVER_INFO_STRING))) {
-      fprintf(script_file, "metainfo %s\n", metaserver_info_line);
+      fprintf(script_file, "metainfo %s\n", srvarg.metaserver_info_line);
     }
 
     /* then, the 'set' option settings */

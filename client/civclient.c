@@ -60,11 +60,14 @@
 
 #include "civclient.h"
 
+/* this is used in strange places, and is 'extern'd where
+   needed (hence, it is not 'extern'd in civclient.h) */
+int is_server = 0;
+
 char metaserver[256];
 char server_host[512];
 char name[512];
 int server_port;
-int is_server = 0;
 
 enum client_states client_state=CLIENT_BOOT_STATE;
 

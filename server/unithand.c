@@ -35,7 +35,6 @@
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
-#include "civserver.h"
 #include "gamelog.h"
 #include "gotohand.h"
 #include "maphand.h"
@@ -43,6 +42,7 @@
 #include "settlers.h"
 #include "shared.h"
 #include "spacerace.h"
+#include "srv_main.h"
 #include "unitfunc.h"
 #include "unittools.h"
 

@@ -26,7 +26,7 @@
 #include "log.h"
 #include "support.h"
 
-#include "civserver.h"
+#include "srv_main.h"
 
 #include "console.h"
 

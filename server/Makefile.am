@@ -1,11 +1,16 @@
 ## Process this file with automake to produce Makefile.in
 
 bin_PROGRAMS = civserver
+noinst_LIBRARIES = libcivserver.a
 INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
 civserver_SOURCES = \
+		civserver.c	\
+		civserver.h
+
+libcivserver_a_SOURCES = \
 		autoattack.c	\
 		autoattack.h	\
 		barbarian.c	\
@@ -16,8 +21,6 @@ civserver_SOURCES = \
 		citytools.h	\
 		cityturn.c	\
 		cityturn.h	\
-		civserver.c	\
-		civserver.h	\
 		console.c	\
 		console.h	\
 		diplhand.c	\
@@ -48,6 +51,8 @@ civserver_SOURCES = \
 		settlers.h	\
 		spacerace.c	\
 		spacerace.h	\
+		srv_main.c	\
+		srv_main.h	\
 		stdinhand.c	\
 		stdinhand.h	\
 		unitfunc.c	\
@@ -58,6 +63,5 @@ civserver_SOURCES = \
 		unittools.h
 
 
-civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a @INTLDEPS@
-civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a @INTLLIBS@ ../common/libcivcommon.a ../ai/libcivai.a $(SERVER_LIBS)
-
+civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLDEPS@
+civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLLIBS@ ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a $(SERVER_LIBS)

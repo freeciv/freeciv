@@ -37,13 +37,13 @@
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
-#include "civserver.h"
 #include "gamelog.h"
 #include "gotohand.h"
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "maphand.h"
 #include "plrhand.h"
 #include "settlers.h"
+#include "srv_main.h"
 #include "unithand.h"
 #include "unittools.h"
 

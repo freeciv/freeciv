@@ -68,6 +68,7 @@ The info string should look like this:
 #include "support.h"
 
 #include "console.h"
+#include "srv_main.h"
 
 #include "meta.h"
 
@@ -85,37 +86,43 @@ InetAddress serv_addr;
 static int			sockfd=0;
 #endif /* end network global selector */
 
-extern char metaserver_addr[];
-extern unsigned short int metaserver_port;
 
-
+/*************************************************************************
+...
+*************************************************************************/
 void meta_addr_split(void)
 {
   char *metaserver_port_separator;
   int specified_port;
 
-  if ((metaserver_port_separator = strchr(metaserver_addr,':'))) {
+  if ((metaserver_port_separator = strchr(srvarg.metaserver_addr,':'))) {
     metaserver_port_separator[0] = '\0';
     if ((specified_port=atoi(&metaserver_port_separator[1]))) {
-      metaserver_port = (unsigned short int)specified_port;
+      srvarg.metaserver_port = (unsigned short int)specified_port;
     }
   }
 }
 
+/*************************************************************************
+...
+*************************************************************************/
 char *meta_addr_port(void)
 {
   static char retstr[300];
 
-  if (metaserver_port == DEFAULT_META_SERVER_PORT) {
-    sz_strlcpy(retstr, metaserver_addr);
+  if (srvarg.metaserver_port == DEFAULT_META_SERVER_PORT) {
+    sz_strlcpy(retstr, srvarg.metaserver_addr);
   } else {
     my_snprintf(retstr, sizeof(retstr),
-		"%s:%d", metaserver_addr, metaserver_port);
+		"%s:%d", srvarg.metaserver_addr, srvarg.metaserver_port);
   }
 
   return retstr;
 }
 
+/*************************************************************************
+...
+*************************************************************************/
 int send_to_metaserver(char *desc, char *info)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -141,6 +148,9 @@ int send_to_metaserver(char *desc, char *info)
   return 1;
 }
 
+/*************************************************************************
+...
+*************************************************************************/
 void server_close_udp(void)
 {
   server_is_open=0;
@@ -155,15 +165,21 @@ void server_close_udp(void)
 #endif
 }
 
+/*************************************************************************
+...
+*************************************************************************/
 static void metaserver_failed(void)
 {
   con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
   con_flush();
 }
 
+/*************************************************************************
+...
+*************************************************************************/
 void server_open_udp(void)
 {
-  char *servername=metaserver_addr;
+  char *servername=srvarg.metaserver_addr;
   int bad;
 #ifdef GENERATING_MAC  /* mac networking */
   OSStatus err1;
@@ -199,7 +215,7 @@ void server_open_udp(void)
     }
   }
   serv_addr.sin_family      = AF_INET;
-  serv_addr.sin_port        = htons(metaserver_port);
+  serv_addr.sin_port        = htons(srvarg.metaserver_port);
 #endif
   if (bad) {
     freelog(LOG_ERROR, _("Metaserver: bad address: [%s]."), servername);

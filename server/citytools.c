@@ -34,12 +34,12 @@
 
 #include "cityhand.h"
 #include "cityturn.h"
-#include "civserver.h"
 #include "gamehand.h"		/* send_game_info */
 #include "maphand.h"
 #include "player.h"
 #include "plrhand.h"
 #include "settlers.h"
+#include "srv_main.h"
 #include "stdinhand.h"		/* set_ai_level_direct */
 #include "unitfunc.h"
 #include "unithand.h"

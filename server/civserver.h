@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,26 +13,5 @@
 #ifndef FC__CIVSERVER_H
 #define FC__CIVSERVER_H
 
-#include "game.h"
-#include "packets.h"
-
-struct connection;
-struct unit;
-
-void handle_packet_input(struct connection *pconn, char *packet, int type);
-void lost_connection_to_client(struct connection *pconn);
-void accept_new_player(char *name, struct connection *pconn);
-int send_server_info_to_metaserver(int do_send,int reset_timer);
-void start_game(void);
-void save_game(char *filename);
-void pick_ai_player_name(Nation_Type_id nation, char *newname);
-
-void dealloc_id(int id);
-int is_id_allocated(int id);
-void alloc_id(int id);
-int get_next_id_number(void);
-
-extern enum server_states server_state;
-extern int nocity_send;
 
 #endif /* FC__CIVSERVER_H */

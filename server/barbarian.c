@@ -36,10 +36,10 @@
 #include "support.h"
 #include "tech.h"
 
-#include "civserver.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "srv_main.h"
 #include "stdinhand.h"
 #include "unitfunc.h"
 #include "unithand.h"

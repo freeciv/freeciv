@@ -69,8 +69,8 @@
 #include "shared.h"
 #include "support.h"
 
-#include "civserver.h"
 #include "console.h"
+#include "srv_main.h"
 #include "stdinhand.h"
 
 #include "sernet.h"
@@ -82,9 +82,7 @@ TEndpointInfo serv_info;
 EndpointRef serv_ep;
 #else
 static int sock;
-extern int port;
 #endif
-extern int force_end_of_sniff;
 
 #ifdef __VMS
 #include <descrip.h>
@@ -491,7 +489,7 @@ int server_open_socket(void)
   memset(&src, 0, sizeof(src));
   src.sin_family = AF_INET;
   src.sin_addr.s_addr = htonl(INADDR_ANY);
-  src.sin_port = htons(port);
+  src.sin_port = htons(srvarg.port);
 
   if(bind(sock, (struct sockaddr *) &src, sizeof (src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror(errno));

@@ -37,18 +37,19 @@
 #include "timing.h"
 #include "unit.h"
 
-#include "civserver.h"
 #include "gotohand.h"
 #include "plrhand.h"
+#include "srv_main.h"
 #include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
 
 #include "autoattack.h"
 
-extern struct player *shuffled[];    /* civserver.c */
 
-
+/**************************************************************************
+...
+**************************************************************************/
 static struct unit *search_best_target(struct player *pplayer,
 				       struct city *pcity, struct unit *punit)
 {
@@ -146,6 +147,9 @@ static struct unit *search_best_target(struct player *pplayer,
   return enemy;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
 				  struct unit *punit)
 {
@@ -191,6 +195,9 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   return;			/* or maybe: do you want to play again? */
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void auto_attack_city(struct player *pplayer, struct city *pcity)
 {
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
@@ -203,6 +210,9 @@ static void auto_attack_city(struct player *pplayer, struct city *pcity)
   unit_list_iterate_end;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void auto_attack_player(struct player *pplayer)
 {
   freelog(LOG_DEBUG, "doing auto_attack for: %s",pplayer->name);
@@ -233,6 +243,9 @@ static void auto_attack_player(struct player *pplayer)
   unit_list_iterate_end;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void auto_attack(void)
 {
   static struct timer *t = NULL;      /* alloc once, never free */

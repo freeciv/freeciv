@@ -32,18 +32,16 @@
 #include "version.h"
 
 #include "cityturn.h"
-#include "civserver.h"
 #include "maphand.h"
 #include "meta.h"
 #include "plrhand.h"
 #include "ruleset.h"
+#include "srv_main.h"
 #include "unitfunc.h"
 #include "unittools.h"
 
 #include "gamehand.h"
 
-extern char metaserver_info_line[];
-extern char metaserver_addr[];
 
 /* Following does not include "unirandom", used previously; add it if
  * appropriate.  (Code no longer looks at "unirandom", but should still
@@ -316,11 +314,11 @@ void game_load(struct section_file *file)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
   /* grr, hardcoded sizes --dwp */
-  mystrlcpy(metaserver_info_line,
+  mystrlcpy(srvarg.metaserver_info_line,
 	    secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
 				       "game.metastring"),
 	    256);
-  mystrlcpy(metaserver_addr,
+  mystrlcpy(srvarg.metaserver_addr,
 	    secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
 				       "game.metaserver"),
 	    256);
@@ -618,7 +616,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, (int) (game.is_new_game ? server_state :
 				  RUN_GAME_STATE), "game.server_state");
   
-  secfile_insert_str(file, metaserver_info_line, "game.metastring");
+  secfile_insert_str(file, srvarg.metaserver_info_line, "game.metastring");
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
   
   sz_strlcpy(options, SAVEFILE_OPTIONS);

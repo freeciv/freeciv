@@ -25,13 +25,11 @@
 #include "shared.h"
 #include "spaceship.h"
 
-#include "civserver.h"
 #include "plrhand.h"
+#include "srv_main.h"
 
 #include "spacerace.h"
 
-/* use shuffled order from civserver.c: */
-extern struct player *shuffled[];
 
 /**********************************************************************
 Calculate and fill in the derived quantities about the spaceship.
