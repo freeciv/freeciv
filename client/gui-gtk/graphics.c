@@ -622,3 +622,15 @@ void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
 
   gdk_image_destroy(mask_image);
 }
+ 
+/*********************************************************************
+ Crops all blankspace from a sprite (insofar as is possible as a rectangle)
+*********************************************************************/
+SPRITE *crop_blankspace(SPRITE *s)
+{
+  int x1, y1, x2, y2;
+
+  sprite_get_bounding_box(s, &x1, &y1, &x2, &y2);
+
+  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1);
+}

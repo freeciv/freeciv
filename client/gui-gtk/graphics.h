@@ -49,5 +49,6 @@ void sprite_draw_black_border(SPRITE * sprite);
 SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h);
 void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y);
+SPRITE *crop_blankspace(SPRITE *s);
 
 #endif  /* FC__GRAPHICS_H */
