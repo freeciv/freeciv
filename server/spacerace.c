@@ -156,6 +156,12 @@ void handle_spaceship_launch(struct player *pplayer)
   struct player_spaceship *ship = &pplayer->spaceship;
   int arrival;
 
+  if (!find_palace(pplayer)) {
+    notify_player(pplayer,
+                  _("Game: You need to have a capital in order to launch "
+		    "your spaceship."));
+    return;
+  }
   if (ship->state >= SSHIP_LAUNCHED) {
     notify_player(pplayer, _("Game: Your spaceship is already launched!"));
     return;
@@ -330,9 +336,8 @@ void handle_spaceship_action(struct player *pplayer,
 void spaceship_lost(struct player *pplayer)
 {
   notify_player_ex(0, -1, -1, E_SPACESHIP,
-		_("Game: With the capture of %s's capital, the %s"
-		" spaceship is lost!"), pplayer->name,
-		get_nation_name(pplayer->nation));
+		   _("Game: Without guidance from the capital, the %s "
+                     "spaceship is lost!"), get_nation_name(pplayer->nation));
   spaceship_init(&pplayer->spaceship);
   send_spaceship_info(pplayer, 0);
 }

@@ -30,6 +30,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 			    struct city *pcity, int x, int y);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
+void building_lost(struct city *pcity, int id);
 
 void handle_city_change_specialist(struct player *pplayer, 
 				   struct packet_city_request *preq);

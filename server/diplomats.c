@@ -1024,8 +1024,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       }
     }
 
-    /* Do it. */
-    pcity->improvements[target] = 0;
     /* Report it. */
     notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 		      _("Game: Your %s destroyed the %s in %s."),
@@ -1037,6 +1035,9 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		      get_improvement_name (target), pcity->name);
     freelog (LOG_DEBUG, "sabotage: sabotaged improvement: %d (%s)",
 	       target, get_improvement_name (target));
+
+    /* Do it. */
+    building_lost(pcity, target);
   }
 
   /* Update clients. */

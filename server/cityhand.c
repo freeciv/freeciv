@@ -42,6 +42,7 @@
 #include "plrhand.h"
 #include "sernet.h"
 #include "settlers.h"
+#include "spacerace.h"
 #include "srv_main.h"
 #include "unithand.h"
 #include "unittools.h"
@@ -404,6 +405,7 @@ void do_sell_building(struct player *pplayer, struct city *pcity, int id)
   if (!is_wonder(id)) {
     pcity->improvements[id]=0;
     pplayer->economic.gold += improvement_value(id);
+    building_lost(pcity, id);
   }
 }
 
@@ -431,6 +433,21 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
   city_refresh(pcity);
   send_city_info(0, pcity); /* If we sold the walls the other players should see it */
   send_player_info(pplayer, pplayer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void building_lost(struct city *pcity, int id)
+{
+  struct player *owner = city_owner(pcity);
+
+  pcity->improvements[id]=0;
+  if (id == B_PALACE &&
+      ((owner->spaceship.state == SSHIP_STARTED) ||
+       (owner->spaceship.state == SSHIP_LAUNCHED))) {
+    spaceship_lost(owner);
+  }
 }
 
 /**************************************************************************
