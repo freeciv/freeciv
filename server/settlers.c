@@ -200,7 +200,6 @@ void locally_zero_minimap(int x, int y)
 #endif
 
 /**************************************************************************
-...
 this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela
 **************************************************************************/
 static int city_desirability(struct player *pplayer, int x, int y)
@@ -225,11 +224,11 @@ static int city_desirability(struct player *pplayer, int x, int y)
     return 0;
   
   ptile = map_get_tile(x, y);
-  if (ptile->terrain == T_OCEAN) return(0);
+  if (ptile->terrain == T_OCEAN) return 0;
   pcity = map_get_city(x, y);
-  if (pcity && pcity->size > (game.add_to_size_limit - 1)) return(0);
-  if (!pcity && minimap[x][y] < 0) return(0);
-  if (!pcity && minimap[x][y] > 0) return(minimap[x][y]);
+  if (pcity && pcity->size > (game.add_to_size_limit - 1)) return 0;
+  if (!pcity && minimap[x][y] < 0) return 0;
+  if (!pcity && minimap[x][y] > 0) return minimap[x][y];
 
   har = is_terrain_near_tile(x, y, T_OCEAN);
 
@@ -394,7 +393,7 @@ get this EXACTLY right instead of just reasonably close. -- Syela */
       temp = amortize(40 * SHIELD_WEIGHTING, d); /* temple */
       tmp = val;
     }
-  } /* end while */
+  }
   if (n > 4) {
     if (val - temp > tmp) val -= temp;
     else val = tmp;
