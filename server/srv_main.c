@@ -1117,8 +1117,11 @@ static bool is_allowed_player_name(struct player *pplayer,
     return TRUE;
   }
 
-  /* Otherwise only ascii names are allowed. */
-  if (!is_ascii_name(name)) {
+  /* To prevent abuse, only players with HACK access (usually local
+   * connections) can use non-ascii names.  Otherwise players could use
+   * confusing garbage names in multi-player games. */
+  if (!is_ascii_name(name)
+      && find_conn_by_user(pplayer->username)->access_level != ALLOW_HACK) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz, _("Please choose a name containing "
 				      "only ASCII characters."));

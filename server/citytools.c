@@ -306,7 +306,11 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
     }
   }
 
-  if (!is_ascii_name(city_name)) {
+  /* To prevent abuse, only players with HACK access (usually local
+   * connections) can use non-ascii names.  Otherwise players could use
+   * confusing garbage names in multi-player games. */
+  if (!is_ascii_name(city_name)
+      && find_conn_by_user(pplayer->username)->access_level != ALLOW_HACK) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz,
 		  _("%s is not a valid name. Only ASCII or "
