@@ -105,6 +105,15 @@ void map_resize()
   
   map_view_width=(map_win_width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   map_view_height=(map_win_height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT; 
+
+  /* Since a resize is only triggered when the tile_*** changes, the canvas
+   * width and height must include the entire backing store - otherwise
+   * small resizings may lead to undrawn tiles.
+   *
+   * HACK: The caller sets map_win_width and it gets changed here. */
+  map_win_width = map_view_width * NORMAL_TILE_WIDTH;
+  map_win_height = map_view_height * NORMAL_TILE_HEIGHT;
+
   update_map_canvas_scrollbars_size();
   if (can_client_change_view() && map_exists()) {
     update_map_canvas_visible();

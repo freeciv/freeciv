@@ -506,11 +506,14 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 
   gdk_window_get_size(w->window, &width, &height);
 
-  mapview_canvas.width = width;
-  mapview_canvas.height = height;
-
   tile_width=(width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
+
+  /* Since a resize is only triggered when the tile_*** changes, the canvas
+   * width and height must include the entire backing store - otherwise
+   * small resizings may lead to undrawn tiles. */
+  mapview_canvas.width = tile_width * NORMAL_TILE_WIDTH;
+  mapview_canvas.height = tile_height * NORMAL_TILE_HEIGHT;
 
   map_resized=FALSE;
   if (mapview_canvas.tile_width != tile_width

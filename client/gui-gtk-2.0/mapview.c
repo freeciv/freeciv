@@ -556,8 +556,11 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
   tile_width = (ev->width + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
   tile_height = (ev->height + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
 
-  mapview_canvas.width = ev->width;
-  mapview_canvas.height = ev->height;
+  /* Since a resize is only triggered when the tile_*** changes, the canvas
+   * width and height must include the entire backing store - otherwise
+   * small resizings may lead to undrawn tiles. */
+  mapview_canvas.width = tile_width * NORMAL_TILE_WIDTH;
+  mapview_canvas.height = tile_height * NORMAL_TILE_HEIGHT;
 
   /* Check if we resized the mapview. */
   if (mapview_canvas.tile_width != tile_width

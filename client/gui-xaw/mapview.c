@@ -551,11 +551,14 @@ void map_canvas_resize(void)
 
   XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
 
-  mapview_canvas.width = width;
-  mapview_canvas.height = height;
-
   mapview_canvas.tile_width = ((width - 1) / NORMAL_TILE_WIDTH) + 1;
   mapview_canvas.tile_height = ((height - 1) / NORMAL_TILE_HEIGHT) + 1;
+  
+  /* Since a resize is only triggered when the tile_*** changes, the canvas
+   * width and height must include the entire backing store - otherwise
+   * small resizings may lead to undrawn tiles. */
+  mapview_canvas.width = tile_width * NORMAL_TILE_WIDTH;
+  mapview_canvas.height = tile_height * NORMAL_TILE_HEIGHT;
 
   map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas),
 			mapview_canvas.tile_width * NORMAL_TILE_WIDTH,
