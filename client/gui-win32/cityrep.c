@@ -184,96 +184,43 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
 				TestCityFunc test_func,
 				int *selitems,
 				int selcount, int *idcount)
-{  
-  char label[512];
-  int cid;
-  int first = append_units ? B_LAST : 0;
-  int last = append_units ? game.num_unit_types + B_LAST : B_LAST;
-  int something_appended = FALSE; 
-  HWND hList=GetDlgItem(hCityRep,ID_CITYREP_LIST);
-  MENUITEMINFO iteminfo;
-  
-  
-  for(cid=first; cid<last; cid++)
-    {
-      int append = FALSE;
-      int id = cid_id(cid);
+{
+  cid cids[U_LAST + B_LAST];
+  struct item items[U_LAST + B_LAST];
+  int item, cids_used, num_selected_cities=0;
+  struct city *selected_cities[200];
 
-      /* Those many ! are to ensure TRUE is 1 and FALSE is 0 */
-      if( !append_units && ( !append_wonders != !is_wonder(id) ) )
-        continue;
+  if (change_prod) {
+    int j;
+    HWND hList = GetDlgItem(hCityRep, ID_CITYREP_LIST);
 
-      if(!change_prod)
-        {  
-          city_list_iterate(game.player_ptr->cities, pcity) 
-            {
-              append |= test_func(pcity, cid);
-            } city_list_iterate_end;
-        }
-      else
-        {
-	  int j;
-	  for (j=0;j<selcount;j++)
-	    {
-	      struct city *pcity;
-	      pcity=(struct city *)ListBox_GetItemData(hList,
-						       selitems[j]);
-	      append|=test_func(pcity,cid);
-	    }
-        }
-      if(append) 
-        {
-          int cost;
-          char *name;
-          
-          if(append_units)
-            {
-              cost = get_unit_type(id)->build_cost;
-              name = get_unit_name(id);
-            }
-          else
-            {
-	      cost =
-		  (id ==
-		   B_CAPITAL) ? -1 : get_improvement_type(id)->build_cost;
-              if(append_wonders)
-                {
-                  /* We need a city to get the right name for wonders */
-                  struct city *pcity = (struct city *)
-		    ListBox_GetItemData(hList,0);
-                  name = get_impr_name_ex(pcity, id);
-                }
-              else
-                name = get_improvement_name(id);
-            }
-          something_appended = TRUE;
-
-          if (change_prod)
-            {
-
-              if (cost < 0) {
-                my_snprintf(label,sizeof(label),"%s (XX)",name);
-              } else {
-                my_snprintf(label,sizeof(label),"%s (%d)",name, cost);
-              }
-	      AppendMenu(menu,MF_STRING,(*idcount),label);
-            }
-          else
-            AppendMenu(menu,MF_STRING,(*idcount),name);
-          
-	  iteminfo.dwItemData = cid;
-	  iteminfo.fMask=MIIM_DATA;
-	  iteminfo.cbSize=sizeof(MENUITEMINFO);
-	  SetMenuItemInfo(menu,(*idcount),FALSE,&iteminfo);
-          (*idcount)++;
-          
-        }
+    for (j = 0; j < selcount; j++) {
+      selected_cities[j] = (struct city *) ListBox_GetItemData(hList,
+							       selitems
+							       [j]);
     }
+    num_selected_cities = selcount;
+  }
 
-  if(!something_appended)
-    {
-      AppendMenu(menu,MF_STRING,-1,nothing_appended_text);
-    }
+  cids_used = collect_cids1(cids, selected_cities,
+			    num_selected_cities, append_units,
+			    append_wonders, change_prod, test_func);
+  name_and_sort_items(cids, cids_used, items, change_prod);
+
+  for (item = 0; item < cids_used; item++) {
+    MENUITEMINFO iteminfo;
+
+    AppendMenu(menu, MF_STRING, (*idcount), items[item].descr);
+    iteminfo.dwItemData = items[item].cid;
+    iteminfo.fMask = MIIM_DATA;
+    iteminfo.cbSize = sizeof(MENUITEMINFO);
+    SetMenuItemInfo(menu, (*idcount), FALSE, &iteminfo);
+    (*idcount)++;
+  }
+
+  if (cids_used == 0) {
+    AppendMenu(menu, MF_STRING, -1, nothing_appended_text);
+  }
 }
 
 /**************************************************************************
@@ -288,37 +235,38 @@ static void append_impr_or_unit_to_menu(HMENU menu,
 					int selcount, 
 					int *idcount)
 {
-  if(append_improvements)
-    {
-      /* Add all buildings */
-      append_impr_or_unit_to_menu_sub(menu, _("No Buildings Available"),
-				      FALSE, FALSE, change_prod,
-				      (int (*)(struct city*,int))
-				      test_func,
-				      selitems,selcount,idcount);
+  if (append_improvements) {
+    /* Add all buildings */
+    append_impr_or_unit_to_menu_sub(menu, _("No Buildings Available"),
+				    FALSE, FALSE, change_prod,
+				    (int (*)(struct city *, int))
+				    test_func,
+				    selitems, selcount, idcount);
+    /* Add a separator */
+    AppendMenu(menu, MF_SEPARATOR, -1, NULL);
+  }
+
+  if (append_units) {
+    /* Add all units */
+    append_impr_or_unit_to_menu_sub(menu, _("No Units Available"),
+				    TRUE, FALSE, change_prod,
+				    test_func,
+				    selitems, selcount, idcount);
+  }
+
+  if (append_improvements) {
+    if (append_units) {
       /* Add a separator */
-      AppendMenu(menu,MF_SEPARATOR,-1,NULL);
- 
-      /* Add all wonders */
-      append_impr_or_unit_to_menu_sub(menu, _("No Wonders Available"),
-                                     FALSE, TRUE, change_prod,
-                                     (int (*)(struct city*,int))
-                                     test_func,
-                                     selitems,selcount,idcount);
-      /* Add a separator */
-      if(append_units)
-        AppendMenu(menu,MF_SEPARATOR,-1,NULL);
-      
+	AppendMenu(menu, MF_SEPARATOR, -1, NULL);
     }
- 
-  if(append_units)
-    {
-      /* Add all units */
-      append_impr_or_unit_to_menu_sub(menu, _("No Units Available"),
-                                     TRUE, FALSE, change_prod,
-                                     test_func,
-                                     selitems,selcount,idcount);
-    }
+
+    /* Add all wonders */
+    append_impr_or_unit_to_menu_sub(menu, _("No Wonders Available"),
+				    FALSE, TRUE, change_prod,
+				    (int (*)(struct city *, int))
+				    test_func,
+				    selitems, selcount, idcount);
+  }
 }
 
 /****************************************************************
@@ -747,7 +695,7 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	  {
 	    int id;
 	    cid from, to;
-	    char buf[512];
+
 	    id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_PRODCHANGE_FROM));
 	    if (id==LB_ERR)
 	      {
@@ -768,16 +716,7 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	    if (from==to) {
 	      append_output_window(_("Game: That's the same thing!"));
 	      break;
-	    }        
-	    my_snprintf(buf, sizeof(buf), _("Game: Changing production "
-					    "of every %s into %s."),
-			cid_is_unit(from) ?
-			get_unit_type(cid_id(from))->name :
-			get_improvement_name(cid_id(from)),
-			cid_is_unit(to) ? get_unit_type(cid_id(to))->name :
-			get_improvement_name(cid_id(to)));
-	    
-	    append_output_window(buf);    
+	    }
 	    client_change_all(from,to);
 	    DestroyWindow(hWnd);
 	    hChangeAll=NULL;
@@ -800,9 +739,10 @@ static void cityrep_changeall(HWND hWnd)
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
   int selid;
-  struct city *pcity;
-  char buf[256];
-  int *is_building;
+  cid cids[B_LAST + U_LAST];
+  int cids_used;
+  cid selected_cid;
+  struct item items[U_LAST + B_LAST];
   int id,i;
   HWND hDlg;
   HWND hLst;
@@ -830,60 +770,37 @@ static void cityrep_changeall(HWND hWnd)
   fcwin_box_add_button(vbox,_("Cancel"),ID_PRODCHANGE_CANCEL,0,
 		       TRUE,TRUE,15);
   fcwin_box_add_box(hbox,vbox,TRUE,TRUE,5);
-  
-  is_building=fc_malloc((B_LAST+U_LAST)*sizeof(int));
-  memset(is_building,0,sizeof(int)*(B_LAST+U_LAST));
-  city_list_iterate(game.player_ptr->cities, pcity) {
-    if (pcity->is_building_unit)
-      is_building[pcity->currently_building + B_LAST] = 1;
-    else
-      is_building[pcity->currently_building] = 1;
-  } city_list_iterate_end;      
-  selid=ListBox_GetCurSel(GetDlgItem(hWnd,ID_CITYREP_LIST));
-  if (selid!=LB_ERR)
-    {
-      pcity=(struct city *)ListBox_GetItemData(GetDlgItem(hWnd,
-							  ID_CITYREP_LIST),
-					       selid);
-      if (pcity->is_building_unit)
-	is_building[pcity->currently_building + B_LAST] = 2;
-      else
-	is_building[pcity->currently_building] = 2;    
-    }
-  hLst=GetDlgItem(hDlg,ID_PRODCHANGE_FROM);
-  for(i=0;i<B_LAST;i++)
-    if (is_building[i]) {        
-      id=ListBox_AddString(hLst,get_improvement_name(i));
-      ListBox_SetItemData(hLst,id,i);
-      if (is_building[i]==2)
-	ListBox_SetCurSel(hLst,id);
-    }
-  for(i=0; i<U_LAST; i++)
-    if (is_building[B_LAST+i]) {  
-      id=ListBox_AddString(hLst,get_unit_name(i));
-      ListBox_SetItemData(hLst,id,i+B_LAST);
-      if (is_building[B_LAST+i]==2) {
-	ListBox_SetCurSel(hLst,id);
-      }
-    }
-  free(is_building);
-  hLst=GetDlgItem(hDlg,ID_PRODCHANGE_TO);
-  for(i=0; i<B_LAST; i++)
-    if(can_player_build_improvement(game.player_ptr, i)) {
-      my_snprintf(buf, sizeof(buf), "%s (%d)",
-		  get_improvement_name(i),
-		  get_improvement_type(i)->build_cost);   
-      id=ListBox_AddString(hLst,buf);
-      ListBox_SetItemData(hLst,id,i);
-    }
-  for(i=0; i<U_LAST; i++)
-    if(can_player_build_unit(game.player_ptr, i)) {
-      my_snprintf(buf, sizeof(buf), "%s (%d)",
-		  get_unit_name(i),
-		  get_unit_type(i)->build_cost);
-      id=ListBox_AddString(hLst,buf);
-      ListBox_SetItemData(hLst,id,i+B_LAST);
-    }         
+
+  selected_cid = -1;
+  selid = ListBox_GetCurSel(GetDlgItem(hWnd, ID_CITYREP_LIST));
+  if (selid != LB_ERR) {
+    selected_cid =
+	cid_encode_from_city((struct city *)
+			     ListBox_GetItemData(GetDlgItem
+						 (hWnd, ID_CITYREP_LIST),
+						 selid));
+  }
+
+  cids_used = collect_all_buildings_or_improvements_cid(cids);
+  name_and_sort_items(cids, cids_used, items, 0);
+
+  hLst = GetDlgItem(hDlg, ID_PRODCHANGE_FROM);
+  for (i = 0; i < cids_used; i++) {
+    id = ListBox_AddString(hLst, items[i].descr);
+    ListBox_SetItemData(hLst, id, items[i].cid);
+    if (items[i].cid == selected_cid)
+      ListBox_SetCurSel(hLst, id);
+  }
+
+  cids_used = collect_cids3(cids);
+  name_and_sort_items(cids, cids_used, items, 1);
+
+  hLst = GetDlgItem(hDlg, ID_PRODCHANGE_TO);
+  for (i = 0; i < cids_used; i++) {
+    id = ListBox_AddString(hLst, items[i].descr);
+    ListBox_SetItemData(hLst, id, items[i].cid);
+  }
+
   fcwin_set_box(hDlg,hbox);
   hChangeAll=hDlg;
   ShowWindow(hDlg,SW_SHOWNORMAL);

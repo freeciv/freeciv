@@ -19,6 +19,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -42,6 +43,7 @@
 #include "options.h"
 #include "repodlgs.h"
 #include "climisc.h"
+#include "log.h"
 
 #include "cityrep.h"
 
@@ -187,99 +189,49 @@ typedef gboolean TestCityFunc(struct city *, gint);
 /****************************************************************
 ...
 *****************************************************************/
-static void append_impr_or_unit_to_menu_sub(GtkWidget *menu,
-					    gchar *nothing_appended_text,
+static void append_impr_or_unit_to_menu_sub(GtkWidget * menu,
+					    gchar * nothing_appended_text,
 					    gboolean append_units,
 					    gboolean append_wonders,
 					    gboolean change_prod,
 					    TestCityFunc test_func,
 					    GtkSignalFunc callback)
-{  
-  gint cid;
-  gint first = append_units ? B_LAST : 0;
-  gint last = append_units ? game.num_unit_types + B_LAST : B_LAST;
-  gboolean something_appended = FALSE;
-  GtkWidget *item; 
+{
+  cid cids[U_LAST + B_LAST];
+  struct item items[U_LAST + B_LAST];
+  int item, cids_used, num_selected_cities = 0;
+  struct city *selected_cities[200];
 
-  for (cid = first; cid < last; cid++)
-    {
-      gboolean append = FALSE;
-      int id = cid_id(cid);
+  if (change_prod) {
+    GList *selection = GTK_CLIST(city_list)->selection;
 
-      /* Those many ! are to ensure TRUE is 1 and FALSE is 0 */
-      if (!append_units && (!append_wonders != !is_wonder(id)))
-	continue;
-
-      if(!change_prod)
-	{  
-	  city_list_iterate(game.player_ptr->cities, pcity) 
-	    {
-	      append |= test_func(pcity, cid);
-	    } city_list_iterate_end;
-	}
-      else
-	{
-	  GList *selection;
-
-	  g_assert (GTK_CLIST(city_list)->selection);
-	  selection = GTK_CLIST(city_list)->selection;
-	  for(; selection; selection = g_list_next(selection))
-	    append |= test_func(city_from_glist(selection), cid);
-	}
-    
-      if(append) 
-	{
-	  gint cost;
-	  gchar* name;
-	  
-	  if(append_units)
-	    {
-	      cost = get_unit_type(id)->build_cost;
-	      name = get_unit_name(id);
-	    }
-	  else
-	    {
-	      cost =
-		  (id ==
-		   B_CAPITAL) ? -1 : get_improvement_type(id)->build_cost;
-	      if(append_wonders)
-		{
-		  /* We need a city to get the right name for wonders */
-		  struct city *pcity = GTK_CLIST(city_list)->row_list->data;
-		  name = get_impr_name_ex(pcity, id);
-		}
-	      else
-		name = get_improvement_name(id);
-	    }
-	  something_appended = TRUE;
-
-	  if (change_prod)
-	    {
-	      gchar *label;
-	      if (cost < 0) {
-		label = g_strdup_printf("%s (XX)",name);
-	      } else {
-		label = g_strdup_printf("%s (%d)",name, cost);
-	      }
-	      item=gtk_menu_item_new_with_label( label );
-	      g_free (label);
-	    }
-	  else
-	    item=gtk_menu_item_new_with_label(name);
-	  
-	  gtk_menu_append(GTK_MENU(menu),item);
-	  
-	  gtk_signal_connect(GTK_OBJECT(item),"activate", callback, 
-			     GINT_TO_POINTER(cid));
-	}
+    g_assert(selection);
+    for (; selection; selection = g_list_next(selection)) {
+      selected_cities[num_selected_cities] = city_from_glist(selection);
+      num_selected_cities++;
+      assert(num_selected_cities < ARRAY_SIZE(selected_cities));
     }
+  }
 
-  if(!something_appended)
-    {
-      item=gtk_menu_item_new_with_label( nothing_appended_text );
-      gtk_widget_set_sensitive(item, FALSE);
-      gtk_menu_append(GTK_MENU(menu),item);  
-    }
+  cids_used = collect_cids1(cids, selected_cities,
+			    num_selected_cities, append_units,
+			    append_wonders, change_prod, test_func);
+  name_and_sort_items(cids, cids_used, items, change_prod);
+
+  for (item = 0; item < cids_used; item++) {
+    GtkWidget *w = gtk_menu_item_new_with_label(items[item].descr);
+
+    gtk_menu_append(GTK_MENU(menu), w);
+
+    gtk_signal_connect(GTK_OBJECT(w), "activate", callback,
+		       GINT_TO_POINTER(items[item].cid));
+  }
+
+  if (cids_used == 0) {
+    GtkWidget *w = gtk_menu_item_new_with_label(nothing_appended_text);
+    gtk_widget_set_sensitive(w, FALSE);
+    gtk_menu_append(GTK_MENU(menu), w);
+  }
 }
 
 /****************************************************************
@@ -338,36 +290,38 @@ append_impr_or_unit_to_menu(GtkWidget *menu,
 			   gboolean append_units,
 			   TestCityFunc test_func)
 {
-  if(append_improvements)
-    {
-      /* Add all buildings */
-      append_impr_or_unit_to_menu_sub(menu, _("No Buildings Available"),
-				     FALSE, FALSE, change_prod,
-				     (gboolean (*)(struct city*,gint))
-				     test_func,
-				     select_impr_or_unit_callback);
-      /* Add a separator */
-      gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());  
-  
-      /* Add all wonders */
-      append_impr_or_unit_to_menu_sub(menu, _("No Wonders Available"),
-				     FALSE, TRUE, change_prod,
-				     (gboolean (*)(struct city*,gint))
-				     test_func,
-				     select_impr_or_unit_callback);
-      /* Add a separator */
-      if(append_units)
-	gtk_menu_append(GTK_MENU(menu),gtk_menu_item_new ());   
+  if (append_improvements) {
+    /* Add all buildings */
+    append_impr_or_unit_to_menu_sub(menu, _("No Buildings Available"),
+				    FALSE, FALSE, change_prod,
+				    (gboolean(*)(struct city *, gint))
+				    test_func,
+				    select_impr_or_unit_callback);
+    /* Add a separator */
+    gtk_menu_append(GTK_MENU(menu), gtk_menu_item_new());
+  }
+
+  if (append_units) {
+    /* Add all units */
+    append_impr_or_unit_to_menu_sub(menu, _("No Units Available"),
+				    TRUE, FALSE, change_prod,
+				    test_func,
+				    select_impr_or_unit_callback);
+  }
+
+  if (append_improvements) {
+    /* Add a separator */
+    if (append_units) {
+      gtk_menu_append(GTK_MENU(menu), gtk_menu_item_new());
     }
-  
-  if(append_units)
-    {
-      /* Add all units */
-      append_impr_or_unit_to_menu_sub(menu, _("No Units Available"),
-				     TRUE, FALSE, change_prod,
-				     test_func,
-				     select_impr_or_unit_callback);
-    }
+
+    /* Add all wonders */
+    append_impr_or_unit_to_menu_sub(menu, _("No Wonders Available"),
+				    FALSE, TRUE, change_prod,
+				    (gboolean(*)(struct city *, gint))
+				    test_func,
+				    select_impr_or_unit_callback);
+  }
   
   gtk_object_set_data(GTK_OBJECT(menu), "freeciv_test_func", test_func);
   gtk_object_set_data(GTK_OBJECT(menu), "freeciv_change_prod", 
@@ -773,7 +727,6 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
     GList *selection_from, *selection_to;
     gint row;
     int from, to;
-    char buf[512];
 
     /* What are we changing to? */
     selection_to = GTK_CLIST(city_change_all_to_list)->selection;
@@ -796,15 +749,6 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
       if (from == to) {
 	continue;
       }
-      my_snprintf(buf, sizeof(buf),
-		  _("Game: Changing production of every %s into %s."),
-		  cid_is_unit(from) ?
-		  get_unit_type(cid_id(from))->
-		  name : get_improvement_name(cid_id(from)),
-		  cid_is_unit(to) ? get_unit_type(cid_id(to))->
-		  name : get_improvement_name(cid_id(to)));
-
-      append_output_window(buf);
       client_change_all(from, to);
     }
   }
@@ -816,171 +760,160 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 Change all cities building one type of thing to another thing.
 This is a callback for the "change all" button.
 *****************************************************************/
-#define MAX_LEN_BUF 256
-static void city_change_all_callback(GtkWidget *w, gpointer data)
+static void city_change_all_callback(GtkWidget * w, gpointer data)
 {
-    GList              *selection;
-    gint                row;
-    struct city *pcity;
-    static gchar *title_[2][1] = {{N_("From:")},
-				 {N_("To:")}};
-    static gchar **title[2];
-    gchar *buf[1];
-    int i,j;
-    int *is_building;
-    GtkWidget *button;
-    GtkWidget *box;
-    GtkWidget *scrollpane;
+  GList *selection;
+  gint row;
+  struct city *pcity;
+  static gchar *title_[2][1] = { {N_("From:")},
+				 {N_("To:")}
+  };
+  static gchar **title[2];
+  int i, j;
+  cid cids[B_LAST + U_LAST];
+  int cids_used;
+  cid selected_cid;
+  struct item items[U_LAST + B_LAST];
+  GtkWidget *button;
+  GtkWidget *box;
+  GtkWidget *scrollpane;
 
-    if (!title[0]) {
-      title[0] = intl_slist(1, title_[0]);
-      title[1] = intl_slist(1, title_[1]);
+  if (!title[0]) {
+    title[0] = intl_slist(1, title_[0]);
+    title[1] = intl_slist(1, title_[1]);
+  }
+
+  if (city_change_all_dialog_shell == NULL) {
+    city_change_all_dialog_shell = gtk_dialog_new();
+    gtk_set_relative_position(city_dialog_shell,
+			      city_change_all_dialog_shell, 10, 10);
+
+    gtk_signal_connect(GTK_OBJECT(city_change_all_dialog_shell),
+		       "delete_event",
+		       GTK_SIGNAL_FUNC(city_change_all_dialog_callback),
+		       NULL);
+
+    gtk_window_set_title(GTK_WINDOW(city_change_all_dialog_shell),
+			 _("Change Production Everywhere"));
+
+    box = gtk_hbox_new(FALSE, 10);
+
+    /* make a list of everything we're currently building */
+    city_change_all_from_list = gtk_clist_new_with_titles(1, title[0]);
+    gtk_clist_column_titles_passive(GTK_CLIST(city_change_all_from_list));
+    gtk_clist_set_selection_mode(GTK_CLIST(city_change_all_from_list),
+				 GTK_SELECTION_EXTENDED);
+
+    scrollpane = gtk_scrolled_window_new(NULL, NULL);
+    gtk_container_add(GTK_CONTAINER(scrollpane),
+		      city_change_all_from_list);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollpane),
+				   GTK_POLICY_NEVER,
+				   GTK_POLICY_AUTOMATIC);
+    gtk_widget_set_usize(city_change_all_from_list, -2, 300);
+
+    /* if a city was selected when "change all" was clicked on,
+       hilight that item so user doesn't have to click it */
+    selected_cid = -1;
+    if ((selection = GTK_CLIST(city_list)->selection)) {
+      row = (gint) selection->data;
+      if ((pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), row))) {
+	selected_cid = cid_encode_from_city(pcity);
+      }
     }
-  
-    if (city_change_all_dialog_shell == NULL) {
-	city_change_all_dialog_shell = gtk_dialog_new();
-	gtk_set_relative_position(city_dialog_shell,
-				  city_change_all_dialog_shell, 10, 10);
-	
-	gtk_signal_connect( GTK_OBJECT(city_change_all_dialog_shell),"delete_event",
-			    GTK_SIGNAL_FUNC(city_change_all_dialog_callback),
-			    NULL);
-  
-	gtk_window_set_title(GTK_WINDOW(city_change_all_dialog_shell),
-			     _("Change Production Everywhere"));
 
-	box = gtk_hbox_new(FALSE, 10);
+    cids_used = collect_cids2(cids);
+    name_and_sort_items(cids, cids_used, items, 0);
 
-	/* make a list of everything we're currently building */
-	city_change_all_from_list = gtk_clist_new_with_titles(1, title[0]);
-	gtk_clist_column_titles_passive(GTK_CLIST(city_change_all_from_list));
-	gtk_clist_set_selection_mode(GTK_CLIST(city_change_all_from_list),
-				     GTK_SELECTION_EXTENDED);
-	scrollpane = gtk_scrolled_window_new(NULL, NULL);
-	gtk_container_add(GTK_CONTAINER(scrollpane),
-			  city_change_all_from_list);
-	gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrollpane ),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC );
-	gtk_widget_set_usize(city_change_all_from_list, 200, 200);
-	
-	buf[0] = g_malloc(MAX_LEN_BUF);
-	is_building = g_malloc0((B_LAST+U_LAST) * sizeof(int));
+    for (i = 0; i < cids_used; i++) {
+      char *buf[1];
 
-	city_list_iterate(game.player_ptr->cities, pcity) {
-	    if (pcity->is_building_unit)
-		is_building[pcity->currently_building + B_LAST] = 1;
-	    else
-		is_building[pcity->currently_building] = 1;
-	} city_list_iterate_end;
+      buf[0] = items[i].descr;
 
-	/* if a city was selected when "change all" was clicked on,
-	   hilight that item so user doesn't have to click it */
-	if ( ( selection = GTK_CLIST( city_list )->selection ) ) {
-	    row = (gint)selection->data;
-	    if((pcity=gtk_clist_get_row_data(GTK_CLIST(city_list),row))) {
-		if (pcity->is_building_unit)
-		    is_building[pcity->currently_building + B_LAST] = 2;
-		else
-		    is_building[pcity->currently_building] = 2;
-	    }
-	}
-
-	for(i=0; i<B_LAST; i++)
-	    if (is_building[i]) {
-		mystrlcpy(buf[0], get_improvement_name(i), MAX_LEN_BUF);
-		j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
-		gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
-				       j, (gpointer)i);
-		if (is_building[i] == 2) {
-		    gtk_clist_select_row(GTK_CLIST(city_change_all_from_list),
-					  j, 0);
-		}
-	    }
-
-	for(i=0; i<U_LAST; i++)
-	    if (is_building[B_LAST+i]) {
-		mystrlcpy(buf[0], get_unit_name(i), MAX_LEN_BUF);
-		j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
-		gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
-				       j, (gpointer)(i+B_LAST));
-		if (is_building[B_LAST+i] == 2) {
-		    gtk_clist_select_row(GTK_CLIST(city_change_all_from_list),
-					  j, 0);
-		}
-	    }
-
-	g_free(is_building);
-
-	gtk_box_pack_start( GTK_BOX (box),
-			    scrollpane, TRUE, TRUE, 10);
-	
-	gtk_widget_show(scrollpane);
-	gtk_widget_show(city_change_all_from_list);
-
-	/* make a list of everything we could build */
-	city_change_all_to_list = gtk_clist_new_with_titles(1, title[1]);
-	gtk_clist_column_titles_passive(GTK_CLIST(city_change_all_to_list));
-	gtk_clist_set_selection_mode(GTK_CLIST(city_change_all_to_list),
-				     GTK_SELECTION_SINGLE);
-	scrollpane = gtk_scrolled_window_new(NULL, NULL);
-	gtk_container_add(GTK_CONTAINER(scrollpane),
-			  city_change_all_to_list);
-	gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrollpane ),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC );
-	gtk_widget_set_usize(city_change_all_to_list, 200, 200);
-
-	for(i=0; i<B_LAST; i++)
-	    if(can_player_build_improvement(game.player_ptr, i)) {
-		my_snprintf(buf[0], MAX_LEN_BUF, "%s (%d)",
-			get_improvement_name(i),
-			get_improvement_type(i)->build_cost);
-		j = gtk_clist_append(GTK_CLIST(city_change_all_to_list), buf);
-		gtk_clist_set_row_data(GTK_CLIST(city_change_all_to_list),
-				       j, (gpointer)i);
-	    }
-
-	for(i=0; i<U_LAST; i++)
-	    if(can_player_build_unit(game.player_ptr, i)) {
-		my_snprintf(buf[0], MAX_LEN_BUF, "%s (%d)",
-			get_unit_name(i),
-			get_unit_type(i)->build_cost);
-		j = gtk_clist_append(GTK_CLIST(city_change_all_to_list), buf);
-		gtk_clist_set_row_data(GTK_CLIST(city_change_all_to_list),
-				       j, (gpointer)(i+B_LAST));
-	    }
-
-	g_free(buf[0]);
-
-	gtk_box_pack_start( GTK_BOX (box),
-			    scrollpane, TRUE, TRUE, 10);
-	gtk_widget_show(scrollpane);
-	
-	gtk_box_pack_start( GTK_BOX (GTK_DIALOG (city_change_all_dialog_shell)->vbox),
-			    box, TRUE, TRUE, 0);
-	gtk_widget_show(city_change_all_to_list);
-
-	gtk_widget_show(box);
-
-	button = gtk_button_new_with_label(_("Change"));
-	gtk_box_pack_start( GTK_BOX (GTK_DIALOG (city_change_all_dialog_shell)->action_area),
-			    button, TRUE, FALSE, 0);
-	gtk_signal_connect( GTK_OBJECT(button),"clicked",
-			    GTK_SIGNAL_FUNC(city_change_all_dialog_callback),
-			    "change" );
-	gtk_widget_show(button);
-  
-	button = gtk_button_new_with_label(_("Cancel"));
-	gtk_box_pack_start( GTK_BOX (GTK_DIALOG (city_change_all_dialog_shell)->action_area),
-			    button, TRUE, FALSE, 0);
-	gtk_signal_connect( GTK_OBJECT(button),"clicked",
-			    GTK_SIGNAL_FUNC(city_change_all_dialog_callback),
-			    NULL );
-	gtk_widget_show(button);
-  
-	gtk_widget_show(city_change_all_dialog_shell);
+      j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
+      gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
+			     j, (gpointer) items[i].cid);
+      if (selected_cid == items[i].cid) {
+	gtk_clist_select_row(GTK_CLIST(city_change_all_from_list), j, 0);
+      }
     }
+
+    gtk_box_pack_start(GTK_BOX(box), scrollpane, TRUE, TRUE, 10);
+
+    gtk_widget_show(scrollpane);
+    gtk_widget_show(city_change_all_from_list);
+
+    /* 1.5 of optimal width is necessary for unknown reasons */
+    gtk_clist_set_column_width(GTK_CLIST(city_change_all_from_list), 0,
+			       (3*gtk_clist_optimal_column_width(GTK_CLIST
+							      (city_change_all_from_list),
+							      0))/2);
+
+
+    /* make a list of everything we could build */
+    city_change_all_to_list = gtk_clist_new_with_titles(1, title[1]);
+    gtk_clist_column_titles_passive(GTK_CLIST(city_change_all_to_list));
+    gtk_clist_set_selection_mode(GTK_CLIST(city_change_all_to_list),
+				 GTK_SELECTION_SINGLE);
+    gtk_clist_set_column_auto_resize(GTK_CLIST(city_change_all_to_list), 0,
+				     1);
+
+    scrollpane = gtk_scrolled_window_new(NULL, NULL);
+    gtk_container_add(GTK_CONTAINER(scrollpane), city_change_all_to_list);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollpane),
+				   GTK_POLICY_NEVER,
+				   GTK_POLICY_AUTOMATIC);
+    gtk_widget_set_usize(city_change_all_to_list, -2, 300);
+
+    cids_used = collect_cids3(cids);
+    name_and_sort_items(cids, cids_used, items, 1);
+
+    for (i = 0; i < cids_used; i++) {
+      char *buf[1];
+
+      buf[0] = items[i].descr;
+
+      j = gtk_clist_append(GTK_CLIST(city_change_all_to_list), buf);
+      gtk_clist_set_row_data(GTK_CLIST(city_change_all_to_list), j,
+			     (gpointer) (items[i].cid));
+    }
+
+    gtk_box_pack_start(GTK_BOX(box), scrollpane, TRUE, TRUE, 10);
+    gtk_widget_show(scrollpane);
+
+    /* 1.5 of optimal width is necessary for unknown reasons */
+    gtk_clist_set_column_width(GTK_CLIST(city_change_all_to_list), 0,
+			       (3*gtk_clist_optimal_column_width(GTK_CLIST
+							      (city_change_all_to_list),
+							      0))/2);
+
+    gtk_box_pack_start(GTK_BOX
+		       (GTK_DIALOG(city_change_all_dialog_shell)->vbox),
+		       box, TRUE, TRUE, 0);
+    gtk_widget_show(city_change_all_to_list);
+
+    gtk_widget_show(box);
+
+    button = gtk_button_new_with_label(_("Change"));
+    gtk_box_pack_start(GTK_BOX
+		       (GTK_DIALOG(city_change_all_dialog_shell)->
+			action_area), button, TRUE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(button), "clicked",
+		       GTK_SIGNAL_FUNC(city_change_all_dialog_callback),
+		       "change");
+    gtk_widget_show(button);
+
+    button = gtk_button_new_with_label(_("Cancel"));
+    gtk_box_pack_start(GTK_BOX
+		       (GTK_DIALOG(city_change_all_dialog_shell)->
+			action_area), button, TRUE, FALSE, 0);
+    gtk_signal_connect(GTK_OBJECT(button), "clicked",
+		       GTK_SIGNAL_FUNC(city_change_all_dialog_callback),
+		       NULL);
+    gtk_widget_show(button);
+
+    gtk_widget_show(city_change_all_dialog_shell);
+  }
 }
 
 /****************************************************************

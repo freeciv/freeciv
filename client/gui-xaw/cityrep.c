@@ -304,13 +304,13 @@ void city_list_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
   struct city *pcity;
-  int turns;
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
-    int flag;
+    cid cids[U_LAST + B_LAST];
+    struct item items[U_LAST + B_LAST];
+    int cids_used = 0;
     size_t i;
-    char buf[512];
 
     XtSetSensitive(city_change_command, TRUE);
     XtSetSensitive(city_center_command, TRUE);
@@ -324,45 +324,32 @@ void city_list_callback(Widget w, XtPointer client_data,
 				        simpleMenuWidgetClass, 
 				        city_change_command,
 				        NULL);
-    flag = 0;
-    for(i=0; i<game.num_impr_types; i++)
-      if(can_build_improvement(pcity, i)) {
-	Widget entry;
-	if (i==B_CAPITAL) {
-	  my_snprintf(buf, sizeof(buf),
-		      "%s (XX)",
-		      get_impr_name_ex(pcity, i));
-	} else {
-	  turns = city_turns_to_build (pcity, i, FALSE);
-	  my_snprintf(buf, sizeof(buf),
-		      turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
-		      get_impr_name_ex(pcity, i),
-		      get_improvement_type(i)->build_cost,
-		      turns);
-	}
-	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, city_popupmenu, NULL);
-	XtAddCallback(entry, XtNcallback, city_change_callback,
-		      (XtPointer) (cid_encode(0, i)));
-	flag=1;
-      }
 
-    for(i=0; i<game.num_unit_types; i++)
-      if(can_build_unit(pcity, i)) {
-	Widget entry;
-	turns = city_turns_to_build (pcity, i, TRUE);
-	my_snprintf(buf, sizeof(buf),
-		    turns == 1 ? _("%s (%d) %d turn") : _("%s (%d) %d turns"),
-		    get_unit_name(i),
-		    get_unit_type(i)->build_cost,
-		    turns);
-	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, 
-					city_popupmenu, NULL);
-	XtAddCallback(entry, XtNcallback, city_change_callback,
-		      (XtPointer) (cid_encode(1, i)));
-	flag = 1;
+    for (i = 0; i < game.num_impr_types; i++) {
+      if (can_build_improvement(pcity, i)) {
+	cids[cids_used] = cid_encode(0, i);
+	cids_used++;
       }
+    }
 
-    if(!flag)
+    for (i = 0; i < game.num_unit_types; i++) {
+      if (can_build_unit(pcity, i)) {
+	cids[cids_used] = cid_encode(1, i);
+	cids_used++;
+      }
+    }
+
+    name_and_sort_items(cids, cids_used, items, 1);
+    
+    for (i = 0; i < cids_used; i++) {
+      Widget entry =
+	  XtVaCreateManagedWidget(items[i].descr, smeBSBObjectClass,
+				  city_popupmenu, NULL);
+      XtAddCallback(entry, XtNcallback, city_change_callback,
+		    (XtPointer) (items[i].cid));
+    }
+
+    if (cids_used == 0)
       XtSetSensitive(city_change_command, FALSE);
   } else {
     XtSetSensitive(city_change_command, FALSE);
@@ -786,15 +773,13 @@ struct chgall_data
     Widget cancel;
   } w;
 
-  int is_bldg_unit[U_LAST];
-  int is_bldg_impv[B_LAST];
   int fr_count;
   char *fr_list[U_LAST + B_LAST];
-  int fr_idents[U_LAST + B_LAST];
+  cid fr_cids[U_LAST + B_LAST];
 
   int to_count;
   char *to_list[U_LAST + B_LAST];
-  int to_idents[U_LAST + B_LAST];
+  cid to_cids[U_LAST + B_LAST];
 
   int fr_index;
   int to_index;
@@ -1026,12 +1011,21 @@ static void chgall_cancel_action (Widget w, XEvent *event,
 ...
 **************************************************************************/
 
-static void chgall_shell_destroy (Widget w, XtPointer client_data,
-				  XtPointer call_data)
+static void chgall_shell_destroy(Widget w, XtPointer client_data,
+				 XtPointer call_data)
 {
+  int i;
+
+  for (i = 0; i < chgall_state->fr_count; i++) {
+    free(chgall_state->fr_list[i]);
+  }
+  for (i = 0; i < chgall_state->to_count; i++) {
+    free(chgall_state->to_list[i]);
+  }
+
   chgall_state = NULL;
 
-  free (client_data);
+  free(client_data);
 }
 
 /**************************************************************************
@@ -1062,7 +1056,6 @@ static void chgall_change_command_callback (Widget w, XtPointer client_data,
 					    XtPointer call_data)
 {
   struct chgall_data *state = (struct chgall_data *)client_data;
-  char msgbuf[1024];
 
   chgall_update_widgets_state (state);
 
@@ -1071,17 +1064,8 @@ static void chgall_change_command_callback (Widget w, XtPointer client_data,
       return;
     }
 
-  my_snprintf (msgbuf, sizeof(msgbuf),
-	   _("Game: Changing production of every %s into %s."),
-	   state->fr_list[state->fr_index],
-	   state->to_list[state->to_index]);
-  append_output_window (msgbuf);
-
-  client_change_all
-    (
-     state->fr_idents[state->fr_index],
-     state->to_idents[state->to_index]
-    );
+  client_change_all(state->fr_cids[state->fr_index],
+		    state->to_cids[state->to_index]);
 
   XtDestroyWidget (state->w.shell);
 }
@@ -1090,69 +1074,32 @@ static void chgall_change_command_callback (Widget w, XtPointer client_data,
 ...
 **************************************************************************/
 
-static void chgall_refresh_command_callback (Widget w, XtPointer client_data,
-					     XtPointer call_data)
+static void chgall_refresh_command_callback(Widget w,
+					    XtPointer client_data,
+					    XtPointer call_data)
 {
-  struct chgall_data *state = (struct chgall_data *)client_data;
-  int i, n;
+  struct chgall_data *state = (struct chgall_data *) client_data;
+  cid cids[U_LAST + B_LAST];
+  struct item items[U_LAST + B_LAST];
+  int i;
 
-  memset (state->is_bldg_unit, 0, sizeof (state->is_bldg_unit));
-  memset (state->is_bldg_impv, 0, sizeof (state->is_bldg_impv));
-
-  city_list_iterate (game.player_ptr->cities, pcity) {
-    if (pcity->is_building_unit)
-      state->is_bldg_unit[pcity->currently_building] = TRUE;
-    else
-      state->is_bldg_impv[pcity->currently_building] = TRUE;
+  state->fr_count = collect_cids2(cids);
+  name_and_sort_items(cids, state->fr_count, items, 0);
+  for (i = 0; i < state->fr_count; i++) {
+    state->fr_list[i] = strdup(items[i].descr);
+    state->fr_cids[i] = items[i].cid;
   }
-  city_list_iterate_end;
+  XawListChange(state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
 
-  n = 0;
-  for (i = 0; i < B_LAST; i++)
-    {
-      if (state->is_bldg_impv[i])
-	{
-	  state->fr_list[n] = (get_improvement_type (i))->name;
-	  state->fr_idents[n] = cid_encode(0, i);
-	  n++;
-	}
-    }
-  for (i = 0; i < U_LAST; i++)
-    {
-      if (state->is_bldg_unit[i])
-	{
-	  state->fr_list[n] = (get_unit_type (i))->name;
-	  state->fr_idents[n] = cid_encode(1, i);
-	  n++;
-	}
-    }
-  state->fr_count = n;
+  state->to_count = collect_cids3(cids);
+  name_and_sort_items(cids, state->to_count, items, 1);
+  for (i = 0; i < state->to_count; i++) {
+    state->to_list[i] = strdup(items[i].descr);
+    state->to_cids[i] = items[i].cid;
+  }
+  XawListChange(state->w.to, state->to_list, state->to_count, 0, FALSE);
 
-  n = 0;
-  for (i = 0; i < B_LAST; i++)
-    {
-      if (can_player_build_improvement (game.player_ptr, i))
-	{
-	  state->to_list[n] = (get_improvement_type (i))->name;
-	  state->to_idents[n] = cid_encode(0, i);
-	  n++;
-	}
-    }
-  for (i = 0; i < U_LAST; i++)
-    {
-      if (can_player_build_unit (game.player_ptr, i))
-	{
-	  state->to_list[n] = (get_unit_type (i))->name;
-	  state->to_idents[n] = cid_encode(1, i);
-	  n++;
-	}
-    }
-  state->to_count = n;
-
-  XawListChange (state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
-  XawListChange (state->w.to, state->to_list, state->to_count, 0, FALSE);
-
-  chgall_update_widgets_state (state);
+  chgall_update_widgets_state(state);
 }
 
 /**************************************************************************
@@ -1177,8 +1124,10 @@ static void chgall_update_widgets_state (struct chgall_data *state)
   state->to_index = (XawListShowCurrent (state->w.to))->list_index;
 
   state->may_change =
-    ((state->fr_index != XAW_LIST_NONE) && (state->to_index != XAW_LIST_NONE) &&
-     (state->fr_idents[state->fr_index] != state->to_idents[state->to_index]));
+      ((state->fr_index != XAW_LIST_NONE)
+       && (state->to_index != XAW_LIST_NONE)
+       && (state->fr_cids[state->fr_index] !=
+	   state->to_cids[state->to_index]));
 
   XtSetSensitive (state->w.change, state->may_change);
 }

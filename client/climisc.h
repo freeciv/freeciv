@@ -60,5 +60,22 @@ int city_can_build_impr_or_unit(struct city *pcity, cid cid);
 int city_unit_supported(struct city *pcity, cid cid);
 int city_unit_present(struct city *pcity, cid cid);
 
+struct item {
+  cid cid;
+  char descr[MAX_LEN_NAME + 40];
+
+  /* Privately used for sorting */
+  int section;
+};
+
+void name_and_sort_items(int *pcids, int num_cids, struct item *items,
+			 int show_cost);
+int collect_cids1(cid * dest_cids, struct city **selected_cities,
+		 int num_selected_cities, int append_units,
+		 int append_wonders, int change_prod,
+		 int (*test_func) (struct city *, int));
+int collect_cids2(cid * dest_cids);
+int collect_cids3(cid * dest_cids);
+
 #endif  /* FC__CLIMISC_H */
 

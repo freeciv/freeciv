@@ -271,6 +271,15 @@ void client_change_all(cid x, cid y)
   int fr_id = cid_id(x), to_id = cid_id(y);
   int fr_is_unit = cid_is_unit(x), to_is_unit = cid_is_unit(y);
   struct packet_city_request packet;
+  char buf[512];
+
+  my_snprintf(buf, sizeof(buf),
+	      _("Game: Changing production of every %s into %s."),
+	      fr_is_unit ? get_unit_type(fr_id)->name :
+	      get_improvement_name(fr_id),
+	      to_is_unit ? get_unit_type(to_id)->
+	      name : get_improvement_name(to_id));
+  append_output_window(buf);
 
   city_list_iterate (game.player_ptr->cities, pcity) {
     if (((fr_is_unit &&
@@ -650,4 +659,163 @@ int city_unit_present(struct city *pcity, cid cid)
     unit_list_iterate_end;
   }
   return 0;
+}
+
+/*
+ * Helper for name_and_sort_items.
+ */
+static int my_cmp(const void *p1, const void *p2)
+{
+  const struct item *i1 = (const struct item *) p1;
+  const struct item *i2 = (const struct item *) p2;
+
+  if (i1->section == i2->section)
+    return mystrcasecmp(i1->descr, i2->descr);
+  return (i1->section - i2->section);
+}
+
+/*
+ * Takes an array of compound ids (cids). It will fill out an array of
+ * struct items and also sort it.
+ *
+ * section 0: normal buildings
+ * section 1: B_CAPITAL
+ * section 2: F_NONMIL units
+ * section 3: other units
+ * section 4: wonders
+ */
+void name_and_sort_items(int *pcids, int num_cids, struct item *items,
+			 int show_cost)
+{
+  int i;
+
+  for (i = 0; i < num_cids; i++) {
+    int is_unit = cid_is_unit(pcids[i]), id = cid_id(pcids[i]), cost;
+    struct item *pitem = &items[i];
+    char *name;
+
+    pitem->cid = pcids[i];
+
+    if (is_unit) {
+      cost = get_unit_type(id)->build_cost;
+      name = get_unit_name(id);
+      pitem->section = unit_type_flag(id, F_NONMIL) ? 2 : 3;
+    } else {
+      if (id == B_CAPITAL) {
+	cost = -1;
+	pitem->section = 1;
+      } else {
+	cost = get_improvement_type(id)->build_cost;
+	pitem->section = 0;
+      }
+      if (is_wonder(id)) {
+	name = get_impr_name_ex(find_palace(game.player_ptr), id);
+	pitem->section = 4;
+      } else {
+	name = get_improvement_name(id);
+      }
+    }
+
+    if (show_cost) {
+      if (cost < 0) {
+	snprintf(pitem->descr, sizeof(pitem->descr), "%s (XX)", name);
+      } else {
+	snprintf(pitem->descr, sizeof(pitem->descr),
+		 "%s (%d)", name, cost);
+      }
+    } else {
+      mystrlcpy(pitem->descr, name, sizeof(pitem->descr));
+    }
+  }
+
+  qsort(items, num_cids, sizeof(struct item), my_cmp);
+}
+
+int collect_cids1(cid * dest_cids, struct city **selected_cities,
+		  int num_selected_cities, int append_units,
+		  int append_wonders, int change_prod,
+		  int (*test_func) (struct city *, int))
+{
+  cid first = append_units ? B_LAST : 0;
+  cid last = append_units ? game.num_unit_types + B_LAST : B_LAST;
+  cid cid;
+  int items_used = 0;
+
+  for (cid = first; cid < last; cid++) {
+    int append = FALSE;
+    int id = cid_id(cid);
+
+    if (!append_units && (append_wonders != is_wonder(id)))
+      continue;
+
+    if (!change_prod) {
+      city_list_iterate(game.player_ptr->cities, pcity) {
+	append |= test_func(pcity, cid);
+      }
+      city_list_iterate_end;
+    } else {
+      int i;
+
+      for (i = 0; i < num_selected_cities; i++) {
+	append |= test_func(selected_cities[i], cid);
+      }
+    }
+
+    if (!append)
+      continue;
+
+    dest_cids[items_used] = cid;
+    items_used++;
+  }
+  return items_used;
+}
+
+/*
+ * Collect the cids of all targets (improvements and units) which are
+ * currently built in a city.
+ */
+int collect_cids2(cid * dest_cids)
+{
+  int mapping[B_LAST + U_LAST];
+  int cids_used = 0;
+  cid cid;
+
+  memset(mapping, 0, sizeof(mapping));
+  city_list_iterate(game.player_ptr->cities, pcity) {
+    mapping[cid_encode_from_city(pcity)] = 1;
+  }
+  city_list_iterate_end;
+
+  for (cid = 0; cid < ARRAY_SIZE(mapping); cid++) {
+    if (mapping[cid]) {
+      dest_cids[cids_used] = cid;
+      cids_used++;
+    }
+  }
+  return cids_used;
+}
+
+/*
+ * Collect the cids of all targets (improvements and units) which can
+ * be build in a city.
+ */
+int collect_cids3(cid * dest_cids)
+{
+  int cids_used = 0;
+  int id;
+
+  for (id = 0; id < B_LAST; id++) {
+    if (can_player_build_improvement(game.player_ptr, id)) {
+      dest_cids[cids_used] = cid_encode(0, id);
+      cids_used++;
+    }
+  }
+
+  for (id = 0; id < U_LAST; id++) {
+    if (can_player_build_unit(game.player_ptr, id)) {
+      dest_cids[cids_used] = cid_encode(1, id);
+      cids_used++;
+    }
+  }
+  return cids_used;
 }
