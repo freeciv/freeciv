@@ -1057,6 +1057,8 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 		      kill_outside, transfer_unit_verbose);
   remove_city(pcity);
   map_set_city(pnewcity->x, pnewcity->y, pnewcity);
+  reset_move_costs(pnewcity->x, pnewcity->y);
+
   if (resolve_stack && (no_units > 0) && resolve_list) {
     for (i = 0; i < no_units * 2; i += 2)
       resolve_unit_stack(resolve_list[i], resolve_list[i+1],
