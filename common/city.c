@@ -106,15 +106,11 @@ static bool base_map_to_city_map(int *city_map_x, int *city_map_y,
 				 int city_center_x, int city_center_y,
 				 int map_x, int map_y)
 {
-  CHECK_MAP_POS(map_x, map_y);
-  city_map_checked_iterate(city_center_x, city_center_y, cx, cy, mx, my) {
-    if (mx == map_x && my == map_y) {
-      *city_map_x = cx;
-      *city_map_y = cy;
-      return TRUE;
-    }
-  } city_map_checked_iterate_end;
-  return FALSE;
+  map_distance_vector(city_map_x, city_map_y,
+		      city_center_x, city_center_y, map_x, map_y);
+  *city_map_x += CITY_MAP_SIZE / 2;
+  *city_map_y += CITY_MAP_SIZE / 2;
+  return is_valid_city_coords(*city_map_x, *city_map_y);
 }
 
 /**************************************************************************
