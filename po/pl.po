@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 1999-10-18 22:08+1000\n"
+"POT-Creation-Date: 1999-10-20 00:22+1000\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Artur Biesiadowski <abies@pg.gda.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -9416,7 +9416,7 @@ msgstr ""
 #: data/default/nations.ruleset:555 data/default/nations.ruleset:796
 #: data/default/nations.ruleset:828 data/default/nations.ruleset:871
 #: data/default/nations.ruleset:904 data/default/nations.ruleset:934
-#: data/default/nations.ruleset:972
+#: data/default/nations.ruleset:972 data/default/nations.ruleset:1109
 msgid "Prime Minister"
 msgstr ""
 
@@ -9700,6 +9700,39 @@ msgstr ""
 #: data/default/nations.ruleset:1021
 msgid "Great Chief"
 msgstr ""
+
+#: data/default/nations.ruleset:1041
+msgid "Czech"
+msgstr ""
+
+#: data/default/nations.ruleset:1042
+msgid "Czechs"
+msgstr ""
+
+# client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
+# data/Freeciv:1 data/Freeciv:1
+#: data/default/nations.ruleset:1059
+#, fuzzy
+msgid "Thane"
+msgstr "Zmieñ"
+
+#: data/default/nations.ruleset:1059
+msgid "Prophetess"
+msgstr ""
+
+# data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
+# data/default/techs.ruleset:1
+#: data/default/nations.ruleset:1100
+#, fuzzy
+msgid "Australian"
+msgstr "Uprzemys³owienie"
+
+# data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
+# data/default/techs.ruleset:1
+#: data/default/nations.ruleset:1101
+#, fuzzy
+msgid "Australians"
+msgstr "Uprzemys³owienie"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1

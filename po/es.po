@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.9\n"
-"POT-Creation-Date: 1999-10-19 01:57+0200\n"
+"POT-Creation-Date: 1999-10-20 00:22+1000\n"
 "PO-Revision-Date: 1999-10-18 23:00+1000\n"
 "Last-Translator: David Pérez Serrada <dperezs@nexo.es>\n"
 "Language-Team: Spanish <ES@li.org>\n"
@@ -5763,9 +5763,9 @@ msgstr "Comida/Recursos/Comercio"
 msgid "Road Result/Time:"
 msgstr "Carretera(Tiempo-Creación)"
 
-#: data/Freeciv:970
 #
 # dwp: abbreviated Irrigación
+#: data/Freeciv:970
 msgid "Irrig. Result/Time:"
 msgstr "Irrig.(Tiempo-Creación)"
 
@@ -5773,9 +5773,9 @@ msgstr "Irrig.(Tiempo-Creación)"
 msgid "Mine Result/Time:"
 msgstr "Mina(Tiempo-Creación)"
 
-#: data/Freeciv:1011
 #
 # dwp: abbreviated Transformación
+#: data/Freeciv:1011
 msgid "Trans. Result/Time:"
 msgstr "Trans.(Tiempo-Creación)"
 
@@ -7817,12 +7817,12 @@ msgstr ""
 "Pemite a todos los jugadores empezar a construir sus naves espaciales "
 "(asumiendo que han investigado las teconologías necesarias)."
 
-#: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:650
-#: data/default/buildings.ruleset:650
 #
 # FIXME: sorry, made fuzzy by dwp because translation is too long:
 # length is 32 chars, and MAX_LEN_NAME is 32 (31 + trailing null).
 #
+#: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:650
+#: data/default/buildings.ruleset:650
 #, fuzzy
 msgid "A.Smith's Trading Co."
 msgstr "Compañia Comercial de Adam Smith"
@@ -8739,7 +8739,7 @@ msgstr "Griegos"
 #: data/default/nations.ruleset:555 data/default/nations.ruleset:796
 #: data/default/nations.ruleset:828 data/default/nations.ruleset:871
 #: data/default/nations.ruleset:904 data/default/nations.ruleset:934
-#: data/default/nations.ruleset:972
+#: data/default/nations.ruleset:972 data/default/nations.ruleset:1109
 msgid "Prime Minister"
 msgstr "Primer Ministro"
 
@@ -8979,6 +8979,35 @@ msgstr "Chino"
 #, fuzzy
 msgid "Great Chief"
 msgstr "Gran Kan"
+
+#: data/default/nations.ruleset:1041
+#, fuzzy
+msgid "Czech"
+msgstr "Azteca"
+
+#: data/default/nations.ruleset:1042
+#, fuzzy
+msgid "Czechs"
+msgstr "Aztecas"
+
+#: data/default/nations.ruleset:1059
+#, fuzzy
+msgid "Thane"
+msgstr "Cambiar"
+
+#: data/default/nations.ruleset:1059
+msgid "Prophetess"
+msgstr ""
+
+#: data/default/nations.ruleset:1100
+#, fuzzy
+msgid "Australian"
+msgstr "Industralización"
+
+#: data/default/nations.ruleset:1101
+#, fuzzy
+msgid "Australians"
+msgstr "Industralización"
 
 #: data/civ1/techs.ruleset:48 data/civ2/techs.ruleset:48
 #: data/default/techs.ruleset:48
@@ -10211,8 +10240,7 @@ msgstr ""
 "grandes proyectos. Si dos o más Colonos estan trabajando en la misma tarea "
 "en el mismo cuadrado, su esfuerzo se suma hasta que la taréa se acaba. Ten "
 "cuidado de poner demasiados trabajadores ya que podría gastarte esfuerzo y "
-"además los grupos de Colono son bastante vulnerables a los ataques "
-"enemigos."
+"además los grupos de Colono son bastante vulnerables a los ataques enemigos."
 
 #: data/civ1/units.ruleset:134
 msgid "Militia"
