@@ -204,9 +204,13 @@ void create_science_dialog(int make_modal)
   popupmenu = gtk_menu_new();
   gtk_widget_show_all(popupmenu);
 
-  science_current_label = gtk_label_new("");
+  science_current_label=gtk_progress_bar_new();
+  gtk_progress_bar_set_bar_style(GTK_PROGRESS_BAR(science_current_label),
+				 GTK_PROGRESS_CONTINUOUS);
+  gtk_progress_set_show_text(GTK_PROGRESS(science_current_label), TRUE);
+
   gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,TRUE, FALSE, 0 );
-  gtk_widget_set_usize(science_current_label, 0,25);
+  gtk_widget_set_usize(science_current_label, 0, 25);
 
   science_help_toggle = gtk_check_button_new_with_label (_("Help"));
   gtk_box_pack_start( GTK_BOX( hbox ), science_help_toggle, TRUE, FALSE, 0 );
@@ -278,11 +282,16 @@ void science_change_callback(GtkWidget *widget, gpointer data)
      * there may be a better way to do this?  --dwp */
     science_dialog_update();
   } else {
+    gfloat pct;
+
     my_snprintf(text, sizeof(text), "%d/%d",
 		game.player_ptr->research.researched,
 		research_time(game.player_ptr));
+    pct=CLAMP((gfloat) game.player_ptr->research.researched /
+		research_time(game.player_ptr), 0.0, 1.0);
 
-    gtk_set_label(science_current_label,text);
+    gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
+    gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
     
     packet.tech=to;
     send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
@@ -387,6 +396,7 @@ void science_dialog_update(void)
   static char *row	[1];
   GtkWidget *item;
   GList *sorting_list = NULL;
+  gfloat pct;
 
   if(delay_report_update) return;
   report_title=get_report_title(_("Science"));
@@ -429,7 +439,11 @@ void science_dialog_update(void)
 	      game.player_ptr->research.researched,
 	      research_time(game.player_ptr));
 
-  gtk_set_label(science_current_label,text);
+  pct=CLAMP((gfloat) game.player_ptr->research.researched /
+	    research_time(game.player_ptr), 0.0, 1.0);
+
+  gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
+  gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
 
   /* collect all techs which are reachable in the next step
    * hist will hold afterwards the techid of the current choice
