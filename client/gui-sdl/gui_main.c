@@ -371,6 +371,18 @@ static void gui_main_loop(void)
               popup_city_report_dialog(FALSE);
 	    break;
 
+	    case SDLK_F7:
+              send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+            break;
+	    
+            case SDLK_F8:
+              send_report_request(REPORT_TOP_5_CITIES);
+            break;
+	    
+	    case SDLK_F11:
+              send_report_request(REPORT_DEMOGRAPHIC);
+            break;
+	    
 	    default:
 	    break;
 	  }

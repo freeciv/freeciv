@@ -2427,189 +2427,106 @@ static void disable_science_dialog(void)
 **************************************************************************/
 void science_dialog_update(void)
 {
-  char cBuf[120];
-  SDL_String16 *pStr;
-  int cost;
-  SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
-  int step, i;
-  SDL_Rect dest, src;
-  SDL_Color color;
-  struct impr_type *pImpr;
-  struct unit_type *pUnit;
-  int turns_to_advance, turns_to_next_tech, steps;
-  int curent_output = 0;
-  struct GUI *pWindow;
+  char cBuf[128];
+  int cost = total_bulbs_required(game.player_ptr);
+  struct GUI *pWindow = get_research_widget();
 
-  if(!pScienceDlg || is_report_dialogs_frozen()) {
-    return;
-  }
-  
-  pWindow = pScienceDlg->pEndWidgetList;
-  color = *get_game_colorRGB(COLOR_STD_WHITE);
-  cost = total_bulbs_required(game.player_ptr);
-  
-  /* Fix ME : Add Future tech icon support */
-  pWindow->prev->theme =
-    GET_SURF(advances[game.player_ptr->research.researching].sprite);
-  
-  if ( game.player_ptr->ai.tech_goal != A_UNSET )
-  {
-    pWindow->prev->prev->theme =
-      GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
-  } else {
-    /* add "None" icon */
-    pWindow->prev->prev->theme = pNone_Tech_Icon;
-  }
-  
-  /* redraw Window */
-  redraw_group(pWindow, pWindow, 0);
-  
-  putframe(pWindow->dst, pWindow->size.x, pWindow->size.y,
-	  	pWindow->size.x + pWindow->size.w - 1,
-		  	pWindow->size.y + pWindow->size.h - 1, 0xffffffff);
-  
-  redraw_group(pScienceDlg->pBeginWidgetList, pWindow->prev, 0);
-  /* ------------------------------------- */
-
-  city_list_iterate(game.player_ptr->cities, pCity) {
-    curent_output += pCity->science_total;
-  } city_list_iterate_end;
-
-  if (curent_output <= 0) {
-    my_snprintf(cBuf, sizeof(cBuf),
-		_("Current output : 0\nResearch speed : "
-		  "none\nNext's advance time : never"));
-  } else {
-    turns_to_advance = (cost + curent_output - 1) / curent_output;
-    turns_to_next_tech =
-	    (cost - game.player_ptr->research.bulbs_researched +
-		    curent_output - 1) / curent_output;
-    
-    my_snprintf(cBuf, sizeof(cBuf),
-		_("Current output : %d per turn\nResearch speed "
-		  ": %d %s/advance\nNext advance in: "
-		  "%d %s"),
-		curent_output, turns_to_advance,
-		PL_("turn", "turns", turns_to_advance),
-		turns_to_next_tech, PL_("turn", "turns", turns_to_next_tech));
-  }
-
-  pStr = create_str16_from_char(cBuf, 12);
-  pStr->style |= SF_CENTER;
-  pStr->forecol = color;
-  
-  pSurf = create_text_surf_from_str16(pStr);
-  
-  FREE(pStr->text);
-
-  dest.x = pWindow->size.x + (pWindow->size.w - pSurf->w) / 2;
-  dest.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
-  SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
-
-  dest.y += pSurf->h + 2;
-  FREESURFACE(pSurf);
-
-
-  /* ------------------------------------- */
-  dest.x = pWindow->prev->size.x;
-
-  putline(pWindow->dst, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
-
-  dest.y += 6;
-  /* ------------------------------------- */
-
-  my_snprintf(cBuf, sizeof(cBuf), "%s (%d/%d)",
+  my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
 	      get_tech_name(game.player_ptr,
 			    game.player_ptr->research.researching),
 	      game.player_ptr->research.bulbs_researched, cost);
 
-  pStr->text = convert_to_utf16(cBuf);
+  FREE(pWindow->string16->text);
+  pWindow->string16->text = convert_to_utf16(cBuf);
+  
+  if(pScienceDlg && !is_report_dialogs_frozen()) {
+    SDL_String16 *pStr;
+    SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
+    int step, i;
+    SDL_Rect dest, src;
+    SDL_Color color;
+    struct impr_type *pImpr;
+    struct unit_type *pUnit;
+    int turns_to_advance, turns_to_next_tech, steps;
+    int curent_output = 0;
+          
+    pWindow = pScienceDlg->pEndWidgetList;
+    color = *get_game_colorRGB(COLOR_STD_WHITE);
+      
+    /* Fix ME : Add Future tech icon support */
+    pWindow->prev->theme =
+      GET_SURF(advances[game.player_ptr->research.researching].sprite);
+  
+    if (game.player_ptr->ai.tech_goal != A_UNSET)
+    {
+      pWindow->prev->prev->theme =
+        GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
+    } else {
+      /* add "None" icon */
+      pWindow->prev->prev->theme = pNone_Tech_Icon;
+    }
+  
+    /* redraw Window */
+    redraw_group(pWindow, pWindow, 0);
+  
+    putframe(pWindow->dst, pWindow->size.x, pWindow->size.y,
+	  	pWindow->size.x + pWindow->size.w - 1,
+		  	pWindow->size.y + pWindow->size.h - 1, 0xffffffff);
+  
+    redraw_group(pScienceDlg->pBeginWidgetList, pWindow->prev, 0);
+    /* ------------------------------------- */
 
-  pSurf = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
+    city_list_iterate(game.player_ptr->cities, pCity) {
+      curent_output += pCity->science_total;
+    } city_list_iterate_end;
 
-  dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
-  SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
-
-  dest.y += pSurf->h;
-  FREESURFACE(pSurf);
-
-  dest.w = cost * pColb_Surface->w;
-  step = pColb_Surface->w;
-  if (dest.w > 300) {
-    dest.w = 300;
-    step = (300 - pColb_Surface->w) / (cost - 1);
-
-    if (step == 0) {
-      step = 1;
+    if (curent_output <= 0) {
+      my_snprintf(cBuf, sizeof(cBuf),
+		_("Current output : 0\nResearch speed : "
+		  "none\nNext's advance time : never"));
+    } else {
+      turns_to_advance = (cost + curent_output - 1) / curent_output;
+      turns_to_next_tech =
+	    (cost - game.player_ptr->research.bulbs_researched +
+		    curent_output - 1) / curent_output;
+    
+      my_snprintf(cBuf, sizeof(cBuf),
+		_("Current output : %d per turn\nResearch speed "
+		  ": %d %s/advance\nNext advance in: "
+		  "%d %s"),
+	  	  curent_output, turns_to_advance,
+		  PL_("turn", "turns", turns_to_advance),
+		  turns_to_next_tech, PL_("turn", "turns", turns_to_next_tech));
     }
 
-  }
-
-  dest.h = pColb_Surface->h + 4;
-  color.unused = 136;
-  SDL_FillRectAlpha(pWindow->dst, &dest, &color);
+    pStr = create_str16_from_char(cBuf, 12);
+    pStr->style |= SF_CENTER;
+    pStr->forecol = color;
   
-  putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w,
-  	dest.y + dest.h, 0xff000000);
+    pSurf = create_text_surf_from_str16(pStr);
   
-  if ( cost > 286 )
-  {
-    cost =
-      286.0 * ((float) game.player_ptr->research.bulbs_researched / cost);
-  }
-  else
-  {
-    cost =
-      (float)cost * ((float)game.player_ptr->research.bulbs_researched/cost);
-  }
-  
-  dest.y += 2;
-  for (i = 0; i < cost; i++) {
-    SDL_BlitSurface(pColb_Surface, NULL, pWindow->dst, &dest);
-    dest.x += step;
-  }
+    FREE(pStr->text);
 
-  /* ----------------------- */
+    dest.x = pWindow->size.x + (pWindow->size.w - pSurf->w) / 2;
+    dest.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
+    SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
 
-  dest.y += dest.h + 4;
-  dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
+    dest.y += pSurf->h + 2;
+    FREESURFACE(pSurf);
 
-  impr_type_iterate(imp)
-      pImpr = get_improvement_type(imp);
-  if (pImpr->tech_req == game.player_ptr->research.researching) {
-    SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, pWindow->dst, &dest);
-    dest.x += GET_SURF(pImpr->sprite)->w + 1;
-  } impr_type_iterate_end;
 
-  dest.x += 5;
+    /* ------------------------------------- */
+    dest.x = pWindow->prev->size.x;
 
-  unit_type_iterate(un)
-      pUnit = get_unit_type(un);
-  if (pUnit->tech_requirement == game.player_ptr->research.researching) {
-    src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
-    SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, pWindow->dst, &dest);
-    dest.x += src.w + 2;
-  } unit_type_iterate_end;
-  
-  /* -------------------------------- */
-  /* draw separator line */
-  dest.x = pWindow->prev->size.x;
-  dest.y = pWindow->prev->size.y + pWindow->prev->size.h + 20;
+    putline(pWindow->dst, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
 
-  putline(pWindow->dst, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
-  dest.y += 10;
-  /* -------------------------------- */
-  /* Goals */
-  if ( game.player_ptr->ai.tech_goal != A_UNSET )
-  {
-    steps =
-      num_unknown_techs_for_goal(game.player_ptr,
-				 game.player_ptr->ai.tech_goal);
-    my_snprintf(cBuf, sizeof(cBuf), "%s ( %d %s )",
+    dest.y += 6;
+    /* ------------------------------------- */
+
+    my_snprintf(cBuf, sizeof(cBuf), "%s (%d/%d)",
 	      get_tech_name(game.player_ptr,
-			    game.player_ptr->ai.tech_goal), steps,
-	      PL_("step", "steps", steps));
+			    game.player_ptr->research.researching),
+	      game.player_ptr->research.bulbs_researched, cost);
 
     pStr->text = convert_to_utf16(cBuf);
 
@@ -2619,12 +2536,53 @@ void science_dialog_update(void)
     dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
     SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
 
-    dest.y += pSurf->h + 4;
+    dest.y += pSurf->h;
     FREESURFACE(pSurf);
+
+    dest.w = cost * pColb_Surface->w;
+    step = pColb_Surface->w;
+    if (dest.w > 300) {
+      dest.w = 300;
+      step = (300 - pColb_Surface->w) / (cost - 1);
+
+      if (step == 0) {
+        step = 1;
+      }
+
+    }
+
+    dest.h = pColb_Surface->h + 4;
+    color.unused = 136;
+    SDL_FillRectAlpha(pWindow->dst, &dest, &color);
+  
+    putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w,
+  	dest.y + dest.h, 0xff000000);
+  
+    if (cost > 286)
+    {
+      cost =
+        286.0 * ((float) game.player_ptr->research.bulbs_researched / cost);
+    }
+    else
+    {
+      cost =
+        (float)cost * ((float)game.player_ptr->research.bulbs_researched/cost);
+    }
+  
+    dest.y += 2;
+    for (i = 0; i < cost; i++) {
+      SDL_BlitSurface(pColb_Surface, NULL, pWindow->dst, &dest);
+      dest.x += step;
+    }
+
+    /* ----------------------- */
+
+    dest.y += dest.h + 4;
+    dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
 
     impr_type_iterate(imp) {
       pImpr = get_improvement_type(imp);
-      if (pImpr->tech_req == game.player_ptr->ai.tech_goal) {
+      if (pImpr->tech_req == game.player_ptr->research.researching) {
         SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, pWindow->dst, &dest);
         dest.x += GET_SURF(pImpr->sprite)->w + 1;
       }
@@ -2634,19 +2592,69 @@ void science_dialog_update(void)
 
     unit_type_iterate(un) {
       pUnit = get_unit_type(un);
-      if (pUnit->tech_requirement == game.player_ptr->ai.tech_goal) {
+      if (pUnit->tech_requirement == game.player_ptr->research.researching) {
         src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
         SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, pWindow->dst, &dest);
         dest.x += src.w + 2;
       }
     } unit_type_iterate_end;
+  
+    /* -------------------------------- */
+    /* draw separator line */
+    dest.x = pWindow->prev->size.x;
+    dest.y = pWindow->prev->size.y + pWindow->prev->size.h + 20;
+
+    putline(pWindow->dst, dest.x, dest.y, dest.x + 365, dest.y, 0xff000000);
+    dest.y += 10;
+    /* -------------------------------- */
+    /* Goals */
+    if (game.player_ptr->ai.tech_goal != A_UNSET)
+    {
+      steps =
+        num_unknown_techs_for_goal(game.player_ptr,
+				 game.player_ptr->ai.tech_goal);
+      my_snprintf(cBuf, sizeof(cBuf), "%s ( %d %s )",
+	      get_tech_name(game.player_ptr,
+			    game.player_ptr->ai.tech_goal), steps,
+	      PL_("step", "steps", steps));
+
+      pStr->text = convert_to_utf16(cBuf);
+
+      pSurf = create_text_surf_from_str16(pStr);
+      FREE(pStr->text);
+
+      dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
+      SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
+
+      dest.y += pSurf->h + 4;
+      FREESURFACE(pSurf);
+
+      impr_type_iterate(imp) {
+        pImpr = get_improvement_type(imp);
+        if (pImpr->tech_req == game.player_ptr->ai.tech_goal) {
+          SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, pWindow->dst, &dest);
+          dest.x += GET_SURF(pImpr->sprite)->w + 1;
+        }
+      } impr_type_iterate_end;
+
+      dest.x += 5;
+
+      unit_type_iterate(un) {
+        pUnit = get_unit_type(un);
+        if (pUnit->tech_requirement == game.player_ptr->ai.tech_goal) {
+          src = get_smaller_surface_rect(GET_SURF(pUnit->sprite));
+          SDL_BlitSurface(GET_SURF(pUnit->sprite), &src, pWindow->dst, &dest);
+          dest.x += src.w + 2;
+        }
+      } unit_type_iterate_end;
+    }
+  
+    /* -------------------------------- */
+    sdl_dirty_rect(pWindow->size);
+    flush_dirty();
+  
+    FREESTRING16(pStr);
   }
-  
-  /* -------------------------------- */
-  sdl_dirty_rect(pWindow->size);
-  flush_dirty();
-  
-  FREESTRING16(pStr);
 }
 
 /**************************************************************************

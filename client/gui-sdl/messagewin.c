@@ -253,12 +253,14 @@ void popup_meswin_dialog(void)
   area.w = w;
   area.h = WINDOW_TILE_HIGH;
   
+  /* fill title bar */
   SDL_FillRect(pWindow->theme, &area,
 	  SDL_MapRGBA(pWindow->theme->format, color.r, color.g, color.b, 200));
   
   putline(pWindow->theme, 0,
 	  WINDOW_TILE_HIGH, w - 1, WINDOW_TILE_HIGH, 0xFF000000);
-  
+
+  /* create static text on window */
   pStr = create_str16_from_char(_("Log"), 12);
   pStr->style = TTF_STYLE_BOLD;
   pStr->render = 3;

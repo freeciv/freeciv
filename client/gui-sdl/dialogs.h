@@ -28,6 +28,6 @@
 struct tile;
   
 void popup_advanced_terrain_dialog(int x , int y);
-const char *sdl_map_get_tile_info_text(int x, int y);
+const char *sdl_map_get_tile_info_text(struct tile *pTile);
 
 #endif	/* FC__DIALOGS_H */

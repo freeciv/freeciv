@@ -147,13 +147,133 @@ void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
   			a: %s\nb: %s",headline, lines );
 }
 
+/* ----------------------------------------------------------------------- */
+struct ADVANCED_DLG *pNotifyDlg = NULL;
+
+/**************************************************************************
+...
+**************************************************************************/
+static int notify_dialog_window_callback(struct GUI *pWindow)
+{
+  return std_move_window_group_callback(pNotifyDlg->pBeginWidgetList,
+  								pWindow);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int exit_notify_dialog_callback(struct GUI *pWidget)
+{
+  if(pNotifyDlg) {
+    popdown_window_group_dialog(pNotifyDlg->pBeginWidgetList,
+					    pNotifyDlg->pEndWidgetList);
+    FREE(pNotifyDlg->pScroll);
+    FREE(pNotifyDlg);
+    flush_dirty();
+  }
+  return -1;
+}
+
 /**************************************************************************
   Popup a generic dialog to display some generic information.
 **************************************************************************/
 void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
-  freelog(LOG_NORMAL, "popup_notify_dialog : PORT ME\n \
-  		a: %s\nb: %s", caption, headline);
+  struct GUI *pBuf = NULL, *pWindow;
+  SDL_String16 *pStr;
+  SDL_Surface *pHeadline, *pLines = NULL;
+  SDL_Rect dst;
+  int w = 0, h;
+  
+  if (pNotifyDlg) {
+    return;
+  }
+  
+  pNotifyDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+   
+  pStr = create_str16_from_char(caption, 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pWindow = create_window(NULL, pStr, 10, 10, 0);
+  
+  pWindow->action = notify_dialog_window_callback;
+  set_wstate(pWindow , WS_NORMAL);
+  w = MAX(w, pWindow->size.w);
+  
+  add_to_gui_list(ID_WINDOW, pWindow);
+  pNotifyDlg->pEndWidgetList = pWindow;
+  
+  /* ---------- */
+  /* create exit button */
+  pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
+			  pTheme->CANCEL_Icon->w - 4,
+			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
+  			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
+  SDL_SetColorKey(pBuf->theme ,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
+    
+  pBuf->action = exit_notify_dialog_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  pBuf->key = SDLK_ESCAPE;
+  w += (pBuf->size.w + 10);
+  
+  add_to_gui_list(ID_BUTTON, pBuf);
+  pNotifyDlg->pBeginWidgetList = pBuf;
+    
+  pStr = create_str16_from_char(headline, 16);
+  pStr->style |= TTF_STYLE_BOLD;
+  
+  pHeadline = create_text_surf_from_str16(pStr);
+    
+  if(lines) {
+    FREE(pStr->text);
+    change_ptsize16(pStr, 12);
+    pStr->style &= ~TTF_STYLE_BOLD;
+    pStr->text = convert_to_utf16(lines);
+    pLines = create_text_surf_from_str16(pStr);
+  }
+  
+  FREESTRING16(pStr);
+  
+  w = MAX(w , pHeadline->w);
+  if(pLines) {
+    w = MAX(w , pLines->w);
+  }
+  w += 60;
+  h = WINDOW_TILE_HIGH + 1 + FRAME_WH + 10 + pHeadline->h + 10;
+  if(pLines) {
+    h += pLines->h + 10;
+  }
+  pWindow->size.x = (Main.screen->w - w ) / 2;
+  pWindow->size.y = (Main.screen->h - h ) / 2;
+  
+  resize_window(pWindow, NULL,
+  	get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
+	
+  dst.x = (pWindow->size.w - pHeadline->w) / 2;
+  dst.y = WINDOW_TILE_HIGH + 11;
+  
+  SDL_BlitSurface(pHeadline, NULL, pWindow->theme, &dst);
+  if(pLines) {
+    dst.y += pHeadline->h + 10;
+    if(pHeadline->w < pLines->w) {
+      dst.x = (pWindow->size.w - pLines->w) / 2;
+    }
+     
+    SDL_BlitSurface(pLines, NULL, pWindow->theme, &dst);
+  }
+  
+  FREESURFACE(pHeadline);
+  FREESURFACE(pLines);
+  
+  /* exit button */
+  pBuf = pWindow->prev; 
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+  pBuf->size.y = pWindow->size.y;
+    
+  /* redraw */
+  redraw_group(pNotifyDlg->pBeginWidgetList, pWindow, 0);
+  flush_rect(pWindow->size);
 }
 
 
@@ -418,59 +538,52 @@ static int exit_terrain_info_dialog( struct GUI *pButton )
 
 /***************************************************************
   Return a (static) string with terrain name;
-  eg: "Hills"
-  eg: "Hills (Coals)"
-  eg: "Hills (Coals) [Pollution]"
+  eg: "Hills \n Defense : + 100%"
+  eg: "Hills (Coals) \n Defense : + 100%"
+  eg: "Hills (Coals) \n [Pollution] \n Defense : + 100%"
 ***************************************************************/
-const char *sdl_map_get_tile_info_text(int x, int y)
+const char *sdl_map_get_tile_info_text(struct tile *pTile)
 {
-  static char s[64];
-  struct tile *ptile=map_get_tile(x, y);
+  static char s[128];
   bool first;
-
-  my_snprintf(s, sizeof(s), "%s", tile_types[ptile->terrain].terrain_name);
-  if (tile_has_special(ptile, S_RIVER)) {
+  int bonus = (tile_types[pTile->terrain].defense_bonus - 10) * 10;
+  
+  my_snprintf(s, sizeof(s), "%s", tile_types[pTile->terrain].terrain_name);
+  if((pTile->special & S_RIVER) == S_RIVER) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));
+    bonus += terrain_control.river_defense_bonus;
   }
 
   first = TRUE;
-  if (tile_has_special(ptile, S_SPECIAL_1)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, " (");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, tile_types[ptile->terrain].special_1_name);
+  if ((pTile->special & S_SPECIAL_1) == S_SPECIAL_1) {
+    first = FALSE;
+    sz_strlcat(s, " (");
+    sz_strlcat(s, tile_types[pTile->terrain].special_1_name);
   }
-  if (tile_has_special(ptile, S_SPECIAL_2)) {
+  if ((pTile->special & S_SPECIAL_2) == S_SPECIAL_2) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " (");
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[ptile->terrain].special_2_name);
+    sz_strlcat(s, tile_types[pTile->terrain].special_2_name);
   }
   if (!first) {
     sz_strlcat(s, ")");
   }
 
   first = TRUE;
-  if (tile_has_special(ptile, S_POLLUTION)) {
+  if ((pTile->special & S_POLLUTION) == S_POLLUTION) {
+    first = FALSE;
+    sz_strlcat(s, "\n[");
+    sz_strlcat(s, get_special_name(S_POLLUTION));
+  }
+  if ((pTile->special & S_FALLOUT) == S_FALLOUT) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, "\n[");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, get_special_name(S_POLLUTION));
-  }
-  if (tile_has_special(ptile, S_FALLOUT)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, " [");
     } else {
       sz_strlcat(s, "/");
     }
@@ -480,9 +593,19 @@ const char *sdl_map_get_tile_info_text(int x, int y)
     sz_strlcat(s, "]");
   }
   
+  if((pTile->special & S_FORTRESS) == S_FORTRESS) {
+    bonus += terrain_control.fortress_defense_bonus;
+  }
+  
+  if(bonus) {
+    static char ss[8];
+    my_snprintf(ss, sizeof(ss), "%d%%", bonus);
+    sz_strlcat(s, _("\nDefense : +"));
+    sz_strlcat(s, ss);
+  }
+  
   return s;
 }
-
 
 /**************************************************************************
   Popup terrain information dialog.
@@ -520,10 +643,9 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   if(tile_get_known(x, y) >= TILE_KNOWN_FOGGED) {
   
     my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n"),
-		sdl_map_get_tile_info_text(x, y),
-		map_get_tile_fpt_text(x, y) );
-  
-  
+		sdl_map_get_tile_info_text(pTile),
+		map_get_tile_fpt_text(x, y));
+    
     if (tile_has_special(pTile, S_HUT))
     { 
       sz_strlcat(cBuf, _("Minor Tribe Village"));
@@ -536,6 +658,8 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
         sz_strlcat(cBuf, map_get_infrastructure_text(pTile->special));
       }
     }
+    
+    
   }
   else
   {
@@ -899,7 +1023,7 @@ void popup_advanced_terrain_dialog(int x , int y)
   h += pBuf->size.h;
 
   /* ---------- */  
-  if ( pCity && pCity->owner == game.player_idx)
+  if (pCity && pCity->owner == game.player_idx)
   {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
@@ -1023,8 +1147,8 @@ void popup_advanced_terrain_dialog(int x , int y)
       for(i=0; i<n; i++) {
         pUnit = unit_list_get(&pTile->units, i);
         pUnitType = unit_type(pUnit);
-    
-        my_snprintf(cBuf , sizeof(cBuf),
+        if(pUnit->owner == game.player_idx) {
+          my_snprintf(cBuf , sizeof(cBuf),
             _("Activate %s (%d / %d) %s(%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
@@ -1034,13 +1158,27 @@ void popup_advanced_terrain_dialog(int x , int y)
             (pUnitType->move_rate / 3),
 	    unit_activity_text(pUnit));
     
-	create_active_iconlabel(pBuf, pWindow->dst, pStr,
+	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	       cBuf,  NULL, adv_unit_select_callback);
         
-        set_wstate(pBuf , WS_NORMAL);
-	
-        add_to_gui_list(MAX_ID - pUnit->id , pBuf);
+          set_wstate(pBuf , WS_NORMAL);
+	  add_to_gui_list(MAX_ID - pUnit->id , pBuf);
+	} else {
+	  my_snprintf(cBuf , sizeof(cBuf),
+            _("%s %s(%d,%d,%d) %s"),
+            pUnit->veteran ? _("Veteran") : "" ,
+            pUnitType->name,
+            pUnitType->attack_strength,
+            pUnitType->defense_strength,
+            (pUnitType->move_rate / 3),
+	    get_nation_name(get_player(pUnit->owner)->nation));
     
+	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
+	       cBuf,  NULL, NULL);
+                  
+	  add_to_gui_list(ID_LABEL , pBuf);
+	}
+	    
         w = MAX(w , pBuf->size.w);
         units_h += pBuf->size.h;
 	
@@ -1072,7 +1210,7 @@ void popup_advanced_terrain_dialog(int x , int y)
       pUnit = unit_list_get(&pTile->units, 0);
       pUnitType = unit_type(pUnit);
       
-      if (pCity)
+      if (pCity && pCity->owner == game.player_idx)
       {
         my_snprintf(cBuf , sizeof(cBuf),
             _("Activate %s (%d / %d) %s(%d,%d,%d) %s"),
@@ -1093,6 +1231,32 @@ void popup_advanced_terrain_dialog(int x , int y)
     
         w = MAX(w , pBuf->size.w);
         units_h += pBuf->size.h;
+      } else {
+        if(pUnit->owner != game.player_idx) {
+	  my_snprintf(cBuf , sizeof(cBuf),
+            _("%s %s(%d,%d,%d) %s"),
+            pUnit->veteran ? _("Veteran") : "" ,
+            pUnitType->name,
+            pUnitType->attack_strength,
+            pUnitType->defense_strength,
+            (pUnitType->move_rate / 3),
+	    get_nation_name(get_player(pUnit->owner)->nation));
+    
+	  create_active_iconlabel(pBuf, pWindow->dst, pStr,
+	       cBuf,  NULL, NULL);
+                  
+	  add_to_gui_list(ID_LABEL , pBuf);
+  
+          w = MAX(w , pBuf->size.w);
+          units_h += pBuf->size.h;
+	  /* ---------------- */
+	  /* separator */
+          pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
+    
+          add_to_gui_list(ID_SEPARATOR , pBuf);
+          h += pBuf->next->size.h;
+	  
+	}
       }
       /* ---------------- */
       my_snprintf(cBuf , sizeof(cBuf),

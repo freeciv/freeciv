@@ -549,7 +549,10 @@ static void real_info_city_report_dialog_update(void)
   
   H = hh;
   pCityRep->pBeginWidgetList = pBuf;
-  w = 600;
+  /* setup window width */
+  w = name_w + 6 + pText1->w + 8 + pCMA_Icon->w +
+	(pIcons->pBIG_Food->w + 6) * 10 + pText2->w + 6 +
+	pUnits_Icon->w + 6 + prod_w + 170;
   
   if(count) {
     pCityRep->pBeginActiveWidgetList = pBuf;
@@ -778,7 +781,7 @@ static void real_info_city_report_dialog_update(void)
     
       /* city name */
       pBuf->size.x = start_x;
-      pBuf->size.y = start_y + (H - pBuf->size.h) / 2;;
+      pBuf->size.y = start_y + (H - pBuf->size.h) / 2;
       pBuf->size.w = name_w;
       
       /* cit size */      

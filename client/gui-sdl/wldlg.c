@@ -966,15 +966,28 @@ static SDL_Surface * get_progress_icon(int stock, int cost, int *progress)
  */
 static void refresh_production_label(int stock)
 {
-  int cost;
-  char cBuf[8];
+  int cost, turns;
+  char cBuf[64];
   SDL_Rect area;
-  
-  FREE(pEditor->pProduction_Name->string16->text);
-  pEditor->pProduction_Name->string16->text =
-	convert_to_utf16(get_production_name(pEditor->pCity,
+  const char *name = get_production_name(pEditor->pCity,
     				pEditor->currently_building,
-    				pEditor->is_building_unit, &cost));
+    				pEditor->is_building_unit, &cost);
+    
+  if(stock < cost) {
+    turns = city_turns_to_build(pEditor->pCity,
+    	pEditor->currently_building, pEditor->is_building_unit, TRUE);
+    if(turns == 999)
+    {
+      my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
+    } else {
+      my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
+		    name, turns, PL_("turn", "turns", turns));
+    }
+  } else {
+    my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+  }
+  FREE(pEditor->pProduction_Name->string16->text);
+  pEditor->pProduction_Name->string16->text = convert_to_utf16(cBuf);
   
   blit_entire_src(pEditor->pProduction_Name->gfx,
 		  	pEditor->pProduction_Name->dst,
@@ -1137,9 +1150,24 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   if(pCity) {
     /* count == cost */
     /* turns == progress */
-    pStr = create_str16_from_char(get_production_name(pCity,
+    const char *name = get_production_name(pCity,
     				pCity->currently_building,
-    				pCity->is_building_unit, &count), 10);
+    				pCity->is_building_unit, &count);
+    if(pCity->shield_stock < count) {
+      turns = city_turns_to_build(pCity,
+    	pCity->currently_building, pCity->is_building_unit, TRUE);
+      if(turns == 999)
+      {
+        my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
+      } else {
+        my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
+		    name, turns, PL_("turn", "turns", turns));
+      }
+    } else {
+      my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+    }
+    pStr = create_str16_from_char(cBuf, 10);
+    pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
     
     pEditor->pProduction_Name = pBuf;

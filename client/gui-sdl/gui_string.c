@@ -376,7 +376,7 @@ static TTF_Font * load_font(Uint16 ptsize)
   struct TTF_Font_Chain *Font_TAB_TMP = Font_TAB;
   TTF_Font *font_tmp = NULL;
 
-  /* fint existing font and return pointer to him */
+  /* find existing font and return pointer to him */
   if (Sizeof_Font_TAB) {
     while (Font_TAB_TMP) {
       if (Font_TAB_TMP->ptsize == ptsize) {
@@ -388,7 +388,12 @@ static TTF_Font * load_font(Uint16 ptsize)
   }
 
   if(!pFont_with_FullPath) {
-    pFont_with_FullPath = mystrdup(datafilename(FONT_WITH_PATH));
+    char *path = datafilename(FONT_WITH_PATH);
+    if(!path) {
+      die(_("Couldn't find stdfont.ttf file. Please link/copy/move any"
+            "unicode ttf font to data dir as stdfont.ttf"));
+    }
+    pFont_with_FullPath = mystrdup(path);
     assert(pFont_with_FullPath != NULL);
   }
   

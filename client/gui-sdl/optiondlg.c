@@ -1338,6 +1338,35 @@ static int draw_civ3_city_text_style_callback(struct GUI *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
+static int draw_city_map_grid_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  SDL_Client_Flags ^= CF_DRAW_CITY_GRID;
+  if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
+    set_wstate(pWidget->prev->prev, WS_NORMAL);
+  } else {
+    set_wstate(pWidget->prev->prev, WS_DISABLED);
+  }
+  redraw_icon(pWidget->prev->prev);
+  sdl_dirty_rect(pWidget->prev->prev->size);
+  flush_dirty();
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int draw_city_worker_map_grid_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  flush_rect(pWidget->size);
+  SDL_Client_Flags ^= CF_DRAW_CITY_WORKER_GRID;
+  return -1;
+}
 
 /**************************************************************************
   ...
@@ -1742,10 +1771,10 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
 
-/* 'Civ3 / Classic CITY Text Style ' */
+  /* Civ3 / Classic CITY Text Style */
   /* check box */
   pTmpGui = create_checkbox(pWindow->dst,
-  	((SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) > 0),
+  	((SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) == CF_CIV3_CITY_TEXT_STYLE),
 			    WF_DRAW_THEME_TRANSPARENT);
 
   pTmpGui->action = draw_civ3_city_text_style_callback;
@@ -1768,6 +1797,63 @@ static int map_setting_callback(struct GUI *pWidget)
 
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
+      
+      
+  /* Draw City Grids */
+  /* check box */
+  pTmpGui = create_checkbox(pWindow->dst,
+  	((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID),
+			    WF_DRAW_THEME_TRANSPARENT);
+
+  pTmpGui->action = draw_city_map_grid_callback;
+  set_wstate(pTmpGui, WS_NORMAL);
+
+  pTmpGui->size.x = pWindow->size.x + 170;
+
+  add_to_gui_list(ID_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+
+  /* label */
+  pStr = create_str16_from_char(_("Draw city map grid"), 10);
+  pStr->style |= TTF_STYLE_BOLD;
+  pStr->forecol = text_color;
+  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  
+  pTmpGui->size.x = pWindow->size.x + 210;
+
+  add_to_gui_list(ID_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
+      
+  /* Draw City Workers Grids */
+  /* check box */
+  pTmpGui = create_checkbox(pWindow->dst,
+  	((SDL_Client_Flags & CF_DRAW_CITY_WORKER_GRID) == CF_DRAW_CITY_WORKER_GRID),
+			    WF_DRAW_THEME_TRANSPARENT);
+
+  pTmpGui->action = draw_city_worker_map_grid_callback;
+  if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
+    set_wstate(pTmpGui, WS_NORMAL);
+  }
+
+  pTmpGui->size.x = pWindow->size.x + 170;
+
+  add_to_gui_list(ID_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+
+  /* label */
+  pStr = create_str16_from_char(_("Draw city worker map grid"), 10);
+  pStr->style |= TTF_STYLE_BOLD;
+  pStr->forecol = text_color;
+  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  
+  pTmpGui->size.x = pWindow->size.x + 210;
+
+  add_to_gui_list(ID_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;    
       
   /* ================================================== */
   

@@ -3691,7 +3691,7 @@ static void redraw_city_dialog(struct city *pCity)
         my_snprintf(cBuf, sizeof(cBuf), _("(%d/%d) blocked!"),
 		  			pCity->shield_stock, cost);
       } else {
-        my_snprintf(cBuf, sizeof(cBuf), _("(%d/%d) will finish in %d %s"),
+        my_snprintf(cBuf, sizeof(cBuf), _("(%d/%d) will be finish in %d %s"),
 		    pCity->shield_stock, cost, count,
 		    PL_("turn", "turns", count));
      }
@@ -3935,7 +3935,9 @@ static void rebuild_imprm_list(struct city *pCity)
     if(created) {
       pBuf->ID = MAX_ID - imp - 3000;
       pBuf->prev = pBegin->prev;
-      pBegin->prev->next = pBuf;
+      if(pBegin->prev) {
+        pBegin->prev->next = pBuf;
+      }
       pBuf->next = pBegin;
       pBegin->prev = pBuf;
       pBegin = pBuf;
