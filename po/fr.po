@@ -545,7 +545,7 @@ msgstr "*%s (IA)* D'abord, cessons les hostilités, %s"
 #: ai/advdiplomacy.c:293
 #, c-format
 msgid "*%s (AI)* Let us first make peace, %s"
-msgstr "*%s (IA)* Faisons d'abord la paix, %s"
+msgstr "*%s (IA)* Faisons la paix d'abord, %s"
 
 #: ai/advdiplomacy.c:345
 #, c-format
