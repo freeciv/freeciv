@@ -720,7 +720,8 @@ bool are_diplstates_equal(const struct player_diplstate *pds1,
 			  const struct player_diplstate *pds2)
 {
   return (pds1->type == pds2->type && pds1->turns_left == pds2->turns_left
-	  && pds1->has_reason_to_cancel == pds2->has_reason_to_cancel);
+	  && pds1->has_reason_to_cancel == pds2->has_reason_to_cancel
+	  && pds1->contact_turns_left == pds2->contact_turns_left);
 }
 
 /***************************************************************************
