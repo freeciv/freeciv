@@ -3,7 +3,7 @@ TODO:
  - goto should be looked at, unit with moves left after goto is not active 
    anylonger.
 
-1.5.5 
+1.6.0 
 - *A LOT* of changes from Olav Andree Brevik. Thank you VERY much!
 - Helicoptors loose 10% of hp per turn when outside city (Olav)
 - 8 bit chatline support for Europeans (Olav)
