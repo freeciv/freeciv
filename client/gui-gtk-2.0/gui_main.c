@@ -83,7 +83,7 @@ GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store
 int overview_canvas_store_width = 2 * 80;
 int overview_canvas_store_height = 2 * 50;
 
-bool fullscreen_mode = FALSE;
+bool fullscreen_mode = TRUE;
 bool enable_tabs = TRUE;
 
 GtkWidget *toplevel;
