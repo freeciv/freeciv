@@ -66,10 +66,8 @@ struct city_dialog {
   HWND sell_but;
   HWND close_but;
   HWND rename_but;
-  HWND trade_but;
   HWND activate_but;
   HWND unitlist_but;
-  HWND configure_but;
   HWND prod_area[2];
   HWND output_area[2];
   HWND pollution_area[2];
@@ -213,7 +211,6 @@ void refresh_city_dialog(struct city *pcity)
       EnableWindow(pdialog->rename_but,FALSE);
       EnableWindow(pdialog->activate_but,FALSE);
       EnableWindow(pdialog->unitlist_but,FALSE);
-      EnableWindow(pdialog->configure_but,FALSE);
     }
 }
 
