@@ -1174,35 +1174,32 @@ void put_city_workers(struct city *pcity, int color)
 
   XSetForeground(display, fill_tile_gc, colors_standard[color]);
   get_canvas_xy(pcity->x, pcity->y, &canvas_x, &canvas_y);
-  city_map_iterate(i, j)  {
+  city_map_checked_iterate(pcity->x, pcity->y, i, j, x, y) {
     enum city_tile_type worked = get_worker_city(pcity, i, j);
-    int x = pcity->x + i - CITY_MAP_SIZE/2;
-    int y = pcity->y + j - CITY_MAP_SIZE/2;
-    if (normalize_map_pos(&x, &y)) {
-      get_canvas_xy(x, y, &canvas_x, &canvas_y);
-      if (!(i==2 && j==2)) {
-	if (worked == C_TILE_EMPTY) {
-	  XSetStipple(display, fill_tile_gc,gray25);
-	} else if (worked == C_TILE_WORKER) {
-	  XSetStipple(display, fill_tile_gc,gray50);
-	} else continue;
-	XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc, 
-		  canvas_x, canvas_y,
-		  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-		  canvas_x, canvas_y);
-	XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
-		       canvas_x, canvas_y,
-		       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      }
-      if (worked == C_TILE_WORKER) {
-	put_city_tile_output(XtWindow(map_canvas),
-			     canvas_x, canvas_y, 
-			     city_get_food_tile(i, j, pcity),
-			     city_get_shields_tile(i, j, pcity), 
-			     city_get_trade_tile(i, j, pcity) );
-      }
+
+    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+    if (!(i == 2 && j == 2)) {
+      if (worked == C_TILE_EMPTY) {
+	XSetStipple(display, fill_tile_gc, gray25);
+      } else if (worked == C_TILE_WORKER) {
+	XSetStipple(display, fill_tile_gc, gray50);
+      } else
+	continue;
+      XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
+		canvas_x, canvas_y,
+		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, canvas_x, canvas_y);
+      XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
+		     canvas_x, canvas_y,
+		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
-  } city_map_iterate_end;
+    if (worked == C_TILE_WORKER) {
+      put_city_tile_output(XtWindow(map_canvas),
+			   canvas_x, canvas_y,
+			   city_get_food_tile(i, j, pcity),
+			   city_get_shields_tile(i, j, pcity),
+			   city_get_trade_tile(i, j, pcity));
+    }
+  } city_map_checked_iterate_end;
 
   last_pcity = pcity;
 }

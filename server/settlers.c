@@ -418,9 +418,8 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer, int 
 static int ai_calc_pollution(struct city *pcity, int i, int j, int best)
 {
   int x, y, m;
-  x = pcity->x + i - CITY_MAP_SIZE/2;
-  y = pcity->y + j - CITY_MAP_SIZE/2;
-  if (!normalize_map_pos(&x, &y))
+
+  if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
   if (!(map_get_special(x, y) & S_POLLUTION)) return(-1);
   map_clear_special(x, y, S_POLLUTION);
@@ -437,9 +436,8 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 			   int i, int j, int best)
 {
   int x, y, m;
-  x = pcity->x + i - CITY_MAP_SIZE/2;
-  y = pcity->y + j - CITY_MAP_SIZE/2;
-  if (!normalize_map_pos(&x, &y))
+
+  if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
   if (!(map_get_special(x, y) & S_FALLOUT)) return(-1);
   map_clear_special(x, y, S_FALLOUT);
@@ -473,15 +471,13 @@ static int is_wet(struct player *pplayer, int x, int y)
 static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 			    int i, int j)
 {
-  int m;
-  int x = pcity->x + i - CITY_MAP_SIZE/2;
-  int y = pcity->y + j - CITY_MAP_SIZE/2;
+  int m, x, y;
   enum tile_terrain_type t;
   struct tile_type *type;
   int s;
-
   struct tile *ptile;
-  if (!normalize_map_pos(&x, &y))
+
+  if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
   ptile = map_get_tile(x, y);
   t = ptile->terrain;
@@ -525,11 +521,10 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 **************************************************************************/
 static int ai_calc_mine(struct city *pcity, int i, int j)
 {
-  int m;
-  int x = pcity->x + i - CITY_MAP_SIZE/2;
-  int y = pcity->y + j - CITY_MAP_SIZE/2;
+  int m, x, y;
   struct tile *ptile;
-  if (!normalize_map_pos(&x, &y))
+
+  if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
   ptile = map_get_tile(x, y);
 
@@ -565,15 +560,14 @@ static int ai_calc_mine(struct city *pcity, int i, int j)
 **************************************************************************/
 static int ai_calc_transform(struct city *pcity, int i, int j)
 {
-  int m;
-  int x = pcity->x + i - CITY_MAP_SIZE/2;
-  int y = pcity->y + j - CITY_MAP_SIZE/2;
+  int m, x, y;
   enum tile_terrain_type t;
   struct tile_type *type;
   int s;
   enum tile_terrain_type r;
   struct tile *ptile;
-  if (!normalize_map_pos(&x, &y))
+
+  if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
   ptile = map_get_tile(x, y);
 
@@ -662,11 +656,10 @@ static int road_bonus(int x, int y, int spc)
 static int ai_calc_road(struct city *pcity, struct player *pplayer,
 			int i, int j)
 {
-  int m;
+  int m, x, y;
   struct tile *ptile;
-  int x = pcity->x + i - CITY_MAP_SIZE/2;
-  int y = pcity->y + j - CITY_MAP_SIZE/2;
-  if (!normalize_map_pos(&x, &y))
+
+  if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
@@ -686,14 +679,13 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
 static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 			    int i, int j)
 {
-  int m;
+  int m, x, y;
   struct tile *ptile;
   enum tile_special_type spe_sav;
-  
-  int x = pcity->x + i - CITY_MAP_SIZE/2;
-  int y = pcity->y + j - CITY_MAP_SIZE/2;
-  if (!normalize_map_pos(&x, &y))
+
+  if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
+  
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       player_knows_techs_with_flag(pplayer, TF_RAILROAD) &&

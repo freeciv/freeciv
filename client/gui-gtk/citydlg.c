@@ -1390,23 +1390,17 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
    Furthermore, we don't have to redraw fog on the part of a fogged tile
    that overlaps another fogged tile, as on the main map, as no tiles in
    the city radius can be fogged. */
-  city_map_iterate(x, y) {
-    int map_x = pcity->x + x - CITY_MAP_SIZE/2;
-    int map_y = pcity->y + y - CITY_MAP_SIZE/2;
-    if (normalize_map_pos(&map_x, &map_y)
-	&& tile_is_known(map_x, map_y)) {
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+    if (tile_is_known(map_x, map_y)) {
       int canvas_x, canvas_y;
       city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
       put_one_tile_full(pdialog->map_canvas_store, map_x, map_y, 
 			canvas_x, canvas_y, 1);
     }
-  } city_map_iterate_end;
+  } city_map_checked_iterate_end;
   /* We have to put the output afterwards or it will be covered. */
-  city_map_iterate(x, y) {
-    int map_x = pcity->x + x - 2;
-    int map_y = pcity->y + y - 2;
-    if (normalize_map_pos(&map_x, &map_y)
-	&& tile_is_known(map_x, map_y)) {
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+    if (tile_is_known(map_x, map_y)) {
       int canvas_x, canvas_y;
       city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y]==C_TILE_WORKER) {
@@ -1417,17 +1411,14 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 			     city_get_trade_tile(x, y, pcity));
       }
     }
-  } city_map_iterate_end;
+  } city_map_checked_iterate_end;
 
   /* This sometimes will draw one of the lines on top of a city or
      unit pixmap. This should maybe be moved to put_one_tile_pixmap()
      to fix this, but maybe it wouldn't be a good idea because the
      lines would get obscured. */
-  city_map_iterate(x, y) {
-    int map_x = pcity->x + x - 2;
-    int map_y = pcity->y + y - 2;
-    if (normalize_map_pos(&map_x, &map_y)
-	&& tile_is_known(map_x, map_y)) {
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+    if (tile_is_known(map_x, map_y)) {
       int canvas_x, canvas_y;
       city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
       if (pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
@@ -1435,7 +1426,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 				     canvas_x, canvas_y);
       }
     }
-  } city_map_iterate_end;
+  } city_map_checked_iterate_end;
 }
 
 /****************************************************************
@@ -1447,28 +1438,32 @@ static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   for(y=0; y<CITY_MAP_SIZE; y++)
     for(x=0; x<CITY_MAP_SIZE; x++) {
-      if (is_valid_city_coords(x, y) &&
-	  tile_is_known(pcity->x + x - CITY_MAP_SIZE / 2,
-			pcity->y + y - CITY_MAP_SIZE / 2)) {
-	pixmap_put_tile(pdialog->map_canvas_store,
-			pcity->x + x - CITY_MAP_SIZE / 2,
-			pcity->y + y - CITY_MAP_SIZE / 2,
-			x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, 1);
-	if (pcity->city_map[x][y] == C_TILE_WORKER)
-	  put_city_tile_output(pdialog->map_canvas_store,
-			       x * NORMAL_TILE_WIDTH,
-			       y * NORMAL_TILE_HEIGHT,
-			       city_get_food_tile(x, y, pcity),
-			       city_get_shields_tile(x, y, pcity),
-			       city_get_trade_tile(x, y, pcity));
-	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	  pixmap_frame_tile_red(pdialog->map_canvas_store,
+      if (is_valid_city_coords(x, y)) {
+	int map_x, map_y, is_real;
+
+	is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
+	assert(is_real);
+
+	if (tile_is_known(map_x, map_y)) {
+	  pixmap_put_tile(pdialog->map_canvas_store, map_x, map_y,
+			  x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT,
+			  1);
+	  if (pcity->city_map[x][y] == C_TILE_WORKER)
+	    put_city_tile_output(pdialog->map_canvas_store,
+				 x * NORMAL_TILE_WIDTH,
+				 y * NORMAL_TILE_HEIGHT,
+				 city_get_food_tile(x, y, pcity),
+				 city_get_shields_tile(x, y, pcity),
+				 city_get_trade_tile(x, y, pcity));
+	  else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
+	    pixmap_frame_tile_red(pdialog->map_canvas_store,
+				  x * NORMAL_TILE_WIDTH,
+				  y * NORMAL_TILE_HEIGHT);
+	} else {
+	  pixmap_put_black_tile(pdialog->map_canvas_store,
 				x * NORMAL_TILE_WIDTH,
 				y * NORMAL_TILE_HEIGHT);
-      } else {
-	pixmap_put_black_tile(pdialog->map_canvas_store,
-			      x * NORMAL_TILE_WIDTH,
-			      y * NORMAL_TILE_HEIGHT);
+	}
       }
     }
 }

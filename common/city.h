@@ -107,10 +107,9 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
  * (mx,my).
 */
 #define city_map_checked_iterate(x0, y0, cx, cy, mx, my) {     \
-  int _x0= (x0)-CITY_MAP_SIZE/2, _y0= (y0)-CITY_MAP_SIZE/2;    \
   city_map_iterate_outwards(cx, cy) {                          \
-    int my= cy + _y0, mx= cx + _x0;                            \
-    if(normalize_map_pos(&mx,&my)) {
+    int mx, my;                                                \
+    if (base_city_map_to_map(&mx, &my, x0, y0, cx, cy)) {
 
 #define city_map_checked_iterate_end \
     }                                \
@@ -133,9 +132,8 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
     for (MCMI_y = 0; MCMI_y < CITY_MAP_SIZE; MCMI_y++) {          \
       if (! ((MCMI_x == 0 || MCMI_x == (CITY_MAP_SIZE-1))         \
 	     && (MCMI_y == 0 || MCMI_y == (CITY_MAP_SIZE-1))) ) { \
-	x_itr = city_x + MCMI_x - CITY_MAP_SIZE/2;                \
-        y_itr = city_y + MCMI_y - CITY_MAP_SIZE/2;                \
-        if (!normalize_map_pos(&x_itr, &y_itr))                   \
+	if(!base_city_map_to_map(&x_itr, &y_itr, city_x,    \
+				       city_y, MCMI_x, MCMI_y))   \
 	  continue;
 
 #define map_city_radius_iterate_end                               \
@@ -344,8 +342,20 @@ int get_food_tile(int x, int y);    /* food   on spot */
 /* city map functions */
 
 int is_valid_city_coords(const int city_x, const int city_y);
-int get_citymap_xy(const struct city *pcity, const int x, const int y,
-		   int *city_x, int *city_y);
+int base_map_to_city_map(int *local_city_map_x,
+			       int *local_city_map_y, int city_center_x,
+			       int city_center_y, int map_x, int map_y);
+
+int map_to_city_map(int *local_city_map_x, int *local_city_map_y,
+			  const struct city *const pcity, int map_x,
+			  int map_y);
+
+int base_city_map_to_map(int *map_x, int *map_y,
+			       int city_center_x, int city_center_y,
+			       int local_city_map_x, int local_city_map_y);
+int city_map_to_map(int *map_x, int *map_y,
+			  const struct city *const pcity,
+			  int local_city_map_x, int local_city_map_y);
 int city_get_shields_tile(int x, int y, struct city *pcity); /* shield on spot */
 int city_get_trade_tile(int x, int y, struct city *pcity);   /* trade  on spot */
 int city_get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */
@@ -357,8 +367,6 @@ void get_worker_on_map_position(int map_x, int map_y,
 				enum city_tile_type *result_city_tile_type,
 				struct city **result_pcity);
 int is_worker_here(struct city *pcity, int city_x, int city_y);
-int map_to_city_x(struct city *pcity, int x);
-int map_to_city_y(struct city *pcity, int y);
 
 int city_can_be_built_here(int x, int y);
 

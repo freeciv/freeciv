@@ -2351,21 +2351,17 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
          that overlaps another fogged tile, as on the main map, as no tiles in
          the city radius can be fogged. */
 
-      city_map_iterate(x, y) {
-      	int map_x = pcity->x + x - 2;
-      	int map_y = pcity->y + y - 2;
-	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y)) {
+      city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+	if (tile_is_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
 	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
 	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o), canvas_y + _mtop(o), 1);
 	}
-      } city_map_iterate_end;
+      } city_map_checked_iterate_end;
 
       /* We have to put the output afterwards or it will be covered. */
-      city_map_iterate(x, y) {
-	int map_x = pcity->x + x - 2;
-	int map_y = pcity->y + y - 2;
-	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y)) {
+      city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+	if (tile_is_known(map_x, map_y)) {
 	  int canvas_x, canvas_y;
 	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
 	  if (pcity->city_map[x][y]==C_TILE_WORKER) {
@@ -2376,16 +2372,14 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 			     _mleft(o) + canvas_x, _mtop(o) + canvas_y,0,0);
           }
         }
-      } city_map_iterate_end;
+      } city_map_checked_iterate_end;
 
       /* This sometimes will draw one of the lines on top of a city or
          unit pixmap. This should maybe be moved to put_one_tile_pixmap()
          to fix this, but maybe it wouldn't be a good idea because the
          lines would get obscured. */
-      city_map_iterate(x, y) {
-	int map_x = pcity->x + x - 2;
-	int map_y = pcity->y + y - 2;
-	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y))
+      city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+	if (tile_is_known(map_x, map_y))
 	{
 	  int canvas_x, canvas_y;
 	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
@@ -2408,7 +2402,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
             Draw(rp,canvas_x, canvas_y+NORMAL_TILE_HEIGHT/2);
           }
         }
-      } city_map_iterate_end;
+      } city_map_checked_iterate_end;
     } else
     {
     	int x,y;
@@ -2416,16 +2410,16 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       {
         for (x = 0; x < CITY_MAP_SIZE; x++)
         {
-	  LONG tilex = pcity->x + x - CITY_MAP_SIZE / 2;
-	  LONG tiley = pcity->y + y - CITY_MAP_SIZE / 2;
-
 	  LONG x1 = _mleft(o) + x * get_normal_tile_width();
 	  LONG y1 = _mtop(o) + y * get_normal_tile_height();
 	  LONG x2 = x1 + get_normal_tile_width() - 1;
 	  LONG y2 = y1 + get_normal_tile_height() - 1;
 
-	  if (is_valid_city_coords(x, y) && is_real_tile(tilex, tiley)) {
-	    if (tile_is_known(tilex, tiley)) {
+	  if (is_valid_city_coords(x, y)) {
+	    LONG tilex, tiley;
+
+	    if (city_map_to_map(&tilex, &tiley, pcity, x, y)
+		&& tile_is_known(tilex, tiley)) {
 	      put_tile(_rp(o), tilex, tiley, x1, y1, 1);
 
 	      if (pcity->city_map[x][y] == C_TILE_WORKER) {

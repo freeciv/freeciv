@@ -999,7 +999,12 @@ static void player_load(struct player *plr, int plrno,
         if (*p=='0') {
 	  set_worker_city(pcity, x, y, C_TILE_EMPTY);
 	} else if (*p=='1') {
-	  if (map_get_tile(pcity->x+x-2, pcity->y+y-2)->worked) {
+	  int map_x, map_y, is_real;
+
+	  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
+	  assert(is_real);
+
+	  if (map_get_tile(map_x, map_y)->worked) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
 		    "converting to elvis", pcity->name, x, y);
@@ -1914,12 +1919,15 @@ static void check_city(struct city *pcity)
       break;
     case C_TILE_WORKER:
       if (!res) {
-	int map_x, map_y;
+	int map_x, map_y, is_real;
+
 	pcity->ppl_elvis++;
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_DEBUG, "Worked tile was unavailable!");
 
-	get_citymap_xy(pcity, x, y, &map_x, &map_y);
+	is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
+	assert(is_real);
+
 	map_city_radius_iterate(map_x, map_y, x2, y2) {
 	  struct city *pcity2 = map_get_city(x2, y2);
 	  if (pcity2)

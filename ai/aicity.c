@@ -1011,12 +1011,15 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   city_list_init(&minilist);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     struct city *acity=map_get_tile(x,y)->worked;
+    int city_map_x, city_map_y, is_valid;
+
     if(acity!=NULL && acity!=pcity && acity->owner==pcity->owner)  {
       if(acity->x==x && acity->y==y) /* can't stop working city center */
 	continue;  
       freelog(LOG_DEBUG, "Availing square in %s", acity->name);
-      server_remove_worker_city(acity, map_to_city_x(acity, x),
-				map_to_city_y(acity, y));
+      is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, x, y);
+      assert(is_valid);
+      server_remove_worker_city(acity, city_map_x, city_map_y);
       acity->ppl_elvis++;
       if (!city_list_find_id(&minilist, acity->id))
 	city_list_insert(&minilist, acity);

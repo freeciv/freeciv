@@ -134,10 +134,9 @@ static void check_cities(void)
       assert(map_get_terrain(pcity->x, pcity->y) != T_OCEAN);
 
       city_map_iterate(x, y) {
-	int map_x = pcity->x + x - CITY_MAP_SIZE/2;
-	int map_y = pcity->y + y - CITY_MAP_SIZE/2;
+	int map_x,map_y;
 
-	if (normalize_map_pos(&map_x, &map_y)) {
+	if (city_map_to_map(&map_x, &map_y, pcity, x, y)) {
 	  struct tile *ptile = map_get_tile(map_x, map_y);
 	  switch (get_worker_city(pcity, x, y)) {
 	  case C_TILE_EMPTY:
@@ -186,8 +185,11 @@ static void check_cities(void)
     struct tile *ptile = map_get_tile(x, y);
     if (ptile->worked) {
       struct city *pcity = ptile->worked;
-      int city_x, city_y;
-      get_citymap_xy(pcity, x, y, &city_x, &city_y);
+      int city_x, city_y, is_valid;
+
+      is_valid = map_to_city_map(&city_x, &city_y, pcity, x, y);
+      assert(is_valid);
+
       if (pcity->city_map[city_x][city_y] != C_TILE_WORKER) {
 	freelog(LOG_ERROR, "%d,%d is listed as being worked by %s "
 		"on the map, but %s lists the tile %d,%d as having "

@@ -1683,11 +1683,7 @@ int city_can_work_tile(struct city *pcity, int city_x, int city_y)
   int map_x, map_y;
   struct tile *ptile;
 
-  assert(is_valid_city_coords(city_x, city_y));
-  map_x = city_x + pcity->x - CITY_MAP_SIZE/2;
-  map_y = city_y + pcity->y - CITY_MAP_SIZE/2;
-
-  if (!normalize_map_pos(&map_x, &map_y))
+  if (!city_map_to_map(&map_x, &map_y, pcity, city_x, city_y))
     return 0;
   ptile = map_get_tile(map_x, map_y);
 
@@ -1729,17 +1725,19 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 
   /* Update adjacent cities. */
   {
-    int map_x = pcity->x + city_x - CITY_MAP_SIZE/2;
-    int map_y = pcity->y + city_y - CITY_MAP_SIZE/2;
-    assert(is_real_tile(map_x, map_y));
-    normalize_map_pos(&map_x, &map_y);
+    int map_x, map_y, is_real;
+
+    is_real = city_map_to_map(&map_x, &map_y, pcity, city_x, city_y);
+    assert(is_real);
 
     map_city_radius_iterate(map_x, map_y, x1, y1) {
       struct city *pcity2 = map_get_city(x1, y1);
       if (pcity2 && pcity2 != pcity) {
-	int city_x2, city_y2;
-	int res = get_citymap_xy(pcity2, map_x, map_y, &city_x2, &city_y2);
-	assert(res);
+	int city_x2, city_y2, is_valid;
+
+	is_valid = map_to_city_map(&city_x2, &city_y2, pcity2, map_x,
+					 map_y);
+	assert(is_valid);
 	update_city_tile_status(pcity2, city_x2, city_y2);
       }
     } map_city_radius_iterate_end;
@@ -1777,9 +1775,10 @@ client.
 **************************************************************************/
 void update_city_tile_status_map(struct city *pcity, int map_x, int map_y)
 {
-  int city_x, city_y;
+  int city_x, city_y, is_valid;
 
-  get_citymap_xy(pcity, map_x, map_y, &city_x, &city_y);
+  is_valid = map_to_city_map(&city_x, &city_y, pcity, map_x, map_y);
+  assert(is_valid);
   update_city_tile_status(pcity, city_x, city_y);
 }
 

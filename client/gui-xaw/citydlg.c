@@ -1563,12 +1563,12 @@ void city_dialog_update_map(struct city_dialog *pdialog)
   
   for(y=0; y<CITY_MAP_SIZE; y++) {
     for(x=0; x<CITY_MAP_SIZE; x++) {
-      if (is_valid_city_coords(x, y) &&
-	  tile_is_known(pcity->x + x - CITY_MAP_SIZE / 2,
-			pcity->y + y - CITY_MAP_SIZE / 2)) {
-	pixmap_put_tile(XtWindow(pdialog->map_canvas),
-			pcity->x + x - CITY_MAP_SIZE / 2,
-			pcity->y + y - CITY_MAP_SIZE / 2,
+      int map_x, map_y;
+
+      if (is_valid_city_coords(x, y)
+	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
+	  && tile_is_known(map_x, map_y)) {
+	pixmap_put_tile(XtWindow(pdialog->map_canvas), map_x, map_y,
 			x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, 1);
 	if (pcity->city_map[x][y] == C_TILE_WORKER)
 	  put_city_tile_output(XtWindow(pdialog->map_canvas),

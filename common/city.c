@@ -93,26 +93,60 @@ int is_valid_city_coords(const int city_x, const int city_y)
 }
 
 /**************************************************************************
-Given a real map position and a city finds the city map coordinates of the
-tiles.
-Returns whether the real map position was inside the city map.
+Finds the city map coordinate for a given map position and a city
+center. Returns whether the map position is inside of the city map.
 **************************************************************************/
-int get_citymap_xy(const struct city *pcity, const int x, const int y,
-		   int *city_x, int *city_y)
+int base_map_to_city_map(int *city_map_x, int *city_map_y,
+			 int city_center_x, int city_center_y,
+			 int map_x, int map_y)
 {
-  assert(is_real_tile(x, y));
-  city_map_iterate(x1, y1) {
-    int map_x = pcity->x + x1 - CITY_MAP_SIZE/2;
-    int map_y = pcity->y + y1 - CITY_MAP_SIZE/2;
-    if (normalize_map_pos(&map_x, &map_y)
-	&& map_x == x && map_y == y) {
-      *city_x = x1;
-      *city_y = y1;
+  assert(is_real_tile(map_x, map_y));
+  city_map_checked_iterate(city_center_x, city_center_y, cx, cy, mx, my) {
+    if (mx == map_x && my == map_y) {
+      *city_map_x = cx;
+      *city_map_y = cy;
       return 1;
     }
-  } city_map_iterate_end;
-
+  } city_map_checked_iterate_end;
   return 0;
+}
+
+/**************************************************************************
+Finds the city map coordinate for a given map position and a
+city. Returns whether the map position is inside of the city map.
+**************************************************************************/
+int map_to_city_map(int *city_map_x, int *city_map_y,
+		    const struct city *const pcity, int map_x, int map_y)
+{
+  return base_map_to_city_map(city_map_x,
+			      city_map_y, pcity->x, pcity->y,
+			      map_x, map_y);
+}
+
+/**************************************************************************
+Finds the map position for a given city map coordinate of a certain
+city. Returns true if the map position found is real.
+**************************************************************************/
+int base_city_map_to_map(int *map_x, int *map_y,
+			 int city_center_x, int city_center_y,
+			 int city_map_x, int city_map_y)
+{
+  assert(is_valid_city_coords(city_map_x, city_map_y));
+  *map_x = city_center_x + city_map_x - CITY_MAP_SIZE / 2;
+  *map_y = city_center_y + city_map_y - CITY_MAP_SIZE / 2;
+  return normalize_map_pos(map_x, map_y);
+}
+
+/**************************************************************************
+Finds the map position for a given city map coordinate of a certain
+city. Returns true if the map position found is real.
+**************************************************************************/
+int city_map_to_map(int *map_x, int *map_y,
+		    const struct city *const pcity,
+		    int city_map_x, int city_map_y)
+{
+  return base_city_map_to_map(map_x, map_y,
+			      pcity->x, pcity->y, city_map_x, city_map_y);
 }
 
 /**************************************************************************
@@ -121,9 +155,9 @@ int get_citymap_xy(const struct city *pcity, const int x, const int y,
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type) 
 {
-  int map_x = pcity->x + city_x - CITY_MAP_SIZE/2;
-  int map_y = pcity->y + city_y - CITY_MAP_SIZE/2;
-  if (normalize_map_pos(&map_x, &map_y)) {
+  int map_x, map_y;
+
+  if (city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
     struct tile *ptile = map_get_tile(map_x, map_y);
     if (pcity->city_map[city_x][city_y] == C_TILE_WORKER)
       if (ptile->worked == pcity)
@@ -156,25 +190,6 @@ int is_worker_here(struct city *pcity, int city_x, int city_y)
   }
 
   return get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER;
-}
-
-/**************************************************************************
-  Convert map coordinate into position in city map
-**************************************************************************/
-int map_to_city_x(struct city *pcity, int x)
-{
-  int t = map.xsize/2;
-  x -= pcity->x;
-  if (x > t)
-    x -= map.xsize;
-  else if (x < -t)
-    x += map.xsize;
-
-  return x+CITY_MAP_SIZE/2;
-}
-int map_to_city_y(struct city *pcity, int y)
-{
-  return y-pcity->y+CITY_MAP_SIZE/2;
 }
 
 /**************************************************************************
@@ -503,13 +518,19 @@ int get_shields_tile(int x, int y)
 **************************************************************************/
 int city_get_shields_tile(int x, int y, struct city *pcity)
 {
-  int s=0;
-  enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
-  enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
+  int is_real, map_x, map_y, s = 0;
+  enum tile_special_type spec_t;
+  enum tile_terrain_type tile_t;
   struct government *g = get_gov_pcity(pcity);
   int celeb = city_celebrating(pcity);
   int before_penalty = (celeb ? g->celeb_shields_before_penalty
 			: g->shields_before_penalty);
+  
+  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
+  assert(is_real);
+
+  spec_t = map_get_special(map_x, map_y);
+  tile_t = map_get_terrain(map_x, map_y);
 
   if (spec_t & S_SPECIAL_1) 
     s=get_tile_type(tile_t)->shield_special_1;
@@ -582,10 +603,16 @@ int get_trade_tile(int x, int y)
 **************************************************************************/
 int city_get_trade_tile(int x, int y, struct city *pcity)
 {
-  enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
-  enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
+  enum tile_special_type spec_t;
+  enum tile_terrain_type tile_t;
   struct government *g = get_gov_pcity(pcity);
-  int t;
+  int is_real, map_x, map_y, t;
+
+  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
+  assert(is_real);
+
+  spec_t = map_get_special(map_x, map_y);
+  tile_t = map_get_terrain(map_x, map_y);
  
   if (spec_t & S_SPECIAL_1) 
     t=get_tile_type(tile_t)->trade_special_1;
@@ -673,15 +700,21 @@ Center tile acts as irrigated...
 **************************************************************************/
 int city_get_food_tile(int x, int y, struct city *pcity)
 {
-  int f;
-  enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
-  enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
+  int is_real, map_x, map_y, f;
+  enum tile_special_type spec_t;
+  enum tile_terrain_type tile_t;
   struct tile_type *type;
   struct government *g = get_gov_pcity(pcity);
   int celeb = city_celebrating(pcity);
   int before_penalty = (celeb ? g->celeb_food_before_penalty
 			: g->food_before_penalty);
   int city_auto_water;
+
+  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
+  assert(is_real);
+
+  spec_t = map_get_special(map_x, map_y);
+  tile_t = map_get_terrain(map_x, map_y);
 
   type=get_tile_type(tile_t);
   city_auto_water = (x==2 && y==2 && tile_t==type->irrigation_result

@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include <gtk/gtk.h>
 
@@ -372,7 +373,7 @@ static struct city *find_city_near_tile(int x, int y)
 **************************************************************************/
 gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
 {
-  int x,y;
+  int x, y, map_x, map_y, is_valid;
   struct city *pcity;
   struct packet_city_request packet;
   enum city_tile_type wrk;
@@ -380,12 +381,13 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return TRUE;
 
-  get_map_xy(ev->x, ev->y, &x, &y);
+  get_map_xy(ev->x, ev->y, &map_x, &map_y);
 
-  if(!(pcity = find_city_near_tile(x,y)))  return TRUE;
+  if (!(pcity = find_city_near_tile(map_x, map_y)))
+    return TRUE;
 
-  x = map_to_city_x(pcity, x);
-  y = map_to_city_y(pcity, y);
+  is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
+  assert(is_valid);
 
   packet.city_id=pcity->id;
   packet.worker_x=x;
