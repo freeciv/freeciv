@@ -115,7 +115,10 @@ enum{
   NEXT_UNIT,
   END_TURN,
 
-  CITY_POPUP
+  CITY_POPUP,
+
+  MENU_VIEW_SHOW_CITY_NAMES,
+  MENU_VIEW_SHOW_CITY_PRODUCTIONS
 };
 
 void do_unit_function( struct unit *punit, ULONG value);

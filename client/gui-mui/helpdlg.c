@@ -34,6 +34,7 @@
 #include "government.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 #include "map.h"
@@ -83,19 +84,17 @@ Object *help_unit_hitpoints_text;
 Object *help_unit_basic_upkeep_text;
 Object *help_unit_needs_button;
 Object *help_unit_obsolete_button;
-Object *help_terrain_sprite;
-Object *help_terrain_food_text;
-Object *help_terrain_prod_text;
-Object *help_terrain_trade_text;
+
 Object *help_terrain_move_text;
 Object *help_terrain_defense_text;
+Object *help_terrain_dynamic_group; /* the tile types */
+Object *help_terrain_static_group;
 
 static enum help_page_type help_last_page;
 extern char long_buffer[64000];	/* helpdata.c */
 
 static void clear_page_objects(void);
 static void free_help_page(void);
-/*static void create_help_dialog(void);*/
 static void help_update_dialog(const struct help_item *pitem);
 static void create_help_page(enum help_page_type type);
 
@@ -293,10 +292,8 @@ static void clear_page_objects(void)
     help_unit_basic_upkeep_text =
     help_unit_needs_button =
     help_unit_obsolete_button =
-    help_terrain_sprite =
-    help_terrain_food_text =
-    help_terrain_prod_text =
-    help_terrain_trade_text = NULL;
+    help_terrain_dynamic_group =
+    help_terrain_static_group = NULL;
 }
 
 /****************************************************************
@@ -475,22 +472,12 @@ static void create_help_page(enum help_page_type type)
 
     case HELP_TERRAIN:
       help_page_group = VGroup,
-	Child, HGroup,
-	    Child, HSpace(0),
-	    Child, help_terrain_sprite = SpriteObject,
-		MUIA_FixWidth, get_normal_tile_width(),
-		MUIA_FixHeight, get_normal_tile_height(),
-		End,
-	    Child, HSpace(0),
-	    End,
-	Child, HGroup,
+/*	Child, help_terrain_dynamic_group = HGroup,
+	    Child, VSpace(0),
+	    End,*/
+	Child, help_terrain_static_group = HGroup,
 	    Child, help_terrain_move_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	    Child, help_terrain_defense_text = TextObject, MUIA_Text_PreParse, "\33c", End,
-	    End,
-	Child, HGroup,
-	    Child, help_terrain_food_text = TextObject, MUIA_Text_PreParse, "\33c", End,
-	    Child, help_terrain_prod_text = TextObject, MUIA_Text_PreParse, "\33c", End,
-	    Child, help_terrain_trade_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	    End,
 	End;
       break;
@@ -821,15 +808,192 @@ static void help_update_terrain(const struct help_item *pitem,
   if (i < T_COUNT)
   {
     struct tile_type *tile = get_tile_type(i);
+    char buf[256],*bptr=buf;
+    int nleft=sizeof(buf),nl=0;
+    int sp_food,sp_shield,sp_trade;
+    Object *o,*t,*g;
 
-    settextf(help_terrain_move_text, "Move: %ld", tile_types[i].movement_cost);
+    settextf(help_terrain_move_text, "Movecost: %ld", tile_types[i].movement_cost);
     settextf(help_terrain_defense_text, "Defense: %ld.%ld", (tile_types[i].defense_bonus / 10), tile_types[i].defense_bonus % 10);
 
-    settextf(help_terrain_food_text, "Food: %ld", tile->food);
-    settextf(help_terrain_prod_text, "Prod: %ld", tile->shield);
-    settextf(help_terrain_trade_text, "Trade: %ld", tile->trade);
+    DoMethod(help_right_group, MUIM_Group_InitChange);
+    DoMethod(help_page_group, MUIM_Group_InitChange);
+    if (help_terrain_dynamic_group)
+    {
+      DoMethod(help_page_group, OM_REMMEMBER, help_terrain_dynamic_group);
+      MUI_DisposeObject(help_terrain_dynamic_group);
+    }
 
-    set(help_terrain_sprite, MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1]);
+    help_terrain_dynamic_group = VGroup,End;
+
+    sp_food = tile->food;
+    sp_shield = tile->shield;
+    sp_trade = tile->trade;
+
+    {
+      o = HGroup,
+              Child, HSpace(0),
+	      Child, TextObject, MUIA_Text_Contents, "", End,
+	      Child, SpriteObject, MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1], End,
+	      Child, t = TextObject, End,
+              Child, HSpace(0),
+	      End;
+
+      if (o)
+      {
+
+      	{
+      	  my_snprintf(bptr,nleft,"Food: %d",sp_food);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+
+      	{
+      	  if (nl&&nleft)
+      	  {
+	    nleft--;
+	    *bptr++='\n';
+      	  }
+      	  my_snprintf(bptr,nleft,"Shield: %d",sp_shield);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+
+      	{
+      	  if (nl&&nleft)
+      	  {
+	    nleft--;
+	    *bptr++='\n';
+      	  }
+      	  my_snprintf(bptr,nleft,"Trade: %d",sp_trade);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+      	settext(t,buf);
+      	DoMethod(help_terrain_dynamic_group, OM_ADDMEMBER, o);
+      }
+    }
+
+    g = HGroup, Child, HSpace(0), End;
+
+    /* Special 1 */
+    bptr=buf;
+    nleft=sizeof(buf);
+    nl=0;
+    *bptr=0;
+    sp_food = tile->food_special_1;
+    sp_shield = tile->shield_special_1;
+    sp_trade = tile->trade_special_1;
+    if (sp_food || sp_shield || sp_trade)
+    {
+      o = HGroup,
+              Child, HSpace(0),
+	      Child, TextObject, MUIA_Text_Contents, tile->special_1_name, End,
+	      Child, SpriteObject,
+		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
+		  MUIA_Sprite_OverlaySprite, tile->special[0].sprite,
+		  End,
+	      Child, t = TextObject, End,
+              Child, HSpace(0),
+	      End;
+
+      if (o)
+      {
+      	if (sp_food)
+      	{
+      	  my_snprintf(bptr,nleft,"Food: %d",sp_food);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+      	if (sp_shield)
+      	{
+      	  if (nl&&nleft)
+      	  {
+	    nleft--;
+	    *bptr++='\n';
+      	  }
+      	  my_snprintf(bptr,nleft,"Shield: %d",sp_shield);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+      	if (sp_trade)
+      	{
+      	  if (nl&&nleft)
+      	  {
+	    nleft--;
+	    *bptr++='\n';
+      	  }
+      	  my_snprintf(bptr,nleft,"Trade: %d",sp_trade);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+      	settext(t,buf);
+      	DoMethod(g, OM_ADDMEMBER, o);
+      }
+    }
+
+    /* Special 2 */
+    bptr=buf;
+    nleft=sizeof(buf);
+    nl=0;
+    *bptr=0;
+    sp_food = tile->food_special_2;
+    sp_shield = tile->shield_special_2;
+    sp_trade = tile->trade_special_2;
+    if (sp_food || sp_shield || sp_trade)
+    {
+      o = HGroup,
+              Child, HSpace(0),
+	      Child, TextObject, MUIA_Text_Contents, tile->special_2_name, End,
+	      Child, SpriteObject,
+		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
+		  MUIA_Sprite_OverlaySprite, tile->special[1].sprite,
+		  End,
+	      Child, t = TextObject, End,
+              Child, HSpace(0),
+	      End;
+
+      if (o)
+      {
+      	if (sp_food)
+      	{
+      	  my_snprintf(bptr,nleft,"Food: %d",sp_food);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+      	if (sp_shield)
+      	{
+      	  if (nl&&nleft)
+      	  {
+	    nleft--;
+	    *bptr++='\n';
+      	  }
+      	  my_snprintf(bptr,nleft,"Shield: %d",sp_shield);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+      	if (sp_trade)
+      	{
+      	  if (nl&&nleft)
+      	  {
+	    nleft--;
+	    *bptr++='\n';
+      	  }
+      	  my_snprintf(bptr,nleft,"Trade: %d",sp_trade);
+	  bptr = end_of_strn(bptr, &nleft);
+      	  nl=1;
+      	}
+      	settext(t,buf);
+      	DoMethod(g, OM_ADDMEMBER, o);
+      }
+    }
+
+    DoMethod(g, OM_ADDMEMBER, HSpace(0));
+    DoMethod(help_terrain_dynamic_group, OM_ADDMEMBER, g);
+    DoMethod(help_page_group, OM_ADDMEMBER, help_terrain_dynamic_group);
+    DoMethod(help_page_group, MUIM_Group_Sort, help_terrain_dynamic_group, help_terrain_static_group, NULL);
+    DoMethod(help_page_group, MUIM_Group_ExitChange);
+    DoMethod(help_right_group, MUIM_Group_ExitChange);
   }
 
   helptext_terrain(buf, i, pitem->text);

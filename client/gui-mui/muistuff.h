@@ -42,4 +42,7 @@ void init_standart_hook(void);
 #define _isinwholeobject(x,y) (_between(_left(o),(x),_right (o)) && _between(_top(o) ,(y),_bottom(o)))
 #define MAKECOLOR32(x) ((x<<24)|(x<<16)|(x<<8)|x)
 
+#define HorizLineObject  RectangleObject,MUIA_VertWeight,0,MUIA_Rectangle_HBar, TRUE,End
+#define HorizLineTextObject(text)  RectangleObject,MUIA_VertWeight,0,MUIA_Rectangle_HBar, TRUE,MUIA_Rectangle_BarTitle,text,End
+
 #endif

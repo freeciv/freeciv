@@ -21,8 +21,9 @@
 #include "map.h"
 #include "game.h"
 
-#include "overviewclass.h"
+#include "control.h"
 
+#include "overviewclass.h"
 #include "muistuff.h"
 
 VOID myWritePixelArray8(struct RastPort *rp, unsigned long xstart,

@@ -30,6 +30,7 @@
 #include "map.h"
 #include "game.h"
 #include "spaceship.h"
+#include "support.h"
 #include "timing.h"
 
 #include "civclient.h"
@@ -989,6 +990,99 @@ struct Command_Node *Map_InsertCommand(struct Command_List *list, STRPTR name, U
   return node;
 }
 
+STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
+{
+  struct TextFont *new_font;
+  struct RastPort *rp;
+
+  if (!draw_city_names && !draw_city_productions)
+    return;
+
+  if((new_font = _font(o)))
+  {
+    int width,height,map_view_x0,map_view_y0,x,y;
+    struct TextFont *org_font;
+    APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
+
+    rp = _rp(o);
+
+    width = xget(o, MUIA_Map_HorizVisible);
+    height = xget(o, MUIA_Map_VertVisible);
+    map_view_x0 = xget(o, MUIA_Map_HorizFirst);
+    map_view_y0 = xget(o, MUIA_Map_VertFirst);
+
+    GetRPAttrs(rp, RPTAG_Font, &org_font, TAG_DONE);
+    SetFont(rp, new_font);
+
+    for (y = 0; y < height; ++y)
+    {
+      int ry = map_view_y0 + y;
+      for (x = 0; x < width; ++x)
+      {
+	int rx = (map_view_x0 + x) % map.xsize;
+	struct city *pcity;
+	if ((pcity = map_get_city(rx, ry)))
+	{
+	  int w,pix_x,pix_y;
+
+	  pix_y = _mtop(o) + (y + 1) * NORMAL_TILE_HEIGHT + 1 + rp->TxBaseline - 2;
+
+	  if (draw_city_names)
+	  {
+	    w = TextLength(rp, pcity->name, strlen(pcity->name));
+	    pix_x = _mleft(o) + x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 - w / 2 + 1;
+
+	    SetAPen(rp, 1);	/* black */
+	    Move(rp, pix_x, pix_y);
+	    Text(rp, pcity->name, strlen(pcity->name));
+	    SetAPen(rp, 2);	/* white */
+	    Move(rp, pix_x - 1, pix_y - 1);
+	    Text(rp, pcity->name, strlen(pcity->name));
+	    pix_y += rp->TxHeight;
+	  }
+
+	  if (draw_city_productions && (pcity->owner==game.player_idx))
+	  {
+	    int turns, y_offset;
+	    struct unit_type *punit_type;
+	    struct improvement_type *pimprovement_type;
+	    static char buffer[256];
+
+	    turns = city_turns_to_build(pcity, pcity->currently_building,
+				        pcity->is_building_unit);
+
+	    if (pcity->is_building_unit)
+	    {
+	      punit_type = get_unit_type(pcity->currently_building);
+	      my_snprintf(buffer, sizeof(buffer), "%s %d",
+			  punit_type->name, turns);
+	    } else
+	    {
+	      pimprovement_type =
+		  get_improvement_type(pcity->currently_building);
+	      my_snprintf(buffer, sizeof(buffer), "%s %d",
+			  pimprovement_type->name, turns);
+	    }
+
+	    w = TextLength(rp, buffer, strlen(buffer));
+	    pix_x = _mleft(o) + x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 - w / 2 + 1;
+
+	    SetAPen(rp, 1);	/* black */
+	    Move(rp, pix_x, pix_y);
+	    Text(rp, buffer, strlen(buffer));
+	    SetAPen(rp, 2);	/* white */
+	    Move(rp, pix_x - 1, pix_y - 1);
+	    Text(rp, buffer, strlen(buffer));
+	  }
+	}
+      }
+    }
+    MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+
+    SetFont(rp, org_font);
+  }
+}
+
 STATIC ULONG Map_New(struct IClass * cl, Object * o, struct opSet * msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
@@ -1616,45 +1710,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
       if (citynames)
       {
-	struct TextFont *new_font;
-	new_font = _font(o);
-	if (new_font)
-	{
-	  struct TextFont *org_font;
-	  APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
-
-	  width = xget(o, MUIA_Map_HorizVisible);
-	  height = xget(o, MUIA_Map_VertVisible);
-
-	  GetRPAttrs(rp, RPTAG_Font, &org_font, TAG_DONE);
-	  SetFont(rp, new_font);
-
-	  for (y = 0; y < height; ++y)
-	  {
-	    int ry = map_view_y0 + y;
-	    for (x = 0; x < width; ++x)
-	    {
-	      int rx = (map_view_x0 + x) % map.xsize;
-	      struct city *pcity;
-	      if ((pcity = map_get_city(rx, ry)))
-	      {
-		LONG w = TextLength(rp, pcity->name, strlen(pcity->name));
-		LONG pix_x = _mleft(o) + x * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH / 2 - w / 2 + 1;
-		LONG pix_y = _mtop(o) + (y + 1) * NORMAL_TILE_HEIGHT + 1 + rp->TxBaseline - 2;
-		SetAPen(rp, 1);	/* black */
-		Move(rp, pix_x, pix_y);
-		Text(rp, pcity->name, strlen(pcity->name));
-		SetAPen(rp, 2);	/* white */
-		Move(rp, pix_x - 1, pix_y - 1);
-		Text(rp, pcity->name, strlen(pcity->name));
-	      }
-	    }
-	  }
-
-	  MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
-
-	  SetFont(rp, org_font);
-	}
+      	Map_ReallyShowCityDescriptions(o,data);
       }
     }
 
@@ -2042,7 +2098,7 @@ STATIC ULONG Map_MoveUnit(struct IClass * cl, Object * o, struct MUIP_Map_MoveUn
   return 0;
 }
 
-STATIC ULONG Map_ShowCityNames(struct IClass * cl, Object * o, Msg msg)
+STATIC ULONG Map_ShowCityDescriptions(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   data->update = 4;
@@ -2104,8 +2160,8 @@ STATIC __asm __saveds ULONG Map_Dispatcher(register __a0 struct IClass * cl, reg
     return Map_Refresh(cl, obj, (struct MUIP_Map_Refresh *) msg);
   case MUIM_Map_MoveUnit:
     return Map_MoveUnit(cl, obj, (struct MUIP_Map_MoveUnit *) msg);
-  case MUIM_Map_ShowCityNames:
-    return Map_ShowCityNames(cl, obj, msg);
+  case MUIM_Map_ShowCityDescriptions:
+    return Map_ShowCityDescriptions(cl, obj, msg);
   case MUIM_Map_PutCityWorkers:
     return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
   case MUIM_Map_PutCrossTile:
@@ -2259,7 +2315,7 @@ STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	if (!(x == 0 && y == 0) && !(x == 0 && y == CITY_MAP_SIZE - 1) &&
 	    !(x == CITY_MAP_SIZE - 1 && y == 0) &&
 	    !(x == CITY_MAP_SIZE - 1 && y == CITY_MAP_SIZE - 1) &&
-	     (tilex >= 0 && tilex >= 0 && tilex < map.xsize && tiley < map.ysize))
+	     (tiley >= 0 && tiley < map.ysize))
 	{
 	  if(tile_is_known(tilex,tiley))
 	  {
@@ -2520,6 +2576,7 @@ Object *MakeBorderSprite(struct Sprite *sprite)
 struct Sprite_Data
 {
   struct Sprite *sprite;
+  struct Sprite *overlay_sprite;
   ULONG transparent;
 };
 
@@ -2538,6 +2595,10 @@ STATIC ULONG Sprite_New(struct IClass *cl, Object * o, struct opSet *msg)
       {
 	case  MUIA_Sprite_Sprite:
 	      data->sprite = (struct Sprite *) ti->ti_Data;
+	      break;
+
+	case  MUIA_Sprite_OverlaySprite:
+	      data->overlay_sprite = (struct Sprite *) ti->ti_Data;
 	      break;
 
 	case  MUIA_Sprite_Transparent:
@@ -2601,6 +2662,8 @@ STATIC ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     put_sprite_overlay(_rp(o), data->sprite, _mleft(o), _mtop(o));
   else
     put_sprite(_rp(o), data->sprite, _mleft(o), _mtop(o));
+  if (data->overlay_sprite)
+    put_sprite_overlay(_rp(o), data->overlay_sprite, _mleft(o), _mtop(o));
   return 0;
 }
 

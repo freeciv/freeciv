@@ -329,7 +329,7 @@ void popup_science_dialog(int make_modal)
   if (science_wnd)
   {
     char *report_title = get_report_title("Science Advisor");
-    set(science_title_text, MUIA_Text_Contents, report_title);
+    settextf(science_title_text, "%s\n(%d turns/advance)", report_title,tech_turns_to_advance(game.player_ptr));
     free(report_title);
 
     DoMethod(science_cycle_group, MUIM_Group_InitChange);

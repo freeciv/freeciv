@@ -204,6 +204,7 @@ static struct MsgPort *timer_port;
 static struct timerequest *timer_req;
 static ULONG timer_outstanding;
 
+Object *menu_find_item(ULONG udata);
 
 /****************************************************************
  This describes the pull down menu
@@ -240,7 +241,10 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("REVOLUTION...", MENU_KINGDOM_REVOLUTION, "SHIFT R", NM_COMMANDSTRING),
 
   MAKE_TITLE("View", MENU_VIEW),
-  MAKE_ITEM("Show Map Grid", MENU_VIEW_SHOW_MAP_GRID, "CTRL G", NM_COMMANDSTRING | MENUTOGGLE),
+  MAKE_ITEM("Map Grid?", MENU_VIEW_SHOW_MAP_GRID, "CTRL G", NM_COMMANDSTRING|MENUTOGGLE|CHECKIT),
+  MAKE_ITEM("City Names?", MENU_VIEW_SHOW_CITY_NAMES,NULL,MENUTOGGLE|CHECKIT|CHECKED),
+  MAKE_ITEM("City Productions?", MENU_VIEW_SHOW_CITY_PRODUCTIONS,NULL,MENUTOGGLE|CHECKIT),
+  MAKE_SEPERATOR,
   MAKE_ITEM("Center View", MENU_VIEW_CENTER_VIEW, "c", NM_COMMANDSTRING),
 
   MAKE_TITLE("Order", MENU_ORDER),
@@ -468,7 +472,25 @@ static void control_callback(ULONG * value)
       break;
 
     case MENU_VIEW_SHOW_MAP_GRID:
-      key_map_grid_toggle();
+      if(draw_map_grid != xget(menu_find_item(MENU_VIEW_SHOW_MAP_GRID),
+			       MUIA_Menuitem_Checked))
+      {
+	key_map_grid_toggle();
+      }
+      break;
+    case MENU_VIEW_SHOW_CITY_NAMES:
+      if(draw_city_names != xget(menu_find_item(MENU_VIEW_SHOW_CITY_NAMES),
+				 MUIA_Menuitem_Checked))
+      {
+	request_toggle_city_names();
+      }
+      break;
+    case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
+      if(draw_city_productions != xget(menu_find_item(MENU_VIEW_SHOW_CITY_PRODUCTIONS),
+				       MUIA_Menuitem_Checked))
+      {
+	request_toggle_city_productions();
+      }
       break;
     case MENU_VIEW_CENTER_VIEW:
       request_center_focus_unit() /*center_on_unit() */ ;

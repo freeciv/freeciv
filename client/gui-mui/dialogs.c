@@ -77,15 +77,16 @@ void request_player_government(int g)
 
 extern int ai_popup_windows;
 
-STATIC Object *unitsel_wnd;
+static Object *unitsel_wnd;
 
 int is_showing_government_dialog;
 
 int is_showing_pillage_dialog = FALSE;
 int unit_to_use_to_pillage;
 
-int diplomat_id;
-int diplomat_target_id;
+static int diplomat_dialog_open;
+static int diplomat_id;
+static int diplomat_target_id;
 
 static int is_showing_unit_connect_dialog = FALSE;
 static int unit_to_use_to_connect;
@@ -298,6 +299,7 @@ static void advance_steal(struct spy_data *data)
   }
 
   spy_close(data);
+  process_diplomat_arrival(NULL, NULL);
 }
 
 /****************************************************************
@@ -398,6 +400,7 @@ static void imprv_sabotage(struct spy_data *data)
   }
 
   spy_close(data);
+  process_diplomat_arrival(NULL, NULL);
 }
 
 
@@ -485,6 +488,16 @@ static void diplomat_incite_yes(struct popup_message_data *data)
   send_packet_diplomat_action(&aconnection, &req);
   
   message_close(data);
+  process_diplomat_arrival(NULL,NULL);
+}
+
+/****************************************************************
+ Callback for the No button in the incite window
+*****************************************************************/
+static void diplomat_incite_no(struct popup_message_data *data)
+{
+  message_close(data);
+  process_diplomat_arrival(NULL,NULL);
 }
 
 /****************************************************************
@@ -498,11 +511,11 @@ void popup_incite_dialog(struct city *pcity)
   {
     my_snprintf(buf, sizeof(buf),"Incite a revolt for %d gold?\nTreasury contains %d gold.",
             pcity->incite_revolt_cost, game.player_ptr->economic.gold);
-            diplomat_target_id = pcity->id;
+    diplomat_target_id = pcity->id;
 
     popup_message_dialog(main_wnd, "Incite a Revolt!", buf,
-                         "Yes", diplomat_incite_yes, 0,
-                         "No", message_close,0,
+                         "_Yes", diplomat_incite_yes, 0,
+                         "_No", diplomat_incite_no, 0,
                          0);
 
   } else
@@ -510,17 +523,18 @@ void popup_incite_dialog(struct city *pcity)
     my_snprintf(buf, sizeof(buf), "Inciting a revolt costs %d gold.\nTreasury contains %d gold.",
                 pcity->incite_revolt_cost, game.player_ptr->economic.gold);
     popup_message_dialog(main_wnd, "Traitors Demand Too Much!", buf,
-                         "Darn", message_close,0,
+                         "Darn", diplomat_incite_no,0,
                          0);
   }
 }
 
 /****************************************************************
- Callback for Establish button
+ Callback for Establish Embassy button
 *****************************************************************/
-static void diplomant_establish(struct popup_message_data *data)
+static void diplomat_embassy(struct popup_message_data *data)
 {
   message_close(data);
+  diplomat_dialog_open = 0;
 
    if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
@@ -532,33 +546,37 @@ static void diplomant_establish(struct popup_message_data *data)
     
     send_packet_diplomat_action(&aconnection, &req);
   }
+  process_diplomat_arrival(NULL,NULL);
 }
 
 /****************************************************************
  Callback for Investigate button
 *****************************************************************/
-static void diplomant_investigate(struct popup_message_data *data)
+static void diplomat_investigate(struct popup_message_data *data)
 {
   message_close(data);
+  diplomat_dialog_open=0;
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
     struct packet_diplomat_action req;
-    
+
     req.action_type=DIPLOMAT_INVESTIGATE;
     req.diplomat_id=diplomat_id;
     req.target_id=diplomat_target_id;
-    
+
     send_packet_diplomat_action(&aconnection, &req);
   }
+  process_diplomat_arrival(NULL,NULL);
 }
 
 /****************************************************************
  Callback for Sabotage button
 *****************************************************************/
-static void diplomant_sabotage(struct popup_message_data *data)
+static void diplomat_sabotage(struct popup_message_data *data)
 {
   message_close(data);
+  diplomat_dialog_open=0;
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
@@ -571,38 +589,43 @@ static void diplomant_sabotage(struct popup_message_data *data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
+  process_diplomat_arrival(NULL,NULL);
 }
 
 /****************************************************************
  Callback for Steal button
 *****************************************************************/
-static void diplomant_steal(struct popup_message_data *data)
+static void diplomat_steal(struct popup_message_data *data)
 {
   message_close(data);
+  diplomat_dialog_open=0;
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
     struct packet_diplomat_action req;
-    
+
     req.action_type=DIPLOMAT_STEAL;
     req.diplomat_id=diplomat_id;
     req.target_id=diplomat_target_id;
     req.value=0;
-    
+
     send_packet_diplomat_action(&aconnection, &req);
   }
+  process_diplomat_arrival(NULL,NULL);
 }
 
 /****************************************************************
  Callback for Incite button
+ Ask the server how much the revolt is going to cost us
 *****************************************************************/
-static void diplomant_incite(struct popup_message_data *data)
+static void diplomat_incite(struct popup_message_data *data)
 {
   struct city *pcity;
   struct packet_generic_integer packet;
 
   message_close(data);
-  
+  diplomat_dialog_open=0;
+
   if(find_unit_by_id(diplomat_id) && 
      (pcity=find_city_by_id(diplomat_target_id))) { 
     packet.value = diplomat_target_id;
@@ -613,7 +636,7 @@ static void diplomant_incite(struct popup_message_data *data)
 /****************************************************************
  Callback for Bribe button for Units
 *****************************************************************/
-static void diplomant_bribe_unit(struct popup_message_data *data)
+static void diplomat_bribe_unit(struct popup_message_data *data)
 {
   struct packet_generic_integer packet;
 
@@ -623,8 +646,18 @@ static void diplomant_bribe_unit(struct popup_message_data *data)
      find_unit_by_id(diplomat_target_id)) { 
     packet.value = diplomat_target_id;
     send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
-   }
+  }
+}
 
+/****************************************************************
+ Callback for Cancel Button
+*****************************************************************/
+static void diplomat_cancel(struct popup_message_data *data)
+{
+  message_close(data);
+  diplomat_dialog_open=0;
+
+  process_diplomat_arrival(NULL,NULL);
 }
 
 /****************************************************************
@@ -633,6 +666,7 @@ static void diplomant_bribe_unit(struct popup_message_data *data)
 static void spy_poison(struct popup_message_data *data)
 {
   message_close(data);
+  diplomat_dialog_open=0;
 
   if(find_unit_by_id(diplomat_id) &&
     (find_city_by_id(diplomat_target_id))) {
@@ -644,16 +678,28 @@ static void spy_poison(struct popup_message_data *data)
 
     send_packet_diplomat_action(&aconnection, &req);
   }
+  process_diplomat_arrival(NULL,NULL);
 }
 
 /****************************************************************
- Callback for Sabotage button for Improvments
+ Requests up-to-date list of improvements, the return of
+ which will trigger the popup_sabotage_dialog() function.
 *****************************************************************/
-static void spy_sabotage(struct popup_message_data *data)
+static void spy_request_sabotage_list(struct popup_message_data *data)
 {
-  struct city *pvcity = find_city_by_id(diplomat_target_id);
   message_close(data);
-  create_improvements_list(game.player_ptr, pvcity, 1);
+  diplomat_dialog_open=0;
+
+  if(find_unit_by_id(diplomat_id) &&
+     (find_city_by_id(diplomat_target_id))) {
+    struct packet_diplomat_action req;
+ 
+    req.action_type = SPY_GET_SABOTAGE_LIST;
+    req.diplomat_id = diplomat_id;
+    req.target_id = diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
 }
 
 /****************************************************************
@@ -662,7 +708,7 @@ static void spy_sabotage(struct popup_message_data *data)
 *****************************************************************/
 void popup_sabotage_dialog(struct city *pcity)
 {
-  /* FIXME (and, FIX the above function) */
+  create_improvements_list(game.player_ptr, pcity, 1);
 }
 
 /****************************************************************
@@ -674,6 +720,7 @@ static void spy_steal(struct popup_message_data *data)
   struct player *pvictim = NULL;
 
   message_close(data);
+  diplomat_dialog_open=0;
 
   if(pvcity)
   {
@@ -727,7 +774,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
       {
       	msg_dlg[i].label = "_Establish embassy";
-      	msg_dlg[i].function = (APTR)diplomant_establish;
+      	msg_dlg[i].function = (APTR)diplomat_embassy;
       	msg_dlg[i].data = NULL;
       	i++;
       }
@@ -735,7 +782,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
       {
       	msg_dlg[i].label = "_Investigate city",
-      	msg_dlg[i].function = (APTR)diplomant_investigate;
+      	msg_dlg[i].function = (APTR)diplomat_investigate;
       	msg_dlg[i].data = NULL;
       	i++;
       }
@@ -743,7 +790,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
       {
       	msg_dlg[i].label = "_Sabotage city";
-        msg_dlg[i].function = (APTR)diplomant_sabotage;
+        msg_dlg[i].function = (APTR)diplomat_sabotage;
         msg_dlg[i].data = NULL;
       	i++;
       }
@@ -751,7 +798,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
       {
       	msg_dlg[i].label = "Steal _technology";
-      	msg_dlg[i].function = (APTR)diplomant_steal;
+      	msg_dlg[i].function = (APTR)diplomat_steal;
       	msg_dlg[i].data = NULL;
       	i++;
       }
@@ -759,13 +806,13 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
       {
       	msg_dlg[i].label = "Incite a _revolt";
-      	msg_dlg[i].function = (APTR)diplomant_incite;
+      	msg_dlg[i].function = (APTR)diplomat_incite;
       	msg_dlg[i].data = NULL;
       	i++;
       }
 
       msg_dlg[i].label = "_Cancel";
-      msg_dlg[i].function = (APTR)message_close;
+      msg_dlg[i].function = (APTR)diplomat_cancel;
       msg_dlg[i++].data = NULL;
 
       msg_dlg[i].label = NULL;
@@ -778,7 +825,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
       {
       	msg_dlg[i].label = "_Establish embassy";
-      	msg_dlg[i].function = (APTR)diplomant_establish;
+      	msg_dlg[i].function = (APTR)diplomat_embassy;
       	msg_dlg[i].data = NULL;
       	i++;
       }
@@ -786,7 +833,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
       {
       	msg_dlg[i].label = "_Investigate city (free)";
-      	msg_dlg[i].function = (APTR)diplomant_investigate;
+      	msg_dlg[i].function = (APTR)diplomat_investigate;
       	msg_dlg[i].data = NULL;
       	i++;
       }
@@ -802,7 +849,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
       {
       	msg_dlg[i].label = "Industrial _sabotage";
-      	msg_dlg[i].function = (APTR)spy_sabotage;
+      	msg_dlg[i].function = (APTR)spy_request_sabotage_list;
       	msg_dlg[i].data = NULL;
       	i++;
       }
@@ -818,22 +865,23 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
       {
       	msg_dlg[i].label = "Incite a _revolt";
-      	msg_dlg[i].function = (APTR)diplomant_incite;
+      	msg_dlg[i].function = (APTR)diplomat_incite;
       	msg_dlg[i].data = NULL;
       	i++;
       }
 
       msg_dlg[i].label = "_Cancel";
-      msg_dlg[i].function = (APTR)message_close;
+      msg_dlg[i].function = (APTR)diplomat_cancel;
       msg_dlg[i++].data = NULL;
 
       msg_dlg[i].label = NULL;
 
-      popup_message_dialog_args(main_wnd, " Choose Your Spy's Strategy",
+      popup_message_dialog_args(main_wnd, "Choose Your Spy's Strategy",
                                 "Sir, the spy is waiting for your command",
                                 msg_dlg);
 
     }
+    diplomat_dialog_open=1;
   } else
   {
     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0)))
@@ -844,7 +892,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
       {
       	msg_dlg[i].label = "_Bribe Enemy Unit";
-      	msg_dlg[i].function = (APTR)diplomant_bribe_unit;
+      	msg_dlg[i].function = (APTR)diplomat_bribe_unit;
       	msg_dlg[i].data = NULL;
       	i++;
       }
@@ -877,7 +925,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 *****************************************************************/
 int diplomat_dialog_is_open(void)
 {
-  return 0;  /* FIXME */
+  return diplomat_dialog_open;
 }
 
 
@@ -887,8 +935,8 @@ static int caravan_dialog;
 
 struct caravan_data
 {
-  LONG caravan_city_id;
-  LONG caravan_unit_id;
+  int caravan_city_id;
+  int caravan_unit_id;
 };
 
 
@@ -916,6 +964,7 @@ static void caravan_help(struct popup_message_data *data)
     req.city_id=cd->caravan_city_id;
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
+    free(cd);
   }
   caravan_keep(data);
 }
@@ -934,6 +983,7 @@ static void caravan_establish(struct popup_message_data *data)
     req.city_id=cd->caravan_city_id;
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
+    free(cd);
   }
   caravan_keep(data);
 }
@@ -953,7 +1003,6 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
 
   if(can_establish_trade_route(phomecity, pdestcity))
   {
-    /* Note: Never free'd */
     struct caravan_data *cd = malloc_struct(struct caravan_data);
     if(cd)
     {
@@ -969,7 +1018,6 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
 
   if(unit_can_help_build_wonder(punit, pdestcity))
   {
-    /* Note: Never free'd */
     struct caravan_data *cd = malloc_struct(struct caravan_data);
     if(cd)
     {
