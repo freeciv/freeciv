@@ -493,42 +493,6 @@ int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
   return 0;
 }
 
-/**************************************************************************
-  Return the cached shield bonus rate.  Don't confuse this with
-  get_city_shield_bonus which recomputes the value from scratch.
-**************************************************************************/
-int city_shield_bonus(struct city *pcity)
-{
-  return pcity->bonus[O_SHIELD];
-}
-
-/**************************************************************************
-  Return the cached luxury bonus rate.  Don't confuse this with
-  get_city_luxury_bonus which recomputes the value from scratch.
-**************************************************************************/
-int city_luxury_bonus(struct city *pcity)
-{
-  return pcity->bonus[O_LUXURY];
-}
-
-/**************************************************************************
-  Return the cached tax bonus rate.  Don't confuse this with
-  get_city_tax_bonus which recomputes the value from scratch.
-**************************************************************************/
-int city_tax_bonus(struct city *pcity)
-{
-  return pcity->bonus[O_GOLD];
-}
-
-/**************************************************************************
-  Return the cached science bonus rate.  Don't confuse this with
-  get_city_science_bonus which recomputes the value from scratch.
-**************************************************************************/
-int city_science_bonus(struct city *pcity)
-{
-  return pcity->bonus[O_SCIENCE];
-}
-
 /*********************************************************************
 Note: the old unit is not wiped here.
 ***********************************************************************/

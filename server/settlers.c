@@ -243,13 +243,13 @@ int city_tile_value(struct city *pcity, int x, int y,
   if (prodneed > 0) {
     shield_value += 9 * (MIN(shield_value, prodneed));
   }
-  shield_value *= SHIELD_WEIGHTING * city_shield_bonus(pcity);
+  shield_value *= SHIELD_WEIGHTING * pcity->bonus[O_SHIELD];
   shield_value /= 100;
 
   trade_value = (city_get_trade_tile(x, y, pcity) * pcity->ai.trade_want
-       * (city_tax_bonus(pcity) * plr->economic.tax
-	  + city_luxury_bonus(pcity) * plr->economic.luxury
-	  + city_science_bonus(pcity) * plr->economic.science)) / 10000;
+       * (pcity->bonus[O_GOLD] * plr->economic.tax
+	  + pcity->bonus[O_LUXURY] * plr->economic.luxury
+	  + pcity->bonus[O_SCIENCE] * plr->economic.science)) / 10000;
 
   return food_value + shield_value + trade_value;
 }  
