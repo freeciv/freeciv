@@ -1187,6 +1187,26 @@ void city_report_dialog_update_city(struct city *pcity)
   }
 
   if((i=gtk_clist_find_row_from_data(GTK_CLIST(city_list), pcity))!=-1)  {
+#if 1
+    /* This method avoids removing and re-adding the entry, because
+       that seemed to cause problems in some cases, when the list
+       is sorted by one of the columns.  Doing "Popup" for the top
+       entry when sorted could cause core dumps or memory corruption,
+       and in other cases could change the ordering (confusing) when
+       multiple cities have the same string value in the column being
+       sorted by.  -- dwp
+    */
+    int j;
+    get_city_text(pcity, row, sizeof(buf[0]));
+    gtk_clist_freeze(GTK_CLIST(city_list));
+    for (j=0; j<NUM_CREPORT_COLS; j++) {
+      gtk_clist_set_text(GTK_CLIST(city_list), i, j, row[j]);
+    }
+    gtk_clist_thaw(GTK_CLIST(city_list));
+    gtk_clist_sort(GTK_CLIST(city_list));
+    gtk_widget_show_all(city_list);
+#else
+    /* Old method, see above. */
     char *text;
     gboolean selected = (gboolean) g_list_find(GTK_CLIST(city_list)->selection,
 					       (gpointer)i);
@@ -1203,6 +1223,7 @@ void city_report_dialog_update_city(struct city *pcity)
       gtk_clist_select_row(GTK_CLIST(city_list), i, -1);
     gtk_clist_thaw(GTK_CLIST(city_list));
     gtk_widget_show_all(city_list);
+#endif
   }
   else
     city_report_dialog_update();
