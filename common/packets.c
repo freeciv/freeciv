@@ -1937,6 +1937,7 @@ int send_packet_ruleset_unit(struct connection *pc,
   dio_put_uint8(&dout, packet->defense_strength);
   dio_put_uint8(&dout, packet->move_rate);
   dio_put_uint8(&dout, packet->tech_requirement);
+  dio_put_uint8(&dout, packet->impr_requirement);
   dio_put_uint8(&dout, packet->vision_range);
   dio_put_uint8(&dout, packet->transport_capacity);
   dio_put_uint8(&dout, packet->hp);
@@ -1988,6 +1989,7 @@ receive_packet_ruleset_unit(struct connection *pc)
   dio_get_uint8(&din, &packet->defense_strength);
   dio_get_uint8(&din, &packet->move_rate);
   dio_get_uint8(&din, &packet->tech_requirement);
+  dio_get_uint8(&din, &packet->impr_requirement);
   dio_get_uint8(&din, &packet->vision_range);
   dio_get_uint8(&din, &packet->transport_capacity);
   dio_get_uint8(&din, &packet->hp);

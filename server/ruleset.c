@@ -651,7 +651,11 @@ static void load_ruleset_units(struct section_file *file)
   /* main stats: */
   unit_type_iterate(i) {
     u = &unit_types[i];
-    
+
+    u->impr_requirement =
+      find_improvement_by_name(secfile_lookup_str_default(file, "None", 
+					"%s.impr_req", sec[i]));
+
     sval = secfile_lookup_str(file, "%s.move_type", sec[i]);
     ival = unit_move_type_from_str(sval);
     if (ival==0) {
@@ -2430,6 +2434,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;
     packet.tech_requirement = u->tech_requirement;
+    packet.impr_requirement = u->impr_requirement;
     packet.vision_range = u->vision_range;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;

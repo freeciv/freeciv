@@ -398,15 +398,26 @@ bool can_build_improvement(struct city *pcity, Impr_Type_id id)
   return(could_build_improvement(pcity, id));
 }
 
-
 /**************************************************************************
 Whether given city can build given unit,
 ignoring whether unit is obsolete.
 **************************************************************************/
 bool can_build_unit_direct(struct city *pcity, Unit_Type_id id)
 {
-  if (!can_player_build_unit_direct(city_owner(pcity), id))
+  Impr_Type_id impr_req;
+
+  if (!can_player_build_unit_direct(city_owner(pcity), id)) {
     return FALSE;
+  }
+
+  /* Check to see if the unit has a building requirement. */
+  impr_req = get_unit_type(id)->impr_requirement;
+  assert(impr_req <= B_LAST && impr_req >= 0);
+  if (impr_req != B_LAST && !city_got_building(pcity, impr_req)) {
+    return FALSE;
+  }
+
+  /* You can't build naval units inland. */
   if (!is_ocean_near_tile(pcity->x, pcity->y) && is_water_unit(id)) {
     return FALSE;
   }

@@ -954,7 +954,22 @@ static void process_attacker_want(struct city *pcity,
             best_choice->choice = unit_type;
             best_choice->want = want;
             best_choice->type = CT_ATTACKER;
-          } /* FIXME: else find out why we can't build it and do something */
+          } else if (can_build_improvement(pcity,
+                            get_unit_type(unit_type)->impr_requirement)) {
+	    /* Building this unit requires a specific type of improvement.
+	     * So we build this improvement instead.  This may not be the
+	     * best behavior. */
+            Impr_Type_id id = get_unit_type(unit_type)->impr_requirement;
+
+            CITY_LOG(LOG_DEBUG, pcity, "building %s to build %s",
+                     get_improvement_type(id)->name,
+                     get_unit_type(unit_type)->name);
+            best_choice->choice = id;
+            best_choice->want = want;
+            best_choice->type = CT_BUILDING;
+          } else {
+	    /* This should never happen? */
+	  }
         }
       }
     }
