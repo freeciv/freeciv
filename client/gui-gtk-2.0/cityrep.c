@@ -292,13 +292,31 @@ append_impr_or_unit_to_menu(GtkMenuShell *menu,
 }
 
 /****************************************************************
+...
+*****************************************************************/
+static void cma_iterate(GtkTreeModel *model, GtkTreePath *path,
+			GtkTreeIter *it, gpointer data)
+{
+  struct city *pcity;
+  int idx = GPOINTER_TO_INT(data);
+
+  gtk_tree_model_get(GTK_TREE_MODEL(city_model),it,POINTER_COLUMN,&pcity,-1);
+
+   if (idx == CMA_NONE) {
+     cma_release_city(pcity);
+   } else {
+     cma_put_city_under_agent(pcity, cmafec_preset_get_parameter(idx));
+   }
+   refresh_city_dialog(pcity);
+}
+
+/****************************************************************
  Called when one clicks on an CMA item to make a selection or to
  change a selection's preset.
 *****************************************************************/
 static void select_cma_callback(GtkWidget * w, gpointer data)
 {
-#if 0
-  int i, index = GPOINTER_TO_INT(data);
+  int idx = GPOINTER_TO_INT(data);
   GtkObject *parent = GTK_OBJECT(w->parent);
   gboolean change_cma =
       GPOINTER_TO_INT(gtk_object_get_data(parent, "freeciv_change_cma"));
@@ -306,52 +324,40 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
 
   /* If this is not the change button but the select cities button. */
   if (!change_cma) {
-    gtk_clist_unselect_all(GTK_CLIST(city_list));
+    GtkTreeIter it;
 
-    for (i = 0; i < GTK_CLIST(city_list)->rows; i++) {
-      struct city *pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), i);
-      int controlled = cma_is_city_under_agent(pcity, &parameter);
-      int select = 0;
+    gtk_tree_selection_unselect_all(city_selection);
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+      struct city *pcity;
+      int controlled;
+      bool select;
 
-      if (index == CMA_CUSTOM && controlled
-	  && cmafec_preset_get_index_of_parameter(&parameter) == -1) {
-	select = 1;
-      } else if (index == CMA_NONE && !controlled) {
-	select = 1;
-      } else if (index >= 0 && controlled &&
-		 cma_are_parameter_equal(&parameter,
-					 cmafec_preset_get_parameter(index))) {
-	select = 1;
-      }
-      if (select) {
-	gtk_clist_select_row(GTK_CLIST(city_list), i, 0);
-      }
+      do {
+        gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
+	  POINTER_COLUMN, &pcity, -1);
+	controlled = cma_is_city_under_agent(pcity, &parameter);
+	select = FALSE;
+
+	if (idx == CMA_CUSTOM && controlled
+	    && cmafec_preset_get_index_of_parameter(&parameter) == -1) {
+	  select = TRUE;
+	} else if (idx == CMA_NONE && !controlled) {
+	  select = TRUE;
+	} else if (idx >= 0 && controlled &&
+		   cma_are_parameter_equal(&parameter,
+					   cmafec_preset_get_parameter(idx))) {
+	  select = TRUE;
+	}
+
+	if (select) {
+	  gtk_tree_selection_select_iter(city_selection, &it);
+	}
+      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
     }
   } else {
-    GList *selection = GTK_CLIST(city_list)->selection;
-    GList *copy = NULL;
-
-    g_assert(selection);
-
-    /* must copy the list as refresh_city_dialog() corrupts the selection */
-    for (; selection; selection = g_list_next(selection)) {
-      copy = g_list_append(copy, city_from_glist(selection));
-    }
-
-    for (; copy; copy = g_list_next(copy)) {
-      struct city *pcity = copy->data;
-
-      if (index == CMA_NONE) {
-	cma_release_city(pcity);
-      } else {
-	cma_put_city_under_agent(pcity, cmafec_preset_get_parameter(index));
-      }
-      refresh_city_dialog(pcity);
-    }
-
-    g_list_free(copy);
+    gtk_tree_selection_selected_foreach(city_selection,
+	cma_iterate, GINT_TO_POINTER(idx));
   }
-#endif
 }
 
 /****************************************************************
