@@ -26,9 +26,11 @@
 #include <X11/Xaw/SmeLine.h>
 
 #include "fcintl.h"
-#include "map.h"
 #include "mem.h"
 #include "support.h"
+
+#include "government.h"
+#include "map.h"
 #include "unit.h"
 
 #include "chatline.h"
@@ -47,6 +49,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
+#include "packhand.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
@@ -126,6 +129,10 @@ static struct MenuEntry government_menu_entries[]={
     { { N_("Revolution"), 0           },     "R", MENU_GOVERNMENT_REVOLUTION, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
+
+/* One entry for every government, appended to the government menu. */
+static int num_government_entries = 0;
+static Widget government_widgets[G_MAGIC];
 
 static struct MenuEntry view_menu_entries[]={
     { { N_("Map Grid"), 0             }, "ctl-g", MENU_VIEW_SHOW_MAP_GRID, 0 },
@@ -250,6 +257,9 @@ static void menu_entry_sensitive(enum MenuIndex menu, enum MenuID id, Bool s);
 static void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var, char *terr);
 static char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr);
 
+static void revolution_menu_callback(Widget w, XtPointer client_data,
+				     XtPointer garbage);
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -295,6 +305,33 @@ void update_menus(void)
                          can_client_issue_orders());
     menu_entry_sensitive(MENU_GOVERNMENT, MENU_GOVERNMENT_REVOLUTION,
                          can_client_issue_orders());
+
+    /* Destroy all government-change entries and build them from scratch.
+     * This could probably be done more efficiently if it were only done
+     * when the client receives the rulesets or disconnects. */
+    for (i = 0; i < num_government_entries; i++) {
+      XtDestroyWidget(government_widgets[i]);
+    }
+    i = 0;
+    government_iterate(gov) {
+      Widget w;
+
+      if (gov->index == game.government_when_anarchy) {
+	continue;
+      }
+
+      w = XtCreateManagedWidget(gov->name, smeBSBObjectClass,
+				menus[MENU_GOVERNMENT]->shell, NULL, 0);
+      XtAddCallback(w, XtNcallback, revolution_menu_callback,
+		    (XtPointer)gov->index);
+      XtSetSensitive(w, can_change_to_government(game.player_ptr,
+						 gov->index));
+
+      government_widgets[i] = w;
+      i++;
+    } government_iterate_end;
+    num_government_entries = i;
+
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITY_GROWTH,
 			 draw_city_names);
     menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_TERRAIN, 1);
@@ -519,6 +556,15 @@ static void government_menu_callback(Widget w, XtPointer client_data,
     popup_revolution_dialog();
     break;
   }
+}
+
+/****************************************************************************
+  Callback for the government change entries in the government menu.
+****************************************************************************/
+static void revolution_menu_callback(Widget w, XtPointer client_data,
+				     XtPointer garbage)
+{
+  set_government_choice((int)client_data);
 }
 
 /****************************************************************
