@@ -389,13 +389,15 @@ language, please see the instructions at:\
 \n\n\
   http://www.freeciv.org/index.php/Localization\
 \n\n\
-(Check here first to see if a localization is already in progress \
-for your language.)\
+Check first if a localization is already in progress \
+for your language:\
 \n\n\
-You are also welcome to send any questions to the freeciv-dev \
+  http://www.freeciv.org/index.php/Translations\
+\n\n\
+You are also welcome to send any questions to the freeciv-i18n \
 mailing list:\
 \n\n\
-  freeciv-dev@freeciv.org\
+  freeciv-i18n@freeciv.org\
 ")
 
 [help_connecting]
@@ -429,87 +431,111 @@ metaserver, the player names can be found there.\
 [help_controls]
 name = _("Controls")
 text = _("\
-Mouse:\n\
-======\n\
-  Left-click:  (on city):    Pop up city window\n\
-               (on unit):    Activate unit\n\
-  Center-click:              Show tile info\n\
-  Right-click:               Center tile in view\n\
+Unit Orders:\n\
+============\n\
+    a: (a)uto-settler  (settler/worker units)\n\
+    a: (a)uto-attack  (military units)\n\
+    b: (b)uild city  (settler units)\n\
+    b: help (b)uild wonder  (caravan units)\n\
+    C: unit (c)onnect  (then left-click mouse to select destination)\n\
+    d: (d)iplomat/spy actions  (diplomat/spy units)\n\
+    D: (D)isband unit\n\
+    e: build airbas(e)  (airbase units)\n\
+    f: (f)ortify unit  (military units)\n\
+    f: build (f)ortress  (settler/worker units)\n\
+    g: unit (g)oto  (then left-click mouse to select destination)\n\
+    g: add a (g)oto waypoint (when in goto mode)\n\
+    h: change (h)omecity  (to city at current location)\n\
+    i: build (i)rrigation or convert terrain (settler/worker units)\n\
+    l: (l)oad unit on boat\n\
+    L: go/air(l)ift to city\n\
+    m: build (m)ine or convert terrain (settler/worker units)\n\
+    n: clean (n)uclear fallout\n\
+    N: explode (N)uclear\n\
+    o: transf(o)rm terrain (engineer unit)\n\
+    p: clean (p)ollution  (settler/worker units)\n\
+    p: (p)aradrop  (paratroop units)\n\
+    P: (P)illage terrain alteration\n\
+    q: unit patrol  (then left-click mouse to select destination)\n\
+    q: add a patrol waypoint (when in patrol mode)\n\
+    r: build (r)oad/railroad  (settler/worker units)\n\
+    r: establish trade (r)oute  (caravan units)\n\
+    s: (s)entry unit\n\
+    u: (u)nload unit\n\
+    U: (U)nload all units from a boat\n\
+    x: auto-e(x)plore\n\
+space: unit stay put\n\
+"), _("\
+Unit Movement:\n\
+==============\n\
+  1: move south-west\n\
+  2: move south\n\
+  3: move south-east\n\
+  4: move west\n\
+  6: move east\n\
+  7: move north-west\n\
+  8: move north\n\
+  9: move north-east\n\
 \n\
-  Shift-Left-click: (on city or unit):   Copy production (GTK)\n\
-  Shift-Right-click: (on city):  Paste production into city (GTK)\n\
+  5: focus on previous unit\n\
+  w: focus on next unit (wait)\n\
+  W: wake up other units on tile\n\
+  c: center view on unit\n\
+"), _("\
+Main Map (Keys):\n\
+================\n\
+    Shift-home: center on capital\n\
+  Shift-arrows: scroll map	   
+        Ctrl-G: show grid lines on/off\n\
+        Ctrl-B: show national borders on/off\n\
+        Ctrl-N: show city names on/off\n\
+        Ctrl-R: show city growth on/off\n\
+        Ctrl-P: show city production on/off\n\
+             t: show city workers (mouse over or near city)\n\
+"), _("\
+Main Map (Mouse):\n\
+=================\n\
+  Left-click on city:          Pop up city dialog\n\
+  Left-click on unit:          Activate unit\n\
+  Left-click-and-drag on unit: Goto command for unit
+  Center-click:                Show tile info\n\
+  Right-click:                 Center tile in view\n\
 \n\
-  Shift-Control-Left-click:  Adjust city workers from main map\n\
-  Control-Center-click:      Wake up sentried units\n\
+  Shift-Left-click:            Copy production (GTK)\n\
+  Shift-Right-click on city:   Paste production into city (GTK)\n\
 \n\
-  Right-click-and-drag:      Enter Area Selection mode (GTK)\n\
+  Shift-Control-Left-click:    Adjust city workers\n\
+  Control-Center-click:        Wake up sentried units\n\
 \n\
-  In Area Selection mode:\n\
-  =======================\n\
-  Left-click:         Toggle tile highlighting\n\
-  Right-click:        Cancel Area Selection mode\n\
-\n\
-  Shift-Right-click:  Paste production into highlighted cities\n\
+  Area Selection mode (GTK):\n\
+  ==========================\n\
+  Right-click-and-drag: Enter Area Selection mode\n\
+  Left-click:           Toggle tile highlighting\n\
+  Shift-Right-click:    Paste production into highlighted cities\n\
+  Right-click:          Cancel Area Selection mode\n\
 \n\
   The cities that become highlighted on the map,\n\
-  will also be highlighted in the City List window.\
+  will also be highlighted in the City Report.\
 "), _("\
-Keyboard:\n\
-=========\n\
-  a: (a)uto-settler  (settler/engineer units)\n\
-  a: (a)uto-attack  (military units)\n\
-  b: (b)uild city  (settler/engineer units)\n\
-  b: help (b)uild wonder  (caravan units)\n\
-  c: (c)enter view on unit\n\
-  C: unit (c)onnect  (then left-click mouse to select destination)\n\
-  d: (d)iplomat/spy actions  (diplomat/spy units)\n\
-  D: (D)isband unit\n\
-  e: build airbas(e)  (airbase units)\n\
-  f: (f)ortify unit  (military units)\n\
-  f: build (f)ortress  (settler/engineer units)\n\
-  F: open (F)ind City dialog\n\
-  g: unit (g)oto  (then left-click mouse to select destination)\n\
-  g: add a (g)oto waypoint (when in goto mode)\n\
-  h: change (h)omecity  (to city at current location)\n\
-  i: build (i)rrigation/farmland  (settler/engineer units; may convert terr)\n\
-  l: go/air(l)ift to city\n\
-  L: open Work(L)ists dialog\n\
-  m: build (m)ine  (settler/engineer units; may convert terrain)\n\
-  n: clean (n)uclear fallout\n\
-  N: explode (N)uclear\n\
-  o: transf(o)rm terrain\n\
-  p: clean (p)ollution  (settler/engineer units)\n\
-  p: (p)aradrop  (paratroop units)\n\
-  P: (P)illage terrain alteration\n\
-  q: unit patrol  (then left-click mouse to select destination)\n\
-  q: add a patrol waypoint (when in patrol mode)\n\
-  r: build (r)oad/railroad  (settler/engineer units)\n\
-  r: establish trade (r)oute  (caravan units)\n\
-  R: incite a (R)evolution\n\
-  s: (s)entry unit\n\
-  t: show (t)iles city is using  (mouse over or near city)\n\
-  T: open (T)ax/Lux/Sci Rates dialog\n\
-  u: (u)nload unit\n\
-  U: (U)nload all units from a boat\n\
-  w: (w)ait until later in turn\n\
-  W: (W)ake up other units on tile\n\
-  x: auto-e(x)plore\n\
+Dialogs and Reports:\n\
+====================\n\
+     F1: open City Report\n\
+     F2: open Unit Report\n\
+     F3: open Players dialog\n\
+     F5: open Economy Report\n\
+     F6: open Science Report\n\
+     F7: open World Wonders\n\
+     F8: open Top Five Cities\n\
+     F9: open Messages dialog\n\
+    F11: open Demographics\n\
+    F12: open Spaceship\n\
 \n\
-  1: move south-west                  F1: open City Report\n\
-  2: move south                       F2: open Unit Report\n\
-  3: move south-east                  F3: open Players dialog\n\
-  4: move west                        F5: open Economy Report\n\
-  5: focus on previous unit           F6: open Science Report\n\
-  6: move east                        F7: open World Wonders\n\
-  7: move north-west                  F8: open Top Five Cities\n\
-  8: move north                      F10: open Messages dialog\n\
-  9: move north-east                 F11: open Demographics\n\
-                                     F12: open Spaceship\n\
+      T: open Tax/Lux/Sci Rates dialog\n\
+      F: open Find City dialog\n\
+ Ctrl-L: open Worklists dialog\n\
+      R: open Revolution dialog\n\
 \n\
-    Shift-home: center on capital\n\
-  Shift-arrows: scroll map         Control-g: grid lines on/off\n\
-         space: unit stay put      Control-n: city names on/off\n\
-  Shift-return: turn done          Control-p: city production on/off\n\
+Shift-Return: Turn done\
 ")
 
 [help_chatline]
