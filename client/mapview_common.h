@@ -41,6 +41,79 @@ constant).
 */
 #define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
 
+/* 
+ * When drawing a tile (currently only in isometric mode), there are
+ * six relevant parts we can draw.  Each of these is a rectangle of
+ * size NORMAL_TILE_WIDTH/2 x NORMAL_TILE_HEIGHT/2.
+ *
+ *   Left    Right
+ *
+ * -----------------
+ * |       |       |
+ * | D_T_L | D_T_R |  Top, above the actual tile
+ * |       |       |
+ * -----------------
+ * |       |       |
+ * | D_M_L | D_M_R |  Middle, upper half of the actual tile
+ * |       |       |
+ * -----------------
+ * |       |       |
+ * | D_B_L | D_B_R |  Bottom, lower half of the actual tile
+ * |       |       |
+ * -----------------
+ *
+ * The figure above shows the six drawing areas.  The tile itself
+ * occupies the bottom four rectangles (if it is isometric it will
+ * actually fill only half of each rectangle).  But the sprites for
+ * the tile may extend up above it an additional NORMAL_TILE_HEIGHT/2
+ * pixels.  To get the Painter's Algorithm (objects are then painted
+ * from back-to-front) to work, sometimes we only draw some of these
+ * rectangles.  For instance, in isometric view after drawing D_B_L
+ * for one tile we have to draw D_M_R for the tile just down-left from
+ * it, then D_T_L for the tile below it.
+ *
+ * This concept currently only applies to the isometric drawing code,
+ * and currently the D_T_L and D_T_R rectangles are not used.  But
+ * either of these could change in the future.
+ *
+ * These values are used as a mask; see enum draw_type.
+ */
+enum draw_part {
+  D_T_L = 1,
+  D_T_R = 2,
+  D_M_L = 4,
+  D_M_R = 8,
+  D_B_L = 16,
+  D_B_R = 32
+};
+
+/* 
+ * As explained above, when drawing a tile we will sometimes only draw
+ * parts of the tile.  This is an enumeration of which sets of
+ * rectangles can be used together in isometric view.  If
+ * non-isometric view were to use a similar system it would have a
+ * smaller set of rectangles.
+ *
+ * Format (regexp): D_[TMB]+_[LR]+.
+ *
+ * Note that each of these sets of rectangles must itelf make up a
+ * larger rectangle.  However, not all 18 possible sub-rectangles are
+ * needed.
+ */
+enum draw_type {
+  D_FULL = D_T_L | D_T_R | D_M_L | D_M_R | D_B_L | D_B_R,
+  D_B_LR = D_B_L | D_B_R,
+  D_MB_L = D_M_L | D_B_L,
+  D_MB_R = D_M_R | D_B_R,
+  D_TM_L = D_T_L | D_M_L,
+  D_TM_R = D_T_R | D_M_R,
+  D_T_LR = D_T_L | D_T_R,
+  D_TMB_L = D_T_L | D_M_L | D_B_L,
+  D_TMB_R = D_T_R | D_M_R | D_B_R,
+  D_M_LR = D_M_L | D_M_R,
+  D_MB_LR = D_M_L | D_M_R | D_B_L | D_B_R
+};
+
 void refresh_tile_mapcanvas(int x, int y, bool write_to_screen);
 enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 

@@ -51,35 +51,6 @@
 /* contains the x0, y0 coordinates of the upper left corner block */
 int map_view_x0, map_view_y0;
 
-/* T: area above the actual tile.
-   M: the top of the actual tile.
-   B: the bottom of the actual tile.
-   L: left.
-   R: right.
-*/
-enum draw_part {
-  D_T_L = 1, D_T_R = 2, D_M_L = 4, D_M_R = 8, D_B_L = 16, D_B_R = 32
-};
-
-/* Format: D_[TMB]+_[LR]+.
-   The drawing algorithm don't take all possible combinations into account,
-   but only those that are rectangles.
-*/
-/* Some usefull definitions: */
-enum draw_type {
-  D_FULL = D_T_L | D_T_R | D_M_L | D_M_R | D_B_L | D_B_R,
-  D_B_LR = D_B_L | D_B_R,
-  D_MB_L = D_M_L | D_B_L,
-  D_MB_R = D_M_R | D_B_R,
-  D_TM_L = D_T_L | D_M_L,
-  D_TM_R = D_T_R | D_M_R,
-  D_T_LR = D_T_L | D_T_R,
-  D_TMB_L = D_T_L | D_M_L | D_B_L,
-  D_TMB_R = D_T_R | D_M_R | D_B_R,
-  D_M_LR = D_M_L | D_M_R,
-  D_MB_LR = D_M_L | D_M_R | D_B_L | D_B_R
-};
-
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite);
