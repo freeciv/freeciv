@@ -346,7 +346,7 @@ static int river_test_blocked(int x, int y)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-int river_test_rivergrid(int x, int y)
+static int river_test_rivergrid(int x, int y)
 {
   return adjacent_river_tiles4(x, y) > 1;
 }
