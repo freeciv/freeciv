@@ -248,7 +248,6 @@ int city_num_trade_routes(struct city *pcity);
 void city_list_init(struct city_list *This);
 struct city *city_list_get(struct city_list *This, int index);
 struct city *city_list_find_id(struct city_list *This, int id);
-struct city *city_list_find_coor(struct city_list *This, int x, int y);
 struct city *city_list_find_name(struct city_list *This, char *name);
 
 void city_list_insert(struct city_list *This, struct city *pcity);

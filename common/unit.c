@@ -80,17 +80,6 @@ int unit_move_rate(struct unit *punit)
   return val;
 }
 
-#ifdef UNUSED
-char *string_center(const char *s, int size)
-{
-  int left;
-  static char buf[100];
-  left = (size -strlen(s))/2;
-  sprintf(buf, "%*s%s%*s", left, "", s, (int)(size - strlen(s) - left), "");
-  return buf;
-}
-#endif
-
 /**************************************************************************
 bribe unit
 investigate

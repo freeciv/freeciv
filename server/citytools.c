@@ -140,30 +140,6 @@ int is_worked_here(int x, int y)
   return (map_get_tile(x, y)->worked != NULL); /* saves at least 10% of runtime CPU usage! */
 }
 
-#ifdef CRUFT
-int old_is_worked_here(int x, int y)
-{
-  struct player *pplayer;
-  int my, i;
-  int xx;
-
-  x = map_adjust_x(x);
-  for(i=0; i<game.nplayers; i++) {
-    pplayer=&game.players[i];
-    city_list_iterate(pplayer->cities, pcity) {
-
-      my=y+2-pcity->y;
-      if (0 <= my && my <5)
-	for ( xx = 0; xx<5; xx++) 
-	  if (map_adjust_x(pcity->x+xx-2) == x) 
-	    if(get_worker_city(pcity, xx, my)==C_TILE_WORKER) return 1;
-    }
-    city_list_iterate_end;
-  }
-  return 0;
-}
-#endif
-
 /**************************************************************************
 x and y are city cords in the range [0;4]
 **************************************************************************/

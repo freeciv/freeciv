@@ -1406,28 +1406,6 @@ struct city *city_list_find_name(struct city_list *This, char *name)
 }
 
 
-#ifdef CRUFT
-/**************************************************************************
-  Find a city with the given coordinates by searching the list.  This function
-  is basiclly made obsolete by map_get_city(), which is O(1) instead of O(n).
-**************************************************************************/
-struct city *city_list_find_coor(struct city_list *This, int x, int y)
-{
-  struct genlist_iterator myiter;
-
-  genlist_iterator_init(&myiter, &This->list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct city *pcity=((struct city *)ITERATOR_PTR(myiter));
-    if(same_pos(pcity->x, pcity->y, x, y))
-      return pcity;
-  }
-
-  return 0;
-}
-#endif
-
-
 /**************************************************************************
 ...
 **************************************************************************/
