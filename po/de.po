@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-06-01 23:54+0200\n"
+"POT-Creation-Date: 2002-06-03 03:51+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -5613,11 +5613,11 @@ msgstr "  -t, --tiles DATEI\tTiles aus DATEI.tilespec verwenden\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Unbekannte Option: '%s'\n"
 
-#: client/civclient.c:574
+#: client/civclient.c:575
 msgid "Game started."
 msgstr "Spiel begonnen."
 
-#: client/civclient.c:595
+#: client/civclient.c:596
 msgid "There was an error while auto connecting; aborting."
 msgstr "Fehler bei automatischem Verbindungsaubau: Abbruch."
 
@@ -6569,22 +6569,22 @@ msgstr "Weltwunder: nächste Runde fertig"
 msgid "Cannot find your home directory"
 msgstr "Cannot find your home directory"
 
-#: client/options.c:457
+#: client/options.c:474
 msgid "Save failed, cannot find a filename."
 msgstr "NICHT GESPEICHERT: Kein Dateiname."
 
-#: client/options.c:506
+#: client/options.c:523
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Wenn manuell eine Vorgabe hinzugefügt wird, muß auch 'number_of_presets' "
 "geändert werden."
 
-#: client/options.c:517
+#: client/options.c:534
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "NICHT GESPEICHERT: Kann nicht in Datei '%s' schreiben."
 
-#: client/options.c:520
+#: client/options.c:537
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Einstellungen in Datei %s gespeichert."
@@ -6882,8 +6882,10 @@ msgstr "%d/%d %d Runden"
 msgid "_Buy"
 msgstr "Kaufen"
 
-#: client/gui-gtk-2.0/citydlg.c:825 client/gui-gtk/citydlg.c:833
-msgid "C_hange"
+#: client/gui-gtk-2.0/citydlg.c:825 client/gui-gtk-2.0/citydlg.c:3014
+#: client/gui-gtk/citydlg.c:833 client/gui-gtk/citydlg.c:3048
+#: client/gui-mui/citydlg.c:1674
+msgid "_Change"
 msgstr "Ändern"
 
 #: client/gui-gtk-2.0/citydlg.c:867 client/gui-gtk-2.0/citydlg.c:1974
@@ -7359,11 +7361,6 @@ msgstr "Runden"
 msgid "Change Production"
 msgstr "Produktion ändern"
 
-#: client/gui-gtk-2.0/citydlg.c:3014 client/gui-gtk/citydlg.c:3048
-#: client/gui-mui/citydlg.c:1674
-msgid "_Change"
-msgstr "Ändern"
-
 #: client/gui-gtk-2.0/citydlg.c:3022 client/gui-gtk/citydlg.c:3056
 msgid "Ca_ncel"
 msgstr "A_bbrechen"
@@ -7668,13 +7665,15 @@ msgstr "Faktor"
 msgid "Celebrate"
 msgstr "Begeisterung"
 
+# ?
 #: client/gui-gtk-2.0/cma_fe.c:289 client/gui-gtk/cma_fe.c:289
 msgid "Apply onc_e"
-msgstr "_Einmalig anwenden"
+msgstr ""
 
+# ?
 #: client/gui-gtk-2.0/cma_fe.c:295 client/gui-gtk/cma_fe.c:295
-msgid "_Control city"
-msgstr "_Aktivieren"
+msgid "Control c_ity"
+msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:302 client/gui-gtk/cma_fe.c:302
 #: client/gui-mui/citydlg.c:1676
