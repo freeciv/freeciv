@@ -1825,8 +1825,6 @@ void game_load(struct section_file *file)
         if (has_capability("specials",savefile_options)) {
           map_load(file);
 	  map.fixed_start_positions = 1;
-          section_file_check_unused(file, NULL);
-          section_file_free(file);
           return;
         }
         map_tiles_load(file);
