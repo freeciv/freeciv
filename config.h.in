@@ -165,6 +165,9 @@
 /* Define if you have the usleep function.  */
 #undef HAVE_USLEEP
 
+/* Define if you have the vsnprintf function.  */
+#undef HAVE_VSNPRINTF
+
 /* Define if you have the <argz.h> header file.  */
 #undef HAVE_ARGZ_H
 

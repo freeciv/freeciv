@@ -20,6 +20,7 @@
 
 #include "fcintl.h"
 #include "mem.h"
+#include "support.h"
 
 #include "log.h"
 
@@ -233,7 +234,7 @@ void vreal_freelog(int level, char *message, va_list ap)
     }
     else fs=stderr;
 
-    vsprintf(bufbuf[whichbuf], message, ap);
+    my_vsnprintf(bufbuf[whichbuf], 512, message, ap);
     
     if(level==prev_level && 0==strncmp(bufbuf[0],bufbuf[1],511)){
       repeated++;
