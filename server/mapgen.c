@@ -267,7 +267,7 @@ int make_river(int x,int y)
   if (map_get_terrain(x, y)==T_RIVER )
     return 0;
   map_set_terrain(x, y, map_get_terrain(x,y)+16);
-  if (full_map(x, y-1)<mini+myrand(10) && map_get_terrain(x, y)<16) {
+  if (full_map(x, y-1)<mini+myrand(10) && map_get_terrain(x, y-1)<16) {
     mini=full_map(x, y-1);
     mp=0;
   }
