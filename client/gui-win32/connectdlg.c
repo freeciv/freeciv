@@ -49,7 +49,6 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
-#include "resources.h"
 #include "tilespec.h"
 
 
