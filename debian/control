@@ -1,7 +1,7 @@
 Source: freeciv
 Section: games
 Priority: optional
-Maintainer: Lalo Martins <lalo@webcom.com>
+Maintainer: Jules Bean <jules@debian.org>
 Standards-Version: 3.0.1
 
 Package: freeciv

@@ -1,4 +1,28 @@
-freeciv (1.10.0) unstable; urgency=low
+freeciv (1.11.4-3) unstable; urgency=low
+
+  * Double-doh! Still one helix dependency on the -gtk package, namely on
+    gdk-imlib1.
+
+ -- Jules Bean <jules@debian.org>  Fri, 25 Aug 2000 10:56:16 +0100
+
+freeciv (1.11.4-2) unstable; urgency=low
+
+  * Doh! Recompile against woody not helix GTK...
+
+ -- Jules Bean <jules@debian.org>  Mon, 14 Aug 2000 00:27:46 +0100
+
+freeciv (1.11.4-1) unstable; urgency=low
+
+  * New upstream release, including:
+    - full Fog of War
+    - goto works for air units
+    - initial version of proper diplomacy (at war, pacts, etc.)
+    - many other changes, check the NEWS file!
+  * New maintainer
+
+ -- Jules Bean <jules@debian.org>  Sat, 12 Aug 2000 21:25:48 +0100
+
+freeciv (1.10.0-1) unstable; urgency=low
 
   * New upstream release; hilights:
     - more i18n
