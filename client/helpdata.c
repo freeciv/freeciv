@@ -1160,6 +1160,18 @@ void helptext_terrain(char *buf, int i, const char *user_text)
 void helptext_government(char *buf, int i, const char *user_text)
 {
   struct government *gov;
+  bool active_types[O_MAX];
+
+  /* Try to guess which output types that are active in this 
+   * game by checking if _any_ government uses it. */
+  memset(active_types, FALSE, sizeof(active_types));
+  government_iterate(g) {
+    output_type_iterate(ot) {
+      if (g->unit_upkeep_factor[ot] > 0 || g->free_upkeep[ot] > 0) {
+        active_types[ot] = TRUE;
+      }
+    } output_type_iterate_end;
+  } government_iterate_end;
   
   buf[0] = '\0';
 
@@ -1171,6 +1183,215 @@ void helptext_government(char *buf, int i, const char *user_text)
   gov = get_government(i);
   if (gov->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(gov->helptext));
+  }
+  if (gov->required_tech != A_NONE) {
+    sprintf(buf + strlen(buf), _("Requires the %s technology.\n\n"),
+            advances[gov->required_tech].name);
+  }
+  if (gov->max_rate < 100 && game.rgame.changable_tax) {
+    sprintf(buf + strlen(buf), 
+            _("The maximum rate you can set for science, "
+	      "gold, or luxuries is %d%%.\n\n"), gov->max_rate);
+  } else if (game.rgame.changable_tax) {
+    sprintf(buf + strlen(buf), 
+            _("Has unlimited science/gold/luxuries rates.\n\n"));
+  }
+  sprintf(buf + strlen(buf), 
+          _("Chance of civil war is %d%% if you lose your capital.\n\n"),
+          gov->civil_war);
+  if (gov->empire_size_inc > 0) {
+    sprintf(buf + strlen(buf),
+	    _("The first unhappy citizen in each city "
+	      "due to civilization size will appear when you have %d "
+	      "cities."), game.cityfactor + gov->empire_size_mod);
+    sprintf(buf + strlen(buf),
+	    _("  Every %d cities after this will "
+	      "result in one more unhappy citizen in each city."),
+            gov->empire_size_inc);
+  } else {
+    sprintf(buf + strlen(buf),
+	    _("One unhappy citizen in each city due "
+	      "to civilization size will appear when you have %d cities."),
+            game.cityfactor + gov->empire_size_mod);
+  }
+
+  sprintf(buf + strlen(buf), _("\n\nFeatures:\n"));
+  if (gov->martial_law_max > 0) {
+    sprintf(buf + strlen(buf),
+	    _("* You may impose martial law.  Each "
+	      "military unit inside a city, up to a maximum of %d, will "
+	      "force %d unhappy citizens to become content.\n"),
+            gov->martial_law_max, gov->martial_law_per);
+  }
+  if (gov->unit_happy_cost_factor > 0) {
+    sprintf(buf + strlen(buf),
+	    _("* Military units away from home and "
+	      "field units will cause unhappiness.\n"));
+    if (gov->free_happy == G_CITY_SIZE_FREE) {
+      sprintf(buf + strlen(buf),
+	      _("* Each of your cities will avoid "
+		"as much unhappiness caused by units as its city size.\n"));
+    } else if (gov->free_happy > 0) {
+      sprintf(buf + strlen(buf),
+	      _("* Each of your cities will avoid %d "
+		"unhappiness that would otherwise be caused by units.\n"), 
+              gov->free_happy);
+    }
+  }
+  output_type_iterate(ot) {
+    if (gov->free_upkeep[ot] == G_CITY_SIZE_FREE) {
+      sprintf(buf + strlen(buf),
+	      _("* Each of your cities will avoid "
+		"paying for as much %s upkeep as their city size.\n"),
+              get_output_name(ot));
+    } else if (gov->free_upkeep[ot] > 0) {
+      sprintf(buf + strlen(buf),
+	      _("* Each of your cities will avoid "
+		"paying %d %s towards unit upkeep.\n"), 
+              gov->free_upkeep[ot], get_output_name(ot));
+    }
+  } output_type_iterate_end;
+  if (gov->unit_happy_cost_factor > 1) {
+    sprintf(buf + strlen(buf),
+	    _("* Military units cause %d times normal unhappiness.\n"),
+	    gov->unit_happy_cost_factor);
+  }
+  output_type_iterate(ot) {
+    if (!active_types[ot]) {
+      continue;
+    }
+    if (gov->unit_upkeep_factor[ot] == 1) {
+      sprintf(buf + strlen(buf),
+	      _("* You pay normal %s upkeep for "
+		"your units.\n"), get_output_name(ot));
+    } else if (gov->unit_upkeep_factor[ot] > 1) {
+      sprintf(buf + strlen(buf),
+	      _("* You pay %d times normal %s "
+		"upkeep for your units.\n"), gov->unit_upkeep_factor[ot],
+              get_output_name(ot));
+    } else if (gov->unit_upkeep_factor[ot] == 0) {
+      sprintf(buf + strlen(buf),
+	      _("* You do not pay %s upkeep for "
+		"any of your units.\n"), get_output_name(ot));
+    }
+  } output_type_iterate_end;
+  output_type_iterate(ot) {
+    if (gov->output_before_penalty[ot] > 0
+        && gov->output_before_penalty[ot] 
+           == gov->celeb_output_before_penalty[ot]) {
+      sprintf(buf + strlen(buf),
+	      _("* Each worked tile that gives more "
+		"than %d %s will suffer a -1 penalty.\n"), 
+              gov->output_before_penalty[ot], get_output_name(ot));
+    } else if (gov->output_before_penalty[ot] > 0) {
+      sprintf(buf + strlen(buf),
+	      _("* Each worked tile that gives more than %d %s will "
+		"suffer a -1 penalty when not celebrating.\n"), 
+              gov->output_before_penalty[ot], get_output_name(ot));
+    }
+  } output_type_iterate_end;
+  output_type_iterate(ot) {
+    if (gov->celeb_output_before_penalty[ot] > 0
+        && gov->celeb_output_before_penalty[ot] 
+           != gov->output_before_penalty[ot]) {
+      sprintf(buf + strlen(buf),
+	      _("* Each worked tile that gives more "
+		"than %d %s will suffer a -1 penalty when celebrating.\n"), 
+              gov->celeb_output_before_penalty[ot], get_output_name(ot));
+    }
+  } output_type_iterate_end;
+  output_type_iterate(ot) {
+    if (gov->output_inc_tile[ot] > 0
+        && gov->output_inc_tile[ot] == gov->celeb_output_inc_tile[ot]) {
+      sprintf(buf + strlen(buf),
+	      _("* Each worked tile with at least 1 "
+		"%s will yield %d additional %s.\n"), get_output_name(ot), 
+              gov->output_inc_tile[ot], get_output_name(ot));
+    } else if (gov->output_inc_tile[ot] > 0) {
+      sprintf(buf + strlen(buf),
+	      _("* Each worked tile with at least 1 "
+		"%s will yield %d additional %s when not celebrating.\n"), 
+              get_output_name(ot), gov->output_inc_tile[ot], 
+              get_output_name(ot));
+    }
+  } output_type_iterate_end;
+  output_type_iterate(ot) {
+    if (gov->celeb_output_inc_tile[ot] > 0
+        && gov->celeb_output_inc_tile[ot] != gov->output_inc_tile[ot]) {
+      sprintf(buf + strlen(buf),
+	      _("* Each worked tile with at least 1 "
+		"%s will yield %d additional %s when celebrating.\n"), 
+	      get_output_name(ot), gov->celeb_output_inc_tile[ot], 
+	      get_output_name(ot));
+    }
+  } output_type_iterate_end;
+  output_type_iterate(ot) {
+    if (gov->waste[ot].level > 0) {
+      sprintf(buf + strlen(buf), _("* %s production will suffer "
+				   "waste.\n"), get_output_name(ot));
+    }
+  } output_type_iterate_end;
+  if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
+    sprintf(buf + strlen(buf),
+	    _("* You may grow your cities by "
+	      "means of celebrations.  Your cities must be at least "
+	      "size %d before they can grown in this manner.\n"),
+            gov->rapture_size);
+  }
+  if (government_has_flag(gov, G_BUILD_VETERAN_DIPLOMAT)) {
+    sprintf(buf + strlen(buf), _("* Diplomatic units will be veteran "
+				 "when built.\n"));
+  }
+  if (government_has_flag(gov, G_REVOLUTION_WHEN_UNHAPPY)) {
+    sprintf(buf + strlen(buf),
+	    _("* Government will fall into anarchy "
+	      "if any city is in disorder for more than two turns in "
+	      "a row.\n"));
+  }
+  if (government_has_flag(gov, G_UNBRIBABLE)) {
+    sprintf(buf + strlen(buf), _("* Your units and cities cannot be "
+				 "bribed or incited.\n"));
+  }
+  if (government_has_flag(gov, G_INSPIRES_PARTISANS)) {
+    int n;
+
+    sprintf(buf + strlen(buf), _("* Partisans appear when "
+				 "cities are taken by the enemy.  "));
+    if (game.rtech.u_partisan != A_LAST
+        && game.rtech.u_partisan != A_NONE) {
+      sprintf(buf + strlen(buf), _("Requires %s technology.  "),
+              advances[game.rtech.u_partisan].name);
+    }
+    for (n = 0; n < MAX_NUM_TECH_LIST; n++) {
+      int tech = game.rtech.partisan_req[n];
+
+      if (tech == A_LAST) {
+        break;
+      }
+      sprintf(buf + strlen(buf), _("Requires %s technology.  "),
+              advances[tech].name);
+    }
+    sprintf(buf + strlen(buf), "\n");
+  }
+  if (government_has_flag(gov, G_FANATIC_TROOPS)) {
+    sprintf(buf + strlen(buf), _("* Pays no upkeep for fanatics.\n"));
+  }
+  if (government_has_flag(gov, G_HAS_SENATE)) {
+    sprintf(buf + strlen(buf),
+	    _("* Has a senate that may throw "
+	      "the government into anarchy if war is declared while "
+	      "reputation is low.\n"));
+  }
+  if (government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
+    sprintf(buf + strlen(buf), _("* Has no unhappy citizens.\n"));
+  }
+  if (government_has_flag(gov, G_CONVERT_TITHES_TO_MONEY)) {
+    sprintf(buf + strlen(buf),
+	    _("* Buildings that normally confer "
+	      "bonuses against unhappiness will instead give gold.\n"));
+  }
+  if (government_has_flag(gov, G_REDUCED_RESEARCH)) {
+    sprintf(buf + strlen(buf), _("* Research costs doubled.\n"));
   }
   unit_type_iterate(ut) {
     struct unit_type *utype = get_unit_type(ut);
