@@ -72,6 +72,8 @@ static void map_startpos_load(struct section_file *file)
 {
   int i=0, pos;
 
+  map.fixed_start_positions = secfile_lookup_int_default(file, 0, "map.fixed_start_positions");
+
   while( (pos = secfile_lookup_int_default(file, -1, "map.r%dsx", i)) != -1) {
     map.start_positions[i].x = pos;
     map.start_positions[i].y = secfile_lookup_int(file, "map.r%dsy", i);
@@ -365,6 +367,7 @@ static void map_save(struct section_file *file)
 
   secfile_insert_int(file, game.save_options.save_starts, "game.save_starts");
   if (game.save_options.save_starts) {
+    secfile_insert_int(file, map.fixed_start_positions, "map.fixed_start_positions");
     for (i=0; i<map.num_start_positions; i++) {
       secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
       secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
