@@ -66,10 +66,12 @@
 #endif
 
 #include "capability.h"	/* 'ping_packet' capability */
+#include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
 #include "packets.h"
+#include "plrhand.h"
 #include "shared.h"
 #include "support.h"
 
@@ -111,6 +113,8 @@ static int server_accept_connection(int sockfd);
 *****************************************************************************/
 static void handle_stdin_close(void)
 {
+  notify_player(0, _("Server quitting because it cannot read standard input."));
+
   printf("quit");
   quit_game(NULL);
 }
