@@ -681,6 +681,8 @@ void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy)
 static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 			       struct tile *t2, int x1, int y1, int x2, int y2)
 {
+  int cardinal_move;
+
   if (punit && !is_ground_unit(punit))
     return 3;
   if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
@@ -689,14 +691,29 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
     return 1;
   if( (t1->special&S_ROAD) && (t2->special&S_ROAD) )
     return 1;
-  /* To change the rules so that cannot cut corners on rivers,
-     (to match Civ2(?)) remove the "1 ||" below:
-  */
-  if( (1 || y1==y2 || map_adjust_x(x1)==map_adjust_x(x2))
-      && ( ( (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) )
-	   ||
-	   ( (t1->special&S_RIVER) && (t2->special&S_RIVER) ) ) )
-    return 1;
+
+  if( ( (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) ) ||
+      ( (t1->special&S_RIVER) && (t2->special&S_RIVER) ) ) {
+    cardinal_move = (y1==y2 || map_adjust_x(x1)==map_adjust_x(x2));
+    switch (terrain_control.river_move_mode) {
+    case RMV_NORMAL:
+      break;
+    case RMV_FAST_STRICT:
+      if (cardinal_move)
+	return 1;
+      break;
+    case RMV_FAST_RELAXED:
+      if (cardinal_move)
+	return 1;
+      else
+	return 2;
+    case RMV_FAST_ALWAYS:
+      return 1;
+    default:
+      break;
+    }
+  }
+
   return(get_tile_type(t2->terrain)->movement_cost*3);
 }
 

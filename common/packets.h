@@ -518,8 +518,6 @@ struct packet_game_info {
   int cityfactor;
   int unhappysize;
   int diplcost,freecost,conquercost;
-  int rail_food, rail_trade, rail_prod; 
-  int farmfood;
   int global_advances[A_LAST];
   int global_wonders[B_LAST];
   int foodbox;

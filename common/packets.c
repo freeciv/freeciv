@@ -1111,10 +1111,6 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->freecost);
   cptr=put_int8(cptr, pinfo->conquercost);
   cptr=put_int8(cptr, pinfo->unhappysize);
-  cptr=put_int8(cptr, pinfo->rail_food);
-  cptr=put_int8(cptr, pinfo->rail_prod);
-  cptr=put_int8(cptr, pinfo->rail_trade);
-  cptr=put_int8(cptr, pinfo->farmfood);
   
   for(i=0; i<A_LAST; i++)
     cptr=put_int8(cptr, pinfo->global_advances[i]);
@@ -1168,10 +1164,6 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_int8(&iter, &pinfo->freecost);
   iget_int8(&iter, &pinfo->conquercost);
   iget_int8(&iter, &pinfo->unhappysize);
-  iget_int8(&iter, &pinfo->rail_food);
-  iget_int8(&iter, &pinfo->rail_prod);
-  iget_int8(&iter, &pinfo->rail_trade);
-  iget_int8(&iter, &pinfo->farmfood);
   
   for(i=0; i<A_LAST; i++)
     iget_int8(&iter, &pinfo->global_advances[i]);
@@ -2110,6 +2102,18 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_int8(cptr, packet->may_irrigate);
   cptr=put_int8(cptr, packet->may_mine);
   cptr=put_int8(cptr, packet->may_transform);
+  cptr=put_int8(cptr, packet->river_move_mode);
+  cptr=put_int16(cptr, packet->river_defense_bonus);
+  cptr=put_int16(cptr, packet->river_trade_incr);
+  cptr=put_int16(cptr, packet->fortress_defense_bonus);
+  cptr=put_int16(cptr, packet->road_superhighway_trade_bonus);
+  cptr=put_int16(cptr, packet->rail_food_bonus);
+  cptr=put_int16(cptr, packet->rail_shield_bonus);
+  cptr=put_int16(cptr, packet->rail_trade_bonus);
+  cptr=put_int16(cptr, packet->farmland_supermarket_food_bonus);
+  cptr=put_int16(cptr, packet->pollution_food_penalty);
+  cptr=put_int16(cptr, packet->pollution_shield_penalty);
+  cptr=put_int16(cptr, packet->pollution_trade_penalty);
   cptr=put_int16(cptr, packet->border_base);
   cptr=put_int16(cptr, packet->corner_base);
   cptr=put_int16(cptr, packet->river_base);
@@ -2138,6 +2142,18 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_int8(&iter, &packet->may_irrigate);
   iget_int8(&iter, &packet->may_mine);
   iget_int8(&iter, &packet->may_transform);
+  iget_int8(&iter, (int*)&packet->river_move_mode);
+  iget_int16(&iter, &packet->river_defense_bonus);
+  iget_int16(&iter, &packet->river_trade_incr);
+  iget_int16(&iter, &packet->fortress_defense_bonus);
+  iget_int16(&iter, &packet->road_superhighway_trade_bonus);
+  iget_int16(&iter, &packet->rail_food_bonus);
+  iget_int16(&iter, &packet->rail_shield_bonus);
+  iget_int16(&iter, &packet->rail_trade_bonus);
+  iget_int16(&iter, &packet->farmland_supermarket_food_bonus);
+  iget_int16(&iter, &packet->pollution_food_penalty);
+  iget_int16(&iter, &packet->pollution_shield_penalty);
+  iget_int16(&iter, &packet->pollution_trade_penalty);
   iget_int16(&iter, &packet->border_base);
   iget_int16(&iter, &packet->corner_base);
   iget_int16(&iter, &packet->river_base);

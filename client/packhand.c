@@ -584,10 +584,6 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.techlevel=pinfo->techlevel;
   game.skill_level=pinfo->skill_level;
   game.timeout=pinfo->timeout;
-  
-  game.rail_food = pinfo->rail_food;
-  game.rail_trade = pinfo->rail_trade;
-  game.rail_prod = pinfo->rail_prod;
 
   game.end_year=pinfo->end_year;
   game.year=pinfo->year;
@@ -1088,6 +1084,18 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
   terrain_control.may_irrigate = p->may_irrigate;
   terrain_control.may_mine = p->may_mine;
   terrain_control.may_transform = p->may_transform;
+  terrain_control.river_move_mode = p->river_move_mode;
+  terrain_control.river_defense_bonus = p->river_defense_bonus;
+  terrain_control.river_trade_incr = p->river_trade_incr;
+  terrain_control.fortress_defense_bonus = p->fortress_defense_bonus;
+  terrain_control.road_superhighway_trade_bonus = p->road_superhighway_trade_bonus;
+  terrain_control.rail_food_bonus = p->rail_food_bonus;
+  terrain_control.rail_shield_bonus = p->rail_shield_bonus;
+  terrain_control.rail_trade_bonus = p->rail_trade_bonus;
+  terrain_control.farmland_supermarket_food_bonus = p->farmland_supermarket_food_bonus;
+  terrain_control.pollution_food_penalty = p->pollution_food_penalty;
+  terrain_control.pollution_shield_penalty = p->pollution_shield_penalty;
+  terrain_control.pollution_trade_penalty = p->pollution_trade_penalty;
   terrain_control.border_base = p->border_base;
   terrain_control.corner_base = p->corner_base;
   terrain_control.river_base = p->river_base;

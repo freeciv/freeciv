@@ -266,10 +266,6 @@ void game_init(void)
   game.civilwarsize= GAME_DEFAULT_CIVILWARSIZE;
   game.explorer    = GAME_DEFAULT_EXPLORER;
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;
-  game.rail_trade  = GAME_DEFAULT_RAILTRADE;
-  game.rail_food   = GAME_DEFAULT_RAILFOOD;
-  game.rail_prod   = GAME_DEFAULT_RAILPROD;
-  game.farmfood    = GAME_DEFAULT_FARMFOOD;
   game.foodbox     = GAME_DEFAULT_FOODBOX;
   game.aqueductloss= GAME_DEFAULT_AQUEDUCTLOSS;
   game.scorelog    = GAME_DEFAULT_SCORELOG;

@@ -266,6 +266,10 @@ railroads.  "discovery" just affects the message: set to
 ***************************************************************/
 void upgrade_city_rails(struct player *pplayer, int discovery)
 {
+  if (!(terrain_control.may_road)) {
+    return;
+  }
+
   connection_do_buffer(pplayer->conn);
 
   if (discovery) {

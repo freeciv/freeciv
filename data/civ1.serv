@@ -6,11 +6,6 @@
 set settlers 1
 set explorer 0
 #
-# Civ1 railroads:
-set railfood 50
-set railprod 50
-set railtrade 50
-#
 # Minor civ1 rules:
 set civstyle 1
 #

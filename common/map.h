@@ -20,6 +20,10 @@ enum terrain_river_type {
   R_AS_TERRAIN=1, R_AS_SPECIAL=2
 };
 
+enum special_river_move {
+  RMV_NORMAL=0, RMV_FAST_STRICT=1, RMV_FAST_RELAXED=2, RMV_FAST_ALWAYS=3
+};
+
 enum tile_special_type {
   S_NO_SPECIAL=0, S_SPECIAL_1=1, S_ROAD=2, S_IRRIGATION=4, S_RAILROAD=8,
   S_MINE=16, S_POLLUTION=32, S_HUT=64, S_FORTRESS=128, S_SPECIAL_2=256,
@@ -67,6 +71,19 @@ struct terrain_misc
   int may_irrigate;   /* boolean: may build irrigation/farmland */
   int may_mine;       /* boolean: may build mines */
   int may_transform;  /* boolean: may transform terrain */
+  /* parameters */
+  enum special_river_move river_move_mode;
+  int river_defense_bonus;             /* % added to defense if Civ2 river */
+  int river_trade_incr;                /* added to trade if Civ2 river */
+  int fortress_defense_bonus;          /* % added to defense if fortress */
+  int road_superhighway_trade_bonus;   /* % added to trade if road/s-highway */
+  int rail_food_bonus;                 /* % added to food if railroad */
+  int rail_shield_bonus;               /* % added to shield if railroad */
+  int rail_trade_bonus;                /* % added to trade if railroad */
+  int farmland_supermarket_food_bonus; /* % added to food if farm/s-market */
+  int pollution_food_penalty;          /* % subtr. from food if polluted */
+  int pollution_shield_penalty;        /* % subtr. from shield if polluted */
+  int pollution_trade_penalty;         /* % subtr. from trade if polluted */
   /* graphics */
   int border_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */
   int corner_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */

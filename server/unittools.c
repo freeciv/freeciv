@@ -399,6 +399,8 @@ int get_defense_power(struct unit *punit)
 {
   int power;
   int terra;
+  int db;
+
   if (!punit || punit->type<0 || punit->type>=U_LAST)
     abort();
   power=get_unit_type(punit->type)->defense_strength*10;
@@ -406,7 +408,11 @@ int get_defense_power(struct unit *punit)
     power*=1.5;
   
   terra=map_get_terrain(punit->x, punit->y);
-  power=(power*get_tile_type(terra)->defense_bonus)/10;
+  db = get_tile_type(terra)->defense_bonus;
+  if (map_get_special(punit->x, punit->y) & S_RIVER)
+    db += (db * terrain_control.river_defense_bonus) / 100;
+  power=(power*db)/10;
+
   return power;
 }
 
@@ -598,9 +604,12 @@ int can_place_partisan(int x, int y)
 int enemies_at(struct unit *punit, int x, int y)
 {
   int i, j, a = 0, d;
+  int db;
   struct player *pplayer = get_player(punit->owner);
-  d = unit_vulnerability_virtual(punit) *
-      get_tile_type(map_get_terrain(x, y))->defense_bonus;
+  db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
+  if (map_get_special(x, y) & S_RIVER)
+    db += (db * terrain_control.river_defense_bonus) / 100;
+  d = unit_vulnerability_virtual(punit) * db;
   if (is_friendly_city_tile(x, y, punit->owner)) return 0;
   for (j = y - 1; j <= y + 1; j++) {
     if (j < 0 || j >= map.ysize) continue;

@@ -1080,14 +1080,15 @@ int get_shields_tile(int x, int y, struct city *pcity)
     s += (get_tile_type(tile_t))->mining_shield_incr;
   }
   if (spec_t & S_RAILROAD)
-    s+=(s*game.rail_prod)/100;
+    s+=(s*terrain_control.rail_shield_bonus)/100;
   if (city_affected_by_wonder(pcity, B_RICHARDS))
     s++;
   if (city_got_building(pcity, B_OFFSHORE) && tile_t==T_OCEAN)
     s++;
   if (s>2 && gov <=G_DESPOTISM) 
     s--;
-  if (spec_t & S_POLLUTION) return s=(s+1)/2; /* The shields here is icky */
+  if (spec_t & S_POLLUTION)
+    s-=(s*terrain_control.pollution_trade_penalty)/100; /* The shields here is icky */
   return s;
 }
 
@@ -1112,14 +1113,14 @@ int get_trade_tile(int x, int y, struct city *pcity)
     t=get_tile_type(tile_t)->trade;
     
   if (spec_t & S_RIVER) {
-    t++;
+    t += terrain_control.river_trade_incr;
   }
   if (spec_t & S_ROAD) {
     t += (get_tile_type(tile_t))->road_trade_incr;
   }
   if (t) {
     if (spec_t & S_RAILROAD)
-      t+=(t*game.rail_trade)/100;
+      t+=(t*terrain_control.rail_trade_bonus)/100;
 
 	/* Civ1 specifically documents that Railroad trade increase is before 
      * Democracy/Republic bonus  -AJS */
@@ -1130,12 +1131,12 @@ int get_trade_tile(int x, int y, struct city *pcity)
     if(city_affected_by_wonder(pcity, B_COLLOSSUS)) 
       t++;
     if((spec_t&S_ROAD) && city_got_building(pcity, B_SUPERHIGHWAYS))
-      t*=1.5;
+      t+=(t*terrain_control.road_superhighway_trade_bonus)/100;
  
     if (t>2 && gov <=G_DESPOTISM) 
       t--;
     if (spec_t & S_POLLUTION)
-      t=(t+1)/2; /* The trade here is dirty */
+      t-=(t*terrain_control.pollution_trade_penalty)/100; /* The trade here is dirty */
   }
   return t;
 }
@@ -1156,7 +1157,8 @@ int get_food_tile(int x, int y, struct city *pcity)
   int city_auto_water;
 
   type=get_tile_type(tile_t);
-  city_auto_water = (x==2 && y==2 && tile_t==type->irrigation_result);
+  city_auto_water = (x==2 && y==2 && tile_t==type->irrigation_result
+		     && terrain_control.may_irrigate);
 
   if (city_celebrating(pcity))
     gov+=2;
@@ -1172,7 +1174,7 @@ int get_food_tile(int x, int y, struct city *pcity)
     f += type->irrigation_food_incr;
     if (((spec_t & S_FARMLAND) || city_auto_water) &&
 	city_got_building(pcity, B_SUPERMARKET)) {
-      f += (f * game.farmfood) / 100;
+      f += (f * terrain_control.farmland_supermarket_food_bonus) / 100;
     }
   }
 
@@ -1180,13 +1182,13 @@ int get_food_tile(int x, int y, struct city *pcity)
     f++;
 
   if (spec_t & S_RAILROAD)
-    f+=(f*game.rail_food)/100;
+    f+=(f*terrain_control.rail_food_bonus)/100;
 
   if (f>2 && gov <=G_DESPOTISM) 
     f--;
 
   if (spec_t & S_POLLUTION)
-    f=(f+1)/2;
+    f-=(f*terrain_control.pollution_food_penalty)/100; /* The food here is yucky */
 
   return f;
 }

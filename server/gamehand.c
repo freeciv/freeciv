@@ -154,10 +154,6 @@ void send_game_info(struct player *dest)
   ginfo.techpenalty=game.techpenalty;
   ginfo.foodbox = game.foodbox;
   ginfo.civstyle=game.civstyle;
-  ginfo.rail_food = game.rail_food;
-  ginfo.rail_trade = game.rail_trade;
-  ginfo.rail_prod = game.rail_prod;
-  ginfo.farmfood = game.farmfood;
   ginfo.spacerace = game.spacerace;
   for(i=0; i<A_LAST; i++)
     ginfo.global_advances[i]=game.global_advances[i];
@@ -272,12 +268,6 @@ int game_load(struct section_file *file)
     game.diplcost   = secfile_lookup_int(file, "game.diplcost");
     game.freecost   = secfile_lookup_int(file, "game.freecost");
     game.conquercost   = secfile_lookup_int(file, "game.conquercost");
-    game.rail_food  = secfile_lookup_int(file, "game.rail_food");
-    game.rail_prod  = secfile_lookup_int(file, "game.rail_prod");
-    game.rail_trade = secfile_lookup_int(file, "game.rail_trade");
-    game.farmfood   = secfile_lookup_int_default(file, GAME_DEFAULT_FARMFOOD,
-						"game.farmfood");
-
     game.foodbox     = secfile_lookup_int(file, "game.foodbox");
     game.techpenalty = secfile_lookup_int(file, "game.techpenalty");
     game.razechance  = secfile_lookup_int(file, "game.razechance");
@@ -479,10 +469,6 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.diplcost, "game.diplcost");
   secfile_insert_int(file, game.freecost, "game.freecost");
   secfile_insert_int(file, game.conquercost, "game.conquercost");
-  secfile_insert_int(file, game.rail_food, "game.rail_food");
-  secfile_insert_int(file, game.rail_prod, "game.rail_prod");
-  secfile_insert_int(file, game.rail_trade, "game.rail_trade");
-  secfile_insert_int(file, game.farmfood, "game.farmfood");
   secfile_insert_int(file, game.foodbox, "game.foodbox");
   secfile_insert_int(file, game.techpenalty, "game.techpenalty");
   secfile_insert_int(file, game.razechance, "game.razechance");

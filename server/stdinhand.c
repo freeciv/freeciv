@@ -340,35 +340,6 @@ static struct settings_s settings[] = {
     "  new advance.  You can end up with negative research points if this is\n"
     "  non-zero." },
 
-  { "railprod", &game.rail_prod,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_RAILPROD, GAME_MAX_RAILPROD, GAME_DEFAULT_RAILPROD,
-    "Railroad modifier to shield production",
-    "  The shield production of a square with a railroad is increased by this\n"
-    "  percentage, with the final value rounded down." },
-  
-  { "railfood", &game.rail_food,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_RAILFOOD, GAME_MAX_RAILFOOD, GAME_DEFAULT_RAILFOOD,
-    "Railroad modifier to food production",
-    "  The food production of a square with a railroad is increased by this\n"
-    "  percentage, with the final value rounded down." },
- 
-  { "railtrade", &game.rail_trade,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_RAILTRADE, GAME_MAX_RAILTRADE, GAME_DEFAULT_RAILTRADE,
-    "Railroad modifier to trade production",
-    "  The trade production of a square with a railroad is increased by this\n"
-    "  percentage, with the final value rounded down." },
-
-  { "farmfood", &game.farmfood,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_FARMFOOD, GAME_MAX_FARMFOOD, GAME_DEFAULT_FARMFOOD,
-    "Farmland modifier to food production",
-    "  The food production of a square with farmland is increased by this\n"
-    "  percentage, with the final value rounded down, if the city contains\n"
-    "  a Supermarket." },
-
   { "foodbox", &game.foodbox, 
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX,

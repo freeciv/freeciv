@@ -568,6 +568,8 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
       }
       if (ok) { /* accessible beachhead with zoc-ok water tile nearby */
         ok = get_tile_type(t)->defense_bonus;
+	if (map_get_special(i, j) & S_RIVER)
+	  ok += (ok * terrain_control.river_defense_bonus) / 100;
         if (get_tile_type(t)->movement_cost * 3 <
             unit_types[punit->type].move_rate) ok *= 8;
         ok += (6 * THRESHOLD - warmap.seacost[i][j]);

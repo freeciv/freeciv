@@ -432,9 +432,11 @@ void handle_unit_build_city(struct player *pplayer,
   }
 
   send_remove_unit(0, req->unit_id);
-  map_set_special(punit->x, punit->y, S_ROAD);
-  if (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN)
-    map_set_special(punit->x, punit->y, S_RAILROAD);
+  if (terrain_control.may_road) {
+    map_set_special(punit->x, punit->y, S_ROAD);
+    if (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN)
+      map_set_special(punit->x, punit->y, S_RAILROAD);
+  }
   send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
   create_city(pplayer, punit->x, punit->y, name);
   game_remove_unit(req->unit_id);
@@ -696,7 +698,11 @@ int handle_unit_enter_hut(struct unit *punit)
     break;
   case 11:
     if (is_ok_city_spot(punit->x, punit->y)) {
-      map_set_special(punit->x, punit->y, S_ROAD);
+      if (terrain_control.may_road) {
+	map_set_special(punit->x, punit->y, S_ROAD);
+	if (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN)
+	  map_set_special(punit->x, punit->y, S_RAILROAD);
+      }
       send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
 
       create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
@@ -1161,7 +1167,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     
     map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 
-    if ((get_invention(pplayer, A_RAILROAD)==TECH_KNOWN) &&
+    if (terrain_control.may_road &&
+       (get_invention(pplayer, A_RAILROAD)==TECH_KNOWN) &&
        (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
        (!(map_get_special(pnewcity->x,pnewcity->y)&S_RAILROAD))) {
       notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);

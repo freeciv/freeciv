@@ -599,6 +599,33 @@ static void load_ruleset_terrain(char *ruleset_subdir)
   terrain_control.may_transform =
     secfile_lookup_int_default(&file, TRUE, "options.may_transform");
 
+  /* parameters */
+
+  terrain_control.river_move_mode =
+    secfile_lookup_int_default(&file, RMV_FAST_STRICT, "parameters.river_move_mode");
+  terrain_control.river_defense_bonus =
+    secfile_lookup_int_default(&file, 50, "parameters.river_defense_bonus");
+  terrain_control.river_trade_incr =
+    secfile_lookup_int_default(&file, 1, "parameters.river_trade_incr");
+  terrain_control.fortress_defense_bonus =
+    secfile_lookup_int_default(&file, 100, "parameters.fortress_defense_bonus");
+  terrain_control.road_superhighway_trade_bonus =
+    secfile_lookup_int_default(&file, 50, "parameters.road_superhighway_trade_bonus");
+  terrain_control.rail_food_bonus =
+    secfile_lookup_int_default(&file, 0, "parameters.rail_food_bonus");
+  terrain_control.rail_shield_bonus =
+    secfile_lookup_int_default(&file, 50, "parameters.rail_shield_bonus");
+  terrain_control.rail_trade_bonus =
+    secfile_lookup_int_default(&file, 0, "parameters.rail_trade_bonus");
+  terrain_control.farmland_supermarket_food_bonus =
+    secfile_lookup_int_default(&file, 50, "parameters.farmland_supermarket_food_bonus");
+  terrain_control.pollution_food_penalty =
+    secfile_lookup_int_default(&file, 50, "parameters.pollution_food_penalty");
+  terrain_control.pollution_shield_penalty =
+    secfile_lookup_int_default(&file, 50, "parameters.pollution_shield_penalty");
+  terrain_control.pollution_trade_penalty =
+    secfile_lookup_int_default(&file, 50, "parameters.pollution_trade_penalty");
+
   /* graphics */
 
   terrain_control.border_base =

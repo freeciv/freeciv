@@ -62,8 +62,6 @@ struct civ_game {
 	    which no longer exists, if the wonder has been destroyed */
   int globalwarming;                       /* counter of how disturbed 
 					      mother nature is */
-  int rail_food, rail_trade, rail_prod;
-  int farmfood;
   int heating;
   int warminglevel;
   char save_name[MAX_LEN_NAME];
@@ -189,22 +187,6 @@ extern struct civ_game game;
 #define GAME_DEFAULT_CIVILWARSIZE    10
 #define GAME_MIN_CIVILWARSIZE        6
 #define GAME_MAX_CIVILWARSIZE        1000
-
-#define GAME_DEFAULT_RAILFOOD        0
-#define GAME_MIN_RAILFOOD            0
-#define GAME_MAX_RAILFOOD            100
-
-#define GAME_DEFAULT_RAILTRADE       0
-#define GAME_MIN_RAILTRADE           0
-#define GAME_MAX_RAILTRADE           100
-
-#define GAME_DEFAULT_RAILPROD        50
-#define GAME_MIN_RAILPROD            0
-#define GAME_MAX_RAILPROD            100
-
-#define GAME_DEFAULT_FARMFOOD        50
-#define GAME_MIN_FARMFOOD            0
-#define GAME_MAX_FARMFOOD            100
 
 #define GAME_DEFAULT_FOODBOX         10
 #define GAME_MIN_FOODBOX             5

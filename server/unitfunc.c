@@ -483,7 +483,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   get_a_tech(pplayer, cplayer);
    
   map_set_city(pnewcity->x, pnewcity->y, pnewcity);
-  if ((get_invention(pplayer,A_RAILROAD)==TECH_KNOWN) &&
+  if (terrain_control.may_road &&
+      (get_invention(pplayer,A_RAILROAD)==TECH_KNOWN) &&
       (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
       (!(map_get_special(pnewcity->x, pnewcity->y)&S_RAILROAD))) {
     notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
@@ -960,15 +961,19 @@ int get_simple_defense_power(int d_type, int x, int y)
   int defensepower=unit_types[d_type].defense_strength;
   struct city *pcity = map_get_city(x, y);
   enum tile_terrain_type t = map_get_terrain(x, y);
+  int db;
 
   if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
 /* I had this dorky bug where transports with mech inf aboard would go next
 to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 
-  defensepower *= get_tile_type(t)->defense_bonus;
+  db = get_tile_type(t)->defense_bonus;
+  if (map_get_special(x, y) & S_RIVER)
+    db += (db * terrain_control.river_defense_bonus) / 100;
+  defensepower *= db;
 
   if (map_get_special(x, y)&S_FORTRESS && !pcity)
-    defensepower*=2;
+    defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
   if (pcity && unit_types[d_type].move_type == LAND_MOVING)
     defensepower*=1.5;
 
@@ -981,12 +986,16 @@ int get_virtual_defense_power(int a_type, int d_type, int x, int y)
   int m_type = unit_types[a_type].move_type;
   struct city *pcity = map_get_city(x, y);
   enum tile_terrain_type t = map_get_terrain(x, y);
+  int db;
 
   if (unit_types[d_type].move_type == LAND_MOVING && t == T_OCEAN) return 0;
 /* I had this dorky bug where transports with mech inf aboard would go next
 to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 
-  defensepower *= get_tile_type(t)->defense_bonus;
+  db = get_tile_type(t)->defense_bonus;
+  if (map_get_special(x, y) & S_RIVER)
+    db += (db * terrain_control.river_defense_bonus) / 100;
+  defensepower *= db;
 
   if (unit_flag(d_type, F_PIKEMEN) && unit_flag(a_type, F_HORSE)) 
     defensepower*=2;
@@ -1008,7 +1017,7 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
     defensepower*=3;
   }
   if (map_get_special(x, y)&S_FORTRESS && !pcity)
-    defensepower*=2;
+    defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
   if (pcity && unit_types[d_type].move_type == LAND_MOVING)
     defensepower*=1.5;
 

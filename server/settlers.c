@@ -186,6 +186,7 @@ int city_desirability(struct player *pplayer, int x, int y)
   int har, t, sh;
   struct tile_type *ptype;
   struct city *pcity;
+  int db;
 
   if (is_square_threatened(pplayer, x, y))
     return 0;
@@ -291,8 +292,10 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
   /* val is mort times the real value */
   /* treating harbor as free to approximate advantage of
      building boats. -- Syela */
-  val += (4 * (get_tile_type(map_get_tile(x, y)->terrain)->defense_bonus)
-	  - 40) * SHIELD_WEIGHTING;
+  db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
+  if (map_get_special(x, y) & S_RIVER)
+    db += (db * terrain_control.river_defense_bonus) / 100;
+  val += (4 * db - 40) * SHIELD_WEIGHTING;
   /* don't build cities in danger!! FIX! -- Syela */
   val += 8 * MORT; /* one science per city */
   
