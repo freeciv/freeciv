@@ -572,10 +572,13 @@ int tile_visible_mapcanvas(int x, int y)
 **************************************************************************/
 int tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
-  return (y>=map_view_y0+1 && y<map_view_y0+map_canvas_store_theight-1 &&
-	  ((x>=map_view_x0+1 && x<map_view_x0+map_canvas_store_twidth-1) ||
-	   (x+map.xsize>=map_view_x0+1 && 
-	    x+map.xsize<map_view_x0+map_canvas_store_twidth-1)));
+  return ((y>=map_view_y0+2 || (y >= map_view_y0 && map_view_y0 == 0))
+	  && (y<map_view_y0+map_canvas_store_theight-2 ||
+	      (y<map_view_y0+map_canvas_store_theight &&
+	       map_view_y0 + map_canvas_store_theight-EXTRA_BOTTOM_ROW == map.ysize))
+	  && ((x>=map_view_x0+2 && x<map_view_x0+map_canvas_store_twidth-2) ||
+	      (x+map.xsize>=map_view_x0+2
+	       && x+map.xsize<map_view_x0+map_canvas_store_twidth-2)));
 }
 
 /**************************************************************************
