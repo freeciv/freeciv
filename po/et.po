@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-21 23:45-0700\n"
-"PO-Revision-Date: 2002-07-23 14:37+0300\n"
+"PO-Revision-Date: 2002-07-24 14:53+0300\n"
 "Last-Translator: Ahti Akel <akel@stallion.ee>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -598,7 +598,7 @@ msgstr ""
 #: server/citytools.c:1125
 #, c-format
 msgid "Game: You have founded %s"
-msgstr ""
+msgstr "Mäng: Sa rajasid %s"
 
 #: server/citytools.c:1172
 #, c-format
@@ -1490,7 +1490,8 @@ msgid ""
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Mäng: Uus lootus sööstab üle maa nagu tuli, kui teatati raudtee avastamisest.\n"
+"Mäng: Uus lootus sööstab üle maa nagu tuli, kui teatati raudtee "
+"avastamisest.\n"
 "      Töötajad kogunevad spontaanselt ja uuendavad kõiki linnu raudteedega."
 
 #: server/maphand.c:190
@@ -1873,7 +1874,7 @@ msgstr "Teadusliku töö kiirus"
 #: server/report.c:105 data/default/techs.ruleset:308
 #: data/civ2/techs.ruleset:301 data/civ1/techs.ruleset:301
 msgid "Literacy"
-msgstr "Kirjaoskus"
+msgstr "Kirjandus"
 
 #: server/report.c:106 client/gui-mui/citydlg.c:1538
 msgid "Production"
@@ -2162,7 +2163,9 @@ msgstr "Salvestatud mäng on liiga vana, vähemalt versioon 1.9.0 on vajaka."
 
 #: server/savegame.c:1840
 msgid "The savegame uses the classic terrain ruleset which is no longer supported."
-msgstr "Salvestatud mäng kasutab klassikalist maastiku reeglite seadistust, mis ei ole enam toetaud."
+msgstr ""
+"Salvestatud mäng kasutab klassikalist maastiku reeglite seadistust, mis ei "
+"ole enam toetaud."
 
 #: server/savegame.c:1849
 #, c-format
@@ -5349,7 +5352,7 @@ msgstr ""
 
 #: client/clinet.c:233
 msgid "Disconnecting from server."
-msgstr ""
+msgstr "Katkestan serveriga ühenduse."
 
 #: client/clinet.c:474
 msgid "Invalid $http_proxy value, must start with 'http://'"
@@ -6246,7 +6249,7 @@ msgstr ""
 #: data/Freeciv:2966 data/default/techs.ruleset:562
 #: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 msgid "Trade"
-msgstr "Kauple"
+msgstr "Kaubandus"
 
 #: client/agents/cma_core.c:1962 client/gui-gtk-2.0/citydlg.c:549
 #: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1687
@@ -6273,7 +6276,7 @@ msgstr ""
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
-msgstr[0] ""
+msgstr[0] "%d periood"
 msgstr[1] "%3d/%3d %3d käik"
 
 #: client/agents/cma_fec.c:362 client/gui-mui/citydlg.c:2271
@@ -6351,7 +6354,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:601 client/gui-gtk/citydlg.c:598
 #: client/gui-mui/citydlg.c:729
 msgid "Upkeep"
-msgstr ""
+msgstr "Ülalpidamine"
 
 #: client/gui-gtk-2.0/citydlg.c:604 client/gui-gtk/citydlg.c:601
 msgid "City _Overview"
@@ -6372,14 +6375,14 @@ msgstr "Linna kaart"
 #: client/gui-gtk/citydlg.c:713 client/gui-gtk/citydlg.c:769
 #: client/gui-gtk/citydlg.c:992 client/gui-gtk/citydlg.c:1051
 msgid "<"
-msgstr ""
+msgstr "<"
 
 #: client/gui-gtk-2.0/citydlg.c:720 client/gui-gtk-2.0/citydlg.c:776
 #: client/gui-gtk-2.0/citydlg.c:987 client/gui-gtk-2.0/citydlg.c:1045
 #: client/gui-gtk/citydlg.c:719 client/gui-gtk/citydlg.c:775
 #: client/gui-gtk/citydlg.c:997 client/gui-gtk/citydlg.c:1055
 msgid ">"
-msgstr ""
+msgstr ">"
 
 #: client/gui-gtk-2.0/citydlg.c:811 client/gui-gtk/citydlg.c:815
 #, c-format
@@ -6413,17 +6416,17 @@ msgstr "Üks_used"
 #: client/gui-gtk-2.0/citydlg.c:930 client/gui-gtk/citydlg.c:940
 #: client/gui-win32/citydlg.c:888
 msgid "Supported units"
-msgstr "Toetatud üksused"
+msgstr "Toetatud väed"
 
 #: client/gui-gtk-2.0/citydlg.c:934 client/gui-gtk/citydlg.c:944
 #: client/gui-mui/citydlg.c:1524 client/gui-mui/citydlg.c:1572
 #: client/gui-win32/citydlg.c:894
 msgid "Units present"
-msgstr "Kohalolevad üksused"
+msgstr "Kohalolevad väed"
 
 #: client/gui-gtk-2.0/citydlg.c:1064 client/gui-gtk/citydlg.c:1074
 msgid "Acti_vate present units"
-msgstr "Akti_veeri kohalolevad üksused"
+msgstr "Akti_veeri kohalolevad väed"
 
 #: client/gui-gtk-2.0/citydlg.c:1070 client/gui-gtk/citydlg.c:1080
 msgid "_Sentry idle units"
@@ -6439,7 +6442,7 @@ msgstr "Tööde nimekiri"
 
 #: client/gui-gtk-2.0/citydlg.c:1124 client/gui-gtk/citydlg.c:1134
 msgid "_Happiness"
-msgstr ""
+msgstr "Ra_hulolu"
 
 #: client/gui-gtk-2.0/citydlg.c:1173 client/gui-gtk/citydlg.c:1188
 msgid "CM_A"
@@ -7624,7 +7627,7 @@ msgstr "Vali oma linna stiil"
 #: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
 #: client/gui-win32/menu.c:287
 msgid "_Disconnect"
-msgstr ""
+msgstr "Katkesta ühendus"
 
 #: client/gui-gtk-2.0/dialogs.c:2172 client/gui-gtk/dialogs.c:2174
 #: client/gui-xaw/dialogs.c:2342
@@ -7796,7 +7799,7 @@ msgstr "%s maksimaalne määr: %d%%"
 #: client/gui-mui/gamedlgs.c:320 client/gui-win32/optiondlg.c:81
 #: data/Freeciv:1229
 msgid "Set local options"
-msgstr ""
+msgstr "Seadista lokaalseid valikuid"
 
 #: client/gui-gtk-2.0/gotodlg.c:93 client/gui-gtk/gotodlg.c:93
 #: client/gui-mui/gotodlg.c:156 client/gui-win32/gotodlg.c:150
@@ -7854,7 +7857,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:778 client/gui-win32/happiness.c:90
 #: client/gui-xaw/menu.c:225 data/helpdata.txt:1265
 msgid "Happiness"
-msgstr ""
+msgstr "Rahulolu"
 
 #: client/gui-gtk-2.0/happiness.c:252 client/gui-gtk/happiness.c:252
 #: client/gui-mui/citydlg.c:2339 client/gui-win32/happiness.c:193
@@ -8421,12 +8424,12 @@ msgstr "Mäng"
 #: client/gui-gtk-2.0/menu.c:552 client/gui-gtk/menu.c:551
 #: client/gui-win32/menu.c:277
 msgid "_Local Options"
-msgstr ""
+msgstr "_Lokaalsed valikud"
 
 #: client/gui-gtk-2.0/menu.c:554 client/gui-gtk/menu.c:553
 #: client/gui-win32/menu.c:278
 msgid "Messa_ge Options"
-msgstr ""
+msgstr "Teadete valikud"
 
 #: client/gui-gtk-2.0/menu.c:556 client/gui-gtk/menu.c:555
 #: client/gui-win32/menu.c:279
@@ -8462,7 +8465,7 @@ msgstr "Välju"
 #: client/gui-gtk-2.0/menu.c:577 client/gui-gtk/menu.c:576
 #: client/gui-win32/menu.c:290
 msgid "_Kingdom"
-msgstr "_Kuningriik"
+msgstr "Rii_k"
 
 #: client/gui-gtk-2.0/menu.c:579 client/gui-gtk-2.0/menu.c:581
 #: client/gui-gtk-2.0/menu.c:583 client/gui-gtk-2.0/menu.c:585
@@ -8473,7 +8476,7 @@ msgstr "_Kuningriik"
 #: client/gui-gtk/menu.c:588 client/gui-gtk/menu.c:590
 #: client/gui-mui/gui_main.c:205 data/Freeciv:1968
 msgid "Kingdom"
-msgstr "Kuningriik"
+msgstr "Riik"
 
 #: client/gui-gtk-2.0/menu.c:581 client/gui-gtk/menu.c:580
 msgid "_Tax Rates"
@@ -8905,7 +8908,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:755 client/gui-gtk/menu.c:754
 #: client/gui-win32/menu.c:375
 msgid "Com_bat"
-msgstr "Võitle"
+msgstr "Võitlemine"
 
 #: client/gui-gtk-2.0/menu.c:757 client/gui-gtk/menu.c:756
 #: client/gui-win32/menu.c:376
@@ -9047,7 +9050,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/plrdlg.c:123 client/gui-gtk/plrdlg.c:123
 msgid "Flag"
-msgstr ""
+msgstr "Lipp"
 
 #: client/gui-gtk-2.0/plrdlg.c:123 client/gui-gtk/plrdlg.c:123
 #: client/gui-mui/plrdlg.c:163 client/gui-win32/plrdlg.c:352
@@ -9130,7 +9133,7 @@ msgstr "käib"
 #: client/gui-mui/plrdlg.c:123 client/gui-win32/plrdlg.c:169
 #: client/gui-xaw/plrdlg.c:222
 msgid "R.I.P"
-msgstr "Puhka rahus"
+msgstr "Puhkab rahus"
 
 #: client/gui-gtk-2.0/plrdlg.c:302 client/gui-gtk/plrdlg.c:302
 #: client/gui-mui/plrdlg.c:104 client/gui-win32/plrdlg.c:175
@@ -9356,7 +9359,7 @@ msgstr "Tööde nimekiri"
 #: client/gui-gtk/citydlg.c:823 client/gui-gtk/citydlg.c:2994
 #: client/gui-mui/citydlg.c:1707
 msgid "_Change"
-msgstr "Vaheta"
+msgstr "Muuda"
 
 #: client/gui-gtk/citydlg.c:1454 client/gui-gtk/citydlg.c:1462
 #, c-format
@@ -9446,7 +9449,7 @@ msgstr "Välju"
 #: client/gui-gtk/dialogs.c:1995 client/gui-mui/gui_main.c:201
 #: client/gui-win32/dialogs.c:520 client/gui-xaw/menu.c:113 data/Freeciv:3078
 msgid "Disconnect"
-msgstr ""
+msgstr "Katkesta ühendus"
 
 #: client/gui-gtk/finddlg.c:92 client/gui-win32/cityrep.c:894
 #: client/gui-win32/finddlg.c:126 data/Freeciv:1089 data/Freeciv:1561
@@ -9659,7 +9662,7 @@ msgstr ""
 
 #: client/gui-mui/citydlg.c:1663
 msgid "City grows:"
-msgstr ""
+msgstr "Linn kasvab:"
 
 #: client/gui-mui/citydlg.c:1666
 msgid "Production completed:"
@@ -10900,7 +10903,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:214 data/helpdata.txt:495
 msgid "Chatline"
-msgstr ""
+msgstr "Vestlemine"
 
 #: client/gui-xaw/menu.c:215
 msgid "Playing"
