@@ -57,10 +57,12 @@ minimap_intro_file = "misc/radar"
 ; low-color systems, and if there are any duplicate tags (lattermost
 ; tag is used).
 files = 
+  "misc/colors.spec",
   "isophex/terrain1.spec",
   "isophex/terrain2.spec",
   "isophex/darkness.spec",
   "isophex/tiles.spec",
+  "isophex/grid.spec",
   "isophex/rivers.spec",
   "misc/small.spec",
   "misc/buildings.spec",

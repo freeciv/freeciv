@@ -1502,8 +1502,14 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(grid.unavailable, "grid.unavailable");
 
     for (i = 0; i < EDGE_COUNT; i++) {
-      char *name[EDGE_COUNT] = {"ns", "we"};
+      char *name[EDGE_COUNT] = {"ns", "we", "ud", "lr"};
       int j, p;
+
+      if (i == EDGE_UD && hex_width == 0) {
+	continue;
+      } else if (i == EDGE_LR && hex_height == 0) {
+	continue;
+      }
 
       my_snprintf(buffer, sizeof(buffer), "grid.main.%s", name[i]);
       SET_SPRITE(grid.main[i], buffer);
@@ -2838,12 +2844,12 @@ static int fill_grid_sprite_array(struct drawn_sprite *sprs,
       ADD_GRID(ptile, citymode);
     }
   } else if (pedge) {
-    bool known[EDGE_COUNT], city[EDGE_COUNT], unit[EDGE_COUNT];
-    bool worked[EDGE_COUNT];
+    bool known[NUM_EDGE_TILES], city[NUM_EDGE_TILES];
+    bool unit[NUM_EDGE_TILES], worked[NUM_EDGE_TILES];
     int i;
     struct unit *pfocus = get_unit_in_focus();
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < NUM_EDGE_TILES; i++) {
       const struct tile *tile = pedge->tile[i];
       struct player *powner = tile ? map_get_owner(tile) : NULL;
       int dummy_x, dummy_y;

@@ -7,6 +7,8 @@ pkgdata_DATA =          \
 	darkness.png	\
 	darkness.spec	\
 	gold.spec	\
+	grid.png	\
+	grid.spec	\
 	rivers.png	\
 	rivers.spec	\
 	terrain1.png	\

@@ -146,6 +146,17 @@ extern bool can_slide;
 					       (GRI_diff + 2) / 4);	    \
 	    pcorner->tile[3] = map_pos_to_tile((GRI_sum - 6) / 4,	    \
 					       (GRI_diff + 2) / 4);	    \
+	    if (tileset_hex_width() > 0) {				    \
+	      pedge = &GRI_edge;					    \
+	      pedge->type = EDGE_UD;					    \
+	      pedge->tile[0] = pcorner->tile[0];			    \
+	      pedge->tile[1] = pcorner->tile[2];			    \
+	    } else if (tileset_hex_height() > 0) {			    \
+	      pedge = &GRI_edge;					    \
+	      pedge->type = EDGE_LR;					    \
+	      pedge->tile[0] = pcorner->tile[1];			    \
+	      pedge->tile[1] = pcorner->tile[3];			    \
+	    }								    \
 	  }								    \
 	} else {							    \
 	  /* Edge. */							    \

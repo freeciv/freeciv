@@ -32,6 +32,8 @@ struct tile_edge {
   enum {
     EDGE_NS, /* North and south */
     EDGE_WE, /* West and east */
+    EDGE_UD, /* Up and down (nw/se), for hex_width tilesets */
+    EDGE_LR, /* Left and right (ne/sw), for hex_height tilesets */
     EDGE_COUNT
   } type;
 #define NUM_EDGE_TILES 2
