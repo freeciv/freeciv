@@ -837,7 +837,11 @@ Always prints a message: either save ok, or failed.
 void save_game(char *filename)
 {
   struct section_file file;
+  struct timer *timer_cpu, *timer_user;
   
+  timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+  timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+    
   section_file_init(&file);
   game_save(&file);
   
@@ -847,6 +851,10 @@ void save_game(char *filename)
     con_write(C_OK, _("Game saved as %s"), filename);
 
   section_file_free(&file);
+
+  freelog(LOG_VERBOSE, "Save time: %g seconds (%g apparent)",
+	  read_timer_seconds_free(timer_cpu),
+	  read_timer_seconds_free(timer_user));
 }
 
 /**************************************************************************
