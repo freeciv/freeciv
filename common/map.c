@@ -1289,7 +1289,9 @@ int check_coords(int *x, int *y)
 
 int is_real_tile(int x, int y)
 {
-  return 0 <= y && y < map.ysize;
+  int x1 = x, y1 = y;
+
+  return normalize_map_pos(&x1, &y1);
 }
 
 /**************************************************************************
@@ -1302,10 +1304,7 @@ int normalize_map_pos(int *x, int *y)
   while (*x >= map.xsize)
     *x -= map.xsize;
 
-  if (!is_real_tile(*x, *y))
-    return FALSE;
-
-  return TRUE;
+  return (0 <= *y && *y < map.ysize);
 }
 
 /**************************************************************************
