@@ -701,6 +701,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   pdialog->present_unit_pos=0;
 
 
+  gtk_box_set_homogeneous(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area), FALSE);
   /* "action area" buttons */
   pdialog->close_command=gtk_accelbutton_new(_("C_lose"), accel);
   GTK_WIDGET_SET_FLAGS(pdialog->close_command, GTK_CAN_DEFAULT);
