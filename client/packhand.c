@@ -54,6 +54,7 @@
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
+#include "inteldlg_g.h"
 #include "mapctrl_g.h"		/* popup_newcity_dialog() */
 #include "mapview_g.h"
 #include "menu_g.h"
@@ -1629,6 +1630,10 @@ void handle_player_info(struct packet_player_info *pinfo)
   if (pplayer == game.player_ptr && can_client_change_view()) {
     update_info_label();
   }
+
+  /* Just about any changes above require an update to the intelligence
+   * dialog. */
+  update_intel_dialog(pplayer);
 }
 
 /**************************************************************************

@@ -16,5 +16,6 @@
 struct player;
 
 void popup_intel_dialog(struct player *p);
+void update_intel_dialog(struct player *p);
 
 #endif				/* FC__INTELDLG_G_H */

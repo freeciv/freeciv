@@ -298,3 +298,11 @@ void intel_create_dialog(struct player *p)
   gtk_widget_show_all(GTK_DIALOG(intel_dialog_shell)->vbox);
 }
 
+/****************************************************************************
+  Update the intelligence dialog for the given player.  This is called by
+  the core client code when that player's information changes.
+****************************************************************************/
+void update_intel_dialog(struct player *p)
+{
+  /* PORTME */
+}

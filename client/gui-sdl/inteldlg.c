@@ -296,3 +296,12 @@ void popdown_intel_dialog(void)
     FREE(pIntel_Dlg);
   }
 }
+
+/****************************************************************************
+  Update the intelligence dialog for the given player.  This is called by
+  the core client code when that player's information changes.
+****************************************************************************/
+void update_intel_dialog(struct player *p)
+{
+  /* PORTME */
+}

@@ -169,3 +169,12 @@ static void intel_create_dialog(struct player *p)
     DoMethod(app, OM_ADDMEMBER, intel_wnd);
   }
 }
+
+/****************************************************************************
+  Update the intelligence dialog for the given player.  This is called by
+  the core client code when that player's information changes.
+****************************************************************************/
+void update_intel_dialog(struct player *p)
+{
+  /* PORTME */
+}
