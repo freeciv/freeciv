@@ -1808,6 +1808,8 @@ void game_load(struct section_file *file)
 						   "game.aqueductloss");
     game.killcitizen = secfile_lookup_int_default(file, game.killcitizen,
 						  "game.killcitizen");
+    game.savepalace = secfile_lookup_int_default(file,game.savepalace,
+						"game.savepalace");
     game.turnblock = secfile_lookup_int_default(file,game.turnblock,
 						"game.turnblock");
     game.fixedlength = secfile_lookup_int_default(file,game.fixedlength,
@@ -2129,6 +2131,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.killcitizen, "game.killcitizen");
   secfile_insert_int(file, game.turnblock, "game.turnblock");
+  secfile_insert_int(file, game.savepalace, "game.savepalace");
   secfile_insert_int(file, game.fixedlength, "game.fixedlength");
   secfile_insert_int(file, game.barbarianrate, "game.barbarians");
   secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");

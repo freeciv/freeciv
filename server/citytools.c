@@ -700,6 +700,37 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[4])
   }
 }
 
+/**************************************************************************
+Create a palace in a random city. Used when the capital was conquered.
+**************************************************************************/
+static void build_free_palace(struct player *pplayer,
+			       const char *const old_capital_name)
+{
+  int size = city_list_size(&pplayer->cities);
+  struct city *pnew_capital;
+
+  if (size == 0) {
+    /* The last city was removed or transfered to the enemy. R.I.P. */
+    return;
+  }
+
+  assert(find_palace(pplayer) == NULL);
+
+  pnew_capital = city_list_get(&pplayer->cities, myrand(size));
+
+  city_add_improvement(pnew_capital, B_PALACE);
+
+  /*
+   * send_player_cities will recalculate all cities and send them to
+   * the client.
+   */
+  send_player_cities(pplayer);
+
+  notify_player(pplayer, _("Game: You lost your capital %s. A new palace "
+			   "was built in %s."), old_capital_name,
+		pnew_capital->name);
+}
+
 /**********************************************************************
 Handles all transactions in relation to transferring a city.
 
@@ -715,6 +746,7 @@ struct city *transfer_city(struct player *ptaker,
   struct unit_list old_city_units;
   struct player *pgiver = city_owner(pcity);
   int old_trade_routes[4];
+  int had_palace = pcity->improvements[B_PALACE] != I_NONE;
 
   assert(pgiver != ptaker);
 
@@ -839,6 +871,12 @@ struct city *transfer_city(struct player *ptaker,
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
           get_nation_name_plural(pgiver->nation),
           pcity->name, pcity->x, pcity->y);
+
+  /* Build a new palace for free if the player lost her capital and
+     savepalace is on. */
+  if (had_palace && game.savepalace) {
+    build_free_palace(pgiver, pcity->name);
+  }
 
   sync_cities();
   return pcity;
@@ -994,6 +1032,8 @@ void remove_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   int i;
+  int had_palace = pcity->improvements[B_PALACE] != I_NONE;
+  char *city_name = strdup(pcity->name);
 
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
           get_nation_name_plural(pplayer->nation),
@@ -1108,6 +1148,13 @@ void remove_city(struct city *pcity)
       }
     } map_city_radius_iterate_end;
   } map_city_radius_iterate_end;
+
+  /* Build a new palace for free if the player lost her capital and
+     savepalace is on. */
+  if (had_palace && game.savepalace) {
+    build_free_palace(pplayer, city_name);
+    free(city_name);
+  }
 
   sync_cities();
 }

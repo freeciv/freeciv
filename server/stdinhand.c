@@ -670,6 +670,14 @@ static struct settings_s settings[] = {
        "and the player's capital is captured.  If this option is set to "
        "the maximum value, civil wars are turned off altogether.") },
 
+  { "savepalace", &game.savepalace, NULL, NULL,
+    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+    GAME_MIN_SAVEPALACE, GAME_MAX_SAVEPALACE, GAME_DEFAULT_SAVEPALACE,
+    N_("Rebuild palace if capital is conquered"),
+    N_("If this is set to 1 when the capital is conquered, palace is "
+       "automatically rebuilt for free in another randomly choosed "
+       "city, regardless on the knowledge of Masonry.") },
+
 /* Meta options: these don't affect the internal rules of the game, but
  * do affect players.  Also options which only produce extra server
  * "output" and don't affect the actual game.
