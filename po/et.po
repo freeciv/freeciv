@@ -1,19 +1,20 @@
+# translation of et.po to estonian
 # Estonian translation of Freeciv po file.
-# Copyright (C) 2002 Free Software Foundation, Inc.
-# Ahti Akel <akel@stallion.ee>, 2002.
+# Copyright (C) 2002,2003 Free Software Foundation, Inc.
+# Ahti Akel <akel@stallion.ee>, 2002,2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv-1.14.0\n"
+"Project-Id-Version: et\n"
 "POT-Creation-Date: 2003-01-17 10:37+0100\n"
-"PO-Revision-Date: 2003-02-14 00:38+0200\n"
+"PO-Revision-Date: 2003-03-25 23:15+0200\n"
 "Last-Translator: Ahti Akel <akel@stallion.ee>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0.1\n"
 
 #: common/city.c:263
 msgid "?redundant:*"
@@ -12626,7 +12627,7 @@ msgstr ""
 #: data/default/buildings.ruleset:509 data/civ2/buildings.ruleset:316
 #: data/civ1/buildings.ruleset:333 data/history/buildings.ruleset:318
 msgid "Courthouse"
-msgstr "Kohtuhoone"
+msgstr "Kohus"
 
 #: data/default/buildings.ruleset:530 data/civ2/buildings.ruleset:337
 #: data/civ1/buildings.ruleset:354 data/history/buildings.ruleset:339
@@ -12651,7 +12652,7 @@ msgstr ""
 #: data/default/buildings.ruleset:563 data/civ2/buildings.ruleset:370
 #: data/civ1/buildings.ruleset:387 data/history/buildings.ruleset:372
 msgid "Granary"
-msgstr ""
+msgstr "Viljaait"
 
 #: data/default/buildings.ruleset:582 data/civ2/buildings.ruleset:389
 #: data/civ1/buildings.ruleset:406 data/history/buildings.ruleset:391
@@ -12664,7 +12665,7 @@ msgstr ""
 #: data/default/buildings.ruleset:592 data/civ2/buildings.ruleset:399
 #: data/civ1/buildings.ruleset:416 data/history/buildings.ruleset:401
 msgid "Harbour"
-msgstr "Juuksur"
+msgstr "Sadam"
 
 #: data/default/buildings.ruleset:611 data/civ2/buildings.ruleset:418
 #: data/civ1/buildings.ruleset:435 data/history/buildings.ruleset:420
@@ -13062,7 +13063,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1441 data/civ2/buildings.ruleset:1229
 #: data/civ1/buildings.ruleset:1236 data/history/buildings.ruleset:1250
 msgid "Copernicus' Observatory"
-msgstr "Copernicus'e Observatoorium"
+msgstr "Copernicuse Observatoorium"
 
 #: data/default/buildings.ruleset:1461 data/civ2/buildings.ruleset:1249
 #: data/civ1/buildings.ruleset:1256 data/history/buildings.ruleset:1270
@@ -14788,7 +14789,7 @@ msgstr ""
 #: data/default/units.ruleset:614 data/civ2/units.ruleset:551
 #: data/history/units.ruleset:614
 msgid "Horsemen"
-msgstr "Hobusemees"
+msgstr "Ratsanik"
 
 #: data/default/units.ruleset:642 data/civ2/units.ruleset:579
 #: data/civ1/units.ruleset:551 data/history/units.ruleset:642
