@@ -215,7 +215,6 @@ static void game_menu_callback(gpointer callback_data,
     client_kill_server();
     break;
   case MENU_GAME_QUIT:
-    disconnect_from_server();
     client_kill_server();
     exit(EXIT_SUCCESS);
   }
