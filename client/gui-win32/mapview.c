@@ -84,6 +84,63 @@ static void put_line(HDC hdc, int x, int y,
 static void draw_rates(HDC hdc);
 
 
+/***************************************************************************
+ ...
+***************************************************************************/
+struct canvas_store *canvas_store_create(int width, int height)
+{
+  struct canvas_store *result = fc_malloc(sizeof(*result));
+  HDC hdc;
+  hdc = GetDC(root_window);
+  result->bitmap = CreateCompatibleBitmap(hdc, width, height);
+  result->hdc = NULL;
+  ReleaseDC(root_window, hdc);
+  return result;
+}
+
+/***************************************************************************
+  ...
+***************************************************************************/
+void canvas_store_free(struct canvas_store *store)
+{
+  DeleteObject(store->bitmap);
+  free(store);
+}
+
+/***************************************************************************
+   ...
+***************************************************************************/
+void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
+		                     int src_x, int src_y, int dest_x, int dest_y, int width,
+				                          int height)
+{
+  HDC hdcsrc = NULL;
+  HDC hdcdst = NULL;
+  HDC oldsrc = NULL;
+  HDC olddst = NULL;
+  if (src->hdc) {
+    hdcsrc = src->hdc;
+  } else {
+    hdcsrc = CreateCompatibleDC(NULL);
+    oldsrc = SelectObject(hdcsrc, src->bitmap);
+  }
+  if (dest->hdc) {
+    hdcdst = dest->hdc;
+  } else {
+    hdcdst = CreateCompatibleDC(NULL);
+    olddst = SelectObject(hdcdst, dest->bitmap);
+  }
+  BitBlt(hdcdst, dest_x, dest_y, width, height, hdcsrc, src_x, src_y, SRCCOPY);
+  if (!src->hdc) {
+    SelectObject(hdcsrc, oldsrc);
+    DeleteDC(hdcsrc);
+  }
+  if (!dest->hdc) {
+    SelectObject(hdcdst, olddst);
+    DeleteDC(hdcdst);
+  }
+}
+
 /**************************************************************************
 
 **************************************************************************/
@@ -118,7 +175,6 @@ void map_resize()
   if (can_client_change_view() && map_exists()) {
     update_map_canvas_visible();
     update_map_canvas_scrollbars();
-    refresh_overview_viewrect_real(NULL);
     refresh_overview_canvas();
   }
 }
@@ -404,11 +460,11 @@ set_indicator_icons(int bulb, int sol, int flake, int gov)
 
 **************************************************************************/
 void
-set_overview_dimensions(int x, int y)
+map_size_changed(void)
 {
   HDC hdc;
   HBITMAP newbit;
-  set_overview_win_dim(OVERVIEW_TILE_WIDTH * x,OVERVIEW_TILE_HEIGHT * y);
+  set_overview_win_dim(OVERVIEW_TILE_WIDTH * map.xsize,OVERVIEW_TILE_HEIGHT * map.ysize);
   hdc=GetDC(root_window);
   newbit=CreateCompatibleBitmap(hdc,
 				overview_win_width,
@@ -420,7 +476,6 @@ set_overview_dimensions(int x, int y)
   overviewstorebitmap=newbit;
   BitBlt(overviewstoredc,0,0,overview_win_width,overview_win_height,
 	 NULL,0,0,BLACKNESS);
-  update_map_canvas_scrollbars_size();
 }
 
 /**************************************************************************
@@ -819,55 +874,6 @@ put_nuke_mushroom_pixmaps(int x, int y)
   }
 }
 
-/**************************************************************************
-
-**************************************************************************/
-void
-refresh_overview_viewrect_real(HDC hdcp)
-{
-  int i;
-  int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
-  int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
-  int y0 = OVERVIEW_TILE_HEIGHT * map_overview_y0;
-  int y1 = OVERVIEW_TILE_HEIGHT * (map.ysize - map_overview_y0);
-  int gui_x[4], gui_y[4];
-  HDC hdc = hdcp;
-  HPEN oldpen;
-
-  if (!hdc) {
-    hdc = GetDC(root_window);
-  }
-
-  /* (map_overview_x0, map_overview_y0) splits the map into four
-   * rectangles.  Draw each of these rectangles to the screen, in turn. */
-  BitBlt(hdc, overview_win_x, overview_win_y, x1, y1, overviewstoredc, x0, y0, SRCCOPY);
-  BitBlt(hdc, overview_win_x + x1, overview_win_y, x0, y1, overviewstoredc, 0, y0, SRCCOPY);
-  BitBlt(hdc, overview_win_x, overview_win_y + y1, x1, y0, overviewstoredc, x0, 0, SRCCOPY);
-  BitBlt(hdc, overview_win_x + x1, overview_win_y + y1, x0, y0, overviewstoredc, 0, 0, SRCCOPY);
-
-  /* Now draw the mapview window rectangle onto the overview. */
-  oldpen = SelectObject(hdc, pen_std[COLOR_STD_WHITE]);
-  get_mapview_corners(gui_x, gui_y);
-  MoveToEx(hdc, gui_x[0] + overview_win_x, gui_y[0] + overview_win_y, NULL);
-  for (i = 0; i < 4; i++) {
-    int dest_x = gui_x[(i + 1) % 4];
-    int dest_y = gui_y[(i + 1) % 4];
-
-    LineTo(hdc, dest_x + overview_win_x, dest_y + overview_win_y);
-  }
-
-  SelectObject(hdc,oldpen);
-  if (!hdcp)
-    ReleaseDC(root_window,hdc);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void refresh_overview_viewrect(void)
-{
-  refresh_overview_viewrect_real(NULL);
-}
 
 /**************************************************************************
 
@@ -934,7 +940,7 @@ void overview_expose(HDC hdc)
 	DeleteObject(bmp);
       DeleteDC(hdctest);
       draw_rates(hdc);
-      refresh_overview_viewrect_real(hdc);
+      refresh_overview_canvas(/* hdc */);
     }
 }
 
