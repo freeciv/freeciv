@@ -1423,7 +1423,7 @@ static void player_load(struct player *plr, int plrno,
   plr->is_alive=secfile_lookup_bool(file, "player%d.is_alive", plrno);
   plr->ai.control = secfile_lookup_bool(file, "player%d.ai.control", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
-    ai->diplomacy.player_intel[i].love
+    plr->ai.love[i]
          = secfile_lookup_int_default(file, 1, "player%d.ai.love%d", plrno, i);
     ai->diplomacy.player_intel[i].spam 
          = secfile_lookup_int_default(file, 0, "player%d.ai.spam%d", plrno, i);
@@ -2109,7 +2109,7 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_bool(file, plr->ai.control, "player%d.ai.control", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].love, 
+    secfile_insert_int(file, plr->ai.love[i],
                        "player%d.ai.love%d", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].spam, 
                        "player%d.ai.spam%d", plrno, i);

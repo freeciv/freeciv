@@ -1310,6 +1310,8 @@ void send_player_info(struct player *src, struct player *dest)
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet)
 {
+  int i;
+
   packet->playerno=plr->player_no;
   sz_strlcpy(packet->name, plr->name);
   packet->nation=plr->nation;
@@ -1320,6 +1322,9 @@ static void package_player_common(struct player *plr,
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;
   packet->ai=plr->ai.control;
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    packet->love[i] = plr->ai.love[i];
+  }
   packet->barbarian_type = plr->ai.barbarian_type;
   packet->reputation=plr->reputation;
 

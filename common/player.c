@@ -579,6 +579,39 @@ bool ai_fuzzy(struct player *pplayer, bool normal_decision)
   return !normal_decision;
 }
 
+
+
+/**************************************************************************
+  Return a text describing an AI's love for you.  (Oooh, kinky!!)
+**************************************************************************/
+const char *love_text(const int love)
+{
+  if (love < -51) {
+    return "Bloodfeud";
+  } else if (love >= -50 && love <= -21) {
+    return "Loathing";
+  } else if (love >= -20 && love <= -11) {
+    return "Hatred";
+  } else if (love >= -10 && love <= -5) {
+    return "Dislike";
+  } else if (love >= -4 && love <= -3) {
+    return "Unease";
+  } else if (love >= -2 && love <= 2) {
+    return "Indifferent";
+  } else if (love >= 3 && love <= 9) {
+    return "Peaceful";
+  } else if (love >= 10 && love <= 20) {
+    return "Relaxed";
+  } else if (love >= 21 && love <= 50) {
+    return "Friendly";
+  } else if (love >= 51 && love <= 70) {
+    return "Amiable";
+  } else {
+    assert(love >= 71);
+    return "Harmony";
+  }
+}
+
 /**************************************************************************
 Return a reputation level as a human-readable string
 **************************************************************************/

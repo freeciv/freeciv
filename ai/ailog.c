@@ -54,7 +54,7 @@ void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai,
   if (ai->diplomacy.target) {
     my_snprintf(targetbuffer, sizeof(targetbuffer), "[ti%d co%d lo%d %s] ",
                 ai->diplomacy.timer, ai->diplomacy.countdown,
-              ai->diplomacy.player_intel[ai->diplomacy.target->player_no].love,
+                pplayer->ai.love[ai->diplomacy.target->player_no],
                 ai->diplomacy.target->name);
   }
   my_snprintf(buffer, sizeof(buffer), "%s %s%s%s ", pplayer->name,

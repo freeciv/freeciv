@@ -1536,6 +1536,9 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->embassy=pinfo->embassy;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->city_style=pinfo->city_style;
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    pplayer->ai.love[i] = pinfo->love[i];
+  }
 
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     pplayer->diplstates[i].type =

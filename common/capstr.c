@@ -78,7 +78,7 @@ const char * const our_capability = our_capability_internal;
                    "+change_production +tilespec1 +no_earth +trans " \
                    "+want_hack invasions bombard +killstack2 spec +spec2 " \
                    "+city_map startunits +turn_last_built +happyborders " \
-                   "+connid"
+                   "+connid +love"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -134,6 +134,8 @@ const char * const our_capability = our_capability_internal;
  * 
  * "connid" adds the connection id of whoever sends a message to the 
  * info sent to clients.
+ * 
+ * "love" means that we show the AI love for you in the client
  */
 
 void init_our_capability(void)

@@ -338,6 +338,7 @@ struct packet_player_info {
   int barbarian_type;
   unsigned int gives_shared_vision;
   char inventions[A_LAST+1];
+  int love[MAX_NUM_PLAYERS];
 };
 
 struct packet_player_turn_done {

@@ -368,11 +368,11 @@ void ai_data_init(struct player *pplayer)
   ai->diplomacy.req_love_for_ceasefire = 0;
   ai->diplomacy.alliance_leader = pplayer;
 
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     ai->diplomacy.player_intel[i].spam = i; /* pseudorandom */
     ai->diplomacy.player_intel[i].distance = 1;
     ai->diplomacy.player_intel[i].ally_patience = 0;
-    ai->diplomacy.player_intel[i].love = 1;
+    pplayer->ai.love[i] = 1;
     ai->diplomacy.player_intel[i].asked_about_peace = 0;
     ai->diplomacy.player_intel[i].asked_about_alliance = 0;
     ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;

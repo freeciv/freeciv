@@ -43,7 +43,6 @@ struct ai_dip_intel {
   char spam;      /* timer to avoid spamming a player with chat */
   int distance;   /* average distance to that player's cities */
   char ally_patience; /* we EXPECT our allies to help us! */
-  int love;       /* basic player <-> player relation */
   char asked_about_peace;     /* don't ask again */
   char asked_about_alliance;  /* don't nag! */
   char asked_about_ceasefire; /* don't ... you get the point */

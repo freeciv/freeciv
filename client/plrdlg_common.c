@@ -134,6 +134,18 @@ static const char *col_diplstate(struct player *player)
 }
 
 /******************************************************************
+  Return a string displaying the AI's love (or not) for you...
+*******************************************************************/
+static const char *col_love(struct player *player)
+{
+  if (player == game.player_ptr || !player->ai.control) {
+    return "-";
+  } else {
+    return love_text(player->ai.love[game.player_ptr->player_no]);
+  }
+}
+
+/******************************************************************
  ...
 *******************************************************************/
 static const char *col_vision(struct player *player)
@@ -204,6 +216,7 @@ struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_COLOR, N_("Border"), NULL, NULL, "border"},
   {TRUE, COL_TEXT, N_("Team"), col_team, NULL, "team"},
   {TRUE, COL_BOOLEAN, N_("AI"), NULL, col_ai, "ai"},
+  {TRUE, COL_TEXT, N_("Attitude"), col_love, NULL, "attitude"},
   {TRUE, COL_TEXT, N_("Embassy"), col_embassy, NULL, "embassy"},
   {TRUE, COL_TEXT, N_("Dipl.State"), col_diplstate, NULL, "diplstate"},
   {TRUE, COL_TEXT, N_("Vision"), col_vision, NULL, "vision"},

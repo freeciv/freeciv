@@ -8470,7 +8470,7 @@ static int cmp_packet_player_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_player_info_100_fields, 28);
+BV_DEFINE(packet_player_info_100_fields, 29);
 
 static struct packet_player_info *receive_packet_player_info_100(struct connection *pc, enum packet_type type)
 {
@@ -8579,6 +8579,16 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
   }
   if (BV_ISSET(fields, 27)) {
     dio_get_bit_string(&din, real_packet->inventions, sizeof(real_packet->inventions));
+  }
+  if (BV_ISSET(fields, 28)) {
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+        dio_get_sint16(&din, (int *) &real_packet->love[i]);
+      }
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -8738,6 +8748,22 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 27);}
 
+
+    {
+      differ = (MAX_NUM_PLAYERS != MAX_NUM_PLAYERS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+          if (old->love[i] != real_packet->love[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 28);}
+
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -8826,6 +8852,16 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if (BV_ISSET(fields, 27)) {
     dio_put_bit_string(&dout, real_packet->inventions);
   }
+  if (BV_ISSET(fields, 28)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+        dio_put_sint16(&dout, real_packet->love[i]);
+      }
+    } 
+  }
 
 
   if (old_from_hash) {
@@ -8860,7 +8896,7 @@ static int cmp_packet_player_info_101(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_player_info_101_fields, 27);
+BV_DEFINE(packet_player_info_101_fields, 28);
 
 static struct packet_player_info *receive_packet_player_info_101(struct connection *pc, enum packet_type type)
 {
@@ -8966,6 +9002,16 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
   }
   if (BV_ISSET(fields, 26)) {
     dio_get_bit_string(&din, real_packet->inventions, sizeof(real_packet->inventions));
+  }
+  if (BV_ISSET(fields, 27)) {
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+        dio_get_sint16(&din, (int *) &real_packet->love[i]);
+      }
+    }
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -9121,6 +9167,22 @@ static int send_packet_player_info_101(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 26);}
 
+
+    {
+      differ = (MAX_NUM_PLAYERS != MAX_NUM_PLAYERS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+          if (old->love[i] != real_packet->love[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 27);}
+
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -9205,6 +9267,16 @@ static int send_packet_player_info_101(struct connection *pc, const struct packe
   }
   if (BV_ISSET(fields, 26)) {
     dio_put_bit_string(&dout, real_packet->inventions);
+  }
+  if (BV_ISSET(fields, 27)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+        dio_put_sint16(&dout, real_packet->love[i]);
+      }
+    } 
   }
 
 

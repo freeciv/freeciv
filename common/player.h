@@ -142,6 +142,8 @@ struct player_ai {
                                    to non-AI players (100: Equal cost) */
   int warmth; /* threat of global warming */
   enum barbarian_type barbarian_type;
+
+  int love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 };
 
 /* Diplomatic states (how one player views another).
@@ -265,6 +267,7 @@ bool ai_fuzzy(struct player *pplayer, bool normal_decision);
 
 const char *reputation_text(const int rep);
 const char *diplstate_text(const enum diplstate_type type);
+const char *love_text(const int love);
 
 const struct player_diplstate *pplayer_get_diplstate(const struct player
 						     *pplayer,
