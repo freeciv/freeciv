@@ -219,9 +219,7 @@ int game_load(struct section_file *file)
      game.version) to determine which variables you can expect to 
      find in a savegame file */
 
-  if (has_capability("1.6", savefile_options)) {
-    game.aifill = secfile_lookup_int(file, "game.aifill");
-  }
+  game.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
   if (has_capability("scorelog", savefile_options))
     game.scorelog = secfile_lookup_int(file, "game.scorelog");

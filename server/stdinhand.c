@@ -165,11 +165,11 @@ struct proto_settings settings[] = {
     GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR},
 
   { "minplayers", "How many players are needed to start the game.",
-    &game.min_players, 1,
+    &game.min_players, 0,
     GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS},
   
   { "maxplayers", "How many players are maximally wanted in game.",
-    &game.max_players, 1,
+    &game.max_players, 0,
     GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS},
 
   { "saveturns", "How many turns between when the game is saved.",
@@ -180,7 +180,7 @@ struct proto_settings settings[] = {
     0, 999, GAME_DEFAULT_TIMEOUT},
 
   { "aifill", "Maximum number of AI players to create when game starts",
-    &game.aifill, 1,
+    &game.aifill, 0,
     GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL},
 
   { "scorelog", "Logs players statistics every turn.  See the civscore.pl script in the contrib directory of the Freeciv web site for more information.",
