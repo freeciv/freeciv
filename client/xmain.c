@@ -214,6 +214,8 @@ XtActionsRec Actions[] = {
   { "key-unit-north-west", key_unit_north_west },
   { "key-unit-build-city", key_unit_build_city },
   { "key-unit-unload", key_unit_unload },
+  { "key-unit-wakeup", key_unit_wakeup },
+  { "wakeup", butt_down_wakeup },
   { "key-end-turn", key_end_turn },
   { "select-citymap", button_down_citymap},
   { "quit-freeciv", quit_freeciv},

@@ -305,7 +305,12 @@ void handle_unit_info(struct packet_unit_info *packet)
       punit->activity=packet->activity;
   
       repaint_unit=1;
-      
+
+      if((punit->owner==game.player_idx) && (punit->activity==ACTIVITY_IDLE)) {
+        set_unit_focus(punit);
+        /* RP: focus on (each) activated unit (e.g. when unloading a ship) */
+      }
+
       /*      refresh_tile_mapcanvas(punit->x, punit->y, 1);
       update_unit_pix_label(punit);
       refresh_unit_city_dialogs(punit);

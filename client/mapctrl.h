@@ -29,10 +29,12 @@ void request_unit_change_homecity(struct unit *punit);
 void request_unit_upgrade(struct unit *punit);
 void request_unit_auto(struct unit *punit);
 void request_unit_unload(struct unit *punit);
+void request_unit_wakeup(struct unit *punit);
 
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 
 void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void butt_down_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void set_unit_focus(struct unit *punit);
 void set_unit_focus_no_center(struct unit *punit);
 
@@ -41,6 +43,7 @@ void focus_to_next_unit(Widget w, XEvent *event, String *argv,
 void butt_down_overviewcanvas(Widget w, XEvent *event, String *argv, 
 			      Cardinal *argc);
 void key_unit_unload(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void key_unit_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_sentry(Widget w, XEvent *event, String *argv, Cardinal *argc);

@@ -67,6 +67,7 @@ enum MenuID {
   MENU_ORDER_HOMECITY,
   MENU_ORDER_WAIT,
   MENU_ORDER_UNLOAD,
+  MENU_ORDER_WAKEUP,
   MENU_ORDER_GOTO,
   MENU_ORDER_GOTO_CITY,
   MENU_ORDER_DISBAND,
@@ -135,6 +136,7 @@ struct MenuEntry order_menu_entries[]={
     { "Fortify             f", MENU_ORDER_FORTIFY, 0},
     { "Sentry              s", MENU_ORDER_SENTRY, 0},
     { "Unload              u", MENU_ORDER_UNLOAD, 0},
+    { "Wake up others      W", MENU_ORDER_WAKEUP, 0},
     { "Wait                w", MENU_ORDER_WAIT, 0},
     { "Go to               g", MENU_ORDER_GOTO, 0},
     { "Go/Airlift to city  l", MENU_ORDER_GOTO_CITY, 0},
@@ -250,6 +252,9 @@ void update_menus()
 			   can_unit_change_homecity(punit));
       menu_entry_sensitive(orders_menu, MENU_ORDER_UNLOAD, 
 			   get_transporter_capacity(punit)>0);
+      menu_entry_sensitive(orders_menu, MENU_ORDER_WAKEUP, 
+			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
+				punit->x,punit->y));
 
       irrtext=  "Build Irrigation    i";
       mintext=  "Build Mine          m";
@@ -393,6 +398,10 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
    case MENU_ORDER_UNLOAD:
     if(get_unit_in_focus())
       request_unit_unload(get_unit_in_focus());
+    break;
+   case MENU_ORDER_WAKEUP:
+    if(get_unit_in_focus())
+      request_unit_wakeup(get_unit_in_focus());
     break;
    case MENU_ORDER_GOTO:
     if(get_unit_in_focus())

@@ -56,6 +56,7 @@ int goto_state;
 
 void request_move_unit_direction(struct unit *punit, int dx, int dy);
 struct unit *find_best_focus_candidate(void);
+void wakeup_sentried_units(int x, int y);
 
 extern Widget toplevel, main_form, map_canvas;
 extern Widget turn_done_button;
@@ -105,10 +106,30 @@ void request_unit_unload(struct unit *punit)
     append_output_window("Game: You can only unload transporter units.");
     return;
   }
+
+  request_unit_wait(punit);    /* RP: unfocus the ship */
   
   req.unit_id=punit->id;
   req.name[0]='\0';
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UNLOAD);
+}
+
+/**************************************************************************
+(RP:) un-sentry all my own sentried units on punit's tile
+**************************************************************************/
+void request_unit_wakeup(struct unit *punit)
+{
+  wakeup_sentried_units(punit->x,punit->y);
+}
+
+void wakeup_sentried_units(int x, int y)
+{
+  unit_list_iterate(map_get_tile(x,y)->units, punit) {
+    if(punit->activity==ACTIVITY_SENTRY && game.player_idx==punit->owner) {
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+    }
+  }
+  unit_list_iterate_end;
 }
 
 /**************************************************************************
@@ -394,6 +415,15 @@ void key_unit_unload(Widget w, XEvent *event, String *argv, Cardinal *argc)
 
 /**************************************************************************
 ...
++**************************************************************************/
+void key_unit_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_unit_in_focus())
+    request_unit_wakeup(punit_focus);
+}
+
+/**************************************************************************
+...
 **************************************************************************/
 void key_unit_sentry(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
@@ -674,6 +704,22 @@ void popupinfo_popdown_callback(Widget w, XtPointer client_data,
   refresh_tile_mapcanvas(punit->goto_dest_x,punit->goto_dest_y,1);
 }
 
+/**************************************************************************
+(RP:) wake up my own sentried units on the tile that was clicked
+**************************************************************************/
+void butt_down_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  int xtile, ytile;
+  XButtonEvent *ev=&event->xbutton;
+
+  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  xtile=map_adjust_x(map_view_x0+ev->x/NORMAL_TILE_WIDTH);
+  ytile=map_adjust_y(map_view_y0+ev->y/NORMAL_TILE_HEIGHT);
+
+  wakeup_sentried_units(xtile,ytile);
+}
 
 /**************************************************************************
 ...

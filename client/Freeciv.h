@@ -1804,6 +1804,7 @@ Now.. Go give'em hell!",
 "*inputlinetext.*.foreground:                black",
 "*inputlinetext.*.background:                white",
 "*mapcanvas.translations:\
+   Shift<BtnDown>:    wakeup()              \\n\
    <BtnDown>:         select-mapcanvas()    \\n\
    <Key>Tab:          focus-to-next-unit()  \\n\
    <Key>c:            center-on-unit()      \\n\
@@ -1833,6 +1834,7 @@ Now.. Go give'em hell!",
    Shift<Key>p:       key-unit-pillage()    \\n\
    <Key>x:            key-unit-explore()    \\n\
    <Key>s:            key-unit-sentry()     \\n\
+   Shift<Key>w:       key-unit-wakeup()     \\n\
    <Key>w:            key-unit-wait()       \\n\
    <Key>space:        key-unit-done()       \\n\
    <Key>b:            key-unit-build-city() \\n\
@@ -1841,8 +1843,8 @@ Now.. Go give'em hell!",
    <Key>KP_Enter:     key-end-turn()        \\n\
    <Key>h:            key-unit-homecity()   \\n\
    <Key>p:            key-unit-clean-pollution() \\n\
-   <Key>a:            key-unit-auto() \\n\
-   <Key>u:            key-unit-unload() \\n\
+   <Key>a:            key-unit-auto()       \\n\
+   <Key>u:            key-unit-unload()     \\n\
    <Key>l:            key-goto-dialog()",
 "*overviewcanvas.translations:\
    <BtnDown>:         select-overviewcanvas() \\n\
