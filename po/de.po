@@ -312,12 +312,12 @@ msgstr "Die Datei '%s' wird benötigt... Abruch!"
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
-"*** DIESES PROGRAMM DARF AUS SICHERHEITSGRÜNDEN NICHT\n"
-"*** VON PRIVILEGIERTEN BENUTZERN (root) AUFGERUFEN WERDEN!\n"
+"%s: Dieses Programm darf nicht von priviligierten Benutzern "
+"aufgerufen werden!\n"
 
 #: common/shared.c:1114
 msgid "Use a non-privileged account instead.\n"
-msgstr "*** Starten Sie es als 'normaler' Benutzer.\n"
+msgstr "Starten Sie es als 'normaler' Benutzer.\n"
 
 #: common/shared.c:1130
 msgid "exact match"
@@ -1744,7 +1744,7 @@ msgstr "Spiel: %s erforscht. Die Wissenschaftler erforschen jetzt %s."
 #: server/plrhand.c:313
 #, c-format
 msgid "Game: Learned %s. "
-msgstr "Spiel: %s erforscht."
+msgstr "Spiel: %s erforscht. "
 
 #: server/plrhand.c:316
 #, c-format
@@ -5256,7 +5256,7 @@ msgstr "Spiel: Barbarenführer gefaßt, %d Goldstücke Belohnung erhalten."
 #: server/unittools.c:1902
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
-msgstr "Spiel: %s beim Angriff von %ss %s verloren."
+msgstr "Spiel: %s beim Angriff von %ss %s%s verloren."
 
 #: server/unittools.c:1905 server/unittools.c:1950
 #, c-format
@@ -5267,8 +5267,8 @@ msgstr "%s verlieren %s beim Kampf gegen die %s"
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] "Spiel: %d Einheit bei einem Angriff von %ss %s verloren."
-msgstr[1] "Spiel: %d Einheiten bei einem Angriff von %ss %s verloren."
+msgstr[0] "Spiel: %d Einheit bei einem Angriff von %ss %s%s verloren."
+msgstr[1] "Spiel: %d Einheiten bei einem Angriff von %ss %s%s verloren."
 
 #: server/unittools.c:1946
 #, c-format
@@ -5747,7 +5747,7 @@ msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
 #: client/civclient.c:133
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
-msgstr "  -P, --Plugin PLUGIN\tPLUGIN zur Soundausgabe benutzen\n"
+msgstr "  -P, --Plugin PLUGIN\tPLUGIN zur Soundausgabe benutzen %s\n"
 
 #: client/civclient.c:135
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
@@ -7905,8 +7905,8 @@ msgid ""
 "for %d times"
 msgstr ""
 " \n"
-"Versuche als '%3$s' eine Verbindung zu Server '%1$s' an Port %2$d "
-"herzustellen..."
+"Versuche als '%3$s' bis zu %6$dmal alle %4$d.%5$d Sekunden eine Verbindung "
+"zu Server '%1$s' an Port %2$d herzustellen..."
 
 #: client/gui-gtk-2.0/dialogs.c:285 client/gui-gtk/dialogs.c:316
 msgid "Message:"
