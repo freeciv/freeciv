@@ -104,7 +104,7 @@ dnl Programs already checked by AM_INIT_AUTOMAKE:
 dnl  AC_PROG_MAKE_SET
 
 if test -n "$GCC"; then
-   CFLAGS="$CFLAGS -Wall -pipe"
+   CFLAGS="$CFLAGS -Wall"
 fi
 
 if test "$CVS_DEPS" = "maybe"; then
