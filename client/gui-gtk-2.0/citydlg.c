@@ -103,6 +103,7 @@ struct city_dialog {
   struct city *pcity;
 
   GtkWidget *shell;
+  GtkWidget *name_label;
   GtkWidget *citizen_pixmap;
   GdkPixmap *map_canvas_store;
   GtkWidget *notebook;
@@ -1135,6 +1136,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   vbox = GTK_DIALOG(pdialog->shell)->vbox;
 
+  pdialog->name_label = gtk_label_new(NULL);
+  gtk_box_pack_start(GTK_BOX(vbox), pdialog->name_label, TRUE, TRUE, 2);
+
   /**** -Start of Notebook- ****/
 
   pdialog->notebook = gtk_notebook_new();
@@ -1237,9 +1241,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 static void city_dialog_update_title(struct city_dialog *pdialog)
 {
   char buf[512];
-  char *now;
+  const gchar *now;
 
-  my_snprintf(buf, sizeof(buf), _("%s - %s citizens"),
+  my_snprintf(buf, sizeof(buf), _("<b>%s</b> - %s citizens"),
 	      pdialog->pcity->name,
 	      population_to_text(city_population(pdialog->pcity)));
 
@@ -1251,9 +1255,10 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
     mystrlcat(buf, _(" - happy"), sizeof(buf));
   }
 
-  now = GTK_WINDOW(pdialog->shell)->title;
+  now = gtk_label_get_text(GTK_LABEL(pdialog->name_label));
   if (strcmp(now, buf) != 0) {
-    gtk_window_set_title(GTK_WINDOW(pdialog->shell), buf);
+    gtk_window_set_title(GTK_WINDOW(pdialog->shell), pdialog->pcity->name);
+    gtk_label_set_markup(GTK_LABEL(pdialog->name_label), buf);
   }
 }
 
