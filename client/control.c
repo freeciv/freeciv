@@ -1030,8 +1030,6 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   was_teleported=!is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y);
   x=punit->x;
   y=punit->y;
-  punit->x=-1;  /* focus hack - if we're moving the unit in focus, it wont
-		 * be redrawn on top of the city */
 
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 
