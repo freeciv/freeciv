@@ -55,7 +55,7 @@ struct cma_preset {
 #define preset_list_iterate_end  LIST_ITERATE_END
 
 static struct preset_list preset_list;
-static int preset_list_has_been_initialized = FALSE;
+static bool preset_list_has_been_initialized = FALSE;
 
 /****************************************************************************
  Is called if the game removes a city. It will clear the 

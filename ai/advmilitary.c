@@ -50,7 +50,7 @@ Need positive feedback in m_a_c_b and bodyguard routines. -- Syela
 int assess_defense_quadratic(struct city *pcity)
 {
   int v, def, l;
-  int igwall = FALSE; /* this can be an arg if needed, but seems unneeded */
+  const bool igwall = FALSE; /* this can be an arg if needed, but seems unneeded */
   def = 0;
   for (l = 0; l * l < pcity->ai.wallvalue * 10; l++) ;
 /* wallvalue = 10, l = 10, wallvalue = 40, l = 20, wallvalue = 90, l = 30 */
@@ -75,7 +75,7 @@ int assess_defense_quadratic(struct city *pcity)
 /**************************************************************************
 one unit only, mostly for findjob; handling boats correctly 980803 -- Syela
 **************************************************************************/
-int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
+int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall)
 {
   int v;
   v = get_defense_power(punit) * punit->hp *
@@ -93,7 +93,7 @@ int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
 /********************************************************************** 
  Most of the time we don't need/want positive feedback. -- Syela
 ***********************************************************************/
-static int assess_defense_backend(struct city *pcity, int igwall)
+static int assess_defense_backend(struct city *pcity, bool igwall)
 {
   int def;
   def = 0;
@@ -159,7 +159,8 @@ static int dangerfunct(int v, int m, int dist)
 **************************************************************************/
 static int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
-  int v, sailing;
+  int v;
+  bool sailing;
   struct unit_type *ptype;
 
   if (unit_flag(punit, F_NO_LAND_ATTACK)) return(0);
@@ -235,11 +236,11 @@ int assess_danger(struct city *pcity)
   int danger4 = 0; /* linear for SAM */
   int danger5 = 0; /* linear for SDI */
   struct player *aplayer, *pplayer;
-  int pikemen = FALSE;
-  int diplomat = FALSE; /* TRUE mean that this town can defend
+  bool pikemen = FALSE;
+  bool diplomat = FALSE; /* TRUE mean that this town can defend
 		     * against diplomats or spies */
   int urgency = 0;
-  int igwall;
+  bool igwall;
   int badmojo = 0;
   int boatspeed;
   int boatid, boatdist;
@@ -436,7 +437,7 @@ trying again, but this will require yet more tedious observation -- Syela */
 /************************************************************************** 
 ...
 **************************************************************************/
-int unit_desirability(Unit_Type_id i, int def)
+int unit_desirability(Unit_Type_id i, bool def)
 {
   int cur, a, d;
   cur = get_unit_type(i)->hp;
@@ -473,10 +474,10 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   Tech_Type_id tech_req;
   int j, k, l, m, n;
   int best= 0;
-  int walls = city_got_citywalls(pcity);
+  bool walls = city_got_citywalls(pcity);
   int desire[U_LAST]; /* what you get is what you seek */
-  int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
-  int isdef = has_a_normal_defender(pcity);
+  bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
+  bool isdef = has_a_normal_defender(pcity);
 
   memset(desire, 0, sizeof(desire));
   for (i = 0; i < game.num_unit_types; i++) {
@@ -541,14 +542,14 @@ it some more variables for it to meddle with -- Syela
 **************************************************************************/
 static void process_attacker_want(struct player *pplayer,
 			    struct city *pcity, int b, Unit_Type_id n,
-                            int vet, int x, int y, int unhap, int *e0, int *v,
+                            bool vet, int x, int y, int unhap, int *e0, int *v,
                             int bx, int by, int boatspeed, int needferry)
 { 
   Unit_Type_id i;
   Tech_Type_id j;
   int a, c, d, e, b0, f, g, fprime;
   int k, l, m, q;
-  int shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
+  bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
   struct city *acity = map_get_city(x, y);
   int movetype = unit_types[*v].move_type;
 
@@ -661,12 +662,15 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 {
   int a, b, c, d, e, f, g; /* variables in the attacker-want equation */
   Unit_Type_id v, n;
-  int m, vet, dist, b0, fprime;
+  int m;
+  bool vet;
+  int dist, b0, fprime;
   int x, y, unhap = 0;
   struct unit *pdef, *aunit, *ferryboat;
   struct city *acity;
   int boatid = 0, bx = 0, by = 0;
-  int needferry = 0, fstk, boatspeed, sanity;
+  int needferry = 0, fstk, boatspeed;
+  bool sanity;
 
   if (pcity->ai.danger && !assess_defense(pcity)) return;
 
@@ -899,7 +903,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
 /********************************************************************** 
 Checks if there is a port or a ship being build within d distance.
 ***********************************************************************/
-static int port_is_within(struct player *pplayer, int d)
+static bool port_is_within(struct player *pplayer, int d)
 {
   city_list_iterate(pplayer->cities, pcity)
     if (warmap.seacost[pcity->x][pcity->y] <= d) {

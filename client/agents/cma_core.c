@@ -156,9 +156,9 @@ struct tile_stats {
 
 static void init_caches(void);
 static void clear_caches(struct city *pcity);
-static int set_worker(struct city *pcity, int x, int y, int set_clear);
-static int can_field_be_used_for_worker(struct city *pcity, int x, int y);
-static int can_use_specialist(struct city *pcity,
+static int set_worker(struct city *pcity, int x, int y, bool set_clear);
+static bool can_field_be_used_for_worker(struct city *pcity, int x, int y);
+static bool can_use_specialist(struct city *pcity,
 			      enum specialist_type specialist_type);
 static void real_fill_out_result(struct city *pcity,
 				 struct cma_result *result);
@@ -321,7 +321,7 @@ static void print_parameter(const struct cma_parameter *const parameter)
 /****************************************************************************
 ...
 *****************************************************************************/
-static int results_are_equal(struct city *pcity,
+static bool results_are_equal(struct city *pcity,
 			     const struct cma_result *const result1,
 			     const struct cma_result *const result2)
 {
@@ -402,7 +402,7 @@ static int count_valid_combinations(int fields_used)
 /****************************************************************************
  Simple send_packet_* wrapper. Will return the id of the request.
 *****************************************************************************/
-static int set_worker(struct city *pcity, int x, int y, int set_clear)
+static int set_worker(struct city *pcity, int x, int y, bool set_clear)
 {
   struct packet_city_request packet;
 
@@ -423,10 +423,11 @@ static int set_worker(struct city *pcity, int x, int y, int set_clear)
 /****************************************************************************
  Tests if the given field can be used for a worker. 
 *****************************************************************************/
-static int can_field_be_used_for_worker(struct city *pcity, int x, int y)
+static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
 {
   enum known_type known;
-  int map_x, map_y, is_real;
+  int map_x, map_y;
+  bool is_real;
 
   assert(is_valid_city_coords(x, y));
 
@@ -450,7 +451,7 @@ static int can_field_be_used_for_worker(struct city *pcity, int x, int y)
 /****************************************************************************
  Tests if the given city can use this kind of specialists.
 *****************************************************************************/
-static int can_use_specialist(struct city *pcity,
+static bool can_use_specialist(struct city *pcity,
 			      enum specialist_type specialist_type)
 {
   if (specialist_type == SP_ELVIS) {
@@ -466,7 +467,7 @@ static int can_use_specialist(struct city *pcity,
  Does the result have the required surplus and the city isn't in
  disorder and the city is happy if this is required?
 *****************************************************************************/
-static int is_valid_result(const struct cma_parameter *const parameter,
+static bool is_valid_result(const struct cma_parameter *const parameter,
 			   const struct cma_result *const result)
 {
   int i;
@@ -490,12 +491,13 @@ static int is_valid_result(const struct cma_parameter *const parameter,
  Change the actual city setting to the given result. Returns true if
  the actual data matches the calculated one.
 *****************************************************************************/
-static int apply_result_on_server(struct city *pcity,
+static bool apply_result_on_server(struct city *pcity,
 				  const struct cma_result *const result)
 {
   struct packet_city_request packet;
   int first_request_id = 0, last_request_id = 0, i, worker;
   struct cma_result current_state;
+  bool success;
 
   get_current_as_result(pcity, &current_state);
 
@@ -617,14 +619,14 @@ static int apply_result_on_server(struct city *pcity,
 
   freelog(APPLY_RESULT_LOG_LEVEL, "apply_result: return");
 
-  i = results_are_equal(pcity, result, &current_state);
-  if (!i && SHOW_APPLY_RESULT_ON_SERVER_ERRORS) {
+  success = results_are_equal(pcity, result, &current_state);
+  if (!success && SHOW_APPLY_RESULT_ON_SERVER_ERRORS) {
     freelog(LOG_NORMAL, "expected");
     print_result(pcity, result);
     freelog(LOG_NORMAL, "got");
     print_result(pcity, &current_state);
   }
-  return i;
+  return success;
 }
 
 /****************************************************************************
@@ -991,7 +993,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 			    int scientists, int taxmen)
 {
   struct cma_result *slot;
-  int got_all;
+  bool got_all;
 
   assert(base_combination->is_valid);
 
@@ -1280,7 +1282,7 @@ static void build_cache3(struct city *pcity)
   struct combination root_combination;
   int i, j;
   struct tile_stats tile_stats;
-  int is_celebrating = base_city_celebrating(pcity);
+  bool is_celebrating = base_city_celebrating(pcity);
 
   if (cache3.pcity != pcity) {
     cache3.pcity = NULL;
@@ -1552,7 +1554,9 @@ static void handle_city(struct city *pcity)
 {
   struct cma_parameter parameter;
   struct cma_result result;
-  int len, handled, i;
+  int len;
+  bool handled;
+  int i;
 
   len = attr_city_get(ATTR_CITY_CMA_PARAMETER, pcity->id,
 		      sizeof(parameter), &parameter);
@@ -1744,7 +1748,7 @@ void cma_query_result(struct city *pcity,
 /****************************************************************************
 ...
 *****************************************************************************/
-int cma_apply_result(struct city *pcity,
+bool cma_apply_result(struct city *pcity,
 		     const struct cma_result *const result)
 {
   assert(!cma_is_city_under_agent(pcity, NULL));

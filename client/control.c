@@ -50,7 +50,7 @@ int hover_unit = 0; /* id of unit hover_state applies to */
 enum cursor_hover_state hover_state = HOVER_NONE;
 /* This may only be here until client goto is fully implemented.
    It is reset each time the hower_state is reset. */
-int draw_goto_line = TRUE;
+bool draw_goto_line = TRUE;
 
 /* units involved in current combat */
 static struct unit *punit_attacking;
@@ -334,7 +334,7 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 **************************************************************************/
 void blink_active_unit(void)
 {
-  static int is_shown;
+  static bool is_shown;
   struct unit *punit;
 
   if((punit=get_unit_in_focus())) {
@@ -358,7 +358,7 @@ void blink_active_unit(void)
 void process_caravan_arrival(struct unit *punit)
 {
   static struct genlist arrival_queue;
-  static int is_init_arrival_queue = FALSE;
+  static bool is_init_arrival_queue = FALSE;
   int *p_id;
 
   /* arrival_queue is a list of individually malloc-ed ints with
@@ -411,7 +411,7 @@ void process_caravan_arrival(struct unit *punit)
 void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 {
   static struct genlist arrival_queue;
-  static int is_init_arrival_queue = FALSE;
+  static bool is_init_arrival_queue = FALSE;
   int *p_ids;
 
   /* arrival_queue is a list of individually malloc-ed int[2]s with
@@ -1026,7 +1026,8 @@ void request_toggle_fog_of_war(void)
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 {
-  int x, y, was_teleported;
+  int x, y;
+  bool was_teleported;
   
   was_teleported=!is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y);
   x=punit->x;
@@ -1059,7 +1060,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
   square_iterate(punit->x, punit->y, 2, x, y) {
-    int refresh = FALSE;
+    bool refresh = FALSE;
     unit_list_iterate(map_get_tile(x, y)->units, pu) {
       if (unit_flag(pu, F_PARTIAL_INVIS)) {
 	refresh = TRUE;
@@ -1325,7 +1326,7 @@ void request_center_focus_unit(void)
 **************************************************************************/
 void key_cancel_action(void)
 {
-  int popped = FALSE;
+  bool popped = FALSE;
   if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
     if (draw_goto_line)
       popped = goto_pop_waypoint();

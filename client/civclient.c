@@ -66,7 +66,7 @@
 
 /* this is used in strange places, and is 'extern'd where
    needed (hence, it is not 'extern'd in civclient.h) */
-int is_server = FALSE;
+bool is_server = FALSE;
 
 char metaserver[256];
 char server_host[512];
@@ -76,7 +76,7 @@ int server_port;
 /*
  * Non-zero = skip "Connect to Freeciv Server" dialog
  */
-int auto_connect = FALSE;
+bool auto_connect = FALSE;
 
 static enum client_states client_state = CLIENT_BOOT_STATE;
 
@@ -505,7 +505,7 @@ void send_report_request(enum report_type type)
 **************************************************************************/
 void set_client_state(enum client_states newstate)
 {
-  int connect_error = (client_state == CLIENT_PRE_GAME_STATE)
+  bool connect_error = (client_state == CLIENT_PRE_GAME_STATE)
       && (newstate == CLIENT_PRE_GAME_STATE);
 
   if(client_state!=newstate) {

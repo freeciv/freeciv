@@ -291,7 +291,7 @@ struct unit *player_find_unit_by_id(struct player *pplayer, int unit_id)
 /*************************************************************************
 Return 1 if x,y is inside any of the player's city radii.
 **************************************************************************/
-int player_in_city_radius(struct player *pplayer, int x, int y)
+bool player_in_city_radius(struct player *pplayer, int x, int y)
 {
   struct city *pcity;
   map_city_radius_iterate(x, y, x1, y1) {
@@ -347,7 +347,7 @@ int num_known_tech_with_flag(struct player *pplayer, enum tech_flag_id flag)
  Returns TRUE iff the player knows at least one tech which has the
  given flag.
 **************************************************************************/
-int player_knows_techs_with_flag(struct player *pplayer,
+bool player_knows_techs_with_flag(struct player *pplayer,
 				 enum tech_flag_id flag)
 {
   return num_known_tech_with_flag(pplayer, flag) > 0;

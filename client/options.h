@@ -13,23 +13,25 @@
 #ifndef FC__OPTIONS_H
 #define FC__OPTIONS_H
 
+#include "shared.h"		/* bool type */
+
 /** Local Options: **/
 
-extern int solid_color_behind_units;
-extern int sound_bell_at_new_turn;
-extern int smooth_move_units;
+extern bool solid_color_behind_units;
+extern bool sound_bell_at_new_turn;
+extern bool smooth_move_units;
 extern int smooth_move_unit_steps;
-extern int do_combat_animation;
-extern int ai_popup_windows;
-extern int ai_manual_turn_done;
-extern int auto_center_on_unit;
-extern int auto_center_on_combat;
-extern int wakeup_focus;
-extern int draw_diagonal_roads;
-extern int center_when_popup_city;
-extern int concise_city_production;
-extern int auto_turn_done;
-extern int meta_accelerators;
+extern bool do_combat_animation;
+extern bool ai_popup_windows;
+extern bool ai_manual_turn_done;
+extern bool auto_center_on_unit;
+extern bool auto_center_on_combat;
+extern bool wakeup_focus;
+extern bool draw_diagonal_roads;
+extern bool center_when_popup_city;
+extern bool concise_city_production;
+extern bool auto_turn_done;
+extern bool meta_accelerators;
 
 enum client_option_type {
   COT_BOOL,
@@ -48,21 +50,21 @@ extern client_option options[];
 
 /** View Options: **/
 
-extern int draw_map_grid;
-extern int draw_city_names;
-extern int draw_city_productions;
-extern int draw_terrain;
-extern int draw_coastline;
-extern int draw_roads_rails;
-extern int draw_irrigation;
-extern int draw_mines;
-extern int draw_fortress_airbase;
-extern int draw_specials;
-extern int draw_pollution;
-extern int draw_cities;
-extern int draw_units;
-extern int draw_focus_unit;
-extern int draw_fog_of_war;
+extern bool draw_map_grid;
+extern bool draw_city_names;
+extern bool draw_city_productions;
+extern bool draw_terrain;
+extern bool draw_coastline;
+extern bool draw_roads_rails;
+extern bool draw_irrigation;
+extern bool draw_mines;
+extern bool draw_fortress_airbase;
+extern bool draw_specials;
+extern bool draw_pollution;
+extern bool draw_cities;
+extern bool draw_units;
+extern bool draw_focus_unit;
+extern bool draw_fog_of_war;
 
 typedef struct {
 	char *name;

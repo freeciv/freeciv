@@ -154,8 +154,8 @@ struct ai_gov_tech_hint {
   int tech;
   int turns_factor;
   int const_factor;
-  int get_first;
-  int done;
+  bool get_first;
+  bool done;
 };
 
 extern struct government *governments;

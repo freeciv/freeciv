@@ -55,10 +55,10 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y);
  * unit_type_id of (cid - B_LAST).
  */
 
-cid cid_encode(int is_unit, int id);
+cid cid_encode(bool is_unit, int id);
 cid cid_encode_from_city(struct city *pcity);
-void cid_decode(cid cid, int *is_unit, int *id);
-int cid_is_unit(cid cid);
+void cid_decode(cid cid, bool *is_unit, int *id);
+bool cid_is_unit(cid cid);
 int cid_id(cid cid);
 
 /* 
@@ -74,14 +74,14 @@ int cid_id(cid cid);
 
 #define WORKLIST_END (-1)
 
-wid wid_encode(int is_unit,int is_worklist, int id);
-int wid_is_unit(wid wid);
-int wid_is_worklist(wid wid);
+wid wid_encode(bool is_unit, bool is_worklist, int id);
+bool wid_is_unit(wid wid);
+bool wid_is_worklist(wid wid);
 int wid_id(wid wid);
 
-int city_can_build_impr_or_unit(struct city *pcity, cid cid);
-int city_unit_supported(struct city *pcity, cid cid);
-int city_unit_present(struct city *pcity, cid cid);
+bool city_can_build_impr_or_unit(struct city *pcity, cid cid);
+bool city_unit_supported(struct city *pcity, cid cid);
+bool city_unit_present(struct city *pcity, cid cid);
 
 struct item {
   cid cid;
@@ -92,17 +92,17 @@ struct item {
 };
 
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
-			 int show_cost, struct city *pcity);
+			 bool show_cost, struct city *pcity);
 int collect_cids1(cid * dest_cids, struct city **selected_cities,
-		 int num_selected_cities, int append_units,
-		 int append_wonders, int change_prod,
+		 int num_selected_cities, bool append_units,
+		 bool append_wonders, bool change_prod,
 		 int (*test_func) (struct city *, int));
 int collect_cids2(cid * dest_cids);
 int collect_cids3(cid * dest_cids);
-int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech);
+int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech);
 int collect_cids5(cid * dest_cids, struct city *pcity);
-int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first, 
-		  int advanced_tech);
+int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first, 
+		  bool advanced_tech);
 
 /* the number of units in city */
 int num_present_units_in_city(struct city* pcity);

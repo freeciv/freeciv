@@ -28,10 +28,10 @@ extern struct client_goto_map goto_map;
 void init_client_goto(void);
 void enter_goto_state(struct unit *punit);
 void exit_goto_state(void);
-int goto_is_active(void);
+bool goto_is_active(void);
 void get_line_dest(int *x, int *y);
 void goto_add_waypoint(void);
-int goto_pop_waypoint(void);
+bool goto_pop_waypoint(void);
 
 void draw_line(int dest_x, int dest_y);
 int get_drawn(int x, int y, int dir);

@@ -19,10 +19,10 @@ char *get_report_title(char *report_name);
 void update_report_dialogs(void);
 
 void science_dialog_update(void);
-void popup_science_dialog(int make_modal);
+void popup_science_dialog(bool make_modal);
 void economy_report_dialog_update(void);
-void popup_economy_report_dialog(int make_modal);
+void popup_economy_report_dialog(bool make_modal);
 void activeunits_report_dialog_update(void);
-void popup_activeunits_report_dialog(int make_modal);
+void popup_activeunits_report_dialog(bool make_modal);
 
 #endif  /* FC__REPODLGS_G_H */

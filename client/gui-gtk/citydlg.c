@@ -188,7 +188,7 @@ struct city_dialog {
   /* This is used only to avoid too many refreshes. */
   int last_improvlist_seen[B_LAST];
 
-  int is_modal;
+  bool is_modal;
 };
 
 static GdkBitmap *icon_bitmap;
@@ -196,7 +196,7 @@ static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
 static int notebook_tab_accels[NUM_PAGES - 1];	/* so localization works */
 
 static struct dialog_list dialog_list;
-static int city_dialogs_have_been_initialised;
+static bool city_dialogs_have_been_initialised;
 static int canvas_width, canvas_height;
 static int new_dialog_def_page = OVERVIEW_PAGE;
 static int last_page = OVERVIEW_PAGE;
@@ -220,7 +220,7 @@ static void create_and_append_trade_page(struct city_dialog *pdialog);
 static void create_and_append_misc_page(struct city_dialog *pdialog);
 
 static struct city_dialog *create_city_dialog(struct city *pcity,
-					      int make_modal);
+					      bool make_modal);
 
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
@@ -402,7 +402,7 @@ void refresh_city_dialog(struct city *pcity)
   city_dialog_update_tradelist(pdialog);
 
   if (city_owner(pcity) == game.player_ptr) {
-    int have_present_units =
+    bool have_present_units =
 	(unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) > 0);
 
     update_worklist_editor(pdialog->wl_editor);
@@ -450,7 +450,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_city_dialog(struct city *pcity, int make_modal)
+void popup_city_dialog(struct city *pcity, bool make_modal)
 {
   struct city_dialog *pdialog;
 
@@ -1420,7 +1420,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 ...
 *****************************************************************/
 static struct city_dialog *create_city_dialog(struct city *pcity,
-					      int make_modal)
+					      bool make_modal)
 {
   int i;
   struct city_dialog *pdialog;

@@ -174,7 +174,7 @@ struct ai_city {
   /* building desirabilities - easiest to handle them here -- Syela */
   int building_want[B_LAST]; /* not sure these will always be < 256 */
   int danger; /* danger to be compared to assess_defense */
-  int diplomat_threat; /* an enemy diplomat or spy is near the city,
+  bool diplomat_threat; /* an enemy diplomat or spy is near the city,
 			  and this city has no diplomat or spy defender */
   int urgency; /* how close the danger is; if zero, bodyguards can leave */
   int grave_danger; /* danger that is upon us, should show positive feedback */
@@ -332,9 +332,9 @@ bool city_got_effect(struct city *pcity, Impr_Type_id id);
 bool city_got_citywalls(struct city *pcity);
 bool wonder_replacement(struct city *pcity, Impr_Type_id id);
 int city_change_production_penalty(struct city *pcity,
-				   int target, bool is_unit, int apply_it);
+				   int target, bool is_unit, bool apply_it);
 int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
-                        int include_shield_stock );
+                        bool include_shield_stock );
 
 /* textual representation of buildings */
 

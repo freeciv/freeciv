@@ -71,7 +71,7 @@ void cma_query_result(struct city *pcity,
 		      struct cma_result *result);
 
 /* Change the actual city setting. */
-int cma_apply_result(struct city *pcity,
+bool cma_apply_result(struct city *pcity,
 		     const struct cma_result *const result);
 
 /* Till a call of cma_release_city the city will be managed by the agent. */
@@ -86,12 +86,12 @@ void cma_release_city(struct city *pcity);
  * given parameter is filled if pointer is non-NULL. The parameter is
  * only valid if cma_is_city_under_agent returns true.
  */
-int cma_is_city_under_agent(struct city *pcity,
+bool cma_is_city_under_agent(struct city *pcity,
 			    struct cma_parameter *parameter);
 
 /***************** utility methods *************************************/
 const char *const cma_get_stat_name(enum stat stat);
-int cma_are_parameter_equal(const struct cma_parameter *const p1,
+bool cma_are_parameter_equal(const struct cma_parameter *const p1,
 			    const struct cma_parameter *const p2);
 void cma_copy_parameter(struct cma_parameter *dest,
 			const struct cma_parameter *const src);

@@ -13,6 +13,8 @@
 #ifndef FC__GUI_MAIN_G_H
 #define FC__GUI_MAIN_G_H
 
+#include "shared.h"		/* bool type */
+
 struct unit;
 
 void ui_main(int argc, char *argv[]);
@@ -22,7 +24,7 @@ void add_net_input(int);
 void remove_net_input(void);
 
 void set_unit_icon(int idx, struct unit *punit);
-void set_unit_icons_more_arrow(int onoff);
+void set_unit_icons_more_arrow(bool onoff);
 
 extern const char *client_string;
 

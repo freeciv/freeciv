@@ -35,21 +35,21 @@
 
 /** Local Options: **/
 
-int solid_color_behind_units = FALSE;
-int sound_bell_at_new_turn = FALSE;
-int smooth_move_units = TRUE;
+bool solid_color_behind_units = FALSE;
+bool sound_bell_at_new_turn = FALSE;
+bool smooth_move_units = TRUE;
 int smooth_move_unit_steps = 3;
-int do_combat_animation = TRUE;
-int ai_popup_windows = FALSE;
-int ai_manual_turn_done = TRUE;
-int auto_center_on_unit = TRUE;
-int auto_center_on_combat = FALSE;
-int wakeup_focus = TRUE;
-int draw_diagonal_roads = TRUE;
-int center_when_popup_city = TRUE;
-int concise_city_production = FALSE;
-int auto_turn_done = FALSE;
-int meta_accelerators = TRUE;
+bool do_combat_animation = TRUE;
+bool ai_popup_windows = FALSE;
+bool ai_manual_turn_done = TRUE;
+bool auto_center_on_unit = TRUE;
+bool auto_center_on_combat = FALSE;
+bool wakeup_focus = TRUE;
+bool draw_diagonal_roads = TRUE;
+bool center_when_popup_city = TRUE;
+bool concise_city_production = FALSE;
+bool auto_turn_done = FALSE;
+bool meta_accelerators = TRUE;
 
 #define GEN_OPTION(name, desc, type) { #name, desc, type, &name, NULL }
 #define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL }
@@ -75,21 +75,21 @@ client_option options[] = {
 
 /** View Options: **/
 
-int draw_map_grid = FALSE;
-int draw_city_names = TRUE;
-int draw_city_productions = FALSE;
-int draw_terrain = TRUE;
-int draw_coastline = FALSE;
-int draw_roads_rails = TRUE;
-int draw_irrigation = TRUE;
-int draw_mines = TRUE;
-int draw_fortress_airbase = TRUE;
-int draw_specials = TRUE;
-int draw_pollution = TRUE;
-int draw_cities = TRUE;
-int draw_units = TRUE;
-int draw_focus_unit = FALSE;
-int draw_fog_of_war = TRUE;
+bool draw_map_grid = FALSE;
+bool draw_city_names = TRUE;
+bool draw_city_productions = FALSE;
+bool draw_terrain = TRUE;
+bool draw_coastline = FALSE;
+bool draw_roads_rails = TRUE;
+bool draw_irrigation = TRUE;
+bool draw_mines = TRUE;
+bool draw_fortress_airbase = TRUE;
+bool draw_specials = TRUE;
+bool draw_pollution = TRUE;
+bool draw_cities = TRUE;
+bool draw_units = TRUE;
+bool draw_focus_unit = FALSE;
+bool draw_fog_of_war = TRUE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }

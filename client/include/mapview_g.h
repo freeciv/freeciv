@@ -14,12 +14,13 @@
 #define FC__MAPVIEW_G_H
 
 #include "mapview_common.h"
+#include "shared.h"		/* bool type */
 
 struct unit;
 struct city;
 
-int tile_visible_mapcanvas(int x, int y);
-int tile_visible_and_not_on_border_mapcanvas(int x, int y);
+bool tile_visible_mapcanvas(int x, int y);
+bool tile_visible_and_not_on_border_mapcanvas(int x, int y);
 
 void update_info_label(void);
 void update_unit_info_label(struct unit *punit);
@@ -35,7 +36,7 @@ void center_tile_mapcanvas(int x, int y);
 void get_center_tile_mapcanvas(int *x, int *y);
 
 void update_map_canvas(int x, int y, int width, int height,
-		       int write_to_screen);
+		       bool write_to_screen);
 void update_map_canvas_visible(void);
 void update_map_canvas_scrollbars(void);
 

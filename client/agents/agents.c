@@ -68,7 +68,7 @@ static struct {
   struct call_list calls;
 } agents;
 
-static int initialized = FALSE;
+static bool initialized = FALSE;
 static int frozen_level;
 
 /***********************************************************************
@@ -193,7 +193,7 @@ static void execute_call(struct call *call)
 ***********************************************************************/
 static void call_handle_methods(void)
 {
-  static int currently_running = FALSE;
+  static bool currently_running = FALSE;
 
   if (currently_running) {
     return;
@@ -271,7 +271,7 @@ static struct my_agent *find_agent_by_name(char *agent_name)
 /***********************************************************************
 ...
 ***********************************************************************/
-static int is_outstanding_request(struct my_agent *agent)
+static bool is_outstanding_request(struct my_agent *agent)
 {
   if (agent->first_outstanding_request_id &&
       aconnection.client.request_id_of_currently_handled_packet &&

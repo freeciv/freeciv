@@ -58,7 +58,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
 
 static int unit_move_turns(struct unit *punit, int x, int y);
-static int unit_can_defend(Unit_Type_id type);
+static bool unit_can_defend(Unit_Type_id type);
 
 
 /**************************************************************************
@@ -70,7 +70,7 @@ static int unit_can_defend(Unit_Type_id type);
 
   Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela
 **************************************************************************/
-static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
+static bool could_be_my_zoc(struct unit *myunit, int x0, int y0)
 {
   assert(is_ground_unit(myunit));
   
@@ -121,7 +121,7 @@ int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
   value.  This is for use with "foreign" cities, especially non-ai
   cities, where ai.wallvalue may be out of date or uninitialized --dwp
 ***********************************************************************/
-static int has_defense(struct city *pcity)
+static bool has_defense(struct city *pcity)
 {
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
     if (is_military_unit(punit) && get_defense_power(punit) && punit->hp) {
@@ -160,7 +160,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
 /**************************************************************************
   is there any hope of reaching this tile without violating ZOC? 
 **************************************************************************/
-static int tile_is_accessible(struct unit *punit, int x, int y)
+static bool tile_is_accessible(struct unit *punit, int x, int y)
 {
   if (unit_type_really_ignores_zoc(punit->type))
     return TRUE;
@@ -182,7 +182,7 @@ explores unknown territory, finds huts.
 
 Returns whether there is any more territory to be explored.
 **************************************************************************/
-int ai_manage_explorer(struct unit *punit)
+bool ai_manage_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   /* The position of the unit; updated inside the function */
@@ -506,10 +506,10 @@ static struct city *wonder_on_continent(struct player *pplayer, int cont)
 /**************************************************************************
 Returns whether we stayed in the (eventual) city on the square to defend it.
 **************************************************************************/
-static int stay_and_defend_city(struct unit *punit)
+static bool stay_and_defend_city(struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->x, punit->y);
-  int has_defense = FALSE;
+  bool has_defense = FALSE;
 
   if (!pcity) return FALSE;
   if (pcity->id == punit->homecity) return FALSE;
@@ -601,7 +601,7 @@ static int stack_attack_value(int x, int y)
   return(val);
 }
 
-static void invasion_funct(struct unit *punit, int dest, int n, int which)
+static void invasion_funct(struct unit *punit, bool dest, int n, int which)
 { 
   int x, y;
   if (dest) { x = punit->goto_dest_x; y = punit->goto_dest_y; }
@@ -703,7 +703,7 @@ static int reinforcements_cost(struct unit *punit, int x, int y)
 /*************************************************************************
 ...
 **************************************************************************/
-static int is_my_turn(struct unit *punit, struct unit *pdef)
+static bool is_my_turn(struct unit *punit, struct unit *pdef)
 {
   int val = unit_belligerence_primitive(punit), cur, d;
   struct tile *ptile;
@@ -1101,7 +1101,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 /*************************************************************************
 ...
 **************************************************************************/
-static int unit_can_defend(Unit_Type_id type)
+static bool unit_can_defend(Unit_Type_id type)
 {
   if (unit_types[type].move_type != LAND_MOVING) return FALSE; /* temporary kluge */
   return (unit_has_role(type, L_DEFEND_GOOD));
@@ -1317,9 +1317,11 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, i
   struct unit *pdef;
   int best = 0, maxd, boatid = 0, needferry;
   int harborcity = 0, bx = 0, by = 0;
-  int fprime, handicap;
+  int fprime;
+  bool handicap;
   struct unit *ferryboat = 0;
-  int sanity, boatspeed, unhap = 0;
+  bool sanity;
+  int boatspeed, unhap = 0;
   struct city *pcity;
   int xx, yy; /* for beachheads */
   int bk = 0; /* this is a kluge, because if we don't set x and y with !punit->id,
@@ -1591,7 +1593,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
   return(best);
 }
 
-static int find_nearest_friendly_port(struct unit *punit)
+static bool find_nearest_friendly_port(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   int best = 6 * THRESHOLD + 1, cur;
@@ -1621,7 +1623,9 @@ nothing to kill, sailing units go home, others explore.
 static void ai_military_attack(struct player *pplayer,struct unit *punit)
 {
   int dest_x, dest_y; 
-  int id, flag, went, ct = 10;
+  int id;
+  bool flag;
+  int went, ct = 10;
 
   if (punit->activity!=ACTIVITY_GOTO) {
     id = punit->id;
@@ -1949,7 +1953,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
   they are not in cities, and they are far from any enemy units. It is to 
   remove barbarians that do not engage into any activity for a long time.
 **************************************************************************/
-static int unit_can_be_retired(struct unit *punit)
+static bool unit_can_be_retired(struct unit *punit)
 {
   if (punit->fuel > 0) {	/* fuel abused for barbarian life span */
     punit->fuel--;
@@ -2124,7 +2128,7 @@ void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
  Whether unit_type test is on the "upgrade path" of unit_type base,
  even if we can't upgrade now.
 **************************************************************************/
-int is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
+bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
 {
 #if 0
   /* This is a hack for regression testing; I believe the new version
@@ -2150,7 +2154,7 @@ int is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
  (Could probably just adjust the loops themselves fairly simply, but this
  is safer for regression testing.) 
 **************************************************************************/
-int is_ai_simple_military(Unit_Type_id type)
+bool is_ai_simple_military(Unit_Type_id type)
 {
   return !unit_type_flag(type, F_NONMIL)
     && !unit_type_flag(type, F_MISSILE)
@@ -2169,7 +2173,9 @@ int is_ai_simple_military(Unit_Type_id type)
  */
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 {
-  int i, handicap, has_emb, continent, dist, rmd, oic, did;
+  int i;
+  bool handicap, has_emb;
+  int continent, dist, rmd, oic, did;
   struct packet_unit_request req;
   struct packet_diplomat_action dact;
   struct city *pcity, *ctarget;

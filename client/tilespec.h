@@ -41,7 +41,7 @@ void tilespec_free_city_tiles(int count);
 
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       struct Sprite **dither,
-			       int x, int y, int citymode,
+			       int x, int y, bool citymode,
 			       int *solid_bg);
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 			   int citymode, int *solid_bg, struct player **pplayer);
@@ -51,8 +51,8 @@ int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity);
 enum color_std player_color(struct player *pplayer);
 enum color_std overview_tile_color(int x, int y);
 
-void set_focus_unit_hidden_state(int hide);
-struct unit *get_drawable_unit(int x, int y, int citymode);
+void set_focus_unit_hidden_state(bool hide);
+struct unit *get_drawable_unit(int x, int y, bool citymode);
 
 
 /* This the way directional indices are now encoded: */
@@ -220,7 +220,7 @@ extern int UNIT_TILE_HEIGHT;
 extern int SMALL_TILE_WIDTH;
 extern int SMALL_TILE_HEIGHT;
 
-extern int is_isometric;
+extern bool is_isometric;
 
 /* name of font to use to draw city names on main map */
 
@@ -230,7 +230,7 @@ extern char *city_names_font;
 
 extern char *city_productions_font_name;
 
-extern int flags_are_transparent;
+extern bool flags_are_transparent;
 
 extern int num_tiles_explode_unit;
 

@@ -26,7 +26,7 @@
 /**************************************************************************
  Refreshes a single tile on the map canvas.
 **************************************************************************/
-void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
+void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 {
   assert(is_real_tile(x, y));
   if (!normalize_map_pos(&x, &y)) {
@@ -47,9 +47,9 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
 {
   enum city_tile_type city_tile_type1, city_tile_type2;
   struct city *dummy_pcity;
-  int pos1_is_in_city_radius =
+  bool pos1_is_in_city_radius =
       player_in_city_radius(game.player_ptr, x1, y1);
-  int pos2_is_in_city_radius = FALSE;
+  bool pos2_is_in_city_radius = FALSE;
 
   assert(is_real_tile(x1, y1));
 
@@ -86,7 +86,7 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
   in canvas_x,canvas_y it returns whether the tile is inside the
   visible map.
 **************************************************************************/
-int map_pos_to_canvas_pos(int map_x, int map_y,
+bool map_pos_to_canvas_pos(int map_x, int map_y,
 			  int *canvas_x, int *canvas_y,
 			  int map_view_topleft_map_x,
 			  int map_view_topleft_map_y,

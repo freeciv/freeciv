@@ -59,7 +59,7 @@ static const char * const help_type_names[] = {
 
 static struct genlist help_nodes;
 static struct genlist_iterator help_nodes_iterator;
-static int help_nodes_init = FALSE;
+static bool help_nodes_init = FALSE;
 /* helpnodes_init is not quite the same as booted in boot_help_texts();
    latter can be 0 even after call, eg if couldn't find helpdata.txt.
 */
@@ -179,7 +179,7 @@ static int help_item_compar(const void *a, const void *b)
 *****************************************************************/
 void boot_help_texts(void)
 {
-  static int booted = FALSE;
+  static bool booted = FALSE;
 
   struct section_file file, *sf = &file;
   char *filename;

@@ -243,12 +243,12 @@ Returns:
     >0  :  number of bytes read
     =0  :  no data read, would block
 **************************************************************************/
-static int read_from_connection(struct connection *pc, int block)
+static int read_from_connection(struct connection *pc, bool block)
 {
   for (;;) {
     fd_set readfs, writefs, exceptfs;
     int socket_fd = pc->sock;
-    int have_data_for_server = (pc->used && pc->send_buffer
+    bool have_data_for_server = (pc->used && pc->send_buffer
 				&& pc->send_buffer->ndata);
     int n;
     struct timeval tv;
@@ -314,7 +314,8 @@ void input_from_server(int fd)
   assert(fd == aconnection.sock);
 
   if (read_from_connection(&aconnection, FALSE) >= 0) {
-    int type, result;
+    int type;
+    bool result;
     char *packet;
 
     while (TRUE) {
@@ -348,7 +349,8 @@ void input_from_server_till_request_got_processed(int fd,
 
   while (TRUE) {
     if (read_from_connection(&aconnection, TRUE) >= 0) {
-      int type, result;
+      int type;
+      bool result;
       char *packet;
 
       while (TRUE) {

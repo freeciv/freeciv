@@ -20,6 +20,6 @@ struct player;
 void ai_do_first_activities(struct player *pplayer);
 void ai_do_last_activities(struct player *pplayer);
 
-int is_unit_choice_type(enum choice_type type);
+bool is_unit_choice_type(enum choice_type type);
 
 #endif  /* FC__AIHAND_H */

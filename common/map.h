@@ -263,7 +263,7 @@ struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);
 enum tile_terrain_type map_get_terrain(int x, int y);
 enum tile_special_type map_get_special(int x, int y);
-int map_has_special(int x, int y, enum tile_special_type);
+bool map_has_special(int x, int y, enum tile_special_type);
 void map_set_terrain(int x, int y, enum tile_terrain_type ter);
 void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);

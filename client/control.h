@@ -26,7 +26,7 @@ enum cursor_hover_state {
 
 extern int hover_unit; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
-extern int draw_goto_line;
+extern bool draw_goto_line;
 
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 void do_unit_goto(int x, int y);

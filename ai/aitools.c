@@ -49,7 +49,7 @@ If (pplayer != NULL) it looks for cities known to pplayer
 **************************************************************************/
 
 struct city *dist_nearest_city(struct player *pplayer, int x, int y,
-                               int everywhere, int enemy)
+                               bool everywhere, bool enemy)
 { 
   struct player *pplay;
   struct city *pc=NULL;
@@ -183,7 +183,9 @@ whether it is fully general for all possible parameters/combinations.
 int ai_assess_military_unhappiness(struct city *pcity,
 				   struct government *g)
 {
-  int free_happy, have_police, variant;
+  int free_happy;
+  bool have_police;
+  int variant;
   int unhap = 0;
 
   /* bail out now if happy_cost is 0 */
@@ -260,7 +262,7 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
   int trade_prod       = 0;
   int shield_need      = 0;
   int food_need        = 0;
-  int gov_overthrown   = FALSE;
+  bool gov_overthrown   = FALSE;
   int score;
 
   pplayer->government = g->index;

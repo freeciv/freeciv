@@ -40,10 +40,10 @@ constant).
 */
 #define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
 
-void refresh_tile_mapcanvas(int x, int y, int write_to_screen);
+void refresh_tile_mapcanvas(int x, int y, bool write_to_screen);
 enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 
-int map_pos_to_canvas_pos(int map_x, int map_y,
+bool map_pos_to_canvas_pos(int map_x, int map_y,
 			  int *canvas_x, int *canvas_y,
 			  int map_view_topleft_map_x,
 			  int map_view_topleft_map_y,

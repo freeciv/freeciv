@@ -80,7 +80,7 @@ void client_remove_unit(int unit_id)
     }
     else {
       /* calculate before punit disappears, use after punit removed: */
-      int update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
+      bool update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
       game_remove_unit(punit);
       if (update) {
 	update_unit_pix_label(ufocus);
@@ -112,7 +112,8 @@ void client_remove_unit(int unit_id)
 **************************************************************************/
 void client_remove_city(struct city *pcity)
 {
-  int effect_update, i;
+  bool effect_update;
+  int i;
   int x=pcity->x;
   int y=pcity->y;
 
@@ -146,7 +147,7 @@ void client_remove_city(struct city *pcity)
  */
 static int max_cont_used = 0;
 static struct athing recyc_conts;   /* .n is number available */
-static int recyc_init = FALSE;	    /* for first init of recyc_conts */
+static bool recyc_init = FALSE;	    /* for first init of recyc_conts */
 static int *recyc_ptr = NULL;	    /* set to recyc_conts.ptr (void* vs int*) */
 
 /**************************************************************************
@@ -297,7 +298,7 @@ could be improvements or units. X and Y are compound ids.
 void client_change_all(cid x, cid y)
 {
   int fr_id = cid_id(x), to_id = cid_id(y);
-  int fr_is_unit = cid_is_unit(x), to_is_unit = cid_is_unit(y);
+  bool fr_is_unit = cid_is_unit(x), to_is_unit = cid_is_unit(y);
   struct packet_city_request packet;
   char buf[512];
 
@@ -597,7 +598,7 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
   return num_activities;
 }
 
-cid cid_encode(int is_unit, int id)
+cid cid_encode(bool is_unit, int id)
 {
   return id + (is_unit ? B_LAST : 0);
 }
@@ -607,13 +608,13 @@ cid cid_encode_from_city(struct city * pcity)
   return cid_encode(pcity->is_building_unit, pcity->currently_building);
 }
 
-void cid_decode(cid cid, int *is_unit, int *id)
+void cid_decode(cid cid, bool *is_unit, int *id)
 {
   *is_unit = cid_is_unit(cid);
   *id = cid_id(cid);
 }
 
-int cid_is_unit(cid cid)
+bool cid_is_unit(cid cid)
 {
   return (cid >= B_LAST);
 }
@@ -623,7 +624,7 @@ int cid_id(cid cid)
   return (cid >= B_LAST) ? (cid - B_LAST) : cid;
 }
 
-wid wid_encode(int is_unit, int is_worklist, int id)
+wid wid_encode(bool is_unit, bool is_worklist, int id)
 {
   assert(!is_unit || !is_worklist);
 
@@ -634,14 +635,14 @@ wid wid_encode(int is_unit, int is_worklist, int id)
   return id;
 }
 
-int wid_is_unit(wid wid)
+bool wid_is_unit(wid wid)
 {
   assert(wid != WORKLIST_END);
 
   return (wid >= B_LAST && wid < B_LAST + U_LAST);
 }
 
-int wid_is_worklist(wid wid)
+bool wid_is_worklist(wid wid)
 {
   assert(wid != WORKLIST_END);
 
@@ -662,7 +663,7 @@ int wid_id(wid wid)
 /****************************************************************
 ...
 *****************************************************************/
-int city_can_build_impr_or_unit(struct city *pcity, cid cid)
+bool city_can_build_impr_or_unit(struct city *pcity, cid cid)
 {
   if (cid_is_unit(cid))
     return can_build_unit(pcity, cid_id(cid));
@@ -673,7 +674,7 @@ int city_can_build_impr_or_unit(struct city *pcity, cid cid)
 /****************************************************************
 ...
 *****************************************************************/
-int city_unit_supported(struct city *pcity, cid cid)
+bool city_unit_supported(struct city *pcity, cid cid)
 {
   if (cid_is_unit(cid)) {
     int unit_type = cid_id(cid);
@@ -690,7 +691,7 @@ int city_unit_supported(struct city *pcity, cid cid)
 /****************************************************************
 ...
 *****************************************************************/
-int city_unit_present(struct city *pcity, cid cid)
+bool city_unit_present(struct city *pcity, cid cid)
 {
   if (cid_is_unit(cid)) {
     int unit_type = cid_id(cid);
@@ -728,12 +729,13 @@ static int my_cmp(const void *p1, const void *p2)
  * section 4: wonders
  */
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
-			 int show_cost, struct city *pcity)
+			 bool show_cost, struct city *pcity)
 {
   int i;
 
   for (i = 0; i < num_cids; i++) {
-    int is_unit = cid_is_unit(pcids[i]), id = cid_id(pcids[i]), cost;
+    bool is_unit = cid_is_unit(pcids[i]);
+    int id = cid_id(pcids[i]), cost;
     struct item *pitem = &items[i];
     char *name;
 
@@ -773,8 +775,8 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 }
 
 int collect_cids1(cid * dest_cids, struct city **selected_cities,
-		  int num_selected_cities, int append_units,
-		  int append_wonders, int change_prod,
+		  int num_selected_cities, bool append_units,
+		  bool append_wonders, bool change_prod,
 		  int (*test_func) (struct city *, int))
 {
   cid first = append_units ? B_LAST : 0;
@@ -783,7 +785,7 @@ int collect_cids1(cid * dest_cids, struct city **selected_cities,
   int items_used = 0;
 
   for (cid = first; cid < last; cid++) {
-    int append = FALSE;
+    bool append = FALSE;
     int id = cid_id(cid);
 
     if (!append_units && (append_wonders != is_wonder(id)))
@@ -817,7 +819,7 @@ int collect_cids1(cid * dest_cids, struct city **selected_cities,
  */
 int collect_cids2(cid * dest_cids)
 {
-  int mapping[B_LAST + U_LAST];
+  bool mapping[B_LAST + U_LAST];
   int cids_used = 0;
   cid cid;
 
@@ -864,13 +866,13 @@ int collect_cids3(cid * dest_cids)
  * Collect the cids of all targets which can be build by this city or
  * in general.
  */
-int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech)
+int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
 {
   int id, cids_used = 0;
 
   for (id = 0; id < game.num_impr_types; id++) {
-    int can_build = can_player_build_improvement(game.player_ptr, id);
-    int can_eventually_build =
+    bool can_build = can_player_build_improvement(game.player_ptr, id);
+    bool can_eventually_build =
 	could_player_eventually_build_improvement(game.player_ptr, id);
 
     /* If there's a city, can the city build the improvement? */
@@ -888,8 +890,8 @@ int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech)
   }
 
   for (id = 0; id < game.num_unit_types; id++) {
-    int can_build = can_player_build_unit(game.player_ptr, id);
-    int can_eventually_build =
+    bool can_build = can_player_build_unit(game.player_ptr, id);
+    bool can_eventually_build =
 	can_player_eventually_build_unit(game.player_ptr, id);
 
     /* If there's a city, can the city build the unit? */
@@ -930,8 +932,8 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
 /*
  * Collect the wids of all possible targets of the given city.
  */
-int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first, 
-                  int advanced_tech)
+int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first, 
+                  bool advanced_tech)
 {
   cid cids[U_LAST + B_LAST];
   int item, cids_used, wids_used = 0;
@@ -1010,9 +1012,9 @@ int num_present_units_in_city(struct city *pcity)
 **************************************************************************/
 void renumber_island_impr_effect(int old, int newnumber)
 {
-  int i, changed;
+  int i;
+  bool changed = FALSE;
 
-  changed=FALSE;
   players_iterate(plr) {
     Impr_Status *oldimpr, *newimpr;
     struct geff_vector *oldv, *newv;

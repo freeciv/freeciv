@@ -66,7 +66,7 @@ static const char *tile_special_type_names[] =
   N_("Fallout")
 };
 
-extern int is_server;
+extern bool is_server;
 
 #define MAP_TILE(x,y)	(map.tiles + map_inx(x, y))
 
@@ -1188,7 +1188,7 @@ enum tile_special_type map_get_special(int x, int y)
  Returns TRUE iff the given special is found at the given map
  position.
 ***************************************************************/
-int map_has_special(int x, int y, enum tile_special_type special)
+bool map_has_special(int x, int y, enum tile_special_type special)
 {
   return BOOL_VAL(MAP_TILE(x, y)->special & special);
 }

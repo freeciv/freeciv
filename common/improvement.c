@@ -436,7 +436,7 @@ bool could_player_eventually_build_improvement(struct player *p,
 /**************************************************************************
 ...
 **************************************************************************/
-int could_player_build_improvement(struct player *p, Impr_Type_id id)
+bool could_player_build_improvement(struct player *p, Impr_Type_id id)
 {
   if (!could_player_eventually_build_improvement(p, id))
     return FALSE;
@@ -451,7 +451,7 @@ int could_player_build_improvement(struct player *p, Impr_Type_id id)
 Can a player build this improvement somewhere?  Ignores the
 fact that player may not have a city with appropriate prereqs.
 **************************************************************************/
-int can_player_build_improvement(struct player *p, Impr_Type_id id)
+bool can_player_build_improvement(struct player *p, Impr_Type_id id)
 {
   if (!improvement_exists(id))
     return FALSE;

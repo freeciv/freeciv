@@ -108,7 +108,9 @@ static void ai_manage_buildings(struct player *pplayer)
   struct government *g = get_gov_pplayer(pplayer);
   Impr_Type_id i;
   Tech_Type_id j;
-  int values[B_LAST], leon = 0, palace = FALSE, corr = 0;
+  int values[B_LAST], leon = 0;
+  bool palace = FALSE;
+  int corr = 0;
   memset(values, 0, sizeof(values));
   memset(pplayer->ai.tech_want, 0, sizeof(pplayer->ai.tech_want));
 
@@ -331,7 +333,9 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 static void ai_new_spend_gold(struct player *pplayer)
 {
   Unit_Type_id id;
-  int buycost, cost, frugal = FALSE, trireme=0;
+  int buycost, cost;
+  bool frugal = FALSE;
+  int trireme = 0;
   int total, build, did_upgrade, reserve;
   struct ai_choice bestchoice;
   struct city *pcity = NULL;
@@ -594,7 +598,7 @@ int city_get_buildings(struct city *pcity)
 /**************************************************************************
 ... find a good (bad) tile to remove
 **************************************************************************/
-static int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
+static bool worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
 			    int foodneed, int prodneed)
 {
   int a, b;
@@ -610,7 +614,7 @@ static int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
 /************************************************************************** 
 ...
 **************************************************************************/
-static int is_defender_unit(Unit_Type_id unit_type) 
+static bool is_defender_unit(Unit_Type_id unit_type) 
 {
   return unit_has_role(unit_type, L_DEFEND_GOOD)
       || unit_has_role(unit_type, L_DEFEND_OK);
@@ -705,7 +709,7 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
    the same results as (hp>10) for the default set, and does
    _something_ for other sets.  This should be revisited.  --dwp
 */
-int has_a_normal_defender(struct city *pcity)
+bool has_a_normal_defender(struct city *pcity)
 {
 #if 0 /* pre-rulesets */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
@@ -734,8 +738,8 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int j, m;
   int best= 0;
-  int walls = TRUE; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
-  int isdef = has_a_normal_defender(pcity);
+  const bool walls = TRUE; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
+  bool isdef = has_a_normal_defender(pcity);
 
   for (i = 0; i < game.num_unit_types; i++) {
     if (!is_ai_simple_military(i)) continue;
@@ -785,7 +789,7 @@ void adjust_build_choice(struct player *pplayer, struct ai_choice *cur,
 ... 
 **************************************************************************/
 
-static int building_unwanted(struct player *plr, Impr_Type_id i)
+static bool building_unwanted(struct player *plr, Impr_Type_id i)
 {
   if (plr->research.researching != A_NONE)
     return FALSE;
@@ -1016,7 +1020,8 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   city_list_init(&minilist);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     struct city *acity=map_get_tile(x,y)->worked;
-    int city_map_x, city_map_y, is_valid;
+    int city_map_x, city_map_y;
+    bool is_valid;
 
     if(acity && acity!=pcity && acity->owner==pcity->owner)  {
       if(acity->x==x && acity->y==y) /* can't stop working city center */

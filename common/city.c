@@ -75,7 +75,7 @@ struct citystyle *city_styles = NULL;
 void send_unit_info(struct player *dest, struct unit *punit);
 
 /* from client/civclient.c or server/srv_main.c */
-extern int is_server;
+extern bool is_server;
 
 /**************************************************************************
 ...
@@ -830,7 +830,7 @@ bool city_can_be_built_here(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_establish_trade_route(struct city *pc1, struct city *pc2)
+bool can_establish_trade_route(struct city *pc1, struct city *pc2)
 {
   int i, free1 = 0, free2 = 0;
 

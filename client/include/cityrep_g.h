@@ -15,7 +15,7 @@
 
 struct city;
 
-void popup_city_report_dialog(int make_modal);
+void popup_city_report_dialog(bool make_modal);
 void city_report_dialog_update(void);
 void city_report_dialog_update_city(struct city *pcity);
 

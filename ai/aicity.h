@@ -37,7 +37,7 @@ Unit_Type_id ai_choose_attacker_sailing(struct city *pcity);
 int ai_make_elvis(struct city *pcity);
 void ai_scientists_taxmen(struct city *pcity);
 bool ai_fix_unhappy(struct city *pcity);
-int has_a_normal_defender(struct city *pcity);
+bool has_a_normal_defender(struct city *pcity);
 void emergency_reallocate_workers(struct player *pplayer, struct city *pcity);
 
 enum ai_city_task { AICITY_NONE, AICITY_TECH, AICITY_TAX, AICITY_PROD};

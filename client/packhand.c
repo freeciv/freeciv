@@ -68,7 +68,7 @@
 #include "packhand.h"
 
 static void handle_city_packet_common(struct city *pcity, int is_new,
-                                      int popup, int investigate);
+                                      bool popup, bool investigate);
 
 #define TEST_ATTRIBUTES 0
 
@@ -226,7 +226,7 @@ void handle_nuke_tile(struct packet_nuke_tile *packet)
 **************************************************************************/
 void handle_unit_combat(struct packet_unit_combat *packet)
 {
-  int show_combat = FALSE;
+  bool show_combat = FALSE;
   struct unit *punit0 = find_unit_by_id(packet->attacker_unit_id);
   struct unit *punit1 = find_unit_by_id(packet->defender_unit_id);
 
@@ -266,8 +266,8 @@ void handle_unit_combat(struct packet_unit_combat *packet)
   the existing improvement status was changed by this call.
 **************************************************************************/
 static void update_improvement_from_packet(struct city *pcity,
-					   Impr_Type_id impr, int have_impr,
-					   int *impr_changed)
+					   Impr_Type_id impr, bool have_impr,
+					   bool *impr_changed)
 {
   if (have_impr && pcity->improvements[impr] == I_NONE) {
     city_add_improvement(pcity, impr);
@@ -287,7 +287,7 @@ static void update_improvement_from_packet(struct city *pcity,
 /**************************************************************************
   Possibly update city improvement effects.
 **************************************************************************/
-static void try_update_effects(int need_update)
+static void try_update_effects(bool need_update)
 {
   if (need_update) {
     update_all_effects();
@@ -331,10 +331,10 @@ void handle_game_state(struct packet_generic_integer *packet)
 void handle_city_info(struct packet_city_info *packet)
 {
   int i, x, y;
-  int city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
+  bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
   struct city *pcity;
-  int popup;
-  int update_descriptions = FALSE;
+  bool popup;
+  bool update_descriptions = FALSE;
 
   pcity=find_city_by_id(packet->id);
 
@@ -465,9 +465,9 @@ void handle_city_info(struct packet_city_info *packet)
   if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
     /* update it only every second (because of ChangeAll), this is not
        a perfect solution at all! */
-    static int timer_initialized;
+    static bool timer_initialized;
     static time_t timer;
-    int really_update = TRUE;
+    bool really_update = TRUE;
     time_t new_timer = time(NULL);
 
     if (timer_initialized) {
@@ -493,7 +493,7 @@ void handle_city_info(struct packet_city_info *packet)
   ...
 **************************************************************************/
 static void handle_city_packet_common(struct city *pcity, int is_new,
-                                      int popup, int investigate)
+                                      bool popup, bool investigate)
 {
   int i;
 
@@ -566,8 +566,8 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
 void handle_short_city(struct packet_short_city *packet)
 {
   struct city *pcity;
-  int city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
-  int update_descriptions = FALSE;
+  bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
+  bool update_descriptions = FALSE;
 
   pcity=find_city_by_id(packet->id);
 
@@ -830,8 +830,8 @@ void handle_unit_info(struct packet_unit_info *packet)
 {
   struct city *pcity;
   struct unit *punit;
-  int repaint_unit;
-  int repaint_city;		/* regards unit's homecity */
+  bool repaint_unit;
+  bool repaint_city;		/* regards unit's homecity */
   /* Special case for a diplomat/spy investigating a city:
      The investigator needs to know the supported and present
      units of a city, whether or not they are fogged. So, we
@@ -1079,7 +1079,9 @@ void handle_map_info(struct packet_map_info *pinfo)
 **************************************************************************/
 void handle_game_info(struct packet_game_info *pinfo)
 {
-  int i, boot_help, need_effect_update = FALSE;
+  int i;
+  bool boot_help, need_effect_update = FALSE;
+
   game.gold=pinfo->gold;
   game.tech=pinfo->tech;
   game.researchcost=pinfo->researchcost;
@@ -1160,7 +1162,7 @@ void handle_game_info(struct packet_game_info *pinfo)
 void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
-  int poptechup;
+  bool poptechup;
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
 
@@ -1342,7 +1344,7 @@ Do things one at a time; the server will send us an updated
 spaceship_info packet, and we'll be back here to do anything
 which is left.
 **************************************************************************/
-static int spaceship_autoplace(struct player *pplayer,
+static bool spaceship_autoplace(struct player *pplayer,
 			       struct player_spaceship *ship)
 {
   struct government *g = get_gov_pplayer(pplayer);
@@ -1352,7 +1354,7 @@ static int spaceship_autoplace(struct player *pplayer,
   if (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
-    int nice = government_has_hint(g, G_IS_NICE);
+    bool nice = government_has_hint(g, G_IS_NICE);
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */
@@ -1523,7 +1525,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct tile *ptile = map_get_tile(packet->x, packet->y);
   enum tile_terrain_type old_terrain = ptile->terrain;
   enum known_type old_known = ptile->known;
-  int tile_changed = FALSE;
+  bool tile_changed = FALSE;
 
   if (ptile->terrain != packet->type) { /*terrain*/
     tile_changed = TRUE;

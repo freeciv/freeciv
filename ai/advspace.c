@@ -34,7 +34,7 @@ int ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *ship
   while (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
-    int nice = government_has_hint(g, G_IS_NICE);
+    bool nice = government_has_hint(g, G_IS_NICE);
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */

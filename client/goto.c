@@ -55,7 +55,7 @@ static int waypoint_list_length = INITIAL_WAYPOINT_LENGTH;
 /* points to where the next element should be inserted */
 static int waypoint_list_index = 0; 
 
-static int is_active = FALSE;
+static bool is_active = FALSE;
 
 struct client_goto_map goto_map;
 
@@ -107,7 +107,7 @@ Called once per use of the queue.
 static void init_queue(void)
 {
   int i;
-  static int is_allocated = FALSE;
+  static bool is_allocated = FALSE;
   if (!is_allocated) {
     for (i = 0; i < MAXARRAYS; i++) {
       mappos_arrays[i] = NULL;
@@ -169,7 +169,7 @@ static void add_to_mapqueue(int cost, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-static int get_from_mapqueue(int *x, int *y)
+static bool get_from_mapqueue(int *x, int *y)
 {
   struct mappos_array *our_array;
   freelog(LOG_DEBUG, "trying get");
@@ -206,7 +206,8 @@ Called once per game.
 void init_client_goto(void)
 {
   int x_itr;
-  static int is_init = FALSE, old_xsize;
+  static bool is_init = FALSE;
+  static int old_xsize;
 
   if (!goto_array) {
     goto_array = fc_malloc(INITIAL_ARRAY_LENGTH
@@ -265,7 +266,7 @@ static void init_goto_map(struct unit *punit, int src_x, int src_y)
 /**************************************************************************
 Can we move between for ZOC? (only for land units).
 **************************************************************************/
-static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
+static bool goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 		       int dest_x, int dest_y)
 {
   if (unit_flag(punit, F_IGZOC))
@@ -306,8 +307,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
   struct tile *psrctile, *pdesttile;
   enum unit_move_type move_type = unit_type(punit)->move_type;
   int move_cost, total_cost;
-  int igter = unit_flag(punit, F_IGTER);
-  int add_to_queue;
+  bool igter = unit_flag(punit, F_IGTER);
+  bool add_to_queue;
 
   init_queue();
   init_goto_map(punit, src_x, src_y);
@@ -568,7 +569,7 @@ void exit_goto_state(void)
 /********************************************************************** 
 ...
 ***********************************************************************/
-int goto_is_active(void)
+bool goto_is_active(void)
 {
   return is_active;
 }
@@ -598,7 +599,8 @@ This function returns pointer to the correct char.
 ***********************************************************************/
 static unsigned char *get_drawn_char(int x, int y, int dir)
 {
-  int x1, y1, is_real;
+  int x1, y1;
+  bool is_real;
 
   /* Replace with check for is_normal_tile later */  
   assert(is_real_tile(x, y));

@@ -64,12 +64,12 @@ int UNIT_TILE_HEIGHT;
 int SMALL_TILE_WIDTH;
 int SMALL_TILE_HEIGHT;
 
-int is_isometric;
+bool is_isometric;
 
 char *city_names_font;
 char *city_productions_font_name;
 
-int flags_are_transparent = TRUE;
+bool flags_are_transparent = TRUE;
 
 int num_tiles_explode_unit=0;
 
@@ -107,12 +107,12 @@ static struct sbuffer *sprite_key_sb;
   If focus_unit_hidden is true, then no units at
   the location of the foc unit are ever drawn.
 */
-static int focus_unit_hidden = FALSE;
+static bool focus_unit_hidden = FALSE;
 
 /*
   If no_backdrop is true, then no color/flag is drawn behind the city/unit.
 */
-static int no_backdrop = FALSE;
+static bool no_backdrop = FALSE;
 
 /**********************************************************************
   Gets full filename for tilespec file, based on input name.
@@ -363,7 +363,7 @@ static void tilespec_load_one(const char *spec_filename)
   }
 
   for(i=0; i<num_grids; i++) {
-    int is_pixel_border =
+    bool is_pixel_border =
       secfile_lookup_int_default(file, 0, "%s.is_pixel_border", gridnames[i]);
     x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
     y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
@@ -681,7 +681,7 @@ void tilespec_load_tiles(void)
   or else return NULL, and emit log message.
 ***********************************************************************/
 static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
-					    int required, const char *what,
+					    bool required, const char *what,
 					    const char *name)
 {
   struct Sprite *sp;
@@ -1084,7 +1084,7 @@ The sprites are drawn in the following order:
 ***********************************************************************/
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       struct Sprite **dither,
-			       int x, int y, int citymode,
+			       int x, int y, bool citymode,
 			       int *solid_bg)
 {
   int ttype, ttype_near[8];
@@ -1234,7 +1234,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   } else {
     if (draw_roads_rails) {
       if (BOOL_VAL(tspecial & S_RAILROAD)) {
-      	int found = FALSE;
+      	bool found = FALSE;
 
 	for (dir = 0; dir < 8; dir++) {
 	  if (BOOL_VAL(tspecial_near[dir] & S_RAILROAD)) {
@@ -1250,7 +1250,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 	  *sprs++ = sprites.rail.isolated;
 
       } else if (BOOL_VAL(tspecial & S_ROAD)) {
-	int found = FALSE;
+	bool found = FALSE;
 
 	for (dir = 0; dir < 8; dir++) {
 	  if (BOOL_VAL(tspecial_near[dir] & S_ROAD)) {
@@ -1309,7 +1309,7 @@ The sprites are drawn in the following order:
 12) FoW
 ***********************************************************************/
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
-			   int citymode, int *solid_bg, struct player **pplayer)
+			   bool citymode, int *solid_bg, struct player **pplayer)
 {
   int ttype, ttype_near[8];
   int tspecial, tspecial_near[8];
@@ -1778,7 +1778,7 @@ enum color_std overview_tile_color(int x, int y)
 /**********************************************************************
   Set focus_unit_hidden (q.v.) variable to given value.
 ***********************************************************************/
-void set_focus_unit_hidden_state(int hide)
+void set_focus_unit_hidden_state(bool hide)
 {
   focus_unit_hidden = hide;
 }
@@ -1786,7 +1786,7 @@ void set_focus_unit_hidden_state(int hide)
 /**********************************************************************
 ...
 ***********************************************************************/
-struct unit *get_drawable_unit(int x, int y, int citymode)
+struct unit *get_drawable_unit(int x, int y, bool citymode)
 {
   struct unit *punit = find_visible_unit(map_get_tile(x, y));
   struct unit *pfocus = get_unit_in_focus();

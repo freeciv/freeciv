@@ -340,7 +340,7 @@ bool is_ground_threat(struct player *pplayer, struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_square_threatened(struct player *pplayer, int x, int y)
+bool is_square_threatened(struct player *pplayer, int x, int y)
 {
   square_iterate(x, y, 2, x1, y1) {
     unit_list_iterate(map_get_tile(x1, y1)->units, punit) {
@@ -356,7 +356,7 @@ int is_square_threatened(struct player *pplayer, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_field_unit(struct unit *punit)
+bool is_field_unit(struct unit *punit)
 {
   return unit_flag(punit, F_FIELDUNIT);
 }
