@@ -2229,6 +2229,8 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 			      " land to sea at (%d, %d)."),
 			    unit_name(punit2->type), punit2->x, punit2->y);
 	      move_unit(punit2, x, y, 1, 0, 0);
+	      if (punit2->activity == ACTIVITY_SENTRY)
+		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	      goto START;
 	    }
 	  }
@@ -2252,6 +2254,8 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 			      " land to sea at (%d, %d)."),
 			    unit_name(punit2->type), punit2->x, punit2->y);
 	      move_unit(punit2, x, y, 1, 0, 0);
+	      if (punit2->activity == ACTIVITY_SENTRY)
+		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	      goto START;
 	    }
 	  }
@@ -2295,6 +2299,8 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 			      " sea to land at (%d, %d)."),
 			    unit_name(punit2->type), punit2->x, punit2->y);
 	      move_unit(punit2, x, y, 1, 1, 0);
+	      if (punit2->activity == ACTIVITY_SENTRY)
+		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	      goto START;
 	    }
 	  }
@@ -2318,6 +2324,8 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 			      " sea to land at (%d, %d)."),
 			    unit_name(punit2->type), punit2->x, punit2->y);
 	      move_unit(punit2, x, y, 1, 1, 0);
+	      if (punit2->activity == ACTIVITY_SENTRY)
+		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	      goto START;
 	    }
 	  }
