@@ -761,8 +761,8 @@ const char *user_username(void)
 #ifdef WIN32_NATIVE
   /* On win32 the GetUserName function will give us the login name. */
   {
-    DWORD length;
     char name[UNLEN + 1];
+    DWORD length = sizeof(name);
 
     if (GetUserName(name, &length)) {
       sz_strlcpy(username, name);
