@@ -4,3 +4,7 @@
 /vbcc_pcc
 /civclient
 /civserver
+/*.c.info
+/*.bak
+/*.bak.info
+/*.lnk
