@@ -1022,6 +1022,7 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   data|=req->did_sell?4:0;
   data|=req->was_happy?8:0;
   data|=req->airlift?16:0;
+  data|=req->diplomat_investigate?32:0; /* gentler implementation -- Syela */
   cptr=put_int8(cptr, data);
 
   cptr=put_city_map(cptr, (char*)req->city_map);
@@ -1034,7 +1035,6 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
     }
   }
 
-  cptr=put_int8(cptr, req->diplomat_investigate);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1091,6 +1091,7 @@ recieve_packet_city_info(struct connection *pc)
   packet->did_sell = (data>>=1)&1;
   packet->was_happy = (data>>=1)&1;
   packet->airlift = (data>>=1)&1;
+  packet->diplomat_investigate = (data>>=1)&1;
   
   cptr=get_city_map(cptr, (char*)packet->city_map);
   cptr=get_bit_string(cptr, (char*)packet->improvements);
@@ -1101,7 +1102,6 @@ recieve_packet_city_info(struct connection *pc)
     cptr=get_int8(cptr, &packet->trade_value[data]);
   }
   for(;data<4;data++) packet->trade_value[data]=packet->trade[data]=0;
-  cptr=get_int8(cptr, &packet->diplomat_investigate);
 
   remove_packet_from_buffer(&pc->buffer);
 

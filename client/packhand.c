@@ -184,8 +184,6 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->was_happy=packet->was_happy;
   pcity->airlift=packet->airlift;
   
-  pcity->diplomat_investigate = packet->diplomat_investigate;
-  
   i=0;
   for(y=0; y<CITY_MAP_SIZE; y++)
     for(x=0; x<CITY_MAP_SIZE; x++)
@@ -210,11 +208,10 @@ void handle_city_info(struct packet_city_info *packet)
   }
     
   refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
-  
-  if((city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
-      pcity->owner==game.player_idx &&
+
+  if(((city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
+      pcity->owner==game.player_idx) || packet->diplomat_investigate) &&
       (!game.player_ptr->ai.control || ai_popup_windows)) 
-     || pcity->diplomat_investigate == game.player_idx+1)
     popup_city_dialog(pcity, 0);
   
   if(!city_is_new)

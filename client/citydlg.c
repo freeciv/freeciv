@@ -203,7 +203,7 @@ void refresh_city_dialog(struct city *pcity)
 
   /* Set the buttons we do not want live while a Diplomat investigates */
   
-  if(pdialog && pcity->diplomat_investigate){
+  if(pdialog && pcity->owner != game.player_idx) {
     XtSetSensitive(pdialog->buy_command, FALSE);
     XtSetSensitive(pdialog->change_command, FALSE);
     XtSetSensitive(pdialog->sell_command, FALSE);
@@ -483,7 +483,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			      NULL);
     pdialog->support_unit_ids[i]=-1;
     
-    if(pcity->diplomat_investigate)
+    if(pcity->owner != game.player_idx)
       XtSetSensitive(pdialog->support_unit_pixcomms[i], FALSE);    
   }
 
@@ -518,7 +518,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			      NULL);
     pdialog->present_unit_ids[i]=-1;
 
-    if(pcity->diplomat_investigate)
+    if(pcity->owner != game.player_idx)
       XtSetSensitive(pdialog->present_unit_pixcomms[i], FALSE);
   }
 

@@ -541,8 +541,6 @@ void spy_close_sabotage_callback(Widget w, XtPointer client_data,
 void spy_select_tech_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
-  char buf[512];
-  
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(spy_advances_list);
   
@@ -560,8 +558,6 @@ void spy_select_tech_callback(Widget w, XtPointer client_data,
 void spy_select_improvement_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
-  char buf[512];
-  
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(spy_improvements_list);
   
@@ -636,7 +632,6 @@ int create_advances_list(struct player *pplayer, struct player *pvictim, int mak
   Widget spy_tech_form;
   Widget close_command;
   Dimension width1, width2; 
-  char *dialog_title;
   int i, j;
 
   static char *advances_can_steal[A_LAST]; 
@@ -686,14 +681,17 @@ int create_advances_list(struct player *pplayer, struct player *pvictim, int mak
   advances_can_steal[j] = "NONE";
   advance_type[j] = -1;
 
-  for(i=1; i<A_LAST; i++) 
-    if(get_invention(pvictim, i)==TECH_KNOWN && 
-       (get_invention(pplayer, i)==TECH_UNKNOWN || 
-	get_invention(pplayer, i)==TECH_REACHABLE)) {
+  if (pvictim) { /* you don't want to know what lag can do -- Syela */
+    for(i=1; i<A_LAST; i++) {
+      if(get_invention(pvictim, i)==TECH_KNOWN && 
+         (get_invention(pplayer, i)==TECH_UNKNOWN || 
+          get_invention(pplayer, i)==TECH_REACHABLE)) {
       
-      advances_can_steal[j] = advances[i].name;
-      advance_type[j++] = i;
+        advances_can_steal[j] = advances[i].name;
+        advance_type[j++] = i;
+      }
     }
+  }
 
   if(j == 0) j++;
   advances_can_steal[j] = NULL; 
@@ -718,7 +716,6 @@ int create_improvements_list(struct player *pplayer, struct city *pcity, int mak
   Widget spy_sabotage_form;
   Widget close_command;
   Dimension width1, width2; 
-  char *dialog_title;
   int i, j;
 
   static char *improvements_can_sabotage[B_LAST]; 
@@ -793,12 +790,15 @@ int create_improvements_list(struct player *pplayer, struct city *pcity, int mak
 void spy_steal_popup(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
-  struct unit *punit = find_unit_by_id(diplomat_id);
   struct city *pvcity = find_city_by_id(diplomat_target_id);
-  struct player *pvictim;
+  struct player *pvictim = NULL;
 
   if(pvcity)
     pvictim = city_owner(pvcity);
+
+/* it is concievable that pvcity will not be found, because something
+has happened to the city during latency.  Therefore we must initialize
+pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
   destroy_message_dialog(w);
 
@@ -825,7 +825,6 @@ void spy_steal_popup(Widget w, XtPointer client_data,
 void spy_sabotage_popup(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
-  struct unit *punit = find_unit_by_id(diplomat_id);
   struct city *pvcity = find_city_by_id(diplomat_target_id);
   
   destroy_message_dialog(w);

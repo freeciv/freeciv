@@ -134,7 +134,6 @@ struct city {
    
   int is_building_unit;    /* boolean unit/improvement */
   int currently_building;
-  int diplomat_investigate;
   
   unsigned char improvements[B_LAST];
   

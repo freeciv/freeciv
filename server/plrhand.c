@@ -38,6 +38,7 @@
 #include <aicity.h>
 #include <aitech.h>
 #include <settlers.h>
+#include <capability.h>
 extern struct advance advances[];
 extern struct player_race races[];
 
@@ -376,11 +377,10 @@ void demographics_report(struct player *pplayer)
 }
 
 /* create a log file of the civilizations so you can see what was happening */
-log_civ_score()
-{
+void log_civ_score()
+{ /* never shall we fail to define void functions as void!! -- Syela */
   int i,j,fom; /* fom == figure-of-merit */
   static FILE *fp = NULL;
-  struct unit *punit;
 
   if (fp == NULL)
     {
@@ -410,38 +410,40 @@ log_civ_score()
 
   for (i = 0;i <= 6;i++) {
     for (j = 0;j < game.nplayers;j++) {
-      switch (i) {
-      case 0:
-	fom = total_player_citizens(&game.players[j]);
-	break;
-      case 1:
-	fom = game.players[j].score.bnp;
-	break;
-      case 2:
-	fom = game.players[j].score.mfg;
-	break;
-      case 3:
-	fom = game.players[j].score.cities;
-	break;
-      case 4:
-	fom = game.players[j].score.techs;
-	break;
-      case 5:
-	fom = 0;
+      switch (i) { /* Standardized by Minister-of-style-conformity Syela */
+        case 0:
+	  fom = total_player_citizens(&game.players[j]);
+	  break;
+        case 1:
+	  fom = game.players[j].score.bnp;
+	  break;
+        case 2:
+	  fom = game.players[j].score.mfg;
+	  break;
+        case 3:
+	  fom = game.players[j].score.cities;
+	  break;
+        case 4:
+	  fom = game.players[j].score.techs;
+	  break;
+        case 5:
+	  fom = 0;
 	/* count up military units */
-	unit_list_iterate(game.players[j].units, punit) 
-	  if (is_military_unit(punit))
-	    fom++;
-	unit_list_iterate_end;
-	break;
-      case 6:
-	fom = 0;
+	  unit_list_iterate(game.players[j].units, punit) 
+	    if (is_military_unit(punit))
+	      fom++;
+	  unit_list_iterate_end;
+	  break;
+        case 6:
+	  fom = 0;
 	/* count up settlers */
-	unit_list_iterate(game.players[j].units, punit) 
-	  if (unit_flag(punit->type,F_SETTLERS))
-	    fom++;
-	unit_list_iterate_end;
-	break;
+	  unit_list_iterate(game.players[j].units, punit) 
+	    if (unit_flag(punit->type,F_SETTLERS))
+	      fom++;
+	  unit_list_iterate_end;
+	  break;
+        default:
+          fom = 0; /* -Wall demands we init this somewhere! */
       }
 
       fprintf(fp,"%d %d %d %d\n",i,j,game.year,fom);
@@ -1013,6 +1015,16 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 {
   int i, j, x, y, nunits, ncities;
   char *p;
+  char *savefile_options = " ";
+
+  if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
+      || (game.version > 10604))
+    savefile_options = secfile_lookup_str(file,"savefile.options");  
+  /* else leave savefile_options empty */
+  
+  /* Note -- as of v1.6.4 you should use savefile_options (instead of
+     game.version) to determine which variables you can expect to   
+     find in a savegame file */
 
   strcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   plr->race=secfile_lookup_int(file, "player%d.race", plrno);
@@ -1107,8 +1119,6 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
     pcity->currently_building=secfile_lookup_int(file, 
 						 "player%d.c%d.currently_building", plrno, i);
-
-    pcity->diplomat_investigate = 0;
 
     pcity->did_buy=secfile_lookup_int(file,
 				      "player%d.c%d.did_buy", plrno,i);

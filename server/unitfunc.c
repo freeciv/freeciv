@@ -88,17 +88,15 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat, struct city *pci
  - Kris Bubendorfer
 ****************************************************************************/
 
-
-void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct city *pcity){
-  
-  if(pcity){
-    pcity->diplomat_investigate = pplayer->player_no+1;
-    send_city_info(pplayer, pcity, 0);
-    pcity->diplomat_investigate = 0;  
-  }
-  if(pdiplomat->type != U_SPY)
+void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct city *pcity)
+{
+  if (pcity) {
+    send_city_info(pplayer, pcity, -1); /* flag value for investigation */
+  } /* why isn't the following if in this if?? -- Syela */
+  if (pdiplomat->type != U_SPY)
     wipe_unit(0, pdiplomat);
 }
+
 /******************************************************************************
   Sabotage an enemy unit (only spies can do this)
  

@@ -145,7 +145,6 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->trade_prod=0;
   pcity->original = pplayer->player_no;
   pcity->is_building_unit=1;
-  pcity->diplomat_investigate = 0;
   pcity->did_buy=-1; /* code so we get a different message */
   pcity->airlift=0;
   if (can_build_unit(pcity, U_RIFLEMEN))
@@ -158,8 +157,6 @@ void create_city(struct player *pplayer, int x, int y, char *name)
       pcity->currently_building=U_PHALANX;
   else
       pcity->currently_building=U_WARRIORS;
-
-  pcity->diplomat_investigate = 0;
 
   for (y = 0; y < CITY_MAP_SIZE; y++)
     for (x = 0; x < CITY_MAP_SIZE; x++)
@@ -623,7 +620,11 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   
   packet.is_building_unit=pcity->is_building_unit;
   packet.currently_building=pcity->currently_building;
-  packet.diplomat_investigate=pcity->diplomat_investigate;
+  packet.diplomat_investigate=(dosend < 0 ? 1 : 0);
+
+/* I'm declaring dosend < 0 to be a flag value to send the
+investigate packet.  If this offends anyone, feel free to
+rewrite send_city_info as a wrapper or something -- Syela */
 
   packet.airlift=pcity->airlift;
   packet.did_buy=pcity->did_buy;
@@ -643,7 +644,7 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   for(o=0; o<game.nplayers; o++) {           /* dests */
     if(!dest || &game.players[o]==dest) {
       if(nocity_send && &game.players[o]==dest) continue;
-      if(dosend || map_get_known(pcity->x, pcity->y, &game.players[o])) {
+      if(dosend > 0 || map_get_known(pcity->x, pcity->y, &game.players[o])) {
 	send_packet_city_info(game.players[o].conn, &packet);
       }
     }
