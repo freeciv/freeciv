@@ -273,7 +273,7 @@ as they were found.
 void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type move_type)
 {
-  int x, y, move_cost, dir, x1, y1;
+  int x, y, move_cost;
   int orig_x, orig_y;
   int igter;
   int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
@@ -307,12 +307,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 
   while (get_from_mapqueue(&x, &y)) {
     ptile = map_get_tile(x, y);
-    for (dir = 0; dir < 8; dir++) {
-      x1 = x + DIR_DX[dir];
-      y1 = y + DIR_DY[dir];
-      if (!normalize_map_pos(&x1, &y1))
-	continue;
-
+    adjc_dir_iterate(x, y, x1, y1, dir) {
       switch (move_type) {
       case LAND_MOVING:
 	if (warmap.cost[x1][y1] <= warmap.cost[x][y])
@@ -363,7 +358,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	freelog(LOG_FATAL, "Bad/unimplemented move_type in really_generate_warmap().");
 	abort();
       }
-    } /* end for */
+    } adjc_iterate_dir_end;
   }
 
   freelog(LOG_DEBUG, "Generated warmap for (%d,%d).",

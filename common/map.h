@@ -364,6 +364,34 @@ extern struct tile_type tile_types[T_LAST];
   }                                                                           \
 }
 
+/* Iterate through all tiles adjacent to a tile.  dir_itr is the
+   directional value (see DIR_D[XY]).  This assumes that center_x and
+   center_y are normalized. --JDS */
+#define adjc_dir_iterate(center_x, center_y, x_itr, y_itr, dir_itr)           \
+{                                                                             \
+  int x_itr, y_itr, dir_itr, MACRO_border;                                    \
+  assert(0 <= center_y && center_y <= map.ysize                               \
+         && 0 <= center_x && center_x <= map.xsize);                          \
+  MACRO_border = (center_y == 0                                               \
+            || center_x == 0                                                  \
+            || center_y == map.ysize-1                                        \
+            || center_x == map.xsize-1);                                      \
+  for (dir_itr = 0; dir_itr < 8; dir_itr++) {                                 \
+    y_itr = center_y + DIR_DY[dir_itr];                                       \
+    x_itr = center_x + DIR_DX[dir_itr];                                       \
+    if (MACRO_border) {                                                       \
+      if (y_itr < 0 || y_itr > map.ysize)                                     \
+        continue;                                                             \
+      if (x_itr < 0)                                                          \
+        x_itr += map.xsize;                                                   \
+      else if (x_itr >= map.xsize)                                            \
+        x_itr -= map.xsize;                                                   \
+    }
+
+#define adjc_iterate_dir_end                                                  \
+  }                                                                           \
+}
+
 /* iterating y, x for cache efficiency */
 #define whole_map_iterate(WMI_x_itr, WMI_y_itr)                               \
 {                                                                             \
