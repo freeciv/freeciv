@@ -855,7 +855,7 @@ int base_city_get_output_tile(int city_x, int city_y,
   coordinates.  punit is the founding unit, which may be NULL in some
   cases (e.g., cities from huts).
 **************************************************************************/
-bool city_can_be_built_here(const struct tile *ptile, struct unit *punit)
+bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
 {
   if (terrain_has_flag(ptile->terrain, TER_NO_CITIES)) {
     /* No cities on this terrain. */
@@ -1198,9 +1198,10 @@ int citygov_free_upkeep(const struct city *pcity,
 }
 
 /**************************************************************************
-...
+  Return how many citizens may be made content by military garrisons under
+  this government type.
 **************************************************************************/
-int citygov_free_happy(const struct city *pcity, struct government *gov)
+int citygov_free_happy(const struct city *pcity, const struct government *gov)
 {
   if (gov->free_happy == G_CITY_SIZE_FREE) {
     return pcity->size;
@@ -1218,19 +1219,22 @@ int get_city_style(const struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the city style (used for drawing the city on the mapview in
+  the client) for this city.  The city style depends on the
+  start-of-game choice by the player as well as techs researched.
 **************************************************************************/
-int get_player_city_style(struct player *plr)
+int get_player_city_style(const struct player *plr)
 {
   int replace, style, prev;
 
   style = plr->city_style;
   prev = style;
 
-  while ( (replace = city_styles[prev].replaced_by) != -1) {
+  while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
-    if (get_invention( plr, city_styles[replace].techreq) == TECH_KNOWN)
+    if (get_invention(plr, city_styles[replace].techreq) == TECH_KNOWN) {
       style = replace;
+    }
   }
   return style;
 }
@@ -1420,7 +1424,7 @@ bool city_can_grow_to(const struct city *pcity, int pop_size)
  is there an enemy city on this tile?
 **************************************************************************/
 struct city *is_enemy_city_tile(const struct tile *ptile,
-				struct player *pplayer)
+				const struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
@@ -1434,7 +1438,7 @@ struct city *is_enemy_city_tile(const struct tile *ptile,
  is there an friendly city on this tile?
 **************************************************************************/
 struct city *is_allied_city_tile(const struct tile *ptile,
-				 struct player *pplayer)
+				 const struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
@@ -1448,7 +1452,7 @@ struct city *is_allied_city_tile(const struct tile *ptile,
  is there an enemy city on this tile?
 **************************************************************************/
 struct city *is_non_attack_city_tile(const struct tile *ptile,
-				     struct player *pplayer)
+				     const struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
@@ -1462,7 +1466,7 @@ struct city *is_non_attack_city_tile(const struct tile *ptile,
  is there an non_allied city on this tile?
 **************************************************************************/
 struct city *is_non_allied_city_tile(const struct tile *ptile,
-				     struct player *pplayer)
+				     const struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
@@ -1473,22 +1477,26 @@ struct city *is_non_allied_city_tile(const struct tile *ptile,
 }
 
 /**************************************************************************
-...
+  Return TRUE if there is a friendly city near to this unit (within 3
+  steps).
 **************************************************************************/
-bool is_unit_near_a_friendly_city(struct unit *punit)
+bool is_unit_near_a_friendly_city(const struct unit *punit)
 {
   return is_friendly_city_near(unit_owner(punit), punit->tile);
 }
 
 /**************************************************************************
-...
+  Return TRUE if there is a friendly city near to this tile (within 3
+  steps).
 **************************************************************************/
-bool is_friendly_city_near(struct player *owner, const struct tile *ptile)
+bool is_friendly_city_near(const struct player *owner,
+			   const struct tile *ptile)
 {
   square_iterate(ptile, 3, ptile1) {
     struct city * pcity = ptile1->city;
-    if (pcity && pplayers_allied(owner, city_owner(pcity)))
+    if (pcity && pplayers_allied(owner, city_owner(pcity))) {
       return TRUE;
+    }
   } square_iterate_end;
 
   return FALSE;
@@ -1535,7 +1543,7 @@ int city_granary_size(int city_size)
 /**************************************************************************
   Give base number of content citizens in any city owner by pplayer.
 **************************************************************************/
-static int content_citizens(struct player *pplayer)
+static int content_citizens(const struct player *pplayer)
 {
   int cities = city_list_size(&pplayer->cities);
   int content = game.unhappysize;
@@ -1946,7 +1954,7 @@ static inline void unhappy_city_check(struct city *pcity)
   Calculate pollution for the city.  The shield_total must be passed in
   (most callers will want to pass pcity->prod[O_SHIELD]).
 **************************************************************************/
-int city_pollution(struct city *pcity, int shield_total)
+int city_pollution(const struct city *pcity, int shield_total)
 {
   struct player *pplayer = city_owner(pcity);
   int mod, pollution;
@@ -2378,8 +2386,8 @@ void city_styles_free(void)
   Create virtual skeleton for a city.  It does not register the city so 
   the id is set to 0.  All other values are more or less sane defaults.
 **************************************************************************/
-struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
-				 const char *name)
+struct city *create_city_virtual(const struct player *pplayer,
+		                 struct tile *ptile, const char *name)
 {
   int i;
   struct city *pcity;
