@@ -316,6 +316,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
     if(game.global_wonders[i] == pcity->id)
       game.global_wonders[i] = pnewcity->id;
 
+  remove_city(pcity);
+
   /* buying a city should result in getting new tech from the victim too */
   /* but not money!                                                      */
 
@@ -331,7 +333,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
   }
 
   pnewcity->shield_stock=0;
-  remove_city(pcity);
   city_refresh(pnewcity);
   send_city_info(0, pnewcity, 0);
   send_player_info(pplayer, pplayer);
