@@ -140,10 +140,11 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_DIPLOMACY_ACCEPT_TREATY:
   case PACKET_DIPLOMACY_SIGN_TREATY:
     return recieve_packet_diplomacy_info(pc);
+  default:
+    log(LOG_NORMAL, "unknown packet type received");
+    remove_packet_from_buffer(&pc->buffer);
+    return NULL;
   };
-
-  log(LOG_FATAL, "unknown packet type in get_packet_from_connection()");
-  return NULL;
 }
 
 
