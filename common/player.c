@@ -132,6 +132,7 @@ int player_has_embassy(struct player *pplayer, struct player *pplayer2)
 
 int player_owns_city(struct player *pplayer, struct city *pcity)
 {
+  if (!pcity || !pplayer) return 0; /* better safe than sorry */
   return (pcity->owner==pplayer->player_no);
 }
 

@@ -355,6 +355,10 @@ void handle_city_change(struct player *pplayer,
 {
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
+  if (!pcity) {
+    printf("Pcity null in handle_city_change (%s, id = %d)!\n", pplayer->name, preq->city_id);
+    return;
+  }
    if(!player_owns_city(pplayer, pcity))
     return;
    if (preq->is_build_id_unit_id && !can_build_unit(pcity, preq->build_id))
