@@ -1566,7 +1566,6 @@ static void srv_loop(void)
     load_rulesets();
     /* otherwise rulesets were loaded when savegame was loaded */
   }
-  generate_city_map_indices();
 
   nations_avail = fc_calloc(game.playable_nation_count, sizeof(int));
   nations_used = fc_calloc(game.playable_nation_count, sizeof(int));

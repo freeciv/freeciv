@@ -405,7 +405,6 @@ void set_client_state(enum client_states newstate)
     client_state=newstate;
 
     if (client_state == CLIENT_GAME_RUNNING_STATE) {
-      generate_city_map_indices();
       load_ruleset_specific_options();
       create_event(-1, -1, E_GAME_START, _("Game started."));
       update_research(game.player_ptr);

@@ -262,6 +262,8 @@ void map_allocate(void)
   whole_map_iterate(x, y) {
     tile_init(map_get_tile(x, y));
   } whole_map_iterate_end;
+
+  generate_city_map_indices();
 }
 
 /***************************************************************
