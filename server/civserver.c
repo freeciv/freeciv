@@ -414,7 +414,8 @@ main_start_players:
   if(game.is_new_game) {
     int i;
     for(i=0; i<game.nplayers; i++) {
-      init_tech(&game.players[i], game.tech); 
+      init_tech(&game.players[i], game.tech);
+      player_limit_to_government_rates(&game.players[i]);
       game.players[i].economic.gold=game.gold;
     }
     game.max_players=game.nplayers;

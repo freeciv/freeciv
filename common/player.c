@@ -275,8 +275,8 @@ int player_knows_techs_with_flag(struct player *pplayer, int flag)
 /**************************************************************************
 The following limits a player's rates to those that are acceptable for the
 present form of government.  If a rate exceeds maxrate for this government,
-it adjusts rates automatically adding the extra to the 2nd highest rate.
-Returns TRUE if any rate had to be changed.
+it adjusts rates automatically adding the extra to the 2nd highest rate,
+preferring science to taxes and taxes to luxuries.
 (It assumes that for any government maxrate>=50)
 **************************************************************************/
 void player_limit_to_government_rates(struct player *pplayer)
@@ -290,10 +290,18 @@ void player_limit_to_government_rates(struct player *pplayer)
 
   maxrate = get_government_max_rate(pplayer->government);
 
+  if (pplayer->economic.luxury > maxrate) {
+    surplus = pplayer->economic.luxury - maxrate;
+    pplayer->economic.luxury = maxrate;
+    if (pplayer->economic.science >= pplayer->economic.tax)
+      pplayer->economic.science += surplus;
+    else
+      pplayer->economic.tax += surplus;
+  }
   if (pplayer->economic.tax > maxrate) {
     surplus = pplayer->economic.tax - maxrate;
     pplayer->economic.tax = maxrate;
-    if (pplayer->economic.science > pplayer->economic.luxury)
+    if (pplayer->economic.science >= pplayer->economic.luxury)
       pplayer->economic.science += surplus;
     else
       pplayer->economic.luxury += surplus;
@@ -301,18 +309,10 @@ void player_limit_to_government_rates(struct player *pplayer)
   if (pplayer->economic.science > maxrate) {
     surplus = pplayer->economic.science - maxrate;
     pplayer->economic.science = maxrate;
-    if (pplayer->economic.tax > pplayer->economic.luxury)
+    if (pplayer->economic.tax >= pplayer->economic.luxury)
       pplayer->economic.tax += surplus;
     else
       pplayer->economic.luxury += surplus;
-  }
-  if (pplayer->economic.luxury > maxrate) {
-    surplus = pplayer->economic.luxury - maxrate;
-    pplayer->economic.luxury = maxrate;
-    if (pplayer->economic.tax > pplayer->economic.science)
-      pplayer->economic.tax += surplus;
-    else
-      pplayer->economic.science += surplus;
   }
 
   return;
