@@ -1341,9 +1341,7 @@ static void main_loop(void)
     freelog(LOG_DEBUG, "Begin turn");
     begin_turn();
 
-#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
     sanity_check();
-#endif
 
     force_end_of_sniff = FALSE;
 
@@ -1383,9 +1381,7 @@ static void main_loop(void)
     
     conn_list_do_buffer(&game.game_connections);
 
-#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
     sanity_check();
-#endif
 
     /* 
      * This empties the client Messages window; put this before

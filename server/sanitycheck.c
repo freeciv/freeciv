@@ -30,7 +30,7 @@
 #include "sanitycheck.h"
 #include "unittools.h"
 
-#ifndef NDEBUG
+#ifdef SANITY_CHECKING
 
 /**************************************************************************
 ...
@@ -360,14 +360,11 @@ static void check_players(void)
   }
 }
 
-#endif /* !NDEBUG */
-
 /**************************************************************************
 ...
 **************************************************************************/
 void sanity_check(void)
 {
-#ifndef NDEBUG
   check_specials();
   check_fow();
   check_misc();
@@ -375,5 +372,6 @@ void sanity_check(void)
   check_cities();
   check_units();
   check_players();
-#endif /* !NDEBUG */
 }
+
+#endif /* SANITY_CHECKING */
