@@ -875,9 +875,9 @@ int send_packet_player_info(struct connection *pc,
 
   dio_put_uint32(&dout, pinfo->reputation);
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    dio_put_uint32(&dout, pinfo->diplstates[i].type);
-    dio_put_uint32(&dout, pinfo->diplstates[i].turns_left);
-    dio_put_uint32(&dout, pinfo->diplstates[i].has_reason_to_cancel);
+    dio_put_uint8(&dout, pinfo->diplstates[i].type);
+    dio_put_uint8(&dout, pinfo->diplstates[i].turns_left);
+    dio_put_uint8(&dout, pinfo->diplstates[i].has_reason_to_cancel);
   }
 
   dio_put_uint32(&dout, pinfo->gold);
@@ -932,9 +932,9 @@ struct packet_player_info *receive_packet_player_info(struct connection *pc)
 
   dio_get_uint32(&din, &pinfo->reputation);
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    dio_get_uint32(&din, (int *) &pinfo->diplstates[i].type);
-    dio_get_uint32(&din, &pinfo->diplstates[i].turns_left);
-    dio_get_uint32(&din, &pinfo->diplstates[i].has_reason_to_cancel);
+    dio_get_uint8(&din, (int *) &pinfo->diplstates[i].type);
+    dio_get_uint8(&din, &pinfo->diplstates[i].turns_left);
+    dio_get_uint8(&din, &pinfo->diplstates[i].has_reason_to_cancel);
   }
 
   dio_get_uint32(&din, &pinfo->gold);
