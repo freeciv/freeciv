@@ -19,13 +19,12 @@ BEKANNTE FEHLER:
    
  - Einige Texte, die spezielle Zeichen enthalten, werden nicht
    angezeigt, wenn die "locale" (die Umgebungsvariable LANG) auf "C"
-   gestellt ist. Zur Umgehung stelle die locale auf etwas anderes, 
-   zum Beispiel "de_DE".
+   gestellt ist. Zur Umgehung kann die "locale" auf etwas anderes, 
+   zum Beispiel "de_DE" gestellt werden.
  - Die auf "easy" gestellten Computerspieler sind nicht leicht genug
    für neue Spieler. Wenn die KI schon in einer früher Spielphase
-   gewinnt, sollte die "generator" Option auf 2 oder 3 gestellt werden.
-   stellen. (Server-Konsolenbefehl "set generator 2"
-   oder "set generator 3"). ein. 
+   gewinnt, sollte die "generator" Option auf 2 oder 3 gestellt werden
+   (Server-Konsolenbefehl "set generator 2" oder "set generator 3").
  - Die auf "hard" gestellten Computergegner sind nicht schwer genug
    für sehr erfahrene Spieler, und sie tun immer noch einige dumme
    Dinge. Zum Beispiel lassen sie Städte revoltieren, anstatt sie
@@ -35,7 +34,7 @@ BEKANNTE FEHLER:
    herausläuft, und sich manche Einträge nicht anwählen lassen.
  - Der Server schneidet sehr lange Hostnamen ab.
  - Das Wunder Große Mauer, das als Stadtmauer in jeder Stadt wirkt,
-   verhindert, daß in den Städten richtige Mauern bebaut werden können,
+   verhindert, daß in den Städten richtige Mauern gebaut werden können,
    die nicht verschwinden, wenn das Wunder veraltet ist.
  - Einige Wirkungen von Wundern und Fortschritten treten erst nach
    einer Runde Verzögerung ein. Wenn zum Beispiel der Leuchturm
@@ -64,6 +63,10 @@ BEKANNTE FEHLER:
    auch nach dem Zug des menschlichen Spielers zu ziehen. Das ergibt
    manchmal den Eindruck, als wenn ein Computerspieler zweimal ziehen
    würde.
+
+
+FEHLER MITTEILEN:
+=================
 
 
 WEITERE INFORMATIONEN:
