@@ -78,21 +78,14 @@ static GtkWidget  *spy_sabotage_shell;
 static int         sabotage_improvement;
 
 /******************************************************************/
-#define NUM_SELECT_UNIT_COLS 6
 #define SELECT_UNIT_READY  1
 #define SELECT_UNIT_SENTRY 2
 
-struct unit_select_node {
-  GtkWidget *cmd;
-  GtkWidget *pix;
-};
-
 static GtkWidget *unit_select_dialog_shell;
-static GtkWidget *unit_select_table;
-static struct unit_select_node *unit_select_nodes;
-static int unit_select_no;
+static GtkTreeStore *unit_select_store;
+static GtkWidget *unit_select_view;
+static GtkTreePath *unit_select_path;
 static struct tile *unit_select_ptile;
-static GtkTooltips *unit_select_tips;
 
 static void select_random_race(void);
   
@@ -1437,11 +1430,16 @@ GtkWidget *popup_message_dialog(GtkWindow *parent, const gchar *dialogname,
 /**************************************************************************
 ...
 **************************************************************************/
-static void unit_select_callback(GtkWidget *w, int id)
+static void unit_select_row_activated(GtkTreeView *view, GtkTreePath *path)
 {
-  struct unit *punit = player_find_unit_by_id(game.player_ptr, id);
+  GtkTreeIter it;
+  struct unit *punit;
+  gint id;
 
-  if (punit) {
+  gtk_tree_model_get_iter(GTK_TREE_MODEL(unit_select_store), &it, path);
+  gtk_tree_model_get(GTK_TREE_MODEL(unit_select_store), &it, 0, &id, -1);
+ 
+  if ((punit = player_find_unit_by_id(game.player_ptr, id))) {
     set_unit_focus(punit);
   }
 
@@ -1451,9 +1449,51 @@ static void unit_select_callback(GtkWidget *w, int id)
 /**************************************************************************
 ...
 **************************************************************************/
-static int number_of_rows(int n)
+static void unit_select_append(struct unit *punit, GtkTreeIter *it,
+    			       GtkTreeIter *parent)
 {
-  return (n-1)/NUM_SELECT_UNIT_COLS+1;
+  GdkPixbuf *pix;
+  struct unit_type *ptype = unit_type(punit);
+
+  pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+
+  {
+    struct canvas canvas_store = {.type = CANVAS_PIXBUF, .v.pixbuf = pix};
+
+    gdk_pixbuf_fill(pix, 0x00000000);
+    put_unit_full(punit, &canvas_store, 0, 0);
+  }
+
+  gtk_tree_store_append(unit_select_store, it, parent);
+  gtk_tree_store_set(unit_select_store, it,
+      0, punit->id,
+      1, pix,
+      2, _(ptype->name),
+      -1);
+  g_object_unref(pix);
+
+  if (punit == get_unit_in_focus()) {
+    unit_select_path =
+      gtk_tree_model_get_path(GTK_TREE_MODEL(unit_select_store), it);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void unit_select_recurse(int root_id, GtkTreeIter *it_root)
+{
+  unit_list_iterate(unit_select_ptile->units, pleaf) {
+    GtkTreeIter it_leaf;
+
+    if (pleaf->transported_by == root_id) {
+      unit_select_append(pleaf, &it_leaf, it_root);
+      if (pleaf->occupy > 0) {
+	unit_select_recurse(pleaf->id, &it_leaf);
+      }
+    }
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************
@@ -1462,69 +1502,17 @@ static int number_of_rows(int n)
 static void refresh_unit_select_dialog(void)
 {
   if (unit_select_dialog_shell) {
-    struct tile *ptile;
-    int i, n, r;
+    gtk_tree_store_clear(unit_select_store);
 
-    ptile = unit_select_ptile;
+    unit_select_recurse(-1, NULL);
+    gtk_tree_view_expand_all(GTK_TREE_VIEW(unit_select_view));
 
-    n = unit_list_size(&ptile->units);
-    r = number_of_rows(n);
-
-    for (i=n; i<unit_select_no; i++) {
-      gtk_widget_destroy(unit_select_nodes[i].cmd);
+    if (unit_select_path) {
+      gtk_tree_view_set_cursor(GTK_TREE_VIEW(unit_select_view),
+	  unit_select_path, NULL, FALSE);
+      gtk_tree_path_free(unit_select_path);
+      unit_select_path = NULL;
     }
-
-    gtk_table_resize(GTK_TABLE(unit_select_table), r, NUM_SELECT_UNIT_COLS);
-
-    unit_select_nodes =
-      fc_realloc(unit_select_nodes, n * sizeof(*unit_select_nodes));
-
-    for (i=unit_select_no; i<n; i++) {
-      GtkWidget *cmd, *pix;
-
-      cmd = gtk_button_new();
-      unit_select_nodes[i].cmd = cmd;
-
-      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-      unit_select_nodes[i].pix = pix;
-
-      gtk_container_add(GTK_CONTAINER(cmd), pix);
-      gtk_table_attach_defaults(GTK_TABLE(unit_select_table),
-                                cmd,
-				(i % NUM_SELECT_UNIT_COLS), 
-				(i % NUM_SELECT_UNIT_COLS) + 1,
-				(i / NUM_SELECT_UNIT_COLS),
-				(i / NUM_SELECT_UNIT_COLS) + 1);
-    }
-
-    gtk_tooltips_disable(unit_select_tips);
-
-    for (i=0; i<n; i++) {
-      GtkWidget *cmd, *pix;
-      struct unit *punit = unit_list_get(&ptile->units, i);
-
-      cmd = unit_select_nodes[i].cmd;
-      pix = unit_select_nodes[i].pix;
-
-      put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
-
-      g_signal_handlers_disconnect_matched(cmd,
-        G_SIGNAL_MATCH_FUNC,
-        0, 0, NULL, unit_select_callback, NULL);
-
-      g_signal_connect(cmd, "clicked",
-        G_CALLBACK(unit_select_callback), GINT_TO_POINTER(punit->id));
-
-      gtk_tooltips_set_tip(unit_select_tips,
-        cmd, unit_description(punit), "");
-
-      gtk_widget_show(pix);
-      gtk_widget_show(cmd);
-    }
-
-    gtk_tooltips_enable(unit_select_tips);
-
-    unit_select_no = n;
   }
 }
 
@@ -1533,18 +1521,6 @@ static void refresh_unit_select_dialog(void)
 *****************************************************************/
 static void unit_select_destroy_callback(GtkObject *object, gpointer data)
 {
-  if (unit_select_tips) {
-    g_object_unref(unit_select_tips);
-  }
-  unit_select_tips = NULL;
-
-  if (unit_select_nodes) {
-    free(unit_select_nodes);
-  }
-  unit_select_nodes = NULL;
-
-  unit_select_no = 0;
-
   unit_select_dialog_shell = NULL;
 }
 
@@ -1599,11 +1575,28 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
+#define NUM_UNIT_SELECT_COLUMNS 2
+
 void popup_unit_select_dialog(struct tile *ptile)
 {
   if (!unit_select_dialog_shell) {
-    GtkWidget *shell, *align, *table;
+    GtkTreeStore *store;
+    GtkWidget *shell, *view, *sw, *hbox;
     GtkWidget *ready_cmd, *sentry_cmd, *close_cmd;
+
+    static char *titles[NUM_UNIT_SELECT_COLUMNS] = {
+      N_("Unit"),
+      N_("Name")
+    };
+    static bool titles_done;
+
+    GType types[NUM_UNIT_SELECT_COLUMNS+1] = {
+      G_TYPE_INT,
+      GDK_TYPE_PIXBUF,
+      G_TYPE_STRING
+    };
+    int i;
+
 
     shell = gtk_dialog_new_with_buttons(_("Unit selection"),
       NULL,
@@ -1617,27 +1610,60 @@ void popup_unit_select_dialog(struct tile *ptile)
     gtk_window_set_type_hint(GTK_WINDOW(shell),
 			     GDK_WINDOW_TYPE_HINT_NORMAL);
 
-    unit_select_tips = gtk_tooltips_new();
-    g_object_ref(unit_select_tips);
-    gtk_object_sink(GTK_OBJECT(unit_select_tips));
-
     g_signal_connect(shell, "destroy",
       G_CALLBACK(unit_select_destroy_callback), NULL);
     gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
     g_signal_connect(shell, "response",
       G_CALLBACK(unit_select_cmd_callback), NULL);
 
-    align = gtk_alignment_new(0.0, 0.0, 0.0, 0.0);
-    gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), align);
+    hbox = gtk_hbox_new(FALSE, 0);
+    gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), hbox);
 
-    table = gtk_table_new(NUM_SELECT_UNIT_COLS, 0, FALSE);
-    gtk_table_set_row_spacings(GTK_TABLE(table), 2);
-    gtk_table_set_col_spacings(GTK_TABLE(table), 2);
-    gtk_container_add(GTK_CONTAINER(align), table);
-    unit_select_table = table;
+    intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
-    gtk_widget_show(align);
-    gtk_widget_show(table);
+    store = gtk_tree_store_newv(ARRAY_SIZE(types), types);
+    unit_select_store = store;
+
+    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+    unit_select_view = view;
+    g_object_unref(store);
+ 
+    for (i = 1; i < ARRAY_SIZE(types); i++) {
+      GtkTreeViewColumn *column;
+      GtkCellRenderer *render;
+
+      column = gtk_tree_view_column_new();
+      gtk_tree_view_column_set_title(column, titles[i-1]);
+
+      switch (types[i]) {
+	case G_TYPE_STRING:
+	  render = gtk_cell_renderer_text_new();
+	  gtk_tree_view_column_pack_start(column, render, TRUE);
+	  gtk_tree_view_column_set_attributes(column, render, "text", i, NULL);
+	  break;
+	default:
+	  render = gtk_cell_renderer_pixbuf_new();
+	  gtk_tree_view_column_pack_start(column, render, FALSE);
+	  gtk_tree_view_column_set_attributes(column, render,
+	      "pixbuf", i, NULL);
+	  break;
+      }
+      gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+    }
+
+    g_signal_connect(view, "row_activated",
+	G_CALLBACK(unit_select_row_activated), NULL);
+
+
+    sw = gtk_scrolled_window_new(NULL, NULL);
+    gtk_widget_set_size_request(sw, -1, 300);
+    gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+	GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+	GTK_POLICY_NEVER, GTK_POLICY_NEVER);
+    gtk_container_add(GTK_CONTAINER(sw), view);
+    gtk_box_pack_start(GTK_BOX(hbox), sw, TRUE, TRUE, 0);
+
 
     ready_cmd =
     gtk_dialog_add_button(GTK_DIALOG(shell),

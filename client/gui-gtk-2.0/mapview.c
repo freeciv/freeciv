@@ -51,7 +51,7 @@
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
-#define map_canvas_store (mapview_canvas.store->pixmap)
+#define map_canvas_store (mapview_canvas.store->v.pixmap)
 
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
@@ -330,8 +330,8 @@ struct canvas *canvas_create(int width, int height)
 {
   struct canvas *result = fc_malloc(sizeof(*result));
 
-  result->pixmap = gdk_pixmap_new(root_window, width, height, -1);
-  result->pixcomm = NULL;
+  result->type = CANVAS_PIXMAP;
+  result->v.pixmap = gdk_pixmap_new(root_window, width, height, -1);
   return result;
 }
 
@@ -340,8 +340,8 @@ struct canvas *canvas_create(int width, int height)
 **************************************************************************/
 void canvas_free(struct canvas *store)
 {
-  g_object_unref(store->pixmap);
-  assert(store->pixcomm == NULL);
+  assert(store->type == CANVAS_PIXMAP);
+  g_object_unref(store->v.pixmap);
   free(store);
 }
 
@@ -352,8 +352,8 @@ struct canvas *get_overview_window(void)
 {
   static struct canvas store;
 
-  store.pixmap = overview_canvas->window;
-
+  store.type = CANVAS_PIXMAP;
+  store.v.pixmap = overview_canvas->window;
   return &store;
 }
 
@@ -482,7 +482,7 @@ void put_one_tile_iso(struct canvas *pcanvas,
 		      int width, int height, int height_unit,
 		      enum draw_type draw, bool citymode)
 {
-  pixmap_put_tile_iso(pcanvas->pixmap,
+  pixmap_put_tile_iso(pcanvas->v.pixmap,
 		      map_x, map_y, canvas_x, canvas_y,
 		      citymode,
 		      offset_x, offset_y, offset_y_unit,
@@ -656,7 +656,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 **************************************************************************/
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
-  struct canvas canvas_store = {NULL, p};
+  struct canvas canvas_store = {.type = CANVAS_PIXCOMM, .v.pixcomm = p};
 
   gtk_pixcomm_freeze(p);
   gtk_pixcomm_clear(p);
@@ -675,7 +675,7 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 **************************************************************************/
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 {
-  struct canvas store = {NULL, p};
+  struct canvas store = {.type = CANVAS_PIXCOMM, .v.pixcomm = p};
  
   gtk_pixcomm_freeze(p);
 
@@ -735,13 +735,23 @@ void canvas_put_sprite(struct canvas *pcanvas,
 		       struct Sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
-  if (pcanvas->pixmap) {
-    pixmap_put_sprite(pcanvas->pixmap, canvas_x, canvas_y,
-		      sprite, offset_x, offset_y, width, height);
-  } else {
-    gtk_pixcomm_copyto(pcanvas->pixcomm, sprite, canvas_x, canvas_y);
-  }
-} 
+  switch (pcanvas->type) {
+    case CANVAS_PIXMAP:
+      pixmap_put_sprite(pcanvas->v.pixmap, canvas_x, canvas_y,
+	  sprite, offset_x, offset_y, width, height);
+      break;
+    case CANVAS_PIXCOMM:
+      gtk_pixcomm_copyto(pcanvas->v.pixcomm, sprite, canvas_x, canvas_y);
+      break;
+    case CANVAS_PIXBUF:
+      gdk_pixbuf_composite(sprite_get_pixbuf(sprite), pcanvas->v.pixbuf,
+	  offset_x, offset_y, width, height, canvas_x, canvas_y, 1.0, 1.0,
+	  GDK_INTERP_NEAREST, 255);
+      break;
+    default:
+      break;
+  } 
+}
 
 /**************************************************************************
   Draw a full sprite onto the mapview or citydialog canvas.
@@ -762,12 +772,23 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 			  enum color_std color,
 			  int canvas_x, int canvas_y, int width, int height)
 {
-  if (pcanvas->pixmap) {
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
-    gdk_draw_rectangle(pcanvas->pixmap, fill_bg_gc, TRUE,
-		       canvas_x, canvas_y, width, height);
-  } else {
-    gtk_pixcomm_fill(pcanvas->pixcomm, colors_standard[color]);
+  GdkColor *col = colors_standard[color];
+
+  switch (pcanvas->type) {
+    case CANVAS_PIXMAP:
+      gdk_gc_set_foreground(fill_bg_gc, col);
+      gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
+	  canvas_x, canvas_y, width, height);
+      break;
+    case CANVAS_PIXCOMM:
+      gtk_pixcomm_fill(pcanvas->v.pixcomm, col);
+      break;
+    case CANVAS_PIXBUF:
+      gdk_pixbuf_fill(pcanvas->v.pixbuf,
+	  col->red >> 24 | col->green >> 16 | col->blue >> 8 | 0xFF);
+      break;
+    default:
+      break;
   }
 }
 
@@ -796,7 +817,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
   }
 
   gdk_gc_set_foreground(gc, colors_standard[color]);
-  gdk_draw_line(pcanvas->pixmap, gc,
+  gdk_draw_line(pcanvas->v.pixmap, gc,
 		start_x, start_y, start_x + dx, start_y + dy);
 }
 
@@ -807,7 +828,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 		 int src_x, int src_y, int dest_x, int dest_y,
 		 int width, int height)
 {
-  gdk_draw_drawable(dest->pixmap, fill_bg_gc, src->pixmap,
+  gdk_draw_drawable(dest->v.pixmap, fill_bg_gc, src->v.pixmap,
 		    src_x, src_y, dest_x, dest_y, width, height);
 }
 
@@ -865,7 +886,7 @@ void put_city_workers(struct city *pcity, int color)
 {
   int canvas_x, canvas_y;
   static struct city *last_pcity=NULL;
-  struct canvas store = {map_canvas->window, NULL};
+  struct canvas store = {.type = CANVAS_PIXMAP, .v.pixmap = map_canvas->window};
 
   if (color==-1) {
     if (pcity!=last_pcity)
@@ -1078,7 +1099,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   enum tile_special_type special;
   int count, i;
   bool solid_bg, fog, tile_hilited;
-  struct canvas canvas_store = {pm};
+  struct canvas canvas_store = {.type = CANVAS_PIXMAP, .v.pixmap = pm};
 
   if (!width || !(height || height_unit))
     return;
