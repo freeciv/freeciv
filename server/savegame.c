@@ -238,7 +238,9 @@ static int unquote_block(const char *const quoted_, void *dest,
   assert(parsed == 1);
 
   assert(length <= dest_length);
-  quoted = strchr(quoted, ':') + 1;
+  quoted = strchr(quoted, ':');
+  assert(quoted != NULL);
+  quoted++;
 
   for (i = 0; i < length; i++) {
     tmp = strtol(quoted, &endptr, 16);
