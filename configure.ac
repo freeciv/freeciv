@@ -5,6 +5,7 @@ dnl Initialize with some random file to ensure the source is here.
 AC_INIT
 AC_PREREQ(2.52)
 AC_CONFIG_SRCDIR([common/game.c])
+AC_CONFIG_AUX_DIR([bootstrap])
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_TARGET
 
@@ -665,9 +666,9 @@ AC_CONFIG_FILES([Makefile
 	  doc/ja/Makefile
 	  doc/nl/Makefile
 	  doc/sv/Makefile
-	  undep.sh
-	  freeciv.spec])
-AC_CONFIG_FILES([civ], [chmod +x civ])
-AC_CONFIG_FILES([ser], [chmod +x ser])
-AC_CONFIG_COMMANDS([default],[[ chmod +x undep.sh ; ./undep.sh ]],[[]])
+	  freeciv.spec:bootstrap/freeciv.spec.in
+	  bootstrap/undep.sh])
+AC_CONFIG_FILES([civ:bootstrap/civ.in], [chmod +x civ])
+AC_CONFIG_FILES([ser:bootstrap/ser.in], [chmod +x ser])
+AC_CONFIG_COMMANDS([default],[[ chmod +x bootstrap/undep.sh ; bootstrap/undep.sh ]],[[]])
 AC_OUTPUT

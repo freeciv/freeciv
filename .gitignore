@@ -20,7 +20,6 @@
 /aclocal.m4
 /autom4te.cache
 /config.cache
-/depcomp
 /Makefile
 /Makefile.in
 /config.h
@@ -30,7 +29,6 @@
 /configure
 /stamp-h
 /stamp-h1
-/undep.sh
 /civclient
 /civ
 /civserver
