@@ -1294,9 +1294,7 @@ int send_packet_city_info(struct connection *pc,
   /* only 8 options allowed before need to extend protocol */
   dio_put_uint8(&dout, req->city_options);
 
-  if (has_capability("turn_founded", pc->capability)) {
-    dio_put_uint32(&dout, req->turn_founded);
-  }
+  dio_put_uint32(&dout, req->turn_founded);
 
   for (data = 0; data < NUM_TRADEROUTES; data++) {
     if (req->trade[data] != 0) {
@@ -1380,11 +1378,7 @@ struct packet_city_info *receive_packet_city_info(struct connection *pc)
 
   dio_get_uint8(&din, &packet->city_options);
 
-  if (has_capability("turn_founded", pc->capability)) {
-    dio_get_uint32(&din, &packet->turn_founded);
-  } else {
-    packet->turn_founded = -1;
-  }
+  dio_get_uint32(&din, &packet->turn_founded);
 
   for (data = 0; data < NUM_TRADEROUTES; data++) {
     if (dio_input_remaining(&din) < 3)
@@ -1863,24 +1857,8 @@ int send_packet_ruleset_unit(struct connection *pc,
   dio_put_uint8(&dout, packet->firepower);
   dio_put_uint8(&dout, packet->obsoleted_by);
   dio_put_uint8(&dout, packet->fuel);
-  if (!has_capability("unitbv", pc->capability)) {
-    int i, value;
-
-    value = 0;
-    for (i = 0; i < 32; i++) {
-      value |= COND_SET_BIT(BV_ISSET(packet->flags, i), i);
-    }
-    dio_put_uint32(&dout, value);
-
-    value = 0;
-    for (i = 0; i < 32; i++) {
-      value |= COND_SET_BIT(BV_ISSET(packet->roles, i), i);
-    }
-    dio_put_uint32(&dout, value);
-  } else {
-    DIO_BV_PUT(&dout, packet->flags);
-    DIO_BV_PUT(&dout, packet->roles);
-  }
+  DIO_BV_PUT(&dout, packet->flags);
+  DIO_BV_PUT(&dout, packet->roles);
   dio_put_uint8(&dout, packet->happy_cost);   /* unit upkeep -- SKi */
   dio_put_uint8(&dout, packet->shield_cost);
   dio_put_uint8(&dout, packet->food_cost);
@@ -1929,30 +1907,12 @@ receive_packet_ruleset_unit(struct connection *pc)
   dio_get_uint8(&din, &packet->hp);
   dio_get_uint8(&din, &packet->firepower);
   dio_get_uint8(&din, &packet->obsoleted_by);
-  if (packet->obsoleted_by>127) packet->obsoleted_by-=256;
-  dio_get_uint8(&din, &packet->fuel);
-  if (!has_capability("unitbv", pc->capability)) {
-    int val, i;
-
-    BV_CLR_ALL(packet->flags);
-    dio_get_uint32(&din, &val);
-    for (i = 0; i < 32; i++) {
-      if (TEST_BIT(val, i)) {
-	BV_SET(packet->flags, i);
-      }
-    }
-
-    BV_CLR_ALL(packet->roles);
-    dio_get_uint32(&din, &val);
-    for (i = 0; i < 32; i++) {
-      if (TEST_BIT(val, i)) {
-	BV_SET(packet->roles, i);
-      }
-    }
-  } else {
-    DIO_BV_GET(&din, packet->flags);
-    DIO_BV_GET(&din, packet->roles);
+  if (packet->obsoleted_by > 127) {
+    packet->obsoleted_by-=256;
   }
+  dio_get_uint8(&din, &packet->fuel);
+  DIO_BV_GET(&din, packet->flags);
+  DIO_BV_GET(&din, packet->roles);
   dio_get_uint8(&din, &packet->happy_cost);   /* unit upkeep -- SKi */
   dio_get_uint8(&din, &packet->shield_cost);
   dio_get_uint8(&din, &packet->food_cost);

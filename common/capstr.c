@@ -70,26 +70,12 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.13.0 conn_info turn_founded unitbv +freeze_thaw "\
-                   "+civ2happy +long_bitstrings"
+#define CAPABILITY "+1.14.0 conn_info"
   
-/* "+1.13.0" is protocol for 1.13.0 release.
+/* "+1.14.0" is protocol for 1.14.0 release.
   
    "conn_info" is sending the conn_id field. To preserve compatability
    with old clients trying to connect this should persist across releases.
-
-   "turn_founded" transfers turn_founded of struct city to the client.
-
-    "unitbv" extends unit flags and roles from 32 to 64 maximum and
-    transmits the information as a bitvector instead of an int.
-
-    "freeze_thaw" uses PACKET_FREEZE_HINT/PACKET_THAW_HINT.
-
-    "civ2happy" changes the way specialists are taken from workers
-
-    "long_bitstrings" means bit strings sent over the network can be
-    up to 65k bits; see dio_put_bit_string/dio_get_bit_string in
-    dataio.c.
 */
 
 void init_our_capability(void)
