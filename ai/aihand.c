@@ -26,6 +26,7 @@
 #include "player.h"
 #include "shared.h"
 #include "unit.h"
+#include "timing.h"
 
 #include "cm.h"
 
@@ -98,6 +99,7 @@ static void ai_manage_taxes(struct player *pplayer)
   bool celebrate = TRUE;
   int can_celebrate = 0, total_cities = 0;
   struct government *g = get_gov_pplayer(pplayer);
+  struct timer *t = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
 
   /* Find minimum tax rate which gives us a positive balance. We assume
    * that we want science most and luxuries least here, and reverse or 
@@ -196,6 +198,13 @@ static void ai_manage_taxes(struct player *pplayer)
     } else {
       pplayer->economic.luxury = luxrate;
       pplayer->economic.science = scirate;
+      city_list_iterate(pplayer->cities, pcity) {
+        /* KLUDGE: Must refresh to restore the original values which 
+         * were clobbered in cm_query_result, after the tax rates 
+         * were changed.  This is because the cm_query_result() calls
+         * generic_city_refresh(). */
+        generic_city_refresh(pcity, TRUE, NULL);
+      } city_list_iterate_end;
     }
   }
 
@@ -220,6 +229,9 @@ static void ai_manage_taxes(struct player *pplayer)
           pplayer->economic.luxury, pplayer->economic.tax,
           player_get_expected_income(pplayer), can_celebrate, total_cities);
   send_player_info(pplayer, pplayer);
+
+  freelog(LOGLEVEL_TAX, "%s with gov %s: tax code took %g",
+          pplayer->name, g->name, read_timer_seconds_free(t));
 }
 
 /**************************************************************************
