@@ -33,6 +33,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "diplodlg.h"
@@ -310,16 +311,8 @@ void players_list_callback(Widget w, XtPointer client_data,
     XtSetSensitive(players_vision_command,
 		   gives_shared_vision(game.player_ptr, pplayer));
 
-    if (pplayer->is_alive
-        && pplayer != game.player_ptr
-        && player_has_embassy(game.player_ptr, pplayer)) {
-      if(pplayer->is_connected)
-	XtSetSensitive(players_meet_command, TRUE);
-      else
-	XtSetSensitive(players_meet_command, FALSE);
-      XtSetSensitive(players_int_command, TRUE);
-      return;
-    }
+    XtSetSensitive(players_meet_command, can_meet_with_player(pplayer));
+    XtSetSensitive(players_int_command, can_intel_with_player(pplayer));
   }
   XtSetSensitive(players_meet_command, FALSE);
   XtSetSensitive(players_int_command, FALSE);

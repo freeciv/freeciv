@@ -34,6 +34,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "inteldlg.h"
@@ -208,15 +209,10 @@ static void players_active(void)
     set(player_vision_button, MUIA_Disabled,
 	!gives_shared_vision(game.player_ptr, pplayer));
 
-    if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer))
-    {
-      if (pplayer->is_connected)
-	set(player_meet_button, MUIA_Disabled, FALSE);
-      else
-	set(player_meet_button, MUIA_Disabled, TRUE);
-      set(player_intelligence_button, MUIA_Disabled, FALSE);
-      return;
-    }
+    set(player_meet_button, MUIA_Disabled, !can_meet_with_player(pplayer));
+    set(player_intelligence_button, MUIA_Disabled,
+	!can_intel_with_player(pplayer));
+    return;
   }
 
   set(player_meet_button, MUIA_Disabled, TRUE);

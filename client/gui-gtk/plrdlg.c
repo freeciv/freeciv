@@ -499,20 +499,10 @@ void players_list_callback(GtkWidget * w, gint row, gint column)
 			   can_client_issue_orders()
 			   && gives_shared_vision(game.player_ptr, pplayer));
 
-  if (pplayer->is_alive 
-      && pplayer != game.player_ptr
-      && player_has_embassy(game.player_ptr, pplayer)) {
-    if (pplayer->is_connected)
-      gtk_widget_set_sensitive(players_meet_command,
-			       can_client_issue_orders());
-    else
-      gtk_widget_set_sensitive(players_meet_command, FALSE);
-    gtk_widget_set_sensitive(players_int_command, TRUE);
-    return;
-  }
-
-  gtk_widget_set_sensitive(players_meet_command, FALSE);
-  gtk_widget_set_sensitive(players_int_command, FALSE);
+  gtk_widget_set_sensitive(players_meet_command,
+                           can_meet_with_player(pplayer));
+  gtk_widget_set_sensitive(players_int_command,
+                           can_intel_with_player(pplayer));
 }
 
 void players_list_ucallback(GtkWidget *w, gint row, gint column)

@@ -32,6 +32,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "gui_main.h"
@@ -237,19 +238,10 @@ static void enable_buttons(int player_index)
   EnableWindow(GetDlgItem(players_dialog, ID_PLAYERS_VISION),
 	       gives_shared_vision(game.player_ptr, pplayer));
 
-  if (pplayer->is_alive 
-      && pplayer != game.player_ptr
-      && player_has_embassy(game.player_ptr, pplayer)) {
-    if (pplayer->is_connected)
-      EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_MEET), TRUE);
-    else
-      EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_MEET), FALSE);
-    EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_INT), TRUE);
-    return;
-  }
-
-  EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_MEET), FALSE);
-  EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_INT), FALSE);
+  EnableWindow(GetDlgItem(players_dialog, ID_PLAYERS_MEET),
+               can_meet_with_player(pplayer));
+  EnableWindow(GetDlgItem(players_dialog, ID_PLAYERS_INT),
+               can_intel_with_player(pplayer));
 }
 
 /******************************************************************

@@ -815,6 +815,30 @@ bool can_client_issue_orders(void)
 }
 
 /**************************************************************************
+  Returns TRUE iff the client can do diplomatic meetings with another 
+  given player.
+**************************************************************************/
+bool can_meet_with_player(struct player *pplayer)
+{
+  return (pplayer->is_alive
+          && pplayer != game.player_ptr
+          && player_has_embassy(game.player_ptr, pplayer)
+          && pplayer->is_connected
+          && can_client_issue_orders());
+}
+
+/**************************************************************************
+  Returns TRUE iff the client can get intelligence from another 
+  given player.
+**************************************************************************/
+bool can_intel_with_player(struct player *pplayer)
+{
+  return (pplayer->is_alive
+          && pplayer != game.player_ptr
+          && player_has_embassy(game.player_ptr, pplayer));
+}
+
+/**************************************************************************
   Return TRUE if the client can change the view; i.e. if the mapview is
   active.  This function should be called each time before allowing the
   user to do mapview actions.

@@ -31,6 +31,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "gui_main.h"
@@ -161,13 +162,9 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
     gtk_widget_set_sensitive(players_vision_command,
       gives_shared_vision(game.player_ptr, plr));
 
-    if (plr->is_alive
-        && plr != game.player_ptr
-        && player_has_embassy(game.player_ptr, plr)) {
-      gtk_widget_set_sensitive(players_meet_command, plr->is_connected);
-      gtk_widget_set_sensitive(players_int_command, TRUE);
-      return;
-    }
+    gtk_widget_set_sensitive(players_meet_command, can_meet_with_player(plr));
+    gtk_widget_set_sensitive(players_int_command, can_intel_with_player(plr));
+    return;
   }
 
   gtk_widget_set_sensitive(players_meet_command, FALSE);
