@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2004-05-11 08:44+0200\n"
+"POT-Creation-Date: 2004-05-11 10:04+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -1312,7 +1312,9 @@ msgstr "  -q, --quitidle CZAS\tZakoñcz je¶li brak graczy po CZAS sekundach\n"
 
 #: server/civserver.c:149
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr "  -e, --exit-on-end\tGdy gra siê skoñczy, zakoñcz program zamiast restartowaæ\n"
+msgstr ""
+"  -e, --exit-on-end\tGdy gra siê skoñczy, zakoñcz program zamiast "
+"restartowaæ\n"
 
 #: server/civserver.c:151
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -2088,7 +2090,7 @@ msgstr "Gra: Wszczynaj±c bunt w m. %s wywo³a³e¶ skandal dyplomatyczny."
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Gra: %s wywo³ali skandal dyplomatyczny wszczynaj±c bunt w m. %s."
 
-#: server/gamehand.c:255 client/gui-mui/mapview.c:192
+#: server/gamehand.c:255 client/text.c:441 client/gui-mui/mapview.c:192
 #, c-format
 msgid "Year: %s"
 msgstr "Rok: %s"
@@ -5356,7 +5358,8 @@ msgid ""
 "Undefined arguments. Usage: vote new <command>   or   vote yes|no [vote "
 "number]."
 msgstr ""
-"Brak argumentów. Sk³adnia: vote new <polecenie>  lub vote yes|no [numer g³osowania]."
+"Brak argumentów. Sk³adnia: vote new <polecenie>  lub vote yes|no [numer "
+"g³osowania]."
 
 #: server/stdinhand.c:3227
 #, c-format
@@ -6027,7 +6030,8 @@ msgstr "Gra: Nie mo¿esz zaatakowaæ %s poniewa¿ nie prowadzisz wojny z %s."
 #: server/unithand.c:1096
 #, c-format
 msgid "Game: Can't attack %s's unit because you are not at war with %s."
-msgstr "Gra: Nie mo¿esz zaatakowaæ jednostki %s, poniewa¿ nie prowadzisz wojny z %s."
+msgstr ""
+"Gra: Nie mo¿esz zaatakowaæ jednostki %s, poniewa¿ nie prowadzisz wojny z %s."
 
 #: server/unithand.c:1114
 msgid "Game: This unit is being transported, and so cannot bombard."
@@ -8176,6 +8180,361 @@ msgstr "?Player_dlg:Bezczynno¶æ"
 msgid "Ping"
 msgstr "Ping"
 
+#: client/text.c:137 client/gui-sdl/dialogs.c:929 client/gui-sdl/mapview.c:648
+msgid "?nation:Neutral"
+msgstr "?nation:Neutralni"
+
+#: client/text.c:137 client/gui-sdl/dialogs.c:929 client/gui-sdl/mapview.c:648
+msgid "?nation:Hostile"
+msgstr "?nation:Wrodzy"
+
+#: client/text.c:139 client/gui-sdl/dialogs.c:930 client/gui-sdl/mapview.c:650
+msgid "?nation:Peaceful"
+msgstr "?nation:Pokojowi"
+
+#: client/text.c:139 client/gui-sdl/dialogs.c:931 client/gui-sdl/mapview.c:650
+msgid "?nation:Friendly"
+msgstr "?nation:Przyja¼ni"
+
+#: client/text.c:140 client/gui-sdl/dialogs.c:931 client/gui-sdl/mapview.c:651
+msgid "?nation:Mysterious"
+msgstr "?nation:Nieznani"
+
+#: client/text.c:140
+msgid "?nation:Friendly(team)"
+msgstr "?nation:Przyja¼ni(zespó³)"
+
+#: client/text.c:142 client/gui-sdl/dialogs.c:959 client/gui-sdl/mapview.c:680
+msgid "?city:Neutral"
+msgstr "?city:Neutralne"
+
+#: client/text.c:142 client/gui-sdl/dialogs.c:959 client/gui-sdl/mapview.c:680
+msgid "?city:Hostile"
+msgstr "?city:Wrogie"
+
+#: client/text.c:144 client/gui-sdl/dialogs.c:960 client/gui-sdl/mapview.c:681
+msgid "?city:Peaceful"
+msgstr "?city:Pokojowe"
+
+#: client/text.c:144 client/gui-sdl/dialogs.c:961 client/gui-sdl/mapview.c:682
+msgid "?city:Friendly"
+msgstr "?city:Przyjazne"
+
+#: client/text.c:144 client/gui-sdl/dialogs.c:961 client/gui-sdl/mapview.c:682
+msgid "?city:Mysterious"
+msgstr "?city:Tajemnicze"
+
+#: client/text.c:145
+msgid "?city:Friendly(team)"
+msgstr "?city:Przyjazne(zespó³)"
+
+#: client/text.c:149
+#, c-format
+msgid "Location: (%d, %d) [%d]"
+msgstr "Wspó³rzêdne: (%d, %d) [%d]"
+
+#: client/text.c:152 client/gui-mui/mapclass.c:102
+#, c-format
+msgid "Terrain: %s"
+msgstr "Teren: %s"
+
+#: client/text.c:154
+#, c-format
+msgid "Food/Prod/Trade: %s"
+msgstr "¯ywn/Prod/Hand: %s"
+
+#: client/text.c:157 client/gui-mui/mapclass.c:108
+msgid "Minor Tribe Village"
+msgstr "Podrzêdna osada plemienna"
+
+#: client/text.c:164
+msgid "Our Territory"
+msgstr "Nasze Terytorium"
+
+#. TRANS: "Polish territory (5 turn ceasefire)"
+#: client/text.c:170
+#, c-format
+msgid "%s territory (%d turn ceasefire)"
+msgid_plural "%s territory (%d turn ceasefire)"
+msgstr[0] "%s (%d tura zawieszenia broni)"
+msgstr[1] "%s (%d tury zawieszenia broni)"
+msgstr[2] "%s (%d tur zawieszenia broni)"
+
+#. TRANS: "Territory of the friendly Polish".  See the
+#. * ?nation adjectives.
+#: client/text.c:177
+#, c-format
+msgid "Territory of the %s %s"
+msgstr "%s %s"
+
+#: client/text.c:182
+msgid "Unclaimed territory"
+msgstr "Teren neutralny"
+
+#. TRANS: "City: Warsaw (Polish)"
+#: client/text.c:194
+#, c-format
+msgid "City: %s (%s)"
+msgstr "Miasto: %s(%se)"
+
+#. TRANS:  "City: Warsaw (Polish, 5 turn ceasefire)"
+#: client/text.c:201
+#, c-format
+msgid "City: %s (%s, %d turn ceasefire)"
+msgid_plural "City: %s (%s, %d turn ceasefire)"
+msgstr[0] "Miasto %s (%se, %d tura zawieszenia broni)"
+msgstr[1] "Miasto %s (%se, %d tury zawieszenia broni)"
+msgstr[2] "Miasto %s (%se, %d tur zawieszenia broni)"
+
+#. TRANS: "City: Warsaw (Polish,friendly)"
+#: client/text.c:209
+#, c-format
+msgid "City: %s (%s,%s)"
+msgstr "Miasto %s (%se, %s)"
+
+#. TRANS: previous lines gave other information about the city.
+#: client/text.c:216 client/gui-sdl/dialogs.c:965
+msgid " with City Walls"
+msgstr " z murami miejskimi"
+
+#. TRANS: "Trade from Warsaw: 5"
+#: client/text.c:226
+#, c-format
+msgid "Trade from %s: %d"
+msgstr "Handel z miasta %s: %d"
+
+#: client/text.c:232
+#, c-format
+msgid "Infrastructure: %s"
+msgstr "Infrastruktura: %s"
+
+#: client/text.c:237
+#, c-format
+msgid "Activity: %s"
+msgstr "Czynno¶æ: %s"
+
+#. TRANS: "Unit: Musketeers(Polish,Warsaw)"
+#: client/text.c:249 client/gui-mui/mapclass.c:148
+#, c-format
+msgid "Unit: %s(%s%s)"
+msgstr "Jednostka: %s(%s%s)"
+
+#. TRANS: "Chance to win: A:95% D:46%"
+#: client/text.c:261
+#, c-format
+msgid "Chance to win: A:%d%% D:%d%%"
+msgstr "Szansa zwyciêstwa: A%d%% O:%d%%"
+
+#. TRANS: A is attack power, D is defense power, FP is firepower,
+#. * HP is hitpoints (current and max).
+#. FIXME: veteran status isn't handled properly here.
+#: client/text.c:269
+#, c-format
+msgid "A:%d D:%d FP:%d HP:%d/%d%s"
+msgstr "A:%d O:%d SO:%d HP:%d/%d%s"
+
+#: client/text.c:272
+msgid " V"
+msgstr " W"
+
+#. TRANS: "5 more" units on this tile
+#: client/text.c:276 client/gui-mui/mapclass.c:158
+#, c-format
+msgid "  (%d more)"
+msgstr "  (%d dodatkowych)"
+
+#: client/text.c:345
+#, c-format
+msgid "far from %s"
+msgstr "w okolicy miasta %s"
+
+#: client/text.c:346
+#, c-format
+msgid "near %s"
+msgstr "ko³o miasta %s"
+
+#: client/text.c:347
+#, c-format
+msgid "in %s"
+msgstr "w mie¶cie %s"
+
+#. TRANS: "from Warsaw"
+#: client/text.c:375
+#, c-format
+msgid "from %s"
+msgstr "z miasta %s"
+
+#: client/text.c:409
+msgid "Progress: no research"
+msgstr "Postêp: brak"
+
+#: client/text.c:417
+#, c-format
+msgid "Progress: %d turn/advance (%d pts/turn)"
+msgid_plural "Progress: %d turns/advance (%d pts/turn)"
+msgstr[0] "Postêp: %d tura na wynalazek (%d pnkt na turê)"
+msgstr[1] "Postêp: %d tury na wynalazek (%d pnkt na turê)"
+msgstr[2] "Postêp: %d tur na wynalazek (%d pnkt na turê)"
+
+#: client/text.c:422
+#, c-format
+msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
+msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
+msgstr[0] ""
+"Postêp: %d tura na wynalazek (%d pnkt na turê, %d pnkt/turê dru¿yna)"
+msgstr[1] ""
+"Postêp: %d tury na wynalazek (%d pnkt na turê, %d pnkt/turê dru¿yna)"
+msgstr[2] "Postêp: %d tur na wynalazek (%d pnkt na turê, %d pnkt/turê dru¿yna)"
+
+#: client/text.c:439 client/gui-mui/mapview.c:190
+#, c-format
+msgid "Population: %s"
+msgstr "Populacja: %s"
+
+#: client/text.c:442 client/gui-gtk/inteldlg.c:112
+#: client/gui-mui/inteldlg.c:141 client/gui-mui/mapview.c:193
+#: client/gui-win32/inteldlg.c:110 client/gui-xaw/inteldlg.c:118
+#, c-format
+msgid "Gold: %d"
+msgstr "Z³oto: %d"
+
+#: client/text.c:443
+#, c-format
+msgid "Tax: %d Lux: %d Sci: %d"
+msgstr "Pod:%d Lux:%d Nau:%d"
+
+#: client/text.c:485 client/gui-gtk-2.0/gotodlg.c:141
+#: client/gui-gtk/gotodlg.c:95 client/gui-gtk/mapview.c:198
+#: client/gui-mui/mapview.c:250 client/gui-sdl/gotodlg.c:226
+#: client/gui-sdl/mapview.c:628 client/gui-xaw/mapview.c:214
+msgid "Select destination"
+msgstr "Wybierz cel"
+
+#: client/text.c:514
+#, c-format
+msgid ""
+"Shows your progress in researching the current technology.\n"
+"%s: %d/%d."
+msgstr ""
+"Wy¶wietla stan prac nad now± technologi±.\n"
+"%s: %d/%d."
+
+#: client/text.c:530
+#, c-format
+msgid ""
+"Shows the progress of global warming:\n"
+"%d."
+msgstr ""
+"Wy¶wietla poziom globalnego ocieplenia:\n"
+"%d."
+
+#: client/text.c:543
+#, c-format
+msgid ""
+"Shows the progress of nuclear winter:\n"
+"%d."
+msgstr ""
+"Wy¶wietla poziom zimy nuklearnej:\n"
+"%d."
+
+#: client/text.c:556
+#, c-format
+msgid ""
+"Shows your current government:\n"
+"%s."
+msgstr ""
+"Wy¶wietla twój aktualny ustrój:\n"
+"%s."
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:576
+#, c-format
+msgid "Population:      %5d"
+msgstr "Populacja:      %5d"
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:579
+#, c-format
+msgid "Support:         %5d %%"
+msgstr "Obs³uga:         %5d %%"
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:583
+#, c-format
+msgid "Energy:          %5d %%"
+msgstr "Energia:        %5d %%"
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:587
+#, c-format
+msgid "Mass:            %5d ton"
+msgid_plural "Mass:            %5d tons"
+msgstr[0] "Masa:            %5d tona"
+msgstr[1] "Masa:            %5d tony"
+msgstr[2] "Masa:            %5d ton"
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:592
+#, c-format
+msgid "Travel time:     %5.1f years"
+msgstr "Czas podró¿y:      %5.1f lat"
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:596
+msgid "Travel time:        N/A     "
+msgstr "Czas podró¿y:       N/A     "
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:600
+#, c-format
+msgid "Success prob.:   %5d %%"
+msgstr "Prawd. Sukcesu:  %5d %%"
+
+#. TRANS: spaceship text; should have constant width.
+#: client/text.c:604
+#, c-format
+msgid "Year of arrival: %8s"
+msgstr "Rok przybycia:  %8s"
+
+#: client/text.c:622
+msgid "?timeout:off"
+msgstr "?timeout:wy³"
+
+#: client/text.c:644
+#, c-format
+msgid "?seconds:%02ds"
+msgstr "?seconds:%d sek"
+
+#: client/text.c:646
+#, c-format
+msgid "?mins/secs:%02dm %02ds"
+msgstr "?min/secs:%dmin %ds"
+
+#: client/text.c:648
+#, c-format
+msgid "?hrs/mns:%02dh %02dm"
+msgstr "?hrs/mns:%dh %dmin"
+
+#: client/text.c:650
+#, c-format
+msgid "?dys/hrs:%02dd %02dh"
+msgstr "?dys/hrs:%ddni %d godz"
+
+#: client/text.c:653
+msgid "?duration:overflow"
+msgstr "?duration:b³±d"
+
+#: client/text.c:672
+#, c-format
+msgid "%6d.%02d ms"
+msgstr "%6d.%02d ms"
+
+#. TRANS: "Republic of the Polish"
+#: client/text.c:691
+#, c-format
+msgid "%s of the %s"
+msgstr "%2$s %1$s"
+
 #: client/tilespec.c:239
 msgid "No usable default tileset found, aborting!"
 msgstr "Nie znalaz³em odpowiedniego zestawu graficznego, koñczê pracê!"
@@ -8247,8 +8606,8 @@ msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
 "a sprite offset with a cell-based drawing method."
 msgstr ""
-"B³ad w warstwie %s %d: nie mo¿na u¿ywaæ wysokiego terenu lub "
-"przesuniêcia sprite'a w  metodzie cell-based."
+"B³ad w warstwie %s %d: nie mo¿na u¿ywaæ wysokiego terenu lub przesuniêcia "
+"sprite'a w  metodzie cell-based."
 
 #: client/tilespec.c:1213
 #, c-format
@@ -9684,13 +10043,6 @@ msgstr "Id¼ do/Transport lotniczy"
 #: client/gui-gtk-2.0/gotodlg.c:128
 msgid "Air_lift"
 msgstr "Transport powietrzny"
-
-#: client/gui-gtk-2.0/gotodlg.c:141 client/gui-gtk/gotodlg.c:95
-#: client/gui-gtk/mapview.c:198 client/gui-mui/mapview.c:250
-#: client/gui-sdl/gotodlg.c:226 client/gui-sdl/mapview.c:628
-#: client/gui-xaw/mapview.c:214
-msgid "Select destination"
-msgstr "Wybierz cel"
 
 #: client/gui-gtk-2.0/gotodlg.c:184
 msgid "Show _All Cities"
@@ -11835,13 +12187,6 @@ msgstr "W³adca: %s %s"
 msgid "Government: %s"
 msgstr "Ustrój: %s"
 
-#: client/gui-gtk/inteldlg.c:112 client/gui-mui/inteldlg.c:141
-#: client/gui-mui/mapview.c:193 client/gui-win32/inteldlg.c:110
-#: client/gui-xaw/inteldlg.c:118
-#, c-format
-msgid "Gold: %d"
-msgstr "Z³oto: %d"
-
 #: client/gui-gtk/inteldlg.c:116 client/gui-mui/inteldlg.c:142
 #: client/gui-win32/inteldlg.c:113 client/gui-xaw/inteldlg.c:125
 #: client/gui-xaw/ratesdlg.c:298
@@ -12773,15 +13118,6 @@ msgstr ""
 "Tarcza:  %d\n"
 "Handel:  %d"
 
-#: client/gui-mui/mapclass.c:102
-#, c-format
-msgid "Terrain: %s"
-msgstr "Teren: %s"
-
-#: client/gui-mui/mapclass.c:108
-msgid "Minor Tribe Village"
-msgstr "Podrzêdna osada plemienna"
-
 #: client/gui-mui/mapclass.c:114
 #, c-format
 msgid "City: %s(%s)"
@@ -12794,16 +13130,6 @@ msgstr "z murami miejskimi"
 #: client/gui-mui/mapclass.c:130
 msgid "Infrastructure: "
 msgstr "Infrastruktura: "
-
-#: client/gui-mui/mapclass.c:148
-#, c-format
-msgid "Unit: %s(%s%s)"
-msgstr "Jednostka: %s(%s%s)"
-
-#: client/gui-mui/mapclass.c:158
-#, c-format
-msgid "  (%d more)"
-msgstr "  (%d dodatkowych)"
 
 #: client/gui-mui/mapclass.c:160
 #, c-format
@@ -12869,11 +13195,6 @@ msgstr "Zmieñ pochodzenie"
 #: client/gui-mui/mapctrl.c:80
 msgid "City_name"
 msgstr "_Nazwa miasta"
-
-#: client/gui-mui/mapview.c:190
-#, c-format
-msgid "Population: %s"
-msgstr "Populacja: %s"
 
 #: client/gui-mui/mapview.c:194
 #, c-format
@@ -13533,26 +13854,6 @@ msgstr ""
 "\n"
 "Infrastruktura: %s"
 
-#: client/gui-sdl/dialogs.c:929 client/gui-sdl/mapview.c:648
-msgid "?nation:Neutral"
-msgstr "?nation:Neutralni"
-
-#: client/gui-sdl/dialogs.c:929 client/gui-sdl/mapview.c:648
-msgid "?nation:Hostile"
-msgstr "?nation:Wrodzy"
-
-#: client/gui-sdl/dialogs.c:930 client/gui-sdl/mapview.c:650
-msgid "?nation:Peaceful"
-msgstr "?nation:Pokojowi"
-
-#: client/gui-sdl/dialogs.c:931 client/gui-sdl/mapview.c:650
-msgid "?nation:Friendly"
-msgstr "?nation:Przyja¼ni"
-
-#: client/gui-sdl/dialogs.c:931 client/gui-sdl/mapview.c:651
-msgid "?nation:Mysterious"
-msgstr "?nation:Nieznani"
-
 #: client/gui-sdl/dialogs.c:934 client/gui-sdl/mapview.c:653
 msgid ""
 "\n"
@@ -13596,26 +13897,6 @@ msgstr ""
 "\n"
 "Teren neutralny"
 
-#: client/gui-sdl/dialogs.c:959 client/gui-sdl/mapview.c:680
-msgid "?city:Neutral"
-msgstr "?city:Neutralne"
-
-#: client/gui-sdl/dialogs.c:959 client/gui-sdl/mapview.c:680
-msgid "?city:Hostile"
-msgstr "?city:Wrogie"
-
-#: client/gui-sdl/dialogs.c:960 client/gui-sdl/mapview.c:681
-msgid "?city:Peaceful"
-msgstr "?city:Pokojowe"
-
-#: client/gui-sdl/dialogs.c:961 client/gui-sdl/mapview.c:682
-msgid "?city:Friendly"
-msgstr "?city:Przyjazne"
-
-#: client/gui-sdl/dialogs.c:961 client/gui-sdl/mapview.c:682
-msgid "?city:Mysterious"
-msgstr "?city:Tajemnicze"
-
 #: client/gui-sdl/dialogs.c:963 client/gui-sdl/mapview.c:684
 #, c-format
 msgid ""
@@ -13624,10 +13905,6 @@ msgid ""
 msgstr ""
 "\n"
 "Miasto %s"
-
-#: client/gui-sdl/dialogs.c:965
-msgid " with City Walls"
-msgstr " z murami miejskimi"
 
 #: client/gui-sdl/dialogs.c:971
 #, c-format
@@ -16400,7 +16677,8 @@ msgstr ""
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
-msgstr "Domy¶lne zasady bitwy\n"
+msgstr ""
+"Domy¶lne zasady bitwy\n"
 "---------------------"
 
 #: data/helpdata.txt:902
@@ -16617,7 +16895,8 @@ msgstr "Zmienianie zasadach walki"
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
-msgstr "Zmienianie zasadach walki\n"
+msgstr ""
+"Zmienianie zasadach walki\n"
 "-------------------------"
 
 #: data/helpdata.txt:1000
@@ -16625,15 +16904,16 @@ msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
 msgstr ""
-"Zasady bitwy opisane powy¿ej mog± zostaæ zmienione za pomoc± poni¿szych modyfikatorów "
-"w pliku game.ruleset, w sekcji combat_rules: "
+"Zasady bitwy opisane powy¿ej mog± zostaæ zmienione za pomoc± poni¿szych "
+"modyfikatorów w pliku game.ruleset, w sekcji combat_rules: "
 
 #: data/helpdata.txt:1003
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
-msgstr " - killstack (domy¶lnie 1) Je¶li ustawione na 0, to jednostki znajduj±ce siê na tym samym polu co "
-"obroñca nie s± niszczone w przypadku nieudanej obrony. "
+msgstr ""
+" - killstack (domy¶lnie 1) Je¶li ustawione na 0, to jednostki znajduj±ce siê "
+"na tym samym polu co obroñca nie s± niszczone w przypadku nieudanej obrony. "
 
 #: data/helpdata.txt:1009
 msgid " Combat example 1"
