@@ -86,7 +86,9 @@ enum report_type {
   REPORT_WONDERS_OF_THE_WORLD,
   REPORT_TOP_5_CITIES,
   REPORT_DEMOGRAPHIC,
-  REPORT_SERVER_OPTIONS
+  REPORT_SERVER_OPTIONS,   /* for backward-compatibility with old servers */
+  REPORT_SERVER_OPTIONS1,
+  REPORT_SERVER_OPTIONS2
 };
 
 /*********************************************************

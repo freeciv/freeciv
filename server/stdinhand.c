@@ -35,178 +35,391 @@ void quit_game(void);
 void show_help(void);
 void show_players(void);
 
-struct proto_settings {
+/* The following classes determine what can be changed when.
+ * Actually, some of them have the same "changeability", but
+ * different types are separated here in case they have
+ * other uses.
+ * Also, SSET_GAME_INIT/SSET_RULES separate the two sections
+ * of server settings sent to the client.
+ * See the settings[] array for what these correspond to and
+ * explanations.
+ */
+enum sset_class {
+  SSET_MAP_SIZE,
+  SSET_MAP_GEN,
+  SSET_MAP_ADD,
+  SSET_PLAYERS,
+  SSET_GAME_INIT,
+  SSET_RULES,
+  SSET_RULES_FLEXIBLE,
+  SSET_META,
+  SSET_LAST
+};
+
+/* Whether settings are sent to the client when the client lists
+ * server options.  Eg, not sent: seeds, saveturns, etc.
+ */
+enum sset_to_client {
+  SSET_TO_CLIENT, SSET_SERVER_ONLY
+};
+
+#define SSET_MAX_LEN  16	/* max setting name length (plus nul) */
+
+struct settings_s {
   char *name;
-  char *help;
   int *value;
-  /* afterstart: 0=can be changed pre-start, 1=can be changed always,
-     2=tile map generation option: can only be changed prior to having a tile map */
-  int afterstart;
-  int to_client;		/* Ok to report this option to the client */
-				/* Eg: not: saveturns etc, seeds */
+  enum sset_class sclass;
+  enum sset_to_client to_client;
   int min_value, max_value, default_value;
+  char *short_help;
+  char *extra_help;
+  /* short_help:
+       Sould be less than 42 chars (?), or shorter if the values may
+       have more than about 4 digits.   Don't put "." on the end.
+     extra_help:
+       May be empty string, if short_help is sufficient.
+       If longer than 80 squares should include embedded newlines at
+       less than 80 char intervals.  Each line should start with 2
+       spaces for indentation.  Should have punctuation etc, and
+       should end with a "."
+  */
 };
 
-struct proto_settings settings[] = {
-  { "xsize", "Width of map in squares", 
-    &map.xsize, 2, 1,
-    MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH},
+struct settings_s settings[] = {
 
-  { "ysize", "Height of map in squares", 
-    &map.ysize, 2, 1,
-    MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT},
-
-  { "seed", "This single number defines the random sequence that generate the map\nSame seed will always produce same map, except 0, which gives a random map.", 
-    &map.seed, 2, 0,
-    MAP_MIN_SEED,MAP_MAX_SEED, MAP_DEFAULT_SEED},
+  /* These should be grouped by sclass */
   
-  { "landmass", "This number defines the percentage of the map that becomes land.", 
-    &map.landpercent, 2, 1,
-    MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS},
-
-  { "specials", "This number donates a percentage chance that a square is special.",
-    &map.riches, 0, 1,
-    MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES},
-
-  { "swamps", "How many swamps to create on the map.",
-    &map.swampsize, 2, 1,
-    MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS},
-
-  { "settlers", "How many settlers each player starts with.",
-    &game.settlers, 0, 1,
-    GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS},
-
-  { "explorer", "How many explorer units the player starts with.",
-    &game.explorer, 0, 1,
-    GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER},
-
-  { "deserts", "How many deserts to create on the map.",
-    &map.deserts, 2, 1,
-    MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS},
-
-  { "rivers", "Denotes the total length of the rivers on the map.",
-    &map.riverlength, 2, 1,
-    MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS},
-
-  { "mountains", "How flat/high is the map, higher values give more mountains.", 
-    &map.mountains, 2, 1,
-    MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS},
-
-  { "forests", "How much forest to create, higher values give more forest.", 
-    &map.forestsize, 2, 1,
-    MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS},
-
-  { "huts", "how many 'bonus huts' should be created.",
-    &map.huts, 0, 1,
-    MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS},
-
-  { "generator", "made a more fair mapgenerator (2), but it only supports 7 players, and works on 80x50 maps only", 
-    &map.generator, 2, 1,
-    MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR}, 
-
-  { "gold", "how much gold does each players start with.",
-    &game.gold, 0, 1,
-    GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD},
-
-  { "techlevel", "How many initial advances does each player have.",
-    &game.tech, 0, 1,
-    GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL},
-
-  { "researchspeed", "How fast do players gain technology.",
-    &game.techlevel, 0, 1,
-    GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL},
-
-  { "diplcost", "How many % of the price of researching a tech, does a tech cost when you exchange it in a diplomatic treaty.",
-    &game.diplcost, 0, 1,
-    GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST},
-
-  { "diplchance", "The 1:n chance of a diplomat/spy defeating a resident diplomat/spy while subverting or sabotaging a city.  Also the chance of a Spy returning from a sucessful mission",
-    &game.diplchance, 1, 1,
-    GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE},
-
-  { "freecost", "How many % of the price of researching a tech, does a tech cost when you get it for free.",
-    &game.freecost, 0, 1,
-    GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST},
-
-  { "conquercost", "How many % of the price of researching a tech, does a tech cost when you get it by military force.",
-    &game.conquercost, 0, 1,
-    GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST},
+/* Map size parameters: adjustable if we don't yet have a map */  
+  { "xsize", &map.xsize,
+    SSET_MAP_SIZE, SSET_TO_CLIENT,
+    MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH,
+    "Map width in squares", "" },
   
-  { "unhappysize", "When do people get angry in a city.",
-    &game.unhappysize, 0, 1,
-    GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE},
+  { "ysize", &map.ysize,
+    SSET_MAP_SIZE, SSET_TO_CLIENT,
+    MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT,
+    "Map height in squares", "" }, 
 
-  { "cityfactor", "How many cities will it take to increase unhappy faces in cities.",
-    &game.cityfactor, 0, 1,
-    GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR},
+/* Map generation parameters: once we have a map these are of historical
+ * interest only, and cannot be changed.
+ */
+  { "generator", &map.generator, 
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR,
+    "Method used to generate map",
+    "  1 = standard, 2 = large islands, 3 = large islands plus small islands.\n"
+    "  Note: values 2 and 3 generate \"fairer\" (but more boring?) maps.\n"
+    "  (Zero indicates a scenario map.)" },
 
-  { "railfood", "How many % railroads modifies food production.",
-     &game.rail_food, 0, 1,
-     GAME_MIN_RAILFOOD, GAME_MAX_RAILFOOD, GAME_DEFAULT_RAILFOOD},
- 
-  { "railprod", "How many % railroads modifies shield production.",
-     &game.rail_prod, 0, 1,
-     GAME_MIN_RAILPROD, GAME_MAX_RAILPROD, GAME_DEFAULT_RAILPROD},
- 
-  { "railtrade", "How many % railroads modifies trade production.",
-     &game.rail_trade, 0, 1,
-     GAME_MIN_RAILTRADE, GAME_MAX_RAILTRADE, GAME_DEFAULT_RAILTRADE},
+  { "landmass", &map.landpercent,
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS,
+    "Amount of land vs ocean", "" },
 
-  { "foodbox", "Size * this parameter is what it takes for a city to grow by 1"
-    ,&game.foodbox, 0, 1,
-    GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX},
+  { "mountains", &map.mountains,
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS,
+    "Amount of hills/mountains",
+    "  Small values give flat maps, higher values give more hills and mountains."},
 
-  { "aqueductloss", "Percentage of food lost when city can't expand "
-    "without an aqueduct or sewer.",
-    &game.aqueductloss, 0, 1,
-    GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS},
+  { "rivers", &map.riverlength, 
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS,
+    "Amount of river squares", "" },
 
-  { "techpenalty", "% penalty if you change tech default it's 100%",
-    &game.techpenalty, 0, 1,
-    GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY},
+  { "forests", &map.forestsize, 
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS,
+    "Amount of forest squares", "" },
 
-  { "razechance", "% chance that each building in town is destroyed when conquered",
-    &game.razechance, 0, 1,
-    GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE},
- 
-  { "civstyle", "1= civ 1 (units, techs, buildings), 2= civ 2 style",
-    &game.civstyle, 0, 1,
-    GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE},
+  { "swamps", &map.swampsize, 
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS,
+    "Amount of swamp squares", "" },
+    
+  { "deserts", &map.deserts, 
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS,
+    "Amount of desert squares", "" },
 
-  { "endyear", "In what year is the game over.", 
-    &game.end_year, 1, 1,
-    GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR},
+  { "seed", &map.seed, 
+    SSET_MAP_GEN, SSET_SERVER_ONLY,
+    MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED,
+    "Map generation random seed",
+    "  The same seed will always produce the same map; for zero (the default)\n"
+    "  a seed will be chosen based on the time, to give a random map." },
 
-  { "minplayers", "How many players are needed to start the game.",
-    &game.min_players, 0, 1,
-    GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS},
+/* Map additional stuff: huts and specials.  randseed also goes here
+ * because huts and specials are the first time the randseed gets used (?)
+ * These are done when the game starts, so these are historical and
+ * fixed after the game has started.
+ */
+  { "randseed", &game.randseed, 
+    SSET_MAP_ADD, SSET_SERVER_ONLY,
+    GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED,
+    "General random seed",
+    "  For zero (the default) a seed will be chosen based on the time." },
+
+  { "specials", &map.riches, 
+    SSET_MAP_ADD, SSET_TO_CLIENT,
+    MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES,
+    "Amount of \"special\" resource squares", "" },
+
+  { "huts", &map.huts, 
+    SSET_MAP_ADD, SSET_TO_CLIENT,
+    MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS,
+    "Amount of huts (minor tribe villages)", "" },
+
+/* Options affecting numbers of players and AI players.  These only
+ * affect the start of the game and can not be adjusted after that.
+ * (Actually, minplayers does also affect reloads: you can't start a
+ * reload game until enough players have connected (or are AI).)
+ */
+  { "minplayers", &game.min_players,
+    SSET_PLAYERS, SSET_TO_CLIENT,
+    GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS,
+    "Minimum number of players",
+    "  There must be at least this many players (connected players or AI's)\n"
+    "  before the game can start." },
   
-  { "maxplayers", "How many players are maximally wanted in game.",
-    &game.max_players, 0, 1,
-    GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS},
+  { "maxplayers", &game.max_players,
+    SSET_PLAYERS, SSET_TO_CLIENT,
+    GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS,
+    "Maximum number of players",
+    "  For new games, the game will start automatically if/when this number of\n"
+    "  players are connected or (for AI's) created." },
 
-  { "saveturns", "How many turns between when the game is saved.",
-    &game.save_nturns, 1, 0,
-    0, 200, 10},
+  { "aifill", &game.aifill, 
+    SSET_PLAYERS, SSET_TO_CLIENT,
+    GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL,
+    "Number of players to fill to with AI's",
+    "  If there are fewer than this many players when the game starts, extra AI\n"
+    "  players will be created to increase the total number of players to the\n"
+    "  value of this option." },
 
-  { "timeout", "How many seconds can a turn max take (0 is no timeout).",
-    &game.timeout, 1, 1,
-    0, 999, GAME_DEFAULT_TIMEOUT},
+/* Game initialization parameters (only affect the first start of the game,
+ * and not reloads).  Can not be changed after first start of game.
+ */
+  { "settlers", &game.settlers,
+    SSET_GAME_INIT, SSET_TO_CLIENT,
+    GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS,
+    "Number of initial settlers per player", "" },
+    
+  { "explorer", &game.explorer,
+    SSET_GAME_INIT, SSET_TO_CLIENT,
+    GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER,
+    "Number of initial explorers per player", "" },
 
-  { "aifill", "Maximum number of AI players to create when game starts",
-    &game.aifill, 0, 1,
-    GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL},
+  { "gold", &game.gold,
+    SSET_GAME_INIT, SSET_TO_CLIENT,
+    GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD,
+    "Starting gold per player", "" },
 
-  { "scorelog", "Logs players statistics every turn.  See the civscore.pl script in the contrib directory of the Freeciv web site for more information.",
-    &game.scorelog, 1, 0,
-    GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG},
+  { "techlevel", &game.tech, 
+    SSET_GAME_INIT, SSET_TO_CLIENT,
+    GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL,
+    "Number of initial advances per player", "" },
 
-  { "randseed", "Seed for random number generator.  The default value of zero uses the current timestamp as the seed.",
-    &game.randseed, 0, 0,
-    GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED},
+/* Various rules: these cannot be changed once the game has started. */
+  { "researchspeed", &game.techlevel,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
+    "Points required to gain a new advance",
+    "  This affects how quickly players can research new technology." },
 
-  { NULL, NULL, NULL, 0, 0, 0}
+  { "techpenalty", &game.techpenalty,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY,
+    "Percentage penalty when changing tech",
+    "  If you change your current research technology, and you have positive\n"
+    "  research points, you lose this percentage of those research points.\n"
+    "  This does not apply if you have just gained tech this turn." },
+
+  { "diplcost", &game.diplcost,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST,
+    "Penalty when getting tech from treaty",
+    "  For each advance you gain from a diplomatic treaty, you lose research\n"
+    "  points equal to this percentage of the cost to research an new advance.\n"
+    "  You can end up with negative research points if this is non-zero." },
+
+  { "conquercost", &game.conquercost,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST,
+    "Penalty when getting tech from conquering",
+    "  For each advance you gain by conquering an enemy city, you lose research\n"
+    "  points equal to this percentage of the cost to research an new advance."
+    "  You can end up with negative research points if this is non-zero." },
+  
+  { "freecost", &game.freecost,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST,
+    "Penalty when getting a free tech",
+    "  For each advance you gain \"for free\" (other than covered by diplcost\n"
+    "  or conquercost: specifically, from huts or from the Great Library), you\n"
+    "  lose research points equal to this percentage of the cost to research a\n"
+    "  new advance.  You can end up with negative research points if this is\n"
+    "  non-zero." },
+
+  { "railprod", &game.rail_prod,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_RAILPROD, GAME_MAX_RAILPROD, GAME_DEFAULT_RAILPROD,
+    "Railroad modifier to shield production",
+    "  The shield production of a square with a railroad is increased by this\n"
+    "  percentage, with the final value rounded down." },
+  
+  { "railfood", &game.rail_food,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_RAILFOOD, GAME_MAX_RAILFOOD, GAME_DEFAULT_RAILFOOD,
+    "Railroad modifier to food production",
+    "  The food production of a square with a railroad is increased by this\n"
+    "  percentage, with the final value rounded down." },
+ 
+  { "railtrade", &game.rail_trade,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_RAILTRADE, GAME_MAX_RAILTRADE, GAME_DEFAULT_RAILTRADE,
+    "Railroad modifier to trade production",
+    "  The trade production of a square with a railroad is increased by this\n"
+    "  percentage, with the final value rounded down." },
+
+  { "foodbox", &game.foodbox, 
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX,
+    "Food required for a city to grow", "" },
+
+  { "aqueductloss", &game.aqueductloss,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS,
+    "Percentage food lost when need aqueduct",
+    "  If a city would expand, but it can't because it needs an Aqueduct\n"
+    "  (or Sewer System), it loses this percentage of its foodbox (or half\n"
+    "  that amount if it has a Granary)." },
+  
+  { "unhappysize", &game.unhappysize,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
+    "City size before people become unhappy",
+    "  Before other adjustments, the first unhappysize citizens in a city are\n"
+    "  happy, and subsequent citizens are unhappy. See also cityfactor.\n" },
+
+  { "cityfactor", &game.cityfactor,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR,
+    "Number of cities for higher unhappiness",
+    "  When the number of cities a player owns is greater than cityfactor, one\n"
+    "  extra citizen is unhappy before other adjustments; see also unhappysize.\n"
+    "  This assumes a Democracy; for other governments the effect occurs at\n"
+    "  smaller numbers of cities." },
+
+  { "razechance", &game.razechance,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE,
+    "Chance for conquered building destruction",
+    "  When a player conquers a city, each City Improvement has this percentage\n"
+    "  chance to be destroyed." },
+
+  { "civstyle", &game.civstyle,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE,
+    "Style of Civ rules",
+    "  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.  Currently\n"
+    "  this option is mostly unimplemented and only affects a few rules." },
+
+/* Flexible rules: these can be changed after the game has started.
+ * Should such flexible rules exist?  diplchance is included here
+ * to duplicate its previous behaviour (and note diplchance is only used
+ * in the server, so it is "safe" to change).  --dwp
+ */
+  { "diplchance", &game.diplchance,
+    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+    GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,
+    "Chance (1 in N) for diplomat/spy contests",
+    "  A diplomat (or spy) acting against a city which has one or more defending\n"
+    "  diplomats (or spies) has a one in diplchance chance to defeat each such\n"
+    "  defender.  Also, the chance of a spy returning from a successful mission\n"
+    "  is one in diplchance.  (Diplomats never return.)" },
+
+/* Meta options: these don't affect the internal rules of the game, but
+ * do affect players.  Also options which only produce extra server
+ * "output" and don't affect the actual game.
+ * ("endyear" is here, and not RULES_FLEXIBLE, because it doesn't
+ * affect what happens in the game, it just determines when the
+ * players stop playing and look at the score.)
+ */
+  { "endyear", &game.end_year,
+    SSET_META, SSET_TO_CLIENT,
+    GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR,
+    "Year the game ends", "" },
+
+  { "timeout", &game.timeout,
+    SSET_META, SSET_TO_CLIENT,
+    0, 999, GAME_DEFAULT_TIMEOUT,
+    "Maximum seconds per turn",
+    "  If all players have not hit \"end turn\" before this time is up, then the\n"
+    "  turn ends automatically.  Zero means there is no timeout." },
+
+  { "saveturns", &game.save_nturns,
+    SSET_META, SSET_SERVER_ONLY,
+    0, 200, 10,
+    "Turns per auto-save",
+    "  The game will be automatically saved per this number of turns.\n"
+    "  Zero means never auto-save." },
+
+  { "scorelog", &game.scorelog,
+    SSET_META, SSET_SERVER_ONLY,
+    GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG,
+    "Whether to log player statistics",
+    "  If this is set to 1, player statistics are appended to the file\n"
+    "  \"civscore.log\" every turn.  These statistics can be used to create\n"
+    "  power graphs after the game." },
+
+  { NULL, NULL,
+    SSET_LAST, SSET_SERVER_ONLY,
+    0, 0, 0,
+    NULL, NULL }
 };
+
+/********************************************************************
+Returns whether the specified server setting (option) can currently
+be changed.
+*********************************************************************/
+int sset_is_changeable(int idx)
+{
+  struct settings_s *op = &settings[idx];
+
+  switch(op->sclass) {
+  case SSET_MAP_SIZE:
+  case SSET_MAP_GEN:
+    /* Only change map options if we don't yet have a map: */
+    return map_is_empty();	
+  case SSET_MAP_ADD:
+  case SSET_PLAYERS:
+  case SSET_GAME_INIT:
+  case SSET_RULES:
+    /* Only change start params and most rules if we don't yet have a map,
+     * or if we do have a map but its a scenario one.  Once a scenario is
+     * actually started, game.scenario will be set to 0.
+     */
+    return (map_is_empty() || (game.scenario!=0));
+  case SSET_RULES_FLEXIBLE:
+  case SSET_META:
+    /* These can always be changed: */
+    return 1;
+  default:
+    fprintf(stderr, "Unexpected case %d in %s line %d\n",
+	    op->sclass, __FILE__, __LINE__);
+    return 0;
+  }
+}
+
+/********************************************************************
+Returns whether the specified server setting (option) should be
+sent to the client.
+*********************************************************************/
+int sset_is_to_client(int idx)
+{
+  return (settings[idx].to_client == SSET_TO_CLIENT);
+}
 
 typedef enum {
     PNameOk,
@@ -470,12 +683,19 @@ void explain_option(char *str)
       puts("No explanation for that yet.");
       return;
     }
-    printf("%s: %s\n", settings[cmd].name, settings[cmd].help);
-    printf("%s is currently set to %d.\n",
-	   settings[cmd].name, *settings[cmd].value);
-    printf("Minimum %d, Default %d, Maximum %d\n",
-	   settings[cmd].min_value, settings[cmd].default_value, 
-	   settings[cmd].max_value);
+    else {
+      struct settings_s *op = &settings[cmd];
+      
+      printf("Option: %s\n", op->name);
+      printf("Description: %s.\n", op->short_help);
+      if(op->extra_help && strcmp(op->extra_help,"")!=0) {
+	puts(op->extra_help);
+      }
+      printf("Status: %s\n", (sset_is_changeable(cmd)
+			      ? "changeable" : "fixed"));
+      printf("Value: %d, Minimum: %d, Default: %d, Maximum: %d\n",
+	     *(op->value), op->min_value, op->default_value, op->max_value);
+    }
   } else {
     puts(horiz_line);
     puts("Explanations are available for the following server options:");
@@ -488,28 +708,36 @@ void explain_option(char *str)
   }
 }
   
-void report_server_options(struct player *pplayer)
+/******************************************************************
+Send a report with server options to the client;
+"which" should be one of:
+0: all options (for backward compatibility)
+1: initial options only
+2: ongoing options only 
+******************************************************************/
+void report_server_options(struct player *pplayer, int which)
 {
   int i;
   char buffer[4096];
   char buf2[4096];
   char title[128];
   buffer[0]=0;
-  sprintf(title, "%-20svalue  (min , max)", "Variable");
+  sprintf(title, "%-20svalue  (min , max)", "Option");
 
   for (i=0;settings[i].name;i++) {
-    if (settings[i].to_client) {
-      sprintf(buf2, "%-20s%c%-6d (%d,%d)\n", settings[i].name,
-	      (*settings[i].value==settings[i].default_value) ? '*' : ' ',
-	      *settings[i].value, settings[i].min_value, settings[i].max_value);
-      strcat(buffer, buf2);
-    }
+    struct settings_s *op = &settings[i];
+    if (!sset_is_to_client(i)) continue;
+    if (which==1 && op->sclass > SSET_GAME_INIT) continue;
+    if (which==2 && op->sclass <= SSET_GAME_INIT) continue;
+    sprintf(buf2, "%-20s%c%-6d (%d,%d)\n", op->name,
+	    (*op->value==op->default_value) ? '*' : ' ',
+	    *op->value, op->min_value, op->max_value);
+    strcat(buffer, buf2);
   }
   i = strlen(buffer);
   assert(i<sizeof(buffer));
-  flog(LOG_DEBUG, "report_server_options buffer len %d", i);
+  if(0) flog(LOG_DEBUG, "report_server_options buffer len %d", i);
   page_player(pplayer, title, buffer);
-  
 }
 
 void set_ai_level_direct(struct player *pplayer, int level)
@@ -561,19 +789,36 @@ void crash_and_burn(void)
   assert(0);
 }
 
+/******************************************************************
+Print a summary of the settings and their values.
+Note that most values are at most 4 digits, except seeds,
+which we let overflow their columns.  (And endyear may have '-'.)
+******************************************************************/
 void show_command(char *str)
 {
-  int i;
+  int i, len1;
   puts(horiz_line);
-  printf("%-20svalue        (min , max)\n", "Variable");
+  len1 = printf("%-*s  value (min , max)  ", SSET_MAX_LEN, "Option");
+  puts("description");
   puts(horiz_line);
   for (i=0;settings[i].name;i++) {
-    printf("%-20s%c%-11d (%d,%d)\n", settings[i].name,
-	   (*settings[i].value==settings[i].default_value) ? '*' : ' ',
-	   *settings[i].value, settings[i].min_value, settings[i].max_value);
+    struct settings_s *op = &settings[i];
+    int len;
+    len = printf("%-*s %c%c%-4d (%d,%d)", SSET_MAX_LEN, op->name,
+		 (sset_is_changeable(i) ? '#' : ' '),
+		 ((*op->value==op->default_value) ? '*' : ' '),
+		 *op->value, op->min_value, op->max_value);
+    /* Line up the descriptions: */
+    if(len < len1) {
+      printf("%*s", (len1-len), " ");
+    } else {
+      printf(" ");
+    }
+    puts(op->short_help);
   }
   puts(horiz_line);
-  puts("* means that it's the default for the variable");
+  puts("* means that it's the default for that option");
+  puts("# means the option may be changed");
   puts(horiz_line);
 }
 
@@ -595,11 +840,10 @@ void set_command(char *str)
 
   cmd=lookup_cmd(command);
   if (cmd==-1) {
-    puts("Undefined argument. Usage: set <variable> <value>.");
+    puts("Undefined argument.  Usage: set <option> <value>.");
     return;
   }
-  if (!map_is_empty() &&
-      (settings[cmd].afterstart==2 || (settings[cmd].afterstart==0 && game.scenario==0 ))) {
+  if (!sset_is_changeable(cmd)) {
     puts("This setting can't be modified after game has started");
     return;
   }
@@ -609,7 +853,7 @@ void set_command(char *str)
     *(settings[cmd].value)=val;
     notify_player(0, "Option: %s has been set to %d.", command, val);
   } else
-    puts("Value out of range. Usage: set <variable> <value>.");
+    puts("Value out of range. Usage: set <option> <value>.");
 }
 
 /**************************************************************************

@@ -750,9 +750,26 @@ void handle_report_request(struct player *pplayer, enum report_type type)
     demographics_report(pplayer);
     break;
   case REPORT_SERVER_OPTIONS:
-    report_server_options(pplayer);
+    /* this is for backward compatibility with old clients */
+    if(1) {
+      report_server_options(pplayer, 0);
+    } else {
+      /* This alternative approach isn't very good because they come up on
+       * top of each other, and there are focus problems. --dwp
+       */
+      report_server_options(pplayer, 1);
+      report_server_options(pplayer, 2);
+    }
+    break;
+  case REPORT_SERVER_OPTIONS1:
+    report_server_options(pplayer, 1);
+    break;
+  case REPORT_SERVER_OPTIONS2:
+    report_server_options(pplayer, 2);
+    break;
+  default:
+    notify_player(pplayer, "Game: request for unknown report (type %d)", type);
   }
-  
 }
 
 

@@ -48,7 +48,9 @@ enum MenuID {
   MENU_GAME_REVOLUTION,
   MENU_GAME_PLAYERS,
   MENU_GAME_MESSAGES,
-  MENU_GAME_SERVER_OPTIONS,
+  MENU_GAME_SERVER_OPTIONS,  /* for backward-compatibility with old servers */
+  MENU_GAME_SERVER_OPTIONS1,
+  MENU_GAME_SERVER_OPTIONS2,
   MENU_GAME_OUTPUT_LOG,
   MENU_GAME_CLEAR_OUTPUT,
   MENU_GAME_DISCONNECT,
@@ -121,6 +123,8 @@ struct MenuEntry game_menu_entries[]={
     { "Players",        MENU_GAME_PLAYERS, 0 },
     { "Messages",       MENU_GAME_MESSAGES, 0 },
     { "Server options", MENU_GAME_SERVER_OPTIONS, 0 },
+    { "Server options 1", MENU_GAME_SERVER_OPTIONS1, 0 },
+    { "Server options 2", MENU_GAME_SERVER_OPTIONS2, 0 },
     { "Export log",     MENU_GAME_OUTPUT_LOG, 0 }, /* added by Syela */
     { "Clear log",      MENU_GAME_CLEAR_OUTPUT, 0 },
     { "Disconnect",     MENU_GAME_DISCONNECT, 0 }, /* added by Syela */
@@ -205,6 +209,8 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS, 0);
+    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS1, 0);
+    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS2, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 0);
@@ -224,6 +230,8 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS1, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS2, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_DISCONNECT, 1);
@@ -342,6 +350,12 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   case MENU_GAME_SERVER_OPTIONS:
     send_report_request(REPORT_SERVER_OPTIONS);
+    break;
+  case MENU_GAME_SERVER_OPTIONS1:
+    send_report_request(REPORT_SERVER_OPTIONS1);
+    break;
+  case MENU_GAME_SERVER_OPTIONS2:
+    send_report_request(REPORT_SERVER_OPTIONS2);
     break;
   case MENU_GAME_OUTPUT_LOG:
     log_output_window();
