@@ -97,8 +97,6 @@ struct FT_Bitmap_;
 /* ===== general osda ===== */
 struct osda *be_create_osda(int width, int height);
 void be_free_osda(struct osda *osda);
-void be_set_transparent(struct osda *osda,
-			const struct ct_rect *rect);
 
 /* ===== drawing to osda ===== */
 #define be_draw_string tr_draw_string
