@@ -1235,7 +1235,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
    * the city will be destroyed.
    */
   if (pcity->size <= 1) {
-    notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
+    notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT,
 		     _("Game: You destroy %s completely."), pcity->name);
     notify_player_ex(cplayer, pcity->tile, E_CITY_LOST, 
 		     _("Game: %s has been destroyed by %s."), 
