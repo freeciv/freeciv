@@ -583,25 +583,6 @@ int improvement_upkeep(const struct city *pcity, Impr_Type_id i)
 }
 
 /**************************************************************************
-  Caller to pass asmiths = city_affected_by_wonder(pcity, B_ASMITHS)
-**************************************************************************/
-static int improvement_upkeep_asmiths(const struct city *pcity, Impr_Type_id i,
-				      bool asmiths)
-{
-  if (!improvement_exists(i))
-    return 0;
-  if (is_wonder(i))
-    return 0;
-  if (asmiths && improvement_types[i].upkeep == 1) 
-    return 0;
-  if (government_has_flag(get_gov_pcity(pcity), G_CONVERT_TITHES_TO_MONEY)
-      && (i == B_TEMPLE || i == B_COLOSSEUM || i == B_CATHEDRAL)) {
-    return 0;
-  }
-  return (improvement_types[i].upkeep);
-}
-
-/**************************************************************************
   Calculate the shields for the tile.  If pcity is specified then
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
   whether the city is celebrating.
@@ -1134,11 +1115,10 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 *************************************************************************/
 int city_gold_surplus(const struct city *pcity)
 {
-  bool asmiths = city_affected_by_wonder(pcity, B_ASMITHS);
   int cost = 0;
 
   built_impr_iterate(pcity, i) {
-    cost += improvement_upkeep_asmiths(pcity, i, asmiths);
+    cost += improvement_upkeep(pcity, i);
   } built_impr_iterate_end;
 
   unit_list_iterate(pcity->units_supported, punit) {
