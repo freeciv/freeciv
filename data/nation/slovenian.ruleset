@@ -1,0 +1,35 @@
+[nation_slovenian]
+
+name=_("Slovenian")
+plural=_("Slovenians")
+leader="Valuka", "Valtunk", "Kocelj", "Primoz Trubar"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.slovenia"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("President"),    _("President")
+                 "Democracy",       _("President"),    _("President")
+               }
+
+attack=0
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+
+tech_goals="The Republic", "Trade", "Engineering", "Democracy",
+           "Railroad", "Explosives", "Automobile"
+wonder="Hoover Dam"
+government="Democracy"
+
+cities =
+  "Ljubljana", "Maribor", "Nova Gorica", "Celje", "Kranj", "Jesenice",
+  "Idrija", "Novo Mesto", "Trbovlje", "Velenje", "Koper", "Murska Sobota",
+  "Ptuj", "Pragersko", "Hrastnik", "Zagorje", "Kamnik", "Domzale",
+  "Skofja Loka", "Radovljica", "Bled", "Postojna", "Izola", "Piran",
+  "Kocevje", "Zidani Most", "Brezice", "Krsko", "Catez", "Ormoz",
+  "Sentilj", "Dravograd", "Ravne", "Lasko", "Trzic", "Kranjska Gora",
+  "Sezana", "Savudrija", "Pivka"
+
+
