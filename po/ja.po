@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2004-01-12 22:20-0800\n"
-"PO-Revision-Date: 2004-04-01 20:50+0900\n"
+"PO-Revision-Date: 2004-04-03 23:30+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -1828,11 +1828,11 @@ msgstr "Game: %sの%sを買収するお金がありません。"
 msgid "Game: You cannot bribe %s!"
 msgstr "Game: %sは買えません!"
 
-# yasu, ama
+# yasu, ama, ntaka
 #: server/diplomats.c:463
 #, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
-msgstr "Game: %sは、%sの%sの買収に成功し、ベテランになりました。"
+msgstr "Game: %sは、%sの%sの買収に成功し、練度が増しました。"
 
 # yasu, ama
 #: server/diplomats.c:469
@@ -2045,7 +2045,7 @@ msgstr "Game: %3$sへ潜入中の%1$sの%2$sを消しました。"
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s  and has become more experienced."
-msgstr "Game: %sは任務を完了して無事%sへ戻り、ベテランになりました。"
+msgstr "Game: %sは任務を完了して無事%sへ戻り、練度が増しました。"
 
 #: server/diplomats.c:1260
 #, c-format
@@ -5857,7 +5857,7 @@ msgstr "Game: %s への核攻撃は SDI 防衛システムによって避けられました。"
 msgid ""
 "Game: Your %s%s survived the pathetic attack from %s's %s and became more "
 "experienced!"
-msgstr "Game: %2$s%1$sは、%3$sの%4$sからの攻撃を切り抜け、ベテランになりました。"
+msgstr "Game: %2$s%1$sは、%3$sの%4$sからの攻撃を切り抜け、練度が増しました。"
 
 #: server/unithand.c:774
 #, c-format
@@ -5874,7 +5874,7 @@ msgstr "Game: %1$sは%4$s%2$sの%3$sを攻撃し、失敗しました。"
 msgid ""
 "Game: Your attacking %s succeeded against %s's %s%s and became more "
 "experienced!"
-msgstr "Game: %1$sは%4$s%2$sの%3$sの攻撃に成功し、ベテランになりました。"
+msgstr "Game: %1$sは%4$s%2$sの%3$sの攻撃に成功し、練度が増しました。"
 
 #: server/unithand.c:810
 #, c-format
@@ -6007,7 +6007,7 @@ msgstr "%sのトライリームを海で消失"
 #: server/unittools.c:419
 #, c-format
 msgid "Game: Your %s survived on the high seas and became more experienced."
-msgstr "Game: %sは外洋でも耐え、ベテランになりました。"
+msgstr "Game: %sは外洋でも耐え、練度が増しました。"
 
 #: server/unittools.c:447
 #, c-format
@@ -6027,7 +6027,7 @@ msgstr "%sは%sを失う(燃料)"
 #: server/unittools.c:678
 #, c-format
 msgid "Game: Your %s became more experienced."
-msgstr "Game: %s はベテランになりました。"
+msgstr "Game: %s の練度が増しました。"
 
 #: server/unittools.c:955
 #, fuzzy, c-format
