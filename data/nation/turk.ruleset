@@ -2,8 +2,8 @@
 
 name=_("Turk")
 plural=_("?plural:Turks")
-leader="Kemal Atatürk", "Sulayman", "Osman", "Murad",
-       "Selim", "Mehmed"
+leader="Kemal Atatürk", "Sülayman", "Osman", "Murat",
+       "Selim", "Mehmet"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
 flag="f.turkey"
@@ -26,10 +26,8 @@ government="Republic"
 
 cities =
  "Ankara", "Istanbul", "Izmir", "Adana", "Antalya",
- "Galatarasay", "Smyrna", "Bursa", "Edirne", "Erzerum",
- "Eskisehir", "Trabzon", "Konya", "Ordu", "Iskenderun",
- "Aydin", "Denizli", "Kutahya", "Nevsehir", "Sivas",
- "Adiyaman", "Kirsehir", "Elazig", "Malatya", "Tunceli",
- "Balikesli", "Bandirma", "Yozgat", "Diyarbakir", "Giresun"
-
-
+ "Bursa", "Edirne", "Erzerum", "Eskisehir", "Trabzon",
+ "Konya", "Ordu", "Iskenderun", "Aydin", "Denizli",
+ "Kutahya", "Nevsehir", "Sivas", "Adiyaman", "Kirsehir",
+ "Elazig", "Malatya", "Tunceli", "Balikesli", "Yozgat",
+ "Diyarbakir", "Giresun", "Kocaeli", "Samsun", "Kirklareli"
