@@ -64,6 +64,7 @@ Note that some systems have separate library packages for "runtime"
 library support and for development support (for compiling programs 
 which use those libraries).  To compile Freeciv on such systems you 
 will need to have the appropriate "development" packages installed.
+(Attention Red Hat users: this means you! :-)
 
 1a. Prerequisites for the Xaw client:
 =====================================
@@ -123,6 +124,18 @@ will need to have the appropriate "development" packages installed.
 1b. Prerequisites for the Gtk+ client:
 ======================================
 
+ - The "Glib" utility library.
+
+   The "Glib" utility library provides non-graphical functions used by the
+   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
+
+   Freeciv requires a version of "Glib" greater or equal to 1.2.1.
+
+   If the Freeciv configure process tells you that you don't have the
+   Glib library installed, then it may be obtained from here:
+
+     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.6.tar.gz
+
  - The "Gtk+" widget library.
 
    The "Gtk+" widget library was designed for the GIMP graphics program.
@@ -136,19 +149,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk-1.2.3.tar.gz
-
- - The "Glib" utility library.
-
-   The "Glib" utility library provides non-graphical functions used by the
-   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
-
-   Freeciv requires a version of "Glib" greater or equal to 1.2.1.
-
-   If the Freeciv configure process tells you that you don't have the
-   Glib library installed, then it may be obtained from here:
-
-     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.3.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.6.tar.gz
 
  - The "Imlib" library.
 
@@ -160,11 +161,13 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Imlib library installed, then it may be obtained from here:
 
-     ftp://ftp.gnome.org/pub/GNOME/sources/imlib/imlib-1.9.4.tar.gz
+     ftp://ftp.gnome.org/pub/GNOME/sources/imlib/imlib-1.9.7.tar.gz
 
    (Imlib documentation says that you require other libraries to use
    certain features but none of those are needed by the Freeciv client).
 
+If you are going to make these yourself, build and install them in the
+following order: Glib, Gtk+, Imlib.
 
 2. Generating the Makefile:
 ===========================
@@ -270,6 +273,7 @@ After compilation, the important results are:
 
   - The "client/civclient" and "server/civserver" binaries.
   - The "data/" directory, which contains the graphics and scenarios.
+  - The "po/" directory, which contains the localization files.
   - The "civ" and "ser" scripts.
 
 It's perfectly feasible to play Freeciv in this directory, without
@@ -278,11 +282,14 @@ useful, although they are not as necessary as they used to be.
 
 See the README file for more information.
 
+(However you cannot use Internationalization when playing Freeciv from
+the source directory; you must install Freeciv for that.)
+
 4. Installation:
 ================
 
 Installing Freeciv involves installing the components mentioned in
-Section 2.  These need to be copied to a directory such as /usr/games,
+Section 3.  These need to be copied to a directory such as /usr/games,
 /usr/games/freeciv, /usr/local/freeciv, or some other suitable
 directory.
 

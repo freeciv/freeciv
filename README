@@ -81,38 +81,44 @@ Server:
 
   Once the server is started, a prompt will appear:
 
-Get a list of the available commands with 'help'.
-> he 
-Available commands: (P=player, M=message, F=file, L=level, T=topic, O=option)
-------------------------------------------------------------------------------
-ai P            - toggles AI on player
-cmdlevel        - see current command levels
-cmdlevel L      - sets command access level to L for all players
-cmdlevel L new  - sets command access level to L for new connections
-cmdlevel L P    - sets command access level to L for player P
-create P        - creates an AI player
-cut P           - cut connection to player
-easy            - All AI players will be easy
-easy P          - AI player will be easy
-explain         - help on server options
-explain T       - help on a particular server option
-hard            - All AI players will be hard
-hard P          - AI player will be hard
-help            - this help text
-list            - list players
-meta M          - Set meta-server infoline to M
-normal          - All AI players will be normal
-normal P        - AI player will be normal
-quit            - quit game and shutdown server
-remove P        - fully remove player from game
-save F          - save game as file F
-score           - show current score
-set             - set options
-show            - list current server options
-show O          - list current value of server option O
-start           - start game
-Abbreviations are allowed.
->
+  Get a list of the available commands with 'help'.
+  >
+
+  and, you can see that list by using the help command:
+
+  > help
+  Available commands: (P=player, M=message, F=file, L=level, T=topic, O=option)
+  -----------------------------------------------------------------------------
+  ai P            - toggles AI on player
+  cmdlevel        - see current command levels
+  cmdlevel L      - sets command access level to L for all players
+  cmdlevel L new  - sets command access level to L for new connections
+  cmdlevel L P    - sets command access level to L for player P
+  create P        - creates an AI player
+  cut P           - cut connection to player
+  easy            - All AI players will be easy
+  easy P          - AI player will be easy
+  explain         - help on server options
+  explain T       - help on a particular server option
+  hard            - All AI players will be hard
+  hard P          - AI player will be hard
+  help            - this help text
+  list            - list players
+  meta M          - Set meta-server infoline to M
+  metaserver A    - Game are reported to address A
+  nometa          - Close connection to the metaserver
+  normal          - All AI players will be normal
+  normal P        - AI player will be normal
+  quit            - quit game and shutdown server
+  remove P        - fully remove player from game
+  save F          - save game as file F
+  score           - show current score
+  set             - set options
+  show            - list current server options
+  show O          - list current value of server option O
+  start           - start game
+  Abbreviations are allowed.
+  >
 
   If you like, you can use the 'set' command to set any of the various
   server options for the game.  You can get a list of the options
@@ -156,14 +162,17 @@ Client:
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with two tilesets: the default set, and a set
-  called "trident" which uses smaller (and different) graphics.  
-  For example, start the client with:
+  distribution comes with two tilesets, called "trident" and "engels".
+  In this release the trident tileset is the default (in some previous
+  releases the engels tileset was the default).  The two tilesets have
+  quite different graphic style, so you may find you prefer one over
+  the other.  The trident tiles are smaller, so may be better if you
+  have a small display.  But try them both and decide for yourself --
+  to use the engels tileset start the client with:
 
-  % civclient --tiles trident
+  % civclient --tiles engels
 
-  Other tilesets (including the previously included "classic/brunus" 
-  tileset) are available from the ftp site.  
+  Other tilesets may be available from the ftp site.  
 
   Clients can be authorized to issue server commands.  To allow them
   to use informational commands only, type at the server prompt
@@ -219,7 +228,7 @@ Announcing the game:
 If you do not want to limit your opponents to local friends or AI players,
 visit the Freeciv metaserver:
 
-  http://www.daimi.aau.dk/~lancelot/freeciv.html
+  http://meta.freeciv.org/metaserver
 
 It is a list of Freeciv servers.  To make your own server announce itself
 there, start civserver with the '--meta' option, or just '-m' for short.
@@ -238,12 +247,13 @@ Caveats:
     if the proxy is proxy.myisp.com port 8888, set $http_proxy
     to http://proxy.myisp.com:8888/ before starting the client.
 
- 3) The metaserver usually lists several servers (5-10 on average),
-    but only a few of them are 1.8.0 or later.  This is due to noise 
-    elimination: up to 1.7.2, civserver connected to the metaserver 
-    by default, and as a consequence, most of the pre-1.8.0 servers 
-    appearing on the metaserver are run by first-time users who haven't 
-    even read this README file.
+ 3) Sometimes there are no games on the metaserver.  This may be
+    partly because the metaserver has changed hosts, and previous
+    Freeciv versions do not know about the new address.  Also, games
+    no longer show up on the metaserver by default, instead people
+    have to deliberately use '--meta'.  If you want to play a game on
+    the metaserver, are there are none there, try starting one
+    yourself!
 
 
 Playing the game:
@@ -364,7 +374,7 @@ level" or "-d level" (or instead "-de level" for the Xaw client, since
 "-d" is ambiguous between "-debug" and "-display"), where "level" is 
 0, 1, or 2.  0 means show fatal messages only, 1 means show fatal and 
 normal messages (the default), and 2 means show all fatal, normal, and 
-debug messages.
+verbose messages.
 
 If you compiled with DEBUG defined (an easy way to do this is to 
 configure with --enable-debug), then you can get debug level messages 

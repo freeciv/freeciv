@@ -17,8 +17,7 @@ KNOWN BUGS:
 
  - The hard AI is not hard enough for very experienced players, and 
    still does some stupid things.  Eg, it prefers leaving cities in 
-   revolt rather than letting them starve/shrink; it converts too many
-   squares to forest.
+   revolt rather than letting them starve/shrink.
 
  - If you scroll to the bottom of the map, sometimes the bottom row
    of squares is not fully visible.  As a work-around, try adjusting
@@ -35,9 +34,6 @@ KNOWN BUGS:
 
  - The server truncates the display of very long hostnames.
 
- - There may be some cases when the "red squares" in the city dialog
-   are not quite right.
-
  - Units on goto can attack enemy units and cities unintentionally.
 
  - When a unit is moved to the edge of the map display, the map should 
@@ -52,7 +48,7 @@ Here's what to do:
  - Check that it is not one of the known bugs listed above!  :-)
 
  - Check the Freeciv website, to ensure you're playing the latest
-   version.  (We may have already fixed the problem).
+   version.  (We may have already fixed the problem.)
 
    In particular, you might like to try a development snapshot,
    from our CVS repository.  You can FTP them from:

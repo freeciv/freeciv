@@ -6,6 +6,9 @@ on it.  The main change from the information below is that an "easy"
 skill level has been implemented, and made the default.  Also, the
 AI now uses diplomats and spies, for defense only. --dwp
 
+New for 1.9.0: the AI will sometimes build spaceships, and sometimes
+create trade routes, although not very skillfully yet in either case.
+
 Old README.AI from John Stonebraker, from the 1.7.1 release:
 -------------------------------------------------------------------------
     I haven't worked on the AI as much for the past three weeks as

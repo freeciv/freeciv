@@ -8,13 +8,17 @@ desired.  (See also the file BUGS, for some known deficiencies.)
 
 TODO:
 
-- Internationalization (that is, multi-language support).
-- Make the government types configurable via rulesets.
-- Make the existing rulesets more flexible, especially for
-  City Improvements and Wonders.
-- Make the races/tribes/leaders/city-names configurable.
-- Allow alliances between players.
-- City Plans and other client improvements.
+- City build lists.
+- Sound support.
+- Barbarians.
+- Alliances between players.
+- Better graphics for city styles.
+- Better internationalization (fix some problems, better gui 
+  handling for different-length words, mixed language client-server,
+  more complete translations, more languages).
+- Make the rulesets for City Improvements and Wonders more flexible.
+- Extend governments ruleset to allow Fundamentalism, and fix up AI 
+  handling of variant governments.
 - Ports to Win32 and Mac are being worked on.
 
 Information on other projects, and the Freeciv development 
