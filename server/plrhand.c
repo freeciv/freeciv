@@ -334,6 +334,17 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     }
     tech_researched(plr);
   }
+
+  /*
+   * Inform all players about new global advances to give them a
+   * chance to obsolete buildings.
+   */
+  send_game_info(NULL);
+
+  /*
+   * Inform player about his new tech.
+   */
+  send_player_info(plr, plr);
   
   /*
    * Update all cities if the new tech affects happiness.
