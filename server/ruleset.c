@@ -1015,7 +1015,7 @@ static void load_ruleset_buildings(struct section_file *file)
       b->obsolete_by = A_NONE;
     }
 
-    b->is_wonder = secfile_lookup_int(file, "%s.is_wonder", sec[i]);
+    b->is_wonder = secfile_lookup_bool(file, "%s.is_wonder", sec[i]);
 
     b->build_cost = secfile_lookup_int(file, "%s.build_cost", sec[i]);
 
@@ -1288,13 +1288,13 @@ static void load_ruleset_terrain(struct section_file *file)
     secfile_lookup_int_default(file, R_AS_SPECIAL, "options.river_style");
 
   terrain_control.may_road =
-    secfile_lookup_int_default(file, TRUE, "options.may_road");
+    secfile_lookup_bool_default(file, TRUE, "options.may_road");
   terrain_control.may_irrigate =
-    secfile_lookup_int_default(file, TRUE, "options.may_irrigate");
+    secfile_lookup_bool_default(file, TRUE, "options.may_irrigate");
   terrain_control.may_mine =
-    secfile_lookup_int_default(file, TRUE, "options.may_mine");
+    secfile_lookup_bool_default(file, TRUE, "options.may_mine");
   terrain_control.may_transform =
-    secfile_lookup_int_default(file, TRUE, "options.may_transform");
+    secfile_lookup_bool_default(file, TRUE, "options.may_transform");
 
   /* parameters */
 
@@ -1672,9 +1672,9 @@ static void load_ruleset_governments(struct section_file *file)
     hint->const_factor =
       secfile_lookup_int(file, "governments.ai_tech_hints%d.const_factor", j);
     hint->get_first =
-      secfile_lookup_int(file, "governments.ai_tech_hints%d.get_first", j);
+      secfile_lookup_bool(file, "governments.ai_tech_hints%d.get_first", j);
     hint->done =
-      secfile_lookup_int(file, "governments.ai_tech_hints%d.done", j);
+      secfile_lookup_bool(file, "governments.ai_tech_hints%d.done", j);
   }
   if (j<MAX_NUM_TECH_LIST) {
     ai_gov_tech_hints[j].tech = A_LAST;

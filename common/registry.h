@@ -46,7 +46,10 @@ void secfile_insert_int_comment(struct section_file *my_section_file,
 				int val, const char *const comment, 
 				char *path, ...)
                                 fc__attribute((format(printf, 4, 5)));
-			
+void secfile_insert_bool(struct section_file *my_section_file,
+			 bool val, char *path, ...)
+                         fc__attribute((format(printf, 3, 4)));
+
 void secfile_insert_str(struct section_file *my_section_file, 
 			char *sval, char *path, ...)
                         fc__attribute((format (printf, 3, 4)));
@@ -62,6 +65,10 @@ bool section_file_lookup(struct section_file *my_section_file,
 int secfile_lookup_int(struct section_file *my_section_file, 
 		       char *path, ...)
                        fc__attribute((format (printf, 2, 3)));
+
+bool secfile_lookup_bool(struct section_file *my_section_file, 
+		        char *path, ...)
+                        fc__attribute((format (printf, 2, 3)));
 		       
 char *secfile_lookup_str(struct section_file *my_section_file, 
 			 char *path, ...)
@@ -74,6 +81,10 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
 int secfile_lookup_int_default(struct section_file *my_section_file,
                                int def, char *path, ...)
                                fc__attribute((format (printf, 3, 4)));
+
+bool secfile_lookup_bool_default(struct section_file *my_section_file,
+				 bool def, char *path, ...)
+                                 fc__attribute((format (printf, 3, 4)));
 
 char *secfile_lookup_str_default(struct section_file *my_section_file, 
                                  char *def, char *path, ...)

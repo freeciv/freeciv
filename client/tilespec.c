@@ -230,7 +230,7 @@ void tilespec_read_toplevel(const char *tileset_name)
 
   section_file_lookup(file, "tilespec.name"); /* currently unused */
 
-  is_isometric = secfile_lookup_int_default(file, 0, "tilespec.is_isometric");
+  is_isometric = secfile_lookup_bool_default(file, FALSE, "tilespec.is_isometric");
   if (is_isometric && !isometric_view_supported()) {
     freelog(LOG_ERROR, _("Client does not support isometric tilesets."
 	    " Using default tileset instead."));
@@ -275,7 +275,7 @@ void tilespec_read_toplevel(const char *tileset_name)
   city_productions_font_name = mystrdup(c);
 
   flags_are_transparent =
-    secfile_lookup_int(file, "tilespec.flags_are_transparent"); 
+    secfile_lookup_bool(file, "tilespec.flags_are_transparent"); 
 
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   main_intro_filename = tilespec_gfx_filename(c);
@@ -364,7 +364,7 @@ static void tilespec_load_one(const char *spec_filename)
 
   for(i=0; i<num_grids; i++) {
     bool is_pixel_border =
-      secfile_lookup_int_default(file, 0, "%s.is_pixel_border", gridnames[i]);
+      secfile_lookup_bool_default(file, FALSE, "%s.is_pixel_border", gridnames[i]);
     x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
     y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
     dx = secfile_lookup_int(file, "%s.dx", gridnames[i]);

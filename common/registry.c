@@ -817,6 +817,29 @@ void secfile_insert_int_comment(struct section_file *my_section_file,
 /**************************************************************************
 ...
 **************************************************************************/
+void secfile_insert_bool(struct section_file *my_section_file,
+			 bool val, char *path, ...)
+{
+  struct entry *pentry;
+  char buf[MAX_LEN_BUFFER];
+  va_list ap;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  pentry=section_file_insert_internal(my_section_file, buf);
+
+  assert(val == TRUE || val == FALSE);
+
+  pentry->ivalue = val ? 1 : 0;
+  pentry->svalue = NULL;
+  pentry->comment = NULL;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void secfile_insert_str(struct section_file *my_section_file,
 			char *sval, char *path, ...)
 {
@@ -907,6 +930,67 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
     exit(EXIT_FAILURE);
   }
   return pentry->ivalue;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+bool secfile_lookup_bool(struct section_file *my_section_file, 
+		       char *path, ...)
+{
+  struct entry *pentry;
+  char buf[MAX_LEN_BUFFER];
+  va_list ap;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
+    freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
+	    secfile_filename(my_section_file), buf);
+    exit(EXIT_FAILURE);
+  }
+
+  if(pentry->svalue) {
+    freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain an integer",
+	    secfile_filename(my_section_file), buf);
+    exit(EXIT_FAILURE);
+  }
+
+  assert(pentry->ivalue == 0 || pentry->ivalue == 1);
+  
+  return pentry->ivalue != 0;
+}
+
+
+/**************************************************************************
+  As secfile_lookup_bool(), but return a specified default value if the
+  entry does not exist.  If the entry exists as a string, then die.
+**************************************************************************/
+bool secfile_lookup_bool_default(struct section_file *my_section_file,
+				 bool def, char *path, ...)
+{
+  struct entry *pentry;
+  char buf[MAX_LEN_BUFFER];
+  va_list ap;
+
+  va_start(ap, path);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
+  va_end(ap);
+
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
+    return def;
+  }
+  if(pentry->svalue) {
+    freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
+	    secfile_filename(my_section_file), buf);
+    exit(EXIT_FAILURE);
+  }
+
+  assert(pentry->ivalue == 0 || pentry->ivalue == 1);
+  
+  return pentry->ivalue != 0;
 }
 
 /**************************************************************************
