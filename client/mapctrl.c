@@ -837,7 +837,7 @@ void advance_unit_focus(void)
   struct unit *punit_old_focus;
 
   punit_old_focus=punit_focus;
-  
+
   punit_focus=find_best_focus_candidate();
 
   if(!punit_focus) {
@@ -861,22 +861,25 @@ struct unit *find_best_focus_candidate(void)
 {
   struct unit *best_candidate;
   int best_dist=99999;
+  int x,y;
+
+  if(punit_focus)  {
+    x=punit_focus->x; y=punit_focus->y;
+  } else {
+    get_center_tile_mapcanvas(&x,&y);
+  };
     
-  best_candidate=0;
+  best_candidate=NULL;
   unit_list_iterate(game.player_ptr->units, punit) {
     if(punit!=punit_focus) {
       if(punit->focus_status==FOCUS_AVAIL && punit->activity==ACTIVITY_IDLE &&
 	 punit->moves_left && !punit->ai.control) {
-	if(punit_focus) {
-	  int d;
-	  d=map_distance(punit->x, punit->y, punit_focus->x, punit_focus->y);
-	  if(d<best_dist) {
-	    best_candidate=punit;
-	    best_dist=d;
-	  }
+        int d;
+	d=sq_map_distance(punit->x, punit->y, x, y);
+	if(d<best_dist) {
+	  best_candidate=punit;
+	  best_dist=d;
 	}
-	else 
-	  return punit;
       }
     }
   }
