@@ -1,7 +1,5 @@
-Hinweis:	Dies ist eine gekürzte Übersetzung der Datei README mit
-		zusätzlichen Informationen für deutschsprachige Spieler.
-
-Stand: 29.05.00
+Hinweis:	Dies ist *KEINE* Übersetzung der Datei README!
+Stand: 		02.06.00
 
 			==============================
 			Deutsche Freeciv Dokumentation
@@ -170,11 +168,11 @@ Informationen darüber, wie Sie neue Fehler melden können.
 
 Mailinglisten
 ==============
-Es gibt 4 englischsprachige, öffentliche Mailinglisten zu Freeciv:
+Es gibt mehrere englischsprachige, öffentliche Mailinglisten zu Freeciv.
+Die interessantesten sind:
+
 	<freeciv@freeciv.org>		für Spieler
 	<freeciv-dev@freeciv.org>	für Fehlerberichte und Entwickler
-	<freeciv-cvs@freeciv.org>	um die Entwickler über Änderungen
-					des Sourcecodes zu informieren
 	<freeciv-announce@freeciv.org>	zur Ankündigung *WICHTIGER*
 					Neuigkeiten
 	
@@ -182,17 +180,16 @@ Sie können Sie mit einer Email an <listar@freeciv.org> abonnieren, in dem
 Sie die Betreff-Zeile freilassen und in den Text nur "subscribe LISTE"
 schreiben. Beispiel:
 
-	Wenn Sie die Liste <freeciv@freeciv.org> abonnieren möchten,
+	Wenn Sie z.B. die Liste <freeciv@freeciv.org> abonnieren möchten,
 	schreiben Sie einfach "subscribe freeciv".
 
 Zusätzlich gibt es eine deutschsprachige Mailingliste, die sich
-ausschließlich mit Übersetzungsproblemen beschäftigt:
+ausschließlich mit der Übersetzung beschäftigt:
 
-	<freeciv-de@ehinzen.de>
+	<freeciv.de@listbot.com>
 
-Sie kann mit einer Email an <Majordomo@ehinzen.de> abonniert werden, in dem
-man die Betreff-Zeile frei läßt und in den Text nur "subscribe freeciv-de"
-schreibt.
+Sie kann mit einer Email an <freeciv.de-subscribe@listbot.com> abonniert
+werden.
 
 
 Neue Versionen
