@@ -15,13 +15,12 @@ class InputView
 	: public BTextView
 {
 public:
-			InputView( const BFont *font );
+			InputView( const BFont *font, float width );
 			~InputView();
 	void	AttachedToWindow(void);
 	void	KeyDown( const char *bytes, int32 numBytes );
 	void	Clear(void) { SetText(NULL); }
 private:
-	static float	HeightOf( const BFont *font );
 };
 
 #endif // INPUTVIEW_H

@@ -92,11 +92,12 @@ MainWindow::Init( void )
         viewList->addAtRight( map );
 
 // incoming message textarea next to bottom
-        output = new OutputView();
+		float wide = viewList->frame().Width();
+        output = new OutputView( be_plain_font, wide );
         viewList->addAtBottom( output );
 
 // outgoing message text line at bottom
-        input = new InputView( be_plain_font );
+        input = new InputView( be_plain_font, wide );
         viewList->addAtBottom( input );
 
 	BdhMenuedWindow::Init();
@@ -133,8 +134,20 @@ MainWindow::MessageReceived( BMessage *msg )
 		break;
 
 	case UI_APPEND_OUTPUT_WINDOW:
+	  {
+		const char *str = msg->FindString("string");
+		output->Append( str );
+	  }
+		break;
+
 	case UI_LOG_OUTPUT_WINDOW:
+		output->ExportToLog();
+		break;
+
 	case UI_CLEAR_OUTPUT_WINDOW:
+		output->Clear();
+		break;
+
 	case UI_POPUP_CITY_DIALOG:
 	case UI_POPDOWN_CITY_DIALOG:
 	case UI_REFRESH_CITY_DIALOG:
@@ -216,30 +229,30 @@ MainWindow::MessageReceived( BMessage *msg )
 	case UI_POPUP_WORKLISTS_DIALOG:
 	case UI_UPDATE_WORKLIST_REPORT_DIALOG:
 		// @@@@ write work functions
-		NOT_FINISHED( "HOOKED" );
+		output->Append( "Hooked" );
 		break;
 
 	// -- APP menu -------------------------------------------------
 	// @@@@ walk all menu items, redirecting as necessary
 	case MENU_GAME_OPTIONS:
-		// popup_option_dialog();
-		// break;
+		popup_option_dialog();
+		break;
 
 	case MENU_GAME_MSG_OPTIONS:
-		// popup_messageopt_dialog();
-		// break;
+		popup_messageopt_dialog();
+		break;
 
 	case MENU_GAME_SAVE_SETTINGS:
 		// save_options();
 		// break;
 
 	case MENU_GAME_PLAYERS:
-		// popup_players_dialog();
-		// break;
+		popup_players_dialog();
+		break;
 
 	case MENU_GAME_MESSAGES:
-		// popup_meswin_dialog();
-		// break;
+		popup_meswin_dialog();
+		break;
 
 	case MENU_GAME_SERVER_OPTIONS1:
 		// send_report_request(REPORT_SERVER_OPTIONS1);
@@ -250,34 +263,37 @@ MainWindow::MessageReceived( BMessage *msg )
 		// break;
 
 	case MENU_GAME_OUTPUT_LOG:
-		// log_output_window();
-		// break;
+		log_output_window();
+		break;
 
 	case MENU_GAME_CLEAR_OUTPUT:
-		// clear_output_window();
-		// break;
+		clear_output_window();
+		break;
 
 	case MENU_GAME_DISCONNECT:
 		// disconnect_from_server();
 		// break;
 
+		NOT_FINISHED( "MENU UNHOOKED" );
+		break;
+
 
 	// -- Kingdom menu -------------------------------------------------
 	case MENU_KINGDOM_RATES:
-		// popup_rates_dialog();
-		// break;
+		popup_rates_dialog();
+		break;
 
 	case MENU_KINGDOM_FIND_CITY:
-		// popup_find_dialog();
-		// break;
+		popup_find_dialog();
+		break;
 
 	case MENU_KINGDOM_WORKLISTS:
-		// popup_worklists_dialog(game.player_ptr);
-		// break;
+		popup_worklists_dialog(game.player_ptr);
+		break;
 
 	case MENU_KINGDOM_REVOLUTION:
-		// popup_revolution_dialog();
-		// break;
+		popup_revolution_dialog();
+		break;
 
 
 	// -- View menu -------------------------------------------------
@@ -289,6 +305,9 @@ MainWindow::MessageReceived( BMessage *msg )
 		// request_center_focus_unit();
 		// break;
  
+		NOT_FINISHED( "MENU UNHOOKED" );
+		break;
+
 
 	// -- Orders menu -------------------------------------------------
 	case MENU_ORDER_BUILD_CITY:
@@ -400,23 +419,26 @@ MainWindow::MessageReceived( BMessage *msg )
 		// key_unit_done();
 		// break;
 
+		NOT_FINISHED( "MENU UNHOOKED" );
+		break;
+
 
 	// -- Reports menu -------------------------------------------------
 	case MENU_REPORT_CITY:
-		// popup_city_report_dialog(0);
-		// break;
+		popup_city_report_dialog(0);
+		break;
 
 	case MENU_REPORT_MILITARY:
-		// popup_activeunits_report_dialog(0);
-		// break;
+		popup_activeunits_report_dialog(0);
+		break;
 
 	case MENU_REPORT_TRADE:
-		// popup_trade_report_dialog(0);
-		// break;
+		popup_trade_report_dialog(0);
+		break;
 
 	case MENU_REPORT_SCIENCE:
-		// popup_science_dialog(0);
-		// break;
+		popup_science_dialog(0);
+		break;
 
 	case MENU_REPORT_WOW:
 		// send_report_request(REPORT_WONDERS_OF_THE_WORLD);
@@ -430,11 +452,11 @@ MainWindow::MessageReceived( BMessage *msg )
 		// send_report_request(REPORT_DEMOGRAPHIC);
 		// break;
 
-	case MENU_REPORT_SPACESHIP:
-		// popup_spaceship_dialog(game.player_ptr);
-		// break;
-
 		NOT_FINISHED( "MENU UNHOOKED" );
+		break;
+
+	case MENU_REPORT_SPACESHIP:
+		popup_spaceship_dialog(game.player_ptr);
 		break;
 
 

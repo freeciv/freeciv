@@ -11,14 +11,6 @@ extern Backend *backend;
 class MainWindow;
 extern MainWindow *ui;
 
-// Helpful debugging and reminder
-#define NOT_FINISHED(routine)   \
-	{ BAlert *a = new BAlert( APP_NAME, routine, "NOT FINISHED" ); a->Go(); }
-
-// Helpful little character define
-#define ELLIPSIS        "\xE2\x80\xA6"
-
-
 //-----------------------------------------------------------------
 // Messages to app
 enum App_Whats {
@@ -140,11 +132,24 @@ enum UI_Whats {
 //-----------------------------------------------------------------
 // Utility functions
 
+// Helpful debugging and reminder
+#define NOT_FINISHED(routine)   \
+	{ BAlert *a = new BAlert( APP_NAME, routine, "NOT FINISHED" ); a->Go(); }
+
+// Ellipsis character
+#define ELLIPSIS        "\xE2\x80\xA6"
+
+// Cast to a type (similar to cast_as)
+#define cast_to(type, expr)     (reinterpret_cast<type *>(expr))
+
+
 // BMessage manipulations
-//--------------------------------------------------------------
-// Helpful little utility functions:  BMessage manipulations
 class BMessage;
 extern void      Message_ReplaceString( BMessage *msg, const char *name,
 							const char *string );
+
+// BFont info
+class BFont;
+extern float HeightOf( const BFont *font );
 
 #endif // DEFS_HPP

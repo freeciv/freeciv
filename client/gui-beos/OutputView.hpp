@@ -8,18 +8,25 @@
 #ifndef OUTPUTVIEW_H
 #define OUTPUTVIEW_H
 #include <Message.h>
-#include "TextGridView.h"
+#include <ScrollView.h>
+
+class BFont;
+class BTextView;
 
 class OutputView
-	: public TextGridView
+	: public BScrollView
 {
 public:
-			OutputView();
+			OutputView( const BFont *font, float width );
 			~OutputView();
-	void	Draw( BRect r );
-	void	AttachedToWindow(void);
 	void	MessageReceived( BMessage *msg );
+	void	AttachedToWindow( void );
+	void	Append( const char *str );
+	void	ExportToLog( void );
+	void	Clear( void );
 private:
+	float	lineSize;
+	BTextView	*text;
 };
 
 #endif // OUTPUTVIEW_H

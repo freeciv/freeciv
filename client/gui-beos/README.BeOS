@@ -1,17 +1,20 @@
 ================
 Freeciv for BeOS
 ================
-Last updated:  2000-06-20
+Last updated:  2000-08-06
 
 Just a quick note for all you BeOS folks looking forward to your own Freeciv.
+You will need to use BONE when it becomes available, which has BSD-style
+sockets:  recent changes have shifted connection handling over to a fully
+BSD-ish socket handling paradigm, which pre-BONE BeOS version cannot support.
+(Most notably, the BSD convention that a socket is a file descriptor.)
 
 
 ------
 Server 
 ------
 
-The server compiles from the CVS repository just fine on R4.5 and R5, at least
-for X86;  use `./configure --enable-server`.  It appears to execute cleanly,
+Use `./configure --enable-server`.  It appears to execute cleanly (on X86),
 though whether it can actually host a game has not been verified.  
 
 
@@ -58,11 +61,11 @@ The first client release will not occur before 1.11.0.
 Contributing
 ------------
 
-At present the coordinator is Joseph Beckenbach <jrb3@bdhsw.com>.
-Contact him with questions, offers of assistance or testing, ideas, or
-whatever else is supportive of Freeciv work.
+The original coordinator was Joseph Beckenbach <jrb3@bdhsw.com>;
+a serious attack of life meant that he's had to pass the mantle on.
+You can contact him with questions, but don't expect in-depth replies.
 
-Once the initial groundwork is laid, a call will be made for other developers
+Once the initial groundwork is laid, a call should be made for other developers
 to dive in and help speed up the work of creating and polishing the client and
 server.  Be aware that this is of necessity an interesting mix of C and C++.
 There's a whole lotta message-passing going on between Backend and the other

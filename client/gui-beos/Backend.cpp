@@ -9,9 +9,11 @@
 #include "App.hpp"
 #include "MainWindow.hpp"
 
+
 // @@@@ TEMPORARY: for NOT_FINISHED
 #include <Alert.h>
 
+#include "chatline.h"
 extern "C" {
 #include "civclient.h"
 }
@@ -56,6 +58,7 @@ Backend::MessageReceived( BMessage *msg )
 
 	case PREGAME_STATE:
 		// @@@@ handle any other backend-state-resetting
+		append_output_window( "Welcome to FreeCiv for BeOS!!!" );
 		set_client_state(CLIENT_PRE_GAME_STATE);
 		break; // PREGAME_STATE
 

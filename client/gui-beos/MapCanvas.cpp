@@ -12,7 +12,7 @@ MapCanvas::MapCanvas( int tiles_wide, int tiles_high,
 	 				  int tile_width, int tile_height )
 	: BScrollView( "mapCanvas",
 			new MapView( tiles_wide, tiles_high, tile_width, tile_height ),
-			B_FOLLOW_NONE, 0, true, true ),
+			B_FOLLOW_NONE, 0, true, true, B_NO_BORDER ),
 	tile_width(tile_width), tile_height(tile_height),
 	tiles_wide(tiles_wide), tiles_high(tiles_high)
 {
