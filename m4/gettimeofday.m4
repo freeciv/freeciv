@@ -107,6 +107,6 @@ int main(int argc, char **argv)
 [AC_MSG_RESULT(no)
   [$3]],
 [AC_MSG_RESULT(unknown: cross-compiling)
-  [$2]])
+  [$3]])
 LIBS="$templibs"
 ])
