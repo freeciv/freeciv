@@ -860,16 +860,16 @@ static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Try to upgrade production in pcity.
 **************************************************************************/
 static void upgrade_unit_prod(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   int id = pcity->currently_building;
-  int id2 = unit_upgrades_to(pcity, unit_types[id].obsoleted_by);
+  int id2 = unit_upgrades_to(pcity, pcity->currently_building);
 
   if (can_build_unit_direct(pcity, id2)) {
-    pcity->currently_building=id2;
+    pcity->currently_building = id2;
     notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED, 
 		  _("Game: Production of %s is upgraded to %s in %s."),
 		  get_unit_type(id)->name, 
