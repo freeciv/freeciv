@@ -1,75 +1,97 @@
 # Makefile for Freeciv
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+# To setup the dependencies, make the "depend" target, e.g. make depend
+# You don't need to do this, if you aren't going to be editing the freeciv
+# header files.
 
-# If you for some reason don't want to use Imake, then try this Makefile.
-# The only parts you probably want to change are the XPM related lines
-# below, and the architecture specific lines.
+# This is by default setup for GCC + Linux, or other sane operating systems.
+# To compile on screwy OSes, like Solaris, you need uncomment the appropriate
+# lines.  If you are not using GNU make, there might be something you need to
+# edit at the very end of this file.
 
-# NOTE: THIS FILE IS OUT OF DATE AND NO LONGER SUPPORTED.  YOU'LL
-#       NEED TO HACK IT FIRST.
-#
-# defs
-#
-CC=gcc
+VERSION = 1.7.1
 
-XPM_INCLUDE_DIR=-I/usr/include/X11
+CC = gcc
+AR = ar
+RANLIB = ranlib
 
+# Directory the XPM include file "X11/xpm.h" is in
+#XPM_INCLUDE_DIR=-I/usr/include/X11
 #XPM_INCLUDE_DIR=-I/usr/X11R6/include/X11
+#XPM_INCLUDE_DIR=-I/usr/openwin/include
+#XPM_INCLUDE_DIR=-I$(HOME)/include
 
-#Example of how to do it if the Xpm library is installed in a non-standard
-#directory, such as a user account:
-#XPM_INCLUDE_DIR=-I/users/pjunold/xpm-3.4i/lib
-#XPM_LIB_DIR=-L/users/pjunold/xpm-3.4i/lib
+# Location of the X11 include files.  You probably only need to set this on
+# a stupid OS like solaris.
+#X11_INCLUDE=-I/usr/X11R6/include
+# for Solaris
+#X11_INCLUDE=-I/usr/openwin/include
 
-X11_INCLUDE=-I/usr/X11R6/include
-CLI_INCLUDE=-Iclient -Icommon -Iai -Iserver
-SER_INCLUDE=-Iserver -Icommon -Iai
-XLIB_DIR=/usr/X11R6/lib
+# Location of the XPM library file
+#XPM_LIB_DIR=-L/usr/local/lib
+#XPM_LIB_DIR=-L$(HOME)/xpm-3.4i/lib
+
+# Location of the X libraries
+XLIB_DIR=-L/usr/X11R6/lib
 
 
 #
-# Compile flags
+# Various compiler flags
 #
+# Linux
+#CFLAGS=-g -Wall -pipe
+# Linux with egcs
+CFLAGS=-O6 -mpentium -fomit-frame-pointer -Wall -pipe
+# Irix cc compiler
+#CFLAGS=-c -fullwarn -j -woff 835 -g -ansi 
+#CFLAGS=-c -fullwarn -j -g -ansi 
+# SunOS
+#CFLAGS=-c -g -Wall -ansi
+# Solaris with cc
+#CFLAGS=-O -Wa,-cg92
+# Solaris with gcc
+#CFLAGS=-O2 -msupersparc
 
-# linux
-CFLAGS=-c -g  -Wall $(CLI_INCLUDE) $(X11_INCLUDE) $(XPM_INCLUDE_DIR)
-#irix cc compiler
-#CFLAGS=-c -fullwarn -j -woff 835 -g -ansi -I$(INCLUDE_DIR) $(XPM_INCLUDE_DIR)
-#CFLAGS=-c -fullwarn -j -g -ansi -I$(INCLUDE_DIR) $(XPM_INCLUDE_DIR)
-# sunos
-#CFLAGS=-c -g -Wall -ansi -I$(INCLUDE_DIR) $(XPM_INCLUDE_DIR)
+#
+# Generic link flags
+#
+#LDFLAGS=-g	# debugging
+LDFLAGS=-s	# no debugging
 
 #
 # Client link flags
 #
-
-# linux/irix
-CLFLAGS=-g -L$(XLIB_DIR) $(XPM_LIB_DIR) -lXpm -lXmu -lXaw -lXt -lX11
-# sunos
-#CLFLAGS=-L/usr/X11/lib $(XPM_LIB_DIR) -lXpm -lXaw -lXt -lXmu -lX11 -lsocket
-#hpux
-#CLFLAGS=-L/usr/X11/lib $(XPM_LIB_DIR) -lXpm -lXmu -lXext -lXaw -lXt -lX11
+# Linux/irix
+CLFLAGS=$(XLIB_DIR) $(XPM_LIB_DIR) -lXpm -lXmu -lXaw -lXt -lX11
+# SunOS/Solaris
+#CLFLAGS=$(XLIB_DIR) $(XPM_LIB_DIR) -lXpm -lXaw -lXt -lXmu -lX11 -lsocket -lnsl
+# hpux
+#CLFLAGS=$(XLIB_DIR) $(XPM_LIB_DIR) -lXpm -lXmu -lXext -lXaw -lXt -lX11
 
 #
 # Server link flags
 #
-
-# linux/irix
+# Linux/Irix
 SLFLAGS=
-# sunos
-#SLFLAGS=-lsocket
+# SunOS/Solaris
+#SLFLAGS=-lsocket -lnsl
 
+#
+# Flags for depend
+#
+# GCC
+DEPFLAGS = -M
+# Solaris CC
+#DEPFLAGS = -xM
+
+# Nothing much to configure below this line
+#############################################
+
+COM_INCLUDE=-Icommon
+CLI_INCLUDE=-Iclient -Icommon $(XPM_INCLUDE_DIR) $(X11_INCLUDE)
+SER_INCLUDE=-Iserver -Icommon -Iai
+AI_INCLUDE=-Iserver -Icommon -Iai
+ALL_INCLUDE=-Iserver -Icommon -Iai -Iclient $(XPM_INCLUDE_DIR) $(X11_INCLUDE)
 
 SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \
              server/maphand.o server/stdinhand.o server/cityhand.o \
@@ -77,7 +99,9 @@ SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \
 	     server/gotohand.o server/diplhand.o server/meta.o \
 	     server/registry.o server/mapgen.o server/citytools.o \
 	     server/cityturn.o server/unittools.o server/unitfunc.o \
-	     ai/aihand.o ai/aitools.o ai/aicity.o ai/aiunit.o ai/aitech.o \
+	     server/settlers.o
+
+AI_OBJS=     ai/aihand.o ai/aitools.o ai/aicity.o ai/aiunit.o ai/aitech.o \
 	     ai/advleader.o ai/advmilitary.o ai/advtrade.o ai/advscience.o \
 	     ai/advdomestic.o ai/advforeign.o ai/advattitude.o ai/advisland.o
 
@@ -94,44 +118,52 @@ CLIENT_OBJS= client/civclient.o client/xmain.o client/canvas.o client/menu.o \
 
 COMMON_OBJS= common/log.o common/map.o common/packets.o common/shared.o \
              common/unit.o common/player.o common/game.o common/genlist.o \
-	     common/tech.o common/city.o common/diptreaty.o 
+	     common/tech.o common/city.o common/diptreaty.o common/capability.o
 
-
-#client/soundhand.o
 
 #
 # rules
 #
 all: civclient civserver
 
-civclient: $(CLIENT_OBJS) $(COMMON_OBJS)
-	$(CC) -w -o  civclient $(CLIENT_OBJS) $(COMMON_OBJS) $(CLFLAGS)
+civclient: $(CLIENT_OBJS) common/libcivcommon.a
+	$(CC) -o civclient $(CLIENT_OBJS) common/libcivcommon.a $(LDFLAGS) $(CLFLAGS)
 
-civserver: $(SERVER_OBJS) $(COMMON_OBJS)
-	$(CC) -w -o  civserver $(SERVER_OBJS) $(COMMON_OBJS) $(SLFLAGS)
+civserver: $(SERVER_OBJS) common/libcivcommon.a ai/libcivai.a
+	$(CC) -o civserver $(SERVER_OBJS) common/libcivcommon.a ai/libcivai.a $(LDFLAGS) $(SLFLAGS)
+
+common/libcivcommon.a: $(COMMON_OBJS)
+	-rm -f common/libcivcommon.a
+	$(AR) cru common/libcivcommon.a $(COMMON_OBJS)
+	$(RANLIB) common/libcivcommon.a
+
+ai/libcivai.a: $(AI_OBJS)
+	-rm -f ai/libcivai.a
+	$(AR) cru ai/libcivai.a $(AI_OBJS)
+	$(RANLIB) ai/libcivai.a
 
 client/Freeciv.h: data/Freeciv
 	client/ad2c data/Freeciv >client/Freeciv.h
 
 client/resources.o: client/Freeciv.h
-	$(CC) $(CFLAGS) -o client/resources.o client/resources.c 
 
-client/helpdlg.o: client/helpdlg.c
+common/%.o: common/%.c
+	$(CC) $(CFLAGS) $(COM_INCLUDE) -c $< -o $@
 
-.c.o:
-	$(CC) $(CFLAGS) -o $*.o $<
+client/%.o: client/%.c
+	$(CC) $(CFLAGS) $(CLI_INCLUDE) -c $< -o $@
+
+server/%.o: server/%.c
+	$(CC) $(CFLAGS) $(SER_INCLUDE) -c $< -o $@
+
+ai/%.o: ai/%.c
+	$(CC) $(CFLAGS) $(AI_INCLUDE) -c $< -o $@
 
 clean:
 	rm -f *~ *# civserver civclient \
-           server/*~ server/*# server/*.o \
-           ai/*~ ai/*# ai/*.o \
-	   client/*~ client/*# client/*.o \
-	   common/*~ common/*# common/*.o \
-           data/*~ data/*# data/*.o  *.sav
-	rm -f client/.#* server/.#* common/.#* .#*
-
-realclean: clean
-#	rm -rf CVS client/CVS server/CVS common/CVS
+	   {server,client,common,ai}/*{~,#,.o}
+	rm -f client/.#* server/.#* common/.#* ai/.#* .#*
+	rm -f server/*.o client/*.o common/*.o ai/*.o
 
 wc:
 	wc client/*.c common/*.c server/*.c ai/*.c client/*.h common/*.h server/*.h data/Freeciv
@@ -143,12 +175,18 @@ tgZ: clean
 	tar -cvf ../freeciv.tar *
 	compress ../freeciv.tar
 
-tags:
-	rm -f TAGS
-	ctags -a client/*.c 
+tags:   */*.c
+	rm -f TAGS tags
+	ctags -a client/*.c server/*.c ai/*.c common/*.c
 
+depend:
+	$(CPP) -M $(COM_INCLUDE) common/*.c > .depend
+	$(CPP) -M $(CLI_INCLUDE) client/*.c >> .depend
+	$(CPP) -M $(SER_INCLUDE) server/*.c >> .depend
+	$(CPP) -M $(AI_INCLUDE) ai/*.c >> .depend
 
-
-
-
-
+# Some stupid makes, like the solaris one, can't handle the ifeq and endif
+# lines of this next bit.  You have to comment this out or get GNU make.
+ifeq (.depend,$(wildcard .depend))
+include .depend
+endif
