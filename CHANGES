@@ -4,61 +4,47 @@ TODO:
    anylonger.
 
 1.5.5 
+- *A LOT* of changes from Olav Andree Brevik. Thank you VERY much!
+- Helicoptors loose 10% of hp per turn when outside city (Olav)
+- 8 bit chatline support for Europeans (Olav)
+- Non-ground units in cities regain hp too. (Olav)
+- Flying units report moves left (Olav)
+- Total moves in change production menu (Olav)
+- Railroads now built into city tiles, even when taking a city from an
+  inferior race. (Olav)
+- Future Technologies added. Add 5 points to score (Olav) 
 - Autoconf added thanks to Falk Hueffner. Now we can configure just like
   the big boys!
-
 - Tax/Luxury/Science rates are now visually displayed. needs work still.
   thanks to Peter Schaefer
-
 - Instead of picking individual techs, players can now set a tech goal, and
   let the actual patch to discovery be automated.
-
 - Fix to Makefile.noimake
-
 - Client option to display tiles sets with transparent flags better
-
 - Granary counter in the city dialog wasn't the right size when foodbox!=10
-
 - Fixes to city dialog so different sized tiles will work
-
 - The connect dialog will pop-up when the connection is lost before the
   game starts
-
 - Pop-up windows weren't getting freed in the client, resulting is large
   resource leak
-
 - Memory leak fixed in select units pop-up, pixmaps weren't getting freed
-
 - Fixed hardcoded tile size in select units pop-up
-
 - Reorganized tile layout in the XPM files.  Client can handle different sized
   tile sets.
-
-- A "+" is drawn in the corner of unit stacks
-
+- A "+" is drawn in the corner of enemy unit stacks
 - Crosshair placed on goto destination when unit is inspected with the
   middle mouse button.  Change to protocol to send goto destination.
-
 - Fixed bug in the selection of the hitpoint bar
-
 - Map canvas had hard coded size, fixed to be correct for different sized tiles
-
 - Fixed bug that messed up game.global_advances when a saved game was loaded
-
 - Fix to make goto code use the same movement cost as the rest of the server
-
 - Invisible AI city bug fixed.  Cities created or captured by an AI player
   would disappear from other people's maps.
-
 - Added -s option to server, lets you explicity set hostname metaserver reports
-
 - Fix typo in metaserver code, PRE_GAME_STATE instead of CLIENT_PRE_GAME_STATE
-
 - Fixed bugs with partisan creation, make it faster too
-
--Submarines can no longer attack land based tiles. Thanks Peter!
-
--Optimization in the AI code, in particular auto-settlers. 
+- Submarines can no longer attack land based tiles. Thanks Peter Schaeffer!
+- Optimization in the AI code, in particular auto-settlers. 
 
 1.5.4 
 - Small, very basic ai has been included. It needs a lot of work. Any
