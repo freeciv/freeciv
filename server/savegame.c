@@ -1055,13 +1055,13 @@ static void player_load(struct player *plr, int plrno,
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
   }
 
-  if (section_file_lookup(file, "player%d.attribute_block_length", plrno)) {
+  if (section_file_lookup(file, "player%d.attribute_v2_block_length", plrno)) {
     int raw_length1, raw_length2, part_nr, parts;
     size_t quoted_length;
     char *quoted;
 
     raw_length1 =
-	secfile_lookup_int(file, "player%d.attribute_block_length", plrno);
+	secfile_lookup_int(file, "player%d.attribute_v2_block_length", plrno);
     if (plr->attribute_block.data) {
       free(plr->attribute_block.data);
       plr->attribute_block.data = NULL;
@@ -1070,16 +1070,16 @@ static void player_load(struct player *plr, int plrno,
     plr->attribute_block.length = raw_length1;
 
     quoted_length = secfile_lookup_int
-	(file, "player%d.attribute_block_length_quoted", plrno);
+	(file, "player%d.attribute_v2_block_length_quoted", plrno);
     quoted = fc_malloc(quoted_length + 1);
     quoted[0] = 0;
 
     parts =
-	secfile_lookup_int(file, "player%d.attribute_block_parts", plrno);
+	secfile_lookup_int(file, "player%d.attribute_v2_block_parts", plrno);
 
     for (part_nr = 0; part_nr < parts; part_nr++) {
       char *current = secfile_lookup_str(file,
-					 "player%d.attribute_block_data.part%d",
+					 "player%d.attribute_v2_block_data.part%d",
 					 plrno, part_nr);
       if (!current)
 	break;
@@ -1586,15 +1586,15 @@ static void player_save(struct player *plr, int plrno,
     size_t bytes_left;
 
     secfile_insert_int(file, plr->attribute_block.length,
-		       "player%d.attribute_block_length", plrno);
+		       "player%d.attribute_v2_block_length", plrno);
     secfile_insert_int(file, strlen(quoted),
-		       "player%d.attribute_block_length_quoted", plrno);
+		       "player%d.attribute_v2_block_length_quoted", plrno);
 
     parts = (strlen(quoted) - 1) / PART_SIZE + 1;
     bytes_left = strlen(quoted);
 
     secfile_insert_int(file, parts,
-		       "player%d.attribute_block_parts", plrno);
+		       "player%d.attribute_v2_block_parts", plrno);
 
     for (current_part_nr = 0; current_part_nr < parts; current_part_nr++) {
       size_t size_of_current_part = MIN(bytes_left, PART_SIZE);
@@ -1605,7 +1605,7 @@ static void player_save(struct player *plr, int plrno,
 	     size_of_current_part);
       part[size_of_current_part] = 0;
       secfile_insert_str(file, part,
-			 "player%d.attribute_block_data.part%d", plrno,
+			 "player%d.attribute_v2_block_data.part%d", plrno,
 			 current_part_nr);
       bytes_left -= size_of_current_part;
     }
