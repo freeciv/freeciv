@@ -26,15 +26,12 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.35  2000/02/19 08:09:38  jjm
-# Third and final (hopefully) beta release (1.9.6) leading to version 1.10.0.
-#
-# Revision 1.34  2000/02/17 21:43:31  jjm
-# Update German (de) translation.
+# Revision 1.36  2000/02/21 19:18:58  jjm
+# Updated German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
 #
-# Revision 1.9.1.42  2000/02/17 20:37:02  egbert
-# includes patches until 00/02/17
+# Revision 1.9.1.43  2000/02/21 18:39:59  egbert
+# some bugs corrected
 #
 # Revision 1.9.1.21  1999/11/19 20:25:32  egbert
 # German translation is BETA now
@@ -47,7 +44,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.10.0\n"
-"POT-Creation-Date: 2000-02-19 02:28-0500\n"
+"POT-Creation-Date: 2000-02-21 19:24+0100\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <freeciv-de@ehinzen.de>\n"
 
@@ -239,15 +236,15 @@ msgstr "untätig"
 msgid "Pollution"
 msgstr "Verschmutzung"
 
-#: client/gui-gtk/menu.c:544 client/gui-xaw/menu.c:156 common/unit.c:854
+#: client/gui-gtk/menu.c:547 client/gui-xaw/menu.c:156 common/unit.c:854
 msgid "Fortify"
 msgstr "Eingraben"
 
-#: client/gui-gtk/menu.c:546 client/gui-xaw/menu.c:157 common/unit.c:856
+#: client/gui-gtk/menu.c:549 client/gui-xaw/menu.c:157 common/unit.c:856
 msgid "Sentry"
 msgstr "Bewachen"
 
-#: client/gui-gtk/menu.c:548 client/gui-xaw/menu.c:158 common/unit.c:858
+#: client/gui-gtk/menu.c:551 client/gui-xaw/menu.c:158 common/unit.c:858
 msgid "Pillage"
 msgstr "Brandschatzen"
 
@@ -1233,7 +1230,7 @@ msgstr "%s in %s (%s)\n"
 msgid "%s has been DESTROYED\n"
 msgstr "%s wurde ZERSTÖRT\n"
 
-#: client/gui-gtk/menu.c:603 client/gui-xaw/menu.c:187 data/helpdata.txt:716
+#: client/gui-gtk/menu.c:606 client/gui-xaw/menu.c:187 data/helpdata.txt:716
 #: server/plrhand.c:205
 msgid "Wonders of the World"
 msgstr "Weltwunder"
@@ -2236,7 +2233,7 @@ msgstr ""
 "Ohne Argumente wird eine kurze Einführung zum Hilfesystem angezeigt. Die "
 "Argumente 'commands' bzw. 'options' zeigen eine Liste der verfügbaren "
 "Befehle bzw. Optionen an. Für alle anderen Argumente wird die spezifische "
-"Hilfe angezeigt. Das Argument darf abgekürzt werden,muß aber eindeutig sein."
+"Hilfe angezeigt. Das Argument darf abgekürzt werden, muß aber eindeutig sein."
 
 #: server/stdinhand.c:752
 msgid "Show a list of players."
@@ -4901,7 +4898,7 @@ msgstr ""
 msgid "Trade Routes"
 msgstr "Handelswege"
 
-#: client/gui-gtk/citydlg.c:909 client/gui-gtk/menu.c:586
+#: client/gui-gtk/citydlg.c:909 client/gui-gtk/menu.c:589
 #: client/gui-xaw/menu.c:177
 msgid "Done"
 msgstr "Fertig"
@@ -5067,7 +5064,7 @@ msgstr "Produktion ändern"
 msgid "Ca_ncel"
 msgstr "A_bbrechen"
 
-#: client/gui-gtk/citydlg.c:1752 client/gui-gtk/menu.c:612
+#: client/gui-gtk/citydlg.c:1752 client/gui-gtk/menu.c:615
 msgid "_Help"
 msgstr "_Hilfe"
 
@@ -5148,7 +5145,7 @@ msgstr "Keine Weltwunder erhältlich"
 msgid "No Units Available"
 msgstr "Keine Einheiten erhältlich"
 
-#: client/gui-gtk/cityrep.c:429 client/gui-gtk/menu.c:593
+#: client/gui-gtk/cityrep.c:429 client/gui-gtk/menu.c:596
 #: client/gui-xaw/menu.c:182 data/Freeciv:1484
 msgid "City Report"
 msgstr "Stadtbericht"
@@ -5253,17 +5250,17 @@ msgstr "Ändern"
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spiel: %s kosten %d Goldstücke. Vorhanden sind nur %d Goldstücke."
 
-#: client/gui-gtk/cityrep.c:1249 data/Freeciv:1640
+#: client/gui-gtk/cityrep.c:1270 data/Freeciv:1640
 msgid "Configure City Report"
 msgstr "Stadtbericht: Einstellungen"
 
-#: client/gui-gtk/cityrep.c:1252 data/Freeciv:1645
+#: client/gui-gtk/cityrep.c:1273 data/Freeciv:1645
 msgid "Set columns shown"
 msgstr "Gewünschte Spalten markieren:"
 
 #. - Now, let's create some command buttons.
 #. + Close
-#: client/gui-gtk/cityrep.c:1263 client/gui-gtk/dialogs.c:199
+#: client/gui-gtk/cityrep.c:1284 client/gui-gtk/dialogs.c:199
 #: client/gui-gtk/dialogs.c:324 client/gui-gtk/dialogs.c:684
 #: client/gui-gtk/dialogs.c:782 client/gui-gtk/dialogs.c:1663
 #: client/gui-gtk/gamedlgs.c:414 client/gui-gtk/helpdlg.c:445
@@ -5294,7 +5291,7 @@ msgstr "Version"
 msgid "Status"
 msgstr "Status"
 
-#: client/gui-gtk/connectdlg.c:125 client/gui-gtk/menu.c:473
+#: client/gui-gtk/connectdlg.c:125 client/gui-gtk/menu.c:476
 #: client/gui-gtk/plrdlg.c:93 client/gui-xaw/menu.c:109 data/Freeciv:3036
 #: data/Freeciv:3037
 msgid "Players"
@@ -5333,12 +5330,12 @@ msgid "Update"
 msgstr "Aktualisieren"
 
 #: client/gui-gtk/connectdlg.c:220 client/gui-gtk/dialogs.c:1400
-#: client/gui-gtk/menu.c:566 client/gui-xaw/menu.c:167 data/Freeciv:87
+#: client/gui-gtk/menu.c:569 client/gui-xaw/menu.c:167 data/Freeciv:87
 #: data/Freeciv:2419
 msgid "Connect"
 msgstr "Verbinden"
 
-#: client/gui-gtk/connectdlg.c:226 client/gui-gtk/menu.c:493
+#: client/gui-gtk/connectdlg.c:226 client/gui-gtk/menu.c:496
 #: client/gui-xaw/menu.c:119 data/Freeciv:94 data/Freeciv:3024
 msgid "Quit"
 msgstr "Beenden"
@@ -5763,12 +5760,7 @@ msgid ""
 msgstr ""
 "Freeciv ist freie Software!\n"
 "Sie darf unter Beachtung der unter 'Lizenz' aufgeführten Bedingungen kopiert "
-"und weitergegeben werden.\n"
-"\n"
-"Dies ist die erste vollständig übersetzte deutsche Version von Freeciv.\n"
-"Bitte senden Sie Anregungen und Fehlermeldungen, die die Übersetzung "
-"betreffen an <freeciv-de@ehinzen.de>.\n"
-" "
+"und weitergegeben werden."
 
 #: client/gui-gtk/gui_main.c:564
 msgid "Freeciv"
@@ -5869,7 +5861,7 @@ msgstr "Mine Erg./Zeit:"
 msgid "Trans. Rslt/Time:"
 msgstr "Verw. Rslt/Zeit:"
 
-#: client/gui-gtk/helpdlg.c:115 client/gui-gtk/menu.c:652
+#: client/gui-gtk/helpdlg.c:115 client/gui-gtk/menu.c:655
 #: client/gui-xaw/helpdlg.c:129 client/gui-xaw/menu.c:213 data/helpdata.txt:37
 msgid "About"
 msgstr "Über"
@@ -6052,19 +6044,19 @@ msgstr ""
 msgid "(veteran)"
 msgstr "(Veteran)"
 
-#: client/gui-gtk/menu.c:459
+#: client/gui-gtk/menu.c:462
 msgid "_Game"
 msgstr "_Spiel"
 
-#: client/gui-gtk/menu.c:461 client/gui-gtk/menu.c:463
-#: client/gui-gtk/menu.c:465 client/gui-gtk/menu.c:467
-#: client/gui-gtk/menu.c:469 client/gui-gtk/menu.c:471
-#: client/gui-gtk/menu.c:473 client/gui-gtk/menu.c:475
-#: client/gui-gtk/menu.c:477 client/gui-gtk/menu.c:479
-#: client/gui-gtk/menu.c:481 client/gui-gtk/menu.c:483
-#: client/gui-gtk/menu.c:485 client/gui-gtk/menu.c:487
-#: client/gui-gtk/menu.c:489 client/gui-gtk/menu.c:491
-#: client/gui-gtk/menu.c:493 data/Freeciv:1943
+#: client/gui-gtk/menu.c:464 client/gui-gtk/menu.c:466
+#: client/gui-gtk/menu.c:468 client/gui-gtk/menu.c:470
+#: client/gui-gtk/menu.c:472 client/gui-gtk/menu.c:474
+#: client/gui-gtk/menu.c:476 client/gui-gtk/menu.c:478
+#: client/gui-gtk/menu.c:480 client/gui-gtk/menu.c:482
+#: client/gui-gtk/menu.c:484 client/gui-gtk/menu.c:486
+#: client/gui-gtk/menu.c:488 client/gui-gtk/menu.c:490
+#: client/gui-gtk/menu.c:492 client/gui-gtk/menu.c:494
+#: client/gui-gtk/menu.c:496 data/Freeciv:1943
 msgid "Game"
 msgstr "Spiel"
 
@@ -6078,347 +6070,347 @@ msgstr "Spiel"
 # + Bug (vermutlich) durch Patch von Jeff Mallat beseitigt.        +
 # + NICHT GETESTET!                                                +
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#: client/gui-gtk/menu.c:465 client/gui-xaw/menu.c:105
+#: client/gui-gtk/menu.c:468 client/gui-xaw/menu.c:105
 msgid "Local Options"
 msgstr "Lokale Optionen"
 
-#: client/gui-gtk/menu.c:467 client/gui-gtk/messagedlg.c:88
+#: client/gui-gtk/menu.c:470 client/gui-gtk/messagedlg.c:88
 #: client/gui-xaw/menu.c:106 data/Freeciv:1223
 msgid "Message Options"
 msgstr "Einstellung der Nachrichtendarstellung"
 
-#: client/gui-gtk/menu.c:469 client/gui-xaw/menu.c:107
+#: client/gui-gtk/menu.c:472 client/gui-xaw/menu.c:107
 msgid "Save Settings"
 msgstr "Lokale Einstellungen speichern"
 
-#: client/gui-gtk/menu.c:475 client/gui-gtk/messagewin.c:127
+#: client/gui-gtk/menu.c:478 client/gui-gtk/messagewin.c:127
 #: client/gui-gtk/messagewin.c:137 client/gui-xaw/menu.c:110 data/Freeciv:3100
 #: data/Freeciv:3101 data/Freeciv:3110
 msgid "Messages"
 msgstr "Nachrichtenfenster öffnen"
 
-#: client/gui-gtk/menu.c:479 client/gui-xaw/menu.c:112
+#: client/gui-gtk/menu.c:482 client/gui-xaw/menu.c:112
 msgid "Server Opt initial"
 msgstr "Server Optionen zur Spielgenerierung ansehen"
 
-#: client/gui-gtk/menu.c:481 client/gui-xaw/menu.c:113
+#: client/gui-gtk/menu.c:484 client/gui-xaw/menu.c:113
 msgid "Server Opt ongoing"
 msgstr "Andere Server Optionen ansehen"
 
-#: client/gui-gtk/menu.c:485 client/gui-xaw/menu.c:115
+#: client/gui-gtk/menu.c:488 client/gui-xaw/menu.c:115
 msgid "Export Log"
 msgstr "Textfenster speichern"
 
-#: client/gui-gtk/menu.c:487 client/gui-xaw/menu.c:116
+#: client/gui-gtk/menu.c:490 client/gui-xaw/menu.c:116
 msgid "Clear Log"
 msgstr "Textfenster löschen"
 
-#: client/gui-gtk/menu.c:491 client/gui-xaw/menu.c:118 data/Freeciv:3022
+#: client/gui-gtk/menu.c:494 client/gui-xaw/menu.c:118 data/Freeciv:3022
 msgid "Disconnect"
 msgstr "Verbindung zum Server trennen"
 
-#: client/gui-gtk/menu.c:496
+#: client/gui-gtk/menu.c:499
 msgid "_Kingdom"
 msgstr "_Königreich"
 
-#: client/gui-gtk/menu.c:498 client/gui-gtk/menu.c:500
-#: client/gui-gtk/menu.c:502 client/gui-gtk/menu.c:504
-#: client/gui-gtk/menu.c:506 client/gui-gtk/menu.c:508
-#: client/gui-gtk/menu.c:510 data/Freeciv:1944
+#: client/gui-gtk/menu.c:501 client/gui-gtk/menu.c:503
+#: client/gui-gtk/menu.c:505 client/gui-gtk/menu.c:507
+#: client/gui-gtk/menu.c:509 client/gui-gtk/menu.c:511
+#: client/gui-gtk/menu.c:513 data/Freeciv:1944
 msgid "Kingdom"
 msgstr "Königreich"
 
-#: client/gui-gtk/menu.c:500
+#: client/gui-gtk/menu.c:503
 msgid "_Tax Rates"
 msgstr "Steuer_quote"
 
-#: client/gui-gtk/menu.c:504
+#: client/gui-gtk/menu.c:507
 msgid "_Find City"
 msgstr "Stadt _suchen"
 
-#: client/gui-gtk/menu.c:506
+#: client/gui-gtk/menu.c:509
 msgid "Work_lists"
 msgstr "Arbeits_listen"
 
-#: client/gui-gtk/menu.c:510 client/gui-xaw/menu.c:129
+#: client/gui-gtk/menu.c:513 client/gui-xaw/menu.c:129
 msgid "Revolution"
 msgstr "Revolution"
 
-#: client/gui-gtk/menu.c:513
+#: client/gui-gtk/menu.c:516
 msgid "_View"
 msgstr "_Ansicht"
 
-#: client/gui-gtk/menu.c:515 client/gui-gtk/menu.c:517
-#: client/gui-gtk/menu.c:519 data/Freeciv:1945
+#: client/gui-gtk/menu.c:518 client/gui-gtk/menu.c:520
+#: client/gui-gtk/menu.c:522 data/Freeciv:1945
 msgid "View"
 msgstr "Ansicht"
 
-#: client/gui-gtk/menu.c:517 client/gui-xaw/menu.c:134
+#: client/gui-gtk/menu.c:520 client/gui-xaw/menu.c:134
 msgid "Map Grid"
 msgstr "Gitterlinien"
 
-#: client/gui-gtk/menu.c:519 client/gui-xaw/menu.c:135
+#: client/gui-gtk/menu.c:522 client/gui-xaw/menu.c:135
 msgid "Center View"
 msgstr "Zentrieren"
 
-#: client/gui-gtk/menu.c:522
+#: client/gui-gtk/menu.c:525
 msgid "_Orders"
 msgstr "_Befehle"
 
-#: client/gui-gtk/menu.c:524 client/gui-gtk/menu.c:526
-#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:530
-#: client/gui-gtk/menu.c:532 client/gui-gtk/menu.c:534
-#: client/gui-gtk/menu.c:536 client/gui-gtk/menu.c:538
-#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:542
-#: client/gui-gtk/menu.c:544 client/gui-gtk/menu.c:546
-#: client/gui-gtk/menu.c:548 client/gui-gtk/menu.c:550
-#: client/gui-gtk/menu.c:552 client/gui-gtk/menu.c:554
-#: client/gui-gtk/menu.c:556 client/gui-gtk/menu.c:558
-#: client/gui-gtk/menu.c:560 client/gui-gtk/menu.c:562
-#: client/gui-gtk/menu.c:564 client/gui-gtk/menu.c:566
-#: client/gui-gtk/menu.c:568 client/gui-gtk/menu.c:570
-#: client/gui-gtk/menu.c:572 client/gui-gtk/menu.c:574
-#: client/gui-gtk/menu.c:576 client/gui-gtk/menu.c:578
-#: client/gui-gtk/menu.c:580 client/gui-gtk/menu.c:582
-#: client/gui-gtk/menu.c:584 client/gui-gtk/menu.c:586 data/Freeciv:1946
+#: client/gui-gtk/menu.c:527 client/gui-gtk/menu.c:529
+#: client/gui-gtk/menu.c:531 client/gui-gtk/menu.c:533
+#: client/gui-gtk/menu.c:535 client/gui-gtk/menu.c:537
+#: client/gui-gtk/menu.c:539 client/gui-gtk/menu.c:541
+#: client/gui-gtk/menu.c:543 client/gui-gtk/menu.c:545
+#: client/gui-gtk/menu.c:547 client/gui-gtk/menu.c:549
+#: client/gui-gtk/menu.c:551 client/gui-gtk/menu.c:553
+#: client/gui-gtk/menu.c:555 client/gui-gtk/menu.c:557
+#: client/gui-gtk/menu.c:559 client/gui-gtk/menu.c:561
+#: client/gui-gtk/menu.c:563 client/gui-gtk/menu.c:565
+#: client/gui-gtk/menu.c:567 client/gui-gtk/menu.c:569
+#: client/gui-gtk/menu.c:571 client/gui-gtk/menu.c:573
+#: client/gui-gtk/menu.c:575 client/gui-gtk/menu.c:577
+#: client/gui-gtk/menu.c:579 client/gui-gtk/menu.c:581
+#: client/gui-gtk/menu.c:583 client/gui-gtk/menu.c:585
+#: client/gui-gtk/menu.c:587 client/gui-gtk/menu.c:589 data/Freeciv:1946
 msgid "Orders"
 msgstr "Befehle"
 
-#: client/gui-gtk/menu.c:526 client/gui-gtk/menu.c:904
+#: client/gui-gtk/menu.c:529 client/gui-gtk/menu.c:907
 #: client/gui-xaw/menu.c:140
 msgid "Build City"
 msgstr "Stadt gründen"
 
-#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:944
+#: client/gui-gtk/menu.c:531 client/gui-gtk/menu.c:947
 #: client/gui-xaw/menu.c:142
 msgid "Build Road"
 msgstr "Straße bauen"
 
-#: client/gui-gtk/menu.c:530 client/gui-gtk/menu.c:845
+#: client/gui-gtk/menu.c:533 client/gui-gtk/menu.c:848
 #: client/gui-xaw/menu.c:144
 msgid "Build Irrigation"
 msgstr "Bewässerungssystem anlegen"
 
-#: client/gui-gtk/menu.c:532 client/gui-gtk/menu.c:846
+#: client/gui-gtk/menu.c:535 client/gui-gtk/menu.c:849
 #: client/gui-xaw/menu.c:147
 msgid "Build Mine"
 msgstr "Bergwerk bauen"
 
-#: client/gui-gtk/menu.c:534 client/gui-gtk/menu.c:847
+#: client/gui-gtk/menu.c:537 client/gui-gtk/menu.c:850
 #: client/gui-xaw/menu.c:149
 msgid "Transform Terrain"
 msgstr "Landschaft verändern"
 
-#: client/gui-gtk/menu.c:536 client/gui-xaw/menu.c:151
+#: client/gui-gtk/menu.c:539 client/gui-xaw/menu.c:151
 msgid "Build Fortress"
 msgstr "Befestigung errichten"
 
-#: client/gui-gtk/menu.c:538 client/gui-xaw/menu.c:152
+#: client/gui-gtk/menu.c:541 client/gui-xaw/menu.c:152
 msgid "Build Airbase"
 msgstr "Fliegerhorst bauen"
 
-#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:933
+#: client/gui-gtk/menu.c:543 client/gui-gtk/menu.c:936
 #: client/gui-xaw/menu.c:153
 msgid "Clean Pollution"
 msgstr "Umweltverschmutzung beseitigen"
 
-#: client/gui-gtk/menu.c:552 client/gui-xaw/menu.c:160
+#: client/gui-gtk/menu.c:555 client/gui-xaw/menu.c:160
 msgid "Make Homecity"
 msgstr "Standort zur neuen Heimatstadt machen"
 
-#: client/gui-gtk/menu.c:554 client/gui-xaw/menu.c:161
+#: client/gui-gtk/menu.c:557 client/gui-xaw/menu.c:161
 msgid "Unload"
 msgstr "Ausladen"
 
-#: client/gui-gtk/menu.c:556 client/gui-xaw/menu.c:162
+#: client/gui-gtk/menu.c:559 client/gui-xaw/menu.c:162
 msgid "Wake up others"
 msgstr "Andere alarmieren"
 
-#: client/gui-gtk/menu.c:560 client/gui-xaw/menu.c:164
+#: client/gui-gtk/menu.c:563 client/gui-xaw/menu.c:164
 msgid "Auto Settler"
 msgstr "Siedler automatisieren"
 
-#: client/gui-gtk/menu.c:562 client/gui-xaw/menu.c:165
+#: client/gui-gtk/menu.c:565 client/gui-xaw/menu.c:165
 msgid "Auto Attack"
 msgstr "Automatisch angreifen"
 
-#: client/gui-gtk/menu.c:564 client/gui-xaw/menu.c:166
+#: client/gui-gtk/menu.c:567 client/gui-xaw/menu.c:166
 msgid "Auto Explore"
 msgstr "Automatisch erkunden"
 
-#: client/gui-gtk/menu.c:568 client/gui-xaw/menu.c:168
+#: client/gui-gtk/menu.c:571 client/gui-xaw/menu.c:168
 msgid "Go to"
 msgstr "Gehe nach"
 
-#: client/gui-gtk/menu.c:570
+#: client/gui-gtk/menu.c:573
 msgid "Go|Airlift to City"
 msgstr "Gehe (fliege) nach Stadt"
 
-#: client/gui-gtk/menu.c:574 client/gui-xaw/menu.c:171
+#: client/gui-gtk/menu.c:577 client/gui-xaw/menu.c:171
 msgid "Disband Unit"
 msgstr "Einheit auflösen"
 
-#: client/gui-gtk/menu.c:576 client/gui-xaw/menu.c:172
+#: client/gui-gtk/menu.c:579 client/gui-xaw/menu.c:172
 msgid "Help Build Wonder"
 msgstr "Zum Bau eines Weltwunder beitragen"
 
-#: client/gui-gtk/menu.c:578 client/gui-xaw/menu.c:173
+#: client/gui-gtk/menu.c:581 client/gui-xaw/menu.c:173
 msgid "Make Trade Route"
 msgstr "Handelsweg einrichten"
 
-#: client/gui-gtk/menu.c:580 client/gui-xaw/menu.c:174
+#: client/gui-gtk/menu.c:583 client/gui-xaw/menu.c:174
 msgid "Explode Nuclear"
 msgstr "Nuklearexplosion auslösen"
 
-#: client/gui-gtk/menu.c:584 client/gui-xaw/menu.c:176
+#: client/gui-gtk/menu.c:587 client/gui-xaw/menu.c:176
 msgid "Wait"
 msgstr "Warten"
 
-#: client/gui-gtk/menu.c:589
+#: client/gui-gtk/menu.c:592
 msgid "_Reports"
 msgstr "Be_richte"
 
-#: client/gui-gtk/menu.c:591 client/gui-gtk/menu.c:593
-#: client/gui-gtk/menu.c:595 client/gui-gtk/menu.c:597
-#: client/gui-gtk/menu.c:599 client/gui-gtk/menu.c:601
-#: client/gui-gtk/menu.c:603 client/gui-gtk/menu.c:605
-#: client/gui-gtk/menu.c:607 client/gui-gtk/menu.c:609 data/Freeciv:1947
+#: client/gui-gtk/menu.c:594 client/gui-gtk/menu.c:596
+#: client/gui-gtk/menu.c:598 client/gui-gtk/menu.c:600
+#: client/gui-gtk/menu.c:602 client/gui-gtk/menu.c:604
+#: client/gui-gtk/menu.c:606 client/gui-gtk/menu.c:608
+#: client/gui-gtk/menu.c:610 client/gui-gtk/menu.c:612 data/Freeciv:1947
 msgid "Reports"
 msgstr "Berichte"
 
-#: client/gui-gtk/menu.c:595 client/gui-gtk/repodlgs.c:781
+#: client/gui-gtk/menu.c:598 client/gui-gtk/repodlgs.c:781
 #: client/gui-gtk/repodlgs.c:783 client/gui-gtk/repodlgs.c:954
 #: client/gui-xaw/menu.c:183 client/gui-xaw/repodlgs.c:887
 #: client/gui-xaw/repodlgs.c:1080 data/Freeciv:1816
 msgid "Military Report"
 msgstr "Militärischer Bericht"
 
-#: client/gui-gtk/menu.c:597 client/gui-gtk/repodlgs.c:515
+#: client/gui-gtk/menu.c:600 client/gui-gtk/repodlgs.c:515
 #: client/gui-xaw/menu.c:184 data/Freeciv:1739
 msgid "Trade Report"
 msgstr "Handelsbericht"
 
-#: client/gui-gtk/menu.c:599 client/gui-gtk/repodlgs.c:183
+#: client/gui-gtk/menu.c:602 client/gui-gtk/repodlgs.c:183
 #: client/gui-xaw/menu.c:185 data/Freeciv:1334
 msgid "Science Report"
 msgstr "Forschungsbericht"
 
-#: client/gui-gtk/menu.c:605 client/gui-xaw/menu.c:188
+#: client/gui-gtk/menu.c:608 client/gui-xaw/menu.c:188
 msgid "Top Five Cities"
 msgstr "Die besten 5 Städte"
 
-#: client/gui-gtk/menu.c:607 client/gui-xaw/menu.c:189
+#: client/gui-gtk/menu.c:610 client/gui-xaw/menu.c:189
 msgid "Demographics"
 msgstr "Bericht zur Lage der Nation"
 
-#: client/gui-gtk/menu.c:609 client/gui-xaw/menu.c:190 data/Freeciv:3089
+#: client/gui-gtk/menu.c:612 client/gui-xaw/menu.c:190 data/Freeciv:3089
 msgid "Spaceship"
 msgstr "Raumschiff"
 
-#: client/gui-gtk/menu.c:614 client/gui-gtk/menu.c:616
-#: client/gui-gtk/menu.c:618 client/gui-gtk/menu.c:620
-#: client/gui-gtk/menu.c:622 client/gui-gtk/menu.c:624
-#: client/gui-gtk/menu.c:626 client/gui-gtk/menu.c:628
-#: client/gui-gtk/menu.c:630 client/gui-gtk/menu.c:632
-#: client/gui-gtk/menu.c:634 client/gui-gtk/menu.c:636
-#: client/gui-gtk/menu.c:638 client/gui-gtk/menu.c:640
-#: client/gui-gtk/menu.c:642 client/gui-gtk/menu.c:644
-#: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:648
-#: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:652
+#: client/gui-gtk/menu.c:617 client/gui-gtk/menu.c:619
+#: client/gui-gtk/menu.c:621 client/gui-gtk/menu.c:623
+#: client/gui-gtk/menu.c:625 client/gui-gtk/menu.c:627
+#: client/gui-gtk/menu.c:629 client/gui-gtk/menu.c:631
+#: client/gui-gtk/menu.c:633 client/gui-gtk/menu.c:635
+#: client/gui-gtk/menu.c:637 client/gui-gtk/menu.c:639
+#: client/gui-gtk/menu.c:641 client/gui-gtk/menu.c:643
+#: client/gui-gtk/menu.c:645 client/gui-gtk/menu.c:647
+#: client/gui-gtk/menu.c:649 client/gui-gtk/menu.c:651
+#: client/gui-gtk/menu.c:653 client/gui-gtk/menu.c:655
 #: client/gui-gtk/repodlgs.c:210 client/gui-gtk/wldlg.c:356
 #: client/gui-gtk/wldlg.c:443 data/Freeciv:1948 data/Freeciv:2016
 #: data/Freeciv:2099 data/Freeciv:2105
 msgid "Help"
 msgstr "Hilfe"
 
-#: client/gui-gtk/menu.c:616 client/gui-xaw/menu.c:195
+#: client/gui-gtk/menu.c:619 client/gui-xaw/menu.c:195
 msgid "Help Languages"
 msgstr "Deutsche Übersetzung"
 
-#: client/gui-gtk/menu.c:618 client/gui-xaw/menu.c:196
+#: client/gui-gtk/menu.c:621 client/gui-xaw/menu.c:196
 msgid "Help Connecting"
 msgstr "Verbindungsaufbau"
 
-#: client/gui-gtk/menu.c:620 client/gui-xaw/menu.c:197
+#: client/gui-gtk/menu.c:623 client/gui-xaw/menu.c:197
 msgid "Help Controls"
 msgstr "Bedienungselemente"
 
-#: client/gui-gtk/menu.c:622 client/gui-xaw/menu.c:198
+#: client/gui-gtk/menu.c:625 client/gui-xaw/menu.c:198
 msgid "Help Chatline"
 msgstr "Chatten"
 
-#: client/gui-gtk/menu.c:624 client/gui-xaw/menu.c:199
+#: client/gui-gtk/menu.c:627 client/gui-xaw/menu.c:199
 msgid "Help Playing"
 msgstr "Strategie und Taktik"
 
-#: client/gui-gtk/menu.c:628 client/gui-xaw/menu.c:201
+#: client/gui-gtk/menu.c:631 client/gui-xaw/menu.c:201
 msgid "Help Improvements"
 msgstr "Stadterweiterungen"
 
-#: client/gui-gtk/menu.c:630 client/gui-xaw/menu.c:202
+#: client/gui-gtk/menu.c:633 client/gui-xaw/menu.c:202
 msgid "Help Units"
 msgstr "Einheiten"
 
-#: client/gui-gtk/menu.c:632 client/gui-xaw/menu.c:203
+#: client/gui-gtk/menu.c:635 client/gui-xaw/menu.c:203
 msgid "Help Combat"
 msgstr "Kampfsystem"
 
-#: client/gui-gtk/menu.c:634 client/gui-xaw/menu.c:204
+#: client/gui-gtk/menu.c:637 client/gui-xaw/menu.c:204
 msgid "Help ZOC"
 msgstr "Kontrollzonen"
 
-#: client/gui-gtk/menu.c:636 client/gui-xaw/menu.c:205
+#: client/gui-gtk/menu.c:639 client/gui-xaw/menu.c:205
 msgid "Help Technology"
 msgstr "Forschung"
 
-#: client/gui-gtk/menu.c:638 client/gui-xaw/menu.c:206
+#: client/gui-gtk/menu.c:641 client/gui-xaw/menu.c:206
 msgid "Help Terrain"
 msgstr "Gelände"
 
-#: client/gui-gtk/menu.c:640 client/gui-xaw/menu.c:207
+#: client/gui-gtk/menu.c:643 client/gui-xaw/menu.c:207
 msgid "Help Wonders"
 msgstr "Weltwunder"
 
-#: client/gui-gtk/menu.c:642 client/gui-xaw/menu.c:208
+#: client/gui-gtk/menu.c:645 client/gui-xaw/menu.c:208
 msgid "Help Government"
 msgstr "Regierungsformen"
 
-#: client/gui-gtk/menu.c:644 client/gui-xaw/menu.c:209
+#: client/gui-gtk/menu.c:647 client/gui-xaw/menu.c:209
 msgid "Help Happiness"
 msgstr "Bevölkerung"
 
-#: client/gui-gtk/menu.c:646 client/gui-xaw/menu.c:210
+#: client/gui-gtk/menu.c:649 client/gui-xaw/menu.c:210
 msgid "Help Space Race"
 msgstr "Welraum-Rennen"
 
-#: client/gui-gtk/menu.c:650 client/gui-xaw/menu.c:212 data/helpdata.txt:77
+#: client/gui-gtk/menu.c:653 client/gui-xaw/menu.c:212 data/helpdata.txt:77
 msgid "Copying"
 msgstr "Lizenz"
 
-#: client/gui-gtk/menu.c:838 client/gui-xaw/menu.c:146
+#: client/gui-gtk/menu.c:841 client/gui-xaw/menu.c:146
 #: client/gui-xaw/menu.c:148
 #, c-format
 msgid "Change to %s"
 msgstr "In %s ändern"
 
-#: client/gui-gtk/menu.c:839 client/gui-xaw/menu.c:150
+#: client/gui-gtk/menu.c:842 client/gui-xaw/menu.c:150
 #, c-format
 msgid "Transform to %s"
 msgstr "In %s verändern"
 
-#: client/gui-gtk/menu.c:902 client/gui-xaw/menu.c:141
+#: client/gui-gtk/menu.c:905 client/gui-xaw/menu.c:141
 msgid "Add to City"
 msgstr "Zur Stadt hinzufügen"
 
-#: client/gui-gtk/menu.c:917 client/gui-xaw/menu.c:145
+#: client/gui-gtk/menu.c:920 client/gui-xaw/menu.c:145
 msgid "Build Farmland"
 msgstr "Erzeuge Ackerland"
 
-#: client/gui-gtk/menu.c:931 client/gui-xaw/menu.c:154
+#: client/gui-gtk/menu.c:934 client/gui-xaw/menu.c:154
 msgid "Paradrop"
 msgstr "Fallschirmspringen"
 
-#: client/gui-gtk/menu.c:941 client/gui-xaw/menu.c:143
+#: client/gui-gtk/menu.c:944 client/gui-xaw/menu.c:143
 msgid "Build Railroad"
 msgstr "Schienen verlegen"
 
@@ -7228,15 +7220,12 @@ msgid ""
 "or by sending email to:  bugs@cvs.freeciv.org"
 msgstr ""
 "Wenn Sie irgendwelche Fehler finden sollten, schicken Sie bitte eine "
-"entsprechende Nachricht: Am besten durch die direkte Eingabe in unser "
+"entsprechende Nachricht durch die direkte Eingabe in unser "
 "Fehler-Bearbeitungssystem auf\n"
 "\n"
 "  http://www.freeciv.org/cgi-bin/bugs\n"
 "\n"
-"oder mittels einer Email an: bugs@cvs.freeciv.org.\n"
-"\n"
-"Sollte es sich um einen Übersetzungsfehler handeln, wenden Sie sich bitte an "
-"<freeciv-de@ehinzen.de>."
+"oder mittels einer Email an 'bugs@cvs.freeciv.org'."
 
 #: data/helpdata.txt:61
 msgid ""
@@ -7282,9 +7271,9 @@ msgstr ""
 "jedoch ändern, indem man das Programm anstatt mit 'civclient' mit 'LANG=xx "
 "civclient' aufruft, wobei 'xx' der Ländercode ist.\n"
 "\n"
-"Bitte informieren Sie uns über Fehler bzw. Verbesserungsmöglichkeiten der "
-"deutschen Übersetzung, indem Sie eine Email an die Mailingliste "
-"<freeciv-de@ehinzen.de> schicken.\n"
+"Bitte informieren Sie uns über Fehler bzw. Verbesserungs-\n"
+"möglichkeiten der deutschen Übersetzung, indem Sie eine Email an die "
+"Mailingliste <freeciv-de@ehinzen.de> schicken.\n"
 "\n"
 "Koordinator für die deutsche Übersetzung ist Egbert Hinzen "
 "<garfy@ehinzen.de>.\n"
@@ -8144,7 +8133,7 @@ msgid ""
 " - Against ground units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
 msgstr ""
-" - Gegen Landeinheiten (außer Howitzer) und Hubschrauber wird die "
+" - Gegen Landeinheiten (außer Haubitzen) und Hubschrauber wird die "
 "Verteidigungsstärke verdreifacht, falls sich der Verteidiger in einer Stadt "
 "mit Stadtmauern befindet."
 
@@ -8946,8 +8935,8 @@ msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
 msgstr ""
-"Wenn die Hauptstadt einer Nation erobert wird, geht ein gestartes Raumschiff "
-"verloren."
+"Wenn die Hauptstadt einer Nation erobert wird, geht ein gestartetes "
+"Raumschiff verloren."
 
 #: data/helpdata.txt:1270
 msgid ""
@@ -9059,7 +9048,7 @@ msgid ""
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
 msgstr ""
-"Eine Stadtmauer hilft, eine Stadt vor Landeinheiten (außer Howitzern) und "
+"Eine Stadtmauer hilft, eine Stadt vor Landeinheiten (außer Haubitzen) und "
 "Hubschraubern zu schützen, in dem sie die Verteidigungsstärke gegen diese "
 "Einheitentypen verdreifacht.\n"
 "\n"
@@ -10861,29 +10850,29 @@ msgstr "vietnamesisch"
 msgid "?plural:Vietnamese"
 msgstr "?plural:Vietnamesen"
 
-#: data/default/nations.ruleset:1560
+#: data/default/nations.ruleset:1561
 msgid "Thai"
 msgstr "thailändisch"
 
-#: data/default/nations.ruleset:1561
+#: data/default/nations.ruleset:1562
 msgid "?plural:Thai"
 msgstr "?plural:Thailänder"
 
-#: data/default/nations.ruleset:1587
+#: data/default/nations.ruleset:1589
 msgid "Olympic"
 msgstr "olympisch"
 
-#: data/default/nations.ruleset:1588
+#: data/default/nations.ruleset:1590
 msgid "?plural:Olympians"
 msgstr "?plural:Olympier"
 
 # ?
-#: data/default/nations.ruleset:1613
+#: data/default/nations.ruleset:1615
 msgid "Krevi"
 msgstr "krevisch"
 
 # ?
-#: data/default/nations.ruleset:1614
+#: data/default/nations.ruleset:1616
 msgid "?plural:Krevis"
 msgstr "?plural:Krevier"
 
@@ -11794,7 +11783,7 @@ msgstr "Artillerie"
 
 #: data/civ2/units.ruleset:718 data/default/units.ruleset:718
 msgid "Howitzer"
-msgstr "Howitzer"
+msgstr "Haubitze"
 
 #: data/civ1/units.ruleset:720 data/civ2/units.ruleset:741
 #: data/default/units.ruleset:741
