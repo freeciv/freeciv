@@ -377,14 +377,6 @@ extern int OVERVIEW_TILE_SIZE;
 extern bool is_isometric;
 extern int hex_width, hex_height;
 
-/* name of font to use to draw city names on main map */
-
-extern char *city_names_font;
-
-/* name of font to use to draw city productions on main map */
-
-extern char *city_productions_font_name;
-
 extern int num_tiles_explode_unit;
 
 struct Sprite *load_sprite(const char *tag_name);

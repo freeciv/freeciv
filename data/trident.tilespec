@@ -31,11 +31,9 @@ darkness_style = 4
 flag_offset_x = 0
 flag_offset_y = 0
 
-; Font to use to draw city names:
-city_names_font = "9x15bold"
-
-; Font to use to draw city productions:
-city_productions_font = "6x13"
+; Font size (points) to use to draw city names and productions:
+city_names_font_size = 10
+city_productions_font_size = 10
 
 ; These are special because they get freed and reloaded
 ; as required:

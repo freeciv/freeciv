@@ -96,6 +96,7 @@ GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
 GtkWidget *top_notebook, *bottom_notebook;
 
+int city_names_font_size = 0, city_productions_font_size = 0;
 PangoFontDescription *main_font;
 PangoFontDescription *city_productions_font;
 
@@ -215,6 +216,26 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 static gint timer_callback(gpointer data);
 gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data);
 static gboolean quit_dialog_callback(void);
+
+
+/****************************************************************************
+  Called by the tileset code to set the font size that should be used to
+  draw the city names and productions.
+****************************************************************************/
+void set_city_names_font_sizes(int my_city_names_font_size,
+			       int my_city_productions_font_size)
+{
+  /* This function may be called before the fonts are allocated.  So we
+   * save the values for later. */
+  city_names_font_size = my_city_names_font_size;
+  city_productions_font_size = my_city_productions_font_size;
+  if (main_font) {
+    pango_font_description_set_size(main_font,
+				    PANGO_SCALE * city_names_font_size);
+    pango_font_description_set_size(city_productions_font,
+				    PANGO_SCALE * city_productions_font_size);
+  }
+}
 
 /**************************************************************************
 ...
@@ -1121,6 +1142,8 @@ void ui_main(int argc, char **argv)
   }
   g_object_ref(style);
   city_productions_font = style->font_desc;
+
+  set_city_names_font_sizes(city_names_font_size, city_productions_font_size);
 
   fill_bg_gc = gdk_gc_new(root_window);
 

@@ -44,6 +44,7 @@
 
 #include "dialogs_g.h"
 #include "graphics_g.h"
+#include "gui_main_g.h"
 #include "mapview_g.h"		/* for update_map_canvas_visible */
 
 #include "civclient.h"		/* for get_client_state() */
@@ -79,8 +80,7 @@ int OVERVIEW_TILE_SIZE = 2;
 bool is_isometric;
 int hex_width, hex_height;
 
-char *city_names_font;
-char *city_productions_font_name;
+static int city_names_font_size, city_productions_font_size;
 
 int num_tiles_explode_unit=0;
 
@@ -385,14 +385,6 @@ static bool check_tilespec_capabilities(struct section_file *file,
 ***********************************************************************/
 static void tilespec_free_toplevel(void)
 {
-  if (city_names_font) {
-    free(city_names_font);
-    city_names_font = NULL;
-  }
-  if (city_productions_font_name) {
-    free(city_productions_font_name);
-    city_productions_font_name = NULL;
-  }
   if (main_intro_filename) {
     free(main_intro_filename);
     main_intro_filename = NULL;
@@ -895,13 +887,14 @@ bool tilespec_read_toplevel(const char *tileset_name)
   unit_offset_y = secfile_lookup_int_default(file, 0,
 					     "tilespec.unit_offset_y");
 
-  c = secfile_lookup_str_default(file, "10x20", "tilespec.city_names_font");
-  city_names_font = mystrdup(c);
+  city_names_font_size
+    = secfile_lookup_int_default(file, 10, "tilespec.city_names_font_size");
 
-  c =
-      secfile_lookup_str_default(file, "8x16",
-				 "tilespec.city_productions_font");
-  city_productions_font_name = mystrdup(c);
+  city_productions_font_size
+    = secfile_lookup_int_default(file, 10,
+				 "tilespec.city_productions_font_size");
+  set_city_names_font_sizes(city_names_font_size,
+			    city_productions_font_size);
 
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   main_intro_filename = tilespec_gfx_filename(c);
