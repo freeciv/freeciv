@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-31 16:35+0100\n"
+"PO-Revision-Date: 2005-01-31 21:20+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1694,7 +1694,7 @@ msgstr "Pozorovat hráče nebo celou hru."
 
 #: server/commands.c:196
 msgid "Only the console and connections with cmdlevel 'hack' can force other connections to observe a player. If you're not one of these, only the [player-name] argument is allowed. If the console gives no player-name or the connection uses no arguments, then the connection is attached to a global observer."
-msgstr ""
+msgstr "Pouze konzole a spojení s příkazovou úrovní 'hack' mohou ostatním spojením povolit pozorování hráče. Pokud nemáte ani jedno z toho, můžete použít pouze argument [jméno-hráče]. Pokud v konzoli nezadáte jméno hráče nebo spojení nepoužije argumenty, pak je spojení napojeno na globálního pozorovatele."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:204
@@ -2352,7 +2352,7 @@ msgstr "Hra: Váš %s byl popraven v %s s obviněním ze špionáže.  %s uvíta
 #: server/diplomats.c:263
 #, c-format
 msgid "You executed a %s the %s had sent to establish an embassy in %s for being untrustworthy"
-msgstr ""
+msgstr "Provedli jsme %s %s a měli poslat zřídit ambasádu v %s pro zvýšení důvěryhosnosti"
 
 #: server/diplomats.c:274
 #, c-format
@@ -2885,7 +2885,7 @@ msgstr "%s nám již neposkytuje sdílené vidění!"
 #: server/plrhand.c:1188
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
-msgstr ""
+msgstr "Senát souhlasil s vaším návrhem kvůli neustálým provokacím ze strany %s."
 
 #: server/plrhand.c:1200
 #, c-format
@@ -2894,7 +2894,7 @@ msgstr "Hra: Vaše reputace je nyní %s."
 
 #: server/plrhand.c:1205
 msgid "Game: The senate decides to dissolve rather than support your actions any longer."
-msgstr ""
+msgstr "Hra: Senát rozhodl proti, raději než by podporoval nadále vaše akce."
 
 #: server/plrhand.c:1236
 #, c-format
@@ -12707,7 +12707,7 @@ msgstr "_Ne"
 #: data/Freeciv.in:2483
 #: data/Freeciv.in:2513
 msgid "Darn"
-msgstr ""
+msgstr "Sakra"
 
 #: client/gui-gtk/citydlg.c:2820
 #: client/gui-win32/citydlg.c:1075
@@ -13775,7 +13775,7 @@ msgstr "Tahů"
 #: client/gui-mui/dialogs.c:1748
 #: client/gui-mui/dialogs.c:1772
 msgid "_Darn"
-msgstr ""
+msgstr "_Sakra"
 
 #: client/gui-mui/citydlg.c:1235
 msgid "Freeciv - Cityproduction"
