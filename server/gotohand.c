@@ -77,7 +77,7 @@ void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
 
 void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_move_type which)
 { /* let generate_warmap interface to this function */
-  int x, y, c, i, j, k, xx[3], yy[3], tm;
+  int x, y, c, k, xx[3], yy[3], x1, y1, tm;
   int orig_x, orig_y;
   int igter = 0;
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
@@ -113,11 +113,12 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
     tile0 = map_get_tile(x, y);
     map_calc_adjacent_xy(x, y, xx, yy);
     for (k = 0; k < 8; k++) {
-      i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+      x1 = xx[ii[k]];
+      y1 = yy[jj[k]];
       if (which == LAND_MOVING) {
 /*        if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost;*/
-        if (map_get_terrain(xx[i], yy[j]) == T_OCEAN) {
-          if (punit && is_transporter_with_free_space(pplayer, xx[i], yy[j])) c = 3;
+        if (map_get_terrain(x1, y1) == T_OCEAN) {
+          if (punit && is_transporter_with_free_space(pplayer, x1, y1)) c = 3;
           else c = maxcost;
         } else if (tile0->terrain == T_OCEAN) c = 3;
         else if (igter) c = 3; /* NOT c = 1 */
@@ -125,21 +126,21 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
 /*        else c = tile0->move_cost[k]; 
 This led to a bad bug where a unit in a swamp was considered too far away */
         else {
-          tm = map_get_tile(xx[i], yy[j])->move_cost[7-k];
+          tm = map_get_tile(x1, y1)->move_cost[7-k];
           c = (tile0->move_cost[k] + tm + (tile0->move_cost[k] > tm ? 1 : 0))>>1;
         }
         
         tm = warmap.cost[x][y] + c;
-        if (warmap.cost[xx[i]][yy[j]] > tm && tm < maxcost) {
-          warmap.cost[xx[i]][yy[j]] = tm;
-          add_to_stack(xx[i], yy[j]);
+        if (warmap.cost[x1][y1] > tm && tm < maxcost) {
+          warmap.cost[x1][y1] = tm;
+          add_to_stack(x1, y1);
         }
       } else {
         c = 3; /* allow for shore bombardment/transport/etc */
         tm = warmap.seacost[x][y] + c;
-        if (warmap.seacost[xx[i]][yy[j]] > tm && tm < maxcost) {
-          warmap.seacost[xx[i]][yy[j]] = tm;
-          if (tile0->move_cost[k] == -3) add_to_stack(xx[i], yy[j]);
+        if (warmap.seacost[x1][y1] > tm && tm < maxcost) {
+          warmap.seacost[x1][y1] = tm;
+          if (tile0->move_cost[k] == -3) add_to_stack(x1, y1);
         }
       }
     } /* end for */
@@ -400,7 +401,7 @@ int find_the_shortest_path(struct player *pplayer, struct unit *punit,
   char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int igter = 0, xx[3], yy[3], x, y, i, j, k, tm, c;
+  int igter = 0, xx[3], yy[3], x, y, x1, y1, k, tm, c;
   int orig_x, orig_y;
   struct tile *tile0;
   enum unit_move_type which = unit_types[punit->type].move_type;
@@ -444,75 +445,76 @@ and independently I can worry about optimizing them. -- Syela */
     map_calc_adjacent_xy(x, y, xx, yy);
     
     for (k = 0; k < 8; k++) {
-      i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+      x1 = xx[ii[k]];
+      y1 = yy[jj[k]];
       if (which != SEA_MOVING) {
         if (which != LAND_MOVING) c = 3;
         else if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost; 
         else if (igter) c = (tile0->move_cost[k] ? 3 : 0); /* Reinier's fix -- Syela */
         else c = tile0->move_cost[k];
-        c = goto_tile_cost(pplayer, punit, x, y, xx[i], yy[j], c);
+        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c);
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
         if (!c && !dir_ect(x, y, dest_x, dest_y, k)) c = 1;
         tm = warmap.cost[x][y] + c;
 #ifdef ACTUALLYTESTED
         if (warmap.cost[x][y] < punit->moves_left && tm < maxcost &&
-            tm >= punit->moves_left - MIN(3, c) && enemies_at(punit, xx[i], yy[j])) {
+            tm >= punit->moves_left - MIN(3, c) && enemies_at(punit, x1, y1)) {
           tm += unit_types[punit->type].move_rate;
 	  if(0) freelog(LOG_DEBUG,
 			"%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
 			unit_types[punit->type].name, punit->id,
-			punit->x, punit->y, xx[i], yy[j],
+			punit->x, punit->y, x1, y1,
 			punit->goto_dest_x, punit->goto_dest_y);
         }
 #endif
         if (tm < maxcost) {
-          if (warmap.cost[xx[i]][yy[j]] > tm) {
-            warmap.cost[xx[i]][yy[j]] = tm;
-            add_to_stack(xx[i], yy[j]);
-            local_vector[xx[i]][yy[j]] = 128>>k;
+          if (warmap.cost[x1][y1] > tm) {
+            warmap.cost[x1][y1] = tm;
+            add_to_stack(x1, y1);
+            local_vector[x1][y1] = 128>>k;
 	    if(0) freelog(LOG_DEBUG,
 			  "Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
-			  d[k], x, y, xx[i], yy[j], c, tm);
-          } else if (warmap.cost[xx[i]][yy[j]] == tm) {
-            local_vector[xx[i]][yy[j]] |= 128>>k;
+			  d[k], x, y, x1, y1, c, tm);
+          } else if (warmap.cost[x1][y1] == tm) {
+            local_vector[x1][y1] |= 128>>k;
 	    if(0) freelog(LOG_DEBUG,
 			  "Co-Candidate: %s from (%d, %d) to (%d, %d) +%d to %d",
-			  d[k], x, y, xx[i], yy[j], c, tm);
+			  d[k], x, y, x1, y1, c, tm);
           }
         }
       } else {
         if (tile0->move_cost[k] != -3) c = maxcost;
-        else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(xx[i], yy[j])) c = 7;
+        else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1)) c = 7;
         else c = 3;
 /* I want to disable these totally but for some reason it bugs. -- Syela */
-        c = goto_tile_cost(pplayer, punit, x, y, xx[i], yy[j], c);
-        if (xx[i] == dest_x && yy[j] == dest_y && passenger && c < 60 &&
+        c = goto_tile_cost(pplayer, punit, x, y, x1, y1, c);
+        if (x1 == dest_x && y1 == dest_y && passenger && c < 60 &&
             !is_my_zoc(passenger, x, y)) c = 60; /* passenger cannot disembark */
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
         tm = warmap.seacost[x][y] + c;
         if (warmap.seacost[x][y] < punit->moves_left && tm < maxcost &&
-            (pplayer->ai.control || !same_pos(xx[i], yy[j], dest_x, dest_y)) &&
+            (pplayer->ai.control || !same_pos(x1, y1, dest_x, dest_y)) &&
             tm >= punit->moves_left - (get_transporter_capacity(punit) >
             unit_types[punit->type].attack_strength ? 3 : 2) &&
-            enemies_at(punit, xx[i], yy[j])) {
+            enemies_at(punit, x1, y1)) {
           tm += unit_types[punit->type].move_rate;
 	  if(0) freelog(LOG_DEBUG,
 			"%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
 			unit_types[punit->type].name, punit->id,
-			punit->x, punit->y, xx[i], yy[j],
+			punit->x, punit->y, x1, y1,
 			punit->goto_dest_x, punit->goto_dest_y);
         }
         if (tm < maxcost) {
-          if (warmap.seacost[xx[i]][yy[j]] > tm) {
-            warmap.seacost[xx[i]][yy[j]] = tm;
-            add_to_stack(xx[i], yy[j]);
-            local_vector[xx[i]][yy[j]] = 128>>k;
-          } else if (warmap.seacost[xx[i]][yy[j]] == tm) {
-            local_vector[xx[i]][yy[j]] |= 128>>k;
+          if (warmap.seacost[x1][y1] > tm) {
+            warmap.seacost[x1][y1] = tm;
+            add_to_stack(x1, y1);
+            local_vector[x1][y1] = 128>>k;
+          } else if (warmap.seacost[x1][y1] == tm) {
+            local_vector[x1][y1] |= 128>>k;
           }
         }
       }
-      if (xx[i] == dest_x && yy[j] == dest_y && maxcost > tm) {
+      if (x1 == dest_x && y1 == dest_y && maxcost > tm) {
 	if(0) freelog(LOG_DEBUG, "Found path, cost = %d", tm);
         maxcost = tm + 1; /* NOT = tm.  Duh! -- Syela */
       }
@@ -536,15 +538,16 @@ and independently I can worry about optimizing them. -- Syela */
     map_calc_adjacent_xy(x, y, xx, yy);
 
     for (k = 0; k < 8; k++) {
-      i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+      x1 = xx[ii[k]];
+      y1 = yy[jj[k]];
       if (local_vector[x][y] & (1<<k)) {
-/* && (local_vector[xx[i]][yy[j]] || !warmap.vector[xx[i]][yy[j]])) {
+/* && (local_vector[x1][y1] || !warmap.vector[x1][y1])) {
 is not adequate to prevent RR loops.  Bummer. -- Syela */
-        add_to_stack(xx[i], yy[j]);
-        warmap.vector[xx[i]][yy[j]] |= 128>>k;
+        add_to_stack(x1, y1);
+        warmap.vector[x1][y1] |= 128>>k;
         local_vector[x][y] -= 1<<k; /* avoid repetition */
 	if(0) freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
-		      d[7-k], xx[i], yy[j], x, y);
+		      d[7-k], x1, y1, x, y);
       }
     }
   } while (warstacksize > warnodes);

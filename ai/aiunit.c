@@ -420,10 +420,9 @@ int is_my_turn(struct unit *punit, struct unit *pdef)
 
 int ai_military_findvictim(struct player *pplayer, struct unit *punit, int *dest_x, int *dest_y)
 { /* work of Syela - mostly to fix the ZOC/goto strangeness */
-  int xx[3], yy[3], x, y;
+  int xx[3], yy[3], x, y, x1, y1, k;
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int i, j, k;
   int best = 0, a, b, c, d, e, f;
   struct unit *pdef;
   struct unit *patt;
@@ -445,13 +444,14 @@ int ai_military_findvictim(struct player *pplayer, struct unit *punit, int *dest
   map_calc_adjacent_xy(x, y, xx, yy);
 
   for (k = 0; k < 8; k++) {
-    i = ii[k]; j = jj[k]; /* saves CPU cycles? */
-    pdef = get_defender(pplayer, punit, xx[i], yy[j]);
+    x1 = xx[ii[k]];
+    y1 = yy[jj[k]];
+    pdef = get_defender(pplayer, punit, x1, y1);
     if (pdef) {
-      patt = get_attacker(pplayer, punit, xx[i], yy[j]);
+      patt = get_attacker(pplayer, punit, x1, y1);
 /* horsemen in city refused to attack phalanx just outside that was
 bodyguarding catapult - patt will resolve this bug nicely -- Syela */
-      if (can_unit_attack_tile(punit, xx[i], yy[j])) { /* thanks, Roar */
+      if (can_unit_attack_tile(punit, x1, y1)) { /* thanks, Roar */
         d = unit_vulnerability(punit, pdef);
         if (map_get_city(x, y) && /* pikemen defend Knights, attack Catapults */
               get_total_defense_power(pdef, punit) *
@@ -470,7 +470,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
           a += unit_belligerence_primitive(punit);
           a *= a;
           b = unit_types[pdef->type].build_cost;
-          if (map_get_city(xx[i], yy[j])) /* bonus restored 980804 -- Syela */
+          if (map_get_city(x1, y1)) /* bonus restored 980804 -- Syela */
             b = (b + 40) * punit->hp / unit_types[punit->type].hp;
 /* c is always equal to zero in this routine, and f is already known */
 /* arguable that I should use reinforcement_cost here?? -- Syela */
@@ -480,7 +480,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
             if (e > best && ai_fuzzy(pplayer,1)) {
 	      if(0) freelog(LOG_DEBUG, "Better than %d is %d (%s)",
 			    best, e, unit_types[pdef->type].name);
-              best = e; *dest_y = yy[j]; *dest_x = xx[i];
+              best = e; *dest_y = y1; *dest_x = x1;
             } else {
 	      if(0) freelog(LOG_DEBUG, "NOT better than %d is %d (%s)",
 			    best, e, unit_types[pdef->type].name);
@@ -489,20 +489,20 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
         }
       }
     } else { /* no pdef */
-      pcity = map_get_city(xx[i], yy[j]);
+      pcity = map_get_city(x1, y1);
       if (pcity && is_ground_unit(punit) &&
           map_get_terrain(punit->x, punit->y) != T_OCEAN) {
         if (pcity->owner != pplayer->player_no) { /* free goodies */
-          best = 99999; *dest_y = yy[j]; *dest_x = xx[i];
+          best = 99999; *dest_y = y1; *dest_x = x1;
         }
       }
-      if (map_get_tile(xx[i], yy[j])->special & S_HUT && best < 99999 &&
-          could_unit_move_to_tile(punit, punit->x, punit->y, xx[i], yy[j]) &&
-/*          zoc_ok_move(punit, xx[i], yy[j]) && !is_sailing_unit(punit) &&*/
+      if (map_get_tile(x1, y1)->special & S_HUT && best < 99999 &&
+          could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) &&
+/*          zoc_ok_move(punit, x1, y1) && !is_sailing_unit(punit) &&*/
           punit->ai.ai_role != AIUNIT_ESCORT && /* makes life easier */
           !punit->ai.charge && /* above line seems not to work. :( */
           punit->ai.ai_role != AIUNIT_DEFEND_HOME) { /* Oops! -- Syela */
-        best = 99998; *dest_y = yy[j]; *dest_x = xx[i];
+        best = 99998; *dest_y = y1; *dest_x = x1;
       }
     }
   }
