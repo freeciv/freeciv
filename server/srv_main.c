@@ -109,8 +109,8 @@ static void reject_new_player(char *msg, struct connection *pconn);
 
 static void handle_alloc_nation(struct player *pplayer,
 				struct packet_alloc_nation *packet);
-static void handle_request_join_game(struct connection *pconn, 
-				     struct packet_req_join_game *request);
+static int handle_request_join_game(struct connection *pconn, 
+				    struct packet_req_join_game *request);
 static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static int check_for_full_turn_done(void);
@@ -596,29 +596,29 @@ int get_next_id_number(void)
 }
 
 /**************************************************************************
-...
+Returns 0 if connection should be closed (because the clients was
+rejected). Returns 1 else.
 **************************************************************************/
-void handle_packet_input(struct connection *pconn, char *packet, int type)
+int handle_packet_input(struct connection *pconn, char *packet, int type)
 {
   struct player *pplayer;
 
   /* a NULL packet can be returned from receive_packet_goto_route() */
   if (packet == NULL)
-    return;
+    return 1;
 
-  switch(type) {
-  case PACKET_REQUEST_JOIN_GAME:
-    handle_request_join_game(pconn, (struct packet_req_join_game *)packet);
+  if (type == PACKET_REQUEST_JOIN_GAME) {
+    int result = handle_request_join_game(pconn,
+					  (struct packet_req_join_game *) packet);
     free(packet);
-    return;
-    break;
+    return result;
   }
 
   if (!pconn->established) {
     freelog(LOG_ERROR, "Received game packet from unaccepted connection %s",
 	    conn_description(pconn));
     free(packet);
-    return;
+    return 1;
   }
   
   pplayer = pconn->player;
@@ -628,7 +628,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     freelog(LOG_ERROR, "Received packet from non-player connection %s",
  	    conn_description(pconn));
     free(packet);
-    return;
+    return 1;
   }
 
   if (server_state != RUN_GAME_STATE
@@ -646,7 +646,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 	                 "outside RUN_GAME_STATE", type);
     }
     free(packet);
-    return;
+    return 1;
   }
 
   pplayer->nturns_idle=0;
@@ -657,7 +657,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     freelog(LOG_ERROR, _("Got a packet of type %d from a "
 			 "dead or observer player"), type);
     free(packet);
-    return;
+    return 1;
   }
   
   /* Make sure to set this back to NULL before leaving this function: */
@@ -864,6 +864,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 
   free(packet);
   pplayer->current_conn = NULL;
+  return 1;
 }
 
 /**************************************************************************
@@ -1195,10 +1196,11 @@ static int set_unique_conn_name(struct connection *pconn, const char *req_name)
 }
 
 /**************************************************************************
-...
+Returns 0 if the clients gets rejected and the connection should be
+closed. Returns 1 if the client get accepted.
 **************************************************************************/
-static void handle_request_join_game(struct connection *pconn, 
-				     struct packet_req_join_game *req)
+static int handle_request_join_game(struct connection *pconn, 
+				    struct packet_req_join_game *req)
 {
   struct player *pplayer;
   char msg[MAX_LEN_MSG];
@@ -1214,8 +1216,7 @@ static void handle_request_join_game(struct connection *pconn,
     reject_new_player(msg, pconn);
     freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),
 	    pconn->addr);
-    close_connection(pconn);
-    return;
+    return 0;
   }
 
   if (set_unique_conn_name(pconn, req->name)==0) {
@@ -1246,8 +1247,7 @@ static void handle_request_join_game(struct connection *pconn,
     reject_new_player(msg, pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
 	    pconn->name);
-    close_connection(pconn);
-    return;
+    return 0;
   }
 
   /* Make sure the client has every capability the server needs */
@@ -1262,8 +1262,7 @@ static void handle_request_join_game(struct connection *pconn,
     reject_new_player(msg, pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
 	    pconn->name);
-    close_connection(pconn);
-    return;
+    return 0;
   }
 
   if( (pplayer=find_player_by_name(req->name)) || 
@@ -1275,8 +1274,7 @@ static void handle_request_join_game(struct connection *pconn,
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No observation of barbarians."),
 		pconn->name);
-	close_connection(pconn);
-	return;
+	return 0;
       }
     } else if(!pplayer->is_alive) {
       if(!(allow = strchr(game.allow_connect, 'd'))) {
@@ -1285,8 +1283,7 @@ static void handle_request_join_game(struct connection *pconn,
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No observation of dead players."),
 		pconn->name);
-	close_connection(pconn);
-	return;
+	return 0;
       }
     } else if(pplayer->ai.control) {
       if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'A' : 'a')))) {
@@ -1295,8 +1292,7 @@ static void handle_request_join_game(struct connection *pconn,
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No observation of AI players."),
 		pconn->name);
-	close_connection(pconn);
-	return;
+	return 0;
       }
     } else {
       if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'H' : 'h')))) {
@@ -1305,8 +1301,7 @@ static void handle_request_join_game(struct connection *pconn,
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No reconnection to human players."),
 		pconn->name);
-	close_connection(pconn);
-	return;
+	return 0;
       }
     }
 
@@ -1326,9 +1321,7 @@ static void handle_request_join_game(struct connection *pconn,
 			  pconn);
 	freelog(LOG_NORMAL, _("%s was rejected: Name %s already used."),
 		pconn->name, req->name);
-	close_connection(pconn);
-      
-	return;
+	return 0;
       }
       else {
 	my_snprintf(msg, sizeof(msg), _("Sorry, %s is already connected."), 
@@ -1336,8 +1329,7 @@ static void handle_request_join_game(struct connection *pconn,
 	reject_new_player(msg, pconn);
 	freelog(LOG_NORMAL, _("%s was rejected: %s already connected."),
 		pconn->name, pplayer->name);
-	close_connection(pconn);
-	return;
+	return 0;
       }
     }
 
@@ -1359,7 +1351,7 @@ static void handle_request_join_game(struct connection *pconn,
     if (game.auto_ai_toggle && pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
     }
-    return;
+    return 1;
   }
 
   /* unknown name */
@@ -1368,29 +1360,25 @@ static void handle_request_join_game(struct connection *pconn,
     reject_new_player(_("Sorry, the game is already running."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Game running and unknown name %s."),
 	    pconn->name, req->name);
-    close_connection(pconn);
-
-    return;
+    return 0;
   }
 
   if(game.nplayers >= game.max_players) {
     reject_new_player(_("Sorry, the game is full."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Maximum number of players reached."),
 	    pconn->name);    
-    close_connection(pconn);
-
-    return;
+    return 0;
   }
 
   if(!(allow = strchr(game.allow_connect, 'N'))) {
     reject_new_player(_("Sorry, no new players allowed in this game."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: No connections as new player."),
 	    pconn->name);
-    close_connection(pconn);
-    return;
+    return 0;
   }
   
   accept_new_player(req->name, pconn);
+  return 1;
 }
 
 /**************************************************************************

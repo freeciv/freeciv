@@ -207,7 +207,10 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
   aconnection.buffer = new_socket_packet_buffer();
   aconnection.send_buffer = new_socket_packet_buffer();
   aconnection.last_write = 0;
-
+  aconnection.client.last_request_id_used = 0;
+  aconnection.client.last_processed_request_id_seen = 0;
+  aconnection.incomming_packet_notify = notify_about_incomming_packet;
+  aconnection.outgoing_packet_notify = notify_about_outgoing_packet;
   aconnection.used = 1;
 
   /* call gui-dependent stuff in gui_main.c */
@@ -332,6 +335,46 @@ void input_from_server(int fid)
   }
 }
 
+/**************************************************************************
+ This function will sniff at the given fd, get the packet and call
+ handle_packet_input. It will return if there is a network error or if
+ the PACKET_PROCESSING_FINISHED packet for the given request is
+ received.
+**************************************************************************/
+void input_from_server_till_request_got_processed(int fd, 
+						  int expected_request_id)
+{
+  assert(expected_request_id);
+
+  freelog(LOG_DEBUG,
+	  "input_from_server_till_request_got_processed("
+	  "expected_request_id=%d)", expected_request_id);
+
+  while (1) {
+    if (read_from_connection(&aconnection) >= 0) {
+      int type, result;
+      char *packet;
+
+      while (1) {
+	packet = get_packet_from_connection(&aconnection, &type, &result);
+	if (!result) {
+	  break;
+	}
+
+	handle_packet_input(packet, type);
+
+	if (type == PACKET_PROCESSING_FINISHED
+	    && aconnection.client.last_processed_request_id_seen >=
+	    expected_request_id) {
+	  freelog(LOG_DEBUG, "ifstrgp: got it; returning");
+	  return;
+	}
+      }
+    } else {
+      close_socket_callback(&aconnection);
+    }
+  }
+}
 
 #define SPECLIST_TAG server
 #define SPECLIST_TYPE struct server

@@ -193,33 +193,53 @@ a unit disband is performed:
     packet layer function send_packet_unit_request() with this structure and
     packet type: PACKET_UNIT_DISBAND.
 3)  The packet layer serializes the structure, wraps it up in a packet
-    containing the packetlength, type and the serialized data. Finally
+    containing the packetlength, type and the serialized data. Finally 
     the data is send to the server.
 4)  On the server the packet is read. Based on the type, the corresponding
     de-serialize function is called is called by get_packet_from_connection(). 
-5)  a packet_unit_request is initialized with the bytestream.
-6)  Finally the corresponding packet-handler, handle_unit_disband() function,
+5)  A packet_unit_request is initialized with the bytestream.
+6)  Since the incomming packet is a request (a request in this context 
+    is every packet sent from the client to the server) the server sends a 
+    PACKET_PROCESSING_STARTED packet to the client.
+7)  Finally the corresponding packet-handler, handle_unit_disband() function,
     is called with the newly constructed structure.
-7)  The handler function checks if the disband request is legal (is the sender
+8)  The handler function checks if the disband request is legal (is the sender
     really the owner of the unit) etc.
-8)  The unit is disbanded => wipe_unit() => send_remove_unit().
-9)  Now an integer, containing the id of the disbanded unit is
+9)  The unit is disbanded => wipe_unit() => send_remove_unit().
+10) Now an integer, containing the id of the disbanded unit is
     wrapped into a packet along with the type PACKET_REMOVE_UNIT:
     send_packet_generic_integer().
-10) The packet is serialized and send across the network.
-11) On the client the packet is deserialized into a packet_generic_integer
-    structure.
-12) The corresponding client handler function is now called 
+11) The packet is serialized and send across the network.
+12) The packet-handler returns and the end of the processing is 
+    announced to the client with a PACKET_PROCESSING_FINISHED packet.
+13) On the client the PACKET_REMOVE_UNIT packet is deserialized into 
+    a packet_generic_integer structure.
+14) The corresponding client handler function is now called 
     handle_remove_unit(), and finally the unit is disbanded.
-    
-Notice that both packets involved in this scenario were generic packets.
-That means the packet structures involved, are used by various requests.
-The packet_unit_request() is for example also used for
-the packets PACKET_UNIT_BUILD_CITY and PACKET_UNIT_CHANGE_HOMECITY.
+
+Notice that the two packets (PACKET_UNIT_DISBAND and
+PACKET_REMOVE_UNIT) were generic packets.  That means the packet
+structures involved, are used by various requests.  The
+packet_unit_request() is for example also used for the packets
+PACKET_UNIT_BUILD_CITY and PACKET_UNIT_CHANGE_HOMECITY.
 
 When adding a new packet type, check to see if you can reuse some of the
 existing packet types. This saves you the trouble of
 writing new serialize/deserialize functions.
+
+The PACKET_PROCESSING_STARTED and PACKET_PROCESSING_FINISHED packets
+from above serve two main purposes:
+
+ - they allow the client to identify what causes a certain packet the
+ client receives. If the packet is framed by PACKET_PROCESSING_STARTED
+ and PACKET_PROCESSING_FINISHED packets it is the causes of the
+ request. If not the received packet was not caused by this client
+ (server operator, other clients, server at a new turn)
+
+ - after a PACKET_PROCESSING_FINISHED packet the client can test if
+ the requested action was performed by the server. If the server has
+ sent some updates the client data structure will now hold other
+ values.
 
 The Xaw client uses XtAppAddInput() to tell Xt to call the callback
 functions, when something happens on the client socket.

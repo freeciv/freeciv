@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -390,6 +391,14 @@ void handle_packet_input(char *packet, int type)
  				  packet);
     break;
 
+  case PACKET_PROCESSING_STARTED:
+    handle_processing_started();
+    break;
+
+  case PACKET_PROCESSING_FINISHED:
+    handle_processing_finished();
+    break;
+
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()
@@ -588,4 +597,13 @@ void send_attribute_block_request()
   packet.attribute_block = 1;
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_ATTRIBUTE_BLOCK);
+}
+
+/**************************************************************************
+..
+**************************************************************************/
+void wait_till_request_got_processed(int request_id)
+{
+  input_from_server_till_request_got_processed(aconnection.sock,
+					       request_id);
 }

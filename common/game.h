@@ -239,6 +239,7 @@ int get_num_human_and_ai_players(void);
 void update_all_effects(void);
 
 extern struct civ_game game;
+extern int is_server;
 
 #define GAME_DEFAULT_RANDSEED        0
 #define GAME_MIN_RANDSEED            0

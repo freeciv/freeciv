@@ -115,8 +115,55 @@ struct connection {
   int delayed_disconnect;
   /* Something has occured that means the connection should be closed, but
      the closing has been postponed. */
+
   void (*notify_of_writable_data) (struct connection * pc,
 				   int data_available_and_socket_full);
+  struct {
+    /* 
+     * Increases for every packet send to the server.
+     */
+    int last_request_id_used;
+
+    /* 
+     * Increases for every received PACKET_PROCESSING_FINISHED packet.
+     */
+    int last_processed_request_id_seen;
+
+    /* 
+     * Holds the id of the request which caused this packet. Can be
+     * zero.
+     */
+    int request_id_of_currently_handled_packet;
+  } client;
+
+  struct {
+    /* 
+     * Holds the id of the request which is processed now. Can be
+     * zero.
+     */
+    int currently_processed_request_id;
+
+    /* 
+     * Will increase for every received packet.
+     */
+    int last_request_id_seen;
+  } server;
+
+  /*
+   * Called before an incomming packet is processed. The packet_type
+   * argument should really be a "enum packet_type". However due
+   * circular dependency this is impossible.
+   */
+  void (*incomming_packet_notify) (struct connection * pc,
+				   int packet_type, int size);
+
+  /*
+   * Called before a packet is sent. The packet_type argument should
+   * really be a "enum packet_type". However due circular dependency
+   * this is impossible.
+   */
+  void (*outgoing_packet_notify) (struct connection * pc,
+				  int packet_type, int size);
 };
 
 
@@ -130,7 +177,7 @@ void close_socket_set_callback(CLOSE_FUN fun);
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 void flush_connection_send_buffer_all(struct connection *pc);
 void flush_connection_send_buffer_packets(struct connection *pc);
-int send_connection_data(struct connection *pc, unsigned char *data, int len);
+void send_connection_data(struct connection *pc, unsigned char *data, int len);
 
 void connection_do_buffer(struct connection *pc);
 void connection_do_unbuffer(struct connection *pc);
@@ -147,6 +194,8 @@ struct socket_packet_buffer *new_socket_packet_buffer(void);
 void free_socket_packet_buffer(struct socket_packet_buffer *buf);
 
 const char *conn_description(const struct connection *pconn);
+
+int get_next_request_id(int old_request_id);
 
 extern const char blank_addr_str[];
 

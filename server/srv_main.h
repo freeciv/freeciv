@@ -43,7 +43,7 @@ struct server_arguments {
 void srv_init(void);
 void srv_main(void);
 
-void handle_packet_input(struct connection *pconn, char *packet, int type);
+int handle_packet_input(struct connection *pconn, char *packet, int type);
 void lost_connection_to_client(struct connection *pconn);
 void accept_new_player(char *name, struct connection *pconn);
 void start_game(void);

@@ -59,5 +59,11 @@ void handle_ruleset_game(struct packet_ruleset_game *packet);
 void handle_diplomat_action(struct packet_diplomat_action *packet);
 void handle_sabotage_list(struct packet_sabotage_list *packet);
 void handle_player_attribute_chunk(struct packet_attribute_chunk *packet);
+void handle_processing_started(void);
+void handle_processing_finished(void);
 
+void notify_about_incomming_packet(struct connection *pc,
+				   int packet_type, int size);
+void notify_about_outgoing_packet(struct connection *pc,
+				  int packet_type, int size);
 #endif /* FC__PACKHAND_H */

@@ -43,4 +43,6 @@ extern char player_name[512];
 extern int server_port;
 extern int auto_connect;
 
+void wait_till_request_got_processed(int request_id);
+
 #endif  /* FC__CIVCLIENT_H */

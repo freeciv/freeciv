@@ -41,6 +41,8 @@
 
 #include "packets.h"
 
+#define PACKET_SIZE_STATISTICS 1
+
 /********************************************************************** 
  The current packet functions don't handle signed values
  correct. This will probably lead to problems when compiling
@@ -118,7 +120,8 @@ static unsigned int swab_uint16(unsigned int val);
 static unsigned int swab_uint32(unsigned int val);
 static void swab_puint16(int *ptr);
 static void swab_puint32(int *ptr);
-
+static int send_packet_data(struct connection *pc, unsigned char *data,
+			    int len);
 
 /**************************************************************************
 Swap bytes on an integer considered as 16 bits
@@ -151,6 +154,82 @@ Swap bytes on an pointed-to integer considered as 32 bits
 static void swab_puint32(int *ptr)
 {
   (*ptr) = swab_uint32(*ptr);
+}
+
+/**************************************************************************
+It returns the request id of the outgoing packet or 0 if the packet
+was no request (i.e. server sends packet).
+**************************************************************************/
+static int send_packet_data(struct connection *pc, unsigned char *data,
+			    int len)
+{
+  /* default for the server */
+  int result = 0;
+
+  freelog(LOG_DEBUG, "sending packet type=%d len=%d", data[2], len);
+
+  if (!is_server) {
+    pc->client.last_request_id_used =
+	get_next_request_id(pc->client.last_request_id_used);
+    result = pc->client.last_request_id_used;
+    freelog(LOG_DEBUG, "sending request %d", result);
+  }
+
+  if (pc->outgoing_packet_notify) {
+    pc->outgoing_packet_notify(pc, data[2], len);
+  }
+
+#if PACKET_SIZE_STATISTICS
+  {
+    static struct {
+      int counter;
+      int size;
+    } packets_stats[PACKET_LAST];
+    static int packet_counter = 0;
+
+    int packet_type = data[2];
+    int size = len;
+
+    if (!packet_counter) {
+      int i;
+
+      for (i = 0; i < PACKET_LAST; i++) {
+	packets_stats[i].counter = 0;
+	packets_stats[i].size = 0;
+      }
+    }
+
+    packets_stats[packet_type].counter++;
+    packets_stats[packet_type].size += size;
+
+    packet_counter++;
+    if ((!is_server && (packet_counter % 10 == 0))
+	|| (is_server && (packet_counter % 1000 == 0))) {
+      int i, sum = 0;
+
+      freelog(LOG_NORMAL, "Transmitted packets:");
+      for (i = 0; i < PACKET_LAST; i++) {
+	if (packets_stats[i].counter == 0)
+	  continue;
+	sum += packets_stats[i].size;
+	freelog(LOG_NORMAL,
+		"  [%2d]: %6d packets; %8d bytes total; "
+		"%5d bytes/packet average",
+		i, packets_stats[i].counter,
+		packets_stats[i].size,
+		packets_stats[i].size / packets_stats[i].counter);
+      }
+      freelog(LOG_NORMAL,
+	      "transmitted %d bytes in %d packets;average size "
+	      "per packet %d bytes",
+	      sum, packet_counter, sum / packet_counter);
+    }
+  }
+#endif
+
+  send_connection_data(pc, data, len);
+
+  return result;
 }
 
 /**************************************************************************
@@ -198,11 +277,63 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
     put_uint16(pc->buffer->data, len);
   }
 
-  freelog(LOG_DEBUG, "packet type=%d len=%d buffer=%d", type, len,
+  freelog(LOG_DEBUG, "got packet type=%d len=%d buffer=%d", type, len,
 	  pc->buffer->ndata);
 
   *ptype=type;
   *presult = 1;
+
+  if (pc->incomming_packet_notify) {
+    pc->incomming_packet_notify(pc, type, len);
+  }
+
+#if PACKET_SIZE_STATISTICS
+  {
+    static struct {
+      int counter;
+      int size;
+    } packets_stats[PACKET_LAST];
+    static int packet_counter = 0;
+
+    int packet_type = type;
+    int size = len;
+
+    if (!packet_counter) {
+      int i;
+
+      for (i = 0; i < PACKET_LAST; i++) {
+	packets_stats[i].counter = 0;
+	packets_stats[i].size = 0;
+      }
+    }
+
+    packets_stats[packet_type].counter++;
+    packets_stats[packet_type].size += size;
+
+    packet_counter++;
+    if ((is_server && (packet_counter % 10 == 0))
+	|| (!is_server && (packet_counter % 1000 == 0))) {
+      int i, sum = 0;
+
+      freelog(LOG_NORMAL, "Received packets:");
+      for (i = 0; i < PACKET_LAST; i++) {
+	if (packets_stats[i].counter == 0)
+	  continue;
+	sum += packets_stats[i].size;
+	freelog(LOG_NORMAL,
+		"  [%2d]: %6d packets; %8d bytes total; "
+		"%5d bytes/packet average",
+		i, packets_stats[i].counter,
+		packets_stats[i].size,
+		packets_stats[i].size / packets_stats[i].counter);
+      }
+      freelog(LOG_NORMAL,
+	      "received %d bytes in %d packets;average size "
+	      "per packet %d bytes",
+	      sum, packet_counter, sum / packet_counter);
+    }
+  }
+#endif
 
   switch(type) {
 
@@ -233,6 +364,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
   case PACKET_CONN_PING:
   case PACKET_CONN_PONG:
   case PACKET_BEFORE_NEW_YEAR:
+  case PACKET_PROCESSING_STARTED:
+  case PACKET_PROCESSING_FINISHED:
     return receive_packet_generic_empty(pc);
 
   case PACKET_NEW_YEAR:
@@ -1246,7 +1379,7 @@ int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
   cptr=put_uint32(cptr, packet->value);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -1288,7 +1421,7 @@ int send_packet_diplomat_action(struct connection *pc,
   cptr=put_uint16(cptr, packet->value);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -1326,7 +1459,7 @@ int send_packet_nuke_tile(struct connection *pc,
   cptr=put_uint8(cptr, packet->y);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -1367,7 +1500,7 @@ int send_packet_unit_combat(struct connection *pc,
   cptr=put_uint8(cptr, packet->make_winner_veteran);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -1411,7 +1544,7 @@ int send_packet_unit_request(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -1453,7 +1586,7 @@ int send_packet_unit_connect(struct connection *pc,
   cptr=put_uint16(cptr, packet->dest_y);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -1503,7 +1636,7 @@ int send_packet_player_request(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -1556,7 +1689,7 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -1644,7 +1777,7 @@ int send_packet_player_info(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -1740,7 +1873,7 @@ int send_packet_conn_info(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -1828,7 +1961,7 @@ int send_packet_game_info(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -1902,7 +2035,7 @@ int send_packet_map_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->is_earth?1:0);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -1982,7 +2115,7 @@ int send_packet_tile_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->known);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -1998,7 +2131,7 @@ int send_packet_new_year(struct connection *pc,
     cptr = put_uint32(cptr, request->turn);
   }
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2011,7 +2144,7 @@ int send_packet_unittype_info(struct connection *pc, int type, int action)
   cptr=put_uint8(cptr, type);
   cptr=put_uint8(cptr, action);
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2038,7 +2171,7 @@ int send_packet_generic_empty(struct connection *pc, int type)
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, type);
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -2082,7 +2215,7 @@ int send_packet_unit_info(struct connection *pc,
   if(req->fuel) cptr=put_uint8(cptr, req->fuel);
 
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -2162,7 +2295,7 @@ int send_packet_city_info(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -2273,7 +2406,7 @@ int send_packet_short_city(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -2400,7 +2533,7 @@ int send_packet_move_unit(struct connection *pc,
   cptr=put_uint16(cptr, request->unid);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -2442,7 +2575,7 @@ int send_packet_req_join_game(struct connection *pc,
   cptr=put_string(cptr, request->version_label);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2471,7 +2604,7 @@ int send_packet_join_game_reply(struct connection *pc,
     put_uint16(buffer, cptr-buffer);
   }
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2497,7 +2630,7 @@ int send_packet_generic_message(struct connection *pc, int type,
   cptr=put_string(cptr, packet->message);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2510,7 +2643,7 @@ int send_packet_generic_integer(struct connection *pc, int type,
   cptr=put_uint8(buffer+2, type);
   cptr=put_uint32(cptr, packet->value);
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2635,7 +2768,7 @@ int send_packet_alloc_nation(struct connection *pc,
   cptr=put_uint8(cptr,packet->city_style);
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2675,7 +2808,7 @@ int send_packet_generic_values(struct connection *pc, int type,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2745,7 +2878,7 @@ int send_packet_ruleset_control(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /*************************************************************************
@@ -2837,7 +2970,7 @@ int send_packet_ruleset_unit(struct connection *pc,
   }
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -2926,7 +3059,7 @@ int send_packet_ruleset_tech(struct connection *pc,
   }
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3010,7 +3143,7 @@ int send_packet_ruleset_building(struct connection *pc,
   }
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3120,7 +3253,7 @@ int send_packet_ruleset_terrain(struct connection *pc,
   
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3220,7 +3353,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3344,7 +3477,7 @@ int send_packet_ruleset_government(struct connection *pc,
   freelog(LOG_DEBUG, "send gov %s", packet->name);
 
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 int send_packet_ruleset_government_ruler_title(struct connection *pc,
@@ -3361,7 +3494,7 @@ int send_packet_ruleset_government_ruler_title(struct connection *pc,
   cptr=put_string(cptr, packet->female_title);
   
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3493,7 +3626,7 @@ int send_packet_ruleset_nation(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 
@@ -3546,7 +3679,7 @@ int send_packet_ruleset_city(struct connection *pc,
 
   put_uint16(buffer, cptr-buffer);
 
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3596,7 +3729,7 @@ int send_packet_ruleset_game(struct connection *pc,
   cptr=put_uint8(cptr, packet->granary_food_inc);
 
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3656,7 +3789,7 @@ int send_packet_spaceship_info(struct connection *pc,
   cptr=put_bit_string(cptr, (char*)packet->structure);
 
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3719,7 +3852,7 @@ int send_packet_spaceship_action(struct connection *pc,
   cptr=put_uint8(cptr, packet->num);
 
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3755,7 +3888,7 @@ int send_packet_city_name_suggestion(struct connection *pc,
   cptr=put_string(cptr, packet->name);
 
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3792,7 +3925,7 @@ int send_packet_sabotage_list(struct connection *pc,
   cptr = put_bit_string(cptr, (char *)packet->improvements);
 
   put_uint16(buffer, cptr-buffer);
-  return send_connection_data(pc, buffer, cptr-buffer);
+  return send_packet_data(pc, buffer, cptr-buffer);
 }
 
 /**************************************************************************
@@ -3879,7 +4012,7 @@ int send_packet_goto_route(struct connection *pc,
     cptr = put_uint16(cptr, packet->unit_id);
 
     put_uint16(buffer, cptr-buffer);
-    send_connection_data(pc, buffer, cptr-buffer);
+    send_packet_data(pc, buffer, cptr-buffer);
     this_chunk++;
   }
 
@@ -4000,7 +4133,7 @@ int send_packet_attribute_chunk(struct connection *pc,
   cptr += packet->chunk_length;
 
   put_uint16(buffer, cptr - buffer);
-  send_connection_data(pc, buffer, cptr - buffer);
+  send_packet_data(pc, buffer, cptr - buffer);
 
   return 0;
 }

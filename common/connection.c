@@ -312,7 +312,7 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 /**************************************************************************
   write data to socket
 **************************************************************************/
-int send_connection_data(struct connection *pc, unsigned char *data, int len)
+void send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
   if (pc && pc->used) {
     if(pc->send_buffer->do_buffer_sends) {
@@ -336,7 +336,6 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 				  && pc->send_buffer->ndata);
     }
   }
-  return 0;
 }
 
 /**************************************************************************
@@ -507,4 +506,21 @@ const char *conn_description(const struct connection *pconn)
   }
   return buffer;
 }
-  
+
+/**************************************************************************
+  Get next request id. Takes wrapping of the 16 bit wide unsigned int
+  into account.
+**************************************************************************/
+int get_next_request_id(int old_request_id)
+{
+  int result = old_request_id + 1;
+
+  if ((result & 0xffff) == 0) {
+    freelog(LOG_NORMAL,
+	    "INFORMATION: request_id has wrapped around; "
+	    "setting from %d to 2", result);
+    result = 2;
+  }
+  assert(result);
+  return result;
+}

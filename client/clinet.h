@@ -29,6 +29,8 @@ int connect_to_server(char *name, char *hostname, int port,
 int get_server_address(char *hostname, int port, char *errbuf, int errbufsize);
 int try_to_connect(char *user_name, char *errbuf, int errbufsize);
 void input_from_server(int fd);
+void input_from_server_till_request_got_processed(int fd,
+						  int expected_request_id);
 void disconnect_from_server(void);
 
 extern struct connection aconnection;

@@ -19,8 +19,11 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
+#include <sys/time.h>
+#include <unistd.h>
 
 #include "capstr.h"
+#include "capability.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -62,6 +65,8 @@
 #include "capability.h"
 
 #include "packhand.h"
+
+static int packets_caused_by_current_request = 0;
 
 static void handle_city_packet_common(struct city *pcity, int is_new,
                                       int popup, int investigate);
@@ -2171,4 +2176,60 @@ void handle_player_attribute_chunk(struct packet_attribute_chunk *chunk)
        now complete. */
       attribute_restore();
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_processing_started(void)
+{
+  assert(aconnection.client.request_id_of_currently_handled_packet == 0);
+  aconnection.client.request_id_of_currently_handled_packet =
+      get_next_request_id(aconnection.
+			  client.last_processed_request_id_seen);
+
+  freelog(LOG_DEBUG, "start processing packet %d",
+	  aconnection.client.request_id_of_currently_handled_packet);
+
+  packets_caused_by_current_request = 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_processing_finished(void)
+{
+  freelog(LOG_DEBUG, "finish processing packet %d",
+	  aconnection.client.request_id_of_currently_handled_packet);
+
+  assert(aconnection.client.request_id_of_currently_handled_packet != 0);
+
+  aconnection.client.last_processed_request_id_seen =
+      aconnection.client.request_id_of_currently_handled_packet;
+
+  aconnection.client.request_id_of_currently_handled_packet = 0;
+
+  /* only the processing-finished packet */
+  if (packets_caused_by_current_request == 1) {
+    append_output_window(_("Client: No reaction from server."));
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void notify_about_incomming_packet(struct connection *pc,
+				   int packet_type, int size)
+{
+  if (aconnection.client.request_id_of_currently_handled_packet) {
+    packets_caused_by_current_request++;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void notify_about_outgoing_packet(struct connection *pc,
+				  int packet_type, int size)
+{
 }

@@ -20,6 +20,7 @@
 #include <time.h>
 #include <errno.h>
 #include <signal.h>
+#include <assert.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -73,7 +74,7 @@
 #include "plrhand.h"
 #include "shared.h"
 #include "support.h"
-
+#include "capability.h"
 #include "console.h"
 #include "meta.h"
 #include "srv_main.h"
@@ -108,9 +109,12 @@ static int sock;
    void user_interrupt_callback();
 #endif
 
+#define PROCESSING_TIME_STATISTICS 0
 
 static int server_accept_connection(int sockfd);
-
+static void start_processing_request(struct connection *pconn,
+				     int request_id);
+static void finish_processing_request(struct connection *pconn);
 
 static int no_input = 0;
 
@@ -533,7 +537,44 @@ int sniff_packets(void)
 	    while (1) {
 	      packet = get_packet_from_connection(pconn, &type, &result);
 	      if (result) {
-		handle_packet_input(pconn, packet, type);
+		int command_ok;
+
+		pconn->server.last_request_id_seen =
+		    get_next_request_id(pconn->server.
+					last_request_id_seen);
+#if PROCESSING_TIME_STATISTICS
+		{
+		  int err;
+		  struct timeval start, end;
+		  struct timezone tz;
+		  long us;
+
+		  err = gettimeofday(&start, &tz);
+		  assert(!err);
+#endif
+		connection_do_buffer(pconn);
+		start_processing_request(pconn,
+					 pconn->server.
+					 last_request_id_seen);
+		command_ok = handle_packet_input(pconn, packet, type);
+		finish_processing_request(pconn);
+		connection_do_unbuffer(pconn);
+		if (!command_ok) {
+		  close_connection(pconn);
+		}
+#if PROCESSING_TIME_STATISTICS
+		  err = gettimeofday(&end, &tz);
+		  assert(!err);
+
+		  us = (end.tv_sec - start.tv_sec) * 1000000 +
+		      end.tv_usec - start.tv_usec;
+
+		  freelog(LOG_NORMAL,
+			  "processed request %d in %ld.%03ldms",
+			  pconn->server.last_request_id_seen, us / 1000,
+			  us % 1000);
+                }
+#endif
 	      } else {
 		break;
 	      }
@@ -646,6 +687,10 @@ static int server_accept_connection(int sockfd)
       pconn->access_level = access_level_for_next_connection();
       pconn->delayed_disconnect = 0;
       pconn->notify_of_writable_data = NULL;
+      pconn->server.currently_processed_request_id = 0;
+      pconn->server.last_request_id_seen = 0;
+      pconn->incomming_packet_notify = NULL;
+      pconn->outgoing_packet_notify = NULL;
 
       sz_strlcpy(pconn->name, makeup_connection_name(&pconn->id));
       sz_strlcpy(pconn->addr,
@@ -728,4 +773,36 @@ void init_connections(void)
     if (!$VMS_STATUS_SUCCESS(status)) lib$stop(status);
   }
 #endif
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void start_processing_request(struct connection *pconn,
+				     int request_id)
+{
+  assert(request_id);
+  assert(!pconn->server.currently_processed_request_id);
+  freelog(LOG_DEBUG, "start processing packet %d from connection %d",
+	  request_id, pconn->id);
+  if (strlen(pconn->capability) == 0
+      || has_capability("processing_packets", pconn->capability)) {
+    send_packet_generic_empty(pconn, PACKET_PROCESSING_STARTED);
+  }
+  pconn->server.currently_processed_request_id = request_id;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void finish_processing_request(struct connection *pconn)
+{
+  assert(pconn->server.currently_processed_request_id);
+  freelog(LOG_DEBUG, "finish processing packet %d from connection %d",
+	  pconn->server.currently_processed_request_id, pconn->id);
+  if (strlen(pconn->capability) == 0
+      || has_capability("processing_packets", pconn->capability)) {
+    send_packet_generic_empty(pconn, PACKET_PROCESSING_FINISHED);
+  }
+  pconn->server.currently_processed_request_id = 0;
 }
