@@ -1201,7 +1201,7 @@ void handle_request_join_game(struct connection *pconn,
   
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, req->capability)) {
-    sprintf(msg, "The server is missing a capability that this client needs.\n"
+    sprintf(msg, "The client is missing a capability that this server needs.\n"
 	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
 	    req->major_version, req->minor_version, req->patch_version);
@@ -1213,7 +1213,7 @@ void handle_request_join_game(struct connection *pconn,
 
   /* Make sure the client has every capability the server needs */
   if (!has_capabilities(req->capability, our_capability)) {
-    sprintf(msg, "The client is missing a capability that the server needs.\n"
+    sprintf(msg, "The server is missing a capability that the client needs.\n"
 	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
 	    req->major_version, req->minor_version, req->patch_version);
