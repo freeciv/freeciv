@@ -271,9 +271,6 @@ void ai_best_government(struct player *pplayer)
        * this is a rather big CPU operation, we'd rather not. */
       check_player_government_rates(pplayer);
       city_list_iterate(pplayer->cities, acity) {
-        acity->ai.celebrate = FALSE;
-	/* This isn't strictly necessary since it's done in aaw. */
-        generic_city_refresh(acity, TRUE, NULL);
         auto_arrange_workers(acity);
       } city_list_iterate_end;
       city_list_iterate(pplayer->cities, pcity) {
