@@ -12,10 +12,6 @@ flag="f.vietnam"
 flag_alt = "-"
 city_style = "Asian"
 
-attack=0
-expand=0
-civilized=2
-advisors=100,100,100,100,100,100,100
 init_techs=""
 tech_goals = "Feudalism", "The Republic", "Gunpowder", "Explosives",
              "Guerilla Warfare"

@@ -24,10 +24,6 @@ flag="f.south_africa"
 flag_alt = "f.rwanda"  ; used previously
 city_style = "Tropical"
 
-attack=2
-expand=1
-civilized=1
-advisors=100,100,100,100,100,100,100
 init_techs=""
 
 tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",

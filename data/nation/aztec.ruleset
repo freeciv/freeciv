@@ -13,10 +13,6 @@ flag="f.mexico"
 flag_alt = "-"
 city_style = "Tropical"
 
-attack=1
-expand=0
-civilized=2
-advisors=100,100,100,100,100,100,100
 init_techs=""
 
 tech_goals = "Monarchy", "Chivalry", "Iron Working", "Trade",

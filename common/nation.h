@@ -36,9 +36,6 @@ typedef int Team_Type_id;
 struct Sprite;			/* opaque; client-gui specific */
 struct player;
 
-enum advisor_type {ADV_ISLAND, ADV_MILITARY, ADV_TRADE, ADV_SCIENCE, ADV_FOREIGN, 
-                   ADV_ATTITUDE, ADV_DOMESTIC, ADV_LAST};
-
 /*
  * The city_name structure holds information about a default choice for
  * the city name.  The "name" field is, of course, just the name for
@@ -92,16 +89,6 @@ struct nation_type {
    * Advances given to this nation at game start.
    */
   int init_techs[MAX_NUM_TECH_LIST];
-
-  /* AI hints */
-  int attack;               /* c 0 = optimize for food, 2 =  optimize for prod  */
-                            /* c0 = large amount of buildings, 2 = units */
-  /* attack has been un-implemented for the time being. -- Syela */
-  int expand;               /* c0 = transform first ,  2 = build cities first */
-  /* expand has been un-implemented, probably permanently. -- Syela */
-  int civilized;            /* c 0 = don't use nukes,  2 = use nukes, lots of pollution */
-  /* civilized was never implemented, but will be eventually. -- Syela */
-  int advisors[ADV_LAST];   /* never implemented either. -- Syela */
 
   /* Following basically disabled -- Syela */
   /* Note the client doesn't use/have these. */

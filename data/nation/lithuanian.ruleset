@@ -15,10 +15,6 @@ ruler_titles = { "government",      "male_title",         "female_title"
                  "Monarchy",      _("Great Duke"),      _("Great Duchess")
 }
 
-attack=2
-expand=1
-civilized=1
-advisors=100,100,100,100,100,100,100
 init_techs=""
 tech_goals = "Monarchy","Chivalry","The Republic","Railroad","Explosives"
 wonder="Copernicus' Observatory"

@@ -26,12 +26,7 @@
 
 #include "plrhand.h"
 
-#include "advattitude.h"
-#include "advforeign.h"
-#include "advleader.h"
 #include "advmilitary.h"
-#include "advscience.h"
-#include "advtrade.h"
 #include "aitools.h"
 
 #include "aitech.h"
@@ -96,17 +91,6 @@ static void ai_next_tech_goal_default(struct player *pplayer,
     choice->want = 1;
   }
 }
-
-static void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur, 
-			       struct ai_choice *best, int advisor)
-{
-  if (cur->want != 0) {
-    leader_adjust_tech_choice(pplayer, cur, advisor);
-    copy_if_better_choice(cur, best);
-  }    
-}
-
-/* Syela-code starts here ................................. */
 
 /**************************************************************************
   ...
@@ -211,28 +195,14 @@ void ai_next_tech_goal(struct player *pplayer)
   init_choice(&bestchoice);
 
   ai_select_tech_goal(pplayer, &curchoice);
-  copy_if_better_choice(&curchoice, &bestchoice); /* not dealing with the rest */
+  copy_if_better_choice(&curchoice, &bestchoice);
 
-  military_advisor_choose_tech(pplayer, &curchoice);  
-  adjust_tech_choice(pplayer, &curchoice, &bestchoice, ADV_MILITARY);
-  
-  trade_advisor_choose_tech(pplayer, &curchoice);  
-  adjust_tech_choice(pplayer, &curchoice, &bestchoice, ADV_TRADE);
-  
-  science_advisor_choose_tech(pplayer, &curchoice);  
-  adjust_tech_choice(pplayer, &curchoice, &bestchoice, ADV_SCIENCE);
-
-  foreign_advisor_choose_tech(pplayer, &curchoice);
-  adjust_tech_choice(pplayer, &curchoice, &bestchoice, ADV_FOREIGN);
- 
-  attitude_advisor_choose_tech(pplayer, &curchoice);
-  adjust_tech_choice(pplayer, &curchoice , &bestchoice, ADV_ATTITUDE);
-
-  if (bestchoice.want == 0) {/* remove when the ai is done */
+  if (bestchoice.want == 0) {
     ai_next_tech_goal_default(pplayer, &bestchoice); 
   }
-  if (bestchoice.want != 0) 
+  if (bestchoice.want != 0) {
     pplayer->ai.tech_goal = bestchoice.choice;
+  }
 }
 
 /**************************************************************************

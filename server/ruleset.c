@@ -2048,7 +2048,7 @@ static void load_ruleset_nations(struct section_file *file)
   char *datafile_options, *bad_leader, *g;
   struct nation_type *pl;
   struct government *gov;
-  int *res, dim, val, i, j, k, nval;
+  int dim, val, i, j, k, nval;
   char temp_name[MAX_LEN_NAME];
   char **techs, **leaders, **sec, **civilwar_nations;
   const char *filename = secfile_filename(file);
@@ -2198,22 +2198,6 @@ static void load_ruleset_nations(struct section_file *file)
      * of being chosen. */
 
     pl->civilwar_nations[j] = NO_NATION_SELECTED;
-
-    /* AI stuff */
-
-    pl->attack = secfile_lookup_int_default(file, 2, "%s.attack", sec[i]);
-    pl->expand = secfile_lookup_int_default(file, 2, "%s.expand", sec[i]);
-    pl->civilized = secfile_lookup_int_default(file, 2, "%s.civilized", sec[i]);
-
-    res = secfile_lookup_int_vec(file, &dim, "%s.advisors", sec[i]);
-    if (dim != ADV_LAST) {
-      freelog(LOG_FATAL, "Nation %s: number of advisors must be %d but is %d", 
-	      pl->name_plural, ADV_LAST, dim);
-      exit(EXIT_FAILURE);
-    }
-    for ( j=0; j<ADV_LAST; j++) 
-      pl->advisors[j] = res[j];
-    if(res) free(res);
 
     /* Load nation specific initial techs */
 

@@ -44,8 +44,6 @@
 #include "unittools.h"
 
 #include "advdomestic.h"
-#include "advisland.h"
-#include "advleader.h"
 #include "advmilitary.h"
 #include "aidata.h"
 #include "aihand.h"

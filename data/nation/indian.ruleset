@@ -13,10 +13,6 @@ ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Maharaja"),     _("Maharaja")
                }
 
-attack=0
-expand=0
-civilized=1
-advisors=100,100,100,100,100,100,100
 init_techs=""
 tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working",
              "Engineering", "Railroad"

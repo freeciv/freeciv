@@ -7,26 +7,14 @@ INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../server -I../intl -I$(top_srcdir)
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
 libcivai_a_SOURCES = \
-		advattitude.c	\
-		advattitude.h	\
 		advdomestic.c	\
 		advdomestic.h	\
-		advforeign.c	\
-		advforeign.h	\
-		advisland.c	\
-		advisland.h	\
-		advleader.c	\
-		advleader.h	\
 		advmilitary.c	\
 		advmilitary.h	\
-		advscience.c	\
-		advscience.h	\
 		advdiplomacy.c	\
 		advdiplomacy.h	\
 		advspace.c	\
 		advspace.h	\
-		advtrade.c	\
-		advtrade.h	\
 		aiair.c		\
 		aiair.h		\
 		aicity.c	\

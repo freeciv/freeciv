@@ -15,10 +15,6 @@ flag="f.boer"
 flag_alt = "-"
 city_style = "European"
 
-attack=1
-expand=2
-civilized=1
-advisors=100,100,100,100,100,100,100
 init_techs=""
 tech_goals = "The Republic", "Trade", "Engineering", "Gunpowder",
 	     "Railroad", "Explosives"
