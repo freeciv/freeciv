@@ -69,7 +69,9 @@ struct leader {
 
 struct nation_group {
   char name[MAX_LEN_NAME];
-  /* ... */
+  
+  /* How much the AI will try to select a nation in the same group */
+  int match;
 };
 
 struct nation_type {

@@ -2031,12 +2031,21 @@ static void load_ruleset_nations(struct section_file *file)
   char *bad_leader, *g;
   struct nation_type *pl;
   struct government *gov;
-  int dim, i, j, k, nval;
+  int dim, i, j, k, nval, numgroups;
   char temp_name[MAX_LEN_NAME];
   char **leaders, **sec, **civilwar_nations, **groups;
+  char* name;
   const char *filename = secfile_filename(file);
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
+  
+  groups = secfile_get_secnames_prefix(file, "ngroup", &numgroups);
+  for (i = 0; i < numgroups; i++) {
+    struct nation_group* group;
+    name = secfile_lookup_str(file, "%s.name", groups[i]);
+    group = add_new_nation_group(name);
+    group->match = secfile_lookup_int_default(file, 0, "%s.match", groups[i]);
+  }
 
   sec = secfile_get_secnames_prefix(file, "nation", &nval);
 

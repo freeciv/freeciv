@@ -446,6 +446,7 @@ struct nation_group* add_new_nation_group(const char* name)
     die("Too many groups of nations");
   }
   sz_strlcpy(nation_groups[i].name, name);
+  nation_groups[i].match = 0;
   return &nation_groups[num_nation_groups++];
 }
 

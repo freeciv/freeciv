@@ -11,6 +11,23 @@
 description="Default nations data for Freeciv"
 options="1.9"
 
+; Descriptions of nation groups
+; name 		= name of the group
+; match		= How much the AI will try to select a nation in the same
+;                 group
+[ngroup_ancient]
+name="Ancient"
+match=1
+[ngroup_mediaval]
+name="Mediaval"
+match=1
+[ngroup_modern]
+name="Modern"
+match=1
+[ngroup_fictional]
+name="Fictional"
+match=2
+
 ; Below: nations data in sections [nation_*] for
 ; all nations available. If you want to have more
 ; nations just add one at the end.

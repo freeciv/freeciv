@@ -1240,6 +1240,22 @@ static void send_select_nation(struct player *pplayer)
   }
 }
 
+
+/**************************************************************************
+  Returns how much two nations looks good in the same game
+**************************************************************************/
+static int nations_match(struct nation_type* n1, struct nation_type* n2)
+{
+  int i;
+  int sum = 0;
+  for (i = 0; i < n1->num_groups; i++) {
+    if (nation_in_group(n2, n1->groups[i]->name)) {
+      sum += n1->groups[i]->match;
+    }
+  }
+  return sum;
+}
+
 /**************************************************************************
   Select a random available nation.
 **************************************************************************/
@@ -1247,17 +1263,36 @@ static Nation_Type_id select_random_nation()
 {
   Nation_Type_id i, available[game.playable_nation_count];
   int count = 0;
+  int V[game.playable_nation_count];
+  int sum = 0;
+  int x;
   
   /* Determine which nations are available. */
   for (i = 0; i < game.playable_nation_count; i++) {
     if (nations_available[i]) {
       available[count] = i;
+      
+      /* Increase the probablity of selecting those which have higher
+       * values of nations_match() */
+      players_iterate(aplayer) {
+        if (aplayer->nation == NO_NATION_SELECTED) {
+	  continue;
+	}
+	sum+= nations_match(get_nation_by_idx(aplayer->nation),
+	                    get_nation_by_idx(i)) * 100;
+      } players_iterate_end;
+      sum++;
+      V[count] = sum;
       count++;
     }
   }
-  
-  /* Then pick one. */
-  return available[myrand(count)];
+
+  /* Then pick one */  
+  x = myrand(sum);
+  for (i = 0; i < count; i++) {
+    if (V[i] >= x) break;
+  }
+  return available[i];
 }
 
 /**************************************************************************
