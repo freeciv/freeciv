@@ -5930,7 +5930,7 @@ msgstr "(aktuell/benötigt/Runden/Preis)"
 
 #: client/civclient.c:131
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
-msgstr "  -a, --autoconnnect\tAuswahlmenu zur Serverwahl unterdrücken\n"
+msgstr "  -a, --autoconnnect\tAuswahlmenü zur Serverwahl unterdrücken\n"
 
 #: client/civclient.c:140
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
@@ -17364,7 +17364,7 @@ msgid ""
 msgstr ""
 "Fanaktiker gibt es nur in fundamentalistischen Staaten.\n"
 "\n"
-"Diese Staaten können Fanatiker ohne Erhaltungskosten  einsetzen."
+"Diese Staaten können Fanatiker ohne Erhaltungskosten einsetzen."
 
 #: data/civ1/units.ruleset:101
 msgid ""
