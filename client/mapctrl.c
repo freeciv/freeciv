@@ -989,11 +989,20 @@ void advance_unit_focus(void)
   punit_focus=find_best_focus_candidate();
 
   if(!punit_focus) {
-    unit_list_iterate(game.player_ptr->units, punit) 
+    unit_list_iterate(game.player_ptr->units, punit) {
       if(punit->focus_status==FOCUS_WAIT)
 	punit->focus_status=FOCUS_AVAIL;
-    punit_focus=find_best_focus_candidate();
+    }
     unit_list_iterate_end;
+    punit_focus=find_best_focus_candidate();
+    if (punit_focus == punit_old_focus) {
+      /* we don't want to same unit as before if there are any others */
+      punit_focus=find_best_focus_candidate();
+      if(!punit_focus) {
+	/* but if that is the only choice, take it: */
+	punit_focus=find_best_focus_candidate();
+      }
+    }
   }
   
   /* We have to do this ourselves, and not rely on set_unit_focus(),
@@ -1006,7 +1015,9 @@ void advance_unit_focus(void)
 }
 
 /**************************************************************************
-...
+Find the nearest available unit for focus, excluding the current unit
+in focus (if any).  If the current focus unit is the only possible
+unit, or if there is no possible unit, returns NULL.
 **************************************************************************/
 struct unit *find_best_focus_candidate(void)
 {
