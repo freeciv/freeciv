@@ -359,13 +359,15 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 { /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
   int i;
   int id = B_LAST;
-  int j = 0, k = 0;
+  int j = 0, k = 0, dis;
   int want=0;
   struct city *capital;
   struct player *plr;
         
   plr = &game.players[pcity->owner];
   capital=find_palace(plr);
+  if (capital) dis = real_map_distance(capital->x, capital->y, pcity->x, pcity->y);
+  else dis = 999; /* we have better things to do when we have no capital */
      
   /* too bad plr->score isn't kept up to date. */
   city_list_iterate(plr->cities, acity)
@@ -379,8 +381,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
         !is_building_other_wonder(pcity) &&
 /* city_got_building(pcity, B_TEMPLE) && - too much to ask for, I think */
 /* might be OK if I forced all AI players to take mysticism early */
-        real_map_distance(capital->x, capital->y, pcity->x, pcity->y) < 12 &&
-        pcity->shield_prod >= j / k)) { /* too many restrictions? */
+        dis < 12 && pcity->shield_prod >= j / k)) { /* too many restrictions? */
 /* trying to keep wonders in safe places with easy caravan access -- Syela */
       if(pcity->ai.building_want[i]>want) {
 /* we have to do the can_build check to avoid Built Granary.  Now Building Granary. */
