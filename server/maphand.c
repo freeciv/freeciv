@@ -277,8 +277,9 @@ void map_save(struct section_file *file)
   int i, x, y;
   char *pbuf=(char *)malloc(map.xsize+1);
 
-  secfile_insert_int(file, map.xsize, "map.width");
-  secfile_insert_int(file, map.ysize, "map.height");
+  /* map.xsize and map.ysize (saved as map.width and map.height)
+   * are now always saved in game_save()
+   */
   secfile_insert_int(file, map.is_earth, "map.is_earth");
 
   for(i=0; i<R_LAST; i++) {
@@ -372,6 +373,9 @@ void map_tiles_load(struct section_file *file)
 
   map.is_earth=secfile_lookup_int(file, "map.is_earth");
 
+  /* In some cases we read these before, but not always, and
+   * its safe to read them again:
+   */
   map.xsize=secfile_lookup_int(file, "map.width");
   map.ysize=secfile_lookup_int(file, "map.height");
 
@@ -407,7 +411,10 @@ void map_load(struct section_file *file)
 {
   int x ,y;
 
-  map_init();
+  /* map_init();
+   * This is already called in game_init(), and calling it
+   * here stomps on map.huts etc.  --dwp
+   */
 
   map_tiles_load(file);
   map_startpos_load(file);

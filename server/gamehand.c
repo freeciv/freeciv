@@ -31,7 +31,7 @@
 
 extern char metaserver_info_line[];
 
-#define SAVEFILE_OPTIONS "1.7, scorelog"
+#define SAVEFILE_OPTIONS "1.7, scorelog, startoptions"
 
 /**************************************************************************
 ...
@@ -210,22 +210,12 @@ int game_load(struct section_file *file)
   enum server_states tmp_server_state;
   char *savefile_options=" ";
 
-  if (section_file_lookup_internal(file, "game.version")) {
-    game.version = secfile_lookup_int(file, "game.version");
-  } else {
-    game.version = 0;
-  }
-  if (section_file_lookup_internal(file, "game.server_state"))
-    tmp_server_state  = (enum server_states) secfile_lookup_int(file, "game.server_state");
-  else
-    tmp_server_state = RUN_GAME_STATE;
-  
-  if(section_file_lookup_internal(file, "game.metastring")) {
-    char *s=secfile_lookup_str(file, "game.metastring");
-    strcpy(metaserver_info_line, s);
-  }
-  else
-    strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
+  game.version = secfile_lookup_int_default(file, 0, "game.version");
+  tmp_server_state = (enum server_states)
+    secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
+  strcpy(metaserver_info_line,
+	 secfile_lookup_str_default(file, DEFAULT_META_SERVER_INFO_STRING,
+				    "game.metastring"));
   
   game.gold          = secfile_lookup_int(file, "game.gold");
   game.tech          = secfile_lookup_int(file, "game.tech");
@@ -272,9 +262,13 @@ int game_load(struct section_file *file)
 
   if (has_capability("scorelog", savefile_options))
     game.scorelog = secfile_lookup_int(file, "game.scorelog");
-
+  
+  game.diplchance = secfile_lookup_int_default(file, game.diplchance,
+					       "game.diplchance");
+  
   game.heating=0;
-  if(tmp_server_state==PRE_GAME_STATE) {
+  if(tmp_server_state==PRE_GAME_STATE 
+     || has_capability("startoptions", savefile_options)) {
     if (game.version >= 10300) {
       game.settlers = secfile_lookup_int(file, "game.settlers");
       game.explorer = secfile_lookup_int(file, "game.explorer");
@@ -282,16 +276,23 @@ int game_load(struct section_file *file)
       map.riches = secfile_lookup_int(file, "map.riches");
       map.huts = secfile_lookup_int(file, "map.huts");
       map.generator = secfile_lookup_int(file, "map.generator");
-      if (map.generator == 0) { /* generator 0 = map done with map editor */
+      if (tmp_server_state==PRE_GAME_STATE &&
+	  map.generator == 0) { /* generator 0 = map done with map editor */
         map_tiles_load(file);
         if (has_capability("startpos",savefile_options)) {
           map_startpos_load(file);
           return 2; /* make this a scenario */
         }
 	return 3; /* make this some kind of scenario */
+      }
+      if (has_capability("startoptions", savefile_options)) {
+	map.xsize = secfile_lookup_int(file, "map.width");
+	map.ysize = secfile_lookup_int(file, "map.height");
       } else {
-      map.xsize = secfile_lookup_int(file, "map.xsize");
-      map.ysize = secfile_lookup_int(file, "map.ysize");
+	/* old versions saved with these names in PRE_GAME_STATE: */
+	map.xsize = secfile_lookup_int(file, "map.xsize");
+	map.ysize = secfile_lookup_int(file, "map.ysize");
+      }
       map.seed = secfile_lookup_int(file, "map.seed");
       map.landpercent = secfile_lookup_int(file, "map.landpercent");
       map.swampsize = secfile_lookup_int(file, "map.swampsize");
@@ -299,9 +300,10 @@ int game_load(struct section_file *file)
       map.riverlength = secfile_lookup_int(file, "map.riverlength");
       map.mountains = secfile_lookup_int(file, "map.mountains");
       map.forestsize = secfile_lookup_int(file, "map.forestsize");
-      }
     }
-    return 0;
+    if(tmp_server_state==PRE_GAME_STATE) {
+      return 0;
+    }
   }
   map_load(file);
 
@@ -366,12 +368,18 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.save_nturns, "game.save_nturns");
   secfile_insert_int(file, game.aifill, "game.aifill");
   secfile_insert_int(file, game.scorelog, "game.scorelog");
+  secfile_insert_int(file, game.diplchance, "game.diplchance");
 
-  if(server_state==PRE_GAME_STATE) {
+  if (1) {
+    /* Now always save these, so the server options reflect the
+     * actual values used at the start of the game.
+     * The first two used to be saved as "map.xsize" and "map.ysize"
+     * when PRE_GAME_STATE, but I'm standardizing on width,height --dwp
+     */
+    secfile_insert_int(file, map.xsize, "map.width");
+    secfile_insert_int(file, map.ysize, "map.height");
     secfile_insert_int(file, game.settlers, "game.settlers");
     secfile_insert_int(file, game.explorer, "game.explorer");
-    secfile_insert_int(file, map.xsize, "map.xsize");
-    secfile_insert_int(file, map.ysize, "map.ysize");
     secfile_insert_int(file, map.seed, "map.seed");
     secfile_insert_int(file, map.landpercent, "map.landpercent");
     secfile_insert_int(file, map.riches, "map.riches");
@@ -382,6 +390,8 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.forestsize, "map.forestsize");
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
+  } 
+  if (server_state==PRE_GAME_STATE) {
     return;
   }
 
