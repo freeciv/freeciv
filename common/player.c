@@ -25,7 +25,6 @@
 #include "government.h"
 #include "idex.h"
 #include "improvement.h"
-#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "rand.h"

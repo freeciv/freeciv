@@ -316,8 +316,9 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   }
 
   if (data_length != 0) {
-    bool inserted = hash_insert(attribute_hash, pkey, pvalue);
-    assert(inserted);
+    if (!hash_insert(attribute_hash, pkey, pvalue)) {
+      assert(FALSE);
+    }
   }
 }
 

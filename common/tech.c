@@ -22,7 +22,6 @@
 
 #include "fcintl.h"
 #include "game.h"
-#include "log.h"
 #include "player.h"
 #include "support.h"
 #include "shared.h" /* ARRAY_SIZE */
