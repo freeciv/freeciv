@@ -1040,20 +1040,26 @@ static void clean_lattice(struct tile_type_vector *lattice,
 			  const struct city *pcity)
 {
   int i, j; /* i is the index we read, j is the index we write */
+  struct tile_type_vector tofree;
+
+  /* We collect the types we want to remove and free them in one fell 
+     swoop at the end, in order to avoid memory errors.  */
+  tile_type_vector_init(&tofree);
 
   for (i = 0, j = 0; i < lattice->size; i++) {
     struct cm_tile_type *ptype = lattice->p[i];
 
     if (ptype->lattice_depth >= pcity->size) {
-      tile_type_destroy(ptype);
+      tile_type_vector_add(&tofree, ptype);
     } else {
-      int ci, cj;
+      /* Remove links to children that are being removed. */
 
-      lattice->p[j] = lattice->p[i];
+      int ci, cj; /* 'c' for 'child'; read from ci, write to cj */
+
+      lattice->p[j] = ptype;
       lattice->p[j]->lattice_index = j;
       j++;
 
-      /* remove children with overly high depth as well */
       for (ci = 0, cj = 0; ci < ptype->worse_types.size; ci++) {
         const struct cm_tile_type *ptype2 = ptype->worse_types.p[ci];
 
@@ -1066,6 +1072,8 @@ static void clean_lattice(struct tile_type_vector *lattice,
     }
   }
   lattice->size = j;
+
+  tile_type_vector_free_all(&tofree);
 }
 
 /****************************************************************************
