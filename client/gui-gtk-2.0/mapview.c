@@ -824,6 +824,7 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
     gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_tile_gc, ssprite->mask);
     gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_stipple(fill_tile_gc, black50);
 
     gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
