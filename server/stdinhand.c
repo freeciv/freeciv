@@ -57,11 +57,11 @@ extern int metaserver_port;
 
 enum cmdlevel_id default_access_level = ALLOW_INFO;
 
-void cut_player_connection(struct player *caller, char *playername);
-void quit_game(struct player *caller);
-void show_help(struct player *caller);
-void show_players(struct player *caller);
-void set_ai_level(struct player *caller, char *name, int level);
+static void cut_player_connection(struct player *caller, char *playername);
+static void quit_game(struct player *caller);
+static void show_help(struct player *caller, char *arg);
+static void show_players(struct player *caller);
+static void set_ai_level(struct player *caller, char *name, int level);
 
 static char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -651,6 +651,9 @@ static PlayerNameStatus test_player_name(char* name)
 struct command {
   char *name;              /* name - will be matched by unique prefix   */
   enum cmdlevel_id level;  /* access level required to use the command  */
+  char *synopsis;	   /* one or few-line summary of usage */
+  char *short_help;	   /* one line (about 70 chars) description */
+  char *extra_help;	   /* extra help information; will be line-wrapped */
 };
 
 /* Order here is important: for ambiguous abbreviations the first
@@ -704,33 +707,211 @@ enum command_id {
 };
 
 static struct command commands[] = {
-  {"start",	ALLOW_CTRL}, 
-  {"help",	ALLOW_INFO},
-  {"list",	ALLOW_INFO},
-  {"quit",	ALLOW_HACK},
-  {"cut",	ALLOW_CTRL},
-  {"explain",	ALLOW_INFO},
-  {"show",	ALLOW_INFO},
-  {"score",	ALLOW_CTRL},
-  {"set",	ALLOW_CTRL},
-  {"rename",	ALLOW_CTRL},
-  {"meta",	ALLOW_HACK},
-  {"metainfo",	ALLOW_CTRL},
-  {"metaserver",ALLOW_HACK},
-  {"aitoggle",	ALLOW_CTRL},
-  {"create",	ALLOW_CTRL},
-  {"easy",	ALLOW_CTRL},
-  {"normal",	ALLOW_CTRL},
-  {"hard",	ALLOW_CTRL},
-  {"cmdlevel",	ALLOW_HACK},  /* confusing to leave this at ALLOW_CTRL */
-  {"remove",	ALLOW_CTRL},
-  {"save",	ALLOW_HACK},
-  {"read",	ALLOW_HACK},
-  {"write",	ALLOW_HACK},
-  {"log",	ALLOW_HACK},
-  {"rfcstyle",	ALLOW_HACK},
-  {"freestyle",	ALLOW_HACK},
-  {"crash",	ALLOW_HACK}
+  {"start",	ALLOW_CTRL,
+   "start",
+   N_("Start the game, or restart after loading a savegame."),
+   N_("This command starts the game.  When starting a new game, "
+      "it should be used after all human players have connected, and "
+      "AI players have been created (if required), and any desired "
+      "changes to initial server options have been made.  "
+      "After 'start', each human player will be able to "
+      "choose their nation, and then the game will begin.  "
+      "This command is also required after loading a savegame "
+      "for the game to recommence.  Once the game is running this command "
+      "is no longer available, since it would have no effect.")
+  },
+  
+  {"help",	ALLOW_INFO,
+   /* translate <> only */
+   N_("help\n"
+      "help commands\n"
+      "help options\n"
+      "help <command-name>\n"
+      "help <option-name>"),
+   N_("Show help about server commands and server options."),
+   N_("With no arguments gives some introductory help.  "
+      "With argument \"commands\" or \"options\" gives respectively "
+      "a list of all commands or all options.  "
+      "Otherwise the argument is taken as a command name or option name, "
+      "and help is given for that command or option.  For options, the help "
+      "information includes the current and default values for that option.  "
+      "The argument may be abbreviated where unambiguous.")
+  },
+   
+  {"list",	ALLOW_INFO,
+   "list",
+   N_("Show a list of players.")
+  },
+  {"quit",	ALLOW_HACK,
+   "quit",
+   N_("Quit the game and shutdown the server.")
+  },
+  {"cut",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("cut <player-name>"),
+   N_("Cut connection to player.")
+  },
+  {"explain",	ALLOW_INFO,
+   /* translate <> only */
+   N_("explain\n"
+      "explain <option-name>"),
+   N_("Explain server options."),
+   N_("The 'explain' command gives a subset of the functionality of 'help', "
+      "and is included for backward compatibility.  With no arguments it "
+      "gives a list of options (like 'help options'), and with an argument "
+      "it gives help for a particular option (like 'help <option-name>').")
+  },
+  {"show",	ALLOW_INFO,
+   /* translate <> only */
+   N_("show\n"
+      "show <option-name>\n"
+      "show <option-prefix>"),
+   N_("Show server options."),
+   N_("With no arguments, shows all server options (or available options, when "
+      "used by clients).  With an argument, show only the named option, "
+      "or options with that prefix.")
+  },
+  {"score",	ALLOW_CTRL,
+   "score",
+   N_("Show current scores."),
+   N_("For each connected client, pops up a window showing the current "
+      "player scores.")
+  },
+  {"set",	ALLOW_CTRL,
+   N_("set <option-name> <value>"),
+   N_("Set server options.")
+  },
+  {"rename",	ALLOW_CTRL,
+   NULL,
+   N_("This command is not currently implemented."),
+  },
+  {"meta",	ALLOW_HACK,
+   "meta u|up\n"
+   "meta d|down\n"
+   "meta ?",
+   N_("Control metaserver connection."),
+   N_("'meta ?' reports on the status of the connection to metaserver..\n"
+      "'meta d' or 'meta down' brings the metaserver connection down.\n"
+      "'meta u' or 'meta up' brings the metaserver connection up.")
+  },
+  {"metainfo",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("metainfo <meta-line>"),
+   N_("Set metaserver info line.")
+  },
+  {"metaserver",ALLOW_HACK,
+   /* translate <> only */
+   N_("metaserver <address>"),
+   N_("Set address for metaserver to report to.")
+  },
+  {"aitoggle",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("aitoggle <player-name>"),
+   N_("Toggle AI status of player.")
+  },
+  {"create",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("create <player-name>"),
+   N_("Create an AI player with a given name."),
+   N_("The 'create' command is only available before the game has "
+      "been started.")
+  },
+  {"easy",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("easy\n"
+      "easy <player-name>"),
+   N_("Set one or all AI players to 'easy'."),
+   N_("With no arguments, sets all AI players to skill level 'easy', and "
+      "sets the default level for any new AI players to 'easy'.  With an "
+      "argument, sets the skill level for that player only.")
+  },
+  {"normal",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("normal\n"
+      "normal <player-name>"),
+   N_("Set one or all AI players to 'normal'."),
+   N_("With no arguments, sets all AI players to skill level 'normal', and "
+      "sets the default level for any new AI players to 'normal'.  With an "
+      "argument, sets the skill level for that player only.")
+  },
+  {"hard",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("hard\n"
+      "hard <player-name>"),
+   N_("Set one or all AI players to 'hard'."),
+   N_("With no arguments, sets all AI players to skill level 'hard', and "
+      "sets the default level for any new AI players to 'hard'.  With an "
+      "argument, sets the skill level for that player only.")
+  },
+  {"cmdlevel",	ALLOW_HACK,  /* confusing to leave this at ALLOW_CTRL */
+   /* translate <> only */
+   N_("cmdlevel\n"
+      "cmdlevel <level>\n"
+      "cmdlevel <level> new\n"
+      "cmdlevel <level> <player-name>"),
+   N_("Query or set command-level access."),
+   N_("The command-level controls which server commands are available to "
+      "players via the client chatline.  The available levels are:\n"
+      "    none  -  no commands\n"
+      "    info  -  informational commands only\n"
+      "    ctrl  -  commands that affect the game and users\n"
+      "    hack  -  *all* commands - dangerous!\n"
+      "With no arguments, the current command-levels are reported.\n"
+      "With a single argument, the level is set for all existing "
+      "connections, and the default is set for future connections.\n"
+      "If 'new' is specified, the default level is set for future connections.\n"
+      "If a player name is specified, the level is set for that player only.\n"
+      "Command-levels do not persist if a player disconnects, "
+      "because some untrusted person could reconnect as that player.")
+  },
+  {"remove",	ALLOW_CTRL,
+   /* translate <> only */
+   N_("remove <player-name>"),
+   N_("Fully remove player from game."),
+   N_("This *completely* removes a player from the game, including "
+      "all cities and units etc.  Use with care!")
+  },
+  {"save",	ALLOW_HACK,
+   /* translate <> only */
+   N_("save <file-name>"),
+   N_("Save game to file."),
+   N_("Save the current game to a file.  Currently there may be some problems "
+      "with saving the game before it has been started.  "
+      "To reload a savegame created by 'save', "
+      "start the server with the command-line argument:\n"
+      "    --file <filename>\n"
+      "and use the 'start' command once players have reconnected.")
+  },
+  {"read",	ALLOW_HACK,
+   /* translate <> only */
+   N_("read <file-name>"),
+   N_("Process server commands from file.")
+  },
+  {"write",	ALLOW_HACK,
+   /* translate <> only */
+   N_("write <file-name>"),
+   N_("Write current settings as server commands to file.")
+  },
+  {"log",	ALLOW_HACK,
+   /* translate <> only */
+   N_("log <message>"),
+   N_("Generate a log message."),
+   N_("Generates a 'log message' with level 1.  "
+      "This is mostly useful for debugging the logging system.")
+  },
+  {"rfcstyle",	ALLOW_HACK,
+   "rfcstyle",
+   N_("Change server output style to 'RFC-style'.")
+  },
+  {"freestyle",	ALLOW_HACK,
+   "freestyle",
+   N_("Change server output style to normal style.")
+  },
+  {"crash",	ALLOW_HACK,
+   "crash",
+   N_("Abort the server and generate a 'core' file."),
+   N_("This is mostly useful for debugging purposes.")
+  }
 };
 
 static const char *cmdname_accessor(int i) {
@@ -821,6 +1002,22 @@ static int may_set_option_now(struct player *pplayer, int option_idx)
 {
   return (may_set_option(pplayer, option_idx)
 	  && sset_is_changeable(option_idx));
+}
+
+/**************************************************************************
+  Whether the player can SEE the specified option.
+  pplayer == NULL means console, which can see all.
+  client players can see "to client" options, or if player
+  has command level to change option.
+**************************************************************************/
+static int may_view_option(struct player *pplayer, int option_idx)
+{
+  if (pplayer == NULL) {
+    return 1;  /* on the console, everything is allowed */
+  } else {
+    return sset_is_to_client(option_idx)
+      || may_set_option(pplayer, option_idx);
+  }
 }
 
 /**************************************************************************
@@ -1535,12 +1732,93 @@ static int lookup_option(const char *name)
 }
 
 /**************************************************************************
+ Show the caller detailed help for the single OPTION given by id.
+ help_cmd is the command the player used.
+ Only show option values for options which the caller can SEE.
+**************************************************************************/
+static void show_help_option(struct player *caller,
+			     enum command_id help_cmd,
+			     int id)
+{
+  struct settings_s *op = &settings[id];
+
+  if (op->short_help) {
+    cmd_reply(help_cmd, caller, C_COMMENT,
+	      "%s %s  -  %s", _("Option:"), op->name, _(op->short_help));
+  } else {
+    cmd_reply(help_cmd, caller, C_COMMENT,
+	      "%s %s", _("Option:"), op->name);
+  }
+
+  if(op->extra_help && strcmp(op->extra_help,"")!=0) {
+    static struct astring abuf = ASTRING_INIT;
+    astr_minsize(&abuf, strlen(op->extra_help)+1);
+    strcpy(abuf.str, op->extra_help);
+    wordwrap_string(abuf.str, 76);
+    cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
+    cmd_reply_prefix(help_cmd, caller, C_COMMENT,
+		     "  ", "  %s", abuf.str);
+  }
+  cmd_reply(help_cmd, caller, C_COMMENT,
+	    _("Status: %s"), (sset_is_changeable(id)
+				  ? _("changeable") : _("fixed")));
+  
+  if (may_view_option(caller, id)) {
+    if (SETTING_IS_INT(op)) {
+      cmd_reply(help_cmd, caller, C_COMMENT,
+		_("Value: %d, Minimum: %d, Default: %d, Maximum: %d"),
+		*(op->value), op->min_value, op->default_value, op->max_value);
+    } else {
+      cmd_reply(help_cmd, caller, C_COMMENT,
+		_("Value: \"%s\", Default: \"%s\""),
+		op->svalue, op->default_svalue);
+    }
+  }
+}
+
+/**************************************************************************
+ Show the caller list of OPTIONS.
+ help_cmd is the command the player used.
+ Only show options which the caller can SEE.
+**************************************************************************/
+static void show_help_option_list(struct player *caller,
+				  enum command_id help_cmd)
+{
+  int i, j;
+  
+  cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
+  cmd_reply(help_cmd, caller, C_COMMENT,
+	    _("Explanations are available for the following server options:"));
+  cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
+  if(caller == NULL && con_get_style()) {
+    for (i=0; settings[i].name; i++) {
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", settings[i].name);
+    }
+  } else {
+    char buf[MAX_LEN_CMD+1];
+    buf[0] = '\0';
+    for (i=0, j=0; settings[i].name; i++) {
+      if (may_view_option(caller, i)) {
+	cat_snprintf(buf, sizeof(buf), "%-19s", settings[i].name);
+	if ((++j % 4) == 0) {
+	  cmd_reply(help_cmd, caller, C_COMMENT, buf);
+	  buf[0] = '\0';
+	}
+      }
+    }
+    if (buf[0])
+      cmd_reply(help_cmd, caller, C_COMMENT, buf);
+  }
+  cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
+}
+
+/**************************************************************************
  ...
 **************************************************************************/
 static void explain_option(struct player *caller, char *str)
 {
   char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
-  int cmd,i;
+  int cmd;
 
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
   for(cptr_d=command; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++)
@@ -1552,62 +1830,14 @@ static void explain_option(struct player *caller, char *str)
     if (cmd==-1) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("No explanation for that yet."));
       return;
-    }
-    else if (cmd==-2) {
+    } else if (cmd==-2) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
       return;
-    }
-    else {
-      struct settings_s *op = &settings[cmd];
-
-      cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		_("Option: %s"), op->name);
-      cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		_("Description: %s."), _(op->short_help));
-      if(op->extra_help && strcmp(op->extra_help,"")!=0) {
-	static struct astring abuf = ASTRING_INIT;
-	astr_minsize(&abuf, strlen(op->extra_help)+1);
-	strcpy(abuf.str, op->extra_help);
-	wordwrap_string(abuf.str, 76);
-	cmd_reply_prefix(CMD_EXPLAIN, caller, C_COMMENT,
-			 "  ", "  %s", abuf.str);
-      }
-      cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		_("Status: %s"), (sset_is_changeable(cmd)
-				  ? _("changeable") : _("fixed")));
-      if (SETTING_IS_INT(op)) {
- 	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		  _("Value: %d, Minimum: %d, Default: %d, Maximum: %d"),
-		  *(op->value), op->min_value, op->default_value, op->max_value);
-      } else {
- 	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-		  _("Value: \"%s\", Default: \"%s\""),
-		  op->svalue, op->default_svalue);
-      }
+    } else {
+      show_help_option(caller, CMD_EXPLAIN, cmd);
     }
   } else {
-    cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, horiz_line);
-    cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
-	_("Explanations are available for the following server options:"));
-    cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, horiz_line);
-    if(caller == NULL && con_get_style()) {
-      for (i=0;settings[i].name;i++) {
-	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, "%s", settings[i].name);
-      }
-    } else {
-      char buf[MAX_LEN_CMD+1];
-      buf[0] = '\0';
-      for (i=0; settings[i].name; i++) {
-	cat_snprintf(buf, sizeof(buf), "%-19s", settings[i].name);
-	if(((i+1)%4) == 0) {
-	  cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, buf);
-	  buf[0] = '\0';
-	}
-      }
-      if (((i+1)%4) != 0)
-	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, buf);
-    }
-    cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, horiz_line);
+    show_help_option_list(caller, CMD_EXPLAIN);
   }
 }
   
@@ -1673,7 +1903,7 @@ void set_ai_level_direct(struct player *pplayer, int level)
 /******************************************************************
   Handle a user command to set an AI level.
 ******************************************************************/
-void set_ai_level(struct player *caller, char *name, int level)
+static void set_ai_level(struct player *caller, char *name, int level)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -1725,6 +1955,7 @@ static void crash_and_burn(struct player *caller)
 Print a summary of the settings and their values.
 Note that most values are at most 4 digits, except seeds,
 which we let overflow their columns.  (And endyear may have '-'.)
+Only show options which the caller can SEE.
 ******************************************************************/
 static void show_command(struct player *caller, char *str)
 {
@@ -1740,6 +1971,12 @@ static void show_command(struct player *caller, char *str)
 
   if (*command) {
     cmd=lookup_option(command);
+    if (cmd>=0 && !may_view_option(caller, cmd)) {
+      cmd_reply(CMD_SHOW, caller, C_FAIL,
+		_("Sorry, you do not have access to view option '%s'."),
+		command);
+      return;
+    }
     if (cmd==-1) {
       cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), command);
       return;
@@ -1770,8 +2007,9 @@ static void show_command(struct player *caller, char *str)
   buf[0] = '\0';
 
   for (i=0;settings[i].name;i++) {
-    if (cmd==-1 || cmd==i
-	|| (cmd==-2 && mystrncasecmp(settings[i].name, command, clen)==0)) {
+    if (may_view_option(caller, i)
+	&& (cmd==-1 || cmd==i
+	    || (cmd==-2 && mystrncasecmp(settings[i].name, command, clen)==0))) {
       /* in the cmd==i case, this loop is inefficient. never mind - rp */
       struct settings_s *op = &settings[i];
       int len;
@@ -1784,7 +2022,7 @@ static void show_command(struct player *caller, char *str)
 		      *op->value, op->min_value, op->max_value);
       } else {
         len = my_snprintf(buf, sizeof(buf),
-		      "%-*s %c%c     \"%s\"", OPTION_NAME_SPACE, op->name,
+		      "%-*s %c%c\"%s\"", OPTION_NAME_SPACE, op->name,
 		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((strcmp(op->svalue, op->default_svalue)==0) ? '=' : ' '),
 		      op->svalue);
@@ -1965,7 +2203,7 @@ void handle_stdin_input(struct player *caller, char *str)
     metaserver_command(caller,arg);
     break;
   case CMD_HELP:
-    show_help(caller);
+    show_help(caller, arg);
     break;
   case CMD_LIST:
     show_players(caller);
@@ -2061,7 +2299,7 @@ void handle_stdin_input(struct player *caller, char *str)
 /**************************************************************************
 ...
 **************************************************************************/
-void cut_player_connection(struct player *caller, char *playername)
+static void cut_player_connection(struct player *caller, char *playername)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
@@ -2088,7 +2326,7 @@ void cut_player_connection(struct player *caller, char *playername)
 /**************************************************************************
 ...
 **************************************************************************/
-void quit_game(struct player *caller)
+static void quit_game(struct player *caller)
 {
   int i;
   struct packet_generic_message gen_packet;
@@ -2098,18 +2336,192 @@ void quit_game(struct player *caller)
     send_packet_generic_message(game.players[i].conn, PACKET_SERVER_SHUTDOWN,
 				&gen_packet);
   close_connections_and_socket();
-  
-  exit(1);
+
+  cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
+  exit(0);
 }
 
 /**************************************************************************
+ Show caller introductory help about the server.
+ help_cmd is the command the player used.
+**************************************************************************/
+static void show_help_intro(struct player *caller, enum command_id help_cmd)
+{
+  /* This is formated like extra_help entries for settings and commands: */
+  const char *help =
+    _("Welcome - this is the introductory help text for the Freeciv server.\n\n"
+      "Two important server concepts are Commands and Options.\n"
+      "Commands, such as 'help', are used to interact with the server.\n"
+      "Some commands take one or more parameters, separated by spaces.\n"
+      "In many cases commands and command arguments may be abbreviated.\n"
+      "Options are settings which control the server as it is running.\n\n"
+      "To find out how to get more information about commands and options,\n"
+      "use 'help help'.\n\n"
+      "For the impatient, the main commands to get going are:\n"
+      "  show   -  to see current options\n"
+      "  set    -  to set options\n"
+      "  start  -  to start the game once players have connected\n"
+      "  save   -  to save the current game\n"
+      "  quit   -  to exit");
+
+  static struct astring abuf = ASTRING_INIT;
+      
+  astr_minsize(&abuf, strlen(help)+1);
+  strcpy(abuf.str, help);
+  wordwrap_string(abuf.str, 78);
+  cmd_reply(help_cmd, caller, C_COMMENT, abuf.str);
+}
+
+/**************************************************************************
+ Show the caller detailed help for the single COMMAND given by id.
+ help_cmd is the command the player used.
+**************************************************************************/
+static void show_help_command(struct player *caller,
+			      enum command_id help_cmd,
+			      enum command_id id)
+{
+  struct command *cmd = &commands[id];
+  
+  if (cmd->short_help) {
+    cmd_reply(help_cmd, caller, C_COMMENT,
+	      "%s %s  -  %s", _("Command:"), cmd->name, _(cmd->short_help));
+  } else {
+    cmd_reply(help_cmd, caller, C_COMMENT,
+	      "%s %s", _("Command:"), cmd->name);
+  }
+  if (cmd->synopsis) {
+    /* line up the synopsis lines: */
+    const char *syn = _("Synopsis: ");
+    int synlen = strlen(syn);
+    char prefix[40];
+
+    my_snprintf(prefix, sizeof(prefix), "%*s", synlen, " ");
+    cmd_reply_prefix(help_cmd, caller, C_COMMENT, prefix,
+		     "%s%s", syn, _(cmd->synopsis));
+  }
+  cmd_reply(help_cmd, caller, C_COMMENT,
+	    _("Level: %s"), cmdlevel_name(cmd->level));
+  if (cmd->extra_help) {
+    static struct astring abuf = ASTRING_INIT;
+    const char *help = _(cmd->extra_help);
+      
+    astr_minsize(&abuf, strlen(help)+1);
+    strcpy(abuf.str, help);
+    wordwrap_string(abuf.str, 76);
+    cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
+    cmd_reply_prefix(help_cmd, caller, C_COMMENT, "  ",
+		     "  %s", abuf.str);
+  }
+}
+
+/**************************************************************************
+ Show the caller list of COMMANDS.
+ help_cmd is the command the player used.
+**************************************************************************/
+static void show_help_command_list(struct player *caller,
+				  enum command_id help_cmd)
+{
+  enum command_id i;
+  
+  cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
+  cmd_reply(help_cmd, caller, C_COMMENT,
+	    _("The following server commands are available:"));
+  cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
+  if(caller == NULL && con_get_style()) {
+    for (i=0; i<CMD_NUM; i++) {
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", commands[i].name);
+    }
+  } else {
+    char buf[MAX_LEN_CMD+1];
+    int j;
+    
+    buf[0] = '\0';
+    for (i=0, j=0; i<CMD_NUM; i++) {
+      if (may_use(caller, i)) {
+	cat_snprintf(buf, sizeof(buf), "%-19s", commands[i].name);
+	if((++j % 4) == 0) {
+	  cmd_reply(help_cmd, caller, C_COMMENT, buf);
+	  buf[0] = '\0';
+	}
+      }
+    }
+    if (buf[0])
+      cmd_reply(help_cmd, caller, C_COMMENT, buf);
+  }
+  cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
+}
+
+#define H_ARG_COMMANDS  (CMD_NUM)
+#define H_ARG_OPTIONS   ((CMD_NUM)+1)
+#define H_ARG_OPT_START ((CMD_NUM)+2)
+
+/**************************************************************************
+ 0 to CMD_NUM-1 are commands, then "commands", "options", then options.
+**************************************************************************/
+static const char *helparg_accessor(int i) {
+  if (i<CMD_NUM)         return cmdname_accessor(i);
+  if (i==H_ARG_COMMANDS) return "commands";
+  if (i==H_ARG_OPTIONS)  return "options";
+  return optname_accessor(i-H_ARG_OPT_START);
+}
+/**************************************************************************
 ...
 **************************************************************************/
-void show_help(struct player *caller)
+static void show_help(struct player *caller, char *arg)
 {
+  static int num_opt = 0;	/* number of options */
+  int num_args;			/* number of valid args */
+  int ind;
+  enum m_pre_result match_result;
+
+  while (settings[num_opt].name!=NULL) num_opt++;
+  num_args = num_opt + CMD_NUM + 2;
+  
   assert(!may_use_nothing(caller));
     /* no commands means no help, either */
 
+  match_result = match_prefix(helparg_accessor, num_args, 0,
+			      mystrncasecmp, arg, &ind);
+
+  if (match_result==M_PRE_EMPTY) {
+    show_help_intro(caller, CMD_HELP);
+    return;
+  }
+  if (match_result==M_PRE_AMBIGUOUS) {
+    cmd_reply(CMD_HELP, caller, C_FAIL,
+	      _("Help argument '%s' is ambiguous."), arg);
+    return;
+  }
+  if (match_result==M_PRE_FAIL) {
+    cmd_reply(CMD_HELP, caller, C_FAIL,
+	      _("No match for help argument '%s'."), arg);
+    return;
+  }
+
+  /* other cases should be above */
+  assert(match_result < M_PRE_AMBIGUOUS);
+  
+  if (ind == H_ARG_OPTIONS) {
+    show_help_option_list(caller, CMD_HELP);
+    return;
+  }
+  if (ind == H_ARG_COMMANDS) {
+    show_help_command_list(caller, CMD_HELP);
+    return;
+  }
+  if (ind >= H_ARG_OPT_START) {
+    show_help_option(caller, CMD_HELP, ind-H_ARG_OPT_START);
+    return;
+  }
+  if (ind < CMD_NUM) {
+    show_help_command(caller, CMD_HELP, ind);
+    return;
+  }
+  
+  /* should have finished by now */
+  freelog(LOG_NORMAL, "Bug in show_help!");
+
+#ifdef UNUSED
 #define cmd_reply_help(cmd,string) \
   if (may_use(caller,cmd)) \
     cmd_reply(CMD_HELP, caller, C_COMMENT, string)
@@ -2185,12 +2597,13 @@ void show_help(struct player *caller)
   cmd_reply_help(CMD_HELP,
 	_("(A=address[:port], F=file, L=level, M=message, O=option, P=player, T=topic)"));
 #undef cmd_reply_help
+#endif
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void show_players(struct player *caller)
+static void show_players(struct player *caller)
 {
   int i;
   

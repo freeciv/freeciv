@@ -173,8 +173,8 @@ struct city *find_palace(struct player *pplayer);
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
 int ai_fuzzy(struct player *pplayer, int normal_decision);
 
-char *cmdlevel_name(enum cmdlevel_id lvl);
-enum cmdlevel_id cmdlevel_named (char *token);
+const char *cmdlevel_name(enum cmdlevel_id lvl);
+enum cmdlevel_id cmdlevel_named(const char *token);
 
 int is_barbarian(struct player *pplayer);
 

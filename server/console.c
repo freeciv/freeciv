@@ -180,7 +180,7 @@ void con_prompt_on(void)
   static int first = 1;
   if (first) {
     con_puts(C_COMMENT, "");
-    con_puts(C_COMMENT, _("Get a list of the available commands with 'help'."));
+    con_puts(C_COMMENT, _("For introductory help, type 'help'."));
     first = 0;
   }
   console_show_prompt=1;
