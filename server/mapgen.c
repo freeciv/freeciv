@@ -2515,8 +2515,11 @@ static void mapgenerator2(void)
                        * (map.xsize - spares)) / 100;
   totalweight = 100 * game.nplayers;
 
+  assert(placed_map == NULL);
+
   while (!done && bigfrac > midfrac) {
     done = TRUE;
+    if ( placed_map != NULL ) { destroy_placed_map(); }
     initworld(pstate);
     
     /* Create one big island for each player. */
@@ -2546,6 +2549,11 @@ static void mapgenerator2(void)
     /* We could never make adequately big islands. */
     freelog(LOG_NORMAL, _("Falling back to generator %d."), 1);
     map.generator = 1;
+
+    /* init world created this map, destroy it before abort */
+    destroy_placed_map();
+    free(height_map);
+    height_map = NULL;
     return;
   }
 
