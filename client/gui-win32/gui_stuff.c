@@ -54,6 +54,7 @@ struct fcwin_box_item {
 
 struct fcwin_win_data {
   WNDPROC user_wndproc;
+  HWND parent;
   struct fcwin_box *full;
   int size_set;
   int is_child;
@@ -204,6 +205,8 @@ static LONG APIENTRY layout_wnd_proc(HWND hWnd,
     {
       if (win_data->full)
 	fcwin_box_free(win_data->full);
+      if (win_data->parent!=NULL)
+	SetFocus(win_data->parent);
       free(win_data);
       SetWindowLong(hWnd,GWL_USERDATA,0);
     }
@@ -246,12 +249,14 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
   win_data=fc_malloc(sizeof(struct fcwin_win_data));
   win_data->user_data=user_data;
   win_data->user_wndproc=user_wndproc;
+  win_data->parent=hWndParent;
   win_data->full=NULL;
   win_data->size_set=0;
   win_data->is_child=dwStyle&WS_CHILD;
   return CreateWindow(CLASSNAME,lpWindowName,dwStyle,
 		      x,y,40,40,
-		      hWndParent,hMenu,freecivhinst,win_data);
+		      win_data->is_child?hWndParent:NULL,
+		      hMenu,freecivhinst,win_data);
 }
 
 /**************************************************************************
