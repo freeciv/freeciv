@@ -1551,7 +1551,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   if (pcity)
     powner = city_owner(pcity);
 
-  if (powner == pviewer) {
+  if (powner && powner == pviewer) {
     /* send info to owner */
     /* This case implies powner non-NULL which means pcity non-NULL */
     /* nocity_send is used to inhibit sending cities to the owner between
