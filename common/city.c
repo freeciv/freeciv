@@ -486,9 +486,6 @@ int city_get_shields_tile(int x, int y, struct city *pcity)
   else
     s=get_tile_type(tile_t)->shield;
 
-  if (s<game.rgame.min_city_center_shield && x==2 && y==2)
-    s=game.rgame.min_city_center_shield;
-
   if (spec_t & S_MINE) {
     s += (get_tile_type(tile_t))->mining_shield_incr;
   }
@@ -507,6 +504,10 @@ int city_get_shields_tile(int x, int y, struct city *pcity)
     s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here are icky */
   if (spec_t & S_FALLOUT)
     s-=(s*terrain_control.fallout_shield_penalty)/100;
+
+  if (s<game.rgame.min_city_center_shield && x==2 && y==2)
+    s=game.rgame.min_city_center_shield;
+
   return s;
 }
 
@@ -564,9 +565,6 @@ int city_get_trade_tile(int x, int y, struct city *pcity)
   else
     t=get_tile_type(tile_t)->trade;
 
-  if (t<game.rgame.min_city_center_trade && x==2 && y==2)
-    t=game.rgame.min_city_center_trade;
-
   if ((spec_t & S_RIVER) && (tile_t != T_OCEAN)) {
     t += terrain_control.river_trade_incr;
   }
@@ -599,6 +597,10 @@ int city_get_trade_tile(int x, int y, struct city *pcity)
     if (spec_t & S_FALLOUT)
       t-=(t*terrain_control.fallout_trade_penalty)/100;
   }
+
+  if (t<game.rgame.min_city_center_trade && x==2 && y==2)
+    t=game.rgame.min_city_center_trade;
+
   return t;
 }
 
@@ -663,9 +665,6 @@ int city_get_food_tile(int x, int y, struct city *pcity)
   else
     f=get_tile_type(tile_t)->food;
 
-  if (f<game.rgame.min_city_center_food && x==2 && y==2)
-    f=game.rgame.min_city_center_food;
-
   if ((spec_t & S_IRRIGATION) || city_auto_water) {
     f += type->irrigation_food_incr;
     if (((spec_t & S_FARMLAND) ||
@@ -691,6 +690,9 @@ int city_get_food_tile(int x, int y, struct city *pcity)
     f-=(f*terrain_control.pollution_food_penalty)/100; /* The food here is yucky */
   if (spec_t & S_FALLOUT)
     f-=(f*terrain_control.fallout_food_penalty)/100;
+
+  if (f<game.rgame.min_city_center_food && x==2 && y==2)
+    f=game.rgame.min_city_center_food;
 
   return f;
 }
