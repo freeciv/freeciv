@@ -292,6 +292,7 @@ struct packet_unit_info {
   int activity_target;
   int paradropped;
   int connecting;
+  int carried;
 };
 
 

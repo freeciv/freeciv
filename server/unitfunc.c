@@ -2498,7 +2498,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   x and y is where the unit came from, so that the info can be sent if
   the other players can see either the target or destination tile.
 **************************************************************************/
-void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x, int y)
+void send_unit_info_to_onlookers(struct player *dest, struct unit *punit,
+				 int x, int y, int carried)
 {
   int o;
   struct packet_unit_info info;
@@ -2525,6 +2526,7 @@ void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x,
   info.activity_target=punit->activity_target;
   info.paradropped=punit->paradropped;
   info.connecting=punit->connecting;
+  info.carried = carried;
 
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest)
@@ -2540,7 +2542,7 @@ void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x,
 **************************************************************************/
 void send_unit_info(struct player *dest, struct unit *punit)
 {
-  send_unit_info_to_onlookers(dest, punit, punit->x,punit->y);
+  send_unit_info_to_onlookers(dest, punit, punit->x,punit->y, 0);
 }
 
 /**************************************************************************
@@ -3003,7 +3005,7 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
       pcargo->x = dest_x;
       pcargo->y = dest_y;
       unit_list_insert(&pdesttile->units, pcargo);
-      send_unit_info_to_onlookers(0, pcargo, src_x, src_y);
+      send_unit_info_to_onlookers(0, pcargo, src_x, src_y, 1);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
     unit_list_unlink_all(&cargo_units);
@@ -3023,7 +3025,7 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
       !(pplayer->ai.control)) {
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
-  send_unit_info_to_onlookers(0, punit, src_x, src_y);
+  send_unit_info_to_onlookers(0, punit, src_x, src_y, 0);
 
   handle_unit_move_consequences(punit, src_x, src_y, dest_x, dest_y);
 

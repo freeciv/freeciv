@@ -624,12 +624,10 @@ void handle_unit_info(struct packet_unit_info *packet)
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
     
-    /* this is ugly - prevent unit from being drawn if it's moved into
-     * screen by a transporter - only works for ground_units.. yak */
-    if(!is_ground_unit(punit) || map_get_terrain(punit->x, punit->y)!=T_OCEAN)
-      repaint_unit=1;
-    else
+    if (packet->carried)
       repaint_unit=0;
+    else
+      repaint_unit=1;
   }
 
   if(punit && punit==get_unit_in_focus())

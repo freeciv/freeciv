@@ -55,7 +55,8 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 
 void kill_unit(struct unit *pkiller, struct unit *punit);
 void send_unit_info(struct player *dest, struct unit *punit);
-void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x, int y);
+void send_unit_info_to_onlookers(struct player *dest, struct unit *punit,
+				 int x, int y, int carried);
 void maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 int get_total_attack_power(struct unit *attacker, struct unit *defender);

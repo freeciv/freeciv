@@ -767,11 +767,7 @@ void request_toggle_city_productions(void)
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 {
-  int x, y, was_carried, was_teleported;
-     
-  was_carried=(pinfo->movesleft==punit->moves_left && 
-	       (map_get_terrain(punit->x, punit->y)==T_OCEAN ||
-		map_get_terrain(pinfo->x, pinfo->y)==T_OCEAN));
+  int x, y, was_teleported;
   
   was_teleported=!is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y);
   x=punit->x;
@@ -781,7 +777,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 
-  if(!was_carried)
+  if(!pinfo->carried)
     refresh_tile_mapcanvas(x, y, was_teleported);
   
   if(game.player_idx==punit->owner && punit->activity!=ACTIVITY_GOTO && 
@@ -789,7 +785,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
      !tile_visible_and_not_on_border_mapcanvas(pinfo->x, pinfo->y))
     center_tile_mapcanvas(pinfo->x, pinfo->y);
 
-  if(!was_carried && !was_teleported) {
+  if(!pinfo->carried && !was_teleported) {
     int dx=pinfo->x - x;
     if(dx>1) dx=-1;
     else if(dx<-1)
@@ -817,7 +813,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     }
   }
   
-  if(!was_carried && tile_is_known(punit->x,punit->y) == TILE_KNOWN)
+  if(!pinfo->carried && tile_is_known(punit->x,punit->y) == TILE_KNOWN)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
 
   if(get_unit_in_focus()==punit) update_menus();
