@@ -796,7 +796,7 @@ int advisor_choose_build(struct city *pcity)
   }
 
   for (i=0;i<B_LAST;i++)
-    if(can_build_improvement(pcity, i)) { /* build something random, undecided */
+    if(can_build_improvement(pcity, i) && i != B_PALACE) { /* build something random, undecided */
       pcity->currently_building=i;
       pcity->is_building_unit=0;
       return 0;
