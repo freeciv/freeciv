@@ -62,7 +62,7 @@ static void city_settlersupport(struct city *pcity);
 static void city_increase_size(struct city *pcity);
 static void city_reduce_size(struct city *pcity);
 
-static void city_build_stuff(struct player *pplayer, struct city *pcity);
+static int city_build_stuff(struct player *pplayer, struct city *pcity);
 static void upgrade_building_prod(struct city *pcity);
 static void upgrade_unit_prod(struct city *pcity);
 static void obsolete_building_test(struct city *pcity, int b1, int b2);
@@ -948,9 +948,10 @@ void upgrade_unit_prod(struct city *pcity)
 }
 
 /**************************************************************************
-...
+return 0 if the city is removed
+return 1 otherwise
 **************************************************************************/
-void city_build_stuff(struct player *pplayer, struct city *pcity)
+int city_build_stuff(struct player *pplayer, struct city *pcity)
 {
   int space_part;
   
@@ -980,7 +981,7 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
 		    "Game: %s is building %s, which is no longer available",
 	pcity->name,get_imp_name_ex(pcity, pcity->currently_building));
-      return;
+      return 1;
     }
     if (pcity->shield_stock>=improvement_value(pcity->currently_building)) {
       if (pcity->currently_building==B_PALACE) {
@@ -1061,11 +1062,12 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 	  /* Should we disband the city? -- Massimo */
 	  if (pcity->city_options & ((1<<CITYO_DISBAND))) {
 	    disband_city(pcity);
+	    return 0;
 	  } else {
 	    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 			     "Game: %s can't build settler yet", pcity->name);
 	  }
-	  return;
+	  return 1;
 
 	}
 	pcity->size--;
@@ -1089,6 +1091,7 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 
     }
   }
+return 1;
 }
 
 /**************************************************************************
@@ -1273,66 +1276,67 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     if (!ai_make_elvis(pcity)) break;
   } /* putting this lower in the routine would basically be cheating. -- Syela */
 
-  city_build_stuff(pplayer, pcity);
-  if (!pcity->was_happy && city_happy(pcity) && pcity->size>4) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
-		  "Game: We Love The %s Day celebrated in %s", 
-		  get_ruler_title(pplayer->government),
-		  pcity->name);
-  }
-  if (!city_happy(pcity) && pcity->was_happy && pcity->size>4) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
-		  "Game: We Love The %s Day canceled in %s",
-		  get_ruler_title(pplayer->government),
-		  pcity->name);
-
-  }
-  pcity->was_happy=city_happy(pcity);
-    {
-      int id=pcity->id;
-      city_populate(pcity);
-      if(!city_list_find_id(&pplayer->cities, id))
-	return 0;
+  if (city_build_stuff(pplayer, pcity)) {
+    if (!pcity->was_happy && city_happy(pcity) && pcity->size>4) {
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
+	     	    "Game: We Love The %s Day celebrated in %s", 
+		    get_ruler_title(pplayer->government),
+		    pcity->name);
     }
-     
-  pcity->is_updated=1;
-
-  pcity->did_sell=0;
-  pcity->did_buy=0;
-  if (city_got_building(pcity, B_AIRPORT))
-    pcity->airlift=1;
-  else
-    pcity->airlift=0;
-  if (update_tech(pplayer, pcity->science_total)) 
-    got_tech = 1;
-  pplayer->economic.gold+=pcity->tax_total;
-  pay_for_buildings(pplayer, pcity);
-
-  if(city_unhappy(pcity)) { 
-    pcity->anarchy++;
-    if (pcity->anarchy == 1) 
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
-		       "Game: Civil disorder in %s", pcity->name);
-    else
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
-		       "Game: CIVIL DISORDER CONTINUES in %s.", pcity->name);
-  }
-  else {
-    if (pcity->anarchy)
+    if (!city_happy(pcity) && pcity->was_happy && pcity->size>4) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
-		       "Game: Order restored in %s", pcity->name);
-    pcity->anarchy=0;
-  }
-  check_pollution(pcity);
-  city_incite_cost(pcity);
+		    "Game: We Love The %s Day canceled in %s",
+		    get_ruler_title(pplayer->government),
+		    pcity->name);
 
-  send_city_info(0, pcity, 0);
-  if (pcity->anarchy>2 && get_government(pplayer->player_no)==G_DEMOCRACY) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
-		     "Game: The people have overthrown your democracy, your country is in turmoil");
-    handle_player_revolution(pplayer);
-  }
-  sanity_check_city(pcity);
+    }
+    pcity->was_happy=city_happy(pcity);
+      {
+        int id=pcity->id;
+        city_populate(pcity);
+        if(!city_list_find_id(&pplayer->cities, id))
+	  return 0;
+      }
+     
+    pcity->is_updated=1;
+
+    pcity->did_sell=0;
+    pcity->did_buy=0;
+    if (city_got_building(pcity, B_AIRPORT))
+      pcity->airlift=1;
+    else
+      pcity->airlift=0;
+    if (update_tech(pplayer, pcity->science_total)) 
+      got_tech = 1;
+    pplayer->economic.gold+=pcity->tax_total;
+    pay_for_buildings(pplayer, pcity);
+
+    if(city_unhappy(pcity)) { 
+      pcity->anarchy++;
+      if (pcity->anarchy == 1) 
+        notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
+	  	         "Game: Civil disorder in %s", pcity->name);
+      else
+        notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
+		         "Game: CIVIL DISORDER CONTINUES in %s.", pcity->name);
+    }
+    else {
+      if (pcity->anarchy)
+        notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
+	  	         "Game: Order restored in %s", pcity->name);
+      pcity->anarchy=0;
+    }
+    check_pollution(pcity);
+    city_incite_cost(pcity);
+
+    send_city_info(0, pcity, 0);
+    if (pcity->anarchy>2 && get_government(pplayer->player_no)==G_DEMOCRACY) {
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
+		       "Game: The people have overthrown your democracy, your country is in turmoil");
+      handle_player_revolution(pplayer);
+    }
+    sanity_check_city(pcity);
+    }
   return got_tech;
 }
 
