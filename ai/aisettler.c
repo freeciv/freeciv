@@ -232,26 +232,28 @@ void cityresult_fill(struct player *pplayer,
      * never make cities. */
     if (game.fulltradesize == 1) {
       result->corruption = ai->science_priority
-                     * city_corruption(pcity, 
-                                 result->tile[result->o_x][result->o_y].trade
-                                 + result->tile[2][2].trade);
+	* city_corruption(pcity, 
+			  result->tile[result->o_x][result->o_y].trade
+			  + result->tile[2][2].trade);
+    } else {
+      result->corruption = 0;
     }
     result->waste = ai->shield_priority
-                     * city_waste(pcity,
-                                  result->tile[result->o_x][result->o_y].shield
-                                  + result->tile[2][2].shield);
+      * city_waste(pcity,
+		   result->tile[result->o_x][result->o_y].shield
+		   + result->tile[2][2].shield);
   } else {
     /* Deduct difference in corruption and waste for real cities. Note that it
      * is possible (with notradesize) that we _gain_ value here. */
     pcity->size++;
     result->corruption = ai->science_priority
-                     * (city_corruption(pcity,
-                                 result->tile[result->o_x][result->o_y].trade)
-                        - pcity->corruption);
+      * (city_corruption(pcity,
+			 result->tile[result->o_x][result->o_y].trade)
+	 - pcity->corruption);
     result->waste = ai->shield_priority
-                     * (city_waste(pcity,
-                                   result->tile[result->o_x][result->o_y].shield)
-                        - pcity->shield_waste);
+      * (city_waste(pcity,
+		    result->tile[result->o_x][result->o_y].shield)
+	 - pcity->shield_waste);
     pcity->size--;
   }
   result->total -= result->corruption;
@@ -460,8 +462,8 @@ void ai_settler_init(struct player *pplayer)
   TODO: Transparently check if we should add ourselves to an existing city.
 **************************************************************************/
 static bool settler_map_iterate(struct pf_parameter *parameter,
-                                        struct unit *punit,
-                                        struct cityresult *best,
+				struct unit *punit,
+				struct cityresult *best,
 				struct player *pplayer, 
 				int boat_cost)
 {
