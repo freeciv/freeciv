@@ -354,7 +354,28 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
   pentry->used = FALSE;
   return pentry;
 }
-	
+
+/****************************************************************************
+  Return the section with the given name, or NULL if there is none.
+****************************************************************************/
+static struct section *find_section_by_name(struct section_file *sf,
+					    const char *name)
+{
+  /*
+   * Search backwards since on insertion the requested section is most
+   * likely at the end (on lookup it doesn't matter).
+   *
+   * Nonetheless this is slow if there are lots of sections.  We could have
+   * a hash on section names to speed it up.
+   */
+  section_list_iterate_rev(*sf->sections, psection) {
+    if (strcmp(psection->name, name) == 0) {
+      return psection;
+    }
+  } section_list_iterate_rev_end;
+
+  return NULL;
+}	
 
 /**************************************************************************
 ...
@@ -411,17 +432,8 @@ static bool section_file_read_dup(struct section_file *sf,
 	 (Could ignore this and have a duplicate sections internally,
 	 but then secfile_get_secnames_prefix would return duplicates.)
 	 Duplicate section in input are likely to be useful for includes.
-	 This is slow if there are lots of sections; [cs]hould have a
-	 hash on section names.
       */
-      psection = NULL;
-      section_list_iterate(*sf->sections, asection) {
-	if (strcmp(asection->name, tok)==0) {
-	  psection = asection;
-	  break;
-	}
-      }
-      section_list_iterate_end;
+      psection = find_section_by_name(sf, tok);
       if (!psection) {
 	psection = sbuf_malloc(sb, sizeof(struct section));
 	psection->name = sbuf_strdup(sb, tok);
@@ -1113,6 +1125,7 @@ section_file_lookup_internal(struct section_file *my_section_file,
   char mod_fullpath[2*MAX_LEN_BUFFER];
   int len;
   struct entry *result;
+  struct section *psection;
 
   /* freelog(LOG_DEBUG, "looking up: %s", fullpath); */
   
@@ -1143,19 +1156,16 @@ section_file_lookup_internal(struct section_file *my_section_file,
 		   MIN(pdelim - fullpath + 1, sizeof(sec_name)));
   sz_strlcpy(ent_name, pdelim+1);
 
-  section_list_iterate(*my_section_file->sections, psection) {
-    if (strcmp(psection->name, sec_name) == 0 ) {
-      entry_list_iterate(psection->entries, pentry) {
-   	if (strcmp(pentry->name, ent_name) == 0) {
-	  result = pentry;
-	  result->used++;
-	  return result;
-	}
+  psection = find_section_by_name(my_section_file, sec_name);
+  if (psection) {
+    entry_list_iterate(psection->entries, pentry) {
+      if (strcmp(pentry->name, ent_name) == 0) {
+	result = pentry;
+	result->used++;
+	return result;
       }
-      entry_list_iterate_end;
-    }
+    } entry_list_iterate_end;
   }
-  section_list_iterate_end;
 
   return NULL;
 }
@@ -1196,21 +1206,16 @@ section_file_insert_internal(struct section_file *my_section_file,
     exit(EXIT_FAILURE);
   }
 
-  /* Do a reverse search of sections, since we're most likely
-   * to be adding to the lastmost section.
-   */
-  section_list_iterate_rev(*my_section_file->sections, psection) {
-    if(strcmp(psection->name, sec_name)==0) {
-      /* This DOES NOT check whether the entry already exists in
-       * the section, to avoid O(N^2) behaviour.
-       */
-      pentry = sbuf_malloc(sb, sizeof(struct entry));
-      pentry->name = sbuf_strdup(sb, ent_name);
-      entry_list_insert_back(&psection->entries, pentry);
-      return pentry;
-    }
+  psection = find_section_by_name(my_section_file, sec_name);
+  if (psection) {
+    /* This DOES NOT check whether the entry already exists in
+     * the section, to avoid O(N^2) behaviour.
+     */
+    pentry = sbuf_malloc(sb, sizeof(struct entry));
+    pentry->name = sbuf_strdup(sb, ent_name);
+    entry_list_insert_back(&psection->entries, pentry);
+    return pentry;
   }
-  section_list_iterate_rev_end;
 
   psection = sbuf_malloc(sb, sizeof(struct section));
   psection->name = sbuf_strdup(sb, sec_name);
@@ -1540,5 +1545,44 @@ char **secfile_get_secnames_prefix(struct section_file *my_section_file,
     }
   }
   section_list_iterate_end;
+  return ret;
+}
+
+/****************************************************************************
+  Returns a pointer to a list of strings giving all keys in the given section
+  and sets the number of such sections in (*num).  If there are no keys
+  found, the function returns NULL and sets (*num) to zero.  The returned
+  pointer is malloced, and it is the responsibilty of the caller to free this
+  pointer (unless it's NULL), but the actual strings pointed to are part of
+  the section_file data, and should not be freed by the caller (nor used
+  after the section_file has been freed or changed, so the caller may need to
+  strdup them to keep them around).  The order of the returned names is
+  unspecified.
+****************************************************************************/
+char **secfile_get_section_entries(struct section_file *my_section_file,
+				   const char *section, int *num)
+{
+  char **ret;
+  int i;
+  struct section *psection = find_section_by_name(my_section_file,section);
+
+  if (!psection) {
+    *num = 0;
+    return NULL;
+  }
+
+  *num = entry_list_size(&psection->entries);
+
+  if (*num == 0) {
+    return NULL;
+  }
+
+  ret = fc_malloc((*num) * sizeof(*ret));
+
+  i = 0;  
+  entry_list_iterate(psection->entries, pentry) {
+    ret[i++] = pentry->name;
+  } entry_list_iterate_end;
+
   return ret;
 }
