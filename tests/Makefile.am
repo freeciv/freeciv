@@ -14,7 +14,7 @@ src-check:
 
 CLEANFILES = check-output
 
-dist_noinst_SCRIPTS =				\
+EXTRA_DIST =					\
 		copyright.sh			\
 		header_guard.sh			\
 		va_list.sh
