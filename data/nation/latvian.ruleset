@@ -13,7 +13,7 @@ expand=1
 civilized=1
 advisors=100,100,100,100,100,100,100
 tech_goals = "Monarchy","Chivalry","Gunpowder","Industrialization"
-wonder="Cure for Cancer"
+wonder="Cure For Cancer"
 government = "Democracy"
 
 cities =
