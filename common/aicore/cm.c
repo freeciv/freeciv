@@ -1509,8 +1509,8 @@ const char *cm_get_stat_name(enum cm_stat stat)
   case SCIENCE:
     return _("Science");
   default:
-    assert(0);
-    return "ERROR";
+    die("Unknown stat value in cm_get_stat_name: %d", stat);
+    return NULL;
   }
 }
 
