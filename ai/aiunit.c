@@ -1544,6 +1544,93 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
   }
 }
 
+/***************************************************************************
+ A rough estimate of time (measured in turns) to get to the enemy city, 
+ taking into account ferry transfer.
+ If boat == NULL, we will build a boat of type boattype right here, so
+ we wouldn't have to walk to it.
+
+ Requires ready warmap(s).  Assumes punit is ground or sailing.
+***************************************************************************/
+int turns_to_enemy_city(Unit_Type_id our_type,  struct city *acity,
+                        int speed, bool go_by_boat, 
+                        struct unit *boat, Unit_Type_id boattype)
+{
+  switch(unit_types[our_type].move_type) {
+  case LAND_MOVING:
+    if (go_by_boat) {
+      int boatspeed = unit_types[boattype].move_rate;
+      int move_time = (warmap.seacost[acity->x][acity->y]) / boatspeed;
+      
+      if (unit_type_flag(boattype, F_TRIREME) && move_time > 2) {
+        /* FIXME: Should also check for LIGHTHOUSE */
+        /* Return something prohibitive */
+        return 999;
+      }
+      if (boat) {
+        /* Time to get to the boat */
+        move_time += (warmap.cost[boat->x][boat->y] + speed - 1) / speed;
+      }
+      
+      if (!unit_type_flag(our_type, F_MARINES)) {
+        /* Time to get off the boat (Marines do it from the vessel) */
+        move_time += 1;
+      }
+      
+      return move_time;
+    } else {
+      /* We are walking */
+      return (warmap.cost[acity->x][acity->y] + speed - 1) / speed;
+    }
+  case SEA_MOVING:
+    /* We are a boat: time to sail */
+    return (warmap.seacost[acity->x][acity->y] + speed - 1) / speed;
+  default: 
+    freelog(LOG_ERROR, "ERROR: Unsupported move_type in time_to_enemy_city");
+    /* Return something prohibitive */
+    return 999;
+  }
+
+}
+
+/************************************************************************
+ Rough estimate of time (in turns) to catch up with the enemy unit.  
+ FIXME: Take enemy speed into account in a more sensible way
+
+ Requires precomputed warmap.  Assumes punit is ground or sailing. 
+************************************************************************/ 
+int turns_to_enemy_unit(Unit_Type_id our_type, int speed, int x, int y, 
+                        Unit_Type_id enemy_type)
+{
+  int dist;
+
+  switch(unit_types[our_type].move_type) {
+  case LAND_MOVING:
+    dist = warmap.cost[x][y];
+    break;
+  case SEA_MOVING:
+    dist = warmap.seacost[x][y];
+    break;
+  default:
+    /* Compiler warning */
+    dist = 0; 
+    freelog(LOG_ERROR, "ERROR: Unsupported unit_type in time_to_enemy_city");
+    /* Return something prohibitive */
+    return 999;
+  }
+
+  /* if dist <= move_rate, we hit the enemy right now */    
+  if (dist > speed) { 
+    /* Weird attempt to take into account enemy running away... */
+    dist *= unit_types[enemy_type].move_rate;
+    if (unit_type_flag(enemy_type, F_IGTER)) {
+      dist *= 3;
+    }
+  }
+  
+  return (dist + speed - 1) / speed;
+}
+
 /*************************************************************************
   Mark invasion possibilities of punit in the surrounding cities. The
   given radius limites the area which is searched for cities. The
@@ -1615,7 +1702,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   int bcost, bcost_bal;
   bool handicap = ai_handicap(pplayer, H_TARGETS);
   struct unit *ferryboat = NULL;
-  int boatspeed;
+  /* Type of our boat (a future one if ferryboat == NULL) */
+  Unit_Type_id boattype = U_LAST;
   bool unhap = FALSE;
   struct city *pcity;
   /* this is a kluge, because if we don't set x and y with !punit->id,
@@ -1718,16 +1806,15 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   }
 
   if (ferryboat) {
+    boattype = ferryboat->type;
     really_generate_warmap(map_get_city(ferryboat->x, ferryboat->y),
                            ferryboat, SEA_MOVING);
-  }
-
-  if (ferryboat) {
-    boatspeed = (unit_flag(ferryboat, F_TRIREME) 
-                  ? 2 * SINGLE_MOVE : 4 * SINGLE_MOVE);
   } else {
-    boatspeed = ((get_invention(pplayer, game.rtech.nav) != TECH_KNOWN)
-                  ? 2 * SINGLE_MOVE : 4 * SINGLE_MOVE);
+    boattype = best_role_unit_for_player(pplayer, L_FERRYBOAT);
+    if (boattype == U_LAST) {
+      /* We pretend that we can have the simplest boat -- to stimulate tech */
+      boattype = get_role_unit(L_FERRYBOAT, 0);
+    }
   }
 
   if (is_ground_unit(punit) && punit->id == 0 
@@ -1742,20 +1829,19 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     }
 
     city_list_iterate(aplayer->cities, acity) {
-      bool go_by_boat;
+      bool go_by_boat = (is_ground_unit(punit)
+                         && !(goto_is_sane(punit, acity->x, acity->y, TRUE) 
+                              && warmap.cost[acity->x][acity->y] < maxd));
 
       if (handicap && !map_get_known(acity->x, acity->y, pplayer)) {
         /* Can't see it */
         continue;
       }
 
-      go_by_boat = !(goto_is_sane(punit, acity->x, acity->y, TRUE) 
-                     && warmap.cost[acity->x][acity->y] < maxd);
-      
-      if (is_ground_unit(punit) && go_by_boat  
-          && (!(ferryboat || harbor) 
+      if (go_by_boat 
+          && (!(ferryboat || harbor)
               || warmap.seacost[acity->x][acity->y] > 6 * THRESHOLD)) {
-        /* Too far to go by boat */
+        /* Too far or impossible to go by boat */
         continue;
       }
       
@@ -1773,34 +1859,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         benefit = 0; 
       }
       
-      if (is_ground_unit(punit)) {
-        if (go_by_boat) {
-          move_time = (warmap.seacost[acity->x][acity->y]) / boatspeed;
-          if (boatspeed < 9 && move_time > 2) {
-            /* I guess that's for triremes -- GB */
-            move_time = 999;
-          }
-          if (ferryboat) {
-            /* Time to get to the boat + get off the boat */
-            move_time += (warmap.cost[bx][by] + move_rate - 1) / move_rate + 1;
-          } else {
-            /* Time to get off the boat */
-            move_time += 1;
-          }
-          if (unit_flag(punit, F_MARINES)) {
-            /* They can do it from the boat */
-            move_time -= 1;
-          }
-        } else {
-          /* Time to walk */
-          move_time 
-            = (warmap.cost[acity->x][acity->y] + move_rate - 1) / move_rate;
-        }
-      } else {
-        /* We are boat: time to sail */
-        move_time 
-          = (warmap.seacost[acity->x][acity->y] + move_rate - 1) / move_rate;
-      }
+      move_time = turns_to_enemy_city(punit->type, acity, move_rate, 
+                                      go_by_boat, ferryboat, boattype);
 
       if (move_time > 1) {
         Unit_Type_id def_type = ai_choose_defender_versus(acity, punit->type);
@@ -1860,9 +1920,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
       want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
                            : SHIELD_WEIGHTING);
-      /* FIXME: build_cost of ferry */
-      needferry = 
-        (go_by_boat && !ferryboat && is_ground_unit(punit) ? 40 : 0);
+      /* build_cost of ferry */
+      needferry = (go_by_boat && !ferryboat ? unit_value(boattype) : 0);
+      /* FIXME: add time to build the ferry? */
       want = military_amortize(want, MAX(1, move_time), bcost_bal + needferry);
 
       /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
@@ -1917,9 +1977,6 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
      * I am deliberately not adding ferryboat code to the unit_list_iterate. 
      * -- Syela */
     unit_list_iterate(aplayer->units, aunit) {
-      /* Variable of unknown meaning */
-      int dist;
-      
       if (map_get_city(aunit->x, aunit->y)) {
         /* already dealt with it */
         continue;
@@ -1958,20 +2015,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       vuln = unit_vulnerability(punit, aunit);
       benefit = unit_type(aunit)->build_cost;
  
-      if (is_ground_unit(punit)) {
-        dist = warmap.cost[aunit->x][aunit->y];
-      } else { 
-        dist = warmap.seacost[aunit->x][aunit->y];
-      }
-      
-      if (dist > move_rate) { 
-        /* if dist <= move_rate, it can't run away -- Syela */
-        dist *= unit_type(aunit)->move_rate;
-        if (unit_flag(aunit, F_IGTER)) {
-          dist *= 3;
-        }
-      }
-      move_time = (dist + move_rate - 1) / move_rate;
+      move_time = turns_to_enemy_unit(punit->type, move_rate, 
+                                      aunit->x, aunit->y, aunit->type);
 
       if (!CAN_OCCUPY(punit) && vuln == 0) {
         /* FIXME: There is something with defence 0 there, maybe a diplomat.

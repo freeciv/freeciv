@@ -238,6 +238,7 @@ void role_unit_precalcs(void);
 int num_role_units(int role);
 Unit_Type_id get_role_unit(int role, int index);
 Unit_Type_id best_role_unit(struct city *pcity, int role);
+Unit_Type_id best_role_unit_for_player(struct player *pplayer, int role);
 
 void unit_types_free(void);
 

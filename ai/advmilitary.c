@@ -811,25 +811,25 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
                                   int value, Unit_Type_id victim_unit_type,
                                   bool veteran, int x, int y, bool unhap,
                                   int *best_value, int *best_choice,
-                                  int boatx, int boaty, int boatspeed,
+                                  struct unit *boat, Unit_Type_id boattype,
                                   int needferry)
 { 
   /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = map_get_city(x, y);
   bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
   int orig_move_type = unit_types[*best_choice].move_type;
-  int victim_move_rate = 1;
   int victim_count = 1;
+
+  if (orig_move_type != SEA_MOVING && orig_move_type != LAND_MOVING) {
+    freelog(LOG_ERROR, "ERROR: Attempting to deal with non-trivial" 
+            " move_type in process_attacker_want");
+    return;
+  }
 
   if (acity) {
     /* If it is a city, we may have to whack it many times */
     /* FIXME: Also valid for fortresses! */
     victim_count += unit_list_size(&(map_get_tile(x, y)->units));
-  } else {
-    victim_move_rate = unit_types[victim_unit_type].move_rate;
-    if (unit_type_flag(victim_unit_type, F_IGTER)) {
-      victim_move_rate *= SINGLE_MOVE;
-    }
   }
 
   simple_ai_unit_type_iterate (unit_type) {
@@ -880,43 +880,13 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
       }
 
       /* Set the move_time appropriatelly. */
-      
-      switch(move_type) {
-      case LAND_MOVING:
-        if (boatspeed > 0) {
-          /* It's either city or too far away, so don't bother with
-           * victim_move_rate. */
-          move_time = (warmap.cost[boatx][boaty] + move_rate - 1) / move_rate
-                      + 1 + warmap.seacost[x][y] / boatspeed; /* kludge */
-          if (unit_type_flag(unit_type, F_MARINES)) move_time -= 1;
-          
-        } else if (warmap.cost[x][y] <= move_rate) {
-          /* It's adjacent. */
-          move_time = 1;
-
-        } else {
-          /* Cost for attacking the victim. */
-          /* FIXME? Why we should multiply the cost by move rate?! --pasky */
-          move_time = (warmap.cost[x][y] * victim_move_rate + move_rate - 1)
-                      / move_rate;
-        }
-        break;
-      case SEA_MOVING:
-        if (warmap.seacost[x][y] <= move_rate) {
-          /* It's adjectent. */
-          move_time = 1;
-          
-        } else {
-          /* See above. */
-          move_time = (warmap.seacost[x][y] * victim_move_rate + move_rate - 1)
-                      / move_rate;
-        }
-        break;
-      default:
-        /* This should be never reached. */
-        freelog(LOG_ERROR, "Attempting to deal with non-trivial move_type"
-                "in process_attacker_want");
-        continue;
+      if (acity) {
+        move_time = turns_to_enemy_city(unit_type, acity, move_rate,
+                                        (boattype < U_LAST), boat, boattype);
+      } else {
+        /* Target is in the field */
+        move_time = turns_to_enemy_unit(unit_type, move_rate, x, y, 
+                                        victim_unit_type);
       }
 
       /* Estimate strength of the enemy. */
@@ -1044,7 +1014,10 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct unit *pdef; 
   /* Coordinates of the boat */
   int bx = 0, by = 0;
-  int needferry = 0, boatspeed;
+  /* Type of the boat (real or a future one) */
+  Unit_Type_id boattype = U_LAST;
+  int boatspeed;
+  int needferry = 0;
   bool go_by_boat;
   /* Is the defender veteran? */
   bool def_vet;
@@ -1055,8 +1028,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
 
   if (!is_ground_unit(myunit) && !is_sailing_unit(myunit)) {
-    freelog(LOG_ERROR, "Attempting to deal with non-trivial unit_type"
-            "in kill_something_with");
+    freelog(LOG_ERROR, "ERROR: Attempting to deal with non-trivial"
+            " unit_type in kill_something_with");
     return;
   }
 
@@ -1065,14 +1038,16 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     ferryboat = player_find_unit_by_id(pplayer, boatid);
   }
 
-  /* FIXME: hardcoded boat speed */
   if (ferryboat) {
-    boatspeed = (unit_flag(ferryboat, F_TRIREME) 
-                 ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
-  } else { 
-    boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN
-                 ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
+    boattype = ferryboat->type;
+  } else {
+    boattype = best_role_unit_for_player(pplayer, L_FERRYBOAT);
+    if (boattype == U_LAST) {
+      /* We pretend that we can have the simplest boat -- to stimulate tech */
+      boattype = get_role_unit(L_FERRYBOAT, 0);
+    }
   }
+  boatspeed = unit_types[boattype].move_rate;
 
   (void) find_something_to_kill(pplayer, myunit, &x, &y);
 
@@ -1080,7 +1055,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   att_type = myunit->type;
   if (myunit->id != 0) {
-    freelog(LOG_ERROR, "Non-virtual unit in kill_something_with!");
+    freelog(LOG_ERROR, "ERROR: Non-virtual unit in kill_something_with!");
     return;
   }
   
@@ -1110,33 +1085,9 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     go_by_boat = !(goto_is_sane(myunit, acity->x, acity->y, TRUE) 
                   && warmap.cost[x][y] <= (MIN(6, move_rate) * THRESHOLD));
     
-    if (is_ground_unit(myunit)) {
-      if (go_by_boat) {
-        if (ferryboat) {
-          /* Time to boat and then to destination and then disembark */
-          move_time = (warmap.cost[bx][by] + move_rate - 1) / move_rate
-            + warmap.seacost[acity->x][acity->y] / boatspeed + 1;
-        } else {
-          /* We will build a boat here */
-          move_time = warmap.seacost[acity->x][acity->y] / boatspeed + 1;
-        }
-        if (unit_flag(myunit, F_MARINES)) {
-          /* No need to lose a turn getting off the boat */
-          move_time -= 1;
-        }
-        freelog(LOG_DEBUG, "%s attempting to attack via ferryboat"
-                " (move_time = %d)", unit_types[att_type].name, move_time);
-      } else {
-        /* We are just walking */
-        move_time = (warmap.cost[acity->x][acity->y] + move_rate - 1) 
-          / move_rate;
-      }
-    } else {
-      /* We are a boat */
-      move_time = (warmap.seacost[acity->x][acity->y] + move_rate - 1) 
-        / move_rate;
-    }
-    
+    move_time = turns_to_enemy_city(myunit->type, acity, move_rate, go_by_boat,
+                                    ferryboat, boattype);
+
     def_type = ai_choose_defender_versus(acity, att_type);
     if (move_time > 1) {
       def_vet = do_make_unit_veteran(acity, def_type);
@@ -1174,8 +1125,6 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     /* end dealing with cities */
   } else {
-    /* variable of unknown meaning */
-    int dist;
 
     pdef = get_defender(myunit, x, y);
     if (!pdef) {
@@ -1188,28 +1137,9 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     benefit = unit_type(pdef)->build_cost;
     go_by_boat = FALSE;
-    
-    if (is_ground_unit(myunit)) {
-      dist = warmap.cost[x][y];
-    } else {
-      /* We ar a boat */
-      dist = warmap.seacost[x][y];
-    } 
-    
-    /* FIXME: WHATS THIS??? 
-     * Seems like a poor attempt to take into account that 
-     * the victim can run away */
-    if (dist > benefit) {
-      dist *= unit_type(pdef)->move_rate;
-      if (unit_flag(pdef, F_IGTER)) {
-        dist *= 3;
-      }
-    }
-    if (dist == 0) {
-      dist = 1;
-    }
 
-    move_time = ((dist + move_rate - 1) / move_rate);
+    move_time 
+      = turns_to_enemy_unit(myunit->type, move_rate, x, y, pdef->type);    
     
     def_type = pdef->type;
     vuln = unit_vulnerability_virtual2(att_type, def_type, x, y,
@@ -1225,7 +1155,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }  
 
   if (is_ground_unit(myunit) && go_by_boat && !ferryboat) {
-    needferry = 40; /* cost of ferry */
+    /* cost of ferry */
+    needferry = unit_types[boattype].build_cost;
   }
   bcost = unit_types[att_type].build_cost;
   bcost_bal = build_cost_balanced(att_type);
@@ -1260,21 +1191,20 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   want = military_amortize(want, MAX(1, move_time), bcost_bal + needferry);
   
   if (myunit->id != 0) {
-    freelog(LOG_ERROR, "Non-virtual unit in kill_something_with");
+    freelog(LOG_ERROR, "ERROR: Non-virtual unit in kill_something_with");
     return;
   }
 
   if (!go_by_boat) {
-    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, 
-                          x, y, unhap, &want, &att_type, 0, 0, 0, needferry);
+    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, x, y, 
+                          unhap, &want, &att_type, NULL, U_LAST, needferry);
   } else if (ferryboat) { 
-    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, 
-                          x, y, unhap, &want, &att_type, 
-                          bx, by, boatspeed, needferry);
+    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, x, y, 
+                          unhap, &want, &att_type, ferryboat, 
+                          boattype, needferry);
   } else {
-    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, 
-                          x, y, unhap, &want, &att_type, 
-                          myunit->x, myunit->y, boatspeed, needferry);
+    process_attacker_want(pplayer, pcity, benefit, def_type, def_vet, x, y, 
+                          unhap, &want, &att_type, NULL, boattype, needferry);
   }
 
   if (want > choice->want) { 

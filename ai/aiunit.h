@@ -51,6 +51,11 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
 
 bool ai_manage_explorer(struct unit *punit);
 
+int turns_to_enemy_city(Unit_Type_id our_type, struct city *acity,
+                        int speed, bool go_by_boat, 
+                        struct unit *boat, Unit_Type_id boattype);
+int turns_to_enemy_unit(Unit_Type_id our_type, int speed, int x, int y, 
+                        Unit_Type_id enemy_type);
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
                             int *x, int *y);
 int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y);

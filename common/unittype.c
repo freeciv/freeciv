@@ -567,6 +567,30 @@ Unit_Type_id best_role_unit(struct city *pcity, int role)
 }
 
 /**************************************************************************
+Return "best" unit the player can build, with given role/flag.
+Returns U_LAST if none match. "Best" means highest unit type id.
+
+TODO: Cache the result per player?
+**************************************************************************/
+Unit_Type_id best_role_unit_for_player(struct player *pplayer, int role)
+{
+  int j;
+
+  assert((role >= 0 && role < F_LAST) || (role >= L_FIRST && role < L_LAST));
+
+  for(j = n_with_role[role]-1; j >= 0; j--) {
+    Unit_Type_id utype = with_role[role][j];
+
+    if (can_player_build_unit(pplayer, utype)) {
+      return utype;
+    }
+  }
+
+  return U_LAST;
+}
+
+
+/**************************************************************************
   Frees the memory associated with this unit type.
 **************************************************************************/
 static void unit_type_free(Unit_Type_id id)
