@@ -1124,25 +1124,28 @@ void gui_server_connect()
 
   fcwin_box_add_box(hbox, vbox, TRUE, TRUE, 5);
 
-  vbox=fcwin_vbox_new(network_tabs[0], FALSE);
+  vbox = fcwin_vbox_new(network_tabs[0], FALSE);
   networkdlg_msg = fcwin_box_add_static(vbox, "", 0, SS_LEFT, TRUE, TRUE,
 					5);
   fcwin_box_add_box(vbox, hbox, TRUE, FALSE, 0);
   fcwin_set_box(network_tabs[0], vbox);
 
-  vbox=fcwin_vbox_new(network_tabs[1], FALSE);
+  vbox = fcwin_vbox_new(network_tabs[1], FALSE);
   server_listview = fcwin_box_add_listview(vbox, 5, 0, LVS_REPORT
 					   | LVS_SINGLESEL, TRUE, TRUE, 5);
   fcwin_box_add_button(vbox, _("Update"), IDOK, 0, FALSE, FALSE, 5);
   fcwin_set_box(network_tabs[1], vbox);
 
-  vbox=fcwin_vbox_new(network_tabs[2], FALSE);
+  /* Enable this to enable lan tab */
+#if 0
+  vbox = fcwin_vbox_new(network_tabs[2], FALSE);
   lan_listview = fcwin_box_add_listview(vbox, 5, 0, LVS_REPORT
 					| LVS_SINGLESEL, TRUE, TRUE,5);
   fcwin_box_add_button(vbox, _("Update"), IDOK, 0, FALSE, FALSE, 5);
   fcwin_set_box(network_tabs[2], vbox);
-  
-  hbox=fcwin_hbox_new(network_dlg, TRUE);
+#endif
+
+  hbox = fcwin_hbox_new(network_dlg, TRUE);
   fcwin_box_add_button(hbox, _("Back"), ID_CONNECTDLG_BACK,
 		       0, TRUE, TRUE, 5);
   fcwin_box_add_button(hbox, _("Connect"), ID_CONNECTDLG_CONNECT,
