@@ -358,14 +358,13 @@ void ui_main(int argc, char *argv[])
     char **missing_charset_list_return;
     int missing_charset_count_return;
     char *def_string_return;
+    char *city_names_font, *city_productions_font_name;
 
     values.graphics_exposures = False;
     civ_gc = XCreateGC(display, root_window, GCGraphicsExposures, &values);
 
-    free(city_names_font);
     city_names_font = mystrdup("-*-*-*-*-*--14-*");
 
-    free(city_productions_font_name);
     city_productions_font_name = mystrdup("-*-*-*-*-*--14-*");
 
     main_font_set = XCreateFontSet(display, city_names_font,
