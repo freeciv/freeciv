@@ -1167,3 +1167,27 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
 
   return 1;
 }
+
+/*
+ * Triremes have a varying loss percentage. based on tech.
+ * Seafaring reduces this to 25%, Navigation to 12.5%.  The Lighthouse
+ * wonder reduces this to 0.  AJS 20010301
+ */
+int trireme_loss_pct(struct player *pplayer, int x, int y) {
+  int losspct = 50;
+
+  /*
+   * If we are in a city or next to land, we have no chance of losing
+   * the ship.  To make this really useful for ai planning purposes, we'd
+   * need to confirm that we can exist/move at the x,y location we are given.
+   */
+  if ((map_get_terrain(x, y) != T_OCEAN) || is_coastline(x, y) ||
+      (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)))
+	losspct = 0;
+  else if (player_knows_techs_with_flag(pplayer,TF_REDUCE_TRIREME_LOSS2))
+	losspct /= 4;
+  else if (player_knows_techs_with_flag(pplayer,TF_REDUCE_TRIREME_LOSS1))
+	losspct /= 2;
+
+  return losspct;
+}

@@ -813,7 +813,7 @@ static void handle_leonardo(struct player *pplayer)
 	
   unit_list_unlink_all(&candidates);
 }	
-		  
+
 /***************************************************************************
 Restore unit hitpoints. (movepoint - restoration moved to update_unit_activities)
 Do Leonardo's Workshop upgrade if applicable.
@@ -824,12 +824,11 @@ Carriers and Submarines can now only supply fuel to a limited
 number of units each, equal to their transport_capacity. --dwp
 (Hitpoint adjustments include Helicopters out of cities, but
 that is handled within unit_restore_hitpoints().)
-Triremes will be wiped with 50% chance if they're not close to
+Triremes will be wiped with a variable chance if they're not close to
 land, and player doesn't have Lighthouse.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
-  int lighthouse_effect=-1;	/* 1=yes, 0=no, -1=not yet calculated */
   int done;
 
   /* get Leonardo out of the way first: */
@@ -922,13 +921,8 @@ void player_restore_units(struct player *pplayer)
 		unit_name(punit->type));
 	wipe_unit_safe(punit, &myiter);
       }
-    } else if (unit_flag(punit->type, F_TRIREME) && (lighthouse_effect!=1) &&
-	       !is_coastline(punit->x, punit->y) &&
-	       (map_get_terrain(punit->x, punit->y) == T_OCEAN)) {
-      if (lighthouse_effect == -1) {
-	lighthouse_effect = player_owns_active_wonder(pplayer, B_LIGHTHOUSE);
-      }
-      if ((!lighthouse_effect) && (myrand(100) >= 50)) {
+    } else if (unit_flag(punit->type, F_TRIREME)) {
+      if ((myrand(100) <= trireme_loss_pct(pplayer, punit->x, punit->y))) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			 _("Game: Your %s has been lost on the high seas."),
 			 unit_name(punit->type));

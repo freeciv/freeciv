@@ -51,6 +51,8 @@ enum tech_flag_id {
                               reduces the initial revenue by cumulative factors of 2/3 */
   TF_AIRBASE,   /* "Airbase" unit types can build Airbases */
   TF_FARMLAND,  /* "Settler" unit types can build farmland */
+  TF_REDUCE_TRIREME_LOSS1, /* Reduces chance of Trireme being lost at sea */
+  TF_REDUCE_TRIREME_LOSS2, /* Reduces chance of Trireme being lost at sea */
   TF_LAST
 };
 

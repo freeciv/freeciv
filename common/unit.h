@@ -182,4 +182,7 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid);
 
 int is_my_zoc(struct unit *myunit, int x0, int y0);
 
+int trireme_loss_pct(struct player *pplayer, int x, int y);
+
+
 #endif  /* FC__UNIT_H */

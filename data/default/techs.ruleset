@@ -385,7 +385,7 @@ flags    = ""
 name     = _("Navigation")
 req1     = "Seafaring"
 req2     = "Astronomy"
-flags    = ""
+flags    = "Reduce_Trireme_Loss2"
 
 [advance_nuclear_fission]
 name     = _("Nuclear Fission")
@@ -481,7 +481,7 @@ flags    = ""
 name     = _("Seafaring")
 req1     = "Pottery"
 req2     = "Map Making"
-flags    = ""
+flags    = "Reduce_Trireme_Loss1"
 
 [advance_space_flight]
 name     = _("Space Flight")
