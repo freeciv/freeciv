@@ -1318,21 +1318,33 @@ Random neighbouring square.
 **************************************************************************/
 void rand_neighbour(int x0, int y0, int *x, int *y)
 {
-  int choice;
+  int n;
+  /* 
+   * list of all 8 directions 
+   */
+  enum direction8 dirs[8] = {
+    DIR8_NORTHWEST, DIR8_NORTH, DIR8_NORTHEAST, DIR8_WEST, DIR8_EAST,
+    DIR8_SOUTHWEST, DIR8_SOUTH, DIR8_SOUTHEAST
+  };
 
-  if (y0 == 0) {
-    choice = 3 + myrand(5);
-  } else if(y0 == map.ysize-1){
-    choice = myrand(5);
-  } else {
-    choice = myrand(8);
+  assert(is_real_tile(x0, y0));
+
+  /* This clever loop by Trent Piepho will take no more than
+   * 8 tries to find a valid direction. */
+  for (n = 8; n > 0; n--) {
+    enum direction8 choice = (enum direction8) myrand(n);
+    *x = x0 + DIR_DX[dirs[choice]];
+    *y = y0 + DIR_DY[dirs[choice]];
+
+    if (normalize_map_pos(x, y))	/* this neighbour's OK */
+      return;
+
+    /* Choice was bad, so replace it with the last direction in the list.
+     * On the next iteration, one fewer choices will remain. */
+    dirs[choice] = dirs[n - 1];
   }
 
-  *x = x0 + DIR_DX[choice];
-  *y = y0 + DIR_DY[choice];
-
-  assert(is_real_tile(*x, *y));
-  normalize_map_pos(x, y);
+  assert(0);			/* Are we on a 1x1 map with no wrapping??? */
 }
 
 /**************************************************************************
@@ -1340,9 +1352,26 @@ Return the debugging name of the direction.
 **************************************************************************/
 const char *dir_get_name(enum direction8 dir)
 {
-  static const char *names[8] = { "NW", "N", "NE", "W",
-    "E", "SW", "S", "SE"
-  };
-  assert(dir >= 0 && dir < 8);
-  return names[dir];
+  /* a switch statement is used so the ordering can be changed easily */
+  switch (dir) {
+  case DIR8_NORTH:
+    return "N";
+  case DIR8_NORTHEAST:
+    return "NE";
+  case DIR8_EAST:
+    return "E";
+  case DIR8_SOUTHEAST:
+    return "SE";
+  case DIR8_SOUTH:
+    return "S";
+  case DIR8_SOUTHWEST:
+    return "SW";
+  case DIR8_WEST:
+    return "W";
+  case DIR8_NORTHWEST:
+    return "NW";
+  default:
+    assert(0);
+    return "[Bad Direction]";
+  }
 }
