@@ -85,6 +85,24 @@ int num_tiles_explode_unit=0;
 static int roadstyle;
 static int flag_offset_x, flag_offset_y;
 
+/* Darkness style.  Don't reorder this enum since tilesets depend on it. */
+static enum {
+  /* No darkness sprites are drawn. */
+  DARKNESS0 = 0,
+
+  /* 1 sprite that is split into 4 parts and treated as a darkness4.  Only
+   * works in iso-view. */
+  DARKNESS1 = 1,
+
+  /* 4 sprites, one per direction.  More than one sprite per tile may be
+   * drawn. */
+  DARKNESS4 = 2,
+
+  /* 15=2^4-1 sprites.  A single sprite is drawn, chosen based on whether
+   * there's darkness in _each_ of the cardinal directions. */
+  DARKNESS15 = 3
+} darkness_style;
+
 struct specfile;
 
 #define SPECLIST_TAG specfile
@@ -681,6 +699,13 @@ bool tilespec_read_toplevel(const char *tileset_name)
 
   roadstyle = secfile_lookup_int_default(file, is_isometric ? 0 : 1,
 					 "tilespec.roadstyle");
+  darkness_style = secfile_lookup_int(file, "tilespec.darkness_style");
+  if (darkness_style < DARKNESS0
+      || darkness_style > DARKNESS15
+      || (darkness_style == DARKNESS1 && !is_isometric)) {
+    freelog(LOG_FATAL, _("Invalid darkness style set in tileset."));
+    exit(EXIT_FAILURE);
+  }
   flag_offset_x = secfile_lookup_int_default(file, 0,
 					     "tilespec.flag_offset_x");
   flag_offset_y = secfile_lookup_int_default(file, 0,
@@ -1075,32 +1100,45 @@ static void tilespec_lookup_sprite_tags(void)
     my_snprintf(buffer, sizeof(buffer), "tx.s_farmland_%s", nsew_str(i));
     SET_SPRITE_ALT(tx.farmland[i], buffer, "tx.farmland");
   }
-  
-  if (!is_isometric) {
-    for(i=1; i<NUM_DIRECTION_NSEW; i++) {
-      my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s", nsew_str(i));
-      SET_SPRITE(tx.darkness[i], buffer);
-    }
 
+  if (!is_isometric) {
     for(i=1; i<NUM_DIRECTION_NSEW; i++) {
       my_snprintf(buffer, sizeof(buffer), "tx.coast_cape_%s", nsew_str(i));
       SET_SPRITE(tx.coast_cape[i], buffer);
     }
-  } else {
-    /* Isometric: take a single tx.darkness tile and split it into 4. */
-    struct Sprite *darkness = load_sprite("tx.darkness");
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-    int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+  }
 
-    if (!darkness) {
-      die("Sprite tag darkness missing.");
+  switch (darkness_style) {
+  case DARKNESS0:
+    /* Nothing. */
+    break;
+  case DARKNESS1:
+    {
+      /* Isometric: take a single tx.darkness tile and split it into 4. */
+      struct Sprite *darkness = load_sprite("tx.darkness");
+      const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+      int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+
+      for (i = 0; i < 4; i++) {
+	sprites.tx.darkness[i] = crop_sprite(darkness, offsets[i][0],
+					     offsets[i][1], W / 2, H / 2,
+					     NULL, 0, 0);
+      }
     }
-
+    break;
+  case DARKNESS4:
     for (i = 0; i < 4; i++) {
-      sprites.tx.darkness[i] = crop_sprite(darkness, offsets[i][0],
-					   offsets[i][1], W / 2, H / 2,
-					   NULL, 0, 0);
+      my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s",
+		  dir_get_name(DIR4_TO_DIR8[i]));
+      SET_SPRITE(tx.darkness[i], buffer);
     }
+    break;
+  case DARKNESS15:
+    for(i = 1; i < NUM_DIRECTION_NSEW; i++) {
+      my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s", nsew_str(i));
+      SET_SPRITE(tx.darkness[i], buffer);
+    }
+    break;
   }
 
   for(i=0; i<4; i++) {
@@ -1984,7 +2022,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   struct tile *ptile = map_get_tile(map_x, map_y);
   enum tile_terrain_type ttype = ptile->terrain;
   struct terrain_drawing_data *draw = sprites.terrain[ttype];
-  int l;
+  int l, dir, adjc_x, adjc_y;
 
   if (!draw_terrain) {
     return 0;
@@ -2048,6 +2086,53 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
     /* Add blending on top of the first layer. */
     if (l == 0 && draw->is_blended) {
       sprs += fill_blending_sprite_array(sprs, map_x, map_y, ttype_near);
+    }
+
+    /* Add darkness on top of the first layer.  Note that darkness is always
+     * drawn, even in citymode, etc. */
+    if (l == 0) {
+#define UNKNOWN(dir)                                        \
+  (MAPSTEP(adjc_x, adjc_y, map_x, map_y, DIR4_TO_DIR8[dir]) \
+   && tile_get_known(adjc_x, adjc_y) == TILE_UNKNOWN)
+
+      switch (darkness_style) {
+      case DARKNESS0:
+	break;
+      case DARKNESS1:
+	for (dir = 0; dir < 4; dir++) {
+	  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+	  int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+
+	  if (UNKNOWN(dir)) {
+	    ADD_SPRITE(sprites.tx.darkness[dir],
+		       offsets[dir][0], offsets[dir][1]);
+	  }
+	}
+	break;
+      case DARKNESS4:
+	for (dir = 0; dir < 4; dir++) {
+	  if (UNKNOWN(dir)) {
+	    ADD_SPRITE_SIMPLE(sprites.tx.darkness[dir]);
+	  }
+	}
+	break;
+      case DARKNESS15:
+	/* We're looking to find the INDEX_NSEW for the directions that
+	 * are unknown.  We want to mark unknown tiles so that an unreal
+	 * tile will be given the same marking as our current tile - that
+	 * way we won't get the "unknown" dither along the edge of the
+	 * map. */
+	{
+	  int tileno = INDEX_NSEW(UNKNOWN(DIR4_NORTH), UNKNOWN(DIR4_SOUTH),
+				  UNKNOWN(DIR4_EAST), UNKNOWN(DIR4_WEST));
+
+	  if (tileno != 0) {
+	    ADD_SPRITE_SIMPLE(sprites.tx.darkness[tileno]);
+	  }
+	}
+	break;
+      }
+#undef UNKNOWN
     }
   }
 
@@ -2137,19 +2222,6 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
   
   sprs += fill_road_rail_sprite_array(sprs,
 				      tspecial, tspecial_near, pcity);
-
-  /* Add darkness sprites. */
-  for (dir = 0; dir < 4; dir++) {
-    int x1, y1;
-    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-    int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
-
-    if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir])
-	&& tile_get_known(x1, y1) == TILE_UNKNOWN) {
-      ADD_SPRITE(sprites.tx.darkness[dir],
-		 offsets[dir][0], offsets[dir][1]);
-    }
-  }
 
   if (draw_specials) {
     if (contains_special(tspecial, S_SPECIAL_1)) {
@@ -2309,33 +2381,6 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   }
   if(tile_get_known(abs_x0,abs_y0) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
     ADD_SPRITE_SIMPLE(sprites.tx.fog);
-  }
-
-  if (!citymode) {
-    /* 
-     * We're looking to find the INDEX_NSEW for the directions that
-     * are unknown.  We want to mark unknown tiles so that an unreal
-     * tile will be given the same marking as our current tile - that
-     * way we won't get the "unknown" dither along the edge of the
-     * map.
-     */
-    bool known[4];
-
-    for (dir = 0; dir < 4; dir++) {
-      int x1, y1;
-
-      if (MAPSTEP(x1, y1, abs_x0, abs_y0, DIR4_TO_DIR8[dir]))
-        known[dir] = (tile_get_known(x1, y1) != TILE_UNKNOWN);
-      else
-        known[dir] = TRUE;
-    }
-
-    tileno =
-	INDEX_NSEW(!known[DIR4_NORTH], !known[DIR4_SOUTH],
-		   !known[DIR4_EAST], !known[DIR4_WEST]);
-
-    if (tileno != 0) 
-      ADD_SPRITE_SIMPLE(sprites.tx.darkness[tileno]);
   }
 
   if (pcity && draw_cities) {

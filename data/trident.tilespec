@@ -23,6 +23,9 @@ is_mountainous = 0
 
 ; Use roadstyle 1 (old non-iso style)
 roadstyle = 1
+
+; Use darkness style 3 (15 sprites)
+darkness_style = 3
  
 ; offset the flags by this amount when drawing units
 flag_offset_x = 0

@@ -94,6 +94,24 @@ options include:
   normal_tile_height    : the height of terrain tiles
   small_tile_width      : the width of icon sprites
   small_tile_height     : the height of icon sprites
+  roadstyle             : Specifies how roads and rail are drawn.
+                          0 : A single sprite is drawn for every connection
+                              the tile has; only 8 sprites are needed.
+                          1 : A single sprite is drawn for all cardinal
+                              connections and a second sprite is drawn
+                              for all diagonal connections; 32 sprites are
+                              needed.
+  darkness_style        : Specifies how "encroaching darkness" is drawn.
+                          0 : No darkness.
+                          1 : A single sprite can be split into 4 parts, each
+                              containing the darkness for that particular
+                              cardinal direction.  (Iso-view only.)
+                          2 : Four different sprites exist, each holding the
+                              darkness for a particular direction.  Any or all
+                              of the sprites may be drawn.
+                          3 : The sprite is chosen based on the vector sum of
+                              the darkness in all 4 cardinal directions.  15
+                              different sprites are needed.
 
   Booleans (0 or 1)
   -----------------
