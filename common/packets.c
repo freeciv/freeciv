@@ -15,11 +15,49 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 #include <packets.h>
 #include <log.h>
 #include <capability.h>
 
 char our_capability[MSG_SIZE];
+
+/**************************************************************************
+Swap bytes on an integer considered as 16 bits
+**************************************************************************/
+static unsigned int swab_int16(unsigned int val)
+{
+  return ((val & 0xFF) << 8) | ((val & 0xFF00) >> 8);
+}
+
+/**************************************************************************
+Swap bytes on an integer considered as 32 bits
+**************************************************************************/
+static unsigned int swab_int32(unsigned int val)
+{
+  return ((val & 0xFF) << 24) | ((val & 0xFF00) << 8)
+    | ((val & 0xFF0000) >> 8) | ((val & 0xFF000000) >> 24);
+}
+
+/**************************************************************************
+Swap bytes on an pointed to integer considered as 16 bits
+**************************************************************************/
+#ifdef UNUSED
+static void swab_pint16(int *ptr)
+{
+  (*ptr) = swab_int16(*ptr);
+}
+#endif
+
+/**************************************************************************
+Swap bytes on an pointed to integer considered as 32 bits
+**************************************************************************/
+static void swab_pint32(int *ptr)
+{
+  (*ptr) = swab_int32(*ptr);
+}
 
 /**************************************************************************
 ...
@@ -34,8 +72,29 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   get_int16(pc->buffer.data, &len);
   get_int8(pc->buffer.data+2, &type);
 
+  if(pc->first_packet) {
+    /* the first packet better be short: */
+    if(0) freelog(LOG_DEBUG, "first packet type %d len %d", type, len);
+    if(len > 1024) {
+      freelog(LOG_NORMAL, "connection from %s detected as old byte order",
+	      pc->addr);
+      pc->byte_swap = 1;
+    } else {
+      pc->byte_swap = 0;
+    }
+    pc->first_packet = 0;
+  }
+
+  if(pc->byte_swap) {
+    len = swab_int16(len);
+    /* so the packet gets processed (removed etc) properly: */
+    put_int16(pc->buffer.data, len);
+  }
+
   if(len > pc->buffer.ndata)
     return NULL;           /* not all data has been read */
+
+  if(0) freelog(LOG_DEBUG, "packet type %d len %d", type, len);
 
   *ptype=type;
 
@@ -192,8 +251,9 @@ unsigned char *put_int8(unsigned char *buffer, int val)
 unsigned char *get_int16(unsigned char *buffer, int *val)
 {
   if(val) {
-    int myval=(*buffer)+((*(buffer+1))<<8);
-    *val=myval;
+    unsigned short x;
+    memcpy(&x,buffer,2);
+    *val=ntohs(x);
   }
   return buffer+2;
 }
@@ -204,9 +264,9 @@ unsigned char *get_int16(unsigned char *buffer, int *val)
 **************************************************************************/
 unsigned char *put_int16(unsigned char *buffer, int val)
 {
-  *buffer++=val&0xff;
-  *buffer++=(val&0xff00)>>8;
-  return buffer;
+  unsigned short x = htons(val);
+  memcpy(buffer,&x,2);
+  return buffer+2;
 }
 
 
@@ -216,13 +276,12 @@ unsigned char *put_int16(unsigned char *buffer, int val)
 unsigned char *get_int32(unsigned char *buffer, int *val)
 {
   if(val) {
-    int myval=(*buffer)+((*(buffer+1))<<8)+
-      ((*(buffer+2))<<16)+((*(buffer+3))<<24);
-    *val=myval;
+    unsigned long x;
+    memcpy(&x,buffer,4);
+    *val=ntohl(x);
   }
   return buffer+4;
 }
-
 
 
 /**************************************************************************
@@ -230,11 +289,9 @@ unsigned char *get_int32(unsigned char *buffer, int *val)
 **************************************************************************/
 unsigned char *put_int32(unsigned char *buffer, int val)
 {
-  *buffer++=val&0xff;
-  *buffer++=(val&0xff00)>>8;
-  *buffer++=(val&0xff0000)>>16;
-  *buffer++=(val&0xff000000)>>24;
-  return buffer;
+  unsigned long x = htonl(val);
+  memcpy(buffer,&x,4);
+  return buffer+4;
 }
 
 /**************************************************************************
@@ -1280,9 +1337,17 @@ int send_packet_join_game_reply(struct connection *pc, struct
   unsigned char buffer[MAX_PACKET_SIZE], *cptr;
   cptr=put_int8(buffer+2, PACKET_JOIN_GAME_REPLY);
   cptr=put_int32(cptr, reply->you_can_join);
+  /* if other end is byte swapped, you_can_join should be 0,
+     which is 0 even if bytes are swapped! --dwp */
   cptr=put_string(cptr, reply->message);
   cptr=put_string(cptr, reply->capability);
-  put_int16(buffer, cptr-buffer);
+
+  /* so that old clients will understand the reply: */
+  if(pc->byte_swap) {
+    put_int16(buffer, swab_int16(cptr-buffer));
+  } else {
+    put_int16(buffer, cptr-buffer);
+  }
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -1335,6 +1400,12 @@ recieve_packet_req_join_game(struct connection *pc)
   cptr=get_int32(cptr, &packet->minor_version);
   cptr=get_int32(cptr, &packet->patch_version);
   cptr=get_string(cptr, packet->capability);
+
+  if(pc->byte_swap) {
+    swab_pint32(&packet->major_version);
+    swab_pint32(&packet->minor_version);
+    swab_pint32(&packet->patch_version);
+  }
 
   remove_packet_from_buffer(&pc->buffer);
 

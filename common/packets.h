@@ -516,6 +516,8 @@ struct socket_packet_buffer {
 
 struct connection {
   int sock, used;
+  int first_packet;		/* check byte order on first packet */
+  int byte_swap;		/* connection uses non-network byte order */
   char *player; 
   struct socket_packet_buffer buffer;
   struct socket_packet_buffer send_buffer;

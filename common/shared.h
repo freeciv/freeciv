@@ -72,7 +72,7 @@
  */
 
 /* The default string is really simple */
-#define CAPABILITY "+1.8pre1"
+#define CAPABILITY "+1.8pre2"
 
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2

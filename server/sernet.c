@@ -44,7 +44,6 @@
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 
 struct connection connections[MAX_CONNECTIONS];
-int no_active_connections;
 int sock;
 extern int errno;
 extern int port;
@@ -65,15 +64,25 @@ void close_connection(struct connection *pconn)
 void close_connections_and_socket(void)
 {
   int i;
-  for(i=0; i<MAX_CONNECTIONS; i++)
+  
+  for(i=0; i<MAX_CONNECTIONS; i++) {
     if(connections[i].used) {
-      close(connections[i].sock);
-      connections[i].used=0;
-      close(sock);
+      close_connection(&connections[i]);
     }
+  }
+  close(sock);
 }
 
-/*****************************************************************************/
+/*****************************************************************************
+Get and handle:
+- new connections,
+- input from connections,
+- input from server operator in stdin
+Returns:
+  0 if went past end-of-turn timeout
+  2 if force_end_of_sniff found to be set
+  1 otherwise (got and processed something?)
+*****************************************************************************/
 int sniff_packets(void)
 {
   int i;
@@ -146,9 +155,7 @@ int sniff_packets(void)
 	  }
 	  else {
 	    lost_connection_to_player(&connections[i]);
-	    connections[i].used=0;
-	    close(connections[i].sock);
-	    
+	    close_connection(&connections[i]);
 	  }
 	}
     }
@@ -178,22 +185,26 @@ int server_accept_connection(int sockfd)
 
   if(new_sock!=-1) {
     int i;
-    for(i=0; i<MAX_CONNECTIONS; i++)
+    for(i=0; i<MAX_CONNECTIONS; i++) {
       if(!connections[i].used) {
 	connections[i].used=1;
 	connections[i].sock=new_sock;
 	connections[i].player=NULL;
 	connections[i].buffer.ndata=0;
+	connections[i].first_packet=1;
+	connections[i].byte_swap=0;
 
 	if(from) {
 	  strncpy(connections[i].addr, from->h_name, ADDR_LENGTH);
 	  connections[i].addr[ADDR_LENGTH-1]='\0';
 	}
-	else
+	else {
 	   strcpy(connections[i].addr, "unknown");
-
+	}
+	freelog(LOG_DEBUG, "connection from %s", connections[i].addr);
 	return 0;
       }
+    }
     freelog(LOG_FATAL, "maximum number of connections reached");
     return -1;
   }
@@ -256,5 +267,4 @@ void init_connections(void)
     connections[i].used=0;
     connections[i].buffer.ndata=0;
   }
-  no_active_connections=0;
 }
