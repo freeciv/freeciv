@@ -160,7 +160,8 @@ static void append_impr_or_unit_to_menu_sub(GtkMenuShell *menu,
   struct pcity_vector selected;
 
   pcity_vector_init(&selected);
-  pcity_vector_reserve(&selected, city_list_size(&game.player_ptr->cities));
+  pcity_vector_reserve(&selected,
+	gtk_tree_model_iter_n_children(GTK_TREE_MODEL(city_model), NULL)+1);
 
   if (change_prod) {
     GtkTreeIter it;
