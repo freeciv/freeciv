@@ -268,9 +268,9 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   if (!psprite)
     return;
 
-  if (fog && better_fog && !psprite->has_fog) {
+  if (fog && better_fog && !psprite->fog) {
     fog_sprite(psprite);
-    if (!psprite->has_fog) {
+    if (!psprite->fog) {
       freelog(LOG_NORMAL,
 	      _("Better fog will only work in truecolor.  Disabling it"));
       better_fog = FALSE;
@@ -338,6 +338,3 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 
   canvas_release_hdc(pcanvas);
 }
-
-
-

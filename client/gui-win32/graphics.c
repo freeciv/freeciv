@@ -93,17 +93,10 @@ load_cursors(void)
   int width = GetSystemMetrics(SM_CXCURSOR);
   int height = GetSystemMetrics(SM_CYCURSOR);
 
-  BITMAP bmp;
+  BITMAP *xor_bmp, *and_bmp;
 
-  unsigned char *xor_bmp = fc_malloc(width * height * 4);
-  unsigned char *and_bmp = fc_malloc(width * height * 4);
-
-  bmp.bmType = 0;
-  bmp.bmWidth = width;
-  bmp.bmHeight = height;
-  bmp.bmWidthBytes = width << 2;
-  bmp.bmPlanes = 1;
-  bmp.bmBitsPixel = 32;
+  xor_bmp = bmp_new(width, height);
+  and_bmp = bmp_new(width, height);
 
   ii.fIcon = FALSE;
 
@@ -112,41 +105,40 @@ load_cursors(void)
     int x, y;
     int minwidth, minheight;
     struct Sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
-    unsigned char *src;
 
-    ii.xHotspot = hot_x;
-    ii.yHotspot = hot_y;    
+    ii.xHotspot = MIN(hot_x, width);
+    ii.yHotspot = MIN(hot_y, height);
 
-    memset(xor_bmp, 0,   width * height * 4);
-    memset(and_bmp, 255, width * height * 4);
+    memset(xor_bmp->bmBits, 0,   width * height * 4);
+    memset(and_bmp->bmBits, 255, width * height * 4);
 
-    minwidth = MIN(width, sprite->img.bmWidth);
-    minheight = MIN(height, sprite->img.bmHeight);
+    minwidth  = MIN(width,  sprite->img->bmWidth);
+    minheight = MIN(height, sprite->img->bmHeight);
 
     for (y = 0; y < minheight; y++) {
-      src = (unsigned char *)sprite->img.bmBits + sprite->img.bmWidthBytes * y;
+      BYTE *src = (BYTE *)sprite->img->bmBits + sprite->img->bmWidthBytes * y;
+      BYTE *xor_dst = (BYTE *)xor_bmp->bmBits + xor_bmp->bmWidthBytes * y;
+      BYTE *and_dst = (BYTE *)and_bmp->bmBits + and_bmp->bmWidthBytes * y;
       for (x = 0; x < minwidth; x++) {
-	int byte_pos = (x + y * width) * 4;
-	
 	if (src[3] > 128) {
-	  xor_bmp[byte_pos]     = src[0];
-	  xor_bmp[byte_pos + 1] = src[1];
-	  xor_bmp[byte_pos + 2] = src[2];
-	  xor_bmp[byte_pos + 3] = 255;
-	  and_bmp[byte_pos]     = 0;
-	  and_bmp[byte_pos + 1] = 0;
-	  and_bmp[byte_pos + 2] = 0;
-	  and_bmp[byte_pos + 3] = 0;
+	  *xor_dst++ = src[0];
+	  *xor_dst++ = src[1];
+	  *xor_dst++ = src[2];
+	  *xor_dst++ = 255;
+	  *and_dst++ = 0;
+	  *and_dst++ = 0;
+	  *and_dst++ = 0;
+	  *and_dst++ = 0;
+	} else {
+	  and_dst += 4;
+	  xor_dst += 4;
 	}
-
 	src += 4;
       }
     }
 
-    bmp.bmBits = and_bmp;
-    ii.hbmMask = BITMAP2HBITMAP(&bmp);
-    bmp.bmBits = xor_bmp;
-    ii.hbmColor = BITMAP2HBITMAP(&bmp);
+    ii.hbmMask = BITMAP2HBITMAP(and_bmp);
+    ii.hbmColor = BITMAP2HBITMAP(xor_bmp);
 
     cursors[cursor] = CreateIconIndirect(&ii);
 
@@ -154,8 +146,8 @@ load_cursors(void)
     DeleteObject(ii.hbmColor);
   }
 
-  free(xor_bmp);
-  free(and_bmp);
+  bmp_free(xor_bmp);
+  bmp_free(and_bmp);
 }
 
 /****************************************************************************
@@ -172,6 +164,78 @@ void free_intro_radar_sprites(void)
     radar_gfx_sprite = NULL;
   }
 }
+
+
+/*************************************************************************
+  Create a device independent bitmap.
+*************************************************************************/
+BITMAP *bmp_new(int width, int height)
+{
+  BITMAP *bmp = fc_malloc(sizeof(*bmp));
+
+  bmp->bmType       = 0;
+  bmp->bmWidth      = width;
+  bmp->bmHeight     = height;
+  bmp->bmWidthBytes = width << 2;
+  bmp->bmPlanes     = 1;
+  bmp->bmBitsPixel  = 32;
+  bmp->bmBits       = fc_malloc(width * height * 4);
+
+  return bmp;
+}
+
+
+/*************************************************************************
+  Release all data held by a device independent bitmap.
+*************************************************************************/
+void bmp_free(BITMAP *bmp)
+{
+  free(bmp->bmBits);
+  free(bmp);
+}
+
+
+/*************************************************************************
+  Create a device independent bitmap from a device dependent bitmap.
+
+  This function makes GDI handle all the transformations, so we can store
+  all bitmaps (besides masks) in an internal 32-bit format.
+*************************************************************************/
+BITMAP *HBITMAP2BITMAP(HBITMAP hbmp)
+{
+  HDC hdc;
+  LPBITMAPINFO lpbi;
+  BITMAP *bmp = fc_malloc(sizeof(*bmp));
+
+  GetObject(hbmp, sizeof(BITMAP), bmp);
+
+  lpbi = fc_malloc(sizeof(BITMAPINFOHEADER) + 2 * sizeof(RGBQUAD));
+
+  lpbi->bmiHeader.biSize          = sizeof(BITMAPINFOHEADER);
+  lpbi->bmiHeader.biWidth         = bmp->bmWidth;
+  lpbi->bmiHeader.biHeight        = -abs(bmp->bmHeight);
+  lpbi->bmiHeader.biPlanes        = 1;
+  lpbi->bmiHeader.biBitCount      = 32;
+
+  lpbi->bmiHeader.biCompression   = BI_RGB;
+  lpbi->bmiHeader.biSizeImage     = 0;
+  lpbi->bmiHeader.biXPelsPerMeter = 0;
+  lpbi->bmiHeader.biYPelsPerMeter = 0;
+  lpbi->bmiHeader.biClrUsed       = 0;
+  lpbi->bmiHeader.biClrImportant  = 0;
+
+  bmp->bmWidthBytes = bmp->bmWidth << 2;
+  bmp->bmPlanes     = 1;
+  bmp->bmBitsPixel  = 32;
+  bmp->bmBits       = fc_malloc(bmp->bmHeight * bmp->bmWidthBytes);
+
+  hdc = GetDC(root_window);
+  GetDIBits(hdc, hbmp, 0, bmp->bmHeight, bmp->bmBits, lpbi, DIB_RGB_COLORS);
+  ReleaseDC(root_window, hdc);
+
+  return bmp;
+}
+
 
 /*************************************************************************
   Create a device dependent bitmap from a device independent bitmap.
@@ -210,8 +274,7 @@ HBITMAP BITMAP2HBITMAP(BITMAP *bmp)
   }
 
   hdc = GetDC(root_window);
-  hbmp = CreateDIBitmap(hdc, &lpbi->bmiHeader, CBM_INIT, bmp->bmBits, lpbi,
-			0);
+  hbmp = CreateDIBitmap(hdc, &lpbi->bmiHeader, CBM_INIT, bmp->bmBits, lpbi, 0);
   ReleaseDC(root_window, hdc);
 
   free(lpbi);
@@ -228,17 +291,60 @@ HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id)
   struct Bitmap_cache *bmpc;
 
   bmpc = &bitmap_cache[*cache_id];
-  if ((*cache_id == -1) || (bmpc->src != bmp)) {
+  if ((*cache_id == -1) || (bmpc->src != bmp->bmBits)) {
     cache_id_count++;
     cache_id_count %= CACHE_SIZE;
     *cache_id = cache_id_count;
     bmpc = &bitmap_cache[cache_id_count];
     DeleteObject(bmpc->hbmp);
-    bmpc->src = bmp;
+    bmpc->src = bmp->bmBits;
     bmpc->hbmp = BITMAP2HBITMAP(bmp);
   } 
   return bmpc->hbmp;
 }
+
+/**************************************************************************
+  Test whether a bitmap needs a mask, ie if its alpha channel
+  contains values other than 255.
+**************************************************************************/
+bool bmp_test_mask(BITMAP *bmp)
+{
+  int row, col;
+  BYTE *src;
+
+  for (row = 0; row < bmp->bmHeight; row++) {
+    src = (BYTE *)bmp->bmBits + bmp->bmWidthBytes * row;
+    for (col = 0; col < bmp->bmWidth; col++) {
+      if (src[3] != 255) {
+	return TRUE;
+      }
+      src += 4;
+    }
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+  Test whether a bitmap needs alpha blending, ie if its alpha channel
+  contains values other than 0 or 255.
+**************************************************************************/
+bool bmp_test_alpha(BITMAP *bmp)
+{
+  int row, col;
+  BYTE *src;
+
+  for (row = 0; row < bmp->bmHeight; row++) {
+    src = (BYTE *)bmp->bmBits + bmp->bmWidthBytes * row;
+    for (col = 0; col < bmp->bmWidth; col++) {
+      if ((src[3] != 0) && (src[3] != 255)) {
+	return TRUE;
+      }
+      src += 4;
+    }
+  }
+  return FALSE;
+}
+
 
 /**************************************************************************
   Premultiply the colors in a bitmap by the per-pixel alpha value, so
@@ -246,19 +352,18 @@ HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id)
 
   The AlphaBlend function requires this.
 **************************************************************************/
-BITMAP premultiply_alpha(BITMAP bmp)
+BITMAP *bmp_premult_alpha(BITMAP *bmp)
 {
-  BITMAP alphabmp;
-  unsigned char *src, *dst;
+  BITMAP *alpha;
+  BYTE *src, *dst;
   int row, col;
 
-  alphabmp = bmp;
-  alphabmp.bmBits = fc_malloc(bmp.bmWidthBytes * bmp.bmHeight);
+  alpha = bmp_new(bmp->bmWidth, bmp->bmHeight);
 
-  for (row = 0; row < bmp.bmHeight; row++) {
-    src = (unsigned char *)bmp.bmBits + bmp.bmWidthBytes * row;
-    dst = (unsigned char *)alphabmp.bmBits + alphabmp.bmWidthBytes * row;
-    for (col = 0; col < bmp.bmWidth; col++) {
+  for (row = 0; row < bmp->bmHeight; row++) {
+    src = (BYTE *)bmp->bmBits + bmp->bmWidthBytes * row;
+    dst = (BYTE *)alpha->bmBits + alpha->bmWidthBytes * row;
+    for (col = 0; col < bmp->bmWidth; col++) {
       dst[0] = src[0] * src[3] / 255;
       dst[1] = src[1] * src[3] / 255;
       dst[2] = src[2] * src[3] / 255;
@@ -268,52 +373,52 @@ BITMAP premultiply_alpha(BITMAP bmp)
     }
   }
     
-  return alphabmp;
+  return alpha;
 }
 
 /**************************************************************************
   Generate a mask from a bitmap's alpha channel, using a different dither
   function depending on transparency level.
 **************************************************************************/
-BITMAP generate_mask(BITMAP bmp)
+BITMAP *bmp_generate_mask(BITMAP *bmp)
 {
-  BITMAP mask;
-  unsigned char *src, *dst;
-  int row, col;
+  BITMAP *mask = fc_malloc(sizeof(*mask));
+  BYTE *src, *dst;
+  int row, col, bit_pos;
 
-  mask.bmType = 0;
-  mask.bmWidth = bmp.bmWidth;
-  mask.bmHeight = bmp.bmHeight;
-  mask.bmWidthBytes = (bmp.bmWidth + 7) / 8;
-  mask.bmPlanes = 1;
-  mask.bmBitsPixel = 1;
+  mask->bmType = 0;
+  mask->bmWidth = bmp->bmWidth;
+  mask->bmHeight = bmp->bmHeight;
+  mask->bmWidthBytes = (bmp->bmWidth + 7) / 8;
+  mask->bmPlanes = 1;
+  mask->bmBitsPixel = 1;
 
-  mask.bmBits = fc_malloc(mask.bmWidthBytes * mask.bmHeight);
-  memset((void *)mask.bmBits, 0, mask.bmWidthBytes * mask.bmHeight);
+  mask->bmBits = fc_malloc(mask->bmWidthBytes * mask->bmHeight);
+  memset(mask->bmBits, 0, mask->bmWidthBytes * mask->bmHeight);
 
-  for (row = 0; row < bmp.bmHeight; row++) {
-    src = (unsigned char *)bmp.bmBits + bmp.bmWidthBytes * row;
-    dst = (unsigned char *)mask.bmBits + mask.bmWidthBytes * row;
-    for (col = 0; col < bmp.bmWidth; col++) {
-      int byte_pos = col / 8;
-      int bit_pos  = col % 8;
+  src = (BYTE *)bmp->bmBits;
+
+  for (row = 0; row < bmp->bmHeight; row++) {
+    dst = (BYTE *)mask->bmBits + mask->bmWidthBytes * row;
+    bit_pos = 0;
+    for (col = 0; col < bmp->bmWidth; col++) {
       bool pixel = FALSE;
-      src += 3;
-      if (*src > 255 * 4 / 5) {
+      BYTE alpha = src[3];
+      if (alpha > 255 * 4 / 5) {
 	pixel = FALSE;
-      } else if (*src > 255 * 3 / 5) {
+      } else if (alpha > 255 * 3 / 5) {
 	if ((row + col * 2) % 4 == 0) {
 	  pixel = TRUE;
 	} else {
 	  pixel = FALSE;
 	}
-      } else if (*src > 255 * 2 / 5) {
+      } else if (alpha > 255 * 2 / 5) {
 	if ((row + col) % 2 == 0) {
 	  pixel = TRUE;
 	} else {
 	  pixel = FALSE;
 	}
-      } else if (*src > 255 * 1 / 5) {
+      } else if (alpha > 255 * 1 / 5) {
 	if ((row + col * 2) % 4 == 0) {
 	  pixel = FALSE;
 	} else {
@@ -323,10 +428,233 @@ BITMAP generate_mask(BITMAP bmp)
 	  pixel = TRUE;
       }
       if (pixel) {
-	dst[byte_pos] |= (128 >> bit_pos);
+	*dst |= (128 >> bit_pos);
       }
-      src++;
+      bit_pos++;
+      bit_pos %= 8;
+      if (bit_pos == 0) {
+	dst++;
+      }
+      src += 4;
     }
   }
+
+
   return mask;
+}
+
+
+/**************************************************************************
+  Create a cropped version of the given bitmap.
+**************************************************************************/
+BITMAP *bmp_crop(BITMAP *bmp, int src_x, int src_y, int width, int height)
+{
+  int row, col;
+  BITMAP *crop;
+  BYTE *src, *dst;
+
+  crop = bmp_new(width, height);
+  dst = crop->bmBits;
+
+  for (row = 0; row < height; row++) {
+    src = (BYTE *)bmp->bmBits + bmp->bmWidthBytes * (row + src_y) + 4 * src_x;
+    for (col = 0; col < width; col++) {
+      *dst++ = *src++;
+      *dst++ = *src++;
+      *dst++ = *src++;
+      *dst++ = *src++;
+    }
+  }
+
+  return crop;
+}
+
+/**************************************************************************
+  Combine a bitmap with the alpha channel of another. 
+  The second bitmap is offset by the given coordinates.
+**************************************************************************/
+BITMAP *bmp_blend_alpha(BITMAP *bmp, BITMAP *mask,
+			int offset_x, int offset_y)
+{
+  BYTE *src_bmp, *src_mask, *dst;
+  int row, col;
+  BITMAP *combine;
+
+  combine = bmp_new(bmp->bmWidth, bmp->bmHeight);
+
+  dst = combine->bmBits;
+  for (row = 0; row < bmp->bmHeight; row++) {
+    src_bmp  = (BYTE *)bmp->bmBits + bmp->bmWidthBytes * row;
+    src_mask = (BYTE *)mask->bmBits + mask->bmWidthBytes * (row + offset_y)
+	       + 4 * offset_x;
+    for (col = 0; col < bmp->bmWidth; col++) {
+      *dst++ = *src_bmp++;
+      *dst++ = *src_bmp++;
+      *dst++ = *src_bmp++;
+      *dst++ = *src_bmp++ * src_mask[3] / 255;
+      src_mask += 4;
+    }
+  }
+
+  return combine;
+}
+
+/**************************************************************************
+  Create a dimmed version of this bitmap, according to the value given.
+**************************************************************************/
+BITMAP *bmp_fog(BITMAP *bmp, int brightness)
+{
+  BITMAP *fog;
+  int bmpsize, i;
+  BYTE *src, *dst;
+
+  fog = bmp_new(bmp->bmWidth, bmp->bmHeight);
+  bmpsize = bmp->bmHeight * bmp->bmWidthBytes;
+
+  src = bmp->bmBits;
+  dst = fog->bmBits;
+  
+  for (i = 0; i < bmpsize; i += 4) {
+    *dst++ = *src++ * brightness / 100;
+    *dst++ = *src++ * brightness / 100;
+    *dst++ = *src++ * brightness / 100;
+    *dst++ = *src++;
+  }
+
+  return fog;
+}
+
+
+/**************************************************************************
+  Load a PNG file into a bitmap.
+**************************************************************************/
+BITMAP *bmp_load_png(const char *filename)
+{
+  png_structp pngp;
+  png_infop infop;
+  png_uint_32 sig_read = 0;
+  png_int_32 width, height, row, col;
+  int bit_depth, color_type, interlace_type;
+  FILE *fp;
+
+  png_bytep *row_pointers;
+   
+  BITMAP *bmp;
+  int has_mask;
+  BYTE *src, *dst;
+
+  if (!(fp = fopen(filename, "rb"))) {
+    MessageBox(NULL, "failed reading", filename, MB_OK);
+    freelog(LOG_FATAL, "Failed reading PNG file: %s", filename);
+    exit(EXIT_FAILURE);
+  }
+    
+  if (!(pngp = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL,
+				      NULL))) {
+
+    freelog(LOG_FATAL, "Failed creating PNG struct");
+    exit(EXIT_FAILURE);
+  }
+ 
+  if (!(infop = png_create_info_struct(pngp))) {
+    freelog(LOG_FATAL, "Failed creating PNG struct");
+    exit(EXIT_FAILURE);
+  }
+   
+  if (setjmp(pngp->jmpbuf)) {
+    freelog(LOG_FATAL, "Failed while reading PNG file: %s", filename);
+    exit(EXIT_FAILURE);
+  }
+
+  png_init_io(pngp, fp);
+  png_set_sig_bytes(pngp, sig_read);
+
+  png_read_info(pngp, infop);
+
+  png_set_strip_16(pngp);
+  png_set_gray_to_rgb(pngp);
+  png_set_packing(pngp);
+  png_set_palette_to_rgb(pngp);
+  png_set_tRNS_to_alpha(pngp);
+  png_set_filler(pngp, 0xFF, PNG_FILLER_AFTER);
+  png_set_bgr(pngp);
+
+  png_read_update_info(pngp, infop);
+  png_get_IHDR(pngp, infop, &width, &height, &bit_depth, &color_type,
+	       &interlace_type, NULL, NULL);
+  
+  has_mask = (color_type & PNG_COLOR_MASK_ALPHA);
+
+  row_pointers = fc_malloc(sizeof(png_bytep) * height);
+
+  for (row = 0; row < height; row++)
+    row_pointers[row] = fc_malloc(png_get_rowbytes(pngp, infop));
+
+  png_read_image(pngp, row_pointers);
+  png_read_end(pngp, infop);
+  fclose(fp);
+
+  bmp = bmp_new(width, height);
+
+  if (has_mask) {
+    for (row = 0, dst = bmp->bmBits; row < height; row++) {
+      for (col = 0, src = row_pointers[row]; col < width; col++) {
+	*dst++ = *src++;
+	*dst++ = *src++;
+	*dst++ = *src++;
+	*dst++ = *src++;
+      }
+    }
+  } else {
+    for (row = 0, dst = bmp->bmBits; row < height; row++) {
+      for (col = 0, src = row_pointers[row]; col < width; col++) {
+	*dst++ = *src++;
+	*dst++ = *src++;
+	*dst++ = *src++;
+	*dst++ = 255;
+	src++;
+      }
+    } 
+  }
+
+  for (row = 0; row < height; row++)
+    free(row_pointers[row]);
+  free(row_pointers);
+  png_destroy_read_struct(&pngp, &infop, NULL);
+
+  return bmp;
+}
+
+
+/**************************************************************************
+  Blend a bitmap into a device context, with per pixel alpha.  A fallback
+  for when AlphaBlend() is not available.
+
+  FIXME: make less slow.
+**************************************************************************/
+void blend_bmp_to_hdc(HDC hdc, int dst_x, int dst_y, int w, int h,
+		      BITMAP *bmp, int src_x, int src_y)
+{
+  int row, col;
+  for (row = dst_y; row < dst_y + h; row++) {
+    BYTE *src = (BYTE *)bmp->bmBits + bmp->bmWidthBytes * (src_y + row - dst_y)
+		+ 4 * src_x;
+    for (col = dst_x; col < dst_x + w; col++) {
+      COLORREF cr;
+      BYTE r, g, b;
+
+      if (src[3] == 255) {
+	SetPixel(hdc, col, row, RGB(src[0], src[1], src[2]));
+      } else if (src[3] != 0) {
+	cr = GetPixel(hdc, col, row);
+
+	r = (src[0] + GetRValue(cr) * (256 - src[3])) >> 8;
+	g = (src[1] + GetGValue(cr) * (256 - src[3])) >> 8;
+	b = (src[2] + GetBValue(cr) * (256 - src[3])) >> 8;
+
+	SetPixel(hdc, col, row, RGB(r, g, b));
+      }
+      src += 4;
+    } 
+  }
 }

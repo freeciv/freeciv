@@ -27,14 +27,10 @@ The bitmaps are stored using GetObject/GetBitmapBits.
 
 struct Sprite
 {
-  bool has_mask;
-  bool has_fog;
-  bool has_pmimg;
-  bool alphablend;
-  BITMAP img;
-  BITMAP fog;
-  BITMAP mask;
-  BITMAP pmimg;
+  BITMAP *img;
+  BITMAP *fog;
+  BITMAP *mask;
+  BITMAP *pmimg;
   int img_cache_id;
   int fog_cache_id;
   int mask_cache_id;

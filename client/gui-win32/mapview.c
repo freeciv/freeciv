@@ -78,7 +78,7 @@ void map_expose(int x, int y, int width, int height)
       load_intro_gfx();
     }
     if (!intro_gfx) {
-      intro_gfx = BITMAP2HBITMAP(&intro_gfx_sprite->img);
+      intro_gfx = BITMAP2HBITMAP(intro_gfx_sprite->img);
     }
     hdc = GetDC(map_window);
     introgfxdc = CreateCompatibleDC(hdc);
@@ -463,7 +463,7 @@ void overview_expose(HDC hdc)
       bmp=NULL;
       for(i=0;i<4;i++)
 	if (indicator_sprite[i]) {
-	  bmp=BITMAP2HBITMAP(&indicator_sprite[i]->img);
+	  bmp=BITMAP2HBITMAP(indicator_sprite[i]->img);
 	  if (!old)
 	    old=SelectObject(hdctest,bmp);
 	  else

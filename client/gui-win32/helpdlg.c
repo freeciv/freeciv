@@ -39,10 +39,10 @@
  
 #include "climisc.h"
 #include "colors.h"
-#include "graphics.h"
 #include "gui_stuff.h"
 #include "helpdata.h"
 #include "options.h"
+#include "sprite.h"
 #include "tilespec.h"
                                   
 #include "helpdlg.h"

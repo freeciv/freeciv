@@ -52,6 +52,36 @@ gfx_fileextensions(void)
   return ext;
 }
 
+/**************************************************************************
+  Create a new sprite from the given bitmap.
+**************************************************************************/
+static struct Sprite *sprite_new(BITMAP *bmp)
+{
+  struct Sprite *mysprite;
+
+  mysprite = fc_malloc(sizeof(struct Sprite));
+
+  mysprite->img            = bmp;
+  mysprite->fog            = NULL;
+  mysprite->mask           = NULL;
+  mysprite->pmimg          = NULL;
+  mysprite->img_cache_id   = -1;
+  mysprite->fog_cache_id   = -1;
+  mysprite->mask_cache_id  = -1;
+  mysprite->pmimg_cache_id = -1;
+  mysprite->width          = bmp->bmWidth;
+  mysprite->height         = bmp->bmHeight;
+
+  if (bmp_test_mask(bmp)) {
+    mysprite->mask = bmp_generate_mask(bmp);
+    if (bmp_test_alpha(bmp)) {
+      mysprite->pmimg = bmp_premult_alpha(bmp);
+    }
+  }
+
+  return mysprite;
+}
+
 /***************************************************************************
   Load the given graphics file into a sprite.  This function loads an
   entire image file, which may later be broken up into individual sprites
@@ -59,128 +89,7 @@ gfx_fileextensions(void)
 ***************************************************************************/
 struct Sprite *load_gfxfile(const char *filename)
 {
-  png_structp pngp;
-  png_infop infop;
-  png_uint_32 sig_read = 0;
-  png_int_32 width, height, row, col;
-  int bit_depth, color_type, interlace_type;
-  FILE *fp;
-
-  png_bytep *row_pointers;
-   
-  struct Sprite *mysprite;
-  int has_mask;
-  void *buf;
-  BYTE *pb, *p;
-
-  if (!(fp = fopen(filename, "rb"))) {
-    MessageBox(NULL, "failed reading", filename, MB_OK);
-    freelog(LOG_FATAL, "Failed reading PNG file: %s", filename);
-    exit(EXIT_FAILURE);
-  }
-    
-  if (!(pngp = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL,
-				      NULL))) {
-
-    freelog(LOG_FATAL, "Failed creating PNG struct");
-    exit(EXIT_FAILURE);
-  }
- 
-  if (!(infop = png_create_info_struct(pngp))) {
-    freelog(LOG_FATAL, "Failed creating PNG struct");
-    exit(EXIT_FAILURE);
-  }
-   
-  if (setjmp(pngp->jmpbuf)) {
-    freelog(LOG_FATAL, "Failed while reading PNG file: %s", filename);
-    exit(EXIT_FAILURE);
-  }
-
-  png_init_io(pngp, fp);
-  png_set_sig_bytes(pngp, sig_read);
-
-  png_read_info(pngp, infop);
-
-  png_set_strip_16(pngp);
-  png_set_gray_to_rgb(pngp);
-  png_set_packing(pngp);
-  png_set_palette_to_rgb(pngp);
-  png_set_tRNS_to_alpha(pngp);
-  png_set_filler(pngp, 0xFF, PNG_FILLER_AFTER);
-  png_set_bgr(pngp);
-
-  png_read_update_info(pngp, infop);
-  png_get_IHDR(pngp, infop, &width, &height, &bit_depth, &color_type,
-	       &interlace_type, NULL, NULL);
-  
-  has_mask = (color_type & PNG_COLOR_MASK_ALPHA);
-
-  row_pointers = fc_malloc(sizeof(png_bytep) * height);
-
-  for (row = 0; row < height; row++)
-    row_pointers[row] = fc_malloc(png_get_rowbytes(pngp, infop));
-
-  png_read_image(pngp, row_pointers);
-  png_read_end(pngp, infop);
-  fclose(fp);
-
-
-  mysprite = fc_malloc(sizeof(struct Sprite));
-
-  buf = fc_malloc((width * height) << 2);
-
-  mysprite->has_mask = has_mask;
-  mysprite->has_fog = FALSE;
-  mysprite->has_pmimg = FALSE;
-  mysprite->alphablend = FALSE;
-  mysprite->img_cache_id = -1;
-  mysprite->fog_cache_id = -1;
-  mysprite->mask_cache_id = -1;
-  mysprite->pmimg_cache_id = -1;
-  mysprite->width = width;
-  mysprite->height = height;
-
-  mysprite->img.bmType = 0;
-  mysprite->img.bmWidth = width;
-  mysprite->img.bmHeight = height;
-  mysprite->img.bmWidthBytes = width << 2;
-  mysprite->img.bmPlanes = 1;
-  mysprite->img.bmBitsPixel = 32;
-  mysprite->img.bmBits = buf;
-
-  if (has_mask) {
-    for (row = 0, pb = buf; row < height; row++) {
-      for (col = 0, p = row_pointers[row]; col<width; col++) {
-	*pb++ = *p++;
-	*pb++ = *p++;
-	*pb++ = *p++;
-	if ((*p != 0) && (*p != 255)) {
-	  mysprite->alphablend = TRUE;
-	}
-	*pb++ = *p++;
-      }
-    }
-  } else {
-    for (row = 0, pb = buf; row < height; row++) {
-      for (col = 0, p = row_pointers[row]; col<width; col++) {
-	*pb++ = *p++;
-	*pb++ = *p++;
-	*pb++ = *p++;
-	*pb++ = 255;
-	p++;
-      }
-    } 
-  }
-
-  if (has_mask) {
-    mysprite->mask = generate_mask(mysprite->img);
-  }
-
-  for (row = 0; row < height; row++)
-    free(row_pointers[row]);
-  free(row_pointers);
-  png_destroy_read_struct(&pngp, &infop, NULL);
-  return mysprite;
+  return sprite_new(bmp_load_png(filename));
 }
 
 /****************************************************************************
@@ -205,78 +114,19 @@ struct Sprite *crop_sprite(struct Sprite *sprsrc,
 			   struct Sprite *sprmask,
 			   int mask_offset_x, int mask_offset_y)
 {
-  struct Sprite *mysprite = NULL;
-  unsigned char *srcimg, *dstimg, *mskimg;
-  int row, col;
+  BITMAP *crop_bmp, *dst_bmp;
 
-  mysprite = fc_malloc(sizeof(struct Sprite));
-  mysprite->has_mask = FALSE;
-  mysprite->has_fog = FALSE;
-  mysprite->has_pmimg = FALSE;
-  mysprite->alphablend = FALSE;
-  mysprite->img_cache_id = -1;
-  mysprite->fog_cache_id = -1;
-  mysprite->mask_cache_id = -1;
-  mysprite->pmimg_cache_id = -1;
-  mysprite->width = width;
-  mysprite->height = height;
+  crop_bmp = bmp_crop(sprsrc->img, x, y, width, height);
 
-  mysprite->img.bmType = 0;
-  mysprite->img.bmWidth = width;
-  mysprite->img.bmHeight = height;
-  mysprite->img.bmWidthBytes = width << 2;
-  mysprite->img.bmPlanes = 1;
-  mysprite->img.bmBitsPixel = 32;
-  mysprite->img.bmBits = fc_malloc(width * height * 4);
-
-  for (row = 0; row < height; row++) {
-    srcimg = (unsigned char *)sprsrc->img.bmBits
-	     + sprsrc->img.bmWidthBytes * (row + y) + 4 * x;
-    dstimg = (unsigned char *)mysprite->img.bmBits
-	     + mysprite->img.bmWidthBytes * row;
-    for (col = 0; col < width; col++) {
-      *dstimg++ = *srcimg++;
-      *dstimg++ = *srcimg++;
-      *dstimg++ = *srcimg++;
-      *dstimg++ = *srcimg++;
-    }
+  if (sprmask && sprmask->mask) {
+    dst_bmp = bmp_blend_alpha(crop_bmp, sprmask->img,
+			      x - mask_offset_x, y - mask_offset_y);
+    bmp_free (crop_bmp);
+  } else {
+    dst_bmp = crop_bmp;
   }
 
-  if (sprmask && sprmask->has_mask) {
-    for (row = 0; row < height; row++) {
-      mskimg = (unsigned char *)sprmask->img.bmBits
-	       + sprmask->img.bmWidthBytes * (row + y - mask_offset_y)
-	       + 4 * (x - mask_offset_x);
-      dstimg = (unsigned char *)mysprite->img.bmBits
-	       + mysprite->img.bmWidthBytes * row;
-      for (col = 0; col < width; col++) {
-	dstimg += 3;
-	mskimg += 3;
-	*dstimg = *dstimg * *mskimg / 255;
-	dstimg++;
-	mskimg++;
-      }
-    }
-  }
-
-  for (row = 0; row < height; row++) {
-    dstimg = (unsigned char *)mysprite->img.bmBits
-	     + mysprite->img.bmWidthBytes * row;
-    for (col = 0; col < width; col++) {
-      dstimg += 3;
-      if ((*dstimg != 0) && (*dstimg != 255)) {
-	mysprite->alphablend = TRUE;
-      }
-      dstimg++;
-    }
-  }
-
-  if ((sprmask && sprmask->has_mask) || sprsrc->has_mask) {
-    mysprite->has_mask = TRUE;
-    mysprite->mask = generate_mask(mysprite->img);
-  }
-
-  return mysprite;
+  return sprite_new(dst_bmp);
 }
 
 /****************************************************************************
@@ -294,19 +144,19 @@ void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height)
 **************************************************************************/
 void free_sprite(struct Sprite *s)
 {
-  if (s->has_mask) {
-    free(s->mask.bmBits);
+  if (s->mask) {
+    bmp_free(s->mask);
   }
 
-  if (s->has_fog) {
-    free(s->fog.bmBits);
+  if (s->fog) {
+    bmp_free(s->fog);
   }
 
-  if (s->has_pmimg) {
-    free(s->pmimg.bmBits);
+  if (s->pmimg) {
+    bmp_free(s->pmimg);
   }
 
-  free(s->img.bmBits);
+  bmp_free(s->img);
 
   free(s);
 }
@@ -346,129 +196,72 @@ void init_fog_bmp(void)
 **************************************************************************/
 void fog_sprite(struct Sprite *sprite)
 {
-  int bmpsize, i;
-  unsigned char *p, *pb;
-
-  bmpsize = sprite->img.bmHeight * sprite->img.bmWidthBytes;
-
-  /* Copy over all the bitmap info, and replace the bits pointer */
-  sprite->fog = sprite->img;
-  sprite->fog.bmBits = fc_malloc(bmpsize);
-
-  /* RGBA 8888 */
-  p = sprite->img.bmBits;
-  pb = sprite->fog.bmBits;
-
-#define FOG_BRIGHTNESS 65
-
-  for (i = 0; i < bmpsize; i += 4) {
-    *pb++ = *p++ * FOG_BRIGHTNESS / 100;
-    *pb++ = *p++ * FOG_BRIGHTNESS / 100;
-    *pb++ = *p++ * FOG_BRIGHTNESS / 100;
-    *pb++ = *p++;
-  }
-
-#undef FOG_BRIGHTNESS
-
-  sprite->has_fog = 1;
+  sprite->fog = bmp_fog(sprite->img, 65);
 }
 
 /**************************************************************************
   Draw a sprite to the specified device context.
 **************************************************************************/
 static void real_draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y,
-			     int w, int h, int offset_x, int offset_y,
-			     bool fog)
+			     int w, int h, int src_x, int src_y, bool fog)
 {
-  HDC hdccomp;
-  HBITMAP tempbit;
-  HBITMAP bmpimg;
+  HDC src_hdc;
+  HBITMAP tmp;
+  HBITMAP hbmp;
   bool blend;
 
   if (!sprite) return;
 
-  w = MIN(w, sprite->width - offset_x);
-  h = MIN(h, sprite->height - offset_y);
+  w = MIN(w, sprite->width  - src_x);
+  h = MIN(h, sprite->height - src_y);
 
-  blend = enable_alpha && sprite->alphablend;
-
-  if (!fog && blend && !sprite->has_pmimg) {
-    sprite->pmimg = premultiply_alpha(sprite->img);
-    sprite->has_pmimg = TRUE;
-  }
+  blend = enable_alpha && sprite->pmimg;
 
   if (!fog && blend && !have_AlphaBlend) {
-    /* Software alpha blending.  Even works in 16-bit.
-     * FIXME: make this less slow. */
-    int row, col;
-    for (row = 0; row < h; row++) {
-      unsigned char *src = (unsigned char *)sprite->pmimg.bmBits 
-			   + sprite->pmimg.bmWidthBytes * row;
-      for (col = 0; col < w; col++) {
-	COLORREF cr;
-	unsigned char r, g, b;
-
-	if (src[3] == 255) {
-	  SetPixel(hdc, col + x, row + y, RGB(src[0], src[1], src[2]));
-	} else if (src[3] != 0) {
-	  cr = GetPixel(hdc, col + x, row + y);
-
-	  r = (src[0] + GetRValue(cr) * (256 - src[3])) >> 8;
-	  g = (src[1] + GetGValue(cr) * (256 - src[3])) >> 8;
-	  b = (src[2] + GetBValue(cr) * (256 - src[3])) >> 8;
-
-	  SetPixel(hdc, col + x, row + y, RGB(r, g, b));
-	}
-	src += 4;
-      } 
-    }
+    blend_bmp_to_hdc(hdc, x, y, w, h, sprite->pmimg, src_x, src_y);
     return;
   }
-
-  hdccomp = CreateCompatibleDC(hdc);
   
   if (fog) {
-    bmpimg = getcachehbitmap(&(sprite->fog), &(sprite->fog_cache_id));
+    hbmp = getcachehbitmap(sprite->fog,   &(sprite->fog_cache_id));
   } else if (blend) {
-    bmpimg = getcachehbitmap(&(sprite->pmimg), &(sprite->pmimg_cache_id));
+    hbmp = getcachehbitmap(sprite->pmimg, &(sprite->pmimg_cache_id));
   } else {
-    bmpimg = getcachehbitmap(&(sprite->img), &(sprite->img_cache_id));
+    hbmp = getcachehbitmap(sprite->img,   &(sprite->img_cache_id));
   }
 
-  tempbit = SelectObject(hdccomp, bmpimg);
+  src_hdc = CreateCompatibleDC(hdc);
+  tmp = SelectObject(src_hdc, hbmp);
 
-  if (blend) {
+  if (!fog && blend) {
     BLENDFUNCTION bf;
-    bf.BlendOp = AC_SRC_OVER;
-    bf.BlendFlags = 0;
+    bf.BlendOp             = AC_SRC_OVER;
+    bf.BlendFlags          = 0;
     bf.SourceConstantAlpha = 255;
-    bf.AlphaFormat = AC_SRC_ALPHA;
-    AlphaBlend(hdc, x, y, w, h, hdccomp, offset_x, offset_y, w, h, bf);
+    bf.AlphaFormat         = AC_SRC_ALPHA;
+    AlphaBlend(hdc, x, y, w, h, src_hdc, src_x, src_y, w, h, bf);
+  } else if (sprite->mask) {
+    HDC mask_hdc;
+    HBITMAP tmp2;
+    HBITMAP mask_hbmp;
+
+    mask_hbmp = getcachehbitmap(sprite->mask, &(sprite->mask_cache_id));
+
+    mask_hdc = CreateCompatibleDC(hdc);
+    tmp2 = SelectObject(mask_hdc, mask_hbmp);
+
+    BitBlt(hdc, x, y, w, h, src_hdc,  src_x, src_y, SRCINVERT);
+    BitBlt(hdc, x, y, w, h, mask_hdc, src_x, src_y, SRCAND);
+    BitBlt(hdc, x, y, w, h, src_hdc,  src_x, src_y, SRCINVERT);
+
+    SelectObject(mask_hdc, tmp2);
+    DeleteDC(mask_hdc);
   } else {
-    if (sprite->has_mask) {
-      HDC hdcmask;
-      HBITMAP tempmask;
-      HBITMAP bmpmask;
-
-      bmpmask = getcachehbitmap(&(sprite->mask), &(sprite->mask_cache_id));
-
-      hdcmask = CreateCompatibleDC(hdc);
-
-      tempmask = SelectObject(hdcmask, bmpmask);
-
-      BitBlt(hdc, x, y, w, h, hdccomp, offset_x, offset_y, SRCINVERT);
-      BitBlt(hdc, x, y, w, h, hdcmask, offset_x, offset_y, SRCAND);
-      BitBlt(hdc, x, y, w, h, hdccomp, offset_x, offset_y, SRCINVERT);
-
-      SelectObject(hdcmask, tempmask);
-      DeleteDC(hdcmask);
-    } else {
-      BitBlt(hdc, x, y, w, h, hdccomp, offset_x, offset_y, SRCCOPY);
-    }
+    BitBlt(hdc, x, y, w, h, src_hdc, src_x, src_y, SRCCOPY);
   }
 
-  SelectObject(hdccomp, tempbit);
-  DeleteDC(hdccomp);
+  SelectObject(src_hdc, tmp);
+  DeleteDC(src_hdc);
 }
 
 /**************************************************************************
@@ -516,7 +309,7 @@ void draw_fog(struct Sprite *sprmask, HDC hdc, int x, int y)
   w = sprmask->width;
   h = sprmask->height;
 
-  bmpmask = getcachehbitmap(&(sprmask->mask), &(sprmask->mask_cache_id));
+  bmpmask = getcachehbitmap(sprmask->mask, &(sprmask->mask_cache_id));
 
   hdcsrc = CreateCompatibleDC(hdc);
   tempsrc = SelectObject(hdcsrc, bmpmask);

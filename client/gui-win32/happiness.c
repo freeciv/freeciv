@@ -28,10 +28,10 @@
 #include "text.h"
 #include "tilespec.h"
 
-#include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "happiness.h"
+#include "sprite.h"
 
 #define HAPPINESS_PIX_WIDTH 23
 
