@@ -235,7 +235,10 @@ int main(int argc, char *argv[])
   mysrand(time(NULL));
 
   boot_help_texts();
-  tilespec_read_toplevel(tileset_name); /* get tile sizes etc */
+  if (!tilespec_read_toplevel(tileset_name)) {
+    /* get tile sizes etc */
+    exit(EXIT_FAILURE);
+  }
 
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);

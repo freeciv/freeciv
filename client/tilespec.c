@@ -58,6 +58,10 @@ char *minimap_intro_filename;
 
 struct named_sprites sprites;
 
+/* Stores the currently loaded tileset.  This differs from the value in
+ * options.h since that variable is changed by the GUI code. */
+static char current_tileset[512];
+
 static const int DIR4_TO_DIR8[4] =
     { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
 
@@ -238,7 +242,7 @@ static char *tilespec_fullname(const char *tileset_name)
   Die if not.
   'which' should be "tilespec" or "spec".
 ***********************************************************************/
-static void check_tilespec_capabilities(struct section_file *file,
+static bool check_tilespec_capabilities(struct section_file *file,
 					const char *which,
 					const char *us_capstr,
 					const char *filename)
@@ -246,20 +250,24 @@ static void check_tilespec_capabilities(struct section_file *file,
   char *file_capstr = secfile_lookup_str(file, "%s.options", which);
   
   if (!has_capabilities(us_capstr, file_capstr)) {
-    freelog(LOG_FATAL, _("%s file appears incompatible:"), which);
-    freelog(LOG_FATAL, _("file: \"%s\""), filename);
-    freelog(LOG_FATAL, _("file options: %s"), file_capstr);
-    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
-    exit(EXIT_FAILURE);
+    freelog(LOG_ERROR, _("%s file appears incompatible:\n"
+			 "file: \"%s\"\n"
+			 "file options: %s\n"
+			 "supported options: %s"),
+	    which, filename, file_capstr, us_capstr);
+    return FALSE;
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
-    freelog(LOG_FATAL, _("%s file claims required option(s)"
-			 " which we don't support:"), which);
-    freelog(LOG_FATAL, _("file: \"%s\""), filename);
-    freelog(LOG_FATAL, _("file options: %s"), file_capstr);
-    freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
-    exit(EXIT_FAILURE);
+    freelog(LOG_ERROR, _("%s file claims required option(s)"
+			 " which we don't support:\n"
+			 "file: \"%s\"\n"
+			 "file options: %s\n"
+			 "supported options: %s"),
+	    which, filename, file_capstr, us_capstr);
+    return FALSE;
   }
+
+  return TRUE;
 }
 
 /**********************************************************************
@@ -305,7 +313,9 @@ static void tilespec_free_toplevel(void)
   Read a new tilespec in from scratch.
 
   Unlike the initial reading code, which reads pieces one at a time,
-  this gets rid of the old data and reads in the new all at once.
+  this gets rid of the old data and reads in the new all at once.  If the
+  new tileset fails to load the old tileset may be reloaded; otherwise the
+  client will exit.
 
   It will also call the necessary functions to redraw the graphics.
 ***********************************************************************/
@@ -335,7 +345,11 @@ void tilespec_reread(const char *tileset_name)
    *
    * We read in the new tileset.  This should be pretty straightforward.
    */
-  tilespec_read_toplevel(tileset_name);
+  if (!tilespec_read_toplevel(tileset_name)) {
+    if (!tilespec_read_toplevel(current_tileset)) {
+      die("Failed to re-read the currently loaded tileset.");
+    }
+  }
   tilespec_load_tiles();
 
   /* Step 3: Setup
@@ -431,7 +445,11 @@ static void ensure_big_sprite(struct specfile *sf)
     freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
-  check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, sf->file_name);
+
+  if (!check_tilespec_capabilities(file, "spec",
+				   SPEC_CAPSTR, sf->file_name)) {
+    exit(EXIT_FAILURE);
+  }
 
   gfx_fileexts = gfx_fileextensions();
   gfx_filename = secfile_lookup_str(file, "file.gfx");
@@ -477,7 +495,10 @@ static void scan_specfile(struct specfile *sf, bool duplicates_ok)
     freelog(LOG_FATAL, _("Could not open \"%s\"."), sf->file_name);
     exit(EXIT_FAILURE);
   }
-  check_tilespec_capabilities(file, "spec", SPEC_CAPSTR, sf->file_name);
+  if (!check_tilespec_capabilities(file, "spec",
+				   SPEC_CAPSTR, sf->file_name)) {
+    exit(EXIT_FAILURE);
+  }
 
   /* currently unused */
   (void) section_file_lookup(file, "info.artists");
@@ -596,7 +617,7 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
   Sets global variables, including tile sizes and full names for
   intro files.
 ***********************************************************************/
-void tilespec_read_toplevel(const char *tileset_name)
+bool tilespec_read_toplevel(const char *tileset_name)
 {
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
@@ -610,10 +631,14 @@ void tilespec_read_toplevel(const char *tileset_name)
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
 
   if (!section_file_load(file, fname)) {
-    freelog(LOG_FATAL, _("Could not open \"%s\"."), fname);
-    exit(EXIT_FAILURE);
+    freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
+    return FALSE;
   }
-  check_tilespec_capabilities(file, "tilespec", TILESPEC_CAPSTR, fname);
+
+  if (!check_tilespec_capabilities(file, "tilespec",
+				   TILESPEC_CAPSTR, fname)) {
+    return FALSE;
+  }
 
   file_capstr = secfile_lookup_str(file, "%s.options", "tilespec");
   duplicates_ok = has_capabilities("+duplicates_ok", file_capstr);
@@ -627,8 +652,7 @@ void tilespec_read_toplevel(const char *tileset_name)
     assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
-    tilespec_read_toplevel(NULL);
-    return;
+    return tilespec_read_toplevel(NULL);
   }
   if (!is_isometric && !overhead_view_supported()) {
     freelog(LOG_ERROR, _("Client does not support overhead view tilesets."
@@ -636,8 +660,7 @@ void tilespec_read_toplevel(const char *tileset_name)
     assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
-    tilespec_read_toplevel(NULL);
-    return;
+    return tilespec_read_toplevel(NULL);
   }
 
   NORMAL_TILE_WIDTH = secfile_lookup_int(file, "tilespec.normal_tile_width");
@@ -683,8 +706,8 @@ void tilespec_read_toplevel(const char *tileset_name)
   /* Terrain drawing info. */
   terrains = secfile_get_secnames_prefix(file, "terrain_", &num_terrains);
   if (num_terrains == 0) {
-    freelog(LOG_FATAL, "No terrain types supported by tileset.");
-    exit(EXIT_FAILURE);
+    freelog(LOG_ERROR, "No terrain types supported by tileset.");
+    return FALSE;
   }
 
   assert(terrain_hash == NULL);
@@ -728,7 +751,9 @@ void tilespec_read_toplevel(const char *tileset_name)
     }
 
     if (!hash_insert(terrain_hash, terr->name, terr)) {
-      die("warning: duplicate terrain entry %s.", terrains[i]);
+      freelog(LOG_NORMAL, "warning: duplicate terrain entry %s.",
+	      terrains[i]);
+      return FALSE;
     }
   }
   free(terrains);
@@ -737,8 +762,8 @@ void tilespec_read_toplevel(const char *tileset_name)
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
 					  "tilespec.files");
   if (num_spec_files == 0) {
-    freelog(LOG_FATAL, "No tile files specified in \"%s\"", fname);
-    exit(EXIT_FAILURE);
+    freelog(LOG_ERROR, "No tile files specified in \"%s\"", fname);
+    return FALSE;
   }
 
   sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
@@ -762,6 +787,10 @@ void tilespec_read_toplevel(const char *tileset_name)
   section_file_free(file);
   freelog(LOG_VERBOSE, "finished reading %s", fname);
   free(fname);
+
+  sz_strlcpy(current_tileset, tileset_name);
+
+  return TRUE;
 }
 
 /**********************************************************************
