@@ -1598,6 +1598,23 @@ static void load_ruleset_terrain(struct section_file *file)
       sz_strlcpy(t->graphic_alt,
 		 secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
 
+      t->identifier = secfile_lookup_str(file, "%s.identifier", sec[i])[0];
+      for (j = T_FIRST; j < i; j++) {
+	if (t->identifier == tile_types[j].identifier) {
+	  freelog(LOG_FATAL,
+		  /* TRANS: message for an obscure ruleset error. */
+		  _("Terrains %s and %s have the same identifier."),
+		  t->terrain_name, tile_types[j].terrain_name);
+	  exit(EXIT_FAILURE);
+	}
+      }
+      if (t->identifier == UNKNOWN_TERRAIN_IDENTIFIER) {
+	/* TRANS: message for an obscure ruleset error. */
+	freelog(LOG_FATAL, _("'%c' cannot be used as a terrain identifier; "
+			     "it is reserved."), UNKNOWN_TERRAIN_IDENTIFIER);
+	exit(EXIT_FAILURE);
+      }
+
       t->movement_cost = secfile_lookup_int(file, "%s.movement_cost", sec[i]);
       t->defense_bonus = secfile_lookup_int(file, "%s.defense_bonus", sec[i]);
 

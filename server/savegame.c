@@ -180,7 +180,6 @@
 "startunits turn_last_built improvement_order technology_order"
 
 static const char hex_chars[] = "0123456789abcdef";
-static const char terrain_chars[] = "adfghjm prstu";
 
 /***************************************************************
 This returns an ascii hex value of the given half-byte of the binary
@@ -218,18 +217,38 @@ static int ascii_hex2bin(char ch, int halfbyte)
   return (pch - hex_chars) << (halfbyte * 4);
 }
 
-/***************************************************************
-Dereferences the terrain character.  See terrain_chars[].
-  example: char2terrain('a') == 0
-***************************************************************/
-static int char2terrain(char ch)
+/****************************************************************************
+  Dereferences the terrain character.  See tile_types[].identifier
+    example: char2terrain('a') => T_ARCTIC
+****************************************************************************/
+static enum tile_terrain_type char2terrain(char ch)
 {
-  char *pch = strchr(terrain_chars, ch);
-
-  if (!pch || ch == '\0') {
-    die("Unknown terrain type: '%c' %d", ch, ch);
+  if (ch == UNKNOWN_TERRAIN_IDENTIFIER) {
+    return T_UNKNOWN;
   }
-  return pch - terrain_chars;
+  terrain_type_iterate(id) {
+    if (tile_types[id].identifier == ch) {
+      return id;
+    }
+  } terrain_type_iterate_end;
+
+  /* TRANS: message for an obscure savegame error. */
+  freelog(LOG_FATAL, _("Unknown terrain identifier '%c' in savegame."), ch);
+  exit(EXIT_FAILURE);
+}
+
+/****************************************************************************
+  References the terrain character.  See tile_types[].identifier
+    example: terrain2char(T_ARCTIC) => 'a'
+****************************************************************************/
+static char terrain2char(enum tile_terrain_type terr)
+{
+  if (terr == T_UNKNOWN) {
+    return UNKNOWN_TERRAIN_IDENTIFIER;
+  } else {
+    assert(terr >= T_FIRST && terr < T_COUNT);
+    return tile_types[terr].identifier;
+  }
 }
 
 /***************************************************************
@@ -504,7 +523,7 @@ static void map_save(struct section_file *file)
     
   /* put the terrain type */
   SAVE_NORMAL_MAP_DATA(x, y, file, "map.t%03d",
-		       terrain_chars[map_get_tile(x, y)->terrain]);
+		       terrain2char(map_get_tile(x, y)->terrain));
 
   if (!map.have_specials) {
     if (map.have_rivers_overlay) {
@@ -2555,8 +2574,8 @@ static void player_save(struct player *plr, int plrno,
 
     /* put the terrain type */
     SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_t%03d", plrno, 
-			 terrain_chars[map_get_player_tile
-				       (x, y, plr)->terrain]);
+			 terrain2char(map_get_player_tile
+				      (x, y, plr)->terrain));
 
     /* put 4-bit segments of 12-bit "special flags" field */
     SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_l%03d", plrno,
