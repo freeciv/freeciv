@@ -598,7 +598,7 @@ void update_unit_info_label(struct unit *pUnit)
   add_refresh_rect(pBuf->size);
 
   if (pUnit) {
-    queue_mapview_update();
+    update_map_canvas_visible();
     if (hover_unit != pUnit->id)
       set_hover_state(NULL, HOVER_NONE);
 
