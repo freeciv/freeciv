@@ -13,7 +13,7 @@ PACKAGE=freeciv
 
 dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
-m4_include(version.in)
+sinclude(version.in)
 
 VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}
 
