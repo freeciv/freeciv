@@ -523,7 +523,6 @@ AC_STRUCT_TM
 
 dnl Checks for library functions.
 AC_TYPE_SIGNAL
-AC_FUNC_FORK
 AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
 AC_FUNC_VSNPRINTF
@@ -531,6 +530,7 @@ AC_FUNC_VSNPRINTF
 AC_CHECK_FUNCS([fileno ftime gethostname getpwuid inet_aton \
 		select snooze strerror strcasecmp strncasecmp \
 		strlcat strlcpy strstr usleep vsnprintf uname flock])
+AC_CHECK_FUNC([fork], AC_DEFINE(HAVE_WORKING_FORK))
 AC_MSG_CHECKING(for working gettimeofday)
   FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY),)
 
