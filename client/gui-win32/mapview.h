@@ -14,6 +14,7 @@
 #define FC__MAPVIEW_H
 
 #include "mapview_g.h"
+
 void pixmap_put_tile(HDC hdc, int x, int y, int abs_x0, int abs_y0,
                      int citymode);
 void put_city_tile_output(HDC hdc, int x, int y,

@@ -18,6 +18,7 @@
 #include "gtkpixcomm.h"
 
 #include "mapview_g.h"
+#include "mapview_common.h"
 
 #include "graphics.h"
 

@@ -120,6 +120,8 @@ civclient_SOURCES = \
 	goto.h		\
 	helpdata.c	\
 	helpdata.h	\
+	mapview_common.c \
+	mapview_common.h \
 	packhand.c	\
 	packhand.h	\
 	options.c	\

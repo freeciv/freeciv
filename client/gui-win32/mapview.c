@@ -1208,21 +1208,6 @@ void overview_expose(HDC hdc)
 }
 
 /**************************************************************************
-This function is now identical in all GUI's except BeOS.
-**************************************************************************/
-void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
-{
-  int is_real = normalize_map_pos(&x, &y);
-
-  assert(is_real);
-  
-  if(tile_visible_mapcanvas(x, y)) {
-    update_map_canvas(x,y, 1, 1, write_to_screen);
-  }
-  overview_update_tile(x, y);   
-}
-
-/**************************************************************************
 
 **************************************************************************/
 void map_handle_hscroll(int pos)

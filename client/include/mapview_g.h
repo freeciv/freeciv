@@ -13,6 +13,8 @@
 #ifndef FC__MAPVIEW_G_H
 #define FC__MAPVIEW_G_H
 
+#include "mapview_common.h"
+
 struct unit;
 struct city;
 
@@ -47,7 +49,6 @@ void put_nuke_mushroom_pixmaps(int x, int y);
 
 void refresh_overview_canvas(void);
 void refresh_overview_viewrect(void);
-void refresh_tile_mapcanvas(int x, int y, int write_to_screen);
 
 void draw_segment(int src_x, int src_y, int dir);
 void undraw_segment(int src_x, int src_y, int dir);

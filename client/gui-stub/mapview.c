@@ -153,12 +153,6 @@ refresh_overview_viewrect(void)
 	/* PORTME */
 }
 
-void
-refresh_tile_mapcanvas(int x, int y, int write_to_screen)
-{
-	/* PORTME */
-}
-
 void draw_segment(int src_x, int src_y, int dir)
 {
 	/* PORTME */

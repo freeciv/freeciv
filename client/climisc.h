@@ -37,8 +37,6 @@ int client_research_sprite(void);
 int client_warming_sprite(void);
 int client_cooling_sprite(void);
 
-enum color_std get_grid_color(int x1, int y1, int x2, int y2);
-
 void center_on_something(void);
 
 int concat_tile_activity_text(char *buf, int buf_size, int x, int y);

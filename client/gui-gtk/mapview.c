@@ -629,21 +629,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   gtk_pixmap_set(GTK_PIXMAP(government_label), gov_sprite->pixmap, NULL);
 }
 
-/**************************************************************************
-This function is now identical in all GUI's except BeOS.
-**************************************************************************/
-void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
-{
-  int is_real = normalize_map_pos(&x, &y);
-
-  assert(is_real);
-
-  if (tile_visible_mapcanvas(x, y)) {
-    update_map_canvas(x, y, 1, 1, write_to_screen);
-  }
-  overview_update_tile(x, y);
-}
-
 
 /**************************************************************************
 ...
