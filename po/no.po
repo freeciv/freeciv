@@ -1,4 +1,4 @@
-#
+F#
 #     Norwegian Translation
 #
 # This translation is covered by the GNU General Public License Version 2.
@@ -16,8 +16,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14\n"
-"POT-Creation-Date: 2002-10-09 20:41\n"
-"PO-Revision-Date: 2002-10-09 20:41\n"
+"POT-Creation-Date: 2002-10-10 16:28-0700\n"
+"PO-Revision-Date: 2002-10-10 16:28\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Language-Team: Norwegian\n"
 "MIME-Version: 1.0\n"
@@ -121,16 +121,16 @@ msgid "Road"
 msgstr "Vei"
 
 # irrigert er tillatt på norsk, men skulle gjerne hatt et bedre ord
+#: common/map.c:55 common/map.c:620 common/unit.c:544
 #: client/gui-gtk-2.0/menu.c:616 client/gui-gtk/menu.c:615
 #: client/gui-mui/gui_main.c:222 client/gui-win32/menu.c:306
-#: client/gui-xaw/menu.c:136 common/map.c:55 common/map.c:620
-#: common/unit.c:544
+#: client/gui-xaw/menu.c:136
 msgid "Irrigation"
 msgstr "Irrigert land"
 
 #: common/map.c:56 common/map.c:612 common/unit.c:549
-#: data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439
-#: data/default/techs.ruleset:448
+#: data/default/techs.ruleset:448 data/civ2/techs.ruleset:439
+#: data/civ1/techs.ruleset:439
 msgid "Railroad"
 msgstr "Jernbane"
 
@@ -138,8 +138,8 @@ msgstr "Jernbane"
 msgid "Mine"
 msgstr "Gruve"
 
-#: client/cityrepdata.c:231 common/map.c:58 common/unit.c:541
-#: server/report.c:109
+#: common/map.c:58 common/unit.c:541 server/report.c:109
+#: client/cityrepdata.c:231
 msgid "Pollution"
 msgstr "Forurensning"
 
@@ -224,21 +224,21 @@ msgstr "?diplomatic_state:Nøytral"
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Krig"
 
-#: client/gui-gtk-2.0/diplodlg.c:444 client/gui-gtk/diplodlg.c:444
-#: client/gui-mui/diplodlg.c:623 client/gui-win32/diplodlg.c:295
-#: client/gui-xaw/diplodlg.c:512 common/player.c:527
+#: common/player.c:527 client/gui-gtk-2.0/diplodlg.c:444
+#: client/gui-gtk/diplodlg.c:444 client/gui-mui/diplodlg.c:623
+#: client/gui-win32/diplodlg.c:295 client/gui-xaw/diplodlg.c:512
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Våpenhvile"
 
-#: client/gui-gtk-2.0/diplodlg.c:449 client/gui-gtk/diplodlg.c:449
-#: client/gui-mui/diplodlg.c:627 client/gui-win32/diplodlg.c:296
-#: client/gui-xaw/diplodlg.c:516 common/player.c:528
+#: common/player.c:528 client/gui-gtk-2.0/diplodlg.c:449
+#: client/gui-gtk/diplodlg.c:449 client/gui-mui/diplodlg.c:627
+#: client/gui-win32/diplodlg.c:296 client/gui-xaw/diplodlg.c:516
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Fred"
 
-#: client/gui-gtk-2.0/diplodlg.c:454 client/gui-gtk/diplodlg.c:454
-#: client/gui-mui/diplodlg.c:631 client/gui-win32/diplodlg.c:297
-#: client/gui-xaw/diplodlg.c:520 common/player.c:529
+#: common/player.c:529 client/gui-gtk-2.0/diplodlg.c:454
+#: client/gui-gtk/diplodlg.c:454 client/gui-mui/diplodlg.c:631
+#: client/gui-win32/diplodlg.c:297 client/gui-xaw/diplodlg.c:520
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Allianse"
 
@@ -331,16 +331,17 @@ msgstr "Fordi Civilization burde være fritt!"
 msgid "error %d (compiled without strerror)"
 msgstr "feil %d (kompilert uten 'strerror')"
 
-#: client/gui-gtk-2.0/repodlgs.c:327 client/gui-gtk-2.0/repodlgs.c:335
-#: client/gui-gtk-2.0/repodlgs.c:443 client/gui-gtk/repodlgs.c:325
-#: client/gui-gtk/repodlgs.c:333 client/gui-gtk/repodlgs.c:438
-#: common/tech.c:544
+#: common/tech.c:544 client/gui-gtk-2.0/repodlgs.c:327
+#: client/gui-gtk-2.0/repodlgs.c:335 client/gui-gtk-2.0/repodlgs.c:443
+#: client/gui-gtk/repodlgs.c:325 client/gui-gtk/repodlgs.c:333
+#: client/gui-gtk/repodlgs.c:438
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Forsker på Framtidsteknologi %d"
 
-#: client/gui-gtk-2.0/plrdlg.c:125 client/gui-gtk/plrdlg.c:125
-#: client/gui-mui/plrdlg.c:172 client/gui-win32/plrdlg.c:356 common/unit.c:540
+#: common/unit.c:540 client/gui-gtk-2.0/plrdlg.c:125
+#: client/gui-gtk/plrdlg.c:125 client/gui-mui/plrdlg.c:172
+#: client/gui-win32/plrdlg.c:356
 msgid "Idle"
 msgstr "Stille"
 
@@ -352,18 +353,19 @@ msgstr "Befester posisjon"
 msgid "Fortified"
 msgstr "Befestet"
 
-#: client/gui-mui/gui_main.c:247 client/gui-mui/mapclass.c:1797
-#: client/gui-mui/mapclass.c:3082 client/gui-xaw/menu.c:169 common/unit.c:548
+#: common/unit.c:548 client/gui-mui/gui_main.c:247
+#: client/gui-mui/mapclass.c:1797 client/gui-mui/mapclass.c:3082
+#: client/gui-xaw/menu.c:169
 msgid "Sentry"
 msgstr "Hold stand"
 
-#: client/gui-gtk-2.0/menu.c:665 client/gui-gtk/menu.c:664
+#: common/unit.c:550 client/gui-gtk-2.0/menu.c:665 client/gui-gtk/menu.c:664
 #: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1799
-#: client/gui-win32/menu.c:332 client/gui-xaw/menu.c:170 common/unit.c:550
+#: client/gui-win32/menu.c:332 client/gui-xaw/menu.c:170
 msgid "Pillage"
 msgstr "Plyndre"
 
-#: client/gui-win32/gotodlg.c:162 common/unit.c:551 data/Freeciv:1126
+#: common/unit.c:551 client/gui-win32/gotodlg.c:162 data/Freeciv:1126
 msgid "Goto"
 msgstr "Gå til"
 
@@ -375,18 +377,18 @@ msgstr "Utforske"
 msgid "Transform"
 msgstr "Endre"
 
-#: client/gui-mui/gui_main.c:258 client/gui-xaw/menu.c:180 common/unit.c:556
+#: common/unit.c:556 client/gui-mui/gui_main.c:258 client/gui-xaw/menu.c:180
 msgid "Patrol"
 msgstr "Patruljer"
 
-#: client/gui-gtk-2.0/citydlg.c:2237 client/gui-gtk/citydlg.c:2290
-#: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
-#: client/gui-xaw/citydlg.c:1435 common/unit.c:557
+#: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:2237
+#: client/gui-gtk/citydlg.c:2290 client/gui-mui/citydlg.c:2161
+#: client/gui-win32/citydlg.c:1412 client/gui-xaw/citydlg.c:1435
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: client/gui-mui/dialogs.c:1529 client/gui-mui/mapview.c:250
-#: common/unit.c:855
+#: common/unit.c:855 client/gui-mui/dialogs.c:1529
+#: client/gui-mui/mapview.c:250
 msgid " (veteran)"
 msgstr " (veteran)"
 
@@ -949,7 +951,7 @@ msgstr "Dette er serveren for %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Mer informasjon om Freeciv finnes på %s"
 
-#: client/civclient.c:128 server/civserver.c:129
+#: server/civserver.c:129 client/civclient.c:128
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -958,13 +960,13 @@ msgstr ""
 "Bruk: %s [alternativ ...]\n"
 "Gyldige alternativ er:\n"
 
-#: client/civclient.c:132 server/civserver.c:131
+#: server/civserver.c:131 client/civclient.c:132
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tSett debuggings-loggnivå (0-4, eller 4:fil1,min,max:...)\n"
 
-#: client/civclient.c:135 server/civserver.c:134
+#: server/civserver.c:134 client/civclient.c:135
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tSett debug-loggnivå (0-3)\n"
 
@@ -976,7 +978,7 @@ msgstr "  -f, --file FILE\tLast inn lagret spill FILE\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FILE\tBruk FILE som loggfil for spillet\n"
 
-#: client/civclient.c:137 server/civserver.c:138
+#: server/civserver.c:138 client/civclient.c:137
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tSkriv ut sammendrag av alternativene\n"
 
@@ -984,7 +986,7 @@ msgstr "  -h, --help\t\tSkriv ut sammendrag av alternativene\n"
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\tYtterligere informasjon for metaserveren\n"
 
-#: client/civclient.c:138 server/civserver.c:140
+#: server/civserver.c:140 client/civclient.c:138
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FILE\tBruk FILE som loggfil.\n"
 
@@ -1009,13 +1011,13 @@ msgstr ""
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\tLes oppstartsmanus i FILE\n"
 
-#: client/civclient.c:149 server/civserver.c:147
+#: server/civserver.c:147 client/civclient.c:149
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tSkriv ut versjonsnummeret\n"
 
-#: client/gui-gtk-2.0/gui_main.c:264 client/gui-gtk/gui_main.c:166
-#: client/gui-mui/gui_main.c:102 client/gui-xaw/gui_main.c:228
-#: server/civserver.c:148
+#: server/civserver.c:148 client/gui-gtk-2.0/gui_main.c:264
+#: client/gui-gtk/gui_main.c:166 client/gui-mui/gui_main.c:102
+#: client/gui-xaw/gui_main.c:228
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Rapporter feil, unoter og/eller 'bugs' til <%s>.\n"
@@ -1466,7 +1468,7 @@ msgstr "Spill: Du har forårsaket en skandale ved å oppmuntre til opprør i %s."
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
 msgstr "Spill: %s har forårsaket en skandale ved å oppmuntre til opprør i %s."
 
-#: client/gui-mui/mapview.c:196 server/gamehand.c:183
+#: server/gamehand.c:183 client/gui-mui/mapview.c:196
 #, c-format
 msgid "Year: %s"
 msgstr "År: %s"
@@ -1736,24 +1738,24 @@ msgstr "Spill: %s stjal %s fra deg!"
 msgid "Game: Cannot change rates before game start."
 msgstr "Spill: Kan ikke endre prioritering/nivå før spillstart."
 
-#: client/gui-gtk-2.0/gamedlgs.c:245 client/gui-gtk/gamedlgs.c:243
-#: client/gui-win32/ratesdlg.c:315 server/plrhand.c:646
+#: server/plrhand.c:646 client/gui-gtk-2.0/gamedlgs.c:245
+#: client/gui-gtk/gamedlgs.c:243 client/gui-win32/ratesdlg.c:315
 msgid "Tax"
 msgstr "Skatt"
 
-#: client/agents/cma_core.c:2017 client/gui-gtk-2.0/gamedlgs.c:265
-#: client/gui-gtk/gamedlgs.c:263 client/gui-mui/citydlg.c:1691
-#: client/gui-win32/ratesdlg.c:321 server/plrhand.c:648
+#: server/plrhand.c:648 client/agents/cma_core.c:2017
+#: client/gui-gtk-2.0/gamedlgs.c:265 client/gui-gtk/gamedlgs.c:263
+#: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luksus"
 
-#: client/agents/cma_core.c:2019 client/gui-gtk-2.0/gamedlgs.c:285
-#: client/gui-gtk-2.0/repodlgs.c:129 client/gui-gtk/gamedlgs.c:283
-#: client/gui-gtk/repodlgs.c:139 client/gui-mui/citydlg.c:1695
-#: client/gui-mui/repodlgs.c:280 client/gui-win32/ratesdlg.c:327
-#: client/gui-win32/repodlgs.c:97 client/gui-xaw/menu.c:200
-#: client/gui-xaw/repodlgs.c:244 client/gui-xaw/repodlgs.c:489
-#: data/Freeciv:1362 server/plrhand.c:650
+#: server/plrhand.c:650 client/agents/cma_core.c:2019
+#: client/gui-gtk-2.0/gamedlgs.c:285 client/gui-gtk-2.0/repodlgs.c:129
+#: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
+#: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
+#: client/gui-win32/ratesdlg.c:327 client/gui-win32/repodlgs.c:97
+#: client/gui-xaw/menu.c:200 client/gui-xaw/repodlgs.c:244
+#: client/gui-xaw/repodlgs.c:489 data/Freeciv:1362
 msgid "Science"
 msgstr "Forskning"
 
@@ -1955,17 +1957,17 @@ msgstr "Befolket område"
 msgid "Research Speed"
 msgstr "Forskingstempo"
 
-#: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301
-#: data/default/techs.ruleset:308 server/report.c:105
+#: server/report.c:105 data/default/techs.ruleset:308
+#: data/civ2/techs.ruleset:301 data/civ1/techs.ruleset:301
 msgid "Literacy"
 msgstr "Utdannelse"
 
-#: client/gui-mui/citydlg.c:1538 server/report.c:106
+#: server/report.c:106 client/gui-mui/citydlg.c:1538
 msgid "Production"
 msgstr "Produksjon"
 
-#: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175
-#: data/default/techs.ruleset:182 server/report.c:107
+#: server/report.c:107 data/default/techs.ruleset:182
+#: data/civ2/techs.ruleset:175 data/civ1/techs.ruleset:175
 msgid "Economics"
 msgstr "Økonomi"
 
@@ -2057,8 +2059,8 @@ msgstr "%s har blitt ØDELAGT\n"
 msgid "(building %s in %s (%s))\n"
 msgstr "(bygger %s i %s (%s))\n"
 
-#: client/gui-mui/gui_main.c:277 client/gui-xaw/menu.c:202
-#: data/helpdata.txt:797 server/report.c:321
+#: server/report.c:321 client/gui-mui/gui_main.c:277 client/gui-xaw/menu.c:202
+#: data/helpdata.txt:797
 msgid "Wonders of the World"
 msgstr "Verdens underverk"
 
@@ -2158,20 +2160,20 @@ msgstr "Klarte ikke å laste inn regeloppsettfilen \"%s\"."
 msgid "Ruleset datafile appears incompatible:"
 msgstr "Datafilen til regeloppsettet ser inkompatibel ut:"
 
-#: client/audio.c:253 client/audio.c:261 client/tilespec.c:187
-#: client/tilespec.c:195 server/ruleset.c:173 server/ruleset.c:181
+#: server/ruleset.c:173 server/ruleset.c:181 client/audio.c:253
+#: client/audio.c:261 client/tilespec.c:187 client/tilespec.c:195
 #, c-format
 msgid "file: \"%s\""
 msgstr "fil: \"%s\""
 
-#: client/audio.c:254 client/audio.c:262 client/tilespec.c:188
-#: client/tilespec.c:196 server/ruleset.c:174 server/ruleset.c:182
+#: server/ruleset.c:174 server/ruleset.c:182 client/audio.c:254
+#: client/audio.c:262 client/tilespec.c:188 client/tilespec.c:196
 #, c-format
 msgid "file options: %s"
 msgstr "fil alternativ: %s"
 
-#: client/audio.c:255 client/audio.c:263 client/tilespec.c:189
-#: client/tilespec.c:197 server/ruleset.c:175 server/ruleset.c:183
+#: server/ruleset.c:175 server/ruleset.c:183 client/audio.c:255
+#: client/audio.c:263 client/tilespec.c:189 client/tilespec.c:197
 #, c-format
 msgid "supported options: %s"
 msgstr "støttede alternativ: %s"
@@ -2631,26 +2633,26 @@ msgstr "Spill: Spillet er over..."
 msgid "The game is over!"
 msgstr "Spillet er slutt!"
 
-#: server/stdinhand.c:178
+#: server/stdinhand.c:177
 msgid "Number of players is higher than requested value, keeping old value"
 msgstr ""
 "Antallet spillere er høyere enn den ønskede verdien, beholder den gamle "
 "verdien"
 
-#: server/stdinhand.c:218
+#: server/stdinhand.c:217
 msgid "Map width in squares"
 msgstr "Kartbredde i kvadrat"
 
-#: server/stdinhand.c:222
+#: server/stdinhand.c:221
 msgid "Map height in squares"
 msgstr "Karthøyde i kvadrat"
 
-#: server/stdinhand.c:229
+#: server/stdinhand.c:228
 msgid "Method used to generate map"
 msgstr "Metode brukt for å generere kart"
 
 # Er det et norsk ord for scenario???
-#: server/stdinhand.c:230
+#: server/stdinhand.c:229
 msgid ""
 "1 = standard, with random continents;\n"
 "2 = equally sized large islands with one player each, and twice that many\n"
@@ -2677,60 +2679,60 @@ msgstr ""
 "kart.\n"
 "  (0 indikerer kart for spesielt scenario.)"
 
-#: server/stdinhand.c:249
+#: server/stdinhand.c:248
 msgid "Presence or absence of 1x1 islands"
 msgstr "Om 1x1 øyer skal være med eller ikke"
 
-#: server/stdinhand.c:250
+#: server/stdinhand.c:249
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
 msgstr "0=ingen 1x1 øyer; 1=noen 1x1 øyer"
 
-#: server/stdinhand.c:254
+#: server/stdinhand.c:253
 msgid "Whether the poles are separate continents"
 msgstr "Om polene er separate kontinenter"
 
-#: server/stdinhand.c:255
+#: server/stdinhand.c:254
 msgid "0 = continents may attach to poles; 1 = poles will be separate"
 msgstr "0 = kontinenter kan tilsluttes polene, 1 = polene er separate"
 
-#: server/stdinhand.c:260
+#: server/stdinhand.c:259
 msgid "Amount of land vs ocean"
 msgstr "Mengde land vs hav"
 
-#: server/stdinhand.c:264
+#: server/stdinhand.c:263
 msgid "Amount of hills/mountains"
 msgstr "Mengde åser/fjell"
 
-#: server/stdinhand.c:265
+#: server/stdinhand.c:264
 msgid ""
 "Small values give flat maps, higher values give more hills and mountains."
 msgstr "Små verdier gir flate kart, høye verdier gir flere åser og fjell."
 
-#: server/stdinhand.c:270
+#: server/stdinhand.c:269
 msgid "Amount of river squares"
 msgstr "Mengde elveområder"
 
-#: server/stdinhand.c:274
+#: server/stdinhand.c:273
 msgid "Amount of grass squares"
 msgstr "Mengde gresskledde områder"
 
-#: server/stdinhand.c:278
+#: server/stdinhand.c:277
 msgid "Amount of forest squares"
 msgstr "Mengde skogsområder"
 
-#: server/stdinhand.c:282
+#: server/stdinhand.c:281
 msgid "Amount of swamp squares"
 msgstr "Mengde myr/sump områder"
 
-#: server/stdinhand.c:286
+#: server/stdinhand.c:285
 msgid "Amount of desert squares"
 msgstr "Mengde ørkenområder"
 
-#: server/stdinhand.c:290
+#: server/stdinhand.c:289
 msgid "Map generation random seed"
 msgstr "'Seed' for tilfeldig generering av kart"
 
-#: server/stdinhand.c:291
+#: server/stdinhand.c:290
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be chosen based on the time, to give a random map."
@@ -2739,19 +2741,19 @@ msgstr ""
 "(standardverdi)\n"
 "  vil en verdi velges basert på klokkeslettet for å gi et tilfeldig kart."
 
-#: server/stdinhand.c:302
+#: server/stdinhand.c:301
 msgid "General random seed"
 msgstr "Vanlig 'seed' for tilfeldighetsfunksjon"
 
-#: server/stdinhand.c:303
+#: server/stdinhand.c:302
 msgid "For zero (the default) a seed will be chosen based on the time."
 msgstr "For 0 (standardverdi) vil 'seed' bli valgt basert på klokkeslett."
 
-#: server/stdinhand.c:308
+#: server/stdinhand.c:307
 msgid "Amount of \"special\" resource squares"
 msgstr "Mengde felt med \"spesielle\" ressurser"
 
-#: server/stdinhand.c:309
+#: server/stdinhand.c:308
 msgid ""
 "Special resources improve the basic terrain type they are on.  The server "
 "variable's scale is parts per thousand."
@@ -2759,15 +2761,15 @@ msgstr ""
 "Spesielle ressurser forbedrer terrenget de er på. Serverens variabelskala er "
 "deler pr. tusen."
 
-#: server/stdinhand.c:315
+#: server/stdinhand.c:314
 msgid "Amount of huts (minor tribe villages)"
 msgstr "Mengde hytter (mindre stammelandsbyer)"
 
-#: server/stdinhand.c:324
+#: server/stdinhand.c:323
 msgid "Minimum number of players"
 msgstr "Minimum antall spillere"
 
-#: server/stdinhand.c:325
+#: server/stdinhand.c:324
 msgid ""
 "There must be at least this many players (connected players or AI's) before "
 "the game can start."
@@ -2775,11 +2777,11 @@ msgstr ""
 "Der må være minimum så mange spillere (tilkoblede spillere eller AIer)\n"
 "før spillet kan starte."
 
-#: server/stdinhand.c:331
+#: server/stdinhand.c:330
 msgid "Maximum number of players"
 msgstr "Maksimalt antall spillere"
 
-#: server/stdinhand.c:332
+#: server/stdinhand.c:331
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
 "number of players are connected in the pregame state, any new players who "
@@ -2789,11 +2791,11 @@ msgstr ""
 "spillet. Når så mange spillere er tilkoblet under forspillet avvises alle "
 "ytterligere spillere som forsøker å tilkoble."
 
-#: server/stdinhand.c:340
+#: server/stdinhand.c:339
 msgid "Number of players to fill to with AI's"
 msgstr "Antall spillere som skal være AIer"
 
-#: server/stdinhand.c:341
+#: server/stdinhand.c:340
 msgid ""
 "If there are fewer than this many players when the game starts, extra AI "
 "players will be created to increase the total number of players to the value "
@@ -2802,46 +2804,46 @@ msgstr ""
 "Hvis der er færre enn dette antallet spillere når spillet starter, vil "
 "ekstra AI-spillere bli supplert."
 
-#: server/stdinhand.c:351
+#: server/stdinhand.c:350
 msgid "Number of initial settlers per player"
 msgstr "Antall nybyggere pr spiller ved start"
 
-#: server/stdinhand.c:355
+#: server/stdinhand.c:354
 msgid "Number of initial explorers per player"
 msgstr "Antall utforskere pr spiller ved start"
 
-#: server/stdinhand.c:359
+#: server/stdinhand.c:358
 msgid "Area where initial units are located"
 msgstr "Området hvor startenheter er"
 
-#: server/stdinhand.c:360
+#: server/stdinhand.c:359
 msgid ""
 "This is half the length of a side of the square within which the initial "
 "units are dispersed."
 msgstr ""
 "Dette er halve lengden av siden på firkanten hvor startenhetene er utspredd."
 
-#: server/stdinhand.c:365
+#: server/stdinhand.c:364
 msgid "Starting gold per player"
 msgstr "Antall gull pr spiller ved start"
 
-#: server/stdinhand.c:369
+#: server/stdinhand.c:368
 msgid "Number of initial advances per player"
 msgstr "Antall vitenskapelige fremskritt pr spiller ved start"
 
-#: server/stdinhand.c:373
+#: server/stdinhand.c:372
 msgid "Points required to gain a new advance"
 msgstr "Poeng som trengs for nytt fremskritt"
 
-#: server/stdinhand.c:374
+#: server/stdinhand.c:373
 msgid "This affects how quickly players can research new technology."
 msgstr "Dette påvirker hvor fort spillere kan forske fram ny teknologi."
 
-#: server/stdinhand.c:380
+#: server/stdinhand.c:379
 msgid "Percentage penalty when changing tech"
 msgstr "Prosentvis \"straff\" ved endring av forskning"
 
-#: server/stdinhand.c:381
+#: server/stdinhand.c:380
 msgid ""
 "If you change your current research technology, and you have positive "
 "research points, you lose this percentage of those research points.  This "
@@ -2851,11 +2853,11 @@ msgstr ""
 "overskudd av forskningsverdi mister man denne prosentandelen av det. Dette "
 "gjelder ikke om man akkurat har gjort et fremskritt denne omgangen. "
 
-#: server/stdinhand.c:389
+#: server/stdinhand.c:388
 msgid "Penalty when getting tech from treaty"
 msgstr "Tap ved anskaffelse av teknologi fra diplomati"
 
-#: server/stdinhand.c:390
+#: server/stdinhand.c:389
 msgid ""
 "For each advance you gain from a diplomatic treaty, you lose research points "
 "equal to this percentage of the cost to research an new advance.  You can "
@@ -2866,11 +2868,11 @@ msgstr ""
 "forske på et nytt fremskritt. Forskningsverdien kan bli negativ dersom dette "
 "er ulik null."
 
-#: server/stdinhand.c:397
+#: server/stdinhand.c:396
 msgid "Penalty when getting tech from conquering"
 msgstr "Tap ved anskaffelse av teknologi fra erobring"
 
-#: server/stdinhand.c:398
+#: server/stdinhand.c:397
 msgid ""
 "For each advance you gain by conquering an enemy city, you lose research "
 "points equal to this percentage of the cost to research an new advance.  You "
@@ -2881,11 +2883,11 @@ msgstr ""
 "utvikle en ny teknologi. Forskningsverdien kan bli negativ dersom dette er "
 "ulik null."
 
-#: server/stdinhand.c:406
+#: server/stdinhand.c:405
 msgid "Penalty when getting a free tech"
 msgstr "Tap av forskningspoeng når du får gratis teknologi"
 
-#: server/stdinhand.c:407
+#: server/stdinhand.c:406
 msgid ""
 "For each advance you gain \"for free\" (other than covered by diplcost or "
 "conquercost: specifically, from huts or from the Great Library), you lose "
@@ -2898,15 +2900,15 @@ msgstr ""
 "å utvikle et nytt fremskritt. Forskningsverdien kan bli negativ dersom dette "
 "er ulik null."
 
-#: server/stdinhand.c:416
+#: server/stdinhand.c:415
 msgid "Food required for a city to grow"
 msgstr "Mat nødvendig for å få vekst i en by"
 
-#: server/stdinhand.c:420
+#: server/stdinhand.c:419
 msgid "Percentage food lost when need aqueduct"
 msgstr "Prosentandel mat som går tapt når det er behov for akvedukt"
 
-#: server/stdinhand.c:421
+#: server/stdinhand.c:420
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
@@ -2916,11 +2918,11 @@ msgstr ""
 "Kloakksystem),  mister den dette antallet prosent av sin mat (eller "
 "halvparten dersom den har Kornlager)."
 
-#: server/stdinhand.c:429
+#: server/stdinhand.c:428
 msgid "Minimum city size to get full trade"
 msgstr "Miste størrelse på by for å få full handel"
 
-#: server/stdinhand.c:430
+#: server/stdinhand.c:429
 msgid ""
 "There is a trade penalty in all cities smaller than this. The penalty is "
 "100% (no trade at all) for sizes up to notradesize, and decreases gradually "
@@ -2932,11 +2934,11 @@ msgstr ""
 "gradvis til 0% (ingen begrensning utenom normal korrupsjon) for byer med "
 "størrelse fulltradesize. Se også notradesize."
 
-#: server/stdinhand.c:439
+#: server/stdinhand.c:438
 msgid "Maximum size of a city without trade"
 msgstr "Største størrelse på en by uten handel"
 
-#: server/stdinhand.c:440
+#: server/stdinhand.c:439
 msgid ""
 "All the cities of smaller or equal size to this do not produce trade at all. "
 "The produced trade increases gradually for cities larger than notradesize "
@@ -2946,11 +2948,11 @@ msgstr ""
 "gradvis for byer større enn notradesize og mindre enn fulltradesize. Se også "
 "fulltradesize."
 
-#: server/stdinhand.c:449
+#: server/stdinhand.c:448
 msgid "City size before people become unhappy"
 msgstr "Bystørrelse før folk blir ulykkelige"
 
-#: server/stdinhand.c:450
+#: server/stdinhand.c:449
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
@@ -2958,11 +2960,11 @@ msgstr ""
 "Føre andre faktorer har innvirkning er de første unhappysize innbyggerne i "
 "en by fornøyde, deretter er innbyggerne tilfreds. Se også cityfactor."
 
-#: server/stdinhand.c:457
+#: server/stdinhand.c:456
 msgid "Whether angry citizens are enabled"
 msgstr "Om sinte innbyggere er mulig"
 
-#: server/stdinhand.c:458
+#: server/stdinhand.c:457
 msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
@@ -2972,11 +2974,11 @@ msgstr ""
 "tilfreds før noen andre innbyggere kan bli med i beregningen. Se også "
 "unhappysize, cityfactor og governments."
 
-#: server/stdinhand.c:465
+#: server/stdinhand.c:464
 msgid "Number of cities for higher unhappiness"
 msgstr "Antall byer for øket ulykkelighet"
 
-#: server/stdinhand.c:466
+#: server/stdinhand.c:465
 msgid ""
 "When the number of cities a player owns is greater than cityfactor, one "
 "extra citizen is unhappy before other adjustments; see also unhappysize.  "
@@ -2988,11 +2990,11 @@ msgstr ""
 "også unhappysize. Dette forutsetter Demokrati, for andre regjerninger er "
 "effekten mindre."
 
-#: server/stdinhand.c:474
+#: server/stdinhand.c:473
 msgid "Minimum distance between cities (move distance)"
 msgstr "Minste avstand mellom byer"
 
-#: server/stdinhand.c:475
+#: server/stdinhand.c:474
 msgid ""
 "When a player founds a new city, it is checked if there is no other city in "
 "citymindist distance. For example, if citymindist is 3, there have to be at "
@@ -3004,11 +3006,11 @@ msgstr ""
 "2 ruter mellom 2 byer. Hvis det er satt til 0 (standard) så benyttes verdien "
 "i regelsettet i stedet."
 
-#: server/stdinhand.c:485
+#: server/stdinhand.c:484
 msgid "Number of turns between rapture effect"
 msgstr "Antallet runder mellom hver feiring"
 
-#: server/stdinhand.c:486
+#: server/stdinhand.c:485
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after rapturing n+1 turns."
@@ -3016,11 +3018,11 @@ msgstr ""
 "Setter antallet runder mellom vekst fra feiring i en by. Når satt til n vil "
 "byen vokse med etter å ha feiret i n+1 runder."
 
-#: server/stdinhand.c:492
+#: server/stdinhand.c:491
 msgid "Chance for conquered building destruction"
 msgstr "Sjanse for ødeleggelse av bygning ved erobring"
 
-#: server/stdinhand.c:493
+#: server/stdinhand.c:492
 msgid ""
 "When a player conquers a city, each City Improvement has this percentage "
 "chance to be destroyed."
@@ -3028,11 +3030,11 @@ msgstr ""
 "Når en spiller erobrer en by, så har hver byforbedring denne\n"
 "prosentsjansen for å bli ødelagt."
 
-#: server/stdinhand.c:498
+#: server/stdinhand.c:497
 msgid "Style of Civ rules"
 msgstr "Civ regel-stil"
 
-#: server/stdinhand.c:499
+#: server/stdinhand.c:498
 msgid ""
 "Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
 "Currently this option affects the following rules:\n"
@@ -3044,11 +3046,11 @@ msgstr ""
 "  - Apolloprogrammet viser hele kartet i Civ2, men kun byer i Civ1.\n"
 " Se også README.rulesets"
 
-#: server/stdinhand.c:506
+#: server/stdinhand.c:505
 msgid "Chance of moving into tile after attack"
 msgstr "Sjanse for å flytte inn i felt efter angrep"
 
-#: server/stdinhand.c:507
+#: server/stdinhand.c:506
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place).  "
 "If set to 100, attacking units will always move into the tile they attacked "
@@ -3061,11 +3063,11 @@ msgstr ""
 "blir angrepet om de vinner over den siste fiendtlige enheten. Verdier mellom "
 "0 og 100 gir varierende sannsynlighet for at området blir \"okkupert\"."
 
-#: server/stdinhand.c:517
+#: server/stdinhand.c:516
 msgid "Reduce city population after attack"
 msgstr "Reduser bybefolkning efter angrep"
 
-#: server/stdinhand.c:518
+#: server/stdinhand.c:517
 msgid ""
 "This flag indicates if city population is reduced after successful attack of "
 "enemy unit, depending on its movement type (OR-ed):\n"
@@ -3081,11 +3083,11 @@ msgstr ""
 "  4 = heli\n"
 "  8 = luft"
 
-#: server/stdinhand.c:529
+#: server/stdinhand.c:528
 msgid "Range of vision for units in a fortress"
 msgstr "Siktens lengde for enheter i festning."
 
-#: server/stdinhand.c:530
+#: server/stdinhand.c:529
 msgid ""
 "watchtower vision range: If set to 1, it has no effect. If 2 or larger, the "
 "vision range of a unit inside a fortress is set to this value, if the "
@@ -3099,11 +3101,11 @@ msgstr ""
 "\"\n"
 "i regeloppsettet for teknologier. Se også wtowerevision."
 
-#: server/stdinhand.c:541
+#: server/stdinhand.c:540
 msgid "Extra vision range for units in a fortress"
 msgstr "Ekstra sikt lengde for enheter i festninger."
 
-#: server/stdinhand.c:542
+#: server/stdinhand.c:541
 msgid ""
 "watchtower extra vision range: If set to 0, it has no effect. If larger than "
 "0, the visionrange of a unit is raised by this value, if the unit is inside "
@@ -3117,11 +3119,11 @@ msgstr ""
 "i regelfilen for teknologier. Den største verdien på wtowervision og \n"
 "wtowerrevision kommer til å benyttes. Se også wtowervision."
 
-#: server/stdinhand.c:553
+#: server/stdinhand.c:552
 msgid "Allowed city names"
 msgstr "Tillatte bynavn"
 
-#: server/stdinhand.c:554
+#: server/stdinhand.c:553
 msgid ""
 "If set to 0, there are no restrictions: players can have multiple cities "
 "with the same names. If set to 1, city names have to be unique to a player: "
@@ -3138,11 +3140,11 @@ msgstr ""
 "3, får ikke spillerne lov til å benytte standardnavnene til en annen nasjons "
 "byer."
 
-#: server/stdinhand.c:580
+#: server/stdinhand.c:579
 msgid "Barbarian appearance frequency"
 msgstr "Hvor ofte barbarene dukker opp"
 
-#: server/stdinhand.c:581
+#: server/stdinhand.c:580
 msgid ""
 "0 - no barbarians \n"
 "1 - barbarians only in huts \n"
@@ -3156,19 +3158,19 @@ msgstr ""
 "3 - høy barbarfrekvens \n"
 "4 - vandrende horder, massevis av barbarer"
 
-#: server/stdinhand.c:591
+#: server/stdinhand.c:590
 msgid "Barbarian onset year"
 msgstr "År for barbarer"
 
-#: server/stdinhand.c:592
+#: server/stdinhand.c:591
 msgid "Barbarians will not appear before this year."
 msgstr "Barbarer vil ikke dukke opp før dette året"
 
-#: server/stdinhand.c:597
+#: server/stdinhand.c:596
 msgid "Whether to enable fog of war"
 msgstr "Hvorvidt 'fog of war' skal tillates"
 
-#: server/stdinhand.c:598
+#: server/stdinhand.c:597
 msgid ""
 "If this is set to 1, only those units and cities within the sightrange of "
 "your own units and cities will be revealed to you. You will not see new "
@@ -3178,11 +3180,11 @@ msgstr ""
 "til sine egne enheter og byer. Man kan ikke se nye byer, byer som har vokst "
 "eller landskapsforandringer."
 
-#: server/stdinhand.c:605
+#: server/stdinhand.c:604
 msgid "Chance in diplomat/spy contests"
 msgstr "Sjanse (1 av N) for diplomat/spion kjemper"
 
-#: server/stdinhand.c:607
+#: server/stdinhand.c:606
 #, no-c-format
 msgid ""
 "A Diplomat or Spy acting against a city which has one or more defending "
@@ -3200,19 +3202,19 @@ msgstr ""
 "fremgang hos Diplomater og Spioner. Forsvarende spillere er vanligvis "
 "dobbelt så sterke som diplomater, veteraner er 50% bedre enn vanlige enheter."
 
-#: server/stdinhand.c:619
+#: server/stdinhand.c:618
 msgid "Whether to allow space race"
 msgstr "Hvorvidt romkappløp tillates"
 
-#: server/stdinhand.c:620
+#: server/stdinhand.c:619
 msgid "If this option is 1, players can build spaceships."
 msgstr "Hvis dette alternativet er 1, kan spillerne bygge romskip"
 
-#: server/stdinhand.c:625
+#: server/stdinhand.c:624
 msgid "Minimum number of cities for civil war"
 msgstr "Minimum antall byer for borgerkrig"
 
-#: server/stdinhand.c:626
+#: server/stdinhand.c:625
 msgid ""
 "A civil war is triggered if a player has at least this many cities and the "
 "player's capital is captured.  If this option is set to the maximum value, "
@@ -3222,11 +3224,11 @@ msgstr ""
 "hovedstaden faller. Hvis dette alternativet er satt til sin største verdi "
 "kommer til aldri borgerkrig."
 
-#: server/stdinhand.c:634
+#: server/stdinhand.c:633
 msgid "Rebuild palace if capital is conquered"
 msgstr "Bygg nytt palass dersom hovedstaden er erobret"
 
-#: server/stdinhand.c:635
+#: server/stdinhand.c:634
 msgid ""
 "If this is set to 1 when the capital is conquered, palace is automatically "
 "rebuilt for free in another randomly choosed city, regardless on the "
@@ -3237,21 +3239,21 @@ msgstr ""
 "de byene som er igjen. Man behøver ikke å ha kunnskap om Murkunst for å få "
 "nytt slott."
 
-#: server/stdinhand.c:642
+#: server/stdinhand.c:641
 msgid "Whether to use natural city names"
 msgstr "Hvorvidt naturlige bynavn skal benyttes"
 
-#: server/stdinhand.c:643
+#: server/stdinhand.c:642
 msgid ""
 "If enabled, the default city names will be determined based on the "
 "surrounding terrain."
 msgstr "Om dette er valgt styrer bynavnene etter landskapet rundt byen."
 
-#: server/stdinhand.c:655
+#: server/stdinhand.c:654
 msgid "What connections are allowed"
 msgstr "Hvilke tilkoblinger er tillatt"
 
-#: server/stdinhand.c:656
+#: server/stdinhand.c:655
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization, or \"player\".  Clients will only be permitted to "
@@ -3299,11 +3301,11 @@ msgstr ""
 "Flere tilkoblinger og observatørtilkoblinger er EKSPERIMENTELT!"
 
 # Adopterer tysk oversettelse
-#: server/stdinhand.c:686
+#: server/stdinhand.c:685
 msgid "Whether AI-status toggles with connection"
 msgstr "Automatisk AI-status"
 
-#: server/stdinhand.c:687
+#: server/stdinhand.c:686
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
@@ -3311,15 +3313,15 @@ msgstr ""
 "Dersom denne er satt til 1 stenges datastyring av en tilkoblet spillet, og "
 "settes på når en spiller kobler fra."
 
-#: server/stdinhand.c:692
+#: server/stdinhand.c:691
 msgid "Year the game ends"
 msgstr "År spillet slutter"
 
-#: server/stdinhand.c:697 server/stdinhand.c:706
+#: server/stdinhand.c:696 server/stdinhand.c:705
 msgid "Maximum seconds per turn"
 msgstr "Maksimalt antall sekunder pr runde"
 
-#: server/stdinhand.c:698
+#: server/stdinhand.c:697
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In DEBUG servers, a "
@@ -3332,7 +3334,7 @@ msgstr ""
 "testmodus. Benytt dette med \"timeoutincrease\" for å få en dynamisk "
 "tidsbegrensning."
 
-#: server/stdinhand.c:707
+#: server/stdinhand.c:706
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. Use this with the "
@@ -3343,11 +3345,11 @@ msgstr ""
 "tidsbegrensning. Bruk dette med kommandoen \"timeoutincrease\" for å få en "
 "dynamisk tidsbegrensning. "
 
-#: server/stdinhand.c:715
+#: server/stdinhand.c:714
 msgid "Seconds to let a client connection block"
 msgstr "Maksimal klient-blokkering (sekunder)"
 
-#: server/stdinhand.c:716
+#: server/stdinhand.c:715
 msgid ""
 "If a TCP connection is blocking for a time greater than this value, then the "
 "TCP connection is closed. Zero means there is no timeout beyond that "
@@ -3357,11 +3359,11 @@ msgstr ""
 "stenges den. 0 betyr at det ikke finnes noen tidsbegrensning uten den som "
 "finnes i selve TCP protokollen."
 
-#: server/stdinhand.c:723
+#: server/stdinhand.c:722
 msgid "Max seconds for TCP buffers to drain"
 msgstr "Maks sekunder for tømming av TCP-buffere"
 
-#: server/stdinhand.c:724
+#: server/stdinhand.c:723
 msgid ""
 "The civserver will wait for upto the value of this parameter in seconds, for "
 "all client connection TCP buffers to unblock. Zero means the server will not "
@@ -3371,11 +3373,11 @@ msgstr ""
 "tilkoblinger TCP-buffer skal usperres. 0 betyr at serveren ikke kommer til å "
 "vente."
 
-#: server/stdinhand.c:731
+#: server/stdinhand.c:730
 msgid "Maximum seconds between PINGs"
 msgstr "Maksimalt antall sekunder mellom PING"
 
-#: server/stdinhand.c:732
+#: server/stdinhand.c:731
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses. If a client doesn't reply with a PONG before the next server "
@@ -3385,11 +3387,11 @@ msgstr ""
 "intervallet. Dersom klienten ikke svarer med PONG ør neste PING blir den "
 "koblet fra."
 
-#: server/stdinhand.c:739
+#: server/stdinhand.c:738
 msgid "Turn-blocking game play mode"
 msgstr "Rundeblokkerende spillmodus"
 
-#: server/stdinhand.c:740
+#: server/stdinhand.c:739
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
@@ -3397,11 +3399,11 @@ msgstr ""
 "Hvis denne er satt til 1 spillet så går ikke spillet videre til alle\n"
 "spillerne har avsluttet deres runde, inkludert avkoblede spillere."
 
-#: server/stdinhand.c:746
+#: server/stdinhand.c:745
 msgid "Fixed-length turns play mode"
 msgstr "Fast-lengde runder (spill-modus)"
 
-#: server/stdinhand.c:747
+#: server/stdinhand.c:746
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, irrespective of players clicking on \"Turn Done\"."
@@ -3409,11 +3411,11 @@ msgstr ""
 "Hvis denne er satt til 1 så går ikke spill-runden videre før tiden har gått "
 "ut, uansett spillernes klikking på 'Runde ferdig'."
 
-#: server/stdinhand.c:753
+#: server/stdinhand.c:752
 msgid "What is in the Demographics report"
 msgstr "Hva er i demografi-rapporten"
 
-#: server/stdinhand.c:754
+#: server/stdinhand.c:753
 msgid ""
 "This should be a string of characters, each of which specifies the the "
 "inclusion of a line of information in the Demographics report.\n"
@@ -3441,11 +3443,11 @@ msgstr ""
 "    b = vis kolonnen \"beste stat\"\n"
 "(Rekkefølgen betyr ingenting, men størrelsen på bokstavene gjør det)"
 
-#: server/stdinhand.c:772
+#: server/stdinhand.c:771
 msgid "Turns per auto-save"
 msgstr "Runder pr auto-lagring"
 
-#: server/stdinhand.c:773
+#: server/stdinhand.c:772
 msgid ""
 "The game will be automatically saved per this number of turns.\n"
 "Zero means never auto-save."
@@ -3453,11 +3455,11 @@ msgstr ""
 "Spillet vil automagisk lagres med så mange runders mellomrom.\n"
 "0 betyr at en ikke ønsker auto-lagring."
 
-#: server/stdinhand.c:782 server/stdinhand.c:792
+#: server/stdinhand.c:781 server/stdinhand.c:791
 msgid "Savegame compression level"
 msgstr "Komprimeringsnivå på lagret spill"
 
-#: server/stdinhand.c:783 server/stdinhand.c:793
+#: server/stdinhand.c:782 server/stdinhand.c:792
 msgid ""
 "If non-zero, saved games will be compressed using zlib (gzip format).  "
 "Larger values will give better compression but take longer.  If the maximum "
@@ -3466,11 +3468,11 @@ msgstr ""
 "Hvis ulik null, vil lagrede spill bli komprimert med gzip. Høyere tall vil "
 "gi høyere komprimering, men ta lenger tid."
 
-#: server/stdinhand.c:803
+#: server/stdinhand.c:802
 msgid "Auto-save name prefix"
 msgstr "Autolagrings prefiks"
 
-#: server/stdinhand.c:804
+#: server/stdinhand.c:803
 msgid ""
 "Automatically saved games will have name \"<prefix><year>.sav\".\n"
 "This setting sets the <prefix> part."
@@ -3478,11 +3480,11 @@ msgstr ""
 "Automatisk lagrede spill vil ha navnet \"<forstavelse><år>.sav\"\n"
 "Denne innstillingen endrer <forstavelse> delen."
 
-#: server/stdinhand.c:810
+#: server/stdinhand.c:809
 msgid "Whether to log player statistics"
 msgstr "Hvorvidt spillerstatistikk skal logges"
 
-#: server/stdinhand.c:811
+#: server/stdinhand.c:810
 msgid ""
 "If this is set to 1, player statistics are appended to the file \"civscore."
 "log\" every turn.  These statistics can be used to create power graphs after "
@@ -3492,11 +3494,11 @@ msgstr ""
 "\"civscore.log\" hver runde. Disse statistikkene kan benyttes til å\n"
 "lage \"power graphs\" efter spillet er over."
 
-#: server/stdinhand.c:817
+#: server/stdinhand.c:816
 msgid "Detail level for logging game events"
 msgstr "Detaljnivå for logging av spill-hendelser"
 
-#: server/stdinhand.c:818
+#: server/stdinhand.c:817
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
 "option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
@@ -3507,11 +3509,11 @@ msgstr ""
 "Nivå: 0=ingen logging, 20=standard logging, 30=detaljert logging og 40=debug "
 "logging."
 
-#: server/stdinhand.c:990
+#: server/stdinhand.c:989
 msgid "Start the game, or restart after loading a savegame."
 msgstr "Start spillet, eller start på nytt efter å ha lastet inn lagret spill."
 
-#: server/stdinhand.c:991
+#: server/stdinhand.c:990
 msgid ""
 "This command starts the game.  When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
@@ -3529,7 +3531,7 @@ msgstr ""
 "lenger tilgjengelig."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1004
+#: server/stdinhand.c:1003
 msgid ""
 "help\n"
 "help commands\n"
@@ -3543,11 +3545,11 @@ msgstr ""
 "help <kommandonavn>\n"
 "help <alternativsnavn>"
 
-#: server/stdinhand.c:1009
+#: server/stdinhand.c:1008
 msgid "Show help about server commands and server options."
 msgstr "Vis hjelp for serverkommandoer og serveralternativ."
 
-#: server/stdinhand.c:1010
+#: server/stdinhand.c:1009
 msgid ""
 "With no arguments gives some introductory help.  With argument \"commands\" "
 "or \"options\" gives respectively a list of all commands or all options.  "
@@ -3564,11 +3566,11 @@ msgstr ""
 "standardverdien. Forkortelser for argument kan benyttes dersom det ikke er "
 "tvetydig."
 
-#: server/stdinhand.c:1023
+#: server/stdinhand.c:1022
 msgid "Show a list of players or connections."
 msgstr "Vis en liste over spillerne eller tilkoblingene."
 
-#: server/stdinhand.c:1024
+#: server/stdinhand.c:1023
 msgid ""
 "Show a list of players, or a list of connections to the server.  The "
 "argument may be abbreviated, and defaults to 'players' if absent."
@@ -3576,20 +3578,20 @@ msgstr ""
 "Viser en liste over spillere, eller en liste over tilkoblinger til serveren."
 "Argumentet kan forkortes, og er \"players\" som standard dersom det mangler."
 
-#: server/stdinhand.c:1029
+#: server/stdinhand.c:1028
 msgid "Quit the game and shutdown the server."
 msgstr "Avslutt spillet og serveren."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1033
+#: server/stdinhand.c:1032
 msgid "cut <connection-name>"
 msgstr "cut <tilkoblingsnavn>"
 
-#: server/stdinhand.c:1034
+#: server/stdinhand.c:1033
 msgid "Cut a client's connection to server."
 msgstr "Avbryt en klients tilkobling til server."
 
-#: server/stdinhand.c:1035
+#: server/stdinhand.c:1034
 msgid ""
 "Cut specified client's connection to the server, removing that client from "
 "the game.  If the game has not yet started that client's player is removed "
@@ -3602,7 +3604,7 @@ msgstr ""
 "imot tilkoblingsnavn, ikke spillernavn."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1042
+#: server/stdinhand.c:1041
 msgid ""
 "explain\n"
 "explain <option-name>"
@@ -3610,11 +3612,11 @@ msgstr ""
 "explain\n"
 "explain <alternativ-navn>"
 
-#: server/stdinhand.c:1044
+#: server/stdinhand.c:1043
 msgid "Explain server options."
 msgstr "Forklar server alternativ."
 
-#: server/stdinhand.c:1045
+#: server/stdinhand.c:1044
 msgid ""
 "The 'explain' command gives a subset of the functionality of 'help', and is "
 "included for backward compatibility.  With no arguments it gives a list of "
@@ -3627,7 +3629,7 @@ msgstr ""
 "en valgmulighet (som \"help <alternativsnavn>\")."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1052
+#: server/stdinhand.c:1051
 msgid ""
 "show\n"
 "show <option-name>\n"
@@ -3637,11 +3639,11 @@ msgstr ""
 "show <alternativsnavn>\n"
 "show <alternativsprefiks>"
 
-#: server/stdinhand.c:1055
+#: server/stdinhand.c:1054
 msgid "Show server options."
 msgstr "Vis server alternativ."
 
-#: server/stdinhand.c:1056
+#: server/stdinhand.c:1055
 msgid ""
 "With no arguments, shows all server options (or available options, when used "
 "by clients).  With an argument, show only the named option, or options with "
@@ -3651,11 +3653,11 @@ msgstr ""
 "alternativene, når den er benyttet av klientene). Med et argument, vises kun "
 "de valgte alternativene, eller alternativ med det prefikset."
 
-#: server/stdinhand.c:1062
+#: server/stdinhand.c:1061
 msgid "Show current scores."
 msgstr "Vis poengsummene slik det ligger an nå."
 
-#: server/stdinhand.c:1063
+#: server/stdinhand.c:1062
 msgid ""
 "For each connected client, pops up a window showing the current player "
 "scores."
@@ -3663,48 +3665,48 @@ msgstr ""
 "For hver tilknyttede klient, åpner opp et vindu som viser nåværende spillers "
 "poengsum."
 
-#: server/stdinhand.c:1067
+#: server/stdinhand.c:1066
 msgid "wall <message>"
 msgstr "wall <beskjed>"
 
-#: server/stdinhand.c:1068
+#: server/stdinhand.c:1067
 msgid "Send message to all connections."
 msgstr "Sender meldingen til alle klientene."
 
-#: server/stdinhand.c:1069
+#: server/stdinhand.c:1068
 msgid ""
 "For each connected client, pops up a window showing the message entered."
 msgstr "For hver klient, vises et vindu med den angitte meldingen."
 
-#: server/stdinhand.c:1073
+#: server/stdinhand.c:1072
 msgid "set <option-name> <value>"
 msgstr "set <alternativsnavn> <verdi>"
 
-#: server/stdinhand.c:1074
+#: server/stdinhand.c:1073
 msgid "Set server option."
 msgstr "Sett server alternativ."
 
-#: server/stdinhand.c:1077
+#: server/stdinhand.c:1076
 msgid "fix <option-name>"
 msgstr "fix <alternativsnavn>"
 
-#: server/stdinhand.c:1078
+#: server/stdinhand.c:1077
 msgid "Make server option unchangeable during game."
 msgstr "Gjør at server alternativ ikke kan endres mens et spill er i gang."
 
-#: server/stdinhand.c:1081
+#: server/stdinhand.c:1080
 msgid "unfix <option-name>"
 msgstr "unfix <alternativsnavn>"
 
-#: server/stdinhand.c:1082
+#: server/stdinhand.c:1081
 msgid "Make server option changeable during game."
 msgstr "Gjør at server alternativ kan endres mens spillet er i gang."
 
-#: server/stdinhand.c:1085
+#: server/stdinhand.c:1084
 msgid "rulesetdir <directory>"
 msgstr "rulesetdir <katalog>"
 
-#: server/stdinhand.c:1086
+#: server/stdinhand.c:1085
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
@@ -3712,24 +3714,24 @@ msgstr ""
 "Velg en nytt katalog for regeloppsett eller modifikasjonspakke. \n"
 "Å kalle denne uten argument vil vise deg det nåværende regeloppsettet."
 
-#: server/stdinhand.c:1092
+#: server/stdinhand.c:1091
 msgid "This command is not currently implemented."
 msgstr "Beklager, den kommandoen er ikke implementert ennå."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1096
+#: server/stdinhand.c:1095
 msgid "metainfo <meta-line>"
 msgstr "metainfo <metalinje>"
 
-#: server/stdinhand.c:1097
+#: server/stdinhand.c:1096
 msgid "Set metaserver info line."
 msgstr "Sett metaserver infolinje."
 
-#: server/stdinhand.c:1103
+#: server/stdinhand.c:1102
 msgid "Control metaserver connection."
 msgstr "Kontroller metaserver tilkobling."
 
-#: server/stdinhand.c:1104
+#: server/stdinhand.c:1103
 msgid ""
 "'metaconnection ?' reports on the status of the connection to metaserver.\n"
 "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
@@ -3742,39 +3744,39 @@ msgstr ""
 "metaserveren."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1110
+#: server/stdinhand.c:1109
 msgid "metaserver <address>"
 msgstr "metaserver <addresse>"
 
-#: server/stdinhand.c:1111
+#: server/stdinhand.c:1110
 msgid "Set address for metaserver to report to."
 msgstr "Sett adresse metaserveren skal rapportere til."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1115
+#: server/stdinhand.c:1114
 msgid "aitoggle <player-name>"
 msgstr "aitoggle <spillernavn>"
 
-#: server/stdinhand.c:1116
+#: server/stdinhand.c:1115
 msgid "Toggle AI status of player."
 msgstr "Bytt spillers AI-status."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1120
+#: server/stdinhand.c:1119
 msgid "create <player-name>"
 msgstr "create <spillernavn>"
 
-#: server/stdinhand.c:1121
+#: server/stdinhand.c:1120
 msgid "Create an AI player with a given name."
 msgstr "Opprett en AI spiller med gitt navn."
 
-#: server/stdinhand.c:1122
+#: server/stdinhand.c:1121
 msgid ""
 "The 'create' command is only available before the game has been started."
 msgstr "'create' kommandoen er kun tilgjengelig før spillet har startet."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1127
+#: server/stdinhand.c:1126
 msgid ""
 "easy\n"
 "easy <player-name>"
@@ -3782,11 +3784,11 @@ msgstr ""
 "easy\n"
 "easy <spillernavn>"
 
-#: server/stdinhand.c:1129
+#: server/stdinhand.c:1128
 msgid "Set one or all AI players to 'easy'."
 msgstr "Sett en eller alle AI spillere til 'lett'."
 
-#: server/stdinhand.c:1130
+#: server/stdinhand.c:1129
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
@@ -3798,7 +3800,7 @@ msgstr ""
 "kommandoen vanskelighetsgraden kun for den spilleren"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1136
+#: server/stdinhand.c:1135
 msgid ""
 "normal\n"
 "normal <player-name>"
@@ -3806,11 +3808,11 @@ msgstr ""
 "normal\n"
 "normal <spillernavn>"
 
-#: server/stdinhand.c:1138
+#: server/stdinhand.c:1137
 msgid "Set one or all AI players to 'normal'."
 msgstr "Sett en eller alle AI-spillere til 'normal'."
 
-#: server/stdinhand.c:1139
+#: server/stdinhand.c:1138
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
@@ -3822,7 +3824,7 @@ msgstr ""
 "Som et argument setter kommandoen vanskelighetsgraden kun for den spilleren"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1145
+#: server/stdinhand.c:1144
 msgid ""
 "hard\n"
 "hard <player-name>"
@@ -3830,11 +3832,11 @@ msgstr ""
 "hard\n"
 "hard <spillernavn>"
 
-#: server/stdinhand.c:1147
+#: server/stdinhand.c:1146
 msgid "Set one or all AI players to 'hard'."
 msgstr "Sett en eller alle AI spillere til å være vanskelig (hard)."
 
-#: server/stdinhand.c:1148
+#: server/stdinhand.c:1147
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
@@ -3846,7 +3848,7 @@ msgstr ""
 "kommandoen vanskelighetsgraden kun for den spilleren"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1155
+#: server/stdinhand.c:1154
 msgid ""
 "experimental\n"
 "experimental <player-name>"
@@ -3854,11 +3856,11 @@ msgstr ""
 "experimental\n"
 "experimental <spiller-navn>"
 
-#: server/stdinhand.c:1157
+#: server/stdinhand.c:1156
 msgid "Set one or all AI players to 'experimental'."
 msgstr "Setter en eller alle AI spillerne til 'experimental'."
 
-#: server/stdinhand.c:1158
+#: server/stdinhand.c:1157
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this.  With an argument, sets the "
@@ -3873,7 +3875,7 @@ msgstr ""
 "innstillingen ingen effekt."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1167
+#: server/stdinhand.c:1166
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -3887,11 +3889,11 @@ msgstr ""
 "cmdlevel <nivå> first\n"
 "cmdlevel <nivå> <tilkoblingsnavn>"
 
-#: server/stdinhand.c:1172
+#: server/stdinhand.c:1171
 msgid "Query or set command access level access."
 msgstr "Be om eller sett kommando tilgangsnivå."
 
-#: server/stdinhand.c:1173
+#: server/stdinhand.c:1172
 msgid ""
 "The command access level controls which server commands are available\n"
 "to users via the client chatline.  The available levels are:\n"
@@ -3930,11 +3932,11 @@ msgstr ""
 "kan koble til med det samme navnet. Legg merke til at denne kommandoen nå "
 "tar imot tilkoblingsnavn, ikke spillernavn."
 
-#: server/stdinhand.c:1196
+#: server/stdinhand.c:1195
 msgid "Grab the 'first come' command access level."
 msgstr "Ta 'first come' kommando tilgangsnivå."
 
-#: server/stdinhand.c:1197
+#: server/stdinhand.c:1196
 msgid ""
 "If 'cmdlevel first come' has been used to set a special 'first come'\n"
 "command access level, this is the command to grab it with."
@@ -3943,15 +3945,15 @@ msgstr ""
 "kommando tilgangsnivå, så er dette kommandoen for å kontrollere den med."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1202
+#: server/stdinhand.c:1201
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <runde> <rundetillegg> <verdi> <faktor>"
 
-#: server/stdinhand.c:1203
+#: server/stdinhand.c:1202
 msgid "See \"help timeoutincrease\"."
 msgstr "Se \"help timeoutincrease\"."
 
-#: server/stdinhand.c:1204
+#: server/stdinhand.c:1203
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
@@ -3964,24 +3966,24 @@ msgstr ""
 "\n"
 "Bruk denne kommandoen sammen med \"timeout\". Standardverdiene er 0 0 0 1."
 
-#: server/stdinhand.c:1210
+#: server/stdinhand.c:1209
 msgid "End the game."
 msgstr "Avslutt spillet."
 
-#: server/stdinhand.c:1211
+#: server/stdinhand.c:1210
 msgid "This command ends the game immediately."
 msgstr "Denne kommandoen avslutter spillet umiddelbart."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1215
+#: server/stdinhand.c:1214
 msgid "remove <player-name>"
 msgstr "remove <spillernavn>"
 
-#: server/stdinhand.c:1216
+#: server/stdinhand.c:1215
 msgid "Fully remove player from game."
 msgstr "Fjern spilleren fullstendig fra spillet."
 
-#: server/stdinhand.c:1217
+#: server/stdinhand.c:1216
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
@@ -3990,7 +3992,7 @@ msgstr ""
 "enheter.  Brukes med måte!"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1222
+#: server/stdinhand.c:1221
 msgid ""
 "save\n"
 "save <file-name>"
@@ -3998,11 +4000,11 @@ msgstr ""
 "save\n"
 "save <filnavn>"
 
-#: server/stdinhand.c:1224
+#: server/stdinhand.c:1223
 msgid "Save game to file."
 msgstr "Lagre spill til fil."
 
-#: server/stdinhand.c:1225
+#: server/stdinhand.c:1224
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
@@ -4019,7 +4021,7 @@ msgstr ""
 "og bruk 'start' kommandoen når alle spillerne har koblet til på nytt."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1234
+#: server/stdinhand.c:1233
 msgid ""
 "load\n"
 "load <file-name>"
@@ -4027,11 +4029,11 @@ msgstr ""
 "load\n"
 "load <filnavn>"
 
-#: server/stdinhand.c:1236
+#: server/stdinhand.c:1235
 msgid "Load game from file."
 msgstr "Fortsette et spill fra fil."
 
-#: server/stdinhand.c:1237
+#: server/stdinhand.c:1236
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
@@ -4040,199 +4042,199 @@ msgstr ""
 "spillere, regeloppsett og serveralternativ vil forsvinne.\n"
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1242
+#: server/stdinhand.c:1241
 msgid "read <file-name>"
 msgstr "read <filnavn>"
 
-#: server/stdinhand.c:1243
+#: server/stdinhand.c:1242
 msgid "Process server commands from file."
 msgstr "Utfør serverkommandoer fra fil."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1247
+#: server/stdinhand.c:1246
 msgid "write <file-name>"
 msgstr "write <filnavn>"
 
-#: server/stdinhand.c:1248
+#: server/stdinhand.c:1247
 msgid "Write current settings as server commands to file."
 msgstr "Skriv oppsettet som blir brukt nå til en fil som serverkommandoer."
 
-#: server/stdinhand.c:1252
+#: server/stdinhand.c:1251
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Endre server-utskrifter mellom 'RFC-style' og vanlig."
 
-#: server/stdinhand.c:1362
+#: server/stdinhand.c:1361
 msgid "(ambiguous)"
 msgstr "(uklar)"
 
-#: client/packhand.c:1000 server/stdinhand.c:1363
+#: server/stdinhand.c:1362 client/packhand.c:1000
 msgid "(unknown)"
 msgstr "(ukjent)"
 
-#: server/stdinhand.c:1444
+#: server/stdinhand.c:1443
 msgid "Name is empty, so cannot be a player."
 msgstr "Navnet er tomt, så det kan ikke være en spiller."
 
-#: server/stdinhand.c:1448
+#: server/stdinhand.c:1447
 msgid "Name is too long, so cannot be a player."
 msgstr "Navnet er for langt, så det kan ikke være en spiller."
 
-#: server/stdinhand.c:1452
+#: server/stdinhand.c:1451
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Spillernavn prefikset '%s' er ikke entydig."
 
-#: server/stdinhand.c:1456
+#: server/stdinhand.c:1455
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Ingen spiller med navn '%s'."
 
-#: server/stdinhand.c:1460 server/stdinhand.c:1495
+#: server/stdinhand.c:1459 server/stdinhand.c:1494
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Uventet match_result %d (%s) for '%s'."
 
-#: server/stdinhand.c:1479
+#: server/stdinhand.c:1478
 msgid "Name is empty, so cannot be a connection."
 msgstr "Navnet er tomt, så det kan ikke være en tilkobling."
 
-#: server/stdinhand.c:1483
+#: server/stdinhand.c:1482
 msgid "Name is too long, so cannot be a connection."
 msgstr "Navnet er for langt, så det kan ikke være en tilkobling."
 
-#: server/stdinhand.c:1487
+#: server/stdinhand.c:1486
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Spillernavn-prefikset '%s' er ikke-entydig."
 
-#: server/stdinhand.c:1491
+#: server/stdinhand.c:1490
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Ingen tilkobling med navn '%s'."
 
-#: server/stdinhand.c:1510
+#: server/stdinhand.c:1509
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Åpne metaserver kobling til [%s]."
 
-#: server/stdinhand.c:1522
+#: server/stdinhand.c:1521
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Lukk metaserver-tilknytningen til [%s]."
 
-#: server/stdinhand.c:1536
+#: server/stdinhand.c:1535
 msgid "Metaserver connection is open."
 msgstr "Metaserver-tilknytning er åpen."
 
-#: server/stdinhand.c:1539
+#: server/stdinhand.c:1538
 msgid "Metaserver connection is closed."
 msgstr "Metaserver-tilknytning er lukket."
 
-#: server/stdinhand.c:1547
+#: server/stdinhand.c:1546
 msgid "Metaserver connection is already open."
 msgstr "Metaserver-tilknytning er allerede åpen."
 
-#: server/stdinhand.c:1555
+#: server/stdinhand.c:1554
 msgid "Metaserver connection is already closed."
 msgstr "Metaserver-tilknytning er allerede lukket."
 
-#: server/stdinhand.c:1559
+#: server/stdinhand.c:1558
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argumentet må være 'u', 'up', 'd', 'down', eller '?'."
 
-#: server/stdinhand.c:1571
+#: server/stdinhand.c:1570
 msgid "Not reporting to the metaserver."
 msgstr "Rapporterer ikke til metaserver."
 
-#: server/stdinhand.c:1573
+#: server/stdinhand.c:1572
 #, c-format
 msgid "Metaserver infostring set to '%s'."
 msgstr "Metaserver infostreng satt til '%s'."
 
-#: server/stdinhand.c:1588
+#: server/stdinhand.c:1587
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metaserver er nå [%s]."
 
-#: server/stdinhand.c:1661
+#: server/stdinhand.c:1660
 msgid "The game cannot be saved before it is started."
 msgstr "Spillet kan ikke lagres før det er startet."
 
-#: server/stdinhand.c:1675
+#: server/stdinhand.c:1674
 msgid "Cannot toggle a barbarian player."
 msgstr "Kan ikke endre en 'barbar'-spiller."
 
-#: server/stdinhand.c:1682
+#: server/stdinhand.c:1681
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s er nå under AI-kontroll."
 
-#: server/stdinhand.c:1698
+#: server/stdinhand.c:1697
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s er nå under menneskelig kontroll."
 
-#: server/stdinhand.c:1736
+#: server/stdinhand.c:1735
 msgid "Can't add AI players once the game has begun."
 msgstr "Kan ikke legge til AI spillere når spillet er startet."
 
-#: server/stdinhand.c:1743
+#: server/stdinhand.c:1742
 msgid "Can't add more players, server is full."
 msgstr "Kan ikke legge til flere spillere, serveren er full."
 
-#: server/stdinhand.c:1749
+#: server/stdinhand.c:1748
 msgid "Can't use an empty name."
 msgstr "Kan ikke bruke et tomt navn"
 
-#: server/stdinhand.c:1756
+#: server/stdinhand.c:1755
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Det navnet er lengre enn det maksimale som er %d tegn."
 
-#: server/stdinhand.c:1763
+#: server/stdinhand.c:1762
 msgid "A player already exists by that name."
 msgstr "Der finnes allerede en spiller med det navnet."
 
-#: server/stdinhand.c:1772
+#: server/stdinhand.c:1771
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Feil ved opprettelse av ny AI spiller: %s."
 
-#: server/stdinhand.c:1800
+#: server/stdinhand.c:1799
 msgid "Players cannot be removed once the game has started."
 msgstr "Spillere kan ikke fjernes efter at spillet har startet."
 
-#: server/stdinhand.c:1808
+#: server/stdinhand.c:1807
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Fjernet spiller %s fra spillet."
 
-#: server/stdinhand.c:1818
+#: server/stdinhand.c:1817
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
 msgstr "Beklager, kommandoen '%s' er ikke implementert ennå."
 
-#: server/stdinhand.c:1836
+#: server/stdinhand.c:1835
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Laster inn manus filen: %s"
 
-#: server/stdinhand.c:1848
+#: server/stdinhand.c:1847
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Kunne ikke lese kommando manusfilen \"%s\"."
 
-#: server/stdinhand.c:1850
+#: server/stdinhand.c:1849
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Klarte ikke å lese manusfilen '%s'."
 
-#: server/stdinhand.c:1939
+#: server/stdinhand.c:1938
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Klarte ikke å skrive til manusfilen '%s'."
 
-#: server/stdinhand.c:1967
+#: server/stdinhand.c:1966
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -4240,12 +4242,12 @@ msgid ""
 msgstr ""
 "Kan ikke redusere tilgangsnivå '%s' for tilkobling '%s'; du har kun '%s'."
 
-#: server/stdinhand.c:1975
+#: server/stdinhand.c:1974
 #, c-format
 msgid "Game: You now have access level '%s'."
 msgstr "Spill: Du har nå tilgangsnivå '%s'."
 
-#: server/stdinhand.c:2023
+#: server/stdinhand.c:2022
 #, c-format
 msgid ""
 "Game: Anyone can assume command access level '%s' now by issuing the "
@@ -4254,262 +4256,262 @@ msgstr ""
 "Spill: Alle kan få kommando tilgangsnivå '%s' nå ved å bruke 'firstlevel' "
 "kommandoen."
 
-#: server/stdinhand.c:2056
+#: server/stdinhand.c:2055
 msgid "Command access levels in effect:"
 msgstr "Kommando tilgangsnivå i bruk:"
 
-#: server/stdinhand.c:2064
+#: server/stdinhand.c:2063
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Kommando tilgangsnivå for nye tilkoblinger: %s"
 
-#: server/stdinhand.c:2067
+#: server/stdinhand.c:2066
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Kommando tilgangsnivå for første spiller: %s."
 
-#: server/stdinhand.c:2076
+#: server/stdinhand.c:2075
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Feil: kommando tilgangsnivå må være en av 'none', 'info', 'ctrl', eller "
 "'hack'."
 
-#: server/stdinhand.c:2081
+#: server/stdinhand.c:2080
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "Kan ikke øke kommando tilgangsnivå til '%s'; du har kun '%s' selv."
 
-#: server/stdinhand.c:2105 server/stdinhand.c:2154
+#: server/stdinhand.c:2104 server/stdinhand.c:2153
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Kommando tilgangsnivå satt til '%s' for tilkobling %s."
 
-#: server/stdinhand.c:2109 server/stdinhand.c:2158
+#: server/stdinhand.c:2108 server/stdinhand.c:2157
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Kommando tilgangsnivå kunne ikke settes til '%s' for tilkobling %s."
 
-#: server/stdinhand.c:2118 server/stdinhand.c:2130 server/stdinhand.c:2147
+#: server/stdinhand.c:2117 server/stdinhand.c:2129 server/stdinhand.c:2146
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Kommando tilgangsnivå satt til '%s' for nye spillere."
 
-#: server/stdinhand.c:2123 server/stdinhand.c:2135 server/stdinhand.c:2142
+#: server/stdinhand.c:2122 server/stdinhand.c:2134 server/stdinhand.c:2141
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Kommando tilgangsnivå tildeles '%s' første spiller som kobler til."
 
-#: server/stdinhand.c:2177
+#: server/stdinhand.c:2176
 msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr "'Førstenivå'-kommandoen gir ikke mening på server-kommandolinje."
 
-#: server/stdinhand.c:2180
+#: server/stdinhand.c:2179
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Du har allerede tilgangsnivå '%s' eller bedre."
 
-#: server/stdinhand.c:2184
+#: server/stdinhand.c:2183
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
 msgstr "Noen andre har allerede tilgangsnivå '%s' eller bedre."
 
-#: server/stdinhand.c:2189
+#: server/stdinhand.c:2188
 #, c-format
 msgid "Command access level '%s' has been grabbed by connection %s."
 msgstr "Kommando tilgangsnivå '%s' har blitt tildelt tilkobling %s."
 
-#: server/stdinhand.c:2220
+#: server/stdinhand.c:2219
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Ugyldig argument %d"
 
-#: server/stdinhand.c:2227
+#: server/stdinhand.c:2226
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "Bruk: timeoutincrease <runde> <rundetillegg> <verdi> <faktor>"
 
-#: server/stdinhand.c:2233
+#: server/stdinhand.c:2232
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Dynamisk rundetidsbegrensning satt til %d %d %d %d"
 
-#: server/stdinhand.c:2271 server/stdinhand.c:2274
+#: server/stdinhand.c:2270 server/stdinhand.c:2273
 msgid "Option:"
 msgstr "Alternativ:"
 
-#: server/stdinhand.c:2284 server/stdinhand.c:3362
+#: server/stdinhand.c:2283 server/stdinhand.c:3361
 msgid "Description:"
 msgstr "Beskrivelse:"
 
-#: server/stdinhand.c:2289
+#: server/stdinhand.c:2288
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: server/stdinhand.c:2290
+#: server/stdinhand.c:2289
 msgid "changeable"
 msgstr "kan endres"
 
-#: server/stdinhand.c:2290
+#: server/stdinhand.c:2289
 msgid "fixed"
 msgstr "fastsatt"
 
-#: server/stdinhand.c:2296
+#: server/stdinhand.c:2295
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Verdi: %d, Minimum: 0, Std.verdi: %d, Maksimum: 1"
 
-#: server/stdinhand.c:2301
+#: server/stdinhand.c:2300
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Verdi: %d, Minimum: %d, Std.verdi: %d, Maksimum: %d"
 
-#: server/stdinhand.c:2307
+#: server/stdinhand.c:2306
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Verdi: \"%s\", Std.verdi: \"%s\""
 
-#: server/stdinhand.c:2326
+#: server/stdinhand.c:2325
 msgid "Explanations are available for the following server options:"
 msgstr "Forklaringer er tilgjengelige for følgende serveralternativ:"
 
-#: server/stdinhand.c:2368
+#: server/stdinhand.c:2367
 msgid "No explanation for that yet."
 msgstr "Ingen forklaring på det ennå."
 
-#: server/stdinhand.c:2371 server/stdinhand.c:2696 server/stdinhand.c:2841
+#: server/stdinhand.c:2370 server/stdinhand.c:2695 server/stdinhand.c:2840
 msgid "Ambiguous option name."
 msgstr "Alternativet har flere betydninger."
 
-#: server/stdinhand.c:2386
+#: server/stdinhand.c:2385
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Server Operatør: %s"
 
-#: server/stdinhand.c:2403
+#: server/stdinhand.c:2402
 #, c-format
 msgid "%-20svalue  (min , max)"
 msgstr "%-20sverdi (min , maks)"
 
-#: server/stdinhand.c:2403 server/stdinhand.c:2569
+#: server/stdinhand.c:2402 server/stdinhand.c:2568
 msgid "Option"
 msgstr "Alternativ"
 
-#: server/stdinhand.c:2405
+#: server/stdinhand.c:2404
 msgid "Server Options (initial)"
 msgstr "Serveralternativ (initielle)"
 
-#: server/stdinhand.c:2406
+#: server/stdinhand.c:2405
 msgid "Server Options (ongoing)"
 msgstr "Serveralternativ (pågående)"
 
-#: server/stdinhand.c:2474 server/stdinhand.c:2495 server/stdinhand.c:2506
+#: server/stdinhand.c:2473 server/stdinhand.c:2494 server/stdinhand.c:2505
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr "Spiller '%s' har nå AI evnenivå '%s'."
+msgstr "Spiller '%s' har nå AI vanskelighetsgrad '%s'."
 
-#: server/stdinhand.c:2499
+#: server/stdinhand.c:2498
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s er ikke kontrollert av AIen."
 
-#: server/stdinhand.c:2512
+#: server/stdinhand.c:2511
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Standard AI vanskelighetsgrad er satt til '%s'."
 
-#: server/stdinhand.c:2543
+#: server/stdinhand.c:2542
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Beklager, du har ikke tilgang til å se alternativ '%s'."
 
-#: server/stdinhand.c:2548
+#: server/stdinhand.c:2547
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Ukjent alternativ '%s'."
 
-#: server/stdinhand.c:2565
+#: server/stdinhand.c:2564
 msgid "+ means you may change the option"
 msgstr "+ betyr at du kan endre alternativet"
 
-#: server/stdinhand.c:2566
+#: server/stdinhand.c:2565
 msgid "= means the option is on its default value"
 msgstr "= betyr at alternativet har standardverdi"
 
-#: server/stdinhand.c:2569
+#: server/stdinhand.c:2568
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s verdi  (min,maks)      "
 
-#: server/stdinhand.c:2572
+#: server/stdinhand.c:2571
 msgid "description"
 msgstr "beskrivelse"
 
-#: server/stdinhand.c:2691
+#: server/stdinhand.c:2690
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Udefinert argument.  Bruk: set <alternativ> <verdi>."
 
-#: server/stdinhand.c:2701
+#: server/stdinhand.c:2700
 msgid "You are not allowed to set this option."
 msgstr "Du har ikke lov å sette dette alternativet."
 
-#: server/stdinhand.c:2706
+#: server/stdinhand.c:2705
 msgid "This setting can't be modified after the game has started."
 msgstr "Denne innstillingen kan ikke endres etter at spillet har startet."
 
-#: server/stdinhand.c:2711
+#: server/stdinhand.c:2710
 msgid ""
 "This setting is protected from being modified after the game has started."
 msgstr ""
 "Denne innstillingen er beskyttet mot endringer etter at spillet har startet."
 
-#: server/stdinhand.c:2724 server/stdinhand.c:2746
+#: server/stdinhand.c:2723 server/stdinhand.c:2745
 msgid "Value must be an integer."
 msgstr "Verdien må være heltall"
 
-#: server/stdinhand.c:2727
+#: server/stdinhand.c:2726
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Verdi utenfor område (minimum: 0, maksimum: 1)."
 
-#: server/stdinhand.c:2738 server/stdinhand.c:2760
+#: server/stdinhand.c:2737 server/stdinhand.c:2759
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Alternativ: %s har blitt satt til %d."
 
-#: server/stdinhand.c:2749
+#: server/stdinhand.c:2748
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Verdi utenfor område (minimum: %d, maksimum: %d)."
 
-#: server/stdinhand.c:2770
+#: server/stdinhand.c:2769
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Streng verdi for lang.  Bruk: set <alternativ> <verdi>."
 
-#: server/stdinhand.c:2780
+#: server/stdinhand.c:2779
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Alternativ: %s har blitt satt til \"%s\"."
 
-#: server/stdinhand.c:2819
+#: server/stdinhand.c:2818
 msgid "This command may only be used before the game has started."
 msgstr "Denne kommandoen kan kun brukes før spillet har startet."
 
-#: server/stdinhand.c:2829
+#: server/stdinhand.c:2828
 #, c-format
 msgid "Need an argument.  Usage: %s <option-name>."
 msgstr "Et argument nødvendig.  Bruk: %s <alternativsnavn>."
 
-#: server/stdinhand.c:2838
+#: server/stdinhand.c:2837
 msgid "Unknown option name."
 msgstr "Ukjent alternativsnavn."
 
-#: server/stdinhand.c:2848
+#: server/stdinhand.c:2847
 #, c-format
 msgid "Option '%s' can never be modified after the game has started."
 msgstr "Innstillingen '%s' kan aldri endres etter at spillet har startet."
 
-#: server/stdinhand.c:2856
+#: server/stdinhand.c:2855
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not prevent it from being "
@@ -4518,7 +4520,7 @@ msgstr ""
 "Du har ikke lov til å endre alternativet '%s', dermed kan du ikke forhindre "
 "at det blir endret."
 
-#: server/stdinhand.c:2861
+#: server/stdinhand.c:2860
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not allow it to be set, "
@@ -4527,103 +4529,103 @@ msgstr ""
 "Du har ikke lov til å endre alternativet '%s', dermed kan du ikke tillate at "
 "det blir endret."
 
-#: server/stdinhand.c:2871
+#: server/stdinhand.c:2870
 #, c-format
 msgid "Option: '%s' now cannot be modified after the game has started."
 msgstr "Innstillingen '%s' kan nå ikke endres etter at spillet har startet."
 
-#: server/stdinhand.c:2877
+#: server/stdinhand.c:2876
 #, c-format
 msgid "Option: '%s' may now be modified after the game has started."
 msgstr "Innstillingen '%s' kan nå endres etter at spillet har startet."
 
-#: server/stdinhand.c:2892
+#: server/stdinhand.c:2891
 msgid "Usage: load <filename>"
 msgstr "Bruk: load <filnavn>"
 
-#: server/stdinhand.c:2897
+#: server/stdinhand.c:2896
 msgid "Can't load a game while another is running."
 msgstr "Kan ikke fortsette et spill mens et annet er i gang."
 
-#: server/stdinhand.c:2905
+#: server/stdinhand.c:2904
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Klarte ikke laste inn lagret spill i: %s"
 
-#: server/stdinhand.c:2909
+#: server/stdinhand.c:2908
 #, c-format
 msgid "Loading saved game: %s..."
 msgstr "Fortsetter lagret spill: %s...."
 
-#: server/stdinhand.c:2953
+#: server/stdinhand.c:2952
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Nåværende katalog for regeloppsettet er: \"%s\""
 
-#: server/stdinhand.c:2960
+#: server/stdinhand.c:2959
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Kunne ikke finne regeloppsettskatalogen \"%s\""
 
-#: server/stdinhand.c:2964
+#: server/stdinhand.c:2963
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Regeloppsettkatalogen er \"%s\""
 
-#: server/stdinhand.c:3015
+#: server/stdinhand.c:3014
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Beklager, du har ikke lov å benytte kommandoer på serveren."
 
-#: server/stdinhand.c:3050
+#: server/stdinhand.c:3049
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Advarsel: '%s' tolket som '%s', men dette er ikke nødv. riktig.  Forsøk '%"
 "shelp'."
 
-#: server/stdinhand.c:3055
+#: server/stdinhand.c:3054
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Ukjent kommando.  Forsøk '%shelp'."
 
-#: server/stdinhand.c:3061
+#: server/stdinhand.c:3060
 msgid "You are not allowed to use this command."
 msgstr "Du har ikke lov å bruke denne kommandoen."
 
-#: server/stdinhand.c:3088
+#: server/stdinhand.c:3087
 msgid "(server prompt)"
 msgstr "(server kommandolinje)"
 
-#: server/stdinhand.c:3168
+#: server/stdinhand.c:3167
 msgid "The game must be running before you can see the score."
 msgstr "Spillet må være igang for å se poengene."
 
-#: server/stdinhand.c:3228
+#: server/stdinhand.c:3227
 msgid "Not enough players, game will not start."
 msgstr "Ikke nok spillere, spillet vil ikke starte."
 
-#: server/stdinhand.c:3232
+#: server/stdinhand.c:3231
 msgid "You're not associated with a player and the game is starting. Bye."
 msgstr "Du er ikke forbundet med en spiller og spillet starter. Adjø."
 
-#: server/stdinhand.c:3243
+#: server/stdinhand.c:3242
 msgid "Cannot start the game: it is already running."
 msgstr "Kan ikke starte spill: det er allerede i gang."
 
-#: server/stdinhand.c:3252
+#: server/stdinhand.c:3251
 msgid "Cannot end the game: no game running."
 msgstr "Kan ikke avslutte spill: det er ikke noe spill igang."
 
-#: server/stdinhand.c:3280
+#: server/stdinhand.c:3279
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Avbryter tilkobling til %s."
 
-#: server/stdinhand.c:3290
+#: server/stdinhand.c:3289
 msgid "Goodbye."
 msgstr "Adjø."
 
-#: server/stdinhand.c:3303
+#: server/stdinhand.c:3302
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -4650,6 +4652,7 @@ msgstr ""
 "Visse kommandoer tar ett eller flere alternativ, adskilt av mellomrom.\n"
 "I mange tilfeller kan kommandoen og alternativet forkortes. Alternativ er "
 "innstillinger som styrer serveren mens den er i gang.\n"
+"Husk at kommandoer og alternativer skrives på engelsk.\n"
 "\n"
 "For å finne ut hvordan man får mer informasjon om kommandoer og \n"
 "alternativer, bruk \"help help\"\n"
@@ -4661,117 +4664,117 @@ msgstr ""
 "  save   -  lagre det nåværende spillet\n"
 "  quit   -  avslutte"
 
-#: server/stdinhand.c:3338 server/stdinhand.c:3341
+#: server/stdinhand.c:3337 server/stdinhand.c:3340
 msgid "Command:"
 msgstr "Kommando:"
 
-#: server/stdinhand.c:3345
+#: server/stdinhand.c:3344
 msgid "Synopsis: "
 msgstr "Betydning:"
 
-#: server/stdinhand.c:3354
+#: server/stdinhand.c:3353
 #, c-format
 msgid "Level: %s"
 msgstr "Nivå: %s"
 
-#: server/stdinhand.c:3379
+#: server/stdinhand.c:3378
 msgid "The following server commands are available:"
 msgstr "Følgende serverkommandoer er tilgjengelige:"
 
-#: server/stdinhand.c:3454
+#: server/stdinhand.c:3453
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Hjelpeargument '%s' er ikke entydig."
 
-#: server/stdinhand.c:3459
+#: server/stdinhand.c:3458
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Ingen treff funnet for hjelpeargument '%s'."
 
-#: server/stdinhand.c:3517
+#: server/stdinhand.c:3516
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Ulovlig listeargument: '%s'.  Forsøk '%shelp list'."
 
-#: server/stdinhand.c:3549
+#: server/stdinhand.c:3548
 msgid "List of players:"
 msgstr "Liste over spillere:"
 
-#: server/stdinhand.c:3553
+#: server/stdinhand.c:3552
 msgid "<no players>"
 msgstr "<ingen spillere>"
 
-#: server/stdinhand.c:3574
+#: server/stdinhand.c:3573
 #, c-format
 msgid "username %s, "
 msgstr "brukernavn %s, "
 
-#: data/nation/barbarian.ruleset:3 server/stdinhand.c:3578
+#: server/stdinhand.c:3577 data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "barbarsk"
 
-#: server/stdinhand.c:3580
+#: server/stdinhand.c:3579
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3582
+#: server/stdinhand.c:3581
 msgid "Human"
 msgstr "Menneske"
 
-#: server/stdinhand.c:3585
+#: server/stdinhand.c:3584
 msgid ", Dead"
 msgstr ", Død"
 
-#: server/stdinhand.c:3588
+#: server/stdinhand.c:3587
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", vanskelighetsgrad %s"
 
-#: server/stdinhand.c:3592
+#: server/stdinhand.c:3591
 #, c-format
 msgid ", nation %s"
 msgstr ", nasjon: %s"
 
-#: server/stdinhand.c:3600
+#: server/stdinhand.c:3599
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d tilkobling:"
 msgstr[1] " %d tilkoblinger:"
 
-#: server/stdinhand.c:3606
+#: server/stdinhand.c:3605
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s fra %s (kommando tilgangsnivå: %s), buffer størrelse=%dkb"
 
 # heter AI på norsk.. ingen skjønner KI
-#: server/stdinhand.c:3611
+#: server/stdinhand.c:3610
 msgid " (observer mode)"
 msgstr " (observatør modus)"
 
-#: server/stdinhand.c:3627
+#: server/stdinhand.c:3626
 msgid "List of connections to server:"
 msgstr "List opp tilkoblinger til server:"
 
-#: server/stdinhand.c:3631
+#: server/stdinhand.c:3630
 msgid "<no connections>"
 msgstr "<ingen tilkoblinger>"
 
-#: server/stdinhand.c:3655
+#: server/stdinhand.c:3654
 msgid ""
 "notradesize must be always smaller than fulltradesize, keeping old value."
 msgstr ""
 "notradesize må alltid være mindre enn fulltradesize, beholder den gamle "
 "verdien."
 
-#: server/stdinhand.c:3668
+#: server/stdinhand.c:3667
 msgid ""
 "fulltradesize must be always bigger than notradesize, keeping old value."
 msgstr ""
 "fulltradesize må alltid være større enn notradesize, beholder den gamle "
 "verdien."
 
-#: server/stdinhand.c:3723
+#: server/stdinhand.c:3722
 msgid ""
 "Allowed connections string contains invalid\n"
 "characters.  Try \"help allowconnect\"."
@@ -5385,19 +5388,19 @@ msgid "?filler:XXX/XXX XXX turns"
 msgstr "?filler:XXX/XXX XXX runder"
 
 #: client/citydlg_common.c:123
-#, c-format, ycp-format
+#, c-format
 msgid "%3d gold per turn"
 msgstr "%3d gull per runde"
 
 #: client/citydlg_common.c:133
-#, c-format, ycp-format
+#, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d runde"
 msgstr[1] "%3d runder"
 
-#: client/agents/cma_fec.c:265 client/agents/cma_fec.c:300
 #: client/citydlg_common.c:137 client/citydlg_common.c:255
+#: client/agents/cma_fec.c:265 client/agents/cma_fec.c:300
 #: client/gui-gtk-2.0/citydlg.c:1698 client/gui-gtk/citydlg.c:1712
 #: client/gui-mui/citydlg.c:108 client/gui-mui/citydlg.c:143
 #: client/gui-mui/citydlg.c:1910
@@ -5556,7 +5559,7 @@ msgstr "?trade_routes:H"
 msgid "Number of Trade Routes"
 msgstr "Antall handelsruter"
 
-#: client/agents/cma_core.c:2009 client/cityrepdata.c:229
+#: client/cityrepdata.c:229 client/agents/cma_core.c:2009
 #: client/gui-gtk-2.0/repodlgs.c:832 client/gui-gtk/repodlgs.c:781
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -5761,7 +5764,7 @@ msgstr ""
 "Ankomstår:        1234 e.Kr"
 
 #: client/climisc.c:1114
-#, c-format, ycp-format
+#, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Reisetid:        %5.1f år"
 
@@ -5770,7 +5773,7 @@ msgid "Travel time:        N/A     "
 msgstr "Reisetid:           N/A     "
 
 #: client/climisc.c:1129
-#, c-format, ycp-format
+#, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Masse:  %5d tonn"
@@ -6053,7 +6056,7 @@ msgstr ""
 "* En kampenhet: medfører 1 ulykkelig selv når den er ikke-aggressiv. \n"
 
 #: client/helpdata.c:694
-#, c-format, ycp-format
+#, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -6764,15 +6767,15 @@ msgid "Shield"
 msgstr "Skjold"
 
 #: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
-#: data/Freeciv:2966 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
-#: data/default/techs.ruleset:562
+#: data/Freeciv:2966 data/default/techs.ruleset:562
+#: data/civ2/techs.ruleset:553 data/civ1/techs.ruleset:553
 msgid "Trade"
 msgstr "Handel"
 
 #: client/agents/cma_core.c:2015 client/gui-gtk-2.0/citydlg.c:549
 #: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1687
-#: data/civ1/terrain.ruleset:368 data/civ2/terrain.ruleset:376
-#: data/default/terrain.ruleset:376
+#: data/default/terrain.ruleset:376 data/civ2/terrain.ruleset:376
+#: data/civ1/terrain.ruleset:368
 msgid "Gold"
 msgstr "Gull"
 
@@ -10136,7 +10139,7 @@ msgstr "Salg:"
 
 #: client/gui-gtk/repodlgs.c:738 client/gui-mui/repodlgs.c:617
 #: client/gui-win32/repodlgs.c:343 client/gui-xaw/repodlgs.c:796
-#, c-format, ycp-format
+#, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Inntekt: %6d   Total Kostnad: %6d"
 
@@ -11018,7 +11021,7 @@ msgid "_Launch"
 msgstr "_Oppskytning"
 
 #: client/gui-mui/spaceshipdlg.c:263
-#, c-format, ycp-format
+#, c-format
 msgid ""
 "%5d\n"
 "%5d %%\n"
@@ -11092,7 +11095,7 @@ msgid "Name of Worklist"
 msgstr "Arbeidslistens navn"
 
 #: client/gui-win32/citydlg.c:402
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:   %3d"
 msgstr "Forurensning:   %3d"
 
@@ -11377,7 +11380,7 @@ msgid "Remove"
 msgstr "Fjern"
 
 #: client/gui-xaw/citydlg.c:194
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:    %3d"
 msgstr "Forurensning:  %3d"
 
@@ -11422,7 +11425,7 @@ msgid "These trade routes have been established with %s:\n"
 msgstr "Disse handelsruten har vi etablert med %s:\n"
 
 #: client/gui-xaw/citydlg.c:1431 client/gui-xaw/citydlg.c:1435
-#, c-format, ycp-format
+#, c-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/År\n"
 
@@ -11620,7 +11623,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "Mål: %s (%d steg)"
 
 #: client/gui-xaw/repodlgs.c:1110
-#, c-format, ycp-format
+#, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totalt:                     %9d%9d%9d%9d"
 
@@ -13765,13 +13768,13 @@ msgstr ""
 "forsøke å bygge et lett romskip med mange fremdriftsenheter som ankommer "
 "først. Det andre alternativet er å erobre deres hovedstad."
 
-#: data/civ1/buildings.ruleset:28 data/civ2/buildings.ruleset:28
-#: data/default/buildings.ruleset:219
+#: data/default/buildings.ruleset:219 data/civ2/buildings.ruleset:28
+#: data/civ1/buildings.ruleset:28
 msgid "Airport"
 msgstr "Lufthavn"
 
-#: data/civ1/buildings.ruleset:49 data/civ2/buildings.ruleset:49
-#: data/default/buildings.ruleset:240
+#: data/default/buildings.ruleset:240 data/civ2/buildings.ruleset:49
+#: data/civ1/buildings.ruleset:49
 msgid ""
 "Allows a city to produce veteran air units.  Also, damaged air units which "
 "stay in town for one full turn without moving are completely restored.\n"
@@ -13789,18 +13792,18 @@ msgstr ""
 "enhetens bevegelsespoeng. En enhet må ha noen bevegelsespoeng igjen for å "
 "flyforflyttes."
 
-#: data/civ1/buildings.ruleset:61 data/civ2/buildings.ruleset:61
-#: data/default/buildings.ruleset:252
+#: data/default/buildings.ruleset:252 data/civ2/buildings.ruleset:61
+#: data/civ1/buildings.ruleset:61
 msgid "Aqueduct"
 msgstr "Akvedukt"
 
-#: data/civ1/buildings.ruleset:88 data/civ2/buildings.ruleset:89
-#: data/default/buildings.ruleset:280
+#: data/default/buildings.ruleset:280 data/civ2/buildings.ruleset:89
+#: data/civ1/buildings.ruleset:88
 msgid "Bank"
 msgstr "Bank"
 
-#: data/civ1/buildings.ruleset:109 data/civ2/buildings.ruleset:110
-#: data/default/buildings.ruleset:301
+#: data/default/buildings.ruleset:301 data/civ2/buildings.ruleset:110
+#: data/civ1/buildings.ruleset:109
 #, no-c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
@@ -13809,14 +13812,14 @@ msgstr ""
 "I tillegg til markedsplass forbedringen øker en bank produksjonen av luksus "
 "og skatt i en by med 100%."
 
-#: data/civ1/buildings.ruleset:115 data/civ2/buildings.ruleset:116
-#: data/default/buildings.ruleset:307
+#: data/default/buildings.ruleset:307 data/civ2/buildings.ruleset:116
+#: data/civ1/buildings.ruleset:115
 msgid "Barracks"
 msgstr "Brakker"
 
-#: data/civ2/buildings.ruleset:136 data/civ2/buildings.ruleset:165
-#: data/civ2/buildings.ruleset:194 data/default/buildings.ruleset:327
-#: data/default/buildings.ruleset:356 data/default/buildings.ruleset:385
+#: data/default/buildings.ruleset:327 data/default/buildings.ruleset:356
+#: data/default/buildings.ruleset:385 data/civ2/buildings.ruleset:136
+#: data/civ2/buildings.ruleset:165 data/civ2/buildings.ruleset:194
 msgid ""
 "With a Barracks, each new land unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -13827,22 +13830,22 @@ msgstr ""
 "og forsvars styrke øker med 50%. Skadede land enheter som blir i byen for en "
 "hel runde uten å forflytte seg blir helt reparert."
 
-#: data/civ1/buildings.ruleset:153 data/civ2/buildings.ruleset:145
-#: data/default/buildings.ruleset:336
+#: data/default/buildings.ruleset:336 data/civ2/buildings.ruleset:145
+#: data/civ1/buildings.ruleset:153
 msgid "Barracks II"
 msgstr "Brakker II"
 
-#: data/civ1/buildings.ruleset:190 data/civ2/buildings.ruleset:174
-#: data/default/buildings.ruleset:365
+#: data/default/buildings.ruleset:365 data/civ2/buildings.ruleset:174
+#: data/civ1/buildings.ruleset:190
 msgid "Barracks III"
 msgstr "Brakker III"
 
-#: data/civ1/buildings.ruleset:227 data/civ2/buildings.ruleset:203
-#: data/default/buildings.ruleset:394
+#: data/default/buildings.ruleset:394 data/civ2/buildings.ruleset:203
+#: data/civ1/buildings.ruleset:227
 msgid "Cathedral"
 msgstr "Katedral"
 
-#: data/civ2/buildings.ruleset:224 data/default/buildings.ruleset:415
+#: data/default/buildings.ruleset:415 data/civ2/buildings.ruleset:224
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city.  The discovery of Theology increases the effect "
@@ -13856,12 +13859,12 @@ msgstr ""
 "kommunisme reduserer effekten av en katedral, ved å redusere antallet "
 "ulykkelige borgere som blir fornøyde med 1."
 
-#: data/civ1/buildings.ruleset:252 data/civ2/buildings.ruleset:234
-#: data/default/buildings.ruleset:425
+#: data/default/buildings.ruleset:425 data/civ2/buildings.ruleset:234
+#: data/civ1/buildings.ruleset:252
 msgid "City Walls"
 msgstr "Bymur"
 
-#: data/civ2/buildings.ruleset:256 data/default/buildings.ruleset:447
+#: data/default/buildings.ruleset:447 data/civ2/buildings.ruleset:256
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground and helicopter units.  They "
@@ -13874,13 +13877,13 @@ msgstr ""
 "flyenheter, sjøenheter og Howitzere. Bymurer forhindrer av befolkningen "
 "minker som følge av at en forsvarende enhet blir ødelagt av en landenhet."
 
-#: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:265
-#: data/default/buildings.ruleset:456
+#: data/default/buildings.ruleset:456 data/civ2/buildings.ruleset:265
+#: data/civ1/buildings.ruleset:284
 msgid "Coastal Defense"
 msgstr "Kystforsvar"
 
-#: data/civ1/buildings.ruleset:303 data/civ2/buildings.ruleset:284
-#: data/default/buildings.ruleset:475
+#: data/default/buildings.ruleset:475 data/civ2/buildings.ruleset:284
+#: data/civ1/buildings.ruleset:303
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
@@ -13888,8 +13891,8 @@ msgstr ""
 "Øker forsvarsstyrken til enheter i byen med 2 når de forsvarer mot "
 "bombardement fra fiendtlige skip."
 
-#: data/civ1/buildings.ruleset:309 data/civ2/buildings.ruleset:290
-#: data/default/buildings.ruleset:481
+#: data/default/buildings.ruleset:481 data/civ2/buildings.ruleset:290
+#: data/civ1/buildings.ruleset:309
 msgid "Colosseum"
 msgstr "Kolosseum"
 
@@ -13901,13 +13904,13 @@ msgstr ""
 "Underholder innbyggerne i byen, gjør 3 ulykkelige borgere fornøyd. (Fire "
 "etter oppdagelsen av elektrisitet.)"
 
-#: data/civ1/buildings.ruleset:333 data/civ2/buildings.ruleset:316
-#: data/default/buildings.ruleset:509
+#: data/default/buildings.ruleset:509 data/civ2/buildings.ruleset:316
+#: data/civ1/buildings.ruleset:333
 msgid "Courthouse"
 msgstr "Rettssal"
 
-#: data/civ1/buildings.ruleset:354 data/civ2/buildings.ruleset:337
-#: data/default/buildings.ruleset:530
+#: data/default/buildings.ruleset:530 data/civ2/buildings.ruleset:337
+#: data/civ1/buildings.ruleset:354
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
@@ -13917,13 +13920,13 @@ msgstr ""
 "gjøre en ulykkelig borger fornøyd. Dessuten halveres den effektive avstanden "
 "til hovedstaden, med hensikt i å kalkulere opprørskostnader."
 
-#: data/civ1/buildings.ruleset:362 data/civ2/buildings.ruleset:345
-#: data/default/buildings.ruleset:538
+#: data/default/buildings.ruleset:538 data/civ2/buildings.ruleset:345
+#: data/civ1/buildings.ruleset:362
 msgid "Factory"
 msgstr "Fabrikk"
 
-#: data/civ1/buildings.ruleset:381 data/civ2/buildings.ruleset:364
-#: data/default/buildings.ruleset:557
+#: data/default/buildings.ruleset:557 data/civ2/buildings.ruleset:364
+#: data/civ1/buildings.ruleset:381
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
@@ -13931,13 +13934,13 @@ msgstr ""
 "Øker produksjonen av skjold i en by med 50%. Det fører også til at "
 "forurensningen øker betraktelig."
 
-#: data/civ1/buildings.ruleset:387 data/civ2/buildings.ruleset:370
-#: data/default/buildings.ruleset:563
+#: data/default/buildings.ruleset:563 data/civ2/buildings.ruleset:370
+#: data/civ1/buildings.ruleset:387
 msgid "Granary"
 msgstr "Kornlager"
 
-#: data/civ1/buildings.ruleset:406 data/civ2/buildings.ruleset:389
-#: data/default/buildings.ruleset:582
+#: data/default/buildings.ruleset:582 data/civ2/buildings.ruleset:389
+#: data/civ1/buildings.ruleset:406
 msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
@@ -13947,13 +13950,13 @@ msgstr ""
 "vokser eller minker. Dette hjelper en by å vokse raskere og enklere motstå "
 "sult."
 
-#: data/civ1/buildings.ruleset:416 data/civ2/buildings.ruleset:399
-#: data/default/buildings.ruleset:592
+#: data/default/buildings.ruleset:592 data/civ2/buildings.ruleset:399
+#: data/civ1/buildings.ruleset:416
 msgid "Harbour"
 msgstr "Havn"
 
-#: data/civ1/buildings.ruleset:435 data/civ2/buildings.ruleset:418
-#: data/default/buildings.ruleset:611
+#: data/default/buildings.ruleset:611 data/civ2/buildings.ruleset:418
+#: data/civ1/buildings.ruleset:435
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
@@ -13961,8 +13964,8 @@ msgstr ""
 "Gir en ekstra mat ressurs på alle sjøruter. Byen behøver å være i nærheten "
 "av sjø for å bygge denne forbedringen."
 
-#: data/civ1/buildings.ruleset:441 data/civ2/buildings.ruleset:424
-#: data/default/buildings.ruleset:617
+#: data/default/buildings.ruleset:617 data/civ2/buildings.ruleset:424
+#: data/civ1/buildings.ruleset:441
 msgid "Hydro Plant"
 msgstr "Vannkraftverk"
 
@@ -13988,35 +13991,35 @@ msgstr ""
 "kun bygge vannkraftverk dersom den er ved siden av (eller på) et fjell eller "
 "en elv."
 
-#: data/civ1/buildings.ruleset:476 data/civ2/buildings.ruleset:461
-#: data/default/buildings.ruleset:658
+#: data/default/buildings.ruleset:658 data/civ2/buildings.ruleset:461
+#: data/civ1/buildings.ruleset:476
 msgid "Library"
 msgstr "Bibliotek"
 
-#: data/civ1/buildings.ruleset:496 data/civ2/buildings.ruleset:481
-#: data/default/buildings.ruleset:678
+#: data/default/buildings.ruleset:678 data/civ2/buildings.ruleset:481
+#: data/civ1/buildings.ruleset:496
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "Øker byen forskningsbidrag med 50%."
 
-#: data/civ1/buildings.ruleset:501 data/civ2/buildings.ruleset:486
-#: data/default/buildings.ruleset:683
+#: data/default/buildings.ruleset:683 data/civ2/buildings.ruleset:486
+#: data/civ1/buildings.ruleset:501
 msgid "Marketplace"
 msgstr "Markedsplass"
 
-#: data/civ1/buildings.ruleset:522 data/civ2/buildings.ruleset:507
-#: data/default/buildings.ruleset:704
+#: data/default/buildings.ruleset:704 data/civ2/buildings.ruleset:507
+#: data/civ1/buildings.ruleset:522
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Øker byens luksus- og skatte-bidrag med 50%."
 
-#: data/civ1/buildings.ruleset:527 data/civ2/buildings.ruleset:512
-#: data/default/buildings.ruleset:709
+#: data/default/buildings.ruleset:709 data/civ2/buildings.ruleset:512
+#: data/civ1/buildings.ruleset:527
 msgid "Mass Transit"
 msgstr "Kollektivtrafikk"
 
-#: data/civ1/buildings.ruleset:546 data/civ2/buildings.ruleset:531
-#: data/default/buildings.ruleset:728
+#: data/default/buildings.ruleset:728 data/civ2/buildings.ruleset:531
+#: data/civ1/buildings.ruleset:546
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
@@ -14024,13 +14027,13 @@ msgstr ""
 "Nøytraliserer forurensningen generert av befolkningen.  Befolkningen har "
 "absolutt ingen effekt på forurensningen fra byen."
 
-#: data/civ1/buildings.ruleset:553 data/civ2/buildings.ruleset:538
-#: data/default/buildings.ruleset:735
+#: data/default/buildings.ruleset:735 data/civ2/buildings.ruleset:538
+#: data/civ1/buildings.ruleset:553
 msgid "Mfg. Plant"
 msgstr "Fabrikk-kompleks"
 
-#: data/civ1/buildings.ruleset:573 data/civ2/buildings.ruleset:558
-#: data/default/buildings.ruleset:755
+#: data/default/buildings.ruleset:755 data/civ2/buildings.ruleset:558
+#: data/civ1/buildings.ruleset:573
 #, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
@@ -14039,8 +14042,8 @@ msgstr ""
 "Sammen med en fabrikk øker et fabrikk-kompleks skjoldproduksjonen i en by "
 "med 100%."
 
-#: data/civ1/buildings.ruleset:579 data/civ2/buildings.ruleset:564
-#: data/default/buildings.ruleset:761
+#: data/default/buildings.ruleset:761 data/civ2/buildings.ruleset:564
+#: data/civ1/buildings.ruleset:579
 msgid "Nuclear Plant"
 msgstr "Atomkraftverk"
 
@@ -14062,13 +14065,13 @@ msgstr ""
 "\n"
 "En by kan kun ha et vannkraftverk, kraftverk eller atomkreftverk."
 
-#: data/civ1/buildings.ruleset:616 data/civ2/buildings.ruleset:603
-#: data/default/buildings.ruleset:803
+#: data/default/buildings.ruleset:803 data/civ2/buildings.ruleset:603
+#: data/civ1/buildings.ruleset:616
 msgid "Offshore Platform"
 msgstr "Oljeplattform"
 
-#: data/civ1/buildings.ruleset:635 data/civ2/buildings.ruleset:622
-#: data/default/buildings.ruleset:822
+#: data/default/buildings.ruleset:822 data/civ2/buildings.ruleset:622
+#: data/civ1/buildings.ruleset:635
 msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
@@ -14076,13 +14079,13 @@ msgstr ""
 "Legger til 1 ekstra skjold ressurs på alle sjøruter i byen. Byen må være en "
 "kystby for å bygge denne forbedringen."
 
-#: data/civ1/buildings.ruleset:641 data/civ2/buildings.ruleset:628
-#: data/default/buildings.ruleset:828
+#: data/default/buildings.ruleset:828 data/civ2/buildings.ruleset:628
+#: data/civ1/buildings.ruleset:641
 msgid "Palace"
 msgstr "Slott"
 
-#: data/civ1/buildings.ruleset:661 data/civ2/buildings.ruleset:649
-#: data/default/buildings.ruleset:849
+#: data/default/buildings.ruleset:849 data/civ2/buildings.ruleset:649
+#: data/civ1/buildings.ruleset:661
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -14104,13 +14107,13 @@ msgstr ""
 "borgerkrig. Dersom du mister ditt palass så mister du også et eventuelt "
 "romskip."
 
-#: data/civ1/buildings.ruleset:675 data/civ2/buildings.ruleset:663
-#: data/default/buildings.ruleset:863
+#: data/default/buildings.ruleset:863 data/civ2/buildings.ruleset:663
+#: data/civ1/buildings.ruleset:675
 msgid "Police Station"
 msgstr "Politistasjon"
 
-#: data/civ1/buildings.ruleset:695 data/civ2/buildings.ruleset:683
-#: data/default/buildings.ruleset:883
+#: data/default/buildings.ruleset:883 data/civ2/buildings.ruleset:683
+#: data/civ1/buildings.ruleset:695
 msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
@@ -14120,13 +14123,13 @@ msgstr ""
 "under demokrati og 1 under republikk. Denne forbedringen har ingen effekt "
 "under andre styresett."
 
-#: data/civ1/buildings.ruleset:702 data/civ2/buildings.ruleset:690
-#: data/default/buildings.ruleset:893
+#: data/default/buildings.ruleset:893 data/civ2/buildings.ruleset:690
+#: data/civ1/buildings.ruleset:702
 msgid "Port Facility"
 msgstr "Havneområde"
 
-#: data/civ1/buildings.ruleset:722 data/civ2/buildings.ruleset:710
-#: data/default/buildings.ruleset:913
+#: data/default/buildings.ruleset:913 data/civ2/buildings.ruleset:710
+#: data/civ1/buildings.ruleset:722
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -14134,8 +14137,8 @@ msgstr ""
 "Tillater en by å bygge veterane sjøenheter. Dessuten blir skadede sjøenheter "
 "som blir i byen en hel runde uten å bevege seg helt reparert."
 
-#: data/civ1/buildings.ruleset:729 data/civ2/buildings.ruleset:717
-#: data/default/buildings.ruleset:920
+#: data/default/buildings.ruleset:920 data/civ2/buildings.ruleset:717
+#: data/civ1/buildings.ruleset:729
 msgid "Power Plant"
 msgstr "Kullkraftverk"
 
@@ -14156,13 +14159,13 @@ msgstr ""
 "\n"
 "En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
 
-#: data/civ1/buildings.ruleset:761 data/civ2/buildings.ruleset:749
-#: data/default/buildings.ruleset:956
+#: data/default/buildings.ruleset:956 data/civ2/buildings.ruleset:749
+#: data/civ1/buildings.ruleset:761
 msgid "Recycling Center"
 msgstr "Resirkuleringsstasjon"
 
-#: data/civ1/buildings.ruleset:781 data/civ2/buildings.ruleset:769
-#: data/default/buildings.ruleset:976
+#: data/default/buildings.ruleset:976 data/civ2/buildings.ruleset:769
+#: data/civ1/buildings.ruleset:781
 #, no-c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
@@ -14171,13 +14174,13 @@ msgstr ""
 "Å bygge et resirkuleringssenter reduserer mengden forurensning som blir "
 "laget i en by med 66%."
 
-#: data/civ1/buildings.ruleset:787 data/civ2/buildings.ruleset:775
-#: data/default/buildings.ruleset:982
+#: data/default/buildings.ruleset:982 data/civ2/buildings.ruleset:775
+#: data/civ1/buildings.ruleset:787
 msgid "Research Lab"
 msgstr "Forskningslaboratorium"
 
-#: data/civ1/buildings.ruleset:806 data/civ2/buildings.ruleset:794
-#: data/default/buildings.ruleset:1001
+#: data/default/buildings.ruleset:1001 data/civ2/buildings.ruleset:794
+#: data/civ1/buildings.ruleset:806
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -14187,13 +14190,13 @@ msgstr ""
 "med 100%. Sammen med en bibliotek og et universitet øker et "
 "forskningslaboratorium forskningen i en by med 150%."
 
-#: data/civ1/buildings.ruleset:814 data/civ2/buildings.ruleset:802
-#: data/default/buildings.ruleset:1009
+#: data/default/buildings.ruleset:1009 data/civ2/buildings.ruleset:802
+#: data/civ1/buildings.ruleset:814
 msgid "SAM Battery"
 msgstr "SAM rakettbatteri"
 
-#: data/civ1/buildings.ruleset:834 data/civ2/buildings.ruleset:822
-#: data/default/buildings.ruleset:1029
+#: data/default/buildings.ruleset:1029 data/civ2/buildings.ruleset:822
+#: data/civ1/buildings.ruleset:834
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
@@ -14201,13 +14204,13 @@ msgstr ""
 "Dobler forsvaret til alle enheter inne i en by når de blir angriper av "
 "flyenheter uten atomkraft."
 
-#: data/civ1/buildings.ruleset:840 data/civ2/buildings.ruleset:828
-#: data/default/buildings.ruleset:1035
+#: data/default/buildings.ruleset:1035 data/civ2/buildings.ruleset:828
+#: data/civ1/buildings.ruleset:840
 msgid "SDI Defense"
 msgstr "SDI forsvar"
 
-#: data/civ1/buildings.ruleset:860 data/civ2/buildings.ruleset:848
-#: data/default/buildings.ruleset:1055
+#: data/default/buildings.ruleset:1055 data/civ2/buildings.ruleset:848
+#: data/civ1/buildings.ruleset:860
 msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
@@ -14216,13 +14219,13 @@ msgstr ""
 "Beskytter en by mot angrep fra atomenheter. Atomangrep har ingen effekt i "
 "byen. Og den dobler forsvaret mot ikke-atombaserte missiler."
 
-#: data/civ1/buildings.ruleset:869 data/civ2/buildings.ruleset:857
-#: data/default/buildings.ruleset:1064
+#: data/default/buildings.ruleset:1064 data/civ2/buildings.ruleset:857
+#: data/civ1/buildings.ruleset:869
 msgid "Sewer System"
 msgstr "Kloakksystem"
 
-#: data/civ1/buildings.ruleset:894 data/civ2/buildings.ruleset:885
-#: data/default/buildings.ruleset:1092
+#: data/default/buildings.ruleset:1092 data/civ2/buildings.ruleset:885
+#: data/civ1/buildings.ruleset:894
 msgid "Solar Plant"
 msgstr "Solbasert kraftverk"
 
@@ -14244,13 +14247,13 @@ msgstr ""
 "\n"
 "En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk. "
 
-#: data/civ1/buildings.ruleset:931 data/civ2/buildings.ruleset:922
-#: data/default/buildings.ruleset:1133
+#: data/default/buildings.ruleset:1133 data/civ2/buildings.ruleset:922
+#: data/civ1/buildings.ruleset:931
 msgid "Space Component"
 msgstr "Romkomponent"
 
-#: data/civ1/buildings.ruleset:950 data/civ2/buildings.ruleset:941
-#: data/default/buildings.ruleset:1152
+#: data/default/buildings.ruleset:1152 data/civ2/buildings.ruleset:941
+#: data/civ1/buildings.ruleset:950
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -14265,13 +14268,13 @@ msgstr ""
 "Før du kan bygge noen romkomponenter må en spiller ha bygget "
 "Apolloprogrammet."
 
-#: data/civ1/buildings.ruleset:960 data/civ2/buildings.ruleset:951
-#: data/default/buildings.ruleset:1162
+#: data/default/buildings.ruleset:1162 data/civ2/buildings.ruleset:951
+#: data/civ1/buildings.ruleset:960
 msgid "Space Module"
 msgstr "Rom-modul"
 
-#: data/civ1/buildings.ruleset:979 data/civ2/buildings.ruleset:970
-#: data/default/buildings.ruleset:1181
+#: data/default/buildings.ruleset:1181 data/civ2/buildings.ruleset:970
+#: data/civ1/buildings.ruleset:979
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:\n"
@@ -14303,13 +14306,13 @@ msgstr ""
 "Før du kan bygge noen romskipsdeler må en spiller ha bygget underverket "
 "Apolloprogrammet."
 
-#: data/civ1/buildings.ruleset:998 data/civ2/buildings.ruleset:989
-#: data/default/buildings.ruleset:1200
+#: data/default/buildings.ruleset:1200 data/civ2/buildings.ruleset:989
+#: data/civ1/buildings.ruleset:998
 msgid "Space Structural"
 msgstr "Romstruktur"
 
-#: data/civ1/buildings.ruleset:1017 data/civ2/buildings.ruleset:1008
-#: data/default/buildings.ruleset:1219
+#: data/default/buildings.ruleset:1219 data/civ2/buildings.ruleset:1008
+#: data/civ1/buildings.ruleset:1017
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -14325,13 +14328,13 @@ msgstr ""
 "Før du kan bygge noen romskipsdeler må en spiller ha bygget underverket "
 "Apolloprogrammet."
 
-#: data/civ1/buildings.ruleset:1027 data/civ2/buildings.ruleset:1018
-#: data/default/buildings.ruleset:1229
+#: data/default/buildings.ruleset:1229 data/civ2/buildings.ruleset:1018
+#: data/civ1/buildings.ruleset:1027
 msgid "Stock Exchange"
 msgstr "Børs"
 
-#: data/civ1/buildings.ruleset:1048 data/civ2/buildings.ruleset:1039
-#: data/default/buildings.ruleset:1250
+#: data/default/buildings.ruleset:1250 data/civ2/buildings.ruleset:1039
+#: data/civ1/buildings.ruleset:1048
 #, no-c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
@@ -14340,26 +14343,26 @@ msgstr ""
 "Sammen med en markedsplass og en bank, så øker børsen skatte- og luksus-"
 "produksjonen i en by med 150%."
 
-#: data/civ1/buildings.ruleset:1054 data/civ2/buildings.ruleset:1045
-#: data/default/buildings.ruleset:1256
+#: data/default/buildings.ruleset:1256 data/civ2/buildings.ruleset:1045
+#: data/civ1/buildings.ruleset:1054
 msgid "Super Highways"
 msgstr "Motorveier"
 
-#: data/civ1/buildings.ruleset:1075 data/civ2/buildings.ruleset:1066
-#: data/default/buildings.ruleset:1276
+#: data/default/buildings.ruleset:1276 data/civ2/buildings.ruleset:1066
+#: data/civ1/buildings.ruleset:1075
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr ""
 "Øker handels ressursene med 50% på alle ruter med veier eller jernbaner."
 
-#: data/civ1/buildings.ruleset:1081 data/civ2/buildings.ruleset:1072
-#: data/default/buildings.ruleset:1284
+#: data/default/buildings.ruleset:1284 data/civ2/buildings.ruleset:1072
+#: data/civ1/buildings.ruleset:1081
 msgid "Supermarket"
 msgstr "Supermarked"
 
-#: data/civ1/buildings.ruleset:1101 data/civ2/buildings.ruleset:1092
-#: data/default/buildings.ruleset:1304
+#: data/default/buildings.ruleset:1304 data/civ2/buildings.ruleset:1092
+#: data/civ1/buildings.ruleset:1101
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
@@ -14369,13 +14372,13 @@ msgstr ""
 "Øker matressursene med 50% på hver rute med dyrket mark som blir brukt rundt "
 "byen. Dyrket mark er de rutene som har blitt irrigert en ekstra gang."
 
-#: data/civ1/buildings.ruleset:1108 data/civ2/buildings.ruleset:1099
-#: data/default/buildings.ruleset:1311
+#: data/default/buildings.ruleset:1311 data/civ2/buildings.ruleset:1099
+#: data/civ1/buildings.ruleset:1108
 msgid "Temple"
 msgstr "Tempel"
 
-#: data/civ1/buildings.ruleset:1128 data/civ2/buildings.ruleset:1119
-#: data/default/buildings.ruleset:1331
+#: data/default/buildings.ruleset:1331 data/civ2/buildings.ruleset:1119
+#: data/civ1/buildings.ruleset:1128
 msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
@@ -14384,14 +14387,14 @@ msgstr ""
 "Gjør en ulykkelig borger fornøyd. Både Mystisisme og Orakel underverket "
 "dobler denne effekten. Med Mystisisme og Orakel blir 4 borgere fornøyd."
 
-#: data/civ1/buildings.ruleset:1135 data/civ1/techs.ruleset:559
-#: data/civ2/buildings.ruleset:1126 data/civ2/techs.ruleset:559
-#: data/default/buildings.ruleset:1338 data/default/techs.ruleset:568
+#: data/default/buildings.ruleset:1338 data/civ2/buildings.ruleset:1126
+#: data/civ1/buildings.ruleset:1135 data/default/techs.ruleset:568
+#: data/civ2/techs.ruleset:559 data/civ1/techs.ruleset:559
 msgid "University"
 msgstr "Universitet"
 
-#: data/civ1/buildings.ruleset:1155 data/civ2/buildings.ruleset:1146
-#: data/default/buildings.ruleset:1358
+#: data/default/buildings.ruleset:1358 data/civ2/buildings.ruleset:1146
+#: data/civ1/buildings.ruleset:1155
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
@@ -14400,12 +14403,12 @@ msgstr ""
 "Sammen med bibliotek vil et universitet øke forskningsproduksjonen i en by "
 "med 100%."
 
-#: data/civ1/buildings.ruleset:1161 data/civ2/buildings.ruleset:1152
-#: data/default/buildings.ruleset:1364
+#: data/default/buildings.ruleset:1364 data/civ2/buildings.ruleset:1152
+#: data/civ1/buildings.ruleset:1161
 msgid "Apollo Program"
 msgstr "Apollo Programmet"
 
-#: data/civ2/buildings.ruleset:1172 data/default/buildings.ruleset:1384
+#: data/default/buildings.ruleset:1384 data/civ2/buildings.ruleset:1172
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -14415,26 +14418,26 @@ msgstr ""
 "begynne å bygge romskipsdeler (dersom de har forsket på de nødvendige "
 "teknologiene)."
 
-#: data/civ1/buildings.ruleset:1186 data/civ2/buildings.ruleset:1179
-#: data/default/buildings.ruleset:1391
+#: data/default/buildings.ruleset:1391 data/civ2/buildings.ruleset:1179
+#: data/civ1/buildings.ruleset:1186
 msgid "A.Smith's Trading Co."
 msgstr "Adam Smiths Handelsselskap"
 
-#: data/civ1/buildings.ruleset:1205 data/civ2/buildings.ruleset:1198
-#: data/default/buildings.ruleset:1410
+#: data/default/buildings.ruleset:1410 data/civ2/buildings.ruleset:1198
+#: data/civ1/buildings.ruleset:1205
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
 msgstr ""
 "Byforbedringer som normalt vil ha utgifter på 1 vil bli gratis i alle byer."
 
-#: data/civ1/buildings.ruleset:1211 data/civ2/buildings.ruleset:1204
-#: data/default/buildings.ruleset:1416
+#: data/default/buildings.ruleset:1416 data/civ2/buildings.ruleset:1204
+#: data/civ1/buildings.ruleset:1211
 msgid "Colossus"
 msgstr "Kolossen"
 
-#: data/civ1/buildings.ruleset:1230 data/civ2/buildings.ruleset:1223
-#: data/default/buildings.ruleset:1435
+#: data/default/buildings.ruleset:1435 data/civ2/buildings.ruleset:1223
+#: data/civ1/buildings.ruleset:1230
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -14442,24 +14445,24 @@ msgstr ""
 "Hver rute rundt byen som underverket er bygget som allerede genererer noe "
 "handel produserer en ekstra handelsressurs."
 
-#: data/civ1/buildings.ruleset:1236 data/civ2/buildings.ruleset:1229
-#: data/default/buildings.ruleset:1441
+#: data/default/buildings.ruleset:1441 data/civ2/buildings.ruleset:1229
+#: data/civ1/buildings.ruleset:1236
 msgid "Copernicus' Observatory"
 msgstr "Copernicus observatorium"
 
-#: data/civ1/buildings.ruleset:1256 data/civ2/buildings.ruleset:1249
-#: data/default/buildings.ruleset:1461
+#: data/default/buildings.ruleset:1461 data/civ2/buildings.ruleset:1249
+#: data/civ1/buildings.ruleset:1256
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Øker forskningsproduksjonen med 50% i byen den er bygget."
 
-#: data/civ1/buildings.ruleset:1261 data/civ2/buildings.ruleset:1254
-#: data/default/buildings.ruleset:1466
+#: data/default/buildings.ruleset:1466 data/civ2/buildings.ruleset:1254
+#: data/civ1/buildings.ruleset:1261
 msgid "Cure For Cancer"
 msgstr "Løsning på kreftgåten"
 
-#: data/civ1/buildings.ruleset:1280 data/civ2/buildings.ruleset:1273
-#: data/default/buildings.ruleset:1485
+#: data/default/buildings.ruleset:1485 data/civ2/buildings.ruleset:1273
+#: data/civ1/buildings.ruleset:1280
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
@@ -14467,13 +14470,13 @@ msgstr ""
 "Denne imponerende teknologiske prestasjonen gjør en ulykkelig borger fornøyd "
 "i alle byer."
 
-#: data/civ1/buildings.ruleset:1286 data/civ2/buildings.ruleset:1279
-#: data/default/buildings.ruleset:1493
+#: data/default/buildings.ruleset:1493 data/civ2/buildings.ruleset:1279
+#: data/civ1/buildings.ruleset:1286
 msgid "Darwin's Voyage"
 msgstr "Darwins reise"
 
-#: data/civ1/buildings.ruleset:1305 data/civ2/buildings.ruleset:1298
-#: data/default/buildings.ruleset:1512
+#: data/default/buildings.ruleset:1512 data/civ2/buildings.ruleset:1298
+#: data/civ1/buildings.ruleset:1305
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -14482,13 +14485,13 @@ msgstr ""
 "Charles Darwins reise utløste oppdagelsen av artsutviklingen, som økte troen "
 "på forskning. Gir to umiddelbare teknologiske fremskritt."
 
-#: data/civ1/buildings.ruleset:1312 data/civ2/buildings.ruleset:1305
-#: data/default/buildings.ruleset:1519
+#: data/default/buildings.ruleset:1519 data/civ2/buildings.ruleset:1305
+#: data/civ1/buildings.ruleset:1312
 msgid "Eiffel Tower"
 msgstr "Eiffeltårnet"
 
-#: data/civ1/buildings.ruleset:1332 data/civ2/buildings.ruleset:1325
-#: data/default/buildings.ruleset:1539
+#: data/default/buildings.ruleset:1539 data/civ2/buildings.ruleset:1325
+#: data/civ1/buildings.ruleset:1332
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
@@ -14496,13 +14499,13 @@ msgstr ""
 "Når det bygges ferdig vil hver sivilisasjons innstilling til deg forbedres "
 "med 25%."
 
-#: data/civ1/buildings.ruleset:1340 data/civ2/buildings.ruleset:1333
-#: data/default/buildings.ruleset:1547
+#: data/default/buildings.ruleset:1547 data/civ2/buildings.ruleset:1333
+#: data/civ1/buildings.ruleset:1340
 msgid "Great Library"
 msgstr "Verdensbiblioteket"
 
-#: data/civ1/buildings.ruleset:1359 data/civ2/buildings.ruleset:1352
-#: data/default/buildings.ruleset:1566
+#: data/default/buildings.ruleset:1566 data/civ2/buildings.ruleset:1352
+#: data/civ1/buildings.ruleset:1359
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
@@ -14510,23 +14513,23 @@ msgstr ""
 "Sivilisasjonen som bygger Verdensbiblioteket får alle fremskritt som minst "
 "to andre sivilisasjoner har oppdaget."
 
-#: data/civ1/buildings.ruleset:1365 data/civ2/buildings.ruleset:1358
-#: data/default/buildings.ruleset:1572
+#: data/default/buildings.ruleset:1572 data/civ2/buildings.ruleset:1358
+#: data/civ1/buildings.ruleset:1365
 msgid "Great Wall"
 msgstr "Den Enorme Muren"
 
-#: data/civ1/buildings.ruleset:1386 data/civ2/buildings.ruleset:1379
-#: data/default/buildings.ruleset:1592
+#: data/default/buildings.ruleset:1592 data/civ2/buildings.ruleset:1379
+#: data/civ1/buildings.ruleset:1386
 msgid "Works as a City Wall in all cities."
 msgstr "Fungerer som bymur i alle byer."
 
-#: data/civ1/buildings.ruleset:1393 data/civ2/buildings.ruleset:1386
-#: data/default/buildings.ruleset:1600
+#: data/default/buildings.ruleset:1600 data/civ2/buildings.ruleset:1386
+#: data/civ1/buildings.ruleset:1393
 msgid "Hanging Gardens"
 msgstr "Hengende Haver"
 
-#: data/civ1/buildings.ruleset:1413 data/civ2/buildings.ruleset:1406
-#: data/default/buildings.ruleset:1620
+#: data/default/buildings.ruleset:1620 data/civ2/buildings.ruleset:1406
+#: data/civ1/buildings.ruleset:1413
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -14541,12 +14544,12 @@ msgstr ""
 "fornøyde i stedet)."
 
 # noe kontroversiell kanskje
-#: data/civ1/buildings.ruleset:1422 data/civ2/buildings.ruleset:1415
-#: data/default/buildings.ruleset:1629
+#: data/default/buildings.ruleset:1629 data/civ2/buildings.ruleset:1415
+#: data/civ1/buildings.ruleset:1422
 msgid "Hoover Dam"
 msgstr "Altavassdraget"
 
-#: data/civ2/buildings.ruleset:1436 data/default/buildings.ruleset:1651
+#: data/default/buildings.ruleset:1651 data/civ2/buildings.ruleset:1436
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
@@ -14554,56 +14557,56 @@ msgstr ""
 "Fungerer som om du hadde et vannkraftverk i hver by. (Dette reduserer "
 "forurensningen og øker effekten av fabrikker og fabrikk-komplekser.)"
 
-#: data/civ1/buildings.ruleset:1452 data/civ2/buildings.ruleset:1442
-#: data/default/buildings.ruleset:1657
+#: data/default/buildings.ruleset:1657 data/civ2/buildings.ruleset:1442
+#: data/civ1/buildings.ruleset:1452
 msgid "Isaac Newton's College"
 msgstr "Isak Newtons Universitet"
 
-#: data/civ1/buildings.ruleset:1472 data/civ2/buildings.ruleset:1462
-#: data/default/buildings.ruleset:1677
+#: data/default/buildings.ruleset:1677 data/civ2/buildings.ruleset:1462
+#: data/civ1/buildings.ruleset:1472
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Øker forskningen i byen det er bygget med 100%."
 
-#: data/civ1/buildings.ruleset:1477 data/civ2/buildings.ruleset:1467
-#: data/default/buildings.ruleset:1682
+#: data/default/buildings.ruleset:1682 data/civ2/buildings.ruleset:1467
+#: data/civ1/buildings.ruleset:1477
 msgid "J.S. Bach's Cathedral"
 msgstr "J.S. Bachs katedral"
 
-#: data/civ2/buildings.ruleset:1486 data/default/buildings.ruleset:1701
+#: data/default/buildings.ruleset:1701 data/civ2/buildings.ruleset:1486
 msgid "Makes two unhappy citizens content in every city."
 msgstr "Gjør to ulykkelige innbyggere fornøyde i hver by."
 
-#: data/civ1/buildings.ruleset:1503 data/civ2/buildings.ruleset:1491
-#: data/default/buildings.ruleset:1706
+#: data/default/buildings.ruleset:1706 data/civ2/buildings.ruleset:1491
+#: data/civ1/buildings.ruleset:1503
 msgid "King Richard's Crusade"
 msgstr "Kong Rikard Løvehjertes Korstog"
 
-#: data/civ1/buildings.ruleset:1522 data/civ2/buildings.ruleset:1510
-#: data/default/buildings.ruleset:1725
+#: data/default/buildings.ruleset:1725 data/civ2/buildings.ruleset:1510
+#: data/civ1/buildings.ruleset:1522
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
 msgstr ""
 "Legger til en ekstra skjoldressurs på hver rute rundt byen hvor den bygges."
 
-#: data/civ1/buildings.ruleset:1528 data/civ2/buildings.ruleset:1516
-#: data/default/buildings.ruleset:1731
+#: data/default/buildings.ruleset:1731 data/civ2/buildings.ruleset:1516
+#: data/civ1/buildings.ruleset:1528
 msgid "Leonardo's Workshop"
 msgstr "Leonardos Arbeidsværelse"
 
-#: data/civ1/buildings.ruleset:1547 data/civ2/buildings.ruleset:1535
-#: data/default/buildings.ruleset:1750
+#: data/default/buildings.ruleset:1750 data/civ2/buildings.ruleset:1535
+#: data/civ1/buildings.ruleset:1547
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "Oppgraderer en foreldet enhet hver spillrunde."
 
-#: data/civ1/buildings.ruleset:1552 data/civ2/buildings.ruleset:1540
-#: data/default/buildings.ruleset:1755
+#: data/default/buildings.ruleset:1755 data/civ2/buildings.ruleset:1540
+#: data/civ1/buildings.ruleset:1552
 msgid "Lighthouse"
 msgstr "Fyrtårn"
 
-#: data/civ1/buildings.ruleset:1573 data/civ2/buildings.ruleset:1561
-#: data/default/buildings.ruleset:1776
+#: data/default/buildings.ruleset:1776 data/civ2/buildings.ruleset:1561
+#: data/civ1/buildings.ruleset:1573
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
@@ -14612,36 +14615,36 @@ msgstr ""
 "Gir alle sjø enheter 1 ekstra forflytningspoeng og eliminerer risikoen for å "
 "miste Triremer på sjøen. Gjør alle nye sjøenheter til veteran (i alle byer)."
 
-#: data/civ1/buildings.ruleset:1582 data/civ2/buildings.ruleset:1568
-#: data/default/buildings.ruleset:1783
+#: data/default/buildings.ruleset:1783 data/civ2/buildings.ruleset:1568
+#: data/civ1/buildings.ruleset:1582
 msgid "Magellan's Expedition"
 msgstr "Magellans ekspedisjon"
 
-#: data/civ2/buildings.ruleset:1587 data/default/buildings.ruleset:1802
+#: data/default/buildings.ruleset:1802 data/civ2/buildings.ruleset:1587
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Gir alle sjøenheter 2 ekstra forflytningspoeng."
 
-#: data/civ1/buildings.ruleset:1607 data/civ2/buildings.ruleset:1592
-#: data/default/buildings.ruleset:1807
+#: data/default/buildings.ruleset:1807 data/civ2/buildings.ruleset:1592
+#: data/civ1/buildings.ruleset:1607
 msgid "Manhattan Project"
 msgstr "Manhattan prosjektet"
 
-#: data/civ1/buildings.ruleset:1630 data/civ2/buildings.ruleset:1615
-#: data/default/buildings.ruleset:1830
+#: data/default/buildings.ruleset:1830 data/civ2/buildings.ruleset:1615
+#: data/civ1/buildings.ruleset:1630
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polos ambassade"
 
-#: data/civ1/buildings.ruleset:1649 data/civ2/buildings.ruleset:1634
-#: data/default/buildings.ruleset:1849
+#: data/default/buildings.ruleset:1849 data/civ2/buildings.ruleset:1634
+#: data/civ1/buildings.ruleset:1649
 msgid "The player who owns it gets an embassy with all players."
 msgstr "Spilleren som eier det får en ambassade hos alle spillerne."
 
-#: data/civ1/buildings.ruleset:1654 data/civ2/buildings.ruleset:1639
-#: data/default/buildings.ruleset:1854
+#: data/default/buildings.ruleset:1854 data/civ2/buildings.ruleset:1639
+#: data/civ1/buildings.ruleset:1654
 msgid "Michelangelo's Chapel"
 msgstr "Det Sixtinske Kapell"
 
-#: data/civ2/buildings.ruleset:1660 data/default/buildings.ruleset:1875
+#: data/default/buildings.ruleset:1875 data/civ2/buildings.ruleset:1660
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
@@ -14654,31 +14657,31 @@ msgstr ""
 "katedral ved å gjør ytterligere en ulykkelig borger fornøyd. Oppdagelsen av "
 "kommunisme minsker antallet med 1."
 
-#: data/civ1/buildings.ruleset:1679 data/civ2/buildings.ruleset:1670
-#: data/default/buildings.ruleset:1885
+#: data/default/buildings.ruleset:1885 data/civ2/buildings.ruleset:1670
+#: data/civ1/buildings.ruleset:1679
 msgid "Oracle"
 msgstr "Orakel"
 
-#: data/civ1/buildings.ruleset:1699 data/civ2/buildings.ruleset:1690
-#: data/default/buildings.ruleset:1905
+#: data/default/buildings.ruleset:1905 data/civ2/buildings.ruleset:1690
+#: data/civ1/buildings.ruleset:1699
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "Dobler effekten av templer, i alle byer."
 
-#: data/civ1/buildings.ruleset:1704 data/civ2/buildings.ruleset:1695
-#: data/default/buildings.ruleset:1910
+#: data/default/buildings.ruleset:1910 data/civ2/buildings.ruleset:1695
+#: data/civ1/buildings.ruleset:1704
 msgid "Pyramids"
 msgstr "Pyramidene"
 
-#: data/civ2/buildings.ruleset:1714 data/default/buildings.ruleset:1929
+#: data/default/buildings.ruleset:1929 data/civ2/buildings.ruleset:1714
 msgid "Counts as having a Granary in every city."
 msgstr "Teller som å ha kornlager i alle byer."
 
-#: data/civ1/buildings.ruleset:1732 data/civ2/buildings.ruleset:1719
-#: data/default/buildings.ruleset:1934
+#: data/default/buildings.ruleset:1934 data/civ2/buildings.ruleset:1719
+#: data/civ1/buildings.ruleset:1732
 msgid "SETI Program"
 msgstr "SETI programmet"
 
-#: data/civ2/buildings.ruleset:1738 data/default/buildings.ruleset:1953
+#: data/default/buildings.ruleset:1953 data/civ2/buildings.ruleset:1738
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
@@ -14686,24 +14689,24 @@ msgstr ""
 "Øker forningen i hver by med bibliotek med 50%. (Teller som å ha forknings-"
 "lab. i alle dine byer.)"
 
-#: data/civ1/buildings.ruleset:1757 data/civ2/buildings.ruleset:1744
-#: data/default/buildings.ruleset:1959
+#: data/default/buildings.ruleset:1959 data/civ2/buildings.ruleset:1744
+#: data/civ1/buildings.ruleset:1757
 msgid "Shakespeare's Theatre"
 msgstr "Shakespeares teater"
 
-#: data/civ1/buildings.ruleset:1776 data/civ2/buildings.ruleset:1763
-#: data/default/buildings.ruleset:1978
+#: data/default/buildings.ruleset:1978 data/civ2/buildings.ruleset:1763
+#: data/civ1/buildings.ruleset:1776
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "Gjør alle ulykkelige borgere fornøyde i byen hvor den er plassert."
 
-#: data/civ1/buildings.ruleset:1781 data/civ2/buildings.ruleset:1768
-#: data/default/buildings.ruleset:1983
+#: data/default/buildings.ruleset:1983 data/civ2/buildings.ruleset:1768
+#: data/civ1/buildings.ruleset:1781
 msgid "Statue of Liberty"
 msgstr "Frihetsstatuen"
 
+#: data/default/buildings.ruleset:2003 data/civ2/buildings.ruleset:1788
 #: data/civ1/buildings.ruleset:1725 data/civ1/buildings.ruleset:1801
-#: data/civ1/buildings.ruleset:1856 data/civ2/buildings.ruleset:1788
-#: data/default/buildings.ruleset:2003
+#: data/civ1/buildings.ruleset:1856
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -14712,13 +14715,13 @@ msgstr ""
 "Lar deg velge hvilket som helst styresett, inkludert de som du ikke har "
 "forsket frem enda, uten overgangstid med anarki."
 
-#: data/civ1/buildings.ruleset:1808 data/civ2/buildings.ruleset:1795
-#: data/default/buildings.ruleset:2010
+#: data/default/buildings.ruleset:2010 data/civ2/buildings.ruleset:1795
+#: data/civ1/buildings.ruleset:1808
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzus Krigsakademi"
 
-#: data/civ1/buildings.ruleset:1828 data/civ2/buildings.ruleset:1815
-#: data/default/buildings.ruleset:2030
+#: data/default/buildings.ruleset:2030 data/civ2/buildings.ruleset:1815
+#: data/civ1/buildings.ruleset:1828
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
@@ -14726,21 +14729,21 @@ msgstr ""
 "Alle din nye landenheter blir veteraner (i alle byer). Sjansen for at en "
 "enhet blir veteran etter en kamp øker fra 50% til 100%."
 
-#: data/civ1/buildings.ruleset:1835 data/civ2/buildings.ruleset:1822
-#: data/default/buildings.ruleset:2037
+#: data/default/buildings.ruleset:2037 data/civ2/buildings.ruleset:1822
+#: data/civ1/buildings.ruleset:1835
 msgid "United Nations"
 msgstr "Forente Nasjoner"
 
-#: data/civ2/buildings.ruleset:1845 data/default/buildings.ruleset:2060
+#: data/default/buildings.ruleset:2060 data/civ2/buildings.ruleset:1845
 msgid "Units regain two extra hitpoints per turn."
 msgstr "Enheten får to ekstra treffkapasitet per runde."
 
-#: data/civ1/buildings.ruleset:1868 data/civ2/buildings.ruleset:1858
-#: data/default/buildings.ruleset:2073
+#: data/default/buildings.ruleset:2073 data/civ2/buildings.ruleset:1858
+#: data/civ1/buildings.ruleset:1868
 msgid "Women's Suffrage"
 msgstr "Stemmerett for kvinner"
 
-#: data/civ2/buildings.ruleset:1878 data/default/buildings.ruleset:2093
+#: data/default/buildings.ruleset:2093 data/civ2/buildings.ruleset:1878
 msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
@@ -14772,7 +14775,7 @@ msgstr ""
 "Underholder borgerne i en by, ved å gjøre 3 ulykkelige borgere fornøyde. "
 "(Fire etter oppdagelsen av elektronikk.)"
 
-#: data/civ1/buildings.ruleset:462 data/civ2/buildings.ruleset:445
+#: data/civ2/buildings.ruleset:445 data/civ1/buildings.ruleset:462
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -14794,7 +14797,7 @@ msgstr ""
 "kun bygge et vannkraftverk dersom det er ved siden av (eller på) et fjell "
 "eller ei elv."
 
-#: data/civ1/buildings.ruleset:600 data/civ2/buildings.ruleset:585
+#: data/civ2/buildings.ruleset:585 data/civ1/buildings.ruleset:600
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -14811,7 +14814,7 @@ msgstr ""
 "\n"
 "En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk."
 
-#: data/civ1/buildings.ruleset:749 data/civ2/buildings.ruleset:737
+#: data/civ2/buildings.ruleset:737 data/civ1/buildings.ruleset:749
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -14828,7 +14831,7 @@ msgstr ""
 "\n"
 "En by kan kun ha et vannkraftverk, kraftverk eller atomkraftverk."
 
-#: data/civ1/buildings.ruleset:916 data/civ2/buildings.ruleset:907
+#: data/civ2/buildings.ruleset:907 data/civ1/buildings.ruleset:916
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -14848,11 +14851,11 @@ msgstr ""
 "En by kan bare ha ett solcellekraftverk, vannkraftverk, kraftverk eller "
 "atomkraftverk."
 
-#: data/civ1/buildings.ruleset:1895 data/civ2/buildings.ruleset:1886
+#: data/civ2/buildings.ruleset:1886 data/civ1/buildings.ruleset:1895
 msgid "Capitalization"
 msgstr "Profittmaksimering"
 
-#: data/civ1/buildings.ruleset:1912 data/civ2/buildings.ruleset:1903
+#: data/civ2/buildings.ruleset:1903 data/civ1/buildings.ruleset:1912
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -14981,23 +14984,23 @@ msgstr "Moderne"
 msgid "PostModern"
 msgstr "Postmoderne"
 
-#: data/civ1/governments.ruleset:103 data/civ2/governments.ruleset:101
-#: data/default/governments.ruleset:102
+#: data/default/governments.ruleset:102 data/civ2/governments.ruleset:101
+#: data/civ1/governments.ruleset:103
 msgid "Anarchy"
 msgstr "anarki"
 
-#: data/civ1/governments.ruleset:144 data/civ2/governments.ruleset:142
-#: data/default/governments.ruleset:143
+#: data/default/governments.ruleset:143 data/civ2/governments.ruleset:142
+#: data/civ1/governments.ruleset:144
 msgid "Mr."
 msgstr "Herr"
 
-#: data/civ1/governments.ruleset:145 data/civ2/governments.ruleset:143
-#: data/default/governments.ruleset:144
+#: data/default/governments.ruleset:144 data/civ2/governments.ruleset:143
+#: data/civ1/governments.ruleset:145
 msgid "Ms."
 msgstr "Fru"
 
-#: data/civ1/governments.ruleset:147 data/civ2/governments.ruleset:145
-#: data/default/governments.ruleset:146
+#: data/default/governments.ruleset:146 data/civ2/governments.ruleset:145
+#: data/civ1/governments.ruleset:147
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -15041,22 +15044,22 @@ msgstr ""
 "i en by holder 2 ulykkelige borgere fornøyde. (Eller ulykkelige borgere "
 "opptrer som fornøyde, og gjør ikke opprør.)"
 
-#: data/civ1/governments.ruleset:174 data/civ2/governments.ruleset:172
-#: data/default/governments.ruleset:173
+#: data/default/governments.ruleset:173 data/civ2/governments.ruleset:172
+#: data/civ1/governments.ruleset:174
 msgid "Despotism"
 msgstr "despotisme"
 
-#: data/civ1/governments.ruleset:214 data/civ2/governments.ruleset:212
-#: data/default/governments.ruleset:213 data/nation/chinese.ruleset:13
+#: data/default/governments.ruleset:213 data/civ2/governments.ruleset:212
+#: data/civ1/governments.ruleset:214 data/nation/chinese.ruleset:13
 msgid "Emperor"
 msgstr "Keiser"
 
-#: data/civ1/governments.ruleset:215 data/civ2/governments.ruleset:213
-#: data/default/governments.ruleset:214
+#: data/default/governments.ruleset:214 data/civ2/governments.ruleset:213
+#: data/civ1/governments.ruleset:215
 msgid "Empress"
 msgstr "Keiserinne"
 
-#: data/civ2/governments.ruleset:215 data/default/governments.ruleset:216
+#: data/default/governments.ruleset:216 data/civ2/governments.ruleset:215
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -15101,27 +15104,27 @@ msgstr ""
 "holder 1 ulykkelig borger fornøyd. (Eller i det minste opptrer de fornøyd, "
 "og vil ikke gjør opprør.)"
 
-#: data/civ1/governments.ruleset:243 data/civ1/techs.ruleset:367
-#: data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367
-#: data/default/governments.ruleset:244 data/default/techs.ruleset:374
+#: data/default/governments.ruleset:244 data/civ2/governments.ruleset:243
+#: data/civ1/governments.ruleset:243 data/default/techs.ruleset:374
+#: data/civ2/techs.ruleset:367 data/civ1/techs.ruleset:367
 msgid "Monarchy"
 msgstr "monarki"
 
-#: data/civ1/governments.ruleset:283 data/civ2/governments.ruleset:283
-#: data/default/governments.ruleset:284 data/nation/croatian.ruleset:18
+#: data/default/governments.ruleset:284 data/civ2/governments.ruleset:283
+#: data/civ1/governments.ruleset:283 data/nation/croatian.ruleset:18
 #: data/nation/dunedain.ruleset:16 data/nation/polish.ruleset:17
 #: data/nation/serbian.ruleset:16 data/nation/spanish.ruleset:15
 msgid "King"
 msgstr "Konge"
 
-#: data/civ1/governments.ruleset:284 data/civ2/governments.ruleset:284
-#: data/default/governments.ruleset:285 data/nation/croatian.ruleset:18
+#: data/default/governments.ruleset:285 data/civ2/governments.ruleset:284
+#: data/civ1/governments.ruleset:284 data/nation/croatian.ruleset:18
 #: data/nation/dunedain.ruleset:16 data/nation/polish.ruleset:17
 #: data/nation/serbian.ruleset:16 data/nation/spanish.ruleset:15
 msgid "Queen"
 msgstr "Dronning"
 
-#: data/civ2/governments.ruleset:286 data/default/governments.ruleset:287
+#: data/default/governments.ruleset:287 data/civ2/governments.ruleset:286
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -15162,19 +15165,19 @@ msgstr ""
 "Man kan innføre en begrenset unntakstilstand under monarki: hver krigsenhet "
 "i en by opp til 3 holder 1 ulykkelig borger fornøyd."
 
-#: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139
-#: data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139
-#: data/default/governments.ruleset:314 data/default/techs.ruleset:146
+#: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
+#: data/civ1/governments.ruleset:311 data/default/techs.ruleset:146
+#: data/civ2/techs.ruleset:139 data/civ1/techs.ruleset:139
 msgid "Communism"
 msgstr "kommunisme"
 
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
-#: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
+#: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
+#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
 msgid "Comrade"
 msgstr "Kamerat"
 
-#: data/civ2/governments.ruleset:356 data/default/governments.ruleset:357
+#: data/default/governments.ruleset:357 data/civ2/governments.ruleset:356
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15229,18 +15232,18 @@ msgstr ""
 "Man kan innføre begrenset unntakstilstand under monarki: hver krigsenhet i "
 "en by, opp til 3, holder 2 ulykkelige borgere fornøyd."
 
-#: data/civ1/governments.ruleset:386 data/civ2/governments.ruleset:470
-#: data/default/governments.ruleset:391
+#: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
+#: data/civ1/governments.ruleset:386
 msgid "Republic"
 msgstr "republikk"
 
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
-#: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
+#: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
+#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
 msgid "Consul"
 msgstr "Konsul"
 
-#: data/civ2/governments.ruleset:513 data/default/governments.ruleset:434
+#: data/default/governments.ruleset:434 data/civ2/governments.ruleset:513
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15297,15 +15300,15 @@ msgstr ""
 "Innbyggerne i en by vil tolerere 1 aggressiv enhet; hver ekstra enhet gjør "
 "en borger ulykkelig."
 
-#: data/civ1/governments.ruleset:464 data/civ1/techs.ruleset:169
-#: data/civ2/governments.ruleset:550 data/civ2/techs.ruleset:169
-#: data/default/governments.ruleset:471 data/default/techs.ruleset:176
+#: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
+#: data/civ1/governments.ruleset:464 data/default/techs.ruleset:176
+#: data/civ2/techs.ruleset:169 data/civ1/techs.ruleset:169
 msgid "Democracy"
 msgstr "demokrati"
 
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
-#: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
+#: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
+#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
 #: data/nation/brazilian.ruleset:15 data/nation/catalan.ruleset:16
 #: data/nation/chilean.ruleset:19 data/nation/croatian.ruleset:19
 #: data/nation/croatian.ruleset:20 data/nation/finnish.ruleset:14
@@ -15315,7 +15318,7 @@ msgstr "demokrati"
 msgid "President"
 msgstr "President"
 
-#: data/civ2/governments.ruleset:594 data/default/governments.ruleset:515
+#: data/default/governments.ruleset:515 data/civ2/governments.ruleset:594
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -15381,8 +15384,8 @@ msgstr ""
 "Krigsenheter som tilhører demokratiske regjeringer kan ikke bestikkes, og "
 "fiendtlige diplomater og spioner kan ikke starte opprør i demokratiske byer."
 
-#: data/civ1/techs.ruleset:229 data/civ2/governments.ruleset:390
-#: data/civ2/techs.ruleset:229 data/default/techs.ruleset:236
+#: data/civ2/governments.ruleset:390 data/default/techs.ruleset:236
+#: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
 msgid "Fundamentalism"
 msgstr "fundamentalisme"
 
@@ -15694,273 +15697,273 @@ msgstr ""
 "Krigsenheter som tilhører demokratiske regjeringer kan ikke bestikkes, og "
 "fiendtlige diplomater og spioner kan ikke starte opprør i demokratiske byer."
 
-#: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
-#: data/default/techs.ruleset:56
+#: data/default/techs.ruleset:56 data/civ2/techs.ruleset:49
+#: data/civ1/techs.ruleset:49
 msgid "Advanced Flight"
 msgstr "Avansert flyteknikk"
 
-#: data/civ1/techs.ruleset:55 data/civ2/techs.ruleset:55
-#: data/default/techs.ruleset:62
+#: data/default/techs.ruleset:62 data/civ2/techs.ruleset:55
+#: data/civ1/techs.ruleset:55
 msgid "Alphabet"
 msgstr "Alfabetet"
 
-#: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61
-#: data/default/techs.ruleset:68
+#: data/default/techs.ruleset:68 data/civ2/techs.ruleset:61
+#: data/civ1/techs.ruleset:61
 msgid "Amphibious Warfare"
 msgstr "Amfibisk krigføring"
 
-#: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67
-#: data/default/techs.ruleset:74
+#: data/default/techs.ruleset:74 data/civ2/techs.ruleset:67
+#: data/civ1/techs.ruleset:67
 msgid "Astronomy"
 msgstr "Astronomi"
 
-#: data/civ1/techs.ruleset:73 data/civ2/techs.ruleset:73
-#: data/default/techs.ruleset:80
+#: data/default/techs.ruleset:80 data/civ2/techs.ruleset:73
+#: data/civ1/techs.ruleset:73
 msgid "Atomic Theory"
 msgstr "Atomteori"
 
-#: data/civ1/techs.ruleset:79 data/civ2/techs.ruleset:79
-#: data/default/techs.ruleset:86
+#: data/default/techs.ruleset:86 data/civ2/techs.ruleset:79
+#: data/civ1/techs.ruleset:79
 msgid "Automobile"
 msgstr "Bilen"
 
-#: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
-#: data/default/techs.ruleset:92
+#: data/default/techs.ruleset:92 data/civ2/techs.ruleset:85
+#: data/civ1/techs.ruleset:85
 msgid "Banking"
 msgstr "Bankvesen"
 
-#: data/civ1/techs.ruleset:91 data/civ2/techs.ruleset:91
-#: data/default/techs.ruleset:98
+#: data/default/techs.ruleset:98 data/civ2/techs.ruleset:91
+#: data/civ1/techs.ruleset:91
 msgid "Bridge Building"
 msgstr "Brobygging"
 
-#: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
-#: data/default/techs.ruleset:104
+#: data/default/techs.ruleset:104 data/civ2/techs.ruleset:97
+#: data/civ1/techs.ruleset:97
 msgid "Bronze Working"
 msgstr "Bronsearbeid"
 
-#: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
-#: data/default/techs.ruleset:110
+#: data/default/techs.ruleset:110 data/civ2/techs.ruleset:103
+#: data/civ1/techs.ruleset:103
 msgid "Ceremonial Burial"
 msgstr "Begravelsesrituale"
 
-#: data/civ1/techs.ruleset:109 data/civ2/techs.ruleset:109
-#: data/default/techs.ruleset:116
+#: data/default/techs.ruleset:116 data/civ2/techs.ruleset:109
+#: data/civ1/techs.ruleset:109
 msgid "Chemistry"
 msgstr "Kjemi"
 
-#: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
-#: data/default/techs.ruleset:122
+#: data/default/techs.ruleset:122 data/civ2/techs.ruleset:115
+#: data/civ1/techs.ruleset:115
 msgid "Chivalry"
 msgstr "Riddersk oppførsel"
 
-#: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
-#: data/default/techs.ruleset:128
+#: data/default/techs.ruleset:128 data/civ2/techs.ruleset:121
+#: data/civ1/techs.ruleset:121
 msgid "Code of Laws"
 msgstr "Lovverk"
 
-#: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
-#: data/default/techs.ruleset:134
+#: data/default/techs.ruleset:134 data/civ2/techs.ruleset:127
+#: data/civ1/techs.ruleset:127
 msgid "Combined Arms"
 msgstr "Militærkombinasjoner"
 
-#: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
-#: data/default/techs.ruleset:140
+#: data/default/techs.ruleset:140 data/civ2/techs.ruleset:133
+#: data/civ1/techs.ruleset:133
 msgid "Combustion"
 msgstr "Forbrenning"
 
-#: data/civ1/techs.ruleset:145 data/civ2/techs.ruleset:145
-#: data/default/techs.ruleset:152
+#: data/default/techs.ruleset:152 data/civ2/techs.ruleset:145
+#: data/civ1/techs.ruleset:145
 msgid "Computers"
 msgstr "Datamaskiner"
 
-#: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
-#: data/default/techs.ruleset:158
+#: data/default/techs.ruleset:158 data/civ2/techs.ruleset:151
+#: data/civ1/techs.ruleset:151
 msgid "Conscription"
 msgstr "Tvungen verneplikt"
 
-#: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
-#: data/default/techs.ruleset:164
+#: data/default/techs.ruleset:164 data/civ2/techs.ruleset:157
+#: data/civ1/techs.ruleset:157
 msgid "Construction"
 msgstr "Konstruksjon"
 
-#: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
-#: data/default/techs.ruleset:170
+#: data/default/techs.ruleset:170 data/civ2/techs.ruleset:163
+#: data/civ1/techs.ruleset:163
 msgid "Currency"
 msgstr "Myntenhet"
 
-#: data/civ1/techs.ruleset:181 data/civ2/techs.ruleset:181
-#: data/default/techs.ruleset:188
+#: data/default/techs.ruleset:188 data/civ2/techs.ruleset:181
+#: data/civ1/techs.ruleset:181
 msgid "Electricity"
 msgstr "Elektrisitet"
 
-#: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:187
-#: data/default/techs.ruleset:194
+#: data/default/techs.ruleset:194 data/civ2/techs.ruleset:187
+#: data/civ1/techs.ruleset:187
 msgid "Electronics"
 msgstr "Elektronikk"
 
-#: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
-#: data/default/techs.ruleset:200
+#: data/default/techs.ruleset:200 data/civ2/techs.ruleset:193
+#: data/civ1/techs.ruleset:193
 msgid "Engineering"
 msgstr "Ingeniørkunst"
 
-#: data/civ1/techs.ruleset:199 data/civ2/techs.ruleset:199
-#: data/default/techs.ruleset:206
+#: data/default/techs.ruleset:206 data/civ2/techs.ruleset:199
+#: data/civ1/techs.ruleset:199
 msgid "Environmentalism"
 msgstr "Miljøbevissthet"
 
-#: data/civ1/techs.ruleset:205 data/civ2/techs.ruleset:205
-#: data/default/techs.ruleset:212
+#: data/default/techs.ruleset:212 data/civ2/techs.ruleset:205
+#: data/civ1/techs.ruleset:205
 msgid "Espionage"
 msgstr "Spionasje"
 
-#: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:211
-#: data/default/techs.ruleset:218
+#: data/default/techs.ruleset:218 data/civ2/techs.ruleset:211
+#: data/civ1/techs.ruleset:211
 msgid "Explosives"
 msgstr "Eksplosiver"
 
-#: data/civ1/techs.ruleset:217 data/civ2/techs.ruleset:217
-#: data/default/techs.ruleset:224
+#: data/default/techs.ruleset:224 data/civ2/techs.ruleset:217
+#: data/civ1/techs.ruleset:217
 msgid "Feudalism"
 msgstr "Føydalisme"
 
-#: data/civ1/techs.ruleset:223 data/civ2/techs.ruleset:223
-#: data/default/techs.ruleset:230
+#: data/default/techs.ruleset:230 data/civ2/techs.ruleset:223
+#: data/civ1/techs.ruleset:223
 msgid "Flight"
 msgstr "Fly"
 
-#: data/civ1/techs.ruleset:235 data/civ2/techs.ruleset:235
-#: data/default/techs.ruleset:242
+#: data/default/techs.ruleset:242 data/civ2/techs.ruleset:235
+#: data/civ1/techs.ruleset:235
 msgid "Fusion Power"
 msgstr "Fusjonskraft"
 
-#: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
-#: data/default/techs.ruleset:248
+#: data/default/techs.ruleset:248 data/civ2/techs.ruleset:241
+#: data/civ1/techs.ruleset:241
 msgid "Genetic Engineering"
 msgstr "Gen manipulering"
 
-#: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
-#: data/default/techs.ruleset:254
+#: data/default/techs.ruleset:254 data/civ2/techs.ruleset:247
+#: data/civ1/techs.ruleset:247
 msgid "Guerilla Warfare"
 msgstr "Geriljakrigføring"
 
-#: data/civ1/techs.ruleset:253 data/civ2/techs.ruleset:253
-#: data/default/techs.ruleset:260
+#: data/default/techs.ruleset:260 data/civ2/techs.ruleset:253
+#: data/civ1/techs.ruleset:253
 msgid "Gunpowder"
 msgstr "Krutt"
 
-#: data/civ1/techs.ruleset:259 data/civ2/techs.ruleset:259
-#: data/default/techs.ruleset:266
+#: data/default/techs.ruleset:266 data/civ2/techs.ruleset:259
+#: data/civ1/techs.ruleset:259
 msgid "Horseback Riding"
 msgstr "Hestehold"
 
-#: data/civ1/techs.ruleset:265 data/civ2/techs.ruleset:265
-#: data/default/techs.ruleset:272
+#: data/default/techs.ruleset:272 data/civ2/techs.ruleset:265
+#: data/civ1/techs.ruleset:265
 msgid "Industrialization"
 msgstr "Industrialisering"
 
-#: data/civ1/techs.ruleset:271 data/civ2/techs.ruleset:271
-#: data/default/techs.ruleset:278
+#: data/default/techs.ruleset:278 data/civ2/techs.ruleset:271
+#: data/civ1/techs.ruleset:271
 msgid "Invention"
 msgstr "Oppfinning"
 
-#: data/civ1/techs.ruleset:277 data/civ2/techs.ruleset:277
-#: data/default/techs.ruleset:284
+#: data/default/techs.ruleset:284 data/civ2/techs.ruleset:277
+#: data/civ1/techs.ruleset:277
 msgid "Iron Working"
 msgstr "Jernarbeid"
 
-#: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
-#: data/default/techs.ruleset:290
+#: data/default/techs.ruleset:290 data/civ2/techs.ruleset:283
+#: data/civ1/techs.ruleset:283
 msgid "Labor Union"
 msgstr "Fagforening"
 
-#: data/civ1/techs.ruleset:289 data/civ2/techs.ruleset:289
-#: data/default/techs.ruleset:296
+#: data/default/techs.ruleset:296 data/civ2/techs.ruleset:289
+#: data/civ1/techs.ruleset:289
 msgid "Laser"
 msgstr "Laser"
 
-#: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
-#: data/default/techs.ruleset:302
+#: data/default/techs.ruleset:302 data/civ2/techs.ruleset:295
+#: data/civ1/techs.ruleset:295
 msgid "Leadership"
 msgstr "Lederskap"
 
-#: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
-#: data/default/techs.ruleset:314
+#: data/default/techs.ruleset:314 data/civ2/techs.ruleset:307
+#: data/civ1/techs.ruleset:307
 msgid "Machine Tools"
 msgstr "Industriautomatisering"
 
-#: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313
-#: data/default/techs.ruleset:320
+#: data/default/techs.ruleset:320 data/civ2/techs.ruleset:313
+#: data/civ1/techs.ruleset:313
 msgid "Magnetism"
 msgstr "Magnetisme"
 
-#: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:319
-#: data/default/techs.ruleset:326
+#: data/default/techs.ruleset:326 data/civ2/techs.ruleset:319
+#: data/civ1/techs.ruleset:319
 msgid "Map Making"
 msgstr "Kartografi"
 
-#: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
-#: data/default/techs.ruleset:332
+#: data/default/techs.ruleset:332 data/civ2/techs.ruleset:325
+#: data/civ1/techs.ruleset:325
 msgid "Masonry"
 msgstr "Murkunst"
 
-#: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
-#: data/default/techs.ruleset:338
+#: data/default/techs.ruleset:338 data/civ2/techs.ruleset:331
+#: data/civ1/techs.ruleset:331
 msgid "Mass Production"
 msgstr "Masseproduksjon"
 
-#: data/civ1/techs.ruleset:337 data/civ2/techs.ruleset:337
-#: data/default/techs.ruleset:344
+#: data/default/techs.ruleset:344 data/civ2/techs.ruleset:337
+#: data/civ1/techs.ruleset:337
 msgid "Mathematics"
 msgstr "Matematikk"
 
-#: data/civ1/techs.ruleset:343 data/civ2/techs.ruleset:343
-#: data/default/techs.ruleset:350
+#: data/default/techs.ruleset:350 data/civ2/techs.ruleset:343
+#: data/civ1/techs.ruleset:343
 msgid "Medicine"
 msgstr "Medisin"
 
-#: data/civ1/techs.ruleset:349 data/civ2/techs.ruleset:349
-#: data/default/techs.ruleset:356
+#: data/default/techs.ruleset:356 data/civ2/techs.ruleset:349
+#: data/civ1/techs.ruleset:349
 msgid "Metallurgy"
 msgstr "Metallurgi"
 
-#: data/civ1/techs.ruleset:355 data/civ2/techs.ruleset:355
-#: data/default/techs.ruleset:362
+#: data/default/techs.ruleset:362 data/civ2/techs.ruleset:355
+#: data/civ1/techs.ruleset:355
 msgid "Miniaturization"
 msgstr "Mikroprosessor"
 
-#: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361
-#: data/default/techs.ruleset:368
+#: data/default/techs.ruleset:368 data/civ2/techs.ruleset:361
+#: data/civ1/techs.ruleset:361
 msgid "Mobile Warfare"
 msgstr "Mobil krigføring"
 
-#: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373
-#: data/default/techs.ruleset:380
+#: data/default/techs.ruleset:380 data/civ2/techs.ruleset:373
+#: data/civ1/techs.ruleset:373
 msgid "Monotheism"
 msgstr "Monoteisme"
 
-#: data/civ1/techs.ruleset:379 data/civ2/techs.ruleset:379
-#: data/default/techs.ruleset:386
+#: data/default/techs.ruleset:386 data/civ2/techs.ruleset:379
+#: data/civ1/techs.ruleset:379
 msgid "Mysticism"
 msgstr "Mystisisme"
 
-#: data/civ1/techs.ruleset:385 data/civ2/techs.ruleset:385
-#: data/default/techs.ruleset:392
+#: data/default/techs.ruleset:392 data/civ2/techs.ruleset:385
+#: data/civ1/techs.ruleset:385
 msgid "Navigation"
 msgstr "Navigasjon"
 
-#: data/civ1/techs.ruleset:391 data/civ2/techs.ruleset:391
-#: data/default/techs.ruleset:398
+#: data/default/techs.ruleset:398 data/civ2/techs.ruleset:391
+#: data/civ1/techs.ruleset:391
 msgid "Nuclear Fission"
 msgstr "Atomfisjon"
 
-#: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:397
-#: data/default/techs.ruleset:404
+#: data/default/techs.ruleset:404 data/civ2/techs.ruleset:397
+#: data/civ1/techs.ruleset:397
 msgid "Nuclear Power"
 msgstr "Atomkraft"
 
-#: data/civ1/techs.ruleset:403 data/civ2/techs.ruleset:403
-#: data/default/techs.ruleset:410
+#: data/default/techs.ruleset:410 data/civ2/techs.ruleset:403
+#: data/civ1/techs.ruleset:403
 msgid "Philosophy"
 msgstr "Filosofi"
 
@@ -15972,127 +15975,127 @@ msgstr ""
 "Kloke filosofer fra hele verden flytter til din sivilisasjon; du får et "
 "umiddelbart gjennombrudd."
 
-#: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
-#: data/default/techs.ruleset:418
+#: data/default/techs.ruleset:418 data/civ2/techs.ruleset:409
+#: data/civ1/techs.ruleset:409
 msgid "Physics"
 msgstr "Fysikk"
 
-#: data/civ1/techs.ruleset:415 data/civ2/techs.ruleset:415
-#: data/default/techs.ruleset:424
+#: data/default/techs.ruleset:424 data/civ2/techs.ruleset:415
+#: data/civ1/techs.ruleset:415
 msgid "Plastics"
 msgstr "Plast"
 
-#: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:421
-#: data/default/techs.ruleset:430
+#: data/default/techs.ruleset:430 data/civ2/techs.ruleset:421
+#: data/civ1/techs.ruleset:421
 msgid "Polytheism"
 msgstr "Polyteisme"
 
-#: data/civ1/techs.ruleset:427 data/civ2/techs.ruleset:427
-#: data/default/techs.ruleset:436
+#: data/default/techs.ruleset:436 data/civ2/techs.ruleset:427
+#: data/civ1/techs.ruleset:427
 msgid "Pottery"
 msgstr "Keramikk"
 
-#: data/civ1/techs.ruleset:433 data/civ2/techs.ruleset:433
-#: data/default/techs.ruleset:442
+#: data/default/techs.ruleset:442 data/civ2/techs.ruleset:433
+#: data/civ1/techs.ruleset:433
 msgid "Radio"
 msgstr "Radio"
 
-#: data/civ1/techs.ruleset:445 data/civ2/techs.ruleset:445
-#: data/default/techs.ruleset:454
+#: data/default/techs.ruleset:454 data/civ2/techs.ruleset:445
+#: data/civ1/techs.ruleset:445
 msgid "Recycling"
 msgstr "Resirkulering"
 
-#: data/civ1/techs.ruleset:451 data/civ2/techs.ruleset:451
-#: data/default/techs.ruleset:460
+#: data/default/techs.ruleset:460 data/civ2/techs.ruleset:451
+#: data/civ1/techs.ruleset:451
 msgid "Refining"
 msgstr "Raffinering"
 
-#: data/civ1/techs.ruleset:457 data/civ2/techs.ruleset:457
-#: data/default/techs.ruleset:466
+#: data/default/techs.ruleset:466 data/civ2/techs.ruleset:457
+#: data/civ1/techs.ruleset:457
 msgid "Refrigeration"
 msgstr "Nedkjøling"
 
-#: data/civ1/techs.ruleset:463 data/civ2/techs.ruleset:463
-#: data/default/techs.ruleset:472
+#: data/default/techs.ruleset:472 data/civ2/techs.ruleset:463
+#: data/civ1/techs.ruleset:463
 msgid "Robotics"
 msgstr "Roboter"
 
-#: data/civ1/techs.ruleset:469 data/civ2/techs.ruleset:469
-#: data/default/techs.ruleset:478
+#: data/default/techs.ruleset:478 data/civ2/techs.ruleset:469
+#: data/civ1/techs.ruleset:469
 msgid "Rocketry"
 msgstr "Raketter"
 
-#: data/civ1/techs.ruleset:475 data/civ2/techs.ruleset:475
-#: data/default/techs.ruleset:484
+#: data/default/techs.ruleset:484 data/civ2/techs.ruleset:475
+#: data/civ1/techs.ruleset:475
 msgid "Sanitation"
 msgstr "Sanitet"
 
-#: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
-#: data/default/techs.ruleset:490
+#: data/default/techs.ruleset:490 data/civ2/techs.ruleset:481
+#: data/civ1/techs.ruleset:481
 msgid "Seafaring"
 msgstr "Sjøfart"
 
-#: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
-#: data/default/techs.ruleset:496
+#: data/default/techs.ruleset:496 data/civ2/techs.ruleset:487
+#: data/civ1/techs.ruleset:487
 msgid "Space Flight"
 msgstr "Romfart"
 
-#: data/civ1/techs.ruleset:493 data/civ2/techs.ruleset:493
-#: data/default/techs.ruleset:502
+#: data/default/techs.ruleset:502 data/civ2/techs.ruleset:493
+#: data/civ1/techs.ruleset:493
 msgid "Stealth"
 msgstr "Kamuflering"
 
-#: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499
-#: data/default/techs.ruleset:508
+#: data/default/techs.ruleset:508 data/civ2/techs.ruleset:499
+#: data/civ1/techs.ruleset:499
 msgid "Steam Engine"
 msgstr "Dampmaskinen"
 
-#: data/civ1/techs.ruleset:505 data/civ2/techs.ruleset:505
-#: data/default/techs.ruleset:514
+#: data/default/techs.ruleset:514 data/civ2/techs.ruleset:505
+#: data/civ1/techs.ruleset:505
 msgid "Steel"
 msgstr "Stål"
 
-#: data/civ1/techs.ruleset:511 data/civ2/techs.ruleset:511
-#: data/default/techs.ruleset:520
+#: data/default/techs.ruleset:520 data/civ2/techs.ruleset:511
+#: data/civ1/techs.ruleset:511
 msgid "Superconductors"
 msgstr "Superledere"
 
-#: data/civ1/techs.ruleset:517 data/civ2/techs.ruleset:517
-#: data/default/techs.ruleset:526
+#: data/default/techs.ruleset:526 data/civ2/techs.ruleset:517
+#: data/civ1/techs.ruleset:517
 msgid "Tactics"
 msgstr "Taktikk"
 
-#: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:523
-#: data/default/techs.ruleset:532
+#: data/default/techs.ruleset:532 data/civ2/techs.ruleset:523
+#: data/civ1/techs.ruleset:523
 msgid "The Corporation"
 msgstr "Byråkrati"
 
-#: data/civ1/techs.ruleset:529 data/civ2/techs.ruleset:529
-#: data/default/techs.ruleset:538
+#: data/default/techs.ruleset:538 data/civ2/techs.ruleset:529
+#: data/civ1/techs.ruleset:529
 msgid "The Republic"
 msgstr "Republikk"
 
-#: data/civ1/techs.ruleset:535 data/civ2/techs.ruleset:535
-#: data/default/techs.ruleset:544
+#: data/default/techs.ruleset:544 data/civ2/techs.ruleset:535
+#: data/civ1/techs.ruleset:535
 msgid "The Wheel"
 msgstr "Hjulet"
 
-#: data/civ2/techs.ruleset:541 data/default/techs.ruleset:550
+#: data/default/techs.ruleset:550 data/civ2/techs.ruleset:541
 msgid "Theology"
 msgstr "Teologi"
 
-#: data/civ1/techs.ruleset:547 data/civ2/techs.ruleset:547
-#: data/default/techs.ruleset:556
+#: data/default/techs.ruleset:556 data/civ2/techs.ruleset:547
+#: data/civ1/techs.ruleset:547
 msgid "Theory of Gravity"
 msgstr "Gravitasjonsteorien"
 
-#: data/civ1/techs.ruleset:565 data/civ2/techs.ruleset:565
-#: data/default/techs.ruleset:574
+#: data/default/techs.ruleset:574 data/civ2/techs.ruleset:565
+#: data/civ1/techs.ruleset:565
 msgid "Warrior Code"
 msgstr "Krigsetikk"
 
-#: data/civ1/techs.ruleset:571 data/civ2/techs.ruleset:571
-#: data/default/techs.ruleset:580
+#: data/default/techs.ruleset:580 data/civ2/techs.ruleset:571
+#: data/civ1/techs.ruleset:571
 msgid "Writing"
 msgstr "Skrivekunst"
 
@@ -16100,7 +16103,7 @@ msgstr "Skrivekunst"
 msgid "Religion"
 msgstr "Religion"
 
-#: data/civ2/terrain.ruleset:51 data/default/terrain.ruleset:51
+#: data/default/terrain.ruleset:51 data/civ2/terrain.ruleset:51
 msgid ""
 "Any terrain type (except Ocean) may have a River on it.  A River adds 1 "
 "trade to the resources produced by that tile.  It also increases a tile's "
@@ -16119,21 +16122,21 @@ msgstr ""
 "Veier og jernbaner kan bare bygges på en rute med elv dersom din "
 "sivilisasjon har oppdaget brobygging."
 
-#: data/civ2/terrain.ruleset:152 data/default/terrain.ruleset:152
+#: data/default/terrain.ruleset:152 data/civ2/terrain.ruleset:152
 msgid "Glacier"
 msgstr "Isbre"
 
-#: data/civ2/terrain.ruleset:160 data/default/terrain.ruleset:160
+#: data/default/terrain.ruleset:160 data/civ2/terrain.ruleset:160
 msgid "Ivory"
 msgstr "Elfenben"
 
-#: data/civ1/terrain.ruleset:517 data/civ2/terrain.ruleset:166
-#: data/civ2/terrain.ruleset:203 data/default/terrain.ruleset:166
-#: data/default/terrain.ruleset:203
+#: data/default/terrain.ruleset:166 data/default/terrain.ruleset:203
+#: data/civ2/terrain.ruleset:166 data/civ2/terrain.ruleset:203
+#: data/civ1/terrain.ruleset:517
 msgid "Oil"
 msgstr "Olje"
 
-#: data/civ2/terrain.ruleset:182 data/default/terrain.ruleset:182
+#: data/default/terrain.ruleset:182 data/civ2/terrain.ruleset:182
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
@@ -16141,18 +16144,18 @@ msgstr ""
 "Isbreer finnes kun i de nordligste og sørligste kantene av verden. De er "
 "veldig kalde, og veldig vanskelig å arbeide med."
 
-#: data/civ1/terrain.ruleset:181 data/civ2/terrain.ruleset:189
-#: data/default/terrain.ruleset:189
+#: data/default/terrain.ruleset:189 data/civ2/terrain.ruleset:189
+#: data/civ1/terrain.ruleset:181
 msgid "Desert"
 msgstr "Ørken"
 
-#: data/civ1/terrain.ruleset:189 data/civ2/terrain.ruleset:197
-#: data/default/terrain.ruleset:197
+#: data/default/terrain.ruleset:197 data/civ2/terrain.ruleset:197
+#: data/civ1/terrain.ruleset:189
 msgid "Oasis"
 msgstr "Oase"
 
-#: data/civ1/terrain.ruleset:211 data/civ2/terrain.ruleset:219
-#: data/default/terrain.ruleset:219
+#: data/default/terrain.ruleset:219 data/civ2/terrain.ruleset:219
+#: data/civ1/terrain.ruleset:211
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
@@ -16160,114 +16163,114 @@ msgstr ""
 "Ørkener er områder med ekstrem tørke, noe som gjøre jordbruk og handel "
 "vanskelig."
 
-#: data/civ1/terrain.ruleset:217 data/civ2/terrain.ruleset:225
-#: data/default/terrain.ruleset:225
+#: data/default/terrain.ruleset:225 data/civ2/terrain.ruleset:225
+#: data/civ1/terrain.ruleset:217
 msgid "Forest"
 msgstr "Skog"
 
-#: data/civ2/terrain.ruleset:233 data/default/terrain.ruleset:233
+#: data/default/terrain.ruleset:233 data/civ2/terrain.ruleset:233
 msgid "Pheasant"
 msgstr "Fasaner"
 
-#: data/civ2/terrain.ruleset:239 data/default/terrain.ruleset:239
+#: data/default/terrain.ruleset:239 data/civ2/terrain.ruleset:239
 msgid "Silk"
 msgstr "Silke"
 
-#: data/civ1/terrain.ruleset:247 data/civ2/terrain.ruleset:255
-#: data/default/terrain.ruleset:255
+#: data/default/terrain.ruleset:255 data/civ2/terrain.ruleset:255
+#: data/civ1/terrain.ruleset:247
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "Skogen har svært tett vegetasjon, som gjør jordbruk noe problematisk."
 
-#: data/civ1/terrain.ruleset:253 data/civ2/terrain.ruleset:261
-#: data/default/terrain.ruleset:261
+#: data/default/terrain.ruleset:261 data/civ2/terrain.ruleset:261
+#: data/civ1/terrain.ruleset:253
 msgid "Grassland"
 msgstr "Gresskledd land"
 
-#: data/civ1/terrain.ruleset:261 data/civ1/terrain.ruleset:478
-#: data/civ2/terrain.ruleset:269 data/civ2/terrain.ruleset:275
 #: data/default/terrain.ruleset:269 data/default/terrain.ruleset:275
+#: data/civ2/terrain.ruleset:269 data/civ2/terrain.ruleset:275
+#: data/civ1/terrain.ruleset:261 data/civ1/terrain.ruleset:478
 msgid "Resources"
 msgstr "Ressurser"
 
-#: data/civ1/terrain.ruleset:283 data/civ2/terrain.ruleset:291
-#: data/default/terrain.ruleset:291
+#: data/default/terrain.ruleset:291 data/civ2/terrain.ruleset:291
+#: data/civ1/terrain.ruleset:283
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "Gresskledd land muliggjør svært effektivt og produktivt jordbruk."
 
-#: data/civ1/terrain.ruleset:288 data/civ2/terrain.ruleset:296
-#: data/default/terrain.ruleset:296
+#: data/default/terrain.ruleset:296 data/civ2/terrain.ruleset:296
+#: data/civ1/terrain.ruleset:288
 msgid "Hills"
 msgstr "Åser"
 
-#: data/civ1/terrain.ruleset:296 data/civ2/terrain.ruleset:304
-#: data/default/terrain.ruleset:304
+#: data/default/terrain.ruleset:304 data/civ2/terrain.ruleset:304
+#: data/civ1/terrain.ruleset:296
 msgid "Coal"
 msgstr "Kull"
 
-#: data/civ2/terrain.ruleset:310 data/default/terrain.ruleset:310
+#: data/default/terrain.ruleset:310 data/civ2/terrain.ruleset:310
 msgid "Wine"
 msgstr "Vindruer"
 
-#: data/civ1/terrain.ruleset:318 data/civ2/terrain.ruleset:326
-#: data/default/terrain.ruleset:326
+#: data/default/terrain.ruleset:326 data/civ2/terrain.ruleset:326
+#: data/civ1/terrain.ruleset:318
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
 msgstr ""
 "Foruten å være tilgjengelige for jordbruk er åser ofte rike på ressurser."
 
-#: data/civ1/terrain.ruleset:324 data/civ2/terrain.ruleset:332
-#: data/default/terrain.ruleset:332
+#: data/default/terrain.ruleset:332 data/civ2/terrain.ruleset:332
+#: data/civ1/terrain.ruleset:324
 msgid "Jungle"
 msgstr "Jungel"
 
-#: data/civ1/terrain.ruleset:332 data/civ2/terrain.ruleset:340
-#: data/default/terrain.ruleset:340
+#: data/default/terrain.ruleset:340 data/civ2/terrain.ruleset:340
+#: data/civ1/terrain.ruleset:332
 msgid "Gems"
 msgstr "Edelstener"
 
-#: data/civ2/terrain.ruleset:346 data/default/terrain.ruleset:346
+#: data/default/terrain.ruleset:346 data/civ2/terrain.ruleset:346
 msgid "Fruit"
 msgstr "Frukt"
 
-#: data/civ1/terrain.ruleset:354 data/civ2/terrain.ruleset:362
-#: data/default/terrain.ruleset:362
+#: data/default/terrain.ruleset:362 data/civ2/terrain.ruleset:362
+#: data/civ1/terrain.ruleset:354
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr "Jungel er overgrodd og gjør det vanskelig å drive med jordbruk der."
 
-#: data/civ1/terrain.ruleset:360 data/civ2/terrain.ruleset:368
-#: data/default/terrain.ruleset:368
+#: data/default/terrain.ruleset:368 data/civ2/terrain.ruleset:368
+#: data/civ1/terrain.ruleset:360
 msgid "Mountains"
 msgstr "Fjell"
 
-#: data/civ2/terrain.ruleset:382 data/default/terrain.ruleset:382
+#: data/default/terrain.ruleset:382 data/civ2/terrain.ruleset:382
 msgid "Iron"
 msgstr "Jern"
 
-#: data/civ1/terrain.ruleset:390 data/civ2/terrain.ruleset:398
-#: data/default/terrain.ruleset:398
+#: data/default/terrain.ruleset:398 data/civ2/terrain.ruleset:398
+#: data/civ1/terrain.ruleset:390
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr ""
 "Fjell er områder med ekstreme høyder, som gjør jordbruk og handel vanskelig."
 
-#: data/civ1/terrain.ruleset:396 data/civ2/terrain.ruleset:404
-#: data/default/terrain.ruleset:404
+#: data/default/terrain.ruleset:404 data/civ2/terrain.ruleset:404
+#: data/civ1/terrain.ruleset:396
 msgid "Ocean"
 msgstr "Hav"
 
-#: data/civ1/terrain.ruleset:404 data/civ2/terrain.ruleset:412
-#: data/default/terrain.ruleset:412
+#: data/default/terrain.ruleset:412 data/civ2/terrain.ruleset:412
+#: data/civ1/terrain.ruleset:404
 msgid "Fish"
 msgstr "Fisk"
 
-#: data/civ2/terrain.ruleset:418 data/default/terrain.ruleset:418
+#: data/default/terrain.ruleset:418 data/civ2/terrain.ruleset:418
 msgid "Whales"
 msgstr "Hvaler"
 
-#: data/civ1/terrain.ruleset:426 data/civ2/terrain.ruleset:434
-#: data/default/terrain.ruleset:434
+#: data/default/terrain.ruleset:434 data/civ2/terrain.ruleset:434
+#: data/civ1/terrain.ruleset:426
 msgid ""
 "Oceans cover much of the world, and only sea units (Triremes and other "
 "boats) can travel on them.\n"
@@ -16279,21 +16282,21 @@ msgstr ""
 "\n"
 "Sjøruter kan aldri forurenses eller ødelegges av avfall."
 
-#: data/civ1/terrain.ruleset:434 data/civ2/terrain.ruleset:442
-#: data/default/terrain.ruleset:442
+#: data/default/terrain.ruleset:442 data/civ2/terrain.ruleset:442
+#: data/civ1/terrain.ruleset:434
 msgid "Plains"
 msgstr "Sletter"
 
-#: data/civ2/terrain.ruleset:450 data/default/terrain.ruleset:450
+#: data/default/terrain.ruleset:450 data/civ2/terrain.ruleset:450
 msgid "Buffalo"
 msgstr "Bøfler"
 
-#: data/civ2/terrain.ruleset:456 data/default/terrain.ruleset:456
+#: data/default/terrain.ruleset:456 data/civ2/terrain.ruleset:456
 msgid "Wheat"
 msgstr "Hvete"
 
-#: data/civ1/terrain.ruleset:464 data/civ2/terrain.ruleset:472
-#: data/default/terrain.ruleset:472
+#: data/default/terrain.ruleset:472 data/civ2/terrain.ruleset:472
+#: data/civ1/terrain.ruleset:464
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
@@ -16301,42 +16304,42 @@ msgstr ""
 "Sletter er veldig store, litt øde områder, som gjør det vanskelig å drive "
 "med handel."
 
-#: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:510
-#: data/default/terrain.ruleset:510
+#: data/default/terrain.ruleset:510 data/civ2/terrain.ruleset:510
+#: data/civ1/terrain.ruleset:509
 msgid "Swamp"
 msgstr "Sump"
 
-#: data/civ2/terrain.ruleset:518 data/default/terrain.ruleset:518
+#: data/default/terrain.ruleset:518 data/civ2/terrain.ruleset:518
 msgid "Peat"
 msgstr "Torv"
 
-#: data/civ2/terrain.ruleset:524 data/default/terrain.ruleset:524
+#: data/default/terrain.ruleset:524 data/civ2/terrain.ruleset:524
 msgid "Spice"
 msgstr "Krydder"
 
-#: data/civ1/terrain.ruleset:539 data/civ2/terrain.ruleset:540
-#: data/default/terrain.ruleset:540
+#: data/default/terrain.ruleset:540 data/civ2/terrain.ruleset:540
+#: data/civ1/terrain.ruleset:539
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
 msgstr "Sumper har overflod av vann, som gjør jordbruk vanskelig."
 
-#: data/civ1/terrain.ruleset:545 data/civ2/terrain.ruleset:546
-#: data/default/terrain.ruleset:546
+#: data/default/terrain.ruleset:546 data/civ2/terrain.ruleset:546
+#: data/civ1/terrain.ruleset:545
 msgid "Tundra"
 msgstr "Tundra"
 
+#: data/default/terrain.ruleset:554 data/civ2/terrain.ruleset:554
 #: data/civ1/terrain.ruleset:225 data/civ1/terrain.ruleset:553
-#: data/civ2/terrain.ruleset:554 data/default/terrain.ruleset:554
 msgid "?animals:Game"
 msgstr "?dyr:Jakt"
 
-#: data/civ2/terrain.ruleset:560 data/default/terrain.ruleset:560
+#: data/default/terrain.ruleset:560 data/civ2/terrain.ruleset:560
 msgid "Furs"
 msgstr "Pels"
 
-#: data/civ1/terrain.ruleset:575 data/civ2/terrain.ruleset:576
-#: data/default/terrain.ruleset:576
+#: data/default/terrain.ruleset:576 data/civ2/terrain.ruleset:576
+#: data/civ1/terrain.ruleset:575
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
@@ -16375,12 +16378,12 @@ msgstr ""
 "Veier og jernbaner kan kun bygges på ruter med elv dersom sivilisasjonen har "
 "oppdaget brobygging."
 
-#: data/civ1/units.ruleset:77 data/civ2/units.ruleset:70
-#: data/default/units.ruleset:139
+#: data/default/units.ruleset:139 data/civ2/units.ruleset:70
+#: data/civ1/units.ruleset:77
 msgid "Settlers"
 msgstr "Nybyggere"
 
-#: data/civ2/units.ruleset:96 data/default/units.ruleset:165
+#: data/default/units.ruleset:165 data/civ2/units.ruleset:96
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses, airbases and "
@@ -16409,12 +16412,12 @@ msgstr ""
 "en oppgave, for da kan innsatsen sløses bort, og en stor gruppe nybyggere/"
 "ingeniører er veldig utsatt for angrep."
 
-#: data/civ1/units.ruleset:121 data/civ2/units.ruleset:114
-#: data/default/units.ruleset:183
+#: data/default/units.ruleset:183 data/civ2/units.ruleset:114
+#: data/civ1/units.ruleset:121
 msgid "Engineers"
 msgstr "Ingeniører"
 
-#: data/civ2/units.ruleset:140 data/default/units.ruleset:209
+#: data/default/units.ruleset:209 data/civ2/units.ruleset:140
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -16440,54 +16443,54 @@ msgstr ""
 "eksplosiver før verkstedet blir foreldet. Da blir nybyggerne oppgraderte "
 "helt gratis."
 
-#: data/civ2/units.ruleset:155 data/default/units.ruleset:224
+#: data/default/units.ruleset:224 data/civ2/units.ruleset:155
 msgid "Warriors"
 msgstr "Krigere"
 
-#: data/civ1/units.ruleset:175 data/civ2/units.ruleset:181
-#: data/default/units.ruleset:250
+#: data/default/units.ruleset:250 data/civ2/units.ruleset:181
+#: data/civ1/units.ruleset:175
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
 msgstr ""
 "Denne enheten kan bygges helt fra starten av spillet.  Det er den svakeste "
 "enheten."
 
-#: data/civ1/units.ruleset:181 data/civ2/units.ruleset:187
-#: data/default/units.ruleset:256
+#: data/default/units.ruleset:256 data/civ2/units.ruleset:187
+#: data/civ1/units.ruleset:181
 msgid "Phalanx"
 msgstr "Falanks"
 
-#: data/civ1/units.ruleset:209 data/civ2/units.ruleset:215
-#: data/default/units.ruleset:284
+#: data/default/units.ruleset:284 data/civ2/units.ruleset:215
+#: data/civ1/units.ruleset:209
 msgid "Archers"
 msgstr "Bueskyttere"
 
-#: data/civ1/units.ruleset:237 data/civ2/units.ruleset:243
-#: data/default/units.ruleset:312
+#: data/default/units.ruleset:312 data/civ2/units.ruleset:243
+#: data/civ1/units.ruleset:237
 msgid "Legion"
 msgstr "Legion"
 
-#: data/civ1/units.ruleset:265 data/civ2/units.ruleset:271
-#: data/default/units.ruleset:340
+#: data/default/units.ruleset:340 data/civ2/units.ruleset:271
+#: data/civ1/units.ruleset:265
 msgid "Pikemen"
 msgstr "Spydbærere"
 
-#: data/civ1/units.ruleset:293 data/civ2/units.ruleset:299
-#: data/default/units.ruleset:368
+#: data/default/units.ruleset:368 data/civ2/units.ruleset:299
+#: data/civ1/units.ruleset:293
 msgid "Musketeers"
 msgstr "Musketerer"
 
-#: data/civ1/units.ruleset:322 data/civ2/units.ruleset:328
-#: data/default/units.ruleset:397
+#: data/default/units.ruleset:397 data/civ2/units.ruleset:328
+#: data/civ1/units.ruleset:322
 msgid "Fanatics"
 msgstr "Fanatikere"
 
-#: data/civ1/units.ruleset:350 data/civ2/units.ruleset:362
-#: data/default/units.ruleset:425
+#: data/default/units.ruleset:425 data/civ2/units.ruleset:362
+#: data/civ1/units.ruleset:350
 msgid "Partisan"
 msgstr "Partisaner"
 
-#: data/civ2/units.ruleset:388 data/default/units.ruleset:451
+#: data/default/units.ruleset:451 data/civ2/units.ruleset:388
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -16511,33 +16514,33 @@ msgstr ""
 "\n"
 " - Man må ha demokrati eller kommunisme som styreform."
 
-#: data/civ1/units.ruleset:378 data/civ2/units.ruleset:402
-#: data/default/units.ruleset:465
+#: data/default/units.ruleset:465 data/civ2/units.ruleset:402
+#: data/civ1/units.ruleset:378
 msgid "Alpine Troops"
 msgstr "Gurkha tropper"
 
-#: data/civ1/units.ruleset:406 data/civ2/units.ruleset:430
-#: data/default/units.ruleset:493
+#: data/default/units.ruleset:493 data/civ2/units.ruleset:430
+#: data/civ1/units.ruleset:406
 msgid "Riflemen"
 msgstr "Moderne infanteri"
 
-#: data/civ1/units.ruleset:434 data/civ2/units.ruleset:458
-#: data/default/units.ruleset:521
+#: data/default/units.ruleset:521 data/civ2/units.ruleset:458
+#: data/civ1/units.ruleset:434
 msgid "Marines"
 msgstr "Marinejegere"
 
-#: data/civ1/units.ruleset:462 data/civ2/units.ruleset:486
-#: data/default/units.ruleset:549
+#: data/default/units.ruleset:549 data/civ2/units.ruleset:486
+#: data/civ1/units.ruleset:462
 msgid "Paratroopers"
 msgstr "Fallskjermjegere"
 
-#: data/civ1/units.ruleset:490 data/civ2/units.ruleset:518
-#: data/default/units.ruleset:581
+#: data/default/units.ruleset:581 data/civ2/units.ruleset:518
+#: data/civ1/units.ruleset:490
 msgid "Mech. Inf."
 msgstr "Mekanisert Infanteri"
 
-#: data/civ1/units.ruleset:516 data/civ2/units.ruleset:544
-#: data/default/units.ruleset:607
+#: data/default/units.ruleset:607 data/civ2/units.ruleset:544
+#: data/civ1/units.ruleset:516
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
@@ -16545,80 +16548,80 @@ msgstr ""
 "Mekanisert infanteri; denne enheten har sterkest forsvarsstyrke av alle "
 "landenheter, men den er kun tilgjengelig nær slutten på teknologitreet."
 
-#: data/civ2/units.ruleset:551 data/default/units.ruleset:614
+#: data/default/units.ruleset:614 data/civ2/units.ruleset:551
 msgid "Horsemen"
 msgstr "Ryttere"
 
-#: data/civ1/units.ruleset:551 data/civ2/units.ruleset:579
-#: data/default/units.ruleset:642
+#: data/default/units.ruleset:642 data/civ2/units.ruleset:579
+#: data/civ1/units.ruleset:551
 msgid "Chariot"
 msgstr "Kampvogn"
 
-#: data/civ1/units.ruleset:579 data/civ2/units.ruleset:607
-#: data/default/units.ruleset:670
+#: data/default/units.ruleset:670 data/civ2/units.ruleset:607
+#: data/civ1/units.ruleset:579
 msgid "Elephants"
 msgstr "Elefanter"
 
-#: data/civ1/units.ruleset:607 data/civ2/units.ruleset:635
-#: data/default/units.ruleset:698
+#: data/default/units.ruleset:698 data/civ2/units.ruleset:635
+#: data/civ1/units.ruleset:607
 msgid "Crusaders"
 msgstr "Korsfarere"
 
-#: data/civ1/units.ruleset:635 data/civ2/units.ruleset:663
-#: data/default/units.ruleset:726
+#: data/default/units.ruleset:726 data/civ2/units.ruleset:663
+#: data/civ1/units.ruleset:635
 msgid "Knights"
 msgstr "Riddere"
 
-#: data/civ1/units.ruleset:664 data/civ2/units.ruleset:692
-#: data/default/units.ruleset:755
+#: data/default/units.ruleset:755 data/civ2/units.ruleset:692
+#: data/civ1/units.ruleset:664
 msgid "Dragoons"
 msgstr "Dragoner"
 
-#: data/civ1/units.ruleset:523 data/civ2/units.ruleset:720
-#: data/default/units.ruleset:783
+#: data/default/units.ruleset:783 data/civ2/units.ruleset:720
+#: data/civ1/units.ruleset:523
 msgid "Cavalry"
 msgstr "Kavalri"
 
-#: data/civ1/units.ruleset:720 data/civ2/units.ruleset:748
-#: data/default/units.ruleset:811
+#: data/default/units.ruleset:811 data/civ2/units.ruleset:748
+#: data/civ1/units.ruleset:720
 msgid "Armor"
 msgstr "Tanks"
 
-#: data/civ1/units.ruleset:748 data/civ2/units.ruleset:776
-#: data/default/units.ruleset:839
+#: data/default/units.ruleset:839 data/civ2/units.ruleset:776
+#: data/civ1/units.ruleset:748
 msgid "Catapult"
 msgstr "Katapult"
 
-#: data/civ1/units.ruleset:776 data/civ2/units.ruleset:804
-#: data/default/units.ruleset:867
+#: data/default/units.ruleset:867 data/civ2/units.ruleset:804
+#: data/civ1/units.ruleset:776
 msgid "Cannon"
 msgstr "Kanon"
 
-#: data/civ1/units.ruleset:832 data/civ2/units.ruleset:832
-#: data/default/units.ruleset:895
+#: data/default/units.ruleset:895 data/civ2/units.ruleset:832
+#: data/civ1/units.ruleset:832
 msgid "Artillery"
 msgstr "Artilleri"
 
-#: data/civ2/units.ruleset:860 data/default/units.ruleset:923
+#: data/default/units.ruleset:923 data/civ2/units.ruleset:860
 msgid "Howitzer"
 msgstr "Howitzer"
 
-#: data/civ1/units.ruleset:860 data/civ2/units.ruleset:888
-#: data/default/units.ruleset:951
+#: data/default/units.ruleset:951 data/civ2/units.ruleset:888
+#: data/civ1/units.ruleset:860
 msgid "Fighter"
 msgstr "Jager"
 
-#: data/civ1/units.ruleset:888 data/civ2/units.ruleset:916
-#: data/default/units.ruleset:979
+#: data/default/units.ruleset:979 data/civ2/units.ruleset:916
+#: data/civ1/units.ruleset:888
 msgid "Bomber"
 msgstr "Bombefly"
 
-#: data/civ1/units.ruleset:916 data/civ2/units.ruleset:944
-#: data/default/units.ruleset:1007
+#: data/default/units.ruleset:1007 data/civ2/units.ruleset:944
+#: data/civ1/units.ruleset:916
 msgid "Helicopter"
 msgstr "Helikopter"
 
-#: data/civ2/units.ruleset:970 data/default/units.ruleset:1033
+#: data/default/units.ruleset:1033 data/civ2/units.ruleset:970
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -16630,54 +16633,54 @@ msgstr ""
 "hver runde som de ikke er i en by, om man ikke har underverket De Forente "
 "Nasjoner."
 
-#: data/civ1/units.ruleset:944 data/civ2/units.ruleset:978
-#: data/default/units.ruleset:1041
+#: data/default/units.ruleset:1041 data/civ2/units.ruleset:978
+#: data/civ1/units.ruleset:944
 msgid "Stealth Fighter"
 msgstr "Stealth jagerfly"
 
-#: data/civ2/units.ruleset:1004 data/default/units.ruleset:1067
+#: data/default/units.ruleset:1067 data/civ2/units.ruleset:1004
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr "Et forbedret jagerfly med forbedret angrep og lengre rekkevidde."
 
-#: data/civ1/units.ruleset:972 data/civ2/units.ruleset:1010
-#: data/default/units.ruleset:1073
+#: data/default/units.ruleset:1073 data/civ2/units.ruleset:1010
+#: data/civ1/units.ruleset:972
 msgid "Stealth Bomber"
 msgstr "Stealth bombefly"
 
-#: data/civ2/units.ruleset:1036 data/default/units.ruleset:1099
+#: data/default/units.ruleset:1099 data/civ2/units.ruleset:1036
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr "Et forbedret bombefly, med forbedret angrep og større rekkevidde."
 
-#: data/civ1/units.ruleset:1000 data/civ2/units.ruleset:1042
-#: data/default/units.ruleset:1105
+#: data/default/units.ruleset:1105 data/civ2/units.ruleset:1042
+#: data/civ1/units.ruleset:1000
 msgid "Trireme"
 msgstr "Trireme"
 
-#: data/civ2/units.ruleset:1070 data/default/units.ruleset:1133
+#: data/default/units.ruleset:1133 data/civ2/units.ruleset:1070
 msgid "Caravel"
 msgstr "Karavell"
 
-#: data/civ1/units.ruleset:1056 data/civ2/units.ruleset:1098
-#: data/default/units.ruleset:1161
+#: data/default/units.ruleset:1161 data/civ2/units.ruleset:1098
+#: data/civ1/units.ruleset:1056
 msgid "Galleon"
 msgstr "Galleon"
 
-#: data/civ1/units.ruleset:1084 data/civ2/units.ruleset:1126
-#: data/default/units.ruleset:1189
+#: data/default/units.ruleset:1189 data/civ2/units.ruleset:1126
+#: data/civ1/units.ruleset:1084
 msgid "Frigate"
 msgstr "Fregatt"
 
-#: data/civ1/units.ruleset:1112 data/civ2/units.ruleset:1154
-#: data/default/units.ruleset:1217
+#: data/default/units.ruleset:1217 data/civ2/units.ruleset:1154
+#: data/civ1/units.ruleset:1112
 msgid "Ironclad"
 msgstr "Panserskip"
 
-#: data/civ1/units.ruleset:1140 data/civ2/units.ruleset:1182
-#: data/default/units.ruleset:1245
+#: data/default/units.ruleset:1245 data/civ2/units.ruleset:1182
+#: data/civ1/units.ruleset:1140
 msgid "Destroyer"
 msgstr "Destroyer"
 
-#: data/civ2/units.ruleset:1208 data/default/units.ruleset:1271
+#: data/default/units.ruleset:1271 data/civ2/units.ruleset:1208
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -16685,38 +16688,38 @@ msgstr ""
 "TIPS:  En meget kjapp enhet som er svært nyttig i jakten på fiendtlige "
 "transportskip."
 
-#: data/civ1/units.ruleset:1168 data/civ2/units.ruleset:1214
-#: data/default/units.ruleset:1277
+#: data/default/units.ruleset:1277 data/civ2/units.ruleset:1214
+#: data/civ1/units.ruleset:1168
 msgid "Cruiser"
 msgstr "Krysser"
 
-#: data/civ1/units.ruleset:1196 data/civ2/units.ruleset:1242
-#: data/default/units.ruleset:1305
+#: data/default/units.ruleset:1305 data/civ2/units.ruleset:1242
+#: data/civ1/units.ruleset:1196
 msgid "AEGIS Cruiser"
 msgstr "AEGIS Krysser"
 
-#: data/civ1/units.ruleset:1224 data/civ2/units.ruleset:1270
-#: data/default/units.ruleset:1333
+#: data/default/units.ruleset:1333 data/civ2/units.ruleset:1270
+#: data/civ1/units.ruleset:1224
 msgid "Battleship"
 msgstr "Slagskip"
 
-#: data/civ1/units.ruleset:1252 data/civ2/units.ruleset:1298
-#: data/default/units.ruleset:1361
+#: data/default/units.ruleset:1361 data/civ2/units.ruleset:1298
+#: data/civ1/units.ruleset:1252
 msgid "Submarine"
 msgstr "Ubåt"
 
-#: data/civ1/units.ruleset:1278 data/civ2/units.ruleset:1325
-#: data/default/units.ruleset:1388
+#: data/default/units.ruleset:1388 data/civ2/units.ruleset:1325
+#: data/civ1/units.ruleset:1278
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr "Ubåter har en svært høy strategisk verdi, men dårlig egetforsvar."
 
-#: data/civ1/units.ruleset:1284 data/civ2/units.ruleset:1331
-#: data/default/units.ruleset:1394
+#: data/default/units.ruleset:1394 data/civ2/units.ruleset:1331
+#: data/civ1/units.ruleset:1284
 msgid "Carrier"
 msgstr "Hangarskip"
 
-#: data/civ1/units.ruleset:1310 data/civ2/units.ruleset:1357
-#: data/default/units.ruleset:1420
+#: data/default/units.ruleset:1420 data/civ2/units.ruleset:1357
+#: data/civ1/units.ruleset:1310
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
@@ -16724,17 +16727,17 @@ msgstr ""
 "Tips: Beskytt hangarfartøy med en håndfull raske skip og et slagskip siden "
 "det er veldig plagsomt og dyrt å miste et fullt utstyrt hangarskip."
 
-#: data/civ1/units.ruleset:1317 data/civ2/units.ruleset:1364
-#: data/default/units.ruleset:1427
+#: data/default/units.ruleset:1427 data/civ2/units.ruleset:1364
+#: data/civ1/units.ruleset:1317
 msgid "Transport"
 msgstr "Transport"
 
-#: data/civ1/units.ruleset:1345 data/civ2/units.ruleset:1392
-#: data/default/units.ruleset:1455
+#: data/default/units.ruleset:1455 data/civ2/units.ruleset:1392
+#: data/civ1/units.ruleset:1345
 msgid "Cruise Missile"
 msgstr "Krysserrakett"
 
-#: data/civ2/units.ruleset:1418 data/default/units.ruleset:1481
+#: data/default/units.ruleset:1481 data/civ2/units.ruleset:1418
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -16742,12 +16745,12 @@ msgstr ""
 "Tips: Et par av disse kan holde sjøen rundt ditt hjemland fritt for "
 "fiendtlige skip.\t"
 
-#: data/civ1/units.ruleset:1373 data/civ2/units.ruleset:1424
-#: data/default/units.ruleset:1487
+#: data/default/units.ruleset:1487 data/civ2/units.ruleset:1424
+#: data/civ1/units.ruleset:1373
 msgid "Nuclear"
 msgstr "Atombombe"
 
-#: data/civ2/units.ruleset:1450 data/default/units.ruleset:1513
+#: data/default/units.ruleset:1513 data/civ2/units.ruleset:1450
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -16781,13 +16784,13 @@ msgstr ""
 "byene, som vil være klare til å rense det radioaktive avfallet som kommer "
 "når du angriper med atomvåpen. Det reduserer sjansene for atomvinter!"
 
-#: data/civ1/units.ruleset:1420 data/civ2/units.ruleset:1471
-#: data/default/units.ruleset:1534
+#: data/default/units.ruleset:1534 data/civ2/units.ruleset:1471
+#: data/civ1/units.ruleset:1420
 msgid "Diplomat"
 msgstr "Diplomat"
 
-#: data/civ1/units.ruleset:1446 data/civ2/units.ruleset:1497
-#: data/default/units.ruleset:1560
+#: data/default/units.ruleset:1560 data/civ2/units.ruleset:1497
+#: data/civ1/units.ruleset:1446
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
 "another player's city.\n"
@@ -16821,12 +16824,12 @@ msgstr ""
 "byer på veldig kort tid. Ikke rart at diplomater ofte blir sett på med "
 "mistenksomhet og frykt!"
 
-#: data/civ1/units.ruleset:1466 data/civ2/units.ruleset:1517
-#: data/default/units.ruleset:1580
+#: data/default/units.ruleset:1580 data/civ2/units.ruleset:1517
+#: data/civ1/units.ruleset:1466
 msgid "Spy"
 msgstr "Spion"
 
-#: data/civ2/units.ruleset:1543 data/default/units.ruleset:1606
+#: data/default/units.ruleset:1606 data/civ2/units.ruleset:1543
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -16863,13 +16866,13 @@ msgstr ""
 "En spion kan også hjelpe til på slagmarken - sabotere fiendtlige enheter "
 "såvel som å beskikke dem til å skifte lederskap."
 
-#: data/civ1/units.ruleset:1494 data/civ2/units.ruleset:1564
-#: data/default/units.ruleset:1627
+#: data/default/units.ruleset:1627 data/civ2/units.ruleset:1564
+#: data/civ1/units.ruleset:1494
 msgid "Caravan"
 msgstr "Karavane"
 
-#: data/civ1/units.ruleset:1520 data/civ2/units.ruleset:1590
-#: data/default/units.ruleset:1653
+#: data/default/units.ruleset:1653 data/civ2/units.ruleset:1590
+#: data/civ1/units.ruleset:1520
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -16885,30 +16888,30 @@ msgstr ""
 "når man har begynt å bygge et underverk, også bygge det ferdig på kun en "
 "runde!"
 
-#: data/civ1/units.ruleset:1530 data/civ2/units.ruleset:1600
-#: data/default/units.ruleset:1663
+#: data/default/units.ruleset:1663 data/civ2/units.ruleset:1600
+#: data/civ1/units.ruleset:1530
 msgid "Freight"
 msgstr "Frakteskip"
 
-#: data/civ2/units.ruleset:1626 data/default/units.ruleset:1689
+#: data/default/units.ruleset:1689 data/civ2/units.ruleset:1626
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr "Frakt-enheten erstatter karavanen, og beveger seg dobbelt så raskt."
 
-#: data/civ1/units.ruleset:1558 data/civ2/units.ruleset:1631
-#: data/default/units.ruleset:1694
+#: data/default/units.ruleset:1694 data/civ2/units.ruleset:1631
+#: data/civ1/units.ruleset:1558
 msgid "Explorer"
 msgstr "Utforsker"
 
-#: data/civ2/units.ruleset:1657 data/default/units.ruleset:1720
+#: data/default/units.ruleset:1720 data/civ2/units.ruleset:1657
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr "Utforskere er nyttig til å kartlegge ukjent territorie."
 
-#: data/civ1/units.ruleset:1586 data/civ2/units.ruleset:1662
-#: data/default/units.ruleset:1725
+#: data/default/units.ruleset:1725 data/civ2/units.ruleset:1662
+#: data/civ1/units.ruleset:1586
 msgid "Barbarian Leader"
 msgstr "Barbarleder"
 
-#: data/civ2/units.ruleset:1688 data/default/units.ruleset:1751
+#: data/default/units.ruleset:1751 data/civ2/units.ruleset:1688
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
