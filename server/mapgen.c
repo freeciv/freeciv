@@ -40,6 +40,15 @@ int *height_map;
 int maxval=0;
 int forests=0;
 
+struct isledata {
+  int x,y;                        /* upper left corner of the islands */
+  int goodies;
+  int starters;
+};
+#define MAP_NCONT 255
+static struct isledata islands[MAP_NCONT];
+
+
 /**************************************************************************
  Just a wrapper function off the height_map, returns the height at x,y
 **************************************************************************/

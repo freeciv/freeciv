@@ -15,14 +15,17 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <map.h>
-#include <shared.h>
-#include <log.h>
-#include <unit.h>
-#include <city.h>
+#include "map.h"
+#include "shared.h"
+#include "log.h"
+#include "unit.h"
+#include "city.h"
 
 /* the very map */
 struct civ_map map;
+
+/* this is used for map yval out of range: */
+static struct tile void_tile;
 
 struct tile_type tile_types[T_LAST]= 
 {
@@ -52,12 +55,11 @@ struct tile_type tile_types[T_LAST]=
     T_LAST,0,      T_LAST,0,	T_DESERT,24}
 };
 
-struct isledata islands[MAP_NCONT];
-
-struct tile void_tile;
-
 /***************************************************************
-...
+  Return a (static) string with terrain name;
+  eg: "Hills"
+  eg: "Hills (Coals)"
+  eg: "Polluted Hills (Coals)"
 ***************************************************************/
 char *map_get_tile_info_text(int x, int y)
 {
@@ -84,13 +86,13 @@ int map_is_empty(void)
 
 /***************************************************************
  put some sensible values into the map structure
+ Also initialize special void_tile.
 ***************************************************************/
 void map_init(void)
 {
   map.xsize=MAP_DEFAULT_WIDTH;
   map.ysize=MAP_DEFAULT_HEIGHT;
   map.seed=MAP_DEFAULT_SEED;
-  map.age=0;
   map.riches=MAP_DEFAULT_RICHES;
   map.is_earth=0;
   map.huts=MAP_DEFAULT_HUTS;
@@ -103,6 +105,8 @@ void map_init(void)
   map.forestsize=MAP_DEFAULT_FORESTS;
   map.generator=MAP_DEFAULT_GENERATOR;
   map.tiles=0;
+
+  tile_init(&void_tile);
 }
 
 /***************************************************************
@@ -214,6 +218,9 @@ int is_at_coast(int x, int y)
   
 }
 
+/***************************************************************
+...
+***************************************************************/
 int is_coastline(int x,int y) 
 {
   /*if (map_get_terrain(x,y)!=T_OCEAN)   return 0;*/
@@ -228,41 +235,70 @@ int is_coastline(int x,int y)
   return 0;
 }
 
+/***************************************************************
+...
+***************************************************************/
 int terrain_is_clean(int x, int y)
 {
   int x1,y1;
   for (x1=x-3;x1<x+3;x1++)
     for (y1=y-3;y1<y+3;y1++) 
-      if (map_get_terrain(x1,y1)!=T_GRASSLAND && map_get_terrain(x1,y1)!=T_PLAINS) return 0;
+      if (map_get_terrain(x1,y1)!=T_GRASSLAND
+	  && map_get_terrain(x1,y1)!=T_PLAINS) return 0;
   return 1;
 }
 
-int same_island(int x1, int y1, int x2, int y2)
+/***************************************************************
+...
+***************************************************************/
+int map_same_continent(int x1, int y1, int x2, int y2)
 {
   return (map_get_continent(x1,y1) == map_get_continent(x2,y2));
 }
 
+/***************************************************************
+  Returns 1 if (x,y) is _not_ a good position to start from;
+  Bad places:
+  - Non-suitable terrain;
+  - On a hut;
+  - On North/South pole continents
+  - Too close to another starter on the same continent:
+  'dist' is too close (real_map_distance)
+  'nr' is the number of other start positions in
+  map.start_positions to check for too closeness.
+***************************************************************/
 int is_starter_close(int x, int y, int nr, int dist) 
 {
   int i;
+  enum tile_terrain_type t = map_get_terrain(x, y);
 
-  if (map_get_terrain(x, y)!=T_PLAINS && 
-      map_get_terrain(x, y)!=T_GRASSLAND &&
-      map_get_terrain(x, y)!=T_RIVER
-      )
+  /* only start on clear terrain: */
+  if (t!=T_PLAINS && t!=T_GRASSLAND && t!=T_RIVER)
     return 1;
-  /* don't start on a hut */
+  
+  /* don't start on a hut: */
   if (map_get_tile(x, y)->special&S_HUT)
     return 1;
-  if (map_get_continent(x, y)<=2) return 1; /*don't want them starting
-						    on the poles */
-  for (i=0;i<nr;i++) 
-    if ( same_island(x,y, map.start_positions[i].x, map.start_positions[i].y) 
-	 && real_map_distance(x, y, map.start_positions[i].x, map.start_positions[i].y) < dist) 
+  
+  /* don't want them starting on the poles: */
+  if (map_get_continent(x, y)<=2)
+    return 1;
+
+  /* don't start too close to someone else: */
+  for (i=0;i<nr;i++) {
+    int x1 = map.start_positions[i].x;
+    int y1 = map.start_positions[i].y;
+    if (map_same_continent(x, y, x1, y1)
+	&& real_map_distance(x, y, x1, y1) < dist) {
       return 1;
+    }
+  }
   return 0;
 }
 
+/***************************************************************
+...
+***************************************************************/
 int is_good_tile(int x, int y)
 {
   int c;
@@ -301,6 +337,9 @@ int is_good_tile(int x, int y)
 }
 
 
+/***************************************************************
+...
+***************************************************************/
 int is_water_adjacent(int x, int y)
 {
   int x1,y1;
@@ -312,6 +351,9 @@ int is_water_adjacent(int x, int y)
   return 0;
 }
 
+/***************************************************************
+...
+***************************************************************/
 int is_hut_close(int x, int y)
 {
   int x1,y1;
@@ -324,6 +366,9 @@ int is_hut_close(int x, int y)
 }
 
 
+/***************************************************************
+...
+***************************************************************/
 int is_special_close(int x, int y)
 {
   int x1,y1;
@@ -334,6 +379,9 @@ int is_special_close(int x, int y)
   return 0;
 }
 
+/***************************************************************
+...
+***************************************************************/
 int is_sea_usable(int x, int y)
 {
   int x1,y1;
@@ -346,6 +394,9 @@ int is_sea_usable(int x, int y)
 }
 
 
+/***************************************************************
+...
+***************************************************************/
 int is_water_adjacent_to_tile(int x, int y)
 {
   struct tile *ptile, *ptile_n, *ptile_e, *ptile_s, *ptile_w;
@@ -441,16 +492,16 @@ void map_mine_tile(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-void map_transform_tile (int x, int y)
+void map_transform_tile(int x, int y)
 {
   enum tile_terrain_type now, result;
   
-  now = map_get_terrain (x, y);
+  now = map_get_terrain(x, y);
   result = tile_types[now].transform_result;
   
   if (result != T_LAST) {
-    map_set_terrain (x, y, result);
-    reset_move_costs (x, y);
+    map_set_terrain(x, y, result);
+    reset_move_costs(x, y);
   }
 
   /* Clear mining/irrigation if resulting terrain type cannot support
@@ -458,11 +509,14 @@ void map_transform_tile (int x, int y)
      but I'm including both cases in the most general form for possible
      future ruleset expansion. -GJW) */
   if (tile_types[result].mining_result != result)
-    map_clear_special (x, y, S_MINE);
+    map_clear_special(x, y, S_MINE);
   if (tile_types[result].irrigation_result != result)
-    map_clear_special (x, y, S_IRRIGATION);
+    map_clear_special(x, y, S_IRRIGATION);
 }
 
+/***************************************************************
+...
+***************************************************************/
 void reset_move_costs(int x, int y)
 {
   int c, i, j, k, xx[3], yy[3];
@@ -530,6 +584,9 @@ void reset_move_costs(int x, int y)
   } /* next k */
 }
 
+/***************************************************************
+...
+***************************************************************/
 void initialize_move_costs(void)
 {
   int x, y, c, i, j, k, xx[3], yy[3];
@@ -538,7 +595,6 @@ void initialize_move_costs(void)
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
 
-  tile_init(&void_tile); /* maybe this is a weird place but it has to be done. -- Syela */
   for (i = 0; i < 8; i++) void_tile.move_cost[i] = maxcost;
 
   for (x = 0; x < map.xsize; x++) {
@@ -605,7 +661,6 @@ int map_move_cost(struct unit *punit, int x1, int y1)
 /***************************************************************
 ...
 ***************************************************************/
-
 int is_tiles_adjacent(int x0, int y0, int x1, int y1)
 {
   x0 = map_adjust_x(x0);
@@ -658,7 +713,6 @@ char map_get_continent(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-
 void map_set_continent(int x, int y, int val)
 {
     (map.tiles + map_adjust_x(x) + y * map.xsize)->continent=val;
@@ -668,7 +722,6 @@ void map_set_continent(int x, int y, int val)
 /***************************************************************
 ...
 ***************************************************************/
-
 enum tile_terrain_type map_get_terrain(int x, int y)
 {
   if(y<0 || y>=map.ysize)
@@ -779,20 +832,19 @@ void map_clear_known(int x, int y, struct player *pplayer)
 void map_know_all(struct player *pplayer)
 {
   int x, y;
-  for (x = 0; x < map.xsize; ++x)
-  {
-    for (y = 0; y < map.ysize; ++y)
-    {
+  for (x = 0; x < map.xsize; ++x) {
+    for (y = 0; y < map.ysize; ++y) {
       map_set_known(x, y, pplayer);
     }
   }
 }
 
 /***************************************************************
-This function might be necessary ALOT of places...
+  Are (x1,y1) and (x2,y2) really the same when adjusted?
+  This function might be necessary ALOT of places...
 ***************************************************************/
-
 int same_pos(int x1, int y1, int x2, int y2)
 {
-  return (map_adjust_x(x1) == map_adjust_x(x2) && map_adjust_y(y1) == map_adjust_y(y2)); 
+  return (map_adjust_x(x1) == map_adjust_x(x2)
+	  && map_adjust_y(y1) == map_adjust_y(y2)); 
 }

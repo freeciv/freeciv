@@ -82,7 +82,6 @@ struct tile_type {
 struct civ_map { 
   int xsize, ysize;
   int seed;
-  int age;
   int riches;
   int is_earth;
   int huts;
@@ -98,23 +97,22 @@ struct civ_map {
   struct map_position start_positions[R_LAST];
 };
 
-struct isledata {
-  int x,y;                        /* upper left corner of the islands */
-  int goodies;
-  int starters;
-};
-
-
 char *map_get_tile_info_text(int x, int y);
 void map_init(void);
 int map_is_empty(void);
-void map_fractal_create(void);
 struct tile *map_get_tile(int x, int y);
+
 int map_distance(int x0, int y0, int x1, int y1);
 int real_map_distance(int x0, int y0, int x1, int y1);
 int sq_map_distance(int x0, int y0, int x1, int y1);
-void reset_move_costs(int x, int y);
+int same_pos(int x1, int y1, int x2, int y2);
+
+void map_set_continent(int x, int y, int val);
+char map_get_continent(int x, int y);
+int map_same_continent(int x1, int y1, int x2, int y2);
+
 void initialize_move_costs(void);
+void reset_move_costs(int x, int y);
 
 #define map_adjust_x(X) \
  (((X)<0) ?  (X)+map.xsize : (((X)>=map.xsize) ? (X)-map.xsize : (X)))
@@ -125,19 +123,16 @@ struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);
 enum tile_terrain_type map_get_terrain(int x, int y);
 enum tile_special_type map_get_special(int x, int y);
-void map_set_continent(int x, int y, int val);
-char map_get_continent(int x, int y);
 void map_set_terrain(int x, int y, enum tile_terrain_type ter);
 void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);
 void tile_init(struct tile *ptile);
-int map_get_known(int x, int y, struct player *pplayer);
 enum known_type tile_is_known(int x, int y);
+int map_get_known(int x, int y, struct player *pplayer);
 void map_set_known(int x, int y, struct player *pplayer);
 void map_clear_known(int x, int y, struct player *pplayer);
 void map_know_all(struct player *pplayer);
 
-void send_full_tile_info(struct player *dest, int x, int y);
 int is_water_adjacent_to_tile(int x, int y);
 int is_tiles_adjacent(int x0, int y0, int x1, int y1);
 int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2);
@@ -151,27 +146,21 @@ int terrain_is_clean(int x, int y);
 int is_at_coast(int x, int y);
 int is_water_adjacent(int x, int y);
 int is_hut_close(int x, int y);
-int same_island(int x1, int y1, int x2, int y2);
 int is_starter_close(int x, int y, int nr, int dist); 
 int is_good_tile(int x, int y);
 int is_special_close(int x, int y);
 int is_sea_usable(int x, int y);
-void reset_move_costs(int x, int y);
-
-int same_pos(int x1, int y1, int x2, int y2);
 
 void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
 void map_transform_tile(int x, int y);
 
-#define MAP_NCONT 255
-extern struct civ_map map;
-extern struct isledata islands[MAP_NCONT];
-
 int map_build_road_time(int x, int y);
 int map_build_irrigation_time(int x, int y);
 int map_build_mine_time(int x, int y);
 int map_transform_time(int x, int y);
+
+extern struct civ_map map;
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0
