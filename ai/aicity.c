@@ -65,7 +65,6 @@ static void ai_manage_buildings(struct player *pplayer)
   int corr = 0;
   memset(values, 0, sizeof(values));
   memset(pplayer->ai.tech_want, 0, sizeof(pplayer->ai.tech_want));
-  ai_eval_threat_init(pplayer);
 
   if (find_palace(pplayer) || g->corruption_level == 0) palace = TRUE;
   city_list_iterate(pplayer->cities, pcity)
@@ -137,7 +136,6 @@ static void ai_manage_buildings(struct player *pplayer)
         pcity->ai.building_want[i] += pcity->shield_stock / 2;
     } impr_type_iterate_end;
   city_list_iterate_end;
-  ai_eval_threat_done(pplayer);
 }
 
 /************************************************************************** 
