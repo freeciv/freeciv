@@ -2189,17 +2189,17 @@ Freeciv*diplomatdialog.dform.*.justify: Center
 Freeciv*diplomatdialog.dform.*.width:       160
 Freeciv*diplomatdialog.dform.dlabel.width:  320
 Freeciv*diplomatdialog.*.dlabel.borderWidth:  0
-Freeciv*diplomatdialog.*.button0.label:     _("Establish embassy")
+Freeciv*diplomatdialog.*.button0.label:     _("Establish Embassy")
 Freeciv*diplomatdialog.*.button0.fromVert:  dlabel
 Freeciv*diplomatdialog.*.button1.label:     _("Investigate City")
 Freeciv*diplomatdialog.*.button1.fromVert:  dlabel
 Freeciv*diplomatdialog.*.button1.fromHoriz: button0
-Freeciv*diplomatdialog.*.button2.label:     _("Sabotage city")
+Freeciv*diplomatdialog.*.button2.label:     _("Sabotage City")
 Freeciv*diplomatdialog.*.button2.fromVert:  button0
-Freeciv*diplomatdialog.*.button3.label:     _("Steal technology")
+Freeciv*diplomatdialog.*.button3.label:     _("Steal Technology")
 Freeciv*diplomatdialog.*.button3.fromVert:  button1
 Freeciv*diplomatdialog.*.button3.fromHoriz: button2
-Freeciv*diplomatdialog.*.button4.label:     _("Incite a revolt")
+Freeciv*diplomatdialog.*.button4.label:     _("Incite a Revolt")
 Freeciv*diplomatdialog.*.button4.fromVert:  button2
 Freeciv*diplomatdialog.*.button5.label:     _("Cancel")
 Freeciv*diplomatdialog.*.button5.fromVert:  button3
