@@ -84,6 +84,15 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 ;		     (but not bribe costs)
 ; _extra_distance  = add this to distance after applying distance factor
 
+; waste:
+
+; _level             = percentage factor applied to waste;
+; _modifier          = same as corruption modifier 
+; _fixed_distance    = used if not 0 instead of actual calculation of 
+;		              distance from Palace;  		     
+; _distance_factor   = multiply distance by this factor for waste
+; _extra_distance    = add this to distance after applying distance factor
+
 ; production_*_bonus   = added to base production for each worked tile;
 ;			 second value is used instead when city is celebrating
 ; production_*_penalty = if non-zero, tile production above this amount is 
@@ -130,6 +139,12 @@ corruption_modifier        = 27
 corruption_fixed_distance  = 5
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
+
+waste_level                = 100
+waste_modifier             = 27
+waste_fixed_distance       = 5
+waste_distance_factor      = 1 
+waste_extra_distance       = 0 
 
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
@@ -200,6 +215,12 @@ corruption_modifier        = 33
 corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 5 
+
+waste_level                = 100
+waste_modifier             = 33
+waste_fixed_distance       = 0
+waste_distance_factor      = 1 
+waste_extra_distance       = 5 
 
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
@@ -272,6 +293,12 @@ corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
 
+waste_level                = 100
+waste_modifier             = 40
+waste_fixed_distance       = 0
+waste_distance_factor      = 1 
+waste_extra_distance       = 0 
+
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -341,6 +368,12 @@ corruption_modifier        = 100
 corruption_fixed_distance  = 10
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
+
+waste_level                = 1
+waste_modifier             = 100
+waste_fixed_distance       = 10
+waste_distance_factor      = 1 
+waste_extra_distance       = 0 
 
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
@@ -420,6 +453,12 @@ corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
 
+waste_level                = 100
+waste_modifier             = 66
+waste_fixed_distance       = 0
+waste_distance_factor      = 1 
+waste_extra_distance       = 0 
+
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -498,6 +537,12 @@ corruption_modifier        = 53
 corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
+
+waste_level                = 100
+waste_modifier             = 53
+waste_fixed_distance       = 0
+waste_distance_factor      = 1 
+waste_extra_distance       = 0 
 
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0
@@ -580,6 +625,12 @@ corruption_fixed_distance  = 0
 corruption_distance_factor = 0 
 corruption_extra_distance  = 0 
 
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0 
+waste_extra_distance       = 0 
+
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -595,7 +646,7 @@ helptext = _("\
 Under Democracy, citizens govern directly by voting on issues.\
  Democracy offers the highest possible level of trade, but also\
  offers the most potential for unhappiness.  There is no corruption\
- during Democracy, but citizens become very upset during wars.\
+ or waste during Democracy, but citizens become very upset during wars.\
 \n\n\
 Settlers consume 2 food per turn under Democracy.  Squares with\
  at least 1 trade resource get a trade bonus of 1 under Democracy.\

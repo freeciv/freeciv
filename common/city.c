@@ -1915,7 +1915,8 @@ static void set_food_trade_shields(struct city *pcity)
   pcity->food_surplus = 0;
   pcity->shield_surplus = 0;
   pcity->corruption = 0;
-
+  pcity->shield_waste = 0;
+  
   city_map_iterate(x, y) {
     if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
       pcity->food_prod +=
@@ -1938,6 +1939,9 @@ static void set_food_trade_shields(struct city *pcity)
   }
   pcity->corruption = city_corruption(pcity, pcity->trade_prod);
   pcity->trade_prod -= pcity->corruption;
+
+  pcity->shield_waste = city_waste(pcity, pcity->shield_prod);
+  pcity->shield_prod -= pcity->shield_waste;
 }
 
 /**************************************************************************
@@ -2131,7 +2135,7 @@ void adjust_city_free_cost(int *num_free, int *this_cost)
 }
 
 /**************************************************************************
-corruption, corruption is halfed during love the XXX days.
+corruption, corruption is halved during love the XXX days.
 **************************************************************************/
 int city_corruption(struct city *pcity, int trade)
 {
@@ -2174,6 +2178,46 @@ int city_corruption(struct city *pcity, int trade)
   val /= 100;
   val = CLIP(trade_penalty, val, trade);
   return (val);			/* how did y'all let me forget this one? -- Syela */
+}
+
+/************************************************************************** 
+  Waste is corruption for shields 
+**************************************************************************/
+int city_waste(struct city *pcity, int shields)
+{
+  struct government *g = get_gov_pcity(pcity);
+  struct city *capital;
+  int dist;
+  int val, shield_penalty = 0;
+
+  if (g->waste_level == 0) {
+    return shield_penalty;
+  }
+  if (g->fixed_waste_distance != 0) {
+    dist = g->fixed_waste_distance;
+  } else {
+    capital = find_palace(city_owner(pcity));
+    if (!capital) {
+      dist = 36;
+    } else {
+      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      dist = MIN(36, tmp);
+    }
+  }
+  dist = dist * g->waste_distance_factor + g->extra_waste_distance;
+
+  /* Ordered to reduce integer roundoff errors */
+  val = shields * dist;
+  val *= g->waste_level;
+  val /= g->waste_modifier;
+  val /= 100;
+
+  if (city_got_building(pcity, B_COURTHOUSE)
+      || city_got_building(pcity, B_PALACE)) {
+    val /= 2;
+  }
+  val = CLIP(shield_penalty, val, shields);
+  return val;
 }
 
 /**************************************************************************

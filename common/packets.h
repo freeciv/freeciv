@@ -338,7 +338,7 @@ struct packet_city_info {
   int ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
   int ppl_elvis, ppl_scientist, ppl_taxman;
   int food_prod, food_surplus;
-  int shield_prod, shield_surplus;
+  int shield_prod, shield_surplus, shield_waste;
   int trade_prod, tile_trade, corruption;
   int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];
   int luxury_total, tax_total, science_total;
@@ -759,7 +759,14 @@ struct packet_ruleset_government {
   int fixed_corruption_distance;
   int corruption_distance_factor;
   int extra_corruption_distance;
-      
+  
+  int waste_level;
+  int waste_modifier;
+  int fixed_waste_distance;
+  int waste_distance_factor;
+  int extra_waste_distance;
+  
+  
   int flags;
   int hints;
       

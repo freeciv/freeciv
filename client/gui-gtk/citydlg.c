@@ -87,7 +87,7 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 
 #define NUM_CITIZENS_SHOWN 25
 #define NUM_CITY_OPTS 5
-#define NUM_INFO_FIELDS 10      /* number of fields in city_info */
+#define NUM_INFO_FIELDS 11      /* number of fields in city_info */
 #define NUM_PAGES 8             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
@@ -580,12 +580,13 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
   const char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
     N_("Prod:"),
     N_("Trade:"),
-    N_("Gold"),
+    N_("Gold:"),
     N_("Luxury:"),
     N_("Science:"),
     N_("Granary:"),
     N_("Change in:"),
     N_("Corruption:"),
+    N_("Waste: "),
     N_("Pollution:")
   };
 
@@ -1698,7 +1699,7 @@ static void city_dialog_update_information(GtkWidget **info_label,
   struct city *pcity = pdialog->pcity;
   int granaryturns;
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, 
-	 GRANARY, GROWTH, CORRUPTION, POLLUTION 
+	 GRANARY, GROWTH, CORRUPTION, WASTE, POLLUTION 
   };
 
   /* fill the buffers with the necessary info */
@@ -1706,7 +1707,7 @@ static void city_dialog_update_information(GtkWidget **info_label,
   my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
 	      pcity->food_prod, pcity->food_surplus);
   my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
-	      pcity->shield_prod, pcity->shield_surplus);
+	      pcity->shield_prod + pcity->shield_waste, pcity->shield_prod);
   my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
 	      pcity->trade_prod + pcity->corruption, pcity->trade_prod);
   my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
@@ -1735,6 +1736,8 @@ static void city_dialog_update_information(GtkWidget **info_label,
 
   my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%2d",
 	      pcity->corruption);
+  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%2d",
+	      pcity->shield_waste);
   my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%2d",
 	      pcity->pollution);
 

@@ -1057,6 +1057,7 @@ void create_city(struct player *pplayer, const int x, const int y,
   pcity->ai.grave_danger = 0;
   pcity->ai.already_considered_for_diplomat = FALSE;
   pcity->corruption = 0;
+  pcity->shield_waste = 0;
   pcity->shield_bonus = 100;
   pcity->tax_bonus = 100;
   pcity->science_bonus = 100;
@@ -1631,6 +1632,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->tile_trade=pcity->tile_trade;
   packet->corruption=pcity->corruption;
   
+  packet->shield_waste=pcity->shield_waste;
+    
   packet->luxury_total=pcity->luxury_total;
   packet->tax_total=pcity->tax_total;
   packet->science_total=pcity->science_total;

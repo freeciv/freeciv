@@ -1229,6 +1229,13 @@ have a capital, your cities will suffer extremely high levels of \
 corruption.)  A Courthouse will reduce the level of corruption in a \
 city.\
 "), _("\
+Waste is the loss of shields due to inefficiency and greed. \
+Under most forms of government, the farther away from the capital a \
+city is, the more shields will be lost to waste.  (If you do not \
+have a capital, your cities will suffer extremely high levels of \
+waste.)  A Courthouse will reduce the level of waste in a \
+city. Waste can result in your cities not building anything.\
+"), _("\
 TIP 1:  Offensive military campaigns are difficult under Republican \
 and Democratic governments unless you give your citizens \
 lots of luxuries to keep them happy.  When conquering other \

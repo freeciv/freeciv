@@ -394,7 +394,8 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->trade_prod=packet->trade_prod;
   pcity->tile_trade=packet->tile_trade;
   pcity->corruption=packet->corruption;
-  
+  pcity->shield_waste=packet->shield_waste;
+    
   pcity->luxury_total=packet->luxury_total;
   pcity->tax_total=packet->tax_total;
   pcity->science_total=packet->science_total;
@@ -2034,7 +2035,13 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->fixed_corruption_distance = p->fixed_corruption_distance;
   gov->corruption_distance_factor = p->corruption_distance_factor;
   gov->extra_corruption_distance = p->extra_corruption_distance;
-
+  
+  gov->waste_level           = p->waste_level;
+  gov->waste_modifier        = p->waste_modifier;
+  gov->fixed_waste_distance  = p->fixed_waste_distance;
+  gov->waste_distance_factor = p->waste_distance_factor;
+  gov->extra_waste_distance  = p->extra_waste_distance;
+  
   gov->flags               = p->flags;
   gov->hints               = p->hints;
   gov->num_ruler_titles    = p->num_ruler_titles;

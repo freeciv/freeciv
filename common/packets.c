@@ -1313,6 +1313,7 @@ int send_packet_city_info(struct connection *pc,
   dio_put_uint16(&dout, req->trade_prod);
   dio_put_uint16(&dout, req->tile_trade);
   dio_put_uint16(&dout, req->corruption);
+  dio_put_uint16(&dout, req->shield_waste);
 
   dio_put_uint16(&dout, req->luxury_total);
   dio_put_uint16(&dout, req->tax_total);
@@ -1401,7 +1402,8 @@ struct packet_city_info *receive_packet_city_info(struct connection *pc)
   dio_get_uint16(&din, &packet->trade_prod);
   dio_get_uint16(&din, &packet->tile_trade);
   dio_get_uint16(&din, &packet->corruption);
-
+  dio_get_uint16(&din, &packet->shield_waste);
+  
   dio_get_uint16(&din, &packet->luxury_total);
   dio_get_uint16(&din, &packet->tax_total);
   dio_get_uint16(&din, &packet->science_total);
@@ -2478,7 +2480,13 @@ int send_packet_ruleset_government(struct connection *pc,
   dio_put_uint8(&dout, packet->fixed_corruption_distance);
   dio_put_uint8(&dout, packet->corruption_distance_factor);
   dio_put_uint8(&dout, packet->extra_corruption_distance);
-
+  
+  dio_put_uint8(&dout, packet->waste_level);
+  dio_put_uint8(&dout, packet->waste_modifier);
+  dio_put_uint8(&dout, packet->fixed_waste_distance);
+  dio_put_uint8(&dout, packet->waste_distance_factor);
+  dio_put_uint8(&dout, packet->extra_waste_distance);
+  
   dio_put_uint16(&dout, packet->flags);
   dio_put_uint8(&dout, packet->hints);
 
@@ -2563,7 +2571,13 @@ receive_packet_ruleset_government(struct connection *pc)
   dio_get_uint8(&din, &packet->fixed_corruption_distance);
   dio_get_uint8(&din, &packet->corruption_distance_factor);
   dio_get_uint8(&din, &packet->extra_corruption_distance);
-
+  
+  dio_get_uint8(&din, &packet->waste_level);
+  dio_get_uint8(&din, &packet->waste_modifier);
+  dio_get_uint8(&din, &packet->fixed_waste_distance);
+  dio_get_uint8(&din, &packet->waste_distance_factor);
+  dio_get_uint8(&din, &packet->extra_waste_distance);
+  
   dio_get_uint16(&din, &packet->flags);
   dio_get_uint8(&din, &packet->hints);
 

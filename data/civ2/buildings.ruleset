@@ -335,7 +335,7 @@ effect		=
 sound		= "b_courthouse"
 sound_alt	= "b_generic"
 helptext	= _("\
-Reduces the corruption in a city by 50%.  Under a Democracy, a\
+Reduces the corruption and waste in a city by 50%.  Under a Democracy, a\
  Courthouse makes 1 unhappy citizen content. \
  Also halves the effective distance to the capital, for the purpose\
  of calculating revolt cost.\

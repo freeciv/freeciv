@@ -85,6 +85,15 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 ;		     (but not bribe costs)
 ; _extra_distance  = add this to distance after applying distance factor
 
+; waste:
+
+; _level             = percentage factor applied to waste;
+; _modifier          = same as corruption modifier 
+; _fixed_distance    = used if not 0 instead of actual calculation of 
+;		              distance from Palace;  		     
+; _distance_factor   = multiply distance by this factor for waste
+; _extra_distance    = add this to distance after applying distance factor
+
 ; production_*_bonus   = added to base production for each worked tile;
 ;			 second value is used instead when city is celebrating
 ; production_*_penalty = if non-zero, tile production above this amount is 
@@ -131,6 +140,12 @@ corruption_modifier        = 40
 corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
+
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0 
+waste_extra_distance       = 0 
 
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
@@ -201,6 +216,12 @@ corruption_modifier        = 27
 corruption_fixed_distance  = 0
 corruption_distance_factor = 2 
 corruption_extra_distance  = 3 
+
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0 
+waste_extra_distance       = 0 
 
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
@@ -273,6 +294,12 @@ corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
 
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0 
+waste_extra_distance       = 0 
+
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -342,6 +369,12 @@ corruption_modifier        = 80
 corruption_fixed_distance  = 10
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
+
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0 
+waste_extra_distance       = 0
 
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
@@ -419,6 +452,12 @@ corruption_modifier        = 67
 corruption_fixed_distance  = 0
 corruption_distance_factor = 1 
 corruption_extra_distance  = 0 
+
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0 
+waste_extra_distance       = 0
 
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0
@@ -500,6 +539,12 @@ corruption_modifier        = 1
 corruption_fixed_distance  = 0
 corruption_distance_factor = 0 
 corruption_extra_distance  = 0 
+
+waste_level                = 0
+waste_modifier             = 1
+waste_fixed_distance       = 0
+waste_distance_factor      = 0 
+waste_extra_distance       = 0
 
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0

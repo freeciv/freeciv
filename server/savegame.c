@@ -763,6 +763,7 @@ static void player_load(struct player *plr, int plrno,
     pcity->ai.workremain = 1; /* there's always work to be done! */
     pcity->ai.danger = -1; /* flag, may come in handy later */
     pcity->corruption = 0;
+    pcity->shield_waste = 0;
     pcity->shield_bonus = 100;
     pcity->tax_bonus = 100;
     pcity->science_bonus = 100;

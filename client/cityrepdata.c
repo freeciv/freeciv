@@ -394,6 +394,13 @@ static char *cr_entry_corruption(struct city *pcity)
   return buf;
 }
 
+static char *cr_entry_waste(struct city *pcity)
+{
+  static char buf[8];
+  my_snprintf(buf, sizeof(buf), "%3d", pcity->shield_waste);
+  return buf;
+}
+
 static char *cr_entry_cma(struct city *pcity)
 {
   return (char *) cmafec_get_short_descr_of_city(pcity);

@@ -232,7 +232,8 @@ struct city {
 
   /* the productions */
   int food_prod, food_surplus;
-  int shield_prod, shield_surplus;
+  /* Shield production is shields produced minus shield_waste*/
+  int shield_prod, shield_surplus, shield_waste; 
   int trade_prod, corruption, tile_trade;
   int shield_bonus, tax_bonus, science_bonus; /* more CPU savings! */
 
@@ -439,6 +440,7 @@ void generic_city_refresh(struct city *pcity,
 			  bool refresh_trade_route_cities);
 void adjust_city_free_cost(int *num_free, int *this_cost);
 int city_corruption(struct city *pcity, int trade);
+int city_waste(struct city *pcity, int shields);
 int city_specialists(struct city *pcity);                 /* elv+tax+scie */
 int get_temple_power(struct city *pcity);
 int get_cathedral_power(struct city *pcity);

@@ -135,6 +135,13 @@ struct government
   int   corruption_distance_factor;
   int   extra_corruption_distance;
   
+  /* waste modifiers, see governments.ruleset for more detail */
+  int   waste_level;
+  int   waste_modifier;
+  int   fixed_waste_distance;
+  int   waste_distance_factor;
+  int   extra_waste_distance;
+    
   /* other flags: bits in enum government_flag_id order,
      use government_has_flag() to access */
   int   flags;
