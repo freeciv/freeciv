@@ -57,7 +57,6 @@
 
 extern Widget toplevel, main_form, map_canvas;
 
-extern struct connection aconnection;
 extern Display	*display;
 extern int display_depth;
 extern int ai_popup_windows;

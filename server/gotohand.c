@@ -72,7 +72,7 @@ static struct refuel *refuels[MAP_MAX_WIDTH*MAP_MAX_HEIGHT]; /* enought :P */
 static unsigned int refuellist_size;
 
 static void make_list_of_refuel_points(struct player *pplayer);
-static void dealloc_refuel_stack();
+static void dealloc_refuel_stack(void);
 static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
 
 /**************************************************************************

@@ -48,7 +48,6 @@
 
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
-extern struct connection aconnection;
 extern int ai_popup_windows;
 extern GdkGC *fill_bg_gc;
 
@@ -1805,7 +1804,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 Selectes a leader and the appropriate sex.
 Updates the gui elements and the selected_* variables.
 *****************************************************************/
-static void select_random_leader()
+static void select_random_leader(void)
 {
   int j, leader_num;
   char **leaders;
@@ -1821,12 +1820,12 @@ static void select_random_leader()
   gtk_combo_set_value_in_list( GTK_COMBO(races_name), FALSE, FALSE);
   gtk_combo_set_popdown_strings( GTK_COMBO(races_name), leader_strings);
 
-  /* initalize leader names */
+  /* initialize leader names */
   selected_leader = myrand(leader_num);
   gtk_entry_set_text( GTK_ENTRY(GTK_COMBO(races_name)->entry),
 		      leaders[selected_leader]);
 
-  /* initalize leader sex */
+  /* initialize leader sex */
   selected_sex = get_nation_leader_sex(selected_nation,
 				       leaders[selected_leader]);
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
@@ -1837,7 +1836,7 @@ static void select_random_leader()
 Selectes a random race and the appropriate city style.
 Updates the gui elements and the selected_* variables.
 *****************************************************************/
-static void select_random_race()
+static void select_random_race(void)
 {
   /* try to find a free nation */
   while(1) {
@@ -1847,12 +1846,12 @@ static void select_random_race()
       break;
   }
 
-  /* initalize nation toggle array */
+  /* initialize nation toggle array */
   gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON(
 		 races_toggles[g_list_index(sorted_races_list,
 			    GINT_TO_POINTER(selected_nation))] ), TRUE );
 
-  /* initalize city style */
+  /* initialize city style */
   selected_city_style =
     city_style_ridx[get_nation_city_style(selected_nation)];
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
