@@ -274,24 +274,6 @@ struct city_dialog
 /****************************************************************
  ...
 *****************************************************************/
-static void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
-{
-  if(is_valid_city_coords(xtile, ytile))
-  {
-    struct packet_city_request packet;
-    packet.city_id = pcity->id;
-    packet.worker_x = xtile;
-    packet.worker_y = ytile;
-
-    if (pcity->city_map[xtile][ytile] == C_TILE_WORKER)
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_SPECIALIST);
-    else if (pcity->city_map[xtile][ytile] == C_TILE_EMPTY)
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
-  }
-}
-/****************************************************************
- ...
-*****************************************************************/
 static void request_city_buy(struct city *pcity)
 {
   struct packet_city_request packet;
@@ -1050,7 +1032,9 @@ static void city_click(struct city_map_msg *msg)
   int xtile = msg->click->x;
   int ytile = msg->click->y;
 
-  request_city_toggle_worker(pcity, xtile, ytile);
+  if (is_valid_city_coords(xtile, ytile)) {
+    city_toggle_worker(pcity, xtile, ytile);
+  }
 }
 
 /**************************************************************************

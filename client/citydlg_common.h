@@ -57,5 +57,6 @@ int city_change_production(struct city *pcity, bool is_unit, int build_id);
 int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id);
 int city_change_specialist(struct city *pcity, enum specialist_type from,
 			   enum specialist_type to);
+int city_toggle_worker(struct city *pcity, int city_x, int city_y);
 
 #endif /* FC__CITYDLG_COMMON_H */

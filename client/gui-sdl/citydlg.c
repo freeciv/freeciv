@@ -1911,19 +1911,7 @@ static int resource_map_city_dlg_callback(struct GUI *pMap)
 
   if (get_citymap_cr(Main.event.motion.x - pMap->size.x,
 		     Main.event.motion.y - pMap->size.y, &col, &row)) {
-    struct packet_city_request packet;
-
-    packet.city_id = pCityDlg->pCity->id;
-    packet.worker_x = col;
-    packet.worker_y = row;
-
-    if (pCityDlg->pCity->city_map[col][row] == C_TILE_WORKER) {
-      send_packet_city_request(&aconnection, &packet,
-			       PACKET_CITY_MAKE_SPECIALIST);
-    } else if (pCityDlg->pCity->city_map[col][row] == C_TILE_EMPTY) {
-      send_packet_city_request(&aconnection, &packet,
-			       PACKET_CITY_MAKE_WORKER);
-    }
+    city_toggle_worker(pCityDlg->pCity, col, row);
   }
 
   return -1;

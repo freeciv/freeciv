@@ -1884,21 +1884,9 @@ void citydlg_btn_select_citymap(Widget w, XEvent *event)
   if (pcity) {
     if (!cma_is_city_under_agent(pcity, NULL)) {
       int xtile, ytile;
-      struct packet_city_request packet;
 
-      xtile = ev->x/NORMAL_TILE_WIDTH;
-      ytile = ev->y/NORMAL_TILE_HEIGHT;
-      packet.city_id = pcity->id;
-      packet.worker_x = xtile;
-      packet.worker_y = ytile;
-    
-      if (pcity->city_map[xtile][ytile] == C_TILE_WORKER) {
-        send_packet_city_request(&aconnection, &packet, 
-   			         PACKET_CITY_MAKE_SPECIALIST);
-      } else if (pcity->city_map[xtile][ytile] == C_TILE_EMPTY) {
-        send_packet_city_request(&aconnection, &packet, 
-                                 PACKET_CITY_MAKE_WORKER);
-      }
+      canvas_pos_to_city_pos(ev->x, ev->y, &xtile, &ytile);
+      city_toggle_worker(pcity, xtile, ytile);
     }
   }
 }

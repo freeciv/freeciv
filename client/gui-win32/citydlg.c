@@ -1663,28 +1663,6 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
 /**************************************************************************
 ...
 **************************************************************************/
-
-
-static void city_dlg_click_map(struct city_dialog *pdialog, int x, int y)
-{ 
-  struct packet_city_request packet;    
-  struct city *pcity;
-  pcity=pdialog->pcity;
-  packet.city_id=pcity->id;
-  packet.worker_x=x;
-  packet.worker_y=y;
-  
-  if(pcity->city_map[x][y]==C_TILE_WORKER)
-    send_packet_city_request(&aconnection, &packet,
-			     PACKET_CITY_MAKE_SPECIALIST);
-  else if(pcity->city_map[x][y]==C_TILE_EMPTY)
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
-  
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void city_dlg_click_citizens(struct city_dialog *pdialog, int n)
 {
   enum specialist_type from, to;
@@ -1751,7 +1729,7 @@ static void city_dlg_mouse(struct city_dialog *pdialog, int x, int y,
 	  xr=x-pdialog->map.x;
 	  yr=y-pdialog->map.y;
 	  canvas_pos_to_city_pos(xr,yr,&tile_x,&tile_y);
-	  city_dlg_click_map(pdialog,tile_x,tile_y);
+	  city_toggle_worker(pdialog->pcity, tile_x, tile_y);
 	}
     }
   xr=x-pdialog->pop_x;
@@ -2265,7 +2243,7 @@ static  LONG CALLBACK happiness_proc(HWND win, UINT message,
 	canvas_pos_to_city_pos(x-pdialog->maph.x,
 			       y-pdialog->maph.y,
 			       &tile_x,&tile_y);
-	city_dlg_click_map(pdialog,tile_x,tile_y);
+	city_toggle_worker(pdialog->pcity, tile_x, tile_y);
       }
       break;
     case WM_PAINT:

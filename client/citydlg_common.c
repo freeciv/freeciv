@@ -432,3 +432,38 @@ int city_change_specialist(struct city *pcity, enum specialist_type from,
   return send_packet_city_request(&aconnection, &packet,
 				  PACKET_CITY_CHANGE_SPECIALIST);
 }
+
+/**************************************************************************
+  Toggle a worker<->specialist at the given city tile.  Return the
+  request ID.
+**************************************************************************/
+int city_toggle_worker(struct city *pcity, int city_x, int city_y)
+{
+  struct packet_city_request packet;
+  enum packet_type ptype;
+
+  assert(is_valid_city_coords(city_x, city_y));
+
+  packet.city_id = pcity->id;
+  packet.worker_x = city_x;
+  packet.worker_y = city_y;
+
+  /* Fill out unused fields. */
+  packet.build_id = -1;
+  packet.is_build_id_unit_id = FALSE;
+  packet.specialist_from = packet.specialist_to = -1;
+
+  if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
+    ptype = PACKET_CITY_MAKE_SPECIALIST;
+  } else if (pcity->city_map[city_x][city_y] == C_TILE_EMPTY) {
+    ptype = PACKET_CITY_MAKE_WORKER;
+  } else {
+    return 0;
+  }
+
+  freelog(LOG_DEBUG, "city_toggle_worker(city='%s'(%d), x=%d, y=%d, %s)",
+	  pcity->name, pcity->id, city_x, city_y,
+	  (ptype == PACKET_CITY_MAKE_SPECIALIST) ? "clear" : "set");
+
+  return send_packet_city_request(&aconnection, &packet, ptype);
+}

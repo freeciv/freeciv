@@ -149,24 +149,6 @@ static bool results_are_equal(struct city *pcity,
 #undef T
 
 /****************************************************************************
- Simple send_packet_* wrapper. Will return the id of the request.
-*****************************************************************************/
-static int set_worker(struct city *pcity, int x, int y, bool set_clear)
-{
-  struct packet_city_request packet;
-
-  freelog(LOG_DEBUG, "set_worker(city='%s'(%d), x=%d, y=%d, %s)",
-	  pcity->name, pcity->id, x, y, set_clear ? "set" : "clear");
-
-  packet.city_id = pcity->id;
-  packet.worker_x = x;
-  packet.worker_y = y;
-  return send_packet_city_request(&aconnection, &packet,
-				  (set_clear ? PACKET_CITY_MAKE_WORKER :
-				   PACKET_CITY_MAKE_SPECIALIST));
-}
-
-/****************************************************************************
  Print the current state of the given city via
  freelog(LOG_NORMAL,...).
 *****************************************************************************/
@@ -383,7 +365,7 @@ static bool apply_result_on_server(struct city *pcity,
   my_city_map_iterate(pcity, x, y) {
     if ((pcity->city_map[x][y] == C_TILE_WORKER) &&
 	!result->worker_positions_used[x][y]) {
-      last_request_id = set_worker(pcity, x, y, FALSE);
+      last_request_id = city_toggle_worker(pcity, x, y);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
@@ -412,7 +394,8 @@ static bool apply_result_on_server(struct city *pcity,
   my_city_map_iterate(pcity, x, y) {
     if (result->worker_positions_used[x][y] &&
 	pcity->city_map[x][y] != C_TILE_WORKER) {
-      last_request_id = set_worker(pcity, x, y, TRUE);
+      assert(pcity->city_map[x][y] == C_TILE_EMPTY);
+      last_request_id = city_toggle_worker(pcity, x, y);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
