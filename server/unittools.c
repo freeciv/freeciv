@@ -2199,12 +2199,12 @@ static void server_remove_unit(struct unit *punit)
   }
 
   packet.value = punit->id;
-  /* FIXME: maybe we should only send to those players who can see the unit,
-     as the client automatically removes any units in a fogged square, and
-     the send_unit_info() only sends units who are in non-fogged square.
-     Leaving for now. */
-  lsend_packet_generic_integer(&game.game_connections, PACKET_REMOVE_UNIT,
-			       &packet);
+  players_iterate(pplayer) {
+    if (map_get_known_and_seen(punit_x, punit_y, pplayer->player_no)) {
+      lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_UNIT,
+				   &packet);
+    }
+  } players_iterate_end;
 
   game_remove_unit(punit->id);  
 
