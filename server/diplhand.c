@@ -60,13 +60,13 @@ static int check_packet(struct packet_diplomacy_info *packet, int check_other)
     freelog(LOG_ERROR, "plrno_from is %d >= game.nplayers (%d).",
 	    packet->plrno_from, game.nplayers);
     return 0;
+  }
 
-    if (packet->plrno_from != packet->plrno0
-	&& packet->plrno_from != packet->plrno1) {
-      freelog(LOG_ERROR, "plrno_from(%d) != plrno0(%d) and plrno1(%d)",
-	      packet->plrno_from, packet->plrno0, packet->plrno1);
-      return 0;
-    }
+  if (packet->plrno_from != packet->plrno0
+      && packet->plrno_from != packet->plrno1) {
+    freelog(LOG_ERROR, "plrno_from(%d) != plrno0(%d) and plrno1(%d)",
+	    packet->plrno_from, packet->plrno0, packet->plrno1);
+    return 0;
   }
 
   return 1;
