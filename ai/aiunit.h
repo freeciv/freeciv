@@ -34,8 +34,6 @@
 #define IS_ATTACKER(punit) \
   (unit_type(punit)->attack_strength \
         > unit_type(punit)->transport_capacity)
-#define COULD_OCCUPY(punit) \
-  (is_ground_unit(punit) || is_heli_unit(punit))
 #define HOSTILE_PLAYER(pplayer, ai, aplayer) \
   (pplayers_at_war(pplayer, aplayer)         \
    || ai->diplomacy.target == aplayer)

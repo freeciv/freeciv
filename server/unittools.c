@@ -2920,6 +2920,27 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 }
 
 /**************************************************************************
+  Maybe cancel the goto if there is an enemy in the way
+**************************************************************************/
+static bool maybe_cancel_goto_due_to_enemy(struct unit *punit, 
+                                           int x, int y)
+{
+  struct player *pplayer = unit_owner(punit);
+  struct tile *ptile = map_get_tile(x, y);
+  
+  if (is_non_allied_unit_tile(ptile, pplayer) 
+      || is_non_allied_city_tile(ptile, pplayer)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                     _("Game: %s aborted GOTO "
+                       "as there are units in the way."),
+                     unit_type(punit)->name);
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Maybe cancel the patrol as there is an enemy near.
 
   If you modify the wakeup range you should change it in
@@ -3003,9 +3024,14 @@ enum goto_result goto_route_execute(struct unit *punit)
       return GR_FAILED;
     }
 
-    /* Move unit */
     last_tile = (((index + 1) % pgr->length) == (pgr->last_index));
-    freelog(LOG_DEBUG, "handling\n");
+
+    if (punit->activity == ACTIVITY_GOTO && !last_tile 
+        && maybe_cancel_goto_due_to_enemy(punit, x, y)) {
+      return GR_FAILED;
+    }
+
+    /* Move unit */
     res = handle_unit_move_request(punit, x, y, FALSE, !last_tile);
 
     if (!player_find_unit_by_id(pplayer, unitid)) {

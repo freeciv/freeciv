@@ -232,6 +232,8 @@ bool is_sailing_unit(struct unit *punit);
 bool is_air_unit(struct unit *punit);
 bool is_heli_unit(struct unit *punit);
 bool is_ground_unit(struct unit *punit);
+#define COULD_OCCUPY(punit) \
+  ((is_ground_unit(punit) || is_heli_unit(punit)) && is_military_unit(punit))
 bool can_unit_add_to_city (struct unit *punit);
 bool can_unit_build_city (struct unit *punit);
 bool can_unit_add_or_build_city (struct unit *punit);

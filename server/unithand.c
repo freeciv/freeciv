@@ -928,26 +928,38 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
 
   FIXME: This function needs a good cleaning.
 **************************************************************************/
-bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
-			     bool igzoc, bool move_diplomat_city)
+bool handle_unit_move_request(struct unit *punit, int x, int y,
+                              bool igzoc, bool move_diplomat_city)
 {
   struct player *pplayer = unit_owner(punit);
-  struct tile *pdesttile = map_get_tile(dest_x, dest_y);
-  struct unit *pdefender = get_defender(punit, dest_x, dest_y);
+  struct tile *pdesttile = map_get_tile(x, y);
   struct city *pcity = pdesttile->city;
 
-  if (!is_normal_map_pos(dest_x, dest_y)) {
+  /*** Phase 1: Basic checks ***/
+
+  if (!is_normal_map_pos(x, y)) {
     return FALSE;
   }
 
   /* this occurs often during lag, and to the AI due to some quirks -- Syela */
-  if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
+  if (!is_tiles_adjacent(punit->x, punit->y, x, y)) {
     freelog(LOG_DEBUG, "tiles not adjacent in move request");
     return FALSE;
   }
 
-  if (unit_flag(punit, F_TRADE_ROUTE) && pcity && pcity->owner != punit->owner
-      && !pplayers_allied(city_owner(pcity), unit_owner(punit))
+
+  if (punit->moves_left<=0)  {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                     _("Game: This unit has no moves left."));
+    return FALSE;
+  }
+
+  /*** Phase 2: Special abilities checks ***/
+
+  /* Caravans.  If city is allied (inc. ours) we would have a popup
+   * asking if we are moving on. */
+  if (unit_flag(punit, F_TRADE_ROUTE) && pcity
+      && !pplayers_allied(city_owner(pcity), pplayer)
       && punit->homecity != 0) {
     struct packet_unit_request req;
     req.unit_id = punit->id;
@@ -956,61 +968,66 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     return handle_unit_establish_trade(pplayer, &req);
   }
 
-  /* Pop up a diplomat action dialog in the client.  If the AI has used
-     a goto to send a diplomat to a target do not pop up a dialog in
-     the client.  For allied cities, keep moving if move_diplomat_city
-     tells us to, or if the unit is on goto and the city is not the
-     final destination.
-  */
-  if (is_diplomat_unit(punit)
-      && (is_non_allied_unit_tile(pdesttile, pplayer)
-	  || is_non_allied_city_tile(pdesttile, pplayer)
-	  || !move_diplomat_city)) {
-    if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
-				     dest_x, dest_y)) {
-      struct packet_diplomat_action packet;
+  /* Diplomats. Pop up a diplomat action dialog in the client.  
+   * If the AI has used a goto to send a diplomat to a target do not 
+   * pop up a dialog in the client.  
+   * For allied cities, keep moving if move_diplomat_city tells us to, 
+   * or if the unit is on goto and the city is not the final destination. */
+  if (is_diplomat_unit(punit)) {
+    struct unit *target = is_non_allied_unit_tile(pdesttile, pplayer);
 
-      if (pplayer->ai.control) {
-	return FALSE;
+    if (target || is_non_allied_city_tile(pdesttile, pplayer)
+        || !move_diplomat_city) {
+      if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION, x, y)) {
+        struct packet_diplomat_action packet;
+        
+        if (pplayer->ai.control) {
+          return FALSE;
+        }
+        
+        /* If we didn't send_unit_info the client would sometimes
+         * think that the diplomat didn't have any moves left and so
+         * don't pop up the box.  (We are in the middle of the unit
+         * restore cycle when doing goto's, and the unit's movepoints
+         * have been restored, but we only send the unit info at the
+         * end of the function.) */
+        send_unit_info(pplayer, punit);
+        
+        /* if is_diplomat_action_available() then there must be 
+         * a city or a unit */
+        if (pcity) {
+          packet.target_id = pcity->id;
+        } else if (target) {
+          packet.target_id = target->id;
+        } else {
+          die("Bug in unithand.c: no diplomat target.");
+        }
+        packet.diplomat_id = punit->id;
+        packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
+        lsend_packet_diplomat_action(player_reply_dest(pplayer), &packet);
+        return FALSE;
+      } else if (!can_unit_move_to_tile(punit, x, y, igzoc)) {
+        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                         is_ocean(map_get_terrain(punit->x, punit->y))
+                         ? _("Game: Unit must be on land to "
+                             "perform diplomatic action.")
+                         : _("Game: No diplomat action possible."));
+        return FALSE;
       }
-
-      /* If we didn't send_unit_info the client would sometimes think that
-	 the diplomat didn't have any moves left and so don't pop up the box.
-	 (We are in the middle of the unit restore cycle when doing goto's, and
-	 the unit's movepoints have been restored, but we only send the unit
-	 info at the end of the function.) */
-      send_unit_info(pplayer, punit);
-
-      /* if is_diplomat_action_available() then there must be a city or a unit */
-      if (pcity) {
-	packet.target_id = pcity->id;
-      } else if (pdefender) {
-	packet.target_id = pdefender->id;
-      } else {
-	die("Bug in unithand.c: no diplomat target.");
-      }
-      packet.diplomat_id = punit->id;
-      packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
-      lsend_packet_diplomat_action(player_reply_dest(pplayer), &packet);
-      return FALSE;
-    } else if (!can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       is_ocean(map_get_terrain(punit->x, punit->y))
-		       ? _("Game: Unit must be on land to "
-			   "perform diplomatic action.")
-		       : _("Game: No diplomat action possible."));
-      return FALSE;
     }
   }
 
-  /*** Try to attack if there is an enemy unit on the target tile ***/
-  if (pdefender
-      && pplayers_at_war(unit_owner(punit), unit_owner(pdefender))) {
-    if (pcity && !pplayers_at_war(city_owner(pcity), unit_owner(punit))) {
+  /*** Phase 3: Is it attack? ***/
+
+  if (is_non_allied_unit_tile(pdesttile, pplayer) 
+      || is_non_allied_city_tile(pdesttile, pplayer)) {
+    struct unit *victim;
+
+    /* We can attack ONLY in enemy cities */
+    if (pcity && !pplayers_at_war(city_owner(pcity), pplayer)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: Can't attack %s's unit in the city of %s "
+		       _("Game: Can't attack %s "
 			 "because you are not at war with %s."),
-		       unit_owner(pdefender)->name,
 		       pcity->name,
 		       city_owner(pcity)->name);
       how_to_declare_war(pplayer);
@@ -1018,85 +1035,58 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     }
 
     /* Tile must contain ONLY enemy units. */
-    unit_list_iterate(pdesttile->units, aunit) {
-      if (!pplayers_at_war(unit_owner(aunit), unit_owner(punit))) {
-        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		         _("Game: Can't attack %s's unit since it is "
-			   "stacked with %s's unit(s) and you are not "
-                           "at war with %s."), 
-                         unit_owner(pdefender)->name,
-                         unit_owner(aunit)->name, 
-                         unit_owner(aunit)->name);
-        how_to_declare_war(pplayer);
-        return FALSE;
-      }
-    } unit_list_iterate_end;
-
-    if (!can_unit_attack_unit_at_tile(punit, pdefender, dest_x , dest_y)) {
+    if ((victim = is_non_attack_unit_tile(pdesttile, pplayer))) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-  		       _("Game: You can't attack there."));
-      return FALSE;
-    }
- 
-    if (punit->moves_left<=0)  {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
- 		       _("Game: This unit has no moves left."));
-      return FALSE;
-    }
-
-    /* FIXME: This code will never activate for AI players, and for
-     * human players the server-side goto implementation should be
-     * obsoleted for client usage. So in time, remove the code below. */
-    if (punit->activity == ACTIVITY_GOTO && 
-        !same_pos(goto_dest_x(punit), goto_dest_y(punit), dest_x, dest_y)) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
- 		       _("Game: %s aborted GOTO as there are units in the way."),
- 		       unit_type(punit)->name);
-      return FALSE;
-    }
- 
-    handle_unit_attack_request(punit, pdefender);
-    return TRUE;
-  } /* End attack case */
- 
-  /* There are no players we are at war with at desttile. But if there
-     is a unit we have a treaty!=alliance with we can't move there */
-  pdefender = is_non_allied_unit_tile(pdesttile, unit_owner(punit));
-  if (pdefender) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: No war declared against %s, cannot attack."),
-		     unit_owner(pdefender)->name);
-    how_to_declare_war(pplayer);
-    return FALSE;
-  }
-
-  /* If there is a city it is empty.
-     If not it would have been caught in the attack case. */
-  if (pcity && !pplayers_allied(city_owner(pcity), unit_owner(punit))) {
-    if (is_air_unit(punit) || !is_military_unit(punit) || is_sailing_unit(punit)) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: Only ground troops can take over "
-			 "a city."));
-      return FALSE;
-    }
-
-    if (!pplayers_at_war(city_owner(pcity), unit_owner(punit))) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: No war declared against %s, cannot take "
-			 "over city."), city_owner(pcity)->name);
+                       _("Game: Can't attack %s's unit"
+			 "because you are not at war with %s."),
+                       unit_owner(victim)->name,
+                       unit_owner(victim)->name);
       how_to_declare_war(pplayer);
       return FALSE;
     }
-  }
 
-  /******* ok now move the unit *******/
-  if (can_unit_move_to_tile_with_notify(punit, dest_x, dest_y, igzoc)
-      && try_move_unit(punit, dest_x, dest_y)) {
-    int move_cost = map_move_cost(punit, dest_x, dest_y);
-    /* The ai should assign the relevant units itself, but for now leave this */
+    /* The attack is legal wrt the alliances */
+    victim = get_defender(punit, x, y);
+
+    if (victim) {
+      /* Must be physically able to attack EVERY unit there */
+      unit_list_iterate(pdesttile->units, aunit) {
+        if (!can_unit_attack_unit_at_tile(punit, aunit, x, y)) {
+          notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                           _("Game: You can't attack there."));
+          return FALSE;
+        }
+      } unit_list_iterate_end;
+      
+      handle_unit_attack_request(punit, victim);
+      return TRUE;
+    } else {
+      assert(is_enemy_city_tile(pdesttile, pplayer));
+
+      /* If there is an enemy city it is empty.
+       * If not it would have been caught in the attack case. 
+       * FIXME: Move this check into test_unit_move_tile */
+      if (!COULD_OCCUPY(punit)) {
+        notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                         _("Game: This type of troops cannot "
+                           "take over a city."));
+        return FALSE;
+      }
+      /* Taking over a city is considered a move, so fall through */
+    }
+  } 
+
+  /*** Phase 4: OK now move the unit ***/
+
+  if (can_unit_move_to_tile_with_notify(punit, x, y, igzoc)
+      && try_move_unit(punit, x, y)) {
+    int move_cost = map_move_cost(punit, x, y);
+
+    /* The AI should assign the relevant units itself, 
+     * but for now leave this */
     bool take_from_land = punit->activity == ACTIVITY_IDLE;
 
-    (void) move_unit(punit, dest_x, dest_y, TRUE, take_from_land, move_cost);
+    (void) move_unit(punit, x, y, TRUE, take_from_land, move_cost);
 
     return TRUE;
   } else {
