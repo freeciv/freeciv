@@ -695,7 +695,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 	    get_tech_name(cplayer, target));
   }
 
-  gamelog(GAMELOG_TECH, pplayer, cplayer, target, "steals");
+  gamelog(GAMELOG_TECH, pplayer, cplayer, target, "steal");
 
   /* Update stealing player's science progress and research fields */
   send_player_info(pplayer, pplayer);

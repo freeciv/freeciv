@@ -153,7 +153,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 	notify_player_ex(pplayer, NULL, E_TECH_GAIN,
 			 _("Game: %s acquired from %s!"),
 			 get_tech_name(pplayer, i), buf);
-        gamelog(GAMELOG_TECH, pplayer, NULL, i, "steals");
+        gamelog(GAMELOG_TECH, pplayer, NULL, i, "steal");
 	notify_embassies(pplayer, NULL,
 			 _("Game: The %s have acquired %s from %s."),
 			 get_nation_name_plural(pplayer->nation),
@@ -730,7 +730,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     } tech_type_iterate_end;
     assert(stolen_tech != A_NONE);
   }
-  gamelog(GAMELOG_TECH, pplayer, target, stolen_tech, "steals");
+  gamelog(GAMELOG_TECH, pplayer, target, stolen_tech, "steal");
 
   notify_player_ex(pplayer, NULL, E_TECH_GAIN,
 		   _("Game: You steal %s from the %s."),
