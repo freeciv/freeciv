@@ -34,6 +34,7 @@
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -44,11 +45,6 @@
 #include "tilespec.h"
 
 #include "spaceshipdlg.h"
-
-extern GdkGC *civ_gc, *fill_bg_gc;
-
-extern GtkWidget *toplevel;
-extern GdkWindow *root_window;
 
 struct spaceship_dialog {
   struct player *pplayer;

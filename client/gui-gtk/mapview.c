@@ -44,6 +44,7 @@
 #include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */
 #include "goto.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
 #include "options.h"
@@ -73,58 +74,11 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 #define EXTRA_BOTTOM_ROW 1
 #endif
 
-extern GtkWidget *	main_frame_civ_name;
-extern GtkWidget *	main_label_info;
-extern GtkWidget *	econ_label			[10];
-extern GtkWidget *	bulb_label;
-extern GtkWidget *	sun_label;
-extern GtkWidget *	flake_label;
-extern GtkWidget *	government_label;
-extern GtkWidget *	timeout_label;
-extern GtkWidget *	turn_done_button;
-
-extern GtkWidget *	unit_info_frame, *unit_info_label;
-
-extern GtkWidget *	map_canvas;			/* GtkDrawingArea */
-extern GtkWidget *	overview_canvas;		/* GtkDrawingArea */
-
-extern GtkWidget *	map_vertical_scrollbar, *map_horizontal_scrollbar;
-
-/* this pixmap acts as a backing store for the map_canvas widget */
-extern GdkPixmap *	map_canvas_store;
-extern int		map_canvas_store_twidth, map_canvas_store_theight;
-
-/* this pixmap acts as a backing store for the overview_canvas widget */
-extern GdkPixmap *	overview_canvas_store;
-extern int		overview_canvas_store_width, overview_canvas_store_height;
-
-/* this pixmap is used when moving units etc */
-extern GdkPixmap *	single_tile_pixmap;
-extern int		single_tile_pixmap_width, single_tile_pixmap_height;
-
-extern GdkPixmap *gray50,*gray25,*black50;
-extern int city_workers_color;
-
 /* contains the x0, y0 coordinates of the upper left corner block */
 int map_view_x0, map_view_y0;
 
 /* used by map_canvas expose func */ 
 int force_full_repaint;
-
-
-extern GtkWidget *	toplevel;
-extern GdkWindow *	root_window;
-
-extern GdkGC *		civ_gc;
-extern GdkGC *		fill_bg_gc;
-extern GdkGC *		fill_tile_gc;
-extern GdkGC *          thin_line_gc, *thick_line_gc;
-
-extern GdkGC *		mask_fg_gc;
-extern GdkGC *		mask_bg_gc;
-
-extern GdkFont *	main_font;
-extern GdkFont *city_productions_font;
 
 #ifdef ISOMETRIC
 /* T: area above the actual tile.
@@ -190,14 +144,7 @@ static void show_city_descriptions(void);
 GdkPixmap *scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
-extern SPRITE *intro_gfx_sprite;
-extern SPRITE *radar_gfx_sprite;
-extern GdkCursor *goto_cursor;
-extern GdkCursor *drop_cursor;
-extern GdkCursor *nuke_cursor;
-extern GdkCursor *patrol_cursor;
-
-GtkObject *		map_hadj, *map_vadj;
+static GtkObject *map_hadj, *map_vadj;
 
 #ifdef ISOMETRIC
 

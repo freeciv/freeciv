@@ -20,11 +20,10 @@
 
 #include "fcintl.h"
 
+#include "gui_main.h"
 #include "gui_stuff.h"
 
 #include "inputdlg.h"
-
-extern GtkWidget *toplevel;
 
 /****************************************************************
 ...

@@ -35,26 +35,24 @@
 #include "cityrep.h"
 #include "dialogs.h"
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "options.h"
 
 #include "ratesdlg.h"
 #include "optiondlg.h"
 
-extern	GtkWidget *toplevel;
-
-
 /******************************************************************/
-GtkWidget	*rates_dialog_shell;
-GtkWidget	*rates_gov_label;
-GtkWidget	*rates_tax_toggle, *rates_lux_toggle, *rates_sci_toggle;
-GtkWidget	*rates_tax_label, *rates_lux_label, *rates_sci_label;
-GtkObject	*rates_tax_adj, *rates_lux_adj, *rates_sci_adj;
+static GtkWidget *rates_dialog_shell;
+static GtkWidget *rates_gov_label;
+static GtkWidget *rates_tax_toggle, *rates_lux_toggle, *rates_sci_toggle;
+static GtkWidget *rates_tax_label, *rates_lux_label, *rates_sci_label;
+static GtkObject *rates_tax_adj, *rates_lux_adj, *rates_sci_adj;
 
-guint		 rates_tax_sig, rates_lux_sig, rates_sci_sig;
+static guint      rates_tax_sig, rates_lux_sig, rates_sci_sig;
 /******************************************************************/
 
-int rates_tax_value, rates_lux_value, rates_sci_value;
+static int rates_tax_value, rates_lux_value, rates_sci_value;
 
 
 void rates_changed_callback(GtkAdjustment *adj);

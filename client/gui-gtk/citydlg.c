@@ -40,6 +40,7 @@
 #include "clinet.h"
 #include "dialogs.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -52,12 +53,6 @@
 #include "citydlg.h"
 
 #include "cityicon.ico"
-
-extern GtkWidget *toplevel;
-extern GdkWindow *root_window;
-extern int map_view_x0, map_view_y0;
-extern GdkGC *fill_bg_gc;
-extern GdkGC *civ_gc;
 
 #define NUM_UNITS_SHOWN  12
 #define NUM_CITIZENS_SHOWN 25

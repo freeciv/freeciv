@@ -34,14 +34,12 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "optiondlg.h"
 
 #include "repodlgs.h"
-
-extern GtkWidget *toplevel;
-extern GdkWindow *root_window;
 
 /******************************************************************/
 

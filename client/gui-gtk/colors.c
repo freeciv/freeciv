@@ -17,6 +17,9 @@
 #include <gdk_imlib.h>
 
 #include "log.h"
+
+#include "gui_main.h"
+
 #include "colors.h"
 
 struct rgbtriple {
@@ -45,9 +48,7 @@ struct rgbtriple {
   {198, 198, 198},  /* race13 */
 };
 
-GdkColor	*colors_standard [COLOR_STD_LAST];
-
-extern GtkWidget *toplevel;
+GdkColor *colors_standard [COLOR_STD_LAST];
 
 /*************************************************************
 ...

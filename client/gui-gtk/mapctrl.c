@@ -37,6 +37,7 @@
 #include "dialogs.h"
 #include "goto.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
@@ -44,18 +45,10 @@
 
 #include "mapctrl.h"
 
-extern int map_view_x0, map_view_y0;
-extern int map_canvas_store_twidth, map_canvas_store_theight;
-extern int overview_canvas_store_width, overview_canvas_store_height;
-
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
 int city_workers_color=COLOR_STD_WHITE;
-
-extern GtkWidget *map_canvas;
-extern GtkWidget *toplevel;
-extern GtkWidget *turn_done_button;
 
 /**************************************************************************
 ...

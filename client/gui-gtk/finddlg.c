@@ -27,17 +27,16 @@
 #include "player.h"
 
 #include "dialogs.h"
+#include "gui_main.h"
 #include "mapview.h"
 
 #include "finddlg.h"
 
-extern GtkWidget *toplevel;
-
-GtkWidget *find_dialog_shell;
-GtkWidget *find_label;
-GtkWidget *find_list;
-GtkWidget *find_center_command;
-GtkWidget *find_cancel_command;
+static GtkWidget *find_dialog_shell;
+static GtkWidget *find_label;
+static GtkWidget *find_list;
+static GtkWidget *find_center_command;
+static GtkWidget *find_cancel_command;
 
 void update_find_dialog(GtkWidget *find_list);
 

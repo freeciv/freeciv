@@ -35,6 +35,7 @@
 #include "citydlg.h"
 #include "cityrepdata.h"
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
@@ -43,10 +44,6 @@
 #include "climisc.h"
 
 #include "cityrep.h"
-
-extern GtkWidget *toplevel;
-
-extern int delay_report_update;
 
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 
@@ -57,8 +54,6 @@ GtkWidget *config_toggle[NUM_CREPORT_COLS];
 void create_city_report_config_dialog(void);
 void popup_city_report_config_dialog(void);
 void config_ok_command_callback(GtkWidget *widget, gpointer data);
-
-
 
 /******************************************************************/
 void create_city_report_dialog(int make_modal);

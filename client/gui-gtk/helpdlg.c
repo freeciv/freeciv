@@ -38,6 +38,7 @@
 #include "climisc.h"
 #include "colors.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdata.h"
 #include "tilespec.h"
@@ -47,36 +48,33 @@
 #define TECH_TREE_DEPTH         20
 #define TECH_TREE_EXPANDED_DEPTH 2
 
-extern GtkWidget *toplevel;
-extern GdkWindow *root_window;
-
 /*
  * Globals.
  */
-GtkWidget *		help_dialog_shell;
-GtkWidget *		help_clist;
-GtkWidget *		help_clist_scrolled;
-GtkWidget *		help_frame;
-GtkWidget *		help_text;
-GtkWidget *		help_text_scrolled;
-GtkWidget *		help_vbox;
-GtkWidget *		unit_tile;
-GtkWidget *		help_box;
-GtkWidget *		help_itable;
-GtkWidget *		help_wtable;
-GtkWidget *		help_utable;
-GtkWidget *		help_ttable;
-GtkWidget *		help_tree;
-GtkWidget *		help_tree_scrolled;
-GtkWidget *             help_tree_expand;
-GtkWidget *             help_tree_expand_unknown;
-GtkWidget *             help_tree_collapse;
-GtkWidget *             help_tree_reset;
-GtkWidget *             help_tree_buttons_hbox;
-GtkWidget *		help_ilabel	[6];
-GtkWidget *		help_wlabel	[6];
-GtkWidget *		help_ulabel	[5][5];
-GtkWidget *		help_tlabel	[4][5];
+static GtkWidget * help_dialog_shell;
+static GtkWidget * help_clist;
+static GtkWidget * help_clist_scrolled;
+static GtkWidget * help_frame;
+static GtkWidget * help_text;
+static GtkWidget * help_text_scrolled;
+static GtkWidget * help_vbox;
+static GtkWidget * unit_tile;
+static GtkWidget * help_box;
+static GtkWidget * help_itable;
+static GtkWidget * help_wtable;
+static GtkWidget * help_utable;
+static GtkWidget * help_ttable;
+static GtkWidget * help_tree;
+static GtkWidget * help_tree_scrolled;
+static GtkWidget * help_tree_expand;
+static GtkWidget * help_tree_expand_unknown;
+static GtkWidget * help_tree_collapse;
+static GtkWidget * help_tree_reset;
+static GtkWidget * help_tree_buttons_hbox;
+static GtkWidget * help_ilabel[6];
+static GtkWidget * help_wlabel[6];
+static GtkWidget * help_ulabel[5][5];
+static GtkWidget * help_tlabel[4][5];
 
 typedef struct help_tree_node {
   int tech;

@@ -34,20 +34,19 @@
 #include "civclient.h"
 #include "control.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
 #include "gotodlg.h"
 
-extern GtkWidget *toplevel;
-
-GtkWidget *goto_dialog_shell;
-GtkWidget *goto_label;
-GtkWidget *goto_list;
-GtkWidget *goto_center_command;
-GtkWidget *goto_airlift_command;
-GtkWidget *goto_all_toggle;
-GtkWidget *goto_cancel_command;
+static GtkWidget *goto_dialog_shell;
+static GtkWidget *goto_label;
+static GtkWidget *goto_list;
+static GtkWidget *goto_center_command;
+static GtkWidget *goto_airlift_command;
+static GtkWidget *goto_all_toggle;
+static GtkWidget *goto_cancel_command;
 
 void update_goto_dialog			(GtkWidget *goto_list);
 

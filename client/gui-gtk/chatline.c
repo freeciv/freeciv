@@ -24,11 +24,10 @@
 #include "support.h"
 
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 
 #include "chatline.h"
-
-extern GtkWidget *text_scrollbar, *main_message_area;
 
 /**************************************************************************
 ...

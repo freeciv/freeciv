@@ -17,8 +17,6 @@
 
 #include "graphics_g.h"
 
-typedef struct	Sprite			SPRITE;
-
 struct Sprite
 {
   GdkPixmap *pixmap;
@@ -28,7 +26,15 @@ struct Sprite
   int	     height;
 };
 
+typedef struct Sprite SPRITE;
 
 void	create_overlay_unit	(GtkWidget *pixcomm, int i);
+
+extern SPRITE *    intro_gfx_sprite;
+extern SPRITE *    radar_gfx_sprite;
+extern GdkCursor * goto_cursor;
+extern GdkCursor * drop_cursor;
+extern GdkCursor * nuke_cursor;
+extern GdkCursor * patrol_cursor;
 
 #endif  /* FC__GRAPHICS_H */

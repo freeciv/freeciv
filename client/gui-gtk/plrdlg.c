@@ -31,15 +31,12 @@
 #include "chatline.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "inteldlg.h"
 #include "spaceshipdlg.h"
 
 #include "plrdlg.h"
-
-
-extern GdkWindow *root_window;
-extern GtkWidget *toplevel;
 
 static GtkWidget *players_dialog_shell;
 static GtkWidget *players_list;
@@ -51,7 +48,6 @@ static GtkWidget *players_vision_command;
 static GtkWidget *players_sship_command;
 
 static int list_index_to_player_index[MAX_NUM_PLAYERS];
-
 
 static void create_players_dialog(void);
 static void players_button_callback(GtkWidget *w, gpointer data);

@@ -24,13 +24,9 @@
 #include "fcintl.h"
 #include "mem.h"
 
-#include "gui_stuff.h"
-		 
-extern GdkWindow *root_window;
+#include "gui_main.h"
 
-extern GdkGC *mask_fg_gc;
-extern GdkGC *mask_bg_gc;
-extern GdkGC *civ_gc;
+#include "gui_stuff.h"
 
 /**************************************************************************
 ...

@@ -33,23 +33,20 @@
 #include "citydlg.h"
 #include "clinet.h"
 #include "colors.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "options.h"
 
 #include "messagewin.h"
 
-extern GtkWidget *toplevel;
-
-GtkWidget *meswin_dialog_shell;
-GtkWidget *meswin_list;
-GtkWidget *meswin_close_command;
-GtkWidget *meswin_int_command;
-GtkWidget *meswin_meet_command;
-GtkWidget *meswin_goto_command;
-GtkWidget *meswin_popcity_command;
-GtkStyle *meswin_visited_style;
-GtkStyle *meswin_not_visited_style;
+static GtkWidget *meswin_dialog_shell;
+static GtkWidget *meswin_list;
+static GtkWidget *meswin_close_command;
+static GtkWidget *meswin_goto_command;
+static GtkWidget *meswin_popcity_command;
+static GtkStyle *meswin_visited_style;
+static GtkStyle *meswin_not_visited_style;
 
 void create_meswin_dialog(void);
 void meswin_scroll_down(void);

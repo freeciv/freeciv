@@ -30,15 +30,14 @@
 #include "support.h"
 
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
 #include "inteldlg.h"
 
-extern GtkWidget *toplevel;
-
 /******************************************************************/
-GtkWidget *intel_dialog_shell;
+static GtkWidget *intel_dialog_shell;
 /******************************************************************/
 
 

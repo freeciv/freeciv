@@ -39,66 +39,61 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "options.h"
 #include "tilespec.h"
 
 #include "dialogs.h"
-
-
-extern GtkWidget *toplevel;
-extern GdkWindow *root_window;
-extern int ai_popup_windows;
-extern GdkGC *fill_bg_gc;
 
 /******************************************************************/
 static gint popup_mes_del_callback(GtkWidget *widget, GdkEvent *event,
 				   gpointer data);
 
 /******************************************************************/
-GtkWidget	*races_dialog_shell=NULL;
-GtkWidget	*races_toggles_form;
-GtkWidget       *races_sex_toggles_form;
-GtkWidget       *city_style_toggles_form;
-GtkWidget	*races_ok_command;		/* ok button */
-GtkWidget	*races_disc_command=NULL;	/* disc button */
-GtkWidget	*races_quit_command=NULL;	/* quit button */
-GtkWidget	**races_toggles=NULL,		/* toggle race */
-                *races_sex_toggles       [2],   /* Male/Female */
-                **city_style_toggles = NULL,
-		*races_name;			/* leader name */
-GList           *leader_strings = NULL;
-GList           *sorted_races_list = NULL; /* contains a list of race
+static GtkWidget  *races_dialog_shell=NULL;
+static GtkWidget  *races_toggles_form;
+static GtkWidget  *races_sex_toggles_form;
+static GtkWidget  *city_style_toggles_form;
+static GtkWidget  *races_ok_command;            /* ok button */
+static GtkWidget  *races_disc_command=NULL;     /* disc button */
+static GtkWidget  *races_quit_command=NULL;     /* quit button */
+static GtkWidget **races_toggles=NULL,          /* toggle race */
+                  *races_sex_toggles[2],        /* Male/Female */
+                 **city_style_toggles = NULL,
+                  *races_name;                  /* leader name */
+static GList      *leader_strings = NULL;
+static GList      *sorted_races_list = NULL; /* contains a list of race
 					      ids sorted by the race
 					      name. Is valid as long
 					      as the races_dialog is
 					      poped up. */
 /******************************************************************/
-GtkWidget *spy_tech_shell;
-GtkWidget *spy_advances_list, *spy_advances_list_label;
-GtkWidget *spy_steal_command;
+static GtkWidget  *spy_tech_shell;
+static GtkWidget  *spy_advances_list;
+static GtkWidget  *spy_steal_command;
 
-int spy_tech_shell_is_modal;
-int advance_type[A_LAST+1];
-int steal_advance = 0;
-
-/******************************************************************/
-GtkWidget *spy_sabotage_shell;
-GtkWidget *spy_improvements_list;
-GtkWidget *spy_sabotage_command;
-
-int spy_sabotage_shell_is_modal;
-int improvement_type[B_LAST+1];
-int sabotage_improvement = 0;
+static int         spy_tech_shell_is_modal;
+static int         advance_type[A_LAST+1];
+static int         steal_advance = 0;
 
 /******************************************************************/
+static GtkWidget  *spy_sabotage_shell;
+static GtkWidget  *spy_improvements_list;
+static GtkWidget  *spy_sabotage_command;
 
-GtkWidget *unit_select_dialog_shell;
-GtkWidget *unit_select_commands[100];
-GtkWidget *unit_select_labels[100];
-int unit_select_ids[100];
-int unit_select_no;
+static int         spy_sabotage_shell_is_modal;
+static int         improvement_type[B_LAST+1];
+static int         sabotage_improvement = 0;
 
+/******************************************************************/
+
+static GtkWidget  *unit_select_dialog_shell;
+static GtkWidget  *unit_select_commands[100];
+static GtkWidget  *unit_select_labels[100];
+static int         unit_select_ids[100];
+static int         unit_select_no;
 
 int races_buttons_get_current(void);
 int sex_buttons_get_current(void);

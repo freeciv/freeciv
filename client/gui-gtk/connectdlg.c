@@ -28,15 +28,13 @@
 #include "clinet.h"
 #include "colors.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 
 #include "connectdlg.h"
 
 static GtkWidget *iname, *ihost, *iport;
 static GtkWidget *connw, *quitw;
-
-extern GtkWidget *turn_done_button;
-extern GtkWidget *toplevel;
 
 static GtkWidget *dialog;
 

@@ -64,19 +64,6 @@
 /*void file_quit_cmd_callback( GtkWidget *widget, gpointer data )*/
 void game_rates( GtkWidget *widget, gpointer data );
 
-extern SPRITE *		intro_gfx_sprite;
-extern SPRITE *		radar_gfx_sprite;
-
-
-extern enum client_states	client_state;
-
-extern int			seconds_to_turndone;
-
-extern int			last_turn_gold_amount;
-extern int			did_advance_tech_this_turn;
-
-
-
 GtkWidget *	map_canvas;			/* GtkDrawingArea */
 GtkWidget *	overview_canvas;		/* GtkDrawingArea */
 

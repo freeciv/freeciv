@@ -34,7 +34,9 @@
 
 #include "climisc.h"
 #include "colors.h"
+#include "gui_main.h"
 #include "mapview_g.h"
+#include "options.h"
 #include "tilespec.h"
 
 #include "graphics.h"
@@ -48,10 +50,6 @@
 #include "patrol_cursor.xbm"
 #include "patrol_cursor_mask.xbm"
 
-extern GtkWidget *	toplevel;
-extern GdkWindow *	root_window;
-extern int 		solid_color_behind_units;
-
 SPRITE *		intro_gfx_sprite;
 SPRITE *		radar_gfx_sprite;
 
@@ -59,15 +57,6 @@ GdkCursor *		goto_cursor;
 GdkCursor *		drop_cursor;
 GdkCursor *		nuke_cursor;
 GdkCursor *		patrol_cursor;
-
-extern GdkFont *	main_font;
-
-extern GdkGC *		civ_gc;
-extern GdkGC *		fill_bg_gc;
-
-extern GdkGC *		mask_fg_gc;
-extern GdkGC *		mask_bg_gc;
-extern GdkBitmap *	mask_bitmap;
 
 static SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
 				int width, int height);

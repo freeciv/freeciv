@@ -31,14 +31,13 @@
 
 #include "clinet.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
 #include "options.h"
 
 #include "messagedlg.h"
-
-extern GtkWidget *toplevel;
 
 /*************************************************************************/
 GtkWidget *create_messageopt_dialog(void);
