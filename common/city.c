@@ -434,13 +434,12 @@ struct player *city_owner(struct city *pcity)
 ...
 *****************************************************************/
 
-int can_build_improvement(struct city *pcity, enum improvement_type_id id)
-{
+int could_build_improvement(struct city *pcity, enum improvement_type_id id)
+{ /* modularized so the AI can choose the tech it wants -- Syela */
   struct player *p=city_owner(pcity);
   if (id<0 || id>B_LAST)
     return 0;
-  if (city_got_building(pcity, id) || 
-      get_invention(p,improvement_types[id].tech_requirement)!=TECH_KNOWN) 
+  if (city_got_building(pcity, id))
     return 0;
   if ((city_got_building(pcity, B_HYDRO)|| city_got_building(pcity, B_POWER) ||
       city_got_building(pcity, B_NUCLEAR)) && (id==B_POWER || id==B_HYDRO || id==B_NUCLEAR))
@@ -465,6 +464,14 @@ int can_build_improvement(struct city *pcity, enum improvement_type_id id)
   if (is_wonder(id) && game.global_wonders[id])
     return 0;
   return !wonder_replacement(pcity, id);
+}
+
+int can_build_improvement(struct city *pcity, enum improvement_type_id id)
+{
+  struct player *p=city_owner(pcity);
+  if (get_invention(p,improvement_types[id].tech_requirement)!=TECH_KNOWN)
+    return 0;
+  return(could_build_improvement(pcity, id));
 }
 
 /****************************************************************
