@@ -308,10 +308,10 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
   Assess distance between punit and pcity.
 **************************************************************************/
 static int assess_distance(struct city *pcity, struct unit *punit,
-                           int move_rate, int boatid, int boatdist,
-                           int boatspeed)
+                           int move_rate)
 {
-  int x, y, distance = 0;
+  int distance = 0;
+  struct unit *ferry = find_unit_by_id(punit->transported_by);
 
   if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
     return 0;
@@ -324,6 +324,8 @@ static int assess_distance(struct city *pcity, struct unit *punit,
   } else if (!is_ground_unit(punit)) {
     distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y)
                * SINGLE_MOVE;
+  } else if (is_ground_unit(punit) && ferry) {
+    distance = WARMAP_SEACOST(ferry->x, ferry->y); /* Sea travellers. */
   } else if (unit_flag(punit, F_IGTER)) {
     distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
   } else {
@@ -333,25 +335,6 @@ static int assess_distance(struct city *pcity, struct unit *punit,
   /* If distance = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
   if (distance < SINGLE_MOVE) {
     distance = SINGLE_MOVE;
-  }
-
-  if (is_ground_unit(punit) && boatid != 0
-      && find_beachhead(punit, pcity->x, pcity->y, &x, &y)) {
-    /* Sea travellers. */
-
-    y = WARMAP_SEACOST(punit->x, punit->y);
-    if (y >= 6 * THRESHOLD) {
-      y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * SINGLE_MOVE;
-    }
-
-    x = MAX(y, boatdist) * move_rate / boatspeed;
-
-    if (distance > x) {
-      distance = x;
-    }
-    if (distance < SINGLE_MOVE) {
-      distance = SINGLE_MOVE;
-    }
   }
 
   return distance;
@@ -421,6 +404,10 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
 
   FIXME: We do not consider a paratrooper's mr_req and mr_sub
   fields. Not a big deal, though.
+
+  FIXME: Due to the nature of assess_distance, a city will only be 
+  afraid of a boat laden with enemies if it stands on the coast (i.e.
+  is directly reachable by this boat).
 ***********************************************************************/
 static int assess_danger(struct city *pcity)
 {
@@ -446,21 +433,8 @@ static int assess_danger(struct city *pcity)
   } unit_list_iterate_end;
 
   players_iterate(aplayer) {
-    int boatspeed;
-    int boatid, boatdist;
-    int x = pcity->x, y = pcity->y; /* dummy variables */
-
     if (!is_player_dangerous(city_owner(pcity), aplayer)) {
       continue;
-    }
-
-    boatspeed = ((get_invention(aplayer, game.rtech.nav) == TECH_KNOWN) 
-                 ? 4 * SINGLE_MOVE : 2 * SINGLE_MOVE); /* likely speed */
-    boatid = find_boat(aplayer, &x, &y, 0); /* acquire a boat */
-    if (boatid != 0) {
-      boatdist = WARMAP_SEACOST(x, y); /* distance to acquired boat */
-    } else {
-      boatdist = -1; /* boat wanted */
     }
 
     /* Look for enemy units */
@@ -468,8 +442,7 @@ static int assess_danger(struct city *pcity)
       int paramove = 0;
       int move_rate = unit_type(punit)->move_rate;
       int vulnerability = assess_danger_unit(pcity, punit);
-      int dist = assess_distance(pcity, punit, move_rate, boatid, boatdist, 
-                                 boatspeed);
+      int dist = assess_distance(pcity, punit, move_rate);
       bool igwall = unit_really_ignores_citywalls(punit);
 
       if (unit_flag(punit, F_PARATROOPERS)) {
