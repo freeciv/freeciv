@@ -34,7 +34,7 @@
 **************************************************************************/
 void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 {
-  assert(is_real_tile(x, y));
+  assert(is_real_map_pos(x, y));
   if (!normalize_map_pos(&x, &y)) {
     return;
   }
@@ -111,9 +111,9 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
       player_in_city_radius(game.player_ptr, x1, y1);
   bool pos2_is_in_city_radius = FALSE;
 
-  assert(is_real_tile(x1, y1));
+  assert(is_real_map_pos(x1, y1));
 
-  if (is_real_tile(x2, y2)) {
+  if (is_real_map_pos(x2, y2)) {
     normalize_map_pos(&x2, &y2);
     assert(is_tiles_adjacent(x1, y1, x2, y2));
 

@@ -1436,7 +1436,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   
 #if 0
   /* Replace with check for is_normal_tile later */
-  assert(is_real_tile(map_col, map_row));
+  assert(is_real_map_pos(map_col, map_row));
 #endif
   
   /* normalize_map_pos(&map_col, &map_wier); */

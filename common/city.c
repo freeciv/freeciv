@@ -106,7 +106,7 @@ static bool base_map_to_city_map(int *city_map_x, int *city_map_y,
 				 int city_center_x, int city_center_y,
 				 int map_x, int map_y)
 {
-  assert(is_real_tile(map_x, map_y));
+  CHECK_MAP_POS(map_x, map_y);
   city_map_checked_iterate(city_center_x, city_center_y, cx, cy, mx, my) {
     if (mx == map_x && my == map_y) {
       *city_map_x = cx;
@@ -2313,7 +2313,7 @@ void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
 				*result_city_tile_type,
 				struct city **result_pcity)
 {
-  assert(is_real_tile(map_x, map_y));
+  CHECK_MAP_POS(map_x, map_y);
 
   *result_pcity = map_get_tile(map_x, map_y)->worked;
   if (*result_pcity) {

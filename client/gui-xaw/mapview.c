@@ -979,7 +979,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y,
 
   if (!citymode) {
     /* put any goto lines on the tile. */
-    if (is_real_tile(x, y)) {
+    if (is_real_map_pos(x, y)) {
       int dir;
       for (dir = 0; dir < 8; dir++) {
 	if (get_drawn(x, y, dir)) {

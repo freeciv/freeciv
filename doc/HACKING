@@ -467,10 +467,10 @@ think this should count as a unit seeing tile 40,49 and add a sight
 point for it at 40,49 fog of war gets out of sync. This will usually
 result in a wrap error on some point, as you unfog a square twice and it
 wraps around to 65536. This should get caught by the server and the error
-reported. I suggest using the is_real_tile function to test the tiles.
+reported. I suggest using the is_real_map_pos function to test the tiles.
 unfog_area and fog_area tests their tiles this way, or using a macro like
 square_iterate that does the checking for you. Remember to recode
-the is_real_tile function when we switch to isometric view.]
+the is_real_map_pos function when we switch to isometric view.]
 
 If you want to just show the terrain and cities of the square the
 function show_area does this. The tiles remain fogged.

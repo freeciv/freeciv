@@ -247,7 +247,7 @@ enum tile_special_type map_get_special(int x, int y);
 void map_set_terrain(int x, int y, enum tile_terrain_type ter);
 void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);
-bool is_real_tile(int x, int y);
+bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);
 
 /* special testing */

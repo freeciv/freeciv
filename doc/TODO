@@ -31,7 +31,7 @@ TODO:
   can be done by making the code use macros like whole_map_iterate and
   square_iterate. The functions map_adjust_x() and map_adjust_y() should
   be removed and code that use them made to use normalize_map_pos(),
-  is_real_tile() or a macro.
+  is_real_map_pos(), or some wrapper macro like adjc_iterate().
   It would also be nice to remove the assumption that the x values go
   [0..map.xsize[, as a proposed isometric numbering scheme doesn't have
   that property.

@@ -664,7 +664,7 @@ static unsigned char *get_drawn_char(int x, int y, int dir)
   bool is_real;
 
   /* Replace with check for is_normal_tile later */  
-  assert(is_real_tile(x, y));
+  assert(is_real_map_pos(x, y));
   normalize_map_pos(&x, &y);
 
   is_real = MAPSTEP(x1, y1, x, y, dir);
@@ -824,7 +824,7 @@ void draw_line(int dest_x, int dest_y)
   assert(is_active);
 
   /* Replace with check for is_normal_tile later */
-  assert(is_real_tile(dest_x, dest_y));
+  assert(is_real_map_pos(dest_x, dest_y));
   normalize_map_pos(&dest_x, &dest_y);
 
   if (VECTOR(dest_x, dest_y) == 0) {

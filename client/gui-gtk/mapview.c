@@ -195,7 +195,7 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
 
   if (!citymode) {
     /* put any goto lines on the tile. */
-    if (is_real_tile(x, y)) {
+    if (is_real_map_pos(x, y)) {
       int dir;
       for (dir = 0; dir < 8; dir++) {
 	if (get_drawn(x, y, dir)) {
@@ -1610,7 +1610,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   }
 
   /* Replace with check for is_normal_tile later */
-  assert(is_real_tile(x, y));
+  assert(is_real_map_pos(x, y));
   normalize_map_pos(&x, &y);
 
   fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;

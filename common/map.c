@@ -1050,7 +1050,7 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
 			     int x, int y, int x1, int y1, int maxcost)
 {
-  assert(is_real_tile(x, y));
+  CHECK_MAP_POS(x, y);
   assert(!is_server
 	 || (tile0->terrain != T_UNKNOWN && tile1->terrain != T_UNKNOWN));
 
@@ -1295,7 +1295,7 @@ bool same_pos(int x1, int y1, int x2, int y2)
   return (x1 == x2 && y1 == y2);
 }
 
-bool is_real_tile(int x, int y)
+bool is_real_map_pos(int x, int y)
 {
   return normalize_map_pos(&x, &y);
 }
@@ -1397,7 +1397,7 @@ void rand_neighbour(int x0, int y0, int *x, int *y)
     DIR8_SOUTHWEST, DIR8_SOUTH, DIR8_SOUTHEAST
   };
 
-  assert(is_real_tile(x0, y0));
+  CHECK_MAP_POS(x0, y0);
 
   /* This clever loop by Trent Piepho will take no more than
    * 8 tries to find a valid direction. */

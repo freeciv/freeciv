@@ -970,7 +970,7 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
 
   if (!citymode) {
     /* put any goto lines on the tile. */
-    if (is_real_tile(x, y)) {
+    if (is_real_map_pos(x, y)) {
       int dir;
       for (dir = 0; dir < 8; dir++) {
 	if (get_drawn(x, y, dir)) {
@@ -1239,7 +1239,7 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
     return;
   }
 
-  assert(is_real_tile(x, y));
+  assert(is_real_map_pos(x, y));
   normalize_map_pos(&x, &y);
   fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
   pcity = map_get_city(x, y);

@@ -154,7 +154,7 @@ Check if a tile is land and free of enemy units
 **************************************************************************/
 static bool is_free_land(int x, int y, struct player *who)
 {
-  return (is_real_tile(x, y) && !is_ocean(map_get_terrain(x, y))
+  return (!is_ocean(map_get_terrain(x, y))
 	  && !is_non_allied_unit_tile(map_get_tile(x, y), who));
 }
 
@@ -163,7 +163,7 @@ Check if a tile is sea and free of enemy units
 **************************************************************************/
 static bool is_free_sea(int x, int y, struct player *who)
 {
-  return (is_real_tile(x, y) && is_ocean(map_get_terrain(x, y))
+  return (is_ocean(map_get_terrain(x, y))
 	  && !is_non_allied_unit_tile(map_get_tile(x, y), who));
 }
 

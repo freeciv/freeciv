@@ -31,7 +31,7 @@ TEDOEN:
   x-richting. Dit kan gedaan worden door de code gebruik te laten maken van
   macro's als whole_map_iterate en square_iterate. De functies map_adjust_x()
   en map_adjust_y() zouden verwijderd moeten worden en code die er gebruik van
-  maakt moet gebruik maken van normalize_map_pos(), is_real_tile() of een
+  maakt moet gebruik maken van normalize_map_pos(), is_real_map_pos() of een
   macro.
   Het zou ook fijn zijn als de aanname dat de x-waarden lopen van
   [0..map.xsize] verwijderd kon worden, aangezien een isometrisch

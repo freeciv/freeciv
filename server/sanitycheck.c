@@ -219,7 +219,7 @@ static void check_units(void) {
       struct city *pcity;
 
       assert(unit_owner(punit) == pplayer);
-      assert(is_real_tile(x, y));
+      CHECK_MAP_POS(x, y);
 
       if (punit->homecity != 0) {
 	pcity = player_find_city_by_id(pplayer, punit->homecity);
