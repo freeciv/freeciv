@@ -110,6 +110,8 @@ typedef unsigned int fc_bool;
 
 /* This is duplicated in rand.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF
+#define MAX_UINT16 0xFFFF
+#define MAX_UINT8 0xFF
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 #define ADD_TO_POINTER(p, n) ((void *)((char *)(p)+(n)))

@@ -3064,9 +3064,10 @@ int send_packet_goto_route(struct connection *pc,
       chunk_pos++;
     }
     /* if we finished fill the last chunk with NOPs */
+    assert(!is_normal_map_pos(MAX_UINT8, MAX_UINT8));
     for (; chunk_pos < GOTO_CHUNK; chunk_pos++) {
-      dio_put_uint8(&dout, map.xsize);
-      dio_put_uint8(&dout, map.ysize);
+      dio_put_uint8(&dout, MAX_UINT8);
+      dio_put_uint8(&dout, MAX_UINT8);
     }
 
     dio_put_uint16(&dout, packet->unit_id);
@@ -3106,7 +3107,9 @@ struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
   for (i = 0; i < GOTO_CHUNK; i++) {
     dio_get_uint8(&din, &pos[i].x);
     dio_get_uint8(&din, &pos[i].y);
-    if (pos[i].x != map.xsize) num_valid++;
+    if (is_normal_map_pos(pos[i].x, pos[i].y)) {
+      num_valid++;
+    }
   }
   dio_get_uint16(&din, &unit_id);
 
