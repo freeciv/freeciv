@@ -1320,12 +1320,13 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 	draw->layer[l].base = draw->layer[l].match[0];
 	break;
       case CELL_RECT:
-	for (i = 0; i < 4; i++) {
+	for (i = 0; i < 4; i++) { /* enum direction4 */
 	  for (j = 0; j < 8; j++) {
-	    char *dir2 = "udlr";
+	    const char dirs[4] = "udrl"; /* Matches direction4 ordering */
 
-	    my_snprintf(buffer1, sizeof(buffer1), "t.%s_cell_%c%d",
-			draw->name, dir2[i], j);
+	    my_snprintf(buffer1, sizeof(buffer1), "t.%s_cell_%c%d%d%d",
+			draw->name, dirs[i],
+			(j >> 2) & 1, (j >> 1) & 1, j & 1);
 	    draw->layer[l].cells[j][i]
 	      = lookup_sprite_tag_alt(buffer1, "", TRUE, "tile_type",
 				      tt->terrain_name);
@@ -2008,24 +2009,24 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 	 * cells covers one corner, and each is adjacent to 3 different
 	 * tiles.  For each cell we pixk a sprite based upon the adjacent
 	 * terrains at each of those tiles.  Thus we have 8 different sprites
-	 * for each of the 4 cells (32 sprites total). */
+	 * for each of the 4 cells (32 sprites total).
+	 *
+	 * These arrays correspond to the direction4 ordering. */
 	const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-	const enum direction8 dirs[4] = {
-	  DIR8_NORTHWEST, DIR8_SOUTHEAST, DIR8_SOUTHWEST, DIR8_NORTHEAST
-	};
 	const int iso_offsets[4][2] = {
-	  {W / 4, 0}, {W / 4, H / 2}, {0, H / 4}, {W / 2, H / 4},
+	  {W / 4, 0}, {W / 4, H / 2}, {W / 2, H / 4}, {0, H / 4}
 	};
 	const int noniso_offsets[4][2] = {
-	  {0, 0}, {W / 2, H / 2}, {0, H / 2}, {W / 2, 0}
+	  {0, 0}, {W / 2, H / 2}, {W / 2, 0}, {0, H / 2}
 	};
 	int i;
 
 	/* put coasts */
 	for (i = 0; i < 4; i++) {
-	  int array_index = ((!MATCH(dir_ccw(dirs[i])) ? 1 : 0)
-			     + (!MATCH(dirs[i]) ? 2 : 0)
-			     + (!MATCH(dir_cw(dirs[i])) ? 4 : 0));
+	  enum direction8 dir = dir_ccw(DIR4_TO_DIR8[i]);
+	  int array_index = ((!MATCH(dir_ccw(dir)) ? 4 : 0)
+			     + (!MATCH(dir) ? 2 : 0)
+			     + (!MATCH(dir_cw(dir)) ? 1 : 0));
 	  int x = (is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
 	  int y = (is_isometric ? iso_offsets[i][1] : noniso_offsets[i][1]);
 

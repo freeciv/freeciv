@@ -183,9 +183,22 @@ file under the graphc and graphic_alt flags.)
                           32 different sprites are needed.  Each sprite is
                           a rectangle corresponding to one cell, and there are
                           8 different sprites per cell.  Each sprite has
-                          a name like "t.ocean_cell_u5" where "ocean" is the
+                          a name like "t.ocean_cell_u110" where "ocean" is the
                           terrain, "u" means up (north on the map) and
-                          5 indicates which of the adjacent tiles are matched.
+                          110 indicates which of the adjacent tiles are
+                      	  mismatched.  For instance u110 means
+
+				    /\
+				   /B \
+				  /\ 1/\
+				 / A\/C \
+				 \1 /\ 0/
+				  \/D \/
+				   \  /
+				    \/
+
+			  a matching terrain exists at C but not at A or B.  In
+                          this case D is the current tile.
 
 Examples:
 
