@@ -330,6 +330,16 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 }
 
 /**************************************************************************
+Player has a new future technology (from somewhere). Logging &
+notification is not done here as it depends on how the tech came.
+**************************************************************************/
+void found_new_future_tech(struct player *pplayer)
+{
+  pplayer->future_tech++;
+  pplayer->research.techs_researched++;
+}
+
+/**************************************************************************
 Player has researched a new technology
 **************************************************************************/
 void tech_researched(struct player* plr)
@@ -386,7 +396,6 @@ int choose_goal_tech(struct player *plr)
   if (plr->research.bulbs_researched > 0) {
     plr->research.bulbs_researched = 0;
   }
-  update_research(plr);
   if (plr->ai.control) {
     ai_next_tech_goal(plr); /* tech-AI has been changed */
     sub_goal = get_next_tech(plr, plr->ai.tech_goal); /* should be changed */
@@ -418,7 +427,6 @@ void choose_random_tech(struct player *plr)
   if (plr->research.bulbs_researched >0) {
     plr->research.bulbs_researched = 0;
   }
-  update_research(plr);
   for (i = 0; i < game.num_tech_types; i++) {
     if (get_invention(plr, i) == TECH_REACHABLE) {
       researchable++;
@@ -448,7 +456,6 @@ void choose_tech(struct player *plr, int tech)
 {
   if (plr->research.researching==tech)
     return;
-  update_research(plr);
   if (get_invention(plr, tech)!=TECH_REACHABLE) { /* can't research this */
     return;
   }
@@ -482,8 +489,9 @@ void init_tech(struct player *plr, int tech)
   int i;
   struct nation_type *nation = get_nation_by_plr(plr);
 
-  for (i=0;i<game.num_tech_types;i++) 
-    set_invention(plr, i, 0);
+  for (i = 0; i < game.num_tech_types; i++) {
+    set_invention(plr, i, TECH_UNKNOWN);
+  }
   set_invention(plr, A_NONE, TECH_KNOWN);
 
   plr->research.techs_researched = 1;
@@ -508,12 +516,16 @@ void init_tech(struct player *plr, int tech)
     set_invention(plr, nation->init_techs[i], TECH_KNOWN);
   }
 
+  update_research(plr);
+
   for (i=0;i<tech;i++) {
     choose_random_tech(plr); /* could be choose_goal_tech -- Syela */
     set_invention(plr, plr->research.researching, TECH_KNOWN);
   }
+
+  /* Mark the reachable techs */
+  update_research(plr);
   choose_goal_tech(plr);
-  update_research(plr);	
 }
 
 /**************************************************************************
@@ -534,8 +546,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
   }
   if (!j)  {
     if (target->future_tech > pplayer->future_tech) {
-      pplayer->future_tech++;
-      pplayer->research.techs_researched++;
+      found_new_future_tech(pplayer);
 
       notify_player(pplayer, _("Game: You acquire Future Tech %d from %s."),
 		    pplayer->future_tech, target->name);
@@ -1100,8 +1111,9 @@ static void package_player_info(struct player *plr,
 
   if (info_level >= INFO_MEETING) {
     packet->gold            = plr->economic.gold;
-    for(i=0; i<game.num_tech_types; i++)
-      packet->inventions[i] = plr->research.inventions[i]+'0';
+    for (i = 0; i < game.num_tech_types; i++) {
+      packet->inventions[i] = plr->research.inventions[i].state + '0';
+    }
     packet->inventions[i]   = '\0';
     packet->government      = plr->government;
   } else {
@@ -1590,7 +1602,6 @@ struct player *split_player(struct player *pplayer)
 		    
   for(i = 0; i<game.num_tech_types ; i++){
     cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
-    cplayer->ai.num_unknown_techs[i] = pplayer->ai.num_unknown_techs[i];
   }
   
   /* change the original player */

@@ -165,29 +165,6 @@ static void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur,
 
 /* Syela-code starts here ................................. */
 
-static void find_prerequisites(struct player *pplayer, int i, int *prereq)
-{
-  /* add tech_want[i] / j to all subtechs */
-  Tech_Type_id t1, t2;
-  int known;
-
-  t1 = advances[i].req[0];
-  t2 = advances[i].req[1];
-  if(t1>=A_LAST || t2>=A_LAST) return;
-  known=get_invention(pplayer, t1);
-  if (known != TECH_KNOWN) {
-    prereq[t1]++;
-    if (known == TECH_UNKNOWN)
-      find_prerequisites(pplayer, t1, prereq);
-  }
-  known=get_invention(pplayer, t2);
-  if (known!= TECH_KNOWN) {
-    prereq[t2]++;
-    if (known== TECH_UNKNOWN)
-      find_prerequisites(pplayer, t2, prereq);
-  }
-}
-
 /**************************************************************************
   ...
 **************************************************************************/
@@ -199,36 +176,27 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   int num_cities_nonzero;
   int values[A_LAST];
   int goal_values[A_LAST];
-  int prereq[A_LAST];
-  unsigned char cache[A_LAST][(A_LAST+7)/8];   /* bit vector for tech pairs */
 
-#define CACHE_SET(i,k)  cache[i][(k)/8] |= (1<<((k)%8))
-#define CACHE_TEST(i,k) cache[i][(k)/8] &  (1<<((k)%8))
-  
   if((num_cities_nonzero = city_list_size(&pplayer->cities)) < 1)
     num_cities_nonzero = 1;
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
-  memset(cache, 0, sizeof(cache));
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    j = pplayer->ai.num_unknown_techs[i];
+    j = num_unknown_techs_for_goal(pplayer, i);
     if (j) { /* if we already got it we don't want it */
       values[i] += pplayer->ai.tech_want[i];
-      memset(prereq, 0, sizeof(prereq));
-      find_prerequisites(pplayer, i, prereq);
       for (k = A_FIRST; k < game.num_tech_types; k++) {
-        if (prereq[k]) {
-	  CACHE_SET(i,k);
-          values[k] += pplayer->ai.tech_want[i] / j;
-        }
+	if (is_tech_a_req_for_goal(pplayer, k, i)) {
+	  values[k] += pplayer->ai.tech_want[i] / j;
+	}
       }
     }
   }
 
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    if (pplayer->ai.num_unknown_techs[i]) {
+    if (num_unknown_techs_for_goal(pplayer, i)) {
       for (k = A_FIRST; k < game.num_tech_types; k++) {
-	if (CACHE_TEST(i,k)) {
+	if (is_tech_a_req_for_goal(pplayer, k, i)) {
           goal_values[i] += values[k];
         }
       }
@@ -238,8 +206,8 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
 setting goal to Republic and learning Monarchy, but that's what it's supposed
 to be doing; it just looks strange. -- Syela */
       
-      goal_values[i] /= pplayer->ai.num_unknown_techs[i];
-      if (pplayer->ai.num_unknown_techs[i] < 6) {
+      goal_values[i] /= num_unknown_techs_for_goal(pplayer, i);
+      if (num_unknown_techs_for_goal(pplayer, i) < 6) {
 	freelog(LOG_DEBUG, "%s: want = %d, value = %d, goal_value = %d",
 		advances[i].name, pplayer->ai.tech_want[i],
 		values[i], goal_values[i]);
@@ -273,26 +241,10 @@ to be doing; it just looks strange. -- Syela */
   }
   return;
 }
-#undef CACHE_SET
-#undef CACHE_TEST
 
 static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
 {
   ai_select_tech(pplayer, 0, choice);
-}
-
-/**************************************************************************
- Fill the pplayer->ai.num_unknown_techs cache with the current values.
-**************************************************************************/
-void calculate_num_unknown_techs(struct player *pplayer)
-{
-  Tech_Type_id i;
-  memset(pplayer->ai.num_unknown_techs, 0,
-	 sizeof(pplayer->ai.num_unknown_techs));
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
-    pplayer->ai.num_unknown_techs[i] =
-	num_unknown_techs_for_goal(pplayer, i);
-  }
 }
 
 void ai_next_tech_goal(struct player *pplayer)
@@ -302,7 +254,6 @@ void ai_next_tech_goal(struct player *pplayer)
   bestchoice.choice = A_NONE;      
   bestchoice.want   = 0;
 
-  calculate_num_unknown_techs(pplayer);
   ai_select_tech_goal(pplayer, &curchoice);
   copy_if_better_choice(&curchoice, &bestchoice); /* not dealing with the rest */
 

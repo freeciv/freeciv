@@ -62,7 +62,18 @@ struct player_research {
   int bulbs_researched_before;  /* if the player changed techs, how
 				   many points they had before the
 				   change */
-  unsigned char inventions[A_LAST];
+  struct {
+    /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_REACHABLE. */
+    enum tech_state state;
+
+    /* 
+     * required_techs, num_required_techs and bulbs_required are
+     * cached values. Updated from build_required_techs (which is
+     * called by update_research).
+     */
+    unsigned char required_techs[(A_LAST + 7) / 8];
+    int num_required_techs, bulbs_required;
+  } inventions[A_LAST];
 };
 
 struct player_score {
@@ -95,13 +106,6 @@ struct player_ai {
   int maxbuycost;
   int est_upkeep; /* estimated upkeep of buildings in cities */
   int tech_want[A_LAST+1];
-
-  /* 
-   * num_unknown_techs[i] contains the value of
-   * num_unknown_techs_for_goal(i). This is cached here to save
-   * calculations.
-   */
-  int num_unknown_techs[A_LAST+1];
   int handicap;			/* sum of enum handicap_type */
   int skill_level;		/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */

@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "assert.h"
 #include "city.h"
 #include "connection.h"
 #include "fcintl.h"
@@ -412,21 +413,6 @@ static void get_player_landarea(struct claim_map *pcmap, struct player *pplayer,
     printf ("\n");
 #endif
   }
-}
-
-/**************************************************************************
-  Returns the number of bulbs which are required to finished the
-  currently researched tech denoted by
-  pplayer->research.researching. This is _NOT_ the number of bulbs
-  which are left to get the advance. Use the term
-  "total_bulbs_required(pplayer) - pplayer->research.bulbs_researched"
-  if you want this.
-**************************************************************************/
-int total_bulbs_required(struct player *pplayer)
-{
-  int timemod = (game.year > 0) ? 2 : 1;
-
-  return timemod * pplayer->research.techs_researched * game.researchcost;
 }
 
 /**************************************************************************

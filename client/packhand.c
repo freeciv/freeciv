@@ -1140,8 +1140,9 @@ void handle_player_info(struct packet_player_info *pinfo)
   for (i = 0; i < MAX_NUM_WORKLISTS; i++)
     copy_worklist(&pplayer->worklists[i], &pinfo->worklists[i]);
 
-  for(i=0; i<game.num_tech_types; i++)
-    pplayer->research.inventions[i]=pinfo->inventions[i]-'0';
+  for (i = 0; i < game.num_tech_types; i++) {
+    pplayer->research.inventions[i].state = pinfo->inventions[i] - '0';
+  }
   update_research(pplayer);
 
   poptechup = (pplayer->research.researching!=pinfo->researching);

@@ -17,6 +17,5 @@ struct player;
 
 void ai_manage_tech(struct player *pplayer); 
 void ai_next_tech_goal(struct player *pplayer);
-void calculate_num_unknown_techs(struct player *pplayer);
 
 #endif  /* FC__AITECH_H */

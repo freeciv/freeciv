@@ -338,14 +338,15 @@ static int rank_calc_research(struct player *pplayer)
 **************************************************************************/
 static int rank_research(struct player *pplayer)
 {
-  int basis=rank_calc_research(pplayer);
-  int place=1;
-  int i;
-  for (i=0;i<game.nplayers;i++) {
-    if (rank_calc_research(&game.players[i])>basis &&
-	game.players[i].is_alive && !is_barbarian(&game.players[i]))
+  int basis = rank_calc_research(pplayer), place = 1;
+
+  players_iterate(other) {
+    if (other->is_alive && !is_barbarian(other)
+	&& rank_calc_research(other) > basis) {
       place++;
-  }
+    }
+  } players_iterate_end;
+
   return place;
 }
 
@@ -354,14 +355,16 @@ static int rank_research(struct player *pplayer)
 **************************************************************************/
 static struct player *best_research(void)
 {
-  struct player *pplayer = &game.players[0];
-  int i;
-  for(i = 1; i < game.nplayers; i++) {
-    if(rank_calc_research(&game.players[i]) > rank_calc_research(pplayer) &&
-       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
-      pplayer = &game.players[i];
+  struct player *pplayer = NULL;
+
+  players_iterate(other) {
+    if (other->is_alive && !is_barbarian(other)
+	&& (pplayer == NULL
+	    || rank_calc_research(other) > rank_calc_research(pplayer))) {
+      pplayer = other;
     }
-  }
+  } players_iterate_end;
+
   return pplayer;
 }
 

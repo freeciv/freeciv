@@ -501,8 +501,6 @@ void ai_do_last_activities(struct player *pplayer)
    * before end-turn reset now. -- Syela
    */
 
-  /* has to be here thanks to the above */
-  calculate_num_unknown_techs(pplayer); 
   ai_manage_cities(pplayer);
   /* manage cities will establish our tech_wants. */
   /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 

@@ -238,7 +238,6 @@ void game_renumber_players(int plrno);
 
 void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);
-int total_bulbs_required(struct player *pplayer);
 int total_player_citizens(struct player *pplayer);
 int civ_score(struct player *pplayer);
 void initialize_globals(void);

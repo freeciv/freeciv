@@ -2324,13 +2324,11 @@ static void hut_get_tech(struct unit *punit)
 		     get_nation_name_plural(pplayer->nation), tech_name);
 
     found_new_tech(pplayer,new_tech,0,1);
-  }
-  else {
-    pplayer->future_tech++;
+  } else {
+    found_new_future_tech(pplayer);
     notify_player(pplayer,
 		  _("Game: You gain knowledge about Future Tech. %d."),
 		  pplayer->future_tech);
-    pplayer->research.techs_researched++; /* don't call found_new_tech() */
   }
   do_free_cost(pplayer);
 }

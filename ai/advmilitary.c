@@ -483,7 +483,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if ((m == LAND_MOVING || m == SEA_MOVING)) {
-      k = pplayer->ai.num_unknown_techs[unit_types[i].tech_requirement];
+      k = num_unknown_techs_for_goal(pplayer,unit_types[i].tech_requirement);
       j = unit_desirability(i, 1);
       if (!isdef && unit_type_flag(i, F_FIELDUNIT)) j = 0;
       j /= 15; /* good enough, no rounding errors */
@@ -499,8 +499,11 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
       } else if (k > 0 && (shore || m == LAND_MOVING) &&
                 unit_types[i].tech_requirement != A_LAST) {
         if (m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
-        l = k * (k + pplayer->research.techs_researched) * game.researchcost /
-         (game.year > 0 ? 2 : 4); /* cost (shield equiv) of gaining these techs */
+
+	/* cost (shield equiv) of gaining these techs */
+	l = total_bulbs_required_for_goal(pplayer,
+					  unit_types[i].tech_requirement);
+	l /= 4;
         l /= city_list_size(&pplayer->cities);
 /* Katvrr advises that with danger high, l should be weighted more heavily */
         desire[i] = j * danger / (unit_types[i].build_cost + l);
@@ -553,16 +556,18 @@ static void process_attacker_want(struct player *pplayer,
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     j = unit_types[i].tech_requirement;
-    if (j != A_LAST) k = pplayer->ai.num_unknown_techs[j];
+    if (j != A_LAST) k = num_unknown_techs_for_goal(pplayer,j);
     else k = 0;
     if ((m == LAND_MOVING || (m == SEA_MOVING && shore)) && j != A_LAST &&
          (k || !can_build_unit_direct(pcity, unit_types[i].obsoleted_by)) &&
          unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
 
-      l = k * (k + pplayer->research.techs_researched) * game.researchcost;
-      if (game.year > 0) l /= 2;
-      else l /= 4; /* cost (shield equiv) of gaining these techs */
+      /* cost (shield equiv) of gaining these techs */
+      l = total_bulbs_required_for_goal(pplayer,
+					unit_types[i].tech_requirement);
+      l /= 4;
+
       l /= city_list_size(&pplayer->cities);
 /* Katvrr advises that with danger high, l should be weighted more heavily */
 
