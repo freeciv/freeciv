@@ -206,11 +206,19 @@ enum indicator_type {
   INDICATOR_COUNT
 };
 
+enum icon_type {
+  ICON_FREECIV,
+  ICON_CITYDLG,
+  ICON_COUNT
+};
+
 struct named_sprites {
   struct Sprite
     *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
     *right_arrow,
+
+    *icon[ICON_COUNT],
 
     /* The panel sprites for showing tax % allocations. */
     *tax_luxury, *tax_science, *tax_gold,
@@ -365,6 +373,7 @@ struct Sprite *get_treaty_thumb_sprite(bool on_off);
 struct sprite_vector *get_unit_explode_animation(void);
 struct Sprite *get_cursor_sprite(enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
+struct Sprite *get_icon_sprite(struct tileset *t, enum icon_type icon);
 struct Sprite *get_attention_crosshair_sprite(void);
 struct Sprite *get_indicator_sprite(enum indicator_type indicator,
 				    int index);

@@ -73,8 +73,6 @@
 #include "tilespec.h"
 
 
-#include "freeciv.ico"
-
 const char *client_string = "gui-gtk-2.0";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
@@ -1064,7 +1062,6 @@ void ui_init(void)
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {
-  GdkBitmap *icon_bitmap;
   const gchar *home;
   guint sig;
   GtkStyle *style;
@@ -1113,10 +1110,6 @@ void ui_main(int argc, char **argv)
 
   display_color_type = get_visual();
   init_color_system();
-
-  icon_bitmap = gdk_bitmap_create_from_data(root_window, freeciv_bits,
-                                            freeciv_width, freeciv_height);
-  gdk_window_set_icon(root_window, NULL, icon_bitmap, icon_bitmap);
 
   civ_gc = gdk_gc_new(root_window);
 
@@ -1189,6 +1182,10 @@ void ui_main(int argc, char **argv)
   }
 
   tileset_load_tiles(tileset);
+
+  /* Only call this after tileset_load_tiles is called. */
+  gtk_window_set_icon(GTK_WINDOW(toplevel),
+		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
 
   setup_widgets();
   load_cursors();

@@ -1438,6 +1438,13 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     sprites.cursor[i].hot_y = ss->hot_y;
   }
 
+  for (i = 0; i < ICON_COUNT; i++) {
+    const char *names[ICON_COUNT] = {"freeciv", "citydlg"};
+
+    my_snprintf(buffer, sizeof(buffer), "icon.%s", names[i]);
+    SET_SPRITE(icon[i], buffer);
+  }
+
   /* Isolated road graphics are used by roadstyle 0 and 1*/
   if (t->roadstyle == 0 || t->roadstyle == 1) {
     SET_SPRITE(road.isolated, "r.road_isolated");
@@ -3925,6 +3932,20 @@ struct Sprite *get_cursor_sprite(enum cursor_type cursor,
   *hot_x = sprites.cursor[cursor].hot_x;
   *hot_y = sprites.cursor[cursor].hot_y;
   return sprites.cursor[cursor].icon;
+}
+
+/****************************************************************************
+  Return a sprite for the given icon.  Icons are used by the operating
+  system/window manager.  Usually freeciv has to tell the OS what icon to
+  use.
+
+  Note that this function will return NULL before the sprites are loaded.
+  The GUI code must be sure to call tileset_load_tiles before setting the
+  top-level icon.
+****************************************************************************/
+struct Sprite *get_icon_sprite(struct tileset *t, enum icon_type icon)
+{
+  return sprites.icon[icon];
 }
 
 /****************************************************************************

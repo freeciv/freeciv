@@ -65,8 +65,6 @@
 
 #include "gui_main.h"
 
-#include "freeciv.ico"
-
 const char *client_string = "gui-xaw";
 
 const char * const gui_character_encoding = NULL;
@@ -284,7 +282,7 @@ void ui_init(void)
 void ui_main(int argc, char *argv[])
 {
   int i;
-  Pixmap icon_pixmap; 
+  struct Sprite *icon; 
 
   parse_options(argc, argv);
 
@@ -344,12 +342,6 @@ void ui_main(int argc, char *argv[])
     freelog(LOG_FATAL, _("Only color displays are supported for now..."));
     /*    exit(EXIT_FAILURE); */
   }
-  
-  icon_pixmap = XCreateBitmapFromData(display,
-				      RootWindowOfScreen(XtScreen(toplevel)),
-				      freeciv_bits,
-				      freeciv_width, freeciv_height);
-  XtVaSetValues(toplevel, XtNiconPixmap, icon_pixmap, NULL);
 
   init_color_system();
 
@@ -445,6 +437,10 @@ void ui_main(int argc, char *argv[])
   tileset_load_tiles(tileset);
   load_intro_gfx();
   load_cursors();
+
+  /* FIXME: what about the mask? */
+  icon = get_icon_sprite(tileset, ICON_FREECIV);
+  XtVaSetValues(toplevel, XtNiconPixmap, icon->pixmap, NULL);
 
   XtSetKeyboardFocus(bottom_form, inputline_text);
   XtSetKeyboardFocus(below_menu_form, map_canvas);

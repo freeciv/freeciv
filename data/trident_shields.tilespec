@@ -62,6 +62,7 @@ files =
   "misc/space.spec",
 ;  "misc/techs.spec",
   "misc/treaty.spec",
+  "misc/icons.spec",
   "trident/fog.spec",
   "trident/cities.spec",
   "trident/explosions.spec",

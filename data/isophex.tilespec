@@ -73,6 +73,7 @@ files =
   "misc/cursors.spec",
   "misc/space.spec",
   "misc/treaty.spec",
+  "misc/icons.spec",
   "isotrident/nuke.spec",
   "isotrident/cities.spec",
   "isophex/gold.spec",

@@ -1,8 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_HEADERS = \
-	cityicon.ico	\
-	freeciv.ico	\
 	chatline_g.h	\
 	citydlg_g.h	\
 	cityrep_g.h	\

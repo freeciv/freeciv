@@ -1023,4 +1023,7 @@ void tileset_changed(void)
   reset_city_dialogs();
   reset_unit_table();
   blank_max_unit_size();
+
+  gtk_window_set_icon(GTK_WINDOW(toplevel),
+		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV)));
 }

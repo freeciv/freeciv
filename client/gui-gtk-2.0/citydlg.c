@@ -56,7 +56,6 @@
 #include "wldlg.h"
 #include "log.h"
 #include "text.h"
-#include "cityicon.ico"
 
 #include "citydlg.h"
 
@@ -174,7 +173,6 @@ struct city_dialog {
   bool is_modal;
 };
 
-static GdkBitmap *icon_bitmap;
 static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
 
 static struct dialog_list *dialog_list;
@@ -1223,13 +1221,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   gtk_widget_realize(pdialog->shell);
 
-  if (!icon_bitmap) {
-    icon_bitmap = gdk_bitmap_create_from_data(root_window, cityicon_bits,
-					      cityicon_width,
-					      cityicon_height);
-  }
-  gdk_window_set_icon(pdialog->shell->window, NULL, icon_bitmap,
-		      icon_bitmap);
+  gtk_window_set_icon(GTK_WINDOW(pdialog->shell),
+		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG)));
 
   /* Set old size. The size isn't saved in any way. */
   if (citydialog_width && citydialog_height) {
