@@ -67,6 +67,7 @@ static const char *tile_special_type_names[] =
 };
 
 #define MAP_TILE(x,y)	(map.tiles + map_pos_to_index(x, y))
+#define NAT_TILE(x, y)  (map.tiles + native_pos_to_index(x, y))
 
 /****************************************************************************
   Return a bitfield of the specials on the tile that are infrastructure.
@@ -1112,6 +1113,14 @@ enum tile_terrain_type map_get_terrain(int x, int y)
   return MAP_TILE(x, y)->terrain;
 }
 
+/****************************************************************************
+  Return the terrain type of the given tile (in native coordinates).
+****************************************************************************/
+enum tile_terrain_type nat_get_terrain(int nat_x, int nat_y)
+{
+  return NAT_TILE(nat_x, nat_y)->terrain;
+}
+
 /***************************************************************
 ...
 ***************************************************************/
@@ -1162,6 +1171,14 @@ bool contains_special(enum tile_special_type set,
 void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 {
   MAP_TILE(x, y)->terrain = ter;
+}
+
+/****************************************************************************
+  Set the terrain of the given tile (in native coordinates).
+****************************************************************************/
+void nat_set_terrain(int nat_x, int nat_y, enum tile_terrain_type ter)
+{
+  NAT_TILE(nat_x, nat_y)->terrain = ter;
 }
 
 /***************************************************************

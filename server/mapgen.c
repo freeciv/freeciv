@@ -32,8 +32,26 @@
 
 #include "mapgen.h"
 
+/* Provide a block to convert from native to map coordinates.  For instance
+ *   do_in_map_pos(mx, my, xn, yn) {
+ *     map_set_terrain(mx, my, T_OCEAN);
+ *   } do_in_map_pos_end;
+ * Note that changing the value of the map coordinates won't change the native
+ * coordinates.
+ */
+#define do_in_map_pos(map_x, map_y, nat_x, nat_y)                           \
+{                                                                           \
+  int map_x, map_y;                                                         \
+  native_to_map_pos(&map_x, &map_y, nat_x, nat_y);                          \
+  {                                                                         \
+
+#define do_in_map_pos_end                                                   \
+  }                                                                         \
+}
+
 /* Wrapper for easy access.  It's a macro so it can be a lvalue. */
 #define hmap(x, y) (height_map[map_pos_to_index(x, y)])
+#define hnat(x, y) (height_map[native_pos_to_index((x), (y))])
 #define rmap(x, y) (river_map[map_pos_to_index(x, y)])
 
 static void make_huts(int number);
@@ -109,28 +127,31 @@ static void make_mountains(int thill)
 **************************************************************************/
 static void make_polar(void)
 {
-  int y,x;
+  int xn, yn;
 
-  for (y=0;y<map.ysize/10;y++) {
-    for (x=0;x<map.xsize;x++) {
-      if ((hmap(x, y)+(map.ysize/10-y*25)>myrand(maxval) &&
-	   map_get_terrain(x,y)==T_GRASSLAND) || y==0) { 
-	if (y<2)
-	  map_set_terrain(x, y, T_ARCTIC);
-	else
-	  map_set_terrain(x, y, T_TUNDRA);
-	  
+  for (yn = 0; yn < map.ysize / 10; yn++) {
+    for (xn = 0; xn < map.xsize; xn++) {
+      if ((hnat(xn, yn) + (map.ysize / 10 - yn * 25) > myrand(maxval)
+	   && nat_get_terrain(xn, yn) == T_GRASSLAND) || yn == 0) { 
+	if (yn < 2) {
+	  nat_set_terrain(xn, yn, T_ARCTIC);
+	} else {
+	  nat_set_terrain(xn, yn, T_TUNDRA);
+	}
       } 
     }
   }
-  for (y=map.ysize*9/10;y<map.ysize;y++) {
-    for (x=0;x<map.xsize;x++) {
-      if ((hmap(x, y)+(map.ysize/10-(map.ysize-y)*25)>myrand(maxval) &&
-	   map_get_terrain(x, y)==T_GRASSLAND) || y==map.ysize-1) {
-	if (y>map.ysize-3)
-	  map_set_terrain(x, y, T_ARCTIC);
-	else
-	  map_set_terrain(x, y, T_TUNDRA);
+  for (yn = map.ysize * 9 / 10; yn < map.ysize; yn++) {
+    for (xn = 0; xn < map.xsize; xn++) {
+      if (((hnat(xn, yn) + (map.ysize / 10 - (map.ysize - yn - 1) * 25)
+	    > myrand(maxval))
+	   && nat_get_terrain(xn, yn) == T_GRASSLAND)
+	  || yn == map.ysize - 1) {
+	if (yn > map.ysize - 3) {
+	  nat_set_terrain(xn, yn, T_ARCTIC);
+	} else {
+	  nat_set_terrain(xn, yn, T_TUNDRA);
+	}
       }
     }
   }
@@ -139,13 +160,15 @@ static void make_polar(void)
      as defined in make_passable() ), to be consistent with generator>1. 
      turn every land tile on the second lines that is not arctic into tundra,
      since the first lines has already been set to all arctic above. */
-  for (x=0;x<map.xsize;x++) {
-    if (map_get_terrain(x, 1)!=T_ARCTIC &&
-	!is_ocean(map_get_terrain(x, 1)))
-      map_set_terrain(x, 1, T_TUNDRA);
-    if (map_get_terrain(x, map.ysize-2)!=T_ARCTIC && 
-	!is_ocean(map_get_terrain(x, map.ysize-2)))
-      map_set_terrain(x, map.ysize-2, T_TUNDRA);
+  for (xn = 0; xn < map.xsize; xn++) {
+    if (nat_get_terrain(xn, 1) != T_ARCTIC
+	&& !is_ocean(nat_get_terrain(xn, 1))) {
+      nat_set_terrain(xn, 1, T_TUNDRA);
+    }
+    if (nat_get_terrain(xn, map.ysize - 2) != T_ARCTIC
+	&& !is_ocean(nat_get_terrain(xn, map.ysize - 2))) {
+      nat_set_terrain(xn, map.ysize - 2, T_TUNDRA);
+    }
   }
 }
 
@@ -174,21 +197,29 @@ static void make_desert(int x, int y, int height, int diff)
   enough forest has been planted. diff is again the block function.
   if we're close to equator it will with 50% chance generate jungle instead
 **************************************************************************/
-static void make_forest(int x, int y, int height, int diff)
+static void make_forest(int map_x, int map_y, int height, int diff)
 {
-  if (y==0 || y==map.ysize-1)
-    return;
+  int nat_x, nat_y;
 
-  if (map_get_terrain(x, y)==T_GRASSLAND) {
-    if (y>map.ysize*42/100 && y<map.ysize*58/100 && myrand(100)>50)
-      map_set_terrain(x, y, T_JUNGLE);
-    else 
-      map_set_terrain(x, y, T_FOREST);
-      if (abs(hmap(x, y)-height)<diff) {
-	cartesian_adjacent_iterate(x, y, x1, y1) {
-	  if (myrand(10)>5) make_forest(x1, y1, height, diff-5);
-	} cartesian_adjacent_iterate_end;
-      }
+  map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
+  if (has_poles && (nat_y == 0 || nat_y == map.ysize - 1)) {
+    return;
+  }
+
+  if (map_get_terrain(map_x, map_y) == T_GRASSLAND) {
+    if (has_poles && nat_y > map.ysize * 42 / 100
+	&& nat_y < map.ysize * 58 / 100 && myrand(100) > 50) {
+      map_set_terrain(map_x, map_y, T_JUNGLE);
+    } else {
+      map_set_terrain(map_x, map_y, T_FOREST);
+    }
+    if (abs(hmap(map_x, map_y) - height) < diff) {
+      cartesian_adjacent_iterate(map_x, map_y, x1, y1) {
+	if (myrand(10) > 5) {
+	  make_forest(x1, y1, height, diff - 5);
+	}
+      } cartesian_adjacent_iterate_end;
+    }
     forests++;
   }
 }
@@ -210,10 +241,13 @@ static void make_forests(void)
       make_forest(x, y, hmap(x, y), 25);
     }
     if (has_poles && myrand(100) > 75) {
-      y = (myrand(map.ysize * 2 / 10)) + map.ysize * 4 / 10;
-      x = myrand(map.xsize);
-      if (map_get_terrain(x, y) == T_GRASSLAND) {
-	make_forest(x, y, hmap(x, y), 25);
+      int yn = myrand(map.ysize * 2 / 10) + map.ysize * 4 / 10;
+      int xn = myrand(map.xsize);
+
+      if (nat_get_terrain(xn, yn) == T_GRASSLAND) {
+	do_in_map_pos(x, y, xn, yn) {
+	  make_forest(x, y, hmap(x, y), 25);
+	} do_in_map_pos_end;
       }
     }
   } while (forests < forestsize);
@@ -261,11 +295,13 @@ static void make_deserts(void)
       /* Choose a random coordinate between 20 and 30 degrees north/south
        * (deserts tend to be between 15 and 35; make_desert will expand
        * them). */
-      y = myrand(map.ysize * 10 / 180) + map.ysize * 60 / 180;
-      x = myrand(map.xsize);
+      int xn = myrand(map.xsize);
+      int yn = myrand(map.ysize * 10 / 180) + map.ysize * 60 / 180;
+
       if (myrand(2) != 0) {
-	y = map.ysize - 1 - y;
+	yn = map.ysize - 1 - yn;
       }
+      native_to_map_pos(&x, &y, xn, yn);
     } else {
       /* If there are no poles we can pick any location to be a desert. */
       rand_map_pos(&x, &y);
@@ -772,12 +808,25 @@ static void make_passable(void)
   int x;
   
   for (x=0;x<map.xsize;x++) {
-    map_set_terrain(x, 2, T_OCEAN);
-    if (myrand(100)>50) map_set_terrain(x,1,T_OCEAN);
-    if (myrand(100)>50) map_set_terrain(x,3,T_OCEAN);
-    map_set_terrain(x, map.ysize-3, T_OCEAN);
-    if (myrand(100)>50) map_set_terrain(x,map.ysize-2,T_OCEAN);
-    if (myrand(100)>50) map_set_terrain(x,map.ysize-4,T_OCEAN);
+    nat_set_terrain(x, 2, T_OCEAN);
+
+    /* Iso-maps need two lines of ocean. */
+    if (myrand(2) != 0 || topo_has_flag(TF_ISO)) {
+      nat_set_terrain(x, 1, T_OCEAN);
+    }
+
+    if (myrand(2) != 0) {
+      nat_set_terrain(x, 3, T_OCEAN);
+    }
+
+    nat_set_terrain(x, map.ysize - 3, T_OCEAN);
+
+    if (myrand(2) != 0 || topo_has_flag(TF_ISO)) {
+      nat_set_terrain(x, map.ysize - 2, T_OCEAN);
+    }
+    if (myrand(2) != 0) {
+      nat_set_terrain(x, map.ysize - 4, T_OCEAN);
+    }
   } 
   
 }
@@ -855,7 +904,11 @@ static void make_land(void)
 **************************************************************************/
 static bool is_tiny_island(int x, int y) 
 {
-  if (is_ocean(map_get_terrain(x,y))) {
+  enum tile_terrain_type t = map_get_terrain(x, y);
+
+  if (is_ocean(t) || t == T_ARCTIC) {
+    /* The arctic check is needed for iso-maps: the poles may not have
+     * any cardinally adjacent land tiles, but that's okay. */
     return FALSE;
   }
 
@@ -921,8 +974,13 @@ void assign_continent_numbers(void)
   } whole_map_iterate_end;
 
   if (map.generator != 0 && has_poles) {
-    assign_continent_flood(0, 0, 1);
-    assign_continent_flood(0, map.ysize-1, 2);
+    do_in_map_pos(x, y, 0, 0) {
+      assign_continent_flood(x, y, 1);
+    } do_in_map_pos_end;
+
+    do_in_map_pos(x, y, 0, map.ysize - 1) {
+      assign_continent_flood(x, y, 2);
+    } do_in_map_pos_end;
     isle = 3;
   }
       
@@ -1367,24 +1425,28 @@ static void make_huts(int number)
 
 static void add_specials(int prob)
 {
-  int x,y;
+  int xn, yn;
+  int ymin = has_poles ? 1 : 0, ymax = has_poles ? map.ysize - 1 : map.ysize;
   enum tile_terrain_type ttype;
-  for (y=1;y<map.ysize-1;y++) {
-    for (x=0;x<map.xsize; x++) {
-      ttype = map_get_terrain(x, y);
-      if ((is_ocean(ttype) && is_coastline(x,y)) || !is_ocean(ttype)) {
-	if (myrand(1000)<prob) {
-	  if (!is_special_close(x,y)) {
-	    if (tile_types[ttype].special_1_name[0] != '\0' &&
-		(tile_types[ttype].special_2_name[0] == '\0' || (myrand(100)<50))) {
-	      map_set_special(x, y, S_SPECIAL_1);
-	    }
-	    else if (tile_types[ttype].special_2_name[0] != '\0') {
-	      map_set_special(x, y, S_SPECIAL_2);
+
+  for (yn = ymin; yn < ymax; yn++) {
+    for (xn = 0; xn < map.xsize; xn++) {
+      do_in_map_pos(x, y, xn, yn) {
+	ttype = map_get_terrain(x, y);
+	if ((is_ocean(ttype) && is_coastline(x, y)) || !is_ocean(ttype)) {
+	  if (myrand(1000) < prob) {
+	    if (!is_special_close(x, y)) {
+	      if (tile_types[ttype].special_1_name[0] != '\0'
+		  && (tile_types[ttype].special_2_name[0] == '\0'
+		      || (myrand(100) < 50))) {
+		map_set_special(x, y, S_SPECIAL_1);
+	      } else if (tile_types[ttype].special_2_name[0] != '\0') {
+		map_set_special(x, y, S_SPECIAL_2);
+	      }
 	    }
 	  }
 	}
-      }
+      } do_in_map_pos_end;
     }
   }
   map.have_specials = TRUE;
@@ -1398,8 +1460,16 @@ struct gen234_state {
   long int totalmass;
 };
 
-static bool is_cold(int x, int y){
-  return ( y * 5 < map.ysize || y * 5 > map.ysize * 4 );
+static bool map_pos_is_cold(int x, int y)
+{
+  int xn, yn;
+
+  if (!has_poles) {
+    return FALSE;
+  }
+
+  map_to_native_pos(&xn, &yn, x, y);
+  return (yn * 5 < map.ysize || (map.ysize - 1 - yn) * 5 > map.ysize);
 }
 
 /**************************************************************************
@@ -1409,24 +1479,20 @@ static void get_random_map_position_from_state(int *x, int *y,
 					       const struct gen234_state
 					       *const pstate)
 {
-  bool is_real;
-
-  *x = pstate->w;
-  *y = pstate->n;
-
-  is_real = normalize_map_pos(x, y);
-  assert(is_real);
+  int xn, yn;
 
   assert((pstate->e - pstate->w) > 0);
   assert((pstate->e - pstate->w) < map.xsize);
   assert((pstate->s - pstate->n) > 0);
   assert((pstate->s - pstate->n) < map.ysize);
 
-  *x += myrand(pstate->e - pstate->w);
-  *y += myrand(pstate->s - pstate->n);
+  xn = pstate->w + myrand(pstate->e - pstate->w);
+  yn = pstate->n + myrand(pstate->s - pstate->n);
 
-  is_real = normalize_map_pos(x, y);
-  assert(is_real);
+  native_to_map_pos(x, y, xn, yn);
+  if (!normalize_map_pos(x, y)) {
+    die("Invalid map operation.");
+  }
 }
 
 /**************************************************************************
@@ -1474,12 +1540,13 @@ static void fill_island(int coast, long int *bucket,
 	     )
 	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {
         if (cold1 != T_RIVER) {
-          if ( is_cold(x,y) )
+          if (map_pos_is_cold(x, y)) {
             map_set_terrain(x, y, (myrand(cold0_weight+cold1_weight)<cold0_weight) 
 			    ? cold0 : cold1);
-          else
+	  } else {
             map_set_terrain(x, y, (myrand(warm0_weight+warm1_weight)<warm0_weight) 
 			    ? warm0 : warm1);
+	  }
         } else {
           if (is_water_adjacent_to_tile(x, y) &&
 	      count_ocean_near_tile(x, y) < 4 &&
@@ -1543,39 +1610,56 @@ static long int checkmass;
 **************************************************************************/
 static bool place_island(struct gen234_state *pstate)
 {
-  int x, y, xo, yo, i=0;
-  rand_map_pos(&xo, &yo);
+  int xn, yn, xon, yon, i=0;
+
+  {
+    int xo, yo;
+
+    rand_map_pos(&xo, &yo);
+    map_to_native_pos(&xon, &yon, xo, yo);
+  }
 
   /* this helps a lot for maps with high landmass */
-  for (y = pstate->n, x = pstate->w; y < pstate->s && x < pstate->e;
-       y++, x++) {
-    int map_x = x + xo - pstate->w;
-    int map_y = y + yo - pstate->n;
+  for (yn = pstate->n, xn = pstate->w;
+       yn < pstate->s && xn < pstate->e;
+       yn++, xn++) {
+    int map_x, map_y;
 
-    if (!normalize_map_pos(&map_x, &map_y))
+    native_to_map_pos(&map_x, &map_y,
+		      xn + xon - pstate->w, yn + yon - pstate->n);
+
+    if (!normalize_map_pos(&map_x, &map_y)) {
       return FALSE;
-    if (hmap(x, y) != 0 && is_coastline(map_x, map_y))
+    }
+    if (hnat(xn, yn) != 0 && is_coastline(map_x, map_y)) {
       return FALSE;
+    }
   }
 		       
-  for (y = pstate->n; y < pstate->s; y++) {
-    for (x = pstate->w; x < pstate->e; x++) {
-      int map_x = x + xo - pstate->w;
-      int map_y = y + yo - pstate->n;
+  for (yn = pstate->n; yn < pstate->s; yn++) {
+    for (xn = pstate->w; xn < pstate->e; xn++) {
+      int map_x, map_y;
 
-      if (!normalize_map_pos(&map_x, &map_y))
+      native_to_map_pos(&map_x, &map_y,
+			xn + xon - pstate->w, yn + yon - pstate->n);
+
+      if (!normalize_map_pos(&map_x, &map_y)) {
 	return FALSE;
-      if (hmap(x, y) != 0 && is_coastline(map_x, map_y))
+      }
+      if (hnat(xn, yn) != 0 && is_coastline(map_x, map_y)) {
 	return FALSE;
+      }
     }
   }
 
-  for (y = pstate->n; y < pstate->s; y++) {
-    for (x = pstate->w; x < pstate->e; x++) {
-      if (hmap(x, y) != 0) {
-	int map_x = x + xo - pstate->w;
-	int map_y = y + yo - pstate->n;
+  for (yn = pstate->n; yn < pstate->s; yn++) {
+    for (xn = pstate->w; xn < pstate->e; xn++) {
+      if (hnat(xn, yn) != 0) {
+	int map_x, map_y;
 	bool is_real;
+
+	native_to_map_pos(&map_x, &map_y,
+			  xn + xon - pstate->w, yn + yon - pstate->n);
 
 	is_real = normalize_map_pos(&map_x, &map_y);
 	assert(is_real);
@@ -1592,11 +1676,27 @@ static bool place_island(struct gen234_state *pstate)
       }
     }
   }
-  pstate->s += yo - pstate->n;
-  pstate->e += xo - pstate->w;
-  pstate->n = yo;
-  pstate->w = xo;
+  pstate->s += yon - pstate->n;
+  pstate->e += xon - pstate->w;
+  pstate->n = yon;
+  pstate->w = xon;
   return i != 0;
+}
+
+/****************************************************************************
+  Returns the number of cardinally adjacent tiles have a non-zero elevation.
+****************************************************************************/
+static int count_card_adjc_elevated_tiles(int x, int y)
+{
+  int count = 0;
+
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (hmap(x1, y1) != 0) {
+      count++;
+    }
+  } cartesian_adjacent_iterate_end;
+
+  return count;
 }
 
 /**************************************************************************
@@ -1604,37 +1704,45 @@ static bool place_island(struct gen234_state *pstate)
 **************************************************************************/
 static bool create_island(int islemass, struct gen234_state *pstate)
 {
-  int x, y, i;
+  int x, y, xn, yn, i;
   long int tries=islemass*(2+islemass/20)+99;
   bool j;
 
   memset(height_map, '\0', sizeof(int) * map.xsize * map.ysize);
-  y = map.ysize / 2;
-  x = map.xsize / 2;
-  hmap(x, y) = 1;
-  pstate->n = y - 1;
-  pstate->w = x - 1;
-  pstate->s = y + 2;
-  pstate->e = x + 2;
+  xn = map.xsize / 2;
+  yn = map.ysize / 2;
+  hnat(xn, yn) = 1;
+  pstate->n = yn - 1;
+  pstate->w = xn - 1;
+  pstate->s = yn + 2;
+  pstate->e = xn + 2;
   i = islemass - 1;
   while (i > 0 && tries-->0) {
     get_random_map_position_from_state(&x, &y, pstate);
-    if (hmap(x, y) == 0 && (hmap(x + 1, y) != 0 || hmap(x - 1, y) != 0 ||
-			    hmap(x, y + 1) != 0 || hmap(x, y - 1) != 0)) {
+    map_to_native_pos(&xn, &yn, x, y);
+    if (hmap(x, y) == 0 && count_card_adjc_elevated_tiles(x, y) > 0) {
       hmap(x, y) = 1;
       i--;
-      if (y >= pstate->s - 1 && pstate->s < map.ysize - 2) pstate->s++;
-      if (x >= pstate->e - 1 && pstate->e < map.xsize - 2) pstate->e++;
-      if (y <= pstate->n && pstate->n > 2)                 pstate->n--;
-      if (x <= pstate->w && pstate->w > 2)                 pstate->w--;
+      if (yn >= pstate->s - 1 && pstate->s < map.ysize - 2) {
+	pstate->s++;
+      }
+      if (xn >= pstate->e - 1 && pstate->e < map.xsize - 2) {
+	pstate->e++;
+      }
+      if (yn <= pstate->n && pstate->n > 2) {
+	pstate->n--;
+      }
+      if (xn <= pstate->w && pstate->w > 2) {
+	pstate->w--;
+      }
     }
     if (i < islemass / 10) {
-      for (y = pstate->n; y < pstate->s; y++) {
-	for (x = pstate->w; x < pstate->e; x++) {
-	  if (hmap(x, y) == 0 && i > 0
-	      && (hmap(x + 1, y) != 0 && hmap(x - 1, y) != 0
-		  && hmap(x, y + 1) != 0 && hmap(x, y - 1) != 0)) {
-	    hmap(x, y) = 1;
+      for (yn = pstate->n; yn < pstate->s; yn++) {
+	for (xn = pstate->w; xn < pstate->e; xn++) {
+	  native_to_map_pos(&x, &y, xn, yn);
+	  if (hnat(xn, yn) == 0 && i > 0
+	      && count_card_adjc_elevated_tiles(x, y) == 4) {
+	    hnat(xn, yn) = 1;
             i--; 
           }
 	}
@@ -1789,33 +1897,38 @@ static bool make_island(int islemass, int starters,
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
-  int x, y;
+  int xn;
   
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
   islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
-  
-  for (y = 0 ; y < map.ysize ; y++) 
-    for (x = 0 ; x < map.xsize ; x++) {
-      map_set_terrain(x, y, T_OCEAN);
-      map_set_continent(x, y, 0);
-      map_clear_all_specials(x, y);
-      map_set_owner(x, y, NULL);
-    }
+
+  whole_map_iterate(x, y) {
+    map_set_terrain(x, y, T_OCEAN);
+    map_set_continent(x, y, 0);
+    map_clear_all_specials(x, y);
+    map_set_owner(x, y, NULL);
+  } whole_map_iterate_end;
   if (has_poles) {
-    for (x = 0; x < map.xsize; x++) {
-      map_set_terrain(x, 0, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-      map_set_continent(x, 0, 1);
+    for (xn = 0; xn < map.xsize; xn++) {
+      do_in_map_pos(x, y, xn, 0) {
+	map_set_terrain(x, y, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
+	map_set_continent(x, y, 1);
+      } do_in_map_pos_end;
       if (myrand(9) == 0) {
-	map_set_terrain(x, 1, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-	map_set_continent(x, 1, 1);
+	do_in_map_pos(x, y, xn, 1) {
+	  map_set_terrain(x, y, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
+	  map_set_continent(x, y, 1);
+	} do_in_map_pos_end;
       }
-      map_set_terrain(x, map.ysize - 1,
-		      myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-      map_set_continent(x, map.ysize - 1, 2);
+      do_in_map_pos(x, y, xn, map.ysize - 1) {
+	map_set_terrain(x, y, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
+	map_set_continent(x, y, 2);
+      } do_in_map_pos_end;
       if (myrand(9) == 0) {
-	map_set_terrain(x, map.ysize - 2,
-			myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-	map_set_continent(x, map.ysize - 2, 2);
+	do_in_map_pos(x, y, xn, map.ysize - 2) {
+	  map_set_terrain(x, y, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
+	  map_set_continent(x, y, 2);
+	} do_in_map_pos_end;
       }
     }
     map.num_continents = 2;
@@ -2071,13 +2184,17 @@ static void mapgenerator4(void)
 #undef DMSIS
 
 /**************************************************************************
-Recursive function which does the work for generator 5
+  Recursive function which does the work for generator 5.
+
+  All (x0,y0) and (x1,y1) are in native coordinates.
 **************************************************************************/
 static void gen5rec(int step, int x0, int y0, int x1, int y1)
 {
   int val[2][2];
   int x1wrap = x1; /* to wrap correctly */ 
   int y1wrap = y1; 
+
+  /* All x and y values are native. */
 
   if (((y1 - y0 <= 0) || (x1 - x0 <= 0)) 
       || ((y1 - y0 == 1) && (x1 - x0 == 1))) {
@@ -2089,32 +2206,35 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
   if (y1 == map.ysize)
     y1wrap = 0;
 
-  val[0][0] = hmap(x0, y0);
-  val[0][1] = hmap(x0, y1wrap);
-  val[1][0] = hmap(x1wrap, y0);
-  val[1][1] = hmap(x1wrap, y1wrap);
+  val[0][0] = hnat(x0, y0);
+  val[0][1] = hnat(x0, y1wrap);
+  val[1][0] = hnat(x1wrap, y0);
+  val[1][1] = hnat(x1wrap, y1wrap);
 
   /* set midpoints of sides to avg of side's vertices plus a random factor */
   /* unset points are zero, don't reset if set */
-  if (hmap((x0 + x1)/2, y0) == 0) {
-    hmap((x0 + x1)/2, y0) = (val[0][0] + val[1][0])/2 + myrand(step) - step/2;
+  if (hnat((x0 + x1) / 2, y0) == 0) {
+    hnat((x0 + x1) / 2, y0)
+      = (val[0][0] + val[1][0]) / 2 + myrand(step) - step / 2;
   }
-  if (hmap((x0 + x1)/2, y1wrap) == 0) {
-    hmap((x0 + x1)/2, y1wrap) = (val[0][1] + val[1][1])/2 
-      + myrand(step)- step/2;
+  if (hnat((x0 + x1) /2, y1wrap) == 0) {
+    hnat((x0 + x1) / 2, y1wrap)
+      = (val[0][1] + val[1][1]) / 2 + myrand(step) - step / 2;
   }
-  if (hmap(x0, (y0 + y1)/2) == 0) {
-    hmap(x0, (y0 + y1)/2) = (val[0][0] + val[0][1])/2 + myrand(step) - step/2;
+  if (hnat(x0, (y0 + y1) / 2) == 0) {
+    hnat(x0, (y0 + y1) / 2)
+      = (val[0][0] + val[0][1]) / 2 + myrand(step) - step / 2;
   }
-  if (hmap(x1wrap, (y0 + y1)/2) == 0) {
-    hmap(x1wrap, (y0 + y1)/2) = (val[1][0] + val[1][1])/2 
-      + myrand(step) - step/2;
+  if (hnat(x1wrap, (y0 + y1) / 2) == 0) {
+    hnat(x1wrap, (y0 + y1) / 2)
+      = (val[1][0] + val[1][1]) / 2 + myrand(step) - step / 2;
   }
 
   /* set middle to average of midpoints plus a random factor, if not set */
-  if (hmap((x0 + x1)/2, (y0 + y1)/2) == 0) {
-    hmap((x0 + x1)/2, (y0 + y1)/2) = (val[0][0] + val[0][1] + val[1][0] 
-				      + val[1][1])/4 + myrand(step) - step/2;
+  if (hnat((x0 + x1) / 2, (y0 + y1) / 2) == 0) {
+    hnat((x0 + x1) / 2, (y0 + y1) / 2)
+      = (val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
+        + myrand(step) - step / 2;
   }
 
   /* now call recursively on the four subrectangles */
@@ -2132,6 +2252,8 @@ midpoints and middle and so on recursively.  Fiddling with 'xdiv' and
 'ydiv' will change the size of the initial blocks and, if the map does not 
 wrap in at least one direction, fiddling with 'avoidedge' will change the 
 liklihood of continents butting up to non-wrapped edges.
+
+  All X and Y values used in this function are in native coordinates.
 **************************************************************************/
 static void mapgenerator5(void)
 {
@@ -2150,7 +2272,7 @@ static void mapgenerator5(void)
 
   int xmax = map.xsize - (xnowrap ? 1 : 0);
   int ymax = map.ysize - (ynowrap ? 1 : 0);
-  int x, y, minval;
+  int xn, yn, minval;
   /* just need something > log(max(xsize, ysize)) for the recursion */
   int step = map.xsize + map.ysize; 
   /* edges are avoided more strongly as this increases */
@@ -2164,45 +2286,46 @@ static void mapgenerator5(void)
   } whole_map_iterate_end;
 
   /* set initial points */
-  for (x = 0; x < xdiv2; x++) {
-    for (y = 0; y < ydiv2; y++) {
-      hmap(x * xmax / xdiv, y * ymax / ydiv) =  myrand(2*step) - (2*step)/2;
+  for (xn = 0; xn < xdiv2; xn++) {
+    for (yn = 0; yn < ydiv2; yn++) {
+      hnat(xn * xmax / xdiv, yn * ymax / ydiv)
+	=  myrand(2 * step) - (2 * step) / 2;
     }
   }
 
   /* if we aren't wrapping stay away from edges to some extent, try
      even harder to avoid the edges naturally if separatepoles is true */
   if (xnowrap) {
-    for (y = 0; y < ydiv2; y++) {
-      hmap(0, y * ymax / ydiv) -= avoidedge;
-      hmap(xmax, y * ymax / ydiv) -= avoidedge;
+    for (yn = 0; yn < ydiv2; yn++) {
+      hnat(0, yn * ymax / ydiv) -= avoidedge;
+      hnat(xmax, yn * ymax / ydiv) -= avoidedge;
       if (map.separatepoles && has_poles) {
-	hmap(2, y * ymax / ydiv) = hmap(0, y * ymax / ydiv) 
-	                                                - myrand(3*avoidedge);
-	hmap(xmax - 2, y * ymax / ydiv) 
-	                  = hmap(xmax, y * ymax / ydiv) - myrand(3*avoidedge);
+	hnat(2, yn * ymax / ydiv)
+	  = hnat(0, yn * ymax / ydiv) - myrand(3*avoidedge);
+	hnat(xmax - 2, yn * ymax / ydiv) 
+	  = hnat(xmax, yn * ymax / ydiv) - myrand(3 * avoidedge);
       }
     }
   }
 
   if (ynowrap) {
-    for (x = 0; x < xdiv2; x++) {
-      hmap(x * xmax / xdiv, 0) -= avoidedge;
-      hmap(x * xmax / xdiv, ymax) -= avoidedge;
+    for (xn = 0; xn < xdiv2; xn++) {
+      hnat(xn * xmax / xdiv, 0) -= avoidedge;
+      hnat(xn * xmax / xdiv, ymax) -= avoidedge;
       if (map.separatepoles && has_poles) {
-	hmap(x * xmax / xdiv, 2) = hmap(x * xmax / xdiv, 0) 
-                                                       - myrand(3*avoidedge);
-	hmap(x * xmax / xdiv, ymax - 2) 
-                         = hmap(x * xmax / xdiv, ymax) - myrand(3*avoidedge);
+	hnat(xn * xmax / xdiv, 2)
+	  = hnat(xn * xmax / xdiv, 0) - myrand(3 * avoidedge);
+	hnat(xn * xmax / xdiv, ymax - 2) 
+	  = hnat(xn * xmax / xdiv, ymax) - myrand(3 * avoidedge);
       }
     }
   }
 
   /* calculate recursively on each block */
-  for (x = 0; x < xdiv; x++) {
-    for (y = 0; y < ydiv; y++) {
-      gen5rec(step, x * xmax / xdiv, y * ymax / ydiv, 
-	      (x + 1) * xmax / xdiv,(y + 1) * ymax / ydiv);
+  for (xn = 0; xn < xdiv; xn++) {
+    for (yn = 0; yn < ydiv; yn++) {
+      gen5rec(step, xn * xmax / xdiv, yn * ymax / ydiv, 
+	      (xn + 1) * xmax / xdiv, (yn + 1) * ymax / ydiv);
     }
   }
 
@@ -2212,8 +2335,8 @@ static void mapgenerator5(void)
   } whole_map_iterate_end;
 
   /* and calibrate maxval and minval */
-  maxval = hmap(0, 0);
-  minval = hmap(0, 0);
+  maxval = hnat(0, 0);
+  minval = hnat(0, 0);
   whole_map_iterate(x, y) {
     maxval = MAX(maxval, hmap(x, y));
     minval = MIN(minval, hmap(x, y));
