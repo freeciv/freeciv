@@ -119,20 +119,20 @@ static inline int city_want(struct player *pplayer, struct city *acity,
 
   want += food * ai->food_priority;
   if (shields != 0) {
-    want += ((shields * get_city_shield_bonus(acity)) / 100)
+    want += ((shields * get_city_output_bonus(acity, O_SHIELD)) / 100)
             * ai->shield_priority;
     want -= city_pollution(acity, shields) * ai->pollution_priority;
   }
   if (lux > 0) {
-    want += ((lux * get_city_luxury_bonus(acity)) / 100)
+    want += ((lux * get_city_output_bonus(acity, O_LUXURY)) / 100)
             * ai->luxury_priority;
   }
   if (sci > 0) {
-    want += ((sci * get_city_science_bonus(acity)) / 100)
+    want += ((sci * get_city_output_bonus(acity, O_SCIENCE)) / 100)
             * ai->science_priority;
   }
   if (tax > 0) {
-    tax *= get_city_tax_bonus(acity) / 100;
+    tax *= get_city_output_bonus(acity, O_GOLD) / 100;
   }
   want += tax * ai->gold_priority;
 

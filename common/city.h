@@ -509,10 +509,7 @@ int city_specialists(const struct city *pcity);                 /* elv+tax+scie 
 Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity);
 const char *specialists_string(const int *specialists);
-int get_city_tax_bonus(const struct city *pcity);
-int get_city_luxury_bonus(const struct city *pcity);
-int get_city_shield_bonus(const struct city *pcity);
-int get_city_science_bonus(const struct city *pcity);
+int get_city_output_bonus(const struct city *pcity, Output_type_id otype);
 bool city_built_last_turn(const struct city *pcity);
 
 /* city creation / destruction */

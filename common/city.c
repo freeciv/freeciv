@@ -1603,27 +1603,25 @@ static int content_citizens(struct player *pplayer)
 }
 
 /**************************************************************************
- Return the factor (in %) by which the shield should be multiplied.
+ Return the factor (in %) by which the city's output should be multiplied.
 **************************************************************************/
-int get_city_shield_bonus(const struct city *pcity)
+int get_city_output_bonus(const struct city *pcity, Output_type_id otype)
 {
-  return (100 + get_city_bonus(pcity, EFT_PROD_BONUS));
-}
+  enum effect_type eft[] = {EFT_LAST, EFT_PROD_BONUS, EFT_LAST,
+			    EFT_TAX_BONUS, EFT_LUXURY_BONUS,
+			    EFT_SCIENCE_BONUS};
+  int bonus = 100;
 
-/**************************************************************************
-  Return the factor (in %) by which the tax should be multiplied.
-**************************************************************************/
-int get_city_tax_bonus(const struct city *pcity)
-{
-  return (100 + get_city_bonus(pcity, EFT_TAX_BONUS));
-}
+  if (eft[otype] != EFT_LAST) {
+    bonus += get_city_bonus(pcity, eft[otype]);
+  }
 
-/**************************************************************************
-  Return the factor (in %) by which the luxury should be multiplied.
-**************************************************************************/
-int get_city_luxury_bonus(const struct city *pcity)
-{
-  return (100 + get_city_bonus(pcity, EFT_LUXURY_BONUS));
+  if (otype == O_SCIENCE
+      && government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
+    bonus /= 2;
+  }
+
+  return bonus;
 }
 
 /**************************************************************************
@@ -1643,22 +1641,6 @@ int get_city_tithes_bonus(const struct city *pcity)
   tithes_bonus += get_city_bonus(pcity, EFT_FORCE_CONTENT);
 
   return tithes_bonus;
-}
-
-/**************************************************************************
-  Return the factor (in %) by which the science should be multiplied.
-**************************************************************************/
-int get_city_science_bonus(const struct city *pcity)
-{
-  int science_bonus;
-
-  science_bonus = 100 + get_city_bonus(pcity, EFT_SCIENCE_BONUS);
-
-  if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
-    science_bonus /= 2;
-  }
-
-  return science_bonus;
 }
 
 /**************************************************************************
@@ -1734,10 +1716,9 @@ static inline void set_tax_income(struct city *pcity)
 static void add_buildings_effect(struct city *pcity)
 {
   /* this is the place to set them */
-  pcity->bonus[O_GOLD] = get_city_tax_bonus(pcity);
-  pcity->bonus[O_LUXURY] = get_city_luxury_bonus(pcity);
-  pcity->bonus[O_SCIENCE] = get_city_science_bonus(pcity);
-  pcity->bonus[O_SHIELD] = get_city_shield_bonus(pcity);
+  output_type_iterate(o) {
+    pcity->bonus[o] = get_city_output_bonus(pcity, o);
+  } output_type_iterate_end;
 
   pcity->shield_prod = (pcity->shield_prod * pcity->bonus[O_SHIELD]) / 100;
   pcity->luxury_total = (pcity->luxury_total * pcity->bonus[O_LUXURY]) / 100;
