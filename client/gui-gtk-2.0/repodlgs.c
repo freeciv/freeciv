@@ -1082,9 +1082,10 @@ static struct unit *find_nearest_unit(Unit_Type_id type, struct tile *ptile)
   best_candidate = NULL;
   unit_list_iterate(game.player_ptr->units, punit) {
     if (punit->type == type) {
-      if (punit->focus_status==FOCUS_AVAIL && (punit->activity==ACTIVITY_IDLE
-            || punit->activity==ACTIVITY_SENTRY) 
-	  && punit->moves_left > 0 && !punit->ai.control) {
+      if (punit->focus_status==FOCUS_AVAIL
+	  && punit->moves_left > 0
+	  && !punit->done_moving
+	  && !punit->ai.control) {
 	int d;
 	d=sq_map_distance(punit->tile, ptile);
 	if(d<best_dist) {
@@ -1130,8 +1131,13 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response)
 
     ptile = get_center_tile_mapcanvas();
     if ((punit = find_nearest_unit(ut1, ptile))) {
-      if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-	set_unit_focus_and_select(punit);
+      center_tile_mapcanvas(punit->tile);
+
+      if (punit->activity == ACTIVITY_IDLE
+	  || punit->activity == ACTIVITY_SENTRY) {
+	if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+	  set_unit_focus_and_select(punit);
+	}
       }
     }
   } else {
