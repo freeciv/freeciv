@@ -773,7 +773,11 @@ void city_increase_size(struct city *pcity)
     if (ai_fix_unhappy(pcity))
       ai_scientists_taxmen(pcity);
 
+  connection_do_buffer(city_owner(pcity)->conn);
   send_city_info(&game.players[pcity->owner], pcity, 0);
+  notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_GROWTH,
+                   "Game: %s grows to size %d", pcity->name, pcity->size);
+  connection_do_unbuffer(city_owner(pcity)->conn);
 }
 
 /**************************************************************************
