@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -286,7 +287,7 @@ struct Map_Data
   struct Layer *unit_layer;
 
   LONG update;			/* 1 = Tile; 2 = MoveUnit; 3 = Scroll; 4 = ShowCityNames */
-  LONG tilex, tiley, width, height, write_to_screen;	/* Drawing (1) */
+  LONG x, y, width, height, write_to_screen;	/* Drawing (1) */
   LONG dest_x, dest_y, x0, y0, dx, dy;	/* Drawing (2) */
   struct unit *punit;		/* Drawing (2) */
   LONG old_horiz_first;		/* Drawing (3) */
@@ -653,6 +654,120 @@ static VOID Map_Priv_PutLine(struct Map_Data *data, struct RastPort *rp,
   Draw(rp, canvas_dest_x, canvas_dest_y);
 }
 
+STATIC void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
+{
+  int x0, y0, dx, dy, dest_x, dest_y, w, h;
+  struct unit *punit;
+  static struct timer *anim_timer = NULL; 
+
+  punit = data->punit;
+  x0 = data->x0;
+  y0 = data->y0;
+  dx = data->dx;
+  dy = data->dy;
+  dest_x = data->dest_x;
+  dest_y = data->dest_y;
+
+  {
+    int i, steps;
+    int start_x, start_y;
+    int this_x, this_y;
+    int canvas_dx, canvas_dy;
+    int ox,oy;
+
+    if (is_isometric) {
+      if (dx == 0) {
+	canvas_dx = -NORMAL_TILE_WIDTH/2 * dy;
+	canvas_dy = NORMAL_TILE_HEIGHT/2 * dy;
+      } else if (dy == 0) {
+	canvas_dx = NORMAL_TILE_WIDTH/2 * dx;
+	canvas_dy = NORMAL_TILE_HEIGHT/2 * dx;
+      } else {
+	if (dx > 0) {
+	  if (dy > 0) {
+	    canvas_dx = 0;
+	    canvas_dy = NORMAL_TILE_HEIGHT;
+	  } else { /* dy < 0 */
+	    canvas_dx = NORMAL_TILE_WIDTH;
+	    canvas_dy = 0;
+	  }
+	} else { /* dx < 0 */
+	  if (dy > 0) {
+	    canvas_dx = -NORMAL_TILE_WIDTH;
+	    canvas_dy = 0;
+	  } else { /* dy < 0 */
+	    canvas_dx = 0;
+	    canvas_dy = -NORMAL_TILE_HEIGHT;
+	  }
+	}
+      }
+    } else {
+      canvas_dx = NORMAL_TILE_WIDTH * dx;
+      canvas_dy = NORMAL_TILE_HEIGHT * dy;
+    }
+
+    if (smooth_move_unit_steps < 2) {
+      steps = 2;
+    } else if (smooth_move_unit_steps > MAX(abs(canvas_dx), abs(canvas_dy))) {
+      steps = MAX(abs(canvas_dx), abs(canvas_dy));
+    } else {
+      steps = smooth_move_unit_steps;
+    }
+
+    get_canvas_xy(x0, y0, &start_x, &start_y);
+    if (is_isometric) {
+      start_y -= NORMAL_TILE_HEIGHT/2;
+    }
+
+    this_x = start_x;
+    this_y = start_y;
+
+    ox = NORMAL_TILE_WIDTH / steps;
+    oy = NORMAL_TILE_HEIGHT / steps;
+
+    w = NORMAL_TILE_WIDTH + 2*ox;
+    h = NORMAL_TILE_HEIGHT + 2*oy;
+
+    for (i = 1; i <= steps; i++) {
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+/*      if (is_isometric) {
+	/* FIXME: We need to draw units on tiles below the moving unit on top. */
+	gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+			this_x, this_y, this_x, this_y,
+			single_tile_pixmap_width, single_tile_pixmap_height);
+
+	this_x = start_x + ((i * canvas_dx)/steps);
+	this_y = start_y + ((i * canvas_dy)/steps);
+
+	gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
+			this_x, this_y, 0, 0,
+			single_tile_pixmap_width, single_tile_pixmap_height);
+	put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+
+	gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
+			0, 0, this_x, this_y,
+			single_tile_pixmap_width, single_tile_pixmap_height);
+      } else*/ {
+	this_x = start_x + ((i * canvas_dx)/steps);
+	this_y = start_y + ((i * canvas_dy)/steps);
+
+	BltBitMapRastPort(data->map_bitmap, this_x - ox, this_y - oy,
+			  data->unit_layer->rp, 0, 0, w, h, 0xc0);
+
+	put_unit_tile(data->unit_layer->rp, punit, ox, oy);
+
+	BltBitMapRastPort(data->unit_bitmap, 0, 0,
+			 _rp(o), _mleft(o) + this_x - ox, _mtop(o) + this_y - oy, w, h, 0xc0);
+      }
+
+      if (i < steps) {
+	usleep_since_timer_start(anim_timer, 10000);
+      }
+    }
+  }
+}
+
 
 static ULONG Map_New(struct IClass * cl, Object * o, struct opSet * msg)
 {
@@ -866,12 +981,12 @@ static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
     if (data->overview_object)
       set(data->overview_object, MUIA_Overview_RadarPicture, data->radar_gfx_sprite->picture);
 
-    if ((data->unit_bitmap = AllocBitMap(get_normal_tile_width() + 4, get_normal_tile_height() + 4, GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_DEPTH), BMF_MINPLANES, _screen(o)->RastPort.BitMap)))
+    if ((data->unit_bitmap = AllocBitMap(NORMAL_TILE_WIDTH * 2, NORMAL_TILE_HEIGHT * 2, GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_DEPTH), BMF_MINPLANES, _screen(o)->RastPort.BitMap)))
     {
       if ((data->unit_layerinfo = NewLayerInfo()))
       {
 	InstallLayerInfoHook(data->unit_layerinfo, LAYERS_NOBACKFILL);
-	if ((data->unit_layer = CreateBehindHookLayer(data->unit_layerinfo, data->unit_bitmap, 0, 0, get_normal_tile_width() + 4 - 1, get_normal_tile_height() + 4 - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
+	if ((data->unit_layer = CreateBehindHookLayer(data->unit_layerinfo, data->unit_bitmap, 0, 0, NORMAL_TILE_WIDTH * 2 - 1, NORMAL_TILE_HEIGHT * 2 - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
 	{
 	  if (render_sprites( /*_screen(o),*/ dh))
 	  {
@@ -1050,6 +1165,10 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     {
       if (data->update == 5)
       {
+      }
+
+/*      if (data->update == 5)
+      {
       	/* Explode Unit */
 	static struct timer *anim_timer = NULL; 
 	int i;
@@ -1103,19 +1222,19 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	for(y=0; y<3; y++) {
 	  for(x=0; x<3; x++) {
-	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * get_normal_tile_width();
+/*	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * get_normal_tile_width();
 	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * get_normal_tile_height();
 	    struct Sprite *mysprite = sprites.explode.nuke[y][x];
 
-	    put_sprite_overlay( _rp(o), mysprite, _mleft(o) + map_x, _mtop(o) + map_y);
+	    put_sprite_overlay( _rp(o), mysprite, _mleft(o) + map_x, _mtop(o) + map_y);*/
 	  }
 	}
 
 	TimeDelay( UNIT_VBLANK, 1,0);
 
 	/* Restore the map */
-	x = map_canvas_adjust_x(data->mushroom_x0-1) * get_normal_tile_width();
-	y = map_canvas_adjust_y(data->mushroom_y0-1) * get_normal_tile_height();
+//	x = map_canvas_adjust_x(data->mushroom_x0-1) * get_normal_tile_width();
+//	y = map_canvas_adjust_y(data->mushroom_y0-1) * get_normal_tile_height();
 
 	w = get_normal_tile_width() * 3;
 	h = get_normal_tile_height() * 3;
@@ -1154,8 +1273,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  if (data->worker_colornum == 3) data->worker_colornum = 0;
 	}
 
-	x = map_canvas_adjust_x(pcity->x);
-	y = map_canvas_adjust_y(pcity->y);
+//	x = map_canvas_adjust_x(pcity->x);
+//	y = map_canvas_adjust_y(pcity->y);
 
 	SetAPen(_rp(o),color);
 
@@ -1204,7 +1323,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       if (data->update == 8)
       {
       	/* Draw Segment */
-	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
+/*	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 	int src_x = data->segment_src_x;
 	int src_y = data->segment_src_y;
 	int dest_x = data->segment_dest_x;
@@ -1240,14 +1359,14 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
         }
         SetDrMd(_rp(o),drmd);
         SetDrMd(data->map_layer->rp,JAM1);
-	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);*/
 	return 0;
       }
 
       if (data->update == 9)
       {
       	/* Undraw Segment */
-	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
+/*	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 	int src_x = data->segment_src_x;
 	int src_y = data->segment_src_y;
 	int dest_x = data->segment_dest_x;
@@ -1284,14 +1403,16 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
         }
         SetDrMd(_rp(o),drmd);
         SetDrMd(data->map_layer->rp,JAM1);
-	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);*/
 	return 0;
-      }
+      }*/
 
       if (data->update == 2)
       {
+	Map_Priv_MoveUnit(o,data);
+      	
 	/* Move the Unit Smoothly (from mapview.c) */
-	int map_view_x0 = data->horiz_first;
+/*	int map_view_x0 = data->horiz_first;
 	int map_view_y0 = data->vert_first;
 	int i, x, y, x0 = data->x0, y0 = data->y0, dx = data->dx, dy = data->dy;
 	struct unit *punit = data->punit;
@@ -1346,16 +1467,270 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    BltBitMapRastPort(data->unit_bitmap, ox, oy,
 			 _rp(o), _mleft(o) + x1, _mtop(o) + y1, w, h, 0xc0);
 	  }
-	}
+	}*/
+
+
       }
-      else
-	drawmap = TRUE;
-    }
-    else
-      drawmap = TRUE;
+/*      else
+	drawmap = TRUE;*/
+
+      if (data->update == 3) drawmap = TRUE;
+      else if (data->update == 1) drawmap = TRUE;
+    } else drawmap = TRUE;
 
     if (drawmap)
     {
+      int x,y,width,height,write_to_screen;
+
+      if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 1))
+      {
+      	/* MUIM_Map_Refresh has been called */
+	x = data->x;
+	y = data->y;
+	width = data->width;
+	height = data->height;
+	write_to_screen = data->write_to_screen;
+      } else
+      {
+	x = xget(o,MUIA_Map_HorizFirst);
+	y = xget(o,MUIA_Map_VertFirst);
+	width = xget(o, MUIA_Map_HorizVisible);
+	height = xget(o, MUIA_Map_VertVisible);
+	write_to_screen = 1;
+
+	/* see update_map_canvas_visible() in mapview.c */
+	if (is_isometric)
+	{
+	  y -= height;
+	  width = height = width + height;
+	}
+
+	if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3))
+	{
+	  /* Map has been scrolled */
+/*	  int dx = data->horiz_first - data->old_horiz_first;
+	  int dy = data->vert_first - data->old_vert_first;
+
+	  if (abs(dx) < width && abs(dy) < height && data->map_shown)
+	  {
+	    ScrollRaster(data->map_layer->rp, dx * get_normal_tile_width(), dy * get_normal_tile_height(),
+			 0, 0, _mwidth(o) - 1, _mheight(o) - 1);
+
+	    bltall = TRUE;
+
+	    if (abs(dx) < width && dx)
+	    {
+	      if (dx > 0)
+	      {
+		tile_x = width - dx - 1;
+		if (tile_x < 0)
+		  tile_x = 0;
+		width = dx + 1;
+	      }
+	      else
+		width = -dx;
+	    }
+
+	    if (abs(dy) < height && dy)
+	    {
+	      if (dy > 0)
+	      {
+		tile_y = height - dy - 1;
+		if (tile_y < 0)
+		  tile_y = 0;
+		height = dy + 1;
+	      }
+	      else
+		height = -dy;
+	    }
+
+	    if (dx && dy && abs(dx) < xget(o, MUIA_Map_HorizVisible) && abs(dy) < xget(o, MUIA_Map_VertVisible))
+	    {
+	      LONG newwidth = xget(o, MUIA_Map_HorizVisible);
+	      need_put = FALSE;
+
+	      if ((dy > 0 && dx > 0) || (dy < 0 && dx > 0))	/* dy > 0 = Nach unten */
+	      {
+		for (y = tile_y; y < tile_y + height; y++)
+		{
+		  for (x = 0; x < newwidth - width; x++)
+		    put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
+		}
+	      }
+	      else
+	      {
+		for (y = tile_y; y < tile_y + height; y++)
+		{
+		  for (x = tile_x; x < newwidth; x++)
+		    put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
+		}
+	      }
+
+	      height = xget(o, MUIA_Map_VertVisible);
+
+	      for (y = 0; y < height; y++)
+		for (x = tile_x; x < tile_x + width; x++)
+		  put_tile(data->map_layer->rp, 0, 0, x, y, map_view_x0 + x, map_view_y0 + y, 0);
+	    }
+	  } else
+	  {
+	    data->map_shown = TRUE;
+	  }*/
+	}
+      }
+
+      if (is_isometric)
+      {
+	int i;
+	int x_itr, y_itr;
+
+	/*** First refresh the tiles above the area to remove the old tiles'
+	     overlapping gfx ***/
+	put_one_tile(/*_rp(o)*/data->map_layer->rp, x-1, y-1, D_B_LR); /* top_left corner */
+
+	for (i=0; i<height-1; i++) { /* left side - last tile. */
+	  int x1 = x - 1;
+	  int y1 = y + i;
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_MB_LR);
+	}
+
+	put_one_tile(/*_rp(o)*/data->map_layer->rp,x-1, y+height-1, D_TMB_R); /* last tile left side. */
+
+	for (i=0; i<width-1; i++) { /* top side */
+	  int x1 = x + i;
+	  int y1 = y - 1;
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_MB_LR);
+	}
+
+	if (width > 1) /* last tile top side. */
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x + width-1, y-1, D_TMB_L);
+	else
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x + width-1, y-1, D_MB_L);
+
+	/*** Now draw the tiles to be refreshed, from the top down to get the
+	     overlapping areas correct ***/
+	for (x_itr = x; x_itr < x+width; x_itr++) {
+	  for (y_itr = y; y_itr < y+height; y_itr++) {
+	   put_one_tile(/*_rp(o)*/data->map_layer->rp,x_itr, y_itr, D_FULL);
+	  }
+	}
+
+	/*** Then draw the tiles underneath to refresh the parts of them that
+	     overlap onto the area just drawn ***/
+	put_one_tile(/*_rp(o)*/data->map_layer->rp,x, y+height, D_TM_R);  /* bottom side */
+	for (i=1; i<width; i++) {
+	  int x1 = x + i;
+	  int y1 = y + height;
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_TM_R);
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_T_L);
+	}
+
+	put_one_tile(/*_rp(o)*/data->map_layer->rp,x+width, y, D_TM_L); /* right side */
+	for (i=1; i < height; i++) {
+	  int x1 = x + width;
+	  int y1 = y + i;
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_TM_L);
+	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_T_R);
+	}
+
+	put_one_tile(/*_rp(o)*/data->map_layer->rp, x+width, y+height, D_T_LR); /* right-bottom corner */
+
+	/*** Draw the goto line on top of the whole thing. Done last as
+	     we want it completely on top. ***/
+	/* Drawing is cheap; we just draw all the lines.
+	   Perhaps this should be optimized, though... */
+/*	for (x_itr = x-1; x_itr <= x+width; x_itr++) {
+	  for (y_itr = y-1; y_itr <= y+height; y_itr++) {
+	    int x1 = x_itr;
+	    int y1 = y_itr;
+	    if (normalize_map_pos(&x1, &y1)) {
+	      int dir;
+	      for (dir = 0; dir < 8; dir++) {
+		if (get_drawn(x1, y1, dir)) {
+		  int x2 = x1 + DIR_DX[dir];
+	          int y2 = y1 + DIR_DY[dir];
+	          if (normalize_map_pos(&x2, &y2)) {
+		    really_draw_segment(x1, y1, dir, 0, 1);
+	          }
+	        }
+	      }
+	    }
+          }
+        }*/
+
+        /*** Lastly draw our changes to the screen. ***/
+        if (write_to_screen) {
+          int canvas_start_x, canvas_start_y;
+          get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y); /* top left corner */
+          /* top left corner in isometric view */
+          canvas_start_x -= height * NORMAL_TILE_WIDTH/2;
+
+          /* because of where get_canvas_xy() sets canvas_x */
+          canvas_start_x += NORMAL_TILE_WIDTH/2;
+
+          /* And because units fill a little extra */
+          canvas_start_y -= NORMAL_TILE_HEIGHT/2;
+
+          /* here we draw a rectangle that includes the updated tiles. */
+/*          gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
+		      canvas_start_x, canvas_start_y,
+		      canvas_start_x, canvas_start_y,
+		      (height + width) * NORMAL_TILE_WIDTH/2,
+		      (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2);*/
+/*	  BltBitMapRastPort(data->map_bitmap, canvas_start_x, canvas_start_y,
+			      _rp(o), _mleft(o) + canvas_start_x, _mtop(o) + canvas_start_y,
+			      (height + width) * NORMAL_TILE_WIDTH/2,
+			      (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2, 0xc0);*/
+
+	  BltBitMapRastPort(data->map_bitmap, 0, 0,
+			      _rp(o), _mleft(o), _mtop(o),
+			      _mwidth(o),_mheight(o), 0xc0);
+	}
+      } else
+      {
+	int x_itr, y_itr;
+	int canvas_x, canvas_y;
+
+	for (y_itr=y; y_itr<y+height; y_itr++) {
+	  for (x_itr=x; x_itr<x+width; x_itr++) {
+	    int map_x = map_adjust_x(x_itr);
+	    int map_y = y_itr; /* not adjusted;, we want to draw black tiles */
+
+	    get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y);
+	    if (tile_visible_mapcanvas(map_x, map_y)) {
+	      put_tile(data->map_layer->rp,map_x, map_y, canvas_x, canvas_y, 0);
+	    }
+	  }
+	}
+
+	if (write_to_screen) {
+	  LONG pix_width = width * get_normal_tile_width();
+	  LONG pix_height = height * get_normal_tile_height();
+
+	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+
+	  /* Should create a SafeBltBitMapRastPort() function */
+          if (canvas_x < 0) {
+            pix_width += canvas_x;
+            canvas_x = 0;
+          }
+          if (canvas_y < 0) {
+            pix_height += canvas_y;
+            canvas_y = 0;
+          }
+	  if (pix_width + canvas_x > _mwidth(o)) pix_width = _mwidth(o) - canvas_x;
+	  if (pix_height + canvas_y > _mheight(o)) pix_height = _mheight(o) - canvas_y;
+
+	  if (pix_width > 0 && pix_height > 0) {
+	    BltBitMapRastPort(data->map_bitmap, canvas_x, canvas_y,
+			      _rp(o), _mleft(o) + canvas_x, _mtop(o) + canvas_y,
+			      pix_width, pix_height, 0xc0);
+	  }
+	}
+      }
+
+
+/*
       LONG tile_x;
       LONG tile_y;
       LONG width;
@@ -1526,7 +1901,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       if (citynames)
       {
       	Map_ReallyShowCityDescriptions(o,data);
-      }
+      }*/
     }
 
     data->update = 0;
@@ -1594,15 +1969,8 @@ static ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
       {
 	if (_isinobject(msg->imsg->MouseX, msg->imsg->MouseY))
 	{
-	  LONG x = msg->imsg->MouseX - _mleft(o);
-	  LONG y = msg->imsg->MouseY - _mtop(o);
-	  x /= get_normal_tile_width();
-	  y /= get_normal_tile_height();
-	  x += data->horiz_first;
-	  y += data->vert_first;
-
-	  x = map_adjust_x(x);
-	  y = map_adjust_x(y);
+          int x, y;
+          get_map_xy(msg->imsg->MouseX - _mleft(o), msg->imsg->MouseY - _mtop(o), &x, &y);
 
 	  if ((qual & IEQUALIFIER_LSHIFT) || (qual & IEQUALIFIER_RSHIFT))
 	  {
@@ -1905,14 +2273,12 @@ static ULONG Map_Refresh(struct IClass * cl, Object * o, struct MUIP_Map_Refresh
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
 
   data->update = 1;
-  data->tilex = msg->tilex;
-  data->tiley = msg->tiley;
+  data->x = msg->x;
+  data->y = msg->y;
   data->width = msg->width;
   data->height = msg->height;
   data->write_to_screen = msg->write_to_screen;
-
-  if (data->shown)
-    MUI_Redraw(o, MADF_DRAWUPDATE);
+  MUI_Redraw(o, MADF_DRAWUPDATE);
   return 0;
 }
 
@@ -1928,7 +2294,6 @@ static ULONG Map_MoveUnit(struct IClass * cl, Object * o, struct MUIP_Map_MoveUn
   data->dest_x = msg->dest_x;
   data->dest_y = msg->dest_y;
   data->update = 2;
-
   MUI_Redraw(o, MADF_DRAWUPDATE);
   return 0;
 }
@@ -2064,6 +2429,59 @@ DISPATCHERPROTO(Map_Dispatcher)
  CityMap Custom Class
 *****************************************************************/
 
+/**************************************************************************
+...
+**************************************************************************/
+static void city_get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+{
+  if (is_isometric) {
+    int diff_xy;
+
+    /* The line at y=0 isometric has constant x+y=1(tiles) */
+    diff_xy = (map_x + map_y) - (1);
+    *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
+
+    /* The line at x=0 isometric has constant x-y=-3(tiles) */
+    diff_xy = map_x - map_y;
+    *canvas_x = (diff_xy + 3) * NORMAL_TILE_WIDTH/2;
+  } else {
+    *canvas_x = map_x * NORMAL_TILE_WIDTH;
+    *canvas_y = map_y * NORMAL_TILE_HEIGHT;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void city_get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
+{
+  if (is_isometric) {
+    *map_x = -2;
+    *map_y = 2;
+
+    /* first find an equivalent position on the left side of the screen. */
+    *map_x += canvas_x/NORMAL_TILE_WIDTH;
+    *map_y -= canvas_x/NORMAL_TILE_WIDTH;
+    canvas_x %= NORMAL_TILE_WIDTH;
+
+    /* Then move op to the top corner. */
+    *map_x += canvas_y/NORMAL_TILE_HEIGHT;
+    *map_y += canvas_y/NORMAL_TILE_HEIGHT;
+    canvas_y %= NORMAL_TILE_HEIGHT;
+
+    assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
+    canvas_y *= 2; /* now we have a square. */
+    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH/2) (*map_x)++;
+    if (canvas_x + canvas_y > 3 * NORMAL_TILE_WIDTH/2) (*map_x)++;
+    if (canvas_x - canvas_y > NORMAL_TILE_WIDTH/2)  (*map_y)--;
+    if (canvas_y - canvas_x > NORMAL_TILE_WIDTH/2)  (*map_y)++;
+  } else {
+    *map_x = canvas_x/NORMAL_TILE_WIDTH;
+    *map_y = canvas_y/NORMAL_TILE_HEIGHT;
+  }
+}
+
+
 struct MUI_CustomClass *CL_CityMap;
 
 Object *MakeCityMap(struct city *pcity)
@@ -2168,13 +2586,23 @@ static ULONG CityMap_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMi
 {
   DoSuperMethodA(cl, o, (Msg) msg);
 
-  msg->MinMaxInfo->MinWidth += get_normal_tile_width() * 5;
-  msg->MinMaxInfo->DefWidth += get_normal_tile_width() * 5;
-  msg->MinMaxInfo->MaxWidth += get_normal_tile_width() * 5;
-
-  msg->MinMaxInfo->MinHeight += get_normal_tile_height() * 5;
-  msg->MinMaxInfo->DefHeight += get_normal_tile_height() * 5;
-  msg->MinMaxInfo->MaxHeight += get_normal_tile_height() * 5;
+  if (is_isometric)
+  {
+    msg->MinMaxInfo->MinWidth += get_normal_tile_width() * 4;
+    msg->MinMaxInfo->DefWidth += get_normal_tile_width() * 4;
+    msg->MinMaxInfo->MaxWidth += get_normal_tile_width() * 4;
+    msg->MinMaxInfo->MinHeight += get_normal_tile_height() * 4;
+    msg->MinMaxInfo->DefHeight += get_normal_tile_height() * 4;
+    msg->MinMaxInfo->MaxHeight += get_normal_tile_height() * 4;
+  } else
+  {
+    msg->MinMaxInfo->MinWidth += get_normal_tile_width() * 5;
+    msg->MinMaxInfo->DefWidth += get_normal_tile_width() * 5;
+    msg->MinMaxInfo->MaxWidth += get_normal_tile_width() * 5;
+    msg->MinMaxInfo->MinHeight += get_normal_tile_height() * 5;
+    msg->MinMaxInfo->DefHeight += get_normal_tile_height() * 5;
+    msg->MinMaxInfo->MaxHeight += get_normal_tile_height() * 5;
+  }
   return 0;
 }
 
@@ -2189,57 +2617,115 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
     int x, y;
     struct city *pcity = data->pcity;
 
-    for (y = 0; y < CITY_MAP_SIZE; y++)
+    if (is_isometric)
     {
-      for (x = 0; x < CITY_MAP_SIZE; x++)
+      /* First make it all black. */
+      SetAPen(rp,data->black_color);
+      RectFill(rp,_mleft(o),_mtop(o),_mright(o),_mbottom(o));
+
+      /* This macro happens to iterate correct to draw the top tiles first,
+         so getting the overlap right.
+         Furthermore, we don't have to redraw fog on the part of a fogged tile
+         that overlaps another fogged tile, as on the main map, as no tiles in
+         the city radius can be fogged. */
+
+      city_map_iterate(x, y) {
+      	int map_x = pcity->x + x - 2;
+      	int map_y = pcity->y + y - 2;
+	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y)) {
+	  int canvas_x, canvas_y;
+	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o), canvas_y + _mtop(o), 1);
+	}
+      }
+
+      /* We have to put the output afterwards or it will be covered. */
+      city_map_iterate(x, y) {
+	int map_x = pcity->x + x - 2;
+	int map_y = pcity->y + y - 2;
+	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y)) {
+	  int canvas_x, canvas_y;
+	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  if (pcity->city_map[x][y]==C_TILE_WORKER) {
+	    put_city_output_tile(_rp(o),
+			     city_get_food_tile(x, y, pcity),
+			     city_get_shields_tile(x, y, pcity), 
+			     city_get_trade_tile(x, y, pcity),
+			     _mleft(o) + canvas_x, _mtop(o) + canvas_y,0,0);
+          }
+        }
+      }
+
+      /* This sometimes will draw one of the lines on top of a city or
+         unit pixmap. This should maybe be moved to put_one_tile_pixmap()
+         to fix this, but maybe it wouldn't be a good idea because the
+         lines would get obscured. */
+      city_map_iterate(x, y) {
+	int map_x = pcity->x + x - 2;
+	int map_y = pcity->y + y - 2;
+	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y)) {
+	  int canvas_x, canvas_y;
+	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  if (pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
+/*	    pixmap_frame_tile_red(pdialog->map_canvas_store,
+				     canvas_x, canvas_y);*/
+          }
+        }
+      }
+    } else
+    {
+      for (y = 0; y < CITY_MAP_SIZE; y++)
       {
-      	LONG tilex = pcity->x + x - CITY_MAP_SIZE / 2;
-      	LONG tiley = pcity->y + y - CITY_MAP_SIZE / 2;
+        for (x = 0; x < CITY_MAP_SIZE; x++)
+        {
+	  LONG tilex = pcity->x + x - CITY_MAP_SIZE / 2;
+	  LONG tiley = pcity->y + y - CITY_MAP_SIZE / 2;
 
-	LONG x1 = _mleft(o) + x * get_normal_tile_width();
-	LONG y1 = _mtop(o) + y * get_normal_tile_height();
-	LONG x2 = x1 + get_normal_tile_width() - 1;
-	LONG y2 = y1 + get_normal_tile_height() - 1;
+	  LONG x1 = _mleft(o) + x * get_normal_tile_width();
+	  LONG y1 = _mtop(o) + y * get_normal_tile_height();
+	  LONG x2 = x1 + get_normal_tile_width() - 1;
+	  LONG y2 = y1 + get_normal_tile_height() - 1;
 
-	if (!(x == 0 && y == 0) && !(x == 0 && y == CITY_MAP_SIZE - 1) &&
-	    !(x == CITY_MAP_SIZE - 1 && y == 0) &&
-	    !(x == CITY_MAP_SIZE - 1 && y == CITY_MAP_SIZE - 1) &&
-	     (tiley >= 0 && tiley < map.ysize))
-	{
-	  if(tile_is_known(tilex,tiley))
+	  if (!(x == 0 && y == 0) && !(x == 0 && y == CITY_MAP_SIZE - 1) &&
+	      !(x == CITY_MAP_SIZE - 1 && y == 0) &&
+	      !(x == CITY_MAP_SIZE - 1 && y == CITY_MAP_SIZE - 1) &&
+	       (tiley >= 0 && tiley < map.ysize))
 	  {
-	    put_tile(_rp(o), _mleft(o), _mtop(o), x, y, tilex, tiley, 1);
-
-	    if (pcity->city_map[x][y] == C_TILE_WORKER)
+	    if (tile_is_known(tilex,tiley))
 	    {
-	      put_city_output_tile(_rp(o),
-	                           city_get_food_tile(x, y, pcity),
-	                           city_get_shields_tile(x, y, pcity),
-	                           city_get_trade_tile(x, y, pcity),
-				   _mleft(o), _mtop(o), x, y);
+	      put_tile(_rp(o), tilex, tiley, x1, y1, 1);
 
+	      if (pcity->city_map[x][y] == C_TILE_WORKER)
+	      {
+	        put_city_output_tile(_rp(o),
+	                             city_get_food_tile(x, y, pcity),
+	                             city_get_shields_tile(x, y, pcity),
+	                             city_get_trade_tile(x, y, pcity),
+				     _mleft(o), _mtop(o), x, y);
+
+	      } else
+	      {
+	        if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
+	        {
+	          SetAPen(rp, data->red_color);
+	          Move(rp, x1, y1);
+	          Draw(rp, x2-1, y1);
+	          Draw(rp, x2-1, y2-1);
+	          Draw(rp, x1, y2-1);
+	          Draw(rp, x1, y1 + 1);
+	        }
+	      }
 	    } else
 	    {
-	      if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	      {
-	        SetAPen(rp, data->red_color);
-	        Move(rp, x1, y1);
-	        Draw(rp, x2-1, y1);
-	        Draw(rp, x2-1, y2-1);
-	        Draw(rp, x1, y2-1);
-	        Draw(rp, x1, y1 + 1);
-	      }
+	      SetAPen(rp, data->black_color);
+	      RectFill(rp, x1, y1, x2, y2);
 	    }
 	  } else
 	  {
-	    SetAPen(rp, data->black_color);
-	    RectFill(rp, x1, y1, x2, y2);
-	  }
-	} else
-	{
-	  if (msg->flags & MADF_DRAWOBJECT)
-	  {
-	    DoMethod(o,MUIM_DrawBackground,x1,y1,x2-x1+1,y2-y1+1,x1,y1,0);
+	    if (msg->flags & MADF_DRAWOBJECT)
+	    {
+	      DoMethod(o,MUIM_DrawBackground,x1,y1,x2-x1+1,y2-y1+1,x1,y1,0);
+	    }
 	  }
 	}
       }
@@ -2261,14 +2747,10 @@ static ULONG CityMap_HandleInput(struct IClass * cl, Object * o, struct MUIP_Han
       {
 	if (_isinobject(msg->imsg->MouseX, msg->imsg->MouseY))
 	{
-	  LONG x = msg->imsg->MouseX - _mleft(o);
-	  LONG y = msg->imsg->MouseY - _mtop(o);
-	  x /= get_normal_tile_width();
-	  y /= get_normal_tile_height();
-
-	  data->click.x = map_adjust_x(x);
-	  data->click.y = map_adjust_y(y);
-
+	  int x,y;
+	  city_get_map_xy(msg->imsg->MouseX - _mleft(o), msg->imsg->MouseY - _mtop(o), &x, &y);
+	  data->click.x = x;
+	  data->click.y = y;
 	  set(o, MUIA_CityMap_Click, &data->click);
 	}
       }

@@ -377,32 +377,36 @@ static void control_callback(ULONG * value)
 {
   if (*value)
   {
+    if (is_isometric)
+    {
+      switch (*value)
+      {
+	case UNIT_NORTH: key_move_north_west(); break;
+	case UNIT_SOUTH: key_move_south_east(); break;
+	case UNIT_EAST: key_move_north_east(); break;
+	case UNIT_WEST: key_move_south_west(); break;
+	case UNIT_NORTH_EAST: key_move_north(); break;
+	case UNIT_NORTH_WEST: key_move_west(); break;
+	case UNIT_SOUTH_EAST: key_move_east(); break;
+	case UNIT_SOUTH_WEST: key_move_south();break;
+      }
+    } else
+    {
+      switch (*value)
+      {
+	case UNIT_NORTH: key_move_north(); break;
+	case UNIT_SOUTH: key_move_south(); break;
+	case UNIT_EAST: key_move_east(); break;
+	case UNIT_WEST: key_move_west(); break;
+	case UNIT_NORTH_EAST: key_move_north_east(); break;
+	case UNIT_NORTH_WEST: key_move_north_west(); break;
+	case UNIT_SOUTH_EAST: key_move_south_east(); break;
+	case UNIT_SOUTH_WEST: key_move_south_west();break;
+      }
+    }
+
     switch (*value)
     {
-    case UNIT_NORTH:
-      key_move_north();
-      break;
-    case UNIT_SOUTH:
-      key_move_south();
-      break;
-    case UNIT_EAST:
-      key_move_east();
-      break;
-    case UNIT_WEST:
-      key_move_west();
-      break;
-    case UNIT_NORTH_EAST:
-      key_move_north_east();
-      break;
-    case UNIT_NORTH_WEST:
-      key_move_north_west();
-      break;
-    case UNIT_SOUTH_EAST:
-      key_move_south_east();
-      break;
-    case UNIT_SOUTH_WEST:
-      key_move_south_west();
-      break;
     case UNIT_POPUP_CITY:
       {
 	struct unit *punit;

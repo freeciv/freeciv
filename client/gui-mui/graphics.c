@@ -28,11 +28,14 @@
 #include <proto/guigfx.h>
 
 #include "fcintl.h"
+#include "log.h"
+#include "map.h"
 #include "options.h"
 
 #include "control.h"
 
 #include "graphics.h"
+#include "mapview.h"
 #include "muistuff.h"
 #include "tilespec.h"
 
@@ -175,7 +178,7 @@ struct Sprite *load_sprite(const char *filename, ULONG usemask)
 
 	if (usemask && !sprite->hasmask)
 	{
-	  printf(_("Could not get the mask although there must be one! Graphics may look corrupt.\n"));
+	  printf(_("Could not get the mask although there must be one (%s)! Graphics may look corrupt.\n"),filename);
 	}
 
 	return sprite;
@@ -434,11 +437,47 @@ HOOKPROTO(HookFunc_BltMask, void, struct RastPort *rp, struct LayerHookMsg *msg)
   msg->bounds.MinY, width, height, &h->maskBitMap);
 }
 
+VOID MyBltMaskBitMapRastPort(struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct RastPort *destRP, LONG xDest, LONG yDest, LONG xSize, LONG ySize, ULONG minterm, APTR bltMask)
+{
+  if (GetBitMapAttr(srcBitMap,BMA_FLAGS)&BMF_INTERLEAVED)
+  {
+    LONG src_depth = GetBitMapAttr(srcBitMap,BMA_DEPTH);
+    struct Rectangle rect;
+    struct BltMaskHook hook;
+		
+    /* Define the destination rectangle in the rastport */
+    rect.MinX = xDest;
+    rect.MinY = yDest;
+    rect.MaxX = xDest + xSize - 1;
+    rect.MaxY = yDest + ySize - 1;
+		
+    /* Initialize the hook */
+    hook.hook.h_Entry = (HOOKFUNC)HookFunc_BltMask;
+/*    hook.hook.h_Data = (void*)getreg(REG_A4);*/
+    hook.srcBitMap = srcBitMap;
+    hook.srcx = xSrc;
+    hook.srcy = ySrc;
+    hook.destx = xDest;
+    hook.desty = yDest;
+		
+    /* Initialize a bitmap where all plane pointers points to the mask */
+    InitBitMap(&hook.maskBitMap,src_depth,GetBitMapAttr(srcBitMap,BMA_WIDTH),GetBitMapAttr(srcBitMap,BMA_HEIGHT));
+    while (src_depth)
+      hook.maskBitMap.Planes[--src_depth] = bltMask;
+
+    /* Blit onto the Rastport */
+    DoHookClipRects(&hook.hook,destRP,&rect);
+  } else
+  {
+    BltMaskBitMapRastPort(srcBitMap, xSrc, ySrc, destRP, xDest, yDest, xSize, ySize, minterm, bltMask);
+  }
+}
+
 /****************************************************************
  Draw the sprite on position x,y in the Rastport (masked)
- restricted to height
+ restricted to height and width with offset
 *****************************************************************/
-void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y, LONG height)
+void put_sprite_overlay_total(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y, LONG ox, LONG oy, LONG width, LONG height)
 {
   struct BitMap *bmap;
   APTR mask = NULL;
@@ -453,40 +492,18 @@ void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite, LONG 
 
   if (mask)
   {
-    if (GetBitMapAttr(bmap,BMA_FLAGS)&BMF_INTERLEAVED)
-    {
-      LONG src_depth = GetBitMapAttr(bmap,BMA_DEPTH);
-      struct Rectangle rect;
-      struct BltMaskHook hook;
-
-      /* Define the destination rectangle in the rastport */
-      rect.MinX = x;
-      rect.MinY = y;
-      rect.MaxX = x + sprite->width - 1;
-      rect.MaxY = y + height - 1;
-
-      /* Initialize the hook */
-      hook.hook.h_Entry = (HOOKFUNC)HookFunc_BltMask;
-      hook.srcBitMap = bmap;
-      hook.srcx = sprite->offx;
-      hook.srcy = sprite->offy;
-      hook.destx = x;
-      hook.desty = y;
-
-      /* Initialize a bitmap where all plane pointers points to the mask */
-      InitBitMap(&hook.maskBitMap,src_depth,GetBitMapAttr(bmap,BMA_WIDTH),GetBitMapAttr(bmap,BMA_HEIGHT));
-      while (src_depth)
-	hook.maskBitMap.Planes[--src_depth] = mask;
-
-      /* Blit onto the Rastport */
-      DoHookClipRects(&hook.hook,rp,&rect);
-    } else
-    {
-      BltMaskBitMapRastPort(bmap, sprite->offx, sprite->offy,
-			    rp, x, y, sprite->width, height, 0xe2, mask);
-
-    }
+    MyBltMaskBitMapRastPort(bmap, sprite->offx + ox, sprite->offy + oy,
+			    rp, x, y, MIN(width,sprite->width), MIN(height,sprite->height), 0xe2, mask);
   }
+}
+
+/****************************************************************
+ Draw the sprite on position x,y in the Rastport (masked)
+ restricted to height
+*****************************************************************/
+void put_sprite_overlay_height(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y, LONG height)
+{
+  put_sprite_overlay_total(rp,sprite,x,y,0,0,sprite->width, height);
 }
 
 /****************************************************************
@@ -498,10 +515,19 @@ void put_sprite_overlay(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG
 }
 
 /****************************************************************
+ Put a black tile
+*****************************************************************/
+void put_black_tile(struct RastPort *rp, int canvas_x, int canvas_y)
+{
+  SetAPen(rp, 1);
+  RectFill(rp, canvas_x, canvas_y, canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y + NORMAL_TILE_HEIGHT - 1);
+}
+
+
+/****************************************************************
 ...
 *****************************************************************/
-void put_city_output_tile(struct RastPort *rp,
-int food, int shield, int trade, int offx, int offy, int x_tile, int y_tile)
+void put_city_output_tile(struct RastPort *rp, int food, int shield, int trade, int offx, int offy, int x_tile, int y_tile)
 {
   int destx = x_tile * get_normal_tile_width() + offx;
   int desty = y_tile * get_normal_tile_height() + offy;
@@ -520,29 +546,23 @@ int food, int shield, int trade, int offx, int offy, int x_tile, int y_tile)
 *****************************************************************/
 void put_unit_tile(struct RastPort *rp, struct unit *punit, int x1, int y1)
 {
-
   struct Sprite *sprites[40];
-  int count = fill_unit_sprite_array(sprites, punit);
+  int solid_bg;
+  int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
 
   if (count)
   {
     int i;
 
-    if (sprites[0])
-    {
-      if (flags_are_transparent)
-      {
-	put_sprite_overlay(rp, sprites[0], x1, y1);
-      }
-      else
-      {
-	put_sprite(rp, sprites[0], x1, y1);
-      }
-    }
-    else
+    if (solid_bg)
     {
       SetAPen(rp, 1);
       RectFill(rp, x1, y1, x1 + NORMAL_TILE_WIDTH - 1, y1 + NORMAL_TILE_HEIGHT - 1);
+    }
+    else
+    {
+      if (flags_are_transparent) put_sprite_overlay(rp, sprites[0], x1, y1);
+      else put_sprite(rp, sprites[0], x1, y1);
     }
 
     for (i = 1; i < count; i++)
@@ -556,15 +576,127 @@ void put_unit_tile(struct RastPort *rp, struct unit *punit, int x1, int y1)
 /**************************************************************************
  put a tile onto the screen
  x,y = coordinates of tile on the visible area
- abs_x0, abs_y0 = real coordinates of the tile on the mao
+ abs_x0, abs_y0 = real coordinates of the tile on the map
  citymode = Drawed for the CityMap
 **************************************************************************/
-void put_tile(struct RastPort *rp, int destx, int desty, int x, int y, int abs_x0, int abs_y0, int citymode)
+void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int citymode)
 {
-  struct Sprite *sprites[80];
-  int count = fill_tile_sprite_array(sprites, abs_x0, abs_y0, citymode);
+  struct Sprite *tile_sprs[80];
+  int fill_bg;
+  struct player *pplayer;
 
-  int x1 = destx + x * NORMAL_TILE_WIDTH;
+  if (normalize_map_pos(&x, &y) && tile_is_known(x, y)) {
+    int count = fill_tile_sprite_array(tile_sprs, x, y, citymode, &fill_bg, &pplayer);
+    int i = 0;
+
+    if (fill_bg) {
+      if (pplayer) {
+//	gdk_gc_set_foreground(fill_bg_gc,
+//			      colors_standard[player_color(pplayer)]);
+      } else {
+//	gdk_gc_set_foreground(fill_bg_gc,
+//			      colors_standard[COLOR_STD_BACKGROUND]);	
+      }
+//      gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
+//			 canvas_x, canvas_y,
+//			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    } else {
+      /* first tile without mask */
+//      gdk_draw_pixmap(pm, civ_gc, tile_sprs[0]->pixmap,
+//                      0, 0, canvas_x, canvas_y,
+//                      tile_sprs[0]->width, tile_sprs[0]->height);
+      put_sprite(rp, tile_sprs[0], canvas_x, canvas_y);
+      i++;
+    }
+
+    for (;i<count; i++) {
+      if (tile_sprs[i]) {
+	put_sprite_overlay(rp, tile_sprs[i],canvas_x, canvas_y);
+      }
+    }
+
+    if (draw_map_grid && !citymode) {
+      int here_in_radius =
+	player_in_city_radius(game.player_ptr, x, y);
+      /* left side... */
+      if ((map_get_tile(x-1, y))->known &&
+	  (here_in_radius ||
+	   player_in_city_radius(game.player_ptr, x-1, y))) {
+//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+//      gdk_draw_line(pm, civ_gc,
+//		    canvas_x, canvas_y,
+//		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+      /* top side... */
+      if((map_get_tile(x, y-1))->known &&
+	 (here_in_radius ||
+	  player_in_city_radius(game.player_ptr, x, y-1))) {
+//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+      }
+//      gdk_draw_line(pm, civ_gc,
+//		    canvas_x, canvas_y,
+//		    canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+    }
+    if (draw_coastline && !draw_terrain) {
+      enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
+      int x1 = x-1, y1 = y;
+//      gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_OCEAN]);
+      if (normalize_map_pos(&x1, &y1)) {
+	t2 = map_get_terrain(x1, y1);
+	/* left side */
+//	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+//	  gdk_draw_line(pm, civ_gc,
+//			canvas_x, canvas_y,
+//			canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+      }
+      /* top side */
+      x1 = x; y1 = y-1;
+      if (normalize_map_pos(&x1, &y1)) {
+	t2 = map_get_terrain(x1, y1);
+//	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+//	  gdk_draw_line(pm, civ_gc,
+//			canvas_x, canvas_y,
+//			canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+      }
+    }
+  } else {
+    /* tile is unknown */
+    put_black_tile(rp, canvas_x, canvas_y);
+  }
+
+/*
+  if (!citymode) {
+    /* put any goto lines on the tile. */
+    if (y >= 0 && y < map.ysize) {
+      int dir;
+      for (dir = 0; dir < 8; dir++) {
+	if (get_drawn(x, y, dir)) {
+	  put_line(map_canvas_store, x, y, dir);
+	}
+      }
+    }
+
+    /* Some goto lines overlap onto the tile... */
+    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
+      int line_x = x - 1;
+      int line_y = y;
+      if (normalize_map_pos(&line_x, &line_y)
+	  && get_drawn(line_x, line_y, 2)) {
+	/* it is really only one pixel in the top right corner */
+	put_line(map_canvas_store, line_x, line_y, 2);
+      }
+    }
+  }*/
+
+
+//  struct Sprite *sprites[80];
+//  int count = fill_tile_sprite_array(sprites, abs_x0, abs_y0, citymode);
+
+/*  int x1 = destx + x * NORMAL_TILE_WIDTH;
   int y1 = desty + y * NORMAL_TILE_HEIGHT;
   int x2 = x1 + NORMAL_TILE_WIDTH - 1;
   int y2 = y1 + NORMAL_TILE_HEIGHT - 1;
@@ -653,6 +785,406 @@ void put_tile(struct RastPort *rp, int destx, int desty, int x, int y, int abs_x
     /* tile is unknow */
     SetAPen(rp, 1);
     RectFill(rp, x1, y1, x2, y2);
+  }*/
+}
+
+/***************************************************************************
+...
+***************************************************************************/
+int isometric_view_supported(void)
+{
+  return 1;
+}
+
+/***************************************************************************
+...
+***************************************************************************/
+int overhead_view_supported(void)
+{
+  return 1;
+}
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
+static void put_black_tile_iso(struct RastPort *rp,
+			       int canvas_x, int canvas_y,
+			       int offset_x, int offset_y,
+			       int width, int height)
+{
+  assert(width <= NORMAL_TILE_WIDTH);
+  assert(height <= NORMAL_TILE_HEIGHT);
+  put_sprite_overlay_total(rp, sprites.black_tile, canvas_x + offset_x, canvas_y + offset_y, offset_x, offset_y, width, height);
+}
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
+static void put_overlay_tile_draw(struct RastPort *rp,
+				  int canvas_x, int canvas_y,
+				  struct Sprite *ssprite,
+				  int offset_x, int offset_y,
+				  int width, int height,
+				  int fog)
+{
+  if (!ssprite || !width || !height)
+    return;
+
+
+  put_sprite_overlay_total(rp, ssprite, canvas_x + offset_x, canvas_y + offset_y, offset_x, offset_y, width, height);
+
+  /* I imagine this could be done more efficiently. Some pixels We first
+     draw from the sprite, and then draw black afterwards. It would be much
+     faster to just draw every second pixel black in the first place. */
+
+  if (fog) {
+/*
+    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_tile_gc, ssprite->mask);
+    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_stipple(fill_tile_gc, black50);
+
+    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
+		       canvas_x+offset_x, canvas_y+offset_y,
+		       MIN(width, MAX(0, ssprite->width-offset_x)),
+		       MIN(height, MAX(0, ssprite->height-offset_y)));
+    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+*/
   }
+}
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
+static void put_city_draw(struct city *pcity, struct RastPort *rp,
+			  int canvas_x, int canvas_y,
+			  int offset_x, int offset_y_unit,
+			  int width, int height_unit,
+			  int fog)
+{
+  struct Sprite *sprites[80];
+  int count = fill_city_sprite_array_iso(sprites, pcity);
+  int i;
+
+  for (i=0; i<count; i++) {
+    if (sprites[i]) {
+      put_overlay_tile_draw(rp, canvas_x, canvas_y, sprites[i],
+			    offset_x, offset_y_unit,
+			    width, height_unit,
+			    fog);
+    }
+  }
+}
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
+static void put_unit_draw(struct unit *punit, struct RastPort *rp,
+			  int canvas_x, int canvas_y,
+			  int offset_x, int offset_y_unit,
+			  int width, int height_unit)
+{
+  struct Sprite *sprites[40];
+  int dummy;
+  int count = fill_unit_sprite_array(sprites, punit, &dummy);
+  int i;
+
+  for (i=0; i<count; i++) {
+    if (sprites[i]) {
+      put_overlay_tile_draw(rp, canvas_x, canvas_y, sprites[i],
+			    offset_x, offset_y_unit,
+			    width, height_unit, 0);
+    }
+  }
+}
+
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
+static void put_tile_iso(struct RastPort *rp, int x, int y,
+				int canvas_x, int canvas_y,
+				int citymode,
+				int offset_x, int offset_y, int offset_y_unit,
+				int width, int height, int height_unit,
+				enum draw_type draw)
+{
+  struct Sprite *tile_sprs[80];
+  struct Sprite *coasts[4];
+  struct Sprite *dither[4];
+  struct city *pcity;
+  struct unit *punit, *pfocus;
+  enum tile_special_type special;
+  int count, i = 0;
+  int fog;
+  int solid_bg;
+
+  if (!width || !(height || height_unit))
+    return;
+
+  count = fill_tile_sprite_array_iso(tile_sprs, coasts, dither,
+				     x, y, citymode, &solid_bg);
+
+  if (count == -1) { /* tile is unknown */
+    put_black_tile_iso(rp, canvas_x, canvas_y,
+			   offset_x, offset_y, width, height);
+    return;
+  }
+
+  assert(normalize_map_pos(&x, &y));
+  fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
+  pcity = map_get_city(x, y);
+  punit = get_drawable_unit(x, y, citymode);
+  pfocus = get_unit_in_focus();
+  special = map_get_special(x, y);
+
+/*  if (solid_bg) {
+    gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_bg_gc, sprites.black_tile->mask);
+    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BACKGROUND]);
+
+    gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
+		       canvas_x+offset_x, canvas_y+offset_y,
+		       MIN(width, MAX(0, sprites.black_tile->width-offset_x)),
+		       MIN(height, MAX(0, sprites.black_tile->height-offset_y)));
+    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
+    if (fog) {
+      gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+      gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
+      gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+      gdk_gc_set_stipple(fill_tile_gc, black50);
+
+      gdk_draw_rectangle(pm, fill_tile_gc, TRUE,
+			 canvas_x+offset_x, canvas_y+offset_y,
+			 MIN(width, MAX(0, sprites.black_tile->width-offset_x)),
+			 MIN(height, MAX(0, sprites.black_tile->height-offset_y)));
+      gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    }
+  }*/
+
+  if (draw_terrain) {
+    if (map_get_terrain(x, y) == T_OCEAN) { /* coasts */
+      int dx, dy;
+
+/* temporary */
+      put_black_tile_iso(rp, canvas_x, canvas_y,
+			 offset_x, offset_y, width, height);
+
+      /* top */
+      dx = offset_x-NORMAL_TILE_WIDTH/4;
+      put_overlay_tile_draw(rp, canvas_x + NORMAL_TILE_WIDTH/4,
+			    canvas_y, coasts[0],
+			    MAX(0, dx),
+			    offset_y,
+			    MAX(0, width-MAX(0, -dx)),
+			    height,
+			    fog);
+      /* bottom */
+      dx = offset_x-NORMAL_TILE_WIDTH/4;
+      dy = offset_y-NORMAL_TILE_HEIGHT/2;
+      put_overlay_tile_draw(rp, canvas_x + NORMAL_TILE_WIDTH/4,
+				canvas_y + NORMAL_TILE_HEIGHT/2, coasts[1],
+				MAX(0, dx),
+				MAX(0, dy),
+				MAX(0, width-MAX(0, -dx)),
+				MAX(0, height-MAX(0, -dy)),
+				fog);
+      /* left */
+      dy = offset_y-NORMAL_TILE_HEIGHT/4;
+      put_overlay_tile_draw(rp, canvas_x,
+			    canvas_y + NORMAL_TILE_HEIGHT/4, coasts[2],
+			    offset_x,
+			    MAX(0, dy),
+			    width,
+			    MAX(0, height-MAX(0, -dy)),
+			    fog);
+      /* right */
+      dx = offset_x-NORMAL_TILE_WIDTH/2;
+      dy = offset_y-NORMAL_TILE_HEIGHT/4;
+      put_overlay_tile_draw(rp, canvas_x + NORMAL_TILE_WIDTH/2,
+			   canvas_y + NORMAL_TILE_HEIGHT/4, coasts[3],
+			   MAX(0, dx),
+			   MAX(0, dy),
+			   MAX(0, width-MAX(0, -dx)),
+			   MAX(0, height-MAX(0, -dy)),
+			   fog);
+    } else {
+      put_overlay_tile_draw(rp, canvas_x, canvas_y, tile_sprs[0],
+			   offset_x, offset_y, width, height, fog);
+      i++;
+    }
+
+    /*** Dither base terrain ***/
+/*    if (draw_terrain)
+      dither_tile(pm, dither, canvas_x, canvas_y,
+		  offset_x, offset_y, width, height, fog);*/
+  }
+
+  /*** Rest of terrain and specials ***/
+  for (; i<count; i++) {
+    if (tile_sprs[i])
+      put_overlay_tile_draw(rp, canvas_x, canvas_y, tile_sprs[i],
+			    offset_x, offset_y, width, height, fog);
+    else
+      freelog(LOG_ERROR, "sprite is NULL");
+  }
+
+  /*** Map grid ***/
+/*  if (draw_map_grid) {
+    /* we draw the 2 lines on top of the tile; the buttom lines will be
+       drawn by the tiles underneath. */
+    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_BLACK]);
+    if (draw & D_M_R)
+      gdk_draw_line(pm, thin_line_gc,
+		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
+		    canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
+    if (draw & D_M_L)
+      gdk_draw_line(pm, thin_line_gc,
+		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
+		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+  }*/
+
+/*  if (draw_coastline && !draw_terrain) {
+    enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
+    int x1, y1;
+    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_OCEAN]);
+    x1 = x; y1 = y-1;
+    if (normalize_map_pos(&x1, &y1)) {
+      t2 = map_get_terrain(x1, y1);
+      if (draw & D_M_R && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
+	gdk_draw_line(pm, thin_line_gc,
+		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
+		      canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
+    }
+    x1 = x-1; y1 = y;
+    if (normalize_map_pos(&x1, &y1)) {
+      t2 = map_get_terrain(x1, y1);
+      if (draw & D_M_L && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
+	gdk_draw_line(pm, thin_line_gc,
+		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
+		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+    }
+  }*/
+
+  /*** City and various terrain improvements ***/
+  if (pcity && draw_cities) {
+    put_city_draw(pcity, rp,
+		  canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
+		  offset_x, offset_y_unit,
+		  width, height_unit, fog);
+  }
+  if (special & S_AIRBASE && draw_fortress_airbase)
+    put_overlay_tile_draw(rp,
+			  canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+			  sprites.tx.airbase,
+			  offset_x, offset_y_unit,
+			  width, height_unit, fog);
+  if (special & S_FALLOUT && draw_pollution)
+    put_overlay_tile_draw(rp,
+			  canvas_x, canvas_y,
+			  sprites.tx.fallout,
+			  offset_x, offset_y,
+			  width, height, fog);
+  if (special & S_POLLUTION && draw_pollution)
+    put_overlay_tile_draw(rp,
+			  canvas_x, canvas_y,
+			  sprites.tx.pollution,
+			  offset_x, offset_y,
+			  width, height, fog);
+
+  /*** city size ***/
+  /* Not fogged as it would be unreadable */
+  if (pcity && draw_cities) {
+    if (pcity->size>=10)
+      put_overlay_tile_draw(rp, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+			    sprites.city.size_tens[pcity->size/10],
+			    offset_x, offset_y_unit,
+			    width, height_unit, 0);
+
+    put_overlay_tile_draw(rp, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+			  sprites.city.size[pcity->size%10],
+			  offset_x, offset_y_unit,
+			  width, height_unit, 0);
+  }
+
+  /*** Unit ***/
+  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
+    put_unit_draw(punit, rp,
+		  canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
+		  offset_x, offset_y_unit,
+		  width, height_unit);
+    if (!pcity && unit_list_size(&map_get_tile(x, y)->units) > 1)
+      put_overlay_tile_draw(rp,
+			    canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+			    sprites.unit.stack,
+			    offset_x, offset_y_unit,
+			    width, height_unit, fog);
+  }
+
+  if (special & S_FORTRESS && draw_fortress_airbase)
+    put_overlay_tile_draw(rp,
+			  canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
+			  sprites.tx.fortress,
+			  offset_x, offset_y_unit,
+			  width, height_unit, fog);
+}
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
+void put_one_tile(struct RastPort *rp, int x, int y, enum draw_type draw)
+{
+  int canvas_x, canvas_y;
+  int height, width, height_unit;
+  int offset_x, offset_y, offset_y_unit;
+  int dest_x = 0, dest_y = 0;
+
+  if (!tile_visible_mapcanvas(x, y)) {
+    freelog(LOG_DEBUG, "dropping %d,%d", x, y);
+    return;
+  }
+  freelog(LOG_DEBUG, "putting %d,%d draw %x", x, y, draw);
+
+  width = (draw & D_TMB_L) && (draw & D_TMB_R) ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2;
+  if (!(draw & D_TMB_L))
+    offset_x = NORMAL_TILE_WIDTH/2;
+  else
+    offset_x = 0;
+
+  height = 0;
+  if (draw & D_M_LR) height += NORMAL_TILE_HEIGHT/2;
+  if (draw & D_B_LR) height += NORMAL_TILE_HEIGHT/2;
+  if (draw & D_T_LR)
+    height_unit = height + NORMAL_TILE_HEIGHT/2;
+  else
+    height_unit = height;
+
+  offset_y = (draw & D_M_LR) ? 0 : NORMAL_TILE_HEIGHT/2;
+  if (!(draw & D_T_LR))
+    offset_y_unit = (draw & D_M_LR) ? NORMAL_TILE_HEIGHT/2 : NORMAL_TILE_HEIGHT;
+  else
+    offset_y_unit = 0;
+
+  /* returns whether the tile is visible. */
+  if (get_canvas_xy(x, y, &canvas_x, &canvas_y)) {
+    if (normalize_map_pos(&x, &y)) {
+      put_tile_iso(rp,x,y,dest_x+canvas_x,dest_y+canvas_y,0,offset_x,offset_y,offset_y_unit,
+                   width,height,height_unit,draw);
+    } else {
+      put_black_tile_iso(rp, dest_x+canvas_x, dest_y+canvas_y, offset_x, offset_y,
+			     width, height);
+    }
+  }
+}
+
+/**************************************************************************
+Only used for isometric view.
+**************************************************************************/
+void put_one_tile_full(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int citymode)
+{
+  put_tile_iso(rp, x, y, canvas_x, canvas_y, citymode,
+	       0, 0, 0,
+	       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, UNIT_TILE_HEIGHT,
+	       D_FULL);
 }
 

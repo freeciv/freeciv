@@ -19,4 +19,7 @@
 
 void create_line_at_mouse_pos(void);
 
+int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
+
 #endif  /* FC__MAPVIEW_H */

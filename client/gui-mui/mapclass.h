@@ -68,7 +68,7 @@ struct Map_Click
 #define MUIM_Map_DrawSegment            (0x7878794)
 #define MUIM_Map_UndrawSegment          (0x7878795)
 
-struct MUIP_Map_Refresh         {ULONG MethodID; LONG tilex; LONG tiley; LONG width; LONG height;
+struct MUIP_Map_Refresh         {ULONG MethodID; LONG x; LONG y; LONG width; LONG height;
                                  LONG write_to_screen;};
 struct MUIP_Map_MoveUnit        {ULONG MethodID; struct unit *punit; LONG x0; LONG y0; LONG dx; LONG dy;
                                  LONG dest_x; LONG dest_y;};

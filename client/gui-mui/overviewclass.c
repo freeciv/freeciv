@@ -40,6 +40,7 @@
 
 #include "graphics.h"
 #include "overviewclass.h"
+#include "tilespec.h"
 #include "muistuff.h"
 
 VOID myWritePixelArray8(struct RastPort *rp, unsigned long xstart,
@@ -108,13 +109,21 @@ struct Overview_Data
 
 static VOID Overview_HandleMouse(Object * o, struct Overview_Data *data, LONG x, LONG y)
 {
-  x = x % _mwidth(o);
+  x = ((x - _mleft(o)) % _mwidth(o))/data->ov_ScaleX;
+  y = (y - _mtop(o))/data->ov_ScaleY;
 
-  x = (x - _mleft(o)) / data->ov_ScaleX - data->rect_width / 2;
-  y = (y - _mtop(o)) / data->ov_ScaleY - data->rect_height / 2;
+  if (is_isometric) {
+    x -= data->rect_width/2;
+    y += data->rect_width/2;
+    x -= data->rect_height/2;
+    y -= data->rect_height/2;
+  } else {
+    x -= data->rect_width / 2;
+    y -= data->rect_height / 2;
+  }
 
-  if (x < 0)
-    x = map_adjust_x(x);
+  x = map_adjust_x(x);
+
   if (y < 0)
     y = 0;
   if (y + data->rect_height > data->ov_MapHeight)
@@ -210,45 +219,84 @@ static VOID Overview_FillBuffer(struct Overview_Data * data)
   }
 }
 
-static VOID Overview_DrawRect( Object *o, struct Overview_Data *data)
+static VOID Overview_DrawRect(Object *o, struct Overview_Data *data)
 {
   struct RastPort *rp = _rp(o);
-  LONG x1,x2,y1,y2,scalex,scaley;
-  BOOL twoparts;
 
-  scalex = data->ov_ScaleX;
-  scaley = data->ov_ScaleY;
+  SetAPen(rp, data->pen_white);
 
-  x1 = _mleft(o) + map_adjust_x(data->rect_left) * scalex;
-  x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;
+  if (is_isometric) {
+    int p1x = data->rect_left*2;
+    int p1y = data->rect_top*2;
+    int p2x = data->rect_left*2 + data->rect_height*2;
+    int p2y = data->rect_top * 2 + data->rect_height*2;
+    int p3x = data->rect_left*2 + data->rect_height*2 + data->rect_width*2;
+    int p3y = data->rect_top * 2 + data->rect_height*2 - data->rect_width*2;
+    int p4x = data->rect_left*2 + data->rect_width*2;
+    int p4y = data->rect_top * 2 - data->rect_width*2;
 
-  y1 = _mtop(o) + data->rect_top * scaley;
-  y2 = y1 + data->rect_height * scaley - 1;
+    APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 
-  if (x2 < x1)
-    twoparts = TRUE;
-  else
-    twoparts = FALSE;
+    Move(rp,_mleft(o) + p1x, _mtop(o) + p1y);
+    Draw(rp,_mleft(o) + p2x, _mtop(o) + p2y);
+    Draw(rp,_mleft(o) + p3x, _mtop(o) + p3y);
+    Draw(rp,_mleft(o) + p4x, _mtop(o) + p4y);
+    Draw(rp,_mleft(o) + p1x, _mtop(o) + p1y);
 
-  Move( rp, x1, y2);
-  SetAPen( rp, data->pen_white);
-  Draw( rp, x1, y1);
+    p1x -= data->ov_MapWidth * 2;
+    p2x -= data->ov_MapWidth * 2;
+    p3x -= data->ov_MapWidth * 2;
+    p4x -= data->ov_MapWidth * 2;
 
-  if (!twoparts)
-  {
-    Draw(rp, x2, y1);
-    Draw(rp, x2, y2);
-    Draw(rp, x1, y2);
+    if (p1x > 0 || p2x > 0 || p3x > 0 || p4x > 0)
+    {
+      Move(rp,_mleft(o) + p1x, _mtop(o) + p1y);
+      Draw(rp,_mleft(o) + p2x, _mtop(o) + p2y);
+      Draw(rp,_mleft(o) + p3x, _mtop(o) + p3y);
+      Draw(rp,_mleft(o) + p4x, _mtop(o) + p4y);
+      Draw(rp,_mleft(o) + p1x, _mtop(o) + p1y);
+    }
+
+    MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
   } else
   {
-    Draw(rp, _mright(o), y1);
-    Move(rp, x1, y2);
-    Draw(rp, _mright(o), y2);
+    LONG x1,x2,y1,y2,scalex,scaley;
+    BOOL twoparts;
 
-    Move(rp, _mleft(o), y1);
-    Draw(rp, x2, y1);
-    Draw(rp, x2, y2);
-    Draw(rp, _mleft(o), y2);
+    scalex = data->ov_ScaleX;
+    scaley = data->ov_ScaleY;
+
+    x1 = _mleft(o) + map_adjust_x(data->rect_left) * scalex;
+    x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;
+
+    y1 = _mtop(o) + data->rect_top * scaley;
+    y2 = y1 + data->rect_height * scaley - 1;
+
+    if (x2 < x1)
+      twoparts = TRUE;
+    else
+      twoparts = FALSE;
+
+    Move( rp, x1, y2);
+    SetAPen( rp, data->pen_white);
+    Draw( rp, x1, y1);
+
+    if (!twoparts)
+    {
+      Draw(rp, x2, y1);
+      Draw(rp, x2, y2);
+      Draw(rp, x1, y2);
+    } else
+    {
+      Draw(rp, _mright(o), y1);
+      Move(rp, x1, y2);
+      Draw(rp, _mright(o), y2);
+
+      Move(rp, _mleft(o), y1);
+      Draw(rp, x2, y1);
+      Draw(rp, x2, y2);
+      Draw(rp, _mleft(o), y2);
+    }
   }
 }
 

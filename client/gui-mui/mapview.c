@@ -46,6 +46,12 @@
 
 #include "mapview.h"
 
+/* Amiga Client stuff */
+
+#include "muistuff.h"
+#include "mapclass.h"
+#include "overviewclass.h"
+
 /*
 The bottom row of the map was sometimes hidden.
 
@@ -60,14 +66,9 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 
 -Thue
 */
-#define EXTRA_BOTTOM_ROW 1
-
-
-/* Amiga Client stuff */
-
-#include "muistuff.h"
-#include "mapclass.h"
-#include "overviewclass.h"
+/* If we have isometric view we need to be able to scroll a little extra down.
+   The places that needs to be adjusted are the same as above. */
+#define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
 
 /**************************************************************************
  Some support functions
@@ -299,34 +300,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   set(main_government_sprite, MUIA_Sprite_Sprite, gov_sprite);
 }
 
-
-/**************************************************************************
- GUI Independ (with new access functions)
-**************************************************************************/
-int map_canvas_adjust_x(int x)
-{
-  LONG map_view_x0 = get_map_x_start();
-  LONG map_canvas_store_twidth = get_map_x_visible();
-
-  if (map_view_x0 + map_canvas_store_twidth <= map.xsize)
-    return x - map_view_x0;
-  else if (x >= map_view_x0)
-    return x - map_view_x0;
-  else if (x < map_adjust_x(map_view_x0 + map_canvas_store_twidth))
-    return x + map.xsize - map_view_x0;
-
-  return -1;
-}
-
-/**************************************************************************
- GUI Independ (with new access functions)
-**************************************************************************/
-int map_canvas_adjust_y(int y)
-{
-  return y - get_map_y_start();	/*map_view_y0;*/
-
-}
-
 /**************************************************************************
  GUI Independ (with new access functions)
 **************************************************************************/
@@ -337,10 +310,125 @@ void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
 
   if (tile_visible_mapcanvas(x, y))
   {
-    update_map_canvas(map_canvas_adjust_x(x),
-		      map_canvas_adjust_y(y), 1, 1, write_to_screen);
+    update_map_canvas(x,y, 1, 1, write_to_screen);
   }
   overview_update_tile(x, y);
+}
+
+
+/**************************************************************************
+Finds the pixel coordinates of a tile.
+Beside setting the results in canvas_x,canvas_y it returns whether the tile
+is inside the visible map.
+**************************************************************************/
+int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
+{
+  int map_canvas_store_twidth = xget(main_map_area, MUIA_Map_HorizVisible);
+  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
+  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
+
+  if (is_isometric) {
+    /* canvas_x,canvas_y is the top corner of the actual tile, not the pixmap.
+       This function also handels non-adjusted tile coords (like -1, -2) as if
+       they were adjusted.
+       You might want to first take a look at the simpler city_get_xy() for basic
+       understanding. */
+    int diff_xy;
+    int diff_x, diff_y;
+    int width, height;
+/*    gdk_window_get_size(map_canvas->window, &width, &height);*/
+    width = _mwidth(main_map_area); /* !! */
+    height = _mheight(main_map_area); /* !! */
+
+    map_x %= map.xsize;
+    if (map_x < map_view_x0) map_x += map.xsize;
+    diff_xy = (map_x + map_y) - (map_view_x0 + map_view_y0);
+    /* one diff_xy value defines a line parallel with the top of the isometric
+       view. */
+    *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
+
+    /* changing both x and y with the same amount doesn't change the isometric
+       x value. (draw a grid to see it!) */
+    map_x -= diff_xy/2;
+    map_y -= diff_xy/2;
+    diff_x = map_x - map_view_x0;
+    diff_y = map_view_y0 - map_y;
+
+    *canvas_x = (diff_x - 1) * NORMAL_TILE_WIDTH
+      + (diff_x == diff_y ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH/2)
+      /* tiles starting above the visible area */
+      + (diff_y > diff_x ? NORMAL_TILE_WIDTH : 0);
+
+    /* We now have the corner of the sprite. For drawing we move it. */
+    *canvas_x -= NORMAL_TILE_WIDTH/2;
+
+    return (*canvas_x > -NORMAL_TILE_WIDTH)
+      && *canvas_x < (width + NORMAL_TILE_WIDTH/2)
+      && (*canvas_y > -NORMAL_TILE_HEIGHT)
+      && (*canvas_y < height);
+  } else { /* is_isometric */
+    if (map_view_x0+map_canvas_store_twidth <= map.xsize)
+      *canvas_x = map_x-map_view_x0;
+    else if(map_x >= map_view_x0)
+      *canvas_x = map_x-map_view_x0;
+    else if(map_x < map_adjust_x(map_view_x0+map_canvas_store_twidth))
+      *canvas_x = map_x+map.xsize-map_view_x0;
+    else *canvas_x = -1;
+
+    *canvas_y = map_y - map_view_y0;
+
+    *canvas_x *= NORMAL_TILE_WIDTH;
+    *canvas_y *= NORMAL_TILE_HEIGHT;
+
+    return *canvas_x >= 0
+      && *canvas_x < map_canvas_store_twidth*NORMAL_TILE_WIDTH
+      && *canvas_y >= 0
+      && *canvas_y < map_canvas_store_twidth*NORMAL_TILE_HEIGHT;
+  }
+}
+
+/**************************************************************************
+Finds the map coordinates corresponding to pixel coordinates.
+**************************************************************************/
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
+{
+  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
+  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
+
+  if (is_isometric) {
+    *map_x = map_view_x0;
+    *map_y = map_view_y0;
+
+    /* first find an equivalent position on the left side of the screen. */
+    *map_x += canvas_x/NORMAL_TILE_WIDTH;
+    *map_y -= canvas_x/NORMAL_TILE_WIDTH;
+    canvas_x %= NORMAL_TILE_WIDTH;
+
+    /* Then move op to the top corner. */
+    *map_x += canvas_y/NORMAL_TILE_HEIGHT;
+    *map_y += canvas_y/NORMAL_TILE_HEIGHT;
+    canvas_y %= NORMAL_TILE_HEIGHT;
+
+    /* We are inside a rectangle, with 2 half tiles starting in the corner,
+       and two tiles further out. Draw a grid to see how this works :). */
+    assert(NORMAL_TILE_WIDTH == 2*NORMAL_TILE_HEIGHT);
+    canvas_y *= 2; /* now we have a square. */
+    if (canvas_x > canvas_y) (*map_y) -= 1;
+    if (canvas_x + canvas_y > NORMAL_TILE_WIDTH) (*map_x) += 1;
+
+    /* If we are outside the map find the nearest tile, with distance as
+       seen on the map. */
+    if (*map_y < 0) {
+      *map_x += *map_y;
+      *map_y = 0;
+    }
+    *map_x %= map.xsize;
+    if (*map_x < 0)
+      *map_x += map.xsize;
+  } else { /* is_isometric */
+    *map_x = map_adjust_x(map_view_x0 + canvas_x/NORMAL_TILE_WIDTH);
+    *map_y = map_adjust_y(map_view_y0 + canvas_y/NORMAL_TILE_HEIGHT);
+  }
 }
 
 /**************************************************************************
@@ -348,15 +436,20 @@ void refresh_tile_mapcanvas(int x, int y, int write_to_screen)
 **************************************************************************/
 int tile_visible_mapcanvas(int x, int y)
 {
-  LONG map_view_x0 = get_map_x_start();
-  LONG map_view_y0 = get_map_y_start();
-  LONG map_canvas_store_twidth = get_map_x_visible();
-  LONG map_canvas_store_theight = get_map_y_visible();
+  if (is_isometric) {
+    int dummy_x, dummy_y; /* well, it needs two pointers... */
+    return get_canvas_xy(x, y, &dummy_x, &dummy_y);
+  } else {
+    int map_view_x0 = get_map_x_start();
+    int map_view_y0 = get_map_y_start();
+    int map_canvas_store_twidth = get_map_x_visible();
+    int map_canvas_store_theight = get_map_y_visible();
 
-  return (y >= map_view_y0 && y < map_view_y0 + map_canvas_store_theight &&
-	  ((x >= map_view_x0 && x < map_view_x0 + map_canvas_store_twidth) ||
-	   (x + map.xsize >= map_view_x0 &&
-	    x + map.xsize < map_view_x0 + map_canvas_store_twidth)));
+    return (y>=map_view_y0 && y<map_view_y0+map_canvas_store_theight &&
+	    ((x>=map_view_x0 && x<map_view_x0+map_canvas_store_twidth) ||
+	     (x+map.xsize>=map_view_x0 && 
+	      x+map.xsize<map_view_x0+map_canvas_store_twidth)));
+  }
 }
 
 /**************************************************************************
@@ -364,18 +457,32 @@ int tile_visible_mapcanvas(int x, int y)
 **************************************************************************/
 int tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
-  LONG map_view_x0 = get_map_x_start();
-  LONG map_view_y0 = get_map_y_start();
-  LONG map_canvas_store_twidth = get_map_x_visible();
-  LONG map_canvas_store_theight = get_map_y_visible();
+  if (is_isometric) {
+    int canvas_x, canvas_y;
+    int width, height;
+    width = _mwidth(main_map_area);
+    height = _mheight(main_map_area);
+//    gdk_window_get_size(map_canvas->window, &width, &height);
+    get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
-  return ((y>=map_view_y0+2 || (y >= map_view_y0 && map_view_y0 == 0))
-	  && (y<map_view_y0+map_canvas_store_theight-2 ||
-	      (y<map_view_y0+map_canvas_store_theight &&
-	       map_view_y0 + map_canvas_store_theight-EXTRA_BOTTOM_ROW == map.ysize))
-	  && ((x>=map_view_x0+2 && x<map_view_x0+map_canvas_store_twidth-2) ||
-	      (x+map.xsize>=map_view_x0+2
-	       && x+map.xsize<map_view_x0+map_canvas_store_twidth-2)));
+    return canvas_x > NORMAL_TILE_WIDTH/2
+      && canvas_x < (width - 3*NORMAL_TILE_WIDTH/2)
+      && canvas_y >= NORMAL_TILE_HEIGHT
+      && canvas_y < height - 3 * NORMAL_TILE_HEIGHT/2;
+  } else {
+    int map_view_x0 = get_map_x_start();
+    int map_view_y0 = get_map_y_start();
+    int map_canvas_store_twidth = get_map_x_visible();
+    int map_canvas_store_theight = get_map_y_visible();
+
+    return ((y>=map_view_y0+2 || (y >= map_view_y0 && map_view_y0 == 0))
+	    && (y<map_view_y0+map_canvas_store_theight-2 ||
+		(y<map_view_y0+map_canvas_store_theight &&
+		 map_view_y0 + map_canvas_store_theight-EXTRA_BOTTOM_ROW == map.ysize))
+	    && ((x>=map_view_x0+2 && x<map_view_x0+map_canvas_store_twidth-2) ||
+		(x+map.xsize>=map_view_x0+2
+		 && x+map.xsize<map_view_x0+map_canvas_store_twidth-2)));
+  }
 }
 
 /**************************************************************************
@@ -384,14 +491,23 @@ int tile_visible_and_not_on_border_mapcanvas(int x, int y)
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
   int dest_x, dest_y;
+  /* only works for adjacent-square moves */
+  if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
+      ((dx == 0) && (dy == 0))) {
+    return;
+  }
 
-  dest_x = map_adjust_x(x0 + dx);
-  dest_y = map_adjust_y(y0 + dy);
+  if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
+    set_hover_state(NULL, HOVER_NONE);
+    update_unit_info_label(punit);
+  }
 
-  if (player_can_see_unit(game.player_ptr, punit) && (
-					   tile_visible_mapcanvas(x0, y0) ||
-				    tile_visible_mapcanvas(dest_x, dest_y)))
-  {
+  dest_x = map_adjust_x(x0+dx);
+  dest_y = map_adjust_y(y0+dy);
+
+  if (player_can_see_unit(game.player_ptr, punit) &&
+      (tile_visible_mapcanvas(x0, y0) ||
+       tile_visible_mapcanvas(dest_x, dest_y))) {
     DoMethod(main_map_area, MUIM_Map_MoveUnit, punit, x0, y0, dx, dy, dest_x, dest_y);
   }
 }
@@ -401,13 +517,12 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 **************************************************************************/
 void get_center_tile_mapcanvas(int *x, int *y)
 {
-  LONG map_view_x0 = get_map_x_start();
-  LONG map_view_y0 = get_map_y_start();
-  LONG map_canvas_store_twidth = get_map_x_visible();
-  LONG map_canvas_store_theight = get_map_y_visible();
+  int width, height;
+  width = _mwidth(main_map_area);
+  height = _mheight(main_map_area);
 
-  *x = map_adjust_x(map_view_x0 + map_canvas_store_twidth / 2);
-  *y = map_adjust_y(map_view_y0 + map_canvas_store_theight / 2);
+  /* This sets the pointers x and y */
+  get_map_xy(width/2, height/2, x, y);
 }
 
 /**************************************************************************
@@ -427,15 +542,41 @@ void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 void center_tile_mapcanvas(int x, int y)
 {
   int new_map_view_x0, new_map_view_y0;
-  LONG map_canvas_store_twidth = get_map_x_visible();
-  LONG map_canvas_store_theight = get_map_y_visible();
+  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
+  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
+  int map_canvas_store_twidth = get_map_x_visible();
+  int map_canvas_store_theight = get_map_y_visible();
 
-  new_map_view_x0 = map_adjust_x(x - map_canvas_store_twidth / 2);
-  new_map_view_y0 = map_adjust_y(y - map_canvas_store_theight / 2);
-  if (new_map_view_y0 > map.ysize - map_canvas_store_theight)
-    new_map_view_y0 = map_adjust_y(map.ysize - map_canvas_store_theight);
+  if (is_isometric) {
+    x -= map_canvas_store_twidth/2;
+    y += map_canvas_store_twidth/2;
+    x -= map_canvas_store_theight/2;
+    y -= map_canvas_store_theight/2;
 
-  set_map_xy_start(new_map_view_x0, new_map_view_y0);
+    map_view_x0 = map_adjust_x(x);
+    map_view_y0 = map_adjust_y(y);
+
+    map_view_y0 =
+      (map_view_y0 > map.ysize + EXTRA_BOTTOM_ROW - map_canvas_store_theight) ? 
+      map.ysize + EXTRA_BOTTOM_ROW - map_canvas_store_theight :
+      map_view_y0;
+  } else {
+    int new_map_view_x0, new_map_view_y0;
+
+    new_map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
+    new_map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
+    if (new_map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
+      new_map_view_y0=
+	map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight);
+
+    map_view_x0=new_map_view_x0;
+    map_view_y0=new_map_view_y0;
+  }
+
+  set_map_xy_start(map_view_x0, map_view_y0);
+/*  update_map_canvas_visible();
+  update_map_canvas_scrollbars();
+  refresh_overview_viewrect();*/
 }
 
 /**************************************************************************
@@ -464,32 +605,50 @@ void refresh_overview_viewrect(void)
 }
 
 /**************************************************************************
-...
+Refresh and draw to sceen all the tiles in a rectangde width,height (as
+seen in overhead ciew) with the top corner at x,y.
+All references to "left","right", "top" and "bottom" refer to the sides of
+the rectangle width, height as it would be seen in top-down view, unless
+said otherwise.
+The trick is to draw tiles furthest up on the map first, since we will be
+drawing on top of them when we draw tiles further down.
+
+Works by first refreshing map_canvas_store and then drawing the result to
+the screen.
 **************************************************************************/
-void update_map_canvas(int tile_x, int tile_y, int width, int height,
+void update_map_canvas(int x, int y, int width, int height, 
 		       int write_to_screen)
 {
-  I changed the meaning of tile_x, tile_y to be absolute map coordiantes
-  instead of relative to map_view_[xy]. This turned out to be a much more
-  intuitive interface in the rest of the code.
-  As you may guess I havent modified the gui-mui code, which is why you
-  read this.
-  Btw, I think it would be fairly easy to copy the isometric view
-  implementations; just replace the GCs and calls to gdk_draw_x().
-    -Thue
-
-  DoMethod(main_map_area, MUIM_Map_Refresh, tile_x, tile_y, width, height, write_to_screen);
+  DoMethod(main_map_area, MUIM_Map_Refresh, x, y, width, height, write_to_screen);
 }
 
 /**************************************************************************
- Update the visible part of the map
+ Update (only) the visible part of the map
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
-  LONG map_canvas_store_twidth = get_map_x_visible();
-  LONG map_canvas_store_theight = get_map_y_visible();
+  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
+  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
+  int map_canvas_store_twidth = get_map_x_visible();
+  int map_canvas_store_theight = get_map_y_visible();
 
-  update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
+  if (is_isometric) {
+    /* just find a big rectangle that includes the whole visible area. The
+       invisible tiles will not be drawn. */
+    int width, height;
+
+    width = height = map_canvas_store_twidth + map_canvas_store_theight;
+    update_map_canvas(map_view_x0,
+		      map_view_y0 - map_canvas_store_twidth,
+		      width, height, 1);
+  } else {
+    update_map_canvas(map_view_x0, map_view_y0,
+		      map_canvas_store_twidth,map_canvas_store_theight, 1);
+  }
+
+//  show_city_descriptions();
+
+
 }
 
 /**************************************************************************
@@ -528,18 +687,20 @@ void put_city_workers(struct city *pcity, int color)
 draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
 map_canvas_store
 **************************************************************************/
-void draw_segment(int src_x, int src_y, int dest_x, int dest_y)
+void draw_segment(int src_x, int src_y, int dir)
+/*void draw_segment(int src_x, int src_y, int dest_x, int dest_y)*/
 {
-  DoMethod(main_map_area, MUIM_Map_DrawSegment, src_x, src_y, dest_x, dest_y);
+//  DoMethod(main_map_area, MUIM_Map_DrawSegment, src_x, src_y, dest_x, dest_y);
 }
 
 /**************************************************************************
 remove the line from src_x,src_y -> dest_x,dest_y on both map_canvas and
-map_canvas_store
+map_canvas_store.
 **************************************************************************/
-void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)
+void undraw_segment(int src_x, int src_y, int dir)
+/*void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)*/
 {
-  DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dest_x, dest_y);
+//  DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dest_x, dest_y);
 }
 
 /**************************************************************************
@@ -547,14 +708,14 @@ void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)
 **************************************************************************/
 static void update_line(int x, int y)
 {
-  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+/*  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
       && draw_goto_line) {
 
     if (line_dest_x != x || line_dest_y != y) {
       undraw_line();
       draw_line(x, y);
     }
-  }
+  }*/
 }
 
 /**************************************************************************
