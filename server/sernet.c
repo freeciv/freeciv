@@ -131,6 +131,8 @@ int sniff_packets(void)
       }
       *(buf+didget)='\0';
       handle_stdin_input(buf);
+
+      show_prompt();
     }
     else {                             /* input from a player */
       for(i=0; i<MAX_CONNECTIONS; i++)

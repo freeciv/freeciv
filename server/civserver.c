@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
   log_init(log_filename);
   log_set_level(log_level);
   
-  printf(FREECIV_NAME_VERSION " server\n> ");
+  printf(FREECIV_NAME_VERSION " server\n");
 #if MINOR_VERSION < 7
   printf("Freeciv 1.7 will be released on August 5 from http://www.freeciv.org\n");
 #endif
@@ -282,6 +282,8 @@ int main(int argc, char *argv[])
 
   if (script_filename)
     read_init_script(script_filename);
+
+  show_prompt();
 
   while(server_state==PRE_GAME_STATE)
     sniff_packets();
@@ -392,6 +394,9 @@ int main(int argc, char *argv[])
     shuffle_players();
 /* printf("Aistartturn\n"); */
     ai_start_turn();
+    printf("\n");		/* in case no output since last show_prompt() */
+    show_prompt();
+
 /* printf("sniffingpackets\n"); */
     while(sniff_packets()==1);
     for(i=0;i<game.nplayers;i++)
@@ -430,6 +435,7 @@ empty get to refresh and defend themselves.  How totally stupid. */
   
   notify_player(0, "Game: The game is over..");
 
+  show_prompt();
   while(server_state==GAME_OVER_STATE) {
     force_end_of_sniff=0;
     sniff_packets();
@@ -477,61 +483,61 @@ void read_init_script(char *script_filename)
 ...
 **************************************************************************/
 
-void send_server_info_to_metaserver(int do_send)
+int send_server_info_to_metaserver(int do_send)
 {
   static int time_last_send;
   int time_now;
+  char desc[4096], info[4096];
+  int i;
+  
   
   time_now=time(NULL);
   
-  if(do_send || time_now-time_last_send>METASERVER_UPDATE_INTERVAL) {
-    char desc[4096], info[4096];
-    int i;
+  if(!do_send && time_now-time_last_send<METASERVER_UPDATE_INTERVAL)
+    return 0;
+
+  /* build description block */
+  desc[0]='\0';
   
-    /* build description block */
-    desc[0]='\0';
-  
-    sprintf(desc+strlen(desc), "Freeciv\n");
-    sprintf(desc+strlen(desc), VERSION_STRING"\n");
-    switch(server_state) {
-     case PRE_GAME_STATE:
-      sprintf(desc+strlen(desc), "Pregame\n");
-      break;
-     case RUN_GAME_STATE:
-      sprintf(desc+strlen(desc), "Running\n");
-      break;
-     case GAME_OVER_STATE:
-      sprintf(desc+strlen(desc), "Game over\n");
-      break;
-   default:
-      sprintf(desc+strlen(desc), "Waiting\n");
-    }
-    sprintf(desc+strlen(desc), "%s\n",metaserver_servername);
-    sprintf(desc+strlen(desc), "%d\n", port);
-    sprintf(desc+strlen(desc), "%d\n", game.nplayers);
-    sprintf(desc+strlen(desc), "%s", metaserver_info_line);
+  sprintf(desc+strlen(desc), "Freeciv\n");
+  sprintf(desc+strlen(desc), VERSION_STRING"\n");
+  switch(server_state) {
+  case PRE_GAME_STATE:
+    sprintf(desc+strlen(desc), "Pregame\n");
+    break;
+  case RUN_GAME_STATE:
+    sprintf(desc+strlen(desc), "Running\n");
+    break;
+  case GAME_OVER_STATE:
+    sprintf(desc+strlen(desc), "Game over\n");
+    break;
+  default:
+    sprintf(desc+strlen(desc), "Waiting\n");
+  }
+  sprintf(desc+strlen(desc), "%s\n",metaserver_servername);
+  sprintf(desc+strlen(desc), "%d\n", port);
+  sprintf(desc+strlen(desc), "%d\n", game.nplayers);
+  sprintf(desc+strlen(desc), "%s", metaserver_info_line);
     
   /* now build the info block */
-    info[0]='\0';
-    sprintf(info+strlen(info), 
-	    "Players:%d  Min players:%d  Max players:%d\n",
-	    game.nplayers, game.min_players, game.max_players);
-    sprintf(info+strlen(info), 
-	    "Timeout:%d  Year: %s\n",
-	    game.timeout, textyear(game.year));
+  info[0]='\0';
+  sprintf(info+strlen(info), 
+	  "Players:%d  Min players:%d  Max players:%d\n",
+	  game.nplayers, game.min_players, game.max_players);
+  sprintf(info+strlen(info), 
+	  "Timeout:%d  Year: %s\n",
+	  game.timeout, textyear(game.year));
     
     
-    sprintf(info+strlen(info), "NO:  NAME:               HOST:\n");
-    sprintf(info+strlen(info), "----------------------------------------\n");
-    for(i=0; i<game.nplayers; ++i) {
-      sprintf(info+strlen(info), "%2d   %-20s %s\n", 
-	      i, game.players[i].name, game.players[i].addr);
-    }
-
-    time_last_send=time_now;
-    send_to_metaserver(desc, info);
+  sprintf(info+strlen(info), "NO:  NAME:               HOST:\n");
+  sprintf(info+strlen(info), "----------------------------------------\n");
+  for(i=0; i<game.nplayers; ++i) {
+    sprintf(info+strlen(info), "%2d   %-20s %s\n", 
+	    i, game.players[i].name, game.players[i].addr);
   }
-    
+
+  time_last_send=time_now;
+  return send_to_metaserver(desc, info);
 }
 
 /**************************************************************************
@@ -1068,10 +1074,10 @@ void accept_new_player(char *name, struct connection *pconn)
     strcpy(game.players[game.nplayers].addr, pconn->addr); 
     sprintf(packet.message, "Welcome %s.", name);
     send_packet_join_game_reply(pconn, &packet);
-    flog(LOG_NORMAL, "%s[%s] has joined the game.", name, pconn->addr);
+    flog(LOG_NORMAL, "<%s@%s> has joined the game.", name, pconn->addr);
     for(i=0; i<game.nplayers; ++i)
       notify_player(&game.players[i],
-	  	    "Game: Player %s[%s] has connected.", name, pconn->addr);
+	  	    "Game: Player <%s@%s> has connected.", name, pconn->addr);
   } else {
      flog(LOG_NORMAL, "%s[ai-player] has joined the game.", name, pconn->addr);
      for(i=0; i<game.nplayers; ++i)
@@ -1087,13 +1093,26 @@ void accept_new_player(char *name, struct connection *pconn)
      notify_player(&game.players[game.nplayers-1],
 		   "Welcome to the %s Server running at %s", 
 		   FREECIV_NAME_VERSION, hostname);
-     notify_player(&game.players[game.nplayers-1],
-		   "There's currently %d player%s connected:", game.nplayers,
-		   game.nplayers>1 ? "s" : "");
+     if (game.nplayers != 1)
+       notify_player(&game.players[game.nplayers-1],
+		     "There are currently %d players connected:",
+		     game.nplayers);
+     else
+       notify_player(&game.players[game.nplayers-1],
+		     "There is currently 1 player connected:");
      
      for(i=0; i<game.nplayers; ++i)
-       notify_player(&game.players[game.nplayers-1], "%s[%s]", 
-		     game.players[i].name, game.players[i].addr);
+     {
+       struct player *pplayer;
+
+       pplayer = &game.players[i];
+       if (pplayer->ai.control != 0)
+	 notify_player(&game.players[game.nplayers-1],
+		       "  <%s (an AI player)>", pplayer->name);
+       else
+	 notify_player(&game.players[game.nplayers-1], "  <%s@%s>", 
+		       pplayer->name, pplayer->addr);
+     }
   }
   send_server_info_to_metaserver(1);
 }
@@ -1122,8 +1141,8 @@ void handle_request_join_game(struct connection *pconn,
   struct player *pplayer;
   char msg[MSG_SIZE];
   
-  flog(LOG_NORMAL, "Connection from %s with client version %d.%d.%d", req->name,
-      req->major_version, req->minor_version, req->patch_version);
+  flog(LOG_NORMAL, "Connection request from %s with client version %d.%d.%d",
+       req->name, req->major_version, req->minor_version, req->patch_version);
   flog(LOG_DEBUG, "Client caps: %s Server Caps: %s", req->capability,
        our_capability);
   strcpy(pconn->capability, req->capability);

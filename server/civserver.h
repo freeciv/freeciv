@@ -28,7 +28,7 @@ void handle_request_join_game(struct connection *pconn,
 void handle_turn_done(int player_no);
 void accept_new_player(char *name, struct connection *pconn);
 int check_for_full_turn_done(void);
-void send_server_info_to_metaserver(int do_send);
+int send_server_info_to_metaserver(int do_send);
 void start_game(void);
 void send_select_race(struct player *pplayer);
 void save_game(void);

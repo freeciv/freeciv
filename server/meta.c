@@ -21,19 +21,22 @@ extern int errno;
 static int			sockfd,n,in_size;
 static struct sockaddr_in	cli_addr,serv_addr;
 
-void send_to_metaserver(char *desc, char *info)
+int send_to_metaserver(char *desc, char *info)
 {
   unsigned char buffer[MAX_PACKET_SIZE], *cptr;
   
-  if(sockfd!=0) {
-    cptr=put_int16(buffer+2,  PACKET_UDP_PCKT);
-    cptr=put_string(cptr, desc);
-    cptr=put_string(cptr, info);
-    put_int16(buffer, cptr-buffer);
-    
-    n=sendto(sockfd, buffer, cptr-buffer,0, 
-	     (struct sockaddr *) &serv_addr, sizeof(serv_addr) );
-  }
+  if(sockfd==0)
+    return 0;
+
+  cptr=put_int16(buffer+2,  PACKET_UDP_PCKT);
+  cptr=put_string(cptr, desc);
+  cptr=put_string(cptr, info);
+  put_int16(buffer, cptr-buffer);
+  
+  n=sendto(sockfd, buffer, cptr-buffer,0, 
+	   (struct sockaddr *) &serv_addr, sizeof(serv_addr) );
+  
+  return 1;
 }
 
 void server_close_udp(void)
@@ -59,7 +62,7 @@ void server_open_udp(void)
       if((hp = gethostbyname(servername)) ==NULL) {
 	perror("Metaserver: address error");
 	printf("Not reporting to the metaserver in this game\n");
-	printf("Use option --nometa to always enforce this\n> ");
+	printf("Use option --nometa to always enforce this\n");
 	fflush(stdout);
 	return;
       }

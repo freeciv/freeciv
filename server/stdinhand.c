@@ -232,6 +232,19 @@ PlayerNameStatus test_player_name(char* name)
 
 static char horiz_line[] = "------------------------------------------------------------------------------";
 
+void show_prompt()
+{
+  static int first=1;
+
+  if (first)
+    printf("\nGet a list of the available commands with 'h'.\n");
+
+  printf("> ");
+  fflush(stdout);
+
+  first = 0;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -239,7 +252,8 @@ void meta_command(char *arg)
 {
   strncpy(metaserver_info_line, arg, 256);
   metaserver_info_line[256-1]='\0';
-  send_server_info_to_metaserver(1);
+  if (send_server_info_to_metaserver(1) == 0)
+    printf("Not reporting to the metaserver in this game\n");
 }
 
 /***************************************************************
@@ -339,7 +353,7 @@ void toggle_ai_player(char *arg)
   }
   pplayer->ai.control = !pplayer->ai.control;
   if (pplayer->ai.control) {
-    notify_player(0, "Option: %s is AI-controlled.", pplayer->name);
+    notify_player(0, "Game: %s is now AI-controlled.", pplayer->name);
     printf("%s is now under AI control.\n",pplayer->name);
     if (pplayer->ai.skill_level==0) {
       pplayer->ai.skill_level = game.skill_level;
@@ -349,7 +363,7 @@ void toggle_ai_player(char *arg)
        then reloaded. */ 
     set_ai_level(arg, pplayer->ai.skill_level);
   } else {
-    notify_player(0, "Option: %s is human.", pplayer->name);
+    notify_player(0, "Game: %s is now human.", pplayer->name);
     printf("%s is now under human control.\n",pplayer->name);
   }
   send_player_info(pplayer,0);
@@ -363,30 +377,49 @@ void create_ai_player(char *arg)
   struct player *pplayer;
   PlayerNameStatus PNameStatus;
    
-  if (server_state==PRE_GAME_STATE) {
-     if(game.nplayers==game.max_players) 
-       puts ("Can't add more players, server is full.");
-     else if ((PNameStatus = test_player_name(arg)) == PNameEmpty)
-       puts("Can't use an empty name.");
-     else if (PNameStatus == PNameTooLong)
-       puts("The name exceeds the maximum of 9 chars.");
-     else if ((pplayer=find_player_by_name(arg))) 
-       puts("A player already exists by that name.");
-     else {
-	accept_new_player(arg, NULL);
-	pplayer = find_player_by_name(arg);
-	if (!pplayer) 
-	  printf ("Error creating new ai player: %s\n", arg);
-	else {
-	   pplayer->ai.control = !pplayer->ai.control;
-	   pplayer->ai.skill_level = game.skill_level;
-	   pplayer->is_connected=0;
-	   notify_player(0, "Option: %s has been added as an AI-controlled.",
-			 pplayer->name);
-	}
-     }
-  } else
-     puts ("Can't add AI players once the game has begun.");
+  if (server_state!=PRE_GAME_STATE)
+  {
+    puts ("Can't add AI players once the game has begun.");
+    return;
+  }
+
+  if (game.nplayers==game.max_players) 
+  {
+    puts ("Can't add more players, server is full.");
+    return;
+  }
+
+  if ((PNameStatus = test_player_name(arg)) == PNameEmpty)
+  {
+    puts("Can't use an empty name.");
+    return;
+  }
+
+  if (PNameStatus == PNameTooLong)
+  {
+    puts("The name exceeds the maximum of 9 chars.");
+    return;
+  }
+
+  if ((pplayer=find_player_by_name(arg)))
+  {
+    puts("A player already exists by that name.");
+    return;
+  }
+
+  accept_new_player(arg, NULL);
+  pplayer = find_player_by_name(arg);
+  if (!pplayer)
+  {
+    printf ("Error creating new ai player: %s\n", arg);
+    return;
+  }
+
+  pplayer->ai.control = !pplayer->ai.control;
+  pplayer->ai.skill_level = game.skill_level;
+  pplayer->is_connected=0;
+  notify_player(0, "Game: %s has been added as an AI-controlled player.",
+		pplayer->name);
 }
 
 
@@ -421,7 +454,7 @@ int lookup_cmd(char *find)
   return -1;
 }
 
-void help_command(char *str)
+void explain_option(char *str)
 {
   char command[512], *cptr_s, *cptr_d;
   int cmd,i;
@@ -434,16 +467,18 @@ void help_command(char *str)
   if (*command) {
     cmd=lookup_cmd(command);
     if (cmd==-1) {
-      puts("No help on that (yet).");
+      puts("No explanation for that yet.");
       return;
     }
-    printf("%s: is set to %d\nEffect: %s\nMinimum %d, Maximum %d, Default %d\n"
-	   , settings[cmd].name, *settings[cmd].value, settings[cmd].help, 
-	   settings[cmd].min_value, settings[cmd].max_value, 
-	   settings[cmd].default_value);
+    printf("%s: %s\n", settings[cmd].name, settings[cmd].help);
+    printf("%s is currently set to %d.\n",
+	   settings[cmd].name, *settings[cmd].value);
+    printf("Minimum %d, Default %d, Maximum %d\n",
+	   settings[cmd].min_value, settings[cmd].default_value, 
+	   settings[cmd].max_value);
   } else {
     puts(horiz_line);
-    puts("Help are defined on the following variables:");
+    puts("Explanations are available for the following server options:");
     puts(horiz_line);
     for (i=0;settings[i].name;i++) {
       printf("%-19s%c",settings[i].name, ((i+1)%4) ? ' ' : '\n'); 
@@ -572,7 +607,7 @@ void set_command(char *str)
   val=atoi(arg);
   if (val>=settings[cmd].min_value && val<=settings[cmd].max_value) {
     *(settings[cmd].value)=val;
-    notify_player(0, "Option: %s", str);
+    notify_player(0, "Option: %s has been set to %d.", command, val);
   } else
     puts("Value out of range. Usage: set <variable> <value>.");
 }
@@ -585,9 +620,10 @@ void handle_stdin_input(char *str)
   char command[512], arg[512], *cptr_s, *cptr_d;
   int i;
 
+  /* Is it a comment or a blank line? */
   /* line is comment if the first non-whitespace character is '#': */
   for(cptr_s=str; *cptr_s && isspace(*cptr_s); cptr_s++);
-  if(*cptr_s && *cptr_s == '#')
+  if(*cptr_s == 0 || *cptr_s == '#')
     return;
   
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
@@ -612,6 +648,8 @@ void handle_stdin_input(char *str)
     meta_command(arg);
   else if(!strcmp("h", command))
     show_help();
+  else if(!strcmp("help", command))
+    show_help();
   else if(!strcmp("l", command))
     show_players();
   else if (!strcmp("ai", command))
@@ -634,8 +672,8 @@ void handle_stdin_input(char *str)
     cut_player_connection(arg);
   else if (!strcmp("show",command)) 
     show_command(arg);
-  else if (!strcmp("help",command)) 
-    help_command(arg);
+  else if (!strcmp("explain",command)) 
+    explain_option(arg);
   else if (!strcmp("set", command)) 
     set_command(arg);
   else if(!strcmp("score", command)) {
@@ -657,13 +695,10 @@ void handle_stdin_input(char *str)
 	start_game();
     }
     else
-      printf("Unknown Command, try 'h' for help.\n");
+      printf("Unknown command.  Try 'h' for help.\n");
   }
   else
-    printf("Unknown Command, try 'h' for help.\n");  
-  
-  printf(">");
-  fflush(stdout);
+    printf("Unknown command.  Try 'h' for help.\n");  
 }
 
 /**************************************************************************
@@ -711,32 +746,30 @@ void quit_game(void)
 **************************************************************************/
 void show_help(void)
 {
-  puts("Available commands: (P=player, M=message, F=file)");
-  puts("-------------------------------------");
-  puts("c P      - cut connection to player");
-  puts("h        - this help");
-  puts("l        - list players");
-  puts("q        - quit game and shutdown server");
-  puts("remove P - fully remove player from game");
-  puts("score    - show current score");
-  puts("save F   - save game as file F");
-  puts("show     - list server options");
-  puts("help     - help on server options");
-  puts("meta T   - Set meta-server infoline to T");
-  puts("ai P     - toggles AI on player");
-  puts("create P - creates an AI player");
-  puts("easy P   - AI player will be easy");
-  puts("easy     - All AI players will be easy");
-  puts("normal P - AI player will be normal");
-  puts("normal   - All AI players will be normal");
-  puts("hard P   - AI player will be hard");
-  puts("hard     - All AI players will be hard");
+  puts("Available commands: (P=player, M=message, F=file, T=topic)");
+  puts(horiz_line);
+  puts("h         - this help");
+  puts("explain   - help on server options");
+  puts("explain T - help on a particular server option");
+  puts("l         - list players");
+  puts("q         - quit game and shutdown server");
+  puts("c P       - cut connection to player");
+  puts("remove P  - fully remove player from game");
+  puts("score     - show current score");
+  puts("save F    - save game as file F");
+  puts("show      - list server options");
+  puts("meta M    - Set meta-server infoline to T");
+  puts("ai P      - toggles AI on player");
+  puts("create P  - creates an AI player");
+  puts("easy P    - AI player will be easy");
+  puts("easy      - All AI players will be easy");
+  puts("normal P  - AI player will be normal");
+  puts("normal    - All AI players will be normal");
+  puts("hard P    - AI player will be hard");
+  puts("hard      - All AI players will be hard");
+  puts("set       - set options");
   if(server_state==PRE_GAME_STATE) {
-    puts("set      - set options");
-    puts("s        - start game");
-  }
-  else {
-    
+    puts("s         - start game");
   }
 }
 
@@ -746,22 +779,31 @@ void show_help(void)
 void show_players(void)
 {
   int i;
-  char aichar;
   
   puts("List of players:");
-  puts("-------------------------------------");
+  puts(horiz_line);
 
-  for(i=0; i<game.nplayers; i++) {
-    if (game.players[i].ai.control) 
-      aichar = '*';
-    else
-      aichar = ' ';
-    printf("%c%s ", aichar, game.players[i].name);
-    if (game.players[i].ai.control)
-      printf("(%s) ", name_of_skill_level(game.players[i].ai.skill_level));
-    if (game.players[i].conn)
-      printf("is connected from %s\n", game.players[i].addr); 
-    else
-      printf("is not connected\n");
+  if (game.nplayers == 0)
+    printf("<no players>\n");
+  else
+  {
+    for(i=0; i<game.nplayers; i++) {
+      printf("%s", game.players[i].name);
+      if (game.players[i].ai.control) {
+	printf(" (AI, %s)",
+	       name_of_skill_level(game.players[i].ai.skill_level));
+	if (game.players[i].conn)
+	  printf(" observer connected from %s\n", game.players[i].addr);
+	else
+	  printf("\n");
+      }
+      else {
+	if (game.players[i].conn)
+	  printf(" is connected from %s\n", game.players[i].addr); 
+	else
+	  printf(" is not connected\n");
+      }
+    }
   }
+  puts(horiz_line);
 }

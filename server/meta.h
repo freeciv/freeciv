@@ -29,12 +29,13 @@ The info string should look like this:
 #define	METASERVER_ADDR	"platinum.daimi.aau.dk"
 #define METASERVER_UPDATE_INTERVAL 3*60
 #if MINOR_VERSION < 7
-#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.7: beware"
+#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.8: beware"
 #else
-#  define DEFAULT_META_SERVER_INFO_STRING "Blood's Music II"
+#  define DEFAULT_META_SERVER_INFO_STRING "(default)"
 #endif
 
-void send_to_metaserver(char *desc, char *info);
+/* Returns true if able to send */
+int send_to_metaserver(char *desc, char *info);
 void server_close_udp();
 void server_open_udp();
 
