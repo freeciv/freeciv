@@ -77,6 +77,7 @@ bool flags_are_transparent = TRUE;
 
 int num_tiles_explode_unit=0;
 
+static bool is_mountainous = FALSE;
 
 static int num_spec_files = 0;
 static char **spec_filenames;	/* full pathnames */
@@ -413,6 +414,9 @@ void tilespec_read_toplevel(const char *tileset_name)
 	  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
 	  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 	  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+
+  is_mountainous = secfile_lookup_bool_default(file, FALSE,
+					       "tilespec.is_mountainous");
 
   c = secfile_lookup_str_default(file, "10x20", "tilespec.city_names_font");
   city_names_font = mystrdup(c);
@@ -1315,6 +1319,24 @@ static struct Sprite *get_dither(int ttype, int ttype_other)
 }
 
 /**********************************************************************
+  Return TRUE iff the two mountainous terrain types should be blended.
+
+  If is_mountainous set, the tileset will be "mountainous" and consider
+  adjacent hills and mountains interchangable.  If it's unset then
+  hills will only blend with hills and mountains only with mountains.
+***********************************************************************/
+static bool can_blend_hills_and_mountains(enum tile_terrain_type ttype,
+				  enum tile_terrain_type ttype_adjc)
+{
+  assert(ttype == T_HILLS || ttype == T_MOUNTAINS);
+  if (is_mountainous) {
+    return ttype_adjc == T_HILLS || ttype_adjc == T_MOUNTAINS;
+  } else {
+    return ttype_adjc == ttype;
+  }
+}
+
+/**********************************************************************
 Fill in the sprite array for the tile at position (abs_x0,abs_y0).
 Does not fill in the city or unit; that have to be done seperatly in
 isometric view. Also, no fog here.
@@ -1361,10 +1383,14 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
       switch (ttype) {
         case T_HILLS:
-        tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_HILLS,
-        		  ttype_near[DIR8_SOUTH] == T_HILLS,
-        		  ttype_near[DIR8_EAST] == T_HILLS,
-        		  ttype_near[DIR8_WEST] == T_HILLS);
+        tileno = INDEX_NSEW(can_blend_hills_and_mountains(T_HILLS,
+						  ttype_near[DIR8_NORTH]),
+			    can_blend_hills_and_mountains(T_HILLS,
+						  ttype_near[DIR8_SOUTH]),
+			    can_blend_hills_and_mountains(T_HILLS,
+						  ttype_near[DIR8_EAST]),
+			    can_blend_hills_and_mountains(T_HILLS,
+						  ttype_near[DIR8_WEST]));
         *sprs++ = sprites.tx.spec_hill[tileno];
         break;
  
@@ -1377,10 +1403,14 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
         break;
  
         case T_MOUNTAINS:
-        tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_MOUNTAINS,
-        		  ttype_near[DIR8_SOUTH] == T_MOUNTAINS,
-        		  ttype_near[DIR8_EAST] == T_MOUNTAINS,
-        		  ttype_near[DIR8_WEST] == T_MOUNTAINS);
+        tileno = INDEX_NSEW(can_blend_hills_and_mountains(T_MOUNTAINS,
+						  ttype_near[DIR8_NORTH]),
+			    can_blend_hills_and_mountains(T_MOUNTAINS,
+						  ttype_near[DIR8_SOUTH]),
+			    can_blend_hills_and_mountains(T_MOUNTAINS,
+						  ttype_near[DIR8_EAST]),
+			    can_blend_hills_and_mountains(T_MOUNTAINS,
+						  ttype_near[DIR8_WEST]));
         *sprs++ = sprites.tx.spec_mountain[tileno];
         break;
 

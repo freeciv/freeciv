@@ -54,6 +54,41 @@ specially: these graphics are freed after the game starts, and
 reloaded later as necessary.
 
 ----------------------------------------------------------------------
+Tileset options:
+----------------
+
+In the top-level tilespec file you can set options for the tileset.
+Each of these should go within the [tilespec] section. Currently
+options include:
+
+  Strings (enclosed in "")
+  ------------------------
+  options               : A capability string, currently "+tilespec2"
+  name                  : the name of the tileset
+  city_names_font       : an X font string
+  city_productions_font : an X font string
+  main_intro_file       : GFX file for the intro graphics
+  minimap_intro_file    : GFX file for the radar screen intro graphics
+
+  Integers
+  --------
+  normal_tile_width     : the width of terrain tiles
+  normal_tile_height    : the height of terrain tiles
+  small_tile_width      : the width of icon sprites
+  small_tile_height     : the height of icon sprites
+
+  Booleans (0 or 1)
+  -----------------
+  is_isometric          : set to 1 for an iso-view tileset
+  is_mountainous        : do hills and mountains blend together?
+  flags_are_transparent : 
+
+  String lists (a comma-separated list of strings)
+  ------------------------------------------------
+  files                 : A list of .spec files to scan for sprites.
+                          See "individual spec files", below.
+
+----------------------------------------------------------------------
 Individual spec files:
 ----------------------
 
