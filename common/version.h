@@ -28,13 +28,13 @@
 #define MINOR_VERSION		13
 #endif
 #ifndef PATCH_VERSION
-#define PATCH_VERSION		0
+#define PATCH_VERSION		1
 #endif
 #ifndef VERSION_LABEL
-#define VERSION_LABEL		""
+#define VERSION_LABEL		"-devel"
 #endif
 #ifndef IS_DEVEL_VERSION
-#define IS_DEVEL_VERSION	0
+#define IS_DEVEL_VERSION	1
 #endif
 #ifndef IS_BETA_VERSION
 #define IS_BETA_VERSION		0
