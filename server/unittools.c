@@ -2903,10 +2903,15 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
   unit_list_insert(&pdesttile->units, punit);
   check_unit_activity(punit);
 
-  /* set activity to sentry if boarding a ship */
-  if (is_ground_unit(punit) &&
-      pdesttile->terrain == T_OCEAN &&
-      !(pplayer->ai.control)) {
+  /* set activity to sentry if boarding a ship unless the unit is just 
+     passing through the ship on its way somewhere else */
+  if (is_ground_unit(punit)
+      && pdesttile->terrain == T_OCEAN
+      && !(pplayer->ai.control)
+      && !(punit->activity == ACTIVITY_GOTO      /* if unit is GOTOing and the ship */ 
+	   && (dest_x != punit->goto_dest_x      /* isn't the final destination */
+	       || dest_y != punit->goto_dest_y)) /* then don't go to sleep */
+      ) {
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
   send_unit_info_to_onlookers(0, punit, src_x, src_y, 0, 0);
@@ -2979,7 +2984,10 @@ void goto_route_execute(struct unit *punit)
     if (index == pgr->last_index) {
       free(punit->pgr);
       punit->pgr = NULL;
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      if (punit->activity == ACTIVITY_GOTO) 
+	/* the activity could already be SENTRY (if boarded a ship) 
+	   -- leave it as it is then */
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
       return;
     }
     x = pgr->pos[index].x; y = pgr->pos[index].y;
