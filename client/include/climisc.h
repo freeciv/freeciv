@@ -22,5 +22,7 @@ char *tilefilename(char *name);
 void climap_init_continents(void);
 void climap_update_continents(int x, int y);
 
+#define CITY_NAMES_FONT "10x20"
+
 #endif  /* FC__CLIMISC_H */
 

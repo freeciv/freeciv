@@ -45,6 +45,7 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "colors.h"
 #include "connectdlg.h"
