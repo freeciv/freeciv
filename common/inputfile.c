@@ -648,7 +648,12 @@ static const char *get_token_value(struct inputfile *inf)
   for(;;) {
     int pos;
     
-    while(*c && (*c!='\"' || *(c-1)=='\\')) {
+    while(*c != '\0' && *c != '\"') {
+      /* skip over escaped chars, including backslash-doublequote,
+	 and backslash-backslash: */
+      if (*c == '\\' && *(c+1) != '\0') {  
+	c++;
+      }
       c++;
     }
     if (*c == '\"') 
