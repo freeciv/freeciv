@@ -41,6 +41,8 @@
 #endif
 
 #ifdef GENERATING_MAC  /* mac header(s) */
+#include <Dialogs.h>
+#include <Controls.h>
 #include <bool.h> /*from STL, but works w/ c*/
 #endif
 
@@ -104,6 +106,10 @@ static void handle_request_join_game(struct connection *pconn,
 static void handle_turn_done(int player_no);
 static void send_select_race(struct player *pplayer);
 
+#ifdef GENERATING_MAC
+static void Mac_options(int *argc, char *argv[]);
+#endif
+
 extern struct connection connections[];
 
 enum server_states server_state;
@@ -144,11 +150,7 @@ int rand_init=0;
 /**************************************************************************
 ...
 **************************************************************************/
-#ifdef GENERATING_MAC 		/* mac doesn't have comand line */
-int main(void)
-#else 
 int main(int argc, char *argv[])
-#endif
 {
   int h=0, v=0, n=1;
   char *log_filename=NULL;
@@ -159,88 +161,15 @@ int main(int argc, char *argv[])
   int i;
   int save_counter=0;
   int loglevel=LOG_NORMAL;
-#ifdef GENERATING_MAC         /* Mac vars */
-  OSErr err;
-  DialogPtr  optptr;
-  bool done;
-#endif
 
   init_nls();
   dont_run_as_root(argv[0], "freeciv_server");
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
 
-#ifdef GENERATING_MAC   /* Mac Options */
-  optptr=GetNewDialog(128,nil,(WindowPtr)-1);
-  err=SetDialogDefaultItem(optptr, 2);
-  if (err != 0)
-  {
-    exit(1); /*we don't have an error log yet so I just bomb.  Is this corect?*/
-  }
-  err=SetDialogTracksCursor(optptr, true);
-  if (err != 0)
-  {
-    exit(1);
-  }
-    
-  while(!done)
-  {
-    Str255 the_string;
-    short the_item, the_type;
-    Handle the_handle;
-    Rect the_rect;
-    OSErr  err;
-    long temp;
-    ModalDialog(0, &the_item);
-    switch (the_item)
-    {
-      case 1:
-        done = true;
-      break;
-      case 2:
-        exit(0);
-      break;
-      case 4:
-        GetDItem( optptr, 4, &the_type, &the_handle, &the_rect);
-        GetIText( the_handle, (unsigned char *)load_filename);
-      break;
-      case 6:
-        GetDItem( optptr, 6, &the_type, &the_handle, &the_rect);
-        GetIText( the_handle, (unsigned char *)gamelog_filename);
-      break;
-      case 8:
-        GetDItem( optptr, 8, &the_type, &the_handle, &the_rect);
-        GetIText( the_handle, (unsigned char *)log_filename);
-      break;
-      case 10:
-        GetDItem( optptr, 10, &the_type, &the_handle, &the_rect);
-        GetIText( the_handle, (unsigned char *)script_filename);
-      break;
-      case 12:
-        GetDItem( optptr, 12, &the_type, &the_handle, &the_rect);
-        GetIText( the_handle, the_string);
-        StringToNum( the_string, &temp);
-        if (temp>0)
-          port=temp;
-      break;
-      case 13:
-        GetDItem(optptr, 13, &the_type, &the_handle, &the_rect);
-        n=GetCtlValue((ControlHandle)the_handle);
-        SetCtlValue((ControlHandle)the_handle, !n);
-      break;
-      case 15:
-      case 16:
-      case 17:
-        GetDItem(optptr, (loglevel+15), &the_type, &the_handle, &the_rect);
-        SetCtlValue((ControlHandle)the_handle, false);
-        loglevel=the_item-15;
-        GetDItem(optptr, the_item, &the_type, &the_handle, &the_rect);
-        SetCtlValue((ControlHandle)the_handle, true);
-      break;
-    }
-  }
-  DisposeDialog(optptr);
-#else	/* non-mac options */  
+#ifdef GENERATING_MAC
+  Mac_options(&argc, argv);
+#endif	
   /* no  we don't use GNU's getopt or even the "standard" getopt */
   /* yes we do have reasons ;)                                   */
   i=1;
@@ -286,7 +215,6 @@ int main(int argc, char *argv[])
     }
     i++;
   }
-#endif	/* end option selector */
   
   if(v && !h) {
     fprintf(stderr, FREECIV_NAME_VERSION "\n");
@@ -326,7 +254,7 @@ int main(int argc, char *argv[])
   con_puts(C_COMMENT, "");
   con_puts(C_COMMENT, "This is an alpha/beta version of MacFreeciv.");
   con_puts(C_COMMENT, "Visit http://www.geocities.com/SiliconValley/Orchard/8738/MFC/index.html");
-  con_puts(C_COMMENT, "for new versions of this project.");
+  con_puts(C_COMMENT, "for new versions of this project and information about it.");
   con_puts(C_COMMENT, "");
 #endif
 #if IS_BETA_VERSION
@@ -1601,3 +1529,135 @@ static void announce_ai_player (struct player *pplayer) {
                     races[pplayer->race].name_plural);
 
 }
+
+#ifdef GENERATING_MAC
+/*************************************************************************
+  generate an option dialog if no options have been passed in
+*************************************************************************/
+static void Mac_options(int *argc, char *argv[])
+{
+  if (argc == 0) /* always true curently, but... */
+  {
+    OSErr err;
+    DialogPtr  optptr;
+    short the_type;
+    Handle the_handle;
+    Rect the_rect;
+    bool done, meta;
+    char * str='\0';
+    Str255 the_string;
+    optptr=GetNewDialog(128,nil,(WindowPtr)-1);
+    err=SetDialogDefaultItem(optptr, 2);
+    if (err != 0)
+    {
+      exit(1); /*we don't have an error log yet so I just bomb.  Is this correct?*/
+    }
+    err=SetDialogTracksCursor(optptr, true);
+    if (err != 0)
+    {
+      exit(1);
+    }
+    GetDItem(optptr, 16/*normal radio button*/, &the_type, &the_handle, &the_rect);
+    SetCtlValue((ControlHandle)the_handle, true);
+
+    while(!done)
+    {
+      short the_item, old_item;
+      ModalDialog(0, &the_item);
+      switch (the_item)
+      {
+        case 1:
+          done = true;
+        break;
+        case 2:
+          exit(0);
+        break;
+        break;
+        case 13:
+          GetDItem(optptr, 13, &the_type, &the_handle, &the_rect);
+          meta=!GetCtlValue((ControlHandle)the_handle);
+          SetCtlValue((ControlHandle)the_handle, meta);
+        break;
+        case 15:
+        case 16:
+        case 17:
+          GetDItem(optptr, old_item, &the_type, &the_handle, &the_rect);
+          SetCtlValue((ControlHandle)the_handle, false);
+          old_item=the_item;
+          GetDItem(optptr, the_item, &the_type, &the_handle, &the_rect);
+          SetCtlValue((ControlHandle)the_handle, true);
+        break;
+      }
+    }
+    /*now, bundle the data into the argc/argv storage for interpritation*/
+    GetDItem( optptr, 4, &the_type, &the_handle, &the_rect);
+    GetIText( the_handle, (unsigned char *)str);
+    if (str)
+    {
+      strcpy(argv[++(*argc)],"--file");
+      strcpy(argv[++(*argc)], str);
+    }
+    GetDItem( optptr, 6, &the_type, &the_handle, &the_rect);
+    GetIText( the_handle, (unsigned char *)str);
+    if (str)
+    {
+      strcpy(argv[++(*argc)],"--gamelog");
+      strcpy(argv[++(*argc)], str);
+    }
+    GetDItem( optptr, 8, &the_type, &the_handle, &the_rect);
+    GetIText( the_handle, (unsigned char *)str);
+    if (str)
+    {
+      strcpy(argv[++(*argc)],"--log");
+      strcpy(argv[++(*argc)], str);
+    }
+    if (meta)
+      strcpy(argv[++(*argc)], "--meta");
+    GetDItem( optptr, 12, &the_type, &the_handle, &the_rect);
+    GetIText( the_handle, the_string);
+    if (atoi((char*)the_string)>0)
+    {
+      strcpy(argv[++(*argc)],"--port");
+      strcpy(argv[++(*argc)], (char *)the_string);
+    }
+    GetDItem( optptr, 10, &the_type, &the_handle, &the_rect);
+    GetIText( the_handle, (unsigned char *)str);
+    if (str)
+    {
+      strcpy(argv[++(*argc)],"--read");
+      strcpy(argv[++(*argc)], str);
+    }
+    GetDItem(optptr, 15, &the_type, &the_handle, &the_rect);
+    if(GetControlValue((ControlHandle)the_handle))
+    {
+      strcpy(argv[++(*argc)],"--debug");
+      strcpy(argv[++(*argc)],"0");
+    }
+    GetDItem(optptr, 16, &the_type, &the_handle, &the_rect);
+    if(GetControlValue((ControlHandle)the_handle))
+    {
+      strcpy(argv[++(*argc)],"--debug");
+      strcpy(argv[++(*argc)],"1");
+    }
+    GetDItem(optptr, 17, &the_type, &the_handle, &the_rect);
+    if(GetControlValue((ControlHandle)the_handle))
+    {
+      strcpy(argv[++(*argc)],"--debug");
+      strcpy(argv[++(*argc)],"2");
+    }
+    DisposeDialog(optptr);/*get rid of the dialog after sorting out the options*/
+  }
+}
+/*  --file	F 	implmented
+    --gamelog F implmented
+    --help		not needed?
+    --log F		implmented
+    --meta		implmented
+    --port N	implmented
+    --read F	implmented
+    --server H	**not implmented***
+    --debug N	implmented
+    --version	not needed?
+*/
+
+#endif
