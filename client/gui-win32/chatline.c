@@ -113,19 +113,12 @@ log_output_window(void)
 {
   int len;
   char *theoutput;
-  FILE *fp;
-
-  append_output_window(_("Exporting output window to civgame.log ...")); 
+ 
   len=GetWindowTextLength(logoutput_win)+1;
   theoutput=fc_malloc(len);
   GetWindowText(logoutput_win,theoutput,len);
-  fp = fopen("civgame.log", "w"); /* should allow choice of name? */
-  fprintf(fp, "%s", theoutput);
-  fclose(fp);  
-  append_output_window(_("Export complete."));
-  
+  write_chatline_content(theoutput);
   free(theoutput);
-  
 }
 
 /**************************************************************************
