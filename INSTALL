@@ -55,6 +55,7 @@ out whether your system is suitable.  If in doubt, just try it.
 
    The output should include "GNU Make" somewhere.
 
+
 1. Prerequisites for the clients:
 =================================
 
@@ -69,6 +70,7 @@ library support and for development support (for compiling programs
 which use those libraries).  To compile Freeciv on such systems you 
 will need to have the appropriate "development" packages installed.
 (Attention Red Hat users: this means you! :-)
+
 
 1a. Prerequisites for the Xaw client:
 =====================================
@@ -125,6 +127,7 @@ will need to have the appropriate "development" packages installed.
    it in a standard system directory, then use the --with-xpm-prefix
    option, as described above.
 
+
 1b. Prerequisites for the Gtk+ client:
 ======================================
 
@@ -173,6 +176,7 @@ will need to have the appropriate "development" packages installed.
 If you are going to make these yourself, build and install them in the
 following order: Glib, Gtk+, Imlib.
 
+
 2. Generating the Makefile:
 ===========================
 
@@ -195,17 +199,17 @@ script, try the --help option, like this:
 
  % ./configure --help
 
-  If you're compiling a development release or a CVS snapshot, and you
-  don't have both GNU make AND gcc, then pass configure the
-  "--disable-cvs-deps" option.  You'll especially need to do this if
-  you're using the Solaris cc and make programs.
+If you're compiling a development release or a CVS snapshot, and you
+don't have both GNU make AND gcc, then pass configure the
+"--disable-cvs-deps" option.  You'll especially need to do this if
+you're using the Solaris cc and make programs.
 
-  Note that if you do this, dependency checking is disabled.  If you
-  change any Freeciv .h files after this for any reason, you should do
-  a "make clean" before doing "make" to ensure everything is compiled
-  correctly.
+Note that if you do this, dependency checking is disabled.  If you
+change any Freeciv .h files after this for any reason, you should do
+a "make clean" before doing "make" to ensure everything is compiled
+correctly.
 
-  "--disable-cvs-deps" has no effect when run with a stable release.
+"--disable-cvs-deps" has no effect when run with a stable release.
 
 By default the configure script will choose the Gtk+ client if the 
 required libraries are found, or else fall back to the Xaw client.
@@ -250,6 +254,9 @@ If for some reason using "configure" gives you trouble, follow these steps:
     instructing the configure script with the appropriate command-line
     options.  (See ./configure --help).
 
+  - If the problem is with "gettext", please read the Native Language
+    Support section, below, for possible work-arounds.
+
   - Let us know, so that we can fix it for the next release!!
 
     Send mail to the freeciv-dev mailing list, telling us what you did,
@@ -259,11 +266,12 @@ If for some reason using "configure" gives you trouble, follow these steps:
     configure script.
 
     You can find out about the freeciv-dev mailing list on our web
-    site, at http://www.freeciv.org
+    site, at http://www.freeciv.org/
 
 Please note that since Freeciv 1.7.2 we have stopped supporting 
 the use of Imake, and as of Freeciv 1.8.1 we no longer include 
 the Makefile.noimake fallback.
+
 
 3. Compiling Freeciv:
 =====================
@@ -272,7 +280,8 @@ If all has gone well previous to this point, then compiling Freeciv
 should be as easy as typing "make" (or preferably, "gmake").
 
 If you have problems, read the file BUGS, and follow the advice 
-carefully.
+carefully.  If the problem is with "gettext", please read the Native
+Language Support section, below, for possible work-arounds.
 
 After compilation, the important results are:
 
@@ -289,6 +298,7 @@ See the README file for more information.
 
 (However you cannot use Internationalization when playing Freeciv from
 the source directory; you must install Freeciv for that.)
+
 
 4. Installation:
 ================
@@ -319,8 +329,39 @@ setenv FREECIV_PATH "/usr/games/freeciv/data:./data"
 FREECIV_PATH="/usr/games/freeciv/data:./data"; export FREECIV_PATH
    (for users of sh, bash, ksh, zsh, etc)
 
-Finally, if you've choose to use the Xaw client and you're logged in as the
-'root' user, you should consider copying the file data/Freeciv into your
-app-defaults directory. (Usually this is /usr/lib/X11/app-defaults).
+Also, note that you generally must install Freeciv if you wish to use
+its Native Language Support.  See the README file for more information.
+
+Finally, if you've chosen to use the Xaw client and you have permission
+to log in as the 'root' user, you should consider copying the resource
+file data/Freeciv into your app-defaults directory. (Usually this is
+/usr/lib/X11/app-defaults).
+
+
+5. Native Language Support:
+===========================
+
+Freeciv uses the "gettext" system for Native Language Support.
+
+If you experience problems with gettext in either configuring or compiling
+Freeciv, there are a few work-arounds you can try:
+
+1. If you don't need Native Language Support, disable it using the
+   "--disable-nls" ./configure option:
+
+      % ./configure --disable-nls
+      % make
+
+2. If you want Native Language Support, try the version of gettext that
+   is included with Freeciv by specifying the "--with-included-gettext"
+   ./configure option:
+
+      % ./configure --with-included-gettext
+      % make
+
+3. Finally, you can try to install the latest version of GNU gettext.
+   It may be obtained from here:
+
+      ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
 
 ** END **
