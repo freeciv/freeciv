@@ -249,8 +249,12 @@ int main(int argc, char *argv[])
     game.scenario=game_load(&file);
     section_file_check_unused(&file, load_filename);
     section_file_free(&file);
-    /* game.scenario: 0=normal savegame, 1=everything but players,
-       2=just tile map and startpositions, 3=just tile map */
+   /* game.scenario: 0=normal savegame, 1=everything but players,
+       2=just tile map and startpositions, 3=just tile map
+       (Except that actually game_load returns 0 for a pre-start
+       savegame and 1 for a normal savegame.  This whole thing
+       needs an overhaul  --dwp)
+   */
     if (game.scenario) { /* we may have a scenario here */
       if(game.nplayers) { /* no, it's just a normal savegame */
 	is_new_game=0;
@@ -325,7 +329,7 @@ int main(int argc, char *argv[])
    
   /* if we have a tile map, and map.generator==0, call map_fractal_generate
      anyway, to make the specials and huts */
-  if(map_is_empty() || (map.generator == 0) )
+  if(map_is_empty() || (map.generator == 0 && is_new_game))
     map_fractal_generate();
   else 
     flood_it(1);
