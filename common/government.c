@@ -53,7 +53,7 @@
  *   basics).
  */
 
-struct government *governments;
+struct government *governments = NULL;
 
 struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
 

@@ -44,7 +44,7 @@ static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define name_strlcpy(dst, src) ((void) sz_loud_strlcpy(dst, src, name_too_long))
 
 static void openload_ruleset_file(struct section_file *file,
-				   char *subdir, char *whichset);
+				   char *whichset);
 static char *check_ruleset_capabilities(struct section_file *file,
 					char *us_capstr,
 					const char *filename);
@@ -84,7 +84,7 @@ static void load_ruleset_terrain(struct section_file *file);
 static void load_ruleset_cities(struct section_file *file);
 static void load_ruleset_nations(struct section_file *file);
 
-static void load_ruleset_game(char *ruleset_subdir);
+static void load_ruleset_game();
 
 static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_units(struct conn_list *dest);
@@ -101,18 +101,25 @@ static void send_ruleset_game(struct conn_list *dest);
 **************************************************************************/
 char *valid_ruleset_filename(char *subdir, char *whichset)
 {
-  char filename1[512], filename2[512], *dfilename;
+  char filename[512], *dfilename;
 
-  my_snprintf(filename1, sizeof(filename1), "%s/%s.ruleset", subdir, whichset);
-  dfilename = datafilename(filename1);
+  assert(subdir && whichset);
+
+  my_snprintf(filename, sizeof(filename), "%s/%s.ruleset", subdir, whichset);
+  dfilename = datafilename(filename);
+  if (dfilename)
+    return dfilename;
+
+  freelog(LOG_VERBOSE, _("Trying to load file from default ruleset directory "
+      "instead."));
+  my_snprintf(filename, sizeof(filename), "default/%s.ruleset", whichset);
+  dfilename = datafilename(filename);
   if (dfilename)
     return dfilename;
 
   freelog(LOG_ERROR, _("Trying alternative ruleset filename syntax."));
-
-  my_snprintf(filename2, sizeof(filename2), "%s_%s.ruleset", subdir, whichset);
-  dfilename = datafilename(filename2);
-
+  my_snprintf(filename, sizeof(filename), "%s_%s.ruleset", subdir, whichset);
+  dfilename = datafilename(filename);
   if (dfilename)
     return dfilename;
 
@@ -121,18 +128,13 @@ char *valid_ruleset_filename(char *subdir, char *whichset)
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
-  "subdir" = "default", "civ1", "custom", ...
   "whichset" = "techs", "units", "buildings", "terrain", ...
   Calls exit(EXIT_FAILURE) on failure.
-  This no longer returns the full filename opened; used secfile_filename()
-  if you want it.
 **************************************************************************/
-
-static void openload_ruleset_file(struct section_file *file,
-				  char *subdir, char *whichset)
+static void openload_ruleset_file(struct section_file *file, char *whichset)
 {
   char sfilename[512];
-  char *dfilename = valid_ruleset_filename(subdir, whichset);
+  char *dfilename = valid_ruleset_filename(game.rulesetdir, whichset);
 
   if (!dfilename) {
     freelog(LOG_FATAL,
@@ -2174,16 +2176,16 @@ static void load_ruleset_cities(struct section_file *file)
 }
 
 /**************************************************************************
-Load game.ruleset file
+Load ruleset file
 **************************************************************************/
-static void load_ruleset_game(char *ruleset_subdir)
+static void load_ruleset_game()
 {
   struct section_file file;
   char *datafile_options;
   char *sval;
   const char *filename;
 
-  openload_ruleset_file(&file, ruleset_subdir, "game");
+  openload_ruleset_file(&file, "game");
   filename = secfile_filename(&file);
   datafile_options = check_ruleset_capabilities(&file, "+1.11.1", filename);
   (void) section_file_lookup(&file, "datafile.description");	/* unused */
@@ -2631,25 +2633,25 @@ void load_rulesets(void)
 
   freelog(LOG_NORMAL, _("Loading rulesets"));
 
-  openload_ruleset_file(&techfile, game.ruleset.techs, "techs");
+  openload_ruleset_file(&techfile, "techs");
   load_tech_names(&techfile);
 
-  openload_ruleset_file(&buildfile, game.ruleset.buildings, "buildings");
+  openload_ruleset_file(&buildfile, "buildings");
   load_building_names(&buildfile);
 
-  openload_ruleset_file(&govfile, game.ruleset.governments, "governments");
+  openload_ruleset_file(&govfile, "governments");
   load_government_names(&govfile);
 
-  openload_ruleset_file(&unitfile, game.ruleset.units, "units");
+  openload_ruleset_file(&unitfile, "units");
   load_unit_names(&unitfile);
 
-  openload_ruleset_file(&terrfile, game.ruleset.terrain, "terrain");
+  openload_ruleset_file(&terrfile, "terrain");
   load_terrain_names(&terrfile);
 
-  openload_ruleset_file(&cityfile, game.ruleset.cities, "cities");
+  openload_ruleset_file(&cityfile, "cities");
   load_citystyle_names(&cityfile);
 
-  openload_ruleset_file(&nationfile, game.ruleset.nations, "nations");
+  openload_ruleset_file(&nationfile, "nations");
   load_nation_names(&nationfile);
 
   load_ruleset_techs(&techfile);
@@ -2659,7 +2661,7 @@ void load_rulesets(void)
   load_ruleset_terrain(&terrfile);    /* terrain must precede nations */
   load_ruleset_buildings(&buildfile);
   load_ruleset_nations(&nationfile);
-  load_ruleset_game(game.ruleset.game);
+  load_ruleset_game();
   translate_data_names();
 }
 
@@ -2681,4 +2683,13 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_cities(dest);
 
   conn_list_do_unbuffer(dest);
+}
+
+/**************************************************************************
+  Deallocate and clean up. For use when freeciv quits, or in case we
+  later want to be able to reload rulesets.
+**************************************************************************/
+void free_rulesets()
+{
+  /* placeholder function for now */
 }

@@ -735,11 +735,8 @@ char *datafilename(const char *filename)
     }
   }
 
-  freelog(LOG_ERROR, _("Could not find readable file \"%s\" in data path."),
+  freelog(LOG_VERBOSE, _("Could not find readable file \"%s\" in data path."),
 	    filename);
-  freelog(LOG_ERROR, _("The data path may be set via"
-			 " the environment variable FREECIV_PATH."));
-  freelog(LOG_ERROR, _("Current data path is: \"%s\""), datafilename(NULL));
 
   return NULL;
 }
@@ -758,6 +755,9 @@ char *datafilename_required(const char *filename)
   if (dname) {
     return dname;
   } else {
+    freelog(LOG_ERROR, _("The data path may be set via"
+			 " the environment variable FREECIV_PATH."));
+    freelog(LOG_ERROR, _("Current data path is: \"%s\""), datafilename(NULL));
     freelog(LOG_FATAL,
 		 _("The \"%s\" file is required ... aborting!"), filename);
     exit(EXIT_FAILURE);

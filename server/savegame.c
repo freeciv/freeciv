@@ -139,13 +139,12 @@
   }                                                           \
 }
 
-/* Following does not include "unirandom", used previously; add it if
- * appropriate.  (Code no longer looks at "unirandom", but should still
- * include it when appropriate for maximum savegame compatibility.)
- */
-#define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
+/* The following should be removed when compatibility with
+   pre-1.13.0 savegames is broken: startoptions, spacerace2
+   and rulesets */
+#define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
-"attributes watchtower"
+"attributes watchtower rulesetdir"
 
 static const char hex_chars[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
@@ -255,24 +254,6 @@ static int unquote_block(const char *const quoted_, void *dest,
 }
 
 /***************************************************************
- Note -- as of v1.6.4 you should use savefile_options (instead of
- game.version) to determine which variables you can expect to 
- find in a savegame file.  Or even better (IMO --dwp) is to use
- section_file_lookup(), secfile_lookup_int_default(),
- secfile_lookup_str_default(), etc.
-***************************************************************/
-static char *get_savefile_options(struct section_file *file)
-{
-  if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
-      || (game.version > 10604)) {
-    return secfile_lookup_str(file,"savefile.options");
-  } else {
-    /* else leave savefile_options empty */
-    return " ";
-  }
-}
-
-/***************************************************************
 load starting positions for the players from a savegame file
 Now we don't know how many start positions there are nor how many
 should be because rulesets are loaded later. So try to load as
@@ -348,7 +329,7 @@ load a complete map from a savegame file
 ***************************************************************/
 static void map_load(struct section_file *file)
 {
-  char *savefile_options = get_savefile_options(file);
+  char *savefile_options = secfile_lookup_str(file, "savefile.options");
 
   /* map_init();
    * This is already called in game_init(), and calling it
@@ -572,7 +553,7 @@ static void player_load(struct player *plr, int plrno,
 {
   int i, j, x, y, nunits, ncities;
   char *p;
-  char *savefile_options = get_savefile_options(file);
+  char *savefile_options = secfile_lookup_str(file, "savefile.options");
 
   server_player_init(plr, TRUE);
 
@@ -671,33 +652,7 @@ static void player_load(struct player *plr, int plrno,
 			       plrno, i);
   }
   
-  if (has_capability("spacerace", savefile_options)) {
-    struct player_spaceship *ship = &plr->spaceship;
-    char prefix[32];
-    int arrival_year;
-    
-    my_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
-    spaceship_init(ship);
-    arrival_year = secfile_lookup_int(file, "%s.arrival_year", prefix);
-    ship->structurals = secfile_lookup_int(file, "%s.structurals", prefix);
-    ship->components = secfile_lookup_int(file, "%s.components", prefix);
-    ship->modules = secfile_lookup_int(file, "%s.modules", prefix);
-    ship->state = secfile_lookup_int(file, "%s.state", prefix);
-    if (ship->state >= SSHIP_LAUNCHED) {
-      ship->launch_year = (arrival_year - 15);
-    }
-    /* auto-assign to individual parts: */
-    ship->habitation = (ship->modules + 2)/3;
-    ship->life_support = (ship->modules + 1)/3;
-    ship->solar_panels = ship->modules/3;
-    ship->fuel = (ship->components + 1)/2;
-    ship->propulsion = ship->components/2;
-    for(i=0; i<ship->structurals; i++) {
-      ship->structure[i] = TRUE;
-    }
-    spaceship_calc_derived(ship);
-  }
-  else if(has_capability("spacerace2", savefile_options)) {
+  { /* spacerace */
     struct player_spaceship *ship = &plr->spaceship;
     char prefix[32];
     char *st;
@@ -1726,8 +1681,13 @@ void game_load(struct section_file *file)
   tmp_server_state = (enum server_states)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
-  /* This one uses game.version! */
-  savefile_options = get_savefile_options(file);
+  savefile_options = secfile_lookup_str(file, "savefile.options");
+
+  /* we require at least version 1.9.0 */
+  if (10900 > game.version) {
+    freelog(LOG_FATAL, "Savegame too old, at least version 1.9.0 required.");
+    exit(EXIT_FAILURE);
+  }
 
   if (game.load_options.load_settings) {
     sz_strlcpy(srvarg.metaserver_info_line,
@@ -1852,33 +1812,31 @@ void game_load(struct section_file *file)
     game.randseed = secfile_lookup_int_default(file, game.randseed,
 					       "game.randseed");
 
-    sz_strlcpy(game.ruleset.techs,
-	       secfile_lookup_str_default(file, "default", "game.ruleset.techs"));
-    sz_strlcpy(game.ruleset.units,
-	       secfile_lookup_str_default(file, "default", "game.ruleset.units"));
-    sz_strlcpy(game.ruleset.buildings,
-	       secfile_lookup_str_default(file, "default",
-					  "game.ruleset.buildings"));
-    sz_strlcpy(game.ruleset.terrain,
-	       secfile_lookup_str_default(file, "classic",
-					  "game.ruleset.terrain"));
-    sz_strlcpy(game.ruleset.governments,
-	       secfile_lookup_str_default(file, "default",
-					  "game.ruleset.governments"));
-    sz_strlcpy(game.ruleset.nations,
-	       secfile_lookup_str_default(file, "default",
-					  "game.ruleset.nations"));
-    sz_strlcpy(game.ruleset.cities,
-	       secfile_lookup_str_default(file, "default", "game.ruleset.cities"));
     if(game.civstyle == 1) {
       string = "civ1";
     } else {
       string = "default";
       game.civstyle = GAME_DEFAULT_CIVSTYLE;
     }
-    sz_strlcpy(game.ruleset.game,
+
+    if (!has_capability("rulesetdir", savefile_options)) {
+      /* touch to prevent warnings */
+      section_file_lookup(file, "game.ruleset.techs");
+      section_file_lookup(file, "game.ruleset.units");
+      section_file_lookup(file, "game.ruleset.buildings");
+      section_file_lookup(file, "game.ruleset.terrain");
+      section_file_lookup(file, "game.ruleset.governments");
+      section_file_lookup(file, "game.ruleset.nations"); 
+      section_file_lookup(file, "game.ruleset.cities");
+
+      sz_strlcpy(game.rulesetdir, 
 	       secfile_lookup_str_default(file, string,
 					  "game.ruleset.game"));
+    } else {
+      sz_strlcpy(game.rulesetdir, 
+	       secfile_lookup_str_default(file, string,
+					  "game.rulesetdir"));
+    }
 
     sz_strlcpy(game.demography,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
@@ -1896,8 +1854,7 @@ void game_load(struct section_file *file)
     load_rulesets();
   }
 
-  if(tmp_server_state==PRE_GAME_STATE 
-     || has_capability("startoptions", savefile_options)) {
+  {
     if (game.version >= 10300) {
       if (game.load_options.load_settings) {
 	game.settlers = secfile_lookup_int(file, "game.settlers");
@@ -2115,9 +2072,6 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
   
   sz_strlcpy(options, SAVEFILE_OPTIONS);
-  if (myrand_is_init()) {
-    sz_strlcat(options, " unirandom");   /* backward compat */
-  }
   if (game.is_new_game) {
     if (map.num_start_positions>0) {
       sz_strlcat(options, " startpos");
@@ -2176,14 +2130,6 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.barbarianrate, "game.barbarians");
   secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");
   secfile_insert_int(file, game.occupychance, "game.occupychance");
-  secfile_insert_str(file, game.ruleset.techs, "game.ruleset.techs");
-  secfile_insert_str(file, game.ruleset.units, "game.ruleset.units");
-  secfile_insert_str(file, game.ruleset.buildings, "game.ruleset.buildings");
-  secfile_insert_str(file, game.ruleset.terrain, "game.ruleset.terrain");
-  secfile_insert_str(file, game.ruleset.governments, "game.ruleset.governments");
-  secfile_insert_str(file, game.ruleset.nations, "game.ruleset.nations");
-  secfile_insert_str(file, game.ruleset.cities, "game.ruleset.cities");
-  secfile_insert_str(file, game.ruleset.game, "game.ruleset.game");
   secfile_insert_str(file, game.demography, "game.demography");
   secfile_insert_int(file, game.watchtower_vision, "game.watchtower_vision");
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
@@ -2235,6 +2181,8 @@ void game_save(struct section_file *file)
   } else {
     secfile_insert_int(file, 0, "game.save_random");
   }
+
+  secfile_insert_str(file, game.rulesetdir, "game.rulesetdir");
 
   if (!map_is_empty())
     map_save(file);

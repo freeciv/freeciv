@@ -151,50 +151,13 @@ struct settings_s {
   size_t string_value_size;	/* max size we can write into string_value */
 };
 
-/********************************************************************
-Triggers used in settings_s.  valid_ruleset() is clumsy because of
-the fixed number of arguments and the reject_message - change? - rp
-*********************************************************************/
-
+/*
+ * Triggers used in settings_s.
+ */
 static bool valid_notradesize(int value, char **reject_message);
 static bool valid_fulltradesize(int value, char **reject_message);
 static bool autotoggle(bool value, char **reject_message);
 
-static bool valid_ruleset(char *whichset, char *subdir, char **reject_message)
-{
-  static char buffer[MAX_LEN_CONSOLE_LINE];
-
-  assert(subdir != NULL);
-
-  *reject_message = buffer;
-
-  if (!valid_ruleset_filename(subdir,whichset)) {
-    my_snprintf(buffer, sizeof(buffer),
-	_("Invalid ruleset subdirectory, keeping old value."));
-    return FALSE;
-  }
-
-  buffer[0] = '\0';
-
-  return TRUE;
-}
-
-static bool valid_techs_ruleset(char *v, char **r_m)
-  { return valid_ruleset("techs",v,r_m); }
-static bool valid_governments_ruleset(char *v, char **r_m)
-  { return valid_ruleset("governments",v,r_m); }
-static bool valid_units_ruleset(char *v, char **r_m)
-  { return valid_ruleset("units",v,r_m); }
-static bool valid_buildings_ruleset(char *v, char **r_m)
-  { return valid_ruleset("buildings",v,r_m); }
-static bool valid_terrain_ruleset(char *v, char **r_m)
-  { return valid_ruleset("terrain",v,r_m); }
-static bool valid_nations_ruleset(char *v, char **r_m)
-  { return valid_ruleset("nations",v,r_m); }
-static bool valid_cities_ruleset(char *v, char **r_m)
-  { return valid_ruleset("cities",v,r_m); }
-static bool valid_game_ruleset(char *v, char **r_m)
-  { return valid_ruleset("game",v,r_m); }
 static bool valid_max_players(int v, char **r_m)
 {
   static char buffer[MAX_LEN_CONSOLE_LINE];
@@ -393,79 +356,6 @@ static struct settings_s settings[] = {
   GEN_INT("techlevel", game.tech, SSET_GAME_INIT, SSET_TO_CLIENT,
 	  N_("Number of initial advances per player"), "", NULL,
 	  GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL)
-
-/* Various rules: these cannot be changed once the game has started. */
-
-  GEN_STRING("techs", game.ruleset.techs, SSET_RULES, SSET_TO_CLIENT,
-	     N_("Data subdir containing techs.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"techs.ruleset\".  "
-		"The advances (technologies) present in the game will be "
-		"initialized from this file.  "
-		"See also README.rulesets."), valid_techs_ruleset,
-	     GAME_DEFAULT_RULESET)
-
-  GEN_STRING("governments", game.ruleset.governments, SSET_RULES,
-	     SSET_TO_CLIENT,
-	     N_("Data subdir containing governments.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"governments.ruleset\".  "
-		"The government types available in the game will be "
-		"initialized from this file.  "
-		"See also README.rulesets."), valid_governments_ruleset,
-	     GAME_DEFAULT_RULESET)
-
-  GEN_STRING("units", game.ruleset.units, SSET_RULES, SSET_TO_CLIENT,
-	     N_("Data subdir containing units.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"units.ruleset\".  "
-		"The unit types present in the game will be "
-		"initialized from this file.  "
-		"See also README.rulesets."), valid_units_ruleset,
-	     GAME_DEFAULT_RULESET)
-
-  GEN_STRING("buildings", game.ruleset.buildings, SSET_RULES, SSET_TO_CLIENT,
-	     N_("Data subdir containing buildings.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"buildings.ruleset\".  "
-		"The building types (City Improvements and Wonders) "
-		"in the game will be initialized from this file.  "
-		"See also README.rulesets."), valid_buildings_ruleset,
-	     GAME_DEFAULT_RULESET)
-
-  GEN_STRING("terrain", game.ruleset.terrain, SSET_RULES, SSET_TO_CLIENT,
-	     N_("Data subdir containing terrain.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"terrain.ruleset\".  "
-		"The terrain types present in the game will be "
-		"initialized from this file.  "
-		"See also README.rulesets."), valid_terrain_ruleset,
-	     GAME_DEFAULT_RULESET)
-
-  GEN_STRING("nations", game.ruleset.nations, SSET_RULES, SSET_TO_CLIENT,
-	     N_("Data subdir containing nations.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"nations.ruleset\".  "
-		"The nations present in the game will be "
-		"initialized from this file.  "
-		"See also README.rulesets."), valid_nations_ruleset,
-	     GAME_DEFAULT_RULESET)
-
-  GEN_STRING("cities", game.ruleset.cities, SSET_RULES, SSET_TO_CLIENT,
-	     N_("Data subdir containing cities.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"cities.ruleset\".  "
-		"The file is used to initialize city data (such as city "
-		"style).  See also README.rulesets."), valid_cities_ruleset,
-	     GAME_DEFAULT_RULESET)
-
-  GEN_STRING("game", game.ruleset.game, SSET_RULES, SSET_TO_CLIENT,
-	     N_("Data subdir containing game.ruleset"),
-	     N_("This should specify a subdirectory of the data directory, "
-		"containing a file called \"game.ruleset\".  "
-		"The file is used to initialize some miscellanous game "
-		"rules.  See also README.rulesets."), valid_game_ruleset,
-	     GAME_DEFAULT_RULESET)
 
   GEN_INT("researchcost", game.researchcost, SSET_RULES, SSET_TO_CLIENT,
 	  N_("Points required to gain a new advance"),
@@ -992,6 +882,7 @@ enum command_id {
   
   /* mostly non-harmful: */
   CMD_SET,
+  CMD_RULESETDIR,
   CMD_RENAME,
   CMD_METAINFO,
   CMD_METACONN,
@@ -1112,6 +1003,12 @@ static const struct command commands[] = {
   {"set",	ALLOW_CTRL,
    N_("set <option-name> <value>"),
    N_("Set server options."), NULL
+  },
+  {"rulesetdir", ALLOW_CTRL,
+   N_("rulesetdir <directory>"),
+   N_("Choose new ruleset directory or modpack. Calling this\n "
+      "without any arguments will show you the currently selected "
+      "ruleset."), NULL
   },
   {"rename",	ALLOW_CTRL,
    NULL,
@@ -2852,6 +2749,29 @@ static void set_command(struct connection *caller, char *str)
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static void set_rulesetdir(struct connection *caller, char *str)
+{
+  char filename[512], *pfilename;
+  if ((str == NULL) || (strlen(str)==0)) {
+    cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
+             _("Current ruleset directory is \"%s\""), game.rulesetdir);
+    return;
+  }
+  my_snprintf(filename, sizeof(filename), "%s", str);
+  pfilename = datafilename(filename);
+  if (!pfilename) {
+    cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
+             _("Ruleset directory \"%s\" not found"), str);
+    return;
+  }
+  cmd_reply(CMD_RULESETDIR, caller, 
+      C_OK, _("Ruleset directory set to \"%s\""), str);
+  sz_strlcpy(game.rulesetdir, str);
+}
+
+/**************************************************************************
   Cutting away a trailing comment by putting a '\0' on the '#'. The
   method handles # in single or double quotes. It also takes care of
   "\#".
@@ -3017,6 +2937,9 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_SET:
     set_command(caller,arg);
+    break;
+  case CMD_RULESETDIR:
+    set_rulesetdir(caller, arg);
     break;
   case CMD_SCORE:
     if(server_state==RUN_GAME_STATE) {

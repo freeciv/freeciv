@@ -148,16 +148,7 @@ struct civ_game {
   int watchtower_extra_vision;
   int watchtower_vision;
 
-  struct {
-    char techs[MAX_LEN_NAME];
-    char units[MAX_LEN_NAME];
-    char buildings[MAX_LEN_NAME];
-    char terrain[MAX_LEN_NAME];
-    char governments[MAX_LEN_NAME];
-    char nations[MAX_LEN_NAME];
-    char cities[MAX_LEN_NAME];
-    char game[MAX_LEN_NAME];
-  } ruleset;
+  char rulesetdir[MAX_LEN_NAME];
   int firepower_factor;		/* See README.rulesets */
   struct {
     int cathedral_plus;		/* eg Theology */
@@ -410,8 +401,9 @@ extern bool is_server;
 #define GAME_MIN_OCCUPYCHANCE        0
 #define GAME_MAX_OCCUPYCHANCE        100
 
+#define GAME_DEFAULT_RULESETDIR      "default"
+
 #define GAME_DEFAULT_SAVE_NAME       "civgame"
-#define GAME_DEFAULT_RULESET         "default"
 
 #define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */

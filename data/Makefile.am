@@ -14,4 +14,4 @@ pkgdata_DATA = \
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = misc trident engels default classic civ1 civ2 scenario nation hires
+SUBDIRS = misc trident engels default civ1 civ2 scenario nation hires

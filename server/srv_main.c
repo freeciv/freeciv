@@ -1986,4 +1986,5 @@ main_start_players:
   }
 
   close_connections_and_socket();
+  free_rulesets();
 }

@@ -708,14 +708,8 @@ void game_init(void)
   game.watchtower_vision=GAME_DEFAULT_WATCHTOWER_VISION;
   game.watchtower_extra_vision=GAME_DEFAULT_WATCHTOWER_EXTRA_VISION,
 
-  sz_strlcpy(game.ruleset.techs,       GAME_DEFAULT_RULESET);
-  sz_strlcpy(game.ruleset.units,       GAME_DEFAULT_RULESET);
-  sz_strlcpy(game.ruleset.buildings,   GAME_DEFAULT_RULESET);
-  sz_strlcpy(game.ruleset.terrain,     GAME_DEFAULT_RULESET);
-  sz_strlcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
-  sz_strlcpy(game.ruleset.nations,     GAME_DEFAULT_RULESET);
-  sz_strlcpy(game.ruleset.cities,      GAME_DEFAULT_RULESET);
-  sz_strlcpy(game.ruleset.game,        GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.rulesetdir, GAME_DEFAULT_RULESETDIR);
+
   game.firepower_factor = 1;
   game.num_unit_types = 0;
   game.num_impr_types = 0;

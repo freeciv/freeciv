@@ -16,6 +16,7 @@
 struct conn_list;
 
 void load_rulesets(void);
+void free_rulesets(void);
 void send_rulesets(struct conn_list *dest);
 
 char *valid_ruleset_filename(char *subdir, char *whichset);
