@@ -21,6 +21,7 @@
 #include "mapview_g.h"
 #include "mapview_common.h"
 
+#include "canvas.h"
 #include "graphics.h"
 
 struct unit;
@@ -39,5 +40,14 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p);
 
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
+
+void pixmap_put_overlay_tile(GdkDrawable *pixmap,
+			     int canvas_x, int canvas_y,
+			     struct Sprite *ssprite);
+
+void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
+				  int canvas_x, int canvas_y,
+				  struct Sprite *ssprite,
+				  bool fog);
 
 #endif  /* FC__MAPVIEW_H */

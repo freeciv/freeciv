@@ -18,23 +18,6 @@
 #include "gtkpixcomm.h"
 #include "gui_main_g.h"
 
-enum canvas_type {
-  CANVAS_PIXMAP,
-  CANVAS_PIXCOMM,
-  CANVAS_PIXBUF
-};
-
-struct canvas
-{
-  enum canvas_type type;
-
-  union {
-    GdkPixmap *pixmap;
-    GtkPixcomm *pixcomm;
-    GdkPixbuf *pixbuf;
-  } v;
-};
-
 /* network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
 

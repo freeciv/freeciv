@@ -29,7 +29,8 @@
 
 
 #include <gtk/gtkmisc.h>
-#include "graphics.h"
+
+#include "sprite.h"
 
 
 G_BEGIN_DECLS

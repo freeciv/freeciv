@@ -24,6 +24,7 @@
 
 #include "city.h"
 #include "citydlg_common.h"
+#include "civclient.h"
 #include "fcintl.h"
 #include "game.h"
 #include "gui_main.h"
@@ -39,9 +40,10 @@
 #include "options.h"
 #include "tilespec.h"
 
-#include "wldlg.h"
+#include "canvas.h"
 #include "citydlg.h"
-#include "civclient.h"
+#include "graphics.h"
+#include "wldlg.h"
 
 static GtkWidget *worklists_shell;
 static GtkWidget *worklists_list;

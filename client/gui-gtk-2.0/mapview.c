@@ -55,15 +55,6 @@
 
 #define map_canvas_store (mapview.store->v.pixmap)
 
-static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
-				    int canvas_x, int canvas_y,
-				    struct Sprite *ssprite);
-
-static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
-					 int canvas_x, int canvas_y,
-					 struct Sprite *ssprite,
-					 bool fog);
-
 static GtkObject *map_hadj, *map_vadj;
 
 
@@ -244,29 +235,6 @@ void map_size_changed(void)
   gtk_widget_set_size_request(overview_canvas,
 			      overview.width, overview.height);
   update_map_canvas_scrollbars_size();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-struct canvas *canvas_create(int width, int height)
-{
-  struct canvas *result = fc_malloc(sizeof(*result));
-
-  result->type = CANVAS_PIXMAP;
-  result->v.pixmap = gdk_pixmap_new(root_window, width, height, -1);
-  return result;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void canvas_free(struct canvas *store)
-{
-  if (store->type == CANVAS_PIXMAP) {
-    g_object_unref(store->v.pixmap);
-  }
-  free(store);
 }
 
 /****************************************************************************
@@ -461,65 +429,6 @@ void update_city_descriptions(void)
   update_map_canvas_visible();
 }
 
-static PangoLayout *layout;
-static PangoFontDescription **fonts[FONT_COUNT] = {&main_font,
-						   &city_productions_font};
-
-/****************************************************************************
-  Return the size of the given text in the given font.  This size should
-  include the ascent and descent of the text.  Either of width or height
-  may be NULL in which case those values simply shouldn't be filled out.
-****************************************************************************/
-void get_text_size(int *width, int *height,
-		   enum client_font font, const char *text)
-{
-  PangoRectangle rect;
-
-  if (!layout) {
-    layout = pango_layout_new(gdk_pango_context_get());
-  }
-
-  pango_layout_set_font_description(layout, *fonts[font]);
-  pango_layout_set_text(layout, text, -1);
-
-  pango_layout_get_pixel_extents(layout, &rect, NULL);
-  if (width) {
-    *width = rect.width;
-  }
-  if (height) {
-    *height = rect.height;
-  }
-}
-
-/****************************************************************************
-  Draw the text onto the canvas in the given color and font.  The canvas
-  position does not account for the ascent of the text; this function must
-  take care of this manually.  The text will not be NULL but may be empty.
-****************************************************************************/
-void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, enum color_std color,
-		     const char *text)
-{
-  PangoRectangle rect;
-
-  if (pcanvas->type != CANVAS_PIXMAP) {
-    return;
-  }
-  if (!layout) {
-    layout = pango_layout_new(gdk_pango_context_get());
-  }
-
-  gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-  pango_layout_set_font_description(layout, *fonts[font]);
-  pango_layout_set_text(layout, text, -1);
-
-  pango_layout_get_pixel_extents(layout, &rect, NULL);
-  gtk_draw_shadowed_string(pcanvas->v.pixmap,
-			   toplevel->style->black_gc, civ_gc,
-			   canvas_x,
-			   canvas_y + PANGO_ASCENT(rect), layout);
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -562,9 +471,9 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 /**************************************************************************
 ...
 **************************************************************************/
-static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
-				    int canvas_x, int canvas_y,
-				    struct Sprite *ssprite)
+void pixmap_put_overlay_tile(GdkDrawable *pixmap,
+			     int canvas_x, int canvas_y,
+			     struct Sprite *ssprite)
 {
   if (!ssprite) {
     return;
@@ -621,192 +530,6 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 }
 
 /**************************************************************************
-  Draw some or all of a sprite onto the mapview or citydialog canvas.
-**************************************************************************/
-void canvas_put_sprite(struct canvas *pcanvas,
-		       int canvas_x, int canvas_y,
-		       struct Sprite *sprite,
-		       int offset_x, int offset_y, int width, int height)
-{
-  switch (pcanvas->type) {
-    case CANVAS_PIXMAP:
-      pixmap_put_sprite(pcanvas->v.pixmap, canvas_x, canvas_y,
-	  sprite, offset_x, offset_y, width, height);
-      break;
-    case CANVAS_PIXCOMM:
-      gtk_pixcomm_copyto(pcanvas->v.pixcomm, sprite, canvas_x, canvas_y);
-      break;
-    case CANVAS_PIXBUF:
-      {
-	GdkPixbuf *src, *dst;
-
-	/* FIXME: is this right??? */
-	if (canvas_x < 0) {
-	  offset_x -= canvas_x;
-	  canvas_x = 0;
-	}
-	if (canvas_y < 0) {
-	  offset_y -= canvas_y;
-	  canvas_y = 0;
-	}
-
-
-	src = sprite_get_pixbuf(sprite);
-	dst = pcanvas->v.pixbuf;
-	gdk_pixbuf_composite(src, dst, canvas_x, canvas_y,
-	    MIN(width,
-	      MIN(gdk_pixbuf_get_width(dst), gdk_pixbuf_get_width(src))),
-	    MIN(height,
-	      MIN(gdk_pixbuf_get_height(dst), gdk_pixbuf_get_height(src))),
-	    canvas_x - offset_x, canvas_y - offset_y,
-	    1.0, 1.0, GDK_INTERP_NEAREST, 255);
-      }
-      break;
-    default:
-      break;
-  } 
-}
-
-/**************************************************************************
-  Draw a full sprite onto the mapview or citydialog canvas.
-**************************************************************************/
-void canvas_put_sprite_full(struct canvas *pcanvas,
-			    int canvas_x, int canvas_y,
-			    struct Sprite *sprite)
-{
-  canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
-		    0, 0, sprite->width, sprite->height);
-}
-
-/****************************************************************************
-  Draw a full sprite onto the canvas.  If "fog" is specified draw it with
-  fog.
-****************************************************************************/
-void canvas_put_sprite_fogged(struct canvas *pcanvas,
-			      int canvas_x, int canvas_y,
-			      struct Sprite *psprite,
-			      bool fog, int fog_x, int fog_y)
-{
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    pixmap_put_overlay_tile_draw(pcanvas->v.pixmap, canvas_x, canvas_y,
-				 psprite, fog);
-  }
-}
-
-/**************************************************************************
-  Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
-**************************************************************************/
-void canvas_put_rectangle(struct canvas *pcanvas,
-			  enum color_std color,
-			  int canvas_x, int canvas_y, int width, int height)
-{
-  GdkColor *col = colors_standard[color];
-
-  switch (pcanvas->type) {
-    case CANVAS_PIXMAP:
-      gdk_gc_set_foreground(fill_bg_gc, col);
-      gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
-	  canvas_x, canvas_y, width, height);
-      break;
-    case CANVAS_PIXCOMM:
-      gtk_pixcomm_fill(pcanvas->v.pixcomm, col);
-      break;
-    case CANVAS_PIXBUF:
-      gdk_pixbuf_fill(pcanvas->v.pixbuf,
-	  ((guint32)(col->red & 0xff00) << 16)
-	  | ((col->green & 0xff00) << 8) | (col->blue & 0xff00) | 0xff);
-      break;
-    default:
-      break;
-  }
-}
-
-/****************************************************************************
-  Fill the area covered by the sprite with the given color.
-****************************************************************************/
-void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct Sprite *psprite, enum color_std color,
-			     int canvas_x, int canvas_y)
-{
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_bg_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
-
-    gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
-		       canvas_x, canvas_y, psprite->width, psprite->height);
-
-    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
-  }
-}
-
-/****************************************************************************
-  Fill the area covered by the sprite with the given color.
-****************************************************************************/
-void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
-			    int canvas_x, int canvas_y)
-{
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
-    gdk_gc_set_stipple(fill_tile_gc, black50);
-    gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
-
-    gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
-		       canvas_x, canvas_y, psprite->width, psprite->height);
-
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL); 
-  }
-}
-
-/**************************************************************************
-  Draw a colored line onto the mapview or citydialog canvas.
-**************************************************************************/
-void canvas_put_line(struct canvas *pcanvas, enum color_std color,
-		     enum line_type ltype, int start_x, int start_y,
-		     int dx, int dy)
-{
-  if (pcanvas->type == CANVAS_PIXMAP) {
-    GdkGC *gc = NULL;
-
-    switch (ltype) {
-    case LINE_NORMAL:
-      gc = thin_line_gc;
-      break;
-    case LINE_BORDER:
-      gc = border_line_gc;
-      break;
-    case LINE_TILE_FRAME:
-      gc = thick_line_gc;
-      break;
-    case LINE_GOTO:
-      gc = thick_line_gc;
-      break;
-    }
-
-    gdk_gc_set_foreground(gc, colors_standard[color]);
-    gdk_draw_line(pcanvas->v.pixmap, gc,
-		  start_x, start_y, start_x + dx, start_y + dy);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void canvas_copy(struct canvas *dest, struct canvas *src,
-		 int src_x, int src_y, int dest_x, int dest_y,
-		 int width, int height)
-{
-  if (dest->type == src->type) {
-    if (src->type == CANVAS_PIXMAP) {
-      gdk_draw_drawable(dest->v.pixmap, fill_bg_gc, src->v.pixmap,
-			src_x, src_y, dest_x, dest_y, width, height);
-    }
-  }
-}
-
-/**************************************************************************
   Created a fogged version of the sprite.  This can fail on older systems
   in which case the callers needs a fallback.
 **************************************************************************/
@@ -851,10 +574,10 @@ static void fog_sprite(struct Sprite *sprite)
 /**************************************************************************
 Only used for isometric view.
 **************************************************************************/
-static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
-					 int canvas_x, int canvas_y,
-					 struct Sprite *ssprite,
-					 bool fog)
+void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
+				  int canvas_x, int canvas_y,
+				  struct Sprite *ssprite,
+				  bool fog)
 {
   if (!ssprite) {
     return;

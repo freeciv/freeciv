@@ -37,6 +37,8 @@
 #include <config.h>
 #endif
 
+#include <math.h>
+
 #include "gui_main.h"
 #include "gtkpixcomm.h"
 
