@@ -1139,7 +1139,7 @@ void trade_report_dialog_update(void)
     free(report_title);
     total = 0;
     k = 0;
-    for (j=0;j<B_APOLLO;j++) { // was: < B_LAST, but what do we ned WoW here?
+    for (j=0;j<B_APOLLO;j++) {
       count = 0;
       pcity = NULL;
       genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
@@ -1148,8 +1148,8 @@ void trade_report_dialog_update(void)
 	if (city_got_building(pcity, j)) count++;
       }
       if (pcity) {
-	cost = count * improvement_upkeep(pcity, j);
-	if (count) { // used to be: cost
+	if (count) {
+	  cost = count * improvement_upkeep(pcity, j);
 	  sprintf(trade_list_names[k], "%-20s%5d%5d%6d", get_improvement_name(j), count, improvement_upkeep(pcity, j), cost);
 	  total+=cost;
 	  trade_list_names_ptrs[k]=trade_list_names[k];
