@@ -2131,7 +2131,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       if (aunit->ai.bodyguard == BODYGUARD_NONE || bodyguard ||
          (pcity && pcity->ai.invasion >= 2)) {
 	if (pcity) {
-	  freelog(LOG_DEBUG, "Ferrying to %s to %s, invasion = %d, body = %d",
+	  UNIT_LOG(LOG_DEBUG, punit, "Ferrying to %s to %s, invasion = %d, body = %d",
 		  unit_name(aunit->type), pcity->name,
 		  pcity->ai.invasion, aunit->ai.bodyguard);
 	}
@@ -2155,7 +2155,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
     } else {
-      freelog(LOG_DEBUG, "Ferryboat %d@(%d,%d) stalling.",
+      UNIT_LOG(LOG_DEBUG, punit, "Ferryboat %d@(%d,%d) stalling.",
 		    punit->id, punit->x, punit->y);
       if(is_barbarian(pplayer)) /* just in case */
         ai_manage_explorer(punit);
@@ -2171,11 +2171,10 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
 /* ok, not carrying anyone, even the ferryman */
   punit->ai.passenger = 0;
-  freelog(LOG_DEBUG, "Ferryboat %d@(%d, %d) is lonely.",
-		punit->id, punit->x, punit->y);
+  UNIT_LOG(LOG_DEBUG, punit, "Ferryboat is lonely.");
   set_unit_activity(punit, ACTIVITY_IDLE);
-  punit->goto_dest_x = punit->x;
-  punit->goto_dest_y = punit->y;
+  punit->goto_dest_x = 0; /* FIXME: -1 */
+  punit->goto_dest_y = 0; /* FIXME: -1 */
 
   if (unit_type(punit)->attack_strength >
       unit_type(punit)->transport_capacity) {
@@ -2183,25 +2182,31 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     return;
   } /* AI used to build frigates to attack and then use them as ferries -- Syela */
 
+  /*** Find work ***/
+
   generate_warmap(map_get_city(punit->x, punit->y), punit);
   p = 0; /* yes, I know it's already zero. -- Syela */
-  unit_list_iterate(pplayer->units, aunit)
-/*    if (aunit->ai.ferryboat == punit->id && warmap.seacost[aunit->x][aunit->y] < best) {*/
+  best = 9999;
+  x = -1; y = -1;
+  unit_list_iterate(pplayer->units, aunit) {
     if (aunit->ai.ferryboat != 0 && warmap.seacost[aunit->x][aunit->y] < best &&
 	ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer) <= 0
-	&& ai_fuzzy(pplayer, TRUE)) {
-      freelog(LOG_DEBUG, "Found a friend %d@(%d, %d)",
+        && is_at_coast(aunit->x, aunit->y)) {
+      UNIT_LOG(LOG_DEBUG, punit, "Found a potential pickup %d@(%d, %d)",
 		    aunit->id, aunit->x, aunit->y);
       x = aunit->x;
       y = aunit->y;
       best = warmap.seacost[x][y];
     }
     if (is_sailing_unit(aunit) && map_get_terrain(aunit->x, aunit->y) == T_OCEAN) p++;
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
   if (best < 4 * unit_type(punit)->move_rate) {
+    /* Pickup is within 4 turns to grab, so move it! */
     punit->goto_dest_x = x;
     punit->goto_dest_y = y;
     set_unit_activity(punit, ACTIVITY_GOTO);
+    UNIT_LOG(LOG_DEBUG, punit, "Found a friend and going to him @(%d, %d)",
+             x, y);
     if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) != GR_DIED) {
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
@@ -2210,15 +2215,15 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
 /* do cool stuff here */
 
-  if (punit->moves_left == 0) return;  
+  if (punit->moves_left == 0) return;
   pcity = find_city_by_id(punit->homecity);
   if (pcity) {
     if (!ai_handicap(pplayer, H_TARGETS) ||
         unit_move_turns(punit, pcity->x, pcity->y) < p) {
-      freelog(LOG_DEBUG, "No friends.  Going home.");
       punit->goto_dest_x = pcity->x;
       punit->goto_dest_y = pcity->y;
       set_unit_activity(punit, ACTIVITY_GOTO);
+      UNIT_LOG(LOG_DEBUG, punit, "No friends.  Going home.");
       do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
       return;
     }
