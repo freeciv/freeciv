@@ -264,7 +264,7 @@ bool handle_login_request(struct connection *pconn,
 
   /* don't allow duplicate logins */
   conn_list_iterate(game.all_connections, aconn) {
-    if (strcasecmp(req->username, aconn->username) == 0) { 
+    if (mystrcasecmp(req->username, aconn->username) == 0) { 
       my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
                   req->username);
       reject_new_connection(msg, pconn);
