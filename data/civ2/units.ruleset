@@ -1,0 +1,960 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set units <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
+
+[datafile]
+description="Civ2 unit_type data for Freeciv (incomplete)"
+options="1.7 nontabular"
+
+[units_adjust]
+max_hitpoints=0                 ; 0 means no max
+max_firepower=0                 ; 0 means no max
+firepower_factor=1              ; convenient for Civ1
+
+; Below: The individual units, one per section.
+; For now, the number of such sections must be kept the same (=51).
+; Also, the order matters: later units are considered "better" for
+; a given flag or role.  
+; The actual tag used (the * in [unit_*]) doesn't matter, except 
+; it must be unique for each unit, and it may be used in debug 
+; output when reading this file.
+;
+; Notes:
+;
+; name          = name as seen by user 
+; graphic       = index number in units.xpm
+; tech_req      = required advance, names from techs.ruleset, or special:
+;                 "None" => available from start; "Never" => never available
+; obsolete_by   = another unit name
+; move_type     = "Land" or "Sea" or "Air" or "Heli"
+; transport_cap = Number of units (ground, or air/missiles, depending on flags)
+; fuel          = number of turns, for air units
+; flags         = special flag strings, as in common/unit.h,unit.c
+; roles         = special role strings, as in common/unit.h,unit.c
+
+[unit_settlers]
+name          = "Settlers"
+move_type     = "Land"
+tech_req      = "None"
+obsolete_by   = "Engineers"
+graphic       = 24
+build_cost    = 40
+attack        = 0
+defense       = 1
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Settlers", "NonMil"
+roles         = ""
+
+[unit_engineers]
+name          = "Engineers"
+move_type     = "Land"
+tech_req      = "Explosives"
+obsolete_by   = "None"
+graphic       = 42
+build_cost    = 40
+attack        = 0
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Settlers", "NonMil", "Transform"
+roles         = ""
+
+[unit_warriors]
+name          = "Warriors"
+move_type     = "Land"
+tech_req      = "None"
+obsolete_by   = "Pikemen"
+graphic       = 18
+build_cost    = 10
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendOk", "FirstBuild"
+
+[unit_phalanx]
+name          = "Phalanx"
+move_type     = "Land"
+tech_req      = "Bronze Working"
+obsolete_by   = "Pikemen"
+graphic       = 21
+build_cost    = 20
+attack        = 1
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendGood", "FirstBuild"
+
+[unit_archers]
+name          = "Archers"
+move_type     = "Land"
+tech_req      = "Warrior Code"
+obsolete_by   = "Musketeers"
+graphic       = 28
+build_cost    = 30
+attack        = 3
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendOk"
+
+[unit_legion]
+name          = "Legion"
+move_type     = "Land"
+tech_req      = "Iron Working"
+obsolete_by   = "Musketeers"
+graphic       = 16
+build_cost    = 40
+attack        = 4
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendOk", "Hut"
+
+[unit_pikemen]
+name          = "Pikemen"
+move_type     = "Land"
+tech_req      = "Feudalism"
+obsolete_by   = "Musketeers"
+graphic       = 37
+build_cost    = 20
+attack        = 1
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Pikemen"
+roles         = "DefendGood", "FirstBuild"
+
+[unit_musketeers]
+name          = "Musketeers"
+move_type     = "Land"
+tech_req      = "Gunpowder"
+obsolete_by   = "Riflemen"
+graphic       = 19
+build_cost    = 30
+attack        = 3
+defense       = 3
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendGood", "FirstBuild", "HutTech"
+
+[unit_fanatics]
+name          = "Fanatics"
+move_type     = "Land"
+tech_req      = "Never"
+obsolete_by   = "None"
+graphic       = 49
+build_cost    = 20
+attack        = 4
+defense       = 4
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendGood"
+
+[unit_partisan]
+name          = "Partisan"
+move_type     = "Land"
+tech_req      = "Guerilla Warfare"
+obsolete_by   = "None"
+graphic       = 36
+build_cost    = 50
+attack        = 4
+defense       = 4
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "IgTer", "IgZOC"
+roles         = "DefendGood", "Partisan"
+
+[unit_alpine_troops]
+name          = "Alpine Troops"
+move_type     = "Land"
+tech_req      = "Tactics"
+obsolete_by   = "None"
+graphic       = 45
+build_cost    = 50
+attack        = 5
+defense       = 5
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "IgTer"
+roles         = "DefendGood"
+
+[unit_riflemen]
+name          = "Riflemen"
+move_type     = "Land"
+tech_req      = "Conscription"
+obsolete_by   = "None"
+graphic       = 22
+build_cost    = 40
+attack        = 5
+defense       = 4
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendGood", "FirstBuild"
+
+[unit_marines]
+name          = "Marines"
+move_type     = "Land"
+tech_req      = "Amphibious Warfare"
+obsolete_by   = "None"
+graphic       = 40
+build_cost    = 60
+attack        = 8
+defense       = 5
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Marines"
+roles         = "DefendOk"
+
+[unit_paratroopers]
+name          = "Paratroopers"
+move_type     = "Land"
+tech_req      = "Never"
+obsolete_by   = "None"
+graphic       = 0
+build_cost    = 60
+attack        = 6
+defense       = 4
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendOk"
+
+[unit_mech_inf]
+name          = "Mech. Inf."
+move_type     = "Land"
+tech_req      = "Labor Union"
+obsolete_by   = "None"
+graphic       = 17
+build_cost    = 50
+attack        = 6
+defense       = 6
+hitpoints     = 30
+firepower     = 1
+move_rate     = 3
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "DefendGood"
+
+[unit_horsemen]
+name          = "Horsemen"
+move_type     = "Land"
+tech_req      = "Horseback Riding"
+obsolete_by   = "Knights"
+graphic       = 8
+build_cost    = 20
+attack        = 2
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Horse"
+roles         = "AttackFast", "Hut"
+
+[unit_chariot]
+name          = "Chariot"
+move_type     = "Land"
+tech_req      = "The Wheel"
+obsolete_by   = "Knights"
+graphic       = 9
+build_cost    = 30
+attack        = 3
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Horse"
+roles         = "AttackFast", "Hut"
+
+[unit_elephants]
+name          = "Elephants"
+move_type     = "Land"
+tech_req      = "Never"
+obsolete_by   = "Crusaders"
+graphic       = 39
+build_cost    = 40
+attack        = 4
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "AttackFast"
+
+[unit_crusaders]
+name          = "Crusaders"
+move_type     = "Land"
+tech_req      = "Never"
+obsolete_by   = "Dragoons"
+graphic       = 38
+build_cost    = 40
+attack        = 5
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Horse"
+roles         = "AttackFast"
+
+[unit_knights]
+name          = "Knights"
+move_type     = "Land"
+tech_req      = "Chivalry"
+obsolete_by   = "Dragoons"
+graphic       = 15
+build_cost    = 40
+attack        = 4
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Horse"
+roles         = "AttackFast", "HutTech"
+
+[unit_dragoons]
+name          = "Dragoons"
+move_type     = "Land"
+tech_req      = "Leadership"
+obsolete_by   = "Cavalry"
+graphic       = 32
+build_cost    = 50
+attack        = 5
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Horse"
+roles         = "AttackFast"
+
+[unit_cavalry]
+name          = "Cavalry"
+move_type     = "Land"
+tech_req      = "Tactics"
+obsolete_by   = "Armor"
+graphic       = 29
+build_cost    = 60
+attack        = 8
+defense       = 3
+hitpoints     = 20
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "AttackFast"
+
+[unit_armor]
+name          = "Armor"
+move_type     = "Land"
+tech_req      = "Mobile Warfare"
+obsolete_by   = "None"
+graphic       = 0
+build_cost    = 80
+attack        = 10
+defense       = 5
+hitpoints     = 30
+firepower     = 1
+move_rate     = 3
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "AttackFast"
+
+[unit_catapult]
+name          = "Catapult"
+move_type     = "Land"
+tech_req      = "Mathematics"
+obsolete_by   = "Cannon"
+graphic       = 7
+build_cost    = 40
+attack        = 6
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "AttackStrong"
+
+[unit_cannon]
+name          = "Cannon"
+move_type     = "Land"
+tech_req      = "Metallurgy"
+obsolete_by   = "Artillery"
+graphic       = 4
+build_cost    = 40
+attack        = 8
+defense       = 1
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "AttackStrong"
+
+[unit_artillery]
+name          = "Artillery"
+move_type     = "Land"
+tech_req      = "Machine Tools"
+obsolete_by   = "Howitzer"
+graphic       = 43
+build_cost    = 50
+attack        = 10
+defense       = 1
+hitpoints     = 20
+firepower     = 2
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = ""
+roles         = "AttackStrong"
+
+[unit_howitzer]
+name          = "Howitzer"
+move_type     = "Land"
+tech_req      = "Robotics"
+obsolete_by   = "None"
+graphic       = 1
+build_cost    = 70
+attack        = 12
+defense       = 2
+hitpoints     = 30
+firepower     = 2
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "IgWall"
+roles         = "AttackStrong"
+
+[unit_fighter]
+name          = "Fighter"
+move_type     = "Air"
+tech_req      = "Flight"
+obsolete_by   = "Stealth Fighter"
+graphic       = 12
+build_cost    = 60
+attack        = 4
+defense       = 3
+hitpoints     = 20
+firepower     = 2
+move_rate     = 10
+vision_range  = 2
+transport_cap = 0
+fuel          = 1
+flags         = "FieldUnit", "Fighter"
+roles         = ""
+
+[unit_bomber]
+name          = "Bomber"
+move_type     = "Air"
+tech_req      = "Advanced Flight"
+obsolete_by   = "Stealth Bomber"
+graphic       = 3
+build_cost    = 120
+attack        = 12
+defense       = 1
+hitpoints     = 20
+firepower     = 2
+move_rate     = 8
+vision_range  = 2
+transport_cap = 0
+fuel          = 2
+flags         = "FieldUnit", "OneAttack"
+roles         = ""
+
+[unit_helicopter]
+name          = "Helicopter"
+move_type     = "Heli"
+tech_req      = "Combined Arms"
+obsolete_by   = "None"
+graphic       = 44
+build_cost    = 100
+attack        = 10
+defense       = 3
+hitpoints     = 20
+firepower     = 2
+move_rate     = 6
+vision_range  = 2
+transport_cap = 0
+fuel          = 0
+flags         = "FieldUnit", "OneAttack"
+roles         = ""
+
+[unit_stealth_fighter]
+name          = "Stealth Fighter"
+move_type     = "Air"
+tech_req      = "Stealth"
+obsolete_by   = "None"
+graphic       = 47
+build_cost    = 80
+attack        = 8
+defense       = 4
+hitpoints     = 20
+firepower     = 2
+move_rate     = 14
+vision_range  = 2
+transport_cap = 0
+fuel          = 1
+flags         = "FieldUnit", "Fighter"
+roles         = ""
+
+[unit_stealth_bomber]
+name          = "Stealth Bomber"
+move_type     = "Air"
+tech_req      = "Stealth"
+obsolete_by   = "None"
+graphic       = 46
+build_cost    = 160
+attack        = 14
+defense       = 5
+hitpoints     = 20
+firepower     = 2
+move_rate     = 12
+vision_range  = 2
+transport_cap = 0
+fuel          = 2
+flags         = "FieldUnit", "OneAttack"
+roles         = ""
+
+[unit_trireme]
+name          = "Trireme"
+move_type     = "Sea"
+tech_req      = "Map Making"
+obsolete_by   = "Caravel"
+graphic       = 27
+build_cost    = 40
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_range  = 1
+transport_cap = 2
+fuel          = 0
+flags         = "FieldUnit", "Trireme"
+roles         = "Ferryboat"
+
+[unit_caravel]
+name          = "Caravel"
+move_type     = "Sea"
+tech_req      = "Navigation"
+obsolete_by   = "Galleon"
+graphic       = 23
+build_cost    = 40
+attack        = 2
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_range  = 1
+transport_cap = 3
+fuel          = 0
+flags         = ""
+roles         = "Ferryboat"
+
+[unit_galleon]
+name          = "Galleon"
+move_type     = "Sea"
+tech_req      = "Magnetism"
+obsolete_by   = "Transport"
+graphic       = 35
+build_cost    = 40
+attack        = 0
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 4
+vision_range  = 1
+transport_cap = 4
+fuel          = 0
+flags         = ""
+roles         = "Ferryboat"
+
+[unit_frigate]
+name          = "Frigate"
+move_type     = "Sea"
+tech_req      = "Magnetism"
+obsolete_by   = "Ironclad"
+graphic       = 13
+build_cost    = 50
+attack        = 4
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 4
+vision_range  = 1
+transport_cap = 2
+fuel          = 0
+flags         = "FieldUnit"
+roles         = ""
+
+[unit_ironclad]
+name          = "Ironclad"
+move_type     = "Sea"
+tech_req      = "Steam Engine"
+obsolete_by   = "Destroyer"
+graphic       = 14
+build_cost    = 60
+attack        = 4
+defense       = 4
+hitpoints     = 30
+firepower     = 1
+move_rate     = 4
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "FieldUnit"
+roles         = ""
+
+[unit_destroyer]
+name          = "Destroyer"
+move_type     = "Sea"
+tech_req      = "Electricity"
+obsolete_by   = "None"
+graphic       = 31
+build_cost    = 60
+attack        = 4
+defense       = 4
+hitpoints     = 30
+firepower     = 1
+move_rate     = 6
+vision_range  = 2
+transport_cap = 0
+fuel          = 0
+flags         = "FieldUnit"
+roles         = ""
+
+[unit_cruiser]
+name          = "Cruiser"
+move_type     = "Sea"
+tech_req      = "Steel"
+obsolete_by   = "AEGIS Cruiser"
+graphic       = 10
+build_cost    = 80
+attack        = 6
+defense       = 6
+hitpoints     = 30
+firepower     = 2
+move_rate     = 5
+vision_range  = 2
+transport_cap = 0
+fuel          = 0
+flags         = "FieldUnit"
+roles         = ""
+
+[unit_aegis_cruiser]
+name          = "AEGIS Cruiser"
+move_type     = "Sea"
+tech_req      = "Rocketry"
+obsolete_by   = "None"
+graphic       = 48
+build_cost    = 100
+attack        = 8
+defense       = 8
+hitpoints     = 30
+firepower     = 2
+move_rate     = 5
+vision_range  = 2
+transport_cap = 0
+fuel          = 0
+flags         = "FieldUnit", "AEGIS"
+roles         = ""
+
+[unit_battleship]
+name          = "Battleship"
+move_type     = "Sea"
+tech_req      = "Automobile"
+obsolete_by   = "None"
+graphic       = 2
+build_cost    = 160
+attack        = 12
+defense       = 12
+hitpoints     = 40
+firepower     = 2
+move_rate     = 4
+vision_range  = 2
+transport_cap = 0
+fuel          = 0
+flags         = "FieldUnit"
+roles         = ""
+
+[unit_submarine]
+name          = "Submarine"
+move_type     = "Sea"
+tech_req      = "Combustion"
+obsolete_by   = "None"
+graphic       = 25
+build_cost    = 60
+attack        = 10
+defense       = 2
+hitpoints     = 30
+firepower     = 2
+move_rate     = 3
+vision_range  = 2
+transport_cap = 8
+fuel          = 0
+flags         = "FieldUnit", "Submarine"
+roles         = ""
+
+[unit_carrier]
+name          = "Carrier"
+move_type     = "Sea"
+tech_req      = "Advanced Flight"
+obsolete_by   = "None"
+graphic       = 6
+build_cost    = 160
+attack        = 1
+defense       = 9
+hitpoints     = 40
+firepower     = 2
+move_rate     = 5
+vision_range  = 2
+transport_cap = 8
+fuel          = 0
+flags         = "FieldUnit", "Carrier"
+roles         = ""
+
+[unit_transport]
+name          = "Transport"
+move_type     = "Sea"
+tech_req      = "Industrialization"
+obsolete_by   = "None"
+graphic       = 26
+build_cost    = 50
+attack        = 0
+defense       = 3
+hitpoints     = 30
+firepower     = 1
+move_rate     = 5
+vision_range  = 2
+transport_cap = 8
+fuel          = 0
+flags         = ""
+roles         = "Ferryboat"
+
+[unit_cruise_missile]
+name          = "Cruise Missile"
+move_type     = "Air"
+tech_req      = "Rocketry"
+obsolete_by   = "None"
+graphic       = 30
+build_cost    = 60
+attack        = 18
+defense       = 0
+hitpoints     = 10
+firepower     = 3
+move_rate     = 12
+vision_range  = 1
+transport_cap = 0
+fuel          = 1
+flags         = "FieldUnit", "OneAttack", "Missile"
+roles         = ""
+
+[unit_nuclear]
+name          = "Nuclear"
+move_type     = "Air"
+tech_req      = "Rocketry"
+obsolete_by   = "None"
+graphic       = 20
+build_cost    = 160
+attack        = 99
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 16
+vision_range  = 1
+transport_cap = 0
+fuel          = 1
+flags         = "FieldUnit", "OneAttack", "Missile", "Nuclear"
+roles         = ""
+
+[unit_diplomat]
+name          = "Diplomat"
+move_type     = "Land"
+tech_req      = "Writing"
+obsolete_by   = "Spy"
+graphic       = 11
+build_cost    = 30
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Diplomat", "IgZOC", "NonMil"
+roles         = ""
+
+[unit_spy]
+name          = "Spy"
+move_type     = "Land"
+tech_req      = "Espionage"
+obsolete_by   = "None"
+graphic       = 41
+build_cost    = 30
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 3
+vision_range  = 2
+transport_cap = 0
+fuel          = 0
+flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
+roles         = ""
+
+[unit_caravan]
+name          = "Caravan"
+move_type     = "Land"
+tech_req      = "Trade"
+obsolete_by   = "Freight"
+graphic       = 5
+build_cost    = 50
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Caravan", "IgZOC", "NonMil"
+roles         = ""
+
+[unit_freight]
+name          = "Freight"
+move_type     = "Land"
+tech_req      = "The Corporation"
+obsolete_by   = "None"
+graphic       = 34
+build_cost    = 50
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "Caravan", "IgZOC", "NonMil"
+roles         = ""
+
+[unit_explorer]
+name          = "Explorer"
+move_type     = "Land"
+tech_req      = "Seafaring"
+obsolete_by   = "Partisan"
+graphic       = 33
+build_cost    = 30
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_range  = 1
+transport_cap = 0
+fuel          = 0
+flags         = "IgTer", "IgZOC", "NonMil"
+roles         = "Explorer"
+
