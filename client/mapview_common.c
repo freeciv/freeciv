@@ -1180,3 +1180,46 @@ void overview_to_map_pos(int *map_x, int *map_y,
   *map_x = map_adjust_x(overview_x / OVERVIEW_TILE_WIDTH + map_overview_x0);
   *map_y = overview_y / OVERVIEW_TILE_HEIGHT;
 }
+
+/**************************************************************************
+  Find the corners of the mapview, in overview coordinates.  Used to draw
+  the "mapview window" rectangle onto the overview.
+**************************************************************************/
+void get_mapview_corners(int x[4], int y[4])
+{
+  map_to_overview_pos(&x[0], &y[0],
+		      mapview_canvas.map_x0, mapview_canvas.map_y0);
+
+  if (is_isometric) {
+    /* We start with the west corner. */
+
+    /* North */
+    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width;
+    y[1] = y[0] - OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_width;
+
+    /* East */
+    x[2] = x[1] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height;
+    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
+
+    /* South */
+    x[3] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height;
+    y[3] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
+  } else {
+    /* We start with the northwest corner. */
+
+    /* Northeast */
+    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width - 1;
+    y[1] = y[0];
+
+    /* Southeast */
+    x[2] = x[1];
+    y[2] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height - 1;
+
+    /* Southwest */
+    x[3] = x[0];
+    y[3] = y[2];
+  }
+
+  freelog(LOG_DEBUG, "(%d,%d)->(%d,%x)->(%d,%d)->(%d,%d)",
+	  x[0], y[0], x[1], y[1], x[2], y[2], x[3], y[3]);
+}

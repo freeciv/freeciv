@@ -910,7 +910,7 @@ refresh_overview_viewrect_real(HDC hdcp)
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
   int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
-  int gui_x, gui_y;
+  int gui_x[4], gui_y[4];
   HDC hdc = hdcp;
   HPEN oldpen;
 
@@ -924,33 +924,17 @@ refresh_overview_viewrect_real(HDC hdcp)
   /* Copy the part of the overview to the left of map_overview_x0. */
   BitBlt(hdc, overview_win_x + x1, overview_win_y, x0, dy, 0, 0);
 
-  /* Find the origin of the mapview, in overview (gui) coordinates. */
-  map_to_overview_pos(&gui_x, &gui_y,
-		      mapview_canvas.map_x0, mapview_canvas.map_y0);
-
+  /* Now draw the mapview window rectangle onto the overview. */
   oldpen = SelectObject(hdc, pen_std[COLOR_STD_WHITE]);
-  if (is_isometric) {
-    int Wx = gui_x;
-    int Wy = gui_y;
-    int Nx = Wx + OVERVIEW_TILE_WIDTH * map_view_width;
-    int Ny = Wy - OVERVIEW_TILE_HEIGHT * map_view_width;
-    int Sx = Wx + OVERVIEW_TILE_WIDTH * map_view_height;
-    int Sy = Wy + OVERVIEW_TILE_HEIGHT * map_view_height;
-    int Ex = Nx + OVERVIEW_TILE_WIDTH * map_view_height;
-    int Ey = Ny + OVERVIEW_TILE_HEIGHT * map_view_height;
-    
-    freelog(LOG_DEBUG, "wx,wy: %d,%d nx,ny:%d,%x ex,ey:%d,%d, sx,sy:%d,%d",
-            Wx, Wy, Nx, Ny, Ex, Ey, Sx, Sy);
-    MoveToEx(hdc,Wx+overview_win_x,Wy+overview_win_y,NULL);
-    LineTo(hdc,Nx+overview_win_x,Ny+overview_win_y);
-    LineTo(hdc,Ex+overview_win_x,Ey+overview_win_y);
-    LineTo(hdc,Sx+overview_win_x,Sy+overview_win_y);
-    LineTo(hdc,Wx+overview_win_x,Wy+overview_win_y);
-  } else {
-    mydrawrect(hdc, overview_win_x + gui_x, overview_win_y + gui_y,
-	       OVERVIEW_TILE_WIDTH * map_view_width,
-	       OVERVIEW_TILE_HEIGHT * map_view_height);
+  get_mapview_corners(gui_x, gui_y);
+  MoveToEx(hdc, gui_x[0] + overview_win_x, gui_y[0] + overview_win_y, NULL);
+  for (i = 0; i < 4; i++) {
+    int dest_x = gui_x[(i + 1) % 4];
+    int dest_y = gui_y[(i + 1) % 4];
+
+    LineTo(hdc, dest_x + overview_win_x, dest_y + overview_win_y);
   }
+
   SelectObject(hdc,oldpen);
   if (!hdcp)
     ReleaseDC(root_window,hdc);

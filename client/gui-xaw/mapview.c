@@ -438,7 +438,7 @@ void refresh_overview_viewrect(void)
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
   int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
-  int gui_x, gui_y;
+  int gui_x[4], gui_y[4];
 
   /* Copy the part of the overview to the right of map_overview_x0. */
   XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
@@ -448,46 +448,17 @@ void refresh_overview_viewrect(void)
   XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
 	    civ_gc, 0, 0, x0, dy, x1, 0);
 
-  /* Find the origin of the mapview, in overview (gui) coordinates. */
-  map_to_overview_pos(&gui_x, &gui_y,
-		      mapview_canvas.map_x0, mapview_canvas.map_y0);
-
+  /* Now draw the mapview window rectangle onto the overview. */
   XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
-  
-  if (is_isometric) {
-    /* The x's and y's are in overview coordinates. */
-    int Wx = gui_x;
-    int Wy = gui_y;
-    int Nx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_twidth;
-    int Ny = Wy - OVERVIEW_TILE_HEIGHT * map_canvas_store_twidth;
-    int Sx = Wx + OVERVIEW_TILE_WIDTH * map_canvas_store_theight;
-    int Sy = Wy + OVERVIEW_TILE_HEIGHT * map_canvas_store_theight;
-    int Ex = Nx + OVERVIEW_TILE_WIDTH * map_canvas_store_theight;
-    int Ey = Ny + OVERVIEW_TILE_HEIGHT * map_canvas_store_theight;
-    
-    freelog(LOG_DEBUG, "wx,wy: %d,%d nx,ny:%d,%x ex,ey:%d,%d, sx,sy:%d,%d",
-	    Wx, Wy, Nx, Ny, Ex, Ey, Sx, Sy);
+  get_mapview_corners(gui_x, gui_y);
+  for (i = 0; i < 4; i++) {
+    int src_x = gui_x[i];
+    int src_y = gui_y[i];
+    int dest_x = gui_x[(i + 1) % 4];
+    int dest_y = gui_y[(i + 1) % 4];
 
-    /* W to N */
     XDrawLine(display, XtWindow(overview_canvas), civ_gc,
-		  Wx, Wy, Nx, Ny);
-
-    /* N to E */
-    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
-		  Nx, Ny, Ex, Ey);
-
-    /* E to S */
-    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
-		  Ex, Ey, Sx, Sy);
-
-    /* S to W */
-    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
-		  Sx, Sy, Wx, Wy);
-  } else {
-    XDrawRectangle(display, XtWindow(overview_canvas), civ_gc, 
-		   gui_x, gui_y,
-		   OVERVIEW_TILE_WIDTH * map_canvas_store_twidth,
-		   OVERVIEW_TILE_HEIGHT * map_canvas_store_theight - 1);
+	      src_x, src_y, dest_x, dest_y);
   }
 }
 
