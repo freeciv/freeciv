@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-11-01 10:22+0100\n"
+"POT-Creation-Date: 2003-11-10 09:24+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -4022,7 +4022,8 @@ msgstr ""
 "s± ju¿ po³±czeni, pierwszemu który u¿yje komendy 'firstlevel'.\n"
 "Je¿eli podano nazwê po³±czenia przyzna poziom tylko danemu po³±czeniu.\n"
 "Poziomy dostêpu nie s± zapamiêtywane po roz³±czeniu ze wzglêdów "
-"bezpieczeñstwa."
+"bezpieczeñstwa.\n"
+"Zauwa¿, ¿e ta komenda pobiera teraz nazwy po³±czeñ, a nie graczy."
 
 #: server/stdinhand.c:1205
 msgid "Grab the 'first come' command access level."
@@ -4623,7 +4624,7 @@ msgstr "Wymagany jest argument.  Sk³adnia: %s <opcja>."
 #
 #: server/stdinhand.c:2903
 msgid "Unknown option name."
-msgstr "Nieznana opcja"
+msgstr "Nieznana nazwa opcji."
 
 #: server/stdinhand.c:2913
 #, c-format
@@ -17455,7 +17456,7 @@ msgstr ""
 
 #: data/nation/american.ruleset:3
 msgid "American"
-msgstr "Jankeski"
+msgstr "Amerykañski"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
@@ -17522,11 +17523,11 @@ msgstr "Babiloñski"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
-msgstr "Babiloñczycy"
+msgstr "?plural:Babiloñczycy"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
-msgstr "Barbarzyñcy"
+msgstr "?plural:Barbarzyñcy"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -17534,7 +17535,7 @@ msgstr "Bawarski"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "Bawarowie"
+msgstr "?plural:Bawarowie"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -17542,7 +17543,7 @@ msgstr "Burski"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "Burowie"
+msgstr "?plural:Burowie"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -17550,7 +17551,7 @@ msgstr "Brazylijski"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr "Brazylijczycy"
+msgstr "?plural:Brazylijczycy"
 
 #: data/nation/brazilian.ruleset:13 data/nation/roman.ruleset:12
 msgid "Dictator"
