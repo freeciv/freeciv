@@ -1676,7 +1676,7 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 bool show_unit_orders(struct unit *punit)
 {
   if (punit && unit_has_orders(punit)) {
-    struct tile *ptile = punit->tile, *tile1;
+    struct tile *ptile = punit->tile;
     int i;
 
     for (i = 0; i < punit->orders.length; i++) {
@@ -1693,8 +1693,8 @@ bool show_unit_orders(struct unit *punit)
       switch (order->order) {
       case ORDER_MOVE:
 	draw_segment(ptile, order->dir);
-	tile1 = mapstep(ptile, order->dir);
-	if (!tile1) {
+	ptile = mapstep(ptile, order->dir);
+	if (!ptile) {
 	  /* This shouldn't happen unless the server gives us invalid
 	   * data.  To avoid disaster we need to break out of the
 	   * switch and the enclosing for loop. */
