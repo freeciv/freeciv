@@ -1222,21 +1222,28 @@ Freeciv.iconName: Freeciv
 *reportcitylistlabel.left:               chainLeft
 *reportcitylistlabel.right:              chainRight
 *reportcitylistlabel.fromVert:           reportcitylabel
-*reportcitylistlabel.label:Name            Happy(H/C/U)    (F/P/T)     (G/L/S)     Food      Production          
+*reportcitylistlabel.label:Name              Happy(H/C/U)    (F/P/T)     (G/L/S)     Food      Production          
 
-*reportcitylist.fromVert:            reportcitylistlabel
+*reportcityviewport.fromVert: reportcitylistlabel
+*reportcityviewport.allowVert: True
+*reportcityviewport.forceColumns:        true
+*reportcityviewport.defaultColumns:      1
+*reportcityviewport.verticalList:        true
+*reportcityviewport.background:          cyan
+*reportcityviewport.resizable:           true
+*reportcityviewport.top:                 chainTop
+*reportcityviewport.bottom:              chainBottom
+*reportcityviewport.left:                chainLeft
+*reportcityviewport.right:               chainRight
+
 *reportcitylist.forceColumns:        true
 *reportcitylist.defaultColumns:      1
 *reportcitylist.verticalList:        true
 *reportcitylist.background:          cyan
 *reportcitylist.resizable:           true
-*reportcitylist.top:                 chainTop
-*reportcitylist.bottom:              chainBottom
-*reportcitylist.left:                chainLeft
-*reportcitylist.right:               chainRight
 
 *reportcityclosecommand.label:       Close
-*reportcityclosecommand.fromVert:    reportcitylist
+*reportcityclosecommand.fromVert:    reportcityviewport
 *reportcityclosecommand.foreground:  white
 *reportcityclosecommand.background:  blue
 *reportcityclosecommand.top:         chainBottom
@@ -1245,7 +1252,7 @@ Freeciv.iconName: Freeciv
 *reportcityclosecommand.right:       chainLeft
 
 *reportcitycentercommand.label:       Center
-*reportcitycentercommand.fromVert:    reportcitylist
+*reportcitycentercommand.fromVert:    reportcityviewport
 *reportcitycentercommand.fromHoriz:   reportcityclosecommand
 *reportcitycentercommand.foreground:  white
 *reportcitycentercommand.background:  blue
@@ -1255,7 +1262,7 @@ Freeciv.iconName: Freeciv
 *reportcitycentercommand.right:       chainLeft
 
 *reportcitypopupcommand.label:       Popup
-*reportcitypopupcommand.fromVert:    reportcitylist
+*reportcitypopupcommand.fromVert:    reportcityviewport
 *reportcitypopupcommand.fromHoriz:   reportcitycentercommand
 *reportcitypopupcommand.foreground:  white
 *reportcitypopupcommand.background:  blue
@@ -1265,7 +1272,7 @@ Freeciv.iconName: Freeciv
 *reportcitypopupcommand.right:       chainLeft
 
 *reportcitybuycommand.label:       Buy
-*reportcitybuycommand.fromVert:    reportcitylist
+*reportcitybuycommand.fromVert:    reportcityviewport
 *reportcitybuycommand.fromHoriz:   reportcitypopupcommand
 *reportcitybuycommand.foreground:  white
 *reportcitybuycommand.background:  blue
@@ -1275,7 +1282,7 @@ Freeciv.iconName: Freeciv
 *reportcitybuycommand.right:       chainLeft
 
 *reportcitychangemenubutton.label:       Change
-*reportcitychangemenubutton.fromVert:    reportcitylist
+*reportcitychangemenubutton.fromVert:    reportcityviewport
 *reportcitychangemenubutton.fromHoriz:   reportcitybuycommand
 *reportcitychangemenubutton.foreground:  white
 *reportcitychangemenubutton.background:  blue
@@ -1285,7 +1292,7 @@ Freeciv.iconName: Freeciv
 *reportcitychangemenubutton.right:       chainLeft
 
 *reportcityrefreshcommand.label:       Refresh
-*reportcityrefreshcommand.fromVert:    reportcitylist
+*reportcityrefreshcommand.fromVert:    reportcityviewport
 *reportcityrefreshcommand.fromHoriz:   reportcitychangemenubutton
 *reportcityrefreshcommand.foreground:  white
 *reportcityrefreshcommand.background:  blue
