@@ -16,6 +16,7 @@
 #include "tech.h"
 #include "unit.h"
 #include "city.h"
+
 #define PLAYER_DEFAULT_TAX_RATE 50
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
 #define PLAYER_DEFAULT_LUXURY_RATE 0
@@ -114,6 +115,14 @@ struct player_ai {
   int warmth; /* threat of global warming */
 };
 
+struct player_spaceship {
+  int structurals;
+  int components;
+  int modules;
+  int arrival_year;
+  enum {SSHIP_NONE, SSHIP_STARTED, SSHIP_LAUNCHED} state;
+};
+
 struct player {
   int player_no;
   char name[MAX_LENGTH_NAME];
@@ -131,6 +140,7 @@ struct player {
   struct player_score score;
   struct player_economic economic;
   struct player_research research;
+  struct player_spaceship spaceship;
   int future_tech;
   struct player_ai ai;
   int is_connected;

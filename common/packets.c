@@ -113,6 +113,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_PLAYER_GOVERNMENT:
   case PACKET_PLAYER_RESEARCH:
   case PACKET_PLAYER_TECH_GOAL:
+  case PACKET_PLAYER_LAUNCH_SPACESHIP:
     return recieve_packet_player_request(pc);
 
   case PACKET_UNIT_BUILD_CITY:
@@ -659,10 +660,19 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int8(cptr, pinfo->revolution);
   cptr=put_int8(cptr, pinfo->tech_goal);
   cptr=put_int8(cptr, pinfo->ai?1:0);
+
   if (pc && has_capability("clientcapabilities", pc->capability)) {
     cptr=put_string(cptr, pinfo->capability);
   }
 
+  if (pc && has_capability("spacerace", pc->capability)) {
+    cptr=put_int8(cptr, pinfo->structurals);
+    cptr=put_int8(cptr, pinfo->components);
+    cptr=put_int8(cptr, pinfo->modules);
+    cptr=put_int8(cptr, pinfo->sship_state);
+    cptr=put_int16(cptr, pinfo->arrival_year);
+  }
+  
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -715,6 +725,20 @@ recieve_packet_player_info(struct connection *pc)
   else 
     pinfo->capability[0] = '\0';
   
+  if (has_capability("spacerace", pc->capability)) {
+    cptr=get_int8(cptr, &pinfo->structurals);
+    cptr=get_int8(cptr, &pinfo->components);
+    cptr=get_int8(cptr, &pinfo->modules);
+    cptr=get_int8(cptr, &pinfo->sship_state);
+    cptr=get_int16(cptr, &pinfo->arrival_year);
+  } else {
+    pinfo->structurals = 0;
+    pinfo->components = 0;
+    pinfo->modules = 0;
+    pinfo->sship_state = SSHIP_NONE;
+    pinfo->arrival_year = 9999;
+  }
+      
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
 }
@@ -763,6 +787,10 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->techpenalty);
   cptr=put_int8(cptr, pinfo->foodbox);
   cptr=put_int8(cptr, pinfo->civstyle);
+  
+  if (pc && has_capability("spacerace", pc->capability)) {
+    cptr=put_int8(cptr, pinfo->spacerace);
+  }
 
   put_int16(buffer, cptr-buffer);
 
@@ -811,6 +839,11 @@ struct packet_game_info *recieve_packet_game_info(struct connection *pc)
   cptr=get_int8(cptr, &pinfo->techpenalty);
   cptr=get_int8(cptr, &pinfo->foodbox);
   cptr=get_int8(cptr, &pinfo->civstyle);
+  if (has_capability("spacerace", pc->capability)) {
+    cptr=get_int8(cptr, &pinfo->spacerace);
+  } else {
+    pinfo->spacerace = 0;
+  }
 
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;

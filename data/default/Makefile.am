@@ -6,6 +6,7 @@ pkgdatadir = $(datadir)/@PACKAGE@/default
 pkgdata_DATA =          \
 	roads.xpm	\
 	small.xpm	\
+	space.xpm	\
 	tiles.xpm	\
 	treaty.xpm	\
 	units.xpm

@@ -79,7 +79,8 @@ enum packet_type {
   PACKET_CITY_REFRESH,
   PACKET_INCITE_INQ,
   PACKET_INCITE_COST,
-  PACKET_UNIT_UPGRADE
+  PACKET_UNIT_UPGRADE,
+  PACKET_PLAYER_LAUNCH_SPACESHIP
 };
 
 enum report_type {
@@ -349,6 +350,11 @@ struct packet_player_info {
   int revolution;
   int ai;
   char capability[MSG_SIZE];
+  int structurals;
+  int components;
+  int modules;
+  int sship_state;
+  int arrival_year;
 };
 
 
@@ -376,6 +382,7 @@ struct packet_game_info {
   int global_wonders[B_LAST];
   int foodbox;
   int techpenalty;
+  int spacerace;
 };
 
 /*********************************************************

@@ -31,6 +31,7 @@
 #include <clinet.h>
 #include <chatline.h>
 #include <xstuff.h>
+#include <spaceshipdlg.h>
 
 extern Widget toplevel, main_form;
 extern struct player_race races[];
@@ -42,6 +43,7 @@ Widget players_list;
 Widget players_close_command;
 Widget players_int_command;
 Widget players_meet_command;
+Widget players_sship_command;
 
 void create_players_dialog(void);
 void players_button_callback(Widget w, XtPointer client_data, 
@@ -52,6 +54,8 @@ void players_intel_callback(Widget w, XtPointer client_data,
 			    XtPointer call_data);
 void players_list_callback(Widget w, XtPointer client_data, 
 			   XtPointer call_data);
+void players_sship_callback(Widget w, XtPointer client_data, 
+			    XtPointer call_data);
 
 
 /****************************************************************
@@ -107,6 +111,12 @@ void create_players_dialog(void)
 						 XtNsensitive, False,
 						 NULL);
 
+  players_sship_command = XtVaCreateManagedWidget("playerssshipcommand",
+						  commandWidgetClass,
+						  players_form,
+						  XtNsensitive, False,
+						  NULL);
+
   XtAddCallback(players_list, XtNcallback, players_list_callback, 
 		NULL);
   
@@ -115,7 +125,11 @@ void create_players_dialog(void)
 
   XtAddCallback(players_meet_command, XtNcallback, players_meet_callback, 
 		NULL);
+  
   XtAddCallback(players_int_command, XtNcallback, players_intel_callback, 
+		NULL);
+
+  XtAddCallback(players_sship_command, XtNcallback, players_sship_callback, 
 		NULL);
   
   update_players_dialog();
@@ -190,6 +204,11 @@ void players_list_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(players_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
+    if(game.players[ret->list_index].spaceship.state != SSHIP_NONE)
+      XtSetSensitive(players_sship_command, TRUE);
+    else
+      XtSetSensitive(players_sship_command, FALSE);
+
     if(player_has_embassy(game.player_ptr, &game.players[ret->list_index])) {
       if(game.players[ret->list_index].is_connected &&
 	 game.players[ret->list_index].is_alive)
@@ -255,3 +274,13 @@ void players_intel_callback(Widget w, XtPointer client_data,
       popup_intel_dialog(&game.players[ret->list_index]);
 }
 
+void players_sship_callback(Widget w, XtPointer client_data, 
+			    XtPointer call_data)
+{
+  XawListReturnStruct *ret;
+
+  ret=XawListShowCurrent(players_list);
+
+  if(ret->list_index!=XAW_LIST_NONE) 
+    popup_spaceship_dialog(&game.players[ret->list_index]);
+}

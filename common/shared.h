@@ -70,7 +70,7 @@
  */
 
 /* The default string is really simple */
-#define CAPABILITY "+1.7 clientcapabilities tradecities"
+#define CAPABILITY "+1.7 clientcapabilities tradecities spacerace"
 
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2

@@ -341,6 +341,12 @@ struct settings_s settings[] = {
     "  defender.  Also, the chance of a spy returning from a successful mission\n"
     "  is one in diplchance.  (Diplomats never return.)" },
 
+  { "spacerace", &game.spacerace,
+    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+    GAME_MIN_SPACERACE, GAME_MAX_SPACERACE, GAME_DEFAULT_SPACERACE,
+    "Whether to allow space race (experimental)",
+    "  The space race code is still being developed." },
+
   { "civilwarsize", &game.civilwarsize,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, GAME_DEFAULT_CIVILWARSIZE,

@@ -966,6 +966,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_UNIT_UPGRADE:
     handle_unit_upgrade_request(pplayer, (struct packet_unit_request *)packet);
     break;
+  case PACKET_PLAYER_LAUNCH_SPACESHIP:
+    handle_player_launch_spaceship(pplayer);
+    break;
+
   default:
     flog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
   }

@@ -935,6 +935,8 @@ void upgrade_unit_prod(struct city *pcity)
 **************************************************************************/
 void city_build_stuff(struct player *pplayer, struct city *pcity)
 {
+  int space_part;
+  
   if (pcity->shield_surplus<0) {
     unit_list_iterate(pcity->units_supported, punit) {
       if (is_military_unit(punit)) {
@@ -972,9 +974,18 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 	  }
 	city_list_iterate_end;
       }
-      
 
-      pcity->improvements[pcity->currently_building]=1;
+      space_part = 1;
+      if (pcity->currently_building == B_SSTRUCTURAL) {
+	pplayer->spaceship.structurals++;
+      } else if (pcity->currently_building == B_SCOMP) {
+	pplayer->spaceship.components++;
+      } else if (pcity->currently_building == B_SMODULE) {
+	pplayer->spaceship.modules++;
+      } else {
+	space_part = 0;
+	pcity->improvements[pcity->currently_building]=1;
+      }
       pcity->shield_stock-=improvement_value(pcity->currently_building); 
       /* to eliminate micromanagement */
       if(is_wonder(pcity->currently_building)) {
@@ -1006,14 +1017,21 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 	update_tech(pplayer, 1000000); 
 	update_tech(pplayer, 1000000); 
       }
-      city_refresh(pcity);
-/* printf("Trying advisor_choose_build.\n"); */
-      advisor_choose_build(pcity);
-/* printf("Advisor_choose_build didn't kill us.\n"); */
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUTO,
-		    "Game: %s is now building %s", pcity->name, 
-		    improvement_types[pcity->currently_building].name
-		    );
+      if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
+	notify_player_ex(0, pcity->x, pcity->y, E_NOEVENT,
+			 "Game: The %s have started building a spaceship!",
+			 get_race_name_plural(pplayer->race));
+	pplayer->spaceship.state = SSHIP_STARTED;
+      }
+      if (!space_part) {
+	city_refresh(pcity);
+	/* printf("Trying advisor_choose_build.\n"); */
+	advisor_choose_build(pcity);
+	/* printf("Advisor_choose_build didn't kill us.\n"); */
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUTO,
+			 "Game: %s is now building %s", pcity->name, 
+			 improvement_types[pcity->currently_building].name);
+      }
     } 
   } else {
     upgrade_unit_prod(pcity);

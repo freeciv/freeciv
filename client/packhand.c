@@ -21,6 +21,7 @@
 #include <events.h>
 #include <messagedlg.h>
 #include <clinet.h>		/* aconnection */
+#include <helpdlg.h>		/* boot_help_texts */
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;
@@ -529,7 +530,7 @@ void handle_map_info(struct packet_map_info *pinfo)
 **************************************************************************/
 void handle_game_info(struct packet_game_info *pinfo)
 {
-  int i;
+  int i, boot_help;
   game.gold=pinfo->gold;
   game.tech=pinfo->tech;
   game.techlevel=pinfo->techlevel;
@@ -563,6 +564,12 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.techpenalty=pinfo->techpenalty;
   game.foodbox=pinfo->foodbox;
   game.civstyle=pinfo->civstyle;
+  boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
+	       && game.spacerace != pinfo->spacerace);
+  game.spacerace=pinfo->spacerace;
+  if (boot_help) {
+    boot_help_texts();		/* reboot, after setting game.spacerace */
+  }
   update_unit_focus();
 }
 
@@ -596,6 +603,12 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->research.researching=pinfo->researching;
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;
+
+  pplayer->spaceship.structurals=pinfo->structurals;
+  pplayer->spaceship.components=pinfo->components;
+  pplayer->spaceship.modules=pinfo->modules;
+  pplayer->spaceship.state=pinfo->sship_state;
+  pplayer->spaceship.arrival_year=pinfo->arrival_year;
 
   
   if(!pplayer->conn){

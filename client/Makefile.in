@@ -138,6 +138,8 @@ civclient_SOURCES = \
 		repodlgs.h	\
 		resources.c	\
 		resources.h	\
+		spaceshipdlg.h	\
+		spaceshipdlg.c	\
 		xmain.c		\
 		xmain.h		\
 		xstuff.c	\
@@ -160,7 +162,7 @@ civclient_OBJECTS =  canvas.o chatline.o citydlg.o civclient.o climisc.o \
 clinet.o colors.o connectdlg.o dialogs.o diplodlg.o finddlg.o gotodlg.o \
 graphics.o helpdlg.o inputdlg.o inteldlg.o mapctrl.o mapview.o menu.o \
 messagedlg.o messagewin.o optiondlg.o packhand.o pixcomm.o plrdlg.o \
-ratesdlg.o repodlgs.o resources.o xmain.o xstuff.o
+ratesdlg.o repodlgs.o resources.o spaceshipdlg.o xmain.o xstuff.o
 civclient_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -179,7 +181,8 @@ DEP_FILES =  .deps/canvas.P .deps/chatline.P .deps/citydlg.P \
 .deps/inteldlg.P .deps/mapctrl.P .deps/mapview.P .deps/menu.P \
 .deps/messagedlg.P .deps/messagewin.P .deps/optiondlg.P \
 .deps/packhand.P .deps/pixcomm.P .deps/plrdlg.P .deps/ratesdlg.P \
-.deps/repodlgs.P .deps/resources.P .deps/xmain.P .deps/xstuff.P
+.deps/repodlgs.P .deps/resources.P .deps/spaceshipdlg.P .deps/xmain.P \
+.deps/xstuff.P
 SOURCES = $(civclient_SOURCES)
 OBJECTS = $(civclient_OBJECTS)
 

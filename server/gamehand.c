@@ -38,7 +38,7 @@ extern RANDOM_TYPE RandomState[];
 extern int iRandJ, iRandK, iRandX; 
 extern int rand_init;
 
-#define SAVEFILE_OPTIONS "1.7, startoptions, unirandom"
+#define SAVEFILE_OPTIONS "1.7, startoptions, unirandom, spacerace"
 
 /**************************************************************************
 ...
@@ -154,6 +154,7 @@ void send_game_info(struct player *dest)
   ginfo.rail_food = game.rail_food;
   ginfo.rail_trade = game.rail_trade;
   ginfo.rail_prod = game.rail_prod;
+  ginfo.spacerace = game.spacerace;
   for(i=0; i<A_LAST; i++)
     ginfo.global_advances[i]=game.global_advances[i];
   for(i=0; i<B_LAST; i++)
@@ -307,6 +308,9 @@ int game_load(struct section_file *file)
     rand_init=1;
   }
 
+  if (has_capability("spacerace", savefile_options))
+    game.spacerace = secfile_lookup_int(file, "game.spacerace");
+
   game.heating=0;
   if(tmp_server_state==PRE_GAME_STATE 
      || has_capability("startoptions", savefile_options)) {
@@ -412,6 +416,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.save_nturns, "game.save_nturns");
   secfile_insert_int(file, game.aifill, "game.aifill");
   secfile_insert_int(file, game.scorelog, "game.scorelog");
+  secfile_insert_int(file, game.spacerace, "game.spacerace");
   secfile_insert_int(file, game.diplchance, "game.diplchance");
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.randseed, "game.randseed");

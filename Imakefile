@@ -53,7 +53,7 @@ CLIENT_OBJS= client/civclient.o client/xmain.o client/canvas.o client/menu.o \
 	     client/diplodlg.o client/pixcomm.o client/optiondlg.o \
 	     client/messagedlg.o client/messagewin.o client/inteldlg.o \
 	     client/resources.o client/climisc.o client/packhand.o \
-	     client/gotodlg.o client/connectdlg.o
+	     client/gotodlg.o client/connectdlg.o client/spaceshipdlg.o
 
 COMMON_OBJS= common/log.o common/map.o common/packets.o common/shared.o \
              common/unit.o common/player.o common/game.o common/genlist.o \

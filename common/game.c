@@ -100,10 +100,6 @@ void set_civ2_style(void)
   remove_tech(A_ENVIRONMENTALISM); /* add it and solar plant will be in */
   remove_building(B_SOLAR);	/* better to do this too --dwp */
 
-  remove_building(B_SCOMP);
-  remove_building(B_SMODULE);
-  remove_building(B_SSTRUCTURAL);
-
   remove_unit(U_CRUSADERS);       /* i don't see the point in combat units */
   remove_unit(U_ELEPHANT);        /* in the peaceful part of the tech tree */
   remove_unit(U_PARATROOPERS);

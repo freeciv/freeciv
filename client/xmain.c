@@ -57,6 +57,7 @@
 #include <connectdlg.h>
 #include <helpdlg.h>
 #include <optiondlg.h>
+#include <spaceshipdlg.h>
 
 AppResources appResources;
 
@@ -238,7 +239,9 @@ XtActionsRec Actions[] = {
   { "quit-freeciv", quit_freeciv},
   { "close-citydialog", close_city_dialog_action},
   { "key-goto-dialog", popup_goto_dialog_action },
-  { "key-city-workers", key_city_workers }
+  { "key-city-workers", key_city_workers },
+  { "close-spaceshipdialog", close_spaceship_dialog_action },
+  { "spaceship-dialog-returnkey", spaceship_dialog_returnkey }
 };
 
 int myerr(Display *p, XErrorEvent *e)

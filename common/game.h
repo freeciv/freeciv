@@ -23,6 +23,10 @@
 
 #define GAME_START_YEAR -4000
 
+#define NUM_SS_STRUCTURALS 32
+#define NUM_SS_COMPONENTS 16
+#define NUM_SS_MODULES 12
+
 enum server_states { 
   PRE_GAME_STATE, 
   SELECT_RACES_STATE, 
@@ -81,6 +85,7 @@ struct civ_game {
   int randseed;
   int aqueduct_size;
   int sewer_size;
+  int spacerace;
 };
 
 struct lvldat {

@@ -75,6 +75,8 @@ civclient_SOURCES = \
 		repodlgs.h	\
 		resources.c	\
 		resources.h	\
+		spaceshipdlg.h	\
+		spaceshipdlg.c	\
 		xmain.c		\
 		xmain.h		\
 		xstuff.c	\

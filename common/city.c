@@ -761,8 +761,12 @@ int improvement_exists(enum improvement_type_id id)
 {
   if (id<0 || id>=B_LAST)
     return 0;
-  else
-    return (improvement_types[id].tech_requirement!=A_LAST);
+
+  if ((id==B_SCOMP || id==B_SMODULE || id==B_SSTRUCTURAL)
+      && !game.spacerace)
+    return 0;
+
+  return (improvement_types[id].tech_requirement!=A_LAST);
 }
 
 /**************************************************************************
@@ -880,6 +884,21 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
       && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
       && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER))
     return 0;
+  if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
+    if (!game.global_wonders[B_APOLLO]) {
+      return 0;
+    } else {
+      struct player *p=city_owner(pcity);
+      if (p->spaceship.state == SSHIP_LAUNCHED)
+	return 0;
+      if (id == B_SSTRUCTURAL && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
+	return 0;
+      if (id == B_SCOMP && p->spaceship.components >= NUM_SS_COMPONENTS)
+	return 0;
+      if (id == B_SMODULE && p->spaceship.modules >= NUM_SS_MODULES)
+	return 0;
+    }
+  }
   if (is_wonder(id)) {
     if (game.global_wonders[id]) return 0;
   } else {
