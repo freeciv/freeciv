@@ -67,17 +67,17 @@
 - (Hand) change government                                           DONE
 - (Tech) tech management                                             DONE
 2 Medium:
-- better city placement
-- ability to explore island 
-- Barbarians
-- better unit building management
-- better improvement management 
-- taxcollecters/scientists
-- spend spare trade on buying
-- upgrade units
+- better city placement                                              TODO
+- ability to explore island                                          DONE
+- Barbarians                                                         ????
+- better unit building management                                    DONE
+- better improvement management                                      DONE
+- taxcollecters/scientists                                           DONE
+- spend spare trade on buying                                        DONE
+- upgrade units                                                      TODO
 - (Unit) wonders/caravans                                            DONE
-- defense/city value
-- Tax/science/unit producing cities 
+- defense/city value                                                 ????
+- Tax/science/unit producing cities                                  ????
 3 Advanced:
 - ZOC
 - continent defense
