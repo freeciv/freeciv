@@ -10,6 +10,8 @@ msgstr ""
 "PO-Revision-Date: 2000-01-24 00:00+02:00\n"
 "Last-Translator: Erik Sigra <freeciv@home.se>\n"
 "Language-Team: Swedish <freeciv@home.se>\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: common/city.c:160
 msgid "?wonder:w"

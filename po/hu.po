@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: Gábor Dukai <dukai@EUnet.yu>\n"
 "Language-Team: Hungarian <dukai@EUnet.yu>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=latin-iso-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: common/city.c:332
