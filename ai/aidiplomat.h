@@ -13,6 +13,9 @@
 #ifndef FC__AIDIPLOMAT_H
 #define FC__AIDIPLOMAT_H
 
+#include "city.h"		/* struct ai_choice */
+#include "shared.h"		/* bool type */
+
 struct player;
 struct unit;
 
@@ -25,6 +28,5 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
 void ai_choose_diplomat_offensive(struct player *pplayer,
                                   struct city *pcity,
                                   struct ai_choice *choice);
-
 
 #endif  /* FC__AIDIPLOMAT_H */
