@@ -821,7 +821,6 @@ AC_OUTPUT(Makefile
           data/Makefile 
 	  data/misc/Makefile 
 	  data/trident/Makefile 
-	  data/engels/Makefile 
 	  data/hires/Makefile 
 	  data/default/Makefile 
 	  data/civ1/Makefile 

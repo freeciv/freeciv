@@ -4,8 +4,6 @@ pkgdata_DATA = \
 	Freeciv	\
 	freeciv.rc	\
 	freeciv.rc-2.0	\
-	engels.tilespec	\
-	engels_shields.tilespec	\
 	trident.tilespec	\
 	trident_shields.tilespec	\
 	hires.tilespec \
@@ -15,4 +13,4 @@ pkgdata_DATA = \
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = misc trident engels default civ1 civ2 scenario nation hires
+SUBDIRS = misc trident default civ1 civ2 scenario nation hires
