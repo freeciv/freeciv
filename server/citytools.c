@@ -449,8 +449,10 @@ int city_corruption(struct city *pcity, int trade)
     capital=find_palace(city_owner(pcity));
     if (!capital)
       dist=36;
-    else
-      dist=min(36,map_distance(capital->x, capital->y, pcity->x, pcity->y));
+    else {
+      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      dist=MIN(36,tmp);
+    }
   }
   if (get_government(pcity->owner) == G_DESPOTISM)
     dist = dist*2 + 3; /* yes, DESPOTISM is even worse than ANARCHY */

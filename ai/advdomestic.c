@@ -224,9 +224,11 @@ void ai_eval_buildings(struct city *pcity)
     if (city_happy(pcity) && pcity->size > asz-1 && est_food > 0)
       values[B_AQUEDUCT] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
          pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
-    else values[B_AQUEDUCT] = food * est_food * asz * game.foodbox /
-           MAX(1, ((asz+1 - MIN(asz, pcity->size)) * MAX(asz, pcity->size) *
-           game.foodbox - pcity->food_stock));
+    else {
+      int tmp = ((asz+1 - MIN(asz, pcity->size)) * MAX(asz, pcity->size) *
+	       game.foodbox - pcity->food_stock);
+      values[B_AQUEDUCT] = food * est_food * asz * game.foodbox / MAX(1, tmp);
+    }
   }
 
 
@@ -348,9 +350,11 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     if (city_happy(pcity) && pcity->size > ssz-1 && est_food > 0)
       values[B_SEWER] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
          pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
-    else values[B_SEWER] = food * est_food * ssz * game.foodbox /
-          MAX(1, ((ssz+1 - MIN(ssz, pcity->size)) * MAX(ssz, pcity->size) *
-          game.foodbox - pcity->food_stock));
+    else {
+      int tmp = ((ssz+1 - MIN(ssz, pcity->size)) * MAX(ssz, pcity->size) *
+	       game.foodbox - pcity->food_stock);
+      values[B_SEWER] = food * est_food * ssz * game.foodbox / MAX(1, tmp);
+    }
   }
 
   if (could_build_improvement(pcity, B_STOCK))
@@ -414,8 +418,11 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
       if (i == B_LEONARDO) {
         unit_list_iterate(pcity->units_supported, punit)
           j = can_upgrade_unittype(pplayer, punit->type);
-          if (j >= 0) values[i] = MAX(values[i], 8 * unit_upgrade_price(pplayer,
-               punit->type, j)); /* this is probably wrong -- Syela */
+  	  if (j >= 0) {
+	     /* this is probably wrong -- Syela */
+	    int tmp = 8 * unit_upgrade_price(pplayer, punit->type, j);
+	    values[i] = MAX(values[i], tmp);
+	  }
         unit_list_iterate_end;
       }
       if (i == B_BACH)

@@ -227,12 +227,14 @@ int unit_bribe_cost(struct unit *punit)
 
   cost = (&game.players[punit->owner])->economic.gold+750;
   capital=find_palace(&game.players[punit->owner]);
-  if (capital)
-    dist=min(32, map_distance(capital->x, capital->y, punit->x, punit->y)); 
+  if (capital) {
+    int tmp = map_distance(capital->x, capital->y, punit->x, punit->y);
+    dist=MIN(32, tmp);
+  }
   else
     dist=32;
     if (get_government(punit->owner)==G_COMMUNISM)
-      dist = min(10, dist);
+      dist = MIN(10, dist);
   cost=(cost/(dist+2))*(get_unit_type(punit->type)->build_cost/10);
   if (unit_flag(punit->type, F_SETTLERS)) 
     cost/=2;

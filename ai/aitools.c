@@ -79,7 +79,8 @@ void ai_government_change(struct player *pplayer, int gov)
 **************************************************************************/
 int ai_gold_reserve(struct player *pplayer)
 {
-  return MAX(pplayer->ai.maxbuycost, total_player_citizens(pplayer)*2);
+  int i = total_player_citizens(pplayer)*2;
+  return MAX(pplayer->ai.maxbuycost, i);
 /* I still don't trust this function -- Syela */
 }
 

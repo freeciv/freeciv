@@ -147,10 +147,13 @@ void happy_copy(struct city *pcity, int i)
 **************************************************************************/
 void citizen_happy_size(struct city *pcity)
 {
-  int citizens;
-  citizens = min(pcity->size, content_citizens(&game.players[pcity->owner])); 
-  pcity->ppl_content[0] = max(0, (citizens - city_specialists(pcity)));
-  pcity->ppl_unhappy[0] = max(0, (pcity->size - (pcity->ppl_content[0] + city_specialists(pcity))));
+  int citizens, tmp;
+  tmp = content_citizens(&game.players[pcity->owner]);
+  citizens = MIN(pcity->size, tmp); 
+  tmp = (citizens - city_specialists(pcity));
+  pcity->ppl_content[0] = MAX(0, tmp);
+  tmp = (pcity->size - (pcity->ppl_content[0] + city_specialists(pcity)));
+  pcity->ppl_unhappy[0] = MAX(0, tmp);
   pcity->ppl_happy[0]=0;
 }
 
@@ -195,12 +198,12 @@ void citizen_happy_units(struct city *pcity, int unhap)
       unhap--;
   }
   if (unhap>0) {                                                           
-    step=min(unhap,pcity->ppl_content[3]);                          
+    step=MIN(unhap,pcity->ppl_content[3]);                          
     pcity->ppl_content[3]-=step;
     pcity->ppl_unhappy[3]+=step;
     unhap-=step;                     
     if (unhap>0) {                       
-      step=min((unhap/2),pcity->ppl_happy[3]);    
+      step=MIN((unhap/2),pcity->ppl_happy[3]);    
       pcity->ppl_happy[3]-=step;
       pcity->ppl_unhappy[3]+=step;
       unhap -= step * 2;                                                
@@ -293,10 +296,10 @@ void citizen_happy_wonders(struct city *pcity)
 void unhappy_city_check(struct city *pcity)
 {
   if (city_unhappy(pcity)) {
-    pcity->food_surplus=min(0, pcity->food_surplus);
+    pcity->food_surplus=MIN(0, pcity->food_surplus);
     pcity->tax_total=0;
     pcity->science_total=0;
-    pcity->shield_surplus=min(0, pcity->shield_surplus);
+    pcity->shield_surplus=MIN(0, pcity->shield_surplus);
   }  
 }
 
@@ -325,7 +328,7 @@ void set_pollution(struct city *pcity)
     pcity->pollution+=poppul;
   }
 
-  pcity->pollution=max(0, pcity->pollution-20);  
+  pcity->pollution=MAX(0, pcity->pollution-20);  
 }
 
 /**************************************************************************
@@ -506,19 +509,19 @@ void city_support(struct city *pcity)
   switch (gov) {
   case G_ANARCHY:
   case G_DESPOTISM:
-    city_units = min(city_units, pcity->ppl_unhappy[3]);
+    city_units = MIN(city_units, pcity->ppl_unhappy[3]);
     pcity->ppl_unhappy[3]-= city_units;
     pcity->ppl_content[3]+= city_units;
     break;
   case G_MONARCHY:
-    city_units = min(3, city_units);
-    city_units = min(pcity->ppl_unhappy[3], city_units);
+    city_units = MIN(3, city_units);
+    city_units = MIN(pcity->ppl_unhappy[3], city_units);
     pcity->ppl_unhappy[3]-= city_units;
     pcity->ppl_content[3]+= city_units;
     break;
   case G_COMMUNISM:
-    city_units = min(3, city_units);
-    city_units = min(pcity->ppl_unhappy[3], city_units*2);
+    city_units = MIN(3, city_units);
+    city_units = MIN(pcity->ppl_unhappy[3], city_units*2);
     pcity->ppl_unhappy[3]-= city_units;
     pcity->ppl_content[3]+= city_units;
     break;
@@ -1220,14 +1223,16 @@ void city_incite_cost(struct city *pcity)
   else {
     pcity->incite_revolt_cost=city_owner(pcity)->economic.gold +1000;
     capital=find_palace(city_owner(pcity));
-    if (capital)
-      dist=min(32, map_distance(capital->x, capital->y, pcity->x, pcity->y)); 
+    if (capital) {
+      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      dist=MIN(32, tmp);
+    }
     else 
       dist=32;
     if (city_got_building(pcity, B_COURTHOUSE)) 
       dist/=2;
     if (get_government(city_owner(pcity)->player_no)==G_COMMUNISM)
-      dist = min(10, dist);
+      dist = MIN(10, dist);
     pcity->incite_revolt_cost/=(dist + 3);
     pcity->incite_revolt_cost*=pcity->size;
     if (city_unhappy(pcity))
