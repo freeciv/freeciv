@@ -708,21 +708,6 @@ bool is_safe_ocean(const struct tile *ptile)
   return FALSE;
 }
 
-/***************************************************************
-Returns whether you can put a city on land near enough to use
-the tile.
-***************************************************************/
-bool is_sea_usable(const struct tile *ptile)
-{
-  map_city_radius_iterate(ptile, tile1) {
-    if (!is_ocean(map_get_terrain(tile1))) {
-      return TRUE;
-    }
-  } map_city_radius_iterate_end;
-
-  return FALSE;
-}
-
 /****************************************************************************
   Return the output of this type provided by the tile.  This includes base
   terrain plus S_SPECIAL_1 and S_SPECIAL_2, but not any other specials

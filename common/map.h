@@ -385,7 +385,6 @@ enum tile_special_type get_special_by_name(const char * name);
 const char *get_special_name(enum tile_special_type type);
 bool is_safe_ocean(const struct tile *ptile);
 bool is_cardinally_adj_to_ocean(const struct tile *ptile);
-bool is_sea_usable(const struct tile *ptile);
 int get_tile_output_base(const struct tile *ptile, Output_type_id output);
 enum tile_special_type get_tile_infrastructure_set(const struct tile *ptile);
 const char *map_get_infrastructure_text(enum tile_special_type spe);
