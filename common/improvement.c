@@ -130,9 +130,13 @@ bool improvement_exists(Impr_Type_id id)
   if (id<0 || id>=B_LAST || id>=game.num_impr_types)
     return FALSE;
 
-  if ((id==B_SCOMP || id==B_SMODULE || id==B_SSTRUCTURAL)
-      && !game.spacerace)
+  if (!game.spacerace
+      && (building_has_effect(id, EFT_SS_STRUCTURAL)
+	  || building_has_effect(id, EFT_SS_COMPONENT)
+	  || building_has_effect(id, EFT_SS_MODULE))) {
+    /* This assumes that space parts don't have any other effects. */
     return FALSE;
+  }
 
   return (improvement_types[id].tech_req!=A_LAST);
 }
@@ -383,6 +387,7 @@ bool could_player_eventually_build_improvement(struct player *p,
 					      Impr_Type_id id)
 {
   struct impr_type *impr;
+  bool space_part = FALSE;
 
   /* This also checks if tech req is Never */
   if (!improvement_exists(id))
@@ -390,28 +395,31 @@ bool could_player_eventually_build_improvement(struct player *p,
 
   impr = get_improvement_type(id);
 
-  if (impr->effect) {
-    struct impr_effect *peffect = impr->effect;
-    enum effect_type type;
-
-    /* This if for a spaceship component is asked */
-    while ((type = peffect->type) != EFT_LAST) {
-      if (type == EFT_SPACE_PART) {
-      	/* TODO: remove this */
-	if (game.global_wonders[B_APOLLO] == 0)
-	  return FALSE;
-        if (p->spaceship.state >= SSHIP_LAUNCHED)
-	  return FALSE;
-	if (peffect->amount == 1 && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
-	  return FALSE;
-	if (peffect->amount == 2 && p->spaceship.components >= NUM_SS_COMPONENTS)
-	  return FALSE;
-	if (peffect->amount == 3 && p->spaceship.modules >= NUM_SS_MODULES)
-	  return FALSE;
-      }
-      peffect++;
+  /* Check for space part construction.  This assumes that space parts have
+   * no other effects. */
+  if (building_has_effect(id, EFT_SS_STRUCTURAL)) {
+    space_part = TRUE;
+    if (p->spaceship.structurals >= NUM_SS_STRUCTURALS) {
+      return FALSE;
     }
   }
+  if (building_has_effect(id, EFT_SS_COMPONENT)) {
+    space_part = TRUE;
+    if (p->spaceship.components >= NUM_SS_COMPONENTS) {
+      return FALSE;
+    }
+  }
+  if (building_has_effect(id, EFT_SS_MODULE)) {
+    space_part = TRUE;
+    if (p->spaceship.modules >= NUM_SS_MODULES) {
+      return FALSE;
+    }
+  }
+  if (space_part && (game.global_wonders[B_APOLLO] == 0
+		     || p->spaceship.state >= SSHIP_LAUNCHED)) {
+    return FALSE;
+  }
+
   if (is_wonder(id)) {
     /* Can't build wonder if already built */
     if (game.global_wonders[id] != 0) return FALSE;

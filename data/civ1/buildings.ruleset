@@ -1000,8 +1000,8 @@ build_cost	= 160
 upkeep		= 0
 sabotage	= 100
 effect		=
-    { "type", "range", "amount"
-	"Space_Part", "Local", 2
+    { "type", "range"
+	"SS_Component", "Local"
     }
 sound		= "b_space_component"
 sound_alt	= "b_generic"
@@ -1031,8 +1031,8 @@ build_cost	= 320
 upkeep		= 0
 sabotage	= 100
 effect		=
-    { "type", "range", "amount"
-	"Space_Part", "Local", 3
+    { "type", "range"
+	"SS_Module", "Local"
     }
 sound		= "b_space_module"
 sound_alt	= "b_generic"
@@ -1071,8 +1071,8 @@ build_cost	= 80
 upkeep		= 0
 sabotage	= 100
 effect		=
-    { "type", "range", "amount"
-	"Space_Part", "Local", 1
+    { "type", "range"
+	"SS_Structural", "Local"
     }
 sound		= "b_space_structural"
 sound_alt	= "b_generic"

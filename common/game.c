@@ -365,8 +365,7 @@ void initialize_globals(void)
 ***************************************************************/
 int game_next_year(int year)
 {
-  int spaceshipparts, i;
-  Impr_Type_id parts[] = { B_SCOMP, B_SMODULE, B_SSTRUCTURAL, B_LAST };
+  int spaceshipparts, space_parts[3] = {0, 0, 0};
 
   if (year == 1) /* hacked it to get rid of year 0 */
     year = 0;
@@ -384,14 +383,30 @@ int game_next_year(int year)
    * about 1900 AD
    */
 
-  spaceshipparts= 0;
+  /* Count how many of the different spaceship parts we can build.  Note this
+   * operates even if Enable_Space is not active. */
   if (game.spacerace) {
-    for(i=0; parts[i] < B_LAST; i++) {
-      int t = improvement_types[parts[i]].tech_req;
-      if (tech_exists(t) && game.global_advances[t] != 0)
-	spaceshipparts++;
-    }
+    impr_type_iterate(impr) {
+      Tech_Type_id t = improvement_types[impr].tech_req;
+
+      if (!improvement_exists(impr)) {
+	continue;
+      }
+      if (building_has_effect(impr, EFT_SS_STRUCTURAL)
+	  && tech_exists(t) && game.global_advances[t] != 0) {
+	space_parts[0] = 1;
+      }
+      if (building_has_effect(impr, EFT_SS_COMPONENT)
+	  && tech_exists(t) && game.global_advances[t] != 0) {
+	space_parts[1] = 1;
+      }
+      if (building_has_effect(impr, EFT_SS_MODULE)
+	  && tech_exists(t) && game.global_advances[t] != 0) {
+	space_parts[2] = 1;
+      }
+    } impr_type_iterate_end;
   }
+  spaceshipparts = space_parts[0] + space_parts[1] + space_parts[2];
 
   if( year >= 1900 || ( spaceshipparts>=3 && year>0 ) )
     year += 1;

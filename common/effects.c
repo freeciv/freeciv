@@ -98,7 +98,9 @@ static const char *effect_type_names[] = {
   "Size_Unlimit",
   "Slow_Nuke_Winter",
   "Slow_Global_Warm",
-  "Space_Part",
+  "SS_Structural",
+  "SS_Component",
+  "SS_Module",
   "Spy_Resistant",
   "Tax_Bonus",
   "Tax_Pct",
@@ -232,6 +234,12 @@ bool building_has_effect(Impr_Type_id building, enum effect_type effect)
   switch (effect) {
   case EFT_PROD_TO_GOLD:
     return building == B_CAPITAL;
+  case EFT_SS_STRUCTURAL:
+    return building == B_SSTRUCTURAL;
+  case EFT_SS_COMPONENT:
+    return building == B_SCOMP;
+  case EFT_SS_MODULE:
+    return building == B_SMODULE;
   default:
     break;
   }
@@ -253,10 +261,24 @@ bool building_has_effect(Impr_Type_id building, enum effect_type effect)
 int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect)
 {
-  if (effect == EFT_PROD_TO_GOLD) {
-    return (!pcity->is_building_unit 
-	    && pcity->currently_building == B_CAPITAL) ? 1 : 0;
+  if (pcity->is_building_unit) {
+    return 0; /* No effects for units. */
   }
+
+  switch (effect) {
+  case EFT_PROD_TO_GOLD:
+    return (pcity->currently_building == B_CAPITAL) ? 1 : 0;
+  case EFT_SS_STRUCTURAL:
+    return (pcity->currently_building == B_SSTRUCTURAL) ? 1 : 0;
+  case EFT_SS_COMPONENT:
+    return (pcity->currently_building == B_SCOMP) ? 1 : 0;
+  case EFT_SS_MODULE:
+    return (pcity->currently_building == B_SMODULE) ? 1 : 0;
+  default:
+    /* All others unsupported. */
+    break;
+  }
+
   assert(0);
   return 0;
 }

@@ -934,11 +934,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     }
 
     space_part = TRUE;
-    if (pcity->currently_building == B_SSTRUCTURAL) {
+    if (get_current_construction_bonus(pcity, EFT_SS_STRUCTURAL) > 0) {
       pplayer->spaceship.structurals++;
-    } else if (pcity->currently_building == B_SCOMP) {
+    } else if (get_current_construction_bonus(pcity, EFT_SS_COMPONENT) > 0) {
       pplayer->spaceship.components++;
-    } else if (pcity->currently_building == B_SMODULE) {
+    } else if (get_current_construction_bonus(pcity, EFT_SS_MODULE) > 0) {
       pplayer->spaceship.modules++;
     } else {
       space_part = FALSE;
