@@ -490,8 +490,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   bool isdef = has_a_normal_defender(pcity);
 
   memset(desire, 0, sizeof(desire));
-  unit_type_iterate(i) {
-    if (!is_ai_simple_military(i)) continue;
+  simple_ai_unit_type_iterate(i) {
     m = unit_types[i].move_type;
     if ((m == LAND_MOVING || m == SEA_MOVING)) {
       k = num_unknown_techs_for_goal(pplayer,unit_types[i].tech_requirement);
@@ -520,7 +519,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
         desire[i] = j * danger / (unit_types[i].build_cost + l);
       }
     }
-  } unit_type_iterate_end;
+  } simple_ai_unit_type_iterate_end;
 
   if (!walls && unit_types[bestid].move_type == LAND_MOVING) {
     best *= pcity->ai.wallvalue;
@@ -531,15 +530,15 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   if (best == 0) best = 1;   /* avoid divide-by-zero below */
 
 /* multiply by unit_types[bestid].build_cost / best */
-  unit_type_iterate(i) {
-    if (desire[i] != 0 && is_ai_simple_military(i)) {
+  simple_ai_unit_type_iterate(i) {
+    if (desire[i] != 0) {
       tech_req = unit_types[i].tech_requirement;
       n = desire[i] * unit_types[bestid].build_cost / best;
       pplayer->ai.tech_want[tech_req] += n;
       freelog(LOG_DEBUG, "%s wants %s for defense with desire %d <%d>",
 		    pcity->name, advances[tech_req].name, n, desire[i]);
     }
-  } unit_type_iterate_end;
+  } simple_ai_unit_type_iterate_end;
 
   choice->choice = bestid;
   choice->want = danger;
@@ -564,8 +563,7 @@ static void process_attacker_want(struct player *pplayer,
   struct city *acity = map_get_city(x, y);
   int movetype = unit_types[*v].move_type;
 
-  unit_type_iterate(i) {
-    if (!is_ai_simple_military(i)) continue;
+  simple_ai_unit_type_iterate(i) {
     m = unit_types[i].move_type;
     j = unit_types[i].tech_requirement;
     if (j != A_LAST) k = num_unknown_techs_for_goal(pplayer,j);
@@ -665,7 +663,7 @@ static void process_attacker_want(struct player *pplayer,
         }
       }
     }
-  } unit_type_iterate_end;
+  } simple_ai_unit_type_iterate_end;
 }
 
 static void kill_something_with(struct player *pplayer, struct city *pcity, 

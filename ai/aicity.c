@@ -602,9 +602,7 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
   int best = 0;
   int cur;
 
-  unit_type_iterate(i) {
-    /* not dealing with planes yet */
-    if (!is_ai_simple_military(i)) continue;
+  simple_ai_unit_type_iterate(i) {
     cur = unit_attack_desirability(i);
     if (which == unit_types[i].move_type) {
       if (can_build_unit(pcity, i) && (cur > best || (cur == best &&
@@ -613,7 +611,7 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
         bestid = i;
       }
     }
-  } unit_type_iterate_end;
+  } simple_ai_unit_type_iterate_end;
 
   return bestid;
 }
@@ -634,8 +632,7 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
   int j, m;
   int best= 0;
 
-  unit_type_iterate(i) {
-    if (!is_ai_simple_military(i)) continue;
+  simple_ai_unit_type_iterate(i) {
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && (m == LAND_MOVING || m == SEA_MOVING)) {
       j = get_virtual_defense_power(v, i, pcity->x, pcity->y, FALSE, FALSE);
@@ -645,7 +642,7 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
         bestid = i;
       }
     }
-  } unit_type_iterate_end;
+  } simple_ai_unit_type_iterate_end;
 
   return bestid;
 }
@@ -690,8 +687,7 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
   const bool walls = TRUE; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
   bool isdef = has_a_normal_defender(pcity);
 
-  unit_type_iterate(i) {
-    if (!is_ai_simple_military(i)) continue;
+  simple_ai_unit_type_iterate(i) {
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && get_unit_type(i)->build_cost <= n &&
         (m == LAND_MOVING || m == SEA_MOVING) &&
@@ -706,7 +702,7 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
         bestid = i;
       }
     }
-  } unit_type_iterate_end;
+  } simple_ai_unit_type_iterate_end;
 
   return bestid;
 }

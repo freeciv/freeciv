@@ -29,6 +29,8 @@ struct city;
 struct unit;
 struct ai_choice;
 
+extern Unit_Type_id simple_ai_types[U_LAST];
+
 void ai_manage_units(struct player *pplayer); 
 int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
 			    int dest_x, int dest_y);
@@ -56,11 +58,24 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 int military_amortize(int value, int delay, int build_cost);
 
 bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);
-bool is_ai_simple_military(Unit_Type_id type);
 
 Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
                                 int role, int want);
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 			 struct ai_choice *choice, int role, int want);
+void update_simple_ai_types(void);
+
+#define simple_ai_unit_type_iterate(m_i)                                      \
+{                                                                             \
+  int m_c;                                                                    \
+  for (m_c = 0;; m_c++) {                                                     \
+    Unit_Type_id m_i = simple_ai_types[m_c];                                  \
+    if (m_i == U_LAST) {                                                      \
+      break;                                                                  \
+    }
+
+#define simple_ai_unit_type_iterate_end                                       \
+ }                                                                            \
+}
 
 #endif  /* FC__AIUNIT_H */

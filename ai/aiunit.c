@@ -60,6 +60,21 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit);
 static int unit_move_turns(struct unit *punit, int x, int y);
 static bool unit_can_defend(Unit_Type_id type);
 
+/*
+ * Cached values. Updated by update_simple_ai_types.
+ *
+ * This a hack to enable emulation of old loops previously hardwired
+ * as 
+ *    for (i = U_WARRIORS; i <= U_BATTLESHIP; i++)
+ *
+ * (Could probably just adjust the loops themselves fairly simply,
+ * but this is safer for regression testing.)
+ *
+ * Not dealing with planes yet.
+ *
+ * Terminated by U_LAST.
+ */
+Unit_Type_id simple_ai_types[U_LAST];
 
 /**************************************************************************
   Similar to is_my_zoc(), but with some changes:
@@ -2307,20 +2322,6 @@ bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base)
 #endif
 }
 
-/**************************************************************************
- This a hack to enable emulation of old loops previously hardwired as
-   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++)
- (Could probably just adjust the loops themselves fairly simply, but this
- is safer for regression testing.) 
-**************************************************************************/
-bool is_ai_simple_military(Unit_Type_id type)
-{
-  return !unit_type_flag(type, F_NONMIL)
-    && !unit_type_flag(type, F_MISSILE)
-    && !unit_type_flag(type, F_NO_LAND_ATTACK)
-    && !(get_unit_type(type)->transport_capacity >= 8);
-}
-
 /*
  * If we are the only diplomat in a city, defend against enemy actions.
  * The passive defense is set by game.diplchance.  The active defense is
@@ -2584,4 +2585,24 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
       break;
     }
   } while (leader->moves_left > 0);
+}
+
+/*************************************************************************
+  Updates the global array simple_ai_types.
+**************************************************************************/
+void update_simple_ai_types(void)
+{
+  int i = 0;
+
+  unit_type_iterate(id) {
+    if (unit_type_exists(i) && !unit_type_flag(i, F_NONMIL)
+	&& !unit_type_flag(i, F_MISSILE)
+	&& !unit_type_flag(i, F_NO_LAND_ATTACK)
+	&& get_unit_type(i)->transport_capacity < 8) {
+      simple_ai_types[i] = id;
+      i++;
+    }
+  } unit_type_iterate_end;
+
+  simple_ai_types[i] = U_LAST;
 }

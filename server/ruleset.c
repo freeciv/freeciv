@@ -36,6 +36,7 @@
 #include "unit.h"
 
 #include "citytools.h"
+#include "aiunit.h"		/* update_simple_ai_types */
 
 #include "ruleset.h"
 
@@ -873,7 +874,9 @@ static void load_ruleset_units(struct section_file *file)
     j = game.rtech.u_partisan = get_unit_type(j)->tech_requirement;
     freelog(LOG_DEBUG, "partisan tech is %s", advances[j].name);
   }
-  
+
+  update_simple_ai_types();
+
   free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
