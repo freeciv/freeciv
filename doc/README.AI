@@ -14,6 +14,7 @@ Estimation of profit from a military operation
 Selecting military units
 Diplomacy
 Difficulty levels
+Goto
 Things that needs to be fixed
 Idea space
 
@@ -262,6 +263,22 @@ But one possibility for diplomacy that it would be easy to introduce,
 is an initial PEACE mode for AIs under 'easy' difficulty.  This can be
 turned to WAR by a simple countdown timer started after first contact.
 This way 'easy' will be more easy --- a frequently requested feature.
+
+
+GOTO
+====
+
+There are two different ways to use goto. The first is temporary
+goto which lasts one turn or less. This you use ai_unit_goto()
+for, as it will preserve any multi-turn goto and roles it may 
+have. This is ideal for striking out at nearby units while not
+abandoning your overral mission. The second is goto which is
+part of a larger mission. You set your destination for this 
+through ai_unit_new_role(), which you give the coordinates for
+your target, and the you call ai_unit_gothere() to get there.
+
+See common/unit.h for a description of the various unit roles
+that you can use.
 
 
 DIFFICULTY LEVELS

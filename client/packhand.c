@@ -97,8 +97,6 @@ static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
   punit->upkeep_gold = packet->upkeep_gold;
   punit->ai.control = packet->ai;
   punit->fuel = packet->fuel;
-  punit->goto_dest_x = packet->goto_dest_x;
-  punit->goto_dest_y = packet->goto_dest_y;
   punit->activity_target = packet->activity_target;
   punit->paradropped = packet->paradropped;
   punit->connecting = packet->connecting;
@@ -1005,9 +1003,6 @@ void handle_unit_info(struct packet_unit_info *packet)
         if((unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER))
 	   && (!game.player_ptr->ai.control || ai_popup_windows)
 	   && punit->owner==game.player_idx
-	   && (punit->activity!=ACTIVITY_GOTO ||
-	       same_pos(punit->goto_dest_x, punit->goto_dest_y,
-			pcity->x, pcity->y))
 	   && (unit_can_help_build_wonder_here(punit)
 	       || unit_can_est_traderoute_here(punit))) {
 	  process_caravan_arrival(punit);
@@ -1042,8 +1037,6 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->moves_left=packet->movesleft;
     punit->bribe_cost=0;
     punit->fuel=packet->fuel;
-    punit->goto_dest_x=packet->goto_dest_x;
-    punit->goto_dest_y=packet->goto_dest_y;
     punit->paradropped=packet->paradropped;
     punit->connecting=packet->connecting;
   

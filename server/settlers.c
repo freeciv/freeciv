@@ -458,8 +458,8 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
 static bool is_already_assigned(struct unit *myunit, struct player *pplayer, 
     int x, int y)
 {
-  if (same_pos(myunit->x, myunit->y, x, y) ||
-      same_pos(myunit->goto_dest_x, myunit->goto_dest_y, x, y)) {
+  if (same_pos(myunit->x, myunit->y, x, y)
+      || (myunit->go && same_pos(myunit->go->x, myunit->go->y, x, y))) {
 /* I'm still not sure this is exactly right -- Syela */
     unit_list_iterate(map_get_tile(x, y)->units, punit)
       if (myunit==punit) continue;
@@ -1222,18 +1222,20 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
     }
     ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
                                punit->ai.ferryboat);
-    punit->goto_dest_x = gx;
-    punit->goto_dest_y = gy;
+
+    /* FIXME: _gross_ hack */
+    punit->go = &punit->goto_struct;
+    punit->go->x = gx;
+    punit->go->y = gy;
 
     if (ferryboat && (ferryboat->ai.passenger == 0
                       || ferryboat->ai.passenger == punit->id)) {
       UNIT_LOG(LOG_DEBUG, punit, "We have FOUND BOAT %d, ABOARD",
                ferryboat->id);
       handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+      ai_unit_new_role(ferryboat, AIUNIT_TRANSPORT, gx, gy);
       ferryboat->ai.passenger = punit->id;
-      ferryboat->goto_dest_x = gx;
-      ferryboat->goto_dest_y = gy;
-      if (!ai_unit_goto(ferryboat, gx, gy)) {
+      if (!ai_unit_gothere(ferryboat)) {
         return FALSE; /* died */
       }
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -1249,8 +1251,10 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
       && (!ferryboat
           || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
               && could_unit_move_to_tile(punit, gx, gy) != 0))) {
-    punit->goto_dest_x = gx;
-    punit->goto_dest_y = gy;
+    /* FIXME: _gross_ hack */
+    punit->go = &punit->goto_struct;
+    punit->go->x = gx;
+    punit->go->y = gy;
     if (!ai_unit_goto(punit, gx, gy)) {
       return FALSE; /* died */
     }
@@ -1311,7 +1315,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
       best_act == ACTIVITY_UNKNOWN /* flag */) {
     ai_unit_new_role(punit, AIUNIT_BUILD_CITY, gx, gy);
   } else {
-    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, gx, gy);
+    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, -1, -1);
   }
 
   /* We've now worked out what to do; go to it! */
@@ -1426,7 +1430,7 @@ static void assign_settlers_player(struct player *pplayer)
     if (unit_flag(punit, F_SETTLERS)
 	|| unit_flag(punit, F_CITIES)) {
       if (punit->activity == ACTIVITY_GOTO) {
-        ptile = map_get_tile(punit->goto_dest_x, punit->goto_dest_y);
+        ptile = map_get_tile(punit->go->x, punit->go->y);
         ptile->assigned = ptile->assigned | i; /* assigned for us only */
       } else {
         ptile = map_get_tile(punit->x, punit->y);

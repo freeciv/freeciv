@@ -165,7 +165,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
 /**********************************************************************
  * Find something to bomb
  * Air-units specific victim search
- * Returns the want for the best target, records target in goto_dest_x,y
+ * Returns the want for the best target, records target in punit->go
  * TODO: take counterattack dangers into account
  * TODO: make separate handicaps for air units seeing targets
  *       IMO should be more restrictive than general H_MAP, H_FOG
@@ -174,7 +174,8 @@ static int find_something_to_bomb(struct unit *punit, int x, int y)
 {
   struct player *pplayer = unit_owner(punit);
   int max_dist = punit->moves_left / SINGLE_MOVE;
-  int best = 0;
+  int best_x = 0, best_y = 0, best = 0;
+  bool found_something = FALSE;
 
   if ((punit->x == x) && (punit->y == y)) {
     /* Unit is attacking from here */
@@ -208,15 +209,19 @@ static int find_something_to_bomb(struct unit *punit, int x, int y)
 	&& (air_can_move_between (max_dist, x, y, x1, y1, pplayer) >= 0)){
       int new_best = ai_evaluate_tile_for_air_attack(punit, x1, y1);
       if (new_best > best) {
-	punit->goto_dest_x = x1;
-	punit->goto_dest_y = y1;
+	best_x = x1;
+	best_y = y1;
 	best = new_best;
+        found_something = TRUE;
 	freelog(LOG_DEBUG, "%s wants to attack tile (%d, %d)", 
 		unit_type(punit)->name, x1, y1);
       }
     }
 
   } iterate_outward_end;
+  if (found_something) {
+    ai_unit_new_role(punit, AIUNIT_ATTACK, best_x, best_y);
+  }
 
   return best;
 } 
@@ -294,8 +299,6 @@ static bool ai_find_strategic_airbase(struct unit *punit,
  ***********************************************************************/
 void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 {
-  enum goto_result result = GR_FAILED;
-
   CHECK_UNIT(punit);
 
   if (!is_airunit_refuel_point(punit->x, punit->y, 
@@ -303,24 +306,27 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
     /* We are out in the open, what shall we do? */
     int refuel_x, refuel_y;
 
-    if (punit->activity == ACTIVITY_GOTO
+    if (punit->activity == ACTIVITY_GOTO && punit->go
       /* We are on a GOTO.  Check if it will get us anywhere */
-	&& is_airunit_refuel_point(punit->goto_dest_x, punit->goto_dest_y, 
+	&& is_airunit_refuel_point(punit->go->x, punit->go->y, 
 				   pplayer, punit->type, FALSE)
 	&& air_can_move_between (punit->moves_left/SINGLE_MOVE, 
                                  punit->x, punit->y, 
-				 punit->goto_dest_x, punit->goto_dest_y,
+				 punit->go->x, punit->go->y,
 				 pplayer) >= 0) {
       /* It's an ok GOTO, just go there */
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      (void) ai_unit_gothere(punit);
     } else if (find_nearest_airbase(punit->x, punit->y, punit, 
 			     &refuel_x, &refuel_y)) {
       /* Go refuelling */
-      punit->goto_dest_x = refuel_x;
-      punit->goto_dest_y = refuel_y;
+      ai_unit_new_role(punit, AIUNIT_RECOVER, refuel_x, refuel_y);
       freelog(LOG_DEBUG, "Sent %s to refuel", unit_type(punit)->name);
-      set_unit_activity(punit, ACTIVITY_GOTO);
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      if (!ai_unit_gothere(punit)) {
+        return;
+      }
+      if (!same_pos(refuel_x, refuel_y, punit->x, punit->y)) {
+        freelog(LOG_DEBUG, "Something happened to our unit along the way");
+      }
     } else {
       if (punit->fuel == 1) {
 	freelog(LOG_DEBUG, "Oops, %s is fallin outta sky", 
@@ -328,19 +334,13 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       }
       return;
     }
-
-    /* Check if we got there okay */
-    if (result != GR_ARRIVED) {
-      freelog(LOG_DEBUG, "Something happened to our unit along the way");
-      /* TODO: some rescuing, but not running into dead-loop */
-    }
-
   } else if (punit->fuel == unit_type(punit)->fuel
 	     && find_something_to_bomb(punit, punit->x, punit->y) > 0) {
 
-    /* Found target, coordinates are in punit->goto_dest_[xy]
+    /* Found target, coordinates are in punit->go->[xy]
      * TODO: separate attacking into a function, check for the best 
      * tile to attack from */
+    assert(punit->go != NULL);
     set_unit_activity(punit, ACTIVITY_GOTO);
     if (!ai_unit_gothere(punit)) {
       return; /* died */
@@ -349,13 +349,12 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
      * now actually need to attack */
 
     /* We could use ai_military_findvictim here, but I don't trust it... */
-    set_unit_activity(punit, ACTIVITY_IDLE);
     if (is_tiles_adjacent(punit->x, punit->y, 
-			  punit->goto_dest_x, punit->goto_dest_y)) {
-      int id = punit->id;
-      (void) handle_unit_move_request(punit, punit->goto_dest_x,
-				      punit->goto_dest_y, TRUE, FALSE);
-      if ((punit = find_unit_by_id(id)) != NULL && punit->moves_left > 0) {
+			  punit->go->x, punit->go->y)) {
+      if (!ai_unit_move(punit, punit->go->x, punit->go->y)) {
+        return;
+      }
+      if (punit->moves_left > 0) {
 	/* Fly home now */
 	ai_manage_airunit(pplayer, punit);
       }
@@ -372,14 +371,11 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
               unit_type(punit)->name, dest_x, dest_y, 
               (map_get_city(dest_x, dest_y) ? 
                map_get_city(dest_x, dest_y)->name : ""));
-      punit->goto_dest_x = dest_x;
-      punit->goto_dest_y = dest_y;
-      set_unit_activity(punit, ACTIVITY_GOTO);
-      result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      (void) ai_unit_goto(punit, dest_x, dest_y);
     } else {
       freelog(LOG_DEBUG, "%s cannot find anything to kill and is staying put", 
               unit_type(punit)->name);
-      set_unit_activity(punit, ACTIVITY_IDLE);
+      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
     }
   }
 

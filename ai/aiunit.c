@@ -61,6 +61,7 @@ static void ai_manage_military(struct player *pplayer,struct unit *punit);
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 static void ai_manage_barbarian_leader(struct player *pplayer,
 				       struct unit *leader);
+static void ai_manage_hitpoint_recovery(struct unit *punit);
 
 static void ai_military_findjob(struct player *pplayer,struct unit *punit);
 static void ai_military_gohome(struct player *pplayer,struct unit *punit);
@@ -708,7 +709,8 @@ bool ai_manage_explorer(struct unit *punit)
           ai_military_gohome(pplayer, punit);
         } else {
           /* Also try take care of deliberately homeless units */
-          (void) ai_unit_goto(punit, pcity->x, pcity->y);
+          ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+          (void) ai_unit_gothere(punit);
         }
       } else {
         /* Sea travel */
@@ -718,7 +720,8 @@ bool ai_manage_explorer(struct unit *punit)
           ai_military_gohome(pplayer, punit); /* until then go home */
         } else {
           UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by boat");
-          (void) ai_unit_goto(punit, x, y);
+          ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, x, y);
+          (void) ai_unit_gothere(punit);
         }
       }
     }
@@ -789,8 +792,6 @@ static bool stay_and_defend(struct unit *punit)
   if (!has_defense && pcity->ai.danger > 0) {
     /* change homecity to this city */
     if (ai_unit_make_homecity(punit, pcity)) {
-      /* Very important, or will not stay -- Syela */
-      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
       return TRUE;
     }
   }
@@ -1188,6 +1189,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   int x, y;
 
   CHECK_UNIT(punit);
+  assert(punit->id == 0 || punit->ai.ai_role == AIUNIT_ESCORT);
 
   if (aunit && aunit->owner == punit->owner) {
     /* protect a unit */
@@ -1373,10 +1375,9 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
         handle_unit_activity_request(punit, ACTIVITY_SENTRY);
         ferryboat->ai.passenger = punit->id;
 /* the code that worked for settlers wasn't good for piles of cannons */
-        if (find_beachhead(punit, dest_x, dest_y, &ferryboat->goto_dest_x,
-               &ferryboat->goto_dest_y) != 0) {
-          punit->goto_dest_x = dest_x;
-          punit->goto_dest_y = dest_y;
+        if (ferryboat->go
+            && find_beachhead(punit, dest_x, dest_y, &ferryboat->go->x,
+                              &ferryboat->go->y) != 0) {
           handle_unit_activity_request(punit, ACTIVITY_SENTRY);
 	  if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
 	      <= 0) {
@@ -1410,9 +1411,6 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 our target, and either 1) we don't need a bodyguard, 2) we have a
 bodyguard, or 3) we are going to an empty city.  Previously, cannons
 would disembark before the cruisers arrived and die. -- Syela */
-
-      punit->goto_dest_x = dest_x;
-      punit->goto_dest_y = dest_y;
 
 /* The following code block is supposed to stop units from running away from their
 bodyguards, and not interfere with those that don't have bodyguards nearby -- Syela */
@@ -1548,6 +1546,8 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
 ***********************************************************************/
 static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
+  struct tile *ptile = map_get_tile(punit->x, punit->y);
   struct city *pcity = NULL, *acity = NULL;
   struct unit *aunit;
   int val, def;
@@ -1587,19 +1587,10 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     } /* end if home is in danger */
   } /* end if we have a home */
 
-  /* keep barbarians aggresive and primitive */
-  if (is_barbarian(pplayer)) {
-    if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)
-	&& is_land_barbarian(pplayer)) {
-      /* land barbarians pillage */
-      ai_unit_new_role(punit, AIUNIT_PILLAGE, -1, -1);
-    } else {
-      ai_unit_new_role(punit, AIUNIT_ATTACK, -1, -1);
-    }
-    return;
-  }
+  /*** Part 1: Check existing assignments, and keep them if possible ***/
 
-  if (punit->ai.charge != BODYGUARD_NONE) { /* I am a bodyguard */
+  if (punit->ai.ai_role == AIUNIT_ESCORT) {
+    /* I am a bodyguard, check validity of assignment */
     aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
     acity = find_city_by_id(punit->ai.charge);
 
@@ -1610,7 +1601,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
          unit_vulnerability_virtual(aunit)) ||
          (acity && acity->owner == punit->owner && acity->ai.urgency != 0 &&
           acity->ai.danger > assess_defense_quadratic(acity))) {
-      assert(punit->ai.ai_role == AIUNIT_ESCORT);
+      ai_military_bodyguard(pplayer, punit);
       return;
     } else {
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
@@ -1624,8 +1615,26 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     return;
   }
 
+  /*** Part 2: Give new assignments ***/
+
+  ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+
+  /* keep barbarians aggresive and primitive */
+  if (is_barbarian(pplayer)) {
+    if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)
+	&& is_land_barbarian(pplayer)) {
+      /* land barbarians pillage */
+      handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
+    }
+    if (punit->moves_left > 0) {
+      ai_military_attack(pplayer, punit);
+    }
+    return;
+  }
+
+  /* Home city in danger, defend it! */
   if (q > 0 && pcity->ai.urgency > 0) {
-    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+    ai_military_gohome(pplayer, punit);
     return;
   }
 
@@ -1633,8 +1642,8 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   if ((punit->ai.ai_role == AIUNIT_RECOVER
        && punit->hp < punittype->hp)
       || punit->hp < punittype->hp * 0.25) { /* WAG */
-    UNIT_LOG(LOGLEVEL_RECOVERY, punit, "set to hp recovery");
-    ai_unit_new_role(punit, AIUNIT_RECOVER, -1, -1);
+    UNIT_LOG(LOGLEVEL_RECOVERY, punit, "suggesting hp recovery");
+    ai_manage_hitpoint_recovery(punit);
     return;
   }
 
@@ -1658,7 +1667,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     val = look_for_charge(pplayer, punit, &aunit, &acity);
   }
   if (q > val) {
-    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+    ai_military_gohome(pplayer, punit);
     return;
   }
   /* this is bad; riflemen might rather attack if val is low -- Syela */
@@ -1666,15 +1675,19 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     ai_unit_new_role(punit, AIUNIT_ESCORT, acity->x, acity->y);
     punit->ai.charge = acity->id;
     BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend city");
+    ai_military_bodyguard(pplayer, punit);
   } else if (aunit) {
     ai_unit_new_role(punit, AIUNIT_ESCORT, aunit->x, aunit->y);
     punit->ai.charge = aunit->id;
     BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend unit");
+    ai_military_bodyguard(pplayer, punit);
   } else if (ai_unit_attack_desirability(punit->type) != 0 ||
       (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y))) {
-     ai_unit_new_role(punit, AIUNIT_ATTACK, -1, -1);
+    ai_military_attack(pplayer, punit);
+  } else if (ai->explore.continent[ptile->continent]) {
+    ai_manage_explorer(punit);
   } else {
-    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1); /* for default */
+    ai_military_gohome(pplayer, punit); /* for default */
   }
 }
 
@@ -1697,8 +1710,9 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       /* aggro defense goes here -- Syela */
       (void) ai_military_rampage(punit, 2); /* 2 is better than pillage */
     } else {
+      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
       UNIT_LOG(LOG_DEBUG, punit, "GOHOME");
-      (void) ai_unit_goto(punit, pcity->x, pcity->y);
+      (void) ai_unit_gothere(punit);
     }
   }
 }
@@ -1809,8 +1823,9 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
   CHECK_UNIT(punit);
 
   if (dest) {
-    x = punit->goto_dest_x;
-    y = punit->goto_dest_y;
+    assert(punit->go != NULL);
+    x = punit->go->x;
+    y = punit->go->y;
   } else {
     x = punit->x;
     y = punit->y;
@@ -1915,8 +1930,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     /* dealing with invasion stuff */
     if (IS_ATTACKER(aunit)) {
       if (aunit->activity == ACTIVITY_GOTO) {
+        assert(punit->go != NULL);
         invasion_funct(aunit, TRUE, 0, (COULD_OCCUPY(aunit) ? 1 : 2));
-        if ((pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
+        if ((pcity = map_get_city(aunit->go->x, aunit->go->y))) {
           pcity->ai.attack += unit_belligerence_basic(aunit);
           pcity->ai.bcost += unit_type(aunit)->build_cost;
         } 
@@ -2300,6 +2316,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
           || (could_unit_move_to_tile(punit, dest_x, dest_y) == 0)) {
         /* Can't attack or move usually means we are adjacent but
          * on a ferry. This fixes the problem (usually). */
+        ai_unit_new_role(punit, AIUNIT_ATTACK, dest_x, dest_y);
         UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> %d, %d", 
                  dest_x, dest_y);
         if (ai_military_gothere(pplayer, punit, dest_x, dest_y) <= 0) {
@@ -2334,7 +2351,8 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   pcity = find_nearest_safe_city(punit);
   if (is_sailing_unit(punit) && pcity) {
     /* Sail somewhere */
-    (void) ai_unit_goto(punit, pcity->x, pcity->y);
+    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, pcity->x, pcity->y);
+    (void) ai_unit_gothere(punit);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do. Worst case, this function
        will send us back home */
@@ -2347,12 +2365,14 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     if ((pc = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, TRUE))) {
       if (!is_ocean(map_get_terrain(punit->x, punit->y))) {
         UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
+        ai_unit_new_role(punit, AIUNIT_ATTACK, pc->x, pc->y);
         ai_military_gothere(pplayer, punit, pc->x, pc->y);
       } else {
         /* sometimes find_beachhead is not enough */
         if (find_beachhead(punit, pc->x, pc->y, &fx, &fy) == 0) {
           find_city_beach(pc, punit, &fx, &fy);
           freelog(LOG_DEBUG, "Barbarian sailing to city");
+          ai_unit_new_role(punit, AIUNIT_ATTACK, fx, fy);
           ai_military_gothere(pplayer, punit, fx, fy);
        }
       }
@@ -2472,7 +2492,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       }
       p++;
       bodyguard = unit_list_find(&map_get_tile(punit->x, punit->y)->units, aunit->ai.bodyguard);
-      pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y);
+      pcity = aunit->go ? map_get_city(aunit->go->x, aunit->go->y) : NULL;
       if (aunit->ai.bodyguard == BODYGUARD_NONE || bodyguard ||
          (pcity && pcity->ai.invasion >= 2)) {
 	if (pcity) {
@@ -2501,21 +2521,21 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (p != 0) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
-    if (punit->moves_left > 0 && n != 0) {
+    if (punit->go && punit->moves_left > 0 && n != 0) {
       (void) ai_unit_gothere(punit);
     } else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
-      x = punit->goto_dest_x; y = punit->goto_dest_y;
       port = find_nearest_safe_city(punit);
       if (port && !ai_unit_goto(punit, port->x, port->y)) {
         return; /* oops! */
       }
-      punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "Ferryboat %d@(%d,%d) stalling.",
 		    punit->id, punit->x, punit->y);
-      if(is_barbarian(pplayer)) /* just in case */
+      if (is_barbarian(pplayer)) {
+        /* just in case */
         (void) ai_manage_explorer(punit);
+      }
     }
     return;
   }
@@ -2530,8 +2550,6 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   punit->ai.passenger = 0;
   UNIT_LOG(LOG_DEBUG, punit, "Ferryboat is lonely.");
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  punit->goto_dest_x = 0; /* FIXME: -1 */
-  punit->goto_dest_y = 0; /* FIXME: -1 */
 
   /* Release bodyguard and let it roam */
   ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
@@ -2569,8 +2587,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   } unit_list_iterate_end;
   if (best < 4 * unit_type(punit)->move_rate) {
     /* Pickup is within 4 turns to grab, so move it! */
-    punit->goto_dest_x = x;
-    punit->goto_dest_y = y;
+    ai_unit_new_role(punit, AIUNIT_TRANSPORT, x, y);
     UNIT_LOG(LOG_DEBUG, punit, "Found a friend and going to him @(%d, %d)",
              x, y);
     (void) ai_unit_gothere(punit);
@@ -2585,8 +2602,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (pcity) {
     if (!ai_handicap(pplayer, H_TARGETS) ||
         unit_move_turns(punit, pcity->x, pcity->y) < p) {
-      punit->goto_dest_x = pcity->x;
-      punit->goto_dest_y = pcity->y;
+      ai_unit_new_role(punit, AIUNIT_RECOVER, pcity->x, pcity->y);
       UNIT_LOG(LOG_DEBUG, punit, "No friends.  Going home.");
       (void) ai_unit_gothere(punit);
       return;
@@ -2664,41 +2680,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  /* was getting a bad bug where a settlers caused a defender to leave home */
-  /* and then all other supported units went on DEFEND_HOME/goto */
   ai_military_findjob(pplayer, punit);
-
-  switch (punit->ai.ai_role) {
-  case AIUNIT_AUTO_SETTLER:
-  case AIUNIT_BUILD_CITY:
-    ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
-    break;
-  case AIUNIT_DEFEND_HOME:
-    ai_military_gohome(pplayer, punit);
-    break;
-  case AIUNIT_ATTACK:
-    ai_military_attack(pplayer, punit);
-    break;
-  case AIUNIT_FORTIFY:
-    ai_military_gohome(pplayer, punit);
-    break;
-  case AIUNIT_RUNAWAY: 
-    break;
-  case AIUNIT_ESCORT: 
-    ai_military_bodyguard(pplayer, punit);
-    break;
-  case AIUNIT_PILLAGE:
-    handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
-    return; /* when you pillage, you have moves left, avoid later fortify */
-  case AIUNIT_EXPLORE:
-    (void) ai_manage_explorer(punit);
-    break;
-  case AIUNIT_RECOVER:
-    ai_manage_hitpoint_recovery(punit);
-    break;
-  default:
-    assert(FALSE);
-  }
 
   /* If we are still alive, either sentry or fortify. */
   if ((punit = find_unit_by_id(id))) {
@@ -2771,7 +2753,7 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
   if (!bodyguard && punit->ai.bodyguard > BODYGUARD_NONE) {
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "lost bodyguard, asking for new");
     punit->ai.bodyguard = BODYGUARD_WANTED;
-  }  
+  }
 
   if ((unit_flag(punit, F_DIPLOMAT))
       || (unit_flag(punit, F_SPY))) {

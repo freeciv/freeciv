@@ -191,12 +191,6 @@ static void popit(int x, int y, int xtile, int ytile)
 		  ptype->attack_strength, 
 		  ptype->defense_strength, ptype->firepower, punit->hp, 
 		  ptype->hp, punit->veteran?_(" V"):"", uc);
-      
-      if(punit->activity==ACTIVITY_GOTO || punit->connecting)  {
-	cross_head->x = punit->goto_dest_x;
-	cross_head->y = punit->goto_dest_y;
-	cross_head++;
-      }
     } else {
       my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"),
 		  ptype->attack_strength, 

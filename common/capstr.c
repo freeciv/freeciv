@@ -76,8 +76,8 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.14.0 conn_info +occupied team tech_impr_gfx " \
                    "city_struct_minor_cleanup obsolete_last class_legend " \
-                   "+impr_req +waste +fastfocus +continent"
-  
+                   "+impr_req +waste +fastfocus +continent +goto"
+
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
  * "conn_info" is sending the conn_id field. To preserve compatability
@@ -109,6 +109,9 @@ const char * const our_capability = our_capability_internal;
  * "fastfocus" removes the server from client unit focus.
  *
  * +continent": the server gives the client continent information
+ *
+ * "goto" makes server goto gen topol safe, and also better. But removes
+ * goto information from the client in regards to connecting and air units.
  */
 
 void init_our_capability(void)

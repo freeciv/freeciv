@@ -76,8 +76,9 @@ void handle_unit_goto_tile(struct player *pplayer,
     return;
   }
 
-  punit->goto_dest_x = req->x;
-  punit->goto_dest_y = req->y;
+  punit->go = &punit->goto_struct;
+  punit->go->x = req->x;
+  punit->go->y = req->y;
 
   set_unit_activity(punit, ACTIVITY_GOTO);
 
@@ -92,7 +93,7 @@ void handle_unit_goto_tile(struct player *pplayer,
     assign_units_to_transporter(punit, TRUE);
   }
 
-  (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
+  (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE, req->x, req->y);
 }
 
 /**************************************************************************
@@ -133,8 +134,9 @@ void handle_unit_connect(struct player *pplayer,
     return;
   }
 
-  punit->goto_dest_x = req->dest_x;
-  punit->goto_dest_y = req->dest_y;
+  punit->go = &punit->goto_struct;
+  punit->go->x = req->dest_x;
+  punit->go->y = req->dest_y;
 
   set_unit_activity(punit, req->activity_type);
   punit->connecting = TRUE;
@@ -148,7 +150,7 @@ void handle_unit_connect(struct player *pplayer,
   if (!can_unit_do_activity(punit, req->activity_type)) {
     (void) do_unit_goto(punit,
 			get_activity_move_restriction(req->activity_type),
-			FALSE);
+			FALSE, req->dest_x, req->dest_y);
   }
 }
 
@@ -1034,7 +1036,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
      * human players the server-side goto implementation should be
      * obsoleted for client usage. So in time, remove the code below. */
     if (punit->activity == ACTIVITY_GOTO && 
-        !same_pos(punit->goto_dest_x, punit->goto_dest_y, dest_x, dest_y)) {
+        !same_pos(punit->go->x, punit->go->y, dest_x, dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
  		       _("Game: %s aborted GOTO as there are units in the way."),
  		       unit_type(punit)->name);
@@ -1445,8 +1447,8 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
 #endif
 
   if (punit->activity == ACTIVITY_GOTO) {
-    punit->goto_dest_x = pgr->pos[pgr->last_index-1].x;
-    punit->goto_dest_y = pgr->pos[pgr->last_index-1].y;
+    punit->go->x = pgr->pos[pgr->last_index-1].x;
+    punit->go->y = pgr->pos[pgr->last_index-1].y;
     send_unit_info(pplayer, punit);
   }
 

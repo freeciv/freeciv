@@ -73,11 +73,18 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
     return;
   }
 
-  my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d)->(%d,%d){%d} ",
-              unit_owner(punit)->name, unit_type(punit)->name,
-              punit->id, punit->x, punit->y,
-              punit->goto_dest_x, punit->goto_dest_y, 
-              punit->ai.bodyguard);
+  if (punit->go) {
+    my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d)->(%d,%d)->"
+                "(%d,%d){%d} ", unit_owner(punit)->name, 
+                unit_type(punit)->name, punit->id, punit->go->origin_x,
+                punit->go->origin_y, punit->x, punit->y, punit->go->x, 
+                punit->go->y, punit->ai.bodyguard);
+  } else {
+    my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d){%d} ",
+                unit_owner(punit)->name, unit_type(punit)->name,
+                punit->id, punit->x, punit->y,
+                punit->ai.bodyguard);
+  }
 
   va_start(ap, msg);
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
@@ -85,36 +92,6 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
   freelog(minlevel, buffer);
-}
-
-/**************************************************************************
-  Log goto message if the goto fails. They will appear like this
-    2: a's Explorer[105] on GOTO (3,25)->(5,23) failed : exploring territory
-**************************************************************************/
-void GOTO_LOG(int level, struct unit *punit, enum goto_result result, 
-              const char *msg, ...)
-{
-  int minlevel = MIN(LOGLEVEL_GOTO, level);
-
-  if (minlevel <= fc_log_level && (result == GR_FAILED || result == GR_FOUGHT)) {
-    char buffer[500];
-    char buffer2[500];
-    va_list ap;
-
-    my_snprintf(buffer, sizeof(buffer),
-                "%s's %s[%d] on GOTO (%d,%d)->(%d,%d) %s : ",
-                unit_owner(punit)->name, unit_type(punit)->name,
-                punit->id, punit->x, punit->y,
-                punit->goto_dest_x, punit->goto_dest_y,
-               (result == GR_FAILED) ? "failed" : "fought");
-
-    va_start(ap, msg);
-    my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
-    va_end(ap);
-
-    cat_snprintf(buffer, sizeof(buffer), buffer2);
-    freelog(minlevel, buffer);
-  }
 }
 
 /**************************************************************************
