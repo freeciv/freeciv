@@ -756,11 +756,15 @@ void tilespec_setup_tile_type(int id)
 
   for (i=0; i<2; i++) {
     char *name = i ? tt->special_2_name : tt->special_1_name;
-    tt->special[i].sprite
-      = lookup_sprite_tag_alt(tt->special[i].graphic_str,
-			      tt->special[i].graphic_alt,
-			      name[0], "tile_type special", name);
-    assert(tt->special[i].sprite);
+    if (name[0]) {
+      tt->special[i].sprite
+	= lookup_sprite_tag_alt(tt->special[i].graphic_str,
+				tt->special[i].graphic_alt,
+				name[0], "tile_type special", name);
+      assert(tt->special[i].sprite);
+    } else {
+      tt->special[i].sprite = NULL;
+    }
     /* should probably do something if NULL, eg generic default? */
   }
 }
