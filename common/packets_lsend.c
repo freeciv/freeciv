@@ -348,9 +348,18 @@ void lsend_packet_goto_route(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
+void lsend_packet_attribute_chunk(struct conn_list *dest,
+				struct packet_attribute_chunk *packet)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_attribute_chunk(pconn, packet);
+  conn_list_iterate_end;
+}
+
 void lsend_packet_generic_empty(struct conn_list *dest, int type)
 {
   conn_list_iterate(*dest, pconn)
     send_packet_generic_empty(pconn, type);
   conn_list_iterate_end;
 }
+

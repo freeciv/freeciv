@@ -101,4 +101,6 @@ void lsend_packet_sabotage_list(struct conn_list *dest,
 void lsend_packet_goto_route(struct conn_list *dest,
                            const struct packet_goto_route *packet,
 			   enum goto_route_type type);
+void lsend_packet_attribute_chunk(struct conn_list *dest,
+				struct packet_attribute_chunk *packet);
 void lsend_packet_generic_empty(struct conn_list *dest, int type);
