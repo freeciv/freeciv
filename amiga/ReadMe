@@ -80,18 +80,19 @@ Future
 
 Notes
 ~~~~~
-This version is incompatible with the previous version 1.5. That means
-with the included client you cannot connect to a old server. Also old
+This developer version is incompatible with the previous version 1.5. That
+means with the included client you cannot connect to a old server. Also old
 clients cannot connect to the included server.
 
 History
 ~~~~~~~
-Version 1.6 (xx.xx.2000)
+Version 1.6 (29.12.1999)
  - corresponds to latest Freeciv 1.9.1-devel
+ - supports the new barbarians
  - in the help window you can see the tech tree now simliar to
    the XAW client
  - the units in the unit selection window are now ordered by column
-   while the number of rows depends on the windows size.
+   while the number of rows depends on the windows size
  - smaller gui changes
 
 Version 1.5 (07.11.99)

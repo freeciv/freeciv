@@ -1571,6 +1571,30 @@ STATIC ULONG Map_HandleInput(struct IClass * cl, Object * o, struct MUIP_HandleI
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
 
+  switch (msg->muikey)
+  {
+    case MUIKEY_LEFT:
+      if (data->hscroller_object)
+        set (data->hscroller_object, MUIA_Prop_First, xget(data->hscroller_object, MUIA_Prop_First)-1);
+      break;
+
+    case MUIKEY_RIGHT:
+      if (data->hscroller_object)
+        set (data->hscroller_object, MUIA_Prop_First, xget(data->hscroller_object, MUIA_Prop_First)+1);
+      break;
+
+    case MUIKEY_UP:
+      if (data->vscroller_object)
+        set (data->vscroller_object, MUIA_Prop_First, xget(data->vscroller_object, MUIA_Prop_First)-1);
+      break;
+
+    case MUIKEY_DOWN:
+      if (data->vscroller_object)
+        set (data->vscroller_object, MUIA_Prop_First, xget(data->vscroller_object, MUIA_Prop_First)+1);
+      break;
+  }
+
+
   if (msg->imsg)
   {
     UWORD qual = msg->imsg->Qualifier;
@@ -2375,8 +2399,6 @@ Object *MakeBorderSprite(struct Sprite *sprite)
     TextFrame,
     InnerSpacing(0,0),
     MUIA_Sprite_Sprite, sprite,
-    MUIA_InputMode, MUIV_InputMode_RelVerify,
-    MUIA_ShowSelState, FALSE,
     End;
 }
 

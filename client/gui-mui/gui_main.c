@@ -842,7 +842,7 @@ static int init_gui(void)
 
   app = ApplicationObject,
     MUIA_Application_Title, "Freeciv Client",
-    MUIA_Application_Version, "$VER: civclient 1.5" __AMIGADATE__,
+    MUIA_Application_Version, "$VER: civclient 1.6" __AMIGADATE__,
     MUIA_Application_Copyright, "©1999 by Sebastian Bauer",
     MUIA_Application_Author, "Sebastian Bauer",
     MUIA_Application_Description, "Client for Freeciv",
@@ -903,6 +903,7 @@ static int init_gui(void)
                 MUIA_Weight, 30,
                 MUIA_NListview_NList, main_output_listview = NListObject,
                     ReadListFrame,
+                    MUIA_CycleChain, 1,
                     MUIA_NList_Input, FALSE,
                     MUIA_NList_TypeSelect, MUIV_NList_TypeSelect_Char,
                     MUIA_NList_ConstructHook, MUIV_NList_ConstructHook_String,
@@ -925,10 +926,13 @@ static int init_gui(void)
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
 
     SetAttrs(main_map_area,
+	     MUIA_CycleChain,1,
 	     MUIA_Map_Overview, main_overview_area,
 	     MUIA_Map_HScroller, main_map_hscroller,
 	     MUIA_Map_VScroller, main_map_vscroller,
 	     TAG_DONE);
+
+    set(main_wnd,MUIA_Window_DefaultObject, main_map_area);
 
     DoMethod(main_map_area, MUIM_Notify, MUIA_Map_Click, MUIV_EveryTime, app, 4, MUIM_CallHook, &standart_hook, main_map_click, MUIV_TriggerValue);
     DoMethod(main_chatline_string, MUIM_Notify, MUIA_String_Acknowledge, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, inputline_return);
