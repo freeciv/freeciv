@@ -33,7 +33,16 @@
 #include "tilespec.h"   
 
 #include "graphics.h"
+#define CACHE_SIZE 32
 
+struct Sprite_cache {
+  SPRITE *sprite;
+  HBITMAP bmp;
+  HBITMAP mask;
+};
+
+static struct Sprite_cache sprite_cache[CACHE_SIZE];
+static int cache_id_count=0;
 static SPRITE *sprcache;
 static HBITMAP bitmapcache;
 SPRITE *intro_gfx_sprite=NULL;
@@ -118,6 +127,37 @@ static void HBITMAP2BITMAP(HBITMAP hbmp,BITMAP *bmp)
 /**************************************************************************
 
 **************************************************************************/
+static void sprite2hbitmap(struct Sprite *s,HBITMAP *bmp, HBITMAP *mask)
+{
+  struct Sprite_cache *sprc;
+  sprc=&sprite_cache[s->cache_id];
+  if (sprc->sprite==s) {
+    *bmp=sprc->bmp;
+    *mask=sprc->mask;
+  } else {
+    cache_id_count++;
+    if (cache_id_count>=CACHE_SIZE)
+      cache_id_count=0;
+    sprc=&sprite_cache[cache_id_count];
+    DeleteObject(sprc->bmp);
+    if (sprc->mask)
+      DeleteObject(sprc->mask);
+    sprc->sprite=s;
+    s->cache_id=cache_id_count;
+    sprc->bmp=BITMAP2HBITMAP(&s->bmp);
+    if (s->has_mask) {
+      sprc->mask=BITMAP2HBITMAP(&s->mask);
+    } else {
+      sprc->mask=NULL;
+    }
+    *bmp=sprc->bmp;
+    *mask=sprc->mask;
+  }
+}
+
+/**************************************************************************
+
+**************************************************************************/
 struct Sprite *
 crop_sprite(struct Sprite *source,
                            int x, int y, int width, int height)
@@ -177,6 +217,7 @@ crop_sprite(struct Sprite *source,
     }
 
   mysprite=fc_malloc(sizeof(struct Sprite));
+  mysprite->cache_id=0;
   mysprite->width=width;
   mysprite->height=height;
   HBITMAP2BITMAP(smallbitmap,&mysprite->bmp);
@@ -373,6 +414,7 @@ struct Sprite *load_gfxfile(const char *filename)
   }
 
   mysprite->has_mask=has_mask;
+  mysprite->cache_id=0;
   mysprite->width=width;
   mysprite->height=height;
 
@@ -411,17 +453,17 @@ void  draw_sprite_part_with_mask(struct Sprite *sprite,
   if (!sprite) return;
   hdccomp=CreateCompatibleDC(NULL);
   hdcmask=CreateCompatibleDC(NULL);
-  bitmap=BITMAP2HBITMAP(&sprite->bmp);
+  sprite2hbitmap(sprite,&bitmap,&maskbit);
   if (sprite_mask->has_mask)
     {
-      maskbit=BITMAP2HBITMAP(&sprite_mask->mask);
+      HBITMAP dummy;
+      sprite2hbitmap(sprite_mask,&dummy,&maskbit);
       tempmask=SelectObject(hdcmask,maskbit); 
       tempbit=SelectObject(hdccomp,bitmap);
       BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCINVERT);
       BitBlt(hdc,x,y,w,h,hdcmask,xsrc,ysrc,SRCAND);
       BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCINVERT);
       SelectObject(hdcmask,tempmask);
-      DeleteObject(maskbit);
     }
   else
     {
@@ -431,7 +473,6 @@ void  draw_sprite_part_with_mask(struct Sprite *sprite,
   SelectObject(hdccomp,tempbit);
   DeleteDC(hdccomp);
   DeleteDC(hdcmask);
-  DeleteObject(bitmap);
 }
 /**************************************************************************
 

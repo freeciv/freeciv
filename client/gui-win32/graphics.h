@@ -33,6 +33,7 @@ struct Sprite
   BITMAP mask;
   int width;
   int height;
+  int cache_id;
 };
 void draw_sprite(struct Sprite *sprite,HDC hdc,int x, int y);
 void draw_sprite_part(struct Sprite *sprite,HDC hdc,
