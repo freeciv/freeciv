@@ -775,6 +775,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
   gdk_gc_set_clip_mask(fill_tile_gc, psprite->mask);
   gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
   gdk_gc_set_stipple(fill_tile_gc, black50);
+  gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
 
   gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
 		     canvas_x, canvas_y, psprite->width, psprite->height);
@@ -884,6 +885,7 @@ void put_city_worker(struct canvas *pcanvas,
     return;
   }
 
+  gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
   gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
 
   if (is_isometric) {
