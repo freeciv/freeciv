@@ -2196,7 +2196,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
   int race = races_toggles_to_nations[index];
   int j;
   int leader_count;
-  char **leaders = get_nation_leader_names(race, &leader_count);
+  struct leader *leaders = get_nation_leaders(race, &leader_count);
   Widget entry;
 
   if(races_leader_pick_popupmenu)
@@ -2212,7 +2212,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 
   for(j=0; j<leader_count; j++) {
     entry =
-      XtVaCreateManagedWidget(leaders[j],
+      XtVaCreateManagedWidget(leaders[j].name,
 			      smeBSBObjectClass,
 			      races_leader_pick_popupmenu,
 			      NULL);
@@ -2246,15 +2246,12 @@ void races_leader_pick_callback(Widget w, XtPointer client_data,
 void races_leader_set_values(int race, int lead)
 {
   int leader_count;
-  char **leaders;
-  int sex;
+  struct leader *leaders = get_nation_leaders(race, &leader_count);
 
-  leaders = get_nation_leader_names(race, &leader_count);
-  XtVaSetValues(races_leader, XtNstring, leaders[lead], NULL);
-  XawTextSetInsertionPoint(races_leader, strlen(leaders[lead]));
+  XtVaSetValues(races_leader, XtNstring, leaders[lead].name, NULL);
+  XawTextSetInsertionPoint(races_leader, strlen(leaders[lead].name));
 
-  sex = !(get_nation_leader_sex(race, leaders[lead]));
-  races_sex_buttons_set_current(sex);
+  races_sex_buttons_set_current(!leaders[lead].is_male);
 }
 
 /**************************************************************************

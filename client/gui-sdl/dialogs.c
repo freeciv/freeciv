@@ -3588,10 +3588,9 @@ static int exit_callback(struct GUI *pButton)
 **************************************************************************/
 static int get_leader_sex(Nation_Type_id nation, Uint8 leader)
 {
-  int max;
-  return get_nation_leader_sex(nation,
-			       get_nation_leader_names(nation,
-						       &max)[leader]);
+  int dim;
+  struct leader *leaders = get_nation_leaders(nation, &dim);
+  return leaders[leader].is_male;
 }
 
 /**************************************************************************
@@ -3608,15 +3607,15 @@ static SDL_Surface *get_city_style_surf(int style)
 **************************************************************************/
 static void select_random_leader(Nation_Type_id nation)
 {
-  int j;
-  char **leaders;
+  int j, dim;
+  struct leader *leaders;
 
-  leaders =
-      get_nation_leader_names(nation, (int *) &pNations->max_leaders);
+  leaders = get_nation_leaders(nation, &dim);
+  pNations->max_leaders = dim;
   pNations->leaders = CALLOC(pNations->max_leaders, sizeof(Uint16 *));
 
   for (j = 0; j < pNations->max_leaders; j++) {
-    pNations->leaders[j] = convert_to_utf16(leaders[j]);
+    pNations->leaders[j] = convert_to_utf16(leaders[j].name);
   }
 
   pNations->selected_leader = myrand(pNations->max_leaders);
@@ -3624,9 +3623,7 @@ static void select_random_leader(Nation_Type_id nation)
       pNations->leaders[pNations->selected_leader];
 
   /* initialize leader sex */
-  pNations->leader_sex = get_nation_leader_sex(nation,
-					       leaders[pNations->
-						       selected_leader]);
+  pNations->leader_sex = leaders[pNations->selected_leader].is_male;
 
   if (pNations->leader_sex) {
     pNations->change_sex_button->string16->text = pNations->male_str;

@@ -86,20 +86,13 @@ const char *get_nation_name(Nation_Type_id nation)
 Returns pointer to the array of the nation leader names, and
 sets dim to number of leaders.
 ***************************************************************/
-char **get_nation_leader_names(Nation_Type_id nation, int *dim)
+struct leader *get_nation_leaders(Nation_Type_id nation, int *dim)
 {
-  static char **result = NULL;
-  int i;
-
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_leader_names")) {
     die("wrong nation %d", nation);
   }
   *dim = nations[nation].leader_count;
-  result = fc_realloc(result, sizeof(char *) * (*dim));
-  for (i = 0; i < *dim; i++) {
-    result[i] = nations[nation].leaders[i].name;
-  }
-  return result;
+  return nations[nation].leaders;
 }
 
 /***************************************************************

@@ -1592,16 +1592,16 @@ Nation_Type_id get_active_nation(void)
 static void nations_nation_active(void)
 {
   int i, leader_count;
-  char **leaders;
+  struct leader *leaders;
   Object *list = (Object*)xget(nations_leader_poplist,MUIA_Popobject_Object);
   Nation_Type_id nation = get_active_nation();
 
   set(nations_flag_sprite, MUIA_Sprite_Sprite, get_nation_by_idx(nation)->flag_sprite);
 
-  leaders = get_nation_leader_names( nation, &leader_count);
-  setstring(nations_leader_string, leaders[0]);
+  leaders = get_nation_leaders(nation, &leader_count);
+  setstring(nations_leader_string, leaders[0].name);
 
-  set(nations_sex_radio, MUIA_Radio_Active, get_nation_leader_sex(nation,leaders[0])?0:1);
+  set(nations_sex_radio, MUIA_Radio_Active, leaders[0].is_male);
 
   if(list)
   {

@@ -1846,7 +1846,7 @@ Updates the gui elements and the selected_* variables.
 static void select_random_leader(void)
 {
   int j, leader_num;
-  char **leaders;
+  struct leader *leaders;
   char unique_name[MAX_LEN_NAME];
   
   /* weirdness happens by not doing it this way */
@@ -1859,9 +1859,9 @@ static void select_random_leader(void)
   leader_strings = NULL;
 
   /* fill leader names combo box */
-  leaders = get_nation_leader_names(selected_nation, &leader_num);
+  leaders = get_nation_leaders(selected_nation, &leader_num);
   for(j = 0; j < leader_num; j++) {
-    leader_strings = g_list_append(leader_strings, leaders[j]);
+    leader_strings = g_list_append(leader_strings, leaders[j].name);
   }
   gtk_combo_set_value_in_list(GTK_COMBO(races_name), FALSE, FALSE);
   gtk_combo_set_popdown_strings(GTK_COMBO(races_name), leader_strings);
@@ -1872,11 +1872,10 @@ static void select_random_leader(void)
     /* initialize leader names */
     selected_leader = myrand(leader_num);
     gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_name)->entry),
-		       leaders[selected_leader]);
+		       leaders[selected_leader].name);
 
     /* initialize leader sex */
-    selected_sex = get_nation_leader_sex(selected_nation,
-                                         leaders[selected_leader]);
+    selected_sex = leaders[selected_leader].is_male;
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(
                               races_sex_toggles[selected_sex ? 0 : 1]), TRUE);
   } else {

@@ -1685,19 +1685,23 @@ static bool good_name(char *ptry, char *buf) {
 void pick_ai_player_name(Nation_Type_id nation, char *newname) 
 {
    int i, names_count;
-   char **names;
+   struct leader *leaders;
 
-   names = get_nation_leader_names(nation, &names_count);
+   leaders = get_nation_leaders(nation, &names_count);
 
    /* Try random names (scattershot), then all available,
     * then "Player 1" etc:
     */
    for(i=0; i<names_count; i++) {
-     if (good_name(names[myrand(names_count)], newname)) return;
+     if (good_name(leaders[myrand(names_count)].name, newname)) {
+       return;
+     }
    }
    
    for(i=0; i<names_count; i++) {
-     if (good_name(names[i], newname)) return;
+     if (good_name(leaders[i].name, newname)) {
+       return;
+     }
    }
    
    for(i=1; /**/; i++) {

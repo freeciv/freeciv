@@ -287,19 +287,18 @@ static void select_random_race(HWND hWnd)
 **************************************************************************/
 static void select_random_leader(HWND hWnd)
 {
-  char **leaders;
   int j,leader_num;
-  leaders=get_nation_leader_names(selected_nation,&leader_num);
+  struct leader *leaders = get_nation_leaders(selected_nation, &leader_num);
+
   ComboBox_ResetContent(GetDlgItem(hWnd,ID_RACESDLG_LEADER));
-  for(j=0;j<leader_num;j++)
-    {
-      ComboBox_AddString(GetDlgItem(hWnd,ID_RACESDLG_LEADER),leaders[j]);
-    }
+  for (j = 0; j < leader_num; j++) {
+    ComboBox_AddString(GetDlgItem(hWnd,ID_RACESDLG_LEADER), leaders[j].name);
+  }
   selected_leader=myrand(leader_num);
   ComboBox_SetCurSel(GetDlgItem(hWnd,ID_RACESDLG_LEADER),selected_leader);
-  SetWindowText(GetDlgItem(hWnd,ID_RACESDLG_LEADER),leaders[selected_leader]);
-  if (get_nation_leader_sex(selected_nation,
-			    leaders[selected_leader])) {
+  SetWindowText(GetDlgItem(hWnd,ID_RACESDLG_LEADER),
+		leaders[selected_leader].name);
+  if (leaders[selected_leader].is_male) {
     selected_leader_sex=ID_RACESDLG_MALE;
     CheckRadioButton(hWnd,ID_RACESDLG_MALE,ID_RACESDLG_FEMALE,
 		     ID_RACESDLG_MALE);
