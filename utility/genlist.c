@@ -100,7 +100,7 @@ void genlist_unlink(struct genlist *pgenlist, void *punlink)
       plink = plink->next;
     }
     
-    if(plink->dataptr==punlink) {
+    if (plink) {
       if(pgenlist->head_link==plink)
 	 pgenlist->head_link=plink->next;
       else
