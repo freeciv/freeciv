@@ -1561,7 +1561,7 @@ static void handle_request_join_game(struct connection *pconn,
     if(is_barbarian(pplayer)) {
       if(!(allow = strchr(game.allow_connect, 'b'))) {
 	reject_new_player(_("Sorry, no observation of barbarians "
-			    "this game."), pconn);
+			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No observation of barbarians."),
 		pconn->name);
@@ -1571,7 +1571,7 @@ static void handle_request_join_game(struct connection *pconn,
     } else if(!pplayer->is_alive) {
       if(!(allow = strchr(game.allow_connect, 'd'))) {
 	reject_new_player(_("Sorry, no observation of dead players "
-			    "this game."), pconn);
+			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No observation of dead players."),
 		pconn->name);
@@ -1581,7 +1581,7 @@ static void handle_request_join_game(struct connection *pconn,
     } else if(pplayer->ai.control) {
       if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'A' : 'a')))) {
 	reject_new_player(_("Sorry, no observation of AI players "
-			    "this game."), pconn);
+			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No observation of AI players."),
 		pconn->name);
@@ -1591,7 +1591,7 @@ static void handle_request_join_game(struct connection *pconn,
     } else {
       if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'H' : 'h')))) {
 	reject_new_player(_("Sorry, no reconnections to human-mode players "
-			    "this game."), pconn);
+			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
 		_("%s was rejected: No reconnection to human players."),
 		pconn->name);
@@ -1671,7 +1671,7 @@ static void handle_request_join_game(struct connection *pconn,
   }
 
   if(!(allow = strchr(game.allow_connect, 'N'))) {
-    reject_new_player(_("Sorry, no new players this game."), pconn);
+    reject_new_player(_("Sorry, no new players allowed in this game."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: No connections as new player."),
 	    pconn->name);
     close_connection(pconn);
