@@ -15,9 +15,11 @@ TODO:
 - Server-side player scripting.
 - Alliances between players.
 - Better graphics for city styles.
-- Better internationalization (fix some problems, better gui
-  handling for different-length words, mixed language client-server,
-  more complete translations, more languages).
+- Better internationalization (fix some problems, modify those
+  English sentences which can not be translated into most other
+  languages, better gui handling for different-length words,
+  mixed language client-server, more complete translations,
+  more languages).
 - Make the rulesets for City Improvements and Wonders more flexible.
 - Extend governments ruleset to allow Fundamentalism, and fix up AI
   handling of variant governments.

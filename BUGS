@@ -54,6 +54,10 @@ KNOWN BUGS:
 REPORTING A BUG:
 ================
 
+(If it is a bug in a translation, it should be mailed to the Primary
+Contact for the language.  See <http://www.freeciv.org/l10n.phtml> for
+the names and addresses of these people.)
+
 Here's what to do:
 
  - Check that it is not one of the known bugs listed above!  :-)
