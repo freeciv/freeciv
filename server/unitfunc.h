@@ -16,8 +16,11 @@
 #include "packets.h"
 #include "unit.h"
 
+
+void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct city *pcity);
 void spy_poison(struct player *pplayer, struct unit *pdiplomat, 
 		struct city *pcity);
+void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct unit *pvictim);
 int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
 			     struct unit *pdiplomat, struct city *pcity);
 void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
@@ -25,11 +28,11 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
 void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, 
 		    struct unit *pvictim);
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *pcity);
+		       struct city  *pcity, int tech);
 void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, 
 		     struct city *pcity);
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city *pcity);
+		       struct city *pcity, int improvement);
 
 void player_restore_units(struct player *pplayer);
 void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);

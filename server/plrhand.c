@@ -1107,6 +1107,9 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
     pcity->currently_building=secfile_lookup_int(file, 
 						 "player%d.c%d.currently_building", plrno, i);
+
+    pcity->diplomat_investigate = 0;
+
     pcity->did_buy=secfile_lookup_int(file,
 				      "player%d.c%d.did_buy", plrno,i);
     if (game.version >=10300) 
@@ -1155,6 +1158,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit->y=secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
 
     punit->veteran=secfile_lookup_int(file, "player%d.u%d.veteran", plrno, i);
+    punit->foul=secfile_lookup_int(file, "player%d.u%d.foul", plrno, i);
     punit->homecity=secfile_lookup_int(file, "player%d.u%d.homecity",
 				       plrno, i);
 
@@ -1247,6 +1251,8 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, punit->x, "player%d.u%d.x", plrno, i);
     secfile_insert_int(file, punit->y, "player%d.u%d.y", plrno, i);
     secfile_insert_int(file, punit->veteran, "player%d.u%d.veteran", 
+				plrno, i);
+    secfile_insert_int(file, punit->foul, "player%d.u%d.foul", 
 				plrno, i);
     secfile_insert_int(file, punit->hp, "player%d.u%d.hp", plrno, i);
     secfile_insert_int(file, punit->homecity, "player%d.u%d.homecity",

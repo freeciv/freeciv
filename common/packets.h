@@ -107,6 +107,7 @@ struct packet_diplomacy_info {
 struct packet_diplomat_action
 {
   int action_type;
+  int value;        
   int diplomat_id;
   int target_id;    /* city_id or unit_id */
 };
@@ -267,6 +268,7 @@ struct packet_city_info {
   int did_buy, did_sell;
   int was_happy;
   int airlift;
+  int diplomat_investigate;
 };
 
 

@@ -91,7 +91,8 @@ enum unit_focus_status {
 
 enum diplomat_actions {
   DIPLOMAT_BRIBE, DIPLOMAT_EMBASSY, DIPLOMAT_SABOTAGE,
-  DIPLOMAT_STEAL, DIPLOMAT_INCITE, SPY_POISON
+  DIPLOMAT_STEAL, DIPLOMAT_INCITE, SPY_POISON, 
+  DIPLOMAT_INVESTIGATE, SPY_SABOTAGE_UNIT
 };
 
 struct unit_ai {
@@ -114,6 +115,7 @@ struct unit {
   int hp;
   int unhappiness;
   int upkeep;
+  int foul;
   int fuel;
   int bribe_cost;
   struct unit_ai ai;

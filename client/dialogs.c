@@ -19,11 +19,13 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
+#include <X11/Xaw/List.h>
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/Toggle.h>     
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/Dialog.h>
+#include <X11/Xaw/SmeBSB.h>
 
 #include <dialogs.h>
 #include <player.h>
@@ -50,6 +52,27 @@ Widget races_ok_command;
 Widget races_toggles[14], races_name;
 
 /******************************************************************/
+Widget spy_tech_shell;
+Widget spy_tech_label;
+Widget spy_advances_list, spy_advances_list_label;
+Widget spy_steal_command;
+
+int spy_tech_shell_is_modal;
+int advance_type[A_LAST];
+int steal_advance = 0;
+
+/******************************************************************/
+Widget spy_sabotage_shell;
+Widget spy_sabotage_label;
+Widget spy_improvements_list, spy_improvements_list_label;
+Widget spy_sabotage_command;
+
+int spy_sabotage_shell_is_modal;
+int improvement_type[B_LAST];
+int sabotage_improvement = 0;
+
+/******************************************************************/
+
 Widget about_dialog_shell;
 Widget about_form, about_label, about_command;
 
@@ -112,6 +135,7 @@ void notify_command_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(XtParent(XtParent(w)));
   XtSetSensitive(toplevel, TRUE);
 }
+
 
 
 /****************************************************************
@@ -374,7 +398,8 @@ void diplomat_sabotage_callback(Widget w, XtPointer client_data,
     req.action_type=DIPLOMAT_SABOTAGE;
     req.diplomat_id=diplomat_id;
     req.target_id=diplomat_target_id;
-    
+    req.value = -1;
+
     send_packet_diplomat_action(&aconnection, &req);
   }
 
@@ -400,6 +425,44 @@ void diplomat_embassy_callback(Widget w, XtPointer client_data,
     send_packet_diplomat_action(&aconnection, &req);
   }
 
+}
+/****************************************************************
+...
+*****************************************************************/
+void diplomat_investigate_callback(Widget w, XtPointer client_data, 
+			       XtPointer call_data)
+{
+ 
+  destroy_message_dialog(w);
+  
+  if(find_unit_by_id(diplomat_id) && 
+     (find_city_by_id(diplomat_target_id))) { 
+    struct packet_diplomat_action req;
+    
+    req.action_type=DIPLOMAT_INVESTIGATE;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+    
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+
+}
+/****************************************************************
+...
+*****************************************************************/
+void spy_sabotage_unit_callback(Widget w, XtPointer client_data, 
+			       XtPointer call_data)
+{
+
+  struct packet_diplomat_action req;
+  
+  req.action_type=SPY_SABOTAGE_UNIT;
+  req.diplomat_id=diplomat_id;
+  req.target_id=diplomat_target_id;
+  
+  send_packet_diplomat_action(&aconnection, &req);
+  
+  destroy_message_dialog(w);
 }
 
 /****************************************************************
@@ -439,12 +502,350 @@ void diplomat_steal_callback(Widget w, XtPointer client_data,
     req.action_type=DIPLOMAT_STEAL;
     req.diplomat_id=diplomat_id;
     req.target_id=diplomat_target_id;
+    req.value=0;
     
     send_packet_diplomat_action(&aconnection, &req);
   }
 
 }
 
+/****************************************************************
+...
+*****************************************************************/
+void spy_close_tech_callback(Widget w, XtPointer client_data, 
+			 XtPointer call_data)
+{
+
+  if(spy_tech_shell_is_modal)
+     XtSetSensitive(main_form, TRUE);
+   XtDestroyWidget(spy_tech_shell);
+   spy_tech_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spy_close_sabotage_callback(Widget w, XtPointer client_data, 
+			 XtPointer call_data)
+{
+
+  if(spy_sabotage_shell_is_modal)
+     XtSetSensitive(main_form, TRUE);
+   XtDestroyWidget(spy_sabotage_shell);
+   spy_sabotage_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spy_select_tech_callback(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{
+  char buf[512];
+  
+  XawListReturnStruct *ret;
+  ret=XawListShowCurrent(spy_advances_list);
+  
+  if(ret->list_index!=XAW_LIST_NONE && advance_type[ret->list_index] != -1){
+    steal_advance = advance_type[ret->list_index];
+    XtSetSensitive(spy_steal_command, TRUE);
+    return;
+  }
+  XtSetSensitive(spy_steal_command, FALSE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spy_select_improvement_callback(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{
+  char buf[512];
+  
+  XawListReturnStruct *ret;
+  ret=XawListShowCurrent(spy_improvements_list);
+  
+  if(ret->list_index!=XAW_LIST_NONE){
+    sabotage_improvement = improvement_type[ret->list_index];
+    XtSetSensitive(spy_sabotage_command, TRUE);
+    return;
+  }
+  XtSetSensitive(spy_sabotage_command, FALSE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spy_steal_callback(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{  
+  XtDestroyWidget(spy_tech_shell);
+  spy_tech_shell = 0l;
+  
+  if(!steal_advance){
+    printf("Bug in spy steal tech code\n");
+    return;
+  }
+  
+  if(find_unit_by_id(diplomat_id) && 
+     find_city_by_id(diplomat_target_id)) { 
+    struct packet_diplomat_action req;
+    
+    req.action_type=DIPLOMAT_STEAL;
+    req.value=steal_advance;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spy_sabotage_callback(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{  
+  XtDestroyWidget(spy_sabotage_shell);
+  spy_sabotage_shell = 0l;
+  
+  if(!sabotage_improvement){
+    printf("Bug in spy sabotage code\n");
+    return;
+  }
+  
+  if(find_unit_by_id(diplomat_id) && 
+     find_city_by_id(diplomat_target_id)) { 
+    struct packet_diplomat_action req;
+    
+    req.action_type=DIPLOMAT_SABOTAGE;
+    req.value=sabotage_improvement+1;
+    req.diplomat_id=diplomat_id;
+    req.target_id=diplomat_target_id;
+
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+
+int create_advances_list(struct player *pplayer, struct player *pvictim, int make_modal)
+{  
+  Widget spy_tech_form;
+  Widget close_command;
+  Dimension width1, width2; 
+  char *dialog_title;
+  int i, j;
+
+  static char *advances_can_steal[A_LAST]; 
+  
+  spy_tech_shell = XtVaCreatePopupShell("spystealtechpopup", 
+					make_modal ? 
+					transientShellWidgetClass :
+					topLevelShellWidgetClass,
+					toplevel, 
+					0);  
+  
+  spy_tech_form = XtVaCreateManagedWidget("spystealtechform", 
+					     formWidgetClass,
+					     spy_tech_shell,
+					     NULL);   
+
+  spy_advances_list_label = XtVaCreateManagedWidget("spystealtechlistlabel", 
+						    labelWidgetClass, 
+						    spy_tech_form,
+						    NULL);
+
+  spy_advances_list = XtVaCreateManagedWidget("spystealtechlist", 
+					      listWidgetClass,
+					      spy_tech_form,
+					      NULL);
+
+  close_command = XtVaCreateManagedWidget("spystealtechclosecommand", 
+					  commandWidgetClass,
+					  spy_tech_form,
+					  NULL);
+  
+  spy_steal_command = XtVaCreateManagedWidget("spystealtechcommand", 
+					    commandWidgetClass,
+					    spy_tech_form,
+					    XtNsensitive, False,
+					    NULL);
+  
+
+  XtAddCallback(spy_advances_list, XtNcallback, spy_select_tech_callback, NULL);
+  XtAddCallback(close_command, XtNcallback, spy_close_tech_callback, NULL);
+  XtAddCallback(spy_steal_command, XtNcallback, spy_steal_callback, NULL);
+  XtRealizeWidget(spy_tech_shell);
+
+  /* Now populate the list */
+  
+  j = 0;
+  advances_can_steal[j] = "NONE";
+  advance_type[j] = -1;
+
+  for(i=1; i<A_LAST; i++) 
+    if(get_invention(pvictim, i)==TECH_KNOWN && 
+       (get_invention(pplayer, i)==TECH_UNKNOWN || 
+	get_invention(pplayer, i)==TECH_REACHABLE)) {
+      
+      advances_can_steal[j] = advances[i].name;
+      advance_type[j++] = i;
+    }
+
+  if(j == 0) j++;
+  advances_can_steal[j] = NULL; 
+  
+  XtSetSensitive(spy_steal_command, FALSE);
+  
+  XawListChange(spy_advances_list, advances_can_steal, 0, 0, 1);
+  XtVaGetValues(spy_advances_list, XtNwidth, &width1, NULL);
+  XtVaGetValues(spy_advances_list_label, XtNwidth, &width2, NULL);
+  XtVaSetValues(spy_advances_list, XtNwidth, MAX(width1,width2), NULL); 
+  XtVaSetValues(spy_advances_list_label, XtNwidth, MAX(width1,width2), NULL); 
+
+  return j;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+
+int create_improvements_list(struct player *pplayer, struct city *pcity, int make_modal)
+{  
+  Widget spy_sabotage_form;
+  Widget close_command;
+  Dimension width1, width2; 
+  char *dialog_title;
+  int i, j;
+
+  static char *improvements_can_sabotage[B_LAST]; 
+  
+  spy_sabotage_shell = XtVaCreatePopupShell("spysabotageimprovementspopup", 
+					make_modal ? 
+					transientShellWidgetClass :
+					topLevelShellWidgetClass,
+					toplevel, 
+					0);  
+  
+  spy_sabotage_form = XtVaCreateManagedWidget("spysabotageimprovementsform", 
+					     formWidgetClass,
+					     spy_sabotage_shell,
+					     NULL);   
+
+  spy_improvements_list_label = XtVaCreateManagedWidget("spysabotageimprovementslistlabel", 
+						    labelWidgetClass, 
+						    spy_sabotage_form,
+						    NULL);
+
+  spy_improvements_list = XtVaCreateManagedWidget("spysabotageimprovementslist", 
+					      listWidgetClass,
+					      spy_sabotage_form,
+					      NULL);
+
+  close_command = XtVaCreateManagedWidget("spysabotageimprovementsclosecommand", 
+					  commandWidgetClass,
+					  spy_sabotage_form,
+					  NULL);
+  
+  spy_sabotage_command = XtVaCreateManagedWidget("spysabotageimprovementscommand", 
+						 commandWidgetClass,
+						 spy_sabotage_form,
+						 XtNsensitive, False,
+						 NULL);
+  
+
+  XtAddCallback(spy_improvements_list, XtNcallback, spy_select_improvement_callback, NULL);
+  XtAddCallback(close_command, XtNcallback, spy_close_sabotage_callback, NULL);
+  XtAddCallback(spy_sabotage_command, XtNcallback, spy_sabotage_callback, NULL);
+  XtRealizeWidget(spy_sabotage_shell);
+
+  /* Now populate the list */
+  
+  j = 0;
+  improvements_can_sabotage[j] = "City Production";
+  improvement_type[j++] = -1;
+
+  for(i=0; i<B_LAST; i++) 
+    if(pcity->improvements[i]) {
+      improvements_can_sabotage[j] = get_imp_name_ex(pcity, i);
+      improvement_type[j++] = i;
+    }  
+  
+  improvements_can_sabotage[j] = NULL;
+  
+  XtSetSensitive(spy_sabotage_command, FALSE);
+  
+  XawListChange(spy_improvements_list, improvements_can_sabotage, 0, 0, 1);
+  XtVaGetValues(spy_improvements_list, XtNwidth, &width1, NULL);
+  XtVaGetValues(spy_improvements_list_label, XtNwidth, &width2, NULL);
+  XtVaSetValues(spy_improvements_list, XtNwidth, MAX(width1,width2), NULL); 
+  XtVaSetValues(spy_improvements_list_label, XtNwidth, MAX(width1,width2), NULL); 
+
+  return j;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spy_steal_popup(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{
+  struct unit *punit = find_unit_by_id(diplomat_id);
+  struct city *pvcity = find_city_by_id(diplomat_target_id);
+  struct player *pvictim;
+
+  if(pvcity)
+    pvictim = city_owner(pvcity);
+  
+  destroy_message_dialog(w);
+
+  if(!spy_tech_shell){
+    Position x, y;
+    Dimension width, height;
+    spy_tech_shell_is_modal=1;
+
+    create_advances_list(game.player_ptr, pvictim, spy_tech_shell_is_modal);
+    
+    XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
+    
+    XtTranslateCoords(toplevel, (Position) width/10, (Position) height/10,
+		      &x, &y);
+    XtVaSetValues(spy_tech_shell, XtNx, x, XtNy, y, NULL);
+    
+    XtPopup(spy_tech_shell, XtGrabNone);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spy_sabotage_popup(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{
+  struct unit *punit = find_unit_by_id(diplomat_id);
+  struct city *pvcity = find_city_by_id(diplomat_target_id);
+  
+  destroy_message_dialog(w);
+
+  if(!spy_sabotage_shell){
+    Position x, y;
+    Dimension width, height;
+    spy_sabotage_shell_is_modal=1;
+
+    create_improvements_list(game.player_ptr, pvcity, spy_sabotage_shell_is_modal);
+    
+    XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
+    
+    XtTranslateCoords(toplevel, (Position) width/10, (Position) height/10,
+		      &x, &y);
+    XtVaSetValues(spy_sabotage_shell, XtNx, x, XtNy, y, NULL);
+    
+    XtPopup(spy_sabotage_shell, XtGrabNone);
+  }
+}
 
 /****************************************************************
 ...
@@ -536,37 +937,83 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
   diplomat_id=punit->id;
   
-  if((pcity=map_get_city(dest_x, dest_y)))
+  if((pcity=map_get_city(dest_x, dest_y))){
+    
+    /* Spy/Diplomat acting against a city */ 
+    
     diplomat_target_id=pcity->id;
-  else if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0)))
-    diplomat_target_id=ptunit->id;
-  
-  shl=popup_message_dialog(toplevel, "diplomatdialog", 
-			   "Sir, the diplomat is waiting for your command",
-			   diplomat_bribe_callback, 0,
-			   diplomat_embassy_callback, 0,
-			   diplomat_sabotage_callback, 0,
-			   diplomat_steal_callback, 0,
-			   diplomat_incite_callback, 0,
-			   spy_poison_callback, 0,
-                           diplomat_cancel_callback, 0,
-			   0);
-  
-  if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
-  if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
-  if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
-  if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
-  if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
-  if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
-    XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
+    if(punit->type != U_SPY){
+      shl=popup_message_dialog(toplevel, "diplomatdialog", 
+			       "Sir, the diplomat is waiting for your command",
+			       diplomat_embassy_callback, 0,
+			       diplomat_investigate_callback, 0,
+			       diplomat_sabotage_callback, 0,
+			       diplomat_steal_callback, 0,
+			       diplomat_incite_callback, 0,
+			       diplomat_cancel_callback, 0,
+			       0);
+      
+      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+    }else{
+      shl=popup_message_dialog(toplevel, "spydialog", 
+			       "Sir, the spy is waiting for your command",
+			       diplomat_embassy_callback, 0,
+			       diplomat_investigate_callback, 0,
+			       spy_poison_callback,0,
+			       spy_sabotage_popup, 0,
+			       spy_steal_popup, 0,
+			       diplomat_incite_callback, 0,
+			       diplomat_cancel_callback, 0,
+			       0);
+      
+      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
+      if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
+    }
+  }else{ 
+    if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
+      
+      /* Spy/Diplomat acting against a unit */ 
+      
+      diplomat_target_id=ptunit->id;
+
+      if(punit->type != U_SPY){      
+	if(diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
+	  popup_bribe_dialog(ptunit);
+      }else{
+	shl=popup_message_dialog(toplevel, "spybribedialog", 
+				 "Sir, the spy is waiting for your command",
+				 diplomat_bribe_callback, 0,
+				 spy_sabotage_unit_callback, 0,
+				 diplomat_cancel_callback, 0,
+				 0);
+	
+	if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
+	  XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
+	if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y))
+	  XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
+      }
+    }
+  }
 }
-
-
 
 
 /****************************************************************

@@ -1569,9 +1569,9 @@ Freeciv.iconName: Freeciv
 !
 *diplomatdialog.title: Choose Your Diplomat's Strategy
 *diplomatdialog.*.dlabel.borderWidth:  0
-*diplomatdialog.*.button0.label:     Bribe unit
+*diplomatdialog.*.button0.label:     Establish embassy
 *diplomatdialog.*.button0.fromVert:  dlabel
-*diplomatdialog.*.button1.label:     Establish embassy
+*diplomatdialog.*.button1.label:     Investigate City
 *diplomatdialog.*.button1.fromVert:  dlabel
 *diplomatdialog.*.button1.fromHoriz: button0
 *diplomatdialog.*.button2.label:     Sabotage city
@@ -1583,13 +1583,134 @@ Freeciv.iconName: Freeciv
 *diplomatdialog.*.button4.label:     Incite a revolt
 *diplomatdialog.*.button4.fromVert:  dlabel
 *diplomatdialog.*.button4.fromHoriz: button3
-*diplomatdialog.*.button5.label:     Poison City
-*diplomatdialog.*.button5.fromVert:  dlabel
-*diplomatdialog.*.button5.fromHoriz: button4
-*diplomatdialog.*.button6.label:     Cancel
-*diplomatdialog.*.button6.fromVert:  button0
+*diplomatdialog.*.button5.label:     Cancel
+*diplomatdialog.*.button5.fromVert:  button0
 
+!
+! Spy Dialog
+!
 
+*spydialog.title: Choose Your Spy's Strategy
+*spydialog.*.dlabel.borderWidth:  0
+*spydialog.*.button0.label:     Establish embassy
+*spydialog.*.button0.fromVert:  dlabel
+*spydialog.*.button1.label:     Investigate City (free)
+*spydialog.*.button1.fromVert:  dlabel
+*spydialog.*.button1.fromHoriz: button0
+*spydialog.*.button2.label:     Poison City
+*spydialog.*.button2.fromVert:  dlabel
+*spydialog.*.button2.fromHoriz: button1
+*spydialog.*.button3.label:     Industrial Sabotage
+*spydialog.*.button3.fromVert:  dlabel
+*spydialog.*.button3.fromHoriz: button2
+*spydialog.*.button4.label:     Steal technology
+*spydialog.*.button4.fromVert:  dlabel
+*spydialog.*.button4.fromHoriz: button3
+*spydialog.*.button5.label:     Incite a revolt
+*spydialog.*.button5.fromVert:  dlabel
+*spydialog.*.button5.fromHoriz: button4
+*spydialog.*.button6.label:     Cancel
+*spydialog.*.button6.fromVert:  button0
+
+!
+! Spy Steal Tech Dialog
+!
+
+*spystealtechpopup.title: Steal Technology 
+*spystealtechpopup.allowShellResize: True
+*spystealtechform.background:          lightblue
+*spystealtechform.resizable:           true
+*spystealtechform.top:                 chainTop
+*spystealtechform.bottom:              chainBottom
+*spystealtechform.left:                chainLeft
+*spystealtechform.right:               chainRight
+*spystealtechlistlabel.resizable:          true
+*spystealtechlistlabel.justify:            left
+*spystealtechlistlabel.borderWidth:        1
+*spystealtechlistlabel.background:         grey
+*spystealtechlistlabel.foreground:         black
+*spystealtechlistlabel.top:                chainTop
+*spystealtechlistlabel.bottom:             chainTop
+*spystealtechlistlabel.left:               chainLeft
+*spystealtechlistlabel.right:              chainRight
+*spystealtechlistlabel.label:Select Advance to Steal
+*spystealtechlist.fromVert:            spystealtechlistlabel
+*spystealtechlist.forceColumns:        true
+*spystealtechlist.defaultColumns:      1
+*spystealtechlist.verticalList:        true
+*spystealtechlist.background:          cyan
+*spystealtechlist.resizable:           true
+*spystealtechlist.top:                 chainTop
+*spystealtechlist.bottom:              chainBottom
+*spystealtechlist.left:                chainLeft
+*spystealtechlist.right:               chainRight
+*spystealtechclosecommand.label:       Close
+*spystealtechclosecommand.fromVert:    spystealtechlist
+*spystealtechclosecommand.foreground:  white
+*spystealtechclosecommand.background:  blue
+*spystealtechclosecommand.top:         chainBottom
+*spystealtechclosecommand.bottom:      chainBottom
+*spystealtechclosecommand.left:        chainLeft
+*spystealtechclosecommand.right:       chainLeft
+*spystealtechcommand.label:       Steal
+*spystealtechcommand.fromVert:    spystealtechlist
+*spystealtechcommand.fromHoriz:   spystealtechclosecommand
+*spystealtechcommand.foreground:  white
+*spystealtechcommand.background:  blue
+*spystealtechcommand.top:         chainBottom
+*spystealtechcommand.bottom:      chainBottom
+*spystealtechcommand.left:        chainLeft
+*spystealtechcommand.right:       chainLeft
+
+!
+! Spy Sabotage Dialog
+!
+
+*spysabotageimprovementspopup.title: Sabotage Improvements 
+*spysabotageimprovementspopup.allowShellResize: True
+*spysabotageimprovementsform.background:          lightblue
+*spysabotageimprovementsform.resizable:           true
+*spysabotageimprovementsform.top:                 chainTop
+*spysabotageimprovementsform.bottom:              chainBottom
+*spysabotageimprovementsform.left:                chainLeft
+*spysabotageimprovementsform.right:               chainRight
+*spysabotageimprovementslistlabel.resizable:          true
+*spysabotageimprovementslistlabel.justify:            left
+*spysabotageimprovementslistlabel.borderWidth:        1
+*spysabotageimprovementslistlabel.background:         grey
+*spysabotageimprovementslistlabel.foreground:         black
+*spysabotageimprovementslistlabel.top:                chainTop
+*spysabotageimprovementslistlabel.bottom:             chainTop
+*spysabotageimprovementslistlabel.left:               chainLeft
+*spysabotageimprovementslistlabel.right:              chainRight
+*spysabotageimprovementslistlabel.label:Select Improvement to Sabotage
+*spysabotageimprovementslist.fromVert:            spysabotageimprovementslistlabel
+*spysabotageimprovementslist.forceColumns:        true
+*spysabotageimprovementslist.defaultColumns:      1
+*spysabotageimprovementslist.verticalList:        true
+*spysabotageimprovementslist.background:          cyan
+*spysabotageimprovementslist.resizable:           true
+*spysabotageimprovementslist.top:                 chainTop
+*spysabotageimprovementslist.bottom:              chainBottom
+*spysabotageimprovementslist.left:                chainLeft
+*spysabotageimprovementslist.right:               chainRight
+*spysabotageimprovementsclosecommand.label:       Close
+*spysabotageimprovementsclosecommand.fromVert:    spysabotageimprovementslist
+*spysabotageimprovementsclosecommand.foreground:  white
+*spysabotageimprovementsclosecommand.background:  blue
+*spysabotageimprovementsclosecommand.top:         chainBottom
+*spysabotageimprovementsclosecommand.bottom:      chainBottom
+*spysabotageimprovementsclosecommand.left:        chainLeft
+*spysabotageimprovementsclosecommand.right:       chainLeft
+*spysabotageimprovementscommand.label:       Sabotage
+*spysabotageimprovementscommand.fromVert:    spysabotageimprovementslist
+*spysabotageimprovementscommand.fromHoriz:   spysabotageimprovementsclosecommand
+*spysabotageimprovementscommand.foreground:  white
+*spysabotageimprovementscommand.background:  blue
+*spysabotageimprovementscommand.top:         chainBottom
+*spysabotageimprovementscommand.bottom:      chainBottom
+*spysabotageimprovementscommand.left:        chainLeft
+*spysabotageimprovementscommand.right:       chainLeft
 
 !
 ! diplomat bribe dialog
@@ -1601,6 +1722,20 @@ Freeciv.iconName: Freeciv
 *diplomatbribedialog.*.button1.label:     No
 *diplomatbribedialog.*.button1.fromVert:  dlabel
 *diplomatbribedialog.*.button1.fromHoriz: button0
+
+!
+! Spy Bribe Dialog
+!
+
+*spybribedialog.title: Subvert Enemy Unit
+*spybribedialog.*.dlabel.borderWidth:  0
+*spybribedialog.*.button0.label:     Bribe Enemy Unit
+*spybribedialog.*.button0.fromVert:  dlabel
+*spybribedialog.*.button1.label:     Sabotage Enemy Unit
+*spybribedialog.*.button1.fromVert:  dlabel
+*spybribedialog.*.button1.fromHoriz: button0
+*spybribedialog.*.button2.label:     Cancel
+*spybribedialog.*.button2.fromVert:  button0
 
 !
 ! diplomat revolt dialog

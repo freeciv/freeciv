@@ -56,8 +56,6 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat, struct city *pci
   
   struct player *cplayer = city_owner(pcity);
   
-  fprintf(stderr,"in spy_poison");
-
   if(pdiplomat->type == U_SPY){
     if(!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
       return;  /* failed against defending diplomats/spies */
@@ -79,6 +77,61 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat, struct city *pci
     city_refresh(pcity);  
     send_city_info(0, pcity, 0);
 
+  }
+}
+/******************************************************************************
+  Either a Diplomat or Spy can investigate a city - but for Spies
+  it is free.  There is no risk and no loss of movement points.
+
+  As usual, diplomats die afterwards.
+									       
+ - Kris Bubendorfer
+****************************************************************************/
+
+
+void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct city *pcity){
+  
+  if(pcity){
+    pcity->diplomat_investigate = pplayer->player_no+1;
+    send_city_info(pplayer, pcity, 0);
+    pcity->diplomat_investigate = 0;  
+  }
+  if(pdiplomat->type != U_SPY)
+    wipe_unit(0, pdiplomat);
+}
+/******************************************************************************
+  Sabotage an enemy unit (only spies can do this)
+ 
+  - Can occur to stacked units (takes the top one)
+  - Destroys 50% of a units remaining hp (there must be more than 1 hp).
+  - Runs the same risk of being captured after action as in a city.
+  - Spy is not returned home after the battlefield action.
+
+****************************************************************************/
+
+void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct unit *pvictim){
+  
+  if(pvictim && pvictim->hp > 1){
+    pvictim->hp = pvictim->hp >> 1;
+    send_unit_info(0, pvictim, 0);
+  }
+  
+  /* Now lets see if the spy survives */
+
+  if (myrand(game.diplchance)) {
+    
+    /* Attacking Spy/Diplomat dies (N-1:N) chance */
+    
+    notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT, 
+		     "Game: Your spy was captured after completing her mission.");
+    wipe_unit(0, pdiplomat);
+  } else {
+    
+    /* Survived (1:N) chance */
+    
+    notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT, 
+		     "Game: Your spy has successfully completed her mission.");
+    
   }
 }
 
@@ -128,7 +181,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, struct unit 
 
 ****************************************************************************/
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *pcity)
+		       struct city  *pcity, int tech)
 {
   int tec;
   int i;
@@ -141,50 +194,67 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   
   /* Check if the Diplomat/Spy succeeds against defending Diplomats or Spies */
   /* - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>                     */
-
+  
   if(!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
     return;  /* failed against defending diplomats/spies */
   
-  for (i=1;i<A_LAST;i++) {
-    if (get_invention(pplayer, i)!=TECH_KNOWN && get_invention(target, i)== TECH_KNOWN) {
-      j++;
+  /* If tech is specified, then a spy chose the tech to steal.  Diplomats can't do this */
+  
+  if(pdiplomat->type != U_SPY || !tech){  
+    for (i=1;i<A_LAST;i++) {
+      if (get_invention(pplayer, i)!=TECH_KNOWN && get_invention(target, i)== TECH_KNOWN) {
+ 	j++;
+      }
     }
-  }
-  if (!j)  {
-    if (target->future_tech > pplayer->future_tech) {
+    if (!j)
+      if (target->future_tech > pplayer->future_tech) {
+ 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+ 			 "Game: Your diplomat stole Future Tech. %d from %s",
+ 			 ++(pplayer->future_tech), target->name);
+ 	notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
+ 			 "Game: %s diplomat stole Future Tech. %d in %s.", 
+ 			 pplayer->name, pplayer->future_tech, pcity->name);
+ 	return;
+      } else {
+ 	
+ 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+ 			 "Game: No new technology found in %s", pcity->name);
+ 	return;
+      }
+    
+    if (pcity->steal) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-                      "Game: Your diplomat stole Future Tech. %d from %s",
-                      ++(pplayer->future_tech), target->name);
+ 		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", pcity->name);
       notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
-                      "Game: %s diplomat stole Future Tech. %d in %s.", 
-                      pplayer->name, pplayer->future_tech, pcity->name);
-    } else {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		       "Game: No new technology found in %s", pcity->name);
+ 		       "Game: %s diplomat failed in stealing technology in %s", pplayer->name, pcity->name);
+      wipe_unit(0,pdiplomat);
+      return;
     }
-    return;
+    
+    j=myrand(j)+1;
+    for (i=1;i<A_LAST;i++) {
+      if (get_invention(pplayer, i)!=TECH_KNOWN && 
+ 	  get_invention(target, i)== TECH_KNOWN) 
+ 	j--;
+      if (!j) break;
+    }
+    if (i==A_LAST) {
+      printf("Bug in diplomat_a_tech\n");
+      return;
+    }
+  }else{
+    i = tech;
+    
+    if (pcity->steal) {
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+  		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", pcity->name);
+      notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
+ 		       "Game: %s diplomat failed in stealing technology in %s", pplayer->name, pcity->name);
+      wipe_unit(0,pdiplomat);
+      return;
+    }
   }
-
-  if (pcity->steal) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", pcity->name);
-    notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
-		     "Game: %s diplomat failed in stealing technology in %s", pplayer->name, pcity->name);
-    wipe_unit(0,pdiplomat);
-    return;
-  }
-
-  j=myrand(j)+1;
-  for (i=1;i<A_LAST;i++) {
-    if (get_invention(pplayer, i)!=TECH_KNOWN && 
-	get_invention(target, i)== TECH_KNOWN) 
-      j--;
-    if (!j) break;
-  }
-  if (i==A_LAST) {
-    printf("Bug in diplomat_a_tech\n");
-    return;
-  }
+    
   pcity->steal=1;
   notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		   "Game: Your diplomat stole %s from %s",
@@ -193,7 +263,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		   "Game: %s diplomat stole %s in %s.", 
 		   pplayer->name, advances[i].name, pcity->name); 
   if (i==A_RAILROAD) {
-/*    struct city_list cl=pplayer->cities;*/
+    /*    struct city_list cl=pplayer->cities;*/
     struct genlist_iterator myiter;
     genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
     notify_player(pplayer, "Game: The people are pleased to hear that your scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.", pcity->name);
@@ -213,7 +283,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       choose_random_tech(pplayer);
     pplayer->research.researched=tec;
   }
-
+  
   /* Check if a spy survives her mission                 */
   /* - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ> */
   
@@ -243,7 +313,7 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer, str
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 			 "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: A%s spy has been eliminated while attempting to subvert %s.", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
+			 "Game: A%s spy has been eliminated while infiltrating %s.", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
 	wipe_unit(0, pdiplomat);
 	return 0;
       } else {
@@ -290,8 +360,11 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
       
+      if(pdiplomat->moves_left > 3)
+	pdiplomat->moves_left -= 3;
+
       create_unit(pplayer, spyhome->x, spyhome->y,
-		  pdiplomat->type, 1, spyhome->id, 0);
+		  pdiplomat->type, 1, spyhome->id, pdiplomat->moves_left);
     }
   }
   wipe_unit(0, pdiplomat);
@@ -414,12 +487,15 @@ Sabotage of enemy building, build order will fail if:
  an existing building.
  NOTE: Wonders and palace can't be sabotaged
 **************************************************************************/
-void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct city *pcity)
+void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct city *pcity, int improvement)
 {
   struct player *cplayer;
   char *prod;
+  struct city *capital;
+
   if (!pcity)
     return;
+
   cplayer=city_owner(pcity);
   if (cplayer==pplayer ||cplayer==NULL) return;
 
@@ -428,56 +504,120 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
   if (!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
     return;  /* failed against defending diplomats/spies */
 
-  switch (myrand(2)) {
-  case 0:
-    pcity->shield_stock=0;
-    if (pcity->is_building_unit) 
-      prod=unit_name(pcity->currently_building);
-    else
-      prod=get_improvement_name(pcity->currently_building);
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-    "Game: Your Diplomat succeeded destroying the production of %s in %s", 
-    prod, pcity->name);
-    notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		     "Game: The production of %s was destroyed in %s, %s are suspected of sabotage.", 
-		     prod, pcity->name, get_race_name_plural(pplayer->race));
 
-    break;
-  case 1:
-    {
-      int building;
-      int i;
-      for (i=0;i<10;i++) {
-	building=myrand(B_LAST);
-	if (city_got_building(pcity, building) 
-	    && !is_wonder(building) && building!=B_PALACE) {
-	  pcity->improvements[building]=0;
-	  break;
+  if(pdiplomat->type != U_SPY){ 
+
+    /* If advance to steal is not specified for a spy or unit is a diplomat*/
+
+    switch (myrand(2)) {
+    case 0:
+      pcity->shield_stock=0;
+      if (pcity->is_building_unit) 
+	prod=unit_name(pcity->currently_building);
+      else
+	prod=get_improvement_name(pcity->currently_building);
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		       "Game: Your Diplomat succeeded destroying the production of %s in %s", 
+		       prod, pcity->name);
+      notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
+		       "Game: The production of %s was destroyed in %s, %s are suspected of sabotage.", 
+		       prod, pcity->name, get_race_name_plural(pplayer->race));
+      
+      break;
+    case 1:
+      {
+	int building;
+	int i;
+	for (i=0;i<10;i++) {
+	  building=myrand(B_LAST);
+	  if (city_got_building(pcity, building) 
+	      && !is_wonder(building) && building!=B_PALACE) {
+	    pcity->improvements[building]=0;
+	    break;
+	  }
+	}
+	if (i<10) {
+	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+			   "Game: Your Diplomat destroyed %s in %s.", 
+			   get_improvement_name(building), pcity->name);
+	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
+			   "Game: The %s destroyed %s in %s.", 
+			   get_race_name_plural(pplayer->race),
+			   get_improvement_name(building), pcity->name);
+	} else {
+	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+			   "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
+	  notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
+			   "Game: You caught a%s %s diplomat in industrial sabotage!",
+			   n_if_vowel(get_race_name(pplayer->race)[0]),
+			   get_race_name(pplayer->race));
+	  
+	  wipe_unit(0, pdiplomat);
+	  return;
 	}
       }
-      if (i<10) {
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			 "Game: Your Diplomat destroyed %s in %s.", 
-			 get_improvement_name(building), pcity->name);
-	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: The %s destroyed %s in %s.", 
-			 get_race_name_plural(pplayer->race),
-                         get_improvement_name(building), pcity->name);
-      } else {
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		      "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
-	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			 "Game: You caught a%s %s diplomat in industrial sabotage!",
-			 n_if_vowel(get_race_name(pplayer->race)[0]),
-			 get_race_name(pplayer->race));
+      break;
+    }
+  }else{
 
+    /*
+     *check we're not trying to sabotage city walls or inside the capital 
+     * If we are, then there is a 50% chance of failing.
+     */
+
+    improvement--;
+
+    capital=find_palace(city_owner(pcity));
+
+    if(pcity == capital || improvement==B_CITY){
+      if(myrand(2)){
+
+	/* Lost */
+	
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+			 "Game: Your Spy was caught in the attempt of sabotage!");
+	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
+			 "Game: You caught a%s %s Spy attempting sabotage of %s!",
+			 n_if_vowel(get_race_name(pplayer->race)[0]),
+			 get_race_name(pplayer->race),get_improvement_name(improvement));
+	
 	wipe_unit(0, pdiplomat);
 	return;
       }
     }
-    break;
+
+    /* OK, sabotage */
+
+    if(improvement == -1){
+      /* Destroy Production */
+ 
+      pcity->shield_stock=0;
+      if (pcity->is_building_unit) 
+	prod=unit_name(pcity->currently_building);
+      else
+	prod=get_improvement_name(pcity->currently_building);
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		       "Game: Your Spy succeeded destroying the production of %s in %s", 
+		       prod, pcity->name);
+      notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
+		       "Game: The production of %s was destroyed in %s, %s are suspected of sabotage.", 
+		       prod, pcity->name, get_race_name_plural(pplayer->race));
+            
+    }else{
+      pcity->improvements[improvement]=0;
+      
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		       "Game: Your Spy destroyed %s in %s.", 
+		       get_improvement_name(improvement), pcity->name);
+      notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
+		       "Game: The %s destroyed %s in %s.", 
+		       get_race_name_plural(pplayer->race),
+		       get_improvement_name(improvement), pcity->name);
+      
+    }
   }
-  send_city_info(cplayer, pcity, 1);
+
+  send_city_info(0, pcity, 1);
   
   /* Check if a spy survives her mission */
   
@@ -771,6 +911,17 @@ void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
   punit->activity=ACTIVITY_IDLE;
   punit->activity_count=0;
   punit->upkeep=0;
+
+  /* 
+     See if this is a spy that has been moved (corrupt and therefore unable 
+     to establish an embassy.
+  */
+
+  if(moves_left != -1 && punit->type == U_SPY)
+    punit->foul=1;
+  else
+    punit->foul=0;
+  
   punit->unhappiness=0;
   punit->fuel=get_unit_type(punit->type)->fuel;
   punit->ai.control=0;

@@ -1209,13 +1209,23 @@ rather than production, and a setter can die if its supporting city
 runs out of food.
 ---
 # Spy
-An improved Diplomat, which has a chance of returning unharmed
-from her missions.  She can also be used to poison the water
-supply of an enemy city - which reduces the population.  A Spy
-cannot establish an Embassy due to the nature of her less
-savory actions.
+A Spy is a full time professional and as such is much more
+skilled in the arts of espionage than her Diplomat predecessor.
 
-A Spy also has one additional movement point per turn.
+The most inoffensive skills in a spy's repertoire are her ability
+to investigate cities - revealing detailed information, and 
+the establishment of embassies.  However, if your spy has gained
+herself a reputation for clandestine behaviour - she will be
+executed if she tries to establish an embassy.
+
+She can also be used to: poison the water supply of an enemy city -
+reducing the population; steal specific technology; and sabotage
+predetermined city targets (note: sabotaging improvements in a
+capital or sabotaging city walls increases the risks of capture).
+A Spy can also infiltrate a city and ferment a revolt.
+
+A spy can also be of aid on the battlefield - sabotaging enemy units
+as well as bribing them to change allegiance.
 ---
 # Stealth Bomber
 An improved Bomber, with more firepower and a higher movement

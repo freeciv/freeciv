@@ -377,6 +377,7 @@ int send_packet_diplomat_action(struct connection *pc,
   cptr=put_int8(cptr, packet->action_type);
   cptr=put_int16(cptr, packet->diplomat_id);
   cptr=put_int16(cptr, packet->target_id);
+  cptr=put_int16(cptr, packet->value);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -398,6 +399,7 @@ recieve_packet_diplomat_action(struct connection *pc)
   cptr=get_int8(cptr, &preq->action_type);
   cptr=get_int16(cptr, &preq->diplomat_id);
   cptr=get_int16(cptr, &preq->target_id);
+  cptr=get_int16(cptr, &preq->value);
   remove_packet_from_buffer(&pc->buffer);
   return preq;
 }
@@ -1032,6 +1034,7 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
     }
   }
 
+  cptr=put_int8(cptr, req->diplomat_investigate);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1098,6 +1101,7 @@ recieve_packet_city_info(struct connection *pc)
     cptr=get_int8(cptr, &packet->trade_value[data]);
   }
   for(;data<4;data++) packet->trade_value[data]=packet->trade[data]=0;
+  cptr=get_int8(cptr, &packet->diplomat_investigate);
 
   remove_packet_from_buffer(&pc->buffer);
 

@@ -200,6 +200,15 @@ void refresh_city_dialog(struct city *pcity)
   }
   city_report_dialog_update(); /* ard's fix */
   trade_report_dialog_update();
+
+  /* Set the buttons we do not want live while a Diplomat investigates */
+  
+  if(pdialog && pcity->diplomat_investigate){
+    XtSetSensitive(pdialog->buy_command, FALSE);
+    XtSetSensitive(pdialog->change_command, FALSE);
+    XtSetSensitive(pdialog->sell_command, FALSE);
+    XtSetSensitive(pdialog->rename_command, FALSE);
+  }
 }
 
 /****************************************************************
@@ -402,7 +411,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    (XtArgVal)pdialog->progress_label,
 			    NULL);
 
-
   pdialog->change_command=
     XtVaCreateManagedWidget("citychangecommand", 
 			    commandWidgetClass,
@@ -412,7 +420,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromHoriz, 
 			    (XtArgVal)pdialog->buy_command,
 			    NULL);
-  
+ 
   pdialog->improvement_viewport=
     XtVaCreateManagedWidget("cityimprovview", 
 			    viewportWidgetClass,
@@ -444,8 +452,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    (XtArgVal)pdialog->map_canvas,
 			    NULL);
   
-
-
   pdialog->support_unit_label=
     XtVaCreateManagedWidget("supportunitlabel",
 			    labelWidgetClass,
@@ -476,6 +482,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			      XtNheight, NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2,
 			      NULL);
     pdialog->support_unit_ids[i]=-1;
+    
+    if(pcity->diplomat_investigate)
+      XtSetSensitive(pdialog->support_unit_pixcomms[i], FALSE);    
   }
 
   pdialog->present_unit_label=
@@ -508,6 +517,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			      XtNheight, NORMAL_TILE_HEIGHT,
 			      NULL);
     pdialog->present_unit_ids[i]=-1;
+
+    if(pcity->diplomat_investigate)
+      XtSetSensitive(pdialog->present_unit_pixcomms[i], FALSE);
   }
 
   
@@ -585,7 +597,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     XtParseTranslationTable("<Key>Return: city-dialog-returnkey()");
   XtOverrideTranslations(pdialog->close_command, textfieldtranslations);
   XtSetKeyboardFocus(pdialog->shell, pdialog->close_command);
-  
+
+
   return pdialog;
 }
 

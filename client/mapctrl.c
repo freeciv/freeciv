@@ -168,6 +168,8 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
   else if(unit_flag(punit->type, F_DIPLOMAT)) {
     if(diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y) ||
        diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y) ||
+       (punit->type==U_SPY && 
+	diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y)) ||
        diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y)) {
       popup_diplomat_dialog(punit, dest_x, dest_y);
       return;

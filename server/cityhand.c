@@ -145,6 +145,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->trade_prod=0;
   pcity->original = pplayer->player_no;
   pcity->is_building_unit=1;
+  pcity->diplomat_investigate = 0;
   pcity->did_buy=-1; /* code so we get a different message */
   pcity->airlift=0;
   if (can_build_unit(pcity, U_RIFLEMEN))
@@ -157,6 +158,9 @@ void create_city(struct player *pplayer, int x, int y, char *name)
       pcity->currently_building=U_PHALANX;
   else
       pcity->currently_building=U_WARRIORS;
+
+  pcity->diplomat_investigate = 0;
+
   for (y = 0; y < CITY_MAP_SIZE; y++)
     for (x = 0; x < CITY_MAP_SIZE; x++)
       pcity->city_map[x][y]=C_TILE_EMPTY;
@@ -619,6 +623,8 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   
   packet.is_building_unit=pcity->is_building_unit;
   packet.currently_building=pcity->currently_building;
+  packet.diplomat_investigate=pcity->diplomat_investigate;
+
   packet.airlift=pcity->airlift;
   packet.did_buy=pcity->did_buy;
   packet.did_sell=pcity->did_sell;
