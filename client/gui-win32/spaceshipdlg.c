@@ -43,6 +43,7 @@
 #include "repodlgs.h"
 #include "spaceship.h"
 #include "tilespec.h"
+#include "text.h"
 
 
 #include "spaceshipdlg.h"

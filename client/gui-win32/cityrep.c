@@ -41,6 +41,7 @@
 #include "options.h"
 #include "repodlgs.h"
 #include "climisc.h"
+#include "text.h"
                            
 #include "cityrep.h"
 extern HINSTANCE freecivhinst;
@@ -640,7 +641,7 @@ static void menu_proc(HWND hWnd,int cmd, DWORD num)
   if ((cmd>=ID_IMPROVEMENTS_POPUP_BASE)&&
       (cmd<max_improvement_id))
     {
-      list_impr_or_unit_select(hLst,num,city_got_building);
+      list_impr_or_unit_select(hLst,num,city_building_present);
       max_improvement_id=0;
     }
 }

@@ -47,6 +47,7 @@
 #include "goto.h"
 #include "gui_main.h"
 #include "mapview.h"
+#include "text.h"
 
 static struct Sprite *indicator_sprite[3];
 
@@ -69,10 +70,6 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int offset_x, int offset_y, int offset_y_unit,
                                 int width, int height, int height_unit,
                                 enum draw_type draw);
-static void dither_tile(HDC hdc, struct Sprite **dither,
-                        int canvas_x, int canvas_y,
-                        int offset_x, int offset_y,
-                        int width, int height, bool fog);
 static void draw_rates(HDC hdc);
 
 

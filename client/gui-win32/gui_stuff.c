@@ -1359,10 +1359,10 @@ void my_get_win_border(HWND hWnd,int *w,int *h)
 /**************************************************************************
 
 **************************************************************************/
-char *convertnl2crnl(char *str)
+char *convertnl2crnl(const char *str)
 {
   int i;
-  char *old;
+  const char *old;
   char *buf;
   char *newbuf;
   old=str;

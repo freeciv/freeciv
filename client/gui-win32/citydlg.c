@@ -50,6 +50,7 @@
 #include "wldlg.h"   
 #include "gui_main.h"
 #include "citydlg.h"
+#include "text.h"
 
 #define NUM_UNITS_SHOWN  12
 #define NUM_CITIZENS_SHOWN 25   
