@@ -2559,6 +2559,7 @@ static void load_ruleset_cities(struct section_file *file)
       = secfile_lookup_int(file, "specialist.%s_base_bonus", name);
     
   }
+  free(specialist_names);
 
   game.rgame.changable_tax = 
     secfile_lookup_bool_default(file, TRUE, "specialist.changable_tax");
