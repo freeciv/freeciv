@@ -119,12 +119,25 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
 		enum clause_type type, int val)
 {
   struct Clause *pclause;
+  enum diplstate_type ds = 
+                     pplayer_get_diplstate(ptreaty->plr0, ptreaty->plr1)->type;
 
   if (type == CLAUSE_ADVANCE && !tech_exists(val)) {
     freelog(LOG_ERROR, "Illegal tech value %i in clause.", val);
     return FALSE;
   }
   
+  if (is_pact_clause(type)
+      && ((ds == DS_PEACE && type == CLAUSE_PEACE)
+          || (ds == DS_ALLIANCE && type == CLAUSE_ALLIANCE)
+          || (ds == DS_CEASEFIRE && type == CLAUSE_CEASEFIRE))) {
+    /* we already have this diplomatic state */
+    freelog(LOG_ERROR, "Illegal treaty suggested between %s and %s - they "
+                       "already have this treaty level.", ptreaty->plr0->name, 
+                       ptreaty->plr1->name);
+    return FALSE;
+  }
+
   clause_list_iterate(ptreaty->clauses, pclause) {
     if(pclause->type==type
        && pclause->from==pfrom
