@@ -1501,7 +1501,7 @@ int city_change_production_penalty(const struct city *pcity,
   if (orig_class == new_class) {
     /* There's never a penalty for building something of the same class. */
     unpenalized_shields = pcity->before_change_shields;
-  } else if (game_next_year(pcity->turn_last_built) >= game.year) {
+  } else if (city_built_last_turn(pcity)) {
     /* Surplus shields from the previous production won't be penalized if
      * you change production on the very next turn.  But you can only use
      * up to the city's surplus amount of shields in this way. */
@@ -1911,6 +1911,15 @@ void get_tax_income(struct player *pplayer, int trade, int *sci,
     }
   }
   assert(*sci + *tax + *lux == trade);
+}
+
+/**************************************************************************
+  Return TRUE if the city built something last turn (meaning production
+  was completed between last turn and this).
+**************************************************************************/
+bool city_built_last_turn(const struct city *pcity)
+{
+  return pcity->turn_last_built + 1 >= game.turn;
 }
 
 /**************************************************************************
@@ -2722,7 +2731,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->did_sell = FALSE;
   pcity->airlift = FALSE;
 
-  pcity->turn_last_built = game.year;
+  pcity->turn_last_built = game.turn;
   pcity->changed_from_id = pcity->currently_building;
   pcity->changed_from_is_unit = pcity->is_building_unit;
   pcity->before_change_shields = 0;

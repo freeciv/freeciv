@@ -402,7 +402,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
   UINT8 currently_building;
   BOOL is_building_unit;
 
-  YEAR turn_last_built;
+  TURN turn_last_built;
   UINT8 changed_from_id;
   BOOL changed_from_is_unit;
   UINT16 before_change_shields;

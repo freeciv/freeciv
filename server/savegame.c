@@ -177,7 +177,7 @@
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
 "attributes watchtower rulesetdir client_worklists orders " \
-"startunits"
+"startunits turn_last_built"
 
 static const char hex_chars[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
@@ -1271,9 +1271,14 @@ static void player_load(struct player *plr, int plrno,
     pcity->currently_building=
       secfile_lookup_int(file, 
 			 "player%d.c%d.currently_building", plrno, i);
-    pcity->turn_last_built=
-      secfile_lookup_int_default(file, GAME_START_YEAR,
-				 "player%d.c%d.turn_last_built", plrno, i);
+    if (has_capability("turn_last_built", savefile_options)) {
+      pcity->turn_last_built = secfile_lookup_int(file,
+				"player%d.c%d.turn_last_built", plrno, i);
+    } else {
+      /* Before, turn_last_built was stored as a year.  There is no easy
+       * way to convert this into a turn value. */
+      pcity->turn_last_built = 0;
+    }
     pcity->changed_from_id=
       secfile_lookup_int_default(file, pcity->currently_building,
 				 "player%d.c%d.changed_from_id", plrno, i);

@@ -270,7 +270,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   init_choice(&newchoice);
 
   if (ai_handicap(pplayer, H_AWAY)
-      && game_next_year(pcity->turn_last_built) != game.year
+      && city_built_last_turn(pcity)
       && pcity->ai.urgency == 0) {
     /* Don't change existing productions unless we have to. */
     return;

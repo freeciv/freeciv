@@ -486,6 +486,7 @@ int get_colosseum_power(const struct city *pcity);
 int get_city_tax_bonus(const struct city *pcity);
 int get_city_shield_bonus(const struct city *pcity);
 int get_city_science_bonus(const struct city *pcity);
+bool city_built_last_turn(const struct city *pcity);
 
 /* city creation / destruction */
 struct city *create_city_virtual(struct player *pplayer, const int x,

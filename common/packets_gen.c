@@ -4826,7 +4826,7 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
   }
   real_packet->is_building_unit = BV_ISSET(fields, 27);
   if (BV_ISSET(fields, 28)) {
-    dio_get_sint16(&din, (int *) &real_packet->turn_last_built);
+    dio_get_uint16(&din, (int *) &real_packet->turn_last_built);
   }
   if (BV_ISSET(fields, 29)) {
     dio_get_uint8(&din, (int *) &real_packet->changed_from_id);
@@ -5320,7 +5320,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   }
   /* field 27 is folded into the header */
   if (BV_ISSET(fields, 28)) {
-    dio_put_sint16(&dout, real_packet->turn_last_built);
+    dio_put_uint16(&dout, real_packet->turn_last_built);
   }
   if (BV_ISSET(fields, 29)) {
     dio_put_uint8(&dout, real_packet->changed_from_id);

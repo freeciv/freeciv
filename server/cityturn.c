@@ -959,7 +959,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     pcity->before_change_shields -=
 	impr_build_shield_cost(pcity->currently_building);
     pcity->shield_stock -= impr_build_shield_cost(pcity->currently_building);
-    pcity->turn_last_built = game.year;
+    pcity->turn_last_built = game.turn;
     /* to eliminate micromanagement */
     if (is_wonder(pcity->currently_building)) {
       game.global_wonders[pcity->currently_building] = pcity->id;
@@ -1077,7 +1077,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     assert(pop_cost == 0 || pcity->size >= pop_cost);
 
     /* don't update turn_last_built if we returned above */
-    pcity->turn_last_built = game.year;
+    pcity->turn_last_built = game.turn;
 
     (void) create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
 		       do_make_unit_veteran(pcity, pcity->currently_building),
