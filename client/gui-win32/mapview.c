@@ -1364,16 +1364,12 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   /*** Draw and dither base terrain ***/
   if (dither_count > 0) {
     for (i = 0; i < dither_count; i++) {
-      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[0],
+      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
 			      offset_x, offset_y, width, height, fog);
-      i++;
     }
 
     dither_tile(hdc, dither, canvas_x, canvas_y,
                   offset_x, offset_y, width, height, fog);
-
-    draw_fog_part(hdc,canvas_x+offset_x,canvas_y+offset_y,
-		  width,height,offset_x,offset_y);
   }
   
   /*** Rest of terrain and specials ***/
