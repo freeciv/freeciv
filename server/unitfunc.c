@@ -34,6 +34,10 @@
 #include <shared.h>
 #include <aiunit.h>
 #include <sys/time.h>
+#include <advmilitary.h>
+
+extern struct move_cost_map warmap;
+
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 
 /******************************************************************************
@@ -331,6 +335,8 @@ void player_restore_units(struct player *pplayer)
 {
   struct city *pcity;
   int leonardo=0;
+  struct unit_list list;
+  struct unit *next_unit;
 
   pcity=city_list_find_id(&pplayer->cities, 
 			  game.global_wonders[B_LEONARDO]);
@@ -379,6 +385,19 @@ void player_restore_units(struct player *pplayer)
 	if (!is_coastline(punit->x, punit->y) && (myrand(100) >= 50)) {
 	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			   "Game: Your Trireme has been lost on the high seas");
+          transporter_cargo_to_unitlist(punit, &list);
+          while (next_unit = (struct unit *)ITERATOR_PTR(myiter)) {
+             if (unit_list_find(&list, next_unit->id)) {
+printf("Iterating\n");
+ITERATOR_NEXT(myiter); }
+          }
+/* following filched from wipe_unit since t_c_2_u unlinks the damned -- Syela */
+          unit_list_iterate(list, punit2) {
+            send_remove_unit(0, punit2->id);
+            game_remove_unit(punit2->id);
+          }
+          unit_list_iterate_end;
+/* only now can we proceed to */
 	  wipe_unit(pplayer, punit);
 	}
       }
@@ -699,7 +718,9 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   }
 
   if(punit->activity==ACTIVITY_GOTO) {
-    do_unit_goto(pplayer, punit);
+    if (!punit->ai.control) /* autosettlers otherwise waste oodles of time -- Syela */
+/* cannot set them idle or assignment doesn't work right -- Syela */
+      do_unit_goto(pplayer, punit);
     return;
   }
   
@@ -1053,69 +1074,10 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   return 1;
 }
 
-#ifdef OBSOLETE
 /********************************************************************
   find some work for the settler
 *********************************************************************/
-void auto_settler_findwork(struct player *pplayer, struct unit *punit) 
-{
-  int gx,gy;
-  int co=map_get_continent(punit->x, punit->y);
-  int t=0;
-  int v=0;
-  int v2;
-  int x, y,z;
-
-  gx=-1;
-  gy=-1;
-  for (x=0;x<map.xsize;x++)
-    for (y=0;y<map.ysize;y++) 
-      if (map_get_continent(x, y)==co) {
-	z=map_distance(x,y, punit->x, punit->y);
-	v2=dist_mod(z, ai_calc_irrigate(punit, pplayer, x, y));
-	if (v2>v) {
-	  t=ACTIVITY_IRRIGATE;
-	  v=v2; gx=x; gy=y;
-	}
-
-	v2=dist_mod(z, ai_calc_road(punit, pplayer, x, y));
-	if (v2>v) {
-	  if (map_get_special(punit->x, punit->y) & S_ROAD)
-	    t=ACTIVITY_RAILROAD;
-	  else
-	    t=ACTIVITY_ROAD;
-	  v=v2; gx=x; gy=y;
-	}
-
-	v2=dist_mod(z, ai_calc_mine(punit, pplayer, x, y));
-	if (v2>v) {
-	  t=ACTIVITY_MINE;
-	  v=v2; gx=x; gy=y;
-	}
-
-	v2=dist_mod(z, ai_calc_pollution(punit, pplayer, x, y));
-	if (v2>v) {
-	  t=ACTIVITY_POLLUTION;
-	  v=v2; gx=x; gy=y;
-	}
-      }
-  if (same_pos(gx, gy, punit->x, punit->y)) {
-    set_unit_activity(punit, t);
-    send_unit_info(0, punit, 0);
-    return;
-  }
-  if (gx!=-1 && gy!=-1) 
-    auto_settler_do_goto(pplayer, punit,gx, gy);
-  else 
-    punit->ai.control=0;
-}
-
-#else
-
-/********************************************************************
-  find some work for the settler
-*********************************************************************/
-void auto_settler_findwork(struct player *pplayer, struct unit *punit) 
+int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   int gx,gy;
   int co=map_get_continent(punit->x, punit->y);
@@ -1123,74 +1085,184 @@ void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int v=0;
   int v2;
   int x, y, z, i, j;
+  int m = unit_types[punit->type].move_rate;
+  int food;
+  int val;
+  int w;
+  int a, b, d;
+  struct city *mycity = map_get_city(punit->x, punit->y);
+  int fu;
+  struct city *capital = find_palace(pplayer);
+  int dist;
+
+  if (punit->id) fu = 30; /* fu is estimated food cost to produce settler -- Syela */
+  else {
+    if (mycity->size == 1) fu = 20;
+    else fu = 40 * (mycity->size - 1) / mycity->size;
+    if (city_got_building(mycity, B_GRANARY)) fu -= 20;
+  }
 
   gx=-1;
   gy=-1;
 /* iterating over the whole map is just ridiculous.  let's only look at
 our own cities.  The old method wasted billions of CPU cycles and led to
 AI settlers improving enemy cities. */ /* arguably should include city_spot */
-
+  generate_warmap(mycity, punit);
+  food = (get_government(pplayer->player_no) > G_COMMUNISM ? 2 : 1);
   city_list_iterate(pplayer->cities, pcity)
+    w = worst_worker_tile_value(pcity);
     city_map_iterate(i, j) {
       x = map_adjust_x(pcity->x + i - 2);
       y = map_adjust_y(pcity->y + j - 2);
       if (map_get_continent(x, y) == co &&
+          warmap.cost[x][y] <= THRESHOLD * m &&
           !is_already_assigned(punit, pplayer, x, y)) {
 /* calling is_already_assigned once instead of four times for obvious reasons */
-/* the rest of this is all old and bad but will suffice for now -- Syela */
-	z=map_distance(x,y, punit->x, punit->y);
-	v2=dist_mod(z, ai_calc_irrigate(punit, pplayer, x, y));
+/* structure is much the same as it once was but subroutines are not -- Syela */
+	z = (warmap.cost[x][y]) / m;
+        val = city_tile_value(pcity, i, j, 0, 0);
+        if (w > val && (i != 2 || j != 2)) val = w;
+/* perhaps I should just subtract w rather than val but I prefer this -- Syela */
+
+	v2 = ai_calc_irrigate(pcity, pplayer, i, j);
+        d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
 	if (v2>v) {
+/*printf("Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d\n",
+gx, gy, v, x, y, v2, d, b);*/
 	  t=ACTIVITY_IRRIGATE;
 	  v=v2; gx=x; gy=y;
-	}
+        }
 
-	v2=dist_mod(z, ai_calc_road(punit, pplayer, x, y));
-	if (v2>v) {
-	  if (map_get_special(x, y) & S_ROAD)
-	    t=ACTIVITY_RAILROAD;
-	  else
-	    t=ACTIVITY_ROAD;
-	  v=v2; gx=x; gy=y;
-	}
-
-	v2=dist_mod(z, ai_calc_mine(punit, pplayer, x, y));
-	if (v2>v) {
+	v2 = ai_calc_mine(pcity, pplayer, i, j);
+        d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {    
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
+        if (v2>v) {
+/*printf("Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d\n",
+gx, gy, v, x, y, v2, d, b);*/
 	  t=ACTIVITY_MINE;
 	  v=v2; gx=x; gy=y;
-	}
+        }
 
-	v2=dist_mod(z, ai_calc_pollution(punit, pplayer, x, y));
-	if (v2>v) {
+	v2 = ai_calc_road(pcity, pplayer, i, j);
+        if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
+/* guessing about the weighting based on unit upkeeps; * 11 was too high! -- Syela */
+        d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {    
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
+        if (v2>v) {
+/*printf("Replacing (%d, %d) = %d with (%d, %d) R=%d d=%d, b=%d\n",
+gx, gy, v, x, y, v2, d, b);*/
+	  t=ACTIVITY_ROAD;
+	  v=v2; gx=x; gy=y;
+        }
+
+	v2 = ai_calc_railroad(pcity, pplayer, i, j);
+        if (v2) v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
+        d = (3 * 3 + m - 1) / m + z;
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {    
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
+        if (v2>v) {
+	  t=ACTIVITY_RAILROAD;
+	  v=v2; gx=x; gy=y;
+        }
+
+	v2 = ai_calc_pollution(pcity, pplayer, i, j);
+        d = (3 * 3 + z + m - 1) / m + z;
+        b = (v2 - val)<<6; /* arbitrary, for rounding errors */
+        if (b > 0) {    
+          a = amortize(b, d);
+          v2 = ((a * b) / (MAX(1, b - a)))>>6;
+        } else v2 = 0;
+        if (v2>v) {
 	  t=ACTIVITY_POLLUTION;
 	  v=v2; gx=x; gy=y;
-	}
+        }
       } /* end if we are a legal destination */
-     } /* end city map iterate */
-   city_list_iterate_end;
-/* ridiculous code is preserved above the #else for your amusement -- Syela */
-   if (gx!=-1 && gy!=-1) {
-     map_get_tile(gx, gy)->assigned =
-         map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
-     if (!same_pos(gx, gy, punit->x, punit->y))
-       auto_settler_do_goto(pplayer, punit,gx, gy);
-   } else {
-     if (benefit_road(pplayer, punit->x, punit->y)) {
-/* VERY TEMPORARY FIX for idle 2nd settler until multiple cityspots are known -- Syela */
-       gx = punit->x; gy = punit->y;
-       t = (map_get_tile(gx, gy)->special & S_ROAD ? ACTIVITY_RAILROAD : ACTIVITY_ROAD);
-     } else punit->ai.control=0;
+    } /* end city map iterate */
+  city_list_iterate_end;
+
+  v = (v - food * FOOD_WEIGHTING) * 100 / (40 + fu);
+
+  if (pplayer->ai.control) { /* don't want to make cities otherwise */
+    punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
+    generate_minimap(pplayer);
+    for (i = -7; i <= 7; i++) {
+      for (j = -7; j <= 7; j++) { /* hope this is far enough -- Syela */
+        x = map_adjust_x(punit->x + i);
+        y = map_adjust_y(punit->y + j);
+        if (map_get_continent(x, y) == co &&
+            !is_already_assigned(punit, pplayer, x, y)) {
+          z = warmap.cost[x][y]; /* + m - 1; not this time */
+          if (!capital) {
+            if (city_list_size(&pplayer->cities)) dist=36;
+            else dist = 0;   
+          } else dist=MIN(36,map_distance(capital->x, capital->y, x, y));
+          d = z / m;
+/* without this, the computer will go 6-7 tiles from X to build a city at Y */
+          d *= 2;
+/* and then build its NEXT city halfway between X and Y. -- Syela */
+          v2 = amortize(city_desirability(x, y, dist, pplayer), d);
+          b = (food * FOOD_WEIGHTING) * MORT;
+          v2 -= (b - amortize(b, d));
+/* deal with danger Real Soon Now! -- Syela */
+/* v2 is now the value over mort turns */
+          v2 = (v2 * 100) / MORT / (40 + fu);
+          if (v2 > v) {
+/*printf("City_des (%d, %d) = %d, v2 = %d, d = %d\n",
+x, y, city_desirability(x, y, dist, pplayer), v2, d);*/
+            t = ACTIVITY_UNKNOWN; /* flag */
+            v = v2; gx = x; gy = y;
+/* short-term opportunity cost is handled via w for city-building */
+          }
+        }
+      }
+    }
+  }
+
+  if (!punit->id) return(v); /* virtual unit for assessing settler want */
+
+  if (gx!=-1 && gy!=-1) {
+    if (t == ACTIVITY_UNKNOWN) punit->ai.ai_role = AIUNIT_BUILD_CITY;
+    else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
+    map_get_tile(gx, gy)->assigned =
+        map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
+    if (!same_pos(gx, gy, punit->x, punit->y))
+      auto_settler_do_goto(pplayer, punit,gx, gy);
+  } else {
+    if (!map_get_special(punit->x, punit->y) & S_ROAD) {
+/* this should not ever be needed anymore, but ... -- Syela */
+      gx = punit->x; gy = punit->y;
+      t = ACTIVITY_ROAD;
+    } else punit->ai.control=0;
   }
 
   if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) {
     if (same_pos(gx, gy, punit->x, punit->y)) {
+      if (t == ACTIVITY_UNKNOWN) {
+        ai_do_build_city(pplayer, punit);
+        return(0);
+      }
       set_unit_activity(punit, t);
       send_unit_info(0, punit, 0);
-      return;
+      return(0);
     }
   }
 }
-#endif
 
 /************************************************************************** 
   run through all the players settlers and let those on ai.control work 
@@ -1212,6 +1284,8 @@ void auto_settlers_player(struct player *pplayer)
 	 !map_get_terrain(punit->x, punit->y) == T_OCEAN &&
 	 is_ground_unit(punit))
 	set_unit_activity(punit, ACTIVITY_IDLE);
+      if (punit->activity == ACTIVITY_GOTO && punit->moves_left)
+        set_unit_activity(punit, ACTIVITY_IDLE);
       if (punit->activity == ACTIVITY_IDLE)
 	auto_settler_findwork(pplayer, punit);
 /* printf("Has been processed.\n"); */
@@ -1269,7 +1343,3 @@ void auto_settlers()
     auto_settlers_player(&game.players[i]);
   }
 }
-
-
-
-
