@@ -2154,12 +2154,14 @@ msgstr " M Produkte"
 #: server/report.c:422
 msgid " month"
 msgid_plural " months"
-msgstr[0] " Monate"
+msgstr[0] " Monat"
+msgstr[1] " Monate"
 
 #: server/report.c:427
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " t"
+msgstr[1] " t"
 
 #: server/report.c:441
 msgid "st"
@@ -2195,6 +2197,7 @@ msgstr "Die %s der %s"
 msgid "%2d: The %s %s scored %d point\n"
 msgid_plural "%2d: The %s %s scored %d points\n"
 msgstr[0] "%2d: Die %s %s erreichten %d Punkte.\n"
+msgstr[1] "%2d: Die %s %s erreichten %d Punkte.\n"
 
 #: server/report.c:1019
 msgid "Final Report:"
@@ -5264,7 +5267,7 @@ msgstr "%s verlieren %s beim Kampf gegen die %s"
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
-msgstr[0] "Spiel: 1 Einheit bei einem Angriff von %ss %s verloren."
+msgstr[0] "Spiel: %d Einheit bei einem Angriff von %ss %s verloren."
 msgstr[1] "Spiel: %d Einheiten bei einem Angriff von %ss %s verloren."
 
 #: server/unittools.c:1946
@@ -5897,7 +5900,8 @@ msgstr "Reisezeit:          ?       "
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
-msgstr[0] "Gewicht:           %5d t"
+msgstr[0] "Gewicht:         %5d t"
+msgstr[1] "Gewicht:         %5d t"
 
 #: client/climisc.c:1138
 #, c-format
@@ -6059,19 +6063,22 @@ msgstr "Ermöglicht allen Spielern mit Kenntnis von %s den Bau von %s."
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
-msgstr[0] "* Kann %d Lufteinheiten transportieren und betanken.\n"
+msgstr[0] "* Kann 1 Lufteinheit transportieren und betanken.\n"
+msgstr[1] "* Kann %d Lufteinheiten transportieren und betanken.\n"
 
 #: client/helpdata.c:600
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
-msgstr[0] "* Kann %d Raketeneinheiten transportieren und betanken.\n"
+msgstr[0] "* Kann 1 Raketeneinheit transportieren und betanken.\n"
+msgstr[1] "* Kann %d Raketeneinheiten transportieren und betanken.\n"
 
 #: client/helpdata.c:605
 #, c-format
 msgid "* Can carry %d ground unit across water.\n"
 msgid_plural "* Can carry %d ground units across water.\n"
-msgstr[0] "* Kann %d Bodeneinheiten transportieren.\n"
+msgstr[0] "* Kann 1 Bodeneinheit transportieren.\n"
+msgstr[1] "* Kann %d Bodeneinheiten transportieren.\n"
 
 #: client/helpdata.c:611
 msgid "* Can establish trade routes.\n"
@@ -6926,7 +6933,8 @@ msgstr "individuell"
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
-msgstr[0] "%d Runden"
+msgstr[0] "1 Runde"
+msgstr[1] "%d Runden"
 
 #: client/agents/cma_fec.c:362 client/gui-mui/citydlg.c:2271
 msgid " happy"
@@ -7865,7 +7873,9 @@ msgstr "Aktualisieren"
 #: client/gui-xaw/connectdlg.c:320
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
-msgstr "Verbindungsaufbau mit Server '%s' an Port %d war nicht möglich."
+msgstr ""
+"Verbindungsaufbau zu Server '%s' an Port %d als '%s' war "
+"(in %d Versuchen) nicht möglich."
 
 #: client/gui-gtk-2.0/connectdlg.c:344 client/gui-gtk-2.0/connectdlg.c:346
 #: client/gui-gtk/connectdlg.c:325 client/gui-gtk/connectdlg.c:327
@@ -8638,7 +8648,8 @@ msgstr "Keine Obergrenze, "
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum"
-msgstr[0] "Maximal %d Einheiten, "
+msgstr[0] "Maximal 1 Einheit, "
+msgstr[1] "Maximal %d Einheiten, "
 
 #: client/gui-gtk-2.0/happiness.c:372 client/gui-gtk/happiness.c:372
 #: client/gui-mui/citydlg.c:2432 client/gui-win32/happiness.c:314
@@ -9838,7 +9849,8 @@ msgstr "R.I.P"
 #, c-format
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
-msgstr[0] "(unverändert seit %d Runden)"
+msgstr[0] "(unverändert seit 1 Runde)"
+msgstr[1] "(unverändert seit %d Runden)"
 
 #: client/gui-gtk-2.0/plrdlg.c:534 client/gui-gtk/plrdlg.c:534
 #: client/gui-mui/plrdlg.c:259 client/gui-win32/plrdlg.c:74
@@ -9861,7 +9873,8 @@ msgstr "Ziel"
 #, c-format
 msgid "(%d step)"
 msgid_plural "(%d steps)"
-msgstr[0] "(%d Schritte)"
+msgstr[0] "(1 Schritt)"
+msgstr[1] "(%d Schritte)"
 
 #: client/gui-gtk-2.0/repodlgs.c:361 client/gui-gtk/repodlgs.c:360
 msgid "Research speed: no research"
@@ -9871,7 +9884,8 @@ msgstr "Forschungstempo: Keine Forschung"
 #, c-format
 msgid "Research speed: %d turn/advance"
 msgid_plural "Research speed: %d turns/advance"
-msgstr[0] "Forschungstempo: %d Runden / Fortschritt"
+msgstr[0] "Forschungstempo: 1 Runde / Fortschritt"
+msgstr[1] "Forschungstempo: %d Runden / Fortschritt"
 
 #: client/gui-gtk-2.0/repodlgs.c:543 client/gui-gtk/repodlgs.c:545
 #: client/gui-mui/repodlgs.c:476 client/gui-win32/repodlgs.c:474
@@ -11066,7 +11080,11 @@ msgid_plural ""
 "(%d turns/advance)"
 msgstr[0] ""
 "%s\n"
+"(1 Runde / Fortschritt)"
+msgstr[1] ""
+"%s\n"
 "(%d Runden / Fortschritt)"
+
 
 #: client/gui-mui/repodlgs.c:343 client/gui-mui/repodlgs.c:344
 msgid "_Goal"
@@ -11166,6 +11184,7 @@ msgstr "Arbeitsliste bearbeiten"
 msgid "entry"
 msgid_plural "entries"
 msgstr[0] "Eintrag"
+msgstr[1] "Einträge"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:228
@@ -11467,6 +11486,9 @@ msgid_plural ""
 "\n"
 "(%d turns/advance)"
 msgstr[0] ""
+"\n"
+"(1 Runde / Fortschritt)"
+msgstr[1] ""
 "\n"
 "(%d Runden / Fortschritt)"
 
