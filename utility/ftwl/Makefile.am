@@ -1,6 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LIBRARIES = libftwl.a
+if FTWL
+FTWLLIB=libftwl.a
+else
+FTWLLIB=
+endif
+
+noinst_LIBRARIES = $(FTWLLIB)
 
 AM_CPPFLAGS = -I. -I$(top_srcdir)/utility  -I../../intl -I/usr/include/freetype2 @CLIENT_CFLAGS@
 
