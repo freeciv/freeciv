@@ -30,6 +30,8 @@ libguiclient_a_SOURCES = \
 	gui_main.h	\
 	gui_stuff.h	\
 	gui_stuff.c	\
+	happiness.c	\
+	happiness.h	\
 	helpdlg.c	\
 	helpdlg.h	\
 	inputdlg.c	\

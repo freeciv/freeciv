@@ -9,7 +9,8 @@
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/        
+***********************************************************************/
+ 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif   
@@ -36,6 +37,7 @@
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"
+#include "happiness.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
 #include "mapview.h"
@@ -50,7 +52,7 @@
 #define NUM_CITIZENS_SHOWN 25   
 #define ID_CITYOPT_RADIO 100
 #define ID_CITYOPT_TOGGLE 200
-#define NUM_TABS 4
+#define NUM_TABS 5
 struct city_dialog {
   struct city *pcity;
   HBITMAP map_bmp;
@@ -68,10 +70,10 @@ struct city_dialog {
   HWND activate_but;
   HWND unitlist_but;
   HWND configure_but;
-  HWND prod_area;
-  HWND output_area;
-  HWND pollution_area;
-  HWND storage_area;
+  HWND prod_area[2];
+  HWND output_area[2];
+  HWND pollution_area[2];
+  HWND storage_area[2];
   HWND build_area;
   HWND supported_label;
   HWND present_label;
@@ -83,8 +85,8 @@ struct city_dialog {
   struct fcwin_box *full_win;
   struct fcwin_box *buttonrow;
   int upper_y;
-  int map_x;
-  int map_y;
+  POINT map;
+  POINT maph; /* Happiness Dialog */
   int map_w;
   int map_h;
   int pop_y;
@@ -103,6 +105,7 @@ struct city_dialog {
   int change_list_num_improvements;
   
   int is_modal;    
+  struct happiness_dlg *happiness;
 };
 
 
@@ -137,7 +140,8 @@ static LONG CALLBACK trade_page_proc(HWND win, UINT message,
 				     WPARAM wParam, LPARAM lParam);
 static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
 					   WPARAM wParam, LPARAM lParam);
-
+static LONG CALLBACK happiness_proc(HWND win, UINT message,
+				    WPARAM wParam, LPARAM lParam);
 static LONG APIENTRY citydlg_config_proc(HWND hWnd,
 					 UINT message,
 					 UINT wParam,
@@ -145,17 +149,19 @@ static LONG APIENTRY citydlg_config_proc(HWND hWnd,
 
 static WNDPROC tab_procs[NUM_TABS]={citydlg_overview_proc,
 				    worklist_editor_proc,
-				    /*   happiness_proc,
-					 cma_proc, */
+				    happiness_proc,
+				    /*	 cma_proc, */
 				    trade_page_proc,citydlg_config_proc};
 enum t_tab_pages {
   PAGE_OVERVIEW=0,
   PAGE_WORKLIST,
-  /* PAGE_HAPPINESS,
-     PAGE_CMA, */
+  PAGE_HAPPINESS,
+  /*   PAGE_CMA, */
   PAGE_TRADE,
   PAGE_CONFIG
 };
+
+
 
 
 /**************************************************************************
@@ -165,6 +171,7 @@ enum t_tab_pages {
 void refresh_city_dialog(struct city *pcity)
 {
   HDC hdc; 
+  HBITMAP old;
   struct city_dialog *pdialog;
   if((pdialog=get_city_dialog(pcity))) {
     hdc=GetDC(pdialog->mainwindow);
@@ -173,9 +180,16 @@ void refresh_city_dialog(struct city *pcity)
     hdc=GetDC(pdialog->tab_childs[0]);
     city_dialog_update_supported_units(hdc,pdialog, 0);
     city_dialog_update_present_units(hdc,pdialog, 0);   
- 
     city_dialog_update_map(hdc,pdialog);
     ReleaseDC(pdialog->tab_childs[0],hdc);
+
+    hdc=GetDC(pdialog->tab_childs[PAGE_HAPPINESS]);
+    old=SelectObject(citydlgdc,pdialog->map_bmp);
+    BitBlt(hdc,pdialog->maph.x,pdialog->maph.y,city_map_width,
+	   city_map_height,citydlgdc,0,0,SRCCOPY);
+    SelectObject(citydlgdc,old);
+    ReleaseDC(pdialog->tab_childs[PAGE_HAPPINESS],hdc);
+    
     city_dialog_update_improvement_list(pdialog);  
     city_dialog_update_production(pdialog);
     city_dialog_update_output(pdialog);
@@ -183,6 +197,7 @@ void refresh_city_dialog(struct city *pcity)
     city_dialog_update_storage(pdialog);
     city_dialog_update_pollution(pdialog);    
     city_dialog_update_tradelist(pdialog);
+    refresh_happiness_box(pdialog->happiness);
     resize_city_dialog(pdialog);
   }
   if (pcity->owner==game.player_idx)
@@ -360,7 +375,8 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
   char buf[512];
   struct city *pcity=pdialog->pcity;
   my_snprintf(buf, sizeof(buf), _("Pollution:   %3d"), pcity->pollution);   
-  SetWindowText(pdialog->pollution_area,buf);
+  SetWindowText(pdialog->pollution_area[0],buf);
+  SetWindowText(pdialog->pollution_area[1],buf);
 }
   
 /**************************************************************************
@@ -373,8 +389,8 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   my_snprintf(buf, sizeof(buf), _("Granary: %3d/%-3d"), pcity->food_stock,
           game.foodbox*(pcity->size+1));   
-  SetWindowText(pdialog->storage_area,buf);
-
+  SetWindowText(pdialog->storage_area[0],buf);
+  SetWindowText(pdialog->storage_area[1],buf);
 }
 
 /**************************************************************************
@@ -390,8 +406,8 @@ void city_dialog_update_production(struct city_dialog *pdialog)
 	      pcity->food_prod, pcity->food_surplus,
 	      pcity->shield_prod, pcity->shield_surplus,
 	      pcity->trade_prod+pcity->corruption, pcity->trade_prod);              
-  SetWindowText(pdialog->prod_area,buf);
-  
+  SetWindowText(pdialog->prod_area[0],buf);
+  SetWindowText(pdialog->prod_area[1],buf);
 }
 /**************************************************************************
 ...
@@ -407,8 +423,8 @@ void city_dialog_update_output(struct city_dialog *pdialog)
 	      pcity->tax_total, city_gold_surplus(pcity),
 	      pcity->luxury_total,
 	      pcity->science_total);      
-  SetWindowText(pdialog->output_area,buf);
-  
+  SetWindowText(pdialog->output_area[0],buf);
+  SetWindowText(pdialog->output_area[1],buf);
 }
 
 /**************************************************************************
@@ -437,6 +453,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   }
 
   my_snprintf(buf2, sizeof(buf2), "%s\r\n%s", descr, buf);
+  SetWindowText(pdialog->build_area, buf2);
   SetWindowText(pdialog->build_area, buf2);
   resize_city_dialog(pdialog);
  
@@ -549,7 +566,7 @@ void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog)
   else
     city_dialog_update_map_ovh(citydlgdc,pdialog);
                            
-  BitBlt(hdc,pdialog->map_x,pdialog->map_y,city_map_width,
+  BitBlt(hdc,pdialog->map.x,pdialog->map.y,city_map_width,
 	 city_map_height,
 	 citydlgdc,0,0,SRCCOPY);
   SelectObject(citydlgdc,oldbit);
@@ -655,10 +672,8 @@ static void CityDlgClose(struct city_dialog *pdialog)
 
 static void map_minsize(POINT *minsize,void * data)
 {
-  struct city_dialog *pdialog;
-  pdialog=(struct city_dialog *)data;
-  minsize->x=pdialog->map_w;
-  minsize->y=pdialog->map_h;
+  minsize->x=city_map_width;
+  minsize->y=city_map_height;
 }
 
 /**************************************************************************
@@ -668,10 +683,10 @@ static void map_minsize(POINT *minsize,void * data)
 
 static void map_setsize(LPRECT setsize,void *data)
 {
-  struct city_dialog *pdialog;
-  pdialog=(struct city_dialog *)data;
-  pdialog->map_x=setsize->left;
-  pdialog->map_y=setsize->top;
+  POINT *pt;
+  pt=(POINT *)data;
+  pt->x=setsize->left;
+  pt->y=setsize->top;
  
 }
 
@@ -747,11 +762,10 @@ static void upper_min(POINT *min,void *data)
   min->x=1;
   min->y=45;
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
-
-
 static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 {
   int ybut;
@@ -766,7 +780,7 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   struct worklist_window_init wl_init;
   void *user_data[NUM_TABS];
   static char *titles_[NUM_TABS]={N_("City Overview"),N_("Worklist"),
-				  /*  N_("Happiness"),N_("CMA"), */
+				  N_("Happiness"), /* N_("CMA"), */
 				  N_("Trade Routes"),
 				  N_("Misc. Settings")};
   static char *titles[NUM_TABS];
@@ -781,7 +795,7 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   pdialog->upper_y=45;
   pdialog->pop_y=15;
   pdialog->pop_x=20;
-  pdialog->supported_y=pdialog->map_y+pdialog->map_h+12;
+  pdialog->supported_y=pdialog->map.y+pdialog->map_h+12;
   pdialog->present_y=pdialog->supported_y+NORMAL_TILE_HEIGHT+12+4+SMALL_TILE_HEIGHT;
   ybut=pdialog->present_y+NORMAL_TILE_HEIGHT+12+4+SMALL_TILE_HEIGHT;
   if (!citydlgdc) {
@@ -826,24 +840,25 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   fcwin_box_add_groupbox(upper_row,_("City info"),left_labels,0,
 			 FALSE,FALSE,5);
   
-  pdialog->prod_area=fcwin_box_add_static_default(left_labels,
-						  " ",
-						  ID_CITY_PROD,
-						  SS_LEFT);
-  pdialog->output_area=fcwin_box_add_static_default(left_labels,
-						    " ",
-						    ID_CITY_OUTPUT,
-						    SS_LEFT);
-  pdialog->pollution_area=fcwin_box_add_static_default(left_labels," ",
-						       ID_CITY_POLLUTION,
+  pdialog->prod_area[0]=fcwin_box_add_static_default(left_labels,
+						     " ",
+						     ID_CITY_PROD,
+						     SS_LEFT);
+  pdialog->output_area[0]=fcwin_box_add_static_default(left_labels,
+						       " ",
+						       ID_CITY_OUTPUT,
 						       SS_LEFT);
-  pdialog->storage_area=fcwin_box_add_static_default(left_labels," ",
+  pdialog->pollution_area[0]=fcwin_box_add_static_default(left_labels," ",
+							  ID_CITY_POLLUTION,
+							  SS_LEFT);
+  pdialog->storage_area[0]=fcwin_box_add_static_default(left_labels," ",
 						     ID_CITY_STORAGE,
 						     SS_LEFT);
   
   grp_box=fcwin_vbox_new(pdialog->tab_childs[0],FALSE);
   fcwin_box_add_groupbox(upper_row,_("City map"),grp_box,0,TRUE,FALSE,5);
-  fcwin_box_add_generic(grp_box,map_minsize,map_setsize,NULL,pdialog,TRUE,FALSE,0);
+  fcwin_box_add_generic(grp_box,map_minsize,map_setsize,NULL,&pdialog->map,
+			TRUE,FALSE,0);
   
   lbunder=fcwin_hbox_new(pdialog->tab_childs[0],FALSE);
   pdialog->sell_but=fcwin_box_add_button(lbunder,_("Sell"),ID_CITY_SELL,0,
@@ -860,8 +875,8 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
   pdialog->buildings_list=CreateWindow("LISTBOX",NULL,
 				       WS_CHILD | WS_VSCROLL | WS_VISIBLE |
 				       LBS_HASSTRINGS,
-				       0/*pdialog->map_x+pdialog->map_w*/,
-				       0/*pdialog->map_y+10+15*/,
+				       0/*pdialog->map.x+pdialog->map_w*/,
+				       0/*pdialog->map.y+10+15*/,
 				       0/*300*/,0/*pdialog->map_h-2*15-10*/,
 				       pdialog->tab_childs[0],
 				       (HMENU)ID_CITY_BLIST,
@@ -904,15 +919,15 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
   SendMessage(pdialog->present_label,
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
-  SendMessage(pdialog->storage_area,
+  SendMessage(pdialog->storage_area[0],
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
   SendMessage(pdialog->build_area,
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));    
-  SendMessage(pdialog->pollution_area,
+  SendMessage(pdialog->pollution_area[0],
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
-  SendMessage(pdialog->prod_area,
+  SendMessage(pdialog->prod_area[0],
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
-  SendMessage(pdialog->output_area,
+  SendMessage(pdialog->output_area[0],
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
   genlist_insert(&dialog_list, pdialog, 0);    
   for(i=0; i<B_LAST+1; i++)
@@ -1783,13 +1798,13 @@ static void city_dlg_mouse(struct city_dialog *pdialog, int x, int y,
   if (!is_overview)
     return;
   /* click on map */
-  if ((y>=pdialog->map_y)&&(y<(pdialog->map_y+pdialog->map_h)))
+  if ((y>=pdialog->map.y)&&(y<(pdialog->map.y+pdialog->map_h)))
     {
-      if ((x>=pdialog->map_x)&&(x<(pdialog->map_x+pdialog->map_w)))
+      if ((x>=pdialog->map.x)&&(x<(pdialog->map.x+pdialog->map_w)))
 	{
 	  int tile_x,tile_y;
-	  xr=x-pdialog->map_x;
-	  yr=y-pdialog->map_y;
+	  xr=x-pdialog->map.x;
+	  yr=y-pdialog->map.y;
 	  canvas_pos_to_city_pos(xr,yr,&tile_x,&tile_y);
 	  city_dlg_click_map(pdialog,tile_x,tile_y);
 	}
@@ -1840,7 +1855,7 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
     case WM_PAINT:
       hdc=BeginPaint(win,(LPPAINTSTRUCT)&ps);
       old=SelectObject(citydlgdc,pdialog->map_bmp);
-      BitBlt(hdc,pdialog->map_x,pdialog->map_y,
+      BitBlt(hdc,pdialog->map.x,pdialog->map.y,
 	     pdialog->map_w,pdialog->map_h,
 	     citydlgdc,0,0,SRCCOPY);
       SelectObject(citydlgdc,old);
@@ -1905,6 +1920,7 @@ LONG APIENTRY CitydlgWndProc (
       genlist_unlink(&dialog_list,pdialog);
       DeleteObject(pdialog->map_bmp);
       DeleteObject(pdialog->citizen_bmp);
+      cleanup_happiness_box(pdialog->happiness);
       free(pdialog);
       break;
     case WM_GETMINMAXINFO:
@@ -2205,3 +2221,84 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
     }
   return 0;
 } 
+
+/**************************************************************************
+
+**************************************************************************/
+static void create_happiness_page(HWND win,
+				  struct city_dialog *pdialog)
+{
+  struct fcwin_box *hbox;
+  struct fcwin_box *vbox;
+  hbox = fcwin_hbox_new(win, FALSE);
+  pdialog->happiness = create_happiness_box(pdialog->pcity, hbox, win);
+  vbox = fcwin_vbox_new(win, FALSE);
+  fcwin_box_add_box(hbox,vbox,FALSE,FALSE,0);
+  fcwin_box_add_generic(vbox, map_minsize, map_setsize, NULL, &pdialog->maph,
+			TRUE,FALSE,0);
+  pdialog->prod_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
+  pdialog->output_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
+  pdialog->pollution_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
+  pdialog->storage_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
+  SendMessage(pdialog->pollution_area[1],
+	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
+  SendMessage(pdialog->prod_area[1],
+	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
+  SendMessage(pdialog->output_area[1],
+	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
+  SendMessage(pdialog->storage_area[1],
+	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
+  fcwin_set_box(win,hbox);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static  LONG CALLBACK happiness_proc(HWND win, UINT message,
+				     WPARAM wParam, LPARAM lParam)
+{
+  int x,y;
+  struct city_dialog *pdialog;
+  HDC hdc;
+  HBITMAP old;
+  PAINTSTRUCT ps;
+  pdialog=fcwin_get_user_data(win);
+  switch(message) 
+    {
+    case WM_CREATE:
+      create_happiness_page(win,pdialog);
+      break;
+    case WM_SIZE:
+    case WM_COMMAND:
+    case WM_GETMINMAXINFO:
+      break;
+    case WM_DESTROY:
+      break;
+    case WM_LBUTTONDOWN:
+      x=LOWORD(lParam);
+      y=HIWORD(lParam);
+      /* Test if the click is in the map */
+      if ((x>=pdialog->maph.x)&&(x<(pdialog->maph.x+pdialog->map_w))&&
+	  (y>=pdialog->maph.y)&&(y<(pdialog->maph.y+pdialog->map_h))) {
+	int tile_x,tile_y;
+	canvas_pos_to_city_pos(x-pdialog->maph.x,
+			       y-pdialog->maph.y,
+			       &tile_x,&tile_y);
+	city_dlg_click_map(pdialog,tile_x,tile_y);
+      }
+      break;
+    case WM_PAINT:
+      hdc=BeginPaint(win,(LPPAINTSTRUCT)&ps);
+      old=SelectObject(citydlgdc,pdialog->map_bmp); 
+      BitBlt(hdc,pdialog->maph.x,pdialog->maph.y,
+	     pdialog->map_w,pdialog->map_h,
+	     citydlgdc,0,0,SRCCOPY);
+      SelectObject(citydlgdc,old);
+      repaint_happiness_box(pdialog->happiness,hdc); 
+      EndPaint(win,(LPPAINTSTRUCT)&ps);
+      break;
+    default:
+      return DefWindowProc(win,message,wParam,lParam);
+    }
+  return 0;
+}
