@@ -1086,14 +1086,14 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     bool is_valid;
 
     if (acity && acity != pcity && acity->owner == pcity->owner)  {
-      if (same_pos(acity->tile, ptile)) {
-        /* can't stop working city center */
-        continue;
-      }
       freelog(LOG_DEBUG, "%s taking over %s's square in (%d, %d)",
               pcity->name, acity->name, ptile->x, ptile->y);
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
       assert(is_valid);
+      if (!is_valid || is_city_center(city_map_x, city_map_y)) {
+        /* can't stop working city center */
+        continue;
+      }
       server_remove_worker_city(acity, city_map_x, city_map_y);
       acity->specialists[DEFAULT_SPECIALIST]++;
       if (!city_list_find_id(&minilist, acity->id)) {
