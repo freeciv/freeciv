@@ -675,6 +675,7 @@ void handle_new_year(struct packet_new_year *ppacket)
   auto_center_on_focus_unit();
 
   update_unit_info_label(get_unit_in_focus());
+  update_menus();
 
   seconds_to_turndone=game.timeout;
 
