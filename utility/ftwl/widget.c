@@ -439,6 +439,16 @@ void real_widget_destroy(struct sw_widget *widget)
     sw_window_remove(widget);
   }
   memset(widget, 0x54, sizeof(*widget));
+
+  /* Ensure no dangling globals */
+  if (selected_widget == widget) {
+    selected_widget = NULL;
+  } else if (pressed_widget == widget) {
+    pressed_widget = NULL;
+  } else if (dragged_widget == widget) {
+    dragged_widget = NULL;
+  }
+
   free(widget);
 }
 
