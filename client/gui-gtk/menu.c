@@ -54,6 +54,8 @@
 
 GtkItemFactory *item_factory=NULL;
 
+static void menus_rename(const char *path, char *s);
+
 
 /****************************************************************
 ...
@@ -758,6 +760,10 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
 
   if(menubar)
     *menubar=gtk_item_factory_get_widget(item_factory, "<main>");
+
+  /* kluge to get around gtk's interpretation of "/" in menu item names */
+  menus_rename("<main>/Orders/Go|Airlift to City", _("Go/Airlift to City"));
+  menus_rename("<main>/Orders/Diplomat|Spy Actions", _("Diplomat/Spy Actions"));
 }
 
 /****************************************************************
