@@ -1340,9 +1340,9 @@ enum goto_result do_unit_goto(struct unit *punit,
 
       /* Call handle_unit_move_request for humans and ai_unit_move for AI */
       success = (!pplayer->ai.control 
-                 && !handle_unit_move_request(punit, x, y, FALSE,
+                 && handle_unit_move_request(punit, x, y, FALSE,
 				 !(last_tile && trigger_special_ability)))
-                || (pplayer->ai.control && !ai_unit_move(punit, x, y));
+                || (pplayer->ai.control && ai_unit_move(punit, x, y));
 
       if (!player_find_unit_by_id(pplayer, unit_id)) {
 	return GR_DIED;		/* unit died during goto! */
