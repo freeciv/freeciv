@@ -295,6 +295,8 @@ void players_list_callback(Widget w, XtPointer client_data,
 
   ret=XawListShowCurrent(players_list);
 
+  XtSetSensitive(players_meet_command, FALSE);
+  XtSetSensitive(players_int_command, FALSE);
   if(ret->list_index!=XAW_LIST_NONE) {
     struct player *pplayer = get_player(list_index_to_player_index[ret->list_index]);
 
@@ -315,8 +317,6 @@ void players_list_callback(Widget w, XtPointer client_data,
     XtSetSensitive(players_meet_command, can_meet_with_player(pplayer));
     XtSetSensitive(players_int_command, can_intel_with_player(pplayer));
   }
-  XtSetSensitive(players_meet_command, FALSE);
-  XtSetSensitive(players_int_command, FALSE);
 }
 
 
