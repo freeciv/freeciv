@@ -95,6 +95,19 @@ void gtk_draw_shadowed_string(GdkDrawable *drawable,
 /****************************************************************************
   Create a new sprite by cropping and taking only the given portion of
   the image.
+
+  source gives the sprite that is to be cropped.
+
+  x,y, width, height gives the rectangle to be cropped.  The pixel at
+  position of the source sprite will be at (0,0) in the new sprite, and
+  the new sprite will have dimensions (width, height).
+
+  mask gives an additional mask to be used for clipping the new sprite.
+
+  mask_offset_x, mask_offset_y is the offset of the mask relative to the
+  origin of the source image.  The pixel at (mask_offset_x,mask_offset_y)
+  in the mask image will be used to clip pixel (0,0) in the source image
+  which is pixel (-x,-y) in the new image.
 ****************************************************************************/
 struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y,
@@ -127,16 +140,16 @@ struct Sprite *crop_sprite(struct Sprite *source,
   if (mask) {
     int x1, y1;
 
-    /* The mask offset is the offset into the mask relative to the origin
+    /* The mask offset is the offset of the mask relative to the origin
      * of the original source image.  For instance when cropping with
      * blending sprites the offset is always 0.  Here we convert the
      * coordinates so that they are relative to the origin of the new
      * (cropped) image. */
-    mask_offset_x += x;
-    mask_offset_y += y;
+    mask_offset_x -= x;
+    mask_offset_y -= y;
 
-    width = CLIP(0, width, mask->width - mask_offset_x);
-    height = CLIP(0, height, mask->height - mask_offset_y);
+    width = CLIP(0, width, mask->width + mask_offset_x);
+    height = CLIP(0, height, mask->height + mask_offset_y);
 
     mask_pixbuf = sprite_get_pixbuf(mask);
 
@@ -145,7 +158,7 @@ struct Sprite *crop_sprite(struct Sprite *source,
 
     for (x1 = 0; x1 < width; x1++) {
       for (y1 = 0; y1 < height; y1++) {
-	int mask_x = x1 + mask_offset_x, mask_y = y1 + mask_offset_y;
+	int mask_x = x1 - mask_offset_x, mask_y = y1 - mask_offset_y;
 	guchar *alpha = gdk_pixbuf_get_pixels(mypixbuf)
 	  + y1 * gdk_pixbuf_get_rowstride(mypixbuf)
 	  + x1 * gdk_pixbuf_get_n_channels(mypixbuf)

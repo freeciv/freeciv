@@ -109,6 +109,19 @@ struct Sprite *load_gfxfile(const char *filename)
 /****************************************************************************
   Create a new sprite by cropping and taking only the given portion of
   the image.
+
+  source gives the sprite that is to be cropped.
+
+  x,y, width, height gives the rectangle to be cropped.  The pixel at
+  position of the source sprite will be at (0,0) in the new sprite, and
+  the new sprite will have dimensions (width, height).
+
+  mask gives an additional mask to be used for clipping the new sprite.
+
+  mask_offset_x, mask_offset_y is the offset of the mask relative to the
+  origin of the source image.  The pixel at (mask_offset_x,mask_offset_y)
+  in the mask image will be used to clip pixel (0,0) in the source image
+  which is pixel (-x,-y) in the new image.
 ****************************************************************************/
 struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y, int width, int height,
