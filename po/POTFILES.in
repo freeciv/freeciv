@@ -25,6 +25,7 @@ server/unitfunc.c
 server/unithand.c
 server/unittools.c
 ai/aicity.c
+client/cityrepdata.c
 client/civclient.c
 client/clinet.c
 client/control.c

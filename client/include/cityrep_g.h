@@ -19,11 +19,4 @@ void popup_city_report_dialog(int make_modal);
 void city_report_dialog_update(void);
 void city_report_dialog_update_city(struct city *pcity);
 
-/* These are wanted to save/load options; use wrappers rather than
-   expose the grotty details of the city_report_spec:
-*/
-int num_city_report_spec(void);
-int *city_report_spec_show_ptr(int i);
-char *city_report_spec_tagname(int i);
-
 #endif  /* FC__CITYREP_G_H */

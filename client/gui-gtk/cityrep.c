@@ -32,6 +32,7 @@
 
 #include "chatline.h"
 #include "citydlg.h"
+#include "cityrepdata.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
@@ -46,222 +47,7 @@ extern GtkWidget *toplevel;
 extern struct connection aconnection;
 extern int delay_report_update;
 
-/* abbreviate long city names to this length in the city report: */
-#define REPORT_CITYNAME_ABBREV 15 
-
-/************************************************************************
- cr_entry = return an entry (one column for one city) for the city report
- These return ptrs to filled in static strings.
- Note the returned string may not be exactly the right length; that
- is handled later.
-*************************************************************************/
-
-static char *cr_entry_cityname(struct city *pcity)
-{
-  static char buf[REPORT_CITYNAME_ABBREV+1];
-  if (strlen(pcity->name) <= REPORT_CITYNAME_ABBREV) {
-    return pcity->name;
-  } else {
-    strncpy(buf, pcity->name, REPORT_CITYNAME_ABBREV-1);
-    buf[REPORT_CITYNAME_ABBREV-1] = '.';
-    buf[REPORT_CITYNAME_ABBREV] = '\0';
-    return buf;
-  }
-}
-
-static char *cr_entry_size(struct city *pcity)
-{
-  static char buf[8];
-  sprintf(buf, "%2d", pcity->size);
-  return buf;
-}
-
-static char *cr_entry_hstate_concise(struct city *pcity)
-{
-  static char buf[4];
-  sprintf(buf, "%s", (city_celebrating(pcity) ? "*" :
-		     (city_unhappy(pcity) ? "X" : " ")));
-  return buf;
-}
-
-static char *cr_entry_hstate_verbose(struct city *pcity)
-{
-  static char buf[16];
-  sprintf(buf, "%s", (city_celebrating(pcity) ? _("Rapture") :
-		     (city_unhappy(pcity) ? _("Disorder") : _("Peace"))));
-  return buf;
-}
-
-static char *cr_entry_workers(struct city *pcity)
-{
-  static char buf[32];
-  sprintf(buf, "%d/%d/%d",
-	 pcity->ppl_happy[4],
-	 pcity->ppl_content[4],
-	 pcity->ppl_unhappy[4]);
-  return buf;
-}
-
-static char *cr_entry_specialists(struct city *pcity)
-{
-  static char buf[32];
-  sprintf(buf, "%d/%d/%d",
-	 pcity->ppl_elvis,
-	  pcity->ppl_scientist,
-	  pcity->ppl_taxman);
-  return buf;
-}
-
-static char *cr_entry_resources(struct city *pcity)
-{
-  static char buf[32];
-  sprintf(buf, "%d/%d/%d",
-	 pcity->food_surplus, 
-	 pcity->shield_surplus, 
-	 pcity->trade_prod);
-  return buf;
-}
-
-static char *cr_entry_output(struct city *pcity)
-{
-  static char buf[32];
-  int goldie;
-
-  goldie = city_gold_surplus(pcity);
-  sprintf(buf, "%s%d/%d/%d",
-	  (goldie < 0) ? "-" : (goldie > 0) ? "+" : "",
-	  (goldie < 0) ? (-goldie) : goldie,
-	 pcity->luxury_total,
-	 pcity->science_total);
-  return buf;
-}
-
-static char *cr_entry_food(struct city *pcity)
-{
-  static char buf[32];
-  sprintf(buf,"%d/%d",
-	 pcity->food_stock,
-	 (pcity->size+1) * game.foodbox);
-  return buf;
-}
-
-static char *cr_entry_pollution(struct city *pcity)
-{
-  static char buf[8];
-  sprintf(buf,"%3d", pcity->pollution);
-  return buf;
-}
-
-static char *cr_entry_num_trade(struct city *pcity)
-{
-  static char buf[8];
-  sprintf(buf,"%d", city_num_trade_routes(pcity));
-  return buf;
-}
-
-static char *cr_entry_building(struct city *pcity)
-{
-  static char buf[64];
-  if(pcity->is_building_unit)
-    sprintf(buf, "%s(%d/%d/%d)", 
-	    get_unit_type(pcity->currently_building)->name,
-	   pcity->shield_stock,
-	   get_unit_type(pcity->currently_building)->build_cost,
-	   city_buy_cost(pcity));
-  else
-    sprintf(buf, "%s(%d/%d/%d)", 
-	   get_imp_name_ex(pcity, pcity->currently_building),
-	   pcity->shield_stock,
-	   get_improvement_type(pcity->currently_building)->build_cost,
-	   city_buy_cost(pcity));
-  return buf;
-}
-
-static char *cr_entry_corruption(struct city *pcity)
-{
-  static char buf[8];
-  sprintf(buf,"%3d", pcity->corruption);
-  return buf;
-}
-
-/* City report options (which columns get shown)
- * To add a new entry, you should just have to:
- * - add a function like those above
- * - add an entry in the city_report_specs[] table
- */
-
-struct city_report_spec {
-  int show;		       /* modify this to customize */
-  int width;		       /* 0 means variable; rightmost only */
-  int space;		       /* number of leading spaces (see below) */
-  char *title1;
-  char *title2;
-  char *explanation;
-  char *(*func)(struct city*);
-  char *tagname;	       /* for save_options */
-};
-
-/* This generates the function name and the tagname: */
-#define FUNC_TAG(var)  cr_entry_##var, #var 
-
-/* Use tagname rather than index for load/save, because later
-   additions won't necessarily be at the end.
-*/
-
-/* Note on space: you can do spacing and alignment in various ways;
-   you can avoid explicit space between columns if they are bracketted,
-   but the problem is that with a configurable report you don't know
-   what's going to be next to what.
-*/
-
-static struct city_report_spec city_report_specs[] = {
-  { 1,-15, 0, "",  N_("Name"),	      N_("City Name"),
-				      FUNC_TAG(cityname) },
-  { 0, -2, 1, "",  N_("Sz"),	      N_("Size"),
-				      FUNC_TAG(size) },
-  { 1, -8, 1, "",  N_("State"),	      N_("Rapture/Peace/Disorder"),
-				      FUNC_TAG(hstate_verbose) },
-  { 0, -1, 1, "",  "",  	      N_("Concise *=Rapture, X=Disorder"),
-				      FUNC_TAG(hstate_concise) },
-  { 1, -8, 1, N_("Workers"), N_("H/C/U"),     N_("Workers: Happy, Content, Unhappy"),
-				      FUNC_TAG(workers) },
-  { 0, -7, 1, N_("Special"), N_("E/S/T"),     N_("Entertainers, Scientists, Taxmen"),
-				      FUNC_TAG(specialists) },
-  { 1,-10, 1, N_("Surplus"), N_("F/P/T"),     N_("Surplus: Food, Production, Trade"),
-				      FUNC_TAG(resources) },
-  { 1,-10, 1, N_("Economy"), N_("G/L/S"),     N_("Economy: Gold, Luxuries, Science"),
-				      FUNC_TAG(output) },
-  { 0, -1, 1, "n", "T", 	      N_("Number of Trade Routes"),
-				      FUNC_TAG(num_trade) },
-  { 1, -7, 1, N_("Food"), N_("Stock"),        N_("Food Stock"),
-				      FUNC_TAG(food) },
-  { 0, -3, 1, "", N_("Pol"),	      N_("Pollution"),
-				      FUNC_TAG(pollution) },
-  { 0, -3, 1, "", N_("Cor"),              N_("Corruption"),
-                                      FUNC_TAG(corruption) },
-  { 1,  0, 1, N_("Currently Building"),   N_("(Stock,Target,Buy Cost)"),
-				      N_("Currently Building"),
-				      FUNC_TAG(building) }
-};
-
-#define NUM_CREPORT_COLS \
-	 sizeof(city_report_specs)/sizeof(city_report_specs[0])
-     
-/******************************************************************
-Some simple wrappers:
-******************************************************************/
-int num_city_report_spec(void)
-{
-  return NUM_CREPORT_COLS;
-}
-int *city_report_spec_show_ptr(int i)
-{
-  return &(city_report_specs[i].show);
-}
-char *city_report_spec_tagname(int i)
-{
-  return city_report_specs[i].tagname;
-}
+#define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 
 /******************************************************************/
 GtkWidget *config_shell;
@@ -335,7 +121,7 @@ static void get_city_text(struct city *pcity, char *buf[])
     buf[i][0]='\0';
     if(!spec->show) continue;
 
-    sprintf(buf[i], "%*s", spec->width, (spec->func)(pcity));
+    sprintf(buf[i], "%*s", NEG_VAL(spec->width), (spec->func)(pcity));
   }
 }
 
@@ -349,7 +135,8 @@ static void get_city_table_header(char *text[])
 
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     sprintf(text[i], "%*s\n%*s",
-            spec->width, _(spec->title1), spec->width, _(spec->title2));
+            NEG_VAL(spec->width), _(spec->title1),
+	    NEG_VAL(spec->width), _(spec->title2));
   }
 }
 
