@@ -178,7 +178,7 @@ För närvarande finns det 6 överskott och faktorer. De är:
 5 = forskning
 
 För tillfället är inte "factortarget" ändringsbar med klienten, se
-"client/agents/citizen_management.h" för mer information.
+"client/agents/cma_core.h" för mer information.
 
 Tabellen ska avslutas med '}'. Här är 21 förinställningar om för de
 som inte kan komma på sina själva:

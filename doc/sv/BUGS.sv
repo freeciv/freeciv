@@ -16,10 +16,6 @@ fullständig lista, se:
 KÄNDA PROGRAMFEL:
 =================
 
- - Vissa rader som innehåller särskilda tecken visas tomma om
-   systemets locale är satt till "C". Sätt då locale till någonging
-   annat, till exempel "sv".
-
  - Stadsförvaltningsinställningarna skickas endast till servern när
    man trycker på "Avsluta omgång". Ändringarna som man gör i
    stadsförvaltningsinställningarna samma omgång som man sparar går
