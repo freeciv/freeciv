@@ -496,7 +496,6 @@ Main update loop, for each player at end of turn.
 void update_player_activities(struct player *pplayer) 
 {
   if (pplayer->ai.control) {
-    calculate_tech_turns(pplayer);
     ai_do_last_activities(pplayer); /* why was this AFTER aliveness? */
   }
   notify_player(pplayer, "Year: %s", textyear(game.year)); 
