@@ -49,12 +49,11 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "diptreaty.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
 #include "diplodlg.h"
-
-extern Widget toplevel;
 
 #define MAX_NUM_CLAUSES 64
 

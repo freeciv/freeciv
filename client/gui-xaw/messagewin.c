@@ -37,24 +37,21 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "options.h"
 
 #include "messagewin.h"
 
-extern Widget toplevel;
-extern Display *display;
-extern Atom wm_delete_window;
-
-Widget meswin_dialog_shell;
-Widget meswin_form;
-Widget meswin_label;
-Widget meswin_list;
-Widget meswin_viewport;
-Widget meswin_close_command;
-Widget meswin_goto_command;
-Widget meswin_popcity_command;
+static Widget meswin_dialog_shell;
+static Widget meswin_form;
+static Widget meswin_label;
+static Widget meswin_list;
+static Widget meswin_viewport;
+static Widget meswin_close_command;
+static Widget meswin_goto_command;
+static Widget meswin_popcity_command;
 
 void create_meswin_dialog(void);
 void meswin_scroll_down(void);

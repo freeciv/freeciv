@@ -26,14 +26,11 @@
 #include "fcintl.h"
 #include "log.h"
 
+#include "gui_main.h"
+
 #include "colors.h"
 
 Colormap cmap;
-extern int screen_number;
-extern Display *display;
-extern Widget toplevel;
-extern Widget map_canvas;
-
 
 /* This is just so we can print the visual class intelligibly */
 /*static char *visual_class[] = {

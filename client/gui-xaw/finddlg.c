@@ -33,19 +33,18 @@
 #include "player.h"
 
 #include "mapview.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 
 #include "finddlg.h"
 
-extern Widget toplevel, main_form;
-
-Widget find_dialog_shell;
-Widget find_form;
-Widget find_label;
-Widget find_viewport;
-Widget find_list;
-Widget find_center_command;
-Widget find_cancel_command;
+static Widget find_dialog_shell;
+static Widget find_form;
+static Widget find_label;
+static Widget find_viewport;
+static Widget find_list;
+static Widget find_center_command;
+static Widget find_cancel_command;
 
 void update_find_dialog(Widget find_list);
 

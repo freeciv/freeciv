@@ -48,6 +48,7 @@
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -57,12 +58,6 @@
 #include "tilespec.h"
 
 #include "spaceshipdlg.h"
-
-extern GC civ_gc, fill_bg_gc;
-
-extern Display *display;
-extern Widget toplevel, main_form;
-extern int display_depth;
 
 struct spaceship_dialog {
   struct player *pplayer;
@@ -87,8 +82,6 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
 
 void spaceship_close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void spaceship_launch_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
-extern Atom wm_delete_window;
 
 /****************************************************************
 ...

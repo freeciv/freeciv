@@ -48,6 +48,7 @@
 #include "dialogs.h"
 #include "goto.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "inputdlg.h"
 #include "mapview.h"
@@ -56,24 +57,10 @@
 
 #include "mapctrl.h"
 
-extern Display	*display;
-extern int screen_number;
-
-extern int map_view_x0, map_view_y0;
-extern int map_canvas_store_twidth, map_canvas_store_theight;
-extern int overview_canvas_store_width, overview_canvas_store_height;
-
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
 int city_workers_color=COLOR_STD_WHITE;
-
-extern Widget toplevel, main_form, map_canvas;
-extern Widget turn_done_button;
-extern int smooth_move_units; /* from options.c */
-extern int auto_center_on_unit;
-extern int draw_map_grid;
-
 
 static void popupinfo_popdown_callback(Widget w, XtPointer client_data, XtPointer call_data);
 

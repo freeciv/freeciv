@@ -44,55 +44,51 @@
 #include "climisc.h"
 #include "dialogs.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdata.h"
 #include "tilespec.h"
 
 #include "helpdlg.h"
 
-extern Widget toplevel, main_form;
-extern Display *display;
-extern Atom wm_delete_window;
+static Widget help_dialog_shell;
+static Widget help_form;
+static Widget help_viewport;
+static Widget help_list;
+static Widget help_text;
+static Widget help_close_command;
 
-Widget help_dialog_shell;
-Widget help_form;
-Widget help_viewport;
-Widget help_list;
-Widget help_text;
-Widget help_close_command;
+static Widget help_right_form;
+static Widget help_title;
 
-Widget help_right_form;
-Widget help_title;
+static Widget help_improvement_cost, help_improvement_cost_data;
+static Widget help_improvement_upkeep, help_improvement_upkeep_data;
+static Widget help_improvement_req, help_improvement_req_data;
+static Widget help_improvement_variant, help_improvement_variant_data;
+static Widget help_wonder_obsolete, help_wonder_obsolete_data;
+static Widget help_wonder_variant, help_wonder_variant_data;
 
+static Widget help_tech_tree;
+static Widget help_tree_viewport;
 
-Widget help_improvement_cost, help_improvement_cost_data;
-Widget help_improvement_upkeep, help_improvement_upkeep_data;
-Widget help_improvement_req, help_improvement_req_data;
-Widget help_improvement_variant, help_improvement_variant_data;
-Widget help_wonder_obsolete, help_wonder_obsolete_data;
-Widget help_wonder_variant, help_wonder_variant_data;
+static Widget help_unit_attack, help_unit_attack_data;
+static Widget help_unit_def, help_unit_def_data;
+static Widget help_unit_move, help_unit_move_data;
+static Widget help_unit_hp, help_unit_hp_data;
+static Widget help_unit_fp, help_unit_fp_data;
+static Widget help_unit_cost, help_unit_cost_data;
+static Widget help_unit_visrange, help_unit_visrange_data;
+static Widget help_unit_upkeep, help_unit_upkeep_data;
+static Widget help_unit_tile;
 
-Widget help_tech_tree;
-Widget help_tree_viewport;
-
-Widget help_unit_attack, help_unit_attack_data;
-Widget help_unit_def, help_unit_def_data;
-Widget help_unit_move, help_unit_move_data;
-Widget help_unit_hp, help_unit_hp_data;
-Widget help_unit_fp, help_unit_fp_data;
-Widget help_unit_cost, help_unit_cost_data;
-Widget help_unit_visrange, help_unit_visrange_data;
-Widget help_unit_upkeep, help_unit_upkeep_data;
-Widget help_unit_tile;
-
-Widget help_terrain_movement_defense, help_terrain_movement_defense_data;
-Widget help_terrain_food_shield_trade, help_terrain_food_shield_trade_data;
-Widget help_terrain_special_1, help_terrain_special_1_data;
-Widget help_terrain_special_2, help_terrain_special_2_data;
-Widget help_terrain_road_result_time, help_terrain_road_result_time_data;
-Widget help_terrain_irrigation_result_time, help_terrain_irrigation_result_time_data;
-Widget help_terrain_mining_result_time, help_terrain_mining_result_time_data;
-Widget help_terrain_transform_result_time, help_terrain_transform_result_time_data;
+static Widget help_terrain_movement_defense, help_terrain_movement_defense_data;
+static Widget help_terrain_food_shield_trade, help_terrain_food_shield_trade_data;
+static Widget help_terrain_special_1, help_terrain_special_1_data;
+static Widget help_terrain_special_2, help_terrain_special_2_data;
+static Widget help_terrain_road_result_time, help_terrain_road_result_time_data;
+static Widget help_terrain_irrigation_result_time, help_terrain_irrigation_result_time_data;
+static Widget help_terrain_mining_result_time, help_terrain_mining_result_time_data;
+static Widget help_terrain_transform_result_time, help_terrain_transform_result_time_data;
 
 static void create_help_page(enum help_page_type type);
 

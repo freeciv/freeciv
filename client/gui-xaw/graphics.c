@@ -39,7 +39,9 @@
 
 #include "climisc.h"
 #include "colors.h"
+#include "gui_main.h"
 #include "mapview_g.h"
+#include "options.h"
 #include "tilespec.h"
 
 #include "graphics.h"
@@ -52,15 +54,6 @@
 #include "nuke_cursor_mask.xbm"
 #include "patrol_cursor.xbm"
 #include "patrol_cursor_mask.xbm"
-
-extern int display_depth;
-extern Display *display;
-extern GC fill_bg_gc;
-extern GC civ_gc, font_gc;
-extern Colormap cmap;
-extern Window root_window;
-extern XFontStruct *main_font_struct;
-extern int solid_color_behind_units;
 
 struct Sprite *intro_gfx_sprite;
 struct Sprite *radar_gfx_sprite;

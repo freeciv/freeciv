@@ -37,6 +37,7 @@
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -47,8 +48,6 @@
 #include "clinet.h"
 
 #include "wldlg.h"
-
-extern Widget toplevel;
 
 #define WORKLIST_ADVANCED_TARGETS  1
 #define WORKLIST_CURRENT_TARGETS   0

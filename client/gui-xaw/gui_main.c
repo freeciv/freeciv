@@ -64,17 +64,12 @@
 
 #include "freeciv.ico"
 
-AppResources appResources;
-
-extern String fallback_resources[];
-
+static AppResources appResources;
 
 /* ids of the units icons in information display: (or 0) */
 static int unit_ids[MAX_NUM_UNITS_BELOW];  
 
-
 static void setup_widgets(void);
-
 
 /**************************************************************************
 ...
@@ -156,8 +151,6 @@ int display_depth;
 int screen_number;
 enum Display_color_type display_color_type;
 XtAppContext app_context;
-extern Colormap cmap;
-extern Widget info_command;
 
 /* this GC will be the default one all thru freeciv */
 GC civ_gc; 
@@ -204,8 +197,6 @@ int overview_canvas_store_width, overview_canvas_store_height;
 /* this pixmap is used when moving units etc */
 Pixmap single_tile_pixmap;
 int single_tile_pixmap_width, single_tile_pixmap_height;
-
-extern int seconds_to_turndone;
 
 XtInputId x_input_id;
 XtIntervalId x_interval_id;

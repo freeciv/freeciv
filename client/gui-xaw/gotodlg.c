@@ -40,23 +40,22 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h" /* get_unit_in_focus */
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
 #include "mapview.h"
 
 #include "gotodlg.h"
 
-extern Widget toplevel, main_form;
-
-Widget goto_dialog_shell;
-Widget goto_form;
-Widget goto_label;
-Widget goto_viewport;
-Widget goto_list;
-Widget goto_center_command;
-Widget goto_airlift_command;
-Widget goto_all_toggle;
-Widget goto_cancel_command;
+static Widget goto_dialog_shell;
+static Widget goto_form;
+static Widget goto_label;
+static Widget goto_viewport;
+static Widget goto_list;
+static Widget goto_center_command;
+static Widget goto_airlift_command;
+static Widget goto_all_toggle;
+static Widget goto_cancel_command;
 
 void update_goto_dialog(Widget goto_list);
 

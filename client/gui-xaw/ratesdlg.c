@@ -37,25 +37,21 @@
 #include "support.h"
 
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
 #include "ratesdlg.h"
 
-extern Widget toplevel, main_form;
-
-extern Display	*display;
-
-
 /******************************************************************/
-Widget rates_dialog_shell;
-Widget rates_gov_label;
-Widget rates_tax_label, rates_tax_scroll, rates_tax_toggle;
-Widget rates_lux_label, rates_lux_scroll, rates_lux_toggle;
-Widget rates_sci_label, rates_sci_scroll, rates_sci_toggle;
+static Widget rates_dialog_shell;
+static Widget rates_gov_label;
+static Widget rates_tax_label, rates_tax_scroll, rates_tax_toggle;
+static Widget rates_lux_label, rates_lux_scroll, rates_lux_toggle;
+static Widget rates_sci_label, rates_sci_scroll, rates_sci_toggle;
 /******************************************************************/
 
-int rates_tax_value, rates_lux_value, rates_sci_value;
+static int rates_tax_value, rates_lux_value, rates_sci_value;
 
 void create_rates_dialog(void);
 

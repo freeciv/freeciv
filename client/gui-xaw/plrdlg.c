@@ -36,16 +36,12 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "diplodlg.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "inteldlg.h"
 #include "spaceshipdlg.h"
 
 #include "plrdlg.h"
-
-
-extern Widget toplevel, main_form;
-extern Display *display;
-extern Atom wm_delete_window;
 
 static Widget players_dialog_shell;
 static Widget players_form;

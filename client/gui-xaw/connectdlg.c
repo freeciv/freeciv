@@ -34,18 +34,15 @@
 #include "civclient.h"
 #include "chatline.h"
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 
 #include "connectdlg.h"
 
 /****************************************************************/
 
-/* extern AppResources appResources; */
-extern Widget toplevel;
-extern Widget turn_done_button;
-
-Widget iname, ihost, iport;
-Widget connw, metaw, quitw;
+static Widget iname, ihost, iport;
+static Widget connw, metaw, quitw;
 
 void server_address_ok_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data);
@@ -56,8 +53,8 @@ void connect_meta_callback(Widget w, XtPointer client_data, XtPointer call_data)
 /****************************************************************/
 
 /* Meta Server */
-Widget meta_dialog_shell=0;
-char *server_list[64]={NULL};
+static Widget meta_dialog_shell=0;
+static char *server_list[64]={NULL};
 
 void create_meta_dialog(Widget caller);
 int  update_meta_dialog(Widget meta_list);

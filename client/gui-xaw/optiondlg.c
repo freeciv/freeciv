@@ -40,17 +40,14 @@
 #include "chatline.h"
 #include "cityrep.h"
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "options.h"
 
 #include "optiondlg.h"
 
-extern Widget toplevel, main_form;
-
-extern Display	*display;
-
-Widget option_dialog_shell;
+static Widget option_dialog_shell;
 
 /******************************************************************/
 void create_option_dialog(void);

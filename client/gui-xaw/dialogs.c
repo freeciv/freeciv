@@ -48,19 +48,14 @@
 #include "clinet.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "options.h"
 #include "tilespec.h"
 
 #include "dialogs.h"
-
-extern Widget toplevel, main_form, map_canvas;
-
-extern Display	*display;
-extern int display_depth;
-extern int ai_popup_windows;
-extern GC fill_bg_gc;
 
 /******************************************************************/
 static Widget races_dialog_shell=NULL;
@@ -76,40 +71,31 @@ static Widget races_action_form;
 static Widget races_ok_command, races_disconnect_command, races_quit_command;
 
 /******************************************************************/
-Widget spy_tech_shell;
-Widget spy_advances_list, spy_advances_list_label;
-Widget spy_steal_command;
+static Widget spy_tech_shell;
+static Widget spy_advances_list, spy_advances_list_label;
+static Widget spy_steal_command;
 
-int spy_tech_shell_is_modal;
-int advance_type[A_LAST+1];
-int steal_advance = 0;
-
-/******************************************************************/
-Widget spy_sabotage_shell;
-Widget spy_improvements_list, spy_improvements_list_label;
-Widget spy_sabotage_command;
-
-int spy_sabotage_shell_is_modal;
-int improvement_type[B_LAST+1];
-int sabotage_improvement = 0;
+static int spy_tech_shell_is_modal;
+static int advance_type[A_LAST+1];
+static int steal_advance = 0;
 
 /******************************************************************/
+static Widget spy_sabotage_shell;
+static Widget spy_improvements_list, spy_improvements_list_label;
+static Widget spy_sabotage_command;
 
-Widget about_dialog_shell;
-Widget about_form, about_label, about_command;
+static int spy_sabotage_shell_is_modal;
+static int improvement_type[B_LAST+1];
+static int sabotage_improvement = 0;
 
 /******************************************************************/
-Widget help_copying_dialog_shell, help_keys_dialog_shell;
-
-
-/******************************************************************/
-Widget unit_select_dialog_shell;
-Widget unit_select_form;
-Widget unit_select_commands[100];
-Widget unit_select_labels[100];
-Pixmap unit_select_pixmaps[100];
-int unit_select_ids[100];
-int unit_select_no;
+static Widget unit_select_dialog_shell;
+static Widget unit_select_form;
+static Widget unit_select_commands[100];
+static Widget unit_select_labels[100];
+static Pixmap unit_select_pixmaps[100];
+static int unit_select_ids[100];
+static int unit_select_no;
 
 void about_button_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);

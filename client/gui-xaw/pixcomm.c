@@ -52,13 +52,8 @@ in this Software without prior written authorization from the X Consortium.
 
 #include "pixcomm.h"
 #include "pixcommp.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
-
-extern GC civ_gc;
-extern GC fill_bg_gc;
-extern Display	*display;
-extern Window root_window;
-extern int display_depth;
 
 static void Notify(Widget w, XEvent *event,
 		   String *params, Cardinal *num_params);

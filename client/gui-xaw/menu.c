@@ -332,7 +332,6 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 
 			   can_unit_do_connect(punit, ACTIVITY_IDLE));
-      /* also remove extern struct connection aconnection when removing capability */
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_PATROL, 
 			   can_unit_do_activity(punit, ACTIVITY_PATROL)
 			   && has_capability("activity_patrol", aconnection.capability));

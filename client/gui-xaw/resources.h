@@ -30,4 +30,6 @@ typedef struct _AppResources {
   String  tileset;
 } AppResources;
 
+extern String fallback_resources[];
+
 #endif  /* FC__RESOURCES_H */

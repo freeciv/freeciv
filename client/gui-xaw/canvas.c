@@ -29,6 +29,7 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/XawInit.h>
 
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "canvasp.h"
 
@@ -60,12 +61,6 @@ static Boolean SetValues(Widget current,
 			 Widget request,
 			 Widget New,
 			 ArgList args, Cardinal *nargs);
-
-extern GC civ_gc;
-extern GC fill_bg_gc;
-extern Display	*display;
-extern Window root_window;
-extern int display_depth;
 
 CanvasClassRec canvasClassRec = {
     {

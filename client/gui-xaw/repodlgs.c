@@ -45,15 +45,12 @@
 #include "cityrep.h"
 #include "clinet.h"
 #include "dialogs.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "optiondlg.h"
 
 #include "repodlgs.h"
-
-extern Display	*display;
-extern Atom wm_delete_window;
-extern Widget toplevel, main_form;
 
 /******************************************************************/
 
@@ -69,15 +66,14 @@ void science_goal_callback(Widget w, XtPointer client_data,
 
 
 /******************************************************************/
-Widget science_dialog_shell;
-Widget science_label;
-Widget science_current_label, science_goal_label;
-Widget science_change_menu_button, science_goal_menu_button;
-Widget science_list, science_help_toggle;
-Widget science_help_note;
-int science_dialog_shell_is_modal;
-Widget popupmenu, goalmenu;
-
+static Widget science_dialog_shell;
+static Widget science_label;
+static Widget science_current_label, science_goal_label;
+static Widget science_change_menu_button, science_goal_menu_button;
+static Widget science_list, science_help_toggle;
+static Widget science_help_note;
+static int science_dialog_shell_is_modal;
+static Widget popupmenu, goalmenu;
 
 /******************************************************************/
 void create_economy_report_dialog(int make_modal);
@@ -87,13 +83,13 @@ void economy_selloff_callback(Widget w, XtPointer client_data,
                             XtPointer call_data);
 void economy_list_callback(Widget w, XtPointer client_data,
                          XtPointer call_data);
-int economy_improvement_type[B_LAST];
+static int economy_improvement_type[B_LAST];
 
-Widget economy_dialog_shell;
-Widget economy_label, economy_label2;
-Widget economy_list, economy_list_label;
-Widget sellall_command, sellobsolete_command;
-int economy_dialog_shell_is_modal;
+static Widget economy_dialog_shell;
+static Widget economy_label, economy_label2;
+static Widget economy_list, economy_list_label;
+static Widget sellall_command, sellobsolete_command;
+static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
 void create_activeunits_report_dialog(int make_modal);
@@ -105,14 +101,14 @@ void activeunits_refresh_callback(Widget w, XtPointer client_data,
 			 XtPointer call_data);
 void activeunits_list_callback(Widget w, XtPointer client_data, 
                            XtPointer call_data);
-int activeunits_type[U_LAST];
+static int activeunits_type[U_LAST];
 
-Widget activeunits_dialog_shell;
-Widget activeunits_label, activeunits_label2;
-Widget activeunits_list, activeunits_list_label;
-Widget upgrade_command;
+static Widget activeunits_dialog_shell;
+static Widget activeunits_label, activeunits_label2;
+static Widget activeunits_list, activeunits_list_label;
+static Widget upgrade_command;
 
-int activeunits_dialog_shell_is_modal;
+static int activeunits_dialog_shell_is_modal;
 /******************************************************************/
 
 int delay_report_update=0;

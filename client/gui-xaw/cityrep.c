@@ -48,6 +48,7 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrepdata.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
@@ -56,18 +57,12 @@
 
 #include "cityrep.h"
 
-extern Widget toplevel, main_form;
-extern Display *display;
-extern Atom wm_delete_window;
-
-extern int delay_report_update;
-
 /******************************************************************/
 static void popup_chgall_dialog (Widget parent);
 
 /******************************************************************/
-Widget config_shell;
-Widget config_toggle[NUM_CREPORT_COLS];
+static Widget config_shell;
+static Widget config_toggle[NUM_CREPORT_COLS];
 
 void create_city_report_config_dialog(void);
 void popup_city_report_config_dialog(void);
@@ -96,17 +91,17 @@ void city_list_callback(Widget w, XtPointer client_data,
 void city_config_callback(Widget w, XtPointer client_data, 
 			  XtPointer call_data);
 
-Widget city_form;
-Widget city_dialog_shell;
-Widget city_label;
-Widget city_viewport;
-Widget city_list, city_list_label;
-Widget city_center_command, city_popup_command, city_buy_command,
+static Widget city_form;
+static Widget city_dialog_shell;
+static Widget city_label;
+static Widget city_viewport;
+static Widget city_list, city_list_label;
+static Widget city_center_command, city_popup_command, city_buy_command,
        city_chgall_command, city_refresh_command, city_config_command;
-Widget city_change_command, city_popupmenu;
+static Widget city_change_command, city_popupmenu;
 
-int city_dialog_shell_is_modal;
-struct city **cities_in_list = NULL;
+static int city_dialog_shell_is_modal;
+static struct city **cities_in_list = NULL;
 
 static char *dummy_city_list[]={ 
   "    "
@@ -781,8 +776,6 @@ void config_ok_command_callback(Widget w, XtPointer client_data,
                           CHANGE ALL DIALOG
  
 **************************************************************************/
-
-extern XtAppContext app_context;
 
 struct chgall_data
 {

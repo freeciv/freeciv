@@ -36,17 +36,15 @@
 #include "support.h"
 
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
 
 #include "inteldlg.h"
 
-extern Widget toplevel, main_form;
-extern Display	*display;
-
 /******************************************************************/
-Widget intel_dialog_shell;
+static Widget intel_dialog_shell;
 /******************************************************************/
 
 

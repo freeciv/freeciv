@@ -30,11 +30,10 @@
 #include "support.h"
 
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 
 #include "chatline.h"
-
-extern Widget inputline_text, outputwindow_text;
 
 /**************************************************************************
 ...

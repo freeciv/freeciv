@@ -42,6 +42,7 @@
 #include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */
 #include "goto.h"
 #include "graphics.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
 #include "options.h"
@@ -64,39 +65,6 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 -Thue
 */
 #define EXTRA_BOTTOM_ROW 1
-
-
-extern Display	*display;
-extern GC civ_gc, font_gc, prod_font_gc;
-extern GC fill_bg_gc;
-extern GC fill_tile_gc;
-extern XFontStruct *main_font_struct;
-extern XFontStruct *prod_font_struct;
-extern Window root_window;
-
-extern Widget map_canvas, map_form, info_command, turn_done_button;
-extern Widget map_vertical_scrollbar, map_horizontal_scrollbar;
-extern Widget overview_canvas, main_form, left_column_form;
-extern Widget menu_form, below_menu_form, bottom_form;
-extern Widget econ_label[10];
-extern Widget bulb_label, sun_label, flake_label, government_label, timeout_label;
-extern Widget unit_info_label;
-extern int display_depth;
-extern Pixmap single_tile_pixmap;
-extern Pixmap gray50,gray25;
-extern int city_workers_color;
-
-extern struct Sprite *intro_gfx_sprite;
-extern struct Sprite *radar_gfx_sprite;
-extern Cursor goto_cursor;
-extern Cursor drop_cursor;
-extern Cursor nuke_cursor;
-extern Cursor patrol_cursor;
-
-extern Pixmap map_canvas_store;
-extern int map_canvas_store_twidth, map_canvas_store_theight;
-extern Pixmap overview_canvas_store;
-extern int overview_canvas_store_width, overview_canvas_store_height;
 
 /* contains the x0, y0 coordinates of the upper left corner block */
 int map_view_x0, map_view_y0;

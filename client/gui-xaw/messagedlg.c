@@ -36,16 +36,13 @@
 #include "shared.h"
 
 #include "clinet.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "optiondlg.h"
 #include "options.h"
 
 #include "messagedlg.h"
-
-extern Widget toplevel, main_form;
-
-extern Display	*display;
 
 /*************************************************************************/
 Widget create_messageopt_dialog(void);
