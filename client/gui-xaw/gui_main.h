@@ -19,6 +19,8 @@
 
 void xaw_ui_exit(void);
 void main_show_info_popup(XEvent *event);
+void reset_econ_label_pixmaps(void);
+void reset_unit_below_pixmaps(void);
 
 extern Atom         wm_delete_window;
 extern Display     *display;
