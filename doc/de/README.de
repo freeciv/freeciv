@@ -1,5 +1,5 @@
 Hinweis:	Dies ist *KEINE* Übersetzung der Datei README!
-Stand: 		12.04.02
+Stand: 		05.06.02
 
 			==============================
 			Deutsche Freeciv Dokumentation
@@ -74,9 +74,13 @@ Server:
 		'help' gibt Erläuterungen zur Verwendung der Online-Hilfe.
 		>
 
-	Lassen Sie sich die Optionen mit
+	Lassen Sie sich mögliche Befehle und Optionen mit
 
-	> help
+	> help commands
+
+	bzw.
+
+	> help options
 
 	anzeigen.
 
@@ -121,7 +125,7 @@ den Server mit der Option "-m" starten. Er "veröffentlicht" seine Existenz
 auf dem Metaserver, über den sich nun Spieler durch Auswahl der Metaserver-
 Registerkarte im Eröffnungsdialog einloggen können.
 
-HINWEIS:	Ein Firewall kann es unmöglich machen als Server für
+HINWEIS:	Firewalls machen es unmöglich, als Server für
 		Dritte zu fungieren.
 
 
