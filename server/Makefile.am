@@ -4,7 +4,7 @@ SUBDIRS=	userdb
 
 bin_PROGRAMS = civserver
 noinst_LIBRARIES = libcivserver.a
-INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore -I./userdb
+INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore -I$(srcdir)/userdb
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
