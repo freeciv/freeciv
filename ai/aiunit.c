@@ -1997,6 +1997,9 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
         UNIT_LOG(LOG_DEBUG, punit, "mil att bash -> %d, %d", dest_x, dest_y);
         ai_unit_attack(punit, dest_x, dest_y);
       }
+      if (!(punit = find_unit_by_id(id))) {
+        return; /* we died; this is a double-check only present in S1_14 */
+      }
      } /* while */
     } else {
       /* FIXME: This happens a bit too often! */
