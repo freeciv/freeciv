@@ -16,6 +16,11 @@ normal_tile_height = 30
 small_tile_width   = 15
 small_tile_height  = 20
 
+is_isometric = 0
+
+; Do not blend hills and mountains together.
+is_mountainous = 0
+
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
 
@@ -40,7 +45,9 @@ files =
   "trident/units.spec",
   "trident/flags.spec",
   "trident/roads.spec",
+  "misc/buildings.spec",
   "misc/space.spec",
+  "misc/techs.spec",
   "misc/treaty.spec",
   "trident/cities.spec",
   "trident/explosions.spec",
