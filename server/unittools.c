@@ -1608,9 +1608,18 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 
   /* First pull all units off of the transporter. */
   if (get_transporter_capacity(punit) > 0) {
+    /* FIXME: there's no send_unit_info call below so these units aren't
+     * updated at the client.  I guess this works because the unit info
+     * will be sent eventually anyway, but it's surely a bug. */
     unit_list_iterate(ptile->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
 	pull_unit_from_transporter(pcargo, punit);
+	if (pcargo->activity == ACTIVITY_SENTRY) {
+	  /* Activate sentried units - like planes on a disbanded carrier.
+	   * Note this will activate ground units even if they just change
+	   * transporter. */
+	  set_unit_activity(pcargo, ACTIVITY_IDLE);
+	}
       } 
     } unit_list_iterate_end;
   }
