@@ -886,7 +886,7 @@ refresh_overview_canvas(void)
     rc.left = OVERVIEW_TILE_WIDTH * x;
     rc.right = rc.left + OVERVIEW_TILE_WIDTH;
     rc.top = OVERVIEW_TILE_HEIGHT * y;
-    rc.bottom = rc.top + OVERVIEEW_TILE_HEIGHT;
+    rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
     FillRect(overviewstoredc, &rc, brush_std[overview_tile_color(x, y)]);
 
     map_to_overview_pos(&overview_x, &overview_y, x, y);
