@@ -1649,7 +1649,7 @@ struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
 				    struct GUI *pBeginWidgetLIST,
 				    struct GUI *pEndWidgetLIST)
 {
-  struct UP_DOWN *pDown = MALLOC(sizeof(struct UP_DOWN));
+  struct UP_DOWN pDown;
   struct GUI *pBegin = pBeginActiveWidgetLIST;
   int step = pVscroll->active * pVscroll->step - 1;
 
@@ -1657,20 +1657,17 @@ struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
     pBegin = pBegin->prev;
   }
 
-  pDown->step = get_step(pVscroll);
-  pDown->pBegin = pBeginActiveWidgetLIST;
-  pDown->pEnd = pBegin;
-  pDown->pBeginWidgetLIST = pBeginWidgetLIST;
-  pDown->pEndWidgetLIST = pEndWidgetLIST;
-  pDown->pVscroll = pVscroll;
+  pDown.step = get_step(pVscroll);
+  pDown.pBegin = pBeginActiveWidgetLIST;
+  pDown.pEnd = pBegin;
+  pDown.pBeginWidgetLIST = pBeginWidgetLIST;
+  pDown.pEndWidgetLIST = pEndWidgetLIST;
+  pDown.pVscroll = pVscroll;
   
-  gui_event_loop((void *)pDown, inside_scroll_down_loop,
+  gui_event_loop((void *)&pDown, inside_scroll_down_loop,
 	NULL, NULL, NULL, scroll_mouse_button_up, NULL);
   
-  pBegin = pDown->pBegin;
-  FREE(pDown);
-
-  return pBegin;
+  return pDown.pBegin;
 }
 
 /**************************************************************************
@@ -1681,22 +1678,18 @@ struct GUI *up_scroll_widget_list(struct ScrollBar *pVscroll,
 				  struct GUI *pBeginWidgetLIST,
 				  struct GUI *pEndWidgetLIST)
 {
-  struct UP_DOWN *pUp = MALLOC(sizeof(struct UP_DOWN));
-  struct GUI *pBegin;
-    
-  pUp->step = get_step(pVscroll);
-  pUp->pBegin = pBeginActiveWidgetLIST;
-  pUp->pBeginWidgetLIST = pBeginWidgetLIST;
-  pUp->pEndWidgetLIST = pEndWidgetLIST;
-  pUp->pVscroll = pVscroll;
+  struct UP_DOWN pUp;
+      
+  pUp.step = get_step(pVscroll);
+  pUp.pBegin = pBeginActiveWidgetLIST;
+  pUp.pBeginWidgetLIST = pBeginWidgetLIST;
+  pUp.pEndWidgetLIST = pEndWidgetLIST;
+  pUp.pVscroll = pVscroll;
   
-  gui_event_loop((void *)pUp, inside_scroll_up_loop,
+  gui_event_loop((void *)&pUp, inside_scroll_up_loop,
 	NULL, NULL, NULL, scroll_mouse_button_up, NULL);
   
-  pBegin = pUp->pBegin;
-  FREE(pUp);
-  
-  return pBegin;
+  return pUp.pBegin;
 }
 
 /**************************************************************************
@@ -1707,23 +1700,19 @@ struct GUI *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 				      struct GUI *pBeginWidgetLIST,
 				      struct GUI *pEndWidgetLIST)
 {
-  struct UP_DOWN *pMotion = MALLOC(sizeof(struct UP_DOWN));
-  struct GUI *pBegin;
-    
-  pMotion->step = get_step(pVscroll);
-  pMotion->pBegin = pBeginActiveWidgetLIST;
-  pMotion->pBeginWidgetLIST = pBeginWidgetLIST;
-  pMotion->pEndWidgetLIST = pEndWidgetLIST;
-  pMotion->pVscroll = pVscroll;
-  pMotion->old_y = pVscroll->pScrollBar->size.y;
+  struct UP_DOWN pMotion;
+      
+  pMotion.step = get_step(pVscroll);
+  pMotion.pBegin = pBeginActiveWidgetLIST;
+  pMotion.pBeginWidgetLIST = pBeginWidgetLIST;
+  pMotion.pEndWidgetLIST = pEndWidgetLIST;
+  pMotion.pVscroll = pVscroll;
+  pMotion.old_y = pVscroll->pScrollBar->size.y;
   
-  gui_event_loop((void *)pMotion, NULL,	NULL, NULL, NULL,
+  gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL,
 		  scroll_mouse_button_up, scroll_mouse_motion_handler);
   
-  pBegin = pMotion->pBegin;
-  FREE(pMotion);
-
-  return pBegin;
+  return pMotion.pBegin;
 }
 
 /* ==================================================================== */
@@ -3683,48 +3672,48 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *p
 	    pButtonEvent->y >= pEdt->pWidget->size.y &&
 	    pButtonEvent->y <= pEdt->pWidget->size.y + pEdt->pBg->h)) {
 	/* exit from loop */
-	return ID_EDIT;
+	return (Uint16)ID_EDIT;
   }
-  return ID_ERROR;
+  return (Uint16)ID_ERROR;
 }
 
 bool edit_field(struct GUI *pEdit_Widget)
 {
-  struct EDIT *pEdt;
+  struct EDIT pEdt;
   struct UniChar ___last;
   struct UniChar *pInputChain_TMP = NULL;
   bool ret;
   
-  pEdt = MALLOC(sizeof(struct EDIT));
-  pEdt->pWidget = pEdit_Widget;
-  pEdt->ChainLen = 0;
-  pEdt->Truelength = 0;
-  pEdt->Start_X = 5;
-  pEdt->InputChain_X = 0;
+  pEdt.pWidget = pEdit_Widget;
+  pEdt.ChainLen = 0;
+  pEdt.Truelength = 0;
+  pEdt.Start_X = 5;
+  pEdt.InputChain_X = 0;
   
   SDL_EnableUNICODE(1);
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
   if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
-    pEdt->pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
+    pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
 			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
   } else {
-    pEdt->pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
+    pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
 			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
   }
 
   /* Creating Chain */
-  pEdt->pBeginTextChain = text2chain(pEdit_Widget->string16->text);
+  pEdt.pBeginTextChain = text2chain(pEdit_Widget->string16->text);
 
 
   /* Creating Empty (Last) pice of Chain */
-  pEdt->pInputChain = &___last;
-  pEdt->pEndTextChain = pEdt->pInputChain;
-  pEdt->pEndTextChain->chr[0] = 32;	/*spacebar */
-  pEdt->pEndTextChain->chr[1] = 0;	/*spacebar */
-  pEdt->pEndTextChain->next = NULL;
-
+  pEdt.pInputChain = &___last;
+  pEdt.pEndTextChain = pEdt.pInputChain;
+  pEdt.pEndTextChain->chr[0] = 32;	/*spacebar */
+  pEdt.pEndTextChain->chr[1] = 0;	/*spacebar */
+  pEdt.pEndTextChain->next = NULL;
+  pEdt.pEndTextChain->prev = NULL;
+  
   /* set font style (if any ) */
   if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
     TTF_SetFontStyle(pEdit_Widget->string16->font,
@@ -3732,23 +3721,23 @@ bool edit_field(struct GUI *pEdit_Widget)
   }
 
 
-  pEdt->pEndTextChain->pTsurf =
+  pEdt.pEndTextChain->pTsurf =
       TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-			      pEdt->pEndTextChain->chr,
+			      pEdt.pEndTextChain->chr,
 			      pEdit_Widget->string16->forecol);
   
   /* create surface for each font in chain and find chain length */
-  if (pEdt->pBeginTextChain) {
-    pInputChain_TMP = pEdt->pBeginTextChain;
+  if (pEdt.pBeginTextChain) {
+    pInputChain_TMP = pEdt.pBeginTextChain;
     while (TRUE) {
-      pEdt->ChainLen++;
+      pEdt.ChainLen++;
 
       pInputChain_TMP->pTsurf =
 	  TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
 				    pInputChain_TMP->chr,
 				    pEdit_Widget->string16->forecol);
 
-      pEdt->Truelength += pInputChain_TMP->pTsurf->w;
+      pEdt.Truelength += pInputChain_TMP->pTsurf->w;
 
       if (pInputChain_TMP->next == NULL) {
 	break;
@@ -3757,17 +3746,17 @@ bool edit_field(struct GUI *pEdit_Widget)
       pInputChain_TMP = pInputChain_TMP->next;
     }
     /* set terminator of list */
-    pInputChain_TMP->next = pEdt->pInputChain;
-    pEdt->pInputChain->prev = pInputChain_TMP;
+    pInputChain_TMP->next = pEdt.pInputChain;
+    pEdt.pInputChain->prev = pInputChain_TMP;
     pInputChain_TMP = NULL;
   } else {
-    pEdt->pBeginTextChain = pEdt->pInputChain;
+    pEdt.pBeginTextChain = pEdt.pInputChain;
   }
 
-  redraw_edit_chain(pEdt);
+  redraw_edit_chain(&pEdt);
   
   /* local loop */  
-  ret = (gui_event_loop((void *)pEdt, NULL,
+  ret = (gui_event_loop((void *)&pEdt, NULL,
   	edit_key_down, NULL, edit_mouse_button_down, NULL, NULL) == ID_EDIT);
   
   /* reset font settings */
@@ -3775,23 +3764,22 @@ bool edit_field(struct GUI *pEdit_Widget)
     TTF_SetFontStyle(pEdit_Widget->string16->font, TTF_STYLE_NORMAL);
   }
 
-  if (pEdt->pBeginTextChain == pEdt->pEndTextChain) {
-    pEdt->pBeginTextChain = NULL;
+  if (pEdt.pBeginTextChain == pEdt.pEndTextChain) {
+    pEdt.pBeginTextChain = NULL;
   }
 
-  FREESURFACE(pEdt->pEndTextChain->pTsurf);
+  FREESURFACE(pEdt.pEndTextChain->pTsurf);
 
   if(ret) {
     FREE(pEdit_Widget->string16->text);
     pEdit_Widget->string16->text =
-  	  chain2text(pEdt->pBeginTextChain, pEdt->ChainLen);
+  	  chain2text(pEdt.pBeginTextChain, pEdt.ChainLen);
   }
 
-  del_chain(pEdt->pBeginTextChain);
+  del_chain(pEdt.pBeginTextChain);
   
-  FREESURFACE(pEdt->pBg);
-  FREE(pEdt);
-  
+  FREESURFACE(pEdt.pBg);
+    
   /* disable repeate key */
   SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 
@@ -5189,7 +5177,7 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData
   pMove->pWindow->size.x += pMotionEvent->xrel;
   pMove->pWindow->size.y += pMotionEvent->yrel;
 
-  make_copy_of_pixel_and_draw_frame_window(pMove->pWindow, 0xFF000000,
+  make_copy_of_pixel_and_draw_frame_window(pMove->pWindow, 0xFFFFFFFF,
 				pMove->pPixelArray, pMove->pWindow->dst);
 
 
@@ -5221,16 +5209,17 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData
 static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent, void *pData)
 {
   struct MOVE *pMove = (struct MOVE *)pData;
+    
   if (pMove && pMove->pPixelArray) {
     /* undraw frame */
     draw_frame_of_window_from_array(pMove->pWindow,
     			pMove->pPixelArray, pMove->pWindow->dst);
     refresh_widget_background(pMove->pWindow);
     FREE(pMove->pPixelArray);
-    return ID_MOVED_WINDOW;
+    return (Uint16)ID_MOVED_WINDOW;
   }
   
-  return ID_WINDOW;
+  return (Uint16)ID_WINDOW;
 }
 
 
@@ -5239,14 +5228,11 @@ static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent, void *p
 **************************************************************************/
 bool move_window(struct GUI *pWindow)
 {
-  bool ret;
-  struct MOVE *pMove = MALLOC(sizeof(struct MOVE));
-  pMove->pWindow = pWindow;
-  pMove->pPixelArray = NULL;
-  ret = (gui_event_loop((void *)pMove, NULL, NULL, NULL, NULL,
+  struct MOVE pMove;
+  pMove.pWindow = pWindow;
+  pMove.pPixelArray = NULL;
+  return (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL,
 	  move_window_button_up, move_window_motion) == ID_MOVED_WINDOW);
-  FREE(pMove);
-  return ret;
 }
 
 /**************************************************************************

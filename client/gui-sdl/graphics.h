@@ -38,6 +38,7 @@
 #else
 #define USE_DUFFS_LOOP
 #endif
+
 #ifdef USE_DUFFS_LOOP
 
 /* 8-times unrolled loop */

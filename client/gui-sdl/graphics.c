@@ -421,30 +421,43 @@ void * my_memset16(void *dst_mem, Uint16 var, size_t lenght)
 {
   Uint16 *ptr = (Uint16 *)dst_mem;
   Uint32 color = (var << 16) | var;
-  int i = 0;
+#ifndef HAVE_MMX1  
+  DUFFS_LOOP_DOUBLE2(
+  {
+    *ptr++ = var;
+  },{
+    *(Uint32 *)ptr = color;
+    ptr += 2;
+  }, lenght);
+#else
+  movd_m2r(color, mm0); /* color(0000CLCL) -> mm0 */
+  punpckldq_r2r(mm0, mm0); /* CLCLCLCL -> mm0 */
   
-  if (lenght & 0x01) {
-    *ptr = var;
-     ptr++;
-     i = 1;
-  }
-
-  for (; i < lenght; i+=2, ptr += 2) {
-      *(Uint32 *)ptr = color;
-  }
-  
+  DUFFS_LOOP_QUATRO2(
+  {
+    *ptr++ = var;
+  },{
+    *(Uint32 *)ptr = color;
+    ptr += 2;
+  },{
+    movq_r2m(mm0, *ptr); /* mm0 (CLCLCLCL) -> ptr */
+    ptr += 4;
+  }, lenght);
+  emms();
+#endif  
   return dst_mem;
 }
 
 void * my_memset24(void *dst_mem, Uint32 var, size_t lenght)
 {
   Uint8 *ptr = (Uint8 *)dst_mem;
-  int i;
   
   var &= 0xFFFFFF;
-  for (i = 0; i < lenght; i++, ptr += 3) {
+  DUFFS_LOOP4(
+  {
     memmove(ptr, &var, 3);
-  }
+    ptr += 3;
+  }, lenght);
   
   return dst_mem;
 }
@@ -452,10 +465,20 @@ void * my_memset24(void *dst_mem, Uint32 var, size_t lenght)
 void * my_memset32(void *dst_mem, Uint32 var, size_t lenght)
 {
   Uint32 *ptr = (Uint32 *)dst_mem;
-  int i;
-  for (i = 0; i < lenght; i++, ptr++) {
-      *ptr = var;
-  }
+#ifndef HAVE_MMX1  
+  DUFFS_LOOP4({*ptr++ = var;}, lenght);
+#else
+  movd_m2r(var, mm0); /* color(0000CLCL) -> mm0 */
+  punpckldq_r2r(mm0, mm0); /* CLCLCLCL -> mm0 */
+  DUFFS_LOOP_DOUBLE2(
+  {
+    *ptr++ = var;
+  },{
+    movq_r2m(mm0, *ptr); /* mm0 (CLCLCLCL) -> ptr */
+    ptr += 2;
+  }, lenght);
+  emms();
+#endif  
   return dst_mem;
 }
 
@@ -466,21 +489,25 @@ void * my_memset32(void *dst_mem, Uint32 var, size_t lenght)
 static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
 		      Uint32 color)
 {
-  register Uint8 *buf_ptr, *max;
-  register int pitch;
-  register size_t lng;
+  register Uint8 *buf_ptr;
+  int pitch;
+  size_t lng;
 
   /* correct y0, y1 position ( must be inside 'pDest' surface ) */
   if (y0 < 0) {
     y0 = 0;
-  } else if (y0 > pDest->h) {
-    y0 = pDest->h;
+  } else {
+    if (y0 >= pDest->h) {
+      y0 = pDest->h - 1;
+    }
   }
 
   if (y1 < 0) {
     y1 = 0;
-  } else if (y1 > pDest->h) {
-    y1 = pDest->h;
+  } else {
+    if (y1 >= pDest->h) {
+      y1 = pDest->h - 1;
+    }
   }
   
   if (y1 - y0 < 0) {
@@ -496,45 +523,58 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
     
   pitch = pDest->pitch;  
   buf_ptr = ((Uint8 *) pDest->pixels + (y0 * pitch));
-  max = buf_ptr + (lng * pitch);
-
+  
   switch (pDest->format->BytesPerPixel) {
-  case 1:
-    buf_ptr += x;
-    max += x;
-    for (; buf_ptr < max; buf_ptr += pitch) {
-      *(Uint8 *) buf_ptr = color & 0xFF;
-    }
+    case 1:
+      buf_ptr += x;
+      DUFFS_LOOP4(
+      {
+        *(Uint8 *) buf_ptr = color & 0xFF;
+        buf_ptr += pitch;
+      }, lng);
     return;
-  case 2:
-    buf_ptr += (x << 1);
-    max += (x << 1);
-    for (; buf_ptr < max; buf_ptr += pitch) {
-      *(Uint16 *) buf_ptr = color & 0xFFFF;
-    }
+    case 2:
+      buf_ptr += (x << 1);
+      DUFFS_LOOP4(
+      {
+        *(Uint16 *) buf_ptr = color & 0xFFFF;
+        buf_ptr += pitch;
+      }, lng);
     return;
-  case 3:
-    buf_ptr += (x << 1) + x;
-    max += (x << 1) + x;
-    for (; buf_ptr < max; buf_ptr += pitch) {
+    case 3:
+    {
+      Uint8 c0, c1, c2;
+      buf_ptr += (x << 1) + x;
+    
       if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	buf_ptr[0] = (color >> 16) & 0xff;
-	buf_ptr[1] = (color >> 8) & 0xff;
-	buf_ptr[2] = color & 0xff;
+        c0 = (color >> 16) & 0xff;
+        c1 = (color >> 8) & 0xff;
+        c2 = color & 0xff;
       } else {
-	buf_ptr[0] = color & 0xff;
-	buf_ptr[1] = (color >> 8) & 0xff;
-	buf_ptr[2] = (color >> 16) & 0xff;
+        c0 = color & 0xff;
+        c1 = (color >> 8) & 0xff;
+        c2 = (color >> 16) & 0xff;
       }
+      
+      DUFFS_LOOP4(
+      {
+        buf_ptr[0] = c0;
+        buf_ptr[1] = c1;
+        buf_ptr[2] = c2;
+        buf_ptr += pitch;
+      }, lng);
     }
     return;
-  case 4:
-    buf_ptr += x << 2;
-    max += x << 2;
-    for (; buf_ptr < max; buf_ptr += pitch) {
-      *(Uint32 *) buf_ptr = color;
-    }
+    case 4:
+      buf_ptr += x << 2;
+      DUFFS_LOOP4(
+      {
+        *(Uint32 *) buf_ptr = color;
+        buf_ptr += pitch;
+      }, lng);
     return;
+    default:
+      assert(0);
   }
 }
 
@@ -545,118 +585,58 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
 static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
 		      Uint32 color)
 {
-  register Uint8 *buf_ptr;
-  register size_t lng;
-  register int i;
-
+  Uint8 *buf_ptr;
+  size_t lng;
+  
+  buf_ptr = ((Uint8 *) pDest->pixels + (y * pDest->pitch));
+  
   /* correct x0, x1 position ( must be inside 'pDest' surface ) */
   if (x0 < 0) {
     x0 = 0;
-  } else if (x0 > pDest->w) {
-    x0 = pDest->w;
+  } else {
+    if (x0 >= pDest->w) {
+      x0 = pDest->w - 1;
+    }
   }
 
   if (x1 < 0) {
     x1 = 0;
-  } else if (x1 > pDest->w) {
-    x1 = pDest->w;
+  } else {
+    if (x1 >= pDest->w) {
+      x1 = pDest->w - 1;
+    }
   }
 
   if (x1 - x0 < 0) {
     /* swap */
-    i = x0;
+    y = x0;
     x0 = x1;
-    x1 = i;
+    x1 = y;
   }
   
   lng = x1 - x0;
   
-  if (!lng) return;
-  
-  buf_ptr = ((Uint8 *) pDest->pixels + (y * pDest->pitch));
+  if (!lng) return;  
   
   switch (pDest->format->BytesPerPixel) {
-  case 1:
-    buf_ptr += x0;
-    memset(buf_ptr, (color & 0xff), lng);
+    case 1:
+      buf_ptr += x0;
+      memset(buf_ptr, (color & 0xff), lng);
     return;
-  case 2:
-    buf_ptr += (x0 << 1);
-
-    color &= 0xffff;
-    color = (color << 16) | color;
-    i = 0;
-
-    /*if ( lng - ((lng>>1)<<1) ) */
-    if (lng & 0x01) {
-      *(Uint16 *) buf_ptr = (color & 0xffff);
-      buf_ptr += 2;
-      i = 1;
-    }
-
-    for (; i < lng; i += 2, buf_ptr += 4) {
-      *(Uint32 *) buf_ptr = color;
-    }
-
+    case 2:
+      buf_ptr += (x0 * 2);
+      my_memset16(buf_ptr, (color & 0xffff), lng);
     return;
-  case 3:
-    {
-      Uint32 color1, color2;
-      i = 0;
-      buf_ptr += ((x0 << 1) + x0);
-
-      /*if ( lng - ((lng>>2)<<2) ) */
-      if (lng & 0x03) {
-	for (; i < (lng & 0x03); i++) {
-	  if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	    buf_ptr[0] = (color >> 16) & 0xff;
-	    buf_ptr[1] = (color >> 8) & 0xff;
-	    buf_ptr[2] = color & 0xff;
-	  } else {
-	    buf_ptr[0] = (color & 0xff);
-	    buf_ptr[1] = (color >> 8) & 0xff;
-	    buf_ptr[2] = (color >> 16) & 0xff;
-	  }
-	  buf_ptr += 3;
-	}
-	i = lng & 0x03;
-      }
-
-      if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	color2 = ((color >> 16) & 0xff) |
-	    (color & 0xff00) |
-	    ((color << 16) & 0xff0000) | ((color << 8) & 0xff000000);
-
-	color1 = ((color >> 8) & 0xff) |
-	    ((color << 8) & 0xff00) |
-	    (color & 0xff0000) | ((color << 16) & 0xff000000);
-
-	color = (color & 0xff) |
-	    ((color >> 8) & 0xff00) |
-	    ((color << 8) & 0xff0000) | ((color << 24) & 0xff000000);
-      } else {
-	color2 = (color & 0xffffff) | ((color << 24) & 0xff000000);
-	color1 = (color << 16) | ((color >> 8) & 0xffff);
-	color = (color << 8) | ((color >> 16) & 0xff);
-      }
-
-      for (; i < lng; i += 4) {
-	*(Uint32 *) buf_ptr = color2;
-	buf_ptr += 4;
-	*(Uint32 *) buf_ptr = color1;
-	buf_ptr += 4;
-	*(Uint32 *) buf_ptr = color;
-	buf_ptr += 4;
-      }
-
-      return;
-    }
-  case 4:
-    buf_ptr += (x0 << 2);
-    for (i = 0; i < lng; i++, buf_ptr += 4) {
-      *(Uint32 *) buf_ptr = color;
-    }
+    case 3:
+      buf_ptr += (x0 * 3);
+      my_memset24(buf_ptr, (color & 0xffffff), lng);
     return;
+    case 4:
+      buf_ptr += (x0 * 4);
+      my_memset32(buf_ptr, color, lng);
+    return;
+    default:
+      assert(0);
   }
 }
 
