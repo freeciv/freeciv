@@ -29,6 +29,7 @@ extern char default_sound_plugin_name[512];
 extern bool solid_color_behind_units;
 extern bool sound_bell_at_new_turn;
 extern int smooth_move_unit_msec;
+extern int smooth_center_slide_msec;
 extern bool do_combat_animation;
 extern bool ai_popup_windows;
 extern bool ai_manual_turn_done;
