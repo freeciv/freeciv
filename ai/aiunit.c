@@ -147,29 +147,85 @@ static bool has_defense(struct city *pcity)
   return FALSE;
 }
 
-/********************************************************************** 
-  ...
-***********************************************************************/
+
+/**********************************************************************
+ Precondition: A warmap must already be generated for the punit.
+
+ Returns the minimal amount of turns required to reach the given
+ destination position. The actual turn at which the unit will
+ reach the given point depends on the movement points it has remaining.
+
+ For example: Unit has a move rate of 3, path cost is 5, unit has 2
+ move points left.
+
+ path1 costs: first tile = 3, second tile = 2
+
+ turn 0: points=2, unit has to wait
+ turn 1: points=3, unit can move, points=0, has to wait
+ turn 2: points=3, unit can move, points=1
+
+ path2 costs: first tile=2, second tile=3
+
+ turn 0: points=2, unit can move, points=0, has to wait
+ turn 1: points=3, unit can move, points=0
+
+ In spite of the path costs being the same, these two units will arrive
+ at different times. This function also does not take into account ZOC.
+ 
+ Note: even if a unit has only fractional move points left, there is
+ still a possibility it could cross the tile.
+**************************************************************************/
 static int unit_move_turns(struct unit *punit, int x, int y)
 {
-  int m, d;
-  m = unit_type(punit)->move_rate;
-  if (unit_flag(punit, F_IGTER)) m *= SINGLE_MOVE;
-  if(is_sailing_unit(punit)) {
-    struct player *pplayer = unit_owner(punit);
-    if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) 
-      m += SINGLE_MOVE;
-    if (player_owns_active_wonder(pplayer, B_MAGELLAN))
-      m += (improvement_variant(B_MAGELLAN)==1) ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-    m += num_known_tech_with_flag(pplayer, TF_BOAT_FAST) * SINGLE_MOVE;
+  int move_time;
+  int move_rate = unit_type(punit)->move_rate;
+ 
+  switch (unit_type(punit)->move_type) {
+    case LAND_MOVING:
+    
+     /* FIXME: IGTER units should have their move rates multiplied by 
+      * igter_speedup. Note: actually, igter units should never have their 
+      * move rates multiplied. The correct behaviour is to have every tile 
+      * they cross cost 1/3 of a movement point. ---RK */
+   
+      if (unit_flag(punit, F_IGTER)) {
+        move_rate *= 3;
+      }
+      move_time = warmap.cost[x][y] / move_rate;
+      break;
+   
+    case SEA_MOVING:
+     
+      if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
+          move_rate += SINGLE_MOVE;
+      }
+      
+      if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
+          move_rate += (improvement_variant(B_MAGELLAN) == 1) 
+                         ?  SINGLE_MOVE : 2 * SINGLE_MOVE;
+      }
+        
+      if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
+          move_rate += SINGLE_MOVE;
+      }
+        
+      move_time = warmap.seacost[x][y] / move_rate;
+      break;
+   
+    case HELI_MOVING:
+    case AIR_MOVING:
+       move_time = real_map_distance(punit->x, punit->y, x, y) 
+                     * SINGLE_MOVE / move_rate;
+       break;
+   
+    default:
+      assert(0);
+      freelog(LOG_FATAL, "In ai/aiunit.c: function unit_move_turns");
+      freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
+      exit(EXIT_FAILURE);
+      move_time = -1;
   }
-
-  if (unit_type(punit)->move_type == LAND_MOVING)
-    d = warmap.cost[x][y] / m;
-  else if (unit_type(punit)->move_type == SEA_MOVING)
-    d = warmap.seacost[x][y] / m;
-  else d = real_map_distance(punit->x, punit->y, x, y) * SINGLE_MOVE / m;
-  return(d);
+  return move_time;
 }
 
 /**************************************************************************
