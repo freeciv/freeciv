@@ -15,13 +15,13 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -30,16 +30,18 @@
 #include "shared.h"
 #include "support.h"
 
-#include "cityrep.h"
 #include "civclient.h"
 #include "clinet.h"
+#include "repodlgs_common.h"
+
+#include "cityrep.h"
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "optiondlg.h"
 
-#include "repodlgs_common.h"
+
 #include "repodlgs.h"
 
 /******************************************************************/

@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -30,9 +30,10 @@
 #include "support.h"
 #include "unit.h"
 
-#include "clinet.h"
 #include "civclient.h"
+#include "clinet.h"
 #include "control.h"
+
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"

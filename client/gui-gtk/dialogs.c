@@ -16,38 +16,39 @@
 #endif
 
 #include <assert.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
-#include "map.h"
 #include "log.h"
+#include "map.h"
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
 #include "rand.h"
 #include "support.h"
 
-#include "chatline.h"
-#include "cityrep.h"	/* for popdown_city_report_dialog */
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
+#include "options.h"
+#include "tilespec.h"
+
+#include "chatline.h"
+#include "cityrep.h"	/* for popdown_city_report_dialog */
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "messagewin.h"	/* for popdown_meswin_dialog */
-#include "options.h"
 #include "plrdlg.h"	/* for popdown_players_dialog */
 #include "repodlgs.h"	/* for popdown_xxx_dialog */
-#include "tilespec.h"
 
 #include "dialogs.h"
 

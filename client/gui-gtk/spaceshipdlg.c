@@ -27,9 +27,13 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "spaceship.h"
 #include "support.h"
 
+#include "climisc.h"
 #include "clinet.h"
+#include "tilespec.h"
+
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
@@ -40,9 +44,6 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "repodlgs.h"
-#include "spaceship.h"
-#include "tilespec.h"
-#include "climisc.h"
 
 #include "spaceshipdlg.h"
 

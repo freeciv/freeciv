@@ -13,8 +13,9 @@
 #ifndef FC__DIPLOMATS_H
 #define FC__DIPLOMATS_H
 
-#include "gotohand.h"		/* enum goto_move_restriction */
 #include "unit.h"		/* Unit_Type_id, enum unit_activity */
+
+#include "gotohand.h"		/* enum goto_move_restriction */
 
 struct player;
 struct city;

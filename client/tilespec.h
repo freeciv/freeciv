@@ -15,14 +15,13 @@
   Reading and using the tilespec files, which describe
   the files and contents of tilesets.
 ***********************************************************************/
-
 #ifndef FC__TILESPEC_H
 #define FC__TILESPEC_H
+
 #include "map.h"		/* NUM_DIRECTION_NSEW */
 
-#include "colors_g.h"
-
 #include "citydlg_common.h"	/* enum citizen_type */
+#include "colors_g.h"
 #include "options.h"
 
 struct Sprite;			/* opaque; gui-dep */

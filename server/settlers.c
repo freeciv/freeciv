@@ -15,9 +15,9 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 
 #include "city.h"
 #include "game.h"
@@ -38,8 +38,8 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
-#include "aiunit.h"
 #include "aitools.h"
+#include "aiunit.h"
 
 #include "settlers.h"
 

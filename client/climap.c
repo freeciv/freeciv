@@ -18,8 +18,9 @@
 #include "map.h"
 #include "shared.h"
 
-#include "climap.h"
 #include "tilespec.h"           /* is_isometric */
+
+#include "climap.h"
 
 /************************************************************************
  A tile's "known" field is used by the server to store whether _each_

@@ -15,10 +15,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include "capability.h"
 #include "city.h"
@@ -37,6 +37,7 @@
 #include "unit.h"
 
 #include "citytools.h"
+
 #include "aiunit.h"		/* update_simple_ai_types */
 
 #include "ruleset.h"

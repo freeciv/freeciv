@@ -15,9 +15,10 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <stdarg.h>
 #include <assert.h>
+#include <stdarg.h>
+#include <string.h>
+
 #include <windows.h>
 #include <windowsx.h>
  

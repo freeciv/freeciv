@@ -16,10 +16,10 @@
 #include <assert.h>
 #include <math.h>
 
+#include "game.h"
 #include "player.h"
 #include "terrain.h"
 #include "unit.h"
-#include "game.h"
 
 struct Sprite;			/* opaque; client-gui specific */
 

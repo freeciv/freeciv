@@ -18,11 +18,10 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <gtk/gtk.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-
-#include <gtk/gtk.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -37,17 +36,18 @@
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
-#include "colors.h"
-#include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */
+#include "control.h"		/* set_unit_focus_no_center and get_unit_in_focus */
 #include "goto.h"
+#include "options.h"
+#include "tilespec.h"
+
+#include "citydlg.h"		/* For reset_city_dialogs() */
+#include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
-#include "options.h"
-#include "tilespec.h"
 
-#include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,

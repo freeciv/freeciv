@@ -22,13 +22,13 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
-#include "unit.h"
 #include "mem.h"
+#include "unit.h"
 
 #include "citytools.h"
+#include "maphand.h"
 #include "settlers.h"
 #include "unittools.h"
-#include "maphand.h"
 
 #include "advmilitary.h"
 #include "aicity.h"

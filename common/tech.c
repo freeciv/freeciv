@@ -15,16 +15,16 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include "fcintl.h"
 #include "game.h"
 #include "player.h"
-#include "support.h"
 #include "shared.h" /* ARRAY_SIZE */
+#include "support.h"
 
 #include "tech.h"
 

@@ -26,9 +26,9 @@
 #include "packets.h"
 #include "player.h"
 #include "rand.h"
+#include "shared.h"
 #include "support.h"
 #include "tech.h"
-#include "shared.h"
 
 #include "citytools.h"
 #include "cityturn.h"

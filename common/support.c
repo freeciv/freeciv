@@ -43,22 +43,15 @@
 
 #include <assert.h>
 #include <ctype.h>
-#include <stdio.h>
+#include <errno.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
 #include <sys/stat.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>		/* usleep, fcntl, gethostname */
-#endif
-
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
+#ifdef GENERATING_MAC
+#include <events.h>		/* for WaitNextEvent() */
 #endif
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
@@ -66,21 +59,24 @@
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
-
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
-
-#ifdef HAVE_WINSOCK
-#include <winsock.h>
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>		/* usleep, fcntl, gethostname */
 #endif
 #ifdef WIN32_NATIVE
 #include <process.h>
 #include <windows.h>
 #endif
-
-#ifdef GENERATING_MAC
-#include <events.h>		/* for WaitNextEvent() */
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
 #endif
 
 #include "fcintl.h"

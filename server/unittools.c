@@ -15,10 +15,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include "city.h"
 #include "combat.h"
@@ -49,8 +49,8 @@
 #include "srv_main.h"
 #include "unithand.h"
 
-#include "aiunit.h"
 #include "aitools.h"
+#include "aiunit.h"
 
 #include "unittools.h"
 

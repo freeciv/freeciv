@@ -22,9 +22,9 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "shared.h" /* ARRAY_SIZE */
 #include "support.h"
 #include "tech.h"
-#include "shared.h" /* ARRAY_SIZE */
 
 #include "improvement.h"
 

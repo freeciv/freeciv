@@ -17,9 +17,8 @@
 
 #include <stdio.h>
 
-#include <gtk/gtk.h>
-
 #include <gdk_imlib.h>
+#include <gtk/gtk.h>
 
 #include "log.h"
 #include "mem.h"

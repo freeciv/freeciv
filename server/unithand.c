@@ -20,7 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "barbarian.h"
 #include "city.h"
 #include "combat.h"
 #include "events.h"
@@ -32,8 +31,10 @@
 #include "packets.h"
 #include "player.h"
 #include "rand.h"
+#include "shared.h"
 #include "unit.h"
 
+#include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
@@ -42,7 +43,6 @@
 #include "maphand.h"
 #include "plrhand.h"
 #include "settlers.h"
-#include "shared.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "unittools.h"

@@ -15,14 +15,16 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
+#include <string.h>
 #include <unistd.h>		/* close */
+
 #include <esd.h>
 
-#include "log.h"
 #include "fcintl.h"
+#include "log.h"
 #include "support.h"
+
 #include "audio.h"
 
 #include "audio_esd.h"

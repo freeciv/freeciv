@@ -27,13 +27,14 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
+#include <iconv.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <SDL/SDL_byteorder.h>
 #include <SDL/SDL_types.h>
-#include <iconv.h>
-#include <errno.h>
+
 #ifdef HAVE_LIBCHARSET
 #include <libcharset.h>
 #else

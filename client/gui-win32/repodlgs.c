@@ -15,14 +15,14 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>          
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include <windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
-
 
 #include "fcintl.h"
 #include "game.h"

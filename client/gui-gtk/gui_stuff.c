@@ -19,13 +19,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "fcintl.h"
 #include "mem.h"
 
 #include "options.h"
+
 #include "gui_main.h"
 
 #include "gui_stuff.h"

@@ -13,8 +13,9 @@
 #ifndef FC__UNITTOOLS_H
 #define FC__UNITTOOLS_H
 
-#include "unit.h"
 #include "packets.h"		/* enum unit_info_use */
+#include "unit.h"
+
 #include "gotohand.h"
 
 struct city;

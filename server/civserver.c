@@ -20,8 +20,8 @@
 #include <string.h>
 
 #ifdef GENERATING_MAC  /* mac header(s) */
-#include <Dialogs.h>
 #include <Controls.h>
+#include <Dialogs.h>
 #endif
 
 #include "fcintl.h"

@@ -15,8 +15,8 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <stdlib.h>		/* getenv() */
+#include <string.h>
 
 #include "connection.h"		/* MAX_LEN_CAPSTR */
 #include "support.h"

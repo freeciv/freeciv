@@ -14,8 +14,8 @@
 #define FC__MAPHAND_H
 
 #include "map.h"
-#include "terrain.h"
 #include "packets.h"
+#include "terrain.h"
 
 enum ocean_land_change { OLC_NONE, OLC_OCEAN_TO_LAND, OLC_LAND_TO_OCEAN };
 

@@ -19,10 +19,11 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -30,7 +31,6 @@
 #include "player.h"
 #include "support.h"
 #include "tech.h"
-#include "fcintl.h"
 
 #include "nation.h"
 

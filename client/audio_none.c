@@ -18,6 +18,7 @@
 #include <string.h>
 
 #include "support.h"
+
 #include "audio.h"
 #include "gui_main_g.h"
 

@@ -15,10 +15,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include "city.h"
 #include "combat.h"
@@ -28,14 +28,13 @@
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
+#include "path_finding.h"
+#include "pf_tools.h"
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
 #include "timing.h"
 #include "unit.h"
-
-#include "pf_tools.h"
-#include "path_finding.h"
 
 #include "barbarian.h"
 #include "citytools.h"

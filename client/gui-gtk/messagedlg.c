@@ -15,14 +15,15 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "events.h"
 #include "fcintl.h"
 
-#include "gui_main.h"
 #include "options.h"
+
+#include "gui_main.h"
 
 #include "messagedlg.h"
 

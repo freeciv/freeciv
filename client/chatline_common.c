@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "astring.h"
+
 #include "chatline_g.h"
 
 #include "chatline_common.h"

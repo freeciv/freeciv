@@ -15,19 +15,18 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <assert.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif
@@ -39,38 +38,37 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "netintf.h"
 #include "packets.h"
 #include "rand.h"
 #include "support.h"
 #include "version.h"
 
+#include "agents.h"
+#include "attribute.h"
+#include "audio.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrepdata.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "cma_core.h"		/* kludge */
 #include "connectdlg_g.h"
 #include "control.h" 
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
-#include "gui_main_g.h"
 #include "goto.h"
+#include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"
 #include "messagewin_g.h"
-#include "netintf.h"
 #include "options.h"
 #include "packhand.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "tilespec.h"
-#include "attribute.h"
-#include "agents.h"
-#include "audio.h"
-
-#include "cma_core.h" /* kludge */
 
 #include "civclient.h"
 

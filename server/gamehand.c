@@ -17,13 +17,13 @@
 
 #include <assert.h>
 
+#include "events.h"
 #include "fcintl.h"
 #include "improvement.h"
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
 #include "rand.h"
-#include "events.h"
 
 #include "maphand.h"
 #include "plrhand.h"

@@ -28,9 +28,9 @@
  * the sum over base*factor. The base depends upon the factor_target.
  */
 
-#include "attribute.h"
-
 #include "cm.h"
+
+#include "attribute.h"
 
 /*
  * Called once per client start.

@@ -13,9 +13,8 @@
 #ifndef FC__OPTIONS_H
 #define FC__OPTIONS_H
 
-#include "shared.h"		/* bool type */
-
 #include "events.h"
+#include "shared.h"		/* bool type */
 
 extern char default_player_name[512];
 extern char default_server_host[512];

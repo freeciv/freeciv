@@ -18,12 +18,13 @@
 #include <assert.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "mem.h"
+
+#include "citydlg_g.h"
+#include "mapview_g.h"
 #include "messagewin_g.h"
 #include "options.h"
-#include "fcintl.h"
-#include "mapview_g.h"
-#include "citydlg_g.h"
 
 #include "messagewin_common.h"
 

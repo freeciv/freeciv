@@ -30,20 +30,20 @@ used throughout the client.
 #include <unistd.h>
 #endif
 
-/*#include "astring.h"*/
+#include "city.h"
 #include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
-#include "city.h"
 #include "packets.h"
+#include "spaceship.h"
 #include "support.h"
 
+#include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
 #include "civclient.h"
-#include "chatline_g.h"
 #include "climap.h"
 #include "clinet.h"
 #include "control.h"
@@ -52,7 +52,6 @@ used throughout the client.
 #include "packhand.h"
 #include "plrdlg_common.h"
 #include "repodlgs_common.h"
-#include "spaceship.h"
 #include "tilespec.h"
 
 #include "climisc.h"

@@ -13,8 +13,8 @@
 #ifndef FC__CIVCLIENT_H
 #define FC__CIVCLIENT_H
 
-#include "packets.h"		/* enum report_type */
 #include "game.h"		/* enum client_states */
+#include "packets.h"		/* enum report_type */
 
 /*
  * Every TIMER_INTERVAL milliseconds real_timer_callback is

@@ -15,24 +15,23 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <clib/alib_protos.h>
+#include <datatypes/soundclass.h>
+#include <intuition/classusr.h>
+#include <proto/datatypes.h>
+#include <proto/intuition.h>
 
 #include "log.h"
 #include "support.h"
+
 #include "audio.h"
 #include "gui_main_g.h"
 
-#include "audio_none.h"
-
-#include <datatypes/soundclass.h>
-#include <intuition/classusr.h>
-
-#include <clib/alib_protos.h>
-
-#include <proto/datatypes.h>
-#include <proto/intuition.h>
+#include "audio_amiga.h"
 
 #define MAX_SAMPLES 8
 

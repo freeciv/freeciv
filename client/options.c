@@ -21,23 +21,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "audio.h"
-#include "clinet.h"
-#include "civclient.h"
 #include "events.h"
 #include "fcintl.h"
-#include "log.h"
 #include "game.h"
+#include "log.h"
+#include "mem.h"
 #include "registry.h"
 #include "shared.h"
 #include "support.h"
-#include "tilespec.h"
 #include "version.h"
-#include "mem.h"
 
+#include "audio.h"
 #include "chatline_g.h"
-#include "cma_fec.h"
 #include "cityrepdata.h"
+#include "civclient.h"
+#include "clinet.h"
+#include "cma_fec.h"
+#include "tilespec.h"
 
 #include "options.h"
  

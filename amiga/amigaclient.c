@@ -22,10 +22,10 @@ function main() and call main2() afterwards. This depends on your compiler.
 #define strerror strerror_unuse
 
 #include <ctype.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include <workbench/startup.h>

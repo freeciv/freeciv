@@ -24,13 +24,14 @@
 #include <string.h>
 
 #include "fcintl.h"
-#include "mem.h"
-#include "log.h"
-#include "support.h"
 #include "game.h"
+#include "log.h"
+#include "mem.h"
+#include "support.h"
 
-#include "attribute.h"
 #include "agents.h"
+#include "attribute.h"
+
 #include "cma_fec.h"
 
 #define RESULT_COLUMNS		10

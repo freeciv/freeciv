@@ -14,14 +14,16 @@
 #define FC__GAME_H
 
 #include <time.h>	/* time_t */
+
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 
 #include "connection.h"		/* struct conn_list */
 #include "improvement.h"	/* Impr_Status */
-#include "shared.h"
 #include "player.h"
+#include "shared.h"
+
 
 #define MAX_LEN_DEMOGRAPHY  16
 #define MAX_LEN_ALLOW_CONNECT 16

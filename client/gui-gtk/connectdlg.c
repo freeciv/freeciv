@@ -27,8 +27,9 @@
 #include "version.h"
 
 #include "civclient.h"
-#include "chatline.h"
 #include "clinet.h"
+
+#include "chatline.h"
 #include "colors.h"
 #include "dialogs.h"
 #include "gui_main.h"

@@ -19,10 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtk.h>
-
 #include <gdk_imlib.h>
-#include "gtkpixcomm.h"
+#include <gtk/gtk.h>
 
 #include "game.h"
 #include "log.h"
@@ -33,22 +31,24 @@
 #include "version.h"
 
 #include "climisc.h"
-#include "colors.h"
-#include "gui_main.h"
 #include "mapview_g.h"
 #include "options.h"
 #include "tilespec.h"
 
-#include "graphics.h"
+#include "colors.h"
+#include "gtkpixcomm.h"
+#include "gui_main.h"
 
-#include "goto_cursor.xbm"
-#include "goto_cursor_mask.xbm"
 #include "drop_cursor.xbm"
 #include "drop_cursor_mask.xbm"
+#include "goto_cursor.xbm"
+#include "goto_cursor_mask.xbm"
 #include "nuke_cursor.xbm"
 #include "nuke_cursor_mask.xbm"
 #include "patrol_cursor.xbm"
 #include "patrol_cursor_mask.xbm"
+
+#include "graphics.h"
 
 SPRITE *		intro_gfx_sprite;
 SPRITE *		radar_gfx_sprite;

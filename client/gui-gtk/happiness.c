@@ -24,12 +24,14 @@
 #include "mem.h"
 #include "support.h"
 
+#include "tilespec.h"
+
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "happiness.h"
 #include "mapview.h"
-#include "tilespec.h"
+
+#include "happiness.h"
 
 /* semi-arbitrary number that controls the width of the happiness widget */
 #define HAPPINESS_PIX_WIDTH 23

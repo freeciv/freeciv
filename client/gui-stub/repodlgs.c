@@ -17,9 +17,11 @@
 
 #include <stdlib.h>
 
-#include "cityrep.h"
-#include "repodlgs.h"
 #include "repodlgs_common.h"
+
+#include "cityrep.h"
+
+#include "repodlgs.h"
 
 /**************************************************************************
   Update all report dialogs.

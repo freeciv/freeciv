@@ -20,6 +20,7 @@
 
 #include <gtk/gtk.h>
 
+#include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -30,10 +31,10 @@
 #include "shared.h"
 #include "support.h"
 
-#include "chatline.h"
 #include "climisc.h"
 #include "clinet.h"
-#include "diptreaty.h"
+
+#include "chatline.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"

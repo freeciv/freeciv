@@ -15,10 +15,9 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
+#include <string.h>
 
-#include "clinet.h"
 #include "dataio.h"
 #include "fcintl.h"
 #include "game.h"
@@ -26,6 +25,8 @@
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
+
+#include "clinet.h"
 
 #include "attribute.h"
 

@@ -20,12 +20,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -33,14 +34,18 @@
 #include "shared.h"
 #include "support.h"
 
+#include "cityicon.ico"
 #include "civclient.h"
-#include "cityrep.h"
-#include "cma_fe.h"
-#include "cma_fec.h" 
-#include "colors.h"
-#include "control.h"
 #include "climap.h"
 #include "clinet.h"
+#include "cma_fec.h" 
+#include "control.h"
+#include "options.h"
+#include "tilespec.h"
+
+#include "cityrep.h"
+#include "cma_fe.h"
+#include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -49,12 +54,8 @@
 #include "helpdlg.h"
 #include "inputdlg.h"
 #include "mapview.h"
-#include "options.h"
 #include "repodlgs.h"
-#include "tilespec.h"
 #include "wldlg.h"
-#include "log.h"
-#include "cityicon.ico"
 
 #include "citydlg.h"
 

@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "citytools.h"
+#include "events.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -29,7 +29,8 @@
 #include "rand.h"
 #include "support.h"
 #include "version.h"
-#include "events.h"
+
+#include "citytools.h"
 
 #include "report.h"
 

@@ -20,10 +20,11 @@
 #include "log.h"
 #include "support.h"
 
-#include "citydlg_common.h"
 #include "control.h"
 #include "options.h"		/* for concise_city_production */
 #include "tilespec.h"		/* for is_isometric */
+
+#include "citydlg_common.h"
 
 /**************************************************************************
   Return the width of the city dialog canvas.

@@ -15,11 +15,11 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef HAVE_LIBREADLINE
 #include <readline/readline.h>
@@ -40,6 +40,7 @@
 #include "registry.h"
 #include "shared.h"		/* fc__attribute, bool type, etc. */
 #include "support.h"
+#include "timing.h"
 #include "version.h"
 
 #include "citytools.h"
@@ -56,7 +57,6 @@
 #include "savegame.h"
 #include "sernet.h"
 #include "srv_main.h"
-#include "timing.h"
 
 #include "advmilitary.h"	/* assess_danger_player() */
 

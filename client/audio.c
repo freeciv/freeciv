@@ -15,34 +15,31 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "support.h"
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
-#include "capability.h"
 #include "mem.h"
-#include "shared.h"
 #include "registry.h"
-#include "audio_none.h"
-
-#ifdef ESD
-#include "audio_esd.h"
-#endif
-
-#ifdef SDL
-#include "audio_sdl.h"
-#endif
-
-#ifdef WINMM
-#include "audio_winmm.h"
-#endif
+#include "shared.h"
+#include "support.h"
 
 #ifdef AMIGA
 #include "audio_amiga.h"
+#endif
+#ifdef ESD
+#include "audio_esd.h"
+#endif
+#include "audio_none.h"
+#ifdef SDL
+#include "audio_sdl.h"
+#endif
+#ifdef WINMM
+#include "audio_winmm.h"
 #endif
 
 #include "audio.h"

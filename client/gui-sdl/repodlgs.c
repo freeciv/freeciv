@@ -23,11 +23,11 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include <assert.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>

@@ -17,25 +17,26 @@
 
 #include <string.h>
 
-#include "events.h"
-#include "fcintl.h"
 #include "capability.h"
 #include "capstr.h"
+#include "events.h"
+#include "fcintl.h"
 #include "log.h"
 #include "packets.h"
 #include "player.h"
 #include "support.h"
 #include "version.h"
 
-#include "connecthand.h"
-#include "plrhand.h"
-#include "stdinhand.h"
-#include "ruleset.h"
-#include "maphand.h"
-#include "meta.h"
 #include "diplhand.h"
 #include "gamehand.h"
+#include "maphand.h"
+#include "meta.h"
+#include "plrhand.h"
+#include "ruleset.h"
 #include "srv_main.h"
+#include "stdinhand.h"
+
+#include "connecthand.h"
 
 static void reject_new_player(char *msg, struct connection *pconn);
 

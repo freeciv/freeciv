@@ -13,8 +13,9 @@
 #ifndef FC__MAPVIEW_G_H
 #define FC__MAPVIEW_G_H
 
-#include "mapview_common.h"
 #include "shared.h"		/* bool type */
+
+#include "mapview_common.h"
 
 struct unit;
 struct city;

@@ -15,10 +15,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include "city.h"
 #include "combat.h"
@@ -47,11 +47,11 @@
 #include "advmilitary.h"
 #include "aiair.h"
 #include "aicity.h"
+#include "aidata.h"
 #include "aidiplomat.h"
 #include "aihand.h"
-#include "aitools.h"
-#include "aidata.h"
 #include "ailog.h"
+#include "aitools.h"
 
 #include "aiunit.h"
 

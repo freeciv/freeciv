@@ -18,6 +18,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "diptreaty.h"
+#include "events.h"
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -26,11 +28,9 @@
 #include "packets.h"
 #include "player.h"
 #include "unit.h"
-#include "events.h"
 
 #include "citytools.h"
 #include "cityturn.h"
-#include "diptreaty.h"
 #include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"

@@ -44,8 +44,8 @@
 #include <config.h>
 #endif
 
-#include <time.h>
 #include <assert.h>
+#include <time.h>
 
 #ifdef HAVE_GETTIMEOFDAY
 #include <sys/time.h>
@@ -54,8 +54,8 @@
 
 #include "log.h"
 #include "mem.h"
-#include "support.h"
 #include "shared.h"		/* TRUE, FALSE */
+#include "support.h"
 
 #include "timing.h"
 

@@ -94,8 +94,8 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
+#include <string.h>
 
 #include "log.h"
 #include "mem.h"

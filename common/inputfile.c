@@ -67,16 +67,16 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 
 #include "astring.h"
 #include "ioz.h"
 #include "log.h"
 #include "mem.h"
-#include "support.h"
 #include "shared.h"		/* TRUE, FALSE */
+#include "support.h"
 
 #include "inputfile.h"
 

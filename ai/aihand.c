@@ -32,16 +32,16 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "plrhand.h"
-#include "spacerace.h"
 #include "settlers.h" /* amortize */
+#include "spacerace.h"
 #include "unithand.h"
 
+#include "advspace.h"
 #include "aicity.h"
 #include "aidata.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "advspace.h"
 
 #include "aihand.h"
 

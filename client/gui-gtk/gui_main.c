@@ -16,21 +16,20 @@
 #endif
 
 #include <assert.h>
-#ifdef HAVE_LOCALE_H
-#include <locale.h>
-#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
+#include <gtk/gtkinvisible.h>
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-
-#include <gtk/gtk.h>
-#include <gtk/gtkinvisible.h>
-#include <gdk/gdkkeysyms.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -42,30 +41,30 @@
 #include "support.h"
 #include "version.h"
 
-#include "chatline.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "control.h"
+#include "freeciv.ico"
+#include "helpdata.h"                   /* boot_help_texts() */
+#include "options.h"
+#include "tilespec.h"
+
+#include "chatline.h"
 #include "colors.h"
 #include "connectdlg.h"
-#include "control.h"
 #include "dialogs.h"
 #include "gotodlg.h"
 #include "graphics.h"
-#include "gui_main.h"
 #include "gui_stuff.h"
-#include "helpdata.h"                   /* boot_help_texts() */
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
 #include "optiondlg.h"
-#include "options.h"
-#include "spaceshipdlg.h"
 #include "resources.h"
-#include "tilespec.h"
+#include "spaceshipdlg.h"
 
-
-#include "freeciv.ico"
+#include "gui_main.h"
 
 const char *client_string = "gui-gtk";
 

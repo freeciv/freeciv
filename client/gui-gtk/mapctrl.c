@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+
 #include <gtk/gtk.h>
 
 #include "combat.h"
@@ -26,23 +27,24 @@
 #include "support.h"
 #include "unit.h"
 
-#include "chatline.h"
-#include "citydlg.h"
 #include "civclient.h"
-#include "clinet.h"
 #include "climap.h"
 #include "climisc.h"
-#include "colors.h"
+#include "clinet.h"
+#include "cma_core.h"
 #include "control.h"
-#include "dialogs.h"
 #include "goto.h"
+#include "tilespec.h"
+
+#include "chatline.h"
+#include "citydlg.h"
+#include "colors.h"
+#include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
-#include "tilespec.h"
-#include "cma_core.h"
 
 #include "mapctrl.h"
 

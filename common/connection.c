@@ -16,23 +16,18 @@
 #endif
 
 #include <assert.h>
-#include <string.h>
 #include <errno.h>
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
+#include <string.h>
 
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
-
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif

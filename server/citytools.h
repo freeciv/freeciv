@@ -13,9 +13,9 @@
 #ifndef FC__CITYTOOLS_H
 #define FC__CITYTOOLS_H
 
-#include "packets.h"
 #include "city.h"
-#include "nation.h" /* for struct city_name */
+#include "nation.h"		/* for struct city_name */
+#include "packets.h"
 
 #define FOOD_WEIGHTING 19
 #define SHIELD_WEIGHTING 17

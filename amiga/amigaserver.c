@@ -19,10 +19,10 @@ function main() and call main2() afterwards. This depends on your compiler.
 #endif
 
 #include <ctype.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #undef HAVE_CONFIG_H /* little trick to remove error message */

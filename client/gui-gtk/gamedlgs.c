@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "events.h"
 #include "fcintl.h"
@@ -31,16 +31,17 @@
 #include "shared.h"
 #include "support.h"
 
+#include "clinet.h"
+#include "options.h"
+
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"
-#include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "options.h"
 
-#include "ratesdlg.h"
 #include "optiondlg.h"
+#include "ratesdlg.h"
 
 /******************************************************************/
 static GtkWidget *rates_dialog_shell;

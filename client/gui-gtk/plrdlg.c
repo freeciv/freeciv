@@ -15,32 +15,33 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "fcintl.h"
 #include "game.h"
-#include "packets.h"
+#include "log.h"
 #include "nation.h"
+#include "packets.h"
 #include "player.h"
 #include "support.h"
 
 #include "civclient.h"
-#include "chatline.h"
 #include "climisc.h"
 #include "clinet.h"
+
+#include "chatline.h"
+#include "colors.h"
+#include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "inteldlg.h"
 #include "spaceshipdlg.h"
-#include "colors.h"
-#include "graphics.h"
-#include "log.h"
 
 #include "plrdlg.h"
 

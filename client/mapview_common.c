@@ -22,14 +22,14 @@
 #include "support.h"
 #include "timing.h"
 
-#include "mapctrl_g.h"
-#include "mapview_g.h"
-
 #include "climap.h"
 #include "control.h"
 #include "goto.h"
-#include "mapview_common.h"
+#include "mapctrl_g.h"
+#include "mapview_g.h"
 #include "tilespec.h"
+
+#include "mapview_common.h"
 
 struct canvas mapview_canvas;
 

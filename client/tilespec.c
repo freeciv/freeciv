@@ -42,12 +42,12 @@
 #include "support.h"
 #include "unit.h"
 
-#include "civclient.h" /* for get_client_state() */
-#include "climap.h" /* for tile_get_known() */
-#include "control.h" /* for fill_xxx */
+#include "civclient.h"		/* for get_client_state() */
+#include "climap.h"		/* for tile_get_known() */
+#include "control.h"		/* for fill_xxx */
 #include "graphics_g.h"
-#include "mapview_g.h" /* for update_map_canvas_visible */
-#include "options.h" /* for fill_xxx */
+#include "mapview_g.h"		/* for update_map_canvas_visible */
+#include "options.h"		/* for fill_xxx */
 
 #include "tilespec.h"
 

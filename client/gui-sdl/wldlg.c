@@ -23,9 +23,9 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>

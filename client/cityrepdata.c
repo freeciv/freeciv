@@ -20,12 +20,12 @@
 #include <string.h>
 
 #include "city.h"
-#include "cma_fec.h"
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "support.h"
 
+#include "cma_fec.h"
 #include "options.h"
 
 #include "cityrepdata.h"

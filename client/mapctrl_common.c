@@ -15,11 +15,12 @@
 #include <config.h>
 #endif
 
+#include "log.h"
+
 #include "agents.h"
 #include "civclient.h"
 #include "control.h"
 #include "goto.h"
-#include "log.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "options.h"

@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 #include "mem.h"
+
 #include "genlist.h"
 
 static struct genlist_link *find_genlist_position(struct genlist *pgenlist,

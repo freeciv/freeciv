@@ -20,8 +20,8 @@
   See also mem.h, netintf.h, rand.h, and see support.c for more comments.
 ***********************************************************************/
 
-#include <stdlib.h>		/* size_t */
 #include <stdarg.h>
+#include <stdlib.h>		/* size_t */
 
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>

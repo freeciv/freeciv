@@ -15,16 +15,16 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <assert.h>
 #include <sys/time.h>
+#include <time.h>
 #include <unistd.h>
 
-#include "capstr.h"
 #include "capability.h"
+#include "capstr.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -41,6 +41,9 @@
 #include "unit.h"
 #include "worklist.h"
 
+#include "agents.h"
+#include "attribute.h"
+#include "audio.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
@@ -64,9 +67,6 @@
 #include "spaceshipdlg_g.h"
 #include "tilespec.h"
 #include "wldlg_g.h"
-#include "attribute.h"
-#include "agents.h"
-#include "audio.h"
 
 #include "packhand.h"
 

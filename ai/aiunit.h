@@ -13,8 +13,8 @@
 #ifndef FC__AIUNIT_H
 #define FC__AIUNIT_H
 
-#include "unittype.h"
 #include "combat.h"
+#include "unittype.h"
 
 /*
  * To prevent integer overflows the product "power * hp * firepower"

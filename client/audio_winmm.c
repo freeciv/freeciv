@@ -15,14 +15,16 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
-#include <windows.h>
-#include <mmsystem.h>
+#include <string.h>
 
-#include "log.h"
+#include <mmsystem.h>
+#include <windows.h>
+
 #include "fcintl.h"
+#include "log.h"
 #include "support.h"
+
 #include "audio.h"
 
 #include "audio_winmm.h"

@@ -24,9 +24,7 @@
 #include "control.h"
 #include "mapctrl_common.h"
 
-#include "mapctrl.h"
 #include "mapview.h"
-
 
 /**************************************************************************
   Typically an info box is provided to tell the player about the state

@@ -15,34 +15,35 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include <gtk/gtk.h>
-#include "gtkpixcomm.h"
 
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "government.h"
+#include "map.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
-#include "map.h"
-#include "support.h"
 #include "version.h"
 
 #include "climisc.h"
-#include "colors.h"
-#include "graphics.h"
-#include "gui_main.h"
-#include "gui_stuff.h"
 #include "helpdata.h"
 #include "tilespec.h"
+
+#include "colors.h"
+#include "graphics.h"
+#include "gtkpixcomm.h"
+#include "gui_main.h"
+#include "gui_stuff.h"
 
 #include "helpdlg.h"
 

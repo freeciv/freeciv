@@ -15,69 +15,65 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
-#include <assert.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
 #endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
+#ifdef HAVE_PWD_H
+#include <pwd.h>
+#endif
+#ifdef HAVE_SYS_SELECT_H
+#include <sys/select.h>
 #endif
 #ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
 #endif
 #ifdef HAVE_SYS_UIO_H
 #include <sys/uio.h>
 #endif
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
-
-#ifdef HAVE_PWD_H
-#include <pwd.h>
-#endif
-
-#ifdef HAVE_SYS_SELECT_H
-#include <sys/select.h>
-#endif
-
-#ifdef HAVE_WINSOCK
-#include <winsock.h>
-#endif
-
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
+#endif
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
 #endif
 
 #include "capstr.h"
 #include "fcintl.h"
 #include "game.h"
+#include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
 #include "packets.h"
 #include "support.h"
 #include "version.h"
-#include "hash.h"
 
+#include "agents.h"
 #include "chatline_g.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
+#include "mapview_common.h"	/* unqueue_mapview_update */
 #include "messagewin_g.h"
 #include "packhand.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
-#include "agents.h"
-#include "mapview_common.h"	/* unqueue_mapview_update */
 
 #include "clinet.h"
 

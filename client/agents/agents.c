@@ -20,15 +20,15 @@
 
 #include "capability.h"
 #include "hash.h"
-#include "mem.h"
-#include "civclient.h"
 #include "log.h"
-#include "clinet.h"
+#include "mem.h"
 #include "timing.h"
-#include "mapctrl_g.h"
 
+#include "civclient.h"
+#include "clinet.h"
 #include "cma_core.h"
 #include "cma_fec.h"
+#include "mapctrl_g.h"
 
 #include "agents.h"
 

@@ -15,13 +15,13 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
 #include "city.h"
 #include "fcintl.h"
@@ -32,22 +32,23 @@
 #include "support.h"
 #include "unit.h"
 
+#include "cityrepdata.h"
 #include "civclient.h"
+#include "climisc.h"
+#include "clinet.h"
+#include "cma_fec.h"
+#include "options.h"
+#include "packhand.h"
+
 #include "chatline.h"
 #include "citydlg.h"
-#include "cityrepdata.h"
-#include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "packhand.h"
 #include "optiondlg.h"
-#include "options.h"
 #include "repodlgs.h"
-#include "climisc.h"
 
 #include "cityrep.h"
-#include "cma_fec.h"
 
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 #define CMA_NONE	(-1)

@@ -20,6 +20,7 @@
 #define FC__ASTRING_H
 
 #include <stddef.h>		/* size_t */
+
 #include "shared.h"		/* ADD_TO_POINTER */
 
 struct astring {

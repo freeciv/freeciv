@@ -15,30 +15,32 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
-#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
-#include "civclient.h"
 #include "city.h"
 #include "fcintl.h"
 #include "game.h"
+#include "mem.h"
+#include "packets.h"
+#include "support.h"
+#include "worklist.h"
+
+#include "civclient.h"
+#include "climisc.h"
+#include "clinet.h"
+
+#include "citydlg.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
-#include "mem.h"
-#include "packets.h"
-#include "worklist.h"
-#include "support.h"
-#include "climisc.h"
-#include "clinet.h"
 
 #include "wldlg.h"
-#include "citydlg.h"
 
 #define WORKLIST_ADVANCED_TARGETS  	1
 #define WORKLIST_CURRENT_TARGETS   	0

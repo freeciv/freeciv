@@ -14,9 +14,9 @@
 #define FC__PATH_FINDING_H
 
 #include "map.h"
+#include "terrain.h"
 #include "unit.h"
 #include "unittype.h"
-#include "terrain.h"
 
 /* ========================= Explanations =============================== */
 

@@ -18,8 +18,8 @@
 #include "player.h"
 #include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
 #include "spaceship.h"
-#include "worklist.h"
 #include "unittype.h"
+#include "worklist.h"
 
 #define MAX_LEN_USERNAME        10        /* see below */
 #define MAX_LEN_MSG             1536

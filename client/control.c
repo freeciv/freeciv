@@ -23,22 +23,21 @@
 #include "map.h"
 #include "mem.h"
 
+#include "audio.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
+#include "civclient.h"
+#include "climap.h"
 #include "climisc.h"
+#include "clinet.h"
 #include "dialogs_g.h"
+#include "goto.h"
 #include "gui_main_g.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "menu_g.h"
-
-#include "civclient.h"
-#include "climap.h"
-#include "clinet.h"
-#include "goto.h"
 #include "options.h"
 #include "tilespec.h"
-#include "audio.h"
 
 #include "control.h"
 

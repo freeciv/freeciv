@@ -20,6 +20,7 @@
 #include "government.h"
 #include "packets.h"
 #include "spaceship.h"
+
 #include "spacerace.h"
 
 #include "advspace.h"

@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "game.h"
+
 #include "repodlgs_g.h"
 
 #include "repodlgs_common.h"

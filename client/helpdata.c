@@ -20,9 +20,9 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "astring.h"
 #include "city.h"

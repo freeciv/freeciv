@@ -23,10 +23,10 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
-#include "rand.h"
-#include "unittype.h"
-#include "unit.h"
 #include "mem.h"
+#include "rand.h"
+#include "unit.h"
+#include "unittype.h"
 
 #include "citytools.h"
 #include "settlers.h"
@@ -34,9 +34,9 @@
 
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aidata.h"
 #include "aitools.h"
 #include "aiunit.h"
-#include "aidata.h"
 
 #include "advdomestic.h"
 

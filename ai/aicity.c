@@ -46,10 +46,10 @@
 #include "advisland.h"
 #include "advleader.h"
 #include "advmilitary.h"
-#include "aihand.h"
-#include "aitools.h"
 #include "aidata.h"
+#include "aihand.h"
 #include "ailog.h"
+#include "aitools.h"
 #include "aiunit.h"
 
 #include "aicity.h"

@@ -16,8 +16,8 @@
 #endif
 
 #include <assert.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <graphics/gfxmacros.h>
 #include <graphics/rpattr.h>

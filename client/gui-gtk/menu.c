@@ -30,22 +30,23 @@
 #include "support.h"
 #include "unit.h"
 
-#include "chatline.h"
-#include "cityrep.h"
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
+#include "options.h"
+#include "packhand.h"
+
+#include "chatline.h"
+#include "cityrep.h"
 #include "dialogs.h"
 #include "finddlg.h"
 #include "gotodlg.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
-#include "mapctrl.h"   /* center_on_unit */
+#include "mapctrl.h"		/* center_on_unit */
 #include "messagedlg.h"
 #include "messagewin.h"
 #include "optiondlg.h"
-#include "options.h"
-#include "packhand.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"

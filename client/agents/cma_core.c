@@ -15,17 +15,11 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
+#include <string.h>
 #include <unistd.h>
 
-#include "agents.h"
-#include "attribute.h"
-#include "chatline_g.h"
 #include "city.h"
-#include "civclient.h"
-#include "climisc.h"
-#include "clinet.h"
 #include "dataio.h"
 #include "events.h"
 #include "fcintl.h"
@@ -33,14 +27,21 @@
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
-#include "messagewin_g.h"
 #include "packets.h"
-#include "packhand.h"
 #include "shared.h"		/* for MIN() */
 #include "support.h"
 #include "timing.h"
+
+#include "agents.h"
+#include "attribute.h"
+#include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
+#include "civclient.h"
+#include "climisc.h"
+#include "clinet.h"
+#include "messagewin_g.h"
+#include "packhand.h"
 
 #include "cma_core.h"
 

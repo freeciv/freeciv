@@ -21,9 +21,9 @@
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
-#include "nation.h"
 #include "map.h"
 #include "mem.h"
+#include "nation.h"
 #include "packets.h"
 #include "rand.h"
 #include "support.h"
@@ -36,8 +36,8 @@
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
 #include "srv_main.h"
-#include "unittools.h"
 #include "unithand.h"
+#include "unittools.h"
 
 #include "maphand.h"
 

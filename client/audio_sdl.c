@@ -15,15 +15,16 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <assert.h>
+#include <string.h>
 
 #include <SDL.h>
 #include <SDL_mixer.h>
 
-#include "audio.h"
 #include "log.h"
 #include "support.h"
+
+#include "audio.h"
 
 #include "audio_sdl.h"
 

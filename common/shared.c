@@ -19,6 +19,7 @@
 /* Under Mac OS X sys/types.h must be included before dirent.h */
 #include <sys/types.h>
 #endif
+
 #include <assert.h>
 #include <dirent.h>
 #include <errno.h>
@@ -26,16 +27,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
-
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #ifdef WIN32_NATIVE
 #include <windows.h>
 #endif

@@ -16,6 +16,7 @@
 #endif
 
 #include "shared.h"		/* TRUE, FALSE */
+
 #include "spaceship.h"
 
 const struct sship_part_info structurals_info[NUM_SS_STRUCTURALS] = {

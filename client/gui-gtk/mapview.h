@@ -15,13 +15,12 @@
 
 #include <gtk/gtk.h>
 
-#include "gtkpixcomm.h"
-
 #include "citydlg_common.h"
-#include "mapview_g.h"
 #include "mapview_common.h"
+#include "mapview_g.h"
 
 #include "graphics.h"
+#include "gtkpixcomm.h"
 
 struct unit;
 struct city;

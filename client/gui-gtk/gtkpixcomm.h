@@ -27,8 +27,8 @@
 #ifndef __GTK_PIXCOMM_H__
 #define __GTK_PIXCOMM_H__
 
-
 #include <gtk/gtkmisc.h>
+
 #include "graphics.h"
 
 

@@ -15,24 +15,26 @@
 #include <config.h>
 #endif
 
-#include <gdk/gdkkeysyms.h>
 #include <assert.h>
 
-#include "fcintl.h"
+#include <gdk/gdkkeysyms.h>
+
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "mem.h"
 #include "support.h"
 
-#include "civclient.h"
 #include "chatline_g.h"
 #include "citydlg_g.h"
+#include "civclient.h"
+#include "cma_fec.h"
+#include "messagewin_g.h"
+
 #include "cityrep.h"
 #include "dialogs.h"
-#include "inputdlg.h"
 #include "gui_stuff.h"
-#include "messagewin_g.h"
-#include "cma_fec.h"
+#include "inputdlg.h"
 
 #include "cma_fe.h"
 

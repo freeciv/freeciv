@@ -17,7 +17,7 @@
 
 #include <stdlib.h>
 
-#include "mapctrl_g.h"
+#include "mapctrl.h"
 
 struct city *city_workers_display = NULL;
 

@@ -24,13 +24,13 @@
 #endif
 
 #include <assert.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
-
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>

@@ -23,13 +23,13 @@
 
 #include "airgoto.h"
 #include "citytools.h"
-#include "maphand.h"
 #include "gotohand.h"
+#include "maphand.h"
 #include "unithand.h"
 #include "unittools.h"
 
-#include "aiunit.h"
 #include "aitools.h"
+#include "aiunit.h"
 
 #include "aiair.h"
 
