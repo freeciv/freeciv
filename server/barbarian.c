@@ -123,6 +123,7 @@ static struct player *create_barbarian_player(int land)
         barbarians->economic.gold = 0;
         barbarians->is_alive = 1;
         pick_ai_player_name( game.nation_count-1, barbarians->name);
+	sz_strlcpy(barbarians->username, barbarians->name);
         /* I need to make them to forget the map, I think */
         for( j = 0; j < map.xsize; j++ )
           for( k = 0; k < map.ysize; k++ )
