@@ -7,6 +7,9 @@
 /* Define if using alloca.c.  */
 #undef C_ALLOCA
 
+/* Define to empty if the keyword does not work.  */
+/*#undef const*/ /*not needed?*/
+
 /* Define to one of _getb67, GETB67, getb67 for Cray-2 and Cray-YMP systems.
    This function is required for alloca.c support on those systems.  */
 #undef CRAY_STACKSEG_END
@@ -68,6 +71,7 @@
 #undef MAJOR_VERSION
 #undef MINOR_VERSION
 #undef PATCH_VERSION
+#undef VERSION_LABEL
 #undef IS_BETA_VERSION
 #undef VERSION_STRING
 #undef HAVE_LIBICE
@@ -88,17 +92,17 @@
 #undef DEFAULT_DATA_PATH
 #undef HAVE_SIGPIPE
 #undef XPM_H_NO_X11
-
+#undef FUNCPROTO
+#undef NARROWPROTO
 #define ALWAYS_ROOT 1 /*may not be needed.  Metroworks provides dummy functions*/
-
-/* copland Compatability (os x?), _MAC ONLY_ (pointless on other systems)*/
-#undef STRICT_WINDOWS
+#undef STRICT_WINDOWS/* copland Compatability (os x?), _MAC ONLY_ (pointless on other systems)*/
 #define STRICT_WINDOWS 1 /* seq used to enable strict windows */
-#undef STRICT_CONTROLS
+#undef STRICT_CONTROLS/* copland Compatability (os x?), _MAC ONLY_ (pointless on other systems)*/
 #define STRICT_CONTROLS 1 /* seq used to enable strict controls */
-
-#define GENERATING_MAC
-#define HAVE_OPENTRANSPORT
+#define GENERATING_MAC /*use for mac native code*/
+#define HAVE_OPENTRANSPORT /*used for OpenTransport Networking*/
+#undef PATH_SEPARATOR
+#undef SOCKET_ZERO_ISNT_STDIN
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
@@ -111,6 +115,9 @@
 
 /* Define if you have the dcgettext function.  */
 #undef HAVE_DCGETTEXT
+
+/* Define if you have the fdopen function.  */
+#undef HAVE_FDOPEN
 
 /* Define if you have the getcwd function.  */
 #define HAVE_GETCWD
@@ -141,6 +148,9 @@
 
 /* Define if you have the setlocale function.  */
 #define HAVE_SETLOCALE
+
+/* Define if you have the snooze function.  */
+#undef HAVE_SNOOZE
 
 /* Define if you have the stpcpy function.  */
 #undef HAVE_STPCPY
