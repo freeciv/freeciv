@@ -691,19 +691,21 @@ enter an enemy city to capture it, even if the city is undefended.
 Air units can move on any square not occupied by an enemy unit or
 enemy city.  The movement rate of air units is not affected by loss
 of hitpoints.  Air units require fuel, which is obtained by ending
-their turn in a friendly city or Carrier (or a Submarine for missile
-units).  The number of turns an air unit can last without fuel
-varies by the unit type (see the individual units).  Like sea units,
-air units are unable to enter an empty enemy city to capture it.
-When outside cities, air units can only be attacked by Fighters (or
-Stealth Fighters).  Air units cannot be used to explore villages.
+their turn in a friendly city, Airbase or Carrier (or a Submarine
+for missile units).  The number of turns an air unit can last
+without fuel varies by the unit type (see the individual units).
+Like sea units, air units are unable to enter an empty enemy city
+to capture it.  When outside cities, air units can only be attacked
+by Fighters (or Stealth Fighters).  Air units cannot be used to
+explore villages; depending upon server options, an overflown
+village may disband.
 
 Like air units, Helicopters can move on any square not occupied by
 an enemy unit or enemy city, and their movement rate is not affected
 by loss of hitpoints.  Helicopters do not require fuel, but they
-lose a small amount of health for every turn not spent in a city,
-unless you have the United Nations wonder.  Unlike other air units,
-Helicopters can capture enemy cities.
+lose a small amount of health for every turn not spent in a city or
+an Airbase, unless you have the United Nations wonder.  Unlike other
+air units, Helicopters can capture enemy cities.
 
 Units which have been damaged in combat will regain hit points each
 turn in which they are not moved.  Normally, a unit which has not
@@ -937,7 +939,9 @@ Suitable types of terrain can be irrigated.  This requires a nearby
 source of water: an Ocean or River square, or another square which
 is irrigated, must be directly adjacent to the target square, to
 the north, south, east or west.  Irrigating a square causes it to
-produce some extra food each turn.
+produce some extra food each turn.  In addition, given sufficient
+technology, you may irrigate a square a second time, turning it
+into even more productive Farmland.
 
 Some types of terrain can be mined, which increases the number of
 resources (shields) produced by that square.
@@ -966,6 +970,9 @@ fortress defend at twice their normal strength; also, units inside
 a fortress must be destroyed one at a time.  See the Combat help
 section for further details.
 
+You may also build Airbases, at which your air units may land and
+refuel.
+
 The following table shows the number of turns required for one unit
 of Settlers to complete an activity. These numbers are reduced to
 half (rounded up) for Engineers, and they can be reduced further by
@@ -984,16 +991,17 @@ in the following order:
  - irrigation
  - mining
  - a fortress
+ - an airbase
  - a railroad
  - a road
 
 Terrain tiles that do not have alterations (farmland, irrigation,
-mining, fortress, railroad or road) cannot be pillaged.  In
-addition, terrain conversions and transformations cannot be undone
-by pillaging.  For example, if you have irrigated a Forest tile to
-convert it into a Plain, pillaging will not convert it back into a
-Forest -- to do so, you would have to convert the tile again with
-a Settler or Engineer.
+mining, fortress, airbase, railroad or road) cannot be pillaged.
+In addition, terrain conversions and transformations cannot be
+undone by pillaging.  For example, if you have irrigated a Forest
+tile to convert it into a Plain, pillaging will not convert it back
+into a Forest -- to do so, you would have to convert the tile again
+with a Settler or Engineer.
 ---
 #Government
 Your government type influences your cities' productivity and
