@@ -1,11 +1,11 @@
 # $Id$
 # This translation is covered by the GNU General Public License Version 2.
 #
-# #####################################################
-# # German translations for Freeciv                   #
-# # Copyright (C) 2000 Free Software Foundation, Inc. #
-# # Egbert Hinzen <garfy@ehinzen.de>, 2000            #
-# #####################################################
+# ###########################################################
+# # German translations for Freeciv                         #
+# # Copyright (C)1999-2000 Free Software Foundation, Inc.   #
+# # Egbert Hinzen <garfy@ehinzen.de>, 1999-2000             #
+# ###########################################################
 #
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.        +
@@ -28,12 +28,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.47  2000/06/15 12:58:16  testxl
-# Updated German (de) translation.
-# Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
-#
-# Revision 1.10.1.9  2000/06/14 20:36:34  egbert
-# Informationen über die Mailingliste der deutschen Übersetzer geändert
+# Revision 1.48  2000/06/17 18:07:11  egbert
+# Patches until 06/17/00 included.
 #
 # ###################################
 # ## The real PO file starts here: ##
@@ -43,7 +39,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.11.0\n"
-"POT-Creation-Date: 2000-06-14 22:00+0200\n"
+"POT-Creation-Date: 2000-06-17 19:05+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -336,6 +332,31 @@ msgstr ""
 "Freeciv %s wird voraussichtlich im %s\n"
 "auf %s veröffentlicht werden."
 
+#: ai/aicity.c:240 server/cityhand.c:554
+#, c-format
+msgid "Game: The %s have stopped building The %s in %s."
+msgstr "Spiel: Die %s haben aufgehört, %s in %s zu bauen."
+
+#: ai/aicity.c:249 server/cityhand.c:608
+#, c-format
+msgid "Game: The %s have started building The %s in %s."
+msgstr "Spiel: Die %s haben begonnen, %s in %s zu bauen."
+
+#: ai/aicity.c:357 ai/aicity.c:485
+#, c-format
+msgid "Game: %s upgraded to %s in %s for %d credits."
+msgstr "Spiel: In %3$s %1$s zum Preis von %4$d Goldstücken durch %2$s ersetzt."
+
+#: ai/aicity.c:381
+#, c-format
+msgid "Game: %s disbanded in %s."
+msgstr "Spiel: %s in %s aufgelöst."
+
+#: ai/aicity.c:802
+#, c-format
+msgid "Game: %s is selling %s (not needed) for %d."
+msgstr "Spiel: %s verkauft %s (unnötig) zum Preis von %d."
+
 #: server/barbarian.c:435
 #, c-format
 msgid "Native unrest near %s led by %s."
@@ -386,11 +407,6 @@ msgstr "Spiel: In einer aufständigen Stadt kann man keine Einheiten kaufen."
 msgid "Game: %s bought in %s for %d gold."
 msgstr "Spiel: %s in %s für %d Goldstücke gekauft."
 
-#: ai/aicity.c:240 server/cityhand.c:554
-#, c-format
-msgid "Game: The %s have stopped building The %s in %s."
-msgstr "Spiel: Die %s haben aufgehört, %s in %s zu bauen."
-
 #: server/cityhand.c:587
 msgid " from the worklist"
 msgstr " aus der Arbeitsliste"
@@ -404,11 +420,6 @@ msgstr "Spiel: %s baut %s%s."
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Spiel: %s baut %s."
-
-#: ai/aicity.c:249 server/cityhand.c:608
-#, c-format
-msgid "Game: The %s have started building The %s in %s."
-msgstr "Spiel: Die %s haben begonnen, %s in %s zu bauen."
 
 #: server/cityhand.c:635
 msgid "Game: You have bought this turn, can't change."
@@ -464,7 +475,7 @@ msgstr ""
 "       Opportunisten haben sich den Rebellen angeschlossen, so daß\n"
 "       der Emporkömmling %s jetzt %d Provinzen kontrolliert."
 
-#: server/citytools.c:1073
+#: server/citytools.c:1075
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -1567,16 +1578,16 @@ msgstr "Spiel: Die %s und die %s haben jetzt %s."
 msgid "Message too long in page_player_generic!!"
 msgstr "Message too long in page_player_generic!!"
 
-#: server/plrhand.c:2960
+#: server/plrhand.c:2975
 msgid "Game: You've been removed from the game!"
 msgstr "Spiel: Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:2964
+#: server/plrhand.c:2979
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:2999 server/plrhand.c:3003
+#: server/plrhand.c:3014 server/plrhand.c:3018
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spiel: Kontakt zu %2$s (beherrscht die %1$s) aufgenommen."
@@ -3178,7 +3189,7 @@ msgstr "Zu wenige Mitspieler, Spiel wird nicht gestartet."
 msgid "Cannot start the game: it is already running."
 msgstr "Spiel kann nicht gestartet werden: es läuft bereits."
 
-#: server/stdinhand.c:2409
+#: server/stdinhand.c:2410
 #, c-format
 msgid "Cutting connection to %s."
 msgstr "Verbindung zu %s wird beendet."
@@ -3753,60 +3764,60 @@ msgstr "Spiel: %s hat keinen Treibstoff mehr."
 msgid "Game: Your %s has been lost on the high seas."
 msgstr "Spiel: %s ist auf hoher See gesunken."
 
-#: server/unitfunc.c:1964
+#: server/unitfunc.c:1974
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d credits."
 msgstr "Spiel: %s in %s (ab jetzt landgebunden) für %d Goldstücke verkauft."
 
-#: server/unitfunc.c:2217
+#: server/unitfunc.c:2227
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
 msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) verschoben."
 
-#: server/unitfunc.c:2240
+#: server/unitfunc.c:2250
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) eingeschifft."
 
-#: server/unitfunc.c:2253
+#: server/unitfunc.c:2263
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr "Spiel: %s wegen Überschwemmung von (%d, %d) aufgelöst."
 
-#: server/unitfunc.c:2283
+#: server/unitfunc.c:2293
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
 msgstr "Spiel: %s wegen Versandung von (%d, %d) verschoben."
 
-#: server/unitfunc.c:2306
+#: server/unitfunc.c:2316
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
 msgstr "Spiel: %s wegen Versandung von (%d, %d) gelandet."
 
-#: server/unitfunc.c:2319
+#: server/unitfunc.c:2329
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr "Spiel: %s wegen Versandung von (%d, %d) aufgelöst."
 
-#: server/unitfunc.c:2413
+#: server/unitfunc.c:2423
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spiel: %s transportiert."
 
-#: server/unitfunc.c:2433
+#: server/unitfunc.c:2443
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spiel: Diese Einheit kann nicht Fallschirmspringen."
 
-#: server/unitfunc.c:2442
+#: server/unitfunc.c:2452
 msgid "Game: The destination location is not known."
 msgstr "Spiel: Der Zielort ist nicht bekannt."
 
-#: server/unitfunc.c:2449
+#: server/unitfunc.c:2459
 msgid "Game: Cannot paradrop into ocean."
 msgstr ""
 "Spiel: Über dem Ozean können keine Fallschirmspringer abgesetzt werden."
 
-#: server/unitfunc.c:2458
+#: server/unitfunc.c:2468
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -3814,7 +3825,7 @@ msgstr ""
 "Die Entfernung zum Ziel (%i) ist größer als die Reichweite dieser Einheit "
 "(%i)."
 
-#: server/unitfunc.c:2469
+#: server/unitfunc.c:2479
 msgid ""
 "Game: Cannot paradrop because there are enemy units on the destination "
 "location."
@@ -3822,84 +3833,84 @@ msgstr ""
 "Spiel: Fallschirmspringer können nicht abgesetzt werden,\n"
 "       da diese Gegend von feindlichen Einheiten besetzt ist."
 
-#: server/unitfunc.c:2529
+#: server/unitfunc.c:2539
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
 msgstr "Spiel: Zukunftstechnologie %d von %s erhalten."
 
-#: server/unitfunc.c:2532
+#: server/unitfunc.c:2542
 #, c-format
 msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Spiel: %s entdeckte Zukunftstechnologie %d in der Stadt."
 
-#: server/unitfunc.c:2535
+#: server/unitfunc.c:2545
 #, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
 msgstr "Spiel: Die %s eroberten Zukunftstechnologie %d von den %s."
 
-#: server/unitfunc.c:2556
+#: server/unitfunc.c:2566
 #, c-format
 msgid "Game: You acquired %s from %s."
 msgstr "Spiel. %s von %s erhalten."
 
-#: server/unitfunc.c:2558
+#: server/unitfunc.c:2568
 #, c-format
 msgid "Game: %s discovered %s in the city."
 msgstr "Spiel: %s entdeckte %s in der Stadt."
 
-#: server/unitfunc.c:2560
+#: server/unitfunc.c:2570
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s gestohlen."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2701
+#: server/unitfunc.c:2711
 #, c-format
 msgid "Game: You lost a%s %s when %s lost."
 msgstr "Spiel: %2$s beim Verlust von %3$s verloren."
 
-#: server/unitfunc.c:2755
+#: server/unitfunc.c:2765
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spiel: Barbarenführer gefaßt, %d Goldstücke Belohnung erhalten."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2775
+#: server/unitfunc.c:2785
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s%s."
 msgstr "Spiel: %2$s bei einem Angriff von %3$ss %4$s verloren."
 
-#: server/unitfunc.c:2807
+#: server/unitfunc.c:2817
 #, c-format
 msgid "Game: You lost %d units under an attack from %s's %s%s."
 msgstr "Spiel: %d Einheiten beim Angriff von %ss %s verloren."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2819
+#: server/unitfunc.c:2829
 #, c-format
 msgid "Game: You lost a%s %s under an attack from %s's %s."
 msgstr "Spiel: %2$s beim Angriff von %3$ss %4$s verloren."
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2917
+#: server/unitfunc.c:2927
 #, c-format
 msgid "%sat %s"
 msgstr " bei %2$s"
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2919
+#: server/unitfunc.c:2929
 #, c-format
 msgid "%sin %s"
 msgstr " in %2$s"
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2926
+#: server/unitfunc.c:2936
 #, c-format
 msgid "%soutside %s"
 msgstr " außerhalb von %2$s"
 
 # ?Problem: %s zuviel
-#: server/unitfunc.c:2929
+#: server/unitfunc.c:2939
 #, c-format
 msgid "%snear %s"
 msgstr " in der Nähe von %2$s"
@@ -4095,8 +4106,9 @@ msgstr "Spiel: %s können keine anderen Einheiten angreifen."
 #: server/unithand.c:949
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
-msgstr "Spiel: Es liegt keine Kriegserklärung gegen die %s vor; Angriff "
-"ist nicht möglich."
+msgstr ""
+"Spiel: Es liegt keine Kriegserklärung gegen die %s vor; Angriff ist nicht "
+"möglich."
 
 #: server/unithand.c:963
 #, c-format
@@ -4203,21 +4215,6 @@ msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spiel: Habe %s von (%d, %d) nach %s teleportiert."
-
-#: ai/aicity.c:357 ai/aicity.c:485
-#, c-format
-msgid "Game: %s upgraded to %s in %s for %d credits."
-msgstr "Spiel: In %3$s %1$s zum Preis von %4$d Goldstücken durch %2$s ersetzt."
-
-#: ai/aicity.c:381
-#, c-format
-msgid "Game: %s disbanded in %s."
-msgstr "Spiel: %s in %s aufgelöst."
-
-#: ai/aicity.c:802
-#, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
-msgstr "Spiel: %s verkauft %s (unnötig) zum Preis von %d."
 
 #: client/cityrepdata.c:68
 msgid "Rapture"
@@ -4362,8 +4359,8 @@ msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tmit Server auf HOST verbinden\n"
 
 #: client/civclient.c:111
-msgid "  -t, --tiles DIR\tLook in data subdirectory DIR for tiles\n"
-msgstr "  -t, --tiles DIR\tTiles aus Unterverzeichnis DIR verwenden\n"
+msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
+msgstr "  -t, --tiles DATEI\tTiles aus DATEI.tilespec verwenden\n"
 
 #: client/civclient.c:113
 msgid "  -s, --sound FILE\tRead sound information from FILE\n"
@@ -4447,12 +4444,12 @@ msgstr ""
 msgid "  Rivers"
 msgstr "  Flüsse"
 
-#: client/helpdata.c:438
+#: client/helpdata.c:440
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Zum Thema %s ist leider keine Hilfe verfügbar.\n"
 
-#: client/helpdata.c:442
+#: client/helpdata.c:444
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -4463,29 +4460,29 @@ msgstr ""
 "Diese Meldung wurde automatisch erzeugt.\n"
 "\n"
 
-#: client/helpdata.c:513
+#: client/helpdata.c:515
 #, c-format
 msgid "The discovery of %s will reduce this by 1.  "
 msgstr "Die Entdeckung von %s vermindert dies um 1. "
 
-#: client/helpdata.c:519 client/helpdata.c:562
+#: client/helpdata.c:521 client/helpdata.c:564
 #, c-format
 msgid "The discovery of %s will increase this by 1.  "
 msgstr "Die Entdeckung von %s erhöht dies um 1. "
 
-#: client/helpdata.c:536 client/helpdata.c:548
+#: client/helpdata.c:538 client/helpdata.c:550
 #, c-format
 msgid "Allows a city to grow larger than size %d.  "
 msgstr "Ermöglicht es einer Stadt, über die Größe %d hinaus zu wachsen. "
 
 # ?Problem: %s zuviel
-#: client/helpdata.c:541
+#: client/helpdata.c:543
 #, c-format
 msgid "(A%s %s is also required for a city to grow larger than size %d.)  "
 msgstr ""
 "(%2$s wird auch benötigt, damit eine Stadt größer als %3$d werden kann.)"
 
-#: client/helpdata.c:570
+#: client/helpdata.c:572
 #, c-format
 msgid ""
 "\n"
@@ -4496,7 +4493,7 @@ msgstr ""
 "\n"
 "Die Entdeckung von %s oder %s macht alle vorhandenen %s überflüssig."
 
-#: client/helpdata.c:579
+#: client/helpdata.c:581
 #, c-format
 msgid ""
 "\n"
@@ -4507,265 +4504,265 @@ msgstr ""
 "\n"
 "Die Entdeckung von %s wird %s überflüssig machen."
 
-#: client/helpdata.c:606
+#: client/helpdata.c:608
 #, c-format
 msgid "Allows all players with knowledge of %s to build %s units.  "
 msgstr "Ermöglicht allen Spielern mit Kenntnis von %s den Bau von %s."
 
-#: client/helpdata.c:640
+#: client/helpdata.c:642
 #, c-format
 msgid "* Can carry and refuel %d air units.\n"
 msgstr "* Kann %d Lufteinheiten transportieren und betanken.\n"
 
-#: client/helpdata.c:643
+#: client/helpdata.c:645
 #, c-format
 msgid "* Can carry and refuel %d missile units.\n"
 msgstr "* Kann %d Raketeneinheiten transportieren und betanken.\n"
 
-#: client/helpdata.c:646
+#: client/helpdata.c:648
 #, c-format
 msgid "* Can carry %d ground units across water.\n"
 msgstr "* Kann %d Bodeneinheiten über Wasser transportieren.\n"
 
-#: client/helpdata.c:652
+#: client/helpdata.c:654
 msgid "* Can establish trade routes and help build wonders.\n"
 msgstr "* Kann Handelswege gründen und beim Bau von Weltwundern helfen.\n"
 
-#: client/helpdata.c:655
+#: client/helpdata.c:657
 msgid "* Can build new cities.\n"
 msgstr "* Kann neue Städte gründen.\n"
 
-#: client/helpdata.c:658
+#: client/helpdata.c:660
 msgid "* Can perform settler actions.\n"
 msgstr "* Kann Siedlerbefehle ausführen.\n"
 
-#: client/helpdata.c:662
+#: client/helpdata.c:664
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* Kann sowohl diplomatische als auch Spionagetätigkeiten erledigen.\n"
 
-#: client/helpdata.c:665
+#: client/helpdata.c:667
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Kann diplomatische Tätigkeiten erledigen.\n"
 
-#: client/helpdata.c:668
+#: client/helpdata.c:670
 msgid "* Can attack enemy air units.\n"
 msgstr "* Kann feindliche Lufteinheiten angreifen.\n"
 
-#: client/helpdata.c:671
+#: client/helpdata.c:673
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "* Unsichtbar, falls nicht direkt neben einer Feindeinheit oder Stadt.\n"
 
-#: client/helpdata.c:675
+#: client/helpdata.c:677
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr ""
 "* Kann nur Einheiten auf Ozeanfeldern angreifen (keine Landangriffe).\n"
 
-#: client/helpdata.c:679
+#: client/helpdata.c:681
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares."
 msgstr ""
 "* Kann gegnerische Städte und Landfelder von Marine-Einheiten aus angreifen."
 
-#: client/helpdata.c:683
+#: client/helpdata.c:685
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d)."
 msgstr "* Kann von einer befreundeten Stadt aus abspringen (Reichweite: %d)."
 
-#: client/helpdata.c:687
+#: client/helpdata.c:689
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* 2fache Verteidigung gegen 'berittene' Einheiten.\n"
 
-#: client/helpdata.c:692
+#: client/helpdata.c:694
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Wird als 'beritten' gewertet.\n"
 
-#: client/helpdata.c:696
+#: client/helpdata.c:698
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "* Raketeneinheiten zerstören sich beim Angriff.\n"
 
-#: client/helpdata.c:698
+#: client/helpdata.c:700
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Ein Angriff beendet die Runde für diese Einheit.\n"
 
-#: client/helpdata.c:702
+#: client/helpdata.c:704
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Die Attacke dieser Einheit bewirkt eine nukleare Explosion!\n"
 
-#: client/helpdata.c:705
+#: client/helpdata.c:707
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ignoriert den Effekt von Stadtmauern.\n"
 
-#: client/helpdata.c:709
+#: client/helpdata.c:711
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
 msgstr "* 5fache Verteidigung gegen Raketen und Lufteinheiten.\n"
 
-#: client/helpdata.c:713
+#: client/helpdata.c:715
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Ignoriert das Gelände (behandelt alle Felder wie Straßen).\n"
 
-#: client/helpdata.c:717
+#: client/helpdata.c:719
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr "* Greift immer mit voller Stärke an.\n"
 
-#: client/helpdata.c:720
+#: client/helpdata.c:722
 msgid "* Ignores zones of control.\n"
 msgstr "* Ignoriert Kontrollzonen.\n"
 
-#: client/helpdata.c:723
+#: client/helpdata.c:725
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Nicht-militärische Einheit (Kein Angriff; kein Kriegsrecht).\n"
 
-#: client/helpdata.c:727
+#: client/helpdata.c:729
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Kampfverband: min. +1 Unzufriedener in einer Demokratie.\n"
 
-#: client/helpdata.c:732
+#: client/helpdata.c:734
 #, ycp-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
 msgstr "* 50% Verlustrisiko, falls am Rundenende auf hoher See."
 
-#: client/helpdata.c:736
+#: client/helpdata.c:738
 msgid "* Must end "
 msgstr "* Muß jede "
 
-#: client/helpdata.c:738
+#: client/helpdata.c:740
 msgid "second "
 msgstr "zweite "
 
-#: client/helpdata.c:740
+#: client/helpdata.c:742
 msgid "third "
 msgstr "dritte "
 
-#: client/helpdata.c:742
+#: client/helpdata.c:744
 #, c-format
 msgid "%dth "
 msgstr "%dte "
 
 #. FIXME: should use something like get_units_with_flag_string()
-#: client/helpdata.c:745
+#: client/helpdata.c:747
 msgid "turn in a city, or on a Carrier"
 msgstr "Runde in einer Stadt oder auf einem Flugzeugträger"
 
-#: client/helpdata.c:749
+#: client/helpdata.c:751
 msgid " or Submarine"
 msgstr " oder einem U-Boot"
 
-#: client/helpdata.c:751
+#: client/helpdata.c:753
 msgid ", or will run out of fuel and be lost.\n"
 msgstr " beenden - oder geht mangels Treibstoff verloren.\n"
 
-#: client/helpdata.c:776
+#: client/helpdata.c:778
 #, c-format
 msgid "Allows changing government to %s.\n"
 msgstr "Ermöglicht, die Regierungsform in %s zu ändern.\n"
 
-#: client/helpdata.c:782
+#: client/helpdata.c:784
 #, c-format
 msgid "The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "Der erste Spieler, der %s erforscht, macht sofort eine weitere Entdeckung.\n"
 
-#: client/helpdata.c:786
+#: client/helpdata.c:788
 msgid "Gives sea units one extra move.\n"
 msgstr "Marine-Einheiten erhalten +1 Bewegungspunkt.\n"
 
-#: client/helpdata.c:788
+#: client/helpdata.c:790
 msgid "Increases the pollution generated by the population.\n"
 msgstr "Vergrößert die durch die Bevölkerung verursachte Umweltverschmutzung\n"
 
-#: client/helpdata.c:790
+#: client/helpdata.c:792
 msgid "Improves the effect of Cathedrals.\n"
 msgstr "Vergrößert den Effekt einer Kathedrale.\n"
 
-#: client/helpdata.c:792
+#: client/helpdata.c:794
 msgid "Reduces the effect of Cathedrals.\n"
 msgstr "Vermindert den Effekt einer Kathedrale.\n"
 
-#: client/helpdata.c:794
+#: client/helpdata.c:796
 msgid "Improves the effect of Colosseums.\n"
 msgstr "Vergrößert den Effekt von Kolloseen.\n"
 
-#: client/helpdata.c:796
+#: client/helpdata.c:798
 msgid "Improves the effect of Temples.\n"
 msgstr "Vergrößert den Effekt von Tempeln.\n"
 
-#: client/helpdata.c:800
+#: client/helpdata.c:802
 #, c-format
 msgid "Allows %s to build roads on river squares.\n"
 msgstr "%s mit diesem Wissen können Straßen über Flüsse bauen.\n"
 
-#: client/helpdata.c:806
+#: client/helpdata.c:808
 #, c-format
 msgid "Allows %s to build fortresses.\n"
 msgstr "%s mit diesem Wissen können Befestigungen bauen.\n"
 
-#: client/helpdata.c:813
+#: client/helpdata.c:815
 #, c-format
 msgid "Allows %s to build airbases.\n"
 msgstr "%s mit diesem Wissen können Fliegerhorste bauen.\n"
 
-#: client/helpdata.c:820
+#: client/helpdata.c:822
 #, c-format
 msgid "Allows %s to upgrade roads to railroads.\n"
 msgstr "%s mit diesem Wissen können Straßen zu Eisenbahnlinien machen.\n"
 
-#: client/helpdata.c:826
+#: client/helpdata.c:828
 #, c-format
 msgid "Allows %s to upgrade irrigation to farmland.\n"
 msgstr "Ermöglicht %s, die Verbesserung in Farmland vorzunehmen.\n"
 
 # ?
-#: client/helpdata.c:880
+#: client/helpdata.c:882
 #, c-format
 msgid "%s%d shield"
 msgstr ""
 
 # ?
-#: client/helpdata.c:884
+#: client/helpdata.c:886
 #, c-format
 msgid "%s%d food"
 msgstr ""
 
 # ?
-#: client/helpdata.c:888
+#: client/helpdata.c:890
 #, c-format
 msgid "%s%d unhappy"
 msgstr ""
 
 # ?
-#: client/helpdata.c:892
+#: client/helpdata.c:894
 #, c-format
 msgid "%s%d gold"
 msgstr ""
 
 # ?
 #. s=shields
-#: client/helpdata.c:916
+#: client/helpdata.c:918
 #, c-format
 msgid "%s%ds"
 msgstr ""
 
 # ?
 #. f=food
-#: client/helpdata.c:920
+#: client/helpdata.c:922
 #, c-format
 msgid "%s%df"
 msgstr ""
 
 # ?
 #. h=(un)happy
-#: client/helpdata.c:924
+#: client/helpdata.c:926
 #, c-format
 msgid "%s%dh"
 msgstr ""
 
 # ?
 #. g=gold
-#: client/helpdata.c:928
+#: client/helpdata.c:930
 #, c-format
 msgid "%s%dg"
 msgstr ""
@@ -5458,7 +5455,7 @@ msgid "Auto-attack vs helicopters"
 msgstr "Helikopter automatisch angreifen"
 
 #. ------- OK/Disc/Quit buttons -------
-#: client/gui-gtk/citydlg.c:2211 client/gui-gtk/dialogs.c:1970
+#: client/gui-gtk/citydlg.c:2211 client/gui-gtk/dialogs.c:1972
 #: client/gui-gtk/gamedlgs.c:308 client/gui-gtk/inputdlg.c:101
 #: client/gui-gtk/messagedlg.c:141 client/gui-gtk/wldlg.c:463
 #: client/gui-xaw/inputdlg.c:100 data/Freeciv:1231 data/Freeciv:1268
@@ -5919,44 +5916,44 @@ msgstr "Einheit auswählen"
 msgid "Ready all"
 msgstr "Alle aktivieren"
 
-#: client/gui-gtk/dialogs.c:1874
+#: client/gui-gtk/dialogs.c:1876
 msgid " What Nation Will You Be?"
 msgstr "Treffen Sie Ihre Wahl"
 
-#: client/gui-gtk/dialogs.c:1876
+#: client/gui-gtk/dialogs.c:1878
 msgid "Select nation and name"
 msgstr "Nationalität und Namen:"
 
 #. ------- leader sex toggles -------
-#: client/gui-gtk/dialogs.c:1914
+#: client/gui-gtk/dialogs.c:1916
 msgid "Select your sex"
 msgstr "Geschlecht:"
 
-#: client/gui-gtk/dialogs.c:1921
+#: client/gui-gtk/dialogs.c:1923
 msgid "Male"
 msgstr "männlich"
 
-#: client/gui-gtk/dialogs.c:1927 data/Freeciv:3026
+#: client/gui-gtk/dialogs.c:1929 data/Freeciv:3026
 msgid "Female"
 msgstr "weiblich"
 
-#: client/gui-gtk/dialogs.c:1948
+#: client/gui-gtk/dialogs.c:1950
 msgid "Select your city style"
 msgstr "Bauweise:"
 
-#: client/gui-gtk/dialogs.c:2165 client/gui-xaw/dialogs.c:2294
+#: client/gui-gtk/dialogs.c:2164 client/gui-xaw/dialogs.c:2294
 msgid "You must select a nation."
 msgstr "Es MUSS eine Nation gewählt werden."
 
-#: client/gui-gtk/dialogs.c:2170 client/gui-xaw/dialogs.c:2299
+#: client/gui-gtk/dialogs.c:2169 client/gui-xaw/dialogs.c:2299
 msgid "You must select your sex."
 msgstr "Es MUSS ein Geschlecht gewählt werden."
 
-#: client/gui-gtk/dialogs.c:2175 client/gui-xaw/dialogs.c:2304
+#: client/gui-gtk/dialogs.c:2174 client/gui-xaw/dialogs.c:2304
 msgid "You must select your city style."
 msgstr "Es MUSS eine Bauweise gewählt werden werden."
 
-#: client/gui-gtk/dialogs.c:2188 client/gui-xaw/dialogs.c:2318
+#: client/gui-gtk/dialogs.c:2187 client/gui-xaw/dialogs.c:2318
 msgid "You must type a legal name."
 msgstr "Es MUSS ein zulässiger Name eingegeben werden."
 
@@ -6115,7 +6112,7 @@ msgstr ""
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk/gui_main.c:745 client/gui-xaw/gui_main.c:660
+#: client/gui-gtk/gui_main.c:746 client/gui-xaw/gui_main.c:660
 #, c-format
 msgid ""
 "%s People\n"
@@ -6277,6 +6274,12 @@ msgstr "Veraltet "
 #: client/gui-gtk/helpdlg.c:881 client/gui-gtk/helpdlg.c:896
 msgid " (with "
 msgstr " (mit "
+
+#: client/gui-gtk/helpdlg.c:933 client/gui-gtk/helpdlg.c:948
+#: client/gui-xaw/helpdlg.c:986 client/gui-xaw/helpdlg.c:1001
+#, c-format
+msgid "%s F/R/T:"
+msgstr "%s N/F/H:"
 
 #: client/gui-gtk/helpdlg.c:963 client/gui-xaw/helpdlg.c:1016
 #, c-format
@@ -7309,11 +7312,6 @@ msgstr "Veraltet %s.\n"
 msgid "Allows %s (with %s).\n"
 msgstr "Ermöglicht %s (mit %s).\n"
 
-#: client/gui-xaw/helpdlg.c:986 client/gui-xaw/helpdlg.c:1001
-#, c-format
-msgid "%s F/R/T:"
-msgstr "%s N/F/H:"
-
 #: client/gui-xaw/mapctrl.c:140
 #, c-format
 msgid "City: %s(%s) %s"
@@ -7781,8 +7779,8 @@ msgstr ""
 "civclient' aufruft, wobei 'xx' der Ländercode ist.\n"
 "\n"
 "Bitte informieren Sie uns über Fehler bzw. Verbesserungs-\n"
-"möglichkeiten der deutschen Übersetzung, indem Sie eine Email an "
-"den Koordinator, Egbert Hinzen <garfy@ehinzen.de>, schicken.\n"
+"möglichkeiten der deutschen Übersetzung, indem Sie eine Email an den "
+"Koordinator, Egbert Hinzen <garfy@ehinzen.de>, schicken.\n"
 "\n"
 "Sie können mit einer Email an <freeciv.de-subscribe@listbot.com> gerne "
 "unsere Mailingliste abonnieren. Wir würden uns über Ihre Mitarbeit sehr "
@@ -9914,8 +9912,9 @@ msgid "Solar Plant"
 msgstr "Solarkraftwerk"
 
 #: data/default/buildings.ruleset:1017
+#, c-format
 msgid ""
-"Eliminates all pollution generated by production in a city by 50%.  It also "
+"Eliminates all pollution generated by production in a city.  It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
 "Factory and a Solar Plant together give a 75% production bonus, and a "
 "Factory, Mfg. Plant and Solar Plant together give a 150% production bonus.\n"
@@ -9923,8 +9922,8 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Vermindert nicht nur die Produktion einer Stadt verursachte "
-"Umweltverschmutzung um die Hälfte, sondern steigert auch die Produktion von "
+"Verhindert die gesamte durch Produktion verursachte "
+"Umweltverschmutzung einer Stadt und steigert die Produktion von "
 "Fabriken und Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik "
 "oder einer Fertigungsstätte gibt es einen Bonus von 75%, sind beide "
 "vorhanden, erhöht sich der Bonus auf 150%.\n"
@@ -10526,8 +10525,9 @@ msgstr ""
 "bauen."
 
 #: data/civ1/buildings.ruleset:843 data/civ2/buildings.ruleset:827
+#, c-format
 msgid ""
-"Eliminates all pollution generated by production in a city by 50%.  It also "
+"Eliminates all pollution generated by production in a city.  It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
 "Factory and a Solar Plant together give a 100% production bonus, and a "
 "Factory, Mfg. Plant and Solar Plant together give a 150% production bonus.\n"
@@ -10535,8 +10535,8 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Vermindert nicht nur die Produktion einer Stadt verursachte "
-"Umweltverschmutzung um die Hälfte, sondern steigert auch die Produktion von "
+"Verhindert die gesamte durch die Produktion einer Stadt verursachte "
+"Umweltverschmutzung und steigert die Produktion von "
 "Fabriken und Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik "
 "oder einer Fertigungsstätte gibt es einen Bonus von 100%, sind beide "
 "vorhanden, erhöht sich der Bonus auf 150%.\n"
