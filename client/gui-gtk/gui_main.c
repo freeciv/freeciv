@@ -731,7 +731,7 @@ void ui_main(int argc, char **argv)
      This is a workaround until we can fix the problem properly
      in the next release.  */
 # ifdef HAVE_PUTENV
-    if(!strcmp(setlocale(LC_CTYPE, (const char *)NULL), "C"))
+    if(strcmp(setlocale(LC_CTYPE, (const char *)NULL), "C") == 0)
       putenv("LC_CTYPE=en_US.ISO8859-1");
 # endif
 #endif

@@ -160,8 +160,8 @@ static LONG APIENTRY HelpdlgWndProc(HWND hWnd,UINT uMsg,
 	  {
 	    char s[128];
 	    GetWindowText((HWND)lParam,s,sizeof(s));
-	    if (strcmp(s, _("(Never)")) && strcmp(s, _("None"))
-		&& strcmp(s, advances[A_NONE].name))
+	    if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
+		&& strcmp(s, advances[A_NONE].name) != 0)
 	      select_help_item_string(s,page_type_from_id(LOWORD(wParam)));
 	    
 	  }

@@ -121,7 +121,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
   if(tax!=rates_tax_value) {
     my_snprintf(buf, sizeof(buf), "%3d%%", tax);
-    if ( strcmp( buf, GTK_LABEL(rates_tax_label)->label) )
+    if (strcmp(buf, GTK_LABEL(rates_tax_label)->label) != 0)
 	gtk_set_label(rates_tax_label,buf);
     if(!no_tax_scroll)
     {
@@ -134,7 +134,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
   if(lux!=rates_lux_value) {
     my_snprintf(buf, sizeof(buf), "%3d%%", lux);
-    if ( strcmp( buf, GTK_LABEL(rates_lux_label)->label) )
+    if (strcmp(buf, GTK_LABEL(rates_lux_label)->label) != 0)
 	gtk_set_label(rates_lux_label,buf);
     if(!no_lux_scroll)
     {
@@ -147,7 +147,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
   if(sci!=rates_sci_value) {
     my_snprintf(buf, sizeof(buf), "%3d%%", sci);
-    if ( strcmp( buf, GTK_LABEL(rates_sci_label)->label) )
+    if (strcmp(buf, GTK_LABEL(rates_sci_label)->label) != 0)
 	gtk_set_label(rates_sci_label,buf);
     if(!no_sci_scroll)
     {

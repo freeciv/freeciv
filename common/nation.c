@@ -59,7 +59,7 @@ Nation_Type_id find_nation_by_name(char *name)
   int i;
 
   for(i=0; i<game.nation_count; i++)
-     if(!mystrcasecmp(name, get_nation_name (i)))
+     if(mystrcasecmp(name, get_nation_name (i)) == 0)
 	return i;
 
   return -1;
@@ -101,7 +101,7 @@ int get_nation_leader_sex(Nation_Type_id nation, const char *name)
     return FALSE;
   }
   for( i=0; i < nations[nation].leader_count; i++ ) {
-    if( !strcmp(nations[nation].leader_name[i],name) )
+    if (strcmp(nations[nation].leader_name[i], name) == 0)
       break;
   }
   if( i <  nations[nation].leader_count )
@@ -121,7 +121,7 @@ int check_nation_leader_name(Nation_Type_id nation, const char *name)
     return TRUE;			/* ? */
   }
   for( i=0; i<nations[nation].leader_count; i++) {
-    if( !strcmp(name, nations[nation].leader_name[i]) )
+    if (strcmp(name, nations[nation].leader_name[i]) == 0)
       found = TRUE;
   }
   return found;

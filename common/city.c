@@ -1054,7 +1054,7 @@ struct city *city_list_find_name(struct city_list *This, char *name)
   genlist_iterator_init(&myiter, &This->list, 0);
 
   for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(!mystrcasecmp(name, ((struct city *)ITERATOR_PTR(myiter))->name))
+    if(mystrcasecmp(name, ((struct city *)ITERATOR_PTR(myiter))->name) == 0)
       return ITERATOR_PTR(myiter);
 
   return NULL;
@@ -1153,7 +1153,7 @@ int get_style_by_name(char *style_name)
   int i;
 
   for( i=0; i<game.styles_count; i++) {
-    if( !strcmp(style_name,city_styles[i].name) ) 
+    if (strcmp(style_name, city_styles[i].name) == 0)
       break;
   }
   if( i < game.styles_count )

@@ -459,7 +459,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 #endif 
 
   if ((proxy_url = getenv("http_proxy"))) {
-    if (strncmp(proxy_url,"http://",strlen("http://"))) {
+    if (strncmp(proxy_url, "http://", strlen("http://")) != 0) {
       mystrlcpy(errbuf,
 		_("Invalid $http_proxy value, must start with 'http://'"),
 		n_errbuf);
@@ -467,7 +467,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     }
     sz_strlcpy(urlbuf, proxy_url);
   } else {
-    if (strncmp(metaserver,"http://",strlen("http://"))) {
+    if (strncmp(metaserver, "http://", strlen("http://")) != 0) {
       mystrlcpy(errbuf, _("Invalid metaserver URL, must start with 'http://'"),
 		n_errbuf);
       return NULL;

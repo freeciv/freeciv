@@ -354,7 +354,7 @@ void handle_city_info(struct packet_city_info *packet)
     city_is_new=0;
 
     /* Check if city desciptions should be updated */
-    if (draw_city_names && strcmp(pcity->name,packet->name)) {
+    if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
       update_descriptions = 1;
     }
     if (draw_city_productions &&
@@ -587,7 +587,7 @@ void handle_short_city(struct packet_short_city *packet)
     city_is_new=0;
 
     /* Check if city desciptions should be updated */
-    if (draw_city_names && strcmp(pcity->name,packet->name)) {
+    if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
       update_descriptions = 1;
     }
     

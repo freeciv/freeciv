@@ -200,7 +200,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
          strcmp(pdialog->improvlist_names_ptrs[n],
-                get_impr_name_ex(pdialog->pcity, i)))
+                get_impr_name_ex(pdialog->pcity, i)) != 0)
         flag=1;
       sz_strlcpy(pdialog->improvlist_names[n],
                  get_impr_name_ex(pdialog->pcity, i));

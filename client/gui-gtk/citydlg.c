@@ -1615,7 +1615,7 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   }
 
   now = GTK_WINDOW(pdialog->shell)->title;
-  if (strcmp(now, buf)) {
+  if (strcmp(now, buf) != 0) {
     gtk_frame_set_label(GTK_FRAME(pdialog->title_frame), buf);
     gtk_window_set_title(GTK_WINDOW(pdialog->shell), buf);
   }

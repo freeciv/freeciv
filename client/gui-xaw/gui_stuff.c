@@ -81,7 +81,7 @@ void xaw_set_label(Widget w, char *text)
   String str;
 
   XtVaGetValues(w, XtNlabel, &str, NULL);
-  if(strcmp(str, text)) {
+  if (strcmp(str, text) != 0) {
     XtVaSetValues(w, XtNlabel, (XtArgVal)text, NULL);
     xaw_expose_now(w);
   }

@@ -187,7 +187,7 @@ struct player *find_player_by_name(char *name)
   int i;
 
   for(i=0; i<game.nplayers; i++)
-     if(!mystrcasecmp(name, game.players[i].name))
+    if (mystrcasecmp(name, game.players[i].name) == 0)
 	return &game.players[i];
 
   return NULL;
@@ -225,7 +225,7 @@ struct player *find_player_by_user(char *name)
   int i;
 
   for(i=0; i<game.nplayers; i++)
-     if(!mystrcasecmp(name, game.players[i].username))
+    if (mystrcasecmp(name, game.players[i].username) == 0)
 	return &game.players[i];
 
   return NULL;

@@ -158,7 +158,7 @@ VOID settext(Object * obj, STRPTR text)
   STRPTR oldtext = (STRPTR) xget(obj, MUIA_Text_Contents);
   if (oldtext && text)
   {
-    if (!strcmp(oldtext, text))
+    if (strcmp(oldtext, text) == 0)
       return;
   }
 

@@ -80,7 +80,7 @@ void gtk_set_label(GtkWidget *w, char *text)
   if (!GTK_IS_LABEL(w))
     return;
   gtk_label_get(GTK_LABEL(w), &str);
-  if(strcmp(str, text)) {
+  if(strcmp(str, text) != 0) {
     gtk_label_set_text(GTK_LABEL(w), text);
     gtk_expose_now(w);
   }

@@ -112,14 +112,10 @@ static void set_title_topic(char *topic)
 {
   char *text;
 
-  if (!strcmp(topic, "Freeciv")
-      || !strcmp(topic, "About")
-      || !strcmp(topic, _("About")))
-  {
+  if (strcmp(topic, "Freeciv") == 0 || strcmp(topic, "About") == 0
+      || strcmp(topic, _("About")) == 0) {
     text = freeciv_name_version();
-  }
-  else
-  {
+  } else {
     text = topic;
   }
 
@@ -159,8 +155,8 @@ static void help_hyperlink(Object ** text_obj)
   char *s = (char *) xget(*text_obj, MUIA_Text_Contents); /* works also for ColorButtons */
   enum help_page_type type = (enum help_page_type) xget(*text_obj, MUIA_UserData);
 
-  if (strcmp(s, _("(Never)")) && strcmp(s, _("None"))
-      && strcmp(s, advances[A_NONE].name))
+  if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
+      && strcmp(s, advances[A_NONE].name) != 0)
   {
     int idx;
 

@@ -299,8 +299,8 @@ void ui_main(int argc, char *argv[])
   }
 
   /* TODO: Use capabilities here instead of version numbers */
-  if(strncmp(appResources.version, VERSION_STRING,
-	     strlen(appResources.version))) {
+  if (0 != strncmp(appResources.version, VERSION_STRING,
+		   strlen(appResources.version))) {
     freelog(LOG_FATAL, _("Game version does not match Resource version."));
     freelog(LOG_FATAL, _("Game version: %s - Resource version: %s"), 
 	    VERSION_STRING, appResources.version);

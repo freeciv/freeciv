@@ -118,9 +118,8 @@ static void select_help_item_string(const char *item,
 *****************************************************************/
 static void set_title_topic(char *topic)
 {
-  if(!strcmp(topic, "Freeciv")
-     || !strcmp(topic, "About")
-     || !strcmp(topic, _("About"))) {
+  if (strcmp(topic, "Freeciv") == 0 || strcmp(topic, "About") == 0
+      || strcmp(topic, _("About")) == 0) {
     gtk_frame_set_label(GTK_FRAME(help_frame), freeciv_name_version());
   } else {
     gtk_frame_set_label(GTK_FRAME(help_frame), topic);
@@ -378,8 +377,8 @@ static void help_hyperlink_callback(GtkWidget *w, enum help_page_type type)
   /* May be able to skip, or may need to modify, advances[A_NONE].name
      below, depending on which i18n is done elsewhere.
   */
-  if (strcmp(s, _("(Never)")) && strcmp(s, _("None"))
-      && strcmp(s, advances[A_NONE].name))
+  if (strcmp(s, _("(Never)")) != 0 && strcmp(s, _("None")) != 0
+      && strcmp(s, advances[A_NONE].name) != 0)
     select_help_item_string(s, type);
 }
 

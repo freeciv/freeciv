@@ -129,9 +129,9 @@ char *get_option(const char *option_name, char **argv, int *i, int argc)
 {
   int len = strlen(option_name);
 
-  if (!strcmp(option_name,argv[*i]) ||
-      (!strncmp(option_name,argv[*i],len) && argv[*i][len]=='=') ||
-      !strncmp(option_name+1,argv[*i],2)) {
+  if (strcmp(option_name, argv[*i]) == 0 ||
+      (strncmp(option_name, argv[*i], len) == 0 && argv[*i][len] == '=') ||
+      strncmp(option_name + 1, argv[*i], 2) == 0) {
     char *opt = argv[*i] + (argv[*i][1] != '-' ? 0 : len);
 
     if (*opt == '=') {
@@ -782,7 +782,7 @@ void init_nls(void)
      This would result in the "C" locale being used, with grouping ""
      and thousands_sep "", where we really want "\3" and ",". */
 
-  if (strcmp(setlocale(LC_NUMERIC, NULL), "C")) {
+  if (strcmp(setlocale(LC_NUMERIC, NULL), "C") != 0) {
     struct lconv *lc = localeconv();
 
     if (lc->grouping[0] == '\0') {

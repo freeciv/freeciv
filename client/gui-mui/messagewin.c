@@ -294,7 +294,7 @@ void add_notify_window(struct packet_generic_message *packet)
       return;
   }
 
-  if (!strncmp(packet->message, _("Game: "), 6))
+  if (strncmp(packet->message, _("Game: "), 6) == 0)
     entry.message = packet->message + 6;
   else
     entry.message = packet->message;

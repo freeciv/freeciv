@@ -276,9 +276,9 @@ void add_notify_window(struct packet_generic_message *packet)
 
   meswin_allocate();
   s = fc_malloc(strlen(packet->message) + 50);
-  if (!strncmp(packet->message, game_prefix1, gp_len1)) {
+  if (strncmp(packet->message, game_prefix1, gp_len1) == 0) {
     strcpy(s, packet->message + gp_len1);
-  } else if(!strncmp(packet->message, game_prefix2, gp_len2)) {
+  } else if(strncmp(packet->message, game_prefix2, gp_len2) == 0) {
     strcpy(s, packet->message + gp_len2);
   } else {
     strcpy(s, packet->message);

@@ -1902,7 +1902,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
 	      population_to_text(city_population(pdialog->pcity)));
 
   XtVaGetValues(pdialog->cityname_label, XtNlabel, &now, NULL);
-  if(strcmp(now, buf)) {
+  if(strcmp(now, buf) != 0) {
     XtVaSetValues(pdialog->cityname_label, XtNlabel, (XtArgVal)buf, NULL);
     xaw_horiz_center(pdialog->cityname_label);
     XtVaSetValues(pdialog->shell, XtNtitle, (XtArgVal)pdialog->pcity->name, NULL);
@@ -1919,7 +1919,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   for(i=0, n=0, flag=0; i<game.num_impr_types; ++i)
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
-	 strcmp(pdialog->improvlist_names_ptrs[n], get_impr_name_ex(pdialog->pcity, i)))
+	 strcmp(pdialog->improvlist_names_ptrs[n], get_impr_name_ex(pdialog->pcity, i)) != 0)
 	flag=1;
       sz_strlcpy(pdialog->improvlist_names[n],
 		 get_impr_name_ex(pdialog->pcity, i));
