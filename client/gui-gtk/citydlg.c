@@ -74,8 +74,9 @@ int MINI_NUM_UNITS;
 
 
 #define NUM_CITIZENS_SHOWN 25
-#define NUM_PAGES 7		/* the number of pages in city dialog notebook (+1) */
-#define NUM_INFO_FIELDS 10	/* number of fields in city_info                   */
+#define NUM_CITY_OPTS 5
+#define NUM_PAGES 7	/* the number of pages in city dialog notebook (+1) */
+#define NUM_INFO_FIELDS 10	/* number of fields in city_info */
 
 int citydialog_width, citydialog_height, support_frame_width,
     support_frame_height;
@@ -155,12 +156,9 @@ struct city_dialog {
   struct {
     GtkWidget *rename_command;
     GtkWidget *new_citizens_radio[3];
+    GtkWidget *city_opts[NUM_CITY_OPTS];
     GtkWidget *whichtab_radio[NUM_PAGES];
-    GtkWidget *auto_air;
-    GtkWidget *auto_heli;
-    GtkWidget *auto_land;
-    GtkWidget *auto_sea;
-    GtkWidget *disband_if_sz_1_checkbutton;
+    short block_signal;
   } misc;
 
   GtkWidget *buy_shell, *sell_shell;
@@ -1210,6 +1208,7 @@ static void create_and_append_trade_page(struct city_dialog *pdialog)
 static void create_and_append_misc_page(struct city_dialog *pdialog)
 {
   int i;
+  int per_row = 2;
   GtkWidget *hbox, *vbox, *page, *table, *frame, *label;
   GSList *group = NULL;
 
@@ -1218,6 +1217,14 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   char *new_citizens_label[] = { N_("Entertainers"),
     N_("Scientists"),
     N_("Taxmen")
+  };
+
+  char *city_opts_label[] = { 
+    N_("Land units"),
+    N_("Sea units"),
+    N_("Helicopters"),
+    N_("Air units"),
+    N_("Disband if build settler at size 1")
   };
 
   char *misc_whichtab_label[] = { N_("City Overview page"),
@@ -1231,7 +1238,11 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   };
 
   char **new_citizens_intl_label = NULL;
+  char **city_opts_intl_label = NULL;
   char **misc_whichtab_intl_label = NULL;
+
+  /* initialize signal_blocker */
+  pdialog->misc.block_signal = 0;
 
   page = gtk_hbox_new(TRUE, 0);
 
@@ -1255,55 +1266,32 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 
   /* auto-attack table */
 
+  city_opts_intl_label = intl_slist(NUM_CITY_OPTS, city_opts_label);
+
   table = gtk_table_new(2, 2, FALSE);
   gtk_container_add(GTK_CONTAINER(frame), table);
 
-  pdialog->misc.auto_air = gtk_check_button_new_with_label(_("Air units"));
-  gtk_table_attach(GTK_TABLE(table), pdialog->misc.auto_air, 1,
-		   2, 0, 1, (GtkAttachOptions) (GTK_FILL),
-		   (GtkAttachOptions) (0), 0, 0);
+  for(i = 0; i < NUM_CITY_OPTS - 1; i++){
+    pdialog->misc.city_opts[i] = 
+                      gtk_check_button_new_with_label(city_opts_intl_label[i]);
+    gtk_table_attach(GTK_TABLE(table), pdialog->misc.city_opts[i],
+		     i%per_row, i%per_row+1, i/per_row, i/per_row+1,
+                     GTK_FILL, 0, 0, 0);
 
-  pdialog->misc.auto_heli =
-      gtk_check_button_new_with_label(_("Helicopters"));
-  gtk_table_attach(GTK_TABLE(table), pdialog->misc.auto_heli, 1, 2, 1, 2,
-		   (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0),
-		   0, 0);
+    gtk_signal_connect(GTK_OBJECT(pdialog->misc.city_opts[i]), "toggled",
+                       GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
 
-  pdialog->misc.auto_land =
-      gtk_check_button_new_with_label(_("Land units"));
-  gtk_table_attach(GTK_TABLE(table), pdialog->misc.auto_land, 0, 1, 0, 1,
-		   (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0),
-		   0, 0);
-
-  pdialog->misc.auto_sea = gtk_check_button_new_with_label(_("Sea units"));
-  gtk_table_attach(GTK_TABLE(table), pdialog->misc.auto_sea, 0,
-		   1, 1, 2, (GtkAttachOptions) (GTK_FILL),
-		   (GtkAttachOptions) (0), 0, 0);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->misc.auto_air), "toggled",
-		     GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->misc.auto_heli), "toggled",
-		     GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->misc.auto_land), "toggled",
-		     GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->misc.auto_sea), "toggled",
-		     GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
+  }
 
   /* the disband-if-size-1 button */
 
-  pdialog->misc.disband_if_sz_1_checkbutton =
-      gtk_check_button_new_with_label(_
-				      ("Disband if build settler at size 1"));
-  gtk_box_pack_start(GTK_BOX(vbox),
-		     pdialog->misc.disband_if_sz_1_checkbutton, FALSE,
-		     FALSE, 0);
+  pdialog->misc.city_opts[NUM_CITY_OPTS - 1] =
+      gtk_check_button_new_with_label(city_opts_intl_label[NUM_CITY_OPTS - 1]);
+  gtk_box_pack_start(GTK_BOX(vbox), pdialog->misc.city_opts[NUM_CITY_OPTS - 1], 
+                     FALSE, FALSE, 0);
 
-  gtk_signal_connect(GTK_OBJECT(pdialog->misc.disband_if_sz_1_checkbutton),
-		     "toggled", GTK_SIGNAL_FUNC(cityopt_callback),
-		     pdialog);
+  gtk_signal_connect(GTK_OBJECT(pdialog->misc.city_opts[NUM_CITY_OPTS - 1]), 
+                     "toggled", GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
 
   frame = gtk_hseparator_new();
   gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 4);
@@ -3477,80 +3465,56 @@ City options callbacks
 static void cityopt_callback(GtkWidget * w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  struct city *pcity = pdialog->pcity;
-  struct packet_generic_values packet;
-  int new_options = 0;
 
-  if (GTK_TOGGLE_BUTTON(pdialog->misc.auto_land)->active)
-    new_options |= (1 << 0);
-  if (GTK_TOGGLE_BUTTON(pdialog->misc.auto_sea)->active)
-    new_options |= (1 << 1);
-  if (GTK_TOGGLE_BUTTON(pdialog->misc.auto_heli)->active)
-    new_options |= (1 << 2);
-  if (GTK_TOGGLE_BUTTON(pdialog->misc.auto_air)->active)
-    new_options |= (1 << 3);
-  if (GTK_TOGGLE_BUTTON(pdialog->misc.disband_if_sz_1_checkbutton)->active)
-    new_options |= (1 << 4);
+  if(!pdialog->misc.block_signal){
+    int i, new_options = 0;
+    struct city *pcity = pdialog->pcity;
+    struct packet_generic_values packet;
 
-  if (GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[1])->active) {
-    new_options |= (1 << CITYO_NEW_EINSTEIN);
-  } else
-      if (GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2])->active) {
-    new_options |= (1 << CITYO_NEW_TAXMAN);
+    for(i = 0; i < NUM_CITY_OPTS; i++){
+      if(GTK_TOGGLE_BUTTON(pdialog->misc.city_opts[i])->active)
+        new_options |= (1 << i);
+    }
+
+    if (GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[1])->active) {
+      new_options |= (1 << CITYO_NEW_EINSTEIN);
+    } else if(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2])->active) {
+      new_options |= (1 << CITYO_NEW_TAXMAN);
+    }
+
+    packet.value1 = pcity->id;
+    packet.value2 = new_options;
+    send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS, &packet);
   }
-  packet.value1 = pcity->id;
-  packet.value2 = new_options;
-  send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS, &packet);
 }
 
 /**************************************************************************
-...
+ refresh the city options (auto_[land, air, sea, helicopter] and 
+ disband-is-size-1) in the misc page.
 **************************************************************************/
 static void set_cityopt_values(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   int i, state;
 
-  for (i = 0; i < 5; i++) {
+  pdialog->misc.block_signal = 1;
+  for (i = 0; i < NUM_CITY_OPTS; i++) {
     state = (pcity->city_options & (1 << i));
-    switch (i) {
-    case 0:
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				  (pdialog->misc.auto_land), state);
-      break;
-    case 1:
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				  (pdialog->misc.auto_sea), state);
-      break;
-    case 2:
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				  (pdialog->misc.auto_heli), state);
-      break;
-    case 3:
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				  (pdialog->misc.auto_air), state);
-      break;
-    case 4:
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				  (pdialog->
-				   misc.disband_if_sz_1_checkbutton),
-				  state);
-      break;
-    }
+    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(pdialog->misc.city_opts[i]),
+                                state);
   }
+
   if (pcity->city_options & (1 << CITYO_NEW_EINSTEIN)) {
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				(pdialog->misc.new_citizens_radio[1]),
-				TRUE);
+                                (pdialog->misc.new_citizens_radio[1]), TRUE);
   } else if (pcity->city_options & (1 << CITYO_NEW_TAXMAN)) {
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				(pdialog->misc.new_citizens_radio[2]),
-				TRUE);
+                                (pdialog->misc.new_citizens_radio[2]), TRUE);
   } else {
     gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
-				(pdialog->misc.new_citizens_radio[0]),
-				TRUE);
+                                (pdialog->misc.new_citizens_radio[0]), TRUE);
   }
+  pdialog->misc.block_signal = 0;
 }
 
 /*************** Callbacks for: Close, Prev, Next. **************/
@@ -3580,7 +3544,9 @@ static void close_city_dialog(struct city_dialog *pdialog)
   gtk_widget_hide(pdialog->shell);
 
   if (pdialog->pcity->owner == game.player_idx) {
-    commit_worklist(pdialog->wl_editor);
+    if(pdialog->wl_editor->changed){
+      commit_worklist(pdialog->wl_editor);
+    }
     close_happiness_dialog(pdialog->pcity);
   }
 
@@ -3667,6 +3633,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 
   assert(city_dialogs_have_been_initialised);
   assert(size >= 1);
+  assert(pdialog->pcity->owner == game.player_idx);
 
   if (size == 1) {
     return;
@@ -3707,21 +3674,23 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
     return;
   }
 
-  if (pdialog->wl_editor->changed
-      && pdialog->pcity->owner == game.player_idx) {
+  /* cleanup worklist and happiness dialogs */
+  if(pdialog->wl_editor->changed){
     commit_worklist(pdialog->wl_editor);
   }
   close_happiness_dialog(pdialog->pcity);
+
   pdialog->pcity = new_pcity;
+
+  /* reinitialize worklist and happiness dialogs */
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
-		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE,
-		     0);
+		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->wl_editor->pcity = new_pcity;
   pdialog->wl_editor->pwl = new_pcity->worklist;
   pdialog->wl_editor->user_data = (void *) pdialog;
-  update_worklist_editor(pdialog->wl_editor);
+
   center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
-  set_cityopt_values(pdialog);	/* perhaps this should be in refresh_? */
+  set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
   refresh_city_dialog(pdialog->pcity);
-  select_impr_list_callback(NULL, 0, 0, NULL, pdialog);	/* unselects clist */
+  select_impr_list_callback(NULL, 0, 0, NULL, pdialog); /* unselects clist */
 }
