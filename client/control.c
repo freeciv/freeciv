@@ -1026,6 +1026,13 @@ void request_unit_patrol(void)
   if (!punit)
     return;
 
+  if (is_air_unit(punit) || is_heli_unit(punit)) {
+    /* Same string as in do_unit_patrol_to. */
+    append_output_window(_("Game: Sorry, airunit patrol "
+			   "not yet implemented."));
+    return;
+  }
+
   if (hover_state != HOVER_PATROL) {
     set_hover_state(punit, HOVER_PATROL, ACTIVITY_LAST);
     update_unit_info_label(punit);
@@ -1666,7 +1673,7 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 **************************************************************************/
 void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
 {
-  if (is_air_unit(punit)) {
+  if (is_air_unit(punit) || is_heli_unit(punit)) {
     append_output_window(_("Game: Sorry, airunit patrol not yet implemented."));
     return;
   } else {
@@ -1690,7 +1697,7 @@ void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
 void do_unit_connect(struct unit *punit, struct tile *ptile,
 		     enum unit_activity activity)
 {
-  if (is_air_unit(punit)) {
+  if (is_air_unit(punit) || is_heli_unit(punit)) {
     append_output_window(_("Game: Sorry, airunit connect "
 			   "not yet implemented."));
   } else {
