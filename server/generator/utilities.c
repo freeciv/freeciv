@@ -165,12 +165,13 @@ bool is_normal_nat_pos(int x, int y)
  ****************************************************************************/
  void smooth_int_map(int *int_map, bool zeroes_at_edges)
 {
-  assert(int_map != NULL);
   float weight[5] =  {0.35,  0.5 ,1 , 0.5, 0.35};
   float total_weight = 2.70;
   bool axe = TRUE;
   int alt_int_map[MAX_MAP_INDEX];
   int *target_map, *source_map;
+
+  assert(int_map != NULL);
 
   target_map = alt_int_map;
   source_map = int_map;
