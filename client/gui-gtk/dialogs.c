@@ -249,7 +249,8 @@ static void create_notify_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void notify_dialog_update(char *caption, char *headline, char *lines)
+static void notify_dialog_update(const char *caption, const char *headline,
+				 const char *lines)
 {
   gtk_window_set_title(GTK_WINDOW(notify_dialog_shell), caption);
   gtk_label_set_text(GTK_LABEL(notify_headline), headline);
