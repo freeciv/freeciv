@@ -12,8 +12,8 @@ To read about the AI, see README.AI
 ===========================================================================
 Basic
 ===========================================================================
-Freeciv is a client/server civilization style of game, written in C.
-The client is pretty dumb. Almost all calculations is performed on the
+Freeciv is a client/server civilization style of game.
+The client is pretty dumb. Almost all calculations are performed on the
 server.
 
 [It wasn't like this always. Originally more code was placed in the
@@ -31,6 +31,10 @@ client/* (fx gui-gtk): a specific gui implementation of the client.
 data: graphics, rulesets and stuff
 po: translations
 ai: the ai, later linked into the server.
+
+Freeciv is written in C.  Header files should be compatible with C++ so
+that C++ add-ons (particularly new clients) are possible.  This mostly
+means avoiding C++ keywords (like "this" and "class").
 
 ===========================================================================
 Server
