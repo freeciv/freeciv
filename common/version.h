@@ -37,7 +37,7 @@
 #define IS_DEVEL_VERSION	0
 #endif
 #ifndef IS_BETA_VERSION
-#define IS_BETA_VERSION		1
+#define IS_BETA_VERSION		0
 #endif
 
 /* This is only used if IS_BETA_VERSION is true. */
