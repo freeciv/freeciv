@@ -59,7 +59,7 @@
 #include "gui_stuff.h"
 #include "gui_zoom.h"
 #include "gui_id.h"
-
+#include "gui_tilespec.h"
 #include "gui_main.h"
 
 #include "mapview.h"
@@ -67,6 +67,15 @@
 #include "tilespec.h"
 
 #include "dialogs.h"
+
+/********************************************************************** 
+  This function is called when the client disconnects or the game is
+  over.  It should close all dialog windows for that game.
+***********************************************************************/
+void popdown_all_game_dialogs(void)
+{
+  freelog(LOG_DEBUG, "popdown_all_game_dialogs : PORT ME");	
+}
 
 /**************************************************************************
   Popup a dialog to display information about an event that has a
@@ -2002,13 +2011,4 @@ void popdown_races_dialog(void)
 void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
   /* TODO? */
-}
-
-/**************************************************************************
-  This function is called when the client disconnects or the game is
-  over.  It should close all dialog windows for that game.
-**************************************************************************/
-void popdown_all_game_dialogs(void)
-{
-  /* PORTME */
 }

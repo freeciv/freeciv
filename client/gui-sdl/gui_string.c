@@ -405,7 +405,7 @@ static TTF_Font *load_font(Uint16 ptsize)
   }
 
   size = strlen(pDataPath) + strlen(FONT_WITH_PATH) + 1;
-  pFont_with_FullPath = ALLOCA(size);
+  pFont_with_FullPath = MALLOC(size);
 
   my_snprintf(pFont_with_FullPath, size, "%s%s", pDataPath,
 	      FONT_WITH_PATH);
@@ -415,9 +415,12 @@ static TTF_Font *load_font(Uint16 ptsize)
     freelog(LOG_ERROR,
 	    _("Error in load_font2: Couldn't load %d pt font from %s: %s"),
 	    ptsize, pFont_with_FullPath, SDL_GetError());
+    FREE( pFont_with_FullPath );  
     return font_tmp;
   }
 
+  FREE( pFont_with_FullPath );
+  
   /* add new font to list */
   if (Sizeof_Font_TAB == 0) {
     Sizeof_Font_TAB++;

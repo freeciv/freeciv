@@ -27,16 +27,6 @@
 /* free with a check */
 #define FREE(ptr) do { if (ptr) free(ptr); ptr = NULL; } while(0)
 
-/* dynamic allocate mem with a check and clear */
-
-#define ALLOCA(size)				\
-(__extension__					\
-	({					\
-		void *__new = alloca(size);	\
-		if (!__new) abort();		\
-		memset(__new, 0, size);		\
-	}))
-
 /* malloc with check and clear */
 #define MALLOC(size) memset(fc_real_malloc((size), "malloc", \
 					__LINE__, __FILE__), 0, size)

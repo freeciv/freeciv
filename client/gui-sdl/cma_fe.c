@@ -44,8 +44,7 @@
 
 #define BUFFER_SIZE             64
 
-struct cma_dialog;
-
+#if 0
 #define SPECLIST_TAG cma_dialog
 #define SPECLIST_TYPE struct cma_dialog
 #include "speclist.h"
@@ -57,3 +56,4 @@ struct cma_dialog;
 #define cma_dialog_list_iterate(presetlist, ppreset) \
     TYPED_LIST_ITERATE(struct cma_dialog, presetlist, ppreset)
 #define cma_dialog_list_iterate_end  LIST_ITERATE_END
+#endif

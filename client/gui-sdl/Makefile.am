@@ -86,7 +86,9 @@ libguiclient_a_SOURCES = \
 	gui_zoom.h	\
 	gui_id.h	\
 	gui_dither.c	\
-	gui_dither.h
+	gui_dither.h	\
+	gui_tilespec.c	\
+	gui_tilespec.h
 
 
 

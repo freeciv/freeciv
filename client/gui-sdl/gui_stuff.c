@@ -42,7 +42,7 @@
 #include "unistring.h"
 #include "gui_string.h"
 #include "gui_zoom.h"
-
+#include "gui_tilespec.h"
 #include "gui_main.h"
 
 #include "gui_stuff.h"
@@ -50,7 +50,6 @@
 #define INFO_TIMER_INTERVAL	1500
 
 struct GUI *pSellected_Widget;
-struct Theme *pTheme;
 
 extern char *pDataPath;
 
@@ -332,359 +331,6 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   return pBackground;
 }
 
-/**************************************************************************
-  Alloc and fill Theme struct
-**************************************************************************/
-void load_theme(void)
-{
-  char buf[80];			/* I hope this is enought :) */
-
-  pTheme = MALLOC(sizeof(struct Theme));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/menu_text_4button.png");
-  pTheme->Button = load_surf(buf);
-  /* SDL_SetColorKey( pTheme->Button , COLORKEYFLAG , 0x0 ); */
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/edit_theme.png");
-  pTheme->Edit = load_surf(buf);
-  /* SDL_SetColorKey( pTheme->Button , COLORKEYFLAG , 0x0 ); */
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/OK_buttons.png");
-  pTheme->OK_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OK_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0);
-
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/FAIL_buttons.png");
-  pTheme->CANCEL_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->CANCEL_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/bigOK_buttons.png");
-  pTheme->FORWARD_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->FORWARD_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/bigFail_buttons.png");
-  pTheme->BACK_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->BACK_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/scrollUP_buttons.png");
-  pTheme->UP_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->UP_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/scrollDOWN_buttons.png");
-  pTheme->DOWN_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->DOWN_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-#if 0
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/scrollLEFT_buttons.png");
-  pTheme->LEFT_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->LEFT_Icon, COLORKEYFLAG, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/scrollRIGHT_buttons.png");
-  pTheme->RIGHT_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->RIGHT_Icon, COLORKEYFLAG, 0x0);
-#endif
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/vertic_button.png");
-  pTheme->Vertic = load_surf(buf);
-  SDL_SetColorKey(pTheme->Vertic, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/horiz_button.png");
-  pTheme->Horiz = load_surf(buf);
-  SDL_SetColorKey(pTheme->Horiz, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/sellected_buttons.png");
-  pTheme->CBOX_Sell_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->CBOX_Sell_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->CBOX_Sell_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/unsellected_buttons.png");
-  pTheme->CBOX_Unsell_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->CBOX_Unsell_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->CBOX_Unsell_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/fr_vert.png");
-  pTheme->FR_Vert = load_surf(buf);
-  /* SDL_SetColorKey( pTheme->FR_Vert , COLORKEYFLAG , 0x0 ); */
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/fr_hori.png");
-  pTheme->FR_Hor = load_surf(buf);
-  /* SDL_SetColorKey( pTheme->FR_Hor , COLORKEYFLAG , 0x0 ); */
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/menu_text_3vbutton.png");
-  pTheme->Block = load_surf(buf);
-  /* SDL_SetColorKey( pTheme->FR_Hor , COLORKEYFLAG , 0x0 ); */
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/RArrow_buttons.png");
-  pTheme->R_ARROW_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->R_ARROW_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/LArrow_buttons.png");
-  pTheme->L_ARROW_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->L_ARROW_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  0x0);
-
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/M_buttons.png");
-  pTheme->META_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->META_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->META_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/options_buttons.png");
-  pTheme->Options_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->Options_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/unit_info_buttons.png");
-  pTheme->UNITS_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->UNITS_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/map_buttons.png");
-  pTheme->MAP_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->MAP_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/log_buttons.png");
-  pTheme->LOG_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->LOG_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/find_city_buttons.png");
-  pTheme->FindCity_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->FindCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->FindCity_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/new_turn_buttons.png");
-  pTheme->NEW_TURN_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->NEW_TURN_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->NEW_TURN_Icon, 0, 0));
-
-  /* ================================================================== */
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/I_buttons.png");
-  pTheme->INFO_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->INFO_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->INFO_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/happy_buttons.png");
-  pTheme->Happy_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->Happy_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Happy_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/army_buttons.png");
-  pTheme->Army_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->Army_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Army_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/supported_buttons.png");
-  pTheme->Support_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->Support_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Support_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/prod_buttons.png");
-  pTheme->PROD_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->PROD_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->PROD_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/q_prod_buttons.png");
-  pTheme->QPROD_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->QPROD_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->QPROD_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/buy_buttons.png");
-  pTheme->Buy_PROD_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->Buy_PROD_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Buy_PROD_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/cma_buttons.png");
-  pTheme->CMA_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->CMA_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->CMA_Icon, 0, 0));
-
-  /* ================================================================== */
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order2_buttons.png");
-  pTheme->Order_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->Order_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->Order_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_disband2_buttons.png");
-  pTheme->ODisband_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->ODisband_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->ODisband_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_wait_buttons.png");
-  pTheme->OWait_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OWait_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OWait_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_done_buttons.png");
-  pTheme->ODone_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->ODone_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->ODone_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_auto_att_buttons.png");
-  pTheme->OAutoAtt_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OAutoAtt_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoAtt_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_auto_sett_buttons.png");
-  pTheme->OAutoSett_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OAutoSett_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoSett_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_auto_cont_buttons.png");
-  pTheme->OAutoConet_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OAutoConet_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoConet_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_auto_exp_buttons.png");
-  pTheme->OAutoExp_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OAutoExp_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OAutoExp_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_unload_buttons.png");
-  pTheme->OUnload_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OUnload_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OUnload_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_buildcity_buttons.png");
-  pTheme->OBuildCity_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OBuildCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OBuildCity_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_gotocity_buttons.png");
-  pTheme->OGotoCity_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OGotoCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OGotoCity_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_home_buttons.png");
-  pTheme->OHomeCity_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OHomeCity_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OHomeCity_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_goto_buttons.png");
-  pTheme->OGoto_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OGoto_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OGoto_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_patrol_buttons.png");
-  pTheme->OPatrol_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OPatrol_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OPatrol_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_mine_buttons.png");
-  pTheme->OMine_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OMine_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OMine_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_forest_buttons.png");
-  pTheme->OForest_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OForest_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OForest_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_crop_buttons.png");
-  pTheme->OCropForest_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OCropForest_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OCropForest_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_fortify_buttons.png");
-  pTheme->OFortify_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OFortify_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OFortify_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_sentry_buttons.png");
-  pTheme->OSentry_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OSentry_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OSentry_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_irigation_buttons.png");
-  pTheme->OIrigation_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->OIrigation_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->OIrigation_Icon, 0, 0));
-
-  my_snprintf(buf, sizeof(buf), "%s%s", pDataPath,
-	      "theme/default/order_road_buttons.png");
-  pTheme->ORoad_Icon = load_surf(buf);
-  SDL_SetColorKey(pTheme->ORoad_Icon, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pTheme->ORoad_Icon, 0, 0));
-}
-
-/**************************************************************************
-  Free memmory
-**************************************************************************/
-void unload_theme(void)
-{
-  FREESURFACE(pTheme->Button);
-  FREESURFACE(pTheme->Edit);
-  FREESURFACE(pTheme->OK_Icon);
-  FREESURFACE(pTheme->CANCEL_Icon);
-  FREESURFACE(pTheme->FORWARD_Icon);
-  FREESURFACE(pTheme->BACK_Icon);
-  FREESURFACE(pTheme->META_Icon);
-  FREESURFACE(pTheme->UP_Icon);
-  FREESURFACE(pTheme->DOWN_Icon);
-  FREESURFACE(pTheme->Vertic);
-  FREESURFACE(pTheme->Options_Icon);
-  FREESURFACE(pTheme->FR_Vert);
-  FREESURFACE(pTheme->FR_Hor);
-
-  /* TO DO ADD Rest */
-
-  FREE(pTheme);
-}
-
 /* =================================================== */
 /* ===================== GUI LIST ==================== */
 /* =================================================== */
@@ -769,7 +415,8 @@ struct GUI *MainWidgetListKeyScaner(SDL_keysym Key)
     if ( pWidget->action )
       if ( pWidget->action(pWidget)  ) ID = 0;
     if widget callback function return = 0 then return NOZERO
-      I default return (-1) from Widget callback functions.
+
+    I default return (-1) from Widget callback functions.
 **************************************************************************/
 Uint16 widget_pressed_action(struct GUI * pWidget)
 {
@@ -2776,6 +2423,7 @@ void edit_field(struct GUI *pEdit_Widget)
   int iStart_X = 5, iInputChain_X = 0;
   int iStart_Mod_X;
 
+  struct UniChar ___last;
   struct UniChar *pBeginTextChain = NULL;
   struct UniChar *pEndTextChain = NULL;
   struct UniChar *pInputChain = NULL;
@@ -2801,10 +2449,13 @@ void edit_field(struct GUI *pEdit_Widget)
 
 
   /* Creating Empty (Last) pice of Chain */
-  pInputChain = ALLOCA(sizeof(struct UniChar));
+  pInputChain = &___last;
   pEndTextChain = pInputChain;
   pEndTextChain->chr = 32;	/*spacebar */
-
+  pEndTextChain->pTsurf = NULL;
+  pEndTextChain->next = NULL;
+  pEndTextChain->prev = NULL;
+  
   /* set font style (if any ) */
   if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
     TTF_SetFontStyle(pEdit_Widget->string16->font,

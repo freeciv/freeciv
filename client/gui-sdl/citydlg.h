@@ -24,9 +24,7 @@
 
 #include "citydlg_g.h"
 
-void load_city_icons(void);
 void refresh_city_dlg_background(void);
-SDL_Surface *get_colb_surface(void);
 SDL_Rect *get_citydlg_rect(void);
 
-#endif				/* FC__CITYDLG_H */
+#endif	/* FC__CITYDLG_H */

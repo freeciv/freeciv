@@ -67,6 +67,7 @@
 #include "repodlgs.h"
 #include "tilespec.h"
 #include "wldlg.h"
+#include "gui_tilespec.h"
 
 #include "optiondlg.h"
 #include "menu.h"
@@ -75,7 +76,7 @@
 
 #include "citydlg.h"
 
-
+#if 0
 /* get 'struct dialog_list' and related functions: */
 struct city_dialog;
 
@@ -91,7 +92,6 @@ struct city_dialog;
     TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
-#if 0
 static int NUM_UNITS_SHOWN;
 static int MAX_UNIT_ROWS;
 static int MINI_NUM_UNITS;
@@ -103,63 +103,6 @@ static int MINI_NUM_UNITS;
 #define NUM_UNITS_SHOWN		 3
 
 extern char *pDataPath;
-
-static struct City_Icon {
-  SDL_Surface *pBIG_Food_Corr;
-  SDL_Surface *pBIG_Shield_Corr;
-  SDL_Surface *pBIG_Trade_Corr;
-  SDL_Surface *pBIG_Food;
-  SDL_Surface *pBIG_Shield;
-  SDL_Surface *pBIG_Trade;
-  SDL_Surface *pBIG_Luxury;
-  SDL_Surface *pBIG_Coin;
-  SDL_Surface *pBIG_Colb;
-  /*SDL_Surface *pBIG_Face; */
-  SDL_Surface *pBIG_Coin_Corr;
-  SDL_Surface *pBIG_Coin_UpKeep;
-
-  SDL_Surface *pFood;
-  SDL_Surface *pShield;
-  SDL_Surface *pTrade;
-  SDL_Surface *pLuxury;
-  SDL_Surface *pCoin;
-  SDL_Surface *pColb;
-  SDL_Surface *pFace;
-
-  SDL_Surface *pPollutions;
-  SDL_Surface *pFist;
-
-  /* Citizens */
-  SDL_Surface *pBIG_Male_Happy;
-  SDL_Surface *pBIG_Female_Happy;
-  SDL_Surface *pBIG_Male_Content;
-  SDL_Surface *pBIG_Female_Content;
-  SDL_Surface *pBIG_Male_Unhappy;
-  SDL_Surface *pBIG_Female_Unhappy;
-  SDL_Surface *pBIG_Male_Angry;
-  SDL_Surface *pBIG_Female_Angry;
-
-  SDL_Surface *pBIG_Spec_Lux;	/* Elvis */
-  SDL_Surface *pBIG_Spec_Tax;	/* TaxMan */
-  SDL_Surface *pBIG_Spec_Sci;	/* Scientist */
-
-  SDL_Surface *pMale_Happy;
-  SDL_Surface *pFemale_Happy;
-  SDL_Surface *pMale_Content;
-  SDL_Surface *pFemale_Content;
-  SDL_Surface *pMale_Unhappy;
-  SDL_Surface *pFemale_Unhappy;
-  SDL_Surface *pMale_Angry;
-  SDL_Surface *pFemale_Angry;
-
-  SDL_Surface *pSpec_Lux;	/* Elvis */
-  SDL_Surface *pSpec_Tax;	/* TaxMan */
-  SDL_Surface *pSpec_Sci;	/* Scientist */
-
-  enum citizens_styles style;
-
-
-} *pCity_Icon = NULL;
 
 static struct city_dialog {
   struct city *pCity;
@@ -217,7 +160,6 @@ static void refresh_city_resource_map(struct GUI *pMap,
 				      struct city *pCity);
 static void enable_city_dlg_widgets(void);
 static void disable_city_dlg_widgets(void);
-static void reload_citizens_icons(enum citizens_styles styles);
 static void redraw_city_dialog(struct city *pCity);
 static void rebuild_imprm_list(struct city *pCity);
 static void rebuild_citydlg_title_str(struct GUI *pWindow,
@@ -225,19 +167,6 @@ static void rebuild_citydlg_title_str(struct GUI *pWindow,
 
 /* ======================================================================= */
 
-/**************************************************************************
-  ...
-**************************************************************************/
-SDL_Surface *get_colb_surface(void)
-{
-  if (pCity_Icon) {
-    return pCity_Icon->pBIG_Colb;
-  }
-
-  return NULL;
-}
-
-/* ======================================================================= */
 
 /**************************************************************************
   ...
@@ -613,7 +542,7 @@ static int units_orders_city_dlg_callback(struct GUI *pButton)
   pStr->style |= TTF_STYLE_BOLD;
 
   pBuf =
-      create_iconlabel((SDL_Surface *) get_unit_type(pUnit->type)->sprite,
+      create_iconlabel((SDL_Surface *)get_unit_type(pUnit->type)->sprite,
 		       pStr, 0);
 
   if (ww < pBuf->size.w) {
@@ -918,32 +847,32 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
     i = pUnit->upkeep + pUnit->upkeep_food +
 	pUnit->upkeep_gold + pUnit->unhappiness;
 
-    if (i * pCity_Icon->pFood->w > NORMAL_TILE_WIDTH / 2) {
-      step = (NORMAL_TILE_WIDTH / 2 - pCity_Icon->pFood->w) / (i - 1);
+    if (i * pIcons->pFood->w > NORMAL_TILE_WIDTH / 2) {
+      step = (NORMAL_TILE_WIDTH / 2 - pIcons->pFood->w) / (i - 1);
     } else {
-      step = pCity_Icon->pFood->w;
+      step = pIcons->pFood->w;
     }
 
-    dest.y = 3 * NORMAL_TILE_HEIGHT / 2 - pCity_Icon->pFood->h - 2;
+    dest.y = 3 * NORMAL_TILE_HEIGHT / 2 - pIcons->pFood->h - 2;
     dest.x = NORMAL_TILE_WIDTH / 8;
 
     for (i = 0; i < pUnit->upkeep; i++) {
-      SDL_BlitSurface(pCity_Icon->pShield, NULL, pSurf, &dest);
+      SDL_BlitSurface(pIcons->pShield, NULL, pSurf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < pUnit->upkeep_food; i++) {
-      SDL_BlitSurface(pCity_Icon->pFood, NULL, pSurf, &dest);
+      SDL_BlitSurface(pIcons->pFood, NULL, pSurf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < pUnit->upkeep_gold; i++) {
-      SDL_BlitSurface(pCity_Icon->pCoin, NULL, pSurf, &dest);
+      SDL_BlitSurface(pIcons->pCoin, NULL, pSurf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < pUnit->unhappiness; i++) {
-      SDL_BlitSurface(pCity_Icon->pFace, NULL, pSurf, &dest);
+      SDL_BlitSurface(pIcons->pFace, NULL, pSurf, &dest);
       dest.x += step;
     }
 
@@ -2277,7 +2206,7 @@ static void del_imprv_from_imprv_list(struct GUI *pImprv)
 
     }
 
-  } else {			/* no scrollbar */
+  } else { /* no scrollbar */
     pBuf = pImprv;
 
     /* goto down list */
@@ -2678,17 +2607,17 @@ static void fill_tile_resorce_surf(SDL_Surface * pTile, struct city *pCity,
   step = (SCALLED_TILE_WIDTH - 2 * dest.x) / (food + shield + trade);
 
   for (i = 0; i < food; i++) {
-    SDL_BlitSurface(pCity_Icon->pFood, NULL, pTile, &dest);
+    SDL_BlitSurface(pIcons->pFood, NULL, pTile, &dest);
     dest.x += step;
   }
 
   for (i = 0; i < shield; i++) {
-    SDL_BlitSurface(pCity_Icon->pShield, NULL, pTile, &dest);
+    SDL_BlitSurface(pIcons->pShield, NULL, pTile, &dest);
     dest.x += step;
   }
 
   for (i = 0; i < trade; i++) {
-    SDL_BlitSurface(pCity_Icon->pTrade, NULL, pTile, &dest);
+    SDL_BlitSurface(pIcons->pTrade, NULL, pTile, &dest);
     dest.x += step;
   }
 }
@@ -3114,19 +3043,19 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 
     FREESURFACE(pSurf);
 
-    if (((pCity_Icon->pPollutions->w + 1) * pCity->pollution) > 187) {
-      step = (187 - pCity_Icon->pPollutions->w) / (pCity->pollution - 1);
+    if (((pIcons->pPollution->w + 1) * pCity->pollution) > 187) {
+      step = (187 - pIcons->pPollution->w) / (pCity->pollution - 1);
     } else {
-      step = pCity_Icon->pPollutions->w + 1;
+      step = pIcons->pPollution->w + 1;
     }
 
     for (i = 0; i < pCity->pollution; i++) {
-      SDL_BlitSurface(pCity_Icon->pPollutions, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pIcons->pPollution, NULL, Main.screen, &dest);
       dest.x += step;
     }
 
     dest.x = pCityWindow->size.x + 10;
-    dest.y += pCity_Icon->pPollutions->h + 30;
+    dest.y += pIcons->pPollution->h + 30;
 
   } else {
     my_snprintf(cBuf, sizeof(cBuf), _("Pollution : none"));
@@ -3192,7 +3121,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
       /* blit trade icon */
       dest.x += pSurf->w + 3;
       dest.y += 4;
-      SDL_BlitSurface(pCity_Icon->pTrade, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pIcons->pTrade, NULL, Main.screen, &dest);
       dest.x = pCityWindow->size.x + 10;
       dest.y -= 4;
 
@@ -3211,7 +3140,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 
     dest.x += pSurf->w + 3;
     dest.y += 4;
-    SDL_BlitSurface(pCity_Icon->pTrade, NULL, Main.screen, &dest);
+    SDL_BlitSurface(pIcons->pTrade, NULL, Main.screen, &dest);
 
     FREESURFACE(pSurf);
   } else {
@@ -3279,10 +3208,10 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
       pCity->ppl_unhappy[4] + pCity->ppl_angry[4] +
       pCity->ppl_elvis + pCity->ppl_scientist + pCity->ppl_taxman;
 
-  if (count * pCity_Icon->pMale_Happy->w > 180) {
-    step = (180 - pCity_Icon->pMale_Happy->w) / (count - 1);
+  if (count * pIcons->pMale_Happy->w > 180) {
+    step = (180 - pIcons->pMale_Happy->w) / (count - 1);
   } else {
-    step = pCity_Icon->pMale_Happy->w;
+    step = pIcons->pMale_Happy->w;
   }
 
   for (j = 0; j < 5; j++) {
@@ -3297,89 +3226,89 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
       }
 
       if (pCity->ppl_happy[j]) {
-	pSurf = pCity_Icon->pMale_Happy;
+	pSurf = pIcons->pMale_Happy;
 	for (i = 0; i < pCity->ppl_happy[j]; i++) {
 	  SDL_BlitSurface(pSurf, NULL, Main.screen, &dest);
 	  dest.x += step;
-	  if (pSurf == pCity_Icon->pMale_Happy) {
-	    pSurf = pCity_Icon->pFemale_Happy;
+	  if (pSurf == pIcons->pMale_Happy) {
+	    pSurf = pIcons->pFemale_Happy;
 	  } else {
-	    pSurf = pCity_Icon->pMale_Happy;
+	    pSurf = pIcons->pMale_Happy;
 	  }
 	}
       }
 
       if (pCity->ppl_content[j]) {
-	pSurf = pCity_Icon->pMale_Content;
+	pSurf = pIcons->pMale_Content;
 	for (i = 0; i < pCity->ppl_content[j]; i++) {
 	  SDL_BlitSurface(pSurf, NULL, Main.screen, &dest);
 	  dest.x += step;
-	  if (pSurf == pCity_Icon->pMale_Content) {
-	    pSurf = pCity_Icon->pFemale_Content;
+	  if (pSurf == pIcons->pMale_Content) {
+	    pSurf = pIcons->pFemale_Content;
 	  } else {
-	    pSurf = pCity_Icon->pMale_Content;
+	    pSurf = pIcons->pMale_Content;
 	  }
 	}
       }
 
       if (pCity->ppl_unhappy[j]) {
-	pSurf = pCity_Icon->pMale_Unhappy;
+	pSurf = pIcons->pMale_Unhappy;
 	for (i = 0; i < pCity->ppl_unhappy[j]; i++) {
 	  SDL_BlitSurface(pSurf, NULL, Main.screen, &dest);
 	  dest.x += step;
-	  if (pSurf == pCity_Icon->pMale_Unhappy) {
-	    pSurf = pCity_Icon->pFemale_Unhappy;
+	  if (pSurf == pIcons->pMale_Unhappy) {
+	    pSurf = pIcons->pFemale_Unhappy;
 	  } else {
-	    pSurf = pCity_Icon->pMale_Unhappy;
+	    pSurf = pIcons->pMale_Unhappy;
 	  }
 	}
       }
 
       if (pCity->ppl_angry[j]) {
-	pSurf = pCity_Icon->pMale_Angry;
+	pSurf = pIcons->pMale_Angry;
 	for (i = 0; i < pCity->ppl_angry[j]; i++) {
 	  SDL_BlitSurface(pSurf, NULL, Main.screen, &dest);
 	  dest.x += step;
-	  if (pSurf == pCity_Icon->pMale_Angry) {
-	    pSurf = pCity_Icon->pFemale_Angry;
+	  if (pSurf == pIcons->pMale_Angry) {
+	    pSurf = pIcons->pFemale_Angry;
 	  } else {
-	    pSurf = pCity_Icon->pMale_Angry;
+	    pSurf = pIcons->pMale_Angry;
 	  }
 	}
       }
 
       if (pCity->ppl_elvis) {
 	for (i = 0; i < pCity->ppl_elvis; i++) {
-	  SDL_BlitSurface(pCity_Icon->pSpec_Lux, NULL, Main.screen, &dest);
+	  SDL_BlitSurface(pIcons->pSpec_Lux, NULL, Main.screen, &dest);
 	  dest.x += step;
 	}
       }
 
       if (pCity->ppl_taxman) {
 	for (i = 0; i < pCity->ppl_taxman; i++) {
-	  SDL_BlitSurface(pCity_Icon->pSpec_Tax, NULL, Main.screen, &dest);
+	  SDL_BlitSurface(pIcons->pSpec_Tax, NULL, Main.screen, &dest);
 	  dest.x += step;
 	}
       }
 
       if (pCity->ppl_scientist) {
 	for (i = 0; i < pCity->ppl_scientist; i++) {
-	  SDL_BlitSurface(pCity_Icon->pSpec_Sci, NULL, Main.screen, &dest);
+	  SDL_BlitSurface(pIcons->pSpec_Sci, NULL, Main.screen, &dest);
 	  dest.x += step;
 	}
       }
 
-      if (j == 1) {		/* luxury effect */
+      if (j == 1) { /* luxury effect */
 	dest.x =
-	    pCityWindow->size.x + 212 - pCity_Icon->pBIG_Luxury->w - 2;
+	    pCityWindow->size.x + 212 - pIcons->pBIG_Luxury->w - 2;
 	count = dest.y;
-	dest.y += (pCity_Icon->pBIG_Male_Happy->h -
-		   pCity_Icon->pBIG_Luxury->h) / 2;
-	SDL_BlitSurface(pCity_Icon->pBIG_Luxury, NULL, Main.screen, &dest);
+	dest.y += (pIcons->pMale_Happy->h -
+		   pIcons->pBIG_Luxury->h) / 2;
+	SDL_BlitSurface(pIcons->pBIG_Luxury, NULL, Main.screen, &dest);
 	dest.y = count;
       }
 
-      if (j == 2) {		/* improvments effects */
+      if (j == 2) { /* improvments effects */
 	pSurf = NULL;
 	count = 0;
 
@@ -3421,20 +3350,20 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
 	dest.x = pCityWindow->size.x + 212 - pSurf->w - 2;
 	i = dest.y;
-	dest.y += (pCity_Icon->pBIG_Male_Happy->h - count) / 2;
+	dest.y += (pIcons->pMale_Happy->h - count) / 2;
 
 
-	if (pTmp1) {		/* Temple */
+	if (pTmp1) { /* Temple */
 	  SDL_BlitSurface(pTmp1, NULL, Main.screen, &dest);
 	  dest.y += (pTmp1->h + 1);
 	}
 
-	if (pTmp2) {		/* Colosseum */
+	if (pTmp2) { /* Colosseum */
 	  SDL_BlitSurface(pTmp2, NULL, Main.screen, &dest);
 	  dest.y += (pTmp2->h + 1);
 	}
 
-	if (pTmp3) {		/* Cathedral */
+	if (pTmp3) { /* Cathedral */
 	  SDL_BlitSurface(pTmp3, NULL, Main.screen, &dest);
 	  /*dest.y += (pTmp3->h + 1); */
 	}
@@ -3446,16 +3375,16 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	dest.y = i;
       }
 
-      if (j == 3) {		/* garnison effect */
-	dest.x = pCityWindow->size.x + 212 - pCity_Icon->pFist->w - 5;
+      if (j == 3) { /* police effect */
+	dest.x = pCityWindow->size.x + 212 - pIcons->pPolice->w - 5;
 	i = dest.y;
 	dest.y +=
-	    (pCity_Icon->pBIG_Male_Happy->h - pCity_Icon->pFist->h) / 2;
-	SDL_BlitSurface(pCity_Icon->pFist, NULL, Main.screen, &dest);
+	    (pIcons->pMale_Happy->h - pIcons->pPolice->h) / 2;
+	SDL_BlitSurface(pIcons->pPolice, NULL, Main.screen, &dest);
 	dest.y = i;
       }
 
-      if (j == 4) {		/* wonders effect */
+      if (j == 4) { /* wonders effect */
 	count = 0;
 
 	if (city_affected_by_wonder(pCity, B_CURE)) {
@@ -3506,25 +3435,25 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
 	dest.x = pCityWindow->size.x + 212 - pSurf->w - 2;
 	i = dest.y;
-	dest.y += (pCity_Icon->pBIG_Male_Happy->h - count) / 2;
+	dest.y += (pIcons->pMale_Happy->h - count) / 2;
 
 
-	if (pTmp1) {		/* Cure of Cancer */
+	if (pTmp1) { /* Cure of Cancer */
 	  SDL_BlitSurface(pTmp1, NULL, Main.screen, &dest);
 	  dest.y += (pTmp1->h + 1);
 	}
 
-	if (pTmp2) {		/* Shakespeare Theater */
+	if (pTmp2) { /* Shakespeare Theater */
 	  SDL_BlitSurface(pTmp2, NULL, Main.screen, &dest);
 	  dest.y += (pTmp2->h + 1);
 	}
 
-	if (pTmp3) {		/* J. S. Bach ... */
+	if (pTmp3) { /* J. S. Bach ... */
 	  SDL_BlitSurface(pTmp3, NULL, Main.screen, &dest);
 	  dest.y += (pTmp3->h + 1);
 	}
 
-	if (pTmp4) {		/* Hanging Gardens */
+	if (pTmp4) { /* Hanging Gardens */
 	  SDL_BlitSurface(pTmp4, NULL, Main.screen, &dest);
 	  /*dest.y += (pTmp4->h + 1); */
 	}
@@ -3537,7 +3466,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
       }
 
       dest.x = pCityWindow->size.x + 10;
-      dest.y += pCity_Icon->pMale_Happy->h + 5;
+      dest.y += pIcons->pMale_Happy->h + 5;
 
     }
   }
@@ -3664,7 +3593,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw food income */
-  dest.y = pWindow->size.y + 245 + (16 - pCity_Icon->pBIG_Food->h) / 2;
+  dest.y = pWindow->size.y + 245 + (16 - pIcons->pBIG_Food->h) / 2;
   dest.x = pWindow->size.x + 203;
 
   if (pCity->food_surplus >= 0) {
@@ -3673,14 +3602,14 @@ static void redraw_city_dialog(struct city *pCity)
     count = pCity->food_prod;
   }
 
-  if (((pCity_Icon->pBIG_Food->w + 1) * count) > 200) {
-    step = (200 - pCity_Icon->pBIG_Food->w) / (count - 1);
+  if (((pIcons->pBIG_Food->w + 1) * count) > 200) {
+    step = (200 - pIcons->pBIG_Food->w) / (count - 1);
   } else {
-    step = pCity_Icon->pBIG_Food->w + 1;
+    step = pIcons->pBIG_Food->w + 1;
   }
 
   for (i = 0; i < count; i++) {
-    SDL_BlitSurface(pCity_Icon->pBIG_Food, NULL, Main.screen, &dest);
+    SDL_BlitSurface(pIcons->pBIG_Food, NULL, Main.screen, &dest);
     dest.x += step;
   }
 
@@ -3708,10 +3637,10 @@ static void redraw_city_dialog(struct city *pCity)
 
     if (pCity->food_surplus > 0) {
       count = pCity->food_surplus;
-      pBuf = pCity_Icon->pBIG_Food;
+      pBuf = pIcons->pBIG_Food;
     } else {
       count = -1 * pCity->food_surplus;
-      pBuf = pCity_Icon->pBIG_Food_Corr;
+      pBuf = pIcons->pBIG_Food_Corr;
     }
 
     dest.x = pWindow->size.x + 423;
@@ -3760,10 +3689,10 @@ static void redraw_city_dialog(struct city *pCity)
 
     if (pCity->shield_surplus > 0) {
       count = pCity->shield_surplus;
-      pBuf = pCity_Icon->pBIG_Shield;
+      pBuf = pIcons->pBIG_Shield;
     } else {
       count = -1 * pCity->shield_surplus;
-      pBuf = pCity_Icon->pBIG_Shield_Corr;
+      pBuf = pIcons->pBIG_Shield_Corr;
     }
 
     dest.y = pWindow->size.y + 280 + (16 - pBuf->h) / 2;
@@ -3805,18 +3734,18 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->shield_prod - pCity->shield_surplus) {
     dest.x = pWindow->size.x + 423;
     dest.y =
-	pWindow->size.y + 280 + (16 - pCity_Icon->pBIG_Shield->h) / 2;
-    if ((pCity_Icon->pBIG_Shield->w + 1) * (pCity->shield_prod -
+	pWindow->size.y + 280 + (16 - pIcons->pBIG_Shield->h) / 2;
+    if ((pIcons->pBIG_Shield->w + 1) * (pCity->shield_prod -
 					    pCity->shield_surplus) > 30) {
       step =
-	  (30 - pCity_Icon->pBIG_Food->w) / (pCity->shield_prod -
+	  (30 - pIcons->pBIG_Food->w) / (pCity->shield_prod -
 					     pCity->shield_surplus - 1);
     } else {
-      step = pCity_Icon->pBIG_Shield->w + 1;
+      step = pIcons->pBIG_Shield->w + 1;
     }
 
     for (i = 0; i < (pCity->shield_prod - pCity->shield_surplus); i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Shield, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pIcons->pBIG_Shield, NULL, Main.screen, &dest);
       dest.x -= step;
     }
   }
@@ -3845,17 +3774,17 @@ static void redraw_city_dialog(struct city *pCity)
   /* draw total (trade - corruption) */
   if (pCity->trade_prod) {
     dest.y =
-	pWindow->size.y + 315 + (16 - pCity_Icon->pBIG_Trade->h) / 2;
+	pWindow->size.y + 315 + (16 - pIcons->pBIG_Trade->h) / 2;
     dest.x = pWindow->size.x + 203;
 
-    if (((pCity_Icon->pBIG_Trade->w + 1) * pCity->trade_prod) > 200) {
-      step = (200 - pCity_Icon->pBIG_Trade->w) / (pCity->trade_prod - 1);
+    if (((pIcons->pBIG_Trade->w + 1) * pCity->trade_prod) > 200) {
+      step = (200 - pIcons->pBIG_Trade->w) / (pCity->trade_prod - 1);
     } else {
-      step = pCity_Icon->pBIG_Trade->w + 1;
+      step = pIcons->pBIG_Trade->w + 1;
     }
 
     for (i = 0; i < pCity->trade_prod; i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Trade, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pIcons->pBIG_Trade, NULL, Main.screen, &dest);
       dest.x += step;
     }
   }
@@ -3883,17 +3812,17 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->corruption) {
     dest.x = pWindow->size.x + 423;
     dest.y =
-	pWindow->size.y + 315 + (16 - pCity_Icon->pBIG_Trade->h) / 2;
+	pWindow->size.y + 315 + (16 - pIcons->pBIG_Trade->h) / 2;
 
-    if (((pCity_Icon->pBIG_Trade_Corr->w + 1) * pCity->corruption) > 30) {
+    if (((pIcons->pBIG_Trade_Corr->w + 1) * pCity->corruption) > 30) {
       step =
-	  (30 - pCity_Icon->pBIG_Trade_Corr->w) / (pCity->corruption - 1);
+	  (30 - pIcons->pBIG_Trade_Corr->w) / (pCity->corruption - 1);
     } else {
-      step = pCity_Icon->pBIG_Trade_Corr->w + 1;
+      step = pIcons->pBIG_Trade_Corr->w + 1;
     }
 
     for (i = 0; i < pCity->corruption; i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Trade_Corr, NULL, Main.screen,
+      SDL_BlitSurface(pIcons->pBIG_Trade_Corr, NULL, Main.screen,
 		      &dest);
       dest.x -= step;
     }
@@ -3925,10 +3854,10 @@ static void redraw_city_dialog(struct city *pCity)
   if (count) {
 
     if (count > 0) {
-      pBuf = pCity_Icon->pBIG_Coin;
+      pBuf = pIcons->pBIG_Coin;
     } else {
       count *= -1;
-      pBuf = pCity_Icon->pBIG_Coin_Corr;
+      pBuf = pIcons->pBIG_Coin_Corr;
     }
 
     dest.y = pWindow->size.y + 358 + (16 - pBuf->h) / 2;
@@ -3977,18 +3906,18 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + 423;
     dest.y = pWindow->size.y + 358
-      + (16 - pCity_Icon->pBIG_Coin_UpKeep->h) / 2;
+      + (16 - pIcons->pBIG_Coin_UpKeep->h) / 2;
 
-    if (((pCity_Icon->pBIG_Coin_UpKeep->w + 1) *
+    if (((pIcons->pBIG_Coin_UpKeep->w + 1) *
 	 (pCity->tax_total - count)) > 110) {
-      step = (110 - pCity_Icon->pBIG_Coin_UpKeep->w) /
+      step = (110 - pIcons->pBIG_Coin_UpKeep->w) /
 	  (pCity->tax_total - count - 1);
     } else {
-      step = pCity_Icon->pBIG_Coin_UpKeep->w + 1;
+      step = pIcons->pBIG_Coin_UpKeep->w + 1;
     }
 
     for (i = 0; i < (pCity->tax_total - count); i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Coin_UpKeep, NULL, Main.screen,
+      SDL_BlitSurface(pIcons->pBIG_Coin_UpKeep, NULL, Main.screen,
 		      &dest);
       dest.x -= step;
     }
@@ -4018,11 +3947,11 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->science_total) {
 
     dest.y =
-	pWindow->size.y + 393 + (16 - pCity_Icon->pBIG_Colb->h) / 2;
+	pWindow->size.y + 393 + (16 - pIcons->pBIG_Colb->h) / 2;
     dest.x = pWindow->size.x + 203;
 
-    if ((pCity_Icon->pBIG_Colb->w * pCity->science_total) > 235) {
-      step = (235 - pCity_Icon->pBIG_Colb->w) / (pCity->science_total - 1);
+    if ((pIcons->pBIG_Colb->w * pCity->science_total) > 235) {
+      step = (235 - pIcons->pBIG_Colb->w) / (pCity->science_total - 1);
       if (step) {
 	count = pCity->science_total;
       } else {
@@ -4030,11 +3959,11 @@ static void redraw_city_dialog(struct city *pCity)
 	count = 222;
       }
     } else {
-      step = pCity_Icon->pBIG_Colb->w;
+      step = pIcons->pBIG_Colb->w;
     }
 
     for (i = 0; i < count; i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Colb, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pIcons->pBIG_Colb, NULL, Main.screen, &dest);
       dest.x += step;
     }
   }
@@ -4063,18 +3992,18 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->luxury_total) {
 
     dest.y =
-	pWindow->size.y + 428 + (16 - pCity_Icon->pBIG_Luxury->h) / 2;
+	pWindow->size.y + 428 + (16 - pIcons->pBIG_Luxury->h) / 2;
     dest.x = pWindow->size.x + 203;
 
-    if ((pCity_Icon->pBIG_Luxury->w * pCity->luxury_total) > 235) {
+    if ((pIcons->pBIG_Luxury->w * pCity->luxury_total) > 235) {
       step =
-	  (235 - pCity_Icon->pBIG_Luxury->w) / (pCity->luxury_total - 1);
+	  (235 - pIcons->pBIG_Luxury->w) / (pCity->luxury_total - 1);
     } else {
-      step = pCity_Icon->pBIG_Luxury->w;
+      step = pIcons->pBIG_Luxury->w;
     }
 
     for (i = 0; i < pCity->luxury_total; i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Luxury, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pIcons->pBIG_Luxury, NULL, Main.screen, &dest);
       dest.x += step;
     }
   }
@@ -4114,11 +4043,11 @@ static void redraw_city_dialog(struct city *pCity)
   count = (city_granary_size(pCity->size)) / 10;
 
   if (count > 12) {
-    step = (168 - pCity_Icon->pBIG_Food->h) / (11 + count - 12);
+    step = (168 - pIcons->pBIG_Food->h) / (11 + count - 12);
     i = (count - 1) * step + 14;
     count = 12;
   } else {
-    step = pCity_Icon->pBIG_Food->h;
+    step = pIcons->pBIG_Food->h;
     i = count * step;
   }
 
@@ -4127,7 +4056,7 @@ static void redraw_city_dialog(struct city *pCity)
       || city_affected_by_wonder(pCity, B_PYRAMIDS)) {
     /* with granary */
     /* stocks label */
-    pStr->text = convert_to_utf16(_("Granary"));
+    pStr->text = convert_to_utf16(_("Stock"));
 
     /* FIXME: the "Granary" above and the one below are, I think,
      * different words.  But I'm not sure how.  It's possible that
@@ -4178,8 +4107,8 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += 2;
     dest.y += 2;
     while (count && cost) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Food, NULL, Main.screen, &dest);
-      dest.x += pCity_Icon->pBIG_Food->w;
+      SDL_BlitSurface(pIcons->pBIG_Food, NULL, Main.screen, &dest);
+      dest.x += pIcons->pBIG_Food->w;
       count--;
       cost--;
       if (dest.x > pWindow->size.x + 620) {
@@ -4204,8 +4133,8 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += 2;
     dest.y += 2;
     while (count) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Food, NULL, Main.screen, &dest);
-      dest.x += pCity_Icon->pBIG_Food->w;
+      SDL_BlitSurface(pIcons->pBIG_Food, NULL, Main.screen, &dest);
+      dest.x += pIcons->pBIG_Food->w;
       count--;
       if (dest.x > pWindow->size.x + 532) {
 	dest.x = pWindow->size.x + 464;
@@ -4247,8 +4176,8 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += 2;
     dest.y += 2;
     while (count) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Food, NULL, Main.screen, &dest);
-      dest.x += pCity_Icon->pBIG_Food->w;
+      SDL_BlitSurface(pIcons->pBIG_Food, NULL, Main.screen, &dest);
+      dest.x += pIcons->pBIG_Food->w;
       count--;
       if (dest.x > pWindow->size.x + 602) {
 	dest.x = pWindow->size.x + 464;
@@ -4330,10 +4259,10 @@ static void redraw_city_dialog(struct city *pCity)
 
   if (count) {
     if (count > 11) {
-      step = (154 - pCity_Icon->pBIG_Shield->h) / (10 + count - 11);
-      i = (step * (count - 1)) + pCity_Icon->pBIG_Shield->h;
+      step = (154 - pIcons->pBIG_Shield->h) / (10 + count - 11);
+      i = (step * (count - 1)) + pIcons->pBIG_Shield->h;
     } else {
-      step = pCity_Icon->pBIG_Shield->h;
+      step = pIcons->pBIG_Shield->h;
       i = count * step;
     }
 
@@ -4351,8 +4280,8 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += 2;
     dest.y += 2;
     while (count) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Shield, NULL, Main.screen, &dest);
-      dest.x += pCity_Icon->pBIG_Shield->w;
+      SDL_BlitSurface(pIcons->pBIG_Shield, NULL, Main.screen, &dest);
+      dest.x += pIcons->pBIG_Shield->w;
       count--;
       if (dest.x > pWindow->size.x + 170) {
 	dest.x = pWindow->size.x + 31;
@@ -4730,7 +4659,7 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
   struct GUI *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr = NULL;
-  enum citizens_styles cs;
+  int cs;
 
   if (pCityDlg)
     return;
@@ -5007,10 +4936,10 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
   /* ===================================================== */
   /* check if Citizen Icon style was loaded */
 
-  cs = city_styles[get_city_style(pCity)].citizens_style;
+  cs = get_city_style(pCity);
 
-  if (cs != pCity_Icon->style) {
-    reload_citizens_icons(cs);
+  if (cs != pIcons->style) {
+    reload_citizens_icons( cs , pCity );
   }
 
   /* ===================================================== */
@@ -5145,695 +5074,4 @@ bool city_dialog_is_open(struct city *pCity)
     return TRUE;
 
   return FALSE;
-}
-
-/* ===================================================== */
-/* ================== City Gfx Managment =============== */
-/* ===================================================== */
-
-/**************************************************************************
-  reload citizens "style" icons.
-**************************************************************************/
-static void reload_citizens_icons(enum citizens_styles styles)
-{
-
-  char cBuf[80];		/* I hope this is enought :) */
-  SDL_Rect crop_rect = { 0, 0, 27, 30 };
-  SDL_Surface *pBuf = NULL;
-
-  FREESURFACE(pCity_Icon->pBIG_Male_Content);
-  FREESURFACE(pCity_Icon->pBIG_Female_Content);
-  FREESURFACE(pCity_Icon->pBIG_Male_Happy);
-  FREESURFACE(pCity_Icon->pBIG_Female_Happy);
-  FREESURFACE(pCity_Icon->pBIG_Male_Unhappy);
-  FREESURFACE(pCity_Icon->pBIG_Female_Unhappy);
-  FREESURFACE(pCity_Icon->pBIG_Male_Angry);
-  FREESURFACE(pCity_Icon->pBIG_Female_Angry);
-
-  FREESURFACE(pCity_Icon->pBIG_Spec_Lux);	/* Elvis */
-  FREESURFACE(pCity_Icon->pBIG_Spec_Tax);	/* TaxMan */
-  FREESURFACE(pCity_Icon->pBIG_Spec_Sci);	/* Scientist */
-
-  /* info icons */
-  FREESURFACE(pCity_Icon->pMale_Content);
-  FREESURFACE(pCity_Icon->pFemale_Content);
-  FREESURFACE(pCity_Icon->pMale_Happy);
-  FREESURFACE(pCity_Icon->pFemale_Happy);
-  FREESURFACE(pCity_Icon->pMale_Unhappy);
-  FREESURFACE(pCity_Icon->pFemale_Unhappy);
-  FREESURFACE(pCity_Icon->pMale_Angry);
-  FREESURFACE(pCity_Icon->pFemale_Angry);
-
-  FREESURFACE(pCity_Icon->pSpec_Lux);	/* Elvis */
-  FREESURFACE(pCity_Icon->pSpec_Tax);	/* TaxMan */
-  FREESURFACE(pCity_Icon->pSpec_Sci);	/* Scientist */
-
-
-  pCity_Icon->style = styles;
-
-  sprintf(cBuf, "%s%s", pDataPath, "theme/default/city_citizens.png");
-
-  pBuf = load_surf(cBuf);
-  if (!pBuf) {
-    abort();
-  }
-
-  crop_rect.x = 1;
-  crop_rect.y = 1 + pCity_Icon->style * 31;
-
-  pCity_Icon->pBIG_Male_Happy = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Male_Happy,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Male_Happy, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Female_Happy = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Female_Happy,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Female_Happy, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Male_Content = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Male_Content,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Male_Content, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Female_Content =
-      crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Female_Content,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Female_Content, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Male_Unhappy = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Male_Unhappy,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Male_Unhappy, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Female_Unhappy =
-      crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Female_Unhappy,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Female_Unhappy, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Male_Angry = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Male_Angry,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Male_Angry, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Female_Angry = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Female_Angry,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Female_Angry, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Spec_Lux = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Spec_Lux,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Spec_Lux, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Spec_Tax = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Spec_Tax,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Spec_Tax, 0, 0));
-
-  crop_rect.x += 28;
-  pCity_Icon->pBIG_Spec_Sci = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Spec_Sci,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Spec_Sci, 0, 0));
-
-  FREESURFACE(pBuf);
-
-  /* info icons */
-  pCity_Icon->pMale_Happy =
-      ResizeSurface(pCity_Icon->pBIG_Male_Happy, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pMale_Happy, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pMale_Happy, 0, 0));
-
-  pCity_Icon->pFemale_Happy =
-      ResizeSurface(pCity_Icon->pBIG_Female_Happy, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pFemale_Happy,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pFemale_Happy, 0, 0));
-
-  pCity_Icon->pMale_Content =
-      ResizeSurface(pCity_Icon->pBIG_Male_Content, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pMale_Content,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pMale_Content, 0, 0));
-
-  pCity_Icon->pFemale_Content =
-      ResizeSurface(pCity_Icon->pBIG_Female_Content, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pFemale_Content,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pFemale_Content, 0, 0));
-
-  pCity_Icon->pMale_Unhappy =
-      ResizeSurface(pCity_Icon->pBIG_Male_Unhappy, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pMale_Unhappy,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pMale_Unhappy, 0, 0));
-
-  pCity_Icon->pFemale_Unhappy =
-      ResizeSurface(pCity_Icon->pBIG_Female_Unhappy, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pFemale_Unhappy,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pFemale_Unhappy, 0, 0));
-
-  pCity_Icon->pMale_Angry =
-      ResizeSurface(pCity_Icon->pBIG_Male_Angry, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pMale_Angry, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pMale_Angry, 0, 0));
-
-  pCity_Icon->pFemale_Angry =
-      ResizeSurface(pCity_Icon->pBIG_Female_Angry, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pFemale_Angry,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pFemale_Angry, 0, 0));
-
-  pCity_Icon->pSpec_Lux =
-      ResizeSurface(pCity_Icon->pBIG_Spec_Lux, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pSpec_Lux, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pSpec_Lux, 0, 0));
-
-  pCity_Icon->pSpec_Tax =
-      ResizeSurface(pCity_Icon->pBIG_Spec_Tax, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pSpec_Tax, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pSpec_Tax, 0, 0));
-
-  pCity_Icon->pSpec_Sci =
-      ResizeSurface(pCity_Icon->pBIG_Spec_Sci, 15, 26, 1);
-  SDL_SetColorKey(pCity_Icon->pSpec_Sci, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pSpec_Sci, 0, 0));
-
-}
-
-/**************************************************************************
-  FIXME: port me to Freeciv tilespec functons.
-  Loading city icons and gfx.
-**************************************************************************/
-void load_city_icons(void)
-{
-  char cBuf[80];		/* I hope this is enought :) */
-  SDL_Rect crop_rect = { 0, 0, 36, 20 };
-  SDL_Surface *pBuf = NULL;
-#if 0
-  struct impr_type *pImpr = NULL;
-
-  sprintf(cBuf, "%s%s", pDataPath, "theme/default/city_imprvm.png");
-
-  pBuf = load_surf(cBuf);
-  if (!pBuf) {
-    abort();
-  }
-
-  crop_rect.x = 1;
-  crop_rect.y = 1;
-
-  pImpr = get_improvement_type(B_PALACE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_BARRACKS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  get_improvement_type(B_BARRACKS2)->sprite = pImpr->sprite;
-  get_improvement_type(B_BARRACKS3)->sprite = pImpr->sprite;
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_GRANARY);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_TEMPLE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_MARKETPLACE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_LIBRARY);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_COURTHOUSE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_CITY);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_AQUEDUCT);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_BANK);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_CATHEDRAL);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_UNIVERSITY);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_MASS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_COLOSSEUM);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_FACTORY);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_MFG);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_SDI);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_RECYCLING);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_POWER);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_HYDRO);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_NUCLEAR);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_STOCK);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SEWER);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SUPERMARKET);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_SUPERHIGHWAYS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_RESEARCH);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SAM);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_COASTAL);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SOLAR);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_HARBOUR);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_OFFSHORE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_AIRPORT);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_POLICE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_PORT);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SSTRUCTURAL);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SCOMP);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SMODULE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_CAPITAL);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_PYRAMIDS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_HANGING);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_COLLOSSUS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_LIGHTHOUSE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_GREAT);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_ORACLE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_WALL);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_SUNTZU);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_RICHARDS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_MARCO);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_MICHELANGELO);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_COPERNICUS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_MAGELLAN);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SHAKESPEARE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_LEONARDO);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_BACH);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_ISAAC);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_ASMITHS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_DARWIN);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_LIBERTY);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_EIFFEL);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x = 1;
-  crop_rect.y += 21;
-  pImpr = get_improvement_type(B_WOMENS);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_HOOVER);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_MANHATTEN);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_UNITED);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_APOLLO);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_SETI);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-  crop_rect.x += 37;
-  pImpr = get_improvement_type(B_CURE);
-  pImpr->sprite =
-      (struct Sprite *) crop_rect_from_surface(pBuf, &crop_rect);
-
-
-  FREESURFACE(pBuf);
-#endif
-
-  /* ================================================================= */
-  pCity_Icon = MALLOC(sizeof(*pCity_Icon));
-
-  sprintf(cBuf, "%s%s", pDataPath, "theme/default/city_icons.png");
-
-  pBuf = load_surf(cBuf);
-  if (!pBuf) {
-    abort();
-  }
-  crop_rect.w = crop_rect.h = 14;
-  crop_rect.x = 1;
-  crop_rect.y = 1;
-
-  pCity_Icon->pBIG_Food_Corr = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Food_Corr,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Food_Corr, 13, 0));
-
-  crop_rect.x += 15;
-  pCity_Icon->pBIG_Shield_Corr = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Shield_Corr,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Shield_Corr, 0, 0));
-
-  crop_rect.x += 15;
-  pCity_Icon->pBIG_Trade_Corr = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Trade_Corr,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Trade_Corr, 0, 0));
-
-  crop_rect.x = 1;
-  crop_rect.y += 15;
-  pCity_Icon->pBIG_Food = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Food, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Food, 13, 0));
-
-  crop_rect.x += 15;
-  pCity_Icon->pBIG_Shield = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Shield, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Shield, 0, 0));
-
-  crop_rect.x += 15;
-  pCity_Icon->pBIG_Trade = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Trade, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Trade, 0, 0));
-  crop_rect.x = 1;
-  crop_rect.y += 15;
-  pCity_Icon->pBIG_Luxury = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Luxury, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Luxury, 0, 0));
-  crop_rect.x += 15;
-  pCity_Icon->pBIG_Coin = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Coin, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Coin, 0, 0));
-  crop_rect.x += 15;
-  pCity_Icon->pBIG_Colb = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Colb, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Colb, 0, 0));
-
-  crop_rect.x = 1 + 15;
-  crop_rect.y += 15;
-  pCity_Icon->pBIG_Coin_Corr = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Coin_Corr,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Coin_Corr, 0, 0));
-
-  crop_rect.x += 15;
-  pCity_Icon->pBIG_Coin_UpKeep = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pBIG_Coin_UpKeep,
-		  SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pBIG_Coin_UpKeep, 0, 0));
-  /* small icon */
-  crop_rect.x = 1;
-  crop_rect.y = 72;
-  crop_rect.w = 10;
-  crop_rect.h = 10;
-  pCity_Icon->pFood = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pFood, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pFood, 0, 0));
-
-  crop_rect.x += 11;
-  pCity_Icon->pShield = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pShield, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pShield, 0, 0));
-
-  crop_rect.x += 11;
-  pCity_Icon->pTrade = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pTrade, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pTrade, 0, 0));
-
-  crop_rect.x += 11;
-  pCity_Icon->pFace = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pFace, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pFace, 0, 0));
-
-  crop_rect.x += 1;
-  crop_rect.y += 11;
-  pCity_Icon->pLuxury = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pLuxury, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pLuxury, 0, 0));
-  crop_rect.x += 11;
-  pCity_Icon->pCoin = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pCoin, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pCoin, 0, 0));
-  crop_rect.x += 11;
-  pCity_Icon->pColb = crop_rect_from_surface(pBuf, &crop_rect);
-  SDL_SetColorKey(pCity_Icon->pColb, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pColb, 0, 0));
-
-  FREESURFACE(pBuf);
-  /* ================================================================= */
-  sprintf(cBuf, "%s%s", pDataPath, "theme/default/city_pollution.png");
-
-  pCity_Icon->pPollutions = load_surf(cBuf);
-
-  if (!pCity_Icon->pPollutions) {
-    abort();
-  }
-
-  SDL_SetColorKey(pCity_Icon->pPollutions, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pPollutions, 0, 0));
-  /* ================================================================= */
-  sprintf(cBuf, "%s%s", pDataPath, "theme/default/city_fist.png");
-
-  pCity_Icon->pFist = load_surf(cBuf);
-
-  if (!pCity_Icon->pFist) {
-    abort();
-  }
-
-  SDL_SetColorKey(pCity_Icon->pFist, SDL_SRCCOLORKEY | SDL_RLEACCEL,
-		  getpixel(pCity_Icon->pFist, 1, 0));
-
-  /* ================================================================= */
-
-  pCity_Icon->style = 999;
 }

@@ -83,6 +83,7 @@ Uint16 *convert_to_utf16(const char *pString)
 	  int saved_errno = errno;
 	  iconv_close(cd);
 	  errno = saved_errno;
+	  FREE( pResult );
 	  return NULL;
 	}
       }
@@ -94,6 +95,7 @@ Uint16 *convert_to_utf16(const char *pString)
 	int saved_errno = errno;
 	iconv_close(cd);
 	errno = saved_errno;
+	FREE( pResult );
 	return NULL;
       }
     }

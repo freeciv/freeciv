@@ -21,10 +21,6 @@
 			 : Rafa³ Bursig <bursig@poczta.fm>
  **********************************************************************/
 
-/**************************************************************************
-  Idea of "putline" code came from SDL_gfx lib. 
-**************************************************************************/
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -90,8 +86,6 @@ static SDL_Cursor *init_cursor(const char *image_data,
 			       const char *image_mask, int width,
 			       int height, int hot_x, int hot_y);
 
-static void DEL_RECTLIST(struct RectList *pRectList);
-
 /* ============ FreeCiv sdl graphics function =========== */
 
 /**************************************************************************
@@ -103,11 +97,12 @@ static SDL_Cursor *init_cursor(const char *image_data,
 {
   Uint8 *data;
   Uint8 *mask;
+  SDL_Cursor *mouse;
   int i = 0;
   size_t size = height << 2;
 
-  data = ALLOCA(size);
-  mask = ALLOCA(size);
+  data = MALLOC(size);
+  mask = MALLOC(size);
 
   while (i != size) {
     data[i] = image_data[i + 3];
@@ -121,7 +116,12 @@ static SDL_Cursor *init_cursor(const char *image_data,
     i += 4;
   }
 
-  return SDL_CreateCursor(data, mask, width, height, hot_x, hot_y);
+  mouse = SDL_CreateCursor(data, mask, width, height, hot_x, hot_y);
+  
+  FREE( data );
+  FREE( mask );
+  
+  return mouse;
 }
 
 /**************************************************************************
@@ -317,6 +317,10 @@ Uint32 getpixel(SDL_Surface * pSurface, Sint16 x, Sint16 y)
     return 0;			/* shouldn't happen, but avoids warnings */
   }
 }
+
+/**************************************************************************
+  Idea of "putline" code came from SDL_gfx lib. 
+**************************************************************************/
 
 /**************************************************************************
   Draw Horizontal line;
@@ -697,7 +701,8 @@ void init_sdl(int iFlags)
 {
 
   Main.screen = NULL;
-
+  Main.rects_count = 0;
+	
   if (SDL_Init(iFlags) < 0) {
     freelog(LOG_FATAL, _("(File %s line %d):"
 			 "Unable to initialize SDL library : %s"),
@@ -724,15 +729,7 @@ void init_sdl(int iFlags)
 **************************************************************************/
 void quit_sdl(void)
 {
-  struct RectList *pBuf = Main.rects;
-  if (Main.screen) {
-    FREESURFACE(Main.screen);
-  }
-  if (Main.rects_count) {
-    Main.rects = NULL;
-    Main.rects_count = 0;
-    DEL_RECTLIST(pBuf);
-  }
+  
 }
 
 /**************************************************************************
@@ -756,10 +753,6 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 	return 1;
   }
 
-  /* free old screen */
-  if (Main.screen)
-    FREESURFACE(Main.screen);
-
   /* Check to see if a particular video mode is supported */
   if ((iDepth = SDL_VideoModeOK(iWidth, iHeight, iDepth, iFlags)) == 0) {
     freelog(LOG_ERROR, _("(File %s line %d): "
@@ -779,7 +772,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 			 "Unable to set this resolution: "
 			 "%d x %d %d bpp %s"),
 	    __FILE__, __LINE__, iWidth, iHeight, iDepth, SDL_GetError());
-    /* abort program becouse we free old surface. */
+
     exit(-30);
   }
 
@@ -1350,76 +1343,34 @@ int SDL_FillRectAlpha(SDL_Surface * pSurface, SDL_Rect * pRect,
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-static SDL_Rect *convert_rect_list_to_array(struct RectList *pBuf,
-					    int count)
-{
-  int i = 0;
-  SDL_Rect *Array = CALLOC(count, sizeof(SDL_Rect));
-  /*struct RectList *pBuf = Main.rects; */
-
-  while (pBuf) {
-    Array[i++] = pBuf->area;
-    pBuf = pBuf->prev;
-  }
-  return Array;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static void DEL_RECTLIST(struct RectList *pRectList)
-{
-  struct RectList *pBuf;
-
-  while (pRectList) {
-    pBuf = pRectList->prev;
-
-    FREE(pRectList);
-
-    pRectList = pBuf;
-  }
-}
-
-/**************************************************************************
-  update rectangle (0,0,0,0)->fullscreen
+  update rectangle (0,0,0,0) -> fullscreen
 **************************************************************************/
 void refresh_screen(Sint16 x, Sint16 y, Uint16 w, Uint16 h)
 {
   SDL_Rect dest = { x, y, w, h };
-
+  if ( !x && !y && !w && !h ) return refresh_fullscreen();
   if (correct_rect_region(&dest))
     SDL_UpdateRect(Main.screen, dest.x, dest.y, dest.w, dest.h);
-
   return;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-void refresh_rect(SDL_Rect Rect)
+__inline__ void refresh_rect(SDL_Rect Rect)
 {
-
   if (correct_rect_region(&Rect))
     SDL_UpdateRect(Main.screen, Rect.x, Rect.y, Rect.w, Rect.h);
-
-  return;
 }
 
 /**************************************************************************
   update fullscreen
 **************************************************************************/
-void refresh_fullscreen(void)
+__inline__ void refresh_fullscreen(void)
 {
-  struct RectList *pBuf = Main.rects;
-  int count = Main.rects_count;
-  Main.rects = NULL;
   Main.rects_count = 0;
-  SDL_UpdateRect(Main.screen, 0, 0, 0, 0);
-  if (count) {
-    DEL_RECTLIST(pBuf);
-  }
+  /*SDL_UpdateRect(Main.screen, 0, 0, 0, 0);*/
+  SDL_Flip( Main.screen );	
 }
 
 /**************************************************************************
@@ -1427,24 +1378,13 @@ void refresh_fullscreen(void)
 **************************************************************************/
 void refresh_rects(void)
 {
-  struct RectList *pBuf = Main.rects;
-  int count = Main.rects_count;
-
-  if (Main.rects_count == 0)
-    return;
-
-  Main.rects = NULL;
-  Main.rects_count = 0;
-
-  if (count == RECT_LIMIT) {
-    SDL_UpdateRect(Main.screen, 0, 0, 0, 0);
+  if (!Main.rects_count) return;
+  if (Main.rects_count == RECT_LIMIT) {
+    refresh_fullscreen();
   } else {
-    SDL_Rect *pRectArray = convert_rect_list_to_array(pBuf, count);
-    SDL_UpdateRects(Main.screen, count, pRectArray);
-    FREE(pRectArray);
+    SDL_UpdateRects(Main.screen, Main.rects_count , Main.rects );
+    Main.rects_count = 0;
   }
-
-  DEL_RECTLIST(pBuf);
 }
 
 /**************************************************************************
@@ -1487,33 +1427,21 @@ int correct_rect_region(SDL_Rect * pRect)
 /**************************************************************************
   add update region/rect
 **************************************************************************/
-void add_refresh_rect(SDL_Rect Rect)
+__inline__ void add_refresh_rect(SDL_Rect Rect)
 {
-  struct RectList *pRectL;
-
-  if (correct_rect_region(&Rect)) {
-    pRectL = MALLOC(sizeof(struct RectList));
-    pRectL->area = Rect;
-    pRectL->prev = Main.rects;
-    Main.rects = pRectL;
-    Main.rects_count++;
+  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
+    Main.rects[Main.rects_count++] = Rect;
   }
 }
 
 /**************************************************************************
   add update region/rect
 **************************************************************************/
-void add_refresh_region(Sint16 x, Sint16 y, Uint16 w, Uint16 h)
+__inline__ void add_refresh_region(Sint16 x, Sint16 y, Uint16 w, Uint16 h)
 {
-  struct RectList *pRectL;
   SDL_Rect Rect = { x, y, w, h };
-
-  if (correct_rect_region(&Rect)) {
-    pRectL = MALLOC(sizeof(struct RectList));
-    pRectL->area = Rect;
-    pRectL->prev = Main.rects;
-    Main.rects = pRectL;
-    Main.rects_count++;
+  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
+    Main.rects[Main.rects_count++] = Rect;
   }
 }
 
@@ -1762,21 +1690,41 @@ bool overhead_view_supported(void)
 **************************************************************************/
 void load_intro_gfx(void)
 {
+  char *buf = datafilename("misc/intro3.png");
+  freelog(LOG_NORMAL, _("intro : %s"),
+	  buf ? buf : "n/a");	
+  if ( buf )
+  {
+    pIntro_gfx_path = mystrdup(buf);	
+  }
+  else
+  {
+    pIntro_gfx_path = NULL;
+  }
+  
+  buf = datafilename("misc/logo.png");
   freelog(LOG_DEBUG, _("intro : %s"),
-	  datafilename("theme/default/intro3.png") ?
-	  datafilename("theme/default/intro3.png") : "n/a");
-  freelog(LOG_DEBUG, _("logo : %s"),
-	  datafilename("theme/default/logo.png") ?
-	  datafilename("theme/default/logo.png") : "n/a");
+	  buf ? buf : "n/a");
+  if ( buf )
+  {
+    pLogo_gfx_path = mystrdup(buf);	
+  }
+  else
+  {
+    pLogo_gfx_path = NULL;
+  }
+  
+  buf = datafilename("misc/city.png");
   freelog(LOG_DEBUG, _("city : %s"),
-	  datafilename("theme/default/city.png") ?
-	  datafilename("theme/default/city.png") : "n/a");
-  fflush(NULL);
-
-  pIntro_gfx_path = mystrdup(datafilename("theme/default/intro3.png"));
-  pLogo_gfx_path = mystrdup(datafilename("theme/default/logo.png"));
-  pCity_gfx_path = mystrdup(datafilename("theme/default/city.png"));
-}
+	  buf ? buf : "n/a");
+  if ( buf )
+  {
+    pCity_gfx_path = mystrdup(buf);	
+  }
+  else
+  {
+    pCity_gfx_path = NULL;
+  }}
 
 /**************************************************************************
   Create a new sprite by cropping and taking only the given portion of
@@ -1856,9 +1804,9 @@ void unload_cursors(void)
   graphics types extensions.  Extensions listed first will be checked
   first.
 **************************************************************************/
-char **gfx_fileextensions(void)
+const char **gfx_fileextensions(void)
 {
-  static char *ext[] = {
+  static const char *ext[] = {
     "png",
     "xpm",
     NULL

@@ -54,18 +54,18 @@
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "optiondlg.h"
-#include "citydlg.h"
+#include "gui_tilespec.h"
 
 #include "repodlgs_common.h"
 #include "repodlgs.h"
 
-#ifdef UNUSED
+#if 0
 /**************************************************************************
   ...
 **************************************************************************/
 void report_update_delay_set(bool delay)
 {
-  freelog(LOG_DEBUG, _("report_update_delay_set"));
+  freelog(LOG_DEBUG, "report_update_delay_set");
 }
 #endif
 
@@ -136,7 +136,7 @@ void science_dialog_update(void)
   char cBuf[120];
   SDL_String16 *pStr;
   int cost = total_bulbs_required(game.player_ptr);
-  SDL_Surface *pSurf, *pColb_Surface = get_colb_surface();
+  SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
   int step, i;
   SDL_Rect dest, src;
   SDL_Color color = *get_game_colorRGB(COLOR_STD_WHITE);
@@ -155,16 +155,11 @@ void science_dialog_update(void)
   }
 #endif
 
-#if 0
   pEndScienceDlg->prev->theme =
       (SDL_Surface *) advances[game.player_ptr->research.researching].
       sprite;
   pEndScienceDlg->prev->prev->theme =
       (SDL_Surface *) advances[game.player_ptr->ai.tech_goal].sprite;
-#else
-  pEndScienceDlg->prev->theme = NULL;
-  pEndScienceDlg->prev->prev->theme = NULL;
-#endif
 
   redraw_group(pBeginScienceDlg, pEndScienceDlg, 0);
   /* ------------------------------------- */
@@ -471,11 +466,7 @@ static int change_research(struct GUI *pWidget)
       FREESURFACE(pText);
 
       /* draw tech icon */
-#if 0
       pText = (SDL_Surface *) advances[i].sprite;
-#else
-      pText = NULL;		/* ? */
-#endif
       dst.x = (100 - pText->w) / 2;
       SDL_BlitSurface(pText, NULL, pSurf, &dst);
 
@@ -712,7 +703,7 @@ static int change_research_goal(struct GUI *pWidget)
   redraw_icon2(pWidget);
   refresh_rect(pWidget->size);
 
-  pStr = create_str16_from_char(_("Wybie¿ cel :"), 12);
+  pStr = create_str16_from_char(_("Sellect target :"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
   pWindow = create_window(pStr, 40, 30, 0);
@@ -881,22 +872,20 @@ void popup_science_dialog(bool make_modal)
 
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), 400, 240);
-  /*pLogo = get_logo_gfx();
-     if ( resize_window( pWindow , pLogo , NULL , 400, 240 ) )
-     {
+  /*
+   pLogo = get_logo_gfx();
+   if ( resize_window( pWindow , pLogo , NULL , 400, 240 ) )
+   {
      FREESURFACE( pLogo );
-     } */
+   }
+  */
 
   add_to_gui_list(ID_SCIENCE_DLG_WINDOW, pWindow);
   /* ------ */
 
-#if 0
   pBuf = create_icon2((SDL_Surface *)
 		      advances[game.player_ptr->research.researching].
 		      sprite, WF_DRAW_THEME_TRANSPARENT);
-#else
-  pBuf = NULL;			/* ? */
-#endif
 
   pBuf->action = change_research;
   set_wstate(pBuf, WS_NORMAL);
@@ -907,14 +896,9 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pBuf);
 
   /* ------ */
-
-#if 0
   pBuf =
       create_icon2((SDL_Surface *) advances[game.player_ptr->ai.tech_goal].
 		   sprite, WF_DRAW_THEME_TRANSPARENT);
-#else
-  pBuf = NULL;			/* ? */
-#endif
 
   pBuf->action = change_research_goal;
   set_wstate(pBuf, WS_NORMAL);

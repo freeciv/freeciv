@@ -26,20 +26,15 @@
 
 #include "graphics_g.h"
 
-#define	RECT_LIMIT	200
+#define	RECT_LIMIT	50
 
 struct Sprite {
   struct SDL_Surface;
 };
 
-struct RectList {
-  struct RectList *prev;
-  SDL_Rect area;
-};
-
 struct Sdl {
   int rects_count;		/* update rect. list counter */
-  struct RectList *rects;	/* update rect. list */
+  SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
   SDL_Surface *screen;		/* main screen surface */
   SDL_Event event;		/* main event struct */
 };
@@ -73,12 +68,12 @@ Uint16 **get_list_modes(Uint32 flags);
 
 /* Rect */
 void refresh_screen(Sint16 x, Sint16 y, Uint16 w, Uint16 h);
-void refresh_rect(SDL_Rect Rect);
-void refresh_fullscreen(void);
+extern __inline__ void refresh_rect(SDL_Rect Rect);
+extern __inline__ void refresh_fullscreen(void);
 
 void refresh_rects(void);
-void add_refresh_region(Sint16 x, Sint16 y, Uint16 w, Uint16 h);
-void add_refresh_rect(SDL_Rect Rect);
+extern __inline__ void add_refresh_region(Sint16 x, Sint16 y, Uint16 w, Uint16 h);
+extern __inline__ void add_refresh_rect(SDL_Rect Rect);
 int correct_rect_region(SDL_Rect *pRect);
 int detect_rect_colisions(SDL_Rect *pMaster, SDL_Rect *pSlave);
 int cmp_rect(SDL_Rect *pMaster, SDL_Rect *pSlave);

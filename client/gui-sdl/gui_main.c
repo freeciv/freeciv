@@ -77,14 +77,15 @@
 #include "spaceshipdlg.h"
 #include "resources.h"
 #include "tilespec.h"
+#include "gui_tilespec.h"
 
 #include "gui_main.h"
 
 /*#include "freeciv.ico"*/
 
-#define	TIMERS
+/*#define	TIMERS*/
 
-#define TIMER_INTERVAL 500	/* milliseconds */
+#define TIMER_INTERVAL 500		/* milliseconds */
 #define SOCKET_TIMER_INTERVAL 100	/* milliseconds */
 
 const char *client_string = "gui-sdl";
@@ -509,11 +510,12 @@ void ui_main(int argc, char *argv[])
 {
   parse_options(argc, argv);
 
-  load_theme();
-
   tilespec_load_tiles();
 
   load_cursors();
+  tilespec_setup_theme();
+  
+  tilespec_setup_city_icons();
 
   pSellected_Widget = create_themeicon(pTheme->Options_Icon,
 				       (WF_WIDGET_HAS_INFO_LABEL |
@@ -552,7 +554,7 @@ void ui_main(int argc, char *argv[])
 
   gui_main_loop();
 
-  unload_theme();
+  tilespec_unload_theme();
   unload_cursors();
 
   quit_sdl();

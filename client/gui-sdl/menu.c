@@ -52,10 +52,10 @@
 #include "graphics.h"
 #include "gui_string.h"
 #include "gui_stuff.h"		/* gui */
-
 #include "gui_id.h"
-
+#include "gui_tilespec.h"
 #include "gui_main.h"
+
 #include "helpdlg.h"
 #include "mapctrl.h"		/* center_on_unit */
 #include "messagedlg.h"

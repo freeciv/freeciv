@@ -46,7 +46,6 @@
 #define CF_CHANGE_TAXRATE_SCI_BLOCK	0x8000
 
 extern struct Sdl Main;
-extern struct Theme *pTheme;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 

@@ -44,6 +44,7 @@
 #include "gui_id.h"
 #include "gui_zoom.h"
 #include "gui_main.h"
+#include "gui_tilespec.h"
 
 #include "chatline.h"
 #include "citydlg.h"
@@ -403,10 +404,10 @@ void Init_MapView(void)
   add_to_gui_list(ID_UNITS_WINDOW, pBuf);
 
   /* economy button */
-  pBuf = create_themeicon(NULL, WF_FREE_GFX | WF_FREE_THEME);
+  pBuf = create_icon2( create_surf( 15 , 22, SDL_SWSURFACE ), WF_FREE_GFX | WF_FREE_THEME);
 
-  pBuf->size.w = 19;
-  pBuf->size.h = 24;
+  /*pBuf->size.w = 19;
+  pBuf->size.h = 24;*/
 
   pBuf->size.x = Main.screen->w - UNITS_W + FRAME_WH + 5;
   pBuf->size.y = Main.screen->h - UNITS_H + FRAME_WH + 2;
@@ -553,8 +554,8 @@ void Init_MapView(void)
   add_to_gui_list(ID_WARMING_ICON, pBuf);
 
   /* ================================ */
+  
   tmp_map_surfaces_init();
-  get_new_view_rectsize();
 
   SDL_Client_Flags |= (CF_REVOLUTION | CF_MAP_UNIT_W_CREATED |
 		       CF_UNIT_INFO_SHOW | CF_MINI_MAP_SHOW);

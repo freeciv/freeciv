@@ -60,6 +60,7 @@
 #include "gui_id.h"
 #include "gui_zoom.h"
 #include "gui_main.h"
+#include "gui_tilespec.h"
 
 #include "menu.h"
 #include "mapctrl.h"
@@ -68,7 +69,7 @@
 #include "citydlg.h"
 
 #include "gui_dither.h"
-
+#include "timing.h"
 #include "mapview.h"
 
 extern char *pDataPath;
@@ -88,8 +89,10 @@ static SDL_Surface *pFogSurface;
 static SDL_Surface *pTmpSurface;
 static SDL_Surface *pTmpSurface33;
 
+#if 0
 static SDL_Surface *pBlinkSurfaceA;
 static SDL_Surface *pBlinkSurfaceB;
+#endif
 
 static SDL_Surface *pDitherMask;
 static SDL_Surface *pDitherBuf;
@@ -123,6 +126,21 @@ do {				\
     if ( --Row < 0 )		\
 	Row = map.ysize - 1;	\
 } while(0)
+
+/**************************************************************************
+  This function can be used by mapview_common code to determine the
+  location and dimensions of the mapview canvas.
+**************************************************************************/
+void get_mapview_dimensions(int *map_view_topleft_map_x,
+			    int *map_view_topleft_map_y,
+			    int *map_view_pixel_width,
+			    int *map_view_pixel_height)
+{
+  *map_view_topleft_map_x = map_view_col0;
+  *map_view_topleft_map_y = map_view_row0;
+  *map_view_pixel_width = Main.screen->w;
+  *map_view_pixel_height = Main.screen->h;
+}
 
 /**************************************************************************
   normalize_map_pos + (y) corrections.  This function must go!
@@ -259,40 +277,7 @@ void center_tile_mapcanvas(int col, int row)
   }
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-void get_center_tile_mapcanvas(int *pCol, int *pRow)
-{
-  get_mcell_cr(Main.screen->w / 2, Main.screen->h / 2, pCol, pRow);
-}
-
 /* ===================================================================== */
-
-/**************************************************************************
-  Find if (col, row) tile is seen on screen
-**************************************************************************/
-bool tile_visible_mapcanvas(int col, int row)
-{
-  int dummy_x, dummy_y;		/* well, it needs two pointers... */
-  return get_mcell_xy(col, row, &dummy_x, &dummy_y);
-}
-
-/**************************************************************************
-  This function has moved.
-**************************************************************************/
-bool tile_visible_and_not_on_border_mapcanvas(int col, int row)
-{
-
-  int cell_x, cell_y;
-
-  get_mcell_xy(col, row, &cell_x, &cell_y);
-
-  return cell_x > NORMAL_TILE_WIDTH / 2
-      && cell_x < Main.screen->w - 3 * NORMAL_TILE_WIDTH / 2
-      && cell_y >= NORMAL_TILE_HEIGHT
-      && cell_y < Main.screen->h - 3 * NORMAL_TILE_HEIGHT / 2;
-}
 
 /**************************************************************************
   Typically an info box is provided to tell the player about the state
@@ -411,7 +396,7 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
 
 
       /* draw unit sprite */
-      pBuf_Surf = (SDL_Surface *) unit_type(pUnit)->sprite;
+      pBuf_Surf = (SDL_Surface *)unit_type(pUnit)->sprite;
 #if 0
       pBuf_Surf = ZoomSurface(pBuf_Surf2, 1.5, 1.5, 1);
       SDL_SetColorKey(pBuf_Surf, COLORKEYFLAG,
@@ -475,7 +460,7 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
     pInfo_Window->gfx = crop_rect_from_screen(pInfo_Window->size);
   }
 
-  redraw_icon(pInfo_Window);
+  redraw_icon2(pInfo_Window);
 
   /* ===== */
   /* ID_RESEARCH */
@@ -583,7 +568,7 @@ void update_timeout_label(void)
   freelog(LOG_DEBUG, "MAPVIEW: update_timeout_label : PORT ME");
 }
 
-void update_turn_done_button(int do_restore)
+void update_turn_done_button(bool do_restore)
 {
   freelog(LOG_DEBUG, "MAPVIEW: update_turn_done_button : PORT ME");
 }
@@ -594,139 +579,115 @@ void update_turn_done_button(int do_restore)
 void update_city_descriptions(void)
 {
   freelog(LOG_DEBUG, "MAPVIEW: update_city_descriptions : PORT ME");
-  /* update_map_canvas_visible(); */
+}
+
+/**************************************************************************
+  Draw a description for the given city onto the surface.
+**************************************************************************/
+static void put_city_desc_on_surface(SDL_Surface *pDest,
+				     struct city *pcity,
+				     int canvas_x, int canvas_y)
+{
+  static char buffer[512];
+  SDL_Surface *pBuf = NULL;
+  int togrow;
+  SDL_String16 *pText = NULL;
+
+  pText = create_string16(NULL, 12);
+  pText->style |= TTF_STYLE_BOLD;
+  pText->forecol.r = 255;
+  pText->forecol.g = 255;
+  pText->forecol.b = 255;
+
+  canvas_y += NORMAL_TILE_HEIGHT;
+
+  if (draw_city_names) {
+    if (draw_city_growth && pcity->owner == game.player_idx) {
+      togrow = city_turns_to_grow(pcity);
+      switch (togrow) {
+      case 0:
+	my_snprintf(buffer, sizeof(buffer), "%s: #", pcity->name);
+	break;
+      case FC_INFINITY:
+	my_snprintf(buffer, sizeof(buffer), "%s: --", pcity->name);
+	break;
+      default:
+	my_snprintf(buffer, sizeof(buffer), "%s: %d", pcity->name, togrow);
+	break;
+      }
+    } else {
+      /* Force certain behavior below. */
+      togrow = 0;
+      my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);      
+    }
+
+    if (togrow < 0) {
+      pText->forecol.g = 0;
+      pText->forecol.b = 0;
+    }
+
+    pText->text = convert_to_utf16(buffer);
+    pBuf = create_text_surf_from_str16(pText);
+
+    if (togrow < 0) {
+      pText->forecol.g = 255;
+      pText->forecol.b = 255;
+    }
+
+    blit_entire_src(pBuf, pDest,
+		    canvas_x + (NORMAL_TILE_WIDTH - pBuf->w) / 2,
+		    canvas_y);
+
+    canvas_y += pBuf->h;
+    FREESURFACE(pBuf);
+    
+  }
+
+  /* City Production */
+  if (draw_city_productions && pcity->owner == game.player_idx) {
+    /*pText->style &= ~TTF_STYLE_BOLD; */
+    change_ptsize16(pText, 10);
+
+    /* set text color */
+    if (pcity->is_building_unit) {
+      pText->forecol.r = 255;
+      pText->forecol.g = 255;
+      pText->forecol.b = 0;
+    } else {
+      if (get_improvement_type(pcity->currently_building)->is_wonder) {
+	pText->forecol.r = 0xe2;
+	pText->forecol.g = 0xc2;
+	pText->forecol.b = 0x1f;
+      } else {
+	pText->forecol.r = 255;
+	pText->forecol.g = 255;
+	pText->forecol.b = 255;
+      }
+    }
+
+    get_city_mapview_production(pcity, buffer, sizeof(buffer));
+
+    FREE(pText->text);
+    pText->text = convert_to_utf16(buffer);
+    pBuf = create_text_surf_from_str16(pText);
+
+    blit_entire_src(pBuf, pDest,
+		    canvas_x + (NORMAL_TILE_WIDTH - pBuf->w) / 2,
+		    canvas_y);
+
+    FREESURFACE(pBuf);
+  }
+
+  FREESTRING16(pText);
 }
 
 /**************************************************************************
   Draw a description for the given city.  (canvas_x, canvas_y) is the
   canvas position of the city itself.
 **************************************************************************/
-static void show_desc_at_tile(SDL_Surface * pDest, Sint16 sx, Sint16 sy,
-			      Uint16 col, Uint16 row)
+void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
-  static char buffer[512];
-  struct city *pCity;
-  SDL_Surface *pBuf = NULL;
-  int togrow, y_offset = sy;
-  SDL_String16 *pText = NULL;
-
-  if ((pCity = map_get_city(col, row))) {
-    pText = create_string16(NULL, 12);
-    pText->style |= TTF_STYLE_BOLD;
-    pText->forecol.r = 255;
-    pText->forecol.g = 255;
-    pText->forecol.b = 255;
-
-    if (draw_city_names) {
-      togrow = city_turns_to_grow(pCity);
-      switch (togrow) {
-      case 0:
-	my_snprintf(buffer, sizeof(buffer), "%s: #", pCity->name);
-	break;
-      case FC_INFINITY:
-	my_snprintf(buffer, sizeof(buffer), "%s: --", pCity->name);
-	break;
-      default:
-	my_snprintf(buffer, sizeof(buffer), "%s: %d", pCity->name, togrow);
-	break;
-      }
-
-      if (togrow < 0) {
-	pText->forecol.g = 0;
-	pText->forecol.b = 0;
-      }
-
-      pText->text = convert_to_utf16(buffer);
-      pBuf = create_text_surf_from_str16(pText);
-
-      if (togrow < 0) {
-	pText->forecol.g = 255;
-	pText->forecol.b = 255;
-      }
-
-      y_offset += NORMAL_TILE_HEIGHT - pBuf->h / 2;
-      blit_entire_src(pBuf, pDest,
-		      sx + (NORMAL_TILE_WIDTH - pBuf->w) / 2, y_offset);
-
-      y_offset += pBuf->h;
-      FREESURFACE(pBuf);
-
-    }
-
-    /* City Production */
-    if (draw_city_productions && (pCity->owner == game.player_idx)) {
-      /*pText->style &= ~TTF_STYLE_BOLD; */
-      change_ptsize16(pText, 10);
-
-      /* set text color */
-      if (pCity->is_building_unit) {
-	pText->forecol.r = 255;
-	pText->forecol.g = 255;
-	pText->forecol.b = 0;
-      } else {
-	if (get_improvement_type(pCity->currently_building)->is_wonder) {
-	  pText->forecol.r = 0xe2;
-	  pText->forecol.g = 0xc2;
-	  pText->forecol.b = 0x1f;
-	} else {
-	  pText->forecol.r = 255;
-	  pText->forecol.g = 255;
-	  pText->forecol.b = 255;
-	}
-      }
-
-      get_city_mapview_production(pCity, buffer, sizeof(buffer));
-
-      FREE(pText->text);
-      pText->text = convert_to_utf16(buffer);
-      pBuf = create_text_surf_from_str16(pText);
-
-      if (y_offset == sy) {
-	y_offset += NORMAL_TILE_HEIGHT - pBuf->h / 2;
-      } else {
-	y_offset -= 3;
-      }
-
-      blit_entire_src(pBuf, pDest,
-		      sx + (NORMAL_TILE_WIDTH - pBuf->w) / 2, y_offset);
-
-      FREESURFACE(pBuf);
-    }
-
-    FREESTRING16(pText);
-  }
-}
-
-/**************************************************************************
-  This function has moved.
-**************************************************************************/
-static void show_city_descriptions(void)
-{
-  int map_row = map_view_row0;
-  int map_col = map_view_col0;
-  Uint16 col, row;
-  int Sx, Sy;
-
-  if (!draw_city_names && !draw_city_productions) {
-    return;
-  }
-
-  for (col = 0; col < map_view_rectsize; col++) {
-    for (row = 0; row < map_view_rectsize; row++) {
-
-      if (real_get_mcell_xy(Main.screen, map_view_x0,
-			    map_view_y0, col, row, &Sx, &Sy)) {
-
-	show_desc_at_tile(Main.screen, Sx, Sy, map_col, map_row);
-
-      }
-
-      Inc_Row(map_row);
-    }
-
-    map_row = map_view_row0;
-    Inc_Col(map_col);
-  }
+  put_city_desc_on_surface(Main.screen, pcity, canvas_x, canvas_y);
 }
 
 /**************************************************************************
@@ -772,17 +733,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 		       create_icon_theme_surf((SDL_Surface *) sprite));
     SDL_Client_Flags &= ~CF_REVOLUTION;
   }
-
-  pBuf = get_widget_pointer_form_main_list(ID_ECONOMY);
-  if (!pBuf->theme) {
-    set_new_icon_theme(pBuf,
-		       create_icon_theme_surf((SDL_Surface *) sprites.
-					      citizen[CLIP
-						      (0, 2,
-						       NUM_TILES_CITIZEN -
-						       1)]));
-  }
-
+  
   pBuf = get_widget_pointer_form_main_list(ID_RESEARCH);
   set_new_icon_theme(pBuf,
 		     create_icon_theme_surf((SDL_Surface *) sprites.
@@ -841,9 +792,6 @@ void set_overview_dimensions(int w, int h)
   if (pMMap) {
     del_widget_from_gui_list(pMMap);
   }
-
-  /* load city resource gfx ( should be ported to specfile code ) */
-  load_city_icons();
 }
 
 /**************************************************************************
@@ -950,7 +898,7 @@ void refresh_overview_canvas(void)
       col = 0;
     }
 
-  }				/* end mini map draw loop */
+  } /* end mini map draw loop */
 }
 
 /**************************************************************************
@@ -1135,7 +1083,7 @@ void refresh_overview_viewrect(void)
 
     add_refresh_rect(pMMap->size);
 
-  } else {			/* map hiden */
+  } else {/* map hiden */
 
 
     map_area.x = FRAME_WH;
@@ -1324,7 +1272,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
     /*** Dither base terrain ***/
 
-
+#if 0
     /* north */
     if (pDither[0]) {
       dither_north(pDither[0], pDitherMask, pDitherBuf);
@@ -1350,6 +1298,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
       SDL_FillRect(pDitherBuf, NULL, 0);
     }
+#endif    
   }
 
     /*** Rest of terrain and specials ***/
@@ -1561,9 +1510,6 @@ static void real_update_map_canvas(SDL_Surface * pDest, int x0, int y0,
   }
 }
 
-/*
- *
- */
 /**************************************************************************
   This function draw 3x3 map cells rect to 'pTmpSurface33' surface.
   To Main.screen is only blit (col0,row0) center tile from 'pTmpSurface33'
@@ -1608,6 +1554,7 @@ static void real_update_single_map_canvas(int col0, int row0,
 			 (pTmpSurface33->w - NORMAL_TILE_WIDTH) / 2, 0,
 			 col0, row0, 3, 3, 0);
 
+#if 0
   /* redraw city names and productions */
   if (draw_city_names || draw_city_productions) {
     int real_col = col0;
@@ -1631,6 +1578,7 @@ static void real_update_single_map_canvas(int col0, int row0,
       Inc_Col(real_col);
     }
   }
+#endif
 
   /* set blit area in Main.screen */
   dest.x = sx;
@@ -1748,6 +1696,7 @@ void update_map_canvas(int col, int row, int width, int height,
 /**************************************************************************
 ...
 **************************************************************************/
+#if 0
 /* not used jet */
 void real_blink_active_unit(void)
 {
@@ -1787,6 +1736,7 @@ void real_blink_active_unit(void)
 
   }
 }
+#endif
 
 /**************************************************************************
   Redraw ALL.
@@ -1858,23 +1808,6 @@ void redraw_map_visible(void)
   }
 }
 
-/*
- */
-/**************************************************************************
-  Rerfesh ALL.
-
-  The hack is after all packets have been read call
-  'update_map_canvas_visible'.  The functions track which areas of the
-  screen need updating and refresh them all at one.
-
-  Problem is "the redraw of the city descriptions bug" is back :(
-**************************************************************************/
-void update_map_canvas_visible(void)
-{
-  freelog(LOG_DEBUG, "MAPVIEW: update_map_canvas_visible");
-  refresh_rects();
-}
-
 /**************************************************************************
   Update (refresh) the locations of the mapview scrollbars (if it uses
   them).
@@ -1888,7 +1821,8 @@ void update_map_canvas_scrollbars(void)
   Draw a single frame of animation.  This function needs to clear the old
   image and draw the new one.  It must flush output to the display.
 **************************************************************************/
-void draw_unit_animation_frame(struct unit *punit, int frame_number,
+void draw_unit_animation_frame(struct unit *punit,
+			       bool first_frame, bool last_frame,	
 			       int old_canvas_x, int old_canvas_y,
 			       int new_canvas_x, int new_canvas_y)
 {
@@ -1905,7 +1839,7 @@ void draw_unit_animation_frame(struct unit *punit, int frame_number,
     pUnit_Surf =
 	create_surf(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, SDL_SWSURFACE);
     SDL_SetColorKey(pUnit_Surf, SDL_SRCCOLORKEY, 0x0);
-    put_unit_pixmap_draw(pUnit, pUnit_Surf, 0, 0);
+    put_unit_pixmap_draw(punit, pUnit_Surf, 0, 0);
   }
 
   /* Clear old sprite. */
@@ -2045,11 +1979,13 @@ void draw_segment(int src_x, int src_y, int dir)
 }
 
 /**************************************************************************
-  ...
+  This function is called when the tileset is changed.
 **************************************************************************/
-void undraw_segment(int src_x, int src_y, int dir)
+void tileset_changed(void)
 {
-  freelog(LOG_DEBUG, "MAPVIEW: undraw_segment : PORT ME");
+  /* PORTME */
+  /* Here you should do any necessary redraws (for instance, the city
+   * dialogs usually need to be resized). */
 }
 
 /* =====================================================================

@@ -42,7 +42,7 @@
 #include "gui_id.h"
 #include "gui_stuff.h"
 #include "gui_zoom.h"
-
+#include "gui_tilespec.h"
 #include "gui_main.h"
 
 #include "civclient.h"
