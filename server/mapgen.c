@@ -995,6 +995,35 @@ void assign_continent_numbers(void)
   freelog(LOG_VERBOSE, "Map has %d continents", map.num_continents);
 }
 
+/****************************************************************************
+  Return an approximation of the goodness of a tile to a civilization.
+****************************************************************************/
+static int get_tile_value(int x, int y)
+{
+  switch (map_get_terrain(x, y)) {
+
+    /* range 0 .. 5 , 2 standard */
+
+  case T_FOREST:
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 3 : 5;
+  case T_GRASSLAND:
+  case T_PLAINS:
+  case T_HILLS:
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 2 : 4;
+  case T_DESERT:
+  case T_OCEAN:/* must be called with usable seas */    
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 1 : 3;
+  case T_SWAMP:
+  case T_JUNGLE:
+  case T_MOUNTAINS:
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 3;
+  /* case T_ARCTIC: */
+  /* case T_TUNDRA: */
+  default:
+    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 1;
+  }
+}
+
 /**************************************************************************
  Allocate islands array and fill in values.
  Note this is only used for map.generator <= 1 or >= 5, since others
@@ -1050,7 +1079,7 @@ static void setup_isledata(void)
     
     /* Now actually add the tile's value to all these continents */
     for (j = 0; j < seen_conts; j++) {
-      islands[conts[j]].goodies += is_good_tile(x, y);
+      islands[conts[j]].goodies += get_tile_value(x, y);
     }
   } whole_map_iterate_end;
   
@@ -1096,7 +1125,7 @@ static void setup_isledata(void)
   if (min == 0) {
     freelog(LOG_VERBOSE,
             "If we continue some starting positions will have to have "
-            "access to zero resources (as defined in is_good_tile). \n");
+            "access to zero resources (as defined in get_tile_value). \n");
     freelog(LOG_FATAL,
             "Cannot create enough starting position and will abort.\n"
             "Please report this bug at " WEBSITE_URL);

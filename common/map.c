@@ -432,35 +432,6 @@ bool terrain_is_clean(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-int is_good_tile(int x, int y)
-{
-  switch (map_get_terrain(x, y)) {
-
-    /* range 0 .. 5 , 2 standard */
-
-  case T_FOREST:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 3 : 5;
-  case T_GRASSLAND:
-  case T_PLAINS:
-  case T_HILLS:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 2 : 4;
-  case T_DESERT:
-  case T_OCEAN:/* must be called with usable seas */    
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 1 : 3;
-  case T_SWAMP:
-  case T_JUNGLE:
-  case T_MOUNTAINS:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 3;
-  /* case T_ARCTIC: */
-  /* case T_TUNDRA: */
-  default:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 1;
-  }
-}
-
-/***************************************************************
-...
-***************************************************************/
 bool is_hut_close(int x, int y)
 {
   square_iterate(x, y, 3, x1, y1) {
