@@ -1,7 +1,7 @@
 Hinweis:	Dies ist eine gekürzte Übersetzung der Datei README mit
 		zusätzlichen Informationen für deutschsprachige Spieler.
 
-Stand: 20.02.00
+Stand: 29.05.00
 
 			==============================
 			Deutsche Freeciv Dokumentation
@@ -9,8 +9,8 @@ Stand: 20.02.00
 
 Willkommen bei Freeciv!
 
-Dieses Archiv enthält die aktuelle FreeCiv Version - nach ersten Anfängen in
-Version 1.9.0 - erstmalig vollständig auch in deutscher Sprache. 8-)
+Dieses Archiv enthält die aktuelle FreeCiv Version (fast) vollständig
+auch in deutscher Sprache. 8-)
 
 Allerdings enthält sie sicherlich noch Fehler und kann noch verbessert
 werden; vorallem die deutsche Dokumentation besteht zur Zeit nur aus der
@@ -170,11 +170,13 @@ Informationen darüber, wie Sie neue Fehler melden können.
 
 Mailinglisten
 ==============
-Es gibt 3 englischsprachige, öffentliche Mailinglisten zu Freeciv:
+Es gibt 4 englischsprachige, öffentliche Mailinglisten zu Freeciv:
 	<freeciv@freeciv.org>		für Spieler
 	<freeciv-dev@freeciv.org>	für Fehlerberichte und Entwickler
 	<freeciv-cvs@freeciv.org>	um die Entwickler über Änderungen
 					des Sourcecodes zu informieren
+	<freeciv-announce@freeciv.org>	zur Ankündigung *WICHTIGER*
+					Neuigkeiten
 	
 Sie können Sie mit einer Email an <listar@freeciv.org> abonnieren, in dem
 Sie die Betreff-Zeile freilassen und in den Text nur "subscribe LISTE"
