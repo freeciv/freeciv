@@ -89,6 +89,7 @@
 #undef STRICT_WINDOWS
 #undef GENERATING_MAC
 #undef HAVE_OPENTRANSPORT
+#undef PATH_SEPARATOR
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT

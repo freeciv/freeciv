@@ -47,10 +47,15 @@
 
 #include "shared.h"
 
-#define BASE_DATA_PATH ".:data:~/.freeciv"
+/* If no path separator is defined use colon */
+#ifndef PATH_SEPARATOR
+#define PATH_SEPARATOR ":"
+#endif
+
+#define BASE_DATA_PATH "." PATH_SEPARATOR "data" PATH_SEPARATOR "~/.freeciv"
 
 #ifdef FREECIV_DATADIR       /* the configured installation directory */
-#define DEFAULT_DATA_PATH BASE_DATA_PATH ":" FREECIV_DATADIR
+#define DEFAULT_DATA_PATH BASE_DATA_PATH PATH_SEPARATOR FREECIV_DATADIR
 #else
 #define DEFAULT_DATA_PATH BASE_DATA_PATH
 #endif
@@ -570,13 +575,13 @@ char *datafilename(const char *filename)
     }
     if (data) {
       char *tmp = fc_malloc(strlen(data) + strlen(path) + 2);
-      sprintf(tmp, "%s:%s", data, path);
+      sprintf(tmp, "%s" PATH_SEPARATOR "%s", data, path);
       path = tmp;
     } else {
       path = mystrdup(path);	/* something we can strtok */
     }
     
-    tok = strtok(path, ":");
+    tok = strtok(path, PATH_SEPARATOR);
     do {
       int i;			/* strlen(tok), or -1 as flag */
       
@@ -618,7 +623,7 @@ char *datafilename(const char *filename)
 	}
       }
 
-      tok = strtok(NULL, ":");
+      tok = strtok(NULL, PATH_SEPARATOR);
     } while(tok != NULL);
 
     free(path);
@@ -638,7 +643,7 @@ char *datafilename(const char *filename)
     for(i=0; i<num_dirs; i++) {
       strcat(realfile, dirs[i]);
       if(i != num_dirs-1) {
-	strcat(realfile, ":");
+	strcat(realfile, PATH_SEPARATOR);
       }
     }
     return realfile;
