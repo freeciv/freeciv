@@ -413,6 +413,12 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
+  if (!pcity->is_building_unit && pcity->currently_building==B_CAPITAL)  {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+                     "Game: You don't buy Capitalization!");
+    return;
+  }
+
   if (!pcity->is_building_unit) {
     total=improvement_value(pcity->currently_building);
     name=get_improvement_name(pcity->currently_building);

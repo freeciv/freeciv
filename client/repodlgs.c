@@ -170,18 +170,25 @@ static char *cr_entry_num_trade(struct city *pcity)
 static char *cr_entry_building(struct city *pcity)
 {
   static char buf[64];
-  if(pcity->is_building_unit)
+  if(pcity->is_building_unit)  {
     sprintf(buf, "%s(%d/%d/%d)", 
             get_unit_type(pcity->currently_building)->name,
 	    pcity->shield_stock,
 	    get_unit_type(pcity->currently_building)->build_cost,
 	    city_buy_cost(pcity));
-  else
-    sprintf(buf, "%s(%d/%d/%d)", 
-	    get_imp_name_ex(pcity, pcity->currently_building),
-	    pcity->shield_stock,
-	    get_improvement_type(pcity->currently_building)->build_cost,
-	    city_buy_cost(pcity));
+  } else {
+    if(pcity->currently_building==B_CAPITAL)  {
+      sprintf(buf, "%s(%d/X/X)",
+              get_imp_name_ex(pcity, pcity->currently_building),
+	      pcity->shield_stock);
+    } else {
+      sprintf(buf, "%s(%d/%d/%d)", 
+	      get_imp_name_ex(pcity, pcity->currently_building),
+	      pcity->shield_stock,
+	      get_improvement_type(pcity->currently_building)->build_cost,
+	      city_buy_cost(pcity));
+    }
+  }
   return buf;
 }
 
@@ -980,56 +987,53 @@ void city_list_callback(Widget w, XtPointer client_data,
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
   struct city *pcity;
 
-  if(ret->list_index!=XAW_LIST_NONE && (pcity=find_city_by_id(cities_in_list[ret->list_index])))
-    {
-      int flag,i;
-      char buf[512];
+  if(ret->list_index!=XAW_LIST_NONE && 
+     (pcity=find_city_by_id(cities_in_list[ret->list_index]))) {
+    int flag,i;
+    char buf[512];
 
-      XtSetSensitive(city_change_command, TRUE);
-      XtSetSensitive(city_center_command, TRUE);
-      XtSetSensitive(city_popup_command, TRUE);
-      XtSetSensitive(city_buy_command, TRUE);
-      if (city_popupmenu)
-	XtDestroyWidget(city_popupmenu);
+    XtSetSensitive(city_change_command, TRUE);
+    XtSetSensitive(city_center_command, TRUE);
+    XtSetSensitive(city_popup_command, TRUE);
+    XtSetSensitive(city_buy_command, !pcity->did_buy && 
+         !(!pcity->is_building_unit && pcity->currently_building==B_CAPITAL));
+    if (city_popupmenu)
+      XtDestroyWidget(city_popupmenu);
 
-      city_popupmenu=XtVaCreatePopupShell("menu", 
-				     simpleMenuWidgetClass, 
-				     city_change_command,
-				     NULL);
-      flag = 0;
-      for(i=0; i<B_LAST; i++)
-	if(can_build_improvement(pcity, i)) 
-	  {
-	    Widget entry;
-	    sprintf(buf,"%s (%d)", get_imp_name_ex(pcity, i),get_improvement_type(i)->build_cost);
-	    entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, city_popupmenu, NULL);
-	    XtAddCallback(entry, XtNcallback, city_change_callback, (XtPointer) i);
-	    flag=1;
-	  }
+    city_popupmenu=XtVaCreatePopupShell("menu", 
+				        simpleMenuWidgetClass, 
+				        city_change_command,
+				        NULL);
+    flag = 0;
+    for(i=0; i<B_LAST; i++)
+      if(can_build_improvement(pcity, i)) {
+	Widget entry;
+	sprintf(buf,"%s (%d)", get_imp_name_ex(pcity, i),get_improvement_type(i)->build_cost);
+	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, city_popupmenu, NULL);
+	XtAddCallback(entry, XtNcallback, city_change_callback, (XtPointer) i);
+	flag=1;
+      }
 
-      for(i=0; i<U_LAST; i++)
-	if(can_build_unit(pcity, i)) {
-	    Widget entry;
-	    sprintf(buf,"%s (%d)", 
-		    get_unit_name(i),get_unit_type(i)->build_cost);
-	    entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, 
-					    city_popupmenu, NULL);
-	    XtAddCallback(entry, XtNcallback, city_change_callback, 
-			  (XtPointer) (i+B_LAST));
-	    flag = 1;
-	}
+    for(i=0; i<U_LAST; i++)
+      if(can_build_unit(pcity, i)) {
+	Widget entry;
+	sprintf(buf,"%s (%d)", 
+		get_unit_name(i),get_unit_type(i)->build_cost);
+	entry = XtVaCreateManagedWidget(buf, smeBSBObjectClass, 
+					city_popupmenu, NULL);
+	XtAddCallback(entry, XtNcallback, city_change_callback, 
+		      (XtPointer) (i+B_LAST));
+	flag = 1;
+      }
 
-      if(!flag)
-	XtSetSensitive(city_change_command, FALSE);
-
-    }
-  else
-    {
+    if(!flag)
       XtSetSensitive(city_change_command, FALSE);
-      XtSetSensitive(city_center_command, FALSE);
-      XtSetSensitive(city_popup_command, FALSE);
-      XtSetSensitive(city_buy_command, FALSE);
-    }
+  } else {
+    XtSetSensitive(city_change_command, FALSE);
+    XtSetSensitive(city_center_command, FALSE);
+    XtSetSensitive(city_popup_command, FALSE);
+    XtSetSensitive(city_buy_command, FALSE);
+  }
 }
 
 /****************************************************************

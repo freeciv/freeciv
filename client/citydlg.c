@@ -960,24 +960,30 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[512], buf2[512];
+  char buf[32], buf2[64];
   struct city *pcity=pdialog->pcity;
   
+  XtSetSensitive(pdialog->buy_command, !pcity->did_buy);
+  XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
+
   if(pcity->is_building_unit) {
     sprintf(buf, "%3d/%3d", pcity->shield_stock, 
 	    get_unit_type(pcity->currently_building)->build_cost);
     sprintf(buf2, "%s", get_unit_type(pcity->currently_building)->name);
   }
   else {
-    sprintf(buf, "%3d/%3d", pcity->shield_stock, 
-	    get_improvement_type(pcity->currently_building)->build_cost);
+    if(pcity->currently_building==B_CAPITAL)  {
+      /* Capitalization is special, you can't buy it or finish making it */
+      sprintf(buf,"%3d/XXX", pcity->shield_stock);
+      XtSetSensitive(pdialog->buy_command, False);
+    } else {
+      sprintf(buf, "%3d/%3d", pcity->shield_stock, 
+	      get_improvement_type(pcity->currently_building)->build_cost);
+    }
     sprintf(buf2, "%s", 
 	    get_imp_name_ex(pcity, pcity->currently_building));
   }
     
-  XtSetSensitive(pdialog->buy_command, !pcity->did_buy);
-  XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
-
   xaw_set_label(pdialog->building_label, buf2);
   xaw_set_label(pdialog->progress_label, buf);
 }
