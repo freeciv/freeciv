@@ -1255,6 +1255,8 @@ void popup_government_dialog(void)
     );
 
     gtk_window_set_title(GTK_WINDOW(dshell), _("Choose Your New Government"));
+    gtk_widget_realize(dshell);
+    gdk_window_set_decorations(dshell->window, GDK_DECOR_BORDER);
 
     vbox = gtk_vbox_new(0,TRUE);
     gtk_container_add(GTK_CONTAINER(dshell),vbox);
@@ -1552,9 +1554,6 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
   gtk_signal_connect( GTK_OBJECT(dshell),"delete_event",
 	GTK_SIGNAL_FUNC(popup_mes_del_callback),(gpointer)parent );
   gtk_window_set_title( GTK_WINDOW(dshell), dialogname );
-
-  gtk_widget_realize(dshell);
-  gdk_window_set_decorations(dshell->window, GDK_DECOR_BORDER);
 
   vbox = gtk_vbox_new(0,TRUE);
   gtk_container_add(GTK_CONTAINER(dshell),vbox);
