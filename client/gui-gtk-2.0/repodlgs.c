@@ -66,7 +66,7 @@ static GtkWidget *science_label;
 static GtkWidget *science_current_label, *science_goal_label;
 static GtkWidget *science_change_menu_button, *science_goal_menu_button;
 static GtkWidget *science_help_toggle;
-static GtkListStore *science_model[4];
+static GtkListStore *science_model[3];
 static int science_dialog_shell_is_modal;
 static GtkWidget *popupmenu, *goalmenu;
 
@@ -235,13 +235,16 @@ void create_science_dialog(bool make_modal)
   w = gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(hbox), w, TRUE, FALSE, 0);
 
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+      GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox), sw, TRUE, TRUE, 5);
+
   hbox = gtk_hbox_new(TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
-		     hbox, TRUE, TRUE, 5);
+  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), hbox);
 
 
-
-  for (i=0; i<4; i++) {
+  for (i=0; i<ARRAY_SIZE(science_model); i++) {
     GtkWidget *view;
     GtkTreeSelection *selection;
     GtkCellRenderer *renderer;
@@ -401,7 +404,7 @@ void science_dialog_update(void)
 
   gtk_label_set_text(GTK_LABEL(science_label), science_dialog_text());
 
-  for (i=0; i<4; i++) {
+  for (i=0; i<ARRAY_SIZE(science_model); i++) {
     gtk_list_store_clear(science_model[i]);
   }
 
@@ -419,11 +422,12 @@ void science_dialog_update(void)
     GValue value = { 0, };
 
     j = GPOINTER_TO_INT(g_list_nth_data(sorting_list, i));
-    gtk_list_store_append(science_model[i%4], &it);
+    gtk_list_store_append(science_model[i%ARRAY_SIZE(science_model)], &it);
 
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, advances[j].name);
-    gtk_list_store_set_value(science_model[i%4], &it, 0, &value);
+    gtk_list_store_set_value(science_model[i%ARRAY_SIZE(science_model)], &it,
+	0, &value);
     g_value_unset(&value);
   }
   g_list_free(sorting_list);
