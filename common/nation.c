@@ -333,11 +333,11 @@ void team_remove_player(struct player *pplayer)
 {
   bool others = FALSE;
 
-  assert(pplayer != NULL && pplayer->team < MAX_NUM_TEAMS);
-
   if (pplayer->team == TEAM_NONE) {
     return;
   }
+
+  assert(pplayer->team < MAX_NUM_TEAMS && pplayer->team >= 0);
 
   /* anyone else using my team? */
   players_iterate(aplayer) {

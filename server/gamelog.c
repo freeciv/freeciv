@@ -157,6 +157,10 @@ void gamelog_save(void){
       count++;
     } players_iterate_end;
 
+    if (team_members == 0) {
+      continue;
+    }
+
     /* average them */
     team_score = team_score / team_members;
     team_size = team_size / team_members;

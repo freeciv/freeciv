@@ -1819,6 +1819,7 @@ static void remove_player(struct connection *caller, char *arg)
   }
 
   sz_strlcpy(name, pplayer->name);
+  team_remove_player(pplayer);
   server_remove_player(pplayer);
   if (!caller || caller->used) {     /* may have removed self */
     cmd_reply(CMD_REMOVE, caller, C_OK,
