@@ -88,6 +88,8 @@ static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
 					       struct player *plr1);
 static void popup_diplomacy_dialog(struct player *plr0, struct player *plr1);
 static void diplomacy_dialog_close_callback(GtkWidget *w, gpointer data);
+static gint diplomacy_dialog_delete_callback(GtkWidget * w, GdkEvent * ev,
+					     gpointer data);
 static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data);
@@ -603,6 +605,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->dip_dialog_shell)->action_area),
 	pdialog->dip_close_command, TRUE, TRUE, 2 );
 
+  gtk_signal_connect(GTK_OBJECT(pdialog->dip_dialog_shell), "delete_event",
+		     GTK_SIGNAL_FUNC(diplomacy_dialog_delete_callback),
+		     pdialog);
+
   gtk_signal_connect(GTK_OBJECT(pdialog->dip_close_command), "clicked",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_close_callback), pdialog);
 
@@ -872,6 +878,15 @@ static void diplomacy_dialog_close_callback(GtkWidget *w, gpointer data)
   close_diplomacy_dialog(pdialog);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+static gint diplomacy_dialog_delete_callback(GtkWidget * w, GdkEvent * ev,
+					     gpointer data)
+{
+  diplomacy_dialog_close_callback(NULL, data);
+  return FALSE;
+}
 
 /****************************************************************
 ...
