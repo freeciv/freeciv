@@ -336,7 +336,7 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   cmafec_get_fe_parameter(pcity, &param);
 
   /* fill in result label */
-  cm_query_result(pcity, &param, &result);
+  cm_copy_result_from_city(pcity, &result);
   gtk_set_label(pdialog->result_label,
 		(char *) cmafec_get_result_descr(pcity, &result, &param));
 
