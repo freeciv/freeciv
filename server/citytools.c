@@ -624,6 +624,6 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     /* unit isn't in a city - Civ2 deletes it - seems like a good idea to
      * prevent the city being immediately retaken.  We don't actually have to
      * do anything here as remove_city deletes all supported units.  */
-    wipe_unit(0, vunit);
+    wipe_unit_safe(0, vunit, &myiter);
   } unit_list_iterate_end;
 }

@@ -189,6 +189,7 @@ void unit_list_insert(struct unit_list *This, struct unit *punit);
 void unit_list_insert_back(struct unit_list *This, struct unit *punit);
 int unit_list_size(struct unit_list *This);
 void unit_list_unlink(struct unit_list *This, struct unit *punit);
+void unit_list_unlink_all(struct unit_list *This);
 char *unit_name(enum unit_type_id id);
 
 void unit_list_sort_ord_map(struct unit_list *This);
@@ -231,6 +232,8 @@ int get_transporter_capacity(struct unit *punit);
 
 void move_unit_list_to_tile(struct unit_list *units, int x, int y);
 void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list);
+void transporter_min_cargo_to_unitlist(struct unit *ptran,
+				       struct unit_list *list);
 int unit_flag(enum unit_type_id id, int flag);
 int can_upgrade_unittype(struct player *pplayer, enum unit_type_id id);
 int unit_upgrade_price(struct player *pplayer, enum unit_type_id from, enum unit_type_id to);

@@ -284,23 +284,32 @@ void handle_unit_change_homecity(struct player *pplayer,
 }
 
 /**************************************************************************
-...
+  Disband a unit.  If its in a city, add 1/2 of the worth of the unit
+  to the city's shield stock for the current production.
+  "iter" may be NULL, see wipe_unit_safe for details.
 **************************************************************************/
-void handle_unit_disband(struct player *pplayer, 
-			 struct packet_unit_request *req)
+void handle_unit_disband_safe(struct player *pplayer, 
+			      struct packet_unit_request *req,
+			      struct genlist_iterator *iter)
 {
   struct unit *punit;
   struct city *pcity;
-  /* give 1/2 of the worth of the unit, to the currently builded thing 
-     have to be on the location of the city_square
-   */
   if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
     if ((pcity=map_get_city(punit->x, punit->y))) {
       pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
       send_city_info(pplayer, pcity, 0);
     }
-    wipe_unit(pplayer, punit);
+    wipe_unit_safe(pplayer, punit, iter);
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_unit_disband(struct player *pplayer, 
+			 struct packet_unit_request *req)
+{
+  handle_unit_disband_safe(pplayer, req, NULL);
 }
 
 /**************************************************************************

@@ -942,7 +942,8 @@ pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_s
     if (city_unhappy(pcity) && punit->unhappiness && !punit->ai.passenger) {
 printf("%s's %s is unhappy and causing unrest, disbanding it.\n", pcity->name, unit_types[punit->type].name);
        pack.unit_id = punit->id;
-       handle_unit_disband(pplayer, &pack);
+       /* in rare cases the _safe might be needed? --dwp */
+       handle_unit_disband_safe(pplayer, &pack, &myiter);
        city_refresh(pcity);
        ai_fix_unhappy(pcity);
      }

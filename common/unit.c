@@ -290,6 +290,69 @@ void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list)
 }
 
 /**************************************************************************
+ Get the _minimum_ cargo list, taking into account cities, other boats.
+ Eg, for when unit is disbanded, or supporting city captured.
+ Note: for Carriers and Subs the minimum list is defined as empty:
+ the planes/missiles will still be in the air and have a chance to
+ get to safety.
+ Note: this modifies the map units list, so iterators beware.
+**************************************************************************/
+void transporter_min_cargo_to_unitlist(struct unit *ptran,
+				       struct unit_list *list)
+{
+  int x = ptran->x;
+  int y = ptran->y;
+  int this_capacity = get_transporter_capacity(ptran);
+  struct unit_list *srclist;
+  int tile_capacity, tile_ncargo, nlost;
+  
+  unit_list_init(list);
+
+  if (!is_sailing_unit(ptran)
+      || (this_capacity <= 0)
+      || unit_flag(ptran->type, F_CARRIER)
+      || unit_flag(ptran->type, F_SUBMARINE)
+      || (map_get_terrain(x, y) != T_OCEAN) /* includes cities */ ) {
+    return;
+  }
+
+  srclist = &map_get_tile(x,y)->units;
+
+  /* this iteration is non-destructive; just counting: */
+  tile_capacity = 0;
+  tile_ncargo = 0;
+  unit_list_iterate((*srclist), punit) {
+    if (is_sailing_unit(punit)
+	&& get_transporter_capacity(punit) > 0 
+	&& !unit_flag(punit->type, F_CARRIER)
+	&& !unit_flag(punit->type, F_SUBMARINE)) {
+      tile_capacity += get_transporter_capacity(punit);
+    } else if (is_ground_unit(punit)) {
+      tile_ncargo++;
+    }
+  }
+  unit_list_iterate_end;
+
+  tile_capacity -= this_capacity;
+  nlost = tile_ncargo - tile_capacity;
+
+  if (nlost <= 0) {
+    return;
+  }
+
+  /* actually, unit_list_iterate _is_ safe for this */
+  unit_list_iterate((*srclist), punit) {
+    if(is_ground_unit(punit)) {
+      unit_list_unlink(srclist, punit);
+      unit_list_insert(list, punit);
+      nlost--;
+      if (nlost==0) break;
+    }
+  }
+  unit_list_iterate_end;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void move_unit_list_to_tile(struct unit_list *units, int x, int y)
@@ -736,6 +799,14 @@ int unit_list_size(struct unit_list *This)
 void unit_list_unlink(struct unit_list *This, struct unit *punit)
 {
   genlist_unlink(&This->list, punit);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void unit_list_unlink_all(struct unit_list *This)
+{
+  genlist_unlink_all(&This->list);
 }
 
 /**************************************************************************

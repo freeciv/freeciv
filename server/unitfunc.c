@@ -707,8 +707,6 @@ void player_restore_units(struct player *pplayer)
 {
   int leonardo=0;
   int lighthouse_effect=-1;	/* 1=yes, 0=no, -1=not yet calculated */
-  struct unit_list list;
-  struct unit *next_unit;
   int upgrade_type, done;
 
   leonardo = player_owns_active_wonder(pplayer, B_LEONARDO);
@@ -788,26 +786,9 @@ void player_restore_units(struct player *pplayer)
 	lighthouse_effect = player_owns_active_wonder(pplayer, B_LIGHTHOUSE);
       }
       if ((!lighthouse_effect) && (myrand(100) >= 50)) {
-	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
-			   "Game: Your Trireme has been lost on the high seas");
-          transporter_cargo_to_unitlist(punit, &list);
-          printf("Trireme has gone Kaput!\n");
-          while (1) {
-            next_unit = (struct unit *)ITERATOR_PTR(myiter);
-            if (next_unit && unit_list_find(&list, next_unit->id)) {
-              ITERATOR_NEXT(myiter);
-              printf("Iterating %d->%d\n", next_unit->id, (ITERATOR_PTR(myiter) ? 
-                  ((struct unit *)ITERATOR_PTR(myiter))->id : 0));
-            } else break;
-          }
-/* following filched from wipe_unit since t_c_2_u unlinks the damned -- Syela */
-          unit_list_iterate(list, punit2) {
-            send_remove_unit(0, punit2->id);
-            game_remove_unit(punit2->id);
-          }
-          unit_list_iterate_end;
-/* only now can we proceed to */
-	  wipe_unit(pplayer, punit);
+	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
+			 "Game: Your Trireme has been lost on the high seas");
+	wipe_unit_safe(pplayer, punit, &myiter);
       }
     }
   }
@@ -1399,23 +1380,52 @@ void make_partisans(struct city *pcity)
 
 /**************************************************************************
 this is a highlevel routine
+Remove the unit, and passengers if it is a carrying any.
+Remove the _minimum_ number, eg there could be another boat on the square.
+Parameter iter, if non-NULL, should be an iterator for a unit list,
+and if it points to a unit which we wipe, we advance it first to
+avoid dangling pointers.
+NOTE: iter should not be an iterator for the map units list, but
+city supported, or player units, is ok.  (For the map units list, would
+have to pass iter on inside transporter_min_cargo_to_unitlist().)
 **************************************************************************/
-void wipe_unit(struct player *dest, struct unit *punit)
+void wipe_unit_safe(struct player *dest, struct unit *punit,
+		    struct genlist_iterator *iter)
 {
   if(get_transporter_capacity(punit) && 
      map_get_terrain(punit->x, punit->y)==T_OCEAN) {
     struct unit_list list;
     
-    transporter_cargo_to_unitlist(punit, &list);
+    transporter_min_cargo_to_unitlist(punit, &list);
     
     unit_list_iterate(list, punit2) {
+      if (iter && ((struct unit*)ITERATOR_PTR((*iter))) == punit2) {
+	flog(LOG_DEBUG, "iterating over %s in wipe_unit_safe",
+	     unit_name(punit2->type));
+	ITERATOR_NEXT((*iter));
+      }
+      notify_player_ex(get_player(punit2->owner), 
+		       punit2->x, punit2->y, E_UNIT_LOST,
+		       "Game: You lost a%s %s when %s lost",
+		       n_if_vowel(get_unit_type(punit2->type)->name[0]),
+		       get_unit_type(punit2->type)->name,
+		       get_unit_type(punit->type)->name);
       send_remove_unit(0, punit2->id);
       game_remove_unit(punit2->id);
     }
     unit_list_iterate_end;
+    unit_list_unlink_all(&list);
   }
   send_remove_unit(0, punit->id);
   game_remove_unit(punit->id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void wipe_unit(struct player *dest, struct unit *punit)
+{
+  wipe_unit_safe(dest, punit, NULL);
 }
 
 /**************************************************************************

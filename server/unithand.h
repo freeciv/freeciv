@@ -27,6 +27,9 @@ void handle_unit_change_homecity(struct player *pplayer,
 				 struct packet_unit_request *req);
 void handle_unit_disband(struct player *pplayer, 
 			 struct packet_unit_request *req);
+void handle_unit_disband_safe(struct player *pplayer, 
+			      struct packet_unit_request *req,
+			      struct genlist_iterator *iter);
 void handle_unit_build_city(struct player *pplayer, 
 			    struct packet_unit_request *req);
 void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo);
