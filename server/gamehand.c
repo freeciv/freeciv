@@ -541,7 +541,6 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.spacerace, "game.spacerace");
   secfile_insert_int(file, game.diplchance, "game.diplchance");
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
-  secfile_insert_int(file, game.randseed, "game.randseed");
   secfile_insert_int(file, game.turnblock, "game.turnblock");
   secfile_insert_int(file, game.barbarians, "game.barbarians");
   secfile_insert_str(file, game.ruleset.techs, "game.ruleset.techs");
@@ -580,6 +579,9 @@ void game_save(struct section_file *file)
   if (server_state!=PRE_GAME_STATE) {
     RANDOM_STATE rstate = get_myrand_state();
     assert(rstate.is_init);
+
+    secfile_insert_int(file, game.randseed, "game.randseed");
+
     secfile_insert_int(file, rstate.j, "random.index_J");
     secfile_insert_int(file, rstate.k, "random.index_K");
     secfile_insert_int(file, rstate.x, "random.index_X");
