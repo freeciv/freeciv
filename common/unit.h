@@ -119,19 +119,21 @@ struct unit {
 #define unit_list_iterate_safe(unitlist, punit) \
 { \
   int _size = unit_list_size(&unitlist); \
-  int *_ids = fc_malloc(sizeof(int) * _size); \
-  int _i = 0; \
-  unit_list_iterate(unitlist, punit) { \
-    _ids[_i++] = punit->id; \
-  } unit_list_iterate_end; \
-  for (_i=0; _i<_size; _i++) { \
-    struct unit *punit = find_unit_by_id(_ids[_i]); \
-    if (punit) { \
+  if (_size) { \
+    int *_ids = fc_malloc(sizeof(int) * _size); \
+    int _i = 0; \
+    unit_list_iterate(unitlist, punit) { \
+      _ids[_i++] = punit->id; \
+    } unit_list_iterate_end; \
+    for (_i=0; _i<_size; _i++) { \
+      struct unit *punit = find_unit_by_id(_ids[_i]); \
+      if (punit) { \
 
 #define unit_list_iterate_safe_end \
+      } \
     } \
+    free(_ids); \
   } \
-  free(_ids); \
 }
 
 struct unit *unit_list_find(struct unit_list *This, int id);
