@@ -78,7 +78,6 @@
 #include "gamehand.h"
 #include "gamelog.h"
 #include "handchat.h"
-#include "mapgen.h"
 #include "maphand.h"
 #include "meta.h"
 #include "plrhand.h"
@@ -100,6 +99,9 @@
 #include "aihand.h"
 #include "aisettler.h"
 #include "citymap.h"
+
+#include "mapgen.h"
+#include "startpos.h"
 
 #include "srv_main.h"
 

@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#include "height_map.h"
 
 int *height_map;
 int hmap_shore_level, hmap_mountain_level;

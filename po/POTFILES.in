@@ -44,6 +44,7 @@ server/stdinhand.c
 server/unithand.c
 server/unittools.c
 server/generator/mapgen.c
+server/generator/startpos.c
 client/attribute.c
 client/audio.c
 client/audio_esd.c

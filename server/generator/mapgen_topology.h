@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__TOPOLOGY_H
-#define FC__TOPOLOGY_H
+#ifndef FC__MAPGEN_TOPOLOGY_H
+#define FC__MAPGEN_TOPOLOGY_H
 
 /* this is the maximal colatitude at equators returned by 
    map_colatitude */
@@ -49,4 +49,4 @@ int map_colatitude(int map_x, int map_y);
 bool near_singularity(int map_x, int map_y);
 void generator_init_topology(bool autosize);
 
-#endif  /* FC__TOPOLOGY_H */
+#endif  /* FC__MAPGEN_TOPOLOGY_H */

@@ -12,5 +12,7 @@ libgenerator_a_SOURCES = \
 	utilities.h \
 	height_map.c \
 	height_map.h \
+	startpos.c \
+	startpos.h \
 	temperature_map.c \
 	temperature_map.h

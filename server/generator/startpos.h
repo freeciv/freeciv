@@ -10,9 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__MAPGEN_H
-#define FC__MAPGEN_H
+#ifndef FC__STARTING_POSITIONS
+#define FC__STARTING_POSITIONS
 
-void map_fractal_generate(bool autosize);
+void create_start_positions(void);
+/* This is manipulated directly by gen234 */
+struct isledata {
+  int goodies;
+  int starters;
+};
+extern struct isledata *islands;
 
-#endif  /* FC__MAPGEN_H */
+#endif
