@@ -1,3 +1,12 @@
+freeciv (1.9.0-2) unstable; urgency=low
+
+  * Disabled the building of the freeciv-xaw package because if nobody uses
+    it, it's not worth the xaw-wrappers headaches
+  * Added temporary kludge to rules to install potfiles
+  * Fixed /usr/man -> /usr/share/man; I'll still have to deal with /usr/doc
+
+ -- Lalo Martins <lalo@webcom.com>  Tue,  2 Nov 1999 17:16:34 +0100
+
 freeciv (1.9.0-1) unstable; urgency=low
 
   * New upstream release
