@@ -21,6 +21,7 @@
 #include <shared.h>
 
 #include <aitools.h>
+#include <assert.h>
 void make_huts(int number);
 void mapgenerator1(void);
 void mapgenerator2(void);
@@ -495,9 +496,12 @@ void flood_fill(int x, int y, int nr)
 void flood_it(int loaded)
 {
   int x,y;
-  int good;
+  int good, mingood, maxgood;
   int isles=3;
   int riches;
+  int starters;
+  int oldisles, goodisles;
+  int guard1=0;
 
   for (y=0;y<map.ysize;y++)
     for (x=0;x<map.xsize;x++)
@@ -520,21 +524,103 @@ void flood_it(int loaded)
   if (loaded)                 /* only make the continents if loaded game*/
     return;
 
+  /* the arctic and the antarctic are continents 1 and 2 */
+
   riches=0;
-  for (x=0;x<isles;x++) {
+  for (x=3;x<isles;x++) {
       riches+=islands[x].goodies;
   }
 
-  good=0;
-  for (x=0;x<isles;x++) {
-    if ( islands[x].goodies*4 > 3*(riches+isles-1)/isles ) 
-      good+=islands[x].goodies;
-  }
-  for (x=0;x<isles;x++) {
-    if ( islands[x].goodies*4 > 3*(riches+isles-1)/isles ) 
-      islands[x].starters=1+islands[x].goodies/(good/game.nplayers);
-  }
+  starters= 100; oldisles= isles+1; goodisles= isles;
+  while( starters>game.nplayers && oldisles>goodisles ){
+    flog(LOG_DEBUG,"goodisles=%i",goodisles);
+    oldisles= goodisles;
+    maxgood= 1;
+    mingood= riches;
+    good=0; 
+    goodisles=0;
+    starters= 0;
 
+
+    /* goody goody */
+    for (x=3;x<isles;x++) {	  
+      islands[x].starters=0;
+      if ( islands[x].goodies > (riches+oldisles-1)/oldisles ) 
+	{ 
+	  good+=islands[x].goodies; 
+	  goodisles++; 
+	  if(mingood>islands[x].goodies)
+	    mingood= islands[x].goodies;
+	  if(maxgood<islands[x].goodies)
+	    maxgood= islands[x].goodies;
+	}
+    }
+  
+    if(mingood+1<maxgood/game.nplayers)
+      mingood= maxgood/game.nplayers; 
+
+    if(goodisles>game.nplayers){
+      /* bloody goodies */   
+      for (x=3;x<isles;x++) {
+	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
+	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)
+	    )
+	  { 
+	    good+=islands[x].goodies; 
+	    goodisles++; 
+	    if(mingood>islands[x].goodies)
+	      mingood= islands[x].goodies;
+	  }
+      }
+  
+ 
+      /* starters are loosers */
+      for (x=3;x<isles;x++) {
+	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
+	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)
+	    )
+	  { flog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
+	  islands[x].starters= (islands[x].goodies+guard1)/mingood; 
+	  if(!islands[x].starters)
+	    islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
+	  starters+= islands[x].starters;
+	  }
+      }
+    }
+
+    /* starters are winners */
+    for (x=3;x<isles;x++) {
+      if ( islands[x].goodies > (riches+oldisles-1)/oldisles 
+	&&(assert(!islands[x].starters),!islands[x].starters)
+	   )
+	{ flog(LOG_DEBUG,"islands[x].goodies=%i",islands[x].goodies);
+	  islands[x].starters= (islands[x].goodies+guard1)/mingood; 
+	  if(!islands[x].starters)
+	    islands[x].starters+= 1;/* ?PS: may not be enough, guard1(tm) */
+	  starters+= islands[x].starters;
+	}
+    }
+
+
+    riches= good;
+    if(starters<game.nplayers){
+      { 
+	starters= game.nplayers+1;
+	goodisles=oldisles; 
+	oldisles= goodisles+1;
+	riches= (4*riches+3)/3;
+	if(mingood/game.nplayers>5)
+	  guard1+= mingood/game.nplayers;
+	else
+	  guard1+=5;
+
+	flog(LOG_NORMAL,
+	     "mapgen.c#flood_it, not enough start positions, fixing.");
+      }
+    }
+  }
+  flog(LOG_NORMAL,"The map has %i starting positions on %i isles."
+       ,starters, goodisles);
 }
 /**************************************************************************
   where do the different races start on the map? well this function tries
@@ -552,6 +638,16 @@ void choose_start_positions(void)
   if(dist>= map.ysize/2)
     dist= map.ysize/2;
 
+  { int sum,k;
+  sum=0;
+  for(k=0;k<99;k++){
+    sum+= islands[k].starters;
+    if(islands[k].starters!=0) 
+      flog(LOG_DEBUG,"%i ",k);
+  }
+  assert(game.nplayers<=nr+sum);
+  }
+
   while (nr<game.nplayers) {
     x=myrand(map.xsize);
     y=myrand(map.ysize); 
@@ -562,11 +658,12 @@ void choose_start_positions(void)
 	map.start_positions[nr].x=x;
 	map.start_positions[nr].y=y;
 	nr++;
-      }
-      if (j>600-dist*10) {
+      }else{
+	if (j>900-dist*9) {
  	  if(dist>1)
 	    dist--;	  	  
 	  j=0;
+	}
       }
     }
   } 
@@ -585,24 +682,19 @@ void map_fractal_generate(void)
   else 
     mysrand(map.seed);
   
-  /* don't generate tiles with mapgen==0 as we've loaded them from file */
-  /* also, don't delete (the handcrafted!) tiny islands in a scenario */
-  if (map.generator != 0) {
-    init_workmap();
+  init_workmap();
 
-    if (map.generator == 1 || 
-        (map.xsize < 40 || map.ysize < 40 || map.landpercent>50 )
-       ) {
-      mapgenerator1();
-    } else if( map.generator == 2 || map.landpercent>40 ){
-      mapgenerator2();
-    } else {
-      mapgenerator3();
-    }
-
-    filter_land();
+  /* szenario patch will add a if(map.generator){ old_code } here */
+  if (map.generator == 3 ){
+    mapgenerator3();
+  } else if( map.generator == 2 ){
+    mapgenerator2();
+  } else {
+    mapgenerator1();
   }
 
+
+  filter_land();
   add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
   
   /* print_map(); */
@@ -1040,10 +1132,10 @@ void makeisland(void)
 {
   int x,y;
   
-  while( (xmax-1)*(ymax-1)< startsize )
+  if( xmax*ymax/2< size )
     {    
      flog(LOG_NORMAL,"island too large(%i)\n",startsize);
-     startsize= (xmax-1)*(ymax-1)/2;
+     size= (xmax-1)*(ymax-1)/2;
     }
 
   xs = xmax/2 -1;
@@ -1137,24 +1229,29 @@ void mapgenerator2()
   long int islandmass;
   int islands;
 
-  if( map.xsize < 40 || map.ysize < 25 || map.landpercent>60 )
-    { flog(LOG_NORMAL,"falling back to generator 1\n"); mapgenerator1(); }
-
-
   if( game.nplayers<=3 )
     islands= 2*game.nplayers+1;
   else 
     islands= 7;
 
   landmass= ( map.xsize * (map.ysize-6) * map.landpercent+50 )/100;
-  /* we need a factor of 8/10 or sth. like that because the coast
+  /* we need a factor of 7/10 or sth. like that because the coast
      of islands actually takes up lots of space too */
-  islandmass= ( (landmass*8)/10+islands-1 )/islands;
+  islandmass= ( (landmass*7)/10+islands-1 )/islands;
+
+  if( map.xsize < 40 || map.ysize < 25 || map.landpercent>50 || islandmass>350 )
+    { flog(LOG_NORMAL,"falling back to generator 1\n"); mapgenerator1(); return; }
+
   if(islandmass<6)
     islandmass= 6;
+  if(islandmass>350)
+    islandmass=350;/* !PS: cough */
 
-
+  while( (xmax*ymax)<3*islandmass)
+    { xmax++; ymax++; }
+   
   height_map =(int *) malloc (sizeof(int)*xmax*ymax);
+
   for (y = 0 ; y < map.ysize ; y++) 
     for (x = 0 ; x < map.xsize ; x++) {
       map_set_terrain(x,y, T_OCEAN);
@@ -1183,7 +1280,7 @@ void mapgenerator2()
     }
 
   if(j==500)
-    flog(LOG_NORMAL, "generator 2 didn't place all islands; %i islands not placed.\n", i );
+    flog(LOG_NORMAL, "generator 2 didn't place all islands; %i islands not placed.", i );
   
     /*  print_map();*/
   free(height_map);
@@ -1197,24 +1294,41 @@ void mapgenerator3()
   int i,j=0;
   int xp,yp;
   int x,y;
-  long int islandmass;
-  int islands;
+  long int islandmass, massleft;
+  long int maxmassdiv6=20;
+  int bigislands;
 
-  if( map.xsize < 40 || map.ysize < 40 || map.landpercent>40 )
-    { flog(LOG_NORMAL,"falling back to generator 2\n"); mapgenerator2(); }
+  bigislands= game.nplayers;
 
-  if( game.nplayers<=3 )
-    islands= 3*4;
-  else
-    islands= game.nplayers*4;
+  landmass= ( map.xsize * (map.ysize-6) * map.landpercent )/100;
+  /* subtracting the arctics */
+  if( landmass>3*map.ysize+game.nplayers*3 ){
+    landmass-= 3*map.ysize;
+  }
 
-  landmass= ( map.xsize * (map.ysize-6) * map.landpercent+50 )/100;
+  massleft= landmass;
+  islandmass= (landmass +bigislands-1 )/(3*bigislands);
+  if(islandmass<4*maxmassdiv6 )
+    islandmass= (landmass +bigislands-1 )/(2*bigislands);
+  if(islandmass<3*maxmassdiv6 && game.nplayers*2<landmass )
+    islandmass= (landmass)/(bigislands);
 
-  islandmass= ( (landmass*7)/10+islands-1 )/islands;
+  if( map.xsize < 40 || map.ysize < 40 || map.landpercent>80 )
+    { flog(LOG_NORMAL,"falling back to generator 2"); mapgenerator2(); return; }
+
+  if(map.landpercent>50)
+    { flog(LOG_NORMAL,"high landmass - this may take a few seconds"); }
+
   if(islandmass<2)
     islandmass= 2;
+  if(islandmass>maxmassdiv6*6)
+    islandmass= maxmassdiv6*6;/* !PS: let's try this */
 
+
+  while( xmax*ymax < 3*islandmass )
+    { xmax++; ymax++; }
   height_map =(int *) malloc (sizeof(int)*xmax*ymax);
+
   for (y = 0 ; y < map.ysize ; y++) 
     for (x = 0 ; x < map.xsize ; x++) {
       map_set_terrain(x,y, T_OCEAN);
@@ -1230,39 +1344,62 @@ void mapgenerator3()
   
   setup_fillisland();
 
-    i= islands;
-    while( i>islands/4 && ++j<500 ) {
-      size = 3*islandmass;
+    i= 0;
+    while( i<bigislands && massleft>0 && ++j<500 ) {
+      size = islandmass;
       makeisland();
       if( findislandspot(&xp, &yp) )
 	{
 	  placeisland(xp, yp);
 	  fillisland(xp, yp);
-	  i-= 3;
+	  i++;
+	  massleft-= islandmass;
 	}
     }
 
   if(j==500)
-    flog(LOG_NORMAL, "generator 3 placed only %i big(%li) islands instead of %i.\n",
-	islands/4-i, 3*islandmass, islands/4 );
+    flog(LOG_NORMAL, "generator 3 didn't place all big islands.");
 
-    /* i= islands/4; */
-    while( i>0 && ++j< 1000 ) {
-      size = 1*islandmass;
+  free(height_map);
+
+  islandmass= islandmass/3;
+  if(islandmass<20)
+    islandmass= (islandmass*11)/8;
+  /*!PS: I'd like to mult by 3/2, but starters might make trouble then*/
+  if(islandmass<2)
+    islandmass= 2;
+
+  xmax= 13; ymax=13;
+  while( xmax*ymax < 3*islandmass )
+    { xmax++; ymax++; }
+  height_map =(int *) malloc (sizeof(int)*xmax*ymax);
+
+  /* !PS: the limit for isles is 100, but I get 
+     "failed writing data to socket" for i close 100 */
+    while( i<80 && massleft>0 && ++j< 1500 ) {
+      if(j<1000)
+	size = myrand((islandmass+1)/2+1)+islandmass/2;
+      else
+	size = myrand((islandmass+1)/2+1);
+      if(size<2) size=2;
       makeisland();
       if( findislandspot(&xp, &yp) )
 	{
 	  placeisland(xp, yp);
 	  fillisland(xp, yp);
-	  i--;
+	  i++;
+	  massleft-= startsize;
 	}
     }
 
-  if(j==1000)
-    flog(LOG_NORMAL, "generator 3 didn't place all islands; %i islands not placed.\n", i );
+  if(j==1500)
+    flog(LOG_NORMAL, "generator 3 left %li landmass unplaced.",massleft);
 
     /*  print_map();*/
   free(height_map);
+
+  /* !PS: problem left to solve: make sure players start on big islands */
+  /* make big islands further apart ? => new algorithm */
 }
 
 
