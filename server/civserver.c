@@ -1114,10 +1114,10 @@ int check_for_full_turn_done(void)
 static void handle_turn_done(int player_no)
 {
   game.players[player_no].turn_done=1;
-  
-  /* if someone is still moving, then let the other know that this play moved */ 
-  if(!check_for_full_turn_done())
-    send_player_info(&game.players[player_no], 0);
+
+  check_for_full_turn_done();
+
+  send_player_info(&game.players[player_no], 0);
 }
 
 /**************************************************************************

@@ -752,6 +752,8 @@ void handle_player_info(struct packet_player_info *pinfo)
     if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
       if (!game.player_ptr->turn_done) {
 	enable_turn_done_button();
+      } else {
+	update_turn_done_button(1);
       }
       update_info_label();
     }
