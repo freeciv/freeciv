@@ -570,9 +570,7 @@ static void setup_widgets(void)
 
   /* the turn done button must have its own style. otherwise when we flash
      the turn done button other widgets may flash too. */
-  if (!(style = gtk_rc_get_style(turn_done_button))) {
-    style = turn_done_button->style;
-  }
+  style = turn_done_button->style;
   gtk_widget_set_style(turn_done_button, gtk_style_copy(style));
 
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 10, 2, 3);
