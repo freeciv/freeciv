@@ -681,12 +681,13 @@ void canvas_put_sprite(struct canvas *pcanvas,
 
 	src = sprite_get_pixbuf(sprite);
 	dst = pcanvas->v.pixbuf;
+	assert(offset_x == 0 && offset_y == 0);
 	gdk_pixbuf_composite(src, dst, canvas_x, canvas_y,
 	    MIN(width,
 	      MIN(gdk_pixbuf_get_width(dst), gdk_pixbuf_get_width(src))),
 	    MIN(height,
 	      MIN(gdk_pixbuf_get_height(dst), gdk_pixbuf_get_height(src))),
-	    -offset_x, -offset_y, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
+	    canvas_x, canvas_y, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
       }
       break;
     default:
