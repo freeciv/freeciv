@@ -671,25 +671,26 @@ void create_economy_report_dialog(bool make_modal)
 
 
 /****************************************************************
-...
+  Called when a building type is selected in the economy list.
 *****************************************************************/
 void economy_list_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
-  XawListReturnStruct *ret;
-  int i;
-  ret = XawListShowCurrent(economy_list);
+  XawListReturnStruct *ret = XawListShowCurrent(economy_list);
 
-  if(ret->list_index!=XAW_LIST_NONE) {
-    i = economy_improvement_type[ret->list_index];
-    if (i >= 0 && i < game.num_impr_types && !is_wonder(i)) {
-      XtSetSensitive(sellobsolete_command, TRUE);
-      XtSetSensitive(sellall_command, TRUE);
-    }
-    return;
+  if (ret->list_index != XAW_LIST_NONE) {
+    /* The user has selected an improvement type. */
+    int i = economy_improvement_type[ret->list_index];
+    bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
+
+    XtSetSensitive(sellobsolete_command, is_sellable
+		   && improvement_obsolete(game.player_ptr, i));
+    XtSetSensitive(sellall_command, is_sellable);
+  } else {
+    /* No selection has been made. */
+    XtSetSensitive(sellobsolete_command, FALSE);
+    XtSetSensitive(sellall_command, FALSE);
   }
-  XtSetSensitive(sellobsolete_command, FALSE);
-  XtSetSensitive(sellall_command, FALSE);
 }
 
 /****************************************************************
