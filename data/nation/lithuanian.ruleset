@@ -2,8 +2,8 @@
 
 name=_("Lithuanian")
 plural=_("?plural:Lithuanians")
-leader="Gediminas","Jogaila"
-leader_sex="Male", "Male"
+leader="Gediminas", "Mindaugas", "Vytautas", "Antanas Smetona"
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.lithuania"
 flag_alt = "-"
 city_style = "European"
