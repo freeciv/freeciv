@@ -1374,7 +1374,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	/* see update_map_canvas_visible() in mapview.c */
 	if (is_isometric)
 	{
-	  y -= height;
+	  y -= width;
 	  width = height = width + height;
 	}
 
@@ -2378,6 +2378,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       } city_map_iterate_end;
     } else
     {
+    	int x,y;
       for (y = 0; y < CITY_MAP_SIZE; y++)
       {
         for (x = 0; x < CITY_MAP_SIZE; x++)

@@ -19,6 +19,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <cybergraphx/cybergraphics.h>
 #include <guigfx/guigfx.h>
 #include <clib/alib_protos.h>
 #include <proto/exec.h>
@@ -26,6 +27,7 @@
 #include <proto/layers.h>
 #include <proto/utility.h>
 #include <proto/guigfx.h>
+#include <proto/cybergraphics.h>
 
 #include "fcintl.h"
 #include "log.h"
@@ -466,9 +468,110 @@ static VOID MyExtBltMaskBitMap(CONST struct BitMap *srcBitMap, LONG xSrc, LONG y
                                LONG xDest, LONG yDest, LONG xSize, LONG ySize, 
                                struct BitMap *maskBitMap, LONG xMask, LONG yMask)
 {
-  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
-  BltBitMap(maskBitMap,xMask,yMask,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
-  BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+  int use_cgfx = 0;
+  if (CyberGfxBase)
+  {
+    if (GetCyberMapAttr(destBitMap,CYBRMATTR_ISCYBERGFX))
+    {
+      if (GetCyberMapAttr(destBitMap,CYBRMATTR_PIXFMT) != PIXFMT_LUT8)
+      {
+      	use_cgfx = 1;
+      }
+    }
+  }
+
+  if (!use_cgfx)
+  {
+    BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+    BltBitMap(maskBitMap,xMask,yMask,destBitMap, xDest, yDest, xSize, ySize, 0xe2,~0,NULL);
+    BltBitMap(srcBitMap,xSrc,ySrc,destBitMap, xDest, yDest, xSize, ySize, 0x99,~0,NULL);
+  } else
+  {
+    APTR src_handle;
+    LONG src_height, src_width, src_depth, src_pixfmt, src_bytesperpix, src_bytesperrow;
+    UBYTE *src_address;
+
+    APTR dest_handle;
+    LONG dest_height, dest_width, dest_depth, dest_pixfmt, dest_bytesperpix, dest_bytesperrow;
+    UBYTE *dest_address;
+
+    LONG mask_width, mask_height;
+    UBYTE *mask_address;
+
+    /* Doesn't work for > 8 bit screens yet */
+    return;
+
+    if ((src_handle = LockBitMapTags(srcBitMap,
+	LBMI_WIDTH, &src_width,
+	LBMI_HEIGHT, &src_height,
+	LBMI_DEPTH, &src_depth,
+	LBMI_PIXFMT, &src_pixfmt,
+	LBMI_BASEADDRESS, &src_address,
+	LBMI_BYTESPERPIX, &src_bytesperpix,
+	LBMI_BYTESPERROW, &src_bytesperrow,
+	TAG_DONE)))
+    {
+      if ((dest_handle = LockBitMapTags(destBitMap,
+	  LBMI_WIDTH, &dest_width,
+	  LBMI_HEIGHT, &dest_height,
+	  LBMI_DEPTH, &dest_depth,
+	  LBMI_PIXFMT, &dest_pixfmt,
+	  LBMI_BASEADDRESS, &dest_address,
+	  LBMI_BYTESPERPIX, &dest_bytesperpix,
+	  LBMI_BYTESPERROW, &dest_bytesperrow,
+	  TAG_DONE)))
+      {
+      	UBYTE *src, *dest, *mask;
+      	int x,y,i;
+
+      	mask_width = GetBitMapAttr(maskBitMap,BMA_WIDTH);
+      	mask_height = GetBitMapAttr(maskBitMap,BMA_HEIGHT);
+      	mask_address = maskBitMap->Planes[0];
+
+	for (y=0;y<ySize;y++)
+	{
+	  ULONG mask_val;
+	  int signifant_bits;
+
+	  x = xMask;
+	  mask = mask_address + yMask * (mask_width/8) + ((x/32)*4) - 4;
+	  src = src_address + ySrc * src_bytesperrow + xSrc * src_bytesperpix;
+	  dest = dest_address + yDest * dest_bytesperrow + xDest * dest_bytesperpix;
+
+	  while ((x - xMask) < xSize)
+	  {
+	    signifant_bits = 32 - (x % 32);
+	    mask_val = *(ULONG*)mask;
+	    for (i=signifant_bits-1;i>=0 && (x - xMask)<xSize;i++)
+	    {
+	      if (mask_val & (1UL << i))
+	      {
+	      	if (dest_bytesperpix == 2)
+	      	{
+	      	  *((UWORD*)dest) = 0xffff;// *((UWORD*)src);
+	      	} else if (dest_bytesperpix == 3)
+	      	{
+	      	} else if (dest_bytesperpix == 4)
+	      	{
+//	      	  *((ULONG*)dest) = *((ULONG*)src);
+	      	}
+	      }
+	      src += src_bytesperpix;
+	      dest += dest_bytesperpix;
+	      x++;
+	    }
+	    mask += 4;
+	  }
+	  yMask++;
+	  ySrc++;
+	  yDest++;
+	}
+
+	UnLockBitMap(dest_handle);
+      }
+      UnLockBitMap(src_handle);
+    }
+  }
 }
 
 HOOKPROTO(HookFunc_BltMask, void, struct RastPort *rp, struct LayerHookMsg *msg)

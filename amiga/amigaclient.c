@@ -62,6 +62,7 @@ struct IntuitionBase *IntuitionBase = 0;
 struct GfxBase *GfxBase = 0;
 struct Library *LayersBase = 0;
 struct Library *IconBase;
+struct Library *CyberGfxBase;
 static char *stdargv[1] = {"civclient"}; /* standard arg, if WB parsing failed */
 
 #ifdef __SASC
@@ -73,6 +74,7 @@ __near LONG __stack = 120000;
 
 static void civ_exitfunc(void)
 {
+	if(CyberGfxBase) CloseLibrary(CyberGfxBase);
   if(MUIMasterBase) CloseLibrary(MUIMasterBase);
   if(UserGroupBase) CloseLibrary(UserGroupBase);
   if(SocketBase) CloseLibrary(SocketBase);
@@ -184,6 +186,7 @@ int main(int argc, char **argv)
 
           if((MUIMasterBase = OpenLibrary(MUIMASTER_NAME,MUIMASTER_VMIN)))
           {
+          	CyberGfxBase = OpenLibrary("cybergraphics.library",39);
             if((IntuitionBase = (struct IntuitionBase *) OpenLibrary("intuition.library", 37)))
             {
               if((UtilityBase = (struct UtilityBase *) OpenLibrary("utility.library", 37)))
