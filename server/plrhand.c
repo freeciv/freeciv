@@ -216,7 +216,7 @@ static int rank_population(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (game.players[i].score.population>basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -228,7 +228,7 @@ static struct player *best_population(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(game.players[i].score.population > pplayer->score.population &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -242,7 +242,7 @@ static int rank_landarea(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (game.players[i].score.landarea>basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -254,7 +254,7 @@ static struct player *best_landarea(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(game.players[i].score.landarea > pplayer->score.landarea &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -268,7 +268,7 @@ static int rank_settledarea(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (game.players[i].score.settledarea>basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -280,7 +280,7 @@ static struct player *best_settledarea(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(game.players[i].score.settledarea > pplayer->score.settledarea &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -299,7 +299,7 @@ static int rank_research(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (rank_calc_research(&game.players[i])>basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -311,7 +311,7 @@ static struct player *best_research(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(rank_calc_research(&game.players[i]) > rank_calc_research(pplayer) &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -338,7 +338,7 @@ static int rank_literacy(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (rank_calc_literacy(&game.players[i])>basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -350,7 +350,7 @@ static struct player *best_literacy(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(rank_calc_literacy(&game.players[i]) > rank_calc_literacy(pplayer) &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -364,7 +364,7 @@ static int rank_production(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (game.players[i].score.mfg>basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -376,7 +376,7 @@ static struct player *best_production(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(game.players[i].score.mfg > pplayer->score.mfg &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -390,7 +390,7 @@ static int rank_economics(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (game.players[i].score.bnp>basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -402,7 +402,7 @@ static struct player *best_economics(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(game.players[i].score.bnp > pplayer->score.bnp &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -416,7 +416,7 @@ static int rank_pollution(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (game.players[i].score.pollution<basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -428,7 +428,7 @@ static struct player *best_pollution(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(game.players[i].score.pollution < pplayer->score.pollution &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
@@ -447,7 +447,7 @@ static int rank_mil_service(struct player *pplayer)
   int i;
   for (i=0;i<game.nplayers;i++) {
     if (rank_calc_mil_service(&game.players[i])<basis &&
-	!is_barbarian(&game.players[i]))
+	game.players[i].is_alive && !is_barbarian(&game.players[i]))
       place++;
   }
   return place;
@@ -459,7 +459,7 @@ static struct player *best_mil_service(void)
   int i;
   for(i = 1; i < game.nplayers; i++) {
     if(rank_calc_mil_service(&game.players[i]) < rank_calc_mil_service(pplayer) &&
-       !is_barbarian(&game.players[i])) {
+       game.players[i].is_alive && !is_barbarian(&game.players[i])) {
       pplayer = &game.players[i];
     }
   }
