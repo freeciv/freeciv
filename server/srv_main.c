@@ -1678,6 +1678,7 @@ static void main_loop(void)
     shuffle_players();
     freelog(LOG_DEBUG, "Aistartturn");
     ai_start_turn();
+    send_start_turn_to_clients();
 
     /* Before sniff (human player activites), report time to now: */
     freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",

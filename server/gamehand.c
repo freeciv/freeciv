@@ -150,6 +150,13 @@ void init_new_game(void)
   improvement_status_init(game.improvements);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void send_start_turn_to_clients(void)
+{
+  lsend_packet_generic_empty(&game.est_connections, PACKET_START_TURN);
+}
 
 /**************************************************************************
   Tell clients the year, and also update turn_done and nturns_idle fields

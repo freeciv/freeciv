@@ -366,6 +366,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
   case PACKET_BEFORE_NEW_YEAR:
   case PACKET_PROCESSING_STARTED:
   case PACKET_PROCESSING_FINISHED:
+  case PACKET_START_TURN:
     return receive_packet_generic_empty(pc);
 
   case PACKET_NEW_YEAR:

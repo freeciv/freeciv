@@ -61,6 +61,7 @@ void handle_sabotage_list(struct packet_sabotage_list *packet);
 void handle_player_attribute_chunk(struct packet_attribute_chunk *packet);
 void handle_processing_started(void);
 void handle_processing_finished(void);
+void handle_start_turn(void);
 
 void notify_about_incomming_packet(struct connection *pc,
 				   int packet_type, int size);

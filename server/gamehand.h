@@ -20,5 +20,6 @@ void init_new_game(void);
 void send_year_to_clients(int year);
 void send_game_info(struct conn_list *dest);
 void send_game_state(struct conn_list *dest, int state);
+void send_start_turn_to_clients(void);
 
 #endif  /* FC__GAMEHAND_H */
