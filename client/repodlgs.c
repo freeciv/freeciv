@@ -88,6 +88,8 @@ void city_popup_callback(Widget w, XtPointer client_data,
 			 XtPointer call_data);
 void city_buy_callback(Widget w, XtPointer client_data, 
 		       XtPointer call_data);
+void city_refresh_callback(Widget w, XtPointer client_data, 
+		       XtPointer call_data);
 void city_change_callback(Widget w, XtPointer client_data, 
 			  XtPointer call_data);
 void city_list_callback(Widget w, XtPointer client_data, 
@@ -96,7 +98,8 @@ void city_list_callback(Widget w, XtPointer client_data,
 Widget city_dialog_shell;
 Widget city_label;
 Widget city_list, city_list_label;
-Widget city_center_command, city_popup_command, city_buy_command;
+Widget city_center_command, city_popup_command, city_buy_command,
+       city_refresh_command;
 Widget city_change_command, city_popupmenu;
 
 int city_dialog_shell_is_modal;
@@ -628,10 +631,16 @@ void create_city_report_dialog(int make_modal)
 						city_form,
 						NULL);
 
+  city_refresh_command = XtVaCreateManagedWidget("reportcityrefreshcommand",
+					     commandWidgetClass,
+					     city_form,
+					     NULL);
+
   XtAddCallback(close_command, XtNcallback, city_close_callback, NULL);
   XtAddCallback(city_center_command, XtNcallback, city_center_callback, NULL);
   XtAddCallback(city_popup_command, XtNcallback, city_popup_callback, NULL);
   XtAddCallback(city_buy_command, XtNcallback, city_buy_callback, NULL);
+  XtAddCallback(city_refresh_command, XtNcallback, city_refresh_callback, NULL);
   XtAddCallback(city_list, XtNcallback, city_list_callback, NULL);
   
   XtRealizeWidget(city_dialog_shell);
@@ -770,6 +779,23 @@ void city_buy_callback(Widget w, XtPointer client_data,
 	  append_output_window(buf);
 	}
     }
+  }
+}
+
+void city_refresh_callback(Widget w, XtPointer client_data, XtPointer call_data)
+{ /* added by Syela - I find this very useful */
+  XawListReturnStruct *ret=XawListShowCurrent(city_list);
+  struct city *pcity;
+  struct packet_generic_integer packet;
+
+  if (ret->list_index!=XAW_LIST_NONE) {
+    if ((pcity=find_city_by_id(cities_in_list[ret->list_index]))) {
+      packet.value = pcity->id;
+      send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
+    }
+  } else {
+    packet.value = 0;
+    send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
   }
 }
 

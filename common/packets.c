@@ -74,6 +74,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_GAME_STATE:
   case PACKET_REPORT_REQUEST:
   case PACKET_REMOVE_PLAYER:  
+  case PACKET_CITY_REFRESH:
     return recieve_packet_generic_integer(pc);
     
   case PACKET_ALLOC_RACE:

@@ -812,7 +812,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_DIPLOMACY_ACCEPT_TREATY:
     handle_diplomacy_accept_treaty(pplayer, (struct packet_diplomacy_info *)packet);  
     break;
-   default:
+  case PACKET_CITY_REFRESH:
+    handle_city_refresh(pplayer, (struct packet_generic_integer *)packet);
+    break;
+  default:
     log(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
   }
 

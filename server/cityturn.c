@@ -374,6 +374,7 @@ void global_city_refresh(struct player *pplayer)
 { /* called on government change or wonder completion or stuff like that -- Syela */
   city_list_iterate(pplayer->cities, pcity)
     city_refresh(pcity);
+    send_city_info(pplayer, pcity, 1);
   city_list_iterate_end;
 }
 

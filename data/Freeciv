@@ -1230,6 +1230,16 @@ Freeciv.iconName: Freeciv
 *reportcitychangemenubutton.left:        chainLeft
 *reportcitychangemenubutton.right:       chainLeft
 
+*reportcityrefreshcommand.label:       Refresh
+*reportcityrefreshcommand.fromVert:    reportcitylist
+*reportcityrefreshcommand.fromHoriz:   reportcitychangemenubutton
+*reportcityrefreshcommand.foreground:  white
+*reportcityrefreshcommand.background:  blue
+*reportcityrefreshcommand.top:         chainBottom
+*reportcityrefreshcommand.bottom:      chainBottom
+*reportcityrefreshcommand.left:        chainLeft
+*reportcityrefreshcommand.right:       chainLeft
+
 !
 !
 ! Trade report dialog

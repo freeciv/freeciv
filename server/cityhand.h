@@ -38,6 +38,7 @@ void handle_city_sell(struct player *pplayer,
 void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id);
 void handle_city_buy(struct player *pplayer, struct packet_city_request *preq);
 void really_handle_city_buy(struct player *pplayer, struct city *pcity);
+void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *preq);
 void handle_city_change(struct player *pplayer, 
 			struct packet_city_request *preq);
 void handle_city_rename(struct player *pplayer, 

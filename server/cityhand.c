@@ -376,6 +376,16 @@ void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
   really_handle_city_buy(pplayer, pcity);
 }
 
+void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *preq)
+{
+  struct city *pcity;
+  pcity=find_city_by_id(preq->value);
+  if (pcity) {
+    city_refresh(pcity);
+    send_city_info(pplayer, pcity, 1);
+  } else if (!preq->value) global_city_refresh(pplayer);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
