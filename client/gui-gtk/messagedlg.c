@@ -124,7 +124,7 @@ GtkWidget *create_messageopt_dialog(void)
     int line = (i%E_LAST);
     int is_col1 = i<(E_LAST/2);
 
-    label = gtk_label_new(_(message_text[sorted_events[i]]));
+    label = gtk_label_new(get_message_text(sorted_events[i]));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
     gtk_table_attach_defaults(GTK_TABLE(is_col1?col1:col2), label,
                0, 1, line+1, line+2);

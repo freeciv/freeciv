@@ -1610,38 +1610,23 @@ static void handle_city(struct city *pcity)
 
     cma_query_result(pcity, &parameter, &result);
     if (!result.found_a_valid) {
-      struct packet_generic_message packet;
-
       freelog(HANDLE_CITY_LOG_LEVEL2, "  no valid found result");
 
       cma_release_city(pcity);
 
-      my_snprintf(packet.message, sizeof(packet.message),
-		  _("CMA: The agent can't fulfill the requirements "
-		    "for %s. Passing back control."), pcity->name);
-      packet.x = pcity->x;
-      packet.y = pcity->y;
-      packet.event = E_CITY_CMA_RELEASE;
-
-      handle_chat_msg(&packet);
+      create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
+		   _("CMA: The agent can't fulfill the requirements "
+		     "for %s. Passing back control."), pcity->name);
       handled = TRUE;
       break;
     } else {
       if (!apply_result_on_server(pcity, &result)) {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  doesn't cleanly apply");
 	if (i == 0) {
-	  struct packet_generic_message packet;
-
-	  my_snprintf(packet.message, sizeof(packet.message),
-		      _("CMA: %s has changed and the calculated "
-			"result can't be applied. Will retry."),
-		      pcity->name);
-	  packet.x = pcity->x;
-	  packet.y = pcity->y;
-	  packet.event = E_NOEVENT;
-
-	  append_output_window(packet.message);
-	  add_notify_window(&packet);
+	  create_event(pcity->x, pcity->y, E_NOEVENT,
+		       _("CMA: %s has changed and the calculated "
+			 "result can't be applied. Will retry."),
+		       pcity->name);
 	}
       } else {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  ok");
@@ -1653,26 +1638,21 @@ static void handle_city(struct city *pcity)
   }
 
   if (!handled) {
-    struct packet_generic_message packet;
-
     freelog(HANDLE_CITY_LOG_LEVEL2, "  not handled");
 
-    my_snprintf(packet.message, sizeof(packet.message),
-		_("CMA: %s has changed multiple times. This may be "
-		  "an error in freeciv or bad luck. Please contact "
-		  "<freeciv-dev@freeciv.org>. The CMA will detach "
-		  "itself from the city now."), pcity->name);
-    packet.x = pcity->x;
-    packet.y = pcity->y;
-    packet.event = E_CITY_CMA_RELEASE;
-
-    append_output_window(packet.message);
-    add_notify_window(&packet);
+    create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
+		 _("CMA: %s has changed multiple times. This may be "
+		   "an error in freeciv or bad luck. Please contact "
+		   "<freeciv-dev@freeciv.org>. The CMA will detach "
+		   "itself from the city now."), pcity->name);
 
     cma_release_city(pcity);
 
 #if (IS_DEVEL_VERSION || IS_BETA_VERSION)
-    freelog(LOG_ERROR, "%s", packet.message);
+    freelog(LOG_ERROR, _("CMA: %s has changed multiple times. This may be "
+			 "an error in freeciv or bad luck. Please contact "
+			 "<freeciv-dev@freeciv.org>. The CMA will detach "
+			 "itself from the city now."), pcity->name);
     assert(0);
     exit(EXIT_FAILURE);
 #endif

@@ -23,8 +23,6 @@
 #define BUG_EMAIL_ADDRESS "bugs@freeciv.freeciv.org"
 #define WEBSITE_URL "http://www.freeciv.org/"
 
-#define BROADCAST_EVENT -2
-
 #define MAX_NUM_PLAYERS  30
 #define MAX_NUM_BARBARIANS   2
 #define MAX_NUM_ITEMS   200	/* eg, unit_types */

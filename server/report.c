@@ -28,6 +28,7 @@
 #include "rand.h"
 #include "support.h"
 #include "version.h"
+#include "events.h"
 
 #include "report.h"
 
@@ -196,7 +197,7 @@ static void historian_generic(enum historian_type which_news)
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
     _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
   page_conn_etype(&game.game_connections, _("Historian Publishes!"),
-		  title, buffer, BROADCAST_EVENT);
+		  title, buffer, E_BROADCAST_REPORT);
 }
 
 /**************************************************************************
@@ -1029,18 +1030,20 @@ This function pops up a non-modal message dialog on the player's desktop
 **************************************************************************/
 void page_conn(struct conn_list *dest, char *caption, char *headline,
 	       char *lines) {
-  page_conn_etype(dest, caption, headline, lines, -1);
+  page_conn_etype(dest, caption, headline, lines, E_REPORT);
 }
 
 
 /**************************************************************************
 This function pops up a non-modal message dialog on the player's desktop
-event == -1: message should not be ignored by clients watching AI players with 
-             ai_popup_windows off.  Example: Server Options, Demographics 
-             Report, etc.
-event == BROADCAST_EVENT: message can safely be ignored by clients watching AI
-                          players with ai_popup_windows off.
-         For example: Herodot's report... and similar messages.
+
+event == E_REPORT: message should not be ignored by clients watching
+                   AI players with ai_popup_windows off.  Example:
+                   Server Options, Demographics Report, etc.
+
+event == E_BROADCAST_REPORT: message can safely be ignored by clients
+                   watching AI players with ai_popup_windows off.  For
+                   example: Herodot's report... and similar messages.
 **************************************************************************/
 void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
 		      char *lines, int event) 

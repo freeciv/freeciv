@@ -521,6 +521,7 @@ void set_client_state(enum client_states newstate)
     if (client_state==CLIENT_PRE_GAME_STATE
 	&& (newstate==CLIENT_SELECT_RACE_STATE
 	    || newstate==CLIENT_GAME_RUNNING_STATE)) {
+      create_event(-1, -1, E_GAME_START, _("Game started."));
       translate_data_names();
     }
       

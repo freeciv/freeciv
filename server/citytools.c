@@ -1044,6 +1044,9 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
   pcity->synced = FALSE;
   send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pcity. */
+
+  notify_player_ex(pplayer, x, y, E_CITY_BUILD,
+		   _("Game: You have founded %s"), pcity->name);
   maybe_make_first_contact(x, y, city_owner(pcity));
 
   /* Catch fortress building, transforming into ocean, etc. */

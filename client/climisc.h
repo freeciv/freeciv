@@ -109,4 +109,8 @@ int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
 char *get_spaceship_descr(struct player_spaceship *pship);
+
+void create_event(int x, int y, int event, const char *format, ...)
+     fc__attribute((format (printf, 4, 5)));
+
 #endif  /* FC__CLIMISC_H */

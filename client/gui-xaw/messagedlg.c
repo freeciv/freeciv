@@ -130,7 +130,7 @@ Widget create_messageopt_dialog(void)
   for(i=0;i<E_LAST;i++)  {
     int top_line = (!i || i==E_LAST/2);
     int icol = (i>=E_LAST/2);
-    const char *text = _(message_text[sorted_events[i]]);
+    const char *text = get_message_text(sorted_events[i]);
     label[i] = XtVaCreateManagedWidget("label",
 				       labelWidgetClass,
 				       col[icol],

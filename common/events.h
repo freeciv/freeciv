@@ -13,7 +13,7 @@
 #ifndef FC__EVENTS_H
 #define FC__EVENTS_H
 
-enum {
+enum event_type {
   E_NOEVENT = -1,
   E_LOW_ON_FUNDS,
   E_POLLUTION,
@@ -62,6 +62,23 @@ enum {
   E_CITY_NUKED,
   E_MESSAGE_WALL,
   E_CITY_CMA_RELEASE,
+  E_CITY_BUILD,
+  E_REVOLT_START,
+  E_REVOLT_DONE,
+  E_NUKE,
+  E_HUT_GOLD,
+  E_HUT_TECH,
+  E_HUT_MERC,
+  E_HUT_BARB_CITY_NEAR,
+  E_HUT_BARB,
+  E_HUT_BARB_KILLED,
+  E_HUT_CITY,
+  E_HUT_SETTLER,
+  E_GAME_START,
+  E_NEXT_YEAR,
+  E_REPORT,
+  E_BROADCAST_REPORT,
+  E_NATION_SELECTED,
   /* Note:  If you add a new event, make sure you make a similar change to
      message_text in client/options.c
      */

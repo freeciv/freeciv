@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 
 #include "events.h"
 #include "fcintl.h"
@@ -26,6 +27,7 @@
 #include "shared.h"
 #include "support.h"
 #include "version.h"
+#include "mem.h"
 
 #include "chatline_g.h"
 #include "cma_fec.h"
@@ -72,6 +74,8 @@ client_option options[] = {
   GEN_OPTION(meta_accelerators, 	N_("Use Alt/Meta for accelerators (GTK only)"), COT_BOOL),
   GEN_OPTION_TERMINATOR
 };
+#undef GEN_OPTION
+#undef GEN_OPTION_TERMINATOR
 
 /** View Options: **/
 
@@ -113,60 +117,97 @@ view_option view_options[] = {
   VIEW_OPTION_TERMINATOR
 };
 
+#undef VIEW_OPTION
+#undef VIEW_OPTION_TERMINATOR
+
 /** Message Options: **/
 
 unsigned int messages_where[E_LAST];
 int sorted_events[E_LAST];
 
-const char *message_text[E_LAST]={
-  N_("Low Funds"),                   /* E_LOW_ON_FUNDS */
-  N_("Pollution"),                   /* E_POLLUTION */
-  N_("Global Eco-Disaster"),         /* E_GLOBAL_ECO */
-  N_("Civil Disorder"),              /* E_CITY_DISORDER */
-  N_("City Celebrating"),            /* E_CITY_LOVE */
-  N_("City Normal"),                 /* E_CITY_NORMAL */
-  N_("City Growth"),                 /* E_CITY_GROWTH */
-  N_("City Needs Aqueduct"),         /* E_CITY_AQUEDUCT */
-  N_("Famine in City"),              /* E_CITY_FAMINE */
-  N_("City Captured/Destroyed"),     /* E_CITY_LOST */
-  N_("Building Unavailable Item"),   /* E_CITY_CANTBUILD */
-  N_("Wonder Started"),              /* E_WONDER_STARTED */
-  N_("Wonder Finished"),             /* E_WONDER_BUILD */
-  N_("Improvement Built"),           /* E_IMP_BUILD */
-  N_("New Improvement Selected"),    /* E_IMP_AUTO */
-  N_("Forced Improvement Sale"),     /* E_IMP_AUCTIONED */
-  N_("Production Upgraded"),         /* E_UNIT_UPGRADED */
-  N_("Unit Built"),                  /* E_UNIT_BUILD */
-  N_("Unit Defender Destroyed"),     /* E_UNIT_LOST */
-  N_("Unit Defender Survived"),      /* E_UNIT_WIN */
-  N_("Collapse to Anarchy"),         /* E_ANARCHY */
-  N_("Diplomat Actions - Enemy"),    /* E_DIPLOMATED */
-  N_("Tech from Great Library"),     /* E_TECH_GAIN */
-  N_("Player Destroyed"),            /* E_DESTROYED */
-  N_("Improvement Bought"),          /* E_IMP_BUY */
-  N_("Improvement Sold"),            /* E_IMP_SOLD */
-  N_("Unit Bought"),                 /* E_UNIT_BUY */
-  N_("Wonder Stopped"),              /* E_WONDER_STOPPED */
-  N_("City Needs Aq Being Built"),   /* E_CITY_AQ_BUILDING */
-  N_("Diplomat Actions - Own"),      /* E_MY_DIPLOMAT */
-  N_("Unit Attack Failed"),          /* E_UNIT_LOST_ATT */
-  N_("Unit Attack Succeeded"),       /* E_UNIT_WIN_ATT */
-  N_("Suggest Growth Throttling"),   /* E_CITY_GRAN_THROTTLE */
-  N_("Spaceship Events"),            /* E_SPACESHIP */
-  N_("Barbarian Uprising"),          /* E_UPRISING  */
-  N_("Worklist Events"),             /* E_WORKLIST */
-  N_("Pact Cancelled"),              /* E_CANCEL_PACT */
-  N_("Diplomatic Incident"),         /* E_DIPL_INCIDENT */
-  N_("First Contact"),               /* E_FIRST_CONTACT */
-  N_("City May Soon Grow"),          /* E_CITY_MAY_SOON_GROW */
-  N_("Wonder Made Obsolete"),        /* E_WONDER_OBSOLETE */
-  N_("Famine Feared in City"),       /* E_CITY_FAMINE_FEARED */
-  N_("Wonder Will Be Finished Next Turn"),   /* E_CITY_WONDER_WILL_BE_BUILT */
-  N_("Learned New Government"),	     /* E_NEW_GOVERNMENT */
-  N_("City Nuked"),                  /* E_CITY_NUKED */
-  N_("Messages from the Server Operator"), /* E_MESSAGE_WALL*/
-  N_("City Released from CMA"),      /* E_CITY_CMA_RELEASE */
+#define GEN_EV(descr, event) { #event, NULL, descr, NULL, event }
+#define GEN_EV_TERMINATOR { NULL, NULL, NULL, NULL, E_NOEVENT }
+
+/*
+ * Holds information about all event types. The entries doesn't have
+ * to be sorted.
+ */
+static struct {
+  char *enum_name, *tag_name, *descr_orig, *descr;
+  enum event_type event;
+} events[] = {
+  GEN_EV(N_("Low Funds"),                         E_LOW_ON_FUNDS),
+  GEN_EV(N_("Pollution"),                         E_POLLUTION),
+  GEN_EV(N_("Global Eco-Disaster"),               E_GLOBAL_ECO),
+  GEN_EV(N_("Civil Disorder"),                    E_CITY_DISORDER),
+  GEN_EV(N_("City Celebrating"),                  E_CITY_LOVE),
+  GEN_EV(N_("City Normal"),                       E_CITY_NORMAL),
+  GEN_EV(N_("City Growth"),                       E_CITY_GROWTH),
+  GEN_EV(N_("City Needs Aqueduct"),               E_CITY_AQUEDUCT),
+  GEN_EV(N_("Famine in City"),                    E_CITY_FAMINE),
+  GEN_EV(N_("City Captured/Destroyed"),           E_CITY_LOST),
+  GEN_EV(N_("Building Unavailable Item"),         E_CITY_CANTBUILD),
+  GEN_EV(N_("Wonder Started"),                    E_WONDER_STARTED),
+  GEN_EV(N_("Wonder Finished"),                   E_WONDER_BUILD),
+  GEN_EV(N_("Improvement Built"),                 E_IMP_BUILD),
+  GEN_EV(N_("New Improvement Selected"),          E_IMP_AUTO),
+  GEN_EV(N_("Forced Improvement Sale"),           E_IMP_AUCTIONED),
+  GEN_EV(N_("Production Upgraded"),               E_UNIT_UPGRADED),
+  GEN_EV(N_("Unit Built"),                        E_UNIT_BUILD),
+  GEN_EV(N_("Unit Defender Destroyed"),           E_UNIT_LOST),
+  GEN_EV(N_("Unit Defender Survived"),            E_UNIT_WIN),
+  GEN_EV(N_("Collapse to Anarchy"),               E_ANARCHY),
+  GEN_EV(N_("Diplomat Actions - Enemy"),          E_DIPLOMATED),
+  GEN_EV(N_("Tech from Great Library"),           E_TECH_GAIN),
+  GEN_EV(N_("Player Destroyed"),                  E_DESTROYED),
+  GEN_EV(N_("Improvement Bought"),                E_IMP_BUY),
+  GEN_EV(N_("Improvement Sold"),                  E_IMP_SOLD),
+  GEN_EV(N_("Unit Bought"),                       E_UNIT_BUY),
+  GEN_EV(N_("Wonder Stopped"),                    E_WONDER_STOPPED),
+  GEN_EV(N_("City Needs Aq Being Built"),         E_CITY_AQ_BUILDING),
+  GEN_EV(N_("Diplomat Actions - Own"),            E_MY_DIPLOMAT),
+  GEN_EV(N_("Unit Attack Failed"),                E_UNIT_LOST_ATT),
+  GEN_EV(N_("Unit Attack Succeeded"),             E_UNIT_WIN_ATT),
+  GEN_EV(N_("Suggest Growth Throttling"),         E_CITY_GRAN_THROTTLE),
+  GEN_EV(N_("Spaceship Events"),                  E_SPACESHIP),
+  GEN_EV(N_("Barbarian Uprising"),                E_UPRISING ),
+  GEN_EV(N_("Worklist Events"),                   E_WORKLIST),
+  GEN_EV(N_("Pact Cancelled"),                    E_CANCEL_PACT),
+  GEN_EV(N_("Diplomatic Incident"),               E_DIPL_INCIDENT),
+  GEN_EV(N_("First Contact"),                     E_FIRST_CONTACT),
+  GEN_EV(N_("City May Soon Grow"),                E_CITY_MAY_SOON_GROW),
+  GEN_EV(N_("Wonder Made Obsolete"),              E_WONDER_OBSOLETE),
+  GEN_EV(N_("Famine Feared in City"),       	  E_CITY_FAMINE_FEARED),
+  GEN_EV(N_("Wonder Will Be Finished Next Turn"), E_CITY_WONDER_WILL_BE_BUILT),
+  GEN_EV(N_("Learned New Government"),	          E_NEW_GOVERNMENT),
+  GEN_EV(N_("City Nuked"),                        E_CITY_NUKED),
+  GEN_EV(N_("Messages from the Server Operator"), E_MESSAGE_WALL),
+  GEN_EV(N_("City Released from CMA"),            E_CITY_CMA_RELEASE),
+  GEN_EV(N_("City Was Built"),                    E_CITY_BUILD),
+  GEN_EV(N_("Revolt Started"),                    E_REVOLT_START),
+  GEN_EV(N_("Revolt Ended"),                      E_REVOLT_DONE),
+  GEN_EV(N_("Nuke Detonated"),                    E_NUKE),
+  GEN_EV(N_("Gold Found in Hut"),                 E_HUT_GOLD),
+  GEN_EV(N_("Tech Found in Hut"),                 E_HUT_TECH),
+  GEN_EV(N_("Mercenaries Found in Hut"),          E_HUT_MERC),
+  GEN_EV(N_("Unit Spared by Barbarians"),         E_HUT_BARB_CITY_NEAR),
+  GEN_EV(N_("Barbarians in a Hut Roused"),        E_HUT_BARB),
+  GEN_EV(N_("Killed by Barbarians in a Hut"),     E_HUT_BARB_KILLED),
+  GEN_EV(N_("City Founded from Hut"),             E_HUT_CITY),
+  GEN_EV(N_("Settler Found in Hut"),              E_HUT_SETTLER),
+  GEN_EV(N_("Game Started"),                      E_GAME_START),
+  GEN_EV(N_("Year Advance"),                      E_NEXT_YEAR),
+  GEN_EV(N_("Report"),                            E_REPORT),
+  GEN_EV(N_("Broadcast Report"),                  E_BROADCAST_REPORT),
+  GEN_EV(N_("Nation Selected"),                   E_NATION_SELECTED),
+  GEN_EV_TERMINATOR
 };
+
+/* 
+ * Maps from enum event_type to indexes of events[]. Set by
+ * init_messages_where. 
+ */
+static int event_to_index[E_LAST];
 
 static void save_cma_preset(struct section_file *file, char *name,
 			    const struct cma_parameter *const pparam,
@@ -174,15 +215,29 @@ static void save_cma_preset(struct section_file *file, char *name,
 static void load_cma_preset(struct section_file *file, int inx);
 
 /**************************************************************************
-  Comparison function for qsort; i1 and i2 are pointers to integers which
-  index message_text[].
+  Returns the translated description of the given event.
+**************************************************************************/
+const char *const get_message_text(enum event_type event)
+{
+  assert(event >= 0 && event < E_LAST);
+
+  if (events[event_to_index[event]].event == event) {
+    return events[event_to_index[event]].descr;
+  }
+  freelog(LOG_ERROR, "unknown event %d", event);
+  return "UNKNOWN EVENT";
+}
+
+/**************************************************************************
+  Comparison function for qsort; i1 and i2 are pointers to an event
+  (enum event_type).
 **************************************************************************/
 static int compar_message_texts(const void *i1, const void *i2)
 {
   int j1 = *(const int*)i1;
   int j2 = *(const int*)i2;
   
-  return mystrcasecmp(_(message_text[j1]), _(message_text[j2]));
+  return mystrcasecmp(get_message_text(j1), get_message_text(j2));
 }
 
 /****************************************************************
@@ -192,8 +247,9 @@ static int compar_message_texts(const void *i1, const void *i2)
 *****************************************************************/
 void init_messages_where(void)
 {
-  int out_only[] = {E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT,
-		   E_UNIT_LOST_ATT, E_UNIT_WIN_ATT};
+  int out_only[] = { E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT,
+		     E_UNIT_LOST_ATT, E_UNIT_WIN_ATT, E_GAME_START,
+		     E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR};
   int all[] = { E_MESSAGE_WALL };
   int i;
 
@@ -207,6 +263,28 @@ void init_messages_where(void)
     messages_where[all[i]] = MW_OUTPUT | MW_MESSAGES | MW_POPUP;
   }
   
+  for (i = 0; i < ARRAY_SIZE(event_to_index); i++) {
+    event_to_index[i] = 0;
+  }
+
+  for (i = 0;; i++) {
+    int j;
+
+    if (events[i].event == E_NOEVENT) {
+      break;
+    }
+    events[i].descr = _(events[i].descr_orig);
+    event_to_index[events[i].event] = i;
+    events[i].tag_name = mystrdup(events[i].enum_name);
+    for (j = 0; j < strlen(events[i].tag_name); j++) {
+      events[i].tag_name[j] = tolower(events[i].tag_name[j]);
+    }
+    freelog(LOG_DEBUG,
+	    "event[%d]=%d: name='%s' / '%s'\n\tdescr_orig='%s'\n\tdescr='%s'",
+	    i, events[i].event, events[i].enum_name, events[i].tag_name,
+	    events[i].descr_orig, events[i].descr);
+  }
+
   for(i=0;i<E_LAST;i++)  {
     sorted_events[i] = i;
   }
@@ -336,7 +414,8 @@ void save_options(void)
   }
 
   for (i = 0; i < E_LAST; i++) {
-    secfile_insert_int_comment(&sf, messages_where[i], message_text[i],
+    secfile_insert_int_comment(&sf, messages_where[i],
+			       get_message_text(i),
 			       "client.message_where_%02d", i);
   }
 

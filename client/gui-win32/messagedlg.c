@@ -123,7 +123,7 @@ static void create_messageopt_dialog()
   for(i=0;i<E_LAST;i++) {
     int is_col1 = i<(E_LAST/2);
     fcwin_box_add_static(table_vboxes[is_col1?0:4],
-			 _(message_text[sorted_events[i]]),
+			 get_message_text(sorted_events[i]),
 			 0,SS_LEFT,TRUE,TRUE,0);
     for(j=0; j<NUM_MW; j++) {
       messageopt_toggles[sorted_events[i]][j]=

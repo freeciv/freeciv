@@ -104,22 +104,22 @@ void popup_messageopt_dialog(void)
       }
       for(i=0; i < E_LAST && !err; i++)
       {
-        if((o = MakeLabelLeft(_(message_text[sorted_events[i]]))))
+        if((o = MakeLabelLeft(get_message_text(sorted_events[i]))))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, o);
         else
           ++err;
 
-        if((message_option_objects[i].Out = MakeCheck(_(message_text[sorted_events[i]]), FALSE)))
+        if((message_option_objects[i].Out = MakeCheck(get_message_text(sorted_events[i]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Out);
         else
           ++err;
 
-        if((message_option_objects[i].Mes = MakeCheck(_(message_text[sorted_events[i]]), FALSE)))
+        if((message_option_objects[i].Mes = MakeCheck(get_message_text(sorted_events[i]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Mes);
         else
           ++err;
 
-        if((message_option_objects[i].Pop = MakeCheck(_(message_text[sorted_events[i]]), FALSE)))
+        if((message_option_objects[i].Pop = MakeCheck(get_message_text(sorted_events[i]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Pop);
         else
           ++err;

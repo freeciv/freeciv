@@ -14,6 +14,7 @@
 #define FC__OPTIONS_H
 
 #include "shared.h"		/* bool type */
+#include "events.h"
 
 /** Local Options: **/
 
@@ -81,9 +82,9 @@ extern view_option view_options[];
 #define MW_POPUP     4		/* popup an individual window */
 
 extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
-extern const char *message_text[];      /* [E_LAST] */
-extern int sorted_events[];	        /* [E_LAST], sorted by message_text */
-
+extern int sorted_events[];	        /* [E_LAST], sorted by the
+					   translated message text */
+const char *const get_message_text(enum event_type event);
 
 void init_messages_where(void);
 

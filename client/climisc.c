@@ -48,6 +48,7 @@ used throughout the client.
 #include "tilespec.h"
 #include "civclient.h"
 #include "spaceship.h"
+#include "packhand.h"
 
 #include "climisc.h"
 
@@ -1116,4 +1117,24 @@ char *get_spaceship_descr(struct player_spaceship *pship)
 	      mass_buf,
 	      travel_buf, (int) (pship->success_rate * 100.0), arrival);
   return buf;
+}
+
+/**************************************************************************
+  Creates a struct packet_generic_message packet and injects it via
+  handle_chat_msg.
+**************************************************************************/
+void create_event(int x, int y, int event, const char *format, ...)
+{
+  va_list ap;
+  struct packet_generic_message packet;
+
+  packet.x = x;
+  packet.y = y;
+  packet.event = event;
+
+  va_start(ap, format);
+  my_vsnprintf(packet.message, sizeof(packet.message), format, ap);
+  va_end(ap);
+
+  handle_chat_msg(&packet);
 }

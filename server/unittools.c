@@ -2159,8 +2159,8 @@ void do_nuclear_explosion(struct player *pplayer, int x, int y)
     do_nuke_tile(pplayer, x1, y1);
   } square_iterate_end;
 
-  notify_player_ex(pplayer, x, y,
-		   E_NOEVENT, _("Game: You detonated a nuke."));
+  notify_conn_ex(&game.game_connections, x, y, E_NUKE,
+		 _("Game: %s detonated a nuke!"), pplayer->name);
 }
 
 /**************************************************************************
@@ -2289,7 +2289,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
 static void hut_get_gold(struct unit *punit, int cred)
 {
   struct player *pplayer = unit_owner(punit);
-  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+  notify_player_ex(pplayer, punit->x, punit->y, E_HUT_GOLD,
 		   _("Game: You found %d gold."), cred);
   pplayer->economic.gold += cred;
 }
@@ -2302,7 +2302,7 @@ static void hut_get_tech(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   int res_ed, res_ing, new_tech;
   
-  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+  notify_player_ex(pplayer, punit->x, punit->y, E_HUT_TECH,
 		   _("Game: You found ancient scrolls of wisdom."));
 
   /* Save old values, choose tech, then restore old values: */
@@ -2345,7 +2345,7 @@ static void hut_get_mercenaries(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   
-  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+  notify_player_ex(pplayer, punit->x, punit->y, E_HUT_MERC,
 		   _("Game: A band of friendly mercenaries joins your cause."));
   (void) create_unit(pplayer, punit->x, punit->y,
 		     find_a_unit_type(L_HUT, L_HUT_TECH), FALSE,
@@ -2362,7 +2362,7 @@ static bool hut_get_barbarians(struct unit *punit)
   bool ok = TRUE;
 
   if (city_exists_within_city_radius(punit->x, punit->y, TRUE)) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+    notify_player_ex(pplayer, punit->x, punit->y, E_HUT_BARB_CITY_NEAR,
 		     _("Game: An abandoned village is here."));
   }
   else {
@@ -2374,10 +2374,10 @@ static bool hut_get_barbarians(struct unit *punit)
     ok = unleash_barbarians(pplayer, punit_x, punit_y);
 
     if (ok) {
-      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
+      notify_player_ex(pplayer, punit_x, punit_y, E_HUT_BARB,
 		       _("Game: You have unleashed a horde of barbarians!"));
     } else {
-      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
+      notify_player_ex(pplayer, punit_x, punit_y, E_HUT_BARB_KILLED,
 		       _("Game: Your %s has been killed by barbarians!"),
 		       unit_name(type));
     }
@@ -2393,10 +2393,12 @@ static void hut_get_city(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   
   if (is_ok_city_spot(punit->x, punit->y)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_HUT_CITY,
+		     _("Game: You found a friendly city."));
     create_city(pplayer, punit->x, punit->y,
 		city_name_suggestion(pplayer, punit->x, punit->y));
   } else {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+    notify_player_ex(pplayer, punit->x, punit->y, E_HUT_SETTLER,
 		     _("Game: Friendly nomads are impressed by you,"
 		       " and join you."));
     (void) create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),

@@ -950,8 +950,9 @@ static void handle_alloc_nation(struct player *pplayer,
     }
   } players_iterate_end;
 
-  freelog(LOG_NORMAL, _("%s is the %s ruler %s."), pplayer->name, 
-      get_nation_name(packet->nation_no), packet->name);
+  notify_conn_ex(&game.est_connections, -1, -1, E_NATION_SELECTED,
+		 _("Game: %s is the %s ruler %s."), pplayer->name,
+		 get_nation_name(packet->nation_no), packet->name);
 
   /* inform player his choice was ok */
   select_nation.value2=0xffff;

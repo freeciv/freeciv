@@ -22,6 +22,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "rand.h"
+#include "events.h"
 
 #include "maphand.h"
 #include "plrhand.h"
@@ -179,7 +180,8 @@ void send_year_to_clients(int year)
   lsend_packet_new_year(&game.est_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
-  notify_conn(&game.est_connections, _("Year: %s"), textyear(year));
+  notify_conn_ex(&game.est_connections, -1, -1, E_NEXT_YEAR, _("Year: %s"),
+		 textyear(year));
 }
 
 

@@ -810,7 +810,7 @@ void handle_page_msg(struct packet_generic_message *packet)
   }
 
   if (!game.player_ptr->ai.control || ai_popup_windows || 
-       packet->event != BROADCAST_EVENT)
+       packet->event != E_BROADCAST_REPORT)
     popup_notify_dialog(caption, headline, lines);
 }
 
@@ -1242,12 +1242,14 @@ void handle_player_info(struct packet_player_info *pinfo)
     }
   }
   
-  if(pplayer==game.player_ptr && 
-     (pplayer->revolution < 1 || pplayer->revolution > 5) && 
-     pplayer->government==game.government_when_anarchy &&
-     (!game.player_ptr->ai.control || ai_popup_windows) &&
-     (get_client_state()==CLIENT_GAME_RUNNING_STATE))
+  if (pplayer == game.player_ptr &&
+      (pplayer->revolution < 1 || pplayer->revolution > 5) &&
+      pplayer->government == game.government_when_anarchy &&
+      (!game.player_ptr->ai.control || ai_popup_windows) &&
+      (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
+    create_event(-1, -1, E_REVOLT_DONE, _("Game: Revolution finished"));
     popup_government_dialog();
+  }
   
   update_players_dialog();
   update_worklist_report_dialog();
@@ -2253,6 +2255,7 @@ void handle_diplomat_action(struct packet_diplomat_action *packet)
   switch(packet->action_type) {
   case DIPLOMAT_CLIENT_POPUP_DIALOG:
     process_diplomat_arrival(pdiplomat, packet->target_id);
+    create_event(-1, -1, E_MY_DIPLOMAT, _("Game: Diplomat arrived."));
     break;
   default:
     freelog(LOG_ERROR, "Received bad action %d in handle_diplomat_action()",
@@ -2274,6 +2277,7 @@ void handle_sabotage_list(struct packet_sabotage_list *packet)
       pcity->improvements[i] = (packet->improvements[i]=='1') ? I_ACTIVE : I_NONE;
     } impr_type_iterate_end;
 
+    create_event(-1, -1, E_MY_DIPLOMAT, _("Game: Diplomat sabotage."));
     popup_sabotage_dialog(pcity);
   }
 }
