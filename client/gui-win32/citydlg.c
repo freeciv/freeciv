@@ -409,7 +409,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   
   if (pcity->is_building_unit)
     {
-      turns = city_turns_to_build (pcity, pcity->currently_building, TRUE);
+      turns = city_turns_to_build (pcity, pcity->currently_building, TRUE, TRUE);
       my_snprintf(buf, sizeof(buf),
 		  concise_city_production ? "%3d/%3d:%3d" :
                   turns == 1 ? _("%3d/%3d %3d turn") : _("%3d/%3d %3d turns"),
@@ -430,7 +430,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 	EnableWindow(pdialog->buy_but,FALSE);
       }
       else {
-	turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
+	turns = city_turns_to_build (pcity, pcity->currently_building, FALSE, TRUE);
 	my_snprintf(buf, sizeof(buf),
 		    concise_city_production ? "%3d/%3d:%3d" :
                     turns == 1 ? _("%3d/%3d %3d turn") :
@@ -1225,7 +1225,7 @@ void change_callback(struct city_dialog *pdialog)
 	    my_snprintf(buf[2], sizeof(buf[2]), "--");
 	    my_snprintf(buf[3], sizeof(buf[3]), "--");
 	  } else {
-	    turns = city_turns_to_build (pdialog->pcity, i, FALSE);
+	    turns = city_turns_to_build (pdialog->pcity, i, FALSE,TRUE);
 	    my_snprintf(buf[0], sizeof(buf[0]), get_improvement_type(i)->name);
 	     
 	    /* from city.c get_impr_name_ex() */
@@ -1260,7 +1260,7 @@ void change_callback(struct city_dialog *pdialog)
 	if(can_build_unit(pdialog->pcity, i)) {
 	  struct unit_type *ptype;
 
-	  turns = city_turns_to_build (pdialog->pcity, i, TRUE);
+	  turns = city_turns_to_build (pdialog->pcity, i, TRUE,TRUE);
 	  my_snprintf(buf[0], sizeof(buf[0]), unit_name(i));
 	  
 	  /* from unit.h get_unit_name() */
