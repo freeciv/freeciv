@@ -1743,7 +1743,7 @@ static void apply_unit_ordering(void)
 }
 
 /***************************************************************
-...
+Old savegames have defects...
 ***************************************************************/
 static void check_city(struct city *pcity)
 {
@@ -1754,14 +1754,14 @@ static void check_city(struct city *pcity)
     case C_TILE_EMPTY:
       if (!res) {
 	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	freelog(LOG_ERROR, "ERROR: unavailable tile marked as empty!");
+	freelog(LOG_DEBUG, "unavailable tile marked as empty!");
       }
     case C_TILE_WORKER:
       if (!res) {
 	int map_x, map_y;
 	pcity->ppl_elvis++;
 	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	freelog(LOG_ERROR, "ERROR: Worked tile was unavailable!");
+	freelog(LOG_DEBUG, "Worked tile was unavailable!");
 
 	get_citymap_xy(pcity, x, y, &map_x, &map_y);
 	map_city_radius_iterate(map_x, map_y, x2, y2) {
@@ -1774,7 +1774,7 @@ static void check_city(struct city *pcity)
     case C_TILE_UNAVAILABLE:
       if (res) {
 	pcity->city_map[x][y] = C_TILE_EMPTY;
-	freelog(LOG_ERROR, "ERROR: Empty tile Marked as unavailable!");
+	freelog(LOG_DEBUG, "Empty tile Marked as unavailable!");
       }
       break;
     }
