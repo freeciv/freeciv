@@ -37,6 +37,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "packets.h"
 #include "player.h"
 #include "registry.h"
 #include "shared.h"		/* fc__attribute, bool type, etc. */
@@ -796,7 +797,6 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     cmd_reply(CMD_CREATE, caller, C_SYNTAX, _("That name is not allowed."));
     return FALSE;
   }       
-
 
   if ((pplayer=find_player_by_name(arg))) {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
@@ -2937,6 +2937,53 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 }
 
 /**************************************************************************
+  After a /load is completed, a reply is sent to all connections to tell
+  them about the load.  This information is used by the conndlg to
+  set up the graphical interface for starting the game.
+**************************************************************************/
+static void send_load_game_info(bool load_successful)
+{
+  int i;
+  struct packet_game_load packet;
+
+  /* Clear everything to be safe. */
+  memset(&packet, 0, sizeof(packet));
+
+  sz_strlcpy(packet.load_filename, srvarg.load_filename);
+  packet.load_successful = load_successful;
+
+  if (load_successful) {
+    packet.nplayers = game.nplayers;
+
+    for (i = 0; i < game.nplayers; i++) {
+      struct player *pplayer = &game.players[i];
+
+      if (game.nation_count && is_barbarian(pplayer)){
+        packet.nplayers--;
+        continue;
+      }
+
+      sz_strlcpy(packet.name[i], pplayer->name);
+      sz_strlcpy(packet.username[i], pplayer->username);
+      if (game.nation_count) {
+        sz_strlcpy(packet.nation_name[i], get_nation_name(pplayer->nation));
+        sz_strlcpy(packet.nation_flag[i],
+                 get_nation_by_plr(pplayer)->flag_graphic_str);
+      } else { /* No nations picked */
+        sz_strlcpy(packet.nation_name[i], "");
+        sz_strlcpy(packet.nation_flag[i], "");
+      }
+      packet.is_alive[i] = pplayer->is_alive;
+      packet.is_ai[i] = pplayer->ai.control;
+    }
+  } else {
+    packet.nplayers = 0;
+  }
+
+  lsend_packet_game_load(&game.est_connections, &packet);
+}
+
+/**************************************************************************
   ...
 **************************************************************************/
 bool load_command(struct connection *caller, char *arg, bool check)
@@ -2946,12 +2993,14 @@ bool load_command(struct connection *caller, char *arg, bool check)
 
   if (!arg || arg[0] == '\0') {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <filename>"));
+    send_load_game_info(FALSE);
     return FALSE;
   }
 
   if (server_state != PRE_GAME_STATE) {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Can't load a game while another "
                                           "is running."));
+    send_load_game_info(FALSE);
     return FALSE;
   }
 
@@ -2959,6 +3008,7 @@ bool load_command(struct connection *caller, char *arg, bool check)
 
   if (!section_file_load_nodup(&file, arg)) {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Couldn't load savefile: %s"), arg);
+    send_load_game_info(FALSE);
     return FALSE;
   }
 
@@ -2985,6 +3035,9 @@ bool load_command(struct connection *caller, char *arg, bool check)
           read_timer_seconds_free(uloadtimer));
 
   sanity_check();
+
+  /* Everything seemed to load ok; spread the good news. */
+  send_load_game_info(TRUE);
 
   /* attach connections to players. currently, this applies only 
    * to connections that have the correct username. Any attachments

@@ -377,11 +377,8 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_SINGLE_WANT_HACK_REPLY:
     return receive_packet_single_want_hack_reply(pc, type);
 
-  case PACKET_SINGLE_PLAYERLIST_REQ:
-    return receive_packet_single_playerlist_req(pc, type);
-
-  case PACKET_SINGLE_PLAYERLIST_REPLY:
-    return receive_packet_single_playerlist_reply(pc, type);
+  case PACKET_GAME_LOAD:
+    return receive_packet_game_load(pc, type);
 
   case PACKET_OPTIONS_SETTABLE_CONTROL:
     return receive_packet_options_settable_control(pc, type);
@@ -734,11 +731,8 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_SINGLE_WANT_HACK_REPLY:
     return "PACKET_SINGLE_WANT_HACK_REPLY";
 
-  case PACKET_SINGLE_PLAYERLIST_REQ:
-    return "PACKET_SINGLE_PLAYERLIST_REQ";
-
-  case PACKET_SINGLE_PLAYERLIST_REPLY:
-    return "PACKET_SINGLE_PLAYERLIST_REPLY";
+  case PACKET_GAME_LOAD:
+    return "PACKET_GAME_LOAD";
 
   case PACKET_OPTIONS_SETTABLE_CONTROL:
     return "PACKET_OPTIONS_SETTABLE_CONTROL";
@@ -26308,95 +26302,25 @@ int dsend_packet_single_want_hack_reply(struct connection *pc, bool you_have_hac
   return send_packet_single_want_hack_reply(pc, real_packet);
 }
 
-static struct packet_single_playerlist_req *receive_packet_single_playerlist_req_100(struct connection *pc, enum packet_type type)
+#define hash_packet_game_load_100 hash_const
+
+#define cmp_packet_game_load_100 cmp_const
+
+BV_DEFINE(packet_game_load_100_fields, 9);
+
+static struct packet_game_load *receive_packet_game_load_100(struct connection *pc, enum packet_type type)
 {
-  RECEIVE_PACKET_START(packet_single_playerlist_req, real_packet);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_single_playerlist_req_100(struct connection *pc)
-{
-  SEND_PACKET_START(PACKET_SINGLE_PLAYERLIST_REQ);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_single_playerlist_req(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REQ] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REQ] = variant;
-}
-
-struct packet_single_playerlist_req *receive_packet_single_playerlist_req(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if(!is_server) {
-    freelog(LOG_ERROR, "Receiving packet_single_playerlist_req at the client.");
-  }
-  ensure_valid_variant_packet_single_playerlist_req(pc);
-
-  switch(pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REQ]) {
-    case 100: return receive_packet_single_playerlist_req_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_single_playerlist_req(struct connection *pc)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if(is_server) {
-    freelog(LOG_ERROR, "Sending packet_single_playerlist_req from the server.");
-  }
-  ensure_valid_variant_packet_single_playerlist_req(pc);
-
-  switch(pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REQ]) {
-    case 100: return send_packet_single_playerlist_req_100(pc);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-#define hash_packet_single_playerlist_reply_100 hash_const
-
-#define cmp_packet_single_playerlist_reply_100 cmp_const
-
-BV_DEFINE(packet_single_playerlist_reply_100_fields, 8);
-
-static struct packet_single_playerlist_reply *receive_packet_single_playerlist_reply_100(struct connection *pc, enum packet_type type)
-{
-  packet_single_playerlist_reply_100_fields fields;
-  struct packet_single_playerlist_reply *old;
+  packet_game_load_100_fields fields;
+  struct packet_game_load *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_single_playerlist_reply *clone;
-  RECEIVE_PACKET_START(packet_single_playerlist_reply, real_packet);
+  struct packet_game_load *clone;
+  RECEIVE_PACKET_START(packet_game_load, real_packet);
 
   DIO_BV_GET(&din, fields);
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_single_playerlist_reply_100, cmp_packet_single_playerlist_reply_100);
+    *hash = hash_new(hash_packet_game_load_100, cmp_packet_game_load_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -26406,7 +26330,8 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
     memset(real_packet, 0, sizeof(*real_packet));
   }
 
-  if (BV_ISSET(fields, 0)) {
+  real_packet->load_successful = BV_ISSET(fields, 0);
+  if (BV_ISSET(fields, 1)) {
     {
       int readin;
     
@@ -26414,10 +26339,10 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
       real_packet->nplayers = readin;
     }
   }
-  if (BV_ISSET(fields, 1)) {
+  if (BV_ISSET(fields, 2)) {
     dio_get_string(&din, real_packet->load_filename, sizeof(real_packet->load_filename));
   }
-  if (BV_ISSET(fields, 2)) {
+  if (BV_ISSET(fields, 3)) {
     
     {
       int i;
@@ -26431,7 +26356,7 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
       }
     }
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 4)) {
     
     {
       int i;
@@ -26445,7 +26370,7 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
       }
     }
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 5)) {
     
     {
       int i;
@@ -26459,7 +26384,7 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
       }
     }
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 6)) {
     
     {
       int i;
@@ -26473,7 +26398,7 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
       }
     }
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 7)) {
     
     {
       int i;
@@ -26487,7 +26412,7 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
       }
     }
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 8)) {
     
     {
       int i;
@@ -26512,18 +26437,18 @@ static struct packet_single_playerlist_reply *receive_packet_single_playerlist_r
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_single_playerlist_reply_100(struct connection *pc, const struct packet_single_playerlist_reply *packet)
+static int send_packet_game_load_100(struct connection *pc, const struct packet_game_load *packet)
 {
-  const struct packet_single_playerlist_reply *real_packet = packet;
-  packet_single_playerlist_reply_100_fields fields;
-  struct packet_single_playerlist_reply *old, *clone;
+  const struct packet_game_load *real_packet = packet;
+  packet_game_load_100_fields fields;
+  struct packet_game_load *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_SINGLE_PLAYERLIST_REPLY];
+  struct hash_table **hash = &pc->phs.sent[PACKET_GAME_LOAD];
   int different = 0;
-  SEND_PACKET_START(PACKET_SINGLE_PLAYERLIST_REPLY);
+  SEND_PACKET_START(PACKET_GAME_LOAD);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_single_playerlist_reply_100, cmp_packet_single_playerlist_reply_100);
+    *hash = hash_new(hash_packet_game_load_100, cmp_packet_game_load_100);
   }
   BV_CLR_ALL(fields);
 
@@ -26535,13 +26460,17 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
     force_send_of_unchanged = TRUE;
   }
 
+  differ = (old->load_successful != real_packet->load_successful);
+  if(differ) {different++;}
+  if(packet->load_successful) {BV_SET(fields, 0);}
+
   differ = (old->nplayers != real_packet->nplayers);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
+  if(differ) {BV_SET(fields, 1);}
 
   differ = (strcmp(old->load_filename, real_packet->load_filename) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
+  if(differ) {BV_SET(fields, 2);}
 
 
     {
@@ -26557,7 +26486,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
+  if(differ) {BV_SET(fields, 3);}
 
 
     {
@@ -26573,7 +26502,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
+  if(differ) {BV_SET(fields, 4);}
 
 
     {
@@ -26589,7 +26518,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
+  if(differ) {BV_SET(fields, 5);}
 
 
     {
@@ -26605,7 +26534,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
+  if(differ) {BV_SET(fields, 6);}
 
 
     {
@@ -26621,7 +26550,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
+  if(differ) {BV_SET(fields, 7);}
 
 
     {
@@ -26637,7 +26566,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 8);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26645,13 +26574,14 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
 
   DIO_BV_PUT(&dout, fields);
 
-  if (BV_ISSET(fields, 0)) {
+  /* field 0 is folded into the header */
+  if (BV_ISSET(fields, 1)) {
     dio_put_uint8(&dout, real_packet->nplayers);
   }
-  if (BV_ISSET(fields, 1)) {
+  if (BV_ISSET(fields, 2)) {
     dio_put_string(&dout, real_packet->load_filename);
   }
-  if (BV_ISSET(fields, 2)) {
+  if (BV_ISSET(fields, 3)) {
   
     {
       int i;
@@ -26661,7 +26591,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     } 
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 4)) {
   
     {
       int i;
@@ -26671,7 +26601,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     } 
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 5)) {
   
     {
       int i;
@@ -26681,7 +26611,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     } 
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 6)) {
   
     {
       int i;
@@ -26691,7 +26621,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     } 
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 7)) {
   
     {
       int i;
@@ -26701,7 +26631,7 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
       }
     } 
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 8)) {
   
     {
       int i;
@@ -26724,11 +26654,11 @@ static int send_packet_single_playerlist_reply_100(struct connection *pc, const 
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_single_playerlist_reply(struct connection *pc)
+static void ensure_valid_variant_packet_game_load(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REPLY] != -1) {
+  if(pc->phs.variant[PACKET_GAME_LOAD] != -1) {
     return;
   }
 
@@ -26738,10 +26668,10 @@ static void ensure_valid_variant_packet_single_playerlist_reply(struct connectio
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REPLY] = variant;
+  pc->phs.variant[PACKET_GAME_LOAD] = variant;
 }
 
-struct packet_single_playerlist_reply *receive_packet_single_playerlist_reply(struct connection *pc, enum packet_type type)
+struct packet_game_load *receive_packet_game_load(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -26751,17 +26681,17 @@ struct packet_single_playerlist_reply *receive_packet_single_playerlist_reply(st
   }
   assert(pc->phs.variant != NULL);
   if(is_server) {
-    freelog(LOG_ERROR, "Receiving packet_single_playerlist_reply at the server.");
+    freelog(LOG_ERROR, "Receiving packet_game_load at the server.");
   }
-  ensure_valid_variant_packet_single_playerlist_reply(pc);
+  ensure_valid_variant_packet_game_load(pc);
 
-  switch(pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REPLY]) {
-    case 100: return receive_packet_single_playerlist_reply_100(pc, type);
+  switch(pc->phs.variant[PACKET_GAME_LOAD]) {
+    case 100: return receive_packet_game_load_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_single_playerlist_reply(struct connection *pc, const struct packet_single_playerlist_reply *packet)
+int send_packet_game_load(struct connection *pc, const struct packet_game_load *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -26771,14 +26701,21 @@ int send_packet_single_playerlist_reply(struct connection *pc, const struct pack
   }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
-    freelog(LOG_ERROR, "Sending packet_single_playerlist_reply from the client.");
+    freelog(LOG_ERROR, "Sending packet_game_load from the client.");
   }
-  ensure_valid_variant_packet_single_playerlist_reply(pc);
+  ensure_valid_variant_packet_game_load(pc);
 
-  switch(pc->phs.variant[PACKET_SINGLE_PLAYERLIST_REPLY]) {
-    case 100: return send_packet_single_playerlist_reply_100(pc, packet);
+  switch(pc->phs.variant[PACKET_GAME_LOAD]) {
+    case 100: return send_packet_game_load_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
+}
+
+void lsend_packet_game_load(struct conn_list *dest, const struct packet_game_load *packet)
+{
+  conn_list_iterate(*dest, pconn) {
+    send_packet_game_load(pconn, packet);
+  } conn_list_iterate_end;
 }
 
 #define hash_packet_options_settable_control_100 hash_const

@@ -1260,10 +1260,8 @@ PACKET_SINGLE_WANT_HACK_REPLY=109;sc,dsend
  BOOL you_have_hack;
 end
 
-PACKET_SINGLE_PLAYERLIST_REQ=110;cs,handle-per-conn,no-handle
-end
-
-PACKET_SINGLE_PLAYERLIST_REPLY=111;sc
+PACKET_GAME_LOAD=111;sc,handle-via-packet,lsend
+  BOOL load_successful;
   UINT8 nplayers;
   STRING load_filename[MAX_LEN_PACKET];
   STRING name[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 

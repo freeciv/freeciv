@@ -445,10 +445,9 @@ static GdkPixbuf *get_flag(char *flag_str)
 }
 
 /**************************************************************************
-  this regenerates the player information from a game on the server.
+  this regenerates the player information from a loaded game on the server.
 **************************************************************************/
-void handle_single_playerlist_reply(struct packet_single_playerlist_reply 
-                                    *packet)
+void handle_game_load(struct packet_game_load *packet)
 {
   int i;
 
@@ -458,12 +457,8 @@ void handle_single_playerlist_reply(struct packet_single_playerlist_reply
 
   gtk_list_store_clear(storesaved);
 
-  if (packet->nplayers != 0) {
-    game.nplayers = packet->nplayers;
-  }
-
   /* we couldn't load the savegame, we could have gotten the name wrong, etc */
-  if (packet->nplayers == 0
+  if (!packet->load_successful
       || strcmp(current_filename, packet->load_filename) != 0) {
     gtk_window_set_title(GTK_WINDOW(dialog), _("Couldn't load the savegame"));
     return;
@@ -474,6 +469,7 @@ void handle_single_playerlist_reply(struct packet_single_playerlist_reply
     gtk_window_set_title(GTK_WINDOW(dialog), ++buf);
   }
 
+  game.nplayers = packet->nplayers;
 
   for (i = 0; i < packet->nplayers; i++) {
     GtkTreeIter iter;
@@ -486,10 +482,32 @@ void handle_single_playerlist_reply(struct packet_single_playerlist_reply
                        3, packet->is_alive[i] ? _("Alive") : _("Dead"),
                        4, packet->is_ai[i] ? _("AI") : _("Human"), -1);
 
-    /* set flag. */
-    flag = get_flag(packet->nation_flag[i]);
-    gtk_list_store_set(storesaved, &iter, 1, flag, -1);
-    g_object_unref(flag);
+    /* set flag if we've got one to set. */
+    if (strcmp(packet->nation_flag[i], "") != 0) {
+      flag = get_flag(packet->nation_flag[i]);
+      gtk_list_store_set(storesaved, &iter, 1, flag, -1);
+      g_object_unref(flag);
+    }
+  }
+
+  /* if nplayers is zero, we suppose it's a scenario */
+  if (packet->load_successful && packet->nplayers == 0) {
+    GtkTreeIter iter;
+    char message[MAX_LEN_MSG];
+
+    my_snprintf(message, sizeof(message), "/create %s", user_name);
+    send_chat(message);
+    my_snprintf(message, sizeof(message), "/ai %s", user_name);
+    send_chat(message);
+    my_snprintf(message, sizeof(message), "/take %s", user_name);
+    send_chat(message);
+
+    /* create a false entry */
+    gtk_list_store_append(storesaved, &iter);
+    gtk_list_store_set(storesaved, &iter,
+                       0, user_name,
+                       3, _("Alive"),
+                       4, _("Human"), -1);
   }
 }
 
@@ -520,7 +538,6 @@ static void filesel_response_callback(GtkWidget *w, gint id, gpointer data)
 
       my_snprintf(message, sizeof(message), "/load %s", current_filename);
       send_chat(message);
-      send_packet_single_playerlist_req(&aconnection);
     }
   }
 

@@ -928,11 +928,6 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
 
-  if (type == PACKET_SINGLE_PLAYERLIST_REQ) {
-    handle_single_playerlist_req(pconn);
-    return TRUE;
-  }
-
   pplayer = pconn->player;
 
   if(!pplayer) {

@@ -81,10 +81,9 @@ void really_close_connection_dialog(void)
 }
 
 /**************************************************************************
- provide a packet handler for packet_single_playerlist_reply 
+ provide a packet handler for packet_game_load
 **************************************************************************/
-void handle_single_playerlist_reply(struct packet_single_playerlist_reply
-                                    *packet)
+void handle_game_load(struct packet_game_load *packet)
 { 
   /* PORTME */
 }

@@ -235,11 +235,10 @@ void gui_server_connect(void)
 }
 
 /**************************************************************************
-  this regenerates the player information from a game on the server.
+  this regenerates the player information from a loaded game on the server.
   currently a stub. TODO
 **************************************************************************/
-void handle_single_playerlist_reply(struct packet_single_playerlist_reply
-                                    *packet)
+void handle_game_load(struct packet_game_load *packet)
 { 
   /* PORTME */
 }

@@ -994,11 +994,8 @@ struct packet_single_want_hack_reply {
   bool you_have_hack;
 };
 
-struct packet_single_playerlist_req {
-  char __dummy;			/* to avoid malloc(0); */
-};
-
-struct packet_single_playerlist_reply {
+struct packet_game_load {
+  bool load_successful;
   int nplayers;
   char load_filename[MAX_LEN_PACKET];
   char name[MAX_NUM_PLAYERS][MAX_LEN_NAME];
@@ -1141,8 +1138,7 @@ enum packet_type {
   PACKET_UNIT_LOAD,
   PACKET_SINGLE_WANT_HACK_REQ,
   PACKET_SINGLE_WANT_HACK_REPLY,
-  PACKET_SINGLE_PLAYERLIST_REQ,          /* 110 */
-  PACKET_SINGLE_PLAYERLIST_REPLY,
+  PACKET_GAME_LOAD = 111,
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
   PACKET_SELECT_RACES,
@@ -1605,11 +1601,9 @@ struct packet_single_want_hack_reply *receive_packet_single_want_hack_reply(stru
 int send_packet_single_want_hack_reply(struct connection *pc, const struct packet_single_want_hack_reply *packet);
 int dsend_packet_single_want_hack_reply(struct connection *pc, bool you_have_hack);
 
-struct packet_single_playerlist_req *receive_packet_single_playerlist_req(struct connection *pc, enum packet_type type);
-int send_packet_single_playerlist_req(struct connection *pc);
-
-struct packet_single_playerlist_reply *receive_packet_single_playerlist_reply(struct connection *pc, enum packet_type type);
-int send_packet_single_playerlist_reply(struct connection *pc, const struct packet_single_playerlist_reply *packet);
+struct packet_game_load *receive_packet_game_load(struct connection *pc, enum packet_type type);
+int send_packet_game_load(struct connection *pc, const struct packet_game_load *packet);
+void lsend_packet_game_load(struct conn_list *dest, const struct packet_game_load *packet);
 
 struct packet_options_settable_control *receive_packet_options_settable_control(struct connection *pc, enum packet_type type);
 int send_packet_options_settable_control(struct connection *pc, const struct packet_options_settable_control *packet);

@@ -98,6 +98,4 @@ struct player *shuffled_player(int i);
 bool civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
 
-void handle_single_playerlist_req(struct connection *pconn);
-
 #endif  /* FC__PLRHAND_H */

@@ -85,10 +85,9 @@ void handle_authentication_req(enum authentication_type type, char *message)
 }
 
 /**************************************************************************
- provide a packet handler for packet_single_playerlist_reply 
+ provide a packet handler for packet_game_load
 **************************************************************************/
-void handle_single_playerlist_reply(struct packet_single_playerlist_reply
-                                    *packet)
+void handle_game_load(struct packet_game_load *packet)
 { 
   /* PORTME */
 }
