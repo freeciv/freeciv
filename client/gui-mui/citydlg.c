@@ -2130,7 +2130,7 @@ static void refresh_cma_dialog(struct city_dialog *pdialog)
   cmafec_get_fe_parameter(pcity, &param);
 
   /* fill in result label */
-  cm_query_result(pcity, &param, &result);
+  cm_copy_result_from_city(pcity, &result);
 
   if (!result.found_a_valid) {
     for (i = 0; i < 10; i++)
