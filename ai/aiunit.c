@@ -233,13 +233,17 @@ static int tile_is_accessible(struct unit *punit, int x, int y)
 Explores unknown territory, finds huts.
 Returns whether there is any more territory to be explored.
 **************************************************************************/
-int ai_manage_explorer(struct player *pplayer, struct unit *punit)
+int ai_manage_explorer(struct unit *punit)
 {
-  int i, j, d, f, x, y, con, dest_x=0, dest_y=0, best, lmt, cur, a, b;
-  int ok, ct = punit->moves_left + 3;
+  struct player *pplayer = unit_owner(punit);
+  int x, y; /* is the position of the unit; updated inside the function */
+  int con; /* continent the unit is on */
   struct city *pcity;
   int id = punit->id; /* we can now die because easy AI may accidently
 			 stumble on huts it fuzzily ignored */
+  int best_x = -1, best_y = -1;
+  int range = get_unit_type(punit->type)->vision_range;
+  int move_rate = unit_move_rate(punit);
 
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -248,127 +252,151 @@ int ai_manage_explorer(struct player *pplayer, struct unit *punit)
   if (is_ground_unit(punit)) con = map_get_continent(x, y);
   else con = 0; /* Thanks, Tony */
 
-  lmt = (pplayer->ai.control ? 2 * THRESHOLD : 3);
-  best = lmt * 3 + 1;
+  /* CPU-expensive but worth it -- Syela */
+  generate_warmap(map_get_city(x, y), punit);
 
-  generate_warmap(map_get_city(x, y), punit); /* CPU-expensive but worth it -- Syela */
-/* otherwise did not understand about bays and did really stupid things! */
+  /* BEGIN PART ONE: Look for huts.  Non-Barbarian Ground units ONLY. */
+  if (!is_barbarian(pplayer)
+      && is_ground_unit(punit)) { /* boats don't hunt huts */
+    int x1, y1;
+    int maxcost = pplayer->ai.control ? 2 * THRESHOLD : 3;
+    int bestcost = maxcost * 3 + 1;
 
-/* BEGIN PART ONE: Look for huts.  Non-Barbarian Ground units ONLY. */
-  if (!is_barbarian(pplayer)) {
-    if (is_ground_unit(punit)) { /* boats don't hunt huts */
-      for (d = 1; d <= lmt; d++) {
-	for (i = 0 - d; i <= d; i++) {
-	  f = 1;
-	  if (i != 0 - d && i != d) f = d * 2; /* I was an idiot to forget this */
-	  for (j = 0 - d; j <= d; j += f) {
-	    if (map_get_tile(x + i, y + j)->special & S_HUT &&
-		warmap.cost[map_adjust_x(x + i)][y + j] < best &&
-		(!ai_handicap(pplayer, H_HUTS) || map_get_known(x+i, y+j, pplayer)) &&
-		map_get_continent(x + i, y + j) == con &&
-		tile_is_accessible(punit, x+i, y+j) && ai_fuzzy(pplayer,1)) {
-	      dest_x = map_adjust_x(x + i);
-	      dest_y = y + j;
-	      best = warmap.cost[dest_x][dest_y];
-	    }
-	  }
-	}
-      } /* end for D */
-    }
-    if (best <= lmt * 3) {
-      punit->goto_dest_x = dest_x;
-      punit->goto_dest_y = dest_y;
+    /* Iterating outward so that with two tiles with the same movecost
+       the nearest is used */
+    iterate_outward(x, y, maxcost, x1, y1) {
+      if (map_get_special(x1, y1) & S_HUT
+	  && warmap.cost[x1][y1] < bestcost
+	  && (!ai_handicap(pplayer, H_HUTS) || map_get_known(x1, y1, pplayer))
+	  && tile_is_accessible(punit, x1, y1)
+	  && ai_fuzzy(pplayer, 1)) {
+	best_x = x1;
+	best_y = y1;
+	bestcost = warmap.cost[best_x][best_y];
+      }
+    } iterate_outward_end;
+    if (bestcost <= maxcost * 3) {
+      punit->goto_dest_x = best_x;
+      punit->goto_dest_y = best_y;
       set_unit_activity(punit, ACTIVITY_GOTO);
       do_unit_goto(punit, GOTO_MOVE_ANY);
-      return 1; /* maybe have moves left but I want to return anyway. */
-    }
-  }
+      if (!player_find_unit_by_id(pplayer, id))
+	return 0; /* died */
 
-/* END PART ONE */
-
-/* BEGIN PART TWO: Move into unexplored territory */
-
-/* OK, failed to find huts.  Will explore basically at random */
-/* my old code was dumb dumb dumb dumb dumb and I'm rewriting it -- Syela */
-
-  while (best && punit->moves_left && ct) {
-    best = 0;
-    x = punit->x; y = punit->y;
-    for (i = -1; i <= 1; i++) {
-      for (j = -1; j <= 1; j++) {
-	struct tile *ptile = map_get_tile(x + i, y + j);
-        ok = (unit_flag(punit->type, F_TRIREME) ? 0 : 1);
-        if (map_get_continent(x + i, y + j) == con &&
-	    !is_non_allied_unit_tile(ptile, punit->owner) &&
-	    (!ptile->city || is_allied_city_tile(ptile, punit->owner))) {
-          cur = 0;
-          for (a = i - 1; a <= i + 1; a++) {
-            for (b = j - 1; b <= j + 1; b++) {
-              if (!map_get_known(x + a, y + b, pplayer)) {
-                cur++;
-                if (is_sailing_unit(punit)) {
-                  if (map_get_continent(x+a, y+b) > 2) cur++;
-                }
-              }
-              if (!ok && map_get_terrain(x+a, y+b) != T_OCEAN) ok++;
-            }
-          }
-          if (ok && (cur > best || (cur == best && myrand(2))) &&
-              could_unit_move_to_tile(punit, punit->x, punit->y, x+i, y+j) &&
-	      !(is_barbarian(pplayer) &&
-		(map_get_tile(x+i, y+j)->special & S_HUT))) {
-            dest_x = map_adjust_x(x + i);
-            dest_y = y + j;
-            best = cur;
-          }
-        }
-      } /* end j */
-    } /* end i */
-    if (best) {
-      handle_unit_move_request(punit, dest_x, dest_y, FALSE);
-      if(!player_find_unit_by_id(pplayer, id)) return 0; /* died */
-    }
-    ct--; /* trying to avoid loops */
-  }
-  if (!punit->moves_left) return 1;
-/* END PART TWO */
-
-/* BEGIN PART THREE: Go towards unexplored territory */
-/* no adjacent squares help us to explore - really slow part follows */
-  best = 0;
-  for (x = 0; x < map.xsize; x++) {
-    for (y = 0; y < map.ysize; y++) {
-      struct tile *ptile = map_get_tile(x,y);
-      if (map_get_continent(x, y) == con && map_get_known(x, y, pplayer)
-	  && !is_non_allied_unit_tile(ptile, punit->owner)
-	  && (!ptile->city || is_allied_city_tile(ptile, punit->owner))
-	  && tile_is_accessible(punit, x, y)) {
-        cur = 0;
-        for (a = -1; a <= 1; a++)
-          for (b = -1; b <= 1; b++)
-            if (!map_get_known(x + a, y + b, pplayer)) cur++;
-        if (cur) {
-          cur += 9 * (THRESHOLD - unit_move_turns(punit, x, y));
-          if ((cur > best || (cur == best && myrand(2))) &&
-	      !(is_barbarian(pplayer) &&
-		(map_get_tile(x, y)->special & S_HUT))) {
-            dest_x = map_adjust_x(x);
-            dest_y = y;
-            best = cur;
-          }
-        }
+      if (punit->moves_left) {
+	if (punit->x == best_x && punit->y == best_y) {
+	  return ai_manage_explorer(punit);
+	} else {
+	  /* Something went wrong; fall through. This should almost never happen. */
+	  if (punit->x != x || punit->y != y)
+	    generate_warmap(map_get_city(punit->x, punit->y), punit);
+	  x = punit->x; y = punit->y;
+	  /* Fallthough to next fase */
+	}
+      } else {
+	return 1;
       }
     }
   }
-  if (best > 0) {
-    punit->goto_dest_x = dest_x;
-    punit->goto_dest_y = dest_y;
-    set_unit_activity(punit, ACTIVITY_GOTO);
-    do_unit_goto(punit, GOTO_MOVE_ANY);
-    return 1;
-  }
-/* END PART THREE */
 
+  /* BEGIN PART TWO: Move into unexplored territory */
+  /* move the unit as long as moving will unveil unknown territory */
+  while (punit->moves_left) {
+    int most_unknown = 0;
+    int unknown;
+    int x1, y1, x2, y2;
+    int landnear;
+
+    /* evaluate all adjacent tiles */
+    square_iterate(x, y, 1, x1, y1) {
+      landnear = 0;
+      unknown = 0;
+      square_iterate(x1, y1, range, x2, y2) {
+	if (!map_get_known(x2, y2, pplayer))
+	  unknown++;
+	if (map_get_terrain(x2, y2) != T_OCEAN)
+	  landnear = 1;
+      } square_iterate_end;
+      if (unknown > most_unknown
+	  && (landnear || !unit_flag(punit->type, F_TRIREME))
+	  && map_get_continent(x1, y1) == con
+	  && can_unit_move_to_tile(punit, x1, y1, 0)
+	  && !((pcity = map_get_city(x1,y1))
+	       && (unit_flag(punit->type, F_DIPLOMAT)
+		   || unit_flag(punit->type, F_CARAVAN)))
+	  && !(is_barbarian(pplayer) && map_get_special(x1, y1) & S_HUT)) {
+	most_unknown = unknown;
+	best_x = x1;
+	best_y = y1;
+      }
+    } square_iterate_end;
+
+    if (most_unknown > 0) { /* a tile have unexplored territory adjacent */
+      int res = handle_unit_move_request(punit, best_x, best_y, FALSE);
+      if (!res) /* This shouldn't happen */
+	break;
+      if (!player_find_unit_by_id(pplayer, id))
+	return 0; /* died */
+      x = punit->x; y = punit->y;
+    } else {
+      break;
+    }
+  }
+
+  if (!punit->moves_left) return 1;
+
+  /* BEGIN PART THREE: Go towards unexplored territory */
+  /* no adjacent squares help us to explore - really slow part follows */
+  generate_warmap(map_get_city(x, y), punit);
+
+  {
+    int unknown, most_unknown = 0;
+    int threshold = THRESHOLD * move_rate;
+    whole_map_iterate(x1, y1) {
+      struct tile *ptile = map_get_tile(x1, y1);
+      unknown = 0;
+      if (ptile->continent == con
+	  && !is_non_allied_unit_tile(ptile, punit->owner)
+	  && !is_non_allied_city_tile(ptile, punit->owner)
+	  && tile_is_accessible(punit, x1, y1)) {
+	int x2, y2;
+	square_iterate(x1, y1, range, x2, y2) {
+	  if (!map_get_known(x2, y2, pplayer))
+	    unknown++;
+	} square_iterate_end;
+	if (unknown) {
+	  if (is_sailing_unit(punit))
+	    unknown += 9 * (threshold - warmap.seacost[x1][y1]);
+	  else
+	    unknown += 9 * (threshold - warmap.cost[x1][y1]);
+	  if ((unknown > most_unknown || (unknown == most_unknown && myrand(2)))
+	      && !(is_barbarian(pplayer) && ptile->special & S_HUT)) {
+	    best_x = x1;
+	    best_y = y1;
+	    most_unknown = unknown;
+	  }
+	}
+      }
+    } whole_map_iterate_end;
+
+    if (most_unknown > 0) {
+      punit->goto_dest_x = best_x;
+      punit->goto_dest_y = best_y;
+      handle_unit_activity_request(punit, ACTIVITY_GOTO);
+      do_unit_goto(punit, GOTO_MOVE_ANY);
+      if (punit->moves_left) {
+	if (punit->x != best_x || punit->y != best_y) {
+	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	  return 1; /* Something wrong; what to do but return? */
+	} else
+	  return ai_manage_explorer(punit);
+      } else {
+	return 1;
+      }
+    } /* no candidates; fall-through */
+  }
+
+  /* BEGIN PART FOUR: maybe go to another continent */
   freelog(LOG_DEBUG, "%s's %s at (%d,%d) failed to explore.",
 	  pplayer->name, unit_types[punit->type].name, punit->x, punit->y);
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -1027,6 +1055,9 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
   return((val * 100) / u);
 }
 
+/********************************************************************** 
+...
+***********************************************************************/
 static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity = NULL, *acity = NULL;
@@ -1508,7 +1539,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
             if (find_nearest_friendly_port(punit))
 	      do_unit_goto(punit, GOTO_MOVE_ANY);
           } else {
-            ai_manage_explorer(pplayer, punit); /* nothing else to do */
+            ai_manage_explorer(punit); /* nothing else to do */
             /* you can still have some moves left here, but barbarians should
                not sit helplessly, but advance towards nearest known enemy city */
 	    punit = find_unit_by_id(id);   /* unit might die while exploring */
@@ -1667,7 +1698,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       freelog(LOG_DEBUG, "Ferryboat %d@(%d,%d) stalling.",
 		    punit->id, punit->x, punit->y);
       if(is_barbarian(pplayer)) /* just in case */
-        ai_manage_explorer(pplayer, punit);
+        ai_manage_explorer(punit);
     }
     return;
   }
@@ -1733,14 +1764,14 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     }
   }
   if (map_get_terrain(punit->x, punit->y) == T_OCEAN) /* thanks, Tony */
-    ai_manage_explorer(pplayer, punit);
+    ai_manage_explorer(punit);
   return;
 }
 
 /**************************************************************************
 decides what to do with a military unit.
 **************************************************************************/
-static void ai_manage_military(struct player *pplayer,struct unit *punit)
+static void ai_manage_military(struct player *pplayer, struct unit *punit)
 {
   int id;
 
@@ -1791,7 +1822,7 @@ static void ai_manage_military(struct player *pplayer,struct unit *punit)
       return; /* when you pillage, you have moves left, avoid later fortify */
       break;
     case AIUNIT_EXPLORE:
-      ai_manage_explorer(pplayer, punit);
+      ai_manage_explorer(punit);
       break;
   }
 
@@ -1890,7 +1921,7 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else {
     if (!punit->moves_left) return; /* can't do anything with no moves */
-    ai_manage_explorer(pplayer, punit); /* what else could this be? -- Syela */
+    ai_manage_explorer(punit); /* what else could this be? -- Syela */
     return;
   }
   /* should never get here */

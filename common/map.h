@@ -289,7 +289,7 @@ extern struct tile_type tile_types[T_LAST];
 	if (MACRO_dx > MACRO_max_dx || MACRO_dx < MACRO_min_dx)               \
 	  continue;                                                           \
       }                                                                       \
-      if (ARG_x_itr > map.xsize)                                              \
+      if (ARG_x_itr >= map.xsize)                                              \
 	ARG_x_itr -= map.xsize;                                               \
       else if (ARG_x_itr < 0)                                                 \
 	ARG_x_itr += map.xsize;

@@ -28,7 +28,7 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 
-int ai_manage_explorer(struct player *pplayer,struct unit *punit);
+int ai_manage_explorer(struct unit *punit);
 
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
                             int *x, int *y);
