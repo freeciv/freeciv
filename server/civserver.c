@@ -462,6 +462,13 @@ main_start_players:
     
     for(i=0;i<game.nplayers;i++)
       connection_do_buffer(game.players[i].conn);
+
+    before_end_year();
+    /* This empties the client Messages window; put this before
+       everything else below, since otherwise any messages from
+       the following parts get wiped out before the user gets a
+       chance to see them.  --dwp
+    */
     freelog(LOG_DEBUG, "Season of native unrests");
     summon_barbarians(); /* wild guess really, no idea where to put it, but
                             I want to give them chance to move their units */
@@ -469,7 +476,6 @@ main_start_players:
     auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
     /* moved after sniff_packets for even more efficiency.
        What a guy I am. -- Syela */
-    before_end_year(); /* resetting David P's message window -- Syela */
     /* and now, we must manage our remaining units BEFORE the cities that are
        empty get to refresh and defend themselves.  How totally stupid. */
     ai_start_turn(); /* Misleading name for manage_units -- Syela */
@@ -488,9 +494,10 @@ main_start_players:
     send_year_to_clients(game.year);
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     send_server_info_to_metaserver(0,0);
+
     for(i=0;i<game.nplayers;i++)
       connection_do_unbuffer(game.players[i].conn);
-      
+
     if(++save_counter>=game.save_nturns && game.save_nturns>0) {
       save_counter=0;
       save_game_auto();
