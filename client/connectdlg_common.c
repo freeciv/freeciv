@@ -144,6 +144,7 @@ void client_kill_server()
     server_pid = - 1;
 #endif    
   }
+  client_has_hack = FALSE;
 }   
 
 /**************************************************************** 
@@ -172,7 +173,8 @@ bool client_start_server(void)
   char scriptcmdline[512];
 # endif
 
-  /* only one server (forked from this client) shall be running at a time */ 
+  /* only one server (forked from this client) shall be running at a time */
+  /* This also resets client_has_hack. */
   client_kill_server();
 
   append_output_window(_("Starting server..."));
