@@ -1,425 +1,1405 @@
-on Tue Feb 23 13:47:59 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/client mapctrl.c freeciv/server unithand.c:
-
-The following patch handles in a more user-friendly way the case 
-where a caravan cannot establish a trade route with an enemy city. 
-At the moment, if this is not possible, the message appearing is 
-the meaningless "You can't attack there". This no longer appears
-and a more elaborate message is displayed. Also, the modification
-of the server function allows to display an appropriate message in 
-cases where the client `gives ok' but a traderoute cannot finally 
-be established.
-Patch written by Rizos Sakellariou <rizos@cs.rice.edu>
-
-on Tue Feb 23 09:07:35 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/data helpdata.txt:
-
-Updated help to reflect ability to adjusting workers from the main map.
-
-on Sun Feb 21 18:30:06 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client Freeciv.h mapctrl.c mapctrl.h mapview.c
-	mapview.h packhand.c xmain.c freeciv/data Freeciv
-
-Added ability to adjust the location of city workers from the main map.  Use
-the 't' key to just display where the workers are, and use Shift-Button1 to
-adjust the workers just as you would in the city dialog.  The effects of your
-change are displayed on the main map when the city info update is received
-from the server.
-
-on Sun Feb 21 02:31:02 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/classic Makefile.am Makefile.in
-	freeciv/data/default Makefile.am Makefile.in:
-
-Added flags.xpm files to dis
-
-on Sat Feb 20 18:55:11 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data helpdata.txt
-	freeciv/server unitfunc.c:
-
-Fixed up units gaining hit points, and movement, helicopter, and
-United Nations hit points effects.  Based on a patch by 
-Daniel Burrows <Daniel_Burrows@brown.edu>.  Tidied up the help
-pages to reflect code.  Now units only regain hitpoints if they
-have not moved, regardless of cities, Barracks etc (to match Civ2).
-The United Nations and helicopter effects apply whether or not
-a unit has moved.
-
-on Sat Feb 20 17:35:32 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default tiles.xpm:
-
-Fixed an off-by-1-pixel mistake I introduced into default/tiles.xpm
-
-on Sat Feb 20 17:00:58 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/classic flags.xpm
-	freeciv/data/default flags.xpm:
-
-Added the extra flags.xpm files.
-
-on Sat Feb 20 17:00:19 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client graphics.c mapview.h
-	freeciv/data/classic tiles.xpm
-	freeciv/data/default tiles.xpm:
-
-Moved race flags to separate flags.xpm
-
-on Sat Feb 20 16:49:54 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client Freeciv.h cityrep.c civclient.c messagewin.c
-	optiondlg.c freeciv/data Freeciv:
-
-Added client option "Center when Popup city".  Affects whether 
-the map is also centered when a city dialog is popped up from 
-the Popup buttons for the City Report and Messages Window.
-This makes the centering behaviour of these two buttons consistent.
-
-on Sat Feb 20 16:43:16 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv configure configure.in:
-
-Adjusted where X_PRE_LIBS (usually -lSM -lICE) get placed in the 
-client link line.  Now they come just to the left of "-lXext -lX11".
-Hopefully this fixes problems with IRIX (reported by Dee Jay Randall 
-<randal@cs.uregina.ca>) and Cygwin (reported by Todd Goodman 
-<tsg1@earthlink.net>).
-
-on Fri Feb 19 21:13:19 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client helpdlg.c
-	freeciv/data helpdata.txt
-	freeciv/data/default buildings.ruleset:
-
-Fixed tech_required for Barracks III to match Civ2
-(now Mobile Warfare instead of Combustion); also 
-obsolete_by for Barracks II.  Based on a patch by 
-Greg Wooledge, but I made the help about obsolescence 
-dynamic so that its correct for Civ1 too.
-
-on Fri Feb 19 21:08:38 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client packhand.c:
-
-Fixed initial display of "0 People" when client re-connects 
-to a reloaded game.  Fixed by putti
-
-on Fri Feb 19 21:09:39 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/civ1 buildings.ruleset:
-
-Fixed tech_required for Space Module for Civ1 
-(Robotics, not Superconductors).
-
-on Fri Feb 19 14:24:54 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server mapgen.c:
-
-little change asked for mapgen4 by 
-Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>
-
-on Fri Feb 19 13:21:20 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server unitfunc.c:
-
-Units finishing their turn in a barracks recover hitpoints 
-regarless of movement.
-Patch suggested by  David Pfitzner <dwp@mso.anu.edu.au>
-
-on Fri Feb 19 12:45:56 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server unitfunc.c:
-
-Substitute  
-pcity=city_list_find_id(&pplayer->cities, game.global_wonders[B_UNITED]);
-if(pcity && !wonder_obsolete(B_UNITED))
-by if (player_owns_active_wonder(pplayer, B_UNITED))
-as suggested by David Pfitzner <dwp@mso.anu.edu.au>  
-
-substitute if(!punit && (is_heli_unit(punit))) by
-            (!map_get_city(punit->x,punit->y) && (is_heli_unit(punit))) 
-	    and remove the variable pcity.              
-
-on Fri Feb 19 03:54:08 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client Freeciv.h mapview.c mapview.h xmain.c
-	freeciv/data Freeciv:
-
-Fixed problem with layout of main window with 45x45 tiles
-(gap between left side information and map window), due to 
-larger pixmaps for the display of units below the current 
-unit.  Made the number of such units displayed depend on 
-the tile size.
-
-on Thu Feb 18 15:00:18 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common city.c
-
-In the list of American city names, Tucson was incorrectly rendered as
-"Tuscon".
-Mystake spotted by "Andrew E. Schulman" <andrex@alw.nih.gov>
-
-on Wed Feb 17 19:36:17 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client cityrep.c:
-
-Change city report so it uses a list of city pointers instead of city IDs. 
-Got rid of some arrays that aren't necessary anymore in the creation of the
-city report.
-
-on Wed Feb 17 13:21:25 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv Imakefile Makefile.noimake
-	freeciv/client cityrep.c cityrep.h Makefile.am Makefile.in 
-	citydlg.c climisc.c menu.c optiondlg.c 
-	packhand.c repodlgs.c repodlgs.h:
-
-Split the repodlgs.c file into two files.  The second files is called
-cityrep.c and has the city report code in it.  Adjusted includes in other
-files to refer to cityrep.h if necessary.  Added cityrep.c and spacerace stuff
-to various makefiles.
-
-on Tue Feb 16 04:13:29 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/server mapgen.c plrhand.c:
-
-Cleaned up some egcs warnings about ambiguous braces.
-
-on Tue Feb 16 03:44:04 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client Freeciv.h spaceshipdlg.c
-	freeciv/common packets.c
-	freeciv/data Freeciv
-	freeciv/server spacerace.c:
-
-Cosmetic fixes for spaceships launched/arriving in 
-BC years; bug reported by Massimo Campostrini.  
-There could still be some quirks.
-
-on Tue Feb 16 02:56:57 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client Freeciv.h civclient.c packhand.c packhand.h
-	spaceshipdlg.c
-	freeciv/common spaceship.c spaceship.h Makefile.am Makefile.in
-	city.c game.c game.h packets.c packets.h player.c player.h shared.h
-	freeciv/data Freeciv helpdata.txt
-	freeciv/server spacerace.c spacerace.h Makefile.am Makefile.in
-	cityturn.c civserver.c gamehand.c plrhand.c plrhand.h unithand.c
-
-Improved spacerace, based partly on a patch by 
-Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>.
-New/changed features:
-- Travel time, success chance etc are implemented, based on
-reverse-engineered Civ1; you can now only launch a spaceship
-if it is "viable".
-- Only parts of the spacehip connnected to structurals count.
-- The protocol is such that the player could choose which
-type of module to build (like in Civ1), but currently the
-client makes this choice.  That is, fixing this further
-should require changes to the client only.
-- Better handling of spaceships arriving in the same turn.
-- An arrived spaceship adds to your final score.  But I
-don't know what the score bonus should be; for now, I
-chose an arbitrary bonus.
-- Capturing a player's capital stops that player's spaceship.
-- There is some help about spaceships and spaceship parts.
-The capability string now has "+spacerace2".
-there are still problems if you launch in BC years.
-
-on Tue Feb 16 02:44:12 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common shared.c:
-
-Reverted to cvs revision 1.8, since 1.9 was checked in by mistake, 
-and the 1.10 fix caused segfault if FREECIV_DATADIR is set.
-
-on Mon Feb 15 16:28:03 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/common shared.c:
-
-Clean up a gcc warning about an assignment to a const string.
-
-on Mon Feb 15 14:55:59 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv ChangeLog:
-
-Last ChangeLog entry is now 
-on Sat Feb 13 16:36:18 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-on Mon Feb 15 03:10:07 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common shared.c
-	freeciv/server unitfunc.c:
-
-fixing problem with city workers when city changes owner...
-patch written by Rizos Sakellariou <rizos@cs.rice.edu>
-
-on Sat Feb 13 16:36:18 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default roads.xpm:
-	New roads and rails for the Engels 45x45 tiles, including diagonals.
-
-on Sat Feb 13 16:19:34 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/data/default tiles.xpm units.xpm:
-	Changed the tiles from the crappy 30x30 reduction to the original 45x45.
-
-on Sat Feb 13 15:38:14 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client civclient.c:
-	Default flags_are_transparent=1, now that the default tiles 
-	are the Engels ones which look best transparent.
-
-on Sat Feb 13 15:23:23 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/classic Makefile.am
-	freeciv/data/default Makefile.in:
-	Changed back previous incorrect fix.  When we install the "classic" 
-	tiles, they should go in, eg, /usr/local/share/freeciv/classic.
-
-on Sat Feb 13 15:28:36 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default Makefile.am Makefile.in:
-	Also refix pkgdatadir in data/default/Makefile.am, and undo accidental 
-	change previously uploaded for data/default/Makefile.in.
-
-on Sat Feb 13 12:08:40 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/data/classic .cvsignore Makefile.am Makefile.in roads.xpm
-	tiles.xpm units.xpm:
-	Added the directory classic for the classic tilesets.
-	Change needed for the 2 tilesets version 1.8.0 .
-
-on Sat Feb 13 12:00:42 1999
-
-	freeciv/data/classic - New directory
-	Directory /home/freeciv/CVS/freeciv/data/classic added to the repository
-
-on Sat Feb 13 11:59:07 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv configure configure.in
-	freeciv/data Makefile.am Makefile.in
-	freeciv/data/default Makefile.am tiles.xpm units.xpm:
-	Change written by David Pfitzner <dwp@mso.anu.edu.au>
-	to allow the use of a new dir data/classic.
-	The ralph engels tiles 30 are now the default ones.
-	The classic ones have been put into classic.
-	I did a little change in data/default/Makefile.am and 
-	data/classic/Makefile.am.  change $(datadir)/@PACKAGE@/classic to 
-	$(datadir)/@PACKAGE@/data/classic and $(datadir)/@PACKAGE@/default to 
-	$(datadir)/@PACKAGE@/data/default
-
-	I forgot to add the dir data/classic.
-	I will do this in my next commit.
-
-on Sat Feb 13 10:25:36 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server unitfunc.c:
-	lign 851 substitute (punit->type==U_HELICOPTER) by 
-	(is_heli_unit(punit))
-	Sequel of the patch submitted by 
-	Daniel Burrows <Daniel_Burrows@brown.edu>
-	concerning hit point regeneration.
-
-on Fri Feb 12 19:59:08 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client climisc.c climisc.h:
-	Include repodlgs.h for proto of city_report_dialog_update(),
-
-on Fri Feb 12 16:41:16 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client climisc.c climisc.h packhand.c:
-	Changed client_remove_city() to use a city pointer instead of a 
-	city ID.  Also have client_remove_city() update the city report.
-
-on Fri Feb 12 13:36:17 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common unit.h
-	freeciv/data helpdata.txt
-	freeciv/server unitfunc.c unithand.c unittools.c:
-	Hit point regeneration.
-	Now moving units don't regenerate their hitpoints.
-	patch written by Daniel Burrows <Daniel_Burrows@brown.edu>
-
-on Fri Feb 12 13:21:14 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common map.c map.h
-	freeciv/server gamehand.c mapgen.c mapgen.h stdinhand.c:
-	mapgen4 by Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>
-	"I've included saveguards against a previously possible overflow of the
-	islands array.  I took care to include/not cancel the change made to 
-	mapgen.c I saw.(szenario==1) description text is included in server."
-
-on Fri Feb 12 11:00:08 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/data helpdata.txt:
-	Terrain transformation help
-	Patch written by Greg Wooledge 
-	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
-
-on Fri Feb 12 10:39:32 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/client Freeciv.h mapctrl.c mapctrl.h 
-	mapview.c mapview.h menu.c xmain.c
-	freeciv/common map.c map.h unit.c unit.h
-	freeciv/data Freeciv helpdata.txt
-	freeciv/data/default tiles.xpm units.ruleset
-	freeciv/server unitfunc.c:
-	Terrain transformation patch.
-	Now engineers and settlers can achieve major transformation of terrain.
-	Changing tundra to grassland is feasible.
-	( It will take a huge time. )
-	Patch submitted by Greg Wooledge 
-	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
-	with 2 minors changes
-        - in menu.c change declaration of irrtext,mintext,roadtext and
-	transtext to avoid segfault.
-	- add a line in helpdata.txt concerning the terrain transform feature.
+Tue Mar  2 10:18:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/cityrep.c: Cosmetic patch to prevent `+' signs appearing
+ 	in the city report when a city has no gold surplus.  Based on a
+ 	patch submitted by Andrew Donkin <ard@scms.waikato.ac.nz>.
+	
+Mon Mar  1 23:12:06 1999  Lalo Martins <lalo@debian.org>:
+
+	* debian/README.debian, debian/changelog, debian/control,
+ 	debian/dirs, debian/docs, debian/freeciv-xaw3d.dirs,
+ 	debian/freeciv-xaw3d.menu, debian/freeciv-xaw3d.postinst,
+ 	debian/freeciv-xaw3d.postrm, debian/postinst, debian/rules,
+ 	debian/watch: Finally updated the debian/ directory to cope with
+ 	the new build system (for the freeciv-xaw3d package)
+	
+Mon Mar  1 08:15:31 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.h, server/autoattack.c, server/cityhand.c,
+ 	server/plrhand.c: Default auto-attack options to all on, for new
+ 	cities.  That is, if you put a unit in auto-attack mode, it will
+ 	attack all types of enemy units (unless you change the city
+ 	options).  (Otherwise, a unit put in auto-attack mode did nothing,
+ 	unless you also remembered to change the city options.)
+	
+Mon Mar  1 07:57:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/game.c, common/map.h: Default game.spacerace to 1 (on).
+	
+Mon Mar  1 07:54:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, client/Freeciv.h, data/Freeciv,
+ 	server/civserver.c: Removed third arg to AM_INIT_AUTOMAKE.
+  	Slightly adjusted the beta notices.
+	
+Mon Mar  1 07:49:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/classic/flags.xpm, data/default/flags.xpm: Adjusted flags,
+ 	so that they match for the default and classic tilesets.  Also
+ 	tidied up a few, and added some bonus/future-use flags.
+	
+Sun Feb 28 21:26:15 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* config.h.in, configure, configure.in, client/Freeciv.h,
+ 	common/shared.h, data/Freeciv: Switch number version to 1.8.0.
+	
+Sun Feb 28 20:20:52 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* acconfig.h, config.h.in, configure, configure.in,
+ 	client/Freeciv.h, client/citydlg.c, client/clinet.c,
+ 	client/clinet.h, client/connectdlg.c, client/diplodlg.c,
+ 	client/mapctrl.c, client/menu.c, client/packhand.c,
+ 	common/packets.c, common/shared.h, data/Freeciv,
+ 	server/civserver.c, server/meta.h: This patch cleans up the
+ 	printing of beta version notices (which was used before the
+ 	release of 1.7) so that they are now controlled by a define
+ 	IS_BETA_VERSION, in configure.in (and also in shared.h, for
+ 	non-configure builds
+	
+	This patch replaces all the current capability tags by the single
+ 	tag "+1.8pre1".  The idea is that for 1.8.0 the capability string
+ 	will be "+1.8", and this patch is to test things properly before
+ 	release.
+	
+	I also changed researched and researchpoints into 32 bit ints, to
+ 	avoid possible over/under-flows.
+	
+	Patches written by David Pfitzner <dwp@mso.anu.edu.au>.
+	
+Sun Feb 28 18:34:11 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* client/clinet.c, client/dialogs.c, client/packhand.h: When two
+ 	race selection dialogs are generated, e.g. by disconnecting after
+ 	the first has appeared, and connecting again, then the second try
+ 	at nation selection will result in core dump.  Bug spotted by Lalo
+ 	Martins <lalo@webcom.com> I try to fix it by checking if a
+ 	races_dailog_shell exist when the connection to the server is
+ 	lost.  If it exists, it is closed. nb
+	
+Sun Feb 28 17:48:33 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* configure.in: Wipe out the option -pipe for gcc.  It wasn't
+ 	supported by gcc on cygwin Bug reported by Todd Goodman
+ 	<tsg1@earthlink.net>
+	
+	Additionnal files are due to prevously applied and removed
+ 	patches.
+	
+Sun Feb 28 01:50:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Adjusted help texts for spacerace server
+ 	option, so that it is no longer called experimental.
+	
+Sat Feb 27 18:58:21 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* data/default/tiles.xpm: This patch to data/default/tiles.xpm
+ 	moves the hitpoint bar from the top left of the tile to the bottom
+ 	center.	 (That is, so as to not obscure the flags.)
+  	Patch cut and pasted by David Pfitzner <dwp@mso.anu.edu.au>
+	
+Sat Feb 27 18:54:23 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* client/Freeciv.h, client/citydlg.c, common/city.h,
+ 	common/shared.h, data/Freeciv, server/autoattack.c,
+ 	server/cityturn.c: Here is a modified version of Massimo's patch,
+ 	which uses a tri-state toggle.  Dwp also removed the NEW_WORKER
+ 	option which Massimo pointed out was not needed, and changed the
+ 	new option order so that this is still compatible with the
+ 	previous "autoattack1" and previous savefiles.
+	
+Sat Feb 27 07:36:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/map.c: Moved a comment about is_terrain_near_tile() to
+ 	correct place.
+	
+Sat Feb 27 07:33:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/autoattack.c, server/gotohand.c, server/gotohand.h:
+ 	Renamed calculate_cost() to calculate_move_cost(), and changed
+ 	treatment in this function for air/heli units, since warmap
+ 	doesn't take account of air units.  (Eg, before, auto-attacking
+ 	air/heli units didn't attack boats.)
+	
+Sat Feb 27 07:10:05 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityhand.c, server/cityhand.h, server/citytools.c,
+ 	server/diplhand.c, server/unitfunc.c, server/unithand.c: Fixed
+ 	several problems with the traderoutes of a city that changes
+ 	owner.  Fixed typo in remove_city(); new function
+ 	reestablish_city_trade_routes(); changes to transfer_city() and
+ 	handle_unit_enter_city().  Also put in some extra calls to
+ 	update_map_with_city_workers(), when city changes owner.  Based on
+ 	patches submitted by Rizos Sakellariou <rizos@cs.rice.edu>.
+	
+Sat Feb 27 01:31:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/roads.xpm: Adjusted palette to match units and
+ 	tiles.
+	
+Thu Feb 25 22:50:03 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* configure, configure.in: Add the flag -pipe for gcc options.
+  	Patch suggested by Tony & <stuckey@jaka.ece.uiuc.edu>
+	
+Thu Feb 25 10:23:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS: Removed duplicate entry for Markus Linnala.
+	
+Wed Feb 24 19:59:03 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* ChangeLog: ChangeLog is uptodate till the 23th of february.
+	
+Wed Feb 24 09:32:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapctrl.c, client/mapctrl.h, client/menu.c,
+ 	common/unit.c, common/unit.h, data/helpdata.txt: Allow caravan
+ 	actions (help build wonder, or establish trade route) for caravan
+ 	(or freight) units inside cities, via orders menu and key
+ 	commands.  Re-use keys: "b"=(b)uild wonder, "r"=trade (r)oute.
+	
+Wed Feb 24 09:21:45 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Freeciv.h, client/inteldlg.c, common/player.c,
+ 	common/player.h, data/Freeciv, server/citytools.c,
+ 	server/citytools.h: Added information about Capital (city name) to
+ 	intelligence report.  Only shows name of capital if that city is
+ 	known by the client -- that is, within the known map.  Moved
+ 	find_capital() from server/citytools to common/player.
+	
+Tue Feb 23 21:47:59 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* client/mapctrl.c, server/unithand.c: The following patch handles
+ 	in a more user-friendly way the case where a caravan cannot
+ 	establish a trade route with an enemy city.  At the moment, if
+ 	this is not possible, the message appearing is the meaningless
+ 	"You can't attack there". This no longer appears and a more
+ 	elaborate message is displayed. Also, the modification of the
+ 	server function allows to display an appropriate message in cases
+ 	where the client `gives ok' but a traderoute cannot finally be
+ 	established.  Patch written by Rizos Sakellariou
+ 	<rizos@cs.rice.edu>
+	
+Tue Feb 23 17:07:34 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/helpdata.txt: Updated help to reflect ability to adjusting
+ 	workers from the main map.
+	
+Mon Feb 22 02:30:06 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/Freeciv.h, client/mapctrl.c, client/mapctrl.h,
+ 	client/mapview.c, client/mapview.h, client/packhand.c,
+ 	client/xmain.c, data/Freeciv: Added ability to adjust the location
+ 	of city workers from the main map.  Use the 't' key to just
+ 	display where the workers are, and use Shift-Button1 to adjust the
+ 	workers just as you would in the city dialog.  The effects of your
+ 	change are displayed on the main map when the city info update is
+ 	received from the server.
+	
+Sun Feb 21 10:31:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/classic/Makefile.am, data/classic/Makefile.in,
+ 	data/default/Makefile.am, data/default/Makefile.in: Added
+ 	flags.xpm files to dist.
+	
+Sun Feb 21 02:55:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt, server/unitfunc.c: Fixed up units gaining hit
+ 	points, and movement, helicopter, and United Nations hit points
+ 	effects.  Based on a patch by Daniel Burrows
+ 	<Daniel_Burrows@brown.edu>.  Tidied up the help pages to reflect
+ 	code.  Now units only regain hitpoints if they have not moved,
+ 	regardless of cities, Barracks etc (to match Civ2).  The United
+ 	Nations and helicopter effects apply whether or not a unit has
+ 	moved.
+	
+Sun Feb 21 01:35:30 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/tiles.xpm: Fixed an off-by-1-pixel mistake I
+ 	introduced into default/tiles.xpm
+	
+Sun Feb 21 01:00:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/classic/flags.xpm, data/default/flags.xpm: Added the extra
+ 	flags.xpm files.
+	
+Sun Feb 21 01:00:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/graphics.c, client/mapview.h, data/classic/tiles.xpm,
+ 	data/default/tiles.xpm: Moved race flags to separate flags.xpm
+	
+Sun Feb 21 00:49:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Freeciv.h, client/cityrep.c, client/civclient.c,
+ 	client/messagewin.c, client/optiondlg.c, data/Freeciv: Added
+ 	client option "Center when Popup city".  Affects whether the map
+ 	is also centered when a city dialog is popped up from the Popup
+ 	buttons for the City Report and Messages Window.  This makes the
+ 	centering behaviour of these two buttons consistent.
+	
+Sun Feb 21 00:43:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in: Adjusted where X_PRE_LIBS (usually -lSM
+ 	-lICE) get placed in the client link line.  Now they come just to
+ 	the left of "-lXext -lX11".  Hopefully this fixes problems with
+ 	IRIX (reported by Dee Jay Randall <randal@cs.uregina.ca>) and
+ 	Cygwin (reported by Todd Goodman <tsg1@earthlink.net>).
+	
+Sat Feb 20 05:13:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdlg.c, data/helpdata.txt,
+ 	data/default/buildings.ruleset: Fixed tech_required for Barracks
+ 	III to match Civ2 (now Mobile Warfare instead of Combustion);
+ 	also obsolete_by for Barracks II.  Based on a patch by Greg
+ 	Wooledge, but I made the help about obsolescence dynamic so
+ 	that its correct for Civ1 too.
+	
+Sat Feb 20 05:09:38 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ1/buildings.ruleset: Fixed tech_required for Space
+ 	Module for Civ1	(Robotics, not Superconductors).
+	
+Sat Feb 20 05:08:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c: Fixed initial display of "0 People" when
+ 	client re-connects to a reloaded game.  Fixed by putting
+ 	update_info_label() in handle_game_state().
+	
+Fri Feb 19 22:24:53 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/mapgen.c: little change asked for mapgen4 by Peter
+ 	Schaefer <schaefer@malaga.math.uni-augsburg.de>
+	
+Fri Feb 19 21:21:19 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/unitfunc.c: Units finishing their turn in a barracks
+ 	recover hitpoints regarless of movement.  Patch suggested by David
+ 	Pfitzner <dwp@mso.anu.edu.au>
+	
+Fri Feb 19 20:45:55 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/unitfunc.c:
+ 	
+	Substitute  
+	pcity=city_list_find_id(&pplayer->cities, 
+	                        game.global_wonders[B_UNITED]);
+ 	if(pcity && !wonder_obsolete(B_UNITED))
+	by 
+	if (player_owns_active_wonder(pplayer, B_UNITED))
+
+	as suggested by David Pfitzner <dwp@mso.anu.edu.au>
+
+        substitute
+ 	if(!punit && (is_heli_unit(punit))) by
+	(!map_get_city(punit->x,punit->y) && (is_heli_unit(punit)))
+	and remove the variable pcity.
+	
+Fri Feb 19 11:54:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Freeciv.h, client/mapview.c, client/mapview.h,
+ 	client/xmain.c, data/Freeciv: Fixed problem with layout of main
+ 	window with 45x45 tiles (gap between left side information and map
+ 	window), due to larger pixmaps for the display of units below the
+ 	current unit.  Made the number of such units displayed depend on
+ 	the tile size.
+	
+Thu Feb 18 23:00:16 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/city.c: In the list of American city names, Tucson was
+ 	incorrectly rendered as "Tuscon".  Mystake spotted by "Andrew
+ 	E. Schulman" <andrex@alw.nih.gov>
+	
+Thu Feb 18 03:36:16 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/cityrep.c: Change city report so it uses a list of city
+ 	pointers instead of city IDs.  Got rid of some arrays that aren't
+ 	necessary anymore in the creation of the city report.
+	
+Wed Feb 17 21:21:34 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* Imakefile, Makefile.noimake, client/Makefile.am,
+ 	client/Makefile.in, client/citydlg.c, client/cityrep.c,
+ 	client/cityrep.h, client/climisc.c, client/menu.c,
+ 	client/optiondlg.c, client/packhand.c, client/repodlgs.c,
+ 	client/repodlgs.h: Split the repodlgs.c file into two files.  The
+ 	second files is called cityrep.c and has the city report code in
+ 	it.  Adjusted includes in other files to refer to cityrep.h if
+ 	necessary.  Added cityrep.c and spacerace stuff to various
+ 	makefiles.
+	
+Tue Feb 16 12:13:28 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/mapgen.c, server/plrhand.c: Cleaned up some egcs warnings
+ 	about ambiguous braces.
+	
+Tue Feb 16 11:44:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Freeciv.h, client/spaceshipdlg.c, common/packets.c,
+ 	data/Freeciv, server/spacerace.c: Cosmetic fixes for spaceships
+ 	launched/arriving in BC years; bug reported by Massimo
+ 	Campostrini.  There could still be some quirks.
+	
+Tue Feb 16 10:57:17 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Freeciv.h, client/civclient.c, client/packhand.c,
+ 	client/packhand.h, client/spaceshipdlg.c, common/Makefile.am,
+ 	common/Makefile.in, common/city.c, common/game.c, common/game.h,
+ 	common/packets.c, common/packets.h, common/player.c,
+ 	common/player.h, common/shared.h, common/spaceship.c,
+ 	common/spaceship.h, data/Freeciv, data/helpdata.txt,
+ 	server/Makefile.am, server/Makefile.in, server/cityturn.c,
+ 	server/civserver.c, server/gamehand.c, server/plrhand.c,
+ 	server/plrhand.h, server/spacerace.c, server/spacerace.h,
+ 	server/unithand.c: Improved spacerace, based partly on a patch by
+ 	Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>.
+  	New/changed features: - Travel time, success chance etc are
+ 	implemented, based on reverse-engineered Civ1; you can now only
+ 	launch a spaceship if it is "viable".  - Only parts of the
+ 	spacehip connnected to structurals count.  - The protocol is such
+ 	that the player could choose which type of module to build (like
+ 	in Civ1), but currently the client makes this choice.  That is,
+ 	fixing this further should require changes to the client only.  -
+ 	Better handling of spaceships arriving in the same turn.  - An
+ 	arrived spaceship adds to your final score.  But I don't know what
+ 	the score bonus should be; for now, I chose an arbitrary bonus.  -
+ 	Capturing a player's capital stops that player's spaceship.  -
+ 	There is some help about spaceships and spaceship parts.  The
+ 	capability string now has "+spacerace2".  There are still problems
+ 	if you launch in BC years.
+	
+Tue Feb 16 10:44:10 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/shared.c: Reverted to cvs revision 1.8, since 1.9 was
+ 	checked in by mistake, and the 1.10 fix caused segfault if
+ 	FREECIV_DATADIR is set.
+	
+Tue Feb 16 00:28:02 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* common/shared.c: Clean up a gcc warning about an assignment to a
+ 	const string.
+	
+Mon Feb 15 22:55:57 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* ChangeLog: Last ChangeLog entry is now on Sat Feb 13 16:36:18
+ 	1999 by David Pfitzner <dwp@mso.anu.edu.au>
+	
+Mon Feb 15 11:10:07 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/shared.c, server/unitfunc.c: fixing problem with city
+ 	workers when city changes owner...  patch written by Rizos
+ 	Sakellariou <rizos@cs.rice.edu>
+	
+Sun Feb 14 00:36:17 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/roads.xpm: New roads and rails for the Engels 45x45
+ 	tiles, including diagonals.
+	
+Sun Feb 14 00:19:33 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/default/tiles.xpm, data/default/units.xpm: Changed the
+ 	tiles from the crappy 30x30 reduction to the original 45x45.
+	
+Sat Feb 13 23:38:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c: Default flags_are_transparent=1, now that
+ 	the default tiles are the Engels ones which look best transparent.
+	
+Sat Feb 13 23:28:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/Makefile.am, data/default/Makefile.in: Also refix
+ 	pkgdatadir in data/default/Makefile.am, and undo accidental change
+ 	previously uploaded for data/default/Makefile.in.
+	
+Sat Feb 13 23:23:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/classic/Makefile.am, data/default/Makefile.in: Changed back
+ 	previous incorrect fix.  When we install the "classic" tiles, they
+ 	should go in, eg, /usr/local/share/freeciv/classic.
+	
+Sat Feb 13 20:08:40 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* data/classic/.cvsignore, data/classic/Makefile.am,
+ 	data/classic/Makefile.in, data/classic/roads.xpm,
+ 	data/classic/tiles.xpm, data/classic/units.xpm: Added the
+ 	directory classic for the classic tilesets.  Change needed for the
+ 	2 tilesets version 1.8.0 .
+	
+Sat Feb 13 19:59:11 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+ 	data/default/Makefile.am, data/default/tiles.xpm,
+ 	data/default/units.xpm: Change written by David Pfitzner
+ 	<dwp@mso.anu.edu.au> to allow the use of a new dir data/classic.
+  	The ralph engels tiles 30 are now the default ones.  The classic
+ 	ones have been put into classic.  I did a little change in
+ 	data/default/Makefile.am and data/classic/Makefile.am.  change
+ 	$(datadir)/@PACKAGE@/classic to $(datadir)/@PACKAGE@/data/classic
+ 	and $(datadir)/@PACKAGE@/default to
+ 	$(datadir)/@PACKAGE@/data/default
+	
+	I forgot to add the dir data/classic.  I will do this in my next
+ 	commit.
+	
+Sat Feb 13 18:25:35 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/unitfunc.c: lign 851 substitute
+ 	(punit->type==U_HELICOPTER) by (is_heli_unit(punit)) Sequel of the
+ 	patch submitted by Daniel Burrows <Daniel_Burrows@brown.edu>
+ 	concerning hit point regeneration.
+	
+Sat Feb 13 03:59:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/climisc.c, client/climisc.h: Include repodlgs.h for proto
+ 	of city_report_dialog_update(), and declare "stuct city;" in
+ 	climisc.h to quiet gcc -Wall warning.
+	
+Sat Feb 13 00:41:15 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/climisc.c, client/climisc.h, client/packhand.c: Changed
+ 	client_remove_city() to use a city pointer instead of a city ID.
+  	Also have client_remove_city() update the city report.
+	
+Fri Feb 12 21:36:20 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/unit.h, data/helpdata.txt, server/unitfunc.c,
+ 	server/unithand.c, server/unittools.c: Hit point regeneration.
+  	Now moving units don't regenerate their hitpoints.  patch written
+ 	by Daniel Burrows <Daniel_Burrows@brown.edu>
+	
+Fri Feb 12 21:21:18 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/map.c, common/map.h, server/gamehand.c, server/mapgen.c,
+ 	server/mapgen.h, server/stdinhand.c: mapgen4 by Peter Schaefer
+ 	<schaefer@malaga.math.uni-augsburg.de> "I've included saveguards
+ 	against a previously possible overflow of the islands array.  I
+ 	took care to include/not cancel the change made to mapgen.c I
+ 	saw.(szenario==1) description text is included in server."
+	
+Fri Feb 12 19:00:06 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* data/helpdata.txt: Terrain transformation help Patch written by
+ 	Greg Wooledge
+ 	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
+	
+Fri Feb 12 18:39:41 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* client/Freeciv.h, client/mapctrl.c, client/mapctrl.h,
+ 	client/mapview.c, client/mapview.h, client/menu.c, client/xmain.c,
+ 	common/map.c, common/map.h, common/unit.c, common/unit.h,
+ 	data/Freeciv, data/helpdata.txt, data/default/tiles.xpm,
+ 	data/default/units.ruleset, server/unitfunc.c: Terrain
+ 	transformation patch.  Now engineers and settlers can achieve
+ 	major transformation of terrain.  Changing tundra to grassland is
+ 	feasible.  ( It will take a huge time. ) Patch submitted by Greg
+ 	Wooledge <ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
+ 	with 2 minors changes
+
+	- in menu.c change declaration of irrtext,mintext,roadtext
+ 	  and transtext to avoid segfault.  
+	- add a line in	helpdata.txt concerning the terrain transform
+ 	  feature.
+	
 	The use of capability has to be implemented.
+	
+Thu Feb 11 07:43:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
-on Wed Feb 10 23:43:44 by David Pfitzner <dwp@mso.anu.edu.au>
+	* data/helpdata.txt: Adjusted present administrators part.
+	
+Thu Feb 11 07:39:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
-	*freeciv/data helpdata.txt:
-	Adjusted present administrators part.
+	* client/chatline.c: log_output_window() had a FILE ptr called
+ 	flog (now freelog); changed to avoid confusion.
+	
+Wed Feb 10 22:42:48 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-on Wed Feb 10 23:40:01 1999 by David Pfitzner <dwp@mso.anu.edu.au>
+	* server/civserver.c, server/gamehand.c, server/mapgen.c,
+ 	server/maphand.c, server/stdinhand.c: - patch to gamehand.c: This
+ 	deals with a problem that seem to persist since before the stable
+ 	1.7.2 distribution: If you saved the server settings with any
+ 	1.7.2+ server, you couldn't load them again, as the unirandom
+ 	section was missing while the savefile options said they should be
+ 	there. (Did really no-one find this before me?!)  - patch to
+ 	server/stdinhand.c, gamehand.c, maphand.c: this allows now to save
+ 	scenarios after loading them into the server and just changing
+ 	some settings. now, the correct amount of information is saved for
+ 	any of: server settings, all 3 types of scenario's and normal
+ 	savegame.  This means that for the first time, type 1 scenarios
+ 	really work...  Also did some clean up in game_load() and deleted
+ 	an (incorrect) comment by dwp. (The thing may still need an
+ 	overhaul, but the rest was wrong...)  Patch written by Daniel
+ 	Gudlat <gudlat@informatik.hu-berlin.de>
+	
+Wed Feb 10 22:24:40 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-	*freeciv/client chatline.c:
-	log_output_window() had a FILE ptr called flog (now freelog); 
-	changed to avoid confusion.
+	* data/earth-160x90.sav, data/earth-80x50.sav, data/europe.sav:
+ 	scenario enhancement and modifications needed by CivWorld Patch
+ 	written by Daniel Gudlat <gudlat@informatik.hu-berlin.de>
+	
+Wed Feb 10 21:49:28 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-on Wed Feb 10 14:42:49 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+	* server/autoattack.c, server/autoattack.h: add the file
+ 	autoattach.c and autoattach.h needed by the autoattach patch
+	
+Wed Feb 10 21:45:09 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-	*freeciv/server civserver.c gamehand.c mapgen.c maphand.c stdinhand.c:
-	- patch to gamehand.c: This deals with a problem that seem to persist
-	since before the stable 1.7.2 distribution: If you saved the server
-	settings with any 1.7.2+ server, you couldn't load them again, as the
-	unirandom section was missing while the savefile options said they
-	should be there. (Did really no-one find this before me?!)
-	- patch to server/stdinhand.c, gamehand.c, maphand.c: this allows now to
-	save scenarios after loading them into the server and just changing some
-	settings. now, the correct amount of information is saved for any of:
-	server settings, all 3 types of scenario's and normal savegame.
-	This means that for the first time, type 1 scenarios really work...
-	Also did some clean up in game_load() and deleted an (incorrect) comment
-	by dwp. (The thing may still need an overhaul, 
-	but the rest was wrong...)
-	Patch written by  Daniel Gudlat <gudlat@informatik.hu-berlin.de>
+	* Imakefile, Makefile.noimake, client/Freeciv.h, client/citydlg.c,
+ 	client/civclient.c, client/clinet.c, client/clinet.h,
+ 	client/mapctrl.c, client/menu.c, client/packhand.c,
+ 	client/packhand.h, common/city.h, common/packets.c,
+ 	common/packets.h, common/shared.h, common/unit.c, common/unit.h,
+ 	data/Freeciv, data/helpdata.txt, server/Makefile.am,
+ 	server/Makefile.in, server/cityhand.c, server/cityhand.h,
+ 	server/civserver.c, server/gotohand.c, server/gotohand.h,
+ 	server/plrhand.c, server/settlers.c, server/unithand.c:
+ 	Autoattack-patch : unit can attach an approacing unit to defend a
+ 	town patch written by sfischme@nexus.lzk.tuwien.ac.at and David
+ 	Pfitzner <dwp@mso.anu.edu.au>
+	
+Wed Feb 10 21:04:54 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-on Wed Feb 10 14:24:41 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+	* client/dialogs.c, server/unitfunc.c: cannot sabotage wonders
+ 	patch by Greg Wooledge
+ 	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
+	
+Wed Feb 10 19:49:31 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-	*freeciv/data earth-160x90.sav earth-80x50.sav europe.sav:
-	scenario enhancement and modifications needed by CivWorld
-	Patch written by Daniel Gudlat <gudlat@informatik.hu-berlin.de>
+	* server/cityhand.c, server/cityhand.h, server/diplhand.c,
+ 	server/unithand.c: fixing problem with city workers when city
+ 	changes owner...  Patch by rizos@rice.edu
+	
+Wed Feb 10 19:23:18 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-on Wed Feb 10 13:44:42 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+	* ai/advdomestic.c: "In the games that I have watched the AI play,
+ 	they almost never build Marketplaces, Banks, or Stock Exchanges.
+  	These are some of the most useful buildings in the game.  These
+ 	equations give a higher and more realistic valuation to the
+ 	buildings.  This causes the AI to build them somewhat more often,
+ 	but still only in cities with circa 20+ trade."  Comment and patch
+ 	by Tony Stuckey <stuckey@jaka.ece.uiuc.edu> in function
+ 	ai_eval_buildings(struct city *pcity)
+	
+Wed Feb 10 19:11:29 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 
-	*freeciv Imakefile Makefile.noimake
+	* common/unit.c: show veteran status in Unit Commands popup Patch
+ 	submitted by Greg Wooledge
+ 	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
+	
+Wed Feb 10 18:27:00 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* ai/advmilitary.c, ai/aicity.c, ai/aihand.c, client/chatline.c,
+ 	client/civclient.c, client/climisc.c, client/clinet.c,
+ 	client/colors.c, client/graphics.c, client/helpdlg.c,
+ 	client/optiondlg.c, client/packhand.c, client/repodlgs.c,
+ 	client/xmain.c, common/city.c, common/game.c, common/log.c,
+ 	common/log.h, common/packets.c, common/unit.c, server/citytools.c,
+ 	server/cityturn.c, server/civserver.c, server/diplhand.c,
+ 	server/gamehand.c, server/gotohand.c, server/mapgen.c,
+ 	server/maphand.c, server/plrhand.c, server/registry.c,
+ 	server/ruleset.c, server/sernet.c, server/stdinhand.c,
+ 	server/unitfunc.c, server/unittools.c: remplace flog by freelog to
+ 	avoid linking problems with the standard mathematic library.
+  	Patch suggested by Vasco Alexandre da Silva Costa
+ 	<vasc@camoes.rnl.ist.utl.pt> for an easiest integration of gtk in
+ 	cvs.
+	
+Tue Feb  9 22:44:20 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/unitfunc.c: remove punit->moves_left = 0 in
+ 	update_unit_activity change hinted by Greg Wooledge
+ 	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
+	
+Tue Feb  9 19:35:33 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* client/mapview.c, client/mapview.h: put tiles definition from
+ 	mapview.c to mapview.h change needed by Daniel Gudlat
+ 	<gudlat@informatik.hu-berlin.de>
+	
+Tue Feb  9 16:27:07 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* data/helpdata.txt: add help about teamwork now available for
+ 	settlers and engineers.  patch submitted by Greg Wooledge
+ 	<wooledge@kellnet.com> correct the name of the present
+ 	administrators.
+	
+Tue Feb  9 00:38:26 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/unit.c, server/unitfunc.c: Settlers and engineers can do
+ 	teamwork.  The activity of one unit is the sum of the activity all
+ 	of units doing the same activity on the same tile.  I added
+ 	punit->moves_left = 0 for the following activities :
+
+		POLLUTION
+		FORTRESS
+		IRRIGATE
+		ROAD
+		RAILROAD
+		MINING
+
+	patch submitted by Greg Wooledge
+ 	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
+	
+Mon Feb  8 22:36:07 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/gotohand.c: 
+
+Sat Feb  6 23:35:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c: In end_turn(), fixed possible sefault when
+ 	shuffled[i] is NULL due to a civil war caused by end-of-turn
+ 	goto-ing units.  Now process additional players in non-shuffled
+ 	order after pre-existing players.  Fixes bug reported by Rizos
+ 	Sakellariou <rizos@rice.edu>.
+	
+Thu Feb  4 15:29:31 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/climisc.c, client/packhand.c, server/cityhand.c,
+ 	server/cityhand.h, server/unitfunc.c, common/city.c,
+ 	common/city.h, common/game.c, common/game.h: Moved the citycache
+ 	stuff from server to common.  Modified find_city_by_id, and
+ 	related functions so they will work with or without the citycache.
+  	Removed game_find_city_by() and refrences to it.
+	
+Thu Feb  4 02:11:14 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* server/unitfunc.c: Added a few braces to clean up some egcs
+ 	-Wall warnings.
+	
+Wed Feb  3 18:46:32 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/gotohand.c: in init_warmap simplify the initiazation of
+ 	warmap.
+	
+Tue Feb  2 21:52:56 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* client/mapctrl.c: Can activate any unit.  Patch submitted by
+ 	Massimo Campostrini <campo@mailbox.difi.unipi.it>
+	
+Tue Feb  2 21:35:04 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/unit.c: Settlers or engineers who want to build a new
+ 	town must have at least one move left.  Patch submitted by Massimo
+ 	Campostrini <campo@mailbox.difi.unipi.it>
+	
+Mon Feb  1 22:56:31 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* client/mapctrl.c: Disallow to build town with 0 moves left Patch
+ 	suggested by Massimo Campostrini <campo@mailbox.difi.unipi.it>
+	
+Sat Jan 30 16:43:08 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/civserver.c: In handle_request_join_game swap server and
+ 	client in sprintf.
+	
+Sat Jan 30 03:41:12 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.am, Makefile.in, README.rulesets: Some documentation
+ 	for rulesets.
+	
+Sat Jan 30 03:39:29 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Freeciv.h, client/helpdlg.c, data/Freeciv,
+ 	data/helpdata.txt: Changes to help system for rulesets: show
+ 	improvement/wonder variants, and make some help text more dynamic
+ 	based on game.rtech etc.
+	
+Sat Jan 30 03:36:48 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/aicity.c, ai/aiunit.c,
+ 	ai/aiunit.h: Changes to AI for rulesets: generalize unit roles.
+	
+Sat Jan 30 03:35:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/packhand.c: Core changes to client
+ 	for rulesets: handle the new packets.
+	
+Sat Jan 30 03:34:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Imakefile, Makefile.noimake, server/Makefile.am,
+ 	server/Makefile.in, server/cityhand.c, server/civserver.c,
+ 	server/gamehand.c, server/settlers.c, server/unitfunc.c,
+ 	server/unithand.c, server/unittools.c: Core changes to server for
+ 	rulesets, including using ruleset.c functions and using unit_role
+ 	functions.
+	
+Sat Jan 30 03:28:48 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c, common/game.c, common/game.h, common/shared.h,
+ 	common/tech.c, common/unit.c, common/unit.h: Core changes to
+ 	common/ for rulesets.  Removed hardwire tables.  Changed/new unit
+ 	flags/roles.  Removed set_civ_style() stuff.
+	
+Sat Jan 30 03:25:09 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/packets.c, common/packets.h: New packets for rulesets.
+	
+Sat Jan 30 03:23:27 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: New server options for rulesets.
+	
+Sat Jan 30 03:21:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/game.h: Added game.ruleset struct for ruleset server
+ 	option strings.
+	
+Sat Jan 30 03:19:45 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/map.h: Define GAME_DEFAULT_RULESET.
+	
+Sat Jan 30 03:04:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/ruleset.c, server/ruleset.h: New ruleset module,
+ 	containing functions to read ruleset datafiles, and to send
+ 	ruleset information to the client.
+	
+Sat Jan 30 02:57:55 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+ 	data/civ1.serv, data/civ1/.cvsignore, data/civ1/Makefile.am,
+ 	data/civ1/Makefile.in, data/civ1/buildings.ruleset,
+ 	data/civ1/techs.ruleset, data/civ1/units.ruleset,
+ 	data/default/Makefile.am, data/default/Makefile.in,
+ 	data/default/buildings.ruleset, data/default/techs.ruleset,
+ 	data/default/units.ruleset: New datafiles for rulesets, and
+ 	configure/Makefile changes so that "make dist" and "make install"
+ 	know about the new files.
+	
+Fri Jan 29 21:16:59 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/map.c: In real_map_distance, sq_map_distance and
+ 	map_distance speed up calculation.  Patch suggested by Tony
+ 	Stuckey <stuckey@jaka.ece.uiuc.edu>
+	
+Thu Jan 28 23:15:03 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/unitfunc.c: In server/unitfunct correct the name used to
+ 	notify a player when i diplomat is eliminated while infiltrating.
+  	Patch submitted by Rizos Sakellariou <rizos@cs.rice.edu>
+	
+Thu Jan 28 21:33:45 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* common/unit.c: In unit_can_help_build_wonder i disable the
+ 	possibility to help build a wonder when the wonder is finished.
+	
+Thu Jan 28 17:26:10 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+
+	* server/gotohand.c: put a comment in init_warmap to test cvs
+ 	commit
+	
+Thu Jan 28 15:07:36 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/citydlg.c, client/repodlgs.c, server/cityhand.c: The
+ 	client will not longer let you buy Capitalization via a city
+ 	dialog or the city report.  Neither the shield cost nor the buying
+ 	cost of Capitalization are diplayed, since they don't apply and
+ 	only confuse players.  Even if the client tries to somehow, the
+ 	server doesn't allow buying Capitalization anymore either.  The AI
+ 	should probably be modifed to understand about not buying
+ 	capitalization too.
+	
+Thu Jan 28 11:51:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/game.c, common/game.h, server/unitfunc.c,
+ 	server/unithand.c: New variable game.firepower_factor, currently
+ 	fixed at 1, to be used in rulesets.  In combat, all firepower
+ 	values are multiplied by this factor.  Also, unit hitpoints sent
+ 	to the client are divided by this factor.  Eg, units with hp=10,
+ 	firepower=1 and firepower_factor=10 will look like units with hp=1
+ 	and firepower=1.  (Note that hp are not used in common/ except as
+ 	punit->hp/unit_type->hp so this doesn't break anything there.)
+  	This hackish setup is to help support civ1-style combat
+	(with rulesets) without causing the normal AI calculations to
+ 	core-dump and/or underflow/overflow (as they would with hp=1).
+	
+Thu Jan 28 11:14:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/aiunit.c, common/city.c,
+ 	common/city.h, common/player.c, common/player.h, common/unit.c,
+ 	server/citytools.c, server/cityturn.c, server/plrhand.c,
+ 	server/settlers.c, server/unitfunc.c, server/unittools.c: New
+ 	variant field to improvement_type struct, to specify variant
+ 	improvement effects.  Some variant effects are implemented (via
+ 	new function improvement_variant()), but are not yet documented
+	(coming with rulesets proper), and at the moment all improvements
+ 	have variant=0.  Also new variant-related function
+ 	player_owns_active_govchange_wonder().  In the future, improvement
+ 	effects should be generalised still further, but this is a start.
+	
+Thu Jan 28 11:11:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/aicity.c, ai/aiunit.c,
+ 	common/game.c, common/game.h, common/unit.c, server/citytools.c,
+ 	server/plrhand.c, server/settlers.c: New struct game.rtech, which
+ 	stores advances which have special effects (and game.rtech.nav,
+ 	used by the AI).  The advance values are currently fixed, but will
+ 	be adjustable in the future with rulesets.
+	
+Thu Jan 28 11:05:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/climisc.c, client/climisc.h, client/packhand.c: Added
+ 	client-side continent calculations, to support continent-only
+ 	wonder variants (in rulesets).  The client may have imperfect
+ 	knowledge of continents, but it still helps the client to know in
+ 	many cases if an improvement is wonder-replaced.
+	
+Tue Jan 26 11:38:45 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unitfunc.c: When wipe_unit_safe() was re-done as a
+ 	wrapper for new wipe_unit_spec_safe() (in civil war patch), it
+ 	buggily didn't pass on the iterator argument, reintroducing
+ 	various segfault bugs; fixed.
+	
+Sun Jan 24 03:53:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c: Fixed client --help and --version handling
+ 	so that starting the client with no arguments doesn't segfault!
+	
+Sun Jan 24 02:48:29 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: This adds a Terrain Alterations section to
+ 	the terrain help.  Patch submitted by Greg Wooledge.
+	
+Sun Jan 24 02:38:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/roads.xpm: New road and rail tiles.  Roads are less
+ 	prominent and wiggly, like pre-diagonal roads.  Rails are
+ 	smaller-scale and less cluttering.
+	
+Sun Jan 24 02:33:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/xmain.c: In client, handle --help and
+ 	--version ourselves in main(), so we don't need to connect to the
+ 	X server.  Patch submitted by Lalo Martins <lalo@webcom.com>.
+	
+Sun Jan 24 02:33:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/messagedlg.c, common/events.h, server/cityturn.c: When
+ 	building a granary in a city, it is useful to postpone city growth
+ 	until the granary is complete, so that you can save large amounts
+ 	of your foodbox.  This patch tries to notify players when this
+ 	type of situation exists.  Adds event E_CITY_GRAN_THROTTLE:
+ 	"Suggest Growth Throttling".  Patch submitted by Tony Stuckey.
+	
+Sun Jan 24 02:31:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityhand.c: In really_handle_city_buy(), return early if
+ 	cost is 0, to avoid unnecessary "bought for 0 gold" messages when
+ 	watching AI.  Patch submitted by Tony Stuckey.
+	
+Sat Jan 23 05:17:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/gotohand.c, server/unitfunc.c, server/unitfunc.h: New
+ 	function get_simple_defense_power(), to avoid hardwired U_HOWITZER
+ 	in calls get_virtual_defense_power(U_HOWITZER, ...).
+	
+Sat Jan 23 05:16:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Code to allow string-valued server options.
+	(None yet, but will be for rulesets.)
+	
+Sat Jan 23 05:16:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, common/unit.c, server/settlers.c: Always
+ 	access unit flags via unit_flags(), and don't do bit operations on
+ 	flag values.  (For rulesets, where flags are an enumeration rather
+ 	than bit defines.)
+	
+Sat Jan 23 05:14:16 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c: Unhardwired A_AMPHIBIOUS for B_PORT in
+ 	kill_something_with().
+	
+Sat Jan 23 05:12:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aicity.c, ai/aiunit.c, ai/aiunit.h: New
+ 	function is_ai_simple_military(), to unhardwire loops previously
+ 	done as U_WARRIORS to U_BATTLESHIP.
+	
+Sat Jan 23 05:08:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aicity.c: Pseudo-generalized has_a_normal_defender(), for
+ 	rulesets, though not very well because I don't really understand
+ 	the function's purpose.
+	
+Sat Jan 23 05:07:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/repodlgs.c: Use is_wonder() instead of hardwired
+ 	improvement range in trade_report_dialog_update().
+	
+Sat Jan 23 05:06:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aiunit.c, common/city.c, common/player.c,
+ 	common/player.h: New function player_knows_improvement_tech(),
+ 	used to reduce use of hard-wired advances when really mean
+ 	improvement tech_required.
+	
+Sat Jan 23 05:05:12 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.h: Moved some prototypes to better groups.
+	
+Sat Jan 23 05:04:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/tech.h: In advance struct, changed "name" from char
+ 	pointer to char array.  This is now the same as unit_types and
+ 	buildings, and is easier than managing memory when names are
+ 	somewhat dynamic, for rulesets.  Included shared.h, for
+ 	MAX_LENGTH_NAME.
+	
+Sat Jan 23 05:02:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/gotohand.c: In really_generate_warmap(), unhardwired a
+ 	use of U_SETTLERS.
+	
+Sat Jan 23 05:01:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/registry.c: In section_file_load(), print a log message
+ 	if fopen() fails.
+	
+Wed Jan 20 10:32:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdlg.c: In boot_help_texts(), don't report filtering
+ 	on first boot (for rulesets).
+	
+Wed Jan 20 10:31:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ser, client/climisc.c, client/climisc.h, common/shared.c,
+ 	common/shared.h: Moved datafilename() from climisc to
+ 	common/shared, and added default FREECIV_DATADIR to ser script.
+  	(Server will want to access datadir for rulesets.)
+	
+Wed Jan 20 10:27:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, server/unitfunc.c, server/unittools.c,
+ 	server/unittools.h: New convenience function
+ 	unit_really_ignores_citywalls, taking into account move_type (for
+ 	rulesets).
+	
+Wed Jan 20 10:21:05 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/menu.c: Added a "spaceship" option to the report menu.
+  	From a patch submitted by Per Mathisen <permath@ifi.ntnu.no>.
+	
+Wed Jan 20 10:18:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/citytools.c: In transfer_city_units(), for case where
+ 	changing unit to another homecity, use the correct owner of the
+ 	new homecity.  Based on a patch by Kris Bubendorfer.  Also
+ 	adjusted the messages depending on whether the unit changes owner.
+	
+Sun Jan 17 11:29:17 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Imakefile, Makefile.noimake, client/Freeciv.h,
+ 	client/Makefile.am, client/Makefile.in, client/graphics.c,
+ 	client/packhand.c, client/plrdlg.c, client/spaceshipdlg.c,
+ 	client/spaceshipdlg.h, client/xmain.c, common/city.c,
+ 	common/game.c, common/game.h, common/map.h, common/packets.c,
+ 	common/packets.h, common/player.c, common/player.h,
+ 	common/shared.h, data/Freeciv, data/default/Makefile.am,
+ 	data/default/Makefile.in, data/default/space.xpm,
+ 	server/cityturn.c, server/civserver.c, server/gamehand.c,
+ 	server/plrhand.c, server/plrhand.h, server/stdinhand.c: First pass
+ 	at spacerace feature, based on a patch submitted by Falk Hueffner
+ 	<falk.hueffner@student.uni-tuebingen.de>.  Activated by a server
+ 	option which defaults to off.  The travel time calculation is
+ 	still missing, it always arrives after 15 years, and it doesn't
+ 	properly know when a spaceship is in a proper state to be
+ 	launched.
+	
+Sun Jan 17 09:47:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityturn.c: In citizen_happy_units(), calculate number of
+ 	unhappy people directly rather than using loops.  Patch submitted
+ 	by Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>.
+	
+Sun Jan 17 09:46:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/citytools.c, server/citytools.h, server/diplhand.c,
+ 	server/unitfunc.c, server/unittools.c, server/unittools.h:
+ 	Conditionally added back messages about unit transfers in
+ 	transfer_city_units() and resolve_unit_stack(), so that players
+ 	get the messages when unciting or trading cities, but not for a
+ 	civil war.  Also fixed the text of the message when a unit's
+ 	homecity is changed in these cases.
+	
+Sun Jan 17 09:44:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Freeciv.h, client/diplodlg.c, common/diptreaty.h,
+ 	common/shared.h, data/Freeciv, data/helpdata.txt,
+ 	server/citytools.c, server/diplhand.c: Trade cities patch
+ 	submitted by Kris Bubendorfer:
+	
+	This patch is essentially an extension to the diplomacy/treaty
+ 	section, where you may now also TRADE CITIES.
+	
+	You cannot trade your capital, but any other city is fair game.
+  	Cities that the other player does not know about, may still be
+ 	gifted, but obviously they cannot request these cities as they've
+ 	got no idea they exist.  So you still have secrecy/fog of war.
+	
+	If the recipient of a city does not have the part of the map with
+ 	the city being traded, then that part of the map is lightened.
+  	You do NOT need to trade maps first - of course you could....
+	
+	All units in the field that are supported by the city being traded
+ 	are also transferred over, but any that are supported, but
+ 	resident in other cities are not traded.  None-the-less, you
+ 	should be careful not to give the other person a better deal that
+ 	you expect.
+	
+	There is also a new part on diplomacy in general in the Help, in the
+	`How to play' section.
+	
+Sun Jan 17 04:08:31 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/colors.c: Slightly adjusted colour of race13.
+	
+Sun Jan 17 03:53:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/roads.xpm, data/default/small.xpm,
+ 	data/default/tiles.xpm, data/default/treaty.xpm,
+ 	data/default/units.xpm: Colourmap cleanup.  The colours in some of
+ 	the xpms where similar but not identical to colours in others.
+  	Also eliminated a couple of colours which were only used in
+ 	small.xpm.  Also replaced Artillery icon with one submitted (long
+ 	ago) by Frank Muzzulini <muzz@albatross.pond.sub.org>.
+	
+Sun Jan 17 02:36:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/climisc.c, client/packhand.c, common/game.c: Added some
+ 	extra debugging output, detailing new and removed cities and
+ 	units, disabled by default.  (Use configure --enable-debug, or
+ 	change the "#define DEBUG 0" in the source.)
+	
+Sun Jan 17 02:31:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/citytools.c, server/unittools.c: Some fixes to civil war.
+  	Send game_info as soon as new player is created so clients get the
+ 	correct game.nplayers, and send new player info earlier, so
+ 	clients know name of new player before do cities, units.
+  	Deactivated some more over-verbose notify_player messages I missed
+ 	last time.  Set player.revolution to 1 for civil war leaders, so
+ 	get to choose new government _next_ turn, not straight away.
+	
+Sat Jan 16 11:15:44 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapview.c: A rail square with adjacent roads (but not
+ 	adjacent rails) was not being shown as rail.
+	
+Sat Jan 16 11:10:21 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, common/packets.c, common/packets.h,
+ 	common/shared.h, server/civserver.c, server/plrhand.c: Send
+ 	capability strings so that clients know capabilities of other
+ 	clients, to help future backward compatibility.  This patch itself
+ 	is backward compatible via capabilities.  Patch submitted by Kris
+ 	Bubendorfer.
+	
+Sat Jan 16 01:15:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: Help text patch submitted by Greg Wooledge
+ 	<wooledge@kellnet.com>:
+	
+	This patch does some revision on the helpdata.txt file.  I've
+ 	standardized the capitalization of many words (Wonder->wonder,
+ 	factory->Factory, etc.), removed trailing white space, cleaned up
+ 	some minor grammar/phrasing problems, and added a couple comments
+ 	based on Civ2 experience.  More importantly, I've standardized
+ 	some terminology:
+	
+	  * I've used the terms "food production", "shield production",
+ 	    "science production", "tax production" and "luxury production"
+ 	    to refer to the output of cities.
+	
+	  * I've used the terms "food resource", "shield resource" and
+ 	    "trade resource" to refer to what's harvested from squares
+ 	    around a city.
+	
+	  * I've used the term "shields" to refer to shield resources,
+ 	    rather than the more ambiguous "production"; I've also used
+ 	    "shields" (or kept the phrase "production shields") in the
+ 	    government help to indicate unit upkeep costs.
+	
+	The only change I didn't make in terms of standardization is to
+ 	reconcile the American and British spellings of certain words
+	(particularly "defense"/"defence").  The "Coastal Defense" stanza
+ 	is a rather glaring example of the need for this, but I didn't
+ 	want to try to make that call....
+	
+Sat Jan 16 01:12:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapview.c: Fixed case when diagonal roads is off and we
+ 	have a rail/road tile with only diagonally adjacent rail/road
+ 	tiles.  Now draws an "isolated" rail/road (used to draw no
+ 	rail/road on that tile).
+	
+Fri Jan 15 11:04:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unittools.h: New feature: civil war.  If a player's
+ 	capital is captured and the number of cities the player owns is at
+ 	least "civilwarsize"
+	(a new server option), then the player's empire splits in a civil
+ 	war, with cities and units being divided between the old player
+ 	and a new AI player.  (Civil wars only happen if there are less
+ 	than 14 existing players.)  From patch submitted by Kris
+ 	Bubendorfer <kris@MCS.VUW.AC.NZ>.
+
+Fri Jan 15 11:04:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/game.c, common/game.h, common/map.h, common/unit.c,
+ 	common/unit.h, data/helpdata.txt, server/citytools.c,
+ 	server/citytools.h, server/civserver.c, server/gamehand.c,
+ 	server/stdinhand.c, server/unitfunc.c, server/unitfunc.h,
+ 	server/unithand.c, server/unittools.c: New feature: civil war.  If
+ 	a player's capital is captured and the number of cities the player
+ 	owns is at least "civilwarsize" (a new server option), then the
+ 	player's empire splits in a civil war, with cities and units being
+ 	divided between the old player and a new AI player.  (Civil wars
+ 	only happen if there are less than 14 existing players.)  From
+ 	patch submitted by Kris Bubendorfer <kris@MCS.VUW.AC.NZ>.
+	
+Tue Jan 12 11:21:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/citydlg.c: Another fix to the "selecting idle
+ 	autosettler" problem, this time when selecting the unit from the
+ 	city dialog.
+	
+Tue Jan 12 10:55:46 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapctrl.c, client/packhand.c, server/unithand.c: Fix so
+ 	that a settler in auto-mode, but currently idle (between jobs),
+ 	correctly goes out of auto-mode when selected by the user.
+	
+Tue Jan 12 10:33:38 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.am, Makefile.in, configure, configure.in: New configure
+ 	option --disable-make-data, which prevents make from recursing
+ 	into the data directory (and subdirectories) when you do a make
+ 	from the top level.  The only time you _don't_ want to use this
+ 	option is when you're going to do a "make install", since then you
+ 	_do_ want to recurse into the data directories, else the data
+ 	won't be installed.
+	
+Tue Jan 12 10:32:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/Makefile.am, data/default/Makefile.in: Fix so "make
+ 	install" installs data/default properly.
+	
+Mon Jan 11 08:21:45 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/Makefile.am, data/default/Makefile.in: Left off a
+ 	line-continuation backslash.
+	
+Mon Jan 11 07:50:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/.cvsignore: Added data/default/.cvsignore
+	
+Mon Jan 11 07:35:44 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+ 	data/default/Makefile.am, data/default/Makefile.in: Added
+ 	Makefile.am and changed configure.in for new directory
+ 	data/default.
+	
+Mon Jan 11 07:24:44 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/Freeciv.h, client/civclient.c, client/mapview.c,
+ 	client/optiondlg.c, data/Freeciv: Added a new client option to
+ 	turn display of diagonal roads on or off.
+	
+Mon Jan 11 07:22:26 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/graphics.c: Fix bug introduced by the diagonal roads tile
+ 	rearrangement where the unit pictures in the help dialog didn't
+ 	have flags.
+	
+Sun Jan 10 08:12:10 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/default/roads.xpm, data/default/small.xpm,
+ 	data/default/tiles.xpm, data/default/treaty.xpm,
+ 	data/default/units.xpm: Moved the XPM files for the game tiles
+ 	into the directory default.
+	
+Sun Jan 10 05:27:31 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/settlers.c: Lots of reformating and variable renaming in
+ 	auto_settler_findwork(), and extra comments.
+	
+Sun Jan 10 05:22:38 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c: Fixed code which sends select_race packets
+ 	to players, to avoid sending multiple unnecessary packets, and to
+ 	make the code cleaner.  Problem reported by "Caz" Marko Lindqvist
+ 	<caz@students.cc.tut.fi>, but I did a more extensive fix than the
+ 	one provided by Caz.
+	
+Sun Jan 10 05:08:17 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Don't inform connected clients when "server
+ 	only" server options are changed (eg, random seeds, saveturns
+ 	etc).
+	
+Sun Jan 10 05:04:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Imakefile: Also added server/gamelog.o to Imakefile.
+	
+Sun Jan 10 04:06:24 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/graphics.c: Added support for tileset directories.  Also
+ 	added checking for the XPM file sizes.  If an XPM file isn't the
+ 	correct size the client will exit with an error message explaining
+ 	this, rather than crashing.
+	
+Sun Jan 10 04:03:37 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/xmain.c, client/resources.h: Added new option "--tiles"
+ 	which controls which directory the tiles comes from.  e.g.
+  	civclient --tiles civ2, use the XPM files in the directory
+ 	data/civ2
+	
+Sun Jan 10 03:58:22 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/climisc.c, client/climisc.h: Added functions in support
+ 	of multiple tile directories.
+	
+Sat Jan  9 23:44:36 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/Freeciv, client/Freeciv.h: Capitalized active units report
+ 	title correctly.
+	
+Sat Jan  9 23:41:01 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/packhand.c: Added braces to clear up egcs warnings.
+	
+Sat Jan  9 23:33:38 1999  Trent Piepho <xyzzy@u.washington.edu>
+
+	* Makefile.noimake: Updated to reflect the gamelog patch
+	
+Sat Jan  9 03:33:45 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/Makefile.am, server/Makefile.in, server/cityhand.c,
+ 	server/cityturn.c, server/civserver.c, server/diplhand.c,
+ 	server/gamelog.c, server/gamelog.h, server/plrhand.c,
+ 	server/stdinhand.c, server/unitfunc.c, server/unithand.c: New
+ 	"gamelog" feature.  Enabled by new server command line option, "-g
+ 	LOG" (or "--gamelog LOG") and a new server option, "gamelog", to
+ 	control various levels of logging (or to turn it off and on (if
+ 	enabled) mid-game).  From patch submitted by Jake Kesinger
+ 	<kesinger@math.ttu.edu>.
+	
+Sat Jan  9 01:42:46 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unithand.c: Grammar fix to "helps build wonder" message.
+  	Based on patch submitted by Tony Stuckey.
+	
+Sat Jan  9 01:35:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/plrhand.c: Use plural race name in message when race
+ 	destroyed.  Adapted from patch submitted by Tony Stuckey.
+	
+Sat Jan  9 01:29:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c: Removed unused variable "tech" in
+ 	ai_eval_buildings().  Patch submitted by Anthony J. Stuckey
+ 	<stuckey@jaka.ece.uiuc.edu>.
+	
+Thu Jan  7 12:09:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c: Additional American city names; patch submitted
+ 	by Jake Kesinger <kesinger@math.ttu.edu>.
+	
+Thu Jan  7 12:03:09 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/graphics.c, client/mapview.c, client/packhand.c,
+ 	data/Makefile.am, data/Makefile.in: Changed the client to display
+ 	diagonal road and rail connections.  Old road tiles removed from
+ 	data/tiles.xpm and new tiles put in new file data/roads.xpm.  From
+ 	patch submitted by Jeff Mallatt <jjm@codewell.com>.
+	
+Tue Jan  5 12:39:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/unit.c: In string_center(), put in a cast (printf arg to
+ 	"%*" with a sizeof, now cast to int) to quiet warning on OS/2,
+ 	reported by Alexander Mai <st002279@hrzpub.tu-darmstadt.de>.  Then
+ 	found out that string_center() is no longer used anywhere (not to
+ 	mention this is a bad module for it), so #if-ed the function out.
+  	(Note also create_centered_string() in common/shared.c).
+	
+Tue Jan  5 12:24:38 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapctrl.c, data/helpdata.txt: Allow control + Button 2 to
+ 	give tile information in the main map
+	(the same as Button 3) to help those who don't have a 3 button
+ 	mouse.  Patch submitted Bussi Andrea <bta@edu.al.unipmn.it>, plus
+ 	I added text for the new control to the "Help Controls" page.
+	
+Tue Jan  5 12:05:48 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/menu.c, common/packets.h, server/civserver.c,
+ 	server/stdinhand.c, server/stdinhand.h: Made several improvements
+ 	to server options:
+
+	- Classifed the options, and re-orderd them according to class.
+	- Used classes to generalize the old "afterstart" data.
+	- Split the help strings into short and long versions, and re-wrote
+	  many of them.
+	- Print both help strings for individual "explain <option>".
+	- Included short help strings in the output of "show".
+	- In the client, split the "server options" menu item into two new
+ 	  items, to each show (roughly) half of the options ("initial"
+ 	  options, vs "ongoing" options).  (The old single listing was
+ 	  getting too long, especially if we want to add more options in the
+ 	  future.)  The old menu item remains, for compatibility with old
+ 	  servers, and the new server still serves the old menu item
+ 	  request, for compatibility with old clients.
+	- Changed server printfs about "variables" to say "options".
+	- In handle_report_request() in civserver.c, send a message to the
+ 	  client output window if the client asks for an unknown report, so
+ 	  mismatched servers and clients work together better in the future
+ 	  if additional new report types are added.  (Previously the server
+ 	  silently ignored unknown report types.)
+	
+Tue Jan  5 11:57:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aiunit.c, common/city.h, common/unit.c,
+ 	common/unit.h, server/settlers.c, server/settlers.h,
+ 	server/unitfunc.c: In this patch AI will build a diplomat (for
+ 	defense) whenever an enemy diplomat or boat is close enough to a
+ 	town.  If AI hasn't learned yet about writing, AI will try to get
+ 	this knowledge.
+	(The AI doesn't know how to use the diplomats offensively.)  AI
+ 	will also check that the place where it wants to build a new city
+ 	isn't within range of an enemy military ground unit or a diplomat.
+  	Patch submitted by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>,
+ 	with some minor formatting changes by me.
+	
+Fri Jan  1 12:12:01 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* INSTALL.debian: The INSTALL.debian file somehow had lots of junk
+ 	included.  New file submitted by Lalo Martins <lalo@debian.org>.
+	
+Thu Dec 31 06:07:46 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aihand.c: In ai_manage_taxes, changed an instance of
+ 	handle_unit_disband to be handle_unit_disband_safe, to avoid
+ 	possibility of a dangling iterator.  Bug reported by Jake Kesinger
+ 	<kesinger@math.ttu.edu>.
+	
+Wed Dec 30 19:03:34 1998  Lalo Martins <lalo@debian.org>:
+
+	* INSTALL.debian: Adding INSTALL.debian - I'm a month late at
+ 	this...
+	
+Wed Dec 30 19:00:32 1998  Lalo Martins <lalo@debian.org>:
+
+	* build.debian, debian/changelog, debian/menu, debian/postinst,
+ 	debian/postrm, debian/rules: updating debian files (debian/*) to
+ 	match 1.7.2. I don't know why is CVS commiting build.debian, but
+ 	let it have its fun :-)
+	
+Tue Dec 29 10:44:34 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unithand.c: Moved adjustment to attacker's moves_left to
+ 	be after the call to unit_versus_unit(), so we get the correct
+ 	attack modifier for units with less than 1 movement point left.
+	
 	freeciv/client Freeciv.h citydlg.c civclient.c clinet.c clinet.h 
 	mapctrl.c menu.c packhand.c packhand.h
 	freeciv/common city.h packets.c packets.h shared.h unit.c unit.h
@@ -430,920 +1410,6 @@ on Wed Feb 10 13:44:42 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 	to defend a town patch written by
 	sfischme@nexus.lzk.tuwien.ac.at and
 	David Pfitzner <dwp@mso.anu.edu.au>
-
-on Wed Feb 10 13:49:28 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server autoattack.c autoattack.h:
-	add the file autoattach.c and autoattach.h
-	needed by the autoattach patch
-
-on Wed Feb 10 13:04:54 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-	*freeciv/client dialogs.c
-	freeciv/server unitfunc.c:
-
-	cannot sabotage wonders
-	patch by  Greg Wooledge 
-	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
-
-on Mon Feb 15 03:10:07 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common shared.c
-         freeciv/server unitfunc.c:
-	fixing problem with city workers when city changes owner...
-	patch written by Rizos Sakellariou <rizos@cs.rice.edu>
-
-on Wed Feb 10 11:49:32 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server cityhand.c cityhand.h diplhand.c unithand.c:
-	fixing problem with city workers when city changes owner...
-	Patch by rizos@rice.edu
-
-on Wed Feb 10 11:23:19 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/ai advdomestic.c:
-	"In the games that I have watched the AI play, they almost never
-	build Marketplaces, Banks, or Stock Exchanges.  These are some of the
-	most useful buildings in the game.  These equations give a higher and 
-	more realistic valuation to the buildings.  This causes the AI to build
-	them somewhat more often, but still only in cities with 
-	circa 20+ trade." 
-	Comment and patch by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>
-	in function ai_eval_buildings(struct city *pcity)
-
-on Wed Feb 10 11:11:30 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common unit.c:
-	show veteran status in Unit Commands popup
-	Patch submitted by Greg Wooledge i
-	<ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
-
-on Wed Feb 10 10:26:28 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/ai advmilitary.c aicity.c aihand.c
-	freeciv/client chatline.c civclient.c climisc.c clinet.c 
-	colors.c graphics.c helpdlg.c optiondlg.c packhand.c repodlgs.c xmain.c
-	freeciv/common city.c game.c log.c log.h packets.c unit.c
-	freeciv/server citytools.c cityturn.c civserver.c diplhand.c gamehand.c
-	gotohand.c mapgen.c maphand.c plrhand.c registry.c ruleset.c sernet.c
-	stdinhand.c unitfunc.c unittools.c:
-	remplace flog by freelog to avoid linking
-	problems with the standard mathematic library.
-	Patch suggested 
-	by Vasco Alexandre da Silva Costa <vasc@camoes.rnl.ist.utl.pt>
-	for an easiest integration of gtk in cvs.
-
-on Tue Feb  9 14:44:22 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server unitfunc.c:
-	remove punit->moves_left = 0 in update_unit_activity
-	change hinted by 
-	Greg Wooledge <ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
-
-on Tue Feb  9 11:35:34 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/client mapview.c mapview.h:
-	put tiles definition from mapview.c to mapview.h
-	change needed by Daniel Gudlat <gudlat@informatik.hu-berlin.de>
-
-
-on Tue Feb  9 08:27:09 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/data helpdata.txt:
-	add help about teamwork now available for 
-	settlers and engineers.
-	patch submitted by  Greg Wooledge <wooledge@kellnet.com>
-	correct the name of the present administrators.
-
-on Mon Feb  8 16:38:26 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	freeciv/common unit.c
-	freeciv/server unitfunc.c
-
-	Settlers and engineers can do teamwork.
-	The activity of one unit is the sum of the activity all of units doing
-	the same activity on the same tile.
-	I added punit->moves_left = 0 for the following activities :
-        POLLUTION
-	FORTRESS
-	IRRIGATE
-	ROAD
-	RAILROAD
-	MINING
-	patch submitted by 
-	Greg Wooledge <ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
-
-on Mon Feb  8 14:36:08 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server gotohand.c:
-
-on Sat Feb  6 15:35:51 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server civserver.c:
-	In end_turn(), fixed possible sefault when shuffled[i] is NULL due 
-	to a civil war caused by end-of-turn goto-ing units.  Now process 
-	additional players in non-shuffled order after pre-existing players.
-	Fixes bug reported by Rizos Sakellariou <rizos@rice.edu>.
-
-on Thu Feb  4 07:29:25 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client climisc.c packhand.c
-	freeciv/server cityhand.c cityhand.h unitfunc.c
-	freeciv/common city.c city.h game.c game.h:
-	Moved the citycache stuff from server to common.  Modified 
-	find_city_by_id, and related functions so they will work with or 
-	without the citycache. Removed game_find_city_by() and refrences to it.
-
-on Wed Feb  3 18:11:16 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/server unitfunc.c:
-	Added a few braces to clean up some egcs -Wall warnings.
-
-on Wed Feb  3 10:46:33 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server gotohand.c:
-	in init_warmap simplify the initiazation of warmap.
-
-on Tue Feb  2 13:52:57 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/client mapctrl.c:
-	Can activate any unit.
-	Patch submitted by Massimo Campostrini <campo@mailbox.difi.unipi.it>
-
-on Tue Feb  2 13:35:06 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common unit.c:
-	Settlers or engineers who want to build a new town must have
-	at least one move left.
-	Patch submitted by Massimo Campostrini <campo@mailbox.difi.unipi.it> 
-
-on Mon Feb  1 14:56:33 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/client mapctrl.c:
-	Disallow to build town with 0 moves left
-	Patch suggested by Massimo Campostrini <campo@mailbox.difi.unipi.it>
-
-on Sat Jan 30 08:43:10 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server civserver.c:
-	In handle_request_join_game swap server and client in sprintf.
-
-on Fri Jan 29 19:41:12 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv README.rulesets Makefile.am Makefile.in:
-	Some documentation for rulesets.
-
-on Fri Jan 29 19:34:25 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv Imakefile Makefile.noimake
-	freeciv/server Makefile.am Makefile.in cityhand.c civserver.c 
-	gamehand.c settlers.c unitfunc.c unithand.c unittools.c:
-	Core changes to server for rulesets, including using ruleset.c functions
-	and using unit_role functions.
-
-on Fri Jan 29 19:39:28 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client Freeciv.h helpdlg.c
-	freeciv/data Freeciv helpdata.txt:
-	Changes to help system for rulesets: show improvement/wonder variants, 
-	and make some help text more dynamic based on game.rtech etc.
-
-
-on Fri Jan 29 19:36:49 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advdomestic.c advmilitary.c aicity.c aiunit.c aiunit.h:
-	Changes to AI for rulesets: generalize unit roles.
-
-on Fri Jan 29 19:35:23 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client civclient.c packhand.c:
-	Core changes to client for rulesets: handle the new packets.
-
-on Fri Jan 29 19:28:49 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common city.c game.c game.h shared.h tech.c unit.c unit.h:
-	Core changes to common/ for rulesets.  Removed hardwire tables.
-	Changed/new unit flags/roles.  Removed set_civ_style() stuff.
-
-on Fri Jan 29 19:21:58 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common game.h:
-	Added game.ruleset struct for ruleset server option strings.
-
-on Fri Jan 29 19:23:28 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server stdinhand.c:
-	New server options for rulesets.
-
-on Fri Jan 29 19:25:10 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common packets.c packets.h:
-	New packets for rulesets.
-
-on Fri Jan 29 19:19:46 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common map.h:
-	Define GAME_DEFAULT_RULESET.
-
-on Fri Jan 29 19:04:18 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server ruleset.c ruleset.h:
-	New ruleset module, containing functions to read ruleset 
-	datafiles, and to send ruleset information to the client.
-
-on Fri Jan 29 18:57:51 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv configure configure.in
-	freeciv/data civ1.serv Makefile.am Makefile.in
-	freeciv/data/civ1 .cvsignore Makefile.am Makefile.in buildings.ruleset
-	techs.ruleset units.ruleset freeciv/data/default buildings.ruleset 
-	techs.ruleset units.ruleset Makefile.am Makefile.in:
-	New datafiles for rulesets, and configure/Makefile changes so that
-	"make dist" and "make install" know about the new files.
-
-on Fri Jan 29 18:30:58 PST 1999 = Sat Jan 30 02:30:58 1999 (GMT)
-
-	*freeciv/data/civ1 - New directory
-	Directory /home/freeciv/CVS/freeciv/data/civ1 added to the repository
-
-on Fri Jan 29 13:17:00 1999 by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common map.c:
-	In real_map_distance, sq_map_distance and map_distance
-	speed up calculation.
-	Patch suggested by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>
-
-on Thu Jan 28 15:15:04 1999 by Nicolas BRUNEL <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server unitfunc.c:
-	In server/unitfunct correct the name used to notify a player when i 
-	diplomat is eliminated while infiltrating.
-	Patch submitted by Rizos Sakellariou <rizos@cs.rice.edu> 
-
-on Thu Jan 28 13:33:47 1999 by Nicolas BRUNEL <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/common unit.c:
-	In unit_can_help_build_wonder i disable the possibility
-	to help build a wonder when the wonder is finished.
-
-on Thu Jan 28 09:26:12 1999 by Nicolas BRUNEL <brunel@ham.esil.univ-mrs.fr>
-
-	*freeciv/server gotohand.c:
-	put a comment in init_warmap to test cvs commit 
-
-on Thu Jan 28 07:07:36 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client citydlg.c repodlgs.c
-	freeciv/server cityhand.c:
-	The client will not longer let you buy Capitalization via a city dialog
-	or the city report.  Neither the shield cost nor the buying cost of
-	Capitalization are diplayed, since they don't apply and only confuse
-	players.  Even if the client tries to somehow, the server doesn't allow
-	buying Capitalization anymore either.  The AI should probably be
-	modifed to understand about not buying capitalization too.
-
-on Thu Jan 28 03:51:49 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common game.c game.h
-	freeciv/server unitfunc.c unithand.c:
-	New variable game.firepower_factor, currently fixed at 1, to
-	be used in rulesets.  In combat, all firepower values are multiplied
-	by this factor.  Also, unit hitpoints sent to the client are divided
-	by this factor.  Eg, units with hp=10, firepower=1 and i
-	firepower_factor=10 will look like units with hp=1 and firepower=1. 
-	(Note that hp are not used in common/ except as 
-	punit->hp/unit_type->hp so this doesn't break anything there.)  
-	This hackish setup is to help support civ1-style combat 
-	(with rulesets) without causing the normal AI calculations to core-dump 
-	and/or underflow/overflow (as they would with hp=1).
-
-on Thu Jan 28 03:14:28 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advdomestic.c advmilitary.c aiunit.c
-	freeciv/common city.c city.h player.c player.h unit.c
-	freeciv/server citytools.c cityturn.c 
-	plrhand.c settlers.c unitfunc.c unittools.c:
-	New variant field to improvement_type struct, to specify variant 
-	improvement effects.  Some variant effects are implemented (via 
-	new function improvement_variant()), but are not yet documented 
-	(coming with rulesets proper), and at the moment all improvements
-	have variant=0.  Also new variant-related function 
-	player_owns_active_govchange_wonder().  In the future, improvement 
-	effects should be generalised still further, but this is a start.
-
-on Thu Jan 28 03:10:57 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advdomestic.c advmilitary.c aicity.c aiunit.c
-	freeciv/common game.c game.h unit.c
-	freeciv/server citytools.c plrhand.c settlers.c:
-	New struct game.rtech, which stores advances which have 
-	special effects (and game.rtech.nav, used by the AI). 
-	The advance values are currently fixed, but will be
-	adjustable in the future with rulesets.
-
-on Thu Jan 28 03:05:59  1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client climisc.c climisc.h packhand.c:
-	Added client-side continent calculations, to support continent-only
-	wonder variants (in rulesets).  The client may have imperfect 
-	knowledge of continents, but it still helps the client to know 
-	in many cases if an improvement is wonder-replaced.
-
-on Tue Jan 26 03:38:47 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server unitfunc.c:
-	When wipe_unit_safe() was re-done as a wrapper for new 
-	wipe_unit_spec_safe() (in civil war patch), it buggily 
-	didn't pass on the iterator argument, reintroducing 
-	various segfault bugs; fixed.
-
-on Sat Jan 23 19:53:15 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client civclient.c:
-	Fixed client --help and --version handling so that starting 
-	the client with no arguments doesn't segfault!
-
-on Sat Jan 23 18:48:31 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data helpdata.txt:
-	This adds a Terrain Alterations section to the terrain help.
-	Patch submitted by Greg Wooledge.
-
-on Sat Jan 23 18:33:03 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client messagedlg.c
-	freeciv/common events.h
-	freeciv/server cityturn.c:
-	When building a granary in a city, it is useful to postpone city 
-	growth until the granary is complete, so that you can save large 
-	amounts of your foodbox.  This patch tries to notify players when 
-	this type of situation exists.  Adds event E_CITY_GRAN_THROTTLE:  
-	"Suggest Growth Throttling".  Patch submitted by Tony Stuckey.
-
-on Sat Jan 23 18:33:55 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client civclient.c xmain.c:
-	In client, handle --help and --version ourselves in 
-	main(), so we don't need to connect to the X server.  
-	Patch submitted by Lalo Martins <lalo@webcom.com>.
-
-on Sat Jan 23 18:31:41 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server cityhand.c:
-	In really_handle_city_buy(), return early if cost is 0, to avoid 
-	unnecessary "bought for 0 gold" messages when watching AI.
-	Patch submitted by Tony Stuckey.
-
-on Sat Jan 23 18:38:23 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default roads.xpm:
-	New road and rail tiles.  Roads are less prominent and wiggly, like 
-	pre-diagonal roads.  Rails are smaller-scale and less cluttering.
-
-on Fri Jan 22 21:17:53 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server gotohand.c unitfunc.c unitfunc.h:
-	New function get_simple_defense_power(), to avoid hardwired
-	U_HOWITZER in calls get_virtual_defense_power(U_HOWITZER, ...).
-
-on Fri Jan 22 21:16:05 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advmilitary.c
-	freeciv/common unit.c
-	freeciv/server settlers.c:
-	Always access unit flags via unit_flags(), and don't do bit 
-	operations on flag values.  (For rulesets, where flags are
-	an enumeration rather than bit defines.)
-
-on Fri Jan 22 21:13:00 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advmilitary.c aicity.c aiunit.c aiunit.h:
-	New function is_ai_simple_military(), to unhardwire loops 
-	previously done as U_WARRIORS to U_BATTLESHIP.
-
-on Fri Jan 22 21:16:55 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server stdinhand.c:
-	Code to allow string-valued server options.  
-	(None yet, but will be for rulesets.)
-
-on Fri Jan 22 21:14:17 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advmilitary.c:
-	Unhardwired A_AMPHIBIOUS for B_PORT in kill_something_with().
-
-on Fri Jan 22 21:06:47 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advmilitary.c aiunit.c
-	freeciv/common city.c player.c player.h:
-	New function player_knows_improvement_tech(), used to reduce use 
-	of hard-wired advances when really mean improvement tech_required.
-
-on Fri Jan 22 21:08:36 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai aicity.c:
-	Pseudo-generalized has_a_normal_defender(), for rulesets, though not
-	very well because I don't really understand the function's purpose.
-
-on Fri Jan 22 21:07:39 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client repodlgs.c:
-	Use is_wonder() instead of hardwired improvement range in
-	trade_report_dialog_update().
-
-on Fri Jan 22 21:04:05 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common tech.h:
-	In advance struct, changed "name" from char pointer to char array.
-	This is now the same as unit_types and buildings, and is easier 
-	than managing memory when names are somewhat dynamic, for rulesets.  
-	Included shared.h, for MAX_LENGTH_NAME.
-
-on Fri Jan 22 21:01:24 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server registry.c:
-	In section_file_load(), print a log message if fopen() fails.
-
-on Fri Jan 22 21:02:21 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server gotohand.c:
-	In really_generate_warmap(), unhardwired a use of U_SETTLERS.
-
-on Fri Jan 22 21:05:14 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common city.h:
-	Moved some prototypes to better groups.
-
-on Wed Jan 20 02:31:04 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv ser
-	freeciv/client climisc.c climisc.h
-	freeciv/common shared.c shared.h:
-	Moved datafilename() from climisc to common/shared, and added
-	default FREECIV_DATADIR to ser script.  (Server will want to
-	access datadir for rulesets.)
-
-on Wed Jan 20 02:32:05 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client helpdlg.c:
-	In boot_help_texts(), don't report filtering on first 
-	boot (for rulesets).
-
-on Wed Jan 20 02:27:20 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advmilitary.c
-	freeciv/server unitfunc.c unittools.c unittools.h:
-	New convenience function unit_really_ignores_citywalls, taking 
-	into account move_type (for rulesets).
-
-on Wed Jan 20 02:21:06 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client menu.c:
-	Added a "spaceship" option to the report menu.  From a patch
-	submitted by Per Mathisen <permath@ifi.ntnu.no>.
-
-on Wed Jan 20 02:18:42 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server citytools.c:
-	In transfer_city_units(), for case where changing unit to another 
-	homecity, use the correct owner of the new homecity.  Based on a 
-	patch by Kris Bubendorfer.  Also adjusted the messages depending 
-	on whether the unit changes owner.
-
-on Sun Jan 17 03:28:52 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv Imakefile Makefile.noimake
-	freeciv/client spaceshipdlg.c spaceshipdlg.h Freeciv.h Makefile.am
-	Makefile.in graphics.c packhand.c plrdlg.c xmain.c
-	freeciv/common city.c game.c game.h map.h
-	packets.c packets.h player.c player.h shared.h
-	freeciv/data Freeciv
-	freeciv/data/default space.xpm Makefile.am Makefile.in
-	freeciv/server cityturn.c civserver.c
-	gamehand.c plrhand.c plrhand.h stdinhand.c:
-	First pass at spacerace feature, based on a patch submitted 
-	by Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>.
-	Activated by a server option which defaults to off.  
-	The travel time calculation is still missing, it always arrives 
-	after 15 years, and it doesn't properly know when a spaceship is 
-	in a proper state to be launched.
-
-on Sun Jan 17 01:44:28 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client Freeciv.h diplodlg.c
-	freeciv/common diptreaty.h shared.h
-	freeciv/data Freeciv helpdata.txt
-	freeciv/server citytools.c diplhand.c:
-	Trade cities patch submitted by Kris Bubendorfer:
-
-	This patch is essentially an extension to the diplomacy/treaty section, 
-	where you may now also TRADE CITIES.
-
-	You cannot trade your capital, but any other city is fair game. 
-	Cities that the other player does not know about, may still be gifted,
-	but obviously they cannot request these cities as they've got no idea 
-	they exist.  So you still have secrecy/fog of war.
-
-	If the recipient of a city does not have the part of the map with the 
-	city being traded, then that part of the map is lightened.  You do NOT
-	need to trade maps first - of course you could....
-
-	All units in the field that are supported by the city being traded are 
-	also transferred over, but any that are supported, but resident in 
-	other cities are not traded.  None-the-less, you should be careful not 
-	to give the other person a better deal that you expect.
-
-	There is also a new part on diplomacy in general in the Help, in the 
-	`How to play' section.
-
-
-on Sun Jan 17 01:46:37 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server citytools.c citytools.h diplhand.c 
-	unitfunc.c unittools.c unittools.h:
-	Conditionally added back messages about unit transfers 
-	in transfer_city_units() and resolve_unit_stack(), so 
-	that players get the messages when unciting or trading 
-	cities, but not for a civil war.  Also fixed the text
-	of the message when a unit's homecity is changed in 
-	these cases
-
-on Sun Jan 17 01:47:44 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server cityturn.c:
-	In citizen_happy_units(), calculate number of unhappy people
-	directly rather than using loops.   Patch submitted by 
-	Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>.
-
-on Sat Jan 16 20:08:32 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client colors.c:
-	Slightly adjusted colour of race13.
-
-on Sat Jan 16 19:53:34 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default roads.xpm small.xpm
-	tiles.xpm treaty.xpm units.xpm:
-	Colourmap cleanup.  The colours in some of the xpms where similar 
-	but not identical to colours in others.  Also eliminated a couple 
-	of colours which were only used in small.xpm.  Also replaced 
-	Artillery icon with one submitted (long ago) by Frank Muzzulini 
-	<muzz@albatross.pond.sub.org>.
-
-on Sat Jan 16 18:31:54 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server citytools.c unittools.c:
-	Some fixes to civil war.  Send game_info as soon as new player is 
-	created so clients get the correct game.nplayers, and send new player 
-	info earlier, so clients know name of new player before do cities, 
-	units.  Deactivated some more over-verbose notify_player messages I 
-	missed last time.  Set player.revolution to 1 for civil war leaders, 
-	so get to choose new government _next_ turn, not straight away.
-
-on Sat Jan 16 18:36:43 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client climisc.c packhand.c
-	freeciv/common game.c:
-	Added some extra debugging output, detailing new and removed cities
-	and units, disabled by default.  (Use configure --enable-debug, or
-	change the "#define DEBUG 0" in the source.)
-
-
-on Sat Jan 16 03:10:17 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client packhand.c
-	freeciv/common packets.c packets.h shared.h
-	freeciv/server civserver.c plrhand.c:
-	Send capability strings so that clients know capabilities of other
-	clients, to help future backward compatibility.  This patch itself    
-	is backward compatible via capabilities.                                
-	Patch submitted by Kris Bubendorfer.           
-
-on Sat Jan 16 03:15:45 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client mapview.c:
-	A rail square with adjacent roads (but not adjacent
-	rails) was not being shown as rail.
-
-on Fri Jan 15 17:15:24 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data helpdata.txt:
-	Help text patch submitted by Greg Wooledge <wooledge@kellnet.com>:
-
-	This patch does some revision on the helpdata.txt file.  I've
-	standardized the capitalization of many words (Wonder->wonder,
-	factory->Factory, etc.), removed trailing white space, cleaned up some
-	minor grammar/phrasing problems, and added a couple comments based on
-	Civ2 experience.  More importantly, I've standardized some terminology:
-
-  	* I've used the terms "food production", "shield production",
-      	"science production", "tax production" and "luxury production" to
-	  	refer to the output of cities.
-
-	 * I've used the terms "food resource", "shield resource" and "trade 
-	 resource" to refer to what's harvested from squares around a city.
-
-	* I've used the term "shields" to refer to shield resources, rather 
-	than the more ambiguous "production"; I've also used "shields" (or kept
-	the phrase "production shields") in the government help to indicate 
-	unit upkeep costs.
-
-      The only change I didn't make in terms of standardization is to
-      reconcile the American and British spellings of certain words
-      (particularly "defense"/"defence").  The "Coastal Defense" stanza is a
-      rather glaring example of the need for this, but I didn't want to try
-      to make that call....
-
-on Fri Jan 15 17:12:38 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client mapview.c:
-	Fixed case when diagonal roads is off and we have a rail/road 
-	tile with only diagonally adjacent rail/road tiles.  Now draws 
-	an "isolated" rail/road (used to draw no rail/road on that tile).
-
-on Fri Jan 15 03:03:52 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/common game.c game.h map.h unit.c unit.h
-	freeciv/data helpdata.txt
-	freeciv/server citytools.c citytools.h civserver.c gamehand.c i
-	stdinhand.c unitfunc.c unitfunc.h unithand.c unittools.c unittools.h:
-	New feature: civil war.  If a player's capital is captured and 
-	the number of cities the player owns is at least "civilwarsize" 
-	(a new server option), then the player's empire splits in a civil 
-	war, with cities and units being divided between the old player 
-	and a new AI player.  (Civil wars only happen if there are less 
-	than 14 existing players.)  From patch submitted by Kris 
-	Bubendorfer <kris@MCS.VUW.AC.NZ>.
-
-on Tue Jan 12 03:21:57 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client citydlg.c:
-	Another fix to the "selecting idle autosettler" problem,
-	this time when selecting the unit from the city dialog.
-
-on Tue Jan 12 02:55:46 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client mapctrl.c packhand.c
-	freeciv/server unithand.c:
-	Fix so that a settler in auto-mode, but currently idle (between 
-	jobs), correctly goes out of auto-mode when selected by the user.
-
-on Tue Jan 12 02:33:39 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	freeciv Makefile.am Makefile.in configure configure.in:
-	New configure option --disable-make-data, which prevents make
-	from recursing into the data directory (and subdirectories) 
-	when you do a make from the top level.  The only time you _don't_
-	want to use this option is when you're going to do a "make install",
-	since then you _do_ want to recurse into the data directories, else
-	the data won't be installed.
-
-on Tue Jan 12 02:32:07 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default Makefile.am Makefile.in:
-	Fix so "make install" installs data/default properly.
-
-on Mon Jan 11 00:21:47 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default Makefile.am Makefile.in:
-	Left off a line-continuation backslash.
-
-on Sun Jan 10 23:50:15 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/data/default .cvsignore:
-	Added data/default/.cvsignore 
-
-on Jan 10 23:35:42 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv configure configure.in
-	freeciv/data Makefile.am Makefile.in
-	freeciv/data/default Makefile.am Makefile.in:
-	Added Makefile.am and changed configure.in for new 
-	directory data/default.  
-
-on Sun Jan 10 23:24:44 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client Freeciv.h civclient.c mapview.c optiondlg.c
-	freeciv/data Freeciv:
-	Added a new client option to turn display of diagonal roads on or off.
-
-on Sun Jan 10 23:22:28 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client graphics.c:
-	Fix bug introduced by the diagonal roads tile rearrangement where the
-	unit pictures in the help dialog didn't have flags.
-
-on Sun Jan 10 00:12:09 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/data roads.xpm small.xpm tiles.xpm treaty.xpm units.xpm
-         freeciv/data/default roads.xpm small.xpm tiles.xpm treaty.xpm
-	 units.xpm:
-	Moved the XPM files for the game tiles into the directory default.
-
-on Sun Jan 10 00:08:17 1999
-
-	*freeciv/data/default - New directory
-	Directory /home/freeciv/CVS/freeciv/data/default added to the 
-	repository.
-
-on Sat Jan  9 21:22:39 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server civserver.c:
-	Fixed code which sends select_race packets to players, 
-	to avoid sending multiple unnecessary packets, and to make
-	the code cleaner.  Problem reported by "Caz" Marko Lindqvist 
-	<caz@students.cc.tut.fi>, but I did a more extensive fix
-	than the one provided by Caz.
-
-on Sat Jan  9 21:27:32 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server settlers.c:
-	Lots of reformating and variable renaming in 
-	auto_settler_findwork(), and extra comments. 
-
-on Sat Jan  9 21:08:18 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server stdinhand.c:
-	Don't inform connected clients when "server only" server 
-	options are changed (eg, random seeds, saveturns etc).
-
-on Sat Jan  9 21:04:40 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv Imakefile:
-	Also added server/gamelog.o to Imakefile.
-
-on Sat Jan  9 20:06:25 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client graphics.c:
-
-	Added support for tileset directories.
-	Also added checking for the XPM file sizes.  If an XPM file isn't the 
-	correct size the client will exit with an error message explaining 
-	this, rather than crashing.
-
-on Sat Jan  9 20:03:39 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client xmain.c resources.h:
-	Added new option "--tiles" which controls which directory the tiles
-	comes from.  e.g.  civclient --tiles civ2, use the XPM files in the 
-	directory data/civ2
-
-on Sat Jan  9 19:58:23 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client climisc.c climisc.h
-	Added functions in support of multiple tile directories.
-
-on Sat Jan  9 15:44:36 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/data Freeciv
-	freeciv/client Freeciv.h:
-	Capitalized active units report title correctly.
-
-on Sat Jan  9 15:41:02 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv/client packhand.c:
-	Added braces to clear up egcs warnings.
-
-on Sat Jan  9 15:33:39 1999 by Trent Piepho <xyzzy@u.washington.edu>
-
-	*freeciv Makefile.noimake:
-	Updated to reflect the gamelog patch
-
-on Fri Jan  8 19:33:46 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server gamelog.c gamelog.h Makefile.am Makefile.in
-	cityhand.c cityturn.c civserver.c diplhand.c plrhand.c
-	stdinhand.c unitfunc.c unithand.c:
-	New "gamelog" feature.  Enabled by new server command line 
-	option, "-g LOG" (or "--gamelog LOG") and a new server option, 
-	"gamelog", to control various levels of logging (or to turn 
-	it off and on (if enabled) mid-game).  From patch submitted 
-	by Jake Kesinger <kesinger@math.ttu.edu>.
-
-on Fri Jan  8 17:42:47 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-	
-	*freeciv/server unithand.c:
-	Grammar fix to "helps build wonder" message.  
-	Based on patch submitted by Tony Stuckey.
-
-
-on Fri Jan  8 17:35:45 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server plrhand.c:
-	Use plural race name in message when race destroyed.
-	Adapted from patch submitted by Tony Stuckey.
-
-On Fri Jan  8 17:29:08 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai advdomestic.c:
-	Removed unused variable "tech" in ai_eval_buildings().
-	Patch submitted by Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>.
-
-on Thu Jan  7 04:03:07 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-	
-	*freeciv/client graphics.c mapview.c packhand.c
-	freeciv/data roads.xpm Makefile.am Makefile.in tiles.xpm:
-	Changed the client to display diagonal road and rail 
-	connections.  Old road tiles removed from data/tiles.xpm 
-	and new tiles put in new file data/roads.xpm.  
-	>From patch submitted by Jeff Mallatt <jjm@codewell.com>.
-
-on Thu Jan  7 04:09:04 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-	
-	*freeciv/common city.c:
-	Additional American city names; patch submitted by 
-	Jake Kesinger <kesinger@math.ttu.edu>.
-
-on Tue Jan  5 04:39:21 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-	
-	*freeciv/common unit.c:
-	In string_center(), put in a cast (printf arg to "%*" with a sizeof, 
-	now cast to int) to quiet warning on OS/2, reported by Alexander Mai 
-	<st002279@hrzpub.tu-darmstadt.de>.  Then found out that string_center()
-	is no longer used anywhere (not to mention this is a bad module for it), 
-	so #if-ed the function out.  (Note also create_centered_string() in 
-	common/shared.c).
-
-on Tue Jan  5 04:24:38 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client mapctrl.c
-	freeciv/data helpdata.txt:
-	Allow control + Button 2 to give tile information in the main map
-	(the same as Button 3) to help those who don't have a 3 button mouse.
-	Patch submitted Bussi Andrea <bta@edu.al.unipmn.it>, plus I added text
-	for the new control to the "Help Controls" page.
-
-on Tue Jan  5 04:05:44 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/client menu.c
-	freeciv/common packets.h
-	freeciv/server civserver.c stdinhand.c stdinhand.h:
-	Made several improvements to server options:
-	- Classifed the options, and re-orderd them according to class.
-	- Used classes to generalize the old "afterstart" data.
-	- Split the help strings into short and long versions, and re-wrote 
-	many of them. 
-	- Print both help strings for individual "explain <option>".
-	- Included short help strings in the output of "show".
-	- In the client, split the "server options" menu item 
-	into two new items,
-	to each show (roughly) half of the options 
-	("initial" options, vs "ongoing" 
-	options).  (The old single listing 
-	was getting too long, especially if we 
-	want to add more options in the future.)  The old menu item remains, 
-	for compatibility with old servers, and the new server still serves 
-	the old menu item request, for compatibility with old clients.
-	- Changed server printfs about "variables" to say "options". 
-	- In handle_report_request() in civserver.c, 
-	send a message to the client
-	output window if the client asks for an unknown report, so mismatched
-	servers and clients work together better in the future if additional 
-	new report types are added.  (Previously the server silently ignored
-	unknown report types.)
-
-on Tue Jan  5 03:57:27 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	freeciv/ai advmilitary.c aiunit.c
-	freeciv/common city.h unit.c unit.h
-	freeciv/server settlers.c settlers.h unitfunc.c:
-	In this patch AI will build a diplomat (for defense) whenever an 
-	enemy diplomat or boat is close enough to a town.  If AI hasn't 
-	learned yet about writing, AI will try to get this knowledge.  
-	(The AI doesn't know how to use the diplomats offensively.)
-	AI will also check that the place where it wants to build a new city 
-	isn't within range of an enemy military ground unit or a diplomat.
-	Patch submitted by Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-
-on Fri Jan  1 04:12:02 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv INSTALL.debian:
-	The INSTALL.debian file somehow had lots of junk included.
-	New file submitted by Lalo Martins <lalo@debian.org>.
-
-on Wed Dec 30 22:07:47 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/ai aihand.c:
-	In ai_manage_taxes, changed an instance of handle_unit_disband
-	to be handle_unit_disband_safe, to avoid possibility of a dangling 
-	iterator.  Bug reported by Jake Kesinger <kesinger@math.ttu.edu>.
-
-on Wed Dec 30 11:00:28 1999 by Lalo Martins <lalo@debian.org>
-
-	*freeciv build.debian:
-	freeciv/debian changelog menu postinst postrm rules:
-	updating debian files (debian/*) to match 1.7.2. I don't know why is CVS
-	commiting build.debian, but let it have its fun :-)
-
-on Wed Dec 30 11:03:34 1999 by Lalo Martins <lalo@debian.org>
-
-	*freeciv INSTALL.debian :
-	Adding INSTALL.debian - I'm a month late at this...
-
-on Tue Dec 29 02:44:35 1999 by David Pfitzner <dwp@mso.anu.edu.au>
-
-	*freeciv/server unithand.c:Moved adjustment to attacker's moves_left
-	to be after the call to unit_versus_unit(), so we get the correct 
-	attack modifier for units with less than 1 movement point left.
 
 Sat Dec 26 03:02:37 1998  Mitch Davis <mjd@alphalink.com.au>:
 
