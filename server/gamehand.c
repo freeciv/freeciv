@@ -27,6 +27,7 @@
 #include <meta.h>
 #include <capability.h>
 #include <time.h>
+#include <log.h>
 
 extern char metaserver_info_line[];
 
@@ -59,6 +60,13 @@ void init_new_game(void)
     } else {
       x=map.start_positions[i].x;
       y=map.start_positions[i].y;
+    }
+    /* For scenarios, huts may coincide with player starts;
+       remove any such hut: */
+    if(map_get_special(x,y)&S_HUT) {
+      map_clear_special(x,y,S_HUT);
+      flog(LOG_DEBUG, "Removed hut on start position for %s",
+	  game.players[i].name);
     }
     light_square(&game.players[i], x, y, 1);
     for (j=0;j<game.settlers;j++) 
