@@ -403,7 +403,7 @@ void x_main(int argc, char *argv[])
   x_interval_id=XtAppAddTimeOut(app_context, 500,
 				(XtTimerCallbackProc)timer_callback, NULL);
 
-  XtVaGetValues(map_canvas, XtNheight, &h, XtNwidth, &w);
+  XtVaGetValues(map_canvas, XtNheight, &h, XtNwidth, &w, NULL);
   map_canvas_store_twidth=w/NORMAL_TILE_WIDTH;
   map_canvas_store_theight=h/NORMAL_TILE_HEIGHT;
   map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas), 
