@@ -703,17 +703,17 @@ const char *get_report_title(const char *report_name)
 const char *get_happiness_buildings(const struct city *pcity)
 {
   int faces = 0;
-  struct building_vector sources;
+  struct effect_source_vector sources;
   INIT;
 
   add_line(_("Buildings: "));
 
   sources = get_city_bonus_sources(pcity, EFT_MAKE_CONTENT);
-  building_vector_iterate(&sources, pbldg) {
+  effect_source_vector_iterate(&sources, src) {
     faces++;
-    add(_("%s. "), get_improvement_name(*pbldg));
-  } building_vector_iterate_end;
-  building_vector_free(&sources);
+    add(_("%s. "), get_improvement_name(src->building));
+  } effect_source_vector_iterate_end;
+  effect_source_vector_free(&sources);
 
   if (faces == 0) {
     add(_("None. "));
@@ -728,31 +728,31 @@ const char *get_happiness_buildings(const struct city *pcity)
 const char *get_happiness_wonders(const struct city *pcity)
 {
   int faces = 0;
-  struct building_vector sources;
+  struct effect_source_vector sources;
   INIT;
 
   add_line(_("Wonders: "));
 
   sources = get_city_bonus_sources(pcity, EFT_MAKE_HAPPY);
-  building_vector_iterate(&sources, pbldg) {
+  effect_source_vector_iterate(&sources, src) {
     faces++;
-    add(_("%s. "), get_improvement_name(*pbldg));
-  } building_vector_iterate_end;
-  building_vector_free(&sources);
+    add(_("%s. "), get_improvement_name(src->building));
+  } effect_source_vector_iterate_end;
+  effect_source_vector_free(&sources);
 
   sources = get_city_bonus_sources(pcity, EFT_FORCE_CONTENT);
-  building_vector_iterate(&sources, pbldg) {
+  effect_source_vector_iterate(&sources, src) {
     faces++;
-    add(_("%s. "), get_improvement_name(*pbldg));
-  } building_vector_iterate_end;
-  building_vector_free(&sources);
+    add(_("%s. "), get_improvement_name(src->building));
+  } effect_source_vector_iterate_end;
+  effect_source_vector_free(&sources);
 
   sources = get_city_bonus_sources(pcity, EFT_NO_UNHAPPY);
-  building_vector_iterate(&sources, pbldg) {
+  effect_source_vector_iterate(&sources, src) {
     faces++;
-    add(_("%s. "), get_improvement_name(*pbldg));
-  } building_vector_iterate_end;
-  building_vector_free(&sources);
+    add(_("%s. "), get_improvement_name(src->building));
+  } effect_source_vector_iterate_end;
+  effect_source_vector_free(&sources);
 
   if (faces == 0) {
     add(_("None. "));

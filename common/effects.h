@@ -199,6 +199,19 @@ struct effect {
   TYPED_LIST_ITERATE(struct effect, effect_list, peffect)
 #define effect_list_iterate_end LIST_ITERATE_END
 
+/* This struct contains a source building along with the effect value.  It is
+ * primarily useful for get_city_bonus_sources(). */
+struct effect_source {
+  Impr_Type_id building;
+  int effect_value;
+};
+#define SPECVEC_TAG effect_source
+#define SPECVEC_TYPE struct effect_source
+#include "specvec.h"
+#define effect_source_vector_iterate(vector, psource) \
+  TYPED_VECTOR_ITERATE(struct effect_source, vector, psource)
+#define effect_source_vector_iterate_end VECTOR_ITERATE_END
+
 /* ruleset cache creation and communication functions */
 void ruleset_cache_init(void);
 void ruleset_cache_free(void);
@@ -255,8 +268,8 @@ struct effect_list *get_building_effects(Impr_Type_id building,
 					 enum effect_type effect_type);
 struct effect_type_vector *get_building_effect_types(Impr_Type_id building);
 
-struct building_vector get_city_bonus_sources(const struct city *pcity,
-					      enum effect_type effect_type);
+struct effect_source_vector get_city_bonus_sources(const struct city *pcity,
+					enum effect_type effect_type);
 
 bool building_has_effect(Impr_Type_id building,
 			 enum effect_type effect_type);
