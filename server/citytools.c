@@ -144,9 +144,9 @@ int get_cathedral_power(struct city *pcity)
 {
   struct player *p=&game.players[pcity->owner];
   int power = 3;
-  if (get_invention(p, A_COMMUNISM))
+  if (get_invention(p, A_COMMUNISM) == TECH_KNOWN)
    power--;
-  if (get_invention(p, A_THEOLOGY))
+  if (get_invention(p, A_THEOLOGY) == TECH_KNOWN)
    power++;
   return power;
 }
@@ -158,7 +158,7 @@ int get_colosseum_power(struct city *pcity)
 {
   int power = 3;
   struct player *p=&game.players[pcity->owner];
-  if (get_invention(p, A_ELECTRICITY))
+  if (get_invention(p, A_ELECTRICITY) == TECH_KNOWN)
    power++;
   return power;
 }
@@ -212,8 +212,8 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
 { /* by Syela, unifies best_tile, best_food_tile, worst_elvis_tile */
   int a;
   int i, j, k;
-  int shield_weighting[3] = { 11, 13, 15 };
-  int food_weighting[3] = { 15, 14, 13 };
+  int shield_weighting[3] = { 17, 17, 18 };
+  int food_weighting[3] = { 18, 18, 17 };
   struct player *plr;
 
   plr = city_owner(pcity);
@@ -241,7 +241,6 @@ int better_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, 
   return (city_tile_value(pcity, x, y, foodneed, prodneed) >
           city_tile_value(pcity, bx, by, foodneed, prodneed));
 }
-
 /**************************************************************************
 ...
 **************************************************************************/
