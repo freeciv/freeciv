@@ -116,7 +116,7 @@ msgstr ""
 
 #: common/player.c:427
 msgid "Honorable"
-msgstr ""
+msgstr "Honourable"
 
 #: common/player.c:429
 msgid "Questionable"
@@ -124,7 +124,7 @@ msgstr ""
 
 #: common/player.c:431
 msgid "Dishonorable"
-msgstr ""
+msgstr "Dishonourable"
 
 #: common/player.c:433
 msgid "Poor"
@@ -478,6 +478,8 @@ msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
+"Game: The people in %s are stunned by your technological insight!\n"
+"      Workers spontaneously gather and upgrade the city with railways."
 
 #: server/cityturn.c:569
 #, c-format
@@ -1538,6 +1540,7 @@ msgstr ""
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr ""
 
+# DWP: fix msgid? - elsewhere msgid strings use "canceled" with single 'l'.
 #: server/plrhand.c:1955
 #, fuzzy, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
@@ -1616,9 +1619,8 @@ msgid "bridges"
 msgstr ""
 
 #: server/rulesout.c:57
-#, fuzzy
 msgid "railroads"
-msgstr "Railway"
+msgstr "railways"
 
 #: server/rulesout.c:58
 msgid "fortresses"
@@ -4329,7 +4331,7 @@ msgstr ""
 #: client/helpdata.c:822
 #, c-format
 msgid "Allows %s to upgrade roads to railroads.\n"
-msgstr ""
+msgstr "Allows %s to upgrade roads to railways.\n"
 
 #: client/helpdata.c:828
 #, c-format
@@ -4413,9 +4415,8 @@ msgid "Auto Center on Units       "
 msgstr "Auto Centre on Units       "
 
 #: client/options.c:64
-#, fuzzy
 msgid "Auto Center on Combat      "
-msgstr "Auto Centre on Units       "
+msgstr "Auto Centre on Combat      "
 
 #: client/options.c:65
 msgid "Focus on Awakened Units    "
@@ -7167,6 +7168,52 @@ msgid ""
 "   space: unit stay put        control-g: grid lines on/off\n"
 "     tab: focus on next unit      return: turn done"
 msgstr ""
+"Keyboard:\n"
+"=========\n"
+"  a: (a)uto-settler  (settler units)\n"
+"  a: (a)uto-attack  (military units)\n"
+"  c: (c)entre view on unit\n"
+"  C: unit (C)onnect (then left-click mouse to select destination)\n"
+"  b: (b)uild city  (settler units)\n"
+"  b: help (b)uild wonder  (caravan units)\n"
+"  D: (D)isband unit\n"
+"  e: build airbas(e) (airbase units)\n"
+"  f: (f)ortify unit  (military units)\n"
+"  f: build (f)ortress on tile  (settler units)\n"
+"  g: unit (g)oto  (then left-click mouse to select destination)\n"
+"  h: change (h)omecity  (to city at current location)\n"
+"  i: build (i)rrigation/farmland  (may convert terrain)\n"
+"  l: go/air(l)ift to city\n"
+"  m: build (m)ine  (may convert terrain)\n"
+"  N: explode (N)uclear\n"
+"  o: transf(o)rm terrain\n"
+"  p: clean (p)ollution\n"
+"  P: (P)illage terrain alteration\n"
+"  r: build (r)oad/railway  (settler units)\n"
+"  r: establish trade (r)oute  (caravan units)\n"
+"  R: incite a (R)evolution\n"
+"  s: (s)entry unit\n"
+"  u: (u)nload boat\n"
+"  w: (w)ait until later in turn\n"
+"  W: (W)ake up other units on tile\n"
+"  t: show (t)iles city is using  (mouse over or near city)\n"
+"  T: open (t)ax/lux/sci rates dialog\n"
+"  x: auto-e(x)plore\n"
+"\n"
+"  1: move south-west                  F1: open City Report\n"
+"  2: move south                       F2: open Military Report\n"
+"  3: move south-east                  F3: open Players dialog\n"
+"  4: move west                        F4: open Messages dialog\n"
+"  5: focus on next unit               F5: open Trade Report\n"
+"  6: move east                        F6: open Science Report\n"
+"  7: move north-west                  F7: open World Wonders\n"
+"  8: move north                       F8: open Top Five Cities\n"
+"  9: move north-east                 F11: open Demographics\n"
+"                                     F12: open Spaceship\n"
+"\n"
+"  arrows: move unit            control-f: open (f)ind city dialog\n"
+"   space: unit stay put        control-g: grid lines on/off\n"
+"     tab: focus on next unit      return: turn done"
 
 #: data/helpdata.txt:489
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
@@ -7369,7 +7416,7 @@ msgstr ""
 #: data/helpdata.txt:737
 #, c-format
 msgid "Land units move on land, and suffer the movement effects of terrain, but benefit from roads and railroads.  They cannot move on ocean squares except when carried by an appropriate sea unit.  When at sea, they cannot attack or defend for themselves, but rely on the sea unit carrying them.  Land units are the only units subject to zones of control.  On land, land units can fortify to get a 50% defensive bonus; land units in cities automatically get this bonus, whether fortified or not.  When a land unit successfully attacks a city without City Walls, the city is reduced by one population point.  Land units with zero attack strength are non-military units: they require no upkeep, have no happiness effects, and cannot attack enemy units or capture enemy cities."
-msgstr ""
+msgstr "Land units move on land, and suffer the movement effects of terrain, but benefit from roads and railways.  They cannot move on ocean squares except when carried by an appropriate sea unit.  When at sea, they cannot attack or defend for themselves, but rely on the sea unit carrying them.  Land units are the only units subject to zones of control.  On land, land units can fortify to get a 50% defensive bonus; land units in cities automatically get this bonus, whether fortified or not.  When a land unit successfully attacks a city without City Walls, the city is reduced by one population point.  Land units with zero attack strength are non-military units: they require no upkeep, have no happiness effects, and cannot attack enemy units or capture enemy cities."
 
 #: data/helpdata.txt:750
 msgid "Sea units move on Ocean squares and into cities next to Ocean squares.  They can only be built by such cities.  The movement rate of sea units is affected by several wonders (Lighthouse, Magellan's Expedition) and by the advance of Nuclear Power.  Most sea units can attack units on the coast and in coastal cities, but they cannot enter an enemy city to capture it, even if the city is undefended."
@@ -7618,7 +7665,7 @@ msgstr ""
 
 #: data/helpdata.txt:1047
 msgid "Roads and railroads can be built on any square except Ocean.  (To build a road or railroad on a River square, though, you must know Bridge Building.)  Roads and railroads allow your units to move more quickly, and they increase the resources produced in cities."
-msgstr ""
+msgstr "Roads and railways can be built on any square except Ocean.  (To build a road or railway on a River square, though, you must know Bridge Building.)  Roads and railways allow your units to move more quickly, and they increase the resources produced in cities."
 
 #: data/helpdata.txt:1052
 msgid " - Units use only one third of a movement point when going from one square to another, if both squares have a road."
@@ -7626,7 +7673,7 @@ msgstr ""
 
 #: data/helpdata.txt:1055
 msgid " - Units expend no movement points when moving along a railroad. You may ride a railroad indefinitely."
-msgstr ""
+msgstr " - Units expend no movement points when moving along a railway. You may ride a railway indefinitely."
 
 #: data/helpdata.txt:1058
 msgid " - A road may increase the trade resources produced by some types of terrain."
@@ -7634,7 +7681,7 @@ msgstr ""
 
 #: data/helpdata.txt:1061
 msgid " - A railroad increases the shield resources produced by a square by 50%.  (Depending on server options, railroads may also increase food and trade resources, or may increase shield resources by an amount other than 50%.)"
-msgstr ""
+msgstr " - A railway increases the shield resources produced by a square by 50%.  (Depending on server options, railways may also increase food and trade resources, or may increase shield resources by an amount other than 50%.)"
 
 #: data/helpdata.txt:1066
 msgid "Settlers and Engineers may also build a fortress.  Units inside a fortress defend at twice their normal strength; also, units inside a fortress must be destroyed one at a time.  See the Combat help section for further details."
@@ -7666,10 +7713,17 @@ msgid ""
 " - a railroad\n"
 " - a road"
 msgstr ""
+" - farmland\n"
+" - irrigation\n"
+" - mining\n"
+" - a fortress\n"
+" - an airbase\n"
+" - a railway\n"
+" - a road"
 
 #: data/helpdata.txt:1099
 msgid "Terrain tiles that do not have alterations (farmland, irrigation, mining, fortress, airbase, railroad or road) cannot be pillaged. In addition, terrain conversions and transformations cannot be undone by pillaging.  For example, if you have irrigated a Forest tile to convert it into a Plain, pillaging will not convert it back into a Forest -- to do so, you would have to convert the tile again with a Settler or Engineer."
-msgstr ""
+msgstr "Terrain tiles that do not have alterations (farmland, irrigation, mining, fortress, airbase, railway or road) cannot be pillaged. In addition, terrain conversions and transformations cannot be undone by pillaging.  For example, if you have irrigated a Forest tile to convert it into a Plain, pillaging will not convert it back into a Forest -- to do so, you would have to convert the tile again with a Settler or Engineer."
 
 #: data/helpdata.txt:1111
 msgid "Your government type influences your cities' productivity and commerce, your citizens' happiness, and many other game factors."
@@ -7995,9 +8049,9 @@ msgid "Recycling Center"
 msgstr "Recycling Centre"
 
 #: data/civ1/buildings.ruleset:720 data/civ2/buildings.ruleset:704 data/default/buildings.ruleset:893
-#, fuzzy, c-format
+#, c-format
 msgid "Building a recycling center reduces the amount of pollution generated by production in a city by 66%."
-msgstr "Building a recycling centre reduces the amount of pollution generated by a city by 65%."
+msgstr "Building a recycling centre reduces the amount of pollution generated by production in a city by 66%."
 
 #: data/civ1/buildings.ruleset:726 data/civ2/buildings.ruleset:710 data/default/buildings.ruleset:899
 msgid "Research Lab"
@@ -8100,7 +8154,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:976 data/default/buildings.ruleset:1168
 #, c-format
 msgid "Increases trade resources by 50% on all squares with roads or railroads."
-msgstr ""
+msgstr "Increases trade resources by 50% on all squares with roads or railways."
 
 #: data/civ1/buildings.ruleset:997 data/civ2/buildings.ruleset:982 data/default/buildings.ruleset:1176
 msgid "Supermarket"
@@ -9081,6 +9135,9 @@ msgid ""
 "\n"
 "Roads and railroads can only be built on River squares if your civilization has learned Bridge Building technology."
 msgstr ""
+"Any terrain type (except Ocean) may have a River on it.  A River adds 1 trade to the resources produced by that tile.  It also increases a tile's defense factor by 50%.  Finally, land units may move along a River (but not diagonally); movement along a River costs only 1/3 of a movement point.\n"
+"\n"
+"Roads and railways can only be built on River squares if your civilization has learned Bridge Building technology."
 
 #: data/civ2/terrain.ruleset:139 data/default/terrain.ruleset:139
 msgid "Glacier"
@@ -9275,6 +9332,9 @@ msgid ""
 "\n"
 "Roads and railroads can only be built on River squares if your civilization has learned Bridge Building technology."
 msgstr ""
+"In addition to providing for fishing, Rivers make for excellent lines of communications and trade.\n"
+"\n"
+"Roads and railways can only be built on River squares if your civilization has learned Bridge Building technology."
 
 #: data/civ1/units.ruleset:73 data/civ2/units.ruleset:64 data/default/units.ruleset:64
 msgid "Settlers"
@@ -9286,6 +9346,9 @@ msgid ""
 "\n"
 "Settlers and Engineers may work together to decrease the amount of time required for long projects.  If two or more Settlers and/or Engineers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
+"Setters are one of the key units in the game.  They can be used to found new cities, irrigate land, build roads, railways, fortresses, airbases and mines, and clean up pollution.  Upkeep for Settlers is in food as well as production, and a Setter can die if its supporting city runs out of food.\n"
+"\n"
+"Settlers and Engineers may work together to decrease the amount of time required for long projects.  If two or more Settlers and/or Engineers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
 
 #: data/civ1/units.ruleset:111 data/civ2/units.ruleset:103 data/default/units.ruleset:103
 msgid "Engineers"
@@ -9609,6 +9672,9 @@ msgid ""
 "\n"
 "Settlers may work together to decrease the amount of time required for long projects.  If two or more Settlers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers is highly vulnerable to enemy attacks."
 msgstr ""
+"Setters are one of the key units in the game.  They can be used to found new cities, irrigate land, build roads, railways, fortresses and mines, and clean up pollution.  Upkeep for Settlers is in food as well as production, and a Setter can die if its supporting city runs out of food.\n"
+"\n"
+"Settlers may work together to decrease the amount of time required for long projects.  If two or more Settlers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers is highly vulnerable to enemy attacks."
 
 #: data/civ1/units.ruleset:134
 msgid "Militia"
