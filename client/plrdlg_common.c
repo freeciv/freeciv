@@ -249,3 +249,24 @@ void init_player_dlg_common()
     player_dlg_columns[i].title = Q_(player_dlg_columns[i].title);
   }
 }
+
+/**************************************************************************
+  The only place where this is used is the player dialog.
+  Eventually this should go the way of the dodo with everything here
+  moved into col_host above, but some of the older clients (+win32) still
+  use this function directly.
+
+  This code in this function is only really needed so that the host is
+  kept as a blank address if no one is controlling a player, but there are
+  observers.
+**************************************************************************/
+const char *player_addr_hack(struct player *pplayer)
+{ 
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (!pconn->observer) {
+      return pconn->addr;
+    }
+  } conn_list_iterate_end;
+
+  return blank_addr_str;
+}   

@@ -2624,6 +2624,11 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       }
 
       game.nplayers++;
+
+      /* tell everyone that game.nplayers has been updated */
+      send_game_info(NULL);
+      send_player_info(pplayer, NULL);
+
       notify_player(NULL, _("Game: A global observer has been created"));
     }
   }
@@ -2661,6 +2666,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   /* if we want to switch players, reset the client */
   if (pconn->player && server_state == RUN_GAME_STATE) {
     send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
+    send_conn_info(&game.est_connections,  &pconn->self);
   }
 
   /* if the connection is already attached to a player,
@@ -2687,6 +2693,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
   /* attach pconn to new player as an observer */
   pconn->observer = TRUE; /* do this before attach! */
   attach_connection_to_player(pconn, pplayer);
+  send_conn_info(&pconn->self, &game.est_connections);
 
   if (server_state == RUN_GAME_STATE) {
     send_packet_freeze_hint(pconn);
@@ -2698,9 +2705,6 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     send_packet_thaw_hint(pconn);
     send_packet_start_turn(pconn);
   }
-
-  /* tell everyone that pconn is observing */
-  send_conn_info(&pconn->self, &game.est_connections);
 
   cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
             pconn->username, pplayer->name);
@@ -2805,6 +2809,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* if we want to switch players, reset the client if the game is running */
   if (pconn->player && server_state == RUN_GAME_STATE) {
     send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
+    send_player_info_c(NULL, &pconn->self);
+    send_conn_info(&game.est_connections,  &pconn->self);
   }
 
   /* if we're taking another player with a user attached, 
@@ -2816,6 +2822,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
       }
       notify_conn(&aconn->self, _("being detached from %s."), pplayer->name);
       unattach_connection_from_player(aconn);
+      send_conn_info(&aconn->self, &game.est_connections);
     }
   } conn_list_iterate_end;
 
@@ -2842,6 +2849,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* now attach to new player */
   attach_connection_to_player(pconn, pplayer);
+  send_conn_info(&pconn->self, &game.est_connections);
  
   /* if pplayer wasn't /created, and we're still in pregame, change its name */
   if (!pplayer->was_created && is_newgame) {
@@ -2951,10 +2959,14 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   /* if we want to detach while the game is running, reset the client */
   if (server_state == RUN_GAME_STATE) {
     send_game_state(&pconn->self, CLIENT_PRE_GAME_STATE);
+    send_game_info(&pconn->self);
+    send_player_info_c(NULL, &pconn->self);
+    send_conn_info(&game.est_connections, &pconn->self);
   }
 
   /* actually do the detaching */
   unattach_connection_from_player(pconn);
+  send_conn_info(&pconn->self, &game.est_connections);
   cmd_reply(CMD_DETACH, caller, C_COMMENT,
             _("%s detaching from %s"), pconn->username, pplayer->name);
 
@@ -2967,6 +2979,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     conn_list_iterate(pplayer->connections, aconn) {
       if (aconn->observer) {
         unattach_connection_from_player(aconn);
+        send_conn_info(&aconn->self, &game.est_connections);
         notify_conn(&aconn->self, _("detaching from %s."), pplayer->name);
       }
     } conn_list_iterate_end;
