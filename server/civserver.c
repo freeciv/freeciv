@@ -441,7 +441,7 @@ int main(int argc, char *argv[])
 /* and now, we must manage our remaining units BEFORE the cities that are
 empty get to refresh and defend themselves.  How totally stupid. */
     ai_start_turn(); /* Misleading name for manage_units -- Syela */
-    freelog(LOG_DEBUG, "Auto-Attack phase");
+    if(0) freelog(LOG_DEBUG, "Auto-Attack phase");
     auto_attack();
 /* printf("Endturn\n"); */
     end_turn();
@@ -720,8 +720,8 @@ int end_turn()
     */
     struct player *pplayer = shuffled[i];
     if (pplayer==NULL) pplayer = &game.players[i];
-    freelog(LOG_DEBUG, "updating player activities for #%d (%s)",
-	 i, pplayer->name);
+    if(0) freelog(LOG_DEBUG, "updating player activities for #%d (%s)",
+		  i, pplayer->name);
     update_player_activities(pplayer);
          /* ai unit activity has been moved UP -- Syela */
     pplayer->turn_done=0;

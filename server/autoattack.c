@@ -209,7 +209,7 @@ void auto_attack_city(struct player *pplayer, struct city *pcity)
 
 void auto_attack_player(struct player *pplayer)
 {
-  freelog(LOG_DEBUG, "doing auto_attack for: %s",pplayer->name);
+  if(0) freelog(LOG_DEBUG, "doing auto_attack for: %s",pplayer->name);
 
   city_list_iterate(pplayer->cities, pcity) {
     /* fasten things up -- fisch */
