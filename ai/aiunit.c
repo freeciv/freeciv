@@ -39,9 +39,9 @@
 
 void ai_manage_units(struct player *pplayer) 
 {
-/* printf("Managing units for %s\n", pplayer->name);  */
+/*  printf("Managing units for %s\n", pplayer->name);  */
   unit_list_iterate(pplayer->units, punit)
-/* printf("Managing %s's %s\n", pplayer->name, unit_types[punit->type].name); */
+/*  printf("Managing %s's %s\n", pplayer->name, unit_types[punit->type].name); */
       ai_manage_unit(pplayer, punit); 
   unit_list_iterate_end;
 /*  printf("Managed units successfully.\n");  */
@@ -77,7 +77,8 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 /* OK, failed to find huts.  Will explore basically at random */
 /* my old code was dumb dumb dumb dumb dumb and I'm rewriting it -- Syela */
 
-    while (punit->moves_left) {
+    d = 0; /* to allow the following important && - DUH */
+    while (punit->moves_left && d < 24) { /* that && is VERY important - DUH */
       x = punit->x; y = punit->y;
       for (d = 1; d <= 24; d++) {
   /* printf("Exploring: D = %d\n", d); */
