@@ -55,9 +55,6 @@ static GtkWidget  *races_dialog_shell=NULL;
 static GtkWidget  *races_toggles_form;
 static GtkWidget  *races_sex_toggles_form;
 static GtkWidget  *city_style_toggles_form;
-static GtkWidget  *races_ok_command;            /* ok button */
-static GtkWidget  *races_disc_command=NULL;     /* disc button */
-static GtkWidget  *races_quit_command=NULL;     /* quit button */
 static GtkWidget **races_toggles=NULL,          /* toggle race */
                   *races_sex_toggles[2],        /* Male/Female */
                  **city_style_toggles = NULL,
@@ -100,7 +97,7 @@ static int sex_buttons_get_current(void);
 static int city_style_get_current(void);
 
 static void create_races_dialog	(void);
-static void races_buttons_callback	( GtkWidget *w, gpointer data );
+static void races_command_callback(GtkWidget *w, gint response_id);
 static void races_toggles_callback(GtkWidget * w, gpointer race_id_p);
 static void races_sex_toggles_callback ( GtkWidget *w, gpointer data );
 static void races_name_callback	( GtkWidget *w, gpointer data );
@@ -1786,11 +1783,8 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_races_dialog(void)
 {
-  gtk_widget_set_sensitive (top_vbox, FALSE);
-
   create_races_dialog ();
-
-  gtk_widget_show (races_dialog_shell);
+  gtk_window_present(GTK_WINDOW(races_dialog_shell));
 }
 
 /****************************************************************
@@ -1799,8 +1793,7 @@ void popup_races_dialog(void)
 void popdown_races_dialog(void)
 {
   if (races_dialog_shell) {
-    gtk_widget_set_sensitive (top_vbox, TRUE);
-    gtk_widget_destroy (races_dialog_shell);
+    gtk_widget_destroy(races_dialog_shell);
     races_dialog_shell = NULL;
     g_list_free(sorted_races_list);
     sorted_races_list = NULL;
@@ -1900,13 +1893,18 @@ void create_races_dialog(void)
   GSList    *sgroup = NULL;
   GSList    *cgroup = NULL;
   GtkWidget *f, *fs, *fa;
+  GtkWidget *disc_command, *quit_command;
 
-  races_dialog_shell = gtk_dialog_new();
-    gtk_signal_connect( GTK_OBJECT(races_dialog_shell),"delete_event",
-	GTK_SIGNAL_FUNC(deleted_callback),NULL );
+  races_dialog_shell = gtk_dialog_new_with_buttons(
+	_(" What Nation Will You Be?"),
+	GTK_WINDOW(toplevel),
+	GTK_DIALOG_MODAL,
+	GTK_STOCK_OK,
+	GTK_RESPONSE_OK,
+	NULL);
 
-  gtk_window_set_title( GTK_WINDOW( races_dialog_shell ),
-			_(" What Nation Will You Be?") );
+  g_signal_connect(races_dialog_shell, "response",
+		   G_CALLBACK(races_command_callback), NULL);
 
   f = gtk_frame_new(_("Select nation and name"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->vbox ),
@@ -2002,20 +2000,13 @@ void create_races_dialog(void)
 
   /* ------- OK/Disc/Quit buttons ------- */
 
-  races_ok_command = gtk_button_new_with_label( _("Ok") );
-  GTK_WIDGET_SET_FLAGS( races_ok_command, GTK_CAN_DEFAULT );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
-	races_ok_command, TRUE, TRUE, 0 );
+  disc_command = gtk_stockbutton_new(GTK_STOCK_CANCEL, _("_Disconnect"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(races_dialog_shell),
+			       disc_command, GTK_RESPONSE_CANCEL);
 
-  races_disc_command = gtk_button_new_with_label( _("Disconnect") );
-  GTK_WIDGET_SET_FLAGS( races_disc_command, GTK_CAN_DEFAULT );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
-		      races_disc_command, TRUE, TRUE, 0 );
-
-  races_quit_command = gtk_button_new_with_label( _("Quit") );
-  GTK_WIDGET_SET_FLAGS( races_quit_command, GTK_CAN_DEFAULT );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( races_dialog_shell )->action_area ),
-		      races_quit_command, TRUE, TRUE, 0 );
+  quit_command = gtk_button_new_from_stock(GTK_STOCK_QUIT);
+  gtk_dialog_add_action_widget(GTK_DIALOG(races_dialog_shell),
+			       quit_command, GTK_RESPONSE_CLOSE);
 
   /* ------- connect callback functions ------- */
 
@@ -2036,24 +2027,15 @@ void create_races_dialog(void)
 		      "selection_changed",
 		      GTK_SIGNAL_FUNC( races_name_callback ), NULL );
 
-  gtk_signal_connect( GTK_OBJECT( races_ok_command ), "clicked",
-			GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
-
-  gtk_signal_connect( GTK_OBJECT( races_disc_command ), "clicked",
-		      GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
-
-  gtk_signal_connect( GTK_OBJECT( races_quit_command ), "clicked",
-		      GTK_SIGNAL_FUNC( races_buttons_callback ), NULL );
-
   /* ------- set initial selections ------- */
 
   select_random_race();
   select_random_leader();
 
-  gtk_widget_grab_default(races_ok_command);
+  gtk_dialog_set_default_response(GTK_DIALOG(races_dialog_shell),
+	GTK_RESPONSE_OK);
 
   gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(races_dialog_shell)->action_area );
 }
 
 /**************************************************************************
@@ -2171,16 +2153,16 @@ static int city_style_get_current(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void races_buttons_callback( GtkWidget *w, gpointer data )
+static void races_command_callback(GtkWidget *w, gint response_id)
 {
   int selected, selected_sex, selected_style;
   const char *s;
 
   struct packet_alloc_nation packet;
 
-  if(w==races_quit_command) {
+  if(response_id == GTK_RESPONSE_CLOSE) {
     exit(EXIT_SUCCESS);
-  } else if(w==races_disc_command) {
+  } else if(response_id != GTK_RESPONSE_OK) {
     popdown_races_dialog();
     disconnect_from_server();
     return;
