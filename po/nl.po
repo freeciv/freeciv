@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.4\n"
-"POT-Creation-Date: 2002-07-18 11:56+0200\n"
-"PO-Revision-Date: 2002-07-18 12:03+0200\n"
+"POT-Creation-Date: 2002-07-22 13:38+0200\n"
+"PO-Revision-Date: 2002-07-22 13:40+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -170,65 +170,65 @@ msgstr ""
 "De server waarmee u verbinding probeerde te maken is te oud (1.12.0 of "
 "eerder). Probeert u volgende keer alstublieft een andere server. Tot ziens."
 
-#: common/player.c:487
+#: common/player.c:488
 msgid "Spotless"
 msgstr "Onberispelijk"
 
-#: common/player.c:489
+#: common/player.c:490
 msgid "Excellent"
 msgstr "Uitstekend"
 
-#: common/player.c:491
+#: common/player.c:492
 msgid "Honorable"
 msgstr "Eerbaar"
 
-#: common/player.c:493
+#: common/player.c:494
 msgid "Questionable"
 msgstr "Dubieus"
 
-#: common/player.c:495
+#: common/player.c:496
 msgid "Dishonorable"
 msgstr "Oneerbaar"
 
-#: common/player.c:497
+#: common/player.c:498
 msgid "Poor"
 msgstr "Slecht"
 
-#: common/player.c:499
+#: common/player.c:500
 msgid "Despicable"
 msgstr "Verachtelijk"
 
-#: common/player.c:501
+#: common/player.c:502
 msgid "Atrocious"
 msgstr "Gruwelijk"
 
-#: common/player.c:511
+#: common/player.c:512
 msgid "?diplomatic_state:Neutral"
 msgstr "?diplomatic_state:Neutraal"
 
-#: common/player.c:512
+#: common/player.c:513
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Oorlog"
 
-#: common/player.c:513 client/gui-gtk-2.0/diplodlg.c:444
+#: common/player.c:514 client/gui-gtk-2.0/diplodlg.c:444
 #: client/gui-gtk/diplodlg.c:444 client/gui-mui/diplodlg.c:623
 #: client/gui-win32/diplodlg.c:295 client/gui-xaw/diplodlg.c:512
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Wapenstilstand"
 
-#: common/player.c:514 client/gui-gtk-2.0/diplodlg.c:449
+#: common/player.c:515 client/gui-gtk-2.0/diplodlg.c:449
 #: client/gui-gtk/diplodlg.c:449 client/gui-mui/diplodlg.c:627
 #: client/gui-win32/diplodlg.c:296 client/gui-xaw/diplodlg.c:516
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Vrede"
 
-#: common/player.c:515 client/gui-gtk-2.0/diplodlg.c:454
+#: common/player.c:516 client/gui-gtk-2.0/diplodlg.c:454
 #: client/gui-gtk/diplodlg.c:454 client/gui-mui/diplodlg.c:631
 #: client/gui-win32/diplodlg.c:297 client/gui-xaw/diplodlg.c:520
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Alliantie"
 
-#: common/player.c:516
+#: common/player.c:517
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:Geen contact"
 
@@ -462,27 +462,27 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:209 server/citytools.c:1840
+#: ai/aicity.c:211 server/citytools.c:1840
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:218 server/citytools.c:1882
+#: ai/aicity.c:220 server/citytools.c:1882
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
 
-#: ai/aicity.c:335 ai/aicity.c:478
+#: ai/aicity.c:337 ai/aicity.c:480
 #, c-format
 msgid "Game: %s upgraded to %s in %s for %d gold."
 msgstr "Spel: %s opgewaardeerd naar %s in %s voor %d goud."
 
-#: ai/aicity.c:360
+#: ai/aicity.c:362
 #, c-format
 msgid "Game: %s disbanded in %s."
 msgstr "Spel: %s ontbonden in %s."
 
-#: ai/aicity.c:710
+#: ai/aicity.c:712
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
@@ -5343,7 +5343,8 @@ msgstr "Ga verder zonder geluidsondersteuning"
 
 #: client/audio.c:148
 msgid "No real audio plugin present, Proceeding with sound support disabled"
-msgstr "Geen echte audio plugin aanwezig, ga verder zonder geluidsondersteuning"
+msgstr ""
+"Geen echte audio plugin aanwezig, ga verder zonder geluidsondersteuning"
 
 #: client/audio.c:151
 msgid "For sound support, install either esound or SDL_mixer"
@@ -5449,6 +5450,11 @@ msgstr "%3d/%3d:%s"
 msgid "%3d/%3d %s"
 msgstr "%3d/%3d %s"
 
+#: client/citydlg_common.c:164
+#, c-format
+msgid "%s (XX) %d/turn"
+msgstr "%s (XX) %d/beurt"
+
 #: client/citydlg_common.c:181
 #, c-format
 msgid "%s (%d) %d turn"
@@ -5470,6 +5476,11 @@ msgstr "Gebouwd"
 #: client/gui-mui/worklistclass.c:112
 msgid "Obsolete"
 msgstr "Verouderd"
+
+#: client/citydlg_common.c:248
+#, c-format
+msgid "%d/turn"
+msgstr "%d/beurt"
 
 #: client/cityrepdata.c:69
 msgid "?city_state:Rapture"
@@ -6841,7 +6852,7 @@ msgstr ""
 "    Produktie gereed: %s"
 
 #: client/gui-gtk-2.0/chatline.c:113 client/gui-gtk/chatline.c:95
-#: client/gui-win32/chatline.c:131 client/gui-xaw/chatline.c:142
+#: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:142
 msgid "Cleared output window."
 msgstr "Outputvenster geschoond."
 
@@ -8392,7 +8403,7 @@ msgstr "Kies bestemming"
 msgid "_Goto"
 msgstr "_Ga naar"
 
-#: client/gui-gtk-2.0/gui_main.c:495 client/gui-gtk-2.0/gui_main.c:900
+#: client/gui-gtk-2.0/gui_main.c:495 client/gui-gtk-2.0/gui_main.c:906
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:772
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -8415,7 +8426,7 @@ msgstr ""
 "menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk-2.0/gui_main.c:1112 client/gui-gtk/gui_main.c:1006
+#: client/gui-gtk-2.0/gui_main.c:1118 client/gui-gtk/gui_main.c:1006
 #: client/gui-xaw/gui_main.c:694
 #, c-format
 msgid ""
