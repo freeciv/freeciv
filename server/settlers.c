@@ -27,6 +27,7 @@
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"
+#include "plrhand.h"
 #include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
@@ -1377,7 +1378,7 @@ static void assign_settlers(void)
       map_get_tile(x, y)->assigned = 0;
 
   for (i = 0; i < game.nplayers; i++) {
-    assign_settlers_player(&game.players[i]);
+    assign_settlers_player(shuffled_player(i));
   }
 }
 
@@ -1393,7 +1394,7 @@ static void assign_region(int x, int y, int player_no, int distance, int s)
 }
 
 /**************************************************************************
-FIXME: we currently see even allies as neemies here in this routine
+FIXME: we currently see even allies as enemies here in this routine
 **************************************************************************/
 static void assign_territory_player(struct player *pplayer)
 {
@@ -1420,18 +1421,25 @@ noticeably slow the game, feel free to replace this else{}  -- Syela */
   city_list_iterate_end;
 }
 
+/**************************************************************************
+...
+  This function is supposed to keep settlers out of enemy territory
+   -- Syela
+**************************************************************************/
 static void assign_territory(void)
-{ /* this funct is supposed to keep settlers out of enemy territory -- Syela */
+{
   int i, x, y;
   for (x = 0; x < map.xsize; x++)
     for (y = 0; y < map.ysize; y++)
       territory[x][y] = 0xFFFFFFFF;
 
   for (i = 0; i < game.nplayers; i++) {
-    assign_territory_player(&game.players[i]);
+    assign_territory_player(shuffled_player(i));
   }
-/* an actual territorial assessment a la AI algorithms for go might be
-appropriate here.  I'm not sure it's necessary, so it's not here yet. -- Syela */
+  /* An actual territorial assessment a la AI algorithms for go might be
+   * appropriate here.  I'm not sure it's necessary, so it's not here yet.
+   *  -- Syela
+   */
 }  
 
 /**************************************************************************
@@ -1443,7 +1451,7 @@ void auto_settlers(void)
   assign_settlers();
   assign_territory();
   for (i = 0; i < game.nplayers; i++) {
-    auto_settlers_player(&game.players[i]);
+    auto_settlers_player(shuffled_player(i));
   }
 }
 
