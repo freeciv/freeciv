@@ -1325,7 +1325,8 @@ void key_cancel_action(void)
 {
   int popped = 0;
   if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-    popped = goto_pop_waypoint();
+    if (draw_goto_line)
+      popped = goto_pop_waypoint();
 
   if (hover_state != HOVER_NONE && !popped) {
     struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
