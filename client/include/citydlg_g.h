@@ -13,10 +13,9 @@
 #ifndef FC__CITYDLG_G_H
 #define FC__CITYDLG_G_H
 
-#include "citydlg_common.h"
+#include "fc_types.h"
 
-struct unit;
-struct city;
+#include "citydlg_common.h"
 
 void popup_city_dialog(struct city *pcity, bool make_modal);
 void popdown_city_dialog(struct city *pcity);

@@ -13,11 +13,9 @@
 #ifndef FC__ADVMILITARY_H
 #define FC__ADVMILITARY_H
 
+#include "fc_types.h"
 #include "unittype.h"
 
-struct city;
-struct player;
-struct unit;
 struct ai_choice;
 
 Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v);

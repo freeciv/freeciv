@@ -18,8 +18,7 @@
 
 #include "shared.h"		/* bool type */
 
-struct player;
-struct unit;
+#include "fc_types.h"
 
 /* 
  * This file and aidata.c contains global data structures for the AI

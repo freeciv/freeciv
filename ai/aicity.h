@@ -13,10 +13,9 @@
 #ifndef FC__AICITY_H
 #define FC__AICITY_H
 
+#include "fc_types.h"
 #include "unit.h"		/* enum unit_move_type */
 
-struct player;
-struct city;
 struct ai_choice;
 struct ai_data;
 

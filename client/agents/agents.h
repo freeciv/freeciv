@@ -16,6 +16,8 @@
 
 #include "shared.h"		/* bool type */
 
+#include "fc_types.h"
+
 /*
  * Besides callback for convenience client/agents/agents also
  * implements a "flattening" of the call stack i.e. to ensure that
@@ -26,9 +28,6 @@
 #define LAST_AGENT_LEVEL 99
 
 #define MAX_AGENT_NAME_LEN 10
-
-struct city;
-struct unit;
 
 enum callback_type {
   CB_NEW, CB_REMOVE, CB_CHANGE, CB_LAST

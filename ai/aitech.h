@@ -13,7 +13,7 @@
 #ifndef FC__AITECH_H
 #define FC__AITECH_H
 
-struct player;
+#include "fc_types.h"
 
 void ai_manage_tech(struct player *pplayer); 
 void ai_next_tech_goal(struct player *pplayer);

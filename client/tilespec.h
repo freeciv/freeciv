@@ -18,13 +18,13 @@
 #ifndef FC__TILESPEC_H
 #define FC__TILESPEC_H
 
+#include "fc_types.h"
+
 #include "citydlg_common.h"	/* enum citizen_type */
 #include "colors_g.h"
 #include "options.h"
 
 struct Sprite;			/* opaque; gui-dep */
-struct unit;
-struct player;
 
 struct drawn_sprite {
   enum {

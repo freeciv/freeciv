@@ -15,10 +15,9 @@
 
 #include "shared.h"             /* bool type */
 
+#include "fc_types.h"
+
 struct ai_choice;
-struct city;
-struct player;
-struct unit;
 
 void ai_hunter_choice(struct player *pplayer, struct city *pcity,
                       struct ai_choice *choice);

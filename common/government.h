@@ -15,8 +15,8 @@
 
 #include "shared.h"
 
-struct city;
-struct player;
+#include "fc_types.h"
+
 struct Sprite;			/* opaque; client-gui specific */
 
 #define G_MAGIC (127)		/* magic constant, used as flag value */

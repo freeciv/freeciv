@@ -15,13 +15,13 @@
 
 #include "shared.h"		/* bool type */
 
+#include "fc_types.h"
+
 struct connection;
 struct conn_list;
 struct packet_authentication_reply;
 struct packet_login_request;
 struct packet_server_join_req;
-struct player;
-struct user;
 
 bool handle_login_request(struct connection *pconn,
                           struct packet_server_join_req *req);

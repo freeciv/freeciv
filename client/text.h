@@ -14,10 +14,9 @@
 #ifndef FC__TEXT_H
 #define FC__TEXT_H
 
-struct city;
-struct player;
+#include "fc_types.h"
+
 struct player_spaceship;
-struct unit;
 
 /****************************************************************************
   These functions return static strings with generally useful text.

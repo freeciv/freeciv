@@ -15,9 +15,8 @@
 
 #include "shared.h"
 
+#include "fc_types.h"
 #include "nation.h" /* Nation_Type_id */
-
-struct player;
 
 typedef int Tech_Type_id;
 /*

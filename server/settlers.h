@@ -13,11 +13,8 @@
 #ifndef FC__SETTLERS_H
 #define FC__SETTLERS_H
 
+#include "fc_types.h"
 #include "map.h"
-
-struct player;
-struct unit;
-struct city;
 
 void auto_settlers_init(void);
 void auto_settlers_player(struct player *pplayer);

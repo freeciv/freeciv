@@ -15,12 +15,13 @@
 
 #define REPUTATION_LOSS_NUKE (GAME_MAX_REPUTATION * 0.03)
 
-struct Treaty;
-struct player;
-struct packet_diplomacy_info;
-struct connection;
+#include "fc_types.h"
 
 #include "hand_gen.h"
+
+struct Treaty;
+struct packet_diplomacy_info;
+struct connection;
 
 void establish_embassy(struct player *pplayer, struct player *aplayer);
 

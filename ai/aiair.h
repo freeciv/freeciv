@@ -15,11 +15,9 @@
 
 #include "shared.h"		/* bool type */
 
+#include "fc_types.h"
+
 struct ai_choice;
-struct city;
-struct government;
-struct player;
-struct unit;
 
 void ai_manage_airunit(struct player *pplayer, struct unit *punit);
 bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity, 

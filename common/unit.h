@@ -14,12 +14,11 @@
 #define FC__UNIT_H
 
 #include "mem.h"		/* unit_list_iterate_safe */
+
+#include "fc_types.h"
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
 
-struct player;
-struct city;
-struct tile;
 struct unit_order;
 
 struct map_position {

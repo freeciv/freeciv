@@ -14,6 +14,8 @@
 #define FC__NATION_H
 
 #include "shared.h"		/* MAX_LEN_NAME */
+
+#include "fc_types.h"
 #include "terrain.h"		/* T_COUNT */
 
 #define MAX_NUM_TECH_GOALS 10
@@ -36,7 +38,6 @@ typedef int Nation_Type_id;
 typedef int Team_Type_id;
 
 struct Sprite;			/* opaque; client-gui specific */
-struct player;
 
 /*
  * The city_name structure holds information about a default choice for

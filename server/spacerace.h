@@ -13,9 +13,9 @@
 #ifndef FC__SPACERACE_H
 #define FC__SPACERACE_H
 
+#include "fc_types.h"
 #include "packets.h"
 
-struct player;
 struct player_spaceship;
 struct conn_list;
 

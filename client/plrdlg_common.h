@@ -13,9 +13,9 @@
 #ifndef FC__PLRDLG_COMMON_H
 #define FC__PLRDLG_COMMON_H
 
-struct player;
-
 #include "shared.h"		/* bool type */
+
+#include "fc_types.h"
 
 void plrdlg_freeze(void);
 void plrdlg_thaw(void);

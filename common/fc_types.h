@@ -41,5 +41,9 @@ typedef enum {
 
 
 struct city;
+struct government;
+struct player;
+struct tile;
+struct unit;
 
 #endif /* FC__FC_TYPES_H */

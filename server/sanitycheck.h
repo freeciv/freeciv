@@ -13,7 +13,7 @@
 #ifndef FC__SANITYCHECK_H
 #define FC__SANITYCHECK_H
 
-struct city;
+#include "fc_types.h"
 
 #if ((IS_BETA_VERSION || IS_DEVEL_VERSION) && !defined NDEBUG) \
   || defined DEBUG

@@ -15,8 +15,8 @@
 
 #include "shared.h"		/* bool type */
 
-struct player;
-struct unit;
+#include "fc_types.h"
+
 struct pf_path;
 
 /* 

@@ -15,14 +15,13 @@
 
 #include "city.h"
 #include "connection.h"
+#include "fc_types.h"
 #include "improvement.h"	/* Impr_Status */
 #include "nation.h"
 #include "shared.h"
 #include "spaceship.h"
 #include "tech.h"
 #include "unit.h"
-
-struct tile;
 
 #define PLAYER_DEFAULT_TAX_RATE 0
 #define PLAYER_DEFAULT_SCIENCE_RATE 100

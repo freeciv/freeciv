@@ -13,7 +13,7 @@
 #ifndef FC__SCORE_H
 #define FC__SCORE_H
 
-struct player;
+#include "fc_types.h"
 
 int civ_score(struct player *pplayer);
 

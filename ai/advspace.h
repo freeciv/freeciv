@@ -15,7 +15,8 @@
 
 #include "shared.h"
 
-struct player;
+#include "fc_types.h"
+
 struct player_spaceship;
 
 bool ai_spaceship_autoplace(struct player *pplayer,

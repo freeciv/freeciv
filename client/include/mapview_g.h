@@ -15,10 +15,10 @@
 
 #include "shared.h"		/* bool type */
 
+#include "fc_types.h"
+
 #include "mapview_common.h"
 
-struct unit;
-struct city;
 struct Sprite;
 
 void update_info_label(void);

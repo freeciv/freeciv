@@ -13,12 +13,12 @@
 #ifndef FC__CITYHAND_H
 #define FC__CITYHAND_H
 
-struct player;
-struct city;
-struct connection;
-struct conn_list;
+#include "fc_types.h"
 
 #include "hand_gen.h"
+
+struct connection;
+struct conn_list;
 
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 			     Impr_Type_id id);

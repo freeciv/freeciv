@@ -15,9 +15,9 @@
 
 #include "shared.h"		/* bool type */
 
+#include "fc_types.h"
+
 struct refuel;
-struct player;
-struct unit;
 
 unsigned int get_refuel_x(struct refuel *pRefuel);
 unsigned int get_refuel_y(struct refuel *pRefuel);

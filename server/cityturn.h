@@ -16,9 +16,8 @@
 
 #include "shared.h"		/* bool type */
 
-struct city;
-struct player;
-struct unit;
+#include "fc_types.h"
+
 struct conn_list;
 struct cm_result;
 

@@ -14,14 +14,14 @@
 #ifndef FC__MAPVIEW_COMMON_H
 #define FC__MAPVIEW_COMMON_H
 
-#include "map.h"
 #include "shared.h"		/* bool type */
+
+#include "fc_types.h"
+#include "map.h"
 
 #include "colors_g.h"
 
 #include "tilespec.h"
-
-struct unit;
 
 struct canvas_store;		/* opaque type, real type is gui-dep */
 

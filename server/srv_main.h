@@ -13,11 +13,11 @@
 #ifndef FC__SRV_MAIN_H
 #define FC__SRV_MAIN_H
 
+#include "fc_types.h"
 #include "game.h"
 #include "packets.h"
 
 struct connection;
-struct unit;
 
 BV_DEFINE(bv_draw, MAX_NUM_PLAYERS);
 

@@ -13,10 +13,10 @@
 #ifndef FC__AILOG_H
 #define FC__AILOG_H
 
+#include "fc_types.h"
+
 #include "gotohand.h"		/* enum goto_result */
 
-struct unit;
-struct city;
 struct ai_data;
 
 /* 

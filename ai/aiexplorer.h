@@ -15,7 +15,7 @@
 
 #include "shared.h"		/* bool type */
 
-struct unit;
+#include "fc_types.h"
 
 /*
  * Handle eXplore mode of a unit (explorers are always in eXplore mode 

@@ -13,11 +13,10 @@
 #ifndef FC__AIDIPLOMAT_H
 #define FC__AIDIPLOMAT_H
 
-#include "city.h"		/* struct ai_choice */
 #include "shared.h"		/* bool type */
 
-struct player;
-struct unit;
+#include "fc_types.h"
+#include "city.h"		/* struct ai_choice */
 
 void ai_manage_diplomat(struct player *pplayer, struct unit *punit);
 void ai_choose_diplomat_defensive(struct player *pplayer,

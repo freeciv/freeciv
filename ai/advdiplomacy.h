@@ -13,7 +13,8 @@
 #ifndef FC__ADVDIPLOMACY_H
 #define FC__ADVDIPLOMACY_H
 
-struct player;
+#include "fc_types.h"
+
 struct ai_choice;
 struct Treaty;
 struct Clause;

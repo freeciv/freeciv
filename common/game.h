@@ -19,10 +19,12 @@
 #include <sys/time.h>
 #endif
 
+#include "shared.h"
+
 #include "connection.h"		/* struct conn_list */
+#include "fc_types.h"
 #include "improvement.h"	/* Impr_Status */
 #include "player.h"
-#include "shared.h"
 
 /* Changing these will probably break network compatability. */
 #define MAX_LEN_DEMOGRAPHY 16
@@ -46,9 +48,6 @@ enum client_states {
   CLIENT_GAME_RUNNING_STATE,
   CLIENT_GAME_OVER_STATE
 };
-
-struct unit;
-struct city;
 
 #define OVERFLIGHT_NOTHING  1
 #define OVERFLIGHT_FRIGHTEN 2

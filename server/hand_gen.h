@@ -10,11 +10,12 @@
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
 
-struct player;
-struct connection;
-
-#include "packets.h"
 #include "shared.h"
+
+#include "fc_types.h"
+#include "packets.h"
+
+struct connection;
 
 bool server_handle_packet(enum packet_type type, void *packet,
 			  struct player *pplayer, struct connection *pconn);

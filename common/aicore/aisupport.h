@@ -13,8 +13,7 @@
 #ifndef FC__AISUPPORT_H
 #define FC__AISUPPORT_H
 
-struct player;
-struct city;
+#include "fc_types.h"
 
 struct player *player_leading_spacerace(void);
 int player_distance_to_player(struct player *pplayer, struct player *target);

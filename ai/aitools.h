@@ -14,13 +14,12 @@
 #define FC__AITOOLS_H
 
 #include "shared.h"		/* bool type */
+
+#include "fc_types.h"
 #include "unit.h"		/* enum ai_unit_task */
 #include "unittype.h"		/* Unit_Type_id */
 
 struct ai_choice;
-struct city;
-struct government;
-struct player;
 struct pf_path;
 
 #ifdef DEBUG

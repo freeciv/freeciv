@@ -14,6 +14,7 @@
 #define FC__AIUNIT_H
 
 #include "combat.h"
+#include "fc_types.h"
 #include "unittype.h"
 
 /*
@@ -41,9 +42,6 @@
   (ut->pop_cost * 3 + ut->happy_cost + ut->shield_cost \
    + ut->food_cost + ut->gold_cost)
 
-struct player;
-struct city;
-struct unit;
 struct ai_choice;
 struct pf_path;
 

@@ -13,13 +13,12 @@
 #ifndef FC__CLIMISC_H
 #define FC__CLIMISC_H
 
-#include "events.h"
 #include "shared.h"		/* MAX_LEN_NAME */
 
-struct city;
+#include "fc_types.h"
+#include "events.h"
+
 struct Clause;
-struct player;
-struct unit;
 
 typedef int cid;
 typedef int wid;

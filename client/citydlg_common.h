@@ -16,11 +16,11 @@
 
 #include <stddef.h>		/* size_t */
 
-#include "city.h"		/* enum specialist_type */
-#include "improvement.h"	/* Impr_Type_id */
 #include "shared.h"		/* bool type */
 
-struct city;
+#include "city.h"		/* enum specialist_type */
+#include "fc_types.h"
+
 struct canvas;
 
 struct citizen_type {

@@ -15,10 +15,9 @@
 
 #include "shared.h"		/* bool type */
 
-#include "mapctrl_common.h"
+#include "fc_types.h"
 
-struct unit;
-struct city;
+#include "mapctrl_common.h"
 
 void popup_newcity_dialog(struct unit *punit, char *suggestname);
 

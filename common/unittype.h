@@ -15,11 +15,9 @@
 
 #include "shared.h"
 
-struct player;
-struct city;
-struct government;
+#include "fc_types.h"
+
 struct Sprite;			/* opaque; client-gui specific */
-struct unit;
 
 typedef int Unit_Type_id;
 /*

@@ -13,12 +13,10 @@
 #ifndef FC__DIPLOMATS_H
 #define FC__DIPLOMATS_H
 
+#include "fc_types.h"
 #include "unit.h"		/* Unit_Type_id, enum unit_activity */
 
 #include "gotohand.h"		/* enum goto_move_restriction */
-
-struct player;
-struct city;
 
 void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity);

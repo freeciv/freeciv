@@ -16,7 +16,7 @@
 
 #include "shared.h"		/* bool type */
 
-struct player;
+#include "fc_types.h"
 
 #define MIN_UNREST_DIST   5
 #define MAX_UNREST_DIST   8

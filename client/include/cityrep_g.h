@@ -15,7 +15,7 @@
 
 #include "shared.h"		/* bool type */
 
-struct city;
+#include "fc_types.h"
 
 void popup_city_report_dialog(bool make_modal);
 void city_report_dialog_update(void);

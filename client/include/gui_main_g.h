@@ -15,7 +15,7 @@
 
 #include "shared.h"		/* bool type */
 
-struct unit;
+#include "fc_types.h"
 
 void ui_init(void);
 void ui_main(int argc, char *argv[]);

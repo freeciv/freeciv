@@ -13,6 +13,7 @@
 #ifndef FC__MAPHAND_H
 #define FC__MAPHAND_H
 
+#include "fc_types.h"
 #include "map.h"
 #include "packets.h"
 #include "terrain.h"
@@ -21,7 +22,6 @@
 
 enum ocean_land_change { OLC_NONE, OLC_OCEAN_TO_LAND, OLC_LAND_TO_OCEAN };
 
-struct player;
 struct section_file;
 struct conn_list;
 

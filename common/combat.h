@@ -13,6 +13,7 @@
 #ifndef FC__COMBAT_H
 #define FC__COMBAT_H
 
+#include "fc_types.h"
 #include "unittype.h"
 
 /*
@@ -22,9 +23,6 @@
  * The constant may be changed since it isn't externally visible used.
  */
 #define POWER_FACTOR	10
-
-struct unit;
-struct player;
 
 bool can_player_attack_tile(struct player *pplayer, int x, int y);
 bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,

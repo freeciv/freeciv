@@ -31,7 +31,8 @@
 
 #include "shared.h"		/* MAX_LEN_ADDR, bool type */
 
-struct player;
+#include "fc_types.h"
+
 struct hash_table;
 struct timer_list;
 

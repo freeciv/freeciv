@@ -23,8 +23,6 @@
 #include "terrain.h"		/* Terrain_type_id etc */
 #include "unittype.h"		/* Unit_Class_id, Unit_Type_id */
 
-struct player;
-
 /* Improvement status (for cities' lists of improvements)
  * An enum or bitfield would be neater here, but we use a typedef for
  * a) less memory usage and b) compatibility with old behaviour */

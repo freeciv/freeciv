@@ -15,13 +15,14 @@
 
 #include <stdarg.h>
 
-#include "events.h"
-#include "packets.h"
 #include "shared.h"		/* fc__attribute */
+
+#include "events.h"
+#include "fc_types.h"
+#include "packets.h"
 
 #include "hand_gen.h"
 
-struct player;
 struct section_file;
 struct connection;
 struct conn_list;

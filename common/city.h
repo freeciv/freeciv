@@ -13,13 +13,10 @@
 #ifndef FC__CITY_H
 #define FC__CITY_H
 
+#include "fc_types.h"
 #include "improvement.h"
 #include "unit.h"		/* struct unit_list */
 #include "worklist.h"
-
-struct player;
-struct government;
-struct tile;
 
 enum production_class_type {
   TYPE_UNIT, TYPE_NORMAL_IMPROVEMENT, TYPE_WONDER

@@ -13,7 +13,7 @@
 #ifndef FC__INTELDLG_G_H
 #define FC__INTELDLG_G_H
 
-struct player;
+#include "fc_types.h"
 
 void popup_intel_dialog(struct player *p);
 void update_intel_dialog(struct player *p);

@@ -15,7 +15,7 @@
 
 #include "shared.h"		/* bool type */
 
-struct city;
+#include "fc_types.h"
 
 /* abbreviate long city names to this length in the city report: */
 #define REPORT_CITYNAME_ABBREV 15
