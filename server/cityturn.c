@@ -203,6 +203,8 @@ void auto_arrange_workers(struct city *pcity)
       cmp.allow_specialists = FALSE;
       cmp.minimal_surplus[FOOD] = -20;
       cmp.minimal_surplus[SHIELD] = -20;
+      cmp.minimal_surplus[TRADE] = -20;
+      cmp.minimal_surplus[GOLD] = -20;
       cmp.minimal_surplus[LUXURY] = -20;
       cmp.minimal_surplus[SCIENCE] = -20;
 
