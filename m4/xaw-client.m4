@@ -47,30 +47,21 @@ You may need to install a libpng \"development\" package.]))
     fi
 
     dnl Checks for X libs:
-    # The HAVE_LIBX** values are defined in FC_CHECK_X_LIB, but we need an
-    # AH_TEMPLATE for them so that autoheader will know about them.
     fc_save_X_LIBS="$X_LIBS"
     X_LIBS="$X_LIBS $X_PRE_LIBS"
-    AH_TEMPLATE([HAVE_LIBX11], [Define if the X11 lib is available])
     FC_CHECK_X_LIB(X11, XOpenDisplay, , haveX11=no)
     if test "x$haveX11" != "xno"; then
-      AH_TEMPLATE([HAVE_LIBXEXT], [Define if the Xext lib is available])
       FC_CHECK_X_LIB(Xext, XShapeCombineMask)
 
       dnl Insert X_PRE_LIBS (eg -lSM -lICE) into X_EXTRA_LIBS here:
       X_EXTRA_LIBS="$X_PRE_LIBS $X_EXTRA_LIBS"
       X_LIBS="$fc_save_X_LIBS"
 
-      AH_TEMPLATE([HAVE_LIBXT], [Define if the Xt lib is available])
       FC_CHECK_X_LIB(Xt, main)
-      AH_TEMPLATE([HAVE_LIBXMU], [Define if the Xmu lib is available])
       FC_CHECK_X_LIB(Xmu, main)
-      AH_TEMPLATE([HAVE_LIBXPM], [Define if the Xpm lib is available])
       FC_CHECK_X_LIB(Xpm, XpmReadFileToPixmap, , haveXpm=no)
       if test "x$haveXpm" != "xno"; then
 	dnl Xaw or Xaw3d:
-        AH_TEMPLATE([HAVE_LIBXAW], [Define if the Xaw lib is to be used])
-        AH_TEMPLATE([HAVE_LIBXAW3D], [Define if the Xaw3d lib is to be used])
 	if test -n "$WITH_XAW3D"; then
 	  FC_CHECK_X_LIB(Xaw3d, main, , AC_MSG_ERROR(did not find Xaw3d library))
 	elif test "$client" = "xaw"; then

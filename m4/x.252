@@ -54,8 +54,28 @@ AC_DEFUN([FC_CHECK_X_LIB], [
     ac_tr_lib=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
     -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
     changequote([, ])dnl
-    AC_DEFINE_UNQUOTED($ac_tr_lib)
-    X_EXTRA_LIBS="-l$1 $X_EXTRA_LIBS"
+
+    # The HAVE_LIBX** values are defined in FC_CHECK_X_LIB, but we need an
+    # AH_TEMPLATE for them so that autoheader will know about them.
+    AH_TEMPLATE([HAVE_LIBX11], [Define if the X11 lib is available])
+    AH_TEMPLATE([HAVE_LIBXEXT], [Define if the Xext lib is available])
+    AH_TEMPLATE([HAVE_LIBXT], [Define if the Xt lib is available])
+    AH_TEMPLATE([HAVE_LIBXMU], [Define if the Xmu lib is available])
+    AH_TEMPLATE([HAVE_LIBXPM], [Define if the Xpm lib is available])
+    AH_TEMPLATE([HAVE_LIBXAW], [Define if the Xaw lib is to be used])
+    AH_TEMPLATE([HAVE_LIBXAW3D], [Define if the Xaw3d lib is to be used])
+    if (test $ac_tr_lib == HAVE_LIBX11     \
+        || test $ac_tr_lib == HAVE_LIBXEXT \
+        || test $ac_tr_lib == HAVE_LIBXT   \
+        || test $ac_tr_lib == HAVE_LIBXMU  \
+        || test $ac_tr_lib == HAVE_LIBXPM  \
+        || test $ac_tr_lib == HAVE_LIBXAW  \
+        || test $ac_tr_lib == HAVE_LIBXAW3D); then
+      AC_DEFINE_UNQUOTED($ac_tr_lib)
+      X_EXTRA_LIBS="-l$1 $X_EXTRA_LIBS"
+    else
+      AC_MSG_ERROR([Invalid define of $ac_tr_lib in $1])
+    fi
    ], [$3])
  else
   AC_MSG_RESULT(no)
