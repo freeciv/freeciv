@@ -1,4 +1,4 @@
-# Estornian translation of Freeciv po file.
+# Estonian translation of Freeciv po file.
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Ahti Akel <akel@stallion.ee>, 2002.
 #
