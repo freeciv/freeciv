@@ -466,11 +466,6 @@ void city_support(struct city *pcity)
 	} 
 	break;
       case G_MONARCHY:
-  	if (milunits>3) {
- 	  pcity->shield_surplus--;
-	  this_unit->upkeep=1;
-	} 
-	break;
       case G_COMMUNISM:
 	if (milunits>3) {
 	  pcity->shield_surplus--;

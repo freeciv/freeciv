@@ -204,15 +204,13 @@ void handle_city_change_specialist(struct player *pplayer,
     return;
   }
   switch (preq->specialist_to) {
-  case SP_ELVIS:
-    pcity->ppl_elvis++;
-    break;
   case SP_TAXMAN:
     pcity->ppl_taxman++;
     break;
   case SP_SCIENTIST:
     pcity->ppl_scientist++;
     break;
+  case SP_ELVIS:
   default:
     pcity->ppl_elvis++;
     break;
