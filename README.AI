@@ -21,6 +21,8 @@ It seems to behave sensibly in the few tests I've run in normal mode,
 and I haven't gotten any complaints that there are problems with it.
 There is no 'easy' mode yet, although I suspect there needs to be.
 
+Note: the "default" mode now corresponds to "normal" --dwp
+
 John Stonebraker
 ppaqebb@surfshop.net
 
