@@ -61,7 +61,8 @@ bool pplayer_can_ally(struct player *p1, struct player *p2)
   Check if pplayer has an embassy with pplayer2. We always have
   an embassy with ourselves.
 ***************************************************************/
-bool player_has_embassy(struct player *pplayer, struct player *pplayer2)
+bool player_has_embassy(const struct player *pplayer,
+			const struct player *pplayer2)
 {
   return (TEST_BIT(pplayer->embassy, pplayer2->player_no)
           || (pplayer == pplayer2)

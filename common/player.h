@@ -232,7 +232,8 @@ struct player *find_player_by_name_prefix(const char *name,
 					  enum m_pre_result *result);
 struct player *find_player_by_user(const char *name);
 void player_set_unit_focus_status(struct player *pplayer);
-bool player_has_embassy(struct player *pplayer, struct player *pplayer2);
+bool player_has_embassy(const struct player *pplayer,
+			const struct player *pplayer2);
 
 bool can_player_see_unit(struct player *pplayer, struct unit *punit);
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
