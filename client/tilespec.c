@@ -3510,7 +3510,9 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_UNIT:
-    if (do_draw_unit) {
+  case LAYER_FOCUS_UNIT:
+    if (do_draw_unit && XOR(layer == LAYER_UNIT,
+			    punit == get_unit_in_focus())) {
       bool stacked = ptile && (unit_list_size(ptile->units) > 1);
       bool backdrop = !pcity;
 
