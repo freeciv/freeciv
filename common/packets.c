@@ -1059,7 +1059,7 @@ recieve_packet_city_info(struct connection *pc)
   if(packet->food_surplus > 32767) packet->food_surplus-=65536;
   cptr=get_int16(cptr, &packet->shield_prod);
   cptr=get_int16(cptr, &packet->shield_surplus);
-  if(packet->food_surplus > 32767) packet->food_surplus-=65536;
+  if(packet->shield_surplus > 32767) packet->shield_surplus-=65536;
   cptr=get_int16(cptr, &packet->trade_prod);
   cptr=get_int16(cptr, &packet->corruption);
 
