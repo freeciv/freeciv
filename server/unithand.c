@@ -917,8 +917,8 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
           passenger = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
               punit->ai.passenger);
           if (passenger) {
-            if (get_transporter_capacity(punit)) abort();
-            else {
+/* removed what seemed like a very bad abort() -- JMC/jjm */
+            if (!get_transporter_capacity(punit)) {
 	      freelog(LOG_NORMAL, "%s#%d@(%d,%d) thinks %s#%d is a passenger?",
 		      unit_name(punit->type), punit->id, punit->x, punit->y,
 		      unit_name(passenger->type), passenger->id);
