@@ -556,8 +556,9 @@ int can_build_unit(struct city *pcity, Unit_Type_id id)
 {  
   if (!can_build_unit_direct(pcity, id))
     return 0;
-  if (can_build_unit_direct(pcity, unit_types[id].obsoleted_by))
-    return 0;
+  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
+    if (can_player_build_unit_direct(city_owner(pcity), id))
+	return 0;
   return 1;
 }
 
@@ -588,8 +589,9 @@ int can_player_build_unit(struct player *p, Unit_Type_id id)
 {  
   if (!can_player_build_unit_direct(p, id))
     return 0;
-  if (can_player_build_unit_direct(p, unit_types[id].obsoleted_by))
-    return 0;
+  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
+    if (can_player_build_unit_direct(p, id))
+	return 0;
   return 1;
 }
 
@@ -602,8 +604,9 @@ int can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
 {
   if (!unit_type_exists(id))
     return 0;
-  if (can_player_build_unit_direct(p, unit_types[id].obsoleted_by))
-    return 0;
+  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
+    if (can_player_build_unit_direct(p, id))
+	return 0;
   return 1;
 }
 

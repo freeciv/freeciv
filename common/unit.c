@@ -767,19 +767,15 @@ int can_unit_change_homecity(struct unit *punit)
 **************************************************************************/
 int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
 {
-  if (get_invention(pplayer, 
-		    unit_types[id].tech_requirement)!=TECH_KNOWN)
+  Unit_Type_id best_upgrade = -1;
+
+  if (!can_player_build_unit_direct(pplayer, id))
     return -1;
-  if (unit_types[id].obsoleted_by == -1)
-    return -1;
-  if (get_invention(pplayer,
-		    unit_types[unit_types[id].obsoleted_by].tech_requirement)!=TECH_KNOWN) 
-    return -1;
-  while (unit_types[id].obsoleted_by!=-1 && get_invention(pplayer, 
-		       unit_types[unit_types[id].obsoleted_by].tech_requirement)==TECH_KNOWN) {
-    id = unit_types[id].obsoleted_by;
-  }
-  return id;
+  while (unit_type_exists(id = unit_types[id].obsoleted_by))
+    if (can_player_build_unit_direct(pplayer, id))
+      best_upgrade = id;
+
+  return best_upgrade;
 }
 
 /**************************************************************************
