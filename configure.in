@@ -73,6 +73,11 @@ WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
+AC_ARG_WITH(isometric-view,
+[  --with-isometric-view        isometric view in the client],
+WITH_ISOMETRIC=1
+)
+
 dnl  no=do not compile client,  yes=guess it,  *=use this client or error
 AC_ARG_ENABLE(client,
 [  --enable-client[=no/yes/type]
@@ -352,6 +357,13 @@ if test x$client != xno; then
     AC_MSG_ERROR(could not guess which client to compile)
   fi
 
+  if test -n "$WITH_ISOMETRIC"; then
+    if test "$client" != "gtk" ; then
+      AC_MSG_ERROR(only the gtk client has support for isometric view)
+    fi
+    AC_DEFINE(ISOMETRIC)
+  fi
+
   gui_sources="gui-$client"
 fi
 AC_SUBST(gui_sources)
@@ -570,6 +582,7 @@ AC_OUTPUT(Makefile
 	  data/misc/Makefile 
 	  data/trident/Makefile 
 	  data/engels/Makefile 
+	  data/hires/Makefile 
 	  data/default/Makefile 
 	  data/classic/Makefile 
 	  data/civ1/Makefile 
