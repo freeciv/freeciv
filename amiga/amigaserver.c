@@ -14,6 +14,10 @@ produces that results. Maybe rename main() to main2() and name your preparse
 function main() and call main2() afterwards. This depends on your compiler.
 */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>

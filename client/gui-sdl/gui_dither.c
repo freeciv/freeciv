@@ -19,6 +19,10 @@
     email                : Rafa³ Bursig <bursig@poczta.fm>
  **********************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdlib.h>
 
 #include <SDL/SDL.h>

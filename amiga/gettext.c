@@ -25,6 +25,10 @@ Modification history;
   convert KOI8-R charset to the chareset used on Amiga
 */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
