@@ -1785,7 +1785,10 @@ void civil_war(struct player *pplayer)
   city_list_iterate(cplayer->cities, pcity) {
     resolve_unit_stack(pcity->x, pcity->y, FALSE);
   } city_list_iterate_end;
-
+  /* solve problems with pplayers allies */
+  unit_list_iterate(cplayer->units, punit) 
+    resolve_unit_stack(punit->x, punit->y, FALSE);
+  unit_list_iterate_end;
 
   notify_player(NULL,
 		_("Game: The capture of %s's capital and the destruction "
