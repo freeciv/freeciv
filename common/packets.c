@@ -146,6 +146,13 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_INCITE_COST:
     return recieve_packet_generic_values(pc);
 
+  case PACKET_RULESET_TECH:
+    return recieve_packet_ruleset_tech(pc);
+  case PACKET_RULESET_UNIT:
+    return recieve_packet_ruleset_unit(pc);
+  case PACKET_RULESET_BUILDING:
+    return recieve_packet_ruleset_building(pc);
+    
   default:
     flog(LOG_NORMAL, "unknown packet type received");
     remove_packet_from_buffer(&pc->buffer);
@@ -779,7 +786,6 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->rail_prod);
   cptr=put_int8(cptr, pinfo->rail_trade);
   
-
   for(i=0; i<A_LAST; i++)
     cptr=put_int8(cptr, pinfo->global_advances[i]);
   for(i=0; i<B_LAST; i++)
@@ -792,6 +798,14 @@ int send_packet_game_info(struct connection *pc,
     cptr=put_int8(cptr, pinfo->spacerace);
   }
 
+  cptr=put_int8(cptr, pinfo->aqueduct_size);
+  cptr=put_int8(cptr, pinfo->sewer_size);
+  cptr=put_int8(cptr, pinfo->rtech.get_bonus_tech);
+  cptr=put_int8(cptr, pinfo->rtech.boat_fast);
+  cptr=put_int8(cptr, pinfo->rtech.cathedral_plus);
+  cptr=put_int8(cptr, pinfo->rtech.cathedral_minus);
+  cptr=put_int8(cptr, pinfo->rtech.colosseum_plus);
+  
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -844,6 +858,14 @@ struct packet_game_info *recieve_packet_game_info(struct connection *pc)
   } else {
     pinfo->spacerace = 0;
   }
+
+  cptr=get_int8(cptr, &pinfo->aqueduct_size);
+  cptr=get_int8(cptr, &pinfo->sewer_size);
+  cptr=get_int8(cptr, &pinfo->rtech.get_bonus_tech);
+  cptr=get_int8(cptr, &pinfo->rtech.boat_fast);
+  cptr=get_int8(cptr, &pinfo->rtech.cathedral_plus);
+  cptr=get_int8(cptr, &pinfo->rtech.cathedral_minus);
+  cptr=get_int8(cptr, &pinfo->rtech.colosseum_plus);
 
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
@@ -1481,6 +1503,166 @@ recieve_packet_generic_values(struct connection *pc)
 
   return packet;
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_unit(struct connection *pc,
+			     struct packet_ruleset_unit *packet)
+{
+  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_UNIT);
+  
+  cptr=put_int8(cptr, packet->id);
+  cptr=put_int8(cptr, packet->graphics);
+  cptr=put_int8(cptr, packet->move_type);
+  cptr=put_int16(cptr, packet->build_cost);
+  cptr=put_int8(cptr, packet->attack_strength);
+  cptr=put_int8(cptr, packet->defense_strength);
+  cptr=put_int8(cptr, packet->move_rate);
+  cptr=put_int8(cptr, packet->tech_requirement);
+  cptr=put_int8(cptr, packet->vision_range);
+  cptr=put_int8(cptr, packet->transport_capacity);
+  cptr=put_int8(cptr, packet->hp);
+  cptr=put_int8(cptr, packet->firepower);
+  cptr=put_int8(cptr, packet->obsoleted_by);
+  cptr=put_int8(cptr, packet->fuel);
+  cptr=put_int32(cptr, packet->flags);
+  cptr=put_int32(cptr, packet->roles);
+  cptr=put_string(cptr, packet->name);
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_unit *
+recieve_packet_ruleset_unit(struct connection *pc)
+{
+  unsigned char *cptr;
+  struct packet_ruleset_unit *packet=
+    malloc(sizeof(struct packet_ruleset_unit));
+
+  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int8(cptr, NULL);
+
+  cptr=get_int8(cptr, &packet->id);
+  cptr=get_int8(cptr, &packet->graphics);
+  cptr=get_int8(cptr, &packet->move_type);
+  cptr=get_int16(cptr, &packet->build_cost);
+  cptr=get_int8(cptr, &packet->attack_strength);
+  cptr=get_int8(cptr, &packet->defense_strength);
+  cptr=get_int8(cptr, &packet->move_rate);
+  cptr=get_int8(cptr, &packet->tech_requirement);
+  cptr=get_int8(cptr, &packet->vision_range);
+  cptr=get_int8(cptr, &packet->transport_capacity);
+  cptr=get_int8(cptr, &packet->hp);
+  cptr=get_int8(cptr, &packet->firepower);
+  cptr=get_int8(cptr, &packet->obsoleted_by);
+  if (packet->obsoleted_by>127) packet->obsoleted_by-=256;
+  cptr=get_int8(cptr, &packet->fuel);
+  cptr=get_int32(cptr, &packet->flags);
+  cptr=get_int32(cptr, &packet->roles);
+  cptr=get_string(cptr, packet->name);
+
+  remove_packet_from_buffer(&pc->buffer);
+
+  return packet;
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_tech(struct connection *pc,
+			     struct packet_ruleset_tech *packet)
+{
+  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_TECH);
+  
+  cptr=put_int8(cptr, packet->id);
+  cptr=put_int8(cptr, packet->req[0]);
+  cptr=put_int8(cptr, packet->req[1]);
+  cptr=put_string(cptr, packet->name);
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_tech *
+recieve_packet_ruleset_tech(struct connection *pc)
+{
+  unsigned char *cptr;
+  struct packet_ruleset_tech *packet=
+    malloc(sizeof(struct packet_ruleset_tech));
+
+  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int8(cptr, NULL);
+
+  cptr=get_int8(cptr, &packet->id);
+  cptr=get_int8(cptr, &packet->req[0]);
+  cptr=get_int8(cptr, &packet->req[1]);
+  cptr=get_string(cptr, packet->name);
+
+  remove_packet_from_buffer(&pc->buffer);
+
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_building(struct connection *pc,
+			     struct packet_ruleset_building *packet)
+{
+  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_BUILDING);
+  
+  cptr=put_int8(cptr, packet->id);
+  cptr=put_int8(cptr, packet->is_wonder);
+  cptr=put_int8(cptr, packet->tech_requirement);
+  cptr=put_int16(cptr, packet->build_cost);
+  cptr=put_int8(cptr, packet->shield_upkeep);
+  cptr=put_int8(cptr, packet->obsolete_by);
+  cptr=put_int8(cptr, packet->variant);
+  cptr=put_string(cptr, packet->name);
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_building *
+recieve_packet_ruleset_building(struct connection *pc)
+{
+  unsigned char *cptr;
+  struct packet_ruleset_building *packet=
+    malloc(sizeof(struct packet_ruleset_building));
+
+  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int8(cptr, NULL);
+
+  cptr=get_int8(cptr, &packet->id);
+  cptr=get_int8(cptr, &packet->is_wonder);
+  cptr=get_int8(cptr, &packet->tech_requirement);
+  cptr=get_int16(cptr, &packet->build_cost);
+  cptr=get_int8(cptr, &packet->shield_upkeep);
+  cptr=get_int8(cptr, &packet->obsolete_by);
+  cptr=get_int8(cptr, &packet->variant);
+  cptr=get_string(cptr, packet->name);
+
+  remove_packet_from_buffer(&pc->buffer);
+
+  return packet;
+}
+
 
 /**************************************************************************
 remove the packet from the buffer

@@ -80,7 +80,10 @@ enum packet_type {
   PACKET_INCITE_INQ,
   PACKET_INCITE_COST,
   PACKET_UNIT_UPGRADE,
-  PACKET_PLAYER_LAUNCH_SPACESHIP
+  PACKET_PLAYER_LAUNCH_SPACESHIP,
+  PACKET_RULESET_TECH,
+  PACKET_RULESET_UNIT,
+  PACKET_RULESET_BUILDING
 };
 
 enum report_type {
@@ -357,6 +360,45 @@ struct packet_player_info {
   int arrival_year;
 };
 
+/*********************************************************
+Specify all the fields of a struct unit_type
+*********************************************************/
+struct packet_ruleset_unit {
+  int id;			/* index for unit_types[] */
+  char name[MAX_LENGTH_NAME];
+  int graphics;
+  int move_type;
+  int build_cost;
+  int attack_strength;
+  int defense_strength;
+  int move_rate;
+  int tech_requirement;
+  int vision_range;
+  int transport_capacity;
+  int hp;
+  int firepower;
+  int obsoleted_by;
+  int fuel;
+  int flags;
+  int roles;			/* a client-side-ai might be interested */
+};
+
+struct packet_ruleset_tech {
+  int id, req[2];		/* indices for advances[] */
+  char name[MAX_LENGTH_NAME];
+};
+
+struct packet_ruleset_building {
+  int id;			/* index for improvement_types[] */
+  char name[MAX_LENGTH_NAME];
+  int is_wonder;
+  int tech_requirement;
+  int build_cost;
+  int shield_upkeep;
+  int obsolete_by;
+  int variant;
+};
+
 
 /*********************************************************
 ...
@@ -383,6 +425,15 @@ struct packet_game_info {
   int foodbox;
   int techpenalty;
   int spacerace;
+  int aqueduct_size;
+  int sewer_size;
+  struct {
+    int get_bonus_tech;
+    int boat_fast;
+    int cathedral_plus;
+    int cathedral_minus;
+    int colosseum_plus;
+  } rtech;
 };
 
 /*********************************************************
@@ -543,8 +594,25 @@ int send_packet_unit_request(struct connection *pc,
 
 int send_packet_before_new_year(struct connection *pc);
 struct packet_before_new_year *recieve_packet_before_new_year(struct connection *pc);
+
 int send_packet_unittype_info(struct connection *pc, int type, int action);
 struct packet_unittype_info *recieve_packet_unittype_info(struct connection *pc);
+
+int send_packet_ruleset_unit(struct connection *pc,
+			     struct packet_ruleset_unit *packet);
+struct packet_ruleset_unit *
+recieve_packet_ruleset_unit(struct connection *pc);
+
+int send_packet_ruleset_tech(struct connection *pc,
+			     struct packet_ruleset_tech *packet);
+struct packet_ruleset_tech *
+recieve_packet_ruleset_tech(struct connection *pc);
+
+int send_packet_ruleset_building(struct connection *pc,
+			     struct packet_ruleset_building *packet);
+struct packet_ruleset_building *
+recieve_packet_ruleset_building(struct connection *pc);
+
 int send_packet_before_end_year(struct connection *pc);
 
 int send_packet_generic_values(struct connection *pc, int type,
