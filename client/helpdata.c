@@ -1076,7 +1076,7 @@ void helptext_tech(char *buf, int i, const char *user_text)
 	    units_str);
     free((void *) units_str);
   }
-  if (advances[i].helptext[0] != '\0') {
+  if (advances[i].helptext && advances[i].helptext[0] != '\0') {
     if (strlen(buf) > 0) {
       sprintf(buf + strlen(buf), "\n");
     }
