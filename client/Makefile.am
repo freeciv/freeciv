@@ -178,8 +178,10 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	audio_none.h
 
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a \
-	../common/libcivcommon.a agents/libagents.a ../common/aicore/libaicore.a
+	../common/libcivcommon.a agents/libagents.a \
+        ../common/aicore/libaicore.a
+
 civclient_LDADD        = @gui_sources@/libguiclient.a \
-	../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a \
-	../common/libcivcommon.a @CLIENT_LIBS@ ../common/aicore/libaicore.a agents/libagents.a \
+	@INTLLIBS@ ../common/aicore/libaicore.a \
+        ../common/libcivcommon.a agents/libagents.a \
 	@CLIENT_LIBS@ @SOUND_LIBS@
