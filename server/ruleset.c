@@ -3062,6 +3062,7 @@ static void send_ruleset_game(struct conn_list *dest)
   struct packet_ruleset_game misc_p;
 
   misc_p.num_specialist_types = SP_COUNT;
+  misc_p.bonus_array_size = SP_COUNT * O_COUNT;
   misc_p.default_specialist = DEFAULT_SPECIALIST;
   specialist_type_iterate(sp) {
     int *bonus = game.rgame.specialists[sp].bonus;

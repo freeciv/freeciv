@@ -130,7 +130,7 @@ Syntax:
       possible. The array size in the "[]" can be specified plain as a
       term. In this case all elements will be transmitted. If this is
       not-desired you can specify the amount of elements to be
-      transfered by given the number. So the extenmded format is
+      transfered by given the number. So the extended format is
       "[<full-array-size>:<elements-to-transfer>]". elements-to-transfer
       is relative to the packet.
 
@@ -397,6 +397,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
 
   UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 
+  # Make sure to set all fields here (even the unused ones)
   UINT8 specialists[SP_MAX];
 
   SINT16 surplus[O_MAX];
@@ -970,10 +971,11 @@ end
 
 PACKET_RULESET_GAME=97;sc,lsend
   UINT8 default_specialist, num_specialist_types;
+  UINT8 bonus_array_size; # Hack to get around limitations of packgen
   STRING specialist_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
   STRING specialist_short_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
   UINT8 specialist_min_size[SP_MAX:num_specialist_types];
-  UINT8 specialist_bonus[SP_MAX * O_MAX];
+  UINT8 specialist_bonus[SP_MAX * O_MAX:bonus_array_size];
   BOOL changable_tax;
   UINT8 forced_science;
   UINT8 forced_luxury;
