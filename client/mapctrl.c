@@ -60,6 +60,7 @@ struct unit *find_best_focus_candidate(void);
 extern Widget toplevel, main_form, map_canvas;
 extern Widget turn_done_button;
 extern int smooth_move_units;
+extern int auto_center_on_unit;
 
 /**************************************************************************
 ...
@@ -293,6 +294,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     refresh_tile_mapcanvas(x, y, 0);
   
   if(game.player_idx==punit->owner && punit->activity!=ACTIVITY_GOTO && 
+     auto_center_on_unit &&
      !tile_visible_and_not_on_border_mapcanvas(pinfo->x, pinfo->y))
     center_tile_mapcanvas(pinfo->x, pinfo->y);
 
@@ -780,7 +782,8 @@ void set_unit_focus(struct unit *punit)
 
   if(punit) {
     raise_unit_top(punit);
-    if(!tile_visible_and_not_on_border_mapcanvas(punit->x, punit->y))
+    if(auto_center_on_unit && 
+       !tile_visible_and_not_on_border_mapcanvas(punit->x, punit->y))
       center_tile_mapcanvas(punit->x, punit->y);
 
     punit->focus_status=FOCUS_AVAIL;

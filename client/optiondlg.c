@@ -43,6 +43,7 @@ extern int smooth_move_units;
 extern int flags_are_transparent;
 extern int ai_popup_windows;
 extern int ai_manual_turn_done;
+extern int auto_center_on_unit;
 
 /******************************************************************/
 Widget option_dialog_shell;
@@ -52,6 +53,7 @@ Widget option_move_toggle;
 Widget option_flag_toggle;
 Widget option_aipopup_toggle;
 Widget option_aiturndone_toggle;
+Widget option_autocenter_toggle;
 
 /******************************************************************/
 void create_option_dialog(void);
@@ -71,6 +73,7 @@ void popup_option_dialog(void)
   XtVaSetValues(option_flag_toggle, XtNstate, flags_are_transparent, NULL);
   XtVaSetValues(option_aipopup_toggle, XtNstate, ai_popup_windows, NULL);
   XtVaSetValues(option_aiturndone_toggle, XtNstate, ai_manual_turn_done, NULL);
+  XtVaSetValues(option_autocenter_toggle, XtNstate, auto_center_on_unit, NULL);
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -145,7 +148,13 @@ void create_option_dialog(void)
 					             toggleWidgetClass,
 					             option_form,
 					             NULL);
-
+  XtVaCreateManagedWidget("optionautocenterlabel",
+  			  labelWidgetClass,
+			  option_form, NULL);
+  option_autocenter_toggle = XtVaCreateManagedWidget("optionautocentertoggle",
+						     toggleWidgetClass,
+						     option_form,
+						     NULL);
   option_ok_command = XtVaCreateManagedWidget("optionokcommand", 
 					      commandWidgetClass,
 					      option_form,
@@ -186,4 +195,6 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   ai_popup_windows=b;
   XtVaGetValues(option_aiturndone_toggle, XtNstate, &b, NULL);
   ai_manual_turn_done=b;
+  XtVaGetValues(option_autocenter_toggle, XtNstate, &b, NULL);
+  auto_center_on_unit=b;
 }

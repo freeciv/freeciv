@@ -902,10 +902,21 @@ Freeciv.iconName: Freeciv
 *optionaiturndonetoggle.internalHeight: 0
 *optionaiturndonetoggle.background:     cyan
 
+*optionautocenterlabel.label:         Auto Center on Units\ \ \ \ \ \ \ 
+*optionautocenterlabel.borderWidth:   0
+*optionautocenterlabel.background:    lightblue
+*optionautocenterlabel.fromVert:      optionaiturndonetoggle
+
+*optionautocentertoggle.label:          Yes
+*optionautocentertoggle.fromVert:       optionaiturndonetoggle
+*optionautocentertoggle.fromHoriz:      optionautocenterlabel
+*optionautocentertoggle.internalHeight: 0
+*optionautocentertoggle.background:     cyan
+
 *optionokcommand.label:          Close
 *optionokcommand.foreground:     white
 *optionokcommand.background:     blue
-*optionokcommand.fromVert:       optionaiturndonelabel
+*optionokcommand.fromVert:       optionautocenterlabel
 
 !
 ! The messageopts dialog
