@@ -1,9 +1,9 @@
-# Makefile to use with the VBCC compiler
+# Makefile to use with the VBCC 0.8 compiler
 
 # What to do to use this:
 # Get a make program
-# Get FD2Pragma (Aminet/dev/misc/FD2Pragma.lha) and create prototype files
-#  as well as socket.lib, usergroup.lib, muimaster.lib and guigfx.lib
+# Get fd2pragma (Aminet/dev/misc/fd2pragma.lha) and create prototype files
+#  as well as usergroup.lib and guigfx.lib
 # PRAY and start make.
 
 # How to tell the compiler the destination of object files

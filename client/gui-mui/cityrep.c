@@ -77,18 +77,18 @@ HOOKPROTONH(cityrep_display, int, char **array, struct city *pcity)
       buf[j][0] = '\0';
       if(pcity)
       {
-        if((text = city_report_specs[i].func(pcity)))
+        if((text = _(city_report_specs[i].func(pcity))))
           sz_strlcpy(buf[j], text);
       }
       else /* the header */
       {
         if(city_report_specs[i].title1)
         {
-          sz_strlcpy(buf[j], city_report_specs[i].title1);
+          sz_strlcpy(buf[j], _(city_report_specs[i].title1));
           sz_strlcat(buf[j], " ");
         }
         if(city_report_specs[i].title2)
-          sz_strlcat(buf[j], city_report_specs[i].title2);
+          sz_strlcat(buf[j], _(city_report_specs[i].title2));
       }
       array[j] = buf[j];
       ++j;
@@ -316,7 +316,7 @@ static void cityrep_configure(void)
     {
       for(i = 1; i < NUM_CREPORT_COLS && !err; i++)
       {
-        if((o = MakeLabel(city_report_specs[i].explanation)))
+        if((o = MakeLabel(_(city_report_specs[i].explanation))))
           DoMethod(group, OM_ADDMEMBER, o);
         else
           ++err;

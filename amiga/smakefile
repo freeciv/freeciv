@@ -1,7 +1,7 @@
 # Makefile to use with the SAS/C compiler
 
 # This is the master makefile for Amiga feeeciv port. Start with this one,
-# when using anoth compiler. Normally it is not necessary to modify any
+# when using another compiler. Normally it is not necessary to modify any
 # stuff below the marked line. If your compiler does not support objectfile list
 # file, see vmakefile. This one uses patterns, but this does not work for SAS-C
 # compiler.

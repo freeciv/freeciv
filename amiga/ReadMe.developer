@@ -87,7 +87,7 @@ removed the need to use the internal workaround of freeciv.
 How to make with VBCC (at least 0.8)?
 ~~~~~~~~~~~~~~~~~~~~~~
 - Get a make program.
-- Get FD2Pragma (Aminet/dev/misc/FD2Pragma.lha) and create prototype files
+- Get fd2pragma (Aminet/dev/misc/fd2pragma.lha) and create prototype files
   as well as usergroup.lib and guigfx.lib.
 - Start make and fix all the other problems, which may have been added in
   between releases (example: make -f vmakefile). Ignore warnings.
