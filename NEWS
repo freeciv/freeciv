@@ -16,7 +16,7 @@ WHAT'S CHANGED SINCE 1.8.1:
    both use the same language.
  - Improvements to "trident" tileset, and this set is now the default.
  - New ruleset support for NATIONS, and many new nations added --
-   there are now 29 nations in the default nations file.  Also allow
+   there are now 30 nations in the default nations file.  Also allow
    multiple leaders choices for each nation, allow longer player
    names, and allow specifying/choosing sex of leader.
  - New ruleset support for TERRAIN, and changes to allow Civ2 style

@@ -1006,6 +1006,35 @@ cities =
  "Ähtäri", "Nivala", "Kannus", "Kitee", "Kiuruvesi", "Närpiö", "Somero",
  "Pyhäjärvi", "Haapavesi", "Viitasaari", "Paimio", "Nilsiä", "Juankoski"
 
+[nation29]
+
+name=_("Sioux")
+plural=_("Sioux")
+leader="Sitting Bull", "Crazy Horse", "Little Crow", "Red Cloud"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.sioux"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Chief"),        _("Chief")
+                 "Monarchy",        _("Great Chief"),  _("Great Chief")
+               }
+
+attack=2
+expand=0
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working"
+wonder="Sun Tzu War Academy"
+government="Republic"
+
+cities = ;big problem I use names of more known battles between Indians and USA
+  "Big Mound", "Killdeer Knee", "Bear Paw", "Lame Deer",
+  "Wolf Mountain", "Dull Knife", "Little Bighorn", "Blue Water",
+  "Birch Coulee", "Wood Lake", "Whitestone Hill", "Dead Buffalo Lake",
+  "Whitebird Creek", "Clearwater", "Big Hole", "Pine Ridge"
+
 
 [misc]
 
