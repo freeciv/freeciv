@@ -287,7 +287,7 @@ struct worklist_data {
   GtkTreeSelection *src_selection;
   GtkTreeSelection *dst_selection;
   
-  bool advanced;
+  bool future;
 };
 
 static GHashTable *hash;
@@ -360,7 +360,7 @@ static void worklist_response(GtkWidget *shell, gint response)
 }
 
 /****************************************************************
-...
+  Worklist editor window used by the global worklist report.
 *****************************************************************/
 static void popup_worklist(struct worklist *pwl)
 {
@@ -483,13 +483,13 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
 *****************************************************************/
 static void help_callback(GtkWidget *w, gpointer data)
 {
-  GtkTreeView *view;
+  struct worklist_data *ptr;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
   GtkTreeIter it;
 
-  view = GTK_TREE_VIEW(data);
-  selection = gtk_tree_view_get_selection(view);
+  ptr = data;
+  selection = ptr->src_selection;
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
     gint cid;
@@ -515,12 +515,42 @@ static void help_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void advanced_callback(GtkToggleButton *toggle, gpointer data)
+static void change_callback(GtkWidget *w, gpointer data)
+{
+  struct worklist_data *ptr;
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+
+  ptr = data;
+  selection = ptr->src_selection;
+
+  if (gtk_tree_selection_get_selected(selection, &model, &it)) {
+    gint cid;
+
+    struct packet_city_request packet;
+
+    gtk_tree_model_get(model, &it, 0, &cid, -1);
+
+    packet.city_id = ptr->pcity->id;
+    packet.build_id = cid_id(cid);
+    packet.is_build_id_unit_id = cid_is_unit(cid);
+
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+  } else {
+    popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void future_callback(GtkToggleButton *toggle, gpointer data)
 {
   struct worklist_data *ptr;
 
   ptr = data;
-  ptr->advanced = !ptr->advanced;
+  ptr->future = !ptr->future;
 
   refresh_worklist(ptr->pwl);
 }
@@ -676,7 +706,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 }
 
 /****************************************************************
-...
+  Worklist editor shell.
 *****************************************************************/
 GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 {
@@ -708,17 +738,18 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   ptr->pcity = pcity;
   ptr->src = src_store;
   ptr->dst = dst_store;
-  ptr->advanced = FALSE;
+  ptr->future = FALSE;
 
   
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   ntitles = ARRAY_SIZE(titles) - (pcity ? 0 : 1);
-  
-  /* worklist editor. */
+ 
+  /* create shell. */ 
   editor = gtk_vbox_new(FALSE, 0);
   g_signal_connect(editor, "destroy", G_CALLBACK(worklist_destroy), pwl);
   g_object_set_data(G_OBJECT(editor), "data", ptr);
 
+  /* add source and target lists.  */
   table = gtk_table_new(2, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(editor), table, TRUE, TRUE, 0);
 
@@ -766,7 +797,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   check = gtk_check_button_new_with_mnemonic(_("Show _Future Targets"));
   gtk_table_attach(GTK_TABLE(table), check, 4, 5, 0, 1,
 		   0, GTK_FILL, 0, 0);
-  g_signal_connect(check, "toggled", G_CALLBACK(advanced_callback), ptr);
+  g_signal_connect(check, "toggled", G_CALLBACK(future_callback), ptr);
 
 
   align = gtk_alignment_new(0.5, 0.5, 6.0, 1.0);
@@ -816,6 +847,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   gtk_table_attach(GTK_TABLE(table), label, 0, 1, 0, 1,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
+  /* add bottom menu and buttons. */
   bbox = gtk_hbutton_box_new();
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_container_set_border_width(GTK_CONTAINER(bbox), 6);
@@ -843,7 +875,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   ptr->dst_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dst_view));
   gtk_tree_selection_set_mode(ptr->dst_selection, GTK_SELECTION_MULTIPLE);
 
-  
+  /* DND and other state changing callbacks. */
   if (!pcity || (can_client_issue_orders() &&
 		 city_owner(pcity) == game.player_ptr)) {
     gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view), TRUE);
@@ -862,6 +894,11 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 		     G_CALLBACK(dst_key_press_callback), ptr);
    
     if (pcity) {
+      button = gtk_button_new_with_mnemonic("_Change Production");
+      gtk_container_add(GTK_CONTAINER(bbox), button);
+      g_signal_connect(button, "clicked",
+		       G_CALLBACK(change_callback), ptr);
+  
       gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(src_view),
 					     GDK_BUTTON1_MASK,
 					     wl_dnd_targets,
@@ -872,7 +909,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
     gtk_widget_set_sensitive(item, FALSE);
   }
 
-  
+  /* inject into worklist hashtable, refresh. */  
   insert_worklist(pwl, editor);
   refresh_worklist(pwl);
 
@@ -912,7 +949,7 @@ void refresh_worklist(struct worklist *pwl)
     }
     gtk_list_store_clear(ptr->src);
 
-    cids_used = collect_cids4(cids, ptr->pcity, ptr->advanced);
+    cids_used = collect_cids4(cids, ptr->pcity, ptr->future);
     name_and_sort_items(cids, cids_used, items, FALSE, ptr->pcity);
 
     path = NULL;

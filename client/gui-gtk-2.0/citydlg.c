@@ -60,7 +60,7 @@
 
 struct city_dialog;
 
-/* get 'struct dialog_list' and related functions: */
+/* get 'struct dialog_list' and related function */
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct city_dialog
 #define SPECLIST_STATIC
@@ -110,7 +110,6 @@ struct city_dialog {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
     GtkWidget *tradelist;
-    GtkWidget *currently_building_frame;
     GtkWidget *progress_label;
     GtkWidget *improvement_list;
     GtkWidget *buy_command;
@@ -674,7 +673,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   label = g_object_new(GTK_TYPE_LABEL,
 		       "use-underline", TRUE,
 		       "mnemonic-widget", view,
-		       "label", _("_Improvements:"),
+		       "label", _("_Improvement"),
 		       "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
 
@@ -738,21 +737,18 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
   char *tab_title = _("Production");
   GtkWidget *label = gtk_label_new(tab_title);
-  GtkWidget *page, *hbox, *editor, *bar;
+  GtkWidget *page, *hbox, *editor, *bar, *frame;
 
   page = gtk_vbox_new(FALSE, 6);
 
   /* stuff that's being currently built */
 
   /* The label is set in city_dialog_update_building() */
-  pdialog->overview.currently_building_frame = gtk_frame_new("");
-  gtk_box_pack_start(GTK_BOX(page),
-		     pdialog->overview.currently_building_frame, FALSE,
-		     FALSE, 0);
+  frame = gtk_frame_new(_("Production"));
+  gtk_box_pack_start(GTK_BOX(page), frame, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER
-		    (pdialog->overview.currently_building_frame), hbox);
+  gtk_container_add(GTK_CONTAINER(frame), hbox);
 
   bar = gtk_progress_bar_new();
   pdialog->overview.progress_label = bar;
@@ -1501,14 +1497,13 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     pct = 1.0;
   }
   
-  my_snprintf(buf2, sizeof(buf2), "%s%s", descr,
-	      worklist_is_empty(&pcity->worklist) ? "" : _(" (worklist)"));
-  gtk_frame_set_label(GTK_FRAME
-		      (pdialog->overview.currently_building_frame), buf2);
+  my_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
+	      worklist_is_empty(&pcity->worklist) ? "" : " (+)",
+	      buf);
   gtk_progress_bar_set_fraction(
 	GTK_PROGRESS_BAR(pdialog->overview.progress_label), pct);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pdialog->overview.progress_label),
-	buf);
+			    buf2);
   /* work around GTK+ bug. */
   gtk_widget_queue_resize(pdialog->overview.progress_label);
 }
@@ -1655,7 +1650,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   pdialog->overview.supported_unit_no = n;
 
 
-  my_snprintf(buf, sizeof(buf), _("Supported units: %d"), n);
+  my_snprintf(buf, sizeof(buf), _("Supported unit %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.supported_units_frame), buf);
 }
 
@@ -1748,7 +1743,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   pdialog->overview.present_unit_no = n;
 
 
-  my_snprintf(buf, sizeof(buf), _("Present units: %d"), n);
+  my_snprintf(buf, sizeof(buf), _("Present unit %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.present_units_frame), buf);
 }
 
@@ -1784,7 +1779,7 @@ static void city_dialog_update_tradelist(struct city_dialog *pdialog)
 		_("No trade routes exist."));
   } else {
     my_snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
-		_("Total trade from trade routes: %d"), total);
+		_("Total trade from trade route %d"), total);
   }
   gtk_label_set_text(GTK_LABEL(pdialog->overview.tradelist), buf);
 }
