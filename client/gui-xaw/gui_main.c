@@ -129,6 +129,28 @@ void timer_callback(caddr_t client_data, XtIntervalId *id);
 void show_info_popup(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal *argc);
 
+/**************************************************************************/
+/* The following function is in helpdlg.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_help_dialog_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc);
+
+/* The following function is in plrdlg.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_players_dialog_action(Widget w, XEvent *event, 
+				 String *argv, Cardinal *argc);
+
+/* The following function is in messagewin.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_meswin_dialog_action(Widget w, XEvent *event, 
+				String *argv, Cardinal *argc);
+
+/* The following function is in cityrep.c, but currently there is no
+ * good place to put this prototype --dwp  */
+void close_city_report_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc);
+/**************************************************************************/
+
 struct game_data {
   int year;
   int population;
@@ -248,7 +270,11 @@ XtActionsRec Actions[] = {
   { "adjust-workers", adjust_workers },
   { "close-spaceshipdialog", close_spaceship_dialog_action },
   { "spaceship-dialog-returnkey", spaceship_dialog_returnkey },
-  { "key-map-grid", key_map_grid }
+  { "key-map-grid", key_map_grid },
+  { "close-helpdialog", close_help_dialog_action },
+  { "close-meswindialog", close_meswin_dialog_action },
+  { "close-playersdialog", close_players_dialog_action },
+  { "close-cityreport", close_city_report_action }
 };
 
 int myerr(Display *p, XErrorEvent *e)

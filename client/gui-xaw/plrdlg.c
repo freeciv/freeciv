@@ -34,6 +34,9 @@
 #include <spaceshipdlg.h>
 
 extern Widget toplevel, main_form;
+extern Display *display;
+extern Atom wm_delete_window;
+
 extern struct player_race races[];
 
 Widget players_dialog_shell;
@@ -46,8 +49,8 @@ Widget players_meet_command;
 Widget players_sship_command;
 
 void create_players_dialog(void);
-void players_button_callback(Widget w, XtPointer client_data, 
-			      XtPointer call_data);
+void players_close_callback(Widget w, XtPointer client_data, 
+			    XtPointer call_data);
 void players_meet_callback(Widget w, XtPointer client_data, 
 			   XtPointer call_data);
 void players_intel_callback(Widget w, XtPointer client_data, 
@@ -120,7 +123,7 @@ void create_players_dialog(void)
   XtAddCallback(players_list, XtNcallback, players_list_callback, 
 		NULL);
   
-  XtAddCallback(players_close_command, XtNcallback, players_button_callback, 
+  XtAddCallback(players_close_command, XtNcallback, players_close_callback, 
 		NULL);
 
   XtAddCallback(players_meet_command, XtNcallback, players_meet_callback, 
@@ -135,6 +138,11 @@ void create_players_dialog(void)
   update_players_dialog();
 
   XtRealizeWidget(players_dialog_shell);
+  
+  XSetWMProtocols(display, XtWindow(players_dialog_shell), 
+		  &wm_delete_window, 1);
+  XtOverrideTranslations(players_dialog_shell,
+    XtParseTranslationTable("<Message>WM_PROTOCOLS: close-playersdialog()"));
 }
 
 
@@ -227,11 +235,20 @@ void players_list_callback(Widget w, XtPointer client_data,
 /**************************************************************************
 ...
 **************************************************************************/
-void players_button_callback(Widget w, XtPointer client_data, 
+void players_close_callback(Widget w, XtPointer client_data, 
 			      XtPointer call_data)
 {
   XtDestroyWidget(players_dialog_shell);
   players_dialog_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void close_players_dialog_action(Widget w, XEvent *event, 
+				 String *argv, Cardinal *argc)
+{
+  players_close_callback(w, NULL, NULL);
 }
 
 /**************************************************************************

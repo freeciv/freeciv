@@ -45,6 +45,8 @@
 
 extern int UNIT_TILES;
 extern Widget toplevel, main_form;
+extern Display *display;
+extern Atom wm_delete_window;
 
 Widget help_dialog_shell;
 Widget help_form;
@@ -483,6 +485,11 @@ void create_help_dialog(void)
 		help_list_callback, NULL);
 
   XtRealizeWidget(help_dialog_shell);
+
+  XSetWMProtocols(display, XtWindow(help_dialog_shell), 
+		  &wm_delete_window, 1);
+  XtOverrideTranslations(help_dialog_shell,
+	 XtParseTranslationTable("<Message>WM_PROTOCOLS: close-helpdialog()"));
 
   /* create_help_page(HELP_IMPROVEMENT); */
   create_help_page(HELP_TEXT);
@@ -1295,6 +1302,15 @@ void help_close_command_callback(Widget w, XtPointer client_data,
 {
   XtDestroyWidget(help_dialog_shell);
   help_dialog_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void close_help_dialog_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc)
+{
+  help_close_command_callback(w, NULL, NULL);
 }
 
 /**************************************************************************

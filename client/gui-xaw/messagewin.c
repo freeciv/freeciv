@@ -40,6 +40,8 @@
 #include <options.h>
 
 extern Widget toplevel;
+extern Display *display;
+extern Atom wm_delete_window;
 
 Widget meswin_dialog_shell;
 Widget meswin_form;
@@ -174,6 +176,12 @@ void create_meswin_dialog(void)
   update_meswin_dialog();
 
   XtRealizeWidget(meswin_dialog_shell);
+  
+  XSetWMProtocols(display, XtWindow(meswin_dialog_shell), 
+		  &wm_delete_window, 1);
+  XtOverrideTranslations(meswin_dialog_shell,
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: close-meswindialog()"));
+
 }
 
 /**************************************************************************
@@ -376,6 +384,15 @@ void meswin_close_callback(Widget w, XtPointer client_data,
 {
   XtDestroyWidget(meswin_dialog_shell);
   meswin_dialog_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void close_meswin_dialog_action(Widget w, XEvent *event, 
+				String *argv, Cardinal *argc)
+{
+  meswin_close_callback(w, NULL, NULL);
 }
 
 /**************************************************************************

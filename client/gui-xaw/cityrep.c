@@ -45,6 +45,8 @@
 #include <options.h>
 
 extern Widget toplevel, main_form;
+extern Display *display;
+extern Atom wm_delete_window;
 
 extern struct connection aconnection;
 extern int delay_report_update;
@@ -495,6 +497,14 @@ void create_city_report_dialog(int make_modal)
   XtAddCallback(city_list, XtNcallback, city_list_callback, NULL);
   
   XtRealizeWidget(city_dialog_shell);
+
+  if (!make_modal) { /* ?? dwp */
+    XSetWMProtocols(display, XtWindow(city_dialog_shell), 
+		    &wm_delete_window, 1);
+    XtOverrideTranslations(city_dialog_shell,
+	 XtParseTranslationTable("<Message>WM_PROTOCOLS: close-cityreport()"));
+  }
+
   city_report_dialog_update();
 }
 
@@ -655,11 +665,19 @@ void city_refresh_callback(Widget w, XtPointer client_data, XtPointer call_data)
 void city_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
-
   if(city_dialog_shell_is_modal)
      XtSetSensitive(main_form, TRUE);
-   XtDestroyWidget(city_dialog_shell);
-   city_dialog_shell=0;
+  XtDestroyWidget(city_dialog_shell);
+  city_dialog_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void close_city_report_action(Widget w, XEvent *event, 
+			      String *argv, Cardinal *argc)
+{
+  city_close_callback(w, NULL, NULL);
 }
 
 /****************************************************************
