@@ -671,5 +671,6 @@ AC_OUTPUT(Makefile
 	  ser:bootstrap/ser.in
 	  freeciv.spec:bootstrap/freeciv.spec.in
 	  bootstrap/undep.sh
+	  data/Freeciv
 	  client/freeciv.desktop:bootstrap/freeciv.desktop.in,
 	  [ chmod +x bootstrap/undep.sh civ ser ; bootstrap/undep.sh ])
