@@ -6,7 +6,7 @@ Freeciv 1.14.0 est une version "stable" et est considérée comme suffisament
 exempte de bugs pour un usage de tous les jours. Cependant, si vous trouvez un
 bug, nous voulons réellement le savoir afin de pouvoir le corriger. Ce fichier
 liste les bugs connus de la version et donne des informations sur la manière de
-rapporter un nouveau bug. 
+rpporter un nouveau bug. 
 
 Ne sont listés que les bugs les plus évidents. Pour une liste exhaustive, 
 voyez : 
@@ -20,23 +20,23 @@ BUGS CONNUS :
    tour" et par conséquent, les changements que vous apportez à l'AGU dans le
 	 même tour que celui où vous sauvegardez un jeu seront perdus.
 
- - Si vous utilisez l'AGU, la sauvegarde résultante est dépendante de votre
-   architecture et de son "boutisme". Ainsi vous ne pouvez pas utiliser la
-	 sauvegarde sur une autre architecture.
 
  - L'IA facile ne l'est pas assez pour des joueurs novices. Si l'IA 
    vous bat trop tôt dans le jeu, essayez de positionner l'option 
 	 "generator" du serveur sur 2 ou 3. C'est à dire, sur le serveur, 
 	 avant de démarrer un jeu, tapez : set generator 2 ou set generator 3.
 
+
  - L'IA difficile ne l'est pas suffisamment pour des joueurs expérimentés 
    et continue à faire des choses stupides. Par exemple, elle préfère 
 	 laisser des villes en désordre civil plutôt que de les laisser 
 	 s'affamer/diminuer de taille.
 
+
  - Parfois, il y a tellement d'avances dans le menu "objectif" du rapport 
    de science que celui-ci dépasse le haut de l'écran et vous ne pouvez pas
    sélectionner des items.
+
 
  - Vous pouvez parfois obtenir les messages 
 	{ss} player for sample <01> not found
@@ -59,16 +59,15 @@ BUGS CONNUS :
    ou bien un avion, le serveur utilisera des connaissances pas encore 
 	 disponibles pour le joueur.
 
- - Le dialogue de science n'est pas mis à jour quand vous obtenez une 
-   technologie. Vous devez le fermer et le rouvrir.
-
- - Dans le client gtk, parfois, l'affichage près de la mini-carte contient 
+ - Dans le client GTK+, parfois, l'affichage près de la mini-carte contient 
    des parasites.
 
  - Les routines automatiques comme auto-explorer ne gèrent pas très bien les
    trirèmes.
 
+
  - LOG_DEBUG ne fonctionne pas avec des compilateurs non GCC.
+
 
  - Au réglage des variables du serveur, celui-ci ne vérifie pas les valeurs 
    aussi bien qu'il le pourrait.
@@ -80,9 +79,11 @@ BUGS CONNUS :
    avant et après l'humain. Ceci donne parfois l'impression qu'elle effectue 
 	 deux fois ses mouvements.
 
+
  - Le client xaw ne fonctionne pas très bien avec le gestionnaire de fenêtres 
    de KDE. Essayez d'utiliser le client gtk ou bien un autre gestionnaire de 
 	 fenêtres.
+
 
 FAIRE UN RAPPORT DE BUG :
 =======================
