@@ -34,6 +34,3 @@ THINGS TO DO:
 
  - goto should be looked at, as units with moves left after a goto should
    be active but aren't.
-
- - There may be some problem with cities being irrigated.
-[I swear these are no longer problems -- Syela]
