@@ -5,7 +5,7 @@
 #
 cat <<EOF
 ## Process this file with automake to produce Makefile.in
-# Note: After dding a new nation file, 'make Makefile.am'
+# Note: After adding a new nation file, 'make Makefile.am'
 
 pkgdata_DATA = \\
 `find * -name "*.ruleset" -print | sed -e 's/.*ruleset$/		& \\\/' -e '$s/.$//'`
