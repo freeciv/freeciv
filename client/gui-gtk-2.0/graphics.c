@@ -20,7 +20,6 @@
 
 #include <gtk/gtk.h>
 
-#include <gdk_imlib.h>
 #include "gtkpixcomm.h"
 
 #include "game.h"
