@@ -658,6 +658,23 @@ static void activate_unit(struct unit *punit)
   set_unit_focus(punit);
 }
 
+static void sentry_unit(struct unit *punit)
+{
+  if(punit->activity!=ACTIVITY_SENTRY &&
+     can_unit_do_activity(punit, ACTIVITY_SENTRY))
+    request_new_unit_activity(punit, ACTIVITY_SENTRY);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void fortify_unit(struct unit *punit)
+{
+  if(punit->activity!=ACTIVITY_FORTIFY &&
+     can_unit_do_activity(punit, ACTIVITY_FORTIFY))
+    request_new_unit_activity(punit, ACTIVITY_FORTIFY);
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -687,6 +704,30 @@ static void present_units_activate_close_callback(GtkWidget *w, gpointer data)
       if((pdialog=get_city_dialog(pcity)))
        close_city_dialog(pdialog);
   }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void present_units_sentry_callback(GtkWidget *w, gpointer data)
+{
+  struct unit *punit;
+
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
+    sentry_unit(punit);
+  destroy_message_dialog(w);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void present_units_fortify_callback(GtkWidget *w, gpointer data)
+{
+  struct unit *punit;
+
+  if((punit=unit_list_find(&game.player_ptr->units, (size_t)data)))
+    fortify_unit(punit);
+  destroy_message_dialog(w);
 }
 
 /****************************************************************
@@ -781,7 +822,7 @@ gint s_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 }
 
 /****************************************************************
-...
+Pop-up menu to change attributes of units, ex. change homecity.
 *****************************************************************/
 gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
@@ -804,6 +845,10 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 			     present_units_activate_callback, punit->id,
 			   _("Activate unit, _close dialog"),
 			     present_units_activate_close_callback, punit->id,
+			   _("_Sentry unit"),
+			     present_units_sentry_callback, punit->id,
+			   _("_Fortify unit"),
+			     present_units_fortify_callback, punit->id,
 			   _("_Disband unit"),
 			     present_units_disband_callback, punit->id,
 			   _("Make new _homecity"),
@@ -813,8 +858,16 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 			   _("_Cancel"),
 			     present_units_cancel_callback, 0, 
 			   NULL);
+    if (punit->activity == ACTIVITY_SENTRY
+	|| !can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+      message_dialog_button_set_sensitive(wd, "button2", FALSE);
+    }
+    if (punit->activity == ACTIVITY_FORTIFY
+	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFY)) {
+      message_dialog_button_set_sensitive(wd, "button3", FALSE);
+    }
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
-      message_dialog_button_set_sensitive(wd, "button4", FALSE);
+      message_dialog_button_set_sensitive(wd, "button6", FALSE);
     }
   }
   return TRUE;
