@@ -32,7 +32,9 @@
 /stamp-h1
 /undep.sh
 /civclient
+/civ
 /civserver
+/ser
 /.deps
 /*.sav
 /*.sav.gz
