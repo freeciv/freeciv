@@ -27,10 +27,22 @@ struct worklist *create_worklist(void) {
   return pwl;
 }
   
-void init_worklist(struct worklist *pwl) {
+/****************************************************************
+  Initialize a worklist to be empty and have a default name.
+  For ids, only really need to set ids[0], but initialize the
+  rest to avoid junk values in savefile.
+****************************************************************/
+void init_worklist(struct worklist *pwl)
+{
+  int i;
+  
   pwl->ids[0] = WORKLIST_END;
   pwl->is_valid = 1;
   strcpy(pwl->name, "a worklist");
+
+  for(i=1; i<MAX_LEN_WORKLIST; i++) {
+    pwl->ids[i] = 0;
+  }
 }
 
 void destroy_worklist(struct worklist *pwl) {
