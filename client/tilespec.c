@@ -856,7 +856,7 @@ static void tilespec_lookup_sprite_tags(void)
   do {
     my_snprintf(buffer, sizeof(buffer), "explode.unit_%d",
 		num_tiles_explode_unit++);
-  } while (load_sprite(buffer));
+  } while (sprite_exists(buffer));
   num_tiles_explode_unit--;
     
   if (num_tiles_explode_unit==0) {
@@ -2567,6 +2567,18 @@ void unload_sprite(const char *tag_name)
     free_sprite(ss->sprite);
     ss->sprite = NULL;
   }
+}
+
+/**************************************************************************
+  Return TRUE iff the specified sprite exists in the tileset (whether
+  or not it is currently loaded).
+**************************************************************************/
+bool sprite_exists(const char *tag_name)
+{
+  /* Lookup information about where the sprite is found. */
+  struct small_sprite *ss = hash_lookup_data(sprite_hash, tag_name);
+
+  return (ss != NULL);
 }
 
 /**************************************************************************

@@ -257,6 +257,7 @@ extern int num_tiles_explode_unit;
 
 struct Sprite *load_sprite(const char *tag_name);
 void unload_sprite(const char *tag_name);
+bool sprite_exists(const char *tag_name);
 void finish_loading_sprites(void);
 
 #endif  /* FC__TILESPEC_H */
