@@ -127,7 +127,7 @@ void update_report_dialogs(void)
 /****************************************************************
 ...
 ****************************************************************/
-const char *get_centered_report_title(char *report_name)
+const char *get_centered_report_title(const char *report_name)
 {
   return create_centered_string(get_report_title(report_name));
 }

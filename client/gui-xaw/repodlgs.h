@@ -24,6 +24,6 @@ void popdown_activeunits_report_dialog(void);
 void activeunits_msg_close(Widget w);
 void sciencereport_msg_close(Widget w);
 void economyreport_msg_close(Widget w);
-const char *get_centered_report_title(char *report_name);
+const char *get_centered_report_title(const char *report_name);
 
 #endif  /* FC__REPODLGS_H */

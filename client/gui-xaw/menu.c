@@ -858,7 +858,7 @@ void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[],
 {
   int i, j;
   struct Menu *mymenu;
-  char *xlt;
+  const char *xlt;
   int lstr;
   int litem;
   int lacel;
@@ -961,7 +961,7 @@ char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr)
   struct Menu *pmenu = menus[menu];
   static char retbuf[256];
   char tmp[256];
-  char *xlt;
+  const char *xlt;
 
   xlt=_(pmenu->entries[ent].text[var]);
 

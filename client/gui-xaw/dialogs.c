@@ -1114,9 +1114,9 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
       /* Spy/Diplomat acting against a unit */
       
-      char *message = (!unit_flag(punit, F_SPY))?
-	_("Sir, the diplomat is waiting for your command"):
-	_("Sir, the spy is waiting for your command");
+      const char *message = !unit_flag(punit, F_SPY)
+	? _("Sir, the diplomat is waiting for your command")
+	: _("Sir, the spy is waiting for your command");
       
       diplomat_target_id=ptunit->id;
 

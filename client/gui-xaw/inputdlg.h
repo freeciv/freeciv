@@ -17,8 +17,8 @@
 #include <X11/StringDefs.h>
 
 
-Widget input_dialog_create(Widget parent, char *dialogname, 
-			   char *text, char *postinputtest,
+Widget input_dialog_create(Widget parent, const char *dialogname, 
+			   const char *text, const char *postinputtest,
 			   XtCallbackProc ok_callback,
 			   XtPointer ok_cli_data, 
 			   XtCallbackProc cancel_callback,
