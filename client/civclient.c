@@ -388,6 +388,7 @@ void send_unit_info(struct unit *punit)
   info.activity=punit->activity;
   info.activity_target=punit->activity_target;
   info.select_it=0;
+  info.packet_use = UNIT_INFO_IDENTITY;
 
   send_packet_unit_info(&aconnection, &info);
 }

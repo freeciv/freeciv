@@ -619,6 +619,7 @@ void request_unit_selected(struct unit *punit)
   info.activity=ACTIVITY_IDLE;
   info.activity_target=0;
   info.select_it=1;
+  info.packet_use = UNIT_INFO_IDENTITY;
 
   send_packet_unit_info(&aconnection, &info);
 }
