@@ -302,8 +302,8 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
 }
 
 /**************************************************************************
-  Find a city to send diplomats against, or NULL if none available on
-  this continent.  punit can be virtual.
+  Returns (in ctarget) the closest city to send diplomats against, or NULL 
+  if none available on this continent.  punit can be virtual.
 **************************************************************************/
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                   struct city **ctarget, int *move_dist)
@@ -314,7 +314,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 
   assert(punit != NULL);
   *ctarget = NULL;
-  *move_dist = MAX(map.xsize, map.ysize);
+  *move_dist = -1;
 
   simple_unit_path_iterator(punit, pos) {
     struct city *acity = map_get_city(pos.x, pos.y);
@@ -344,15 +344,15 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
      * 1. establishing embassy OR
      * 2. stealing techs OR
      * 3. inciting revolt */
-    if ((!*ctarget || *move_dist > pos.total_MC)
-        && (!has_embassy
-            || (acity->steal == 0 && pplayer->research.techs_researched < 
-                city_owner(acity)->research.techs_researched && !dipldef)
-            || (incite_cost < (pplayer->economic.gold - pplayer->ai.est_upkeep)
-                && can_incite && !dipldef))) {
-      /* We have the closest enemy city so far on the same continent */
+    if (!has_embassy
+        || (acity->steal == 0 && pplayer->research.techs_researched < 
+            aplayer->research.techs_researched && !dipldef)
+        || (incite_cost < (pplayer->economic.gold - pplayer->ai.est_upkeep)
+            && can_incite && !dipldef)) {
+      /* We have the closest enemy city on the continent */
       *ctarget = acity;
       *move_dist = pos.total_MC;
+      break;
     }
   } simple_unit_path_iterator_end;
 }
