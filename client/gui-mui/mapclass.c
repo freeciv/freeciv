@@ -1496,30 +1496,43 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       if (data->update == 6)
       {
       	/* Draw Mushroom */
-	int x, y;
+	int x, y, w, h;
+	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 
 	for(y=0; y<3; y++) {
 	  for(x=0; x<3; x++) {
-	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) *NORMAL_TILE_WIDTH;
+	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * NORMAL_TILE_WIDTH;
 	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * NORMAL_TILE_HEIGHT;
-/*	    struct Sprite *mysprite = sprites.explode.nuke[y][x]; */
+	    struct Sprite *mysprite = sprites.explode.nuke[y][x];
 
-	    printf("%ld %ld\n",map_x,map_y);
-
-/*	    BltBitMapRastPort( data->map_layer->rp, 
-
-	    gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-		      map_x, map_y, 0, 0,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-	    pixmap_put_overlay_tile(single_tile_pixmap, 0, 0, mysprite);
-	    gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-		      0, 0, map_x, map_y,
-		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);*/
+	    put_sprite_overlay( _rp(o), mysprite, _mleft(o) + map_x, _mtop(o) + map_y);
 	  }
 	}
 
 	TimeDelay( UNIT_VBLANK, 1,0);
 
+	/* Restore the map */
+	x = map_canvas_adjust_x(data->mushroom_x0-1) * NORMAL_TILE_WIDTH;
+	y = map_canvas_adjust_y(data->mushroom_y0-1) * NORMAL_TILE_HEIGHT;
+
+	w = NORMAL_TILE_WIDTH * 3;
+	h = NORMAL_TILE_HEIGHT * 3;
+
+	if (x<0) {
+	  w +=x;
+	  x = 0;
+	}
+
+	if (y<0) {
+	  h +=y;
+	  y = 0;
+	}
+
+	BltBitMapRastPort(data->map_bitmap, x, y,
+			  _rp(o), _mleft(o) + x, _mtop(o) + y,
+			  w, h, 0xc0);
+
+	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
       	return NULL;
       }
 
