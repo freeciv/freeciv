@@ -1443,7 +1443,7 @@ void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
   int count = fill_sprite_array(tile_sprs, layer, ptile,
 				get_drawable_unit(ptile, citymode),
 				ptile->city, citymode);
-  bool fog = (ptile->known == TILE_KNOWN_FOGGED && draw_fog_of_war
+  bool fog = (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war
 	      && fogstyle == 0);
 
   /*** Draw terrain and specials ***/
