@@ -33,6 +33,8 @@ libcivcommon_a_SOURCES = \
 		idex.h		\
 		inputfile.c	\
 		inputfile.h	\
+		ioz.c		\
+		ioz.h		\
 		log.c		\
 		log.h		\
 		map.c		\

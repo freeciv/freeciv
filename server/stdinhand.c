@@ -616,6 +616,21 @@ static struct settings_s settings[] = {
     N_("The game will be automatically saved per this number of turns.\n"
        "Zero means never auto-save.") },
 
+  /* Could undef entire option if !HAVE_LIBZ, but this way users get to see
+   * what they're missing out on if they didn't compile with zlib?  --dwp
+   */
+  { "compress", &game.save_compress_level,
+    SSET_META, SSET_SERVER_ONLY,
+#ifdef HAVE_LIBZ
+    0, 9, 6,
+#else
+    0, 0, 0,
+#endif
+    N_("Savegame compression level"),
+    N_("If non-zero, saved games will be compressed using zlib (gzip format).  "
+       "Larger values will give better compression but take longer.  If the "
+       "maximum is zero this server was not compiled to use zlib.") },
+
   { "scorelog", &game.scorelog,
     SSET_META, SSET_SERVER_ONLY,
     GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG,

@@ -69,8 +69,10 @@
 #include <ctype.h>
 
 #include "astring.h"
+#include "ioz.h"
 #include "log.h"
 #include "mem.h"
+#include "support.h"
 
 #include "inputfile.h"
 
@@ -82,7 +84,7 @@
 struct inputfile {
   unsigned int magic;		/* memory check */
   char *filename;		/* filename as passed to fopen */
-  FILE *fp;			/* read from this */
+  fz_FILE *fp;			/* read from this */
   int at_eof;			/* flag for end-of-file */
   struct astring cur_line;	/* data from current line, or .n==0 if
 				   have not yet read in the current line */
@@ -200,11 +202,11 @@ struct inputfile *inf_open(const char *filename,
 			   datafilename_fn_t datafn)
 {
   struct inputfile *inf;
-  FILE *fp;
+  fz_FILE *fp;
 
   assert(filename);
   assert(strlen(filename)>0);
-  fp = fopen(filename, "r");
+  fp = fz_fopen(filename, "r", FZ_NOT_USED, FZ_NOT_USED);
   if (!fp) {
     return NULL;
   }
@@ -232,7 +234,14 @@ static void inf_close_partial(struct inputfile *inf)
 
   freelog(LOG_DEBUG, "inputfile: sub-closing \"%s\"", inf->filename);
 
-  fclose(inf->fp);
+  if (fz_ferror(inf->fp)) {
+    freelog(LOG_NORMAL, "Error before closing %s: %s", inf->filename,
+	    fz_strerror(inf->fp));
+    fz_fclose(inf->fp);
+  }
+  else if (fz_fclose(inf->fp) != 0) {
+    freelog(LOG_NORMAL, "Error closing %s", inf->filename);
+  }
   free(inf->filename);
   astr_free(&inf->cur_line);
   astr_free(&inf->copy_line);
@@ -412,7 +421,7 @@ static int read_a_line(struct inputfile *inf)
    * (or first position) in line.
    */
   for(;;) {
-    ret = fgets(line->str + pos, line->n_alloc - pos, inf->fp);
+    ret = fz_fgets(line->str + pos, line->n_alloc - pos, inf->fp);
     
     if (ret == NULL) {
       /* fgets failed */

@@ -88,6 +88,7 @@ struct civ_game {
   int coolinglevel;
   char save_name[MAX_LEN_NAME];
   int save_nturns;
+  int save_compress_level;
   int foodbox;
   int aqueductloss;
   int killcitizen;

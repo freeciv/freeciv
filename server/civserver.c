@@ -924,19 +924,33 @@ static int end_turn(void)
 /**************************************************************************
 Unconditionally save the game, with specified filename.
 Always prints a message: either save ok, or failed.
+
+Note that if !HAVE_LIBZ, then game.save_compress_level should never
+become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 **************************************************************************/
-void save_game(char *filename)
+void save_game(char *orig_filename)
 {
+  char filename[600];
   struct section_file file;
   struct timer *timer_cpu, *timer_user;
+
+  sz_strlcpy(filename, orig_filename);
   
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
     
   section_file_init(&file);
   game_save(&file);
-  
-  if(!section_file_save(&file, filename))
+
+  if (game.save_compress_level > 0) {
+    /* Append ".gz" to filename if not there: */
+    size_t len = strlen(filename);
+    if (len < 3 || strcmp(filename+len-3, ".gz") != 0) {
+      sz_strlcat(filename, ".gz");
+    }
+  }
+
+  if(!section_file_save(&file, filename, game.save_compress_level))
     con_write(C_FAIL, _("Failed saving game as %s"), filename);
   else
     con_write(C_OK, _("Game saved as %s"), filename);

@@ -203,7 +203,7 @@ int rulesout_techs(const char *filename)
   for(itech=0; itech<game.num_tech_types; itech++) {
     add_one_tech(&file, itech);
   }
-  retval = section_file_save(&file, filename);
+  retval = section_file_save(&file, filename, 0);
   section_file_free(&file);
   return retval;
 }

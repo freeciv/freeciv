@@ -155,6 +155,7 @@
 #include "genlist.h"
 #include "hash.h"
 #include "inputfile.h"
+#include "ioz.h"
 #include "log.h"
 #include "mem.h"
 #include "sbuffer.h"
@@ -550,19 +551,25 @@ int section_file_load_nodup(struct section_file *sf, const char *filename)
  This should be followed by the other column values for u0,
  and then subsequent u1, u2, etc, in strict order with no omissions,
  and with all of the columns for all uN in the same order as for u0.
+
+ If compression_level is non-zero, then compress using zlib.  (Should
+ only supply non-zero compression_level if already know that HAVE_LIBZ.)
+ Below simply specifies FZ_ZLIB method, since fz_fopen() automatically
+ changes to FZ_PLAIN method when level==0.
 **************************************************************************/
-int section_file_save(struct section_file *my_section_file, const char *filename)
+int section_file_save(struct section_file *my_section_file, const char *filename,
+		      int compression_level)
 {
-  FILE *fs;
+  fz_FILE *fs;
 
   struct genlist_iterator ent_iter, save_iter, col_iter;
   struct entry *pentry, *col_pentry;
 
-  if(!(fs=fopen(filename, "w")))
+  if(!(fs=fz_fopen(filename, "w", FZ_ZLIB, compression_level)))
     return 0;
 
   section_list_iterate(*my_section_file->sections, psection) {
-    fprintf(fs, "\n[%s]\n", psection->name);
+    fz_fprintf(fs, "\n[%s]\n", psection->name);
 
     /* Following doesn't use entry_list_iterate() because we want to do
      * tricky things with the iterators...
@@ -601,7 +608,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	first[offset-2] = '\0';
 	sz_strlcpy(base, first);
 	first[offset-2] = '0';
-	fprintf(fs, "%s={", base);
+	fz_fprintf(fs, "%s={", base);
 
 	/* Save an iterator at this first entry, which we can later use
 	 * to repeatedly iterate over column names:
@@ -614,10 +621,10 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	for( ; (col_pentry = ITERATOR_PTR(col_iter)); ITERATOR_NEXT(col_iter)) {
 	  if(strncmp(col_pentry->name, first, offset) != 0)
 	    break;
-	  fprintf(fs, "%c\"%s\"", (ncol==0?' ':','), col_pentry->name+offset);
+	  fz_fprintf(fs, "%c\"%s\"", (ncol==0?' ':','), col_pentry->name+offset);
 	  ncol++;
 	}
-	fprintf(fs, "\n");
+	fz_fprintf(fs, "\n");
 
 	/* Iterate over rows and columns, incrementing ent_iter as we go,
 	 * and writing values to the table.  Have a separate iterator
@@ -639,25 +646,25 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	    if(icol != 0) {
 	      freelog(LOG_NORMAL, "unexpected exit from tabular at %s (%s)",
 		      pentry->name, filename);
-	      fprintf(fs, "\n");
+	      fz_fprintf(fs, "\n");
 	    }
-	    fprintf(fs, "}\n");
+	    fz_fprintf(fs, "}\n");
 	    break;
 	  }
 
 	  if(icol>0)
-	    fprintf(fs, ",");
+	    fz_fprintf(fs, ",");
 	  if(pentry->svalue) 
-	    fprintf(fs, "\"%s\"", moutstr(pentry->svalue));
+	    fz_fprintf(fs, "\"%s\"", moutstr(pentry->svalue));
 	  else
-	    fprintf(fs, "%d", pentry->ivalue);
+	    fz_fprintf(fs, "%d", pentry->ivalue);
 	  
 	  ITERATOR_NEXT(ent_iter);
 	  ITERATOR_NEXT(col_iter);
 	  
 	  icol++;
 	  if(icol==ncol) {
-	    fprintf(fs, "\n");
+	    fz_fprintf(fs, "\n");
 	    irow++;
 	    icol = 0;
 	    col_iter = save_iter;
@@ -668,17 +675,25 @@ int section_file_save(struct section_file *my_section_file, const char *filename
       if(!pentry) break;
 
       if(pentry->svalue)
-	fprintf(fs, "%s=\"%s\"\n", pentry->name, moutstr(pentry->svalue));
+	fz_fprintf(fs, "%s=\"%s\"\n", pentry->name, moutstr(pentry->svalue));
       else
-	fprintf(fs, "%s=%d\n", pentry->name, pentry->ivalue);
+	fz_fprintf(fs, "%s=%d\n", pentry->name, pentry->ivalue);
     }
   }
   section_list_iterate_end;
   
   moutstr(NULL);		/* free internal buffer */
 
-  if(ferror(fs) || fclose(fs) == EOF)
+  if (fz_ferror(fs)) {
+    freelog(LOG_NORMAL, "Error before closing %s: %s", filename,
+	    fz_strerror(fs));
+    fz_fclose(fs);
     return 0;
+  }
+  if (fz_fclose(fs) != 0) {
+    freelog(LOG_NORMAL, "Error closing %s", filename);
+    return 0;
+  }
 
   return 1;
 }

@@ -251,6 +251,9 @@
 /* Define if you have the nls library (-lnls).  */
 #undef HAVE_LIBNLS
 
+/* Define if you have the z library (-lz).  */
+#undef HAVE_LIBZ
+
 /* Name of package */
 #undef PACKAGE
 
