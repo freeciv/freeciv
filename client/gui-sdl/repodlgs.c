@@ -1144,3 +1144,27 @@ void popup_science_dialog(bool make_modal)
 
   science_dialog_update();
 }
+
+/**************************************************************************
+  Popdow all the science reports (report, chnge tech, change goals).
+**************************************************************************/
+void popdown_all_science_dialogs(void)
+{
+  if(pChangeTechDlg) {
+    lock_buffer(pChangeTechDlg->pEndWidgetList->dst);
+    popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
+				  pChangeTechDlg->pEndWidgetList);
+    unlock_buffer();
+    FREE(pChangeTechDlg->pScroll);
+    FREE(pChangeTechDlg);
+  }
+  if(pScienceDlg) {
+    popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
+				  pScienceDlg->pEndWidgetList);
+    FREE(pScienceDlg);
+    set_wstate(get_research_widget(), WS_NORMAL);
+    redraw_icon2(get_research_widget());
+    sdl_dirty_rect(get_research_widget()->size);
+  }  
+}
+  

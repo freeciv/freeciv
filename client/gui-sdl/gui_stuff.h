@@ -37,64 +37,54 @@
 
 /* Widget FLAGS -> allowed 20 flags */
 /* default: ICON_CENTER_Y, ICON_ON_LEFT */
-#define WF_HIDDEN			0x400	/* 1024 */
-#define WF_FREE_GFX			0x800	/* 2048 */
-#define WF_FREE_THEME			0x1000	/* 4096 */
-#define WF_FREE_STRING			0x2000	/* 8192 */
-#define WF_DRAW_THEME_TRANSPARENT	0x4000	/* 16384 */
-#define WF_ICON_ABOVE_TEXT		0x8000	/* 32768 */
-#define WF_ICON_UNDER_TEXT		0x10000	/* 65536 */
-#define WF_ICON_CENTER			0x20000	/* 131072 */
-#define WF_ICON_CENTER_RIGHT		0x40000	/* 262144 */
-#define WF_WIDGET_HAS_INFO_LABEL	0x80000	/* 524288 */
-#define WF_DRAW_FRAME_AROUND_WIDGET	0x100000 /* 1048576 */
-#define WF_DRAW_TEXT_LABEL_WITH_SPACE	0x200000 /* 2097152 */
-#define WF_FREE_DATA			0x400000 /* # */
-#define WF_SELLECT_WITHOUT_BAR		0x800000 /* # */
+enum WFlags {
+  WF_HIDDEN				= (1<<10),	/* 1024 */
+  WF_FREE_GFX	 			= (1<<11),	/* 2048 */
+  WF_FREE_THEME			= (1<<12),	/* 4096 */
+  WF_FREE_STRING			= (1<<13),	/* 8192 */
+  WF_DRAW_THEME_TRANSPARENT	 	= (1<<14),	/* 16384 */
+  WF_ICON_ABOVE_TEXT			= (1<<15),	/* 32768 */
+  WF_ICON_UNDER_TEXT			= (1<<16),	/* 65536 */
+  WF_ICON_CENTER			= (1<<17),	/* 131072 */
+  WF_ICON_CENTER_RIGHT			= (1<<18),	/* 262144 */
+  WF_WIDGET_HAS_INFO_LABEL		= (1<<19),	/* 524288 */
+  WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<20),	/* 1048576 */
+  WF_DRAW_TEXT_LABEL_WITH_SPACE	= (1<<21),	/* 2097152 */
+  WF_FREE_DATA				= (1<<22),	/* 4194304 */
+  WF_SELLECT_WITHOUT_BAR		= (1<<23)	/* 8388608 */
+};
 
 /* Widget states */
 enum WState {
-  WS_NORMAL = 0,
-  WS_SELLECTED = 1,
-  WS_PRESSED = 2,
-  WS_DISABLED = 3
+  WS_NORMAL	= 0,
+  WS_SELLECTED	= 1,
+  WS_PRESSED	= 2,
+  WS_DISABLED	= 3
 };
 
 /* Widget Types */
 enum WTypes {			/* allow 64 widgets type */
-  WT_BUTTON = 4,		/* Button with Text (not use !!!)
+  WT_BUTTON	 = 4,		/* Button with Text (not use !!!)
 				   ( can be transparent ) */
-  WT_I_BUTTON = 8,		/* Button with TEXT and ICON
+  WT_I_BUTTON	 = 8,		/* Button with TEXT and ICON
 				   ( static; can't be transp. ) */
-  WT_TI_BUTTON = 12,		/* Button with TEXT and ICON
+  WT_TI_BUTTON	= 12,		/* Button with TEXT and ICON
 				   (themed; can't be transp. ) */
-  WT_EDIT = 16,			/* edit field   */
-  WT_ICON = 20,			/* flat Button from 4 - state icon */
+  WT_EDIT	= 16,		/* edit field   */
+  WT_ICON	= 20,		/* flat Button from 4 - state icon */
   WT_VSCROLLBAR = 24,		/* bugy */
-  WT_HSCROLLBAR = 28,		/* not use (Not DEFINED !!) */
-  WT_WINDOW = 32,
-  WT_T_LABEL = 36,		/* text label with theme backgroud */
-  WT_I_LABEL = 40,		/* text label with icon */
-  WT_TI_LABEL = 44,		/* text label with icon and theme backgroud.
+  WT_HSCROLLBAR = 28,		/* bugy */
+  WT_WINDOW	= 32,
+  WT_T_LABEL	= 36,		/* text label with theme backgroud */
+  WT_I_LABEL	= 40,		/* text label with icon */
+  WT_TI_LABEL	= 44,		/* text label with icon and theme backgroud.
 				   NOTE: Not DEFINED- don't use
 				   ( can't be transp. ) */
-  WT_CHECKBOX = 48,		/* checkbox. */
-  WT_TCHECKBOX = 52,		/* text label with checkbox. */
-  WT_ICON2 = 56,		/* flat Button from 1 - state icon */
-  WT_T2_LABEL = 60
+  WT_CHECKBOX	= 48,		/* checkbox. */
+  WT_TCHECKBOX	= 52,		/* text label with checkbox. */
+  WT_ICON2	= 56,		/* flat Button from 1 - state icon */
+  WT_T2_LABEL	= 60
 };
-
-struct ScrollBar {
-  Uint16 active;		/* used by scroll: active(sean)
-				   size of scroll list */
-  Uint16 count;			/* total size of scroll list */
-  Sint16 min;			/* used by scroll: min position */
-  Sint16 max;			/* used by scroll: max position */
-};
-
-#define scrollbar_size(pScroll) 					\
-  fc__extension((float)((float)(pScroll->active) / (float)pScroll->count) * \
-    				(pScroll->max - pScroll->min))
 
 struct GUI {
   struct GUI *next;
@@ -116,6 +106,21 @@ struct GUI {
   Uint16 ID;			/* ID in widget list */
 };
 
+struct ScrollBar {
+  struct GUI *pUp_Left_Button;
+  struct GUI *pScrollBar;
+  struct GUI *pDown_Right_Button;  
+  Uint16 active;		/* used by scroll: active(sean)
+				   size of scroll list */
+  Uint16 count;		/* total size of scroll list */
+  Sint16 min;			/* used by scroll: min position */
+  Sint16 max;			/* used by scroll: max position */
+};
+
+#define scrollbar_size(pScroll) 					\
+  fc__extension((float)((float)(pScroll->active) / (float)pScroll->count) * \
+    				(pScroll->max - pScroll->min))
+
 /* Struct to basic window group dialog ( without scrollbar ) */
 struct SMALL_DLG {
   struct GUI *pBeginWidgetList;
@@ -129,7 +134,7 @@ struct ADVANCED_DLG {
     
   struct GUI *pBeginActiveWidgetList;
   struct GUI *pEndActiveWidgetList;
-  struct GUI *pActiveWidgetList;
+  struct GUI *pActiveWidgetList; /* first seen widget */
   struct ScrollBar *pScroll;
 };
 
@@ -220,11 +225,25 @@ struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
 				      struct GUI *pBeginActiveWidgetLIST,
 				      struct GUI *pBeginWidgetLIST,
 				      struct GUI *pEndWidgetLIST);
+	      
+Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
+		  Sint16 start_x, Sint16 start_y, Uint16 hight, Uint16 active,
+		  bool create_scrollbar, bool create_buttons, bool swap_start_x);
 
 void vscroll_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar);
 void down_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar);
 void up_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar);
   
+bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
+				      struct GUI *pNew_Widget,
+				      struct GUI *pAdd_Dock, bool dir,
+					Sint16 start_x, Sint16 start_y);
+				      
+/* Horizontal scrolling */
+Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
+		  Sint16 start_x, Sint16 start_y, Uint16 width, Uint16 active,
+		  bool create_scrollbar, bool create_buttons, bool swap_start_y);
+
 /* ICON */
 void set_new_icon_theme(struct GUI *pIcon_Widget,
 			SDL_Surface *pNew_Theme);
@@ -336,14 +355,28 @@ do {						\
 	(pWidget)->state_types_flags &= ~((flag) & FLAG_MASK)
 
 #define get_wstate(pWidget)				\
-	fc__extension(pWidget->state_types_flags & STATE_MASK)
+	fc__extension((enum WState)(pWidget->state_types_flags & STATE_MASK))
 
 #define get_wtype(pWidget)				\
-	fc__extension(pWidget->state_types_flags & TYPE_MASK)
+	fc__extension((enum WTypes)(pWidget->state_types_flags & TYPE_MASK))
 
 #define get_wflags(pWidget)				\
-	fc__extension(pWidget->state_types_flags & FLAG_MASK)
+	fc__extension((enum WFlags)(pWidget->state_types_flags & FLAG_MASK))
 
+
+#define hide_scrollbar(scrollbar)			\
+do {							\
+  set_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);	\
+  set_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+  set_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
+} while(0)
+
+#define show_scrollbar(scrollbar)				\
+do {								\
+  clear_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
+  clear_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+  clear_wflag(scrollbar->pScrollBar, WF_HIDDEN);		\
+} while(0)
 
 #define FREEWIDGET(pGUI)			\
 do {						\

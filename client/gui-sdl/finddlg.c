@@ -63,12 +63,7 @@ static int exit_find_city_dlg_callback(struct GUI *pWidget)
   int orginal_x = ((struct map_position *)pWidget->data)->x;
   int orginal_y = ((struct map_position *)pWidget->data)->y;
       
-  popdown_window_group_dialog(pFind_City_Dlg->pBeginWidgetList,
-			pFind_City_Dlg->pEndWidgetList);
-				   
-  FREE(pFind_City_Dlg->pScroll);
-  FREE(pFind_City_Dlg);
-  enable_and_redraw_find_city_button();
+  popdown_find_dialog();
   
   center_tile_mapcanvas(orginal_x, orginal_y);
   
@@ -141,7 +136,7 @@ void popdown_find_dialog(void)
 			pFind_City_Dlg->pEndWidgetList);
     FREE(pFind_City_Dlg->pScroll);
     FREE(pFind_City_Dlg);
-    flush_dirty();
+    enable_and_redraw_find_city_button();
   }
 }
 

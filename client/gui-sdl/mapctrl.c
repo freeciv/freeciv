@@ -62,6 +62,7 @@
 
 #include "inputdlg.h"
 #include "mapview.h"
+#include "messagewin.h"
 #include "menu.h"
 #include "tilespec.h"
 #include "cma_core.h"
@@ -382,6 +383,30 @@ static int move_new_city_dlg_callback(struct GUI *pWindow)
   return std_move_window_group_callback(pNewCity_Dlg->pBeginWidgetList, pWindow);
 }
 
+
+static int togle_msg_window(struct GUI *pWidget)
+{
+  
+  if(is_meswin_open()) {
+    popdown_meswin_dialog();
+    FREE(pWidget->string16->text);
+    pWidget->string16->text = convert_to_utf16(_("Show Log (F10)"));
+  } else {
+    popup_meswin_dialog();
+    FREE(pWidget->string16->text);
+    pWidget->string16->text = convert_to_utf16(_("Hide Log (F10)"));
+  }
+
+  pSellected_Widget = pWidget;
+  set_wstate(pWidget, WS_SELLECTED);
+  real_redraw_icon(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  
+  flush_dirty();
+  return -1;
+}
+
+
 /* ============================== Public =============================== */
 
 /**************************************************************************
@@ -528,10 +553,7 @@ void Init_MapView(void)
   add_to_gui_list(ID_ECONOMY, pBuf);
   pTax_Button = pBuf;
 
-  /* research button *
-  pBuf = create_themeicon(NULL, Main.gui, WF_FREE_GFX | WF_FREE_THEME
-						  | WF_WIDGET_HAS_INFO_LABEL);
-						  */
+  /* research button */
   pBuf = create_icon2(NULL, Main.gui, WF_FREE_GFX | WF_FREE_THEME
 						  | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->string16 = create_str16_from_char(_("Research (F6)"), 12);
@@ -629,10 +651,13 @@ void Init_MapView(void)
   add_to_gui_list(ID_NEW_TURN, pBuf);
 
   /* show/hide log window button */
-  /* this button was created in "Init_Log_Window(...)" function */
-  pBuf =
-      get_widget_pointer_form_main_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
-  move_widget_to_front_of_gui_list(pBuf);
+  pBuf = create_themeicon(pTheme->LOG_Icon, Main.gui,
+						  WF_WIDGET_HAS_INFO_LABEL);
+  pBuf->string16 = create_str16_from_char(_("Hide Log (F10)"), 12);
+  pBuf->action = togle_msg_window;
+  pBuf->key = SDLK_F10;
+  add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pBuf);
+
 
   pBuf->size.x = 166;
   pBuf->size.y = pBuf->dst->h - MINI_MAP_H + FRAME_WH + 2 + pBuf->size.h;

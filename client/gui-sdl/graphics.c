@@ -814,9 +814,6 @@ void quit_sdl(void)
 **************************************************************************/
 int set_video_mode(int iWidth, int iHeight, int iFlags)
 {
-#ifdef DEBUG_SDL
-  SDL_PixelFormat *pFmt;
-#endif
 
   /* find best bpp */
   int iDepth = SDL_GetVideoInfo()->vfmt->BitsPerPixel;
@@ -877,27 +874,6 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   Main.gui = SDL_DisplayFormatAlpha(Main.screen);
   SDL_FillRect(Main.gui, NULL, 0x0);
   /*SDL_SetColorKey(Main.gui , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);*/
-
-#ifdef DEBUG_SDL
-  if (iFlags & SDL_HWSURFACE && !(Main.screen->flags & SDL_HWSURFACE))
-    freelog(LOG_DEBUG, _("Plik %s (linia %d): Nie moge stworzyæ \
-					ekranu w pamiêci karty... "), __FILE__, __LINE__);
-  if (iFlags & SDL_DOUBLEBUF && !(Main.screen->flags & SDL_DOUBLEBUF))
-    freelog(LOG_DEBUG, _("Plik %s (linia %d): Nie moge stworzyæ \
-			podwójnie buforwanego ekranu ... "), __FILE__, __LINE__);
-  if (iFlags & SDL_FULLSCREEN && !(Main.screen->flags & SDL_FULLSCREEN))
-    freelog(LOG_DEBUG, _("Plik %s (linia %d): Nie moge prze³±czyæ \
-			do trybu pe³noekranowego ... "), __FILE__, __LINE__);
-
-  pFmt = Main.screen->format;
-  freelog(LOG_DEBUG, _("Plik %s (linia %d): Format Trybu Video : "
-		       "%d x %d Masks: R=%i, G=%i, B=%i | LShft: "
-		       "R=%i, G=%i, B=%i |"
-		       "RShft: R=%i, G=%i, B=%i BBP: %i ... "),
-	  __FILE__, __LINE__, iWidth, iHeight, pFmt->Rmask, pFmt->Gmask,
-	  pFmt->Bmask, pFmt->Rshift, pFmt->Gshift, pFmt->Bshift,
-	  pFmt->Rloss, pFmt->Gloss, pFmt->Bloss, pFmt->BitsPerPixel);
-#endif
 
   return 0;
 }

@@ -78,6 +78,7 @@
 #include "mapview.h"
 
 extern char *pDataPath;
+extern SDL_Event *pFlush_User_Event;
 
 /* These values are stored in the mapview_canvas struct now. */
 #define map_view_x0 mapview_canvas.map_x0

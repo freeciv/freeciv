@@ -62,6 +62,8 @@
 #include "gui_tilespec.h"
 #include "gui_main.h"
 #include "repodlgs.h"
+#include "finddlg.h"
+#include "messagewin.h"
 
 #include "mapview.h"
 #include "mapctrl.h"
@@ -84,7 +86,6 @@ do { 						\
   pBuf->action = pCallback;			\
 } while(0)
 
-
 static void popdown_unit_select_dialog(void);
 static void popdown_advanced_terrain_dialog(void);
 static void popdown_terrain_info_dialog(void);
@@ -95,6 +96,8 @@ static void popdown_incite_dialog(void);
 static void popdown_connect_dialog(void);
 static void popdown_bribe_dialog(void);
 static void popdown_taxrate_dialog(void);
+static void popdown_revolution_dialog(void);
+
 /********************************************************************** 
   This function is called when the client disconnects or the game is
   over.  It should close all dialog windows for that game.
@@ -113,6 +116,10 @@ void popdown_all_game_dialogs(void)
   popdown_connect_dialog();
   popdown_bribe_dialog();
   popdown_taxrate_dialog();
+  popdown_find_dialog();
+  popdown_revolution_dialog();
+  popdown_all_science_dialogs();
+  popdown_meswin_dialog();
   
   /* clear city text buffer */
   SDL_FillRect(Main.text, NULL, 0x0);
@@ -4296,12 +4303,10 @@ static int revolution_dlg_ok_callback(struct GUI *pButton)
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_REVOLUTION);
 
-  popdown_window_group_dialog(pRevolutionDlg->pBeginWidgetList,
-			      pRevolutionDlg->pEndWidgetList);
-  FREE(pRevolutionDlg);
-  enable_and_redraw_revolution_button();
+  popdown_revolution_dialog();
   
   SDL_Client_Flags |= CF_REVOLUTION;
+  
   flush_dirty();
   return (-1);
 }
@@ -4311,10 +4316,7 @@ static int revolution_dlg_ok_callback(struct GUI *pButton)
 **************************************************************************/
 static int revolution_dlg_cancel_callback(struct GUI *pCancel_Button)
 {
-  popdown_window_group_dialog(pRevolutionDlg->pBeginWidgetList,
-			      pRevolutionDlg->pEndWidgetList);
-  FREE(pRevolutionDlg);
-  enable_and_redraw_revolution_button();
+  popdown_revolution_dialog();
   flush_dirty();
   return (-1);
 }
@@ -4327,6 +4329,18 @@ static int move_revolution_dlg_callback(struct GUI *pWindow)
   return std_move_window_group_callback(pRevolutionDlg->pBeginWidgetList, pWindow);
 }
 
+/**************************************************************************
+  Close the revolution dialog.
+**************************************************************************/
+static void popdown_revolution_dialog(void)
+{
+  if(pRevolutionDlg) {
+    popdown_window_group_dialog(pRevolutionDlg->pBeginWidgetList,
+			      pRevolutionDlg->pEndWidgetList);
+    FREE(pRevolutionDlg);
+    enable_and_redraw_revolution_button();
+  }
+}
 
 /* ==================== Public ========================= */
 
@@ -4438,19 +4452,6 @@ void popup_revolution_dialog(void)
   redraw_group(pOK_Button, pWindow, 0);
   sdl_dirty_rect(pWindow->size);
   flush_dirty();
-}
-
-/**************************************************************************
-  Close the revolution dialog.
-**************************************************************************/
-void popdown_revolution_dialog(void)
-{
-  if(pRevolutionDlg) {
-    popdown_window_group_dialog(pRevolutionDlg->pBeginWidgetList,
-			      pRevolutionDlg->pEndWidgetList);
-    FREE(pRevolutionDlg);
-    flush_dirty();
-  }
 }
 
 /**************************************************************************

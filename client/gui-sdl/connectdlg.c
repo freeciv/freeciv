@@ -63,6 +63,12 @@ static int convert_portnr_callback(struct GUI *pWidget);
 static int convert_playername_callback(struct GUI *pWidget);
 static int convert_servername_callback(struct GUI *pWidget);
 static int popup_join_game_callback(struct GUI *pWidget);
+  
+
+/*
+  THOSE FUNCTIONS ARE ONE BIG TMP SOLUTION AND SHOULD BE FULL REWRITEN !!
+*/
+
 /**************************************************************************
   ...
 **************************************************************************/
@@ -171,7 +177,7 @@ static int sellect_meta_severs_callback(struct GUI *pWidget)
 **************************************************************************/
 static int up_meta_severs_callback(struct GUI *pButton)
 {
-  down_advanced_dlg(pMeta_Severs, pButton->prev);
+  up_advanced_dlg(pMeta_Severs, pButton->prev);
   
   unsellect_widget_action();
   pSellected_Widget = pButton;
@@ -362,7 +368,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   pWindow->size.y = (pWindow->dst->h - meta_h) /2;
   
   pLogo = get_logo_gfx();
-  if (resize_window(pWindow , pLogo , NULL , w , meta_h )) {
+  if (resize_window(pWindow , pLogo , NULL , w , meta_h)) {
     FREESURFACE(pLogo);
   }
   
@@ -517,9 +523,7 @@ static int cancel_connect_dlg_callback(struct GUI *pWidget)
   return -1;
 }
 
-/*
-  This function is one big tmp solution and should be full rewriten !!
-*/
+
 static int popup_join_game_callback(struct GUI *pWidget)
 {
   char pCharPort[6];
@@ -817,6 +821,15 @@ void gui_server_connect(void)
   draw_frame(pFirst->dst, pFirst->size.x - FRAME_WH, pFirst->size.y - FRAME_WH ,
   	w + DOUBLE_FRAME_WH, (h*5) + DOUBLE_FRAME_WH);
 
+  set_output_window_text(_("SDLClient welcome you..."));
+
+  set_output_window_text(_("Freeciv is free software and you are welcome "
+			   "to distribute copies of "
+			   "it under certain conditions;"));
+  set_output_window_text(_("See the \"Copying\" item on the Help"
+			   " menu."));
+  set_output_window_text(_("Now.. Go give'em hell!"));
+  
   flush_all();
 }
 

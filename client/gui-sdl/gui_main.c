@@ -100,7 +100,7 @@ enum USER_EVENT_ID {
 };
 
 Uint32 SDL_Client_Flags = 0;
-Uint32 widget_info_cunter = 0;
+Uint32 widget_info_counter = 0;
 
 char *pDataPath = NULL;
 extern bool draw_goto_patrol_lines;
@@ -117,7 +117,6 @@ static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 
 static void gui_main_loop(void);
-static int optiondlg_callback(struct GUI *p);
 
 /* =========================================================== */
 
@@ -201,17 +200,19 @@ static void gui_main_loop(void)
 	  SDL_PushEvent(pNet_User_Event);
 	}
       }
-    } /* if */
+    } else { /* if connection not establish */
+      SDL_Delay(10);
+    }
     /* ========================================= */
     
     t2 = SDL_GetTicks();
     if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
-      if(widget_info_cunter || autoconnect) {
-        if(widget_info_cunter > 10) {
+      if(widget_info_counter || autoconnect) {
+        if(widget_info_counter > 10) {
           SDL_PushEvent(pInfo_User_Event);
-          widget_info_cunter = 0;
+          widget_info_counter = 0;
         } else {
-          widget_info_cunter++;
+          widget_info_counter++;
           SDL_PushEvent(pAnim_User_Event);
         }
       } else {
@@ -437,20 +438,6 @@ static Uint32 game_timer_callback(Uint32 interval, void *param)
 
 #endif
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int optiondlg_callback(struct GUI *pButton)
-{
-  set_wstate(pButton, WS_DISABLED);
-  real_redraw_icon(pButton);
-  flush_rect(pButton->size);
-
-  popup_optiondlg();
-
-  return -1;
-}
-
 void add_autoconnect_to_timer(void)
 {
   autoconnect = TRUE;
@@ -500,6 +487,7 @@ void ui_init(void)
   FREESURFACE(pTmp);
   
   SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
+  putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, 0xFF000000);
   SDL_SetAlpha(pBgd, 0x0, 0x0);
   
   load_intro_gfx();
@@ -576,14 +564,7 @@ void ui_main(int argc, char *argv[])
   
   tilespec_setup_city_icons();
 
-  pSellected_Widget = create_themeicon(pTheme->Options_Icon, Main.gui,
-				       (WF_WIDGET_HAS_INFO_LABEL |
-					WF_DRAW_THEME_TRANSPARENT));
-
-  pSellected_Widget->action = optiondlg_callback;
-  pSellected_Widget->string16 = create_str16_from_char(_("Options"), 12);
-  pSellected_Widget->key = SDLK_TAB;
-  add_to_gui_list(ID_CLIENT_OPTIONS, pSellected_Widget);
+  init_options_button();
   
   /* clear double call */
   for(i=0; i<E_LAST; i++) {
@@ -593,17 +574,6 @@ void ui_main(int argc, char *argv[])
     }
   }
   
-  popup_meswin_dialog();
-  
-  set_output_window_text(_("SDLClient welcome you..."));
-
-  set_output_window_text(_("Freeciv is free software and you are welcome "
-			   "to distribute copies of "
-			   "it under certain conditions;"));
-  set_output_window_text(_("See the \"Copying\" item on the Help"
-			   " menu."));
-  set_output_window_text(_("Now.. Go give'em hell!"));
-
   Init_Input_Edit();
   
   Init_MapView();

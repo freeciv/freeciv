@@ -22,6 +22,7 @@
 #ifndef FC__OPTIONDLG_H
 #define FC__OPTIONDLG_H
 
+void init_options_button(void);
 void popup_optiondlg(void);
 void podown_optiondlg(void);
 
