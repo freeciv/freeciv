@@ -73,6 +73,7 @@ EXTRA_DIST=	acconfig.old			\
 		m4/win32-client.m4		\
 		m4/x.213			\
 		m4/x.252			\
+		m4/xaw-client.m4		\
 		vms/config.h_vms		\
 		vms/freeciv_h.vms		\
 		vms/imlib_config.h_vms		\
