@@ -1336,11 +1336,13 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->ai.tech_goal=pinfo->tech_goal;
   
   if (can_client_change_view() && pplayer == game.player_ptr) {
+    if (poptechup || new_tech) {
+      science_dialog_update();
+    }
     if (poptechup) {
       if (!game.player_ptr->ai.control || ai_popup_windows) {
 	popup_science_dialog(FALSE);
       }
-      science_dialog_update();
     }
     if (new_tech) {
       /* If we just learned bridge building and focus is on a settler
