@@ -132,76 +132,6 @@ struct city *find_city_wonder(Impr_Type_id id)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-int city_specialists(struct city *pcity)
-{
-  return (pcity->ppl_elvis+pcity->ppl_scientist+pcity->ppl_taxman);
-}
-
-/**************************************************************************
-v 1.0j code was too rash, only first penalty now!
-**************************************************************************/
-int content_citizens(struct player *pplayer) 
-{
-  int cities  = city_list_size(&pplayer->cities);
-  int content = game.unhappysize;
-  int basis   = game.cityfactor + get_gov_pplayer(pplayer)->empire_size_mod;
-  int step    = get_gov_pplayer(pplayer)->empire_size_inc;
-
-  if (cities > basis) {
-    content--;
-    if (step)
-      content -= (cities - basis - 1) / step;
-    /* the first penalty is at (basis + 1) cities;
-       the next is at (basis + step + 1), _not_ (basis + step) */
-  }
-  return content;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int get_temple_power(struct city *pcity)
-{
-  struct player *p=&game.players[pcity->owner];
-  int power=1;
-  if (get_invention(p, game.rtech.temple_plus)==TECH_KNOWN)
-    power=2;
-  if (city_affected_by_wonder(pcity, B_ORACLE)) 
-    power*=2;
-  return power;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int get_cathedral_power(struct city *pcity)
-{
-  struct player *p=&game.players[pcity->owner];
-  int power = 3;
-  if (get_invention(p, game.rtech.cathedral_minus/*A_COMMUNISM*/) == TECH_KNOWN)
-   power--;
-  if (get_invention(p, game.rtech.cathedral_plus/*A_THEOLOGY*/) == TECH_KNOWN)
-   power++;
-  if (improvement_variant(B_MICHELANGELO)==1 && city_affected_by_wonder(pcity, B_MICHELANGELO))
-   power*=2;
-  return power;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int get_colosseum_power(struct city *pcity)
-{
-  int power = 3;
-  struct player *p=&game.players[pcity->owner];
-  if (get_invention(p, game.rtech.colosseum_plus/*A_ELECTRICITY*/) == TECH_KNOWN)
-   power++;
-  return power;
-}
-
-/**************************************************************************
   calculate the remaining build points 
 **************************************************************************/
 int build_points_left(struct city *pcity)
@@ -501,66 +431,6 @@ int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 }
 
 /**************************************************************************
-corruption, corruption is halfed during love the XXX days.
-**************************************************************************/
-int city_corruption(struct city *pcity, int trade)
-{
-  struct government *g = get_gov_pcity(pcity);
-  struct city *capital;
-  int dist;
-  int val;
-
-  if (g->corruption_level == 0) {
-    return 0;
-  }
-  if (g->fixed_corruption_distance) {
-    dist = g->fixed_corruption_distance;
-  } else {
-    capital=find_palace(city_owner(pcity));
-    if (!capital)
-      dist=36;
-    else {
-      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
-      dist=MIN(36,tmp);
-    }
-  }
-  dist = dist * g->corruption_distance_factor + g->extra_corruption_distance;
-  val=trade*dist/g->corruption_modifier;
-
-  if (city_got_building(pcity, B_COURTHOUSE) ||   
-      city_got_building(pcity, B_PALACE))
-    val /= 2;
-  val *= g->corruption_level;
-  val /= 100;
-  if (val > trade)
-    val = trade;
-  return(val); /* how did y'all let me forget this one? -- Syela */
-}
-  
-/**************************************************************************
-...
-**************************************************************************/
-int set_city_shield_bonus(struct city *pcity)
-{
-  int tmp = 0;
-  if (city_got_building(pcity, B_FACTORY)) {
-    if (city_got_building(pcity, B_MFG))
-      tmp = 100;
-    else
-      tmp = 50;
-
-    if (city_affected_by_wonder(pcity, B_HOOVER) ||
-        city_got_building(pcity, B_POWER) ||
-        city_got_building(pcity, B_HYDRO) ||
-        city_got_building(pcity,B_NUCLEAR))
-      tmp *= 1.5;
-  }
-
-  pcity->shield_bonus = tmp + 100;
-  return (tmp + 100);
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 int city_shield_bonus(struct city *pcity)
@@ -571,49 +441,9 @@ int city_shield_bonus(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int set_city_tax_bonus(struct city *pcity)
-{
-  int tax_bonus = 100;
-  if (city_got_building(pcity, B_MARKETPLACE)) {
-    tax_bonus+=50;
-    if (city_got_building(pcity, B_BANK)) {
-      tax_bonus+=50;
-      if (city_got_building(pcity, B_STOCK)) 
-	tax_bonus+=50;
-    }
-  }
-  pcity->tax_bonus = tax_bonus;
-  return tax_bonus;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 int city_tax_bonus(struct city *pcity)
 {
   return pcity->tax_bonus;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int set_city_science_bonus(struct city *pcity)
-{
-  int science_bonus = 100;
-  if (city_got_building(pcity, B_LIBRARY)) {
-    science_bonus+=50;
-    if (city_got_building(pcity, B_UNIVERSITY)) {
-      science_bonus+=50;
-    }
-    if (city_got_effect(pcity, B_RESEARCH))
-      science_bonus+=50;
-  }
-  if (city_affected_by_wonder(pcity, B_COPERNICUS)) 
-    science_bonus+=50;
-  if (city_affected_by_wonder(pcity, B_ISAAC))
-    science_bonus+=100;
-  pcity->science_bonus = science_bonus;
-  return science_bonus;
 }
 
 /**************************************************************************
@@ -639,7 +469,6 @@ int wants_to_be_bigger(struct city *pcity)
   } /* saves a lot of stupid flipflops -- Syela */
   return 0;
 }
-
 
 /*********************************************************************
 Note: the old unit is not wiped here.
@@ -961,7 +790,6 @@ struct city *transfer_city(struct player *ptaker,
   sync_cities();
   return pcity;
 }
-
 
 /**************************************************************************
 ...
@@ -1319,33 +1147,6 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 }
 
 /**************************************************************************
-  Here num_free is eg government->free_unhappy, and this_cost is
-  the unhappy cost for a single unit.  We subtract this_cost from
-  num_free as much as possible. 
-
-  Note this treats the free_cost as number of eg happiness points,
-  not number of eg military units.  This seems to make more sense
-  and makes results not depend on order of calculation. --dwp
-**************************************************************************/
-void adjust_city_free_cost(int *num_free, int *this_cost)
-{
-  if (*num_free <= 0 || *this_cost <= 0) {
-    return;
-  }
-  if (*num_free >= *this_cost) {
-    *num_free -= *this_cost;
-    *this_cost = 0;
-  } else {
-    *this_cost -= *num_free;
-    *num_free = 0;
-  }
-}
-
-
-
-
-
-/**************************************************************************
 This fills out a package from a players dumb_city.
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, int x, int y,
@@ -1635,9 +1436,6 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   *p='\0';
 }
 
-
-
-
 /**************************************************************************
 updates a players knowledge about a city. If the player_tile already
 contains a city it must be the same city (avoid problems by always calling
@@ -1684,7 +1482,6 @@ void reality_check_city(struct player *pplayer,int x, int y)
     }
   }
 }
-
 
 /**************************************************************************
 ...
@@ -1745,10 +1542,6 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
   return tb;
 }
 
-
-
-
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1774,8 +1567,6 @@ void building_lost(struct city *pcity, int id)
     spaceship_lost(owner);
   }
 }
-
-
 
 /**************************************************************************
   Change the build target.

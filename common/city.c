@@ -31,8 +31,26 @@
 #define SPECLIST_TYPE struct city
 #include "speclist_c.h"
 
-static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
+/* start helper functions for generic_city_refresh */
+static int content_citizens(struct player *pplayer);
+static int set_city_shield_bonus(struct city *pcity);
+static int set_city_tax_bonus(struct city *pcity);
+static int set_city_science_bonus(struct city *pcity);
+static void set_tax_income(struct city *pcity);
+static void add_buildings_effect(struct city *pcity);
+static void happy_copy(struct city *pcity, int i);
+static void citizen_happy_size(struct city *pcity);
+static void citizen_happy_luxury(struct city *pcity);
+static void citizen_happy_units(struct city *pcity, int unhap);
+static void citizen_happy_buildings(struct city *pcity);
+static void citizen_happy_wonders(struct city *pcity);
+static void unhappy_city_check(struct city *pcity);
+static void set_pollution(struct city *pcity);
+static void set_food_trade_shields(struct city *pcity);
+static void city_support(struct city *pcity);
+/* end helper functions for generic_city_refresh */
 
+static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 
 /* Iterate a city map, from the center (the city) outwards */
 
@@ -51,6 +69,12 @@ int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2] =
 };
 
 struct citystyle *city_styles = NULL;
+
+/* from server/unittools.h */
+void send_unit_info(struct player *dest, struct unit *punit);
+
+/* from client/civclient.c or server/srv_main.c */
+extern int is_server;
 
 /**************************************************************************
 ...
@@ -1240,6 +1264,631 @@ int city_granary_size(int city_size)
 {
   return (game.rgame.granary_food_ini * game.foodbox) +
     (game.rgame.granary_food_inc * city_size * game.foodbox) / 100;
+}
+
+/**************************************************************************
+v 1.0j code was too rash, only first penalty now!
+**************************************************************************/
+static int content_citizens(struct player *pplayer)
+{
+  int cities = city_list_size(&pplayer->cities);
+  int content = game.unhappysize;
+  int basis = game.cityfactor + get_gov_pplayer(pplayer)->empire_size_mod;
+  int step = get_gov_pplayer(pplayer)->empire_size_inc;
+
+  if (cities > basis) {
+    content--;
+    if (step)
+      content -= (cities - basis - 1) / step;
+    /* the first penalty is at (basis + 1) cities;
+       the next is at (basis + step + 1), _not_ (basis + step) */
+  }
+  return content;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int set_city_shield_bonus(struct city *pcity)
+{
+  int tmp = 0;
+  if (city_got_building(pcity, B_FACTORY)) {
+    if (city_got_building(pcity, B_MFG))
+      tmp = 100;
+    else
+      tmp = 50;
+
+    if (city_affected_by_wonder(pcity, B_HOOVER) ||
+	city_got_building(pcity, B_POWER) ||
+	city_got_building(pcity, B_HYDRO) ||
+	city_got_building(pcity, B_NUCLEAR)) tmp *= 1.5;
+  }
+
+  pcity->shield_bonus = tmp + 100;
+  return (tmp + 100);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int set_city_tax_bonus(struct city *pcity)
+{
+  int tax_bonus = 100;
+  if (city_got_building(pcity, B_MARKETPLACE)) {
+    tax_bonus += 50;
+    if (city_got_building(pcity, B_BANK)) {
+      tax_bonus += 50;
+      if (city_got_building(pcity, B_STOCK))
+	tax_bonus += 50;
+    }
+  }
+  pcity->tax_bonus = tax_bonus;
+  return tax_bonus;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int set_city_science_bonus(struct city *pcity)
+{
+  int science_bonus = 100;
+  if (city_got_building(pcity, B_LIBRARY)) {
+    science_bonus += 50;
+    if (city_got_building(pcity, B_UNIVERSITY)) {
+      science_bonus += 50;
+    }
+    if (city_got_effect(pcity, B_RESEARCH))
+      science_bonus += 50;
+  }
+  if (city_affected_by_wonder(pcity, B_COPERNICUS))
+    science_bonus += 50;
+  if (city_affected_by_wonder(pcity, B_ISAAC))
+    science_bonus += 100;
+  pcity->science_bonus = science_bonus;
+  return science_bonus;
+}
+
+/**************************************************************************
+calculate the incomes according to the taxrates and # of specialists.
+**************************************************************************/
+static void set_tax_income(struct city *pcity)
+{
+  int sci = 0, tax = 0, lux = 0, rate;
+  pcity->science_total = 0;
+  pcity->luxury_total = 0;
+  pcity->tax_total = 0;
+  rate = pcity->trade_prod;
+  while (rate) {
+    if (get_gov_pcity(pcity)->index != game.government_when_anarchy) {
+      tax +=
+	  (100 - game.players[pcity->owner].economic.science -
+	   game.players[pcity->owner].economic.luxury);
+      sci += game.players[pcity->owner].economic.science;
+      lux += game.players[pcity->owner].economic.luxury;
+    } else {			/* ANARCHY */
+      lux += 100;
+    }
+    if (tax >= 100 && rate) {
+      tax -= 100;
+      pcity->tax_total++;
+      rate--;
+    }
+    if (sci >= 100 && rate) {
+      sci -= 100;
+      pcity->science_total++;
+      rate--;
+    }
+    if (lux >= 100 && rate) {
+      lux -= 100;
+      pcity->luxury_total++;
+      rate--;
+    }
+  }
+  pcity->luxury_total += (pcity->ppl_elvis * 2);
+  pcity->science_total += (pcity->ppl_scientist * 3);
+  pcity->tax_total += (pcity->ppl_taxman * 3);
+}
+
+/**************************************************************************
+Modify the incomes according to various buildings. 
+**************************************************************************/
+static void add_buildings_effect(struct city *pcity)
+{
+  int tax_bonus, science_bonus;
+  int shield_bonus;
+
+  /* this is the place to set them */
+  tax_bonus = set_city_tax_bonus(pcity);	
+  science_bonus = set_city_science_bonus(pcity);
+  shield_bonus = set_city_shield_bonus(pcity);
+
+  pcity->shield_prod = (pcity->shield_prod * shield_bonus) / 100;
+  pcity->luxury_total = (pcity->luxury_total * tax_bonus) / 100;
+  pcity->tax_total = (pcity->tax_total * tax_bonus) / 100;
+  pcity->science_total = (pcity->science_total * science_bonus) / 100;
+  pcity->shield_surplus = pcity->shield_prod;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void happy_copy(struct city *pcity, int i)
+{
+  pcity->ppl_unhappy[i + 1] = pcity->ppl_unhappy[i];
+  pcity->ppl_content[i + 1] = pcity->ppl_content[i];
+  pcity->ppl_happy[i + 1] = pcity->ppl_happy[i];
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void citizen_happy_size(struct city *pcity)
+{
+  int workers, tmp;
+
+  workers = pcity->size - city_specialists(pcity);
+  tmp = content_citizens(&game.players[pcity->owner]);
+  pcity->ppl_content[0] = MAX(0, MIN(workers, tmp));
+  pcity->ppl_unhappy[0] = workers - pcity->ppl_content[0];
+  pcity->ppl_happy[0] = 0;	/* no one is born happy */
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void citizen_happy_luxury(struct city *pcity)
+{
+  int x = pcity->luxury_total;
+  happy_copy(pcity, 0);
+  /* make people happy, content are made happy first, then unhappy content,
+     etc.  each conversions costs 2 luxuries. */
+  while (x >= 2 && (pcity->ppl_content[1])) {
+    pcity->ppl_content[1]--;
+    pcity->ppl_happy[1]++;
+    x -= 2;
+  }
+  while (x >= 4 && pcity->ppl_unhappy[1]) {
+    pcity->ppl_unhappy[1]--;
+    pcity->ppl_happy[1]++;
+/*    x-=2; We can't seriously mean this, right? -- Syela */
+    x -= 4;
+  }
+  if (x >= 2 && pcity->ppl_unhappy[1]) {
+    pcity->ppl_unhappy[1]--;
+    pcity->ppl_content[1]++;
+    x -= 2;
+  }
+}
+
+/**************************************************************************
+...
+ Note Suffrage/Police is always dealt with elsewhere now --dwp 
+**************************************************************************/
+static void citizen_happy_units(struct city *pcity, int unhap)
+{
+  int step;
+
+  if (unhap > 0) {
+    step = MIN(unhap, pcity->ppl_content[3]);
+    pcity->ppl_content[3] -= step;
+    pcity->ppl_unhappy[3] += step;
+    unhap -= step;
+    if (unhap > 0) {
+      step = MIN((unhap / 2), pcity->ppl_happy[3]);
+      pcity->ppl_happy[3] -= step;
+      pcity->ppl_unhappy[3] += step;
+      unhap -= step * 2;
+      if ((unhap > 0) && pcity->ppl_happy[3]) {
+	pcity->ppl_happy[3]--;
+	pcity->ppl_content[3]++;
+	unhap--;
+      }
+    }
+  }
+  /* MAKE VERY UNHAPPY CITIZENS WITH THE REST, but that is not documented */
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void citizen_happy_buildings(struct city *pcity)
+{
+  struct government *g = get_gov_pcity(pcity);
+  int faces = 0;
+  happy_copy(pcity, 1);
+
+  if (city_got_building(pcity, B_TEMPLE)) {
+    faces += get_temple_power(pcity);
+  }
+  if (city_got_building(pcity, B_COURTHOUSE) && g->corruption_level == 0) {
+    faces++;
+  }
+
+  if (city_got_building(pcity, B_COLOSSEUM))
+    faces += get_colosseum_power(pcity);
+  if (city_got_effect(pcity, B_CATHEDRAL))
+    faces += get_cathedral_power(pcity);
+  while (faces && pcity->ppl_unhappy[2]) {
+    pcity->ppl_unhappy[2]--;
+    pcity->ppl_content[2]++;
+    faces--;
+  }
+/* no longer hijacking ppl_content[0]; seems no longer to be helpful -- Syela */
+  /* TV doesn't make people happy just content...
+
+     while (faces && pcity->ppl_content[2]) { 
+     pcity->ppl_content[2]--;
+     pcity->ppl_happy[2]++;
+     faces--;
+     }
+
+   */
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void citizen_happy_wonders(struct city *pcity)
+{
+  int bonus = 0;
+  happy_copy(pcity, 3);
+  bonus = 0;
+  if (city_affected_by_wonder(pcity, B_HANGING)) {
+    bonus += 1;
+    if (city_got_building(pcity, B_HANGING))
+      bonus += 2;
+    while (bonus && pcity->ppl_content[4]) {
+      pcity->ppl_content[4]--;
+      pcity->ppl_happy[4]++;
+      bonus--;
+      /* well i'm not sure what to do with the rest, 
+         will let it make unhappy content */
+    }
+  }
+  if (city_affected_by_wonder(pcity, B_BACH))
+    bonus += 2;
+  if (city_affected_by_wonder(pcity, B_CURE))
+    bonus += 1;
+  while (bonus && pcity->ppl_unhappy[4]) {
+    pcity->ppl_unhappy[4]--;
+    pcity->ppl_content[4]++;
+    bonus--;
+  }
+  if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
+    pcity->ppl_content[4] += pcity->ppl_unhappy[4];
+    pcity->ppl_unhappy[4] = 0;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void unhappy_city_check(struct city *pcity)
+{
+  if (city_unhappy(pcity)) {
+    pcity->food_surplus = MIN(0, pcity->food_surplus);
+    pcity->tax_total = 0;
+    pcity->science_total = 0;
+    pcity->shield_surplus = MIN(0, pcity->shield_surplus);
+  }
+}
+
+
+
+/**************************************************************************
+...
+**************************************************************************/
+static void set_pollution(struct city *pcity)
+{
+  int poppul = 0;
+  struct player *pplayer = &game.players[pcity->owner];
+  pcity->pollution = pcity->shield_prod;
+  if (city_got_building(pcity, B_RECYCLING))
+    pcity->pollution /= 3;
+  else if (city_got_building(pcity, B_HYDRO) ||
+	   city_affected_by_wonder(pcity, B_HOOVER) ||
+	   city_got_building(pcity, B_NUCLEAR))
+    pcity->pollution /= 2;
+
+  if (!city_got_building(pcity, B_MASS)) {
+    int mod =
+	player_knows_techs_with_flag(pplayer, TF_POPULATION_POLLUTION_INC);
+    /* was: A_INDUSTRIALIZATION, A_AUTOMOBILE, A_MASS, A_PLASTICS */
+    poppul = (pcity->size * mod) / 4;
+    pcity->pollution += poppul;
+  }
+
+  pcity->pollution = MAX(0, pcity->pollution - 20);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void set_food_trade_shields(struct city *pcity)
+{
+  int i;
+  pcity->food_prod = 0;
+  pcity->shield_prod = 0;
+  pcity->trade_prod = 0;
+
+  pcity->food_surplus = 0;
+  pcity->shield_surplus = 0;
+  pcity->corruption = 0;
+
+  city_map_iterate(x, y) {
+    if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+      pcity->food_prod += city_get_food_tile(x, y, pcity);
+      pcity->shield_prod += city_get_shields_tile(x, y, pcity);
+      pcity->trade_prod += city_get_trade_tile(x, y, pcity);
+    }
+  }
+  city_map_iterate_end;
+  pcity->tile_trade = pcity->trade_prod;
+
+  pcity->food_surplus = pcity->food_prod - pcity->size * 2;
+
+  for (i = 0; i < 4; i++) {
+    pcity->trade_value[i] =
+	trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
+    pcity->trade_prod += pcity->trade_value[i];
+  }
+  pcity->corruption = city_corruption(pcity, pcity->trade_prod);
+  pcity->trade_prod -= pcity->corruption;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void city_support(struct city *pcity)
+{
+  struct government *g = get_gov_pcity(pcity);
+
+  int have_police = city_got_effect(pcity, B_POLICE);
+  int variant = improvement_variant(B_WOMENS);
+
+  int free_happy = citygov_free_happy(pcity, g);
+  int free_shield = citygov_free_shield(pcity, g);
+  int free_food = citygov_free_food(pcity, g);
+  int free_gold = citygov_free_gold(pcity, g);
+
+  if (variant == 0 && have_police) {
+    /* ??  This does the right thing for normal Republic and Democ -- dwp */
+    free_happy += g->unit_happy_cost_factor;
+  }
+
+  happy_copy(pcity, 2);
+
+  /*
+   * If you modify anything here these places might also need updating:
+   * - ai/aitools.c : ai_assess_military_unhappiness
+   *   Military discontentment evaluation for AI.
+   *
+   * P.S.  This list is by no means complete.
+   * --SKi
+   */
+
+  /* military units in this city (need _not_ be home city) can make
+     unhappy citizens content
+   */
+  if (g->martial_law_max > 0) {
+    int city_units = 0;
+    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+      if (city_units < g->martial_law_max && is_military_unit(punit)
+	  && punit->owner == pcity->owner)
+	city_units++;
+    }
+    unit_list_iterate_end;
+    city_units *= g->martial_law_per;
+    city_units = MIN(city_units, pcity->ppl_unhappy[3]);
+    pcity->ppl_unhappy[3] -= city_units;
+    pcity->ppl_content[3] += city_units;
+  }
+
+  /* loop over units, subtracting appropriate amounts of food, shields,
+   * gold etc -- SKi */
+  unit_list_iterate(pcity->units_supported, this_unit) {
+    struct unit_type *ut = get_unit_type(this_unit->type);
+    int shield_cost = utype_shield_cost(ut, g);
+    int happy_cost = utype_happy_cost(ut, g);
+    int food_cost = utype_food_cost(ut, g);
+    int gold_cost = utype_gold_cost(ut, g);
+
+    /* Save old values so ve can decide if the unit info should be resent */
+    int old_unhappiness = this_unit->unhappiness;
+    int old_upkeep = this_unit->upkeep;
+    int old_upkeep_food = this_unit->upkeep_food;
+    int old_upkeep_gold = this_unit->upkeep_gold;
+
+    /* set current upkeep on unit to zero */
+    this_unit->unhappiness = 0;
+    this_unit->upkeep = 0;
+    this_unit->upkeep_food = 0;
+    this_unit->upkeep_gold = 0;
+
+    /* This is how I think it should work (dwp)
+     * Base happy cost (unhappiness) assumes unit is being aggressive;
+     * non-aggressive units don't pay this, _except_ that field units
+     * still pay 1.  Should this be always 1, or modified by other
+     * factors?   Will treat as flat 1.
+     */
+    if (happy_cost > 0 && !unit_being_aggressive(this_unit)) {
+      if (is_field_unit(this_unit)) {
+	happy_cost = 1;
+      } else {
+	happy_cost = 0;
+      }
+    }
+    if (happy_cost > 0 && variant == 1 && have_police) {
+      happy_cost--;
+    }
+
+    /* subtract values found above from city's resources -- SKi */
+    if (happy_cost > 0) {
+      adjust_city_free_cost(&free_happy, &happy_cost);
+      if (happy_cost > 0) {
+	citizen_happy_units(pcity, happy_cost);
+	this_unit->unhappiness = happy_cost;
+      }
+    }
+    if (shield_cost > 0) {
+      adjust_city_free_cost(&free_shield, &shield_cost);
+      if (shield_cost > 0) {
+	pcity->shield_surplus -= shield_cost;
+	this_unit->upkeep = shield_cost;
+      }
+    }
+    if (food_cost > 0) {
+      adjust_city_free_cost(&free_food, &food_cost);
+      if (food_cost > 0) {
+	pcity->food_surplus -= food_cost;
+	this_unit->upkeep_food = food_cost;
+      }
+    }
+    if (gold_cost > 0) {
+      adjust_city_free_cost(&free_gold, &gold_cost);
+      if (gold_cost > 0) {
+	/* FIXME: This is not implemented -- SKi */
+	this_unit->upkeep_gold = gold_cost;
+      }
+    }
+
+    /* Send unit info if anything has changed */
+    if ((this_unit->unhappiness != old_unhappiness
+	 || this_unit->upkeep != old_upkeep
+	 || this_unit->upkeep_food != old_upkeep_food
+	 || this_unit->upkeep_gold != old_upkeep_gold) && is_server) {
+      send_unit_info(unit_owner(this_unit), this_unit);
+    }
+  }
+  unit_list_iterate_end;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void generic_city_refresh(struct city *pcity)
+{
+  set_food_trade_shields(pcity);
+  citizen_happy_size(pcity);
+  set_tax_income(pcity);	/* calc base luxury, tax & bulbs */
+  add_buildings_effect(pcity);	/* marketplace, library wonders.. */
+  set_pollution(pcity);
+  citizen_happy_luxury(pcity);	/* with our new found luxuries */
+  citizen_happy_buildings(pcity);	/* temple cathedral colosseum */
+  city_support(pcity);		/* manage settlers, and units */
+  citizen_happy_wonders(pcity);	/* happy wonders */
+  unhappy_city_check(pcity);
+}
+
+/**************************************************************************
+  Here num_free is eg government->free_unhappy, and this_cost is
+  the unhappy cost for a single unit.  We subtract this_cost from
+  num_free as much as possible. 
+
+  Note this treats the free_cost as number of eg happiness points,
+  not number of eg military units.  This seems to make more sense
+  and makes results not depend on order of calculation. --dwp
+**************************************************************************/
+void adjust_city_free_cost(int *num_free, int *this_cost)
+{
+  if (*num_free <= 0 || *this_cost <= 0) {
+    return;
+  }
+  if (*num_free >= *this_cost) {
+    *num_free -= *this_cost;
+    *this_cost = 0;
+  } else {
+    *this_cost -= *num_free;
+    *num_free = 0;
+  }
+}
+
+/**************************************************************************
+corruption, corruption is halfed during love the XXX days.
+**************************************************************************/
+int city_corruption(struct city *pcity, int trade)
+{
+  struct government *g = get_gov_pcity(pcity);
+  struct city *capital;
+  int dist;
+  int val;
+
+  if (g->corruption_level == 0) {
+    return 0;
+  }
+  if (g->fixed_corruption_distance) {
+    dist = g->fixed_corruption_distance;
+  } else {
+    capital = find_palace(city_owner(pcity));
+    if (!capital)
+      dist = 36;
+    else {
+      int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      dist = MIN(36, tmp);
+    }
+  }
+  dist =
+      dist * g->corruption_distance_factor + g->extra_corruption_distance;
+  val = trade * dist / g->corruption_modifier;
+
+  if (city_got_building(pcity, B_COURTHOUSE) ||
+      city_got_building(pcity, B_PALACE)) val /= 2;
+  val *= g->corruption_level;
+  val /= 100;
+  if (val > trade)
+    val = trade;
+  return (val);			/* how did y'all let me forget this one? -- Syela */
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int city_specialists(struct city *pcity)
+{
+  return (pcity->ppl_elvis + pcity->ppl_scientist + pcity->ppl_taxman);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int get_temple_power(struct city *pcity)
+{
+  struct player *p = &game.players[pcity->owner];
+  int power = 1;
+  if (get_invention(p, game.rtech.temple_plus) == TECH_KNOWN)
+    power = 2;
+  if (city_affected_by_wonder(pcity, B_ORACLE))
+    power *= 2;
+  return power;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int get_cathedral_power(struct city *pcity)
+{
+  struct player *p = &game.players[pcity->owner];
+  int power = 3;
+  if (get_invention(p, game.rtech.cathedral_minus /*A_COMMUNISM */ ) ==
+      TECH_KNOWN) power--;
+  if (get_invention(p, game.rtech.cathedral_plus /*A_THEOLOGY */ ) ==
+      TECH_KNOWN) power++;
+  if (improvement_variant(B_MICHELANGELO) == 1
+      && city_affected_by_wonder(pcity, B_MICHELANGELO))
+    power *= 2;
+  return power;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int get_colosseum_power(struct city *pcity)
+{
+  int power = 3;
+  struct player *p = &game.players[pcity->owner];
+  if (get_invention(p, game.rtech.colosseum_plus /*A_ELECTRICITY */ ) ==
+      TECH_KNOWN) power++;
+  return power;
 }
 
 /**************************************************************************

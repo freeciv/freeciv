@@ -19,9 +19,7 @@ struct player;
 struct unit;
 struct conn_list;
 
-int unit_being_aggressive(struct unit *punit);
-
-int city_refresh(struct city *pcity);          /* call if city has changed */
+void city_refresh(struct city *pcity);          /* call if city has changed */
 void global_city_refresh(struct player *pplayer); /* tax/govt changed */
 
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */

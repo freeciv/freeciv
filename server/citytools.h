@@ -31,11 +31,6 @@
 int city_got_barracks(struct city *pcity);
 int can_sell_building(struct city *pcity, int id);
 struct city *find_city_wonder(Impr_Type_id id);
-int city_specialists(struct city *pcity);                 /* elv+tax+scie */
-int content_citizens(struct player *pplayer); 
-int get_temple_power(struct city *pcity);
-int get_cathedral_power(struct city *pcity);
-int get_colosseum_power(struct city *pcity);
 int build_points_left(struct city *pcity);
 int is_worked_here(int x, int y);
 int food_weighting(int city_size);
@@ -44,12 +39,8 @@ int settler_eats(struct city *pcity);
 int is_building_other_wonder(struct city *pc);
 int built_elsewhere(struct city *pc, int wonder);
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
-int city_corruption(struct city *pcity, int trade);
-int set_city_shield_bonus(struct city *pcity);
 int city_shield_bonus(struct city *pcity);
-int set_city_science_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
-int set_city_tax_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 
 int wants_to_be_bigger(struct city *pcity);
@@ -65,8 +56,6 @@ struct city *transfer_city(struct player *pplayer,
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
 				     int sea_required, struct city *pexclcity);
 void handle_unit_enter_city(struct unit *punit, struct city *pcity);
-
-void adjust_city_free_cost(int *num_free, int *this_cost);
 
 void send_city_info(struct player *dest, struct city *pcity);
 void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,

@@ -376,4 +376,13 @@ int city_granary_size(int city_size);
 void city_add_improvement(struct city *pcity,Impr_Type_id impr);
 void city_remove_improvement(struct city *pcity,Impr_Type_id impr);
 
+/* city update functions */
+void generic_city_refresh(struct city *pcity);
+void adjust_city_free_cost(int *num_free, int *this_cost);
+int city_corruption(struct city *pcity, int trade);
+int city_specialists(struct city *pcity);                 /* elv+tax+scie */
+int get_temple_power(struct city *pcity);
+int get_cathedral_power(struct city *pcity);
+int get_colosseum_power(struct city *pcity);
+
 #endif  /* FC__CITY_H */

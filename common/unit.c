@@ -1316,3 +1316,24 @@ int trireme_loss_pct(struct player *pplayer, int x, int y) {
 
   return losspct;
 }
+
+/**************************************************************************
+An "aggressive" unit is a unit which may cause unhappiness
+under a Republic or Democracy.
+A unit is *not* aggressive if one or more of following is true:
+- zero attack strength
+- inside a city
+- ground unit inside a fortress within 3 squares of a friendly city
+**************************************************************************/
+int unit_being_aggressive(struct unit *punit)
+{
+  if (get_unit_type(punit->type)->attack_strength==0)
+    return 0;
+  if (map_get_city(punit->x,punit->y))
+    return 0;
+  if (is_ground_unit(punit) &&
+      map_get_special(punit->x,punit->y)&S_FORTRESS) 
+    return !is_unit_near_a_friendly_city (punit);
+  
+  return 1;
+}

@@ -210,6 +210,7 @@ struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid);
 int trireme_loss_pct(struct player *pplayer, int x, int y);
 
 int is_my_zoc(int player_id_of_unit_owner, int x0, int y0);
+int unit_being_aggressive(struct unit *punit);
 int can_step_taken_wrt_to_zoc(Unit_Type_id type,
 			      int player_id_of_unit_owner, int src_x,
 			      int src_y, int dest_x, int dest_y);
