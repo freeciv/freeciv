@@ -3340,6 +3340,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   if (caller 
       && caller->player
       && !check
+      && !caller->player->is_observer
       && caller->access_level == ALLOW_INFO
       && commands[cmd].level == ALLOW_CTRL) {
     int idx = caller->player->player_no;
