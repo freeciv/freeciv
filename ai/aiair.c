@@ -301,13 +301,13 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 				 goto_dest_x(punit), goto_dest_y(punit),
 				 pplayer) >= 0) {
       /* It's an ok GOTO, just go there */
-      ai_unit_gothere(punit);
+      ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
     } else if (find_nearest_airbase(punit->x, punit->y, punit, 
 			     &refuel_x, &refuel_y)) {
       /* Go refuelling */
       set_goto_dest(punit, refuel_x, refuel_y);
       freelog(LOG_DEBUG, "Sent %s to refuel", unit_type(punit)->name);
-      ai_unit_gothere(punit);
+      ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
     } else {
       if (punit->fuel == 1) {
 	freelog(LOG_DEBUG, "Oops, %s is fallin outta sky", 
@@ -324,7 +324,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
        * TODO: separate attacking into a function, check for the best 
        * tile to attack from */
       assert(is_goto_dest_set(punit));
-      if (!ai_unit_gothere(punit)) {
+      if (!ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit))) {
         return; /* died */
       }
 
@@ -343,7 +343,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
               (map_get_city(dest_x, dest_y) ? 
                map_get_city(dest_x, dest_y)->name : ""));
       set_goto_dest(punit, dest_x, dest_y);
-      ai_unit_gothere(punit);
+      ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
     } else {
       freelog(LOG_DEBUG, "%s cannot find anything to kill and is staying put", 
               unit_type(punit)->name);

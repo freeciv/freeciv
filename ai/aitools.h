@@ -51,7 +51,6 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 int stack_cost(struct unit *pdef);
 
 bool ai_unit_execute_path(struct unit *punit, struct pf_path *path);
-bool ai_unit_gothere(struct unit *punit);
 bool ai_gothere(struct player *pplayer, struct unit *punit, 
                 int dest_x, int dest_y);
 bool ai_unit_goto(struct unit *punit, int x, int y);

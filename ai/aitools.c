@@ -132,22 +132,6 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
   return TRUE;
 }
 
-/**************************************************************************
-  This will eventually become the ferry-enabled goto. For now, it just
-  wraps ai_unit_goto()
-
-  TODO: Kill me.  Use ai_gothere instead.
-**************************************************************************/
-bool ai_unit_gothere(struct unit *punit)
-{
-  CHECK_UNIT(punit);
-  if (ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit))) {
-    return TRUE; /* ... and survived */
-  } else {
-    return FALSE; /* we died */
-  }
-}
-
 /****************************************************************************
   A helper function for ai_gothere.  Estimates the dangers we will
   be facing at our destination and tries to find/request a bodyguard if 
