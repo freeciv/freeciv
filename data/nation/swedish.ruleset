@@ -75,14 +75,27 @@ government="Democracy"
 ;    gärdsgård' (gotländska <tun> gärdsgård) och med motsvarighet i
 ;    keltiska språk
 ;
+;
+;  Tillordningen namn -> landskap är huvudsakligen gjord enligt
+;  följande:
+;
+;    "holm", "ö" ("a" i Birka), "sjö", "hamn", "sund" -> ocean
+;    "bro", "å" -> river
+;    "ås" -> hills
+;    "köping" -> grassland
+;
 ; */ <-- avoid gettext warnings
 
 cities =
- "Stockholm", "Uppsala", "Sollentuna", "Sigtuna", "Birka",
- "Norrköping", "Linköping", "Örebro", "Gävle", "Västerås",
- "Göteborg", "Karlstad", "Växjö", "Kalmar", "Visby",
- "Malmö", "Helsingborg", "Ystad",  "Lund", "Luleå", "Kiruna",
- "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
- "Piteå", "Skellefteå", "Umeå", "Jönköping", "Kristianstad",
- "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun",
- "Viborg", "Holmgård", "Orsa", "Trollhättan", "Jokkmokk"
+ "Stockholm (ocean)", "Uppsala", "Sollentuna", "Sigtuna",
+ "Birka (ocean)", "Norrköping (grassland)", "Linköping (grassland)",
+ "Örebro (river)", "Gävle", "Västerås (hills)", "Göteborg",
+ "Karlstad", "Växjö (ocean)", "Kalmar", "Visby", "Malmö (ocean)",
+ "Helsingborg", "Ystad",  "Lund", "Luleå (river)",
+ "Kiruna (mountains)", "Halmstad", "Östersund (ocean)",
+ "Nyköping (grassland)", "Söderhamn (ocean)", "Sundsvall (ocean)",
+ "Piteå (river)", "Skellefteå (river)", "Umeå (river)",
+ "Jönköping (grassland)", "Kristianstad",
+ "Karlskrona", "Mora", "Oskarshamn (ocean)", "Hässleholm (ocean)",
+ "Falun", "Viborg", "Holmgård (ocean)", "Orsa (ocean, river)",
+ "Trollhättan", "Jokkmokk (river)"
