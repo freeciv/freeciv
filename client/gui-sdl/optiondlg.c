@@ -1937,7 +1937,7 @@ void popup_optiondlg(void)
   if (resize_window(pTmp_GUI, pLogo, NULL, w, h)) {
     FREESURFACE(pLogo);
   }
-
+  SDL_SetAlpha(pTmp_GUI->theme, 0x0, 0x0);
   set_wstate(pTmp_GUI, WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_WINDOW, pTmp_GUI);
   pOption_Dlg->pEndOptionsWidgetList = pTmp_GUI;

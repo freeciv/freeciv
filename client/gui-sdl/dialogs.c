@@ -624,8 +624,8 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   /* --------------------------------- */
   /* redraw */
   redraw_group(pTerrain_Info_Dlg->pBeginWidgetList, pWindow, 0);
-
-  flush_rect(pWindow->size);
+  sdl_dirty_rect(pWindow->size);
+  flush_dirty();
 }
 /* ====================================================================== */
 /* ========================= ADVANCED_TERRAIN_MENU ====================== */

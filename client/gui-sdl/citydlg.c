@@ -1602,8 +1602,8 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   /* ================================================== */
   /* redraw */
   redraw_group(pHurry_Prod_Dlg->pBeginWidgetList, pWindow, 0);
-
-  flush_rect(pWindow->size);
+  sdl_dirty_rect(pWindow->size);
+  flush_dirty();
 }
 
 /* =======================================================================*/

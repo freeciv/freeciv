@@ -291,7 +291,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   if (resize_window(pWindow , pLogo , NULL , w , meta_h)) {
     FREESURFACE(pLogo);
   }
-  
+  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
   w -= 20;
   
   area.w = w + 1;
@@ -525,6 +525,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   
   area->x = (pUser->dst->w - 400)/ 2;
   area->y = (pUser->dst->h - 250)/ 2 + 40;
+  SDL_SetAlpha(pTmp, 0x0, 0x0);
   SDL_BlitSurface(pTmp, NULL, pUser->dst, area);
   FREESURFACE(pTmp);
 
@@ -705,10 +706,11 @@ void gui_server_connect(void)
   pTmp = ResizeSurface(pLogo, pArea->w, pArea->h , 1);
   FREESURFACE(pLogo);
   
+  SDL_SetAlpha(pTmp, 0x0, 0x0);
   blit_entire_src(pTmp, pFirst->dst, pArea->x , pArea->y);
-  FREESURFACE(pLogo);
+  FREESURFACE(pTmp);
   
-  SDL_FillRectAlpha(pFirst->dst, pArea, &col );
+  SDL_FillRectAlpha(pFirst->dst, pArea, &col);
       
   redraw_group(pLast, pFirst, 0);
   
