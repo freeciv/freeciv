@@ -5,6 +5,7 @@
 *.o
 *.orig
 *.pot
+*.pox
 *.rej
 *~
 .#*
