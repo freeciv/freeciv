@@ -235,7 +235,7 @@ void boot_help_texts(void)
 	   data instead of doing it later on the fly, but I don't want
 	   to change that now.  --dwp
 	*/
-	char name[MAX_LEN_NAME + 2];
+	char name[2048];
 	struct help_list category_nodes;
 	
 	help_list_init(&category_nodes);
