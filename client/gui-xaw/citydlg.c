@@ -284,36 +284,7 @@ static void get_contents_of_output(struct city_dialog *pdialog,
 static void get_contents_of_progress(struct city_dialog *pdialog,
 				     char *retbuf, int n)
 {
-  struct city *pcity = pdialog ? pdialog->pcity : NULL;
-  int stock=0;
-  int cost=0;
-  int turns=0;
-
-  if (pcity) {
-    stock = pcity->shield_stock;
-    if(pcity->is_building_unit) {
-      cost = get_unit_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building,
-				  TRUE, TRUE);
-    } else {
-      cost = get_improvement_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building,
-				  FALSE, TRUE);
-    }
-  }
-
-  if (pcity && (pcity->currently_building==B_CAPITAL)) {
-    /* Capitalization is special, you can't buy it or finish making it */
-    my_snprintf(retbuf, n,
-		concise_city_production ? " %3d/XXX:XXX " :
-		  _(" %3d/XXX XXX turns "),
-		stock);
-  } else {
-    my_snprintf(retbuf, n,
-		concise_city_production ? " %3d/%3d:%3d " :
-		PL_(" %3d/%3d %3d turn ", " %3d/%3d %3d turns ", turns),
-		stock, cost, turns);
-  }
+  get_city_dialog_production(pdialog ? pdialog->pcity : NULL, retbuf, n);
 }
 
 /****************************************************************

@@ -14,7 +14,12 @@
 #ifndef FC__CITYDLG_COMMON_H
 #define FC__CITYDLG_COMMON_H
 
+struct city;
+
 void city_pos_to_canvas_pos(int city_x, int city_y, int *canvas_x, int *canvas_y);
 void canvas_pos_to_city_pos(int canvas_x, int canvas_y, int *map_x, int *map_y);
+
+void get_city_dialog_production(struct city *pcity,
+                                char *buffer, size_t buffer_len);
 
 #endif /* FC__CITYDLG_COMMON_H */

@@ -1763,64 +1763,42 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 *****************************************************************/
 static void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[64], buf3[128];
+  char buf[32], buf2[64], *descr;
   struct city *pcity = pdialog->pcity;
-  int turns;
-
-  int max_shield;
-  int shield;
+  int max_shield, shield;
 
   set(pdialog->buy_button, MUIA_Disabled, pcity->did_buy);
   set(pdialog->sell_button, MUIA_Disabled, pcity->did_sell || pdialog->sell_wnd);
 
-  if (pcity->is_building_unit)
-  {
-    turns = city_turns_to_build(pcity, pcity->currently_building,
-				TRUE, TRUE);
+  get_city_dialog_production(pcity, buf, sizeof(buf));
+
+  if (pcity->is_building_unit) {
     shield = pcity->shield_stock;
     max_shield = get_unit_type(pcity->currently_building)->build_cost;
-
-    my_snprintf(buf, sizeof(buf),
-		PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
-		shield, max_shield, turns);
-    sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
-  }
-  else
-  {
-    if (pcity->currently_building == B_CAPITAL)
-    {
-      /* Capitalization is special, you can't buy it or finish making it */
-      my_snprintf(buf, sizeof(buf),"%d/XXX", pcity->shield_stock);
+    descr = get_unit_type(pcity->currently_building)->name;
+  } else {
+    if (pcity->currently_building == B_CAPITAL) {
+      /* You can't buy Capitalization */
       set(pdialog->buy_button, MUIA_Disabled, TRUE);
 
       shield = 0;
       max_shield = 1;
-    }
-    else
-    {
-      turns = city_turns_to_build(pcity, pcity->currently_building,
-				  FALSE, TRUE);
+    } else {
       shield = pcity->shield_stock;
-      max_shield = get_improvement_type(pcity->currently_building)->build_cost;
-
-      my_snprintf(buf, sizeof(buf),
-		  PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
-		  shield, max_shield, turns);
-
+      max_shield =
+	  get_improvement_type(pcity->currently_building)->build_cost;
     }
-
-    sz_strlcpy(buf2, get_impr_name_ex(pcity, pcity->currently_building));
+    descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
 
-  if (!worklist_is_empty(&pcity->worklist))
-  {
-    my_snprintf(buf3, sizeof(buf3), _("%s (%s) (worklist)"), buf, buf2);
-  } else
-  {
-    my_snprintf(buf3, sizeof(buf3), "%s (%s)", buf, buf2);
+  if (!worklist_is_empty(pcity->worklist)) {
+    my_snprintf(buf2, sizeof(buf2), _("%s (%s) (worklist)"), buf, descr);
+  } else {
+    my_snprintf(buf2, sizeof(buf2), "%s (%s)", buf, descr);
   }
-
-  DoMethod(pdialog->prod_gauge, MUIM_MyGauge_SetGauge, shield, max_shield, buf3);
+  
+  DoMethod(pdialog->prod_gauge, MUIM_MyGauge_SetGauge,
+	   shield, max_shield, buf2);
 }
 
 

@@ -399,51 +399,27 @@ void city_dialog_update_output(struct city_dialog *pdialog)
 
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf3[100];
-  char buf[32], buf2[64];
+  char buf2[100], buf[32], *descr;
   int turns;
   struct city *pcity=pdialog->pcity;    
   
   EnableWindow(pdialog->buy_but,!pcity->did_buy);
   EnableWindow(pdialog->sell_but, !pcity->did_sell);
+
+  get_city_dialog_production(pcity, buf, sizeof(buf));
   
-  if (pcity->is_building_unit)
-    {
-      turns = city_turns_to_build (pcity, pcity->currently_building, TRUE, TRUE);
-      my_snprintf(buf, sizeof(buf),
-		  concise_city_production ? "%3d/%3d:%3d" :
-		  PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
-		  pcity->shield_stock,
-		  get_unit_type(pcity->currently_building)->build_cost,
-		  turns);
-    
-      sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);  
+  if (pcity->is_building_unit) {
+    descr = get_unit_type(pcity->currently_building)->name;
+  } else {
+    if (pcity->currently_building == B_CAPITAL) {
+      /* You can't buy Capitalization. */
+      EnableWindow(pdialog->buy_but, FALSE);
     }
-  else
-    {
-      if(pcity->currently_building==B_CAPITAL)  {
-	/* Capitalization is special, you can't buy it or finish making it */
-	my_snprintf(buf, sizeof(buf),
-		    concise_city_production ? "%3d/XXX:XXX" :
-                    _("%3d/XXX XXX turns"),
-		    pcity->shield_stock);
-	EnableWindow(pdialog->buy_but,FALSE);
-      }
-      else {
-	turns = city_turns_to_build (pcity, pcity->currently_building, FALSE, TRUE);
-	my_snprintf(buf, sizeof(buf),
-		    concise_city_production ? "%3d/%3d:%3d" :
-		    PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
-		    pcity->shield_stock,
-		    get_improvement_type(pcity->currently_building)->
-		    build_cost, turns);
-      }
-      sz_strlcpy(buf2, get_impr_name_ex(pcity, pcity->currently_building));
-    }
-  sz_strlcpy(buf3,buf2);
-  strcat(buf3,"\r\n");
-  strcat(buf3,buf);
-  SetWindowText(pdialog->build_area,buf3);
+    descr = get_impr_name_ex(pcity, pcity->currently_building);
+  }
+
+  my_snprintf(buf2, sizeof(buf2), "%s\r\n%s", descr, buf);
+  SetWindowText(pdialog->build_area, buf2);
   resize_city_dialog(pdialog);
   /* FIXME Worklists */
 }

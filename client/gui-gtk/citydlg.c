@@ -1890,53 +1890,35 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 static void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[200], *descr;
-  int turns;
   struct city *pcity = pdialog->pcity;
   gfloat pct;
+  int cost;
 
   gtk_widget_set_sensitive(pdialog->overview.buy_command, !pcity->did_buy);
   gtk_widget_set_sensitive(pdialog->overview.sell_command,
 			   !pcity->did_sell);
+			
+  get_city_dialog_production(pcity, buf, sizeof(buf));
 
   if (pcity->is_building_unit) {
-    turns =
-	city_turns_to_build(pcity, pcity->currently_building, TRUE, TRUE);
-    my_snprintf(buf, sizeof(buf),
-		concise_city_production ? "%3d/%3d:%3d" :
-		PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
-		pcity->shield_stock,
-		get_unit_type(pcity->currently_building)->build_cost,
-		turns);
+    cost = get_unit_type(pcity->currently_building)->build_cost;
     descr = get_unit_type(pcity->currently_building)->name;
-    pct =
-	(gfloat) pcity->shield_stock /
-	(get_unit_type(pcity->currently_building)->build_cost + 0.1);
-    pct = CLAMP(pct, 0.0, 1.0);
   } else {
     if (pcity->currently_building == B_CAPITAL) {
-      /* Capitalization is special, you can't buy it or finish making it */
-      my_snprintf(buf, sizeof(buf),
-		  concise_city_production ? "%3d/XXX:XXX" :
-		  _("%3d/XXX XXX turns"), pcity->shield_stock);
+      /* You can't buy capitalization */
       gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
-      pct = 1.0;
+      cost = 0;
     } else {
-      turns =
-	  city_turns_to_build(pcity, pcity->currently_building, FALSE,
-			      TRUE);
-      my_snprintf(buf, sizeof(buf),
-		  concise_city_production ? "%3d/%3d:%3d" :
-		  PL_("%3d/%3d %3d turn", "%3d/%3d %3d turns", turns),
-		  pcity->shield_stock,
-		  get_improvement_type(pcity->currently_building)->
-		  build_cost, turns);
-
-      pct = (gfloat) pcity->shield_stock /
-	  (get_improvement_type(pcity->currently_building)->build_cost +
-	   0.1);
-      pct = CLAMP(pct, 0.0, 1.0);
+      cost = get_improvement_type(pcity->currently_building)->build_cost;;
     }
     descr = get_impr_name_ex(pcity, pcity->currently_building);
+  }
+
+  if (cost > 0) {
+    pct = (gfloat) pcity->shield_stock / (gfloat) cost;
+    pct = CLAMP(pct, 0.0, 1.0);
+  } else {
+    pct = 1.0;
   }
   
   my_snprintf(buf2, sizeof(buf2), "%s%s", descr,

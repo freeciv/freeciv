@@ -14,9 +14,13 @@
 #include <config.h>
 #endif
 
+#include "city.h"
+#include "fcintl.h"
 #include "log.h"
+#include "support.h"
 
 #include "citydlg_common.h"
+#include "options.h"		/* for concise_city_production */
 #include "tilespec.h"		/* for is_isometric */
 
 /**************************************************************************
@@ -79,4 +83,64 @@ void canvas_pos_to_city_pos(int canvas_x, int canvas_y, int *map_x, int *map_y)
     *map_y = canvas_y / NORMAL_TILE_HEIGHT;
   }
   freelog(LOG_DEBUG, "canvas_pos_to_city_pos(pos=(%d,%d))=(%d,%d)", canvas_x, canvas_y, *map_x, *map_y);
+}
+
+/**************************************************************************
+  Find the city dialog city production text for the given city, and
+  place it into the buffer.  This will check the
+  concise_city_production option.  pcity may be NULL; in this case a
+  filler string is returned.
+**************************************************************************/
+void get_city_dialog_production(struct city *pcity,
+				char *buffer, size_t buffer_len)
+{
+  int turns, cost, stock;
+
+  if (pcity == NULL) {
+    /* 
+     * Some GUIs use this to build a "filler string" so that they can
+     * properly size the widget to hold the string.  This has some
+     * obvious problems; the big one is that we have two forms of time
+     * information: "XXX turns" and "never".  Later this may need to
+     * be extended to return the longer of the two; in the meantime
+     * translators can fudge it by changing this "filler" string. 
+     */
+    my_snprintf(buffer, buffer_len, Q_("?filler:XXX/XXX XXX turns"));
+    return;
+  }
+
+  turns = city_turns_to_build(pcity, pcity->currently_building,
+			      pcity->is_building_unit, TRUE);
+  stock = pcity->shield_stock;
+
+  if (pcity->is_building_unit) {
+    cost = get_unit_type(pcity->currently_building)->build_cost;
+  } else {
+    cost = get_improvement_type(pcity->currently_building)->build_cost;
+  }
+
+  if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
+    my_snprintf(buffer, buffer_len, _("%3d gold per turn"),
+		pcity->shield_surplus);
+  } else {
+    char time[50];
+
+    if (turns < 999) {
+      if (concise_city_production) {
+	my_snprintf(time, sizeof(time), "%3d", turns);
+      } else {
+	my_snprintf(time, sizeof(time),
+		    PL_("%3d turn", "%3d turns", turns), turns);
+      }
+    } else {
+      my_snprintf(time, sizeof(time), "%s",
+		  concise_city_production ? "-" : _("never"));
+    }
+
+    if (concise_city_production) {
+      my_snprintf(buffer, buffer_len, _("%3d/%3d:%s"), stock, cost, time);
+    } else {
+      my_snprintf(buffer, buffer_len, _("%3d/%3d %s"), stock, cost, time);
+    }
+  }
 }

@@ -38,6 +38,7 @@ server/srv_main.c
 server/stdinhand.c
 server/unithand.c
 server/unittools.c
+client/citydlg_common.c
 client/cityrepdata.c
 client/civclient.c
 client/climisc.c
