@@ -73,8 +73,8 @@ int unit_move_turns(struct unit *punit, int x, int y)
 
 void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 { /* this is smarter than the old one, but much slower too. -- Syela */
-  int i, j, d, f, x, y, con, dest_x=0, dest_y=0, best, lmt, cur, a, b, ct = 3;
-  int ok;
+  int i, j, d, f, x, y, con, dest_x=0, dest_y=0, best, lmt, cur, a, b;
+  int ok, ct = punit->moves_left + 3;
 /*  int id = punit->id; - we can't go BOOM anymore as this is now written */
 
   if (punit->activity != ACTIVITY_IDLE)
@@ -98,7 +98,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
         for (j = 0 - d; j <= d; j += f) {
           if (map_get_tile(x + i, y + j)->special & S_HUT &&
           warmap.cost[map_adjust_x(x + i)][y + j] < best &&
-          (pplayer->ai.control || map_get_known(x+i, y+j, pplayer)) &&
+          (!ai_handicap(pplayer, H_HUTS) || map_get_known(x+i, y+j, pplayer)) &&
           map_get_continent(x + i, y + j) == con) {
             dest_x = map_adjust_x(x + i);
             dest_y = y + j;
@@ -135,11 +135,17 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
           cur = 0;
           for (a = i - 1; a <= i + 1; a++) {
             for (b = j - 1; b <= j + 1; b++) {
-              if (!map_get_known(x + a, y + b, pplayer)) cur++;
+              if (!map_get_known(x + a, y + b, pplayer)) {
+                cur++;
+                if (is_sailing_unit(punit)) {
+                  if (map_get_continent(x+a, y+b) > 2) cur++;
+                }
+              }
               if (!ok && map_get_terrain(x+a, y+b) != T_OCEAN) ok++;
             }
           }
-          if (ok && (cur > best || (cur == best && myrand(2)))) {
+          if (ok && (cur > best || (cur == best && myrand(2))) &&
+              could_unit_move_to_tile(punit, punit->x, punit->y, x+i, y+j)) {
             dest_x = map_adjust_x(x + i);
             dest_y = y + j;
             best = cur;
@@ -264,7 +270,8 @@ int unit_vulnerability_basic(struct unit *punit, struct unit *pdef)
 {
   int v;
 
-  v = get_total_defense_power(punit, pdef) * pdef->hp * 
+  v = get_total_defense_power(punit, pdef) * 
+      (punit->id ? pdef->hp : unit_types[punit->type].hp) * 
            get_unit_type(pdef->type)->firepower / 30;
 
   return(v);
@@ -380,6 +387,8 @@ int ai_military_findvictim(struct player *pplayer, struct unit *punit, int *dest
           a += unit_belligerence_basic(punit);
           a *= a;
           b = unit_types[pdef->type].build_cost;
+          if (map_get_city(xx[i], yy[j])) /* bonus restored 980804 -- Syela */
+            b = (b + 40) * punit->hp / unit_types[punit->type].hp;
 /* c is always equal to zero in this routine, and f is already known */
 /* arguable that I should use reinforcement_cost here?? -- Syela */
           if (a) {
@@ -388,8 +397,8 @@ int ai_military_findvictim(struct player *pplayer, struct unit *punit, int *dest
             if (e > best) {
 /*printf("Better than %d is %d (%s)\n", best, e, unit_types[pdef->type].name);*/
               best = e; *dest_y = yy[j]; *dest_x = xx[i];
-            } /* else printf("NOT better than %d is %d (%s)\n", best, e,
-               unit_types[pdef->type].name); */
+            } /*else printf("NOT better than %d is %d (%s)\n", best, e,
+               unit_types[pdef->type].name);*/
           } /* end if we have non-zero belligerence */
         }
       }
@@ -580,13 +589,13 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
       } /* end if */
 /* end 'short leash' subroutine */
 
-if (ferryboat) printf("GOTHERE: %s#%d@(%d,%d)->(%d,%d)\n", 
-unit_types[punit->type].name, punit->id, punit->x, punit->y, dest_x, dest_y);
+/*if (ferryboat) printf("GOTHERE: %s#%d@(%d,%d)->(%d,%d)\n", 
+unit_types[punit->type].name, punit->id, punit->x, punit->y, dest_x, dest_y);*/
       punit->activity = ACTIVITY_GOTO;
       do_unit_goto(pplayer,punit);
 /* liable to bump into someone that will kill us.  Should avoid? */
-    } else printf("%s#%d@(%d,%d) not moving -> (%d, %d)\n",
-unit_types[punit->type].name, punit->id, punit->x, punit->y, dest_x, dest_y);
+    } /*else printf("%s#%d@(%d,%d) not moving -> (%d, %d)\n",
+unit_types[punit->type].name, punit->id, punit->x, punit->y, dest_x, dest_y);*/
   }
   if (unit_list_find(&pplayer->units, id)) { /* didn't die */
     punit->ai.ai_role = AIUNIT_NONE; /* in case we need to change */
@@ -852,6 +861,8 @@ pcity->name, pcity->x, pcity->y, a);*/
     aplayer = &game.players[i];
     if (aplayer != pplayer) { /* enemy */
       city_list_iterate(aplayer->cities, acity)
+        if (ai_handicap(pplayer, H_TARGETS) &&
+            !map_get_known(acity->x, acity->y, pplayer)) continue;
         sanity = goto_is_sane(pplayer, punit, acity->x, acity->y, 1);
         if ((is_ground_unit(punit) &&
           ((sanity && warmap.cost[acity->x][acity->y] < maxd) || 
@@ -932,6 +943,8 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
 /* I'm not sure the following code is good but it seems to be adequate. -- Syela */
 /* I am deliberately not adding ferryboat code to the unit_list_iterate. -- Syela */
       unit_list_iterate(aplayer->units, aunit)
+        if (ai_handicap(pplayer, H_TARGETS) &&
+            !map_get_known(aunit->x, aunit->y, pplayer)) continue;
         if (aunit == get_defender(pplayer, punit, aunit->x, aunit->y) &&
            ((is_ground_unit(punit) &&
                 map_get_continent(aunit->x, aunit->y) == con &&
@@ -1070,6 +1083,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   punit->goto_dest_x = punit->x;
   punit->goto_dest_y = punit->y;
   generate_warmap(map_get_city(punit->x, punit->y), punit);
+  p = 0; /* yes, I know it's already zero. -- Syela */
   unit_list_iterate(pplayer->units, aunit)
 /*    if (aunit->ai.ferryboat == punit->id && warmap.seacost[aunit->x][aunit->y] < best) {*/
     if (aunit->ai.ferryboat && warmap.seacost[aunit->x][aunit->y] < best &&
@@ -1079,6 +1093,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       y = aunit->y;
       best = warmap.seacost[x][y];
     }
+    if (is_sailing_unit(aunit) && map_get_terrain(aunit->x, aunit->y) == T_OCEAN) p++;
   unit_list_iterate_end;
   if (best < 4 * unit_types[punit->type].move_rate) {
     punit->goto_dest_x = x;
@@ -1095,12 +1110,17 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (!punit->moves_left) return;  
   pcity = find_city_by_id(punit->homecity);
   if (pcity) {
+    if (!ai_handicap(pplayer, H_TARGETS) ||
+        unit_move_turns(punit, pcity->x, pcity->y) < p) {
 /*printf("No friends.  Going home.\n");*/
-    punit->goto_dest_x = pcity->x;
-    punit->goto_dest_y = pcity->y;
-    punit->activity = ACTIVITY_GOTO;
-    do_unit_goto(pplayer,punit);
+      punit->goto_dest_x = pcity->x;
+      punit->goto_dest_y = pcity->y;
+      punit->activity = ACTIVITY_GOTO;
+      do_unit_goto(pplayer,punit);
+      return;
+    }
   }
+  ai_manage_explorer(pplayer, punit);
   return;
 }
 
