@@ -128,6 +128,7 @@ enum draw_type {
 #define D_FULL D_TMB_LR
 
 #define BORDER_WIDTH 2
+#define GOTO_WIDTH 2
 
 enum update_type {
   /* Masks */
