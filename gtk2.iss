@@ -1,6 +1,6 @@
 [Setup]
 AppName=Freeciv
-AppVerName=Freeciv 1.14.1 (EXPERIMENTAL WINDOWS BUILD)
+AppVerName=Freeciv 1.14.1
 AppVersion=1.14.1
 AppPublisher=The Freeciv Team
 AppPublisherURL=http://www.freeciv.org
@@ -20,7 +20,6 @@ OutputBaseFilename=Freeciv-1.14.1
 ChangesAssociations=no
 ; the line below skips Types section and always sets Type to custom
 AlwaysShowComponentsList=yes
-; temporarily turn this off for testing
 ;MinVersion=0,4.0
 
 [Types]
@@ -31,8 +30,8 @@ Name: "custom"; Description: "Custom installation"; Flags: iscustom
 
 [Components]
 Name: "main"; Description: "Main Files"; Types: full custom serveronly clientonly; Flags: fixed
-Name: "server"; Description: "Freeciv client"; Types: full custom serveronly
-Name: "client"; Description: "Freeciv server"; Types: full custom clientonly
+Name: "server"; Description: "Freeciv server"; Types: full custom serveronly
+Name: "client"; Description: "Freeciv client"; Types: full custom clientonly
 Name: "sound"; Description: "Sound pack"; Types: full custom clientonly
 ;Name: "lang"; Description: "Translations"; Types: full custom clientonly serveronly
 
@@ -68,6 +67,13 @@ Source: "doc\PEOPLE"; DestDir: "{app}"; DestName: "PEOPLE.TXT"; Components: main
 Source: "data\misc\server.ico"; DestDir: "{app}\data\misc"; DestName: "server.ico"; Components: server
 Source: "data\misc\client.ico"; DestDir: "{app}\data\misc"; DestName: "client.ico"; Components: client
 ;Source: "po\*.gmo"; DestDir: "{app}\po"; Components: lang
+
+; Libraries
+Source: "zlib.dll"; DestDir: "{app}"; Components: main
+Source: "SDL_mixer.dll"; DestDir: "{app}"; Components: client
+Source: "SDL.dll"; DestDir: "{app}"; Components: client
+Source: "jpeg-62.dll"; DestDir: "{app}"; Components: client
+Source: "libpng.dll"; DestDir: "{app}"; Components: client
 
 [Icons]
 Name: "{group}\Freeciv Client"; Filename: "{app}\civclient.exe"; Comment: "Play Freeciv!"; IconFilename: "{app}\data\misc\client.ico"; Components: client; WorkingDir: "{app}"
@@ -107,7 +113,7 @@ function InitializeSetup(): Boolean;
 begin
   Result := GetGtkInstalled ();
   if not Result then begin
-    MsgBox ('Please install the GTK+ 2.0 Runtime Environment before installing Freeciv.  You can obtain GTK+ from http://www.dropline.net/gtk.', mbError, MB_OK);
+    MsgBox ('Please install the GTK+ 2.1 Runtime Environment before installing Freeciv.  You can obtain GTK+ from http://www.dropline.net/gtk.', mbError, MB_OK);
   end;
 end;
 
