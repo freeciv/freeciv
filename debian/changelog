@@ -1,3 +1,54 @@
+freeciv (1.10.0) unstable; urgency=low
+
+  * New upstream release; hilights:
+    - more i18n
+    - "connect" command (tell a settler to build eg. road from X to Y)
+    - dazzling number of nations to choose from
+    - worklist (select the next N things to build in a city)
+  * Merging back Torsten's changes - thank you Torsten
+
+ -- Lalo Martins <lalo@debian.org>  Wed, 23 Feb 2000 14:06:55 -0200
+
+freeciv (1.9.0-2.1) unstable; urgency=low
+
+  * Non maintainer upload.
+  * Make the client packages depend on freeciv >= 1.9 (closes: #49667).
+  * Disabled building of the empty freeciv-xaw package which made no sense.
+  * Added --cache-file option to configure invocations to speed up the 
+    build process.
+  * Installed HOWTOPLAY into each package since it is quite small compared 
+    to the overall size of the software (closes: #36091).
+  * Made the whole beast FHS compliant (closes: #49506).
+  * Installed changelog into each package (lintian).
+  * Made a doc directory for each package.
+  * Removed icon="none" from menu files (lintian).
+  * Added #DEBHELPER# to install/remove scripts.
+  * Removed calls to update-menus from scripts because debhelper already 
+    takes care of this and there is a small time penalty on (de)installation.
+  * Updated location of GPL license in copyright file.
+  * Made civ.1.gz a slave of civ so that man civ will work (closes: 47352)
+  * Checked old bug reports:
+    - Help window stays after reconnecting (closes: #48016)
+    - /usr/games/civ is not any longer a script but maintained by the 
+      alternatives system (closes: #25589)
+    - civclient-gtk is dynamically linked (closes: #48017). Probably the 
+      problem was the result of a defect GTK installation during the 
+      build.
+    - according to the logs, bug 26795 was fixed upstream (closes: #26795)
+    - resizing does not produce any gaps with the current version 
+      (closes: #26797)
+    - dh_clean takes care of removing debian/files (closes: #32780)
+    - Debian unstable version is current (closes: #38980, #48221)
+  * As the freeciv-xaw package is no longer build it can't have a bug *eg*
+    - the bad link is not anymore (closes: #48214)
+    - update-xaw-wrappers is not needed/called anymore (closes: #24108)
+    - another problem with xaw is a non-issue (closes: #26396)
+    - We do not care for alternatives vs. xaw-wrappers anymore (closes: #31907)
+    - The new xaw-wrappers config format does not tangle us (closes: #37111)
+    - Non-existent civclient-xaw will not segfault ;) (closes: #38368)
+
+ -- Torsten Landschoff <torsten@debian.org>  Wed, 23 Feb 2000 14:06:02 -0200
+
 freeciv (1.9.0-2) unstable; urgency=low
 
   * Disabled the building of the freeciv-xaw package because if nobody uses

@@ -6,6 +6,9 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+COMMON_CONFIG := --cache-file=$(shell pwd)/config.cache 		\
+		 --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games
+
 build: build-xaw3d build-gtk build-base
 build-stamp:
 	dh_testdir
@@ -16,30 +19,26 @@ build-base:
 	dh_testdir
 
 	mkdir build-base
-	(cd build-base; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --disable-client; $(MAKE))
-
-build-xaw:
-	dh_testdir
-
-	mkdir build-xaw
-	(cd build-xaw; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --with-xaw --disable-server; $(MAKE))
+	(cd build-base; ../configure $(COMMON_CONFIG) --disable-client; $(MAKE))
 
 build-xaw3d:
 	dh_testdir
 
 	mkdir build-xaw3d
-	(cd build-xaw3d; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --with-xaw3d --disable-server; $(MAKE))
+	(cd build-xaw3d; 	\
+	 ../configure $(COMMON_CONFIG) --disable-server --with-xaw3d; $(MAKE))
 
 build-gtk:
 	dh_testdir
 
 	mkdir build-gtk
-	(cd build-gtk; ../configure --prefix=/usr --datadir=/usr/share/games --bindir=/usr/games --disable-server; $(MAKE))
+	(cd build-gtk; ../configure $(COMMON_CONFIG) --disable-server; $(MAKE))
 
 clean:
 	dh_testdir
 	dh_testroot
-	-rm -Rf build-stamp build-xaw3d build-xaw build-gtk build-base install-stamp
+	-rm -Rf build-stamp build-xaw3d build-xaw build-gtk build-base 
+	-rm -f install-stamp config.cache
 	dh_clean
 
 	-rm -f debian/*~ Makefile Makefile.bak core */Makefile
@@ -82,9 +81,10 @@ binary-arch: build install
 	dh_testdir
 	dh_testroot
 	dh_installdocs -pfreeciv
+	dh_installdocs -a HOWTOPLAY
 #	ln -fs freeciv debian/freeciv-xaw/usr/doc/freeciv-xaw
-	ln -fs freeciv debian/freeciv-xaw3d/usr/doc/freeciv-xaw3d
-	ln -fs freeciv debian/freeciv-gtk/usr/doc/freeciv-gtk
+#	ln -fs freeciv debian/freeciv-xaw3d/usr/doc/freeciv-xaw3d
+#	ln -fs freeciv debian/freeciv-gtk/usr/doc/freeciv-gtk
 	dh_installexamples
 	dh_installmenu
 #	dh_installxaw
@@ -97,7 +97,7 @@ binary-arch: build install
 	dh_installmanpages -pfreeciv
 #	/usr/bin/install debian/xaw-wrappers debian/tmp/usr/lib/xaw-wrappers/conf/freeciv
 #	dh_undocumented
-	dh_installchangelogs -pfreeciv
+	dh_installchangelogs ChangeLog
 	dh_strip
 #	dh_strip -pfreeciv-xaw
 	dh_strip -pfreeciv-xaw3d
@@ -109,23 +109,11 @@ binary-arch: build install
 #	dh_installdeb -pfreeciv-xaw
 	dh_installdeb -pfreeciv-xaw3d
 	dh_installdeb -pfreeciv-gtk
-	dh_shlibdeps
-#	dh_shlibdeps -pfreeciv-xaw
-	dh_shlibdeps -pfreeciv-xaw3d
-	dh_shlibdeps -pfreeciv-gtk
-	dh_gencontrol
-#	dh_gencontrol -pfreeciv-xaw
-	dh_gencontrol -pfreeciv-xaw3d
-	dh_gencontrol -pfreeciv-gtk
+	dh_shlibdeps -A
+	dh_gencontrol -A
 #	dh_makeshlibs
-	dh_md5sums
-#	dh_md5sums -pfreeciv-xaw
-	dh_md5sums -pfreeciv-xaw3d
-	dh_md5sums -pfreeciv-gtk
-	dh_builddeb
-#	dh_builddeb -pfreeciv-xaw
-	dh_builddeb -pfreeciv-xaw3d
-	dh_builddeb -pfreeciv-gtk
+	dh_md5sums -A
+	dh_builddeb -A
 
 source diff:
 	@echo 'source and diff are obsolete - use dpkg-source -b' >&2 ; false

@@ -2,7 +2,7 @@ Source: freeciv
 Section: games
 Priority: optional
 Maintainer: Lalo Martins <lalo@webcom.com>
-Standards-Version: 2.4.0.0
+Standards-Version: 3.0.1
 
 Package: freeciv
 Architecture: any
@@ -16,25 +16,9 @@ Description: A free Civilization clone for Unix and X.
  .
  This package now contains only the server and common datafiles.
 
-Package: freeciv-xaw
-Architecture: any
-Depends: ${shlibs:Depends}
-Recommends: xaw-wrappers (>= 0.25)
-Provides: freeciv-client
-Description: A free Civilization clone for Unix and X.
- Freeciv is a clone of Civilization, distributed under the GPL and
- implemented for X.  Freeciv is a turn-based strategy game, in which
- each player becomes leader of a civilization, fighting to obtain
- the ultimate goal: The extinction of all other civilizations.
- .
- This package contains only the civclient-xaw executable; it recommends
- xaw-wrappers because it requires the original Xaw library and cannot work
- with replacements like xaw3d and nextaw. The xaw-wrappers package is
- necessary if you have such replacement libraries installed.
-
 Package: freeciv-xaw3d
 Architecture: any
-Depends: freeciv, xaw3dg (>=1.3-1), ${shlibs:Depends}
+Depends: freeciv (>= 1.10), xaw3dg (>=1.3-1), ${shlibs:Depends}
 Provides: freeciv-client
 Description: A free Civilization clone for Unix and X.
  Freeciv is a clone of Civilization, distributed under the GPL and
@@ -48,7 +32,7 @@ Description: A free Civilization clone for Unix and X.
 
 Package: freeciv-gtk
 Architecture: any
-Depends: freeciv, ${shlibs:Depends}
+Depends: freeciv (>= 1.10), ${shlibs:Depends}
 Provides: freeciv-client
 Description: A free Civilization clone for Unix and X.
  Freeciv is a clone of Civilization, distributed under the GPL and
