@@ -241,7 +241,8 @@ void update_unit_info_label(struct unit *punit)
 **************************************************************************/
 Pixmap get_thumb_pixmap(int onoff)
 {
-  return sprites.treaty_thumb[BOOL_VAL(onoff)]->pixmap;
+  /* FIXME: what about the mask? */
+  return get_treaty_thumb_sprite(BOOL_VAL(onoff))->pixmap;
 }
 
 /**************************************************************************
