@@ -118,7 +118,10 @@ static enum {
 
   /* 15=2^4-1 sprites.  A single sprite is drawn, chosen based on whether
    * there's darkness in _each_ of the cardinal directions. */
-  DARKNESS_CARD_FULL = 3
+  DARKNESS_CARD_FULL = 3,
+
+  /* Corner darkness & fog.  3^4 = 81 sprites. */
+  DARKNESS_CORNER = 4
 } darkness_style;
 
 struct specfile;
@@ -872,7 +875,7 @@ bool tilespec_read_toplevel(const char *tileset_name)
 				 "tilespec.fogstyle");
   darkness_style = secfile_lookup_int(file, "tilespec.darkness_style");
   if (darkness_style < DARKNESS_NONE
-      || darkness_style > DARKNESS_CARD_FULL
+      || darkness_style > DARKNESS_CORNER
       || (darkness_style == DARKNESS_ISORECT
 	  && (!is_isometric || hex_width > 0 || hex_height > 0))) {
     freelog(LOG_FATAL, _("Invalid darkness style set in tileset."));
@@ -1510,6 +1513,26 @@ static void tilespec_lookup_sprite_tags(void)
       my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s",
 		  cardinal_index_str(i));
       SET_SPRITE(tx.darkness[i], buffer);
+    }
+    break;
+  case DARKNESS_CORNER:
+    sprites.tx.fullfog = fc_realloc(sprites.tx.fullfog,
+				    81 * sizeof(*sprites.tx.fullfog));
+    for (i = 0; i < 81; i++) {
+      /* Unknown, fog, known. */
+      char ids[] = {'u', 'f', 'k'};
+      char buf[512] = "t.fog";
+      int values[4], j, k = i;
+
+      for (j = 0; j < 4; j++) {
+	values[j] = k % 3;
+	k /= 3;
+
+	cat_snprintf(buf, sizeof(buf), "_%c", ids[values[j]]);
+      }
+      assert(k == 0);
+
+      sprites.tx.fullfog[i] = load_sprite(buf);
     }
     break;
   }
@@ -2475,6 +2498,57 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
 }
 
 /****************************************************************************
+  Add sprites for fog (and some forms of darkness).
+****************************************************************************/
+static int fill_fog_sprite_array(struct drawn_sprite *sprs,
+				 const struct tile *ptile,
+				 const struct tile_edge *pedge,
+				 const struct tile_corner *pcorner)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+
+  if (fogstyle == FOG_SPRITE && draw_fog_of_war
+      && ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
+    /* With FOG_AUTO, fog is done this way. */
+    ADD_SPRITE_SIMPLE(sprites.tx.fog);
+  }
+
+  if (darkness_style == DARKNESS_CORNER && pcorner && draw_fog_of_war) {
+    int i, tileno = 0;
+
+    for (i = 3; i >= 0; i--) {
+      const int unknown = 0, fogged = 1, known = 2;
+      int value = -1;
+
+      if (!pcorner->tile[i]) {
+	value = known;
+      } else {
+	switch (tile_get_known(pcorner->tile[i])) {
+	case TILE_KNOWN:
+	  value = known;
+	  break;
+	case TILE_KNOWN_FOGGED:
+	  value = fogged;
+	  break;
+	case TILE_UNKNOWN:
+	  value = unknown;
+	  break;
+	}
+      }
+      assert(value >= 0 && value < 3);
+
+      tileno = tileno * 3 + value;
+    }
+
+    if (sprites.tx.fullfog[tileno]) {
+      ADD_SPRITE_SIMPLE(sprites.tx.fullfog[tileno]);
+    }
+  }
+
+  return sprs - saved_sprs;
+}
+
+/****************************************************************************
   Add sprites for the base terrain to the sprite list.  This doesn't
   include specials or rivers.
 ****************************************************************************/
@@ -2650,6 +2724,9 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
       if (tileno != 0) {
 	ADD_SPRITE_SIMPLE(sprites.tx.darkness[tileno]);
       }
+      break;
+    case DARKNESS_CORNER:
+      /* Handled separately. */
       break;
     }
 #undef UNKNOWN
@@ -2837,11 +2914,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
     break;
 
   case LAYER_FOG:
-    if (fogstyle == FOG_SPRITE && draw_fog_of_war
-	&& ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
-      /* With FOG_SPRITE, fog is done this way. */
-      ADD_SPRITE_SIMPLE(sprites.tx.fog);
-    }
+    sprs += fill_fog_sprite_array(sprs, ptile, pedge, pcorner);
     break;
 
   case LAYER_CITY2:

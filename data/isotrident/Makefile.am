@@ -6,6 +6,8 @@ pkgdatadir = $(datadir)/@PACKAGE@/isotrident
 pkgdata_DATA =          \
 	cities.png	\
 	cities.spec	\
+	fog.png		\
+	fog.spec	\
 	morecities.png	\
 	morecities.spec	\
 	nuke.spec	\

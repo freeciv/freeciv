@@ -309,6 +309,7 @@ struct named_sprites {
       *airbase,
       *fallout,
       *fog,
+      **fullfog,
       *spec_river[MAX_INDEX_CARDINAL],
       *darkness[MAX_INDEX_CARDINAL],         /* first unused */
       *river_outlet[4];		/* indexed by enum direction4 */

@@ -22,10 +22,10 @@ is_isometric = 1
 roadstyle = 0
 
 ; Use fogstyle  (old iso style)
-fogstyle = 0
+fogstyle = 2
 
 ; Use darkness style 1 (single-sprite)
-darkness_style = 1
+darkness_style = 4
  
 ; offset the flags by this amount when drawing units
 flag_offset_x = 17
@@ -62,6 +62,7 @@ files =
   "misc/space.spec",
 ;  "misc/techs.spec",
   "misc/treaty.spec",
+  "isotrident/fog.spec",
   "isotrident/nuke.spec",
   "isotrident/cities.spec",
   "isotrident/morecities.spec"
