@@ -54,19 +54,19 @@ int auto_turn_done=0;
 
 client_option options[] = {
   GEN_OPTION(solid_color_behind_units,	N_("Solid unit background color"), COT_BOOL),
-  GEN_OPTION(sound_bell_at_new_turn,	N_("Sound bell at new turn     "), COT_BOOL),
-  GEN_OPTION(smooth_move_units,		N_("Smooth unit moves          "), COT_BOOL),
-  GEN_OPTION(smooth_move_unit_steps,	N_("Smooth unit move steps     "), COT_INT),
-  GEN_OPTION(do_combat_animation,	N_("Show combat animation      "), COT_BOOL),
-  GEN_OPTION(ai_popup_windows,		N_("Popup dialogs in AI Mode   "), COT_BOOL),
+  GEN_OPTION(sound_bell_at_new_turn,	N_("Sound bell at new turn"), COT_BOOL),
+  GEN_OPTION(smooth_move_units,		N_("Smooth unit moves"), COT_BOOL),
+  GEN_OPTION(smooth_move_unit_steps,	N_("Smooth unit move steps"), COT_INT),
+  GEN_OPTION(do_combat_animation,	N_("Show combat animation"), COT_BOOL),
+  GEN_OPTION(ai_popup_windows,		N_("Popup dialogs in AI Mode"), COT_BOOL),
   GEN_OPTION(ai_manual_turn_done,	N_("Manual Turn Done in AI Mode"), COT_BOOL),
-  GEN_OPTION(auto_center_on_unit,	N_("Auto Center on Units       "), COT_BOOL),
-  GEN_OPTION(auto_center_on_combat,	N_("Auto Center on Combat      "), COT_BOOL),
-  GEN_OPTION(wakeup_focus,		N_("Focus on Awakened Units    "), COT_BOOL),
-  GEN_OPTION(draw_diagonal_roads,	N_("Draw Diagonal Roads/Rails  "), COT_BOOL),
-  GEN_OPTION(center_when_popup_city,	N_("Center map when Popup city "), COT_BOOL),
-  GEN_OPTION(concise_city_production,	N_("Concise City Production    "), COT_BOOL),
-  GEN_OPTION(auto_turn_done, 		N_("End Turn when done moving  "), COT_BOOL),
+  GEN_OPTION(auto_center_on_unit,	N_("Auto Center on Units"), COT_BOOL),
+  GEN_OPTION(auto_center_on_combat,	N_("Auto Center on Combat"), COT_BOOL),
+  GEN_OPTION(wakeup_focus,		N_("Focus on Awakened Units"), COT_BOOL),
+  GEN_OPTION(draw_diagonal_roads,	N_("Draw Diagonal Roads/Rails"), COT_BOOL),
+  GEN_OPTION(center_when_popup_city,	N_("Center map when Popup city"), COT_BOOL),
+  GEN_OPTION(concise_city_production,	N_("Concise City Production"), COT_BOOL),
+  GEN_OPTION(auto_turn_done, 		N_("End Turn when done moving"), COT_BOOL),
   GEN_OPTION_TERMINATOR
 };
 
@@ -92,47 +92,47 @@ unsigned int messages_where[E_LAST];
 int sorted_events[E_LAST];
 
 char *message_text[E_LAST]={
-  N_("Low Funds                "), 	/* E_LOW_ON_FUNDS */
-  N_("Pollution                "),
-  N_("Global Eco-Disaster      "),	/* E_GLOBAL_ECO */
-  N_("Civil Disorder           "),
-  N_("City Celebrating         "),
-  N_("City Normal              "),
-  N_("City Growth              "),
-  N_("City Needs Aqueduct      "),
-  N_("Famine in City           "),
-  N_("City Captured/Destroyed  "),
-  N_("Building Unavailable Item"),
-  N_("Wonder Started           "),
-  N_("Wonder Finished          "),
-  N_("Improvement Built        "),
-  N_("New Improvement Selected "),
-  N_("Forced Improvement Sale  "),
-  N_("Production Upgraded      "),
-  N_("Unit Built               "),
-  N_("Unit Defender Destroyed  "),
-  N_("Unit Defender Survived   "),
-  N_("Collapse to Anarchy      "),
-  N_("Diplomat Actions - Enemy "),
-  N_("Tech from Great Library  "),
-  N_("Player Destroyed         "),	/* E_DESTROYED */
-  N_("Improvement Bought       "),	/* E_IMP_BUY */
-  N_("Improvement Sold         "),	/* E_IMP_SOLD */
-  N_("Unit Bought              "),	/* E_UNIT_BUY */
-  N_("Wonder Stopped           "),	/* E_WONDER_STOPPED */
-  N_("City Needs Aq Being Built"),	/* E_CITY_AQ_BUILDING */
-  N_("Diplomat Actions - Own   "),	/* E_MY_DIPLOMAT */
-  N_("Unit Attack Failed       "),	/* E_UNIT_LOST_ATT */
-  N_("Unit Attack Succeeded    "),	/* E_UNIT_WIN_ATT */
-  N_("Suggest Growth Throttling"),	/* E_CITY_GRAN_THROTTLE */
-  N_("Spaceship Events         "),	/* E_SPACESHIP */
-  N_("Barbarian Uprising       "),	/* E_UPRISING  */
-  N_("Worklist Events          "),	/* E_WORKLIST */
-  N_("Pact Cancelled           "),	/* E_CANCEL_PACT */
-  N_("Diplomatic Incident      "),	/* E_DIPL_INCIDENT */
-  N_("First Contact            "),	/* E_FIRST_CONTACT */
-  N_("City May Soon Grow       "),	/* E_CITY_MAY_SOON_GROW */
-  N_("Wonder Made Obsolete     "),      /* E_WONDER_OBSOLETE */
+  N_("Low Funds"),                   /* E_LOW_ON_FUNDS */
+  N_("Pollution"),                   /* E_POLLUTION */
+  N_("Global Eco-Disaster"),         /* E_GLOBAL_ECO */
+  N_("Civil Disorder"),              /* E_CITY_DISORDER */
+  N_("City Celebrating"),            /* E_CITY_LOVE */
+  N_("City Normal"),                 /* E_CITY_NORMAL */
+  N_("City Growth"),                 /* E_CITY_GROWTH */
+  N_("City Needs Aqueduct"),         /* E_CITY_AQUEDUCT */
+  N_("Famine in City"),              /* E_CITY_FAMINE */
+  N_("City Captured/Destroyed"),     /* E_CITY_LOST */
+  N_("Building Unavailable Item"),   /* E_CITY_CANTBUILD */
+  N_("Wonder Started"),              /* E_WONDER_STARTED */
+  N_("Wonder Finished"),             /* E_WONDER_BUILD */
+  N_("Improvement Built"),           /* E_IMP_BUILD */
+  N_("New Improvement Selected"),    /* E_IMP_AUTO */
+  N_("Forced Improvement Sale"),     /* E_IMP_AUCTIONED */
+  N_("Production Upgraded"),         /* E_UNIT_UPGRADED */
+  N_("Unit Built"),                  /* E_UNIT_BUILD */
+  N_("Unit Defender Destroyed"),     /* E_UNIT_LOST */
+  N_("Unit Defender Survived"),      /* E_UNIT_WIN */
+  N_("Collapse to Anarchy"),         /* E_ANARCHY */
+  N_("Diplomat Actions - Enemy"),    /* E_DIPLOMATED */
+  N_("Tech from Great Library"),     /* E_TECH_GAIN */
+  N_("Player Destroyed"),            /* E_DESTROYED */
+  N_("Improvement Bought"),          /* E_IMP_BUY */
+  N_("Improvement Sold"),            /* E_IMP_SOLD */
+  N_("Unit Bought"),                 /* E_UNIT_BUY */
+  N_("Wonder Stopped"),              /* E_WONDER_STOPPED */
+  N_("City Needs Aq Being Built"),   /* E_CITY_AQ_BUILDING */
+  N_("Diplomat Actions - Own"),      /* E_MY_DIPLOMAT */
+  N_("Unit Attack Failed"),          /* E_UNIT_LOST_ATT */
+  N_("Unit Attack Succeeded"),       /* E_UNIT_WIN_ATT */
+  N_("Suggest Growth Throttling"),   /* E_CITY_GRAN_THROTTLE */
+  N_("Spaceship Events"),            /* E_SPACESHIP */
+  N_("Barbarian Uprising"),          /* E_UPRISING  */
+  N_("Worklist Events"),             /* E_WORKLIST */
+  N_("Pact Cancelled"),              /* E_CANCEL_PACT */
+  N_("Diplomatic Incident"),         /* E_DIPL_INCIDENT */
+  N_("First Contact"),               /* E_FIRST_CONTACT */
+  N_("City May Soon Grow"),          /* E_CITY_MAY_SOON_GROW */
+  N_("Wonder Made Obsolete"),        /* E_WONDER_OBSOLETE */
 };
 
 /**************************************************************************
