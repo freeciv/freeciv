@@ -2596,7 +2596,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       }
 
       pplayer = &game.players[game.nplayers];
-      server_player_init(pplayer, TRUE);
+      server_player_init(pplayer, server_state == RUN_GAME_STATE);
       sz_strlcpy(pplayer->name, OBSERVER_NAME);
       sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
