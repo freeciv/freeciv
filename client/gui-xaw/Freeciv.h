@@ -60,10 +60,6 @@
 "Freeciv*connectdialog.*.cquitc.label: _(\"Quit\")",
 "Freeciv*connectdialog.*.cquitc.fromVert: cportl",
 "Freeciv*connectdialog.*.cquitc.fromHoriz: cmetac",
-"Freeciv*connectdialog.*.cbetaline.label: _(\"\
-THIS IS A BETA VERSION\\n\
-Freeciv 1.9 will be released early\\n\
-October, at http://www.freeciv.org\")",
 "Freeciv*connectdialog.*.cbetaline.fromVert: cconnectc",
 "Freeciv*connectdialog.*.cbetaline.justify: left",
 "Freeciv*connectdialog.*.cbetaline.background: grey",

@@ -7,6 +7,7 @@ common/mem.c
 common/shared.c
 common/support.c
 common/unit.c
+common/version.c
 server/barbarian.c
 server/cityhand.c
 server/citytools.c

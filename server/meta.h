@@ -27,9 +27,13 @@
 #define	DEFAULT_META_SERVER_ADDR	"meta.freeciv.org"
 #define METASERVER_UPDATE_INTERVAL 3*60
 #if IS_BETA_VERSION
-#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.9: beware"
+#  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-" NEXT_STABLE_VERSION ": beware"
 #else
-#  define DEFAULT_META_SERVER_INFO_STRING "(default)"
+#  if IS_DEVEL_VERSION
+#    define DEFAULT_META_SERVER_INFO_STRING "development version: beware"
+#  else
+#    define DEFAULT_META_SERVER_INFO_STRING "(default)"
+#  endif
 #endif
 
 extern int server_is_open;

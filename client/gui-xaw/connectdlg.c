@@ -108,8 +108,11 @@ void gui_server_connect(void)
   I_L(metaw=XtVaCreateManagedWidget("cmetac", commandWidgetClass, form, NULL));
   I_L(quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL));
 
-  if (IS_BETA_VERSION)
-    I_LW(XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form, NULL));
+#if IS_BETA_VERSION
+  XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form,
+			  XtNlabel, beta_message(),
+			  NULL);
+#endif
 
   XtAddCallback(connw, XtNcallback, connect_callback, NULL);
   XtAddCallback(quitw, XtNcallback, quit_callback, NULL);

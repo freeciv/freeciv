@@ -1,4 +1,4 @@
-; Helpfile for Freeciv 1.9.x
+; Helpfile for Freeciv
 ;
 ; Each [help_*] is a help node.
 ;

@@ -63,4 +63,5 @@ libcivcommon_a_SOURCES = \
 		unit.h		\
 		worklist.c	\
 		worklist.h	\
+		version.c	\
 		version.h

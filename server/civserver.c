@@ -272,8 +272,9 @@ int main(int argc, char *argv[])
   con_puts(C_COMMENT, "");
 #endif
 #if IS_BETA_VERSION
-  con_write(C_COMMENT, _("Freeciv 1.9 will be released "
-			 "early October, at %s"), WEBSITE_URL);
+  con_puts(C_COMMENT, "");
+  con_puts(C_COMMENT, beta_message());
+  con_puts(C_COMMENT, "");
 #endif
   
   con_flush();

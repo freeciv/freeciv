@@ -120,7 +120,7 @@ static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 **************************************************************************/
 void gui_server_connect(void)
 {
-  GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update, *label2;
+  GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update;
   static char *titles_[6]= {N_("Server Name"), N_("Port"), N_("Version"),
 			    N_("Status"), N_("Players"), N_("Comment")};
   static char **titles;
@@ -178,20 +178,19 @@ void gui_server_connect(void)
   gtk_entry_set_text(GTK_ENTRY(iport), buf);
   gtk_table_attach_defaults (GTK_TABLE (table), iport, 1, 2, 2, 3);
 
-  if (IS_BETA_VERSION)
+#if IS_BETA_VERSION
   {
+    GtkWidget *label2;
     GtkStyle *style;
 
-    label2=gtk_label_new (_("THIS IS A BETA VERSION\n"
-			  "Freeciv 1.9 will be released early\n"
-			  "October, at http://www.freeciv.org"));
+    label2=gtk_label_new (beta_message());
 
     style=gtk_style_copy (label2->style);
     style->fg[GTK_STATE_NORMAL]=*colors_standard[COLOR_STD_RED];
     gtk_widget_set_style (label2, style);
     gtk_table_attach_defaults (GTK_TABLE (table), label2, 0, 2, 3, 4);
   }
-
+#endif
 
   label=gtk_label_new(_("Metaserver"));
 
