@@ -74,11 +74,18 @@ static int NUM_UNITS_SHOWN;
 static int MAX_UNIT_ROWS;
 static int MINI_NUM_UNITS;
 
+enum { OVERVIEW_PAGE, UNITS_PAGE, WORKLIST_PAGE,
+  HAPPINESS_PAGE, CMA_PAGE, TRADE_PAGE, MISC_PAGE
+};
+
+enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
+
 #define NUM_CITIZENS_SHOWN 25
 #define NUM_CITY_OPTS 5
-#define NUM_PAGES 8		/* the number of pages in city dialog
-				   notebook (+1) */
-#define NUM_INFO_FIELDS 10	/* number of fields in city_info */
+#define NUM_INFO_FIELDS 10      /* number of fields in city_info */
+#define NUM_PAGES 8             /* the number of pages in city dialog notebook 
+                                 * (+1) if you change this, you must add an
+                                 * entry to misc_whichtab_label[] */
 
 static int citydialog_width, citydialog_height, support_frame_width,
     support_frame_height;
@@ -185,7 +192,7 @@ struct city_dialog {
 };
 
 static GdkBitmap *icon_bitmap;
-static GtkRcStyle *info_label_style[3] = { NULL, NULL, NULL };
+static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
 static int notebook_tab_accels[NUM_PAGES - 1];	/* so localization works */
 
 static struct dialog_list dialog_list;
@@ -203,8 +210,7 @@ static struct city_dialog *get_city_dialog(struct city *pcity);
 static gint keyboard_handler(GtkWidget * widget, GdkEventKey * event,
 			     struct city_dialog *pdialog);
 
-static GtkWidget *create_city_info_table(GtkWidget ** info_label,
-					 struct city_dialog *pdialog);
+static GtkWidget *create_city_info_table(GtkWidget **info_label);
 static void create_and_append_overview_page(struct city_dialog *pdialog);
 static void create_and_append_units_page(struct city_dialog *pdialog);
 static void create_and_append_worklist_page(struct city_dialog *pdialog);
@@ -218,7 +224,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
-static void city_dialog_update_information(struct city_dialog *pdialog);
+static void city_dialog_update_information(GtkWidget **info_label,
+                                           struct city_dialog *pdialog);
 static void city_dialog_update_map_iso(struct city_dialog *pdialog);
 static void city_dialog_update_map_ovh(struct city_dialog *pdialog);
 static void city_dialog_update_map(struct city_dialog *pdialog);
@@ -271,12 +278,6 @@ static void draw_map_canvas(struct city_dialog *pdialog);
 static gint city_map_canvas_expose(GtkWidget * w, GdkEventExpose * ev,
 				   gpointer data);
 
-static void buy_callback(GtkWidget * w, gpointer data);
-static gint buy_callback_delete(GtkWidget * w, GdkEvent * ev,
-				gpointer data);
-static void buy_callback_no(GtkWidget * w, gpointer data);
-static void buy_callback_yes(GtkWidget * w, gpointer data);
-
 static void change_callback(GtkWidget * w, gpointer data);
 static gint change_deleted_callback(GtkWidget * w, GdkEvent * ev,
 				    gpointer data);
@@ -285,6 +286,12 @@ static void change_yes_callback(GtkWidget * w, gpointer data);
 static void change_list_callback(GtkWidget * w, gint row, gint col,
 				 GdkEvent * ev, gpointer data);
 static void change_help_callback(GtkWidget * w, gpointer data);
+
+static void buy_callback(GtkWidget * w, gpointer data);
+static gint buy_callback_delete(GtkWidget * w, GdkEvent * ev,
+				gpointer data);
+static void buy_callback_no(GtkWidget * w, gpointer data);
+static void buy_callback_yes(GtkWidget * w, gpointer data);
 
 static void sell_callback(GtkWidget * w, gpointer data);
 static gint sell_callback_delete(GtkWidget * w, GdkEvent * ev,
@@ -341,14 +348,14 @@ static void initialize_city_dialogs(void)
 
   /* make the styles */
 
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < NUM_INFO_STYLES; i++) {
     info_label_style[i] = gtk_rc_style_new();
   }
-  /* info_syle[0] is normal, don't change it */
-  info_label_style[1]->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
-  info_label_style[2]->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
-  info_label_style[1]->fg[GTK_STATE_NORMAL] = orange;
-  info_label_style[2]->fg[GTK_STATE_NORMAL] = red;
+  /* info_syle[NORMAL] is normal, don't change it */
+  info_label_style[ORANGE]->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
+  info_label_style[ORANGE]->fg[GTK_STATE_NORMAL] = orange;
+  info_label_style[RED]->color_flags[GTK_STATE_NORMAL] |= GTK_RC_FG;
+  info_label_style[RED]->fg[GTK_STATE_NORMAL] = red;
 
   city_dialogs_have_been_initialised = 1;
 }
@@ -386,7 +393,7 @@ void refresh_city_dialog(struct city *pcity)
 
   city_dialog_update_title(pdialog);
   city_dialog_update_citizens(pdialog);
-  city_dialog_update_information(pdialog);
+  city_dialog_update_information(pdialog->overview.info_label, pdialog);
   city_dialog_update_map(pdialog);
   city_dialog_update_building(pdialog);
   city_dialog_update_improvement_list(pdialog);
@@ -399,7 +406,10 @@ void refresh_city_dialog(struct city *pcity)
 	(unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) > 0);
 
     update_worklist_editor(pdialog->wl_editor);
+
+    city_dialog_update_information(pdialog->happiness.info_label, pdialog);
     refresh_happiness_dialog(pdialog->pcity);
+
     refresh_cma_dialog(pdialog->pcity, REFRESH_ALL);
 
     gtk_widget_set_sensitive(pdialog->unit.activate_command,
@@ -535,8 +545,7 @@ static gint keyboard_handler(GtkWidget * widget, GdkEventKey * event,
  used once in the overview page and once in the happiness page
  **info_label points to the info_label in the respective struct
 ****************************************************************/
-static GtkWidget *create_city_info_table(GtkWidget ** info_label,
-					 struct city_dialog *pdialog)
+static GtkWidget *create_city_info_table(GtkWidget **info_label)
 {
   int i;
   GtkWidget *hbox, *table, *label;
@@ -626,7 +635,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   frame = gtk_frame_new(_("City info"));
   gtk_box_pack_start(GTK_BOX(hbox), frame, TRUE, TRUE, 4);
 
-  table = create_city_info_table(pdialog->overview.info_label, pdialog);
+  table = create_city_info_table(pdialog->overview.info_label);
   gtk_container_add(GTK_CONTAINER(frame), table);
 
   frame = gtk_frame_new(_("City map"));
@@ -1174,7 +1183,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 		     "button_press_event",
 		     GTK_SIGNAL_FUNC(button_down_citymap), NULL);
 
-  table = create_city_info_table(pdialog->happiness.info_label, pdialog);
+  table = create_city_info_table(pdialog->happiness.info_label);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
 
   gtk_widget_show_all(page);
@@ -1242,12 +1251,13 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 
   char *tab_title = _("_Misc. Settings");
 
-  char *new_citizens_label[] = { N_("Entertainers"),
+  char *new_citizens_label[] = {
+    N_("Entertainers"),
     N_("Scientists"),
     N_("Taxmen")
   };
 
-  char *city_opts_label[] = { 
+  char *city_opts_label[NUM_CITY_OPTS] = {
     N_("Land units"),
     N_("Sea units"),
     N_("Helicopters"),
@@ -1255,11 +1265,12 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
     N_("Disband if build settler at size 1")
   };
 
-  char *misc_whichtab_label[] = { N_("City Overview page"),
+  char *misc_whichtab_label[NUM_PAGES] = {
+    N_("City Overview page"),
     N_("Units page"),
     N_("Worklist page"),
     N_("Happiness page"),
-    N_("CMA page"), 
+    N_("CMA page"),
     N_("Trade Routes page"),
     N_("This Misc. Settings page"),
     N_("Last active page")
@@ -1426,8 +1437,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   pdialog->buy_shell = NULL;
   pdialog->sell_shell = NULL;
   pdialog->rename_shell = NULL;
-  pdialog->happiness.map_canvas = NULL;	/* make sure NULL if spy */
-  pdialog->happiness.map_canvas_pixmap = NULL;	/* ditto */
+  pdialog->happiness.map_canvas = NULL;         /* make sure NULL if spy */
+  pdialog->happiness.map_canvas_pixmap = NULL;  /* ditto */
 
 
   pdialog->shell = gtk_dialog_new();
@@ -1674,7 +1685,8 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-static void city_dialog_update_information(struct city_dialog *pdialog)
+static void city_dialog_update_information(GtkWidget **info_label,
+                                           struct city_dialog *pdialog)
 {
   int i, style;
   char buf[NUM_INFO_FIELDS][512];
@@ -1727,43 +1739,24 @@ static void city_dialog_update_information(struct city_dialog *pdialog)
 
   /* stick 'em in the labels */
 
-  for (i = 0; i < NUM_INFO_FIELDS; i++)
-    gtk_set_label(pdialog->overview.info_label[i], buf[i]);
-
-  if (pdialog->pcity->owner == game.player_idx) {
-    for (i = 0; i < NUM_INFO_FIELDS; i++)
-      gtk_set_label(pdialog->happiness.info_label[i], buf[i]);
+  for (i = 0; i < NUM_INFO_FIELDS; i++) {
+    gtk_set_label(info_label[i], buf[i]);
   }
 
-  /* special style stuff for granary, growth and pollution below.       */
-  /* the "4" below is arbitrary. 3 turns should be enough of a warning. */
+  /* special style stuff for granary, growth and pollution below.
+   * the "4" below is arbitrary. 3 turns should be enough of a warning. */
 
-  style = (pcity->food_surplus < 0 && granaryturns < 4) ? 2 : 0;
-  gtk_widget_modify_style(pdialog->overview.info_label[GRANARY],
-			  info_label_style[style]);
-  if (pdialog->pcity->owner == game.player_idx) {
-    gtk_widget_modify_style(pdialog->happiness.info_label[GRANARY],
-			    info_label_style[style]);
-  }
+  style = (pcity->food_surplus < 0 && granaryturns < 4) ? RED : NORMAL;
+  gtk_widget_modify_style(info_label[GRANARY], info_label_style[style]);
 
-  style = (granaryturns == 0 || pcity->food_surplus < 0) ? 2 : 0;
-  gtk_widget_modify_style(pdialog->overview.info_label[GROWTH],
-			  info_label_style[style]);
-  if (pdialog->pcity->owner == game.player_idx) {
-    gtk_widget_modify_style(pdialog->happiness.info_label[GROWTH],
-			    info_label_style[style]);
-  }
+  style = (granaryturns == 0 || pcity->food_surplus < 0) ? RED : NORMAL;
+  gtk_widget_modify_style(info_label[GROWTH], info_label_style[style]);
 
-  /* someone could add the info_label_style[1] style */
-  /* for better granularity here                     */
+  /* someone could add the info_label_style[ORANGE]
+   * style for better granularity here */
 
-  style = (pcity->pollution >= 10) ? 2 : 0;
-  gtk_widget_modify_style(pdialog->overview.info_label[POLLUTION],
-			  info_label_style[style]);
-  if (pdialog->pcity->owner == game.player_idx) {
-    gtk_widget_modify_style(pdialog->happiness.info_label[POLLUTION],
-			    info_label_style[style]);
-  }
+  style = (pcity->pollution >= 10) ? RED : NORMAL;
+  gtk_widget_modify_style(info_label[POLLUTION], info_label_style[style]);
 }
 
 /****************************************************************
@@ -2865,12 +2858,12 @@ static gint button_down_citymap(GtkWidget * w, GdkEventButton * ev)
     }
 #endif
     if (pdialog->overview.map_canvas == w
-	|| pdialog->happiness.map_canvas == w) {
+	|| (pdialog->happiness.map_canvas
+            && pdialog->happiness.map_canvas == w)) {
       pcity = pdialog->pcity;
       break;
     }
-  }
-  dialog_list_iterate_end;
+  } dialog_list_iterate_end;
 
   if (pcity) {
     int xtile, ytile;
@@ -3722,10 +3715,10 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   /* reinitialize happiness, worklist, and cma dialogs */
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
 		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
+  pdialog->cma_editor->pcity = new_pcity;
   pdialog->wl_editor->pcity = new_pcity;
   pdialog->wl_editor->pwl = new_pcity->worklist;
   pdialog->wl_editor->user_data = (void *) pdialog;
-  pdialog->cma_editor->pcity = new_pcity;
 
   center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */

@@ -13,12 +13,6 @@
 #ifndef FC__CITYDLG_H
 #define FC__CITYDLG_H
 
-#include <gtk/gtk.h>
-
 #include "citydlg_g.h"
-
-enum { OVERVIEW_PAGE, UNITS_PAGE, WORKLIST_PAGE,
-  HAPPINESS_PAGE, CMA_PAGE, TRADE_PAGE, MISC_PAGE
-};
 
 #endif				/* FC__CITYDLG_H */
