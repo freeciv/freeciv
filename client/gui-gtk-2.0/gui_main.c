@@ -219,19 +219,6 @@ static void parse_options(int argc, char **argv)
 }
 
 /**************************************************************************
- handles main window keyboard events.
-**************************************************************************/
-static gboolean inputline_focus(GtkWidget *w, GdkEventFocus *ev, gpointer data)
-{
-  if (GPOINTER_TO_INT(data) != 0) {
-    gtk_window_remove_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
-  } else {
-    gtk_window_add_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
-  }
-  return FALSE;
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
@@ -291,6 +278,34 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
     gtk_editable_set_position(GTK_EDITABLE(w), -1);
   }
   return keypress;
+}
+
+/**************************************************************************
+  In GTK+ keyboard events are recursively propagated from the hierarchy
+  parent down to its children. Sometimes this is not what we want.
+  E.g. The inputline is active, the user presses the 's' key, we want it
+  to be sent to the inputline, but because the main menu is further up
+  the hierarchy, it wins and the inputline never gets anything!
+  This function ensures an entry widget (like the inputline) always gets
+  first dibs at handling a keyboard event.
+**************************************************************************/
+static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
+{
+  GtkWidget *focus;
+
+  focus = gtk_window_get_focus(GTK_WINDOW(toplevel));
+  if (focus) {
+    if (GTK_IS_ENTRY(focus)) {
+      /* Propagate event to currently focused entry widget. */
+      if (gtk_widget_event(focus, (GdkEvent *) ev)) {
+	/* Do not propagate event to our children. */
+	return TRUE;
+      }
+    }
+  }
+
+  /* Continue propagating event to our children. */
+  return FALSE;
 }
 
 /**************************************************************************
@@ -957,14 +972,8 @@ static void setup_widgets(void)
   inputline = gtk_entry_new();
   gtk_box_pack_start(GTK_BOX(vbox), inputline, FALSE, FALSE, 3);
 
-  g_signal_connect(inputline, "activate", G_CALLBACK(inputline_return), NULL);
-
-  g_signal_connect(inputline, "focus_in_event",
-		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(1));
-
-  g_signal_connect(inputline, "focus_out_event",
-		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(0));
-
+  g_signal_connect(inputline, "activate",
+		   G_CALLBACK(inputline_return), NULL);
   g_signal_connect(inputline, "key_press_event",
                    G_CALLBACK(inputline_handler), NULL);
 
@@ -1040,6 +1049,9 @@ void ui_main(int argc, char **argv)
   }
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  g_signal_connect(toplevel, "key_press_event",
+                   G_CALLBACK(toplevel_handler), NULL);
+
   gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
