@@ -648,14 +648,18 @@ static void make_rivers(void)
      too few rivers on large maps and too many rivers on small maps. */
   int desirable_riverlength =
     map.riverlength *
+    /* This 10 is a conversion factor to take into account the fact that this
+     * river code was written when map.riverlength had a maximum value of 
+     * 1000 rather than the current 100 */
+    10 *
     /* The size of the map (poles don't count). */
     (map_num_tiles() - 2 * map.xsize) *
     /* Rivers need to be on land only. */
     map.landpercent /
     /* Adjustment value. Tested by me. Gives no rivers with 'set
        rivers 0', gives a reasonable amount of rivers with default
-       settings and as many rivers as possible with 'set rivers 1000'. */
-    0xD000;
+       settings and as many rivers as possible with 'set rivers 100'. */
+    0xD000; /* (= 53248 in decimal) */
 
   /* The number of river tiles that have been set. */
   int current_riverlength = 0;
@@ -1180,65 +1184,35 @@ void map_fractal_generate(void)
 }
 
 /**************************************************************************
- readjust terrain counts so that it makes sense for mapgen 1, 2, 3 and 4
- idea: input is the number of terrain
- mapgen 1 needs custom parameters, 
- mapgen 2 and 3 and 4 use percents, currently.
- Ultimately, I hope all parameters below will be weights,
- with the defaults set to a percentage;
- Placing deserts and swamps may cause some problems.
+ Convert terrain parameters from the server into percents for the generators
 
  This function needs to be called from the server everytime a
- a parameter changes.
- It will be called again at game start, too.
+ a parameter changes. It will be called again at game start, too.
 **************************************************************************/
 void adjust_terrain_param(void)
 {
   int total;
+  int polar = 5; /* FIXME: convert to a server option */
 
-  /*!PS: I don't have the time to have several test runs */
-  /* to find a mapping from percents to generator 1 settings. */
+  total = map.mountains + map.deserts + map.forestsize + map.swampsize 
+    + map.grasssize;
 
-  if(map.generator==1){
-    /*map.riverlength*= 10; */
-    /*I leave this out, people will get too upset 
-      if they have to change all their scripts */
-    return;
+  if (terrain_control.river_style == R_AS_TERRAIN) {
+    total += map.riverlength;
   }
 
-  map.riverlength/= 10;/* left in */
-
-    total = map.riverlength + map.mountains + map.deserts 
-    + map.forestsize + map.swampsize + map.grasssize;
-
-  if(total>100){
-    total = map.riverlength + map.mountains + map.deserts 
-    + map.forestsize + map.swampsize + map.grasssize;
-    map.forestsize= map.forestsize*100/total;
-
-    total = map.riverlength + map.mountains + map.deserts 
-    + map.forestsize + map.swampsize + map.grasssize;
-    map.riverlength= map.riverlength*100/total;
-
-    total = map.riverlength + map.mountains + map.deserts 
-    + map.forestsize + map.swampsize + map.grasssize;
-    map.swampsize= map.swampsize*100/total;
-
-    total = map.riverlength + map.mountains + map.deserts 
-    + map.forestsize + map.swampsize + map.grasssize;
-    map.mountains= map.mountains*100/total;
-
-    total = map.riverlength + map.mountains + map.deserts 
-    + map.forestsize + map.swampsize + map.grasssize;
-    map.deserts= map.deserts*100/total;
-
-    total = map.riverlength + map.mountains + map.deserts 
-    + map.forestsize + map.swampsize + 0;
-    map.grasssize= 100 - total;
+  if (total != 100 - polar) {
+    map.forestsize = map.forestsize * (100 - polar) / total;
+    map.swampsize = map.swampsize * (100 - polar) / total;
+    map.mountains = map.mountains * (100 - polar) / total;
+    map.deserts = map.deserts * (100 - polar) / total;
+    map.grasssize = 100 - map.forestsize - map.swampsize - map.mountains 
+      - polar - map.deserts;
+    if (terrain_control.river_style == R_AS_TERRAIN) {
+      map.riverlength = map.riverlength * (100 - polar) / total;
+      map.grasssize -= map.riverlength;
+    }
   }
-  /* if smaller than 100, rest goes implicitly to grass */
-
-  map.riverlength*= 10;
 }
 
 /**************************************************************************
@@ -1675,7 +1649,7 @@ static void make_island(int islemass, int starters,
     if (pstate->totalmass > 3000)
       freelog(LOG_NORMAL, _("High landmass - this may take a few seconds."));
 
-    i = (map.riverlength / 10) + map.mountains
+    i = map.riverlength + map.mountains
 		+ map.deserts + map.forestsize + map.swampsize;
     i = i <= 90 ? 100 : i * 11 / 10;
     tilefactor = pstate->totalmass / i;
@@ -1726,14 +1700,14 @@ static void make_island(int islemass, int starters,
 
     i *= tilefactor;
     if (terrain_control.river_style==R_AS_TERRAIN) {
-      riverbuck += map.riverlength / 10 * i;
+      riverbuck += map.riverlength * i;
       fill_island(1, &riverbuck,
 		  1,1,1,1,
 		  T_RIVER, T_RIVER, T_RIVER, T_RIVER, 
 		  pstate);
     }
     if (terrain_control.river_style==R_AS_SPECIAL) {
-      riverbuck += map.riverlength / 10 * i;
+      riverbuck += map.riverlength * i;
       fill_island_rivers(1, &riverbuck, pstate);
     }
     mountbuck += map.mountains * i;

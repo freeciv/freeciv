@@ -610,9 +610,9 @@ extern const int CAR_DIR_DY[4];
 #define MAP_MIN_DESERTS          0
 #define MAP_MAX_DESERTS          100
 
-#define MAP_DEFAULT_RIVERS       50
+#define MAP_DEFAULT_RIVERS       5
 #define MAP_MIN_RIVERS           0
-#define MAP_MAX_RIVERS           1000
+#define MAP_MAX_RIVERS           100
 
 #define MAP_DEFAULT_FORESTS      20
 #define MAP_MIN_FORESTS          0
