@@ -50,14 +50,6 @@ static int get_meta_list(char *errbuf, int n_errbuf);
 /**************************************************************************
 ...
 **************************************************************************/
-static gchar *ntoh_str(const gchar *netstr)
-{
-  return g_convert(netstr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void connect_callback(GtkWidget *w, gpointer data)
 {
   char errbuf [512];

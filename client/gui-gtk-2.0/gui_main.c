@@ -154,8 +154,68 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 					    gpointer data);
 static gint timer_callback(gpointer data);
 
+static char *network_charset = NULL;
+
+
+/**************************************************************************
+Network string charset conversion functions.
+**************************************************************************/
+gchar *ntoh_str(const gchar *netstr)
+{
+  return g_convert(netstr, -1, "UTF-8", network_charset, NULL, NULL, NULL);
+}
+
 /**************************************************************************
 ...
+**************************************************************************/
+static unsigned char *put_conv(unsigned char *dst, const char *src)
+{
+  gsize len;
+  gchar *out = g_convert(src, -1, network_charset, "UTF-8", NULL, &len, NULL);
+
+  if (out) {
+    memcpy(dst, out, len);
+    g_free(out);
+    dst[len] = '\0';
+
+    return dst + len + 1;
+  } else {
+    dst[0] = '\0';
+
+    return dst + 1;
+  }
+}
+
+/**************************************************************************
+ Returns FALSE if the destination isn't large enough or the source was
+ bad.
+**************************************************************************/
+static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
+		      size_t nsrc)
+{
+  gsize len;			/* length to copy, not including null */
+  gchar *out = g_convert(src, nsrc, "UTF-8", network_charset, NULL, &len, NULL);
+  bool ret = TRUE;
+
+  if (!out) {
+    dst[0] = '\0';
+    return FALSE;
+  }
+
+  if (ndst > 0 && len >= ndst) {
+    ret = FALSE;
+    len = ndst - 1;
+  }
+
+  memcpy(dst, out, len);
+  dst[len] = '\0';
+  g_free(out);
+
+  return ret;
+}
+
+/**************************************************************************
+Local log callback functions.
 **************************************************************************/
 static void fprintf_utf8(FILE *stream, const char *format, ...)
 {
@@ -184,6 +244,14 @@ static void fprintf_utf8(FILE *stream, const char *format, ...)
   fputs(s, stream);
   fflush(stream);
   g_free(s);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void log_callback_utf8(int level, char *message)
+{
+  fprintf_utf8(stderr, "%d: %s\n", level, message);
 }
 
 /**************************************************************************
@@ -757,68 +825,12 @@ static void setup_widgets(void)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-static unsigned char *put_conv(unsigned char *dst, const char *src)
-{
-  gsize len;
-  gchar *out = g_convert(src, -1, "ISO-8859-1", "UTF-8", NULL, &len, NULL);
-
-  if (out) {
-    memcpy(dst, out, len);
-    g_free(out);
-    dst[len] = '\0';
-
-    return dst + len + 1;
-  } else {
-    dst[0] = '\0';
-
-    return dst + 1;
-  }
-}
-
-/**************************************************************************
- Returns FALSE if the destination isn't large enough or the source was
- bad.
-**************************************************************************/
-static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
-		      size_t nsrc)
-{
-  gsize len;			/* length to copy, not including null */
-  gchar *out = g_convert(src, nsrc, "UTF-8", "ISO-8859-1", NULL, &len, NULL);
-  bool ret = TRUE;
-
-  if (!out) {
-    dst[0] = '\0';
-    return FALSE;
-  }
-
-  if (ndst > 0 && len >= ndst) {
-    ret = FALSE;
-    len = ndst - 1;
-  }
-
-  memcpy(dst, out, len);
-  dst[len] = '\0';
-  g_free(out);
-
-  return ret;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void log_callback_utf8(int level, char *message)
-{
-  fprintf_utf8(stderr, "%d: %s\n", level, message);
-}
-
-/**************************************************************************
  called from main().
 **************************************************************************/
 void ui_init(void)
 {
   gchar *s;
+  char *net_charset;
 
 #ifdef ENABLE_NLS
   bind_textdomain_codeset(PACKAGE, "UTF-8");
@@ -827,6 +839,12 @@ void ui_init(void)
   log_set_callback(log_callback_utf8);
 
   /* set networking string conversion callbacks */
+  if ((net_charset = getenv("FREECIV_NETWORK_CHARSET"))) {
+    network_charset = net_charset;
+  } else {
+    network_charset = "ISO-8859-1";	/* default charset. */
+  }
+
   set_put_conv_callback(put_conv);
   set_iget_conv_callback(iget_conv);
 

@@ -17,6 +17,9 @@
 
 #include "gui_main_g.h"
 
+/* network string charset conversion */
+gchar *ntoh_str(const gchar *netstr);
+
 extern PangoFontDescription *        main_font;
 extern PangoFontDescription *        city_productions_font;
 
