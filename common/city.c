@@ -860,6 +860,40 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
   return !wonder_replacement(pcity, id);
 }
 
+/****************************************************************
+  Whether player could build this improvement, assuming they had
+  the tech req, and assuming a city with the right pre-reqs etc.
+*****************************************************************/
+int could_player_build_improvement(struct player *p, enum improvement_type_id id)
+{
+  if (!improvement_exists(id))
+    return 0;
+  if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
+    if (!game.global_wonders[B_APOLLO]) {
+      return 0;
+    } else {
+      if (p->spaceship.state >= SSHIP_LAUNCHED)
+	return 0;
+      if (id == B_SSTRUCTURAL && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
+	return 0;
+      if (id == B_SCOMP && p->spaceship.components >= NUM_SS_COMPONENTS)
+	return 0;
+      if (id == B_SMODULE && p->spaceship.modules >= NUM_SS_MODULES)
+	return 0;
+    }
+  }
+  if (is_wonder(id)) {
+    if (game.global_wonders[id]) return 0;
+  } else {
+    if (improvement_obsolete(p, id)) return 0;
+  }
+  return 1;
+}
+
+/****************************************************************
+Can this improvement get built in this city, by the player
+who owns the city?
+*****************************************************************/
 int can_build_improvement(struct city *pcity, enum improvement_type_id id)
 {
   struct player *p=city_owner(pcity);
@@ -868,6 +902,19 @@ int can_build_improvement(struct city *pcity, enum improvement_type_id id)
   if (!player_knows_improvement_tech(p,id))
     return 0;
   return(could_build_improvement(pcity, id));
+}
+
+/****************************************************************
+Can a player build this improvement somewhere?  Ignores the
+fact that player may not have a city with appropriate prereqs.
+*****************************************************************/
+int can_player_build_improvement(struct player *p, enum improvement_type_id id)
+{
+  if (!improvement_exists(id))
+    return 0;
+  if (!player_knows_improvement_tech(p,id))
+    return 0;
+  return(could_player_build_improvement(p, id));
 }
 
 /****************************************************************
@@ -889,6 +936,22 @@ int can_build_unit_direct(struct city *pcity, enum unit_type_id id)
 }
 
 /****************************************************************
+Whether player can build given unit somewhere,
+ignoring whether unit is obsolete and assuming the
+player has a coastal city.
+*****************************************************************/
+int can_player_build_unit_direct(struct player *p, enum unit_type_id id)
+{  
+  if (!unit_type_exists(id))
+    return 0;
+  if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
+    return 0;
+  if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
+    return 0;
+  return 1;
+}
+
+/****************************************************************
 Whether given city can build given unit;
 returns 0 if unit is obsolete.
 *****************************************************************/
@@ -897,6 +960,19 @@ int can_build_unit(struct city *pcity, enum unit_type_id id)
   if (!can_build_unit_direct(pcity, id))
     return 0;
   if (can_build_unit_direct(pcity, unit_types[id].obsoleted_by))
+    return 0;
+  return 1;
+}
+
+/****************************************************************
+Whether player can build given unit somewhere;
+returns 0 if unit is obsolete.
+*****************************************************************/
+int can_player_build_unit(struct player *p, enum unit_type_id id)
+{  
+  if (!can_player_build_unit_direct(p, id))
+    return 0;
+  if (can_player_build_unit_direct(p, unit_types[id].obsoleted_by))
     return 0;
   return 1;
 }

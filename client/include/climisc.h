@@ -21,6 +21,7 @@ void client_remove_unit(int unit_id);
 char *tilefilename(char *name);
 void climap_init_continents(void);
 void climap_update_continents(int x, int y);
+void client_change_all(int x, int y);
 
 #define CITY_NAMES_FONT "10x20"
 

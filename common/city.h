@@ -205,6 +205,14 @@ int improvement_exists(enum improvement_type_id id);
 enum improvement_type_id find_improvement_by_name(char *s);
 int improvement_variant(enum improvement_type_id id);
 
+/* player related improvement and unit functions */
+
+int could_player_build_improvement(struct player *p, enum improvement_type_id id);
+int can_player_build_improvement(struct player *p, enum improvement_type_id id);
+int can_player_build_unit_direct(struct player *p, enum unit_type_id id);
+int can_player_build_unit(struct player *p, enum unit_type_id id);
+
+
 /* city related improvement and unit functions */
 
 int improvement_upkeep(struct city *pcity, int i); 

@@ -26,6 +26,8 @@ used throughout the client.
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "city.h"
+#include "packets.h"
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
@@ -36,6 +38,8 @@ used throughout the client.
 #include "climisc.h"
 
 char *tile_set_dir=NULL;
+
+extern struct connection aconnection;
 
 /**************************************************************************
   Search for the requested xpm file
@@ -237,3 +241,37 @@ void climap_update_continents(int x, int y)
   }
 }
 
+/**************************************************************************
+Change all cities building X to building Y, if possible.
+X and Y could be improvements or units; improvements are
+specified by the id, units are specified by unit id + B_LAST
+**************************************************************************/
+void client_change_all(int x, int y)
+{
+  struct packet_city_request packet;
+  packet.name[0]='\0';
+  
+  city_list_iterate(game.player_ptr->cities, pcity) {
+      if ((!(pcity->is_building_unit) &&
+	   (pcity->currently_building == x)) ||
+	  ((pcity->is_building_unit) &&
+	   (pcity->currently_building == x-B_LAST))) {
+	  if (y < B_LAST) {
+	      if (can_build_improvement(pcity, x)) {
+		  packet.city_id=pcity->id;
+		  packet.build_id=y;
+		  packet.is_build_id_unit_id=0;
+		  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+	      }
+	  }
+	  else {
+	      if (can_build_unit(pcity, y-B_LAST)) {
+		  packet.city_id=pcity->id;
+		  packet.build_id=y-B_LAST;
+		  packet.is_build_id_unit_id=1;
+		  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+	      }
+	  }
+      }
+  } city_list_iterate_end;
+}
