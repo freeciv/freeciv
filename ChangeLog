@@ -1,3 +1,160 @@
+Thu Jun 29 22:47:44 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv,
+	po/de.po, po/en_GB.po, po/es.po, po/fr.po, po/hu.po, po/ja.po,
+	po/nl.po, po/no.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ru.po:
+
+	Final source update for Version 1.11.0 release.  Set version to
+	1.11.0.
+
+Thu Jun 29 16:19:13 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* NEWS:
+
+	Update NEWS file for 1.11.0 release.
+
+Thu Jun 29 11:17:15 2000  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1197t+20f+1024u.
+
+Wed Jun 28 20:23:50 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv:
+
+	Bump version from 1.10.6 (beta) to 1.10.7-devel (beta).
+
+Wed Jun 28 18:13:30 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Wed Jun 28 15:22:51 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv,
+	po/de.po, po/en_GB.po, po/es.po, po/fr.po, po/hu.po, po/ja.po,
+	po/nl.po, po/no.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ru.po:
+
+	Third and final (hopefully) beta release (1.10.6) leading to
+	version 1.11.0.
+
+Wed Jun 28 14:25:29 2000  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated nl.po
+
+Wed Jun 28 13:50:13 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/dialogs.c, client/gui-gtk/mapview.c:
+
+	Reverted a couple of recent non-bugfix changes: - Titlebar-less
+	Select Government dialog.  Why should this dialog be inconsistent?
+	- Parentheses around city productions on main map.  These extra
+	pixels just add clutter to an already cluttered map for no reason.
+
+Wed Jun 28 13:11:26 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Fixed bug whereby info column in Gtk+ client's Change Production
+	dialog was not being translated.  The problem was that, when the
+	Change Production dialog was improved, the author mistakenly used
+	N_(), rather than _().  Bug reported by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Wed Jun 28 13:00:18 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ1/buildings.ruleset, data/civ2/buildings.ruleset,
+	data/default/buildings.ruleset:
+
+	Removed redundant help text for Aqueducts and Sewer Systems. 
+	(Temporary until generalized improvements is implemented.) Fixes
+	PR#423.  Bug reported by Pieter J. Kersten <kersten@dia.eur.nl>.
+
+Wed Jun 28 12:37:14 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* BUGS:
+
+	Added Dipl/Spy investigates city and doesn't see units bug to BUGS
+	file.
+
+Wed Jun 28 07:27:15 2000  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated to last changes, including missed strings in
+	../client/dialog.c.
+
+Wed Jun 28 05:40:46 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* doc/INSTALL.de:
+
+	INSTALL.de updated Hint included about the Solaris notes in the
+	english INSTALL
+
+Wed Jun 28 05:11:24 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Tue Jun 27 22:20:25 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/dialogs.c:
+
+	I guess the titlebar should be removed from the government dialog
+	instead.
+
+Tue Jun 27 22:10:51 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/dialogs.c:
+
+	Patch to remove the titlebar from the popup message dialog.
+
+Tue Jun 27 21:14:12 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* BUGS:
+
+	Removed fixed bug in the gtk+ client from the BUGS file.
+
+Tue Jun 27 21:12:25 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/mapview.c:
+
+	Added parentesis around city production; Fixed overview canvas not
+	refreshing properly (see also previous change to gui_main.c). 
+	Added initialization with black of the overview & normap map
+	canvas store.
+
+Tue Jun 27 21:09:42 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c:
+
+	Fixed gtk+ client closing "undocked" windows causing crashes bug.
+
+Tue Jun 27 21:02:51 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po:
+
+	Updated Portuguese (pt) translation.
+
+Tue Jun 27 20:02:38 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/control.c, common/capstr.c, common/packets.c,
+	server/gotohand.c:
+
+	Changed capability string to simply "+1.11".  Removed all
+	correspondingly obsoleted has_capability() calls.
+
+Tue Jun 27 19:12:42 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ChangeLog, PEOPLE:
+
+	Further updates to PEOPLE and ChangeLog for 1.11 release.
+
 Tue Jun 27 16:38:14 2000  Jeff Mallatt <jjm@codewell.com>:
 
 	* INSTALL:
