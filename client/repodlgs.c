@@ -187,7 +187,15 @@ struct city_report_spec {
   char *title2;
   char *explanation;
   char *(*func)(struct city*);
+  char *tagname;		/* for save_options */
 };
+
+/* This generates the function name and the tagname: */
+#define FUNC_TAG(var)  cr_entry_##var, #var 
+
+/* Use tagname rather than index for load/save, because later
+   additions won't necessarily be at the end.
+*/
 
 /* Note on space: you can do spacing and alignment in various ways;
    you can avoid explicit space between columns if they are bracketted,
@@ -195,36 +203,52 @@ struct city_report_spec {
    what's going to be next to what.
 */
 
-struct city_report_spec city_report_specs[] = {
+static struct city_report_spec city_report_specs[] = {
   { 1, 15, 0, "",  "Name",            "City Name",
-                                      cr_entry_cityname },
+                                      FUNC_TAG(cityname) },
   { 0,  2, 1, "",  "Sz",              "Size",
-                                      cr_entry_size },
+                                      FUNC_TAG(size) },
   { 1,  8, 1, "",  "State",           "Rapture/Peace/Disorder",
-                                      cr_entry_hstate_verbose },
+                                      FUNC_TAG(hstate_verbose) },
   { 0,  1, 1, "",  "",                "Concise *=Rapture, X=Disorder",
-                                      cr_entry_hstate_concise },
+                                      FUNC_TAG(hstate_concise) },
   { 1,  8, 1, "Workers", "H/C/U",     "Workers: Happy, Content, Unhappy",
-                                      cr_entry_workers },
+                                      FUNC_TAG(workers) },
   { 0,  7, 1, "Special", "E/S/T",     "Entertainers, Scientists, Taxmen",
-                                      cr_entry_specialists },
+                                      FUNC_TAG(specialists) },
   { 1, 10, 1, "Surplus", "F/P/T",     "Surplus: Food, Production, Trade",
-                                      cr_entry_resources },
+                                      FUNC_TAG(resources) },
   { 1, 10, 1, "Economy", "G/L/S",     "Economy: Gold, Luxuries, Science",
-                                      cr_entry_output },
+                                      FUNC_TAG(output) },
   { 0,  1, 1, "n", "T",               "Number of Trade Routes",
-                                      cr_entry_num_trade },
+                                      FUNC_TAG(num_trade) },
   { 1,  7, 1, "Food", "Stock",        "Food Stock",
-                                      cr_entry_food },
+                                      FUNC_TAG(food) },
   { 0,  3, 1, "", "Pol",              "Pollution",
-                                      cr_entry_pollution },
+                                      FUNC_TAG(pollution) },
   { 1, -1, 1, "Currently Building",   "(Stock,Target,Buy Cost)",
                                       "Currently Building",
-                                      cr_entry_building }
+                                      FUNC_TAG(building) }
 };
 
 #define NUM_CREPORT_COLS \
          sizeof(city_report_specs)/sizeof(city_report_specs[0])
+     
+/******************************************************************
+Some simple wrappers:
+******************************************************************/
+int num_city_report_spec(void)
+{
+  return NUM_CREPORT_COLS;
+}
+int *city_report_spec_show_ptr(int i)
+{
+  return &(city_report_specs[i].show);
+}
+char *city_report_spec_tagname(int i)
+{
+  return city_report_specs[i].tagname;
+}
 
 /******************************************************************/
 Widget config_shell;

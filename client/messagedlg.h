@@ -23,5 +23,6 @@ void popup_messageopt_dialog(void);
 #define MW_POPUP     4		/* popup an individual window */
 
 extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
+extern char *message_text[];            /* [E_LAST] */
 
 #endif

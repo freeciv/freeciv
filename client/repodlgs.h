@@ -26,4 +26,11 @@ void trade_report_dialog_update();
 void activeunits_report_dialog_update();
 void popup_activeunits_report_dialog(int make_modal);
 
+/* These are wanted to save/load options; use wrappers rather than
+   expose the grotty details of the city_report_spec:
+*/
+int num_city_report_spec(void);
+int *city_report_spec_show_ptr(int i);
+char *city_report_spec_tagname(int i);
+
 #endif

@@ -41,7 +41,7 @@ extern Display	*display;
 
 unsigned int messages_where[E_LAST];
 
-static char *message_text[E_LAST]={
+char *message_text[E_LAST]={
   "Low Funds                ", 		/* E_LOW_ON_FUNDS */
   "Pollution                ",
   "Global Warming           ",

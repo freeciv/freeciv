@@ -52,6 +52,7 @@
 #include <gotodlg.h>
 #include <connectdlg.h>
 #include <helpdlg.h>
+#include <optiondlg.h>
 
 AppResources appResources;
 
@@ -466,6 +467,8 @@ void x_main(int argc, char *argv[])
   strcpy(our_capability, CAPABILITY);
   if (getenv("FREECIV_CAPS"))
     strcpy(our_capability, getenv("FREECIV_CAPS"));
+
+  load_options();
 
   set_client_state(CLIENT_PRE_GAME_STATE);
   

@@ -16,4 +16,7 @@
 void popup_option_dialog(void);
 void toggle_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
+void load_options(void);
+void save_options(void);
+
 #endif

@@ -43,6 +43,7 @@ enum MenuID {
   MENU_GAME_FIND_CITY,
   MENU_GAME_OPTIONS,
   MENU_GAME_MSG_OPTIONS,
+  MENU_GAME_SAVE_SETTINGS,
   MENU_GAME_RATES,   
   MENU_GAME_REVOLUTION,
   MENU_GAME_PLAYERS,
@@ -113,6 +114,7 @@ struct MenuEntry game_menu_entries[]={
     { "Find City",      MENU_GAME_FIND_CITY, 0 },
     { "Options",        MENU_GAME_OPTIONS, 0 },
     { "Msg Options",    MENU_GAME_MSG_OPTIONS, 0 },
+    { "Save Settings",  MENU_GAME_SAVE_SETTINGS, 0 },
     { "Rates",          MENU_GAME_RATES, 0 },
     { "Revolution",     MENU_GAME_REVOLUTION, 0 },
     { "Players",        MENU_GAME_PLAYERS, 0 },
@@ -195,6 +197,7 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_OPTIONS, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_MSG_OPTIONS, 0);
+    menu_entry_sensitive(game_menu, MENU_GAME_SAVE_SETTINGS, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_RATES, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_REVOLUTION, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 0);
@@ -213,6 +216,7 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_OPTIONS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_MSG_OPTIONS, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_SAVE_SETTINGS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_RATES, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_REVOLUTION, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 1);
@@ -318,6 +322,9 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   case MENU_GAME_MSG_OPTIONS:
     popup_messageopt_dialog();
+    break;
+  case MENU_GAME_SAVE_SETTINGS:
+    save_options();
     break;
   case MENU_GAME_RATES:
     popup_rates_dialog();

@@ -31,6 +31,11 @@
 #include <shared.h>
 #include <packets.h>
 #include <xstuff.h>
+#include <events.h>
+#include <chatline.h>
+#include <messagedlg.h>
+#include <repodlgs.h>
+#include <log.h>
 
 extern Widget toplevel, main_form;
 
@@ -45,6 +50,29 @@ extern int ai_popup_windows;
 extern int ai_manual_turn_done;
 extern int auto_center_on_unit;
 extern int wakeup_focus;
+
+/******************************************************************/
+
+/* definitions for options save/restore */
+
+typedef struct {
+  int *var;
+  char *name;
+} opt_def;
+
+#define GEN_OPT(var) { &var, #var }
+
+static opt_def opts[]= {
+  GEN_OPT(use_solid_color_behind_units),
+  GEN_OPT(sound_bell_at_new_turn),
+  GEN_OPT(smooth_move_units),
+  GEN_OPT(flags_are_transparent),
+  GEN_OPT(ai_popup_windows),
+  GEN_OPT(ai_manual_turn_done),
+  GEN_OPT(auto_center_on_unit),
+  GEN_OPT(wakeup_focus),
+  { NULL, NULL }
+};
 
 /******************************************************************/
 Widget option_dialog_shell;
@@ -236,4 +264,158 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   auto_center_on_unit=b;
   XtVaGetValues(option_wakeup_focus_toggle, XtNstate, &b, NULL);
   wakeup_focus=b;
+}
+
+/****************************************************************
+ The "options" file handles actual "options", and also message
+ options, and city report settings
+*****************************************************************/
+
+/****************************************************************
+...								 
+*****************************************************************/
+FILE *open_option_file(char *mode)
+{
+  char name_buffer[256];
+  char output_buffer[256];
+  char *name;
+  FILE *f;
+
+  name = getenv("FREECIV_OPT");
+
+  if (!name) {
+    name = getenv("HOME");
+    if (!name) {
+      append_output_window("Cannot find your home directory");
+      return NULL;
+    }
+    strncpy(name_buffer, name, 230);
+    name_buffer[230] = '\0';
+    strcat(name_buffer, "/.civclientrc");
+    name = name_buffer;
+  }
+  
+  flog(LOG_DEBUG, "settings file is %s", name);
+
+  f = fopen(name, mode);
+
+  if(mode[0]=='w') {
+    if (f) {
+      snprintf(output_buffer, 255, "Settings file is %s", name);
+    } else {
+      snprintf(output_buffer, 255, "Cannot write to file %s", name);
+    }
+    output_buffer[255] = '\0';
+    append_output_window(output_buffer);
+  }
+  
+  return f;
+}
+
+/****************************************************************
+... 
+*****************************************************************/
+void load_options(void)
+{
+  char buffer[256];
+  char orig_buffer[256];
+  char *s;
+  FILE *option_file;
+  opt_def *o;
+  int val, ind;
+
+  option_file = open_option_file("r");
+  if (option_file==NULL) {
+    /* fail silently */
+    return;
+  }
+
+  while (fgets(buffer,255,option_file)) {
+    buffer[255] = '\0';
+    strcpy(orig_buffer, buffer);    /* save original for error messages */
+    
+    /* handle comments */
+    if ((s = strstr(buffer, "#"))) {
+      *s = '\0';
+    }
+
+    /* skip blank lines */
+    for (s=buffer; *s && isspace(*s); s++) ;
+    if(!*s) continue;
+
+    /* parse value */
+    s = strstr(buffer, "=");
+    if (s == NULL || sscanf(s+1, "%d", &val) != 1) {
+      append_output_window("Parse error while loading option file: input is:");
+      append_output_window(orig_buffer);
+      continue;
+    }
+
+    /* parse variable names */
+    if ((s = strstr(buffer, "message_where_"))) {
+      if (sscanf(s+14, "%d", &ind) == 1) {
+	messages_where[ind] = val;
+	goto next_line;
+      }
+    }
+
+    for (o=opts; o->name; o++) {
+      if (strstr(buffer, o->name)) {
+	*(o->var) = val;
+	goto next_line;
+      }
+    }
+    
+    if ((s = strstr(buffer, "city_report_"))) {
+      s += 12;
+      for (ind=1; ind<num_city_report_spec(); ind++) {
+	if (strstr(s, city_report_spec_tagname(ind))) {
+	  *(city_report_spec_show_ptr(ind)) = val;
+	  goto next_line;
+	}
+      }
+    }
+    
+    append_output_window("Unknown variable found in option file: input is:");
+    append_output_window(orig_buffer);
+
+  next_line:
+  }
+
+  fclose(option_file);
+}
+
+/****************************************************************
+... 
+*****************************************************************/
+void save_options(void)
+{
+  FILE *option_file;
+  opt_def* o;
+  int i;
+
+  option_file = open_option_file("w");
+  if (option_file==NULL) {
+    append_output_window("Cannot save settings.");
+    return;
+  }
+
+  fprintf(option_file, "# settings file for freeciv client version %s\n#\n",
+	  VERSION_STRING);
+
+  for (o=opts; o->name; o++) {
+    fprintf(option_file, "%s = %d\n", o->name, *(o->var));
+  }
+  for (i=0; i<E_LAST; i++) {
+    fprintf(option_file, "message_where_%2.2d = %d  # %s\n",
+	    i, messages_where[i], message_text[i]);
+  }
+  for (i=1; i<num_city_report_spec(); i++) {
+    fprintf(option_file, "city_report_%s = %d\n",
+	    city_report_spec_tagname(i), *(city_report_spec_show_ptr(i)));
+  }
+
+  fclose(option_file);
+  
+  append_output_window("Saved settings.");
 }
