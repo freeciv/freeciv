@@ -4,7 +4,6 @@ dnl Process this file with autoconf to produce a configure script.
 dnl Initialize with some random file to ensure the source is here.
 AC_INIT(common/game.c)
 AM_INIT_AUTOMAKE(freeciv,1.6.1)
-AM_CONFIG_HEADER(config.h)
 
 dnl Evaluate options. Example:
 dnl AC_ARG_ENABLE(debug,
@@ -27,12 +26,11 @@ if test "$x_includes"; then
 fi
 
 AC_CHECK_LIB(X11, XOpenDisplay, , AC_MSG_ERROR("Need X11"), $X_LIBS)
-AC_CHECK_LIB(Xpm, XpmReadFileToPixmap, , AC_MSG_ERROR("Need xpm library"), $X_LIBS)
-AC_CHECK_LIB(Xmu,main)
 AC_CHECK_LIB(Xext,XShapeCombineMask)
-AC_CHECK_LIB(Xaw,main)
 AC_CHECK_LIB(Xt,main)
-AC_CHECK_LIB(Xpm,XpmReadFileToPixmap)
+AC_CHECK_LIB(Xmu,main)
+AC_CHECK_LIB(Xaw,main)
+AC_CHECK_LIB(Xpm, XpmReadFileToPixmap, , AC_MSG_ERROR("Need xpm library"), $X_LIBS)
 AC_CHECK_LIB(socket,main)
 AC_CHECK_LIB(nsl,main)
 AC_CHECK_LIB(nls,main)
