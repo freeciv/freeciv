@@ -2306,21 +2306,14 @@ bool map_canvas_resized(int width, int height)
 }
 
 /**************************************************************************
-  Sets up the mapview_canvas and overview struts.
+  Sets up data for the mapview and overview.
 **************************************************************************/
 void init_mapcanvas_and_overview(void)
 {
-  mapview_canvas.tile_width = 0;
-  mapview_canvas.tile_height = 0;
-  mapview_canvas.width = 0;
-  mapview_canvas.height = 0;
-  mapview_canvas.store = canvas_create(1, 1);
+  /* This function used to allocate dummy values for the mapview and
+   * overview canvas.  This shouldn't be needed by any clients, and caused
+   * a bug in some clients (gtk2) because this init function may actually
+   * be called _after_ the first call to map_canvas_resized. */
   mapview_canvas.single_tile
     = canvas_create(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-
-  overview.map_x0 = 0;
-  overview.map_y0 = 0;
-  overview.width = 0;
-  overview.height = 0;
-  overview.store = NULL;
 }
