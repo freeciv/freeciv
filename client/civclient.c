@@ -73,7 +73,7 @@ int did_advance_tech_this_turn;
 ...
 **************************************************************************/
 char usage[] = 
-"Usage: %s [-hlNpsv][--help] [--log] [--Name] [--port]i\n\t [--server] [--debug] [--version] [--tiles]\n";
+"Usage: %s [-hlNpsv][--help] [--log] [--Name] [--port]\n\t [--server] [--debug] [--version] [--tiles]\n";
 
 /**************************************************************************
 ...

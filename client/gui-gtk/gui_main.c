@@ -173,7 +173,7 @@ static void print_usage(const char *argv0)
   fprintf(stderr, "  -v, --version\t\tPrint the version number.\n");
 }
 
-**************************************************************************/
+/**************************************************************************
 ...
 **************************************************************************/
 static void parse_options(int argc, char **argv)
@@ -206,16 +206,16 @@ static void parse_options(int argc, char **argv)
   i = 1;
   while (i < argc)
   {
-    if (is_option("--help", argv[i])
-    {
-    print_usage(argv[0]);
-    exit(0);
-    }
-  else if (is_option("--version",argv[i])
-    {
+    if (is_option("--help", argv[i]))
+      {
+      print_usage(argv[0]);
+      exit(0);
+      }
+    else if (is_option("--version",argv[i]))
+      {
       fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
       exit(0);
-    }
+      }
     else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       strcpy(logfile,option);
     else if ((option = get_option("--Name",argv,&i,argc)) != NULL)
@@ -232,9 +232,7 @@ static void parse_options(int argc, char **argv)
       }
     }
     else if ((option = get_option("--tiles",argv,&i,argc)) != NULL)
-      tile_set_dir=mystrdup(option);
-    /* tile_set_dir is declared in climisc.c as NULL.
-       That's why I use strdup. nb-- */
+      tile_set_dir=option;
     else {
 	 fprintf(stderr,"Unrecognized option %s\n",argv[i]);
          print_usage(argv[0]);
