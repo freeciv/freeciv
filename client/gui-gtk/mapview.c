@@ -2349,15 +2349,35 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   if (draw_map_grid) {
     /* we draw the 2 lines on top of the tile; the buttom lines will be
        drawn by the tiles underneath. */
-    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_BLACK]);
-    if (draw & D_M_R)
+    int here_in_radius = player_in_city_radius(game.player_ptr, x, y);
+
+    if (draw & D_M_R) {
+      int x1 = x, y1 = y - 1;
+      if (normalize_map_pos(&x1, &y1) && map_get_tile(x1, y1)->known
+	  && (here_in_radius
+	      || player_in_city_radius(game.player_ptr, x1, y1))) {
+	gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_BLACK]);
+      }
       gdk_draw_line(pm, thin_line_gc,
 		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
 		    canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
-    if (draw & D_M_L)
+    }
+
+    if (draw & D_M_L) {
+      int x1 = x - 1, y1 = y;
+      if (normalize_map_pos(&x1, &y1) && map_get_tile(x1, y1)->known
+	  && (here_in_radius
+	      || player_in_city_radius(game.player_ptr, x1, y1))) {
+	gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_WHITE]);
+      } else {
+	gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_BLACK]);
+      }
       gdk_draw_line(pm, thin_line_gc,
 		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
 		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+    }
   }
 
   if (draw_coastline && !draw_terrain) {
