@@ -547,7 +547,7 @@ void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
 
 void create_help_page(enum help_page_type type)
 {
-  Dimension w, h, w2, h2;
+  Dimension w, h, w2, h2, ay, ah;
  
   XtVaGetValues(help_right_form, XtNwidth, &w, NULL);
   XtVaGetValues(help_viewport, XtNheight, &h, NULL);
@@ -577,6 +577,7 @@ void create_help_page(enum help_page_type type)
 					XtNscrollVertical, XawtextScrollAlways, 
 					XtNwidth, w2,
 					XtNheight, h-h2-15,
+					XtNbottom, XawChainBottom,
 					NULL);
   }
   else if(type==HELP_IMPROVEMENT || type==HELP_WONDER) {
@@ -646,12 +647,13 @@ void create_help_page(enum help_page_type type)
 						       help_right_form,
 						       NULL);
     }
-    
+
+    XtVaGetValues(help_improvement_req, XtNy, &ay, XtNheight, &ah, NULL);
     help_improvement_tree=XtVaCreateManagedWidget("helptree", 
 						  treeWidgetClass, 
 						  help_right_form,
 						  XtNwidth, w2,
-						  XtNheight, 2*70,
+						  XtNheight, MAX(1,h-(ay+ah)-10),
 						  NULL);
 
     
@@ -756,11 +758,13 @@ void create_help_page(enum help_page_type type)
 						       help_right_form,
 						       XtNfromVert,help_unit_hp, 
 						       NULL);
+
+     XtVaGetValues(help_improvement_req, XtNy, &ay, XtNheight, &ah, NULL);
      help_improvement_tree=XtVaCreateManagedWidget("helptree", 
 						   treeWidgetClass, 
 						   help_right_form,
 						   XtNwidth, w2,
-						   XtNheight, 2*70,
+						   XtNheight, MAX(1,h-(ay+ah)-10),
 						  NULL);
      XawTreeForceLayout(help_improvement_tree);  
 
@@ -775,11 +779,12 @@ void create_help_page(enum help_page_type type)
 					XtNheight, 70,
 					NULL);
     
+    XtVaGetValues(help_text, XtNy, &ay, XtNheight, &ah, NULL);
     help_improvement_tree=XtVaCreateManagedWidget("helptree", 
 						  treeWidgetClass, 
 						  help_right_form,
 						  XtNwidth, w2,
-						  XtNheight, 2*70,
+						  XtNheight, MAX(1,h-(ay+ah)-10),
 						  XtNfromVert,help_text,
 						  NULL);
     XawTreeForceLayout(help_improvement_tree);  
