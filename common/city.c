@@ -945,11 +945,6 @@ int base_city_get_food_tile(int city_x, int city_y, const struct city *pcity,
 **************************************************************************/
 bool city_can_be_built_here(int x, int y, struct unit *punit)
 {
-  if (punit && punit->transported_by != -1) {
-    /* Transported units cannot build cities. */
-    return FALSE;
-  }
-
   if (terrain_has_flag(map_get_terrain(x, y), TER_NO_CITIES)) {
     /* No cities on this terrain. */
     return FALSE;
