@@ -264,10 +264,13 @@ void science_change_callback(GtkWidget *widget, gpointer data)
 
   to=(size_t)data;
 
-  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active)
+  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
-  else
-    {  
+    /* Following is to make the menu go back to the current research;
+     * there may be a better way to do this?  --dwp */
+    science_dialog_update();
+  }
+  else {  
       sprintf(text, "%d/%d",
 	      game.player_ptr->research.researched, 
 	      research_time(game.player_ptr));
@@ -275,7 +278,7 @@ void science_change_callback(GtkWidget *widget, gpointer data)
   
       packet.tech=to;
       send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
-    }
+  }
 }
 
 /****************************************************************
@@ -289,10 +292,13 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
 
   to=(size_t)data;
 
-  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active)
+  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
-  else
-  {  
+    /* Following is to make the menu go back to the current goal;
+     * there may be a better way to do this?  --dwp */
+    science_dialog_update();
+  }
+  else {  
     sprintf(text, "(%d steps)",
 	    tech_goal_turns(game.player_ptr, to));
     gtk_set_label(science_goal_label,text);
