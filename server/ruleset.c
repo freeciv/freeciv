@@ -55,17 +55,22 @@ static void send_ruleset_buildings(struct player *dest);
 static char *openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset)
 {
-  char filename[512], *dfilename;
+  char filename1[512], filename2[512], *dfilename;
 
-  sprintf(filename, "%s/%s.ruleset", subdir, whichset);
-  dfilename = datafilename(filename);
+  sprintf(filename1, "%s_%s.ruleset", subdir, whichset);
+  dfilename = datafilename(filename1);
   if (!dfilename) {
-    freelog(LOG_FATAL, "Could not find readable ruleset file \"%s\""
-	               " in data path", filename);
-    freelog(LOG_FATAL, "The data path may be set via"
-	               " the environment variable FREECIV_PATH");
-    freelog(LOG_FATAL, "Current data path is: \"%s\"", datafilename(NULL));
-    exit(1);
+    sprintf(filename2, "%s/%s.ruleset", subdir, whichset);
+    dfilename = datafilename(filename2);
+    if (!dfilename) {
+      freelog(LOG_FATAL, "Could not find readable ruleset file \"%s\"",
+	      filename1);
+      freelog(LOG_FATAL, "or \"%s\" in data path", filename2);
+      freelog(LOG_FATAL, "The data path may be set via"
+	      " the environment variable FREECIV_PATH");
+      freelog(LOG_FATAL, "Current data path is: \"%s\"", datafilename(NULL));
+      exit(1);
+    }
   }
   if (!section_file_load(file,dfilename)) {
     freelog(LOG_FATAL, "Could not load ruleset file %s", dfilename);
