@@ -1826,6 +1826,11 @@ void cm_query_result(struct city *pcity,
 {
   struct cm_state *state = cm_init_state(pcity);
 
+  /* Refresh the city.  Otherwise the CM can give wrong results or just be
+   * slower than necessary.  Note that cities are often passed in in an
+   * unrefreshed state (which should probably be fixed). */
+  generic_city_refresh(pcity, TRUE, NULL);
+
   cm_find_best_solution(state, param, result);
   cm_free_state(state);
 }

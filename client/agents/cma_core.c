@@ -388,7 +388,6 @@ static void handle_city(struct city *pcity)
     }
 
     pcity = find_city_by_id(city_id);
-    generic_city_refresh(pcity, FALSE, 0);
 
     cm_query_result(pcity, &parameter, &result);
     if (!result.found_a_valid) {
