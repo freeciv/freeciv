@@ -119,7 +119,7 @@ contributions to the Freeciv project.
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (patches)
      Lauri Tarkkala <ltarkkal@hutcs.cs.hut.fi> (improved networking)
      Reinier Post <reinpost@win.tue.nl> (patches)
-     Mike Kaufman <mkaufman@math.ukans.edu> (patch)
+     Mike Kaufman <kaufman@orion.physics.wisc.edu> (patch)
      Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx> (patches)
      Kero van Gelder <kero@ipc3799cba.dial.wxs.nl>
 	(patches, goto improvement)
@@ -862,7 +862,7 @@ contributions to the Freeciv project.
 
   CivWorld (our map editor):
 
-     Mike Kaufman <mkaufman@math.ukans.edu> (maintainer)
+     Mike Kaufman <kaufman@orion.physics.wisc.edu> (maintainer)
      Thue Janus Kristensen <thue@diku.dk> (rewrite)
      Daniel Gudlat <gudlat@informatik.hu-berlin.de> (previous maintainer)
      Benjamin Drieu <drieu@bocal.cs.univ-paris8.fr> (original author)
