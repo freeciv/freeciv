@@ -1,0 +1,42 @@
+[nation_elves]
+; Note: although mostly Noldorin Kings and places have been used, I have included some Sindarin
+
+name=_("Elves")
+plural=_("?plural:Elves")
+class=_("Fictional")
+; Starting with the six High Kings of the Noldor, folowed by other kings (some are not real Kings, but in the Third Age it's close enough :-)
+; Elrond COULD have been High King, but never made claim to the Kingship, so I include him as well (and most people know him)
+; Melian is a Maia, but as Queen of Doriath I found it good to include her as well.
+leader="Ingwë", "Fëanor", "Fingolfin", "Fingon", "Turgon",
+   "Ereinion Gil-galad", "Thingol", "Melian", "Finwë", "Finarfin",
+   "Celeborn", "Elrond"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female",
+   "Male", "Male", "Male", "Male"
+flag="f.elves"
+flag_alt = "-"
+city_style = "European"
+; Melian was the Queen of Doriath
+ruler_titles = { "government",      "male_title",      "female_title"
+            "Monarchy", _("High King of the Noldor"), _("Queen of Doriath")
+               }
+
+init_techs=""
+init_buildings=""
+tech_goals = ""
+
+; Think of the Girdle of Melian, the Encircling Mountains around Rivendell, the rivers (Silverlode and Anduin) around Lothlorien, etc.
+wonder="Great Wall"
+government="Monarchy"
+
+; Cities in order of seeing them on the map :-)
+; (Rivendel and Lothlorien are 2nd and 3rd Age, but they are quite well-known)
+; Caras Galadhon is the capital of Lothlorien; so techically I shouldn't include Lothlorien. (but I do :P)
+; I also included a lot of place-names and 'countries'(wich are no cities!) because there aren't enough Elven-cities. If anyone fins more cities, please replace the places with cities :-)
+; It is possible that I have, in my infinite distraction, have misplaced a city: a human/other city. Please correct them if you find them
+
+cities =
+  "Ost-in-Edhil", "Gondolin", "Menegroth", "Nagrothrond", "Rivendell", 
+  "Lothlorien", "Himring", "Belegost", "Eglarest", "Vinyamar", "Nogrod",
+  "Ossiriand", "Caras Galadhon", "Edhellond", "Doriath", "Amon Obel", 
+  "Tol Galen", "Minas Tirith", "Lindon", "Thargelion", "Arvenien", 
+  "Nevrast", "Himlad", "Barad Nimras"

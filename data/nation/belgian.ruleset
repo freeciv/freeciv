@@ -1,0 +1,21 @@
+[nation_belgian]
+
+name=_("Belgian")
+plural=_("?plural:Belgians")
+leader="Leopold III", "Baudouin", "Albert"
+leader_sex="Male", "Male", "Male"
+flag="f.belgium"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Warrior Code", "Monarchy", "Democracy", "Gunpowder",
+             "Guerilla Warfare"
+wonder= "Cure for Cancer"
+government = "Monarchy"
+
+cities =
+  "Brussel", "Antwerpen", "Gent", "Charleroi", "Liège", "Brugge", "Namur",
+  "Bergen", "Leuven", "Alost", "Kortrijk", "Mechelen", "Oostende",
+  "Tournai", "Hasselt", "St. Niklaas"

@@ -1,0 +1,28 @@
+[nation_sumerian]
+
+name=_("Sumerian")
+plural=_("?plural:Sumerians")
+class=_("Historical")
+leader="Gilgamesh", "Lagislazuli", "Urukagina", "Urnammu", "Ibissin"
+leader_sex="Male", "Male", "Male", "Male", "Male"
+flag = "f.sumeria"
+flag_alt = "-"
+city_style = "Classical"
+
+ruler_titles = { "government",	"male_title",	"female_title"
+		 "Monarchy",	_("Lugal"),	 _("Lugal")
+		 "Communism",	_("Ensi"),       _("Ensi")
+	       } 
+
+init_techs=""
+init_buildings=""
+tech_goals = "Bronze Working","Writing","Trade","Astronomy",
+             "Theology","Code of Laws","Economics","Communism"
+wonder="A.Smith's Trading Co."
+government="Communism"
+
+cities =
+  "Uruk", "Eridu", "Ur", "Lagash", "Nippur", "Umma",
+  "Larsa", "Kish", "Adab", "Susa", "Mari", "Hit", 
+  "Babylon", "Dilmun", "Eschnunna", "Der", "Sippur",
+  "Karkemish", "Ebla", "Arbel", "Larsa", "Cyprus"

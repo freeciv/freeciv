@@ -1,0 +1,21 @@
+[nation_nigerian]
+
+name=_("Nigerian")
+plural=_("?plural:Nigerians")
+class=_("Modern")
+leader="Balewa", "Obasanjo"
+leader_sex="Male", "Male"
+flag="f.nigeria"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Warrior Code", "Feudalism", "Gunpowder", "Guerilla Warfare"
+wonder= "Statue of Liberty"
+government = "Despotism"
+
+cities =
+  "Abuja", "Lagos", "Ibadan", "Kano", "Oshogbo", "Ilorin", "Abeokuta",
+  "Port Harcourt", "Kaduna", "Maiduguri", "Enugu", "Benin City", "Katsina",
+  "Jos", "Sokoto" 

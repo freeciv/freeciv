@@ -1,0 +1,22 @@
+[nation_indonesian]
+
+name=_("Indonesian")
+plural=_("?plural:Indonesians")
+class=_("Modern")
+leader="Sukarno", "Suharto", "Habibie", "Wahid"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.indonesia"
+flag_alt = "-"
+city_style = "Classical"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Monarchy", "Feudalism", "Navigation", "Flight", "Rocketry"
+wonder= "Magellan's Expedition"
+government = "Despotism"
+
+cities =
+  "Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Palembang",
+  "Ujung Pandang", "Padang", "Malang", "Surakarta", "Banjarmasin",
+  "Yogyakarta", "Pontianak"
+

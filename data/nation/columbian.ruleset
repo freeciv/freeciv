@@ -1,0 +1,21 @@
+[nation_columbian]
+
+name=_("Columbian")
+plural=_("?plural:Columbians")
+class=_("Modern")
+leader="S. Bolívar", "G.J. Quesada"
+leader_sex="Male", "Male"
+flag="f.columbia"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Feudalism", "The Republic", "Gunpowder", "Explosives",
+             "Guerilla Warfare"
+wonder= "Statue of Liberty"
+government = "Democracy"
+
+cities =
+  "Bogotá", "Medellin", "Cali", "Barranquilla", "Cartagena", "Cúcuta",
+  "Bucaramanga", "Manizales", "Ibagué", "Pereira"

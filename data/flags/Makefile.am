@@ -8,6 +8,7 @@ pkgdata_DATA =				\
 		arab.png		\
 		argentina.png		\
 		armenia.png		\
+		assyria.png		\
 		australia.png		\
 		austria.png		\
 		azerbaijan.png		\
@@ -22,11 +23,14 @@ pkgdata_DATA =				\
 		cheyenne.png		\
 		chile.png		\
 		china.png		\
+		columbia.png		\
 		cornwall.png		\
 		croatia.png		\
+		cuba.png		\
 		czech.png		\
 		denmark.png		\
 		dunedain.png		\
+		elves.png		\
 		egypt.png		\
 		england.png		\
 		estonia.png		\
@@ -34,29 +38,35 @@ pkgdata_DATA =				\
 		europe.png		\
 		finland.png		\
 		france.png		\
+		galicia.png		\
 		germany.png		\
 		greece.png		\
 		greenland.png		\
 		hungary.png		\
 		iceland.png		\
 		india.png		\
+		indonesia.png		\
 		iran.png		\
 		iraq_old.png		\
 		ireland.png		\
 		israel.png		\
 		italy.png		\
 		japan.png		\
+		kampuchea.png		\
 		kenya.png		\
 		korea.png		\
 		krev.png		\
 		latvia.png		\
 		lithuania.png		\
+		malaysia.png		\
 		macedonia.png		\
+		mars.png		\
 		mexico.png		\
 		mongolia.png		\
 		mordor.png		\
 		nato.png		\
 		netherlands.png		\
+		nigeria.png		\
 		norway.png		\
 		observer.png		\
 		olympic.png		\
@@ -65,6 +75,7 @@ pkgdata_DATA =				\
 		philippines.png		\
 		poland.png		\
 		portugal.png		\
+		quebec.png		\
 		rome.png		\
 		russia.png		\
 		rwanda.png		\
@@ -77,9 +88,11 @@ pkgdata_DATA =				\
 		soviet.png		\
 		spain.png		\
 		stpatrick.png		\
+		sumeria.png		\
 		sweden.png		\
 		swiss.png		\
 		syria.png		\
+		taiwan.png		\
 		thailand.png		\
 		tunisia.png		\
 		turkey.png		\

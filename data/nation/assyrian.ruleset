@@ -1,0 +1,31 @@
+[nation_assyrian]
+
+name=_("Assyrian")
+plural=_("?plural:Assyrians")
+class=_("Historical")
+leader="Ashurbanipal", "Tiglat Pileser III", "Ashurnasirpal II", "Shamiram",
+       "Agha Petros", "Naoum Faik"
+leader_sex="Male", "Male", "Male", "Female", "Male", "Male"
+flag = "f.assyria"
+flag_alt = "-"
+city_style = "Classical"
+
+ruler_titles = { "government",	"male_title",	"female_title"
+		 "Monarchy",	_("Malka"),	_("Malikta")
+		 "Democracy",	_("President"), _("President")
+	       } 
+
+init_techs=""
+init_buildings=""
+tech_goals = "Monarchy","Trade","Mathematics","Chivalry","Iron Working",
+             "Theology","Monotheism","Code of Laws","Engineering","Astronomy"
+wonder="Great Library"
+government="Democracy"
+
+
+cities =
+  "Ashur", "Nineveh", "Kalhu", "Arbela", "Edessa", "Osrhoene",
+  "Nisibin", "Alqosh", "Urmia", "Kirkuk", "Akkad", "Mosul", "Dohuk",
+  "Aqra", "Zibar", "Supna", "Zakho", "Hakkari", "Bohtan", "Ayn-Slibo",
+  "Omed", "Tur-Abdin", "Merdo", "Tella-Shleela", "Kharput", "Perin", 
+  "Urhoy", "Ayn-Towo", "Salamas", "Khabour", "Malatya"

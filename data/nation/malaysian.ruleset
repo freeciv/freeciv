@@ -1,0 +1,22 @@
+[nation_malaysian]
+
+name=_("Malaysian")
+plural=_("?plural:Malaysians")
+class=_("Modern")
+leader="Mahathir", "Anwar Ibrahim"
+leader_sex="Male", "Male"
+flag="f.malaysia"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Warrior Code", "The Republic", "Navigation", "Railroad",
+             "Guerilla Warfare"
+wonder= "Magellan's Expedition"
+government = "The Republic"
+
+cities =
+  "Kuala Lumpur", "Ipoh", "Pinang", "Johore Bahru", "Petaling Jaya",
+  "Kelang", "Kuala Terengganu", "Kota Baharu", "Taiping", "Kuantan",
+  "Seremban", "Kota Kinabalu", "Kuching"

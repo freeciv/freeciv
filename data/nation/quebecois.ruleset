@@ -1,0 +1,34 @@
+[nation_quebecois]
+
+name=_("Quebecois")
+plural=_("?plural:Quebecois")
+class=_("Historical")
+leader="Champlain", "Frontenac", "Montcalm", "Papineau",
+       "Rene Levesque"
+leader_sex="Male", "Male", "Male", "Male", "Male"
+flag = "f.quebec"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",	"male_title",	"female_title"
+		 "Monarchy",	_("Governor"),	_("Governor")
+		 "Democracy",	_("President"), _("President")
+	       } 
+
+init_techs=""
+init_buildings=""
+tech_goals = "Monarchy","Trade","Mathematics","Chivalry","Iron Working",
+             "Theology","Invention","Code of Laws","Engineering","Astronomy"
+wonder="Great Library"
+government="Democracy"
+
+cities =
+  "Québec", "Montréal", "Trois-Rivières", "Sherbrooke", "Lévis", "Sorel", 
+  "Chicoutimi", "Jonquière", "Rimouski", "Châteauguay", "Gatineau", 
+  "Tadoussac", "Chambly", "Iberville", "St-Jean", "Verchères", "St-Denis", 
+  "St-Eustache", "Rivière-du-Loup", "Matane", "Gaspé", "Roberval", "Alma",
+  "St-Hyacinthe", "Drummondville", "La Malbaie", "St-Georges", "Montmagny", 
+  "Tracy", "Mont-Joli", "Trois-Pistoles", "Cap-de-la-Madeleine",
+  "Sept-Iles", "Baie-Comeau", "Rouyn-Noranda", "Val d'Or", "Granby",
+  "Varennes", "Lachute", "St-Jérome", "Mont-Laurier", 
+  "Maniwaki", "Shawinigan", "La Tuque", "Havre-St-Pierre", "Chibougamau" 

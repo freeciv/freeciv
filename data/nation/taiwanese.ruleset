@@ -1,0 +1,23 @@
+[nation_taiwanese]
+
+name=_("Taiwanese")
+plural=_("?plural:Taiwanese")
+class=_("Modern")
+leader="Sun Yat Sen", "Chiang Kai Shek", "Lee Teng Hui", "Kung Fu Tse"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.taiwan"
+flag_alt = "-"
+city_style = "Classical"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Feudalism", "The Republic", "Democracy", "Explosives",
+             "Guerilla Warfare"
+wonder= "Marco Polo's Embassy"
+government = "Democracy"
+
+cities =
+  "Taipeh", "Kaohsiung", "Taichung", "Tainan", "Panchiao", "Shungho",
+  "Shanchung", "Keelung", "Hsinchu", "Hsinchuang", "Fengshan", "Chungli",
+  "Chiayli"
+

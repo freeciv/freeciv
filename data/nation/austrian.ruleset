@@ -1,0 +1,25 @@
+[nation_austrian]
+
+name=_("Austrian")
+plural=_("?plural:Austrians")
+leader="Maria Theresia", "Franz Joseph", "Luitpold" 
+leader_sex="Female", "Male", "Male"
+flag="f.austria"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Monarchy", "The Republic", "Gunpowder", "Metallurgy",
+             "Plastics"
+wonder= "J.S. Bach's Cathedral"
+government = "Monarchy"
+
+cities =
+  "Wien", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt",
+  "Villach", "Wels", "St. Pölten", "Dornbirn", "Steyr", "Leoben",
+  "Wolfsberg", "Bregenz", "Feldkirch", "Klosterneuburg", "Baden",
+  "Kapfenberg", "Krems", "Traun", "Amstetten", "Leonding", "Mödling",
+  "Lustenau", "Hallein", "Braunau", "Ternitz", "Spittal", "Schwechat",
+  "Eisenstadt"
+

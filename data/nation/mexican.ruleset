@@ -1,0 +1,25 @@
+[nation_mexican]
+
+name=_("Mexican")
+plural=_("?plural:Mexicans")
+class=_("Modern")
+leader="B. Juárez", "Cárdenas"
+leader_sex="Male", "Male"
+flag="f.mexico"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+tech_goals = "Warrior Code", "The Republic", "Gunpowder", "Explosives",
+             "Guerilla Warfare"
+wonder= "Statue of Liberty"
+government = "The Republic"
+
+cities =
+  "Ciudad de México", "Guadalajara", "Monterrey",
+  "Puebla", "León de los Aldamas", "Ciudad Juárez",
+  "Tijuana", "Mexicali", "Culiacán Rosales", "Acapulco de Juárez",
+  "Mérida", "Chihuahua", "San Luis Potosí", "Aguascalientes", "Morelia",
+  "Toluco de Lerdo", "Torreón", "Querétaro", "Hermosillo", "Saltillo",
+  "Victoria de Durango"
