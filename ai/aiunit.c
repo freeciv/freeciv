@@ -585,7 +585,9 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
           weakest = -1; dest = yy[j] * map.xsize + xx[i];
         }
       }
-      if (map_get_tile(xx[i], yy[j])->special & S_HUT && weakest > 0) {
+      if (map_get_tile(xx[i], yy[j])->special & S_HUT && weakest > 0 &&
+          zoc_ok_move(punit, xx[i], yy[j]) &&
+          punit->ai.ai_role != AIUNIT_DEFEND_HOME) { /* Oops! -- Syela */
         weakest = 0; dest = yy[j] * map.xsize + xx[i];
       }
     }
@@ -711,9 +713,9 @@ if (punit->homecity)
    if ((punit->x == pcity->x)&&(punit->y == pcity->y))
       {
 /*      printf("INHOUSE. GOTO AI_NONE(%d)\n", punit->id); */
-      punit->ai.ai_role=AIUNIT_NONE;
 /* aggro defense goes here -- Syela */
       dest = ai_military_findvictim(pplayer, punit);
+      punit->ai.ai_role=AIUNIT_NONE;
       dest_x = dest % map.xsize;
       dest_y = dest / map.xsize;
       handle_unit_move_request(pplayer, punit, dest_x, dest_y); /* might bash someone */
