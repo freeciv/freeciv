@@ -48,6 +48,7 @@
 #include "capstr.h"
 #include "city.h"
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -81,8 +82,6 @@
 
 #include "advmilitary.h"
 #include "aihand.h"
-
-#include "fcintl.h"
 
 #include "civserver.h"
 

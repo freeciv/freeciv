@@ -27,6 +27,7 @@
 #endif
 
 #include "capstr.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -51,8 +52,6 @@
 #include "packhand.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
-
-#include "fcintl.h"
 
 #include "civclient.h"
 
