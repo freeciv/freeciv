@@ -18,6 +18,8 @@
 #include <unit.h>
 #include <citytools.h>
 #include <advmilitary.h>
+#include <unitfunc.h>
+#include <cityhand.h>
 #include <aicity.h>
 #include <aiunit.h>
 
@@ -60,7 +62,8 @@ int building_value(int max, struct city *pcity, int val)
   int sad = pcity->ppl_unhappy[0]; /* yes, I'm sure about that! */
   int bored = pcity->ppl_content[4]; /* this I'm not sure of anymore */
 
-/* currently raising the lux rate will decrease building_want.  FIX! -- Syela */
+  if (pcity->ppl_content[1] < pcity->ppl_content[0]) /* should fix the above */
+    bored += pcity->ppl_content[0] - pcity->ppl_content[1];
 
   i = pcity->ppl_unhappy[3] - pcity->ppl_unhappy[2];
   sad += i; /* if units are making us unhappy, count that too. */
@@ -123,30 +126,36 @@ void ai_eval_buildings(struct city *pcity)
 {
   int i, gov, tech, val, a, t, food, j, k, hunger, bar, grana;
   int tax, prod, sci, values[B_LAST];
+  int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *plr = city_owner(pcity);
-  int shield_weighting[3] = { 17, 17, 18 };
-  int food_weighting[3] = { 18, 18, 17 };
   int needpower;
   
   a = get_race(city_owner(pcity))->attack;
   t = pcity->ai.trade_want; /* trade_weighting */
   sci = (pcity->trade_prod * plr->economic.science + 50) / 100;
   tax = pcity->trade_prod - sci;
+#ifdef STUPID
   sci *= t;
   tax *= t;
-  prod = pcity->shield_prod * 100 / city_shield_bonus(pcity) * shield_weighting[a];
+#else
+/* better might be a longterm weighted average, this is a quick-n-dirty fix -- Syela */
+  sci = (sci + pcity->trade_prod) * t / 2;
+  tax = (tax + pcity->trade_prod) * t / 2;
+#endif
+  prod = pcity->shield_prod * 100 / city_shield_bonus(pcity) * SHIELD_WEIGHTING;
   needpower = (city_got_building(pcity, B_MFG) ? 2 :
               (city_got_building(pcity, B_FACTORY) ? 1 : 0));
   val = ai_best_tile_value(pcity);
-  food = food_weighting[a] * 4 / MAX(2,pcity->size);
-  grana = food_weighting[a] * 4 / MAX(3,pcity->size + 1);
+  food = FOOD_WEIGHTING * 4 / MAX(2,pcity->size);
+  grana = FOOD_WEIGHTING * 4 / MAX(3,pcity->size + 1);
 /* because the benefit doesn't come immediately, and to stop stupidity */
 /* the AI used to really love granaries for nascent cities, which is OK */
 /* as long as they aren't rated above Settlers and Laws is above Pottery -- Syela*/
   if (city_got_building(pcity, B_GRANARY)) food *= 2; /* for aqueducts mainly */
   i = (pcity->size * 2) + settler_eats(pcity);
   i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
-  if (i > 0 && !pcity->ppl_scientist) hunger = i + 1; else hunger = 1;
+  if (i > 0 && !pcity->ppl_scientist && !pcity->ppl_taxman) hunger = i + 1;
+  else hunger = 1;
 
   gov = get_government(pcity->owner);
   tech = (plr->research.researching != A_NONE);
@@ -156,10 +165,10 @@ void ai_eval_buildings(struct city *pcity)
   } /* rewrite by Syela - old values seemed very random */
 
   if (could_build_improvement(pcity, B_AQUEDUCT)) {
-    values[B_AQUEDUCT] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
-                         (9 - MIN(8, pcity->size)); /* guessing about food if we did farm */
-    values[B_AQUEDUCT] *= 2; /* guessing about value of loving the president */
-    if (city_happy(pcity) && (pcity->food_surplus + 2 * pcity->ppl_scientist > 0))
+    values[B_AQUEDUCT] = food * est_food * 8 * game.foodbox /
+           MAX(1, ((9 - MIN(8, pcity->size)) * MAX(8, pcity->size) *
+           game.foodbox - pcity->food_stock));
+    if (city_happy(pcity) && pcity->size > 4 && est_food > 0)
       values[B_AQUEDUCT] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
       game.foodbox / 2 - pcity->food_stock) * food / (9 - MIN(8, pcity->size));
   }
@@ -240,13 +249,17 @@ void ai_eval_buildings(struct city *pcity)
     values[B_MARKETPLACE] = tax / 2;
 
   if (could_build_improvement(pcity, B_MFG))
-    values[B_MFG] = prod / 2;
+    values[B_MFG] = ((city_got_building(pcity, B_HYDRO) ||
+                     city_got_building(pcity, B_NUCLEAR) ||
+                     city_got_building(pcity, B_POWER) ||
+                     city_affected_by_wonder(pcity, B_HOOVER)) ?
+                     prod * 3 / 4 : prod / 2);
 
   if (could_build_improvement(pcity, B_NUCLEAR))
     values[B_NUCLEAR] = needpower * prod / 4;
 
   if (could_build_improvement(pcity, B_OFFSHORE))
-    values[B_OFFSHORE] = ocean_workers(pcity) * shield_weighting[a];
+    values[B_OFFSHORE] = ocean_workers(pcity) * SHIELD_WEIGHTING;
 
   if (could_build_improvement(pcity, B_POWER))
     values[B_POWER] = needpower * prod / 4;
@@ -255,10 +268,10 @@ void ai_eval_buildings(struct city *pcity)
     values[B_RESEARCH] = sci / 2;
   
   if (could_build_improvement(pcity, B_SEWER)) {
-    values[B_SEWER] = food * (pcity->food_surplus + 2 * pcity->ppl_scientist) /
-                      (13 - MIN(12, pcity->size)); /* guessing about food if we did farm */
-    values[B_SEWER] *= 3; /* guessing about value of loving the president */
-    if (city_happy(pcity) && (pcity->food_surplus + 2 * pcity->ppl_scientist > 0))
+    values[B_SEWER] = food * est_food * 12 * game.foodbox /
+          MAX(1, ((13 - MIN(12, pcity->size)) * MAX(12, pcity->size) *
+          game.foodbox - pcity->food_stock));
+    if (city_happy(pcity) && pcity->size > 4 && est_food > 0)
        values[B_SEWER] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) * 
        game.foodbox / 2 - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
   }
@@ -297,7 +310,7 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_DARWIN) /* this is a one-time boost, not constant */
         values[i] = (research_time(plr) * 2 + game.techlevel) * t -
                     plr->research.researched * t - /* Have to time it right */
-                    400 * shield_weighting[a]; /* rough estimate at best */
+                    400 * SHIELD_WEIGHTING; /* rough estimate at best */
       if (i == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
         values[i] = (research_time(plr) * (100 - game.freecost)) * t / 100 *
                     (game.nplayers - 2) / (game.nplayers); /* guessing */
@@ -324,7 +337,7 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_BACH)
         values[i] = building_value(2, pcity, val);
       if (i == B_RICHARDS)
-        values[i] = (pcity->size + 1) * shield_weighting[a];
+        values[i] = (pcity->size + 1) * SHIELD_WEIGHTING;
       if (i == B_MICHELANGELO && !city_got_building(pcity, B_CATHEDRAL))
         values[i] = building_value(get_cathedral_power(pcity), pcity, val);
       if (i == B_ORACLE) {
@@ -381,10 +394,11 @@ void ai_eval_buildings(struct city *pcity)
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
-  int expand_factor[3] = {1,3,8};
-  int expand_cities [3] = {3, 5, 7};
   int set, con, work, cit, i, want;
   struct ai_choice cur;
+  int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
+/* had to add the scientist guess here too -- Syela */
+  struct unit virtualunit;
 
   choice->choice = 0;
   choice->want   = 0;
@@ -392,24 +406,24 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   set = city_get_settlers(pcity);
   con = map_get_continent(pcity->x, pcity->y); 
   cit = get_cities_on_island(pplayer, con);
-  work = pplayer->ai.island_data[con].workremain; /* usually = cit */
-  if (!set && settler_eats(pcity) <= pcity->food_surplus + 2*pcity->ppl_scientist) {
-/* settlers are an option */ /* had to add the scientist guess here too -- Syela */
-    set = get_settlers_on_island(pplayer, con);
-    work -= set;
-    work -= expand_factor[get_race(pplayer)->expand];
-    if (work < 0) work = 0;
-/* if we have 5 cities, 1 settler, and expand_factor = 3, work = 1 */
-    want = work * 20;
-    cit -= expand_cities[get_race(pplayer)->expand];
-    if (cit < 0) want = 101; /* if we need to expand, just expand */
-/* if we NEED a military unit, that takes precedence anyway */
-/* was not getting enough settlers after expand_cities reached, so ... */
-/* if 7 cities, expand = 2, cit will = 0. */
-    else want += 100 - (pcity->size + cit) * 10;
-    if (can_build_unit(pcity, U_ENGINEERS)) want *= 2;
+  work = cit; /* was fnord, should be something intelligent -- Syela */
+
+  if (est_food > (get_government(pcity->owner) >= G_REPUBLIC ? 2 : 1)) {
+/* allowing multiple settlers per city now.  I think this is correct. -- Syela */
+/* settlers are an option */
+/* used to use old crappy formulas for settler want, but now using actual want! */
+    memset(&virtualunit, 0, sizeof(&virtualunit));
+    virtualunit.id = 0;
+    virtualunit.owner = pplayer->player_no;
+    virtualunit.x = pcity->x;
+    virtualunit.y = pcity->y;
+    virtualunit.type = (can_build_unit(pcity, U_ENGINEERS) ? U_ENGINEERS : U_SETTLERS);
+    virtualunit.moves_left = unit_types[virtualunit.type].move_rate;
+    virtualunit.hp = 20;
+    want = auto_settler_findwork(pplayer, &virtualunit);
+
     if (want > 0) {
-/*      printf("%s desires settlers with passion %d\n", pcity->name, want); */
+/*      printf("%s (%d, %d) desires settlers with passion %d\n", pcity->x, pcity->y, pcity->name, want);*/
       if (can_build_unit(pcity, U_ENGINEERS)) choice->choice = U_ENGINEERS;
       else {
         choice->choice = U_SETTLERS;
@@ -465,6 +479,11 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       choice->want = 1; /* someday, real diplomat code will be here! */
       choice->type = 1;
       choice->choice = U_DIPLOMAT;
+    }
+    else if (can_build_unit(pcity, U_SPY)) {
+      choice->want = 1; /* someday, real diplomat code will be here! */
+      choice->type = 1;
+      choice->choice = U_SPY;
     }
   }
      
