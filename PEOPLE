@@ -85,6 +85,7 @@ contributions to the Freeciv project.
      Andrew Pimlott <andrew@pimlott.ne.mediaone.net> (patch)
      Michael Stefaniuc <mstefani@redhat.de> (patch)
      Gregory Berkolaiko <Gregory.Berkolaiko@weizmann.ac.il> (patch)
+     Reinier Post <reinpost@win.tue.nl> (patch)
 
   Coders up to 1.11.4 release:
 
@@ -474,6 +475,7 @@ contributions to the Freeciv project.
      Pablo Belluscio <pablibell@fibertel.com.ar>
      Gregory Berkolaiko <Gregory.Berkolaiko@weizmann.ac.il>
      Micha Riser <mriser@gmx.net>
+     David Zverina <David.Zverina@uk.wmmercer.com>
 
   Bug reports up to 1.11.4 release:
 
