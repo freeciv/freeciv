@@ -12,4 +12,4 @@ pkgdata_DATA = Freeciv	\
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = default civ1 classic
+SUBDIRS = default civ1 trident

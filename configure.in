@@ -256,4 +256,4 @@ dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 AC_DEFINE_UNQUOTED(FREECIV_DATADIR, "$FREECIV_DATADIR")
 
-AC_OUTPUT(Makefile data/Makefile data/default/Makefile data/civ1/Makefile data/classic/Makefile common/Makefile ai/Makefile client/Makefile client/include/Makefile client/gui-gtk/Makefile client/gui-xaw/Makefile server/Makefile undep.sh, [ chmod +x undep.sh ; ./undep.sh ])
+AC_OUTPUT(Makefile data/Makefile data/default/Makefile data/civ1/Makefile data/trident/Makefile common/Makefile ai/Makefile client/Makefile client/include/Makefile client/gui-gtk/Makefile client/gui-xaw/Makefile server/Makefile undep.sh, [ chmod +x undep.sh ; ./undep.sh ])

@@ -85,7 +85,7 @@ pkgdata_DATA = Freeciv		helpdata.txt		earth-80x50.sav 	earth-160x90.sav 	europe.
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = default civ1 classic
+SUBDIRS = default civ1 trident
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
