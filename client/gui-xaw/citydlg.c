@@ -734,8 +734,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			    pixcommWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->support_unit_label,
-			    XtNwidth, NORMAL_TILE_WIDTH,
-			    XtNheight, NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2,
+			    XtNwidth, UNIT_TILE_WIDTH,
+			    XtNheight, 3 * UNIT_TILE_HEIGHT / 2,
 			    NULL);
 
   pdialog->present_unit_label=
@@ -751,8 +751,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
     			    pixcommWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, pdialog->present_unit_label,
-			    XtNwidth, NORMAL_TILE_WIDTH,
-			    XtNheight, NORMAL_TILE_HEIGHT,
+			    XtNwidth, UNIT_TILE_WIDTH,
+			    XtNheight, UNIT_TILE_HEIGHT,
 			    NULL);
 
 
@@ -977,8 +977,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			      XtNfromVert, pdialog->support_unit_label,
 			      XtNfromHoriz,
 			        (XtArgVal)pdialog->support_unit_pixcomms[i-1],
-			      XtNwidth, NORMAL_TILE_WIDTH,
-			      XtNheight, NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2,
+			      XtNwidth, UNIT_TILE_WIDTH,
+			      XtNheight, 3 * UNIT_TILE_HEIGHT / 2,
 			      NULL);
   }
 
@@ -1001,8 +1001,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			      XtNfromVert, pdialog->present_unit_label,
 			      XtNfromHoriz, 
 			        (XtArgVal)pdialog->support_unit_pixcomms[i-1],
-			      XtNwidth, NORMAL_TILE_WIDTH,
-			      XtNheight, NORMAL_TILE_HEIGHT,
+			      XtNwidth, UNIT_TILE_WIDTH,
+			      XtNheight, UNIT_TILE_HEIGHT,
 			      NULL);
   }
 
@@ -1533,30 +1533,28 @@ void city_dialog_update_map(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   struct canvas_store store = {XtWindow(pdialog->map_canvas)};
   
+  XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+  XFillRectangle(display, XtWindow(pdialog->map_canvas), fill_bg_gc,
+		 0, 0, 4 * NORMAL_TILE_WIDTH, 4 * NORMAL_TILE_HEIGHT);
+
   for(y=0; y<CITY_MAP_SIZE; y++) {
     for(x=0; x<CITY_MAP_SIZE; x++) {
-      int map_x, map_y;
+      int map_x, map_y, canvas_x, canvas_y;
 
       if (is_valid_city_coords(x, y)
 	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
-	  && tile_get_known(map_x, map_y)) {
-	put_one_tile(&store, map_x, map_y,
-		     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, TRUE);
+	  && tile_get_known(map_x, map_y)
+	  && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+	put_one_tile(&store, map_x, map_y, canvas_x, canvas_y, TRUE);
 	if (pcity->city_map[x][y] == C_TILE_WORKER)
 	  put_city_tile_output(XtWindow(pdialog->map_canvas),
-			       x * NORMAL_TILE_WIDTH,
-			       y * NORMAL_TILE_HEIGHT,
+			       canvas_x, canvas_y,
 			       city_get_food_tile(x, y, pcity),
 			       city_get_shields_tile(x, y, pcity),
 			       city_get_trade_tile(x, y, pcity));
 	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
 	  pixmap_frame_tile_red(XtWindow(pdialog->map_canvas),
-				x * NORMAL_TILE_WIDTH,
-				y * NORMAL_TILE_HEIGHT);
-      } else {
-	pixmap_put_black_tile(XtWindow(pdialog->map_canvas),
-			      x * NORMAL_TILE_WIDTH,
-			      y * NORMAL_TILE_HEIGHT);
+				canvas_x, canvas_y);
       }
     }
   }

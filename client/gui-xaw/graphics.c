@@ -516,7 +516,7 @@ Pixmap create_overlay_unit(int i)
   enum color_std bg_color;
   
   pm=XCreatePixmap(display, root_window, 
-		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
+		   UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, display_depth);
 
   /* Give tile a background color, based on the type of unit */
   switch (get_unit_type(i)->move_type) {
@@ -528,7 +528,7 @@ Pixmap create_overlay_unit(int i)
   }
   XSetForeground(display, fill_bg_gc, colors_standard[bg_color]);
   XFillRectangle(display, pm, fill_bg_gc, 0,0, 
-		 NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
+		 UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {

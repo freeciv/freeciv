@@ -287,7 +287,7 @@ void create_line_at_mouse_pos(void)
 **************************************************************************/
 void mapctrl_key_city_workers(XEvent *event)
 {
-  int x,y, is_real;
+  int x,y;
   XButtonEvent *ev=&event->xbutton;
   struct city *pcity;
 
@@ -295,10 +295,9 @@ void mapctrl_key_city_workers(XEvent *event)
     return;
   }
 
-  x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
-  y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
-  is_real = normalize_map_pos(&x, &y);
-  assert(is_real);
+  if (!canvas_to_map_pos(&x, &y, ev->x, ev->y)) {
+    return;
+  }
 
   pcity = find_city_near_tile(x,y);
   if(!pcity) return;

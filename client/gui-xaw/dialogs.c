@@ -1633,11 +1633,11 @@ void popup_unit_select_dialog(struct tile *ptile)
 	    unit_activity_text(punit));
 
     unit_select_pixmaps[i]=XCreatePixmap(display, XtWindow(map_canvas), 
-					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+					 UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 					 display_depth);
 
     XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
-		   0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+		   0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     store.pixmap = unit_select_pixmaps[i];
     put_unit_full(punit, &store, 0, 0);
 

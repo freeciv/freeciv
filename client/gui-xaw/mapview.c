@@ -107,7 +107,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
 	      0, 0,
-	      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+	      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
 	      canvas_x, canvas_y);
 
     XSync(display, 0);

@@ -402,7 +402,7 @@ void ui_main(int argc, char *argv[])
   }
   
   /* 135 below is rough value (could be more intelligent) --dwp */
-  num_units_below = 135/(int)NORMAL_TILE_WIDTH;
+  num_units_below = 135 / UNIT_TILE_WIDTH;
   num_units_below = MIN(num_units_below,MAX_NUM_UNITS_BELOW);
   num_units_below = MAX(num_units_below,1);
   
@@ -455,13 +455,13 @@ void ui_main(int argc, char *argv[])
 		 overview_canvas_store_width, overview_canvas_store_height);
 
   single_tile_pixmap=XCreatePixmap(display, XtWindow(overview_canvas), 
-				   NORMAL_TILE_WIDTH,
-				   NORMAL_TILE_HEIGHT,
+				   UNIT_TILE_WIDTH,
+				   UNIT_TILE_HEIGHT,
 				   display_depth);
 
   for(i=0; i<num_units_below; i++)
     unit_below_pixmap[i]=XCreatePixmap(display, XtWindow(overview_canvas), 
-				       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, 
+				       UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, 
 				       display_depth);  
 
   set_indicator_icons(0, 0, 0, 0);
@@ -620,8 +620,8 @@ void setup_widgets(void)
   unit_pix_canvas = XtVaCreateManagedWidget("unitpixcanvas", 
 					   pixcommWidgetClass,
 					   left_column_form, 
-					   XtNwidth, NORMAL_TILE_WIDTH,
-					   XtNheight, NORMAL_TILE_HEIGHT,
+					   XtNwidth, UNIT_TILE_WIDTH,
+					   XtNheight, UNIT_TILE_HEIGHT,
 					   NULL);
 
   for(i=0; i<num_units_below; i++) {
@@ -631,8 +631,10 @@ void setup_widgets(void)
     unit_below_canvas[i] = XtVaCreateManagedWidget(unit_below_name,
 						   pixcommWidgetClass,
 						   left_column_form, 
-						   XtNwidth, NORMAL_TILE_WIDTH,
-						   XtNheight, NORMAL_TILE_HEIGHT,
+						   XtNwidth,
+						   UNIT_TILE_WIDTH,
+						   XtNheight,
+						   UNIT_TILE_HEIGHT,
 						   NULL);
     XtAddCallback(unit_below_canvas[i], XtNcallback, unit_icon_callback,
 		  (XtPointer)i);  
