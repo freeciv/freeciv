@@ -530,6 +530,12 @@ static void handle_report_request(struct connection *pconn,
 {
   struct conn_list *dest = &pconn->self;
   
+  if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE
+      && type != REPORT_SERVER_OPTIONS1 && type != REPORT_SERVER_OPTIONS2) {
+    freelog(LOG_ERROR, "Got a report request %d before game start", type);
+    return;
+  }
+
   switch(type) {
    case REPORT_WONDERS_OF_THE_WORLD:
     report_wonders_of_the_world(dest);
@@ -625,7 +631,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   if (server_state != RUN_GAME_STATE
       && type != PACKET_ALLOC_NATION
       && type != PACKET_CHAT_MSG
-      && type != PACKET_CONN_PONG) {
+      && type != PACKET_CONN_PONG
+      && type != PACKET_REPORT_REQUEST) {
     freelog(LOG_ERROR, _("got a packet of type %d "
 			 "outside RUN_GAME_STATE"), type);
     free(packet);
