@@ -991,56 +991,25 @@ repeat_break_treaty:
   case DS_NO_CONTACT: /* possible if someone declares war on our ally */
   case DS_NEUTRAL:
     new_type = DS_WAR;
-    reppenalty = 0;
     break;
   case DS_CEASEFIRE:
     new_type = DS_NEUTRAL;
-    reppenalty = GAME_MAX_REPUTATION/6;
+    reppenalty += GAME_MAX_REPUTATION/6;
     break;
   case DS_PEACE:
     new_type = DS_NEUTRAL;
-    reppenalty = GAME_MAX_REPUTATION/5;
+    reppenalty += GAME_MAX_REPUTATION/5;
     break;
   case DS_ALLIANCE:
     new_type = DS_PEACE;
-    reppenalty = GAME_MAX_REPUTATION/4;
+    reppenalty += GAME_MAX_REPUTATION/4;
     break;
   case DS_TEAM:
     new_type = DS_ALLIANCE;
-    reppenalty = 0;
     break;
   default:
-    freelog(LOG_VERBOSE, "non-pact diplstate in handle_player_cancel_pact");
+    freelog(LOG_ERROR, "non-pact diplstate in handle_player_cancel_pact");
     return;
-  }
-
-  /* if there's a reason to cancel the pact, do it without penalty */
-  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
-    pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
-    if (has_senate && !repeat) {
-      notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
-                       _("The senate passes your bill because of the "
-                         "constant provocations of the %s."),
-                       get_nation_name_plural(pplayer2->nation));
-    }
-  }
-  /* no reason to cancel, apply penalty (and maybe suffer a revolution) */
-  /* FIXME: according to civII rules, republics and democracies
-     have different chances of revolution; maybe we need to
-     extend the govt rulesets to mimic this -- pt */
-  else {
-    pplayer->reputation = MAX(pplayer->reputation - reppenalty, 0);
-    notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
-                     _("Game: Your reputation is now %s."),
-                     reputation_text(pplayer->reputation));
-    if (has_senate && pplayer->revolution == 0) {
-      if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
-        notify_player_ex(pplayer, -1, -1, E_ANARCHY,
-                         _("Game: The senate decides to dissolve "
-                         "rather than support your actions any longer."));
-	handle_player_revolution(pplayer);
-      }
-    }
   }
 
   /* do the change */
@@ -1071,6 +1040,35 @@ repeat_break_treaty:
     repeat = TRUE;
     old_type = new_type;
     goto repeat_break_treaty;
+  }
+
+  /* if there's a reason to cancel the pact, do it without penalty */
+  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
+    pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
+    if (has_senate && !repeat) {
+      notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
+                       _("The senate passes your bill because of the "
+                         "constant provocations of the %s."),
+                       get_nation_name_plural(pplayer2->nation));
+    }
+  }
+  /* no reason to cancel, apply penalty (and maybe suffer a revolution) */
+  /* FIXME: according to civII rules, republics and democracies
+     have different chances of revolution; maybe we need to
+     extend the govt rulesets to mimic this -- pt */
+  else {
+    pplayer->reputation = MAX(pplayer->reputation - reppenalty, 0);
+    notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
+                     _("Game: Your reputation is now %s."),
+                     reputation_text(pplayer->reputation));
+    if (has_senate && pplayer->revolution == 0) {
+      if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
+        notify_player_ex(pplayer, -1, -1, E_ANARCHY,
+                         _("Game: The senate decides to dissolve "
+                         "rather than support your actions any longer."));
+	handle_player_revolution(pplayer);
+      }
+    }
   }
 
   send_player_info(pplayer, NULL);
@@ -1104,11 +1102,13 @@ repeat_break_treaty:
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
         && !pplayers_at_war(pplayer, other)) {
       /* A declaration of war by A against B also means A declares
-       * war against all of B's allies. Yes, A gets the blame. */
+       * war against all of B's allies.  But if A is in the same
+       * team as B's ally, we break that alliance instead. */
       notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
-		       _("Game: %s has attacked one of your allies! "
+                       _("Game: %s has attacked one of your allies! "
                          "The alliance brings you into the war as well."),
                        pplayer->name);
+      pplayer->diplstates[other->player_no].has_reason_to_cancel = 3;
       handle_diplomacy_cancel_pact(pplayer, other->player_no, CLAUSE_LAST);
     }
   } players_iterate_end;
