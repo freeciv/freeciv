@@ -44,7 +44,6 @@ void srv_main(void);
 void handle_packet_input(struct connection *pconn, char *packet, int type);
 void lost_connection_to_client(struct connection *pconn);
 void accept_new_player(char *name, struct connection *pconn);
-int send_server_info_to_metaserver(int do_send,int reset_timer);
 void start_game(void);
 void save_game(char *filename);
 void pick_ai_player_name(Nation_Type_id nation, char *newname);

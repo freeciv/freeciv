@@ -66,6 +66,7 @@ The info string should look like this:
 #include "log.h"
 #include "packets.h"
 #include "support.h"
+#include "timing.h"
 
 #include "console.h"
 #include "srv_main.h"
@@ -122,8 +123,9 @@ char *meta_addr_port(void)
 
 /*************************************************************************
 ...
+  Returns true if able to send 
 *************************************************************************/
-int send_to_metaserver(char *desc, char *info)
+static int send_to_metaserver(char *desc, char *info)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 #ifdef GENERATING_MAC       /* mac alternate networking */
@@ -270,4 +272,93 @@ void server_open_udp(void)
 #endif
 
   server_is_open=1;
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_server_info_to_metaserver(int do_send,int reset_timer)
+{
+  static struct timer *time_since_last_send = NULL;
+  char desc[4096], info[4096];
+  int num_nonbarbarians;
+  int i;
+
+  if (reset_timer && time_since_last_send)
+  {
+    free_timer(time_since_last_send);
+    time_since_last_send = NULL;
+    return 1;
+     /* use when we close the connection to a metaserver */
+  }
+
+  if(!do_send && (time_since_last_send!=NULL)
+     && (read_timer_seconds(time_since_last_send)
+	 < METASERVER_UPDATE_INTERVAL)) {
+    return 0;
+  }
+  if (time_since_last_send == NULL) {
+    time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);
+  }
+
+  for (num_nonbarbarians=0, i=0; i<game.nplayers; ++i) {
+    if (!is_barbarian(&game.players[i])) {
+      ++num_nonbarbarians;
+    }
+  }
+
+  /* build description block */
+  desc[0]='\0';
+  
+  cat_snprintf(desc, sizeof(desc), "Freeciv\n");
+  cat_snprintf(desc, sizeof(desc), VERSION_STRING"\n");
+  /* note: the following strings are not translated here;
+     we mark them so they may be translated when received by a client */
+  switch(server_state) {
+  case PRE_GAME_STATE:
+    cat_snprintf(desc, sizeof(desc), N_("Pregame"));
+    break;
+  case RUN_GAME_STATE:
+    cat_snprintf(desc, sizeof(desc), N_("Running"));
+    break;
+  case GAME_OVER_STATE:
+    cat_snprintf(desc, sizeof(desc), N_("Game over"));
+    break;
+  default:
+    cat_snprintf(desc, sizeof(desc), N_("Waiting"));
+  }
+  cat_snprintf(desc, sizeof(desc), "\n");
+  cat_snprintf(desc, sizeof(desc), "%s\n", srvarg.metaserver_servername);
+  cat_snprintf(desc, sizeof(desc), "%d\n", srvarg.port);
+  cat_snprintf(desc, sizeof(desc), "%d\n", num_nonbarbarians);
+  cat_snprintf(desc, sizeof(desc), "%s", srvarg.metaserver_info_line);
+
+  /* now build the info block */
+  info[0]='\0';
+  cat_snprintf(info, sizeof(info),
+	  "Players:%d  Min players:%d  Max players:%d\n",
+	  num_nonbarbarians,  game.min_players, game.max_players);
+  cat_snprintf(info, sizeof(info),
+	  "Timeout:%d  Year: %s\n",
+	  game.timeout, textyear(game.year));
+    
+    
+  cat_snprintf(info, sizeof(info),
+	       "NO:  NAME:               HOST:\n");
+  cat_snprintf(info, sizeof(info),
+	       "----------------------------------------\n");
+  for(i=0; i<game.nplayers; ++i) {
+    struct player *pplayer = &game.players[i];
+    if (!is_barbarian(pplayer)) {
+      /* Fixme: how should metaserver handle multi-connects?
+       * Uses player_addr_hack() for now.
+       */
+      cat_snprintf(info, sizeof(info), "%2d   %-20s %s\n", i, pplayer->name,
+		   player_addr_hack(pplayer));
+    }
+  }
+
+  clear_timer_start(time_since_last_send);
+  return send_to_metaserver(desc, info);
 }

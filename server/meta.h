@@ -42,11 +42,10 @@ extern int server_is_open;
 void meta_addr_split(void);
 char *meta_addr_port(void);
 
-/* Returns true if able to send */
-int send_to_metaserver(char *desc, char *info);
-
 void server_close_udp(void);
 void server_open_udp(void);
+
+int send_server_info_to_metaserver(int do_send, int reset_timer);
 
 #define PACKET_UDP_PCKT 2
 

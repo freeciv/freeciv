@@ -70,6 +70,7 @@
 #include "support.h"
 
 #include "console.h"
+#include "meta.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 
