@@ -14,10 +14,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include <time.h>
 
 #include "fcintl.h"
@@ -42,6 +42,57 @@ static void mapgenerator4(void);
 static void smooth_map(void);
 static void adjust_map(int minval);
 
+#define RIVERS_MAXTRIES 32767
+enum river_map_type {RS_BLOCKED = 1, RS_RIVER = 2};
+
+/* like DIR_DX[] and DIR_DY[], only cartesian */
+const int CAR_DIR_DX[4] = {1, 0, -1, 0};
+const int CAR_DIR_DY[4] = {0, 1, 0, -1};
+
+#define cartesian_adjacent_iterate(x, y, IAC_x, IAC_y) \
+{                                                      \
+  int IAC_i;                                           \
+  int IAC_x, IAC_y;                                    \
+  for (IAC_i = 0; IAC_i < 4; IAC_i++) {                \
+    switch (IAC_i) {                                   \
+    case 0:                                            \
+      IAC_x = x + 1;                                   \
+      IAC_y = y;                                       \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    case 1:                                            \
+      IAC_x = x;                                       \
+      IAC_y = y + 1;                                   \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    case 2:                                            \
+      IAC_x = x - 1;                                   \
+      IAC_y = y;                                       \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    case 3:                                            \
+      IAC_x = x;                                       \
+      IAC_y = y - 1;                                   \
+      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
+	continue;                                      \
+      break;                                           \
+    default:                                           \
+      abort();                                         \
+    }
+
+#define cartesian_adjacent_iterate_end                 \
+  }                                                    \
+}
+
+/* Array needed to mark tiles as blocked to prevent a river from
+   falling into itself, and for storing rivers temporarly.
+   A value of 1 means blocked.
+   A value of 2 means river.                            -Erik Sigra */
+static int *river_map;
+
 static int *height_map;
 static int maxval=0;
 static int forests=0;
@@ -62,18 +113,16 @@ static struct isledata *islands;
   the map.mountains value, so increase map.mountains and you'll get more 
   hills and mountains (and vice versa).
 **************************************************************************/
-
 static void make_mountains(int thill)
 {
-  int x,y;
   int mount;
   int j;
   for (j=0;j<10;j++) {
     mount=0;
-    for (y=0;y<map.ysize;y++) 
-      for (x=0;x<map.xsize;x++) 
-	if (hmap(x, y)>thill) 
-	    mount++;
+    whole_map_iterate(x, y) {
+      if (hmap(x, y)>thill) 
+	mount++;
+    } whole_map_iterate_end;
     if (mount<((map.xsize*map.ysize)*map.mountains)/1000) 
       thill*=95;
     else 
@@ -81,14 +130,14 @@ static void make_mountains(int thill)
     thill/=100;
   }
   
-  for (y=0;y<map.ysize;y++) 
-    for (x=0;x<map.xsize;x++) 
-      if (hmap(x, y)>thill &&map_get_terrain(x,y)!=T_OCEAN) { 
-	if (myrand(100)>75) 
-	  map_set_terrain(x, y, T_MOUNTAINS);
-	else if (myrand(100)>25) 
-	  map_set_terrain(x, y, T_HILLS);
-      }
+  whole_map_iterate(x, y) {
+    if (hmap(x, y)>thill &&map_get_terrain(x,y)!=T_OCEAN) { 
+      if (myrand(100)>75) 
+	map_set_terrain(x, y, T_MOUNTAINS);
+      else if (myrand(100)>25) 
+	map_set_terrain(x, y, T_HILLS);
+    }
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
@@ -134,10 +183,12 @@ static void make_desert(int x, int y, int height, int diff)
 {
   if (abs(hmap(x, y)-height)<diff && map_get_terrain(x, y)==T_GRASSLAND) {
     map_set_terrain(x, y, T_DESERT);
-    make_desert(x-1,y, height, diff-1);
-    make_desert(x,y-1, height, diff-3);
-    make_desert(x+1,y, height, diff-1);
-    make_desert(x,y+1, height, diff-3);
+    cartesian_adjacent_iterate(x, y, x1, y1) {
+      if (x != x1)
+	make_desert(x1, y1, height, diff-1);
+      else /* y != y1 */
+	make_desert(x1, y1, height, diff-3);
+    } cartesian_adjacent_iterate_end;
   }
 }
 
@@ -149,7 +200,7 @@ static void make_desert(int x, int y, int height, int diff)
 **************************************************************************/
 static void make_forest(int x, int y, int height, int diff)
 {
-  if (x==0 || x==map.xsize-1 ||y==0 || y==map.ysize-1)
+  if (y==0 || y==map.ysize-1)
     return;
 
   if (map_get_terrain(x, y)==T_GRASSLAND) {
@@ -200,24 +251,21 @@ static void make_forests(void)
 **************************************************************************/
 static void make_swamps(void)
 {
-  int x,y,i;
+  int x,y,swamps;
   int forever=0;
-  for (i=0;i<map.swampsize;) {
+  for (swamps=0;swamps<map.swampsize;) {
     forever++;
     if (forever>1000) return;
     y=myrand(map.ysize);
     x=myrand(map.xsize);
     if (map_get_terrain(x, y)==T_GRASSLAND && hmap(x, y)<(maxval*60)/100) {
       map_set_terrain(x, y, T_SWAMP);
-      if (myrand(10)>5 && map_get_terrain(x-1, y)!=T_OCEAN) 
-	map_set_terrain(x-1,y, T_SWAMP);
-      if (myrand(10)>5 && map_get_terrain(x+1, y)!=T_OCEAN) 
-	map_set_terrain(x+1,y, T_SWAMP);
-      if (myrand(10)>5 && map_get_terrain(x, y-1)!=T_OCEAN) 
-	map_set_terrain(x,y-1, T_SWAMP);
-      if (myrand(10)>5 && map_get_terrain(x, y+1)!=T_OCEAN) 
-	map_set_terrain(x, y+1, T_SWAMP);
-      i++;
+      cartesian_adjacent_iterate(x, y, x1, y1) {
+ 	if (myrand(10)>5 && map_get_terrain(x1, y1) != T_OCEAN) 
+ 	  map_set_terrain(x1, y1, T_SWAMP);
+ 	/* maybe this should increment i too? */
+      } cartesian_adjacent_iterate_end;
+      swamps++;
     }
   }
 }
@@ -244,110 +292,489 @@ static void make_deserts(void)
   }
 }
 
-/*************************************************************************
- this recursive function try to make some decent rivers, that run towards
- the ocean, it does this by following a descending path on the map spiced
- with a bit of chance, if it fails to reach the ocean it rolls back.
-**************************************************************************/
-static int make_river(int x,int y) 
+/*********************************************************************
+ Returns the number of adjacent river tiles of a tile. This can be 0
+ to 4.                                                     -Erik Sigra
+*********************************************************************/
+static int adjacent_river_tiles4(int x, int y)
 {
-  int mini=10000;
-  int mp;
-  int res=0;
-  mp=-1;
-  if (x==0 || x==map.xsize-1 ||y==0 || y==map.ysize-1)
-    return 0;
-  if (map_get_terrain(x, y)==T_OCEAN)
+  int num_adjacent  = 0;
+
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) == T_RIVER
+	|| map_get_special(x1, y1) & S_RIVER)
+      num_adjacent++;
+  } cartesian_adjacent_iterate_end;
+
+  return num_adjacent;
+}
+
+/*********************************************************************
+ Returns the number of adjacent tiles of a tile with the terrain
+ terrain. This can be 0 to 4.                              -Erik Sigra
+*********************************************************************/
+static int adjacent_terrain_tiles4(int x, int y,
+				   enum tile_terrain_type terrain)
+{
+  int num_adjacent  = 0;
+
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (map_get_terrain(x1, y1) == terrain)
+      num_adjacent++;
+  } cartesian_adjacent_iterate_end;
+
+  return num_adjacent;
+}
+
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_blocked(int x, int y)
+{
+  if (river_map[y*map.xsize + x] & RS_BLOCKED)
     return 1;
-  if (is_at_coast(x, y)) {
-    if (terrain_control.river_style==R_AS_TERRAIN)
-      map_set_terrain(x, y, T_RIVER);
-    else if (terrain_control.river_style==R_AS_SPECIAL)
-      map_set_special(x, y, S_RIVER);
-    else
+
+  /* any un-blocked? */
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    if (!(river_map[(y1)*map.xsize + x1] & RS_BLOCKED))
       return 0;
-    return 1;
-  }
+  } cartesian_adjacent_iterate_end;
 
-  if (map_get_terrain(x, y)==T_RIVER )
-    return 0;
-  if (map_get_special(x, y)&S_RIVER)
-    return 0;
+  return 1; /* none non-blocked |- all blocked */
+}
 
-  map_set_terrain(x, y, map_get_terrain(x,y)+16);
-  if (hmap(x, y-1)<mini+myrand(10) && map_get_terrain(x, y-1)<16) {
-    mini=hmap(x, y-1);
-    mp=0;
-  }
-  if (hmap(x, y+1)<mini+myrand(11) && map_get_terrain(x, y+1)<16) {
-    mini=hmap(x, y+1);
-    mp=1;
-  }
-  if (hmap(x+1, y)<mini+myrand(12) && map_get_terrain(x+1, y)<16) {
-    mini=hmap(x+1, y);
-    mp=2;
-  }
-  if (hmap(x-1, y)<mini+myrand(13) && map_get_terrain(x-1, y)<16) {
-    mp=3;
-  }
-  if (mp==-1) {
-    map_set_terrain(x, y, map_get_terrain(x, y)-16);
-    return 0;
-  }
-  switch(mp) {
-   case 0:
-    res=make_river(x,y-1);
-    break;
-   case 1:
-    res=make_river(x,y+1);
-    break;
-   case 2:
-    res=make_river(x+1,y);
-    break;
-   case 3:
-    res=make_river(x-1,y);
-    break;
-  }
-  
-  if (res) {
-    if (terrain_control.river_style==R_AS_TERRAIN) {
-      map_set_terrain(x, y, T_RIVER);
-    }
-    else if (terrain_control.river_style==R_AS_SPECIAL) {
-      map_set_special(x, y, S_RIVER);
-      map_set_terrain(x, y, map_get_terrain(x ,y) - 16);
-    }
-    else {
-      map_set_terrain(x, y, map_get_terrain(x ,y) - 16);
-    }
-  }
-  else {
-    map_set_terrain(x, y, map_get_terrain(x ,y) - 16);
-  }
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+int river_test_rivergrid(int x, int y)
+{
+  return adjacent_river_tiles4(x, y) > 1;
+}
 
-  return res;
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_highlands(int x, int y)
+{    
+  return (map_get_terrain(x, y) == T_HILLS) +
+    2 * (map_get_terrain(x, y) == T_MOUNTAINS);
+}
+
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_adjacent_ocean(int x, int y)
+{
+  return 4 - adjacent_terrain_tiles4(x, y, T_OCEAN);
+}
+
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_adjacent_river(int x, int y)
+{
+  return 4 - adjacent_river_tiles4(x, y);
+}
+
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_adjacent_highlands(int x, int y)
+{
+  return
+    adjacent_terrain_tiles4(x, y, T_HILLS) +
+    2 * adjacent_terrain_tiles4(x, y , T_MOUNTAINS);
+}
+
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_swamp(int x, int y)
+{
+  return map_get_terrain(x, y) != T_SWAMP;
+}
+
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_adjacent_swamp(int x, int y)
+{
+  return 4 - adjacent_terrain_tiles4(x, y, T_SWAMP);
+}
+
+/*********************************************************************
+ Help function used in make_river(). See the help there.
+*********************************************************************/
+static int river_test_height_map(int x, int y)
+{
+  return height_map[y*map.xsize + x];
+}
+
+/*********************************************************************
+ Called from make_river. Marks all directions as blocked.  -Erik Sigra
+*********************************************************************/
+static void river_blockmark(int x, int y)
+{
+  freelog(LOG_DEBUG, "Blockmarking (%d, %d) and adjacent tiles.",
+	  x, y);
+
+  river_map[y*map.xsize + x] |= RS_BLOCKED;
+
+  cartesian_adjacent_iterate(x, y, x1, y1) {
+    river_map[y1*map.xsize + x1] |= RS_BLOCKED;
+  } cartesian_adjacent_iterate_end;
+}
+
+struct test_func {
+  int (*func)(int, int);
+  int fatal;
+};
+
+#define NUM_TEST_FUNCTIONS 9
+struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
+  {river_test_blocked,            1},
+  {river_test_rivergrid,          1},
+  {river_test_highlands,          0},
+  {river_test_adjacent_ocean,     0},
+  {river_test_adjacent_river,     0},
+  {river_test_adjacent_highlands, 0},
+  {river_test_swamp,              0},
+  {river_test_adjacent_swamp,     0},
+  {river_test_height_map,         0}
+};
+
+/********************************************************************
+ Makes a river starting at (x, y). Returns 1 if it succeeds.
+ Return 0 if it fails. The river is stored in river_map.
+ 
+ How to make a river path look natural
+ =====================================
+ Rivers always flow down. Thus rivers are best implemented on maps
+ where every tile has an explicit height value. However, Freeciv has a
+ flat map. But there are certain things that help the user imagine
+ differences in height between tiles. The selection of direction for
+ rivers should confirm and even amplify the user's image of the map's
+ topology.
+ 
+ To decide which direction the river takes, the possible directions
+ are tested in a series of test until there is only 1 direction
+ left. Some tests are fatal. This means that they can sort away all
+ remaining directions. If they do so, the river is aborted. Here
+ follows a description of the test series.
+ 
+ * Falling into itself: fatal
+     (river_test_blocked)
+     This is tested by looking up in the river_map array if a tile or
+     every tile surrounding the tile is marked as blocked. A tile is
+     marked as blocked if it belongs to the current river or has been
+     evaluated in a previous iteration in the creation of the current
+     river.
+     
+     Possible values:
+     0: Is not falling into itself.
+     1: Is falling into itself.
+     
+ * Forming a 4-river-grid: optionally fatal
+     (river_test_rivergrid)
+     A minimal 4-river-grid is formed when an intersection in the map
+     grid is surrounded by 4 river tiles. There can be larger river
+     grids consisting of several overlapping minimal 4-river-grids.
+     
+     Possible values:
+     0: Is not forming a 4-river-grid.
+     1: Is forming a 4-river-grid.
+
+ * Highlands:
+     (river_test_highlands)
+     Rivers must not flow up in mountains or hills if there are
+     alternatives.
+     
+     Possible values:
+     0: Is not hills and not mountains.
+     1: Is hills.
+     2: Is mountains.
+
+ * Adjacent ocean:
+     (river_test_adjacent_ocean)
+     Rivers must flow down to coastal areas when possible:
+
+     Possible values:
+     n: 4 - adjacent_terrain_tiles4(...)
+
+ * Adjacent river:
+     (river_test_adjacent_river)
+     Rivers must flow down to areas near other rivers when possible:
+
+     Possible values:
+     n: 4 - adjacent_river_tiles4(...) (should be < 2 after the
+                                        4-river-grid test)
+					
+ * Adjacent highlands:
+     (river_test_adjacent_highlands)
+     Rivers must not flow towards highlands if there are alternatives. 
+     
+ * Swamps:
+     (river_test_swamp)
+     Rivers must flow down in swamps when possible.
+     
+     Possible values:
+     0: Is swamps.
+     1: Is not swamps.
+     
+ * Adjacent swamps:
+     (river_test_adjacent_swamp)
+     Rivers must flow towards swamps when possible.
+
+ * height_map:
+     (river_test_height_map)
+     Rivers must flow in the direction which takes it to the tile with
+     the lowest value on the height_map.
+     
+     Possible values:
+     n: height_map[...]
+     
+ If these rules haven't decided the direction, the random number
+ generator gets the desicion.                              -Erik Sigra
+*********************************************************************/
+static int make_river(x, y)
+{
+  /* The comparison values of the 4 tiles surrounding the current
+     tile. It is the suitability to continue a river to that tile that
+     is being compared. Lower is better.                  -Erik Sigra */
+  static int rd_comparison_val[4];
+
+  int rd_direction_is_valid[4];
+  int num_valid_directions, dir, func_num, direction;
+
+  while (1) {
+    /* Mark the current tile as river. */
+    river_map[y*map.xsize + x] |= RS_RIVER;
+    freelog(LOG_DEBUG,
+	    "The tile at (%d, %d) has been marked as river in river_map.\n",
+	    x, y);
+
+    /* Test if the river is done. */
+    if (adjacent_river_tiles4(x, y) ||
+	adjacent_terrain_tiles4(x, y, T_OCEAN)) {
+      freelog(LOG_DEBUG,
+	      "The river ended at (%d, %d).\n", x, y);
+      return 1;
+    }
+
+    /* Else choose a direction to continue the river. */
+    freelog(LOG_DEBUG,
+	    "The river did not end at (%d, %d). Evaluating directions...\n", x, y);
+
+    /* Mark all directions as available. */
+    for (dir = 0; dir < 4; dir++)
+      rd_direction_is_valid[dir] = 1;
+
+    /* Test series that selects a direction for the river. */
+    for (func_num = 0; func_num < NUM_TEST_FUNCTIONS; func_num++) {
+      int best_val = -1;
+      /* first get the tile values for the function */
+      for (dir = 0; dir < 4; dir++) {
+	int x1 = x + CAR_DIR_DX[dir];
+	int y1 = y + CAR_DIR_DY[dir];
+	if (normalize_map_pos(&x1, &y1)
+	    && rd_direction_is_valid[dir]) {
+	  rd_comparison_val[dir] = (test_funcs[func_num].func) (x1, y1);
+	  if (best_val == -1) {
+	    best_val = rd_comparison_val[dir];
+	  } else {
+	    best_val = MIN(rd_comparison_val[dir], best_val);
+	  }
+	}
+      }
+      assert(best_val != -1);
+
+      /* should we abort? */
+      if (best_val > 0 && test_funcs[func_num].fatal) return 0;
+
+      /* mark the less attractive directions as invalid */
+      for (dir = 0; dir < 4; dir++) {
+	int x1 = x + CAR_DIR_DX[dir];
+	int y1 = y + CAR_DIR_DY[dir];
+	if (normalize_map_pos(&x1, &y1)
+	    && rd_direction_is_valid[dir]) {
+	  if (rd_comparison_val[dir] != best_val)
+	    rd_direction_is_valid[dir] = 0;
+	}
+      }
+    }
+
+    /* Directions evaluated with all functions. Now choose the best
+       direction before going to the next iteration of the while loop */
+    num_valid_directions = 0;
+    for (dir = 0; dir < 4; dir++)
+      if (rd_direction_is_valid[dir])
+	num_valid_directions++;
+
+    switch (num_valid_directions) {
+    case 0:
+      return 0; /* river aborted */
+    case 1:
+      for (dir = 0; dir < 4; dir++) {
+	int x1 = x + CAR_DIR_DX[dir];
+	int y1 = y + CAR_DIR_DY[dir];
+	if (normalize_map_pos(&x1, &y1)
+	    && rd_direction_is_valid[dir]) {
+	  river_blockmark(x, y);
+	  x = x1;
+	  y = y1;
+	}
+      }
+      break;
+    default:
+      /* More than one possible direction; Let the random number
+	 generator select the direction. */
+      freelog(LOG_DEBUG, "mapgen.c: Had to let the random number"
+	      " generator select a direction for a river.");
+      direction = myrand(num_valid_directions - 1);
+      freelog(LOG_DEBUG, "mapgen.c: direction: %d", direction);
+
+      /* Find the direction that the random number generator selected. */
+      for (dir = 0; dir < 4; dir++) {
+	int x1 = x + CAR_DIR_DX[dir];
+	int y1 = y + CAR_DIR_DY[dir];
+	if (normalize_map_pos(&x1, &y1)
+	    && rd_direction_is_valid[dir]) {
+	  if (direction > 0) direction--;
+	  else {
+	    river_blockmark(x, y);
+	    x = x1;
+	    y = y1;
+	    break;
+	  }
+	}
+      }
+      break;
+    } /* end switch (rd_number_of_directions()) */
+
+  } /* end while; (Make a river.) */
 }
 
 /**************************************************************************
-  calls make_river until we have enough river tiles (map.riverlength), 
-  to stop this potentially never ending loop a miss counts as a river of 
-  length one 
+  Calls make_river until there are enough river tiles on the map. It stops
+  when it has tried to create RIVERS_MAXTRIES rivers.           -Erik Sigra
 **************************************************************************/
 static void make_rivers(void)
 {
-  int x,y,i;
-  i=0;
+  int x, y; /* The coordinates. */
 
-  while (i<map.riverlength) {
-    y=myrand(map.ysize);
-    x=myrand(map.xsize);
-    if (map_get_terrain(x, y)==T_OCEAN ||
-	map_get_terrain(x, y)==T_RIVER ||
-	map_get_special(x, y)&S_RIVER)
-      continue;
-    i+=make_river(x,y);
-    i+=1;
-  }
+  /* Formula to make the river density similar om different sized maps. Avoids
+     too few rivers on large maps and too many rivers on small maps. */
+  int desirable_riverlength =
+    map.riverlength *
+    /* The size of the map (poles don't count). */
+    map.xsize * (map.ysize - 2) *
+    /* Rivers need to be on land only. */
+    map.landpercent /
+    /* Adjustment value. Tested by me. Gives no rivers with 'set
+       rivers 0', gives a reasonable amount of rivers with default
+       settings and as many rivers as possible with 'set rivers 1000'. */
+    0xD000;
+
+  /* The number of river tiles that have been set. */
+  int current_riverlength = 0;
+
+  int i; /* Loop variable. */
+
+  /* Counts the number of iterations (should increase with 1 during
+     every iteration of the main loop in this function).
+     Is needed to stop a potentially infinite loop. */
+  int iteration_counter = 0;
+
+  river_map = fc_malloc(sizeof(int)*map.xsize*map.ysize);
+
+  /* The main loop in this function. */
+  while (current_riverlength < desirable_riverlength &&
+	 iteration_counter < RIVERS_MAXTRIES) {
+
+    /* Don't start any rivers at the poles. */
+    y = myrand(map.ysize - 2) + 1; 
+
+    /* Any x-coordinate is valid. */
+    x = myrand(map.xsize);
+ 
+    /* Check if it is suitable to start a river on the current tile.
+     */
+    if (
+	/* Don't start a river on ocean. */
+	map_get_terrain(x, y) != T_OCEAN &&
+
+	/* Don't start a river on river. */
+	map_get_terrain(x, y) != T_RIVER &&
+	!(map_get_special(x, y) & S_RIVER) &&
+
+	/* Don't start a river on a tile is surrounded by > 1 river +
+	   ocean tile. */
+	adjacent_river_tiles4(x, y) +
+	adjacent_terrain_tiles4(x, y, T_OCEAN) <= 1 &&
+
+	/* Don't start a river on a tile that is surrounded by hills or
+	   mountains unless it is hard to find somewhere else to start
+	   it. */
+	(adjacent_terrain_tiles4(x, y, T_HILLS) +
+	 adjacent_terrain_tiles4(x, y, T_MOUNTAINS) < 4 ||
+	 iteration_counter == RIVERS_MAXTRIES/10 * 5) &&
+
+	/* Don't start a river on hills unless it is hard to find
+	   somewhere else to start it. */
+	(map_get_terrain(x, y) != T_HILLS ||
+	 iteration_counter == RIVERS_MAXTRIES/10 * 6) &&
+
+	/* Don't start a river on mountains unless it is hard to find
+	   somewhere else to start it. */
+	(map_get_terrain(x, y) != T_MOUNTAINS ||
+	 iteration_counter == RIVERS_MAXTRIES/10 * 7) &&
+
+	/* Don't start a river on arctic unless it is hard to find
+	   somewhere else to start it. */
+	(map_get_terrain(x, y) != T_ARCTIC ||
+	 iteration_counter == RIVERS_MAXTRIES/10 * 8) &&
+
+	/* Don't start a river on desert unless it is hard to find
+	   somewhere else to start it. */
+	(map_get_terrain(x, y) != T_DESERT ||
+	 iteration_counter == RIVERS_MAXTRIES/10 * 9)){
+
+
+      /* Reset river_map before making a new river. */
+      for (i = 0; i < map.xsize * map.ysize; i++) {
+	river_map[i] = 0;
+      }
+
+      freelog(LOG_DEBUG,
+	      "Found a suitable starting tile for a river at (%d, %d)."
+	      " Starting to make it.",
+	      x, y);
+
+      /* Try to make a river. If it is OK, apply it to the map. */
+      if (make_river(x, y)) {
+	whole_map_iterate(x1, y1) {
+	  if (river_map[y1*map.xsize + x1] & RS_RIVER) {
+	    if (terrain_control.river_style == R_AS_TERRAIN) {
+	      map_set_terrain(x1, y1, T_RIVER); /* Civ1 river style. */
+	    } else if (terrain_control.river_style == R_AS_SPECIAL) {
+	      map_set_special(x1, y1, S_RIVER); /* Civ2 river style. */
+	    }
+	    current_riverlength++;
+	    freelog(LOG_DEBUG, "Applied a river to (%d, %d).", x1, y1);
+	  }
+	} whole_map_iterate_end;
+      }
+      else {
+	freelog(LOG_DEBUG,
+		"mapgen.c: A river failed. It might have gotten stuck in a helix.");
+      }
+    } /* end if; */
+    iteration_counter++;
+    freelog(LOG_DEBUG,
+	    "current_riverlength: %d; desirable_riverlength: %d; iteration_counter: %d",
+	    current_riverlength, desirable_riverlength, iteration_counter);
+  } /* end while; */
+  free(river_map);
 }
 
 /**************************************************************************
@@ -391,20 +818,42 @@ static void make_passable(void)
 static void make_fair(void)
 {
   int x,y;
-  for (y=2;y<map.ysize-3;y++) 
+  for (y=2;y<map.ysize-3;y++) {
     for (x=0;x<map.xsize;x++) {
       if (terrain_is_clean(x,y)) {
-	map_set_terrain(x,y, T_HILLS);
-	if (myrand(100)>66 && map_get_terrain(x-1, y)!=T_OCEAN)
-	  map_set_terrain(x-1,y, T_HILLS);
-	if (myrand(100)>66 && map_get_terrain(x+1, y)!=T_OCEAN)
-	  map_set_terrain(x+1,y, T_HILLS);
-	if (myrand(100)>66 && map_get_terrain(x, y-1)!=T_OCEAN) 
-	  map_set_terrain(x,y-1, T_HILLS);
-	if (myrand(100)>66 && map_get_terrain(x, y+1)!=T_OCEAN) 
-	  map_set_terrain(x,y+1, T_HILLS);
+	if (map_get_terrain(x, y) != T_RIVER &&
+	    !(map_get_special(x, y) & S_RIVER)) {
+	  map_set_terrain(map_adjust_x(x), y, T_HILLS);
+	}
+	if (myrand(100) > 66 &&
+	    map_get_terrain(map_adjust_x(x - 1), y) != T_OCEAN &&
+	    map_get_terrain(map_adjust_x(x - 1), y) != T_RIVER &&
+	    !(map_get_special(map_adjust_x(x - 1), y) & S_RIVER)) {
+	  map_set_terrain(map_adjust_x(x - 1), y, T_HILLS);
+	}
+	if (myrand(100) > 66 &&
+	    map_get_terrain(map_adjust_x(x + 1), y) != T_OCEAN &&
+	    map_get_terrain(map_adjust_x(x + 1), y) != T_RIVER &&
+	    !(map_get_special(map_adjust_x(x + 1), y) & S_RIVER)) {
+	  map_set_terrain(map_adjust_x(x + 1), y, T_HILLS);
+	}
+	if (y > 0 &&
+	    myrand(100) > 66 &&
+	    map_get_terrain(x, y - 1) != T_OCEAN && 
+	    map_get_terrain(x, y - 1) != T_RIVER &&
+	    !(map_get_special(x, y - 1) & S_RIVER)) {
+	  map_set_terrain(x, y - 1, T_HILLS);
+	}
+	if (y < map.ysize - 1 &&
+	    myrand(100) > 66 &&
+	    map_get_terrain(x, y + 1) != T_OCEAN && 
+	    map_get_terrain(x, y + 1) != T_RIVER &&
+	    !(map_get_special(x, y + 1) & S_RIVER)) {
+	  map_set_terrain(x, y + 1, T_HILLS);
+	}
       }
     }
+  }
 }
 
 /**************************************************************************
@@ -445,8 +894,8 @@ static void make_land(void)
   make_deserts();
   make_plains();
   make_polar();
-  make_rivers();
   make_fair();
+  make_rivers();
 }
 
 /**************************************************************************
