@@ -248,7 +248,7 @@ void put_line_24(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
   for(x=0; x<dst_w; ++x) {
     *pdst++=*(psrc+3*xoffset_table[x]+0);
     *pdst++=*(psrc+3*xoffset_table[x]+1);
-    *pdst++=*(psrc+3*xoffset_table[x]+1);
+    *pdst++=*(psrc+3*xoffset_table[x]+2);
   }
 }
 
