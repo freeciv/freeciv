@@ -31,6 +31,11 @@
 #define ATTACK_POWER(punit) \
  (unit_type(punit)->attack_strength * unit_type(punit)->hp \
   * unit_type(punit)->firepower)
+#define IS_ATTACKER(punit) \
+  (unit_type(punit)->attack_strength \
+        > unit_type(punit)->transport_capacity)
+#define CAN_OCCUPY(punit) \
+  (is_ground_unit(punit) || is_heli_unit(punit))
 
 struct player;
 struct city;

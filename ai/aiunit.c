@@ -1580,14 +1580,18 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 }
 
 /*************************************************************************
-...
-punit-id == 0 means the unit is virtual (considered to be built)
+  Find something to kill! This function is called for units to find 
+  targets to destroy and for cities that want to know if they should
+  build offensive units. Target location returned in (x, y), want as
+  function return value.
+
+  punit->id == 0 means that the unit is virtual (considered to be built).
 **************************************************************************/
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
                            int *x, int *y)
 {
   /* basic attack */
-  int ab = unit_belligerence_basic(punit);
+  int attack_value = unit_belligerence_basic(punit);
   /* Enemy defence rating */
   int vuln;
   /* Benefit from killing the target */
@@ -1598,7 +1602,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   int want;
   /* Best of all wants */
   int best = 0;
-  /* Our totalattack (with reinforcements) */
+  /* Our total attack value with reinforcements */
   int attack;
   int move_time, move_rate;
   int con = map_get_continent(punit->x, punit->y);
@@ -1629,7 +1633,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     return 0;
   }
 
-  if (ab == 0) {
+  if (attack_value == 0) {
     /* A very poor attacker... */
     return 0;
   }
@@ -1660,20 +1664,16 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     }
 
     /* dealing with invasion stuff */
-    if (unit_type(aunit)->attack_strength 
-        > unit_type(aunit)->transport_capacity) {
-      /* Not a transport */
-      bool can_occupy = (is_ground_unit(aunit) || is_heli_unit(aunit));
-
+    if (IS_ATTACKER(aunit)) {
       if (aunit->activity == ACTIVITY_GOTO) {
-        invasion_funct(aunit, TRUE, 0, (can_occupy ? 1 : 2));
+        invasion_funct(aunit, TRUE, 0, (CAN_OCCUPY(aunit) ? 1 : 2));
         if ((pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
           pcity->ai.attack += unit_belligerence_basic(aunit);
           pcity->ai.bcost += unit_type(aunit)->build_cost;
         } 
       }
       invasion_funct(aunit, FALSE, unit_type(aunit)->move_rate / SINGLE_MOVE,
-                     (can_occupy ? 1 : 2));
+                     (CAN_OCCUPY(aunit) ? 1 : 2));
     } else if (aunit->ai.passenger != 0 &&
                !same_pos(aunit->x, aunit->y, punit->x, punit->y)) {
       /* It's a transport with reinforcements */
@@ -1684,11 +1684,17 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     }
   } unit_list_iterate_end;
   /* end horrible initialization subroutine */
-        
+
+  /*** Part 2: Now pick one target ***/
+  /* We first iterate through all cities, then all units, looking
+   * for a viable target. We also try to gang up on the target
+   * to avoid spreading out attacks too widely to be inefficient.
+   */
+
   pcity = map_get_city(punit->x, punit->y);
 
   if (pcity && (punit->id == 0 || pcity->id == punit->homecity)) {
-    /* I would have thought unhappiness should betaken into account 
+    /* I would have thought unhappiness should be taken into account 
      * irrespectfully the city in which it will surface...  GB */ 
     unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
   }
@@ -1746,10 +1752,6 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       go_by_boat = !(goto_is_sane(punit, acity->x, acity->y, TRUE) 
                      && warmap.cost[acity->x][acity->y] < maxd);
       
-      if (!ai_fuzzy(pplayer, TRUE)) {
-        continue;
-      }
-      
       if (is_ground_unit(punit) && go_by_boat  
           && (!(ferryboat || harbor) 
               || warmap.seacost[acity->x][acity->y] > 6 * THRESHOLD)) {
@@ -1762,8 +1764,6 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         /* Too far to sail */
         continue;
       }
-      
-      /* FIXME: What if too far to walk? */
       
       if ((pdef = get_defender(punit, acity->x, acity->y))) {
         vuln = unit_vulnerability(punit, pdef);
@@ -1816,23 +1816,13 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         }
       }
 
-      if (is_ground_unit(punit) || is_heli_unit(punit) 
-          || TEST_BIT(acity->ai.invasion, 0)) {
+      if (CAN_OCCUPY(punit) || TEST_BIT(acity->ai.invasion, 0)) {
         /* There are units able to occupy the city! */
         benefit += 40;
       }
 
-      if (punit->id == 0
-          && !unit_really_ignores_citywalls(punit)
-          && move_time > (player_knows_improvement_tech(aplayer, B_CITY) 
-                          ? 2 : 4)
-          && !city_got_citywalls(acity)) {
-        /* They don't have walls now, but they will have them by the time 
-         * we arrive (9 == hardcoded +200% squared) */
-        vuln *= 9;
-      }
-
-      attack = (ab + acity->ai.attack) * (ab + acity->ai.attack);
+      attack = (attack_value + acity->ai.attack) 
+        * (attack_value + acity->ai.attack);
       /* Avoiding handling upkeep aggregation this way -- Syela */
       
       /* AI was not sending enough reinforcements to totally wipe out a city
@@ -1841,14 +1831,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       victim_count 
         = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
 
-      if (!is_ground_unit(punit) && !is_heli_unit(punit) && !pdef) {
-        /* Nothing there to bash and we can't occupy! */
+      if (!CAN_OCCUPY(punit) && !pdef) {
+        /* Nothing there to bash and we can't occupy! 
+         * Not having this check caused warships yoyoing */
         want = 0;
       } else if (move_time > THRESHOLD) {
         /* Too far! */
         want = 0;
-      } else if ((is_ground_unit(punit) || is_heli_unit(punit)) &&
-                 acity->ai.invasion == 2) {
+      } else if (CAN_OCCUPY(punit) && acity->ai.invasion == 2) {
         /* Units able to occupy really needed there! */
         want = bcost * SHIELD_WEIGHTING;
       } else {
@@ -1940,11 +1930,6 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      if (!ai_fuzzy(pplayer, TRUE)) {
-        /* Didn't notice the target */
-        continue;
-      }
-
       if ((unit_flag(aunit, F_HELP_WONDER) || unit_flag(aunit, F_TRADE_ROUTE))
           && punit->id == 0) {
         /* We will not build units just to chase caravans */
@@ -1988,8 +1973,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
       move_time = (dist + move_rate - 1) / move_rate;
 
-      if (!is_ground_unit(punit) && vuln == 0) {
-        /* This is strange. Why don't we kill a helpless enemy? -- GB */
+      if (!CAN_OCCUPY(punit) && vuln == 0) {
+        /* FIXME: There is something with defence 0 there, maybe a diplomat.
+         * What's wrong in killing a diplomat? -- GB */
         want = 0;
       } else if (move_time > THRESHOLD) {
         /* Too far */
@@ -2320,8 +2306,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   punit->goto_dest_x = 0; /* FIXME: -1 */
   punit->goto_dest_y = 0; /* FIXME: -1 */
 
-  if (unit_type(punit)->attack_strength >
-      unit_type(punit)->transport_capacity) {
+  if (IS_ATTACKER(punit)) {
     if (punit->moves_left > 0) ai_manage_military(pplayer, punit);
     return;
   } /* AI used to build frigates to attack and then use them as ferries -- Syela */
