@@ -67,8 +67,6 @@ enum MenuID {
   MENU_GAME_OPTIONS,
   MENU_GAME_MSG_OPTIONS,
   MENU_GAME_SAVE_SETTINGS,
-  MENU_GAME_PLAYERS,
-  MENU_GAME_MESSAGES,
   MENU_GAME_SERVER_OPTIONS1,
   MENU_GAME_SERVER_OPTIONS2,
   MENU_GAME_OUTPUT_LOG,
@@ -126,10 +124,12 @@ enum MenuID {
 
   MENU_REPORT_CITIES,
   MENU_REPORT_UNITS,
+  MENU_REPORT_PLAYERS,
   MENU_REPORT_ECONOMY,
   MENU_REPORT_SCIENCE,
   MENU_REPORT_WOW,
   MENU_REPORT_TOP_CITIES,
+  MENU_REPORT_MESSAGES,
   MENU_REPORT_DEMOGRAPHIC,
   MENU_REPORT_SPACESHIP,
 
@@ -168,12 +168,6 @@ static void game_menu_callback(gpointer callback_data,
     break;
   case MENU_GAME_SAVE_SETTINGS:
     save_options();
-    break;
-  case MENU_GAME_PLAYERS:
-    popup_players_dialog();
-    break;
-  case MENU_GAME_MESSAGES:
-    popup_meswin_dialog();
     break;
   case MENU_GAME_SERVER_OPTIONS1:
     send_report_request(REPORT_SERVER_OPTIONS1);
@@ -421,6 +415,9 @@ static void reports_menu_callback(gpointer callback_data,
    case MENU_REPORT_UNITS:
     popup_activeunits_report_dialog(0);
     break;
+  case MENU_REPORT_PLAYERS:
+    popup_players_dialog();
+    break;
    case MENU_REPORT_ECONOMY:
     popup_economy_report_dialog(0);
     break;
@@ -432,6 +429,9 @@ static void reports_menu_callback(gpointer callback_data,
     break;
    case MENU_REPORT_TOP_CITIES:
     send_report_request(REPORT_TOP_5_CITIES);
+    break;
+  case MENU_REPORT_MESSAGES:
+    popup_meswin_dialog();
     break;
    case MENU_REPORT_DEMOGRAPHIC:
     send_report_request(REPORT_DEMOGRAPHIC);
@@ -548,23 +548,17 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_SAVE_SETTINGS					},
   { "/" N_("Game") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("_Players"),			"F3",
-	game_menu_callback,	MENU_GAME_PLAYERS					},
-  { "/" N_("Game") "/" N_("_Messages"),			"F10",
-	game_menu_callback,	MENU_GAME_MESSAGES					},
-  { "/" N_("Game") "/sep3",				NULL,
-	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("Server Opt _initial"),	NULL,
 	game_menu_callback,	MENU_GAME_SERVER_OPTIONS1				},
   { "/" N_("Game") "/" N_("Server Opt _ongoing"),	NULL,
 	game_menu_callback,	MENU_GAME_SERVER_OPTIONS2				},
-  { "/" N_("Game") "/sep4",				NULL,
+  { "/" N_("Game") "/sep3",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Export Log"),		NULL,
 	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
   { "/" N_("Game") "/" N_("_Clear Log"),		NULL,
 	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
-  { "/" N_("Game") "/sep5",				NULL,
+  { "/" N_("Game") "/sep4",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Disconnect"),		NULL,
 	game_menu_callback,	MENU_GAME_DISCONNECT					},
@@ -706,6 +700,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_CITIES					},
   { "/" N_("Reports") "/" N_("_Units"),			"F2",
 	reports_menu_callback,	MENU_REPORT_UNITS					},
+  { "/" N_("Reports") "/" N_("_Players"),		"F3",
+	reports_menu_callback,	MENU_REPORT_PLAYERS					},
   { "/" N_("Reports") "/" N_("_Economy"),		"F5",
 	reports_menu_callback,	MENU_REPORT_ECONOMY					},
   { "/" N_("Reports") "/" N_("_Science"),		"F6",
@@ -716,6 +712,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_WOW						},
   { "/" N_("Reports") "/" N_("_Top Five Cities"),	"F8",
 	reports_menu_callback,	MENU_REPORT_TOP_CITIES					},
+  { "/" N_("Reports") "/" N_("_Messages"),		"F10",
+	reports_menu_callback,	MENU_REPORT_MESSAGES					},
   { "/" N_("Reports") "/" N_("_Demographics"),		"F11",
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
   { "/" N_("Reports") "/" N_("S_paceship"),		"F12",
@@ -940,8 +938,6 @@ void update_menus(void)
     menus_set_sensitive("<main>/Game/Local Options", FALSE);
     menus_set_sensitive("<main>/Game/Message Options", FALSE);
     menus_set_sensitive("<main>/Game/Save Settings", FALSE);
-    menus_set_sensitive("<main>/Game/Players", FALSE);
-    menus_set_sensitive("<main>/Game/Messages", FALSE);
     menus_set_sensitive("<main>/Game/Server Opt initial", TRUE);
     menus_set_sensitive("<main>/Game/Server Opt ongoing", TRUE);
     menus_set_sensitive("<main>/Game/Export Log", TRUE);

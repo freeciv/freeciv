@@ -105,9 +105,6 @@ static struct MenuEntry game_menu_entries[]={
     { { N_("Message Options"), 0      },      "", MENU_GAME_MSG_OPTIONS, 0 },
     { { N_("Save Settings"), 0        },      "", MENU_GAME_SAVE_SETTINGS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
-    { { N_("Players"), 0              },    "F3", MENU_GAME_PLAYERS, 0 },
-    { { N_("Messages"), 0             },   "F10", MENU_GAME_MESSAGES, 0 },
-    { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Server Opt initial"), 0   },      "", MENU_GAME_SERVER_OPTIONS1, 0 },
     { { N_("Server Opt ongoing"), 0   },      "", MENU_GAME_SERVER_OPTIONS2, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
@@ -199,11 +196,13 @@ static struct MenuEntry order_menu_entries[]={
 static struct MenuEntry reports_menu_entries[]={
     { { N_("Cities"), 0               },    "F1", MENU_REPORT_CITIES, 0 },
     { { N_("Units"), 0                },    "F2", MENU_REPORT_UNITS, 0 },
+    { { N_("Players"), 0              },    "F3", MENU_REPORT_PLAYERS, 0 },
     { { N_("Economy"), 0              },    "F5", MENU_REPORT_ECONOMY, 0 },
     { { N_("Science"), 0              },    "F6", MENU_REPORT_SCIENCE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Wonders of the World"), 0 },    "F7", MENU_REPORT_WOW, 0 },
     { { N_("Top Five Cities"), 0      },    "F8", MENU_REPORT_TOP_CITIES, 0 },
+    { { N_("Messages"), 0             },   "F10", MENU_REPORT_MESSAGES, 0 },
     { { N_("Demographics"), 0         },   "F11", MENU_REPORT_DEMOGRAPHIC, 0 },
     { { N_("Spaceship"), 0            },   "F12", MENU_REPORT_SPACESHIP, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
@@ -254,8 +253,6 @@ void update_menus(void)
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 0);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 0);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SAVE_SETTINGS, 0);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_PLAYERS, 0);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_MESSAGES, 0);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS1, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS2, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OUTPUT_LOG, 1);
@@ -296,8 +293,6 @@ void update_menus(void)
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SAVE_SETTINGS, 1);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_PLAYERS, 1);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_MESSAGES, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS1, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS2, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OUTPUT_LOG, 1);
@@ -450,12 +445,6 @@ static void game_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_GAME_SAVE_SETTINGS:
     save_options();
-    break;
-  case MENU_GAME_PLAYERS:
-    popup_players_dialog();
-    break;
-  case MENU_GAME_MESSAGES:
-    popup_meswin_dialog();
     break;
   case MENU_GAME_SERVER_OPTIONS1:
     send_report_request(REPORT_SERVER_OPTIONS1);
@@ -685,6 +674,9 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
    case MENU_REPORT_UNITS:
     popup_activeunits_report_dialog(0);
     break;
+  case MENU_REPORT_PLAYERS:
+    popup_players_dialog();
+    break;
    case MENU_REPORT_ECONOMY:
     popup_economy_report_dialog(0);
     break;
@@ -696,6 +688,9 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
     break;
    case MENU_REPORT_TOP_CITIES:
     send_report_request(REPORT_TOP_5_CITIES);
+    break;
+  case MENU_REPORT_MESSAGES:
+    popup_meswin_dialog();
     break;
    case MENU_REPORT_DEMOGRAPHIC:
     send_report_request(REPORT_DEMOGRAPHIC);

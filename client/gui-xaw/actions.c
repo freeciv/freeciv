@@ -225,14 +225,14 @@ static void xaw_key_open_goto_airlift(Widget w, XEvent *event, String *argv, Car
 static void xaw_key_open_messages(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
-     is_menu_item_active(MENU_GAME, MENU_GAME_MESSAGES))
+     is_menu_item_active(MENU_REPORT, MENU_REPORT_MESSAGES))
     popup_meswin_dialog();
 }
 
 static void xaw_key_open_players(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
-     is_menu_item_active(MENU_GAME, MENU_GAME_PLAYERS))
+     is_menu_item_active(MENU_REPORT, MENU_REPORT_PLAYERS))
     popup_players_dialog();
 }
 
