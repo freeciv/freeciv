@@ -132,6 +132,9 @@ static struct MenuEntry kingdom_menu_entries[]={
 
 static struct MenuEntry view_menu_entries[]={
     { { N_("Map Grid"), 0             }, "ctl-g", MENU_VIEW_SHOW_MAP_GRID, 0 },
+    { { N_("City Names"), 0           }, "ctl-n", MENU_VIEW_SHOW_CITY_NAMES, 0 },
+    { { N_("City Productions"), 0     }, "ctl-p", MENU_VIEW_SHOW_CITY_PRODUCTIONS, 0 },
+    { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Center View"), 0          },     "c", MENU_VIEW_CENTER_VIEW, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
@@ -474,12 +477,17 @@ static void view_menu_callback(Widget w, XtPointer client_data,
   case MENU_VIEW_SHOW_MAP_GRID:
     key_map_grid_toggle();
     break;
+  case MENU_VIEW_SHOW_CITY_NAMES:
+    key_city_names_toggle();
+    break;
+  case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
+    key_city_productions_toggle();
+    break;
   case MENU_VIEW_CENTER_VIEW:
     request_center_focus_unit();
     break;
   }
 }
-
 
 /****************************************************************
 ...
@@ -487,11 +495,6 @@ static void view_menu_callback(Widget w, XtPointer client_data,
 static void orders_menu_callback(Widget w, XtPointer client_data,
 				 XtPointer garbage)
 {
-
-
-
-
-
   struct unit *punit;
   size_t pane_num = (size_t)client_data;
 
@@ -582,7 +585,6 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   }
 }
-
 
 /****************************************************************
 ...

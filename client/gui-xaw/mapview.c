@@ -64,10 +64,11 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 
 
 extern Display	*display;
-extern GC civ_gc, font_gc;
+extern GC civ_gc, font_gc, prod_font_gc;
 extern GC fill_bg_gc;
 extern GC fill_tile_gc;
 extern XFontStruct *main_font_struct;
+extern XFontStruct *prod_font_struct;
 extern Window root_window;
 
 extern Widget map_canvas, map_form, info_command, turn_done_button;
@@ -112,7 +113,7 @@ extern int nuke_state;
 
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);
-static void show_city_names(void);
+static void show_city_descriptions(void);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -881,7 +882,7 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
 	      tile_y*NORMAL_TILE_HEIGHT);
 
     if(width==map_canvas_store_twidth && height==map_canvas_store_theight) {
-      show_city_names();
+      show_city_descriptions();
     }
     
   }
@@ -909,13 +910,43 @@ void update_map_canvas_scrollbars(void)
   XawScrollbarSetThumb(map_vertical_scrollbar, top_v, shown_v);
 }
 
+/**************************************************************************
+Update display of descriptions associated with cities on the main map.
+**************************************************************************/
+void update_city_descriptions(void)
+{
+  update_map_canvas(0, 0, map_canvas_store_twidth,
+		    map_canvas_store_theight, 1);
+}
+
+/**************************************************************************
+Draw at x = center of string, y = top of string.
+**************************************************************************/
+static void draw_shadowed_string(XFontStruct * font, GC font_gc,
+					  int x, int y, const char *string)
+{
+  Window wndw=XtWindow(map_canvas);
+  int len=strlen(string);
+  int wth=XTextWidth(font, string, len);
+  int xs=x-wth/2;
+  int ys=y+font->ascent;
+
+  XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
+  XDrawString(display, wndw, font_gc, xs+1, ys+1, string, len);
+
+  XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
+  XDrawString(display, wndw, font_gc, xs, ys, string, len);
+}
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_city_names(void)
+static void show_city_descriptions(void)
 {
   int x, y;
+
+  if (!draw_city_names && !draw_city_productions)
+    return;
 
   for(y=0; y<map_canvas_store_theight; ++y) { 
     int ry=map_view_y0+y;
@@ -923,22 +954,47 @@ static void show_city_names(void)
       int rx=(map_view_x0+x)%map.xsize;
       struct city *pcity;
       if((pcity=map_get_city(rx, ry))) {
-	Window wndw=XtWindow(map_canvas);
-	int w=XTextWidth(main_font_struct, pcity->name, strlen(pcity->name));
-	int xs=x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2-w/2;
-	int ys=(y+1)*NORMAL_TILE_HEIGHT+main_font_struct->ascent;
-	int len=strlen(pcity->name);
 
-	XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
-	XDrawString(display, wndw, font_gc, xs+1, ys+1, pcity->name, len);
+	if (draw_city_names) {
+	  draw_shadowed_string(main_font_struct, font_gc,
+			       x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2,
+			       (y+1)*NORMAL_TILE_HEIGHT,
+			       pcity->name);
+	}
 
-	XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
-	XDrawString(display, wndw, font_gc, xs, ys, pcity->name, len);
+	if (draw_city_productions && (pcity->owner==game.player_idx)) {
+	  int turns;
+	  struct unit_type *punit_type;
+	  struct improvement_type *pimpr_type;
+	  char *name;
+	  char buffer[512];
+
+	  turns = city_turns_to_build(pcity, pcity->currently_building,
+				      pcity->is_building_unit);
+
+	  if (pcity->is_building_unit) {
+	    punit_type = get_unit_type(pcity->currently_building);
+	    name = punit_type->name;
+	  } else {
+	    pimpr_type = get_improvement_type(pcity->currently_building);
+	    name = pimpr_type->name;
+	  }
+	  my_snprintf(buffer, sizeof(buffer), "%s %d", name, turns);
+
+	  draw_shadowed_string(prod_font_struct, prod_font_gc,
+			       x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2,
+			       (y+1)*NORMAL_TILE_HEIGHT +
+			         (draw_city_names ?
+				   main_font_struct->ascent +
+				     main_font_struct->descent :
+				   0),
+			       buffer);
+	}
+
       }
     }
   }
 }
-
 
 #ifdef UNUSED
 /**************************************************************************

@@ -535,6 +535,14 @@ void update_map_canvas_visible(void)
 }
 
 /**************************************************************************
+ Update display of descriptions associated with cities on the main map.
+**************************************************************************/
+void update_city_descriptions(void)
+{
+  /* UNIMPLEMENTED */
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)

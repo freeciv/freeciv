@@ -123,14 +123,13 @@ extern GdkGC *		mask_fg_gc;
 extern GdkGC *		mask_bg_gc;
 
 extern GdkFont *	main_font;
-
+extern GdkFont *city_productions_font;
 
 static void pixmap_put_overlay_tile(GdkPixmap *pixmap,
 				    int x, int y, struct Sprite *ssprite);
 static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
 				     int x, int y, struct Sprite *ssprite);
-static void show_city_names(void);
-
+static void show_city_descriptions(void);
 
 /* the intro picture is held in this pixmap, which is scaled to
    the screen size */
@@ -899,10 +898,10 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
 		width*NORMAL_TILE_WIDTH,
 		height*NORMAL_TILE_HEIGHT );
 
-    if(width==map_canvas_store_twidth && height==map_canvas_store_theight) {
-      show_city_names();
+    if (width == map_canvas_store_twidth
+	&& height == map_canvas_store_theight) {
+      show_city_descriptions();
     }
-    
   }
 }
 
@@ -944,30 +943,89 @@ void update_map_canvas_scrollbars_size(void)
 }
 
 /**************************************************************************
+ Update display of descriptions associated with cities on the main map.
+**************************************************************************/
+void update_city_descriptions(void)
+{
+  update_map_canvas(0, 0, map_canvas_store_twidth,
+		    map_canvas_store_theight, 1);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
-static void show_city_names(void)
+static void draw_shadowed_string(GdkDrawable * drawable,
+				 GdkFont * font,
+				 GdkGC * black_gc,
+				 GdkGC * white_gc,
+				 gint x, gint y, const gchar * string)
+{
+  gdk_draw_string(drawable, font, black_gc, x + 1, y + 1, string);
+  gdk_draw_string(drawable, font, white_gc, x, y, string);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void show_city_descriptions(void)
 {
   int x, y;
+  static char buffer[512];
 
-  for(y=0; y<map_canvas_store_theight; ++y) { 
-    int ry=map_view_y0+y;
-    for(x=0; x<map_canvas_store_twidth; ++x) { 
-      int rx=(map_view_x0+x)%map.xsize;
+  if (!draw_city_names && !draw_city_productions)
+    return;
+
+  for (y = 0; y < map_canvas_store_theight; ++y) {
+    int ry = map_view_y0 + y;
+    for (x = 0; x < map_canvas_store_twidth; ++x) {
+      int rx = (map_view_x0 + x) % map.xsize;
       struct city *pcity;
-      if((pcity=map_get_city(rx, ry))) {
-	int w=gdk_string_width(main_font, pcity->name);
-						  /*FIXME*/	
-	gdk_draw_string( map_canvas->window, main_font,
+      if ((pcity = map_get_city(rx, ry))) {
+	int w;
+
+	if (draw_city_names) {
+	  my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);
+	  w = gdk_string_width(main_font, buffer);
+	  draw_shadowed_string(map_canvas->window, main_font,
 		    toplevel->style->black_gc,
-		    x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2-w/2+1,
-		    (y+1)*NORMAL_TILE_HEIGHT+main_font->ascent+1,
-		    pcity->name );
-	gdk_draw_string( map_canvas->window, main_font,
 		    toplevel->style->white_gc,
-		    x*NORMAL_TILE_WIDTH+NORMAL_TILE_WIDTH/2-w/2, 
-		    (y+1)*NORMAL_TILE_HEIGHT+main_font->ascent,
-		    pcity->name );
+			       x * NORMAL_TILE_WIDTH +
+			       NORMAL_TILE_WIDTH / 2 - w / 2,
+			       (y + 1) * NORMAL_TILE_HEIGHT +
+			       main_font->ascent, buffer);
+	}
+
+	if (draw_city_productions && (pcity->owner==game.player_idx)) {
+	  int turns, y_offset;
+	  struct unit_type *punit_type;
+	  struct improvement_type *pimprovement_type;
+
+	  turns = city_turns_to_build(pcity, pcity->currently_building,
+				      pcity->is_building_unit);
+
+	  if (pcity->is_building_unit) {
+	    punit_type = get_unit_type(pcity->currently_building);
+	    my_snprintf(buffer, sizeof(buffer), "%s %d",
+			punit_type->name, turns);
+	  } else {
+	    pimprovement_type =
+		get_improvement_type(pcity->currently_building);
+	    my_snprintf(buffer, sizeof(buffer), "%s %d",
+			pimprovement_type->name, turns);
+	  }
+	  if (draw_city_names)
+	    y_offset = main_font->ascent + main_font->descent;
+	  else
+	    y_offset = 0;
+	  w = gdk_string_width(city_productions_font, buffer);
+	  draw_shadowed_string(map_canvas->window, city_productions_font,
+			       toplevel->style->black_gc,
+			       toplevel->style->white_gc,
+			       x * NORMAL_TILE_WIDTH +
+			       NORMAL_TILE_WIDTH / 2 - w / 2,
+			       (y + 1) * NORMAL_TILE_HEIGHT +
+			       main_font->ascent + y_offset, buffer);
+	}
       }
     }
   }

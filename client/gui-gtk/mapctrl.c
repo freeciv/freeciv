@@ -55,9 +55,6 @@ int city_workers_color=COLOR_STD_WHITE;
 extern GtkWidget *map_canvas;
 extern GtkWidget *toplevel;
 extern GtkWidget *turn_done_button;
-extern int smooth_move_units; /* from options.o */
-extern int auto_center_on_unit;
-extern int draw_map_grid;
 
 /**************************************************************************
 ...

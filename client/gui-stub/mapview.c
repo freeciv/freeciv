@@ -111,6 +111,12 @@ update_map_canvas_scrollbars(void)
 }
 
 void
+update_city_descriptions(void)
+{
+	/* PORTME */
+}
+
+void
 put_cross_overlay_tile(int x,int y)
 {
 	/* PORTME */

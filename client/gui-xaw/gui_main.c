@@ -166,6 +166,9 @@ Pixmap gray50,gray25;
 /* overall font GC                                    */
 GC font_gc;
 XFontStruct *main_font_struct;
+/* productions font GC                                */
+GC prod_font_gc;
+XFontStruct *prod_font_struct;
 
 
 Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
@@ -350,6 +353,18 @@ void ui_main(int argc, char *argv[])
     font_gc= XCreateGC(display, root_window, 
 		       GCForeground|GCBackground|GCFont|GCGraphicsExposures, 
 		       &values);
+
+    prod_font_struct=XLoadQueryFont(display, city_productions_font_name);
+    if(prod_font_struct==0) {
+      freelog(LOG_FATAL, _("Failed loading font: %s"), city_productions_font_name);
+      exit(1);
+    }
+    values.foreground = colors_standard[COLOR_STD_WHITE];
+    values.background = colors_standard[COLOR_STD_BLACK];
+    values.font = prod_font_struct->fid;
+    prod_font_gc= XCreateGC(display, root_window,
+			    GCForeground|GCBackground|GCFont|GCGraphicsExposures,
+			    &values);
 
     values.foreground = 0;
     values.background = 0;

@@ -2109,6 +2109,8 @@ Now.. Go give'em hell!\")",
    <BtnDown>:         btn-select-mapcanvas()           \\n\
    Ctrl<Key>f:        key-open-find-city()             \\n\
    Ctrl<Key>g:        key-map-grid-toggle()            \\n\
+   Ctrl<Key>n:        key-city-names-toggle()          \\n\
+   Ctrl<Key>p:        key-city-productions-toggle()    \\n\
    Shift<Key>c:       key-unit-connect()               \\n\
    Shift<Key>d:       key-unit-disband()               \\n\
    Shift<Key>l:       key-open-worklists()             \\n\
@@ -2180,6 +2182,8 @@ Now.. Go give'em hell!\")",
    <BtnDown>:         btn-select-overviewcanvas()      \\n\
    Ctrl<Key>f:        key-open-find-city()             \\n\
    Ctrl<Key>g:        key-map-grid-toggle()            \\n\
+   Ctrl<Key>n:        key-city-names-toggle()          \\n\
+   Ctrl<Key>p:        key-city-productions-toggle()    \\n\
    Shift<Key>c:       key-unit-connect()               \\n\
    Shift<Key>d:       key-unit-disband()               \\n\
    Shift<Key>l:       key-open-worklists()             \\n\

@@ -13,6 +13,10 @@
 #ifndef FC__OPTIONS_H
 #define FC__OPTIONS_H
 
+extern int draw_map_grid;
+extern int draw_city_names;
+extern int draw_city_productions;
+
 extern int use_solid_color_behind_units;
 extern int sound_bell_at_new_turn;
 extern int smooth_move_units;
@@ -25,7 +29,6 @@ extern int draw_diagonal_roads;
 extern int center_when_popup_city;
 extern int concise_city_production;
 extern int auto_turn_done;
-extern int draw_map_grid;
 
 typedef struct {
 	char *name;

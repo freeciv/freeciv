@@ -30,6 +30,7 @@ void update_unit_info_label(struct unit *punit);
 void update_timeout_label(void);
 void update_unit_pix_label(struct unit *punit);
 void update_turn_done_button(int do_restore);
+void update_city_descriptions(void);
 void set_bulb_sol_government(int bulb, int sol, int government);
 
 void set_overview_dimensions(int x, int y);

@@ -589,6 +589,30 @@ void request_toggle_map_grid(void)
 }
 
 /**************************************************************************
+ Toggle display of city names
+**************************************************************************/
+void request_toggle_city_names(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_city_names ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of city productions
+**************************************************************************/
+void request_toggle_city_productions(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_city_productions ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
@@ -843,6 +867,22 @@ void key_cancel_action(void)
 
     update_unit_info_label(punit);
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_city_names_toggle(void)
+{
+  request_toggle_city_names();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_city_productions_toggle(void)
+{
+  request_toggle_city_productions();
 }
 
 /**************************************************************************

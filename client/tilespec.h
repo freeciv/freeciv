@@ -190,6 +190,10 @@ extern int SMALL_TILE_HEIGHT;
 
 extern char *city_names_font;
 
+/* name of font to use to draw city productions on main map */
+
+extern char *city_productions_font_name;
+
 extern int flags_are_transparent;
 
 extern int num_tiles_explode_unit;

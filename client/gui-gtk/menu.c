@@ -81,6 +81,8 @@ enum MenuID {
   MENU_KINGDOM_REVOLUTION,
 
   MENU_VIEW_SHOW_MAP_GRID,
+  MENU_VIEW_SHOW_CITY_NAMES,
+  MENU_VIEW_SHOW_CITY_PRODUCTIONS,
   MENU_VIEW_CENTER_VIEW,
 
   MENU_ORDER_AUTO_SETTLER,
@@ -214,7 +216,16 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
 {
   switch(callback_action) {
   case MENU_VIEW_SHOW_MAP_GRID:
-    key_map_grid_toggle ();
+    if (draw_map_grid ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_map_grid_toggle();
+    break;
+  case MENU_VIEW_SHOW_CITY_NAMES:
+    if (draw_city_names ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_city_names_toggle();
+    break;
+  case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
+    if (draw_city_productions ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_city_productions_toggle();
     break;
   case MENU_VIEW_CENTER_VIEW:
     center_on_unit();
@@ -519,6 +530,12 @@ static GtkItemFactoryEntry menu_items[]	=
     0,					"<Tearoff>"			      },
   { "/" N_("View") "/" N_("Map Grid"),		"<control>g",	view_menu_callback,
     MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"			      },
+  { "/" N_("View") "/" N_("City Names"),	"<control>n",	view_menu_callback,
+    MENU_VIEW_SHOW_CITY_NAMES,		"<CheckItem>"			      },
+  { "/" N_("View") "/" N_("City Productions"),	"<control>p",	view_menu_callback,
+    MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"			      },
+  { "/" N_("View") "/sep1",		NULL,		NULL,
+    0,					"<Separator>"			      },
   { "/" N_("View") "/" N_("Center View"),	"c",		view_menu_callback,
     MENU_VIEW_CENTER_VIEW						      },
 
@@ -746,6 +763,26 @@ static void menus_set_sensitive(const char *path, int sensitive)
   gtk_widget_set_sensitive(item, sensitive);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+static void menus_set_active(const char *path, int active)
+{
+  GtkWidget *item;
+
+  path = translate_menu_path(path);
+
+  if (!(item = gtk_item_factory_get_widget(item_factory, path))) {
+    freelog(LOG_VERBOSE,
+	    "Can't set active for non-existent menu %s.", path);
+    return;
+  }
+
+  if (GTK_IS_MENU(item))
+    item = gtk_menu_get_attach_widget(GTK_MENU(item));
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), active);
+}
+
 #ifdef UNUSED 
 /****************************************************************
 ...
@@ -836,6 +873,10 @@ void update_menus(void)
 
     menus_set_sensitive("<main>/Reports/Spaceship",
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
+
+    menus_set_active("<main>/View/Map Grid", draw_map_grid);
+    menus_set_active("<main>/View/City Names", draw_city_names);
+    menus_set_active("<main>/View/City Productions", draw_city_productions);
 
     if((punit=get_unit_in_focus())) {
       char *chgfmt = _("Change to %s");

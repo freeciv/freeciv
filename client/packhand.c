@@ -328,6 +328,8 @@ void handle_new_year(struct packet_new_year *ppacket)
   meswin_update_delay_off();
   update_meswin_dialog();
 
+  update_city_descriptions();
+
   if(game.player_ptr->ai.control && !ai_manual_turn_done) user_ended_turn();
 }
 

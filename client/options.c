@@ -32,8 +32,12 @@
 
 #include "options.h"
 
-int use_solid_color_behind_units;
-int sound_bell_at_new_turn;
+int draw_map_grid=0;
+int draw_city_names=1;
+int draw_city_productions=0;
+
+int use_solid_color_behind_units=0;
+int sound_bell_at_new_turn=0;
 int smooth_move_units=1;
 int do_combat_animation=1;
 int ai_popup_windows=0;
@@ -44,7 +48,6 @@ int draw_diagonal_roads=1;
 int center_when_popup_city=1;
 int concise_city_production=0;
 int auto_turn_done=0;
-int draw_map_grid=0;
 
 #define GEN_OPTION(name, description) { #name, description, &name, NULL }
 #define NULL_OPTION { NULL, NULL, NULL, NULL }

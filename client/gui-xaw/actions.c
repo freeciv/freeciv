@@ -81,6 +81,16 @@ static void xaw_key_chatline_send(Widget w, XEvent *event, String *argv, Cardina
   chatline_key_send(w);
 }
 
+static void xaw_key_city_names_toggle(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_city_names_toggle();
+}
+
+static void xaw_key_city_productions_toggle(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_city_productions_toggle();
+}
+
 static void xaw_key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   mapctrl_key_city_workers(event);
@@ -564,6 +574,8 @@ static XtActionsRec Actions[] = {
   { "key-cancel-action", xaw_key_cancel_action },
   { "key-center-on-unit", xaw_key_center_on_unit },
   { "key-chatline-send", xaw_key_chatline_send },
+  { "key-city-names-toggle", xaw_key_city_names_toggle },
+  { "key-city-productions-toggle", xaw_key_city_productions_toggle },
   { "key-city-workers", xaw_key_city_workers },
   { "key-dialog-city-close", xaw_key_dialog_city_close },
   { "key-dialog-connect-connect", xaw_key_dialog_connect_connect },

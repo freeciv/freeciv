@@ -45,6 +45,8 @@ void request_unit_upgrade(struct unit *punit);
 void request_unit_wait(struct unit *punit);
 void request_unit_wakeup(struct unit *punit);
 void request_toggle_map_grid(void);
+void request_toggle_city_names(void);
+void request_toggle_city_productions(void);
 
 void wakeup_sentried_units(int x, int y);
 
@@ -57,6 +59,8 @@ struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 
 void key_cancel_action(void);
+void key_city_names_toggle(void);
+void key_city_productions_toggle(void);
 void key_end_turn(void);
 void key_map_grid_toggle(void);
 void key_move_north(void);

@@ -103,6 +103,7 @@ GdkGC *		mask_bg_gc;
 GdkPixmap *	mask_bitmap;
 
 GdkFont *	main_font;
+GdkFont *	city_productions_font;
 
 GtkWidget *	main_frame_civ_name;
 GtkWidget *	main_label_info;
@@ -570,6 +571,12 @@ void ui_main(int argc, char **argv)
   {
       freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
       exit(1);
+  }
+
+  if (!(city_productions_font = gdk_font_load(city_productions_font_name))) {
+    freelog(LOG_FATAL, "failed loading font: %s",
+	    city_productions_font_name);
+    exit(1);
   }
 
   fill_bg_gc = gdk_gc_new(root_window);
