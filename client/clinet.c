@@ -294,6 +294,8 @@ static int read_from_connection(struct connection *pc, bool block)
 
     if (n == -1) {
       if (errno == EINTR) {
+	/* EINTR can happen sometimes, especially when compiling with -pg.
+	 * Generally we just want to run select again. */
 	freelog(LOG_DEBUG, "select() returned EINTR");
 	continue;
       }
@@ -831,8 +833,13 @@ struct server_list *get_lan_server_list(void) {
   tv.tv_sec = 0;
   tv.tv_usec = 0;
 
-  if (select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
-    freelog(LOG_ERROR, "select failed: %s", mystrerror());
+  while (select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
+    if (errno != EINTR) {
+      freelog(LOG_ERROR, "select failed: %s", mystrerror());
+      return lan_servers;
+    }
+    /* EINTR can happen sometimes, especially when compiling with -pg.
+     * Generally we just want to run select again. */
   }
 
   if (!FD_ISSET(socklan, &readfs)) {

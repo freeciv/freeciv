@@ -205,7 +205,13 @@ static int write_socket_data(struct connection *pc,
     tv.tv_sec = 0; tv.tv_usec = 0;
 
     if (select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
-      break;
+      if (errno != EINTR) {
+	break;
+      } else {
+	/* EINTR can happen sometimes, especially when compiling with -pg.
+	 * Generally we just want to run select again. */
+	continue;
+      }
     }
 
     if (FD_ISSET(pc->sock, &exceptfs)) {
