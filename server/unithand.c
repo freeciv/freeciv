@@ -980,7 +980,7 @@ void handle_unit_establish_trade(struct player *pplayer,
     pcity_dest=find_city_by_id(req->city_id);
     
     if(unit_flag(punit->type, F_CARAVAN) && pcity_homecity && pcity_dest && 
-       is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)) 
+       is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)) {
           if (can_establish_trade_route(pcity_homecity, pcity_dest)) {
              int revenue;
 
@@ -1000,6 +1000,7 @@ void handle_unit_establish_trade(struct player *pplayer,
           } else 
              notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
                     "Game: Sorry. Your %s cannot establish a trade route here!", unit_name(punit->type));
+    }
   }
 }
 /**************************************************************************

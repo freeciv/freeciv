@@ -318,7 +318,7 @@ void x_main(int argc, char *argv[])
     else {
       freelog(LOG_NORMAL, "Your getpwuid call failed.  Please report this.");
       strcpy(name, "operator 00000");
-      sprintf(name+9, "%05i",getuid());
+      sprintf(name+9, "%05i", (int)getuid());
     }
   }
 
