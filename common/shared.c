@@ -14,6 +14,10 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_SYS_TYPES_H
+/* Under Mac OS X sys/types.h must be included before dirent.h */
+#include <sys/types.h>
+#endif
 #include <assert.h>
 #include <dirent.h>
 #include <errno.h>
