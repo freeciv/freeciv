@@ -13,6 +13,8 @@
 #ifndef FC__SPACERACE_H
 #define FC__SPACERACE_H
 
+#include "packets.h"
+
 struct player;
 struct player_spaceship;
 struct conn_list;

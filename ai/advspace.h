@@ -13,6 +13,8 @@
 #ifndef FC__ADVSPACE_H
 #define FC__ADVSPACE_H
 
+#include "shared.h"
+
 struct player;
 struct player_spaceship;
 

@@ -17,8 +17,9 @@
 
 struct connection;
 struct conn_list;
-struct packet_login_request;
 struct packet_authentication_reply;
+struct packet_login_request;
+struct packet_server_join_req;
 struct player;
 struct user;
 

@@ -13,13 +13,15 @@
 #ifndef FC__DIALOGS_G_H
 #define FC__DIALOGS_G_H
 
+#include "nation.h"		/* Nation_Type_id */
 #include "shared.h"		/* bool type */
 #include "terrain.h"		/* enum tile_special_type */
 
+struct city;
+struct government;
+struct packet_nations_selected_info;
 struct tile;
 struct unit;
-struct city;
-struct packet_nations_selected_info;
 
 void popup_notify_goto_dialog(char *headline, char *lines, int x, int y);
 void popup_notify_dialog(char *caption, char *headline, char *lines);

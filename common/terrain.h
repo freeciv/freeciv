@@ -13,6 +13,7 @@
 #ifndef FC__TERRAIN_H
 #define FC__TERRAIN_H
 
+#include "shared.h"
 
 enum terrain_river_type {
   R_AS_TERRAIN=1, R_AS_SPECIAL=2
