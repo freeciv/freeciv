@@ -86,6 +86,11 @@ struct civ_game {
   int aqueduct_size;
   int sewer_size;
   int spacerace;
+  struct {
+    char techs[MAX_LENGTH_NAME];
+    char units[MAX_LENGTH_NAME];
+    char buildings[MAX_LENGTH_NAME];
+  } ruleset;
   int firepower_factor;		/* See README.rulesets */
   struct {
     int get_bonus_tech;		/* eg Philosophy */
