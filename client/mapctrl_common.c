@@ -456,20 +456,15 @@ bool get_turn_done_button_state()
 **************************************************************************/
 void scroll_mapview(enum direction8 gui_dir)
 {
-  int map_x, map_y, canvas_x, canvas_y;
+  int gui_x = mapview_canvas.gui_x0, gui_y = mapview_canvas.gui_y0;
 
   if (!can_client_change_view()) {
     return;
   }
 
-  canvas_x = mapview_canvas.width / 2;
-  canvas_y = mapview_canvas.height / 2;
-  canvas_x += DIR_DX[gui_dir] * mapview_canvas.width / 2;
-  canvas_y += DIR_DY[gui_dir] * mapview_canvas.height / 2;
-  if (!canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
-    nearest_real_pos(&map_x, &map_y);
-  }
-  center_tile_mapcanvas(map_x, map_y);
+  gui_x += DIR_DX[gui_dir] * mapview_canvas.width / 2;
+  gui_y += DIR_DY[gui_dir] * mapview_canvas.height / 2;
+  set_mapview_origin(gui_x, gui_y);
 }
 
 /**************************************************************************

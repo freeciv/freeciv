@@ -152,6 +152,7 @@ void get_mapview_scroll_step(int *xstep, int *ystep);
 void get_mapview_scroll_pos(int *scroll_x, int *scroll_y);
 void set_mapview_scroll_pos(int scroll_x, int scroll_y);
 
+void set_mapview_origin(int gui_x0, int gui_y0);
 void get_center_tile_mapcanvas(int *map_x, int *map_y);
 void center_tile_mapcanvas(int map_x, int map_y);
 

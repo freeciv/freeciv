@@ -360,7 +360,7 @@ static void normalize_gui_pos(int *gui_x, int *gui_y)
 /****************************************************************************
   Change the mapview origin, clip it, and update everything.
 ****************************************************************************/
-static void set_mapview_origin(int gui_x0, int gui_y0)
+void set_mapview_origin(int gui_x0, int gui_y0)
 {
   int xmin, xmax, ymin, ymax, xsize, ysize;
 
