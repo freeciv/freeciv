@@ -106,6 +106,32 @@ void popdown_players_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
+static GdkPixbuf *create_player_icon(struct player *plr)
+{
+  int width, height;
+  GdkPixbuf *tmp;
+  GdkPixmap *pixmap;
+
+  gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height);
+
+  pixmap = gdk_pixmap_new(root_window, width, height, -1);
+
+  gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+  gdk_draw_rectangle(pixmap, civ_gc, TRUE, 0, 0, width, height);
+
+  gdk_gc_set_foreground(civ_gc, colors_standard[player_color(plr)]);
+  gdk_draw_rectangle(pixmap, civ_gc, TRUE, 1, 1, width - 2, height - 2);
+
+  tmp = gdk_pixbuf_get_from_drawable(NULL, pixmap, NULL, 
+      0, 0, 0, 0, -1, -1);
+
+  g_object_unref(pixmap);
+  return tmp;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void update_players_menu(void)
 {
   GtkTreeModel *model;
@@ -203,7 +229,7 @@ static void create_store(void)
       model_types[i] = GDK_TYPE_PIXBUF;
       break;
     case COL_COLOR:
-      model_types[i] = GDK_TYPE_COLOR;
+      model_types[i] = GDK_TYPE_PIXBUF;
       break;
     case COL_BOOLEAN:
       model_types[i] = G_TYPE_BOOLEAN;
@@ -306,10 +332,10 @@ void create_players_dialog(void)
         "active", i, NULL);
       break;
     case COL_COLOR:
-      renderer = gtk_cell_renderer_text_new();
+      renderer = gtk_cell_renderer_pixbuf_new();
 
       col = gtk_tree_view_column_new_with_attributes(pcol->title, renderer,
-             "background-gdk", i, NULL);
+             "pixbuf", i, NULL);
       break;
     case COL_TEXT:
       renderer = gtk_cell_renderer_text_new();
@@ -495,7 +521,7 @@ static GdkPixbuf *get_flag(struct nation_type *nation)
 static void build_row(GtkTreeIter *it, int i)
 {
   struct player *plr = get_player(i);
-  GdkPixbuf *flag;
+  GdkPixbuf *pixbuf;
   gint style, weight;
   int k;
   gchar *p;
@@ -509,13 +535,14 @@ static void build_row(GtkTreeIter *it, int i)
 	gtk_list_store_set(store, it, k, p, -1);
 	break;
       case COL_FLAG:
-        flag = get_flag(get_nation_by_plr(plr));
-        gtk_list_store_set(store, it, k, flag, -1);
-        g_object_unref(flag);
+        pixbuf = get_flag(get_nation_by_plr(plr));
+        gtk_list_store_set(store, it, k, pixbuf, -1);
+        g_object_unref(pixbuf);
 	break;
       case COL_COLOR:
-        gtk_list_store_set(store, it, k,
-	                   colors_standard[player_color(plr)], -1);
+	pixbuf = create_player_icon(plr);
+        gtk_list_store_set(store, it, k, pixbuf, -1);
+	g_object_unref(pixbuf);
 	break;
       case COL_BOOLEAN:
         gtk_list_store_set(store, it, k, (gboolean)pcol->bool_func(plr), -1);
