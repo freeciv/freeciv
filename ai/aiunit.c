@@ -2274,17 +2274,6 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
   /* and then all other supported units went on DEFEND_HOME/goto */
   ai_military_findjob(pplayer, punit);
 
-#ifdef DEBUG
-  {
-    struct city *pcity;
-    if (unit_flag(punit, F_FIELDUNIT)
-	&& (pcity = map_get_city(punit->x, punit->y))) {
-      freelog(LOG_DEBUG, "%s in %s is going to %d", unit_name(punit->type),
-	      pcity->name, punit->ai.ai_role);
-    }
-  }
-#endif
-
   switch (punit->ai.ai_role) {
   case AIUNIT_AUTO_SETTLER:
   case AIUNIT_BUILD_CITY:
