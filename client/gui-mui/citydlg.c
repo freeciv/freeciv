@@ -420,7 +420,7 @@ struct city_unit_msg
 /****************************************************************
  Sort the city list alphabetically
 *****************************************************************/
-static void city_list_sort(struct MinList *list)
+static void city_list_sort_amiga(struct MinList *list)
 {
   BOOL notfinished = TRUE;
 
@@ -874,7 +874,7 @@ static void city_browse(struct city_browse_msg *msg)
   }
   city_list_iterate_end
 
-    city_list_sort(&list);
+    city_list_sort_amiga(&list);
 
   node = (struct city_node *) List_First(&list);
   while (node)
