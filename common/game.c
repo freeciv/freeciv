@@ -327,19 +327,48 @@ void initialize_globals()
 ***************************************************************/
 void game_next_year(void)
 {
+  int spaceshipparts, i;
+  int parts[] = { B_SCOMP, B_SMODULE, B_SSTRUCTURAL, B_LAST };
+
   if (game.year == 1) /* hacked it to get rid of year 0 */
     game.year = 0;
 
-  if (game.year < 1000)
-    game.year += 20;
-  else if (game.year < 1500)
-    game.year += 10;
-  else if (game.year < 1700)
-    game.year += 5;
-  else if (game.year < 1800)
+    /* !McFred: 
+       - want game.year += 1 for spaceship.
+    */
+
+  /* test game with 7 normal AI's, gen 4 map, foodbox 10, foodbase 0: 
+   * Gunpowder about 0 AD
+   * Railroad  about 500 AD
+   * Electricity about 1000 AD
+   * Refining about 1500 AD (212 active units)
+   * about 1750 AD
+   * about 1900 AD
+   */
+
+  spaceshipparts= 0;
+  if (game.spacerace) {
+    for(i=0; parts[i] < B_LAST; i++) {
+      int t = improvement_types[parts[i]].tech_requirement;
+      if(tech_exists(t) && game.global_advances[t]) 
+	spaceshipparts++;
+    }
+  }
+
+  if( game.year >= 1900 || ( spaceshipparts>=3 && game.year>0 ) )
+    game.year += 1;
+  else if( game.year >= 1750 || spaceshipparts>=2 )
     game.year += 2;
+  else if( game.year >= 1500 || spaceshipparts>=1 )
+    game.year += 5;
+  else if( game.year >= 1000 )
+    game.year += 10;
+  else if( game.year >= 0 )
+    game.year += 20;
+  else if( game.year >= -1000 ) /* used this line for tuning (was -1250) */
+    game.year += 25;
   else
-    game.year++;
+    game.year += 50; 
 
   if (game.year == 0) 
     game.year = 1;
