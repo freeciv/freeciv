@@ -125,7 +125,7 @@ static void great_library(struct player *pplayer)
 			   advances[i].name);
 	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",
 		  get_nation_name_plural(pplayer->nation),advances[i].name);
-	  notify_embassies(pplayer,(struct player*)0,
+	  notify_embassies(pplayer, NULL,
 			   _("Game: The %s have aquired %s"
 			     " from the Great Library."),
 			   get_nation_name_plural(pplayer->nation),
@@ -349,7 +349,7 @@ void tech_researched(struct player* plr)
   /* plr will be notified when new tech is chosen */
 
   if (!is_future_tech(plr->research.researching)) {
-    notify_embassies(plr, (struct player*)0,
+    notify_embassies(plr, NULL,
 		     _("Game: The %s have researched %s."), 
 		     get_nation_name_plural(plr->nation),
 		     advances[plr->research.researching].name);
@@ -359,7 +359,7 @@ void tech_researched(struct player* plr)
 	    advances[plr->research.researching].name
 	    );
   } else {
-    notify_embassies(plr, (struct player*)0,
+    notify_embassies(plr, NULL,
 		     _("Game: The %s have researched Future Tech. %d."), 
 		     get_nation_name_plural(plr->nation),
 		     plr->future_tech);

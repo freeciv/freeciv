@@ -245,7 +245,7 @@ void handle_spaceship_action(struct player *pplayer,
     }
     ship->fuel++;
     spaceship_calc_derived(ship);
-    send_spaceship_info(pplayer, 0);
+    send_spaceship_info(pplayer, NULL);
     return;
   }
   if (action == SSHIP_ACT_PLACE_PROPULSION) {
@@ -264,7 +264,7 @@ void handle_spaceship_action(struct player *pplayer,
     }
     ship->propulsion++;
     spaceship_calc_derived(ship);
-    send_spaceship_info(pplayer, 0);
+    send_spaceship_info(pplayer, NULL);
     return;
   }
   if (action == SSHIP_ACT_PLACE_HABITATION) {
@@ -284,7 +284,7 @@ void handle_spaceship_action(struct player *pplayer,
     }
     ship->habitation++;
     spaceship_calc_derived(ship);
-    send_spaceship_info(pplayer, 0);
+    send_spaceship_info(pplayer, NULL);
     return;
   }
   if (action == SSHIP_ACT_PLACE_LIFE_SUPPORT) {
@@ -304,7 +304,7 @@ void handle_spaceship_action(struct player *pplayer,
     }
     ship->life_support++;
     spaceship_calc_derived(ship);
-    send_spaceship_info(pplayer, 0);
+    send_spaceship_info(pplayer, NULL);
     return;
   }
   if (action == SSHIP_ACT_PLACE_SOLAR_PANELS) {
@@ -324,7 +324,7 @@ void handle_spaceship_action(struct player *pplayer,
     }
     ship->solar_panels++;
     spaceship_calc_derived(ship);
-    send_spaceship_info(pplayer, 0);
+    send_spaceship_info(pplayer, NULL);
     return;
   }
   freelog(LOG_ERROR, "Received unknown spaceship action %d from %s",
