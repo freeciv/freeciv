@@ -3211,7 +3211,7 @@ static int write_socket_data(struct connection *pc,
     }
 
     if (FD_ISSET(pc->sock, &writefs)) {
-      nblock=MIN(len-start, MAX_LEN_PACKET);
+      nblock=len-start;
       if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
 	if (errno == EWOULDBLOCK || errno == EAGAIN) {
