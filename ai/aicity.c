@@ -31,6 +31,7 @@
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 
 #include "cityhand.h"
@@ -877,69 +878,100 @@ bool ai_fix_unhappy(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  This function tries desperately to save a city from going under by
+  revolt or starvation of food or resources. We do this by taking
+  over resources held by nearby cities and disbanding units.
+
+  TODO: Try to move units into friendly cities to reduce unhappiness
+  instead of disbanding. Also rather starve city than keep it in
+  revolt, as long as we don't lose settlers.
+
+  TODO: Make function that tries to save units by moving them into
+  cities that can upkeep them and change homecity rather than just
+  disband. This means we'll have to move this function to beginning
+  of AI turn sequence (before moving units).
+
+  "I don't care how slow this is; it will very rarely be used." -- Syela
+
+  Syela is wrong. It happens quite too often, mostly due to unhappiness.
+  Also, most of the time we are unable to resolve the situation. 
 **************************************************************************/
 void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
-{ /* I don't care how slow this is; it will very rarely be used. -- Syela */
-/* this would be a lot easier if I made ->worked a city id. */
+#define LOG_EMERGENCY LOG_DEBUG
+{ 
   struct city_list minilist;
-  struct packet_unit_request pack;
+  char report[500];
 
-  freelog(LOG_VERBOSE,
-	  "Emergency in %s! (%d angry, %d unhap, %d hap, %d food, %d prod)",
-	  pcity->name, pcity->ppl_angry[4], pcity->ppl_unhappy[4],
-	  pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_surplus);
+  my_snprintf(report, sizeof(report),
+              "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
+              pcity->name, city_unhappy(pcity) ? "unhappy" : "content",
+              pcity->ppl_angry[4], pcity->ppl_unhappy[4],
+              pcity->food_surplus, pcity->shield_surplus);
+
   city_list_init(&minilist);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
-    struct city *acity=map_get_tile(x,y)->worked;
+    struct city *acity = map_get_tile(x,y)->worked;
     int city_map_x, city_map_y;
     bool is_valid;
 
-    if(acity && acity!=pcity && acity->owner==pcity->owner)  {
+    if (acity && acity != pcity && acity->owner == pcity->owner)  {
       if (same_pos(acity->x, acity->y, x, y)) {
 	/* can't stop working city center */
 	continue;
       }
-      freelog(LOG_DEBUG, "Availing square in %s", acity->name);
+      freelog(LOG_DEBUG, "%s taking over %s's square in (%d, %d)",
+              pcity->name, acity->name, x, y);
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, x, y);
       assert(is_valid);
       server_remove_worker_city(acity, city_map_x, city_map_y);
       acity->ppl_elvis++;
-      if (!city_list_find_id(&minilist, acity->id))
+      if (!city_list_find_id(&minilist, acity->id)) {
 	city_list_insert(&minilist, acity);
+      }
     }
   } map_city_radius_iterate_end;
   auto_arrange_workers(pcity);
-  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE))
+  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE)) {
     ai_scientists_taxmen(pcity);
-  if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
-      pcity->food_stock + pcity->food_surplus < 0) {
-    freelog(LOG_VERBOSE, "Emergency unresolved");
-  } else {
-    freelog(LOG_VERBOSE, "Emergency resolved");
   }
-  freelog(LOG_DEBUG, "Rearranging workers in %s", pcity->name);
+  if (pcity->shield_surplus >= 0 && !city_unhappy(pcity)
+      && pcity->food_stock + pcity->food_surplus >= 0) {
+    freelog(LOG_EMERGENCY, "%s resolved without disbanding", report);
+    goto cleanup;
+  }
 
-  unit_list_iterate(pcity->units_supported, punit)
-    if (city_unhappy(pcity) && punit->unhappiness != 0 && punit->ai.passenger == 0) {
-       freelog(LOG_VERBOSE,
-	       "%s's %s is unhappy and causing unrest, disbanding it",
-	       pcity->name, unit_type(punit)->name);
-       pack.unit_id = punit->id;
-       /* in rare cases the _safe might be needed? --dwp */
-       handle_unit_disband_safe(pplayer, &pack, &myiter);
-       city_refresh(pcity);
-       (void) ai_fix_unhappy(pcity);
-     }
-  unit_list_iterate_end;       
+  unit_list_iterate(pcity->units_supported, punit) {
+    if (city_unhappy(pcity)
+        && punit->unhappiness != 0
+        && punit->ai.passenger == 0) {
+      struct packet_unit_request pack;
 
+      UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");
+      pack.unit_id = punit->id;
+      /* in rare cases the _safe might be needed? --dwp */
+      handle_unit_disband_safe(pplayer, &pack, &myiter);
+      city_refresh(pcity);
+      (void) ai_fix_unhappy(pcity);
+    }
+  } unit_list_iterate_end;
+
+  if (pcity->shield_surplus >= 0 && !city_unhappy(pcity)
+      && pcity->food_stock + pcity->food_surplus >= 0) {
+    freelog(LOG_EMERGENCY, "%s resolved by disbanding unit(s)", report);
+  } else {
+    freelog(LOG_EMERGENCY, "%s remains unresolved", report);
+  }
+
+  cleanup:
   city_list_iterate(minilist, acity) {
-    city_refresh(acity); /* otherwise food total and stuff was wrong. -- Syela */
+    /* otherwise food total and stuff was wrong. -- Syela */
+    city_refresh(acity);
     auto_arrange_workers(pcity);
-    if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer, TRUE))
+    if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer, TRUE)) {
       ai_scientists_taxmen(acity);
-    freelog(LOG_DEBUG, "Readjusting workers in %s", acity->name);
+    }
   } city_list_iterate_end;
 
   sync_cities();
 }
+#undef LOG_EMERGENCY
