@@ -418,6 +418,9 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
   Grave danger is number of units that can attack us next turn.
 
   Generates a warmap around pcity.
+
+  FIXME: We do not consider a paratrooper's mr_req and mr_sub
+  fields. Not a big deal, though.
 ***********************************************************************/
 static int assess_danger(struct city *pcity)
 {
@@ -449,8 +452,6 @@ static int assess_danger(struct city *pcity)
     int boatspeed;
     int boatid, boatdist;
     int x = pcity->x, y = pcity->y; /* dummy variables */
-    int move_rate, dist, vulnerability;
-    bool igwall;
 
     if (!is_player_dangerous(city_owner(pcity), aplayer)) {
       continue;
@@ -467,17 +468,28 @@ static int assess_danger(struct city *pcity)
 
     /* Look for enemy units */
     unit_list_iterate(aplayer->units, punit) {
-      move_rate = unit_type(punit)->move_rate;
-      vulnerability = assess_danger_unit(pcity, punit);
-      dist = assess_distance(pcity, punit, move_rate, boatid, boatdist, 
-                             boatspeed);
-      igwall = unit_really_ignores_citywalls(punit);
+      int paramove = 0;
+      int move_rate = unit_type(punit)->move_rate;
+      int vulnerability = assess_danger_unit(pcity, punit);
+      int dist = assess_distance(pcity, punit, move_rate, boatid, boatdist, 
+                                 boatspeed);
+      bool igwall = unit_really_ignores_citywalls(punit);
 
-      if ((is_ground_unit(punit) && vulnerability != 0) ||
-          (is_ground_units_transport(punit))) {
-        if (dist <= move_rate * 3) urgency++;
-        if (dist <= move_rate) pcity->ai.grave_danger++;
-        /* see comment in previous loop on grave danger */
+      if (unit_flag(punit, F_PARATROOPERS)) {
+        paramove = unit_type(punit)->paratroopers_range;
+      }
+
+      if ((is_ground_unit(punit) && vulnerability != 0)
+          || (is_ground_units_transport(punit))) {
+        if (dist <= move_rate * 3 || dist <= paramove + move_rate) {
+          urgency++;
+        }
+        if (dist <= move_rate || dist <= paramove + move_rate) {
+          pcity->ai.grave_danger++;
+        }
+      }
+      if (paramove > 0 && can_unit_paradrop(punit)) {
+        move_rate += paramove; /* gross simplification */
       }
 
       if (unit_flag(punit, F_HORSE)) {
