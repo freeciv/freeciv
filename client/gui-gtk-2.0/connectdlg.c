@@ -288,12 +288,12 @@ static int get_meta_list(char *errbuf, int n_errbuf)
     GtkTreeIter it;
     int i;
 
-    row[0] = g_locale_to_utf8(pserver->name, -1, NULL, NULL, NULL);
-    row[1] = g_locale_to_utf8(pserver->port, -1, NULL, NULL, NULL);
-    row[2] = g_locale_to_utf8(pserver->version,	-1, NULL, NULL, NULL);
-    row[3] = g_locale_to_utf8(_(pserver->status), -1, NULL, NULL, NULL);
-    row[4] = g_locale_to_utf8(pserver->players,	-1, NULL, NULL, NULL);
-    row[5] = g_locale_to_utf8(pserver->metastring, -1, NULL, NULL, NULL);
+    row[0] = g_convert(pserver->name, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+    row[1] = g_convert(pserver->port, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+    row[2] = g_convert(pserver->version, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+    row[3] = g_convert(_(pserver->status), -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+    row[4] = g_convert(pserver->players, -1,"UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+    row[5] = g_convert(pserver->metastring, -1,"UTF-8", "ISO-8859-1", NULL, NULL, NULL);
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,

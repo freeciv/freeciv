@@ -727,7 +727,7 @@ static void setup_widgets(void)
 static unsigned char *put_conv(unsigned char *dst, const char *src)
 {
   gsize len;
-  gchar *out = g_locale_from_utf8(src, -1, NULL, &len, NULL);
+  gchar *out = g_convert(src, -1, "ISO-8859-1", "UTF-8", NULL, &len, NULL);
 
   assert(out != NULL);
 
@@ -746,7 +746,7 @@ static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
 		      size_t nsrc)
 {
   gsize len;			/* length to copy, not including null */
-  gchar *out = g_locale_to_utf8(src, nsrc, NULL, &len, NULL);
+  gchar *out = g_convert(src, nsrc, "UTF-8", "ISO-8859-1", NULL, &len, NULL);
   bool ret = TRUE;
 
   if (!out) {
