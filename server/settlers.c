@@ -477,7 +477,7 @@ static int is_wet(struct player *pplayer, int x, int y)
   t=map_get_terrain(x,y);
   if (t == T_OCEAN || t == T_RIVER) return TRUE;
   s=map_get_special(x,y);
-  if ((s & S_RIVER) || (s & S_IRRIGATION)) return TRUE;
+  if (BOOL_VAL(s & S_RIVER) || BOOL_VAL(s & S_IRRIGATION)) return TRUE;
   return FALSE;
 }
 

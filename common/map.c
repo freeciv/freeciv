@@ -601,24 +601,24 @@ char *map_get_infrastructure_text(int spe)
   s[0] = '\0';
 
   /* Since railroad requires road, Road/Railroad is redundant */
-  if (spe & S_RAILROAD)
+  if (BOOL_VAL(spe & S_RAILROAD))
     cat_snprintf(s, sizeof(s), "%s/", _("Railroad"));
-  else if (spe & S_ROAD)
+  else if (BOOL_VAL(spe & S_ROAD))
     cat_snprintf(s, sizeof(s), "%s/", _("Road"));
 
   /* Likewise for farmland on irrigation */
-  if (spe & S_FARMLAND)
+  if (BOOL_VAL(spe & S_FARMLAND))
     cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
-  else if (spe & S_IRRIGATION)
+  else if (BOOL_VAL(spe & S_IRRIGATION))
     cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
 
-  if (spe & S_MINE)
+  if (BOOL_VAL(spe & S_MINE))
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
 
-  if (spe & S_FORTRESS)
+  if (BOOL_VAL(spe & S_FORTRESS))
     cat_snprintf(s, sizeof(s), "%s/", _("Fortress"));
 
-  if (spe & S_AIRBASE)
+  if (BOOL_VAL(spe & S_AIRBASE))
     cat_snprintf(s, sizeof(s), "%s/", _("Airbase"));
 
   p = s + strlen(s) - 1;
@@ -635,9 +635,9 @@ int map_get_infrastructure_prerequisite(int spe)
 {
   int prereq = S_NO_SPECIAL;
 
-  if (spe & S_RAILROAD)
+  if (BOOL_VAL(spe & S_RAILROAD))
     prereq |= S_ROAD;
-  if (spe & S_FARMLAND)
+  if (BOOL_VAL(spe & S_FARMLAND))
     prereq |= S_IRRIGATION;
 
   return prereq;
@@ -648,19 +648,19 @@ int map_get_infrastructure_prerequisite(int spe)
 ***************************************************************/
 int get_preferred_pillage(int pset)
 {
-  if (pset & S_FARMLAND)
+  if (BOOL_VAL(pset & S_FARMLAND))
     return S_FARMLAND;
-  if (pset & S_IRRIGATION)
+  if (BOOL_VAL(pset & S_IRRIGATION))
     return S_IRRIGATION;
-  if (pset & S_MINE)
+  if (BOOL_VAL(pset & S_MINE))
     return S_MINE;
-  if (pset & S_FORTRESS)
+  if (BOOL_VAL(pset & S_FORTRESS))
     return S_FORTRESS;
-  if (pset & S_AIRBASE)
+  if (BOOL_VAL(pset & S_AIRBASE))
     return S_AIRBASE;
-  if (pset & S_RAILROAD)
+  if (BOOL_VAL(pset & S_RAILROAD))
     return S_RAILROAD;
-  if (pset & S_ROAD)
+  if (BOOL_VAL(pset & S_ROAD))
     return S_ROAD;
   return S_NO_SPECIAL;
 }
@@ -1208,7 +1208,7 @@ void map_set_special(int x, int y, enum tile_special_type spe)
 {
   MAP_TILE(x, y)->special |= spe;
 
-  if (spe & (S_ROAD | S_RAILROAD))
+  if (BOOL_VAL(spe & (S_ROAD | S_RAILROAD)))
     reset_move_costs(x, y);
 }
 
@@ -1219,7 +1219,7 @@ void map_clear_special(int x, int y, enum tile_special_type spe)
 {
   MAP_TILE(x, y)->special &= ~spe;
 
-  if (spe & (S_ROAD | S_RAILROAD))
+  if (BOOL_VAL(spe & (S_ROAD | S_RAILROAD)))
     reset_move_costs(x, y);
 }
 

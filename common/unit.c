@@ -729,7 +729,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
       pspresent = get_tile_infrastructure_set(ptile);
       if (pspresent && is_ground_unit(punit)) {
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
-	if (ptile->city && (target & (S_ROAD | S_RAILROAD)))
+	if (ptile->city && BOOL_VAL(target & (S_ROAD | S_RAILROAD)))
 	    return FALSE;
 	if (target == S_NO_SPECIAL) {
 	  if (ptile->city)
