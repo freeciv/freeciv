@@ -207,8 +207,8 @@ static int city_desirability(struct player *pplayer, int x, int y)
 {
   int taken[5][5], food[5][5], shield[5][5], trade[5][5];
   int irrig[5][5], mine[5][5], road[5][5];
-  int i, j, f, n = 0;
-  int worst, b2, best, ii, jj, val, cur;
+  int i, j, f, n;
+  int worst, b2, best = 0, ii, jj, val, cur;
   int d = 0;
   int a, i0, j0; /* need some temp variables */
   int temp=0, tmp=0;
@@ -427,8 +427,8 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 static int make_dy(int y1, int y2)
 {
-  int dy=y2-y1;
-  if (dy<0) dy=-dy;
+  int dy = y2-y1;
+  if (dy<0) dy = -dy;
   return dy;
 }
 
@@ -481,8 +481,7 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer, int 
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_calc_pollution(struct city *pcity, struct player *pplayer,
-			     int i, int j, int best)
+static int ai_calc_pollution(struct city *pcity, int i, int j, int best)
 {
   int x, y, m;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
@@ -575,8 +574,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_calc_mine(struct city *pcity, struct player *pplayer,
-			int i, int j)
+static int ai_calc_mine(struct city *pcity, int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
   struct tile *ptile = map_get_tile(x, y);
@@ -609,8 +607,7 @@ static int ai_calc_mine(struct city *pcity, struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_calc_transform(struct city *pcity, struct player *pplayer,
-			     int i, int j)
+static int ai_calc_transform(struct city *pcity, int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
   struct tile *ptile = map_get_tile(x, y);
@@ -908,11 +905,11 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int food_upkeep;		/* upkeep food value for single settler  */
   int food_cost;		/* estimated food cost to produce settler */
   
-  int boatid, bx, by;		/* as returned by find_boat */
+  int boatid, bx = 0, by = 0;	/* as returned by find_boat */
   struct unit *ferryboat;	/* if non-null, boatid boat at unit's x,y */
   
   int x, y, i, j;
-  int b=0, d=0;
+  int b, d;
 
   struct ai_choice choice;	/* for nav want only */
 
@@ -940,8 +937,8 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   /** First find the best square to upgrade,
    ** results in: gx, gy, best_oldv, best_newv, best_act */
   
-  gx=-1;
-  gy=-1;
+  gx = -1;
+  gy = -1;
   /* iterating over the whole map is just ridiculous.  let's only look at
      our own cities.  The old method wasted billions of CPU cycles and led to
      AI settlers improving enemy cities.  arguably should include city_spot  */
@@ -1300,11 +1297,11 @@ void initialize_infrastructure_cache(struct city *pcity)
   struct player *pplayer = &game.players[pcity->owner];
   int best = best_worker_tile_value(pcity);
   city_map_iterate(i, j) {
-    pcity->ai.detox[i][j] = ai_calc_pollution(pcity, pplayer, i, j, best);
+    pcity->ai.detox[i][j] = ai_calc_pollution(pcity, i, j, best);
     pcity->ai.derad[i][j] = ai_calc_fallout(pcity, pplayer, i, j, best);
-    pcity->ai.mine[i][j] = ai_calc_mine(pcity, pplayer, i, j);
+    pcity->ai.mine[i][j] = ai_calc_mine(pcity, i, j);
     pcity->ai.irrigate[i][j] = ai_calc_irrigate(pcity, pplayer, i, j);
-    pcity->ai.transform[i][j] = ai_calc_transform(pcity, pplayer, i, j);
+    pcity->ai.transform[i][j] = ai_calc_transform(pcity, i, j);
     pcity->ai.road[i][j] = ai_calc_road(pcity, pplayer, i, j);
 /* gonna handle road_bo dynamically for now since it can change
 as punits arrive at adjacent tiles and start laying road -- Syela */

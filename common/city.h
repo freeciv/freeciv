@@ -88,8 +88,8 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
 /* Iterate a city radius: (dx,dy) centered on (0,0) */
 
 #define city_radius_iterate(dx, dy) \
-  for (dy=-(int)(CITY_MAP_SIZE/2);dy<(int)(CITY_MAP_SIZE/2);dy++) \
-    for (dx=-(int)(CITY_MAP_SIZE/2);dx<(int)(CITY_MAP_SIZE/2);dx++) \
+  for (dy = -(int)(CITY_MAP_SIZE/2); dy<(int)(CITY_MAP_SIZE/2); dy++) \
+    for (dx = -(int)(CITY_MAP_SIZE/2); dx<(int)(CITY_MAP_SIZE/2); dx++) \
       if (! ((dx == -(int)(CITY_MAP_SIZE/2) || dx == (int)(CITY_MAP_SIZE/2)) && \
 	     (dy == -(int)(CITY_MAP_SIZE/2) || dy == (int)(CITY_MAP_SIZE/2))) )
 
