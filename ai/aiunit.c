@@ -16,6 +16,11 @@
 #include <string.h>
 #include <assert.h>
 
+#ifdef CHRONO
+#include <sys/time.h>
+#include <unistd.h>
+#endif
+
 #include "city.h"
 #include "game.h"
 #include "log.h"
@@ -1531,8 +1536,8 @@ void ai_manage_units(struct player *pplayer)
   freelog(LOG_DEBUG, "Managed units successfully.");
 #ifdef CHRONO
   gettimeofday(&tv, 0);
-  freelog(LOG_VERBOSE, "%s's units consumed %d microseconds.", pplayer->name,
-	  (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+  freelog(LOG_VERBOSE, "%s's units consumed %ld microseconds.", pplayer->name,
+	  (long)((tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec)));
 #endif
 }
 

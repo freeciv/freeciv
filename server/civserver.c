@@ -70,6 +70,14 @@
 
 #include "civserver.h"
 
+#ifndef CLOCKS_PER_SEC
+#ifdef CLOCKS_PER_SECOND
+#define CLOCKS_PER_SEC CLOCKS_PER_SECOND
+#else
+#define CLOCKS_PER_SEC 1000000	/* wild guess!! */
+#endif
+#endif
+
 void end_game(void);
 void before_end_year(void); /* main() belongs at the bottom of files!! -- Syela */
 int end_turn(void);

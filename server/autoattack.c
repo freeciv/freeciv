@@ -29,6 +29,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef CHRONO
+#include <sys/time.h>
+#include <unistd.h>
+#endif
+
 #include "events.h"
 #include "game.h"
 #include "log.h"
@@ -47,13 +52,6 @@
 
 extern struct player *shuffled[MAX_PLAYERS];    /* civserver.c */
 
-#ifndef CHRONO
-#define CHRONO 0		/* testing */
-#endif
-
-#if CHRONO
-#include <sys/time.h>
-#endif
 
 struct unit *search_best_target(struct player *pplayer, struct city *pcity,
                                 struct unit *punit)
@@ -258,8 +256,7 @@ void auto_attack(void)
 
 #if CHRONO
   gettimeofday(&tv, 0);
-  freelog(LOG_VERBOSE, "autoattack consumed %d microseconds.", 
-	  (int)((tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec)));
+  freelog(LOG_VERBOSE, "autoattack consumed %ld microseconds.", 
+	  (long)((tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec)));
 #endif
-
 }

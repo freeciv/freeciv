@@ -14,6 +14,11 @@
 #include <string.h>
 #include <assert.h>
 
+#ifdef CHRONO
+#include <sys/time.h>
+#include <unistd.h>
+#endif
+
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -1201,8 +1206,9 @@ void auto_settlers_player(struct player *pplayer)
   unit_list_iterate_end;
 #ifdef CHRONO
   gettimeofday(&tv, 0);
-  freelog(LOG_VERBOSE, "%s's autosettlers consumed %d microseconds.",
-	  pplayer->name, (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
+  freelog(LOG_VERBOSE, "%s's autosettlers consumed %ld microseconds.",
+	  pplayer->name, (long)((tv.tv_sec - sec) * 1000000
+				+ (tv.tv_usec - usec)));
 #endif
 }
 
