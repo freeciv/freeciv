@@ -1,4 +1,4 @@
-/********************************************************************** 
+/********************7************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,7 +59,8 @@ static int max_unit_height = -1, max_unit_width = -1;
 
 static void popup_worklist(struct worklist *pwl);
 static void popdown_worklist(struct worklist *pwl);
-
+static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
+			     GtkTreeViewColumn *col, gpointer data);
 
 /****************************************************************
 ...
@@ -322,7 +323,7 @@ struct worklist_data {
   GtkTreeViewColumn *src_col, *dst_col;
 
   GtkWidget *add_cmd, *change_cmd, *help_cmd;
-  GtkWidget *up_cmd, *down_cmd, *prepend_cmd, *append_cmd;
+  GtkWidget *up_cmd, *down_cmd, *prepend_cmd, *append_cmd, *remove_cmd;
 
   bool future;
 };
@@ -638,6 +639,21 @@ static void queue_bubble_up(struct worklist_data *ptr)
 /****************************************************************
 ...
 *****************************************************************/
+static void queue_remove(struct worklist_data *ptr)
+{
+  GtkTreePath *path;
+  GtkTreeViewColumn *col;
+
+  gtk_tree_view_get_cursor(GTK_TREE_VIEW(ptr->dst_view), &path, &col);
+  if (path) {
+    dst_row_callback(GTK_TREE_VIEW(ptr->dst_view), path, col, ptr);
+    gtk_tree_path_free(path);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static void queue_bubble_down(struct worklist_data *ptr)
 {
   GtkTreePath *path;
@@ -897,11 +913,25 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
 
   /* update widget sensitivity. */
   if (gtk_tree_selection_count_selected_rows(selection) > 0) {
+    int num_rows = 0;
+    GtkTreeIter it;
+    
     gtk_widget_set_sensitive(ptr->up_cmd, TRUE);
     gtk_widget_set_sensitive(ptr->down_cmd, TRUE);
+    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ptr->dst), &it)) {
+      do {
+	num_rows++;
+      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(ptr->dst), &it));
+    }
+    if (num_rows > 1) {
+      gtk_widget_set_sensitive(ptr->remove_cmd, TRUE);      
+    } else {
+      gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
+    }
   } else {
     gtk_widget_set_sensitive(ptr->up_cmd, FALSE);
     gtk_widget_set_sensitive(ptr->down_cmd, FALSE);
+    gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
   }
 }
 
@@ -1109,7 +1139,7 @@ GtkWidget *create_worklist(void)
   g_signal_connect(check, "toggled", G_CALLBACK(future_callback), ptr);
 
 
-  table2 = gtk_table_new(4, 1, FALSE);
+  table2 = gtk_table_new(5, 1, FALSE);
   gtk_table_attach(GTK_TABLE(table), table2, 2, 3, 1, 2,
 		   GTK_FILL, GTK_FILL, 0, 0);
 
@@ -1159,6 +1189,17 @@ GtkWidget *create_worklist(void)
 			   G_CALLBACK(queue_append), ptr);
   gtk_widget_set_sensitive(ptr->append_cmd, FALSE);
 
+  button = gtk_button_new();
+  ptr->remove_cmd = button;
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  gtk_table_attach(GTK_TABLE(table2), button, 0, 1, 4, 5,
+      0, GTK_EXPAND|GTK_FILL, 0, 24);
+  
+  arrow = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_IN);
+  gtk_container_add(GTK_CONTAINER(button), arrow);
+  g_signal_connect_swapped(button, "clicked",
+                           G_CALLBACK(queue_remove), ptr);
+  gtk_widget_set_sensitive(ptr->remove_cmd, FALSE);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
