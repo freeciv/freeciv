@@ -2,9 +2,9 @@
 
 name=_("Latvian")
 plural=_("?plural:Latvians")
-leader="Guntars Krasts", "Karlis Ulmanis", "Guntis Ulmanis", 
+leader="Karlis Ulmanis", "Guntis Ulmanis", 
   "Vaira Vike Freiberga", "Namejs"
-leader_sex="Male", "Male", "Male", 
+leader_sex="Male", "Male", 
   "Female", "Male"
 flag="f.latvia"
 flag_alt = "-"
@@ -20,7 +20,9 @@ wonder="Cure For Cancer"
 government = "Democracy"
 
 cities =
-  "Riga", "Liepaja", "Jurmala", "Kuldiga", "Daugavpils", "Ogre", "Limbazi",
-  "Valmiera", "Ventspils", "Talsi", "Livani", "Rezenke", "Aizpute", "Valga",
-  "Balvi", "Sigulda", "Vecaki", "Olaine", "Saulkratsi", "Cesis", "Rujiena",
-  "Smiltene", "Balyi", "Gulbene", "Madona", "Ludza"
+  "Riga", "Liepaja", "Jurmala", "Jelgava", "Daugavpils", "Ogre", "Limbazi",
+  "Kuldiga","Valmiera", "Ventspils", "Talsi", "Tukums", "Bauska", "Dobele", 
+  "Livani", "Saldus", "Valdemarpils", "Rezenke", "Aizpute", "Valka", "Balvi",
+  "Sigulda", "Vecaki", "Olaine", "Saulkrasti", "Cesis", "Rujiena", "Smiltene",
+  "Gulbene", "Madona", "Ludza", "Aluksne", "Alsunga", "Jekabpils", "Sabile",
+  "Preili", "Salaspils", "Krustpils", "Auce", "Kandava", "Iecava", "Aglona"
