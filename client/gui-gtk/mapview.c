@@ -293,12 +293,9 @@ void update_info_label( void )
 
   gtk_set_label(main_label_info, buffer);
 
-  if (game.heating>7) game.heating=7;
-  set_bulb_sol_government(8*game.player_ptr->research.researched/
-                         (research_time(game.player_ptr)+1),
-                         game.heating, 
-                         game.player_ptr->government);
-
+  set_bulb_sol_government(client_research_sprite(),
+			  client_pollution_sprite(),
+			  game.player_ptr->government);
 
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)

@@ -773,6 +773,9 @@ static void update_pollution(void)
       game.warminglevel+=4;
     }
   }
+  freelog(LOG_DEBUG,
+	  "pollution: heating=%d warminglevel=%d globalwarming=%d",
+	  game.heating, game.warminglevel, game.globalwarming);
 }
 
 /**************************************************************************

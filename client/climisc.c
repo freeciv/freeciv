@@ -44,6 +44,7 @@ used throughout the client.
 #include "cityrep_g.h"
 #include "control.h"
 #include "mapview_g.h"
+#include "tilespec.h"
 
 #include "climisc.h"
 
@@ -372,4 +373,33 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     if (bufsiz > 0) *buf = '\0';
     break;
   }
+}
+
+/**************************************************************************
+Return the sprite index for the research indicator.
+**************************************************************************/
+int client_research_sprite(void)
+{
+  int index;
+  index =
+    (NUM_TILES_PROGRESS * game.player_ptr->research.researched) /
+    (research_time(game.player_ptr) + 1);
+  return index;
+}
+
+/**************************************************************************
+Return the sprite index for the pollution indicator.
+**************************************************************************/
+int client_pollution_sprite(void)
+{
+  int index;
+  if ((game.globalwarming <= 0) &&
+      (game.heating < (NUM_TILES_PROGRESS / 2))) {
+    index = MAX(0, game.heating);
+  } else {
+    index = MIN(NUM_TILES_PROGRESS,
+		(MAX(0, 4 + game.globalwarming) / 5) +
+		((NUM_TILES_PROGRESS / 2) - 1));
+  }
+  return index;
 }

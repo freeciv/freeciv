@@ -29,5 +29,8 @@ void format_duration(char *buffer, int buffer_size, int duration);
 void client_diplomacy_clause_string(char *buf, int bufsiz,
 				    struct Clause *pclause);
 
+int client_research_sprite(void);
+int client_pollution_sprite(void);
+
 #endif  /* FC__CLIMISC_H */
 

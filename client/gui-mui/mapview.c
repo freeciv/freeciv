@@ -230,11 +230,8 @@ void update_info_label(void)
 	   game.player_ptr->economic.luxury,
 	   game.player_ptr->economic.science);
 
-  if (game.heating > 7)
-    game.heating = 7;
-  set_bulb_sol_government(8 * game.player_ptr->research.researched /
-			  (research_time(game.player_ptr) + 1),
-			  game.heating,
+  set_bulb_sol_government(client_research_sprite(),
+			  client_pollution_sprite(),
 			  game.player_ptr->government);
 
   d = 0;
