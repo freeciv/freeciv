@@ -19,7 +19,7 @@
 
 #define FC_DEFAULT_DATA_ENCODING "UTF-8"
 
-void init_character_encodings(char *internal_encoding);
+void init_character_encodings(const char *internal_encoding);
 
 const char *get_data_encoding(void);
 const char *get_local_encoding(void);

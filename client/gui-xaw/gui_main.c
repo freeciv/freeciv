@@ -69,6 +69,7 @@
 
 const char *client_string = "gui-xaw";
 
+const char * const gui_character_encoding = NULL;
 client_option gui_options[] = {
   /* None. */
 };
@@ -203,7 +204,6 @@ XtInputId x_input_id;
 XtIntervalId x_interval_id;
 Atom wm_delete_window;
 
-
 #ifdef UNUSED
 /**************************************************************************
 ...
@@ -262,7 +262,7 @@ static Boolean toplevel_work_proc(XtPointer client_data)
 **************************************************************************/
 void ui_init(void)
 {
-  init_character_encodings(NULL);
+
 }
 
 /**************************************************************************

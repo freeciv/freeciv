@@ -56,7 +56,7 @@ static const char *local_encoding, *data_encoding, *internal_encoding;
 
   Pass an internal encoding of NULL to use the local encoding internally.
 ***************************************************************************/
-void init_character_encodings(char *my_internal_encoding)
+void init_character_encodings(const char *my_internal_encoding)
 {
 #ifdef HAVE_ICONV
   /* Set the data encoding - first check $FREECIV_DATA_ENCODING,

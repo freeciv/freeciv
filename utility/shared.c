@@ -144,8 +144,12 @@ char *create_centered_string(const char *s)
   *i can be increased to get next string in the array argv[].
   It is an error for the option to exist but be an empty string.
   This doesn't use freelog() because it is used before logging is set up.
+
+  The argv strings are assumed to be in the local encoding; the returned
+  string is in the internal encoding.
 **************************************************************************/
-char *get_option(const char *option_name, char **argv, int *i, int argc)
+char *get_option_malloc(const char *option_name,
+			char **argv, int *i, int argc)
 {
   int len = strlen(option_name);
 
@@ -170,7 +174,7 @@ char *get_option(const char *option_name, char **argv, int *i, int argc)
       }
     }
 
-    return opt;
+    return local_to_internal_string_malloc(opt);
   }
 
   return NULL;

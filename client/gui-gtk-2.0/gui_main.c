@@ -132,6 +132,7 @@ GtkWidget *sun_ebox;
 GtkWidget *flake_ebox;
 GtkWidget *government_ebox;
 
+const char * const gui_character_encoding = "UTF-8";
 client_option gui_options[] = {
   GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
 		  COC_INTERFACE),
@@ -1010,25 +1011,7 @@ static void setup_widgets(void)
 **************************************************************************/
 void ui_init(void)
 {
-  gchar *s;
-
-  init_character_encodings("UTF-8");
-
   log_set_callback(log_callback_utf8);
-
-  /* convert inputs */
-  s = g_locale_to_utf8(user_name, -1, NULL, NULL, NULL);
-  sz_strlcpy(user_name, s);
-  g_free(s);
-
-  /* this is silly, but i don't want the UI to barf on erroneous input */
-  s = g_locale_to_utf8(metaserver, -1, NULL, NULL, NULL);
-  sz_strlcpy(metaserver, s);
-  g_free(s);
-
-  s = g_locale_to_utf8(server_host, -1, NULL, NULL, NULL);
-  sz_strlcpy(server_host, s);
-  g_free(s);
 }
 
 /**************************************************************************

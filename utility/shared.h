@@ -190,7 +190,8 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
 
 char *create_centered_string(const char *s);
 
-char * get_option(const char *option_name,char **argv,int *i,int argc);
+char *get_option_malloc(const char *option_name,
+			char **argv, int *i, int argc);
 bool is_option(const char *option_name,char *option);
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
 	       const char *delimiterset);

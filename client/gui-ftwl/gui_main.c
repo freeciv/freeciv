@@ -39,6 +39,7 @@
 
 #include "gui_main.h"
 
+const char * const gui_character_encoding = "UTF-8";
 client_option gui_options[] = {
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
@@ -177,8 +178,6 @@ void ui_main(int argc, char *argv[])
   char *option = NULL;
   struct ct_size res;
   struct ct_size size;
-
-  init_character_encodings("ISO-8859-1");
 
   while (i < argc) {
     if (is_option("--help", argv[i])) {

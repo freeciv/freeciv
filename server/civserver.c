@@ -79,55 +79,61 @@ int main(int argc, char *argv[])
   /* yes we do have reasons ;)                                   */
   inx = 1;
   while (inx < argc) {
-    if ((option = get_option("--file", argv, &inx, argc)))
+    if ((option = get_option_malloc("--file", argv, &inx, argc))) {
       sz_strlcpy(srvarg.load_filename, option);
-    else if (is_option("--help", argv[inx])) {
+      free(option);
+    } else if (is_option("--help", argv[inx])) {
       showhelp = TRUE;
       break;
-    } else if ((option = get_option("--log", argv, &inx, argc)))
-      srvarg.log_filename = option;
-    else if ((option = get_option("--gamelog", argv, &inx, argc)))
-      srvarg.gamelog_filename = option;
-    else if (is_option("--nometa", argv[inx])) {
+    } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
+      srvarg.log_filename = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--gamelog", argv, &inx, argc))) {
+      srvarg.gamelog_filename = option; /* Never freed. */
+    } else if (is_option("--nometa", argv[inx])) {
       fc_fprintf(stderr, _("Warning: the %s option is obsolete.  "
 			   "Use -m to enable the metaserver.\n"), argv[inx]);
       showhelp = TRUE;
     } else if (is_option("--meta", argv[inx]))
       srvarg.metaserver_no_send = FALSE;
-    else if ((option = get_option("--Metaserver", argv, &inx, argc))) {
-      sz_strlcpy(srvarg.metaserver_addr, argv[inx]);
+    else if ((option = get_option_malloc("--Metaserver",
+					 argv, &inx, argc))) {
+      sz_strlcpy(srvarg.metaserver_addr, option);
+      free(option);
       srvarg.metaserver_no_send = FALSE;      /* --Metaserver implies --meta */
-    } else if ((option = get_option("--port", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--port", argv, &inx, argc))) {
       if (sscanf(option, "%d", &srvarg.port) != 1) {
 	showhelp = TRUE;
 	break;
       }
-    } else if ((option = get_option("--bind", argv, &inx, argc))) {
-      srvarg.bind_addr = option;
-    } else if ((option = get_option("--read", argv, &inx, argc)))
-      srvarg.script_filename = option;
-    else if ((option = get_option("--quitidle", argv, &inx, argc))) {
+      free(option);
+    } else if ((option = get_option_malloc("--bind", argv, &inx, argc))) {
+      srvarg.bind_addr = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--read", argv, &inx, argc)))
+      srvarg.script_filename = option; /* Never freed. */
+    else if ((option = get_option_malloc("--quitidle", argv, &inx, argc))) {
       if (sscanf(option, "%d", &srvarg.quitidle) != 1) {
 	showhelp = TRUE;
 	break;
       }
+      free(option);
     } else if (is_option("--exit-on-end", argv[inx])) {
       srvarg.exit_on_end = TRUE;
-    } else if ((option = get_option("--debug", argv, &inx, argc))) {
+    } else if ((option = get_option_malloc("--debug", argv, &inx, argc))) {
       srvarg.loglevel = log_parse_level_str(option);
       if (srvarg.loglevel == -1) {
 	srvarg.loglevel = LOG_NORMAL;
 	showhelp = TRUE;
 	break;
       }
+      free(option);
     } else if (is_option("--auth", argv[inx])) {
       srvarg.auth_enabled = TRUE;
     } else if (is_option("--Guests", argv[inx])) {
       srvarg.auth_allow_guests = TRUE;
     } else if (is_option("--Newusers", argv[inx])) {
       srvarg.auth_allow_newusers = TRUE;
-    } else if ((option = get_option("--saves", argv, &inx, argc))) {
-      srvarg.saves_pathname = option;
+    } else if ((option = get_option_malloc("--saves", argv, &inx, argc))) {
+      srvarg.saves_pathname = option; /* Never freed. */
     } else if (is_option("--version", argv[inx]))
       showvers = TRUE;
     else {

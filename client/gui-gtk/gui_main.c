@@ -124,6 +124,7 @@ static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
 static gint gdk_input_id;
 
+const char * const gui_character_encoding = NULL;
 client_option gui_options[] = {
   GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
 		  COC_INTERFACE),
@@ -805,7 +806,7 @@ static void setup_widgets(void)
 **************************************************************************/
 void ui_init(void)
 {
-  init_character_encodings(NULL);
+
 }
 
 /**************************************************************************
