@@ -534,7 +534,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
   struct tile *ptile = map_get_tile(mx, my);
   enum tile_terrain_type t = ptile->terrain;
   struct tile_type *type = get_tile_type(t);
-  int s = ptile->special;
+  enum tile_special_type s = ptile->special;
 
   if (ptile->terrain != type->irrigation_result &&
       type->irrigation_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
@@ -594,7 +594,7 @@ static int ai_calc_transform(struct city *pcity, int cx, int cy, int mx,
   struct tile *ptile = map_get_tile(mx, my);
   enum tile_terrain_type t = ptile->terrain;
   struct tile_type *type = get_tile_type(t);
-  int s = ptile->special;
+  enum tile_special_type s = ptile->special;
   enum tile_terrain_type r = type->transform_result;
 
   if (t == T_OCEAN && !can_reclaim_ocean(mx, my))
@@ -628,7 +628,7 @@ static int ai_calc_transform(struct city *pcity, int cx, int cy, int mx,
 Calculate the attractiveness
 "spc" will be S_ROAD or S_RAILROAD for sane calls.
 **************************************************************************/
-static int road_bonus(int x, int y, int spc)
+static int road_bonus(int x, int y, enum tile_special_type spc)
 {
   int m = 0, k;
   bool rd[12], te[12];
@@ -652,10 +652,12 @@ static int road_bonus(int x, int y, int spc)
       rd[k] = tile_has_special(ptile, spc);
       te[k] = (ptile->terrain == T_MOUNTAINS || ptile->terrain == T_OCEAN);
       if (!rd[k]) {
-	unit_list_iterate(ptile->units, punit)
-	  if (punit->activity == ACTIVITY_ROAD || punit->activity == ACTIVITY_RAILROAD)
+	unit_list_iterate(ptile->units, punit) {
+	  if (punit->activity == ACTIVITY_ROAD 
+              || punit->activity == ACTIVITY_RAILROAD) {
 	    rd[k] = TRUE;
-	unit_list_iterate_end;
+          }
+	} unit_list_iterate_end;
       }
     }
   }
@@ -801,12 +803,14 @@ struct unit *other_passengers(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-static void consider_settler_action(struct player *pplayer, enum unit_activity act,
-				    int extra, int newv, int oldv, bool in_use,
+static void consider_settler_action(struct player *pplayer, 
+                                    enum unit_activity act, int extra, 
+                                    int newv, int oldv, bool in_use,
 				    int d, int *best_newv, int *best_oldv,
-				    int *best_act, int *gx, int *gy, int x, int y)
+				    enum unit_activity *best_act, 
+                                    int *gx, int *gy, int x, int y)
 {
-  int a, b=0;
+  int a, b = 0;
   bool consider;
 
   if (extra >= 0) {
@@ -1036,7 +1040,8 @@ How nice a tile it finds is returned. If it returns >0 gx,gy indicates the
 tile it has chosen, and bestact indicates the activity it wants to do.
 **************************************************************************/
 static int evaluate_improvements(struct unit *punit,
-				 int *best_act, int *gx, int *gy)
+				 enum unit_activity *best_act, 
+                                 int *gx, int *gy)
 {
   struct city *mycity = map_get_city(punit->x, punit->y);
   struct player *pplayer = unit_owner(punit);
@@ -1241,12 +1246,11 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   int gx = -1, gy = -1;		/* x,y of target (goto) square */
   int best_newv = 0;		/* newv of best target so far, all cities */
-  int best_act = 0;		/* ACTIVITY_ of best target so far */
+  enum unit_activity best_act = ACTIVITY_IDLE; /* act. of best target so far */
   struct unit *ferryboat = NULL; /* if non-null, boatid boat at unit's x,y */
 
   /* First find the best square to upgrade,
-   * results in: gx, gy, best_newv, best_act
-   */  
+   * results in: gx, gy, best_newv, best_act */  
   if (unit_flag(punit, F_SETTLERS)) {
     best_newv = evaluate_improvements(punit, &best_act, &gx, &gy);
   }
@@ -1582,7 +1586,8 @@ void contemplate_terrain_improvements(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct unit virtualunit;
   int want;
-  int best_act, gx, gy; /* dummies */
+  int gx, gy; /* dummies */
+  enum unit_activity best_act;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   struct ai_data *ai = ai_data_get(pplayer);
 

@@ -600,7 +600,8 @@ bool can_unit_continue_current_activity(struct unit *punit)
 {
   enum unit_activity current = punit->activity;
   enum tile_special_type target = punit->activity_target;
-  int current2 = current == ACTIVITY_FORTIFIED ? ACTIVITY_FORTIFYING : current;
+  enum unit_activity current2 = 
+              (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
   bool result;
 
   if (punit->connecting)
@@ -833,6 +834,7 @@ bool is_unit_activity_on_tile(enum unit_activity activity, int x, int y)
 int get_unit_tile_pillage_set(int x, int y)
 {
   enum tile_special_type tgt_ret = S_NO_SPECIAL;
+
   unit_list_iterate(map_get_tile(x, y)->units, punit)
     if(punit->activity==ACTIVITY_PILLAGE)
       tgt_ret |= punit->activity_target;

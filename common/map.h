@@ -312,7 +312,7 @@ int get_tile_trade_base(struct tile * ptile);
 int get_tile_infrastructure_set(struct tile * ptile);
 const char *map_get_infrastructure_text(int spe);
 int map_get_infrastructure_prerequisite(int spe);
-int get_preferred_pillage(int pset);
+enum tile_special_type get_preferred_pillage(int pset);
 
 void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);

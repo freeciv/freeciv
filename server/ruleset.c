@@ -67,7 +67,8 @@ static int lookup_city_cost(struct section_file *file, char *prefix,
 			    char *entry, const char *filename);
 static char *lookup_helptext(struct section_file *file, char *prefix);
 
-static enum tile_terrain_type lookup_terrain(char *name, int tthis);
+static enum tile_terrain_type lookup_terrain(char *name, 
+                                             enum tile_terrain_type tthis);
 
 static void load_tech_names(struct section_file *file);
 static void load_unit_names(struct section_file *file);
@@ -412,28 +413,25 @@ static char *lookup_helptext(struct section_file *file, char *prefix)
 /**************************************************************************
   Look up a terrain name in the tile_types array and return its index.
 **************************************************************************/
-static enum tile_terrain_type lookup_terrain(char *name, int tthis)
+static enum tile_terrain_type lookup_terrain(char *name, 
+                                             enum tile_terrain_type tthis)
 {
-  int i;
+  enum tile_terrain_type i;
 
-  if (*name == '\0' || (0 == strcmp(name, "none")) || (0 == strcmp(name, "no")))
-    {
-      return (T_LAST);
-    }
-  else if (0 == strcmp(name, "yes"))
-    {
-      return (tthis);
-    }
+  if (*name == '\0' || (0 == strcmp(name, "none")) 
+      || (0 == strcmp(name, "no"))) {
+    return (T_LAST);
+  } else if (0 == strcmp(name, "yes")) {
+    return (tthis);
+  }
 
-  for (i = T_FIRST; i < T_COUNT; i++)
-    {
-      if (0 == strcmp(name, tile_types[i].terrain_name))
-	{
-	  return (i);
-	}
+  for (i = T_FIRST; i < T_COUNT; i++) {
+    if (0 == strcmp(name, tile_types[i].terrain_name)) {
+      return i;
     }
+  }
 
-  return (T_UNKNOWN);
+  return T_UNKNOWN;
 }
 
 /**************************************************************************

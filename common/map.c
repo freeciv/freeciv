@@ -651,7 +651,7 @@ int map_get_infrastructure_prerequisite(int spe)
 /***************************************************************
 ...
 ***************************************************************/
-int get_preferred_pillage(int pset)
+enum tile_special_type get_preferred_pillage(int pset)
 {
   if (contains_special(pset, S_FARMLAND))
     return S_FARMLAND;

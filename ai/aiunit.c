@@ -1141,7 +1141,8 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
-  int ok, t, best = 0;
+  int ok, best = 0;
+  enum tile_terrain_type t;
 
   adjc_iterate(dest_x, dest_y, x1, y1) {
     ok = 0;

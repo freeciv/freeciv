@@ -782,7 +782,7 @@ static void update_unit_activity(struct unit *punit)
   int id = punit->id;
   int mr = unit_type(punit)->move_rate;
   bool unit_activity_done = FALSE;
-  int activity = punit->activity;
+  enum unit_activity activity = punit->activity;
   enum ocean_land_change solvency = OLC_NONE;
   struct tile *ptile = map_get_tile(punit->x, punit->y);
 
@@ -819,12 +819,12 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity==ACTIVITY_PILLAGE) {
-    if (punit->activity_target == S_NO_SPECIAL) {	/* case for old save files */
+    if (punit->activity_target == S_NO_SPECIAL) { /* case for old save files */
       if (punit->activity_count >= 1) {
-	int what =
+	enum tile_special_type what =
 	  get_preferred_pillage(
-	    get_tile_infrastructure_set(
-	      map_get_tile(punit->x, punit->y)));
+	       get_tile_infrastructure_set(map_get_tile(punit->x, punit->y)));
+
 	if (what != S_NO_SPECIAL) {
 	  map_clear_special(punit->x, punit->y, what);
 	  send_tile_info(NULL, punit->x, punit->y);
@@ -848,17 +848,18 @@ static void update_unit_activity(struct unit *punit)
 	}
       }
     }
-    else if (total_activity_targeted (punit->x, punit->y,
-				      ACTIVITY_PILLAGE, punit->activity_target) >= 1) {
+    else if (total_activity_targeted(punit->x, punit->y, ACTIVITY_PILLAGE, 
+                                     punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
+
       map_clear_special(punit->x, punit->y, what_pillaged);
-      unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
+      unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2) {
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	  send_unit_info(NULL, punit2);
 	}
-      unit_list_iterate_end;
+      } unit_list_iterate_end;
       send_tile_info(NULL, punit->x, punit->y);
       
       /* If a watchtower has been pillaged, reduce sight to normal */
