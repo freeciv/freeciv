@@ -49,6 +49,7 @@ void key_unit_done(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_homecity(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void key_unit_explore(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void key_unit_auto(Widget w, XEvent *event, String *argv, Cardinal *argc);
 
 void key_unit_mine(Widget w, XEvent *event, String *argv, Cardinal *argc);

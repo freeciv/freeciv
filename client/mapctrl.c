@@ -418,6 +418,15 @@ void key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal *argc)
 /**************************************************************************
 ...
 **************************************************************************/
+void key_unit_explore(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_unit_in_focus())
+    request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void key_unit_wait(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(get_unit_in_focus())
