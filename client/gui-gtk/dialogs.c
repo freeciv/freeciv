@@ -2151,7 +2151,7 @@ void create_races_dialog(void)
     box = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(city_style_toggles[i]), box);
     gtk_box_pack_start(GTK_BOX(box),
-                       gtk_label_new(city_styles[city_style_idx[i]].name),
+                       gtk_label_new(get_city_style_name(city_style_idx[i])),
                        FALSE, FALSE, 4);
     sub_box = gtk_hbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(box), sub_box);

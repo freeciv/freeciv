@@ -594,7 +594,7 @@ static void worklist_load_old(struct section_file *file,
 static void player_load(struct player *plr, int plrno,
 			struct section_file *file)
 {
-  int i, j, x, y, nunits, ncities;
+  int i, j, x, y, nunits, ncities, c_s;
   char *p;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
 
@@ -650,8 +650,24 @@ static void player_load(struct player *plr, int plrno,
   }
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
-  plr->city_style=secfile_lookup_int_default(file, get_nation_city_style(plr->nation),
-                                             "player%d.city_style", plrno);
+
+  p = secfile_lookup_str_default(file, NULL, "player%d.city_style_by_name",
+                                 plrno);
+  if (!p) {
+    char* old_order[4] = {"European", "Classical", "Tropical", "Asian"};
+    c_s = secfile_lookup_int_default(file, 0, "player%d.city_style", plrno);
+    if (c_s < 0 || c_s > 3) {
+      c_s = 0;
+    }
+    p = old_order[c_s];
+  }
+  c_s = get_style_by_name_orig(p);
+  if (c_s == -1) {
+    freelog(LOG_ERROR, _("Unsupported city style found in player%d section. "
+                         "Changed to %s"), plrno, get_city_style_name(0));
+    c_s = 0;
+  }	
+  plr->city_style = c_s;
 
   plr->nturns_idle=0;
   plr->is_male=secfile_lookup_bool_default(file, TRUE, "player%d.is_male", plrno);
@@ -1376,7 +1392,14 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
 
-  secfile_insert_int(file, plr->city_style, "player%d.city_style", plrno);
+  /* This field won't be used, kept only for backward compatibility. 
+   * City styles are specified by name since CVS 12/01-04. */
+  secfile_insert_int(file, 0, "player%d.city_style", plrno);
+
+  /* This is the new city style field to be used */
+  secfile_insert_str(file, get_city_style_name_orig(plr->city_style),
+                      "player%d.city_style_by_name", plrno);
+
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_bool(file, plr->ai.control, "player%d.ai.control", plrno);

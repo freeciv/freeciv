@@ -1276,20 +1276,58 @@ int get_player_city_style(struct player *plr)
 }
 
 /**************************************************************************
-Get index to city_styles for style name.
+  Get index to city_styles for style name.
 **************************************************************************/
 int get_style_by_name(const char *style_name)
 {
   int i;
 
-  for( i=0; i<game.styles_count; i++) {
-    if (strcmp(style_name, city_styles[i].name) == 0)
+  for (i = 0; i < game.styles_count; i++) {
+    if (strcmp(style_name, city_styles[i].name) == 0) {
       break;
+    }
   }
-  if( i < game.styles_count )
+  if (i < game.styles_count) {
     return i;
-  else
+  } else {
     return -1;
+  }
+}
+
+/**************************************************************************
+  Get index to city_styles for untranslated style name.
+**************************************************************************/
+int get_style_by_name_orig(const char *style_name)
+{
+  int i;
+
+  for (i = 0; i < game.styles_count; i++) {
+    if (strcmp(style_name, city_styles[i].name_orig) == 0) {
+      break;
+    }
+  }
+  if (i < game.styles_count) {
+    return i;
+  } else {
+    return -1;
+  }
+}
+
+/**************************************************************************
+  Get name of given city style.
+**************************************************************************/
+char* get_city_style_name(int style)
+{
+   return city_styles[style].name;
+}
+
+
+/**************************************************************************
+  Get untranslated name of city style.
+**************************************************************************/
+char* get_city_style_name_orig(int style)
+{
+   return city_styles[style].name_orig;
 }
 
 /**************************************************************************

@@ -434,6 +434,9 @@ int citygov_free_food(struct city *pcity, struct government *gov);
 int get_city_style(struct city *pcity);
 int get_player_city_style(struct player *plr);
 int get_style_by_name(const char *);
+int get_style_by_name_orig(const char *);
+char* get_city_style_name(int style);
+char* get_city_style_name_orig(int style);
 
 struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer);
 struct city *is_allied_city_tile(struct tile *ptile,
