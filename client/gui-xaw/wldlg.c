@@ -1303,7 +1303,7 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   impr_type_iterate(i) {
     /* Can the player (eventually) build this improvement? */
     can_build = can_player_build_improvement(pplr,i);
-    can_eventually_build = could_player_eventually_build_improvement(pplr,i);
+    can_eventually_build = can_player_eventually_build_improvement(pplr,i);
 
     /* If there's a city, can the city build the improvement? */
     if (pdialog->pcity) {
