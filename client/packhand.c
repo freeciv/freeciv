@@ -437,17 +437,18 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->type=packet->type;
     punit->moves_left=packet->movesleft;
     punit->hp=packet->hp;
-    punit->unhappiness=0;
+    punit->unhappiness=packet->unhappiness;
     punit->activity=packet->activity;
-    punit->activity_count=0;
-    punit->upkeep=0;
-    punit->hp=packet->hp;
-    punit->bribe_cost=0;
-    punit->fuel=0;
+    punit->upkeep=packet->upkeep;
+    punit->fuel=packet->fuel;
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
+    punit->ai.control=packet->ai;
+    
+    punit->activity_count=0;	/* never used in client/ or common/  --dwp */
+    punit->bribe_cost=0;	/* done by handle_incite_cost() */
+    
     punit->focus_status=FOCUS_AVAIL;
-    punit->ai.control=0;
     
     unit_list_insert(&game.players[packet->owner].units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
