@@ -143,6 +143,7 @@ static void handle_readline_input_callback(char *line)
 
   if (!line) {
     handle_stdin_close();	/* maybe print an 'are you sure?' message? */
+    return;
   }
 
   if (*line)
