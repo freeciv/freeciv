@@ -99,12 +99,7 @@ static void goto_ok(void)
     struct unit *punit = get_unit_in_focus();
     if (punit)
     {
-      struct packet_unit_request req;
-      req.unit_id = punit->id;
-      req.name[0] = '\0';
-      req.x = pcity->x;
-      req.y = pcity->y;
-      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+      send_goto_unit(punit, pcity->x, pcity->y);
     }
   }
   set(goto_wnd, MUIA_Window_Open, FALSE);

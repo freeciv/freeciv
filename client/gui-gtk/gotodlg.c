@@ -271,15 +271,10 @@ void goto_all_toggle_callback(GtkWidget *w, gpointer data)
 void goto_goto_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pdestcity=get_selected_city();
-  if(pdestcity) {
+  if (pdestcity) {
     struct unit *punit=get_unit_in_focus();
-    if(punit) {
-      struct packet_unit_request req;
-      req.unit_id=punit->id;
-      req.name[0]='\0';
-      req.x=pdestcity->x;
-      req.y=pdestcity->y;
-      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+    if (punit) {
+      send_goto_unit(punit, pdestcity->x, pdestcity->y);
     }
   }
   popdown_goto_dialog();

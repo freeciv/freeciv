@@ -931,22 +931,12 @@ int do_goto(int xtile, int ytile)
 
     if (punit) {
       if (is_air_unit(punit)) {
-	struct packet_unit_request req;
-	req.unit_id = punit->id;
-	req.name[0] = '\0';
-	req.x = xtile;
-	req.y = ytile;
-	send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+	send_goto_unit(punit, xtile, ytile);
       } else if (transfer_route_to_stack(xtile, ytile)) {
 	if (has_capability("activity_patrol", aconnection.capability)) {
 	  goto_array_send(punit);
 	} else {
-	  struct packet_unit_request req;
-	  req.unit_id=punit->id;
-	  req.name[0]='\0';
-	  req.x = xtile;
-	  req.y = ytile;
-	  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+	  send_goto_unit(punit, xtile, ytile);
 	}
       } else {
 	append_output_window(_("Game: Didn't find a route to the destination!"));

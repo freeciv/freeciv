@@ -91,12 +91,7 @@ int get_normal_tile_width(void)
 *****************************************************************/
 void request_unit_goto_location(struct unit *punit, int x, int y)
 {
-  struct packet_unit_request req;
-  req.unit_id = punit->id;
-  req.name[0] = '\0';
-  req.x = x;
-  req.y = y;
-  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+  send_goto_unit(punit, x, y);
 }
 
 /**************************************************************************

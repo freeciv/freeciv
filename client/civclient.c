@@ -425,6 +425,20 @@ void send_move_unit(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
+void send_goto_unit(struct unit *punit, int dest_x, int dest_y)
+{
+  struct packet_unit_request req;
+
+  req.unit_id = punit->id;
+  req.name[0] = '\0';
+  req.x = dest_x;
+  req.y = dest_y;
+  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void send_report_request(enum report_type type)
 {
  struct packet_generic_integer pa;
