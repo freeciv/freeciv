@@ -3,9 +3,9 @@
 name=_("Catalan")
 plural=_("?plural:Catalans")
 leader="Guifré el Pilós", "Ramon Berenguer IV", "Jaume I", "Pere II",
-  "Lluis Companys"
+       "Lluis Companys", "Josep Tarradellas"
 leader_sex="Male", "Male", "Male", "Male",
-  "Male"
+           "Male", "Male"
 flag="f.catalan"
 flag_alt = "-"
 city_style = "European"
@@ -30,11 +30,17 @@ government="Republic"
 cities =
   "Barcelona", "Tarragona", "Lleida", "Girona", "Perpinyà", "Valencia",
   "Tolosa", "Ripoll", "Vic", "La Seu d'Urgell", "Cardona", "Tortosa",
-  "Montserrat", "Poblet", "Santes Creus", "Vallbona de les Monges", "Balaguer",
-  "Manresa", "Terrassa", "Sabadell", "Palma de Mallorca", "Maó", "Eivissa",
-  "Alacant", "Elx", "Castelló de la Plana", "Montblanc", "Igualada", "Cervera",
-  "Berga", "Dénia", "Reus", "Granollers", "Mataró", "Figueres", "Olot",
-  "Badalona", "Tàrrega", "Amposta", "El Bruc", "Valls", "Vilafranca del Penedés",
-  "Manacor", "Inca", "Alcúdia", "Sóller", "Artà", "Llucmajor", "Felanitx",
-  "Andratx", "Ciutadella", "Peniscola", "Sitges", "Vilanova i la Geltrú", "Viella",
-  "L'Alguer"
+  "Montserrat", "Poblet", "Santes Creus", "Vallbona de les Monges",
+  "Balaguer", "Manresa", "Terrassa", "Sabadell", "Palma de Mallorca",
+  "Eivissa", "Alacant", "Elx", "Castelló de la Plana", "Montblanc",
+  "Igualada", "Cervera", "Berga", "Dénia", "Reus", "Granollers",
+  "Mataró", "Figueres", "Olot", "Badalona", "Tàrrega", "Amposta",
+  "El Bruc", "Valls", "Vilafranca del Penedés", "Manacor", "Alcúdia",
+  "Sóller", "Artà", "Llucmajor", "Felanitx", "Andratx", "Ciutadella",
+  "Penyiscola", "Sitges", "Vilanova i la Geltrú", "Viella", "L'Alguer",
+  "Perelló", "Torelló", "Sant Cugat", "Portbou", "Palafrugell",
+  "Manlleu", "Sallent", "Puigcerdà", "Bellver", "Sant Boi de Llobregat",
+  "Vandellós", "Cornellà", "Tremp", "Palamós", "Vendrell",
+  "Sant Feliu de Guixols", "Sant Celoni", "Martorell", "Hospitalet",
+  "Banyolas", "Lloret de mar", "Malgrat", "Molins de Rei", "Pons",
+  "Suria", "Llivia"
