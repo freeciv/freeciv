@@ -39,6 +39,10 @@
 #include "audio_winmm.h"
 #endif
 
+#ifdef AMIGA
+#include "audio_amiga.h"
+#endif
+
 #include "audio.h"
 
 #define MAX_NUM_PLUGINS        3
@@ -119,6 +123,9 @@ void audio_init()
 #ifdef WINMM
   audio_winmm_init();
 #endif
+#ifdef AMIGA
+  audio_amiga_init();
+#endif
 }
 
 /**************************************************************************
@@ -173,7 +180,7 @@ void audio_real_init(const char *const spec_name,
   }
 
   if (!audio_select_plugin("esd") && !audio_select_plugin("sdl")
-      && !audio_select_plugin("winmm")) {
+      && !audio_select_plugin("winmm") && !audio_select_plugin("amiga")) {
     freelog(LOG_NORMAL,
 	    _("No real audio subsystem managed to initialize!"));
     freelog(LOG_NORMAL,
