@@ -37,7 +37,7 @@
 #include <citytools.h>
 #include <assert.h>
 
-void do_unit_goto(struct player *pplayer, struct unit *punit);
+void ai_manage_ferryboat(struct player *pplayer, struct unit *punit);
 int unit_defensiveness(struct unit *punit);
 
 extern struct move_cost_map warmap;
@@ -189,6 +189,8 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     ai_manage_settler(pplayer, punit);
   } else if (unit_flag(punit->type, F_CARAVAN)) {
     ai_manage_caravan(pplayer, punit);
+  } else if (get_transporter_capacity(punit)) {
+    ai_manage_ferryboat(pplayer, punit);
   } else if (is_military_unit(punit)) {
     ai_manage_military(pplayer,punit); 
   } else {
@@ -243,6 +245,39 @@ int should_unit_change_homecity(struct player *pplayer, struct unit *punit)
   return(0);
 }
 
+void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
+{ /* It's about 12 feet square and has a capacity of almost 1000 pounds.
+     It is well constructed of teak, and looks seaworthy. */
+  struct city *pcity;
+  int id = punit->id;
+
+  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
+    if (!is_sailing_unit(aunit)) return;
+  unit_list_iterate_end;
+  punit->ai.passenger = 0;
+/* ok, not carrying anyone, even the ferryman */
+  unit_list_iterate(pplayer->units, aunit)
+    if (aunit->ai.ferryboat == punit->id) {
+      punit->goto_dest_x = aunit->x;
+      punit->goto_dest_y = aunit->y;
+      punit->activity = ACTIVITY_GOTO;
+      do_unit_goto(pplayer,punit);
+      if (punit = unit_list_find(&pplayer->units, id))
+        set_unit_activity(punit, ACTIVITY_IDLE);
+      return;
+    }
+  unit_list_iterate_end;
+/* do cool stuff here */
+  
+  pcity = find_city_by_id(punit->homecity);
+  if (pcity) {
+    punit->goto_dest_x = pcity->x;
+    punit->goto_dest_y = pcity->y;
+    punit->activity = ACTIVITY_GOTO;
+    do_unit_goto(pplayer,punit);
+  }
+  return;
+}
 
 /**************************************************************************
 decides what to do with a military unit.
@@ -253,6 +288,7 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
   int id;
 
   id = punit->id;
+
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
 
