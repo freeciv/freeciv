@@ -590,14 +590,28 @@ Requirements: a unix environment with gcc and binutils for windows (mingw32)
               for the native win32 client: libz and libpng
               (from ftp://ftp.freeciv.org/pub/freeciv/requirements)
 You can use the standard gcc makefiles for them, but set CC and RANLIB to the
-right thing.
+right thing. If you use the libpng/libz binary shipped with cygwin, you are
+asking for trouble. 
+To compile the zlib from ftp.freeciv.org enter
+with the cygwin utils: make CC="gcc -mno-cygwin"
+with a mingw32 cross compiler: 
+make CC=iX86-mingw32-gcc RANLIB=iX86-mingw32-ranlib
+
+To compile libpng from ftp.freeciv.org enter
+with the cygwin utils: 
+make -f scripts/makefile.gcc CC="gcc -mno-cygwin"
+with a mingw32 cross compiler:
+make -f scripts/makefile.gcc CC=i386-mingw32-gcc RANLIB=i386-mingw32-ranlib
+
+These things have to be put to a place where your compiler will find it.
 
 Autoconf and co:
 If you build from cvs, you will have to replace ./configure with ./autogen.sh 
 in the following lines.
 You will have trouble with the paths (especially with the localedir) if you 
 use autoconf2.52.
-So autoconf 2.13 is the preferred version. 
+So autoconf 2.13 is the preferred version (you can use the 
+--disable-autoconf2.52 switch from autogen.sh). 
 
 Configuring the source:
 -----------------------
@@ -613,7 +627,7 @@ cross compiler.
 
 export CC=iX86-mingw32-gcc
 export AR=iX86-mingw32-ar
-export RANLIB=i386-mingw32-ranlib
+export RANLIB=iX86-mingw32-ranlib
 ./configure --host=iX86-mingw32 --build=$(./config.guess) --with-included-gettext --enable-client=win32 --prefix=.
 
 
