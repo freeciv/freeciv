@@ -234,7 +234,7 @@ struct settings_s settings[] = {
 	  /* TRANS: do not edit the ugly ASCII art */
 	  N_("Freeciv maps are always two-dimensional. They may wrap at "
 	     "the north-south and east-west directions to form a flat map, "
-	     "a cylinder, or a torus (donut). Individual tiles map be "
+	     "a cylinder, or a torus (donut). Individual tiles may be "
 	     "rectangular or hexagonal, with either a classic or isometric "
 	     "alignment - this should be set based on the tileset being "
 	     "used.\n"
@@ -288,7 +288,7 @@ struct settings_s settings[] = {
 
   GEN_INT("startpos", map.startpos,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
-	  N_("Method used to choice starts pos"),
+	  N_("Method used to choose start positions"),
 	  N_("0 = Generator's choice.  Selecting this setting means\n"
 	     "    the default value will be picked based on the generator\n"
 	     "    chosen.  See the \"generator\" setting.\n"
