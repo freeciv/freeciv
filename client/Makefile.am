@@ -23,6 +23,13 @@ if CLIENT_GUI_WIN32
 GUI_SUBDIR = gui-win32
 endif
 
+if ESD
+ESD_FILES=audio_esd.c audio_esd.h
+endif
+if SDL
+SDL_FILES=audio_sdl.c audio_sdl.h
+endif
+
 EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/autogroupclass.h         \
 		gui-mui/chatline.c               \
@@ -102,11 +109,11 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
 
 bin_PROGRAMS = civclient
 
-INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl -I$(srcdir)/agents
+INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
-civclient_SOURCES = \
+civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) \
 	attribute.h	\
 	attribute.c	\
 	citydlg_common.c \
@@ -134,10 +141,15 @@ civclient_SOURCES = \
 	repodlgs_common.c \
 	repodlgs_common.h \
 	tilespec.c	\
-	tilespec.h
+	tilespec.h	\
+	audio.c         \
+	audio.h         \
+	audio_none.c    \
+	audio_none.h
 
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a \
 	../common/libcivcommon.a agents/libagents.a
 civclient_LDADD        = @gui_sources@/libguiclient.a \
 	../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a \
-	../common/libcivcommon.a @CLIENT_LIBS@ agents/libagents.a
+	../common/libcivcommon.a @CLIENT_LIBS@ agents/libagents.a \
+	@CLIENT_LIBS@ @SOUND_LIBS@

@@ -661,6 +661,19 @@ static void load_ruleset_units(struct section_file *file)
     }
     u->move_type = ival;
     
+    sz_strlcpy(u->sound_move,
+	       secfile_lookup_str_default(file, "-", "%s.sound_move",
+					  sec[i]));
+    sz_strlcpy(u->sound_move_alt,
+	       secfile_lookup_str_default(file, "-", "%s.sound_move_alt",
+					  sec[i]));
+    sz_strlcpy(u->sound_fight,
+	       secfile_lookup_str_default(file, "-", "%s.sound_fight",
+					  sec[i]));
+    sz_strlcpy(u->sound_fight_alt,
+	       secfile_lookup_str_default(file, "-", "%s.sound_fight_alt",
+					  sec[i]));
+    
     sz_strlcpy(u->graphic_str,
 	       secfile_lookup_str(file,"%s.graphic", sec[i]));
     sz_strlcpy(u->graphic_alt,
@@ -1194,7 +1207,11 @@ static void load_ruleset_buildings(struct section_file *file)
 
     /* FIXME: remove when gen-impr obsoletes */
     b->variant = secfile_lookup_int_default(file, 0, "%s.variant", sec[i]);
-
+    sz_strlcpy(b->soundtag,
+	       secfile_lookup_str_default(file, "-", "%s.sound", sec[i]));
+    sz_strlcpy(b->soundtag_alt,
+	       secfile_lookup_str_default(file, "-", "%s.sound_alt",
+					  sec[i]));
     b->helptext = lookup_helptext(file, sec[i]);
   }
 
@@ -2035,6 +2052,8 @@ static void load_ruleset_nations(struct section_file *file)
     }
     pl->goals.government = val;
 
+    /* read city names */
+
 #define BASE_READ_CITY_NAME_LIST(target,format,arg1,arg2,arg3)  \
   cities = secfile_lookup_str_vec(file, &dim, format,           \
                                   arg1, arg2, arg3);            \
@@ -2306,6 +2325,10 @@ static void send_ruleset_units(struct conn_list *dest)
 
     packet.id = u-unit_types;
     sz_strlcpy(packet.name, u->name_orig);
+    sz_strlcpy(packet.sound_move, u->sound_move);
+    sz_strlcpy(packet.sound_move_alt, u->sound_move_alt);
+    sz_strlcpy(packet.sound_fight, u->sound_fight);
+    sz_strlcpy(packet.sound_fight_alt, u->sound_fight_alt);
     sz_strlcpy(packet.graphic_str, u->graphic_str);
     sz_strlcpy(packet.graphic_alt, u->graphic_alt);
     packet.move_type = u->move_type;
@@ -2385,6 +2408,8 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.sabotage = b->sabotage;
     packet.effect = b->effect;			/* pointer assignment */
     packet.variant = b->variant;	/* FIXME: remove when gen-impr obsoletes */
+    sz_strlcpy(packet.soundtag, b->soundtag);
+    sz_strlcpy(packet.soundtag_alt, b->soundtag_alt);
     packet.helptext = b->helptext;		/* pointer assignment */
 
     lsend_packet_ruleset_building(dest, &packet);

@@ -64,6 +64,7 @@
 #include "attribute.h"
 #include "capability.h"
 #include "agents.h"
+#include "audio.h"
 
 #include "packhand.h"
 
@@ -244,6 +245,11 @@ void handle_unit_combat(struct packet_unit_combat *packet)
 
     if (show_combat) {
       int hp0 = packet->attacker_hp, hp1 = packet->defender_hp;
+
+      audio_play_sound(unit_type(punit0)->sound_fight,
+		       unit_type(punit0)->sound_fight_alt);
+      audio_play_sound(unit_type(punit1)->sound_fight,
+		       unit_type(punit1)->sound_fight_alt);
 
       if (do_combat_animation) {
 	decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
@@ -453,6 +459,11 @@ void handle_city_info(struct packet_city_info *packet)
   }
   
   impr_type_iterate(i) {
+    if (pcity->improvements[i] == I_NONE && packet->improvements[i] == '1'
+	&& !city_is_new) {
+      audio_play_sound(get_improvement_type(i)->soundtag,
+		       get_improvement_type(i)->soundtag_alt);
+    }
     update_improvement_from_packet(pcity, i, packet->improvements[i] == '1',
                                    &need_effect_update);
   } impr_type_iterate_end;
@@ -702,9 +713,10 @@ void handle_new_year(struct packet_new_year *ppacket)
   if(game.player_ptr->ai.control && !ai_manual_turn_done)
     user_ended_turn();
 
-  if(sound_bell_at_new_turn &&
-     (!game.player_ptr->ai.control || ai_manual_turn_done))
-    sound_bell();
+  if (sound_bell_at_new_turn &&
+      (!game.player_ptr->ai.control || ai_manual_turn_done)) {
+    create_event(-1, -1, E_TURN_BELL, _("Start of turn %d"), game.turn);
+  }
 
   agents_new_turn();
 }
@@ -742,6 +754,18 @@ void handle_start_turn(void)
 /**************************************************************************
 ...
 **************************************************************************/
+static void play_sound_for_event(enum event_type type)
+{
+  const char *sound_tag = get_sound_tag_for_event(type);
+
+  if (sound_tag) {
+    audio_play_sound(sound_tag, NULL);
+  }
+}  
+  
+/**************************************************************************
+...
+**************************************************************************/
 void handle_chat_msg(struct packet_generic_message *packet)
 {
   int where = MW_OUTPUT;	/* where to display the message */
@@ -760,6 +784,7 @@ void handle_chat_msg(struct packet_generic_message *packet)
       (!game.player_ptr->ai.control || ai_popup_windows))
     popup_notify_goto_dialog(_("Popup Request"), packet->message, 
 			     packet->x, packet->y);
+  play_sound_for_event(packet->event);
 }
  
 /**************************************************************************
@@ -786,9 +811,11 @@ void handle_page_msg(struct packet_generic_message *packet)
     lines = "";
   }
 
-  if (!game.player_ptr->ai.control || ai_popup_windows || 
-       packet->event != E_BROADCAST_REPORT)
+  if (!game.player_ptr->ai.control || ai_popup_windows ||
+      packet->event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
+    play_sound_for_event(packet->event);
+  }
 }
 
 /**************************************************************************
@@ -1699,6 +1726,11 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   sz_strlcpy(u->name, p->name);
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
+  sz_strlcpy(u->sound_move, p->sound_move);
+  sz_strlcpy(u->sound_move_alt, p->sound_move_alt);
+  sz_strlcpy(u->sound_fight, p->sound_fight);
+  sz_strlcpy(u->sound_fight_alt, p->sound_fight_alt);
+
   u->move_type          = p->move_type;
   u->build_cost         = p->build_cost;
   u->pop_cost           = p->pop_cost;
@@ -1790,6 +1822,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->variant = p->variant;	/* FIXME: remove when gen-impr obsoletes */
   free(b->helptext);
   b->helptext = p->helptext;		/* pointer assignment */
+  sz_strlcpy(b->soundtag, p->soundtag);
+  sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
 #ifdef DEBUG
   if(p->id == game.num_impr_types-1) {

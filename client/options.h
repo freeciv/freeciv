@@ -16,6 +16,8 @@
 #include "shared.h"		/* bool type */
 #include "events.h"
 
+#include "events.h"
+
 /** Local Options: **/
 
 extern bool solid_color_behind_units;
@@ -92,5 +94,6 @@ void init_messages_where(void);
 
 void load_options(void);
 void save_options(void);
+const char *const get_sound_tag_for_event(enum event_type event);
 
 #endif  /* FC__OPTIONS_H */

@@ -35,6 +35,7 @@
 #include "goto.h"
 #include "options.h"
 #include "tilespec.h"
+#include "audio.h"
 
 #include "control.h"
 
@@ -1031,6 +1032,11 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   was_teleported=!is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y);
   x=punit->x;
   y=punit->y;
+
+  if (!was_teleported && punit->activity != ACTIVITY_SENTRY) {
+    audio_play_sound(unit_type(punit)->sound_move,
+		     unit_type(punit)->sound_move_alt);
+  }
 
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 

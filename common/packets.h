@@ -582,6 +582,10 @@ struct packet_ruleset_unit {
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  char sound_move[MAX_LEN_NAME];
+  char sound_move_alt[MAX_LEN_NAME];
+  char sound_fight[MAX_LEN_NAME];
+  char sound_fight_alt[MAX_LEN_NAME];
   int move_type;
   int build_cost;
   int pop_cost;
@@ -642,6 +646,8 @@ struct packet_ruleset_building {
   struct impr_effect *effect;
   int variant;		/* FIXME: remove when gen-impr obsoletes */
   char *helptext;		/* same as for packet_ruleset_unit, above */
+  char soundtag[MAX_LEN_NAME];
+  char soundtag_alt[MAX_LEN_NAME];
 };
 
 struct packet_ruleset_terrain {

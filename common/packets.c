@@ -3102,6 +3102,12 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
+  if (has_capability("sound", pc->capability)) {
+    cptr = put_string(cptr, packet->sound_move);
+    cptr = put_string(cptr, packet->sound_move_alt);
+    cptr = put_string(cptr, packet->sound_fight);
+    cptr = put_string(cptr, packet->sound_fight_alt);
+  }
   if(unit_type_flag(packet->id, F_PARATROOPERS)) {
     cptr=put_uint16(cptr, packet->paratroopers_range);
     cptr=put_uint8(cptr, packet->paratroopers_mr_req);
@@ -3156,6 +3162,19 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
+  if (has_capability("sound", pc->capability)) {
+    iget_string(&iter, packet->sound_move, sizeof(packet->sound_move));
+    iget_string(&iter, packet->sound_move_alt,
+		sizeof(packet->sound_move_alt));
+    iget_string(&iter, packet->sound_fight, sizeof(packet->sound_fight));
+    iget_string(&iter, packet->sound_fight_alt,
+		sizeof(packet->sound_fight_alt));
+  } else {
+    sz_strlcpy(packet->sound_move, "m_generic");
+    sz_strlcpy(packet->sound_move_alt, "-");
+    sz_strlcpy(packet->sound_fight, "f_generic");
+    sz_strlcpy(packet->sound_fight_alt, "-");
+  }
   if(TEST_BIT(packet->flags, F_PARATROOPERS)) {
     iget_uint16(&iter, &packet->paratroopers_range);
     iget_uint8(&iter, &packet->paratroopers_mr_req);
@@ -3295,6 +3314,11 @@ int send_packet_ruleset_building(struct connection *pc,
   cptr=put_uint8(cptr, packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   cptr=put_string(cptr, packet->name);
 
+  if (has_capability("sound", pc->capability)) {
+    cptr = put_string(cptr, packet->soundtag);
+    cptr = put_string(cptr, packet->soundtag_alt);
+  }
+
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
     cptr=put_string(cptr, packet->helptext);
@@ -3348,6 +3372,15 @@ receive_packet_ruleset_building(struct connection *pc)
   packet->effect[count].type = EFT_LAST;
   iget_uint8(&iter, &packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   iget_string(&iter, packet->name, sizeof(packet->name));
+
+  if (has_capability("sound", pc->capability)) {
+    iget_string(&iter, packet->soundtag, sizeof(packet->soundtag));
+    iget_string(&iter, packet->soundtag_alt, sizeof(packet->soundtag_alt));
+  } else {
+    sz_strlcpy(packet->soundtag,
+	       packet->is_wonder ? "w_generic" : "b_generic");
+    sz_strlcpy(packet->soundtag_alt, "-");
+  }
 
   len = pack_iter_remaining(&iter);
   if (len > 0) {

@@ -79,9 +79,14 @@ enum event_type {
   E_REPORT,
   E_BROADCAST_REPORT,
   E_NATION_SELECTED,
-  /* Note:  If you add a new event, make sure you make a similar change to
-     message_text in client/options.c
-     */
+  E_GAME_END,
+  E_TURN_BELL,
+  E_TECH_LEARNED,
+  /* 
+   * Note: If you add a new event, make sure you make a similar change
+   * to the events array in client/options.c using GEN_EV and to
+   * data/stdsounds.spec.
+   */
   E_LAST
 };
 

@@ -151,6 +151,10 @@ struct unit_type {
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  char sound_move[MAX_LEN_NAME];
+  char sound_move_alt[MAX_LEN_NAME];
+  char sound_fight[MAX_LEN_NAME];
+  char sound_fight_alt[MAX_LEN_NAME];
   struct Sprite *sprite;
   enum unit_move_type move_type;
   int build_cost;

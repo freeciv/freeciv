@@ -61,6 +61,7 @@
 #include "tilespec.h"
 #include "attribute.h"
 #include "agents.h"
+#include "audio.h"
 
 #include "civclient.h"
 
@@ -81,6 +82,8 @@ bool auto_connect = FALSE;
 static enum client_states client_state = CLIENT_BOOT_STATE;
 
 static char *tile_set_name = NULL;
+static char sound_set_name[256] = "stdsounds.spec";
+static char *sound_plugin_name = NULL;
 
 int seconds_to_turndone;
 
@@ -101,6 +104,7 @@ int main(int argc, char *argv[])
 
   init_nls();
   dont_run_as_root(argv[0], "freeciv_client");
+  audio_init();
 
   /* set default argument values */
   loglevel=LOG_NORMAL;
@@ -128,7 +132,10 @@ int main(int argc, char *argv[])
 		      "Connect to the metaserver at HOST\n"));
     fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
     fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
+    fprintf(stderr, _("  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"),
+	    audio_get_all_plugin_names());
     fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
+    fprintf(stderr, _("  -S, --Sound FILE\tRead sound tags from FILE\n"));
     fprintf(stderr, _("  -t, --tiles FILE\t"
 		      "Use data file FILE.tilespec for tiles\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
@@ -142,6 +149,10 @@ int main(int argc, char *argv[])
      sz_strlcpy(player_name, option);
    else if ((option = get_option("--meta",argv,&i,argc)))
       sz_strlcpy(metaserver, option);
+   else if ((option = get_option("--Sound", argv, &i, argc)))
+      sz_strlcpy(sound_set_name, option);
+   else if ((option = get_option("--Plugin", argv, &i, argc)))
+      sound_plugin_name = option;
    else if ((option = get_option("--port",argv,&i,argc))) {
      if(sscanf(option, "%d", &server_port) != 1) {
         exit(EXIT_FAILURE);
@@ -187,12 +198,17 @@ int main(int argc, char *argv[])
   boot_help_texts();
   tilespec_read_toplevel(tile_set_name); /* get tile sizes etc */
 
+  freelog(LOG_VERBOSE, "Initializing sound using %s...", sound_set_name);
+  audio_real_init(sound_set_name, sound_plugin_name);
+  audio_play_music("music_start", NULL);
+
   /* run gui-specific client */
 
   ui_main(argc, argv);
 
   /* termination */
   attribute_flush();
+  audio_shutdown();
   my_shutdown_network();
 
   exit(EXIT_SUCCESS);
@@ -525,6 +541,7 @@ void set_client_state(enum client_states newstate)
 	    || newstate==CLIENT_GAME_RUNNING_STATE)) {
       create_event(-1, -1, E_GAME_START, _("Game started."));
       translate_data_names();
+      audio_stop();		/* stop intro sound loop */
     }
       
     client_state=newstate;

@@ -203,6 +203,9 @@ static struct {
   GEN_EV(N_("Report"),                            E_REPORT),
   GEN_EV(N_("Broadcast Report"),                  E_BROADCAST_REPORT),
   GEN_EV(N_("Nation Selected"),                   E_NATION_SELECTED),
+  GEN_EV(N_("Game End"),                          E_GAME_END),
+  GEN_EV(N_("Turn Bell"),                         E_TURN_BELL),
+  GEN_EV(N_("Tech Learned"),                      E_TECH_LEARNED),
   GEN_EV_TERMINATOR
 };
 
@@ -258,7 +261,8 @@ void init_messages_where(void)
 {
   int out_only[] = { E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT,
 		     E_UNIT_LOST_ATT, E_UNIT_WIN_ATT, E_GAME_START,
-		     E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR};
+		     E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR,
+		     E_TECH_LEARNED};
   int all[] = { E_MESSAGE_WALL };
   int i;
 
@@ -549,6 +553,24 @@ static void save_cma_preset(struct section_file *file, char *name,
 		     "cma.preset%d.factortarget", inx);
   secfile_insert_int(file, pparam->happy_factor,
 		     "cma.preset%d.happyfactor", inx);
+}
+
+/****************************************************************
+... 
+*****************************************************************/
+const char *const get_sound_tag_for_event(enum event_type event)
+{
+  if (event == E_NOEVENT) {
+    return NULL;
+  }
+
+  assert(event >= 0 && event < E_LAST);
+
+  if (events[event_to_index[event]].event == event) {
+    return events[event_to_index[event]].tag_name;
+  }
+  freelog(LOG_ERROR, "unknown event %d", event);
+  return NULL;
 }
 
 /****************************************************************

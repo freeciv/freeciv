@@ -238,6 +238,8 @@ struct impr_type {
   struct impr_effect *effect;		/* list; .type==EFT_LAST terminated */
   int variant;			/* FIXME: remove when gen-impr obsoletes */
   char *helptext;
+  char soundtag[MAX_LEN_NAME];
+  char soundtag_alt[MAX_LEN_NAME];
 };
 
 

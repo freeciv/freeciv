@@ -186,9 +186,12 @@ void update_player_activities(struct player *pplayer)
 **************************************************************************/
 static void update_player_aliveness(struct player *pplayer)
 {
+  assert(pplayer);
   if(pplayer->is_alive) {
     if(unit_list_size(&pplayer->units)==0 && 
        city_list_size(&pplayer->cities)==0) {
+      notify_player_ex(pplayer, -1, -1, E_GAME_END,
+		       _("Game: You are dead!"));
       pplayer->is_alive = FALSE;
       if( !is_barbarian(pplayer) ) {
 	notify_player_ex(NULL, -1, -1, E_DESTROYED,
@@ -286,20 +289,21 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     int saved_bulbs = plr->research.bulbs_researched;
 
     if (choose_goal_tech(plr) != 0) {
-      notify_player(plr, 
-		    _("Game: Learned %s.  "
-		      "Our scientists focus on %s, goal is %s."),
-		    advances[tech_found].name, 
-		    advances[plr->research.researching].name,
-		    advances[plr->ai.tech_goal].name);
+      notify_player_ex(plr, -1, -1, E_TECH_LEARNED,
+		       _("Game: Learned %s.  "
+			 "Our scientists focus on %s, goal is %s."),
+		       advances[tech_found].name,
+		       advances[plr->research.researching].name,
+		       advances[plr->ai.tech_goal].name);
     } else {
       choose_random_tech(plr);
       if (!is_future_tech(plr->research.researching)
 	  || !is_future_tech(tech_found)) {
-	notify_player(plr, _("Game: Learned %s.  Scientists "
-			     "choose to research %s."),
-		      advances[tech_found].name,
-		      get_tech_name(plr, plr->research.researching));
+	notify_player_ex(plr, -1, -1, E_TECH_LEARNED,
+			 _("Game: Learned %s.  Scientists "
+			   "choose to research %s."),
+			 advances[tech_found].name,
+			 get_tech_name(plr, plr->research.researching));
       } else {
 	char buffer1[300];
 	char buffer2[300];
@@ -309,7 +313,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	plr->future_tech++;
 	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
 		    get_tech_name(plr, plr->research.researching));
-	notify_player(plr, "%s%s", buffer1, buffer2);
+	notify_player_ex(plr, -1, -1, E_TECH_LEARNED, "%s%s", buffer1,
+			 buffer2);
       }
     }
     if (saving_bulbs) {
@@ -732,6 +737,7 @@ void handle_player_revolution(struct player *pplayer)
       (pplayer->revolution>0) &&
       ( pplayer->government==game.government_when_anarchy))
     return;
+
   pplayer->revolution=myrand(5)+1;
   pplayer->government=game.government_when_anarchy;
   notify_player_ex(pplayer, -1, -1, E_REVOLT_START,
