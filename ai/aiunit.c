@@ -630,7 +630,7 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
 	int desire = avg_benefit(benefit, loss, chance);
 
         /* No need to amortize, our operation takes one turn. */
-	UNIT_LOG(LOG_NORMAL, punit, "Rampage: Desire %d to kill %s(%d,%d)",
+	UNIT_LOG(LOG_DEBUG, punit, "Rampage: Desire %d to kill %s(%d,%d)",
 		 desire, unit_name(pdef->type), pdef->x, pdef->y);
 
         return MAX(0, desire);
