@@ -157,7 +157,9 @@ int sniff_packets(void)
     
     FD_ZERO(&readfs);
     FD_ZERO(&exceptfs);
+#ifndef SOCKET_ZERO_ISNT_STDIN
     FD_SET(0, &readfs);	
+#endif
     FD_SET(sock, &readfs);
     max_desc=sock;
     
