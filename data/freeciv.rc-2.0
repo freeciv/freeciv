@@ -61,8 +61,6 @@ style "beta_label"
 style "comment_label"
 {
   font_name = "Sans Italic 9"
-  fg[NORMAL] = "blue"
-  fg[PRELIGHT] = "blue"
 }
 
 style "city_names_font"
