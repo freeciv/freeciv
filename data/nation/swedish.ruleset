@@ -25,6 +25,8 @@ tech_goals = "Map Making", "The Republic", "Trade", "Gunpowder"
 wonder="Magellan's Expedition"
 government="Democracy"
 
+; /* <-- avoid gettext warnings
+;
 ;  Kort upplysning om ortnamnens betydelser och ursprung
 ;  =====================================================
 ;
@@ -72,6 +74,8 @@ government="Democracy"
 ;    engelska <town> stad) med ursprunglig betydelse 'hägnad,
 ;    gärdsgård' (gotländska <tun> gärdsgård) och med motsvarighet i
 ;    keltiska språk
+;
+; */ <-- avoid gettext warnings
 
 cities =
  "Uppsala", "Sigtuna", "Sollentuna", "Husaby", "Falun", "Mora",
