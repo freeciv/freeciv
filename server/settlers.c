@@ -626,24 +626,20 @@ int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j)
 {
   int x, y, m;
   struct tile *ptile;
+  enum tile_special_type spe_sav;
+  
   x = pcity->x + i - 2; y = pcity->y + j - 2;
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       get_invention(pplayer, A_RAILROAD) == TECH_KNOWN &&
       !(ptile->special&S_RAILROAD)) {
-    if (ptile->special&S_ROAD) {
-      ptile->special|=S_RAILROAD;
-      m = city_tile_value(pcity, i, j, 0, 0);
-      ptile->special&=~S_RAILROAD;
-      return(m);
-    } else {
-      map_set_special(x, y, S_ROAD | S_RAILROAD);
-      m = city_tile_value(pcity, i, j, 0, 0);
-      map_clear_special(x, y, S_ROAD | S_RAILROAD);
-      return(m);
-    }
+    spe_sav = ptile->special;
+    ptile->special|=(S_ROAD | S_RAILROAD);
+    m = city_tile_value(pcity, i, j, 0, 0);
+    ptile->special = spe_sav;
+    return(m);
   } else return(-1);
-/* bonuses for adjacent railroad tiles */
+  /* bonuses for adjacent railroad tiles */
 }
 
 /*************************************************************************
