@@ -120,6 +120,15 @@ struct leader *get_nation_leaders(Nation_Type_id nation, int *dim)
   return nations[nation].leaders;
 }
 
+/****************************************************************************
+  Returns pointer to the preferred set of nations that can fork from the
+  nation.  The array is terminated by a NO_NATION_SELECTED value.
+****************************************************************************/
+Nation_Type_id* get_nation_civilwar(Nation_Type_id nation)
+{
+  return nations[nation].civilwar_nations;
+}
+
 /***************************************************************
 Returns sex of given leader name. If names is not found,
 return 1 (meaning male).
@@ -224,6 +233,11 @@ static void nation_free(Nation_Type_id nation)
   if (p->legend) {
     free(p->legend);
     p->legend = NULL;
+  }
+
+  if (p->civilwar_nations) {
+    free(p->civilwar_nations);
+    p->civilwar_nations = NULL;
   }
 
   nation_city_names_free(p->city_names);

@@ -66,6 +66,8 @@ struct leader {
 };
 
 struct nation_type {
+  /* Pointer values are allocated in load_ruleset_nations() then freed in
+   * free_nations(). */
   char name[MAX_LEN_NAME];
   char name_plural[MAX_LEN_NAME];
   char flag_graphic_str[MAX_LEN_NAME];
@@ -77,6 +79,10 @@ struct nation_type {
   struct Sprite *flag_sprite;
   char *class;				/* may be empty */
   char *legend;				/* may be empty */
+
+  /* NO_NATION_SELECTED-terminated list of index of the nations that can fork
+   * from this one.  Server only. */
+  Nation_Type_id *civilwar_nations;                
 
   /* untranslated copies: */
   char name_orig[MAX_LEN_NAME];
@@ -117,6 +123,7 @@ const char *get_nation_name(Nation_Type_id nation);
 const char *get_nation_name_plural(Nation_Type_id nation);
 const char *get_nation_name_orig(Nation_Type_id nation);
 struct leader *get_nation_leaders(Nation_Type_id nation, int *dim);
+Nation_Type_id *get_nation_civilwar(Nation_Type_id nation);
 bool get_nation_leader_sex(Nation_Type_id nation, const char *name);
 struct nation_type *get_nation_by_plr(struct player *plr);
 struct nation_type *get_nation_by_idx(Nation_Type_id nation);

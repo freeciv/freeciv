@@ -2048,9 +2048,9 @@ static void load_ruleset_nations(struct section_file *file)
   char *datafile_options, *bad_leader, *g;
   struct nation_type *pl;
   struct government *gov;
-  int *res, dim, val, i, j, nval;
+  int *res, dim, val, i, j, k, nval;
   char temp_name[MAX_LEN_NAME];
-  char **techs, **leaders, **sec;
+  char **techs, **leaders, **sec, **civilwar_nations;
   const char *filename = secfile_filename(file);
 
   datafile_options = check_ruleset_capabilities(file, "+1.9", filename);
@@ -2173,6 +2173,31 @@ static void load_ruleset_nations(struct section_file *file)
 	      "using default.", pl->name, temp_name);
       pl->city_style = 0;
     }
+
+    /* Civilwar nations */
+
+    civilwar_nations = secfile_lookup_str_vec(file, &dim,
+					      "%s.civilwar_nations", sec[i]);
+    pl->civilwar_nations = fc_malloc(sizeof(Nation_Type_id) * (dim + 1));
+
+    for (j = 0, k = 0; k < dim; j++, k++) {
+      /* HACK: At this time, all the names are untranslated and the name_orig
+       * field is empty, so we must call find_nation_by_name instead of
+       * find_nation_by_name_orig. */
+      pl->civilwar_nations[j] = find_nation_by_name(civilwar_nations[k]);
+
+      if (pl->civilwar_nations[j] == -1) {
+	j--;
+	freelog(LOG_ERROR, "Civil war nation %s for nation %s not defined.",
+		civilwar_nations[k], pl->name);
+      }
+    }
+
+    /* No test for duplicate nations is performed.  If there is a duplicate
+     * entry it will just cause that nation to have an increased probability
+     * of being chosen. */
+
+    pl->civilwar_nations[j] = NO_NATION_SELECTED;
 
     /* AI stuff */
 

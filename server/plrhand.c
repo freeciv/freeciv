@@ -61,6 +61,7 @@ static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
                                 struct player *receiver,
                                 enum plr_info_level min_info_level);
+static Nation_Type_id pick_available_nation(Nation_Type_id *choices);
 static void tech_researched(struct player* plr);
 static bool choose_goal_tech(struct player *plr);
 static enum plr_info_level player_info_level(struct player *plr,
@@ -1553,6 +1554,65 @@ struct player *shuffled_player(int i)
   }
 }
 
+/****************************************************************************
+  This function return one of the nations available from the
+  NO_NATION_SELECTED-terminated choices list. If no available nations in this
+  file were found, return a random nation. If no nations are available, die.
+****************************************************************************/
+static Nation_Type_id pick_available_nation(Nation_Type_id *choices)
+{
+  int *nations_used, i, num_nations_avail = game.playable_nation_count, pick;
+  int looking_for, pref_nations_avail = 0; 
+
+  /* Values of nations_used: 
+   * 0: not available
+   * 1: available
+   * 2: preferred choice */
+  nations_used = fc_calloc(game.playable_nation_count, sizeof(int));
+
+  for (i = 0; i < game.playable_nation_count; i++) {
+    nations_used[i] = 1; /* Available (for now) */
+  }
+
+  for (i = 0; choices[i] != NO_NATION_SELECTED; i++) {
+    pref_nations_avail++;
+    nations_used[choices[i]] = 2; /* Preferred */
+  }
+
+  players_iterate(other_player) {
+    if (other_player->nation < game.playable_nation_count) {
+      if (nations_used[other_player->nation] == 2) {
+	pref_nations_avail--;
+      } 
+      nations_used[other_player->nation] = 0; /* Unavailable */
+      num_nations_avail--;
+    } 
+  } players_iterate_end;
+
+  assert(num_nations_avail > 0);
+  assert(pref_nations_avail >= 0);
+
+  if (pref_nations_avail == 0) {
+    pick = myrand(num_nations_avail);
+    looking_for = 1; /* Use any available nation. */
+  } else {
+    pick = myrand(pref_nations_avail);
+    looking_for = 2; /* Use a preferred nation only. */
+  }
+
+  for (i = 0; i < game.playable_nation_count; i++){ 
+    if (nations_used[i] == looking_for) {
+      pick--;
+      
+      if (pick < 0) {
+	break;
+      }
+    }
+  }
+
+  free(nations_used);
+  return i;
+}
 
 /**********************************************************************
 This function creates a new player and copies all of it's science
@@ -1562,44 +1622,18 @@ split between both players.
 ***********************************************************************/
 static struct player *split_player(struct player *pplayer)
 {
-  int *nations_used, i, num_nations_avail=game.playable_nation_count, pick;
   int newplayer = game.nplayers;
   struct player *cplayer = &game.players[newplayer];
+  Nation_Type_id *civilwar_nations = get_nation_civilwar(pplayer->nation);
 
-  nations_used = fc_calloc(game.playable_nation_count,sizeof(int));
-  
   /* make a new player */
-
   server_player_init(cplayer, TRUE);
   ai_data_init(cplayer);
 
   /* select a new name and nation for the copied player. */
-
-  for(i=0; i<game.playable_nation_count;i++){
-    nations_used[i]=i;
-  }
-
-  players_iterate(other_player) {
-    if (other_player->nation < game.playable_nation_count) {
-      nations_used[other_player->nation] = -1;
-      num_nations_avail--;
-    }
-  } players_iterate_end;
-
-  pick = myrand(num_nations_avail);
-
-  for(i=0; i<game.playable_nation_count; i++){ 
-    if(nations_used[i] != -1)
-      pick--;
-    if(pick < 0) break;
-  }
-  
   /* Rebel will always be an AI player */
-
-  cplayer->nation = nations_used[i];
-  free(nations_used);
-  nations_used = NULL;
-  pick_ai_player_name(cplayer->nation,cplayer->name);
+  cplayer->nation = pick_available_nation(civilwar_nations);
+  pick_ai_player_name(cplayer->nation, cplayer->name);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
