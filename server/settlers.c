@@ -801,42 +801,63 @@ struct unit *other_passengers(struct unit *punit)
   return NULL;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  Compares the best known tile improvement action with improving the tile
+  at (x,y) with activity act.  Calculates the value of improving the tile
+  by discounting the total value by the time it would take to do the work
+  and multiplying by some factor.
+****************************************************************************/
 static void consider_settler_action(struct player *pplayer, 
                                     enum unit_activity act, int extra, 
-                                    int newv, int oldv, bool in_use,
-				    int d, int *best_newv, int *best_oldv,
+                                    int new_tile_value, int old_tile_value,
+				    bool in_use, int delay,
+				    int *best_value,
+				    int *best_old_tile_value,
 				    enum unit_activity *best_act, 
                                     int *gx, int *gy, int x, int y)
 {
-  int a, b = 0;
+  int discount_value, base_value = 0;
+  int total_value;
   bool consider;
 
   if (extra >= 0) {
     consider = TRUE;
   } else {
-    consider = (newv > oldv);
+    consider = (new_tile_value > old_tile_value);
   }
 
   if (consider) {
-    int diff = newv-oldv;
-    /* give squares which can be improved and are currently in use a bonus */
-    b = diff * (in_use ? 64 : 16) + extra * 64;
-    b = MAX(0, b);
-    a = amortize(b, d);
-    newv = ((a * b) / (MAX(1, b - a)))/64;
+    int diff = new_tile_value - old_tile_value;
+
+    /* The 64x is because we are dealing with small ints, usually from 0-20,
+     * which are insufficiently large to use directly in amortize().  Tiles
+     * which are not currently in use do not give us an improvement until
+     * a citizen works them, so they are reduced in value by 1/4. */
+    base_value = diff * (in_use ? 64 : 16) + extra * 64;
+    base_value = MAX(0, base_value);
+
+    discount_value = amortize(base_value, delay);
+
+    /* The total value is (roughly) equal to the base value multiplied by
+     * d / (1 - d), where d is the discount. (discount_value / base value)
+     * The MAX is a guard against the base value being greater or equal
+     * than the discount value, which would only happen if it or the 
+     * delay is <= 0. */
+    total_value = ((discount_value * base_value)
+		   / (MAX(1, base_value - discount_value))) / 64;
   } else {
-    newv = 0;
+    total_value = 0;
   }
 
-  if (newv > *best_newv || (newv == *best_newv && oldv > *best_oldv)) {
+  if (total_value > *best_value
+      || (total_value == *best_value
+	  && old_tile_value > *best_old_tile_value)) {
     freelog(LOG_DEBUG,
 	    "Replacing (%d, %d) = %d with %s (%d, %d) = %d [d=%d b=%d]",
-	    *gx, *gy, *best_newv, get_activity_text(act), x, y, newv, d, b);
-    *best_newv = newv;
-    *best_oldv = oldv;
+	    *gx, *gy, *best_value, get_activity_text(act), x, y, total_value,
+            delay, base_value);
+    *best_value = total_value;
+    *best_old_tile_value = old_tile_value;
     *best_act = act;
     *gx = x;
     *gy = y;
