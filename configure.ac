@@ -685,6 +685,7 @@ AC_CONFIG_FILES([Makefile
 	  common/Makefile 
 	  common/aicore/Makefile 
 	  ai/Makefile 
+	  tests/Makefile
 	  client/Makefile 
 	  client/agents/Makefile
 	  client/include/Makefile 
