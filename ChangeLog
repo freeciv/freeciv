@@ -1,3 +1,249 @@
+Tue Aug  7 19:46:42 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Add Lee Davis <leedavis@zoomtown.com> as bugreporter.
+
+Tue Aug  7 19:45:40 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/cityturn.c:
+
+	When postponing worklist items, report the reason correctly.
+
+	Note to translators: 2 new strings to translate.
+
+	Bug reported by Lee Davis <leedavis@zoomtown.com>
+
+Tue Aug  7 15:36:54 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated nl.po
+
+Tue Aug  7 14:38:45 2001  Paolo Sammicheli <xdatap1@siena.linux.it>:
+
+	* po/it.po:
+
+	Translated the "no meeting for IAs" message.
+
+Tue Aug  7 13:53:09 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/clinet.c:
+
+	Reset delay_*_update values when disconnecting.
+
+Tue Aug  7 13:42:44 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/diplhand.c, server/stdinhand.c:
+
+	Don't allow client for AIcontrolled players to participate in
+	meetings.
+
+	Translators take note: This adds a new translatable string.
+
+Tue Aug  7 13:10:08 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Add Anders Bo Rasmussen <fuzz@diku.dk> as bugreporter.  (gtk popup
+	freezes)
+
+Mon Aug  6 21:11:51 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* data/hires/nuke.spec, data/hires/nuke.xpm:
+
+	Add the sprite itself.
+
+Mon Aug  6 21:10:13 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/tilespec.c, client/tilespec.h, client/gui-gtk/mapview.c,
+	data/hires.tilespec, data/hires/Makefile.am,
+	data/hires/Makefile.in:
+
+	Add nuke sprite for isometric view.
+
+Mon Aug  6 13:22:17 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* data/nation/viking.ruleset:
+
+	Add some rulers and cities.
+
+Mon Aug  6 11:24:10 2001  Paolo Sammicheli <xdatap1@siena.linux.it>:
+
+	* doc/INSTALL.it, po/it.po:
+
+	Fixed INSTALL.it: require Gtk+ >= 1.2.5.  Updated it.po.
+
+Mon Aug  6 10:50:00 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated nl.po
+
+Mon Aug  6 09:19:59 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* doc/NEWS.de:
+
+	NEWS.de updated
+
+Mon Aug  6 02:09:47 2001  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/map.h:
+
+	Fixed bug in recent path.  Missing a "\" in a macro definition.
+
+Mon Aug  6 01:28:32 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* common/map.h:
+
+	(map_adjust_x) Replace with faster version that avoids expensive
+	modulo calculations when X is already normalized.
+
+Sun Aug  5 22:19:57 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/dialogs.c:
+
+	Fixed a bug similar to that in the pillage dialog in the unit
+	connect dialog.
+
+Sun Aug  5 22:14:51 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/dialogs.c:
+
+	Fixed bug where closing the pillage dialog using the window
+	manager would not make the toplevel window sensitive again.
+
+Sun Aug  5 20:45:42 2001  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/gui-mui/dialogs.c:
+
+	Amiga: Free the nations_wnd when no longer needed
+
+Sun Aug  5 15:14:04 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* INSTALL, configure, configure.in:
+
+	Require gtk >= 1.2.5.
+
+	Fixes (PR#874) reported by Michael Grundel <michael42@grundel.de>
+
+Sun Aug  5 14:44:57 2001  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/config.h, client/gui-mui/citydlg.c,
+	client/gui-mui/colors.c, client/gui-mui/colors.h,
+	client/gui-mui/colortextclass.c, client/gui-mui/dialogs.c,
+	client/gui-mui/gotodlg.c, client/gui-mui/graphics.c,
+	client/gui-mui/gui_main.c, client/gui-mui/helpdlg.c,
+	client/gui-mui/mapclass.c, client/gui-mui/mapctrl.c,
+	client/gui-mui/mapview.c, client/gui-mui/muistuff.c,
+	client/gui-mui/objecttreeclass.c, client/gui-mui/overviewclass.c,
+	client/gui-mui/repodlgs.c, client/gui-mui/scrollbuttonclass.c,
+	client/gui-mui/spaceshipdlg.c, client/gui-mui/wldlg.c,
+	client/gui-mui/worklistclass.c:
+
+	Amiga: - scanned mui part and inserted,removed or implemented
+	commented code.  All commented code parts show up with warning
+	during compile, to not forget them.  - some little fixes,
+	improvements - removed enforcer hit in help dialog - added
+	Color-System support.  - fixed "no terrain" display mode (and
+	solid background) - added red border in isometric cityview
+
+	patch submitted by Dirk Stoecker <stoecker@epost.de> with some
+	changes by me
+
+Sun Aug  5 14:23:12 2001  Michael Stefaniuc <mstefani@redhat.de>:
+
+	* po/ro.po:
+
+	more than 150 new translated strings many fixed translations
+
+Sat Aug  4 21:06:13 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* client/gui-gtk/citydlg.c:
+
+	Check city map coords in the client before sending them to the
+	server.
+
+	Fixes (PR#868) reported by Christian Knoke <ChrisK@enter.de>
+
+Sat Aug  4 19:33:00 2001  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1987t+48f+546u+17o.
+
+Sat Aug  4 18:01:22 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* doc/Makefile.am, doc/Makefile.in:
+
+	Add files in doc/ to Makefile.am so they get included in the
+	distribution.
+
+Sat Aug  4 17:57:24 2001  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/smakefile:
+
+	Amiga: smakefile installs also the isometric tiles
+
+Sat Aug  4 17:56:38 2001  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/gui-mui/helpdlg.c, client/gui-mui/mapclass.c:
+
+	Amiga: - Scrollbar is no longer overdrawn sometime in the
+	isometric view - Units in the help windows have correct height
+	also in isometric view
+
+Sat Aug  4 17:55:26 2001  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* doc/NEWS.ja:
+
+	Update NEWS.ja file based on cvs-1.37's NEWS.
+
+Sat Aug  4 17:46:19 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* NEWS:
+
+	Add "ro" to list of translations.
+
+	Patch by Michael Stefaniuc <mstefani@redhat.de>
+
+Sat Aug  4 15:42:09 2001  Sebastian Bauer <sebauer@t-online.de>:
+
+	* amiga/ReadMe.developer, amiga/smakefile, amiga/vmakefile,
+	client/gui-mui/cityrep.c, client/gui-mui/messagedlg.c:
+
+	Some minor amiga changes.
+
+	patch submitted by Dirk Stoecker <stoecker@epost.de>
+
+Fri Aug  3 19:28:06 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* configure, configure.in:
+
+	Bump version to 1.11.11-devel for some more files.
+
+Fri Aug  3 19:20:06 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv:
+
+	Bump version to 1.11.11-devel.
+
+Fri Aug  3 18:56:56 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ChangeLog, configure, configure.in:
+
+	Update files for 1.11.10 beta.
+
+Fri Aug  3 18:53:01 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv, po/de.po, po/en_GB.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/ja.po, po/nl.po, po/no.po,
+	po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sv.po:
+
+	Updates for the third beta leading to version 1.12.0: - Changed
+	version to 1.11.10 (beta).  - Ran msgmerge on all .po files (normal
+	part of 'make dist').  - Updated Changelog
+
 Fri Aug  3 11:47:06 2001  Thue Janus Kristensen <thue@diku.dk>:
 
 	* po/en_GB.po:
