@@ -223,8 +223,10 @@ void update_goto_dialog(Widget goto_list)
     city_list_iterate(game.players[i].cities, pcity) {
       char name[MAX_LEN_NAME+3];
       sz_strlcpy(name, pcity->name);
-      if (pcity->improvements[B_AIRPORT] == I_ACTIVE)
+      /* FIXME: should use unit_can_airlift_to(). */
+      if (pcity->airlift) {
 	sz_strlcat(name, "(A)");
+      }
       city_name_ptrs[j++]=mystrdup(name);
     }
     city_list_iterate_end;

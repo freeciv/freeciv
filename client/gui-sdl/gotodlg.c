@@ -122,7 +122,8 @@ static void update_goto_dialog(void)
 
     city_list_iterate(game.players[i].cities, pCity) {
       
-      if(!GOTO && !city_got_building(pCity, B_AIRPORT)) {
+      /* FIXME: should use unit_can_airlift_to(). */
+      if (!GOTO && !pcity->airlift) {
 	continue;
       }
       

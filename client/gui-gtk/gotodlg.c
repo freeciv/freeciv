@@ -198,8 +198,10 @@ static void update_goto_dialog(GtkWidget *goto_list)
     if(!all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
       sz_strlcpy(name, pcity->name);
-      if (pcity->improvements[B_AIRPORT] == I_ACTIVE)
+      /* FIXME: should use unit_can_airlift_to(). */
+      if (pcity->airlift) {
 	sz_strlcat(name, "(A)");
+      }
       gtk_clist_append( GTK_CLIST( goto_list ), row );
     }
     city_list_iterate_end;
