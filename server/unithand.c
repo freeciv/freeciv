@@ -630,13 +630,13 @@ already made all neccesary checks.
 **************************************************************************/
 static void handle_unit_attack_request(struct unit *punit, struct unit *pdefender)
 {
-  int o;
   struct player *pplayer = unit_owner(punit);
   struct packet_unit_combat combat;
   struct unit *plooser, *pwinner;
   struct unit old_punit = *punit;	/* Used for new ship algorithm. -GJW */
   struct city *pcity;
   int def_x = pdefender->x, def_y = pdefender->y;
+  struct packet_unit_info unit_att_packet, unit_def_packet;
   
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_type(punit)->name, 
@@ -720,14 +720,34 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   combat.attacker_hp=punit->hp;
   combat.defender_hp=pdefender->hp;
   combat.make_winner_veteran=pwinner->veteran?1:0;
+
+  package_unit(punit, &unit_att_packet, FALSE, FALSE, UNIT_INFO_IDENTITY, 0,
+	       FALSE);
+  package_unit(pdefender, &unit_def_packet, FALSE, FALSE, UNIT_INFO_IDENTITY,
+	       0, FALSE);
   
-  for(o=0; o<game.nplayers; o++)
-    if (map_get_known_and_seen(punit->x, punit->y, get_player(o)) ||
-	map_get_known_and_seen(def_x, def_y, get_player(o))) {
-      lsend_packet_unit_combat(&game.players[o].connections, &combat);
+  players_iterate(other_player) {
+    if (map_get_known_and_seen(punit->x, punit->y, other_player) ||
+	map_get_known_and_seen(def_x, def_y, other_player)) {
+
+      /* 
+       * Special case for attacking/defending:
+       * 
+       * Normally the player doesn't get the information about the
+       * units inside a city. However for attacking/defending the
+       * player has to know the unit of the other side.
+       */
+
+      lsend_packet_unit_info(&other_player->connections, &unit_att_packet);
+      lsend_packet_unit_info(&other_player->connections, &unit_def_packet);
+      lsend_packet_unit_combat(&other_player->connections, &combat);
     }
+  } players_iterate_end;
+
   conn_list_iterate(game.game_connections, pconn) {
     if (!pconn->player && pconn->observer) {
+      send_packet_unit_info(pconn, &unit_att_packet);
+      send_packet_unit_info(pconn, &unit_def_packet);
       send_packet_unit_combat(pconn, &combat);
     }
   } conn_list_iterate_end;

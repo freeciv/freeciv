@@ -269,6 +269,10 @@ struct city {
   enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
 
   struct unit_list units_supported;
+
+  /* TRUE iff there units in the town. Only set at the client. */
+  bool occupied;	      
+
   int steal;		      /* diplomats steal once; for spies, gets harder */
   /* turn states */
   bool did_buy;

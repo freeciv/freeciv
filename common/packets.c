@@ -1413,7 +1413,8 @@ int send_packet_short_city(struct connection *pc,
 
   dio_put_uint8(&dout, (COND_SET_BIT(req->happy, 0) |
 			COND_SET_BIT(req->capital, 1) |
-			COND_SET_BIT(req->walls, 2)));
+			COND_SET_BIT(req->walls, 2) |
+			COND_SET_BIT(req->occupied, 3)));
 
   dio_put_uint16(&dout, req->tile_trade);
 
@@ -1441,6 +1442,7 @@ struct packet_short_city *receive_packet_short_city(struct connection *pc)
   packet->happy = TEST_BIT(i, 0);
   packet->capital = TEST_BIT(i, 1);
   packet->walls = TEST_BIT(i, 2);
+  packet->occupied = TEST_BIT(i, 3);
 
   dio_get_uint16(&din, &packet->tile_trade);
 

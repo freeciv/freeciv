@@ -2046,12 +2046,19 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
-    if (!pplayer && !pconn->observer) continue;
-    if (!pplayer 
-        || ((map_get_known_and_seen(info.x, info.y, pplayer)
-             || map_get_known_and_seen(x, y, pplayer))
-            && (player_can_see_unit(pplayer, punit)
-                || player_can_see_unit_at_location(pplayer, punit, x, y)))) {
+    bool can_see_tile = (map_get_known_and_seen(info.x, info.y, pplayer)
+			 || map_get_known_and_seen(x, y, pplayer));
+    bool can_see_unit = (player_can_see_unit(pplayer, punit)
+			 || player_can_see_unit_at_location(pplayer, punit,
+							    x, y));
+    bool outside_city =
+	((pplayer && pplayers_allied(unit_owner(punit), pplayer))
+	 || (!map_get_city(punit->x, punit->y) && !map_get_city(x, y)));
+
+    if (!pplayer && !pconn->observer) {
+      continue;
+    }
+    if (!pplayer || (can_see_tile && can_see_unit && outside_city)) {
       send_packet_unit_info(pconn, &info);
     }
   }

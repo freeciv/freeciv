@@ -438,6 +438,9 @@ void handle_city_info(struct packet_city_info *packet)
                                    &need_effect_update);
   } impr_type_iterate_end;
 
+  pcity->occupied =
+      (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
            pcity->owner==game.player_idx) || packet->diplomat_investigate;
 
@@ -559,6 +562,7 @@ void handle_short_city(struct packet_short_city *packet)
   
   pcity->size=packet->size;
   pcity->tile_trade = packet->tile_trade;
+  pcity->occupied = packet->occupied;
 
   if (packet->happy) {
     pcity->ppl_happy[4]   = pcity->size;
@@ -917,6 +921,9 @@ void handle_unit_info(struct packet_unit_info *packet)
         return;
       }
       if(pcity)  {
+	pcity->occupied =
+	    (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+
         if(pcity->id==punit->homecity)
 	  repaint_city = TRUE;
 	else
@@ -924,6 +931,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       }
       
       if((pcity=map_get_city(punit->x, punit->y)))  {
+	pcity->occupied = TRUE;
         if(pcity->id == punit->homecity)
 	  repaint_city = TRUE;
 	else

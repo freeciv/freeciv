@@ -1382,6 +1382,7 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
     packet->capital = FALSE;
 
   packet->walls = pdcity->has_walls;
+  packet->occupied = pdcity->occupied;
 
   if (pcity && player_has_traderoute_with_city(pplayer, pcity)) {
     packet->tile_trade = pcity->tile_trade;
@@ -1668,6 +1669,8 @@ void update_dumb_city(struct player *pplayer, struct city *pcity)
   sz_strlcpy(pdcity->name, pcity->name);
   pdcity->size = pcity->size;
   pdcity->has_walls = city_got_citywalls(pcity);
+  pdcity->occupied =
+      (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
   pdcity->owner = pcity->owner;
 }
 

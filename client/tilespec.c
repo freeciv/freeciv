@@ -904,7 +904,6 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
 				  int *solid_bg)
 {
   struct Sprite **save_sprs=sprs;
-  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
 
   *solid_bg = 0;
   if (!no_backdrop) {
@@ -916,8 +915,9 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
     }
   }
 
-  if (genlist_size(&(ptile->units.list)) > 0)
+  if (pcity->occupied) {
     *sprs++ = get_city_occupied_sprite(pcity);
+  }
 
   *sprs++ = get_city_sprite(pcity);
 
@@ -953,14 +953,14 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
 int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity)
 {
   struct Sprite **save_sprs=sprs;
-  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
 
   if (!no_backdrop) {
     *sprs++ = get_city_nation_flag_sprite(pcity);
   }
 
-  if (genlist_size(&(ptile->units.list)) > 0)
+  if (pcity->occupied) {
     *sprs++ = get_city_occupied_sprite(pcity);
+  }
 
   *sprs++ = get_city_sprite(pcity);
 
