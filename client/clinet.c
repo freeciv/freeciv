@@ -24,6 +24,9 @@
 #ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
+#ifdef HAVE_NETDB_H
+#include <netdb.h>
+#endif
 #ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
@@ -777,6 +780,14 @@ int begin_lanserver_scan(void)
   to the request-packet sent from the client. 
 **************************************************************************/
 struct server_list *get_lan_server_list(void) {
+
+# if defined(__VMS) && !defined(_DECC_V4_SOURCE)
+    size_t fromlen;
+# else
+    int fromlen;
+# endif
+  struct sockaddr_in fromend;
+  struct hostent *from;
   char msgbuf[128];
   int type;
   struct data_in din;
@@ -786,11 +797,30 @@ struct server_list *get_lan_server_list(void) {
   char status[256];
   char players[256];
   char metastring[1024];
+  fd_set readfs, exceptfs;
+  struct timeval tv;
+
+  FD_ZERO(&readfs);
+  FD_ZERO(&exceptfs);
+  FD_SET(socklan, &exceptfs);
+  FD_SET(socklan, &readfs);
+  tv.tv_sec = 0;
+  tv.tv_usec = 0;
+
+  if (select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
+    freelog(LOG_ERROR, "select failed: %s", mystrerror(errno));
+  }
+
+  if (!FD_ISSET(socklan, &readfs)) {
+    return FALSE;
+  }
 
   dio_input_init(&din, msgbuf, sizeof(msgbuf));
+  fromlen = sizeof(fromend);
 
   /* Try to receive a packet from a server. */ 
-  if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
+  if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0,
+                   (struct sockaddr *) &fromend, &fromlen)) {
     struct server *pserver =
                 (struct server*)fc_malloc(sizeof(struct server));
 
@@ -804,6 +834,12 @@ struct server_list *get_lan_server_list(void) {
     dio_get_string(&din, status, sizeof(status));
     dio_get_string(&din, players, sizeof(players));
     dio_get_string(&din, metastring, sizeof(metastring));
+
+    if (!mystrcasecmp("none", servername)) {
+      from = gethostbyaddr((char *)&fromend.sin_addr, 
+                           sizeof(fromend.sin_addr), AF_INET);
+      sz_strlcpy(servername, inet_ntoa(fromend.sin_addr));
+    }
 
     /* UDP can send duplicate or delayed packets. */
     server_list_iterate(*lan_servers, aserver) {

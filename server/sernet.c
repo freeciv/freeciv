@@ -978,17 +978,32 @@ static void get_lanserver_announcement(void)
   char msgbuf[128];
   struct data_in din;
   int type;
+  fd_set readfs, exceptfs;
+  struct timeval tv;
 
-  if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
-    dio_input_init(&din, msgbuf, 1);
-    dio_get_uint8(&din, &type);
-    if (type == SERVER_LAN_VERSION) {
-      freelog(LOG_DEBUG, 
-              "Received request for server LAN announcement.");
-      send_lanserver_response(); 
-    } else {
-      freelog(LOG_DEBUG,
-              "Received invalid request for server LAN announcement.");
+  FD_ZERO(&readfs);
+  FD_ZERO(&exceptfs);
+  FD_SET(socklan, &exceptfs);
+  FD_SET(socklan, &readfs);
+
+  tv.tv_sec = 0;
+  tv.tv_usec = 0;
+
+  if (select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
+    freelog(LOG_ERROR, "select failed: %s", mystrerror(errno));
+  }
+
+  if (FD_ISSET(socklan, &readfs)) {
+    if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0, NULL, NULL)) {
+      dio_input_init(&din, msgbuf, 1);
+      dio_get_uint8(&din, &type);
+      if (type == SERVER_LAN_VERSION) {
+        freelog(LOG_DEBUG, "Received request for server LAN announcement.");
+        send_lanserver_response();
+      } else {
+        freelog(LOG_DEBUG,
+                "Received invalid request for server LAN announcement.");
+      }
     }
   }
 }
@@ -1039,12 +1054,11 @@ static void send_lanserver_response(void)
     return;
   }
 
+  /* Create a description of server state to send to clients.  */
   if (my_gethostname(hostname, sizeof(hostname)) != 0) {
-    freelog(LOG_ERROR, "gethostname failed: %s", mystrerror(errno));
-    return;
+    sz_strlcpy(hostname, "none");
   }
 
-  /* Create a description of server state to send to clients.  */
   my_snprintf(version, sizeof(version), "%d.%d.%d%s",
               MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL);
 
