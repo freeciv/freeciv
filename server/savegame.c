@@ -683,6 +683,13 @@ static void map_save(struct section_file *file)
       }
     }
   }
+
+  whole_map_iterate(ptile) {
+    if (ptile->spec_sprite) {
+      secfile_insert_str(file, ptile->spec_sprite, "map.spec_sprite_%d_%d",
+			 ptile->nat_x, ptile->nat_y);
+    }
+  } whole_map_iterate_end;
     
   /* put the terrain type */
   SAVE_NORMAL_MAP_DATA(ptile, file, "map.t%03d",
@@ -735,14 +742,6 @@ static void map_save(struct section_file *file)
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.i%03d",
 			 bin2ascii_hex(ptile->known, 7));
   }
-
-  whole_map_iterate(ptile) {
-    if (ptile->spec_sprite) {
-      secfile_insert_str(file, ptile->spec_sprite, 
-			 "map.spec_sprite_%d_%d",
-			 ptile->nat_x, ptile->nat_y);
-    }
-  } whole_map_iterate_end;
 }
 
 /*
