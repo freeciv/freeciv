@@ -218,7 +218,7 @@ Freeciv*inteldiplocommand.fromVert:          inteltechlist
 
 
 !
-! inteligence player's relations dialog
+! intelligence players relations dialog
 !
 Freeciv*inteldiplopopup.title:                    _("Foreign Intelligence Report")
 
