@@ -394,7 +394,7 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
       N_("For information on\n"
 	 "the citizen governor and governor presets,\n"
 	 "including sample presets,\n"
-	 "see README.cma.")),
+	 "see README.cma."),
     };
     static char **info_message = NULL;
 

@@ -321,10 +321,14 @@ static void build_row(const char **row, int i, int update)
   /* text for state */
   if (game.players[i].is_alive) {
     if (game.players[i].is_connected) {
-      if (game.players[i].turn_done) {
+      if (is_player_phase(&game.players[i], game.phase)) {
+        if (game.players[i].phase_done) {
 	sz_strlcpy(statebuf, _("done"));
       } else {
 	sz_strlcpy(statebuf, _("moving"));
+      }
+    } else {
+	sz_strlcpy(statebuf, _("waiting"));
       }
     } else {
       statebuf[0] = '\0';
