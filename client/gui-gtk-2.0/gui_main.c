@@ -370,7 +370,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 
   if (!client_is_observer()) {
     switch (ev->keyval) {
-      case GDK_Up:
       case GDK_KP_Up:
       case GDK_8:
       case GDK_KP_8:
@@ -384,7 +383,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	key_unit_move(DIR8_NORTHEAST);
 	break;
 
-      case GDK_Right:
       case GDK_KP_Right:
       case GDK_6:
       case GDK_KP_6:
@@ -398,7 +396,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	key_unit_move(DIR8_SOUTHEAST);
 	break;
 
-      case GDK_Down:
       case GDK_KP_Down:
       case GDK_2:
       case GDK_KP_2:
@@ -412,7 +409,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	key_unit_move(DIR8_SOUTHWEST);
 	break;
 
-      case GDK_Left:
       case GDK_KP_Left:
       case GDK_4:
       case GDK_KP_4:
@@ -425,6 +421,22 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
       case GDK_KP_7:
 	key_unit_move(DIR8_NORTHWEST);
 	break;
+
+      case GDK_Left:
+        scroll_mapview(DIR8_WEST);
+        break;
+
+      case GDK_Right:
+        scroll_mapview(DIR8_EAST);
+        break;
+
+      case GDK_Up:
+        scroll_mapview(DIR8_NORTH);
+        break;
+
+      case GDK_Down:
+        scroll_mapview(DIR8_SOUTH);
+        break;
 
       case GDK_KP_Begin:
       case GDK_Return:

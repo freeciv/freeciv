@@ -43,6 +43,26 @@ bool get_turn_done_button_state()
 }
 
 /**************************************************************************
+  Scroll the mapview half a screen in the given direction.  This is a GUI
+  direction; i.e., DIR8_NORTH is "up" on the mapview.
+**************************************************************************/
+void scroll_mapview(enum direction8 gui_dir)
+{
+  int map_x, map_y, canvas_x, canvas_y;
+
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  canvas_x = mapview_canvas.width / 2;
+  canvas_y = mapview_canvas.height / 2;
+  canvas_x += DIR_DX[gui_dir] * mapview_canvas.width / 2;
+  canvas_y += DIR_DY[gui_dir] * mapview_canvas.height / 2;
+  get_map_xy(canvas_x, canvas_y, &map_x, &map_y);
+  center_tile_mapcanvas(map_x, map_y);
+}
+
+/**************************************************************************
  Update the turn done button state.
 **************************************************************************/
 void update_turn_done_button_state()

@@ -17,6 +17,7 @@
 #include "shared.h"		/* bool type */
 
 bool get_turn_done_button_state(void);
+void scroll_mapview(enum direction8 gui_dir);
 void update_turn_done_button_state(void);
 void update_line(int canvas_x, int canvas_y);
 
