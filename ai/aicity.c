@@ -834,11 +834,11 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 **************************************************************************/
 static void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
-  city_check_workers(pcity, 0); /* no reason not to, many reasons to do so! */
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);
   ai_sell_obsolete_buildings(pcity);
+  sync_cities();
 /* ai_city_choose_build(pplayer, pcity); -- moved by Syela */
 }
 
@@ -909,17 +909,18 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 /**************************************************************************
 ...
 **************************************************************************/
-
 int ai_make_elvis(struct city *pcity)
 {
   int xp, yp, val;
   if ((val = ai_find_elvis_pos(pcity, &xp, &yp))) {
-    set_worker_city(pcity, xp, yp, C_TILE_EMPTY);
+    server_remove_worker_city(pcity, xp, yp);
     pcity->ppl_elvis++;
     city_refresh(pcity); /* this lets us call ai_make_elvis in luxury routine */
     return val; /* much more useful! */
   } else
     return 0;
+
+  sync_cities();
 }
 
 /**************************************************************************
@@ -941,7 +942,7 @@ static void make_elvises(struct city *pcity)
 	break; /* scientists don't party */
       if (elviscost >= 24) /* doesn't matter if we wtbb or not! */
         break; /* no benefit here! */
-      set_worker_city(pcity, xp, yp, C_TILE_EMPTY);
+      server_remove_worker_city(pcity, xp, yp);
       pcity->ppl_elvis++;
       city_refresh(pcity);
     } else
@@ -995,6 +996,8 @@ void ai_scientists_taxmen(struct city *pcity)
     make_taxmen(pcity);
   else
     make_scientists(pcity);
+
+  sync_cities();
 }
 
 /**************************************************************************
@@ -1011,6 +1014,9 @@ int ai_fix_unhappy(struct city *pcity)
   return (!city_unhappy(pcity));
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
 { /* I don't care how slow this is; it will very rarely be used. -- Syela */
 /* this would be a lot easier if I made ->worked a city id. */
@@ -1029,13 +1035,13 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
       if(acity->x==x && acity->y==y) /* can't stop working city center */
 	continue;  
       freelog(LOG_DEBUG, "Availing square in %s", acity->name);
-      set_worker_city(acity, map_to_city_x(acity, x), 
-                      map_to_city_y(acity, y), C_TILE_EMPTY);
+      server_remove_worker_city(acity, map_to_city_x(acity, x),
+				map_to_city_y(acity, y));
+      acity->ppl_elvis++;
       if (!city_list_find_id(&minilist, acity->id))
 	city_list_insert(&minilist, acity);
     }
   }
-  city_check_workers(pcity, 0);
   auto_arrange_workers(pcity);
   if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);
@@ -1060,15 +1066,13 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
      }
   unit_list_iterate_end;       
 
-  city_list_iterate(minilist, acity)
+  city_list_iterate(minilist, acity) {
     city_refresh(acity); /* otherwise food total and stuff was wrong. -- Syela */
-    city_check_workers(acity, 0);
-    add_adjust_workers(acity);
-    city_refresh(acity);
+    auto_arrange_workers(pcity);
     if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer,1))
       ai_scientists_taxmen(acity);
     freelog(LOG_DEBUG, "Readjusting workers in %s", acity->name);
-    /* FIXME: should be handled seperately, and in server... */
-    send_city_info(city_owner(acity), acity);
-  city_list_iterate_end;
+  } city_list_iterate_end;
+
+  sync_cities();
 }

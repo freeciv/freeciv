@@ -39,7 +39,6 @@ int get_colosseum_power(struct city *pcity);
 int build_points_left(struct city *pcity);
 int in_city_radius(int x, int y);
 int is_worked_here(int x, int y);
-int can_place_worker_here(struct city *pcity, int x, int y);
 int food_weighting(int city_size);
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
 int settler_eats(struct city *pcity);
@@ -53,6 +52,7 @@ int set_city_science_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
 int set_city_tax_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
+
 int wants_to_be_bigger(struct city *pcity);
 int worst_worker_tile_value(struct city *pcity);
 int best_worker_tile_value(struct city *pcity);
@@ -75,7 +75,6 @@ void send_all_known_cities(struct conn_list *dest);
 void send_player_cities(struct player *pplayer);
 void package_city(struct city *pcity, struct packet_city_info *packet,
 		  int dipl_invest);
-void send_adjacent_cities(struct city *pcity);
 
 void reality_check_city(struct player *pplayer,int x, int y);
 void update_dumb_city(struct player *pplayer, struct city *pcity);
@@ -95,5 +94,14 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 char *city_name_suggestion(struct player *pplayer);
 extern char **misc_city_names; 
 extern int num_misc_city_names;
+
+
+int city_can_work_tile(struct city *pcity, int city_x, int city_y);
+void server_remove_worker_city(struct city *pcity, int city_x, int city_y);
+void server_set_worker_city(struct city *pcity, int city_x, int city_y);
+void update_city_tile_status_map(struct city *pcity, int map_x, int map_y);
+void update_city_tile_status(struct city *pcity, int city_x, int city_y);
+void sync_cities(void);
+int can_place_worker_here(struct city *pcity, int city_x, int city_y);
 
 #endif  /* FC__CITYTOOLS_H */

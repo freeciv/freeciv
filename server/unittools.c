@@ -2171,12 +2171,11 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   /* The unit may have changed the available tiles in nearby cities. */
   map_city_radius_iterate(x, y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-    if (pcity && pcity->owner != punit->owner) {
-      if (city_check_workers(pcity, 1)) {
-	send_city_info(city_owner(pcity), pcity);
-      }
+    if (pcity) {
+      update_city_tile_status_map(pcity, x, y);
     }
   } map_city_radius_iterate_end;
+  sync_cities();
 
   return punit;
 }
@@ -2190,7 +2189,7 @@ static void server_remove_unit(struct unit *punit)
   struct packet_generic_integer packet;
   struct city *pcity = map_get_city(punit->x, punit->y);
   struct city *phomecity = find_city_by_id(punit->homecity);
-  int punit_x = punit->x, punit_y = punit->y, punit_owner = punit->owner;
+  int punit_x = punit->x, punit_y = punit->y;
 
   remove_unit_sight_points(punit);
 
@@ -2210,14 +2209,13 @@ static void server_remove_unit(struct unit *punit)
   game_remove_unit(punit->id);  
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
-  map_city_radius_iterate(punit_x, punit_y, x, y) {
-    struct city *pcity2 = map_get_city(x, y);
-    if (pcity2 && pcity2->owner != punit_owner) {
-      if (city_check_workers(pcity2, 1)) {
-	send_city_info(city_owner(pcity2), pcity2);
-      }
+  map_city_radius_iterate(punit_x, punit_y, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+    if (pcity) {
+      update_city_tile_status_map(pcity, punit_x, punit_y);
     }
   } map_city_radius_iterate_end;
+  sync_cities();
 
   if (phomecity) {
     city_refresh(phomecity);
@@ -3023,38 +3021,23 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
 
 
   /* The unit block different tiles of adjacent enemy cities before and
-     after. Update the relevant cities, without sending their info twice
-     if possible... If the city is in the range of both the source and
-     the destination we only update it when checking at the destination. */
+     after. Update the relevant cities. */
 
   /* First check cities near the source. */
   map_city_radius_iterate(src_x, src_y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-
-    int is_near_destination = 0;
-    map_city_radius_iterate(dest_x, dest_y, x2, y2) {
-      struct city *pcity2 = map_get_city(x2, y2);
-      if (pcity == pcity2)
-	is_near_destination = 1;
-    } map_city_radius_iterate_end;
-
-    if (pcity && pcity->owner != punit->owner
-	&& !is_near_destination) {
-      if (city_check_workers(pcity, 1)) {
-	send_city_info(city_owner(pcity), pcity);
-      }
+    if (pcity) {
+      update_city_tile_status_map(pcity, src_x, src_y);
     }
   } map_city_radius_iterate_end;
-
   /* Then check cities near the destination. */
   map_city_radius_iterate(dest_x, dest_y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-    if (pcity && pcity->owner != punit->owner) {
-      if (city_check_workers(pcity, 1)) {
-	send_city_info(city_owner(pcity), pcity);
-      }
+    if (pcity) {
+      update_city_tile_status_map(pcity, dest_x, dest_y);
     }
   } map_city_radius_iterate_end;
+  sync_cities();
 }
 
 /**************************************************************************

@@ -118,15 +118,14 @@ void handle_city_make_specialist(struct player *pplayer,
   if (!player_owns_city(pplayer, pcity))  return;
   if (preq->worker_x==2 && preq->worker_y==2) {
     auto_arrange_workers(pcity);
-    send_adjacent_cities(pcity);
+    sync_cities();
     return;
   }
   if (is_worker_here(pcity, preq->worker_x, preq->worker_y) == C_TILE_WORKER) {
-    set_worker_city(pcity, preq->worker_x, preq->worker_y, C_TILE_EMPTY);
+    server_remove_worker_city(pcity, preq->worker_x, preq->worker_y);
     pcity->ppl_elvis++;
     city_refresh(pcity);
-    send_adjacent_cities(pcity);
-    send_city_info(pplayer, pcity);
+    sync_cities();
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     _("Game: you don't have a worker here.")); 
@@ -140,41 +139,38 @@ void handle_city_make_worker(struct player *pplayer,
 			     struct packet_city_request *preq)
 {
   struct city *pcity;
-  pcity=find_city_by_id(preq->city_id);
 
-  if (preq->worker_x < 0 || preq->worker_x > 4)
+  if (!is_valid_city_coords(preq->worker_x, preq->worker_y)) {
+    freelog(LOG_ERROR, "invalid city coords %d,%d in package",
+	    preq->worker_x, preq->worker_y);
     return;
-  if (preq->worker_y < 0 || preq->worker_y > 4)
-    return;
+  }
   
-  if(!pcity) 
-    return;
-  
-  if(!player_owns_city(pplayer, pcity))
+  pcity = player_find_city_by_id(pplayer, preq->city_id);
+  if (!pcity)
     return;
 
-  if(preq->worker_x==2 && preq->worker_y==2) {
-      auto_arrange_workers(pcity);
-      send_adjacent_cities(pcity);
-      return;
+  if (preq->worker_x==CITY_MAP_SIZE/2 && preq->worker_y==CITY_MAP_SIZE/2) {
+    auto_arrange_workers(pcity);
+    sync_cities();
+    return;
   }
 
-  if (!city_specialists(pcity) || 
-      !can_place_worker_here(pcity, preq->worker_x, preq->worker_y))
+  if (!city_specialists(pcity)
+      || get_worker_city(pcity, preq->worker_x, preq->worker_y) != C_TILE_EMPTY)
     return;
 
-  set_worker_city(pcity, preq->worker_x, preq->worker_y, C_TILE_WORKER);
+  server_set_worker_city(pcity, preq->worker_x, preq->worker_y);
 
-  if(pcity->ppl_elvis) 
+  if (pcity->ppl_elvis) 
     pcity->ppl_elvis--;
-  else if(pcity->ppl_scientist) 
+  else if (pcity->ppl_scientist) 
     pcity->ppl_scientist--;
   else 
     pcity->ppl_taxman--;
-  
+
   city_refresh(pcity);
-  send_adjacent_cities(pcity);
-  send_city_info(pplayer, pcity);
+  sync_cities();
 }
 
 /**************************************************************************

@@ -228,6 +228,9 @@ struct city {
   int original;			/* original owner */
   int city_options;		/* bitfield; positions as enum city_options */
 
+  /* server variable. indicates if the city map is synced with the client. */
+  int synced;
+
   /* info for dipl/spy investigation -- used only in client */
   struct unit_list info_units_supported;
   struct unit_list info_units_present;
@@ -303,6 +306,9 @@ int get_food_tile(int x, int y);    /* food   on spot */
 
 /* city map functions */
 
+int is_valid_city_coords(const int city_x, const int city_y);
+int get_citymap_xy(const struct city *pcity, const int x, const int y,
+		   int *city_x, int *city_y);
 int city_get_shields_tile(int x, int y, struct city *pcity); /* shield on spot */
 int city_get_trade_tile(int x, int y, struct city *pcity);   /* trade  on spot */
 int city_get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */

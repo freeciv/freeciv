@@ -417,8 +417,10 @@ void handle_unit_build_city(struct player *pplayer,
   if (pcity) {
     if (can_unit_add_to_city(punit)) {
       pcity->size++;
-      if (!add_adjust_workers(pcity))
+      if (!add_adjust_workers(pcity)) {
 	auto_arrange_workers(pcity);
+	sync_cities();
+      }
       wipe_unit(punit);
       send_city_info(0, pcity);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 

@@ -266,45 +266,45 @@ int ai_evaluate_government (struct player *pplayer, struct government *g)
   pplayer->government = g->index;
 
   city_list_iterate(pplayer->cities, pcity) {
-    struct city tmp_city = *pcity; 
-    int x, y;
+    city_refresh(pcity);
 
-    city_refresh (&tmp_city);
-     
-    /* the 4 lines that follow are copied from ai_manage_city -
+    /* the lines that follow are copied from ai_manage_city -
        we don't need the sell_obsolete_buildings */
-    city_check_workers(&tmp_city, 0);
-    auto_arrange_workers(&tmp_city);
-    if (ai_fix_unhappy (&tmp_city))
-       ai_scientists_taxmen (&tmp_city);
+    auto_arrange_workers(pcity);
+    if (ai_fix_unhappy (pcity))
+      ai_scientists_taxmen(pcity);
 
-    trade_prod     += tmp_city.trade_prod;
-    if (tmp_city.shield_prod > 0)
-      shield_surplus += tmp_city.shield_surplus;
+    trade_prod     += pcity->trade_prod;
+    if (pcity->shield_prod > 0)
+      shield_surplus += pcity->shield_surplus;
     else
-      shield_need    += tmp_city.shield_surplus;
-    if (tmp_city.food_surplus > 0)
-      food_surplus   += tmp_city.food_surplus;
+      shield_need    += pcity->shield_surplus;
+    if (pcity->food_surplus > 0)
+      food_surplus   += pcity->food_surplus;
     else
-      food_need      += tmp_city.food_surplus;
+      food_need      += pcity->food_surplus;
 
-    if (city_unhappy (&tmp_city)) {
+    if (city_unhappy(pcity)) {
       /* the following is essential to prevent falling into anarchy */
-      if (tmp_city.anarchy > 0
+      if (pcity->anarchy > 0
 	  && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) 
         gov_overthrown = 1;
-    }
-
-    /* the following is essential because the above may change the ptile->worked */
-    city_map_iterate(x, y) {
-       struct tile *ptile = map_get_tile(pcity->x+x-2, pcity->y+y-2);
-       if (ptile->worked == &tmp_city)
-           ptile->worked = NULL;
-       set_worker_city(pcity, x, y, get_worker_city(pcity, x, y));
     }
   } city_list_iterate_end;
 
   pplayer->government = current_gov;
+
+  /* Restore all cities. */
+  city_list_iterate(pplayer->cities, pcity) {
+    city_refresh(pcity);
+
+    /* the lines that follow are copied from ai_manage_city -
+       we don't need the sell_obsolete_buildings */
+    auto_arrange_workers(pcity);
+    if (ai_fix_unhappy (pcity))
+      ai_scientists_taxmen(pcity);
+  } city_list_iterate_end;
+  sync_cities();
 
   score =
     3 * trade_prod

@@ -477,20 +477,15 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
   send_tile_info_always(pplayer, &pplayer->connections, x, y);
 
   /* If the tile was not known before we need to refresh the cities that
-     can use the tile.
-     It is slightly suboptimal to do this here as a city may be sent to
-     the client once for each tile that is revieled, but it shouldn't make
-     too big a difference. It would require a largish recoding to make sure
-     only to send a city once when multiple squares were unveiled at once.
-  */
+     can use the tile. */
   if (!old_known) {
     map_city_radius_iterate(x, y, x1, y1) {
       pcity = map_get_city(x1, y1);
       if (pcity && city_owner(pcity) == pplayer) {
-	city_check_workers(pcity, 1);
-	send_city_info(pplayer, pcity);
+	update_city_tile_status_map(pcity, x, y);
       }
     } map_city_radius_iterate_end;
+    sync_cities();
   }
 }
 
@@ -704,6 +699,7 @@ static void really_show_area(struct player *pplayer, int x, int y)
 {
   int playerid = pplayer->player_no;
   struct city *pcity;
+  int old_known = map_get_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "Showing %i,%i", x, y);
 
@@ -729,6 +725,18 @@ static void really_show_area(struct player *pplayer, int x, int y)
       unit_list_iterate(map_get_tile(x, y)->units, punit)
 	send_unit_info(pplayer, punit);
       unit_list_iterate_end;
+    }
+
+    /* If the tile was not known before we need to refresh the cities that
+       can use the tile. */
+    if (!old_known) {
+      map_city_radius_iterate(x, y, x1, y1) {
+	pcity = map_get_city(x1, y1);
+	if (pcity && city_owner(pcity) == pplayer) {
+	  update_city_tile_status_map(pcity, x, y);
+	}
+      } map_city_radius_iterate_end;
+      sync_cities();
     }
   }
 }
@@ -1012,6 +1020,14 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       }
 
       reveal_pending_seen(pdest, x, y, 0);
+
+      map_city_radius_iterate(x, y, x1, y1) {
+	struct city *pcity = map_get_city(x1, y1);
+	if (pcity && city_owner(pcity) == pdest) {
+	  update_city_tile_status_map(pcity, x, y);
+	}
+      } map_city_radius_iterate_end;
+      sync_cities();
     }
   }
 }

@@ -359,6 +359,8 @@ static void ai_manage_taxes(struct player *pplayer)
     /* FIXME: this shouldn't be here, but in the server... */
     send_city_info(city_owner(pcity), pcity);
   city_list_iterate_end;
+
+  sync_cities();
 }
 
 /**************************************************************************

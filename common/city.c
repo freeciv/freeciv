@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <string.h>
 
 #include "fcintl.h"
@@ -49,6 +50,43 @@ int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2] =
 };
 
 struct citystyle *city_styles = NULL;
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_valid_city_coords(const int city_x, const int city_y)
+{
+  if ((city_x == 0 || city_x == 4) && (city_y == 0 || city_y == 4))
+    return 0;
+  if (city_x < 0  || city_x > 4 || city_y < 0 || city_y > 4)
+    return 0;
+
+  return 1;
+}
+
+/**************************************************************************
+Given a real map position and a city finds the city map coordinates of the
+tiles.
+Returns whether the real map position was inside the city map.
+**************************************************************************/
+int get_citymap_xy(const struct city *pcity, const int x, const int y,
+		   int *city_x, int *city_y)
+{
+  int x1, y1;
+  assert(is_real_tile(x, y));
+  city_map_iterate(x1, y1) {
+    int map_x = pcity->x + x1 - CITY_MAP_SIZE/2;
+    int map_y = pcity->y + y1 - CITY_MAP_SIZE/2;
+    if (normalize_map_pos(&map_x, &map_y)
+	&& map_x == x && map_y == y) {
+      *city_x = x1;
+      *city_y = y1;
+      return 1;
+    }
+  }
+
+  return 0;
+}
 
 /**************************************************************************
   Set the worker on the citymap.  Also sets the worked field in the map.

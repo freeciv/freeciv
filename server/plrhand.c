@@ -704,23 +704,15 @@ void check_player_government_rates(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-static void refresh_players_cities_if_player2_near(struct player *pplayer,
-						   struct player *pplayer2)
+static void check_city_workers(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
-    struct unit *refresh_because_of = NULL;
-    map_city_radius_iterate(pcity->x, pcity->y, x, y) {
-      unit_list_iterate(map_get_tile(x, y)->units, penemy) {
-	if (unit_owner(penemy) == pplayer2)
-	  refresh_because_of = penemy;
-      } unit_list_iterate_end;
-    } map_city_radius_iterate_end;
-
-    if (refresh_because_of) {
-      city_check_workers(pcity, 1);
-      send_city_info(city_owner(pcity), pcity);
+    int x, y;
+    city_map_iterate(x, y) {
+      update_city_tile_status(pcity, x, y);
     }
   } city_list_iterate_end;
+  sync_cities();
 }
 
 /**************************************************************************
@@ -834,8 +826,8 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   }
 
   /* Refresh all cities which have a unit of the other side within city range. */
-  refresh_players_cities_if_player2_near(pplayer, pplayer2);
-  refresh_players_cities_if_player2_near(pplayer2, pplayer);
+  check_city_workers(pplayer);
+  check_city_workers(pplayer2);
 
   notify_player(pplayer,
 		_("Game: The diplomatic state between the %s and the %s is now %s."),

@@ -119,9 +119,7 @@ static void check_cities(void)
 {
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-#ifdef FIX_THIS_BUG
       int x, y;
-#endif
       assert(city_owner(pcity) == pplayer);
       assert(pcity->size >= 1);
 
@@ -135,31 +133,31 @@ static void check_cities(void)
 
       assert(map_get_terrain(pcity->x, pcity->y) != T_OCEAN);
 
-#ifdef FIX_THIS_BUG
-      city_radius_iterate(x, y) {
-	int map_x = pcity->x + x;
-	int map_y = pcity->y + y;
+      city_map_iterate(x, y) {
+	int map_x = pcity->x + x - CITY_MAP_SIZE/2;
+	int map_y = pcity->y + y - CITY_MAP_SIZE/2;
 
 	if (normalize_map_pos(&map_x, &map_y)) {
+	  struct tile *ptile = map_get_tile(map_x, map_y);
 	  switch (get_worker_city(pcity, x, y)) {
 	  case C_TILE_EMPTY:
 	    assert(map_get_tile(map_x, map_y)->worked == NULL);
-	    assert(!is_enemy_unit_tile(map_get_tile(x, y), pplayer->player_no));
+	    assert(!is_enemy_unit_tile(ptile, pplayer->player_no));
 	    break;
 	  case C_TILE_WORKER:
 	    assert(map_get_tile(map_x, map_y)->worked == pcity);
-	    assert(!is_enemy_unit_tile(map_get_tile(x, y), pplayer->player_no));
+	    assert(!is_enemy_unit_tile(ptile, pplayer->player_no));
 	    break;
 	  case C_TILE_UNAVAILABLE:
 	    assert(map_get_tile(map_x, map_y)->worked != NULL
-		   || is_enemy_unit_tile(map_get_tile(x, y), pplayer->player_no));
+		   || is_enemy_unit_tile(ptile, pplayer->player_no)
+		   || !map_get_known(map_x, map_y, pplayer));
 	    break;
 	  }
 	} else {
 	  assert(get_worker_city(pcity, x, y) == C_TILE_UNAVAILABLE);
 	}
       }
-#endif
     } city_list_iterate_end;
   } players_iterate_end;
 }
