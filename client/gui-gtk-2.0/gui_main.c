@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "dataio.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -189,8 +190,8 @@ static unsigned char *put_conv(unsigned char *dst, const char *src)
  Returns FALSE if the destination isn't large enough or the source was
  bad.
 **************************************************************************/
-static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
-		      size_t nsrc)
+static bool get_conv(char *dst, size_t ndst, const unsigned char *src,
+		     size_t nsrc)
 {
   gsize len;			/* length to copy, not including null */
   gchar *out = g_convert(src, nsrc, "UTF-8", network_charset, NULL, &len, NULL);
@@ -860,8 +861,8 @@ void ui_init(void)
     network_charset = mystrdup(charset);
   }
 
-  set_put_conv_callback(put_conv);
-  set_iget_conv_callback(iget_conv);
+  dio_set_put_conv_callback(put_conv);
+  dio_set_get_conv_callback(get_conv);
 
   /* convert inputs */
   s = g_locale_to_utf8(player_name, -1, NULL, NULL, NULL);
