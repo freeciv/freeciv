@@ -1234,6 +1234,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     else
       pcity->airlift=0;
 
+    pcity->city_options =
+      secfile_lookup_int_default(file, 0,
+				 "player%d.c%d.options", plrno, i);
+    
     unit_list_init(&pcity->units_supported);
 
     p=secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
@@ -1446,6 +1450,11 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, pcity->was_happy, "player%d.c%d.was_happy", plrno,i);
     secfile_insert_int(file, pcity->did_buy, "player%d.c%d.did_buy", plrno,i);
     secfile_insert_int(file, pcity->airlift, "player%d.c%d.airlift", plrno,i);
+
+    /* for auto_attack */
+    secfile_insert_int(file, pcity->city_options,
+		       "player%d.c%d.options", plrno, i);
+    
     j=0;
     for(y=0; y<CITY_MAP_SIZE; y++)
       for(x=0; x<CITY_MAP_SIZE; x++)

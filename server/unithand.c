@@ -735,7 +735,7 @@ void wakeup_neighbor_sentries(struct player *pplayer,int cent_x,int cent_y)
 int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			      int dest_x, int dest_y)
 {
-  int unit_id;
+  int unit_id, transport_units = 1;
   struct unit *pdefender, *ferryboat, *bodyguard, *passenger;
   struct unit_list cargolist;
 
@@ -828,21 +828,29 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       }
     } /* just clearing that up */
 
+    if((punit->activity == ACTIVITY_GOTO) &&
+       get_defender(pplayer,punit,punit->goto_dest_x,punit->goto_dest_y) &&
+       (map_get_tile(punit->x,punit->y)->terrain != T_OCEAN)) {
+        /* we should not take units with us -- fisch */
+        transport_units = 0;
+    }
+    
     src_x=punit->x;
     src_y=punit->y;
 
     unit_list_unlink(&map_get_tile(src_x, src_y)->units, punit);
-
-    if(get_transporter_capacity(punit)) {
-      transporter_cargo_to_unitlist(punit, &cargolist);
-      unit_list_iterate(cargolist, pcarried) { 
-	pcarried->x=dest_x;
-	pcarried->y=dest_y;
-	send_unit_info(0, pcarried, 1);
-      }
-      unit_list_iterate_end;
+    
+    if(get_transporter_capacity(punit) && transport_units) {
+        transporter_cargo_to_unitlist(punit, &cargolist);
+        
+        unit_list_iterate(cargolist, pcarried) { 
+            pcarried->x=dest_x;
+            pcarried->y=dest_y;
+            send_unit_info(0, pcarried, 1);
+        }
+        unit_list_iterate_end;
     }
-      
+    
     if((punit->moves_left-=map_move_cost(punit, dest_x, dest_y))<0)
       punit->moves_left=0;
 
@@ -852,12 +860,12 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     send_unit_info(0, punit, 1);
     
     unit_list_insert(&map_get_tile(dest_x, dest_y)->units, punit);
-
-    if(get_transporter_capacity(punit)) {
+    
+    if(get_transporter_capacity(punit) && transport_units) {
       move_unit_list_to_tile(&cargolist, punit->x, punit->y);
       genlist_unlink_all(&cargolist.list); 
     }
-      
+    
     /* ok entered new tile */
     
     if(pcity)
@@ -1097,11 +1105,13 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 void handle_unit_auto_request(struct player *pplayer, 
 			      struct packet_unit_request *req)
 {
-  struct unit *punit;
-  if((punit=unit_list_find(&pplayer->units, req->unit_id))) {
-    punit->ai.control=1;
-    send_unit_info(pplayer, punit, 0);
-  }
+  struct unit *punit = unit_list_find(&pplayer->units, req->unit_id);
+
+  if (punit==NULL || !can_unit_do_auto(punit))
+    return;
+
+  punit->ai.control=1;
+  send_unit_info(pplayer, punit, 0);
 }
  
 /**************************************************************************

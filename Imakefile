@@ -34,7 +34,7 @@ PROGRAMS = civclient civserver
 INCLUDES = -Iserver -Iclient -Icommon -Iai -I$(XPM_INCLUDE_DIR) 
 
 SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \
-	     server/unitfunc.o server/unittools.o \
+	     server/unitfunc.o server/unittools.o server/autoattack.o \
              server/maphand.o server/stdinhand.o server/cityhand.o \
 	     server/plrhand.o server/handchat.o server/gamehand.o \
 	     server/gotohand.o server/diplhand.o server/meta.o \

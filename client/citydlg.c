@@ -24,6 +24,7 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/Viewport.h>
 #include <X11/Xaw/AsciiText.h>  
+#include <X11/Xaw/Toggle.h>     
 #include <X11/IntrinsicP.h>
 
 #include <pixcomm.h>
@@ -46,6 +47,8 @@
 #include <repodlgs.h>
 #include <helpdlg.h>
 #include <graphics.h>
+#include <optiondlg.h>		/* for toggle_callback */
+#include <clinet.h>		/* server_has_autoattack */
 
 extern Display	*display;
 extern Widget toplevel, main_form, map_canvas;
@@ -72,7 +75,7 @@ struct city_dialog {
   Widget map_canvas;
   Widget sell_command;
   Widget close_command, rename_command, trade_command, activate_command;
-  Widget show_units_command;
+  Widget show_units_command, cityopt_command;
   Widget building_label, progress_label, buy_command, change_command;
   Widget improvement_viewport, improvement_list;
   Widget support_unit_label;
@@ -138,6 +141,8 @@ void rename_ok_return_action(Widget w, XEvent *event, String *params,
 			     Cardinal *nparams);
 
 void present_units_callback(Widget w, XtPointer client_data, 
+			    XtPointer call_data);
+void cityopt_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data);
 
 char *dummy_improvement_list[]={ 
@@ -216,6 +221,8 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->show_units_command,
                    unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)
 		   ?True:False);
+    XtSetSensitive(pdialog->cityopt_command,
+		   server_has_autoattack?True:False);
   }
   if(pcity->owner == game.player_idx)  {
     city_report_dialog_update_city(pcity);
@@ -229,6 +236,7 @@ void refresh_city_dialog(struct city *pcity)
       XtSetSensitive(pdialog->rename_command, FALSE);
       XtSetSensitive(pdialog->activate_command, FALSE);
       XtSetSensitive(pdialog->show_units_command, FALSE);
+      XtSetSensitive(pdialog->cityopt_command, FALSE);
     }
   }
 }
@@ -588,6 +596,14 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromHoriz, pdialog->activate_command,
 			    NULL);
 
+  pdialog->cityopt_command=
+    XtVaCreateManagedWidget("cityoptionscommand",
+			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, pdialog->present_unit_pixcomms[0],
+			    XtNfromHoriz, pdialog->show_units_command,
+			    NULL);
+
   XtAddCallback(pdialog->sell_command, XtNcallback, sell_callback,
 		(XtPointer)pdialog);
 
@@ -610,6 +626,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 		(XtPointer)pdialog);
 
   XtAddCallback(pdialog->show_units_command, XtNcallback, show_units_callback,
+		(XtPointer)pdialog);
+
+  XtAddCallback(pdialog->cityopt_command, XtNcallback, cityopt_callback,
 		(XtPointer)pdialog);
 
   genlist_insert(&dialog_list, pdialog, 0);
@@ -1821,4 +1840,155 @@ void close_city_dialog_action(Widget w, XEvent *event, String *argv, Cardinal *a
 void close_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   close_city_dialog((struct city_dialog *)client_data);
+}
+
+
+/****************************************************************
+								 
+ City Options dialog:  (current only auto-attack options)
+ 
+Note, there can only be one such dialog at a time, because
+I'm lazy.  That could be fixed, similar to way you can have
+multiple city dialogs.
+
+*****************************************************************/
+								  
+Widget create_cityopt_dialog(char *city_name);
+void cityopt_ok_command_callback(Widget w, XtPointer client_data, 
+				XtPointer call_data);
+void cityopt_cancel_command_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data);
+static Widget cityopt_shell = 0;
+static Widget cityopt_toggles[4];
+static int cityopt_city_id = 0;
+
+/****************************************************************
+...
+*****************************************************************/
+void cityopt_callback(Widget w, XtPointer client_data,
+                        XtPointer call_data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)client_data;
+  struct city *pcity = pdialog->pcity;
+  int i, state;
+
+  if(cityopt_shell) {
+    XtDestroyWidget(cityopt_shell);
+  }
+  cityopt_shell=create_cityopt_dialog(pcity->name);
+  /* Doing this here makes the "No"'s centered consistently */
+  for(i=0; i<4; i++) {
+    state = (pcity->city_options & (1<<i));
+    XtVaSetValues(cityopt_toggles[i], XtNstate, state,
+		  XtNlabel, state?"Yes":"No", NULL);
+  }
+  cityopt_city_id = pcity->id;
+  
+  xaw_set_relative_position(toplevel, cityopt_shell, 15, 15);
+  XtPopup(cityopt_shell, XtGrabNone);
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+Widget create_cityopt_dialog(char *city_name)
+{
+  Widget shell, form, label, ok, cancel;
+  int i;
+
+  shell = XtCreatePopupShell("cityoptpopup",
+			     transientShellWidgetClass,
+			     toplevel, NULL, 0);
+  form = XtVaCreateManagedWidget("cityoptform", 
+				 formWidgetClass, 
+				 shell, NULL);
+  label = XtVaCreateManagedWidget("cityoptlabel", labelWidgetClass,
+				  form, XtNlabel, city_name, NULL);
+  XtVaCreateManagedWidget("cityoptvlandlabel", 
+			  labelWidgetClass, 
+			  form, NULL);
+  cityopt_toggles[0] = XtVaCreateManagedWidget("cityoptvlandtoggle", 
+					      toggleWidgetClass, 
+					      form, NULL);
+  XtVaCreateManagedWidget("cityoptvsealabel", 
+			  labelWidgetClass, 
+			  form, NULL);
+  cityopt_toggles[1] = XtVaCreateManagedWidget("cityoptvseatoggle", 
+					      toggleWidgetClass, 
+					      form, NULL);
+  XtVaCreateManagedWidget("cityoptvairlabel", 
+			  labelWidgetClass, 
+			  form, NULL);
+  cityopt_toggles[3] = XtVaCreateManagedWidget("cityoptvairtoggle", 
+					      toggleWidgetClass, 
+					      form, NULL);
+
+  /* NOTE: deliberately out of order here; want toggles[] to be
+     in move_type/city_options order, but want display to
+     have helicopters (special case air) at bottom --dwp
+  */
+
+  XtVaCreateManagedWidget("cityoptvhelilabel", 
+			  labelWidgetClass, 
+			  form, NULL);
+  cityopt_toggles[2] = XtVaCreateManagedWidget("cityoptvhelitoggle", 
+					      toggleWidgetClass, 
+					      form, NULL);
+  ok = XtVaCreateManagedWidget("cityoptokcommand", 
+			       commandWidgetClass,
+			       form, NULL);
+  cancel = XtVaCreateManagedWidget("cityoptcancelcommand", 
+				   commandWidgetClass,
+				   form, NULL);
+
+  XtAddCallback(ok, XtNcallback, cityopt_ok_command_callback, 
+                (XtPointer)shell);
+  XtAddCallback(cancel, XtNcallback, cityopt_cancel_command_callback, 
+                (XtPointer)shell);
+  for(i=0; i<4; i++) {
+    XtAddCallback(cityopt_toggles[i], XtNcallback, toggle_callback, NULL);
+  }
+
+  XtRealizeWidget(shell);
+
+  xaw_horiz_center(label);
+  return shell;
+}
+  
+/**************************************************************************
+...
+**************************************************************************/
+void cityopt_cancel_command_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
+{
+  XtDestroyWidget(cityopt_shell);
+  cityopt_shell = 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void cityopt_ok_command_callback(Widget w, XtPointer client_data, 
+				XtPointer call_data)
+{
+  struct city *pcity = find_city_by_id(cityopt_city_id);
+
+  if (pcity) {
+    struct packet_generic_values packet;
+    int i, new;
+    Boolean b;
+    
+    new = 0;
+    for(i=0; i<4; i++)  {
+      XtVaGetValues(cityopt_toggles[i], XtNstate, &b, NULL);
+      if (b) new |= (1<<i);
+    }
+    packet.value1 = cityopt_city_id;
+    packet.value2 = new;
+    send_packet_generic_values(&aconnection, PACKET_CITY_OPTIONS,
+			       &packet);
+  }
+  XtDestroyWidget(cityopt_shell);
+  cityopt_shell = 0;
 }

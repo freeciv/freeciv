@@ -120,6 +120,9 @@ void create_city(struct player *pplayer, int x, int y, char *name)
     pcity->improvements[B_PALACE]=1;
   }
   pcity->anarchy=0;
+
+  pcity->city_options = 0;
+  
   pcity->ai.ai_role = AICITY_NONE;
   pcity->ai.trade_want = 8; /* default value */
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
@@ -499,6 +502,23 @@ void handle_city_rename(struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
+void handle_city_options(struct player *pplayer,
+				struct packet_generic_values *preq)
+{
+  struct city *pcity = find_city_by_id(preq->value1);
+  if (!pcity || pcity->owner != pplayer->player_no) return;
+  pcity->city_options = preq->value2;
+  /* We don't need to send the full city info, since no other properties
+   * depend on the attack options. --dwp
+   * Otherwise could do:
+   *   send_city_info(pplayer, pcity, 1);
+   */
+  send_packet_generic_values(pplayer->conn, PACKET_CITY_OPTIONS, preq);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void send_player_cities(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
@@ -586,6 +606,8 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   packet.food_stock=pcity->food_stock;
   packet.shield_stock=pcity->shield_stock;
   packet.pollution=pcity->pollution;
+
+  packet.city_options=pcity->city_options;
   
   packet.is_building_unit=pcity->is_building_unit;
   packet.currently_building=pcity->currently_building;

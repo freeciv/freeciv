@@ -348,9 +348,10 @@ Mouse:
 
 Keyboard:
 =========
-  a: (A)utosettler                      arrow keys: Move unit
-  c: (C)enter view on unit                   space: Unit stay put
-  b: (B)uild City                           return: Turn done
+  a: (A)uto-settler                     arrow keys: Move unit
+  A: (A)uto-attack (military units)          space: Unit stay put
+  c: (C)enter view on unit                  return: Turn done
+  b: (B)uild City                       
   D: (D)isband unit
   f: (F)ortify unit
   F: Build (F)ortress on tile

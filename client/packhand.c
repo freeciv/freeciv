@@ -22,6 +22,7 @@
 #include <events.h>
 #include <messagedlg.h>
 #include <clinet.h>		/* aconnection */
+#include <capability.h>
 #include <helpdlg.h>		/* boot_help_texts */
 
 extern int seconds_to_turndone;
@@ -48,6 +49,7 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   char *s_capability = aconnection.capability;
 
   strcpy(s_capability, packet->capability);
+  server_has_autoattack = has_capability("autoattack1", s_capability);
 
   if (packet->you_can_join) {
     freelog(LOG_DEBUG, "join game accept:%s", packet->message);
@@ -167,6 +169,9 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->ppl_elvis=packet->ppl_elvis;
   pcity->ppl_scientist=packet->ppl_scientist;
   pcity->ppl_taxman=packet->ppl_taxman;
+
+  pcity->city_options=packet->city_options;
+  
   for (i=0;i<4;i++)  {
     pcity->trade[i]=packet->trade[i];
     pcity->trade_value[i]=packet->trade_value[i];
@@ -835,4 +840,15 @@ void handle_incite_cost(struct packet_generic_values *packet)
     punit->bribe_cost = packet->value1;
     popup_bribe_dialog(punit);
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_city_options(struct packet_generic_values *preq)
+{
+  struct city *pcity = find_city_by_id(preq->value1);
+  
+  if (!pcity || pcity->owner != game.player_idx) return;
+  pcity->city_options = preq->value2;
 }

@@ -83,7 +83,8 @@ enum packet_type {
   PACKET_PLAYER_LAUNCH_SPACESHIP,
   PACKET_RULESET_TECH,
   PACKET_RULESET_UNIT,
-  PACKET_RULESET_BUILDING
+  PACKET_RULESET_BUILDING,
+  PACKET_CITY_OPTIONS
 };
 
 enum report_type {
@@ -274,6 +275,7 @@ struct packet_city_info {
   int was_happy;
   int airlift;
   int diplomat_investigate;
+  int city_options;
 };
 
 

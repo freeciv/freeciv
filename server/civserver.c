@@ -60,6 +60,7 @@
 #include <settlers.h>
 #include <events.h>
 #include <ruleset.h>
+#include <autoattack.h>
 
 void show_ending();
 void end_game();
@@ -432,6 +433,8 @@ int main(int argc, char *argv[])
 /* and now, we must manage our remaining units BEFORE the cities that are
 empty get to refresh and defend themselves.  How totally stupid. */
     ai_start_turn(); /* Misleading name for manage_units -- Syela */
+    freelog(LOG_DEBUG, "Auto-Attack phase");
+    auto_attack();
 /* printf("Endturn\n"); */
     end_turn();
 /* printf("Gamenextyear\n"); */
@@ -984,10 +987,12 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_UNIT_UPGRADE:
     handle_unit_upgrade_request(pplayer, (struct packet_unit_request *)packet);
     break;
+  case PACKET_CITY_OPTIONS:
+    handle_city_options(pplayer, (struct packet_generic_values *)packet);
+    break;
   case PACKET_PLAYER_LAUNCH_SPACESHIP:
     handle_player_launch_spaceship(pplayer);
     break;
-
   default:
     freelog(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);
   }

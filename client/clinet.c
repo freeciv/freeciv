@@ -52,6 +52,7 @@
 extern Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
 
 struct connection aconnection;
+int server_has_autoattack=0;
 extern int errno;
 extern XtInputId x_input_id;
 extern XtAppContext app_context;

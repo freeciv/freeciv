@@ -250,6 +250,7 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity);
 int can_unit_change_homecity(struct unit *punit);
 int can_unit_move_to_tile(struct unit *punit, int x, int y);
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity);
+int can_unit_do_auto(struct unit *punit); 
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int unit_value(enum unit_type_id id);
 int is_military_unit(struct unit *this_unit);           /* !set !dip !cara */

@@ -46,6 +46,10 @@ void remove_trade_route(int c1, int c2);
 void send_player_cities(struct player *pplayer);
 void update_map_with_city_workers(struct city *pcity);
 
+
+void handle_city_options(struct player *pplayer,
+ 			 struct packet_generic_values *preq);
+
 #endif
 
 

@@ -752,4 +752,34 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y);*/
 
   punit->activity=ACTIVITY_IDLE;
   send_unit_info(0, punit, 0);
+  
+
+    
 }
+
+int calculate_cost(struct player *pplayer, struct unit *punit,int dest_x, int dest_y) {
+  /* perhaps we should do some caching -- fisch */
+    
+  /*
+  static struct unit *last_punit = NULL;
+
+  if(last_punit != punit) {
+    generate_warmap(NULL,punit);
+  }
+  */
+
+  generate_warmap(NULL,punit);
+  
+  if(is_sailing_unit(punit))
+    return warmap.seacost[dest_x][dest_y];
+  else if (is_ground_unit(punit)) {
+    return warmap.cost[dest_x][dest_y];
+  } else {
+    return warmap.cost[dest_x][dest_y] < warmap.seacost[dest_x][dest_y] ?
+      warmap.cost[dest_x][dest_y]
+      : warmap.seacost[dest_x][dest_y];
+  }
+    
+}
+
+

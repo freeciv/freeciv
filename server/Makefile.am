@@ -4,6 +4,8 @@ bin_PROGRAMS = civserver
 INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../ai
 
 civserver_SOURCES = \
+		autoattack.c	\
+		autoattack.h	\
 		cityhand.c	\
 		cityhand.h	\
 		citytools.c	\

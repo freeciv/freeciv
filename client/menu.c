@@ -36,6 +36,7 @@
 #include <mapctrl.h> /* good to know I'm not the only one with .h problems -- Syela */
 #include <chatline.h>
 #include <clinet.h>
+#include <unit.h>
 #include <spaceshipdlg.h>
 
 enum MenuID {
@@ -57,7 +58,8 @@ enum MenuID {
   MENU_GAME_DISCONNECT,
   MENU_GAME_QUIT,
   
-  MENU_ORDER_AUTO,
+  MENU_ORDER_AUTO_SETTLER,
+  MENU_ORDER_AUTO_ATTACK,
   MENU_ORDER_MINE,
   MENU_ORDER_IRRIGATE,
   MENU_ORDER_FORTRESS,
@@ -135,7 +137,8 @@ struct MenuEntry game_menu_entries[]={
 };
 
 struct MenuEntry order_menu_entries[]={
-    { "Auto Settler        a", MENU_ORDER_AUTO, 0},
+    { "Auto Settler        a", MENU_ORDER_AUTO_SETTLER, 0},
+    { "Auto-attack         A", MENU_ORDER_AUTO_ATTACK, 0},
     { "Build City          b", MENU_ORDER_CITY, 0},
     { "Build Irrigation    i", MENU_ORDER_IRRIGATE, 0},
     { "Build Fortress      F", MENU_ORDER_FORTRESS, 0},
@@ -246,8 +249,14 @@ void update_menus()
     if((punit=get_unit_in_focus())) {
       char *irrtext, *mintext, *roadtext;
 
-      menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO, 
-			   unit_flag(punit->type, F_SETTLERS));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO_SETTLER,
+			   (can_unit_do_auto(punit)
+			    && unit_flag(punit->type, F_SETTLERS)));
+
+      menu_entry_sensitive(orders_menu, MENU_ORDER_AUTO_ATTACK, 
+			   (can_unit_do_auto(punit)
+			    && server_has_autoattack
+			    && !unit_flag(punit->type, F_SETTLERS)));
 
       menu_entry_sensitive(orders_menu, MENU_ORDER_CITY, 
 			   can_unit_build_city(punit));
@@ -385,7 +394,8 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
   int pane_num = (int)client_data;
 
   switch(pane_num) {
-   case MENU_ORDER_AUTO:
+   case MENU_ORDER_AUTO_SETTLER:
+   case MENU_ORDER_AUTO_ATTACK:
     if(get_unit_in_focus())
       request_unit_auto(get_unit_in_focus());
     break;

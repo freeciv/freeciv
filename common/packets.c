@@ -144,6 +144,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return recieve_packet_diplomacy_info(pc);
 
   case PACKET_INCITE_COST:
+  case PACKET_CITY_OPTIONS:
     return recieve_packet_generic_values(pc);
 
   case PACKET_RULESET_TECH:
@@ -1095,6 +1096,11 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_city_map(cptr, (char*)req->city_map);
   cptr=put_bit_string(cptr, (char*)req->improvements);
 
+  if(pc && has_capability("autoattack1", pc->capability)) {
+    /* only 8 options allowed before need to extend protocol */
+    cptr=put_int8(cptr, req->city_options);
+  }
+  
   for(data=0;data<4;data++)  {
     if(req->trade[data])  {
       cptr=put_int16(cptr, req->trade[data]);
@@ -1162,6 +1168,10 @@ recieve_packet_city_info(struct connection *pc)
   
   cptr=get_city_map(cptr, (char*)packet->city_map);
   cptr=get_bit_string(cptr, (char*)packet->improvements);
+
+  if(has_capability("autoattack1", pc->capability)) {
+    cptr=get_int8(cptr, &packet->city_options);
+  }
 
   for(data=0;data<4;data++)  {
     if(pc->buffer.data+length-cptr < 3)  break;

@@ -13,6 +13,7 @@
 #ifndef __GOTOHAND_H
 #define __GOTOHAND_H
 
+int calculate_cost(struct player *pplayer, struct unit *punit,int dest_x, int dest_y);
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_move_type which);

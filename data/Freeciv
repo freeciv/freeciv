@@ -1172,6 +1172,50 @@ Freeciv*scienceclosecommand.bottom:      chainBottom
 Freeciv*scienceclosecommand.left:        chainLeft
 Freeciv*scienceclosecommand.right:       chainLeft
 
+!
+! City Options dialog
+!
+Freeciv*cityoptpopup.title:              City Options
+Freeciv*cityoptpopup*Label.background:   lightblue
+Freeciv*cityoptpopup*Label.borderWidth:  0
+Freeciv*cityoptpopup*Toggle.label:       Yes
+Freeciv*cityoptpopup*Toggle.background:  cyan
+Freeciv*cityoptpopup*Toggle.shapeStyle:  ShapeOval
+Freeciv*cityoptpopup*Toggle.internalHeight: 0
+
+Freeciv*cityoptlabel.borderWidth:       0
+
+Freeciv*cityoptvlandlabel.label:        Auto-attack vs land units: 
+Freeciv*cityoptvlandlabel.fromVert:     cityoptlabel
+
+Freeciv*cityoptvlandtoggle.fromVert:    cityoptlabel
+Freeciv*cityoptvlandtoggle.fromHoriz:   cityoptvlandlabel
+
+Freeciv*cityoptvsealabel.label:         Auto-attack vs sea units:  
+Freeciv*cityoptvsealabel.fromVert:      cityoptvlandlabel
+
+Freeciv*cityoptvseatoggle.fromVert:     cityoptvlandlabel
+Freeciv*cityoptvseatoggle.fromHoriz:    cityoptvsealabel
+
+Freeciv*cityoptvairlabel.label:         Auto-attack vs air units:  
+Freeciv*cityoptvairlabel.fromVert:      cityoptvsealabel
+
+Freeciv*cityoptvairtoggle.fromVert:     cityoptvsealabel
+Freeciv*cityoptvairtoggle.fromHoriz:    cityoptvairlabel
+
+Freeciv*cityoptvhelilabel.label:        Auto-attack vs helicopters:
+Freeciv*cityoptvhelilabel.fromVert:     cityoptvairlabel
+
+Freeciv*cityoptvhelitoggle.fromVert:    cityoptvairlabel
+Freeciv*cityoptvhelitoggle.fromHoriz:   cityoptvhelilabel
+
+Freeciv*cityoptokcommand.label:          Ok
+Freeciv*cityoptokcommand.fromVert:       cityoptvhelilabel
+
+Freeciv*cityoptcancelcommand.label:      Cancel
+Freeciv*cityoptcancelcommand.fromVert:   cityoptvhelilabel
+Freeciv*cityoptcancelcommand.fromHoriz:  cityoptokcommand
+
 
 !
 !
@@ -2220,6 +2264,8 @@ Freeciv*citytradecommand.label: Trade
 Freeciv*cityactivatecommand.label: Activate Units
 
 Freeciv*cityshowunitscommand.label: Unit List
+
+Freeciv*cityoptionscommand.label: City Options
 
 Freeciv*cityprodlabel.label: \
 Food:    12 (-2)\n\

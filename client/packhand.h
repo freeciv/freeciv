@@ -7,4 +7,6 @@ void handle_remove_city(struct packet_generic_integer *packet);
 void handle_remove_unit(struct packet_generic_integer *packet);
 void handle_incite_cost(struct packet_generic_values *packet);
 
+void handle_city_options(struct packet_generic_values *preq);
+
 #endif

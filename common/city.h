@@ -52,6 +52,19 @@ enum city_tile_type {
   C_TILE_EMPTY, C_TILE_WORKER, C_TILE_UNAVAILABLE
 };
 
+enum city_options {
+  /* The first 4 are whether to auto-attack versus each unit move_type
+   * from with auto-attack units within this city.  Note that these
+   * must stay the first four, and must stay in the same order as
+   * enum unit_move_type.  
+   * No other options yet, but this is where "build-settler-disbands-city"
+   * option could go.
+   * Any more than 8 options requires a protocol extension, since
+   * we only send 8 bits.
+   */
+  CITYO_ATT_LAND=0, CITYO_ATT_SEA, CITYO_ATT_HELI, CITYO_ATT_AIR
+};
+
 #define min(X, Y) ((X)>(Y) ? (Y) : (X))
 #define max(X, Y) ((X)<(Y) ? (Y) : (X))
 #define get_government(X) (game.players[X].government)
@@ -149,7 +162,8 @@ struct city {
   int anarchy;                /* anarchy rounds count */ 
   int was_happy;
   int airlift;
-  int original;  /* original owner */
+  int original;			/* original owner */
+  int city_options;		/* bitfield; positions as enum city_options */
   struct ai_city ai;
 };
 

@@ -240,6 +240,10 @@ void handle_packet_input(char *packet, int type)
   case PACKET_INCITE_COST:
     handle_incite_cost((struct packet_generic_values *)packet);
     break;
+
+  case PACKET_CITY_OPTIONS:
+    handle_city_options((struct packet_generic_values *)packet);
+    break;
     
   default:
     freelog(LOG_FATAL, "Received unknown packet from server!");

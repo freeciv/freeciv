@@ -97,7 +97,8 @@ SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \
 	     server/gotohand.o server/diplhand.o server/meta.o \
 	     server/registry.o server/mapgen.o server/citytools.o \
 	     server/cityturn.o server/unittools.o server/unitfunc.o \
-	     server/settlers.o server/gamelog.o server/ruleset.o
+	     server/settlers.o server/gamelog.o server/ruleset.o \
+	     server/autoattack.o
 
 AI_OBJS=     ai/aihand.o ai/aitools.o ai/aicity.o ai/aiunit.o ai/aitech.o \
 	     ai/advleader.o ai/advmilitary.o ai/advtrade.o ai/advscience.o \

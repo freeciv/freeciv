@@ -610,6 +610,19 @@ int unit_upgrade_price(struct player *pplayer, enum unit_type_id from, enum unit
 }
 
 /**************************************************************************
+Return whether the unit can be put in auto-mode.
+(Auto-settler for settlers, auto-attack for military units.)
+**************************************************************************/
+int can_unit_do_auto(struct unit *punit) 
+{
+  if (unit_flag(punit->type, F_SETTLERS))
+    return 1;
+  if (is_military_unit(punit) && map_get_city(punit->x, punit->y))
+    return 1;
+  return 0;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity)

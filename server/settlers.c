@@ -1146,7 +1146,7 @@ void auto_settlers_player(struct player *pplayer)
 /*printf("Warmth = %d, game.globalwarming=%d\n", pplayer->ai.warmth, game.globalwarming);*/
   unit_list_iterate(pplayer->units, punit) {
 /* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
-    if (punit->ai.control) {
+    if (punit->ai.control && unit_flag(punit->type, F_SETTLERS)) {
 /* printf("Is ai controlled.\n");*/
       if(punit->activity == ACTIVITY_SENTRY)
 	set_unit_activity(punit, ACTIVITY_IDLE);

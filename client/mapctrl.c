@@ -275,14 +275,19 @@ void request_unit_upgrade(struct unit *punit)
 **************************************************************************/
 void request_unit_auto(struct unit *punit)
 {
-  if(unit_flag(punit->type, F_SETTLERS)) {
-    struct packet_unit_request req;
-    req.unit_id=punit->id;
-    req.name[0]='\0';
-    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_AUTO);
+  if (can_unit_do_auto(punit)) {
+    if (is_military_unit(punit) && !server_has_autoattack) {
+      append_output_window("Game: server doesn't support auto-attack.");
+    } else {
+      struct packet_unit_request req;
+      req.unit_id=punit->id;
+      req.name[0]='\0';
+      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_AUTO);
+    }
+  } else {
+    append_output_window("Game: Only settlers, and military units"
+			 " in cities, can be put in auto-mode.");
   }
-  else
-    append_output_window("Game: Only settlers can be put in auto-mode.");
 }
 
 /**************************************************************************
