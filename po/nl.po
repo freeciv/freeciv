@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-08-11 08:46+0200\n"
-"PO-Revision-Date: 2003-08-11 09:29+0200\n"
+"POT-Creation-Date: 2003-08-13 10:05+0200\n"
+"PO-Revision-Date: 2003-08-11 10:22+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -486,6 +486,148 @@ msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
+
+#: ai/advdiplomacy.c:212
+#, c-format
+msgid "%s leads our alliance. You must contact and make peace with him first."
+msgstr "%s leidt onze alliantie. Je moet eerst met hem contact opnemen en vrede sluiten."
+
+#: ai/advdiplomacy.c:223
+#, c-format
+msgid "First break alliance with %s, %s"
+msgstr "Verbreek eerst de alliantie met %s, %s"
+
+#: ai/advdiplomacy.c:234
+msgid "Begone scroundel, we all know that you cannot be trusted!"
+msgstr "Hoepel op schooier, we weten allemaal dat je niet te vertrouwen bent!"
+
+#: ai/advdiplomacy.c:246
+#, c-format
+msgid "I will not let you go that easy, %s."
+msgstr "Zo gemakkelijk kom je niet van me af, %s"
+
+#: ai/advdiplomacy.c:263
+#, c-format
+msgid "%s recommended that I give you a ceasefire. This is your lucky day."
+msgstr "%s adviseerde mij dat ik je een gevechtspauze geef. Dit is je geluksdag."
+
+#: ai/advdiplomacy.c:286
+#, c-format
+msgid "Let us first cease hostilies, %s"
+msgstr "Laat ons eerst onze vijandelijkheden staken, %s"
+
+#: ai/advdiplomacy.c:294
+#, c-format
+msgid "Let us first make peace, %s"
+msgstr "Laat ons eerst vrede sluiten, %s"
+
+#: ai/advdiplomacy.c:346
+msgid "You don't have the offered city!"
+msgstr "U heeft de aangeboden stad niet!"
+
+#: ai/advdiplomacy.c:453
+#, c-format
+msgid "Welcome into our alliance %s!"
+msgstr "Welkom in onze alliantie %s!"
+
+#: ai/advdiplomacy.c:456
+#, c-format
+msgid "Yes, may we forever stand united, %s"
+msgstr "Ja, mogen we voor altijd verenigd blijven, %s"
+
+#: ai/advdiplomacy.c:461
+msgid "Yes, peace in our time!"
+msgstr "Ja, vrede in onze tijd!"
+
+#: ai/advdiplomacy.c:465
+#, c-format
+msgid "Agreed. No more hostilities, %s"
+msgstr "Accoord. Geen vijandelijkheden meer, %s"
+
+#: ai/advdiplomacy.c:851
+msgid "I will NOT accept such behaviour! This means WAR!"
+msgstr "Ik accepteer zulk gedrag NIET! Dit betekent OORLOG!"
+
+#: ai/advdiplomacy.c:878
+msgid ""
+"Your attempt to conquer space for yourself alone betray your true "
+"intentions, and I will have no more of our alliance!"
+msgstr ""
+"Je poging om de ruimte voor jezelf te veroveren verraden je werkelijke "
+"bedoelingen. Ik heb genoeg van onze alliantie!"
+
+#: ai/advdiplomacy.c:888
+msgid "Your attempt to unilaterally dominate outer space is highly offensive."
+msgstr "Uw poging om eenzijdig de ruimte te domineren is zeer offensief."
+
+#: ai/advdiplomacy.c:890
+msgid ""
+"If you do not stop constructing your spaceship, I may be forced to take "
+"action!"
+msgstr ""
+"Als je niet stopt met het bouwen van je ruimteschip, dwing je me om in "
+"actie te komen!"
+
+#: ai/advdiplomacy.c:908
+msgid "Your despicable actions will not go unpunished!"
+msgstr "Je verachtelijke dadan zullen niet ongestraft blijven!"
+
+#: ai/advdiplomacy.c:912
+msgid ""
+"Finally I get around to you! Did you really think you could get away with "
+"your crimes?"
+msgstr ""
+"Eindelijk kom ik aan jou toe! Dacht je nu echt dat je weg kon komen met "
+"je misdaden?"
+
+#: ai/advdiplomacy.c:917
+msgid "Peace in ... some other time"
+msgstr "Vrede in ... een andere tijd"
+
+#: ai/advdiplomacy.c:932
+msgid "Your aggression against my allies was your your last mistake!"
+msgstr "Je agressie tegen mijn geallieerden was je laatste vergissing!"
+
+#: ai/advdiplomacy.c:1015
+#, c-format
+msgid ""
+"Greetings our most trustworthy ally, we call upon you to destroy our enemy, %s"
+msgstr ""
+"Gegroet, onze meest vertrouwde geallieerde, we roepen u op onze vijand %s te "
+"vernietigen"
+
+#: ai/advdiplomacy.c:1020
+#, c-format
+msgid ""
+"Greetings ally, I see you have not yet made war with our enemy, %s. Why do I "
+"need to remind you of your promises?"
+msgstr ""
+"Gegroet geallieerde, ik zie dat je nog geen oorlog hebt verklaart aan onze "
+"vijand %s. Waarom moet ik je aan je beloften herinneren?"
+
+#: ai/advdiplomacy.c:1025
+#, c-format
+msgid ""
+"Dishonoured one, we made a pact of alliance, and yet you remain at peace "
+"with our mortal enemy, %s! This is unacceptable, our alliance is no more!"
+msgstr ""
+"Eerloze, we sloten een alliantie en toch blijf je in vrede met onze "
+"doodsvijand %s! Dit is onacceptabel. Onze alliantie is niet meer!"
+
+#: ai/advdiplomacy.c:1055
+#, c-format
+msgid "Greetings friend, may we suggest a joint campaign against %s?"
+msgstr "Gegroet vriend, mogen we een gezamenlijke campagne tegen %s voorstellen?"
+
+#: ai/advdiplomacy.c:1070
+#, c-format
+msgid "Greetings neighbour, may we suggest a joint campaign against %s?"
+msgstr "Gegroet buurman, mogen we een gezamenlijke campagne tegen %s voorstellen?"
+
+#: ai/advdiplomacy.c:1084
+#, c-format
+msgid "%s is threatening us both, may we  suggest a cessation of hostilities?"
+msgstr "%s bedreigt ons beiden, mogen we opschorten van vijandelijkheden voorstellen?"
 
 #: server/autoattack.c:173
 #, c-format
@@ -2435,19 +2577,19 @@ msgid "Ruleset datafile appears incompatible:"
 msgstr "Spelregelbestand lijkt niet uitwisselbaar:"
 
 #: server/ruleset.c:176 server/ruleset.c:184 client/audio.c:249
-#: client/audio.c:257 client/tilespec.c:245 client/tilespec.c:253
+#: client/audio.c:257 client/tilespec.c:246 client/tilespec.c:254
 #, c-format
 msgid "file: \"%s\""
 msgstr "bestand: \"%s\""
 
 #: server/ruleset.c:177 server/ruleset.c:185 client/audio.c:250
-#: client/audio.c:258 client/tilespec.c:246 client/tilespec.c:254
+#: client/audio.c:258 client/tilespec.c:247 client/tilespec.c:255
 #, c-format
 msgid "file options: %s"
 msgstr "bestandsopties: %s"
 
 #: server/ruleset.c:178 server/ruleset.c:186 client/audio.c:251
-#: client/audio.c:259 client/tilespec.c:247 client/tilespec.c:255
+#: client/audio.c:259 client/tilespec.c:248 client/tilespec.c:256
 #, c-format
 msgid "supported options: %s"
 msgstr "ondersteunde opties: %s"
@@ -3460,11 +3602,11 @@ msgid ""
 "another user already has control of."
 msgstr ""
 "Dit is een letterreeks waarbij elke letter een type of toestand van een "
-"beschaving of een \"speler\" aangeeft. Clients zullen alleen worden toegestaan "
-"die spelers te 'take'-en of 'observe'-en die een toestand hebben die overeenkomt "
-"met één van de opgegeven letters. Dit heeft alleen betrekking op nieuw "
-"te geven 'observe' en 'take' opdrachten. De letters en hun "
-"betekenis zijn:\n"
+"beschaving of een \"speler\" aangeeft. Clients zullen alleen worden "
+"toegestaan die spelers te 'take'-en of 'observe'-en die een toestand hebben "
+"die overeenkomt met één van de opgegeven letters. Dit heeft alleen "
+"betrekking op nieuw te geven 'observe' en 'take' opdrachten. De letters en "
+"hun betekenis zijn:\n"
 "    H,h = Menselijke spelers\n"
 "    A,a = KI-spelers\n"
 "    d   = Dode spelers\n"
@@ -4398,7 +4540,7 @@ msgstr "Wissel de server uitvoerstijl tussen 'RFC-stijl en de normale stijl."
 msgid "(ambiguous)"
 msgstr "(dubbelzinnig)"
 
-#: server/stdinhand.c:1446 client/packhand.c:1100
+#: server/stdinhand.c:1446 client/packhand.c:1107
 msgid "(unknown)"
 msgstr "(onbekend)"
 
@@ -5788,7 +5930,7 @@ msgstr ""
 "Spel: Uw verkenningsvlucht beangstigt de stam; zij verspreiden zich in "
 "terreur."
 
-#: server/unittools.c:3013
+#: server/unittools.c:3002
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -7427,29 +7569,29 @@ msgstr "Client capaciteits string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capaciteits string: %s"
 
-#: client/packhand.c:719
+#: client/packhand.c:726
 #, c-format
 msgid "Start of turn %d"
 msgstr "Begin van beurt %d"
 
-#: client/packhand.c:790
+#: client/packhand.c:797
 msgid "Popup Request"
 msgstr "Popup Verzoek"
 
-#: client/packhand.c:1414
+#: client/packhand.c:1421
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI-modus is nu %s."
 
-#: client/packhand.c:1415
+#: client/packhand.c:1422
 msgid "ON"
 msgstr "AAN"
 
-#: client/packhand.c:1415
+#: client/packhand.c:1422
 msgid "OFF"
 msgstr "UIT"
 
-#: client/packhand.c:1425
+#: client/packhand.c:1432
 msgid "Game: Revolution finished"
 msgstr "Spel: Revolutie beëindigd"
 
@@ -7458,48 +7600,48 @@ msgstr "Spel: Revolutie beëindigd"
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
-#: client/tilespec.c:224
+#: client/tilespec.c:225
 msgid "No usable default tileset found, aborting!"
 msgstr "Geen bruikbare standaard vlakkenset gevonden, breek af!"
 
-#: client/tilespec.c:227
+#: client/tilespec.c:228
 #, c-format
 msgid "Trying \"%s\" tileset."
 msgstr "Probeer \"%s\" vlakkenset."
 
-#: client/tilespec.c:244
+#: client/tilespec.c:245
 #, c-format
 msgid "%s file appears incompatible:"
 msgstr "%s bestand blijkt niet uitwisselbaar:"
 
-#: client/tilespec.c:251
+#: client/tilespec.c:252
 #, c-format
 msgid "%s file claims required option(s) which we don't support:"
 msgstr "%s bestand claimt vereiste optie(s) die we niet ondersteunen:"
 
-#: client/tilespec.c:410 client/tilespec.c:456 client/tilespec.c:583
+#: client/tilespec.c:411 client/tilespec.c:457 client/tilespec.c:584
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Kon \"%s\" niet openen."
 
-#: client/tilespec.c:437
+#: client/tilespec.c:438
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Kon graf. bestand voor spec bestand %s niet openen"
 
-#: client/tilespec.c:561
+#: client/tilespec.c:562
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Kon geen ondersteunde graf. bestandsextensie vinden voor %s"
 
-#: client/tilespec.c:592
+#: client/tilespec.c:593
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "Client ondersteunt geen isometrische vlakkensets. Val terug op standaard "
 "vlakkenset."
 
-#: client/tilespec.c:601
+#: client/tilespec.c:602
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
@@ -7507,7 +7649,7 @@ msgstr ""
 "Client ondersteunt geen bovenaanzicht-vlakkensets. Val terug op standaard "
 "vlakkenset."
 
-#: client/tilespec.c:1054
+#: client/tilespec.c:1059
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Heb grafische tags %s of %s voor %s %s niet"
