@@ -1630,13 +1630,10 @@ void move_unit_map_canvas(struct unit *punit,
     assert(0);
   }
 
-  flush_dirty();
-
   if (tile_visible_mapcanvas(map_x, map_y)
       || tile_visible_mapcanvas(dest_x, dest_y)) {
     int i, steps;
     int start_x, start_y;
-    int this_x, this_y;
     int canvas_dx, canvas_dy;
 
     if (is_isometric) {
@@ -1685,26 +1682,34 @@ void move_unit_map_canvas(struct unit *punit,
       start_y -= NORMAL_TILE_HEIGHT / 2;
     }
 
-    this_x = start_x;
-    this_y = start_y;
-
     for (i = 1; i <= steps; i++) {
-      int new_x, new_y;
+      int this_x, this_y;
 
       anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
-      new_x = start_x + (i * canvas_dx) / steps;
-      new_y = start_y + (i * canvas_dy) / steps;
+      this_x = start_x + (i * canvas_dx) / steps;
+      this_y = start_y + (i * canvas_dy) / steps;
 
-      draw_unit_animation_frame(punit, i == 1, i == steps,
-				this_x, this_y, new_x, new_y);
+      /* Backup the canvas store to the single_tile canvas. */
+      canvas_copy(mapview_canvas.single_tile, mapview_canvas.store,
+		  this_x, this_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
-      this_x = new_x;
-      this_y = new_y;
+      /* Draw */
+      put_unit_full(punit, mapview_canvas.store, this_x, this_y);
+      dirty_rect(this_x, this_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+
+      /* Flush. */
+      flush_dirty();
+      gui_flush();
 
       if (i < steps) {
 	usleep_since_timer_start(anim_timer, 10000);
       }
+
+      /* Restore the backup. */
+      canvas_copy(mapview_canvas.store, mapview_canvas.single_tile,
+		  0, 0, this_x, this_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      dirty_rect(this_x, this_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     }
   }
 }

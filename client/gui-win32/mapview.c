@@ -671,54 +671,6 @@ put_city_workers(struct city *pcity, int color)
 }
 
 /**************************************************************************
-  Draw a single frame of animation.  This function needs to clear the old
-  image and draw the new one.  It must flush output to the display.
-**************************************************************************/
-void draw_unit_animation_frame(struct unit *punit,
-			       bool first_frame, bool last_frame,
-			       int old_canvas_x, int old_canvas_y,
-			       int new_canvas_x, int new_canvas_y)
-{
-  static HDC mapstoredc, hdc, hdcwin;
-  static HBITMAP old, oldbmp;
-  static struct canvas canvas_store;
-  /* Create extra backing store.  This should be done statically. */
-  if (first_frame) {
-    mapstoredc = CreateCompatibleDC(NULL);
-    old = SelectObject(mapstoredc, mapstorebitmap);
-    hdc = CreateCompatibleDC(NULL);
-    oldbmp = SelectObject(hdc, single_tile_pixmap);
-    hdcwin = GetDC(map_window);
-    canvas_store.hdc = hdc;
-    canvas_store.bitmap = NULL;
-  }
-
-  /* Clear old sprite. */
-  BitBlt(hdcwin, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
-	 UNIT_TILE_HEIGHT, mapstoredc, old_canvas_x, old_canvas_y, SRCCOPY);
-
-  /* Draw the new sprite. */
-  BitBlt(hdc, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, mapstoredc,
-	 new_canvas_x, new_canvas_y, SRCCOPY);
-  put_unit_full(punit, &canvas_store, 0, 0);
-
-  /* Write to screen. */
-  BitBlt(hdcwin, new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
-	 UNIT_TILE_HEIGHT, hdc, 0, 0, SRCCOPY);
-
-  /* Flush. */
-  GdiFlush();
-
-  if (last_frame) {
-    SelectObject(hdc, oldbmp);
-    DeleteDC(hdc);
-    ReleaseDC(map_window, hdcwin);
-    SelectObject(mapstoredc, old);
-    DeleteDC(mapstoredc);
-  }
-}
-
-/**************************************************************************
 
 **************************************************************************/
 void overview_expose(HDC hdc)

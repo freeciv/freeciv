@@ -306,18 +306,6 @@ void put_city_workers(struct city *pcity, int color)
 }
 
 /**************************************************************************
-  Draw a single frame of animation.  This function needs to clear the old
-  image and draw the new one.  It must flush output to the display.
-**************************************************************************/
-void draw_unit_animation_frame(struct unit *punit,
-			       bool first_frame, bool last_frame,
-			       int old_canvas_x, int old_canvas_y,
-			       int new_canvas_x, int new_canvas_y)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
  This function is called to decrease a unit's HP smoothly in battle when
  combat_animation is turned on.
 **************************************************************************/

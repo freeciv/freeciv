@@ -72,11 +72,6 @@ void update_map_canvas_scrollbars_size(void);
 void put_cross_overlay_tile(int x,int y);
 void put_city_workers(struct city *pcity, int color);
 
-void draw_unit_animation_frame(struct unit *punit,
-			       bool first_frame, bool last_frame,
-			       int old_canvas_x, int old_canvas_y,
-			       int new_canvas_x, int new_canvas_y);
-
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h);
 void tileset_changed(void);
 

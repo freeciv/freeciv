@@ -293,36 +293,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-  Draw a single frame of animation.  This function needs to clear the old
-  image and draw the new one.  It must flush output to the display.
-**************************************************************************/
-void draw_unit_animation_frame(struct unit *punit,
-			       bool first_frame, bool last_frame,
-			       int old_canvas_x, int old_canvas_y,
-			       int new_canvas_x, int new_canvas_y)
-{
-  struct canvas store = {single_tile_pixmap};
-
-  /* Clear old sprite. */
-  XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
-	    old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT,
-	    old_canvas_x, old_canvas_y);
-
-  /* Draw the new sprite. */
-  XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
-	    new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, 0,
-	    0);
-  put_unit_full(punit, &store, 0, 0);
-
-  /* Write to screen. */
-  XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc, 0, 0,
-	    UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, new_canvas_x, new_canvas_y);
-
-  /* Flush. */
-  XSync(display, 0);
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void overview_canvas_expose(Widget w, XEvent *event, Region exposed, 

@@ -314,36 +314,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-  Draw a single frame of animation.  This function needs to clear the old
-  image and draw the new one.  It must flush output to the display.
-**************************************************************************/
-void draw_unit_animation_frame(struct unit *punit,
-			       bool first_frame, bool last_frame,
-			       int old_canvas_x, int old_canvas_y,
-			       int new_canvas_x, int new_canvas_y)
-{
-  struct canvas store = {single_tile_pixmap};
-
-  /* Clear old sprite. */
-  gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
-		    old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
-		    UNIT_TILE_HEIGHT);
-
-  /* Draw the new sprite. */
-  gdk_draw_drawable(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
-		    new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-  put_unit_full(punit, &store, 0, 0);
-
-  /* Write to screen. */
-  gdk_draw_drawable(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
-		    new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
-		    UNIT_TILE_HEIGHT);
-
-  /* Flush. */
-  gdk_flush();
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void map_size_changed(void)
