@@ -219,8 +219,35 @@ static void set_help_text(char *txt)
 **************************************************************************/
 static void edit_minsize(POINT *pt,void *data)
 {
-  pt->x=300;
-  pt->y=100;
+  char buf[32768];
+  HWND hwnd = (HWND) data;
+  HFONT old;
+  HFONT font;
+  HDC hdc;
+  RECT rc;
+  old = NULL; /* just silence gcc */
+  buf[0] = 0;
+  GetWindowText(hwnd, buf, sizeof(buf));
+  if (strlen(buf)<10) {
+    pt->x = 300;
+    pt->y = 300;
+    return;
+  }
+  
+  hdc = GetDC(hwnd);
+  if ((font = GetWindowFont(hwnd))) {
+    old = SelectObject(hdc, font);
+  }
+  rc.left = 0;
+  rc.right = 10000;
+  rc.top=0;
+  DrawText(hdc, buf, strlen(buf), &rc, DT_CALCRECT);
+  pt->x = rc.right - rc.left + 40;
+  pt->y = 300;
+  if (font) {
+    SelectObject(hdc, old);
+  }
+  ReleaseDC(hwnd, hdc);
 }
 
 /**************************************************************************
