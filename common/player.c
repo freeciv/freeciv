@@ -546,6 +546,22 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player *pplaye
 }
 
 /***************************************************************
+  Returns true iff players have no contact status.
+***************************************************************/
+bool pplayers_no_contact(const struct player *pplayer,
+                         const struct player *pplayer2)
+{
+  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  if (pplayer == pplayer2) {
+    return FALSE;
+  }
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
+    return FALSE;
+  }
+  return ds == DS_NO_CONTACT;
+}
+
+/***************************************************************
 returns true iff players can attack each other.
 ***************************************************************/
 bool pplayers_at_war(const struct player *pplayer,

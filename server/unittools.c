@@ -2253,24 +2253,35 @@ barbarians in a hut
 **************************************************************************/
 bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
 {
+  struct tile *ptile = map_get_tile(dest_x, dest_y);
+  struct player *pplayer = unit_owner(punit);
+
   if (!unit_flag(punit, F_PARATROOPERS)) {
-    notify_player_ex(unit_owner(punit), punit->x, punit->y, E_NOEVENT,
-		     _("Game: This unit type can not be paradropped."));
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                     _("Game: This unit type can not be paradropped."));
     return FALSE;
   }
 
   if (!can_unit_paradrop(punit))
     return FALSE;
 
-  if (!map_get_known(dest_x, dest_y, unit_owner(punit))) {
-    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
-		     _("Game: The destination location is not known."));
+  if (!map_get_known(dest_x, dest_y, pplayer)) {
+    notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
+                     _("Game: The destination location is not known."));
     return FALSE;
   }
 
-  if (map_get_player_tile(dest_x, dest_y, unit_owner(punit))->terrain == T_OCEAN) {
-    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
-		     _("Game: Cannot paradrop into ocean."));
+  if (map_get_player_tile(dest_x, dest_y, pplayer)->terrain == T_OCEAN) {
+    notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
+                     _("Game: Cannot paradrop into ocean."));
+    return FALSE;    
+  }
+
+  if (map_get_known_and_seen(dest_x, dest_y, pplayer) && ((ptile->city
+      && pplayers_non_attack(pplayer, city_owner(ptile->city))) 
+      || is_non_attack_unit_tile(ptile, pplayer))) {
+    notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
+                     _("Game: Cannot attack unless you declare war first."));
     return FALSE;    
   }
 
@@ -2278,34 +2289,46 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     int range = unit_type(punit)->paratroopers_range;
     int distance = real_map_distance(punit->x, punit->y, dest_x, dest_y);
     if (distance > range) {
-      notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
-		       _("Game: The distance to the target (%i) "
-			 "is greater than the unit's range (%i)."),
-		       distance, range);
+      notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
+                       _("Game: The distance to the target (%i) "
+                         "is greater than the unit's range (%i)."),
+                       distance, range);
       return FALSE;
     }
   }
 
   if (map_get_terrain(dest_x, dest_y) == T_OCEAN) {
     int srange = unit_type(punit)->vision_range;
-    show_area(unit_owner(punit), dest_x, dest_y, srange);
+    show_area(pplayer, dest_x, dest_y, srange);
 
-    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_UNIT_LOST,
-		     _("Game: Your %s paradropped into the ocean "
-		       "and was lost."),
-		     unit_type(punit)->name);
+    notify_player_ex(pplayer, dest_x, dest_y, E_UNIT_LOST,
+                     _("Game: Your %s paradropped into the ocean "
+                       "and was lost."),
+                     unit_type(punit)->name);
     server_remove_unit(punit);
     return TRUE;
   }
 
-  if (is_non_allied_unit_tile
-      (map_get_tile(dest_x, dest_y), unit_owner(punit))) {
+  if ((ptile->city && pplayers_non_attack(pplayer, city_owner(ptile->city)))
+      || is_non_allied_unit_tile(ptile, pplayer)) {
     int srange = unit_type(punit)->vision_range;
-    show_area(unit_owner(punit), dest_x, dest_y, srange);
-    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_UNIT_LOST_ATT,
-		     _("Game: Your %s was killed by enemy units at the "
-		       "paradrop destination."),
-		     unit_type(punit)->name);
+    show_area(pplayer, dest_x, dest_y, srange);
+    notify_player_ex(pplayer, dest_x, dest_y, E_UNIT_LOST_ATT,
+                     _("Game: Your %s was killed by enemy units at the "
+                       "paradrop destination."),
+                     unit_type(punit)->name);
+    server_remove_unit(punit);
+    return TRUE;
+  }
+
+  if (ptile->city && pplayers_no_contact(pplayer, city_owner(ptile->city))) {
+    int srange = unit_type(punit)->vision_range;
+    show_area(pplayer, dest_x, dest_y, srange);
+    make_contact(pplayer, city_owner(ptile->city), dest_x, dest_y);
+    notify_player_ex(pplayer, dest_x, dest_y, E_UNIT_LOST_ATT,
+                     _("Game: Your %s was killed by enemy units at the "
+                       "paradrop destination."),
+                     unit_type(punit)->name);
     server_remove_unit(punit);
     return TRUE;
   }
