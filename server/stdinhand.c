@@ -3152,16 +3152,18 @@ static void show_connections(struct connection *caller)
 #ifdef HAVE_LIBREADLINE
 /********************* RL completion functions ***************************/
 /* To properly complete both commands, player names, options and filenames
-   I have created one array per type of completion with the commands that
+   there is one array per type of completion with the commands that
    the type is relevant for.
-   All this could be done more generally, but it works now and is fairly
-   simple.  (Thue)
 */
 
 /**************************************************************************
-The valid commands at the root of the prompt.
+  A generalised generator function: text and state are "standard"
+  parameters to a readline generator function;
+  num is number of possible completions, and index2str is a function
+  which returns each possible completion string by index.
 **************************************************************************/
-static char *command_generator(char *text, int state)
+static char *generic_generator(char *text, int state, int num,
+			       const char*(*index2str)(int))
 {
   static int list_index, len;
   const char *name;
@@ -3174,9 +3176,9 @@ static char *command_generator(char *text, int state)
     len = strlen (text);
   }
 
-  /* Return the next name which partially matches from the command list. */
-  while (list_index < CMD_NUM) {
-    name = commands[list_index].name;
+  /* Return the next name which partially matches: */
+  while (list_index < num) {
+    name = index2str(list_index);
     list_index++;
 
     if (mystrncasecmp (name, text, len) == 0)
@@ -3185,6 +3187,14 @@ static char *command_generator(char *text, int state)
 
   /* If no names matched, then return NULL. */
   return ((char *)NULL);
+}
+
+/**************************************************************************
+The valid commands at the root of the prompt.
+**************************************************************************/
+static char *command_generator(char *text, int state)
+{
+  return generic_generator(text, state, CMD_NUM, cmdname_accessor);
 }
 
 /**************************************************************************
@@ -3192,172 +3202,56 @@ The valid arguments to "set" and "explain"
 **************************************************************************/
 static char *option_generator(char *text, int state)
 {
-  static int list_index, len;
-  const char *name;
-
-  /* If this is a new word to complete, initialize now.  This includes
-     saving the length of TEXT for efficiency, and initializing the index
-     variable to 0. */
-  if (!state) {
-    list_index = 0;
-    len = strlen (text);
-  }
-
-  /* Return the next name which partially matches from the settings list. */
-  while ((name = settings[list_index].name)) {
-    list_index++;
-
-    if (mystrncasecmp (name, text, len) == 0)
-      return mystrdup(name);
-  }
-
-  /* If no names matched, then return NULL. */
-  return ((char *)NULL);
+  return generic_generator(text, state, SETTINGS_NUM, optname_accessor);
 }
 
 /**************************************************************************
 The player names.
 **************************************************************************/
+static const char *playername_accessor(int idx)
+{
+  return get_player(idx)->name;
+}
 static char *player_generator(char *text, int state)
 {
-  static int list_index, len;
-  const char *name;
-
-  /* If this is a new word to complete, initialize now.  This includes
-     saving the length of TEXT for efficiency, and initializing the index
-     variable to 0. */
-  if (!state) {
-    list_index = 0;
-    len = strlen (text);
-  }
-
-  /* Return the next name which partially matches from the command list. */
-  while (list_index < game.nplayers) {
-    name = get_player(list_index)->name;
-    list_index++;
-
-    if (mystrncasecmp(name, text, len) == 0)
-      return mystrdup(name);
-  }
-
-  /* If no names matched, then return NULL. */
-  return ((char *)NULL);
+  return generic_generator(text, state, game.nplayers, playername_accessor);
 }
 
 /**************************************************************************
-...
+The valid arguments to "rulesout".
 **************************************************************************/
 static char *rulesout_generator(char *text, int state)
 {
-  static int list_index, len;
-  const char *name;
-
-  /* If this is a new word to complete, initialize now.  This includes
-     saving the length of TEXT for efficiency, and initializing the index
-     variable to 0. */
-  if (!state) {
-    list_index = 0;
-    len = strlen(text);
-  }
-
-  /* Return the next name which partially matches from the command list. */
-  while (list_index < RULESOUT_NUM) {
-    name = rulesout_names[list_index];
-    list_index++;
-
-    if (mystrncasecmp(name, text, len) == 0)
-      return mystrdup(name);
-  }
-
-  /* If no names matched, then return NULL. */
-  return ((char *)NULL);
+  return generic_generator(text, state, RULESOUT_NUM, rulesout_accessor);
 }
 
 /**************************************************************************
-...
+The valid arguments (first argument) to "cmdlevel".
+Extra accessor function since cmdlevel_name() takes enum argument, not int.
 **************************************************************************/
+static const char *cmdlevel_accessor(int idx)
+{
+  return cmdlevel_name(idx);
+}
 static char *cmdlevel_generator(char *text, int state)
 {
-  static int list_index, len;
-  const char *name;
-
-  /* If this is a new word to complete, initialize now.  This includes
-     saving the length of TEXT for efficiency, and initializing the index
-     variable to 0. */
-  if (!state) {
-    list_index = 0;
-    len = strlen(text);
-  }
-
-  /* Return the next name which partially matches from the command list. */
-  while (list_index < ALLOW_NUM) {
-    name = cmdlevel_name(list_index);
-    list_index++;
-
-    if (mystrncasecmp(name, text, len) == 0)
-      return mystrdup(name);
-  }
-
-  /* If no names matched, then return NULL. */
-  return ((char *)NULL);
+  return generic_generator(text, state, ALLOW_NUM, cmdlevel_accessor);
 }
 
 /**************************************************************************
-...
+The valid first arguments to "help".
 **************************************************************************/
 static char *help_generator(char *text, int state)
 {
-  static int list_index, len;
-  const char *name;
-
-  /* If this is a new word to complete, initialize now.  This includes
-     saving the length of TEXT for efficiency, and initializing the index
-     variable to 0. */
-  if (!state) {
-    list_index = 0;
-    len = strlen (text);
-  }
-
-  /* Return the next name which partially matches from the helparg list. */
-  while (list_index < HELP_ARG_NUM) {
-    name = helparg_accessor(list_index);
-    list_index++;
-    
-    if (mystrncasecmp (name, text, len) == 0)
-      return mystrdup(name);
-  }
-
-  /* If no names matched, then return NULL. */
-  return ((char *)NULL);
+  return generic_generator(text, state, HELP_ARG_NUM, helparg_accessor);
 }
 
 /**************************************************************************
-...
+The valid first arguments to "list".
 **************************************************************************/
 static char *list_generator(char *text, int state)
 {
-  static int list_index, len;
-  const char *name;
-
-  /* If this is a new word to complete, initialize now.  This includes
-     saving the length of TEXT for efficiency, and initializing the index
-     variable to 0. */
-  if (!state) {
-    list_index = 0;
-    len = strlen (text);
-  }
-
-  /* Return the next name which partially matches from the helpargs list. */
-  while (list_index < LIST_ARG_NUM) {
-    name = listarg_accessor(list_index);
-    list_index++;
-
-    if (mystrncasecmp (name, text, len) == 0)
-      return mystrdup(name);
-  }
-
-  /* If no names matched, then return NULL. */
-  return ((char *)NULL);
+  return generic_generator(text, state, LIST_ARG_NUM, listarg_accessor);
 }
 
 /**************************************************************************
