@@ -186,9 +186,9 @@ static int *xpos = NULL;
 static int *ypos = NULL;
 
 /**************************************************************************
- This can be called:
- - when we want to use string_ptrs[0] before we add any messages.
- - when the number allocated might need to grow due to adding more messages.
+ This makes sure that the next two elements in string_ptrs etc are
+ allocated for.  Two = one to be able to grow, and one for the sentinel
+ in string_ptrs.
  Note update_meswin_dialog should always be called soon after this since
  it contains pointers to the memory we're reallocing here.
 **************************************************************************/
@@ -196,7 +196,7 @@ static void meswin_allocate(void)
 {
   int i;
   
-  if (messages_total>=messages_alloc) {
+  if (messages_total+2 > messages_alloc) {
     messages_alloc = messages_total + 32;
     string_ptrs = realloc(string_ptrs, messages_alloc*sizeof(char*));
     xpos = realloc(xpos, messages_alloc*sizeof(int));
