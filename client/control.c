@@ -528,7 +528,7 @@ void process_caravan_arrival(struct unit *punit)
 
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
-	&& (!game.player_ptr->ai.control || ai_popup_windows)) {
+	&& (!game.player_ptr->ai.control)) {
       struct city *pcity_dest = map_get_city(punit->tile);
       struct city *pcity_homecity = find_city_by_id(punit->homecity);
       if (pcity_dest && pcity_homecity) {

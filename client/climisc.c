@@ -864,7 +864,7 @@ void handle_event(char *message, struct tile *ptile,
     add_notify_window(message, ptile, event);
   }
   if (BOOL_VAL(where & MW_POPUP) &&
-      (!game.player_ptr->ai.control || ai_popup_windows)) {
+      (!game.player_ptr->ai.control)) {
     popup_notify_goto_dialog(_("Popup Request"), message, ptile);
   }
 

@@ -610,7 +610,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   }
 
   if (popup &&
-      (!game.player_ptr->ai.control || ai_popup_windows)) {
+      (!game.player_ptr->ai.control)) {
     update_menus();
     if (!city_dialog_is_open(pcity)) {
       popup_city_dialog(pcity, FALSE);
@@ -887,7 +887,7 @@ void handle_page_msg(char *message, enum event_type event)
     lines = "";
   }
 
-  if (!game.player_ptr->ai.control || ai_popup_windows ||
+  if (!game.player_ptr->ai.control||
       event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
     play_sound_for_event(event);
@@ -1135,7 +1135,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  refresh_city_dialog(pcity);
 	
         if((unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER))
-	   && (!game.player_ptr->ai.control || ai_popup_windows)
+	   && (!game.player_ptr->ai.control)
 	   && punit->owner==game.player_idx
 	   && !unit_has_orders(punit)
 	   && (unit_can_help_build_wonder_here(punit)
@@ -1515,7 +1515,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       science_dialog_update();
     }
     if (poptechup) {
-      if (!game.player_ptr->ai.control || ai_popup_windows) {
+      if (!game.player_ptr->ai.control) {
 	popup_science_dialog(FALSE);
       }
     }
@@ -2606,7 +2606,7 @@ void handle_unit_bribe_info(int unit_id, int cost)
 
   if (punit) {
     punit->bribe_cost = cost;
-    if (!game.player_ptr->ai.control || ai_popup_windows) {
+    if (!game.player_ptr->ai.control) {
       popup_bribe_dialog(punit);
     }
   }
@@ -2621,7 +2621,7 @@ void handle_city_incite_info(int city_id, int cost)
 
   if (pcity) {
     pcity->incite_revolt_cost = cost;
-    if (!game.player_ptr->ai.control || ai_popup_windows) {
+    if (!game.player_ptr->ai.control) {
       popup_incite_dialog(pcity);
     }
   }

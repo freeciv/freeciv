@@ -142,10 +142,6 @@ const bool gui_use_transliteration = FALSE;
 
 client_option gui_options[] = {
   /* This option is the same as the one in gui-gtk */
-  GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
-		  N_("Uses the Alt or Meta keys for keyboard accelerators."),
-		  COC_INTERFACE),
-  /* This option is the same as the one in gui-gtk */
   GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"),
 		  N_("Disable this option to hide the scrollbars on the "
 		     "map view."),

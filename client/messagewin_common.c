@@ -74,7 +74,7 @@ void update_meswin_dialog(void)
   }
 
   if (!is_meswin_open() && messages_total > 0 &&
-      (!game.player_ptr->ai.control || ai_popup_windows)) {
+      (!game.player_ptr->ai.control)) {
     popup_meswin_dialog(FALSE);
     change = FALSE;
     return;

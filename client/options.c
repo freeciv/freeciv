@@ -58,7 +58,6 @@ bool sound_bell_at_new_turn = FALSE;
 int  smooth_move_unit_msec = 30;
 int smooth_center_slide_msec = 0;
 bool do_combat_animation = TRUE;
-bool ai_popup_windows = FALSE;
 bool ai_manual_turn_done = FALSE;
 bool auto_center_on_unit = TRUE;
 bool auto_center_on_combat = FALSE;
@@ -164,11 +163,6 @@ static client_option common_options[] = {
 		  N_("If this option is disabled them combat animation "
 		     "between units on the mapview will be turned off."),
 		  COC_GRAPHICS),
-  GEN_BOOL_OPTION(ai_popup_windows, N_("Popup dialogs in AI Mode"),
-		  N_("If this option is disabled then when watching an AI "
-		     "player, dialog windows will not be popped up like "
-		     "normal."),
-		  COC_INTERFACE),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
 		  N_("If this option is disabled, then you will not have "
 		     "to press the turn done button manually when watching "
