@@ -26,8 +26,8 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type which);
 int calculate_move_cost(struct player *pplayer, struct unit *punit,
 			int dest_x, int dest_y);
-int naive_air_can_move_between(int moves, int src_x, int src_y,
-				      int dest_x, int dest_y, int playerid);
+int air_can_move_between(int moves, int src_x, int src_y,
+			 int dest_x, int dest_y, int playerid);
 
 /* all other functions are internal */
 

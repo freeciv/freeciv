@@ -64,6 +64,7 @@ struct refuel {
   enum refuel_type type;
   unsigned int x, y;
   int turns;
+  int moves_left;
   struct refuel *coming_from;
 };
 
@@ -126,6 +127,22 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
     freelog(LOG_FATAL, "Bad move_type in init_warmap().");
   }
 }  
+
+/*******************************************************************/
+static void init_refuel(
+  struct refuel *pRefuel,
+  int x, int y,
+  enum refuel_type type,
+  int turns, int moves_left)
+{
+  pRefuel->x = x;
+  pRefuel->y = y;
+  pRefuel->type = type;
+  pRefuel->turns = turns;
+  pRefuel->moves_left = moves_left;
+  pRefuel->coming_from = NULL;
+}
+
 
 /**************************************************************************
 This creates a movecostmap (warmap), which is a two-dimentional array
@@ -555,6 +572,8 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
   orig_x = punit->x;
   orig_y = punit->y;
 
+  if ((dest_x == orig_x) && (dest_y == orig_y)) return 1; /* [Kero] */
+  
   local_vector[orig_x][orig_y] = 0;
 
   init_gotomap(punit->x, punit->y, move_type);
@@ -1054,7 +1073,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
     return;
   }
 
-  if (is_air_unit(punit))
+  if (is_air_unit(punit)) {
     if (!find_air_first_destination(punit, &waypoint_x, &waypoint_y)) {
       freelog(LOG_VERBOSE, "Did not find an airroute for "
 	      "%s's %s at (%d, %d) -> (%d, %d)",
@@ -1065,6 +1084,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
       send_unit_info(0, punit);
       return;
     }
+  }
 
   /* This has the side effect of marking the warmap with the possible paths */
   if (find_the_shortest_path(pplayer, punit,
@@ -1179,14 +1199,10 @@ This list should probably be made by having a list of airbase and then
 adding the players cities. It takes a little time to iterate over the map
 as it is now, but as it is only used in the players turn that does not
 matter.
-FIXME: to make the airplanes gotos more straight it would be practical to
-have the refuel points closest to the destination first. This wouldn't be
-needed if we prioritizes between routes of equal length in
-find_air_first_destination, which is a preferable solution.
 **************************************************************************/
 static void make_list_of_refuel_points(struct player *pplayer)
 {
-  int x,y;
+  int x, y;
   int playerid = pplayer->player_no;
   struct refuel *prefuel;
   struct city *pcity;
@@ -1200,10 +1216,7 @@ static void make_list_of_refuel_points(struct player *pplayer)
       if ((pcity = is_allied_city_tile(ptile, playerid))
 	  && !is_non_allied_unit_tile(ptile, playerid)) {
 	prefuel = fc_malloc(sizeof(struct refuel));
-	prefuel->x = x; prefuel->y = y;
-	prefuel->type = FUEL_CITY;
-	prefuel->turns = 255;
-	prefuel->coming_from = NULL;
+	init_refuel(prefuel, x, y, FUEL_CITY, MAP_MAX_HEIGHT+MAP_MAX_WIDTH, 0);
 	refuels[refuellist_size++] = prefuel;
 	continue;
       }
@@ -1211,10 +1224,8 @@ static void make_list_of_refuel_points(struct player *pplayer)
 	if (is_non_allied_unit_tile(ptile, playerid))
 	  continue;
 	prefuel = fc_malloc(sizeof(struct refuel));
-	prefuel->x = x; prefuel->y = y;
-	prefuel->type = FUEL_AIRBASE;
-	prefuel->turns = 255;
-	prefuel->coming_from = NULL;
+	init_refuel(prefuel, x, y,
+		    FUEL_AIRBASE, MAP_MAX_HEIGHT+MAP_MAX_WIDTH, 0);
 	refuels[refuellist_size++] = prefuel;
       }
     }
@@ -1234,67 +1245,31 @@ static void dealloc_refuel_stack(void)
 /**************************************************************************
 We need to find a route that our airplane can use without crashing. The
 first waypoint of this route is returned inside the arguments dest_x and
-dest_y.
+dest_y. This can be the point where we start, fx when a plane with few moves
+left need to stay in a city to refuel.
 
 First we create a list of all possible refuel points (friendly cities and
 airbases on the map). Then the destination is added to this list.
 We keep a list of the refuel points we have reached (been_there[]). this is
 initialized with the unit position.
 We have an array of pointer into the been_there[] stack, indicating where
-we shall start and stop (fuelindex[]). fuelindex[0] is pointing at the top
-of the list, and fuelindex[i] is pointing at where we should start to
-iterate if we want to try a goto using i fuel. For i>0 these are initialized
-to zero.
+we shall start and stop (turnindex[]). turnindex[0] is pointing at the top
+of the list, and turnindex[i] is pointing at where we should start to
+iterate if we want to try to move in turn i.
 
-We the have a do while(...) loop. This is exited once we have found a route or
-there is no hope of ever finding one (the pointers into the list of
-been_there nodes all point at the top). We have a "turns" variable that
-indicates how many turns we have used to build up the current been_there[]
-stack. The trick is that for each while loop we find exactly those refuel
-nodes that we can get to in "turns" turns. This is done by the way the
-pointers into been_there are arranged; for example the pointers
-fuelindex[i] and fuelindex[i+1] points to those nodes we reached i and i+1
-turns ago. So by iterating from fuelindex[i] to fuelindex[i+1] in the
-been_there stack (the for loop inside the while does this for all pairs
-(i, i+1), i <=fullfuel), and multiplying the moves with i (the fuel we can use),
-we can simulate a move over i+1 turns using i+1 fuel. Because this node
-has already waited i turns before it was used, using it will result in a
-route that takes exactly "turns turns".
+The algorithm used is Dijkstra. Thus we need to check whether we can arrive at
+the goal in 1 turn, then in 2 turns, then in 3 and so on. When we can arrive at
+the goal, we want to have as much movement points left as possible. This is a
+bit tricky, since Bombers have fuel for more than one turn. This code should
+work for airplanes with fuel for >2 turns as well.
 
-The starting node is handled as a special case as it might not have full
-fuel or movepoints. Note that once we have used another node as a waypoint
-we can be sure when starting from there to have full fuel and moves again.
-
-At the end of each while loop we advance the indices in fuelindex[].
-For each refuel point we check in the been_there[] stack we try to move
-between it and all unused nodes in the refuelstack[]. (this is usually quite
-quick). If we can it is marked as used and the pointer to the node from the
-been_there stack we came from is saved in it, and the new node put onto the
-been_there[] stack. Since we at a given iteration of the while loop are as
-far as we can get with the given number of turns, it means that if a node is
-already marked there already exist a faster or just as fast way to get to it,
-and we need not compare the two.
-Since we iterate through the been_there list starting with those jumps that
-only use 1 fuel these are marked first, and therefore preferred over routes
-of equal length that use 2 fuel.
-
-Once we reach the pgoal node we stop (set found_goal to 1). Since each node
-now has exactly one pointer to a previous node, we can just follow the
-pointers all the way back to the start node. The node immediately before
-(after) the startnode is our first waypoint, and is returned.
+Once we reach the pgoal node we finish the current run, then stop (set
+reached_goal to 1). Since each node has exactly one pointer to a previous node
+(nature of Dijkstra), we can just follow the pointers all the way back to the
+start node. The node immediately before (after) the startnode is our first
+waypoint, and is returned.
 
 Possible changes:
-I think the turns member of refuel points is not needed if we just deleted
-the points as they can no longer be the shortest route, i.e. after the for
-loop if they have been added inside the for loop. That would just be a
-stack of numbers corresponding to indices in the refuel_stack array
-(and then making the entries in refuel_stack nulpointers).
-We might want compare routes of equal length, so that routes using cities
-are preferred over routes using airports which in turn are better than
-routes with long jumps. Now routes using cities or airports are preferred
-over long jumps, but cities and airports are equal. It should also be made
-so that the goto of the list of gotos of equal length that left the largest
-amount of move points were selected.
 We might also make sure that fx a fighter will have enough fuel to fly back
 to a city after reaching it's destination. This could be done by making a
 list of goal from which the last jump on the route could be done
@@ -1305,111 +1280,116 @@ the list of extra goals would also in most case stop the algorithm from
 iterating over all cities in the case of an impossible goto. In fact those
 extra goal are so smart that you should implement them! :)
 
-note: The turns variabe in the refuel struct is currently not used for
-anything but a boolean marker.
       -Thue
+      [Kero]
 **************************************************************************/
-static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y)
+static int find_air_first_destination(
+  struct unit *punit, /* input param */
+  int *dest_x, int *dest_y) /* output param */
 {
   struct player *pplayer = unit_owner(punit);
-  static struct refuel *been_there[MAP_MAX_HEIGHT*MAP_MAX_WIDTH];
-  unsigned int fuelindex[MAXFUEL+1]; /* +1: stack top pointer */
-  struct refuel *prefuel, *pgoal;
-  struct refuel start;
-  unsigned int found_goal = 0;
+  static struct refuel **been_there;
+  static unsigned int *turn_index;
+  struct refuel start, *pgoal;
   unsigned int fullmoves = get_unit_type(punit->type)->move_rate/3;
   unsigned int fullfuel = get_unit_type(punit->type)->fuel;
-  int turns = 0;
-  int i, j;
 
-  assert(fullfuel <= MAXFUEL);
-  for (i = 1; i <= fullfuel; i++)
-    fuelindex[i] = 0;
-  fuelindex[0] = 1;
+  unsigned int reached_goal;
+  int turns, start_turn;
+  int max_moves, moves_left;
+  int new_nodes, no_new_nodes;
+  int i, j, k;
 
-  start.x     = punit->x;
-  start.y     = punit->y;
-  start.type  = FUEL_START;
-  start.turns = 0;
+  if (been_there == NULL) {
+    /* These are big enough for anything! */
+    been_there = fc_malloc((map.xsize*map.ysize+2)*sizeof(struct refuel *));
+    turn_index = fc_malloc((map.xsize*map.ysize)*sizeof(unsigned int));
+  }
+
+  freelog(LOG_DEBUG, "unit @(%d, %d) fuel=%d, moves_left=%d\n",
+	  punit->x, punit->y, punit->fuel, punit->moves_left);
+
+  init_refuel(&start, punit->x, punit->y, FUEL_START, 0, punit->moves_left/3);
+  if (punit->fuel > 1) start.moves_left += (punit->fuel-1) * fullmoves;
   been_there[0] = &start;
 
   make_list_of_refuel_points(pplayer);
-
-  pgoal        = fc_malloc(sizeof(struct refuel));
-  pgoal->x     = punit->goto_dest_x;
-  pgoal->y     = punit->goto_dest_y;
-  pgoal->type  = FUEL_GOAL;
-  pgoal->turns = 255;
-  pgoal->coming_from = NULL;
+  pgoal = fc_malloc(sizeof(struct refuel));
+  init_refuel(pgoal, punit->goto_dest_x, punit->goto_dest_y, FUEL_GOAL,
+    MAP_MAX_HEIGHT + MAP_MAX_WIDTH, 0);
   refuels[refuellist_size++] = pgoal;
 
-  freelog(LOG_DEBUG, "stacksize = %i", refuellist_size);
-
-  do { /* until we find no new nodes or we found a path */
-    int new_nodes, total_moves, from, to;
-    struct refuel *pfrom, *pto;
-    int usefuel;
-    enum refuel_type type;
-
-    freelog(LOG_DEBUG, "round we go: %i", turns);
-
-    new_nodes = 0;
-    usefuel = 1;
-
-    while(usefuel <= fullfuel) { /* amount of fuel we use */
-      total_moves = fullmoves * usefuel;
-      from = fuelindex[usefuel];
-      to = fuelindex[usefuel - 1];
-      freelog(LOG_DEBUG, "from = %i, to = %i, fuel = %i, total_moves = %i\n",
-	      from, to, usefuel, total_moves);
-
-      for (i = from; i<to; i++) { /* iterate through the nodes that use usefuel fuel */
-	pfrom = been_there[i];
-	type = pfrom->type;
-	switch (type) {
-	case FUEL_START:
-	  if (usefuel > punit->fuel)
-	    continue;
-	  total_moves = punit->moves_left/3 + (usefuel-1) * fullmoves;
-	default:
-	  ;
-	};
-
-	for (j = 0; j < refuellist_size; j++) { /* try to move to all of the nodes */
-	  pto = refuels[j];
-	  if (pto->turns >= 255
-	      && naive_air_can_move_between(total_moves, pfrom->x, pfrom->y,
-					    pto->x, pto->y, pplayer->player_no)) {
-	    freelog(LOG_DEBUG, "inserting from = %i,%i  |  to = %i,%i",
-		    pfrom->x,pfrom->y,pto->x,pto->y);
-
-	    been_there[fuelindex[0] + new_nodes++] = pto;
-	    pto->coming_from = pfrom;
-	    pto->turns = turns;
-	    if (pto->type == FUEL_GOAL)
-	      found_goal = 1;
-	  }
-	}  /* end for over the nodes to move to */
-      } /* end for of the nodes to move from */
-      usefuel++;
-    } /* end while(usefuel <= fullfuel) */
-
+  assert(!same_pos(punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y));
+  reached_goal = 0; /* assume start.(x,y) != pgoal->(x,y) */
+  turns = 0;
+  turn_index[0] = 0;
+  new_nodes = 1; /* the node where we start has been added already */
+  no_new_nodes = 0;
+  /* while we did not reach the goal and found new nodes in the last full fuel
+     turns, continue searching */
+  while (!reached_goal && (no_new_nodes<fullfuel)) {
     turns++;
+    freelog(LOG_DEBUG, "looking for arrival in %d turns", turns);
+    turn_index[turns] = turn_index[turns-1] + new_nodes;
+    new_nodes = 0;
+    /* now find out for turn turns where we can arrive (e.g. we can arrive
+       in 5 turns: when fullfuel is 3, we can come from turn 2, 3 and 4) */
+    start_turn = turns-fullfuel;
+    if (start_turn < 0) start_turn = 0;
+    for (i=start_turn; i<turns; i++) {
+      freelog(LOG_DEBUG, "can we arrive from turn %d?", i);
+      for (j=turn_index[i]; j<turn_index[i+1]; j++) {
+	struct refuel *pfrom = been_there[j];
+	if (j == 0) {
+	  /* start pos is special case as we maybe don't have full moves and/or fuel */
+	  max_moves = punit->moves_left/3;
+	  if (turns-i > 1) {
+	    max_moves += MIN(punit->fuel-1, turns-i-1) * fullmoves;
+	  }
+	} else {
+	  max_moves = pfrom->moves_left - (fullfuel-(turns-i)) * fullmoves;
+	}
+	freelog(LOG_DEBUG, "unit @@(%d,%d) may use %d moves",
+		pfrom->x, pfrom->y, max_moves);
+	/* try to move to all of the refuel stations and the goal */
+	for (k=0; k<refuellist_size; k++) {
+	  struct refuel *pto = refuels[k];
+	  moves_left = air_can_move_between(max_moves,
+	      pfrom->x, pfrom->y, pto->x, pto->y, pplayer->player_no);
+	  if (moves_left != -1) {
+	    int unit_moves_left = moves_left + (pfrom->moves_left - max_moves);
+	    freelog(LOG_DEBUG, "moves_left=%d, unit_moves_left=%d, pto->=%d",
+		    moves_left, unit_moves_left, pto->moves_left);
+	    if ( (pto->turns > turns) ||
+		 ((pto->turns == turns) && (unit_moves_left > pto->moves_left))
+	    ) {
+	      been_there[turn_index[turns] + new_nodes] = pto;
+	      new_nodes++;
+	      pto->coming_from = pfrom;
+	      pto->moves_left = unit_moves_left;
+	      pto->turns = turns;
+	      if (pto->type == FUEL_GOAL) reached_goal = 1;
 
-    for (i = fullfuel; i > 0; i--)
-      fuelindex[i] = fuelindex[i-1];
-    fuelindex[0] += new_nodes;
+	      freelog(LOG_DEBUG, "insert (%i,%i) -> (%i,%i) %d, %d", pfrom->x,
+		      pfrom->y, pto->x, pto->y, pto->turns, unit_moves_left);
 
-    freelog(LOG_DEBUG, "new_nodes = %i, turns = %i, found_goal = %i",
-	    new_nodes, turns, found_goal);
-
-  } while (!found_goal && fuelindex[0] != fuelindex[fullfuel]);
+	    }
+	  }
+	}
+      }
+    }
+    if (new_nodes == 0) no_new_nodes++; else no_new_nodes = 0;
+    /* update moves_left for the next round (we have a full fuel tank) */
+    for (j=0; j<new_nodes; j++) {
+      been_there[turn_index[turns]+j]->moves_left = fullmoves*fullfuel;
+    }
+  }
 
   freelog(LOG_DEBUG, "backtracking");
   /* backtrack */
-  if (found_goal) {
-    while ((prefuel = pgoal->coming_from)->type != FUEL_START) {
-      pgoal = prefuel;
+  if (reached_goal) {
+    while (pgoal->coming_from->type != FUEL_START) {
+      pgoal = pgoal->coming_from;;
       freelog(LOG_DEBUG, "%i,%i", pgoal->x, pgoal->y);
     }
     freelog(LOG_DEBUG, "success");
@@ -1422,32 +1402,33 @@ static int find_air_first_destination(struct unit *punit, int *dest_x, int *dest
 
   dealloc_refuel_stack();
 
-  return found_goal;
+  return reached_goal;
 }
 
 /**************************************************************************
-Decides whether we can move from src_x,src_y to dest_x,dest_y in moves
-moves.
+ Returns #moves left when player playerid is moving a unit from src_x,src_y to
+ dest_x,dest_y in moves moves. [Kero]
+ If there was no way to move between returns -1.
+
 The function has 3 stages:
 Try to rule out the possibility in O(1) time              else
 Try to quickly verify in O(moves) time                    else
 Create a movemap to decide with certainty in O(moves2) time.
 Each step should catch the vast majority of tries.
 **************************************************************************/
-int naive_air_can_move_between(int moves, int src_x, int src_y,
-			       int dest_x, int dest_y, int playerid)
+int air_can_move_between(int moves, int src_x, int src_y,
+			 int dest_x, int dest_y, int playerid)
 {
   int x, y, go_x, go_y, i, movescount;
   struct tile *ptile;
   freelog(LOG_DEBUG, "naive_air_can_move_between %i,%i -> %i,%i, moves: %i",
 	  src_x, src_y, dest_x, dest_y, moves);
 
-  /* Do we have the chances of a snowball in hell? */
-  if (real_map_distance(src_x, src_y, dest_x, dest_y) > moves)
-    return 0;
+  /* O(1) */
+  if (real_map_distance(src_x, src_y, dest_x, dest_y) > moves) return -1;
+  if (real_map_distance(src_x, src_y, dest_x, dest_y) == 0) return moves;
 
-  /* Yep. Lets first try a quick and direct
-     approch that will almost allways work */
+  /* O(moves). Try to go to the destination in a ``straight'' line. */
   x = src_x; y = src_y;
   movescount = moves;
   while (real_map_distance(x, y, dest_x, dest_y) > 1) {
@@ -1513,7 +1494,7 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
   }
   /* if this loop stopped we made it! We found a way! */
   freelog(LOG_DEBUG, "end of loop; success");
-  return 1;
+  return movescount-1;
 
   /* Nope, we couldn't find a quick way. Lets do the full monty.
      Copied from find_the_shortest_path. If you want to know how
@@ -1557,5 +1538,6 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
 
     freelog(LOG_DEBUG, "movecost: %i", warmap.cost[dest_x][dest_y]);
   }
-  return (warmap.cost[dest_x][dest_y] <= moves);
+  return (warmap.cost[dest_x][dest_y] <= moves)?
+    moves - warmap.cost[dest_x][dest_y]: -1;
 }

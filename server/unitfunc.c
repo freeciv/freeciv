@@ -1497,8 +1497,8 @@ void player_restore_units(struct player *pplayer)
 	int x_itr, y_itr;
 	iterate_outward(punit->x, punit->y, punit->moves_left/3, x_itr, y_itr) {
 	  if (is_airunit_refuel_point(x_itr, y_itr, punit->owner, punit->type, 0)
-	      && naive_air_can_move_between(punit->moves_left/3, punit->x, punit->y,
-					    x_itr, y_itr, punit->owner)) {
+	      && (air_can_move_between(punit->moves_left/3, punit->x, punit->y,
+		    x_itr, y_itr, punit->owner) >= 0) ) {
 	      punit->goto_dest_x = x_itr;
 	      punit->goto_dest_y = y_itr;
 	      set_unit_activity(punit, ACTIVITY_GOTO);
