@@ -24,7 +24,7 @@
 #define MINOR_VERSION  8 
 #define PATCH_VERSION  0 
 #define VERSION_STRING "1.8.0"
-#define IS_BETA_VERSION 1 
+#define IS_BETA_VERSION 0 
 #define MAILING_LIST "freeciv-dev@freeciv.org"
 #define SITE "http://www.freeciv.org"
 
