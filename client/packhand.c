@@ -837,14 +837,6 @@ void handle_page_msg(struct packet_generic_message *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_move_unit()
-{
-  die("this packet should never get sent to a client");
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void handle_unit_info(struct packet_unit_info *packet)
 {
   struct city *pcity;

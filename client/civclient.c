@@ -285,10 +285,6 @@ void handle_packet_input(void *packet, int type)
     handle_unit_info((struct packet_unit_info *)packet);
     break;
 
-   case PACKET_MOVE_UNIT:
-    handle_move_unit();
-    break;
-    
   case PACKET_TILE_INFO:
     handle_tile_info((struct packet_tile_info *)packet);
     break;
@@ -480,9 +476,6 @@ void handle_packet_input(void *packet, int type)
 
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
-    /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()
-     * here, so server should not rely on client surviving.
-     */
     break;
   }
 
