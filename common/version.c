@@ -20,23 +20,6 @@
 
 #include "version.h"
 
-static char *month[] =
-{
-  NULL,
-  N_("January"),
-  N_("February"),
-  N_("March"),
-  N_("April"),
-  N_("May"),
-  N_("June"),
-  N_("July"),
-  N_("August"),
-  N_("September"),
-  N_("October"),
-  N_("November"),
-  N_("December")
-};
-
 /********************************************************************** 
   Return the BETA message.
   If returns NULL, not a beta version.
@@ -45,6 +28,22 @@ char *beta_message (void)
 {
 #if IS_BETA_VERSION
   static char msgbuf[128];
+  static const char *month[] =
+  {
+    NULL,
+    N_("January"),
+    N_("February"),
+    N_("March"),
+    N_("April"),
+    N_("May"),
+    N_("June"),
+    N_("July"),
+    N_("August"),
+    N_("September"),
+    N_("October"),
+    N_("November"),
+    N_("December")
+  };
   my_snprintf (msgbuf, sizeof (msgbuf),
 	       _("THIS IS A BETA VERSION\n"
 		 "Freeciv %s will be released in\n"
@@ -56,6 +55,6 @@ char *beta_message (void)
 	       WEBSITE_URL);
   return msgbuf;
 #else
-  return month[0];
+  return NULL;
 #endif
 }
