@@ -19,6 +19,9 @@ enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
 
 void ai_manage_units(struct player *pplayer); 
 
+int look_for_charge(struct player *pplayer, struct unit *punit,
+                    struct unit **aunit, struct city **acity);
+
 void ai_manage_military(struct player *pplayer,struct unit *punit);
 void ai_military_findjob(struct player *pplayer,struct unit *punit);
 void ai_military_gohome(struct player *pplayer,struct unit *punit);
@@ -28,5 +31,6 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit);
 void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
                             int *x, int *y);
+int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y);
 
 #endif
