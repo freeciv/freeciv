@@ -106,12 +106,12 @@ often everyone was stuck farming grassland. */
   return(i/2);
 }
 
-static int railroad_trade(struct city *pcity)
+static int road_trade(struct city *pcity)
 {
   int x, y, i = 0; 
   city_map_iterate(x, y) {
     if (is_worker_here(pcity, x, y)) {
-      if (map_get_special(pcity->x+x-2, pcity->y+y-2) & S_RAILROAD) i++;
+      if (map_get_special(pcity->x+x-2, pcity->y+y-2) & S_ROAD) i++;
     }
   }  
   return(i); 
@@ -380,7 +380,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_STOCK] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
 
   if (could_build_improvement(pcity, B_SUPERHIGHWAYS))
-    values[B_SUPERHIGHWAYS] = railroad_trade(pcity) * t;
+    values[B_SUPERHIGHWAYS] = road_trade(pcity) * t;
 
   if (could_build_improvement(pcity, B_SUPERMARKET))
     values[B_SUPERMARKET] = farmland_food(pcity) * food * hunger;
