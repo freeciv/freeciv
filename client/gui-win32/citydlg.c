@@ -1240,14 +1240,84 @@ void change_callback(struct city_dialog *pdialog)
   
 }
 
+
+/****************************************************************
+  Commit the changes to the worklist for the city.
+*****************************************************************/
+static void commit_city_worklist(struct worklist *pwl, void *data)
+{
+  struct packet_city_request packet;
+  struct city_dialog *pdialog = (struct city_dialog *) data;
+  int i, k, id, is_unit;
+
+  /* Update the worklist.  Remember, though -- the current build
+     target really isn't in the worklist; don't send it to the server
+     as part of the worklist.  Of course, we have to search through
+     the current worklist to find the first _now_available_ build
+     target (to cope with players who try mean things like adding a
+     Battleship to a city worklist when the player doesn't even yet
+     have the Map Making tech).  */
+
+  for (k = 0; k < MAX_LEN_WORKLIST; k++) {
+    int same_as_current_build;
+    if (!worklist_peek_ith(pwl, &id, &is_unit, k))
+      break;
+
+    same_as_current_build = id == pdialog->pcity->currently_building
+        && is_unit == pdialog->pcity->is_building_unit;
+
+    /* Very special case: If we are currently building a wonder we
+       allow the construction to continue, even if we the wonder is
+       finished elsewhere, ie unbuildable. */
+    if (k == 0 && !is_unit && is_wonder(id) && same_as_current_build) {
+      worklist_remove(pwl, k);
+      break;
+    }
+
+    /* If it can be built... */
+    if ((is_unit && can_build_unit(pdialog->pcity, id)) ||
+        (!is_unit && can_build_improvement(pdialog->pcity, id))) {
+      /* ...but we're not yet building it, then switch. */
+      if (!same_as_current_build) {
+
+        /* Change the current target */
+        packet.city_id = pdialog->pcity->id;
+        packet.name[0] = '\0';
+        packet.worklist.name[0] = '\0';
+        packet.build_id = id;
+        packet.is_build_id_unit_id = is_unit;
+        send_packet_city_request(&aconnection, &packet,
+                                 PACKET_CITY_CHANGE);
+      }
+
+      /* This item is now (and may have always been) the current
+         build target.  Drop it out of the worklist. */
+      worklist_remove(pwl, k);
+      break;
+    }
+  }
+
+  /* Send the rest of the worklist on its way. */
+  packet.city_id = pdialog->pcity->id;
+  packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
+  packet.worklist.is_valid = 1;
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    packet.worklist.wlefs[i] = pwl->wlefs[i];
+    packet.worklist.wlids[i] = pwl->wlids[i];
+  }
+
+  send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
-
-
 void worklist_callback(struct city_dialog *pdialog)
 {
-  /* PORTME */
+  popup_worklist(pdialog->pcity->worklist,
+		 pdialog->pcity,pdialog->mainwindow,(void *)pdialog,
+		 commit_city_worklist, NULL);
 }
 
 /**************************************************************************

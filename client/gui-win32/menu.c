@@ -548,7 +548,7 @@ void handle_menu(int code)
       popup_find_dialog();
       break;
     case IDM_KINGDOM_WORK:
-      popup_worklists_dialog(game.player_ptr);
+      popup_worklists_report(game.player_ptr);
       break;
     case IDM_KINGDOM_REVOLUTION:
       popup_revolution_dialog();
