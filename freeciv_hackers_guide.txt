@@ -198,7 +198,7 @@ a unit disband is performed:
 4)  On the server the packet is read. Based on the type, the corresponding
     de-serialize function is called is called by get_packet_from_connection(). 
 5)  A packet_unit_request is initialized with the bytestream.
-6)  Since the incomming packet is a request (a request in this context 
+6)  Since the incoming packet is a request (a request in this context 
     is every packet sent from the client to the server) the server sends a 
     PACKET_PROCESSING_STARTED packet to the client.
 7)  Finally the corresponding packet-handler, handle_unit_disband() function,
