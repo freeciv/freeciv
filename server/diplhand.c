@@ -45,7 +45,7 @@ int did_init_treaties;
 /**************************************************************************
 ...
 **************************************************************************/
-static struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
+struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
 {
   struct genlist_iterator myiter;
   

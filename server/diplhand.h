@@ -14,7 +14,7 @@
 #define FC__DIPLHAND_H
 
 #include "packets.h"
-
+struct Treaty *find_treaty(struct player *plr0, struct player *plr1);
 void handle_diplomacy_cancel_meeting(struct player *pplayer, 
 				     struct packet_diplomacy_info *packet);
 void handle_diplomacy_create_clause(struct player *pplayer, 

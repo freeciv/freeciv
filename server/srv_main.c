@@ -1783,6 +1783,16 @@ void lost_connection_to_client(struct connection *pconn)
   send_conn_info_remove(&pconn->self, &game.est_connections);
   send_player_info(pplayer, 0);
 
+  /* Cancel meetings. FIXME: port to multiple connections */
+  players_iterate(other_player) {
+    if (find_treaty(pplayer, other_player)) {
+      struct packet_diplomacy_info packet;
+     packet.plrno0 = pplayer->player_no;
+      packet.plrno1 = other_player->player_no;
+      handle_diplomacy_cancel_meeting(pplayer, &packet);
+    }
+  } players_iterate_end;
+
   if (game.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */
       && !pplayer->ai.control    /* eg created AI player */
