@@ -1,3 +1,68 @@
+Fri Aug  3 11:47:06 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* po/en_GB.po:
+
+	Update en_GB
+
+	Patch by Dirk Stoecker <stoecker@epost.de>
+
+Fri Aug  3 01:13:36 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c:
+
+	Replaced setenv() with putenv() since it is more portable. Also
+	added an #ifdef to check for function availability and a cast to a
+	NULL pointer passed to a function.
+
+	Patch by Paul Zastoupil <paulz@dunedain.net>.
+
+Thu Aug  2 23:01:49 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* freeciv_hackers_guide.txt:
+
+	Improved network code information a bit.
+
+Thu Aug  2 22:56:26 2001  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* freeciv_hackers_guide.txt:
+
+	Improved documentation on the network code and recent
+	improvements.  Fixed one typo.
+
+Thu Aug  2 15:05:07 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* configure, configure.in:
+
+	Update version to 1.11.9-devel in some more files.
+
+Thu Aug  2 15:04:20 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv:
+
+	Bump version to 1.11.9-devel.
+
+Thu Aug  2 14:37:22 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ChangeLog, configure, configure.in:
+
+	Update files for 1.11.8 beta.
+
+Thu Aug  2 14:31:47 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv, po/de.po, po/en_GB.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/ja.po, po/nl.po, po/no.po,
+	po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sv.po:
+
+	Updates for the second beta leading to version 1.12.0: - Changed
+	version to 1.11.8 (beta).  - Ran msgmerge on all .po files (normal
+	part of 'make dist').  - Updated Changelog
+
+Thu Aug  2 14:13:53 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* PEOPLE:
+
+	Small PEOPLE update.
+
 Wed Aug  1 22:34:12 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
 
 	* client/gui-gtk/gui_main.c:
