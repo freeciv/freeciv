@@ -194,7 +194,7 @@ static void worker_loop(struct city *pcity, int *foodneed,
 
     city_map_iterate_outwards(x, y) {
       if (can_place_worker_here(pcity, x, y)
-	  && city_can_work_tile(pcity, x, y) {
+	  && city_can_work_tile(pcity, x, y)) {
         cur = city_tile_value(pcity,x,y,*foodneed,*prodneed) - conflict[x][y];
 	if (cur > best) {
 	  bx = x;
