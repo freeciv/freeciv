@@ -121,40 +121,7 @@ LONG APIENTRY MsgdlgProc(HWND hWnd,
   return 0;
 }
 
-/**************************************************************************
 
-**************************************************************************/
-static void list_minsize(LPPOINT minsize,void *data)
-{
-  HWND hWnd;
-  hWnd=(HWND)data;
-  minsize->x=max_list_width;
-  minsize->y=24*ListBox_GetItemHeight(hWnd,0);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-
-static void list_setsize(LPRECT newsize,void *data)
-{
-  HWND hWnd;
-  hWnd=(HWND)data;
-  MoveWindow(hWnd,newsize->left,newsize->top,
-	     newsize->right-newsize->left,
-	     newsize->bottom-newsize->top,
-	     TRUE);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-static void list_del(void *data)
-{
-  HWND hWnd;
-  hWnd=(HWND)data;
-  DestroyWindow(hWnd);
-}
 /**************************************************************************
 
 **************************************************************************/
@@ -170,20 +137,13 @@ static void create_meswin_dialog(void)
 					  NULL,
 					  REAL_CHILD,
 					  NULL);
-  meswin_list=CreateWindow("LISTBOX",NULL,
-			   WS_CHILD | WS_VISIBLE | 
-			   LBS_NOTIFY | LBS_HASSTRINGS | WS_VSCROLL,
-			   0,0,0,0,
-			   meswin_dlg,
-			   (HMENU)ID_MESSAGEWIN_LIST,
-			   freecivhinst,
-			   NULL);
+
   meswin_box=fcwin_vbox_new(meswin_dlg,FALSE);
-  fcwin_box_add_generic(meswin_box,
-			list_minsize,
-			list_setsize,
-			list_del,
-			meswin_list,TRUE,TRUE,5);
+  meswin_list = fcwin_box_add_list(meswin_box,
+				   24,
+				   ID_MESSAGEWIN_LIST,
+				   LBS_NOTIFY | LBS_HASSTRINGS | WS_VSCROLL,
+				   TRUE,TRUE,5);
   hbox=fcwin_hbox_new(meswin_dlg,TRUE);
   fcwin_box_add_button(hbox,_("Close"),IDCANCEL,0,TRUE,TRUE,5);
   fcwin_box_add_button(hbox,_("Goto location"),ID_MESSAGEWIN_GOTO,0,
