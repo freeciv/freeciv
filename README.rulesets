@@ -1,30 +1,39 @@
 ----------------------------------------------------------------------
-Freeciv Rulesets, by David Pfitzner, dwp@mso.anu.edu.au
+                       Freeciv Rulesets
 ----------------------------------------------------------------------
+          (Originally by David Pfitzner, dwp@mso.anu.edu.au)
 
 Quickstart:
 -----------
  Rulesets allow modifiable sets of data for units, advances, terrain,
- improvements, wonders, cities and governments, without requiring
- recompilation, in a way which is consistent across a network and
- through savegames.  (In the future there could be other categories of
- rulesets.)
+ improvements, wonders, nations, cities and governments, without
+ requiring recompilation, in a way which is consistent across a
+ network and through savegames.  (In the future there could be other
+ categories of rulesets.)
 
-- To play freeciv normally: don't do anything special; the new
-  features all have defaults which give the standard freeciv 
+- To play Freeciv normally: don't do anything special; the new
+  features all have defaults which give the standard Freeciv 
   behaviour.
 
 - To play a game with rules more like Civ1, start the server with:
        ./ser -r data/civ1.serv
   (and any other command-line arguments you normally use; depending on
-  how you have freeciv installed you may have to give the installed
+  how you have Freeciv installed you may have to give the installed
   data directory path instead of "data").  
-  Start the client normally, using a client compiled from a source 
-  distribution which includes rulesets.  A non-rulesets-aware client 
-  will be rejected if it tries to connect to a rulesets-aware server,
-  and vice-versa.  
-  Note that the freeciv AI might not play as well with rules other
-  than standard-freeciv.  (See notes below.)
+
+  Start the client normally.  The client must be network-compatible
+  (usually meaning the same or similar version) but otherwise nothing
+  special is needed.  (However some third-party rulesets may
+  potentially require special graphics to work properly, in which case
+  the client should have those graphics available and be started with
+  an appropriate '--tiles' argument.)
+
+  As well as a Civ1 style as above, Freeciv now has a Civ2 style
+  similary, although currently it is almost identical to standard
+  Freeciv rules.
+
+  Note that the Freeciv AI might not play as well with rules other
+  than standard Freeciv.  (See notes below.)
 
 The rest of this file contains:
 
@@ -50,8 +59,8 @@ otherwise the behave like normal server options.  Eg, try the server
 command "explain techs".
 
 For each of these options, the value of the option specifies a 
-subdirectory of the freeciv data directory, containing a file
-name techs.ruleset, units.ruleset, or buildings.ruleset, respectively.
+subdirectory of the Freeciv data directory, containing a file
+name techs.ruleset, units.ruleset, buildings.ruleset, etc.
 
 Eg, the commands:
    
@@ -75,11 +84,11 @@ would specify the files:
 
 (This is just an example, and may not give very sensible rules; the
 directory data/custom and the file data/custom/buildings.ruleset do 
-not exist in standard freeciv.)
+not exist in standard Freeciv.)
 
 The ruleset files in the data directory are user-editable, so you can
 modify them to create modified or custom rulesets (without having to
-recompile freeciv).  It is suggested that you _don't_ edit the 
+recompile Freeciv).  It is suggested that you _don't_ edit the 
 existing files in the "default", "classic", "civ1" and "civ2"
 directories, but rather copy them to another directory and edit the
 copies.  This is so that its clear when you are using modified rules
@@ -91,27 +100,24 @@ self-explanatory.  A few points:
 - The files are not all independent, since eg, units depend on
   advances specified in the techs file.
 
-- Wonders and city improvements have a new field, "variant".  This 
-  allows limited changes to the effects of specific wonders and 
-  improvements, where such changes have been implemented.  The help 
-  system (and also the "TODO Variants" section below) specify the 
-  variant effects which have been implemented so far.
+- Wonders and city improvements have a new field, "variant".  This
+  allows limited changes to the effects of specific wonders and
+  improvements, where such changes have been implemented.  See the
+  "TODO Variants" section below for which variant effects which have
+  been implemented so far.
 
 - Units have a new field, "roles", which is like "flags", but 
   determines which units are used in various circumstances of the
   game (rather than intrinsic properties of the unit).
   See comments in common/unit.h
 
-- The units file contains 4 tables.  These should all contain the
-  same unit names in the same order.
-
-- The [unit_adjustments] section of the units file deserves some
+- The [units_adjust] section of the units file deserves some
   explanation.  It contains the entries:
 
 	max_hitpoints, max_firepower, firepower_factor.
 
   The first two entries (unless zero) override the hitpoints and 
-  firepower entries in the units.u2 data-table, as a convenience.  
+  firepower entries for individual units, as a convenience.  
   The value of firepower_factor is used when combat is resolved:
   All combat firepower values are multiplied by firepower_factor,
   which means that the effective hitpoints of any unit is really 
@@ -121,34 +127,35 @@ self-explanatory.  A few points:
   (This complicated setup is so that the AI calculations don't 
   blow up when using Civ1 rulesets.)
 
-Note that some properties of units, advances, etc are still compiled
-in properties (eg, see the TODO section below), so when making custom
-rulesets you should aim to make changes as limited as possible, to 
-have the best chance of the changes working properly.
+Properties of units and advances are now fairly well generalised.
+Properties of buildings are still rather inflexible.
 
 ----------------------------------------------------------------------
 The civstyle option:
 --------------------
 
 The server option civstyle still exists, but, as before, it doesn't
-actually do very much.  Rulesets allows civ1 style rules (to some 
-approximation) in a more flexibility way than a single server option.
-Potentially the civstyle option could be put to some use in the 
-future, for Civ1/Civ2 differences which are not covered by rulesets.
+actually do very much.  In the server, 'explain civstyle' now gives
+details of what exactly is affected.  Rulesets allows Civ1 style rules
+(to some approximation) in a more flexible way than a single server
+option.  Currently the civstyle option is used for minor Civ1/Civ2
+differences which are not covered by rulesets, but it may go away in
+future.
 
 ----------------------------------------------------------------------
 The AI:
 -------
 
-An important caveat regarding rulesets is that while rulesets allow 
-considerable flexibility, the AI has been designed and tested using 
-Civ2 rules.  So the AI may not do as well with modified rules.
+An important caveat regarding rulesets is that while rulesets allow
+considerable flexibility, the AI has been designed and tested using
+"standard Freeciv" (effectively Civ2) rules.  So the AI may not do as
+well with modified rules.
 
-I've made some changes to the AI to try to take some of the ruleset
-changes into account, and I've fudged the combat calculations to try 
-to avoid core dumps, but in general you should not expect the AI to 
-work as well with non-default options (where Civ1 is definitely 
-included in "non-default").
+Some changes to the AI have been made to try to take some of the
+ruleset changes into account, and the combat calculations have been
+fudged to try to avoid core dumps, but in general you should not
+expect the AI to work as well with non-default options (where Civ1 is
+definitely included in "non-default").
 
 Examples of problems which have not been fixed:
 - Units not having hitpoints in Civ1 can make a big difference to 
@@ -168,74 +175,20 @@ Implementation details:
 -----------------------
 
 This section and following section will be mainly of interested to
-developers who are familiar with the freeciv source code.
+developers who are familiar with the Freeciv source code.
 
 Rulesets are mainly implemented in the server.  The server reads the
 files, and then sends information to the clients.  Mostly rulesets 
 are used to fill in the basic data tables on units etc, but in some
 cases some extra information is required.
 
-For units and advances, most of the information regarding each unit 
-or advance is captured in the data tables, so it may be feasible to 
-eventually make them fully customizable.  For improvements and 
-wonders, each one has a largely unique effect, so the effects 
-themselves are still hardwired in the code.  The "variant" field now 
-allows some flexibility, though the effects themselves must still be 
-hard-coded.
-
-----------------------------------------------------------------------
-Changes outline:
-----------------
-
-Server options: Server options can now optionally be string-valued.  
-Three new string valued options to specify rulesets.
-
-Loading rulesets: New files server/ruleset.[ch] to read in the 
-ruleset files, and functions for sending the data to clients.  Moved 
-datafilename from client/climisc to common/shared so the server can 
-use it.  (And related changes to ser script and Makefiles.)
-
-Communication: New and modified packets and related functions and 
-cases.  (The game_info packet has been extended, which is ok because
-capabilities ensure only ruleset-aware clients and servers are 
-allowed to talk to each other.)
-
-Variants: Added variant field to "struct improvement_type"; it gets 
-set with the other fields when rulesets are loaded.  Scattered 
-changes to implement the new variant effects.  Added a new widget in 
-the help for wonders and improvements to show variant value, and new 
-help text to describe each variant.
-
-Roles: Added roles field to "struct unit_type".  Added new functions
-in unit.c to make it easy to select units with given flag or give
-role.  Made unit flag macros into an enumerated type which is only
-converted into bit-masks internally.
-
-Expanded "struct civ_game": Strings for the new server options, and 
-miscellaneous ruleset information which doesn't go into the data
-tables.
-
-Obsoleted: Removed hardwired data tables for advances, unit_types, 
-and improvement_types.  They are not considered useful as a fallback,
-because then they may not be what the user wants.  
-Removed set_civ_style() and related functions, since their effect
-is now achieved by rulesets.
-
-Remove hardwiring: various scattered changes to reduce cases of techs,
-tech requirements, etc being hardwired, to reduce breakage if tables
-are modified. 
-
-Client-side continents:  Added functions to calculate continents from
-the point of view of the client, for continent-based wonder effect 
-variants.  If the client gets continents wrong (due to connecting 
-tiles being unknown), it might for example let you build a power 
-plant when it should be wonder-replaced by Hoover Dam.  But the 
-effects will still be server-calculated, and hence take into account 
-correct continents.
-(I'm not sure if this is the best solution, but it's better (for
-this) than the client having no idea about continents.  Maybe the
-city_info packet should specify which improvements are obsolete or 
-wonder-replaced...?)
+For units and advances, all information regarding each unit or advance
+is now captured in the data tables, and these are now "fully
+customizable", with the old enumeration types completely removed.  For
+improvements and wonders, each one has a largely unique effect, so the
+effects themselves are still hardwired in the code.  The "variant"
+field now allows some flexibility, though the effects themselves must
+still be hard-coded.  There are some plans to improve this situation.
 
 ----------------------------------------------------------------------
 TODO:
@@ -243,31 +196,22 @@ TODO:
 
 - More improvement and wonder variants for Civ1 (see next section).
 - Other alternative (non-Civ1) variants?  (If desired.)
+- Better: Scrap variants completely and do something more general...
 
-- Could un-hardwire the advances required for: 
-  bridges, railroad, fortress, government types.
-
-- Could unhardwire effect of Mysticism on Temples;
-  (Any other advances which affect building effects?)
-- List of advances which affect trade routes revenue.
-- List of advances which increase population-based pollution.
-
+- Fix up AI dynamic government choice code.
 - Work on making the AI handle non-default cases better.
 - Could have other information to help the AI?
   Eg, scores for units/techs/buildings, to help the AI know which 
   ones to prefer?
 
-- Rulesets for: governments, ... ??
-
-- Should generalise improvements and wonders better than 
-  using variants, which are still largely hardwired.
+- Rulesets for: time progression, ...?
 
 ----------------------------------------------------------------------
 TODO Variants: 
 --------------
 
 First, those variants which have been implemented:
-(Note Variant=0 should always be "standard-freeciv" effect.)
+(Note Variant=0 should always be "standard Freeciv" effect.)
 
 Barracks:	 Variant=0: just works for ground units (Civ2)
 		 Variant=1: works also for air and sea units (Civ1)
@@ -282,7 +226,7 @@ Police Station:  This uses the same variant value and effect as
 Pyramids:	 Variant=0: counts as Granary in every city (Civ2)
 		 Variant=1: allows all government types and there is 
 			    no transition anarchy (Civ1)
-United Nations:  Variant=0: units regain extra hp per turn (freeciv)
+United Nations:  Variant=0: units regain extra hp per turn (Freeciv)
 		 Variant=1: allows all government types and there is 
 			    no transition anarchy (Civ1) (see note(*))
 Hoover Dam:	 Variant=0: works on all cities owned
@@ -292,26 +236,28 @@ J.S. Bach:	 Variant=0: works on all cities owned
 		 Variant=1: only works for cities on the same 
 			    continent as where the wonder is built
 Women's Suff.:   Variant=0: -1 unit-unhappy per City (-2 under 
-			    Democracy) (freeciv)
+			    Democracy) (Freeciv)
 	         Variant=1: -1 unit-unhappy per Unit (Civ1)
 Magellan's Exp.: Variant=0: gives sea units 2 extra move points
 		 Variant=1: gives sea units only 1 extra move point
 Great Wall:	 Uses same variant and effect as City Walls.
+Leo's Workshop:  Variant=0: Upgrades one obsolete unit per game turn.
+		 Variant=1: Upgrades all obsolete units each turn.
 
-Other differences between Civ1 and Civ2/freeciv which have not been
+Other differences between Civ1 and Civ2/Freeciv which have not been
 implemented as variants:
 
-Copernicus' Obs.: freeciv: science output +50% in a city
+Copernicus' Obs.: Freeciv: science output +50% in a city
 		  Civ1:    doubles knowledge production in city, after
 			   all other effects.
-Isaac Newton's:   freeciv: science output +100% in a city
+Isaac Newton's:   Freeciv: science output +100% in a city
 		  Civ1:    "increases effects of Libraries and 
 			   Universities" - by how much??
-Michelangelo's:   freeciv: same as a Cathedral in every city
+Michelangelo's:   Freeciv: same as a Cathedral in every city
 		  Civ1:     "increases effect of cathedrals" - by
 			    how much??
 
-There are other more minor Civ1/Civ2/freeciv differences, which 
+There are other more minor Civ1/Civ2/Freeciv differences, which 
 could be handled using variants, for:
     Courthouse 
     Cure For Cancer
@@ -325,18 +271,16 @@ Aqueduct and Sewer System:
 separately, without using variants.  This leaves variants available 
 if some other effects are desired.
 
-Colosseum, Cathedral:
-   Note that the technology effects on the effectiveness of Cathedrals
-and Colosseums are not handled by variants, but by specially noting
-the techs; see game.rtech fields cathedral_plus, cathedral_minus, 
-and colosseum_plus.  Similar could be done for Temple and Mysticism 
-(but there Civ1 is the same, and the AI calcs are complicated by 
-the Oracle, which also affects Temples).
+Colosseum, Cathedral, Temple:
+   Note that the technology effects on the effectiveness of these
+buildings are not handled by variants, but by specially noting the
+techs; see game.rtech fields cathedral_plus, cathedral_minus,
+colosseum_plus, and temple_plus.  (Also applies to Michelangelo's.)
 
 (*) United Nations: 
     I'm not sure what to do here: the diplomatic effect of Civ1,Civ2 
-isn't appropriate for multiplayer freeciv, and the hp effect of 
-freeciv isn't appropriate for Civ1 (no hitpoints).  The govchange 
+isn't appropriate for multiplayer Freeciv, and the hp effect of 
+Freeciv isn't appropriate for Civ1 (no hitpoints).  The govchange 
 effect seems reasonable -- note there is no Statue of Liberty in 
 Civ1, and Pyramids, which has the same effect in Civ1, becomes 
 obsolete.  Alternatively a Suffrage-like effect would seem sensible: 
