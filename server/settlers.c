@@ -904,11 +904,14 @@ static int unit_food_upkeep(struct unit *punit)
   return upkeep;
 }
 
-/**************************************************************************
-Finds tiles to improve, using punit.
-How nice a tile it finds is returned. If it returns >0 gx,gy indicates the
-tile it has chosen, and bestact indicates the activity it wants to do.
-**************************************************************************/
+/****************************************************************************
+  Finds tiles to improve, using punit.
+
+  The returned value is the goodness of the best tile and action found.  If
+  this return value is >0, then (gx,gy) indicates the tile chosen and bestact
+  indicates the activity it wants to do.  If 0 is returned then there are no
+  worthwhile activities available.
+****************************************************************************/
 static int evaluate_improvements(struct unit *punit,
 				 enum unit_activity *best_act, 
                                  int *gx, int *gy)
@@ -1051,6 +1054,11 @@ static int evaluate_improvements(struct unit *punit,
 	    "Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
 	    punit->id, punit->x, punit->y, get_activity_text(*best_act),
 	    *gx, *gy, best_newv);
+  } else {
+    /* Fill in dummy values.  The callers should check if the return value
+     * is > 0 but this will avoid confusing them. */
+    *best_act = ACTIVITY_IDLE;
+    *gx = *gy = -1;
   }
 
   return best_newv;
@@ -1064,7 +1072,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   struct cityresult result;
   int best_impr = 0;            /* best terrain improvement we can do */
-  enum unit_activity best_act = ACTIVITY_IDLE; /* compat. kludge */
+  enum unit_activity best_act;
   int gx = -1, gy = -1;
   struct ai_data *ai = ai_data_get(pplayer);
 

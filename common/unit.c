@@ -641,6 +641,7 @@ const char *get_activity_text(enum unit_activity activity)
     break;
   }
 
+  assert(0);
   return _("Unknown");
 }
 
