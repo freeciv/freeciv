@@ -22,7 +22,6 @@ void put_city_tile_output(HDC hdc, int x, int y,
 void put_unit_pixmap(struct unit *punit, HDC hdc,int x,int y);
 void pixmap_frame_tile_red(HDC hdc, int x, int y);
 void put_unit_city_overlays(struct unit *punit, HDC hdc, int x, int y);
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
 void put_one_tile_full(HDC hdc, int x, int y,
 		       int canvas_x, int canvas_y, int citymode);
 void check_mapstore();

@@ -91,7 +91,6 @@ void update_map_canvas_scrollbars_size(void);
 static void show_city_descriptions(HDC hdc);     
 void refresh_overview_viewrect_real(HDC hdcp);
 void set_overview_win_dim(int w,int h);
-static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
 static void put_one_tile(HDC mapstoredc,int x, int y, enum draw_type draw);
 void put_one_tile_full(HDC hdc, int x, int y,
 			      int canvas_x, int canvas_y, int citymode);
@@ -1474,33 +1473,6 @@ void map_handle_vscroll(int pos)
         map_view_y;
   update_map_canvas_visible();
   refresh_overview_viewrect();
-}
-
-/**************************************************************************
-Finds the pixel coordinates of a tile.  Beside setting the results in
-canvas_x,canvas_y it returns whether the tile is inside the visible
-map.
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-static int get_canvas_xy(int map_x, int map_y, int *canvas_x,
-			 int *canvas_y)
-{
-  return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
-			       map_view_x, map_view_y, map_win_width,
-			       map_win_height);
-}
-
-
-/**************************************************************************
-Finds the map coordinates corresponding to pixel coordinates.
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
-{
-  canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y, map_view_x,
-			map_view_y);
 }
 
 /**************************************************************************

@@ -25,7 +25,6 @@ struct city;
 Pixmap get_thumb_pixmap(int onoff);
 Pixmap get_citizen_pixmap(int frame);
 
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
 void put_unit_pixmap(struct unit *punit, Pixmap pm,
 		     int canvas_x, int canvas_y);
 

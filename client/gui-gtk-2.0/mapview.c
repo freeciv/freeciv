@@ -243,34 +243,6 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
 }
 
 /**************************************************************************
-Finds the pixel coordinates of a tile.  Beside setting the results in
-canvas_x,canvas_y it returns whether the tile is inside the visible
-map.
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-static int get_canvas_xy(int map_x, int map_y, int *canvas_x,
-			 int *canvas_y)
-{
-  int width, height;
-
-  gdk_window_get_size(map_canvas->window, &width, &height);
-  return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
-			       map_view_x0, map_view_y0, width, height);
-}
-
-/**************************************************************************
-Finds the map coordinates corresponding to pixel coordinates.
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
-{
-  canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y, map_view_x0,
-			map_view_y0);
-}
-
-/**************************************************************************
  This function is called to decrease a unit's HP smoothly in battle
  when combat_animation is turned on.
 **************************************************************************/

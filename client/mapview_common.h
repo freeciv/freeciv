@@ -44,16 +44,8 @@ constant).
 void refresh_tile_mapcanvas(int x, int y, bool write_to_screen);
 enum color_std get_grid_color(int x1, int y1, int x2, int y2);
 
-bool map_pos_to_canvas_pos(int map_x, int map_y,
-			  int *canvas_x, int *canvas_y,
-			  int map_view_topleft_map_x,
-			  int map_view_topleft_map_y,
-			  int map_view_pixel_width,
-			  int map_view_pixel_height);
-void canvas_pos_to_map_pos(int canvas_x, int canvas_y,
-			   int *map_x, int *map_y,
-			   int map_view_topleft_map_x,
-			   int map_view_topleft_map_y);
+bool get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
+void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
 
 void base_center_tile_mapcanvas(int map_x, int map_y,
 				int *map_view_topleft_map_x,

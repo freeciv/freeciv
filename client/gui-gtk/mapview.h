@@ -49,8 +49,6 @@ void pixmap_put_black_tile(GdkDrawable *pm,
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar);
 void update_map_canvas_scrollbars_size(void);
 
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
-
 /* contains the x0, y0 coordinates of the upper left corner block */
 extern int map_view_x0, map_view_y0;
 

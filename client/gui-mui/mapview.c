@@ -363,38 +363,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-Finds the pixel coordinates of a tile.  Beside setting the results in
-canvas_x,canvas_y it returns whether the tile is inside the visible
-map.
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
-{
-  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
-  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
-  int width = _mwidth(main_map_area);	/* !! */
-  int height = _mheight(main_map_area);	/* !! */
-
-  return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
-			       map_view_x0, map_view_y0, width, height);
-}
-
-/**************************************************************************
-Finds the map coordinates corresponding to pixel coordinates.
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
-{
-  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
-  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
-
-  canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y, map_view_x0,
-			map_view_y0);
-}
-
-/**************************************************************************
  GUI Independ (with new access functions)
 **************************************************************************/
 bool tile_visible_mapcanvas(int x, int y)
