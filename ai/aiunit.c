@@ -294,6 +294,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
   default:
     die("ai/aiunit.c:unit_move_turns: illegal move type %d",
 	unit_type(punit)->move_type);
+    move_time = 0;
   }
   return move_time;
 }

@@ -922,6 +922,7 @@ const char *unit_activity_text(struct unit *punit)
    default:
     die("Unknown unit activity %d in unit_activity_text()", punit->activity);
   }
+  return NULL;
 }
 
 /**************************************************************************

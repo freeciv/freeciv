@@ -506,6 +506,7 @@ const char *diplstate_text(const enum diplstate_type type)
   if (type < DS_LAST)
     return Q_(ds_names[type]);
   die("Bad diplstate_type in diplstate_text: %d", type);
+  return NULL;
 }
 
 /***************************************************************

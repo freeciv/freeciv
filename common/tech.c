@@ -390,6 +390,7 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
   default:
     die("Invalid tech_cost_style %d %d", game.rgame.tech_cost_style,
 	tech_cost_style);
+    cost = 0;
   }
 
   /* Research becomes more expensive. */

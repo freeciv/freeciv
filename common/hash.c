@@ -464,6 +464,7 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
     return deleted;
   }
   die("Full hash table -- and somehow did not resize!!");
+  return NULL;
 }
 
 /**************************************************************************
@@ -613,6 +614,7 @@ const void *hash_key_by_number(const struct hash_table *h,
     counter++;
   }
   die("never reached");
+  return NULL;
 }
 
 /**************************************************************************

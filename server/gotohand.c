@@ -772,6 +772,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
       default:
 	move_cost = MAXCOST;	/* silence compiler warning */
+	total_cost = MAXCOST;	/* silence compiler warning */
 	die("Bad move_type in find_the_shortest_path().");
       } /****** end switch ******/
 
