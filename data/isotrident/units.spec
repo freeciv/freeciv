@@ -73,4 +73,5 @@ tiles = { "row", "column", "tag"
   2, 10, "u.elephants"
   2, 11, "u.crusaders"
   2, 12, "u.fanatics"
+  2, 13, "u.awacs"
 }
