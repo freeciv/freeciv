@@ -375,5 +375,7 @@ void check_spaceship_arrivals(void)
 		     _("Game: The %s spaceship has arrived "
 		       "at Alpha Centauri."),
 		     get_nation_name(best_pplayer->nation));
+    gamelog(GAMELOG_NORMAL, "The %s spaceship has arrived "
+	    "at Alpha Centauri.", get_nation_name(best_pplayer->nation));
   }
 }
