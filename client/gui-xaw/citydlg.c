@@ -71,7 +71,6 @@ extern Widget toplevel, main_form, map_canvas;
 extern int display_depth;
 extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
-extern int flags_are_transparent;
 extern GC fill_bg_gc;
 
 

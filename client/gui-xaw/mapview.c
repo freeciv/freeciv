@@ -70,8 +70,6 @@ extern int city_workers_color;
 
 extern int seconds_to_turndone;
 
-extern int flags_are_transparent;
-
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
 extern Cursor goto_cursor;

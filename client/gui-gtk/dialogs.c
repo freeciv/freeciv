@@ -48,7 +48,6 @@
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
 extern struct connection aconnection;
-extern int flags_are_transparent;
 extern int ai_popup_windows;
 extern GdkGC *fill_bg_gc;
 

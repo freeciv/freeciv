@@ -55,7 +55,6 @@ extern int nuke_state;
 
 extern GtkWidget *	main_frame_civ_name;
 extern GtkWidget *	main_label_info;
-extern int		flags_are_transparent;
 extern GtkWidget *	econ_label			[10];
 extern GtkWidget *	bulb_label;
 extern GtkWidget *	sun_label;

@@ -54,7 +54,6 @@ extern GtkWidget *toplevel, *map_canvas;
 extern GdkWindow *root_window;
 extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
-extern int flags_are_transparent;
 extern GdkGC *fill_bg_gc;
 extern GdkGC *civ_gc;
 
