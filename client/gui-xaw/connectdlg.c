@@ -91,40 +91,41 @@ static int get_meta_list(char **list, char *errbuf);
 
 void gui_server_connect(void)
 {
-  Widget shell, form, label, label2;
+  Widget shell, form;
   char buf[512];
   
   XtTranslations textfieldtranslations;
   
   XtSetSensitive(toplevel, FALSE);
   
-  shell=XtCreatePopupShell("connectdialog", transientShellWidgetClass,
-			   toplevel, NULL, 0);
+  I_T(shell=XtCreatePopupShell("connectdialog", transientShellWidgetClass,
+			       toplevel, NULL, 0));
   
   form=XtVaCreateManagedWidget("cform", formWidgetClass, shell, NULL);
 
-  label=XtVaCreateManagedWidget("cheadline", labelWidgetClass, form, NULL);   
+  I_LW(XtVaCreateManagedWidget("cheadline", labelWidgetClass, form, NULL));
 
-  XtVaCreateManagedWidget("cnamel", labelWidgetClass, form, NULL);   
+  I_L(XtVaCreateManagedWidget("cnamel", labelWidgetClass, form, NULL));
   iname=XtVaCreateManagedWidget("cnamei", asciiTextWidgetClass, form, 
 			  XtNstring, name, NULL);
 
-  XtVaCreateManagedWidget("chostl", labelWidgetClass, form, NULL);   
+  I_L(XtVaCreateManagedWidget("chostl", labelWidgetClass, form, NULL));
   ihost=XtVaCreateManagedWidget("chosti", asciiTextWidgetClass, form, 
 			  XtNstring, server_host, NULL);
 
   sprintf(buf, "%d", server_port);
   
-  XtVaCreateManagedWidget("cportl", labelWidgetClass, form, NULL);   
+  I_L(XtVaCreateManagedWidget("cportl", labelWidgetClass, form, NULL));
   iport=XtVaCreateManagedWidget("cporti", asciiTextWidgetClass, form, 
 			  XtNstring, buf, NULL);
 
-  connw=XtVaCreateManagedWidget("cconnectc", commandWidgetClass, form, NULL);   
-  metaw=XtVaCreateManagedWidget("cmetac", commandWidgetClass, form, NULL);
-  quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL); 
+  I_L(connw=XtVaCreateManagedWidget("cconnectc", commandWidgetClass,
+				    form, NULL));
+  I_L(metaw=XtVaCreateManagedWidget("cmetac", commandWidgetClass, form, NULL));
+  I_L(quitw=XtVaCreateManagedWidget("cquitc", commandWidgetClass, form, NULL));
 
   if (IS_BETA_VERSION)
-    label2=XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form, NULL);
+    I_LW(XtVaCreateManagedWidget("cbetaline", labelWidgetClass, form, NULL));
 
   XtAddCallback(connw, XtNcallback, connect_callback, NULL);
   XtAddCallback(quitw, XtNcallback, quit_callback, NULL);

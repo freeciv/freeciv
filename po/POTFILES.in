@@ -2,3 +2,4 @@
 # (Filenames relative to toplevel dir.)
 server/civserver.c
 client/civclient.c
+data/Freeciv

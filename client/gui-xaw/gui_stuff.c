@@ -10,14 +10,22 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
+#include <X11/Shell.h>
 #include <X11/Xaw/Form.h>
 
+#include "astring.h"
+#include "fcintl.h"
 #include "mem.h"
 
 #include "gui_stuff.h"
@@ -235,3 +243,108 @@ void put_line_32(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
     *pdst++=*(psrc+4*xoffset_table[x]+3);
   }
 }
+
+
+/**************************************************************************
+  Returns 1 if string has gettext markings _inside_ string
+  (marking must be strictly at ends of string).
+**************************************************************************/
+static int has_intl_marking(const char *str)
+{
+  int len;
+  
+  if (!(str[0] == '_' && str[1] == '(' && str[2] == '\"'))
+    return 0;
+  
+  len = strlen(str);
+
+  return (len >= 5 && str[len-2] == '\"' && str[len-1] == ')');
+}
+
+/**************************************************************************
+  For a string which _has_ intl marking (caller should check beforehand)
+  returns gettext result of string inside marking.
+  Below buf is an internal buffer which is never free'd.
+**************************************************************************/
+static const char *convert_intl_marking(const char *str)
+{
+  static struct astring buf = ASTRING_INIT;
+  int len = strlen(str);
+
+  assert(len>=5);
+  astr_minsize(&buf, len-2);	/* +1 nul, -3 start */
+  strcpy(buf.str, str+3);
+  buf.str[len-5] = '\0';
+
+  return _(buf.str);
+}
+
+/**************************************************************************
+  Check if the current widget label has i18n/gettext markings
+  _inside_ the string (for full string only).  If so, then
+  strip off those markings, pass to gettext, and re-set label
+  to gettext-returned string.  Note this is intended for resources
+  which are specified in data/Freeciv; if the label is set via
+  code, it should be gettext'd via code before/when set.
+  Note all this is necessary even if not using gettext, to
+  remove the gettext markings!
+  Returns the same widget (eg, to nest calls of this and following funcs).
+**************************************************************************/
+Widget xaw_intl_label(Widget w)
+{
+  String str;
+
+  XtVaGetValues(w, XtNlabel, &str, NULL);
+
+  if (has_intl_marking(str))
+    XtVaSetValues(w, XtNlabel, (XtArgVal)convert_intl_marking(str), NULL);
+  return w;
+}
+
+/**************************************************************************
+  As above, but also making sure to preserve the widget width.
+  Should probably use this version rather than above
+  when data/Freeciv specifies the width.
+**************************************************************************/
+Widget xaw_intl_label_width(Widget w)
+{
+  String str;
+  Dimension width;
+
+  XtVaGetValues(w, XtNlabel, &str, XtNwidth, &width, NULL);
+
+  if (has_intl_marking(str)) {
+    XtVaSetValues(w, XtNlabel, (XtArgVal)convert_intl_marking(str),
+		  XtNwidth, width, NULL);
+  }
+  return w;
+}
+
+/**************************************************************************
+  As above, for widget title.
+**************************************************************************/
+Widget xaw_intl_title(Widget w)
+{
+  String str;
+
+  XtVaGetValues(w, XtNtitle, &str, NULL);
+
+  if (has_intl_marking(str))
+    XtVaSetValues(w, XtNtitle, (XtArgVal)convert_intl_marking(str), NULL);
+  return w;
+}
+
+/**************************************************************************
+  As above, for widget icon name.
+**************************************************************************/
+Widget xaw_intl_icon_name(Widget w)
+{
+  String str;
+
+  XtVaGetValues(w, XtNiconName, &str, NULL);
+
+  if (has_intl_marking(str))
+    XtVaSetValues(w, XtNiconName, (XtArgVal)convert_intl_marking(str), NULL);
+  return w;
+}
+

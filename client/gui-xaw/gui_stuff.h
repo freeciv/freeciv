@@ -24,4 +24,14 @@ void xaw_set_relative_position(Widget ref, Widget w, int px, int py);
 Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h, 
 		      Window root);
 
+Widget xaw_intl_label(Widget w);
+Widget xaw_intl_label_width(Widget w);
+Widget xaw_intl_title(Widget w);
+Widget xaw_intl_icon_name(Widget w);
+
+#define I_L(w)  xaw_intl_label(w)
+#define I_LW(w) xaw_intl_label_width(w)
+#define I_T(w)  xaw_intl_title(w)
+#define I_IN(w) xaw_intl_icon_name(w)
+
 #endif  /* FC__GUI_STUFF_H */
