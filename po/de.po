@@ -1304,7 +1304,7 @@ msgstr "Spiel: In %s wurde kein neues Forschungsergebnis gefunden."
 #: server/diplomats.c:616
 #, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
-msgstr "Spiel: %s konnte in %3$s keine Kenntnisse über %2$s finden."
+msgstr "Spiel: %1$s konnte in %3$s keine Kenntnisse über %2$s finden."
 
 #: server/diplomats.c:637
 #, c-format
@@ -7898,8 +7898,7 @@ msgstr "Aktualisieren"
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr ""
-"Verbindungsaufbau mit Server '%s' an Port %d war in %4$d Versuchen nicht "
-"möglich."
+"Verbindungsaufbau mit Server '%s' an Port %d war nicht möglich."
 
 #: client/gui-gtk-2.0/connectdlg.c:344 client/gui-gtk-2.0/connectdlg.c:346
 #: client/gui-gtk/connectdlg.c:325 client/gui-gtk/connectdlg.c:327
