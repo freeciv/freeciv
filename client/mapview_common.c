@@ -23,6 +23,7 @@
 
 #include "mapview_g.h"
 
+#include "goto.h"
 #include "mapview_common.h"
 #include "tilespec.h"
 
@@ -454,6 +455,54 @@ void show_city_descriptions(void)
 	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
 	  show_city_desc(pcity, canvas_x, canvas_y);
 	}
+      }
+    }
+  }
+}
+
+/**************************************************************************
+  Remove the line from src_x, src_y in the given direction, and redraw
+  the change if necessary.
+**************************************************************************/
+void undraw_segment(int src_x, int src_y, int dir)
+{
+  int dest_x, dest_y;
+
+  assert(get_drawn(src_x, src_y, dir) > 0);
+
+  /* If we walk on a path twice it looks just like walking on it once. */
+  decrement_drawn(src_x, src_y, dir);
+  if (get_drawn(src_x, src_y, dir) > 0) {
+    return;
+  }
+
+  if (!MAPSTEP(dest_x, dest_y, src_x, src_y, dir)) {
+    assert(0);
+  }
+
+  if (is_isometric) {
+    /* somewhat inefficient */
+    update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
+		      src_x == dest_x ? 1 : 2,
+		      src_y == dest_y ? 1 : 2,
+		      TRUE);
+  } else {
+    refresh_tile_mapcanvas(src_x, src_y, TRUE);
+    refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
+
+    if (NORMAL_TILE_WIDTH % 2 == 0 || NORMAL_TILE_HEIGHT % 2 == 0) {
+      if (dir == DIR8_NORTHEAST) {
+	/* Since the tile doesn't have a middle we draw an extra pixel
+	 * on the adjacent tile when drawing in this direction. */
+	if (!MAPSTEP(dest_x, dest_y, src_x, src_y, DIR8_EAST)) {
+	  assert(0);
+	}
+	refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
+      } else if (dir == DIR8_SOUTHWEST) {	/* the same */
+	if (!MAPSTEP(dest_x, dest_y, src_x, src_y, DIR8_SOUTH)) {
+	  assert(0);
+	}
+	refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
       }
     }
   }

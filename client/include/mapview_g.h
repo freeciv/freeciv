@@ -54,7 +54,6 @@ void refresh_overview_canvas(void);
 void refresh_overview_viewrect(void);
 
 void draw_segment(int src_x, int src_y, int dir);
-void undraw_segment(int src_x, int src_y, int dir);
 
 void tileset_changed(void);
 

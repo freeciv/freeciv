@@ -1191,49 +1191,6 @@ void draw_segment(int src_x, int src_y, int dir)
 }
 
 /**************************************************************************
-This is somewhat inefficient, but I simply can't feel any performance
-penalty so I will be lazy...
-**************************************************************************/
-void undraw_segment(int src_x, int src_y, int dir)
-{
-  int dest_x, dest_y, is_real;
-  int drawn = get_drawn(src_x, src_y, dir);
-
-  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
-  assert(is_real);
-
-  assert(drawn > 0);
-  /* If we walk on a path twice it looks just like walking on it once. */
-  if (drawn > 1) {
-    decrement_drawn(src_x, src_y, dir);
-    return;
-  }
-
-  decrement_drawn(src_x, src_y, dir);
-  refresh_tile_mapcanvas(src_x, src_y, TRUE);
-  refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
-  if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-    int is_real;
-
-    if (dir == DIR8_NORTHEAST) {
-      /* Since the tile doesn't have a middle we draw an extra pixel
-         on the adjacent tile when drawing in this direction. */
-      dest_x = src_x + 1;
-      dest_y = src_y;
-      is_real = normalize_map_pos(&dest_x, &dest_y);
-      assert(is_real);
-      refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
-    } else if (dir == DIR8_SOUTHWEST) {	/* the same */
-      dest_x = src_x;
-      dest_y = src_y + 1;
-      is_real = normalize_map_pos(&dest_x, &dest_y);
-      assert(is_real);
-      refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
-    }
-  }
-}
-
-/**************************************************************************
   This function is called when the tileset is changed.
 **************************************************************************/
 void tileset_changed(void)

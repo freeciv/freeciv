@@ -1923,63 +1923,6 @@ void draw_segment(int src_x, int src_y, int dir)
   }
 }
 
-
-/**************************************************************************
-remove the line from src_x,src_y -> dest_x,dest_y on both map_canvas and
-map_canvas_store.
-**************************************************************************/
-void undraw_segment(int src_x, int src_y, int dir)
-{
-  int dest_x, dest_y, is_real;
-
-  is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
-  assert(is_real);
-
-  if (is_isometric) {
-    assert(get_drawn(src_x, src_y, dir));
-    decrement_drawn(src_x, src_y, dir);
-
-    /* somewhat inefficient */
-    if (!get_drawn(src_x, src_y, dir)) {
-      update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
-                        src_x == dest_x ? 1 : 2,
-                        src_y == dest_y ? 1 : 2,
-                        TRUE);
-    }
-  } else {
-    int drawn = get_drawn(src_x, src_y, dir);
-
-    assert(drawn > 0);
-    /* If we walk on a path twice it looks just like walking on it once. */
-    if (drawn > 1) {
-      decrement_drawn(src_x, src_y, dir);
-      return;
-    }
-
-    decrement_drawn(src_x, src_y, dir);
-    refresh_tile_mapcanvas(src_x, src_y, TRUE);
-    refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
-    
-    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-      if (dir == DIR8_NORTHEAST) { /* Since the tle doesn't have a middle we draw an extra pi
-xel
-                         on the adjacent tile when drawing in this direction. */
-        dest_x = src_x + 1;
-        dest_y = src_y;
-        is_real = normalize_map_pos(&dest_x, &dest_y);
-	assert(is_real);
-        refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
-      } else if (dir == DIR8_SOUTHWEST) { /* the same */
-        dest_x = src_x;
-        dest_y = src_y + 1;
-        is_real = normalize_map_pos(&dest_x, &dest_y);
-	assert(is_real);
-        refresh_tile_mapcanvas(dest_x, dest_y, TRUE);
-      }
-    }
-  }
-}
-
 /**************************************************************************
   This function is called when the tileset is changed.
 **************************************************************************/

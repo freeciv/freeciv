@@ -66,7 +66,6 @@ struct Map_Click
 #define MUIM_Map_PutCrossTile           (0x7878792)
 #define MUIM_Map_ExplodeUnit            (0x7878793)
 #define MUIM_Map_DrawSegment            (0x7878794)
-#define MUIM_Map_UndrawSegment          (0x7878795)
 
 struct MUIP_Map_Refresh         {ULONG MethodID; LONG x; LONG y; LONG width; LONG height;
                                  LONG write_to_screen;};

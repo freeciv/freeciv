@@ -521,15 +521,6 @@ void draw_segment(int src_x, int src_y, int dir)
 }
 
 /**************************************************************************
-remove the line from src_x,src_y -> dest_x,dest_y on both map_canvas and
-map_canvas_store.
-**************************************************************************/
-void undraw_segment(int src_x, int src_y, int dir)
-{
-  DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dir);
-}
-
-/**************************************************************************
   This function is called when the tileset is changed.
 **************************************************************************/
 void tileset_changed(void)

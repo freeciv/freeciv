@@ -133,6 +133,8 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);
 void update_map_canvas_visible(void);
 
 void show_city_descriptions(void);
+
+void undraw_segment(int src_x, int src_y, int dir);
 				
 struct city *find_city_near_tile(int x, int y);
 

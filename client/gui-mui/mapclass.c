@@ -2048,18 +2048,6 @@ static ULONG Map_DrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawS
   return 0;
 }
 
-static ULONG Map_UndrawSegment(struct IClass *cl, Object *o, struct MUIP_Map_DrawSegment *msg)
-{
-  struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
-  data->update = 9;
-  data->segment_src_x = msg->src_x;
-  data->segment_src_y = msg->src_y;
-  data->segment_dir = msg->dir;
-  MUI_Redraw(o, MADF_DRAWUPDATE);
-  return 0;
-}
-
-
 DISPATCHERPROTO(Map_Dispatcher)
 {
   switch (msg->MethodID)
@@ -2112,8 +2100,6 @@ DISPATCHERPROTO(Map_Dispatcher)
     return Map_DrawMushroom(cl, obj, (struct MUIP_Map_DrawMushroom *)msg);
   case MUIM_Map_DrawSegment:
     return Map_DrawSegment(cl, obj, (struct MUIP_Map_DrawSegment *)msg);
-  case MUIM_Map_UndrawSegment:
-    return Map_UndrawSegment(cl, obj, (struct MUIP_Map_DrawSegment *)msg);
   }
 
   return (DoSuperMethodA(cl, obj, msg));
