@@ -19,6 +19,8 @@
 #define FOOD_WEIGHTING 19
 #define SHIELD_WEIGHTING 17
 #define TRADE_WEIGHTING 8
+#define POLLUTION_WEIGHTING 14 /* tentative */
+#define WARMING_FACTOR 32 /* tentative */
 
 int city_got_barracks(struct city *pcity);
 int can_sell_building(struct city *pcity, int id);
