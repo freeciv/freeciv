@@ -345,7 +345,7 @@ static int likely_ocean(int x, int y, struct player *pplayer)
 Is a tile likely to be coastline, given information that the 
 player actually has.
 ***************************************************************/
-bool is_likely_coastline(int x, int y, struct player *pplayer)
+static bool is_likely_coastline(int x, int y, struct player *pplayer)
 {
   int likely = 50;
   int t;
@@ -369,7 +369,7 @@ bool is_likely_coastline(int x, int y, struct player *pplayer)
 Is there a chance that a trireme would be lost, given information that 
 the player actually has.
 ***************************************************************/
-bool is_likely_trireme_loss(struct player *pplayer, int x, int y) 
+static bool is_likely_trireme_loss(struct player *pplayer, int x, int y) 
 {
   /*
    * If we are in a city or next to land, we have no chance of losing
@@ -519,8 +519,10 @@ bool ai_manage_explorer(struct unit *punit)
     /* How desirable the most desirable tile is, given nearby water, 
      * cities, etc. */
     int most_desirable = 0; 
-    /* coordinates of most desirable tile */
-    int best_x, best_y;
+     /* Coordinates of most desirable tile. Initialized to make
+      * compiler happy as these variables are guarded by
+      * most_desirable. */
+    int best_x = -1, best_y = -1;
 
     /* Evaluate all adjacent tiles. */
     adjc_iterate(x, y, x1, y1) {
@@ -585,8 +587,10 @@ bool ai_manage_explorer(struct unit *punit)
   {
     /* most desirable tile, given nearby water, cities, etc. */
     float most_desirable = 0;
-    /* coordinates of most desirable tile */
-    int best_x, best_y;
+     /* Coordinates of most desirable tile. Initialized to make
+      * compiler happy as these variables are guarded by
+      * most_desirable. */
+    int best_x = -1, best_y = -1;
   
     generate_warmap(map_get_city(x, y), punit);
 
