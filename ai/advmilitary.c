@@ -537,37 +537,39 @@ int ai_unit_attack_desirability(Unit_Type_id i)
 }
 
 /************************************************************************** 
-What would be the best defender for that city?
-Records the best defender type in choice.
-Also sets the technology want for the units we can't build yet.
+  What would be the best defender for that city? Records the best defender 
+  type in choice. Also sets the technology want for the units we can't 
+  build yet.
 **************************************************************************/
 static void process_defender_want(struct player *pplayer, struct city *pcity,
                                   int danger, struct ai_choice *choice)
 {
   bool walls = city_got_citywalls(pcity);
   bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
-  bool defended = has_a_normal_defender(pcity);
   /* Technologies we would like to have. */
   int tech_desire[U_LAST];
   /* Our favourite unit. */
   int best = 0;
-  Unit_Type_id best_unit_type = 0; /* FIXME: 0 is legal value! */
+  Unit_Type_id best_unit_type = 0; /* zero is settler but not a problem */
 
   memset(tech_desire, 0, sizeof(tech_desire));
   
   simple_ai_unit_type_iterate (unit_type) {
-    int move_type = unit_types[unit_type].move_type;
+      int move_type = unit_types[unit_type].move_type;
     
-    if (move_type == LAND_MOVING || move_type == SEA_MOVING) {
       /* How many technologies away it is? */
       int tech_dist = num_unknown_techs_for_goal(pplayer,
                         unit_types[unit_type].tech_requirement);
+
       /* How much we want the unit? */
       int desire = ai_unit_defence_desirability(unit_type);
-      
-      /* We won't leave the castle empty when driving out to battlefield. */
-      if (!defended && unit_type_flag(unit_type, F_FIELDUNIT)) desire = 0;
-      
+
+      if (unit_type_flag(unit_type, F_FIELDUNIT)) {
+        /* Causes unhappiness even when in defense, so not a good
+         * idea for a defender, unless it is _really_ good */
+       desire /= 2;
+      }      
+
       desire /= POWER_DIVIDER/2; /* Good enough, no rounding errors. */
       desire *= desire;
       
@@ -610,7 +612,6 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
         tech_desire[unit_type] = desire * danger /
                                 (unit_types[unit_type].build_cost + tech_cost);
       }
-    }
   } simple_ai_unit_type_iterate_end;
   
   if (!walls && unit_types[best_unit_type].move_type == LAND_MOVING) {
@@ -620,10 +621,9 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 
   if (best == 0) best = 1; /* Avoid division by zero below. */
 
-  /* Request appropriate techs for units we want to build. */
-  
+  /* Update tech_want for appropriate techs for units we want to build. */
   simple_ai_unit_type_iterate (unit_type) {
-    if (tech_desire[unit_type]) {
+    if (tech_desire[unit_type] > 0) {
       Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
       int desire = tech_desire[unit_type]
                    * unit_types[best_unit_type].build_cost / best;
