@@ -34,7 +34,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-01-20 12:58+0100\n"
+"POT-Creation-Date: 2002-01-21 17:32+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -339,6 +339,12 @@ msgstr "Because civilization(s) should be free!"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (compiled without strerror)"
+
+#: client/gui-gtk/repodlgs.c:348 client/gui-gtk/repodlgs.c:356
+#: client/gui-gtk/repodlgs.c:461 common/tech.c:536
+#, c-format
+msgid "Future Tech. %d"
+msgstr "Zukunftstechnologie %d"
 
 #: client/gui-gtk/plrdlg.c:145 client/gui-mui/plrdlg.c:189
 #: client/gui-win32/plrdlg.c:374 common/unit.c:520
@@ -1593,19 +1599,15 @@ msgstr ""
 "Spiel: %s erforscht.\n"
 "       Die Wissenschaftler erforschen jetzt %s."
 
-#: server/plrhand.c:304
+#: server/plrhand.c:307
 #, c-format
-msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
-msgstr ""
-"Spiel: %s erforscht.\n"
-"       Die Wissenschaftler erforschen jetzt Zukunftstechnologie 1."
+msgid "Game: Learned %s. "
+msgstr "Spiel: %s erforscht."
 
 #: server/plrhand.c:310
 #, c-format
-msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
-msgstr ""
-"Spiel: Zukunftstechnologie %d erforscht.\n"
-"       Die Wissenschaftler erforschen jetzt Zukunftstechnologie %d."
+msgid "Researching %s."
+msgstr "Erforsche %s."
 
 #: server/plrhand.c:322
 #, c-format
@@ -1688,7 +1690,7 @@ msgstr "Luxus"
 #: client/gui-gtk/gamedlgs.c:284 client/gui-gtk/repodlgs.c:162
 #: client/gui-mui/repodlgs.c:300 client/gui-win32/ratesdlg.c:327
 #: client/gui-win32/repodlgs.c:115 client/gui-xaw/menu.c:200
-#: client/gui-xaw/repodlgs.c:269 client/gui-xaw/repodlgs.c:514
+#: client/gui-xaw/repodlgs.c:262 client/gui-xaw/repodlgs.c:507
 #: data/Freeciv:1360 server/plrhand.c:624
 msgid "Science"
 msgstr "Forschung"
@@ -5219,7 +5221,7 @@ msgstr "Überschuß: Nahrung, Produktion, Handel"
 
 #: client/cityrepdata.c:213 client/gui-gtk/repodlgs.c:581
 #: client/gui-win32/repodlgs.c:328 client/gui-xaw/menu.c:199
-#: client/gui-xaw/repodlgs.c:649 client/gui-xaw/repodlgs.c:805
+#: client/gui-xaw/repodlgs.c:635 client/gui-xaw/repodlgs.c:791
 #: data/Freeciv:1763
 msgid "Economy"
 msgstr "Wirtschaft"
@@ -5691,8 +5693,7 @@ msgstr ""
 
 #: client/helpdata.c:748
 msgid " This number may vary depending on what other players will research.\n"
-msgstr ""
-" Diese Anzahl hängt davon ab, was die anderen Spieler erforschen.\n"
+msgstr " Diese Anzahl hängt davon ab, was die anderen Spieler erforschen.\n"
 
 #: client/helpdata.c:758
 #, c-format
@@ -6837,14 +6838,14 @@ msgstr "Gewünschte Spalten markieren:"
 #: client/gui-gtk/dialogs.c:329 client/gui-gtk/dialogs.c:708
 #: client/gui-gtk/dialogs.c:806 client/gui-gtk/dialogs.c:1798
 #: client/gui-gtk/gamedlgs.c:445 client/gui-gtk/helpdlg.c:617
-#: client/gui-gtk/inteldlg.c:184 client/gui-gtk/repodlgs.c:226
+#: client/gui-gtk/inteldlg.c:178 client/gui-gtk/repodlgs.c:226
 #: client/gui-gtk/repodlgs.c:602 client/gui-gtk/repodlgs.c:854
 #: client/gui-gtk/spaceshipdlg.c:211 client/gui-gtk/wldlg.c:202
 #: client/gui-win32/citydlg.c:849 client/gui-win32/cityrep.c:134
 #: client/gui-win32/cityrep.c:890 client/gui-win32/dialogs.c:179
 #: client/gui-win32/dialogs.c:242 client/gui-win32/dialogs.c:663
 #: client/gui-win32/dialogs.c:1285 client/gui-win32/dialogs.c:1496
-#: client/gui-win32/helpdlg.c:423 client/gui-win32/inteldlg.c:158
+#: client/gui-win32/helpdlg.c:423 client/gui-win32/inteldlg.c:152
 #: client/gui-win32/messagewin.c:208 client/gui-win32/optiondlg.c:108
 #: client/gui-win32/plrdlg.c:386 client/gui-win32/repodlgs.c:301
 #: client/gui-win32/repodlgs.c:492 client/gui-win32/repodlgs.c:743
@@ -7841,27 +7842,20 @@ msgstr "Forschung: %d%%"
 msgid "Luxury: %d%%"
 msgstr "Luxus: %d%%"
 
-#: client/gui-gtk/inteldlg.c:133 client/gui-mui/inteldlg.c:147
-#: client/gui-win32/inteldlg.c:126 client/gui-xaw/inteldlg.c:148
+#: client/gui-gtk/inteldlg.c:132 client/gui-mui/inteldlg.c:146
+#: client/gui-win32/inteldlg.c:125 client/gui-xaw/inteldlg.c:147
 #, c-format
 msgid "Researching: %s(%d/%d)"
 msgstr "Erforsche: %s(%d/%d)"
 
-#: client/gui-gtk/inteldlg.c:137 client/gui-mui/inteldlg.c:151
-#: client/gui-win32/inteldlg.c:130 client/gui-xaw/inteldlg.c:152
-#: client/gui-xaw/repodlgs.c:236 client/gui-xaw/repodlgs.c:525
-#, c-format
-msgid "Researching Future Tech. %d: %d/%d"
-msgstr "Erforsche Zukunftstechnologie %d: %d/%d"
-
-#: client/gui-gtk/inteldlg.c:146 client/gui-mui/inteldlg.c:156
-#: client/gui-win32/inteldlg.c:137 client/gui-xaw/inteldlg.c:164
+#: client/gui-gtk/inteldlg.c:140 client/gui-mui/inteldlg.c:150
+#: client/gui-win32/inteldlg.c:131 client/gui-xaw/inteldlg.c:158
 #, c-format
 msgid "Capital: %s"
 msgstr "Hauptstadt: %s"
 
-#: client/gui-gtk/inteldlg.c:147 client/gui-mui/inteldlg.c:156
-#: client/gui-win32/inteldlg.c:138 client/gui-xaw/inteldlg.c:165
+#: client/gui-gtk/inteldlg.c:141 client/gui-mui/inteldlg.c:150
+#: client/gui-win32/inteldlg.c:132 client/gui-xaw/inteldlg.c:159
 msgid "(Unknown)"
 msgstr "(Unbekannt)"
 
@@ -8128,7 +8122,7 @@ msgstr "Verschmutzung"
 #: client/gui-win32/repodlgs.c:650 client/gui-win32/repodlgs.c:730
 #: client/gui-win32/repodlgs.c:737 client/gui-xaw/menu.c:142
 #: client/gui-xaw/menu.c:197 client/gui-xaw/menu.c:218
-#: client/gui-xaw/repodlgs.c:915 client/gui-xaw/repodlgs.c:1108
+#: client/gui-xaw/repodlgs.c:901 client/gui-xaw/repodlgs.c:1094
 #: data/Freeciv:1838 data/helpdata.txt:756
 msgid "Units"
 msgstr "Einheiten"
@@ -8628,12 +8622,6 @@ msgstr "Ziel"
 msgid "(%d step)"
 msgstr "(%d Schritte)"
 
-#: client/gui-gtk/repodlgs.c:348 client/gui-gtk/repodlgs.c:356
-#: client/gui-gtk/repodlgs.c:461
-#, c-format
-msgid "Researching Future Tech. %d"
-msgstr "Erforsche Zukunftstechnologie %d"
-
 #: client/gui-gtk/repodlgs.c:383
 msgid "Research speed: no research"
 msgstr "Forschungstempo: Keine Forschung"
@@ -8673,29 +8661,29 @@ msgid "Sell All"
 msgstr "Alles verkaufen"
 
 #: client/gui-gtk/repodlgs.c:711 client/gui-mui/repodlgs.c:560
-#: client/gui-win32/repodlgs.c:414 client/gui-xaw/repodlgs.c:780
+#: client/gui-win32/repodlgs.c:414 client/gui-xaw/repodlgs.c:766
 #, c-format
 msgid "Sold %d %s for %d gold"
 msgstr "%d %s für %d Goldstücke verkauft"
 
 #: client/gui-gtk/repodlgs.c:714 client/gui-mui/repodlgs.c:564
-#: client/gui-win32/repodlgs.c:417 client/gui-xaw/repodlgs.c:783
+#: client/gui-win32/repodlgs.c:417 client/gui-xaw/repodlgs.c:769
 #, c-format
 msgid "No %s could be sold"
 msgstr "%s konnten nicht verkauft werden"
 
 #: client/gui-gtk/repodlgs.c:718 client/gui-mui/repodlgs.c:566
-#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:786
+#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:772
 msgid "Sell-Off:"
 msgstr "Ausverkauf:"
 
 #: client/gui-gtk/repodlgs.c:718 client/gui-mui/repodlgs.c:566
-#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:786
+#: client/gui-win32/repodlgs.c:422 client/gui-xaw/repodlgs.c:772
 msgid "Results"
 msgstr "Ergebnisse"
 
 #: client/gui-gtk/repodlgs.c:779 client/gui-mui/repodlgs.c:680
-#: client/gui-win32/repodlgs.c:368 client/gui-xaw/repodlgs.c:846
+#: client/gui-win32/repodlgs.c:368 client/gui-xaw/repodlgs.c:832
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
@@ -8725,7 +8713,7 @@ msgstr "aktiv"
 msgid "Shield"
 msgstr "Schild"
 
-#: client/gui-gtk/repodlgs.c:850 client/gui-xaw/repodlgs.c:938
+#: client/gui-gtk/repodlgs.c:850 client/gui-xaw/repodlgs.c:924
 msgid "Totals: ..."
 msgstr "Insgesamt: ..."
 
@@ -8741,7 +8729,7 @@ msgid "Refresh"
 msgstr "Neu laden"
 
 #: client/gui-gtk/repodlgs.c:949 client/gui-mui/repodlgs.c:829
-#: client/gui-win32/repodlgs.c:603 client/gui-xaw/repodlgs.c:1041
+#: client/gui-win32/repodlgs.c:603 client/gui-xaw/repodlgs.c:1027
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -9941,7 +9929,7 @@ msgstr "Abkommen aufkündigen"
 msgid "Withdraw vision"
 msgstr "Karteneinsicht verbieten"
 
-#: client/gui-win32/repodlgs.c:119 client/gui-xaw/repodlgs.c:508
+#: client/gui-win32/repodlgs.c:119 client/gui-xaw/repodlgs.c:501
 msgid ""
 "\n"
 "(no research)"
@@ -9949,7 +9937,7 @@ msgstr ""
 "\n"
 "(keine Forschung)"
 
-#: client/gui-win32/repodlgs.c:122 client/gui-xaw/repodlgs.c:511
+#: client/gui-win32/repodlgs.c:122 client/gui-xaw/repodlgs.c:504
 #, c-format
 msgid ""
 "\n"
@@ -10210,19 +10198,19 @@ msgstr ""
 "%s der %s\n"
 "%s %s: %s%s"
 
-#: client/gui-xaw/repodlgs.c:230 client/gui-xaw/repodlgs.c:407
-#: client/gui-xaw/repodlgs.c:519
+#: client/gui-xaw/repodlgs.c:229 client/gui-xaw/repodlgs.c:400
+#: client/gui-xaw/repodlgs.c:511
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "Erforsche: %s: %d/%d"
 
-#: client/gui-xaw/repodlgs.c:243 client/gui-xaw/repodlgs.c:436
-#: client/gui-xaw/repodlgs.c:533
+#: client/gui-xaw/repodlgs.c:236 client/gui-xaw/repodlgs.c:429
+#: client/gui-xaw/repodlgs.c:519
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
-#: client/gui-xaw/repodlgs.c:1160
+#: client/gui-xaw/repodlgs.c:1146
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
