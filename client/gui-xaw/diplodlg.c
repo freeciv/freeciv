@@ -644,18 +644,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 **************************************************************************/
 void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
-  int i;
-  struct genlist_iterator myiter;
+  int i = 0;
   const int n = sizeof(pdialog->clauselist_strings[0]);
   
-  genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
-  
-  for(i=0; i<MAX_NUM_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+  clause_list_iterate(pdialog->treaty.clauses, pclause) {
     client_diplomacy_clause_string(pdialog->clauselist_strings[i], n, pclause);
     pdialog->clauselist_strings_ptrs[i]=pdialog->clauselist_strings[i];
     i++;
-  }
+  } clause_list_iterate_end;
 
   pdialog->clauselist_strings_ptrs[i]=0;
   XawListChange(pdialog->dip_clauselist, pdialog->clauselist_strings_ptrs, 
@@ -731,15 +727,11 @@ void diplomacy_dialog_erase_clause_callback(Widget w, XtPointer client_data,
   ret=XawListShowCurrent(pdialog->dip_clauselist);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    int i;
-    struct genlist_iterator myiter;
-  
-    genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
+    int i = 0;
 
-    for(i=0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
+    clause_list_iterate(pdialog->treaty.clauses, pclause) {
       if(i==ret->list_index) {
 	struct packet_diplomacy_info pa;
-	struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
 
 	pa.plrno0=pdialog->treaty.plr0->player_no;
 	pa.plrno1=pdialog->treaty.plr1->player_no;
@@ -750,7 +742,8 @@ void diplomacy_dialog_erase_clause_callback(Widget w, XtPointer client_data,
 				   &pa);
 	return;
       }
-    }
+      i++;
+    } clause_list_iterate_end;
   }
 }
 

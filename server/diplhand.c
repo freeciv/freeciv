@@ -131,12 +131,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 
     /* Check that player who accepts can keep what (s)he promises. */
 
-    struct genlist_iterator myiter;
-
-    genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-
-    for (;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-      struct Clause *pclause = (struct Clause *)ITERATOR_PTR(myiter);
+    clause_list_iterate(ptreaty->clauses, pclause) {
       struct city *pcity;
 
       if (pclause->from == pplayer) {
@@ -188,7 +183,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  ; /* nothing */
 	}
       }
-    }
+    } clause_list_iterate_end;
   }
 
   *giver_accept = ! *giver_accept;
@@ -201,8 +196,6 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			      packet);
 
   if (ptreaty->accept0 && ptreaty->accept1) {
-    struct genlist_iterator myiter;
-
     lsend_packet_diplomacy_info(&plr0->connections,
 				PACKET_DIPLOMACY_CANCEL_MEETING, 
 				packet);
@@ -212,10 +205,10 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 
     notify_player(plr0,
 		  _("Game: A treaty containing %d clauses was agreed upon."),
-		  genlist_size(&ptreaty->clauses));
+		  clause_list_size(&ptreaty->clauses));
     notify_player(plr1,
 		  _("Game: A treaty containing %d clauses was agreed upon."),
-		  genlist_size(&ptreaty->clauses));
+		  clause_list_size(&ptreaty->clauses));
     gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
 	    get_nation_name_plural(plr0->nation),
 	    get_nation_name_plural(plr1->nation));
@@ -223,9 +216,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
     /* Check that one who accepted treaty earlier still have everything
        (s)he promised to give. */
 
-    genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-    for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-      struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+    clause_list_iterate(ptreaty->clauses, pclause) {
       struct city *pcity;
       if (pclause->from == other) {
 	switch (pclause->type) {
@@ -273,13 +264,9 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  ; /* nothing */
 	}
       }
-    }
+    } clause_list_iterate_end;
 
-    genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-
-    for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-      struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
-
+    clause_list_iterate(ptreaty->clauses, pclause) {
       pgiver = pclause->from;
       pdest = (plr0==pgiver) ? plr1 : plr0;
 
@@ -384,7 +371,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	break;
       }
 
-    }
+    } clause_list_iterate_end;
   cleanup:      
     genlist_unlink(&treaties, ptreaty);
     free(ptreaty);
@@ -574,7 +561,6 @@ void send_diplomatic_meetings(struct connection *dest)
   }
   players_iterate(other_player) {
     if ( (ptreaty=find_treaty(pplayer, other_player))) {
-      struct genlist_iterator myiter;
       struct packet_diplomacy_info packet;
       
       packet.plrno0 = pplayer->player_no;
@@ -582,18 +568,14 @@ void send_diplomatic_meetings(struct connection *dest)
       
       send_packet_diplomacy_info(dest, PACKET_DIPLOMACY_INIT_MEETING, &packet);
       
-      genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-      
-      for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-	struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
-
+      clause_list_iterate(ptreaty->clauses, pclause) {
 	packet.clause_type = pclause->type;
 	packet.plrno_from = pclause->from->player_no;
 	packet.value = pclause->value;
   
 	send_packet_diplomacy_info(dest, PACKET_DIPLOMACY_CREATE_CLAUSE,
 				   &packet);
-      }
+      } clause_list_iterate_end;
     }
   } players_iterate_end;
 }

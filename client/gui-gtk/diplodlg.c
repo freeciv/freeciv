@@ -556,24 +556,18 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 **************************************************************************/
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
-         int               i;
          char              buf		[64];
   static char             *row		[1];
-  struct genlist_iterator  myiter;
   
   row[0]=buf;
 
   gtk_clist_freeze(GTK_CLIST(pdialog->dip_clauselist));
   gtk_clist_clear(GTK_CLIST(pdialog->dip_clauselist));
 
-  genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
-  
-  for(i=0; i<MAX_NUM_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+  clause_list_iterate(pdialog->treaty.clauses, pclause) {
     client_diplomacy_clause_string(buf, sizeof(buf), pclause);
     gtk_clist_append(GTK_CLIST(pdialog->dip_clauselist),row);
-    i++;
-  }
+  } clause_list_iterate_end;
 
   gtk_clist_thaw(GTK_CLIST(pdialog->dip_clauselist));
   gtk_widget_show_all(pdialog->dip_clauselist);
@@ -638,17 +632,13 @@ static void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data)
   GList              *selection;
 
   if ( (selection=GTK_CLIST(pdialog->dip_clauselist)->selection) ) {
-    int i,row;
-    struct genlist_iterator myiter;
+    int i = 0, row;
     
     row = (int)selection->data;
   
-    genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
-
-    for(i=0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
-      if(i==row) {
+    clause_list_iterate(pdialog->treaty.clauses, pclause) {
+      if(i == row) {
 	struct packet_diplomacy_info pa;
-	struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
 
 	pa.plrno0=pdialog->treaty.plr0->player_no;
 	pa.plrno1=pdialog->treaty.plr1->player_no;
@@ -659,7 +649,8 @@ static void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data)
 				   &pa);
 	return;
       }
-    }
+      i++;
+    } clause_list_iterate_end;
   }
 }
 

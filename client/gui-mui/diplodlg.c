@@ -99,15 +99,11 @@ void request_diplomacy_create_clause(struct Treaty *treaty, int type, int from, 
 
 void request_diplomacy_remove_clause_no(struct Treaty *treaty, int clause_no)
 {
-  int i;
-  struct genlist_iterator myiter;
+  int i = 0;
 
-  genlist_iterator_init(&myiter, &treaty->clauses, 0);
-
-  for(i=0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++) {
-    if(i==clause_no) {
+  clause_list_iterate(treaty->clauses, pclause) {
+    if (i == clause_no) {
       struct packet_diplomacy_info pa;
-      struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
 
       pa.plrno0=treaty->plr0->player_no;
       pa.plrno1=treaty->plr1->player_no;
@@ -118,7 +114,8 @@ void request_diplomacy_remove_clause_no(struct Treaty *treaty, int clause_no)
 				    &pa);
       return;
     }
-  }
+    i++;
+  } clause_list_iterate_end;
 }
 
 void request_diplomacy_accept_treaty(struct Treaty *treaty, int from)
@@ -675,19 +672,15 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 **************************************************************************/
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
-  struct genlist_iterator  myiter;
   char buf[128];
 
   set(pdialog->clauses_listview,MUIA_NList_Quiet,TRUE);
   DoMethod(pdialog->clauses_listview, MUIM_NList_Clear);
 
-  genlist_iterator_init(&myiter, &pdialog->treaty.clauses, 0);
-  
-  for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+  clause_list_iterate(pdialog->treaty.clauses, pclause) {
     client_diplomacy_clause_string(buf, sizeof(buf), pclause);
     DoMethod(pdialog->clauses_listview,MUIM_NList_InsertSingle, buf, MUIV_NList_Insert_Bottom);
-  }
+  } clause_list_iterate_end;
 
   set(pdialog->clauses_listview,MUIA_NList_Quiet,FALSE);
   set(pdialog->plr0_thumb_sprite, MUIA_Sprite_Sprite,get_thumb_sprite(pdialog->treaty.accept0));

@@ -23,6 +23,16 @@ enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
 #define is_pact_clause(x) \
   ((x == CLAUSE_CEASEFIRE) || (x == CLAUSE_PEACE) || (x == CLAUSE_ALLIANCE))
 
+/* For when we need to iterate over treaties */
+struct Clause;
+#define SPECLIST_TAG clause
+#define SPECLIST_TYPE struct Clause
+#include "speclist.h"
+
+#define clause_list_iterate(clauselist, pclause) \
+    TYPED_LIST_ITERATE(struct Clause, clauselist, pclause)
+#define clause_list_iterate_end  LIST_ITERATE_END
+
 struct Clause {
   enum clause_type type;
   struct player *from;
@@ -32,7 +42,7 @@ struct Clause {
 struct Treaty {
   struct player *plr0, *plr1;
   int accept0, accept1;
-  struct genlist clauses;
+  struct clause_list clauses;
 };
 
 void init_treaty(struct Treaty *ptreaty, 

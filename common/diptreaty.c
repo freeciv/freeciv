@@ -20,6 +20,10 @@
 
 #include "diptreaty.h"
 
+#define SPECLIST_TAG clause
+#define SPECLIST_TYPE struct Clause
+#include "speclist_c.h"
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -30,7 +34,7 @@ void init_treaty(struct Treaty *ptreaty,
   ptreaty->plr1=plr1;
   ptreaty->accept0=0;
   ptreaty->accept1=0;
-  genlist_init(&ptreaty->clauses);
+  clause_list_init(&ptreaty->clauses);
 }
 
 
@@ -40,15 +44,10 @@ void init_treaty(struct Treaty *ptreaty,
 int remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
 		  enum clause_type type, int val)
 {
-  struct genlist_iterator myiter;
-  
-  genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-  
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+  clause_list_iterate(ptreaty->clauses, pclause) {
     if(pclause->type==type && pclause->from==pfrom &&
        pclause->value==val) {
-      genlist_unlink(&ptreaty->clauses, pclause);
+      clause_list_unlink(&ptreaty->clauses, pclause);
       free(pclause);
 
       ptreaty->accept0=0;
@@ -56,7 +55,7 @@ int remove_clause(struct Treaty *ptreaty, struct player *pfrom,
 
       return 1;
     }
-  }
+  } clause_list_iterate_end;
 
   return 0;
 }
@@ -69,17 +68,13 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
 		enum clause_type type, int val)
 {
   struct Clause *pclause;
-  struct genlist_iterator myiter;
 
   if (type == CLAUSE_ADVANCE && !tech_exists(val)) {
     freelog(LOG_ERROR, "Illegal tech value %i in clause.", val);
     return 0;
   }
   
-  genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-  
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+  clause_list_iterate(ptreaty->clauses, pclause) {
     if(pclause->type==type
        && pclause->from==pfrom
        && pclause->value==val) {
@@ -102,7 +97,7 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
       pclause->value=val;
       return 1;
     }
-  }
+  } clause_list_iterate_end;
    
   pclause=fc_malloc(sizeof(struct Clause));
 
@@ -110,7 +105,7 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
   pclause->from=pfrom;
   pclause->value=val;
   
-  genlist_insert(&ptreaty->clauses, pclause, -1);
+  clause_list_insert_back(&ptreaty->clauses, pclause);
 
   ptreaty->accept0=0;
   ptreaty->accept1=0;
