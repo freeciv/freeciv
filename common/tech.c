@@ -79,10 +79,8 @@ bool is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
   if (tech == goal) {
     return FALSE;
   } else {
-    /* *INDENT-OFF* */ 
-    return BOOL_VAL(pplayer->research.inventions[goal].
-		    required_techs[tech / 8] & (1 << (tech % 8)));
-    /* *INDENT-ON* */
+    return TEST_BIT(pplayer->research.inventions[goal].
+		    required_techs[tech / 8], tech % 8);
   }
 }
 
@@ -257,7 +255,7 @@ Tech_Type_id find_tech_by_name(const char *s)
 bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag)
 {
   assert(flag>=0 && flag<TF_LAST);
-  return BOOL_VAL(advances[tech].flags & (1<<flag));
+  return TEST_BIT(advances[tech].flags, flag);
 }
 
 /**************************************************************************

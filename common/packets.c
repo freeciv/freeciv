@@ -1994,9 +1994,9 @@ receive_packet_conn_info(struct connection *pc)
   iget_uint32(&iter, &pinfo->id);
   
   iget_uint8(&iter, &data);
-  pinfo->used = data&1;
-  pinfo->established = (data>>=1)&1;
-  pinfo->observer = (data>>=1)&1;
+  pinfo->used = TEST_BIT(data, 0);
+  pinfo->established = TEST_BIT(data, 1);
+  pinfo->observer = TEST_BIT(data, 2);
 
   iget_uint8(&iter, &pinfo->player_num);
   iget_uint8(&iter, &data);
@@ -2294,12 +2294,12 @@ int send_packet_unit_info(struct connection *pc,
   cptr=put_uint8(buffer+2, PACKET_UNIT_INFO);
   cptr=put_uint16(cptr, req->id);
   cptr=put_uint8(cptr, req->owner);
-  pack=(req->select_it   ? 0x04 : 0)
-    |  (req->carried     ? 0x08 : 0)
-    |  (req->veteran     ? 0x10 : 0)
-    |  (req->ai          ? 0x20 : 0)
-    |  (req->paradropped ? 0x40 : 0)
-    |  (req->connecting  ? 0x80 : 0);
+  pack = (COND_SET_BIT(req->select_it, 2) |
+	  COND_SET_BIT(req->carried, 3) |
+	  COND_SET_BIT(req->veteran, 4) |
+	  COND_SET_BIT(req->ai, 5) |
+	  COND_SET_BIT(req->paradropped, 6) |
+	  COND_SET_BIT(req->connecting, 7));
   cptr=put_uint8(cptr, pack);
   cptr=put_uint8(cptr, req->x);
   cptr=put_uint8(cptr, req->y);
@@ -2478,13 +2478,13 @@ receive_packet_city_info(struct connection *pc)
   iget_worklist(pc, &iter, &packet->worklist);
 
   iget_uint8(&iter, &data);
-  packet->is_building_unit = data&1;
-  packet->did_buy = (data>>=1)&1;
-  packet->did_sell = (data>>=1)&1;
-  packet->was_happy = (data>>=1)&1;
-  packet->airlift = (data>>=1)&1;
-  packet->diplomat_investigate = (data>>=1)&1;
-  packet->changed_from_is_unit = (data>>=1)&1;
+  packet->is_building_unit = TEST_BIT(data, 0);
+  packet->did_buy = TEST_BIT(data, 1);
+  packet->did_sell = TEST_BIT(data, 2);
+  packet->was_happy = TEST_BIT(data, 3);
+  packet->airlift = TEST_BIT(data, 4);
+  packet->diplomat_investigate = TEST_BIT(data, 5);
+  packet->changed_from_is_unit = TEST_BIT(data, 6);
 
   iget_city_map(&iter, (char*)packet->city_map, sizeof(packet->city_map));
   iget_bit_string(&iter, (char*)packet->improvements,
@@ -2559,9 +2559,9 @@ receive_packet_short_city(struct connection *pc)
   iget_uint8(&iter, &packet->size);
 
   iget_uint8(&iter, &i);
-  packet->happy   = i & 1;
-  packet->capital = i & 2;
-  packet->walls   = i & 4;
+  packet->happy   = TEST_BIT(i, 0);
+  packet->capital = TEST_BIT(i, 1);
+  packet->walls   = TEST_BIT(i, 2);
 
   if (has_capability("short_city_tile_trade", pc->capability)) {
     iget_uint16(&iter, &packet->tile_trade);
@@ -2590,12 +2590,13 @@ receive_packet_unit_info(struct connection *pc)
   iget_uint16(&iter, &packet->id);
   iget_uint8(&iter, &packet->owner);
   iget_uint8(&iter, &pack);
-  packet->veteran     = (pack&0x10) ? 1 : 0;
-  packet->ai          = (pack&0x20) ? 1 : 0;
-  packet->paradropped = (pack&0x40) ? 1 : 0;
-  packet->connecting  = (pack&0x80) ? 1 : 0;
-  packet->carried     = (pack&0x08) ? 1 : 0;
-  packet->select_it   = (pack&0x04) ? 1 : 0;
+
+  packet->select_it   = TEST_BIT(pack, 2);
+  packet->carried     = TEST_BIT(pack, 3);
+  packet->veteran     = TEST_BIT(pack, 4);
+  packet->ai          = TEST_BIT(pack, 5);
+  packet->paradropped = TEST_BIT(pack, 6);
+  packet->connecting  = TEST_BIT(pack, 7);
   iget_uint8(&iter, &packet->x);
   iget_uint8(&iter, &packet->y);
   iget_uint16(&iter, &packet->homecity);
@@ -3153,7 +3154,7 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
-  if(packet->flags & (1L<<F_PARATROOPERS)) {
+  if(TEST_BIT(packet->flags, F_PARATROOPERS)) {
     iget_uint16(&iter, &packet->paratroopers_range);
     iget_uint8(&iter, &packet->paratroopers_mr_req);
     iget_uint8(&iter, &packet->paratroopers_mr_sub);
@@ -3165,7 +3166,7 @@ receive_packet_ruleset_unit(struct connection *pc)
   if (has_capability("pop_cost", pc->capability)) {
     iget_uint8(&iter, &packet->pop_cost);
   } else {
-    packet->pop_cost=(packet->flags & (1L<<F_CITIES)) ? 1 : 0;
+    packet->pop_cost = TEST_BIT(packet->flags, F_CITIES) ? 1 : 0;
   }  
 
   len = pack_iter_remaining(&iter);

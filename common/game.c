@@ -150,13 +150,12 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
 	{
 	  printf (".know (%d)\n  ", p);
 	  WRITE_MAP_DATA("%c",
-			 pcmap->claims[map_inx(x, y)].
-			 know & (1u << p) ? 'X' : '-');
-
+			 TEST_BIT(pcmap->claims[map_inx(x, y)].know,
+				  p) ? 'X' : '-');
 	  printf (".cities (%d)\n  ", p);
 	  WRITE_MAP_DATA("%c",
-			 pcmap->claims[map_inx(x, y)].
-			 cities & (1u << p) ? 'O' : '-');
+			 TEST_BIT(pcmap->claims[map_inx(x, y)].cities,
+				  p) ? 'O' : '-');
 	}
     }
 
@@ -264,7 +263,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       nextedge->y = y;
       nextedge++;
       (pcmap->player_landarea[owner])++;
-      if (pclaim->cities & (1u << owner)) {
+      if (TEST_BIT(pclaim->cities, owner)) {
 	(pcmap->player_owndarea[owner])++;
       }
       pclaim->know = ptile->known;
@@ -314,7 +313,7 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
 	  j = map_inx(mx, my);
 	  pclaim = &(pcmap->claims[j]);
 
-	  if (pclaim->know & (1u << owner)) {
+	  if (TEST_BIT(pclaim->know, owner)) {
 	    if (pclaim->when == 0) {
 	      pclaim->when = turn + 1;
 	      pclaim->whom = owner;
@@ -322,7 +321,7 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
 	      nextedge->y = my;
 	      nextedge++;
 	      (pcmap->player_landarea[owner])++;
-	      if (pclaim->cities & (1u << owner)) {
+	      if (TEST_BIT(pclaim->cities, owner)) {
 		(pcmap->player_owndarea[owner])++;
 	      }
 	      accum++;
@@ -330,7 +329,7 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
 		       (pclaim->whom != no_owner) &&
 		       (pclaim->whom != owner)) {
 	      other = pclaim->whom;
-	      if (pclaim->cities & (1u << other)) {
+	      if (TEST_BIT(pclaim->cities, other)) {
 		(pcmap->player_owndarea[other])--;
 	      }
 	      (pcmap->player_landarea[other])--;

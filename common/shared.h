@@ -59,6 +59,16 @@ typedef int bool;
    and inserts a zero at the top. */
 #define WIPEBIT(val, no) ( ((~(-1<<(no)))&(val)) \
                            | (( (-1<<((no)+1)) & (val)) >>1) )
+/*
+ * Yields TRUE iff the bit bit_no is set in val.
+ */
+#define TEST_BIT(val, bit_no)      	(((val) & (1u << (bit_no))) == (1u << (bit_no)))
+
+/*
+ * If cond is TRUE it yields a value where only the bit bit_no is
+ * set. If cond is FALSE it yields 0.
+ */
+#define COND_SET_BIT(cond, bit_no) 	((cond) ? (1u << (bit_no)) : 0)
 
 /* This is duplicated in rand.h to avoid extra includes: */
 #define MAX_UINT32 0xFFFFFFFF

@@ -41,9 +41,9 @@
 ***************************************************************/
 bool player_has_embassy(struct player *pplayer, struct player *pplayer2)
 {
-  return (pplayer->embassy & (1<<pplayer2->player_no)) ||
-         (player_owns_active_wonder(pplayer, B_MARCO) &&
-          pplayer != pplayer2 && !is_barbarian(pplayer2));
+  return (TEST_BIT(pplayer->embassy, pplayer2->player_no) ||
+	  (player_owns_active_wonder(pplayer, B_MARCO) &&
+	   pplayer != pplayer2 && !is_barbarian(pplayer2)));
 }
 
 /****************************************************************
