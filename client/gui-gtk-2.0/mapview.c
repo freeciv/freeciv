@@ -686,7 +686,8 @@ void canvas_put_sprite(struct canvas *pcanvas,
 	      MIN(gdk_pixbuf_get_width(dst), gdk_pixbuf_get_width(src))),
 	    MIN(height,
 	      MIN(gdk_pixbuf_get_height(dst), gdk_pixbuf_get_height(src))),
-	    canvas_x, canvas_y, 1.0, 1.0, GDK_INTERP_NEAREST, 255);
+	    canvas_x - offset_x, canvas_y - offset_y,
+	    1.0, 1.0, GDK_INTERP_NEAREST, 255);
       }
       break;
     default:
