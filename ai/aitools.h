@@ -21,6 +21,7 @@ struct ai_choice;
 struct city;
 struct government;
 struct player;
+struct pf_path;
 
 #ifdef DEBUG
 #define CHECK_UNIT(punit)                                        \
@@ -41,6 +42,7 @@ int military_amortize(struct player *pplayer, struct city *pcity,
                       int value, int delay, int build_cost);
 int stack_cost(struct unit *pdef);
 
+bool ai_unit_execute_path(struct unit *punit, struct pf_path *path);
 bool ai_unit_gothere(struct unit *punit);
 bool ai_unit_goto(struct unit *punit, int x, int y);
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y);

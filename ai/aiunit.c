@@ -1069,45 +1069,6 @@ static struct pf_path *find_rampage_target(struct unit *punit,
 }
 
 /*************************************************************************
-  This is a function to execute paths returned by the path-finding engine.
-  It is analogous to goto_route_execute, only much simpler.
-
-  Weuse ai_unit_attack which means "move if target unoccupied, attack 
-  otherwise" and also brings our bodyguard along.
-*************************************************************************/
-bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
-{
-  int i;
-
-  /* We start with i = 1 for i = 0 is our present position */
-  for (i = 1; i < path->length; i++) {
-    int x = path->positions[i].x, y = path->positions[i].y;
-    bool result;
-
-    /* We use ai_unit_move() for everything but the last step
-     * of the way so that we abort if unexpected opposition
-     * shows up. Any enemy on the target tile is expected to
-     * be our target and any attack there intentional. */
-    if (i == path->length) {
-      result = ai_unit_attack(punit, x, y);
-    } else {
-      result = ai_unit_move(punit, x, y);
-    }
-    if (!result) {
-      /* Died... */
-      return FALSE;
-    }
-    
-    if (!same_pos(punit->x, punit->y, x, y)) {
-      /* Stopped (or maybe fought) */
-      return TRUE;
-    }
-  }
-
-  return TRUE;
-}
-
-/*************************************************************************
   Find and kill anything reachable within this turn and worth more than 
   the relevant of the given thresholds until we have run out of juicy 
   targets or movement.  The first threshold is for attacking which will 

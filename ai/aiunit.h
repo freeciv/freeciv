@@ -46,7 +46,6 @@ struct pf_path;
 
 extern Unit_Type_id simple_ai_types[U_LAST];
 
-bool ai_unit_execute_path(struct unit *punit, struct pf_path *path);
 void ai_manage_units(struct player *pplayer); 
 int could_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y);
 int look_for_charge(struct player *pplayer, struct unit *punit,

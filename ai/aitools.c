@@ -30,6 +30,9 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "path_finding.h"
+#include "pf_tools.h"
+
 #include "airgoto.h"
 #include "barbarian.h"
 #include "citytools.h"
@@ -88,6 +91,47 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
           || pplayer->diplstates[aplayer->player_no].has_reason_to_cancel
           || ai->diplomacy.acceptable_reputation > aplayer->reputation
           || adip->is_allied_with_enemy);
+}
+
+/*************************************************************************
+  This is a function to execute paths returned by the path-finding engine.
+  It is analogous to goto_route_execute, only much simpler.
+
+  We use ai_unit_attack which means "move if target unoccupied, attack
+  otherwise" and also brings our bodyguard along.
+*************************************************************************/
+bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
+{
+  int i;
+
+  /* We start with i = 1 for i = 0 is our present position */
+  for (i = 1; i < path->length; i++) {
+    int x = path->positions[i].x, y = path->positions[i].y;
+    bool result;
+    int id = punit->id;
+
+    /* We use ai_unit_move() for everything but the last step
+     * of the way so that we abort if unexpected opposition
+     * shows up. Any enemy on the target tile is expected to
+     * be our target and any attack there intentional. */
+    if (i == path->length - 1) {
+      result = ai_unit_attack(punit, x, y);
+    } else {
+      ai_unit_move(punit, x, y);
+      result = (punit = find_unit_by_id(id));
+    }
+    if (!result) {
+      /* Died... */
+      return FALSE;
+    }
+
+    if (!same_pos(punit->x, punit->y, x, y)) {
+      /* Stopped (or maybe fought) */
+      return TRUE;
+    }
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************
