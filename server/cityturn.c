@@ -776,9 +776,11 @@ int advisor_choose_build(struct city *pcity)
   int id=-1;
   int want=0;
 
+  if (!game.players[pcity->owner].ai.control)
+    ai_eval_buildings(pcity); /* so that ai_advisor is smart even for humans */
   ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
-/*  printf("Advisor_choose_build got %s/%d from ai_advisor_choose_building.\n", 
-  get_improvement_name(choice.choice), choice.want); */
+/*printf("Advisor_choose_build got %d/%d from ai_advisor_choose_building.\n", 
+  choice.choice, choice.want);*/
   id = choice.choice;
   want = choice.want;
 
