@@ -19,6 +19,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+
 #ifdef GENERATING_MAC  /* mac header(s) */
 #include <Controls.h>
 #include <Dialogs.h>
@@ -33,6 +37,7 @@
 #include "log.h"
 #include "shared.h"
 #include "support.h"
+#include "timing.h"
 #include "version.h"
 
 #include "console.h"
@@ -44,6 +49,32 @@
 
 #ifdef GENERATING_MAC
 static void Mac_options(int argc);  /* don't need argv */
+#endif
+
+#ifdef HAVE_SIGNAL_H
+#  define USE_INTERRUPT_HANDLERS
+#endif
+
+#ifdef USE_INTERRUPT_HANDLERS
+/**************************************************************************
+  This function is called when a SIGINT (ctrl-c) is received.  It will exit
+  only if two SIGINTs are received within a second.
+
+  TODO: SIGHUP and SIGTERM should be handled too.  At a minimum we should
+  save the game before exiting.
+**************************************************************************/
+static void sigint_handler(int sig)
+{
+  static struct timer *timer = NULL;
+
+  if (timer && read_timer_seconds(timer) <= 1.0) {
+    exit(EXIT_SUCCESS);
+  } else if (!timer) {
+    freelog(LOG_NORMAL, _("You must interrupt Freeciv twice"
+			  " within one second to make it exit.\n"));
+  }
+  timer = renew_timer_start(timer, TIMER_USER, TIMER_ACTIVE);
+}
 #endif
 
 /**************************************************************************
@@ -67,6 +98,10 @@ int main(int argc, char *argv[])
 #  endif
   }
 # endif
+#endif
+
+#ifdef USE_INTERRUPT_HANDLERS
+  signal(SIGINT, sigint_handler);
 #endif
 
   /* initialize server */
