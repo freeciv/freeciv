@@ -814,6 +814,9 @@ void handle_unit_info(struct packet_unit_info *packet)
   struct unit *punit;
   bool repaint_unit;
   bool repaint_city;		/* regards unit's homecity */
+  bool moved = FALSE;
+  int old_x = -1, old_y = -1;	/* make compiler happy; guarded by moved */
+
   /* Special case for a diplomat/spy investigating a city:
      The investigator needs to know the supported and present
      units of a city, whether or not they are fogged. So, we
@@ -925,8 +928,11 @@ void handle_unit_info(struct packet_unit_info *packet)
 
     if (!same_pos(punit->x, punit->y, packet->x, packet->y)) { 
       /* change position */
-      struct city *pcity;
-      pcity=map_get_city(punit->x, punit->y);
+      struct city *pcity = map_get_city(punit->x, punit->y);
+
+      old_x = punit->x;
+      old_y = punit->y;
+      moved = TRUE;
       
       if(tile_get_known(packet->x, packet->y) == TILE_KNOWN
          && player_can_see_unit_at_location(game.player_ptr, punit, 
@@ -1035,8 +1041,11 @@ void handle_unit_info(struct packet_unit_info *packet)
   if (punit && punit == get_unit_in_focus()) {
     update_unit_info_label(punit);
   } else if (get_unit_in_focus()
-	     && same_pos(get_unit_in_focus()->x, get_unit_in_focus()->y,
-			 punit->x, punit->y)) {
+	     && (same_pos(get_unit_in_focus()->x, get_unit_in_focus()->y,
+			  punit->x, punit->y)
+		 || (moved
+		     && same_pos(get_unit_in_focus()->x,
+				 get_unit_in_focus()->y, old_x, old_y)))) {
     update_unit_info_label(get_unit_in_focus());
   }
 
