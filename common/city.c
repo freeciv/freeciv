@@ -19,14 +19,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "distribute.h"
 #include "fcintl.h"
+#include "log.h"
+#include "support.h"
+
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
-#include "support.h"
 
 #include "cm.h"
 
@@ -1811,98 +1813,32 @@ int get_city_science_bonus(const struct city *pcity)
 void get_tax_income(struct player *pplayer, int trade, int *sci, 
                     int *lux, int *tax)
 {
-  int sci_rest, tax_rest, lux_rest, sci_rate, lux_rate, tax_rate, rate = trade;
+  const int SCIENCE = 0, TAX = 1, LUXURY = 2;
+  int rates[3], result[3];
 
   if (game.rgame.changable_tax) {
-    sci_rate = pplayer->economic.science;
-    lux_rate = pplayer->economic.luxury;
-    tax_rate = 100 - sci_rate - lux_rate;
+    rates[SCIENCE] = pplayer->economic.science;
+    rates[LUXURY] = pplayer->economic.luxury;
+    rates[TAX] = 100 - rates[SCIENCE] - rates[LUXURY];
   } else {
-    sci_rate = game.rgame.forced_science;
-    lux_rate = game.rgame.forced_luxury;
-    tax_rate = game.rgame.forced_gold;
+    rates[SCIENCE] = game.rgame.forced_science;
+    rates[LUXURY] = game.rgame.forced_luxury;
+    rates[TAX] = game.rgame.forced_gold;
   }
   
   /* ANARCHY */
   if (get_gov_pplayer(pplayer)->index == game.government_when_anarchy) {
-    sci_rate = 0;
-    lux_rate = 100;
-    tax_rate = 100 - sci_rate - lux_rate;
+    rates[SCIENCE] = 0;
+    rates[LUXURY] = 100;
+    rates[TAX] = 0;
   }
 
-  /* 
-   * Distribution of the trade among science, tax and luxury via a
-   * modified Hare/Niemeyer algorithm (also known as "Hamilton's
-   * Method"):
-   *
-   * 1) distributes the whole-numbered part of the three targets
-   * 2) sort the remaining fractions (called *_rest)
-   * 3) divide the remaining trade among the targets starting with the
-   * biggest fraction. If two targets have the same fraction the
-   * target with the smaller whole-numbered value is chosen.
-   */
+  distribute(trade, 3, rates, result);
 
-  *sci = (rate * sci_rate) / 100;
-  *tax = (rate * tax_rate) / 100;
-  *lux = (rate * lux_rate) / 100;
+  *sci = result[SCIENCE];
+  *tax = result[TAX];
+  *lux = result[LUXURY];
 
-  /* these are the fractions multiplied by 100 */
-  sci_rest = rate * sci_rate - (*sci) * 100;
-  tax_rest = rate * tax_rate - (*tax) * 100;
-  lux_rest = rate * lux_rate - (*lux) * 100;
-
-  rate -= ((*sci) + (*tax) + (*lux));
-
-  while (rate > 0) {
-    if (sci_rest > lux_rest && sci_rest > tax_rest) {
-      (*sci)++;
-      sci_rest = 0;
-      rate--;
-    }
-    if (tax_rest > sci_rest && tax_rest > lux_rest && rate > 0) {
-      (*tax)++;
-      tax_rest = 0;
-      rate--;
-    }
-    if (lux_rest > tax_rest && lux_rest > sci_rest && rate > 0) {
-      (*lux)++;
-      lux_rest = 0;
-      rate--;
-    }
-    if (sci_rest == tax_rest && sci_rest > lux_rest && rate > 0) {
-      if (*sci < *tax) {
-	(*sci)++;
-	sci_rest = 0;
-	rate--;
-      } else {
-	(*tax)++;
-	tax_rest = 0;
-	rate--;
-      }
-    }
-    if (sci_rest == lux_rest && sci_rest > tax_rest && rate > 0) {
-      if (*sci < *lux) {
-	(*sci)++;
-	sci_rest = 0;
-	rate--;
-      } else {
-	(*lux)++;
-	lux_rest = 0;
-	rate--;
-      }
-    }
-    if (tax_rest == lux_rest && tax_rest > sci_rest && rate > 0) {
-      if (*tax < *lux) {
-	(*tax)++;
-	tax_rest = 0;
-	rate--;
-      } else {
-	(*lux)++;
-	lux_rest = 0;
-	rate--;
-      }
-    }
-  }
   assert(*sci + *tax + *lux == trade);
 }
 
