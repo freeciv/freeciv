@@ -80,9 +80,6 @@ static int advance_type[A_LAST+1];
 static HWND spy_sabotage_dialog;
 static int improvement_type[B_LAST+1];
 
-static bool is_showing_government_dialog;
-
-
                             
 struct message_dialog_button
 {
@@ -909,60 +906,6 @@ void popup_revolution_dialog(void)
                        _("_Yes"),revolution_callback_yes, 0,
                        _("_No"),revolution_callback_no, 0,
                        0);
-}
- 
-/**************************************************************************
-
-**************************************************************************/ 
-static void government_callback(HWND w, void *data)
-{
-  set_government_choice((size_t)data);
- 
-  destroy_message_dialog(w);
-  is_showing_government_dialog=0;
-}
-         
-/****************************************************************
-...
-*****************************************************************/
-void popup_government_dialog(int governments, struct government **government)
-{
-  HWND hWnd;
-  int i, id[MAX_NUM_GOVERNMENTS];
-  char *names[MAX_NUM_GOVERNMENTS];
-
-  if (is_showing_government_dialog) return;
-  is_showing_government_dialog = 1;
-
-  for (i = 0; i < governments; i++) {
-    names[i] = government[i]->name;
-    id[i] = government[i]->index;
-  }
-
-  for (; i < MAX_NUM_GOVERNMENTS; i++) {
-    names[i] = NULL;
-  }
-
-  /* just a quick hack */
-  hWnd = popup_message_dialog(NULL, _("Choose Your New Government"),
-			      _("Select government type:"),
-			      names[0], government_callback, id[0],
-			      names[1], government_callback, id[1],
-			      names[2], government_callback, id[2],
-			      names[3], government_callback, id[3],
-			      names[4], government_callback, id[4],
-			      names[5], government_callback, id[5],
-			      names[6], government_callback, id[6],
-			      names[7], government_callback, id[7],
-			      names[8], government_callback, id[8],
-			      names[9], government_callback, id[9], 
-			      0);
-  for (i = 0; i < governments; i++) {
-    bool can_change =
-	can_change_to_government(game.player_ptr, government[i]->index);
-
-    message_dialog_button_set_sensitive(hWnd, i, can_change);
-  }
 }
  
 /****************************************************************

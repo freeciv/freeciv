@@ -1025,65 +1025,6 @@ bool caravan_dialog_is_open(void)
   return caravan_dialog;
 }
 
-
-/****************************************************************
- Callback for a government button
-*****************************************************************/
-static void government_button(struct popup_message_data *msg)
-{
-  is_showing_government_dialog = 0;
-  request_player_government((int)msg->data);
-  message_close(msg);
-}
-
-
-/****************************************************************
- Fills the New_Msg_Dlg for the requested government
- TRUE, if player can choose the governemt, otherwise FALSE
-*****************************************************************/
-int fill_government_dialog(struct New_Msg_Dlg *dlg, int government)
-{
-  struct government *g = &governments[government];
-
-  if(can_change_to_government(game.player_ptr, government))
-  {
-    dlg->label = g->name;
-    dlg->function = (APTR)government_button;
-    dlg->data = (APTR)g->index;
-    return TRUE;
-  }
-  return FALSE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void popup_government_dialog(void)
-{
-  struct New_Msg_Dlg *msg_dlg = (struct New_Msg_Dlg*)malloc(sizeof(struct New_Msg_Dlg)*(game.government_count+1));
-  if(msg_dlg)
-  {
-    if(!is_showing_government_dialog)
-    {
-      int i,j;
-      is_showing_government_dialog=1;
-      j=0;
-
-      for(i=0;i<game.government_count;i++)
-      {
-        if(i == game.government_when_anarchy) continue;
-        if(fill_government_dialog(&msg_dlg[j],i)) j++;
-      }
-
-      msg_dlg[j].label = NULL;
-
-      popup_message_dialog_args(main_wnd, _("Choose Your New Government"),
-                                _("Select government type:"),msg_dlg);
-    }
-    free(msg_dlg);
-  }
-}
-
 /****************************************************************
  Callback for the Yes button in the revolution confirmation
  window

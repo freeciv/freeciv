@@ -106,8 +106,6 @@ static int selected_nation;
 static int selected_sex;
 static int selected_city_style;
 
-static bool is_showing_government_dialog;
-
 static int is_showing_pillage_dialog = FALSE;
 static int unit_to_use_to_pillage;
 
@@ -1010,91 +1008,6 @@ bool caravan_dialog_is_open(void)
 {
   return caravan_dialog != NULL;
 }
-
-
-/****************************************************************
-...
-*****************************************************************/
-static void government_callback(GtkWidget *w, gpointer data)
-{
-  set_government_choice(GPOINTER_TO_INT(data));
-  is_showing_government_dialog = FALSE;
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-void popup_government_dialog(int governments,
-			     struct government **government)
-{
-  int i;
-  GtkWidget *dshell, *dlabel, *vbox;
-
-  if(!is_showing_government_dialog) {
-    is_showing_government_dialog = TRUE;
-  
-    dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    setup_dialog(dshell, toplevel);
-    g_object_set(GTK_WINDOW(dshell),
-      "title", _("Choose Your New Government"),
-      "window-position", GTK_WIN_POS_CENTER_ON_PARENT,
-      NULL);
-
-    g_signal_connect(
-      dshell,
-      "delete_event",
-      G_CALLBACK(gtk_true),
-      GINT_TO_POINTER(toplevel)
-    );
-
-    dlabel = gtk_frame_new(_("Select government type:"));
-    gtk_container_add(GTK_CONTAINER(dshell), dlabel);
-
-    vbox = gtk_vbutton_box_new();
-    gtk_container_add(GTK_CONTAINER(dlabel), vbox);
-    gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
-
-    for (i = 0; i < governments; i++) {
-      GtkWidget *label, *image, *hbox, *align, *button;
-      struct Sprite *gsprite = government[i]->sprite;
-
-      /* create button. */
-      button = gtk_button_new();
-
-      label = gtk_label_new_with_mnemonic(government[i]->name);
-      gtk_label_set_mnemonic_widget(GTK_LABEL(label), button);
-
-      image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
-      hbox = gtk_hbox_new(FALSE, 2);
-
-      align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-
-      gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
-      gtk_box_pack_start(GTK_BOX(hbox), align, TRUE, FALSE, 5);
-
-      gtk_container_add(GTK_CONTAINER(align), label);
-      gtk_container_add(GTK_CONTAINER(button), hbox);
-
-      /* tidy up. */
-      gtk_container_add(GTK_CONTAINER(vbox), button);
-      g_signal_connect(button, "clicked", G_CALLBACK(government_callback),
-		       GINT_TO_POINTER(government[i]->index));
-      g_signal_connect_swapped(button, "clicked",
-			       G_CALLBACK(gtk_widget_destroy), dshell);
-
-      gtk_widget_set_sensitive(button,
-			       can_change_to_government(game.player_ptr,
-							government[i]->
-							index));
-    }
- 
-    gtk_widget_show_all(dlabel);
-    gtk_widget_show(dshell);  
-  }
-}
-
-
 
 /****************************************************************
 ...

@@ -158,8 +158,6 @@ static int b_s_num; /* num basic city styles, i.e. those that you can start with
 
 /******************************************************************/
 
-int is_showing_government_dialog;
-
 int is_showing_pillage_dialog = FALSE;
 int unit_to_use_to_pillage;
 
@@ -1214,58 +1212,6 @@ void popup_caravan_dialog(struct unit *punit,
 bool caravan_dialog_is_open(void)
 {
   return BOOL_VAL(caravan_dialog);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-static void government_callback(Widget w, XtPointer client_data,
-				XtPointer call_data)
-{
-  set_government_choice((size_t) client_data);
-  destroy_message_dialog(w);
-  is_showing_government_dialog = 0;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void popup_government_dialog(int governments,
-			     struct government **government)
-{
-  Widget shell, form, dlabel, prev;
-  int i;
-  
-  if(is_showing_government_dialog) {
-    return;
-  }
-  is_showing_government_dialog=1;
-
-  XtSetSensitive(toplevel, FALSE);
-
-  shell = I_T(XtCreatePopupShell("governmentdialog", transientShellWidgetClass,
-				 toplevel, NULL, 0));
-  form = XtVaCreateManagedWidget("form", formWidgetClass, shell, NULL);
-  dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
-
-  prev = dlabel;
-  for (i = 0; i < governments; i++) {
-    Widget button =
-	XtVaCreateManagedWidget("button", commandWidgetClass, form,
-				XtNfromVert, prev,
-				XtNlabel, (XtArgVal) government[i]->name,
-				NULL);
-    XtAddCallback(button, XtNcallback, government_callback,
-		  INT_TO_XTPOINTER(government[i]->index));
-    XtSetSensitive(button,
-		   can_change_to_government(game.player_ptr,
-					    government[i]->index));
-    prev = button;
-  }
-  
-  xaw_set_relative_position(toplevel, shell, 10, 0);
-  XtPopup(shell, XtGrabNone);
 }
 
 /****************************************************************

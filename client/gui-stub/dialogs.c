@@ -86,23 +86,6 @@ void popup_revolution_dialog(void)
 }
 
 /**************************************************************************
-  Popup a dialog asking the player what government to switch to (this
-  happens after a revolution completes).
-**************************************************************************/
-void popup_government_dialog(int governments,
-			     struct government **government)
-{
-  /* PORTME */
-  int i;
-
-  for (i = 0; i < governments; i++) {
-    /* PORTME: add option for converting to government[i]. */
-  }
-
-  /* ... */
-}
-
-/**************************************************************************
   Popup a dialog giving a player choices when their caravan arrives at
   a city (other than its home city).  Example:
     - Establish traderoute.

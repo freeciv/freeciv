@@ -157,8 +157,6 @@ static int diplomat_target_id;
 
 static GtkWidget *caravan_dialog;
 
-static bool government_dialog_is_open = FALSE;
-
 struct pillage_data {
   int unit_id;
   enum tile_special_type what;
@@ -1172,46 +1170,6 @@ void popup_caravan_dialog(struct unit *punit,
 bool caravan_dialog_is_open(void)
 {
   return caravan_dialog != NULL;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void government_callback(gpointer data)
-{
-  set_government_choice(GPOINTER_TO_INT(data));
-
-  assert(government_dialog_is_open);
-  government_dialog_is_open = FALSE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void popup_government_dialog(int governments,
-			     struct government **government)
-{
-  int i;
-  struct button_descr *buttons;
-
-  if (government_dialog_is_open) {
-    return;
-  }
-
-  buttons = fc_malloc(sizeof(struct button_descr) * governments);
-
-  for (i = 0; i < governments; i++) {
-    buttons[i].text = government[i]->name;
-    buttons[i].callback = government_callback;
-    buttons[i].data = GINT_TO_POINTER(government[i]->index);
-    buttons[i].sensitive =
-	can_change_to_government(game.player_ptr, government[i]->index);
-  }
-
-  government_dialog_is_open = TRUE;
-  base_popup_message_dialog(top_vbox, _("Choose Your New Government"),
-			    _("Select government type:"), NULL, NULL,
-			    governments, buttons);
 }
 
 /****************************************************************
