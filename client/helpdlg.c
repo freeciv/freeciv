@@ -59,7 +59,9 @@ Widget help_title;
 Widget help_improvement_cost, help_improvement_cost_data;
 Widget help_improvement_upkeep, help_improvement_upkeep_data;
 Widget help_improvement_req, help_improvement_req_data;
+Widget help_improvement_variant, help_improvement_variant_data;
 Widget help_wonder_obsolete, help_wonder_obsolete_data;
+Widget help_wonder_variant, help_wonder_variant_data;
 Widget help_improvement_tree;
 
 Widget help_unit_attack, help_unit_attack_data;
@@ -105,7 +107,7 @@ static struct genlist help_nodes;
 #define help_list_iterate_end }}
 
 char *topic_list[1024];
-
+char long_buffer[64000];
 
 #define TREE_NODE_UNKNOWN_TECH_BG "red"
 #define TREE_NODE_KNOWN_TECH_BG "green"
@@ -157,7 +159,7 @@ void boot_help_texts(void)
   static int booted=0;
   
   FILE *fs;
-  char buf[512], *p, text[64000];
+  char buf[512], *p;
   char expect[32], name[MAX_LENGTH_NAME+2];
   char seen[MAX_LAST], *pname;
   int len;
@@ -216,7 +218,7 @@ void boot_help_texts(void)
 	} else {
 	  genlist_init(&category_nodes);
 	  for(i=0; i<MAX_LAST; i++) {
-	    seen[i] = 0;
+	    seen[i] = (booted?0:1); /* on initial boot data tables are empty */
 	  }
 	  /* flog(LOG_DEBUG, "Help category %s",
 	     help_type_names[current_type]); */
@@ -342,7 +344,7 @@ void boot_help_texts(void)
       pitem->topic = mystrdup(p+1);
     }
 
-    text[0]='\0';
+    long_buffer[0]='\0';
     while(1) {
       fgets(buf, 512, fs);
       buf[strlen(buf)-1]='\0';
@@ -351,13 +353,13 @@ void boot_help_texts(void)
       if(!strcmp(buf, "---"))
 	break;
       if(!filter_this) {
-	strcat(text, buf);
-	strcat(text, "\n");
+	strcat(long_buffer, buf);
+	strcat(long_buffer, "\n");
       }
     } 
 
     if(!filter_this) {
-      pitem->text=mystrdup(text);
+      pitem->text=mystrdup(long_buffer);
       if(current_type == HELP_TEXT) {
 	genlist_insert(&help_nodes, pitem, -1);
       } else {
@@ -616,6 +618,15 @@ void create_help_page(enum help_page_type type)
 							   labelWidgetClass, 
 							   help_right_form,
 							   NULL);
+      help_improvement_variant=XtVaCreateManagedWidget("helpimprvariant", 
+						       labelWidgetClass, 
+						       help_right_form,
+						       NULL);
+      help_improvement_variant_data=
+	XtVaCreateManagedWidget("helpimprvariantdata",
+				labelWidgetClass, 
+				help_right_form,
+				NULL);
     }
     else {
       help_wonder_obsolete=XtVaCreateManagedWidget("helpwonderobsolete", 
@@ -626,6 +637,14 @@ void create_help_page(enum help_page_type type)
 						   labelWidgetClass, 
 						   help_right_form,
 						   NULL);
+      help_wonder_variant=XtVaCreateManagedWidget("helpwondervariant", 
+						  labelWidgetClass, 
+						  help_right_form,
+						  NULL);
+      help_wonder_variant_data=XtVaCreateManagedWidget("helpwondervariantdata",
+						       labelWidgetClass, 
+						       help_right_form,
+						       NULL);
     }
     
     help_improvement_tree=XtVaCreateManagedWidget("helptree", 
@@ -771,12 +790,29 @@ void create_help_page(enum help_page_type type)
   }
 }
 
+static void help_cathedral_techs_append(char *buf)
+{
+  int t;
+  
+  t=game.rtech.cathedral_minus;
+  if(tech_exists(t)) 
+    sprintf(buf+strlen(buf),
+	    "The discovery of %s will reduce this by 1.\n",
+	    advances[t].name);
+  t=game.rtech.cathedral_plus;
+  if(tech_exists(t)) 
+    sprintf(buf+strlen(buf),
+	    "The discovery of %s will increase this by 1.\n",
+	    advances[t].name);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
 void help_update_improvement(struct help_item *pitem, char *title, int which)
 {
-  char buf[64];
+  char *buf = &long_buffer[0];
+  int t;
   
   create_help_page(HELP_IMPROVEMENT);
   
@@ -786,6 +822,8 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
     xaw_set_label(help_improvement_cost_data, buf);
     sprintf(buf, "%d ", imp->shield_upkeep);
     xaw_set_label(help_improvement_upkeep_data, buf);
+    sprintf(buf, "%d ", imp->variant);
+    xaw_set_label(help_improvement_variant_data, buf);
     if (imp->tech_requirement == A_LAST) {
       xaw_set_label(help_improvement_req_data, "(Never)");
     } else {
@@ -797,11 +835,41 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
   else {
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_upkeep_data, "0 ");
+    xaw_set_label(help_improvement_variant_data,"0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
     create_tech_tree(help_improvement_tree, 0, A_LAST, 3);
   }
   set_title_topic(pitem);
-  XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
+  buf[0] = '\0';
+  if(which==B_AQUEDUCT) {
+    sprintf(buf+strlen(buf), "Allows a city to grow larger than size %d.",
+	    game.aqueduct_size);
+    if(improvement_exists(B_SEWER)) {
+      char *s = improvement_types[B_SEWER].name;
+      sprintf(buf+strlen(buf), "  (A%s %s is also\n"
+	      "required for a city to grow larger than size %d.)",
+	      n_if_vowel(*s), s, game.sewer_size);
+    }
+    strcat(buf,"\n");
+  }
+  if(which==B_SEWER) {
+    sprintf(buf+strlen(buf), "Allows a city to grow larger than size %d.\n",
+	    game.sewer_size);
+  }
+  strcat(buf, pitem->text);
+  if(which==B_CATHEDRAL) {
+    help_cathedral_techs_append(buf);
+  }
+  if(which==B_COLOSSEUM) {
+    t=game.rtech.colosseum_plus;
+    if(tech_exists(t)) {
+      int n = strlen(buf);
+      if(n && buf[n-1] == '\n') buf[n-1] = ' ';
+      sprintf(buf+n, "The discovery of %s will increase this by 1.\n",
+	      advances[t].name);
+    }
+  }
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
   
 /**************************************************************************
@@ -809,7 +877,7 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
 **************************************************************************/
 void help_update_wonder(struct help_item *pitem, char *title, int which)
 {
-  char buf[64];
+  char *buf = &long_buffer[0];
   
   create_help_page(HELP_WONDER);
 
@@ -817,6 +885,8 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
     struct improvement_type *imp = &improvement_types[which];
     sprintf(buf, "%d ", imp->build_cost);
     xaw_set_label(help_improvement_cost_data, buf);
+    sprintf(buf, "%d ", imp->variant);
+    xaw_set_label(help_wonder_variant_data, buf);
     if (imp->tech_requirement == A_LAST) {
       xaw_set_label(help_improvement_req_data, "(Never)");
     } else {
@@ -830,12 +900,28 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
   else {
     /* can't find wonder */
     xaw_set_label(help_improvement_cost_data, "0 ");
+    xaw_set_label(help_wonder_variant_data, "0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
     xaw_set_label(help_wonder_obsolete_data, "None");
     create_tech_tree(help_improvement_tree, 0, A_LAST, 3); 
   }
   set_title_topic(pitem);
-  XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
+  buf[0] = '\0';
+  if(which==B_MANHATTEN && num_role_units(F_NUCLEAR)>0) {
+    int u, t;
+    u = get_role_unit(F_NUCLEAR, 0);
+    assert(u<U_LAST);
+    t = get_unit_type(u)->tech_requirement;
+    assert(t<A_LAST);
+    sprintf(buf+strlen(buf),
+	    "Allows all players with knowledge of %s to build %s units.\n",
+	    advances[t].name, get_unit_type(u)->name);
+  }
+  strcat(buf, pitem->text);
+  if(which==B_MICHELANGELO) {
+    help_cathedral_techs_append(buf);
+  }
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
 
 /**************************************************************************
@@ -843,7 +929,7 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
 **************************************************************************/
 void help_update_unit_type(struct help_item *pitem, char *title, int i)
 {
-  char buf[4096];
+  char *buf = &long_buffer[0];
   
   create_help_page(HELP_UNIT);
   if (i<U_LAST) {
@@ -950,7 +1036,8 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
       }
       sprintf(buf+strlen(buf), "turn in a city, or on a Carrier");
       if (unit_flag(i, F_MISSILE) &&
-	  get_unit_type(U_SUBMARINE)->transport_capacity) {
+	  num_role_units(F_SUBMARINE)>0 &&
+	  get_unit_type(get_role_unit(F_SUBMARINE,0))->transport_capacity) {
 	sprintf(buf+strlen(buf), " or Submarine");
       }
       sprintf(buf+strlen(buf), ",\n  or will run out of fuel and be lost.\n");
@@ -959,7 +1046,6 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
       sprintf(buf+strlen(buf), "\n");
     } 
     strcpy(buf+strlen(buf), pitem->text);
-    assert(strlen(buf)<sizeof(buf)); /* not enough, but maybe something */
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {
@@ -994,6 +1080,20 @@ void help_update_tech(struct help_item *pitem, char *title, int i)
     create_tech_tree(help_improvement_tree, 0, i, 3);
     strcpy(buf, pitem->text);
 
+    if(game.rtech.get_bonus_tech == i) {
+      sprintf(buf+strlen(buf),
+	      "The first player to research %s gets an immediate advance.\n",
+	      advances[i].name);
+    }
+    if(game.rtech.boat_fast == i) 
+      sprintf(buf+strlen(buf), "Gives sea units one extra move.\n");
+    if(game.rtech.cathedral_plus == i) 
+      sprintf(buf+strlen(buf), "Improves the effect of Cathedrals.\n");
+    if(game.rtech.cathedral_minus == i) 
+      sprintf(buf+strlen(buf), "Reduces the effect of Cathedrals.\n");
+    if(game.rtech.colosseum_plus == i) 
+      sprintf(buf+strlen(buf), "Improves the effect of Colosseums.\n");
+
     for(j=0; j<B_LAST; ++j) {
       if(i==improvement_types[j].tech_requirement) 
 	sprintf(buf+strlen(buf), "Allows %s.\n",
@@ -1019,7 +1119,6 @@ void help_update_tech(struct help_item *pitem, char *title, int i)
 		advances[j].name, advances[advances[j].req[0]].name);
       }
     }
-    assert(strlen(buf)<sizeof(buf)); /* not enough, but maybe something */
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {

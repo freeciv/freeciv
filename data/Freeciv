@@ -538,13 +538,35 @@ Freeciv*helpdialog.*.helpimprupkeep.bottom: chainTop
 Freeciv*helpdialog.*.helpimprupkeepdata.background: lightblue
 Freeciv*helpdialog.*.helpimprupkeepdata.fromVert: helptext
 Freeciv*helpdialog.*.helpimprupkeepdata.fromHoriz: helpimprupkeep
-Freeciv*helpdialog.*.helpimprupkeepdata.label: 111\ 
+Freeciv*helpdialog.*.helpimprupkeepdata.label: 11\ 
 Freeciv*helpdialog.*.helpimprupkeepdata.borderWidth: 0
 Freeciv*helpdialog.*.helpimprupkeepdata.justify: Left
 Freeciv*helpdialog.*.helpimprupkeepdata.left: chainLeft
 Freeciv*helpdialog.*.helpimprupkeepdata.right: chainLeft
 Freeciv*helpdialog.*.helpimprupkeepdata.top: chainTop
 Freeciv*helpdialog.*.helpimprupkeepdata.bottom: chainTop
+
+Freeciv*helpdialog.*.helpimprvariant.foreground: black
+Freeciv*helpdialog.*.helpimprvariant.background: grey
+Freeciv*helpdialog.*.helpimprvariant.fromVert: helptext
+Freeciv*helpdialog.*.helpimprvariant.fromHoriz: helpimprupkeepdata
+Freeciv*helpdialog.*.helpimprvariant.label: Variant:
+Freeciv*helpdialog.*.helpimprvariant.left: chainLeft
+Freeciv*helpdialog.*.helpimprvariant.right: chainLeft
+Freeciv*helpdialog.*.helpimprvariant.top: chainTop
+Freeciv*helpdialog.*.helpimprvariant.bottom: chainTop
+
+Freeciv*helpdialog.*.helpimprvariantdata.foreground: black
+Freeciv*helpdialog.*.helpimprvariantdata.background: lightblue
+Freeciv*helpdialog.*.helpimprvariantdata.fromVert: helptext
+Freeciv*helpdialog.*.helpimprvariantdata.fromHoriz: helpimprvariant
+Freeciv*helpdialog.*.helpimprvariantdata.label: 111\ 
+Freeciv*helpdialog.*.helpimprvariantdata.borderWidth: 0
+Freeciv*helpdialog.*.helpimprvariantdata.justify: Left
+Freeciv*helpdialog.*.helpimprvariantdata.left: chainLeft
+Freeciv*helpdialog.*.helpimprvariantdata.right: chainLeft
+Freeciv*helpdialog.*.helpimprvariantdata.top: chainTop
+Freeciv*helpdialog.*.helpimprvariantdata.bottom: chainTop
 
 Freeciv*helpdialog.*.helpimprreq.fromVert: helpimprcost
 Freeciv*helpdialog.*.helpimprreq.label: Requirement:
@@ -592,6 +614,29 @@ Freeciv*helpdialog.*.helpwonderobsoletedata.top: chainTop
 Freeciv*helpdialog.*.helpwonderobsoletedata.bottom: chainTop
 Freeciv*helpdialog.*.helpwonderobsoletedata.borderWidth: 0
 Freeciv*helpdialog.*.helpwonderobsoletedata.justify: Left
+
+Freeciv*helpdialog.*.helpwondervariant.foreground: black
+Freeciv*helpdialog.*.helpwondervariant.background: grey
+Freeciv*helpdialog.*.helpwondervariant.fromVert: helptext
+Freeciv*helpdialog.*.helpwondervariant.fromHoriz: helpimprcostdata
+Freeciv*helpdialog.*.helpwondervariant.label: Variant:
+Freeciv*helpdialog.*.helpwondervariant.left: chainLeft
+Freeciv*helpdialog.*.helpwondervariant.right: chainLeft
+Freeciv*helpdialog.*.helpwondervariant.top: chainTop
+Freeciv*helpdialog.*.helpwondervariant.bottom: chainTop
+
+Freeciv*helpdialog.*.helpwondervariantdata.foreground: black
+Freeciv*helpdialog.*.helpwondervariantdata.background: lightblue
+Freeciv*helpdialog.*.helpwondervariantdata.fromVert: helptext
+Freeciv*helpdialog.*.helpwondervariantdata.fromHoriz: helpwondervariant
+Freeciv*helpdialog.*.helpwondervariantdata.label: 111\ 
+Freeciv*helpdialog.*.helpwondervariantdata.borderWidth: 0
+Freeciv*helpdialog.*.helpwondervariantdata.justify: Left
+Freeciv*helpdialog.*.helpwondervariantdata.left: chainLeft
+Freeciv*helpdialog.*.helpwondervariantdata.right: chainLeft
+Freeciv*helpdialog.*.helpwondervariantdata.top: chainTop
+Freeciv*helpdialog.*.helpwondervariantdata.bottom: chainTop
+
 
 Freeciv*helpdialog.*.treenode.foreground: Black
 Freeciv*helpdialog.*.treenode.background: grey

@@ -579,8 +579,8 @@ and will use all of the unit's MP.  A unit must have some MP left
 to be airlifted.
 ---
 # Aqueduct
-Allows a city to grow larger than size 8.  (A Sewer system is also
-required for a city to grow larger than size 12.)
+%% Allows a city to grow larger than size 8.  (A Sewer system is also
+%% required for a city to grow larger than size 12.)
 ---
 # Bank
 Together with the Marketplace improvement, a Bank increases the
@@ -592,8 +592,10 @@ automatically have Veteran status, which means that its attack and
 defence strengths are increased by 50%.  Also, damaged land units
 which stay in town for one turn are completely restored.
 
-Note that discovering Gunpowder or Combustion will obsolete any
+Note that discovering Gunpowder and Combustion will obsolete any
 existing Barracks.
+
+Variant 1: Affects all units, not just land units.
 ---
 # Barracks II
 With a Barracks, each new land unit built in a city will
@@ -602,12 +604,16 @@ defence strengths are increased by 50%.  Also, damaged land units
 which stay in town for one turn are completely restored.
 
 The discovery of Combustion will make Barracks II obsolete.
+
+Variant: Uses Barracks variant (see Barracks).
 ---
 # Barracks III
 With a Barracks, each new land unit built in a city will
 automatically have Veteran status, which means that its attack and
 defence strengths are increased by 50%.  Also, damaged land units
 which stay in town for one turn are completely restored.
+
+Variant: Uses Barracks variant (see Barracks).
 ---
 # Capitalization
 This is not a normal improvement.  Instead, setting a city's
@@ -616,9 +622,7 @@ converted to tax production (money).
 ---
 # Cathedral
 A Cathedral makes 3 unhappy citizens content in a city, making it
-easier to maintain order in that city.  The discovery of Communism
-will reduce this by 1, while the discovery of Theology will increase
-this by 1.
+easier to maintain order in that city.
 ---
 # City Walls
 City Walls make it easier to defend a city.  They triple the defence
@@ -626,6 +630,8 @@ strength of units within the city against ground and helicopter
 units.  They are ineffective against airborne and sea units as well
 as Howitzers.  City Walls also prevent the loss of population which
 occurs when a defending unit is destroyed by a land unit.
+
+Variant 1: Also effective against sea units.
 ---
 # Coastal Defense
 Increases the defence strength of units within a city by a factor
@@ -633,7 +639,8 @@ of 2 when defending against bombardments from enemy ships.
 ---
 # Colosseum
 Entertains the citizens of a city, making 3 unhappy citizens
-content.  Increased by 1 upon the discovery of Electricity.
+content.
+%% Increased by 1 upon the discovery of Electricity.
 ---
 # Courthouse
 Reduces the corruption in a city by 50%.  Under a Democracy, a
@@ -717,6 +724,9 @@ empire plunging into civil war.
 Reduces the unhappiness caused by military units outside the city
 by 2 under Democracy and 1 under Republic.  This improvement has no
 effect under other governments.
+
+Variant: Has the same variant and effect as Women's Suffrage (see
+also), but only for the city where it is built.
 ---
 # Port Facility
 Allows a city to build veteran sea units.  Also, damaged sea units
@@ -752,7 +762,7 @@ simply have no effect on the city.  Also, doubles defence against
 non-nuclear missiles.
 ---
 # Sewer System
-Allows a city to grow beyond size 12.
+%% Allows a city to grow beyond size 12.
 ---
 # Solar Plant
 This improvement has not been implemented.
@@ -910,10 +920,10 @@ Allows changing government to Monarchy.
 # Nuclear Fission
 ---
 # Nuclear Power
-Gives sea units one extra move.
+%% Gives sea units one extra move.
 ---
 # Philosophy
-The first player to research Philosophy gets an immediate advance.
+%% The first player to research Philosophy gets an immediate advance.
 ---
 # Physics
 ---
@@ -933,6 +943,9 @@ Allows Settlers to upgrade roads to railroads.
 # Refining
 ---
 # Refrigeration
+---
+# Religion
+%% Civ1
 ---
 # The Republic
 Allows changing government to Republic.
@@ -959,7 +972,7 @@ Allows changing government to Republic.
 ---
 # Theology
 ---
-# Theory Of Gravity
+# Theory of Gravity
 ---
 # Trade
 ---
@@ -1018,12 +1031,18 @@ Works as if you had a Hydro Plant in every city.  (This reduces
 pollution and increases the effects of Factories and Mfg. Plants.)
 Like a Hydro Plant, the Hoover Dam can only be built in a city
 which is next to (or on) a Mountain or River tile.
+
+Variant 1: As above, but works only on the same continent as the
+city where it is built.
 ---
 # Isaac Newton's College
 Boosts science production by 100% in the city where it is built.
 ---
 # J.S. Bach's Cathedral
 Makes two unhappy citizens content in every city.
+
+Variant 1: As above, but works only on the same continent as the
+city where it is built.
 ---
 # King Richard's Crusade
 Adds one extra shield resource on every square around the city
@@ -1039,28 +1058,33 @@ veterans (for all cities).
 ---
 # Magellan's Expedition
 Gives all sea units 2 additional movement points.
+
+Variant 1: Only gives 1 additional movement point.
 ---
 # Manhattan Project
-Allow all players with knowledge of Rocketry to build Nuclear units.
+%%Allow all players with knowledge of Rocketry to build Nuclear units.
 ---
 # Marco Polo's Embassy
 This wonder has not been implemented.
 ---
 # Michelangelo's Chapel
 Counts as having a Cathedral in each of your cities.
-(This makes 3 unhappy citizens content in each city.
-The discovery of Communism will reduce this effect by 1.
-The discovery of Theology will increase this effect by 1.)
+This makes 3 unhappy citizens content in each city.
+%%The discovery of Communism will reduce this effect by 1.
+%%The discovery of Theology will increase this effect by 1.)
 ---
 # Oracle
 Doubles the effect of Temples, in all cities.
 ---
 # Pyramids
 Counts as having a Granary in every city.
+
+Variant 1: Allows you to choose any Government type without the
+transition period of Anarchy.
 ---
 # SETI Program
-Counts as having a Research Lab in all of your cities.  That is,
-it boots science production in each city by 50%.
+Boosts science production in each city by 50%.  (Counts as having
+a Research Lab in all of your cities.)
 ---
 # Shakespeare's Theatre
 Makes all unhappy citizens content, in the city where it is located.
@@ -1073,15 +1097,29 @@ Anarchy.
 All your new ground units become veterans (for all cities).
 The chance of a unit becoming a veteran after a battle increases
 from 50% to 100%
+
+Variant: Uses Barracks variant (see Barracks).
 ---
 # United Nations
 Units regain one extra hitpoint per turn.
+
+Variant 1: Allows you to choose any Government type without the
+transition period of Anarchy.
+%% This doesn't match Civ1 or Civ2, but diplomatic effects are
+%% not very effective in multiplayer, and hitpoints effects don't
+%% apply for Civ1.  Note in Civ1 Pyramids have a gov-change effect,
+%% but become obsolete, and the Statue of Liberty does not exist.
 ---
 # Women's Suffrage
 Counts as a Police Station in every city.  (That is, for each city,
 reduces unhappiness for military units outside the city by 2 under
 Democracy and 1 under Republic.  This wonder has no effect under
 other governments.)
+
+Variant 1: The unhappiness effect of every unit (not just one unit
+per city) is reduced by 1.  This means that in a Republic, units do
+not cause unhappiness, and in a Democracy, aggressive units cause
+only 1 unhappy citizen each.
 ---
 @END_WONDERS
 #Units
@@ -1280,6 +1318,11 @@ Mechanized Infantry; this unit has the strongest defence strength
 of any land unit, but is only available near the end of the
 technology tree.
 ---
+# Militia
+%% A Civ1 unit corresponding to Civ2 Warriors.
+This unit may be built from the start of the game.  It is the
+weakest unit.
+---
 # Musketeers
 ---
 # Nuclear
@@ -1327,6 +1370,9 @@ city, but only under these conditions:
 %% units (other than Cavalry).
 ---
 # Riflemen
+---
+# Sail
+%% A Civ1 unit corresponding to a Civ2 Caravel.
 ---
 # Settlers
 Setters are one of the key units in the game.  They can be used to
