@@ -979,9 +979,28 @@ int worklist_change_build_target(struct player *pplayer, struct city *pcity)
     /* Sanity checks */
     if (is_unit &&
 	!can_build_unit(pcity, target)) {
-      /* Maybe we can just upgrade the target to what the city /can/ build. */
       int new_target = upgrade_unit(pcity, target);
 
+      /* If the city can never build this unit or its descendants, drop it. */
+      if (!can_eventually_build_unit(pcity, new_target)) {
+	/* Nope, never in a million years. */
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			 _("Game: %s can't build %s from the worklist.  "
+			   "Purging..."),
+			 pcity->name,
+			 /* Yes, warn about the targets that's actually
+			    in the worklist, not its obsolete-closure
+			    new_target. */
+			 get_unit_type(target)->name);
+	/* Purge this worklist item. */
+	worklist_remove(pcity->worklist, i-1);
+	/* Reset i to index to the now-next element. */
+	i--;
+	
+	continue;
+      }
+
+      /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (new_target == target) {
 	/* Nope, we're stuck.  Dump this item from the worklist. */
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
@@ -1000,10 +1019,28 @@ int worklist_change_build_target(struct player *pplayer, struct city *pcity)
 	target = new_target;
       }
     } else if (!is_unit && !can_build_improvement(pcity, target)) {
-      /* Maybe this improvement has been obsoleted by something that
-	 we can build. */
       int new_target = upgrade_improvement(pcity, target);
 
+      /* If the city can never build this improvement, drop it. */
+      if (!can_eventually_build_improvement(pcity, new_target)) {
+	/* Nope, never in a million years. */
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			 _("Game: %s can't build %s from the worklist.  "
+			   "Purging..."),
+			 pcity->name,
+			 get_imp_name_ex(pcity, target));
+
+	/* Purge this worklist item. */
+	worklist_remove(pcity->worklist, i-1);
+	/* Reset i to index to the now-next element. */
+	i--;
+	
+	continue;
+      }
+
+
+      /* Maybe this improvement has been obsoleted by something that
+	 we can build. */
       if (new_target == target) {
 	/* Nope, no use.  *sigh*  */
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,

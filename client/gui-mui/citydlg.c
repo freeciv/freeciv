@@ -150,6 +150,7 @@ void request_city_change_production(struct city *pcity, int id, int is_unit_id)
 
   packet.city_id = pcity->id;
   packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
   packet.build_id = id;
   packet.is_build_id_unit_id = is_unit_id;
 
@@ -164,6 +165,7 @@ void request_city_change_specialist(struct city *pcity, int from, int to)
 
   packet.city_id = pcity->id;
   packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
   packet.specialist_from = from;
   packet.specialist_to = to;
 
@@ -179,6 +181,7 @@ void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
   packet.worker_x = xtile;
   packet.worker_y = ytile;
   packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
 
   if (pcity->city_map[xtile][ytile] == C_TILE_WORKER)
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_SPECIALIST);
@@ -193,6 +196,7 @@ void request_city_buy(struct city *pcity)
   struct packet_city_request packet;
   packet.city_id = pcity->id;
   packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 }
 /****************************************************************
@@ -205,6 +209,7 @@ void request_city_sell(struct city *pcity, int sell_id)
   packet.city_id = pcity->id;
   packet.build_id = sell_id;
   packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
 }
 

@@ -350,6 +350,7 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev)
   packet.worker_x=x;
   packet.worker_y=y;
   packet.name[0]='\0';
+  packet.worklist.name[0] = '\0';
   
   wrk = get_worker_city(pcity, x, y);
   if(wrk==C_TILE_WORKER)

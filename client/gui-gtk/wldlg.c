@@ -796,13 +796,34 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
   int i, first_free;
   int target, is_unit;
 
+  if (id >= B_LAST) {
+    target = id - B_LAST;
+    is_unit = 1;
+  } else {
+    target = id;
+    is_unit = 0;
+  }
+
+  /* If this worklist is a city worklist, double check that the city
+     really can (eventually) build the target.  We've made sure that
+     the list of available targets is okay for this city, but a global
+     worklist may try to insert an odd-ball unit or target. */
+  if (pdialog->pcity &&
+      ((is_unit  && !can_eventually_build_unit(pdialog->pcity, target)) ||
+       (!is_unit && !can_eventually_build_improvement(pdialog->pcity, target))))
+    /* Nope, this city can't build this target, ever.  Don't put it into
+       the worklist. */
+    return;
+    
+
   /* Find the first free element in the worklist */
   for (first_free = 0; first_free < MAX_LEN_WORKLIST; first_free++)
     if (pdialog->worklist_ids[first_free] == WORKLIST_END)
       break;
 
-  if (first_free == MAX_LEN_WORKLIST)
-    /* No room left in the worklist! */
+  if (first_free >= MAX_LEN_WORKLIST-1)
+    /* No room left in the worklist! (remember, we need to keep space
+       open for the WORKLIST_END sentinel.) */
     return;
 
   if (first_free < before && before != MAX_LEN_WORKLIST)
@@ -827,14 +848,6 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
 
   pdialog->worklist_ids[before] = id;
   
-  if (id >= B_LAST) {
-    target = id - B_LAST;
-    is_unit = 1;
-  } else {
-    target = id;
-    is_unit = 0;
-  }
-
   worklist_id_to_name(pdialog->worklist_names[before],
 		      target, is_unit, pdialog->pcity);
   pdialog->worklist_names_ptrs[before] = pdialog->worklist_names[before];
@@ -1243,13 +1256,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
     /* If there's a city, can the city build the improvement? */
     if (pdialog->pcity) {
       can_build = can_build && can_build_improvement(pdialog->pcity, i);
-    /* !!! Note, this is an "issue":
-       I'm not performing this check right now b/c I've heard that the
-       can_build_* stuff in common/city.c is in flux. */
-      /*
       can_eventually_build = can_eventually_build &&
-	can_eventually_build_improvement(pdialog->pcity, id);
-	*/
+	can_eventually_build_improvement(pdialog->pcity, i);
     }
     
     if (( advanced_tech && can_eventually_build) ||
@@ -1271,11 +1279,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
     /* If there's a city, can the city build the improvement? */
     if (pdialog->pcity) {
       can_build = can_build && can_build_unit(pdialog->pcity, i);
-    /* !!! Note, this is another "issue" (same as above). */
-      /*
       can_eventually_build = can_eventually_build &&
-	can_eventually_build_unit(pdialog->pcity, id);
-	*/
+	can_eventually_build_unit(pdialog->pcity, i);
     }
 
     if (( advanced_tech && can_eventually_build) ||

@@ -829,6 +829,7 @@ static void rename_city_callback(GtkWidget *w, gpointer data)
 
   if((pdialog=(struct city_dialog *)data)) {
     packet.city_id=pdialog->pcity->id;
+    packet.worklist.name[0] = '\0';
     sz_strlcpy(packet.name, input_dialog_get_input(w));
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
   }
@@ -1379,6 +1380,7 @@ gint button_down_citymap(GtkWidget *w, GdkEventButton *ev)
     packet.worker_x=xtile;
     packet.worker_y=ytile;
     packet.name[0]='\0';
+    packet.worklist.name[0] = '\0';
     
     if(pcity->city_map[xtile][ytile]==C_TILE_WORKER)
       send_packet_city_request(&aconnection, &packet, 
@@ -1403,6 +1405,7 @@ gint elvis_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   packet.name[0]='\0';
   packet.specialist_from=SP_ELVIS;
   packet.specialist_to=SP_SCIENTIST;
+  packet.worklist.name[0] = '\0';
   
   send_packet_city_request(&aconnection, &packet, 
 			   PACKET_CITY_CHANGE_SPECIALIST);
@@ -1423,6 +1426,7 @@ gint scientist_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   packet.name[0]='\0';
   packet.specialist_from=SP_SCIENTIST;
   packet.specialist_to=SP_TAXMAN;
+  packet.worklist.name[0] = '\0';
   
   send_packet_city_request(&aconnection, &packet, 
 			   PACKET_CITY_CHANGE_SPECIALIST);
@@ -1443,6 +1447,7 @@ gint taxman_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   packet.name[0]='\0';
   packet.specialist_from=SP_TAXMAN;
   packet.specialist_to=SP_ELVIS;
+  packet.worklist.name[0] = '\0';
   
   send_packet_city_request(&aconnection, &packet, 
 			   PACKET_CITY_CHANGE_SPECIALIST);
@@ -1461,6 +1466,7 @@ static void buy_callback_yes(GtkWidget *w, gpointer data)
 
   packet.city_id=pdialog->pcity->id;
   packet.name[0]='\0';
+  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 
   destroy_message_dialog(w);
@@ -1609,6 +1615,7 @@ static void change_to_callback(GtkWidget *w, gpointer data)
 
     packet.city_id=pdialog->pcity->id;
     packet.name[0]='\0';
+    packet.worklist.name[0] = '\0';
     packet.build_id=pdialog->change_list_ids[row];
     packet.is_build_id_unit_id=
       (row >= pdialog->change_list_num_improvements);
@@ -1856,6 +1863,7 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 	/* Change the current target */
 	packet.city_id=pdialog->pcity->id;
 	packet.name[0] = '\0';
+	packet.worklist.name[0] = '\0';
 	packet.build_id = id;
 	packet.is_build_id_unit_id = is_unit;
 	send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
@@ -1873,7 +1881,7 @@ void commit_city_worklist(struct worklist *pwl, void *data)
   packet.name[0] = '\0';
   packet.worklist.name[0] = '\0';
   packet.worklist.is_valid = 1;
-  for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     packet.worklist.ids[i] = pwl->ids[i];
   }
     
@@ -1900,6 +1908,7 @@ static void sell_callback_yes(GtkWidget *w, gpointer data)
   packet.city_id=pdialog->pcity->id;
   packet.build_id=pdialog->sell_id;
   packet.name[0]='\0';
+  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
 
   destroy_message_dialog(w);

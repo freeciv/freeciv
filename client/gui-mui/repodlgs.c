@@ -517,6 +517,7 @@ static void trade_sell(int *data)
       packet.city_id = pcity->id;
       packet.build_id = i;
       packet.name[0] = '\0';
+      packet.worklist.name[0] = '\0';
       send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
     }
     city_list_iterate_end

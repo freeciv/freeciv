@@ -452,6 +452,56 @@ int can_build_improvement(struct city *pcity, enum improvement_type_id id)
 }
 
 /****************************************************************
+Will this city ever be able to build this improvement?
+*****************************************************************/
+int can_eventually_build_improvement(struct city *pcity, enum improvement_type_id id)
+{
+  /* Can the _player_ ever build the improvement? */
+  if (!could_player_eventually_build_improvement(city_owner(pcity), id))
+    return 0;
+  
+  /* The player can build the improvement.  Check for other requirements
+     that are city-specific.  At this point, all we really care about is
+     whether there are any terrain restrictions -- we figure that improvement
+     preconditions (like building a marketplace before a bank) will 
+     be settled out on their own. */
+  
+  /* Does the city already have one of these improvements? */
+  if (city_got_building(pcity, id))
+    return 0;
+
+  /* At most one power plant per city. */
+  if ((city_got_building(pcity, B_HYDRO) || 
+       city_got_building(pcity, B_POWER) ||
+       city_got_building(pcity, B_NUCLEAR)) && 
+      (id==B_POWER || id==B_HYDRO || id==B_NUCLEAR))
+    return 0;
+
+  /* Costal improvements require a coast. */
+  if ((id==B_HARBOUR || id==B_COASTAL || id == B_OFFSHORE || id == B_PORT) &&
+      !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
+    return 0;
+  
+  /* A hydro dam and the Hoover dam wonder have some fun terrain 
+     requirements. */
+  if ((id == B_HYDRO || id == B_HOOVER)
+      && !(map_get_terrain(pcity->x, pcity->y) == T_RIVER)
+      && !(map_get_special(pcity->x, pcity->y) & S_RIVER)
+      && !(map_get_terrain(pcity->x, pcity->y) == T_MOUNTAINS)
+      && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
+      && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER)
+      && !is_special_near_tile(pcity->x, pcity->y, S_RIVER)
+     )
+    return 0;
+
+  /* Don't allow improvements that are supplanted by wonders. */
+  if (wonder_replacement(pcity, id))
+    return 0;
+
+  return 1;
+}
+
+/****************************************************************
 Can a player build this improvement somewhere?  Ignores the
 fact that player may not have a city with appropriate prereqs.
 *****************************************************************/
@@ -510,6 +560,25 @@ int can_build_unit(struct city *pcity, Unit_Type_id id)
     return 0;
   return 1;
 }
+
+/****************************************************************
+Whether player can eventually build given unit in the city;
+returns 0 if unit can never possibily be built in this city.
+*****************************************************************/
+int can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
+{
+  /* Can the _player_ ever build this unit? */
+  if (!can_player_eventually_build_unit(city_owner(pcity), id))
+    return 0;
+
+  /* Some units can be built only in certain cities -- for instance,
+     ships may be built only in cities adjacent to ocean. */
+  if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
+    return 0;
+
+  return 1;
+}
+
 
 /****************************************************************
 Whether player can build given unit somewhere;

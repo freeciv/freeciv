@@ -326,6 +326,7 @@ void select_imp_or_unit_callback(GtkWidget *w, gpointer data)
 	  
 	  packet.city_id=city_from_glist(selection)->id;
 	  packet.name[0]='\0';
+	  packet.worklist.name[0] = '\0';
 	  packet.build_id=number;
 	  packet.is_build_id_unit_id=is_unit;
 	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
@@ -1029,6 +1030,7 @@ void city_buy_callback(GtkWidget *w, gpointer data)
 	  struct packet_city_request packet;
 	  packet.city_id=pcity->id;
 	  packet.name[0]='\0';
+	  packet.worklist.name[0] = '\0';
 	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 	}
       else
