@@ -1612,7 +1612,7 @@ static int handicap_of_skill_level(int level)
   int h[11] = { -1,
 		H_NONE,
 		H_NONE,
-		H_RATES | H_TARGETS | H_HUTS | H_DEFENSIVE,
+		H_RATES | H_TARGETS | H_HUTS | H_NOPLANES | H_DEFENSIVE,
 		H_NONE,
 		H_RATES | H_TARGETS | H_HUTS,
 		H_NONE,

@@ -27,6 +27,10 @@ bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
 void maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 
+/* move check related */
+bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
+				   Unit_Type_id type, int unit_is_on_tile);
+
 /* turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);

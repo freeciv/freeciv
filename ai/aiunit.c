@@ -41,6 +41,7 @@
 #include "unittools.h"
 
 #include "advmilitary.h"
+#include "aiair.h"
 #include "aicity.h"
 #include "aihand.h"
 #include "aitools.h"
@@ -2389,6 +2390,9 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else if (get_transporter_capacity(punit) > 0) {
     ai_manage_ferryboat(pplayer, punit);
+    return;
+  } else if (is_air_unit(punit)) {
+    ai_manage_airunit(pplayer, punit);
     return;
   } else if (is_military_unit(punit)) {
     if (punit->moves_left == 0) return; /* can't do anything with no moves */

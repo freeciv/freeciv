@@ -68,8 +68,6 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
 						 int x, int y, bool missile);
 static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 							struct unit *punit2);
-static bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
-				   Unit_Type_id type, bool unit_is_on_tile);
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 
 /**************************************************************************
@@ -1565,8 +1563,8 @@ void resolve_unit_stack(int x, int y, bool verbose)
 /**************************************************************************
 ...
 **************************************************************************/
-static bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
-				   Unit_Type_id type, bool unit_is_on_tile)
+bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
+			     Unit_Type_id type, bool unit_is_on_tile)
 {
   struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
 

@@ -22,6 +22,7 @@
 #include "mem.h"
 #include "rand.h"
 
+#include "airgoto.h"
 #include "maphand.h"
 #include "settlers.h"
 #include "unithand.h"
@@ -32,9 +33,6 @@
 #include "gotohand.h"
 
 struct move_cost_map warmap;
-
-/* These are used for airplane GOTOs with waypoints */
-#define MAXFUEL 100
 
 /* 
  * These settings should be either true or false.  They are used for
@@ -48,25 +46,8 @@ struct move_cost_map warmap;
 #define AIR_ASSUMES_UNKNOWN_SAFE        TRUE
 #define AIR_ASSUMES_FOGGED_SAFE         TRUE
 
-enum refuel_type {
-  FUEL_START = 0, FUEL_GOAL, FUEL_CITY, FUEL_AIRBASE
-};
-
-struct refuel {
-  enum refuel_type type;
-  unsigned int x, y;
-  int turns;
-  int moves_left;
-  struct refuel *coming_from;
-};
-
-static struct refuel *refuels[MAP_MAX_WIDTH*MAP_MAX_HEIGHT]; /* enough :P */
-static unsigned int refuellist_size;
-
-static void make_list_of_refuel_points(struct player *pplayer);
-static void dealloc_refuel_stack(void);
-static bool find_air_first_destination(struct unit *punit, int *dest_x, int *dest_y);
 static bool airspace_looks_safe(int x, int y, struct player *pplayer);
+
 
 /* These are used for all GOTO's */
 
@@ -227,21 +208,6 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
     freelog(LOG_ERROR, "Bad move_type in init_warmap().");
   }
 }  
-
-/*******************************************************************/
-static void init_refuel(
-  struct refuel *pRefuel,
-  int x, int y,
-  enum refuel_type type,
-  int turns, int moves_left)
-{
-  pRefuel->x = x;
-  pRefuel->y = y;
-  pRefuel->type = type;
-  pRefuel->turns = turns;
-  pRefuel->moves_left = moves_left;
-  pRefuel->coming_from = NULL;
-}
 
 
 /**************************************************************************
@@ -1442,216 +1408,6 @@ int calculate_move_cost(struct unit *punit, int dest_x, int dest_y)
     return warmap.cost[dest_x][dest_y];
 }
 
-/**************************************************************************
-This list should probably be made by having a list of airbase and then
-adding the players cities. It takes a little time to iterate over the map
-as it is now, but as it is only used in the players turn that does not
-matter.
-**************************************************************************/
-static void make_list_of_refuel_points(struct player *pplayer)
-{
-  struct refuel *prefuel;
-  struct city *pcity;
-  struct tile *ptile;
-
-  refuellist_size = 0;
-
-  whole_map_iterate(x, y) {
-    ptile = map_get_tile(x, y);
-    if ((pcity = is_allied_city_tile(ptile, pplayer))
-	&& !is_non_allied_unit_tile(ptile, pplayer)) {
-      prefuel = fc_malloc(sizeof(struct refuel));
-      init_refuel(prefuel, x, y, FUEL_CITY, MAP_MAX_HEIGHT + MAP_MAX_WIDTH,
-		  0);
-      refuels[refuellist_size++] = prefuel;
-      continue;
-    }
-    ptile = map_get_tile(x, y);
-    if (tile_has_special(ptile, S_AIRBASE)) {
-      if (is_non_allied_unit_tile(ptile, pplayer))
-	continue;
-      prefuel = fc_malloc(sizeof(struct refuel));
-      init_refuel(prefuel, x, y,
-		  FUEL_AIRBASE, MAP_MAX_HEIGHT + MAP_MAX_WIDTH, 0);
-      refuels[refuellist_size++] = prefuel;
-    }
-  } whole_map_iterate_end;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void dealloc_refuel_stack(void)
-{
-  int i; 
-  for (i = 0; i < refuellist_size; i++) {
-    free(refuels[i]);
-    refuels[i] = NULL;
-  }
-}
-
-/**************************************************************************
-We need to find a route that our airplane can use without crashing. The
-first waypoint of this route is returned inside the arguments dest_x and
-dest_y. This can be the point where we start, fx when a plane with few moves
-left need to stay in a city to refuel.
-
-First we create a list of all possible refuel points (friendly cities and
-airbases on the map). Then the destination is added to this list.
-We keep a list of the refuel points we have reached (been_there[]). this is
-initialized with the unit position.
-We have an array of pointer into the been_there[] stack, indicating where
-we shall start and stop (turnindex[]). turnindex[0] is pointing at the top
-of the list, and turnindex[i] is pointing at where we should start to
-iterate if we want to try to move in turn i.
-
-The algorithm used is Dijkstra. Thus we need to check whether we can arrive at
-the goal in 1 turn, then in 2 turns, then in 3 and so on. When we can arrive at
-the goal, we want to have as much movement points left as possible. This is a
-bit tricky, since Bombers have fuel for more than one turn. This code should
-work for airplanes with fuel for >2 turns as well.
-
-Once we reach the pgoal node we finish the current run, then stop (set
-reached_goal to 1). Since each node has exactly one pointer to a previous node
-(nature of Dijkstra), we can just follow the pointers all the way back to the
-start node. The node immediately before (after) the startnode is our first
-waypoint, and is returned.
-
-Possible changes:
-We might also make sure that fx a fighter will have enough fuel to fly back
-to a city after reaching it's destination. This could be done by making a
-list of goal from which the last jump on the route could be done
-satisfactory. We should also make sure that bombers given an order to
-attack a unit will not make the attack on it's last fuel point etc. etc.
-These last points would be necessary to make the AI use planes.
-the list of extra goals would also in most case stop the algorithm from
-iterating over all cities in the case of an impossible goto. In fact those
-extra goal are so smart that you should implement them! :)
-
-      -Thue
-      [Kero]
-**************************************************************************/
-static bool find_air_first_destination(
-  struct unit *punit, /* input param */
-  int *dest_x, int *dest_y) /* output param */
-{
-  struct player *pplayer = unit_owner(punit);
-  static struct refuel **been_there;
-  static unsigned int *turn_index;
-  struct refuel start, *pgoal;
-  unsigned int fullmoves = unit_type(punit)->move_rate/SINGLE_MOVE;
-  unsigned int fullfuel = unit_type(punit)->fuel;
-
-  bool reached_goal;
-  int turns, start_turn;
-  int max_moves, moves_left;
-  int new_nodes, no_new_nodes;
-  int i, j, k;
-
-  if (!been_there) {
-    /* These are big enough for anything! */
-    been_there = fc_malloc((map.xsize*map.ysize+2)*sizeof(struct refuel *));
-    turn_index = fc_malloc((map.xsize*map.ysize)*sizeof(unsigned int));
-  }
-
-  freelog(LOG_DEBUG, "unit @(%d, %d) fuel=%d, moves_left=%d\n",
-	  punit->x, punit->y, punit->fuel, punit->moves_left);
-
-  init_refuel(&start, punit->x, punit->y, FUEL_START, 0, punit->moves_left/3);
-  if (punit->fuel > 1) start.moves_left += (punit->fuel-1) * fullmoves;
-  been_there[0] = &start;
-
-  make_list_of_refuel_points(pplayer);
-  pgoal = fc_malloc(sizeof(struct refuel));
-  init_refuel(pgoal, punit->goto_dest_x, punit->goto_dest_y, FUEL_GOAL,
-    MAP_MAX_HEIGHT + MAP_MAX_WIDTH, 0);
-  refuels[refuellist_size++] = pgoal;
-
-  assert(!same_pos(punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y));
-  reached_goal = FALSE; /* assume start.(x,y) != pgoal->(x,y) */
-  turns = 0;
-  turn_index[0] = 0;
-  new_nodes = 1; /* the node where we start has been added already */
-  no_new_nodes = 0;
-  /* while we did not reach the goal and found new nodes in the last full fuel
-     turns, continue searching */
-  while (!reached_goal && (no_new_nodes<fullfuel)) {
-    turns++;
-    freelog(LOG_DEBUG, "looking for arrival in %d turns", turns);
-    turn_index[turns] = turn_index[turns-1] + new_nodes;
-    new_nodes = 0;
-    /* now find out for turn turns where we can arrive (e.g. we can arrive
-       in 5 turns: when fullfuel is 3, we can come from turn 2, 3 and 4) */
-    start_turn = turns-fullfuel;
-    if (start_turn < 0) start_turn = 0;
-    for (i=start_turn; i<turns; i++) {
-      freelog(LOG_DEBUG, "can we arrive from turn %d?", i);
-      for (j=turn_index[i]; j<turn_index[i+1]; j++) {
-	struct refuel *pfrom = been_there[j];
-	if (j == 0) {
-	  /* start pos is special case as we maybe don't have full moves and/or fuel */
-	  max_moves = punit->moves_left/SINGLE_MOVE;
-	  if (turns-i > 1) {
-	    max_moves += MIN(punit->fuel-1, turns-i-1) * fullmoves;
-	  }
-	} else {
-	  max_moves = pfrom->moves_left - (fullfuel-(turns-i)) * fullmoves;
-	}
-	freelog(LOG_DEBUG, "unit @@(%d,%d) may use %d moves",
-		pfrom->x, pfrom->y, max_moves);
-	/* try to move to all of the refuel stations and the goal */
-	for (k=0; k<refuellist_size; k++) {
-	  struct refuel *pto = refuels[k];
-	  moves_left = air_can_move_between(max_moves,
-	      pfrom->x, pfrom->y, pto->x, pto->y, pplayer);
-	  if (moves_left != -1) {
-	    int unit_moves_left = moves_left + (pfrom->moves_left - max_moves);
-	    freelog(LOG_DEBUG, "moves_left=%d, unit_moves_left=%d, pto->=%d",
-		    moves_left, unit_moves_left, pto->moves_left);
-	    if ( (pto->turns > turns) ||
-		 ((pto->turns == turns) && (unit_moves_left > pto->moves_left))
-	    ) {
-	      been_there[turn_index[turns] + new_nodes] = pto;
-	      new_nodes++;
-	      pto->coming_from = pfrom;
-	      pto->moves_left = unit_moves_left;
-	      pto->turns = turns;
-	      if (pto->type == FUEL_GOAL) reached_goal = TRUE;
-
-	      freelog(LOG_DEBUG, "insert (%i,%i) -> (%i,%i) %d, %d", pfrom->x,
-		      pfrom->y, pto->x, pto->y, pto->turns, unit_moves_left);
-
-	    }
-	  }
-	}
-      }
-    }
-    if (new_nodes == 0) no_new_nodes++; else no_new_nodes = 0;
-    /* update moves_left for the next round (we have a full fuel tank) */
-    for (j=0; j<new_nodes; j++) {
-      been_there[turn_index[turns]+j]->moves_left = fullmoves*fullfuel;
-    }
-  }
-
-  freelog(LOG_DEBUG, "backtracking");
-  /* backtrack */
-  if (reached_goal) {
-    while (pgoal->coming_from->type != FUEL_START) {
-      pgoal = pgoal->coming_from;
-      freelog(LOG_DEBUG, "%i,%i", pgoal->x, pgoal->y);
-    }
-    freelog(LOG_DEBUG, "success");
-  } else
-    freelog(LOG_DEBUG, "no success");
-  freelog(LOG_DEBUG, "air goto done");
-
-  *dest_x = pgoal->x;
-  *dest_y = pgoal->y;
-
-  dealloc_refuel_stack();
-
-  return reached_goal;
-}
 
 /**************************************************************************
  Returns true if the airspace at given map position _looks_ safe to

@@ -48,6 +48,7 @@ options="1.9"
 ;                          route reduces the initial revenue by cumulative
 ;                          factors of 2/3
 ; "Airbase" = "Airbase" unit types can build Airbases
+; "Build_Airborne" = from now on can build air units (for use by AI)
 
 ; Note that after year 0, the cost for techs double. This behaviour is
 ; hard-coded and cannot yet be changed in rulesets.
@@ -230,7 +231,7 @@ flags    = ""
 name     = _("Flight")
 req1     = "Combustion"
 req2     = "Theory of Gravity"
-flags    = "Trade_Revenue_Reduce"
+flags    = "Trade_Revenue_Reduce","Build_Airborne"
 
 [advance_fundamentalism]
 name     = _("Fundamentalism")

@@ -24,7 +24,9 @@
 #include "gotohand.h"		/* warmap has been redeployed */
 #include "settlers.h"
 
+#include "aiair.h"
 #include "aicity.h"
+#include "aihand.h"
 #include "aitools.h"
 #include "aiunit.h"
 
@@ -1121,38 +1123,19 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
     }
 
     if (e > choice->want) { 
-      if (!city_got_barracks(pcity) && is_ground_unit(myunit)) {
-        if (player_knows_improvement_tech(pplayer, B_BARRACKS3))
-          choice->choice = B_BARRACKS3;
-        else if (player_knows_improvement_tech(pplayer, B_BARRACKS2))
-          choice->choice = B_BARRACKS2;
-        else choice->choice = B_BARRACKS;
-        choice->want = e;
-        choice->type = CT_BUILDING;
+      if (myunit->id == 0) {
+	choice->choice = v;
+	choice->type = CT_ATTACKER;
+	choice->want = e;
+	if (needferry != 0) ai_choose_ferryboat(pplayer, pcity, choice);
+	freelog(LOG_DEBUG, "%s has chosen attacker, %s, want=%d",
+		pcity->name, unit_types[choice->choice].name, choice->want);
       } else {
-        if (myunit->id == 0) {
-          choice->choice = v;
-          choice->type = CT_ATTACKER;
-          choice->want = e;
-          if (needferry != 0) ai_choose_ferryboat(pplayer, pcity, choice);
-	  freelog(LOG_DEBUG, "%s has chosen attacker, %s",
-			pcity->name, unit_types[choice->choice].name);
-        } else {
-          choice->choice = ai_choose_defender(pcity);
-	  freelog(LOG_DEBUG, "%s has chosen defender, %s",
-			pcity->name, unit_types[choice->choice].name);
-          choice->type = CT_NONMIL;
-          choice->want = e;
-        }
-        if (is_sailing_unit(myunit) && improvement_exists(B_PORT)
-	    && !city_got_building(pcity, B_PORT)) {
-	  Tech_Type_id tech = get_improvement_type(B_PORT)->tech_req;
-          if (get_invention(pplayer, tech) == TECH_KNOWN) {
-            choice->choice = B_PORT;
-            choice->want = e;
-            choice->type = CT_BUILDING;
-          } else pplayer->ai.tech_want[tech] += e;
-        }
+	choice->choice = ai_choose_defender(pcity);
+	freelog(LOG_DEBUG, "%s has chosen defender, %s, want=%d",
+		pcity->name, unit_types[choice->choice].name, choice->want);
+	choice->type = CT_NONMIL;
+	choice->want = e;
       }
     }
   } 
@@ -1184,6 +1167,62 @@ static bool port_is_within(struct player *pplayer, int distance)
   return FALSE;
 }
 
+/*********************************************************************
+ * Before building a military unit, AI builds a barracks/port/airport
+ * NB: It is assumed this function isn't called in an emergency 
+ * situation, when we need a defender _now_.
+ *
+ * TODO: something more sophisticated, like estimating future demand
+ * for military units, considering Sun Tzu instead.
+ ********************************************************************/
+static void adjust_ai_unit_choice(struct city *pcity, 
+				      struct ai_choice *choice)
+{
+  enum unit_move_type move_type;
+  struct player *pplayer = city_owner(pcity);
+
+  if (!is_unit_choice_type(choice->choice)) return;
+  if (unit_type_flag(choice->choice, F_NONMIL)) return;
+  if (do_make_unit_veteran(pcity, choice->choice)) return;
+
+  move_type = get_unit_type(choice->choice)->move_type;
+  if (improvement_variant(B_BARRACKS)==1) {
+    /* Barracks will work for all units! */
+    move_type = LAND_MOVING;
+  }
+
+  switch(move_type) {
+  case LAND_MOVING:
+    if (player_knows_improvement_tech(pplayer, B_BARRACKS3)) {
+      choice->choice = B_BARRACKS3;
+      choice->type = CT_BUILDING;
+    } else if (player_knows_improvement_tech(pplayer, B_BARRACKS2)) {
+      choice->choice = B_BARRACKS2;
+      choice->type = CT_BUILDING;
+    } else if (player_knows_improvement_tech(pplayer, B_BARRACKS)) {
+      choice->choice = B_BARRACKS;
+      choice->type = CT_BUILDING;
+    }
+    break;
+  case SEA_MOVING:
+    if (player_knows_improvement_tech(pplayer, B_PORT)) {
+      choice->choice = B_PORT;
+      choice->type = CT_BUILDING;
+    }
+    break;
+  case HELI_MOVING:
+  case AIR_MOVING:
+    /* Should we build airports by default?  */
+    /*    if (player_knows_improvement_tech(pplayer, B_AIRPORT)) {
+	  choice->choice = B_AIRPORT;
+	  choice->type = CT_BUILDING;
+	  } */
+    break;
+  default:
+    freelog(LOG_ERROR, "Unknown move_type in adjust_ai_unit_choice");
+  }
+}
+
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, 
     where want is a value between 1 and 100.
@@ -1205,6 +1244,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* TODO: recognize units that can DEFEND_HOME but are in the field. -- Syela */
 
   urgency = assess_danger(pcity); /* calling it now, rewriting old wall code */
+  freelog(LOG_DEBUG, "%s: danger %d, grave_danger %d", 
+          pcity->name, pcity->ai.danger, pcity->ai.grave_danger);
   def = assess_defense_quadratic(pcity); /* has to be AFTER assess_danger thanks to wallvalue */
 /* changing to quadratic to stop AI from building piles of small units -- Syela */
   danger = pcity->ai.danger; /* we now have our warmap and will use it! */
@@ -1302,7 +1343,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
     if (want > choice->want) {
       choice->want = want;
       choice->choice = v;
-      choice->type = CT_NONMIL; /* Why not CT_DEFENDER? -- Caz */
+      choice->type = CT_DEFENDER;
     }
   }
 
@@ -1333,12 +1374,18 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
       virtualunit.hp = unit_types[v].hp;
       kill_something_with(pplayer, pcity, &virtualunit, choice);
     } /* ok.  can now mung seamap for ferryboat code.  Proceed! */
+    ai_choose_attacker_air(pplayer, pcity, choice);
     v = ai_choose_attacker_ground(pcity);
     virtualunit.type = v;
 /*    virtualunit.veteran = do_make_unit_veteran(pcity, v);*/
     virtualunit.veteran = TRUE;
     virtualunit.hp = unit_types[v].hp;
     kill_something_with(pplayer, pcity, &virtualunit, choice);
+    adjust_ai_unit_choice(pcity, choice);
+  }
+  if (is_unit_choice_type(choice->type)) {
+    freelog(LOG_DEBUG, "%s military advisor choice: %s (want %d)",
+            pcity->name, unit_types[choice->choice].name, choice->want);
   }
   return;
 }
