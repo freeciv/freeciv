@@ -33,8 +33,13 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
   #include <sys/stat.h>
 #endif
 
-/* FIXME: need to use AC_HEADER_SYS_WAIT */ 
+#ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
+#endif
+
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
 
 #include "fcintl.h"
 #include "mem.h"
@@ -54,9 +59,12 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #define WAIT_BETWEEN_TRIES 100000 /* usecs */ 
 #define NUMBER_OF_TRIES 500
   
-/* FIXME: this will need to change for WIN32 */ 
+#ifdef WIN32_NATIVE
+HANDLE server_process = INVALID_HANDLE_VALUE;
+#else
 pid_t server_pid = - 1;
-  
+#endif
+
 char player_name[MAX_LEN_NAME];
 char *current_filename = NULL;
 
@@ -100,7 +108,11 @@ Tests if the client has started the server.
 **************************************************************************/ 
 bool is_server_running()
 { 
+#ifdef WIN32_NATIVE
+  return (server_process != INVALID_HANDLE_VALUE);
+#else    
   return (server_pid > 0);
+#endif
 } 
 
 /************************************************************************** 
@@ -109,9 +121,15 @@ Kills the server if the client has started it (FIXME: atexit handler?)
 void client_kill_server()
 {
   if (is_server_running()) {
+#ifdef WIN32_NATIVE
+    TerminateProcess(server_process, 0);
+    CloseHandle(server_process);
+    server_process = INVALID_HANDLE_VALUE;		
+#else
     kill(server_pid, SIGTERM);
     waitpid(server_pid, NULL, WUNTRACED);
     server_pid = - 1;
+#endif    
   }
 }   
 
