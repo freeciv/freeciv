@@ -121,16 +121,6 @@ int connect_to_server(char *name, char *hostname, int port,
   long address;
   struct packet_req_join_game req;
 
-  if (aconnection.buffer) {
-    /* didn't close cleanly previously? */
-    freelog(LOG_NORMAL, "Unexpected buffers in connect_to_server()");
-    /* get newly initialized ones instead */
-    free(aconnection.buffer);
-    free(aconnection.send_buffer);
-  }
-  aconnection.buffer = new_socket_packet_buffer();
-  aconnection.send_buffer = new_socket_packet_buffer();
-
   if(port==0)
     port=DEFAULT_SOCK_PORT;
   
@@ -172,6 +162,16 @@ int connect_to_server(char *name, char *hostname, int port,
     return -1;
   }
 
+  if (aconnection.buffer) {
+    /* didn't close cleanly previously? */
+    freelog(LOG_NORMAL, "Unexpected buffers in connect_to_server()");
+    /* get newly initialized ones instead */
+    free(aconnection.buffer);
+    free(aconnection.send_buffer);
+  }
+  aconnection.buffer = new_socket_packet_buffer();
+  aconnection.send_buffer = new_socket_packet_buffer();
+  
   aconnection.used = 1;
 
   /* gui-dependent details now in gui_main.c: */
