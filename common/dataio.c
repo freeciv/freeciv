@@ -543,7 +543,7 @@ void dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
   c = ADD_TO_POINTER(din->src, din->current);
 
   /* avoid using strlen (or strcpy) on an (unsigned char*)  --dwp */
-  for (offset = 0; c[offset] != '\0' && offset < remaining; offset++) {
+  for (offset = 0; offset < remaining && c[offset] != '\0'; offset++) {
     /* nothing */
   }
 
