@@ -39,6 +39,7 @@
 
 extern Widget toplevel;
 extern int ai_popup_windows;
+extern int center_when_popup_city;
 
 Widget meswin_dialog_shell;
 Widget meswin_form;
@@ -407,8 +408,9 @@ void meswin_popcity_callback(Widget w, XtPointer client_data,
     y = ypos[ret->list_index];
     if((x || y) && (pcity=map_get_city(x,y))
        && (pcity->owner == game.player_idx)) {
-      /* should we move the map? */
-      /* center_tile_mapcanvas(x,y); */
+      if (center_when_popup_city) {
+	center_tile_mapcanvas(x,y);
+      }
       popup_city_dialog(pcity, 0);
     }
   }

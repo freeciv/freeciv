@@ -55,6 +55,7 @@ extern int ai_manual_turn_done;
 extern int auto_center_on_unit;
 extern int wakeup_focus;
 extern int draw_diagonal_roads;
+extern int center_when_popup_city;
 
 /******************************************************************/
 
@@ -77,6 +78,7 @@ static opt_def opts[]= {
   GEN_OPT(auto_center_on_unit),
   GEN_OPT(wakeup_focus),
   GEN_OPT(draw_diagonal_roads),
+  GEN_OPT(center_when_popup_city),
   { NULL, NULL }
 };
 
@@ -91,6 +93,7 @@ Widget option_aiturndone_toggle;
 Widget option_autocenter_toggle;
 Widget option_wakeup_focus_toggle;
 Widget option_diagonal_roads_toggle;
+Widget option_cenpop_toggle;
 
 /******************************************************************/
 void create_option_dialog(void);
@@ -122,6 +125,8 @@ void popup_option_dialog(void)
                 XtNlabel, wakeup_focus?"Yes":"No", NULL);
   XtVaSetValues(option_diagonal_roads_toggle, XtNstate, draw_diagonal_roads,
                 XtNlabel, draw_diagonal_roads?"Yes":"No", NULL);
+  XtVaSetValues(option_cenpop_toggle, XtNstate, center_when_popup_city,
+                XtNlabel, center_when_popup_city?"Yes":"No", NULL);
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -218,6 +223,15 @@ void create_option_dialog(void)
 							 option_form,
 							 NULL);
 
+  XtVaCreateManagedWidget("optioncenpoplabel",
+                          labelWidgetClass,
+			  option_form, NULL);
+  option_cenpop_toggle =
+    XtVaCreateManagedWidget("optioncenpoptoggle",
+			    toggleWidgetClass,
+			    option_form,
+			    NULL);
+
   option_ok_command = XtVaCreateManagedWidget("optionokcommand", 
 					      commandWidgetClass,
 					      option_form,
@@ -235,6 +249,7 @@ void create_option_dialog(void)
   XtAddCallback(option_autocenter_toggle, XtNcallback, toggle_callback, NULL);
   XtAddCallback(option_wakeup_focus_toggle, XtNcallback, toggle_callback, NULL);
   XtAddCallback(option_diagonal_roads_toggle, XtNcallback, toggle_callback, NULL);
+  XtAddCallback(option_cenpop_toggle, XtNcallback, toggle_callback, NULL);
   
 
   XtRealizeWidget(option_dialog_shell);
@@ -284,6 +299,8 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   wakeup_focus=b;
   XtVaGetValues(option_diagonal_roads_toggle, XtNstate, &b, NULL);
   draw_diagonal_roads=b;
+  XtVaGetValues(option_cenpop_toggle, XtNstate, &b, NULL);
+  center_when_popup_city=b;
 }
 
 /****************************************************************

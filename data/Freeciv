@@ -974,8 +974,17 @@ Freeciv*optiondiagonalroadstoggle.fromVert:	optionwakeupfocustoggle
 Freeciv*optiondiagonalroadstoggle.fromHoriz:	optiondiagonalroadslabel
 Freeciv*optiondiagonalroadstoggle.internalHeight: 0
 
+Freeciv*optioncenpoplabel.label:	      Center map when Popup city\ 
+Freeciv*optioncenpoplabel.borderWidth: 0
+Freeciv*optioncenpoplabel.fromVert:    optiondiagonalroadstoggle
+
+Freeciv*optioncenpoptoggle.label:	Yes
+Freeciv*optioncenpoptoggle.fromVert:	optiondiagonalroadstoggle
+Freeciv*optioncenpoptoggle.fromHoriz:	optioncenpoplabel
+Freeciv*optioncenpoptoggle.internalHeight: 0
+
 Freeciv*optionokcommand.label:          Close
-Freeciv*optionokcommand.fromVert:       optiondiagonalroadslabel
+Freeciv*optionokcommand.fromVert:       optioncenpoplabel
 
 !
 ! The message options dialog

@@ -46,6 +46,7 @@ extern Widget toplevel, main_form;
 
 extern struct connection aconnection;
 extern int delay_report_update;
+extern int center_when_popup_city;
 
 /* abbreviate long city names to this length in the city report: */
 #define REPORT_CITYNAME_ABBREV 15 
@@ -672,7 +673,9 @@ void city_popup_callback(Widget w, XtPointer client_data,
   if(ret->list_index!=XAW_LIST_NONE) {
     struct city *pcity;
     if((pcity=cities_in_list[ret->list_index])) {
-      center_tile_mapcanvas(pcity->x, pcity->y);
+      if (center_when_popup_city) {
+	center_tile_mapcanvas(pcity->x, pcity->y);
+      }
       popup_city_dialog(pcity, 0);
     }
   }
