@@ -504,6 +504,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     int diff_x, diff_y;
     double timing_sec = (double)smooth_center_slide_msec / 1000.0, mytime;
     static struct timer *anim_timer;
+    int frames = 0;
 
     gui_distance_vector(&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
@@ -515,7 +516,12 @@ void set_mapview_origin(int gui_x0, int gui_y0)
 			      start_y + diff_y * (mytime / timing_sec));
       flush_dirty();
       gui_flush();
+      frames++;
     } while (mytime < timing_sec);
+
+    mytime = read_timer_seconds(anim_timer);
+    freelog(LOG_DEBUG, "Got %d frames in %f seconds: %f FPS.",
+	    frames, mytime, (double)frames / mytime);
   } else {
     base_set_mapview_origin(gui_x0, gui_y0);
   }
