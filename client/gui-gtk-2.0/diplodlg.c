@@ -512,6 +512,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
   label = gtk_label_new(NULL);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s</span>",
 	      get_nation_name(plr0->nation));
@@ -548,7 +549,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   menu = gtk_menu_new();
   pdialog->menu0 = menu;
                                                                                 
-  menuitem = gtk_image_menu_item_new_from_stock(GTK_STOCK_ADD, NULL);
+  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
+		  		gtk_image_new_from_stock(GTK_STOCK_ADD,
+							 GTK_ICON_SIZE_MENU));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr0);
@@ -564,6 +568,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
   label = gtk_label_new(NULL);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s</span>",
 	      get_nation_name(plr1->nation));
@@ -600,7 +605,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   menu = gtk_menu_new();
   pdialog->menu1 = menu;
                                                                                 
-  menuitem = gtk_image_menu_item_new_from_stock(GTK_STOCK_ADD, NULL);
+  menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
+		  		gtk_image_new_from_stock(GTK_STOCK_ADD,
+							 GTK_ICON_SIZE_MENU));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr1);
