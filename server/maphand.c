@@ -1132,8 +1132,8 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 	    if (map_get_seen(x, y, pplayer2->player_no) == 0)
 	      really_fog_area(pplayer2, x, y);
 	  }
-	}
-      } whole_map_iterate_end;
+	} whole_map_iterate_end;
+      }
     } players_iterate_end;
     unbuffer_shared_vision(pplayer);
   } players_iterate_end;
