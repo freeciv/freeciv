@@ -1270,7 +1270,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   Arg args[4];
   int nargs;
   Widget unit_select_all_command, unit_select_close_command;
-  Widget firstcolumn,column=0;
+  Widget firstcolumn=0,column=0;
 
   XtSetSensitive(main_form, FALSE);
 
