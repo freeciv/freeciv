@@ -94,7 +94,7 @@ static void my_wait(void)
   file_repeat = FALSE;
   snd_pcm_drain_if(sound_handle);
   while (snd_pcm_state(sound_handle) == SND_PCM_STATE_DRAINING) {
-    usleep(100000);
+    myusleep(100000);
   }
 }
 
