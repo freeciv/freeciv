@@ -1244,22 +1244,14 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int best_act = 0;		/* ACTIVITY_ of best target so far */
   struct unit *ferryboat = NULL; /* if non-null, boatid boat at unit's x,y */
 
-#ifdef DEBUG
-  int save_newv;
-#endif
-
   /* First find the best square to upgrade,
    * results in: gx, gy, best_newv, best_act
    */  
   if (unit_flag(punit, F_SETTLERS)) {
-    best_newv = evaluate_improvements(punit, &best_act,&gx, &gy);
+    best_newv = evaluate_improvements(punit, &best_act, &gx, &gy);
   }
 
   /* Found the best square to upgrade, have gx, gy, best_newv, best_act */
-
-#ifdef DEBUG
-  save_newv = best_newv;
-#endif
 
   /* Decide whether to build a new city:
    * if so, modify: gx, gy, best_newv, best_act
@@ -1277,16 +1269,6 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
       gy = ny;
     }
   }
-
-#ifdef DEBUG
-  if ((best_newv != save_newv) ||
-      (map_get_terrain(punit->x, punit->y) == T_OCEAN)) {
-    freelog(LOG_DEBUG,
-	    "%s %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
-	    unit_name(punit->type), punit->id, punit->x, punit->y,
-	    get_activity_text(best_act), gx, gy, best_newv);
-  }
-#endif
 
   /* Mark the square as taken. */
   if (gx!=-1 && gy!=-1) {
