@@ -114,6 +114,7 @@ struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y)
 {
   struct player *pplay;
   struct city *pc=NULL;
+  struct city *pcity=NULL;
   int i;
   int dist=40;
   for(i=0; i<game.nplayers; i++) {
@@ -121,18 +122,45 @@ struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y)
     if (pplay!=pplayer) {
       city_list_iterate(pplay->cities, pcity) {
         if (map_distance(x, y, pcity->x, pcity->y)<dist 
-            && map_get_continent(x, y)==
-	       map_get_continent(pcity->x, pcity->y)) { 
-          dist=map_distance(x, y, pcity->x, pcity->y);
-	  
-          pc=pcity;
-        }
+         && map_get_continent(x, y)==map_get_continent(pcity->x, pcity->y)
+         && map_get_known(x,y,pplayer)) 
+           { 
+           dist=map_distance(x, y, pcity->x, pcity->y);
+           pc=pcity;
+           }
       }
       city_list_iterate_end;
     }
   }
   return  pc;
 }
+
+
+struct unit *dist_nearest_enemy_unit(struct player *pplayer, int x, int y)
+{
+  struct player *pplay;
+  struct unit *pu=NULL;
+  struct unit *punit=NULL;
+  int i;
+  int dist=40;
+  for(i=0; i<game.nplayers; i++) {
+    pplay=&game.players[i];
+    if (pplay!=pplayer) {
+      unit_list_iterate(pplay->units, punit) {
+        if (map_distance(x, y, punit->x, punit->y)<dist 
+         && map_get_continent(x, y)==map_get_continent(punit->x, punit->y)
+         && map_get_known(x,y,pplayer)) 
+           { 
+           dist=map_distance(x, y, punit->x, punit->y);
+           pu=punit;
+           }
+      }
+      unit_list_iterate_end;
+    }
+  }
+  return  pu;
+}
+
 
 int ai_city_spot_value(int xp, int yp) 
 {
