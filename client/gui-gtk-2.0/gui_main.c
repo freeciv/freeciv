@@ -986,7 +986,7 @@ void ui_main(int argc, char **argv)
   if (home) {
     gchar *str;
 
-    str = g_build_filename(home, "freeciv.rc-2.0", NULL);
+    str = g_build_filename(home, ".freeciv.rc-2.0", NULL);
     gtk_rc_parse(str);
     g_free(str);
   }
