@@ -42,7 +42,7 @@ cities =
  "Lillehammer", "Lillestrøm", "Strømmen", "Fredrikborg", "Halden", "Karmøy",
  "Kragerø", "Fauske", "Bodø", "Andenes", "Stokkmarknes", "Svolvær",
  "Sortland", "Moss", "Honningsvåg", "Hammerfest", "Ås", "Os", "Tynset",
- "Longyearbyen", "Mandal"
+ "Longyearbyen", "Mandal",
 
 ; Eg skal ikkje gløyme kvelden, det var ein augustikveld,
 ; Vårherre heldt fest for folket i Fjaler prestegjeld,
@@ -53,3 +53,4 @@ cities =
 ; added to Freeciv by Gaute Strokkenes RCNUWC 96-98
 ; for sentimental reasons.
 
+"Fjaler"
