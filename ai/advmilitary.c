@@ -30,45 +30,52 @@
 
 #include "advmilitary.h"
 
+
 /********************************************************************** 
- This function should assign a value to choice and want, where 
- want is a value between 1 and 100.
- if choice is A_NONE this advisor doesn't want any tech researched at
- the moment
+This function should assign a value to choice and want, where want is a value
+between 1 and 100.
+
+If choice is A_NONE, this advisor doesn't want any particular tech researched
+at the moment.
 ***********************************************************************/
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice)
 {
   choice->choice = A_NONE;
   choice->want   = 0;
-  /* this function haven't been implemented yet */
+  /* This function hasn't been implemented yet. */
 }
 
 /********************************************************************** 
 Helper for assess_defense_quadratic and assess_defense_unit.
 ***********************************************************************/
 static int base_assess_defense_unit(struct city *pcity, struct unit *punit,
-				    bool igwall, bool square, int wall_value)
+                                    bool igwall, bool quadratic,
+                                    int wall_value)
 {
-  int v;
+  int defense;
 
   if (!is_military_unit(punit)) {
     return 0;
   }
-  v = get_defense_power(punit) * punit->hp *
-      (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
+
+  defense = get_defense_power(punit) * punit->hp *
+            (is_sailing_unit(punit) ? 1 : unit_type(punit)->firepower);
   if (is_ground_unit(punit)) {
-    v = (3 * v) / 2;
+    defense = (3 * defense) / 2;
   }
-  v /= POWER_DIVIDER;
-  if (square) {
-    v *= v;
+  defense /= POWER_DIVIDER;
+
+  if (quadratic) {
+    defense *= defense;
   }
+
   if (!igwall && city_got_citywalls(pcity) && is_ground_unit(punit)) {
-    v *= wall_value;
-    v /= 10;
+    defense *= wall_value;
+    defense /= 10;
   }
-  return v;
+
+  return defense;
 }
 
 /********************************************************************** 
@@ -76,26 +83,36 @@ Need positive feedback in m_a_c_b and bodyguard routines. -- Syela
 ***********************************************************************/
 int assess_defense_quadratic(struct city *pcity)
 {
-  int def, l;
-  const bool igwall = FALSE; /* this can be an arg if needed, but seems unneeded */
-  def = 0;
-  for (l = 0; l * l < pcity->ai.wallvalue * 10; l++) {
-    /* nothing */
+  int defense = 0, walls = 0;
+  /* This can be an arg if needed, but we don't need to change it now. */
+  const bool igwall = FALSE;
+
+  /* wallvalue = 10, walls = 10,
+   * wallvalue = 40, walls = 20,
+   * wallvalue = 90, walls = 30 */
+
+  while (walls * walls < pcity->ai.wallvalue * 10)
+    walls++;
+
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    defense += base_assess_defense_unit(pcity, punit, igwall, FALSE,
+                                        walls);
+  } unit_list_iterate_end;
+
+  if (defense > 1<<12) {
+    freelog(LOG_VERBOSE, "Very large defense in assess_defense_quadratic: %d in %s",
+            defense, pcity->name);
   }
-/* wallvalue = 10, l = 10, wallvalue = 40, l = 20, wallvalue = 90, l = 30 */
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    def += base_assess_defense_unit(pcity, punit, igwall, FALSE, l);
-  unit_list_iterate_end;
-  if (def > 1<<12) {
-    freelog(LOG_VERBOSE, "Very large def in assess_defense_quadratic: %d in %s",
-	 def, pcity->name);
+
+  if (defense > 1<<15) {
+    defense = 1<<15; /* more defense than we know what to do with! */
   }
-  if (def > 1<<15) def = 1<<15; /* more defense than we know what to do with! */
-  return(def * def);
+
+  return defense * defense;
 }
 
 /**************************************************************************
-one unit only, mostly for findjob; handling boats correctly 980803 -- Syela
+One unit only, mostly for findjob; handling boats correctly. 980803 -- Syela
 **************************************************************************/
 int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall)
 {
@@ -104,19 +121,22 @@ int assess_defense_unit(struct city *pcity, struct unit *punit, bool igwall)
 }
 
 /********************************************************************** 
- Most of the time we don't need/want positive feedback. -- Syela
+Most of the time we don't need/want positive feedback. -- Syela
+
+It's unclear whether this should treat settlers/caravans as defense. -- Syela
+TODO: It looks like this is never used while deciding if we should attack
+pcity, if we have pcity defended properly, so I think it should. --pasky
 ***********************************************************************/
 static int assess_defense_backend(struct city *pcity, bool igwall)
 {
-  int def;
-  def = 0;
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    def += assess_defense_unit(pcity, punit, igwall);
-  unit_list_iterate_end;
-  /* def is an estimate of our total defensive might */
-  /* now with regard to the IGWALL nature of the units threatening us -- Syela */
-  return(def);
-/* unclear whether this should treat settlers/caravans as defense -- Syela */
+  /* Estimate of our total city defensive might */
+  int defense = 0;
+
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    defense += assess_defense_unit(pcity, punit, igwall);
+  } unit_list_iterate_end;
+
+  return defense;
 }
 
 /************************************************************************** 
@@ -136,104 +156,121 @@ static int assess_defense_igwall(struct city *pcity)
 }
 
 /************************************************************************** 
-...
+Compute actual danger depending on move rate of enemy and its distance.
 **************************************************************************/
-static int dangerfunct(int v, int m, int dist)
+static int dangerfunct(int danger, int move_rate, int distance)
 {
-#ifdef OLDCODE
-  if (dist * dist < m * 3) { v *= m; v /= 3; } /* knights can't attack more than twice */
-  else { v *= m * m; v /= dist * dist; }
-  return(v);
-#else
-  int num, denom;
-  num = m * 4; denom = m * 4;
-  v *= 2;
-  while (dist >= m) {
-    v /= 2;
-    dist -= m;
+  /* XXX: I don't have a clue about these, it probably has something in common
+   * with the way how attack force is computed when attacker already spent some
+   * move points..? --pasky */
+  int num = move_rate * 4;
+  int denom = move_rate * 4;
+
+  danger *= 2;
+
+  /* Turns to reach us.. */
+  while (distance >= move_rate) {
+    danger /= 2;
+    distance -= move_rate;
   }
-  m /= SINGLE_MOVE;
-  while (dist > 0 && dist >= m) {
+
+  /* Moves in the last turn to reach us.. */
+  move_rate /= SINGLE_MOVE;
+  while (distance > 0 && distance >= move_rate) {
     num *= 4;
     denom *= 5;
-    dist -= m;
+    distance -= move_rate;
   }
-  while (dist > 0) {
-    denom += (denom + m * 2) / (m * 4);
-    dist--;
+
+  /* Partial moves in the last turn.. */
+  while (distance > 0) {
+    denom += (denom + move_rate * 2) / (move_rate * 4);
+    distance--;
   }
-  v = (v*num + (denom/2)) / denom;
-  return(v);
-#endif
+
+  danger = (danger * num + (denom/2)) / denom;
+
+  return danger;
 }
 
 /************************************************************************** 
-...
+How dangerous a unit is for a city?
 **************************************************************************/
 static int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
-  int v;
+  int danger;
   bool sailing;
 
-  if (unit_flag(punit, F_NO_LAND_ATTACK)) return(0);
-  sailing = is_sailing_unit(punit);
-  if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return(0);
+  if (unit_flag(punit, F_NO_LAND_ATTACK)) return 0;
 
-  v = unit_belligerence_basic(punit);
-  if (sailing && city_got_building(pcity, B_COASTAL)) v /= 2;
-  if (is_air_unit(punit) && city_got_building(pcity, B_SAM)) v /= 2;
-  return(v);
+  sailing = is_sailing_unit(punit);
+  if (sailing && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) return 0;
+
+  danger = unit_belligerence_basic(punit);
+  if (sailing && city_got_building(pcity, B_COASTAL)) danger /= 2;
+  if (is_air_unit(punit) && city_got_building(pcity, B_SAM)) danger /= 2;
+
+  return danger;
 }
 
 /************************************************************************** 
 ...
 **************************************************************************/
-static int assess_distance(struct city *pcity, struct unit *punit, int m,
-			   int boatid, int boatdist, int boatspeed)
+static int assess_distance(struct city *pcity, struct unit *punit,
+                           int move_rate, int boatid, int boatdist,
+                           int boatspeed)
 {
-  int x, y, dist;
+  int x, y, distance;
 
   if (same_pos(punit->x, punit->y, pcity->x, pcity->y))
     return 0;
 
-  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) dist = SINGLE_MOVE;
-  else if (is_sailing_unit(punit)) dist = warmap.seacost[punit->x][punit->y];
+  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y))
+    distance = SINGLE_MOVE;
+  else if (is_sailing_unit(punit))
+    distance = warmap.seacost[punit->x][punit->y];
   else if (!is_ground_unit(punit))
-    dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y) * SINGLE_MOVE;
+    distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y)
+               * SINGLE_MOVE;
   else if (unit_flag(punit, F_IGTER))
-    dist = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
-  else dist = warmap.cost[punit->x][punit->y];
-/* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
-/* Samarkand bug should be obsoleted by re-ordering of events */
-  if (dist < SINGLE_MOVE) dist = SINGLE_MOVE;
+    distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
+  else
+    distance = warmap.cost[punit->x][punit->y];
 
-  if (is_ground_unit(punit) && boatid != 0 &&
-      find_beachhead(punit, pcity->x, pcity->y, &x, &y) != 0) {
-/* this bug is so obvious I can't believe it wasn't discovered sooner. -- Syela */
+  /* If distance = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
+  if (distance < SINGLE_MOVE) distance = SINGLE_MOVE;
+
+  if (is_ground_unit(punit) && boatid != 0
+      && find_beachhead(punit, pcity->x, pcity->y, &x, &y) != 0) {
+    /* Sea travellers. */
+
     y = warmap.seacost[punit->x][punit->y];
     if (y >= 6 * THRESHOLD)
       y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * SINGLE_MOVE;
-    x = MAX(y, boatdist) * m / boatspeed;
-    if (dist > x) dist = x;
-    if (dist < SINGLE_MOVE) dist = SINGLE_MOVE;
+
+    x = MAX(y, boatdist) * move_rate / boatspeed;
+
+    if (distance > x) distance = x;
+    if (distance < SINGLE_MOVE) distance = SINGLE_MOVE;
   }
-  return(dist);
+
+  return distance;
 }
 
 /********************************************************************** 
-  Call assess_danger() for all cities owned by pplayer.
-  This is necessary to initialize ... <some ai data>
-  before ... <some ai calculations> ...
+Call assess_danger() for all cities owned by pplayer.
+
+This is necessary to initialize some ai data before some ai calculations.
 ***********************************************************************/
 void assess_danger_player(struct player *pplayer)
 {
-  city_list_iterate(pplayer->cities, pcity)
+  city_list_iterate(pplayer->cities, pcity) {
     assess_danger(pcity);
-  city_list_iterate_end;
+  } city_list_iterate_end;
 }
-	  
+
 /********************************************************************** 
-...
+In how big danger given city is?
 ***********************************************************************/
 int assess_danger(struct city *pcity)
 {
@@ -438,35 +475,46 @@ trying again, but this will require yet more tedious observation -- Syela */
     else pcity->ai.building_want[B_SDI] = danger5 * 100 / i;
   }
   pcity->ai.urgency = urgency; /* need to cache this for bodyguards now -- Syela */
-  return(urgency);
+  return urgency;
 }
 
 /************************************************************************** 
-...
+How much we would want that unit..?
 **************************************************************************/
-int unit_desirability(Unit_Type_id i, bool def)
+int unit_desirability(Unit_Type_id i, bool defender)
 {
-  int cur, a, d;
-  cur = get_unit_type(i)->hp;
-  if (unit_types[i].move_type != SEA_MOVING || !def)
-    cur *= get_unit_type(i)->firepower;
-  if (def) cur *= 3;
-  else cur *= get_unit_type(i)->move_rate;
-  a = get_unit_type(i)->attack_strength;
-  d = get_unit_type(i)->defense_strength;
-  if (def) cur *= d;
-  else if (d > a) return(0);
-/*  else if (d < 2) cur = (cur * (a + d))/2; Don't believe in this anymore */
-  else cur *= a; /* wanted to rank Legion > Catapult > Archer */
-/* which we will do by munging f in the attacker want equations */
-  if (unit_type_flag(i, F_IGTER) && !def) cur *= 3;
-  if (unit_type_flag(i, F_PIKEMEN) && def) {
-    cur = (3 * cur) / 2;
+  int desire = get_unit_type(i)->hp;
+  int attack = get_unit_type(i)->attack_strength;
+  int defense = get_unit_type(i)->defense_strength;
+
+  if (unit_types[i].move_type != SEA_MOVING || !defender) {
+    desire *= get_unit_type(i)->firepower;
   }
-  if (unit_types[i].move_type == LAND_MOVING && def) {
-    cur = (3 * cur) / 2;
+
+  /* It's irrelevant for defenders how fast they move. */
+  desire *= defender ? SINGLE_MOVE : get_unit_type(i)->move_rate;
+
+  if (defender) {
+    desire *= defense;
+  } else if (defense > attack) {
+    /* We shouldn't use defense units as attackers. */
+    return 0;
+  } else {
+    desire *= attack;
   }
-  return(cur);  
+
+  if (unit_type_flag(i, F_IGTER) && !defender) {
+    desire *= 3;
+  }
+  if (unit_type_flag(i, F_PIKEMEN) && defender) {
+    desire = (3 * desire) / 2;
+  }
+  if (unit_types[i].move_type == LAND_MOVING && defender) {
+    /* Irnoclads could be *so* tempting.. */
+    desire = (3 * desire) / 2;
+  }
+
+  return desire;
 }
 
 /************************************************************************** 
@@ -1029,12 +1077,12 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
 }
 
 /********************************************************************** 
-Checks if there is a port or a ship being build within d distance.
+Checks if there is a port or a ship being built within certain distance.
 ***********************************************************************/
-static bool port_is_within(struct player *pplayer, int d)
+static bool port_is_within(struct player *pplayer, int distance)
 {
-  city_list_iterate(pplayer->cities, pcity)
-    if (warmap.seacost[pcity->x][pcity->y] <= d) {
+  city_list_iterate(pplayer->cities, pcity) {
+    if (warmap.seacost[pcity->x][pcity->y] <= distance) {
       if (city_got_building(pcity, B_PORT))
 	return TRUE;
 
@@ -1049,7 +1097,7 @@ static bool port_is_within(struct player *pplayer, int d)
 	  unit_types[pcity->currently_building].transport_capacity)
 	return TRUE;
     }
-  city_list_iterate_end;
+  } city_list_iterate_end;
 
   return FALSE;
 }
@@ -1214,32 +1262,43 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
 }
 
 /************************************************************************** 
-...
+This function computes distances between cities for purpose of building crowds
+of water-consuming Caravans or smoggish Freights which want to add their brick
+to the wonder being built somewhere out there.
+
+At the function entry point, our warmap is intact.  We need to do two things:
+establish faraway for THIS city and establish distance_to_wonder_city for ALL
+cities.
+
+FIXME? I think this just can't work when we have more wonder cities on one
+continent, can it? --pasky
+
+FIXME: This should be definitively somewhere else. And aicity.c sounds like
+fine candidate. --pasky
 **************************************************************************/
 void establish_city_distances(struct player *pplayer, struct city *pcity)
 {
-  int dist, wonder_continent, moverate;
-  Unit_Type_id freight;
-
-/* at this moment, our warmap is intact.  we need to do two things: */
-/* establish faraway for THIS city, and establish d_t_w_c for ALL cities */
+  int distance, wonder_continent;
+  Unit_Type_id freight = best_role_unit(pcity, F_HELP_WONDER);
+  int moverate = (freight == U_LAST) ? SINGLE_MOVE
+                                     : get_unit_type(freight)->move_rate;
 
   if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
     wonder_continent = map_get_continent(pcity->x, pcity->y);
   } else {
     wonder_continent = 0;
   }
-  freight = best_role_unit(pcity, F_HELP_WONDER);
-  moverate = (freight==U_LAST) ? SINGLE_MOVE : get_unit_type(freight)->move_rate;
 
   pcity->ai.downtown = 0;
   city_list_iterate(pplayer->cities, othercity) {
-    dist = warmap.cost[othercity->x][othercity->y];
+    distance = warmap.cost[othercity->x][othercity->y];
     if (wonder_continent != 0
-	&& map_get_continent(othercity->x, othercity->y) == wonder_continent) {
-      othercity->ai.distance_to_wonder_city = dist;
+        && map_get_continent(othercity->x, othercity->y) == wonder_continent) {
+      othercity->ai.distance_to_wonder_city = distance;
     }
-    dist += moverate - 1; dist /= moverate;
-    pcity->ai.downtown += MAX(0, 5 - dist); /* four three two one fire */
+
+    /* How many people near enough would help us? */
+    distance += moverate - 1; distance /= moverate;
+    pcity->ai.downtown += MAX(0, 5 - distance);
   } city_list_iterate_end;
 }
