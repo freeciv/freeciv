@@ -3183,56 +3183,33 @@ void connection_do_unbuffer(struct connection *pc)
 
 
 /********************************************************************
- if this gives errors on very long blocks try lowering the max block
- size --vasc
+  write wrapper function -vasc
 ********************************************************************/
 static int write_socket_data(struct connection *pc,
-			     unsigned char *data, int len)
+			     unsigned char *data, int *len)
 {
   int start, nput, nblock;
 
-  for (start=0; start<len;) {
-    fd_set writefs;
-    struct timeval tv;
-
-#define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
-
-    /* this long-winded code is here to reproduce the old behaviour
-       i.e. block on write  --vasc */
-    MY_FD_ZERO(&writefs);
-    FD_SET(pc->sock, &writefs);
-
-    tv.tv_sec = 5; tv.tv_usec = 0;
-
-    switch (select(pc->sock+1, NULL, &writefs, NULL, &tv)) { /* timeout */
-    case 0:
-      freelog(LOG_NORMAL, "timeout expired while waiting for write");
-      freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, len);
-      return -1;
-    case -1:
-      freelog(LOG_DEBUG, "error while waiting for write: %s",mystrerror(errno));
-      freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, len);
-      return -1;
-    default:
-      break;
-    }
-
-    if (FD_ISSET(pc->sock, &writefs)) {
-      nblock=len-start;
-      if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
+  for (start=0; start<*len;) {
+    nblock=MIN(*len-start, 2048);
+    if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
-	if (errno == EWOULDBLOCK || errno == EAGAIN) {
-	  freelog(LOG_DEBUG, "EGAIN on socket write");
-	  continue;
-	}
-#endif
-	freelog(LOG_NORMAL, "failed writing to socket: %s",mystrerror(errno));
-        freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, len);
-	return -1;
+      if (errno == EWOULDBLOCK || errno == EAGAIN) {
+	freelog(LOG_DEBUG, "EGAIN on socket write");
+	continue;
       }
-      start += nput;
+#endif
+      freelog(LOG_DEBUG, "failed writing to socket: %s", mystrerror(errno));
+      freelog(LOG_DEBUG, "did write (%d of %d) bytes", start, *len);
+
+      memmove(data, data+start, *len-start);
+      *len-=start;
+      return -1;
     }
+    start += nput;
   }
+
+  *len=0;
   return 0;
 }
 
@@ -3243,8 +3220,7 @@ void flush_connection_send_buffer(struct connection *pc)
 {
   if(pc) {
     if(pc->send_buffer.ndata) {
-      write_socket_data(pc, pc->send_buffer.data, pc->send_buffer.ndata);
-      pc->send_buffer.ndata=0;
+      write_socket_data(pc, pc->send_buffer.data, &pc->send_buffer.ndata);
     }
   }
 }
@@ -3262,13 +3238,18 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 	pc->send_buffer.ndata+=len;
       }
       else {
+        /* ok, we don't have enough space, let's try emptying the send buffer */
 	flush_connection_send_buffer(pc);
-	memcpy(pc->send_buffer.data, data, len);
-	pc->send_buffer.ndata=len;
+        if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more?*/
+	  memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
+	  pc->send_buffer.ndata+=len;
+	} else {
+          freelog(LOG_NORMAL, "fatal error!, send_buffer overrun");
+	}
       }
     }
     else {
-      if (write_socket_data(pc, data, len) == -1)
+      if (write_socket_data(pc, data, &len) == -1)
         return -1;
     }
   }
