@@ -668,7 +668,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
   if(!pcity) {
     city_is_new = TRUE;
-    pcity=fc_malloc(sizeof(struct city));
+    pcity = create_city_virtual(get_player(packet->owner),
+				map_pos_to_tile(packet->x, packet->y),
+				packet->name);
     pcity->id=packet->id;
     idex_register_city(pcity);
   }
@@ -679,13 +681,12 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
       update_descriptions = TRUE;
     }
+
+    pcity->owner=packet->owner;
+    sz_strlcpy(pcity->name, packet->name);
     
     assert(pcity->id == packet->id);
   }
-
-  pcity->owner=packet->owner;
-  pcity->tile = map_pos_to_tile(packet->x, packet->y);
-  sz_strlcpy(pcity->name, packet->name);
   
   pcity->size=packet->size;
 
@@ -710,20 +711,10 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->ppl_content[4] = pcity->size;
   }
 
-  if (city_is_new) {
-    /* Initialise list of improvements with city/building wide equiv_range. */
-    improvement_status_init(pcity->improvements,
-			    ARRAY_SIZE(pcity->improvements));
-  }
-
   update_improvement_from_packet(pcity, game.palace_building,
 				 packet->capital, &need_effect_update);
   update_improvement_from_packet(pcity, game.land_defend_building,
 				 packet->walls, &need_effect_update);
-
-  if (city_is_new) {
-    init_worklist(&pcity->worklist);
-  }
 
   /* This sets dumb values for everything else. This is not really required,
      but just want to be at the safe side. */
