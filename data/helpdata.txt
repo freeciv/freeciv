@@ -348,8 +348,7 @@ Left-click:                                  b: (B)uild City
                                              g: Unit (G)oto
 Center-click:                                h: Change (H)omecity
              Show tile info                  i: (I)rrigate
-                                             l: Go/air(l)ift city
-%% I still don't understand this here!!         ^^^^^^^^^^^^^^^^^
+                                             l: Go/air(l)ift to city
                                              m: (M)ine
 Right-click:                                 p: clean (p)ollution
              Center tile in view             P: (P)illage
@@ -358,6 +357,7 @@ Right-click:                                 p: clean (p)ollution
                                              u: (U)nload
 Shift-click:                                 w: (W)ait
              Wake up sentried units on tile  W: (W)akeup sentries
+	                                     t: Show (T)iles city is using
                                          space: Stay put
                                         return: Turn done
                                     arrow keys: Move unit
