@@ -7,6 +7,8 @@ INCLUDES = -I../intl
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
 libcivcommon_a_SOURCES = \
+		astring.c       \
+		astring.h       \
 		attribute.h	\
 		capability.c	\
 		capability.h	\
