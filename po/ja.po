@@ -3,7 +3,8 @@
 # Copyright (C) 2001 SUENAGA Yasuo
 # This translation is covered by the GNU General Public License Version 2.
 # SAWADA Katsuya <ama@petmail.net>, 2000, 2001, 2002
-# SUENAGA Yasuo <s_keishi@mutt.freemail.ne.jp>, 2001.
+# SUENAGA Yasuo <s_keishi@mutt.freemail.ne.jp>, 2001
+# MITA Yuusuke <clefs@lycos.jp>, 2002
 #
 # For Japanese users:
 # こんなことをわざわざ書くのは恥ずかしいんですが、はっきりいって私の訳は
@@ -20,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2002-10-31 21:21-0800\n"
-"PO-Revision-Date: 2002-10-31 22:09-0800\n"
+"PO-Revision-Date: 2002-11-01 16:37-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -1239,12 +1240,15 @@ msgstr ""
 "Game: %sは%sでのスパイ容疑で死刑にされました。%sは大使の評判がよくなれば将来"
 "の外交行動を歓迎します。"
 
+# clefs
 #: server/diplomats.c:258
 #, c-format
 msgid ""
 "You executed a %s the %s had sent to establish an embassy in %s for being "
 "untrustworthy"
 msgstr ""
+"%2$sから大使館設立のため%3$sに派遣されて来た%1$sは信用できないので処刑しまし"
+"た。"
 
 #: server/diplomats.c:269
 #, c-format
@@ -1494,35 +1498,42 @@ msgstr "Game: %sは%sで任務を完了した後、逮捕されました。"
 msgid "Game: Your %s was captured after completing her mission."
 msgstr "Game: %sは任務を完了した後、逮捕されました。"
 
+# clefs
+# 'incident' => '事変'で訳してみました
 #: server/diplomats.c:1245
 #, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
-msgstr ""
+msgstr "Game: %sの%sを買収する試みは事変に発展しました。"
 
+# clefs
 #: server/diplomats.c:1250
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
-msgstr ""
+msgstr "Game: %sは%sを買収しようとして事変を引き起こしました。"
 
+# clefs
 #: server/diplomats.c:1257
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
-msgstr ""
+msgstr "Game: %sから技術を盗む試みは事変に発展しました。"
 
+# clefs
 #: server/diplomats.c:1261
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr ""
+msgstr "Game: %sはあなたから技術を盗もうとして事変を引き起こしました。"
 
+# clefs
 #: server/diplomats.c:1267
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
-msgstr ""
+msgstr "Game: %sで革命を煽動する試みは事変に発展しました。"
 
+# clefs
 #: server/diplomats.c:1270
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
-msgstr ""
+msgstr "Game: %sは%sで革命を煽動しようとして事変を引き起こしました。"
 
 #: server/gamehand.c:183 client/gui-mui/mapview.c:196
 #, c-format
@@ -1706,13 +1717,15 @@ msgstr "%sは%sを初めて学びました。"
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Game: %1$sの発見により、 %3$s の%2$sは古くなります!"
 
+# ama, clefs
 #: server/plrhand.c:234
 #, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
 msgstr ""
-"Game: %s を発見したことで、政治体制「%s」が増えました。革命を起こせます。"
+"Game: %s を発見したことで、政治体制「%s」が増えました。革命を起こすのもいいで"
+"しょう。"
 
 #: server/plrhand.c:275
 #, c-format
@@ -1933,6 +1946,7 @@ msgstr "Game: あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
 msgid "Game: %s declares allegiance to %s."
 msgstr "Game: %sは%sに対する忠誠を宣言しました。"
 
+# clefs
 #: server/plrhand.c:1788
 #, c-format
 msgid ""
@@ -1942,6 +1956,10 @@ msgid ""
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
+"Game: %sの首都が陥落し、帝国の行政機構が破壊されたため内戦となりました。\n"
+"      日和見主義者たちは反逆運動に味方し、担ぎ出された%sが今や%dの反乱都市"
+"を\n"
+"      支配しています。"
 
 #: server/report.c:46
 #, c-format
@@ -2162,9 +2180,11 @@ msgstr "位"
 msgid "th"
 msgstr "位"
 
+# clefs
 #: server/report.c:542
 msgid "Demography string contains invalid characters. Try \"help demography\"."
 msgstr ""
+"人口統計設定文字列に無効な文字が含まれています。\"help demography\"参照"
 
 #: server/report.c:582 server/report.c:600
 msgid "Demographics Report:"
@@ -3071,11 +3091,14 @@ msgstr ""
 msgid "Number of turns between rapture effect"
 msgstr "歓喜を得るまでのターン数"
 
+# clefs
 #: server/stdinhand.c:485
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after rapturing n+1 turns."
 msgstr ""
+"歓喜による都市の成長が何ターン毎に起きるか設定します。\n"
+"nに設定した場合、都市はn+1ターンの祝典の後に成長します。"
 
 # yasu
 #: server/stdinhand.c:491
@@ -3270,14 +3293,15 @@ msgstr "このオプションが 1 なら、プレイヤーは宇宙船を組み立てできます。"
 msgid "Minimum number of cities for civil war"
 msgstr "内戦の起こる都市数の最小"
 
+# ama, clefs
 #: server/stdinhand.c:625
 msgid ""
 "A civil war is triggered if a player has at least this many cities and the "
 "player's capital is captured.  If this option is set to the maximum value, "
 "civil wars are turned off altogether."
 msgstr ""
-"プレイヤーが少くともこの数より多くの都市を持ち、首都が占領されていたら内戦が"
-"引き起こされます。このオプションが最大値に設定したら内戦は完全にやみます。"
+"プレイヤーが少なくともこの数の都市を持っている時に首都が占領されると内戦が引"
+"き起こされます。このオプションを最大値に設定すると内戦は完全にやみます。"
 
 #: server/stdinhand.c:633
 msgid "Rebuild palace if capital is conquered"
@@ -4203,7 +4227,7 @@ msgstr "ゲームが始まる前には保存できません。"
 
 #: server/stdinhand.c:1676
 msgid "Cannot toggle a barbarian player."
-msgstr "バーバリアン・プレイヤーをトグルできません。"
+msgstr "バーバリアン・プレイヤーはトグルできません。"
 
 #: server/stdinhand.c:1683
 #, c-format
@@ -4550,19 +4574,25 @@ msgstr "未知のオプション名。"
 msgid "Option '%s' can never be modified after the game has started."
 msgstr "ゲームが開始された後、オプション '%s' は変更できません。"
 
+# clefs
 #: server/stdinhand.c:2857
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not prevent it from being "
 "set, either."
 msgstr ""
+"あなたにはオプション '%s' を設定する権限はありません。よって、このオプション"
+"の設定を禁止する権限もありません。"
 
+# clefs
 #: server/stdinhand.c:2862
 #, c-format
 msgid ""
 "You are not allowed to set option '%s', so you may not allow it to be set, "
 "either."
 msgstr ""
+"あなたにはオプション '%s' を設定する権限はありません。よって、このオプション"
+"の設定を許可する権限もありません。"
 
 #: server/stdinhand.c:2872
 #, c-format
@@ -4639,9 +4669,12 @@ msgstr "得点を見る前にゲームを開始しなければなりません。"
 msgid "Not enough players, game will not start."
 msgstr "十分なプレイヤーがいないので、ゲームを開始できません。"
 
+# clefs
 #: server/stdinhand.c:3233
 msgid "You're not associated with a player and the game is starting. Bye."
 msgstr ""
+"あなたはプレイヤー席を確保していませんが、ゲームは既に始まりつつあります。バ"
+"イバイ。"
 
 #: server/stdinhand.c:3244
 msgid "Cannot start the game: it is already running."
@@ -4806,11 +4839,13 @@ msgstr ""
 "fulltradesize は常に notradesize より大きくなければなりません。値を変更しませ"
 "ん。"
 
+# clefs
 #: server/stdinhand.c:3724
 msgid ""
 "Allowed connections string contains invalid\n"
 "characters.  Try \"help allowconnect\"."
 msgstr ""
+"接続許可設定文字列に無効な文字が含まれています。\"help allowconnect\"参照。"
 
 #: server/unithand.c:159
 #, c-format
@@ -4904,7 +4939,7 @@ msgstr "Game: そのような名前の都市は建築できません。"
 #: server/unithand.c:670
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
-"Game: あなたの核ミサイルは SDI 防衛システムによって打ち落とされました。あぁ。"
+"Game: あなたの核ミサイルは SDI 防衛システムによって撃ち落とされました。あぁ。"
 
 #: server/unithand.c:673
 #, c-format
@@ -5154,10 +5189,11 @@ msgstr "Game: バーバリアンの指導者が捉えられ、金%dが支払われました。"
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Game: %2$sの%3$sによる攻撃で%4$s%1$sを失ないました。"
 
+# clefs
 #: server/unittools.c:1926 server/unittools.c:1971
 #, c-format
 msgid "%s lose %s to the %s"
-msgstr ""
+msgstr "%1$sは%3$sによる攻撃で%2$sを失ないました。"
 
 # Game: You lost 2 units to an attack from Lluis Company's チャリオット Fukuokaの外にいる.
 #: server/unittools.c:1952
@@ -5269,7 +5305,7 @@ msgstr "Game: バーバリアンの大群を解放してしまいました!"
 #: server/unittools.c:2411
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
-msgstr "Game: %s はバーバリアンによって部隊は殺されました。"
+msgstr "Game: %s はバーバリアンによって殺されました。"
 
 #: server/unittools.c:2427
 msgid "Game: You found a friendly city."
@@ -5304,18 +5340,21 @@ msgstr "プラグイン %s は見つかりましたが、初期化できませんでした。"
 msgid "Plugin '%s' is now selected"
 msgstr "プラグイン '%s' が選択されました"
 
+# clefs
 #: client/audio.c:196
 #, c-format
 msgid "Couldn't find soundset \"%s\" trying \"%s\"."
-msgstr ""
+msgstr "サウンドセット「%s」が見付かりません。「%s」を試します。"
 
+# clefs
 #: client/audio.c:213 client/audio.c:273 client/audio.c:293
 msgid "Proceeding with sound support disabled"
-msgstr ""
+msgstr "サウンドサポートを無効にして続行します"
 
 #: client/audio.c:219
 msgid "No real audio plugin present, Proceeding with sound support disabled"
 msgstr ""
+"有効なオーディオプラグインがないので、サウンドサポートを無効にして続行します"
 
 #: client/audio.c:222
 msgid "For sound support, install either esound or SDL_mixer"
@@ -5370,9 +5409,10 @@ msgstr "サウンド指示ファイルは、サポートしていない必須オプションを要求します:"
 msgid "No real audio subsystem managed to initialize!"
 msgstr "初期化するオーディオ・サブシステムがみつかりません!"
 
+# clefs
 #: client/audio.c:292
 msgid "Perhaps there is some misconfigurationg or bad permissions"
-msgstr ""
+msgstr "設定かパーミションに何か間違いはありませんか？"
 
 #: client/audio.c:315
 #, c-format
@@ -6015,9 +6055,11 @@ msgstr "* 「乗馬している」と扱われます。\n"
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "* ミサイル: 攻撃開始時に使い切ります。\n"
 
+# ama, clefs
+# (修正前)msgstr "* ターンの終わりに攻撃します。\n"
 #: client/helpdata.c:660
 msgid "* Making an attack ends this unit's turn.\n"
-msgstr "* ターンの終わりに攻撃します。\n"
+msgstr "* 攻撃するとそのターンはそれ以上行動できません。\n"
 
 #: client/helpdata.c:664
 msgid "* This unit's attack causes a nuclear explosion!\n"
@@ -6372,9 +6414,10 @@ msgstr "文明: 宇宙船イベント"
 msgid "Diplomat Action: Bribe"
 msgstr "外交官行動: 橋"
 
+# clefs
 #: client/options.c:204
 msgid "Diplomat Action: Caused Incident"
-msgstr ""
+msgstr "外交官行動: 事変誘発"
 
 #: client/options.c:205
 msgid "Diplomat Action: Escape"
@@ -11986,6 +12029,7 @@ msgstr ""
 "  右クリック:              クリックした場所に視点をもっていく\n"
 "  Shift + 左クリック:      メインマップから都市労働者を調整する"
 
+# ama, clefs
 #: data/helpdata.txt:440
 #, fuzzy
 msgid ""
@@ -12047,39 +12091,44 @@ msgstr ""
 "===========\n"
 "  a: 自動開拓  (開拓部隊)\n"
 "  a: 自動攻撃  (戦闘部隊)\n"
-"  c: 視点の中心を部隊にする\n"
-"  C: 道路(鉄道)を接続する (左クリックで接続先を選ぶ)\n"
 "  b: 都市を作る  (開拓部隊)\n"
 "  b: 不思議建築を助ける (キャラバン部隊)\n"
+"  c: 視点の中心を部隊にする\n"
+"  C: 道路(鉄道)を接続する (左クリックで接続先を選ぶ)\n"
+"  d: 外交・スパイ活動  (外交官・スパイ)\n"
 "  D: 部隊解散\n"
-"  e: 空港を建築する (空港部隊)\n"
-"  f: 防御強化部隊  (戦闘部隊)\n"
+"  e: 空港を建築する (開拓部隊)\n"
+"  f: 防御強化  (戦闘部隊)\n"
 "  f: 土地に要塞を築く  (開拓部隊)\n"
+"  F: 都市検索ダイアログを開く\n"
 "  g: 部隊移動  (左クリックで移動先を選ぶ)\n"
 "  h: 住人にする  (現在いる場所の都市へ)\n"
 "  i: 灌漑する/農地にする  (地形を変化させることもある)\n"
 "  l: 都市へ移動/空輸\n"
-"  m: 鉱山を作る  (地形を変化させることもある)\n"
+"  L: 作業リストダイアログを開く\n"
+"  m: 鉱山を作る  (開拓部隊 - 地形を変化させることもある)\n"
+"  n: 放射能汚染を除去する\n"
 "  N: 核兵器を爆発させる\n"
 "  o: 地形を変える\n"
 "  p: 汚染をきれいにする\n"
+"  p: 落下傘降下する  (落下傘部隊)\n"
+"  P: 地表の改良を破壊する\n"
 "  q: パトロールする  (then left-click mouse to select destination)\n"
-"  P: (P)illage terrain alteration\n"
 "  r: 道路/鉄道を作る  (開拓部隊)\n"
 "  r: 交易路を確立する  (キャラバン部隊)\n"
 "  R: 革命を煽る\n"
 "  s: 見張り番\n"
+"  t: show (t)iles city is using  (mouse over or near city)\n"
+"  T: open (t)ax/lux/sci rates dialog\n"
 "  u: 船から降ろす\n"
 "  w: (w)ait until later in turn\n"
 "  W: タイル上の他の部隊を起こす\n"
-"  t: show (t)iles city is using  (mouse over or near city)\n"
-"  T: open (t)ax/lux/sci rates dialog\n"
 "  x: 自動探索\n"
 "\n"
 "  1: 南西へ移動                       F1: 都市報告を開く\n"
 "  2:   南へ移動                       F2: 軍事報告を開く\n"
 "  3: 南東へ移動                       F3: プレイヤーダイアログを開く\n"
-"  4:   西へ移動                       F4: メッセージダイアログを開く\n"
+"  4:   西へ移動                      F10: メッセージダイアログを開く\n"
 "  5: 次の部隊へ                       F5: 商業報告を開く\n"
 "  6:   東へ移動                       F6: 科学報告を開く\n"
 "  7: 北西へ移動                       F7: 世界の不思議を開く\n"
@@ -12150,6 +12199,7 @@ msgstr ""
 "作業リストからアイテムを削除するには、削除したいアイテムの上でダブルクリック"
 "します。アイテムを作業リスト内で上下するには、リストの下のボタンを使います。"
 
+# 出力がみづらくなる場合があるようです(clefs)
 #: data/helpdata.txt:523
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
@@ -12514,11 +12564,14 @@ msgstr ""
 "\n"
 "   - 金銭の贈与"
 
+# clefs
 #: data/helpdata.txt:699
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can can consider this buying and selling."
 msgstr ""
+"    必ずしも同じ種類のもの同士を交換する必要はありません。例えば、技術や都市"
+"を金銭と交換してもよいのです。売買だと思えばよいでしょう。"
 
 # yasu
 #: data/helpdata.txt:703
@@ -12868,29 +12921,38 @@ msgid ""
 "defender loses."
 msgstr ""
 "以上の修正の結果、攻撃側の強さが 0 になっていたら、攻撃側は自動的に消滅しま"
-"す。そうでない場合で防御側の強さが 0れ以外の時、防御側は消滅します。"
+"す。そうでない場合で防御側の強さが 0の時、防御側は消滅します。"
 
+# clefs
 #: data/helpdata.txt:940
 msgid "The firepower of the attacker and defender are also modified."
-msgstr ""
+msgstr "攻撃側・防御側共に、火力も修正されます。"
 
+# clefs
 #: data/helpdata.txt:942
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
+" - 防御側が都市内に停泊中の艦船なら、攻撃側の火力は二倍に、防御側の火力は1に"
+"なります。"
 
+# clefs
+# (原文の問題)ステルス戦闘機の場合は？
 #: data/helpdata.txt:945
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
 msgstr ""
+" - 戦闘機がヘリコプターを攻撃する場合、ヘリコプターの火力は1になります。"
 
+# clefs
 #: data/helpdata.txt:948
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
 msgstr ""
+" - 艦船が陸上にある陸ユニットを攻撃する場合、双方とも火力は1になります。"
 
 #: data/helpdata.txt:951
 #, fuzzy
@@ -12984,9 +13046,10 @@ msgstr ""
 "強さの値はゲーム中では実際には 10を掛けられ小数点が切り捨てられます。従って、"
 "攻撃側の強さは 80, 防御側の強さは 202です。"
 
+# clefs
 #: data/helpdata.txt:999
 msgid "Both units keep their firepower of 1 unchanged."
-msgstr ""
+msgstr "双方とも、火力は 1のままで変更はありません。"
 
 #: data/helpdata.txt:1002
 #, no-c-format
@@ -13025,9 +13088,9 @@ msgid ""
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
-"移動力が 3残っているのベテラン戦艦(攻:12 防:12 HP:40 火:2)が、草原に建てられ"
-"た城壁と沿岸防衛付き都市の中にいるベテラン高山部隊(攻:5 防:5 HP:20 火:1)を攻"
-"撃するとします。"
+"移動力が 3残っているベテラン戦艦(攻:12 防:12 HP:40 火:2)が、草原に建てられた"
+"城壁と沿岸防衛付き都市の中にいるベテラン高山部隊(攻:5 防:5 HP:20 火:1)を攻撃"
+"するとします。"
 
 #: data/helpdata.txt:1029
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
@@ -13052,9 +13115,10 @@ msgid ""
 "225, respectively."
 msgstr "内部では、攻撃側と防御側で使われる値はそれぞれ 180 と 225 です。"
 
+# clefs
 #: data/helpdata.txt:1041
 msgid "The firepower of the Battleship is set from 2 to 1."
-msgstr ""
+msgstr "戦艦の火力は 2から 1に修正されます。"
 
 #: data/helpdata.txt:1044
 #, fuzzy, no-c-format
@@ -16285,6 +16349,7 @@ msgstr "熱狂兵"
 msgid "Partisan"
 msgstr "パルチザン"
 
+# clefs
 #: data/default/units.ruleset:451 data/civ2/units.ruleset:388
 #: data/history/units.ruleset:451
 msgid ""
@@ -16299,6 +16364,16 @@ msgid ""
 "\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
+"以下の条件を満していれば、都市が敵に占領された場合に数部隊のパルチザンが無償"
+"で得られます。\n"
+"\n"
+" - 少なくとも一人のプレイヤーが「ゲリラ戦」を発見している\n"
+"\n"
+" - あなたが最初に建設した都市である\n"
+"\n"
+" - 「共産主義」と「火薬」を知っている\n"
+"\n"
+" - 民主主義もしくは共産主義で国を治めている"
 
 #: data/default/units.ruleset:465 data/civ2/units.ruleset:402
 #: data/civ1/units.ruleset:378 data/history/units.ruleset:465
@@ -16325,13 +16400,14 @@ msgstr "落下傘兵"
 msgid "Mech. Inf."
 msgstr "自動化歩兵"
 
+# ama
 #: data/default/units.ruleset:607 data/civ2/units.ruleset:544
 #: data/civ1/units.ruleset:516 data/history/units.ruleset:607
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
-"この部隊はどの地上部隊よりも協力な防御力を持ちますが、残念ながら技術の最終段"
+"この部隊はどの地上部隊よりも強力な防御力を持ちますが、残念ながら技術の最終段"
 "階近くでなければ利用できません。"
 
 #: data/default/units.ruleset:614 data/civ2/units.ruleset:551
@@ -16409,6 +16485,7 @@ msgstr "爆撃機"
 msgid "Helicopter"
 msgstr "ヘリコプター"
 
+# clefs
 #: data/default/units.ruleset:1033 data/civ2/units.ruleset:970
 #: data/history/units.ruleset:1033
 msgid ""
@@ -16417,6 +16494,9 @@ msgid ""
 "health for every turn not spent in a city, unless you have the United "
 "Nations wonder."
 msgstr ""
+"ヘリコプターは空を飛び、なおかつ都市を占領できる極めて強力なユニットです。都"
+"市以外の場所でターンを終えると少しずつ体力を消耗するので注意が必要です。ただ"
+"し、不思議『国際連合』を持っていればこの消耗はありません。"
 
 #: data/default/units.ruleset:1041 data/civ2/units.ruleset:978
 #: data/civ1/units.ruleset:944 data/history/units.ruleset:1041
@@ -16505,12 +16585,15 @@ msgstr "潜水艦は戦略上とても重要ですが、防御に関しては弱いです。"
 msgid "Carrier"
 msgstr "空母"
 
+# clefs
 #: data/default/units.ruleset:1420 data/civ2/units.ruleset:1357
 #: data/civ1/units.ruleset:1310 data/history/units.ruleset:1420
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
+"ヒント: 高速な艦艇数隻と戦艦で空母を護衛しましょう。航空機を満載した空母を失"
+"なうと被害は甚大です。"
 
 #: data/default/units.ruleset:1427 data/civ2/units.ruleset:1364
 #: data/civ1/units.ruleset:1317 data/history/units.ruleset:1427
@@ -16641,7 +16724,7 @@ msgstr ""
 "し、大使館を作ります。しかし、スパイの極秘活動がばれ、大使館を建てていたら処"
 "刑されます。\n"
 "\n"
-"スパイは以下の技能を使えます: 敵都市の水源に毒を混入します(人工を減らしま"
+"スパイは以下の技能を使えます: 敵都市の水源に毒を混入します(人口を減らしま"
 "す)。技術を盗みます。狙った都市を破壊します(注: 首都の工事を破壊するか、占領"
 "のリスクを増やすよう城壁を破壊します)。スパイはまた人民を洗脳し、革命を刺激し"
 "ます。\n"
@@ -16780,11 +16863,14 @@ msgstr ""
 "ターンに死の灰の後始末する準備をします。これにより核の冬の危険を最小限に食い"
 "止めます。地球にやさしい核攻撃!"
 
+# clefs
 #: data/civ1/units.ruleset:1612
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
 msgstr ""
+"他のユニットに護衛されていない場所でバーバリアンの指導者が地上ユニットにより"
+"殺された場合、100ゴールドの身代金が支払われます。"
 
 #: data/nation/american.ruleset:3
 msgid "American"
@@ -16893,13 +16979,15 @@ msgstr "独裁者"
 msgid "Dictatrix"
 msgstr "独裁者"
 
+# clefs
 #: data/nation/brazilian.ruleset:14 data/nation/roman.ruleset:13
 msgid "Imperator"
-msgstr ""
+msgstr "大将軍"
 
+# clefs
 #: data/nation/brazilian.ruleset:14 data/nation/roman.ruleset:13
 msgid "Imperatrix"
-msgstr ""
+msgstr "大将軍"
 
 #: data/nation/brazilian.ruleset:16 data/nation/chinese.ruleset:14
 msgid "Chairman"
@@ -16953,6 +17041,7 @@ msgstr "独裁者"
 msgid "Dictadora"
 msgstr "独裁者"
 
+# 直訳すれば「王」ですが、雰囲気がでないのでそのまま(clefs)
 #: data/nation/catalan.ruleset:15
 msgid "Rei"
 msgstr ""
@@ -16981,9 +17070,10 @@ msgstr "チリ民族"
 msgid "Captain General"
 msgstr ""
 
+# clefs
 #: data/nation/chilean.ruleset:17 data/nation/french.ruleset:12
 msgid "Archbishop"
-msgstr ""
+msgstr "大司教"
 
 #: data/nation/chilean.ruleset:18
 msgid "Supreme Director"
@@ -16997,9 +17087,10 @@ msgstr "中国人"
 msgid "?plural:Chinese"
 msgstr "中国民族"
 
+# clefs
 #: data/nation/chinese.ruleset:13
 msgid "Dowager"
-msgstr ""
+msgstr "太后"
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -17084,13 +17175,15 @@ msgstr "イギリス人"
 msgid "?plural:English"
 msgstr "イギリス民族"
 
+# clefs
 #: data/nation/english.ruleset:14
 msgid "Lord Protector"
-msgstr ""
+msgstr "護国卿"
 
+# clefs - 不自然？
 #: data/nation/english.ruleset:14
 msgid "Lady Protector"
-msgstr ""
+msgstr "護国女卿"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -17124,9 +17217,10 @@ msgstr "フランス人"
 msgid "?plural:French"
 msgstr "フランス民族"
 
+# clefs
 #: data/nation/french.ruleset:11
 msgid "Premier"
-msgstr ""
+msgstr "首相"
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -17140,9 +17234,10 @@ msgstr "ドイツ民族"
 msgid "Chancellor"
 msgstr "首相"
 
+# clefs
 #: data/nation/german.ruleset:14
 msgid "Princebishop"
-msgstr ""
+msgstr "領主司教"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -17252,13 +17347,15 @@ msgstr "リトアニア人"
 msgid "?plural:Lithuanians"
 msgstr "リトアニア民族"
 
+# clefs
 #: data/nation/lithuanian.ruleset:11
 msgid "Great Duke"
-msgstr ""
+msgstr "大公"
 
+# clefs
 #: data/nation/lithuanian.ruleset:11
 msgid "Great Duchess"
-msgstr ""
+msgstr "女公"
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
@@ -17268,13 +17365,16 @@ msgstr "モンゴル人"
 msgid "?plural:Mongols"
 msgstr "モンゴル民族"
 
+# clefs
+# "ハン""カン"の方が通りがいい？
 #: data/nation/mongol.ruleset:11
 msgid "Khan"
-msgstr ""
+msgstr "汗"
 
+# clefs
 #: data/nation/mongol.ruleset:12
 msgid "Great Khan"
-msgstr ""
+msgstr "大汗"
 
 #: data/nation/mordor.ruleset:3
 msgid "Mordor"
@@ -17364,13 +17464,15 @@ msgstr "ツァー"
 msgid "Czarina"
 msgstr "ツァーリーネ"
 
+# clefs
 #: data/nation/russian.ruleset:13
 msgid "Patriarch"
-msgstr ""
+msgstr "総大司教"
 
+# clefs
 #: data/nation/russian.ruleset:13
 msgid "Matriarch"
-msgstr ""
+msgstr "女総大司教"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -17425,9 +17527,11 @@ msgstr ""
 msgid "Sultan"
 msgstr "サルタン"
 
+# clefs
+# "様""さん"らしいが…
 #: data/nation/singaporean.ruleset:28
 msgid "Encik"
-msgstr ""
+msgstr "閣下"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -17461,17 +17565,21 @@ msgstr "スペイン人"
 msgid "?plural:Spanish"
 msgstr "スペイン民族"
 
+# clefs
+# "大統領""独裁者"
 #: data/nation/spanish.ruleset:13
 msgid "Caudillo"
-msgstr ""
+msgstr "総統"
 
+# clefs
 #: data/nation/spanish.ruleset:13
 msgid "Caudilla"
-msgstr ""
+msgstr "総統"
 
+# clefs
 #: data/nation/spanish.ruleset:14
 msgid "Cardinal"
-msgstr ""
+msgstr "枢機卿"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -17505,9 +17613,10 @@ msgstr "ウクライナ人"
 msgid "?plural:Ukrainians"
 msgstr "ウクライナ民族"
 
+# clefs
 #: data/nation/ukrainian.ruleset:11
 msgid "Hetman"
-msgstr ""
+msgstr "首長"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
