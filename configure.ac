@@ -59,7 +59,7 @@ WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 
 dnl  no=do not compile client,  yes=guess it,  *=use this client or error
 AC_ARG_ENABLE(client,
-[  --enable-client[=no/yes/xaw3d/xaw/gtk/gtk2/win32/sdl/ftwl]
+[  --enable-client[=no/yes/xaw3d/xaw/gtk/gtk2/win32]
                           compile a client [default=yes] (if yes, guess type)],
 [case "${enableval}" in
   yes)	  client=yes ;;
