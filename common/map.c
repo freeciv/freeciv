@@ -1175,10 +1175,10 @@ int normalize_map_pos(int *x, int *y) {
   if (*y < 0 || *y >= map.ysize)
     return FALSE;
 
+  *x %= map.xsize;
+
   if (*x < 0)
     *x += map.xsize;
-  else if (*x >= map.xsize)
-    *x -= map.xsize;
 
   return TRUE;
 }

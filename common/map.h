@@ -189,7 +189,7 @@ void initialize_move_costs(void);
 void reset_move_costs(int x, int y);
 
 #define map_adjust_x(X) \
- (((X)<0) ?  (X)+map.xsize : (((X)>=map.xsize) ? (X)-map.xsize : (X)))
+ (((X)<0) ?  ((X) % map.xsize) + map.xsize : ((X) % map.xsize))
 #define map_adjust_y(Y) \
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
