@@ -69,20 +69,34 @@ void inputline_return(GtkEntry *w, gpointer data)
 **************************************************************************/
 void real_append_output_window(const char *astring)
 {
-  GtkTextBuffer *buf;
-  GtkTextIter i;
-  GtkTextMark *mark;
+ GtkWidget *sw;
+ GtkAdjustment *slider;
+ bool scroll;
+
+ GtkTextBuffer *buf;
+ GtkTextIter i;
   
+ sw = gtk_widget_get_parent(GTK_WIDGET(main_message_area));
+ slider = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
+
+ /* scroll forward only if slider is near the bottom */
+ scroll = ((slider->value + slider->page_size) >=
+ 	   (slider->upper - slider->step_increment));
+
   buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
   gtk_text_buffer_get_end_iter(buf, &i);
   gtk_text_buffer_insert(buf, &i, "\n", -1);
   gtk_text_buffer_insert(buf, &i, astring, -1);
 
   /* have to use a mark, or this won't work properly */
-  gtk_text_buffer_get_end_iter(buf, &i);
-  mark = gtk_text_buffer_create_mark(buf, NULL, &i, FALSE);
-  gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(main_message_area), mark);
-  gtk_text_buffer_delete_mark(buf, mark);
+  if (scroll) {
+    GtkTextMark *mark;
+
+    gtk_text_buffer_get_end_iter(buf, &i);
+    mark = gtk_text_buffer_create_mark(buf, NULL, &i, FALSE);
+    gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(main_message_area), mark);
+    gtk_text_buffer_delete_mark(buf, mark);
+  }
 }
 
 /**************************************************************************
