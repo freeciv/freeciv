@@ -20,6 +20,8 @@ void gtk_set_label(GtkWidget *w, const char *text);
 void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
+void gtk_window_hide(GtkWindow *window);
+void gtk_window_show(GtkWindow *window);
 
 char **intl_slist(int n, const char **s);
 

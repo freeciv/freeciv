@@ -87,6 +87,8 @@ static GList *sorted_races_list[MAX_NUM_ITEMS];
 
 /******************************************************************/
 static GtkWidget  *notify_dialog_shell;
+static GtkWidget  *notify_headline;
+static GtkWidget  *notify_label;
 
 /******************************************************************/
 static GtkWidget  *spy_tech_shell;
@@ -185,10 +187,10 @@ gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_notify_dialog(char *caption, char *headline, char *lines)
+static void create_notify_dialog(void)
 {
   GtkWidget *notify_command;
-  GtkWidget *notify_label, *notify_headline, *notify_scrolled;
+  GtkWidget *notify_scrolled;
   GtkAccelGroup *accel=gtk_accel_group_new();
   
   notify_dialog_shell = gtk_dialog_new();
@@ -197,13 +199,9 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_accel_group_attach(accel, GTK_OBJECT(notify_dialog_shell));
   gtk_widget_set_name(notify_dialog_shell, "Freeciv");
 
-  gtk_window_set_title( GTK_WINDOW( notify_dialog_shell ), caption );
-  
   gtk_container_border_width( GTK_CONTAINER(GTK_DIALOG(notify_dialog_shell)->vbox), 5 );
 
-  gtk_widget_realize (notify_dialog_shell);
-
-  notify_headline = gtk_label_new( headline);   
+  notify_headline = gtk_label_new(NULL);   
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
 	notify_headline, FALSE, FALSE, 0 );
   gtk_widget_set_name(notify_headline, "notify label");
@@ -214,7 +212,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   notify_scrolled=gtk_scrolled_window_new(NULL,NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(notify_scrolled),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  notify_label = gtk_label_new( lines );  
+  notify_label = gtk_label_new(NULL);  
   gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (notify_scrolled),
 					notify_label);
 
@@ -242,10 +240,31 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->action_area );
 
   gtk_widget_set_usize(notify_dialog_shell, 0, 265);
-  gtk_set_relative_position (toplevel, notify_dialog_shell, 10, 10);
-  gtk_widget_show( notify_dialog_shell );
+}
 
-  gtk_widget_set_sensitive( top_vbox, FALSE );
+/****************************************************************
+...
+*****************************************************************/
+static void notify_dialog_update(char *caption, char *headline, char *lines)
+{
+  gtk_window_set_title(GTK_WINDOW(notify_dialog_shell), caption);
+  gtk_label_set_text(GTK_LABEL(notify_headline), headline);
+  gtk_label_set_text(GTK_LABEL(notify_label), lines);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void popup_notify_dialog(char *caption, char *headline, char *lines)
+{
+  if (!notify_dialog_shell) {
+    create_notify_dialog();
+    
+    gtk_set_relative_position(toplevel, notify_dialog_shell, 10, 10);
+  }
+
+  notify_dialog_update(caption, headline, lines);
+  gtk_window_show(GTK_WINDOW(notify_dialog_shell));
 }
 
 /****************************************************************
@@ -255,7 +274,6 @@ void popdown_notify_dialog(void)
 {
   if (notify_dialog_shell) {
     gtk_widget_destroy(notify_dialog_shell);
-    gtk_widget_set_sensitive(top_vbox, TRUE);
     notify_dialog_shell = NULL;
   }
 }

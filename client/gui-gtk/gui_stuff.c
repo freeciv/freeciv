@@ -63,6 +63,40 @@ void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 /**************************************************************************
 ...
 **************************************************************************/
+void gtk_window_hide(GtkWindow *window)
+{
+  GtkWidget *widget;
+
+  g_return_if_fail(GTK_IS_WINDOW(window));
+
+  widget = GTK_WIDGET(window);
+
+  if (GTK_WIDGET_MAPPED(widget)) {
+    gdk_window_withdraw(widget->window);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void gtk_window_show(GtkWindow *window)
+{
+  GtkWidget *widget;
+
+  g_return_if_fail(GTK_IS_WINDOW(window));
+
+  widget = GTK_WIDGET(window);
+
+  if (GTK_WIDGET_MAPPED(widget)) {
+    gdk_window_show(widget->window);
+  } else {
+    gtk_widget_show(widget);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm)
 {
   if (!GTK_IS_PIXMAP(w))
