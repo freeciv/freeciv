@@ -1116,16 +1116,8 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 **************************************************************************/
 static void center_tile_overviewcanvas(int map_x, int map_y)
 {
-  int screen_width;
-
-  if (is_isometric) {
-    screen_width = mapview_canvas.tile_width + mapview_canvas.tile_height;
-  } else {
-    screen_width = mapview_canvas.tile_width;
-  }
-
   /* Currently we just center the overview canvas around the tile. */
-  map_overview_x0 = map_adjust_x(map_x + screen_width / 2 - map.xsize / 2);
+  map_overview_x0 = map_adjust_x(map_x - map.xsize / 2);
 }
 
 /**************************************************************************
