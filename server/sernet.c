@@ -795,10 +795,7 @@ static void start_processing_request(struct connection *pconn,
   assert(pconn->server.currently_processed_request_id == 0);
   freelog(LOG_DEBUG, "start processing packet %d from connection %d",
 	  request_id, pconn->id);
-  if (strlen(pconn->capability) == 0
-      || has_capability("processing_packets", pconn->capability)) {
-    send_packet_generic_empty(pconn, PACKET_PROCESSING_STARTED);
-  }
+  send_packet_generic_empty(pconn, PACKET_PROCESSING_STARTED);
   pconn->server.currently_processed_request_id = request_id;
 }
 
@@ -810,9 +807,6 @@ static void finish_processing_request(struct connection *pconn)
   assert(pconn->server.currently_processed_request_id);
   freelog(LOG_DEBUG, "finish processing packet %d from connection %d",
 	  pconn->server.currently_processed_request_id, pconn->id);
-  if (strlen(pconn->capability) == 0
-      || has_capability("processing_packets", pconn->capability)) {
-    send_packet_generic_empty(pconn, PACKET_PROCESSING_FINISHED);
-  }
+  send_packet_generic_empty(pconn, PACKET_PROCESSING_FINISHED);
   pconn->server.currently_processed_request_id = 0;
 }

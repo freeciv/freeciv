@@ -68,7 +68,7 @@ void handle_unit_goto_tile(struct player *pplayer,
 
   /* 
    * Discard invalid packet. Replace this with is_normal_map_pos if
-   * capstr is set to "1.12.0".
+   * 1.13.1-devel is started.
    */
   if (!normalize_map_pos(&req->x, &req->y)) {
     return;
@@ -108,7 +108,7 @@ void handle_unit_airlift(struct player *pplayer,
 
   /* 
    * Discard invalid packet. Replace this with is_normal_map_pos if
-   * capstr is set to "1.12.0".
+   * 1.13.1-devel is started.
    */
   if (!normalize_map_pos(&req->x, &req->y)) {
     return;
@@ -132,7 +132,7 @@ void handle_unit_connect(struct player *pplayer,
 
   /* 
    * Discard invalid packet. Replace this with is_normal_map_pos if
-   * capstr is set to "1.12.0".
+   * 1.13.1-devel is started.
    */
   if (!normalize_map_pos(&req->dest_x, &req->dest_y)) {
     return;
@@ -598,8 +598,8 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 
   if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
     /* 
-     * Discard invalid packet. Replace this with is_normal_map_pos
-     * if capstr is set to "1.12.0".
+     * Discard invalid packet. Replace this with is_normal_map_pos if
+     * 1.13.1-devel is started.
      */
     if (!normalize_map_pos(&pinfo->x, &pinfo->y)) {
       return;
@@ -636,7 +636,7 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 
   /* 
    * Discard invalid packet. Replace this with is_normal_map_pos if
-   * capstr is set to "1.12.0".
+   * 1.13.1-devel is started.
    */
   if (!normalize_map_pos(&pmove->x, &pmove->y)) {
     return;
@@ -908,7 +908,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 
   /* 
    * Discard invalid packet. Replace this with is_normal_map_pos if
-   * capstr is set to "1.12.0".
+   * 1.13.1-devel is started.
    */
   if (!normalize_map_pos(&dest_x, &dest_y)) {
     return FALSE;

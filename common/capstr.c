@@ -70,66 +70,12 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11.6 conn_info pop_cost +turn +attributes"\
-" new_bonus_tech fund_added +processing_packets angrycitizen +tile_trade"\
-" init_techs short_worklists tech_cost_style +short_city_tile_trade"\
-" +trade_size +new_nation_selection +client_worklists sound u32timeout" \
-" +notifies"
+#define CAPABILITY "+1.13.0 conn_info"
   
-/* "+1.11.6" is protocol for 1.11.6 beta release.
+/* "+1.13.0" is protocol for 1.13.0 release.
   
    "conn_info" is sending the conn_id field. To preserve compatability
    with old clients trying to connect this should persist across releases.
-
-   "pop_cost" is the capability of rulesets to specify how many units
-   of population are consumed on unit creation and/or can be added to
-   cities.
-
-   "turn" additionally transfers game.turn to the client.
-
-   "attributes" is the ability to request and transfer attribute blocks.
-
-   "new_bonus_tech" is the ability to make every tech a bonus tech
-   like A_PHILOSOPHY
-
-   "fund_added" introduces support for fundamentalism form of government.
-
-   "processing_packets" sends PACKET_PROCESSING_STARTED and
-   PACKET_PROCESSING_FINISHED packets.
-
-   "angrycitizen" introduces angry citizens, like those in
-   civilization II.  They counts as 2 unhappy citizens, they are saved
-   in ppl_angry[], and you must dealt with them before any citizens in
-   a city can become unhappy.
-   
-   "tile_trade" sends the tile_trade field from struct city.
-
-   "init_techs" allows global and nation specific initial techs to be
-   specified in rulesets.
-
-   "short_worklists" sends short worklists to reduce bandwidth used.
-
-   "tech_cost_style" allows using different algorithms for calculation
-   technology cost. The algorithm used is selected with
-   game.ruleset.tech_cost_style and game.ruleset.tech_leakage.
-
-   "short_city_tile_trade" sends the tile trade in the short_city
-   packet.
-
-   "trade_size" transfer game.notradesize and game.fulltradesize to
-   the client.
-
-   "new_nation_selection" transfer array of used nations instead of
-   bit mask
-
-   "client_worklists" the client keeps the global worklists not the server
-
-   "sound" is, well, sound specified in rulesets.
-
-   "u32timeout" designates that game.timeout is packeted as a uint32
-   instead of a uint16
-
-   "notifies" is a cleanup of event notifications
 */
 
 void init_our_capability(void)

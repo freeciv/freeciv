@@ -1728,9 +1728,6 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.notradesize = game.notradesize;
   packet.fulltradesize = game.fulltradesize;
 
-  /* when removing the new_bonus_tech capability remove the following
-     line; has_capability("new_bonus_tech", */
-  packet.rtech.get_bonus_tech = find_tech_by_flag(0, TF_BONUS_TECH);
   packet.rtech.cathedral_plus = game.rtech.cathedral_plus;
   packet.rtech.cathedral_minus = game.rtech.cathedral_minus;
   packet.rtech.colosseum_plus = game.rtech.colosseum_plus;

@@ -62,7 +62,6 @@
 #include "tilespec.h"
 #include "wldlg_g.h"
 #include "attribute.h"
-#include "capability.h"
 #include "agents.h"
 #include "audio.h"
 
@@ -655,8 +654,7 @@ void handle_new_year(struct packet_new_year *ppacket)
   /*
    * The turn was increased in handle_before_new_year()
    */
-  assert(game.turn == ppacket->turn
-	 || !has_capability("turn", aconnection.capability));
+  assert(game.turn == ppacket->turn);
   update_info_label();
 
   player_set_unit_focus_status(game.player_ptr);
@@ -695,8 +693,7 @@ void handle_before_new_year(void)
    * which is incorrect. If we get the authoritative information about
    * the game turn in handle_new_year() we will check it.
    */
-  if (has_capability("turn", aconnection.capability))
-    game.turn++;
+  game.turn++;
   agents_before_new_turn();
 }
 
@@ -2161,13 +2158,8 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.nuke_contamination = packet->nuke_contamination;
   game.rgame.granary_food_ini = packet->granary_food_ini;
   game.rgame.granary_food_inc = packet->granary_food_inc;
-  if(has_capability("tech_cost_style", aconnection.capability)) {
-    game.rgame.tech_cost_style = packet->tech_cost_style;
-    game.rgame.tech_leakage = packet->tech_leakage;
-  } else {
-    game.rgame.tech_cost_style = 0;
-    game.rgame.tech_leakage = 0;
-  }
+  game.rgame.tech_cost_style = packet->tech_cost_style;
+  game.rgame.tech_leakage = packet->tech_leakage;
 }
 
 /**************************************************************************

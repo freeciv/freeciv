@@ -1460,22 +1460,17 @@ static unsigned char *put_worklist(struct connection *pc,
 				   const struct worklist *pwl, bool real_wl)
 {
   int i, length;
-  bool short_wls = has_capability("short_worklists", pc->capability);
 
   buffer = put_bool8(buffer, pwl->is_valid);
 
-  if ((short_wls && pwl->is_valid) || !short_wls) {
-    if (real_wl && pwl->is_valid) {
+  if (pwl->is_valid) {
+    if (real_wl) {
       buffer = put_string(buffer, pwl->name);
     } else {
       buffer = put_string(buffer, "\0");
     }
-    if (short_wls) {
-      length = worklist_length(pwl);
-      buffer = put_uint8(buffer, length);
-    } else {
-      length = MAX_LEN_WORKLIST;
-    }
+    length = worklist_length(pwl);
+    buffer = put_uint8(buffer, length);
     for (i = 0; i < length; i++) {
       buffer = put_uint8(buffer, pwl->wlefs[i]);
       buffer = put_uint8(buffer, pwl->wlids[i]);
@@ -1492,22 +1487,17 @@ static void iget_worklist(struct connection *pc, struct pack_iter *piter,
 			  struct worklist *pwl)
 {
   int i, length;
-  bool short_wls = has_capability("short_worklists", pc->capability);
 
   iget_bool8(piter, &pwl->is_valid);
 
-  if ((short_wls && pwl->is_valid) || !short_wls) {
+  if (pwl->is_valid) {
     iget_string(piter, pwl->name, MAX_LEN_NAME);
 
-    if (short_wls) {
-      iget_uint8(piter, &length);
+    iget_uint8(piter, &length);
 
-      if (length < MAX_LEN_WORKLIST) {
-	pwl->wlefs[length] = WEF_END;
-	pwl->wlids[length] = 0;
-      }
-    } else {
-      length = MAX_LEN_WORKLIST;
+    if (length < MAX_LEN_WORKLIST) {
+      pwl->wlefs[length] = WEF_END;
+      pwl->wlids[length] = 0;
     }
 
     for (i = 0; i < length; i++) {
@@ -1780,10 +1770,7 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->science);
   cptr=put_uint8(cptr, packet->government);
   cptr=put_uint8(cptr, packet->tech);
-
-  if (has_capability("attributes", pc->capability)) {
-    cptr = put_bool8(cptr, req_type == PACKET_PLAYER_ATTRIBUTE_BLOCK);
-  }
+  cptr = put_bool8(cptr, req_type == PACKET_PLAYER_ATTRIBUTE_BLOCK);
 
   (void) put_uint16(buffer, cptr - buffer);
 
@@ -1807,10 +1794,7 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->science);
   iget_uint8(&iter, &preq->government);
   iget_uint8(&iter, &preq->tech);
-  if (has_capability("attributes", pc->capability))
-    iget_bool8(&iter, &preq->attribute_block);
-  else
-    preq->attribute_block = FALSE;
+  iget_bool8(&iter, &preq->attribute_block);
   
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -2082,11 +2066,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint32(cptr, pinfo->tech);
   cptr=put_uint8(cptr, pinfo->researchcost);
   cptr=put_uint32(cptr, pinfo->skill_level);
-  if (has_capability("u32timeout", pc->capability)) {
-    cptr=put_uint32(cptr, pinfo->timeout);
-  } else {
-    cptr=put_uint16(cptr, pinfo->timeout);
-  }
+  cptr = put_uint32(cptr, pinfo->timeout);
   cptr=put_uint32(cptr, pinfo->end_year);
   cptr=put_uint32(cptr, pinfo->year);
   cptr=put_uint8(cptr, pinfo->min_players);
@@ -2102,8 +2082,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->freecost);
   cptr=put_uint8(cptr, pinfo->conquercost);
   cptr=put_uint8(cptr, pinfo->unhappysize);
-  if (has_capability("angrycitizen", pc->capability))
-    cptr = put_uint8(cptr, pinfo->angrycitizen);
+  cptr = put_uint8(cptr, pinfo->angrycitizen);
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     cptr=put_uint8(cptr, pinfo->global_advances[i]);
@@ -2118,9 +2097,7 @@ int send_packet_game_info(struct connection *pc,
   /* computed values */
   cptr=put_uint32(cptr, pinfo->seconds_to_turndone);
 
-  if (has_capability("turn", pc->capability)) {
-    cptr = put_uint32(cptr, pinfo->turn);
-  }
+  cptr = put_uint32(cptr, pinfo->turn);
 
   (void) put_uint16(buffer, cptr - buffer);
 
@@ -2143,11 +2120,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint32(&iter, &pinfo->tech);
   iget_uint8(&iter, &pinfo->researchcost);
   iget_uint32(&iter, &pinfo->skill_level);
-  if (has_capability("u32timeout", pc->capability)) {
-    iget_uint32(&iter, &pinfo->timeout);
-  } else {
-    iget_uint16(&iter, &pinfo->timeout);
-  }
+  iget_uint32(&iter, &pinfo->timeout);
   iget_uint32(&iter, &pinfo->end_year);
   iget_uint32(&iter, &pinfo->year);
   iget_uint8(&iter, &pinfo->min_players);
@@ -2163,10 +2136,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->freecost);
   iget_uint8(&iter, &pinfo->conquercost);
   iget_uint8(&iter, &pinfo->unhappysize);
-  if (has_capability("angrycitizen", pc->capability))
-    iget_uint8(&iter, &pinfo->angrycitizen);
-  else
-    pinfo->angrycitizen = 0;
+  iget_uint8(&iter, &pinfo->angrycitizen);
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     iget_uint8(&iter, &pinfo->global_advances[i]);
@@ -2181,11 +2151,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   /* computed values */
   iget_uint32(&iter, &pinfo->seconds_to_turndone);
 
-  if (has_capability("turn", pc->capability)) {
-    iget_uint32(&iter, &pinfo->turn);
-  } else {
-    pinfo->turn = -1;
-  }
+  iget_uint32(&iter, &pinfo->turn);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -2298,9 +2264,7 @@ int send_packet_new_year(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_NEW_YEAR);
   cptr=put_uint32(cptr, request->year);
-  if (has_capability("turn", pc->capability)) {
-    cptr = put_uint32(cptr, request->turn);
-  }
+  cptr = put_uint32(cptr, request->turn);
   (void) put_uint16(buffer, cptr - buffer);
   return send_packet_data(pc, buffer, cptr-buffer);
 }
@@ -2407,8 +2371,7 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint8(cptr, req->size);
 
   for (data = 0; data < 5; data++) {
-    if (has_capability("angrycitizen", pc->capability))
-      cptr = put_uint8(cptr, req->ppl_angry[data]);
+    cptr = put_uint8(cptr, req->ppl_angry[data]);
     cptr=put_uint8(cptr, req->ppl_happy[data]);
     cptr=put_uint8(cptr, req->ppl_content[data]);
     cptr=put_uint8(cptr, req->ppl_unhappy[data]);
@@ -2423,9 +2386,7 @@ int send_packet_city_info(struct connection *pc,
   cptr=put_uint16(cptr, req->shield_prod);
   cptr=put_uint16(cptr, req->shield_surplus);
   cptr=put_uint16(cptr, req->trade_prod);
-  if (has_capability("tile_trade", pc->capability)) {
-      cptr=put_uint16(cptr, req->tile_trade);
-  }
+  cptr = put_uint16(cptr, req->tile_trade);
   cptr=put_uint16(cptr, req->corruption);
 
   cptr=put_uint16(cptr, req->luxury_total);
@@ -2494,10 +2455,7 @@ receive_packet_city_info(struct connection *pc)
   
   iget_uint8(&iter, &packet->size);
   for(data=0;data<5;data++) {
-    if (has_capability("angrycitizen", pc->capability))
-      iget_uint8(&iter, &packet->ppl_angry[data]);
-    else
-      packet->ppl_angry[data] = 0;
+    iget_uint8(&iter, &packet->ppl_angry[data]);
     iget_uint8(&iter, &packet->ppl_happy[data]);
     iget_uint8(&iter, &packet->ppl_content[data]);
     iget_uint8(&iter, &packet->ppl_unhappy[data]);
@@ -2513,11 +2471,7 @@ receive_packet_city_info(struct connection *pc)
   iget_uint16(&iter, &packet->shield_surplus);
   if(packet->shield_surplus > 32767) packet->shield_surplus-=65536;
   iget_uint16(&iter, &packet->trade_prod);
-  if (has_capability("tile_trade", pc->capability)) {
-    iget_uint16(&iter, &packet->tile_trade);
-  } else {
-    packet->tile_trade = 0;
-  }
+  iget_uint16(&iter, &packet->tile_trade);
   iget_uint16(&iter, &packet->corruption);
 
   iget_uint16(&iter, &packet->luxury_total);
@@ -2589,9 +2543,7 @@ int send_packet_short_city(struct connection *pc,
 			  COND_SET_BIT(req->capital, 1) |
 			  COND_SET_BIT(req->walls, 2)));
 
-  if (has_capability("short_city_tile_trade", pc->capability)) {
-    cptr = put_uint16(cptr, req->tile_trade);
-  }
+  cptr = put_uint16(cptr, req->tile_trade);
 
   (void) put_uint16(buffer, cptr - buffer);
 
@@ -2625,11 +2577,7 @@ receive_packet_short_city(struct connection *pc)
   packet->capital = TEST_BIT(i, 1);
   packet->walls   = TEST_BIT(i, 2);
 
-  if (has_capability("short_city_tile_trade", pc->capability)) {
-    iget_uint16(&iter, &packet->tile_trade);
-  } else {
-    packet->tile_trade = 0;
-  }
+  iget_uint16(&iter, &packet->tile_trade);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -2702,12 +2650,7 @@ receive_packet_new_year(struct connection *pc)
   pack_iter_init(&iter, pc);
 
   iget_uint32(&iter, &packet->year);
-
-  if (has_capability("turn", pc->capability)) {
-    iget_uint32(&iter, &packet->turn);
-  } else {
-    packet->turn = -3;
-  }
+  iget_uint32(&iter, &packet->turn);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -3049,14 +2992,9 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->aqueduct_size);
   cptr=put_uint8(cptr, packet->sewer_size);
   cptr=put_uint8(cptr, packet->add_to_size_limit);
-  if (has_capability("trade_size", pc->capability)) {
-    cptr = put_uint8(cptr, packet->notradesize);
-    cptr = put_uint8(cptr, packet->fulltradesize);
-  }
+  cptr = put_uint8(cptr, packet->notradesize);
+  cptr = put_uint8(cptr, packet->fulltradesize);
 
-  if (!has_capability("new_bonus_tech", pc->capability)) {
-    cptr = put_uint8(cptr, packet->rtech.get_bonus_tech);
-  }
   cptr=put_uint8(cptr, packet->rtech.cathedral_plus);
   cptr=put_uint8(cptr, packet->rtech.cathedral_minus);
   cptr=put_uint8(cptr, packet->rtech.colosseum_plus);
@@ -3096,17 +3034,9 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->aqueduct_size);
   iget_uint8(&iter, &packet->sewer_size);
   iget_uint8(&iter, &packet->add_to_size_limit);
-  if (has_capability("trade_size", pc->capability)) {
-    iget_uint8(&iter, &packet->notradesize);
-    iget_uint8(&iter, &packet->fulltradesize);
-  } else {
-    packet->notradesize = 0;
-    packet->fulltradesize = 1;
-  }
+  iget_uint8(&iter, &packet->notradesize);
+  iget_uint8(&iter, &packet->fulltradesize);
 
-  if (!has_capability("new_bonus_tech", pc->capability)) {
-    iget_uint8(&iter, &packet->rtech.get_bonus_tech);
-  }
   iget_uint8(&iter, &packet->rtech.cathedral_plus);
   iget_uint8(&iter, &packet->rtech.cathedral_minus);
   iget_uint8(&iter, &packet->rtech.colosseum_plus);
@@ -3162,20 +3092,17 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
-  if (has_capability("sound", pc->capability)) {
-    cptr = put_string(cptr, packet->sound_move);
-    cptr = put_string(cptr, packet->sound_move_alt);
-    cptr = put_string(cptr, packet->sound_fight);
-    cptr = put_string(cptr, packet->sound_fight_alt);
-  }
+  cptr = put_string(cptr, packet->sound_move);
+  cptr = put_string(cptr, packet->sound_move_alt);
+  cptr = put_string(cptr, packet->sound_fight);
+  cptr = put_string(cptr, packet->sound_fight_alt);
+
   if(unit_type_flag(packet->id, F_PARATROOPERS)) {
     cptr=put_uint16(cptr, packet->paratroopers_range);
     cptr=put_uint8(cptr, packet->paratroopers_mr_req);
     cptr=put_uint8(cptr, packet->paratroopers_mr_sub);
   }
-  if (has_capability("pop_cost", pc->capability)) {
-    cptr=put_uint8(cptr, packet->pop_cost);
-  }
+  cptr = put_uint8(cptr, packet->pop_cost);
 
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
@@ -3222,19 +3149,12 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
-  if (has_capability("sound", pc->capability)) {
-    iget_string(&iter, packet->sound_move, sizeof(packet->sound_move));
-    iget_string(&iter, packet->sound_move_alt,
-		sizeof(packet->sound_move_alt));
-    iget_string(&iter, packet->sound_fight, sizeof(packet->sound_fight));
-    iget_string(&iter, packet->sound_fight_alt,
-		sizeof(packet->sound_fight_alt));
-  } else {
-    sz_strlcpy(packet->sound_move, "m_generic");
-    sz_strlcpy(packet->sound_move_alt, "-");
-    sz_strlcpy(packet->sound_fight, "f_generic");
-    sz_strlcpy(packet->sound_fight_alt, "-");
-  }
+  iget_string(&iter, packet->sound_move, sizeof(packet->sound_move));
+  iget_string(&iter, packet->sound_move_alt, sizeof(packet->sound_move_alt));
+  iget_string(&iter, packet->sound_fight, sizeof(packet->sound_fight));
+  iget_string(&iter, packet->sound_fight_alt,
+	      sizeof(packet->sound_fight_alt));
+
   if(TEST_BIT(packet->flags, F_PARATROOPERS)) {
     iget_uint16(&iter, &packet->paratroopers_range);
     iget_uint8(&iter, &packet->paratroopers_mr_req);
@@ -3244,11 +3164,7 @@ receive_packet_ruleset_unit(struct connection *pc)
     packet->paratroopers_mr_req=0;
     packet->paratroopers_mr_sub=0;
   }
-  if (has_capability("pop_cost", pc->capability)) {
-    iget_uint8(&iter, &packet->pop_cost);
-  } else {
-    packet->pop_cost = TEST_BIT(packet->flags, F_CITIES) ? 1 : 0;
-  }  
+  iget_uint8(&iter, &packet->pop_cost);
 
   len = pack_iter_remaining(&iter);
   if (len > 0) {
@@ -3277,10 +3193,8 @@ int send_packet_ruleset_tech(struct connection *pc,
   cptr=put_uint8(cptr, packet->req[0]);
   cptr=put_uint8(cptr, packet->req[1]);
   cptr=put_uint32(cptr, packet->flags);
-  if (has_capability("tech_cost_style", pc->capability)) {
-    cptr = put_uint32(cptr, packet->preset_cost);
-    cptr = put_uint32(cptr, packet->num_reqs);
-  }
+  cptr = put_uint32(cptr, packet->preset_cost);
+  cptr = put_uint32(cptr, packet->num_reqs);
   cptr=put_string(cptr, packet->name);
   
   /* This must be last, so client can determine length: */
@@ -3309,10 +3223,8 @@ receive_packet_ruleset_tech(struct connection *pc)
   iget_uint8(&iter, &packet->req[0]);
   iget_uint8(&iter, &packet->req[1]);
   iget_uint32(&iter, &packet->flags);
-  if (has_capability("tech_cost_style", pc->capability)) {
-    iget_uint32(&iter, &packet->preset_cost);
-    iget_uint32(&iter, &packet->num_reqs);
-  }
+  iget_uint32(&iter, &packet->preset_cost);
+  iget_uint32(&iter, &packet->num_reqs);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   len = pack_iter_remaining(&iter);
@@ -3374,10 +3286,8 @@ int send_packet_ruleset_building(struct connection *pc,
   cptr=put_uint8(cptr, packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   cptr=put_string(cptr, packet->name);
 
-  if (has_capability("sound", pc->capability)) {
-    cptr = put_string(cptr, packet->soundtag);
-    cptr = put_string(cptr, packet->soundtag_alt);
-  }
+  cptr = put_string(cptr, packet->soundtag);
+  cptr = put_string(cptr, packet->soundtag_alt);
 
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
@@ -3433,14 +3343,8 @@ receive_packet_ruleset_building(struct connection *pc)
   iget_uint8(&iter, &packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   iget_string(&iter, packet->name, sizeof(packet->name));
 
-  if (has_capability("sound", pc->capability)) {
-    iget_string(&iter, packet->soundtag, sizeof(packet->soundtag));
-    iget_string(&iter, packet->soundtag_alt, sizeof(packet->soundtag_alt));
-  } else {
-    sz_strlcpy(packet->soundtag,
-	       packet->is_wonder ? "w_generic" : "b_generic");
-    sz_strlcpy(packet->soundtag_alt, "-");
-  }
+  iget_string(&iter, packet->soundtag, sizeof(packet->soundtag));
+  iget_string(&iter, packet->soundtag_alt, sizeof(packet->soundtag_alt));
 
   len = pack_iter_remaining(&iter);
   if (len > 0) {
@@ -3708,10 +3612,7 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_uint8(cptr, packet->corruption_distance_factor);
   cptr=put_uint8(cptr, packet->extra_corruption_distance);
 
-  if (has_capability("fund_added", pc->capability))
-    cptr = put_uint16(cptr, packet->flags);
-  else
-    cptr = put_uint8(cptr, packet->flags);
+  cptr = put_uint16(cptr, packet->flags);
   cptr=put_uint8(cptr, packet->hints);
 
   cptr=put_uint8(cptr, packet->num_ruler_titles);
@@ -3805,10 +3706,7 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_uint8(&iter, &packet->corruption_distance_factor);
   iget_uint8(&iter, &packet->extra_corruption_distance);
 
-  if (has_capability("fund_added", pc->capability))
-    iget_uint16(&iter, &packet->flags);
-  else
-    iget_uint8(&iter, &packet->flags);
+  iget_uint16(&iter, &packet->flags);
   iget_uint8(&iter, &packet->hints);
 
   iget_uint8(&iter, &packet->num_ruler_titles);
@@ -3874,9 +3772,7 @@ int send_packet_ruleset_nation(struct connection *pc,
     cptr=put_bool8(cptr, packet->leader_sex[i]);
   }
   cptr=put_uint8(cptr, packet->city_style);
-  if (has_capability("init_techs", pc->capability)) {
-    cptr = put_tech_list(cptr, packet->init_techs);
-  }
+  cptr = put_tech_list(cptr, packet->init_techs);
 
   (void) put_uint16(buffer, cptr - buffer);
 
@@ -3908,9 +3804,7 @@ receive_packet_ruleset_nation(struct connection *pc)
     iget_bool8(&iter, &packet->leader_sex[i]);
   }
   iget_uint8(&iter, &packet->city_style);
-  if (has_capability("init_techs", pc->capability)) {
-    iget_tech_list(&iter, packet->init_techs);
-  }
+  iget_tech_list(&iter, packet->init_techs);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -3984,13 +3878,9 @@ int send_packet_ruleset_game(struct connection *pc,
   cptr=put_uint8(cptr, packet->nuke_contamination);
   cptr=put_uint8(cptr, packet->granary_food_ini);
   cptr=put_uint8(cptr, packet->granary_food_inc);
-  if (has_capability("tech_cost_style", pc->capability)) {
-    cptr = put_uint8(cptr, packet->tech_cost_style);
-    cptr = put_uint8(cptr, packet->tech_leakage);
-  }
-  if (has_capability("init_techs", pc->capability)) {
-    cptr = put_tech_list(cptr, packet->global_init_techs);
-  }
+  cptr = put_uint8(cptr, packet->tech_cost_style);
+  cptr = put_uint8(cptr, packet->tech_leakage);
+  cptr = put_tech_list(cptr, packet->global_init_techs);
 
   (void) put_uint16(buffer, cptr - buffer);
   return send_packet_data(pc, buffer, cptr-buffer);
@@ -4018,13 +3908,9 @@ receive_packet_ruleset_game(struct connection *pc)
   iget_uint8(&iter, &packet->nuke_contamination);
   iget_uint8(&iter, &packet->granary_food_ini);
   iget_uint8(&iter, &packet->granary_food_inc);
-  if (has_capability("tech_cost_style", pc->capability)) {
-    iget_uint8(&iter, &packet->tech_cost_style);
-    iget_uint8(&iter, &packet->tech_leakage);
-  }
-  if (has_capability("init_techs", pc->capability)) {
-    iget_tech_list(&iter, packet->global_init_techs);
-  }
+  iget_uint8(&iter, &packet->tech_cost_style);
+  iget_uint8(&iter, &packet->tech_leakage);
+  iget_tech_list(&iter, packet->global_init_techs);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
