@@ -1213,6 +1213,15 @@ Freeciv.iconName: Freeciv
 *reporttradeclosecommand.left:        chainLeft
 *reporttradeclosecommand.right:       chainLeft
 
+*reporttradeselloffcommand.label:       Sell Off
+*reporttradeselloffcommand.fromVert:    reporttradelabel2
+*reporttradeselloffcommand.fromHoriz:   reporttradeclosecommand
+*reporttradeselloffcommand.foreground:  white
+*reporttradeselloffcommand.background:  blue
+*reporttradeselloffcommand.top:         chainBottom
+*reporttradeselloffcommand.bottom:      chainBottom
+*reporttradeselloffcommand.left:        chainLeft
+*reporttradeselloffcommand.right:       chainLeft
 
 !
 !

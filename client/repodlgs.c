@@ -103,10 +103,16 @@ int cities_in_list[MAX_CITIES_SHOWN];
 void create_trade_report_dialog(int make_modal);
 void trade_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
+void trade_selloff_callback(Widget w, XtPointer client_data,
+                            XtPointer call_data);
+void trade_list_callback(Widget w, XtPointer client_data,
+                         XtPointer call_data);
+int trade_improvement_type[B_LAST];
 
 Widget trade_dialog_shell;
 Widget trade_label, trade_label2;
 Widget trade_list, trade_list_label;
+Widget selloff_command;
 int trade_dialog_shell_is_modal;
 
 /******************************************************************/
@@ -872,11 +878,39 @@ void create_trade_report_dialog(int make_modal)
 					  trade_form,
 					  NULL);
 
+  selloff_command = XtVaCreateManagedWidget("reporttradeselloffcommand", 
+					  commandWidgetClass,
+					  trade_form,
+					  XtNsensitive, False,
+					  NULL);
+
+  XtAddCallback(trade_list, XtNcallback, trade_list_callback, NULL);
   XtAddCallback(close_command, XtNcallback, trade_close_callback, NULL);
+  XtAddCallback(selloff_command, XtNcallback, trade_selloff_callback, NULL);
   XtRealizeWidget(trade_dialog_shell);
   trade_report_dialog_update();
 }
 
+
+
+/****************************************************************
+...
+*****************************************************************/
+void trade_list_callback(Widget w, XtPointer client_data, 
+			 XtPointer call_data)
+{
+  XawListReturnStruct *ret;
+  int i;
+  ret=XawListShowCurrent(trade_list);
+
+  if(ret->list_index!=XAW_LIST_NONE) {
+    i=trade_improvement_type[ret->list_index];
+    if(i>=0 && i<B_LAST && !is_wonder(i))
+      XtSetSensitive(selloff_command, TRUE);
+    return;
+  }
+  XtSetSensitive(selloff_command, FALSE);
+}
 
 /****************************************************************
 ...
@@ -887,8 +921,48 @@ void trade_close_callback(Widget w, XtPointer client_data,
 
   if(trade_dialog_shell_is_modal)
      XtSetSensitive(main_form, TRUE);
-   XtDestroyWidget(trade_dialog_shell);
-   trade_dialog_shell=0;
+  XtDestroyWidget(trade_dialog_shell);
+  trade_dialog_shell=0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void trade_selloff_callback(Widget w, XtPointer client_data, 
+			    XtPointer call_data)
+{
+  int i,count=0,gold=0;
+  struct genlist_iterator myiter;
+  struct city *pcity;
+  struct packet_city_request packet;
+  char str[64];
+  XawListReturnStruct *ret=XawListShowCurrent(trade_list);
+
+  if(ret->list_index==XAW_LIST_NONE) return;
+
+  i=trade_improvement_type[ret->list_index];
+
+  genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
+  for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
+    pcity=(struct city *)ITERATOR_PTR(myiter);
+    if(city_got_building(pcity, i) &&
+       (improvement_obsolete(game.player_ptr,i) || 
+        wonder_replacement(pcity, i) ))  {
+	fprintf(stderr,"Would sell the %s in %s\n",get_improvement_name(i),pcity->name);
+	count++; gold+=improvement_value(i);
+        packet.city_id=pcity->id;
+        packet.build_id=i;
+        packet.name[0]='\0';
+        send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+    };
+  };
+  if(count)  {
+    sprintf(str,"Sold %d %s for %d gold",count,get_improvement_name(i),gold);
+  } else {
+    sprintf(str,"No %s obsolete",get_improvement_name(i));
+  };
+  popup_notify_dialog("Sell-Off Results",str);
+  return;
 }
 
 /****************************************************************
@@ -925,6 +999,7 @@ void trade_report_dialog_update(void)
 	  sprintf(trade_list_names[k], "%-20s%5d%5d%6d", get_improvement_name(j), count, improvement_upkeep(pcity, j), cost);
 	  total+=cost;
 	  trade_list_names_ptrs[k]=trade_list_names[k];
+	  trade_improvement_type[k]=j;
 	  k++;
 	}
       }
