@@ -3878,9 +3878,10 @@ msgstr "Benutzername %s, "
 msgid "Barbarian"
 msgstr "barbarisch"
 
+# dwp: KI?
 #: server/stdinhand.c:2989
 msgid "AI"
-msgstr "AI
+msgstr "AI"
 
 #: server/stdinhand.c:2991
 msgid "Human"
