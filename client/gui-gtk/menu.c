@@ -25,7 +25,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "map.h"
-#include "mem.c"
+#include "mem.h"
 #include "unit.h"
 
 #include "chatline.h"
