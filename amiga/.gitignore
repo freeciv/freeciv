@@ -1,8 +1,6 @@
-/ai
-/client
-/common
-/server
+/sas_68k
+/vbcc_68k
+/vbcc_warpos
+/vbcc_pcc
 /civclient
 /civserver
-/*.bak.info
-/*.c.info

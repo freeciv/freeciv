@@ -96,6 +96,9 @@
 #undef HAVE_OPENTRANSPORT
 #undef PATH_SEPARATOR
 #undef SOCKET_ZERO_ISNT_STDIN
+#undef NONBLOCKING_SOCKETS
+#undef HAVE_FCNTL
+#undef HAVE_IOCTL
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT

@@ -3166,7 +3166,7 @@ static int write_socket_data(struct connection *pc,
     if (FD_ISSET(pc->sock, &writefs)) {
       nblock=MIN(len-start, MAX_LEN_PACKET);
       if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
-#ifdef HAVE_FCNTL_H
+#ifdef NONBLOCKING_SOCKETS
 	if (errno == EWOULDBLOCK || errno == EAGAIN) {
 	  freelog(LOG_DEBUG, "EGAIN on socket write");
 	  continue;
@@ -3244,7 +3244,7 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
     freelog(LOG_DEBUG, "EOF on socket read");
     return -1;
   }
-#ifdef HAVE_FCNTL_H
+#ifdef NONBLOCKING_SOCKETS
   else if (errno == EWOULDBLOCK || errno == EAGAIN) {
     freelog(LOG_DEBUG, "EGAIN on socket read");
     return 0;
