@@ -116,7 +116,7 @@ contributions to the Freeciv project.
      Gaute B Strokkenes <gs234@cam.ac.uk> (map cleanup)
      Andreas Beckmann <andreas.beckmann@student.uni-halle.de> 
 	(happiness indicator)
-     Daniel Sjölie <deepone@acc.umu.se> 
+     Daniel SjÃ¶lie <deepone@acc.umu.se> 
 	(i18n, metakeys, new gtk city dialog)
      Michael Stefaniuc <mstefani@redhat.de> (i18n)
      Davide Pagnin <nightmare@freeciv.it> 
@@ -135,7 +135,7 @@ contributions to the Freeciv project.
      Bert Buchholz <bertbuchholz@gmx.de> (watchtowers, bugfixes)
      Chris Chittleborough <cchittleborough@yahoo.com.au> (autoconnect)
      Ross Wetmore <rwetmore@sympatico.ca> (autogame, fixes)
-     Janus N. Tøndering <j@nus.person.dk> (chat history)
+     Janus N. TÃ¸ndering <j@nus.person.dk> (chat history)
      Martin Douda <martin@douda.net> (fixes)
 
   Coders since 1.11.4 release:
@@ -311,7 +311,7 @@ contributions to the Freeciv project.
 
      Sune Kirkeby <sune@interspace.dk>
 	(governments ruleset, unit upkeep 1.9.0, patches 1.8.1)
-     David Pérez Serrada <dperezs@nexo.es> (i18n 1.9.0)
+     David PÃ©rez Serrada <dperezs@nexo.es> (i18n 1.9.0)
      Rizos Sakellariou <rizos@cs.rice.edu>
 	(AI and governments 1.9.0, patches 1.8.x, city names 1.7.2)
      Andy Black <ablack@bvsd.k12.co.us> (Macintosh 1.9.0)
@@ -571,7 +571,7 @@ contributions to the Freeciv project.
      Kenn Munro <kenn@cyberbeach.net>
      Markus Schaber <markus.schaber@student.uni-ulm.de>
      Martin McMahon <martin.mcmahon@ukonline.co.uk>
-     Müller, Hans-Werner Dr. <hw@muella7.com>
+     MÃ¼ller, Hans-Werner Dr. <hw@muella7.com>
      Pete Stewart <stwrtpj@earthlink.net>
      Pieter J. Kersten <kersten@dia.eur.nl>
      SAWADA Katsuya <ama@petmail.net>
@@ -587,7 +587,7 @@ contributions to the Freeciv project.
      Andreas Anschuetz <atz@atz.home.cs.tu-berlin.de>
      Michael Zinn <michael.z@acm.org>
      Jeff Mallatt <jjm@codewell.com>
-     Daniel Sjölie <deepone@acc.umu.se>
+     Daniel SjÃ¶lie <deepone@acc.umu.se>
      Thue Janus Kristensen <thue@diku.dk>
      Erik Sigra <sigra@home.se>
      Britton Leo Kerin <fsblk@aurora.uaf.edu>
@@ -607,7 +607,7 @@ contributions to the Freeciv project.
      Gregory Berkolaiko <gberkolaiko@yahoo.co.uk>
      Jason Short <vze2zq63@verizon.net>
      James Wilson <fat_hot@yahoo.com>
-     Martin Schröder <martin@oneiros.de>
+     Martin SchrÃ¶der <martin@oneiros.de>
      Todd Goodman <tgoodman@bonedaddy.net>
      Egbert Hinzen <garfy@ehinzen.de>
      Raahul Kumar <raahul_da_man@yahoo.com>
@@ -643,7 +643,7 @@ contributions to the Freeciv project.
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
      Michael Kruglos <mike14@internet.il>
      Joona Kiiski <joona.kiiski@iki.fi>
-     Heikki Kniivilä <heikkikk@bestlinuxmail.com>
+     Heikki KniivilÃ¤ <heikkikk@bestlinuxmail.com>
      Gordon Tetlow <gordont@bluemtn.net>
      Rigel Freden <rigelf@angelfire.com>
      Mike Jing <mike_jing@email.com>
@@ -672,7 +672,7 @@ contributions to the Freeciv project.
      Xavier Renaut <xavier@ideasandassociates.com>
      Daniel Speyer <dspeyer@users.sourceforge.net>
      Pieter J. Kersten <kersten@dia.eur.nl>
-     Hjalmar Böhm <hjr.boehm@gmx.net>
+     Hjalmar BÃ¶hm <hjr.boehm@gmx.net>
      Alejandro G. Belluscio <baldusi@hotmail.com>
      Pablo Belluscio <pablibell@fibertel.com.ar>
      Gregory Berkolaiko <Gregory.Berkolaiko@weizmann.ac.il>
@@ -826,7 +826,7 @@ contributions to the Freeciv project.
      SAWADA Katsuya <ama@petmail.net> (ja.po)
      MITA Yuusuke <clefs@lycos.jp> (ja.po)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
-     Andreas Røsdal <andrearo@stud.ntnu.no> (no.po)
+     Andreas RÃ¸sdal <andrearo@stud.ntnu.no> (no.po)
      Mateusz Stefek <matusik_s@o2.pl> (pl.po)
      Erik Sigra <sigra@home.se> (se.po)
 
@@ -846,10 +846,10 @@ contributions to the Freeciv project.
      Olivier Beyssac <ob@fasterix.freenix.org> (fr.po)
      Dmitriy Genzel <dg@cs.brown.edu> (ru.po)
      Paolo Sammicheli <xdatap1@siena.linux.it> (it.po)
-     Keld Jørn Simonsen <keld@dkuug.dk> (dk.po)
+     Keld JÃ¸rn Simonsen <keld@dkuug.dk> (dk.po)
      Christian Knoke <chrisk@cknoke.de> (de.po)
      Mattias Andersson <tamasis@softhome.net> (sv.po)
-     Geneviève Gracian, Benoit Timbert and Loic Vigneras (fr.po)
+     GeneviÃ¨ve Gracian, Benoit Timbert and Loic Vigneras (fr.po)
      Andrei Darashenka, Valek Filippov and Egor Vyscrebentsov (ru.po)
 
   Localization (l10n) since 1.11.4 release:
@@ -874,7 +874,7 @@ contributions to the Freeciv project.
 	(HOWTOPLAY.fr INSTALL.fr README.fr)
      Paolo Sammicheli <xdatap1@supereva.it> (INSTALL.it, README.it)
      Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de> (de.po)
-     Gábor Dukai <dukai@EUnet.yu> (hu.po)
+     GÃ¡bor Dukai <dukai@EUnet.yu> (hu.po)
      Christian Knoke <chrisk@cknoke.de> (NEWS.de, de.po)
      Michael Stefaniuc <mstefani@redhat.de> (ro.po)
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (pt.po)
@@ -923,7 +923,7 @@ contributions to the Freeciv project.
      Manop Huber <Saphir@cs.tu-berlin.de> (de.po 1.9.0)
      Artur Biesiadowski <abies@pg.gda.pl> (pl.po 1.9.0)
      Denis Bodor <dbodor@linuxmag-france.org> (fr.po 1.9.0)
-     David Pérez Serrada <dperezs@laguna.dvnet.es> (es.po 1.9.0)
+     David PÃ©rez Serrada <dperezs@laguna.dvnet.es> (es.po 1.9.0)
      Zoltan Bardosi <hck@lkg.rulez.org> (hu.po 1.9.0)
 
   Package maintainers:
