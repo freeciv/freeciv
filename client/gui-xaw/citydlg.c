@@ -2288,7 +2288,7 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
       if (n == ret->list_index) {
 	char buf[512];
 
-	if (!can_sell_building(pdialog->pcity, i)) {
+	if (!can_city_sell_building(pdialog->pcity, i)) {
 	  return;
 	}
 

@@ -964,7 +964,7 @@ static void sell_callback(struct city_dialog *pdialog)
     return;
   }
  
-  if (!can_sell_building(pdialog->pcity, pdialog->id_selected)) {
+  if (!can_city_sell_building(pdialog->pcity, pdialog->id_selected)) {
     return;
   }
   

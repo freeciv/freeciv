@@ -172,7 +172,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
     return;
   }
 
-  if (!can_sell_building(pcity, id))
+  if (!can_city_sell_building(pcity, id))
     return;
 
   pcity->did_sell=TRUE;

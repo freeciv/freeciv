@@ -665,7 +665,7 @@ void economy_list_callback(GtkWidget *w, gint row, gint column)
   int i = economy_row_type[row].type;
   
   if (economy_row_type[row].is_impr == TRUE) {
-    bool is_sellable = (improvement_exists(i) && can_sell_improvement(i));
+    bool is_sellable = (improvement_exists(i) && can_sell_building(i));
 
     gtk_widget_set_sensitive(sellobsolete_command, is_sellable
 			     && can_client_issue_orders()

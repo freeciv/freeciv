@@ -1722,7 +1722,7 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
 void do_sell_building(struct player *pplayer, struct city *pcity,
 		      Impr_Type_id id)
 {
-  if (can_sell_building(pcity, id)) {
+  if (can_city_sell_building(pcity, id)) {
     pplayer->economic.gold += impr_sell_gold(id);
     building_lost(pcity, id);
   }
@@ -2051,7 +2051,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
       built_impr_iterate(pcity, impr) {
         int i = 0;
 
-        if (!can_sell_building(pcity, impr)) {
+        if (!can_city_sell_building(pcity, impr)) {
           continue;
         }
 

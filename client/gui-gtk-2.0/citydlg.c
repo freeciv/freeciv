@@ -2397,7 +2397,7 @@ static void sell_callback(Impr_Type_id id, gpointer data)
     return;
   }
   
-  if (!can_sell_building(pdialog->pcity, id)) {
+  if (!can_city_sell_building(pdialog->pcity, id)) {
     return;
   }
 

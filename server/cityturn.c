@@ -114,7 +114,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   bool sold = FALSE;
 
   built_impr_iterate(pcity, i) {
-    if (can_sell_building(pcity, i) && improvement_obsolete(pplayer, i)) {
+    if (can_city_sell_building(pcity, i) && improvement_obsolete(pplayer, i)) {
       do_sell_building(pplayer, pcity, i);
       notify_player_ex(pplayer, pcity->tile, E_IMP_SOLD, 
 		       _("Game: %s is selling %s (obsolete) for %d."),
@@ -1144,7 +1144,7 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   built_impr_iterate(pcity, i) {
-    if (can_sell_building(pcity, i)
+    if (can_city_sell_building(pcity, i)
 	&& pplayer->government != game.government_when_anarchy) {
       if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
 	notify_player_ex(pplayer, pcity->tile, E_IMP_AUCTIONED,

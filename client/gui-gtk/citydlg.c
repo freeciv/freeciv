@@ -3000,7 +3000,7 @@ static void sell_callback(GtkWidget * w, gpointer data)
 		       (GTK_CLIST(pdialog->overview.improvement_list),
 			GPOINTER_TO_INT(selection->data)));
   assert(city_got_building(pdialog->pcity, id));
-  if (!can_sell_improvement(id))
+  if (!can_city_sell_building(pdialog->pcity, id))
     return;
 
   pdialog->sell_id = id;
@@ -3057,7 +3057,7 @@ static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
 			      GPOINTER_TO_INT(selection->data)));
     assert(city_got_building(pdialog->pcity, id));
 
-    if (can_sell_improvement(id)) {
+    if (can_city_sell_building(pdialog->pcity, id)) {
       char buf[64];
       my_snprintf(buf, sizeof(buf), _("Sell (worth %d gold)"),
 		  impr_sell_gold(id));

@@ -416,7 +416,7 @@ bool great_wonder_was_built(Impr_Type_id id)
 /**************************************************************************
   Return TRUE iff the improvement can be sold.
 **************************************************************************/
-bool can_sell_improvement(Impr_Type_id id)
+bool can_sell_building(Impr_Type_id id)
 {
   return is_improvement(id);
 }
@@ -424,8 +424,8 @@ bool can_sell_improvement(Impr_Type_id id)
 /****************************************************************************
   Return TRUE iff the city can sell the given improvement.
 ****************************************************************************/
-bool can_sell_building(struct city *pcity, Impr_Type_id id)
+bool can_city_sell_building(struct city *pcity, Impr_Type_id id)
 {
-  return (city_got_building(pcity, id) ? can_sell_improvement(id) : FALSE);
+  return (city_got_building(pcity, id) ? can_sell_building(id) : FALSE);
 }
 

@@ -129,8 +129,6 @@ bool can_player_eventually_build_improvement(struct player *p,
   }                                                                           \
 }
 
-bool can_sell_building(struct city *pcity, Impr_Type_id id);
-
 bool is_great_wonder(Impr_Type_id id);
 bool is_small_wonder(Impr_Type_id id);
 bool is_improvement(Impr_Type_id id);
@@ -140,7 +138,9 @@ struct city *find_city_from_small_wonder(const struct player *pplayer,
 					 Impr_Type_id id);
 
 bool great_wonder_was_built(Impr_Type_id id);
-bool can_sell_improvement(Impr_Type_id id);
+
+bool can_sell_building(Impr_Type_id id);
+bool can_city_sell_building(struct city *pcity, Impr_Type_id id);
 
 #endif  /* FC__IMPROVEMENT_H */
 

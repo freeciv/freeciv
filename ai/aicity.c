@@ -781,7 +781,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
   impr_type_iterate(id) {
-    if (can_sell_building(pcity, id)
+    if (can_city_sell_building(pcity, id)
 	&& !building_has_effect(id, EFT_LAND_DEFEND)) {
 /* selling walls to buy defenders is counterproductive -- Syela */
       really_handle_city_sell(pplayer, pcity, id);
@@ -1045,7 +1045,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
 
   built_impr_iterate(pcity, i) {
-    if(can_sell_building(pcity, i) 
+    if(can_city_sell_building(pcity, i) 
        && !building_has_effect(i, EFT_LAND_DEFEND)
 	      /* selling city walls is really, really dumb -- Syela */
        && (is_building_replaced(pcity, i)
