@@ -108,6 +108,8 @@ char *message_text[E_LAST]={
   N_("Spaceship Events         "),          /* E_SPACESHIP */
   N_("Barbarian Uprising       "),          /* E_UPRISING  */
   N_("Worklist Events          "),          /* E_WORKLIST */
+  N_("Pact Cancelled           "),          /* E_CANCEL_PACT */
+  N_("Diplomatic Incident      "),          /* E_DIPL_INCIDENT */
 };
 
 /**************************************************************************

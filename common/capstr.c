@@ -72,7 +72,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
 ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players \
-submarine_flags +gen_impr"
+submarine_flags +gen_impr +dipl_states"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -98,6 +98,9 @@ submarine_flags +gen_impr"
    F_MISSILE_CARRIER, F_NO_LAND_ATTACK
 
    "gen_impr" is protocol extension for generalized improvements.
+
+   "dipl_states" is for servers and clients that understand diplomatic
+   states: alliances, cease-fires, and what-have-you.
 */
 
 void init_our_capability(void)

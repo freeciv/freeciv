@@ -245,6 +245,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_INCITE_INQ:
   case PACKET_CITY_NAME_SUGGEST_REQ:
   case PACKET_ADVANCE_FOCUS:
+  case PACKET_PLAYER_CANCEL_PACT:
     return receive_packet_generic_integer(pc);
     
   case PACKET_ALLOC_NATION:
@@ -1539,6 +1540,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_uint8(buffer+2, PACKET_PLAYER_INFO);
   cptr=put_uint8(cptr, pinfo->playerno);
   cptr=put_string(cptr, pinfo->name);
+
   cptr=put_uint8(cptr, pinfo->is_male);
   cptr=put_uint8(cptr, pinfo->government);
   cptr=put_uint32(cptr, pinfo->embassy);
@@ -1547,7 +1549,14 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_uint8(cptr, pinfo->turn_done?1:0);
   cptr=put_uint16(cptr, pinfo->nturns_idle);
   cptr=put_uint8(cptr, pinfo->is_alive?1:0);
-  
+
+  cptr=put_uint32(cptr, pinfo->reputation);
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    cptr=put_uint32(cptr, pinfo->diplstates[i].type);
+    cptr=put_uint32(cptr, pinfo->diplstates[i].turns_left);
+    cptr=put_uint32(cptr, pinfo->diplstates[i].has_reason_to_cancel);
+  }
+
   cptr=put_uint32(cptr, pinfo->gold);
   cptr=put_uint8(cptr, pinfo->tax);
   cptr=put_uint8(cptr, pinfo->science);
@@ -1556,6 +1565,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_uint32(cptr, pinfo->researched);
   cptr=put_uint32(cptr, pinfo->researchpoints);
   cptr=put_uint8(cptr, pinfo->researching);
+
   cptr=put_bit_string(cptr, (char*)pinfo->inventions);
   cptr=put_uint16(cptr, pinfo->future_tech);
   
@@ -1593,6 +1603,7 @@ receive_packet_player_info(struct connection *pc)
 
   iget_uint8(&iter,  &pinfo->playerno);
   iget_string(&iter, pinfo->name, sizeof(pinfo->name));
+
   iget_uint8(&iter,  &pinfo->is_male);
   iget_uint8(&iter,  &pinfo->government);
   iget_uint32(&iter,  &pinfo->embassy);
@@ -1602,6 +1613,13 @@ receive_packet_player_info(struct connection *pc)
   iget_uint16(&iter,  &pinfo->nturns_idle);
   iget_uint8(&iter,  &pinfo->is_alive);
   
+  iget_uint32(&iter, &pinfo->reputation);
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    iget_uint32(&iter, (int*)&pinfo->diplstates[i].type);
+    iget_uint32(&iter, &pinfo->diplstates[i].turns_left);
+    iget_uint32(&iter, &pinfo->diplstates[i].has_reason_to_cancel);
+  }
+
   iget_uint32(&iter, &pinfo->gold);
   iget_uint8(&iter, &pinfo->tax);
   iget_uint8(&iter, &pinfo->science);

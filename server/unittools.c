@@ -46,126 +46,202 @@
 
 /**************************************************************************
   unit can be moved if:
-  1) the unit is idle or on goto
+  1) the unit is idle or on goto or connecting.
   2) the target location is on the map
   3) the target location is next to the unit
-  4) ground unit can only move to ocean squares if there is a transporter
-     with free capacity
-  5) marines are the only units that can attack from a ocean square
-  6) naval units can only be moved to ocean squares or city squares
-  7) if there is no enemy units blocking (zoc) [or igzoc is true]
+  4) there are no non-allied units on the target tile
+  5) a ground unit can only move to ocean squares if there
+     is a transporter with free capacity
+  6) marines are the only units that can attack from a ocean square
+  7) naval units can only be moved to ocean squares or city squares
+  8) there are no peaceful but un-allied units on the target tile
+  9) there is not a peaceful but un-allied city on the target tile
+  10) there is no non-allied unit blocking (zoc) [or igzoc is true]
 **************************************************************************/
-int can_unit_move_to_tile(struct unit *punit, int x, int y, int igzoc)
+int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc)
 {
-  struct tile *ptile,*ptile2;
+  struct tile *pfromtile,*ptotile;
   int zoc;
+  struct city *pcity;
+  int src_x = punit->x;
+  int src_y = punit->y;
 
-  if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO && !punit->connecting)
-    return 0;
-  
-  if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)
-    return 0;
-  
-  if(!is_tiles_adjacent(punit->x, punit->y, x, y))
-    return 0;
-
-  if(is_enemy_unit_tile(x,y,punit->owner))
+  /* 1) */
+  if (punit->activity!=ACTIVITY_IDLE
+      && punit->activity!=ACTIVITY_GOTO
+      && !punit->connecting)
     return 0;
 
-  ptile=map_get_tile(x, y);
-  ptile2=map_get_tile(punit->x, punit->y);
-  if(is_ground_unit(punit)) {
-    /* Check condition 4 */
-    if(ptile->terrain==T_OCEAN &&
-       ground_unit_transporter_capacity(x, y, punit->owner) <= 0)
-	return 0;
+  /* 2) */
+  if (dest_x<0 || dest_x>=map.xsize || dest_y<0 || dest_y>=map.ysize)
+    return 0;
+
+  /* 3) */
+  if (!is_tiles_adjacent(src_x, src_y, dest_x, dest_y))
+    return 0;
+
+  pfromtile = map_get_tile(src_x, src_y);
+  ptotile = map_get_tile(dest_x, dest_y);
+
+  /* 4) */
+  if (is_non_allied_unit_tile(ptotile, punit->owner))
+    return 0;
+
+  if (is_ground_unit(punit)) {
+    /* 5) */
+    if (ptotile->terrain==T_OCEAN &&
+	ground_unit_transporter_capacity(dest_x, dest_y, punit->owner) <= 0)
+      return 0;
+
     /* Moving from ocean */
-    if(ptile2->terrain==T_OCEAN) {
-      /* Can't attack a city from ocean unless marines */
-      if(!unit_flag(punit->type, F_MARINES)
-	 && is_enemy_city_tile(x,y,punit->owner)) {
-	char *units_str = get_units_with_flag_string(F_MARINES);
-	if (units_str) {
-	  notify_player_ex(&game.players[punit->owner], punit->x, punit->y,
+    if (pfromtile->terrain==T_OCEAN) {
+      /* 6) */
+      if (!unit_flag(punit->type, F_MARINES)
+	  && is_enemy_city_tile(ptotile, punit->owner)) {
+  	char *units_str = get_units_with_flag_string(F_MARINES);
+  	if (units_str) {
+  	  notify_player_ex(unit_owner(punit), src_x, src_y,
 			   E_NOEVENT, _("Game: Only %s can attack from sea."),
 			   units_str);
 	  free(units_str);
 	} else {
-	  notify_player_ex(&game.players[punit->owner], punit->x, punit->y,
+	  notify_player_ex(unit_owner(punit), src_x, src_y,
 			   E_NOEVENT, _("Game: Cannot attack from sea."));
 	}
 	return 0;
       }
     }
-  } else if(is_sailing_unit(punit)) {
-    if(ptile->terrain!=T_OCEAN && ptile->terrain!=T_UNKNOWN)
-      if(!is_friendly_city_tile(x,y,punit->owner))
-	return 0;
+  } else if (is_sailing_unit(punit)) {
+    /* 7) */
+    if (ptotile->terrain!=T_OCEAN
+	&& ptotile->terrain!=T_UNKNOWN
+	&& !is_allied_city_tile(ptotile, punit->owner))
+      return 0;
   } 
-  zoc = igzoc || zoc_ok_move(punit, x, y);
-  if (!zoc) 
-    notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
+
+  /* 8) */
+  if (is_non_attack_unit_tile(ptotile, punit->owner)) {
+    notify_player_ex(unit_owner(punit), src_x, src_y,
+		     E_NOEVENT,
+		     _("Game: Cannot attack unless you declare war first."));
+    return 0;
+  }
+
+  /* 9) */
+  pcity = ptotile->city;
+  if (pcity && players_non_attack(pcity->owner, punit->owner)) {
+    notify_player_ex(unit_owner(punit), src_x, src_y,
+		     E_NOEVENT,
+		     _("Game: Cannot attack unless you declare war first."));
+    return 0;
+  }
+
+  /* 10) */
+  zoc = igzoc || zoc_ok_move(punit, dest_x, dest_y);
+  if (!zoc) {
+    notify_player_ex(unit_owner(punit), src_x, src_y, E_NOEVENT,
 		     _("Game: %s can only move into your own zone of control."),
 		     unit_types[punit->type].name);
+  }
+
   return zoc;
 }
 
 /**************************************************************************
  is there an enemy city on this tile?
 **************************************************************************/
-int is_enemy_city_tile(int x, int y, int owner)
+struct city *is_enemy_city_tile(struct tile *ptile, int playerid)
 {
-    struct city *pcity;
+  struct city *pcity = ptile->city;
 
-    pcity=map_get_city(x,y);
-
-    if(pcity==NULL) return 0;
-
-    return(pcity->owner != owner);
-}
-
-/**************************************************************************
- is there an enemy unit on this tile?
-**************************************************************************/
-int is_enemy_unit_tile(int x, int y, int owner)
-{
-    struct unit_list *punit_list;
-    struct unit *punit;
-
-    punit_list=&map_get_tile(x, y)->units;
-    punit = unit_list_get(punit_list, 0);
-
-    if(!punit) return 0;
-    return(punit->owner != owner);
-}
-
-/**************************************************************************
- is there an friendly unit on this tile?
-**************************************************************************/
-int is_friendly_unit_tile(int x, int y, int owner)
-{
-    struct unit_list *punit_list;
-    struct unit *punit;
-
-    punit_list=&map_get_tile(x, y)->units;
-    punit = unit_list_get(punit_list, 0);
-
-    if(!punit) return 0;
-    return(punit->owner == owner);
+  if (pcity && players_at_war(playerid, pcity->owner))
+    return pcity;
+  else
+    return NULL;
 }
 
 /**************************************************************************
  is there an friendly city on this tile?
 **************************************************************************/
-int is_friendly_city_tile(int x, int y, int owner)
+struct city *is_allied_city_tile(struct tile *ptile, int playerid)
 {
-    struct city *pcity;
+  struct city *pcity = ptile->city;
 
-    pcity=map_get_city(x,y);
+  if (pcity && players_allied(playerid, pcity->owner))
+    return pcity;
+  else
+    return NULL;
+}
 
-    if(pcity==NULL) return 0;
+/**************************************************************************
+ is there an enemy city on this tile?
+**************************************************************************/
+struct city *is_non_attack_city_tile(struct tile *ptile, int playerid)
+{
+struct city *pcity = ptile->city;
 
-    return(pcity->owner == owner);
+  if (pcity && players_non_attack(playerid, pcity->owner))
+    return pcity;
+  else
+    return NULL;
+}
+
+/**************************************************************************
+Returns true if the tile contains an allied unit and only allied units.
+(ie, if your nation A is allied with B, and B is allied with C, a tile
+containing units from B and C will return false)
+**************************************************************************/
+struct unit *is_allied_unit_tile(struct tile *ptile, int playerid)
+{
+  struct unit *punit = NULL;
+
+  unit_list_iterate(ptile->units, cunit)
+    if (players_allied(playerid, cunit->owner))
+      punit = cunit;
+    else
+      return NULL;
+  unit_list_iterate_end;
+
+  return punit;
+}
+
+/**************************************************************************
+ is there an enemy unit on this tile?
+**************************************************************************/
+struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid)
+{
+  unit_list_iterate(ptile->units, punit)
+    if (players_at_war(punit->owner, playerid))
+      return punit;
+  unit_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+ is there an non-allied unit on this tile?
+**************************************************************************/
+struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid)
+{
+  unit_list_iterate(ptile->units, punit)
+    if (!players_allied(punit->owner, playerid))
+      return punit;
+  unit_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+ is there an unit we have peace or ceasefire with on this tile?
+**************************************************************************/
+struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid)
+{
+  unit_list_iterate(ptile->units, punit)
+    if (players_non_attack(punit->owner, playerid))
+      return punit;
+  unit_list_iterate_end;
+
+  return NULL;
 }
 
 /**************************************************************************
@@ -188,7 +264,8 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
   for (x=x0-1;x<x0+2;x++) for (y=y0-1;y<y0+2;y++) {
     ax=map_adjust_x(x);
     ay=map_adjust_y(y);
-    if ((map_get_terrain(ax,ay)!=T_OCEAN) && is_enemy_unit_tile(ax,ay,owner))
+    if ((map_get_terrain(ax,ay)!=T_OCEAN)
+	&& is_non_allied_unit_tile(map_get_tile(ax,ay), owner))
       return 0;
   }
   return 1;
@@ -207,11 +284,13 @@ int is_my_zoc(struct unit *myunit, int x0, int y0)
 **************************************************************************/
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2)
 {
+  struct tile *ptotile = map_get_tile(x2, y2);
+  struct tile *pfromtile = map_get_tile(x1, y1);
   if (unit_really_ignores_zoc(punit))  /* !ground_unit or IGZOC */
     return 1;
-  if (is_friendly_unit_tile(x2, y2, punit->owner))
+  if (is_allied_unit_tile(ptotile, punit->owner))
     return 1;
-  if (map_get_city(x1, y1) || map_get_city(x2, y2))
+  if (pfromtile->city || is_allied_city_tile(ptotile, punit->owner))
     return 1;
   if (map_get_terrain(x1,y1)==T_OCEAN)
     return 1;
@@ -233,7 +312,6 @@ int zoc_ok_move(struct unit *punit, int x, int y)
  settlers are half price
 
  Plus, the damage to the unit reduces the price.
-
 **************************************************************************/
 int unit_bribe_cost(struct unit *punit)
 {  
@@ -347,8 +425,8 @@ struct unit *get_defender(struct player *pplayer, struct unit *aunit,
 
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     debug_unit = punit;
-    if (pplayer->player_no==punit->owner)
-      return 0;
+    if (players_allied(pplayer->player_no, punit->owner))
+      continue;
     ct++;
     if (unit_can_defend_here(punit)) {
       unit_d = rate_unit_d(punit, aunit);
@@ -389,7 +467,7 @@ struct unit *get_attacker(struct player *pplayer, struct unit *aunit,
   struct unit *bestatt = 0;
   int bestvalue=-1, unit_a;
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (pplayer->player_no==punit->owner)
+    if (players_allied(pplayer->player_no, punit->owner))
       return 0;
     unit_a=rate_unit_a(punit, aunit);
     if(unit_a>bestvalue) {
@@ -576,6 +654,7 @@ int find_a_unit_type(int role, int role_tech)
  2) it's not a fighter and the defender is a flying unit (except city/airbase)
  3) if it's not a marine (and ground unit) and it attacks from ocean
  4) a ground unit can't attack a ship on an ocean square (except marines)
+ 5) the players are not at war
 **************************************************************************/
 int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 				 int dest_x, int dest_y)
@@ -607,6 +686,10 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
   /* Shore bombardement */
   if (fromtile==T_OCEAN && is_sailing_unit(punit) && totile!=T_OCEAN)
     return (get_attack_power(punit)>0);
+
+  if (!players_at_war(punit->owner, pdefender->owner))
+    return 0;
+
   return 1;
 }
 
@@ -644,8 +727,10 @@ int enemies_at(struct unit *punit, int x, int y)
 {
   int i, j, a = 0, d, db;
   struct player *pplayer = get_player(punit->owner);
+  struct city *pcity = map_get_tile(x,y)->city;
 
-  if (is_friendly_city_tile(x, y, punit->owner)) return 0;
+  if (pcity && pcity->owner == punit->owner)
+     return 0;
 
   db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
   if (map_get_special(x, y) & S_RIVER)
@@ -656,9 +741,9 @@ int enemies_at(struct unit *punit, int x, int y)
     for (i = x - 1; i <= x + 1; i++) {
       if (same_pos(i, j, x, y)) continue; /* after some contemplation */
       if (!pplayer->ai.control && !map_get_known_and_seen(x, y, punit->owner)) continue;
-      if (is_enemy_city_tile(i, j, punit->owner)) return 1;
+      if (is_enemy_city_tile(map_get_tile(i, j), punit->owner)) return 1;
       unit_list_iterate(map_get_tile(i, j)->units, enemy)
-        if (enemy->owner != punit->owner &&
+        if (players_at_war(enemy->owner, punit->owner) &&
             can_unit_attack_unit_at_tile(enemy, punit, x, y)) {
           a += unit_belligerence_basic(enemy);
           if ((a * a * 10) >= d) return 1;
@@ -683,20 +768,6 @@ static void disband_stack_conflict_unit(struct unit *punit, int verbose)
 		  unit_name(punit->type), punit->x, punit->y);
   }
   wipe_unit(punit);
-}
-
-/**************************************************************************
-  Return first unit on square that is not owned by player.
-                          - Kris Bubendorfer 
-**************************************************************************/
-struct unit *is_enemy_unit_on_tile(int x, int y, int owner)
-{
-  unit_list_iterate(map_get_tile(x, y)->units, punit) 
-    if (owner!=punit->owner) 
-      return punit;
-  unit_list_iterate_end;
-  
-  return 0;
 }
 
 /**************************************************************************
@@ -746,22 +817,23 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity,
 void resolve_unit_stack(int x, int y, int verbose)
 {
   struct unit *punit, *cunit;
+  struct tile *ptile = map_get_tile(x,y);
 
-  /* We start by reducing the unit list until we only have units from one nation */
+  /* We start by reducing the unit list until we only have allied units */
   while(1) {
     struct city *pcity, *ccity;
 
-    punit = unit_list_get(&map_get_tile(x, y)->units, 0);
-    if (!punit)
+    if (unit_list_size(&ptile->units) == 0)
       return;
-    pcity = find_closest_owned_city(get_player(punit->owner), x, y,
+
+    punit = unit_list_get(&(ptile->units), 0);
+    pcity = find_closest_owned_city(unit_owner(punit), x, y,
 				    is_sailing_unit(punit), NULL);
 
     /* If punit is in an enemy city we send it to the closest friendly city
        This is not always caught by the other checks which require that
        there are units from two nations on the tile */
-    ccity = map_get_city(x,y);
-    if (ccity && ccity->owner != punit->owner) {
+    if (ptile->city && !is_allied_city_tile(ptile, punit->owner)) {
       if (pcity)
 	teleport_unit_to_city(punit, pcity, 0, verbose);
       else
@@ -769,7 +841,7 @@ void resolve_unit_stack(int x, int y, int verbose)
       continue;
     }
 
-    cunit = is_enemy_unit_on_tile(x, y, punit->owner);
+    cunit = is_non_allied_unit_tile(ptile, punit->owner);
     if (!cunit)
       break;
 
@@ -810,26 +882,28 @@ void resolve_unit_stack(int x, int y, int verbose)
     }
   } /* end while */
 
-  /* There is only one player's units left on this square.  If there is not 
+  /* There is only one allied units left on this square.  If there is not 
      enough transporter capacity left send surplus to the closest friendly 
      city. */
-  punit = unit_list_get(&map_get_tile(x, y)->units, 0);
+  punit = unit_list_get(&(ptile->units), 0);
 
-  if(punit && map_get_terrain(x, y) == T_OCEAN) {
-    while(ground_unit_transporter_capacity(x, y, punit->owner) < 0) {
-      unit_list_iterate(map_get_tile(x, y)->units, vunit) {
-	if(is_ground_unit(vunit)) {
-	  struct city *vcity =
-	    find_closest_owned_city(get_player(vunit->owner), x, y, 0, NULL);
-	  if (vcity)
-	    teleport_unit_to_city(vunit, vcity, 0, verbose);
-	  else
-	    disband_stack_conflict_unit(vunit, verbose);
-	  break;   /* break out of unit_list_iterate loop */
-	}
+  if (ptile->terrain == T_OCEAN) {
+  START:
+    unit_list_iterate(ptile->units, vunit) {
+      if (ground_unit_transporter_capacity(x, y, punit->owner) < 0) {
+ 	unit_list_iterate(ptile->units, wunit) {
+ 	  if (is_ground_unit(wunit) && wunit->owner == vunit->owner) {
+ 	    struct city *wcity =
+ 	      find_closest_owned_city(get_player(wunit->owner), x, y, 0, NULL);
+ 	    if (wcity)
+ 	      teleport_unit_to_city(wunit, wcity, 0, verbose);
+ 	    else
+ 	      disband_stack_conflict_unit(wunit, verbose);
+ 	    goto START;
+ 	  }
+ 	} unit_list_iterate_end; /* End of find a unit from that player to disband*/
       }
-      unit_list_iterate_end;
-    }
+    } unit_list_iterate_end; /* End of find a player */
   }
 }
 
@@ -841,9 +915,10 @@ int is_airunit_refuel_point(int x, int y, int playerid,
 {
   struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
 
-  if (is_friendly_city_tile(x, y, playerid)
+  if ((is_allied_city_tile(map_get_tile(x, y), playerid)
+       && !is_non_allied_unit_tile(map_get_tile(x, y), playerid))
       || (plrtile->special&S_AIRBASE
-	  && !is_enemy_unit_tile(x, y, playerid)))
+	  && !is_non_allied_unit_tile(map_get_tile(x, y), playerid)))
     return 1;
 
   if (unit_flag(type, F_MISSILE)) {
@@ -857,6 +932,4 @@ int is_airunit_refuel_point(int x, int y, int playerid,
       cap++;
     return cap>0;
   }
-
-  return 0;
 }

@@ -719,6 +719,16 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->embassy=pinfo->embassy;
   pplayer->city_style=pinfo->city_style;
 
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    pplayer->diplstates[i].type =
+      pinfo->diplstates[i].type;
+    pplayer->diplstates[i].turns_left =
+      pinfo->diplstates[i].turns_left;
+    pplayer->diplstates[i].has_reason_to_cancel =
+      pinfo->diplstates[i].has_reason_to_cancel;
+  }
+  pplayer->reputation = pinfo->reputation;
+
   for (i = 0; i < MAX_NUM_WORKLISTS; i++)
     copy_worklist(&pplayer->worklists[i], &pinfo->worklists[i]);
 

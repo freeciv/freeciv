@@ -184,7 +184,7 @@ static int is_free_land(int x, int y, int who)
 {
   if( y < 0 || y >= map.ysize ||
       map_get_terrain(x,y) == T_OCEAN ||
-      is_enemy_unit_on_tile(x, y, who) )
+      is_non_allied_unit_tile(map_get_tile(x, y), who) )
     return 0;
   else
     return 1;
@@ -197,7 +197,7 @@ static int is_free_sea(int x, int y, int who)
 {
   if( y < 0 || y >= map.ysize ||
       map_get_terrain(x,y) != T_OCEAN ||
-      is_enemy_unit_on_tile(x, y, who) )
+      is_non_allied_unit_tile(map_get_tile(x, y), who) )
     return 0;
   else
     return 1;

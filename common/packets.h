@@ -89,6 +89,7 @@ enum packet_type {
   PACKET_INCITE_INQ,
   PACKET_INCITE_COST,
   PACKET_UNIT_UPGRADE,
+  PACKET_PLAYER_CANCEL_PACT,
   PACKET_RULESET_TECH,
   PACKET_RULESET_UNIT,
   PACKET_RULESET_BUILDING,
@@ -409,6 +410,8 @@ struct packet_player_info {
   int nation;
   int turn_done, nturns_idle;
   int is_alive;
+  int reputation;
+  struct player_diplstate diplstates[MAX_NUM_PLAYERS];
   int gold, tax, science, luxury;
   int researched;
   int researchpoints;

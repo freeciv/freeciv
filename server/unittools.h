@@ -17,11 +17,14 @@ struct city;
 struct player;
 struct unit;
 
-int can_unit_move_to_tile(struct unit *punit, int x, int y, int igzoc);
-int is_enemy_city_tile(int x, int y, int owner);
-int is_friendly_city_tile(int x, int y, int owner);
-int is_enemy_unit_tile(int x, int y, int owner);
-int is_friendly_unit_tile(int x, int y, int owner);
+int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc);
+struct city *is_enemy_city_tile(struct tile *ptile, int playerid);
+struct city *is_allied_city_tile(struct tile *ptile, int playerid);
+struct city *is_non_attack_city_tile(struct tile *ptile, int playerid);
+struct unit *is_allied_unit_tile(struct tile *ptile, int playerid);
+struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid);
+struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid);
+struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid);
 int is_my_zoc(struct unit *myunit, int x0, int y0);
 int zoc_ok_move(struct unit *punit,int x, int y);
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
@@ -53,7 +56,6 @@ int can_place_partisan(int x, int y);
 int enemies_at(struct unit *punit, int x, int y);
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,
 			  int verbose);
-struct unit *is_enemy_unit_on_tile(int x, int y, int owner);
 void resolve_unit_stack(int x, int y, int verbose);
 int is_airunit_refuel_point(int x, int y, int playerid,
 			    Unit_Type_id type, int unit_is_on_tile);

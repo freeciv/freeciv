@@ -15,7 +15,6 @@
 This module contains various general - mostly highlevel - functions
 used throughout the client.
 ***********************************************************************/
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -31,11 +30,14 @@ used throughout the client.
 #endif
 
 #include "astring.h"
+#include "diptreaty.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
 #include "city.h"
 #include "packets.h"
+#include "support.h"
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
@@ -314,4 +316,49 @@ void client_change_all(int x, int y)
       }
   }
   city_list_iterate_end;
+}
+
+/**************************************************************************
+Copy a string that describes the given clause into the return buffer.
+**************************************************************************/
+void client_diplomacy_clause_string(char *buf, int bufsiz,
+				    struct Clause *pclause)
+{
+  switch(pclause->type) {
+  case CLAUSE_ADVANCE:
+    my_snprintf(buf, bufsiz, _("The %s give %s"),
+		get_nation_name_plural(pclause->from->nation),
+		advances[pclause->value].name);
+    break;
+  case CLAUSE_CITY:
+    my_snprintf(buf, bufsiz, _("The %s give %s"),
+		get_nation_name_plural(pclause->from->nation),
+		find_city_by_id(pclause->value)->name);
+    break;
+  case CLAUSE_GOLD:
+    my_snprintf(buf, bufsiz, _("The %s give %d gold"),
+		get_nation_name_plural(pclause->from->nation),
+		pclause->value);
+    break;
+  case CLAUSE_MAP:
+    my_snprintf(buf, bufsiz, _("The %s give their worldmap"),
+		get_nation_name_plural(pclause->from->nation));
+    break;
+  case CLAUSE_SEAMAP:
+    my_snprintf(buf, bufsiz, _("The %s give their seamap"),
+		get_nation_name_plural(pclause->from->nation));
+    break;
+  case CLAUSE_CEASEFIRE:
+    my_snprintf(buf, bufsiz, _("The parties agree on a cease-fire"));
+    break;
+  case CLAUSE_PEACE:
+    my_snprintf(buf, bufsiz, _("The parties agree on a peace"));
+    break;
+  case CLAUSE_ALLIANCE:
+    my_snprintf(buf, bufsiz, _("The parties create an alliance"));
+    break;
+  default:
+    if (bufsiz > 0) *buf = '\0';
+    break;
+  }
 }

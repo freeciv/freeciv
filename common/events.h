@@ -51,6 +51,8 @@ enum {
   E_SPACESHIP,
   E_UPRISING,
   E_WORKLIST,
+  E_CANCEL_PACT,
+  E_DIPL_INCIDENT,
   /* Note:  If you add a new event, make sure you make a similar change to
      message_text in client/options.c
      */

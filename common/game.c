@@ -922,7 +922,7 @@ void game_renumber_players(int plrno)
     }
     city_list_iterate_end;
   }
-  
+
   if(game.player_idx>plrno) {
     game.player_idx--;
     game.player_ptr=&game.players[game.player_idx];
@@ -930,10 +930,19 @@ void game_renumber_players(int plrno)
   
   game.nplayers--;
   
+  for (i=0; i<game.nplayers; i++) {
+    struct player *pplayer = get_player(i);
+    int j;
+    for (j=plrno; j<game.nplayers-1; j++) {
+      pplayer->diplstates[j] = pplayer->diplstates[j+1];
+    }
+    pplayer->diplstates[game.nplayers-1].type = DS_NEUTRAL;
+    pplayer->diplstates[game.nplayers-1].has_reason_to_cancel = 0;
+  }
+    
   for(i=0; i<game.nplayers-1; ++i) {
     game.players[i].embassy=WIPEBIT(game.players[i].embassy, plrno);
   }
-  
 }
 
 /**************************************************************************

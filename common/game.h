@@ -298,6 +298,10 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqrb"
 
+#define GAME_DEFAULT_REPUTATION 1000
+#define GAME_MAX_REPUTATION 1000
+#define GAME_REPUTATION_INCR 2
+
 #define GAME_START_YEAR -4000
 
 #endif  /* FC__GAME_H */

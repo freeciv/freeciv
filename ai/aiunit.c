@@ -178,10 +178,11 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     x = punit->x; y = punit->y;
     for (i = -1; i <= 1; i++) {
       for (j = -1; j <= 1; j++) {
+	struct tile *ptile = map_get_tile(x + i, y + j);
         ok = (unit_flag(punit->type, F_TRIREME) ? 0 : 1);
         if (map_get_continent(x + i, y + j) == con &&
-	    !is_enemy_unit_tile(x + i, y + j, punit->owner) &&
-	    !map_get_city(x + i, y + j)) {
+	    !is_non_allied_unit_tile(ptile, punit->owner) &&
+	    (!ptile->city || is_allied_city_tile(ptile, punit->owner))) {
           cur = 0;
           for (a = i - 1; a <= i + 1; a++) {
             for (b = j - 1; b <= j + 1; b++) {
@@ -219,9 +220,11 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   best = 0;
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
-      if (map_get_continent(x, y) == con && map_get_known(x, y, pplayer) &&
-	  !is_enemy_unit_tile(x, y, punit->owner) && !map_get_city(x, y) &&
-	  tile_is_accessible(punit, x, y)) {
+      struct tile *ptile = map_get_tile(x,y);
+      if (map_get_continent(x, y) == con && map_get_known(x, y, pplayer)
+	  && !is_non_allied_unit_tile(ptile, punit->owner)
+	  && (!ptile->city || is_allied_city_tile(ptile, punit->owner))
+	  && tile_is_accessible(punit, x, y)) {
         cur = 0;
         for (a = -1; a <= 1; a++)
           for (b = -1; b <= 1; b++)
@@ -1684,7 +1687,7 @@ static int unit_can_be_retired(struct unit *punit)
     return 0;
   }
 
-  if( is_friendly_city_tile( punit->x, punit->y, punit->owner) )
+  if (is_allied_city_tile(map_get_tile(punit->x, punit->y), punit->owner))
     return 0;
 
   /* check if there is enemy nearby */
@@ -1693,8 +1696,8 @@ static int unit_can_be_retired(struct unit *punit)
       if( y < 0 || y > map.ysize )
         continue;
       x1 = map_adjust_x(x);
-      if( is_enemy_city_tile(x1,y,punit->owner) ||
-          is_enemy_unit_tile(x1,y,punit->owner) )
+      if (is_enemy_city_tile(map_get_tile(x1, y), punit->owner) ||
+          is_enemy_unit_tile(map_get_tile(x1, y), punit->owner))
         return 0;
     }
 

@@ -1342,6 +1342,9 @@ static void assign_region(int x, int y, int n, int d, int s)
   }
 }
 
+/**************************************************************************
+FIXME: we currently see even allies as neemies here in this routine
+**************************************************************************/
 static void assign_territory_player(struct player *pplayer)
 {
   int n = pplayer->player_no;

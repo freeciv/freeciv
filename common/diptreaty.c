@@ -61,7 +61,6 @@ int remove_clause(struct Treaty *ptreaty, struct player *pfrom,
 }
 
 
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -88,6 +87,14 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
       ptreaty->accept0=0;
       ptreaty->accept1=0;
       pclause->value=val;
+      return 1;
+    }
+    if(is_pact_clause(type) &&
+       is_pact_clause(pclause->type)) {
+      /* pact clause already there */
+      ptreaty->accept0=0;
+      ptreaty->accept1=0;
+      pclause->type=type;
       return 1;
     }
   }

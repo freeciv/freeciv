@@ -28,6 +28,7 @@ void handle_player_ai_options(struct player *pplayer,
 void handle_player_rates(struct player *pplayer, 
 			 struct packet_player_request *preq);
 void check_player_government_rates(struct player *pplayer);
+void handle_player_cancel_pact(struct player *pplayer, int other_player);
 
 void send_player_info(struct player *src, struct player *dest);
 

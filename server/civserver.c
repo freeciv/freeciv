@@ -762,6 +762,44 @@ static void update_pollution(void)
 }
 
 /**************************************************************************
+ check for cease-fires running out; update reputation; update cancelling
+ reasons
+**************************************************************************/
+static void update_diplomatics()
+{
+  int p, p2;
+
+  for(p = 0; p < game.nplayers; p++) {
+    for(p2 = 0; p2 < game.nplayers; p2++) {
+      game.players[p].diplstates[p2].has_reason_to_cancel =
+	MAX(game.players[p].diplstates[p2].has_reason_to_cancel - 1, 0);
+
+      if(game.players[p].diplstates[p2].type == DS_CEASEFIRE) {
+	switch(--game.players[p].diplstates[p2].turns_left) {
+	case 1:
+	  notify_player(&game.players[p],
+			_("Game: Concerned citizens point "
+			  "out that the cease-fire with %s will run out soon."),
+			game.players[p2].name);
+	  break;
+	case -1:
+	  notify_player(&game.players[p],
+			_("Game: The cease-fire with %s has "
+			  "run out. You are now neutral towards the %s."),
+			game.players[p2].name,
+			get_nation_name_plural(game.players[p2].nation));
+	  game.players[p].diplstates[p2].type = DS_NEUTRAL;
+	  break;
+	}
+      }
+      game.players[p].reputation =
+	MIN(game.players[p].reputation + GAME_REPUTATION_INCR,
+	    GAME_MAX_REPUTATION);
+    }
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void before_end_year(void)
@@ -834,6 +872,7 @@ static int end_turn(void)
     send_player_cities(&game.players[i]);
   }
   update_pollution();
+  update_diplomatics();
   do_apollo_program();
   make_history_report();
   freelog(LOG_DEBUG, "Turn ended.");
@@ -1121,6 +1160,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   case PACKET_UNIT_PARADROP_TO:
     handle_unit_paradrop_to(pplayer, (struct packet_unit_request *)packet);
+    break;
+  case PACKET_PLAYER_CANCEL_PACT:
+    handle_player_cancel_pact(pplayer,
+			      ((struct packet_generic_integer *)packet)->value);
     break;
   case PACKET_UNIT_CONNECT:
     handle_unit_connect(pplayer, (struct packet_unit_connect *)packet);

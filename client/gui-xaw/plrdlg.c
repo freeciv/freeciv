@@ -53,6 +53,7 @@ static Widget players_list;
 static Widget players_close_command;
 static Widget players_int_command;
 static Widget players_meet_command;
+static Widget players_war_command;
 static Widget players_sship_command;
 
 static int list_index_to_player_index[MAX_NUM_PLAYERS];
@@ -67,6 +68,8 @@ static void players_intel_callback(Widget w, XtPointer client_data,
 				   XtPointer call_data);
 static void players_list_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data);
+static void players_war_callback(Widget w, XtPointer client_data, 
+				 XtPointer call_data);
 static void players_sship_callback(Widget w, XtPointer client_data, 
 				   XtPointer call_data);
 
@@ -124,6 +127,12 @@ void create_players_dialog(void)
 				XtNsensitive, False,
 				NULL));
 
+  players_war_command =
+    I_L(XtVaCreateManagedWidget("playerswarcommand", commandWidgetClass,
+				players_form,
+				XtNsensitive, False,
+				NULL));
+
   players_sship_command =
     I_L(XtVaCreateManagedWidget("playerssshipcommand", commandWidgetClass,
 				players_form,
@@ -140,6 +149,9 @@ void create_players_dialog(void)
 		NULL);
   
   XtAddCallback(players_int_command, XtNcallback, players_intel_callback, 
+		NULL);
+
+  XtAddCallback(players_war_command, XtNcallback, players_war_callback, 
 		NULL);
 
   XtAddCallback(players_sship_command, XtNcallback, players_sship_callback, 
@@ -166,19 +178,24 @@ void update_players_dialog(void)
     Dimension width;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
+    const struct player_diplstate *pds;
 
     for(i=0,j=0; i<game.nplayers; i++) {
-      char idlebuf[32], statebuf[32], namebuf[32];
+      char idlebuf[32], statebuf[32], namebuf[32], dsbuf[32], repbuf[32];
       
+      /* skip barbarians */
       if(is_barbarian(&game.players[i]))
         continue;
+
+      /* text for idleness */
       if(game.players[i].nturns_idle>3) {
 	my_snprintf(idlebuf, sizeof(idlebuf), _("(idle %d turns)"),
 		    game.players[i].nturns_idle-1);
       } else {
 	idlebuf[0]='\0';
       }
-      
+
+      /* text for state */
       if(game.players[i].is_alive) {
 	if(game.players[i].is_connected) {
 	  if(game.players[i].turn_done)
@@ -191,17 +208,40 @@ void update_players_dialog(void)
       }
       else
 	sz_strlcpy(statebuf, _("R.I.P"));
-       
+
+      /* text for name, plus AI marker */       
       if(game.players[i].ai.control)
 	my_snprintf(namebuf, sizeof(namebuf), "*%-15s",game.players[i].name);
       else
         my_snprintf(namebuf, sizeof(namebuf), "%-16s",game.players[i].name);
       namebuf[16] = '\0';
+
+      /* text for diplstate type and turns -- not applicable if this is me */
+      if (i == game.player_idx) {
+	strcpy(dsbuf, "-");
+      } else {
+	pds = player_get_diplstate(game.player_idx, i);
+	if (pds->type == DS_CEASEFIRE) {
+	  my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
+		      diplstate_text(pds->type), pds->turns_left);
+	} else {
+	  my_snprintf(dsbuf, sizeof(dsbuf), "%s",
+		      diplstate_text(pds->type));
+	}
+      }
+
+      /* text for reputation */
+      my_snprintf(repbuf, sizeof(repbuf),
+		  reputation_text(game.players[i].reputation));
+
+      /* assemble the whole lot */
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
-	      "%-16s %-12s    %c     %-6s   %-15s%s", 
+	      "%-16s %-12s    %c     %-15s %-13s %-6s   %-15s%s", 
 	      namebuf,
 	      get_nation_name(game.players[i].nation), 
 	      player_has_embassy(game.player_ptr, &game.players[i]) ? 'X':' ',
+	      dsbuf,
+	      repbuf,
 	      statebuf,
 	      game.players[i].addr, 
 	      idlebuf);
@@ -237,6 +277,14 @@ void players_list_callback(Widget w, XtPointer client_data,
       XtSetSensitive(players_sship_command, TRUE);
     else
       XtSetSensitive(players_sship_command, FALSE);
+
+    if(pplayer->is_alive) {
+      if (players_at_war(game.player_idx, player_index) ||
+	  game.player_idx == player_index)
+	XtSetSensitive(players_war_command, FALSE);
+      else
+	XtSetSensitive(players_war_command, TRUE);
+    }
 
     if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
       if(pplayer->is_connected)
@@ -311,6 +359,23 @@ void players_intel_callback(Widget w, XtPointer client_data,
     int player_index = list_index_to_player_index[ret->list_index];
     if(player_has_embassy(game.player_ptr, &game.players[player_index]))
       popup_intel_dialog(&game.players[player_index]);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void players_war_callback(Widget w, XtPointer client_data, 
+                          XtPointer call_data)
+{
+  XawListReturnStruct *ret;
+  
+  ret=XawListShowCurrent(players_list);
+  if(ret->list_index!=XAW_LIST_NONE) {
+    struct packet_generic_integer pa;    
+    pa.value=ret->list_index;
+    send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+				&pa);
   }
 }
 

@@ -16,7 +16,11 @@
 #include "genlist.h"
 
 enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
-		   CLAUSE_SEAMAP, CLAUSE_CITY};
+		   CLAUSE_SEAMAP, CLAUSE_CITY, 
+		   CLAUSE_CEASEFIRE, CLAUSE_PEACE, CLAUSE_ALLIANCE };
+
+#define is_pact_clause(x) \
+  ((x == CLAUSE_CEASEFIRE) || (x == CLAUSE_PEACE) || (x == CLAUSE_ALLIANCE))
 
 struct Clause {
   enum clause_type type;

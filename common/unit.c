@@ -14,10 +14,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>		/* free */
 #include <string.h>
-#include <assert.h>
 
 #include "astring.h"
 #include "fcintl.h"
@@ -155,12 +155,13 @@ int is_diplomat_action_available(struct unit *pdiplomat,
 				 int destx, int desty)
 {
   struct city *pcity=map_get_city(destx, desty);
+  int playerid = pdiplomat->owner;
 
   if(pcity) {  
     if(pcity->owner!=pdiplomat->owner &&
        real_map_distance(pdiplomat->x, pdiplomat->y, pcity->x, pcity->y) <= 1) {
       if(action==DIPLOMAT_SABOTAGE)
-        return 1;
+        return players_at_war(playerid, pcity->owner);
       if(action==DIPLOMAT_EMBASSY &&
 	 !is_barbarian(&game.players[pcity->owner]) &&
 	 !player_has_embassy(&game.players[pdiplomat->owner], 
@@ -169,35 +170,43 @@ int is_diplomat_action_available(struct unit *pdiplomat,
       if(action==SPY_POISON &&
 	 pcity->size>1 &&
 	 unit_flag(pdiplomat->type, F_SPY))
-        return 1;
+        return players_at_war(playerid, pcity->owner);
       if(action==DIPLOMAT_INVESTIGATE)
         return 1;
       if(action==DIPLOMAT_STEAL && !is_barbarian(&game.players[pcity->owner]))
         return 1;
       if(action==DIPLOMAT_INCITE)
-        return 1;
+        return !players_allied(pcity->owner, pdiplomat->owner);
       if(action==DIPLOMAT_ANY_ACTION)
         return 1;
       if (action==SPY_GET_SABOTAGE_LIST && unit_flag(pdiplomat->type, F_SPY))
-	return 1;
+	return players_at_war(playerid, pcity->owner);
     }
-  } else {
-    struct tile *ptile=map_get_tile(destx, desty);
-    if((action==SPY_SABOTAGE_UNIT || action==DIPLOMAT_ANY_ACTION) &&
-       unit_list_size(&ptile->units)==1 &&
-       unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner &&
-       unit_flag(pdiplomat->type, F_SPY))
-      return 1;
-    if((action==DIPLOMAT_BRIBE || action==DIPLOMAT_ANY_ACTION) &&
-       unit_list_size(&ptile->units)==1 &&
-       unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner)
-      return 1;
+  } else { /* Action against a unit at a tile */
+    /* If it is made possible to do action against allied units
+       handle_unit_move_request() should be changed so that pdefender
+       is also set to allied units */
+    struct tile *ptile = map_get_tile(destx, desty);
+    struct unit *punit;
+
+    if ((action==SPY_SABOTAGE_UNIT || action==DIPLOMAT_ANY_ACTION) &&
+	unit_list_size(&ptile->units)==1 &&
+	unit_flag(pdiplomat->type, F_SPY)) {
+      punit = unit_list_get(&ptile->units, 0);
+      return players_at_war(playerid, punit->owner);
+    }
+
+    if ((action==DIPLOMAT_BRIBE || action==DIPLOMAT_ANY_ACTION) &&
+	unit_list_size(&ptile->units)==1) {
+      punit = unit_list_get(&ptile->units, 0);
+      return !players_allied(punit->owner, pdiplomat->owner);
+    }
   }
   return 0;
 }
 
 /**************************************************************************
-...
+FIXME: Maybe we should allow airlifts between allies
 **************************************************************************/
 int unit_can_airlift_to(struct unit *punit, struct city *pcity)
 {
@@ -432,7 +441,7 @@ int utype_gold_cost(struct unit_type *ut, struct government *g)
 **************************************************************************/
 int is_ground_threat(struct player *pplayer, struct unit *punit)
 {
-  return ((pplayer->player_no != punit->owner)
+  return (players_at_war(pplayer->player_no, punit->owner)
 	  && (unit_flag(punit->type, F_DIPLOMAT)
 	      || (is_ground_unit(punit)
 		  && is_military_unit(punit))));
@@ -645,6 +654,8 @@ int can_unit_add_to_city(struct unit *punit)
   if(!pcity)
     return 0;
   if(pcity->size > game.add_to_size_limit)
+    return 0;
+  if(pcity->owner != punit->owner)
     return 0;
 
   if(improvement_exists(B_AQUEDUCT)

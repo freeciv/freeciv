@@ -229,6 +229,8 @@ Return a pointer to a visible unit, if there is one.
 **************************************************************************/
 struct unit *find_visible_unit(struct tile *ptile)
 {
+  struct unit *panyowned = NULL, *panyother = NULL, *ptptother = NULL;
+
   if(unit_list_size(&ptile->units)==0) return NULL;
 
   /* If a unit is attacking we should show that on top */
@@ -252,19 +254,30 @@ struct unit *find_visible_unit(struct tile *ptile)
     unit_list_iterate_end;
   }
 
-  /* If there is a transporter in the stack we will show that on top */
+  /* Iterate through the units to find the best one we prioritize this way:
+       1: owned transporter.
+       2: any owned unit
+       3: any transporter
+       4: any unit
+     (always return first in stack). */
   unit_list_iterate(ptile->units, punit)
-    if (get_transporter_capacity(punit) &&
-	player_can_see_unit(game.player_ptr, punit))
-      return punit;
+    if (unit_owner(punit) == game.player_ptr) {
+      if (get_transporter_capacity(punit)) {
+	return punit;
+      } else if (!panyowned) {
+	panyowned = punit;
+      }
+    } else if (!ptptother &&
+	       player_can_see_unit(game.player_ptr, punit)) {
+      if (get_transporter_capacity(punit)) {
+	ptptother = punit;
+      } else if (!panyother) {
+	panyother = punit;
+      }
+    }
   unit_list_iterate_end;
 
-  /* Else just return the first unit we can see */
-  unit_list_iterate(ptile->units, punit)
-    if(player_can_see_unit(game.player_ptr, punit)) return punit;
-  unit_list_iterate_end;
-
-  return NULL;
+  return (panyowned ? panyowned : (ptptother ? ptptother : panyother));
 }
 
 /**************************************************************************
@@ -931,8 +944,12 @@ void do_map_click(int xtile, int ytile)
     }
   }
   else if(unit_list_size(&ptile->units)>=2) {
-    if(unit_list_get(&ptile->units, 0)->owner==game.player_idx)
-      popup_unit_select_dialog(ptile);
+    unit_list_iterate(ptile->units, punit)
+      if (punit->owner == game.player_idx) {
+	popup_unit_select_dialog(ptile);
+	return;
+      }
+    unit_list_iterate_end;
   }
 }
 

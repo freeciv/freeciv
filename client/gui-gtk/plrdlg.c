@@ -44,6 +44,7 @@ static GtkWidget *players_list;
 static GtkWidget *players_close_command;
 static GtkWidget *players_int_command;
 static GtkWidget *players_meet_command;
+static GtkWidget *players_war_command;
 static GtkWidget *players_sship_command;
 
 static int list_index_to_player_index[MAX_NUM_PLAYERS];
@@ -52,11 +53,13 @@ static int list_index_to_player_index[MAX_NUM_PLAYERS];
 static void create_players_dialog(void);
 static void players_button_callback(GtkWidget *w, gpointer data);
 static void players_meet_callback(GtkWidget *w, gpointer data);
+static void players_war_callback(GtkWidget *w, gpointer data);
 static void players_intel_callback(GtkWidget *w, gpointer data);
 static void players_list_callback(GtkWidget *w, gint row, gint column);
 static void players_list_ucallback(GtkWidget *w, gint row, gint column);
 static void players_sship_callback(GtkWidget *w, gpointer data);
 
+#define NUM_COLOUMS 8
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
@@ -77,13 +80,14 @@ void popup_players_dialog(void)
 *****************************************************************/
 void create_players_dialog(void)
 {
-  static gchar *titles_[6] = { N_("Name"), N_("Race"), N_("Embassy"),
+  static gchar *titles_[NUM_COLOUMS] = { N_("Name"), N_("Race"), N_("Embassy"),
+			       N_("Dipl.State"), N_("Reputation"),
 			       N_("State"), N_("Host"), N_("Idle") };
   static gchar **titles;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
-  if (!titles) titles = intl_slist(6, titles_);
+  if (!titles) titles = intl_slist(NUM_COLOUMS, titles_);
 
   players_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(players_dialog_shell),"delete_event",
@@ -92,10 +96,10 @@ void create_players_dialog(void)
 
   gtk_window_set_title(GTK_WINDOW(players_dialog_shell), _("Players"));
 
-  players_list=gtk_clist_new_with_titles(6, titles);
+  players_list=gtk_clist_new_with_titles(NUM_COLOUMS, titles);
   gtk_clist_column_titles_passive(GTK_CLIST(players_list));
 
-  for(i=0; i<6; i++)
+  for(i=0; i<NUM_COLOUMS; i++)
     gtk_clist_set_column_auto_resize (GTK_CLIST (players_list), i, TRUE);
 
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox),
@@ -119,6 +123,12 @@ void create_players_dialog(void)
 	players_meet_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(players_meet_command, GTK_CAN_DEFAULT);
 
+  players_war_command=gtk_accelbutton_new(_("_Cancel Treaty"), accel);
+  gtk_widget_set_sensitive(players_war_command, FALSE);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
+	players_war_command, TRUE, TRUE, 0);
+  GTK_WIDGET_SET_FLAGS(players_war_command, GTK_CAN_DEFAULT);
+
   players_sship_command=gtk_accelbutton_new(_("_Spaceship"), accel);
   gtk_widget_set_sensitive(players_sship_command, FALSE);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
@@ -127,6 +137,7 @@ void create_players_dialog(void)
 
   gtk_signal_connect(GTK_OBJECT(players_list), "select_row",
 		GTK_SIGNAL_FUNC(players_list_callback), NULL);
+
   gtk_signal_connect(GTK_OBJECT(players_list), "unselect_row",
 		GTK_SIGNAL_FUNC(players_list_ucallback), NULL);
   
@@ -135,6 +146,9 @@ void create_players_dialog(void)
 
   gtk_signal_connect(GTK_OBJECT(players_meet_command), "clicked",
 		GTK_SIGNAL_FUNC(players_meet_callback), NULL);
+
+  gtk_signal_connect(GTK_OBJECT(players_war_command), "clicked",
+		GTK_SIGNAL_FUNC(players_war_callback), NULL);
 
   gtk_signal_connect(GTK_OBJECT(players_int_command), "clicked",
 		GTK_SIGNAL_FUNC(players_intel_callback), NULL);
@@ -159,23 +173,27 @@ void update_players_dialog(void)
 {
    if(players_dialog_shell) {
     int i,j;
-    char *row[6];
+    char *row[NUM_COLOUMS];
+    const struct player_diplstate *pds;
 
     gtk_clist_freeze(GTK_CLIST(players_list));
     gtk_clist_clear(GTK_CLIST(players_list));
 
     for(i=0,j=0; i<game.nplayers; i++) {
-      char idlebuf[32], statebuf[32], namebuf[32];
-      
+      char idlebuf[32], statebuf[32], namebuf[32], dsbuf[32], repbuf[32];      
+
+      /* skip barbarians */
       if(is_barbarian(&game.players[i]))
         continue;
+      /* text for idleness */
       if(game.players[i].nturns_idle>3) {
 	my_snprintf(idlebuf, sizeof(idlebuf), _("(idle %d turns)"),
 		    game.players[i].nturns_idle-1);
       } else {
 	idlebuf[0]='\0';
       }
-      
+
+      /* text for state */
       if(game.players[i].is_alive) {
 	if(game.players[i].is_connected) {
 	  if(game.players[i].turn_done)
@@ -189,17 +207,39 @@ void update_players_dialog(void)
       else
 	sz_strlcpy(statebuf, _("R.I.P"));
 
+      /* text for name, plus AI marker */ 
       if(game.players[i].ai.control)
 	my_snprintf(namebuf, sizeof(namebuf), "*%-15s", game.players[i].name);
       else
 	my_snprintf(namebuf, sizeof(namebuf), "%-16s", game.players[i].name);
 
+      /* text for diplstate type and turns -- not applicable if this is me */
+      if (i == game.player_idx) {
+	strcpy(dsbuf, "-");
+      } else {
+	pds = player_get_diplstate(game.player_idx, i);
+	if (pds->type == DS_CEASEFIRE) {
+	  my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
+		      diplstate_text(pds->type), pds->turns_left);
+	} else {
+	  my_snprintf(dsbuf, sizeof(dsbuf), "%s",
+		      diplstate_text(pds->type));
+	}
+      }
+
+      /* text for reputation */
+      my_snprintf(repbuf, sizeof(repbuf),
+		  reputation_text(game.players[i].reputation));
+
+      /* assemble the whole lot */
       row[0] = namebuf;
       row[1] = get_nation_name(game.players[i].nation);
       row[2] = player_has_embassy(game.player_ptr, &game.players[i]) ? "X":" ";
-      row[3] = statebuf;
-      row[4] = game.players[i].addr;
-      row[5] = idlebuf;
+      row[3] = dsbuf;
+      row[4] = repbuf;
+      row[5] = statebuf;
+      row[6] = game.players[i].addr;
+      row[7] = idlebuf;
 
       gtk_clist_append(GTK_CLIST(players_list), row);
 
@@ -220,19 +260,25 @@ void players_list_callback(GtkWidget *w, gint row, gint column)
   int player_index = list_index_to_player_index[row];
   struct player *pplayer = &game.players[player_index];
 
-    if(pplayer->spaceship.state != SSHIP_NONE)
-      gtk_widget_set_sensitive(players_sship_command, TRUE);
-    else
-      gtk_widget_set_sensitive(players_sship_command, FALSE);
+  if(pplayer->spaceship.state != SSHIP_NONE)
+    gtk_widget_set_sensitive(players_sship_command, TRUE);
+  else
+    gtk_widget_set_sensitive(players_sship_command, FALSE);
 
-    if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
-      if(pplayer->is_connected)
-	gtk_widget_set_sensitive(players_meet_command, TRUE);
-      else
-	gtk_widget_set_sensitive(players_meet_command, FALSE);
-      gtk_widget_set_sensitive(players_int_command, TRUE);
-      return;
-    }
+  if (!players_at_war(game.player_idx, player_index)
+      && game.player_idx != player_index)
+    gtk_widget_set_sensitive(players_war_command, TRUE);
+  else
+    gtk_widget_set_sensitive(players_war_command, FALSE);
+
+  if(pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer)) {
+    if(pplayer->is_connected)
+      gtk_widget_set_sensitive(players_meet_command, TRUE);
+    else
+      gtk_widget_set_sensitive(players_meet_command, FALSE);
+    gtk_widget_set_sensitive(players_int_command, TRUE);
+    return;
+  }
 
   gtk_widget_set_sensitive(players_meet_command, FALSE);
   gtk_widget_set_sensitive(players_int_command, FALSE);
@@ -278,6 +324,29 @@ void players_meet_callback(GtkWidget *w, gpointer data)
   }
   else {
     append_output_window(_("Game: You need an embassy to establish a diplomatic meeting."));
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void players_war_callback(GtkWidget *w, gpointer data)
+{
+  GList *selection = GTK_CLIST(players_list)->selection;
+  gint row;
+  int player_index;
+
+  if (!selection)
+    return;
+  else {
+    struct packet_generic_integer pa;    
+
+    row = (gint)selection->data;
+    player_index = list_index_to_player_index[row];
+
+    pa.value = player_index;
+    send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+				&pa);
   }
 }
 

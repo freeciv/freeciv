@@ -199,6 +199,33 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  }
 	  break;
 	}
+	case CLAUSE_CEASEFIRE:
+	  pgiver->diplstates[pdest->player_no].type=DS_CEASEFIRE;
+	  pgiver->diplstates[pdest->player_no].turns_left=16;
+	  pdest->diplstates[pgiver->player_no].type=DS_CEASEFIRE;
+	  pdest->diplstates[pgiver->player_no].turns_left=16;
+	  notify_player(pgiver, _("Game: You agree on a cease-fire with %s."),
+			pdest->name);
+	  notify_player(pdest, _("Game: You agree on a cease-fire with %s."),
+			pgiver->name);
+	  break;
+	case CLAUSE_PEACE:
+	  pgiver->diplstates[pdest->player_no].type=DS_PEACE;
+	  pdest->diplstates[pgiver->player_no].type=DS_PEACE;
+	  notify_player(pgiver, _("Game: You agree on peace with %s."),
+			pdest->name);
+	  notify_player(pdest, _("Game: You agree on peace with %s."),
+			pgiver->name);    
+	  break;
+	case CLAUSE_ALLIANCE:
+	  pgiver->diplstates[pdest->player_no].type=DS_ALLIANCE;
+	  pdest->diplstates[pgiver->player_no].type=DS_ALLIANCE;
+	  notify_player(pgiver, _("Game: You agree on an alliance with %s."),
+			pdest->name);
+	  notify_player(pdest, _("Game: You agree on an alliance with %s."),
+			pgiver->name);
+	  break;          
+
 	}
 	
       }

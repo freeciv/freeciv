@@ -1765,9 +1765,7 @@ void check_player_government_rates(struct player *pplayer)
 {
   struct player_economic old_econ = pplayer->economic;
   int changed = FALSE;
-
   player_limit_to_government_rates(pplayer);
-
   if (pplayer->economic.tax != old_econ.tax) {
     changed = TRUE;
     notify_player(pplayer,
@@ -1795,9 +1793,129 @@ void check_player_government_rates(struct player *pplayer)
 }
 
 /**************************************************************************
+Handles a player cancelling a "pact" with another player.
+(It is a fatal error to call this when in a non-pact diplstate.)
+**************************************************************************/
+void handle_player_cancel_pact(struct player *pplayer, int other_player)
+{
+  enum diplstate_type old_type = pplayer->diplstates[other_player].type;
+  enum diplstate_type new_type;
+  struct player *pplayer2 = &game.players[other_player];
+  int reppenalty;
+  int has_senate =
+    government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
+
+  /* can't break a pact with yourself */
+  if (pplayer == pplayer2)
+    return;
+
+  /* check what the new status will be, and what will happen to our
+     reputation */
+  switch(old_type) {
+  case DS_CEASEFIRE:
+    new_type = DS_WAR;
+    reppenalty = GAME_MAX_REPUTATION/6;
+    break;
+  case DS_PEACE:
+    new_type = DS_WAR;
+    reppenalty = GAME_MAX_REPUTATION/5;
+    break;
+  case DS_ALLIANCE:
+    new_type = DS_PEACE;
+    reppenalty = GAME_MAX_REPUTATION/4;
+    break;
+  default:
+    freelog(LOG_FATAL, "non-pact diplstate in handle_player_cancel_pact");
+    abort();
+  }
+
+  /* if there's a reason to cancel the pact, do it without penalty */
+  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel) {
+    pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
+    if (has_senate)
+      notify_player(pplayer, _("The senate passes your bill because of the "
+			       "constant provocations of the %s."),
+		    get_nation_name_plural(pplayer2->nation));
+  }
+  /* no reason to cancel, apply penalty (and maybe suffer a revolution) */
+  /* FIXME: according to civII rules, republics and democracies
+     have different chances of revolution; maybe we need to
+     extend the govt rulesets to mimic this -- pt */
+  else {
+    pplayer->reputation = MAX(pplayer->reputation - reppenalty, 0);
+    notify_player(pplayer, _("Game: Your reputation is now %s."),
+		  reputation_text(pplayer->reputation));
+    if (has_senate) {
+      if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
+	notify_player(pplayer, _("Game: The senate decides to dissolve "
+				 "rather than support your actions any longer."));
+	handle_player_revolution(pplayer);
+      }
+    }
+  }
+
+  /* do the change */
+  pplayer->diplstates[pplayer2->player_no].type =
+    pplayer2->diplstates[pplayer->player_no].type =
+    new_type;
+  pplayer->diplstates[pplayer2->player_no].turns_left =
+    pplayer2->diplstates[pplayer->player_no].turns_left =
+    16;
+
+  send_player_info(pplayer, 0);
+  send_player_info(pplayer2, 0);
+
+  /* If the old state was alliance the players' units can share tiles
+     illegally, and we need to call resolve_unit_stack() on all the players'
+     units. We can't just iterate through the unitlist as it could get
+     corrupted when resolve_unit_stack() deletes units. */
+  if (old_type == DS_ALLIANCE) {
+    int *resolve_list = NULL;
+    int tot_units = unit_list_size(&(pplayer->units))
+      + unit_list_size(&(pplayer2->units));
+    int no_units = unit_list_size(&(pplayer->units));
+    int i;
+
+    if (tot_units > 0)
+      resolve_list = fc_malloc(tot_units * 2 * sizeof(int));
+    i = 0;
+    unit_list_iterate(pplayer->units, punit) {
+      resolve_list[i]   = punit->x;
+      resolve_list[i+1] = punit->y;
+      i += 2;
+    } unit_list_iterate_end;
+
+    no_units = unit_list_size(&(pplayer2->units));
+    unit_list_iterate(pplayer2->units, punit) {
+      resolve_list[i]   = punit->x;
+      resolve_list[i+1] = punit->y;
+      i += 2;
+    } unit_list_iterate_end;
+
+    if (resolve_list) {
+      for (i = 0; i < tot_units * 2; i += 2)
+	resolve_unit_stack(resolve_list[i], resolve_list[i+1], 1);
+      free(resolve_list);
+    }
+  }
+
+  notify_player(pplayer,
+		_("Game: There's now %s between the %s and the %s."),
+		diplstate_text(new_type),
+		get_nation_name_plural(pplayer->nation),
+		get_nation_name_plural(pplayer2->nation));
+  notify_player_ex(pplayer2, 0, 0, E_CANCEL_PACT,
+		   _("Game: %s cancelled the pact! There's now %s between "
+		     "the %s and the %s."),
+		   pplayer->name,
+		   diplstate_text(new_type),
+		   get_nation_name_plural(pplayer2->nation),
+		   get_nation_name_plural(pplayer->nation));
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
-
 void notify_player_ex(const struct player *pplayer, int x, int y,
 		      int event, const char *format, ...) 
 {
@@ -1927,6 +2045,14 @@ void send_player_info(struct player *src, struct player *dest)
 	     info.embassy=game.players[i].embassy;             
              info.city_style=game.players[i].city_style;
 
+	     info.reputation=game.players[i].reputation;
+	     for(j=0; j<MAX_NUM_PLAYERS; j++) {
+	       info.diplstates[j].type=game.players[i].diplstates[j].type;
+	       info.diplstates[j].turns_left=game.players[i].diplstates[j].turns_left;
+	       info.diplstates[j].has_reason_to_cancel =
+		 game.players[i].diplstates[j].has_reason_to_cancel;
+	     }
+
 	     info.researched=game.players[i].research.researched;
              info.researchpoints=game.players[i].research.researchpoints;
              info.researching=game.players[i].research.researching;
@@ -2041,6 +2167,21 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
   for(i=0; i<game.num_tech_types; i++)
     set_invention(plr, i, (p[i]=='1') ? TECH_KNOWN : TECH_UNKNOWN);
+
+  plr->reputation=secfile_lookup_int_default(file, GAME_DEFAULT_REPUTATION,
+					     "player%d.reputation", plrno);
+  for(i=0; i<MAX_NUM_PLAYERS; i++) {
+    plr->diplstates[i].type = 
+      secfile_lookup_int_default(file, DS_NEUTRAL,
+				 "player%d.diplstate%d.type", plrno, i);
+    plr->diplstates[i].turns_left = 
+      secfile_lookup_int_default(file, 0,
+				 "player%d.diplstate%d.turns_left", plrno, i);
+    plr->diplstates[i].has_reason_to_cancel = 
+      secfile_lookup_int_default(file, 0,
+				 "player%d.diplstate%d.has_reason_to_cancel",
+				 plrno, i);
+  }
   
   if (has_capability("spacerace", savefile_options)) {
     struct player_spaceship *ship = &plr->spaceship;
@@ -2541,6 +2682,16 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     invs[i]=(get_invention(plr, i)==TECH_KNOWN) ? '1' : '0';
   invs[i]='\0';
   secfile_insert_str(file, invs, "player%d.invs", plrno);
+
+  secfile_insert_int(file, plr->reputation, "player%d.reputation", plrno);
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    secfile_insert_int(file, plr->diplstates[i].type,
+		       "player%d.diplstate%d.type", plrno, i);
+    secfile_insert_int(file, plr->diplstates[i].turns_left,
+		       "player%d.diplstate%d.turns_left", plrno, i);
+    secfile_insert_int(file, plr->diplstates[i].has_reason_to_cancel,
+		       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
+  }
   
   secfile_insert_int(file, ship->state, "player%d.spaceship.state", plrno);
 

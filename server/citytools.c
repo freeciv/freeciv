@@ -608,8 +608,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 
   /* Transfer enemy units in the city to the new owner */
   unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
-    /* 000608 wegge Dont transfer units already owned by new city-owner */ 
-    if (unit_owner(vunit) != pplayer && pcity) {
+    /* Dont transfer units already owned by new city-owner --wegge */ 
+    if (unit_owner(vunit) == pvictim && pcity) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
       if (verbose) {

@@ -32,6 +32,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "diptreaty.h"
 #include "gui_stuff.h"
@@ -63,7 +64,8 @@ struct Diplomacy_dialog {
   GtkWidget *dip_gold_frame1;
   GtkWidget *dip_gold_entry0;
   GtkWidget *dip_gold_entry1;
-  
+  GtkWidget *dip_pact_menu;
+
   GtkWidget *dip_label;
   GtkWidget *dip_clauselabel;
   GtkWidget *dip_clauselist;
@@ -94,6 +96,9 @@ void diplomacy_dialog_erase_clause_callback(GtkWidget *w, gpointer data);
 void diplomacy_dialog_accept_callback(GtkWidget *w, gpointer data);
 void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data);
 void diplomacy_dialog_city_callback(GtkWidget *w, gpointer data);
+void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data);
+void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data);
+void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data);
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static gint diplomacy_dialog_mbutton_callback(GtkWidget *w, GdkEvent *event);
@@ -402,7 +407,36 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox1),
 	pdialog->dip_gold_frame1, FALSE,FALSE,2);
 
-  
+
+  /* Start of pact button insertion */
+
+  pdialog->dip_pact_menu=gtk_menu_new();
+
+  item=gtk_menu_item_new_with_label(_("Cease-fire"));
+  gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu),item);
+  gtk_signal_connect(GTK_OBJECT(item),"activate",
+	GTK_SIGNAL_FUNC(diplomacy_dialog_ceasefire_callback),(gpointer)pdialog);
+
+  item=gtk_menu_item_new_with_label(_("Peace"));
+  gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu),item);
+  gtk_signal_connect(GTK_OBJECT(item),"activate",
+	GTK_SIGNAL_FUNC(diplomacy_dialog_peace_callback),(gpointer)pdialog);
+
+  item=gtk_menu_item_new_with_label(_("Allience"));
+  gtk_menu_append(GTK_MENU(pdialog->dip_pact_menu),item);
+  gtk_signal_connect(GTK_OBJECT(item),"activate",
+	GTK_SIGNAL_FUNC(diplomacy_dialog_alliance_callback),(gpointer)pdialog);
+
+  gtk_widget_show_all(pdialog->dip_pact_menu);
+
+  button=gtk_button_new_with_label(_("Pacts"));
+  gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox0),button, FALSE,FALSE,2);
+  gtk_signal_connect_object(GTK_OBJECT(button), "event",
+	GTK_SIGNAL_FUNC(diplomacy_dialog_mbutton_callback),
+	GTK_OBJECT(pdialog->dip_pact_menu));
+
+  /* End of pact button insertion */
+
   my_snprintf(buf, sizeof(buf),
 	       _("This Eternal Treaty\n"
 		 "marks the results of the diplomatic work between\n"
@@ -507,32 +541,7 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   
   for(i=0; i<MAX_NUM_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
-    
-    switch(pclause->type) {
-     case CLAUSE_ADVANCE:
-      my_snprintf(buf, sizeof(buf), _("The %s give %s"),
-	      get_nation_name_plural(pclause->from->nation),
-	      advances[pclause->value].name);
-      break;
-    case CLAUSE_CITY:
-      my_snprintf(buf, sizeof(buf), _("The %s give %s"),
-	      get_nation_name_plural(pclause->from->nation),
-	      find_city_by_id(pclause->value)->name);
-      break;
-     case CLAUSE_GOLD:
-      my_snprintf(buf, sizeof(buf), _("The %s give %d gold"),
-	      get_nation_name_plural(pclause->from->nation),
-	      pclause->value);
-      break;
-     case CLAUSE_MAP: 
-      my_snprintf(buf, sizeof(buf), _("The %s give their worldmap"),
-	      get_nation_name_plural(pclause->from->nation));
-      break;
-     case CLAUSE_SEAMAP: 
-      my_snprintf(buf, sizeof(buf), _("The %s give their seamap"),
-	      get_nation_name_plural(pclause->from->nation));
-      break;
-    }
+    client_diplomacy_clause_string(buf, sizeof(buf), pclause);
     gtk_clist_append(GTK_CLIST(pdialog->dip_clauselist),row);
     i++;
   }
@@ -685,7 +694,47 @@ void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data)
 			     &pa);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+static void diplomacy_dialog_add_pact_clause(GtkWidget *w, gpointer data,
+					     int type)
+{
+  struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)data;
+  struct packet_diplomacy_info pa;
+  
+  pa.plrno0 = pdialog->treaty.plr0->player_no;
+  pa.plrno1 = pdialog->treaty.plr1->player_no;
+  pa.clause_type = type;
+  pa.plrno_from = pdialog->treaty.plr0->player_no;
+  pa.value = 0;
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
+			     &pa);
+}
 
+/****************************************************************
+...
+*****************************************************************/
+void diplomacy_dialog_ceasefire_callback(GtkWidget *w, gpointer data)
+{
+  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_CEASEFIRE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void diplomacy_dialog_peace_callback(GtkWidget *w, gpointer data)
+{
+  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_PEACE);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void diplomacy_dialog_alliance_callback(GtkWidget *w, gpointer data)
+{
+  diplomacy_dialog_add_pact_clause(w, data, CLAUSE_ALLIANCE);
+}
 
 
 

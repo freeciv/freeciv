@@ -97,6 +97,28 @@ struct player_ai {
   int is_barbarian;
 };
 
+/* Diplomatic states (how one player views another).
+ * (Some diplomatic states are "pacts" (mutual agreements), others aren't.)
+ */
+enum diplstate_type {
+  DS_NEUTRAL = 0,
+  DS_WAR,
+  DS_CEASEFIRE,
+  DS_PEACE,
+  DS_ALLIANCE,
+  DS_LAST	/* leave this last */
+};
+
+#define is_pact_diplstate(x) \
+  ((x == DS_CEASEFIRE) || (x == DS_PEACE) || (x == DS_ALLIANCE))
+
+struct player_diplstate {
+  enum diplstate_type type;	/* this player's disposition towards other */
+  /* the following are for "pacts" */
+  int turns_left;		/* until pact (e.g., cease-fire) ends */
+  int has_reason_to_cancel;	/* 0: no, 1: this turn, 2: this or next turn */
+};
+
 /**************************************************************************
   command access levels for client-side use; at present, they are
   only used for server commands typed at the client chatline
@@ -133,6 +155,8 @@ struct player {
   int revolution;
   int capital; /* bool used to give player capital in first city. */
   int embassy;
+  int reputation;
+  struct player_diplstate diplstates[MAX_NUM_PLAYERS];
   int city_style;
   struct unit_list units;
   struct city_list cities;
@@ -177,9 +201,27 @@ struct city *find_palace(struct player *pplayer);
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
 int ai_fuzzy(struct player *pplayer, int normal_decision);
 
+const char *reputation_text(const int rep);
+const char *diplstate_text(const enum diplstate_type type);
+
+/* we have an int in some contexts, a pointer in others.  Yuk! */
+const struct player_diplstate *pplayer_get_diplstate(const struct player *pplayer,
+						     const struct player *pplayer2);
+const struct player_diplstate *player_get_diplstate(const int player,
+						    const int player2);
+int pplayers_at_war(const struct player *pplayer, 
+		    const struct player *pplayer2);
+int players_at_war(const int player, const int player2);
+int pplayers_allied(const struct player *pplayer,
+		    const struct player *pplayer2);
+int players_allied(const int player, const int player2);
+int pplayers_non_attack(const struct player *pplayer,
+			const struct player *pplayer2);
+int players_non_attack(const int player, const int player2);
+
 const char *cmdlevel_name(enum cmdlevel_id lvl);
 enum cmdlevel_id cmdlevel_named(const char *token);
 
-int is_barbarian(struct player *pplayer);
+int is_barbarian(const struct player *pplayer);
 
 #endif  /* FC__PLAYER_H */

@@ -45,6 +45,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "diptreaty.h"
 #include "gui_stuff.h"
@@ -77,6 +78,7 @@ struct Diplomacy_dialog {
   Widget dip_gold_label1;
   Widget dip_gold_input0;
   Widget dip_gold_input1;
+  Widget dip_pact_menubutton;
   
   Widget dip_label;
   Widget dip_clauselabel;
@@ -120,6 +122,12 @@ void diplomacy_dialog_tech_callback(Widget w, XtPointer client_data,
 				    XtPointer call_data);
 void diplomacy_dialog_city_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data);
+void diplomacy_dialog_ceasefire_callback(Widget w, XtPointer client_data,
+					 XtPointer call_data);
+void diplomacy_dialog_peace_callback(Widget w, XtPointer client_data,
+					XtPointer call_data);
+void diplomacy_dialog_alliance_callback(Widget w, XtPointer client_data,
+					XtPointer call_data);
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 
@@ -460,6 +468,27 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						   XtNlabel, buf,
 						   NULL);
 
+  pdialog->dip_pact_menubutton=
+    I_L(XtVaCreateManagedWidget("dippactmenubutton",
+				menuButtonWidgetClass,
+				pdialog->dip_form0,
+				NULL));
+  popupmenu=XtVaCreatePopupShell("menu", 
+				 simpleMenuWidgetClass, 
+				 pdialog->dip_pact_menubutton, 
+				 NULL);
+  entry=XtVaCreateManagedWidget(_("Cease-fire"), smeBSBObjectClass, popupmenu,
+				NULL);
+  XtAddCallback(entry, XtNcallback, diplomacy_dialog_ceasefire_callback,
+		(XtPointer)pdialog);
+  entry=XtVaCreateManagedWidget(_("Peace"), smeBSBObjectClass, popupmenu,
+				NULL);
+  XtAddCallback(entry, XtNcallback, diplomacy_dialog_peace_callback,
+		(XtPointer)pdialog);
+  entry=XtVaCreateManagedWidget(_("Alliance"), smeBSBObjectClass, popupmenu,
+				NULL);
+  XtAddCallback(entry, XtNcallback, diplomacy_dialog_alliance_callback,
+		(XtPointer)pdialog);
   
   my_snprintf(buf, sizeof(buf),
 	      _("This Eternal Treaty\n"
@@ -591,34 +620,7 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   
   for(i=0; i<MAX_NUM_CLAUSES && ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
-    
-    switch(pclause->type) {
-     case CLAUSE_ADVANCE:
-      my_snprintf(pdialog->clauselist_strings[i], n, _("The %s give %s"),
-	      get_nation_name_plural(pclause->from->nation),
-	      advances[pclause->value].name);
-      break;
-    case CLAUSE_CITY:
-      my_snprintf(pdialog->clauselist_strings[i], n, _("The %s give %s"),
-	      get_nation_name_plural(pclause->from->nation),
-	      find_city_by_id(pclause->value)->name);
-      break;
-     case CLAUSE_GOLD:
-      my_snprintf(pdialog->clauselist_strings[i], n, _("The %s give %d gold"),
-	      get_nation_name_plural(pclause->from->nation),
-	      pclause->value);
-      break;
-     case CLAUSE_MAP: 
-      my_snprintf(pdialog->clauselist_strings[i], n,
-		  _("The %s give their worldmap"),
-		  get_nation_name_plural(pclause->from->nation));
-      break;
-     case CLAUSE_SEAMAP: 
-      my_snprintf(pdialog->clauselist_strings[i], n,
-		  _("The %s give their seamap"),
-		  get_nation_name_plural(pclause->from->nation));
-      break;
-    }
+    client_diplomacy_clause_string(pdialog->clauselist_strings[i], n, pclause);
     pdialog->clauselist_strings_ptrs[i]=pdialog->clauselist_strings[i];
     i++;
   }
@@ -767,8 +769,60 @@ void diplomacy_dialog_seamap_callback(Widget w, XtPointer client_data,
 			     &pa);
 }
 
+/****************************************************************
+Generic add-a-clause function for adding pact types
+*****************************************************************/
+static void diplomacy_dialog_add_pact_clause(Widget w, XtPointer client_data,
+					     XtPointer call_data, int type)
+{
+  struct Diplomacy_dialog *pdialog=(struct Diplomacy_dialog *)client_data;
+  struct packet_diplomacy_info pa;
+  struct player *pgiver;
+  
+  pgiver=(XtParent(XtParent(w))==pdialog->dip_pact_menubutton) ? 
+    pdialog->treaty.plr0 : pdialog->treaty.plr1;
+  
+  pa.plrno0=pdialog->treaty.plr0->player_no;
+  pa.plrno1=pdialog->treaty.plr1->player_no;
+  pa.clause_type=type;
+  pa.plrno_from=pgiver->player_no;
+  pa.value=0;
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
+			     &pa);  
+}
 
+/****************************************************************
+The cease-fire widget was selected; add a cease-fire to the
+clauses
+*****************************************************************/
+void diplomacy_dialog_ceasefire_callback(Widget w, XtPointer client_data, 
+					 XtPointer call_data)
+{
+  diplomacy_dialog_add_pact_clause(w, client_data, call_data,
+				   CLAUSE_CEASEFIRE);
+}
 
+/****************************************************************
+The peace widget was selected; add a peace treaty to the
+clauses
+*****************************************************************/
+void diplomacy_dialog_peace_callback(Widget w, XtPointer client_data, 
+				     XtPointer call_data)
+{
+  diplomacy_dialog_add_pact_clause(w, client_data, call_data,
+				   CLAUSE_PEACE);
+}
+
+/****************************************************************
+The alliance widget was selected; add an alliance to the
+clauses
+*****************************************************************/
+void diplomacy_dialog_alliance_callback(Widget w, XtPointer client_data, 
+					XtPointer call_data)
+{
+  diplomacy_dialog_add_pact_clause(w, client_data, call_data,
+				   CLAUSE_ALLIANCE);
+}
 
 
 /****************************************************************

@@ -429,6 +429,15 @@ Freeciv*dipgoldlabel1.bottom:            chainTop
 Freeciv*dipgoldlabel1.left:              chainLeft
 Freeciv*dipgoldlabel1.right:             chainLeft
 
+Freeciv*dippactmenubutton.label:         _("Pacts")
+Freeciv*dippactmenubutton.fromVert:      dipgoldinput0
+Freeciv*dippactmenubutton.foreground:    white
+Freeciv*dippactmenubutton.background:    blue
+Freeciv*dippactmenubutton.top:           chainTop
+Freeciv*dippactmenubutton.bottom:        chainTop
+Freeciv*dippactmenubutton.left:          chainLeft
+Freeciv*dippactmenubutton.right:         chainLeft
+
 Freeciv*dipacceptcommand.label:          _("Accept treaty")
 Freeciv*dipacceptcommand.fromVert:       dipmainform
 Freeciv*dipacceptcommand.foreground:     white
@@ -3065,7 +3074,7 @@ Freeciv*playerslabel.bottom:             chainTop
 Freeciv*playerslabel.left:               chainLeft
 Freeciv*playerslabel.right:              chainRight
 Freeciv*playerslabel.label: _("\
-Name             Race         Embassy  State    Host")
+Name             Race         Embassy  Dipl.State      Reputation    State    Host")
 
 Freeciv*playerslist.fromVert:            playerslabel
 Freeciv*playerslist.forceColumns:        true
@@ -3100,8 +3109,16 @@ Freeciv*playersmeetcommand.bottom:         chainBottom
 Freeciv*playersmeetcommand.left:           chainLeft
 Freeciv*playersmeetcommand.right:          chainLeft
 
+Freeciv*playerswarcommand.label:           _("Cancel pact")
+Freeciv*playerswarcommand.fromHoriz:       playersmeetcommand
+Freeciv*playerswarcommand.fromVert:        playerslist
+Freeciv*playerswarcommand.top:             chainBottom
+Freeciv*playerswarcommand.bottom:          chainBottom
+Freeciv*playerswarcommand.left:            chainLeft
+Freeciv*playerswarcommand.right:           chainRight
+
 Freeciv*playerssshipcommand.label:          _("Spaceship")
-Freeciv*playerssshipcommand.fromHoriz:      playersmeetcommand
+Freeciv*playerssshipcommand.fromHoriz:      playerswarcommand
 Freeciv*playerssshipcommand.fromVert:       playerslist
 Freeciv*playerssshipcommand.top:            chainBottom
 Freeciv*playerssshipcommand.bottom:         chainBottom

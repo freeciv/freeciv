@@ -462,8 +462,10 @@ static void city_support(struct city *pcity)
   */
   if (g->martial_law_max > 0) {
     int city_units = 0;
-    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, this_unit) {
-      if (city_units < g->martial_law_max && is_military_unit(this_unit))
+    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+      if (city_units < g->martial_law_max
+	  && is_military_unit(punit)
+	  && punit->owner == pcity->owner)
 	city_units++;
     }
     unit_list_iterate_end;
@@ -1393,13 +1395,14 @@ void city_check_workers(struct player *pplayer, struct city *pcity)
     
     if(unit_list_size(&ptile->units)>0) {
       struct unit *punit=unit_list_get(&ptile->units, 0);
-      if(pplayer->player_no!=punit->owner) {
-	if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
+      if (players_at_war(pplayer->player_no, punit->owner)) {
+	if (get_worker_city(pcity, x, y)==C_TILE_WORKER) {
 /*	  pcity->ppl_elvis++; -- this is really not polite -- Syela */
   	  set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
           add_adjust_workers(pcity); /* will place the displaced */
           city_refresh(pcity); /* may be unnecessary; can't hurt */
-        } else	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+        } else
+	  set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	continue;
       }
     }

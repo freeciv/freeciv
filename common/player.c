@@ -10,14 +10,20 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "idex.h"
+#include "log.h"
 #include "map.h"
 #include "rand.h"
 #include "shared.h"
@@ -69,6 +75,11 @@ void player_init(struct player *plr)
   sz_strlcpy(plr->addr, "---.---.---.---");
   plr->is_alive=1;
   plr->embassy=0;
+  plr->reputation=GAME_DEFAULT_REPUTATION;
+  for(i = 0; i < MAX_NUM_PLAYERS; i++) {
+    plr->diplstates[i].type = DS_NEUTRAL;
+    plr->diplstates[i].has_reason_to_cancel = 0;
+  }
   plr->city_style=0;            /* should be first basic style */
   plr->ai.control=0;
   plr->ai.tech_goal = A_NONE;
@@ -401,9 +412,140 @@ enum cmdlevel_id cmdlevel_named(const char *token)
 }
 
 /**************************************************************************
+Return a reputation level as a human-readable string
+**************************************************************************/
+const char *reputation_text(const int rep)
+{
+  if (rep == -1)
+    return "-";
+  else if (rep > GAME_MAX_REPUTATION * 0.95)
+    return _("Spotless");
+  else if (rep > GAME_MAX_REPUTATION * 0.85)
+    return _("Excellent");
+  else if (rep > GAME_MAX_REPUTATION * 0.75)
+    return _("Honorable");
+  else if (rep > GAME_MAX_REPUTATION * 0.55)
+    return _("Questionable");
+  else if (rep > GAME_MAX_REPUTATION * 0.30)
+    return _("Dishonorable");
+  else if (rep > GAME_MAX_REPUTATION * 0.15)
+    return _("Poor");
+  else if (rep > GAME_MAX_REPUTATION * 0.07)
+    return _("Despicable");
+  else
+    return _("Atrocious");
+}
+
+/**************************************************************************
+Return a diplomatic state as a human-readable string
+**************************************************************************/
+const char *diplstate_text(const enum diplstate_type type)
+{
+  static char *ds_names[DS_LAST] = 
+  {
+    N_("Neutral"), 
+    N_("War"), 
+    N_("Cease-fire"),
+    N_("Peace"),
+    N_("Alliance")
+  };
+
+  if (type < DS_LAST)
+    return _(ds_names[type]);
+  freelog(LOG_FATAL, "Bad diplstate_type in diplstate_text: %d", type);
+  abort();
+}
+
+/***************************************************************
+returns diplomatic state type between two players
+***************************************************************/
+const struct player_diplstate *pplayer_get_diplstate(const struct player *pplayer,
+						     const struct player *pplayer2)
+{
+  return &(pplayer->diplstates[pplayer2->player_no]);
+}
+
+/***************************************************************
+same as above, using player id's
+***************************************************************/
+const struct player_diplstate *player_get_diplstate(const int player,
+						    const int player2)
+{
+  return pplayer_get_diplstate(&game.players[player], &game.players[player2]);
+}
+
+/***************************************************************
+returns true iff players can attack each other.  Note that this
+returns true if either player doesn't have the "dipl_states"
+capability, so anyone can beat on them; this is for backward
+compatibility with non-dipl_states-speaking clients.
+***************************************************************/
+int pplayers_at_war(const struct player *pplayer,
+		    const struct player *pplayer2)
+{
+  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  if (pplayer == pplayer2) return 0;
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2))
+    return TRUE;
+  return ((ds == DS_WAR) || (ds == DS_NEUTRAL));
+}
+
+/***************************************************************
+same as above, using player id's
+***************************************************************/
+int players_at_war(const int player, const int player2)
+{
+  return pplayers_at_war(&game.players[player], &game.players[player2]);
+}
+
+/***************************************************************
+returns true iff players are allied
+***************************************************************/
+int pplayers_allied(const struct player *pplayer,
+		    const struct player *pplayer2)
+{
+  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  if (pplayer == pplayer2)
+    return TRUE;
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2))
+    return FALSE;
+  return ((pplayer == pplayer2) || (ds == DS_ALLIANCE));
+}
+
+/***************************************************************
+same as above, using player id's
+***************************************************************/
+int players_allied(const int player, const int player2)
+{
+  return pplayers_allied(&game.players[player], &game.players[player2]);
+}
+
+/***************************************************************
+returns true iff players have peace or cease-fire
+***************************************************************/
+int pplayers_non_attack(const struct player *pplayer,
+			const struct player *pplayer2)
+{
+  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  if (pplayer == pplayer2)
+    return FALSE;
+  if (is_barbarian(pplayer) || is_barbarian(pplayer2))
+    return FALSE;
+  return (ds == DS_PEACE || ds == DS_CEASEFIRE);
+}
+
+/***************************************************************
+same as above, using player id's
+***************************************************************/
+int players_non_attack(const int player, const int player2)
+{
+  return pplayers_non_attack(&game.players[player], &game.players[player2]);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
-int is_barbarian(struct player *pplayer)
+int is_barbarian(const struct player *pplayer)
 {
   return (pplayer->ai.is_barbarian > 0);
 }

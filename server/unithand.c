@@ -293,14 +293,15 @@ void handle_unit_change_homecity(struct player *pplayer,
 {
   struct unit *punit;
   
-  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
+  if ((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
     struct city *pcity;
-    if((pcity=player_find_city_by_id(pplayer, req->city_id))) {
+    if ((pcity=player_find_city_by_id(pplayer, req->city_id))
+	&& pcity->owner == punit->owner) {
       unit_list_insert(&pcity->units_supported, punit);
-      
+
       if((pcity=player_find_city_by_id(pplayer, punit->homecity)))
 	unit_list_unlink(&pcity->units_supported, punit);
-      
+
       punit->homecity=req->city_id;
       send_unit_info(pplayer, punit);
     }
@@ -494,6 +495,21 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 	  game.players[pdefender->owner].name, 
 	  unit_types[pdefender->type].name);
 
+  if (players_non_attack(punit->owner, pdefender->owner)) {
+    freelog(LOG_FATAL,
+	    "Trying to attack a unit with which you have peace or cease-fire at %i, %i",
+	    def_x, def_y);
+    abort();
+  }
+
+  if (players_allied(punit->owner, pdefender->owner)
+      && !(unit_flag(punit->type, F_NUCLEAR) && punit == pdefender)) {
+    freelog(LOG_FATAL,
+	    "Trying to attack a unit with which you have allience at %i, %i",
+	    def_x, def_y);
+    abort();
+  }
+
   if(unit_flag(punit->type, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
     
@@ -627,7 +643,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
      destroying) a city. -GJW */
 
   if (pwinner == punit && myrand(100) < game.occupychance &&
-      !is_enemy_unit_tile (def_x, def_y, punit->owner)) {
+      !is_non_allied_unit_tile (map_get_tile(def_x, def_y), punit->owner)) {
 
     /* Hack: make sure the unit has enough moves_left for the move to succeed,
        and adjust moves_left to afterward (if successful). */
@@ -845,7 +861,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   }
 
   /*** Try to attack if there is an enemy unit on the target tile ***/
-  if (pdefender && pdefender->owner!=punit->owner) {
+  if (pdefender) {
     if (!can_unit_attack_tile(punit, dest_x , dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
   		       _("Game: You can't attack there."));
@@ -855,6 +871,16 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     if (punit->moves_left<=0)  {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
  		       _("Game: This unit has no moves left."));
+      return 0;
+    }
+
+    if (pcity && !players_at_war(pcity->owner, punit->owner)) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: Can't attack %s's unit in the city of %s "
+			 "because you are not at war with %s."),
+		       unit_owner(pdefender)->name,
+		       pcity->name,
+		       city_owner(pcity)->name);
       return 0;
     }
 
@@ -873,7 +899,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
       return 0;
     }
  
-    /* This is for debuging only, and seems to be obsolete as the error message
+    /* This is for debugging only, and seems to be obsolete as the error message
        never appears */
     if (pplayer->ai.control && punit->ai.passenger) {
       struct unit *passenger;
@@ -905,6 +931,18 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     return 1;
   } /* End attack case */
  
+  /* There are no players we are at war with at desttile. But if there is a unit
+     we have a treaty!=alliance with we can't move there */
+  pdefender = is_non_allied_unit_tile(pdesttile, punit->owner);
+  if (pdefender) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: No war declared against %s, cannot attack."),
+		     game.players[pdefender->owner].name);
+    return 0;
+  }
+
+
+
   {
     struct unit *bodyguard;
     if (pplayer->ai.control &&
@@ -932,12 +970,21 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 
   /* If there is a city it is empty.
      If not it would have been caught in the attack case. */
-  if (pcity &&
-      pcity->owner!=punit->owner && 
-      (is_air_unit(punit) || !is_military_unit(punit))) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: Only ground troops can take over a city."));
-    return 0;
+  if(pcity && !players_allied(pcity->owner, punit->owner)) {
+    if (is_air_unit(punit) || !is_military_unit(punit)) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: Only ground troops can take over "
+			 "a city."));
+      return 0;
+    }
+
+    if (!players_at_war(pcity->owner, punit->owner)) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		       _("Game: No war declared against %s, cannot take "
+			 "over city."),
+		       game.players[pcity->owner].name);
+      return 0;
+    }
   }
 
   /******* ok now move the unit *******/
@@ -1106,7 +1153,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   struct player *cplayer;
   struct city *pnewcity;
 
-  if (punit->owner==pcity->owner)
+  if (!players_at_war(pplayer->player_no, pcity->owner))
     return;
 
   cplayer = city_owner(pcity);
@@ -1342,7 +1389,7 @@ void server_remove_unit(struct unit *punit)
     city_refresh(phomecity);
     send_city_info(get_player(phomecity->owner), phomecity);
   }
-  if (pcity && pcity != phomecity) {
+  if (pcity && pcity != phomecity && pcity->owner == punit->owner) {
     city_refresh(pcity);
     send_city_info(get_player(pcity->owner), pcity);
   }

@@ -1632,7 +1632,7 @@ static void unit_select_all_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void unit_select_callback(GtkWidget *w, struct unit *punit)
 {
-  if(punit) {
+  if(punit && punit->owner == game.player_idx) {
     request_new_unit_activity(punit, ACTIVITY_IDLE);
     set_unit_focus(punit);
   }

@@ -614,14 +614,17 @@ void activate_callback(GtkWidget *w, gpointer data)
   struct city_dialog *pdialog = (struct city_dialog *)data;
   int x=pdialog->pcity->x,y=pdialog->pcity->y;
   struct unit_list *punit_list = &map_get_tile(x,y)->units;
+  struct unit *pmyunit = NULL;
 
   if(unit_list_size(punit_list))  {
     unit_list_iterate((*punit_list), punit) {
       if(game.player_idx==punit->owner) {
-       request_new_unit_activity(punit, ACTIVITY_IDLE);
+	pmyunit = punit;
+	request_new_unit_activity(punit, ACTIVITY_IDLE);
       }
     } unit_list_iterate_end;
-    set_unit_focus(unit_list_get(punit_list, 0));
+    if (pmyunit)
+      set_unit_focus(pmyunit);
   }
 }
 

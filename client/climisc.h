@@ -14,6 +14,7 @@
 #define FC__CLIMISC_H
 
 struct city;
+struct Clause;
 
 void client_remove_player(int plr_id);
 void client_remove_city(struct city *pcity);
@@ -22,6 +23,9 @@ void client_remove_unit(int unit_id);
 void climap_init_continents(void);
 void climap_update_continents(int x, int y);
 void client_change_all(int x, int y);
+
+void client_diplomacy_clause_string(char *buf, int bufsiz,
+				    struct Clause *pclause);
 
 #endif  /* FC__CLIMISC_H */
 

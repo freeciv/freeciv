@@ -64,6 +64,8 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 				     struct unit *pdiplomat, struct city *pcity);
 static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 			     struct city *pcity);
+static void maybe_cause_incident(enum diplomat_actions action, struct player *offender,
+				 struct unit *victim_unit, struct city *victim_city);
 
 static int upgrade_would_strand(struct unit *punit, int upgrade_type);
 
@@ -71,6 +73,7 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type);
   Poison a city's water supply.
 
   - Only a Spy can poison a city's water supply.
+  - Only allowed against players you are at war with.
 
   - Check for infiltration success.  Our poisoner may not survive this.
   - Only cities of size greater than one may be poisoned.
@@ -86,8 +89,8 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
     return;
-  cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || (cplayer == NULL))
+  cplayer = city_owner(pcity);
+  if (cplayer == NULL || !pplayers_at_war(pplayer, cplayer))
     return;
 
   freelog (LOG_DEBUG, "poison: unit: %d", pdiplomat->id);
@@ -131,6 +134,9 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   city_refresh (pcity);  
   send_city_info (0, pcity);
 
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(SPY_POISON, pplayer, NULL, pcity);
+
   /* Now lets see if the spy survives. */
   diplomat_escape (pplayer, pdiplomat, pcity);
 }
@@ -139,6 +145,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   Investigate a city.
 
   - Either a Diplomat or Spy can investigate a city.
+  - Allowed against all players.
 
   - It costs some minimal movement to investigate a city.
 
@@ -173,6 +180,9 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
     pdiplomat->moves_left = 0;
   }
 
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(DIPLOMAT_INVESTIGATE, pplayer, NULL, pcity);
+
   /* Spies always survive. Diplomats never do. */
   if (!unit_flag (pdiplomat->type, F_SPY)) {
     wipe_unit (pdiplomat);
@@ -205,6 +215,9 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
   send_packet_sabotage_list(pplayer->conn, &packet);
+
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(SPY_GET_SABOTAGE_LIST, pplayer, NULL, pcity);
 }
 
 /******************************************************************************
@@ -221,7 +234,7 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   - Spies always survive.
 ****************************************************************************/
 void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-			  struct city *pcity)
+		      struct city *pcity)
 {
   struct player *cplayer;
 
@@ -287,6 +300,9 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
     pdiplomat->moves_left = 0;
   }
 
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(DIPLOMAT_EMBASSY, pplayer, NULL, pcity);
+
   /* Spies always survive. Diplomats never do. */
   if (!unit_flag (pdiplomat->type, F_SPY)) {
     wipe_unit (pdiplomat);
@@ -299,6 +315,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   Sabotage an enemy unit.
 
   - Only a Spy can sabotage an enemy unit.
+  - Only allowed against players you are at war with.
 
   - Can't sabotage a unit if:
     - It has only one hit point left.
@@ -317,7 +334,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   if (!pvictim)
     return;
   uplayer = get_player (pvictim->owner);
-  if ((uplayer == pplayer) || (uplayer == NULL))
+  if (uplayer == NULL || pplayers_allied(pplayer, uplayer))
     return;
 
   freelog (LOG_DEBUG, "sabotage-unit: unit: %d", pdiplomat->id);
@@ -353,6 +370,9 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 		    _("Game: Your %s was sabotaged by %s!"),
 		    unit_name (pvictim->type), pplayer->name);
 
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(SPY_SABOTAGE_UNIT, pplayer, pvictim, NULL);
+
   /* Now lets see if the spy survives. */
   diplomat_escape (pplayer, pdiplomat, NULL);
 }
@@ -360,13 +380,14 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 /******************************************************************************
   Bribe an enemy unit.
 
-  - Either a Diplomat or Spy can bribe an enemy unit.
-
+  - Either a Diplomat or Spy can bribe an other players unit.
+  
   - Can't bribe a unit if:
     - Owner runs an unbribable government (e.g., democracy).
     - Player doesn't have enough money.
     - It's not the only unit on the square
       (this is handled outside this function).
+    - You are allied with the unit owner.
   - Otherwise, the unit will be bribed.
 
   - A successful briber will try to move onto the victim's square.
@@ -380,8 +401,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Fetch target unit's player.  Sanity checks. */
   if (!pvictim)
     return;
-  uplayer = get_player (pvictim->owner);
-  if ((uplayer == pplayer) || (uplayer == NULL))
+  uplayer = get_player(pvictim->owner);
+  /* We might make it allowable in peace with a liss of reputaion */
+  if (uplayer == NULL || pplayers_allied(pplayer, uplayer))
     return;
 
   freelog (LOG_DEBUG, "bribe-unit: unit: %d", pdiplomat->id);
@@ -432,6 +454,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* This costs! */
   pplayer->economic.gold -= pvictim->bribe_cost;
 
+  /* This may cause a diplomatic incident */
+  maybe_cause_incident(DIPLOMAT_BRIBE, pplayer, pvictim, NULL);
+
   /* Be sure to wipe the converted unit! */
   victim_x = pvictim->x;
   victim_y = pvictim->y;
@@ -447,7 +472,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Update clients. */
-  send_player_info (pplayer, pplayer);
+  send_player_info (pplayer, 0);
 }
 
 /****************************************************************************
@@ -467,6 +492,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   - Steal technology!
 
   - The thief may be captured and executed, or escape to its home town.
+
+  FIXME: It should give a loss of reputaion to steal from a player you are
+  not at war with
 ****************************************************************************/
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
 		       struct city  *pcity, int technology)
@@ -654,6 +682,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Record the theft. */
   (pcity->steal)++;
 
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);
+
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape (pplayer, pdiplomat, pcity);
 }
@@ -666,6 +697,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   - Can't incite a city to disaffect if:
     - Owner runs an unbribable government (e.g., democracy).
     - Player doesn't have enough money.
+    - You are allied with the city owner.
   - Check for infiltration success.  Our provocateur may not survive this.
   - Check for basic success.  Again, our provocateur may not survive this.
   - Otherwise, the city will disaffect:
@@ -686,7 +718,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   if (!pcity)
     return;
   cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || (cplayer == NULL))
+  if (cplayer == NULL || pplayers_allied(cplayer, pplayer))
     return;
 
   freelog (LOG_DEBUG, "incite: unit: %d", pdiplomat->id);
@@ -777,6 +809,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   /* You get a technology advance, too! */
   get_a_tech (pplayer, cplayer);
 
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(DIPLOMAT_INCITE, pplayer, NULL, pcity);
+
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape (pplayer, pdiplomat, pcity);
 
@@ -798,6 +833,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   (Note: Only Spies can select what to sabotage.)
 
   - Either a Diplomat or Spy can sabotage an enemy city.
+  - The players must be at war
 
   - Check for infiltration success.  Our saboteur may not survive this.
   - Check for basic success.  Again, our saboteur may not survive this.
@@ -819,7 +855,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   if (!pcity)
     return;
   cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || (cplayer == NULL))
+  if (cplayer == NULL || !pplayers_at_war(pplayer, cplayer))
     return;
 
   freelog (LOG_DEBUG, "sabotage: unit: %d", pdiplomat->id);
@@ -1010,6 +1046,9 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   /* Update clients. */
   send_city_info (0, pcity);
 
+  /* this may cause a diplomatic incident */
+  maybe_cause_incident(DIPLOMAT_SABOTAGE, pplayer, NULL, pcity);
+
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape (pplayer, pdiplomat, pcity);
 }
@@ -1182,6 +1221,104 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
   wipe_unit (pdiplomat);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static void maybe_cause_incident(enum diplomat_actions action, struct player *offender,
+ 				 struct unit *victim_unit, struct city *victim_city)
+{
+  struct player *victim_player;
+  int x,y;
+  if (victim_city) {
+    x = victim_city->x;
+    y = victim_city->y;
+    victim_player = city_owner(victim_city);
+  } else if (victim_unit) {
+    x = victim_unit->x;
+    y = victim_unit->y;
+    victim_player = unit_owner(victim_unit);
+  } else {
+    freelog(LOG_FATAL, "No victim in call to maybe_cause_incident()");
+    abort();
+  }
+
+  if (!pplayers_at_war(offender, victim_player) &&
+      (myrand(GAME_MAX_REPUTATION) - offender->reputation >
+       GAME_MAX_REPUTATION/2 - victim_player->reputation)) {
+    enum diplstate_type ds = pplayer_get_diplstate(offender, victim_player)->type;
+    int punishment = 0;
+    switch (action) {
+    case DIPLOMAT_BRIBE:
+      notify_player_ex(offender, x, y, E_DIPL_INCIDENT,
+		       _("Game: You have caused an incident while bribing "
+ 			 "%s's %s."),
+ 		       victim_player->name,
+ 		       unit_name(victim_unit->type));
+      notify_player_ex(victim_player, x, y, E_DIPL_INCIDENT,
+		       _("Game: %s has caused an incident while bribing "
+ 			 "your %s."),
+ 		       offender->name,
+ 		       unit_name(victim_unit->type));
+      break;
+    case DIPLOMAT_STEAL:
+      notify_player_ex(offender, x, y, E_DIPL_INCIDENT,
+ 		       _("Game: You have caused an incident while stealing "
+ 			 "tech from %s."),
+ 		       victim_player->name);
+      notify_player_ex(victim_player, x, y, E_DIPL_INCIDENT,
+		       _("Game: %s has caused an incident while stealing "
+			 "tech from you."),
+		       offender->name);
+      break;
+    case DIPLOMAT_INCITE:
+      notify_player_ex(offender, x, y, E_DIPL_INCIDENT,
+ 		       _("Game: You have caused an incident while inciting a "
+ 			 "revolt in %s."), victim_city->name);
+      notify_player_ex(victim_player, x, y, E_DIPL_INCIDENT,
+ 		       _("Game: %s have caused an incident while inciting a "
+ 			 "revolt in %s."), offender->name, victim_city->name);
+      break;
+    case DIPLOMAT_EMBASSY:
+    case DIPLOMAT_INVESTIGATE:
+    case SPY_GET_SABOTAGE_LIST:
+      return; /* These are not considered offences */
+    case DIPLOMAT_ANY_ACTION:
+    case SPY_POISON:
+    case SPY_SABOTAGE_UNIT:
+    case DIPLOMAT_SABOTAGE:
+      /* You can only do these when you are at war, so we should never
+ 	 get inside this "if" */
+      freelog(LOG_FATAL, "Bug in maybe_cause_incident()");
+      abort();
+    }
+    switch (ds) {
+    case DS_NEUTRAL:
+    case DS_WAR:
+      freelog(LOG_VERBOSE,"Trying to cause an incident between players at war");
+      punishment = 0;
+      break;
+    case DS_CEASEFIRE:
+    case DS_PEACE:
+      punishment = GAME_MAX_REPUTATION/10;
+      break;
+    case DS_ALLIANCE:
+      punishment = GAME_MAX_REPUTATION/5;
+      break;
+    case DS_LAST:
+      freelog(LOG_FATAL, "DS_LAST is not a diplstate in maybe_cause_incident.");
+      abort();
+    }
+    offender->reputation = MAX(offender->reputation - punishment, 0);
+    victim_player->diplstates[offender->player_no].has_reason_to_cancel = 2;
+    /* FIXME: Maybe we should try to cause a revolution is the offender's
+       government has a senate */
+    send_player_info(offender, 0);
+    send_player_info(victim_player, 0);
+  }
+
+  return;
+}
+
 /*****************************************************************
   Will wake up any neighboring enemy sentry units
 *****************************************************************/
@@ -1193,18 +1330,16 @@ static void wakeup_neighbor_sentries(struct player *pplayer,
 
   for (x = cent_x-1;x <= cent_x+1;x++)
     for (y = cent_y-1;y <= cent_y+1;y++)
-      if ((x != cent_x)||(y != cent_y))
-	{
-	  unit_list_iterate(map_get_tile(x,y)->units, punit) {
-	    if ((pplayer->player_no != punit->owner)&&
-		(punit->activity == ACTIVITY_SENTRY))
-	      {
-		set_unit_activity(punit, ACTIVITY_IDLE);
-		send_unit_info(0,punit);
-	      }
-	  }
-	  unit_list_iterate_end;
-	}
+      if ((x != cent_x)||(y != cent_y)) {
+ 	unit_list_iterate(map_get_tile(x,y)->units, punit) {
+ 	  if (!players_allied(pplayer->player_no, punit->owner)
+ 	      && punit->activity == ACTIVITY_SENTRY) {
+ 	    set_unit_activity(punit, ACTIVITY_IDLE);
+ 	    send_unit_info(0,punit);
+  	  }
+  	}
+ 	unit_list_iterate_end;
+      }
 }
 
 /***************************************************************************
@@ -1237,10 +1372,12 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
   tile_cap = 0;
   tile_ncargo = 0;
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-    if (is_sailing_unit(punit2) && is_ground_units_transport(punit2)) { 
-      tile_cap += get_transporter_capacity(punit2);
-    } else if (is_ground_unit(punit2)) {
-      tile_ncargo++;
+    if (punit2->owner == punit->owner) {
+      if (is_sailing_unit(punit2) && is_ground_units_transport(punit2)) { 
+	tile_cap += get_transporter_capacity(punit2);
+      } else if (is_ground_unit(punit2)) {
+	tile_ncargo++;
+      }
     }
   }
   unit_list_iterate_end;
@@ -1356,7 +1493,8 @@ void player_restore_units(struct player *pplayer)
 	     to leave space on co-located Carriers for normal air units */
 	  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) 
 	    if (!done && unit_flag(punit2->type, F_MISSILE_CARRIER)
-		&& punit2->fuel) {
+		&& punit2->fuel
+		&& punit2->owner == punit->owner) {
 	      punit->fuel = get_unit_type(punit->type)->fuel;
 	      punit2->fuel--;
 	      done = 1;
@@ -2169,15 +2307,6 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return 0;    
   }
 
-  /* FIXME: this is a fog-of-war cheat.
-     You get to know if there is an enemy on the tile*/
-  if (is_enemy_unit_tile(dest_x, dest_y, punit->owner)) {
-    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
-		     _("Game: Cannot paradrop because there are"
-		       " enemy units on the destination location."));
-    return 0;
-  }
-
   {
     int range = get_unit_type(punit->type)->paratroopers_range;
     int distance = real_map_distance(punit->x, punit->y, dest_x, dest_y);
@@ -2188,6 +2317,15 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
 		       distance, range);
       return 0;
     }
+  }
+
+  /* FIXME: this is a fog-of-war cheat.
+     You get to know if there is an enemy on the tile*/
+  if (is_non_attack_unit_tile(map_get_tile(dest_x, dest_y), punit->owner)) {
+    notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
+		     _("Game: Cannot paradrop because there are"
+		       " enemy units on the destination location."));
+    return 0;
   }
 
   /* All ok */
@@ -2432,13 +2570,14 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   struct city   *incity    = map_get_city(punit->x, punit->y);
   struct player *pplayer   = get_player(punit->owner);
   struct player *destroyer = get_player(pkiller->owner);
-  char *loc_str   = get_location_str_in(pplayer, punit->x, punit->y, ", ");
-  int  num_killed = unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
-  int ransom;
+  char *loc_str = get_location_str_in(pplayer, punit->x, punit->y, ", ");
+  int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  int ransom, unitcount = 0;
   
   /* barbarian leader ransom hack */
-  if( is_barbarian(pplayer) && unit_has_role(punit->type, L_BARBARIAN_LEADER) &&
-      (num_killed==1) && (is_ground_unit(pkiller) || is_heli_unit(pkiller)) ) {
+  if( is_barbarian(pplayer) && unit_has_role(punit->type, L_BARBARIAN_LEADER)
+      && (unit_list_size(&(map_get_tile(punit->x, punit->y)->units)) == 1)
+      && (is_ground_unit(pkiller) || is_heli_unit(pkiller)) ) {
     ransom = (pplayer->economic.gold >= 100)?100:pplayer->economic.gold;
     notify_player_ex(destroyer, pkiller->x, pkiller->y, E_UNIT_WIN_ATT,
 		     _("Game: Barbarian leader captured, %d gold ransom paid."),
@@ -2446,12 +2585,20 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     destroyer->economic.gold += ransom;
     pplayer->economic.gold -= ransom;
     send_player_info(destroyer,0);   /* let me see my new money :-) */
+    unitcount = 1;
+  }
+
+  if (!unitcount) {
+    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, vunit)
+      if (players_at_war(pkiller->owner, vunit->owner))
+	unitcount++;
+    unit_list_iterate_end;
   }
 
   if( (incity) ||
       (map_get_special(punit->x, punit->y)&S_FORTRESS) ||
       (map_get_special(punit->x, punit->y)&S_AIRBASE) ||
-      (num_killed == 1)) {
+      unitcount == 1) {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
 		     _("Game: You lost a%s %s under an attack from %s's %s%s."),
 		     n_if_vowel(get_unit_type(punit->type)->name[0]),
@@ -2462,34 +2609,58 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 	    n_if_vowel(get_unit_type(punit->type)->name[0]),
 	    get_unit_type(punit->type)->name,
 	    get_nation_name_plural(destroyer->nation));
-    
+
     send_remove_unit(0, punit->id);
     server_remove_unit(punit);
-  }
-  else {
-    notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
-		     _("Game: You lost %d units under an attack"
-		       " from %s's %s%s."),
-		     num_killed, destroyer->name,
-		     unit_name(pkiller->type), loc_str);
+  } else { /* unitcount > 1 */
+    int i;
+    if (!(unitcount > 1)) {
+      freelog(LOG_FATAL, "Error in kill_unit, unitcount is %i", unitcount);
+      abort();
+    }
+    /* initialize */
+    for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+      num_killed[i] = 0;
+    }
+
+    /* count killed units */
+    unit_list_iterate((map_get_tile(punit->x ,punit->y)->units), vunit)
+      if (players_at_war(pkiller->owner, vunit->owner))
+	num_killed[vunit->owner]++;
+    unit_list_iterate_end;
+
+    /* inform the owners */
+    for (i = 0; i<MAX_NUM_PLAYERS; i++) {
+      if (num_killed[i]>0) {
+	notify_player_ex(get_player(i), punit->x, punit->y, E_UNIT_LOST,
+			 _("Game: You lost %d units under an attack"
+			   " from %s's %s%s."),
+			 num_killed[i], destroyer->name,
+			 unit_name(pkiller->type), loc_str);
+      }
+    }
+
+    /* remove the units */
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-	notify_player_ex(&game.players[punit2->owner], 
+      if (players_at_war(pkiller->owner, punit2->owner)) {
+	notify_player_ex(unit_owner(punit2), 
 			 punit2->x, punit2->y, E_UNIT_LOST,
 			 _("Game: You lost a%s %s under an attack"
 			   " from %s's %s."),
 			 n_if_vowel(get_unit_type(punit2->type)->name[0]),
 			 get_unit_type(punit2->type)->name, destroyer->name,
-                         unit_name(pkiller->type));
+			 unit_name(pkiller->type));
 	gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
-		get_nation_name_plural(pplayer->nation),
+		get_nation_name_plural(get_player(punit2->owner)->nation),
 		n_if_vowel(get_unit_type(punit2->type)->name[0]),
 		get_unit_type(punit2->type)->name,
 		get_nation_name_plural(destroyer->nation));
 	send_remove_unit(0, punit2->id);
 	server_remove_unit(punit2);
+      }
     }
     unit_list_iterate_end;
-  } 
+  }
 }
 
 /**************************************************************************
@@ -2763,8 +2934,9 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
     /*** Allocate air and missile units ***/
   } else if (is_air_units_transport(ptrans)) {
     struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
-    int is_refuel_point = is_friendly_city_tile(x, y, playerid)
-      || plrtile->special&S_AIRBASE;
+    int is_refuel_point = is_allied_city_tile(map_get_tile(x, y), playerid)
+      || (plrtile->special&S_AIRBASE
+	  && !is_non_allied_unit_tile(map_get_tile(x, y), playerid));
     int missiles_only = unit_flag(ptrans->type, F_MISSILE_CARRIER)
       && !unit_flag(ptrans->type, F_CARRIER);
 
