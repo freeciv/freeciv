@@ -62,17 +62,17 @@ void set_invention(struct player *plr, int tech, int value)
 **************************************************************************/
 void update_research(struct player *plr) 
 {
-  int i;
+  int i, known;
   
   for (i=0;i<game.num_tech_types;i++) {
     if(!tech_exists(i)) {
       plr->research.inventions[i]=TECH_UNKNOWN;
       continue;
     }
-    if (get_invention(plr, i) == TECH_REACHABLE ||
-	get_invention(plr, i) == TECH_MARKED)
+    known=get_invention(plr, i);
+    if (known == TECH_REACHABLE || known == TECH_MARKED)
       plr->research.inventions[i]=TECH_UNKNOWN;
-    if(get_invention(plr, i) == TECH_UNKNOWN
+    if (get_invention(plr, i) == TECH_UNKNOWN
        && get_invention(plr, advances[i].req[0])==TECH_KNOWN   
        && get_invention(plr, advances[i].req[1])==TECH_KNOWN)
       plr->research.inventions[i]=TECH_REACHABLE;
