@@ -66,16 +66,8 @@ void handle_unit_goto_tile(struct player *pplayer,
 {
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
 
-  /* 
-   * Discard invalid packet. Replace this with is_normal_map_pos if
-   * 1.13.1-devel is started.
-   */
-  if (!normalize_map_pos(&req->x, &req->y)) {
+  if (!is_normal_map_pos(req->x, req->y) || !punit) {
     return;
-  }
-
-  if(!punit) {
-      return;
   }
 
   punit->goto_dest_x = req->x;
@@ -106,11 +98,7 @@ void handle_unit_airlift(struct player *pplayer,
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
   struct city *pcity;
 
-  /* 
-   * Discard invalid packet. Replace this with is_normal_map_pos if
-   * 1.13.1-devel is started.
-   */
-  if (!normalize_map_pos(&req->x, &req->y)) {
+  if (!is_normal_map_pos(req->x, req->y)) {
     return;
   }
 
@@ -130,15 +118,8 @@ void handle_unit_connect(struct player *pplayer,
 {
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
 
-  /* 
-   * Discard invalid packet. Replace this with is_normal_map_pos if
-   * 1.13.1-devel is started.
-   */
-  if (!normalize_map_pos(&req->dest_x, &req->dest_y)) {
-    return;
-  }
-
-  if (!punit || !can_unit_do_connect(punit, req->activity_type)) {
+  if (!is_normal_map_pos(req->dest_x, req->dest_y) || !punit
+      || !can_unit_do_connect(punit, req->activity_type)) {
     return;
   }
 
@@ -592,19 +573,11 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, pinfo->id);
 
-  if (!punit) {
+  if (!punit || !is_normal_map_pos(pinfo->x, pinfo->y)) {
     return;
   }
 
   if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
-    /* 
-     * Discard invalid packet. Replace this with is_normal_map_pos if
-     * 1.13.1-devel is started.
-     */
-    if (!normalize_map_pos(&pinfo->x, &pinfo->y)) {
-      return;
-    }
-
     if (is_tiles_adjacent(punit->x, punit->y, pinfo->x, pinfo->y)) {
       punit->ai.control = FALSE;
       handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
@@ -634,15 +607,8 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, pmove->unid);
 
-  /* 
-   * Discard invalid packet. Replace this with is_normal_map_pos if
-   * 1.13.1-devel is started.
-   */
-  if (!normalize_map_pos(&pmove->x, &pmove->y)) {
-    return;
-  }
-
-  if (!punit || !is_tiles_adjacent(punit->x, punit->y, pmove->x, pmove->y)) {
+  if (!is_normal_map_pos(pmove->x, pmove->y) || !punit
+      || !is_tiles_adjacent(punit->x, punit->y, pmove->x, pmove->y)) {
     return;
   }
   handle_unit_move_request(punit, pmove->x, pmove->y, FALSE, FALSE);
@@ -906,11 +872,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     return FALSE;
   }
 
-  /* 
-   * Discard invalid packet. Replace this with is_normal_map_pos if
-   * 1.13.1-devel is started.
-   */
-  if (!normalize_map_pos(&dest_x, &dest_y)) {
+  if (!is_normal_map_pos(dest_x, dest_y)) {
     return FALSE;
   }
 
