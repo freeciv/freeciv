@@ -1544,7 +1544,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 **************************************************************************/
 int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
 {
-  int a=0, b, c, d, e, m, n, v, f, b0, ab, g;
+  int a=0, b, move_time, d, e, move_rate, n, v, f, b0, ab, g;
 #ifdef DEBUG
   int aa = 0, bb = 0, cc = 0, dd = 0, bestb0 = 0;
 #endif
@@ -1608,9 +1608,9 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   *x = punit->x; *y = punit->y;
   ab = unit_belligerence_basic(punit);
   if (ab == 0) return(0); /* don't want to deal with SIGFPE's -- Syela */
-  m = unit_type(punit)->move_rate;
-  if (unit_flag(punit, F_IGTER)) m *= SINGLE_MOVE;
-  maxd = MIN(6, m) * THRESHOLD + 1;
+  move_rate = unit_type(punit)->move_rate;
+  if (unit_flag(punit, F_IGTER)) move_rate *= SINGLE_MOVE;
+  maxd = MIN(6, move_rate) * THRESHOLD + 1;
   f = unit_type(punit)->build_cost;
   fprime = build_cost_balanced(punit->type);
 
@@ -1657,17 +1657,17 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 /* attempting to make empty cities less enticing. -- Syela */
           if (is_ground_unit(punit)) {
             if (!sanity) {
-              c = (warmap.seacost[acity->x][acity->y]) / boatspeed; /* kluge */
-              if (boatspeed < 9 && c > 2) c = 999; /* tired of Kaput! -- Syela */
-              if (ferryboat) c += (warmap.cost[bx][by] + m - 1) / m + 1;
-              else c += 1;
-              if (unit_flag(punit, F_MARINES)) c -= 1;
-            } else c = (warmap.cost[acity->x][acity->y] + m - 1) / m;
+              move_time = (warmap.seacost[acity->x][acity->y]) / boatspeed; /* kluge */
+              if (boatspeed < 9 && move_time > 2) move_time = 999; /* tired of Kaput! -- Syela */
+              if (ferryboat) move_time += (warmap.cost[bx][by] + move_rate - 1) / move_rate + 1;
+              else move_time += 1;
+              if (unit_flag(punit, F_MARINES)) move_time -= 1;
+            } else move_time = (warmap.cost[acity->x][acity->y] + move_rate - 1) / move_rate;
           } else if (is_sailing_unit(punit))
-             c = (warmap.seacost[acity->x][acity->y] + m - 1) / m;
-          else c = (real_map_distance(punit->x, punit->y, acity->x, acity->y)
-		    * SINGLE_MOVE) / m;
-          if (c > 1) {
+             move_time = (warmap.seacost[acity->x][acity->y] + move_rate - 1) / move_rate;
+          else move_time = (real_map_distance(punit->x, punit->y, acity->x, acity->y)
+		    * SINGLE_MOVE) / move_rate;
+          if (move_time > 1) {
             n = ai_choose_defender_versus(acity, punit->type);
 	    v = unit_vulnerability_virtual2(punit->type, n, acity->x,
 					    acity->y, FALSE,
@@ -1679,7 +1679,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
               !TEST_BIT(acity->ai.invasion, 0)) b -= 40; /* boats can't conquer cities */
           if (punit->id == 0
 	      && !unit_really_ignores_citywalls(punit)
-	      && c > (player_knows_improvement_tech(aplayer, B_CITY) ? 2 : 4)
+	      && move_time > (player_knows_improvement_tech(aplayer, B_CITY) ? 2 : 4)
 	      && !city_got_citywalls(acity))
 	    d *= 9;
 
@@ -1692,7 +1692,7 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
 
           if (!is_ground_unit(punit) && !is_heli_unit(punit) && !pdef) b0 = 0;
 /* !d instead of !pdef was horrible bug that led to yoyo-ing AI warships -- Syela */
-          else if (c > THRESHOLD) b0 = 0;
+          else if (move_time > THRESHOLD) b0 = 0;
           else if ((is_ground_unit(punit) || is_heli_unit(punit)) &&
                    acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
           else {
@@ -1710,15 +1710,15 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
               b0 -= kill_desire(b, a_squared, acity->ai.f, d, g);
             }
           }
-          b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
+          b0 -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
           /* FIXME: build_cost of ferry */
           needferry = 
             (!sanity && boatid == 0 && is_ground_unit(punit) ? 40 : 0);
-          e = military_amortize(b0, MAX(1, c), fprime + needferry);
+          e = military_amortize(b0, MAX(1, move_time), fprime + needferry);
           /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
           if (b0 <= 0 && punit->id == 0 && best == 0) {
             int bk_e = military_amortize(b * SHIELD_WEIGHTING, 
-                                         MAX(1, c), fprime + needferry);
+                                         MAX(1, move_time), fprime + needferry);
             if (bk_e > bk) {
               if (punit->id != 0 && is_ground_unit(punit) 
                   && !unit_flag(punit, F_MARINES) 
@@ -1739,10 +1739,10 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
 
 	  if (punit->id != 0 && ferryboat && is_ground_unit(punit)) {
 	    freelog(LOG_DEBUG, "%s@(%d, %d) -> %s@(%d, %d) -> %s@(%d, %d)"
-		    " (sanity=%d, c=%d, e=%d, best=%d)",
+		    " (sanity=%d, move_time=%d, e=%d, best=%d)",
 		    unit_type(punit)->name, punit->x, punit->y,
 		    unit_type(ferryboat)->name, bx, by,
-		    acity->name, acity->x, acity->y, sanity, c, e, best);
+		    acity->name, acity->x, acity->y, sanity, move_time, e, best);
 	  }
 
           if (e > best && ai_fuzzy(pplayer, TRUE)) {
@@ -1753,7 +1753,7 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
 /* need a beachhead which is adjacent to the city and an available ocean tile */
               if (find_beachhead(punit, acity->x, acity->y, &xx, &yy) != 0) { /* LaLALala */
 #ifdef DEBUG
-                aa = a; bb = b; cc = c; dd = d; bestb0 = b0;
+                aa = a; bb = b; cc = move_time; dd = d; bestb0 = b0;
 #endif
                 best = e;
                 *x = acity->x;
@@ -1763,7 +1763,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
               } /* else do nothing, since we have no beachhead */
             } else {
 #ifdef DEBUG
-              aa = a; bb = b; cc = c; dd = d; bestb0 = b0;
+              aa = a; bb = b; cc = move_time; dd = d; bestb0 = b0;
 #endif
               best = e;
               *x = acity->x;
@@ -1796,26 +1796,26 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
           if (is_ground_unit(punit)) n = warmap.cost[aunit->x][aunit->y];
           else if (is_sailing_unit(punit)) n = warmap.seacost[aunit->x][aunit->y];
           else n = real_map_distance(punit->x, punit->y, aunit->x, aunit->y) * 3;
-          if (n > m) { /* if n <= m, it can't run away -- Syela */
+          if (n > move_rate) { /* if n <= move_rate, it can't run away -- Syela */
             n *= unit_type(aunit)->move_rate;
             if (unit_flag(aunit, F_IGTER)) n *= 3;
           }
-          c = (n + m - 1) / m;
+          move_time = (n + move_rate - 1) / move_rate;
           if (!is_ground_unit(punit) && d == 0) b0 = 0;
-          else if (c > THRESHOLD) b0 = 0;
+          else if (move_time > THRESHOLD) b0 = 0;
           else {
             b0 = kill_desire(b, a, f, d, 1);
             /* Take into account maintainance of the unit */
             /* FIXME: Depends on the government */
-            b0 -= c * SHIELD_WEIGHTING;
+            b0 -= move_time * SHIELD_WEIGHTING;
             /* Take into account unhappiness 
              * (costs 2 luxuries to compensate) */
-            b0 -= (unhap ? 2 * c * TRADE_WEIGHTING : 0);
+            b0 -= (unhap ? 2 * move_time * TRADE_WEIGHTING : 0);
           }
-          e = military_amortize(b0, MAX(1, c), fprime);
+          e = military_amortize(b0, MAX(1, move_time), fprime);
           if (e > best && ai_fuzzy(pplayer, TRUE)) {
 #ifdef DEBUG
-            aa = a; bb = b; cc = c; dd = d; bestb0 = b0;
+            aa = a; bb = b; cc = move_time; dd = d; bestb0 = b0;
 #endif
             best = e;
             *x = aunit->x;
@@ -1832,7 +1832,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
 	    "%s's %s#%d at (%d, %d) targeting (%d, %d) [desire = %d/%d]",
 	    pplayer->name, unit_type(punit)->name, punit->id,
 	    punit->x, punit->y, *x, *y, best, bestb0);
-    freelog(LOG_DEBUG, "A = %d, B = %d, C = %d, D = %d, F = %d, E = %d",
+    freelog(LOG_DEBUG, "A = %d, B = %d, move_time = %d, D = %d, F = %d, E = %d",
 	    aa, bb, cc, dd, f, best);
   }
   if (punit->id && (pcity = map_get_city(*x, *y)) &&
