@@ -2468,25 +2468,26 @@ msgstr "%sの宇宙船がアルファケンタウリに着きました。"
 
 #: server/srv_main.c:201 server/srv_main.c:202
 msgid "Game ended in a draw as end year exceeded"
-msgstr ""
+msgstr "終了に設定された年を過ぎたため、引き分けのままゲームは終了しました。"
 
 #: server/srv_main.c:230 server/srv_main.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Team victory to %s"
-msgstr "%sに変える"
+msgstr "チーム %s の勝利です。"
 
 #: server/srv_main.c:240 server/srv_main.c:241
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr ""
+msgstr "%s の勝利でゲームは終了しました。"
 
 #: server/srv_main.c:246 server/srv_main.c:247
 msgid "Game ended in a draw"
-msgstr ""
+msgstr "ゲームは引き分けで終了しました。"
 
+# ntaka
 #: server/srv_main.c:269 server/srv_main.c:270
 msgid "Game ended in allied victory"
-msgstr ""
+msgstr "ゲームはプレイヤーの所属する同盟の勝利で終了しました。"
 
 # yasu
 #: server/srv_main.c:390
@@ -2538,9 +2539,8 @@ msgstr "空白ではない名前を選んで下さい。"
 
 # yasu
 #: server/srv_main.c:1012
-#, fuzzy
 msgid "Please choose a legal name."
-msgstr "空白ではない名前を選んで下さい。"
+msgstr "正当な名前を選んで下さい。"
 
 # yasu, ama
 #: server/srv_main.c:1036
@@ -3840,21 +3840,28 @@ msgid "Set server option."
 msgstr "サーバオプションを設定する。"
 
 #: server/stdinhand.c:1077
-#, fuzzy
 msgid "team <player> [team]"
-msgstr "remove <プレイヤー名>"
+msgstr "team <プレイヤー名> [チーム名]"
 
+# ntaka
 #: server/stdinhand.c:1078
 msgid "Change, add or remove a player's team affiliation."
-msgstr ""
+msgstr "プレイヤーのチームへの加盟、脱退、またはチームの変更をする。"
 
+# ntaka
 #: server/stdinhand.c:1079
 msgid ""
 "Sets a player as member of a team. If no team specified, the player is set "
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
-msgstr ""
+msgstr "プレイヤーをあるチームの一員として設定します。もし所属チームを"
+"特定しないのであれば、そのプレイヤーは所属チーム無しとします。"
+"チーム名は、\"\"で囲むことで途中に空白のあるチーム名にすることもできます。"
+"チームとは、ゲーム開始時点から同盟を組んでいるものとするプレイヤーたちの"
+"グループのことで、視界の共有、大使館の設置、またチームとしての勝利のため"
+"ともに闘うことなどをします。勝利したときのスコアは、"
+"チーム内のメンバーで貢献度によって分けられます。"
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -4613,31 +4620,31 @@ msgstr "%-*s 値      (最小,最大)    "
 msgid "description"
 msgstr "説明"
 
+# ntaka
 #: server/stdinhand.c:2682
-#, fuzzy
 msgid "Cannot change teams once game has begun."
-msgstr "一旦ゲームが始まると AI プレイヤーを追加できません。"
+msgstr "一旦ゲームが始まると チームを変更できません。"
 
+# ntaka
 #: server/stdinhand.c:2692
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> [team]."
-msgstr "不明な引数です。使用法: set <オプション名> <値>"
+msgstr "不明な引数です。使用法: team <プレイヤー名> [チーム名]"
 
 #: server/stdinhand.c:2708
 #, c-format
 msgid "Player %s is made teamless."
-msgstr ""
+msgstr "%s はチームに所属していません。"
 
+# ntaka
 #: server/stdinhand.c:2714
-#, fuzzy
 msgid "Bad team name."
-msgstr "ゲームを終える。"
+msgstr "不正なチーム名です。"
 
-# clefs
+# ntaka
 #: server/stdinhand.c:2718
-#, fuzzy, c-format
+#, c-format
 msgid "Player %s set to team %s."
-msgstr "%1$sは%3$sによる攻撃で%2$sを失いました。"
+msgstr "%1$s はチーム %2$s に所属しました。"
 
 #: server/stdinhand.c:2756
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -8286,7 +8293,6 @@ msgid "Goto/Airlift Unit"
 msgstr "部隊を移動/空輸"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
-#, fuzzy
 msgid "Air_lift"
 msgstr "空輸"
 
@@ -8842,10 +8848,11 @@ msgstr "攻:%d 防:%d 火:%d 体:%d/%d%s%s"
 msgid " V"
 msgstr " ベ"
 
+# ntaka
 #: client/gui-gtk-2.0/mapctrl.c:184
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "勝利する可能性: 攻:%d%% 守:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
 #: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:200
@@ -9781,9 +9788,10 @@ msgstr "タイプ"
 msgid "Turns"
 msgstr "ターン"
 
+# ntaka
 #: client/gui-gtk-2.0/wldlg.c:897
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "生産物リスト(_T):"
 
 #: client/gui-gtk-2.0/wldlg.c:902
 msgid "Show _Future Targets"
@@ -15860,7 +15868,6 @@ msgstr ""
 
 # yasu, ama
 #: data/civ1/governments.ruleset:286
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -15901,7 +15908,6 @@ msgstr ""
 
 # yasu
 #: data/civ1/governments.ruleset:353
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15933,7 +15939,7 @@ msgstr ""
 "はなく国に寄与します。共産主義は政府の軍国主義と商業主義のバランスをもたらし"
 "ます。\n"
 "\n"
-"共産主義では汚職は、都市からの距離によっては変わりません。全ての都市(首都も含"
+"共産主義では汚職は、首都からの距離によっては変わりません。全ての都市(首都も含"
 "む)で中等度の汚職があります。さらに、革命を起こすコストを計算する場合、首都よ"
 "り11マス以上遠い都市でも10マスしか離れていないとみなされます。部隊、外交参"
 "照。\n"
