@@ -618,7 +618,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Tearoff>"	},
   { "/" N_("Government") "/" N_("_Tax Rates"),		"<shift>t",
 	government_menu_callback,MENU_GOVERNMENT_TAX_RATE				},
-  { "/" N_("Governemt") "/sep1",				NULL,
+  { "/" N_("Government") "/sep1",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Government") "/" N_("_Find City"),		"<shift>f",
 	government_menu_callback,MENU_GOVERNMENT_FIND_CITY				},
