@@ -7,6 +7,26 @@ This file describes how to compile and install Freeciv.
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
 
+This document contains sections and subsections as follows:
+     0. Prerequisites:
+     1. Prerequisites for the clients:
+          1a. Prerequisites for the Gtk+ 1.2 client:
+          1b. Prerequisites for the Gtk+ 2.0 client:
+          1c. Prerequisites for the Xaw client:
+     2. Generating Makefiles
+          2a. Generating the Makefile for CVS versions:
+          2b. Generating the Makefile for release versions:
+     3. Compiling Freeciv:
+     4. Installation:
+     5. Native Language Support:
+     6. Readline Support:
+     7. Reinier's Solaris Installation Notes:
+     8. Reinier's libXpm Solaris Installation Notes:
+     9. Mac OS X and Darwin notes:
+    10. Debian GNU/Linux notes:
+    11. Cygwin notes:
+    12. Win32 ("native MS Windows") notes:
+
 
 0. Prerequisites:
 =================
@@ -219,7 +239,7 @@ If you are going to make these yourself, build and install them in the
 following order: pkg-config, Glib, Atk, Pango, Gtk+.
 
 
-1b. Prerequisites for the Xaw client:
+1c. Prerequisites for the Xaw client:
 =====================================
 
  - X-Windows.
@@ -278,6 +298,11 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
    install it as root, see Reinier's libXpm Solaris Installation Notes
    section near the end of this file.
 
+
+2. Generating Makefiles
+=======================
+This section contains two parts, one for generating makefiles from CVS
+versions and one for generating makefiles from release versions.
 
 2a. Generating the Makefile for CVS versions:
 =============================================
