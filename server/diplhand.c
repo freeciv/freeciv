@@ -519,6 +519,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     } clause_list_iterate_end;
   cleanup:
     treaty_list_unlink(&treaties, ptreaty);
+    clear_treaty(ptreaty);
     free(ptreaty);
     send_player_info(pplayer, NULL);
     send_player_info(pother, NULL);
@@ -653,6 +654,7 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
     notify_player(pplayer, _("Game: Meeting with %s canceled."), 
 		  pother->name);
     treaty_list_unlink(&treaties, ptreaty);
+    clear_treaty(ptreaty);
     free(ptreaty);
   }
 }

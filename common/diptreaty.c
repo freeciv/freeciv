@@ -83,6 +83,16 @@ void init_treaty(struct Treaty *ptreaty,
   clause_list_init(&ptreaty->clauses);
 }
 
+/****************************************************************
+  Free the clauses of a treaty.
+*****************************************************************/
+void clear_treaty(struct Treaty *ptreaty)
+{
+  clause_list_iterate(ptreaty->clauses, pclause) {
+    free(pclause);
+  } clause_list_iterate_end;
+  clause_list_unlink_all(&ptreaty->clauses);
+}
 
 /****************************************************************
 ...

@@ -56,5 +56,6 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
 	       enum clause_type type, int val);
 bool remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
 		  enum clause_type type, int val);
+void clear_treaty(struct Treaty *ptreaty);
 
 #endif /* FC__DIPTREATY_H */
