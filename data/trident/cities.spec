@@ -23,6 +23,7 @@ artists = "
 
     european style based on trident tileset by
     Tatu Rissanen <tatu.rissanen@hut.fi>
+    Marco Saupe <msaupe@saale-net.de> (reworked classic, industrial and modern)
 "
 
 [file]
@@ -57,22 +58,22 @@ tiles = { "row", "column", "tag"
  1,  3, "city.european_wall"
  1,  4, "city.european_occupied"
 
- 1,  0, "city.classical_0"
- 1,  1, "city.classical_5"
- 1,  2, "city.classical_10"
- 1,  3, "city.classical_wall"
- 1,  4, "city.classical_occupied"
+ 5,  0, "city.classical_0"
+ 5,  1, "city.classical_5"
+ 5,  2, "city.classical_10"
+ 5,  3, "city.classical_wall"
+ 5,  4, "city.classical_occupied"
 
- 1,  0, "city.industrial_0"
- 1,  1, "city.industrial_5"
- 1,  2, "city.industrial_10"
- 1,  3, "city.industrial_wall"
- 1,  4, "city.industrial_occupied"
+ 2,  0, "city.industrial_0"
+ 2,  1, "city.industrial_5"
+ 2,  2, "city.industrial_10"
+ 2,  3, "city.industrial_wall"
+ 2,  4, "city.industrial_occupied"
 
- 1,  0, "city.modern_0"
- 1,  1, "city.modern_5"
- 1,  2, "city.modern_10"
- 1,  3, "city.modern_wall"
- 1,  4, "city.modern_occupied"
+ 3,  0, "city.modern_0"
+ 3,  1, "city.modern_5"
+ 3,  2, "city.modern_10"
+ 3,  3, "city.modern_wall"
+ 3,  4, "city.modern_occupied"
 
 }
