@@ -8,6 +8,7 @@ common/shared.c
 common/support.c
 common/unit.c
 common/version.c
+ai/aicity.c
 server/barbarian.c
 server/cityhand.c
 server/citytools.c
@@ -28,7 +29,6 @@ server/stdinhand.c
 server/unitfunc.c
 server/unithand.c
 server/unittools.c
-ai/aicity.c
 client/cityrepdata.c
 client/civclient.c
 client/clinet.c
