@@ -54,7 +54,7 @@ struct fz_FILE_s {
   union {
     FILE *plain;		/* FZ_PLAIN */
 #ifdef HAVE_LIBZ
-    gzFile *zlib;		/* FZ_ZLIB */
+    gzFile zlib;		/* FZ_ZLIB */
 #endif
   } u;
 };
