@@ -20,7 +20,7 @@ DEBFLAGS = #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG
 
 # The optimize flags, set the comment mark, where you want. The options at the end
 # need much more time. Disabled by default.
-OPTFLAGS = #OPT OPTTIME IGNORE=306 OPTINLOCAL OPTPEEP OPTGO OPTLOOP OPTSCHED
+OPTFLAGS = DEF=NDEBUG #OPT OPTTIME IGNORE=306 OPTINLOCAL OPTPEEP OPTGO OPTLOOP OPTSCHED
 
 # Additional include directory (e.g. TCP includes)
 INCDIRS = #use this, if you have none

@@ -2,7 +2,10 @@
 #ifndef FC_CONFIG_H
 #define FC_CONFIG_H
 
-/* The following lines prevent prototype errors */
+/***************************************************************************/
+/* The following lines prevent prototype errors and do some general stuff  */
+/* This file is modified by hand and no longer auto genererated :-)        */
+/***************************************************************************/
 #ifdef MIAMI_SDK
 void usleep(unsigned long usec);
 #else /* AmiTCP */
@@ -25,8 +28,7 @@ int ioctl(int fd, unsigned int request, char *argp);
 #ifdef __VBCC__
 #define bzero(a,l) memset(a, 0, l);
 #endif
-
-/* And now the real defines come */
+/***************************************************************************/
 
 /* Define if using alloca.c.  */
 /* #undef C_ALLOCA */
@@ -51,7 +53,7 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* #undef HAVE_MMAP */
 
 /* Define if you have the vprintf function.  */
-#define HAVE_VPRINTF 1
+#define HAVE_VPRINTF
 
 /* Define as __inline if that's what the C compiler calls it.  */
 /* #undef inline */
@@ -88,40 +90,44 @@ int ioctl(int fd, unsigned int request, char *argp);
 
 /* Define if the X Window System is missing or not being used.  */
 /* #undef X_DISPLAY_MISSING */
-/*
-#undef PACKAGE
-#undef VERSION
-#undef MAJOR_VERSION
-#undef MINOR_VERSION
-#undef PATCH_VERSION
-#undef IS_BETA_VERSION
-#undef VERSION_STRING
-#undef FREECIV_DATADIR
-#undef HAVE_LIBICE
-#undef HAVE_LIBSM
-#undef HAVE_LIBX11
-#undef HAVE_LIBXAW
-#undef HAVE_LIBXAW3D
-#undef HAVE_LIBXEXT
-#undef HAVE_LIBXMU
-#undef HAVE_LIBXPM
-#undef HAVE_LIBXT
-#undef ENABLE_NLS
-#undef HAVE_CATGETS
-#undef HAVE_GETTEXT
-#undef HAVE_LC_MESSAGES
-#undef HAVE_STPCPY
-#undef LOCALEDIR*/
-#define ALWAYS_ROOT
-/*#undef STRICT_WINDOWS
-#undef GENERATING_MAC
-#undef HAVE_OPENTRANSPORT
-*/
-#define PATH_SEPARATOR ","
+
+/* #undef MAJOR_VERSION */
+/* #undef MINOR_VERSION */
+/* #undef PATCH_VERSION */
+/* #undef VERSION_LABEL */
+/* #undef IS_DEVEL_VERSION */
+/* #undef IS_BETA_VERSION */
+/* #undef VERSION_STRING */
+/* #undef HAVE_LIBICE */
+/* #undef HAVE_LIBSM */
+/* #undef HAVE_LIBX11 */
+/* #undef HAVE_LIBXAW */
+/* #undef HAVE_LIBXAW3D */
+/* #undef HAVE_LIBXEXT */
+/* #undef HAVE_LIBXMU */
+/* #undef HAVE_LIBXPM */
+/* #undef HAVE_LIBXT */
+/* #undef ENABLE_NLS */
+/* #undef HAVE_CATGETS */
+/* #undef HAVE_GETTEXT */
+/* #undef HAVE_LC_MESSAGES */
+/* #undef HAVE_STPCPY */
+/* #undef LOCALEDIR */
 #define DEFAULT_DATA_PATH "PROGDIR:data"
-#define NONBLOCKING_SOCKETS 1
-/*#undef HAVE_FCNTL*/
-#define HAVE_IOCTL 1
+/* #undef HAVE_SIGPIPE */
+/* #undef XPM_H_NO_X11 */
+/* #undef FUNCPROTO */
+/* #undef NARROWPROTO */
+/* #undef HAVE_LIBREADLINE */
+#define ALWAYS_ROOT
+/* #undef STRICT_WINDOWS */
+/* #undef GENERATING_MAC */
+/* #undef HAVE_OPENTRANSPORT */
+#define PATH_SEPARATOR ","
+/* #undef SOCKET_ZERO_ISNT_STDIN */
+#define NONBLOCKING_SOCKETS
+/* #undef  HAVE_FCNTL */
+#define HAVE_IOCTL
 #define OPTION_FILE_NAME "PROGDIR:civclient.options"
 
 /* Define if you have the __argz_count function.  */
@@ -133,11 +139,11 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* Define if you have the __argz_stringify function.  */
 /* #undef HAVE___ARGZ_STRINGIFY */
 
-/* Define if you have the fdopen function.  */
-/* #undef HAVE_FDOPEN */
-
 /* Define if you have the dcgettext function.  */
 /* #undef HAVE_DCGETTEXT */
+
+/* Define if you have the fdopen function.  */
+/* #undef HAVE_FDOPEN */
 
 /* Define if you have the getcwd function.  */
 /* #undef HAVE_GETCWD */
@@ -147,6 +153,9 @@ int ioctl(int fd, unsigned int request, char *argp);
 
 /* Define if you have the getpagesize function.  */
 /* #undef HAVE_GETPAGESIZE */
+
+/* Define if you have the getpwuid function.  */
+/* #undef HAVE_GETPWUID */
 
 /* Define if you have the gettimeofday function.  */
 /* #undef HAVE_GETTIMEOFDAY */
@@ -158,13 +167,16 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* #undef HAVE_PUTENV */
 
 /* Define if you have the select function.  */
-#define HAVE_SELECT 1
+#define HAVE_SELECT
 
 /* Define if you have the setenv function.  */
 /* #undef HAVE_SETENV */
 
 /* Define if you have the setlocale function.  */
 /* #undef HAVE_SETLOCALE */
+
+/* Define if you have the snooze function.  */
+/* #undef HAVE_SNOOZE */
 
 /* Define if you have the stpcpy function.  */
 /* #undef HAVE_STPCPY */
@@ -179,19 +191,31 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* #undef HAVE_STRDUP */
 
 /* Define if you have the strerror function.  */
-#define HAVE_STRERROR 1
+#define HAVE_STRERROR
+
+/* Define if you have the strlcat function.  */
+/* #undef HAVE_STRLCAT */
+
+/* Define if you have the strlcpy function.  */
+/* #undef HAVE_STRLCPY */
 
 /* Define if you have the strstr function.  */
 /* #undef HAVE_STRSTR */
 
 /* Define if you have the usleep function.  */
-#define HAVE_USLEEP 1
+#define HAVE_USLEEP
+
+/* Define if you have the vsnprintf function.  */
+/* #undef HAVE_VSNPRINTF */
 
 /* Define if you have the <argz.h> header file.  */
 /* #undef HAVE_ARGZ_H */
 
 /* Define if you have the <arpa/inet.h> header file.  */
-#define HAVE_ARPA_INET_H 1
+#define HAVE_ARPA_INET_H
+
+/* Define if you have the <fcntl.h> header file.  */
+/* #define HAVE_FCNTL_H */
 
 /* Define if you have the <limits.h> header file.  */
 /* #undef HAVE_LIMITS_H */
@@ -203,69 +227,71 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* #undef HAVE_MALLOC_H */
 
 /* Define if you have the <netdb.h> header file.  */
-#define HAVE_NETDB_H 1
+#define HAVE_NETDB_H
 
 /* Define if you have the <netinet/in.h> header file.  */
-#define HAVE_NETINET_IN_H 1
+#define HAVE_NETINET_IN_H
 
 /* Define if you have the <nl_types.h> header file.  */
 /* #undef HAVE_NL_TYPES_H */
 
 /* Define if you have the <pwd.h> header file.  */
 #ifndef MIAMI_SDK
-#define HAVE_PWD_H 1
+#define HAVE_PWD_H
 #endif
 
 /* Define if you have the <string.h> header file.  */
-#define HAVE_STRING_H 1
+#define HAVE_STRING_H
 
 /* Define if you have the <sys/ioctl.h> header file.  */
 #define HAVE_SYS_IOCTL_H
 
 /* Define if you have the <sys/param.h> header file.  */
-/*#undef HAVE_SYS_PARAM_H*/
+/* #undef HAVE_SYS_PARAM_H */
 
 /* Define if you have the <sys/select.h> header file.  */
-/*#undef HAVE_SYS_SELECT_H*/
+/* #undef HAVE_SYS_SELECT_H */
 
 /* Define if you have the <sys/signal.h> header file.  */
-/*#undef HAVE_SYS_SIGNAL_H*/
+/* #undef HAVE_SYS_SIGNAL_H */
 
 /* Define if you have the <sys/socket.h> header file.  */
 #define HAVE_SYS_SOCKET_H
 
 /* Define if you have the <sys/termio.h> header file.  */
-/*#undef HAVE_SYS_TERMIO_H*/
+/* #undef HAVE_SYS_TERMIO_H */
 
 /* Define if you have the <sys/time.h> header file.  */
-#define HAVE_SYS_TIME_H 1
+#undef HAVE_SYS_TIME_H
 
 /* Define if you have the <sys/types.h> header file.  */
-#define HAVE_SYS_TYPES_H 1
+#undef HAVE_SYS_TYPES_H
 
 /* Define if you have the <sys/uio.h> header file.  */
-/*#undef HAVE_SYS_UIO_H*/
+#undef HAVE_SYS_UIO_H
 
 /* Define if you have the <termios.h> header file.  */
-/*#undef HAVE_TERMIOS_H*/
+#undef HAVE_TERMIOS_H
 
 /* Define if you have the <unistd.h> header file.  */
 #if !defined(__VBCC__) || !defined(MIAMI_SDK)
-#define HAVE_UNISTD_H 1
+#define HAVE_UNISTD_H
 #endif
 
 /* Define if you have the i library (-li).  */
-/*#undef HAVE_LIBI*/
+/* #undef HAVE_LIBI */
 
 /* Define if you have the nls library (-lnls).  */
-/*#undef HAVE_LIBNLS*/
+/* #undef HAVE_LIBNLS */
+
+/* Define if you have the z library (-lz).  */
+/* #undef HAVE_LIBZ */
 
 /* Name of package */
-/*#undef PACKAGE*/
+/* #undef PACKAGE */
 
 /* Version number of package */
-/*#undef VERSION*/
+/* #undef VERSION */
 
-/*#undef HAVE_FCNTL_H */
 
 #endif /* FC_CONFIG_H */

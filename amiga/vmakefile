@@ -21,7 +21,7 @@ DEBFLAGS = #-debug=2
 
 # The optimize flags, set the comment mark, where you want. The options at the end
 # need much more time. Disabled by default.
-OPTFLAGS = #-O=8191
+OPTFLAGS = -DNDEBUG #-O=8191
 
 # Additional include directory (e.g. TCP includes)
 INCDIRS = #use this, if you have none
