@@ -2040,12 +2040,14 @@ static inline void city_support(struct city *pcity,
   struct government *g = get_gov_pcity(pcity);
 
   int free_happy = citygov_free_happy(pcity, g);
-  int free_shield = citygov_free_upkeep(pcity, g, O_SHIELD);
-  int free_food = citygov_free_upkeep(pcity, g, O_FOOD);
-  int free_gold = citygov_free_upkeep(pcity, g, O_GOLD);
+  int free_upkeep[O_COUNT];
 
   /* ??  This does the right thing for normal Republic and Democ -- dwp */
   free_happy += get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
+
+  output_type_iterate(o) {
+    free_upkeep[o] = citygov_free_upkeep(pcity, g, o);
+  } output_type_iterate_end;
 
   happy_copy(pcity, 2);
 
@@ -2071,8 +2073,7 @@ static inline void city_support(struct city *pcity,
       if (city_units < g->martial_law_max && is_military_unit(punit)
 	  && punit->owner == pcity->owner)
 	city_units++;
-    }
-    unit_list_iterate_end;
+    } unit_list_iterate_end;
     city_units *= g->martial_law_per;
     /* get rid of angry first, then make unhappy content */
     while (city_units > 0 && pcity->ppl_angry[3] > 0) {
@@ -2091,16 +2092,17 @@ static inline void city_support(struct city *pcity,
    * gold etc -- SKi */
   unit_list_iterate(pcity->units_supported, this_unit) {
     struct unit_type *ut = unit_type(this_unit);
-    int shield_cost = utype_upkeep_cost(ut, g, O_SHIELD);
+    int upkeep_cost[O_COUNT], old_upkeep[O_COUNT];
     int happy_cost = utype_happy_cost(ut, g);
-    int food_cost = utype_upkeep_cost(ut, g, O_FOOD);
-    int gold_cost = utype_upkeep_cost(ut, g, O_GOLD);
+    bool changed = FALSE;
 
     /* Save old values so we can decide if the unit info should be resent */
     int old_unhappiness = this_unit->unhappiness;
-    int old_upkeep = this_unit->upkeep[O_SHIELD];
-    int old_upkeep_food = this_unit->upkeep[O_FOOD];
-    int old_upkeep_gold = this_unit->upkeep[O_GOLD];
+
+    output_type_iterate(o) {
+      upkeep_cost[o] = utype_upkeep_cost(ut, g, o);
+      old_upkeep[o] = this_unit->upkeep[o];
+    } output_type_iterate_end;
 
     /* set current upkeep on unit to zero */
     this_unit->unhappiness = 0;
@@ -2132,38 +2134,24 @@ static inline void city_support(struct city *pcity,
 	this_unit->unhappiness = happy_cost;
       }
     }
-    if (shield_cost > 0) {
-      adjust_city_free_cost(&free_shield, &shield_cost);
-      if (shield_cost > 0) {
-	pcity->usage[O_SHIELD] += shield_cost;
-	this_unit->upkeep[O_SHIELD] = shield_cost;
+    changed |= (old_unhappiness != happy_cost);
+
+    output_type_iterate(o) {
+      if (upkeep_cost[o] > 0) {
+	adjust_city_free_cost(&free_upkeep[o], &upkeep_cost[o]);
+	if (upkeep_cost[o] > 0) {
+	  pcity->usage[o] += upkeep_cost[o];
+	  this_unit->upkeep[o] = upkeep_cost[o];
+	}
       }
-    }
-    if (food_cost > 0) {
-      adjust_city_free_cost(&free_food, &food_cost);
-      if (food_cost > 0) {
-	pcity->usage[O_FOOD] += food_cost;
-	this_unit->upkeep[O_FOOD] = food_cost;
-      }
-    }
-    if (gold_cost > 0) {
-      adjust_city_free_cost(&free_gold, &gold_cost);
-      if (gold_cost > 0) {
-	pcity->usage[O_GOLD] += gold_cost;
-	this_unit->upkeep[O_GOLD] = gold_cost;
-      }
-    }
+      changed |= (old_upkeep[o] != upkeep_cost[o]);
+    } output_type_iterate_end;
 
     /* Send unit info if anything has changed */
-    if (send_unit_info
-        && (this_unit->unhappiness != old_unhappiness
-            || this_unit->upkeep[O_SHIELD] != old_upkeep
-            || this_unit->upkeep[O_FOOD] != old_upkeep_food
-            || this_unit->upkeep[O_GOLD] != old_upkeep_gold)) {
+    if (send_unit_info && changed) {
       send_unit_info(unit_owner(this_unit), this_unit);
     }
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************
