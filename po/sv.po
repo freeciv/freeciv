@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.39-1.14-8\n"
-"POT-Creation-Date: 2003-07-24 14:21+0200\n"
-"PO-Revision-Date: 2003-07-24 14:21+0200\n"
+"Project-Id-Version: 0.39-1.14-9\n"
+"POT-Creation-Date: 2003-08-12 19:43+0200\n"
+"PO-Revision-Date: 2003-08-12 19:49+0200\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -376,13 +376,13 @@ msgid "Fortified"
 msgstr "Befäst"
 
 #: common/unit.c:548 client/gui-mui/gui_main.c:247
-#: client/gui-mui/mapclass.c:1797 client/gui-mui/mapclass.c:3082
+#: client/gui-mui/mapclass.c:1815 client/gui-mui/mapclass.c:3100
 #: client/gui-xaw/menu.c:169
 msgid "Sentry"
 msgstr "Vaktpost"
 
 #: common/unit.c:550 client/gui-gtk-2.0/menu.c:663 client/gui-gtk/menu.c:664
-#: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1799
+#: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1817
 #: client/gui-win32/menu.c:332 client/gui-xaw/menu.c:170
 msgid "Pillage"
 msgstr "Plundra"
@@ -5909,27 +5909,27 @@ msgstr "Export färdig."
 msgid "Export failed, couldn't write to file."
 msgstr "Export misslyckades, kunde inte skriva till fil."
 
-#: client/clinet.c:113
+#: client/clinet.c:114
 msgid "Lost connection to server!"
 msgstr "Förlorade anslutningen till servern!"
 
-#: client/clinet.c:154 client/clinet.c:556
+#: client/clinet.c:155 client/clinet.c:557
 msgid "Failed looking up host"
 msgstr "Misslyckades med värdsökningen"
 
-#: client/clinet.c:233
+#: client/clinet.c:234
 msgid "Disconnecting from server."
 msgstr "Kopplar från servern."
 
-#: client/clinet.c:512
+#: client/clinet.c:513
 msgid "Invalid $http_proxy value, must start with 'http://'"
 msgstr "Ogiltigt $http_proxy-värde, måste börja med \"http://\""
 
-#: client/clinet.c:519
+#: client/clinet.c:520
 msgid "Invalid metaserver URL, must start with 'http://'"
 msgstr "Ogiltig metaserver-URL, måste börja med \"http://\""
 
-#: client/clinet.c:547
+#: client/clinet.c:548
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ogiltigt $http_proxy-värde, kan inte finna skiljande \"/\""
 
@@ -7707,7 +7707,7 @@ msgid "_Goto location"
 msgstr "_Gå till plats"
 
 #: client/gui-gtk-2.0/dialogs.c:246 client/gui-gtk-2.0/messagewin.c:182
-#: client/gui-gtk/messagewin.c:152 client/gui-mui/messagewin.c:238
+#: client/gui-gtk/messagewin.c:152 client/gui-mui/messagewin.c:210
 msgid "_Popup City"
 msgstr "Ö_ppna stad"
 
@@ -9130,7 +9130,7 @@ msgid "Diplomat\\/Spy Actions"
 msgstr "Budbärar\\/spejarhandlingar"
 
 #: client/gui-gtk-2.0/menu.c:693 client/gui-gtk/menu.c:694
-#: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1809
+#: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1827
 #: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:188
 msgid "Explode Nuclear"
 msgstr "Utlös _kärnvapen"
@@ -9418,7 +9418,7 @@ msgstr "Öpp"
 
 #: client/gui-gtk-2.0/messagewin.c:153 client/gui-gtk-2.0/messagewin.c:162
 #: client/gui-gtk/messagewin.c:114 client/gui-gtk/messagewin.c:126
-#: client/gui-mui/messagewin.c:130 client/gui-mui/messagewin.c:225
+#: client/gui-mui/messagewin.c:130 client/gui-mui/messagewin.c:197
 #: client/gui-win32/messagewin.c:131 client/gui-xaw/menu.c:204
 #: data/Freeciv:3172 data/Freeciv:3173 data/Freeciv:3182
 msgid "Messages"
@@ -10281,7 +10281,7 @@ msgstr ""
 #: client/gui-gtk/messagewin.c:140 client/gui-mui/citydlg.c:1757
 #: client/gui-mui/cityrep.c:388 client/gui-mui/dialogs.c:136
 #: client/gui-mui/dialogs.c:183 client/gui-mui/dialogs.c:1482
-#: client/gui-mui/messagewin.c:236 client/gui-mui/plrdlg.c:327
+#: client/gui-mui/messagewin.c:208 client/gui-mui/plrdlg.c:327
 #: client/gui-mui/repodlgs.c:562 client/gui-mui/repodlgs.c:811
 #: client/gui-mui/spaceshipdlg.c:228
 msgid "_Close"
@@ -10314,7 +10314,7 @@ msgstr "Inkomst: %6d Sammanlagt kostnad: %6d"
 msgid "Totals: ..."
 msgstr "Sammanlagda: ..."
 
-#: client/gui-gtk/repodlgs.c:817 client/gui-mui/mapclass.c:3092
+#: client/gui-gtk/repodlgs.c:817 client/gui-mui/mapclass.c:3110
 #: client/gui-win32/repodlgs.c:723 data/Freeciv:1895
 msgid "Upgrade"
 msgstr "Ersätt"
@@ -10802,25 +10802,25 @@ msgid "Order"
 msgstr "Befallningar"
 
 #: client/gui-mui/gui_main.c:235 client/gui-mui/gui_main.c:1273
-#: client/gui-mui/mapclass.c:1779 client/gui-win32/menu.c:945
+#: client/gui-mui/mapclass.c:1797 client/gui-win32/menu.c:945
 #: client/gui-xaw/menu.c:151
 msgid "Build City"
 msgstr "_Bygg stad"
 
 #: client/gui-mui/gui_main.c:236 client/gui-mui/gui_main.c:1316
-#: client/gui-mui/mapclass.c:1783 client/gui-win32/menu.c:981
+#: client/gui-mui/mapclass.c:1801 client/gui-win32/menu.c:981
 #: client/gui-xaw/menu.c:153
 msgid "Build Road"
 msgstr "Bygg väg"
 
 #: client/gui-mui/gui_main.c:237 client/gui-mui/gui_main.c:1298
-#: client/gui-mui/mapclass.c:1833 client/gui-win32/menu.c:904
+#: client/gui-mui/mapclass.c:1851 client/gui-win32/menu.c:904
 #: client/gui-xaw/menu.c:158
 msgid "Build Mine"
 msgstr "Bygg gruva"
 
 #: client/gui-mui/gui_main.c:238 client/gui-mui/gui_main.c:1289
-#: client/gui-mui/mapclass.c:1826 client/gui-win32/menu.c:903
+#: client/gui-mui/mapclass.c:1844 client/gui-win32/menu.c:903
 #: client/gui-xaw/menu.c:155
 msgid "Build Irrigation"
 msgstr "Bygg bevattning"
@@ -10830,29 +10830,29 @@ msgstr "Bygg bevattning"
 msgid "Transform Terrain"
 msgstr "Omvandla landskap"
 
-#: client/gui-mui/gui_main.c:241 client/gui-mui/mapclass.c:1787
+#: client/gui-mui/gui_main.c:241 client/gui-mui/mapclass.c:1805
 #: client/gui-xaw/menu.c:162
 msgid "Build Fortress"
 msgstr "Bygg fästning"
 
-#: client/gui-mui/gui_main.c:242 client/gui-mui/mapclass.c:1789
+#: client/gui-mui/gui_main.c:242 client/gui-mui/mapclass.c:1807
 #: client/gui-xaw/menu.c:163
 msgid "Build Airbase"
 msgstr "Bygg flygbas"
 
 #: client/gui-mui/gui_main.c:243 client/gui-mui/gui_main.c:1242
-#: client/gui-mui/mapclass.c:1791 client/gui-win32/menu.c:972
+#: client/gui-mui/mapclass.c:1809 client/gui-win32/menu.c:972
 #: client/gui-xaw/menu.c:164
 msgid "Clean Pollution"
 msgstr "Rensa förorening"
 
-#: client/gui-mui/gui_main.c:244 client/gui-mui/mapclass.c:1793
+#: client/gui-mui/gui_main.c:244 client/gui-mui/mapclass.c:1811
 #: client/gui-xaw/menu.c:166
 msgid "Clean Nuclear Fallout"
 msgstr "Rensa radioaktivt nedfall"
 
-#: client/gui-mui/gui_main.c:246 client/gui-mui/mapclass.c:1795
-#: client/gui-mui/mapclass.c:3061 client/gui-win32/menu.c:330
+#: client/gui-mui/gui_main.c:246 client/gui-mui/mapclass.c:1813
+#: client/gui-mui/mapclass.c:3079 client/gui-win32/menu.c:330
 #: client/gui-xaw/menu.c:168
 msgid "Fortify"
 msgstr "Befäst"
@@ -10861,7 +10861,7 @@ msgstr "Befäst"
 msgid "Make Homecity"
 msgstr "Gör till hemstad"
 
-#: client/gui-mui/gui_main.c:251 client/gui-mui/mapclass.c:1811
+#: client/gui-mui/gui_main.c:251 client/gui-mui/mapclass.c:1829
 #: client/gui-xaw/menu.c:173
 msgid "Unload"
 msgstr "Lasta ur"
@@ -10870,17 +10870,17 @@ msgstr "Lasta ur"
 msgid "Wake up others"
 msgstr "Väck övriga (_Q)"
 
-#: client/gui-mui/gui_main.c:254 client/gui-mui/mapclass.c:1801
+#: client/gui-mui/gui_main.c:254 client/gui-mui/mapclass.c:1819
 #: client/gui-win32/menu.c:338 client/gui-xaw/menu.c:176
 msgid "Auto Settler"
 msgstr "Förbättra landskap självständigt"
 
-#: client/gui-mui/gui_main.c:255 client/gui-mui/mapclass.c:1803
+#: client/gui-mui/gui_main.c:255 client/gui-mui/mapclass.c:1821
 #: client/gui-win32/menu.c:339 client/gui-xaw/menu.c:177
 msgid "Auto Attack"
 msgstr "Angrip självständigt"
 
-#: client/gui-mui/gui_main.c:256 client/gui-mui/mapclass.c:1805
+#: client/gui-mui/gui_main.c:256 client/gui-mui/mapclass.c:1823
 #: client/gui-xaw/menu.c:178
 msgid "Auto Explore"
 msgstr "Utforska självständigt"
@@ -10967,26 +10967,26 @@ msgstr ""
 msgid "Change to %s"
 msgstr "Ändra till %s"
 
-#: client/gui-mui/gui_main.c:1237 client/gui-mui/mapclass.c:1807
+#: client/gui-mui/gui_main.c:1237 client/gui-mui/mapclass.c:1825
 #: client/gui-win32/menu.c:970 client/gui-xaw/menu.c:165
 msgid "Paradrop"
 msgstr "Hoppa fallskärm"
 
-#: client/gui-mui/gui_main.c:1269 client/gui-mui/mapclass.c:1781
+#: client/gui-mui/gui_main.c:1269 client/gui-mui/mapclass.c:1799
 #: client/gui-win32/menu.c:941 client/gui-xaw/menu.c:152
 msgid "Add to City"
 msgstr "Utöka stad"
 
-#: client/gui-mui/gui_main.c:1285 client/gui-mui/mapclass.c:1823
+#: client/gui-mui/gui_main.c:1285 client/gui-mui/mapclass.c:1841
 #: client/gui-win32/menu.c:957 client/gui-xaw/menu.c:156
 msgid "Build Farmland"
 msgstr "Gör till åkerland"
 
-#: client/gui-mui/gui_main.c:1307 client/gui-mui/mapclass.c:1840
+#: client/gui-mui/gui_main.c:1307 client/gui-mui/mapclass.c:1858
 msgid "Transform terrain"
 msgstr "Omvandla landskap"
 
-#: client/gui-mui/gui_main.c:1312 client/gui-mui/mapclass.c:1785
+#: client/gui-mui/gui_main.c:1312 client/gui-mui/mapclass.c:1803
 #: client/gui-win32/menu.c:978 client/gui-xaw/menu.c:154
 msgid "Build Railroad"
 msgstr "Bygg järnväg"
@@ -11040,52 +11040,52 @@ msgstr ""
 "Sköldar: %d\n"
 "Handel:  %d"
 
-#: client/gui-mui/mapclass.c:1750
+#: client/gui-mui/mapclass.c:1768
 #, c-format
 msgid "City %s"
 msgstr "Stad %s"
 
-#: client/gui-mui/mapclass.c:1752
+#: client/gui-mui/mapclass.c:1770
 #, c-format
 msgid "Unit %s"
 msgstr "Enhet %s"
 
-#: client/gui-mui/mapclass.c:1754
+#: client/gui-mui/mapclass.c:1772
 #, c-format
 msgid "Tile %s"
 msgstr "Ruta %s"
 
-#: client/gui-mui/mapclass.c:1767 client/gui-win32/messagewin.c:150
+#: client/gui-mui/mapclass.c:1785 client/gui-win32/messagewin.c:150
 #: data/Freeciv:3220
 msgid "Popup City"
 msgstr "Öppna stad"
 
-#: client/gui-mui/mapclass.c:1813
+#: client/gui-mui/mapclass.c:1831
 msgid "Wake up"
 msgstr "Väck"
 
-#: client/gui-mui/mapclass.c:1815 client/gui-mui/mapclass.c:3045
-#: client/gui-mui/mapclass.c:3194
+#: client/gui-mui/mapclass.c:1833 client/gui-mui/mapclass.c:3063
+#: client/gui-mui/mapclass.c:3212
 msgid "Activate"
 msgstr "Verksam"
 
-#: client/gui-mui/mapclass.c:1869
+#: client/gui-mui/mapclass.c:1887
 msgid "List all units"
 msgstr "Lista alla enheter"
 
-#: client/gui-mui/mapclass.c:1884
+#: client/gui-mui/mapclass.c:1902
 msgid "Connect to this location"
 msgstr "Anslut hit"
 
-#: client/gui-mui/mapclass.c:1887
+#: client/gui-mui/mapclass.c:1905
 msgid "Goto this location"
 msgstr "Gå hit"
 
-#: client/gui-mui/mapclass.c:3051 client/gui-mui/mapclass.c:3198
+#: client/gui-mui/mapclass.c:3069 client/gui-mui/mapclass.c:3216
 msgid "Disband"
 msgstr "Upplös"
 
-#: client/gui-mui/mapclass.c:3070 data/Freeciv:1185
+#: client/gui-mui/mapclass.c:3088 data/Freeciv:1185
 msgid "Make new homecity"
 msgstr "Gör till ny hemstad"
 
@@ -11130,13 +11130,9 @@ msgstr "Med:"
 msgid "Pop:"
 msgstr "Öpp:"
 
-#: client/gui-mui/messagewin.c:237
+#: client/gui-mui/messagewin.c:209
 msgid "_Goto Location"
 msgstr "_Gå till plats"
-
-#: client/gui-mui/messagewin.c:284
-msgid "Game: "
-msgstr "Spel: "
 
 #: client/gui-mui/repodlgs.c:107 client/gui-win32/repodlgs.c:60
 #: client/gui-xaw/repodlgs.c:133
@@ -12186,6 +12182,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.39-1.14-9; 2003-08-12\n"
+"  Uppdatering.\n"
 "Version 0.39-1.14-8; 2003-07-24\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.39-1.14-7; 2003-07-05\n"
