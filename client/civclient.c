@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
     fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
     fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
-    fprintf(stderr, _("  -t, --tiles DIR\tLook in data subdirectory DIR for tiles\n"));
+    fprintf(stderr, _("  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"));
 #ifdef SOUND
     fprintf(stderr, _("  -s, --sound FILE\tRead sound information from FILE\n"));
 #endif
