@@ -677,6 +677,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 	     advances[target].name);
   }
 
+  /* Update stealing player's science progress and research fields */
+  send_player_info(pplayer, pplayer);
+
   /* Record the theft. */
   (pcity->steal)++;
 
