@@ -56,6 +56,7 @@ client/gui-gtk/finddlg.c
 client/gui-gtk/gamedlgs.c
 client/gui-gtk/gotodlg.c
 client/gui-gtk/gui_main.c
+client/gui-gtk/happiness.c
 client/gui-gtk/helpdlg.c
 client/gui-gtk/inputdlg.c
 client/gui-gtk/inteldlg.c

@@ -599,7 +599,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     N_("Upkeep")
   };
 
-  char *tab_title = N_("City _Overview");
+  char *tab_title = _("City _Overview");
 
   char **improvement_clist_title = NULL;
 
@@ -794,8 +794,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   /* stuff that's being currently built */
 
-  pdialog->overview.currently_building_frame =
-      gtk_frame_new(_("Currently building"));
+  /* The label is set in city_dialog_update_building() */
+  pdialog->overview.currently_building_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(vbox),
 		     pdialog->overview.currently_building_frame, FALSE,
 		     FALSE, 0);
@@ -896,7 +896,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
   int i, num;
   GtkWidget *hbox, **hbox_row, *vbox, *page;
   GtkWidget *label;
-  char *tab_title = N_("_Units");
+  char *tab_title = _("_Units");
 
   page = gtk_vbox_new(FALSE, 0);
 
@@ -1109,7 +1109,7 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
 *****************************************************************/
 static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
-  char *tab_title = N_("_Worklist");
+  char *tab_title = _("_Worklist");
   GtkWidget *label = gtk_label_new(tab_title);
 
   notebook_tab_accels[WORKLIST_PAGE] =
@@ -1133,7 +1133,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *vbox, *label, *table, *align;
-  char *tab_title = N_("_Happiness");
+  char *tab_title = _("_Happiness");
 
   page = gtk_hbox_new(FALSE, 0);
 
@@ -1187,7 +1187,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 static void create_and_append_trade_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *frame, *label;
-  char *tab_title = N_("_Trade Routes");
+  char *tab_title = _("_Trade Routes");
 
   page = gtk_hbox_new(TRUE, 0);
 
@@ -1218,7 +1218,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   GtkWidget *hbox, *vbox, *page, *table, *frame, *label;
   GSList *group = NULL;
 
-  char *tab_title = N_("_Misc. Settings");
+  char *tab_title = _("_Misc. Settings");
 
   char *new_citizens_label[] = { N_("Entertainers"),
     N_("Scientists"),
@@ -1879,7 +1879,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 		pcity->shield_stock,
 		get_unit_type(pcity->currently_building)->build_cost,
 		turns);
-    my_snprintf(buf2, sizeof(buf2), "Currently building: %s",
+    my_snprintf(buf2, sizeof(buf2), "%s: %s", _("Currently building"),
 		get_unit_type(pcity->currently_building)->name);
     pct =
 	(gfloat) pcity->shield_stock /
@@ -1910,7 +1910,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 	   0.1);
       pct = CLAMP(pct, 0.0, 1.0);
     }
-    my_snprintf(buf2, sizeof(buf2), "Currently building: %s",
+    my_snprintf(buf2, sizeof(buf2), "%s: %s", _("Currently building"),
 		get_impr_name_ex(pcity, pcity->currently_building));
   }
 
