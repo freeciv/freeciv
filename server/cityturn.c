@@ -54,6 +54,10 @@ static void city_increase_size(struct city *pcity);
 static int worklist_change_build_target(struct player *pplayer, 
 					struct city *pcity);
 
+static void city_distribute_surplus_shields(struct player *pplayer,
+					    struct city *pcity);
+static int city_build_building(struct player *pplayer, struct city *pcity);
+static int city_build_unit(struct player *pplayer, struct city *pcity);
 static int city_build_stuff(struct player *pplayer, struct city *pcity);
 static int improvement_upgrades_to(struct city *pcity, int imp);
 static void upgrade_building_prod(struct city *pcity);
@@ -856,15 +860,14 @@ static void upgrade_unit_prod(struct city *pcity)
 }
 
 /**************************************************************************
-return 0 if the city is removed
-return 1 otherwise
+...
 **************************************************************************/
-static int city_build_stuff(struct player *pplayer, struct city *pcity)
+static void city_distribute_surplus_shields(struct player *pplayer,
+					    struct city *pcity)
 {
   struct government *g = get_gov_pplayer(pplayer);
-  int space_part;
 
-  while (pcity->shield_surplus<0) {
+  while (pcity->shield_surplus < 0) {
     unit_list_iterate(pcity->units_supported, punit) {
       if (utype_shield_cost(get_unit_type(punit->type), g)) {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
@@ -878,162 +881,193 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
   }
 
   /* Now we confirm changes made last turn. */
-  pcity->shield_stock+=pcity->shield_surplus;
-  pcity->before_change_shields=pcity->shield_stock;
-  nullify_caravan_and_disband_plus(pcity);
+  pcity->shield_stock += pcity->shield_surplus;
+  pcity->before_change_shields = pcity->shield_stock;
+}
 
-  if (!pcity->is_building_unit) {
-    if (pcity->currently_building==B_CAPITAL) {
-      pplayer->economic.gold+=pcity->shield_surplus;
-      pcity->before_change_shields=0;
-      pcity->shield_stock=0;
-    }    
-    upgrade_building_prod(pcity);
-    if (!can_build_improvement(pcity, pcity->currently_building)) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
-		    _("Game: %s is building %s, which is no longer available."),
-	pcity->name,get_impr_name_ex(pcity, pcity->currently_building));
-      return 1;
-    }
-    if (pcity->shield_stock>=improvement_value(pcity->currently_building)) {
-      if (pcity->currently_building==B_PALACE) {
-	city_list_iterate(pplayer->cities, palace) 
+/**************************************************************************
+...
+**************************************************************************/
+static int city_build_building(struct player *pplayer, struct city *pcity)
+{
+  int space_part;
+
+  if (pcity->currently_building == B_CAPITAL) {
+    pplayer->economic.gold += pcity->shield_surplus;
+    pcity->before_change_shields = 0;
+    pcity->shield_stock = 0;
+  }
+  upgrade_building_prod(pcity);
+  if (!can_build_improvement(pcity, pcity->currently_building)) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+		     _("Game: %s is building %s, which "
+		       "is no longer available."),
+		     pcity->name, get_impr_name_ex(pcity,
+						   pcity->
+						   currently_building));
+    return 1;
+  }
+  if (pcity->shield_stock >= improvement_value(pcity->currently_building)) {
+    if (pcity->currently_building == B_PALACE) {
+      city_list_iterate(pplayer->cities, palace)
 	  if (city_got_building(palace, B_PALACE)) {
-            city_remove_improvement(palace,B_PALACE);
-	    break;
-	  }
-	city_list_iterate_end;
+	city_remove_improvement(palace, B_PALACE);
+	break;
       }
+      city_list_iterate_end;
+    }
 
-      space_part = 1;
-      if (pcity->currently_building == B_SSTRUCTURAL) {
-	pplayer->spaceship.structurals++;
-      } else if (pcity->currently_building == B_SCOMP) {
-	pplayer->spaceship.components++;
-      } else if (pcity->currently_building == B_SMODULE) {
-	pplayer->spaceship.modules++;
-      } else {
-	space_part = 0;
-	city_add_improvement(pcity,pcity->currently_building);
-	update_all_effects();
-      }
-      pcity->before_change_shields-=
-			  improvement_value(pcity->currently_building); 
-      pcity->shield_stock-=improvement_value(pcity->currently_building);
-      pcity->turn_last_built = game.year;
-      /* to eliminate micromanagement */
-      if(is_wonder(pcity->currently_building)) {
-	game.global_wonders[pcity->currently_building]=pcity->id;
-	notify_player_ex(0, pcity->x, pcity->y, E_WONDER_BUILD,
-		      _("Game: The %s have finished building %s in %s."),
-		      get_nation_name_plural(pplayer->nation),
-		      get_impr_name_ex(pcity, pcity->currently_building),
-		      pcity->name);
-        gamelog(GAMELOG_WONDER,"%s build %s in %s",
-                get_nation_name_plural(pplayer->nation),
-                get_impr_name_ex(pcity, pcity->currently_building),
-                pcity->name);
+    space_part = 1;
+    if (pcity->currently_building == B_SSTRUCTURAL) {
+      pplayer->spaceship.structurals++;
+    } else if (pcity->currently_building == B_SCOMP) {
+      pplayer->spaceship.components++;
+    } else if (pcity->currently_building == B_SMODULE) {
+      pplayer->spaceship.modules++;
+    } else {
+      space_part = 0;
+      city_add_improvement(pcity, pcity->currently_building);
+      update_all_effects();
+    }
+    pcity->before_change_shields -=
+	improvement_value(pcity->currently_building);
+    pcity->shield_stock -= improvement_value(pcity->currently_building);
+    pcity->turn_last_built = game.year;
+    /* to eliminate micromanagement */
+    if (is_wonder(pcity->currently_building)) {
+      game.global_wonders[pcity->currently_building] = pcity->id;
+      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_BUILD,
+		       _("Game: The %s have finished building %s in %s."),
+		       get_nation_name_plural(pplayer->nation),
+		       get_impr_name_ex(pcity, pcity->currently_building),
+		       pcity->name);
+      gamelog(GAMELOG_WONDER, "%s build %s in %s",
+	      get_nation_name_plural(pplayer->nation),
+	      get_impr_name_ex(pcity, pcity->currently_building),
+	      pcity->name);
 
-      } else 
-	gamelog(GAMELOG_IMP, "%s build %s in %s",
-                get_nation_name_plural(pplayer->nation),
-                get_impr_name_ex(pcity, pcity->currently_building),
-                pcity->name);
-      
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_BUILD,
-		    _("Game: %s has finished building %s."), pcity->name, 
-		    improvement_types[pcity->currently_building].name
-		    );
+    } else
+      gamelog(GAMELOG_IMP, "%s build %s in %s",
+	      get_nation_name_plural(pplayer->nation),
+	      get_impr_name_ex(pcity, pcity->currently_building),
+	      pcity->name);
 
-      if (pcity->currently_building==B_DARWIN) {
-	notify_player(pplayer, 
-		      _("Game: %s boosts research, "
-			"you gain 2 immediate advances."),
-		      improvement_types[B_DARWIN].name);
-	tech_researched(pplayer);
-	tech_researched(pplayer);
-      }
-      if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
-	notify_player_ex(0, pcity->x, pcity->y, E_SPACESHIP,
-			 _("Game: The %s have started building a spaceship!"),
-			 get_nation_name_plural(pplayer->nation));
-	pplayer->spaceship.state = SSHIP_STARTED;
-      }
-      if (space_part) {
-	send_spaceship_info(pplayer, 0);
-      } else {
-	city_refresh(pcity);
-      }
-      /* If there's something in the worklist, change the build target.
-       * Else if just built a spaceship part, keep building the same part.
-       * (Fixme? - doesn't check whether spaceship part is still sensible.)
-       * Else co-opt AI routines as "city advisor".
-       */
-      if (!worklist_change_build_target(pplayer, pcity) && !space_part) {
-	/* Fall back to the good old ways. */
-	freelog(LOG_DEBUG, "Trying advisor_choose_build.");
-	advisor_choose_build(pplayer, pcity);
-	freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
-      }
-    } 
-  } else { /* is_building_unit */
-    upgrade_unit_prod(pcity);
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_BUILD,
+		     _("Game: %s has finished building %s."), pcity->name,
+		     improvement_types[pcity->currently_building].name);
 
-    if (pcity->shield_stock >= unit_value(pcity->currently_building)) {
-      int pop_cost = unit_pop_value(pcity->currently_building);
-
-      /* Should we disband the city? -- Massimo */
-      if (pcity->size == pop_cost &&
-	  (pcity->city_options & (1 << CITYO_DISBAND))) {
-	return !disband_city(pcity);
-      }
-      
-      if (pcity->size <= pop_cost) {
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
-			 _("Game: %s can't build %s yet."),
-			 pcity->name,
-			 unit_name(pcity->currently_building));
-	return 1;
-      }
-
-      assert(pop_cost == 0 || pcity->size >= pop_cost);
-      
-      pcity->turn_last_built = game.year;
-      /* don't update turn_last_built if we returned above for size==1 */
-
-      create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
-		  do_make_unit_veteran(pcity, pcity->currently_building), 
-		  pcity->id, -1);
-
-      /* After we created the unit remove the citizen. This will also
-	 rearrange the worker to take into account the extra resources
-	 (food) needed. */
-      if (pop_cost > 0) {
-	city_reduce_size(pcity, pop_cost);
-      }
-
-      /* to eliminate micromanagement, we only subtract the unit's cost */
-      pcity->before_change_shields-=unit_value(pcity->currently_building); 
-      pcity->shield_stock-=unit_value(pcity->currently_building);
-
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
-		       _("Game: %s is finished building %s."), 
-		       pcity->name, 
-		       unit_types[pcity->currently_building].name);
-
-      gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
-	      get_nation_name_plural(pplayer->nation), 
-	      unit_types[pcity->currently_building].name,
-	      pcity->name, pcity->x, pcity->y);
-
-      /* If there's something in the worklist, change the build target. 
-	 If there's nothing there, worklist_change_build_target won't
-	 do anything. */
-      worklist_change_build_target(pplayer, pcity);
+    if (pcity->currently_building == B_DARWIN) {
+      notify_player(pplayer,
+		    _("Game: %s boosts research, "
+		      "you gain 2 immediate advances."),
+		    improvement_types[B_DARWIN].name);
+      tech_researched(pplayer);
+      tech_researched(pplayer);
+    }
+    if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
+      notify_player_ex(0, pcity->x, pcity->y, E_SPACESHIP,
+		       _("Game: The %s have started "
+			 "building a spaceship!"),
+		       get_nation_name_plural(pplayer->nation));
+      pplayer->spaceship.state = SSHIP_STARTED;
+    }
+    if (space_part) {
+      send_spaceship_info(pplayer, 0);
+    } else {
+      city_refresh(pcity);
+    }
+    /* If there's something in the worklist, change the build target.
+     * Else if just built a spaceship part, keep building the same
+     * part.  (Fixme? - doesn't check whether spaceship part is still
+     * sensible.)  Else co-opt AI routines as "city advisor".
+     */
+    if (!worklist_change_build_target(pplayer, pcity) && !space_part) {
+      /* Fall back to the good old ways. */
+      freelog(LOG_DEBUG, "Trying advisor_choose_build.");
+      advisor_choose_build(pplayer, pcity);
+      freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
     }
   }
 
   return 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int city_build_unit(struct player *pplayer, struct city *pcity)
+{
+  upgrade_unit_prod(pcity);
+
+  if (pcity->shield_stock >= unit_value(pcity->currently_building)) {
+    int pop_cost = unit_pop_value(pcity->currently_building);
+
+    /* Should we disband the city? -- Massimo */
+    if (pcity->size == pop_cost &&
+	(pcity->city_options & (1 << CITYO_DISBAND))) {
+      return !disband_city(pcity);
+    }
+
+    if (pcity->size <= pop_cost) {
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+		       _("Game: %s can't build %s yet."),
+		       pcity->name, unit_name(pcity->currently_building));
+      return 1;
+    }
+
+    assert(pop_cost == 0 || pcity->size >= pop_cost);
+
+    /* don't update turn_last_built if we returned above */
+    pcity->turn_last_built = game.year;
+
+    create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
+		do_make_unit_veteran(pcity, pcity->currently_building),
+		pcity->id, -1);
+
+    /* After we created the unit remove the citizen. This will also
+       rearrange the worker to take into account the extra resources
+       (food) needed. */
+    if (pop_cost > 0) {
+      city_reduce_size(pcity, pop_cost);
+    }
+
+    /* to eliminate micromanagement, we only subtract the unit's
+       cost */
+    pcity->before_change_shields -= unit_value(pcity->currently_building);
+    pcity->shield_stock -= unit_value(pcity->currently_building);
+
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
+		     _("Game: %s is finished building %s."),
+		     pcity->name,
+		     unit_types[pcity->currently_building].name);
+
+    gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
+	    get_nation_name_plural(pplayer->nation),
+	    unit_types[pcity->currently_building].name,
+	    pcity->name, pcity->x, pcity->y);
+
+    /* If there's something in the worklist, change the build
+       target. If there's nothing there, worklist_change_build_target
+       won't do anything. */
+    worklist_change_build_target(pplayer, pcity);
+  }
+  return 1;
+}
+
+/**************************************************************************
+return 0 if the city is removed
+return 1 otherwise
+**************************************************************************/
+static int city_build_stuff(struct player *pplayer, struct city *pcity)
+{
+  city_distribute_surplus_shields(pplayer, pcity);
+  nullify_caravan_and_disband_plus(pcity);
+
+  if (!pcity->is_building_unit) {
+    return city_build_building(pplayer, pcity);
+  } else {
+    return city_build_unit(pplayer, pcity);
+  }
 }
 
 /**************************************************************************
