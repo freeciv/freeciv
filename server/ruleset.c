@@ -2600,6 +2600,12 @@ static void load_ruleset_cities(struct section_file *file)
   game.add_to_size_limit =
     secfile_lookup_int_default(file, 9, "parameters.add_to_size_limit");
 
+  /* Angry citizens */
+
+  game.angrycitizen =
+    secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN,
+                                "parameters.angry_citizens");
+
   /* City Styles ... */
 
   styles = secfile_get_secnames_prefix(file, "citystyle_", &nval);
