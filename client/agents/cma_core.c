@@ -97,7 +97,7 @@
 #define ALWAYS_APPLY_AT_SERVER				0
 
 #define MAX_CITY_SIZE					50
-#define MAX_TRADE					100
+#define MAX_TRADE					200
 #define MAX_LUXURY					150
 #define NUM_SPECIALISTS_ROLLES				3
 #define MAX_FIELDS_USED	       	(CITY_MAP_SIZE * CITY_MAP_SIZE - 4 - 1)
