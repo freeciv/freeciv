@@ -177,7 +177,7 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
   req_unit=*punit;
   req_unit.x=dest_x;
   req_unit.y=dest_y;
-  send_unit_info(&req_unit);
+  send_move_unit(&req_unit);
 }
 
 

@@ -80,7 +80,8 @@ struct player *shuffled[MAX_PLAYERS];
 
 /* this counter creates all the id numbers used */
 /* use get_next_id_number()                     */
-int global_id_counter=100;
+unsigned short global_id_counter=100;
+unsigned char used_ids[8192]={0};
 
 int is_new_game=1;
 
@@ -206,7 +207,7 @@ int main(int argc, char *argv[])
 	is_new_game=0;
       else
 	game.scenario=1;
-      global_id_counter=find_highest_used_id()+1;
+      while(is_id_allocated(global_id_counter++));
     } else 
       section_file_free(&file);
   }
@@ -313,6 +314,8 @@ int main(int argc, char *argv[])
 /* printf("sniffingpackets\n"); */
     while(sniff_packets()==1);
 /* printf("Endturn\n"); */
+    for(i=0;i<game.nplayers;i++)
+      connection_do_buffer(game.players[i].conn);
     end_turn();
 /* printf("Gamenextyear\n"); */
     game_next_year();
@@ -324,7 +327,9 @@ int main(int argc, char *argv[])
     send_year_to_clients(game.year);
 /* printf("Sendinfotometaserver\n"); */
     send_server_info_to_metaserver(0);
-    
+    for(i=0;i<game.nplayers;i++)
+      connection_do_unbuffer(game.players[i].conn);
+      
     if(--save_counter==0) {
       save_counter=game.save_nturns;
       save_game();
@@ -682,6 +687,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_UNIT_INFO:
     handle_unit_info(pplayer, (struct packet_unit_info *)packet);
     break;
+
+  case PACKET_MOVE_UNIT:
+    handle_move_unit(pplayer, (struct packet_move_unit *)packet);
+    break;
  
   case PACKET_CHAT_MSG:
     handle_chat_msg(pplayer, (struct packet_generic_message *)packet);
@@ -804,10 +813,35 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 /**************************************************************************
 ...
 **************************************************************************/
+void dealloc_id(int id)
+{
+  used_ids[id/8]&= 0xff ^ (1<<(id%8));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_id_allocated(int id)
+{
+  return (used_ids[id/8])&(1<<(id%8));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void alloc_id(int id)
+{
+  used_ids[id/8]|= (1<<(id%8));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 
 int get_next_id_number(void)
 {
-  return ++global_id_counter;
+  while(is_id_allocated(++global_id_counter)) ;
+  return global_id_counter;
 }
 
 /**************************************************************************

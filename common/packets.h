@@ -401,6 +401,8 @@ struct connection {
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 int send_connection_data(struct connection *pc, unsigned char *data, int len);
 
+unsigned char *get_int8(unsigned char *buffer, int *val);
+unsigned char *put_int8(unsigned char *buffer, int val);
 unsigned char *get_int16(unsigned char *buffer, int *val);
 unsigned char *put_int16(unsigned char *buffer, int val);
 unsigned char *get_int32(unsigned char *buffer, int *val);

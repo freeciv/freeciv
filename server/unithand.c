@@ -266,6 +266,18 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 /**************************************************************************
 ...
 **************************************************************************/
+void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
+{
+  struct unit *punit;
+
+  punit=unit_list_find(&pplayer->units, pmove->unid);
+  if(punit)  {
+    handle_unit_move_request(pplayer, punit, pmove->x, pmove->y);
+  }
+}
+/**************************************************************************
+...
+**************************************************************************/
 void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 				struct unit *pdefender)
 {
@@ -321,7 +333,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   combat.defender_unit_id=pdefender->id;
   combat.attacker_hp=punit->hp;
   combat.defender_hp=pdefender->hp;
-  combat.make_winner_veteran=pwinner->veteran;
+  combat.make_winner_veteran=pwinner->veteran?1:0;
   
   for(o=0; o<game.nplayers; o++)
     if(map_get_known(punit->x, punit->y, &game.players[o]) ||
@@ -557,6 +569,8 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     if(!unit_list_find(&pplayer->units, unit_id))
       return 0; /* diplomat or caravan action killed unit */
 
+    connection_do_buffer(pplayer->conn);
+
     /* light the squares the unit is entering */
     light_square(pplayer, dest_x, dest_y, 
 		 get_unit_type(punit->type)->vision_range);
@@ -601,6 +615,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     if((map_get_tile(dest_x, dest_y)->special&S_HUT))
       handle_unit_enter_hut(punit);
     
+    connection_do_unbuffer(pplayer->conn);
     return 1;
   }
   return 0;

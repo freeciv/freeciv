@@ -47,6 +47,9 @@ void notify_player(struct player *p, char *format, ...);
 void update_pollution();
 void save_game(void);
 
+void dealloc_id(int id);
+int is_id_allocated(int id);
+void alloc_id(int id);
 int get_next_id_number(void);
 
 extern enum server_states server_state;

@@ -170,9 +170,9 @@ void relight_square_if_known(struct player *pplayer, int x, int y)
       connection_do_buffer(pplayer->conn);
       map_clear_known(x, y, pplayer);
       light_square(pplayer, x, y, 0);
-     connection_do_unbuffer(pplayer->conn);
-   }
- }
+      connection_do_unbuffer(pplayer->conn);
+    }
+  }
 }
 
 /**************************************************************************
@@ -184,7 +184,9 @@ void light_square(struct player *pplayer, int x, int y, int len)
   static int known_count=TILE_KNOWN;
   
   known_count++;
+  if(known_count>255) known_count=TILE_KNOWN+1;
 
+  connection_do_buffer(pplayer->conn);
   for(dy=-len-1; dy<=len+1; ++dy)
     for(dx=-len-1; dx<=len+1; ++dx) {
       int abs_x=map_adjust_x(x+dx);
@@ -232,6 +234,7 @@ void light_square(struct player *pplayer, int x, int y, int len)
 	send_tile_info(pplayer, abs_x, abs_y, known_count);
       }
     }
+  connection_do_unbuffer(pplayer->conn);
 }
 
 /**************************************************************************

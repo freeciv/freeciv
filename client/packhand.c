@@ -497,6 +497,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   for(i=0; i<A_LAST; i++)
     pplayer->research.inventions[i]=pinfo->inventions[i]-'0';
+  update_research(pplayer);
 
   poptechup = (pplayer->research.researching!=pinfo->researching);
   pplayer->research.researched=pinfo->researched;

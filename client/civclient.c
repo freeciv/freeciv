@@ -44,6 +44,7 @@
 char server_host[512];
 char name[512];
 int server_port;
+unsigned char *used_ids=NULL;  /* kludge */
 
 enum client_states client_state=CLIENT_BOOT_STATE;
 int use_solid_color_behind_units;
@@ -243,6 +244,20 @@ void send_unit_info(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
+void send_move_unit(struct unit *punit)
+{
+  struct packet_move_unit move;
+
+  move.unid=punit->id;
+  move.x=punit->x;
+  move.y=punit->y;
+
+  send_packet_move_unit(&aconnection, &move);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void send_report_request(enum report_type type)
 {
  struct packet_generic_integer pa;
@@ -279,3 +294,5 @@ enum client_states get_client_state(void)
 {
   return client_state;
 }
+
+void dealloc_id(int id) { }/* kludge */

@@ -20,6 +20,8 @@
 #include <city.h>
 #include <shared.h>
 
+void dealloc_id(int id);
+extern unsigned char *used_ids;
 struct civ_game game;
 
 /*
@@ -298,6 +300,7 @@ void game_remove_unit(int unit_id)
     unit_list_unlink(&game.players[punit->owner].units, punit);
     
     free(punit);
+    if(used_ids)  dealloc_id(unit_id);
   }
 }
 
@@ -312,6 +315,7 @@ void game_remove_city(int city_id)
     city_list_unlink(&game.players[pcity->owner].cities, pcity);
     map_set_city(pcity->x, pcity->y, 0);
     free(pcity);
+    if(used_ids) dealloc_id(city_id);
   }
 
 }

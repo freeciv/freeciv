@@ -971,6 +971,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     pcity->science_bonus = 100;
  
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
+    alloc_id(pcity->id);
     pcity->owner=plrno;
     pcity->x=secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     pcity->y=secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
@@ -1050,6 +1051,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     
     punit=(struct unit *)malloc(sizeof(struct unit));
     punit->id=secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
+    alloc_id(punit->id);
     punit->owner=plrno;
     punit->x=secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
     punit->y=secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
