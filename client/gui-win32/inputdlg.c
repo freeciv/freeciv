@@ -153,5 +153,6 @@ HWND input_dialog_create(HWND parent, char *dialogname,
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
   fcwin_set_box(dlg,vbox);
   ShowWindow(dlg,SW_SHOWNORMAL);
+  SetFocus(GetDlgItem(dlg, ID_INPUT_TEXT));
   return dlg;
 }
