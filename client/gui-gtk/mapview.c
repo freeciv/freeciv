@@ -1302,6 +1302,25 @@ static void put_line(GdkDrawable *pm, int x, int y, int dir)
 }
 
 /**************************************************************************
+  Put a drawn sprite (with given offset) onto the pixmap.
+**************************************************************************/
+static void pixmap_put_drawn_sprite(GdkDrawable *pixmap,
+				    int canvas_x, int canvas_y,
+				    struct drawn_sprite *pdsprite,
+				    int offset_x, int offset_y,
+				    int width, int height,
+				    bool fog)
+{
+  int ox = pdsprite->offset_x, oy = pdsprite->offset_y;
+
+  pixmap_put_overlay_tile_draw(pixmap, canvas_x + ox, canvas_y + oy,
+			       pdsprite->sprite,
+			       offset_x - ox, offset_y - oy,
+			       width - ox, height - oy,
+			       fog);
+}
+
+/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 static void put_city_pixmap_draw(struct city *pcity, GdkPixmap *pm,
@@ -1310,16 +1329,15 @@ static void put_city_pixmap_draw(struct city *pcity, GdkPixmap *pm,
 				 int width, int height_unit,
 				 bool fog)
 {
-  struct Sprite *sprites[80];
+  struct drawn_sprite sprites[80];
   int count = fill_city_sprite_array_iso(sprites, pcity);
   int i;
 
   for (i=0; i<count; i++) {
-    if (sprites[i]) {
-      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, sprites[i],
-				   offset_x, offset_y_unit,
-				   width, height_unit,
-				   fog);
+    if (sprites[i].sprite) {
+      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &sprites[i],
+			      offset_x, offset_y_unit, width, height_unit,
+			      fog);
     }
   }
 }
@@ -1429,7 +1447,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				int width, int height, int height_unit,
 				enum draw_type draw)
 {
-  struct Sprite *tile_sprs[80];
+  struct drawn_sprite tile_sprs[80];
   struct Sprite *coasts[4];
   struct Sprite *dither[4];
   struct city *pcity;
@@ -1527,8 +1545,8 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				   MAX(0, height-MAX(0, -dy)),
 				   fog);
     } else {
-      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[0],
-				   offset_x, offset_y, width, height, fog);
+      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[0],
+			      offset_x, offset_y, width, height, fog);
       i++;
     }
 
@@ -1540,9 +1558,9 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 
   /*** Rest of terrain and specials ***/
   for (; i<count; i++) {
-    if (tile_sprs[i])
-      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[i],
-				   offset_x, offset_y, width, height, fog);
+    if (tile_sprs[i].sprite)
+      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[i],
+			      offset_x, offset_y, width, height, fog);
     else
       freelog(LOG_ERROR, "sprite is NULL");
   }

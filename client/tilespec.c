@@ -80,6 +80,7 @@ int num_tiles_explode_unit=0;
 
 static bool is_mountainous = FALSE;
 static int roadstyle;
+static int flag_offset_x, flag_offset_y;
 
 struct specfile;
 
@@ -627,6 +628,10 @@ void tilespec_read_toplevel(const char *tileset_name)
 					       "tilespec.is_mountainous");
   roadstyle = secfile_lookup_int_default(file, is_isometric ? 0 : 1,
 					 "tilespec.roadstyle");
+  flag_offset_x = secfile_lookup_int_default(file, 0,
+					     "tilespec.flag_offset_x");
+  flag_offset_y = secfile_lookup_int_default(file, 0,
+					     "tilespec.flag_offset_y");
 
   c = secfile_lookup_str_default(file, "10x20", "tilespec.city_names_font");
   city_names_font = mystrdup(c);
@@ -1252,20 +1257,26 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
   return sprites.city.tile[style][city_styles[style].tiles_num+1];
 }
 
-#define ADD_SPRITE_SIMPLE(s) (*sprs++ = (s))
+#define ADD_SPRITE(s, x_offset, y_offset) \
+  (sprs->sprite = s,                      \
+   sprs->offset_x = x_offset,             \
+   sprs->offset_y = y_offset,             \
+   sprs++)
+#define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, 0, 0)
 
 /**********************************************************************
   Fill in the sprite array for the city
 ***********************************************************************/
-static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
-				  bool *solid_bg)
+static int fill_city_sprite_array(struct drawn_sprite *sprs,
+				  struct city *pcity, bool *solid_bg)
 {
-  struct Sprite **save_sprs=sprs;
+  struct drawn_sprite *save_sprs = sprs;
 
   *solid_bg = FALSE;
   if (!no_backdrop) {
     if(!solid_color_behind_units) {
-      ADD_SPRITE_SIMPLE(get_city_nation_flag_sprite(pcity));
+      ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+		 flag_offset_x, flag_offset_y);
     } else {
       *solid_bg = TRUE;
     }
@@ -1314,12 +1325,13 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
   Fill in the sprite array for the city
   (small because things have to be done later in isometric view.)
 ***********************************************************************/
-int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity)
+int fill_city_sprite_array_iso(struct drawn_sprite *sprs, struct city *pcity)
 {
-  struct Sprite **save_sprs=sprs;
+  struct drawn_sprite *save_sprs = sprs;
 
   if (!no_backdrop) {
-    ADD_SPRITE_SIMPLE(get_city_nation_flag_sprite(pcity));
+    ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+	       flag_offset_x, flag_offset_y);
   }
 
   if (pcity->client.occupied) {
@@ -1388,21 +1400,23 @@ static void build_tile_data(int map_x, int map_y,
 /**********************************************************************
   Fill in the sprite array for the unit
 ***********************************************************************/
-int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
+int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
 			   bool *solid_bg)
 {
-  struct Sprite **save_sprs=sprs;
+  struct drawn_sprite *save_sprs = sprs;
   int ihp;
   *solid_bg = FALSE;
 
   if (is_isometric) {
     if (!no_backdrop) {
-      ADD_SPRITE_SIMPLE(get_unit_nation_flag_sprite(punit));
+      ADD_SPRITE(get_unit_nation_flag_sprite(punit),
+		 flag_offset_x, flag_offset_y);
     }
   } else {
     if (!no_backdrop) {
       if (!solid_color_behind_units) {
-	ADD_SPRITE_SIMPLE(get_unit_nation_flag_sprite(punit));
+	ADD_SPRITE(get_unit_nation_flag_sprite(punit),
+		   flag_offset_x, flag_offset_y);
       } else {
 	*solid_bg = TRUE;
       }
@@ -1530,11 +1544,11 @@ static bool can_blend_hills_and_mountains(enum tile_terrain_type ttype,
 /**************************************************************************
   Add any corner road sprites to the sprite array.
 **************************************************************************/
-static int fill_road_corner_sprites(struct Sprite **sprs,
+static int fill_road_corner_sprites(struct drawn_sprite *sprs,
 				    bool road, bool *road_near,
 				    bool rail, bool *rail_near)
 {
-  struct Sprite **saved_sprs = sprs;
+  struct drawn_sprite *saved_sprs = sprs;
 
   assert(draw_roads_rails);
   if (!(draw_diagonal_roads || is_isometric)) {
@@ -1589,10 +1603,10 @@ static int fill_road_corner_sprites(struct Sprite **sprs,
 /**************************************************************************
   Add any corner rail sprites to the sprite array.
 **************************************************************************/
-static int fill_rail_corner_sprites(struct Sprite **sprs,
+static int fill_rail_corner_sprites(struct drawn_sprite *sprs,
 				    bool rail, bool *rail_near)
 {
-  struct Sprite **saved_sprs = sprs;
+  struct drawn_sprite *saved_sprs = sprs;
 
   assert(draw_roads_rails);
   if (!(draw_diagonal_roads || is_isometric)) {
@@ -1631,12 +1645,12 @@ static int fill_rail_corner_sprites(struct Sprite **sprs,
 /**************************************************************************
   Fill all road and rail sprites into the sprite array.
 **************************************************************************/
-static int fill_road_rail_sprite_array(struct Sprite **sprs,
+static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
 				       enum tile_special_type tspecial,
 				       enum tile_special_type *tspecial_near,
 				       struct city *pcity)
 {
-  struct Sprite **saved_sprs = sprs;
+  struct drawn_sprite *saved_sprs = sprs;
   bool road, road_near[8], rail, rail_near[8];
   bool draw_road[8], draw_single_road, draw_rail[8], draw_single_rail;
   enum direction8 dir;
@@ -1786,12 +1800,12 @@ static int get_irrigation_index(enum tile_special_type *tspecial_near)
 /**************************************************************************
   Fill in the farmland/irrigation sprite for the tile.
 **************************************************************************/
-static int fill_irrigation_sprite_array(struct Sprite **sprs,
+static int fill_irrigation_sprite_array(struct drawn_sprite *sprs,
 					enum tile_special_type tspecial,
 					enum tile_special_type *tspecial_near,
 					struct city *pcity)
 {
-  struct Sprite **saved_sprs = sprs;
+  struct drawn_sprite *saved_sprs = sprs;
 
   /* Tiles with S_FARMLAND also have S_IRRIGATION set. */
   assert(!contains_special(tspecial, S_FARMLAND)
@@ -1828,7 +1842,8 @@ The sprites are drawn in the following order:
  4) mine
  5) huts
 ***********************************************************************/
-int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
+int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
+			       struct Sprite **coasts,
 			       struct Sprite **dither,
 			       int x, int y, bool citymode,
 			       bool *solid_bg)
@@ -1837,7 +1852,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   enum tile_special_type tspecial, tspecial_near[8];
   int tileno, dir, i;
   struct city *pcity;
-  struct Sprite **save_sprs = sprs;
+  struct drawn_sprite *save_sprs = sprs;
 
   *solid_bg = FALSE;
 
@@ -2029,7 +2044,7 @@ The sprites are drawn in the following order:
 11) fallout
 12) FoW
 ***********************************************************************/
-int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
+int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 			   bool citymode, bool *solid_bg,
 			   struct player **pplayer)
 {
@@ -2044,8 +2059,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   struct unit *pfocus;
   struct unit *punit;
   int den_y=map.ysize*.24;
-
-  struct Sprite **save_sprs=sprs;
+  struct drawn_sprite *save_sprs = sprs;
   *solid_bg = FALSE;
   *pplayer = NULL;
 

@@ -416,7 +416,7 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
 	      int unit_offset_x, int unit_offset_y,
 	      int unit_width, int unit_height)
 {
-  struct Sprite *sprites[40];
+  struct drawn_sprite sprites[40];
   bool solid_bg;
   int count = fill_unit_sprite_array(sprites, punit, &solid_bg), i;
 
@@ -426,12 +426,14 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
   }
 
   for (i = 0; i < count; i++) {
-    if (sprites[i]) {
+    if (sprites[i].sprite) {
+      int ox = sprites[i].offset_x, oy = sprites[i].offset_y;
+
       /* units are never fogged */
-      gui_put_sprite(pcanvas_store,
-		     canvas_x, canvas_y, sprites[i],
-		     unit_offset_x, unit_offset_y,
-		     unit_width, unit_height);
+      gui_put_sprite(pcanvas_store, canvas_x + ox, canvas_y + oy,
+		     sprites[i].sprite,
+		     unit_offset_x - ox, unit_offset_y - oy,
+		     unit_width - ox, unit_height - oy);
     }
   }
 }
@@ -508,7 +510,7 @@ static void tile_draw_borders(struct canvas_store *pcanvas_store,
 void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode)
 {
-  struct Sprite *tile_sprs[80];
+  struct drawn_sprite tile_sprs[80];
   bool solid_bg;
   struct player *pplayer;
   bool is_real = normalize_map_pos(&map_x, &map_y);
@@ -526,8 +528,11 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
     }
 
     for (i = 0; i < count; i++) {
-      if (tile_sprs[i]) {
-	gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y, tile_sprs[i]);
+      if (tile_sprs[i].sprite) {
+	gui_put_sprite_full(pcanvas_store,
+			    canvas_x + tile_sprs[i].offset_x,
+			    canvas_y + tile_sprs[i].offset_y,
+			    tile_sprs[i].sprite);
       }
     }
 

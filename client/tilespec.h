@@ -28,6 +28,11 @@ struct Sprite;			/* opaque; gui-dep */
 struct unit;
 struct player;
 
+struct drawn_sprite {
+  struct Sprite *sprite;
+  int offset_x, offset_y;	/* offset from tile origin */
+};
+
 const char **get_tileset_list(void);
 
 void tilespec_read_toplevel(const char *tileset_name);
@@ -49,16 +54,18 @@ void tilespec_free_city_tiles(int count);
 
 /* Gfx support */
 
-int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
+int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
+			       struct Sprite **coasts,
 			       struct Sprite **dither,
 			       int x, int y, bool citymode,
 			       bool *solid_bg);
-int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
+int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 			   bool citymode, bool *solid_bg,
 			   struct player **pplayer);
-int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
-			   bool *solid_bg);
-int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity);
+int fill_unit_sprite_array(struct drawn_sprite *sprs,
+			   struct unit *punit, bool *solid_bg);
+int fill_city_sprite_array_iso(struct drawn_sprite *sprs,
+			       struct city *pcity);
 
 enum color_std player_color(struct player *pplayer);
 enum color_std overview_tile_color(int x, int y);
