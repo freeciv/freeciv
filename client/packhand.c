@@ -1236,9 +1236,12 @@ static bool read_player_info_techs(struct player *pplayer,
       need_effect_update = TRUE;
     }
   } tech_type_iterate_end;
+
   if (need_effect_update) {
-    /* nothing yet */
+    improvements_update_obsolete();
+    /* need to update effects here too eventually */
   }
+
   update_research(pplayer);
   return need_effect_update;
 }
