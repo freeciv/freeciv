@@ -164,6 +164,19 @@ void popup_city_report_dialog(bool make_modal)
    }
 }
 
+/****************************************************************
+ Closes the city report dialog.
+****************************************************************/
+void popdown_city_report_dialog(void)
+{
+  if (city_dialog_shell) {
+    if (city_dialog_shell_is_modal) {
+      gtk_widget_set_sensitive(top_vbox, TRUE);
+    }
+    gtk_widget_destroy(city_dialog_shell);
+    city_dialog_shell = NULL;
+  }
+}
 
 /****************************************************************
 ...
@@ -1159,11 +1172,7 @@ static void city_buy_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void city_close_callback(GtkWidget *w, gpointer data)
 {
-
-  if(city_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(top_vbox, TRUE);
-   gtk_widget_destroy(city_dialog_shell);
-   city_dialog_shell=NULL;
+  popdown_city_report_dialog();
 }
 
 /****************************************************************

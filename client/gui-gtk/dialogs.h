@@ -29,6 +29,8 @@ struct button_descr {
 void message_dialog_button_set_sensitive(GtkWidget * shl, const char *bname,
 					 bool state);
 
+void popdown_notify_dialog(void);
+
 GtkWidget *base_popup_message_dialog(GtkWidget * parent,
 				     const char *dialogname,
 				     const char *text,

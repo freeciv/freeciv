@@ -87,6 +87,19 @@ bool is_meswin_open(void)
   return meswin_dialog_shell != NULL;
 }
 
+/**************************************************************************
+ Closes the message window dialog.
+**************************************************************************/
+void popdown_meswin_dialog(void)
+{
+  if (meswin_dialog_shell) {
+    gtk_widget_destroy(meswin_dialog_shell);
+    meswin_dialog_shell = NULL;
+    gtk_style_unref(meswin_visited_style);
+    gtk_style_unref(meswin_not_visited_style);
+  }
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -272,10 +285,7 @@ static void meswin_list_ucallback(GtkWidget *w, gint row, gint column)
 **************************************************************************/
 static void meswin_close_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_destroy(meswin_dialog_shell);
-  meswin_dialog_shell = NULL;
-  gtk_style_unref(meswin_visited_style);
-  gtk_style_unref(meswin_not_visited_style);
+  popdown_meswin_dialog();
 }
 
 /**************************************************************************

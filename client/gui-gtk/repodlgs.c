@@ -120,6 +120,19 @@ void popup_science_dialog(bool make_modal)
   }
 }
 
+/****************************************************************
+ Closes the science dialog.
+*****************************************************************/
+void popdown_science_dialog(void)
+{
+  if (science_dialog_shell) {
+    if (science_dialog_shell_is_modal) {
+      gtk_widget_set_sensitive(top_vbox, TRUE);
+    }
+    gtk_widget_destroy(science_dialog_shell);
+    science_dialog_shell = NULL;
+  }
+}
 
 /****************************************************************
 ...
@@ -283,13 +296,9 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void science_close_callback(GtkWidget *widget, gpointer data)
+static void science_close_callback(GtkWidget * widget, gpointer data)
 {
-
-  if(science_dialog_shell_is_modal)
-    gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(science_dialog_shell);
-  science_dialog_shell=NULL;
+  popdown_science_dialog();
 }
 
 /****************************************************************
@@ -536,6 +545,19 @@ void popup_economy_report_dialog(bool make_modal)
    }
 }
 
+/****************************************************************
+ Close the economy report dialog.
+****************************************************************/
+void popdown_economy_report_dialog(void)
+{
+  if (economy_dialog_shell) {
+    if (economy_dialog_shell_is_modal) {
+      gtk_widget_set_sensitive(top_vbox, TRUE);
+    }
+    gtk_widget_destroy(economy_dialog_shell);
+    economy_dialog_shell = NULL;
+  }
+}
 
 /****************************************************************
 ...
@@ -642,13 +664,9 @@ void economy_list_ucallback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-void economy_close_callback(GtkWidget *w, gpointer data)
+static void economy_close_callback(GtkWidget * w, gpointer data)
 {
-
-  if(economy_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(economy_dialog_shell);
-  economy_dialog_shell=NULL;
+  popdown_economy_report_dialog();
 }
 
 /****************************************************************
@@ -766,6 +784,19 @@ void popup_activeunits_report_dialog(bool make_modal)
    }
 }
 
+/****************************************************************
+ Closes the units report dialog.
+****************************************************************/
+void popdown_activeunits_report_dialog(void)
+{
+  if (activeunits_dialog_shell) {
+    if (activeunits_dialog_shell_is_modal) {
+      gtk_widget_set_sensitive(top_vbox, TRUE);
+    }
+    gtk_widget_destroy(activeunits_dialog_shell);
+    activeunits_dialog_shell = NULL;
+  }
+}
 
 /****************************************************************
 ...
@@ -911,13 +942,9 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void activeunits_close_callback(GtkWidget *w, gpointer data)
+static void activeunits_close_callback(GtkWidget * w, gpointer data)
 {
-
-  if(activeunits_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(activeunits_dialog_shell);
-  activeunits_dialog_shell = NULL;
+  popdown_activeunits_report_dialog();
 }
 
 /****************************************************************

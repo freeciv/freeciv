@@ -87,6 +87,17 @@ void popup_players_dialog(void)
   }
 }
 
+/****************************************************************
+ Closes the players dialog.
+*****************************************************************/
+void popdown_players_dialog(void)
+{
+  if (players_dialog_shell) {
+    gtk_widget_destroy(players_dialog_shell);
+    players_dialog_shell = NULL;
+  }
+}
+
 /*
  * Sort plrs by column...
  */
@@ -509,10 +520,9 @@ void players_list_ucallback(GtkWidget *w, gint row, gint column)
 /**************************************************************************
 ...
 **************************************************************************/
-void players_button_callback(GtkWidget *w, gpointer data)
+static void players_button_callback(GtkWidget * w, gpointer data)
 {
-  gtk_widget_destroy(players_dialog_shell);
-  players_dialog_shell = NULL;
+  popdown_players_dialog();
 }
 
 /**************************************************************************

@@ -36,13 +36,17 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "cityrep.h"	/* for popdown_city_report_dialog */
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "messagewin.h"	/* for popdown_meswin_dialog */
 #include "options.h"
+#include "plrdlg.h"	/* for popdown_players_dialog */
+#include "repodlgs.h"	/* for popdown_xxx_dialog */
 #include "tilespec.h"
 
 #include "dialogs.h"
@@ -70,6 +74,9 @@ static GList      *sorted_races_list = NULL; /* contains a list of race
 					      name. Is valid as long
 					      as the races_dialog is
 					      poped up. */
+/******************************************************************/
+static GtkWidget  *notify_dialog_shell;
+
 /******************************************************************/
 static GtkWidget  *spy_tech_shell;
 static GtkWidget  *spy_advances_list;
@@ -147,8 +154,7 @@ struct connect_data {
 *****************************************************************/
 static void notify_command_callback(GtkWidget *w, GtkWidget *t)
 {
-  gtk_widget_destroy( t );
-  gtk_widget_set_sensitive( top_vbox, TRUE );
+  popdown_notify_dialog();
 }
 
 /****************************************************************
@@ -166,7 +172,7 @@ gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 *****************************************************************/
 void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
-  GtkWidget *notify_dialog_shell, *notify_command;
+  GtkWidget *notify_command;
   GtkWidget *notify_label, *notify_headline, *notify_scrolled;
   GtkAccelGroup *accel=gtk_accel_group_new();
   
@@ -225,6 +231,18 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_widget_show( notify_dialog_shell );
 
   gtk_widget_set_sensitive( top_vbox, FALSE );
+}
+
+/****************************************************************
+ Closes the notify dialog.
+*****************************************************************/
+void popdown_notify_dialog(void)
+{
+  if (notify_dialog_shell) {
+    gtk_widget_destroy(notify_dialog_shell);
+    gtk_widget_set_sensitive(top_vbox, TRUE);
+    notify_dialog_shell = NULL;
+  }
 }
 
 /****************************************************************
@@ -2372,5 +2390,11 @@ void dummy_close_callback(gpointer data){}
 ***********************************************************************/
 void popdown_all_game_dialogs(void)
 {
-  /* TODO */
+  popdown_city_report_dialog();
+  popdown_meswin_dialog();
+  popdown_science_dialog();
+  popdown_economy_report_dialog();
+  popdown_activeunits_report_dialog();
+  popdown_players_dialog();
+  popdown_notify_dialog();
 }
