@@ -21,6 +21,8 @@
 /* Changing this value will break network compatibility. */
 #define NO_NATION_SELECTED (Nation_Type_id)(-1)
 
+#define OBSERVER_NATION (game.nation_count - 2)
+
 /* 
  * Purpose of this constant is to catch invalid ruleset and network
  * data and to allow static allocation of the nation_info packet.

@@ -103,6 +103,7 @@ options="1.9"
 *include "nation/afghani.ruleset"
 
 ;
-; barbarians MUST go last
+; observer and barbarians MUST go last in THIS order
 ;
+*include "nation/observer.ruleset"
 *include "nation/barbarian.ruleset"

@@ -30,6 +30,7 @@ struct tile;
 
 #define ANON_PLAYER_NAME "noname"
 #define ANON_USER_NAME  "Unassigned"
+#define OBSERVER_NAME	"Observer"
 
 /*
  * pplayer->ai.barbarian_type uses this enum. Note that the values
@@ -186,6 +187,7 @@ struct player {
   bool turn_done;
   int nturns_idle;
   bool is_alive;
+  bool is_observer; /* is the player a global observer */ 
   bool is_dying; /* set once the player is in the process of dying */
   bool got_tech; /* set once the player is fully dead */
 

@@ -183,6 +183,11 @@ void init_new_game(void)
     struct start_position pos
       = map.start_positions[start_pos[pplayer->player_no]];
 
+    /* don't give any units to observer */
+    if (pplayer->is_observer) {
+      continue;
+    }
+
     /* Place the first unit. */
     place_starting_unit(pos.x, pos.y, pplayer, game.start_units[0]);
   } players_iterate_end;
@@ -192,6 +197,11 @@ void init_new_game(void)
     int i, x, y;
     struct start_position p
       = map.start_positions[start_pos[pplayer->player_no]];
+
+    /* don't give any units to observer */
+    if (pplayer->is_observer) {
+      continue;
+    }
 
     for (i = 1; i < strlen(game.start_units); i++) {
       do {

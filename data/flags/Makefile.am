@@ -58,6 +58,7 @@ pkgdata_DATA =				\
 		nato.png		\
 		netherlands.png		\
 		norway.png		\
+		observer.png		\
 		olympic.png		\
 		pakistan.png		\
 		peru.png		\

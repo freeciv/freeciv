@@ -76,6 +76,7 @@ sprites =
 		"f.nato", "flags/nato"
 		"f.netherlands", "flags/netherlands"
 		"f.norway", "flags/norway"
+		"f.observer", "flags/observer"
 		"f.olympic", "flags/olympic"
 		"f.pakistan", "flags/pakistan"
 		"f.peru", "flags/peru"

@@ -2052,7 +2052,7 @@ static void load_nation_names(struct section_file *file)
   (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   sec = secfile_get_secnames_prefix(file, "nation", &game.nation_count);
-  game.playable_nation_count = game.nation_count - 1;
+  game.playable_nation_count = game.nation_count - 2;
   freelog(LOG_VERBOSE, "There are %d nations defined", game.playable_nation_count);
 
   if (game.playable_nation_count < 0) {

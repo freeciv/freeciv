@@ -193,7 +193,7 @@ void srv_init(void)
 **************************************************************************/
 static bool is_game_over(void)
 {
-  int barbs = 0, alive = 0;
+  int barbs = 0, alive = 0, observers = 0;
   bool all_allied;
   struct player *victor = NULL;
 
@@ -205,17 +205,20 @@ static bool is_game_over(void)
     return TRUE;
   }
 
-  /* count barbarians */
+  /* count barbarians and observers */
   players_iterate(pplayer) {
     if (is_barbarian(pplayer)) {
       barbs++;
     }
+    if (pplayer->is_observer) {
+      observers++;
+    }
   } players_iterate_end;
 
   /* the game does not quit if we are playing solo */
-  if (game.nplayers == (barbs + 1)) {
+  if (game.nplayers == (observers + barbs + 1)) {
     return FALSE;
-  }
+  } 
 
   /* count the living */
   players_iterate(pplayer) {
@@ -1271,7 +1274,15 @@ static void generate_ai_players(void)
              game.max_players);
   }
 
-  for(;game.nplayers < game.aifill;) {
+  /* we don't want aifill to count global observers... */
+  i = 0;
+  players_iterate(pplayer) {
+    if (pplayer->is_observer) {
+      i++;
+    }
+  } players_iterate_end;
+
+  for(;game.nplayers < game.aifill + i;) {
     nation = select_random_nation(common_class);
     assert(nation != NO_NATION_SELECTED);
     mark_nation_as_used(nation);
@@ -1635,7 +1646,9 @@ main_start_players:
    */
   server_state = RUN_GAME_STATE;
   players_iterate(pplayer) {
-    if (pplayer->nation == NO_NATION_SELECTED && !pplayer->ai.control) {
+    if (pplayer->is_observer) {
+      pplayer->nation = OBSERVER_NATION;
+    } else if (pplayer->nation == NO_NATION_SELECTED && !pplayer->ai.control) {
       send_select_nation(pplayer);
       server_state = SELECT_RACES_STATE;
     }
@@ -1726,6 +1739,7 @@ main_start_players:
     if(map.num_start_positions == 0) {
       create_start_positions();
     }
+
   }
 
   /* start positions are created, now we can do this safely */
@@ -1771,6 +1785,13 @@ main_start_players:
   
   if(game.is_new_game) {
     init_new_game();
+
+    /* give global observers the entire map */
+    players_iterate(pplayer) {
+      if (pplayer->is_observer) {
+        map_know_and_see_all(pplayer);
+      }
+    } players_iterate_end;
   }
 
   send_game_state(&game.game_connections, CLIENT_GAME_RUNNING_STATE);
