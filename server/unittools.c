@@ -424,7 +424,7 @@ struct city *sdi_defense_close(int owner, int x, int y)
   returns a unit type for the goodie huts
 **************************************************************************/
 int find_a_unit_type()
-{
+ {
   int num;
   
   num = 2;
@@ -680,8 +680,10 @@ int benefit_irrigate(struct player *pplayer, int x, int y)
 **************************************************************************/
 int ai_calc_pollution(struct unit *punit, struct player *pplayer, int x, int y)
 {
+#ifdef OBSOLETE
   if (is_already_assigned(punit, pplayer, x, y))
-      return 0;
+      return 0; 
+#endif
   return benefit_pollution(pplayer, x, y);
 }
 
@@ -693,10 +695,12 @@ int ai_calc_pollution(struct unit *punit, struct player *pplayer, int x, int y)
 **************************************************************************/
 int ai_calc_mine(struct unit *punit, struct player *pplayer, int x, int y)
 {
+#ifdef OBSOLETE
   if (is_already_assigned(punit, pplayer, x, y))
-      return 0;
+      return 0; 
   if (!in_city_radius(pplayer, x, y)) 
-    return 0;
+    return 0; 
+#endif
   if (is_worked_here(x, y))
     return 4*benefit_mine(pplayer, x, y);
   else
@@ -710,6 +714,7 @@ int ai_calc_mine(struct unit *punit, struct player *pplayer, int x, int y)
 **************************************************************************/
 int ai_calc_road(struct unit *punit, struct player *pplayer, int x, int y)
 {
+#ifdef OBSOLETE
   if (is_already_assigned(punit, pplayer, x, y))
       return 0;
   if (map_get_city(x, y))
@@ -719,7 +724,11 @@ int ai_calc_road(struct unit *punit, struct player *pplayer, int x, int y)
       return 1;
     else
       return 0;
-  }
+  } */
+#else
+  if (map_get_city(x, y))
+    return 0;
+#endif
   if (is_worked_here(x, y))
     return benefit_road(pplayer, x, y)*8;
   return benefit_road(pplayer, x, y)*4;
@@ -815,12 +824,17 @@ int ai_calc_irrigate(struct unit *punit, struct player *pplayer, int x, int y)
 {
   if (map_get_city(x, y))
     return 0;
+#ifdef OBSOLETE
   if (is_already_assigned(punit, pplayer, x, y))
       return 0;
   if (get_government(pplayer->player_no) < G_MONARCHY) 
     return 0;
   if (!in_city_radius(pplayer, x, y)) 
     return 0;
+#else
+  if (get_government(pplayer->player_no) < G_MONARCHY) 
+    return 0;
+#endif
   if (is_worked_here(x, y))
     return 4*benefit_irrigate(pplayer, x, y);
   else

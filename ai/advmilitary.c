@@ -53,7 +53,9 @@ void add_to_stack(int x, int y)
 
 void generate_warmap(struct city *pcity)
 {
-  int x, y, c, i, j, k, xx[3], yy[3];
+  int x, y, c, i, j, k, xx[3], yy[3], tm;
+  int ii[9] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int jj[9] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
   struct city *acity;
@@ -78,25 +80,25 @@ void generate_warmap(struct city *pcity)
     if ((yy[0]=y-1)==-1) yy[0] = 0;
     if ((yy[2]=y+1)==map.ysize) yy[2]=y;
     yy[1] = y;
-    for (k = 0; k < 9; k++) {
-      i = k / 3; j = k % 3;
-      if (xx[i] != x || yy[j] != y) {
-        tile1 = map_get_tile(xx[i], yy[j]);
-        c = get_tile_type(tile1->terrain)->movement_cost*3;
-        if (tile1->terrain == T_OCEAN) c = maxcost;
-        if ((tile0->special & tile1->special) & S_ROAD) c = 1;
-        if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
-        if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
-        if (warmap.cost[xx[i]][yy[j]] > warmap.cost[x][y] + c) {
-          warmap.cost[xx[i]][yy[j]] = warmap.cost[x][y] + c;
-          add_to_stack(xx[i], yy[j]);
-/*          if (acity = map_get_city(xx[i], yy[j])) printf("%s to %s: %d\n",
+    for (k = 0; k < 8; k++) {
+      i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+      tile1 = map_get_tile(xx[i], yy[j]);
+      if (tile1->terrain == T_OCEAN) c = maxcost;
+      else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
+      else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
+      else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
+      else c = get_tile_type(tile1->terrain)->movement_cost*3;
+      tm = warmap.cost[x][y] + c;
+      if (warmap.cost[xx[i]][yy[j]] > tm) {
+        warmap.cost[xx[i]][yy[j]] = tm;
+        add_to_stack(xx[i], yy[j]);
+/*       if (acity = map_get_city(xx[i], yy[j])) printf("%s to %s: %d\n",
              pcity->name, acity->name, warmap.cost[xx[i]][yy[j]]); */
-        }
-      } /* end if non-null move */
+      }
     } /* end for */
   } while (warstacksize > warnodes);
 /* printf("Generated warmap for %s with %d nodes checked.\n", pcity->name, warnodes); */
+/* warnodes is often as much as 2x the size of the continent -- Syela */
 }
 
 int assess_danger(struct city *pcity)

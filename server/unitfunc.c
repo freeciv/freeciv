@@ -33,6 +33,7 @@
 #include <events.h>
 #include <shared.h>
 #include <aiunit.h>
+#include <sys/time.h>
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 
 /******************************************************************************
@@ -342,7 +343,7 @@ void player_restore_units(struct player *pplayer)
       pcity=city_list_find_id(&pplayer->cities, 
 			    game.global_wonders[B_LIGHTHOUSE]);
       if (!(pcity && !wonder_obsolete(B_LIGHTHOUSE))) { 
-	if (!is_coastline(punit->x, punit->y) && (myrand(100) > 50)) {
+	if (!is_coastline(punit->x, punit->y) && (myrand(100) >= 50)) {
 	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			   "Game: Your Trireme has been lost on the high seas");
 	  wipe_unit(pplayer, punit);
@@ -964,6 +965,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   return 1;
 }
 
+#ifdef OBSOLETE
 /********************************************************************
   find some work for the settler
 *********************************************************************/
@@ -975,6 +977,7 @@ void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int v=0;
   int v2;
   int x, y,z;
+
   gx=-1;
   gy=-1;
   for (x=0;x<map.xsize;x++)
@@ -1019,14 +1022,90 @@ void auto_settler_findwork(struct player *pplayer, struct unit *punit)
     punit->ai.control=0;
 }
 
+#else
+
+/********************************************************************
+  find some work for the settler
+*********************************************************************/
+void auto_settler_findwork(struct player *pplayer, struct unit *punit) 
+{
+  int gx,gy;
+  int co=map_get_continent(punit->x, punit->y);
+  int t=0;
+  int v=0;
+  int v2;
+  int x, y, z, i, j;
+
+  gx=-1;
+  gy=-1;
+/* iterating over the whole map is just ridiculous.  let's only look at
+our own cities.  The old method wasted billions of CPU cycles and led to
+AI settlers improving enemy cities. */
+
+  city_list_iterate(pplayer->cities, pcity)
+    city_map_iterate(i, j) {
+      x = map_adjust_x(pcity->x + i - 2);
+      y = map_adjust_y(pcity->y + j - 2);
+      if (map_get_continent(x, y) == co &&
+          !is_already_assigned(punit, pplayer, x, y)) {
+/* calling is_already_assigned once instead of four times for obvious reasons */
+/* the rest of this is all old and bad but will suffice for now -- Syela */
+	z=map_distance(x,y, punit->x, punit->y);
+	v2=dist_mod(z, ai_calc_irrigate(punit, pplayer, x, y));
+	if (v2>v) {
+	  t=ACTIVITY_IRRIGATE;
+	  v=v2; gx=x; gy=y;
+	}
+
+	v2=dist_mod(z, ai_calc_road(punit, pplayer, x, y));
+	if (v2>v) {
+	  if (map_get_special(punit->x, punit->y) & S_ROAD)
+	    t=ACTIVITY_RAILROAD;
+	  else
+	    t=ACTIVITY_ROAD;
+	  v=v2; gx=x; gy=y;
+	}
+
+	v2=dist_mod(z, ai_calc_mine(punit, pplayer, x, y));
+	if (v2>v) {
+	  t=ACTIVITY_MINE;
+	  v=v2; gx=x; gy=y;
+	}
+
+	v2=dist_mod(z, ai_calc_pollution(punit, pplayer, x, y));
+	if (v2>v) {
+	  t=ACTIVITY_POLLUTION;
+	  v=v2; gx=x; gy=y;
+	}
+      } /* end if we are a legal destination */
+    } /* end city map iterate */
+  city_list_iterate_end;
+  if (same_pos(gx, gy, punit->x, punit->y)) {
+    set_unit_activity(punit, t);
+    send_unit_info(0, punit, 0);
+    return;
+  }
+  if (gx!=-1 && gy!=-1) 
+    auto_settler_do_goto(pplayer, punit,gx, gy);
+  else 
+    punit->ai.control=0;
+}
+#endif
+
 /************************************************************************** 
   run through all the players settlers and let those on ai.control work 
   automagically
 **************************************************************************/
 void auto_settlers_player(struct player *pplayer) 
 {
+  int sec, usec;
+  struct timeval tv;
+  gettimeofday(&tv, 0);
+  sec = tv.tv_sec; usec = tv.tv_usec; 
   unit_list_iterate(pplayer->units, punit) {
+/* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
     if (punit->ai.control) {
+/* printf("Is ai controlled.\n");*/
       if(punit->activity == ACTIVITY_SENTRY && 
 	 !map_get_terrain(punit->x, punit->y) == T_OCEAN &&
 	 is_ground_unit(punit))
@@ -1034,11 +1113,15 @@ void auto_settlers_player(struct player *pplayer)
       if (punit->activity == ACTIVITY_IDLE)
 	auto_settler_findwork(pplayer, punit);
       if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) 
-	/* fix for the lost turn */
+	/* fix for the lost turn */ /* Isn't this a CPU waster? -- Syela */
 	auto_settler_findwork(pplayer, punit);
+/* printf("Has been processed.\n"); */
     }
   }
   unit_list_iterate_end;
+  gettimeofday(&tv, 0);
+  printf("%s's autosettlers consumed %d microseconds.\n", pplayer->name, 
+       (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
 }
 
 /**************************************************************************
