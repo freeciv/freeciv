@@ -760,7 +760,8 @@ static void load_ruleset_terrain(char *ruleset_subdir)
 {
   struct section_file file;
   char *filename, *datafile_options;
-  char prefix[64];
+  int nval;
+  char **sec;
   int i;
   struct tile_type *t;
 
@@ -797,12 +798,20 @@ static void load_ruleset_terrain(char *ruleset_subdir)
 
   /* terrain names */
 
+  sec = secfile_get_secnames_prefix(&file, "terrain_", &nval);
+  if (nval != (T_COUNT - T_FIRST))
+    {
+      /* sometime this restriction should be removed */
+      freelog(LOG_FATAL, "Bad number of terrains %d (%s)", nval, filename);
+      exit(1);
+    }
+
   for (i = T_FIRST; i < T_COUNT; i++)
     {
       t = &(tile_types[i]);
 
       strcpy(t->terrain_name,
-	     secfile_lookup_str(&file, "terrains.t%d.terrain_name", i));
+	     secfile_lookup_str(&file, "%s.terrain_name", sec[i]));
       if (0 == strcmp(t->terrain_name, "unused")) *(t->terrain_name) = '\0';
     }
 
@@ -811,55 +820,56 @@ static void load_ruleset_terrain(char *ruleset_subdir)
   for (i = T_FIRST; i < T_COUNT; i++)
     {
       t = &(tile_types[i]);
-      sprintf(prefix, "terrains.t%d", i);
 
-      t->graphic_base = secfile_lookup_int(&file, "%s.graphic_base", prefix);
-      t->graphic_count = secfile_lookup_int(&file, "%s.graphic_count", prefix);
+      t->graphic_base = secfile_lookup_int(&file, "%s.graphic_base", sec[i]);
+      t->graphic_count = secfile_lookup_int(&file, "%s.graphic_count", sec[i]);
 
-      t->movement_cost = secfile_lookup_int(&file, "%s.movement_cost", prefix);
-      t->defense_bonus = secfile_lookup_int(&file, "%s.defense_bonus", prefix);
+      t->movement_cost = secfile_lookup_int(&file, "%s.movement_cost", sec[i]);
+      t->defense_bonus = secfile_lookup_int(&file, "%s.defense_bonus", sec[i]);
 
-      t->food = secfile_lookup_int(&file, "%s.food", prefix);
-      t->shield = secfile_lookup_int(&file, "%s.shield", prefix);
-      t->trade = secfile_lookup_int(&file, "%s.trade", prefix);
+      t->food = secfile_lookup_int(&file, "%s.food", sec[i]);
+      t->shield = secfile_lookup_int(&file, "%s.shield", sec[i]);
+      t->trade = secfile_lookup_int(&file, "%s.trade", sec[i]);
 
-      strcpy(t->special_1_name, secfile_lookup_str(&file, "%s.special_1_name", prefix));
+      strcpy(t->special_1_name, secfile_lookup_str(&file, "%s.special_1_name", sec[i]));
       if (0 == strcmp(t->special_1_name, "none")) *(t->special_1_name) = '\0';
-      t->graphic_special_1 = secfile_lookup_int(&file, "%s.graphic_special_1", prefix);
-      t->food_special_1 = secfile_lookup_int(&file, "%s.food_special_1", prefix);
-      t->shield_special_1 = secfile_lookup_int(&file, "%s.shield_special_1", prefix);
-      t->trade_special_1 = secfile_lookup_int(&file, "%s.trade_special_1", prefix);
+      t->graphic_special_1 = secfile_lookup_int(&file, "%s.graphic_special_1", sec[i]);
+      t->food_special_1 = secfile_lookup_int(&file, "%s.food_special_1", sec[i]);
+      t->shield_special_1 = secfile_lookup_int(&file, "%s.shield_special_1", sec[i]);
+      t->trade_special_1 = secfile_lookup_int(&file, "%s.trade_special_1", sec[i]);
 
-      strcpy(t->special_2_name, secfile_lookup_str(&file, "%s.special_2_name", prefix));
+      strcpy(t->special_2_name, secfile_lookup_str(&file, "%s.special_2_name", sec[i]));
       if (0 == strcmp(t->special_2_name, "none")) *(t->special_2_name) = '\0';
-      t->graphic_special_2 = secfile_lookup_int(&file, "%s.graphic_special_2", prefix);
-      t->food_special_2 = secfile_lookup_int(&file, "%s.food_special_2", prefix);
-      t->shield_special_2 = secfile_lookup_int(&file, "%s.shield_special_2", prefix);
-      t->trade_special_2 = secfile_lookup_int(&file, "%s.trade_special_2", prefix);
+      t->graphic_special_2 = secfile_lookup_int(&file, "%s.graphic_special_2", sec[i]);
+      t->food_special_2 = secfile_lookup_int(&file, "%s.food_special_2", sec[i]);
+      t->shield_special_2 = secfile_lookup_int(&file, "%s.shield_special_2", sec[i]);
+      t->trade_special_2 = secfile_lookup_int(&file, "%s.trade_special_2", sec[i]);
 
       t->road_trade_incr =
-	secfile_lookup_int(&file, "%s.road_trade_incr", prefix);
-      t->road_time = secfile_lookup_int(&file, "%s.road_time", prefix);
+	secfile_lookup_int(&file, "%s.road_trade_incr", sec[i]);
+      t->road_time = secfile_lookup_int(&file, "%s.road_time", sec[i]);
 
       t->irrigation_result =
-	lookup_terrain(secfile_lookup_str(&file, "%s.irrigation_result", prefix), i);
+	lookup_terrain(secfile_lookup_str(&file, "%s.irrigation_result", sec[i]), i);
       t->irrigation_food_incr =
-	secfile_lookup_int(&file, "%s.irrigation_food_incr", prefix);
-      t->irrigation_time = secfile_lookup_int(&file, "%s.irrigation_time", prefix);
+	secfile_lookup_int(&file, "%s.irrigation_food_incr", sec[i]);
+      t->irrigation_time = secfile_lookup_int(&file, "%s.irrigation_time", sec[i]);
 
       t->mining_result =
-	lookup_terrain(secfile_lookup_str(&file, "%s.mining_result", prefix), i);
+	lookup_terrain(secfile_lookup_str(&file, "%s.mining_result", sec[i]), i);
       t->mining_shield_incr =
-	secfile_lookup_int(&file, "%s.mining_shield_incr", prefix);
-      t->mining_time = secfile_lookup_int(&file, "%s.mining_time", prefix);
+	secfile_lookup_int(&file, "%s.mining_shield_incr", sec[i]);
+      t->mining_time = secfile_lookup_int(&file, "%s.mining_time", sec[i]);
 
       t->transform_result =
-	lookup_terrain(secfile_lookup_str(&file, "%s.transform_result", prefix), i);
-      t->transform_time = secfile_lookup_int(&file, "%s.transform_time", prefix);
+	lookup_terrain(secfile_lookup_str(&file, "%s.transform_result", sec[i]), i);
+      t->transform_time = secfile_lookup_int(&file, "%s.transform_time", sec[i]);
     }
 
   section_file_check_unused(&file, filename);
   section_file_free(&file);
+
+  return;
 }
 
 /**************************************************************************

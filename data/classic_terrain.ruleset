@@ -28,36 +28,409 @@ river_base=999       ; 999 means no such tiles
 outlet_base=176      ; 999 means no such tiles
 denmark_base=212     ; 999 means no such tiles
 
-[terrains]
-
-; Tile_type list:
-;
-; Tile terrains should be in the same order as defined in common/map.h
+; Below: The individual terrain types, one per section.
+; For now, the number of such sections must be kept the same (=12).
+; Also, terrains should be in the same order as defined in common/map.h,
 ; and have similar roles/effects, as some things are still hardwired.
+; The actual tag used (the * in [unit_*]) doesn't matter, except 
+; it must be unique for each unit, and it may be used in debug 
+; output when reading this file.
 ;
-; Special terrain_name value: "unused" -- terrain type is not used.
-; The defense_bonus value is 10 times the actual defense bonus.
-; Special special_#_name value: "none" -- special type is not used.
-; Special *_time value: 0 -- operation is not allowed.
-; Special *_result value: "no" -- operation is not allowed.
-; Special *_result value: "yes" -- operation is permitted, but it doesn't change the terrain type.
+; Notes:
+;
+; terrain_name         = name as seen by user; if "unused", it is not used
+; graphic_base         = index of base tile in tiles.xpm
+; graphic_count        = count of tiles for this terrain
+; movement_cost        = typically 1 to 3
+; defense_bonus        = 10 times actual; typically 10 to 30 (1.0 to 3.0)
+; food                 = normal food production
+; shield               = normal shield production
+; trade                = normal trade production
+; special_1_name       = name of special; if "none", special is not used
+; graphic_special_1    = index of tile in tiles.xpm
+; food_special_1       = special (1) food production
+; shield_special_1     = special (1) shield production
+; trade_special_1      = special (1) trade production
+; special_2_name       = name of special; if "none", special is not used
+; graphic_special_2    = index of tile in tiles.xpm
+; food_special_2       = special (2) food production
+; shield_special_2     = special (2) shield production
+; trade_special_2      = special (2) trade production
+; road_trade_incr      = increment to trade if square has road
+; road_time            = time to build road; if 0, can't build road
+; irrigation_result    = result of irrigation; one of:
+;                        "no"  -- can't irrigate
+;                        "yes" -- can irrigate
+;                        terrain name -- irrigation changes to that terrain
+; irrigation_food_incr = increment to food if square is irrigated
+; irrigation_time      = time to irrigate; if 0, can't irrigate
+; mining_result        = result of mining; one of:
+;                        "no"  -- can't mine
+;                        "yes" -- can mine
+;                        terrain name -- mining changes to that terrain
+; mining_shield_incr   = increment to shields if square is mined
+; mining_time          = time to mine; if 0, can't mine
+; transform_result     = result of transformation; one of:
+;                        "no"  -- can't transform
+;                        terrain name -- transformation changes to that terrain
+; transform_time       = time to transform; if 0, can't transform
 
-t={ "terrain_name", "graphic_base", "graphic_count", "movement_cost", "defense_bonus", "food", "shield", "trade", "special_1_name", "graphic_special_1", "food_special_1", "shield_special_1", "trade_special_1", "special_2_name", "graphic_special_2", "food_special_2", "shield_special_2", "trade_special_2", "road_trade_incr", "road_time", "irrigation_result", "irrigation_food_incr", "irrigation_time", "mining_result", "mining_shield_incr", "mining_time", "transform_result", "transform_time"
+[terrain_arctic]
+terrain_name         = "Arctic"
+graphic_base         = 60
+graphic_count        = 16
+movement_cost        = 2
+defense_bonus        = 10
+food                 = 0
+shield               = 0
+trade                = 0
+special_1_name       = "Seals"
+graphic_special_1    = 220
+food_special_1       = 2
+shield_special_1     = 0
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 4
+irrigation_result    = "no"
+irrigation_food_incr = 0
+irrigation_time      = 0
+mining_result        = "no"
+mining_shield_incr   = 0
+mining_time          = 0
+transform_result     = "Tundra"
+transform_time       = 24
 
-; "Name",      gb,gc, mc, db,  f,s,t,  "Sp1 Name",  gs1, f,s,t,  "Sp2 Name",  gs2, f,s,t, rti, rt,  "Irig Rslt", ifi, it,  "Mnig Rslt", msi, mt,  "Trns Rslt", tt
-;                              (nrm)                     (sp1)                     (sp2)
+[terrain_desert]
+terrain_name         = "Desert"
+graphic_base         = 40
+graphic_count        = 16
+movement_cost        = 1
+defense_bonus        = 10
+food                 = 0
+shield               = 1
+trade                = 0
+special_1_name       = "Oasis"
+graphic_special_1    = 221
+food_special_1       = 3
+shield_special_1     = 1
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 1
+road_time            = 2
+irrigation_result    = "yes"
+irrigation_food_incr = 1
+irrigation_time      = 5
+mining_result        = "yes"
+mining_shield_incr   = 1
+mining_time          = 5
+transform_result     = "Plains"
+transform_time       = 24
 
-"Arctic",      60,16,  2, 10,  0,0,0,  "Seals",     220, 2,0,0,  "none",      000, 0,0,0,   0,  4,  "no",          0,  0,  "no",          0,  0,  "Tundra",    24
-"Desert",      40,16,  1, 10,  0,1,0,  "Oasis",     221, 3,1,0,  "none",      000, 0,0,0,   1,  2,  "yes",         1,  5,  "yes",         1,  5,  "Plains",    24
-"Forest",     204, 4,  2, 15,  1,2,0,  "Game",      222, 3,2,0,  "none",      000, 0,0,0,   0,  4,  "Plains",      0,  5,  "no",          0,  0,  "Grassland", 24
-"Grassland",   20,16,  1, 10,  2,0,0,  "Resources", 223, 2,1,0,  "none",      000, 0,0,0,   1,  2,  "yes",         1,  5,  "Forest",      0, 10,  "Hills",     24
-"Hills",      200, 4,  2, 20,  1,0,0,  "Coals",     224, 1,2,0,  "none",      000, 0,0,0,   0,  4,  "yes",         1, 10,  "yes",         3, 10,  "Plains",    24
-"Jungle",      80,16,  2, 15,  1,0,0,  "Gems",      225, 1,0,4,  "none",      000, 0,0,0,   0,  4,  "Grassland",   0, 15,  "Forest",      0, 15,  "Plains",    24
-"Mountains",  208, 4,  3, 30,  0,1,0,  "Gold",      226, 0,1,5,  "none",      000, 0,0,0,   0,  6,  "no",          0,  0,  "yes",         1, 10,  "Hills",     24
-"Ocean",      180,16,  1, 10,  1,0,2,  "Fish",      227, 3,0,2,  "none",      000, 0,0,0,   0,  0,  "no",          0,  0,  "no",          0,  0,  "no",         0
-"Plains",     100,16,  1, 10,  1,1,0,  "Horses",    228, 3,1,0,  "none",      000, 0,0,0,   1,  2,  "yes",         1,  5,  "Forest",      0, 15,  "Grassland", 24
-"River",      160,16,  1, 15,  2,0,1,  "Resources", 229, 2,1,1,  "none",      000, 0,0,0,   0,  2,  "yes",         1,  5,  "no",          0,  0,  "no",         0
-"Swamp",      120,16,  2, 15,  1,0,0,  "Oil",       230, 1,4,0,  "none",      000, 0,0,0,   0,  4,  "Grassland",   0, 15,  "Forest",      0, 15,  "Plains",    24
-"Tundra",     140,16,  1, 10,  1,0,0,  "Game",      231, 3,0,0,  "none",      000, 0,0,0,   0,  2,  "no",          0,  0,  "no",          0,  0,  "Desert",    24
+[terrain_forest]
+terrain_name         = "Forest"
+graphic_base         = 204
+graphic_count        = 4
+movement_cost        = 2
+defense_bonus        = 15
+food                 = 1
+shield               = 2
+trade                = 0
+special_1_name       = "Game"
+graphic_special_1    = 222
+food_special_1       = 3
+shield_special_1     = 2
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 4
+irrigation_result    = "Plains"
+irrigation_food_incr = 0
+irrigation_time      = 5
+mining_result        = "no"
+mining_shield_incr   = 0
+mining_time          = 0
+transform_result     = "Grassland"
+transform_time       = 24
 
-}
+[terrain_grassland]
+terrain_name         = "Grassland"
+graphic_base         = 20
+graphic_count        = 16
+movement_cost        = 1
+defense_bonus        = 10
+food                 = 2
+shield               = 0
+trade                = 0
+special_1_name       = "Resources"
+graphic_special_1    = 223
+food_special_1       = 2
+shield_special_1     = 1
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 1
+road_time            = 2
+irrigation_result    = "yes"
+irrigation_food_incr = 1
+irrigation_time      = 5
+mining_result        = "Forest"
+mining_shield_incr   = 0
+mining_time          = 10
+transform_result     = "Hills"
+transform_time       = 24
+
+[terrain_hills]
+terrain_name         = "Hills"
+graphic_base         = 200
+graphic_count        = 4
+movement_cost        = 2
+defense_bonus        = 20
+food                 = 1
+shield               = 0
+trade                = 0
+special_1_name       = "Coals"
+graphic_special_1    = 224
+food_special_1       = 1
+shield_special_1     = 2
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 4
+irrigation_result    = "yes"
+irrigation_food_incr = 1
+irrigation_time      = 10
+mining_result        = "yes"
+mining_shield_incr   = 3
+mining_time          = 10
+transform_result     = "Plains"
+transform_time       = 24
+
+[terrain_jungle]
+terrain_name         = "Jungle"
+graphic_base         = 80
+graphic_count        = 16
+movement_cost        = 2
+defense_bonus        = 15
+food                 = 1
+shield               = 0
+trade                = 0
+special_1_name       = "Gems"
+graphic_special_1    = 225
+food_special_1       = 1
+shield_special_1     = 0
+trade_special_1      = 4
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 4
+irrigation_result    = "Grassland"
+irrigation_food_incr = 0
+irrigation_time      = 15
+mining_result        = "Forest"
+mining_shield_incr   = 0
+mining_time          = 15
+transform_result     = "Plains"
+transform_time       = 24
+
+[terrain_mountains]
+terrain_name         = "Mountains"
+graphic_base         = 208
+graphic_count        = 4
+movement_cost        = 3
+defense_bonus        = 30
+food                 = 0
+shield               = 1
+trade                = 0
+special_1_name       = "Gold"
+graphic_special_1    = 226
+food_special_1       = 0
+shield_special_1     = 1
+trade_special_1      = 5
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 6
+irrigation_result    = "no"
+irrigation_food_incr = 0
+irrigation_time      = 0
+mining_result        = "yes"
+mining_shield_incr   = 1
+mining_time          = 10
+transform_result     = "Hills"
+transform_time       = 24
+
+[terrain_ocean]
+terrain_name         = "Ocean"
+graphic_base         = 180
+graphic_count        = 16
+movement_cost        = 1
+defense_bonus        = 10
+food                 = 1
+shield               = 0
+trade                = 2
+special_1_name       = "Fish"
+graphic_special_1    = 227
+food_special_1       = 3
+shield_special_1     = 0
+trade_special_1      = 2
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 0
+irrigation_result    = "no"
+irrigation_food_incr = 0
+irrigation_time      = 0
+mining_result        = "no"
+mining_shield_incr   = 0
+mining_time          = 0
+transform_result     = "no"
+transform_time       = 0
+
+[terrain_plains]
+terrain_name         = "Plains"
+graphic_base         = 100
+graphic_count        = 16
+movement_cost        = 1
+defense_bonus        = 10
+food                 = 1
+shield               = 1
+trade                = 0
+special_1_name       = "Horses"
+graphic_special_1    = 228
+food_special_1       = 3
+shield_special_1     = 1
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 1
+road_time            = 2
+irrigation_result    = "yes"
+irrigation_food_incr = 1
+irrigation_time      = 5
+mining_result        = "Forest"
+mining_shield_incr   = 0
+mining_time          = 15
+transform_result     = "Grassland"
+transform_time       = 24
+
+[terrain_river]
+terrain_name         = "River"
+graphic_base         = 160
+graphic_count        = 16
+movement_cost        = 1
+defense_bonus        = 15
+food                 = 2
+shield               = 0
+trade                = 1
+special_1_name       = "Resources"
+graphic_special_1    = 229
+food_special_1       = 2
+shield_special_1     = 1
+trade_special_1      = 1
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 2
+irrigation_result    = "yes"
+irrigation_food_incr = 1
+irrigation_time      = 5
+mining_result        = "no"
+mining_shield_incr   = 0
+mining_time          = 0
+transform_result     = "no"
+transform_time       = 0
+
+[terrain_swamp]
+terrain_name         = "Swamp"
+graphic_base         = 120
+graphic_count        = 16
+movement_cost        = 2
+defense_bonus        = 15
+food                 = 1
+shield               = 0
+trade                = 0
+special_1_name       = "Oil"
+graphic_special_1    = 230
+food_special_1       = 1
+shield_special_1     = 4
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 4
+irrigation_result    = "Grassland"
+irrigation_food_incr = 0
+irrigation_time      = 15
+mining_result        = "Forest"
+mining_shield_incr   = 0
+mining_time          = 15
+transform_result     = "Plains"
+transform_time       = 24
+
+[terrain_tundra]
+terrain_name         = "Tundra"
+graphic_base         = 140
+graphic_count        = 16
+movement_cost        = 1
+defense_bonus        = 10
+food                 = 1
+shield               = 0
+trade                = 0
+special_1_name       = "Game"
+graphic_special_1    = 231
+food_special_1       = 3
+shield_special_1     = 0
+trade_special_1      = 0
+special_2_name       = "none"
+graphic_special_2    = 000
+food_special_2       = 0
+shield_special_2     = 0
+trade_special_2      = 0
+road_trade_incr      = 0
+road_time            = 2
+irrigation_result    = "no"
+irrigation_food_incr = 0
+irrigation_time      = 0
+mining_result        = "no"
+mining_shield_incr   = 0
+mining_time          = 0
+transform_result     = "Desert"
+transform_time       = 24
