@@ -2,9 +2,7 @@
 FEHLER
 ======                                                                                                 
 
-Stand:  02.07.2002
-
-Freeciv 1.13.0 ist eine stabile Version, und kann für den täglichen
+Freeciv 1.14.0 ist eine stabile Version, und kann für den täglichen
 Gebrauch als ausreichend fehlerfrei betrachtet werden. Informationen
 über Fehler sind jederzeit willkommen.
 
@@ -20,11 +18,6 @@ Liste findet man unter:
 BEKANNTE FEHLER:
 ================
    
- - Einige Texte, die spezielle Zeichen enthalten, werden nicht
-   angezeigt, wenn die "locale" (die Umgebungsvariable LANG) auf "C"
-   gestellt ist. Zur Umgehung kann die "locale" auf etwas anderes, 
-   zum Beispiel "de_DE" gestellt werden.
-
  - Die Einstellungen der Automatischen Stadtverwaltung werden erst am
    Ende der Runde an den Server geschickt; deshalb gehen Änderungen, die
    in der gleichen Runde gemacht werden in der das Spiel abgespeichert
@@ -50,10 +43,15 @@ BEKANNTE FEHLER:
  - Manchmal gibt es zu viele Fortschritte im "Ziel" Menü des
    Fortschrittsdialoges, so daß das Menü unten aus dem Schirm
    herausläuft, und sich manche Einträge nicht anwählen lassen.
+   Dies tritt nur beim GTK+-1.2 Client auf.
 
  - Wenn man 'esound' verwendet, erhält man manchmal Meldungen wie
    	'{ss} player for sample <01> not found'
    Diese können problemlos ignoriert werden.
+
+ - Wenn der Client mit Strg-C abgebrochen wird, während gerade eine
+   Soundausgabe mit dem esd Plugin erfolgt, wird der Sound eventuell
+   nicht richtig beendet.
 
  - Einige Wirkungen von Wundern und Fortschritten treten erst nach
    einer Runde Verzögerung ein. Wenn zum Beispiel der Leuchturm
@@ -79,10 +77,7 @@ BEKANNTE FEHLER:
 
  - LOG_DEBUG funktioniert nur mit GCC Compilern.
 
- - Die Farbmarkierungen im Gtk Nachrichtenfenster gehen verloren,
-   wenn das Fenster geschlossen und wieder geöffnet wird.
-
- - Beim setzen von Servervariablen werden manche Werte nicht gut
+ - Beim Setzen von Servervariablen werden manche Werte nicht gut
    genug überprüft.
 
  - Wenn man gleichzeitig mehrere globale Arbeitslisten verändert,
@@ -96,10 +91,6 @@ BEKANNTE FEHLER:
  - Der Xaw Client arbeitet mit dem KDE Windowmanager nicht gut zusammen.
    Verwenden Sie stattdessen den Gtk Clienten oder einen anderen 
    Windowmanager.
-
- - Version 1.13.0 arbeitet nicht mit Version 1.12.0 oder älteren zusammen.
-   Der Client wird sich in diesem Fall sofort mit einer Fehlermeldung
-   beenden.
 
 
 FEHLER MITTEILEN:
