@@ -69,7 +69,7 @@ int update_meta_dialog(GtkWidget *meta_list)
 {
   char errbuf[128];
 
-  if(get_meta_list("www.daimi.aau.dk",meta_list,errbuf)!=-1)  {
+  if(get_meta_list(meta_list,errbuf)!=-1)  {
     return 1;
   } else {
     append_output_window(errbuf);

@@ -211,7 +211,7 @@ int update_meta_dialog(Widget meta_list)
 {
   char errbuf[128];
 
-  if(get_meta_list("www.daimi.aau.dk",server_list,errbuf)!=-1)  {
+  if(get_meta_list(server_list,errbuf)!=-1)  {
     XawListChange(meta_list,server_list,0,0,True);
     return 1;
   } else {

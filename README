@@ -22,6 +22,7 @@ the rules are very complete, and our multiplayer and networking code is
 excellent.  At the moment however, we're lacking alliances
 A patch is ready but not yet tested.
 
+
 Web site:
 =========
 
@@ -33,6 +34,7 @@ We invite you to visit.  You can get the latest Freeciv news, releases
 and patches, find out about the Freeciv mailing lists, and see the
 Freeciv metaserver, which records games being played around the world.
 
+
 License:
 ========
 
@@ -40,11 +42,13 @@ Freeciv is released under the GNU General Public Licence.  In short,
 you may copy this program (including source) freely, but see the 
 COPYING file for full details.
 
+
 Compiling and installing:
 =========================
 
 Please read the INSTALL file carefully for instructions on how to get
 Freeciv compiled and installed on your machine.
+
 
 Starting a new game:
 ===================
@@ -196,12 +200,39 @@ Server:
 
 And the game is on!
 
-Note:  If you want the server to send the list of players to the 
-worldwide meta-server, start the server with the '--meta' option, 
-or just '-m' for short.  This will allow people around the world to 
-connect to your game.  Many people prefer playing against humans 
-rather than just the AI, and connecting to the meta-server is one
-way you can find people to play against.
+
+Announcing the game:
+====================
+
+If you do not want to limit your opponents to local friends or AI players,
+visit the Freeciv metaserver:
+
+  http://www.daimi.aau.dk/~lancelot/freeciv.html
+
+It is a list of Freeciv servers.  To make your own server announce itself
+there, start civserver with the '--meta' option, or just '-m' for short.
+
+Caveats:
+
+ 1) Due to the inclusion of new features, different client and server
+    versions are often incompatible.  Not all incompatibilities
+    can be caught and reported properly.  One example is a 1.8.0
+    client connecting to a 1.7.2 server: the client appears
+    to connect, but it never gets any messages from the server.
+
+ 2) If the Metaserver button in the connection dialog doesn't work,
+    check if your ISP uses a mandatory WWW proxy and make civclient
+    use it through the $http_proxy environment variable.  For instance,
+    if the proxy is www-proxy.my-isp.com port 8888, set $http_proxy
+    to http://www-myisp.com:8888/ before starting the client.
+
+ 3) The metaserver usually lists several servers (5-10 on average),
+    but only a few of them are 1.8.0.  This is due to noise elimination:
+    up to 1.7.2, civserver connected to the metaserver by default, and
+    as a consequence, most of the pre-1.8.0 servers appearing on the
+    metaserver are run by first-time users who haven't even read this
+    README file.
+
 
 Playing the game:
 =================
@@ -280,11 +311,13 @@ if they're to be allowed in.
 
 The game may then be restarted with 's' as usual.
 
+
 Server autostart:
 =================
 
 When the maximum number of players have connected, the server auto-starts.
 The maximum number of players can be set with the 'maxplayers' option.
+
 
 Log messages:
 =============
@@ -362,6 +395,7 @@ Here's what to do:
    give us a "stack trace".  You'll need the "core" file for this, so
    please hold onto it for a while.
 
+
 Mailing lists:
 ==============
 
@@ -386,12 +420,14 @@ To subscribe, send mail to <majordomo@freeciv.org>, with the single word
 Example: To subscribe to the "freeciv" mailing list, send the line
 "subscribe freeciv" to <majordomo@freeciv.org>
 
+
 New Releases:
 =============
 
 We make a major new release of Freeciv available about every three
 months.  Check the Freeciv website from time to time to see if there's
 a newer version!!
+
 
 And finally:
 ============

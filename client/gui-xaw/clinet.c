@@ -177,15 +177,58 @@ void close_server_connection(void)
 /**************************************************************************
   Get the list of servers from the metaserver
 **************************************************************************/
-int get_meta_list(char *server, char **list, char *errbuf)
+int get_meta_list(char **list, char *errbuf)
 {
   struct sockaddr_in addr;
   struct hostent *ph;
   int s;
   FILE *f;
-  char str[512],*p;
-  char line[256];
-  char *name,*port,*version,*status,*players,*metastring;
+  char *proxy_url;
+  char urlbuf[512];
+  char *urlpath;
+  char *server;
+  int port;
+  char str[512];
+
+  if ((proxy_url = getenv("http_proxy"))) {
+    if (strncmp(proxy_url,"http://",strlen("http://"))) {
+      strcpy(errbuf, "Invalid $http_proxy value, must start with 'http://'");
+      return -1;
+    }
+    strncpy(urlbuf,proxy_url,511);
+  } else {
+    if (strncmp(METALIST_ADDR,"http://",strlen("http://"))) {
+      strcpy(errbuf, "Invalid metaserver URL, must start with 'http://'");
+      return -1;
+    }
+    strncpy(urlbuf,METALIST_ADDR,511);
+  }
+  server = &urlbuf[strlen("http://")];
+
+  {
+    char *s;
+    if ((s = strchr(server,':'))) {
+      port = atoi(&s[1]);
+      if (!port) {
+        port = 80;
+      }
+      s[0] = '\0';
+      ++s;
+    } else {
+      s = server;
+      port = 80;
+    }
+  
+    if ((s = strchr(s,'/'))) {
+      s[0] = '\0';
+      ++s;
+    } else {
+      strcpy(errbuf, "Invalid metaserver URL, check $http_proxy value");
+      return -1;
+    }
+
+    urlpath = s;
+  }
 
   if ((ph = gethostbyname(server)) == NULL) {
     strcpy(errbuf, "Failed looking up host");
@@ -195,7 +238,7 @@ int get_meta_list(char *server, char **list, char *errbuf)
     memcpy((char *) &addr.sin_addr, ph->h_addr, ph->h_length);
   }
   
-  addr.sin_port = htons(80);
+  addr.sin_port = htons(port);
   
   if((s = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
     strcpy(errbuf, mystrerror(errno));
@@ -209,7 +252,10 @@ int get_meta_list(char *server, char **list, char *errbuf)
   }
 
   f=fdopen(s,"r+");
-  fputs("GET /~lancelot/freeciv.html\r\n\r\n",f); fflush(f);
+  fprintf(f,"GET /%s%s HTTP/1.0\r\n\r\n",
+	  urlpath,
+	  proxy_url ? METALIST_ADDR : "");
+  fflush(f);
 
 #define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;
 #define END_FIELD  p=strstr(p,"</TD>"); if(p==NULL) continue; *p++='\0';
@@ -217,6 +263,10 @@ int get_meta_list(char *server, char **list, char *errbuf)
 
   while( fgets(str,512,f)!=NULL)  {
     if(!strncmp(str,"<TR BGCOLOR",11))  {
+      char *name,*port,*version,*status,*players,*metastring;
+      char *p;
+      char line[256];
+
       p=strstr(str,"<a"); if(p==NULL) continue;
       p=strchr(p,'>');    if(p==NULL) continue;
       name=++p;

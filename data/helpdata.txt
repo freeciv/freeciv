@@ -336,6 +336,32 @@ SUCH DAMAGES.
                      END OF TERMS AND CONDITIONS
                          ------------------
 ---
+#Connecting
+Before a game is started, anyone can connect to the server
+by supplying its hostname and port number (5555 by default).
+If the server is started with the -m flag, it will report to
+the metaserver,
+
+  http://www.daimi.aau.dk/~lancelot/freeciv.html
+
+The client can fetch this page, too: use the Metaserver button
+in the connection dialog.  If it never shows any results, check
+if your WWW browser is using a HTTP proxy; to make civclient
+use the same client, set the $http_proxy environment variable to
+
+  http://proxyhost:proxyportnumber/
+
+before starting civclient.
+
+When the game has started, everyone can connect as any player who
+isn't already connected, including AI players.  Merely connecting
+to an AI player doesn't make it human controlled; this is a
+independent server setting.  If you lose connection early in
+the game and reconnect, use the name you chose for your ruler,
+not your original nickname!  If the server is reporting on the
+metserver, the player names can be found there.
+
+---
 #Controls
 Mouse:
 ======
