@@ -127,7 +127,7 @@ struct cma_dialog *get_cma_dialog(struct city *pcity)
 /**************************************************************************
  instantiates a new struct for each city_dialog window that is open.
 **************************************************************************/
-struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
+struct cma_dialog *create_cma_dialog(struct city *pcity)
 {
   struct cma_dialog *pdialog;
   struct cma_parameter param;
@@ -286,20 +286,20 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel)
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
-  pdialog->change_command = gtk_accelbutton_new(_("Apply onc_e"), accel);
+  pdialog->change_command = gtk_button_new_with_mnemonic(_("Apply onc_e"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->change_command, TRUE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->change_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->change_command), "clicked",
 		     GTK_SIGNAL_FUNC(cma_change_to_callback), pdialog);
 
-  pdialog->perm_command = gtk_accelbutton_new(_("Control c_ity"), accel);
+  pdialog->perm_command = gtk_button_new_with_mnemonic(_("Control c_ity"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->perm_command, TRUE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->perm_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->perm_command), "clicked",
 		     GTK_SIGNAL_FUNC(cma_change_permanent_to_callback),
 		     pdialog);
 
-  pdialog->release_command = gtk_accelbutton_new(_("_Release city"), accel);
+  pdialog->release_command = gtk_button_new_with_mnemonic(_("_Release city"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->release_command, TRUE, FALSE, 0);
   GTK_WIDGET_SET_FLAGS(pdialog->release_command, GTK_CAN_DEFAULT);
   gtk_signal_connect(GTK_OBJECT(pdialog->release_command), "clicked",

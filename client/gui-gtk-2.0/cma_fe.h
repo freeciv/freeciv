@@ -44,7 +44,7 @@ struct cma_dialog {
   int id;			/* needed to pass a preset_index */
 };
 
-struct cma_dialog *create_cma_dialog(struct city *pcity, GtkAccelGroup *accel);
+struct cma_dialog *create_cma_dialog(struct city *pcity);
 void close_cma_dialog(struct city *pcity);
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh);
 
