@@ -171,6 +171,7 @@ void srv_init(void)
   srvarg.script_filename = NULL;
 
   srvarg.quitidle = 0;
+  BV_CLR_ALL(srvarg.draw);
 
   srvarg.extra_metaserver_info[0] = '\0';
 
@@ -1734,4 +1735,5 @@ void server_game_free()
   diplhand_free();
   game_free();
   stdinhand_free();
+  BV_CLR_ALL(srvarg.draw);
 }

@@ -19,6 +19,8 @@
 struct connection;
 struct unit;
 
+BV_DEFINE(bv_draw, MAX_NUM_PLAYERS);
+
 struct server_arguments {
   /* metaserver information */
   bool metaserver_no_send;
@@ -42,6 +44,8 @@ struct server_arguments {
   int quitidle;
   /* exit the server on game ending */
   bool exit_on_end;
+  /* what kind of end game we should use */
+  bv_draw draw;
 };
 
 void srv_init(void);

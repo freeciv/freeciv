@@ -84,7 +84,7 @@ static bool observe_command(struct connection *caller, char *name, bool check);
 static bool take_command(struct connection *caller, char *name, bool check);
 static bool detach_command(struct connection *caller, char *name, bool check);
 static bool start_command(struct connection *caller, char *name, bool check);
-static bool end_command(struct connection *caller, char *name, bool check);
+static bool end_command(struct connection *caller, char *str, bool check);
 
 struct voting {
   char command[MAX_LEN_CONSOLE_LINE]; /* [0] == \0 if none in action */
@@ -1379,9 +1379,11 @@ static const struct command commands[] = {
       "concert with the option \"timeout\". Defaults are 0 0 0 1")
   },
   {"endgame",	ALLOW_CTRL,
-   "endgame",
-   N_("End the game."),
-   N_("This command ends the game immediately.")
+   /* TRANS: translate text between <> only */
+   N_("endgame <player1 player2 player3 ...>"),
+   N_("End the game.  If players are listed, these win the game."),
+   N_("This command ends the game immediately and credits the given players, "
+      "if any, with winning it.")
   },
   {"remove",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
@@ -4438,19 +4440,56 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
 }
 
 /**************************************************************************
-...
+  End the game and accord victory to the listed players, if any.
 **************************************************************************/
-static bool end_command(struct connection *caller, char *name, bool check)
+static bool end_command(struct connection *caller, char *str, bool check)
 {
   if (server_state == RUN_GAME_STATE) {
+    char *arg[MAX_NUM_PLAYERS];
+    int ntokens = 0, i;
+    enum m_pre_result plr_result;
+    bool result = TRUE;
+    char buf[MAX_LEN_CONSOLE_LINE];
+
+    if (str != NULL || strlen(str) > 0) {
+      sz_strlcpy(buf, str);
+      ntokens = get_tokens(buf, arg, MAX_NUM_PLAYERS, TOKEN_DELIMITERS);
+    }
+    /* Ensure players exist */
+    for (i = 0; i < ntokens; i++) {
+      struct player *pplayer = find_player_by_name_prefix(arg[i], &plr_result);
+
+      if (!pplayer) {
+        cmd_reply_no_such_player(CMD_TEAM, caller, arg[i], plr_result);
+        result = FALSE;
+        goto cleanup;
+      } else if (pplayer->is_alive == FALSE) {
+        cmd_reply(CMD_END_GAME, caller, C_FAIL, _("But %s is dead!"),
+                  pplayer->name);
+        result = FALSE;
+        goto cleanup;
+      }
+    }
     if (check) {
-      return TRUE;
+      goto cleanup;
+    }
+    if (ntokens > 0) {
+      /* Mark players for victory. */
+      for (i = 0; i < ntokens; i++) {
+        BV_SET(srvarg.draw, 
+               find_player_by_name_prefix(arg[i], &plr_result)->player_no);
+      }
     }
     server_state = GAME_OVER_STATE;
     force_end_of_sniff = TRUE;
     cmd_reply(CMD_END_GAME, caller, C_OK,
               _("Ending the game. The server will restart once all clients "
               "have disconnected."));
+
+    cleanup:
+    for (i = 0; i < ntokens; i++) {
+      free(arg[i]);
+    }
     return TRUE;
   } else {
     cmd_reply(CMD_END_GAME, caller, C_FAIL, 

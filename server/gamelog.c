@@ -24,10 +24,11 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "score.h"
+#include "srv_main.h"
 #include "support.h"
 
 #include "gamelog.h"
-#include "score.h"
 
 int gamelog_level;		/* also accessed from stdinhand.c */
 static char *gamelog_filename;
@@ -138,7 +139,8 @@ static int secompare1(const void *a, const void *b)
   and status info.
 **************************************************************************/
 void gamelog_save(void) {
-  int i, count = 0;
+  int i, count = 0, highest = -1;
+  struct player *highest_plr = NULL;
   char buffer[4096];
   struct player_score_entry *size =
     fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
@@ -151,45 +153,28 @@ void gamelog_save(void) {
       rank[count].idx = pplayer->player_no;
       size[count].value = total_player_citizens(pplayer);
       size[count].idx = pplayer->player_no;
+      if (rank[count].value > highest) {
+        highest = rank[count].value;
+        highest_plr = pplayer;
+      }
       count++;
     }
   } players_iterate_end;
 
-  /* average game scores for teams */
-  team_iterate(pteam) {
-    int team_members = 0;
-    int count = 0;
-    int team_score = 0;
-    int team_size = 0;
-
-    /* sum team score */
-    players_iterate(pplayer) {
-      if (pplayer->team == pteam->id) {
-        team_members++;
-        team_score += rank[count].value;
-        team_size += size[count].value;
+  /* Draws and team victories */
+  count = 0;
+  players_iterate(pplayer) {
+    if (!is_barbarian(pplayer)) {
+      if ((BV_ISSET_ANY(srvarg.draw)
+           && BV_ISSET(srvarg.draw, pplayer->player_no))
+          || (pplayer->team != TEAM_NONE
+              && pplayer->team == highest_plr->team)) {
+        /* We win a shared victory, so equal the score. */
+        rank[count].value = highest;
       }
       count++;
-    } players_iterate_end;
-
-    if (team_members == 0) {
-      continue;
     }
-
-    /* average them */
-    team_score = team_score / team_members;
-    team_size = team_size / team_members;
-
-    /* set scores to average */
-    count = 0;
-    players_iterate(pplayer) {
-      if (pplayer->team == pteam->id) {
-        rank[count].value = team_score;
-        size[count].value = team_size;
-      }
-      count++;
-    } players_iterate_end;
-  } team_iterate_end;
+  } players_iterate_end;
 
   qsort(size, count, sizeof(struct player_score_entry), secompare1);
   buffer[0] = 0;
