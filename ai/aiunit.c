@@ -1336,7 +1336,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
   }
 
   /* Dead unit shouldn't reach this point */
-  assert(player_find_unit_by_id(pplayer, id));
+  assert(player_find_unit_by_id(pplayer, id) != NULL);
   
   /* in case we need to change */
   punit->ai.ai_role = AIUNIT_NONE;

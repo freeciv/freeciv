@@ -186,7 +186,7 @@ void update_player_activities(struct player *pplayer)
 **************************************************************************/
 static void update_player_aliveness(struct player *pplayer)
 {
-  assert(pplayer);
+  assert(pplayer != NULL);
   if(pplayer->is_alive) {
     if(unit_list_size(&pplayer->units)==0 && 
        city_list_size(&pplayer->cities)==0) {

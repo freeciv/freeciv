@@ -1643,7 +1643,7 @@ void handle_select_nation(struct packet_nations_used *packet)
   } else if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     set_client_state(CLIENT_SELECT_RACE_STATE);
     popup_races_dialog();
-    assert(packet);
+    assert(packet != NULL);
     races_toggles_set_sensitive(packet);
   } else {
     freelog(LOG_ERROR,

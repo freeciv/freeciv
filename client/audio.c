@@ -213,7 +213,7 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
-  assert(tag);
+  assert(tag != NULL);
 
   freelog(LOG_DEBUG, "audio_play_sound('%s', '%s')", tag, pretty_alt_tag);
 
@@ -230,7 +230,8 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 void audio_play_music(const char *const tag, char *const alt_tag)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
-  assert(tag);
+
+  assert(tag != NULL);
 
   freelog(LOG_DEBUG, "audio_play_music('%s', '%s')", tag, pretty_alt_tag);
 
