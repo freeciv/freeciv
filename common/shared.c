@@ -1331,11 +1331,20 @@ char *convert_data_string_malloc(const char *text)
 
   return convert_string_malloc(text, data_encoding, local_encoding);
 #else
-  freelog(LOG_ERROR,
-	  _("You are running Freeciv without using iconv.  Unless\n"
-	    "you are using the latin1 character set, some characters\n"
-	    "may not be displayed properly.  You can download iconv\n"
-	    "at http://gnu.org/."));
+/* Don't expect that win32 users install iconv on their own, especially
+ * not from http://gnu.org/ in source form... */
+#ifndef WIN32_NATIVE
+  static bool only_give_this_damn_warning_once = FALSE;
+
+  if (!only_give_this_damn_warning_once) {
+    only_give_this_damn_warning_once = TRUE;
+
+   freelog(LOG_ERROR,
+           _("You are running Freeciv without using iconv.  Unless\n"
+           "you are using the latin1 character set, some characters\n"
+           "may not be displayed properly.  You can download iconv\n"
+           "at http://gnu.org/."));
+#endif
   return mystrdup(text);
 #endif
 }
