@@ -45,9 +45,6 @@ options="1.9"
 ; on marking up cities with terrain information.
 ;
 
-; Note: do not change the following order for default nations.ruleset,
-; or nations in savegames will become wrong.
-
 *include "nation/roman.ruleset"
 *include "nation/babylonian.ruleset"
 *include "nation/german.ruleset"
