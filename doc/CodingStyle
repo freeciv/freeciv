@@ -165,6 +165,9 @@ int foo(struct city *pcity)
     /* nothing */
   }
 
+- Use the postfix operator instead of the prefix operator when either will
+  work.  That is, write "a++" instead of "++a".
+
 - Order include files consistently:  First state all system include
   files with <> in alphabetic order, then all Freeciv include files
   with "", sorted by directory (common, server, ...) and then by
