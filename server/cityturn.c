@@ -79,7 +79,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity);
 
 static void sanity_check_city(struct city *pcity);
 
-static void disband_city(struct city *pcity);
+static int disband_city(struct city *pcity);
 
 static void define_orig_production_values(struct city *pcity);
 static int update_city_activity(struct player *pplayer, struct city *pcity);
@@ -1420,14 +1420,13 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 
 	  /* Should we disband the city? -- Massimo */
 	  if (pcity->city_options & ((1<<CITYO_DISBAND))) {
-	    disband_city(pcity);
-	    return 0;
+	    return !disband_city(pcity);
 	  } else {
 	    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
 			     _("Game: %s can't build %s yet."),
 			     pcity->name, unit_name(pcity->currently_building));
+	    return 1;
 	  }
-	  return 1;
 
 	}
 	city_built_city_builder = 1;
@@ -1851,7 +1850,7 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
 /**************************************************************************
  disband a city into a settler, supported by the closest city -- Massimo
 **************************************************************************/
-static void disband_city(struct city *pcity)
+static int disband_city(struct city *pcity)
 {
   struct player *pplayer = get_player(pcity->owner);
   int x = pcity->x, y = pcity->y;
@@ -1866,7 +1865,7 @@ static void disband_city(struct city *pcity)
 		     _("Game: %s can't build %s yet, "
 		     "and we can't disband our only city."),
 		     pcity->name, unit_name(pcity->currently_building));
-    return;
+    return 0;
   }
 
   create_unit(pplayer, x, y, pcity->currently_building,
@@ -1886,4 +1885,5 @@ static void disband_city(struct city *pcity)
 	  get_nation_name_plural(pplayer->nation));
 
   remove_city(pcity);
+  return 1;
 }
