@@ -85,7 +85,16 @@ struct settings_s {
        spaces for indentation.  Should have punctuation etc, and
        should end with a "."
   */
+  /* The following apply if the setting is string valued; note these
+     default to 0 (NULL) if not explicitly mentioned in initialization
+     array.  The setting is integer valued if svalue is NULL.
+  */
+  char *svalue;	
+  char *default_svalue;
 };
+
+#define SETTING_IS_INT(s) ((s)->value!=NULL)
+#define SETTING_IS_STRING(s) ((s)->value==NULL)
 
 struct settings_s settings[] = {
 
@@ -717,8 +726,13 @@ void explain_option(char *str)
       }
       printf("Status: %s\n", (sset_is_changeable(cmd)
 			      ? "changeable" : "fixed"));
-      printf("Value: %d, Minimum: %d, Default: %d, Maximum: %d\n",
-	     *(op->value), op->min_value, op->default_value, op->max_value);
+      if (SETTING_IS_INT(op)) {
+	printf("Value: %d, Minimum: %d, Default: %d, Maximum: %d\n",
+	       *(op->value), op->min_value, op->default_value, op->max_value);
+      } else {
+	printf("Value: \"%s\", Default: \"%s\"\n",
+	       op->svalue, op->default_svalue);
+      }
     }
   } else {
     puts(horiz_line);
@@ -753,9 +767,15 @@ void report_server_options(struct player *pplayer, int which)
     if (!sset_is_to_client(i)) continue;
     if (which==1 && op->sclass > SSET_GAME_INIT) continue;
     if (which==2 && op->sclass <= SSET_GAME_INIT) continue;
-    sprintf(buf2, "%-20s%c%-6d (%d,%d)\n", op->name,
-	    (*op->value==op->default_value) ? '*' : ' ',
-	    *op->value, op->min_value, op->max_value);
+    if (SETTING_IS_INT(op)) {
+      sprintf(buf2, "%-20s%c%-6d (%d,%d)\n", op->name,
+	      (*op->value==op->default_value) ? '*' : ' ',
+	      *op->value, op->min_value, op->max_value);
+    } else {
+      sprintf(buf2, "%-20s%c\"%s\"\n", op->name,
+	      (strcmp(op->svalue, op->default_svalue)==0) ? '*' : ' ',
+	      op->svalue);
+    }
     strcat(buffer, buf2);
   }
   i = strlen(buffer);
@@ -828,10 +848,17 @@ void show_command(char *str)
   for (i=0;settings[i].name;i++) {
     struct settings_s *op = &settings[i];
     int len;
-    len = printf("%-*s %c%c%-4d (%d,%d)", SSET_MAX_LEN, op->name,
-		 (sset_is_changeable(i) ? '#' : ' '),
-		 ((*op->value==op->default_value) ? '*' : ' '),
-		 *op->value, op->min_value, op->max_value);
+    if (SETTING_IS_INT(op)) {
+      len = printf("%-*s %c%c%-4d (%d,%d)", SSET_MAX_LEN, op->name,
+		   (sset_is_changeable(i) ? '#' : ' '),
+		   ((*op->value==op->default_value) ? '*' : ' '),
+		   *op->value, op->min_value, op->max_value);
+    } else {
+      len = printf("%-*s %c%c\"%s\"", SSET_MAX_LEN, op->name,
+		   (sset_is_changeable(i) ? '#' : ' '),
+		   ((strcmp(op->svalue, op->default_svalue)==0) ? '*' : ' '),
+		   op->svalue);
+    }
     /* Line up the descriptions: */
     if(len < len1) {
       printf("%*s", (len1-len), " ");
@@ -850,6 +877,8 @@ void set_command(char *str)
 {
   char command[512], arg[512], *cptr_s, *cptr_d;
   int val, cmd;
+  struct settings_s *op;
+
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
 
   for(cptr_d=command; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++)
@@ -872,14 +901,27 @@ void set_command(char *str)
     return;
   }
 
-  val=atoi(arg);
-  if (val>=settings[cmd].min_value && val<=settings[cmd].max_value) {
-    *(settings[cmd].value)=val;
-    if (sset_is_to_client(cmd)) {
-      notify_player(0, "Option: %s has been set to %d.", command, val);
+  op = &settings[cmd];
+  
+  if (SETTING_IS_INT(op)) {
+    val = atoi(arg);
+    if (val >= op->min_value && val <= op->max_value) {
+      *(op->value) = val;
+      if (sset_is_to_client(cmd)) {
+	notify_player(0, "Option: %s has been set to %d.", command, val);
+      }
+    } else {
+      puts("Value out of range. Usage: set <option> <value>.");
     }
   } else {
-    puts("Value out of range. Usage: set <option> <value>.");
+    if (strlen(arg)<MAX_LENGTH_NAME) {
+      strcpy(op->svalue, arg);
+      if (sset_is_to_client(cmd)) {
+	notify_player(0, "Option: %s has been set to \"%s\".", command, arg);
+      }
+    } else {
+      puts("String value too long. Usage: set <option> <value>.");
+    }
   }
 }
 
