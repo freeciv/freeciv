@@ -1,3 +1,478 @@
+Tue Jun 27 16:38:14 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* INSTALL:
+
+	Fixed bug in INSTALL file.  Fix submitted by Reinier Post
+	<reinpost@win.tue.nl>.
+
+Tue Jun 27 15:31:00 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE:
+
+	Updated email addresses in PEOPLE file.
+
+Tue Jun 27 15:20:28 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Tue Jun 27 14:47:03 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* INSTALL:
+
+	Added section on Solaris build to INSTALL file.  Info from FAQ by
+	Reinier Post <rp@win.tue.nl>.
+
+Tue Jun 27 13:20:27 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/city.h, server/citytools.c, server/diplhand.c,
+	server/maphand.c, server/maphand.h:
+
+	When builing a city, do not reveal unknown squares inside the city
+	radius.  Also, When transfering a city from another player only
+	reveal those squares that are known to the player we get the city
+	from.
+
+	(later I would like to make it an option to reveal the squares
+	when creating the city, as it is at least required for civ:ctp
+	mode)
+
+	Fixes PR#416 reported by Jeff Mallatt <jjm@codewell.com> Fix by me
+	and Jeff Mallatt <jjm@codewell.com>
+
+Tue Jun 27 12:58:19 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/fr.po:
+
+	Updated French (fr) translation.  Patch submitted by Olivier
+	Beyssac <ob@r14.freenix.org>.
+
+Tue Jun 27 12:48:59 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/dialogs.c, client/gui-xaw/dialogs.c:
+
+	I18n'd two missed strings.  Patch submitted by Pieter J. Kersten
+	<kersten@dia.eur.nl>.
+
+Tue Jun 27 12:11:20 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/ruleset.c:
+
+	Fixed grammar error.  Patch submitted by Dan Gohman
+	<gohmandj@mrs.umn.edu>.
+
+Tue Jun 27 00:56:11 2000  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1187t+18f992u+2o.
+
+Tue Jun 27 00:07:19 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c:
+
+	In handle_unit_enter_city(), send player info after calling
+	get_a_tech() to update the client.
+
+	Bug reported by I.Q.<iquin@techie.com>
+
+Mon Jun 26 19:29:57 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Mon Jun 26 18:37:46 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* INSTALL:
+
+	Added a Reinier's libXpm Solaris Installation Notes section to the
+	INSTALL file.  Info supplied by, you guessed it, Reinier Post
+	<reinpost@win.tue.nl>.
+
+Mon Jun 26 14:55:21 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated translations of "rulesout" included improvements by
+	Christian Knoke <ChrisK@enter.de>
+
+Mon Jun 26 13:16:36 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c:
+
+	Patch to draw city names/productions on expose events.  GTK+ patch
+	submitted by Kero van Gelder <kero@ipc3792237.dial.wxs.nl>.  Xaw
+	implementation by me.
+
+Mon Jun 26 12:35:04 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ1/units.ruleset, data/civ2/units.ruleset,
+	data/default/units.ruleset:
+
+	Sea units in Civ2 are not field units.  Fixed to conform.  Also,
+	changed Civ1 ruleset.  Bug reported by Mike Webb
+	<mjw@codewell.com>.
+
+Mon Jun 26 12:21:08 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/Makefile.am, common/Makefile.in, common/netintf.c,
+	common/netintf.h, common/packets.c, common/support.c,
+	common/support.h, server/sernet.c:
+
+	Fixes bug whereby new FD_ZERO code would not compile cleanly on
+	some platforms.  Adds a new module, ./common/netintf.[hc], to hold
+	support for incompatible network interfaces.
+
+Mon Jun 26 12:06:56 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/nation/boer.ruleset, data/nation/misc_cities.ruleset:
+
+	Fixes to Boer nation.  Patch submitted by Gerhard Killesreiter
+	<killesreiter@physik.uni-freiburg.de>, with some fixes.
+
+Mon Jun 26 03:29:28 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/pl.po:
+
+	Updated Polish (pl) translation.  Patch submitted by Tomasz
+	Wegrzanowski <maniek@beer.com>.
+
+Sun Jun 25 22:00:08 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Sun Jun 25 13:16:17 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/options.c, client/options.h, client/packhand.c:
+
+	Added local client option to auto-center on all combats involving
+	the player.  Defaults to prior behavior of not auto-centering on
+	combat.  Suggested (strongly :) by my Anonymous Freeciv Friends.
+
+Sat Jun 24 23:12:31 2000  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1161t+17f+1019u+2o.
+
+Sat Jun 24 18:31:41 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/plrhand.c:
+
+	Fixed minor inconsistency between two messages.  Bug reported by
+	Tomasz Wegrzanowski <maniek@beer.com>.
+
+Sat Jun 24 18:26:04 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/pl.po:
+
+	Updated Polish (pl) translation.  Patch submitted by Tomasz
+	Wegrzanowski <maniek@beer.com>.
+
+Sat Jun 24 13:42:52 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/civserver.c:
+
+	Fix server abort when changing FoW setting on a loaded savegame
+	before the server is started.
+
+	Bug reported by Christian Knoke <ChrisK@enter.de>
+
+Sat Jun 24 07:34:17 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Sat Jun 24 05:03:59 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* po/POTFILES.in, server/Makefile.am, server/Makefile.in,
+	server/rulesout.c, server/rulesout.h, server/stdinhand.c:
+
+	Add 'rulesout' server command (and new rulesout module), to write
+	selected ruleset information to file.  Currently writes 'techs'
+	data to support external utility 'techtree'.
+
+Fri Jun 23 19:21:50 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	Fix bug with goto not working when targeting cities with freights.
+	Now the goto will accept any city or unit at the destination.
+
+	fixes PR#402 reported by Gerhard
+	Killesreiter<killesreiter@physik.uni-freiburg.de>
+
+Fri Jun 23 18:27:01 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Fri Jun 23 17:17:20 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c, client/gui-gtk/gui_main.c,
+	client/gui-mui/gui_main.c, client/gui-stub/gui_main.c,
+	client/gui-xaw/gui_main.c, client/include/gui_main_g.h:
+
+	Fixed bug whereby new-turn bell was sounding at odd times.  Fixes
+	PR#310.  Bug reported by Mark Hayden <hayden@ispchannel.com>.
+
+Fri Jun 23 17:06:35 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/unit.c:
+
+	Added check in server to make sure that if client requests a
+	specific infrastructure to pillage, we are in Civ2 mode.  Patch
+	submitted by Marko Lindqvist <caz@assari.cc.tut.fi>, committed
+	with some surgery.
+
+Fri Jun 23 16:57:07 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in:
+
+	Added a hack to ./configure to modify ./po/Makefile to always call
+	msgmerge with "-w 0".  Otherwise, multi-byte encodings could get
+	broken.  Bug reported by Sawada Katsuya
+	<amanatto@mail2.dddd.ne.jp>.
+
+Fri Jun 23 16:39:41 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/connectdlg.c, client/gui-xaw/connectdlg.c,
+	data/Freeciv, server/civserver.c:
+
+	Fixed i18n problems with client metaserver lists.  - The Xaw
+	client hadn't marked all its strings.  - Provided for translating
+	the "Status" strings.  Status string bug reported by Egbert Hinzen
+	<garfy@ehinzen.de>.
+
+Fri Jun 23 16:05:55 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	When a unit is on goto find_the_shortest_path() will mark all
+	routes on the warmap. find_a_direction() will then choose the path
+	one move at a time, judging by various factors like the defense
+	bonus, railroad(RR) etc.  The means that if a unit is going to a
+	square without RRs, and the unit can choose between going directly
+	or via yet another square with RRs, it will choose the RR square.
+	This looks very stupid in practice, as you can see with jjm's
+	movement throttle on.  This makes it go directly if possible.
+
+Fri Jun 23 15:46:23 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/maphand.c, server/maphand.h, server/unitfunc.c:
+
+	When moving a unit, Make sure the tiles discovered as a result of
+	the move is sent to the client before the unit movement is sent,
+	so people have a chance of seeing the new tiles before the client
+	moves the screen by advancing the unit focus.
+
+Fri Jun 23 15:37:33 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/clinet.c:
+
+	Made create_server_list() more robust in the face of long strings.
+
+Fri Jun 23 14:11:50 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated Improvements by Christian Knoke <ChrisK@enter.de>.
+
+Fri Jun 23 12:51:39 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/nl.po:
+
+	Updated Dutch (nl) translation.  Patch submitted by Pieter J.
+	Kersten <kersten@dia.eur.nl>.
+
+Fri Jun 23 02:22:37 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/shared.c:
+
+	Fix erroneous assert for result==0 in m_pre_description().
+
+Thu Jun 22 17:39:40 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE, common/map.c, common/map.h, server/unitfunc.c:
+
+	Removed redundant function tile_move_cost().  Fixes PR#404.  Patch
+	submitted by IQ <iquin@technologist.com>, committed with changes
+	to comment and prototype.
+
+Thu Jun 22 15:17:02 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE:
+
+	Update to PEOPLE for 1.11 release.
+
+Thu Jun 22 14:58:15 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/nl.po:
+
+	Updated Dutch (nl) translation.  Patch submitted by Pieter J.
+	Kersten <kersten@dia.eur.nl>, committed with one bugfix and one
+	bug left in (use ./check_po.pl nl.po).
+
+Thu Jun 22 14:39:06 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* PEOPLE, po/pl.po:
+
+	Updated Polish (pl) translation.
+
+Thu Jun 22 13:38:31 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated Improvements submitted by Christian Knoke
+	<ChrisK@enter.de>.
+
+Thu Jun 22 13:23:29 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* BUGS:
+
+	Added serious bug in Gtk+ client about closing undocked windows.
+
+Thu Jun 22 13:09:46 2000  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ1/buildings.ruleset:
+
+	Fix civ1 buildings.ruleset so it loads: City Walls
+	"Unit_No_Lose_Pop" line was missing an item.
+
+Thu Jun 22 13:06:04 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Wed Jun 21 22:50:55 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/clinet.c:
+
+	Added close_socket_callback() function to close the socket to the
+	server in case of an exception condition on a write to the server.
+
+Wed Jun 21 22:48:39 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* server/sernet.c, common/support.c, common/support.h:
+
+	Moved nonblocking socket's initialization function from 'sernet.c'
+	to 'support.c'.
+
+Wed Jun 21 22:12:12 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* server/sernet.c:
+
+	Wrapped FD_SET() of descriptor 0 with an #ifndef
+	SOCKET_ZERO_ISNT_STDIN.
+
+Wed Jun 21 21:27:07 2000  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* BUGS:
+
+	Updated the BUGS file to mention that clicking in the main window
+	on the gtk+ client now gives it focus.
+
+Wed Jun 21 20:54:51 2000  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* po/ja.po:
+
+	Update ja.po to 1098t+23f+1076u+12o.  Use msgmerge with -w 0
+	option.
+
+Wed Jun 21 20:46:13 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/gotohand.c:
+
+	Put a unit on idle after a failed goto.
+
+	Bug reported by Gerhard
+	Killesreiter<killesreiter@physik.uni-freiburg.de>
+
+Wed Jun 21 20:36:07 2000  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Wed Jun 21 20:04:35 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* po/POTFILES.in:
+
+	Added two more files missing from POTFILES.in.
+
+Wed Jun 21 18:13:42 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv:
+
+	Bump version from 1.10.4 (beta) to 1.10.5-devel (beta).
+
+Wed Jun 21 17:20:38 2000  Joseph Beckenbach <jrb3@bdhsw.com>:
+
+	* client/gui-beos/lib/Makefile, client/gui-beos/lib/README,
+	client/gui-beos/lib/Bdh/BdhApp.cpp,
+	client/gui-beos/lib/Bdh/BdhApp.h,
+	client/gui-beos/lib/Bdh/BdhBitmap.cpp,
+	client/gui-beos/lib/Bdh/BdhBitmap.h,
+	client/gui-beos/lib/Bdh/BdhBuild.h,
+	client/gui-beos/lib/Bdh/BdhLib.h,
+	client/gui-beos/lib/Bdh/BdhView.cpp,
+	client/gui-beos/lib/Bdh/BdhView.h,
+	client/gui-beos/lib/Bdh/BdhViewList.cpp,
+	client/gui-beos/lib/Bdh/BdhViewList.h,
+	client/gui-beos/lib/Bdh/BdhWindow.cpp,
+	client/gui-beos/lib/Bdh/BdhWindow.h,
+	client/gui-beos/lib/Bdh/TPreferences.cpp,
+	client/gui-beos/lib/Bdh/TPreferences.h,
+	client/gui-beos/lib/Bdh/makefile,
+	client/gui-beos/lib/BdhGame/SquareView.cpp,
+	client/gui-beos/lib/BdhGame/SquareView.h,
+	client/gui-beos/lib/BdhGame/TextGridView.cpp,
+	client/gui-beos/lib/BdhGame/TextGridView.h,
+	client/gui-beos/lib/BdhGame/makefile:
+
+	Placeholder GUI for BeOS client.  Backend communications thread,
+	with placeholder for later implementation.  Emplace initial
+	supporting libraries;  update packager to provide them.  Update
+	(what passes for) documentation so that others can review and
+	kibitz.
+
+Wed Jun 21 17:11:01 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, common/version.h, data/Freeciv,
+	po/de.po, po/en_GB.po, po/es.po, po/fr.po, po/hu.po, po/ja.po,
+	po/nl.po, po/no.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ru.po:
+
+	Second beta release (1.10.4) leading to version 1.11.0: - Changed
+	version to 1.10.4 (beta).  - Ran msgmerge on all .po files (normal
+	part of 'make dist').
+
+Wed Jun 21 16:32:54 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c:
+
+	Fixed very bad bug in my recent unit-select patch whereby
+	selecting a unit would cause all clients to select that unit, not
+	just the client of the unit's owner.
+
+Wed Jun 21 16:03:11 2000  Jeff Mallatt <jjm@codewell.com>:
+
+	* ChangeLog:
+
+	Updated ChangeLog for Version 1.11.0 release.
+
+Wed Jun 21 15:56:53 2000  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unitfunc.c:
+
+	Update the comment for handle_unit_move_consequences()
+
 Wed Jun 21 15:07:48 2000  Jeff Mallatt <jjm@codewell.com>:
 
 	* server/unitfunc.c:

@@ -36,7 +36,8 @@ contributions to the Freeciv project.
      Joseph Beckenbach <jrb3@bdhsw.com> (BeOS, cleanup)
      Sebastian Bauer <sebauer@t-online.de> (Amiga, cleanup)
      David Pfitzner <dwp@mso.anu.edu.au>
-	(split nations, registry impr., hashes, bugfixes, patches, cleanup)
+	(rulesout, split nations, registry impr., hashes,
+	patches, bugfixes, cleanup)
      Dan Gohman <gohmandj@mrs.umn.edu> (cleanup)
      Andrew McGuinness <cogers@yahoo.com> (cleanup)
      Tuomas Airaksinen <tuma@linuxfan.com> (cleanup)
@@ -56,10 +57,12 @@ contributions to the Freeciv project.
      Moses Lei <trumpkin@wizard.net> (patch)
      Raimar Falke <rf13@inf.tu-dresden.de> (patches)
      Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu> (bugfixes)
-     Pieter J. Kersten <kersten@dia.eur.nl> (patch)
-     Reinier Post <reinpost@win.tue.nl> (bugfixes)
+     Pieter J. Kersten <kersten@dia.eur.nl> (patch, bugfix)
+     Reinier Post <reinpost@win.tue.nl> (info, bugfixes)
      Mike Jing <miky40@hotmail.com> (patch, bugfix)
      Lalo Martins <lalo@hackandroll.org> (Debian)
+     Kero van Gelder <kero@ipc3792237.dial.wxs.nl> (patch)
+     Marko Lindqvist <caz@assari.cc.tut.fi>
 
   Coders up to 1.10.0 release:
      (Version numbers refer to the first non-beta release
@@ -248,6 +251,9 @@ contributions to the Freeciv project.
      Jan Heidefuss <jan_heidefuss@yahoo.de> (nations)
      Paul Zastoupil <paulz@dunedain.net> (nations)
      riq <riq@ciudad.com.ar> (nations)
+     IQ <iquin@technologist.com> (buildings)
+     Jeff Mallatt <jjm@codewell.com> (units, buildings)
+     Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de> (nations)
 
   Ruleset data up to 1.10.0 release:
      (Version numbers refer to the first non-beta release
@@ -330,7 +336,6 @@ contributions to the Freeciv project.
      Shalon Wood <dstar@pele.cx>
      Anthony DeRobertis <derobert@erols.com>
      Peter Zelezny <zed@linux.com>
-     Marko Lindqvist <caz@assari.cc.tut.fi>
      Jussi Asp<ja66598@uta.fi>
      Peter Welzien <welzien@canit.se>
      Mario <gianmario.scotti@nokia.com>
@@ -460,6 +465,7 @@ contributions to the Freeciv project.
      Gabor Dukai <dukai@eunet.yu> (hu.po)
      Lalo Martins <lalo@hackandroll.org> (pt_BR.po)
      Piotr Sulecki <piotr.sulecki@ios.krakow.pl> (pl.po)
+     Olivier Beyssac <ob@r14.freenix.org> (fr.po)
 
   Localization (l10n) up to 1.10.0 release:
      (Version numbers refer to the first non-beta release
