@@ -6,6 +6,7 @@
 #
 # Version: $Id$
 #
+
 #, fuzzy
 msgid ""
 msgstr ""
@@ -277,7 +278,7 @@ msgstr ""
 "administratives\n"
 "      de l'empire ont suscité une guerre civile. Des opportunistes ont rejoint en masse"
 "la cause des rebelles,\n"
-"      l'arriviste %s détient dorénavent le pouvoir dans les provinces rebelles."
+"      l'arriviste %s détient dorénavant le pouvoir dans %d provinces rebelles."
 
 #: server/cityturn.c:548
 #, c-format
@@ -3008,6 +3009,17 @@ msgstr "(Les rails et les forteresses nécéssitent 3 tours, quel que soit le terr
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Désolé, il n'y a pas de rubriques d'aide pour %s.\n"
 
+#: client/helpdata.c:417
+#, c-format
+msgid ""
+"Sorry, no help topic for %s.\n"
+"This page was auto-generated.\n"
+"\n"
+msgstr ""
+"Désolé, il n'y a pas de rubriques d'aide pour %s.\n"
+"Cette page est généré automaitquement.\n"
+"\n"
+
 #: client/helpdata.c:487
 #, c-format
 msgid "The discovery of %s will reduce this by 1.  "
@@ -3476,7 +3488,7 @@ msgstr "Chaîne de capacités du serveur: %s"
 #: client/packhand.c:724
 #, c-format
 msgid "AI Mode is now %s."
-msgstr "L'IA est maintenant en mode %d."
+msgstr "L'IA est maintenant en mode %s."
 
 #: client/packhand.c:724
 msgid "ON"
@@ -6234,7 +6246,6 @@ msgstr ""
 "l'ordre de leur force): Guerrier, Phalange, Lancier, Mousquetaires, et Fusiliers."
 
 #: data/helpdata.txt:528
-#, c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
 "or outside cities can create or reduce unhappiness. Also remember that when "
@@ -6586,7 +6597,6 @@ msgstr ""
 "aériennes pour qu'on les considère comme un type d'unité séparé.)"
 
 #: data/helpdata.txt:715
-#, c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
 "benefit from roads and railroads.  They cannot move on ocean squares except "
@@ -6939,7 +6949,6 @@ msgstr ""
 "de 202 pour le défenseur."
 
 #: data/helpdata.txt:881
-#, c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
 "the number is greater than 202 (about a 28% chance), the defender loses 1 "
@@ -7010,7 +7019,6 @@ msgstr ""
 "respectivement de 180 et 225."
 
 #: data/helpdata.txt:918
-#, c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
 "than 225 (about a 44% chance) the defender loses 2 hit points (the "
@@ -7027,7 +7035,6 @@ msgstr ""
 #. ; Troops (precisely to 0 hit points), and inflict 12 hit points on
 #. ; the Battleship's 40 HP total.
 #: data/helpdata.txt:929
-#, c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
 "is 25% less likely to score a hit in any given round, but when it does, it "
@@ -7875,7 +7882,6 @@ msgstr "Centrale hydro-électrique"
 
 #: data/civ1/buildings.ruleset:244 data/civ2/buildings.ruleset:260
 #: data/default/buildings.ruleset:260
-#, c-format
 msgid ""
 "Reduces the amount of pollution generated in a city.  It also increases the "
 "shield production of a Factory or Mfg. Plant in the city: a Factory and a "
@@ -7915,7 +7921,6 @@ msgstr "Marché"
 
 #: data/civ1/buildings.ruleset:279 data/civ2/buildings.ruleset:295
 #: data/default/buildings.ruleset:295
-#, c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Augmente de 50% les revenus de luxe et de taxe d'une ville."
 
@@ -7955,7 +7960,6 @@ msgstr "Centrale nucléaire"
 
 #: data/civ1/buildings.ruleset:318 data/civ2/buildings.ruleset:334
 #: data/default/buildings.ruleset:334
-#, c-format
 msgid ""
 "Reduces the amount of pollution generated in a city.  It also increases the "
 "shield production of a Factory or Mfg. Plant in the city: a Factory and a "
@@ -8048,7 +8052,6 @@ msgstr "Centrale électrique"
 
 #: data/civ1/buildings.ruleset:389 data/civ2/buildings.ruleset:421
 #: data/default/buildings.ruleset:421
-#, c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 75% production bonus, and a "
@@ -8223,7 +8226,6 @@ msgid "Stock Exchange"
 msgstr "Bourse"
 
 #: data/civ2/buildings.ruleset:576 data/default/buildings.ruleset:576
-#, c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
@@ -8235,10 +8237,9 @@ msgstr ""
 #: data/default/buildings.ruleset:582
 msgid "Super Highways"
 msgstr "Autoroutes"
-#AR
+# AR
 
 #: data/civ2/buildings.ruleset:589 data/default/buildings.ruleset:589
-#, c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr ""
@@ -8251,7 +8252,6 @@ msgid "Supermarket"
 msgstr "Supermarché"
 
 #: data/civ2/buildings.ruleset:602 data/default/buildings.ruleset:602
-#, c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
 "used around the city.  Farmland squares are those which have been irrigated "
