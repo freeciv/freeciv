@@ -7650,7 +7650,7 @@ msgstr "Einheit(en) wählen"
 
 #: data/Freeciv:627 data/Freeciv:706
 msgid "Variant:"
-msgstr "Möglichkeit:"
+msgstr "Variante:"
 
 #: data/Freeciv:814
 msgid "Firepower:"
@@ -13074,11 +13074,11 @@ msgstr "?plural:Engländer"
 
 #: data/nation/english.ruleset:14
 msgid "Lord Protector"
-msgstr "Schirmherr"
+msgstr "Schutzherr"
 
 #: data/nation/english.ruleset:14
 msgid "Lady Protector"
-msgstr "Schirmherrin"
+msgstr "Schutzherrin"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
