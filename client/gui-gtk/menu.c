@@ -10,15 +10,22 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <gtk/gtk.h>
 
+#include "astring.h"
 #include "capability.h"
+#include "fcintl.h"
 #include "log.h"
 #include "map.h"
+#include "mem.c"
 #include "unit.h"
 
 #include "chatline.h"
@@ -431,194 +438,244 @@ static void help_menu_callback(gpointer callback_data,
  */
 static GtkItemFactoryEntry menu_items[]	=
 {
-  { "/_Game",				NULL,		NULL,
+  { N_("/_Game"),			NULL,		NULL,
     0,					"<Branch>"			      },
-  { "/Game/tearoff1",			NULL,		NULL,
+  { N_("/Game") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
-  { "/Game/sep1",			NULL,		NULL,
+  { N_("/Game") "/sep1",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Game/Options",			NULL,		game_menu_callback,
+  { N_("/Game") N_("/Options"),		NULL,		game_menu_callback,
     MENU_GAME_OPTIONS							      },
-  { "/Game/Message Options",		NULL,		game_menu_callback,
+  { N_("/Game") N_("/Message Options"),	NULL,		game_menu_callback,
     MENU_GAME_MSG_OPTIONS						      },
-  { "/Game/Save Settings",		NULL,		game_menu_callback,
+  { N_("/Game") N_("/Save Settings"),	NULL,		game_menu_callback,
     MENU_GAME_SAVE_SETTINGS						      },
-  { "/Game/sep2",			NULL,		NULL,
+  { N_("/Game") "/sep2",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Game/Players",			"F3",		game_menu_callback,
+  { N_("/Game") N_("/Players"),		"F3",		game_menu_callback,
     MENU_GAME_PLAYERS							      },
-  { "/Game/Messages",			NULL,		game_menu_callback,
+  { N_("/Game") N_("/Messages"),	NULL,		game_menu_callback,
     MENU_GAME_MESSAGES							      },
-  { "/Game/Server opt initial",		NULL,		game_menu_callback,
+  { N_("/Game") N_("/Server opt initial"), NULL,	game_menu_callback,
     MENU_GAME_SERVER_OPTIONS1						      },
-  { "/Game/Server opt ongoing",		NULL,		game_menu_callback,
+  { N_("/Game") N_("/Server opt ongoing"), NULL,	game_menu_callback,
     MENU_GAME_SERVER_OPTIONS2						      },
-  { "/Game/Export Log",			NULL,		game_menu_callback,
+  { N_("/Game") N_("/Export Log"),	NULL,		game_menu_callback,
     MENU_GAME_OUTPUT_LOG						      },
-  { "/Game/Clear Log",			NULL,		game_menu_callback,
+  { N_("/Game") N_("/Clear Log"),	NULL,		game_menu_callback,
     MENU_GAME_CLEAR_OUTPUT						      },
-  { "/Game/Disconnect",			NULL,		game_menu_callback,
+  { N_("/Game") N_("/Disconnect"),	NULL,		game_menu_callback,
     MENU_GAME_DISCONNECT						      },
-  { "/Game/sep1",			NULL,		NULL,
+  { N_("/Game") "/sep1",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Game/Quit",			"<control>q",   gtk_main_quit,
+  { N_("/Game") N_("/Quit"),		"<control>q",   gtk_main_quit,
     0									      },
 
-  { "/_Kingdom",			NULL,		NULL,
+  { N_("/_Kingdom"),			NULL,		NULL,
     0,					"<Branch>"			      },
-  { "/Kingdom/tearoff1",		NULL,		NULL,
+  { N_("/Kingdom") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
-  { "/Kingdom/_Tax Rate",		"<shift>t",	kingdom_menu_callback,
+  { N_("/Kingdom") N_("/_Tax Rate"),	"<shift>t",	kingdom_menu_callback,
     MENU_KINGDOM_TAX_RATE						      },
-  { "/Kingdom/sep1",			NULL,		NULL,
+  { N_("/Kingdom") "/sep1",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Kingdom/Find _City",		"<shift>c",	kingdom_menu_callback,
+  { N_("/Kingdom") N_("/Find _City"),	"<shift>c",	kingdom_menu_callback,
     MENU_KINGDOM_FIND_CITY							      },
-  { "/Kingdom/sep2",			NULL,		NULL,
+  { N_("/Kingdom") "/sep2",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Kingdom/REVOLUTION",		"<shift>r",	kingdom_menu_callback,
+  { N_("/Kingdom") N_("/REVOLUTION"),	"<shift>r",	kingdom_menu_callback,
     MENU_KINGDOM_REVOLUTION						      },
 
-  { "/_View",				NULL,		NULL,
+  { N_("/_View"),			NULL,		NULL,
     0,					"<Branch>"			      },
-  { "/View/tearoff1",			NULL,		NULL,
+  { N_("/View") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
-  { "/View/Show Map Grid",		"<control>g",	view_menu_callback,
+  { N_("/View") N_("/Show Map Grid"),	"<control>g",	view_menu_callback,
     MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"			      },
-  { "/View/Center View",		"c",		view_menu_callback,
+  { N_("/View") N_("/Center View"),	"c",		view_menu_callback,
     MENU_VIEW_CENTER_VIEW						      },
 
-  { "/_Orders"	,			NULL,		NULL,
+  { N_("/_Orders")	,		NULL,		NULL,
     0,					"<Branch>"			      },
-  { "/Orders/tearoff1",			NULL,		NULL,
+  { N_("/Orders") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
-  { "/Orders/Auto Settler",		"a",		orders_menu_callback,
+  { N_("/Orders") N_("/Auto Settler"),	"a",		orders_menu_callback,
     MENU_ORDER_AUTO_SETTLER						      },
-  { "/Orders/Auto-attack",		"<shift>a",	orders_menu_callback,
+  { N_("/Orders") N_("/Auto-attack"),	"<shift>a",	orders_menu_callback,
     MENU_ORDER_AUTO_ATTACK						      },
-  { "/Orders/Build City",		"b",		orders_menu_callback,
+  { N_("/Orders") N_("/Build City"),	"b",		orders_menu_callback,
     MENU_ORDER_CITY							      },
-  { "/Orders/Build Road",		"r",		orders_menu_callback,
+  { N_("/Orders") N_("/Build Road"),	"r",		orders_menu_callback,
     MENU_ORDER_ROAD							      },
-  { "/Orders/Build Irrigation",		"i",		orders_menu_callback,
+  { N_("/Orders") N_("/Build Irrigation"), "i",		orders_menu_callback,
     MENU_ORDER_IRRIGATE							      },
-  { "/Orders/Transform Terrain",	"o",		orders_menu_callback,
+  { N_("/Orders") N_("/Transform Terrain"), "o",	orders_menu_callback,
     MENU_ORDER_TRANSFORM							      },
-  { "/Orders/Build Mine",		"m",		orders_menu_callback,
+  { N_("/Orders") N_("/Build Mine"),	"m",		orders_menu_callback,
     MENU_ORDER_MINE							      },
-  { "/Orders/sep1",			NULL,		NULL,
+  { N_("/Orders") "/sep1",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Orders/Build Fortress",		"<shift>f",	orders_menu_callback,
+  { N_("/Orders") N_("/Build Fortress"), "<shift>f",	orders_menu_callback,
     MENU_ORDER_FORTRESS							      },
-  { "/Orders/Clean Pollution",		"p",		orders_menu_callback,
+  { N_("/Orders") N_("/Clean Pollution"), "p",		orders_menu_callback,
     MENU_ORDER_POLLUTION						      },
-  { "/Orders/sep2",			NULL,		NULL,
+  { N_("/Orders") "/sep2",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Orders/Auto-explore",		"x",		orders_menu_callback,
+  { N_("/Orders") N_("/Auto-explore"),	"x",		orders_menu_callback,
     MENU_ORDER_EXPLORE							      },
-  { "/Orders/Explode Nuclear",		"<shift>n",	orders_menu_callback,
+  { N_("/Orders") N_("/Explode Nuclear"), "<shift>n",	orders_menu_callback,
     MENU_ORDER_NUKE							      },
-  { "/Orders/Unload",			"u",		orders_menu_callback,
+  { N_("/Orders") N_("/Unload"),	"u",		orders_menu_callback,
     MENU_ORDER_UNLOAD							      },
-  { "/Orders/Go to",			"g",		orders_menu_callback,
+  { N_("/Orders") N_("/Go to"),		"g",		orders_menu_callback,
     MENU_ORDER_GOTO							      },
-  { "/Orders/Go|Airlift to City",	"l",		orders_menu_callback,
+  { N_("/Orders") N_("/Go|Airlift to City"), "l",	orders_menu_callback,
     MENU_ORDER_GOTO_CITY						      },
-  { "/Orders/Make Homecity",		"h",		orders_menu_callback,
+  { N_("/Orders") N_("/Make Homecity"),	"h",		orders_menu_callback,
     MENU_ORDER_HOMECITY							      },
-  { "/Orders/sep3",			NULL,		NULL,
+  { N_("/Orders") "/sep3",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Orders/Fortify",	    		"f",		orders_menu_callback,
+  { N_("/Orders") N_("/Fortify"),	"f",		orders_menu_callback,
     MENU_ORDER_FORTIFY							      },
-  { "/Orders/Sentry",			"s",		orders_menu_callback,
+  { N_("/Orders") N_("/Sentry"),	"s",		orders_menu_callback,
     MENU_ORDER_SENTRY							      },
-  { "/Orders/sep4",			NULL,		NULL,
+  { N_("/Orders") "/sep4",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Orders/Disband Unit",		"<shift>d",	orders_menu_callback,
+  { N_("/Orders") N_("/Disband Unit"),	"<shift>d",	orders_menu_callback,
     MENU_ORDER_DISBAND							      },
-  { "/Orders/Wake up others",		"<shift>w",	orders_menu_callback,
+  { N_("/Orders") N_("/Wake up others"), "<shift>w",	orders_menu_callback,
     MENU_ORDER_WAKEUP							      },
-  { "/Orders/Wait",			"w",		orders_menu_callback,
+  { N_("/Orders") N_("/Wait"),		"w",		orders_menu_callback,
     MENU_ORDER_WAIT							      },
-  { "/Orders/Pillage",			"<shift>p",	orders_menu_callback,
+  { N_("/Orders") N_("/Pillage"),	"<shift>p",	orders_menu_callback,
     MENU_ORDER_PILLAGE							      },
-  { "/Orders/Help Build Wonder",	"<shift>b",	orders_menu_callback,
+  { N_("/Orders") N_("/Help Build Wonder"), "<shift>b",	orders_menu_callback,
     MENU_ORDER_BUILD_WONDER						      },
-  { "/Orders/Make Trade Route",		"<shift>r",	orders_menu_callback,
+  { N_("/Orders") N_("/Make Trade Route"), "<shift>r",	orders_menu_callback,
     MENU_ORDER_TRADE_ROUTE						      },
-  { "/Orders/Done",			"space",	orders_menu_callback,
+  { N_("/Orders") N_("/Done"),		"space",	orders_menu_callback,
     MENU_ORDER_DONE							      },
 
-  { "/_Reports",			NULL,		NULL,
+  { N_("/_Reports"),			NULL,		NULL,
     0,					"<Branch>"			      },
-  { "/Reports/tearoff1",		NULL,		NULL,
+  { N_("/Reports") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
-  { "/Reports/City Report",		"F1",		reports_menu_callback,
+  { N_("/Reports") N_("/City Report"),	"F1",		reports_menu_callback,
     MENU_REPORT_CITY							      },
-  { "/Reports/Science Report",		"F6",		reports_menu_callback,
+  { N_("/Reports") N_("/Science Report"), "F6",		reports_menu_callback,
     MENU_REPORT_SCIENCE							      },
-  { "/Reports/Trade Report",		"F5",		reports_menu_callback,
+  { N_("/Reports") N_("/Trade Report"),	  "F5",		reports_menu_callback,
     MENU_REPORT_TRADE							      },
-  { "/Reports/Military Report",		"F2",		reports_menu_callback,
+  { N_("/Reports") N_("/Military Report"), "F2",	reports_menu_callback,
     MENU_REPORT_ACTIVE_UNITS						      },
-  { "/Reports/sep1",			NULL,		NULL,
+  { N_("/Reports") "/sep1",		NULL,		NULL,
     0,					"<Separator>"			      },
-  { "/Reports/Wonders of the World",	"F7",		reports_menu_callback,
+  { N_("/Reports") N_("/Wonders of the World"),	"F7",	reports_menu_callback,
     MENU_REPORT_WOW							      },
-  { "/Reports/Top 5 Cities",		"F8",		reports_menu_callback,
+  { N_("/Reports") N_("/Top 5 Cities"),	"F8",		reports_menu_callback,
     MENU_REPORT_TOP_CITIES						      },
-  { "/Reports/Demographics",		"F11",		reports_menu_callback,
+  { N_("/Reports") N_("/Demographics"),	"F11",		reports_menu_callback,
     MENU_REPORT_DEMOGRAPHIC						      },
-  { "/Reports/Spaceship",		"F12",		reports_menu_callback,
+  { N_("/Reports") N_("/Spaceship"),	"F12",		reports_menu_callback,
     MENU_REPORT_SPACESHIP							      },
 
-  { "/_Help",				NULL,		NULL,
+  { N_("/_Help"),			NULL,		NULL,
     0,					"<LastBranch>"			      },
-  { "/Help/tearoff1",			NULL,		NULL,
+  { N_("/Help") "/tearoff1",		NULL,		NULL,
     0,					"<Tearoff>"			      },
-  { "/Help/Help Connecting",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Connecting"),	NULL,		help_menu_callback,
     MENU_HELP_CONNECTING						      },
-  { "/Help/Help Controls",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Controls"),	NULL,		help_menu_callback,
     MENU_HELP_CONTROLS							      },
-  { "/Help/Help Chatline",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Chatline"),	NULL,		help_menu_callback,
     MENU_HELP_CHATLINE							      },
-  { "/Help/Help Playing",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Playing"),	NULL,		help_menu_callback,
     MENU_HELP_PLAYING							      },
-  { "/Help/Help Improvements",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Improvements"), NULL,		help_menu_callback,
     MENU_HELP_IMPROVEMENTS						      },
-  { "/Help/Help Units",			NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Units"),	NULL,		help_menu_callback,
     MENU_HELP_UNITS							      },
-  { "/Help/Help Combat",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Combat"),	NULL,		help_menu_callback,
     MENU_HELP_COMBAT							      },
-  { "/Help/Help ZOC",			NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help ZOC"),	NULL,		help_menu_callback,
     MENU_HELP_ZOC							      },
-  { "/Help/Help Technology",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Technology"),	NULL,		help_menu_callback,
     MENU_HELP_TECH							      },
-  { "/Help/Help Terrain",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Terrain"),	NULL,		help_menu_callback,
     MENU_HELP_TERRAIN							      },
-  { "/Help/Help Wonders",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Wonders"),	NULL,		help_menu_callback,
     MENU_HELP_WONDERS							      },
-  { "/Help/Help Government",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Government"),	NULL,		help_menu_callback,
     MENU_HELP_GOVERNMENT						      },
-  { "/Help/Help Happiness",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Happiness"),	NULL,		help_menu_callback,
     MENU_HELP_HAPPINESS							      },
-  { "/Help/Help Space Race",		NULL,		help_menu_callback,
+  { N_("/Help") N_("/Help Space Race"),	NULL,		help_menu_callback,
     MENU_HELP_SPACE_RACE						      },
-  { "/Help/Copying",			NULL,		help_menu_callback,
+  { N_("/Help") N_("/Copying"),		NULL,		help_menu_callback,
     MENU_HELP_COPYING							      },
-  { "/Help/About",			NULL,		help_menu_callback,
+  { N_("/Help") N_("/About"),		NULL,		help_menu_callback,
     MENU_HELP_ABOUT							      }
 };
 
 
+/****************************************************************
+  gettext-translates each "/" delimited component of menu path,
+  puts them back together, and returns as a static string.
+  Any component which is of form "<foo>" is _not_ translated.
+*****************************************************************/
+static const char *translate_menu_path(const char *path)
+{
+#ifndef ENABLE_NLS
+  return path;
+#else
+  static struct astring in, out, tmp;   /* these are never free'd */
+  char *tok, *s, *t;
+
+  /* copy to in so can modify with strtok: */
+  astr_minsize(&in, strlen(path)+1);
+  strcpy(in.str, path);
+  astr_minsize(&out, 1);
+  out.str[0] = '\0';
+  freelog(LOG_DEBUG, "trans: %s", in.str);
+
+  s = in.str;
+  while ((tok=strtok(s, "/")) != NULL) {
+    int len = strlen(tok);
+    freelog(LOG_DEBUG, "tok \"%s\", len %d", tok, len);
+    if (len && tok[0] == '<' && tok[len-1] == '>') {
+      t = tok;
+    } else {
+      astr_minsize(&tmp, len+2);
+      sprintf(tmp.str, "/%s", tok);
+      t = _(tmp.str);
+      len = strlen(t);
+    }
+    astr_minsize(&out, out.n + len);
+    strcat(out.str, t);
+    freelog(LOG_DEBUG, "t \"%s\", len %d, out \"%s\"", t, len, out.str);
+    s = NULL;
+  }
+  return out.str;
+#endif
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void setup_menus(GtkWidget *window, GtkWidget **menubar)
 {
-  static int nmenu_items=sizeof(menu_items)/sizeof(menu_items[0]);
+  const int nmenu_items = sizeof(menu_items)/sizeof(menu_items[0]);
   GtkAccelGroup *accel;
+  int i;
 
   accel=gtk_accel_group_new();
 
   item_factory=gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>", accel);
+   
+  for(i=0; i<nmenu_items; i++) {
+    menu_items[i].path = mystrdup(translate_menu_path(menu_items[i].path));
+  }
+  
   gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
 
   gtk_accel_group_attach(accel, GTK_OBJECT(window));
@@ -630,13 +687,15 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
 /****************************************************************
 ...
 *****************************************************************/
-static void menus_set_sensitive(char *path, int sensitive)
+static void menus_set_sensitive(const char *path, int sensitive)
 {
   GtkWidget *item;
+
+  path = translate_menu_path(path);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_VERBOSE,
-	    "Can't set sensitivity for non existant menu %s.", path);
+	    "Can't set sensitivity for non-existent menu %s.", path);
     return;
   }
 
@@ -649,12 +708,14 @@ static void menus_set_sensitive(char *path, int sensitive)
 /****************************************************************
 ...
 *****************************************************************/
-static void menus_set_shown(char *path, int shown)
+static void menus_set_shown(const char *path, int shown)
 {
   GtkWidget *item;
   
+  path = translate_menu_path(path);
+  
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_VERBOSE, "Can't show non existant menu %s.", path);
+    freelog(LOG_VERBOSE, "Can't show non-existent menu %s.", path);
     return;
   }
 
@@ -671,12 +732,14 @@ static void menus_set_shown(char *path, int shown)
 /****************************************************************
 ...
 *****************************************************************/
-static void menus_rename(char *path, char *s)
+static void menus_rename(const char *path, char *s)
 {
   GtkWidget *item;
   
+  path = translate_menu_path(path);
+  
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
-    freelog(LOG_VERBOSE, "Can't rename non existant menu %s.", path);
+    freelog(LOG_VERBOSE, "Can't rename non-existent menu %s.", path);
     return;
   }
 
@@ -733,14 +796,16 @@ void update_menus(void)
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     if((punit=get_unit_in_focus())) {
-      char * chgfmt      = "Change to %s";
-      char irrtext[64]   = "Build Irrigation",
-           mintext[64]   = "Build Mine",
-	   transtext[64] = "Transform terrain";
-      char *roadtext     = "Build Road";
+      char *chgfmt  = _("Change to %s");
+      char irrtext[64], mintext[64], transtext[64];
+      char *roadtext;
       enum tile_terrain_type  ttype;
       struct tile_type *      tinfo;
 
+      strcpy(irrtext, _("Build Irrigation"));
+      strcpy(mintext, _("Build Mine"));
+      strcpy(transtext, _("Transform terrain"));
+      
       menus_set_sensitive("<main>/Orders/Auto Settler",
 			  (can_unit_do_auto(punit)
 			   && unit_flag(punit->type, F_SETTLERS)));
@@ -790,9 +855,9 @@ void update_menus(void)
 
       if (unit_flag(punit->type, F_SETTLERS)
 	 && map_get_city(punit->x, punit->y)) {
-       menus_rename("<main>/Orders/Build City", "Add to City");
+       menus_rename("<main>/Orders/Build City", _("Add to City"));
       } else {
-       menus_rename("<main>/Orders/Build City", "Build City");
+       menus_rename("<main>/Orders/Build City", _("Build City"));
       }
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;
@@ -805,7 +870,7 @@ void update_menus(void)
       else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
 	       improvement_exists(B_SUPERMARKET))
 	{
-	  strcpy (irrtext, "Build Farmland");
+	  strcpy (irrtext, _("Build Farmland"));
 	}
       if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
 	{
@@ -823,10 +888,10 @@ void update_menus(void)
       menus_rename("<main>/Orders/Transform Terrain", transtext);
     
       if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
-	roadtext="Build Railroad";
+	roadtext = _("Build Railroad");
 	road_activity=ACTIVITY_RAILROAD;  
       } else {
-	roadtext="Build Road";
+	roadtext = _("Build Road");
 	road_activity=ACTIVITY_ROAD;  
       }
       menus_rename("<main>/Orders/Build Road", roadtext);

@@ -2,4 +2,5 @@
 # (Filenames relative to toplevel dir.)
 server/civserver.c
 client/civclient.c
+client/gui-gtk/menu.c
 data/Freeciv

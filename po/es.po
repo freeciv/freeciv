@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-07-20 01:17+0200\n"
+"POT-Creation-Date: 1999-08-30 01:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,11 +14,431 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#: server/civserver.c:350
+#: server/civserver.c:231
 #, c-format
 msgid "This is the server for %s"
 msgstr "Este es el servidor de %s"
 
-#: client/civclient.c:85
+#: client/civclient.c:89
 msgid "This is the Freeciv client\n"
 msgstr "Este es el cliente de Freeciv\n"
+
+#: client/gui-gtk/menu.c:441
+msgid "/_Game"
+msgstr "/_Juego"
+
+#: client/gui-gtk/menu.c:443 client/gui-gtk/menu.c:445
+#: client/gui-gtk/menu.c:447 client/gui-gtk/menu.c:449
+#: client/gui-gtk/menu.c:451 client/gui-gtk/menu.c:453
+#: client/gui-gtk/menu.c:455 client/gui-gtk/menu.c:457
+#: client/gui-gtk/menu.c:459 client/gui-gtk/menu.c:461
+#: client/gui-gtk/menu.c:463 client/gui-gtk/menu.c:465
+#: client/gui-gtk/menu.c:467 client/gui-gtk/menu.c:469
+#: client/gui-gtk/menu.c:471 client/gui-gtk/menu.c:732
+#: client/gui-gtk/menu.c:737 client/gui-gtk/menu.c:743
+#: client/gui-gtk/menu.c:748 client/gui-gtk/menu.c:754
+#: client/gui-gtk/menu.c:760 client/gui-gtk/menu.c:765
+#: client/gui-gtk/menu.c:771 client/gui-gtk/menu.c:776
+#: client/gui-gtk/menu.c:781 client/gui-gtk/menu.c:806
+#: client/gui-gtk/menu.c:811 client/gui-gtk/menu.c:817
+#: client/gui-gtk/menu.c:822 client/gui-gtk/menu.c:828
+#: client/gui-gtk/menu.c:834 client/gui-gtk/menu.c:839
+#: client/gui-gtk/menu.c:845 client/gui-gtk/menu.c:850
+#: client/gui-gtk/menu.c:855
+msgid "/Game"
+msgstr "/Juego"
+
+#: client/gui-gtk/menu.c:447 client/gui-gtk/menu.c:733
+#: client/gui-gtk/menu.c:807
+msgid "/Options"
+msgstr "/Opciones"
+
+#: client/gui-gtk/menu.c:449 client/gui-gtk/menu.c:738
+#: client/gui-gtk/menu.c:812
+msgid "/Message Options"
+msgstr "/Opciones de mensajes"
+
+#: client/gui-gtk/menu.c:451 client/gui-gtk/menu.c:744
+#: client/gui-gtk/menu.c:818
+msgid "/Save Settings"
+msgstr "/Guardar opciones"
+
+#: client/gui-gtk/menu.c:455 client/gui-gtk/menu.c:749
+#: client/gui-gtk/menu.c:823
+msgid "/Players"
+msgstr "/Jugadores"
+
+#: client/gui-gtk/menu.c:457 client/gui-gtk/menu.c:755
+#: client/gui-gtk/menu.c:829
+msgid "/Messages"
+msgstr "/Mensajes"
+
+#: client/gui-gtk/menu.c:459 client/gui-gtk/menu.c:761
+#: client/gui-gtk/menu.c:835
+msgid "/Server opt initial"
+msgstr "/Opciones iniciales del servidor"
+
+#: client/gui-gtk/menu.c:461 client/gui-gtk/menu.c:766
+#: client/gui-gtk/menu.c:840
+msgid "/Server opt ongoing"
+msgstr "/Opciones modificables del servidor"
+
+#: client/gui-gtk/menu.c:463 client/gui-gtk/menu.c:772
+#: client/gui-gtk/menu.c:846
+msgid "/Export Log"
+msgstr "/Guardar Incidencias"
+
+#: client/gui-gtk/menu.c:465 client/gui-gtk/menu.c:777
+#: client/gui-gtk/menu.c:851
+msgid "/Clear Log"
+msgstr "/Borrar Incidencias"
+
+#: client/gui-gtk/menu.c:467 client/gui-gtk/menu.c:782
+#: client/gui-gtk/menu.c:856
+msgid "/Disconnect"
+msgstr "/Desconectar"
+
+#: client/gui-gtk/menu.c:471
+msgid "/Quit"
+msgstr "/Salir"
+
+#: client/gui-gtk/menu.c:474
+msgid "/_Kingdom"
+msgstr "/_Reino"
+
+#: client/gui-gtk/menu.c:476 client/gui-gtk/menu.c:478
+#: client/gui-gtk/menu.c:480 client/gui-gtk/menu.c:482
+#: client/gui-gtk/menu.c:484 client/gui-gtk/menu.c:486
+#: client/gui-gtk/menu.c:719 client/gui-gtk/menu.c:793
+msgid "/Kingdom"
+msgstr "/Reino"
+
+#: client/gui-gtk/menu.c:478
+msgid "/_Tax Rate"
+msgstr "/_Impuestos"
+
+#: client/gui-gtk/menu.c:482
+msgid "/Find _City"
+msgstr "/Encontrar _Ciudad"
+
+#: client/gui-gtk/menu.c:486
+msgid "/REVOLUTION"
+msgstr "/Revolución"
+
+#: client/gui-gtk/menu.c:489
+msgid "/_View"
+msgstr "/_Ver"
+
+#: client/gui-gtk/menu.c:491 client/gui-gtk/menu.c:493
+#: client/gui-gtk/menu.c:495 client/gui-gtk/menu.c:723
+#: client/gui-gtk/menu.c:797
+msgid "/View"
+msgstr "/Ver"
+
+#: client/gui-gtk/menu.c:493
+msgid "/Show Map Grid"
+msgstr "/Mostar rejilla"
+
+#: client/gui-gtk/menu.c:495
+msgid "/Center View"
+msgstr "/Centrar vista"
+
+#: client/gui-gtk/menu.c:498
+msgid "/_Orders"
+msgstr "/_Ordenes"
+
+#: client/gui-gtk/menu.c:500 client/gui-gtk/menu.c:502
+#: client/gui-gtk/menu.c:504 client/gui-gtk/menu.c:506
+#: client/gui-gtk/menu.c:508 client/gui-gtk/menu.c:510
+#: client/gui-gtk/menu.c:512 client/gui-gtk/menu.c:514
+#: client/gui-gtk/menu.c:516 client/gui-gtk/menu.c:518
+#: client/gui-gtk/menu.c:520 client/gui-gtk/menu.c:522
+#: client/gui-gtk/menu.c:524 client/gui-gtk/menu.c:526
+#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:530
+#: client/gui-gtk/menu.c:532 client/gui-gtk/menu.c:534
+#: client/gui-gtk/menu.c:536 client/gui-gtk/menu.c:538
+#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:542
+#: client/gui-gtk/menu.c:544 client/gui-gtk/menu.c:546
+#: client/gui-gtk/menu.c:548 client/gui-gtk/menu.c:550
+#: client/gui-gtk/menu.c:552 client/gui-gtk/menu.c:554
+#: client/gui-gtk/menu.c:556 client/gui-gtk/menu.c:727
+#: client/gui-gtk/menu.c:801 client/gui-gtk/menu.c:881
+#: client/gui-gtk/menu.c:888 client/gui-gtk/menu.c:895
+#: client/gui-gtk/menu.c:902 client/gui-gtk/menu.c:907
+#: client/gui-gtk/menu.c:914 client/gui-gtk/menu.c:919
+#: client/gui-gtk/menu.c:924 client/gui-gtk/menu.c:929
+#: client/gui-gtk/menu.c:934 client/gui-gtk/menu.c:939
+#: client/gui-gtk/menu.c:944 client/gui-gtk/menu.c:949
+#: client/gui-gtk/menu.c:954 client/gui-gtk/menu.c:959
+#: client/gui-gtk/menu.c:966 client/gui-gtk/menu.c:971
+#: client/gui-gtk/menu.c:978 client/gui-gtk/menu.c:983
+#: client/gui-gtk/menu.c:990 client/gui-gtk/menu.c:995
+#: client/gui-gtk/menu.c:1024 client/gui-gtk/menu.c:1029
+#: client/gui-gtk/menu.c:1034 client/gui-gtk/menu.c:1048
+#: client/gui-gtk/menu.c:1053 client/gui-gtk/menu.c:1058
+msgid "/Orders"
+msgstr "/Ordenes"
+
+#: client/gui-gtk/menu.c:502 client/gui-gtk/menu.c:882
+msgid "/Auto Settler"
+msgstr "/Colonos automaticos"
+
+#: client/gui-gtk/menu.c:504 client/gui-gtk/menu.c:889
+msgid "/Auto-attack"
+msgstr "/Atacar automaticamente"
+
+#: client/gui-gtk/menu.c:506 client/gui-gtk/menu.c:896
+#: client/gui-gtk/menu.c:991 client/gui-gtk/menu.c:996
+msgid "/Build City"
+msgstr "/Fundar ciudad"
+
+#: client/gui-gtk/menu.c:508 client/gui-gtk/menu.c:908
+#: client/gui-gtk/menu.c:1049
+msgid "/Build Road"
+msgstr "/Construir carretera"
+
+#: client/gui-gtk/menu.c:510 client/gui-gtk/menu.c:945
+#: client/gui-gtk/menu.c:1025
+msgid "/Build Irrigation"
+msgstr "/Irrigar terreno"
+
+#: client/gui-gtk/menu.c:512 client/gui-gtk/menu.c:950
+#: client/gui-gtk/menu.c:1035
+msgid "/Transform Terrain"
+msgstr "/Transformar terreno"
+
+#: client/gui-gtk/menu.c:514 client/gui-gtk/menu.c:1030
+msgid "/Build Mine"
+msgstr "/Construir minas"
+
+#: client/gui-gtk/menu.c:518 client/gui-gtk/menu.c:903
+msgid "/Build Fortress"
+msgstr "/Construir fortificación"
+
+#: client/gui-gtk/menu.c:520 client/gui-gtk/menu.c:915
+msgid "/Clean Pollution"
+msgstr "/Limpiar contaminación"
+
+#: client/gui-gtk/menu.c:524 client/gui-gtk/menu.c:935
+#: client/gui-gtk/menu.c:940
+msgid "/Auto-explore"
+msgstr "/Exlorar por su cuenta"
+
+#: client/gui-gtk/menu.c:526 client/gui-gtk/menu.c:960
+msgid "/Explode Nuclear"
+msgstr "/Estallar arma nuclear"
+
+#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:967
+msgid "/Unload"
+msgstr "/Desembarcar"
+
+#: client/gui-gtk/menu.c:530
+msgid "/Go to"
+msgstr "/Ir a"
+
+#: client/gui-gtk/menu.c:532
+msgid "/Go|Airlift to City"
+msgstr "/Ir|Aerotransportar a ciudad"
+
+#: client/gui-gtk/menu.c:534 client/gui-gtk/menu.c:955
+msgid "/Make Homecity"
+msgstr "/Asignar a ciudad"
+
+#: client/gui-gtk/menu.c:538 client/gui-gtk/menu.c:920
+msgid "/Fortify"
+msgstr "/Fortificar"
+
+#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:925
+msgid "/Sentry"
+msgstr "/En vigilancia"
+
+#: client/gui-gtk/menu.c:544
+msgid "/Disband Unit"
+msgstr "/Licenciar Unidad"
+
+#: client/gui-gtk/menu.c:546 client/gui-gtk/menu.c:972
+msgid "/Wake up others"
+msgstr "/Desperatar a los otros"
+
+#: client/gui-gtk/menu.c:548
+msgid "/Wait"
+msgstr "/Esperar"
+
+#: client/gui-gtk/menu.c:550 client/gui-gtk/menu.c:930
+msgid "/Pillage"
+msgstr "/Saquear"
+
+#: client/gui-gtk/menu.c:552 client/gui-gtk/menu.c:979
+msgid "/Help Build Wonder"
+msgstr "/Ayudar a construir maravilla"
+
+#: client/gui-gtk/menu.c:554 client/gui-gtk/menu.c:984
+msgid "/Make Trade Route"
+msgstr "/Establecer ruta comercial"
+
+#: client/gui-gtk/menu.c:556
+msgid "/Done"
+msgstr "/Finalizar turno"
+
+#: client/gui-gtk/menu.c:559
+msgid "/_Reports"
+msgstr "/_Informes"
+
+#: client/gui-gtk/menu.c:561 client/gui-gtk/menu.c:563
+#: client/gui-gtk/menu.c:565 client/gui-gtk/menu.c:567
+#: client/gui-gtk/menu.c:569 client/gui-gtk/menu.c:571
+#: client/gui-gtk/menu.c:573 client/gui-gtk/menu.c:575
+#: client/gui-gtk/menu.c:577 client/gui-gtk/menu.c:579
+#: client/gui-gtk/menu.c:715 client/gui-gtk/menu.c:789
+#: client/gui-gtk/menu.c:861
+msgid "/Reports"
+msgstr "/Informes"
+
+#: client/gui-gtk/menu.c:563
+msgid "/City Report"
+msgstr "/Informe de ciudades"
+
+#: client/gui-gtk/menu.c:565
+msgid "/Science Report"
+msgstr "/Informe de investigación"
+
+#: client/gui-gtk/menu.c:567
+msgid "/Trade Report"
+msgstr "/Informe de comercio"
+
+#: client/gui-gtk/menu.c:569
+msgid "/Active Units"
+msgstr "/Activar unidades"
+
+#: client/gui-gtk/menu.c:573
+msgid "/Wonders of the World"
+msgstr "/Maravillas del mundo"
+
+#: client/gui-gtk/menu.c:575
+msgid "/Top 5 Cities"
+msgstr "/Las cinco ciudades principales"
+
+#: client/gui-gtk/menu.c:577
+msgid "/Demographics"
+msgstr "/Estadísticas"
+
+#: client/gui-gtk/menu.c:579 client/gui-gtk/menu.c:862
+msgid "/Spaceship"
+msgstr "/Nave espacial"
+
+#: client/gui-gtk/menu.c:582
+msgid "/_Help"
+msgstr "/_Ayuda"
+
+#: client/gui-gtk/menu.c:584 client/gui-gtk/menu.c:586
+#: client/gui-gtk/menu.c:588 client/gui-gtk/menu.c:590
+#: client/gui-gtk/menu.c:592 client/gui-gtk/menu.c:594
+#: client/gui-gtk/menu.c:596 client/gui-gtk/menu.c:598
+#: client/gui-gtk/menu.c:600 client/gui-gtk/menu.c:602
+#: client/gui-gtk/menu.c:604 client/gui-gtk/menu.c:606
+#: client/gui-gtk/menu.c:608 client/gui-gtk/menu.c:610
+#: client/gui-gtk/menu.c:612 client/gui-gtk/menu.c:614
+#: client/gui-gtk/menu.c:616
+msgid "/Help"
+msgstr "/Ayuda"
+
+#: client/gui-gtk/menu.c:586
+msgid "/Help Connecting"
+msgstr "/Conectandose"
+
+#: client/gui-gtk/menu.c:588
+msgid "/Help Controls"
+msgstr "/Controles"
+
+#: client/gui-gtk/menu.c:590
+msgid "/Help Chatline"
+msgstr "/Mensajes"
+
+#: client/gui-gtk/menu.c:592
+msgid "/Help Playing"
+msgstr "/Juego"
+
+#: client/gui-gtk/menu.c:594
+msgid "/Help Improvements"
+msgstr "/Construcciones"
+
+#: client/gui-gtk/menu.c:596
+msgid "/Help Units"
+msgstr "/Unidades"
+
+#: client/gui-gtk/menu.c:598
+msgid "/Help Combat"
+msgstr "/Combate"
+
+#: client/gui-gtk/menu.c:600
+msgid "/Help ZOC"
+msgstr "/Zonas de Control"
+
+#: client/gui-gtk/menu.c:602
+msgid "/Help Technology"
+msgstr "/Investigación"
+
+#: client/gui-gtk/menu.c:604
+msgid "/Help Terrain"
+msgstr "/Terrrenos"
+
+#: client/gui-gtk/menu.c:606
+msgid "/Help Wonders"
+msgstr "/Maravillas"
+
+#: client/gui-gtk/menu.c:608
+msgid "/Help Government"
+msgstr "/Tipos de govierno"
+
+#: client/gui-gtk/menu.c:610
+msgid "/Help Happiness"
+msgstr "/Felicidad"
+
+#: client/gui-gtk/menu.c:612
+msgid "/Help Space Race"
+msgstr "/Carrera espacial"
+
+#: client/gui-gtk/menu.c:614
+msgid "/Copying"
+msgstr "/Licencia"
+
+#: client/gui-gtk/menu.c:616
+msgid "/About"
+msgstr "/Acerca de"
+
+#: client/gui-gtk/menu.c:866
+#, c-format
+msgid "Change to %s"
+msgstr "Cambiar a %s"
+
+#: client/gui-gtk/menu.c:867
+msgid "Build Irrigation"
+msgstr "Irrigar"
+
+#: client/gui-gtk/menu.c:868
+msgid "Build Mine"
+msgstr "Construir mina"
+
+#: client/gui-gtk/menu.c:869
+msgid "Transform terrain"
+msgstr "Transformar terreno"
+
+#: client/gui-gtk/menu.c:870 client/gui-gtk/menu.c:1043
+msgid "Build Road"
+msgstr "Construir carretera"
+
+#: client/gui-gtk/menu.c:992
+msgid "Add to City"
+msgstr "Añadir a ciudad"
+
+#: client/gui-gtk/menu.c:997
+msgid "Build City"
+msgstr "Fundar ciudad"
+
+#: client/gui-gtk/menu.c:1010
+msgid "Build Farmland"
+msgstr "Constuir granha"
+
+#: client/gui-gtk/menu.c:1040
+msgid "Build Railroad"
+msgstr "Construir via"

@@ -21,7 +21,7 @@
 #endif
 
 #define _(String) gettext(String)
-#define N_(String) (String)
+#define N_(String) String
 
 #else
 
