@@ -519,7 +519,9 @@ static void begin_phase(bool is_new_phase)
 	    pplayer->player_no, pplayer->name);
     /* human players also need this for building advice */
     ai_data_phase_init(pplayer, is_new_phase);
-    ai_manage_buildings(pplayer);
+    if (!pplayer->ai.control) {
+      ai_manage_buildings(pplayer); /* building advisor */
+    }
   } players_iterate_end;
 
   players_iterate(pplayer) {
