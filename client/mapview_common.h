@@ -100,13 +100,16 @@ extern bool can_slide;
     _height = -_height;							    \
   }									    \
   if (_width > 0 && _height > 0) {					    \
-    const int _ratio = (is_isometric ? 2 : 1);				    \
-    const int _W = NORMAL_TILE_WIDTH / (_ratio * 2);			    \
-    const int _H = NORMAL_TILE_HEIGHT / (_ratio * 2);			    \
-    const int GRI_x0 = DIVIDE(_gui_x0, _W) - 1;				    \
-    const int GRI_y0 = DIVIDE(_gui_y0, _H) - 1;				    \
-    const int GRI_x1 = DIVIDE(_gui_x0 + _width + _W - 1, _W) + _ratio;	    \
-    const int GRI_y1 = DIVIDE(_gui_y0 + _height + _H - 1, _H) + _ratio;	    \
+    const int _ratio = (is_isometric ? 2 : 1), _r = _ratio * 2;		    \
+    const int _Wr = NORMAL_TILE_WIDTH;					    \
+    const int _Hr = NORMAL_TILE_HEIGHT;					    \
+    /* Don't divide by _r yet, to avoid integer rounding errors. */	    \
+    const int GRI_x0 = DIVIDE(_gui_x0 * _r, _Wr) - 1;			    \
+    const int GRI_y0 = DIVIDE(_gui_y0 * _r, _Hr) - 1;			    \
+    const int GRI_x1 = DIVIDE((_gui_x0 + _width) * _r + _Wr - 1,	    \
+			      _Wr) + _ratio;				    \
+    const int GRI_y1 = DIVIDE((_gui_y0 + _height) * _r + _Hr - 1,	    \
+			      _Hr) + _ratio;				    \
     const int _count = (GRI_x1 - GRI_x0) * (GRI_y1 - GRI_y0);		    \
     int GRI_itr, GRI_x_itr, GRI_y_itr, GRI_sum, GRI_diff;		    \
 									    \
@@ -197,8 +200,8 @@ extern bool can_slide;
 	  }								    \
 	}								    \
       }									    \
-      gui_x = GRI_x_itr * _W - NORMAL_TILE_WIDTH / 2;			    \
-      gui_y = GRI_y_itr * _H - NORMAL_TILE_HEIGHT / 2;
+      gui_x = GRI_x_itr * _Wr / _r - NORMAL_TILE_WIDTH / 2;		    \
+      gui_y = GRI_y_itr * _Hr / _r - NORMAL_TILE_HEIGHT / 2;
 
 #define gui_rect_iterate_end						    \
     }									    \
