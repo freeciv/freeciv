@@ -144,7 +144,9 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   profit = kill_desire(victim_cost, unit_attack, unit_cost, victim_defence, 1) 
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;
   if (profit > 0) {
-    profit = military_amortize(profit, sortie_time, balanced_cost);
+    profit = military_amortize(unit_owner(punit), 
+                               find_city_by_id(punit->homecity),
+                               profit, sortie_time, balanced_cost);
     freelog(LOG_DEBUG, 
 	    "%s at (%d, %d) is a worthy target with profit %d", 
 	    unit_type(pdefender)->name, dest_x, dest_y, profit);
@@ -409,7 +411,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
     if (get_unit_type(u_type)->move_type != AIR_MOVING) continue;
     if (can_build_unit(pcity, u_type)) {
       struct unit *virtual_unit = 
-	create_unit_virtual(pplayer, pcity->x, pcity->y, u_type, TRUE);
+	create_unit_virtual(pplayer, pcity, u_type, TRUE);
       int profit = find_something_to_bomb(virtual_unit, pcity->x, pcity->y);
       if (profit > choice->want){
 	/* Update choice */

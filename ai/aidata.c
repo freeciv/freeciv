@@ -178,10 +178,13 @@ void ai_data_turn_init(struct player *pplayer) {
 
   ai->stats.workers = fc_calloc(map.num_continents + 1, sizeof(int));
   ai->stats.cities = fc_calloc(map.num_continents + 1, sizeof(int));
+  ai->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *ptile = map_get_tile(pcity->x, pcity->y);
     ai->stats.cities[ptile->continent]++;
+    ai->stats.average_production += pcity->shield_surplus;
   } city_list_iterate_end;
+  ai->stats.average_production /= MAX(1, city_list_size(&pplayer->cities));
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = map_get_tile(punit->x, punit->y);
     if (ptile->terrain != T_OCEAN && unit_flag(punit, F_SETTLERS)) {

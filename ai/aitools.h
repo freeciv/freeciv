@@ -27,8 +27,10 @@ enum bodyguard_enum {
   BODYGUARD_NONE
 };
 
-struct unit *create_unit_virtual(struct player *pplayer, int x, int y,
-				 Unit_Type_id type, bool make_veteran);
+int military_amortize(struct player *pplayer, struct city *pcity, 
+                      int value, int delay, int build_cost);
+struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
+                                 Unit_Type_id type, bool make_veteran);
 void destroy_unit_virtual(struct unit *punit);
 bool is_stack_vulnerable(int x, int y);
 

@@ -775,26 +775,6 @@ int kill_desire(int benefit, int attack, int loss, int vuln, int victim_count)
 }
 
 /**************************************************************************
-Military "want" estimates are amortized in this complicated way.
-COMMENTME: Why not use simple amortize? -- GB
-**************************************************************************/
-int military_amortize(int value, int delay, int build_cost)
-{
-  int simply_amortized, fully_amortized;
-
-  if (value <= 0) {
-    return 0;
-  }
-
-  simply_amortized = amortize(value, delay);
-  fully_amortized = ((value * simply_amortized) * 100
-                     / (MAX(1, value - simply_amortized))
-                     / (build_cost * MORT));
-
-  return fully_amortized;
-}
-
-/**************************************************************************
   Calculates the value and cost of nearby allied units to see if we can
   expect any help in our attack. Base function.
 **************************************************************************/
@@ -1923,12 +1903,15 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       /* build_cost of ferry */
       needferry = (go_by_boat && !ferryboat ? unit_value(boattype) : 0);
       /* FIXME: add time to build the ferry? */
-      want = military_amortize(want, MAX(1, move_time), bcost_bal + needferry);
+      want = military_amortize(pplayer, find_city_by_id(punit->homecity),
+                               want, MAX(1, move_time), bcost_bal + needferry);
 
       /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
       if (want <= 0 && punit->id == 0 && best == 0) {
-        int bk_e = military_amortize(benefit * SHIELD_WEIGHTING, 
+        int bk_e = military_amortize(pplayer, find_city_by_id(punit->homecity),
+                                     benefit * SHIELD_WEIGHTING, 
                                      MAX(1, move_time), bcost_bal + needferry);
+
         if (bk_e > bk) {
           *x = acity->x;
           *y = acity->y;
@@ -2034,7 +2017,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
          * (costs 2 luxuries to compensate) */
         want -= (unhap ? 2 * move_time * TRADE_WEIGHTING : 0);
       }
-      want = military_amortize(want, MAX(1, move_time), bcost_bal);
+      want = military_amortize(pplayer, find_city_by_id(punit->homecity),
+                               want, MAX(1, move_time), bcost_bal);
       if (want > best && ai_fuzzy(pplayer, TRUE)) {
         best = want;
         *x = aunit->x;

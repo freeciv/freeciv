@@ -47,6 +47,7 @@ struct ai_data {
   struct {
     int *workers; /* cities to workers on continent*/
     int *cities;  /* number of cities on continent */
+    int average_production;
   } stats;
 
   int num_continents; /* last time we updated our continent data */

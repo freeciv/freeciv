@@ -69,7 +69,6 @@ int unit_vulnerability_virtual2(Unit_Type_id att_type, Unit_Type_id def_type,
 				int x, int y, bool fortified, bool veteran,
 				bool use_alternative_hp, int alternative_hp);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
-int military_amortize(int value, int delay, int build_cost);
 
 bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);
 

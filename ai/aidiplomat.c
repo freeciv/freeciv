@@ -202,7 +202,8 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       return;
     }
 
-    want = military_amortize(want, time_to_dest, ut->build_cost);
+    want = military_amortize(pplayer, pcity, want, time_to_dest, 
+                             ut->build_cost);
 
     if (!player_has_embassy(pplayer, city_owner(acity))) {
         freelog(LOG_DIPLOMAT, "A diplomat desired in %s to establish an "

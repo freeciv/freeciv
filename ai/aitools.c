@@ -42,29 +42,55 @@
 #include "unittools.h"
 
 #include "aicity.h"
+#include "aidata.h"
 #include "ailog.h"
 #include "aiunit.h"
 
 #include "aitools.h"
 
 /**************************************************************************
-  Create a virtual unit to use in build want estimation
+  Amortize a want modified by the shields (build_cost) we risk losing.
+  We add the build time of the unit(s) we risk to amortize delay.  The
+  build time is claculated as the build cost divided by the production
+  output of the unit's homecity or the city where we want to produce
+  the unit. If the city has less than average shield output, we
+  instead use the average, to encourage long-term thinking.
 **************************************************************************/
-struct unit *create_unit_virtual(struct player *pplayer, int x, int y,
-				 Unit_Type_id type, bool make_veteran)
+int military_amortize(struct player *pplayer, struct city *pcity,
+                      int value, int delay, int build_cost)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+  int city_output = (pcity ? pcity->shield_surplus : 1);
+  int output = MAX(city_output, ai->stats.average_production);
+  int build_time = build_cost / output;
+
+  if (value <= 0) {
+    return 0;
+  }
+
+  return amortize(value, delay + build_time);
+}
+
+/**************************************************************************
+  Create a virtual unit to use in build want estimation. pcity can be 
+  NULL.
+**************************************************************************/
+struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
+                                 Unit_Type_id type, bool make_veteran)
 {
   struct unit *punit;
   punit=fc_calloc(1, sizeof(struct unit));
 
+  assert(pcity);
   punit->type = type;
   punit->owner = pplayer->player_no;
-  CHECK_MAP_POS(x, y);
-  punit->x = x;
-  punit->y = y;
+  CHECK_MAP_POS(pcity->x, pcity->y);
+  punit->x = pcity->x;
+  punit->y = pcity->y;
   punit->goto_dest_x = 0;
   punit->goto_dest_y = 0;
   punit->veteran = make_veteran;
-  punit->homecity = 0;
+  punit->homecity = pcity->id;
   punit->upkeep = 0;
   punit->upkeep_food = 0;
   punit->upkeep_gold = 0;

@@ -942,7 +942,7 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
       desire -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING
                              : SHIELD_WEIGHTING);
 
-      want = military_amortize(desire, MAX(1, move_time),
+      want = military_amortize(pplayer, pcity, desire, MAX(1, move_time),
                                bcost_balanced + needferry);
       
       if (want > 0) {
@@ -1188,7 +1188,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
   want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
                      : SHIELD_WEIGHTING);
-  want = military_amortize(want, MAX(1, move_time), bcost_bal + needferry);
+  want = military_amortize(pplayer, pcity, want, MAX(1, move_time), 
+                           bcost_bal + needferry);
   
   if (myunit->id != 0) {
     freelog(LOG_ERROR, "ERROR: Non-virtual unit in kill_something_with");
@@ -1234,7 +1235,7 @@ static void ai_unit_consider_bodyguard(struct city *pcity,
   struct unit *aunit = NULL;
   struct city *acity = NULL;
 
-  virtualunit = create_unit_virtual(pplayer, pcity->x, pcity->y, unit_type,
+  virtualunit = create_unit_virtual(pplayer, pcity, unit_type,
                                     do_make_unit_veteran(pcity, unit_type));
 
   if (choice->want < 100) {
@@ -1415,7 +1416,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
      before we mung the seamap */
   unit_type = ai_choose_attacker(pcity, SEA_MOVING);
   if (unit_type >= 0) {
-    virtualunit = create_unit_virtual(pplayer, pcity->x, pcity->y, unit_type,
+    virtualunit = create_unit_virtual(pplayer, pcity, unit_type,
                               player_knows_improvement_tech(pplayer, B_PORT));
     kill_something_with(pplayer, pcity, virtualunit, choice);
     destroy_unit_virtual(virtualunit);
@@ -1424,8 +1425,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Consider a land attacker */
   unit_type = ai_choose_attacker(pcity, LAND_MOVING);
   if (unit_type >= 0) {
-    virtualunit = create_unit_virtual(pplayer, pcity->x, pcity->y, unit_type,
-                                      TRUE); /* why assume veteran? -- Per */
+    virtualunit = create_unit_virtual(pplayer, pcity, unit_type, TRUE);
     kill_something_with(pplayer, pcity, virtualunit, choice);
     destroy_unit_virtual(virtualunit);
   }
