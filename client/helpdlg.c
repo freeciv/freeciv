@@ -1045,7 +1045,7 @@ void help_update_dialog(struct help_item *pitem)
   case HELP_WONDER:
     i = find_improvement_by_name(top);
     if(i!=B_LAST && !is_wonder(i)) i = B_LAST;
-    help_update_improvement(pitem, top, i);
+    help_update_wonder(pitem, top, i);
     return;
   case HELP_UNIT:
     help_update_unit_type(pitem, top, find_unit_type_by_name(top));
