@@ -53,6 +53,8 @@ enum tech_state get_invention(struct player *pplayer, Tech_Type_id tech)
 void set_invention(struct player *pplayer, Tech_Type_id tech,
 		   enum tech_state value)
 {
+  assert(!is_barbarian(pplayer));
+
   if (pplayer->research.inventions[tech].state == value) {
     return;
   }
@@ -342,31 +344,36 @@ int total_bulbs_required(struct player *pplayer)
 **************************************************************************/
 int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
 {
-  int cost;
-
-  assert(!is_barbarian(pplayer));
+  int cost, tech_cost_style = game.rgame.tech_cost_style;
 
   if (get_invention(pplayer, tech) == TECH_KNOWN) {
     return 0;
   }
 
-  if (tech > game.num_tech_types || game.rgame.tech_cost_style == 0) {
-    /* Future tech or cost_style 0 */
+  if (tech > game.num_tech_types) {
+    /* Future techs use style 0 */
+    tech_cost_style = 0;
+  }
+
+  if (tech_cost_style == 2 && advances[tech].preset_cost == -1) {
+    /* No preset, using style 1 */
+    tech_cost_style = 1;
+  }
+
+  switch (tech_cost_style) {
+  case 0:
     cost = pplayer->research.techs_researched * game.researchcost;
-  } else if (game.rgame.tech_cost_style == 1
-	     || (game.rgame.tech_cost_style == 2
-		 && advances[tech].preset_cost == -1)) {
-    /* cost_style 1 or cost_style 2 with unset value */
+    break;
+  case 1:
     cost = advances[tech].num_reqs * game.researchcost;
-  } else if (game.rgame.tech_cost_style == 2) {
-    /* cost_style 2 with set value */
-    cost =
-	advances[tech].preset_cost * game.researchcost /
+    break;
+  case 2:
+    cost = (advances[tech].preset_cost * game.researchcost) /
 	GAME_DEFAULT_RESEARCHCOST;
-  } else {
-    /* other */
-    freelog(LOG_ERROR, "Invalid tech_cost_style %d",
-	    game.rgame.tech_cost_style);
+    break;
+  default:
+    freelog(LOG_ERROR, "Invalid tech_cost_style %d %d",
+	    game.rgame.tech_cost_style, tech_cost_style);
     assert(0);
     exit(1);
   }
@@ -376,28 +383,42 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
     cost *= 2;
   }
 
-  if (game.rgame.tech_leakage == 0) {
+  switch (game.rgame.tech_leakage) {
+  case 0:
     /* no change */
-  } else if (game.rgame.tech_leakage == 1) {
-    int players = get_num_human_and_ai_players();
-    cost = ((players - game.global_advances[tech]) * cost) / players;
-  } else if (game.rgame.tech_leakage == 2) {
-    int players = 0, players_with_tech = 0;
+    break;
 
-    /* Find out how many players have tech */
-    players_iterate(other) {
-      if (!player_has_embassy(pplayer, other)) {
-	continue;
+  case 1:
+    {
+      int players = get_num_human_and_ai_players();
+      if (players > 0) {
+	/* Every non barbarian-only game */
+	assert(players >= game.global_advances[tech]);
+	cost = ((players - game.global_advances[tech]) * cost) / players;
       }
+    }
+    break;
 
-      players++;
-      if (get_invention(other, tech) == TECH_KNOWN) {
-	players_with_tech++;
-      }
-    } players_iterate_end;
+  case 2:
+    {
+      int players = 0, players_with_tech_and_embassy = 0;
 
-    cost = ((players - players_with_tech) * cost) / players;
-  } else {
+      players_iterate(other) {
+	if (is_barbarian(other)) {
+	  continue;
+	}
+	players++;
+	if (get_invention(other, tech) == TECH_KNOWN
+	    && player_has_embassy(pplayer, other)) {
+	  players_with_tech_and_embassy++;
+	}
+      } players_iterate_end;
+
+      cost = ((players - players_with_tech_and_embassy) * cost) / players;
+    }
+    break;
+
+  default:
     freelog(LOG_ERROR, "Invalid tech_leakage %d", game.rgame.tech_leakage);
     assert(0);
     exit(1);
