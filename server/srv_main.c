@@ -1446,6 +1446,7 @@ void srv_main(void)
   con_flush();
 
   game_init();
+  diplhand_init();
 
   /* init network */  
   init_connections(); 
@@ -1709,6 +1710,6 @@ void server_game_free()
   players_iterate(pplayer) {
     player_map_free(pplayer);
   } players_iterate_end;
-
+  diplhand_free();
   game_free();
 }

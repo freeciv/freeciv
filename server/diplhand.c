@@ -54,18 +54,28 @@
 #define treaty_list_iterate_end  LIST_ITERATE_END
 
 static struct treaty_list treaties;
-static bool did_init_treaties;
+
+/**************************************************************************
+...
+**************************************************************************/
+void diplhand_init()
+{
+  treaty_list_init(&treaties);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void diplhand_free()
+{
+  treaty_list_unlink_all(&treaties);
+}
 
 /**************************************************************************
 ...
 **************************************************************************/
 struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
 {
-  if (!did_init_treaties) {
-    treaty_list_init(&treaties);
-    did_init_treaties = TRUE;
-  }
-
   treaty_list_iterate(treaties, ptreaty) {
     if ((ptreaty->plr0 == plr0 && ptreaty->plr1 == plr1) ||
 	(ptreaty->plr0 == plr1 && ptreaty->plr1 == plr0)) {

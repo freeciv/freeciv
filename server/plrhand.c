@@ -1475,7 +1475,6 @@ void server_player_init(struct player *pplayer, bool initmap)
   if (initmap) {
     player_map_allocate(pplayer);
   }
-  player_init(pplayer);
   ai_data_init(pplayer);
 }
 

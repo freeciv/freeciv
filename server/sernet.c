@@ -187,6 +187,8 @@ void close_connection(struct connection *pconn)
     timer_list_unlink(pconn->server.ping_timers, timer);
     free_timer(timer);
   }
+  assert(timer_list_size(pconn->server.ping_timers) == 0);
+  timer_list_unlink_all(pconn->server.ping_timers);
 
   /* safe to do these even if not in lists: */
   conn_list_unlink(&game.all_connections, pconn);
@@ -210,7 +212,17 @@ void close_connections_and_socket(void)
     if(connections[i].used) {
       close_connection(&connections[i]);
     }
+    conn_list_unlink_all(&connections[i].self);
   }
+
+  /* Remove the game connection lists and make sure they are empty. */
+  assert(conn_list_size(&game.all_connections) == 0);
+  conn_list_unlink_all(&game.all_connections);
+  assert(conn_list_size(&game.est_connections) == 0);
+  conn_list_unlink_all(&game.est_connections);
+  assert(conn_list_size(&game.game_connections) == 0);
+  conn_list_unlink_all(&game.game_connections);
+
   my_closesocket(sock);
   my_closesocket(socklan);
 

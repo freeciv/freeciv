@@ -312,13 +312,16 @@ void game_init(void)
 }
 
 /***************************************************************
-...
+  Remove all initialized players. This is all player slots, 
+  since we initialize them all on game initialization.
 ***************************************************************/
 static void game_remove_all_players(void)
 {
-  players_iterate(pplayer) {
-    game_remove_player(pplayer);
-  } players_iterate_end;
+  int i;
+
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    game_remove_player(&game.players[i]);
+  }
 
   game.nplayers=0;
   game.nbarbarians=0;
@@ -443,13 +446,19 @@ void game_remove_player(struct player *pplayer)
     pplayer->island_improv = NULL;
   }
 
+  conn_list_unlink_all(&pplayer->connections);
+
   unit_list_iterate(pplayer->units, punit) 
     game_remove_unit(punit);
   unit_list_iterate_end;
+  assert(unit_list_size(&pplayer->units) == 0);
+  unit_list_unlink_all(&pplayer->units);
 
   city_list_iterate(pplayer->cities, pcity) 
     game_remove_city(pcity);
   city_list_iterate_end;
+  assert(city_list_size(&pplayer->cities) == 0);
+  city_list_unlink_all(&pplayer->cities);
 
   if (is_barbarian(pplayer)) game.nbarbarians--;
 }
