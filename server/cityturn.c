@@ -759,7 +759,7 @@ void city_increase_size(struct city *pcity)
 		       pcity->name);
     }
     /* Granary can only hold so much */
-    pcity->food_stock = ((pcity->size+1) * game.foodbox *
+    pcity->food_stock = ((pcity->size) * game.foodbox *
 			 (100 - game.aqueductloss/(1+has_granary))) / 100;
     return;
   }
@@ -776,14 +776,14 @@ void city_increase_size(struct city *pcity)
 		       pcity->name);
     }
     /* Granary can only hold so much */
-    pcity->food_stock = ((pcity->size+1) * game.foodbox *
+    pcity->food_stock = ((pcity->size) * game.foodbox *
 			 (100 - game.aqueductloss/(1+has_granary))) / 100; 
     return;
   }
 
   pcity->size++;
   if (has_granary)
-    pcity->food_stock = ((pcity->size+1) * game.foodbox) / 2;
+    pcity->food_stock = ((pcity->size) * game.foodbox) / 2;
   else
     pcity->food_stock = 0;
 
@@ -821,13 +821,13 @@ void city_increase_size(struct city *pcity)
 **************************************************************************/
 void city_reduce_size(struct city *pcity)
 {
+  pcity->size--;
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
 		   "Game: Famine feared in %s", pcity->name);
   if (city_got_effect(pcity, B_GRANARY))
     pcity->food_stock=(pcity->size*game.foodbox)/2;
   else
     pcity->food_stock=0;
-  pcity->size--;
 
   city_auto_remove_worker(pcity);
 }
@@ -838,7 +838,7 @@ void city_reduce_size(struct city *pcity)
 void city_populate(struct city *pcity)
 {
   pcity->food_stock+=pcity->food_surplus;
-  if(pcity->food_stock >= (pcity->size+1)*game.foodbox) 
+  if(pcity->food_stock >= pcity->size*game.foodbox) 
     city_increase_size(pcity);
   else if(pcity->food_stock<0) {
     unit_list_iterate(pcity->units_supported, punit) {
@@ -850,7 +850,7 @@ void city_populate(struct city *pcity)
 	gamelog(GAMELOG_UNITFS, "%s lose Settlers (famine)",
 		get_race_name_plural(game.players[pcity->owner].race));
 	if (city_got_effect(pcity, B_GRANARY))
-	  pcity->food_stock=((pcity->size+1)*game.foodbox)/2;
+	  pcity->food_stock=(pcity->size*game.foodbox)/2;
 	else
 	  pcity->food_stock=0;
 	return;
@@ -1245,13 +1245,13 @@ int update_city_activity(struct player *pplayer, struct city *pcity)
   if (city_refresh(pcity) && 
       get_government(pcity->owner)>=G_REPUBLIC &&
       pcity->food_surplus>0 && pcity->size>4) {
-    pcity->food_stock=(pcity->size+1)*game.foodbox+1; 
+    pcity->food_stock=pcity->size*game.foodbox+1; 
   }
 
   if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
     (pcity->currently_building == B_GRANARY) && (pcity->food_surplus > 0)
     && (pcity->shield_surplus > 0)) {
-    turns_growth = ((pcity->size+1 * game.foodbox) - pcity->food_stock)
+    turns_growth = ((pcity->size * game.foodbox) - pcity->food_stock)
                      / pcity->food_surplus;
     turns_granary = (improvement_value(B_GRANARY) - pcity->shield_stock)
                      / pcity->shield_surplus;

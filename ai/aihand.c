@@ -270,7 +270,7 @@ void ai_manage_taxes(struct player *pplayer)
 	ai_fuzzy(pplayer,1)) {
       freelog(LOG_DEBUG, "%d happy people in %s",
 		    pcity->ppl_happy[4], pcity->name);
-      n = (((pcity->size + 1)>>1) - pcity->ppl_happy[4]) * 20;
+      n = ((pcity->size>>1) - pcity->ppl_happy[4]) * 20;
       if (n > pcity->ppl_content[1] * 20) n += (n - pcity->ppl_content[1] * 20);
       m = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
 	     (pcity->size+1) * game.foodbox)>>1) -
