@@ -35,13 +35,33 @@
 void inputline_return(GtkWidget *w, gpointer data)
 {
   struct packet_generic_message apacket;
-  char *theinput;
+  char *theinput, *buffer;
+  GList *cache;
+  int *newindex;
 
   theinput = gtk_entry_get_text(GTK_ENTRY(w));
+  /* get the cache */
+  cache = gtk_object_get_data(GTK_OBJECT(w), "cache");
   
-  if(GTK_WIDGET_IS_SENSITIVE(top_vbox) && *theinput) {
+  if (GTK_WIDGET_IS_SENSITIVE(top_vbox) && *theinput) {
     mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
     send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+
+    /* add to the cache */
+    buffer = fc_malloc(strlen(theinput) + 1);
+    newindex = gtk_object_get_data(GTK_OBJECT(w), "cache_current");
+    strcpy(buffer, theinput);
+    cache = g_list_prepend(cache, buffer);
+    /* don't save more than 20 messages */
+    if (g_list_length(cache) > 20) {
+      char *data = g_list_last(cache)->data;
+      cache = g_list_remove(cache, g_list_last(cache)->data);
+      if (data)
+	free(data);
+    }
+    /* save the list again (in case the pointer changed) */
+    *newindex = -1;
+    gtk_object_set_data(GTK_OBJECT(w), "cache", cache);
   }
 
   gtk_entry_set_text(GTK_ENTRY(w), "");

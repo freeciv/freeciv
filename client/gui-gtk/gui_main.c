@@ -122,6 +122,7 @@ static gint	gtk_interval_id;
 GtkWidget *	unit_info_label, *unit_info_frame;
 GtkWidget *	text_scrollbar;
 GtkWidget *	inputline;
+static int inputline_cache = -1;
 
 GtkWidget *	map_horizontal_scrollbar, *map_vertical_scrollbar;
 gint		gdk_input_id;
@@ -173,8 +174,36 @@ static void parse_options(int argc, char **argv)
 **************************************************************************/
 static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
 {
-  if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox))
+  int *cache_index = gtk_object_get_data(GTK_OBJECT(inputline), "cache_current");
+  GList *cache = gtk_object_get_data(GTK_OBJECT(inputline), "cache");
+
+  if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox)) {
+    /* handle the up-arrow keypress to display history */
+    if (event->keyval == GDK_Up) {
+      if (g_list_length(cache) - 1 != *cache_index) {
+	GList *item = g_list_nth(cache, ++(*cache_index));
+	gtk_entry_set_text(GTK_ENTRY(inputline), item->data);
+      }
+      /* run the other signal handlers */
+      gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "key_press_event");
+      /* return TRUE to avoid the focus is lost (propagates to other widgets) */
+      return TRUE;
+    }
+
+    /* handle the down-arrow keypress to display history */
+    if (event->keyval == GDK_Down) {
+      if (*cache_index) {
+	GList *item = g_list_nth(cache, --(*cache_index));
+	gtk_entry_set_text(GTK_ENTRY(inputline), item->data);
+      }
+      /* run the other signal handlers */
+      gtk_signal_emit_stop_by_name(GTK_OBJECT(widget), "key_press_event");
+      /* return TRUE to avoid the focus is lost (propagates to other widgets) */
+      return TRUE;
+    }
+
     return FALSE;
+  }
 
   if (is_isometric) {
     switch (event->keyval) {
@@ -621,11 +650,13 @@ static void setup_widgets(void)
 
       /* the chat line */
       inputline = gtk_entry_new();
-      gtk_box_pack_start( GTK_BOX( avbox ), inputline, FALSE, FALSE, 0 );
+      gtk_box_pack_start(GTK_BOX(avbox), inputline, FALSE, FALSE, 0);
+      gtk_object_set_data(GTK_OBJECT(inputline), "cache", NULL);
+      gtk_object_set_data(GTK_OBJECT(inputline), "cache_current", &inputline_cache);
   }
   gtk_signal_connect(GTK_OBJECT(toplevel), "key_press_event",
-      GTK_SIGNAL_FUNC(keyboard_handler), NULL);
-/*  gtk_key_snooper_install(keyboard_handler, NULL);*/
+		     GTK_SIGNAL_FUNC(keyboard_handler), NULL);
+  /*  gtk_key_snooper_install(keyboard_handler, NULL);*/
 
   gtk_widget_show_all(paned);
   gtk_widget_hide(more_arrow_pixmap);
