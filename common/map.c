@@ -440,9 +440,10 @@ bool is_starter_close(int x, int y, int nr, int dist)
   int i;
   enum tile_terrain_type t = map_get_terrain(x, y);
 
-  /* only start on clear terrain: */
-  if (t!=T_PLAINS && t!=T_GRASSLAND && t!=T_RIVER)
+  /* Only start on certain terrain types. */
+  if (!terrain_has_flag(t, TER_STARTER)) {
     return TRUE;
+  }
   
   /* don't start on a hut: */
   if (map_has_special(x, y, S_HUT))

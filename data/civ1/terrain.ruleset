@@ -140,6 +140,7 @@ fallout_trade_penalty=50
 ; flags                = General flags for this terrain:
 ;   - NoBarbs          = Barbarians will not be spawned here.
 ;   - NoPollution      = Pollution won't be put on this terrain type.
+;   - Starter          = Players will only be started on "Starter" terrain.
 ;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
 ;                        on gameplay.  Naval units can move on oceanic terrain,
 ;                        while land units cannot.  Oceanic tiles can be used
@@ -292,6 +293,7 @@ mining_shield_incr   = 0
 mining_time          = 10
 transform_result     = "no"
 transform_time       = 0
+flags                = "Starter"
 helptext	     = _("\
 Grasslands afford exceptional agricultural opportunities.\
 ")
@@ -474,6 +476,7 @@ mining_shield_incr   = 0
 mining_time          = 15
 transform_result     = "no"
 transform_time       = 0
+flags                = "Starter"
 helptext	     = _("\
 Plains are very broad, sparse regions, which makes trade slightly\
  inconvenient.\
@@ -510,6 +513,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
+flags                = "Starter"
 helptext	     = _("\
 In addition to providing for fishing, Rivers make for excellent\
  lines of communications and trade.\

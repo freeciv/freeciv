@@ -74,7 +74,8 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders"
+#define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
+                   "+starter"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -83,6 +84,10 @@ const char * const our_capability = our_capability_internal;
  * in determining penalties when switching production.
  *
  * "orders" means client orders is used for client-side goto and patrol.
+ *
+ * "veteran" means the extended veteran system.
+ *
+ * "starter" means the Starter terrain flag is supported.
  */
 
 void init_our_capability(void)
