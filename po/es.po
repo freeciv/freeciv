@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.1-devel\n"
 "POT-Creation-Date: 2003-09-22 19:41+0200\n"
-"PO-Revision-Date: 2003-10-02 18:22+0200\n"
+"PO-Revision-Date: 2004-02-25 22:04+0100\n"
 "Last-Translator: Miguel Lobo <miguell@miguell.cjb.net>\n"
 "Language-Team: Spanish <ES@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12571,7 +12571,7 @@ msgstr ""
 
 #: client/gui-sdl/chatline.c:523
 msgid "Tabs"
-msgstr ""
+msgstr "Pestañas"
 
 #: client/gui-sdl/citydlg.c:456 data/Freeciv:1158 data/Freeciv:1194
 msgid "Activate unit"
@@ -12829,7 +12829,7 @@ msgstr "tamaño"
 msgid ""
 "time\n"
 "to grow"
-msgstr ""
+msgstr "crecimiento"
 
 #: client/gui-sdl/cityrep.c:179
 msgid "Cities Report"
@@ -12837,7 +12837,7 @@ msgstr "Informe de ciudades"
 
 #: client/gui-sdl/cityrep.c:196
 msgid "Exit Report"
-msgstr ""
+msgstr "Informe de Producción"
 
 #: client/gui-sdl/cityrep.c:207
 msgid "Information Report"
@@ -12973,7 +12973,7 @@ msgstr "%s %s %s(A:%d D:%d M:%d PF:%d) PV:%d0%%"
 #: client/gui-sdl/dialogs.c:1617
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr ""
+msgstr " CtW: Ata:%d%% Def:%d%%"
 
 #: client/gui-sdl/dialogs.c:869
 msgid ""
@@ -13070,7 +13070,7 @@ msgstr "%s %s %s (A:%d D:%d M:%d PF:%d) PV:%d0%%"
 
 #: client/gui-sdl/dialogs.c:1550
 msgid "Sentry idle"
-msgstr ""
+msgstr "Vigilancia"
 
 #: client/gui-sdl/dialogs.c:1636
 #, c-format
@@ -13217,7 +13217,7 @@ msgstr "No se puede convertir la imagen del fichero %s al formato %d."
 #: client/gui-sdl/graphics.c:247
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-msgstr ""
+msgstr "No se puede crear un Sprite (Área) de tamaño %d x %d %d Bits en formato %d"
 
 #: client/gui-sdl/graphics.c:847
 #, c-format
@@ -13256,12 +13256,12 @@ msgstr "load?surf: ¡No se puede cargar el fichero gráfico %s!"
 #: client/gui-sdl/graphics.c:3728
 #, c-format
 msgid "%s load with own %d bpp format !"
-msgstr ""
+msgstr "¡Se carga %s con formato %d bpp!"
 
 #: client/gui-sdl/graphics.c:3732
 #, c-format
 msgid "%s (%d bpp) load with screen (%d bpp) format !"
-msgstr ""
+msgstr "¡Se carga %s (%d bpp) con formato de la pantalla (%d bpp)!"
 
 #: client/gui-sdl/gui_main.c:135
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
@@ -13307,22 +13307,24 @@ msgstr ""
 #: client/gui-sdl/gui_string.c:267
 #, c-format
 msgid "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-msgstr ""
+msgstr "SDL_create_str16_surf: El tamaño de la fuente es en general %d, y el de la cadena es %hd"
 
 #: client/gui-sdl/gui_string.c:269
 #, c-format
 msgid "SDL_create_str16_surf: String is %d lenght"
-msgstr ""
+msgstr "SDL_create_str16_surf: La longitud de la cadena es %d"
 
 #: client/gui-sdl/gui_string.c:564
 msgid "Error in change_ptsize: Change ptsize failed"
-msgstr ""
+msgstr "Error en change_ptsize"
 
 #: client/gui-sdl/gui_string.c:597
 msgid ""
 "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font to "
 "data dir as stdfont.ttf"
 msgstr ""
+"No encuentro el fichero stdfont.ttf.  Por favor, enlaza/copia/mueve un fuente\n"
+"Unicode cualquiera a data/stdfont.ttf"
 
 #: client/gui-sdl/gui_string.c:607
 #, c-format
@@ -13332,12 +13334,12 @@ msgstr ""
 
 #: client/gui-sdl/gui_string.c:647
 msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-msgstr ""
+msgstr "Error en unload_font: Se ha intentado descargar un ARRAY de fuentes vacío."
 
 #: client/gui-sdl/gui_string.c:661
 msgid ""
 "Error in unload_font: Trying unload Font which is not include in Font ARRAY"
-msgstr ""
+msgstr "Error en unload_font: Se ha intentado descargar una fuente que no está en el ARRAY"
 
 #: client/gui-sdl/inteldlg.c:139
 #, c-format
@@ -13382,11 +13384,11 @@ msgstr "Ocultar mensajes (F10)"
 
 #: client/gui-sdl/mapctrl.c:622
 msgid "Single Tile Width"
-msgstr ""
+msgstr "Ancho de una sola casilla"
 
 #: client/gui-sdl/mapctrl.c:626
 msgid "Single Tile Height"
-msgstr ""
+msgstr "Altura de una sola casilla"
 
 #: client/gui-sdl/mapctrl.c:634
 msgid "Scale Minimap"
@@ -13486,7 +13488,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:1893
 msgid "sprite is NULL"
-msgstr ""
+msgstr "El sprite es NULL"
 
 #: client/gui-sdl/menu.c:356
 msgid "No orders"
@@ -13635,7 +13637,7 @@ msgstr "Mostrar trabajadores de la ciudad"
 
 #: client/gui-sdl/optiondlg.c:2081
 msgid "Back"
-msgstr ""
+msgstr "Volver"
 
 #: client/gui-sdl/optiondlg.c:2123
 msgid "Video options"
@@ -13767,6 +13769,9 @@ msgid ""
 "Research speed : none\n"
 "Next's advance time : never"
 msgstr ""
+"Investigación actual       : 0\n"
+"Velocidad de investigación : nula\n"
+"El siguiente avance será   : nunca"
 
 #: client/gui-sdl/repodlgs.c:2453
 #, c-format
@@ -13775,9 +13780,11 @@ msgid ""
 "Research speed : %d %s/advance\n"
 "Next advance in: %d %s"
 msgstr ""
+"Investigación actual       : %d per turno\n"
+"Velocidad de investigación : %d %s/avance\n"
+"El siguiente avance será en: %d %s"
 
 #: client/gui-sdl/repodlgs.c:2584 client/gui-sdl/repodlgs.c:2981
-#, fuzzy
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "turno"
@@ -21760,80 +21767,3 @@ msgstr ""
 "Los zulúes son un belicoso pueblo Bantú que emigró desde el oeste de África "
 "Central hacia el sur del continente a principios del siglo XVIII, lo cual "
 "condujo a enfrentamientos con los colonos europeos."
-
-#~ msgid "AI controlled players cannot participate in diplomatic meetings."
-#~ msgstr ""
-#~ "Los jugadores controlados por ordenador no pueden participar en cumbres "
-#~ "diplomáticas."
-
-#~ msgid "Game: You are dead!"
-#~ msgstr "Juego: ¡Has muerto!"
-
-#~ msgid "What connections are allowed"
-#~ msgstr "Qué conexiones se permiten"
-
-#~ msgid "You can't switch players with \"take\" after the game has started."
-#~ msgstr ""
-#~ "No se puede cambiar de jugadores con \"take\" tras el inicio de la "
-#~ "partida."
-
-#~ msgid ""
-#~ "%s already controls or observes %s.\n"
-#~ "  multiple controlling connections aren't allowed yet."
-#~ msgstr ""
-#~ "%s ya controla u observa %s.\n"
-#~ "  Aún no se permiten múltiples conexiones de control."
-
-#~ msgid "removing %s [%d]"
-#~ msgstr "se elimina a %s [%d]"
-
-#~ msgid "Game: No war declared against %s, cannot attack."
-#~ msgstr "Juego: No has declarado la guerra a %s, así que no puedes atacar."
-
-#~ msgid "Game: No war declared against %s, cannot take over city."
-#~ msgstr "Juego: No estás en guerra con %s, no puedes conquistar esa ciudad."
-
-#~ msgid "      A traderoute already exists between %s and %s!"
-#~ msgstr "      ¡Ya existe una ruta comercial entre %s y %s!"
-
-#~ msgid "Default tileset"
-#~ msgstr "Aspecto (tileset) por defecto"
-
-#~ msgid "Current tileset (EXPERIMENTAL)"
-#~ msgstr "Aspecto (tileset) actual (EXPERIMENTAL)"
-
-#~ msgid "Other"
-#~ msgstr "Otro"
-
-#~ msgid "_Name:"
-#~ msgstr "_Nombre:"
-
-#~ msgid "Location: (%d, %d)"
-#~ msgstr "Posición: (%d, %d)"
-
-#~ msgid "Idle Turns"
-#~ msgstr "Turnos Inactivo"
-
-#~ msgid "Location: (%d, %d) [%d]"
-#~ msgstr "Posición: (%d, %d) [%d]"
-
-#~ msgid "(%d steps)"
-#~ msgstr "(%d pasos)"
-
-#~ msgid "City: %s(%s) %s"
-#~ msgstr "Ciudad: %s(%s) %s"
-
-#~ msgid ""
-#~ " 10. Interacting with other players (Diplomacy).\n"
-#~ "\n"
-#~ "    Humans and AI differ in many ways, but the most significant is the "
-#~ "additional diplomacy that you can take part in with other humans - and "
-#~ "no, we are not talking about using spies and diplomats to incite and "
-#~ "steal."
-#~ msgstr ""
-#~ " 10. Interacción con otros jugadores (diplomacia).\n"
-#~ "\n"
-#~ "Los jugadores controlados por personas y los controlados por el ordenador "
-#~ "son diferentes por varias razones, pero la principal es que con las "
-#~ "personas puedes usar más formas de diplomacia.  Con esto no nos referimos "
-#~ "al uso de Diplomáticos y Espías para sublevar y robar."
