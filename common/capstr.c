@@ -81,7 +81,7 @@ const char * const our_capability = our_capability_internal;
                    "+diplomacy2 +citizens_style +root_tech auth " \
                    "+nat_ulimit +retake +goto_pack borders dip " \
                    "+packet_short_unit +unit_occupied endgame_rep " \
-                   "+terr_flags +topo_id"
+                   "+terr_flags +topo_id +goto_pack"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -161,6 +161,8 @@ const char * const our_capability = our_capability_internal;
  *
  * "topo_id" means there is a topology_id map value that controls which
  * topology is in use.  This value is sent to the client.
+ *
+ * "goto_pack" means a revised goto packet protocol.
  */
 
 void init_our_capability(void)

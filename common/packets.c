@@ -3105,84 +3105,24 @@ receive_packet_sabotage_list(struct connection *pc)
   RECEIVE_PACKET_END(packet);
 }
 
-enum packet_goto_route_type {
-  GR_FIRST_MORE, GR_FIRST_LAST, GR_MORE, GR_LAST
-};
-#define GOTO_CHUNK 20
 /**************************************************************************
-Chop the route up and send the pieces one by one.
+  Send a PACKET_GOTO_ROUTE or PACKET_PATROL_ROUTE.
 **************************************************************************/
 int send_packet_goto_route(struct connection *pc,
 			   const struct packet_goto_route *packet,
-			   enum goto_route_type type)
+			   enum packet_type packet_type)
 {
   int i;
-  int num_poses = packet->last_index > packet->first_index ?
-    packet->last_index - packet->first_index :
-    packet->length - packet->first_index + packet->last_index;
-  int num_chunks = (num_poses + GOTO_CHUNK - 1) / GOTO_CHUNK;
-  int this_chunk = 1;
+  SEND_PACKET_START(packet_type);
 
-  i = packet->first_index;
-  assert(num_chunks > 0);
-  while (i != packet->last_index) {
-    unsigned char buffer[MAX_LEN_PACKET];
-    struct data_out dout;
-    int chunk_pos;
+  dio_put_uint16(&dout, packet->unit_id);
+  dio_put_uint16(&dout, packet->length);
 
-    dio_output_init(&dout, buffer, sizeof(buffer));
-    dio_put_uint16(&dout, 0);
-
-    switch (type) {
-    case ROUTE_GOTO:
-      dio_put_uint8(&dout, PACKET_GOTO_ROUTE);
-      break;
-    case ROUTE_PATROL:
-      dio_put_uint8(&dout, PACKET_PATROL_ROUTE);
-      break;
-    default:
-      die("unknown type %d", type);
-    }
-
-    chunk_pos = 0;
-    if (this_chunk == 1) {
-      if (num_chunks == 1)
-	dio_put_uint8(&dout, GR_FIRST_LAST);
-      else
-	dio_put_uint8(&dout, GR_FIRST_MORE);
-    } else {
-      if (this_chunk == num_chunks)
-	dio_put_uint8(&dout, GR_LAST);
-      else
-	dio_put_uint8(&dout, GR_MORE);
-    }
-
-    while (i != packet->last_index && chunk_pos < GOTO_CHUNK) {
-      dio_put_uint8(&dout, packet->pos[i].x);
-      dio_put_uint8(&dout, packet->pos[i].y);
-      i++; i%=packet->length;
-      chunk_pos++;
-    }
-    /* if we finished fill the last chunk with NOPs */
-    assert(!is_normal_map_pos(MAX_UINT8, MAX_UINT8));
-    for (; chunk_pos < GOTO_CHUNK; chunk_pos++) {
-      dio_put_uint8(&dout, MAX_UINT8);
-      dio_put_uint8(&dout, MAX_UINT8);
-    }
-
-    dio_put_uint16(&dout, packet->unit_id);
-
-    {
-      size_t size = dio_output_used(&dout);
-
-      dio_output_rewind(&dout);
-      dio_put_uint16(&dout, size);
-      send_packet_data(pc, buffer, size);
-    }
-    this_chunk++;
+  for (i = 0; i < packet->length; i++) {
+    dio_put_uint8(&dout, packet->pos[i].x);
+    dio_put_uint8(&dout, packet->pos[i].y);
   }
-
-  return 0;
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3191,89 +3131,21 @@ if the received piece isn't the last one.
 **************************************************************************/
 struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
 {
-  struct data_in din;
-  int i, num_valid = 0;
-  enum packet_goto_route_type type;
-  struct map_position pos[GOTO_CHUNK];
-  struct map_position *pos2;
-  struct packet_goto_route *packet;
-  int length, unit_id;
+  int i;
+  RECEIVE_PACKET_START(packet_goto_route, packet);
 
-  dio_input_init(&din, pc->buffer->data, pc->buffer->ndata);
-  dio_get_uint16(&din, NULL);
-  dio_get_uint8(&din, NULL);
+  dio_get_uint16(&din, &packet->unit_id);
+  dio_get_uint16(&din, &packet->length);
 
-  dio_get_uint8(&din, &i);
-  type = (enum packet_goto_route_type) i; /* safe conversion from integer */
-  for (i = 0; i < GOTO_CHUNK; i++) {
-    dio_get_uint8(&din, &pos[i].x);
-    dio_get_uint8(&din, &pos[i].y);
-    if (is_normal_map_pos(pos[i].x, pos[i].y)) {
-      num_valid++;
-    }
+  if (packet->length > MAX_LEN_ROUTE) {
+    packet->length = MAX_LEN_ROUTE;
   }
-  dio_get_uint16(&din, &unit_id);
 
-  check_packet(&din, pc);
-  remove_packet_from_buffer(pc->buffer);
-
-  /* sanity check */
-  if (!pc->route)
-    pc->route_length = 0;
-
-  switch (type) {
-  case GR_FIRST_MORE:
-    free(pc->route);
-    pc->route = fc_malloc(GOTO_CHUNK * sizeof(struct map_position));
-    pc->route_length = GOTO_CHUNK;
-    for (i = 0; i < GOTO_CHUNK; i++) {
-      pc->route[i].x = pos[i].x;
-      pc->route[i].y = pos[i].y;
-    }
-    return NULL;
-  case GR_LAST:
-    packet = fc_malloc(sizeof(struct packet_goto_route));
-    packet->unit_id = unit_id;
-    length = pc->route_length+num_valid+1;
-    if (!pc->route)
-      freelog(LOG_ERROR, "Got a GR_LAST packet with NULL without previous route");
-    packet->pos = fc_malloc(length * sizeof(struct map_position));
-    packet->length = length;
-    packet->first_index = 0;
-    packet->last_index = length-1;
-    for (i = 0; i < pc->route_length; i++)
-      packet->pos[i] = pc->route[i];
-    for (i = 0; i < num_valid; i++)
-      packet->pos[i+pc->route_length] = pos[i];
-    free(pc->route);
-    pc->route = NULL;
-    return packet;
-  case GR_FIRST_LAST:
-    packet = fc_malloc(sizeof(struct packet_goto_route));
-    packet->unit_id = unit_id;
-    packet->pos = fc_malloc((num_valid+1) * sizeof(struct map_position));
-    packet->length = num_valid + 1;
-    packet->first_index = 0;
-    packet->last_index = num_valid;
-    for (i = 0; i < num_valid; i++)
-      packet->pos[i] = pos[i];
-    return packet;
-  case GR_MORE:
-    pos2 = fc_malloc((GOTO_CHUNK+pc->route_length) * sizeof(struct map_position));
-    if (!pc->route)
-      freelog(LOG_ERROR, "Got a GR_MORE packet with NULL without previous route");
-    for (i = 0; i < pc->route_length; i++)
-      pos2[i] = pc->route[i];
-    for (i = 0; i < GOTO_CHUNK; i++)
-      pos2[i+pc->route_length] = pos[i];
-    free(pc->route);
-    pc->route = pos2;
-    pc->route_length += GOTO_CHUNK;
-    return NULL;
-  default:
-    freelog(LOG_ERROR, "invalid type in receive_packet_goto_route()");
-    return NULL;
+  for (i = 0; i < packet->length; i++) {
+    dio_get_uint8(&din, &packet->pos[i].x);
+    dio_get_uint8(&din, &packet->pos[i].y);
   }
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************

@@ -449,11 +449,9 @@ void send_goto_path(struct unit *punit, struct pf_path *path)
   p.unit_id = punit->id;
 
   /* we skip the start position */
-  /* FIXME: but for unknown reason the server discards the last position */
-  p.length = path->length - 1 + 1;
-  p.first_index = 0;
-  p.last_index = p.length - 1;
-  p.pos = fc_malloc(p.length * sizeof(*p.pos));
+  p.length = path->length - 1;
+  assert(p.length < MAX_LEN_ROUTE);
+
   for (i = 0; i < path->length - 1; i++) {
     p.pos[i].x = path->positions[i + 1].x;
     p.pos[i].y = path->positions[i + 1].y;
@@ -461,9 +459,7 @@ void send_goto_path(struct unit *punit, struct pf_path *path)
 	    i, p.pos[i].x, p.pos[i].y);
   }
 
-  send_packet_goto_route(&aconnection, &p, ROUTE_GOTO);
-
-  free(p.pos);
+  send_packet_goto_route(&aconnection, &p, PACKET_GOTO_ROUTE);
 }
 
 /**************************************************************************
@@ -486,11 +482,9 @@ void send_patrol_route(struct unit *punit)
   p.unit_id = punit->id;
 
   /* we skip the start position */
-  /* FIXME: but for unknown reason the server discards the last position */
-  p.length = 2 * (path->length - 1) + 1;
-  p.first_index = 0;
-  p.last_index = p.length - 1;
-  p.pos = fc_malloc(p.length * sizeof(struct map_position));
+  p.length = 2 * (path->length - 1);
+  assert(p.length < MAX_LEN_ROUTE);
+
   j = 0;
   for (i = 1; i < path->length; i++) {
     p.pos[j].x = path->positions[i].x;
@@ -506,9 +500,7 @@ void send_patrol_route(struct unit *punit)
             p.pos[j].y);
     j++;
   }
-  send_packet_goto_route(&aconnection, &p, ROUTE_PATROL);
-  free(p.pos);
-  p.pos = NULL;
+  send_packet_goto_route(&aconnection, &p, PACKET_PATROL_ROUTE);
   pf_destroy_path(path);
 }
 

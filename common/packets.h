@@ -26,6 +26,7 @@
 #define MAX_LEN_MSG             1536
 #define MAX_ATTRIBUTE_BLOCK     (256*1024)	/* largest attribute block */
 #define ATTRIBUTE_CHUNK_SIZE    (1024*2)  /* attribute chunk size to use */
+#define MAX_LEN_ROUTE		2000	  /* MAX_LEN_PACKET/2 - header */
 
 /* Note that MAX_LEN_USERNAME cannot be expanded, because it
    is used for the name in the first packet sent by the client,
@@ -958,11 +959,9 @@ struct packet_sabotage_list
 
 struct packet_goto_route
 {
-  int length;
-  int first_index;
-  int last_index;
-  struct map_position *pos;
   int unit_id;
+  int length;
+  struct map_position pos[MAX_LEN_ROUTE];
 };
 
 struct packet_attribute_chunk
@@ -1218,7 +1217,7 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
 
 int send_packet_goto_route(struct connection *pc,
                            const struct packet_goto_route *packet,
-			   enum goto_route_type type);
+			   enum packet_type packet_type);
 struct packet_goto_route *receive_packet_goto_route(struct connection *pc);
 
 int send_packet_attribute_chunk(struct connection *pc,
