@@ -1518,14 +1518,14 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   my_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
 	      worklist_is_empty(&pcity->worklist) ? "" : " (+)",
 	      buf);
-  gtk_progress_bar_set_fraction(
-    GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
-  gtk_progress_bar_set_fraction(
-    GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
   gtk_progress_bar_set_text(
     GTK_PROGRESS_BAR(pdialog->overview.production_bar), buf2);
   gtk_progress_bar_set_text(
     GTK_PROGRESS_BAR(pdialog->production.production_bar), buf2);
+  gtk_progress_bar_set_fraction(
+    GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
+  gtk_progress_bar_set_fraction(
+    GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
 
   /* work around GTK+ refresh bug. */
   gtk_widget_queue_resize(pdialog->overview.production_bar);

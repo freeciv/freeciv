@@ -287,9 +287,12 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     pct=CLAMP((gdouble) game.player_ptr->research.bulbs_researched /
 		total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
-    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
     
+    /* work around GTK+ refresh bug. */
+    gtk_widget_queue_resize(science_current_label);
+
     dsend_packet_player_research(&aconnection, to);
   }
 }
@@ -440,9 +443,12 @@ void science_dialog_update(void)
   pct=CLAMP((gdouble) game.player_ptr->research.bulbs_researched /
 	    total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
-
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
+ 
+  /* work around GTK+ refresh bug. */
+  gtk_widget_queue_resize(science_current_label);
+ 
   /* collect all techs which are reachable in the next step
    * hist will hold afterwards the techid of the current choice
    */
