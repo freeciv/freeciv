@@ -794,16 +794,9 @@ void handle_report_request(struct player *pplayer, enum report_type type)
     demographics_report(pplayer);
     break;
   case REPORT_SERVER_OPTIONS:
-    /* this is for backward compatibility with old clients */
-    if(1) {
-      report_server_options(pplayer, 0);
-    } else {
-      /* This alternative approach isn't very good because they come up on
-       * top of each other, and there are focus problems. --dwp
-       */
-      report_server_options(pplayer, 1);
-      report_server_options(pplayer, 2);
-    }
+    /* obsolete */
+    notify_player(pplayer, "Game: use \"Server options 1\" or"
+		  " \"Server options 2\" instead" );
     break;
   case REPORT_SERVER_OPTIONS1:
     report_server_options(pplayer, 1);

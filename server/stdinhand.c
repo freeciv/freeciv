@@ -789,9 +789,9 @@ void explain_option(char *str)
 /******************************************************************
 Send a report with server options to the client;
 "which" should be one of:
-0: all options (for backward compatibility)
 1: initial options only
 2: ongoing options only 
+(which=0 means all options; this is now obsolete and no longer used.)
 ******************************************************************/
 void report_server_options(struct player *pplayer, int which)
 {
