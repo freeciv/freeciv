@@ -610,7 +610,7 @@ int get_tile_infrastructure_set(struct tile * ptile)
 /***************************************************************
   Return a (static) string with special(s) name(s);
   eg: "Mine"
-  eg: "Road/Irrigation/Farmland"
+  eg: "Road/Farmland"
 ***************************************************************/
 char *map_get_infrastructure_text(int spe)
 {
@@ -618,14 +618,16 @@ char *map_get_infrastructure_text(int spe)
 
   *s = '\0';
 
-  if(spe&S_ROAD)
-    cat_snprintf(s, sizeof(s), "%s/", _("Road"));
+  /* Since railroad requires road, Road/Railroad is redundant */
   if(spe&S_RAILROAD)
     cat_snprintf(s, sizeof(s), "%s/", _("Railroad"));
-  if(spe&S_IRRIGATION)
-    cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
+  else if(spe&S_ROAD)
+    cat_snprintf(s, sizeof(s), "%s/", _("Road"));
+  /* Likewise for farmland on irrigation */
   if(spe&S_FARMLAND)
     cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
+  else if(spe&S_IRRIGATION)
+    cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
   if(spe&S_MINE)
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
   if(spe&S_FORTRESS)
