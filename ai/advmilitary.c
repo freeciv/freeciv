@@ -17,21 +17,12 @@
 #include <map.h>
 #include <unitfunc.h>
 #include <citytools.h>
-#include <advmilitary.h>
 #include <aicity.h>
 #include <aiunit.h>
 #include <unittools.h> /* for get_defender, amazingly */
+#include <gotohand.h> /* warmap has been redeployed */
 
-struct move_cost_map warmap;
-
-struct stack_element {
-  unsigned char x, y;
-} warstack[MAP_MAX_WIDTH * MAP_MAX_HEIGHT];
-
-/* this wastes ~20K of memory and should really be fixed but I'm lazy  -- Syela */
-
-int warstacksize;
-int warnodes;
+extern struct move_cost_map warmap;
 
 /********************************************************************** 
 ... this function should assign a value to choice and want, where 
@@ -46,130 +37,6 @@ void military_advisor_choose_tech(struct player *pplayer,
   choice->choice = A_NONE;
   choice->want   = 0;
   /* this function haven't been implemented yet */
-}
-
-void add_to_stack(int x, int y)
-{
-  int i;
-  struct stack_element tmp;
-  warstack[warstacksize].x = x;
-  warstack[warstacksize].y = y;
-  warstacksize++;
-}
-
-void init_warmap(int orig_x, int orig_y, int which)
-{
-  int x, y, i, j;
-  int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
-  for (x = 0; x < map.xsize; x++) {
-    if (x > orig_x)
-      i = MIN(x - orig_x, orig_x + map.xsize - x);
-    else
-      i = MIN(orig_x - x, x + map.xsize - orig_x);      
-    for (y = 0; y < map.ysize; y++) {
-      if (y > orig_y)
-        j = MAX(y - orig_y, i);
-      else
-        j = MAX(orig_y - y, i);
-      j *= 3;
-      if (j < maxcost) j = maxcost;
-      if (j > 255) j = 255;
-      if (which == 1) warmap.cost[x][y] = j; /* one if by land */
-      else warmap.seacost[x][y] = j;
-    }
-  }
-  if (which == 1) warmap.cost[orig_x][orig_y] = 0;
-  else warmap.seacost[orig_x][orig_y] = 0;
-}  
-
-void really_generate_warmap(struct city *pcity, struct unit *punit, int which)
-{ /* let generate_warmap interface to this function */
-  int x, y, c, i, j, k, xx[3], yy[3], tm;
-  int orig_x, orig_y;
-  int igter = 0;
-  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int maxcost = THRESHOLD * 6 + 2; /* should be big enough without being TOO big */
-  struct tile *tile0, *tile1;
-  struct city *acity;
-
-  if (pcity) { orig_x = pcity->x; orig_y = pcity->y; }
-  else { orig_x = punit->x; orig_y = punit->y; }
-
-  init_warmap(orig_x, orig_y, which);
-  warstacksize = 0;
-  warnodes = 0;
-
-  add_to_stack(orig_x, orig_y);
-
-  if (punit && unit_flag(punit->type, F_IGTER)) igter++;
-  if (punit && punit->type == U_SETTLERS) maxcost /= 2;
-
-  do {
-    x = warstack[warnodes].x;
-    y = warstack[warnodes].y;
-    warnodes++; /* for debug purposes */
-    tile0 = map_get_tile(x, y);
-    if((xx[2]=x+1)==map.xsize) xx[2]=0;
-    if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
-    xx[1] = x;
-    if ((yy[0]=y-1)==-1) yy[0] = 0;
-    if ((yy[2]=y+1)==map.ysize) yy[2]=y;
-    yy[1] = y;
-    for (k = 0; k < 8; k++) {
-      i = ii[k]; j = jj[k]; /* saves CPU cycles? */
-      if (which == 1) {
-        if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost; 
-        else if (igter) c = 3; /* NOT c = 1 */
-        else if (punit) c = MIN(tile0->move_cost[k], unit_types[punit->type].move_rate);
-        else c = tile0->move_cost[k];
-        
-        tm = warmap.cost[x][y] + c;
-        if (warmap.cost[xx[i]][yy[j]] > tm && tm < maxcost) {
-          warmap.cost[xx[i]][yy[j]] = tm;
-          add_to_stack(xx[i], yy[j]);
-        }
-      } else {
-        if (tile0->move_cost[k] == -3) c = 3;
-        else c = maxcost;
-        tm = warmap.seacost[x][y] + c;
-        if (warmap.seacost[xx[i]][yy[j]] > tm && tm < maxcost) {
-          warmap.seacost[xx[i]][yy[j]] = tm;
-          add_to_stack(xx[i], yy[j]);
-/*        if (acity = map_get_city(xx[i], yy[j])) printf("(%d,%d) to %s: %d\n",
-             orig_x, orig_y, acity->name, warmap.seacost[xx[i]][yy[j]]); */
-        }
-      }
-    } /* end for */
-  } while (warstacksize > warnodes);
-  if (warnodes > 15000) printf("Warning: %d nodes in map #%d for (%d, %d)\n",
-     warnodes, which, orig_x, orig_y);
-/* printf("Generated warmap for (%d,%d) with %d nodes checked.\n", orig_x, orig_y, warnodes); */
-/* warnodes is often as much as 2x the size of the continent -- Syela */
-}
-
-void generate_warmap(struct city *pcity, struct unit *punit)
-{
-  if (punit) {
-    if (pcity && pcity == warmap.warcity) return; /* time-saving shortcut */
-    pcity = 0;
-  }
-
-  warmap.warcity = pcity;
-  warmap.warunit = punit;
-
-  if (punit) {
-    if (is_sailing_unit(punit)) {
-      init_warmap(punit->x, punit->y, 1);
-      really_generate_warmap(pcity, punit, 2);
-    } else {
-      init_warmap(punit->x, punit->y, 2);
-      really_generate_warmap(pcity, punit, 1);
-    }
-  } else {
-    really_generate_warmap(pcity, punit, 1);
-    really_generate_warmap(pcity, punit, 2);
-  }
 }
 
 int assess_defense_backend(struct city *pcity, int igwall)

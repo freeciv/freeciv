@@ -18,22 +18,8 @@ void military_advisor_choose_tech(struct player *pplayer,
 void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice);
 int assess_danger(struct city *pcity);
-void generate_warmap(struct city *pcity, struct unit *punit);
 void establish_city_distances(struct player *pplayer, struct city *pcity);
 int assess_defense(struct city *pcity);
 int unit_desirability(int i, int def);
-
-#define THRESHOLD 12
-#define DANGEROUS 1000
-
-#include <map.h> /* just to allow MAP_MAX_ to be used */
-
-struct move_cost_map {
-  unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-  unsigned char seacost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-/* I either need two arrays or >8 bits per element, so this is simplest -- Syela */
-  struct city *warcity; /* so we know what we're dealing with here */
-  struct unit *warunit; /* so we know what we're dealing with here */
-};
 
 #endif
