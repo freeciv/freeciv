@@ -116,6 +116,15 @@ void ai_manage_buildings(struct player *pplayer)
       leon = pcity->ai.building_want[B_LEONARDO];
   city_list_iterate_end;
 
+/* this is a weird place to iterate a units list! */
+  unit_list_iterate(pplayer->units, punit)
+    if (is_sailing_unit(punit))
+      values[B_MAGELLAN] += unit_types[punit->type].build_cost * 6 /
+                            unit_types[punit->type].move_rate;
+  unit_list_iterate_end;
+  values[B_MAGELLAN] *= 100 * SHIELD_WEIGHTING;
+  values[B_MAGELLAN] /= (MORT * improvement_value(B_MAGELLAN));
+
 /* this is a weird place to put tech advice */
   if (pplayer->government > G_DESPOTISM) {
     for (i = 0; i < B_LAST; i++) {
@@ -347,6 +356,7 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
           case B_AQUEDUCT:
           case B_COASTAL:
           case B_SAM:
+          case B_SDI:
             if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
             break;
 /* granaries/harbors/wonders not worth the tax increase */
