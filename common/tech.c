@@ -351,7 +351,8 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
 {
   int cost, tech_cost_style = game.rgame.tech_cost_style;
 
-  if (get_invention(pplayer, tech) == TECH_KNOWN) {
+  if (!is_future_tech(tech) && get_invention(pplayer, tech) == TECH_KNOWN) {
+    /* A non-future tech which is already known costs nothing. */
     return 0;
   }
 
