@@ -75,6 +75,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
 			  char *error_buf, size_t bufsz);
 char *city_name_suggestion(struct player *pplayer, struct tile *ptile);
 
+void city_freeze_workers(struct city *pcity);
+void city_thaw_workers(struct city *pcity);
 
 bool city_can_work_tile(struct city *pcity, int city_x, int city_y);
 void server_remove_worker_city(struct city *pcity, int city_x, int city_y);

@@ -90,7 +90,7 @@ static bool update_city_tile_status(struct city *pcity, int city_x,
   It is thus always safe to call freeze and thaw around any set of city
   actions.  However this is unlikely to be needed in very many places.
 ****************************************************************************/
-static void freeze_workers(struct city *pcity)
+void city_freeze_workers(struct city *pcity)
 {
   pcity->server.workers_frozen++;
 }
@@ -100,7 +100,7 @@ static void freeze_workers(struct city *pcity)
   will be auto-arranged if there is an arrangement pending.  See explanation
   in freeze_workers().
 ****************************************************************************/
-static void thaw_workers(struct city *pcity)
+void city_thaw_workers(struct city *pcity)
 {
   pcity->server.workers_frozen--;
   assert(pcity->server.workers_frozen >= 0);
@@ -750,7 +750,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   assert(pgiver != ptaker);
 
-  freeze_workers(pcity);
+  city_freeze_workers(pcity);
 
   unit_list_init(&old_city_units);
   unit_list_iterate(pcity->units_supported, punit) {
@@ -846,7 +846,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     update_city_tile_status_map(pcity, ptile);
   } map_city_radius_iterate_end;
   auto_arrange_workers(pcity);
-  thaw_workers(pcity);
+  city_thaw_workers(pcity);
   if (raze)
     raze_city(pcity);
 

@@ -183,26 +183,31 @@ void auto_arrange_workers(struct city *pcity)
   struct cm_result cmr;
   struct player *pplayer = city_owner(pcity);
 
-  /* See comment in freeze_workers(). */
+  /* See comment in freeze_workers(): we can't rearrange while
+   * workers are frozen (i.e. multiple updates need to be done). */
   if (pcity->server.workers_frozen > 0) {
     pcity->server.needs_arrange = TRUE;
     return;
   }
+
+  /* Freeze the workers and make sure all the tiles around the city
+   * are up to date.  Then thaw, but hackishly make sure that thaw
+   * doesn't call us recursively, which would waste time. */
+  city_freeze_workers(pcity);
   pcity->server.needs_arrange = FALSE;
 
-  cm_init_parameter(&cmp);
-
-  /* HACK: make sure everything is up-to-date before continuing.  This may
-   * result in recursive calls to auto_arrange_workers, but it's better
-   * to have these calls here than while we're reassigning workers (when
-   * they will be fatal). */
   map_city_radius_iterate(pcity->tile, ptile) {
     update_city_tile_status_map(pcity, ptile);
   } map_city_radius_iterate_end;
 
+  pcity->server.needs_arrange = FALSE;
+  city_thaw_workers(pcity);
+
+  /* Now start actually rearranging. */
   sanity_check_city(pcity);
   cm_clear_cache(pcity);
 
+  cm_init_parameter(&cmp);
   cmp.require_happy = FALSE;
   cmp.allow_disorder = FALSE;
   cmp.allow_specialists = TRUE;
