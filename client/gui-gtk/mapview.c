@@ -1236,16 +1236,20 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
   punit=get_unit_in_focus();
   
   if(abs_y0>=map.ysize || ptile->known<TILE_KNOWN) {
-    gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_BLACK] );
-    gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
+    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
 		    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
+		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     return;
   }
 
-  if(!flags_are_transparent) {  /* non-transparent flags-> just draw city or unit.*/
-    if((pcity=map_get_city(abs_x0, abs_y0)) &&
-       (citymode || !(punit=get_unit_in_focus()) || punit->x!=abs_x0 || punit->y!=abs_y0)) {
+  if(!flags_are_transparent) {
+    /* non-transparent flags -> just draw city or unit. */
+    if((pcity=map_get_city(abs_x0, abs_y0))
+       && (citymode || !(punit=get_unit_in_focus())
+	   || punit->x!=abs_x0 || punit->y!=abs_y0
+	   || (unit_list_size(&ptile->units)==0))) {
+        /* above, unit_list_size==0 happens when focus unit is blinking --dwp */ 
 	put_city_pixmap(pcity, pm, x, y);
 	return;
     }
@@ -1323,10 +1327,10 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 
   mysprite=get_tile_sprite(tileno);
   
-  gdk_draw_pixmap( pm, civ_gc, mysprite->pixmap,
+  gdk_draw_pixmap(pm, civ_gc, mysprite->pixmap,
 		0, 0,
 		x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		mysprite->width, mysprite->height );
+		mysprite->width, mysprite->height);
 
 
   if(ttype==T_OCEAN) {
