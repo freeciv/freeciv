@@ -1265,6 +1265,7 @@ static const char *optname_accessor(int i)
   return settings[i].name;
 }
 
+#if defined HAVE_LIBREADLINE || defined HAVE_NEWLIBREADLINE
 /**************************************************************************
   Returns possible parameters for the /show command.
 **************************************************************************/
@@ -1277,6 +1278,7 @@ static const char *olvlname_accessor(int i)
     return settings[i-OLEVELS_NUM].name;
   }
 }
+#endif
 
 /**************************************************************************
   Set timeout options.
