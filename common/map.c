@@ -196,7 +196,7 @@ void map_init(void)
   map.tiles                 = NULL;
   map.num_continents        = 0;
   map.num_start_positions   = 0;
-  map.fixed_start_positions = 0;
+  map.fixed_start_positions = FALSE;
   map.have_specials         = FALSE;
   map.have_rivers_overlay   = FALSE;
   map.have_huts             = FALSE;

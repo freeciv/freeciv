@@ -171,7 +171,7 @@ struct civ_map {
   bool tinyisles;
   bool separatepoles;
   int num_start_positions;
-  int fixed_start_positions;
+  bool fixed_start_positions;
   bool have_specials;
   bool have_huts;
   bool have_rivers_overlay;	/* only applies if !have_specials */
