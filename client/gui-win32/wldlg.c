@@ -73,8 +73,9 @@ struct worklist_editor {
 };
 
 enum wl_report_ids {
+  ID_OK=IDOK,
+  ID_CANCEL=IDCANCEL,
   ID_LIST=100,
-  ID_CANCEL,
   ID_EDIT,
   ID_RENAME,
   ID_INSERT,
@@ -83,7 +84,6 @@ enum wl_report_ids {
   ID_HELP,
   ID_UP,
   ID_DOWN,
-  ID_OK,
   ID_CLOSE
 };
 
@@ -93,8 +93,17 @@ static void copy_worklist_to_editor(struct worklist *pwl,
                                     int where);
 static void worklist_really_insert_item(struct worklist_editor *peditor,
                                         int before, wid wid);
+static void worklist_prep(struct worklist_editor *peditor);
 static void worklist_list_update(struct worklist_editor *peditor);
 static void targets_list_update(struct worklist_editor *peditor);
+static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
+						      struct city *pcity,
+						      void *user_data,
+						      WorklistOkCallback ok_cb,
+						      WorklistCancelCallback
+						      cancel_cb,HWND win);
+static void update_worklist_editor(struct worklist_editor *peditor);
+
 /****************************************************************
 
 *****************************************************************/
@@ -246,11 +255,15 @@ static LONG CALLBACK global_wl_proc(HWND hwnd,UINT message,
       break;
     case ID_EDIT:
       if (sel!=LB_ERR) {
+	struct worklist_window_init init;
 	preport->wl_idx = sel;
-	popup_worklist(preport->worklist_ptr[preport->wl_idx], NULL,
-		       hwnd,
-		       preport, global_commit_worklist, NULL);
-	
+	init.pwl = preport->worklist_ptr[preport->wl_idx];
+	init.pcity = NULL;
+	init.parent = hwnd;
+	init.user_data = preport;
+	init.ok_cb = global_commit_worklist;
+	init.cancel_cb = NULL;
+	popup_worklist(&init);
       }
       break;
     default:
@@ -350,7 +363,7 @@ static void worklist_swap_entries(int i, int j,
 static void global_commit_worklist(struct worklist *pwl, void *data)
 {
   struct worklist_report *preport = (struct worklist_report *) data;
-
+  
   copy_worklist(&preport->pplr->worklists[preport->wl_idx], pwl);
 }
 
@@ -398,7 +411,28 @@ static void worklist_ok_callback(struct worklist_editor *peditor)
 
   peditor->changed = 0;
   /*  update_changed_sensitive(peditor); */
-  DestroyWindow(peditor->win);
+  if (peditor->pcity == NULL) 
+    DestroyWindow(peditor->win);
+}
+
+/****************************************************************
+  User cancelled from the Worklist dialog or hit Undo.
+*****************************************************************/
+static void worklist_no_callback(struct worklist_editor *peditor)
+{
+  /* Invoke the dialog's parent-specified callback */
+  if (peditor->cancel_callback)
+    (*peditor->cancel_callback) (peditor->user_data);
+
+  peditor->changed = 0;
+  /* update_changed_sensitive(peditor); */
+
+  if (peditor->pcity == NULL) {
+    DestroyWindow(peditor->win);
+  } else {
+    worklist_prep(peditor);
+    worklist_list_update(peditor);
+  }
 }
 
 /****************************************************************
@@ -526,8 +560,8 @@ static void worklist_remove_item(struct worklist_editor *peditor, int row)
 /****************************************************************
 
 ****************************************************************/
-static LONG CALLBACK editor_proc(HWND hwnd,UINT message,WPARAM wParam,
-				 LPARAM lParam)
+LONG CALLBACK worklist_editor_proc(HWND hwnd,UINT message,WPARAM wParam,
+				   LPARAM lParam)
 {
   int avail_sel;
   int wl_sel;
@@ -539,24 +573,37 @@ static LONG CALLBACK editor_proc(HWND hwnd,UINT message,WPARAM wParam,
  
   switch(message) {
   case WM_CREATE:
+    {
+      struct worklist_window_init *init;
+      init = fcwin_get_user_data(hwnd);
+      peditor = create_worklist_editor(init->pwl, init->pcity, init->user_data,
+				       init->ok_cb, init->cancel_cb, hwnd);
+      update_worklist_editor(peditor);
+    }
+    break;
   case WM_SIZE:
   case WM_GETMINMAXINFO:
     break;
   case WM_DESTROY:
-    memset(peditor, 0, sizeof(*peditor));
-    free(peditor);
+    if (peditor) {
+      memset(peditor, 0, sizeof(*peditor));
+      free(peditor);
+    }
+    fcwin_set_user_data(hwnd, NULL);
     break;
   case WM_CLOSE:
     DestroyWindow(hwnd);
     break;
   case WM_COMMAND:
+    if (peditor == NULL)
+      break;
     get_selected(peditor,&wl_sel,&avail_sel);
     switch((enum wl_report_ids)LOWORD(wParam)) {
     case ID_CANCEL:
-      DestroyWindow(hwnd);
+      worklist_no_callback(peditor);
       break;
     case ID_OK:
-      worklist_ok_callback(peditor);
+      worklist_ok_callback(peditor);   
       break; 
     case ID_FUTURE_TARGETS:
       targets_list_update(peditor);
@@ -588,6 +635,8 @@ static LONG CALLBACK editor_proc(HWND hwnd,UINT message,WPARAM wParam,
   case WM_NOTIFY:
     {
       NM_LISTVIEW *nmlv=(NM_LISTVIEW *)lParam;
+      if (peditor == NULL)
+	break;
       get_selected(peditor,&wl_sel,&avail_sel);
       if ((nmlv->hdr.idFrom==ID_LIST)&&
 	  (nmlv->hdr.code==NM_DBLCLK)&&(avail_sel>=0)) {
@@ -610,7 +659,7 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
 						      void *user_data,
 						      WorklistOkCallback ok_cb,
 						      WorklistCancelCallback
-						      cancel_cb,HWND parent)
+						      cancel_cb,HWND win)
 {
   struct worklist_editor *peditor;
   struct fcwin_box *hbox;
@@ -640,17 +689,13 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   peditor->cancel_callback = cancel_cb;
   peditor->changed = 0;
   
-  peditor->win=fcwin_create_layouted_window(editor_proc,_("Worklist"),
-					    WS_OVERLAPPEDWINDOW,
-					    CW_USEDEFAULT,
-					    CW_USEDEFAULT,
-					    parent,
-					    NULL,
-					    peditor);
+  peditor->win = win;
+  fcwin_set_user_data(win, peditor);
+
   hbox2=fcwin_hbox_new(peditor->win,FALSE);
   vbox=fcwin_vbox_new(peditor->win,FALSE);
   fcwin_box_add_groupbox(hbox2,_("Current worklist"),vbox,SS_LEFT,
-		       FALSE,FALSE,0);
+		       TRUE,TRUE,0);
   peditor->worklist=fcwin_box_add_listview(vbox,5,0,LVS_REPORT | LVS_SINGLESEL,
 					   TRUE,TRUE,0);
   hbox=fcwin_hbox_new(peditor->win,TRUE);
@@ -660,7 +705,7 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,0);
  
   vbox=fcwin_vbox_new(peditor->win,FALSE);
-  fcwin_box_add_groupbox(hbox2,_("Available items"),vbox,0,FALSE,FALSE,0);
+  fcwin_box_add_groupbox(hbox2,_("Available items"),vbox,0,TRUE,TRUE,0);
   peditor->avail=fcwin_box_add_listview(vbox,5,ID_LIST,
 					LVS_SINGLESEL | LVS_REPORT,
 					TRUE,TRUE,5);
@@ -673,8 +718,12 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   vbox=fcwin_vbox_new(peditor->win,FALSE);
   fcwin_box_add_box(vbox,hbox2,TRUE,TRUE,5);
   hbox=fcwin_hbox_new(peditor->win,TRUE);
-  fcwin_box_add_button(hbox,_("Ok"),ID_OK,0,TRUE,TRUE,5);
-  fcwin_box_add_button(hbox,_("Cancel"),ID_CANCEL,0,TRUE,TRUE,5);
+  if (pcity) {
+    fcwin_box_add_button(hbox,_("Undo"), ID_CANCEL,0,TRUE,TRUE,5);
+  } else {
+    fcwin_box_add_button(hbox,_("Ok"),ID_OK,0,TRUE,TRUE,5);
+    fcwin_box_add_button(hbox,_("Cancel"),ID_CANCEL,0,TRUE,TRUE,5);
+  }
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,10);
 
   lvc.pszText=_(wl_titles[0]);
@@ -917,7 +966,7 @@ static void targets_list_update(struct worklist_editor *peditor)
 /****************************************************************
 ...
 *****************************************************************/
-void update_worklist_editor(struct worklist_editor *peditor)
+static void update_worklist_editor(struct worklist_editor *peditor)
 {
   worklist_prep(peditor);
   worklist_list_update(peditor);
@@ -927,14 +976,15 @@ void update_worklist_editor(struct worklist_editor *peditor)
 /****************************************************************
 
 ****************************************************************/
-void popup_worklist(struct worklist *pwl, struct city *pcity,
-		    HWND parent, void *user_data,
-		    WorklistOkCallback ok_cb,
-		    WorklistCancelCallback cancel_cb)
+void popup_worklist(struct worklist_window_init *init)
 {
-  struct worklist_editor *peditor;
-  peditor=create_worklist_editor(pwl, pcity, user_data, ok_cb, cancel_cb, parent);
-  update_worklist_editor(peditor);
-  ShowWindow(peditor->win,SW_SHOWNORMAL);
-  
+  HWND win;
+  win=fcwin_create_layouted_window(worklist_editor_proc,_("Worklist"),
+				   WS_OVERLAPPEDWINDOW,
+				   CW_USEDEFAULT,
+				   CW_USEDEFAULT,
+				   init->parent,
+				   NULL,
+				   init);
+  ShowWindow(win, SW_SHOWNORMAL); 
 }

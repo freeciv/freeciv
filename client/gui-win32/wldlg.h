@@ -13,15 +13,24 @@
 #ifndef FC__WLDLG_H
 #define FC__WLDLG_H
 
+
 typedef void (*WorklistOkCallback) (struct worklist * pwl, void *data);
 typedef void (*WorklistCancelCallback) (void *data);
-void popup_worklist(struct worklist *pwl, struct city *pcity,
-		    HWND parent, void *user_data,
-		    WorklistOkCallback ok_cb,
-		    WorklistCancelCallback cancel_cb);
+
+struct worklist_window_init {
+  struct worklist *pwl;
+  struct city *pcity;
+  HWND parent;
+  void *user_data;
+  WorklistOkCallback ok_cb;
+  WorklistCancelCallback cancel_cb;
+};
+
+void popup_worklist(struct worklist_window_init *init);
 
 void popup_worklists_report(struct player *pplr);
                                         /* The global worklist view */ 
 void update_worklist_report_dialog(void);
-
+LONG CALLBACK worklist_editor_proc(HWND hwnd,UINT message,WPARAM wParam,
+				   LPARAM lParam);
 #endif  /* FC__WLDLG_H */
