@@ -29,12 +29,9 @@ TODO:
 - Make the code view-agnostic: remove assumptions about which tiles are
   valid. Fx the assumption that the map wraps in the x direction. This
   can be done by making the code use macros like whole_map_iterate and
-  square_iterate. The functions map_adjust_x() and map_adjust_y() should
-  be removed and code that use them made to use normalize_map_pos(),
-  is_real_map_pos(), or some wrapper macro like adjc_iterate().
-  It would also be nice to remove the assumption that the x values go
-  [0..map.xsize[, as a proposed isometric numbering scheme doesn't have
-  that property.
+  square_iterate. It would also be nice to remove the assumption that
+  the x values go [0..map.xsize[, as a proposed isometric numbering
+  scheme doesn't have that property.
   When all code is converted the whole of the freeciv server can be
   adjusted to use a flat map, an isometric map, a torus map or maybe
   even a hex map, all by changing a very limited amount of code in

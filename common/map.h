@@ -228,16 +228,6 @@ void reset_move_costs(int x, int y);
 #define CHECK_INDEX(index) ((void)0)
 #endif
 
-#define map_adjust_x(X)            \
-  ((X) < 0                         \
-   ? ((X) % map.xsize != 0 ? (X) % map.xsize + map.xsize : 0) \
-   : ((X) >= map.xsize             \
-      ? (X) % map.xsize            \
-      : (X)))
-
-#define map_adjust_y(Y) \
-  (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
-
 /* Obscure math.  See explanation in doc/HACKING. */
 #define native_to_map_pos(pmap_x, pmap_y, nat_x, nat_y)                     \
   (topo_has_flag(TF_ISO)                                                    \
