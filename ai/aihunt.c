@@ -299,9 +299,11 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
       /* We can't chase if we aren't faster or on intercept vector */
       if (unit_type(punit)->move_rate < unit_type(target)->move_rate
           && dist1 >= dist2) {
-        UNIT_LOG(LOGLEVEL_HUNT, punit, "can't get to %s(%d, %d) was (%d, %d)",
-                 unit_type(target)->name, target->x, target->y,
-                 target->ai.prev_pos->x, target->ai.prev_pos->y);
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "giving up racing %s (%d, %d)->(%d, %d)",
+                 unit_type(target)->name,
+                 target->ai.prev_pos ? target->ai.prev_pos->x : 0,
+                 target->ai.prev_pos ? target->ai.prev_pos->y : 0,
+                 target->x, target->y);
         continue;
       }
       unit_list_iterate(ptile->units, sucker) {
