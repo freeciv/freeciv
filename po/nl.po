@@ -1,12 +1,12 @@
 # Dutch translation of Freeciv 1.12.0's PO file.
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Pieter J. Kersten <P.J.Kersten@dia.eur.nl>, 2000, 2001.
+# Pieter J. Kersten <P.J.Kersten@dia.eur.nl>, 2000-2002.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.4\n"
 "POT-Creation-Date: 2002-09-02 00:41+0200\n"
-"PO-Revision-Date: 2002-09-02 00:45+0200\n"
+"PO-Revision-Date: 2002-09-10 13:30+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +169,7 @@ msgstr "Luchthaven"
 
 #: common/map.c:65 common/unit.c:556
 msgid "Fallout"
-msgstr "Radioaktief"
+msgstr "Radioactief"
 
 #: common/mem.c:40
 #, c-format
@@ -277,7 +277,7 @@ msgstr "Kon gegevensmap %s niet lezen: %s."
 
 #: common/shared.c:991
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr "Het data pad mag via de shellvariabele FREECIV_PATH opgegeven worden."
+msgstr "Het data pad mag met de shellvariabele FREECIV_PATH opgegeven worden."
 
 #: common/shared.c:993
 #, c-format
@@ -877,7 +877,7 @@ msgstr "%s heeft %s in %s (%i,%i) gebouwd"
 #: server/cityturn.c:1112
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
-msgstr "Spel: Kan onderhoud van %s in %s niet meer betalen, gebouw verkocht!"
+msgstr "Spel: Onderhoud van %s in %s niet meer op te brengen, gebouw verkocht!"
 
 #: server/cityturn.c:1148
 #, c-format
@@ -887,12 +887,12 @@ msgstr "Spel: Verontreiniging bij %s."
 #: server/cityturn.c:1273
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
-msgstr "Spel: De 'Wij Loven De %s Dag' wordt gevierd in %s."
+msgstr "Spel: Festival ter ere van %s in %s."
 
 #: server/cityturn.c:1281
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
-msgstr "Spel: De 'Wij Loven De %s Dag' afgezegd in %s."
+msgstr "Spel: Festival ter ere van %s afgezegd in %s."
 
 #: server/cityturn.c:1313
 #, c-format
@@ -929,7 +929,7 @@ msgstr "Spel: %s is ontbonden in %s."
 #: server/cityturn.c:1374
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
-msgstr "%s (%i, %i) verlaten in %s door de %s"
+msgstr "%s (%i, %i) ontbonden in %s door de %s"
 
 #: server/civserver.c:80
 #, c-format
@@ -1826,7 +1826,7 @@ msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
-"Spel: De senaat besluit tot oplossing in plaats van uw akties nog langer te "
+"Spel: De senaat besluit tot ontbinding in plaats van uw acties nog langer te "
 "ondersteunen."
 
 #: server/plrhand.c:916
@@ -1921,11 +1921,11 @@ msgstr "Herodotus'"
 
 #: server/report.c:55
 msgid "Thucydides'"
-msgstr "Thucydides"
+msgstr "Thucydides'"
 
 #: server/report.c:56
 msgid "Pliny the Elder's"
-msgstr "Pliny de Ouder's"
+msgstr "Pliny de Oudere's"
 
 #: server/report.c:57
 msgid "Livy's"
@@ -1966,7 +1966,7 @@ msgstr "Onderzoekssnelheid"
 #: server/report.c:105 data/default/techs.ruleset:308
 #: data/civ2/techs.ruleset:301 data/civ1/techs.ruleset:301
 msgid "Literacy"
-msgstr "Literatuur"
+msgstr "Geletterdheid"
 
 #: server/report.c:106 client/gui-mui/citydlg.c:1538
 msgid "Production"
@@ -2144,7 +2144,7 @@ msgstr "De Grootste Beschavingen ter wereld."
 
 #: server/ruleset.c:124
 msgid "Trying alternative ruleset filename syntax."
-msgstr "Probeer alternatieve spelregel bestandsnaam synax."
+msgstr "Probeer alternatieve spelregel bestandsnaam syntax."
 
 #: server/ruleset.c:145
 #, c-format
@@ -2373,7 +2373,7 @@ msgstr "Ontving een pakket van type %d van een dode speler of observator"
 
 #: server/srv_main.c:931
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
-msgstr "Probeerde een natie te alloceren buiten SELECT_RACES_STATE!"
+msgstr "Probeerde een natie te reserveren buiten SELECT_RACES_STATE!"
 
 #: server/srv_main.c:943
 msgid "Please choose a non-blank name."
@@ -2422,7 +2422,7 @@ msgstr "Welkom bij de %s Server op poort %d."
 #: server/srv_main.c:1097
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
-msgstr "Wissel-beurt spel: wacht tot %s zijn zet heeft gedaan..."
+msgstr "Wissel-beurt spel: wacht tot %s zijn beurt heeft voltooid..."
 
 #: server/srv_main.c:1140
 #, c-format
@@ -2641,7 +2641,7 @@ msgstr "Het spel is voorbij!"
 
 #: server/stdinhand.c:176
 msgid "Number of players is higher than requested value, keeping old value"
-msgstr "Aantal spelers is groter dan gevraagde waarde, houd oude waarde"
+msgstr "Aantal spelers is groter dan gevraagde waarde, oude waarde behouden"
 
 #: server/stdinhand.c:216
 msgid "Map width in squares"
@@ -2653,7 +2653,7 @@ msgstr "Kaart-hoogte in vlakken"
 
 #: server/stdinhand.c:227
 msgid "Method used to generate map"
-msgstr "Methode om de kaart in te vullen"
+msgstr "Methode om de kaart te maken"
 
 #: server/stdinhand.c:228
 msgid ""
@@ -2768,7 +2768,7 @@ msgid ""
 "variable's scale is parts per thousand."
 msgstr ""
 "Bijzondere hulpbronnen verbeteren het basisterreintype waarop ze zich "
-"bevinden. De server's variable schaal is aantal per duizend."
+"bevinden. De schaal van de server is aantallen per duizend."
 
 #: server/stdinhand.c:313
 msgid "Amount of huts (minor tribe villages)"
@@ -2877,7 +2877,7 @@ msgid ""
 msgstr ""
 "Voor elke vooruitgang die u boekt door diplomatiek overleg verliest u "
 "wetenschapspunten ter hoogte van dit percentage voor het onderzoeken van een "
-"nieuwe vooruitgang. U kunt eidigen met negatieve wetenschapspunten als deze "
+"nieuwe vooruitgang. U kunt eindigen met negatieve wetenschapspunten als deze "
 "waarde niet nul is."
 
 #: server/stdinhand.c:395
@@ -3423,7 +3423,7 @@ msgstr ""
 
 #: server/stdinhand.c:745
 msgid "Fixed-length turns play mode"
-msgstr "Vaste lengte zetten spel modus"
+msgstr "Vaste lengte beurten spel modus"
 
 #: server/stdinhand.c:746
 msgid ""
@@ -4264,7 +4264,7 @@ msgstr "Er is al een speler met die naam."
 #: server/stdinhand.c:1775
 #, c-format
 msgid "Error creating new AI player: %s."
-msgstr "Fout bij maken nieuwe ki-speler: %s."
+msgstr "Fout bij maken nieuwe KI-speler: %s."
 
 #: server/stdinhand.c:1782
 #, c-format
@@ -4652,7 +4652,7 @@ msgstr "Gebruik: load <bestandsnaam>"
 
 #: server/stdinhand.c:2899
 msgid "Can't load a game while another is running."
-msgstr "Kan een spel niet laden terwijl een ander spel aktief is."
+msgstr "Kan een spel niet laden terwijl een ander spel actief is."
 
 #: server/stdinhand.c:2907
 #, c-format
@@ -4717,7 +4717,7 @@ msgstr "Kan spel niet starten: het is al begonnen."
 
 #: server/stdinhand.c:3248
 msgid "Cannot end the game: no game running."
-msgstr "Kan spel niet beëindigen: geen spel aktief."
+msgstr "Kan spel niet beëindigen: geen spel actief."
 
 #: server/stdinhand.c:3276
 #, c-format
@@ -4761,7 +4761,7 @@ msgstr ""
 "krijgen, gebruik 'help help'.\n"
 "\n"
 "Voor de ongeduldigen zijn de belangrijkste opdrachten om aan de\n"
-"gang te kunnen gaan:\n"
+"slag te kunnen gaan:\n"
 "  show   - om de huidige instellingen te bekijken\n"
 "  set    - om de instellingen te wijzigen\n"
 "  start  - om het spel te starten zodra alle spelers verbinding hebben\n"
@@ -5014,11 +5014,11 @@ msgstr "Spel: %s kan alleen binnen uw eigen invloedssfeer bewegen."
 
 #: server/unithand.c:938
 msgid "Game: Unit must be on land to perform diplomatic action."
-msgstr "Spel: Eenheid moet zich op land bevinden voor diplomatieke akties."
+msgstr "Spel: Eenheid moet zich op land bevinden voor diplomatieke acties."
 
 #: server/unithand.c:940
 msgid "Game: No diplomat action possible."
-msgstr "Spel: Geen diplomatieke aktie mogelijk."
+msgstr "Spel: Geen diplomatieke actie mogelijk."
 
 #: server/unithand.c:950
 msgid "Game: You can't attack there."
@@ -5961,7 +5961,7 @@ msgstr "Terrein     Weg    Irrigatie      Ontginning     Transformatie\n"
 
 #: client/helpdata.c:136
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
-msgstr "(Spoorwegen en forten vereisen 3 zetten, ongeacht het terrein.)"
+msgstr "(Spoorwegen en forten vereisen 3 beurten, ongeacht het terrein.)"
 
 #: client/helpdata.c:279
 msgid "  Rivers"
@@ -5994,7 +5994,7 @@ msgid ""
 "(The %s improvement is also required for a city to grow larger than size %"
 "d.)  "
 msgstr ""
-"(De %s verbetering is ook nodig voor een stad om groter te groeien dan %d.)  "
+"(De %s verbetering is ook nodig voor een stad om groter dan %d te groeien.)  "
 
 #: client/helpdata.c:528
 #, c-format
@@ -6021,7 +6021,7 @@ msgstr ""
 #: client/helpdata.c:564
 #, c-format
 msgid "Allows all players with knowledge of %s to build %s units.  "
-msgstr "Staat alle spelers met kennis van %s om %s eenheden te bouwen.  "
+msgstr "Staat alle spelers met kennis van %s toe om %s eenheden te bouwen.  "
 
 #: client/helpdata.c:595
 #, c-format
@@ -6058,7 +6058,7 @@ msgstr "* Kan nieuwe steden bouwen.\n"
 
 #: client/helpdata.c:620
 msgid "* Can perform settler actions.\n"
-msgstr "* Kan kolonisten-akties verrichten.\n"
+msgstr "* Kan kolonisten-acties verrichten.\n"
 
 #: client/helpdata.c:624
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
@@ -6110,7 +6110,7 @@ msgstr "* Een raketeenheid: wordt verbruikt in de aanval.\n"
 
 #: client/helpdata.c:660
 msgid "* Making an attack ends this unit's turn.\n"
-msgstr "* Een aanval beëindigt de zet van deze eenheid.\n"
+msgstr "* Een aanval beëindigt de beurt voor deze eenheid.\n"
 
 #: client/helpdata.c:664
 msgid "* This unit's attack causes a nuclear explosion!\n"
@@ -6153,7 +6153,7 @@ msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
 msgstr ""
-"* Moet zet in een stad of naast land eindigen, of heeft 50%% kans op vergaan."
+"* Moet beurt in een stad of naast land eindigen, of heeft 50%% kans op vergaan."
 
 #: client/helpdata.c:740
 msgid " or "
@@ -6207,7 +6207,7 @@ msgstr "Geeft zee-eenheden één extra beweging.\n"
 
 #: client/helpdata.c:820
 msgid "Increases the pollution generated by the population.\n"
-msgstr "Verhoogt de vervuiling die door de bevolking wordt gemaakt.\n"
+msgstr "Verhoogt de vervuiling die de bevolking maakt.\n"
 
 #: client/helpdata.c:822
 msgid "Improves the effect of Cathedrals.\n"
@@ -6304,7 +6304,7 @@ msgstr "Vaste achtergrondkleur voor eenheid"
 
 #: client/options.c:95
 msgid "Sound bell at new turn"
-msgstr "Luid bel bij nieuwe zet"
+msgstr "Luid bel bij nieuwe beurt"
 
 #: client/options.c:96
 msgid "Smooth unit moves"
@@ -6412,7 +6412,7 @@ msgstr "Stad: Geatomiseerd"
 
 #: client/options.c:188
 msgid "City: Released from CMA"
-msgstr "Stad: Bevrijdt van burgemeester"
+msgstr "Stad: Bevrijd van burgemeester"
 
 #: client/options.c:189
 msgid "City: Suggest Growth Throttling"
@@ -6472,39 +6472,39 @@ msgstr "Civ: Ruimteschipgebeurtenissen"
 
 #: client/options.c:203
 msgid "Diplomat Action: Bribe"
-msgstr "Diplomatieke Aktie: Omkoping"
+msgstr "Diplomatieke Actie: Omkoping"
 
 #: client/options.c:204
 msgid "Diplomat Action: Caused Incident"
-msgstr "Diplomatieke Aktie: Schandaal veroorzaakt"
+msgstr "Diplomatieke Actie: Schandaal veroorzaakt"
 
 #: client/options.c:205
 msgid "Diplomat Action: Escape"
-msgstr "Diplomatieke Aktie: Vlucht"
+msgstr "Diplomatieke Actie: Vlucht"
 
 #: client/options.c:206
 msgid "Diplomat Action: Embassy"
-msgstr "Diplomatieke Aktie: Ambassade"
+msgstr "Diplomatieke Actie: Ambassade"
 
 #: client/options.c:207
 msgid "Diplomat Action: Failed"
-msgstr "Diplomatieke Aktie: Gefaald"
+msgstr "Diplomatieke Actie: Gefaald"
 
 #: client/options.c:208
 msgid "Diplomat Action: Incite"
-msgstr "Diplomatieke Aktie: Opstand"
+msgstr "Diplomatieke Actie: Opstand"
 
 #: client/options.c:209
 msgid "Diplomat Action: Poison"
-msgstr "Diplomatieke Aktie: Vergiftig"
+msgstr "Diplomatieke Actie: Vergiftig"
 
 #: client/options.c:210
 msgid "Diplomat Action: Sabotage"
-msgstr "Diplomatieke Aktie: Sabotage"
+msgstr "Diplomatieke Actie: Sabotage"
 
 #: client/options.c:211
 msgid "Diplomat Action: Theft"
-msgstr "Diplomatieke Aktie: Diefstal"
+msgstr "Diplomatieke Actie: Diefstal"
 
 #: client/options.c:212
 msgid "Enemy Diplomat: Bribe"
@@ -7037,7 +7037,7 @@ msgstr "Aanwezige eenheden"
 
 #: client/gui-gtk-2.0/citydlg.c:1082 client/gui-gtk/citydlg.c:1074
 msgid "Acti_vate present units"
-msgstr "_Aktiveer aanwezige eenheid"
+msgstr "_Activeer aanwezige eenheid"
 
 #: client/gui-gtk-2.0/citydlg.c:1088 client/gui-gtk/citydlg.c:1080
 msgid "_Sentry idle units"
@@ -7150,7 +7150,7 @@ msgstr "Deze Diverse Instellingen pagina"
 #: client/gui-gtk-2.0/citydlg.c:1269 client/gui-gtk/citydlg.c:1266
 #: client/gui-mui/citydlg.c:1464
 msgid "Last active page"
-msgstr "Laatst aktieve pagina"
+msgstr "Laatst actieve pagina"
 
 #: client/gui-gtk-2.0/citydlg.c:1287 client/gui-gtk/citydlg.c:1284
 msgid "City options"
@@ -7270,13 +7270,13 @@ msgstr "Eenheid opdrachten"
 #: client/gui-gtk/citydlg.c:2474 client/gui-gtk/citydlg.c:2505
 #: client/gui-win32/citydlg.c:1671 client/gui-win32/citydlg.c:1699
 msgid "_Activate unit"
-msgstr "_Aktiveer eenheid"
+msgstr "_Activeer eenheid"
 
 #: client/gui-gtk-2.0/citydlg.c:2421 client/gui-gtk-2.0/citydlg.c:2451
 #: client/gui-gtk/citydlg.c:2475 client/gui-gtk/citydlg.c:2506
 #: client/gui-win32/citydlg.c:1673 client/gui-win32/citydlg.c:1701
 msgid "Activate unit, _close dialog"
-msgstr "Aktiveer eenheid, _sluit dialoog"
+msgstr "Activeer eenheid, _sluit dialoog"
 
 #: client/gui-gtk-2.0/citydlg.c:2423 client/gui-gtk-2.0/citydlg.c:2456
 #: client/gui-gtk/citydlg.c:2477 client/gui-gtk/citydlg.c:2511
@@ -7959,7 +7959,7 @@ msgstr "Steel"
 #: client/gui-win32/dialogs.c:1188 client/gui-win32/dialogs.c:1415
 #: client/gui-xaw/dialogs.c:773 client/gui-xaw/dialogs.c:860
 msgid "At Spy's Discretion"
-msgstr "Naar Spion's Eigen Inzicht"
+msgstr "Naar Spions Eigen Inzicht"
 
 #: client/gui-gtk-2.0/dialogs.c:725 client/gui-gtk/dialogs.c:741
 #: client/gui-win32/dialogs.c:1193 client/gui-xaw/dialogs.c:759
@@ -8042,7 +8042,7 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:1030 client/gui-gtk/dialogs.c:1030
 #: client/gui-win32/dialogs.c:1631
 msgid " Choose Your Diplomat's Strategy"
-msgstr " Kies Uw Diplomaat's Strategie"
+msgstr " Kies Uw Diplomaats Strategie"
 
 #: client/gui-gtk-2.0/dialogs.c:1031 client/gui-gtk-2.0/dialogs.c:1055
 #: client/gui-gtk/dialogs.c:1032 client/gui-gtk/dialogs.c:1057
@@ -8220,7 +8220,7 @@ msgstr "Maak verbinding"
 #: client/gui-mui/dialogs.c:1324 client/gui-win32/dialogs.c:1973
 #: data/Freeciv:2447
 msgid "Choose unit activity:"
-msgstr "Kies aktie voor eenheid:"
+msgstr "Kies actie voor eenheid:"
 
 #: client/gui-gtk-2.0/dialogs.c:1704 client/gui-gtk/dialogs.c:1691
 msgid "Unit selection"
@@ -8229,7 +8229,7 @@ msgstr "Eenheid keuze"
 #: client/gui-gtk-2.0/dialogs.c:1762 client/gui-gtk/dialogs.c:1752
 #: client/gui-win32/dialogs.c:682 data/Freeciv:534
 msgid "Ready all"
-msgstr "Aktiveer alle"
+msgstr "Activeer alle"
 
 #: client/gui-gtk-2.0/dialogs.c:1899 client/gui-gtk/dialogs.c:1894
 msgid " What Nation Will You Be?"
@@ -8306,7 +8306,7 @@ msgstr "Diplomatieke ontmoeting"
 #: client/gui-xaw/diplodlg.c:344 client/gui-xaw/diplodlg.c:352
 #, c-format
 msgid "The %s offerings"
-msgstr "De aanbiedingen van De %s"
+msgstr "De aanbiedingen van de %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:315 client/gui-gtk-2.0/diplodlg.c:333
 #: client/gui-gtk/diplodlg.c:315 client/gui-gtk/diplodlg.c:333
@@ -8940,7 +8940,7 @@ msgstr "(Onbekend)"
 #: client/gui-gtk-2.0/mapctrl.c:85 client/gui-gtk/mapctrl.c:84
 #, c-format
 msgid "Location: (%d, %d)"
-msgstr "Lokatie: (%d, %d)"
+msgstr "Locatie: (%d, %d)"
 
 #: client/gui-gtk-2.0/mapctrl.c:91 client/gui-gtk/mapctrl.c:89
 #: client/gui-mui/mapclass.c:100 client/gui-win32/mapctrl.c:136
@@ -8981,7 +8981,7 @@ msgstr "Infrastructuur: "
 #: client/gui-gtk-2.0/mapctrl.c:132 client/gui-gtk/mapctrl.c:124
 #: client/gui-win32/mapctrl.c:163
 msgid "Activity: "
-msgstr "Aktiviteit:"
+msgstr "Activiteit:"
 
 #: client/gui-gtk-2.0/mapctrl.c:149 client/gui-gtk/mapctrl.c:140
 #: client/gui-mui/mapclass.c:146 client/gui-win32/mapctrl.c:178
@@ -9341,7 +9341,7 @@ msgstr "Verwijder Verontreiniging (_P)"
 #: client/gui-gtk-2.0/menu.c:659 client/gui-gtk/menu.c:658
 #: client/gui-win32/menu.c:328
 msgid "Clean _Nuclear Fallout"
-msgstr "Verwijder Radioaktieve Besmetting (_N)"
+msgstr "Verwijder Radioactieve Besmetting (_N)"
 
 #: client/gui-gtk-2.0/menu.c:663 client/gui-gtk/menu.c:662
 #: client/gui-win32/menu.c:331
@@ -9399,7 +9399,7 @@ msgstr "Ontbind Eenheid"
 
 #: client/gui-gtk-2.0/menu.c:693
 msgid "Diplomat\\/Spy Actions"
-msgstr "Diplomaat\\/Spion Akties"
+msgstr "Diplomaat\\/Spion Acties"
 
 #: client/gui-gtk-2.0/menu.c:695 client/gui-gtk/menu.c:694
 #: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1809
@@ -9697,7 +9697,7 @@ msgstr "Berichten"
 
 #: client/gui-gtk-2.0/messagewin.c:162 client/gui-gtk/messagewin.c:146
 msgid "_Goto location"
-msgstr "_Ga naar lokatie"
+msgstr "_Ga naar locatie"
 
 #: client/gui-gtk-2.0/messagewin.c:168 client/gui-gtk/messagewin.c:152
 #: client/gui-mui/messagewin.c:238
@@ -9716,7 +9716,7 @@ msgstr "Natie"
 #: client/gui-gtk-2.0/plrdlg.c:123 client/gui-gtk/plrdlg.c:123
 #: client/gui-win32/plrdlg.c:354
 msgid "Ai"
-msgstr "Ki"
+msgstr "KI"
 
 #: client/gui-gtk-2.0/plrdlg.c:124 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:355
@@ -9797,8 +9797,8 @@ msgstr "R.I.V."
 #, c-format
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
-msgstr[0] "(non-aktief %d beurt)"
-msgstr[1] "(non-aktief %d beurten)"
+msgstr[0] "(non-actief %d beurt)"
+msgstr[1] "(non-actief %d beurten)"
 
 #: client/gui-gtk-2.0/plrdlg.c:534 client/gui-gtk/plrdlg.c:534
 #: client/gui-mui/plrdlg.c:259 client/gui-win32/plrdlg.c:74
@@ -9906,7 +9906,7 @@ msgstr "In-Ontw"
 #: client/gui-gtk-2.0/repodlgs.c:830 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/repodlgs.c:714 client/gui-win32/repodlgs.c:700
 msgid "Active"
-msgstr "Aktief"
+msgstr "Actief"
 
 #: client/gui-gtk-2.0/repodlgs.c:915 client/gui-mui/repodlgs.c:812
 msgid "_Upgrade"
@@ -10170,7 +10170,7 @@ msgstr "Ga|Vlieg naar Stad"
 
 #: client/gui-gtk/menu.c:692
 msgid "Diplomat|Spy Actions"
-msgstr "Diplomaat|Spion Akties"
+msgstr "Diplomaat|Spion Acties"
 
 #: client/gui-gtk/menu.c:864
 msgid "Go/Air_lift to City"
@@ -10178,7 +10178,7 @@ msgstr "Ga/V_lieg naar Stad"
 
 #: client/gui-gtk/menu.c:865
 msgid "_Diplomat/Spy Actions"
-msgstr "_Diplomaat/Spion Akties"
+msgstr "_Diplomaat/Spion Acties"
 
 #: client/gui-gtk/messagedlg.c:81
 msgid ""
@@ -10496,7 +10496,7 @@ msgstr "Freeciv - Kies een eenheid"
 
 #: client/gui-mui/dialogs.c:1483
 msgid "_Ready All"
-msgstr "_Aktiveer alle"
+msgstr "_Activeer alle"
 
 #: client/gui-mui/dialogs.c:1730
 msgid "Freeciv - Select a Nation"
@@ -10701,7 +10701,7 @@ msgstr "Verwijder Verontreiniging"
 #: client/gui-mui/gui_main.c:244 client/gui-mui/mapclass.c:1793
 #: client/gui-xaw/menu.c:166
 msgid "Clean Nuclear Fallout"
-msgstr "Verwijder Radioaktieve Besmetting"
+msgstr "Verwijder Radioactieve Besmetting"
 
 #: client/gui-mui/gui_main.c:246 client/gui-mui/mapclass.c:1795
 #: client/gui-mui/mapclass.c:3061 client/gui-win32/menu.c:330
@@ -10758,7 +10758,7 @@ msgstr "Maak Handels Route"
 
 #: client/gui-mui/gui_main.c:265 client/gui-xaw/menu.c:187
 msgid "Diplomat/Spy Actions"
-msgstr "Diplomaat/Spion Akties"
+msgstr "Diplomaat/Spion Acties"
 
 #: client/gui-mui/gui_main.c:268 client/gui-xaw/menu.c:190
 msgid "Wait"
@@ -10920,7 +10920,7 @@ msgstr "Wek"
 #: client/gui-mui/mapclass.c:1815 client/gui-mui/mapclass.c:3045
 #: client/gui-mui/mapclass.c:3194
 msgid "Activate"
-msgstr "Aktiveer"
+msgstr "Activeer"
 
 #: client/gui-mui/mapclass.c:1869
 msgid "List all units"
@@ -10928,11 +10928,11 @@ msgstr "Toon alle eenheden"
 
 #: client/gui-mui/mapclass.c:1884
 msgid "Connect to this location"
-msgstr "Verbind met deze lokatie"
+msgstr "Verbind met deze locatie"
 
 #: client/gui-mui/mapclass.c:1887
 msgid "Goto this location"
-msgstr "Ga naar deze lokatie"
+msgstr "Ga naar deze locatie"
 
 #: client/gui-mui/mapclass.c:3051 client/gui-mui/mapclass.c:3198
 msgid "Disband"
@@ -10986,7 +10986,7 @@ msgstr "Pop:"
 
 #: client/gui-mui/messagewin.c:237
 msgid "_Goto Location"
-msgstr "_Ga naar lokatie"
+msgstr "_Ga naar locatie"
 
 #: client/gui-mui/messagewin.c:284
 msgid "Game: "
@@ -11201,7 +11201,7 @@ msgstr "Koop"
 
 #: client/gui-win32/citydlg.c:929 data/Freeciv:2968
 msgid "Activate Units"
-msgstr "Aktiveer Eenheid"
+msgstr "Activeer Eenheid"
 
 #: client/gui-win32/citydlg.c:932 data/Freeciv:2970
 msgid "Unit List"
@@ -11388,7 +11388,7 @@ msgstr "Transformeer naar %s"
 
 #: client/gui-win32/messagewin.c:188 data/Freeciv:3212
 msgid "Goto location"
-msgstr "Ga naar lokatie"
+msgstr "Ga naar locatie"
 
 #: client/gui-win32/plrdlg.c:371 data/Freeciv:3129
 msgid "Intelligence"
@@ -11740,11 +11740,11 @@ msgstr "Kies bestemming:"
 
 #: data/Freeciv:1165 data/Freeciv:1201
 msgid "Activate unit"
-msgstr "Aktiveer eenheid"
+msgstr "Activeer eenheid"
 
 #: data/Freeciv:1169 data/Freeciv:1205
 msgid "Activate unit, close dialog"
-msgstr "Aktiveer eenheid, sluit dialoog"
+msgstr "Activeer eenheid, sluit dialoog"
 
 #: data/Freeciv:1173
 msgid "Sentry unit"
@@ -11828,7 +11828,7 @@ msgstr "Gebouw   Naam       Aantal Kosten Totaal"
 
 #: data/Freeciv:1867
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Eenheid Type          Opwaarderen In-Ontw. Aktief  Schild    Voeding"
+msgstr "Eenheid Type          Opwaarderen In-Ontw. Actief  Schild    Voeding"
 
 #: data/Freeciv:1947
 msgid "Rename worklist"
@@ -11968,7 +11968,7 @@ msgid ""
 "leader of a civilization, fighting to obtain the ultimate goal: the "
 "extinction of all other civilizations."
 msgstr ""
-"Freeciv is een zet-gebaseerd strategisch spel, waarin elke speler de leider "
+"Freeciv is een beurt-gebaseerd strategisch spel, waarin elke speler de leider "
 "wordt van een beschaving, vechtend voor het ultieme doel: De uitroeïng van "
 "alle andere beschavingen."
 
@@ -12110,7 +12110,7 @@ msgstr ""
 "Muis:\n"
 "======\n"
 "  Linker-klik:  (op stad):    Popup stadsvenster\n"
-"                (op eenheid): Aktiveer eenheid\n"
+"                (op eenheid): Activeer eenheid\n"
 "  Midden-klik of\n"
 "     Control-rechter-klik:    Toon vlak-informatie\n"
 "  Rechter-klik:               Centreer vlak in venster\n"
@@ -12224,7 +12224,7 @@ msgstr ""
 "  pijlen: beweeg eenheid        control-g: rasterlijnen aan/uit\n"
 "  spatie: laat eenheid staan    control-n: stadsnamen aan/uit\n"
 "     tab: volgende eenheid      control-p: stadsproductie aan/uit\n"
-"  return: zet gedaan"
+"  return: beurt klaar"
 
 #: data/helpdata.txt:498
 msgid ""
@@ -12295,7 +12295,7 @@ msgid ""
 "items from the available list into the worklist and Delete to delete the "
 "selected item from the worklist."
 msgstr ""
-"Sneltoetsen: Home aktiveert de werklijst, End aktiveert de "
+"Sneltoetsen: Home activeert de werklijst, End activeert de "
 "beschikbaarheidslijst, Pijltjestoetsen omhoog/omlaag kiezen het volgende of "
 "vorige item in de werklijst of beschikbaarheidslijst, PageUp/Down verplaatst "
 "items in de werklijst omhoog/omlaag, Insert voegt items toe van de "
@@ -12304,7 +12304,7 @@ msgstr ""
 
 #: data/helpdata.txt:532
 msgid "Strategy and tactics"
-msgstr "Strategie en taktiek"
+msgstr "Strategie en tactiek"
 
 #: data/helpdata.txt:533
 msgid ""
@@ -12336,7 +12336,7 @@ msgid ""
 " 9. Making your own strategy for the game.\n"
 "10. Interacting with other players (Diplomacy).\n"
 msgstr ""
-" 0. Het kiezen van de eerste stadslokatie.\n"
+" 0. Het kiezen van de eerste stadslocatie.\n"
 " 1. Het in kaart brengen van de omgeving.\n"
 " 2. Het verdedigen van de steden.\n"
 " 3. Beslissen welke eenheden als eerste te bouwen.\n"
@@ -12360,14 +12360,14 @@ msgid ""
 "site you find against getting your first city established as early as "
 "possible."
 msgstr ""
-" 0. Het kiezen van de eerste stadslokatie.\n"
+" 0. Het kiezen van de eerste stadslocatie.\n"
 "\n"
-"    Begin het spel door KORT rond te lopen op zoek naar een goede lokatie "
+"    Begin het spel door KORT rond te lopen op zoek naar een goede locatie "
 "voor het bouwen van de eerste stad. Weersta nog even de verleiding geel-"
 "gedekte dorpen te onderzoeken - ze kunnen barbaarse stammen huisvesten.  "
 "Bouw de stad dicht bij hulpbronnen en wellicht dicht bij de zee.  Let erop "
 "dat de eerste stad die gebouwd wordt uw hoofdstad wordt!  Het idee is om de "
-"tijd besteedt aan het zoeken van een goede lokatie wordt afgewogen tegen het "
+"tijd besteedt aan het zoeken van een goede locatie wordt afgewogen tegen het "
 "zo vroeg mogelijk hebben van een stad."
 
 #: data/helpdata.txt:562
@@ -12478,7 +12478,7 @@ msgid ""
 msgstr ""
 " 5. Beslissen waar steden te bouwen.\n"
 "\n"
-"    De beste lokatie voor een stad is een kwestie van smaak. Een stad die "
+"    De beste locatie voor een stad is een kwestie van smaak. Een stad die "
 "dicht bij de zee ligt is gemakkelijker waar te nemen voor tegenstanders, "
 "maar kan ook dienstdoen als een haven voor zeegaande eenheden. (Ze hebben "
 "later meestal ook een Kustverdediging nodig). De beste strategie is een paar "
@@ -12557,7 +12557,7 @@ msgstr ""
 "kaart te brengen op zoek naar tegenstanders en nieuw land. Als u op een "
 "eiland bent, zou u minder aan militairen en meer aan uitbreiding moeten "
 "besteden. Als u zich dicht bij een tegenstander bevindt is het een heel goed "
-"idee om een vredesaccoord te sluiten en alle vooruitgangen die u maakt te "
+"idee om een vredesakkoord te sluiten en alle vooruitgangen die u maakt te "
 "delen. Diplomatieke eenheden zijn hier erg bruikbaar en ZULLEN zich later "
 "terugverdienen."
 
@@ -12923,7 +12923,7 @@ msgstr ""
 "wordt ingenomen door een vijandelijke eenheid of -stad en wordt hun beweging "
 "niet beïnvloedt door verlies van slagkracht.  Helicopters hebben geen "
 "brandstof nodig, maar zij verliezen een kleine hoeveelheid gezondheid voor "
-"elke zet die niet in een stad of een Luchthaven wordt doorgebracht, tenzij u "
+"elke beurt die niet in een stad of een Luchthaven wordt doorgebracht, tenzij u "
 "het Verenigde Naties wonder bezit. Anders dan bij andere luchteenheden, kan "
 "een Helicopter wél een vijandelijk stad innemen."
 
@@ -12945,18 +12945,18 @@ msgid ""
 "when they have regained all of their hit points."
 msgstr ""
 "Eenheden die tijdens gevechten zijn beschadigd zullen hun slagkracht "
-"herstellen met elke zet dat ze niet bewegen. Normaal gesproken zal een niet-"
-"bewegende eenheid één slagpunt per zet terugwinnen. Een landeenheid in een "
+"herstellen met elke beurt dat ze niet bewegen. Normaal gesproken zal een niet-"
+"bewegende eenheid één slagpunt per beurt terugwinnen. Een landeenheid in een "
 "stad met Barakken of een zee-eenheid in een stad met Haven Faciliteiten of "
 "een luchteenheid in een stad met een Luchthaven zullen hun slagkracht in "
-"deze stad in één enkele zet (zonder te bewegen) terugwinnen. Anders zal de "
-"eenheid per zet in de stad éénderde van zijn basisslagkracht herstellen. Een "
+"deze stad in één enkele beurt (zonder te bewegen) terugwinnen. Anders zal de "
+"eenheid per beurt in de stad éénderde van zijn basisslagkracht herstellen. Een "
 "eenheid die zijn beurt doorbrengt in een Fort zal een kwart van zijn "
 "slagkracht extra herstellen. Eenheden die gefortificeerd zijn herwinnen een "
 "extra slagpunt. Als een speler het Verenigde Naties wonder bezit, krijgt "
-"elke eenheid twee extra slagkrachtpunten herstel per zet, zelfs als deze "
+"elke eenheid twee extra slagkrachtpunten herstel per beurt, zelfs als deze "
 "eenheden zich bewogen hebben.  Bovenop alle andere effecten verliezen "
-"Helicopters twee slagkrachtpunten per zet (of herstellen twee slagpunten "
+"Helicopters twee slagkrachtpunten per beurt (of herstellen twee slagpunten "
 "minder) die zij niet in een stad  doorbrengen. Beschadigde eenheden in 'Op "
 "Wacht'-modus zullen wakker worden zodra zij hun slagkracht volledig hersteld "
 "hebben."
@@ -13063,7 +13063,7 @@ msgid ""
 "Defense, the defender's strength is doubled."
 msgstr ""
 " - Als de aanvaller een schip is en de verdediger in een stad is met een "
-"Kustverdediging, wordt de sterkte verdubbeld."
+"Kustverdediging, wordt de verdedigingssterkte verdubbeld."
 
 #: data/helpdata.txt:926
 msgid ""
@@ -13137,7 +13137,7 @@ msgid ""
 msgstr ""
 "De eenheid die het gevecht overleeft heeft een kans om veteraanstatus te "
 "bereiken, als hij dat nog niet had. Als de beschaving van de overwinnaar Sun "
-"Tzu's Oorlogs Universiteit bezit (en deze nog niet verouderd is) zal de "
+"Tzu's Militaire Academie bezit (en deze nog niet verouderd is) zal de "
 "eenheid altijd veteraan worden, anders is de kans hierop 50%."
 
 #: data/helpdata.txt:966
@@ -13154,7 +13154,7 @@ msgid ""
 "at the defender's location are destroyed along with the defender."
 msgstr ""
 "Als de verdediger verliest en zich niet in een stad of een fort bevindt, "
-"zullen alle andere eenheden op de lokatie van de verdediger samen met de "
+"zullen alle andere eenheden op de locatie van de verdediger samen met de "
 "verdediger worden vernietigd."
 
 #: data/helpdata.txt:976
@@ -13414,7 +13414,7 @@ msgid ""
 "producing squares nearby to support your growing population."
 msgstr ""
 "De verschillende terreintypen hebben elk hun verschillende voor- en "
-"nadelen.  Wanneer u een lokatie zoekt voor een nieuwe stad, let er dan op "
+"nadelen.  Wanneer u een locatie zoekt voor een nieuwe stad, let er dan op "
 "dat er genoeg voeding-producerende vlakken in de buurt zijn om uw groeiende "
 "bevolking te kunnen voorzien."
 
@@ -13450,7 +13450,7 @@ msgstr ""
 "Geschikte typen terrein kunnen geïrrigeerd worden. Dit vereist een nabij "
 "gelegen waterbron: een Oceaan-, een Rivier- of een eerder geïrrigeerd vlak "
 "moet direct grenzen aan het doelvlak (noord, zuid, oost of west). Een "
-"geïirrigeerd vlak levert elke zet wat extra voeding op. In aanvulling "
+"geïrrigeerd vlak levert elke beurt wat extra voeding op. In aanvulling "
 "daarop, gegeven de vereiste technologie, kunt u een vlak een tweede maal "
 "irrigeren, wat het transformeert in nog productievere landbouwgrond."
 
@@ -13532,8 +13532,8 @@ msgid ""
 "up) for Engineers, and they can be reduced further by stockpiling several "
 "Settlers/Engineers, doing teamwork."
 msgstr ""
-"De volgende tabel toont het aantal benodigde zetten voor één eenheid van "
-"Kolonisten om een aktiviteit te voltooïen. Deze aantallen worden gehalveerd "
+"De volgende tabel toont het aantal benodigde beurten voor één eenheid van "
+"Kolonisten om een activiteit te voltooïen. Deze aantallen worden gehalveerd "
 "(omhoog afgerond) voor Ingenieurs en ze kunnen verder verlaagd worden door "
 "meerdere Kolonisten/Ingenieurs op hetzelfde vlak te laten samenwerken."
 
@@ -13550,7 +13550,7 @@ msgid ""
 msgstr ""
 "Alle grondeenheden hebben de mogelijkheid om terreinverbeteringen te "
 "vernietigen door ze te plunderen. Plundering verwijdert één "
-"terreinverbetering per eenheid per zet. Afhankelijk van de server-"
+"terreinverbetering per eenheid per beurt. Afhankelijk van de server-"
 "instellingen kunt u kiezen welke terreinverbetering u wilt plunderen of "
 "worden de plunderingen in de volgende volgorde gedaan:"
 
@@ -13608,7 +13608,7 @@ msgstr ""
 "Uw beschaving begint als een Dictatuur. Naarmate uw technologie verbetert "
 "kunt u andere regeringsvormen kiezen (hieronder genoemd). Om uw "
 "regeringsvorm te veranderen moet u een revolutie beginnen. Dit zal uw "
-"beschaving enige tijd in Anarchie onderdompelen (gedurende 1-5 zetten); aan "
+"beschaving enige tijd in Anarchie onderdompelen (gedurende 1-5 beurten); aan "
 "het einde van deze periode zult u in staat zijn een andere regeringsvorm te "
 "kiezen."
 
@@ -14886,7 +14886,7 @@ msgstr ""
 #: data/default/buildings.ruleset:2010 data/civ2/buildings.ruleset:1795
 #: data/civ1/buildings.ruleset:1808
 msgid "Sun Tzu's War Academy"
-msgstr "Sun Tzu's Gevechts Academie"
+msgstr "Sun Tzu's Militaire Academie"
 
 #: data/default/buildings.ruleset:2030 data/civ2/buildings.ruleset:1815
 #: data/civ1/buildings.ruleset:1828
@@ -15615,7 +15615,7 @@ msgid ""
 msgstr ""
 "Fundamentalisme is een bestuursvorm die georganiseerd is rond een geloof. "
 "Het geloof, meestal religieus van aard, vormt een rigide richtlijn voor "
-"akties en reakties van zowel de bestuurders als het volk.\n"
+"acties en reacties van zowel de bestuurders als het volk.\n"
 "\n"
 "In een fundamentalistische samenleving zullen de mensen en haar bestuurders "
 "volledig toegewijd zijn aan hun geloof en zullen doorgaans bereid zijn te "
@@ -16264,7 +16264,7 @@ msgstr "Supergeleiders"
 #: data/default/techs.ruleset:526 data/civ2/techs.ruleset:517
 #: data/civ1/techs.ruleset:517
 msgid "Tactics"
-msgstr "Taktiek"
+msgstr "Tactiek"
 
 #: data/default/techs.ruleset:532 data/civ2/techs.ruleset:523
 #: data/civ1/techs.ruleset:523
@@ -16484,7 +16484,7 @@ msgstr ""
 "(Triremen en andere schepen) kunnen erover reizen.\n"
 "\n"
 "Oceanen kunnen nooit verontreinigd raken of besmet worden met "
-"radioaktiviteit."
+"radioactiviteit."
 
 #: data/default/terrain.ruleset:442 data/civ2/terrain.ruleset:442
 #: data/civ1/terrain.ruleset:434
@@ -16611,7 +16611,7 @@ msgstr ""
 "Kolonisten vormen één van de sleuteleenheden in het spel. Zij kunnen "
 "gebruikt worden om nieuwe steden te bouwen, land te ontginnen of te "
 "irrigeren, het bouwen van wegen, spoorwegen, forten, luchtbases en mijnen en "
-"om verontreiniging en radioaktief afval op te ruimen. Onderhoud voor "
+"om verontreiniging en radioactief afval op te ruimen. Onderhoud voor "
 "Kolonisten is in voedsel als wel in productie en een Kolonist kan sterven "
 "als de onderhoudende stad door zijn voedselvoorraden raakt.\n"
 "\n"
@@ -16990,18 +16990,18 @@ msgstr ""
 "\n"
 "Bij inslag zal de explosie elke eenheid binnen een 3x3 vlak vernietigen, "
 "inclusief bevriende eenheden. Wanneer een stad geraakt wordt, wordt de "
-"stadsgrootte gehalveerd en wordt de omgeving besmet met radioaktief stof.\n"
+"stadsgrootte gehalveerd en wordt de omgeving besmet met radioactief stof.\n"
 "\n"
-"TIP 1: Opblazen van de oceaan zal geen radioaktieve besmetting veroorzaken "
+"TIP 1: Opblazen van de oceaan zal geen radioactieve besmetting veroorzaken "
 "en is een zeer effectieve (maar dure!!) manier om van vijandelijke schepen "
 "af te komen.\n"
 "\n"
 "TIP 2: U kunt in een situatie verzeild raken waar u massaal een vijandelijk "
 "land bent binnengedrongen, maar waar de vijandelijke steden te sterk zijn. "
 "Verzamel voordat u een Kernraket inzet eerst een reeks Kolonisten naast de "
-"stad en houd ze klaar om de radioaktieve besmetting aan te pakken in "
+"stad en houd ze klaar om de radioactieve besmetting aan te pakken in "
 "dezelfde beurt dat deze veroorzaakt wordt! Dit minimaliseert de kans op "
-"nucleaire winter. Eco-vriendelijke kernraketten!"
+"nucleaire winter. Milieu-vriendelijke kernraketten!"
 
 #: data/default/units.ruleset:1534 data/civ2/units.ruleset:1471
 #: data/civ1/units.ruleset:1420
@@ -17175,7 +17175,7 @@ msgstr ""
 "Kolonisten vormen een sleutel eenheid in het spel. Zij kunnen gebruikt "
 "worden om nieuwe steden te bouwen, land te ontginnen of te irrigeren, het "
 "bouwen van wegen, spoorwegen, forten en mijnen en om verontreiniging en "
-"radioaktief afval op te ruimen. Onderhoud voor Kolonisten is in voedsel als "
+"radioactief afval op te ruimen. Onderhoud voor Kolonisten is in voedsel als "
 "wel in productie en een Kolonist kan sterven als de onderhoudende stad door "
 "zijn voedselvoorraden raakt.\n"
 "\n"
@@ -17219,14 +17219,14 @@ msgstr ""
 "inclusief bevriende eenheden. Wanneer een stad geraakt wordt, wordt de stads-"
 "grootte gehalveerd en wordt de omgeving verontreinigd.\n"
 "\n"
-"TIP 1: Opblazen van de oceaan zal geen radioaktieve besmetting veroorzaken "
+"TIP 1: Opblazen van de oceaan zal geen radioactieve besmetting veroorzaken "
 "en is een zeer effectieve (maar dure!!) manier om van vijandelijke schepen "
 "af te komen.\n"
 "\n"
 "TIP 2: U kunt in een situatie verzeild raken waar u massaal een vijandelijk "
 "land bent binnengedrongen, maar waar de vijandelijke steden te sterk zijn. "
 "Verzamel voordat u een Kernraket inzet eerst een reeks Kolonisten naast de "
-"stad en houd ze klaar om de radioaktieve besmetting aan te pakken in "
+"stad en houd ze klaar om de radioactieve besmetting aan te pakken in "
 "dezelfde beurt dat deze veroorzaakt wordt! Dit minimaliseert de kans op "
 "globale verwarming. Eco-vriendelijke kernraketten!"
 
@@ -18166,7 +18166,7 @@ msgstr "?plural:Zoeloes"
 #~ msgstr "%de "
 
 #~ msgid "turn in a city, or on a Carrier"
-#~ msgstr "zet in een stad, of op een Vliegkampschip"
+#~ msgstr "beurt in een stad, of op een Vliegkampschip"
 
 #~ msgid " or Submarine"
 #~ msgstr " of Onderzeeër"
@@ -18414,7 +18414,7 @@ msgstr "?plural:Zoeloes"
 #~ msgstr "_Klaar"
 
 #~ msgid "_Activate Units"
-#~ msgstr "_Aktiveer Eenheden"
+#~ msgstr "_Activeer Eenheden"
 
 #~ msgid "_Unit List"
 #~ msgstr "_Eenheidenlijst"
@@ -18464,7 +18464,7 @@ msgstr "?plural:Zoeloes"
 #~ msgstr "(in ontwikkeling)"
 
 #~ msgid "Client: No reaction from server."
-#~ msgstr "Client: Geen reaktie van de server."
+#~ msgstr "Client: Geen reactie van de server."
 
 #~ msgid "(Sorry, no helptext available.)"
 #~ msgstr "(Sorry, geen helptekst beschikbaar.)"
