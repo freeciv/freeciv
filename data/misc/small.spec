@@ -93,7 +93,7 @@ tiles = { "row", "column", "tag"
 
   0, 42, "s.right_arrow"
 
-; Event Message Icons
+; Event Message Icons - currently unused
 
   1, 0,  "ev.hutbarbarians"
   1, 0,  "ev.hutcowardlybarbs"
