@@ -66,6 +66,7 @@ extern int seconds_to_turndone;
 void update_map_canvas_scrollbars_size(void);
 void refresh_overview_viewrect_real(HDC hdcp);
 static void draw_rates(HDC hdc);
+struct canvas *get_mapview_window(void);
 
 /***************************************************************************
  ...
@@ -80,7 +81,7 @@ static HDC canvas_get_hdc(struct canvas *pcanvas)
 	break;
       case CANVAS_WINDOW:
 	pcanvas->hdc = GetDC(pcanvas->wnd);
-	pcanvas->tmp = 1; /* non-null */
+	pcanvas->tmp = (void *)1; /* non-null */
 	break;
       default:
 	break;

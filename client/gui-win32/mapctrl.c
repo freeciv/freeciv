@@ -88,7 +88,7 @@ static LONG CALLBACK popit_proc(HWND hwnd,UINT message,
       cross_list = fcwin_get_user_data(hwnd);
       if (cross_list) {
 	  while (*cross_list != NULL) {
-	    refresh_tile_mapcanvas(*cross_list, TRUE);
+	    refresh_tile_mapcanvas(*cross_list, TRUE, TRUE);
 	    cross_list++;
 	  }
       }
