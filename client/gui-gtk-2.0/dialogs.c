@@ -1754,7 +1754,6 @@ static void create_races_dialog(void)
   for (i = 0; i < game.styles_count; i++) {
     GdkPixbuf *img;
     SPRITE *s;
-    int last;
     GtkTreeIter it;
 
     if (city_styles[i].techreq != A_NONE) {
@@ -1763,9 +1762,7 @@ static void create_races_dialog(void)
 
     gtk_list_store_append(store, &it);
 
-    last = city_styles[i].tiles_num-1;
-
-    s = crop_blankspace(sprites.city.tile[i][last]);
+    s = crop_blankspace(get_sample_city_sprite(i));
     img = sprite_get_pixbuf(s);
     g_object_ref(img);
     free_sprite(s);

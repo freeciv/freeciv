@@ -625,7 +625,7 @@ static void populate_unit_pixmap_table(void)
   }
 
   more_arrow_pixmap
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprites.right_arrow));
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(get_arrow_sprite()));
   gtk_widget_ref(more_arrow_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
 
@@ -828,25 +828,21 @@ static void setup_widgets(void)
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    sprite = i < 5 ? sprites.tax_science : sprites.tax_gold;
+    sprite = i < 5 ? get_tax_sprite(O_SCIENCE) : get_tax_sprite(O_GOLD);
     econ_label[i] = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprite));
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
   /* science, environmental, govt, timeout */
-  bulb_label = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprites.bulb[0]));
+  bulb_label
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_research_sprite()));
   sun_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprites.warming[0]));
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_warming_sprite()));
   flake_label
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprites.cooling[0]));
-  {
-    /* HACK: the UNHAPPY citizen is used for the government
-     * when we don't know any better. */
-    struct citizen_type c = {.type = CITIZEN_UNHAPPY};
-
-    sprite = get_citizen_sprite(c, 0, NULL);
-  }
-  government_label = gtk_image_new_from_pixbuf(sprite_get_pixbuf(sprite));
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(client_cooling_sprite()));
+  government_label
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf
+				(client_government_sprite()));
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;

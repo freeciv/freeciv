@@ -203,13 +203,13 @@ void update_info_label(void)
 
   d = 0;
   for (; d < (game.player_ptr->economic.luxury) / 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, sprites.tax_luxury);
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(O_LUXURY));
 
   for (; d < (game.player_ptr->economic.science + game.player_ptr->economic.luxury) / 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, sprites.tax_science);
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(O_SCIENCE));
 
   for (; d < 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, sprites.tax_gold);
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_tax_sprite(O_GOLD));
 
   update_timeout_label();
 }

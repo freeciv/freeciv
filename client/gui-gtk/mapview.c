@@ -132,18 +132,18 @@ void update_info_label( void )
 
   d=0;
   for (; d < game.player_ptr->economic.luxury /10; d++) {
-    struct Sprite *sprite = sprite = sprites.tax_luxury;
+    struct Sprite *sprite = sprite = get_tax_sprite(O_LUXURY);
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]), sprite->pixmap, sprite->mask);
   }
  
   for (; d < (game.player_ptr->economic.science
 	     + game.player_ptr->economic.luxury) / 10; d++) {
-    struct Sprite *sprite = sprites.tax_science;
+    struct Sprite *sprite = get_tax_sprite(O_SCIENCE);
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]), sprite->pixmap, sprite->mask);
   }
  
   for (; d < 10; d++) {
-    struct Sprite *sprite = sprites.tax_gold;
+    struct Sprite *sprite = get_tax_sprite(O_GOLD);
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]), sprite->pixmap, sprite->mask);
   }
  

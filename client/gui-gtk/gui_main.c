@@ -645,7 +645,7 @@ static void setup_widgets(void)
 
   /* citizens for taxrates */
   for (i = 0; i < 10; i++) {
-    struct Sprite *s = i < 5 ? sprites.tax_science : sprites.tax_gold;
+    struct Sprite *s = i < 5 ? get_tax_sprite(O_SCIENCE) : get_tax_sprite(O_GOLD);
 
     ebox = gtk_event_box_new();
     gtk_widget_set_events(ebox, GDK_BUTTON_PRESS_MASK);

@@ -243,13 +243,13 @@ static void draw_rates(HDC hdc)
   int d;
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(sprites.tax_luxury, hdc,
+    draw_sprite(get_tax_sprite(O_LUXURY), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y);/* elvis tile */
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(sprites.tax_science, hdc,
+    draw_sprite(get_tax_sprite(O_SCIENCE), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y); /* scientist tile */    
   for(;d<10;d++)
-    draw_sprite(sprites.tax_gold, hdc,
+    draw_sprite(get_tax_sprite(O_GOLD), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y); /* taxman tile */  
 }
 

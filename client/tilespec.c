@@ -3535,6 +3535,54 @@ struct Sprite *get_citizen_sprite(struct citizen_type type,
 }
 
 /**************************************************************************
+  Return a "sample" sprite for this city style.
+**************************************************************************/
+struct Sprite *get_sample_city_sprite(int city_style)
+{
+  int index = city_styles[city_style].tiles_num - 1;
+
+  return sprites.city.tile[city_style][index];
+}
+
+/**************************************************************************
+  Return a sprite with the "right-arrow" theme graphic.
+**************************************************************************/
+struct Sprite *get_arrow_sprite(void)
+{
+  return sprites.right_arrow;
+}
+
+/**************************************************************************
+  Return a tax sprite for the given output type (usually gold/lux/sci).
+**************************************************************************/
+struct Sprite *get_tax_sprite(Output_type_id otype)
+{
+  switch (otype) {
+  case O_SCIENCE:
+    return sprites.tax_science;
+  case O_GOLD:
+    return sprites.tax_gold;
+  case O_LUXURY:
+    return sprites.tax_luxury;
+  case O_TRADE:
+  case O_FOOD:
+  case O_SHIELD:
+  case O_LAST:
+    break;
+  }
+  return NULL;
+}
+
+/**************************************************************************
+  Return a thumbs-up/thumbs-down sprite to show treaty approval or
+  disapproval.
+**************************************************************************/
+struct Sprite *get_treaty_thumb_sprite(bool on_off)
+{
+  return sprites.treaty_thumb[on_off ? 1 : 0];
+}
+
+/**************************************************************************
   Loads the sprite. If the sprite is already loaded a reference
   counter is increased. Can return NULL if the sprite couldn't be
   loaded.

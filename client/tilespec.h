@@ -353,6 +353,10 @@ extern enum fog_style fogstyle;
 struct Sprite *get_citizen_sprite(struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity);
+struct Sprite *get_sample_city_sprite(int city_style);
+struct Sprite *get_arrow_sprite(void);
+struct Sprite *get_tax_sprite(Output_type_id otype);
+struct Sprite *get_treaty_thumb_sprite(bool on_off);
 
 /* full pathnames: */
 extern char *main_intro_filename;
