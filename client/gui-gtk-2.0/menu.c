@@ -762,7 +762,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_SPACESHIP					},
   /* Help menu ... */
   { "/" N_("_Help"),					NULL,
-	NULL,			0,					"<LastBranch>"	},
+	NULL,			0,					"<Branch>"	},
   { "/" N_("Help") "/tearoff1",				NULL,
 	NULL,			0,					"<Tearoff>"	},
   { "/" N_("Help") "/" N_("Language_s"),		NULL,
