@@ -735,9 +735,10 @@ void player_restore_units(struct player *pplayer)
 	if (punit->hp==get_unit_type(punit->type)->hp) 
 	  punit->hp = get_unit_type(upgrade_type)->hp;
 	notify_player(pplayer,
-		      "Game: Leonardo's workshop has upgraded %s to %s ",
-		      unit_types[punit->type].name, 
-		      unit_types[upgrade_type].name);
+		      "Game: Leonardo's workshop has upgraded %s to %s%s",
+		      get_unit_type(punit->type)->name,
+		      get_unit_type(upgrade_type)->name,
+		      get_location_str_in(pplayer, punit->x, punit->y, ", "));
 	punit->type = upgrade_type;
 	punit->veteran = 0;
 	leonardo = leonardo_variant;
@@ -1653,81 +1654,50 @@ tile dies unless ...
 **************************************************************************/
 void kill_unit(struct unit *pkiller, struct unit *punit)
 {
-  int klaf;
-  struct city *nearcity = dist_nearest_city(get_player(punit->owner), punit->x, punit->y);
-  struct city *incity = map_get_city(punit->x, punit->y);
-  struct player *dest = &game.players[pkiller->owner];
-  struct player *pplayer = &game.players[punit->owner];
-  klaf=unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
+  struct city   *incity    = map_get_city(punit->x, punit->y);
+  struct player *pplayer   = get_player(punit->owner);
+  struct player *destroyer = get_player(pkiller->owner);
+  char *loc_str   = get_location_str_in(pplayer, punit->x, punit->y, ", ");
+  int  num_killed = unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
+  
   if( (incity) || 
       (map_get_special(punit->x, punit->y)&S_FORTRESS) || 
-      (klaf == 1)) {
-    if (incity) 
-      notify_player_ex(&game.players[punit->owner], 
-		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost a%s %s under an attack from %s's %s, in %s",
-		       n_if_vowel(get_unit_type(punit->type)->name[0]),
-		       get_unit_type(punit->type)->name, dest->name,
-                       unit_name(pkiller->type), incity->name);
-    else if (nearcity && is_tiles_adjacent(punit->x, punit->y, nearcity->x, nearcity->y))
-      notify_player_ex(&game.players[punit->owner], 
-		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost a%s %s under an attack from %s's %s, outside %s",
-		       n_if_vowel(get_unit_type(punit->type)->name[0]),
-		       get_unit_type(punit->type)->name, dest->name,
-                       unit_name(pkiller->type), nearcity->name);
-    else if (nearcity)
-      notify_player_ex(&game.players[punit->owner], 
-		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost a%s %s under an attack from %s's %s, near %s",
-		       n_if_vowel(get_unit_type(punit->type)->name[0]),
-		       get_unit_type(punit->type)->name, dest->name,
-                       unit_name(pkiller->type), nearcity->name);
-    else
-      notify_player_ex(&game.players[punit->owner], 
-		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost a%s %s under an attack from %s's %s",
-		       n_if_vowel(get_unit_type(punit->type)->name[0]),
-		       get_unit_type(punit->type)->name, dest->name,
-                       unit_name(pkiller->type));
+      (num_killed == 1)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
+		     "Game: You lost a%s %s under an attack from %s's %s%s",
+		     n_if_vowel(get_unit_type(punit->type)->name[0]),
+		     get_unit_type(punit->type)->name, destroyer->name,
+		     unit_name(pkiller->type), loc_str);
     gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
 	    get_race_name_plural(pplayer->race),
 	    n_if_vowel(get_unit_type(punit->type)->name[0]),
 	    get_unit_type(punit->type)->name,
-	    get_race_name_plural(dest->race));
+	    get_race_name_plural(destroyer->race));
     
     send_remove_unit(0, punit->id);
     game_remove_unit(punit->id);
-  }  else {
-      if (nearcity && is_tiles_adjacent(punit->x, punit->y, nearcity->x,
-        nearcity->y)) notify_player_ex(&game.players[punit->owner], 
-		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost %d units under an attack from %s's %s, outside %s",
-		       klaf, dest->name, unit_name(pkiller->type), nearcity->name);
-      else if (nearcity) notify_player_ex(&game.players[punit->owner], 
-		       punit->x, punit->y, E_UNIT_LOST,
-		       "Game: You lost %d units under an attack from %s's %s, near %s",
-		       klaf, dest->name, unit_name(pkiller->type), nearcity->name);
-      else notify_player_ex(&game.players[punit->owner], 
-		       punit->x, punit->y, E_UNIT_LOST, 
-		       "Game: You lost %d units under an attack from %s's %s",
-		       klaf, dest->name, unit_name(pkiller->type));
-      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
+  }
+  else {
+    notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
+		     "Game: You lost %d units under an attack from %s's %s%s",
+		     num_killed, destroyer->name,
+		     unit_name(pkiller->type), loc_str);
+    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
 	notify_player_ex(&game.players[punit2->owner], 
 			 punit2->x, punit2->y, E_UNIT_LOST,
 			 "Game: You lost a%s %s under an attack from %s's %s",
 			 n_if_vowel(get_unit_type(punit2->type)->name[0]),
-			 get_unit_type(punit2->type)->name, dest->name,
+			 get_unit_type(punit2->type)->name, destroyer->name,
                          unit_name(pkiller->type));
 	gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
 		get_race_name_plural(pplayer->race),
 		n_if_vowel(get_unit_type(punit2->type)->name[0]),
 		get_unit_type(punit2->type)->name,
-		get_race_name_plural(dest->race));
+		get_race_name_plural(destroyer->race));
 	send_remove_unit(0, punit2->id);
 	game_remove_unit(punit2->id);
-      }
-      unit_list_iterate_end;
+    }
+    unit_list_iterate_end;
   } 
 }
 
@@ -1764,3 +1734,57 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
       if(dosend || map_get_known(info.x, info.y, &game.players[o]))
 	 send_packet_unit_info(game.players[o].conn, &info);
 }
+
+/**************************************************************************
+  Returns a pointer to a (static) string which gives an informational
+  message about location (x,y), in terms of cities known by pplayer.
+  One of:
+    "in Foo City"  or  "at Foo City" (see below)
+    "outside Foo City"
+    "near Foo City"
+    "" (if no cities known)
+  There are two variants for the first case, one when something happens
+  inside the city, otherwise when it happens "at" but "outside" the city.
+  Eg, when an attacker fails, the attacker dies "at" the city, but
+  not "in" the city (since the attacker never made it in).
+  The prefix is prepended to the message, _except_ for the last case; eg,
+  for adding space/punctuation between rest of message and location string.
+  Don't call this function directly; use the wrappers below.
+**************************************************************************/
+static char *get_location_str(struct player *pplayer, int x, int y,
+				       char *prefix, int use_at)
+{
+  static char buffer[MAX_LENGTH_NAME+64];
+  struct city *incity, *nearcity;
+
+  incity = map_get_city(x, y);
+  if (incity) {
+    if (use_at) {
+      sprintf(buffer, "%sat %s", prefix, incity->name);
+    } else {
+      sprintf(buffer, "%sin %s", prefix, incity->name);
+    }
+  } else {
+    nearcity = dist_nearest_city(pplayer, x, y);
+    if (nearcity) {
+      if (is_tiles_adjacent(x, y, nearcity->x, nearcity->y)) {
+	sprintf(buffer, "%soutside %s", prefix, nearcity->name);
+      } else {
+	sprintf(buffer, "%snear %s", prefix, nearcity->name);
+      }
+    } else {
+      strcpy(buffer, "");
+    }
+  }
+  return buffer;
+}
+
+char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix)
+{
+  return get_location_str(pplayer, x, y, prefix, 0);
+}
+
+char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix)
+{
+  return get_location_str(pplayer, x, y, prefix, 1);
+ }

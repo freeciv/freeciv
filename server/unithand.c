@@ -540,87 +540,41 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   nearcity2 = dist_nearest_city(get_player(plooser->owner), pdefender->x, pdefender->y);
   
   if(punit==plooser) {
-    if (incity) notify_player_ex(&game.players[pwinner->owner], 
+    /* The attacker lost */
+    notify_player_ex(get_player(pwinner->owner),
 		     pwinner->x, pwinner->y, E_UNIT_WIN, 
-		  "Game: Your %s in %s survived the pathetic attack from %s's %s.",
-                  unit_name(pwinner->type), incity->name,
-		  game.players[plooser->owner].name,
-		  unit_name(punit->type));
-    else if (nearcity1 && is_tiles_adjacent(pdefender->x, pdefender->y, nearcity1->x,
-         nearcity1->y)) notify_player_ex(&game.players[pwinner->owner], 
-		     pwinner->x, pwinner->y, E_UNIT_WIN, 
-		  "Game: Your %s outside %s survived the pathetic attack from %s's %s.",
-                  unit_name(pwinner->type), nearcity1->name,
-		  game.players[plooser->owner].name,
-		  unit_name(punit->type));
-    else if (nearcity1) notify_player_ex(&game.players[pwinner->owner], 
-		     pwinner->x, pwinner->y, E_UNIT_WIN, 
-		  "Game: Your %s near %s survived the pathetic attack from %s's %s.",
-                  unit_name(pwinner->type), nearcity1->name,
-		  game.players[plooser->owner].name,
-		  unit_name(punit->type));
-    else notify_player_ex(&game.players[pwinner->owner], 
-		     pwinner->x, pwinner->y, E_UNIT_WIN, 
-		  "Game: Your %s survived the pathetic attack from %s's %s.",
-                  unit_name(pwinner->type),
-		  game.players[plooser->owner].name,
-		  unit_name(punit->type));
-    if (incity) notify_player_ex(&game.players[plooser->owner], 
+		     "Game: Your %s%s survived the pathetic attack"
+		     " from %s's %s.",
+		     unit_name(pwinner->type), 
+		     get_location_str_in(get_player(pwinner->owner),
+					 pwinner->x, pwinner->y, " "),
+		     get_player(plooser->owner)->name,
+		     unit_name(plooser->type));
+    
+    notify_player_ex(get_player(plooser->owner),
 		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
-		     "Game: Your attacking %s failed against %s's %s at %s!",
-                      unit_name(plooser->type),
-		  game.players[pwinner->owner].name,
-		  unit_name(pwinner->type), incity->name);
-    else if (nearcity2 && is_tiles_adjacent(pdefender->x, pdefender->y,
-      nearcity2->x, nearcity2->y)) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
-		     "Game: Your attacking %s failed against %s's %s outside %s!",
-                      unit_name(plooser->type),
-		  game.players[pwinner->owner].name,
-		  unit_name(pwinner->type), nearcity2->name);
-    else if (nearcity2) notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
-		     "Game: Your attacking %s failed against %s's %s near %s!",
-                      unit_name(plooser->type),
-		  game.players[pwinner->owner].name,
-		  unit_name(pwinner->type), nearcity2->name);
-    else notify_player_ex(&game.players[plooser->owner], 
-		     pdefender->x, pdefender->y, E_UNIT_LOST_ATT, 
-		     "Game: Your attacking %s failed against %s's %s!",
-                      unit_name(plooser->type),
-		  game.players[pwinner->owner].name,
-		  unit_name(pwinner->type));
+		     "Game: Your attacking %s failed against %s's %s%s!",
+		     unit_name(plooser->type),
+		     get_player(pwinner->owner)->name,
+		     unit_name(pwinner->type),
+		     get_location_str_at(get_player(plooser->owner),
+					 pwinner->x, pwinner->y, " "));
     wipe_unit(pplayer, plooser);
   }
   else {
+    /* The defender lost, the attacker punit lives! */
     punit->moved=1; /* We moved */
 
-    if (incity) notify_player_ex(&game.players[pwinner->owner], 
+    notify_player_ex(get_player(pwinner->owner), 
 		     punit->x, punit->y, E_UNIT_WIN_ATT, 
-		     "Game: Your attacking %s was successful against %s's %s at %s!",
-                      unit_name(pwinner->type),
-		  game.players[plooser->owner].name,
-		  unit_name(plooser->type), incity->name);
-    else if (nearcity1 && is_tiles_adjacent(pdefender->x, pdefender->y,
-       nearcity1->x, nearcity1->y)) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_UNIT_WIN_ATT, 
-		     "Game: Your attacking %s was successful against %s's %s outside %s!",
-                      unit_name(pwinner->type),
-		  game.players[plooser->owner].name,
-		  unit_name(plooser->type), nearcity1->name);
-    else if (nearcity1) notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_UNIT_WIN_ATT, 
-		     "Game: Your attacking %s was successful against %s's %s near %s!",
-                      unit_name(pwinner->type),
-		  game.players[plooser->owner].name,
-		  unit_name(plooser->type), nearcity1->name);
-    else notify_player_ex(&game.players[pwinner->owner], 
-		     punit->x, punit->y, E_UNIT_WIN_ATT, 
-		     "Game: Your attacking %s was successful against %s's %s!",
-                      unit_name(pwinner->type),
-		  game.players[plooser->owner].name,
-		  unit_name(plooser->type));
-    kill_unit(pwinner, plooser); /* no longer pplayer - want better msgs -- Syela */
+		     "Game: Your attacking %s was successful against %s's %s%s!",
+		     unit_name(pwinner->type),
+		     get_player(plooser->owner)->name,
+		     unit_name(plooser->type),
+		     get_location_str_at(get_player(pwinner->owner),
+					 plooser->x, plooser->y, " "));
+    kill_unit(pwinner, plooser);
+               /* no longer pplayer - want better msgs -- Syela */
   }
   if (pwinner == punit && unit_flag(punit->type, F_MISSILE)) {
     wipe_unit(pplayer, pwinner);

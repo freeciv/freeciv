@@ -71,7 +71,7 @@ void get_a_tech(struct player *pplayer, struct player *target);
 void place_partisans(struct city *pcity,int count);
 void make_partisans(struct city *pcity);
 
+char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix);
+char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix);
+
 #endif
-
-
-
