@@ -101,6 +101,7 @@ options="1.9"
 *include "nation/serbian.ruleset"
 *include "nation/ethiopian.ruleset"
 *include "nation/afghani.ruleset"
+*include "nation/icelandic.ruleset"
 
 ;
 ; observer and barbarians MUST go last in THIS order

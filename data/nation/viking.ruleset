@@ -39,7 +39,7 @@ tech_goals = "The Republic", "The Wheel", "Iron Working", "Construction",
              "Railroad"
 wonder="Magellan's Expedition"
 government="Republic"
-civilwar_nations = "swedish", "finnish"
+civilwar_nations = "swedish", "finnish", "icelandic"
 
 ;Norwegian (and Icelandic) names.
 ;Norwegian places listed up in the order it struck my mind.

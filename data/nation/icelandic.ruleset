@@ -1,0 +1,50 @@
+[nation_icelandic]
+
+name=_("Icelandic")
+plural=_("?plural:Icelanders")
+class=_("Modern")
+leader=   "Jon Sigurdsson",
+   "David Oddsson",
+   "Olafur Grimsson"
+leader_sex="Male", "Male", "Male"
+
+flag="f.iceland"
+flag_alt = "f.norway"
+city_style = "Classical"
+ruler_titles = { "government",      "male_title",       "female_title"
+       "Democracy",   _("President"),      _("President")
+               }
+
+init_techs=""
+init_buildings=""
+tech_goals = "The Republic", "Navigation", "Trade"
+wonder="Magellan's Expedition"
+government="Republic"
+civilwar_nations = "danish", "english", "canadian"
+
+cities =
+  "Reykjavik",
+  "Akureyri",
+  "Hafnarfjordur",
+  "Kopavagur",
+  "Akranes",
+  "Borgarnes",
+  "Dalvik",
+  "Egilsstadir",
+  "Gardaber",
+  "Grindavik",
+  "Hofn",
+  "Husavik",
+  "Hveragerdi",
+  "Isafjordur",
+  "Keflavik",
+  "Mosfellsber",
+  "Neskaupsstadur",
+  "Njardvik",
+  "Olafsvik",
+  "Saudarkrokur",
+  "Selfoss",
+  "Siglufjordur",
+  "Stykkisholmur",
+  "Vestmannaeyjar",
+  "Porlakshofn" 

@@ -33,7 +33,7 @@ tech_goals = "Monarchy", "Chivalry", "Trade", "Theology", "University",
              "Navigation", "Railroad"
 wonder="Magellan's Expedition"
 government="Democracy"
-civilwar_nations = "english"
+civilwar_nations = "english", "icelandic"
 
 cities =
   "København", "Aarhus", "Odense", "Aalborg", "Esbjerg", "Randers",
