@@ -72,7 +72,7 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
 **************************************************************************/
 void create_city(struct player *pplayer, int x, int y, char *name)
 {
-  struct city *pcity;
+  struct city *pcity, *othercity;
   int i;
 /* printf("Creating city %s\n", name);   */
   pcity=(struct city *)malloc(sizeof(struct city));
@@ -134,8 +134,23 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   unit_list_init(&pcity->units_supported);
   city_list_insert(&pplayer->cities, pcity);
 
+/* it is possible to build a city on a tile that is already worked */
+/* this will displace the worker on the newly-built city's tile -- Syela */
+
+  city_map_iterate(x, y) { /* usurping the parameters x, y */
+    othercity = map_get_city(pcity->x+x-2, pcity->y+y-2);
+    if (othercity && othercity != pcity) {
+      if (get_worker_city(othercity, 4 - x, 4 - y) == C_TILE_WORKER) {
+        set_worker_city(othercity, 4 - x, 4 - y, C_TILE_UNAVAILABLE);
+        add_adjust_workers(othercity); /* will place the displaced */
+        city_refresh(othercity); /* may be unnecessary; can't hurt */
+      } else set_worker_city(othercity, 4 - x, 4 - y, C_TILE_UNAVAILABLE);
+      send_city_info(city_owner(othercity), othercity, 1);
+    }
+  }
+ 
   city_check_workers(pplayer, pcity);
-  auto_arrange_workers(pcity);
+  auto_arrange_workers(pcity); /* forces a worker onto (2,2), thus the above */
 
   city_refresh(pcity);
   city_incite_cost(pcity);
