@@ -379,7 +379,7 @@ void science_dialog_update(void)
   if(delay_report_update) return;
 
   turns_to_advance = tech_turns_to_advance(game.player_ptr);
-  if (turns_to_advance == INFINITY) {
+  if (turns_to_advance == FC_INFINITY) {
     my_snprintf(text, sizeof(text), _("Research speed: no research"));
   } else {
     my_snprintf(text, sizeof(text),

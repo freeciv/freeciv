@@ -497,7 +497,7 @@ void science_dialog_update(void)
     int turns_to_advance;
     
     turns_to_advance = tech_turns_to_advance(game.player_ptr);
-    if (turns_to_advance == INFINITY) {
+    if (turns_to_advance == FC_INFINITY) {
       my_snprintf(rate_text, sizeof(rate_text), _("\n(no research)"));
     } else {
       my_snprintf(rate_text, sizeof(rate_text),

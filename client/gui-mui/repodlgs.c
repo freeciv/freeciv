@@ -338,7 +338,7 @@ void popup_science_dialog(int make_modal)
     char *report_title = get_report_title(_("Science Advisor"));
     int turns_to_advance = tech_turns_to_advance(game.player_ptr);
 
-    if (turns_to_advance == INFINITY) {
+    if (turns_to_advance == FC_INFINITY) {
       settextf(science_title_text, _("%s\n(no research)"), report_title);
     } else {
       settextf(science_title_text,

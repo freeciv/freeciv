@@ -306,7 +306,7 @@ int tech_turns_to_advance(struct player *pplayer)
   } city_list_iterate_end;
 
   if (current_output <= 0) {
-    return INFINITY;
+    return FC_INFINITY;
   }
 
   return ((total_bulbs_required(pplayer) + current_output - 1)

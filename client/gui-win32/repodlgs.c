@@ -115,7 +115,7 @@ science_dialog_update(void)
   report_title=get_report_title(_("Science"));
   sz_strlcpy(text, report_title);
   turns_to_advance = tech_turns_to_advance(game.player_ptr);
-  if (turns_to_advance == INFINITY) {
+  if (turns_to_advance == FC_INFINITY) {
     my_snprintf(rate, sizeof(rate), _("\n(no research)"));
   } else {
     my_snprintf(rate, sizeof(rate),
