@@ -226,7 +226,7 @@ static LONG CALLBACK global_wl_proc(HWND hwnd,UINT message,
   case WM_DESTROY:
     memset(preport, 0, sizeof(*preport));
     free(preport);
-    preport=NULL;
+    report_dialog=NULL;
     break;
   case WM_CLOSE:
     DestroyWindow(hwnd);
