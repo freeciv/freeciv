@@ -128,7 +128,8 @@ int unit_move_rate(struct unit *punit)
     pcity=city_list_find_id(&pplayer->cities, 
 			    game.global_wonders[B_MAGELLAN]);
     if(pcity && !wonder_obsolete(B_MAGELLAN)) 
-      val+=3;
+/*    val+=3;                                Everything says this should be */
+      val += 6;
     if (get_invention(pplayer, A_POWER) == TECH_KNOWN)
       val+=3;
     if (val < 6) 
@@ -507,6 +508,9 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
   
   if(activity==ACTIVITY_IDLE)
     return 1;
+
+  if (activity == ACTIVITY_EXPLORE) /* added 980803 by Syela */
+    return (is_ground_unit(punit) || is_sailing_unit(punit));
 
   if(punit->activity==ACTIVITY_IDLE) {
     if(activity==ACTIVITY_FORTIFY) { 
