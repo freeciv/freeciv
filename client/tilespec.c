@@ -59,6 +59,8 @@ int SMALL_TILE_HEIGHT;
 
 char *city_names_font;
 
+int flags_are_transparent=1;
+
 
 static int num_spec_files = 0;
 static char **spec_filenames;	/* full pathnames */
@@ -251,8 +253,8 @@ void tilespec_read_toplevel(const char *tileset_name)
   c = secfile_lookup_str_default(file, "10x20", "tilespec.city_names_font");
   city_names_font = mystrdup(c);
 
-  /* TODO: use this */
-  section_file_lookup(file, "tilespec.flags_are_transparent"); 
+  flags_are_transparent =
+    secfile_lookup_int(file, "tilespec.flags_are_transparent"); 
 
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
   main_intro_filename = tilespec_gfx_filename(c);

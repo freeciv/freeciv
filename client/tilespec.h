@@ -187,4 +187,6 @@ extern int SMALL_TILE_HEIGHT;
 
 extern char *city_names_font;
 
+extern int flags_are_transparent;
+
 #endif  /* FC__TILESPEC_H */

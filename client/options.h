@@ -16,7 +16,6 @@
 extern int use_solid_color_behind_units;
 extern int sound_bell_at_new_turn;
 extern int smooth_move_units;
-extern int flags_are_transparent;
 extern int ai_popup_windows;
 extern int ai_manual_turn_done;
 extern int auto_center_on_unit;
@@ -34,9 +33,6 @@ typedef struct {
 	void *p_gui_data;
 } client_option;
 extern client_option options[];
-
-#define GEN_OPTION(name, description) { #name, description, &name, NULL }
-#define NULL_OPTION { NULL, NULL, NULL, NULL }
 
 
 /** Message Options: **/

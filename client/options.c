@@ -35,7 +35,6 @@
 int use_solid_color_behind_units;
 int sound_bell_at_new_turn;
 int smooth_move_units=1;
-int flags_are_transparent=1;
 int ai_popup_windows=0;
 int ai_manual_turn_done=1;
 int auto_center_on_unit=1;
@@ -44,11 +43,13 @@ int draw_diagonal_roads=1;
 int center_when_popup_city=1;
 int draw_map_grid=0;
 
+#define GEN_OPTION(name, description) { #name, description, &name, NULL }
+#define NULL_OPTION { NULL, NULL, NULL, NULL }
+
 client_option options[] = {
   GEN_OPTION(use_solid_color_behind_units,  "Solid unit background color"),
   GEN_OPTION(sound_bell_at_new_turn,	    "Sound bell at new turn     "),
   GEN_OPTION(smooth_move_units,		    "Smooth unit moves          "),
-  GEN_OPTION(flags_are_transparent,	    "Flags are transparent      "),
   GEN_OPTION(ai_popup_windows,		    "Popup dialogs in AI Mode   "),
   GEN_OPTION(ai_manual_turn_done,	    "Manual Turn Done in AI Mode"),
   GEN_OPTION(auto_center_on_unit,	    "Auto Center on Units       "),
@@ -230,6 +231,9 @@ void load_options(void)
     *ip = secfile_lookup_int_default(&sf, *ip, "%s.city_report_%s", prefix,
 				     city_report_spec_tagname(i));
   }
+  /* avoid warning for unused: */
+  section_file_lookup(&sf, "client.flags_are_transparent");
+  
   section_file_check_unused(&sf, name);
   section_file_free(&sf);
 }

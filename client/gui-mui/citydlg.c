@@ -124,7 +124,6 @@ struct city_dialog
 
 extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
-extern int flags_are_transparent;
 
 /* GUI Independ */
 

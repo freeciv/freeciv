@@ -69,7 +69,6 @@ void request_player_government(int g)
 }
 
 
-extern int flags_are_transparent;
 extern int ai_popup_windows;
 
 STATIC Object *unitsel_wnd;

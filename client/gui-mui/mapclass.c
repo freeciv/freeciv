@@ -51,7 +51,6 @@
 
 APTR pen_shared_map;
 
-extern int flags_are_transparent;
 extern int draw_diagonal_roads;
 extern int use_solid_color_behind_units;
 
