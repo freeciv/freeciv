@@ -151,6 +151,9 @@ static struct player *create_barbarian_player(bool land)
 
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d",
           barbarians->name, barbarians->player_no);
+  notify_player_ex(NULL, -1, -1, E_UPRISING,
+                   _("Barbarians gain a leader by the name %s.  Dangerous "
+                     "times may lie ahead."), barbarians->name);
 
   send_game_info(NULL);
   send_player_info(barbarians, NULL);
