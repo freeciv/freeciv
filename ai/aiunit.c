@@ -2595,10 +2595,10 @@ void update_simple_ai_types(void)
   int i = 0;
 
   unit_type_iterate(id) {
-    if (unit_type_exists(i) && !unit_type_flag(i, F_NONMIL)
-	&& !unit_type_flag(i, F_MISSILE)
-	&& !unit_type_flag(i, F_NO_LAND_ATTACK)
-	&& get_unit_type(i)->transport_capacity < 8) {
+    if (unit_type_exists(id) && !unit_type_flag(id, F_NONMIL)
+	&& !unit_type_flag(id, F_MISSILE)
+	&& !unit_type_flag(id, F_NO_LAND_ATTACK)
+	&& get_unit_type(id)->transport_capacity < 8) {
       simple_ai_types[i] = id;
       i++;
     }
