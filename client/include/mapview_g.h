@@ -22,7 +22,7 @@ struct city;
 #define CORNER_TILES     0
 
 /* number of "rows" in each graphics file */
-#define ROWS_TILES   (18)
+#define ROWS_TILES   (19)
 #define ROWS_UNITS   (3)
 #define ROWS_SMALL   (1)
 #define ROWS_TREATY  (1)
