@@ -1,27 +1,20 @@
-AC_DEFUN([FC_CHECK_AUTH], [
-USER_DB_LIB=""
-USER_DB_DEP=""
-AC_ARG_ENABLE(auth,
-[  --enable-auth[[=lib]]     enable authentication 
-                                 [[default userdb lib=server/userdb/libuserdb.a]]],
-[
-  auth=true
-  user_db_lib=${enableval}
-  if test "x$user_db_lib" = "" || test "x$user_db_lib" = "xyes" ; then
-     user_db_lib="userdb/libuserdb.a"
-  fi
-], [
-  auth=false
-  user_db_lib=""
-])
-if test "x$auth" = "xtrue" ; then
-  AC_DEFINE(AUTHENTICATION_ENABLED, 1, [authentication support])
-  USER_DB_LIB=$user_db_lib
+# Do checks for Freeciv authentication support
+#
+# Called without any parameters.
 
-  if test "x$user_db_lib" = "xuserdb/libuserdb.a" ; then
-    USER_DB_DEP=$user_db_lib
+AC_DEFUN([FC_CHECK_AUTH],
+[
+  # If the user calls --without-auth this will fail.
+  AC_ARG_WITH([auth],
+	      AC_HELP_STRING([--with-auth=lib],
+                             [Specify authentication database library]),
+  	      [USER_DB_LIB="$withval"])
+
+  if test "$USER_DB_LIB" = "" || test "$USER_DB_LIB" = "yes"; then
+    USER_DB_LIB="userdb/libuserdb.a"
   fi
-fi
-AC_SUBST(USER_DB_LIB)
-AC_SUBST(USER_DB_DEP)
+  USER_DB_DEP="$USER_DB_LIB"
+
+  AC_SUBST(USER_DB_LIB)
+  AC_SUBST(USER_DB_DEP)
 ])

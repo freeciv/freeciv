@@ -49,20 +49,16 @@
 
 #define MAX_AUTHENTICATION_TRIES 3
 
-#ifdef AUTHENTICATION_ENABLED 
 /* after each wrong guess for a password, the server waits this
  * many seconds to reply to the client */
 static const int auth_fail_period[] = { 1, 1, 2, 3 };
-#endif
 
 static void establish_new_connection(struct connection *pconn);
 static void reject_new_connection(const char *msg, struct connection *pconn);
 
-#ifdef AUTHENTICATION_ENABLED
 static bool is_guest_name(const char *name);
 static void get_unique_guest_name(char *name);
 static bool is_good_password(const char *password, char *msg);
-#endif
 
 /**************************************************************************
   This is used when a new player joins a server, before the game
@@ -277,7 +273,6 @@ bool handle_login_request(struct connection *pconn,
     }
   } conn_list_iterate_end;
 
-#ifdef AUTHENTICATION_ENABLED 
   if (srvarg.auth_enabled) {
     /* assign the client a unique guest name/reject if guests aren't allowed */
     if (is_guest_name(req->username)) {
@@ -350,7 +345,6 @@ bool handle_login_request(struct connection *pconn,
       return TRUE;
     }
   }
-#endif /* AUTHENTICATION_ENABLED */
 
   sz_strlcpy(pconn->username, req->username);
   establish_new_connection(pconn);
@@ -384,7 +378,6 @@ void unfail_authentication(struct connection *pconn)
 **************************************************************************/
 bool handle_authentication_reply(struct connection *pconn, char *password)
 {
-#ifdef AUTHENTICATION_ENABLED 
   char msg[MAX_LEN_MSG];
 
   if (pconn->server.status == AS_REQUESTING_NEW_PASS) {
@@ -433,12 +426,8 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
   }
 
   return TRUE;
-#else
-  return FALSE;
-#endif /* AUTHENTICATION_ENABLED */
 }
 
-#ifdef AUTHENTICATION_ENABLED
 /**************************************************************************
   see if the name qualifies as a guest login name
 **************************************************************************/
@@ -527,7 +516,6 @@ static bool is_good_password(const char *password, char *msg)
 
   return TRUE;
 }
-#endif /* AUTHENTICATION_ENABLED */
 
 /**************************************************************************
   High-level server stuff when connection to client is closed or lost.
