@@ -169,7 +169,7 @@ To be called when a player gains the Railroad tech for the first
 time.  Sends a message, and then upgrade all city squares to
 railroads.  "discovery" just affects the message: set to
    1 if the tech is a "discovery",
-   0 if otherwise aquired (conquer/trade/GLib).        --dwp
+   0 if otherwise acquired (conquer/trade/GLib).        --dwp
 ***************************************************************/
 void upgrade_city_rails(struct player *pplayer, bool discovery)
 {

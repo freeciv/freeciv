@@ -278,7 +278,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			 get_tech_name(pdest, pclause->value));
 
 	notify_embassies(pdest, pgiver,
-			 _("Game: The %s have aquired %s from the %s."),
+			 _("Game: The %s have acquired %s from the %s."),
 			 get_nation_name_plural(pdest->nation),
 			 get_tech_name(pdest, pclause->value),
 			 get_nation_name_plural(pgiver->nation));

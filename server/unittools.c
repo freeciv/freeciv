@@ -2333,7 +2333,7 @@ static void hut_get_tech(struct unit *punit)
 		   tech_name);
   gamelog(GAMELOG_TECH, _("%s discover %s (Hut)"),
 	  get_nation_name_plural(pplayer->nation), tech_name);
-  notify_embassies(pplayer, NULL, _("Game: The %s have aquired %s"
+  notify_embassies(pplayer, NULL, _("Game: The %s have acquired %s"
 				    " from ancient scrolls of wisdom."),
 		   get_nation_name_plural(pplayer->nation), tech_name);
 
