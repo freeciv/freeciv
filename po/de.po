@@ -2953,7 +2953,7 @@ msgid ""
 msgstr ""
 "Wenn ein Spieler eine Stadt baut, wird geprüft ob keine andere Stadt in "
 "'citymindist' existiert. Beispiel: Wenn 'citymindist' 3 ist, müssen "
-"zumindest 2 leere Felder zwischen Städten liegen. Wenn dieser Wert 0 "
+"zwischen zwei Städten mindestens zwei leere Felder liegen. Wenn dieser Wert 0 "
 "(standard) ist, wird dieser Wert durch das verwendete Ruleset bestimmt."
 
 #: server/stdinhand.c:554
@@ -5763,10 +5763,9 @@ msgstr "Kurzdarstellung der Stadtproduktion"
 msgid "End Turn when done moving"
 msgstr "Automatisches Rundenende"
 
-# ?
 #: client/options.c:71
 msgid "Use Alt/Meta for accelerators (GTK only)"
-msgstr ""
+msgstr "Alt/Meta-Taste für Tastaturkürzel verwenden (nur GTK)"
 
 #: client/options.c:121
 msgid "Low Funds"
@@ -6108,7 +6107,7 @@ msgstr "Kornspeicher:"
 
 #: client/gui-gtk/citydlg.c:551
 msgid "Change in:"
-msgstr "Ändern in:"
+msgstr "Änderung in:"
 
 #: client/gui-gtk/citydlg.c:552
 msgid "Corruption:"
@@ -6263,15 +6262,15 @@ msgstr "Einstellungen"
 
 #: client/gui-gtk/citydlg.c:1258
 msgid "Auto attack vs"
-msgstr "Selbständiger Angriff von"
+msgstr "Selbständiger Angriff gegen"
 
 #: client/gui-gtk/citydlg.c:1266
 msgid "Air units"
-msgstr "Flugzeugen"
+msgstr "Flugzeuge"
 
 #: client/gui-gtk/citydlg.c:1272
 msgid "Helicopters"
-msgstr "Hubschraubern"
+msgstr "Hubschrauber"
 
 #: client/gui-gtk/citydlg.c:1278
 msgid "Land units"
@@ -6279,7 +6278,7 @@ msgstr "Bodentruppen"
 
 #: client/gui-gtk/citydlg.c:1283
 msgid "Sea units"
-msgstr "Schiffen"
+msgstr "Schiffe"
 
 #: client/gui-gtk/citydlg.c:1304 client/gui-win32/citydlg.c:2119
 msgid "Disband if build settler at size 1"
@@ -6606,7 +6605,7 @@ msgstr "Verkaufen!"
 #: client/gui-gtk/citydlg.c:3369
 #, c-format
 msgid "Sell (worth %d gold)"
-msgstr "Verkaufen (für %d Goldstücke)?"
+msgstr "Verkaufen (für %d Goldstücke)"
 
 #: client/gui-gtk/citydlg.c:3478 client/gui-win32/citydlg.c:1332
 #: data/Freeciv:524
@@ -6726,7 +6725,7 @@ msgstr "Zu:"
 #: client/gui-gtk/cityrep.c:796 client/gui-win32/cityrep.c:750
 #: data/Freeciv:1685
 msgid "Change Production Everywhere"
-msgstr "Produktion überall verändert."
+msgstr "Produktion überall verändern"
 
 #: client/gui-gtk/cityrep.c:896 client/gui-win32/citydlg.c:870
 #: client/gui-win32/citydlg.c:1198 client/gui-win32/cityrep.c:760
