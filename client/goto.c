@@ -548,6 +548,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     } else {
       p.orders[i] = ORDER_MOVE;
       p.dir[i] = get_direction_for_step(old_x, old_y, new_x, new_y);
+      p.activity[i] = ACTIVITY_LAST;
       freelog(PACKET_LOG_LEVEL, "  packet[%d] = move %s: %d,%d => %d,%d",
  	      i, dir_get_name(p.dir[i]), old_x, old_y, new_x, new_y);
     }

@@ -417,6 +417,7 @@ struct packet_unit_info {
   bool orders_vigilant;
   enum unit_orders orders[MAX_LEN_ROUTE];
   enum direction8 orders_dirs[MAX_LEN_ROUTE];
+  enum unit_activity orders_activities[MAX_LEN_ROUTE];
 };
 
 struct packet_unit_short_info {
@@ -487,6 +488,7 @@ struct packet_unit_orders {
   bool vigilant;
   enum unit_orders orders[MAX_LEN_ROUTE];
   enum direction8 dir[MAX_LEN_ROUTE];
+  enum unit_activity activity[MAX_LEN_ROUTE];
   int dest_x;
   int dest_y;
 };

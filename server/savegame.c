@@ -1341,7 +1341,7 @@ static void load_player_units(struct player *plr, int plrno,
       int len = secfile_lookup_int_default(file, 0,
 			"player%d.u%d.orders_length", plrno, i);
       if (len > 0) {
-	char *orders_buf, *dir_buf;
+	char *orders_buf, *dir_buf, *act_buf;
 
 	punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
 	punit->orders.length = len;
@@ -1356,22 +1356,28 @@ static void load_player_units(struct player *plr, int plrno,
 			"player%d.u%d.orders_list", plrno, i);
 	dir_buf = secfile_lookup_str_default(file, "",
 			"player%d.u%d.dir_list", plrno, i);
+	act_buf = secfile_lookup_str_default(file, "",
+			"player%d.u%d.activity_list", plrno, i);
+	punit->has_orders = TRUE;
 	for (j = 0; j < len; j++) {
-	  if (orders_buf[j] == '\0' || dir_buf == '\0') {
+	  if (orders_buf[j] == '\0' || dir_buf == '\0'
+	      || act_buf[j] == '\0') {
 	    freelog(LOG_ERROR, _("Savegame error: invalid unit orders."));
 	    free_unit_orders(punit);
 	    break;
 	  }
 	  punit->orders.list[j].order = orders_buf[j] - 'a';
 	  punit->orders.list[j].dir = dir_buf[j] - 'a';
+	  punit->orders.list[j].activity = act_buf[j] - 'a';
 	}
-	punit->has_orders = TRUE;
       } else {
 	punit->has_orders = FALSE;
 	punit->orders.list = NULL;
       }
     } else {
       /* Old-style goto routes get discarded. */
+      punit->has_orders = FALSE;
+      punit->orders.list = NULL;
     }
 
     {
@@ -2399,7 +2405,7 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.u%d.transported_by", plrno, i);
     if (punit->has_orders) {
       int len = punit->orders.length, j;
-      char orders_buf[len + 1], dir_buf[len + 1];
+      char orders_buf[len + 1], dir_buf[len + 1], act_buf[len + 1];
 
       secfile_insert_int(file, len, "player%d.u%d.orders_length", plrno, i);
       secfile_insert_int(file, punit->orders.index,
@@ -2412,13 +2418,16 @@ static void player_save(struct player *plr, int plrno,
       for (j = 0; j < len; j++) {
 	orders_buf[j] = 'a' + punit->orders.list[j].order;
 	dir_buf[j] = 'a' + punit->orders.list[j].dir;
+	act_buf[j] = 'a' + punit->orders.list[j].activity;
       }
-      orders_buf[len] = dir_buf[len] = '\0';
+      orders_buf[len] = dir_buf[len] = act_buf[len] = '\0';
 
       secfile_insert_str(file, orders_buf,
 			 "player%d.u%d.orders_list", plrno, i);
       secfile_insert_str(file, dir_buf,
 			 "player%d.u%d.dir_list", plrno, i);
+      secfile_insert_str(file, act_buf,
+			 "player%d.u%d.activity_list", plrno, i);
     } else {
       /* Put all the same fields into the savegame.  Otherwise the
        * registry code gets confused (although it still works). */

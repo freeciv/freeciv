@@ -41,7 +41,7 @@ enum unit_activity {
 
 /* Changing this enum will break savegame and network compatability. */
 enum unit_orders {
-  ORDER_MOVE, ORDER_FINISH_TURN,
+  ORDER_MOVE, ORDER_FINISH_TURN, ORDER_ACTIVITY,
   ORDER_LAST
 };
 

@@ -10595,7 +10595,7 @@ static int cmp_packet_unit_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_unit_info_100_fields, 32);
+BV_DEFINE(packet_unit_info_100_fields, 33);
 
 static struct packet_unit_info *receive_packet_unit_info_100(struct connection *pc, enum packet_type type)
 {
@@ -10723,6 +10723,20 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       }
       for (i = 0; i < real_packet->orders_length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->orders_dirs[i]);
+      }
+    }
+  }
+  if (BV_ISSET(fields, 32)) {
+    
+    {
+      int i;
+    
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
+      for (i = 0; i < real_packet->orders_length; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->orders_activities[i]);
       }
     }
   }
@@ -10912,6 +10926,22 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 31);}
 
+
+    {
+      differ = (old->orders_length != real_packet->orders_length);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->orders_length; i++) {
+          if (old->orders_activities[i] != real_packet->orders_activities[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 32);}
+
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -11013,6 +11043,16 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     } 
   }
+  if (BV_ISSET(fields, 32)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->orders_length; i++) {
+        dio_put_uint8(&dout, real_packet->orders_activities[i]);
+      }
+    } 
+  }
 
 
   if (old_from_hash) {
@@ -11047,7 +11087,7 @@ static int cmp_packet_unit_info_101(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_unit_info_101_fields, 32);
+BV_DEFINE(packet_unit_info_101_fields, 33);
 
 static struct packet_unit_info *receive_packet_unit_info_101(struct connection *pc, enum packet_type type)
 {
@@ -11173,6 +11213,20 @@ static struct packet_unit_info *receive_packet_unit_info_101(struct connection *
       }
       for (i = 0; i < real_packet->orders_length; i++) {
         dio_get_uint8(&din, (int *) &real_packet->orders_dirs[i]);
+      }
+    }
+  }
+  if (BV_ISSET(fields, 32)) {
+    
+    {
+      int i;
+    
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
+      for (i = 0; i < real_packet->orders_length; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->orders_activities[i]);
       }
     }
   }
@@ -11362,6 +11416,22 @@ static int send_packet_unit_info_101(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 31);}
 
+
+    {
+      differ = (old->orders_length != real_packet->orders_length);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->orders_length; i++) {
+          if (old->orders_activities[i] != real_packet->orders_activities[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 32);}
+
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -11458,6 +11528,16 @@ static int send_packet_unit_info_101(struct connection *pc, const struct packet_
 
       for (i = 0; i < real_packet->orders_length; i++) {
         dio_put_uint8(&dout, real_packet->orders_dirs[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 32)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->orders_length; i++) {
+        dio_put_uint8(&dout, real_packet->orders_activities[i]);
       }
     } 
   }
@@ -13430,7 +13510,7 @@ int dsend_packet_unit_goto(struct connection *pc, int unit_id, int x, int y)
 
 #define cmp_packet_unit_orders_100 cmp_const
 
-BV_DEFINE(packet_unit_orders_100_fields, 8);
+BV_DEFINE(packet_unit_orders_100_fields, 9);
 
 static struct packet_unit_orders *receive_packet_unit_orders_100(struct connection *pc, enum packet_type type)
 {
@@ -13491,9 +13571,23 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
     }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint8(&din, (int *) &real_packet->dest_x);
+    
+    {
+      int i;
+    
+      if(real_packet->length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->length = MAX_LEN_ROUTE;
+      }
+      for (i = 0; i < real_packet->length; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->activity[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 7)) {
+    dio_get_uint8(&din, (int *) &real_packet->dest_x);
+  }
+  if (BV_ISSET(fields, 8)) {
     dio_get_uint8(&din, (int *) &real_packet->dest_y);
   }
 
@@ -13578,13 +13672,29 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (old->dest_x != real_packet->dest_x);
+
+    {
+      differ = (old->length != real_packet->length);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->length; i++) {
+          if (old->activity[i] != real_packet->activity[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
-  differ = (old->dest_y != real_packet->dest_y);
+  differ = (old->dest_x != real_packet->dest_x);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 7);}
+
+  differ = (old->dest_y != real_packet->dest_y);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -13621,9 +13731,19 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
     } 
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_uint8(&dout, real_packet->dest_x);
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->length; i++) {
+        dio_put_uint8(&dout, real_packet->activity[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 7)) {
+    dio_put_uint8(&dout, real_packet->dest_x);
+  }
+  if (BV_ISSET(fields, 8)) {
     dio_put_uint8(&dout, real_packet->dest_y);
   }
 

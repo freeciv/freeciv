@@ -1853,6 +1853,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
     for (i = 0; i < punit->orders.length; i++) {
       packet->orders[i] = punit->orders.list[i].order;
       packet->orders_dirs[i] = punit->orders.list[i].dir;
+      packet->orders_activities[i] = punit->orders.list[i].activity;
     }
   } else {
     packet->orders_length = packet->orders_index = 0;
@@ -2926,8 +2927,15 @@ bool execute_orders(struct unit *punit)
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
+  enum unit_activity activity;
 
   assert(unit_has_orders(punit));
+
+  if (punit->activity != ACTIVITY_IDLE) {
+    /* Unit's in the middle of an activity; wait for it to finish. */
+    punit->done_moving = TRUE;
+    return TRUE;
+  }
 
   freelog(LOG_DEBUG, "Executing orders for %s %d",
 	  unit_name(punit->type), punit->id);   
@@ -2986,6 +2994,20 @@ bool execute_orders(struct unit *punit)
     case ORDER_FINISH_TURN:
       punit->done_moving = TRUE;
       freelog(LOG_DEBUG, "  waiting this turn");
+      send_unit_info(NULL, punit);
+      break;
+    case ORDER_ACTIVITY:
+      activity = order.activity;
+      if (!can_unit_do_activity(punit, activity)) {
+	cancel_orders(punit, "  orders canceled because of failed activity");
+	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
+			 _("Game: Orders for %s aborted since they "
+			   "give an invalid activity."),
+			 unit_name(punit->type));
+	return TRUE;
+      }
+      punit->done_moving = TRUE;
+      set_unit_activity(punit, activity);
       send_unit_info(NULL, punit);
       break;
     case ORDER_MOVE:

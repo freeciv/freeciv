@@ -126,6 +126,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
     for (i = 0; i < punit->orders.length; i++) {
       punit->orders.list[i].order = packet->orders[i];
       punit->orders.list[i].dir = packet->orders_dirs[i];
+      punit->orders.list[i].activity = packet->orders_activities[i];
     }
   }
   return punit;
