@@ -303,14 +303,18 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 **************************************************************************/
 struct Sprite *client_research_sprite(void)
 {
-  int index = (NUM_TILES_PROGRESS
-	       * game.player_ptr->research.bulbs_researched)
-    / (total_bulbs_required(game.player_ptr) + 1);
+  if (can_client_change_view() && game.player_ptr) {
+    int index = (NUM_TILES_PROGRESS
+		 * game.player_ptr->research.bulbs_researched)
+      / (total_bulbs_required(game.player_ptr) + 1);
 
-  /* This clipping can be necessary since we can end up with excess
-   * research. */
-  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-  return sprites.bulb[index];
+    /* This clipping can be necessary since we can end up with excess
+     * research. */
+    index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+    return sprites.bulb[index];
+  } else {
+    return sprites.bulb[0];
+  }
 }
 
 /**************************************************************************
@@ -318,19 +322,24 @@ struct Sprite *client_research_sprite(void)
 **************************************************************************/
 struct Sprite *client_warming_sprite(void)
 {
-  int index;
-  if ((game.globalwarming <= 0) &&
-      (game.heating < (NUM_TILES_PROGRESS / 2))) {
-    index = MAX(0, game.heating);
-  } else {
-    index = MIN(NUM_TILES_PROGRESS,
-		(MAX(0, 4 + game.globalwarming) / 5) +
-		((NUM_TILES_PROGRESS / 2) - 1));
-  }
+  if (can_client_change_view() && game.player_ptr) {
+    int index;
 
-  /* The clipping is needed because the above math is a little fuzzy. */
-  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-  return sprites.warming[index];
+    if ((game.globalwarming <= 0) &&
+	(game.heating < (NUM_TILES_PROGRESS / 2))) {
+      index = MAX(0, game.heating);
+    } else {
+      index = MIN(NUM_TILES_PROGRESS,
+		  (MAX(0, 4 + game.globalwarming) / 5) +
+		  ((NUM_TILES_PROGRESS / 2) - 1));
+    }
+
+    /* The clipping is needed because the above math is a little fuzzy. */
+    index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+    return sprites.warming[index];
+  } else {
+    return sprites.warming[0];
+  }
 }
 
 /**************************************************************************
@@ -338,19 +347,24 @@ struct Sprite *client_warming_sprite(void)
 **************************************************************************/
 struct Sprite *client_cooling_sprite(void)
 {
-  int index;
-  if ((game.nuclearwinter <= 0) &&
-      (game.cooling < (NUM_TILES_PROGRESS / 2))) {
-    index = MAX(0, game.cooling);
-  } else {
-    index = MIN(NUM_TILES_PROGRESS,
-		(MAX(0, 4 + game.nuclearwinter) / 5) +
-		((NUM_TILES_PROGRESS / 2) - 1));
-  }
+  if (can_client_change_view()) {
+    int index;
 
-  /* The clipping is needed because the above math is a little fuzzy. */
-  index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-  return sprites.cooling[index];
+    if ((game.nuclearwinter <= 0) &&
+	(game.cooling < (NUM_TILES_PROGRESS / 2))) {
+      index = MAX(0, game.cooling);
+    } else {
+      index = MIN(NUM_TILES_PROGRESS,
+		  (MAX(0, 4 + game.nuclearwinter) / 5) +
+		  ((NUM_TILES_PROGRESS / 2) - 1));
+    }
+
+    /* The clipping is needed because the above math is a little fuzzy. */
+    index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
+    return sprites.cooling[index];
+  } else {
+    return sprites.cooling[0];
+  }
 }
 
 /**************************************************************************
@@ -358,14 +372,14 @@ struct Sprite *client_cooling_sprite(void)
 **************************************************************************/
 struct Sprite *client_government_sprite(void)
 {
-  if (game.government_count == 0) {
+  if (can_client_change_view() && game.government_count > 0) {
+    return get_government(game.player_ptr->government)->sprite;
+  } else {
     /* HACK: the UNHAPPY citizen is used for the government
      * when we don't know any better. */
     struct citizen_type c = {.type = CITIZEN_UNHAPPY};
 
     return get_citizen_sprite(c, 0, NULL);
-  } else {
-    return get_government(game.player_ptr->government)->sprite;
   }
 }
 
