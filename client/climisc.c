@@ -559,7 +559,7 @@ static int my_cmp(const void *p1, const void *p2)
  struct items and also sort it.
 
  section 0: normal buildings
- section 1: B_CAPITAL
+ section 1: Capitalization
  section 2: F_NONMIL units
  section 3: other units
  section 4: wonders
@@ -583,7 +583,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
       pitem->section = unit_type_flag(id, F_NONMIL) ? 2 : 3;
     } else {
       name = get_impr_name_ex(pcity, id);
-      if (id == B_CAPITAL) {
+      if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
 	cost = -1;
 	pitem->section = 1;
       } else {

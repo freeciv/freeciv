@@ -1031,7 +1031,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * City Walls, then there is a 50% chance of getting caught.
      */
     vulnerability = get_improvement_type(improvement)->sabotage;
-    if (city_got_building(pcity, B_CAPITAL)) {
+    if (city_got_building(pcity, B_PALACE)) {
       vulnerability /= 2;
     }
     if (myrand(100) >= vulnerability) {

@@ -215,6 +215,31 @@ bool are_effects_equal(const struct impr_effect *const peff1,
 }
 
 /**************************************************************************
+  Returns TRUE if the building has any effect bonuses of the given type.
+
+  Note that this function returns a boolean rather than an integer value
+  giving the exact bonus.  Finding the exact bonus requires knowing the
+  effect range and may take longer.  This function should only be used
+  in situations where the range doesn't matter.
+
+  TODO:
+    1.  This function does not access the effect data directly; instead
+        it just associates the effect with a building.
+    2.  Only a few effects are supported.
+**************************************************************************/
+bool building_has_effect(Impr_Type_id building, enum effect_type effect)
+{
+  switch (effect) {
+  case EFT_PROD_TO_GOLD:
+    return building == B_CAPITAL;
+  default:
+    break;
+  }
+  assert(0);
+  return FALSE;
+}
+
+/**************************************************************************
   Returns the effect bonus the currently-in-construction-item will provide.
 
   Note this is not called get_current_production_bonus because that would

@@ -177,7 +177,7 @@ int impr_buy_gold_cost(Impr_Type_id id, int shields_in_stock)
   int cost = 0, missing =
       improvement_types[id].build_cost - shields_in_stock;
 
-  if (id == B_CAPITAL) {
+  if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
     /* Can't buy capitalization. */
     return 0;
   }

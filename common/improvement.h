@@ -15,13 +15,13 @@
 
 /* City Improvements, including Wonders.  (Alternatively "Buildings".) */
 
-#include "fc_types.h"
-
 #include "shared.h"		/* MAX_LEN_NAME */
+
+#include "effects.h"
+#include "fc_types.h"
 #include "tech.h"		/* Tech_Type_id */
 #include "terrain.h"		/* Terrain_type_id etc */
 #include "unittype.h"		/* Unit_Class_id, Unit_Type_id */
-#include "effects.h"
 
 struct player;
 
@@ -34,32 +34,6 @@ typedef unsigned char Impr_Status;
 #define I_OBSOLETE   2   /* Built, but obsoleted by a tech */
 #define I_REDUNDANT  3   /* Built, but replaced by wonder/other building */
 
-
-/* FIXME: Remove this define when there is per-file need for this enum. */
-#define OLD_IMPR_TYPE_ENUM
-
-/* FIXME: Remove this enum and the ifdef/endif when gen-impr implemented. */
-#ifdef OLD_IMPR_TYPE_ENUM
-enum improvement_type_id {
-  B_AIRPORT=0, B_AQUEDUCT, B_BANK, B_BARRACKS, B_BARRACKS2, B_BARRACKS3, 
-  B_CATHEDRAL, B_CITY, B_COASTAL, B_COLOSSEUM, B_COURTHOUSE,  B_FACTORY, 
-  B_GRANARY, B_HARBOUR, B_HYDRO, B_LIBRARY, B_MARKETPLACE, B_MASS, B_MFG, 
-  B_NUCLEAR, B_OFFSHORE, B_PALACE, B_POLICE, B_PORT, B_POWER,
-  B_RECYCLING, B_RESEARCH, B_SAM, B_SDI, B_SEWER, B_SOLAR, B_SCOMP, 
-  B_SMODULE, B_SSTRUCTURAL, B_STOCK, B_SUPERHIGHWAYS, B_SUPERMARKET, B_TEMPLE,
-  B_UNIVERSITY,  
-  
-  B_APOLLO, B_ASMITHS, B_COLLOSSUS, B_COPERNICUS, B_CURE, B_DARWIN, B_EIFFEL,
-  B_GREAT, B_WALL, B_HANGING, B_HOOVER, B_ISAAC, B_BACH, B_RICHARDS, 
-  B_LEONARDO, B_LIGHTHOUSE, B_MAGELLAN, B_MANHATTEN, B_MARCO, B_MICHELANGELO, 
-  B_ORACLE, B_PYRAMIDS, B_SETI, B_SHAKESPEARE, B_LIBERTY, B_SUNTZU, 
-  B_UNITED, B_WOMENS,
-  B_CAPITAL, B_LAST_ENUM
-};
-typedef enum improvement_type_id Impr_Type_id;
-#else
-typedef int Impr_Type_id;
-#endif
 
 /* B_LAST is a value which is guaranteed to be larger than all
  * actual Impr_Type_id values.  It is used as a flag value;

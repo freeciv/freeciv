@@ -132,6 +132,7 @@ const char *effect_type_name(enum effect_type id);
 bool are_effects_equal(const struct impr_effect *const peff1,
 		       const struct impr_effect *const peff2);
 
+bool building_has_effect(Impr_Type_id building, enum effect_type effect);
 int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect);
 
