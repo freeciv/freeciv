@@ -66,6 +66,17 @@ enum improvement_type_id {
  * to hold full number of improvement types.  */
 #define B_LAST MAX_NUM_ITEMS
 
+/* Range of equivalence (used in equiv_range fields)
+ * These must correspond to impr_range_names[] in improvement.c. */
+enum impr_range {
+  IR_NONE,
+  IR_CITY,
+  IR_ISLAND,
+  IR_PLAYER,
+  IR_WORLD,
+  IR_LAST      /* keep this last */
+};
+
 /* Range of effects (used in equiv_range and effect.range fields)
  * These must correspond to effect_range_names[] in improvement.c. */
 enum effect_range {
@@ -184,7 +195,7 @@ struct impr_type {
   Impr_Type_id bldg_req;		/* B_LAST = none required */
   enum tile_terrain_type *terr_gate;	/* list; T_LAST terminated */
   enum tile_special_type *spec_gate;	/* list; S_NO_SPECIAL terminated */
-  enum effect_range equiv_range;
+  enum impr_range equiv_range;
   Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
   Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
   Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
@@ -202,17 +213,6 @@ struct impr_type {
 
 
 extern struct impr_type improvement_types[B_LAST];
-
-/* Range of equivalence (used in equiv_range fields)
- * These must correspond to impr_range_names[] in improvement.c. */
-enum impr_range {
-  IR_NONE,
-  IR_CITY,
-  IR_ISLAND,
-  IR_PLAYER,
-  IR_WORLD,
-  IR_LAST      /* keep this last */
-};
 
 /* impr range id/string converters */
 enum impr_range impr_range_from_str(const char *str);
