@@ -1134,7 +1134,7 @@ int handle_unit_establish_trade(struct player *pplayer,
 **************************************************************************/
 void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 {
-  int i, x, y, old_id;
+  int i, n, x, y, old_id;
   int coins;
   struct player *cplayer;
   if(pplayer->player_no!=pcity->owner) {
@@ -1152,14 +1152,21 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 	   || (cplayer->spaceship.state == SSHIP_LAUNCHED))) {
       spaceship_lost(cplayer);
     }
-       
+
     if(city_got_building(pcity, B_PALACE) 
        && city_list_size(&cplayer->cities) >= game.civilwarsize 
        && game.nplayers < game.nation_count
-       && game.nplayers < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS
-       && game.civilwarsize < GAME_MAX_CIVILWARSIZE
-       && civil_war_triggered(cplayer))
-      civil_war(cplayer);
+       && game.civilwarsize < GAME_MAX_CIVILWARSIZE) {
+      n = 0;
+      for( i = 0; i < game.nplayers; i++ ) {
+	if(!is_barbarian(&game.players[i])) {
+	  n++;
+	}
+      }
+      if(n < MAX_NUM_PLAYERS && civil_war_triggered(cplayer)) {
+	civil_war(cplayer);
+      }
+    }
 
     if (pcity->size<1) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
