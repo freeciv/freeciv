@@ -1,0 +1,135 @@
+========================
+Bienvenue à Freeciv 1.14
+========================
+
+Ceci est la version 1.14.1-beta4.
+
+Merci encore à tous nos développeurs qui continuent à travailler dur.
+
+Cette version comprend beaucoup de changements indiqués plus bas. 
+Ceux qui veulent voir les détails sur ces changements devraient jeter
+un coup d'oeil au fichier Changelog.
+
+CE QUI A CHANGÉ DEPUIS 1.14.0  
+ - Le client GTK+-2.0 est maintenant compilé par défaut.
+ - Beaucoup d'améliorations du client GTK+-2.0.
+ - Le client GTK+-2.0 devrait maintenant pouvoir être compilé pour
+   Win32.
+ - Les équipes sont supportées.
+ - Civserver fonctionne maintenant avec des locales UTF-8.
+ - Beaucoup de corrections de bogues.
+
+CE QUI A CHANGÉ DEPUIS 1.13.0  
+ - Noms de villes uniques, vous ne pouvez plus nommer vos villes de
+   la même manière et vous pouvez les noms de villes uniques
+   globalement (optionnel).
+ - Un nouveau générateur de cartes (générateur 5) qui crée de jolies
+   cartes fractales.
+ - Vous pouvez charger des sauvegardes de jeux depuis la console du
+   serveur.
+ - Vous pouvez sauvegarder les défauts du client.
+ - Les spécialistes sont puisés d'abord parmi les citoyens contents plutôt
+   que dans les citoyens mécontents. Cela rend plus difficile de contrer
+   les émeutes en utilisant des percepteurs et scientifiques.
+ - Vous démarrez maintenant avec aucune technologie par défaut et les
+   citoyens en colère sont activés par défaut quoiqu'ils se
+   manifesteront rarement.
+ - L'algorithme utilisé pour calculer les effets des réglages des
+   taxes a été changé. Il n'est plus possible d'obtenir un effet 1100%
+   depuis un taux de 60%.
+ - Une nouvelle version de jeu de règles a été incluse qui est plus
+   "historiquement correcte".
+ - Il y a une option pour imposer plusieurs tours d'extase/ville en
+   fête avant qu'elle ne soit effective. Voyez "show rapturedelay"
+   dans le serveur.
+ - L'enchaînement de certaines activités de fin de tour a été
+   réorganisé.
+ - Plusieurs améliorations de l'IA. Elle devrait maintenant construire
+   et acheter les unités et bâtiments de façon sensiblement plus
+   intelligente.
+ - Beaucoup d'amélioration de code internes qui devraient mener à plus
+   de fonctionnalités plus tard.
+ - Commandes /fix et /unfix pour arrêter les modifications après que
+   le jeu ait démarré.
+ - Les commandes du serveur "rulesout", "log", "freestyle" et "crash"
+   ont été supprimées, tandis que "rfcstyle" bascule maintenant entre rfcstyle
+   et freestyle.
+ - Le jeu de règles civ2 reflète maintenant de façon plus précise les
+   défauts du niveau divinité de civ2.
+ - Une quantité massive de corrections de bogues.
+
+CE QUI A CHANGÉ DEPUIS 1.12.0
+
+ - L'agent de gestion urbaine (AGU) vous permet d'automatiser les
+   travailleurs et spécialistes dans les villes.
+ - Le support du son a été ajouté.
+ - Le nouveau jeu de graphiques "isotrident" est devenu le défaut. Les
+   jeux de graphiques "hires" et "engels" ont été sortis de la
+   distribution mais peuvent être téléchargés depuis la page web.
+ - Nouveau dialogue de ville dans le client gtk.
+ - Version Windows du client. Elle a un dialogue de connexion amélioré
+   et supporte les chargements/sauvegardes de jeux depuis le client.
+ - Version GTK 2.0 du client.
+ - Le client tentera de suggérer des noms de villes qui correspondent
+   à leurs signification.
+ - Le dialogue des joueurs est amélioré et montre une des informations
+   en couleurs (dont les drapeaux) et triables.
+ - Le serveur ne prend plus l'option --server en ligne de commande,
+   vous pouvez utiliser l'option --info pour régler le texte du
+   message métaserveur sur ce que vous souhaitez. L'option -a donnée
+   au client passe complètement le dialogue de connexion.
+ - Une commande "wall" du serveur est ajoutée qui envoie un message à
+   tous les joueurs.
+ - Une nouvelle manière plus flexible de régler le timeout avec
+   l'option du serveur "timeoutinc".
+ - Les ampoules (points de recherche) en surplus seront reportées sur
+   la nouvelle avancée.
+ - Les routes commerciales sont plus efficaces.
+ - Les unités attaquant les bateaux dans les villes doublent leur
+   puissance de feu, tandis que les défenseurs n'en ont qu'un.
+ - Les hélicoptères défendant contre une unité aérienne ont une
+   pénalité de 50% et ont leur puissance de feu réduite à 1 contre les
+   chasseurs.
+ - Vous pouvez construire des remparts même si vous avez la merveille
+   Grande Muraille.
+ - Le coût de nourriture sous un gouvernement communiste a été mis à 1
+   pour le jeu de règles par défaut, tandis qu'il a été mis à 2 pour
+   le jeu de règles civ2.
+ - Les chasseurs et bombardiers furtifs sont maintenant vraiment
+   furtifs, et sont partiellement invisibles comme les sous-marins.
+   Les bombardiers furtifs ont également accru leur puissance
+   d'attaque de 14 à 18.
+ - Le jeu de règles civ2 a maintenant le fondamentalisme.
+ - Capacités de modpack améliorées : La "fonction" caravane a été
+   séparée. Nouvelles façons de calculer des coûts technologiques.
+   Meilleure documentation. Les jeux de règles peuvent spécifier les
+   technologies de départ, Vous pouvez avoir plus qu'une technologie
+   bonus. La syntaxe des jeux de règles bâtiments a été étendue de
+   manière significative, mais les effets ne fonctionnent pas encore. 
+ - L'option du serveur "tinyisles" permet des îles de 1x1 case et
+   "separatepoles" permet les continents connectés aux pôles.
+ - "citymindist" spécifie une distance minimum entre les villes tandis
+   que "notradesize" et "fulltradesize" régulent le commerce généré
+   par les petites villes.
+ - Vous pouvez activer les citoyens mécontents avec l'option
+   "angrycitizens".
+ - Les forteresses peuvent vous donner une vision élargie. Voyez les
+   options watchtower.
+ - Si vous perdez votre palais, vous en obtenez gratuitement un
+   nouveau dans une ville choisie de façon aléatoire. Ce comportement
+   peut être annulé avec l'option du serveur "savepalace".
+ - Les jeux de règles sont maintenant chargés depuis le serveur avec
+   la commande "rulesetdir".
+ - La limite du nombre de nations qui peuvent être incluses dans
+   Freeciv a été supprimée.
+ - Le format des fichiers spec des jeux de graphiques isométriques a
+   changé.
+ - Le code de la carte et de l'IA a été nettoyé de manière
+   significative.
+ - Traductions améliorées. Ajouté un meilleur support pour les formes
+   plurielles.
+ - plusieurs bogues écrabouillés et beaucoup de travail de fond.
+ - Pour un aperçu des bogues résiduels, voyez doc/BUGS.
+
+Pour les NEWS des versions précédentes voyez le fichier NEWS (en
+anglais).
