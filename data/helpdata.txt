@@ -49,7 +49,7 @@ The extinction of all other civilizations.\
 ", _("\
   Present administrators: \
 "), "\
-             David Pfitzner      - dwp@mso.anu.edu.au\n\
+             Jeff Mallatt        - jjm@codewell.com\n\
              Anthony J. Stuckey  - stuckey@jaka.ece.uiuc.edu\
 ", _("\
 If you find any bugs, then please send us a bug report.  This is \
