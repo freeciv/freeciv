@@ -617,18 +617,16 @@ void create_economy_report_dialog(bool make_modal)
 
 
 /****************************************************************
-...
+  Called when a building type is selected in the economy list.
 *****************************************************************/
 void economy_list_callback(GtkWidget *w, gint row, gint column)
 {
-  int i;
+  int i = economy_improvement_type[row];
+  bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
 
-  i = economy_improvement_type[row];
-  if (i >= 0 && i < game.num_impr_types && !is_wonder(i)) {
-    gtk_widget_set_sensitive(sellobsolete_command, TRUE);
-    gtk_widget_set_sensitive(sellall_command, TRUE);
-  }
-  return;
+  gtk_widget_set_sensitive(sellobsolete_command, is_sellable
+			   && improvement_obsolete(game.player_ptr, i));
+  gtk_widget_set_sensitive(sellall_command, is_sellable);
 }
 
 /****************************************************************
