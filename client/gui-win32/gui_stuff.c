@@ -261,7 +261,7 @@ void init_layoutwindow()
   wndclass->hIcon=NULL;
   wndclass->hCursor=LoadCursor(NULL,IDC_ARROW);
   wndclass->hInstance=freecivhinst;
-  wndclass->hbrBackground=CreateSolidBrush(GetSysColor(4));
+  wndclass->hbrBackground=CreateSolidBrush(GetSysColor(15));
   wndclass->lpszClassName=CLASSNAME;
   wndclass->lpszMenuName=(LPSTR)NULL;
   if (!RegisterClass(wndclass))
