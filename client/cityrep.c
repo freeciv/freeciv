@@ -297,7 +297,7 @@ Widget city_center_command, city_popup_command, city_buy_command,
 Widget city_change_command, city_popupmenu;
 
 int city_dialog_shell_is_modal;
-int *cities_in_list = NULL;
+struct city **cities_in_list = NULL;
 
 static char *dummy_city_list[]={ 
   "    "
@@ -493,7 +493,7 @@ void city_list_callback(Widget w, XtPointer client_data,
   struct city *pcity;
 
   if(ret->list_index!=XAW_LIST_NONE && 
-     (pcity=find_city_by_id(cities_in_list[ret->list_index]))) {
+     (pcity=cities_in_list[ret->list_index])) {
     int flag,i;
     char buf[512];
 
@@ -552,27 +552,26 @@ void city_change_callback(Widget w, XtPointer client_data,
 
 
 
-  if(ret->list_index!=XAW_LIST_NONE && (pcity=find_city_by_id(cities_in_list[ret->list_index])))
-    {
-      struct packet_city_request packet;
-      int build_nr;
-      Boolean unit;
+  if(ret->list_index!=XAW_LIST_NONE && 
+     (pcity=cities_in_list[ret->list_index])) {
+    struct packet_city_request packet;
+    int build_nr;
+    Boolean unit;
       
-      build_nr = (int) client_data;
+    build_nr = (int) client_data;
 
-      if (build_nr >= B_LAST)
-	{
-	  build_nr -= B_LAST;
-	  unit = TRUE;
-	}
-      else
-	unit = FALSE;
+    if (build_nr >= B_LAST) {
+      build_nr -= B_LAST;
+      unit = TRUE;
+    } else {
+      unit = FALSE;
+    }
 
-      packet.city_id=pcity->id;
-      packet.name[0]='\0';
-      packet.build_id=build_nr;
-      packet.is_build_id_unit_id=unit;
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+    packet.city_id=pcity->id;
+    packet.name[0]='\0';
+    packet.build_id=build_nr;
+    packet.is_build_id_unit_id=unit;
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
   }
 }
 
@@ -586,7 +585,7 @@ void city_buy_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     struct city *pcity;
-    if((pcity=find_city_by_id(cities_in_list[ret->list_index]))) {
+    if((pcity=cities_in_list[ret->list_index])) {
       int value;
       char *name;
       char buf[512];
@@ -624,7 +623,7 @@ void city_refresh_callback(Widget w, XtPointer client_data, XtPointer call_data)
   struct packet_generic_integer packet;
 
   if (ret->list_index!=XAW_LIST_NONE) {
-    if ((pcity=find_city_by_id(cities_in_list[ret->list_index]))) {
+    if ((pcity=cities_in_list[ret->list_index])) {
       packet.value = pcity->id;
       send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
     }
@@ -657,7 +656,7 @@ void city_center_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     struct city *pcity;
-    if((pcity=find_city_by_id(cities_in_list[ret->list_index])))
+    if((pcity=cities_in_list[ret->list_index]))
       center_tile_mapcanvas(pcity->x, pcity->y);
   }
 }
@@ -672,7 +671,7 @@ void city_popup_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     struct city *pcity;
-    if((pcity=find_city_by_id(cities_in_list[ret->list_index]))) {
+    if((pcity=cities_in_list[ret->list_index])) {
       center_tile_mapcanvas(pcity->x, pcity->y);
       popup_city_dialog(pcity, 0);
     }
@@ -698,9 +697,7 @@ void city_report_dialog_update(void)
     int i=0, n;
     Dimension width;
     static int n_alloc = 0;
-    static struct city **city_list_ptrs = 0;
-    static char **city_list_names = 0;
-    static char **city_list_names_ptrs = 0;
+    static char **city_list_text = NULL;
     char *report_title;
 
     n = city_list_size(&game.player_ptr->cities);
@@ -708,16 +705,11 @@ void city_report_dialog_update(void)
     if(n_alloc == 0 || n > n_alloc) {
       int j, n_prev = n_alloc;
       
-      n_alloc = n + 32;
+      if(!n_alloc) n_alloc=n+1; else n_alloc *= 2;
       freelog(LOG_DEBUG, "city report n_alloc increased to %d", n_alloc);
-      cities_in_list = realloc(cities_in_list, n_alloc*sizeof(int));
-      city_list_ptrs = realloc(city_list_ptrs, n_alloc*sizeof(struct city*));
-      city_list_names_ptrs = realloc(city_list_names_ptrs,
-				(n_alloc+1)*sizeof(char*));
-      city_list_names = realloc(city_list_names, n_alloc*sizeof(char*));
-      for(j=n_prev; j<n_alloc; j++) {
-	city_list_names[j] = malloc(200);
-      }
+      cities_in_list = realloc(cities_in_list, n_alloc*sizeof(*cities_in_list));
+      city_list_text = realloc(city_list_text, n_alloc*sizeof(char*));
+      for(j=n_prev; j<n_alloc; j++)  city_list_text[j] = malloc(128);
     }
        
     report_title=get_report_title("City Advisor");
@@ -735,30 +727,25 @@ void city_report_dialog_update(void)
      * Plus this should be much faster than sorting on ids which means
      * having to find city corresponding to id for each comparison.
      */
+    i=0;
     city_list_iterate(game.player_ptr->cities, pcity) {
-      city_list_ptrs[i] = pcity;
-      i++;
+      cities_in_list[i++] = pcity;
     } city_list_iterate_end;
     assert(i==n);
-    qsort(city_list_ptrs, n, sizeof(struct city*), city_name_compare);
+    qsort(cities_in_list, n, sizeof(struct city*), city_name_compare);
     for(i=0; i<n; i++) {
-      struct city *pcity = city_list_ptrs[i];
-      get_city_text(pcity,city_list_names[i]);
-      city_list_names_ptrs[i]=city_list_names[i];
-      cities_in_list[i]=pcity->id;
+      get_city_text(cities_in_list[i], city_list_text[i]);
     }
     i = n;
-    if(i==0) {
-      strcpy(city_list_names[0], 
+    if(!n) {
+      strcpy(city_list_text[0], 
 	     "                                                             ");
-      city_list_names_ptrs[0]=city_list_names[0];
       i=1;
-      cities_in_list[0]=0;
+      cities_in_list[0]=NULL;
     }
-    city_list_names_ptrs[i]=NULL;
 
     XawFormDoLayout(city_form, False);
-    XawListChange(city_list, city_list_names_ptrs, i, 0, True);
+    XawListChange(city_list, city_list_text, i, 0, True);
 
     XtVaGetValues(city_list, XtNlongest, &i, NULL);
     width=i+10;
@@ -787,7 +774,7 @@ void city_report_dialog_update_city(struct city *pcity)
   if(!city_dialog_shell) return;
 
   for(i=0; cities_in_list[i]; i++)  {
-    if(cities_in_list[i]==pcity->id)  {
+    if(cities_in_list[i]==pcity)  {
       int n;
       String *list;
       Dimension w;
