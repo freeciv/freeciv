@@ -361,7 +361,12 @@ static int ai_goldequiv_clause(struct player *pplayer,
       /* Very silly algorithm 1: Sea map more worth if enemy has more
          cities. Reasoning is he has more use of seamap for settling
          new areas the more cities he has already. */
-      worth -= 25 * city_list_size(&aplayer->cities);
+      worth -= 15 * city_list_size(&aplayer->cities);
+
+      /* Make maps from novice player cheap */
+      if (ai_handicap(pplayer, H_DIPLOMACY)) {
+        worth /= 2;
+      }
     }
     break;
 
@@ -372,10 +377,14 @@ static int ai_goldequiv_clause(struct player *pplayer,
     } else {
       /* Very silly algorithm 2: Land map more worth the more cities
          we have, since we expose all of these to the enemy. */
-      worth -= 75 * MAX(city_list_size(&pplayer->cities), 3);
+      worth -= 50 * MAX(city_list_size(&pplayer->cities), 3);
       /* Inflate numbers if not peace */
       if (!pplayers_in_peace(pplayer, aplayer)) {
-        worth *= 3;
+        worth *= 4;
+      }
+      /* Make maps from novice player cheap */
+      if (ai_handicap(pplayer, H_DIPLOMACY)) {
+        worth /= 6;
       }
     }
     break;
@@ -642,6 +651,11 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
   kill_desire -= MAX(0, kill_desire 
                         * pplayer->ai.love[aplayer->player_no] 
                         / (2 * MAX_AI_LOVE));
+
+  /* Make novice AI more peaceful with human players */
+  if (ai_handicap(pplayer, H_DIPLOMACY) && !aplayer->ai.control) {
+    kill_desire = kill_desire / 2 - 5;
+  }
 
   /* Amortize by distance */
   return amortize(kill_desire, adip->distance);
