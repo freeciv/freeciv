@@ -555,6 +555,7 @@ struct packet_ruleset_control {
   int aqueduct_size;
   int sewer_size;
   int add_to_size_limit;
+  int notradesize, fulltradesize;
   int num_unit_types;
   int num_impr_types;
   int num_tech_types;

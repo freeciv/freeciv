@@ -1697,6 +1697,8 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.aqueduct_size = game.aqueduct_size;
   packet.sewer_size = game.sewer_size;
   packet.add_to_size_limit = game.add_to_size_limit;
+  packet.notradesize = game.notradesize;
+  packet.fulltradesize = game.fulltradesize;
 
   /* when removing the new_bonus_tech capability remove the following
      line; has_capability("new_bonus_tech", */

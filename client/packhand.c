@@ -1657,6 +1657,8 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.aqueduct_size = packet->aqueduct_size;
   game.sewer_size = packet->sewer_size;
   game.add_to_size_limit = packet->add_to_size_limit;
+  game.notradesize = packet->notradesize;
+  game.fulltradesize = packet->fulltradesize;
   
   game.rtech.cathedral_plus = packet->rtech.cathedral_plus;
   game.rtech.cathedral_minus = packet->rtech.cathedral_minus;

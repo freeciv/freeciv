@@ -2912,6 +2912,10 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->aqueduct_size);
   cptr=put_uint8(cptr, packet->sewer_size);
   cptr=put_uint8(cptr, packet->add_to_size_limit);
+  if (has_capability("trade_size", pc->capability)) {
+    cptr = put_uint8(cptr, packet->notradesize);
+    cptr = put_uint8(cptr, packet->fulltradesize);
+  }
 
   if (!has_capability("new_bonus_tech", pc->capability)) {
     cptr = put_uint8(cptr, packet->rtech.get_bonus_tech);
@@ -2955,6 +2959,13 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->aqueduct_size);
   iget_uint8(&iter, &packet->sewer_size);
   iget_uint8(&iter, &packet->add_to_size_limit);
+  if (has_capability("trade_size", pc->capability)) {
+    iget_uint8(&iter, &packet->notradesize);
+    iget_uint8(&iter, &packet->fulltradesize);
+  } else {
+    packet->notradesize = 0;
+    packet->fulltradesize = 1;
+  }
 
   if (!has_capability("new_bonus_tech", pc->capability)) {
     iget_uint8(&iter, &packet->rtech.get_bonus_tech);
