@@ -1,10 +1,10 @@
-Short:     Amiga V1.14 - Freeciv 1.11.5-devel(beta)
+Short:     Amiga V1.16 - Freeciv 1.12.0
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga V1.14 - Freeciv 1.11.5-devel(beta)
+Kurz:      Amiga V1.16 - Freeciv 1.12.0
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.14
+Version:   1.16
 
 Introduction
 ~~~~~~~~~~~~
@@ -85,6 +85,15 @@ clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.16 (17.08.2001)
+ - corrensponds to latest Freeciv 1.12.0
+ - bug fixes
+ - seprate archives for the hires tile set and the locale files
+
+Version 1.15 (07.07.2001)
+ - corrensponds to latest Freeciv 1.11.7-devel (beta)
+ - isometric view support
+
 Version 1.14 (31.12.2000)
  - corrensponds to latest Freeciv 1.11.5-devel (beta)
  - that means client goto and a new patrol command
