@@ -2,7 +2,7 @@
 FEHLER
 ======                                                                                                 
 
-Freeciv 1.14.0 ist eine stabile Version, und kann für den täglichen
+Freeciv 1.14.1 ist eine stabile Version, und kann für den täglichen
 Gebrauch als ausreichend fehlerfrei betrachtet werden. Informationen
 über Fehler sind jederzeit willkommen.
 
@@ -12,12 +12,19 @@ darüber, wie Fehler berichtet werden können.
 Hier sind nur die offensichtlichsten Fehler aufgeführt. Eine vollständige
 Liste findet man unter:
 	
-	http://www.freeciv.org/cgi-bin/bugs
-
+	http://rt.freeciv.org/
 
 BEKANNTE FEHLER:
 ================
    
+ - Im Xaw Client funktioniert die Option -t zur Angabe des Tilesets manchmal
+   nicht. Benutzen Sie stattdessen --tiles .
+
+ - Die Einheitenanzeige im Feld links unter dem "Fertig"-Knopf ist ein wenig
+   fehlerhaft. KI-Einheiten werden nicht korrekt angezeigt. Es kann also
+   vorkommen, daß Sie dort 3-4 Einheiten sehen, aber nur eine existiert.
+   Mehr Informationen finden Sie im Fehlerbericht PR#2625.
+
  - Die Einstellungen der Automatischen Stadtverwaltung werden erst am
    Ende der Runde an den Server geschickt; deshalb gehen Änderungen, die
    in der gleichen Runde gemacht werden in der das Spiel abgespeichert
@@ -92,12 +99,16 @@ BEKANNTE FEHLER:
    Verwenden Sie stattdessen den Gtk Clienten oder einen anderen 
    Windowmanager.
 
+ - Alle Client-Optionen werden auch an das GUI weitergeleitet. Dadurch kann
+   es zu Konflikten kommen, zum Beispiel bei den Optionen -d und -t für den
+   Xaw Client. Verwenden Sie in diesen Fällen die lange Optionsform (--debug
+   und --tiles, in diesem Fall). Siehe auch PR#1752.
 
 FEHLER MITTEILEN:
 =================
 
-(Fehler in der deutschen Übersetzung berichten Sie bitte an die 
-Mailingliste der deutschen Freeciv-Übersetzer <freeciv.de@freelists.org>.)
+(Fehler in der deutschen Übersetzung berichten Sie bitte an den Übersetzer,
+siehe http://www.freeciv.org/de/l10n.phtml)
 
 Bitte gehen Sie so vor:
 
@@ -165,4 +176,4 @@ WEITERE INFORMATIONEN:
 
 Weitere Informationen finden Sie auf der Freeciv Website:
 
-        http://www.freeciv.org/
+        http://www.freeciv.org/de/
