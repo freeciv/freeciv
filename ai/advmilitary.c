@@ -252,8 +252,8 @@ content to let it remain that way for now. -- Syela 980805 */
 
           if (unit_flag(funit->type, F_HORSE)) {
             if (pikemen) v >>= 1;
-            else if (get_invention(pplayer, A_FEUDALISM) != TECH_KNOWN)
-              pplayer->ai.tech_want[A_FEUDALISM] += v * m / (dist<<1);
+            else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
+				    (v * m / (dist<<1)));
           }
 
         if ((unit_flag(funit->type, F_DIPLOMAT) && (dist <= 3 * m)) ||
@@ -295,8 +295,8 @@ content to let it remain that way for now. -- Syela 980805 */
 
         if (unit_flag(punit->type, F_HORSE)) {
           if (pikemen) v >>= 1;
-          else if (get_invention(pplayer, A_FEUDALISM) != TECH_KNOWN)
-            pplayer->ai.tech_want[A_FEUDALISM] += v * m / (dist<<1);
+	  else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
+				  (v * m / (dist<<1)));
         }
 
         if ((unit_flag(punit->type, F_DIPLOMAT) && (dist <= 3 * m)) ||
@@ -867,19 +867,18 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
      how many units may I loose during next turns? (17/12/98) (--NB)
   */
 
-     if ((get_invention(pplayer, A_WRITING) == TECH_KNOWN) ||
-         (get_invention(pplayer, A_ESPIONAGE) == TECH_KNOWN)) {
-       /* printf("A diplomat will be build into city %s.\n",pcity->name); */
+    int u = best_role_unit(pcity, F_DIPLOMAT);
+    if (u<U_LAST) {
+       /* printf("A diplomat will be built in city %s.\n", pcity->name); */
        choice->want = 16000; /* diplomat more important than soldiers */ 
        pcity->ai.urgency = 1;
        choice->type = 3; /* defender */
-       if (get_invention(pplayer, A_ESPIONAGE) == TECH_KNOWN) {
-	 choice->choice = U_SPY;
-       } else {
-	 choice->choice = U_DIPLOMAT;
-       }
+       choice->choice = u;
        return;
-     } else pplayer->ai.tech_want[A_WRITING] += 16000;
+    } else if (num_role_units(F_DIPLOMAT)>0) {
+      u = get_role_unit(F_DIPLOMAT, 0);
+      pplayer->ai.tech_want[get_unit_type(u)->tech_requirement] += 16000;
+    }
   } 
 
   if (danger) { /* otherwise might be able to wait a little longer to defend */
@@ -1002,9 +1001,8 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
   if (!pcity->is_building_unit && is_wonder(pcity->currently_building))
     wondercity = map_get_continent(pcity->x, pcity->y);
   else wondercity = 0;
-  if (get_invention(pplayer, A_CORPORATION) == TECH_KNOWN)
-    freight = 6;
-  else freight = 3;
+  freight = best_role_unit(pcity, F_CARAVAN);
+  freight = (freight==U_LAST) ? 3 : get_unit_type(freight)->move_rate;
 
   pcity->ai.downtown = 0;
   city_list_iterate(pplayer->cities, othercity)

@@ -67,13 +67,7 @@ void ai_city_build_defense(struct city *pcity)
 
 void ai_city_build_settler(struct city *pcity)
 {
-  int i;
-  for (i = 0 ; i < U_LAST ; i ++) {
-    if (unit_flag(i, F_SETTLERS) && can_build_unit(pcity, i)) {
-      ai_do_build_unit(pcity, i);
-      break;
-    }
-  }
+  ai_do_build_unit(pcity, best_role_unit(pcity, F_SETTLERS));
 }
 
 /************************************************************************** 
@@ -84,14 +78,11 @@ int ai_city_build_peaceful_unit(struct city *pcity)
 {
   int i;
   if (is_building_other_wonder(pcity)) {
-    for (i = 0 ; i < U_LAST ; i ++) {
-      if (unit_flag(i, F_CARAVAN) && can_build_unit(pcity, i)) {
-	ai_do_build_unit(pcity, i);
-	break;
-      }
-    }
-    if (i < U_LAST) 
+    i = best_role_unit(pcity, F_CARAVAN);
+    if (i < U_LAST) {
+      ai_do_build_unit(pcity, i);
       return 1;
+    }
   } else {
     if (can_build_improvement(pcity, B_CAPITAL)) {
       pcity->currently_building=B_CAPITAL;
@@ -237,7 +228,7 @@ bestchoice.want); */
     pcity->currently_building = B_BARRACKS;
     pcity->is_building_unit = 0;
   } else {
-    pcity->currently_building = U_SETTLERS; /* yes, this could be truly bad */
+    pcity->currently_building = best_role_unit(pcity, F_SETTLERS); /* yes, this could be truly bad */
     pcity->is_building_unit = 1;
   }
 /* I think fallbacks only happen with techlevel 0, and even then are rare.
@@ -268,7 +259,7 @@ void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 
 void ai_new_spend_gold(struct player *pplayer)
 {
-  int buycost, id, cost, frugal = 0;
+  int buycost, id, cost, frugal = 0, trireme=0;
   int total, build, did_upgrade;
   struct ai_choice bestchoice;
   struct city *pcity = NULL;
@@ -315,15 +306,19 @@ unit_types[punit->type].name, unit_types[id].name); */
             }
           }
         }
-        if ((id == bestchoice.choice || (punit->type == U_WARRIORS &&
-            bestchoice.choice == U_PHALANX) || (punit->type == U_PHALANX &&
-            bestchoice.choice == U_MUSKETEERS)) && ai_fuzzy(pplayer,1))  {
+	if ((id == bestchoice.choice
+	     || (unit_has_role(bestchoice.choice, L_DEFEND_GOOD)
+		 && is_on_unit_upgrade_path(bestchoice.choice, punit->type)))
+	    && ai_fuzzy(pplayer, 1)) {
           if (!did_upgrade) { /* might want to disband */
             build = pcity->shield_stock + (get_unit_type(punit->type)->build_cost>>1);
             total = get_unit_type(bestchoice.choice)->build_cost;
             cost=(total-build)*2+(total-build)*(total-build)/20;
             if ((bestchoice.want <= 100 && build >= total) ||
                   (pplayer->economic.gold >= cost)) {
+	      flog(LOG_DEBUG, "%s disbanding %s in %s to help get %s",
+		   pplayer->name, unit_types[punit->type].name, pcity->name,
+		   unit_types[bestchoice.choice].name);
               notify_player(pplayer, "Game: %s disbanded in %s.",
                 unit_types[punit->type].name, pcity->name);
               pcity->shield_stock+=(get_unit_type(punit->type)->build_cost/2);
@@ -407,10 +402,15 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
     pcity->ai.choice.want = 0; /* not dealing with this city a second time */
   } while (bestchoice.want > 0);
 /* always upgrade triremes, since they vanish and are FIELDUNITS */
-  id = can_upgrade_unittype(pplayer, U_TRIREME);
+  if (num_role_units(F_TRIREME)==0)
+    id = -1;
+  else {
+    trireme = get_role_unit(F_TRIREME, 0);
+    id = can_upgrade_unittype(pplayer, trireme);
+  }
   if (id > 0 && !frugal) {
     unit_list_iterate(pplayer->units, punit)
-      if (punit->type != U_TRIREME) continue;
+      if (punit->type != trireme) continue;
       pcity = map_get_city(punit->x, punit->y);
       if (!pcity) continue;
       cost = unit_upgrade_price(pplayer, punit->type, id);
@@ -511,7 +511,9 @@ int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by, int foodn
 
 int is_defender_unit(int unit_type) 
 {
-  return ((U_WARRIORS <= unit_type) && (unit_type <= U_MECH));
+  return unit_has_role(unit_type, L_DEFEND_GOOD)
+      || unit_has_role(unit_type, L_DEFEND_OK);
+  /* return ((U_WARRIORS <= unit_type) && (unit_type <= U_MECH)); */
 }
 
 /************************************************************************** 
@@ -568,22 +570,7 @@ int unit_attack_desirability(int i)
 
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)
 {
-  if (can_build_unit(pcity, U_TRANSPORT)) choice->choice = U_TRANSPORT;
-  else {
-    pplayer->ai.tech_want[A_INDUSTRIALIZATION] += choice->want;
-    if (can_build_unit(pcity, U_GALLEON)) choice->choice = U_GALLEON;
-    else {
-      pplayer->ai.tech_want[A_MAGNETISM] += choice->want;
-      if (can_build_unit(pcity, U_CARAVEL)) choice->choice = U_CARAVEL;
-      else {
-        pplayer->ai.tech_want[A_NAVIGATION] += choice->want;
-        if (can_build_unit(pcity, U_TRIREME)) choice->choice = U_TRIREME;
-        else {
-          pplayer->ai.tech_want[A_MAPMAKING] += choice->want;
-        }
-      } /* yeah, this is ugly code.  Thbbbbbbpt. -- Syela */
-    }
-  }
+  ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT,  choice->want);
 }
 
 int ai_choose_attacker(struct city *pcity, enum unit_move_type which)

@@ -699,6 +699,17 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y, dest_x, dest_y);*/
 int unit_can_defend(int type)
 {
   if (unit_types[type].move_type != LAND_MOVING) return 0; /* temporary kluge */
+  return (unit_has_role(type, L_DEFEND_GOOD));
+}
+
+#if 0
+/* pre-rulesets method, which was too hard to generalize (because
+   whether a unit is a "good" defender depends on how good other
+   units are)
+*/
+int old_unit_can_defend(int type)
+{
+  if (unit_types[type].move_type != LAND_MOVING) return 0; /* temporary kluge */
   if (unit_types[type].defense_strength * 
       (unit_types[type].hp > 10 ? 5 : 3) >=
       unit_types[type].attack_strength * 4 &&
@@ -706,6 +717,7 @@ int unit_can_defend(int type)
       !unit_flag(type, F_NONMIL)) return 1;
   return 0;
 }
+#endif
 
 int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **aunit, struct city **acity)
 {
@@ -1457,6 +1469,66 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y); */
 }
 
 /**************************************************************************
+ Assign tech wants for techs to get better units with given role/flag.
+ Returns the best we can build so far, or U_LAST if none.  (dwp)
+**************************************************************************/
+int ai_wants_role_unit(struct player *pplayer, struct city *pcity,
+		       int role, int want)
+{
+  int i, n, iunit, itech;
+
+  n = num_role_units(role);
+  for (i=n-1; i>=0; i--) {
+    iunit = get_role_unit(role, i);
+    if (can_build_unit(pcity, iunit)) {
+      return iunit;
+    } else {
+      /* careful; might be unable to build for non-tech reason... */
+      itech = get_unit_type(iunit)->tech_requirement;
+      if (get_invention(pplayer, itech) != TECH_KNOWN) {
+	pplayer->ai.tech_want[itech] += want;
+      }
+    }
+  }
+  return U_LAST;
+}
+
+/**************************************************************************
+ As ai_wants_role_unit, but also set choice->choice if we can build something.
+**************************************************************************/
+void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
+			 struct ai_choice *choice, int role, int want)
+{
+  int iunit = ai_wants_role_unit(pplayer, pcity, role, want);
+  if (iunit != U_LAST)
+    choice->choice = iunit;
+}
+
+/**************************************************************************
+ Whether unit_type test is on the "upgrade path" of unit_type base,
+ even if we can't upgrade now.
+**************************************************************************/
+int is_on_unit_upgrade_path(int test, int base)
+{
+#if 0
+  /* This is a hack for regression testing; I believe the new version
+   * is actually better (at least as it is used in aicity.c)  --dwp
+   */
+  return (base==U_WARRIORS && test==U_PHALANX)
+    || (base==U_PHALANX && test==U_MUSKETEERS);
+#else
+  /* This is the real function: */
+  do {
+    base = unit_types[base].obsoleted_by;
+    if (base == test) {
+      return 1;
+    }
+  } while (base != -1);
+  return 0;
+#endif
+}
+
+/**************************************************************************
  This a hack to enable emulation of old loops previously hardwired as
    for (i = U_WARRIORS; i <= U_BATTLESHIP; i++)
  (Could probably just adjust the loops themselves fairly simply, but this
@@ -1466,5 +1538,6 @@ int is_ai_simple_military(int type)
 {
   return !unit_flag(type, F_NONMIL)
     && !unit_flag(type, F_MISSILE)
+    && !unit_flag(type, F_SUBMARINE) /* not caught by capacity for civ1 */
     && !(get_unit_type(type)->transport_capacity >= 8);
 }

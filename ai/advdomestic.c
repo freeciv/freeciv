@@ -468,7 +468,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
-  int set, con, i, want;
+  int set, con, i, want, iunit;
   struct ai_choice cur;
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   int vans = 0;
@@ -488,17 +488,13 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     if (want > 0) {
 /*      printf("%s (%d, %d) desires settlers with passion %d\n", pcity->x, pcity->y, pcity->name, want);*/
-      if (can_build_unit(pcity, U_ENGINEERS)) choice->choice = U_ENGINEERS;
-      else {
-        choice->choice = U_SETTLERS;
-        pplayer->ai.tech_want[A_EXPLOSIVES] += want;
-      }
       choice->want = want;
       choice->type = 1;
+      ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);
     } else if (want < 0) { /* need boats to colonize! */
       choice->want = 0 - want;
       choice->type = 1;
-      choice->choice = U_SETTLERS; /* default */
+      choice->choice = best_role_unit(pcity, F_SETTLERS); /* default */
       ai_choose_ferryboat(pplayer, pcity, choice);
     }
   }
@@ -522,20 +518,21 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* if we just started building a wonder during a_c_c_b, the started_building */
 /* notify comes equipped with an update.  It calls generate_warmap, but this */
 /* is a lot less warmap generation than there would be otherwise. -- Syela */
-      i = pcity->ai.distance_to_wonder_city * 8 / (can_build_unit(pcity, U_FREIGHT) ? 6 : 3);
+      iunit = best_role_unit(pcity, F_CARAVAN);
+      i = pcity->ai.distance_to_wonder_city * 8 /
+	((iunit==U_LAST) ? 3 : get_unit_type(iunit)->move_rate);
       want -= i;
-/* value of 8 is a total guess and could be wrong, but it's better than 0 -- Syela */
-      if (can_build_unit_direct(pcity, U_CARAVAN)) {
+      /* value of 8 is a total guess and could be wrong,
+       * but it's better than 0 -- Syela */
+      iunit = get_role_unit(F_CARAVAN, 0);
+      if (can_build_unit_direct(pcity, iunit)) {
         if (want > choice->want) {
-          if (can_build_unit(pcity, U_FREIGHT)) choice->choice = U_FREIGHT;
-          else {
-            choice->choice = U_CARAVAN;
-            pplayer->ai.tech_want[A_CORPORATION] += i>>1;
-          }
           choice->want = want;
           choice->type = 1;
+	  ai_choose_role_unit(pplayer, pcity, choice, F_CARAVAN, i>>1);
         }
-      } else pplayer->ai.tech_want[A_TRADE] += want;
+      } else
+	pplayer->ai.tech_want[get_unit_type(iunit)->tech_requirement] += want;
     }
   city_list_iterate_end;
 
@@ -550,20 +547,15 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* allowing buy of peaceful units after much testing -- Syela */
 
   if (!choice->want) { /* oh dear, better think of something! */
-    if (can_build_unit(pcity, U_CARAVAN)) {
+    iunit = best_role_unit(pcity, F_CARAVAN);
+    if (iunit == U_LAST) {
+      iunit = best_role_unit(pcity, F_DIPLOMAT);
+      /* someday, real diplomat code will be here! */
+    }
+    if (iunit != U_LAST) {
       choice->want = 1;
       choice->type = 1;
-      choice->choice = U_CARAVAN;
-    }
-    else if (can_build_unit(pcity, U_DIPLOMAT)) {
-      choice->want = 1; /* someday, real diplomat code will be here! */
-      choice->type = 1;
-      choice->choice = U_DIPLOMAT;
-    }
-    else if (can_build_unit(pcity, U_SPY)) {
-      choice->want = 1; /* someday, real diplomat code will be here! */
-      choice->type = 1;
-      choice->choice = U_SPY;
+      choice->choice = iunit;
     }
   }
   if (choice->want >= 200) choice->want = 199; /* otherwise we buy caravans in
