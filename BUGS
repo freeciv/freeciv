@@ -14,13 +14,6 @@ This lists only the most obvious bugs.  For a complete list, see:
 KNOWN BUGS:
 ===========
 
- - The Gtk+ client sometimes has a problem where the focus gets stuck
-   on the chatline, and the arrow keys no longer work to move units in
-   the main window.  A way to get back to the main window is to use
-   the <Tab> key to advance to focus to some other widget.  Then the
-   arrow keys will work again.  (Clicking on the main window should also
-   do the trick.)
-
  - The easy AI is not easy enough for novice players.  If the AI is
    beating you up early in the game, try setting the "generator" server
    option to 2 or 3.  That is, in the server, before starting a game,
@@ -40,6 +33,40 @@ KNOWN BUGS:
  - The Great Wall wonder, which acts as a city wall in every city,
    disallows cities to build "proper" city walls that won't disappear
    when wonder becomes obsolete.
+
+ - Some effects of wonders and research first take effect the turn
+   after. Fx when building the lighthouse some triremes will only get
+   the movement bonus the next turn.
+
+ - The XAW client can only display 25 citizens in the city dialog
+
+ - The autoattack generelly doesn't work very well.
+
+ - When planning a goto in the server, fx for an autosettler or an
+   airplane, the server will use knowledge not available to the player.
+
+ - The science dialog is not updated when you gain a tech. You need to
+   close and open it.
+
+ - In the gtk client, sometimes the area near the minimap contains
+   garbage.
+
+ - Automate routines like auto explore don't handle triremes very well.
+
+ - LOG_DEBUG doesn't work with non-GCC compilers.
+
+ - The color markup in the gtk message window is lost if the dialog
+   is closed and then reopened.
+
+ - When setting server variables, the server in many cases doesn't
+   check the values as well as it could.
+
+ - Bad things happen when you manipulate multiple global worklists
+   simultaneously.
+
+ - Even in singleplayer the AI will get a chance to move both before
+   and  after the human player each turn. This will sometimes give the
+   impression that the AI moves twice.
 
 REPORTING A BUG:
 ================

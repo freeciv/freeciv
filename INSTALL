@@ -36,6 +36,8 @@ out whether your system is suitable.  If in doubt, just try it.
    Development releases and CVS snapshots will not work without gcc,
    unless you give configure the "--disable-cvs-deps" option.  See
    the section below for more information.
+   Note that there have been reports that gcc with -O3 miscompiled
+   freeciv. No problems have been reported with -O2.
 
  - A "make" program.
 
@@ -64,6 +66,7 @@ the Athena widget library ("Xaw"), and one using the Gtk+ widget
 library.  The two forms have different prerequisites, explained
 separately below.  Your system will need to satisfy at least 
 one of the two sets of prerequisites.
+There is also a native amiga client.
 
 Note that some systems have separate library packages for "runtime" 
 library support and for development support (for compiling programs 
@@ -145,7 +148,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.6.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.10.tar.gz
 
  - The "Gtk+" widget library.
 
@@ -160,7 +163,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.6.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.10.tar.gz
 
  - The "Imlib" library.
 
@@ -172,7 +175,7 @@ will need to have the appropriate "development" packages installed.
    If the Freeciv configure process tells you that you don't have the
    Imlib library installed, then it may be obtained from here:
 
-     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.7.tar.gz
+     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.10.tar.gz
 
    (Imlib documentation says that you require other libraries to use
    certain features but none of those are needed by the Freeciv client).
@@ -500,8 +503,8 @@ And it should answer something like
 
 (/usr/lib/libreadline.so is wherever your readline lib is installed.)
 If the dependency on curses (or equivalent) is mentioned it should
-work. If it isn't listed and the freeciv configure can't make readline
-work it is because readline is not correctly installed. It is then
+work. If it isn't listed, and the freeciv configure can't make readline
+work, it is because readline is not correctly installed. It is then
 recommented to file a bug against wherever you got your readline lib
 from.
 [Does anyone know how to add the dependency to the library?]

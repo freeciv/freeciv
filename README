@@ -1,11 +1,11 @@
 ====================
-Freeciv Version 1.11
+Freeciv Version 1.12
 ====================
 
 Welcome to Freeciv!
 
-This archive contains Freeciv, a free Civilization clone for X,
-primarily under Unix.  It has support for multiplayer games locally or
+This archive contains Freeciv, a free Civilization clone, primarily
+for X under Unix.  It has support for multiplayer games locally or
 over a network, and an AI which gives most people a run for their money.
 
 Freeciv aims to be mostly rule-compatible with Civilization II [tm],
@@ -16,9 +16,9 @@ adjustable parameters to make customizing games possible.
 Freeciv has been implemented completely independently of Civilization;
 you do not need to own Civilization to play Freeciv.
 
-Although the graphics are not as polished as those in Civilization II,
-the rules are very complete, and our multiplayer and networking code is
-excellent.
+Allthough we do not yet have sound support, and the computer players
+can't yet negotiate, the rules are very complete, and our multiplayer
+and networking code is excellent.
 
 There may be a localized version of this file in the ./doc directory,
 named README.<locale> (e.g., README.de).
@@ -152,20 +152,27 @@ Client:
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with two main tilesets, called "trident" and
-  "engels", and two variant tilesets, called "trident_shields" and
-  "engels_shields".  In this release the trident tileset is the default
-  (in some previous releases the engels tileset was the default).  The
-  two main tilesets have quite different graphic styles; you may find
+  distribution comes with 3 main tilesets:
+  - hires: An isometric tileset like the one in civ 2. (not supported
+    by the xaw client.)
+  - trident: a civ1-style tileset with 30x30 tiles.
+  - engels: a civ1-style tileset with 45x45 tiles.
+  The trident and engels tilesets have variants called "trident_shields"
+  and "engels_shields".
+  In this release the hires tileset is the default in the gtk and amiga
+  clients, while the xaw client has trident as default. (in some previous
+  releases the engels tileset was the default).
+  The tilesets have quite different graphic styles; you may find
   you prefer one over the other.  The "_shields" variants use a shield-
   shaped flag, which is smaller and may be less obscured.  The trident
   tiles are smaller, so may be better if you have a small display.  But
-  try them both and decide for yourself -- to use the engels tileset
+  try them both and decide for yourself -- to use fx the trident tileset
   start the client with:
 
-  |  % civclient --tiles engels
+  |  % civclient --tiles trident
 
   Other tilesets may be available from the ftp site.
+
 
   Clients can be authorized to issue server commands.  To allow them
   to use informational commands only, type at the server prompt
@@ -352,13 +359,6 @@ if they're to be allowed in.
 The game may then be restarted with the 'start' command as usual.
 
 
-Server autostart:
-=================
-
-When the maximum number of players have connected, the server auto-starts.
-The maximum number of players can be set with the 'maxplayers' option.
-
-
 Native Language Support:
 ========================
 
@@ -496,9 +496,9 @@ To send an email to the lists, address it to:
 New Releases:
 =============
 
-We make a major new release of Freeciv available about every three
-months.  Check the Freeciv website from time to time to see if there's
-a newer version!!
+We hope to make a major new release of Freeciv available about every
+four months.  Check the Freeciv website from time to time to see if
+there's a newer version!!
 
 
 And finally:

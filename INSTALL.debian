@@ -8,10 +8,9 @@ others may exist on the future. You can find more information about Debian
 at http://www.debian.org/
 
 There are versions of Freeciv in Debian GNU/Linux since version 2.0 (which
-shipped with Freeciv 1.5.4). Version 2.1, about to be released, will ship
-with version 1.7.2, and regular CVS snapshots can be found in the
-Experimental directory (in .../debian/project/experimental in any ftp mirror
-- look in the webpage for the mirror list).
+shipped with Freeciv 1.5.4). Version 2.2 ships with version 1.9.0 and the
+latest stable freeciv version can usually be found in the testing or
+unstable distributions.
 
 Of course, maybe the source tree where you're reading this file is newer
 than any version available on your Debian CD or in the ftp mirrors -
@@ -22,26 +21,40 @@ the source tree - and get a nice version number if it's a CVS snapshot, too.
 
 First you will need to check if you have the following packages installed:
 
+Common requirements:
 gcc (duh, you didn't expect to compile anything without gcc did you?)
 libc6-dev
+libreadline4-dev
+zlib1g-dev
 xlib6g-dev
 dpkg-dev
+dh-make
 
-Plus, if you have any modified version of Xaw (like xaw3d, xaw95 or nextaw)
-you will also need the package "xaw-wrappers".
+For the gtk client:
+gdk-imlib1-dev
+libglib1.2-dev
+libgtk1.2-dev
+
+For the xaw client:
+xaw3dg-dev
+libxpm4-dev
+xaw-wrappers
 
 Now, make any changes you want to make to the tree - like applying patches.
 Then, just cd to the top directory of the source tree (the directory where
 this file is located) and run the script "./build.debian". The script have
 to either be run as root, or with Debian's nice "fakeroot" utility. It would
 also be better if you first set your email address in the environment, so
-that it doesn't have to ask. Tipically:
+that it doesn't have to ask. It is a good idea to run "make distclean"
+before building to make sure any previously generated files do not interfere.
+Typically:
 
 $ cd /somewhere/freeciv
 $ export EMAIL="Your Name <address@host.com>"
+$ make distclean
 $ fakeroot build.debian
 $ su
-# dpkg -i ../freeciv_1.7.2+cvs19990101_i386.deb
+# dpkg -i ../freeciv_1.11.5+cvs20010419_i386.deb
 # exit
 $
 

@@ -1,14 +1,90 @@
 =======================
-Welcome to Freeciv 1.11
+Welcome to Freeciv 1.12
 =======================
 
-This is release 1.11.4.
+This is release 1.12.0.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.11.4
+
+ - Internationalization extended.  Still needs improvement.
+   Current localizations: de en_GB es fr hu ja nl no pl pt pt_BR ru sv.
+ - Isometric view in gtk and amiga clients using the mostly civ2-
+   compatible HiRes tileset. This is on by default, but the old non-
+   isometric tiles are still available by giving a --tiles argument to
+   the client, fx "civclient --tiles trident".
+ - While planning a goto (after hitting "g") a line will be displayed
+   showing the route from the selected unit to the mouse pointer.
+   Hitting "g" will insert a waypoint at the mouse pointer.
+ - The server now has readline completion. This works at all levels,
+   fx "cu<TAB>" completes to "cut", and if there exist a player named
+   "paulz" "cut pau<TAB>" will complete to "cut paulz".
+ - Players can agree to give shared vision, which means that you
+   automatically see everything the other player sees.
+ - Layer view menu items allow you to only display some map info on the
+   main map. Fx you can choose to not show roads.
+ - The server will ping all connected clients and cut off those too slow
+   to respond.
+ - Smarter placing of partisans.
+ - The server no longer automatically starts when the maximum number of
+   players have been reached.
+ - If commandlevels are used and the controlling player disconnects a
+   connected player can assume the "first" level with the "/firstlevel"
+   command.
+ - "Restrictions and Limitations" section added to the README.ruleset
+ - Caravans, diplomats and spies can move into allied cities.
+ - Elephants, Crusaders and Fanatics activated in civ 2 ruleset.
+ - The size of the city foodbox is now controlled by the ruleset
+   variables "granary_food_ini" and "granary_food_inc".
+ - Limit on number of improvement types in rulesets removed.
+ - Capitalization is available from the start of the game in the default
+   ruleset. (renamed coinage)
+ - Cities can have 0 trade. (used to be at least 1)
+ - If you paradrop a unit into unknown terrain and the terrain contains
+   an enemy unit the paradropping unit is lost. If you drop into terrain
+   you thought was land, but which has changed to water, the unit is
+   also lost.
+ - Refueling air units at turn update will refuel units with only 1 fuel
+   first. Secundary criteria is unit cost.
+ - Trireme loss percentage depends upon known technologies.
+ - Leonardo's workshop will upgrade a random unit each turn, and not
+   just the next one.
+ - Allied cities count as friendly when determining whether a unit is
+   being agressive. (gives unhappyness under some govs.)
+ - Deserts are created primarily 15 to 35 degrees off the equator.
+ - Only arctic tiles generated at poles.
+ - The server will report when a new government becomes available.
+ - Changed wording of message "famine feared" to "famine occured". New
+  "famine feared" message just before food runs out.
+ - "wonder soon build" message when another player is about to complete
+   a wonder.
+ - Players are notified when one of their wonders has become obsolete.
+ - In the players dialog it is now reported which nations have an
+   embassy with you. Your embassies are also listed.
+ - Wonders being built are listed in the "wonders of the world" popup.
+ - "allowconnect" server variables controls to which types of players a
+   client can connect.
+ - Server "save" command saves to <auto-save name prefix><year>m.sav[.gz]
+   if it is not given any arguments.
+ - "quitidle" server commandline option makes server quit if there has
+   been no connected players for the specified amount of time.
+ - When turning on the autotoggle option existing human nations without
+   a connected player will be put on AI.
+ - Server doesn't block as long when writing to a slow host, controlled
+   by variables "tcptimeout" and "netwait".
+ - "savename" server variable controls the prefix of autosaves.
+ - "allowconnect" server variable lets you control which types of
+   players (new players; human players; AI players; dead players;
+   barbarian players) can connect.
+ - More nations added.
+ - Amiga internationalization/localization.
+ - Amiga client: history added to chatline.
+ - Lots of bug fixes and code cleanups.
 
 WHAT'S CHANGED SINCE 1.11.0:
 
