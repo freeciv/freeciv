@@ -2109,7 +2109,7 @@ int do_airline(struct unit *punit, int x, int y)
   punit->moved = 1;
 
   connection_do_buffer(game.players[punit->owner].conn);
-  send_unit_info(&game.players[punit->owner], punit);
+  send_unit_info_to_onlookers(0, punit, src_x, src_y);
   send_city_info(city_owner(city1), city1);
   send_city_info(city_owner(city2), city2);
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
@@ -2184,7 +2184,7 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
       punit->moves_left = 0;
     punit->paradropped = 1;
     punit->moved = 1;
-    send_unit_info(0, punit);
+    send_unit_info_to_onlookers(0, punit, src_x, src_y);
 
     return handle_unit_move_consequences(punit, src_x, src_y, x, y, 1);
   }
