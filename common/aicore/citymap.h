@@ -18,5 +18,6 @@ int citymap_read(int x, int y);
 bool citymap_is_reserved(int x, int y);
 void citymap_reserve_city_spot(int x, int y, int id);
 void citymap_free_city_spot(int x, int y, int id);
+void citymap_reserve_tile(int x, int y, int id);
 
 #endif

@@ -61,7 +61,7 @@ void citymap_turn_init(struct player *pplayer)
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       map_city_radius_iterate(pcity->x, pcity->y, x1, y1) {
-        struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+        struct tile *ptile = map_get_tile(x1, y1);
 
         if (ptile->worked) {
           citymap[x1][y1] = -(ptile->worked->id);
@@ -161,4 +161,18 @@ void citymap_free_city_spot(int x, int y, int id)
       citymap[x1][y1]--;
     }
   } map_city_radius_iterate_end;
+}
+
+/**************************************************************************
+  Reserve additional tiles as desired (eg I would reserve best available
+  food tile in addition to adjacent tiles)
+**************************************************************************/
+void citymap_reserve_tile(int x, int y, int id)
+{
+#ifdef DEBUG
+  assert(is_normal_map_pos(x, y));
+  assert(!citymap_is_reserved(x,y));
+#endif
+
+  citymap[x][y] = -id;
 }
