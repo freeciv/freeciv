@@ -63,7 +63,9 @@ Widget help_improvement_req, help_improvement_req_data;
 Widget help_improvement_variant, help_improvement_variant_data;
 Widget help_wonder_obsolete, help_wonder_obsolete_data;
 Widget help_wonder_variant, help_wonder_variant_data;
-Widget help_improvement_tree;
+
+Widget help_tech_tree;
+Widget help_tree_viewport;
 
 Widget help_unit_attack, help_unit_attack_data;
 Widget help_unit_def, help_unit_def_data;
@@ -570,6 +572,8 @@ void create_help_page(enum help_page_type type)
 				     XtNwidth, w2,
 				     NULL);
 
+  help_tree_viewport=0;
+  
   if(type==HELP_TEXT || type==HELP_ANY) {
     help_text = XtVaCreateManagedWidget("helptext", 
 					asciiTextWidgetClass, 
@@ -650,15 +654,18 @@ void create_help_page(enum help_page_type type)
     }
 
     XtVaGetValues(help_improvement_req, XtNy, &ay, XtNheight, &ah, NULL);
-    help_improvement_tree=XtVaCreateManagedWidget("helptree", 
-						  treeWidgetClass, 
-						  help_right_form,
-						  XtNwidth, w2,
-						  XtNheight, MAX(1,h-(ay+ah)-10),
-						  NULL);
-
+    help_tree_viewport=XtVaCreateManagedWidget("helptreeviewport", 
+					       viewportWidgetClass, 
+					       help_right_form,
+					       XtNwidth, w2,
+					       XtNheight, MAX(1,h-(ay+ah)-10),
+					       NULL);
+    help_tech_tree=XtVaCreateManagedWidget("helptree", 
+					   treeWidgetClass, 
+					   help_tree_viewport,
+					   NULL);
     
-    XawTreeForceLayout(help_improvement_tree);  
+    XawTreeForceLayout(help_tech_tree);  
     
   }
   else if(type==HELP_UNIT) {
@@ -761,13 +768,17 @@ void create_help_page(enum help_page_type type)
 						       NULL);
 
      XtVaGetValues(help_improvement_req, XtNy, &ay, XtNheight, &ah, NULL);
-     help_improvement_tree=XtVaCreateManagedWidget("helptree", 
-						   treeWidgetClass, 
-						   help_right_form,
-						   XtNwidth, w2,
-						   XtNheight, MAX(1,h-(ay+ah)-10),
-						  NULL);
-     XawTreeForceLayout(help_improvement_tree);  
+     help_tree_viewport=XtVaCreateManagedWidget("helptreeviewport", 
+					       viewportWidgetClass, 
+					       help_right_form,
+					       XtNwidth, w2,
+					       XtNheight, MAX(1,h-(ay+ah)-10),
+					       NULL);
+     help_tech_tree=XtVaCreateManagedWidget("helptree", 
+					   treeWidgetClass, 
+					   help_tree_viewport,
+					   NULL);
+     XawTreeForceLayout(help_tech_tree);  
 
   }
   else if(type==HELP_TECH) {
@@ -781,18 +792,18 @@ void create_help_page(enum help_page_type type)
 					NULL);
     
     XtVaGetValues(help_text, XtNy, &ay, XtNheight, &ah, NULL);
-    help_improvement_tree=XtVaCreateManagedWidget("helptree", 
-						  treeWidgetClass, 
-						  help_right_form,
-						  XtNwidth, w2,
-						  XtNheight, MAX(1,h-(ay+ah)-10),
-						  XtNfromVert,help_text,
-						  NULL);
-    XawTreeForceLayout(help_improvement_tree);  
-  
-  						   
-
-  
+    help_tree_viewport=XtVaCreateManagedWidget("helptreeviewport", 
+					       viewportWidgetClass, 
+					       help_right_form,
+					       XtNwidth, w2,
+					       XtNheight, MAX(1,h-(ay+ah)-10),
+					       XtNfromVert,help_text,
+					       NULL);
+    help_tech_tree=XtVaCreateManagedWidget("helptree", 
+					   treeWidgetClass, 
+					   help_tree_viewport,
+					   NULL);
+    XawTreeForceLayout(help_tech_tree);  
   }
 }
 
@@ -836,14 +847,14 @@ void help_update_improvement(struct help_item *pitem, char *title, int which)
       xaw_set_label(help_improvement_req_data,
 		    advances[imp->tech_requirement].name);
     }
-    create_tech_tree(help_improvement_tree, 0, imp->tech_requirement, 3);
+    create_tech_tree(help_tech_tree, 0, imp->tech_requirement, 3);
   }
   else {
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_upkeep_data, "0 ");
     xaw_set_label(help_improvement_variant_data,"0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
-    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);
+    create_tech_tree(help_tech_tree, 0, A_LAST, 3);
   }
   set_title_topic(pitem);
   buf[0] = '\0';
@@ -918,7 +929,7 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
     }
     xaw_set_label(help_wonder_obsolete_data,
 		  advances[imp->obsolete_by].name);
-    create_tech_tree(help_improvement_tree, 0, imp->tech_requirement, 3);
+    create_tech_tree(help_tech_tree, 0, imp->tech_requirement, 3);
   }
   else {
     /* can't find wonder */
@@ -926,7 +937,7 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
     xaw_set_label(help_wonder_variant_data, "0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
     xaw_set_label(help_wonder_obsolete_data, "None");
-    create_tech_tree(help_improvement_tree, 0, A_LAST, 3); 
+    create_tech_tree(help_tech_tree, 0, A_LAST, 3); 
   }
   set_title_topic(pitem);
   buf[0] = '\0';
@@ -977,7 +988,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
       xaw_set_label(help_improvement_req_data,
 		    advances[utype->tech_requirement].name);
     }
-    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);
+    create_tech_tree(help_tech_tree, 0, utype->tech_requirement, 3);
     if(utype->obsoleted_by==-1) {
       xaw_set_label(help_wonder_obsolete_data, "None");
     } else {
@@ -1080,7 +1091,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
     xaw_set_label(help_unit_hp_data, "0 ");
     xaw_set_label(help_unit_visrange_data, "0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
-    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);
+    create_tech_tree(help_tech_tree, 0, A_LAST, 3);
     xaw_set_label(help_wonder_obsolete_data, "None");
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
@@ -1100,7 +1111,7 @@ void help_update_tech(struct help_item *pitem, char *title, int i)
   set_title_topic(pitem);
 
   if (i<A_LAST) {
-    create_tech_tree(help_improvement_tree, 0, i, 3);
+    create_tech_tree(help_tech_tree, 0, i, 3);
     strcpy(buf, pitem->text);
 
     if(game.rtech.get_bonus_tech == i) {
@@ -1146,7 +1157,7 @@ void help_update_tech(struct help_item *pitem, char *title, int i)
   }
   else {
     create_help_page(HELP_TECH);
-    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);
+    create_tech_tree(help_tech_tree, 0, A_LAST, 3);
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
 }
@@ -1168,24 +1179,30 @@ void help_update_dialog(struct help_item *pitem)
     i = find_improvement_by_name(top);
     if(i!=B_LAST && is_wonder(i)) i = B_LAST;
     help_update_improvement(pitem, top, i);
-    return;
+    break;
   case HELP_WONDER:
     i = find_improvement_by_name(top);
     if(i!=B_LAST && !is_wonder(i)) i = B_LAST;
     help_update_wonder(pitem, top, i);
-    return;
+    break;
   case HELP_UNIT:
     help_update_unit_type(pitem, top, find_unit_type_by_name(top));
-    return;
+    break;
   case HELP_TECH:
     help_update_tech(pitem, top, find_tech_by_name(top));
-    return;
+    break;
   case HELP_TEXT:
   default:
     /* it was a pure text item */ 
     create_help_page(HELP_TEXT);
     set_title_topic(pitem);
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
+  }
+
+  if (help_tree_viewport) {
+    /* Buggy sun athena may require this? --dwp */
+    /* And it possibly looks better anyway... */
+    XtVaSetValues(help_tree_viewport, XtNforceBars, True, NULL);
   }
 }
 
@@ -1198,7 +1215,7 @@ int help_tree_destroy_children(Widget w)
   Cardinal cnt;
   int did_destroy=0;
   
-  XtVaGetValues(help_improvement_tree, 
+  XtVaGetValues(help_tech_tree, 
 		XtNchildren, &children, 
 		XtNnumChildren, &cnt,
 		NULL);
@@ -1229,9 +1246,9 @@ void help_tree_node_callback(Widget w, XtPointer client_data,
   
   if(!help_tree_destroy_children(w)) {
     if(advances[tech].req[0]!=A_NONE)
-      create_tech_tree(help_improvement_tree, w, advances[tech].req[0], 1);
+      create_tech_tree(help_tech_tree, w, advances[tech].req[0], 1);
     if(advances[tech].req[1]!=A_NONE)
-      create_tech_tree(help_improvement_tree, w, advances[tech].req[1], 1);
+      create_tech_tree(help_tech_tree, w, advances[tech].req[1], 1);
   }
   
 }
@@ -1325,6 +1342,5 @@ void select_help_item_string(char *item, enum help_page_type htype)
   
   select_help_item(idx);
   help_update_dialog(pitem);
-
 }
 
