@@ -15,6 +15,10 @@ contributions to the Freeciv project.  (See also the file AUTHORS.)
 
 	Martin Willemoes Hansen <mwh@stampede.org>
 
+  FAQ Maintainer:
+
+	Reinier Post <rp@win.tue.nl>
+
   Website contributors:
 
 	Patrick Gardella <patrick@cre8tivegroup.com> (Games Announcement)
@@ -53,6 +57,9 @@ contributions to the Freeciv project.  (See also the file AUTHORS.)
 	Mel Ooran <melooran@yahoo.com> 
 	David Usherwood <davidu@infocat.co.uk>
 	Matt Busigin <jediknight@xwing.org>
+	Chris Buchanan <csbuchan@undergrad.math.uwaterloo.ca>
+	Chris Lawrence <lawrencc@debian.org>
+	Alexandre Beraud <a_beraud@lemel.fr>
 
   Bug reports during 1.7 series:
 
@@ -79,11 +86,6 @@ contributions to the Freeciv project.  (See also the file AUTHORS.)
 	David Pérez Serrada <dperezs@nexo.es> (Spanish help-file)
 	Moritz Muehlenhoff <UMuehlenhoff@t-online.de> (Deutsch helpdata.txt)
 	Nicolas Lannier <Nicolas.Lannier@epita.fr> (Translation to French)
-
-  Alternative tilesets:
-
-	Tatu Rissanen <trident@cc.hut.fi> (Trident)
-	David Pfitzner <dwp@mso.anu.edu.au> (Dwp)
 
   Modpacks:
 

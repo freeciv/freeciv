@@ -2,17 +2,26 @@ Welcome to Freeciv 1.8!
 
 This is release 1.8.<FIXME>.
 
-<FIXME: new maintainer situation>
-
 Thanks again to all our developers, who continue to work so hard.
+Special mention this release goes to Vasco Alexandre da Silva Costa,
+who did most of the work for the new Gtk+ client.  Special thanks
+also to Nicolas Brunel, who has retired from maintaining Freeciv,
+after doing lots of work for this release, as well as for the 
+previous 1.8.0 release. 
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
 
 WHAT'S CHANGED SINCE 1.8.0:
 
- - The biggest change is a new client which uses the popular GTK+ 
+ - The biggest change is a new client which uses the popular Gtk+ 
    toolkit.  The old Xaw client is still included as well.
+ - A new alternate (30x30) tileset: the "trident" tileset.
+   Start the client with "--tiles trident" to try it out.
+   (This replaces the "classic/brunus" tileset, which is still 
+   available separately from the Freeciv ftp site.)
+ - In the Gtk+ client, parts of the main window can be detached.
+   Detaching them all allows a full-screen map window!
  - The data directory can now be specified as a "path" ($FREECIV_PATH), 
    instead of a single directory.  By default, ~/.freeciv is now in 
    the path, so if you download new tiles, modpacks, etc, you can now 

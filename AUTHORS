@@ -1,6 +1,6 @@
-Here are people who have contributed code, graphics, or documentation
-to the current Freeciv distribution.  See also the file THANKS for 
-people who have made other valuable contributions.
+Here are people who have contributed code, graphics, documentation, or
+otherwise to the current or previous Freeciv distributions.  See also 
+the file THANKS for people who have made other valuable contributions.
 
   Original authors, otherwise known as the Great Danes:
   (They are no longer involved, please don't mail them!)
@@ -9,9 +9,10 @@ people who have made other valuable contributions.
      Claus Leth Gregersen <leth@daimi.aau.dk>
      Allan Ove Kjeldbjerg <allan@daimi.aau.dk>
 
-  Past administrator:
+  Past administrators:
 
      Mitch Davis  <mjd@alphalink.com.au>  (versions 1.5.2 to 1.7.2)
+     Nicolas Brunel  <brunel@lim.univ-mrs.fr>  (January 1999 to June 1999)
 
   Present administrators:
 
@@ -32,17 +33,19 @@ people who have made other valuable contributions.
 	Jeff Mallatt <jjm@codewell.com> (diagonal roads)
 	Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (spacerace)
 	Per Mathisen <permath@ifi.ntnu.no> (improved server console)
+	Markus Linnala <maage@cs.tut.fi> (logging)
 	Jake Kesinger <kesinger@math.ttu.edu> (gamelog, american city names)
 	Sebastian Fischmeister <sfischme@nexus.lzk.tuwien.ac.at> (autoattack)
 	Patrick Smith <patsmith@pobox.com>
 	Peter Schaefer <schaefer@malaga.math.uni-augsburg.de> (mapgen)
 	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (scenario code)
 	Massimo Campostrini <campo@mailbox.difi.unipi.it>
-	Markus Linnala <maage@cs.tut.fi> (logging)
+	Olivier Rolland <billl@esil.univ-mrs.fr> (detachable Gtk+ panels)
 	Daniel Burrows <Daniel_Burrows@brown.edu> (hp regeneration)
+	Sune Kirkeby <sune@interspace.dk>
 	Andrew Donkin <ard@scms.waikato.ac.nz>
 	Michael Gastright <gastrig@snmpi.com>
-	Sune Kirkeby <sune@interspace.dk>
+	P. E. Jean <pejean.lists@iname.com> (fixed Gtk+ warnings problem)
 	Lalo Martins <lalo@debian.org> (client --help, --version parsing)
 	Daniel Deckers <fh5y076@public.uni-hamburg.de>
 	Bobby D. Bryant <bdbryant@mail.utexas.edu>
@@ -55,7 +58,8 @@ people who have made other valuable contributions.
 
   Graphics:
 
-	Ralph Engels <rengels@hydra.informatik.uni-ulm.de> (default tiles)
+	Ralph Engels <rengels@hydra.informatik.uni-ulm.de> (default tileset)
+	Tatu Rissanen <tatu.rissanen@hut.fi> ("trident" tileset)
 	Alexandre Beraud <a_beraud@lemel.fr> (space, wonders, small)
 	Bruno Gilleta <gilleta@pento.esil.univ-mrs.fr> (improved classic)
 	Trent Piepho <xyzzy@u.washington.edu>
@@ -66,7 +70,8 @@ people who have made other valuable contributions.
   Maps:
 
 	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (Earth)
-	Christian Grothoff <ma0035@stud.uni-wuppertal.de> (Europe)
+	Jerzy Klek <qpkjeek@epk.ericsson.se> (Europe v1.1)
+	Christian Grothoff <ma0035@stud.uni-wuppertal.de> (Europe v1.0)
 
   These people contributed prior to the 1.8 series:
      (Version numbers refer to the first non-beta release 

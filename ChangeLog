@@ -1,3 +1,286 @@
+Mon Jul  5 13:37:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/europe.sav: Updated/improved (more accurate) Europe
+	map/scenario, by Jerzy Klek <qpkjeek@epk.ericsson.se>.
+
+Mon Jul  5 12:35:04 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/stdinhand.c: Corrected Markus Linnala <maage@cs.tut.fi>
+	Thanks to Peter Schaefer <schaefer@cys.de>.
+
+Mon Jul  5 09:44:28 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/stdinhand.c: Instead of using 0 use H_NONE. Also use &
+	instead of + as I think it is best choice when you are messing
+	with bitfields.  Patch submitted by Markus Linnala
+	<maage@cs.tut.fi>.
+
+Sun Jul  4 04:54:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* BUGS: Updated list of known bugs, based on current "open" bugs
+	in the BTS.
+
+Sun Jul  4 03:48:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/repodlgs.c: In science_change_callback() and
+	science_goal_callback(), call science_dialog_update() when popping
+	up help, to reset the Researching/Goal menus to the correct items.
+	Fixes PR#31.
+
+Sun Jul  4 03:41:36 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unithand.c, server/unithand.h: Fixed bug where unit
+	killed by barbarians in hut could cause core dump.  Changed
+	handle_unit_enter_hut() to return 0 if unit was killed; in
+	handle_unit_move_request(), handle situation where unit is killed
+	by barbarians.  Patch submitted by Markus Linnala
+	<maage@cs.tut.fi>.
+
+Sun Jul  4 03:34:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: Updated helpdata.txt "About" section, for
+	maintainers, and to direct to the Bug Tracking System to report
+	bugs.
+
+Sat Jul  3 13:23:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aihand.c: Translated some comments from danish to english. 
+	Patch submitted by Sune Kirkeby <sune@interspace.dk>.
+
+Sat Jul  3 13:02:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* README: Updates to README: removed stale note about alliances
+	patch; specify client command line options using double dash form,
+	since that works for both Xaw and Gtk+ clients; second included
+	tileset is now "trident" instead of "classic"; use new full server
+	command names 'start', 'list' instead of 's' and 'l'; replaced
+	some cases of "1.8.0" with "1.8.0 or later" and similar; replaced
+	term "server-op" with "server operator".
+
+Sat Jul  3 12:59:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* INSTALL: Revisions to INSTALL info: explain more about the two 
+	clients and separate prerequisites; explain about needing 
+	"development" library packages on some systems; explain default 
+	choice of Gtk+ by configure; removed/altered note about 
+	Makefile.noimake; refer to BUGS file instead of Bugs section of 
+	README; downplay use of "civ" and "ser" scripts; replaced discussion 
+	of FREECIV_DATADIR with new discussion of FREECIV_PATH; updated ftp 
+	refs for gtk/glib to more recent versions (1.2.1 -> 1.2.3).
+
+Sat Jul  3 04:41:30 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c: In gtk client, check that arguments
+	are there for options which require them, and give a message
+	rather than segfault.  Fixes bug (PR#36) reported by Alexandre
+	BERAUD <a_beraud@lemel.fr>.
+
+Sat Jul  3 03:57:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+	data/trident/.cvsignore, data/trident/Makefile.am,
+	data/trident/Makefile.in, data/trident/flags.xpm,
+	data/trident/roads.xpm, data/trident/tiles.xpm,
+	data/trident/units.xpm: Replaced "classic" tiles in distribution
+	with "trident" tiles, by Tatu Rissanen <tatu.rissanen@hut.fi>. 
+	Used tiles from "trident_30x30-1.8.0-1.2.tar.gz".  In flags.xpm I
+	swapped the positions of the Russian and Soviet flags, for
+	consistency with the default tileset.
+
+Sat Jul  3 03:11:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* README: Updated mailing list instructions to say
+	<listar@freeciv.org> instead of <majordomo@freeciv.org>.
+
+Fri Jul  2 09:55:33 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/citydlg.c: This very small patch removes all the
+	warnings produced by the gtk client when the city dialog opens.  I
+	tested it with gtk+-1.2.1 and gtk+-1.2.3.  Patch submitted by
+	"P.E.Jean" <pejean.lists@iname.com>.
+
+Thu Jul  1 12:36:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/plrdlg.c, client/gui-xaw/plrdlg.c: Don't give
+	foreign intelligence reports for dead civilizations.  Fixes bug
+	reported by Chris Lawrence <lawrencc@debian.org>.  (Freeciv PR#38,
+	Debian bug #39650.)
+
+Wed Jun 30 12:04:02 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c: Fix to preceding patch to detach the
+	windows in the GTK client.  You can't anymore make the output/chat
+	too big.  The map window is correctly resized whataver the size of
+	the output/chat window.  Patch submitted by Olivier Rolland
+	<billl@esil.univ-mrs.fr>.
+
+Wed Jun 30 11:54:16 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/cityturn.c: Fix Server Segfault on City being Disbanded
+	following dwp pronostic.  Bug reported by Chris Buchanan
+	<csbuchan@undergrad.math.uwaterloo.ca>.  (Also previously reported
+	and patch submitted by Markus Linnala <maage@cs.tut.fi>.)
+
+Sat Jun 26 03:15:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* NEWS: Added some NEWS for future release.
+
+Sat Jun 26 03:15:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c: Previous detach-gtk patch included
+	some unnecessary/unrelated changes (includes structure; mysrand
+	re-added); reversed.
+
+Fri Jun 25 21:53:12 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c: This patch allows to detach the
+	freeciv version 1.8.0 window, the turn done window, the unit
+	window and the text window. Doing that, the GTK client contains
+	only the map window. And, it looks great. Windows can go back to
+	the main window by clicking on the handles (left part of the
+	windows).
+
+	Patch submitted by Olivier Rolland <billl@esil.univ-mrs.fr>.
+
+Fri Jun 25 12:08:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* BUGS, Makefile.am, Makefile.in, NEWS, README, TODO: New files
+	TODO and BUGS, extracted from parts of NEWS and README.  Some
+	updates to TODO and BUGS info (for GTK+ vs Xaw, and to reference
+	the Bug Tracking System).
+
+Fri Jun 25 12:05:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in: In configure, by default try Xaw3d
+	before plain Xaw.  This may reduce cases of Xaw segfault problem
+	on systems with Xaw3d.  The change only applies if the system
+	doesn't have GTK+ (of a recent enough version) and where the user
+	doesn't specify --with-xaw or --with-xaw3d explicitly.
+
+Tue Jun 22 12:52:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* install-sh, missing, mkinstalldirs: Updated files from recent
+	automake.
+
+Tue Jun 22 12:40:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.am, Makefile.in: Removed Imakefile and Makefile.noimake
+	from dist (they are not currently working, nor supported).  Also
+	cleaned EXTRA_DIST to list only those files not automatically
+	included by automake.
+
+Tue Jun 22 12:24:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, Makefile.in, THANKS: Updated AUTHORS file.  Extracted
+	some parts into a new file "THANKS".
+
+Tue Jun 22 11:22:34 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/city.c: Moving repeated code to a common area.  Patch
+	submitted by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>
+
+Tue Jun 22 10:45:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aiunit.c, server/autoattack.c, server/civserver.c,
+	server/settlers.c: Ensure CLOCKS_PER_SEC is defined in civserver.c
+	(eg, for SunOS, problem reported by several people), to a wildly
+	guessed value if necessary.  Some fixes to #ifdef CHRONO stuff
+	(includes, format strings).
+
+Sat Jun 19 12:24:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure: configure update for previous patch.
+
+Thu Jun 17 13:07:54 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* acconfig.h, config.h.in, configure.in, client/civclient.c,
+	common/shared.h, server/civserver.c: The defines MAILING_LIST and
+	SITE has been replaced by BUG_EMAIL_ADDRESS and WEBSITE_URL.  They
+	have been withdrawn from acconfig.h.  We now hint people to report
+	bugs via bugs@freeciv.org .  Patch submitted by David Pfitzner
+	<dwp@mso.anu.edu.au>.
+
+Thu Jun 17 12:11:53 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/shared.c: Fixed bug in save_restore_random(), where
+	setting new value of "mode" had a precedence error.  This bug did
+	not actually ever appear, because it only caused problems on the
+	third (or later) call to save_restore_random(), and currently
+	freeciv calls it at most twice!
+
+Thu Jun 17 11:28:16 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c, common/registry.h: Made some registry
+	internal stuff really internal: moved struct section and struct
+	section_entry from .h to .c, and made _lookup_internal functions
+	static and not in .h file.  Also some minor formating
+	changes/re-org.
+
+Thu Jun 17 11:26:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/gui-gtk/gui_main.c,
+	client/gui-xaw/gui_main.c, common/shared.h: Changed RANDOM_TYPE
+	from a define to a typedef.  In clients, moved mysrand() call from
+	gui_main() to main().
+
+Thu Jun 17 11:24:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/options.c, client/gui-gtk/clinet.c,
+	client/gui-gtk/connectdlg.c, client/gui-gtk/graphics.c,
+	client/gui-gtk/gui_main.c, client/gui-gtk/helpdlg.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/connectdlg.c,
+	client/gui-xaw/graphics.c, client/gui-xaw/gui_main.c,
+	client/gui-xaw/helpdlg.c, common/Makefile.am, common/Makefile.in,
+	common/shared.c, common/shared.h, common/version.h,
+	server/civserver.c, server/gamehand.c, server/meta.h: Moved
+	versions stuff out of shared.h into a new version.h, mainly so
+	that shared.h no longer has to include config.h, so much less
+	needs to be re-compiled if config.h changes.
+
+Tue Jun 15 14:22:47 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/log.c: I remove the possibility to give in the civserver
+	option a loglevel of 3 if compiled without DEBUG.
+
+Tue Jun 15 11:59:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/chatline.c, common/shared.c, common/shared.h:
+	Fixed bug in Xaw client that output window didn't automatically
+	scroll to the bottom properly if there were lines which were too
+	long and needed to be wrapped.  Actually, this fix isn't ideal
+	(lines are wrapped manually to a fixed length) but I couldn't find
+	a better fix.  (The problem seems to me to be an Xaw bug.)  Added
+	new function wordwrap_string() in shared.c.  Bug (PR#2) was
+	reported by Nicolas Brunel.
+
+Tue Jun 15 11:47:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/mapgen.c: Renamed tiny_island() to is_tiny_island(), and
+	filter_land() to remove_tiny_islands().  Made both static.
+
+Tue Jun 15 11:46:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, common/map.c, common/map.h, server/mapgen.c,
+	server/mapgen.h, server/maphand.c: Renamed init_workmap() in
+	mapgen.c to map_allocate(), and moved to map.c.  Replaced
+	duplicated code in packhand.c/handle_map_info() with call to
+	map_allocate().  In map_allocate(), use realloc instead of malloc,
+	for client.  (Previously there was a memory leak here in client
+	when reconnecting multiple times to a running game).
+
+Tue Jun 15 10:04:58 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/mapview.c, common/shared.c, common/shared.h,
+	client/gui-xaw/mapview.c: This patch wraps up the
+	HAVE_USLEEP/usleep/select stuff into a function myusleep() in
+	shared.c
+
+	Patch submitted by David Pfitzner <dwp@mso.anu.edu.au>
+
+Sun Jun 13 13:34:34 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ChangeLog: ChangeLog updates.
+
 Sun Jun 13 05:15:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* Makefile.in, acconfig.h, aclocal.m4, config.h.in, configure,
