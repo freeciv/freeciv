@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-07-28 13:19+0200\n"
-"PO-Revision-Date: 2003-07-28 16:32+0200\n"
+"POT-Creation-Date: 2003-08-04 09:29+0200\n"
+"PO-Revision-Date: 2003-08-04 09:32+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr "Luchthaven"
 msgid "Fallout"
 msgstr "Radioactief"
 
-#: common/packets.c:3277
+#: common/packets.c:3281
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -166,65 +166,65 @@ msgstr ""
 "De server waarmee u verbinding probeerde te maken is te oud (1.12.0 of "
 "eerder). Probeert u volgende keer alstublieft een andere server. Tot ziens."
 
-#: common/player.c:516
+#: common/player.c:517
 msgid "Spotless"
 msgstr "Onberispelijk"
 
-#: common/player.c:518
+#: common/player.c:519
 msgid "Excellent"
 msgstr "Uitstekend"
 
-#: common/player.c:520
+#: common/player.c:521
 msgid "Honorable"
 msgstr "Eerbaar"
 
-#: common/player.c:522
+#: common/player.c:523
 msgid "Questionable"
 msgstr "Dubieus"
 
-#: common/player.c:524
+#: common/player.c:525
 msgid "Dishonorable"
 msgstr "Oneerbaar"
 
-#: common/player.c:526
+#: common/player.c:527
 msgid "Poor"
 msgstr "Slecht"
 
-#: common/player.c:528
+#: common/player.c:529
 msgid "Despicable"
 msgstr "Verachtelijk"
 
-#: common/player.c:530
+#: common/player.c:531
 msgid "Atrocious"
 msgstr "Gruwelijk"
 
-#: common/player.c:540
+#: common/player.c:541
 msgid "?diplomatic_state:Neutral"
 msgstr "?diplomatic_state:Neutraal"
 
-#: common/player.c:541
+#: common/player.c:542
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Oorlog"
 
-#: common/player.c:542 client/gui-gtk-2.0/diplodlg.c:331
+#: common/player.c:543 client/gui-gtk-2.0/diplodlg.c:331
 #: client/gui-gtk/diplodlg.c:461 client/gui-mui/diplodlg.c:639
 #: client/gui-win32/diplodlg.c:310 client/gui-xaw/diplodlg.c:526
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Wapenstilstand"
 
-#: common/player.c:543 client/gui-gtk-2.0/diplodlg.c:336
+#: common/player.c:544 client/gui-gtk-2.0/diplodlg.c:336
 #: client/gui-gtk/diplodlg.c:466 client/gui-mui/diplodlg.c:643
 #: client/gui-win32/diplodlg.c:311 client/gui-xaw/diplodlg.c:530
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Vrede"
 
-#: common/player.c:544 client/gui-gtk-2.0/diplodlg.c:341
+#: common/player.c:545 client/gui-gtk-2.0/diplodlg.c:341
 #: client/gui-gtk/diplodlg.c:471 client/gui-mui/diplodlg.c:647
 #: client/gui-win32/diplodlg.c:312 client/gui-xaw/diplodlg.c:534
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Alliantie"
 
-#: common/player.c:545
+#: common/player.c:546
 msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:Nooit ontmoet"
 
@@ -375,8 +375,8 @@ msgid "Patrol"
 msgstr "Patrouilleer"
 
 #: common/unit.c:561 client/gui-gtk-2.0/citydlg.c:1793
-#: client/gui-gtk/citydlg.c:2299 client/gui-mui/citydlg.c:2100
-#: client/gui-win32/citydlg.c:1361 client/gui-xaw/citydlg.c:1437
+#: client/gui-gtk/citydlg.c:2299 client/gui-mui/citydlg.c:2065
+#: client/gui-win32/citydlg.c:1353 client/gui-xaw/citydlg.c:1434
 msgid "Unknown"
 msgstr "Onbekend"
 
@@ -473,12 +473,12 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:246 server/citytools.c:1818
+#: ai/aicity.c:246 server/citytools.c:1823
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:255 server/citytools.c:1860
+#: ai/aicity.c:255 server/citytools.c:1865
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
@@ -488,12 +488,12 @@ msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
 
-#: server/autoattack.c:135
+#: server/autoattack.c:173
 #, c-format
 msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
 msgstr "Spel: Auto-Aanval: %s's %s troffen een te sterke vijand (%s)"
 
-#: server/autoattack.c:164
+#: server/autoattack.c:202
 #, c-format
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Spel: Auto-Aanval: %s's %s vallen %s's %s aan"
@@ -696,21 +696,21 @@ msgstr "Spel: %s bevrijdde %s en plunderde %d goud uit de stad."
 msgid "%s (%s) (%i,%i) liberated by %s"
 msgstr "%s (%s) (%i,%i) bevrijdt door %s"
 
-#: server/citytools.c:1839
+#: server/citytools.c:1844
 msgid " from the worklist"
 msgstr " van de werklijst"
 
-#: server/citytools.c:1849
+#: server/citytools.c:1854
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Spel: %s is %s%s aan het bouwen."
 
-#: server/citytools.c:1853
+#: server/citytools.c:1858
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Spel: %s is %s aan het bouwen."
 
-#: server/citytools.c:2106
+#: server/citytools.c:2116
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Spel: U verkoopt %s in %s (nu ingesloten door land) voor %d goud."
@@ -1820,12 +1820,12 @@ msgstr ""
 "      Arbeiders verzamelen zich spontaan en voorzien alle steden van "
 "spoorwegen."
 
-#: server/maphand.c:1437
+#: server/maphand.c:1448
 #, c-format
 msgid "(%d,%d) land created from ocean"
 msgstr "(%d,%d) land gemaakt uit oceaan"
 
-#: server/maphand.c:1452
+#: server/maphand.c:1463
 #, c-format
 msgid "(%d,%d) ocean created from land"
 msgstr "(%d,%d) oceaan gemaakt van land"
@@ -1986,14 +1986,14 @@ msgid "Tax"
 msgstr "Belasting"
 
 #: server/plrhand.c:671 client/gui-gtk-2.0/gamedlgs.c:272
-#: client/gui-gtk/gamedlgs.c:265 client/gui-mui/citydlg.c:1666
+#: client/gui-gtk/gamedlgs.c:265 client/gui-mui/citydlg.c:1628
 #: client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luxe"
 
 #: server/plrhand.c:673 client/gui-gtk-2.0/gamedlgs.c:292
 #: client/gui-gtk-2.0/repodlgs.c:139 client/gui-gtk/gamedlgs.c:285
-#: client/gui-gtk/repodlgs.c:155 client/gui-mui/citydlg.c:1670
+#: client/gui-gtk/repodlgs.c:155 client/gui-mui/citydlg.c:1632
 #: client/gui-mui/repodlgs.c:282 client/gui-win32/ratesdlg.c:327
 #: client/gui-win32/repodlgs.c:98 client/gui-xaw/menu.c:206
 #: client/gui-xaw/repodlgs.c:256 client/gui-xaw/repodlgs.c:498
@@ -2086,26 +2086,35 @@ msgstr ""
 "Spel: %s beëindigde de politieke overeenkomst! De diplomatieke toestand "
 "tussen de %s en de %s is nu %s."
 
-#: server/plrhand.c:1344
+#: server/plrhand.c:971
+#, c-format
+msgid ""
+"Game: %s has attacked one of your allies! The alliance brings you into the "
+"war as well."
+msgstr ""
+"Spel: %s heeft één van uw geallieerden aangevallen! De alliantie betrekt u ook "
+"in de oorlog."
+
+#: server/plrhand.c:1348
 #, c-format
 msgid "Removing player %s."
 msgstr "Verwijder speler %s."
 
-#: server/plrhand.c:1345
+#: server/plrhand.c:1349
 msgid "Game: You've been removed from the game!"
 msgstr "Spel: U bent uit het spel verwijderd!"
 
-#: server/plrhand.c:1348
+#: server/plrhand.c:1352
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s is uit het spel verwijderd."
 
-#: server/plrhand.c:1391 server/plrhand.c:1395
+#: server/plrhand.c:1395 server/plrhand.c:1399
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
 
-#: server/plrhand.c:1724
+#: server/plrhand.c:1728
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -2114,12 +2123,12 @@ msgstr ""
 "Spel: Uw natie is verzonken in burgeroorlog, %s is benoemd als de leider van "
 "de rebellerende staten."
 
-#: server/plrhand.c:1744
+#: server/plrhand.c:1748
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spel: %s verklaart alliantie aan %s."
 
-#: server/plrhand.c:1758
+#: server/plrhand.c:1762
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2213,7 +2222,7 @@ msgid "Literacy"
 msgstr "Geletterdheid"
 
 #: server/report.c:112 client/gui-gtk-2.0/citydlg.c:754
-#: client/gui-mui/citydlg.c:1513
+#: client/gui-mui/citydlg.c:1475
 msgid "Production"
 msgstr "Productie"
 
@@ -4333,7 +4342,7 @@ msgstr "Wissel de server uitvoerstijl tussen 'RFC-stijl en de normale stijl."
 msgid "(ambiguous)"
 msgstr "(dubbelzinnig)"
 
-#: server/stdinhand.c:1423 client/packhand.c:1094
+#: server/stdinhand.c:1423 client/packhand.c:1100
 msgid "(unknown)"
 msgstr "(onbekend)"
 
@@ -5261,7 +5270,7 @@ msgstr "Spel: Alleen %s kunnen aanvallen vanuit zee."
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan niet aanvallen vanuit zee."
 
-#: server/unithand.c:902 server/unittools.c:2098
+#: server/unithand.c:902 server/unittools.c:2099
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: U kunt niet aanvallen voordat u de oorlog verklaard heeft."
 
@@ -5554,7 +5563,7 @@ msgstr "Spel: De plaats van bestemming is onbekend."
 msgid "Game: This unit cannot paradrop into ocean."
 msgstr "Spel: Deze eenheid kan niet paradroppen in de oceaan."
 
-#: server/unittools.c:2107
+#: server/unittools.c:2108
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -5562,69 +5571,69 @@ msgstr ""
 "Spel: De afstand naar het doel (%i) is groter dan het bereik van de eenheid "
 "(%i)."
 
-#: server/unittools.c:2120
+#: server/unittools.c:2121
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spel: Uw %s is in de oceaan geland en ging verloren."
 
-#: server/unittools.c:2133
+#: server/unittools.c:2134
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spel: Uw %s is vermoord door vijandelijke eenheden in de landingszone."
 
-#: server/unittools.c:2155
+#: server/unittools.c:2156
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spel: U vond %d goud."
 
-#: server/unittools.c:2181
+#: server/unittools.c:2182
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spel: U hebt %s ontdekt in oude boekrollen met wijsheid."
 
-#: server/unittools.c:2183
+#: server/unittools.c:2184
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s ontdekken %s (Hut)"
 
-#: server/unittools.c:2185
+#: server/unittools.c:2186
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Spel: De %s hebben %s verkregen van oude boekrollen met wijsheid."
 
-#: server/unittools.c:2205
+#: server/unittools.c:2206
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spel: Een troep vriendelijke huurlingen sluit zich bij u aan."
 
-#: server/unittools.c:2222
+#: server/unittools.c:2223
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Hier is een verlaten dorp."
 
-#: server/unittools.c:2234
+#: server/unittools.c:2235
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: U hebt een horde barbaren ontketend!"
 
-#: server/unittools.c:2237
+#: server/unittools.c:2238
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spel: Uw %s is vermoord door barbaren!"
 
-#: server/unittools.c:2253
+#: server/unittools.c:2254
 msgid "Game: You found a friendly city."
 msgstr "Spel: U heeft een bevriende stad gevonden."
 
-#: server/unittools.c:2258
+#: server/unittools.c:2259
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spel: Vriendelijke nomaden zijn door u geïmponeerd en sluiten zich bij u aan."
 
-#: server/unittools.c:2283
+#: server/unittools.c:2284
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Spel: Uw verkenningsvlucht beangstigt de stam; zij verspreiden zich in "
 "terreur."
 
-#: server/unittools.c:2954
+#: server/unittools.c:2955
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -5751,7 +5760,7 @@ msgstr[1] "%3d beurten"
 #: client/agents/cma_fec.c:265 client/agents/cma_fec.c:299
 #: client/gui-gtk-2.0/citydlg.c:1318 client/gui-gtk/citydlg.c:1719
 #: client/gui-mui/citydlg.c:107 client/gui-mui/citydlg.c:142
-#: client/gui-mui/citydlg.c:1885
+#: client/gui-mui/citydlg.c:1850
 msgid "never"
 msgstr "nooit"
 
@@ -5777,17 +5786,17 @@ msgid_plural "%s (%d) %d turns"
 msgstr[0] "%s (%d) %d beurt"
 msgstr[1] "%s (%d) %d beurten"
 
-#: client/citydlg_common.c:252 client/gui-mui/citydlg.c:657
+#: client/citydlg_common.c:252 client/gui-mui/citydlg.c:615
 #: client/gui-mui/worklistclass.c:114
 msgid "Wonder"
 msgstr "Wereldwonder"
 
-#: client/citydlg_common.c:254 client/gui-mui/citydlg.c:659
+#: client/citydlg_common.c:254 client/gui-mui/citydlg.c:617
 #: client/gui-mui/worklistclass.c:111
 msgid "Built"
 msgstr "Gebouwd"
 
-#: client/citydlg_common.c:257 client/gui-mui/citydlg.c:661
+#: client/citydlg_common.c:257 client/gui-mui/citydlg.c:619
 #: client/gui-mui/worklistclass.c:113
 msgid "Obsolete"
 msgstr "Verouderd"
@@ -5843,8 +5852,8 @@ msgstr "Extase/Vrede/Onlusten"
 msgid "Concise *=Rapture, X=Disorder"
 msgstr "Beknopt *=Extase, X=Onlusten"
 
-#: client/cityrepdata.c:429 client/gui-mui/citydlg.c:1419
-#: client/gui-xaw/citydlg.c:2537
+#: client/cityrepdata.c:429 client/gui-mui/citydlg.c:1381
+#: client/gui-xaw/citydlg.c:2493
 msgid "Workers"
 msgstr "Arbeiders"
 
@@ -5914,8 +5923,8 @@ msgid "?Scientists:S"
 msgstr "?Wetenschappers:W"
 
 #: client/cityrepdata.c:447 client/gui-gtk-2.0/citydlg.c:906
-#: client/gui-gtk/citydlg.c:1274 client/gui-mui/citydlg.c:1420
-#: client/gui-win32/citydlg.c:2157 client/gui-xaw/citydlg.c:2537
+#: client/gui-gtk/citydlg.c:1274 client/gui-mui/citydlg.c:1382
+#: client/gui-win32/citydlg.c:2121 client/gui-xaw/citydlg.c:2493
 msgid "Scientists"
 msgstr "Wetenschappers"
 
@@ -5924,8 +5933,8 @@ msgid "?Taxmen:T"
 msgstr "?Belastingsbeambten:B"
 
 #: client/cityrepdata.c:449 client/gui-gtk-2.0/citydlg.c:907
-#: client/gui-gtk/citydlg.c:1275 client/gui-mui/citydlg.c:1421
-#: client/gui-win32/citydlg.c:2159 client/gui-xaw/citydlg.c:2537
+#: client/gui-gtk/citydlg.c:1275 client/gui-mui/citydlg.c:1383
+#: client/gui-win32/citydlg.c:2123 client/gui-xaw/citydlg.c:2493
 msgid "Taxmen"
 msgstr "Belastingsbeambten"
 
@@ -5951,14 +5960,14 @@ msgstr "Beste verdedigende eenheden"
 
 #: client/cityrepdata.c:455 client/cityrepdata.c:457
 #: client/gui-gtk-2.0/cityrep.c:1161 client/gui-gtk-2.0/menu.c:659
-#: client/gui-gtk-2.0/repodlgs.c:892 client/gui-gtk/cityrep.c:554
-#: client/gui-gtk/menu.c:660 client/gui-gtk/repodlgs.c:832
-#: client/gui-mui/citydlg.c:1425 client/gui-mui/gui_main.c:228
-#: client/gui-win32/menu.c:315 client/gui-win32/repodlgs.c:622
-#: client/gui-win32/repodlgs.c:703 client/gui-win32/repodlgs.c:712
+#: client/gui-gtk-2.0/repodlgs.c:889 client/gui-gtk/cityrep.c:554
+#: client/gui-gtk/menu.c:660 client/gui-gtk/repodlgs.c:829
+#: client/gui-mui/citydlg.c:1387 client/gui-mui/gui_main.c:228
+#: client/gui-win32/menu.c:315 client/gui-win32/repodlgs.c:619
+#: client/gui-win32/repodlgs.c:700 client/gui-win32/repodlgs.c:709
 #: client/gui-xaw/menu.c:147 client/gui-xaw/menu.c:203
-#: client/gui-xaw/menu.c:224 client/gui-xaw/repodlgs.c:895
-#: client/gui-xaw/repodlgs.c:1083 data/Freeciv:1886 data/helpdata.txt:811
+#: client/gui-xaw/menu.c:224 client/gui-xaw/repodlgs.c:892
+#: client/gui-xaw/repodlgs.c:1080 data/Freeciv:1886 data/helpdata.txt:811
 msgid "Units"
 msgstr "Eenheden"
 
@@ -6017,7 +6026,7 @@ msgstr "Overcapaciteit: Handel"
 #: client/cityrepdata.c:469 client/gui-gtk-2.0/repodlgs.c:595
 #: client/gui-gtk/repodlgs.c:590 client/gui-win32/repodlgs.c:319
 #: client/gui-xaw/menu.c:205 client/gui-xaw/repodlgs.c:639
-#: client/gui-xaw/repodlgs.c:788 data/Freeciv:1810
+#: client/gui-xaw/repodlgs.c:785 data/Freeciv:1810
 msgid "Economy"
 msgstr "Economie"
 
@@ -6065,9 +6074,9 @@ msgstr "?handelsroutes:T"
 msgid "Number of Trade Routes"
 msgstr "Aantal Handelsroutes"
 
-#: client/cityrepdata.c:481 client/gui-gtk-2.0/repodlgs.c:873
-#: client/gui-gtk/repodlgs.c:820 client/gui-mui/citydlg.c:1650
-#: client/gui-mui/repodlgs.c:718 client/gui-win32/repodlgs.c:698
+#: client/cityrepdata.c:481 client/gui-gtk-2.0/repodlgs.c:870
+#: client/gui-gtk/repodlgs.c:817 client/gui-mui/citydlg.c:1612
+#: client/gui-mui/repodlgs.c:714 client/gui-win32/repodlgs.c:695
 msgid "Food"
 msgstr "Voeding"
 
@@ -6088,8 +6097,8 @@ msgid "Grow"
 msgstr "Groei"
 
 #: client/cityrepdata.c:485 client/gui-gtk-2.0/wldlg.c:816
-#: client/gui-gtk/citydlg.c:2965 client/gui-gtk/wldlg.c:322
-#: client/gui-win32/citydlg.c:1185 client/gui-win32/wldlg.c:682
+#: client/gui-gtk/citydlg.c:2920 client/gui-gtk/wldlg.c:322
+#: client/gui-win32/citydlg.c:1180 client/gui-win32/wldlg.c:682
 msgid "Turns"
 msgstr "Beurten"
 
@@ -6116,7 +6125,7 @@ msgstr "Afval"
 #: client/cityrepdata.c:490 client/gui-gtk-2.0/citydlg.c:856
 #: client/gui-gtk-2.0/cityrep.c:1167 client/gui-gtk-2.0/cityrep.c:1311
 #: client/gui-gtk/cityrep.c:560 client/gui-gtk/cityrep.c:935
-#: client/gui-mui/citydlg.c:1428
+#: client/gui-mui/citydlg.c:1390
 msgid "CMA"
 msgstr "Burgemeester"
 
@@ -6387,27 +6396,27 @@ msgstr "Spel: U koopt geen %s in %s!"
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spel: %s kost %d goud en u hebt slechts %d goud."
 
-#: client/clinet.c:116
+#: client/clinet.c:117
 msgid "Lost connection to server!"
 msgstr "Verbinding met server verloren!"
 
-#: client/clinet.c:158 client/clinet.c:565
+#: client/clinet.c:159 client/clinet.c:566
 msgid "Failed looking up host"
 msgstr "Kon host niet vinden"
 
-#: client/clinet.c:240
+#: client/clinet.c:241
 msgid "Disconnecting from server."
 msgstr "Verbreek verbinding met server."
 
-#: client/clinet.c:519
+#: client/clinet.c:520
 msgid "Invalid $http_proxy value, must start with 'http://'"
 msgstr "Ongeldige $http_proxy waarde, moet met 'http://' beginnen"
 
-#: client/clinet.c:526
+#: client/clinet.c:527
 msgid "Invalid metaserver URL, must start with 'http://'"
 msgstr "Ongeldige metaserver URL, moet met 'http://' beginnen"
 
-#: client/clinet.c:556
+#: client/clinet.c:557
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ongeldige $http_proxy waarde, kan geen scheidend '/' vinden"
 
@@ -7259,29 +7268,29 @@ msgstr "Client capaciteits string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capaciteits string: %s"
 
-#: client/packhand.c:713
+#: client/packhand.c:719
 #, c-format
 msgid "Start of turn %d"
 msgstr "Begin van beurt %d"
 
-#: client/packhand.c:784
+#: client/packhand.c:790
 msgid "Popup Request"
 msgstr "Popup Verzoek"
 
-#: client/packhand.c:1405
+#: client/packhand.c:1411
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI-modus is nu %s."
 
-#: client/packhand.c:1406
+#: client/packhand.c:1412
 msgid "ON"
 msgstr "AAN"
 
-#: client/packhand.c:1406
+#: client/packhand.c:1412
 msgid "OFF"
 msgstr "UIT"
 
-#: client/packhand.c:1416
+#: client/packhand.c:1422
 msgid "Game: Revolution finished"
 msgstr "Spel: Revolutie beëindigd"
 
@@ -7344,12 +7353,12 @@ msgstr ""
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Heb grafische tags %s of %s voor %s %s niet"
 
-#: client/agents/cma_core.c:335
+#: client/agents/cma_core.c:317
 #, c-format
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr "Burg.: U verloor bestuur van %s. Ik verlaat de stad."
 
-#: client/agents/cma_core.c:573
+#: client/agents/cma_core.c:544
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
@@ -7357,7 +7366,7 @@ msgstr ""
 "Burg.: De burgemeester kan niet aan de vereisten van %s voldoen. Ik geef het "
 "bestuur terug."
 
-#: client/agents/cma_core.c:582
+#: client/agents/cma_core.c:553
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -7365,7 +7374,7 @@ msgstr ""
 "Burg.: %s is verandert en het berekende resultaat kan niet toegepast worden. "
 "Zal het opnieuw proberen."
 
-#: client/agents/cma_core.c:602
+#: client/agents/cma_core.c:573
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in Freeciv or bad "
@@ -7390,14 +7399,14 @@ msgstr "anders"
 #: client/agents/cma_fec.c:285 client/agents/cma_fec.c:328
 #: client/gui-gtk-2.0/citydlg.c:1323 client/gui-gtk/citydlg.c:1724
 #: client/gui-mui/citydlg.c:127 client/gui-mui/citydlg.c:171
-#: client/gui-mui/citydlg.c:1889
+#: client/gui-mui/citydlg.c:1854
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] "%d beurt"
 msgstr[1] "%d beurten"
 
-#: client/agents/cma_fec.c:368 client/gui-mui/citydlg.c:2210
+#: client/agents/cma_fec.c:368 client/gui-mui/citydlg.c:2175
 msgid " happy"
 msgstr " gelukkig"
 
@@ -7428,7 +7437,7 @@ msgid "Cleared output window."
 msgstr "Outputvenster geschoond."
 
 #: client/gui-gtk-2.0/citydlg.c:487 client/gui-gtk/citydlg.c:570
-#: client/gui-mui/citydlg.c:1376 client/gui-mui/citydlg.c:1615
+#: client/gui-mui/citydlg.c:1338 client/gui-mui/citydlg.c:1577
 msgid "Food:"
 msgstr "Voeding:"
 
@@ -7437,49 +7446,49 @@ msgid "Prod:"
 msgstr "Prod:"
 
 #: client/gui-gtk-2.0/citydlg.c:489 client/gui-gtk/citydlg.c:572
-#: client/gui-mui/citydlg.c:1380 client/gui-mui/citydlg.c:1627
+#: client/gui-mui/citydlg.c:1342 client/gui-mui/citydlg.c:1589
 msgid "Trade:"
 msgstr "Handel:"
 
 #: client/gui-gtk-2.0/citydlg.c:490 client/gui-gtk/citydlg.c:573
-#: client/gui-mui/citydlg.c:1383 client/gui-mui/citydlg.c:1618
+#: client/gui-mui/citydlg.c:1345 client/gui-mui/citydlg.c:1580
 msgid "Gold:"
 msgstr "Goud:"
 
 #: client/gui-gtk-2.0/citydlg.c:491 client/gui-gtk/citydlg.c:574
-#: client/gui-mui/citydlg.c:1385 client/gui-mui/citydlg.c:1624
+#: client/gui-mui/citydlg.c:1347 client/gui-mui/citydlg.c:1586
 #: client/gui-mui/gamedlgs.c:221
 msgid "Luxury:"
 msgstr "Luxe:"
 
 #: client/gui-gtk-2.0/citydlg.c:492 client/gui-gtk/citydlg.c:575
-#: client/gui-mui/citydlg.c:1387 client/gui-mui/citydlg.c:1630
+#: client/gui-mui/citydlg.c:1349 client/gui-mui/citydlg.c:1592
 #: client/gui-mui/gamedlgs.c:228
 msgid "Science:"
 msgstr "Wetenschap:"
 
 #: client/gui-gtk-2.0/citydlg.c:493 client/gui-gtk/citydlg.c:576
-#: client/gui-mui/citydlg.c:1390
+#: client/gui-mui/citydlg.c:1352
 msgid "Granary:"
 msgstr "Graansilo:"
 
 #: client/gui-gtk-2.0/citydlg.c:494 client/gui-gtk/citydlg.c:577
-#: client/gui-mui/citydlg.c:1392
+#: client/gui-mui/citydlg.c:1354
 msgid "Change in:"
 msgstr "Wijziging in:"
 
 #: client/gui-gtk-2.0/citydlg.c:495 client/gui-gtk/citydlg.c:578
-#: client/gui-mui/citydlg.c:1395
+#: client/gui-mui/citydlg.c:1357
 msgid "Corruption:"
 msgstr "Corruptie:"
 
 #: client/gui-gtk-2.0/citydlg.c:496 client/gui-gtk/citydlg.c:579
-#: client/gui-mui/citydlg.c:1397
+#: client/gui-mui/citydlg.c:1359
 msgid "Waste:"
 msgstr "Afval:"
 
 #: client/gui-gtk-2.0/citydlg.c:497 client/gui-gtk/citydlg.c:580
-#: client/gui-mui/citydlg.c:1399
+#: client/gui-mui/citydlg.c:1361
 msgid "Pollution:"
 msgstr "Verontreiniging:"
 
@@ -7488,9 +7497,9 @@ msgid "Overview"
 msgstr "Overzicht"
 
 #: client/gui-gtk-2.0/citydlg.c:571 client/gui-gtk-2.0/wldlg.c:816
-#: client/gui-gtk/citydlg.c:2965 client/gui-gtk/wldlg.c:314
-#: client/gui-gtk/wldlg.c:320 client/gui-mui/citydlg.c:687
-#: client/gui-mui/worklistclass.c:238 client/gui-win32/citydlg.c:1179
+#: client/gui-gtk/citydlg.c:2920 client/gui-gtk/wldlg.c:314
+#: client/gui-gtk/wldlg.c:320 client/gui-mui/citydlg.c:645
+#: client/gui-mui/worklistclass.c:238 client/gui-win32/citydlg.c:1174
 #: client/gui-win32/wldlg.c:674 client/gui-win32/wldlg.c:680
 msgid "Info"
 msgstr "Info"
@@ -7505,7 +7514,7 @@ msgid "Press ENTER or double-click to sell an improvement."
 msgstr "Toets ENTER of dubbel-klik om een verbetering te verkopen."
 
 #: client/gui-gtk-2.0/citydlg.c:684 client/gui-gtk-2.0/citydlg.c:766
-#: client/gui-mui/citydlg.c:1621
+#: client/gui-mui/citydlg.c:1583
 msgid "Production:"
 msgstr "Productie:"
 
@@ -7521,19 +7530,19 @@ msgstr "Verbeter_ingen:"
 
 #: client/gui-gtk-2.0/citydlg.c:783 client/gui-gtk-2.0/cityrep.c:690
 #: client/gui-gtk/citydlg.c:846 client/gui-gtk/cityrep.c:643
-#: client/gui-mui/citydlg.c:1519 client/gui-mui/cityrep.c:369
+#: client/gui-mui/citydlg.c:1481 client/gui-mui/cityrep.c:369
 msgid "_Buy"
 msgstr "_Koop"
 
 #: client/gui-gtk-2.0/citydlg.c:805 client/gui-gtk-2.0/happiness.c:116
-#: client/gui-gtk/happiness.c:118 client/gui-mui/citydlg.c:1427
-#: client/gui-mui/citydlg.c:1564 client/gui-win32/citydlg.c:782
+#: client/gui-gtk/happiness.c:118 client/gui-mui/citydlg.c:1389
+#: client/gui-mui/citydlg.c:1526 client/gui-win32/citydlg.c:782
 #: client/gui-win32/happiness.c:92 client/gui-xaw/menu.c:231
 #: data/helpdata.txt:1283
 msgid "Happiness"
 msgstr "Geluk"
 
-#: client/gui-gtk-2.0/citydlg.c:876 client/gui-mui/citydlg.c:1429
+#: client/gui-gtk-2.0/citydlg.c:876 client/gui-mui/citydlg.c:1391
 #: client/gui-win32/citydlg.c:783 data/Freeciv:2222
 msgid "Trade Routes"
 msgstr "Handelsroutes"
@@ -7543,27 +7552,27 @@ msgid "Settings"
 msgstr "Instellingen"
 
 #: client/gui-gtk-2.0/citydlg.c:911 client/gui-gtk/citydlg.c:1279
-#: client/gui-mui/citydlg.c:1700 client/gui-mui/citydlg.c:1701
+#: client/gui-mui/citydlg.c:1662 client/gui-mui/citydlg.c:1663
 msgid "Land units"
 msgstr "Landeenheden"
 
 #: client/gui-gtk-2.0/citydlg.c:912 client/gui-gtk/citydlg.c:1280
-#: client/gui-mui/citydlg.c:1703 client/gui-mui/citydlg.c:1704
+#: client/gui-mui/citydlg.c:1665 client/gui-mui/citydlg.c:1666
 msgid "Sea units"
 msgstr "Zee-eenheden"
 
 #: client/gui-gtk-2.0/citydlg.c:913 client/gui-gtk/citydlg.c:1281
-#: client/gui-mui/citydlg.c:1706 client/gui-mui/citydlg.c:1707
+#: client/gui-mui/citydlg.c:1668 client/gui-mui/citydlg.c:1669
 msgid "Helicopters"
 msgstr "Helicopters"
 
 #: client/gui-gtk-2.0/citydlg.c:914 client/gui-gtk/citydlg.c:1282
-#: client/gui-mui/citydlg.c:1709 client/gui-mui/citydlg.c:1710
+#: client/gui-mui/citydlg.c:1671 client/gui-mui/citydlg.c:1672
 msgid "Air units"
 msgstr "Luchteenheden"
 
 #: client/gui-gtk-2.0/citydlg.c:915 client/gui-gtk/citydlg.c:1283
-#: client/gui-win32/citydlg.c:2162
+#: client/gui-win32/citydlg.c:2126
 msgid "Disband if build settler at size 1"
 msgstr "Verlaat als kolonisten gebouwd bij grootte 1"
 
@@ -7576,17 +7585,17 @@ msgid "Production page"
 msgstr "Productiepagina"
 
 #: client/gui-gtk-2.0/citydlg.c:921 client/gui-gtk/citydlg.c:1290
-#: client/gui-mui/citydlg.c:1435
+#: client/gui-mui/citydlg.c:1397
 msgid "Happiness page"
 msgstr "Geluk pagina"
 
 #: client/gui-gtk-2.0/citydlg.c:922 client/gui-gtk/citydlg.c:1291
-#: client/gui-mui/citydlg.c:1436
+#: client/gui-mui/citydlg.c:1398
 msgid "CMA page"
 msgstr "Burgemeester"
 
 #: client/gui-gtk-2.0/citydlg.c:923 client/gui-gtk/citydlg.c:1292
-#: client/gui-mui/citydlg.c:1437
+#: client/gui-mui/citydlg.c:1399
 msgid "Trade Routes page"
 msgstr "Handelsroutes pagina"
 
@@ -7595,22 +7604,22 @@ msgid "This Settings page"
 msgstr "Deze Instellingenpagina"
 
 #: client/gui-gtk-2.0/citydlg.c:925 client/gui-gtk/citydlg.c:1294
-#: client/gui-mui/citydlg.c:1439
+#: client/gui-mui/citydlg.c:1401
 msgid "Last active page"
 msgstr "Laatst actieve pagina"
 
 #: client/gui-gtk-2.0/citydlg.c:952 client/gui-gtk/citydlg.c:1358
-#: client/gui-mui/citydlg.c:1696 client/gui-win32/citydlg.c:2154
+#: client/gui-mui/citydlg.c:1658 client/gui-win32/citydlg.c:2118
 msgid "New citizens are"
 msgstr "Nieuwe burgers zijn"
 
 #: client/gui-gtk-2.0/citydlg.c:972 client/gui-gtk/citydlg.c:1321
-#: client/gui-mui/citydlg.c:1698
+#: client/gui-mui/citydlg.c:1660
 msgid "Auto attack vs"
 msgstr "Auto aanval vs"
 
 #: client/gui-gtk-2.0/citydlg.c:990 client/gui-gtk/citydlg.c:1396
-#: client/gui-mui/citydlg.c:1721
+#: client/gui-mui/citydlg.c:1683
 msgid "Next time open"
 msgstr "Volgende keer open"
 
@@ -7640,22 +7649,22 @@ msgid "%s - %s citizens"
 msgstr "%s - %s inwoners"
 
 #: client/gui-gtk-2.0/citydlg.c:1228 client/gui-gtk/citydlg.c:1630
-#: client/gui-mui/citydlg.c:2125
+#: client/gui-mui/citydlg.c:2090
 msgid " - DISORDER"
 msgstr " - WANORDE"
 
 #: client/gui-gtk-2.0/citydlg.c:1230 client/gui-gtk/citydlg.c:1632
-#: client/gui-mui/citydlg.c:2127
+#: client/gui-mui/citydlg.c:2092
 msgid " - celebrating"
 msgstr " - festiviteiten"
 
 #: client/gui-gtk-2.0/citydlg.c:1232 client/gui-gtk/citydlg.c:1634
-#: client/gui-mui/citydlg.c:2129
+#: client/gui-mui/citydlg.c:2094
 msgid " - happy"
 msgstr " - gelukkig"
 
 #: client/gui-gtk-2.0/citydlg.c:1316 client/gui-gtk/citydlg.c:1717
-#: client/gui-mui/citydlg.c:1883
+#: client/gui-mui/citydlg.c:1848
 msgid "blocked"
 msgstr "geblokkeerd"
 
@@ -7670,19 +7679,19 @@ msgid "Present units %d"
 msgstr "Aanwezige eenheden %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1793 client/gui-gtk/citydlg.c:2299
-#: client/gui-mui/citydlg.c:2100 client/gui-win32/citydlg.c:1361
+#: client/gui-mui/citydlg.c:2065 client/gui-win32/citydlg.c:1353
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:1796 client/gui-gtk/citydlg.c:2302
-#: client/gui-mui/citydlg.c:2103 client/gui-win32/citydlg.c:1364
+#: client/gui-mui/citydlg.c:2068 client/gui-win32/citydlg.c:1356
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Handel met %s geeft %d opbrengst.\n"
 
 #: client/gui-gtk-2.0/citydlg.c:1802 client/gui-gtk/citydlg.c:2308
-#: client/gui-mui/citydlg.c:2109 client/gui-win32/citydlg.c:1370
+#: client/gui-mui/citydlg.c:2074 client/gui-win32/citydlg.c:1362
 msgid "No trade routes exist."
 msgstr "Er zijn geen handelsroutes."
 
@@ -7699,45 +7708,45 @@ msgstr "Cen_treer"
 
 #: client/gui-gtk-2.0/citydlg.c:1929 client/gui-gtk-2.0/citydlg.c:1982
 #: client/gui-gtk/citydlg.c:2472 client/gui-gtk/citydlg.c:2504
-#: client/gui-win32/citydlg.c:1606 client/gui-win32/citydlg.c:1634
+#: client/gui-win32/citydlg.c:1598 client/gui-win32/citydlg.c:1626
 msgid "_Activate unit"
 msgstr "_Activeer eenheid"
 
 #: client/gui-gtk-2.0/citydlg.c:1935 client/gui-gtk-2.0/citydlg.c:1988
 #: client/gui-gtk/citydlg.c:2473 client/gui-gtk/citydlg.c:2505
-#: client/gui-win32/citydlg.c:1608 client/gui-win32/citydlg.c:1636
+#: client/gui-win32/citydlg.c:1600 client/gui-win32/citydlg.c:1628
 msgid "Activate unit, _close dialog"
 msgstr "Activeer eenheid, _sluit dialoog"
 
 #: client/gui-gtk-2.0/citydlg.c:1941 client/gui-gtk-2.0/citydlg.c:2016
 #: client/gui-gtk/citydlg.c:2475 client/gui-gtk/citydlg.c:2510
-#: client/gui-win32/citydlg.c:1610 client/gui-win32/citydlg.c:1642
+#: client/gui-win32/citydlg.c:1602 client/gui-win32/citydlg.c:1634
 msgid "_Disband unit"
 msgstr "_Ontbind eenheid"
 
 #: client/gui-gtk-2.0/citydlg.c:1994 client/gui-gtk/citydlg.c:2507
-#: client/gui-win32/citydlg.c:1638
+#: client/gui-win32/citydlg.c:1630
 msgid "_Sentry unit"
 msgstr "Zet eenheid op _wacht"
 
 #: client/gui-gtk-2.0/citydlg.c:2005 client/gui-gtk/citydlg.c:2509
-#: client/gui-win32/citydlg.c:1640
+#: client/gui-win32/citydlg.c:1632
 msgid "_Fortify unit"
 msgstr "_Fortificeer eenheid"
 
 #: client/gui-gtk-2.0/citydlg.c:2022 client/gui-gtk/citydlg.c:2512
-#: client/gui-win32/citydlg.c:1644
+#: client/gui-win32/citydlg.c:1636
 msgid "Make new _homecity"
 msgstr "Maak _nieuwe hoofdstad"
 
 #: client/gui-gtk-2.0/citydlg.c:2032 client/gui-gtk/citydlg.c:2514
-#: client/gui-win32/citydlg.c:1646
+#: client/gui-win32/citydlg.c:1638
 msgid "_Upgrade unit"
 msgstr "Waardeer eenheid _op"
 
 #: client/gui-gtk-2.0/citydlg.c:2223 client/gui-gtk/citydlg.c:2687
-#: client/gui-mui/dialogs.c:1803 client/gui-win32/citydlg.c:1557
-#: client/gui-xaw/citydlg.c:2071
+#: client/gui-mui/dialogs.c:1803 client/gui-win32/citydlg.c:1549
+#: client/gui-xaw/citydlg.c:2032
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Sorry: kan %s niet opwaarderen."
@@ -7745,14 +7754,14 @@ msgstr "Sorry: kan %s niet opwaarderen."
 #: client/gui-gtk-2.0/citydlg.c:2225 client/gui-gtk-2.0/citydlg.c:2264
 #: client/gui-gtk/citydlg.c:2689 client/gui-gtk/citydlg.c:2712
 #: client/gui-mui/dialogs.c:1804 client/gui-mui/dialogs.c:1828
-#: client/gui-win32/citydlg.c:1558 client/gui-win32/citydlg.c:1582
+#: client/gui-win32/citydlg.c:1550 client/gui-win32/citydlg.c:1574
 #: data/Freeciv:2475
 msgid "Upgrade Unit!"
 msgstr "Waardeer Eenheid Op!"
 
 #: client/gui-gtk-2.0/citydlg.c:2240 client/gui-gtk/citydlg.c:2696
-#: client/gui-mui/dialogs.c:1813 client/gui-win32/citydlg.c:1565
-#: client/gui-xaw/citydlg.c:2080
+#: client/gui-mui/dialogs.c:1813 client/gui-win32/citydlg.c:1557
+#: client/gui-xaw/citydlg.c:2041
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -7761,17 +7770,17 @@ msgstr ""
 "Waardeer %s op naar %s voor %d goud?\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2244 client/gui-gtk-2.0/repodlgs.c:1044
-#: client/gui-gtk/citydlg.c:2701 client/gui-gtk/repodlgs.c:945
-#: client/gui-mui/dialogs.c:1817 client/gui-mui/repodlgs.c:774
-#: client/gui-win32/citydlg.c:1570 client/gui-win32/repodlgs.c:583
+#: client/gui-gtk-2.0/citydlg.c:2244 client/gui-gtk-2.0/repodlgs.c:1041
+#: client/gui-gtk/citydlg.c:2701 client/gui-gtk/repodlgs.c:942
+#: client/gui-mui/dialogs.c:1817 client/gui-mui/repodlgs.c:770
+#: client/gui-win32/citydlg.c:1562 client/gui-win32/repodlgs.c:580
 #: data/Freeciv:2464
 msgid "Upgrade Obsolete Units"
 msgstr "Waardeer Verouderde Eenheden Op"
 
 #: client/gui-gtk-2.0/citydlg.c:2259 client/gui-gtk/citydlg.c:2708
-#: client/gui-mui/dialogs.c:1823 client/gui-win32/citydlg.c:1577
-#: client/gui-xaw/citydlg.c:2090
+#: client/gui-mui/dialogs.c:1823 client/gui-win32/citydlg.c:1569
+#: client/gui-xaw/citydlg.c:2051
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -7780,9 +7789,9 @@ msgstr ""
 "Opwaarderen %s tot %s kost %d goud.\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2418 client/gui-gtk/citydlg.c:2911
-#: client/gui-mui/citydlg.c:1016 client/gui-win32/citydlg.c:993
-#: client/gui-xaw/citydlg.c:2010
+#: client/gui-gtk-2.0/citydlg.c:2374 client/gui-gtk/citydlg.c:2866
+#: client/gui-mui/citydlg.c:974 client/gui-win32/citydlg.c:993
+#: client/gui-xaw/citydlg.c:1971
 #, c-format
 msgid ""
 "Buy %s for %d gold?\n"
@@ -7791,17 +7800,17 @@ msgstr ""
 "%s kopen voor %d goud?\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2420 client/gui-gtk-2.0/citydlg.c:2437
-#: client/gui-gtk/citydlg.c:2915 client/gui-gtk/citydlg.c:2925
-#: client/gui-mui/citydlg.c:1019 client/gui-mui/citydlg.c:1029
+#: client/gui-gtk-2.0/citydlg.c:2376 client/gui-gtk-2.0/citydlg.c:2393
+#: client/gui-gtk/citydlg.c:2870 client/gui-gtk/citydlg.c:2880
+#: client/gui-mui/citydlg.c:977 client/gui-mui/citydlg.c:987
 #: client/gui-win32/citydlg.c:996 client/gui-win32/citydlg.c:1005
 #: data/Freeciv:2211 data/Freeciv:2241
 msgid "Buy It!"
 msgstr "Koop Het!"
 
-#: client/gui-gtk-2.0/citydlg.c:2434 client/gui-gtk/citydlg.c:2921
-#: client/gui-mui/citydlg.c:1026 client/gui-win32/citydlg.c:1002
-#: client/gui-xaw/citydlg.c:2019
+#: client/gui-gtk-2.0/citydlg.c:2390 client/gui-gtk/citydlg.c:2876
+#: client/gui-mui/citydlg.c:984 client/gui-win32/citydlg.c:1002
+#: client/gui-xaw/citydlg.c:1980
 #, c-format
 msgid ""
 "%s costs %d gold.\n"
@@ -7810,31 +7819,31 @@ msgstr ""
 "%s kost %d goud.\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2467 client/gui-gtk/citydlg.c:3173
-#: client/gui-mui/citydlg.c:1054 client/gui-win32/citydlg.c:1051
-#: client/gui-xaw/citydlg.c:2439
+#: client/gui-gtk-2.0/citydlg.c:2423 client/gui-gtk/citydlg.c:3128
+#: client/gui-mui/citydlg.c:1012 client/gui-win32/citydlg.c:1046
+#: client/gui-xaw/citydlg.c:2395
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "%s verkopen voor %d goud?"
 
-#: client/gui-gtk-2.0/citydlg.c:2471 client/gui-gtk/citydlg.c:3177
-#: client/gui-mui/citydlg.c:1059 client/gui-win32/citydlg.c:1056
+#: client/gui-gtk-2.0/citydlg.c:2427 client/gui-gtk/citydlg.c:3132
+#: client/gui-mui/citydlg.c:1017 client/gui-win32/citydlg.c:1051
 #: data/Freeciv:2230
 msgid "Sell It!"
 msgstr "Verkoop Het!"
 
-#: client/gui-gtk-2.0/citydlg.c:2549 client/gui-gtk/citydlg.c:3331
-#: client/gui-win32/citydlg.c:1305
+#: client/gui-gtk-2.0/citydlg.c:2499 client/gui-gtk/citydlg.c:3281
+#: client/gui-win32/citydlg.c:1297
 msgid "Rename City"
 msgstr "Hernoem Stad"
 
-#: client/gui-gtk-2.0/citydlg.c:2551 client/gui-gtk/citydlg.c:3333
-#: client/gui-win32/citydlg.c:1306 client/gui-xaw/citydlg.c:1394
+#: client/gui-gtk-2.0/citydlg.c:2501 client/gui-gtk/citydlg.c:3283
+#: client/gui-win32/citydlg.c:1298 client/gui-xaw/citydlg.c:1391
 msgid "What should we rename the city to?"
 msgstr "Waarin zullen we de stadsnaam veranderen?"
 
 #: client/gui-gtk-2.0/cityrep.c:561 client/gui-gtk/citydlg.c:851
-#: client/gui-gtk/citydlg.c:3013 client/gui-mui/citydlg.c:1682
+#: client/gui-gtk/citydlg.c:2968 client/gui-mui/citydlg.c:1644
 msgid "_Change"
 msgstr "_Verander"
 
@@ -7936,7 +7945,7 @@ msgid "Same Island"
 msgstr "Zelfde Eiland"
 
 #: client/gui-gtk-2.0/cityrep.c:1282 client/gui-gtk/cityrep.c:914
-#: client/gui-mui/citydlg.c:1506 client/gui-mui/citydlg.c:1545
+#: client/gui-mui/citydlg.c:1468 client/gui-mui/citydlg.c:1507
 #: client/gui-win32/cityrep.c:448
 msgid "Supported Units"
 msgstr "Ondersteunde Eenheden"
@@ -7984,24 +7993,24 @@ msgid "_Presets:"
 msgstr "Snelkeuzen:"
 
 #: client/gui-gtk-2.0/cma_fe.c:236 client/gui-gtk/cma_fe.c:211
-#: client/gui-gtk/repodlgs.c:719 client/gui-mui/citydlg.c:1608
-#: client/gui-mui/repodlgs.c:535 client/gui-win32/repodlgs.c:392
-#: client/gui-xaw/repodlgs.c:769
+#: client/gui-gtk/repodlgs.c:716 client/gui-mui/citydlg.c:1570
+#: client/gui-mui/repodlgs.c:531 client/gui-win32/repodlgs.c:389
+#: client/gui-xaw/repodlgs.c:766
 msgid "Results"
 msgstr "Resultaten"
 
 #: client/gui-gtk-2.0/cma_fe.c:250 client/gui-gtk/cma_fe.c:225
-#: client/gui-mui/citydlg.c:1647
+#: client/gui-mui/citydlg.c:1609
 msgid "Minimal Surplus"
 msgstr "Minimale overcapaciteit"
 
 #: client/gui-gtk-2.0/cma_fe.c:253 client/gui-gtk/cma_fe.c:228
-#: client/gui-mui/citydlg.c:1648
+#: client/gui-mui/citydlg.c:1610
 msgid "Factor"
 msgstr "Factor"
 
 #: client/gui-gtk-2.0/cma_fe.c:288 client/gui-gtk/cma_fe.c:263
-#: client/gui-mui/citydlg.c:1674 client/gui-mui/citydlg.c:1675
+#: client/gui-mui/citydlg.c:1636 client/gui-mui/citydlg.c:1637
 msgid "Celebrate"
 msgstr "Viering"
 
@@ -8014,7 +8023,7 @@ msgid "Control c_ity"
 msgstr "Bestuur _stad"
 
 #: client/gui-gtk-2.0/cma_fe.c:335 client/gui-gtk/cma_fe.c:312
-#: client/gui-mui/citydlg.c:1684
+#: client/gui-mui/citydlg.c:1646
 msgid "_Release city"
 msgstr "Ve_rlos stad"
 
@@ -8679,7 +8688,7 @@ msgstr "V_lieg naar"
 
 #: client/gui-gtk-2.0/gotodlg.c:145 client/gui-gtk-2.0/mapview.c:316
 #: client/gui-gtk/gotodlg.c:95 client/gui-gtk/mapview.c:276
-#: client/gui-mui/mapview.c:256 client/gui-xaw/mapview.c:257
+#: client/gui-mui/mapview.c:256 client/gui-xaw/mapview.c:256
 msgid "Select destination"
 msgstr "Kies bestemming"
 
@@ -8714,7 +8723,7 @@ msgstr ""
 "menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-mui/citydlg.c:1610
+#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-mui/citydlg.c:1572
 #: client/gui-win32/connectdlg.c:389
 msgid "Name:"
 msgstr "Naam:"
@@ -8745,19 +8754,19 @@ msgstr ""
 "Bestuursvorm: %s"
 
 #: client/gui-gtk-2.0/happiness.c:243 client/gui-gtk/happiness.c:249
-#: client/gui-mui/citydlg.c:2278 client/gui-win32/happiness.c:195
+#: client/gui-mui/citydlg.c:2243 client/gui-win32/happiness.c:195
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities.\n"
 msgstr "Steden: %d totaal, %d boven drempelwaarde van %d steden.\n"
 
 #: client/gui-gtk-2.0/happiness.c:247 client/gui-gtk/happiness.c:253
-#: client/gui-mui/citydlg.c:2282 client/gui-win32/happiness.c:199
+#: client/gui-mui/citydlg.c:2247 client/gui-win32/happiness.c:199
 #, c-format
 msgid "%d content before penalty with "
 msgstr "%d tevreden voor bezwaring met "
 
 #: client/gui-gtk-2.0/happiness.c:249 client/gui-gtk/happiness.c:255
-#: client/gui-mui/citydlg.c:2284 client/gui-win32/happiness.c:201
+#: client/gui-mui/citydlg.c:2249 client/gui-win32/happiness.c:201
 #, c-format
 msgid "%d additional unhappy citizens."
 msgstr "%d toegevoegde ontevreden burgers."
@@ -8769,7 +8778,7 @@ msgid "Luxury: %d total."
 msgstr "Luxe: %d totaal."
 
 #: client/gui-gtk-2.0/happiness.c:283 client/gui-gtk/happiness.c:289
-#: client/gui-mui/citydlg.c:2300 client/gui-win32/happiness.c:236
+#: client/gui-mui/citydlg.c:2265 client/gui-win32/happiness.c:236
 msgid "Buildings: "
 msgstr "Gebouwen: "
 
@@ -8781,10 +8790,10 @@ msgstr "Gebouwen: "
 #: client/gui-gtk/happiness.c:310 client/gui-gtk/happiness.c:331
 #: client/gui-gtk/happiness.c:402 client/gui-gtk/happiness.c:409
 #: client/gui-gtk/happiness.c:422 client/gui-gtk/happiness.c:429
-#: client/gui-mui/citydlg.c:2307 client/gui-mui/citydlg.c:2314
-#: client/gui-mui/citydlg.c:2321 client/gui-mui/citydlg.c:2342
-#: client/gui-mui/citydlg.c:2391 client/gui-mui/citydlg.c:2398
-#: client/gui-mui/citydlg.c:2411 client/gui-mui/citydlg.c:2418
+#: client/gui-mui/citydlg.c:2272 client/gui-mui/citydlg.c:2279
+#: client/gui-mui/citydlg.c:2286 client/gui-mui/citydlg.c:2307
+#: client/gui-mui/citydlg.c:2356 client/gui-mui/citydlg.c:2363
+#: client/gui-mui/citydlg.c:2376 client/gui-mui/citydlg.c:2383
 #: client/gui-win32/happiness.c:243 client/gui-win32/happiness.c:250
 #: client/gui-win32/happiness.c:257 client/gui-win32/happiness.c:278
 #: client/gui-win32/happiness.c:348 client/gui-win32/happiness.c:355
@@ -8794,7 +8803,7 @@ msgstr ". "
 
 #: client/gui-gtk-2.0/happiness.c:310 client/gui-gtk-2.0/happiness.c:409
 #: client/gui-gtk/happiness.c:316 client/gui-gtk/happiness.c:415
-#: client/gui-mui/citydlg.c:2327 client/gui-mui/citydlg.c:2404
+#: client/gui-mui/citydlg.c:2292 client/gui-mui/citydlg.c:2369
 #: client/gui-win32/happiness.c:263 client/gui-win32/happiness.c:361
 msgid ""
 "\n"
@@ -8804,39 +8813,39 @@ msgstr ""
 "              "
 
 #: client/gui-gtk-2.0/happiness.c:318 client/gui-gtk/happiness.c:324
-#: client/gui-mui/citydlg.c:2335 client/gui-win32/happiness.c:271
+#: client/gui-mui/citydlg.c:2300 client/gui-win32/happiness.c:271
 msgid "("
 msgstr "("
 
 #: client/gui-gtk-2.0/happiness.c:322 client/gui-gtk/happiness.c:328
-#: client/gui-mui/citydlg.c:2339 client/gui-win32/happiness.c:275
+#: client/gui-mui/citydlg.c:2304 client/gui-win32/happiness.c:275
 msgid ")"
 msgstr ")"
 
 #: client/gui-gtk-2.0/happiness.c:330 client/gui-gtk-2.0/happiness.c:428
 #: client/gui-gtk/happiness.c:336 client/gui-gtk/happiness.c:434
-#: client/gui-mui/citydlg.c:2347 client/gui-mui/citydlg.c:2423
+#: client/gui-mui/citydlg.c:2312 client/gui-mui/citydlg.c:2388
 #: client/gui-win32/happiness.c:283 client/gui-win32/happiness.c:380
 msgid "None. "
 msgstr "Geen."
 
 #: client/gui-gtk-2.0/happiness.c:349 client/gui-gtk/happiness.c:355
-#: client/gui-mui/citydlg.c:2357 client/gui-win32/happiness.c:302
+#: client/gui-mui/citydlg.c:2322 client/gui-win32/happiness.c:302
 msgid "Units: "
 msgstr "Eenheden: "
 
 #: client/gui-gtk-2.0/happiness.c:353 client/gui-gtk/happiness.c:359
-#: client/gui-mui/citydlg.c:2361 client/gui-win32/happiness.c:306
+#: client/gui-mui/citydlg.c:2326 client/gui-win32/happiness.c:306
 msgid "Martial law in effect ("
 msgstr "Krijgswet van toepassing ("
 
 #: client/gui-gtk-2.0/happiness.c:357 client/gui-gtk/happiness.c:363
-#: client/gui-mui/citydlg.c:2365 client/gui-win32/happiness.c:310
+#: client/gui-mui/citydlg.c:2330 client/gui-win32/happiness.c:310
 msgid "no maximum, "
 msgstr "geen maximum, "
 
 #: client/gui-gtk-2.0/happiness.c:359 client/gui-gtk/happiness.c:365
-#: client/gui-mui/citydlg.c:2367 client/gui-win32/happiness.c:312
+#: client/gui-mui/citydlg.c:2332 client/gui-win32/happiness.c:312
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
@@ -8844,13 +8853,13 @@ msgstr[0] "%d eenheid maximaal, "
 msgstr[1] "%d eenheden maximaal, "
 
 #: client/gui-gtk-2.0/happiness.c:363 client/gui-gtk/happiness.c:369
-#: client/gui-mui/citydlg.c:2371 client/gui-win32/happiness.c:316
+#: client/gui-mui/citydlg.c:2336 client/gui-win32/happiness.c:316
 #, c-format
 msgid "%d per unit). "
 msgstr "%d per eenheid). "
 
 #: client/gui-gtk-2.0/happiness.c:367 client/gui-gtk/happiness.c:373
-#: client/gui-mui/citydlg.c:2374 client/gui-win32/happiness.c:320
+#: client/gui-mui/citydlg.c:2339 client/gui-win32/happiness.c:320
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Militaire eenheden in het veld kunnen ontevredenheid veroorzaken. "
 
@@ -8860,7 +8869,7 @@ msgid "Military units have no happiness effect. "
 msgstr "Militaire eenheden kunnen geen ontevredenheid veroorzaken. "
 
 #: client/gui-gtk-2.0/happiness.c:389 client/gui-gtk/happiness.c:395
-#: client/gui-mui/citydlg.c:2384 client/gui-win32/happiness.c:341
+#: client/gui-mui/citydlg.c:2349 client/gui-win32/happiness.c:341
 msgid "Wonders: "
 msgstr "Wereldwonderen: "
 
@@ -9262,7 +9271,7 @@ msgid "What should we call our new city?"
 msgstr "Hoe zullen we onze nieuwe stad noemen?"
 
 #: client/gui-gtk-2.0/mapview.c:198 client/gui-gtk/mapview.c:197
-#: client/gui-win32/mapview.c:384 client/gui-xaw/mapview.c:188
+#: client/gui-win32/mapview.c:384 client/gui-xaw/mapview.c:187
 msgid "?timeout:off"
 msgstr "?timeout:uit"
 
@@ -9322,7 +9331,7 @@ msgstr ""
 "%s."
 
 #: client/gui-gtk-2.0/mapview.c:310 client/gui-gtk/mapview.c:270
-#: client/gui-win32/mapview.c:359 client/gui-xaw/mapview.c:255
+#: client/gui-win32/mapview.c:359 client/gui-xaw/mapview.c:254
 msgid "(veteran)"
 msgstr "(veteraan)"
 
@@ -9778,8 +9787,8 @@ msgstr "Volkenkun_de"
 msgid "S_paceship"
 msgstr "Ruimteschi_p"
 
-#: client/gui-gtk-2.0/menu.c:764 client/gui-gtk/citydlg.c:3029
-#: client/gui-gtk/menu.c:765 client/gui-mui/citydlg.c:1302
+#: client/gui-gtk-2.0/menu.c:764 client/gui-gtk/citydlg.c:2984
+#: client/gui-gtk/menu.c:765 client/gui-mui/citydlg.c:1264
 #: client/gui-win32/menu.c:369
 msgid "_Help"
 msgstr "_Help"
@@ -9809,7 +9818,7 @@ msgstr "_Help"
 #: client/gui-gtk/menu.c:809 client/gui-gtk/repodlgs.c:184
 #: client/gui-gtk/wldlg.c:501 client/gui-mui/gui_main.c:282
 #: client/gui-mui/helpdlg.c:284 client/gui-mui/repodlgs.c:295
-#: client/gui-win32/citydlg.c:1170 client/gui-win32/repodlgs.c:277
+#: client/gui-win32/citydlg.c:1165 client/gui-win32/repodlgs.c:277
 #: client/gui-win32/wldlg.c:718 data/Freeciv:1457 data/Freeciv:2022
 #: data/Freeciv:2092 data/Freeciv:2179 data/Freeciv:2185
 msgid "Help"
@@ -10105,27 +10114,27 @@ msgstr[0] "Onderzoekssnelheid: %d beurt/vooruitgang"
 msgstr[1] "Onderzoekssnelheid: %d beurten/vooruitgang"
 
 #: client/gui-gtk-2.0/repodlgs.c:577 client/gui-gtk/repodlgs.c:577
-#: client/gui-mui/repodlgs.c:478 client/gui-win32/repodlgs.c:471
+#: client/gui-mui/repodlgs.c:478 client/gui-win32/repodlgs.c:468
 msgid "Building Name"
 msgstr "Naam Gebouw"
 
 #: client/gui-gtk-2.0/repodlgs.c:578 client/gui-gtk/repodlgs.c:577
-#: client/gui-mui/repodlgs.c:479 client/gui-win32/repodlgs.c:474
+#: client/gui-mui/repodlgs.c:479 client/gui-win32/repodlgs.c:471
 msgid "Count"
 msgstr "Tel"
 
 #: client/gui-gtk-2.0/repodlgs.c:579 client/gui-gtk-2.0/wldlg.c:816
-#: client/gui-gtk/citydlg.c:2965 client/gui-gtk/repodlgs.c:578
+#: client/gui-gtk/citydlg.c:2920 client/gui-gtk/repodlgs.c:578
 #: client/gui-gtk/wldlg.c:315 client/gui-gtk/wldlg.c:321
-#: client/gui-mui/citydlg.c:689 client/gui-mui/repodlgs.c:480
-#: client/gui-mui/worklistclass.c:239 client/gui-win32/citydlg.c:1183
-#: client/gui-win32/repodlgs.c:478 client/gui-win32/wldlg.c:675
+#: client/gui-mui/citydlg.c:647 client/gui-mui/repodlgs.c:480
+#: client/gui-mui/worklistclass.c:239 client/gui-win32/citydlg.c:1178
+#: client/gui-win32/repodlgs.c:475 client/gui-win32/wldlg.c:675
 #: client/gui-win32/wldlg.c:681
 msgid "Cost"
 msgstr "Kosten"
 
 #: client/gui-gtk-2.0/repodlgs.c:580 client/gui-gtk/repodlgs.c:578
-#: client/gui-mui/repodlgs.c:481 client/gui-win32/repodlgs.c:480
+#: client/gui-mui/repodlgs.c:481 client/gui-win32/repodlgs.c:477
 msgid "U Total"
 msgstr "E Totaal"
 
@@ -10134,71 +10143,71 @@ msgid "Total Cost:"
 msgstr "Totale Kosten:"
 
 #: client/gui-gtk-2.0/repodlgs.c:659 client/gui-gtk/repodlgs.c:617
-#: client/gui-win32/repodlgs.c:466 data/Freeciv:1867
+#: client/gui-win32/repodlgs.c:463 data/Freeciv:1867
 msgid "Sell Obsolete"
 msgstr "Verkoop Verouderd"
 
 #: client/gui-gtk-2.0/repodlgs.c:664 client/gui-gtk/repodlgs.c:623
-#: client/gui-win32/repodlgs.c:468 data/Freeciv:1875
+#: client/gui-win32/repodlgs.c:465 data/Freeciv:1875
 msgid "Sell All"
 msgstr "Verkoop Alles"
 
-#: client/gui-gtk-2.0/repodlgs.c:748 client/gui-gtk/repodlgs.c:712
-#: client/gui-mui/repodlgs.c:529 client/gui-win32/repodlgs.c:384
-#: client/gui-xaw/repodlgs.c:763
+#: client/gui-gtk-2.0/repodlgs.c:745 client/gui-gtk/repodlgs.c:709
+#: client/gui-mui/repodlgs.c:525 client/gui-win32/repodlgs.c:381
+#: client/gui-xaw/repodlgs.c:760
 #, c-format
 msgid "Sold %d %s for %d gold"
 msgstr "%d %s verkocht voor %d goud"
 
-#: client/gui-gtk-2.0/repodlgs.c:753 client/gui-gtk/repodlgs.c:715
-#: client/gui-mui/repodlgs.c:533 client/gui-win32/repodlgs.c:387
-#: client/gui-xaw/repodlgs.c:766
+#: client/gui-gtk-2.0/repodlgs.c:750 client/gui-gtk/repodlgs.c:712
+#: client/gui-mui/repodlgs.c:529 client/gui-win32/repodlgs.c:384
+#: client/gui-xaw/repodlgs.c:763
 #, c-format
 msgid "No %s could be sold"
 msgstr "%s kon niet verkocht worden"
 
-#: client/gui-gtk-2.0/repodlgs.c:756
+#: client/gui-gtk-2.0/repodlgs.c:753
 msgid "Sell-Off: Results"
 msgstr "Uitverkoop: Resultaten"
 
-#: client/gui-gtk-2.0/repodlgs.c:793
+#: client/gui-gtk-2.0/repodlgs.c:790
 #, c-format
 msgid "Income: %d    Total Costs: %d"
 msgstr "Inkomen:%d   Totale Kosten: %d"
 
-#: client/gui-gtk-2.0/repodlgs.c:868 client/gui-gtk/repodlgs.c:819
-#: client/gui-mui/repodlgs.c:713 client/gui-win32/repodlgs.c:696
+#: client/gui-gtk-2.0/repodlgs.c:865 client/gui-gtk/repodlgs.c:816
+#: client/gui-mui/repodlgs.c:709 client/gui-win32/repodlgs.c:693
 msgid "Unit Type"
 msgstr "Eenheid Type"
 
-#: client/gui-gtk-2.0/repodlgs.c:869 client/gui-gtk/repodlgs.c:819
-#: client/gui-mui/repodlgs.c:714 client/gui-win32/repodlgs.c:696
+#: client/gui-gtk-2.0/repodlgs.c:866 client/gui-gtk/repodlgs.c:816
+#: client/gui-mui/repodlgs.c:710 client/gui-win32/repodlgs.c:693
 msgid "U"
 msgstr "E"
 
-#: client/gui-gtk-2.0/repodlgs.c:870 client/gui-gtk/repodlgs.c:819
-#: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:697
+#: client/gui-gtk-2.0/repodlgs.c:867 client/gui-gtk/repodlgs.c:816
+#: client/gui-mui/repodlgs.c:711 client/gui-win32/repodlgs.c:694
 msgid "In-Prog"
 msgstr "In-Ontw"
 
-#: client/gui-gtk-2.0/repodlgs.c:871 client/gui-gtk/repodlgs.c:819
-#: client/gui-mui/repodlgs.c:716 client/gui-win32/repodlgs.c:697
+#: client/gui-gtk-2.0/repodlgs.c:868 client/gui-gtk/repodlgs.c:816
+#: client/gui-mui/repodlgs.c:712 client/gui-win32/repodlgs.c:694
 msgid "Active"
 msgstr "Actief"
 
-#: client/gui-gtk-2.0/repodlgs.c:872 client/gui-gtk/repodlgs.c:820
-#: client/gui-mui/citydlg.c:1654 client/gui-mui/repodlgs.c:717
-#: client/gui-win32/repodlgs.c:698
+#: client/gui-gtk-2.0/repodlgs.c:869 client/gui-gtk/repodlgs.c:817
+#: client/gui-mui/citydlg.c:1616 client/gui-mui/repodlgs.c:713
+#: client/gui-win32/repodlgs.c:695
 msgid "Shield"
 msgstr "Schild"
 
-#: client/gui-gtk-2.0/repodlgs.c:961 client/gui-mui/repodlgs.c:814
+#: client/gui-gtk-2.0/repodlgs.c:958 client/gui-mui/repodlgs.c:810
 msgid "_Upgrade"
 msgstr "Waardeer _op"
 
-#: client/gui-gtk-2.0/repodlgs.c:1039 client/gui-gtk/repodlgs.c:938
-#: client/gui-mui/repodlgs.c:768 client/gui-win32/repodlgs.c:575
-#: client/gui-xaw/repodlgs.c:1021
+#: client/gui-gtk-2.0/repodlgs.c:1036 client/gui-gtk/repodlgs.c:935
+#: client/gui-mui/repodlgs.c:764 client/gui-win32/repodlgs.c:572
+#: client/gui-xaw/repodlgs.c:1018
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -10207,7 +10216,7 @@ msgstr ""
 "Waardeer zoveel mogelijke %s op naar %s voor %d goud elk?\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/repodlgs.c:1145
+#: client/gui-gtk-2.0/repodlgs.c:1142
 msgid "Totals:"
 msgstr "Totalen:"
 
@@ -10228,10 +10237,10 @@ msgstr "Wijzig werklijsten"
 msgid "_Worklists:"
 msgstr "_Werklijsten:"
 
-#: client/gui-gtk-2.0/wldlg.c:816 client/gui-gtk/citydlg.c:2965
+#: client/gui-gtk-2.0/wldlg.c:816 client/gui-gtk/citydlg.c:2920
 #: client/gui-gtk/wldlg.c:313 client/gui-gtk/wldlg.c:319
-#: client/gui-mui/citydlg.c:686 client/gui-mui/citydlg.c:715
-#: client/gui-mui/worklistclass.c:237 client/gui-win32/citydlg.c:1176
+#: client/gui-mui/citydlg.c:644 client/gui-mui/citydlg.c:673
+#: client/gui-mui/worklistclass.c:237 client/gui-win32/citydlg.c:1171
 #: client/gui-win32/wldlg.c:673 client/gui-win32/wldlg.c:679
 msgid "Type"
 msgstr "Type"
@@ -10260,7 +10269,7 @@ msgstr "Verander Productie"
 msgid "City improvements"
 msgstr "Stadsverbeteringen"
 
-#: client/gui-gtk/citydlg.c:626 client/gui-mui/citydlg.c:716
+#: client/gui-gtk/citydlg.c:626 client/gui-mui/citydlg.c:674
 #: client/gui-win32/citydlg.c:933
 msgid "Upkeep"
 msgstr "Onderhoud"
@@ -10284,7 +10293,7 @@ msgid ">"
 msgstr ">"
 
 #: client/gui-gtk/citydlg.c:893 client/gui-gtk/citydlg.c:1998
-#: client/gui-gtk/citydlg.c:3223 client/gui-win32/citydlg.c:863
+#: client/gui-gtk/citydlg.c:3173 client/gui-win32/citydlg.c:863
 msgid "Sell"
 msgstr "Verkoop"
 
@@ -10292,8 +10301,8 @@ msgstr "Verkoop"
 msgid "Supported units"
 msgstr "Ondersteunde eenheden"
 
-#: client/gui-gtk/citydlg.c:972 client/gui-mui/citydlg.c:1499
-#: client/gui-mui/citydlg.c:1547 client/gui-win32/citydlg.c:889
+#: client/gui-gtk/citydlg.c:972 client/gui-mui/citydlg.c:1461
+#: client/gui-mui/citydlg.c:1509 client/gui-win32/citydlg.c:889
 msgid "Units present"
 msgstr "Aanwezige eenheden"
 
@@ -10333,19 +10342,19 @@ msgstr "Gevestigde handelsroutes"
 msgid "_Misc. Settings"
 msgstr "_Diverse Instellingen"
 
-#: client/gui-gtk/citydlg.c:1287 client/gui-mui/citydlg.c:1432
+#: client/gui-gtk/citydlg.c:1287 client/gui-mui/citydlg.c:1394
 msgid "City Overview page"
 msgstr "Stadsoverzicht pagina"
 
-#: client/gui-gtk/citydlg.c:1288 client/gui-mui/citydlg.c:1433
+#: client/gui-gtk/citydlg.c:1288 client/gui-mui/citydlg.c:1395
 msgid "Units page"
 msgstr "Eenheden pagina"
 
-#: client/gui-gtk/citydlg.c:1289 client/gui-mui/citydlg.c:1434
+#: client/gui-gtk/citydlg.c:1289 client/gui-mui/citydlg.c:1396
 msgid "Worklist page"
 msgstr "Werklijst pagina"
 
-#: client/gui-gtk/citydlg.c:1293 client/gui-mui/citydlg.c:1438
+#: client/gui-gtk/citydlg.c:1293 client/gui-mui/citydlg.c:1400
 msgid "This Misc. Settings page"
 msgstr "Deze Diverse Instellingen pagina"
 
@@ -10391,14 +10400,14 @@ msgstr "Ondersteunde eenheden (%d)"
 msgid "Present units (%d)"
 msgstr "Aanwezige eenheden (%d)"
 
-#: client/gui-gtk/citydlg.c:2311 client/gui-mui/citydlg.c:2112
-#: client/gui-win32/citydlg.c:1373
+#: client/gui-gtk/citydlg.c:2311 client/gui-mui/citydlg.c:2077
+#: client/gui-win32/citydlg.c:1365
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "Totale opbrengst van handelsroutes: %d"
 
 #: client/gui-gtk/citydlg.c:2469 client/gui-gtk/citydlg.c:2502
-#: client/gui-win32/citydlg.c:1604 client/gui-win32/citydlg.c:1632
+#: client/gui-win32/citydlg.c:1596 client/gui-win32/citydlg.c:1624
 #: data/Freeciv:1156 data/Freeciv:1192
 msgid "Unit Commands"
 msgstr "Eenheid opdrachten"
@@ -10406,7 +10415,7 @@ msgstr "Eenheid opdrachten"
 #: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2515
 #: client/gui-gtk/dialogs.c:1031 client/gui-gtk/dialogs.c:1057
 #: client/gui-gtk/dialogs.c:1090 client/gui-gtk/gotodlg.c:127
-#: client/gui-mui/citydlg.c:1303 client/gui-mui/cityrep.c:283
+#: client/gui-mui/citydlg.c:1265 client/gui-mui/cityrep.c:283
 #: client/gui-mui/dialogs.c:330 client/gui-mui/dialogs.c:421
 #: client/gui-mui/dialogs.c:775 client/gui-mui/dialogs.c:842
 #: client/gui-mui/dialogs.c:877 client/gui-mui/dialogs.c:1167
@@ -10414,60 +10423,60 @@ msgstr "Eenheid opdrachten"
 #: client/gui-mui/gamedlgs.c:238 client/gui-mui/gamedlgs.c:330
 #: client/gui-mui/gotodlg.c:169 client/gui-mui/inputdlg.c:82
 #: client/gui-mui/messagedlg.c:91 client/gui-mui/worklistclass.c:717
-#: client/gui-win32/citydlg.c:1612 client/gui-win32/citydlg.c:1648
+#: client/gui-win32/citydlg.c:1604 client/gui-win32/citydlg.c:1640
 #: client/gui-win32/dialogs.c:1609 client/gui-win32/dialogs.c:1631
 #: client/gui-win32/dialogs.c:1661
 msgid "_Cancel"
 msgstr "_Annuleer"
 
 #: client/gui-gtk/citydlg.c:2691 client/gui-gtk/citydlg.c:2714
-#: client/gui-gtk/citydlg.c:2927 client/gui-gtk/dialogs.c:455
+#: client/gui-gtk/citydlg.c:2882 client/gui-gtk/dialogs.c:455
 #: client/gui-gtk/dialogs.c:950 client/gui-gtk/dialogs.c:966
 #: client/gui-mui/dialogs.c:232 client/gui-mui/dialogs.c:484
 #: client/gui-mui/dialogs.c:500 client/gui-win32/citydlg.c:1006
-#: client/gui-win32/citydlg.c:1559 client/gui-win32/citydlg.c:1583
+#: client/gui-win32/citydlg.c:1551 client/gui-win32/citydlg.c:1575
 #: client/gui-win32/dialogs.c:1374 client/gui-win32/dialogs.c:1548
 #: client/gui-win32/dialogs.c:1563 data/Freeciv:2243 data/Freeciv:2447
 #: data/Freeciv:2477
 msgid "Darn"
 msgstr "Verdorie"
 
-#: client/gui-gtk/citydlg.c:2703 client/gui-gtk/citydlg.c:2917
-#: client/gui-gtk/citydlg.c:3179 client/gui-gtk/cma_fe.c:571
+#: client/gui-gtk/citydlg.c:2703 client/gui-gtk/citydlg.c:2872
+#: client/gui-gtk/citydlg.c:3134 client/gui-gtk/cma_fe.c:571
 #: client/gui-gtk/dialogs.c:447 client/gui-gtk/dialogs.c:957
-#: client/gui-gtk/dialogs.c:1258 client/gui-mui/citydlg.c:1020
-#: client/gui-mui/citydlg.c:1060 client/gui-mui/dialogs.c:491
+#: client/gui-gtk/dialogs.c:1258 client/gui-mui/citydlg.c:978
+#: client/gui-mui/citydlg.c:1018 client/gui-mui/dialogs.c:491
 #: client/gui-mui/dialogs.c:1101 client/gui-mui/dialogs.c:1818
-#: client/gui-mui/repodlgs.c:775 client/gui-win32/citydlg.c:997
-#: client/gui-win32/citydlg.c:1056 client/gui-win32/citydlg.c:1571
+#: client/gui-mui/repodlgs.c:771 client/gui-win32/citydlg.c:997
+#: client/gui-win32/citydlg.c:1051 client/gui-win32/citydlg.c:1563
 #: client/gui-win32/dialogs.c:902 client/gui-win32/dialogs.c:1366
 #: client/gui-win32/dialogs.c:1555
 msgid "_Yes"
 msgstr "_Ja"
 
-#: client/gui-gtk/citydlg.c:2704 client/gui-gtk/citydlg.c:2918
-#: client/gui-gtk/citydlg.c:3180 client/gui-gtk/cma_fe.c:574
+#: client/gui-gtk/citydlg.c:2704 client/gui-gtk/citydlg.c:2873
+#: client/gui-gtk/citydlg.c:3135 client/gui-gtk/cma_fe.c:574
 #: client/gui-gtk/dialogs.c:448 client/gui-gtk/dialogs.c:958
-#: client/gui-gtk/dialogs.c:1259 client/gui-mui/citydlg.c:1021
-#: client/gui-mui/citydlg.c:1061 client/gui-mui/dialogs.c:492
+#: client/gui-gtk/dialogs.c:1259 client/gui-mui/citydlg.c:979
+#: client/gui-mui/citydlg.c:1019 client/gui-mui/dialogs.c:492
 #: client/gui-mui/dialogs.c:1102 client/gui-mui/dialogs.c:1819
-#: client/gui-mui/repodlgs.c:776 client/gui-win32/citydlg.c:998
-#: client/gui-win32/citydlg.c:1057 client/gui-win32/citydlg.c:1573
+#: client/gui-mui/repodlgs.c:772 client/gui-win32/citydlg.c:998
+#: client/gui-win32/citydlg.c:1052 client/gui-win32/citydlg.c:1565
 #: client/gui-win32/dialogs.c:903 client/gui-win32/dialogs.c:1367
 #: client/gui-win32/dialogs.c:1556
 msgid "_No"
 msgstr "_Nee"
 
-#: client/gui-gtk/citydlg.c:2987 client/gui-win32/citydlg.c:1155
+#: client/gui-gtk/citydlg.c:2942 client/gui-win32/citydlg.c:1150
 #: data/Freeciv:2064
 msgid "Change Production"
 msgstr "Verander Productie"
 
-#: client/gui-gtk/citydlg.c:3021
+#: client/gui-gtk/citydlg.c:2976
 msgid "Ca_ncel"
 msgstr "_Annuleer"
 
-#: client/gui-gtk/citydlg.c:3233
+#: client/gui-gtk/citydlg.c:3183
 #, c-format
 msgid "Sell (worth %d gold)"
 msgstr "Verkoop (%d goud waard)"
@@ -10525,7 +10534,7 @@ msgid "Change Production Everywhere"
 msgstr "Verander Productie Overal"
 
 #: client/gui-gtk/cityrep.c:1127 client/gui-win32/citydlg.c:870
-#: client/gui-win32/citydlg.c:1166 client/gui-win32/cityrep.c:745
+#: client/gui-win32/citydlg.c:1161 client/gui-win32/cityrep.c:745
 #: client/gui-win32/cityrep.c:879 data/Freeciv:1378 data/Freeciv:1628
 #: data/Freeciv:1784 data/Freeciv:2080
 msgid "Change"
@@ -10535,7 +10544,7 @@ msgstr "Verander"
 #: client/gui-gtk/dialogs.c:1402 client/gui-gtk/finddlg.c:108
 #: client/gui-gtk/gamedlgs.c:316 client/gui-gtk/inputdlg.c:135
 #: client/gui-gtk/messagedlg.c:126 client/gui-gtk/wldlg.c:491
-#: client/gui-win32/citydlg.c:1168 client/gui-win32/cityrep.c:753
+#: client/gui-win32/citydlg.c:1163 client/gui-win32/cityrep.c:753
 #: client/gui-win32/connectdlg.c:1171 client/gui-win32/dialogs.c:1745
 #: client/gui-win32/dialogs.c:1954 client/gui-win32/finddlg.c:128
 #: client/gui-win32/gotodlg.c:170 client/gui-win32/inputdlg.c:146
@@ -10562,7 +10571,7 @@ msgstr "Stel zichtbare kolommen in"
 #: client/gui-gtk/dialogs.c:797 client/gui-gtk/dialogs.c:1741
 #: client/gui-gtk/gamedlgs.c:493 client/gui-gtk/helpdlg.c:614
 #: client/gui-gtk/inteldlg.c:177 client/gui-gtk/repodlgs.c:219
-#: client/gui-gtk/repodlgs.c:611 client/gui-gtk/repodlgs.c:851
+#: client/gui-gtk/repodlgs.c:611 client/gui-gtk/repodlgs.c:848
 #: client/gui-gtk/spaceshipdlg.c:218 client/gui-gtk/wldlg.c:205
 #: client/gui-win32/citydlg.c:895 client/gui-win32/cityrep.c:132
 #: client/gui-win32/cityrep.c:875 client/gui-win32/dialogs.c:186
@@ -10571,7 +10580,7 @@ msgstr "Stel zichtbare kolommen in"
 #: client/gui-win32/helpdlg.c:453 client/gui-win32/inteldlg.c:153
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:164
 #: client/gui-win32/plrdlg.c:369 client/gui-win32/repodlgs.c:291
-#: client/gui-win32/repodlgs.c:464 client/gui-win32/repodlgs.c:718
+#: client/gui-win32/repodlgs.c:461 client/gui-win32/repodlgs.c:715
 #: client/gui-win32/spaceshipdlg.c:246 client/gui-win32/wldlg.c:307
 #: data/Freeciv:151 data/Freeciv:201 data/Freeciv:505 data/Freeciv:524
 #: data/Freeciv:569 data/Freeciv:1440 data/Freeciv:1458 data/Freeciv:1597
@@ -10888,11 +10897,11 @@ msgstr ""
 "Out = Output venster, Ber = Berichten venster,\n"
 "Pop = Popup individueel venster"
 
-#: client/gui-gtk/messagewin.c:155 client/gui-mui/citydlg.c:1732
+#: client/gui-gtk/messagewin.c:155 client/gui-mui/citydlg.c:1694
 #: client/gui-mui/cityrep.c:366 client/gui-mui/dialogs.c:136
 #: client/gui-mui/dialogs.c:183 client/gui-mui/dialogs.c:1421
 #: client/gui-mui/messagewin.c:208 client/gui-mui/plrdlg.c:331
-#: client/gui-mui/repodlgs.c:564 client/gui-mui/repodlgs.c:813
+#: client/gui-mui/repodlgs.c:560 client/gui-mui/repodlgs.c:809
 #: client/gui-mui/spaceshipdlg.c:239
 msgid "_Close"
 msgstr "_Sluit"
@@ -10911,34 +10920,34 @@ msgid "Game: You need an embassy to establish a diplomatic meeting."
 msgstr ""
 "Spel: U hebt een ambassade nodig om een diplomatieke ontmoeting te regelen."
 
-#: client/gui-gtk/repodlgs.c:719 client/gui-mui/repodlgs.c:535
-#: client/gui-win32/repodlgs.c:392 client/gui-xaw/repodlgs.c:769
+#: client/gui-gtk/repodlgs.c:716 client/gui-mui/repodlgs.c:531
+#: client/gui-win32/repodlgs.c:389 client/gui-xaw/repodlgs.c:766
 msgid "Sell-Off:"
 msgstr "Uitverkoop:"
 
-#: client/gui-gtk/repodlgs.c:764 client/gui-mui/repodlgs.c:619
-#: client/gui-win32/repodlgs.c:343 client/gui-xaw/repodlgs.c:813
+#: client/gui-gtk/repodlgs.c:761 client/gui-mui/repodlgs.c:615
+#: client/gui-win32/repodlgs.c:343 client/gui-xaw/repodlgs.c:810
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Inkomen:%6d   Totale Kosten: %6d"
 
-#: client/gui-gtk/repodlgs.c:847 client/gui-xaw/repodlgs.c:918
+#: client/gui-gtk/repodlgs.c:844 client/gui-xaw/repodlgs.c:915
 msgid "Totals: ..."
 msgstr "Totalen: ..."
 
-#: client/gui-gtk/repodlgs.c:857 client/gui-mui/mapclass.c:2967
-#: client/gui-win32/repodlgs.c:720 data/Freeciv:1942
+#: client/gui-gtk/repodlgs.c:854 client/gui-mui/mapclass.c:2967
+#: client/gui-win32/repodlgs.c:717 data/Freeciv:1942
 msgid "Upgrade"
 msgstr "Waardeer op"
 
-#: client/gui-gtk/repodlgs.c:863 client/gui-win32/cityrep.c:881
-#: client/gui-win32/repodlgs.c:722 data/Freeciv:1644 data/Freeciv:1791
+#: client/gui-gtk/repodlgs.c:860 client/gui-win32/cityrep.c:881
+#: client/gui-win32/repodlgs.c:719 data/Freeciv:1644 data/Freeciv:1791
 #: data/Freeciv:1950
 msgid "Refresh"
 msgstr "Ververs"
 
-#: client/gui-gtk/repodlgs.c:947 client/gui-mui/dialogs.c:223
-#: client/gui-win32/repodlgs.c:584 client/gui-xaw/citydlg.c:2563
+#: client/gui-gtk/repodlgs.c:944 client/gui-mui/dialogs.c:223
+#: client/gui-win32/repodlgs.c:581 client/gui-xaw/citydlg.c:2519
 #: client/gui-xaw/cityrep.c:648 client/gui-xaw/messagedlg.c:72
 #: client/gui-xaw/optiondlg.c:76 client/gui-xaw/optiondlg.c:248
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:1484 data/Freeciv:2199
@@ -10947,8 +10956,8 @@ msgstr "Ververs"
 msgid "Yes"
 msgstr "Ja"
 
-#: client/gui-gtk/repodlgs.c:949 client/gui-mui/dialogs.c:224
-#: client/gui-win32/repodlgs.c:586 client/gui-xaw/citydlg.c:2563
+#: client/gui-gtk/repodlgs.c:946 client/gui-mui/dialogs.c:224
+#: client/gui-win32/repodlgs.c:583 client/gui-xaw/citydlg.c:2519
 #: client/gui-xaw/cityrep.c:648 client/gui-xaw/messagedlg.c:72
 #: client/gui-xaw/optiondlg.c:76 client/gui-xaw/optiondlg.c:248
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:1477 data/Freeciv:1486
@@ -10957,7 +10966,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nee"
 
-#: client/gui-gtk/repodlgs.c:1038
+#: client/gui-gtk/repodlgs.c:1035
 #, c-format
 msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d"
 msgstr "Totalen:                    %s%9d%s%9d%s%9d%s%9d"
@@ -11029,7 +11038,7 @@ msgstr "Hoe zou de nieuwe naam moeten luiden?"
 msgid "empty worklist"
 msgstr "lege werklijst"
 
-#: client/gui-gtk/wldlg.c:1353 client/gui-mui/citydlg.c:1426
+#: client/gui-gtk/wldlg.c:1353 client/gui-mui/citydlg.c:1388
 #: client/gui-mui/worklistclass.c:159 client/gui-win32/citydlg.c:781
 #: client/gui-win32/wldlg.c:950 client/gui-win32/wldlg.c:996
 msgid "Worklist"
@@ -11040,121 +11049,121 @@ msgid "Cleared output window.\n"
 msgstr "Uitvoervenster geschoond.\n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
-#: client/gui-mui/citydlg.c:605 client/gui-mui/worklistclass.c:213
+#: client/gui-mui/citydlg.c:563 client/gui-mui/worklistclass.c:213
 msgid "u8Unitsn"
 msgstr "u8Eenhedenn"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
-#: client/gui-mui/citydlg.c:612 client/gui-mui/worklistclass.c:221
+#: client/gui-mui/citydlg.c:570 client/gui-mui/worklistclass.c:221
 msgid "u8Improvementsn"
 msgstr "u8Verbeteringenn"
 
-#: client/gui-mui/citydlg.c:688
+#: client/gui-mui/citydlg.c:646
 msgid "Rounds"
 msgstr "Ronden"
 
-#: client/gui-mui/citydlg.c:1030 client/gui-mui/dialogs.c:1805
+#: client/gui-mui/citydlg.c:988 client/gui-mui/dialogs.c:1805
 #: client/gui-mui/dialogs.c:1829
 msgid "_Darn"
 msgstr "_Verdorie"
 
-#: client/gui-mui/citydlg.c:1288
+#: client/gui-mui/citydlg.c:1250
 msgid "Freeciv - Cityproduction"
 msgstr "Freeciv - Stadsproductie"
 
-#: client/gui-mui/citydlg.c:1301 client/gui-mui/citydlg.c:1520
+#: client/gui-mui/citydlg.c:1263 client/gui-mui/citydlg.c:1482
 #: client/gui-mui/cityrep.c:370
 msgid "Chan_ge"
 msgstr "_Wijzig"
 
-#: client/gui-mui/citydlg.c:1378
+#: client/gui-mui/citydlg.c:1340
 msgid "Shields"
 msgstr "Schilden"
 
-#: client/gui-mui/citydlg.c:1424 client/gui-win32/citydlg.c:781
+#: client/gui-mui/citydlg.c:1386 client/gui-win32/citydlg.c:781
 msgid "City Overview"
 msgstr "Stadsoverzicht"
 
-#: client/gui-mui/citydlg.c:1430 client/gui-win32/citydlg.c:784
+#: client/gui-mui/citydlg.c:1392 client/gui-win32/citydlg.c:784
 msgid "Misc. Settings"
 msgstr "Diverse Instellingen"
 
-#: client/gui-mui/citydlg.c:1460
+#: client/gui-mui/citydlg.c:1422
 msgid "Freeciv - Cityview"
 msgstr "Freeciv - Steden"
 
-#: client/gui-mui/citydlg.c:1487
+#: client/gui-mui/citydlg.c:1449
 msgid "City Output"
 msgstr "Stads Uitvoer"
 
-#: client/gui-mui/citydlg.c:1492
+#: client/gui-mui/citydlg.c:1454
 msgid "Citymap"
 msgstr "Stadskaart"
 
-#: client/gui-mui/citydlg.c:1523 data/helpdata.txt:772
+#: client/gui-mui/citydlg.c:1485 data/helpdata.txt:772
 msgid "City Improvements"
 msgstr "Stadsverbeteringen"
 
-#: client/gui-mui/citydlg.c:1532
+#: client/gui-mui/citydlg.c:1494
 msgid "_Sell"
 msgstr "Ver_koop"
 
-#: client/gui-mui/citydlg.c:1603
+#: client/gui-mui/citydlg.c:1565
 msgid "_Add preset"
 msgstr "Snelkeuze toevoegen (_a)"
 
-#: client/gui-mui/citydlg.c:1604
+#: client/gui-mui/citydlg.c:1566
 msgid "_Delete preset"
 msgstr "Snelkeuze verwij_deren"
 
-#: client/gui-mui/citydlg.c:1635
+#: client/gui-mui/citydlg.c:1597
 msgid "People (W/E/S/T):"
 msgstr "Bevolking (W/E/P/H):"
 
-#: client/gui-mui/citydlg.c:1638
+#: client/gui-mui/citydlg.c:1600
 msgid "City grows:"
 msgstr "Stadsgroei:"
 
-#: client/gui-mui/citydlg.c:1641
+#: client/gui-mui/citydlg.c:1603
 msgid "Production completed:"
 msgstr "Productie gereed:"
 
-#: client/gui-mui/citydlg.c:1658 data/Freeciv:3027
+#: client/gui-mui/citydlg.c:1620 data/Freeciv:3027
 #: data/default/techs.ruleset:736 data/civ2/techs.ruleset:553
 #: data/civ1/techs.ruleset:553 data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Handel"
 
-#: client/gui-mui/citydlg.c:1662 data/default/terrain.ruleset:376
+#: client/gui-mui/citydlg.c:1624 data/default/terrain.ruleset:376
 #: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
 #: data/history/terrain.ruleset:376
 msgid "Gold"
 msgstr "Goud"
 
-#: client/gui-mui/citydlg.c:1683
+#: client/gui-mui/citydlg.c:1645
 msgid "C_hange permanent"
 msgstr "Wijzig permanent"
 
-#: client/gui-mui/citydlg.c:1714 client/gui-mui/citydlg.c:1715
+#: client/gui-mui/citydlg.c:1676 client/gui-mui/citydlg.c:1677
 msgid "_Disband if build settler at size 1"
 msgstr "_Verlaat als kolonist gebouwd bij grootte 1"
 
-#: client/gui-mui/citydlg.c:1835
+#: client/gui-mui/citydlg.c:1800
 #, c-format
 msgid "%s (%s) (worklist)"
 msgstr "%s (%s) (werklijst)"
 
-#: client/gui-mui/citydlg.c:2135
+#: client/gui-mui/citydlg.c:2100
 #, c-format
 msgid "%s citizens%s"
 msgstr "%s inwoners%s"
 
-#: client/gui-mui/citydlg.c:2139
+#: client/gui-mui/citydlg.c:2104
 #, c-format
 msgid "%s - %s citizens%s"
 msgstr "%s - %s inwoners%s"
 
-#: client/gui-mui/citydlg.c:2290
+#: client/gui-mui/citydlg.c:2255
 #, c-format
 msgid "Luxury: %d total (maximum %d usable). "
 msgstr "Luxe: %d totaal (maximaal %d bruikbaar). "
@@ -11819,24 +11828,24 @@ msgstr "_Doel"
 msgid "_Research"
 msgstr "_Onderzoek"
 
-#: client/gui-mui/repodlgs.c:549 client/gui-win32/repodlgs.c:450
+#: client/gui-mui/repodlgs.c:545 client/gui-win32/repodlgs.c:447
 msgid "Trade Report"
 msgstr "Handels Rapport"
 
-#: client/gui-mui/repodlgs.c:565
+#: client/gui-mui/repodlgs.c:561
 msgid "Sell _Obsolete"
 msgstr "Verkoop _Verouderd"
 
-#: client/gui-mui/repodlgs.c:566
+#: client/gui-mui/repodlgs.c:562
 msgid "Sell _All"
 msgstr "Verkoop _Alles"
 
-#: client/gui-mui/repodlgs.c:573 client/gui-mui/repodlgs.c:601
+#: client/gui-mui/repodlgs.c:569 client/gui-mui/repodlgs.c:597
 msgid "Trade Advisor"
 msgstr "Handels Adviseur"
 
-#: client/gui-mui/repodlgs.c:796 client/gui-mui/repodlgs.c:822
-#: client/gui-mui/repodlgs.c:859
+#: client/gui-mui/repodlgs.c:792 client/gui-mui/repodlgs.c:818
+#: client/gui-mui/repodlgs.c:855
 msgid "Military Report"
 msgstr "Militair Rapport"
 
@@ -11981,23 +11990,23 @@ msgstr "Eenhedenlijst"
 msgid "Improvement"
 msgstr "Verbetering"
 
-#: client/gui-win32/citydlg.c:2155
+#: client/gui-win32/citydlg.c:2119
 msgid "Elvises"
 msgstr "Elvis'sen"
 
-#: client/gui-win32/citydlg.c:2164
+#: client/gui-win32/citydlg.c:2128
 msgid "Auto-attack vs land units"
 msgstr "Auto-aanval tegen landeenheden"
 
-#: client/gui-win32/citydlg.c:2166
+#: client/gui-win32/citydlg.c:2130
 msgid "Auto-attack vs sea units"
 msgstr "Auto-aanval tegen zee-eenheden"
 
-#: client/gui-win32/citydlg.c:2168
+#: client/gui-win32/citydlg.c:2132
 msgid "Auto-attack vs air units"
 msgstr "Auto-aanval tegen luchteenheden"
 
-#: client/gui-win32/citydlg.c:2170
+#: client/gui-win32/citydlg.c:2134
 msgid "Auto-attack vs helicopters"
 msgstr "Auto-aanval tegen helicopters"
 
@@ -12207,7 +12216,7 @@ msgstr[1] ""
 msgid "Science Report"
 msgstr "Wetenschappelijk Rapport"
 
-#: client/gui-win32/repodlgs.c:669
+#: client/gui-win32/repodlgs.c:666
 msgid "Totals"
 msgstr "Totalen"
 
@@ -12255,21 +12264,21 @@ msgstr "(is leeg)"
 msgid "(in prog.)"
 msgstr "(in ontw.)"
 
-#: client/gui-xaw/citydlg.c:1423
+#: client/gui-xaw/citydlg.c:1420
 #, c-format
 msgid "These trade routes have been established with %s:\n"
 msgstr "Deze handelsroutes worden onderhouden met %s:\n"
 
-#: client/gui-xaw/citydlg.c:1433 client/gui-xaw/citydlg.c:1437
+#: client/gui-xaw/citydlg.c:1430 client/gui-xaw/citydlg.c:1434
 #, c-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr "%32s: %2d Handel/Jaar\n"
 
-#: client/gui-xaw/citydlg.c:1443
+#: client/gui-xaw/citydlg.c:1440
 msgid "No trade routes exist.\n"
 msgstr "Er zijn geen handelsroutes.\n"
 
-#: client/gui-xaw/citydlg.c:1445
+#: client/gui-xaw/citydlg.c:1442
 #, c-format
 msgid ""
 "\n"
@@ -12278,7 +12287,7 @@ msgstr ""
 "\n"
 "Totale handel %d Handel/Jaar\n"
 
-#: client/gui-xaw/citydlg.c:1822
+#: client/gui-xaw/citydlg.c:1819
 #, c-format
 msgid "%s - %s citizens  CMA: %s"
 msgstr "%s - %s inwoners  Burg: %s"
@@ -12361,7 +12370,7 @@ msgstr "Staat %s toe (met %s).\n"
 msgid "City: %s(%s) %s"
 msgstr "Stad: %s(%s) %s"
 
-#: client/gui-xaw/mapview.c:203
+#: client/gui-xaw/mapview.c:202
 #, c-format
 msgid ""
 "%s People\n"
@@ -12473,7 +12482,7 @@ msgstr "Onderzoek: %s: %d/%d"
 msgid "Goal: %s (%d steps)"
 msgstr "Doel: %s (%d stappen)"
 
-#: client/gui-xaw/repodlgs.c:1136
+#: client/gui-xaw/repodlgs.c:1133
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Totalen:                    %9d%9d%9d%9d"
