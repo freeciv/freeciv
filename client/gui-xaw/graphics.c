@@ -502,10 +502,10 @@ void free_sprite(struct Sprite *s)
   if (s->pcolorarray) {
     free_colors(s->pcolorarray, s->ncols);
     free(s->pcolorarray);
+    s->pcolorarray = NULL;
   }
   free(s);
 }
-
 
 /***************************************************************************
 ...

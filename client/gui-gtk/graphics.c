@@ -339,11 +339,11 @@ struct Sprite *load_gfxfile(const char *filename)
 /***************************************************************************
    Deletes a sprite.  These things can use a lot of memory.
 ***************************************************************************/
-void free_sprite(SPRITE *s)
+void free_sprite(SPRITE * s)
 {
   gdk_imlib_free_pixmap(s->pixmap);
+  s->pixmap = NULL;
   free(s);
-  return;
 }
 
 /***************************************************************************

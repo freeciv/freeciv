@@ -507,21 +507,21 @@ static void crop_sprite_real(struct Sprite *source)
 /**************************************************************************
 
 **************************************************************************/
-void
-free_sprite(struct Sprite *s)
+void free_sprite(struct Sprite *s)
 {
-  if (s->has_mask)
-    {
-      free(s->mask.bmBits);
-    }
-  
-  
+  if (s->has_mask) {
+    free(s->mask.bmBits);
+    s->mask = NULL;
+  }
+
   free(s->bmp.bmBits);
-  
+  s->bmp = NULL;
+
   free(s);
-  if (bitmapcache)
+  if (bitmapcache) {
     DeleteObject(bitmapcache);
-  sprcache=NULL;
+  }
+  sprcache = NULL;
 }
 
 /**************************************************************************

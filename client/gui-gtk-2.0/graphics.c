@@ -333,19 +333,20 @@ struct Sprite *load_gfxfile(const char *filename)
 /***************************************************************************
    Deletes a sprite.  These things can use a lot of memory.
 ***************************************************************************/
-void free_sprite(SPRITE *s)
+void free_sprite(SPRITE * s)
 {
   if (s->pixmap) {
     g_object_unref(s->pixmap);
+    s->pixmap = NULL;
   }
   if (s->mask) {
     g_object_unref(s->mask);
+    s->mask = NULL;
   }
   if (s->pixbuf) {
     g_object_unref(s->pixbuf);
   }
   free(s);
-  return;
 }
 
 /***************************************************************************
