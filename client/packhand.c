@@ -2064,7 +2064,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
   int i;
 
-  tilespec_free_city_tiles(game.styles_count);
+  tileset_free_city_tiles(tileset, game.styles_count);
   ruleset_data_free();
 
   ruleset_cache_init();
@@ -2096,7 +2096,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.playable_nation_count = packet->playable_nation_count;
 
   city_styles_alloc(packet->style_count);
-  tilespec_alloc_city_tiles(game.styles_count);
+  tileset_alloc_city_tiles(tileset, game.styles_count);
 
   game.terrain_count = packet->terrain_count;
 
@@ -2166,7 +2166,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
 
   u->helptext = mystrdup(p->helptext);
 
-  tilespec_setup_unit_type(p->id);
+  tileset_setup_unit_type(tileset, p->id);
 }
 
 /**************************************************************************
@@ -2195,7 +2195,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->num_reqs = p->num_reqs;
   a->helptext = mystrdup(p->helptext);
   
-  tilespec_setup_tech_type(p->id);
+  tileset_setup_tech_type(tileset, p->id);
 }
 
 /**************************************************************************
@@ -2281,7 +2281,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   }
 #endif
   
-  tilespec_setup_impr_type(p->id);
+  tileset_setup_impr_type(tileset, p->id);
 }
 
 /**************************************************************************
@@ -2342,7 +2342,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   gov->helptext = mystrdup(p->helptext);
   
-  tilespec_setup_government(p->id);
+  tileset_setup_government(tileset, p->id);
 }
 
 void handle_ruleset_government_ruler_title
@@ -2429,7 +2429,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 
   t->helptext = mystrdup(p->helptext);
   
-  tilespec_setup_tile_type(p->id);
+  tileset_setup_tile_type(tileset, p->id);
 }
 
 /**************************************************************************
@@ -2483,7 +2483,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
     pl->legend = mystrdup("");
   }
 
-  tilespec_setup_nation_flag(p->id);
+  tileset_setup_nation_flag(tileset, p->id);
 }
 
 /**************************************************************************
@@ -2512,7 +2512,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);
   sz_strlcpy(cs->citizens_graphic_alt, packet->citizens_graphic_alt);
 
-  tilespec_setup_city_tiles(id);
+  tileset_setup_city_tiles(tileset, id);
 }
 
 /**************************************************************************
@@ -2547,7 +2547,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 			  packet->specialist_req_value[index]);
     }
   } specialist_type_iterate_end;
-  tilespec_setup_specialist_types();
+  tileset_setup_specialist_types(tileset);
 
   game.rgame.changable_tax = packet->changable_tax;
   game.rgame.forced_science = packet->forced_science;

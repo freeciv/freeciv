@@ -1364,7 +1364,7 @@ void ui_main(int argc, char *argv[])
 
   atexit(ui_exit);
 
-  if (init_timer() && load_all_sprites())	/* includes tilespec_load_tiles */
+  if (init_timer() && load_all_sprites())	/* includes tileset_load_tiles */
   {
     if (init_gui())
     {

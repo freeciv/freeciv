@@ -967,7 +967,7 @@ void ui_main(int argc, char **argv)
     gdk_gc_set_foreground(mask_bg_gc, &pixel);
   }
 
-  tilespec_load_tiles();
+  tileset_load_tiles(tileset);
 
   setup_widgets();
   load_intro_gfx();
@@ -988,7 +988,7 @@ void ui_main(int argc, char **argv)
   gtk_main();
 
   free_color_system();
-  tilespec_free_tiles();
+  tileset_free_tiles(tileset);
 }
 
 /**************************************************************************

@@ -442,7 +442,7 @@ void ui_main(int argc, char *argv[])
      setup_widgets() has enough colors available:  (on 256-colour systems)
   */
   setup_widgets();
-  tilespec_load_tiles();
+  tileset_load_tiles(tileset);
   load_intro_gfx();
   load_cursors();
 
@@ -711,7 +711,7 @@ void setup_widgets(void)
 **************************************************************************/
 void xaw_ui_exit(void)
 {
-  tilespec_free_tiles();
+  tileset_free_tiles(tileset);
   ui_exit();
 }
 

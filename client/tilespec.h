@@ -105,31 +105,35 @@ enum mapview_layer {
   }									    \
 }
 
+struct tileset;
+
+extern struct tileset *tileset;
+
 const char **get_tileset_list(void);
 
-void tilespec_init(void);
-void tilespec_done(void);
-bool tilespec_read_toplevel(const char *tileset_name);
-void tilespec_load_tiles(void);
-void tilespec_free_tiles(void);
+struct tileset *tileset_read_toplevel(const char *tileset_name);
+void tileset_free(struct tileset *tileset);
+void tileset_load_tiles(struct tileset *t);
+void tileset_free_tiles(struct tileset *t);
 
 void tilespec_reread(const char *tileset_name);
 void tilespec_reread_callback(struct client_option *option);
 
-void tilespec_setup_specialist_types(void);
-void tilespec_setup_unit_type(int id);
-void tilespec_setup_impr_type(int id);
-void tilespec_setup_tech_type(int id);
-void tilespec_setup_tile_type(Terrain_type_id terrain);
-void tilespec_setup_government(int id);
-void tilespec_setup_nation_flag(int id);
-void tilespec_setup_city_tiles(int style);
-void tilespec_alloc_city_tiles(int count);
-void tilespec_free_city_tiles(int count);
+void tileset_setup_specialist_types(struct tileset *t);
+void tileset_setup_unit_type(struct tileset *t, int id);
+void tileset_setup_impr_type(struct tileset *t, int id);
+void tileset_setup_tech_type(struct tileset *t, int id);
+void tileset_setup_tile_type(struct tileset *t, Terrain_type_id terrain);
+void tileset_setup_government(struct tileset *t, int id);
+void tileset_setup_nation_flag(struct tileset *t, int id);
+void tileset_setup_city_tiles(struct tileset *t, int style);
+void tileset_alloc_city_tiles(struct tileset *t, int count);
+void tileset_free_city_tiles(struct tileset *t, int count);
 
 /* Gfx support */
 
-int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
+int fill_sprite_array(struct tileset *t,
+		      struct drawn_sprite *sprs, enum mapview_layer layer,
 		      const struct tile *ptile,
 		      const struct tile_edge *pedge,
 		      const struct tile_corner *pcorner,
@@ -422,9 +426,8 @@ int tileset_small_sprite_height(void);
 const char *tileset_main_intro_filename(void);
 const char *tileset_mini_intro_filename(void);
 
-struct Sprite *load_sprite(const char *tag_name);
-void unload_sprite(const char *tag_name);
-bool sprite_exists(const char *tag_name);
-void finish_loading_sprites(void);
+struct Sprite *load_sprite(struct tileset *t, const char *tag_name);
+void unload_sprite(struct tileset *t, const char *tag_name);
+bool sprite_exists(struct tileset *t, const char *tag_name);
 
 #endif  /* FC__TILESPEC_H */

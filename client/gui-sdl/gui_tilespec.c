@@ -54,11 +54,11 @@ static struct {
 
 #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		\
 do {								\
-  pSpr = load_sprite(tag);					\
+  pSpr = load_sprite(tileset, tag);					\
   pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		\
   assert(pStruct->pSurf != NULL);				\
   pSpr->psurface = NULL;					\
-  unload_sprite(tag);						\
+  unload_sprite(tileset, tag);						\
 } while(0)
 
 
@@ -128,12 +128,12 @@ static void real_reload_citizens_icons(int style)
 	  city_styles[style].citizens_graphic , get_citizen_name(i));  
     
     
-    pSpr = load_sprite(tag);
+    pSpr = load_sprite(tileset, tag);
     if(!pSpr) {
       freelog(LOG_DEBUG,"Can't find %s", tag);
       my_snprintf(tag, sizeof(tag), "citizen%s%s", alt_buf ,get_citizen_name(i));  
       freelog(LOG_DEBUG,"Trying load alternative %s", tag);
-      pSpr = load_sprite(tag);
+      pSpr = load_sprite(tileset, tag);
     }
     
     FREESURFACE(citizen[i].surface[0]);
@@ -145,20 +145,20 @@ static void real_reload_citizens_icons(int style)
        * citizen.entertainer. */
       citizen[i].count = 1;
       pSpr->psurface = NULL;
-      unload_sprite(tag);
+      unload_sprite(tileset, tag);
       continue;
     }
     for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
       my_snprintf(tag, sizeof(tag), "citizen.%s_%s_%d",
 	  city_styles[style].citizens_graphic ,get_citizen_name(i) , j );
       
-      pSpr = load_sprite(tag);
+      pSpr = load_sprite(tileset, tag);
       if(!pSpr) {
         freelog(LOG_DEBUG,"Can't find %s", tag);
         my_snprintf(tag, sizeof(tag), "citizen%s%s_%d", alt_buf,
 	    				get_citizen_name(i), j);
         freelog(LOG_DEBUG,"Trying load alternative %s", tag);
-        pSpr = load_sprite(tag);
+        pSpr = load_sprite(tileset, tag);
       }
       
       FREESURFACE(citizen[i].surface[j]);
@@ -167,7 +167,7 @@ static void real_reload_citizens_icons(int style)
 	break;
       }
       pSpr->psurface = NULL;
-      unload_sprite(tag);
+      unload_sprite(tileset, tag);
     }
     citizen[i].count = j;
     assert(j > 0);
@@ -271,7 +271,7 @@ void reload_citizens_icons(int style)
 
 /**********************************************************************
   Set city icons sprite value; should only happen after
-  tilespec_load_tiles().
+  tileset_load_tiles(tileset).
 ***********************************************************************/
 void tilespec_setup_city_icons(void)
 {
@@ -507,7 +507,7 @@ void tilespec_setup_theme(void)
       pBuf = sprites.dither_tile;
       pDitherMask = GET_SURF(pBuf);
       pBuf->psurface = NULL;
-      unload_sprite("t.dither_tile");
+      unload_sprite(tileset, "t.dither_tile");
       assert(pDitherMask != NULL);	  
   /* ------------------------------ */
   /* Map Borders */
@@ -569,7 +569,7 @@ do { \
     pAnim->Cursors.Type = CALLOC(num + 1, sizeof(SDL_Cursor *));	\
     for( iter=0; iter<num; iter++) {	\
       my_snprintf(cBuf,sizeof(cBuf), "%s_%d", Tag, iter);	\
-      pSpr = load_sprite(cBuf);	\
+      pSpr = load_sprite(tileset, cBuf);	\
       image = (pSpr ? GET_SURF(pSpr) : NULL);	\
       assert(image != NULL);	\
       if (center) {	\
@@ -577,7 +577,7 @@ do { \
       } else {	\
 	pAnim->Cursors.Type[iter] = SurfaceToCursor(image, x, y);	\
       }	\
-      unload_sprite(cBuf);	\
+      unload_sprite(tileset, cBuf);	\
     }	\
   }	\
 } while(0)
@@ -788,39 +788,39 @@ SDL_Surface * get_citizen_surface(struct citizen_type type,
 
 void unload_unused_graphics(void)
 {
-  unload_sprite("treaty.disagree_thumb_down");
-  unload_sprite("treaty.agree_thumb_up");
-  unload_sprite("spaceship.solar_panels");
-  unload_sprite("spaceship.life_support");
-  unload_sprite("spaceship.habitation");
-  unload_sprite("spaceship.structural");
-  unload_sprite("spaceship.fuel");
-  unload_sprite("spaceship.propulsion");
-  unload_sprite("citizen.entertainer");
-  unload_sprite("citizen.scientist");
-  unload_sprite("citizen.tax_collector");
-  unload_sprite("citizen.content_0");
-  unload_sprite("citizen.content_1");
-  unload_sprite("citizen.happy_0");
-  unload_sprite("citizen.happy_1");
-  unload_sprite("citizen.unhappy_0");
-  unload_sprite("citizen.unhappy_1");
-  unload_sprite("citizen.angry_0");
-  unload_sprite("citizen.angry_1");
-  unload_sprite("s.right_arrow");
+  unload_sprite(tileset, "treaty.disagree_thumb_down");
+  unload_sprite(tileset, "treaty.agree_thumb_up");
+  unload_sprite(tileset, "spaceship.solar_panels");
+  unload_sprite(tileset, "spaceship.life_support");
+  unload_sprite(tileset, "spaceship.habitation");
+  unload_sprite(tileset, "spaceship.structural");
+  unload_sprite(tileset, "spaceship.fuel");
+  unload_sprite(tileset, "spaceship.propulsion");
+  unload_sprite(tileset, "citizen.entertainer");
+  unload_sprite(tileset, "citizen.scientist");
+  unload_sprite(tileset, "citizen.tax_collector");
+  unload_sprite(tileset, "citizen.content_0");
+  unload_sprite(tileset, "citizen.content_1");
+  unload_sprite(tileset, "citizen.happy_0");
+  unload_sprite(tileset, "citizen.happy_1");
+  unload_sprite(tileset, "citizen.unhappy_0");
+  unload_sprite(tileset, "citizen.unhappy_1");
+  unload_sprite(tileset, "citizen.angry_0");
+  unload_sprite(tileset, "citizen.angry_1");
+  unload_sprite(tileset, "s.right_arrow");
   if (sprite_exists("t.coast_color"))
   {
-    unload_sprite("t.coast_color");
+    unload_sprite(tileset, "t.coast_color");
   }
-  unload_sprite("upkeep.gold");
-  unload_sprite("upkeep.gold2");
-  unload_sprite("upkeep.food");
-  unload_sprite("upkeep.food2");
-  unload_sprite("upkeep.unhappy");
-  unload_sprite("upkeep.unhappy2");
-  unload_sprite("upkeep.shield");
+  unload_sprite(tileset, "upkeep.gold");
+  unload_sprite(tileset, "upkeep.gold2");
+  unload_sprite(tileset, "upkeep.food");
+  unload_sprite(tileset, "upkeep.food2");
+  unload_sprite(tileset, "upkeep.unhappy");
+  unload_sprite(tileset, "upkeep.unhappy2");
+  unload_sprite(tileset, "upkeep.shield");
   if (tileset_is_isometric() && sprite_exists("explode.iso_nuke"))
   {
-    unload_sprite("explode.iso_nuke");
+    unload_sprite(tileset, "explode.iso_nuke");
   }
 }

@@ -246,7 +246,7 @@ void ui_main(int argc, char *argv[])
 
   chat_create(); 
   chatline_create();
-  tilespec_load_tiles();
+  tileset_load_tiles(tileset);
   timer_callback(NULL);
   sw_window_set_key_notify(root_window, my_key_handler, NULL);
 

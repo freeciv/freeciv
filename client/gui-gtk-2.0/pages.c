@@ -1437,7 +1437,7 @@ static GdkPixbuf *get_flag(char *flag_str)
   GdkPixbuf *im, *im2;
   SPRITE *flag;
 
-  flag = load_sprite(flag_str);
+  flag = load_sprite(tileset, flag_str);
 
   if (!flag) {
     return NULL;
@@ -1461,7 +1461,7 @@ static GdkPixbuf *get_flag(char *flag_str)
   im = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(flag), x0, y0, w, h);
   im2 = gdk_pixbuf_copy(im);
   g_object_unref(im);
-  unload_sprite(flag_str);
+  unload_sprite(tileset, flag_str);
 
   /* and finaly store the scaled flag pixbuf in the static flags array */
   return im2;

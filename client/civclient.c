@@ -339,10 +339,9 @@ int main(int argc, char *argv[])
   mysrand(time(NULL));
   control_init();
   helpdata_init();
-  tilespec_init();
   boot_help_texts();
 
-  if (!tilespec_read_toplevel(tileset_name)) {
+  if (!(tileset = tileset_read_toplevel(tileset_name))) {
     /* get tile sizes etc */
     exit(EXIT_FAILURE);
   }
@@ -372,7 +371,7 @@ void ui_exit(void)
   if (save_options_on_exit) {
     save_options();
   }
-  tilespec_done();
+  tileset_free(tileset);
   control_done();
   chatline_common_done();
   client_game_free();

@@ -119,7 +119,7 @@ struct Sprite *load_gfxfile(const char *filename)
   struct SpriteNode *node = (struct SpriteNode *) AllocVec(sizeof(*node), 0x10000);
   if (node)
   {
-    struct Sprite *sprite = load_sprite(filename, TRUE);
+    struct Sprite *sprite = load_sprite(tileset, filename, TRUE);
     if (sprite)
     {
       if (!sprite_initialized)
@@ -158,7 +158,7 @@ int get_normal_tile_width(void)
 /****************************************************************
  Allocate and load a sprite
 *****************************************************************/
-struct Sprite *load_sprite(const char *filename, ULONG usemask)
+struct Sprite *load_sprite(tileset, const char *filename, ULONG usemask)
 {
   struct Sprite *sprite = (struct Sprite *) malloc(sizeof(struct Sprite));
 
@@ -281,7 +281,7 @@ static int render_sprite(APTR drawhandle, struct SpriteNode *node)
 
     cleanup_sprite(sprite);
 
-    if ((ns = load_sprite(node->filename, sprite->hasmask)))
+    if ((ns = load_sprite(tileset, node->filename, sprite->hasmask)))
     {
       sprite->picture = ns->picture;
       sprite->hasmask = ns->hasmask;
@@ -406,7 +406,7 @@ int load_all_sprites(void)
 {
   if ((pen_shared_map = CreatePenShareMapA(NULL)))
   {
-    tilespec_load_tiles();
+    tileset_load_tiles(tileset);
     return TRUE;
   }
   return FALSE;

@@ -3477,13 +3477,13 @@ SDL_Surface * get_logo_gfx(void)
 SDL_Surface * get_city_gfx(void)
 {
   SDL_Surface *pCity_Surf;
-  struct Sprite *pSpr = load_sprite("theme.city");
+  struct Sprite *pSpr = load_sprite(tileset, "theme.city");
   
   pCity_Surf = (pSpr ? GET_SURF(pSpr) : NULL);
   assert(pCity_Surf != NULL);
   
   pSpr->psurface = NULL;
-  unload_sprite("theme.city");
+  unload_sprite(tileset, "theme.city");
   
   return pCity_Surf;
 }

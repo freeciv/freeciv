@@ -853,7 +853,7 @@ void ui_main(int argc, char *argv[])
 		       CF_CIV3_CITY_TEXT_STYLE|
 		       CF_DRAW_MAP_DITHER);
 		       
-  tilespec_load_tiles();
+  tileset_load_tiles(tileset);
   
   load_cursors();
   tilespec_setup_theme();
