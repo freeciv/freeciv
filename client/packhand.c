@@ -423,14 +423,6 @@ void handle_city_info(struct packet_city_info *packet)
     assert(pcity->id == packet->id);
   }
   
-  /* Update the descriptions if necessary.  We only draw the description
-   * if the *city* is visible on the mapview, which is a bit inaccurate -
-   * it's possible the city is off the mapview but the description is
-   * visible.  See all show_city_descriptions(). */
-  if (update_descriptions && tile_visible_mapcanvas(packet->x, packet->y)) {
-    queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
-  }
-
   pcity->owner=packet->owner;
   pcity->x=packet->x;
   pcity->y=packet->y;
@@ -544,6 +536,11 @@ void handle_city_info(struct packet_city_info *packet)
 
   handle_city_packet_common(pcity, city_is_new, popup,
 			    packet->diplomat_investigate);
+
+  /* Update the description if necessary. */
+  if (update_descriptions) {
+    update_city_description(pcity);
+  }
 
   try_update_effects(need_effect_update);
 }
@@ -739,9 +736,11 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->did_sell           = FALSE;
     pcity->was_happy          = FALSE;
 
-    for(y=0; y<CITY_MAP_SIZE; y++)
-      for(x=0; x<CITY_MAP_SIZE; x++)
+    for (y = 0; y < CITY_MAP_SIZE; y++) {
+      for (x = 0; x < CITY_MAP_SIZE; x++) {
 	pcity->city_map[x][y] = C_TILE_EMPTY;
+      }
+    }
   } /* Dumb values */
 
   if (city_is_new && !city_has_changed_owner) {
@@ -752,9 +751,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
   handle_city_packet_common(pcity, city_is_new, FALSE, FALSE);
 
-  /* update the descriptions if necessary */
-  if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
-    queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
+  /* Update the description if necessary. */
+  if (update_descriptions) {
+    update_city_description(pcity);
   }
 
   try_update_effects(need_effect_update);

@@ -270,6 +270,7 @@ void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
 
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height);
 void update_map_canvas_visible(void);
+void update_city_description(struct city *pcity);
 
 void show_city_descriptions(int canvas_x, int canvas_y,
 			    int width, int height);

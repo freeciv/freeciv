@@ -1364,13 +1364,37 @@ void update_map_canvas_visible(void)
   update_map_canvas(0, 0, mapview_canvas.width, mapview_canvas.height);
 }
 
+/* The maximum city description width and height.  This gives the dimensions
+ * of a rectangle centered directly beneath the tile a city is on, that
+ * contains the city description.
+ *
+ * These values are increased when drawing is done.  This may mean that
+ * the change (from increasing the value) won't take place until the
+ * next redraw. */
+static int max_desc_width = 0, max_desc_height = 0;
+
+/**************************************************************************
+  Update the city description for the given city.
+**************************************************************************/
+void update_city_description(struct city *pcity)
+{
+  int canvas_x, canvas_y;
+
+  /* We update the entire map canvas area that this city description
+   * might be covering.  This may, for instance, redraw other city
+   * descriptions that overlap with this one. */
+  (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->x, pcity->y);
+  update_map_canvas(canvas_x - (max_desc_width - NORMAL_TILE_WIDTH) / 2,
+		    canvas_y + NORMAL_TILE_HEIGHT,
+		    max_desc_width, max_desc_height);
+}
+
 /**************************************************************************
   Show descriptions for all cities visible on the map canvas.
 **************************************************************************/
 void show_city_descriptions(int canvas_x, int canvas_y,
 			    int width, int height)
 {
-  static int max_desc_width = 0, max_desc_height = 0;
   const int dx = max_desc_width - NORMAL_TILE_WIDTH, dy = max_desc_height;
 
   if (!draw_city_names && !draw_city_productions) {
