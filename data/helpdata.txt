@@ -897,9 +897,9 @@ that at least two other civilizations have achieved.
 Works as a City Wall in all cities.
 ---
 # Hanging Gardens
-Makes one unhappy or content citizen happy.
+Makes one unhappy or content citizen happy in every city.
 Makes 2 extra happy faces in the city containing the Hanging
-Gardens.
+Gardens (for a total of 3).
 ---
 # Hoover Dam
 Works as if you had a Hydro Plant in every city.  (This boosts
