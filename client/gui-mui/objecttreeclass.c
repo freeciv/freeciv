@@ -13,13 +13,7 @@
 #include <proto/graphics.h>
 #include <proto/intuition.h>
 
-#include "civclient.h"
-#include "map.h"
-#include "tech.h"
-#include "game.h"
-
 #include "objecttreeclass.h"
-
 #include "muistuff.h"
 
 struct ObjectTree_Data

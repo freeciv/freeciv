@@ -39,6 +39,8 @@
 /* Amiga Client stuff */
 
 #include "muistuff.h"
+#include "autogroupclass.h"
+
 IMPORT Object *app;
 
 STATIC Object *science_wnd;
@@ -50,7 +52,7 @@ STATIC Object *science_goal_popup;
 STATIC LONG science_goal_active;
 STATIC Object *science_steps_text;
 STATIC Object *science_help_button;
-STATIC Object *science_researched_listview;
+STATIC Object *science_researched_group;
 
 STATIC STRPTR *help_goal_entries;
 STATIC STRPTR *help_research_entries;
@@ -191,6 +193,14 @@ static void science_research(ULONG * newresearch)
 }
 
 /****************************************************************
+ Callback for a researched technology
+****************************************************************/
+static void science_researched(ULONG * tech)
+{
+  popup_help_dialog_typed(advances[*tech].name, HELP_TECH);
+}
+
+/****************************************************************
 ...
 ****************************************************************/
 void popup_science_dialog(int make_modal)
@@ -300,19 +310,19 @@ void popup_science_dialog(int make_modal)
           Child, HGroup,
 	      Child, science_cycle_group = VGroup,
 	          End,
-          Child, science_help_button = TextObject,
-              ButtonFrame,
-              MUIA_Text_PreParse, "\33c",
-              MUIA_Text_Contents, "Help",
-              MUIA_Font, MUIV_Font_Button,
-              MUIA_InputMode, MUIV_InputMode_Toggle,
-              MUIA_Background, MUII_ButtonBack,
+              Child, science_help_button = TextObject,
+                  ButtonFrame,
+                  MUIA_Text_PreParse, "\33c",
+                  MUIA_Text_Contents, "Help",
+                  MUIA_Font, MUIV_Font_Button,
+                  MUIA_InputMode, MUIV_InputMode_Toggle,
+                  MUIA_Background, MUII_ButtonBack,
+                  End,
               End,
-          End,
-          Child, science_researched_listview = NListviewObject,
-              MUIA_NListview_NList, NListObject,
-                 End,
-              End,
+          Child, ScrollgroupObject,
+              MUIA_Scrollgroup_FreeVert, FALSE,
+              MUIA_Scrollgroup_Contents, science_researched_group = AutoGroup, VirtualFrame, End,
+              End,              
           End,
       End;
 
@@ -370,16 +380,29 @@ void popup_science_dialog(int make_modal)
 
     DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, "(%ld steps)", tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
 
-    set(science_researched_listview, MUIA_NList_Quiet, TRUE);
-    DoMethod(science_researched_listview, MUIM_NList_Clear);
+    DoMethod(science_researched_group, MUIM_Group_InitChange);
+    DoMethod(science_researched_group, MUIM_AutoGroup_DisposeChilds);
+
     for (i = A_FIRST; i < game.num_tech_types; i++)
     {
       if ((get_invention(game.player_ptr, i) == TECH_KNOWN))
       {
-	DoMethod(science_researched_listview, MUIM_NList_InsertSingle, advances[i].name, MUIV_NList_Insert_Bottom);
+      	Object *tech = TextObject,
+      	    MUIA_Text_Contents, advances[i].name,
+     	    MUIA_InputMode, MUIV_InputMode_RelVerify,
+     	    MUIA_CycleChain, 1,
+      	    End;
+
+      	if (tech)
+      	{
+      	  DoMethod(tech, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, science_researched, i);
+      	  DoMethod(science_researched_group, OM_ADDMEMBER, tech);
+      	}
       }
     }
-    set(science_researched_listview, MUIA_NList_Quiet, FALSE);
+
+    DoMethod(science_researched_group, MUIM_Group_ExitChange);
+
     set(science_wnd, MUIA_Window_Open, TRUE);
   }
 }
