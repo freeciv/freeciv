@@ -5,7 +5,7 @@ dnl Initialize with some random file to ensure the source is here.
 AC_INIT
 AC_PREREQ(2.52)
 AC_CONFIG_SRCDIR([common/game.c])
-AC_CONFIG_AUX_DIR([bootstrap])
+AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
 AM_CONFIG_HEADER(config.h)
 AC_CANONICAL_TARGET
 
