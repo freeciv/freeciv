@@ -590,11 +590,13 @@ static char *stats_%(name)s_names[] = {%(names)s};
     # Returns a code fragement which is the implementation of the hash
     # function. The hash function is using all key fields.
     def get_hash(self):
-        intro='''static unsigned int hash_%(name)s(const void *vkey, unsigned int num_buckets)
+        if len(self.key_fields)==0:
+            return "#define hash_%(name)s hash_const\n\n"%self.__dict__
+        else:
+            intro='''static unsigned int hash_%(name)s(const void *vkey, unsigned int num_buckets)
 {
 '''%self.__dict__
 
-        if len(self.key_fields):
             body='''  const struct %(packet_name)s *key = (const struct %(packet_name)s *) vkey;
 
 '''%self.__dict__
@@ -607,20 +609,20 @@ static char *stats_%(name)s_names[] = {%(names)s};
             else:
                 assert 0
             body=body+('  return ((%s) %% num_buckets);\n'%a)
-        else:
-            body="  return 0;\n"
-        extro="}\n\n"
-        return intro+body+extro
+            extro="}\n\n"
+            return intro+body+extro
 
     # Returns a code fragement which is the implementation of the cmp
     # function. The cmp function is using all key fields. The cmp
     # function is used for the hash table.    
     def get_cmp(self):
-        intro='''static int cmp_%(name)s(const void *vkey1, const void *vkey2)
+        if len(self.key_fields)==0:
+            return "#define cmp_%(name)s cmp_const\n\n"%self.__dict__
+        else:
+            intro='''static int cmp_%(name)s(const void *vkey1, const void *vkey2)
 {
 '''%self.__dict__
-        body=""
-        if len(self.key_fields):
+            body=""
             body=body+'''  const struct %(packet_name)s *key1 = (const struct %(packet_name)s *) vkey1;
   const struct %(packet_name)s *key2 = (const struct %(packet_name)s *) vkey2;
   int diff;
@@ -633,8 +635,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
   }
 
 '''%(field.name,field.name)
-        extro="  return 0;\n}\n\n"
-        return intro+body+extro
+            extro="  return 0;\n}\n\n"
+            return intro+body+extro
 
     # Returns a code fragement which is the implementation of the send
     # function. This is one of the two real functions. So it is rather
@@ -1388,6 +1390,16 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 #include "support.h"
 
 #include "packets.h"
+
+static unsigned int hash_const(const void *vkey, unsigned int num_buckets)
+{
+  return 0;
+}
+
+static int cmp_const(const void *vkey1, const void *vkey2)
+{
+  return 0;
+}
 
 ''')
 

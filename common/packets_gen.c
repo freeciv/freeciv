@@ -25,6 +25,16 @@
 
 #include "packets.h"
 
+static unsigned int hash_const(const void *vkey, unsigned int num_buckets)
+{
+  return 0;
+}
+
+static int cmp_const(const void *vkey1, const void *vkey2)
+{
+  return 0;
+}
+
 void delta_stats_report(void) {}
 
 void delta_stats_reset(void) {}
@@ -1101,15 +1111,9 @@ int send_packet_server_join_reply(struct connection *pc, const struct packet_ser
   }
 }
 
-static unsigned int hash_packet_authentication_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_authentication_req_100 hash_const
 
-static int cmp_packet_authentication_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_authentication_req_100 cmp_const
 
 BV_DEFINE(packet_authentication_req_100_fields, 2);
 
@@ -1263,15 +1267,9 @@ int dsend_packet_authentication_req(struct connection *pc, enum authentication_t
   return send_packet_authentication_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_authentication_reply_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_authentication_reply_100 hash_const
 
-static int cmp_packet_authentication_reply_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_authentication_reply_100 cmp_const
 
 BV_DEFINE(packet_authentication_reply_100_fields, 1);
 
@@ -1470,15 +1468,9 @@ void lsend_packet_server_shutdown(struct conn_list *dest)
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_nations_selected_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_nations_selected_info_100 hash_const
 
-static int cmp_packet_nations_selected_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_nations_selected_info_100 cmp_const
 
 BV_DEFINE(packet_nations_selected_info_100_fields, 2);
 
@@ -1655,15 +1647,9 @@ void lsend_packet_nations_selected_info(struct conn_list *dest, const struct pac
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_nation_select_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_nation_select_req_100 hash_const
 
-static int cmp_packet_nation_select_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_nation_select_req_100 cmp_const
 
 BV_DEFINE(packet_nation_select_req_100_fields, 4);
 
@@ -1900,15 +1886,9 @@ void lsend_packet_nation_select_ok(struct conn_list *dest)
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_game_state_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_game_state_100 hash_const
 
-static int cmp_packet_game_state_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_game_state_100 cmp_const
 
 BV_DEFINE(packet_game_state_100_fields, 1);
 
@@ -2069,15 +2049,9 @@ void dlsend_packet_game_state(struct conn_list *dest, int value)
   lsend_packet_game_state(dest, real_packet);
 }
 
-static unsigned int hash_packet_endgame_report_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_endgame_report_100 hash_const
 
-static int cmp_packet_endgame_report_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_endgame_report_100 cmp_const
 
 BV_DEFINE(packet_endgame_report_100_fields, 15);
 
@@ -2947,15 +2921,9 @@ void lsend_packet_tile_info(struct conn_list *dest, const struct packet_tile_inf
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_game_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_game_info_100 hash_const
 
-static int cmp_packet_game_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_game_info_100 cmp_const
 
 BV_DEFINE(packet_game_info_100_fields, 30);
 
@@ -3443,15 +3411,9 @@ int send_packet_game_info(struct connection *pc, const struct packet_game_info *
   }
 }
 
-static unsigned int hash_packet_map_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_map_info_100 hash_const
 
-static int cmp_packet_map_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_map_info_100 cmp_const
 
 BV_DEFINE(packet_map_info_100_fields, 3);
 
@@ -3612,15 +3574,9 @@ void lsend_packet_map_info(struct conn_list *dest, const struct packet_map_info 
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_nuke_tile_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_nuke_tile_info_100 hash_const
 
-static int cmp_packet_nuke_tile_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_nuke_tile_info_100 cmp_const
 
 BV_DEFINE(packet_nuke_tile_info_100_fields, 2);
 
@@ -3791,15 +3747,9 @@ void dlsend_packet_nuke_tile_info(struct conn_list *dest, int x, int y)
   lsend_packet_nuke_tile_info(dest, real_packet);
 }
 
-static unsigned int hash_packet_chat_msg_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_chat_msg_100 hash_const
 
-static int cmp_packet_chat_msg_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_chat_msg_100 cmp_const
 
 BV_DEFINE(packet_chat_msg_100_fields, 4);
 
@@ -3987,15 +3937,9 @@ void lsend_packet_chat_msg(struct conn_list *dest, const struct packet_chat_msg 
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_chat_msg_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_chat_msg_req_100 hash_const
 
-static int cmp_packet_chat_msg_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_chat_msg_req_100 cmp_const
 
 BV_DEFINE(packet_chat_msg_req_100_fields, 1);
 
@@ -4138,15 +4082,9 @@ int dsend_packet_chat_msg_req(struct connection *pc, const char *message)
   return send_packet_chat_msg_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_remove_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_remove_100 hash_const
 
-static int cmp_packet_city_remove_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_remove_100 cmp_const
 
 BV_DEFINE(packet_city_remove_100_fields, 1);
 
@@ -5317,15 +5255,9 @@ void lsend_packet_city_short_info(struct conn_list *dest, const struct packet_ci
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_city_sell_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_sell_100 hash_const
 
-static int cmp_packet_city_sell_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_sell_100 cmp_const
 
 BV_DEFINE(packet_city_sell_100_fields, 2);
 
@@ -5479,15 +5411,9 @@ int dsend_packet_city_sell(struct connection *pc, int city_id, int build_id)
   return send_packet_city_sell(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_buy_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_buy_100 hash_const
 
-static int cmp_packet_city_buy_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_buy_100 cmp_const
 
 BV_DEFINE(packet_city_buy_100_fields, 1);
 
@@ -5630,15 +5556,9 @@ int dsend_packet_city_buy(struct connection *pc, int city_id)
   return send_packet_city_buy(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_change_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_change_100 hash_const
 
-static int cmp_packet_city_change_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_change_100 cmp_const
 
 BV_DEFINE(packet_city_change_100_fields, 3);
 
@@ -5799,15 +5719,9 @@ int dsend_packet_city_change(struct connection *pc, int city_id, int build_id, b
   return send_packet_city_change(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_worklist_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_worklist_100 hash_const
 
-static int cmp_packet_city_worklist_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_worklist_100 cmp_const
 
 BV_DEFINE(packet_city_worklist_100_fields, 2);
 
@@ -5961,15 +5875,9 @@ int dsend_packet_city_worklist(struct connection *pc, int city_id, struct workli
   return send_packet_city_worklist(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_make_specialist_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_make_specialist_100 hash_const
 
-static int cmp_packet_city_make_specialist_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_make_specialist_100 cmp_const
 
 BV_DEFINE(packet_city_make_specialist_100_fields, 3);
 
@@ -6134,15 +6042,9 @@ int dsend_packet_city_make_specialist(struct connection *pc, int city_id, int wo
   return send_packet_city_make_specialist(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_make_worker_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_make_worker_100 hash_const
 
-static int cmp_packet_city_make_worker_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_make_worker_100 cmp_const
 
 BV_DEFINE(packet_city_make_worker_100_fields, 3);
 
@@ -6307,15 +6209,9 @@ int dsend_packet_city_make_worker(struct connection *pc, int city_id, int worker
   return send_packet_city_make_worker(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_change_specialist_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_change_specialist_100 hash_const
 
-static int cmp_packet_city_change_specialist_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_change_specialist_100 cmp_const
 
 BV_DEFINE(packet_city_change_specialist_100_fields, 3);
 
@@ -6480,15 +6376,9 @@ int dsend_packet_city_change_specialist(struct connection *pc, int city_id, enum
   return send_packet_city_change_specialist(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_rename_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_rename_100 hash_const
 
-static int cmp_packet_city_rename_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_rename_100 cmp_const
 
 BV_DEFINE(packet_city_rename_100_fields, 2);
 
@@ -6642,15 +6532,9 @@ int dsend_packet_city_rename(struct connection *pc, int city_id, const char *nam
   return send_packet_city_rename(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_options_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_options_req_100 hash_const
 
-static int cmp_packet_city_options_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_options_req_100 cmp_const
 
 BV_DEFINE(packet_city_options_req_100_fields, 2);
 
@@ -6804,15 +6688,9 @@ int dsend_packet_city_options_req(struct connection *pc, int city_id, int value)
   return send_packet_city_options_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_refresh_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_refresh_100 hash_const
 
-static int cmp_packet_city_refresh_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_refresh_100 cmp_const
 
 BV_DEFINE(packet_city_refresh_100_fields, 1);
 
@@ -6955,15 +6833,9 @@ int dsend_packet_city_refresh(struct connection *pc, int city_id)
   return send_packet_city_refresh(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_incite_inq_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_incite_inq_100 hash_const
 
-static int cmp_packet_city_incite_inq_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_incite_inq_100 cmp_const
 
 BV_DEFINE(packet_city_incite_inq_100_fields, 1);
 
@@ -7106,15 +6978,9 @@ int dsend_packet_city_incite_inq(struct connection *pc, int city_id)
   return send_packet_city_incite_inq(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_incite_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_incite_info_100 hash_const
 
-static int cmp_packet_city_incite_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_incite_info_100 cmp_const
 
 BV_DEFINE(packet_city_incite_info_100_fields, 2);
 
@@ -7268,15 +7134,9 @@ int dsend_packet_city_incite_info(struct connection *pc, int city_id, int cost)
   return send_packet_city_incite_info(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_name_suggestion_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_name_suggestion_req_100 hash_const
 
-static int cmp_packet_city_name_suggestion_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_name_suggestion_req_100 cmp_const
 
 BV_DEFINE(packet_city_name_suggestion_req_100_fields, 1);
 
@@ -7419,15 +7279,9 @@ int dsend_packet_city_name_suggestion_req(struct connection *pc, int unit_id)
   return send_packet_city_name_suggestion_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_city_name_suggestion_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_name_suggestion_info_100 hash_const
 
-static int cmp_packet_city_name_suggestion_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_name_suggestion_info_100 cmp_const
 
 BV_DEFINE(packet_city_name_suggestion_info_100_fields, 2);
 
@@ -7598,15 +7452,9 @@ void dlsend_packet_city_name_suggestion_info(struct conn_list *dest, int unit_id
   lsend_packet_city_name_suggestion_info(dest, real_packet);
 }
 
-static unsigned int hash_packet_city_sabotage_list_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_city_sabotage_list_100 hash_const
 
-static int cmp_packet_city_sabotage_list_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_city_sabotage_list_100 cmp_const
 
 BV_DEFINE(packet_city_sabotage_list_100_fields, 3);
 
@@ -7767,15 +7615,9 @@ void lsend_packet_city_sabotage_list(struct conn_list *dest, const struct packet
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_player_remove_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_player_remove_100 hash_const
 
-static int cmp_packet_player_remove_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_player_remove_100 cmp_const
 
 BV_DEFINE(packet_player_remove_100_fields, 1);
 
@@ -8811,15 +8653,9 @@ int send_packet_player_turn_done(struct connection *pc)
   }
 }
 
-static unsigned int hash_packet_player_rates_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_player_rates_100 hash_const
 
-static int cmp_packet_player_rates_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_player_rates_100 cmp_const
 
 BV_DEFINE(packet_player_rates_100_fields, 3);
 
@@ -9042,15 +8878,9 @@ int send_packet_player_revolution(struct connection *pc)
   }
 }
 
-static unsigned int hash_packet_player_government_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_player_government_100 hash_const
 
-static int cmp_packet_player_government_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_player_government_100 cmp_const
 
 BV_DEFINE(packet_player_government_100_fields, 1);
 
@@ -9193,15 +9023,9 @@ int dsend_packet_player_government(struct connection *pc, int government)
   return send_packet_player_government(pc, real_packet);
 }
 
-static unsigned int hash_packet_player_research_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_player_research_100 hash_const
 
-static int cmp_packet_player_research_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_player_research_100 cmp_const
 
 BV_DEFINE(packet_player_research_100_fields, 1);
 
@@ -9344,15 +9168,9 @@ int dsend_packet_player_research(struct connection *pc, int tech)
   return send_packet_player_research(pc, real_packet);
 }
 
-static unsigned int hash_packet_player_tech_goal_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_player_tech_goal_100 hash_const
 
-static int cmp_packet_player_tech_goal_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_player_tech_goal_100 cmp_const
 
 BV_DEFINE(packet_player_tech_goal_100_fields, 1);
 
@@ -9553,15 +9371,9 @@ int send_packet_player_attribute_block(struct connection *pc)
   }
 }
 
-static unsigned int hash_packet_player_attribute_chunk_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_player_attribute_chunk_100 hash_const
 
-static int cmp_packet_player_attribute_chunk_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_player_attribute_chunk_100 cmp_const
 
 BV_DEFINE(packet_player_attribute_chunk_100_fields, 4);
 
@@ -9736,15 +9548,9 @@ int send_packet_player_attribute_chunk(struct connection *pc, const struct packe
   }
 }
 
-static unsigned int hash_packet_unit_remove_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_remove_100 hash_const
 
-static int cmp_packet_unit_remove_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_remove_100 cmp_const
 
 BV_DEFINE(packet_unit_remove_100_fields, 1);
 
@@ -11359,15 +11165,9 @@ void lsend_packet_unit_short_info(struct conn_list *dest, const struct packet_un
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_unit_combat_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_combat_info_100 hash_const
 
-static int cmp_packet_unit_combat_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_combat_info_100 cmp_const
 
 BV_DEFINE(packet_unit_combat_info_100_fields, 5);
 
@@ -11544,15 +11344,9 @@ void lsend_packet_unit_combat_info(struct conn_list *dest, const struct packet_u
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_unit_move_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_move_100 hash_const
 
-static int cmp_packet_unit_move_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_move_100 cmp_const
 
 BV_DEFINE(packet_unit_move_100_fields, 3);
 
@@ -11717,15 +11511,9 @@ int dsend_packet_unit_move(struct connection *pc, int unit_id, int x, int y)
   return send_packet_unit_move(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_build_city_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_build_city_100 hash_const
 
-static int cmp_packet_unit_build_city_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_build_city_100 cmp_const
 
 BV_DEFINE(packet_unit_build_city_100_fields, 2);
 
@@ -11879,15 +11667,9 @@ int dsend_packet_unit_build_city(struct connection *pc, int unit_id, const char 
   return send_packet_unit_build_city(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_disband_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_disband_100 hash_const
 
-static int cmp_packet_unit_disband_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_disband_100 cmp_const
 
 BV_DEFINE(packet_unit_disband_100_fields, 1);
 
@@ -12030,15 +11812,9 @@ int dsend_packet_unit_disband(struct connection *pc, int unit_id)
   return send_packet_unit_disband(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_change_homecity_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_change_homecity_100 hash_const
 
-static int cmp_packet_unit_change_homecity_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_change_homecity_100 cmp_const
 
 BV_DEFINE(packet_unit_change_homecity_100_fields, 2);
 
@@ -12192,15 +11968,9 @@ int dsend_packet_unit_change_homecity(struct connection *pc, int unit_id, int ci
   return send_packet_unit_change_homecity(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_establish_trade_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_establish_trade_100 hash_const
 
-static int cmp_packet_unit_establish_trade_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_establish_trade_100 cmp_const
 
 BV_DEFINE(packet_unit_establish_trade_100_fields, 1);
 
@@ -12343,15 +12113,9 @@ int dsend_packet_unit_establish_trade(struct connection *pc, int unit_id)
   return send_packet_unit_establish_trade(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_help_build_wonder_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_help_build_wonder_100 hash_const
 
-static int cmp_packet_unit_help_build_wonder_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_help_build_wonder_100 cmp_const
 
 BV_DEFINE(packet_unit_help_build_wonder_100_fields, 1);
 
@@ -12494,15 +12258,9 @@ int dsend_packet_unit_help_build_wonder(struct connection *pc, int unit_id)
   return send_packet_unit_help_build_wonder(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_goto_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_goto_100 hash_const
 
-static int cmp_packet_unit_goto_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_goto_100 cmp_const
 
 BV_DEFINE(packet_unit_goto_100_fields, 3);
 
@@ -12667,15 +12425,9 @@ int dsend_packet_unit_goto(struct connection *pc, int unit_id, int x, int y)
   return send_packet_unit_goto(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_orders_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_orders_100 hash_const
 
-static int cmp_packet_unit_orders_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_orders_100 cmp_const
 
 BV_DEFINE(packet_unit_orders_100_fields, 8);
 
@@ -12923,15 +12675,9 @@ int send_packet_unit_orders(struct connection *pc, const struct packet_unit_orde
   }
 }
 
-static unsigned int hash_packet_unit_auto_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_auto_100 hash_const
 
-static int cmp_packet_unit_auto_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_auto_100 cmp_const
 
 BV_DEFINE(packet_unit_auto_100_fields, 1);
 
@@ -13074,15 +12820,9 @@ int dsend_packet_unit_auto(struct connection *pc, int unit_id)
   return send_packet_unit_auto(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_load_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_load_100 hash_const
 
-static int cmp_packet_unit_load_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_load_100 cmp_const
 
 BV_DEFINE(packet_unit_load_100_fields, 2);
 
@@ -13236,15 +12976,9 @@ int dsend_packet_unit_load(struct connection *pc, int cargo_id, int transporter_
   return send_packet_unit_load(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_unload_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_unload_100 hash_const
 
-static int cmp_packet_unit_unload_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_unload_100 cmp_const
 
 BV_DEFINE(packet_unit_unload_100_fields, 2);
 
@@ -13398,15 +13132,9 @@ int dsend_packet_unit_unload(struct connection *pc, int cargo_id, int transporte
   return send_packet_unit_unload(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_upgrade_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_upgrade_100 hash_const
 
-static int cmp_packet_unit_upgrade_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_upgrade_100 cmp_const
 
 BV_DEFINE(packet_unit_upgrade_100_fields, 1);
 
@@ -13549,15 +13277,9 @@ int dsend_packet_unit_upgrade(struct connection *pc, int unit_id)
   return send_packet_unit_upgrade(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_nuke_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_nuke_100 hash_const
 
-static int cmp_packet_unit_nuke_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_nuke_100 cmp_const
 
 BV_DEFINE(packet_unit_nuke_100_fields, 1);
 
@@ -13700,15 +13422,9 @@ int dsend_packet_unit_nuke(struct connection *pc, int unit_id)
   return send_packet_unit_nuke(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_paradrop_to_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_paradrop_to_100 hash_const
 
-static int cmp_packet_unit_paradrop_to_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_paradrop_to_100 cmp_const
 
 BV_DEFINE(packet_unit_paradrop_to_100_fields, 3);
 
@@ -13873,15 +13589,9 @@ int dsend_packet_unit_paradrop_to(struct connection *pc, int unit_id, int x, int
   return send_packet_unit_paradrop_to(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_airlift_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_airlift_100 hash_const
 
-static int cmp_packet_unit_airlift_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_airlift_100 cmp_const
 
 BV_DEFINE(packet_unit_airlift_100_fields, 2);
 
@@ -14035,15 +13745,9 @@ int dsend_packet_unit_airlift(struct connection *pc, int unit_id, int city_id)
   return send_packet_unit_airlift(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_connect_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_connect_100 hash_const
 
-static int cmp_packet_unit_connect_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_connect_100 cmp_const
 
 BV_DEFINE(packet_unit_connect_100_fields, 4);
 
@@ -14207,15 +13911,9 @@ int send_packet_unit_connect(struct connection *pc, const struct packet_unit_con
   }
 }
 
-static unsigned int hash_packet_unit_bribe_inq_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_bribe_inq_100 hash_const
 
-static int cmp_packet_unit_bribe_inq_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_bribe_inq_100 cmp_const
 
 BV_DEFINE(packet_unit_bribe_inq_100_fields, 1);
 
@@ -14358,15 +14056,9 @@ int dsend_packet_unit_bribe_inq(struct connection *pc, int unit_id)
   return send_packet_unit_bribe_inq(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_bribe_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_bribe_info_100 hash_const
 
-static int cmp_packet_unit_bribe_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_bribe_info_100 cmp_const
 
 BV_DEFINE(packet_unit_bribe_info_100_fields, 2);
 
@@ -14520,15 +14212,9 @@ int dsend_packet_unit_bribe_info(struct connection *pc, int unit_id, int cost)
   return send_packet_unit_bribe_info(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_type_upgrade_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_type_upgrade_100 hash_const
 
-static int cmp_packet_unit_type_upgrade_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_type_upgrade_100 cmp_const
 
 BV_DEFINE(packet_unit_type_upgrade_100_fields, 1);
 
@@ -14671,15 +14357,9 @@ int dsend_packet_unit_type_upgrade(struct connection *pc, Unit_Type_id type)
   return send_packet_unit_type_upgrade(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_diplomat_action_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_diplomat_action_100 hash_const
 
-static int cmp_packet_unit_diplomat_action_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_diplomat_action_100 cmp_const
 
 BV_DEFINE(packet_unit_diplomat_action_100_fields, 4);
 
@@ -14855,15 +14535,9 @@ int dsend_packet_unit_diplomat_action(struct connection *pc, int diplomat_id, en
   return send_packet_unit_diplomat_action(pc, real_packet);
 }
 
-static unsigned int hash_packet_unit_diplomat_popup_dialog_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_diplomat_popup_dialog_100 hash_const
 
-static int cmp_packet_unit_diplomat_popup_dialog_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_diplomat_popup_dialog_100 cmp_const
 
 BV_DEFINE(packet_unit_diplomat_popup_dialog_100_fields, 2);
 
@@ -15034,15 +14708,9 @@ void dlsend_packet_unit_diplomat_popup_dialog(struct conn_list *dest, int diplom
   lsend_packet_unit_diplomat_popup_dialog(dest, real_packet);
 }
 
-static unsigned int hash_packet_unit_change_activity_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_unit_change_activity_100 hash_const
 
-static int cmp_packet_unit_change_activity_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_unit_change_activity_100 cmp_const
 
 BV_DEFINE(packet_unit_change_activity_100_fields, 3);
 
@@ -15207,15 +14875,9 @@ int dsend_packet_unit_change_activity(struct connection *pc, int unit_id, enum u
   return send_packet_unit_change_activity(pc, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_init_meeting_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_init_meeting_req_100 hash_const
 
-static int cmp_packet_diplomacy_init_meeting_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_init_meeting_req_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_init_meeting_req_100_fields, 1);
 
@@ -15358,15 +15020,9 @@ int dsend_packet_diplomacy_init_meeting_req(struct connection *pc, int counterpa
   return send_packet_diplomacy_init_meeting_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_init_meeting_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_init_meeting_100 hash_const
 
-static int cmp_packet_diplomacy_init_meeting_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_init_meeting_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_init_meeting_100_fields, 2);
 
@@ -15537,15 +15193,9 @@ void dlsend_packet_diplomacy_init_meeting(struct conn_list *dest, int counterpar
   lsend_packet_diplomacy_init_meeting(dest, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_cancel_meeting_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_cancel_meeting_req_100 hash_const
 
-static int cmp_packet_diplomacy_cancel_meeting_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_cancel_meeting_req_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_cancel_meeting_req_100_fields, 1);
 
@@ -15688,15 +15338,9 @@ int dsend_packet_diplomacy_cancel_meeting_req(struct connection *pc, int counter
   return send_packet_diplomacy_cancel_meeting_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_cancel_meeting_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_cancel_meeting_100 hash_const
 
-static int cmp_packet_diplomacy_cancel_meeting_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_cancel_meeting_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_cancel_meeting_100_fields, 2);
 
@@ -15867,15 +15511,9 @@ void dlsend_packet_diplomacy_cancel_meeting(struct conn_list *dest, int counterp
   lsend_packet_diplomacy_cancel_meeting(dest, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_create_clause_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_create_clause_req_100 hash_const
 
-static int cmp_packet_diplomacy_create_clause_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_create_clause_req_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_create_clause_req_100_fields, 4);
 
@@ -16051,15 +15689,9 @@ int dsend_packet_diplomacy_create_clause_req(struct connection *pc, int counterp
   return send_packet_diplomacy_create_clause_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_create_clause_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_create_clause_100 hash_const
 
-static int cmp_packet_diplomacy_create_clause_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_create_clause_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_create_clause_100_fields, 4);
 
@@ -16254,15 +15886,9 @@ void dlsend_packet_diplomacy_create_clause(struct conn_list *dest, int counterpa
   lsend_packet_diplomacy_create_clause(dest, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_remove_clause_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_remove_clause_req_100 hash_const
 
-static int cmp_packet_diplomacy_remove_clause_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_remove_clause_req_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_remove_clause_req_100_fields, 4);
 
@@ -16438,15 +16064,9 @@ int dsend_packet_diplomacy_remove_clause_req(struct connection *pc, int counterp
   return send_packet_diplomacy_remove_clause_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_remove_clause_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_remove_clause_100 hash_const
 
-static int cmp_packet_diplomacy_remove_clause_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_remove_clause_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_remove_clause_100_fields, 4);
 
@@ -16641,15 +16261,9 @@ void dlsend_packet_diplomacy_remove_clause(struct conn_list *dest, int counterpa
   lsend_packet_diplomacy_remove_clause(dest, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_accept_treaty_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_accept_treaty_req_100 hash_const
 
-static int cmp_packet_diplomacy_accept_treaty_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_accept_treaty_req_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_accept_treaty_req_100_fields, 1);
 
@@ -16792,15 +16406,9 @@ int dsend_packet_diplomacy_accept_treaty_req(struct connection *pc, int counterp
   return send_packet_diplomacy_accept_treaty_req(pc, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_accept_treaty_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_accept_treaty_100 hash_const
 
-static int cmp_packet_diplomacy_accept_treaty_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_accept_treaty_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_accept_treaty_100_fields, 3);
 
@@ -16975,15 +16583,9 @@ void dlsend_packet_diplomacy_accept_treaty(struct conn_list *dest, int counterpa
   lsend_packet_diplomacy_accept_treaty(dest, real_packet);
 }
 
-static unsigned int hash_packet_diplomacy_cancel_pact_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_diplomacy_cancel_pact_100 hash_const
 
-static int cmp_packet_diplomacy_cancel_pact_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_diplomacy_cancel_pact_100 cmp_const
 
 BV_DEFINE(packet_diplomacy_cancel_pact_100_fields, 2);
 
@@ -17137,15 +16739,9 @@ int dsend_packet_diplomacy_cancel_pact(struct connection *pc, int other_player_i
   return send_packet_diplomacy_cancel_pact(pc, real_packet);
 }
 
-static unsigned int hash_packet_page_msg_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_page_msg_100 hash_const
 
-static int cmp_packet_page_msg_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_page_msg_100 cmp_const
 
 BV_DEFINE(packet_page_msg_100_fields, 2);
 
@@ -17296,15 +16892,9 @@ void lsend_packet_page_msg(struct conn_list *dest, const struct packet_page_msg 
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_report_req_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_report_req_100 hash_const
 
-static int cmp_packet_report_req_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_report_req_100 cmp_const
 
 BV_DEFINE(packet_report_req_100_fields, 1);
 
@@ -17671,15 +17261,9 @@ void lsend_packet_conn_info(struct conn_list *dest, const struct packet_conn_inf
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_conn_ping_info_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_conn_ping_info_100 hash_const
 
-static int cmp_packet_conn_ping_info_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_conn_ping_info_100 cmp_const
 
 BV_DEFINE(packet_conn_ping_info_100_fields, 3);
 
@@ -18141,15 +17725,9 @@ void lsend_packet_start_turn(struct conn_list *dest)
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_new_year_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_new_year_100 hash_const
 
-static int cmp_packet_new_year_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_new_year_100 cmp_const
 
 BV_DEFINE(packet_new_year_100_fields, 2);
 
@@ -18358,15 +17936,9 @@ int send_packet_spaceship_launch(struct connection *pc)
   }
 }
 
-static unsigned int hash_packet_spaceship_place_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_spaceship_place_100 hash_const
 
-static int cmp_packet_spaceship_place_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_spaceship_place_100 cmp_const
 
 BV_DEFINE(packet_spaceship_place_100_fields, 2);
 
@@ -18866,15 +18438,9 @@ void lsend_packet_spaceship_info(struct conn_list *dest, const struct packet_spa
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_unit_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_unit_100 hash_const
 
-static int cmp_packet_ruleset_unit_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_unit_100 cmp_const
 
 BV_DEFINE(packet_ruleset_unit_100_fields, 35);
 
@@ -19384,15 +18950,9 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
   SEND_PACKET_END;
 }
 
-static unsigned int hash_packet_ruleset_unit_101(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_unit_101 hash_const
 
-static int cmp_packet_ruleset_unit_101(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_unit_101 cmp_const
 
 BV_DEFINE(packet_ruleset_unit_101_fields, 32);
 
@@ -19847,15 +19407,9 @@ void lsend_packet_ruleset_unit(struct conn_list *dest, const struct packet_rules
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_game_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_game_100 hash_const
 
-static int cmp_packet_ruleset_game_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_game_100 cmp_const
 
 BV_DEFINE(packet_ruleset_game_100_fields, 17);
 
@@ -20216,15 +19770,9 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
   SEND_PACKET_END;
 }
 
-static unsigned int hash_packet_ruleset_game_101(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_game_101 hash_const
 
-static int cmp_packet_ruleset_game_101(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_game_101 cmp_const
 
 BV_DEFINE(packet_ruleset_game_101_fields, 14);
 
@@ -20533,15 +20081,9 @@ void lsend_packet_ruleset_game(struct conn_list *dest, const struct packet_rules
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_government_ruler_title_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_government_ruler_title_100 hash_const
 
-static int cmp_packet_ruleset_government_ruler_title_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_government_ruler_title_100 cmp_const
 
 BV_DEFINE(packet_ruleset_government_ruler_title_100_fields, 5);
 
@@ -20722,15 +20264,9 @@ void lsend_packet_ruleset_government_ruler_title(struct conn_list *dest, const s
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_tech_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_tech_100 hash_const
 
-static int cmp_packet_ruleset_tech_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_tech_100 cmp_const
 
 BV_DEFINE(packet_ruleset_tech_100_fields, 10);
 
@@ -20987,15 +20523,9 @@ void lsend_packet_ruleset_tech(struct conn_list *dest, const struct packet_rules
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_government_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_government_100 hash_const
 
-static int cmp_packet_ruleset_government_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_government_100 cmp_const
 
 BV_DEFINE(packet_ruleset_government_100_fields, 48);
 
@@ -21606,15 +21136,9 @@ void lsend_packet_ruleset_government(struct conn_list *dest, const struct packet
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_terrain_control_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_terrain_control_100 hash_const
 
-static int cmp_packet_ruleset_terrain_control_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_terrain_control_100 cmp_const
 
 BV_DEFINE(packet_ruleset_terrain_control_100_fields, 22);
 
@@ -21949,15 +21473,9 @@ void lsend_packet_ruleset_terrain_control(struct conn_list *dest, const struct p
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_nation_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_nation_100 hash_const
 
-static int cmp_packet_ruleset_nation_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_nation_100 cmp_const
 
 BV_DEFINE(packet_ruleset_nation_100_fields, 12);
 
@@ -22272,15 +21790,9 @@ void lsend_packet_ruleset_nation(struct conn_list *dest, const struct packet_rul
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_city_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_city_100 hash_const
 
-static int cmp_packet_ruleset_city_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_city_100 cmp_const
 
 BV_DEFINE(packet_ruleset_city_100_fields, 8);
 
@@ -22491,15 +22003,9 @@ void lsend_packet_ruleset_city(struct conn_list *dest, const struct packet_rules
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_building_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_building_100 hash_const
 
-static int cmp_packet_ruleset_building_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_building_100 cmp_const
 
 BV_DEFINE(packet_ruleset_building_100_fields, 26);
 
@@ -23016,15 +22522,9 @@ void lsend_packet_ruleset_building(struct conn_list *dest, const struct packet_r
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_terrain_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_terrain_100 hash_const
 
-static int cmp_packet_ruleset_terrain_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_terrain_100 cmp_const
 
 BV_DEFINE(packet_ruleset_terrain_100_fields, 33);
 
@@ -23485,15 +22985,9 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
   } conn_list_iterate_end;
 }
 
-static unsigned int hash_packet_ruleset_control_100(const void *vkey, unsigned int num_buckets)
-{
-  return 0;
-}
+#define hash_packet_ruleset_control_100 hash_const
 
-static int cmp_packet_ruleset_control_100(const void *vkey1, const void *vkey2)
-{
-  return 0;
-}
+#define cmp_packet_ruleset_control_100 cmp_const
 
 BV_DEFINE(packet_ruleset_control_100_fields, 21);
 
