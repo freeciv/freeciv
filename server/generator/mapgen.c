@@ -51,12 +51,9 @@ enum {
 
 static void make_huts(int number);
 static void add_specials(int prob);
-static void mapgenerator1(void);
 static void mapgenerator2(void);
 static void mapgenerator3(void);
 static void mapgenerator4(void);
-static void mapgenerator5(void);
-static void smooth_map(void);
 static void adjust_terrain_param(void);
 
 #define RIVERS_MAXTRIES 32767
@@ -912,47 +909,6 @@ static void make_rivers(void)
   river_map = NULL;
 }
 
-/****************************************************************************
-  Lower the land near the polar region to avoid too much land there.
-
-  See also renomalize_hmap_poles
-****************************************************************************/
-static void normalize_hmap_poles(void)
-{
-  whole_map_iterate(x, y) {
-    if (near_singularity(x, y)) {
-      hmap(x, y) = 0;
-    } else if (map_colatitude(x, y) < 2 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= map_colatitude(x, y) / (2.5 * ICE_BASE_LEVEL);
-    } else if (map.separatepoles 
-	       && map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= 0.1;
-    } else if (map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= map_colatitude(x, y) / (2.5 * ICE_BASE_LEVEL);
-    }
-  } whole_map_iterate_end;
-}
-
-/****************************************************************************
-  Invert the effects of normalize_hmap_poles so that we have accurate heights
-  for texturing the poles.
-****************************************************************************/
-static void renormalize_hmap_poles(void)
-{
-  whole_map_iterate(x, y) {
-    if (hmap(x, y) == 0 || map_colatitude(x, y) == 0) {
-      /* Nothing. */
-    } else if (map_colatitude(x, y) < 2 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) / map_colatitude(x, y);
-    } else if (map.separatepoles 
-	       && map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= 10;
-    } else if (map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) /  map_colatitude(x, y);
-    }
-  } whole_map_iterate_end;
-}
-
 /**************************************************************************
   make land simply does it all based on a generated heightmap
   1) with map.landpercent it generates a ocean/grassland map 
@@ -960,7 +916,7 @@ static void renormalize_hmap_poles(void)
 **************************************************************************/
 static void make_land(void)
 {
-  adjust_int_map(height_map, hmap_max_level);
+  
   if (HAS_POLES) {
     normalize_hmap_poles();
   }
@@ -1060,8 +1016,8 @@ void map_fractal_generate(bool autosize)
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
-    if (map.generator == 5) {
-      mapgenerator5();
+    if (map.generator == 5 ) {
+      make_pseudofractal1_hmap();
     }
     if (map.generator == 4) {
       mapgenerator4();
@@ -1072,8 +1028,15 @@ void map_fractal_generate(bool autosize)
     if (map.generator == 2) {
       mapgenerator2();
     }
-    if (map.generator == 1) {
-      mapgenerator1();
+    if (map.generator == 1 ) {
+      make_random_hmap(1 + SQSIZE);
+    }
+
+    /* if hmap only generator make anything else */
+    if (map.generator == 1 || map.generator == 5) {
+      make_land();
+      free(height_map);
+      height_map = NULL;
     }
     if (!map.tinyisles) {
       remove_tiny_islands();
@@ -1125,82 +1088,6 @@ static void adjust_terrain_param(void)
   swamp_pct = factor * (map.wetness * 6 + map.temperature * 6);
   desert_pct = factor * (map.temperature * 10 + (100 - map.wetness) * 10) ;
 }
-
-/**************************************************************************
-  mapgenerator1, highlevel function, that calls all the previous functions
-**************************************************************************/
-static void mapgenerator1(void)
-{
-  int i;
-  height_map = fc_malloc (sizeof(int) * MAX_MAP_INDEX);
-
-  INITIALIZE_ARRAY(height_map, MAX_MAP_INDEX, myrand(40) );
-
-  for (i=0;i<1500;i++) {
-    int x, y;
-
-    rand_map_pos(&x, &y);
-
-    if (near_singularity(x, y)
-	|| map_colatitude(x, y) <= ICE_BASE_LEVEL / 2) { 
-      /* Avoid land near singularities or at the poles. */
-      hmap(x, y) -= myrand(5000);
-    } else { 
-      hmap(x, y) += myrand(5000);
-    }
-    if ((i % 100) == 0) {
-      smooth_map(); 
-    }
-  }
-
-  smooth_map(); 
-  smooth_map(); 
-  smooth_map(); 
-
-  make_land();
-  free(height_map);
-  height_map = NULL;
-}
-
-/**************************************************************************
-  smooth_map should be viewed as a corrosion function on the map, it
-  levels out the differences in the heightmap.
-**************************************************************************/
-static void smooth_map(void)
-{
-  /* We make a new height map and then copy it back over the old one.
-   * Care must be taken so that the new height map uses the exact same
-   * storage structure as the real one - it must be the same size and
-   * use the same indexing. The advantage of the new array is there's
-   * no feedback from overwriting in-use values.
-   */
-  int *new_hmap = fc_malloc(sizeof(int) * map.xsize * map.ysize);
-  
-  whole_map_iterate(x, y) {
-    /* double-count this tile */
-    int height_sum = hmap(x, y) * 2;
-
-    /* weight of counted tiles */
-    int counter = 2;
-
-    adjc_iterate(x, y, x2, y2) {
-      /* count adjacent tile once */
-      height_sum += hmap(x2, y2);
-      counter++;
-    } adjc_iterate_end;
-
-    /* random factor: -30..30 */
-    height_sum += myrand(61) - 30;
-
-    if (height_sum < 0)
-      height_sum = 0;
-    new_hmap[map_pos_to_index(x, y)] = height_sum / counter;
-  } whole_map_iterate_end;
-
-  memcpy(height_map, new_hmap, sizeof(int) * map.xsize * map.ysize);
-  free(new_hmap);
-}
-
 
 /****************************************************************************
   Return TRUE if a safe tile is in a radius of 1.  This function is used to
@@ -2032,144 +1919,3 @@ static void mapgenerator4(void)
 }
 
 #undef DMSIS
-
-/**************************************************************************
-  Recursive function which does the work for generator 5.
-
-  All (x0,y0) and (x1,y1) are in native coordinates.
-**************************************************************************/
-static void gen5rec(int step, int x0, int y0, int x1, int y1)
-{
-  int val[2][2];
-  int x1wrap = x1; /* to wrap correctly */ 
-  int y1wrap = y1; 
-
-  /* All x and y values are native. */
-
-  if (((y1 - y0 <= 0) || (x1 - x0 <= 0)) 
-      || ((y1 - y0 == 1) && (x1 - x0 == 1))) {
-    return;
-  }
-
-  if (x1 == map.xsize) {
-    x1wrap = 0;
-  }
-  if (y1 == map.ysize) {
-    y1wrap = 0;
-  }
-
-  val[0][0] = hnat(x0, y0);
-  val[0][1] = hnat(x0, y1wrap);
-  val[1][0] = hnat(x1wrap, y0);
-  val[1][1] = hnat(x1wrap, y1wrap);
-
-  /* set midpoints of sides to avg of side's vertices plus a random factor */
-  /* unset points are zero, don't reset if set */
-#define set_midpoints(X, Y, V)						\
-  do_in_map_pos(map_x, map_y, (X), (Y)) {                               \
-    if (!near_singularity(map_x, map_y)					\
-	&& map_colatitude(map_x, map_y) >  ICE_BASE_LEVEL/2		\
-	&& hnat((X), (Y)) == 0) {					\
-      hnat((X), (Y)) = (V);						\
-    }									\
-  } do_in_map_pos_end;
-
-  set_midpoints((x0 + x1) / 2, y0,
-		(val[0][0] + val[1][0]) / 2 + myrand(step) - step / 2);
-  set_midpoints((x0 + x1) / 2,  y1wrap,
-		(val[0][1] + val[1][1]) / 2 + myrand(step) - step / 2);
-  set_midpoints(x0, (y0 + y1)/2,
-		(val[0][0] + val[0][1]) / 2 + myrand(step) - step / 2);  
-  set_midpoints(x1wrap,  (y0 + y1) / 2,
-		(val[1][0] + val[1][1]) / 2 + myrand(step) - step / 2);  
-
-  /* set middle to average of midpoints plus a random factor, if not set */
-  set_midpoints((x0 + x1) / 2, (y0 + y1) / 2,
-		((val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
-		 + myrand(step) - step / 2));
-
-#undef set_midpoints
-
-  /* now call recursively on the four subrectangles */
-  gen5rec(2 * step / 3, x0, y0, (x1 + x0) / 2, (y1 + y0) / 2);
-  gen5rec(2 * step / 3, x0, (y1 + y0) / 2, (x1 + x0) / 2, y1);
-  gen5rec(2 * step / 3, (x1 + x0) / 2, y0, x1, (y1 + y0) / 2);
-  gen5rec(2 * step / 3, (x1 + x0) / 2, (y1 + y0) / 2, x1, y1);
-}
-
-/**************************************************************************
-Generator 5 makes earthlike worlds with one or more large continents and
-a scattering of smaller islands. It does so by dividing the world into
-blocks and on each block raising or lowering the corners, then the 
-midpoints and middle and so on recursively.  Fiddling with 'xdiv' and 
-'ydiv' will change the size of the initial blocks and, if the map does not 
-wrap in at least one direction, fiddling with 'avoidedge' will change the 
-liklihood of continents butting up to non-wrapped edges.
-
-  All X and Y values used in this function are in native coordinates.
-**************************************************************************/
-static void mapgenerator5(void)
-{
-  const bool xnowrap = !topo_has_flag(TF_WRAPX);
-  const bool ynowrap = !topo_has_flag(TF_WRAPY);
-
-  /* 
-   * How many blocks should the x and y directions be divided into
-   * initially. 
-   */
-  const int xdiv = 6;		
-  const int ydiv = 5;
-
-  int xdiv2 = xdiv + (xnowrap ? 1 : 0);
-  int ydiv2 = ydiv + (ynowrap ? 1 : 0);
-
-  int xmax = map.xsize - (xnowrap ? 1 : 0);
-  int ymax = map.ysize - (ynowrap ? 1 : 0);
-  int xn, yn;
-  /* just need something > log(max(xsize, ysize)) for the recursion */
-  int step = map.xsize + map.ysize; 
-  /* edges are avoided more strongly as this increases */
-  int avoidedge = (50 - map.landpercent) * step / 100 + step / 3; 
-
-  height_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
-
- /* initialize map */
-  INITIALIZE_ARRAY(height_map, MAX_MAP_INDEX, 0);
-
-  /* set initial points */
-  for (xn = 0; xn < xdiv2; xn++) {
-    for (yn = 0; yn < ydiv2; yn++) {
-      do_in_map_pos(x, y, (xn * xmax / xdiv), (yn * ymax / ydiv)) {
-	/* set initial points */
-	hmap(x, y) = myrand(2 * step) - (2 * step) / 2;
-
-	if (near_singularity(x, y)) {
-	  /* avoid edges (topological singularities) */
-	  hmap(x, y) -= avoidedge;
-	}
-
-	if (map_colatitude(x, y) <= ICE_BASE_LEVEL / 2) {
-	  /* separate poles and avoid too much land at poles */
-	  hmap(x, y) -= myrand(avoidedge);
-	}
-      } do_in_map_pos_end;
-    }
-  }
-
-  /* calculate recursively on each block */
-  for (xn = 0; xn < xdiv; xn++) {
-    for (yn = 0; yn < ydiv; yn++) {
-      gen5rec(step, xn * xmax / xdiv, yn * ymax / ydiv, 
-	      (xn + 1) * xmax / xdiv, (yn + 1) * ymax / ydiv);
-    }
-  }
-
-  /* put in some random fuzz */
-  whole_map_iterate(x, y) {
-    hmap(x, y) = 8 * hmap(x, y) + myrand(4) - 2;
-  } whole_map_iterate_end;
-
-  make_land();
-  free(height_map);
-  height_map = NULL;
-}

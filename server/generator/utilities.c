@@ -103,13 +103,13 @@ void set_placed_near_pos(int x, int y, int dist)
 **************************************************************************/
 void adjust_int_map(int *int_map, int int_map_max)
 {
-  int i, minval = *int_map, maxval = minval;
+  int minval = *int_map, maxval = minval;
 
   /* Determine minimum and maximum value. */
-  for (i = 0; i < MAX_MAP_INDEX; i++) {
-    maxval = MAX(maxval, int_map[i]);
-    minval = MIN(minval, int_map[i]);
-  }
+  whole_map_iterate_index(j) {
+    maxval = MAX(maxval, int_map[j]);
+    minval = MIN(minval, int_map[j]);
+  } whole_map_iterate_index_end;
 
   {
     int const size = 1 + maxval - minval;
@@ -120,10 +120,10 @@ void adjust_int_map(int *int_map, int int_map_max)
     /* Translate value so the minimum value is 0
        and count the number of occurencies of all values to initialize the 
        frequencies[] */
-    for (i = 0; i < MAX_MAP_INDEX; i++) {
-      int_map[i] = (int_map[i] - minval);
-      frequencies[int_map[i]]++;
-    }
+    whole_map_iterate_index(j) {
+      int_map[j] = (int_map[j] - minval);
+      frequencies[int_map[j]]++;
+    } whole_map_iterate_index_end ;
 
     /* create the linearize function as "incremental" frequencies */
     for(i =  0; i < size; i++) {
@@ -132,8 +132,73 @@ void adjust_int_map(int *int_map, int int_map_max)
     }
 
     /* apply the linearize function */
-    for (i = 0; i < MAX_MAP_INDEX; i++) {
-      int_map[i] = frequencies[int_map[i]];
-    }
+    whole_map_iterate_index(j) {
+      int_map[j] = frequencies[int_map[j]];
+    } whole_map_iterate_index_end;
   }
 }
+bool normalize_nat_pos(int *x, int  *y) 
+{
+    int map_x, map_y;
+    bool return_value;
+
+    NATIVE_TO_MAP_POS(&map_x, &map_y, *x, *y);
+    return_value = normalize_map_pos(&map_x, &map_y);
+    MAP_TO_NATIVE_POS(x, y, map_x, map_y);
+
+    return return_value;
+}
+
+bool is_normal_nat_pos(int x, int y)
+{
+  do_in_map_pos(map_x, map_y, x, y) {
+    return is_normal_map_pos(map_x, map_y);
+  } do_in_map_pos_end;
+}
+
+/****************************************************************************
+ * Apply a Gaussian difusion filtre on the map
+ * the size of the map is MAX_MAP_INDEX and the map is indexed by 
+ * native_pos_to_index function
+ * if zeroes_at_edges is set, any unreal position on difusion has 0 value
+ * if zeroes_at_edges in unset the unreal position are not counted.
+ ****************************************************************************/
+ void smooth_int_map(int *int_map, bool zeroes_at_edges)
+{
+  assert(int_map != NULL);
+  float weight[5] =  {0.35,  0.5 ,1 , 0.5, 0.35};
+  float total_weight = 2.70;
+  bool axe = TRUE;
+  int alt_int_map[MAX_MAP_INDEX];
+  int *target_map, *source_map;
+
+  target_map = alt_int_map;
+  source_map = int_map;
+
+  do {
+    whole_map_iterate_index( j ) {
+      int  N = 0, D = 0;
+      iterate_axe(j1, i, j, 2, axe) {
+	D += weight[i + 2];
+	N += weight[i + 2] * source_map[j1];
+      } iterate_axe_end;
+      if(zeroes_at_edges) {
+	D = total_weight;
+      }
+      target_map[j] = N / D;
+    } whole_map_iterate_index_end;
+
+    if (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) {
+    weight[0] = weight[4] = 0.5;
+    weight[1] = weight[3] = 0.7;
+    total_weight = 3.4;  
+  }
+
+  axe = !axe;
+
+  source_map = alt_int_map;
+  target_map = int_map;
+
+  } while ( !axe );
+}
+

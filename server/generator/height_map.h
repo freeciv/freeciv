@@ -1,5 +1,5 @@
 /********************************************************************** 
- Freeciv - Copyright (C) 2004 - Marcelo J. Burda
+   Copyright (C) 1996 - 2004  The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -34,5 +34,10 @@
 #define hmap_max_level 1000
 extern int *height_map;
 extern int hmap_shore_level, hmap_mountain_level;
+
+void normalize_hmap_poles(void);
+void renormalize_hmap_poles(void);
+void make_random_hmap(int smooth);
+void make_pseudofractal1_hmap(void);
 
 #endif  /* FC__HEIGHT__MAP_H */
