@@ -13371,7 +13371,7 @@ msgstr "chilenisch"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr "?plural:Chilener"
+msgstr "?plural:Chilenen"
 
 # EH: Diese Meldung sollte mE nicht übersetzt werden.
 #: data/nation/chilean.ruleset:14
@@ -13498,11 +13498,11 @@ msgstr "?plural:Esten"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "philippinisch"
+msgstr "filipinisch"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "?plural:Philippinen"
+msgstr "?plural:Filipinos"
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -13778,11 +13778,11 @@ msgstr "?plural:Schotten"
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr "silesisch"
+msgstr "schlesisch"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr "?plural:Sileser"
+msgstr "?plural:Schlesier"
 
 #: data/nation/silesian.ruleset:12 data/nation/welsh.ruleset:18
 msgid "Prince"
