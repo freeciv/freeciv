@@ -1055,8 +1055,10 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       return;
     }
 
-    go_by_boat = !(goto_is_sane(myunit, acity->tile, TRUE) 
-                  && WARMAP_COST(ptile) <= (MIN(6, move_rate) * THRESHOLD));
+    go_by_boat = (is_ground_unit(myunit)
+                  && !(WARMAP_COST(ptile) <= (MIN(6, move_rate) * THRESHOLD)
+                       && goto_is_sane(myunit, acity->tile, TRUE)));
+
     move_time = turns_to_enemy_city(myunit->type, acity, move_rate, 
                                     go_by_boat, ferryboat, boattype);
 
