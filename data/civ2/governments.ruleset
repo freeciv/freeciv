@@ -141,10 +141,12 @@ flags = {  "government",     "flags"
            "Anarchy",        "FAVORS_GROWTH"
            "Despotism",      "FAVORS_GROWTH"
            "Monarchy",       "FAVORS_GROWTH"
-           "Communism",      "BUILD_VETERAN_DIPLOMAT", "INSPIRES_PARTISANS", "FAVORS_GROWTH"
+           "Communism",      "BUILD_VETERAN_DIPLOMAT", "INSPIRES_PARTISANS", 
+			     "FAVORS_GROWTH"
            "Fundamentalism", "FAVORS_GROWTH"
            "Republic",       "HAS_SENATE", "IS_NICE"
-           "Democracy",      "HAS_SENATE", "REVOLUTION_WHEN_UNHAPPY", "INSPIRES_PARTISANS", "IS_NICE"
+           "Democracy",      "HAS_SENATE", "REVOLUTION_WHEN_UNHAPPY", 
+			     "INSPIRES_PARTISANS", "IS_NICE", "UNBRIBABLE"
 };
 
 ; TODO: check max_rates 

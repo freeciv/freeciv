@@ -1568,7 +1568,7 @@ void make_partisans(struct city *pcity)
   if (get_invention(city_owner(pcity), A_COMMUNISM) != TECH_KNOWN 
       && get_invention(city_owner(pcity), A_GUNPOWDER) != TECH_KNOWN)
     return;
-  if (! g->flags & G_INSPIRES_PARTISANS)
+  if (!(g->flags & G_INSPIRES_PARTISANS))
     return;
   
   partisans = myrand(1 + pcity->size/2) + 1;
