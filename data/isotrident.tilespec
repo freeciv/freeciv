@@ -77,6 +77,7 @@ mine_sprite = "tx.oil_mine"
 [terrain_forest]
 is_blended = 1
 num_layers = 2
+layer1_match_style = "bool"
 layer1_match_type = 1
 
 [terrain_grassland]
@@ -86,6 +87,7 @@ num_layers = 1
 [terrain_hills]
 is_blended = 1
 num_layers = 2
+layer1_match_style = "bool"
 layer1_match_type = 2
 mine_sprite = "tx.mine"
 
@@ -96,6 +98,7 @@ num_layers = 1
 [terrain_mountains]
 is_blended = 1
 num_layers = 2
+layer1_match_style = "bool"
 layer1_match_type = 3
 mine_sprite = "tx.mine"
 
