@@ -194,6 +194,48 @@ STATIC VOID Overview_FillBuffer(struct Overview_Data * data)
   }
 }
 
+STATIC VOID Overview_DrawRect( Object *o, struct Overview_Data *data)
+{
+  struct RastPort *rp = _rp(o);
+  LONG x1,x2,y1,y2,scalex,scaley;
+  BOOL twoparts;
+
+  scalex = data->ov_ScaleX;
+  scaley = data->ov_ScaleY;
+
+  x1 = _mleft(o) + map_adjust_x(data->rect_left) * scalex;
+  x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;	/*x1 + data->rect_width * scale - 1; */
+
+  y1 = _mtop(o) + data->rect_top * scaley;
+  y2 = y1 + data->rect_height * scaley - 1;
+
+  if (x2 < x1)
+    twoparts = TRUE;
+  else
+    twoparts = FALSE;
+
+  Move( rp, x1, y2);
+  SetAPen( rp, data->pen_white);
+  Draw( rp, x1, y1);
+
+  if (!twoparts)
+  {
+    Draw(rp, x2, y1);
+    Draw(rp, x2, y2);
+    Draw(rp, x1, y2);
+  } else
+  {
+    Draw(rp, _mright(o), y1);
+    Move(rp, x1, y2);
+    Draw(rp, _mright(o), y2);
+
+    Move(rp, _mleft(o), y1);
+    Draw(rp, x2, y1);
+    Draw(rp, x2, y2);
+    Draw(rp, _mleft(o), y2);
+  }
+}
+
 STATIC ULONG Overview_New(struct IClass *cl, Object * o, struct opSet *msg)
 {
   if ((o = (Object *) DoSuperMethodA(cl, o, (Msg) msg)))
@@ -218,6 +260,7 @@ STATIC ULONG Overview_New(struct IClass *cl, Object * o, struct opSet *msg)
 
     if (!data->ov_MapHeight || !data->ov_MapWidth)
     {
+      set(o,MUIA_FillArea, FALSE);
       CoerceMethod(cl, o, OM_DISPOSE);
       return NULL;
     }
@@ -390,71 +433,50 @@ STATIC ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
 {
   struct Overview_Data *data = (struct Overview_Data *) INST_DATA(cl, o);
   struct RastPort *rp = _rp(o);
-  LONG scalex = data->ov_ScaleX;
-  LONG scaley = data->ov_ScaleY;
 
   DoSuperMethodA(cl, o, (Msg) msg);
 
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE)
   {
-    BOOL draw_overview = TRUE;
+    LONG scalex = data->ov_ScaleX;
+    LONG scaley = data->ov_ScaleY;
+
     if (msg->flags & MADF_DRAWUPDATE)
     {
       if (data->update == 1)
       {
-	LONG x1 = _mleft(o) + data->x;
-	LONG y1 = _mtop(o) + data->y;
+      	LONG x,y,rx1,rx2,ry1,ry2,pix_x,pix_y;
+
+	x = data->x;
+	y = data->y;
+
+	pix_x = _mleft(o) + x*scalex;
+	pix_y = _mtop(o) + y*scaley;
+
 	SetAPen(_rp(o), data->color);
-	RectFill(_rp(o), x1, y1, x1 + scalex - 1, y1 + scaley - 1);
+	RectFill(_rp(o), pix_x, pix_y, pix_x + scalex - 1, pix_y + scaley - 1);
 
-	draw_overview = FALSE;
+        /* Check if the view rectangle has been7 overwritten */
+	rx1 = map_adjust_x(data->rect_left);
+	rx2 = map_adjust_x(data->rect_left + data->rect_width - 1);
+	ry1 = data->rect_top;
+	ry2 = ry1 + data->rect_height - 1;
+
+        if (((x == rx1 || x == rx2) && (y >= ry1 && y <= ry2)) ||
+            ((y == ry1 || y == ry2) && (x >= rx1 && x <= rx2))) {
+	  Overview_DrawRect(o,data);
+	}
+	return 0;
       }
     }
 
-    if (draw_overview)
-    {
-      LONG x1 = _mleft(o) + map_adjust_x(data->rect_left) * scalex;
-      LONG x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;	/*x1 + data->rect_width * scale - 1; */
+    myWritePixelArray8(rp, _mleft(o), _mtop(o),
+		       _left(o) + data->ov_MapWidth * scalex - 1,
+		       _mtop(o) + data->ov_MapHeight * scaley - 1,
+		        data->ov_Buffer);
 
-      LONG y1 = _mtop(o) + data->rect_top * scaley;
-      LONG y2 = y1 + data->rect_height * scaley - 1;
-
-      BOOL twoparts;
-
-      myWritePixelArray8(rp, _mleft(o), _mtop(o),
-			 _left(o) + data->ov_MapWidth * scalex - 1,
-			 _mtop(o) + data->ov_MapHeight * scaley - 1,
-			 data->ov_Buffer);
-
-      if (x2 < x1)
-	twoparts = TRUE;
-      else
-	twoparts = FALSE;
-
-      Move(_rp(o), x1, y2);
-      SetAPen(_rp(o), data->pen_white);
-      Draw(_rp(o), x1, y1);
-
-      if (!twoparts)
-      {
-	Draw(_rp(o), x2, y1);
-	Draw(_rp(o), x2, y2);
-	Draw(_rp(o), x1, y2);
-      }
-      else
-      {
-	Draw(_rp(o), _mright(o), y1);
-	Move(_rp(o), x1, y2);
-	Draw(_rp(o), _mright(o), y2);
-
-	Move(_rp(o), _mleft(o), y1);
-	Draw(_rp(o), x2, y1);
-	Draw(_rp(o), x2, y2);
-	Draw(_rp(o), _mleft(o), y2);
-      }
-    }
-  }
-  else
+    Overview_DrawRect(o,data);
+  } else
   {
     if (!(msg->flags & MADF_DRAWUPDATE))
     {
@@ -543,8 +565,8 @@ STATIC ULONG Overview_RefreshSingle(struct IClass * cl, Object * o, struct MUIP_
   }
 
   data->update = 1;
-  data->x = x1;
-  data->y = y1;
+  data->x = msg->x;
+  data->y = msg->y;
   data->color = color;
 
   MUI_Redraw(o, MADF_DRAWUPDATE);

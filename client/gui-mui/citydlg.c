@@ -1491,9 +1491,11 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 static void city_dialog_update_pollution(struct city_dialog *pdialog)
 {
   /* TODO: differnt colors? */
-  settextf(pdialog->pollution_text, "%3ld", pdialog->pcity->pollution);
+  char *fmt;
+  if (pdialog->pcity->pollution >= 10) fmt = MUIX_B"%3ld";
+  else fmt = "%3ld";
+  settextf(pdialog->pollution_text, fmt, pdialog->pcity->pollution);
 }
-
 
 /****************************************************************
 ...
