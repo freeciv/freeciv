@@ -1084,6 +1084,49 @@ static void government_callback(GtkMenuItem *item, gpointer data)
   set_government_choice(GPOINTER_TO_INT(data));
 }
 
+/****************************************************************************
+  Return the text for the tile, changed by the activity.
+
+  Should only be called for irrigation, mining, or transformation, and
+  only when the activity changes the base terrain type.
+****************************************************************************/
+static const char *get_tile_change_menu_text(struct tile *ptile,
+					     enum unit_activity activity)
+{
+  Terrain_type_id old_terrain = ptile->terrain;
+  struct tile_type *ptype = get_tile_type(ptile->terrain);
+  const char *text;
+
+  /* Change the terrain manually to avoid any side effects. */
+  switch (activity) {
+  case ACTIVITY_IRRIGATE:
+    assert(ptype->irrigation_result != ptile->terrain
+	   && ptype->irrigation_result != T_NONE);
+    ptile->terrain = ptype->irrigation_result;
+    break;
+  case ACTIVITY_MINE:
+    assert(ptype->mining_result != ptile->terrain
+	   && ptype->mining_result != T_NONE);
+    ptile->terrain = ptype->mining_result;
+    break;
+
+  case ACTIVITY_TRANSFORM:
+    assert(ptype->transform_result != ptile->terrain
+	   && ptype->transform_result != T_NONE);
+    ptile->terrain = ptype->transform_result;
+    break;
+  default:
+    assert(0);
+    return "-";
+  }
+
+  text = map_get_tile_info_text(ptile);
+
+  ptile->terrain = old_terrain;
+
+  return text;
+}
+
 /****************************************************************
 Note: the menu strings should contain underscores as in the
 menu_items struct. The underscores will be removed elsewhere if
@@ -1307,7 +1350,8 @@ void update_menus(void)
       if (tinfo->irrigation_result != T_NONE
 	  && tinfo->irrigation_result != ttype) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
-		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
+		    get_tile_change_menu_text(punit->tile,
+					      ACTIVITY_IRRIGATE));
       } else if (map_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
@@ -1316,12 +1360,13 @@ void update_menus(void)
       if (tinfo->mining_result != T_NONE
 	  && tinfo->mining_result != ttype) {
 	my_snprintf(mintext, sizeof(mintext), minfmt,
-		    (get_tile_type(tinfo->mining_result))->terrain_name);
+		    get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
       }
       if (tinfo->transform_result != T_NONE
 	  && tinfo->transform_result != ttype) {
 	my_snprintf(transtext, sizeof(transtext), transfmt,
-		    (get_tile_type(tinfo->transform_result))->terrain_name);
+		    get_tile_change_menu_text(punit->tile,
+					      ACTIVITY_TRANSFORM));
       }
 
       menus_rename("<main>/_Orders/Build _Irrigation", irrtext);
