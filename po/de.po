@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.11.0\n"
-"POT-Creation-Date: 2000-06-24 09:04+0200\n"
+"POT-Creation-Date: 2000-06-25 23:43+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -1677,20 +1677,15 @@ msgstr ""
 "Spiel: Der Senat beschließt seine Selbstauflösung,\n"
 "       um Ihre Maßnahmen nicht länger unterstützen zu müssen."
 
-#: server/plrhand.c:1950
+#: server/plrhand.c:1950 server/plrhand.c:1958
 #, c-format
-msgid "Game: The diplomatic state between %s and the %s is now %s."
+msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
 #: server/plrhand.c:1955
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spiel: %s hat die Vereinbarung aufgekündigt!"
-
-#: server/plrhand.c:1958
-#, c-format
-msgid "Game: The diplomatic state between the %s and the %s is now %s."
-msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/plrhand.c:2057
@@ -2917,7 +2912,7 @@ msgstr ""
 "Erstellt eine Datei mit Informationen über die aktiven Regeln. Kann erst "
 "nach 'start' verwendet werden. Zur Zeit gibt es nur die Regelart 'techs', "
 "bei der Informationen über die Fortschritte hinterlegt werden. Macht nur "
-"Sinn iVm einem Hilfsprogramm names 'techtree'."
+"Sinn iVm einem Hilfsprogramm namens 'techtree'."
 
 #. translate <> only
 #: server/stdinhand.c:961
@@ -2956,7 +2951,7 @@ msgstr "Das ist sinnvoll zu DEBUGGING Zwecken."
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: client/packhand.c:624 server/stdinhand.c:1100
+#: client/packhand.c:637 server/stdinhand.c:1100
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -3138,7 +3133,7 @@ msgid "Bad rulesout type: '%s' (%s).  Try '%shelp rulesout'."
 msgstr ""
 "rulesout: Ungültige Regelart '%s' (%s).\n"
 "          Einzelheiten unter 'help rulesout'."
- 
+
 #: server/stdinhand.c:1684
 #, c-format
 msgid "Saved techs rules data to '%s'."
@@ -3153,8 +3148,8 @@ msgstr "rulesout: 'techs' Regeln konnten nicht in '%s' geschrieben werden."
 #, c-format
 msgid "Usage: rulesout <ruletype> <filename>.  Try '%shelp rulesout'."
 msgstr ""
-"Verwendung: rulesout <Regelart> <Dateiname>."
-"Einzelheiten unter 'help rulesout'."
+"Verwendung: rulesout <Regelart> <Dateiname>.Einzelheiten unter 'help "
+"rulesout'."
 
 #: server/stdinhand.c:1718
 #, c-format
@@ -5035,255 +5030,259 @@ msgstr ""
 msgid "%s%dg"
 msgstr ""
 
-#: client/options.c:55
+#: client/options.c:56
 msgid "Solid unit background color"
 msgstr "Einheiten haben undurchsichtige Hintergrundfarbe     "
 
-#: client/options.c:56
+#: client/options.c:57
 msgid "Sound bell at new turn     "
 msgstr "Akustisches Zeichen zu Beginn einer neuen Runde      "
 
-#: client/options.c:57
+#: client/options.c:58
 msgid "Smooth unit moves          "
 msgstr "Einheiten langsam bewegen                            "
 
-#: client/options.c:58
+#: client/options.c:59
 msgid "Smooth unit move steps     "
 msgstr "Einheiten langsam bewegen                            "
 
-#: client/options.c:59
+#: client/options.c:60
 msgid "Show combat animation      "
 msgstr "Kampfanimationen zeigen                              "
 
-#: client/options.c:60
+#: client/options.c:61
 msgid "Popup dialogs in AI Mode   "
 msgstr "Eigene Mitteilungsfenster auch im KI-Modus öffnen    "
 
-#: client/options.c:61
+#: client/options.c:62
 msgid "Manual Turn Done in AI Mode"
 msgstr "Rundenende auch im KI-Modus manuell bestätigen       "
 
-#: client/options.c:62
+#: client/options.c:63
 msgid "Auto Center on Units       "
 msgstr "Ansicht automatisch auf die aktive Einheit zentrieren"
 
-#: client/options.c:63
+#: client/options.c:64
+msgid "Auto Center on Combat      "
+msgstr "Ansicht automatisch auf Kämpfe zentrieren"
+
+#: client/options.c:65
 msgid "Focus on Awakened Units    "
 msgstr "Ansicht auf alarmierte Einheiten zentrieren          "
 
-#: client/options.c:64
+#: client/options.c:66
 msgid "Draw Diagonal Roads/Rails  "
 msgstr "Diagonale Darstellung von Straßen und Schienen       "
 
-#: client/options.c:65
+#: client/options.c:67
 msgid "Center map when Popup city "
 msgstr "Ansicht auf die Stadt im Stadtfenster zentriere      "
 
-#: client/options.c:66
+#: client/options.c:68
 msgid "Concise City Production    "
 msgstr "Produktion ändern          "
 
-#: client/options.c:67
+#: client/options.c:69
 msgid "End Turn when done moving  "
 msgstr "Automatisches Rundenende   "
 
-#: client/options.c:93
+#: client/options.c:95
 msgid "Low Funds                "
 msgstr "sehr wenig Gold          "
 
 #. E_LOW_ON_FUNDS
-#: client/options.c:94
+#: client/options.c:96
 msgid "Pollution                "
 msgstr "Umweltverschmutzung      "
 
-#: client/options.c:95
+#: client/options.c:97
 msgid "Global Warming           "
 msgstr "Globale Erwärmung        "
 
-#: client/options.c:96
+#: client/options.c:98
 msgid "Civil Disorder           "
 msgstr "Aufruhr                  "
 
-#: client/options.c:97
+#: client/options.c:99
 msgid "City Celebrating         "
 msgstr "Stadtfest                "
 
-#: client/options.c:98
+#: client/options.c:100
 msgid "City Normal              "
 msgstr "Alltag                   "
 
-#: client/options.c:99
+#: client/options.c:101
 msgid "City Growth              "
 msgstr "Stadtwachstum            "
 
-#: client/options.c:100
+#: client/options.c:102
 msgid "City Needs Aqueduct      "
 msgstr "Stadt benötigt Aquädukt  "
 
-#: client/options.c:101
+#: client/options.c:103
 msgid "Famine in City           "
 msgstr "Hungersnot in der Stadt  "
 
-#: client/options.c:102
+#: client/options.c:104
 msgid "City Captured/Destroyed  "
 msgstr "Stadt erobert/zerstört   "
 
-#: client/options.c:103
+#: client/options.c:105
 msgid "Building Unavailable Item"
 msgstr "Unmögliches im Bau       "
 
-#: client/options.c:104
+#: client/options.c:106
 msgid "Wonder Started           "
 msgstr "Weltwunder im Bau        "
 
-#: client/options.c:105
+#: client/options.c:107
 msgid "Wonder Finished          "
 msgstr "Weltwunder fertig        "
 
-#: client/options.c:106
+#: client/options.c:108
 msgid "Improvement Built        "
 msgstr "fertige Erweiterungen    "
 
-#: client/options.c:107
+#: client/options.c:109
 msgid "New Improvement Selected "
 msgstr "Neu gewählte Erweiterung "
 
-#: client/options.c:108
+#: client/options.c:110
 msgid "Forced Improvement Sale  "
 msgstr "Notwendiger Verkauf      "
 
-#: client/options.c:109
+#: client/options.c:111
 msgid "Production Upgraded      "
 msgstr "Produktion modernisiert  "
 
-#: client/options.c:110
+#: client/options.c:112
 msgid "Unit Built               "
 msgstr "Einheit gebaut           "
 
-#: client/options.c:111
+#: client/options.c:113
 msgid "Unit Defender Destroyed  "
 msgstr "zerstörte Verteidiger    "
 
-#: client/options.c:112
+#: client/options.c:114
 msgid "Unit Defender Survived   "
 msgstr "überlebende Verteidiger  "
 
-#: client/options.c:113
+#: client/options.c:115
 msgid "Collapse to Anarchy      "
 msgstr "Anarchie                 "
 
-#: client/options.c:114
+#: client/options.c:116
 msgid "Diplomat Actions - Enemy "
 msgstr "feindl. dipl. Aktionen   "
 
-#: client/options.c:115
+#: client/options.c:117
 msgid "Tech from Great Library  "
 msgstr "Wissen (Gr. Bibliothek)  "
 
-#: client/options.c:116
+#: client/options.c:118
 msgid "Player Destroyed         "
 msgstr "Spieler vernichtet       "
 
 #. E_DESTROYED
-#: client/options.c:117
+#: client/options.c:119
 msgid "Improvement Bought       "
 msgstr "gekaufte Erweiterung     "
 
 #. E_IMP_BUY
-#: client/options.c:118
+#: client/options.c:120
 msgid "Improvement Sold         "
 msgstr "verkaufte Erweiterung    "
 
 #. E_IMP_SOLD
-#: client/options.c:119
+#: client/options.c:121
 msgid "Unit Bought              "
 msgstr "gekaufte Einheit         "
 
 #. E_UNIT_BUY
-#: client/options.c:120
+#: client/options.c:122
 msgid "Wonder Stopped           "
 msgstr "abgebrochene Weltwunder  "
 
 #. E_WONDER_STOPPED
-#: client/options.c:121
+#: client/options.c:123
 msgid "City Needs Aq Being Built"
 msgstr "Stadt muß Aquädukt fertig stellen"
 
 #. E_CITY_AQ_BUILDING
-#: client/options.c:122
+#: client/options.c:124
 msgid "Diplomat Actions - Own   "
 msgstr "eigene dipl. Aktionen    "
 
 #. E_MY_DIPLOMAT
-#: client/options.c:123
+#: client/options.c:125
 msgid "Unit Attack Failed       "
 msgstr "Angriff fehlgeschlagen   "
 
 #. E_UNIT_LOST_ATT
-#: client/options.c:124
+#: client/options.c:126
 msgid "Unit Attack Succeeded    "
 msgstr "Angriff erfolgreich      "
 
 #. E_UNIT_WIN_ATT
-#: client/options.c:125
+#: client/options.c:127
 msgid "Suggest Growth Throttling"
 msgstr "Schlage vor, das Wachstum zu verlangsamen"
 
 #. E_CITY_GRAN_THROTTLE
-#: client/options.c:126
+#: client/options.c:128
 msgid "Spaceship Events         "
 msgstr "Weltraum-Nachrichten     "
 
 #. E_SPACESHIP
-#: client/options.c:127
+#: client/options.c:129
 msgid "Barbarian Uprising       "
 msgstr "Barbarenaufstand        "
 
 #. E_UPRISING
-#: client/options.c:128
+#: client/options.c:130
 msgid "Worklist Events          "
 msgstr "Arbeitsliste             "
 
 #. E_WORKLIST
-#: client/options.c:129
+#: client/options.c:131
 msgid "Pact Cancelled           "
 msgstr "Vertrag aufgekündigt     "
 
 #. E_CANCEL_PACT
-#: client/options.c:130
+#: client/options.c:132
 msgid "Diplomatic Incident      "
 msgstr "diplomatische Krise      "
 
 #. E_DIPL_INCIDENT
-#: client/options.c:131
+#: client/options.c:133
 msgid "First Contact            "
 msgstr "Erstkontakt              "
 
 #. E_FIRST_CONTACT
-#: client/options.c:132
+#: client/options.c:134
 msgid "City May Soon Grow       "
 msgstr "Stadt wächst vermutlich bald"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/options.c:196
+#: client/options.c:198
 msgid "Cannot find your home directory"
 msgstr "Cannot find your home directory"
 
-#: client/options.c:227
+#: client/options.c:229
 #, c-format
 msgid "Settings file is %s"
 msgstr "Ihre Konfigurationsdatei ist %s."
 
-#: client/options.c:230
+#: client/options.c:232
 #, c-format
 msgid "Cannot write to file %s"
 msgstr "Kann nicht in Datei '%s' schreiben."
 
-#: client/options.c:295
+#: client/options.c:297
 msgid "Cannot save settings."
 msgstr "Einstellungen können nicht gespeichert werden."
 
-#: client/options.c:321
+#: client/options.c:323
 msgid "Saved settings."
 msgstr "Einstellunugen gespeichert."
 
@@ -5304,16 +5303,16 @@ msgstr "Client capability string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-#: client/packhand.c:794
+#: client/packhand.c:807
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:795
+#: client/packhand.c:808
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:795
+#: client/packhand.c:808
 msgid "OFF"
 msgstr "AUS"
 
