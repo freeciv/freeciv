@@ -693,7 +693,7 @@ void present_units_ok_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void activate_unit(struct unit *punit)
 {
-  if(punit->activity!=ACTIVITY_IDLE
+  if((punit->activity!=ACTIVITY_IDLE || punit->ai.control)
      && can_unit_do_activity(punit, ACTIVITY_IDLE))
     request_new_unit_activity(punit, ACTIVITY_IDLE);
   set_unit_focus(punit);
