@@ -820,8 +820,8 @@ AC_OUTPUT_COMMANDS(
 AC_OUTPUT(Makefile
           data/Makefile 
 	  data/misc/Makefile 
+	  data/isotrident/Makefile 
 	  data/trident/Makefile 
-	  data/hires/Makefile 
 	  data/default/Makefile 
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
