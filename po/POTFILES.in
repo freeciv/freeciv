@@ -14,6 +14,7 @@ common/unit.c
 common/unittype.c
 common/version.c
 ai/aicity.c
+ai/advdiplomacy.c
 server/autoattack.c
 server/barbarian.c
 server/cityhand.c
