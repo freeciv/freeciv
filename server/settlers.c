@@ -102,12 +102,11 @@ void generate_minimap(void)
 void remove_city_from_minimap(int x, int y)
 {
   int i, j, n, xx;
+/*printf("Removing (%d, %d) from minimap.\n", x, y);*/
   for (j = -4; j <= 4; j++) {
     if (y+j < 0 || y+j >= map.ysize) continue;
     for (i = -4; i <= 4; i++) {
       xx = map_adjust_x(x+i);
-/*printf("Removing (%d, %d) from minimap. [%d][%d] = %d ->", x, y, xx, y + j,
-minimap[xx][y + j]);*/
       n = i * i + j * j;
       if (n <= 5) {
         if (minimap[xx][y+j] < 0) minimap[xx][y+j]++;
@@ -115,7 +114,6 @@ minimap[xx][y + j]);*/
       } else if (n <= 20) {
         if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
       }
-/*printf("%d\n", minimap[xx][y + j]);*/
     }
   }
 }    
@@ -123,20 +121,18 @@ minimap[xx][y + j]);*/
 void add_city_to_minimap(int x, int y)
 {
   int i, j, n, xx;
+/*printf("Adding (%d, %d) to minimap.\n", x, y);*/
   for (j = -4; j <= 4; j++) {
     if (y+j < 0 || y+j >= map.ysize) continue;
     for (i = -4; i <= 4; i++) {
       xx = map_adjust_x(x+i);
       n = i * i + j * j;
-/*printf("Adding (%d, %d) to minimap. [%d][%d] = %d ->", x, y, xx, y + j,
-minimap[xx][y + j]);*/
       if (n <= 5) {
         if (minimap[xx][y+j] < 0) minimap[xx][y+j]--;
         else minimap[xx][y+j] = -1;
       } else if (n <= 20) {
         if (minimap[xx][y+j] > 0) minimap[xx][y+j] = 0;
       }
-/*printf("%d\n", minimap[xx][y + j]);*/
     }
   }
 }    
@@ -606,6 +602,16 @@ int in_city_radius(int x, int y)
 **************************************************************************/
 int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int y)
 {
+  struct unit *ferryboat;
+  if (punit->ai.ferryboat) {
+    ferryboat = unit_list_find(&map_get_tile(punit->x, punit->y)->units,
+                punit->ai.ferryboat);
+    if (ferryboat) {
+printf("%d disembarking from ferryboat %d\n", punit->id, punit->ai.ferryboat);
+      ferryboat->ai.passenger = 0;
+      punit->ai.ferryboat = 0;
+    }
+  } /* just clearing that up */
   punit->goto_dest_x=map_adjust_x(x);
   punit->goto_dest_y=map_adjust_y(y);
   punit->activity=ACTIVITY_GOTO;
@@ -615,6 +621,45 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   return 1;
 }
 
+int find_boat(struct player *pplayer, struct unit *punit, int *x, int *y)
+{ /* this function uses the current warmap, whatever it may hold -- Syela */
+  int best = 22, id = 0; /* arbitrary maximum distance, I will admit! */
+  int ii[9] = { -1, 0, 1, -1, 1, -1, 0, 1, 0 };
+  int jj[9] = { -1, -1, -1, 0, 0, 1, 1, 1, 0 };
+  int k;
+  unit_list_iterate(pplayer->units, aunit)
+    if (get_transporter_capacity(aunit) &&
+        !unit_flag(aunit->type, F_CARRIER | F_SUBMARINE)) {
+/*printf("Boat at (%d, %d), passenger = %d\n", aunit->x, aunit->y, aunit->ai.passenger);*/
+/* warmaps don't deal with floating ferryboats very well ... */
+      for (k = 9; k >= 0; k--) {
+        if (warmap.cost[map_adjust_x(aunit->x+ii[k])][map_adjust_y(aunit->y+jj[k])] < best) {
+          id = aunit->id;
+          best = warmap.cost[map_adjust_x(aunit->x+ii[k])][map_adjust_y(aunit->y+jj[k])];
+          *x = aunit->x;
+          *y = aunit->y;
+        }
+      }
+    }
+  unit_list_iterate_end;
+  if (id) return(id);
+#ifdef ALLOW_VIRTUAL_BOATS
+  city_list_iterate(pplayer->cities, pcity)
+    if (pcity->is_building_unit &&
+        unit_types[pcity->currently_building].transport_capacity &&
+        !unit_flag(pcity->currently_building, F_CARRIER | F_SUBMARINE)) {
+      if (warmap.cost[pcity->x][pcity->y] < best) {
+        id = pcity->id;
+        best = warmap.cost[pcity->x][pcity->y];
+        *x = pcity->x;
+        *y = pcity->y;
+      }
+    }
+  city_list_iterate_end;
+#endif
+  return(id);
+}
+
 /********************************************************************
   find some work for the settler
 *********************************************************************/
@@ -622,17 +667,14 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
   int gx,gy;
   int co=map_get_continent(punit->x, punit->y);
-  int t=0;
-  int v=0;
-  int v2;
+  int t=0, v=0, v2;
   int x, y, z, i, j;
   int m = unit_types[punit->type].move_rate;
-  int food;
-  int val;
-  int w;
-  int a, b, d;
+  int food, val, w, a, b, d, fu;
   struct city *mycity = map_get_city(punit->x, punit->y);
-  int fu;
+  struct unit *ferryboat;
+  int boatid, bx, by;
+  int id = punit->id;
 
   if (punit->id) fu = 30; /* fu is estimated food cost to produce settler -- Syela */
   else {
@@ -652,6 +694,7 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
   city_list_iterate(pplayer->cities, pcity)
     w = worst_worker_tile_value(pcity);
     city_map_iterate(i, j) {
+      if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
       x = map_adjust_x(pcity->x + i - 2);
       y = map_adjust_y(pcity->y + j - 2);
       if (map_get_continent(x, y) == co &&
@@ -754,6 +797,8 @@ gx, gy, v, x, y, v2, d, b);*/
   v = (v - food * FOOD_WEIGHTING) * 100 / (40 + fu);
   if (v < 0) v = 0; /* Bad Things happen without this line! :( -- Syela */
 
+  boatid = find_boat(pplayer, punit, &bx, &by);
+
   if (pplayer->ai.control) { /* don't want to make cities otherwise */
     if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
       remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
@@ -763,41 +808,65 @@ gx, gy, v, x, y, v2, d, b);*/
       for (j = -7; j <= 7; j++) { /* hope this is far enough -- Syela */
         x = map_adjust_x(punit->x + i);
         y = map_adjust_y(punit->y + j);
-        if (map_get_continent(x, y) == co &&
-            !is_already_assigned(punit, pplayer, x, y)) {
-          z = warmap.cost[x][y]; /* + m - 1; not this time */
+        w = 0;
+        if (!is_already_assigned(punit, pplayer, x, y) &&
+            map_get_terrain(x, y) != T_OCEAN) {
+          if (!goto_is_sane(pplayer, punit, x, y)) {
+            if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
+            else if (boatid) {
+              if (!punit->id && mycity->id == d) w = 1;
+              z = warmap.cost[bx][by] + real_map_distance(bx, by, x, y) + m;
+            } else if (punit->id || !is_terrain_near_tile(mycity->x,
+                        mycity->y, T_OCEAN)) z = 9999;
+            else {
+              z = real_map_distance(punit->x, punit->y, x, y) + m;
+              w = 1;
+            }
+          } else z = warmap.cost[x][y];
           d = z / m;
 /* without this, the computer will go 6-7 tiles from X to build a city at Y */
           d *= 2;
 /* and then build its NEXT city halfway between X and Y. -- Syela */
           z = city_desirability(x, y);
           v2 = amortize(z, d);
+          
           b = (food * FOOD_WEIGHTING) * MORT;
+          if (map_get_continent(x, y) != co) b += SHIELD_WEIGHTING * MORT;
           v2 -= (b - amortize(b, d));
 /* deal with danger Real Soon Now! -- Syela */
 /* v2 is now the value over mort turns */
-          v2 = (v2 * 100) / MORT / (40 + fu);
+          v2 = (v2 * 100) / MORT / ((w ? 80 : 40) + fu);
+/*if (w) printf("%s: v = %d, w = 1, v2 = %d\n", mycity->name, v, v2);*/
           if (v2 > v) {
 /*printf("City_des (%d, %d) = %d, v2 = %d, d = %d\n", x, y, z, v2, d);*/
-            t = ACTIVITY_UNKNOWN; /* flag */
-            v = v2; gx = x; gy = y;
+            if (w) {
+              t = ACTIVITY_UNKNOWN; /* flag */
+              v = v2; gx = -1; gy = -1;
+            } else {
+              t = ACTIVITY_UNKNOWN; /* flag */
+              v = v2; gx = x; gy = y;
+            }
           }
         }
       }
     }
   }
 
+if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
+printf("Punit %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
+punit->id, punit->x, punit->y, t, gx, gy, v);
 /* I had the return here, but it led to stupidity where several engineers would
 be built to solve one problem.  Moving the return down will solve this. -- Syela */
 
   if (gx!=-1 && gy!=-1) {
-    map_get_tile(gx, gy)->assigned =
+      map_get_tile(gx, gy)->assigned =
         map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
   }
 
   if (!punit->id) { /* has to be before we try to send_unit_info()! -- Syela */
 /*    printf("%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)\n",
       mycity->name, mycity->x, mycity->y, v, t, gx, gy);*/
+    if (gx < 0 && gy < 0) return(0 - v);
     return(v); /* virtual unit for assessing settler want */
   }
 
@@ -806,19 +875,38 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
       punit->ai.ai_role = AIUNIT_BUILD_CITY;
       add_city_to_minimap(gx, gy);
     } else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
-    if (!same_pos(gx, gy, punit->x, punit->y))
-      auto_settler_do_goto(pplayer, punit,gx, gy);
-  } else {
-    if (!map_get_special(punit->x, punit->y) & S_ROAD) {
-/* this should not ever be needed anymore, but ... -- Syela */
-      gx = punit->x; gy = punit->y;
-      t = ACTIVITY_ROAD;
-    } else punit->ai.control=0;
-  }
+    if (!same_pos(gx, gy, punit->x, punit->y)) {
+      if (!goto_is_sane(pplayer, punit, gx, gy)) {
+        punit->ai.ferryboat = find_boat(pplayer, punit, &x, &y);
+printf("%d@(%d, %d): Looking for BOAT.\n", punit->id, punit->x, punit->y);
+        if (!same_pos(x, y, punit->x, punit->y)) {
+          auto_settler_do_goto(pplayer, punit, x, y);
+          if (!unit_list_find(&pplayer->units, id)) return; /* died */
+        }
+        ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
+                   punit->ai.ferryboat);
+        punit->goto_dest_x = gx;
+        punit->goto_dest_y = gy;
+        if (ferryboat) {
+printf("We have FOUND BOAT, %d ABOARD %d.\n", punit->id, ferryboat->id);
+          set_unit_activity(punit, ACTIVITY_SENTRY); /* kinda cheating -- Syela */
+          ferryboat->ai.passenger = punit->id;
+          auto_settler_do_goto(pplayer, ferryboat, gx, gy);
+          set_unit_activity(punit, ACTIVITY_IDLE);
+        } /* need to zero pass & ferryboat at some point. */
+      } else { /* not looking for BOAT */
+       auto_settler_do_goto(pplayer, punit,gx, gy);
+       if (!unit_list_find(&pplayer->units, id)) return; /* died */
+       punit->ai.ferryboat = 0;
+      }
+    }
+  } else punit->ai.control=0;
 
   if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) {
+/* if players can build with 0 moves left, so should the AI */
     if (same_pos(gx, gy, punit->x, punit->y)) {
       if (t == ACTIVITY_UNKNOWN) {
+        remove_city_from_minimap(gx, gy); /* yeah, I know. -- Syela */
         ai_do_build_city(pplayer, punit);
         return(0);
       }
@@ -845,9 +933,7 @@ void auto_settlers_player(struct player *pplayer)
 /* printf("%s's settler at (%d, %d)\n", pplayer->name, punit->x, punit->y); */
     if (punit->ai.control) {
 /* printf("Is ai controlled.\n");*/
-      if(punit->activity == ACTIVITY_SENTRY && 
-	 !map_get_terrain(punit->x, punit->y) == T_OCEAN &&
-	 is_ground_unit(punit))
+      if(punit->activity == ACTIVITY_SENTRY)
 	set_unit_activity(punit, ACTIVITY_IDLE);
       if (punit->activity == ACTIVITY_GOTO && punit->moves_left)
         set_unit_activity(punit, ACTIVITY_IDLE);
