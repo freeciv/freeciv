@@ -200,6 +200,9 @@ typedef enum {
     PNameTooLong
 } PlayerNameStatus;
 
+/**************************************************************************
+...
+**************************************************************************/
 PlayerNameStatus test_player_name(char* name)
 {
   int len = strlen(name);
@@ -223,6 +226,33 @@ void meta_command(char *arg)
   strncpy(metaserver_info_line, arg, 256);
   metaserver_info_line[256-1]='\0';
   send_server_info_to_metaserver(1);
+}
+
+/***************************************************************
+ This could be in common/player if the client ever gets
+ told the ai player skill levels.
+***************************************************************/
+const char *name_of_skill_level(int level)
+{
+  const char *nm[11] = { "default", "UNKNOWN", "UNKNOWN", "easy",
+			 "UNKNOWN", "normal", "UNKNOWN", "hard",
+			 "UNKNOWN", "UNKNOWN", "UNKNOWN" };
+  
+  assert(level>=0 && level<=10);
+  return nm[level];
+}
+
+/***************************************************************
+...
+***************************************************************/
+int handicap_of_skill_level(int level)
+{
+  int h[11] = { 0, 0, 0, H_RATES+H_TARGETS+H_HUTS,
+		0, H_RATES+H_TARGETS+H_HUTS, 0, 0,
+		0, 0, 0 };
+  
+  assert(level>=0 && level<=10);
+  return h[level];
 }
 
 /**************************************************************************
@@ -396,10 +426,6 @@ void report_server_options(struct player *pplayer)
 void set_ai_level(char *name, int level)
 {
   struct player *pplayer;
-  char *nm[11] = { "default", "NONE", "NONE", "easy", "NONE",
-                 "normal", "NONE", "hard", "NONE", "NONE", "NONE" };
-  int h[11] = { 0, 0, 0, H_RATES+H_TARGETS+H_HUTS, 0,
-                H_RATES+H_TARGETS+H_HUTS, 0, 0, 0, 0, 0 };
   int i;
 
   if (test_player_name(name) == PNameTooLong) {
@@ -413,21 +439,25 @@ void set_ai_level(char *name, int level)
 
   if (pplayer) {
     if (pplayer->ai.control) {
-      pplayer->ai.handicap = h[level];
-      printf("%s is now %s.\n", pplayer->name, nm[level]);
+      pplayer->ai.handicap = handicap_of_skill_level(level);
+      pplayer->ai.skill_level = level;
+      printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
     } else {
       printf("%s is not controlled by the AI.\n", pplayer->name);
     }
-  } else {
+  } else if(test_player_name(name) == PNameEmpty) {
     for (i = 0; i < game.nplayers; i++) {
       pplayer = get_player(i);
       if (pplayer->ai.control) {
-        pplayer->ai.handicap = h[level];
-        printf("%s is now %s.\n", pplayer->name, nm[level]);
+        pplayer->ai.handicap = handicap_of_skill_level(level);
+	pplayer->ai.skill_level = level;
+        printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
       }
     }
     printf("Setting game.skill_level to %d.\n", level);
     game.skill_level = level;
+  } else {
+    printf("%s is not the name of any player.\n", name);
   }
 }
 
@@ -666,7 +696,9 @@ void show_players(void)
     else
       aichar = ' ';
     printf("%c%s ", aichar, game.players[i].name);
-    if(game.players[i].conn)
+    if (game.players[i].ai.control)
+      printf("(%s) ", name_of_skill_level(game.players[i].ai.skill_level));
+    if (game.players[i].conn)
       printf("is connected from %s\n", game.players[i].addr); 
     else
       printf("is not connected\n");

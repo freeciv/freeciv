@@ -1047,7 +1047,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   plr->is_alive=secfile_lookup_int(file, "player%d.is_alive", plrno);
   plr->ai.control = secfile_lookup_int(file, "player%d.ai.control", plrno);
   plr->ai.tech_goal = secfile_lookup_int(file, "player%d.ai.tech_goal", plrno);
-  plr->ai.handicap = 0; /* might want to put this in save file?? -- Syela */
+  plr->ai.handicap = 0;		/* set later */
+  plr->ai.skill_level =
+    secfile_lookup_int_default(file, game.skill_level,
+			       "player%d.ai.skill_level", plrno);
   plr->economic.gold=secfile_lookup_int(file, "player%d.gold", plrno);
   plr->economic.tax=secfile_lookup_int(file, "player%d.tax", plrno);
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);
@@ -1241,6 +1244,8 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_int(file, plr->ai.control, "player%d.ai.control", plrno);
   secfile_insert_int(file, plr->ai.tech_goal, "player%d.ai.tech_goal", plrno);
+  secfile_insert_int(file, plr->ai.skill_level,
+		     "player%d.ai.skill_level", plrno);
   secfile_insert_int(file, plr->economic.gold, "player%d.gold", plrno);
   secfile_insert_int(file, plr->economic.tax, "player%d.tax", plrno);
   secfile_insert_int(file, plr->economic.science, "player%d.science", plrno);

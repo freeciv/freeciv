@@ -349,10 +349,10 @@ int main(int argc, char *argv[])
   generate_minimap(); /* for city_desire; saves a lot of calculations */
 
   if (!is_new_game) {
-    set_ai_level("", game.skill_level);
     for (i=0;i<game.nplayers;i++) {
       civ_score(&game.players[i]);  /* if we don't, the AI gets really confused */
       if (game.players[i].ai.control) {
+	set_ai_level(game.players[i].name, game.players[i].ai.skill_level);
         city_list_iterate(game.players[i].cities, pcity)
           assess_danger(pcity); /* a slowdown, but a necessary one */
         city_list_iterate_end;
