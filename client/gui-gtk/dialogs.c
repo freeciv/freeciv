@@ -91,7 +91,7 @@ int race_selected;
 int is_showing_government_dialog;
 
 int is_showing_pillage_dialog = FALSE;
-struct unit *unit_to_use_to_pillage;
+int unit_to_use_to_pillage;
 
 int caravan_city_id;
 int caravan_unit_id;
@@ -1199,9 +1199,12 @@ static void pillage_callback(GtkWidget *w, gpointer data)
   }
 
   if (data) {
-    request_new_unit_activity_targeted (unit_to_use_to_pillage,
-					ACTIVITY_PILLAGE,
-					(int)data);
+    struct unit *punit = find_unit_by_id (unit_to_use_to_pillage);
+    if (punit) {
+      request_new_unit_activity_targeted (punit,
+					  ACTIVITY_PILLAGE,
+					  (int)data);
+    }
   }
 
   destroy_message_dialog (w);
@@ -1218,7 +1221,7 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;
-    unit_to_use_to_pillage = punit;
+    unit_to_use_to_pillage = punit->id;
 
     gtk_widget_set_sensitive (toplevel, FALSE);
 
