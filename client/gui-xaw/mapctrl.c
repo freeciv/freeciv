@@ -314,6 +314,7 @@ void mapctrl_key_city_workers(XEvent *event)
 void mapctrl_btn_overviewcanvas(XEvent *event)
 {
   int xtile, ytile;
+  XButtonEvent *ev = &event->xbutton;
 
   if (!can_client_change_view()) {
     return;
