@@ -1594,7 +1594,7 @@ void srv_main(void)
     }
 
     send_game_state(&game.game_connections, CLIENT_GAME_OVER_STATE);
-    report_scores(TRUE);
+    report_final_scores();
     show_map_to_all();
     notify_player(NULL, _("Game: The game is over..."));
     gamelog(GAMELOG_NORMAL, _("The game is over!"));

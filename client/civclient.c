@@ -478,6 +478,10 @@ void handle_packet_input(void *packet, int type)
     handle_ping_info((struct packet_ping_info *) packet);
     break;
 
+  case PACKET_ENDGAME_REPORT:
+    handle_endgame_report((struct packet_endgame_report *) packet);
+    break;
+    
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     break;

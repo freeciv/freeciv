@@ -2588,6 +2588,14 @@ void handle_sabotage_list(struct packet_sabotage_list *packet)
 }
 
 /**************************************************************************
+ Pass the packet on to be displayed in a gui-specific endgame dialog. 
+**************************************************************************/
+void handle_endgame_report(struct packet_endgame_report *packet)
+{
+  popup_endgame_report_dialog(packet);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_player_attribute_chunk(struct packet_attribute_chunk *chunk)

@@ -3876,7 +3876,7 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_SCORE:
     if (server_state == RUN_GAME_STATE || server_state == GAME_OVER_STATE) {
-      report_scores(FALSE);
+      report_progress_scores();
     } else {
       cmd_reply(cmd, caller, C_SYNTAX,
 		_("The game must be running before you can see the score."));

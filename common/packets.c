@@ -460,7 +460,10 @@ void *get_packet_from_connection(struct connection *pc,
 
   case PACKET_PING_INFO:
     return receive_packet_ping_info(pc);
-
+    
+  case PACKET_ENDGAME_REPORT:
+    return receive_packet_endgame_report(pc);
+    
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));
@@ -3291,6 +3294,68 @@ struct packet_nations_used *receive_packet_nations_used(struct connection
     packet->num_nations_used++;
   }
 
+  RECEIVE_PACKET_END(packet);
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+int send_packet_endgame_report(struct connection *pc, enum packet_type pt,
+			       const struct packet_endgame_report *packet)
+{
+  int i;
+	
+  SEND_PACKET_START(pt);
+
+  dio_put_uint8(&dout, packet->nscores);
+  for (i = 0; i < packet->nscores; i++) {
+    dio_put_uint16(&dout, packet->id[i]);
+    dio_put_uint16(&dout, packet->score[i]);
+    dio_put_uint32(&dout, packet->pop[i]);
+    dio_put_uint16(&dout, packet->bnp[i]);
+    dio_put_uint16(&dout, packet->mfg[i]);
+    dio_put_uint16(&dout, packet->cities[i]);
+    dio_put_uint16(&dout, packet->techs[i]);
+    dio_put_uint16(&dout, packet->mil_service[i]);
+    dio_put_uint8(&dout, packet->wonders[i]);
+    dio_put_uint16(&dout, packet->research[i]);
+    dio_put_uint32(&dout, packet->landarea[i]);
+    dio_put_uint32(&dout, packet->settledarea[i]);
+    dio_put_uint16(&dout, packet->literacy[i]);
+    dio_put_uint8(&dout, packet->spaceship[i]);
+  }
+
+  SEND_PACKET_END;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_endgame_report *
+receive_packet_endgame_report(struct connection *pc)
+{
+  int i;
+	
+  RECEIVE_PACKET_START(packet_endgame_report, packet);
+
+  dio_get_uint8(&din, &packet->nscores);
+  for (i = 0; i < packet->nscores; i++) {
+    dio_get_uint16(&din, &packet->id[i]);
+    dio_get_uint16(&din, &packet->score[i]);
+    dio_get_uint32(&din, &packet->pop[i]);
+    dio_get_uint16(&din, &packet->bnp[i]);
+    dio_get_uint16(&din, &packet->mfg[i]);
+    dio_get_uint16(&din, &packet->cities[i]);
+    dio_get_uint16(&din, &packet->techs[i]);
+    dio_get_uint16(&din, &packet->mil_service[i]);
+    dio_get_uint8(&din, &packet->wonders[i]);
+    dio_get_uint16(&din, &packet->research[i]);
+    dio_get_uint32(&din, &packet->landarea[i]);
+    dio_get_uint32(&din, &packet->settledarea[i]);
+    dio_get_uint16(&din, &packet->literacy[i]);
+    dio_get_uint8(&din, &packet->spaceship[i]);
+  }
+	        
   RECEIVE_PACKET_END(packet);
 }
 

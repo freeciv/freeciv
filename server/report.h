@@ -26,7 +26,8 @@ void report_wonders_of_the_world(struct conn_list *dest);
 void report_top_five_cities(struct conn_list *dest);
 bool is_valid_demography(const char *demographics, char **error_message);
 void report_demographics(struct connection *pconn);
-void report_scores(bool final);
+void report_progress_scores(void);
+void report_final_scores(void);
 
 /* See also report_server_options() in stdinhand.h */
 

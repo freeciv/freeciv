@@ -1070,9 +1070,9 @@ void make_history_report(void)
 }
 
 /**************************************************************************
-...
+ Inform clients about player scores during a game.
 **************************************************************************/
-void report_scores(bool final)
+void report_progress_scores(void)
 {
   int i, j = 0;
   char buffer[4096];
@@ -1101,9 +1101,51 @@ void report_scores(bool final)
   }
   free(size);
   page_conn(&game.game_connections,
-	    final ? _("Final Report:") : _("Progress Scores:"),
+	    _("Progress Scores:"),
 	    _("The Greatest Civilizations in the world."), buffer);
 }
+
+/**************************************************************************
+  Inform clients about player scores and statistics when the game ends.
+**************************************************************************/
+void report_final_scores(void)
+{
+  int i, j = 0;
+  struct player_score_entry *size =
+      fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
+  struct packet_endgame_report packet;
+
+  players_iterate(pplayer) {
+    if (!is_barbarian(pplayer)) {
+      size[j].value = civ_score(pplayer);
+      size[j].player = pplayer;
+      j++;
+    }
+  } players_iterate_end;
+
+  qsort(size, j, sizeof(struct player_score_entry), secompare);
+
+  packet.nscores = j;
+  for (i = 0; i < j; i++) {
+    packet.id[i] = size[i].player->player_no;
+    packet.score[i] = size[i].value;
+    packet.pop[i] = get_pop(size[i].player) * 1000; 
+    packet.bnp[i] = get_economics(size[i].player); 
+    packet.mfg[i] = get_production(size[i].player); 
+    packet.cities[i] = get_cities(size[i].player); 
+    packet.techs[i] = get_techs(size[i].player) - 1; 
+    packet.mil_service[i] = get_mil_service(size[i].player); 
+    packet.wonders[i] = get_wonders(size[i].player); 
+    packet.research[i] = get_research(size[i].player); 
+    packet.landarea[i] = get_landarea(size[i].player); 
+    packet.settledarea[i] = get_settledarea(size[i].player); 
+    packet.literacy[i] = get_literacy(size[i].player); 
+    packet.spaceship[i] = get_spaceship(size[i].player); 
+  }  
+
+  lsend_packet_endgame_report(&game.game_connections,
+                              PACKET_ENDGAME_REPORT, &packet);
+}	
 
 /**************************************************************************
 This function pops up a non-modal message dialog on the player's desktop

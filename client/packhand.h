@@ -60,6 +60,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet);
 void handle_diplomat_action(struct packet_diplomat_action *packet);
 void handle_sabotage_list(struct packet_sabotage_list *packet);
 void handle_player_attribute_chunk(struct packet_attribute_chunk *chunk);
+void handle_endgame_report(struct packet_endgame_report *packet);
 void handle_processing_started(void);
 void handle_processing_finished(void);
 void handle_start_turn(void);

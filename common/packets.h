@@ -133,6 +133,7 @@ enum packet_type {
   PACKET_PING_INFO,
   PACKET_AUTHENTICATION_REQUEST,
   PACKET_AUTHENTICATION_REPLY,
+  PACKET_ENDGAME_REPORT,
   PACKET_LAST  /* leave this last */
 };
 
@@ -974,6 +975,27 @@ struct packet_nations_used {
   Nation_Type_id nations_used[MAX_NUM_PLAYERS];
 };
 
+/*********************************************************
+ This is the endgame report packet.
+*********************************************************/
+struct packet_endgame_report {
+  int nscores;
+  int id[MAX_NUM_PLAYERS];
+  int score[MAX_NUM_PLAYERS];
+  int pop[MAX_NUM_PLAYERS];
+  int bnp[MAX_NUM_PLAYERS];
+  int mfg[MAX_NUM_PLAYERS];
+  int cities[MAX_NUM_PLAYERS];
+  int techs[MAX_NUM_PLAYERS];
+  int mil_service[MAX_NUM_PLAYERS];
+  int wonders[MAX_NUM_PLAYERS];
+  int research[MAX_NUM_PLAYERS];
+  int landarea[MAX_NUM_PLAYERS];
+  int settledarea[MAX_NUM_PLAYERS];
+  int literacy[MAX_NUM_PLAYERS];
+  int spaceship[MAX_NUM_PLAYERS];
+};
+
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 			       const struct packet_diplomacy_info *packet);
 struct packet_diplomacy_info *
@@ -1212,6 +1234,11 @@ int send_packet_nations_used(struct connection *pc,
 			     const struct packet_nations_used *packet);
 struct packet_nations_used *receive_packet_nations_used(struct connection
 							*pc);
+int send_packet_endgame_report(struct connection *pc, enum packet_type pt,
+                               const struct packet_endgame_report *packet);
+struct packet_endgame_report *
+receive_packet_endgame_report(struct connection *pc);
+
 
 #include "packets_lsend.h"		/* lsend_packet_* functions */
 

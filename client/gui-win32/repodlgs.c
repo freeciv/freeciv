@@ -738,3 +738,28 @@ popup_activeunits_report_dialog(bool make_modal)
   activeunits_report_dialog_update();
   ShowWindow(activeunits_dlg,SW_SHOWNORMAL);
 }
+
+/****************************************************************
+  Show a dialog with player statistics at endgame.
+  TODO: Display all statistics in packet_endgame_report.
+*****************************************************************/
+void popup_endgame_report_dialog(struct packet_endgame_report *packet)
+{
+  char buffer[150 * MAX_NUM_PLAYERS];
+  int i;
+ 
+  buffer[0] = '\0';
+  for (i = 0; i < packet->nscores; i++) {
+    cat_snprintf(buffer, sizeof(buffer),
+                 PL_("%2d: The %s ruler %s scored %d point\n",
+                     "%2d: The %s ruler %s scored %d points\n",
+                     packet->score[i]),
+                 i + 1,
+                 get_nation_name(get_player(packet->id[i])->nation),
+                 get_player(packet->id[i])->name,
+                 packet->score[i]);
+  }
+  popup_notify_dialog(_("Final Report:"),
+                      _("The Greatest Civilizations in the world."),
+                      buffer);
+}

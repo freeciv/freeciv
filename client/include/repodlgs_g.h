@@ -13,6 +13,7 @@
 #ifndef FC__REPODLGS_G_H
 #define FC__REPODLGS_G_H
 
+#include "packets.h"         
 #include "shared.h"		/* bool type */
 
 #include "repodlgs_common.h"
@@ -26,5 +27,6 @@ void economy_report_dialog_update(void);
 void popup_economy_report_dialog(bool make_modal);
 void activeunits_report_dialog_update(void);
 void popup_activeunits_report_dialog(bool make_modal);
+void popup_endgame_report_dialog(struct packet_endgame_report *packet);
 
 #endif  /* FC__REPODLGS_G_H */

@@ -86,6 +86,17 @@ static GtkTreeSelection *activeunits_selection;
 static GtkWidget *upgrade_command;
 
 static int activeunits_dialog_shell_is_modal;
+
+/******************************************************************/
+static void create_endgame_report(struct packet_endgame_report *packet);
+static void endgame_destroy_callback(GtkObject *object, gpointer data);
+
+static GtkListStore *scores_store;
+static GtkWidget *endgame_report_shell;
+static GtkWidget *scores_list;
+static GtkWidget *sw;
+
+#define NUM_SCORE_COLS 14                
 /******************************************************************/
 
 /******************************************************************
@@ -1144,3 +1155,144 @@ void activeunits_report_dialog_update(void)
     g_value_unset(&value);
   }
 }
+
+/****************************************************************
+
+                      FINAL REPORT DIALOG
+ 
+****************************************************************/
+
+/****************************************************************
+  Prepare the Final Report dialog, and fill it with 
+  statistics for each player.
+*****************************************************************/
+static void create_endgame_report(struct packet_endgame_report *packet)
+{
+  int i;
+  static bool titles_done;
+  GtkTreeIter it;
+      
+  static char *titles[NUM_SCORE_COLS] = {
+    N_("Player\n"),
+    N_("Score\n"),
+    N_("Population\n"),
+    N_("Trade\n(M goods)"), 
+    N_("Production\n(M tons)"), 
+    N_("Cities\n"),
+    N_("Technologies\n"),
+    N_("Military Service\n(months)"), 
+    N_("Wonders\n"),
+    N_("Research Speed\n(%)"), 
+    N_("Land Area\n(sq. mi.)"), 
+    N_("Settled Area\n(sq. mi.)"), 
+    N_("Literacy\n(%)"), 
+    N_("Spaceship\n")
+  };
+                                                                                
+  static GType model_types[NUM_SCORE_COLS] = {
+    G_TYPE_STRING,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT
+  };
+
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
+  endgame_report_shell = gtk_dialog_new_with_buttons(
+                           _("The Greatest Civilizations in the world."),
+                           NULL, 0,
+                           GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+                           NULL);
+
+  gtk_window_set_default_size(GTK_WINDOW(endgame_report_shell), 700, 420);
+  g_signal_connect(endgame_report_shell, "destroy",
+                   G_CALLBACK(endgame_destroy_callback), NULL);
+  g_signal_connect_swapped(endgame_report_shell, "response",
+                           G_CALLBACK(gtk_widget_destroy), 
+                           GTK_OBJECT(endgame_report_shell));
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(endgame_report_shell),
+                                 GTK_WINDOW(toplevel));
+  }
+    
+  scores_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
+  scores_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scores_store));
+  g_object_unref(scores_store);
+    
+  for (i = 0; i < NUM_SCORE_COLS; i++) {
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *col;
+      
+    renderer = gtk_cell_renderer_text_new();
+    g_object_set(renderer, "weight", "bold", NULL);
+    col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+                                                   "text", i, NULL);
+    gtk_tree_view_column_set_sort_column_id(col, i);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(scores_list), col);
+  }  
+
+  /* Setup the layout. */
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+                                      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+  gtk_container_add(GTK_CONTAINER(sw), scores_list);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(endgame_report_shell)->vbox), sw,
+                     TRUE, TRUE, 0);
+  gtk_widget_show_all(GTK_DIALOG(endgame_report_shell)->vbox);
+  gtk_dialog_set_default_response(GTK_DIALOG(endgame_report_shell),
+                                  GTK_RESPONSE_CLOSE);
+  
+  /* Insert score statistics into table.  */
+  gtk_list_store_clear(scores_store);
+  for (i = 0; i < packet->nscores; i++) {
+    gtk_list_store_append(scores_store, &it);
+    gtk_list_store_set(scores_store, &it,
+                       0, (gchar *)get_player(packet->id[i])->name,
+                       1, packet->score[i],
+                       2, packet->pop[i],
+                       3, packet->bnp[i],
+                       4, packet->mfg[i],
+                       5, packet->cities[i],
+                       6, packet->techs[i],
+                       7, packet->mil_service[i],
+                       8, packet->wonders[i],
+                       9, packet->research[i],
+                       10, packet->landarea[i],
+                       11, packet->settledarea[i],
+                       12, packet->literacy[i],
+                       13, packet->spaceship[i],
+                       -1);
+  }
+}
+
+/**************************************************************************
+  Show a dialog with player statistics at endgame.
+**************************************************************************/
+void popup_endgame_report_dialog(struct packet_endgame_report *packet)
+{
+  if (!endgame_report_shell){
+    create_endgame_report(packet);
+    gtk_set_relative_position(toplevel, endgame_report_shell, 10, 10);
+  }
+  gtk_window_present(GTK_WINDOW(endgame_report_shell));
+}
+
+/**************************************************************************
+  Close the endgame report.
+**************************************************************************/
+static void endgame_destroy_callback(GtkObject *object, gpointer data)
+{
+  endgame_report_shell = NULL;
+}
+

@@ -114,3 +114,6 @@ void lsend_packet_attribute_chunk(struct conn_list *dest,
 void lsend_packet_generic_empty(struct conn_list *dest, enum packet_type type);
 void lsend_packet_nations_used(struct conn_list *dest,
 			     const struct packet_nations_used *packet);
+void lsend_packet_endgame_report(struct conn_list *dest,
+                                 enum packet_type pt,
+                                 const struct packet_endgame_report *packet);
