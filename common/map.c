@@ -425,45 +425,6 @@ bool terrain_is_clean(int x, int y)
 }
 
 /***************************************************************
-  Returns 1 if (x,y) is _not_ a good position to start from;
-  Bad places:
-  - Non-suitable terrain;
-  - On a hut;
-  - On North/South pole continents
-  - Too close to another starter on the same continent:
-  'dist' is too close (real_map_distance)
-  'nr' is the number of other start positions in
-  map.start_positions to check for too closeness.
-***************************************************************/
-bool is_starter_close(int x, int y, int nr, int dist) 
-{
-  int i;
-  enum tile_terrain_type t = map_get_terrain(x, y);
-
-  /* Only start on certain terrain types. */
-  if (!terrain_has_flag(t, TER_STARTER)) {
-    return TRUE;
-  }
-  
-  /* don't start on a hut: */
-  if (map_has_special(x, y, S_HUT))
-    return TRUE;
-  
-  /* Nobody will start on the poles since they aren't valid terrain. */
-
-  /* don't start too close to someone else: */
-  for (i=0;i<nr;i++) {
-    int x1 = map.start_positions[i].x;
-    int y1 = map.start_positions[i].y;
-    if (map_get_continent(x, y) == map_get_continent(x1, y1)
-	&& real_map_distance(x, y, x1, y1) < dist) {
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
-
-/***************************************************************
 ...
 ***************************************************************/
 int is_good_tile(int x, int y)
