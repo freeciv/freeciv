@@ -117,4 +117,10 @@ void reports_freeze_till(int request_id);
 void reports_thaw(void);
 void reports_force_thaw(void);
 
+struct city *get_nearest_city(struct unit *punit, int *sq_dist);
+char *get_nearest_city_text(struct city *pcity, int sq_dist,
+			    char *buf, size_t bufsz);
+
+const char *unit_description(struct unit *punit);
+
 #endif  /* FC__CLIMISC_H */

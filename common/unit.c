@@ -844,25 +844,6 @@ int get_unit_tile_pillage_set(int x, int y)
 /**************************************************************************
  ...
 **************************************************************************/
-const char *unit_description(struct unit *punit)
-{
-  struct city *pcity;
-  static char buffer[512];
-
-  pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
-
-  my_snprintf(buffer, sizeof(buffer), "%s%s\n%s\n%s", 
-	  unit_type(punit)->name, 
-	  punit->veteran ? _(" (veteran)") : "",
-	  unit_activity_text(punit), 
-	  pcity ? pcity->name : "");
-
-  return buffer;
-}
-
-/**************************************************************************
- ...
-**************************************************************************/
 const char *unit_activity_text(struct unit *punit)
 {
   static char text[64];

@@ -1028,3 +1028,99 @@ void reports_force_thaw(void)
   report_dialogs_force_thaw();
   output_window_force_thaw();
 }
+
+/**************************************************************************
+  Find city nearest to given unit and optionally return squared city
+  distance Parameter sq_dist may be NULL. Returns NULL only if no city is
+  known. Favors punit owner's cities over other cities if equally distant.
+**************************************************************************/
+struct city *get_nearest_city(struct unit *punit, int *sq_dist)
+{
+  struct city *pcity_near;
+  int pcity_near_dist;
+
+  if ((pcity_near = map_get_city(punit->x, punit->y))) {
+    pcity_near_dist = 0;
+  } else {
+    pcity_near = NULL;
+    pcity_near_dist = -1;
+    players_iterate(pplayer) {
+      city_list_iterate(pplayer->cities, pcity_current) {
+        int dist = sq_map_distance(pcity_current->x, pcity_current->y,
+				   punit->x, punit->y);
+        if (pcity_near_dist == -1 || dist < pcity_near_dist
+	    || (dist == pcity_near_dist
+		&& punit->owner == pcity_current->owner)) {
+          pcity_near = pcity_current;
+          pcity_near_dist = dist;
+        }
+      } city_list_iterate_end;
+    } players_iterate_end;
+  }
+
+  if (sq_dist) {
+    *sq_dist = pcity_near_dist;
+  }
+
+  return pcity_near;
+}
+
+#define FAR_CITY_SQUARE_DIST (2*(6*6))
+
+/**************************************************************************
+  Fill buf (of size bufsz) with proper nearest city message.
+  Returns buf.
+**************************************************************************/
+char *get_nearest_city_text(struct city *pcity, int sq_dist,
+			    char *buf, size_t bufsz)
+{
+  /* just to be sure */
+  if (!pcity) {
+    sq_dist = -1;
+  }
+
+  my_snprintf(buf, bufsz, 
+	      (sq_dist >= FAR_CITY_SQUARE_DIST) ? _("far from %s")
+	      : (sq_dist > 0) ? _("near %s")
+	      : (sq_dist == 0) ? _("in %s")
+	      : "%s",
+	      pcity ? pcity->name : "");
+
+  return buf;
+}
+
+/**************************************************************************
+  Returns unit description (as static buffer).
+**************************************************************************/
+const char *unit_description(struct unit *punit)
+{
+  struct city *pcity, *pcity_near;
+  int pcity_near_dist;
+  static char buffer[512];
+  char buffer2[64];
+  char buffer3[64];
+  char buffer4[64];
+
+  pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
+  pcity_near = get_nearest_city(punit, &pcity_near_dist);
+
+  if (pcity) {
+    my_snprintf(buffer3, sizeof(buffer3), _("from %s"), pcity->name);
+  } else {
+    buffer3[0] = 0;
+  }
+  if (punit->veteran) {
+    my_snprintf(buffer4, sizeof(buffer4),
+		_("%s (veteran)"), unit_type(punit)->name);
+  } else {
+    sz_strlcpy(buffer4, unit_type(punit)->name);
+  }
+  my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s\n%s", 
+	      buffer4,
+	      unit_activity_text(punit), 
+	      buffer3,
+	      get_nearest_city_text(pcity_near, pcity_near_dist,
+				    buffer2, sizeof(buffer2)));
+
+  return buffer;
+}
