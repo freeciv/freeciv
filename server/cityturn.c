@@ -854,7 +854,7 @@ static void city_increase_size(struct city *pcity)
 		       improvement_types[B_SEWER].name);
     } else {
       notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
-		       "Game: %s needs %s to grow any further.",
+		       _("Game: %s needs %s to grow any further."),
 		       pcity->name, improvement_types[B_SEWER].name);
     }
     /* Granary can only hold so much */
