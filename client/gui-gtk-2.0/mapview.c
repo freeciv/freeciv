@@ -796,7 +796,7 @@ void refresh_overview_canvas(void)
 		       y * 2, 2, 2);
   } whole_map_iterate_end;
 
-  gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_BLACK] );
+  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
 }
 
 
@@ -906,6 +906,7 @@ void refresh_overview_viewrect(void)
 ...
 **************************************************************************/
 static bool map_center = TRUE;
+static bool map_configure = FALSE;
 
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 			      gpointer data)
@@ -933,30 +934,18 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
     gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
     gdk_draw_rectangle(map_canvas_store, fill_bg_gc, TRUE, 0, 0, -1, -1);
     update_map_canvas_scrollbars_size();
+
+    if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+      if (map.xsize) { /* do we have a map at all */
+        update_map_canvas_visible();
+        update_map_canvas_scrollbars();
+        refresh_overview_viewrect();
+      }
+    }
+    
+    map_configure = TRUE;
   }
 
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
-    if (!intro_gfx_sprite) {
-      load_intro_gfx();
-    }
-
-    if (scaled_intro_sprite) {
-      free_sprite(scaled_intro_sprite);
-    }
-
-    scaled_intro_sprite = sprite_scale(intro_gfx_sprite, ev->width, ev->height);
-  } else {
-    if (scaled_intro_sprite) {
-      free_sprite(scaled_intro_sprite);
-      scaled_intro_sprite = NULL;
-    }
-
-    if (map.xsize) { /* do we have a map at all */
-      update_map_canvas_visible();
-      update_map_canvas_scrollbars();
-      refresh_overview_viewrect();
-    }
-  }
   return TRUE;
 }
 
@@ -968,6 +957,20 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
   static bool cleared = FALSE;
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    if (map_configure || !scaled_intro_sprite) {
+
+      if (!intro_gfx_sprite) {
+        load_intro_gfx();
+      }
+
+      if (scaled_intro_sprite) {
+        free_sprite(scaled_intro_sprite);
+      }
+
+      scaled_intro_sprite = sprite_scale(intro_gfx_sprite,
+      	      	      	      	      	 w->allocation.width, w->allocation.height);
+    }
+
     if (scaled_intro_sprite) {
       gdk_draw_pixmap(map_canvas->window, civ_gc,
 		      scaled_intro_sprite->pixmap,
@@ -984,6 +987,11 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
   }
   else
   {
+    if (scaled_intro_sprite) {
+      free_sprite(scaled_intro_sprite);
+      scaled_intro_sprite = NULL;
+    }
+
     if (map.xsize) { /* do we have a map at all */
       gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
 		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
@@ -1003,6 +1011,8 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
       map_center = FALSE;
     }
   }
+
+  map_configure = FALSE;
 
   return TRUE;
 }
@@ -1846,7 +1856,7 @@ void draw_segment(int src_x, int src_y, int dir)
     if (get_drawn(src_x, src_y, dir) > 1) {
       return;
     } else {
-      really_draw_segment(src_x, src_y, dir, FALSE, TRUE);
+      really_draw_segment(src_x, src_y, dir, TRUE, FALSE);
     }
   } else {
     int dest_x, dest_y, is_real;
@@ -2182,9 +2192,11 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     }
 
     /*** Dither base terrain ***/
+/* Remove until fix. -vasc
     if (draw_terrain)
       dither_tile(pm, dither, canvas_x, canvas_y,
 		  offset_x, offset_y, width, height, fog);
+*/
   }
 
   /*** Rest of terrain and specials ***/
