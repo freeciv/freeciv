@@ -170,28 +170,25 @@ no map visibility check here!
 ***************************************************************/
 int player_can_see_unit(struct player *pplayer, struct unit *punit)
 {
-  if(punit->owner==pplayer->player_no)
+  if (punit->owner==pplayer->player_no)
     return 1;
-  if(is_hiding_unit(punit)) {
+  if (is_hiding_unit(punit)) {
     /* Search for units/cities that might be able to see the sub/missile */
-    int x, y;
     struct city *pcity;
-    struct unit *punit2;
-    for(y=punit->y-1; y<=punit->y+1; ++y) { 
-      if(y<0 || y>=map.ysize)
-	continue;
-      for(x=punit->x-1; x<=punit->x+1; ++x) { 
-	if((punit2=unit_list_get(&map_get_tile(x, y)->units, 0)) &&
-	   punit2->owner == pplayer->player_no ) return 1;
-
-	if((pcity=map_get_city(x, y)) && pcity->owner==pplayer->player_no)
+    square_iterate(punit->x, punit->y, 1, x, y) {
+      unit_list_iterate(map_get_tile(x, y)->units, punit2) {
+	if (punit2->owner == pplayer->player_no)
 	  return 1;
-      }
-    }
+      } unit_list_iterate_end;
+
+      pcity = map_get_city(x, y);
+      if (pcity && pcity->owner == pplayer->player_no)
+	return 1;
+    } square_iterate_end;
     return 0;
+  } else {
+    return 1;
   }
-  
-  return 1;
 }
 
 /***************************************************************
