@@ -1,0 +1,45 @@
+Freeciv Rulesets
+================
+
+Stand: 23.06.01
+
+Anmerkungen zum deutschen Text:
+- Es handelt sich NICHT um eine ‹bersetzung, sondern um eine
+  kurze ‹bersicht!
+- Wenn Sie Rulesets ‰ndern wollen, lesen Sie vorher README.rulesets im
+  Stammverzeichnis! Wenn Sie die englische Sprache daf¸r nicht gut genug
+  beherrschen, sollten Sie auf den Versuch verzichten!
+
+‹bersicht
+---------
+Rulesets sind Dateien mit Definitionen. Durch ƒnderungen in diesen Dateien
+ist es mˆglich, die Spielregeln ("rules") zu ‰ndern, ohne das Spiel neu
+kompilieren zu m¸ssen. Trotzdem wirken sich diese ƒnderungen ¸ber ein ganzes
+Netzwerk und auch f¸r gespeicherte Spiele aus. Zur Zeit gibt es die
+folgenden "Regelwerke":
+
+  buildings.ruleset		# Stadterweiterungen und Weltwunder
+  cities.ruleset		# Aussehen der St‰dte
+  game.ruleset			# Verschiedenes
+  governments.ruleset		# Regierungsformen
+  nations.ruleset		# Nationen
+  techs.ruleset			# Erfindungen (technischer Fortschritt)
+  terrain.ruleset		# Gel‰ndeformen
+  units.ruleset			# Einheiten
+
+Jedes Ruleset kann mit dem Serverbefehl "set [RULESET] [/Pfad/Datei]"
+ausgetauscht werden.
+
+- Sie brauchen nichts zu ‰ndern, um Freeciv mit Standardregeln zu spielen.
+
+- Wenn Sie Freeciv mehr nach Civ1-Regeln spielen wollen, starten Sie den
+  Server mit
+
+	> civserver -r [DATADIR]/civ1.ser [...]
+
+  [DATADIR] ist abh‰ngig von Ihrer Konfiguration, standardm‰ﬂig wird
+  /usr/local/share/freeciv verwendet.
+
+- Bitte beachten Sie, daﬂ die KI auf die Standardregeln abgestimmt ist
+  und mit (stark) ge‰nderten Regeln wahrscheinlich nicht zurechtkommen
+  wird.
