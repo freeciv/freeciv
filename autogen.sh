@@ -165,7 +165,10 @@ if [ "$FC_USE_NLS" = "yes" ]; then
     echo "You may want to use --disable-nls to disable NLS."
     echo "This will also remove the dependency for xgettext and msgfmt."
     DIE=1
-  fi    
+  fi
+  # duplicate this language since the language code changed, but many
+  # distros lag behind in updating it
+  cp po/no.po po/nb.po
 fi
 
 if [ "$DIE" -eq 1 ]; then
