@@ -39,7 +39,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.12.0\n"
-"POT-Creation-Date: 2001-08-08 13:14+0200\n"
+"POT-Creation-Date: 2001-08-10 13:52+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -720,8 +720,8 @@ msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da Kenntnisse "
-"über %s fehlen. Auftrag zurück gestellt."
+"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da Kenntnisse über %s "
+"fehlen. Auftrag zurück gestellt."
 
 #: server/cityturn.c:1196
 #, c-format

@@ -25,16 +25,16 @@
 #define MAJOR_VERSION		1
 #endif
 #ifndef MINOR_VERSION
-#define MINOR_VERSION		11
+#define MINOR_VERSION		12
 #endif
 #ifndef PATCH_VERSION
-#define PATCH_VERSION		13
+#define PATCH_VERSION		0
 #endif
 #ifndef VERSION_LABEL
-#define VERSION_LABEL		"-devel"
+#define VERSION_LABEL		""
 #endif
 #ifndef IS_DEVEL_VERSION
-#define IS_DEVEL_VERSION	1
+#define IS_DEVEL_VERSION	0
 #endif
 #ifndef IS_BETA_VERSION
 #define IS_BETA_VERSION		0
