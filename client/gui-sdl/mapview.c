@@ -413,7 +413,8 @@ int correction_map_pos(int *pCol, int *pRow)
 void set_indicator_icons(int bulb, int sol, int flake, int gov)
 {
   struct GUI *pBuf = NULL;
-
+  char cBuf[128];
+  
   bulb = CLIP(0, bulb, NUM_TILES_PROGRESS - 1);
   sol = CLIP(0, sol, NUM_TILES_PROGRESS - 1);
   flake = CLIP(0, flake, NUM_TILES_PROGRESS - 1);
@@ -421,18 +422,19 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   pBuf->theme = GET_SURF(sprites.warming[sol]);
   redraw_label(pBuf);
-  sdl_dirty_rect(pBuf->size);
-  
+    
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
   pBuf->theme = GET_SURF(sprites.cooling[flake]);
   redraw_label(pBuf);
-  sdl_dirty_rect(pBuf->size);
-  
+    
   putframe(pBuf->dst, pBuf->size.x - pBuf->size.w - 1,
 	   pBuf->size.y - 1,
 	   pBuf->size.x + pBuf->size.w,
 	   pBuf->size.y + pBuf->size.h,
 	   SDL_MapRGB(pBuf->dst->format, 255, 255, 255));
+	   
+  dirty_rect(pBuf->size.x - pBuf->size.w - 1, pBuf->size.y - 1,
+	      2 * pBuf->size.w + 2, 2 * pBuf->size.h + 2);
 
   if (SDL_Client_Flags & CF_REVOLUTION) {
     struct Sprite *sprite = NULL;
@@ -445,6 +447,14 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 
     pBuf = get_revolution_widget();
     set_new_icon2_theme(pBuf, GET_SURF(sprite), FALSE);
+    
+    my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"),
+    				get_gov_pplayer(game.player_ptr)->name);
+    FREE(pBuf->string16->text);
+    pBuf->string16->text = convert_to_utf16(cBuf);
+    
+    redraw_widget(pBuf);
+    sdl_dirty_rect(pBuf->size);
     SDL_Client_Flags &= ~CF_REVOLUTION;
   }
 
@@ -470,7 +480,19 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   }
   
   pBuf = get_research_widget();
-  set_new_icon2_theme(pBuf,GET_SURF(sprites.bulb[bulb]), FALSE);
+  
+  my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
+	      	get_tech_name(game.player_ptr,
+			    game.player_ptr->research.researching),
+	      	game.player_ptr->research.bulbs_researched,
+  		total_bulbs_required(game.player_ptr));
+
+  FREE(pBuf->string16->text);
+  pBuf->string16->text = convert_to_utf16(cBuf);
+  
+  set_new_icon2_theme(pBuf, GET_SURF(sprites.bulb[bulb]), FALSE);
+  redraw_widget(pBuf);
+  sdl_dirty_rect(pBuf->size);
   
 }
 
@@ -2035,10 +2057,7 @@ void draw_unit_animation_frame(struct unit *punit,
 			       int old_canvas_x, int old_canvas_y,
 			       int new_canvas_x, int new_canvas_y)
 {
-  SDL_Rect src =
-      {old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT};
-  SDL_Rect dest =
-      {new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT};
+  static SDL_Rect dst, dest;
   static SDL_Surface *pMap_Copy, *pUnit_Surf;
 
   if (first_frame) {
@@ -2054,26 +2073,38 @@ void draw_unit_animation_frame(struct unit *punit,
   }
   else
   {
-    /* Clear old sprite. */
-    SDL_BlitSurface(pMap_Copy, NULL, Main.map, &src);
-    sdl_dirty_rect(src);
+    /* Clear old sprite area. */
+    dst.x = old_canvas_x;
+    dst.y = old_canvas_y;
+    dst.w = UNIT_TILE_WIDTH;
+    dst.h = UNIT_TILE_HEIGHT;
+    SDL_BlitSurface(pMap_Copy, NULL, Main.map, &dst);
+    sdl_dirty_rect(dst);
   }
   
-  /* Draw the new sprite. */
-  SDL_BlitSurface(Main.map, &dest, pMap_Copy, NULL);
+  dest.x = new_canvas_x;
+  dest.y = new_canvas_y;
+  dest.w = UNIT_TILE_WIDTH;
+  dest.h = UNIT_TILE_HEIGHT;
+  dst = dest;
+      
+  /* Save new background. */
+  SDL_BlitSurface(Main.map, &dst, pMap_Copy, NULL);
 
+  /* draw focus animation frame */
   if(is_isometric && (SDL_Client_Flags & CF_FOCUS_ANIMATION)) {
-    /* draw animation frame */
     dest.y += HALF_NORMAL_TILE_HEIGHT;
-    SDL_BlitSurface(pAnim->Focus[frame++], NULL, Main.map, &dest);
+    dst = dest;
+    SDL_BlitSurface(pAnim->Focus[frame++], NULL, Main.map, &dst);
     dest.y -= HALF_NORMAL_TILE_HEIGHT;
   }
   
-  SDL_BlitSurface(pUnit_Surf, NULL, Main.map, &dest);
-  sdl_dirty_rect(dest);
+  /* Draw the new sprite. */
+  dst = dest;
+  SDL_BlitSurface(pUnit_Surf, NULL, Main.map, &dst);
+  sdl_dirty_rect(dst);
 
   /* Write to screen. */
-  
   flush_dirty();
   
   if(frame > 3) {

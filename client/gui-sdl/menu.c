@@ -164,7 +164,7 @@ static int unit_order_callback(struct GUI *pOrder_Widget)
     popup_goto_dialog();
     break;
   case ID_UNIT_ORDER_AIRLIFT:
-    /*      popup_goto_dialog(); */
+    popup_airlift_dialog();
     break;
   case ID_UNIT_ORDER_RETURN:
     request_unit_return(pUnit);
@@ -971,7 +971,7 @@ void update_menus(void)
 	set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_FORTRESS)) {
+      if (!pTile->city && can_unit_do_activity(pUnit, ACTIVITY_FORTRESS)) {
 	local_show(ID_UNIT_ORDER_FORTRESS);
       } else {
 	local_hide(ID_UNIT_ORDER_FORTRESS);
@@ -983,7 +983,7 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_FORTIFY);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_AIRBASE)) {
+      if (!pTile->city && can_unit_do_activity(pUnit, ACTIVITY_AIRBASE)) {
 	local_show(ID_UNIT_ORDER_AIRBASE);
       } else {
 	local_hide(ID_UNIT_ORDER_AIRBASE);
@@ -1088,7 +1088,7 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_NUKE);
       }
 
-      if (pTile->city && has_city_airport(pTile->city)) {
+      if (pTile->city && has_city_airport(pTile->city) && pTile->city->airlift) {
 	local_show(ID_UNIT_ORDER_AIRLIFT);
 	hide(ID_UNIT_ORDER_GOTO_CITY);
       } else {

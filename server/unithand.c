@@ -1152,82 +1152,198 @@ bool handle_unit_establish_trade(struct player *pplayer,
 				 struct packet_unit_request *req)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+  struct city *pcity_out_of_home = NULL, *pcity_out_of_dest = NULL;
   struct city *pcity_homecity, *pcity_dest = find_city_by_id(req->city_id);
-  int revenue;
+  int revenue, i;
+  bool home_full = FALSE, dest_full = FALSE, can_establish;
   
-  if (!punit || !unit_flag(punit, F_TRADE_ROUTE) || !pcity_dest) {
+  if (!punit || !pcity_dest || !unit_flag(punit, F_TRADE_ROUTE)) {
     return FALSE;
   }
 
   pcity_homecity = player_find_city_by_id(pplayer, punit->homecity);
-  if (!pcity_homecity) {
+  if (!pcity_homecity || pcity_homecity == pcity_dest) {
     return FALSE;
   }
     
   if (!is_tiles_adjacent(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
-      && !same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y))
+      && !same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)) {
     return FALSE;
+  }
 
   if (!(same_pos(punit->x, punit->y, pcity_dest->x, pcity_dest->y)
-	|| try_move_unit(punit, pcity_dest->x, pcity_dest->y)))
+	|| try_move_unit(punit, pcity_dest->x, pcity_dest->y))) {
     return FALSE;
+  }
 
-  if (!can_establish_trade_route(pcity_homecity, pcity_dest)) {
-    int i;
-    notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		     _("Game: Sorry, your %s cannot establish"
-		       " a trade route here!"),
-		     unit_name(punit->type));
-    for (i = 0; i < NUM_TRADEROUTES; i++) {
-      if (pcity_homecity->trade[i]==pcity_dest->id) {
-	notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		      _("      A traderoute already exists between %s and %s!"),
-		      pcity_homecity->name, pcity_dest->name);
-	return FALSE;
-      }
-    }
-    if (city_num_trade_routes(pcity_homecity) == NUM_TRADEROUTES) {
-      notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       _("      The city of %s already has %d "
-			 "trade routes!"), pcity_homecity->name,
-		       NUM_TRADEROUTES);
-      return FALSE;
-    }
-    if (city_num_trade_routes(pcity_dest) == NUM_TRADEROUTES) {
-      notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		       _("      The city of %s already has %d "
-			 "trade routes!"), pcity_dest->name,
-		       NUM_TRADEROUTES);
-      return FALSE;
-    }
+  if (!can_cities_trade(pcity_homecity, pcity_dest)) {
     return FALSE;
   }
   
-  revenue = establish_trade_route(pcity_homecity, pcity_dest);
+  /* This part of code works like can_establish_trade_route, except that
+   * we actually do the action of making the trade route. */
+
+  /* If we can't make a new trade route we can still get the trade bonus. */
+  can_establish = !have_cities_trade_route(pcity_homecity, pcity_dest);
+    
+  if (can_establish) {
+    home_full = (city_num_trade_routes(pcity_homecity) == NUM_TRADEROUTES);
+    dest_full = (city_num_trade_routes(pcity_dest) == NUM_TRADEROUTES);
+  }
+  
+  if (home_full || dest_full) {
+    int slot, trade = trade_between_cities(pcity_homecity, pcity_dest);
+
+    /* See if there's a trade route we can cancel at the home city. */
+    if (home_full) {
+      if (get_city_min_trade_route(pcity_homecity, &slot) < trade) {
+	pcity_out_of_home = find_city_by_id(pcity_homecity->trade[slot]);
+	assert(pcity_out_of_home != NULL);
+      } else {
+	notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		     _("Game: Sorry, your %s cannot establish"
+		       " a trade route here!"), unit_name(punit->type));
+        notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		       _("      The city of %s already has %d "
+			 "better trade routes!"), pcity_homecity->name,
+		       NUM_TRADEROUTES);
+	can_establish = FALSE;
+      }
+    }
+    
+    /* See if there's a trade route we can cancel at the dest city. */
+    if (can_establish && dest_full) {
+      if (get_city_min_trade_route(pcity_dest, &slot) < trade) {
+	pcity_out_of_dest = find_city_by_id(pcity_dest->trade[slot]);
+	assert(pcity_out_of_dest != NULL);
+      } else {
+	notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		     _("Game: Sorry, your %s cannot establish"
+		       " a trade route here!"), unit_name(punit->type));
+        notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
+		       _("      The city of %s already has %d "
+			 "better trade routes!"), pcity_dest->name,
+		       NUM_TRADEROUTES);
+	can_establish = FALSE;
+      }
+    }
+
+    /* Now cancel the trade route from the home city. */
+    if (can_establish && pcity_out_of_home) {
+      remove_trade_route(pcity_homecity, pcity_out_of_home);
+      notify_player_ex(city_owner(pcity_out_of_home),
+		       pcity_out_of_home->x, pcity_out_of_home->y, E_NOEVENT,
+		       _("Game: Sorry, %s has canceled the trade route "
+			 "from %s to your city %s."),
+		       city_owner(pcity_homecity)->name,
+		       pcity_homecity->name, pcity_out_of_home->name);
+    }
+
+    /* And the same for the dest city. */
+    if (can_establish && pcity_out_of_dest) {
+      remove_trade_route(pcity_dest, pcity_out_of_dest);
+      notify_player_ex(city_owner(pcity_out_of_dest),
+		       pcity_out_of_dest->x, pcity_out_of_dest->y, E_NOEVENT,
+		       _("Game: Sorry, %s has canceled the trade route "
+			 "from %s to your city %s."),
+		       city_owner(pcity_dest)->name,
+		       pcity_dest->name, pcity_out_of_dest->name);
+    }
+  }
+  
+  revenue = get_caravan_enter_city_trade_bonus(pcity_homecity, pcity_dest);
+  if (can_establish) {
+    /* establish traderoute */
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
+      if (pcity_homecity->trade[i] == 0) {
+        pcity_homecity->trade[i] = pcity_dest->id;
+        break;
+      }
+    }
+    assert(i < NUM_TRADEROUTES);
+  
+    for (i = 0; i < NUM_TRADEROUTES; i++) {
+      if (pcity_dest->trade[i] == 0) {
+        pcity_dest->trade[i] = pcity_homecity->id;
+        break;
+      }
+    }
+    assert(i < NUM_TRADEROUTES);
+  } else {
+    /* enter marketplace */
+    revenue = (revenue + 2) / 3;
+  }
+  
   conn_list_do_buffer(&pplayer->connections);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		   _("Game: Your %s from %s has arrived in %s,"
-		   " and revenues amount to %d in gold and research."), 
+		     " and revenues amount to %d in gold and research."), 
 		   unit_name(punit->type), pcity_homecity->name,
 		   pcity_dest->name, revenue);
   wipe_unit(punit);
-  pplayer->economic.gold+=revenue;
+  pplayer->economic.gold += revenue;
   update_tech(pplayer, revenue);
+  
+  if (can_establish) {
+    /* Refresh the cities. */
+    city_refresh(pcity_homecity);
+    city_refresh(pcity_dest);
+    if (pcity_out_of_home) {
+      city_refresh(pcity_out_of_home);
+    }
+    if (pcity_out_of_dest) {
+      city_refresh(pcity_out_of_dest);
+    }
+  
+    /* Notify the owners of the cities. */
+    send_city_info(pplayer, pcity_homecity);
+    send_city_info(city_owner(pcity_dest), pcity_dest);
+    if(pcity_out_of_home) {
+      send_city_info(city_owner(pcity_out_of_home), pcity_out_of_home);
+    }
+    if(pcity_out_of_dest) {
+      send_city_info(city_owner(pcity_out_of_dest), pcity_out_of_dest);
+    }
+
+    /* Notify each player about the other cities so that they know about
+     * the tile_trade value. */
+    if (pplayer != city_owner(pcity_dest)) {
+      send_city_info(city_owner(pcity_dest), pcity_homecity);
+      send_city_info(pplayer, pcity_dest);
+    }
+
+    if (pcity_out_of_home) {
+      if (city_owner(pcity_dest) != city_owner(pcity_out_of_home)) {
+        send_city_info(city_owner(pcity_dest), pcity_out_of_home);
+	 send_city_info(city_owner(pcity_out_of_home), pcity_dest);
+      }
+      if (pplayer != city_owner(pcity_out_of_home)) {
+        send_city_info(pplayer, pcity_out_of_home);
+	 send_city_info(city_owner(pcity_out_of_home), pcity_homecity);
+      }
+      if (pcity_out_of_dest && city_owner(pcity_out_of_home) !=
+					city_owner(pcity_out_of_dest)) {
+	 send_city_info(city_owner(pcity_out_of_home), pcity_out_of_dest);
+      }
+    }
+
+    if (pcity_out_of_dest) {
+      if (city_owner(pcity_dest) != city_owner(pcity_out_of_dest)) {
+        send_city_info(city_owner(pcity_dest), pcity_out_of_dest);
+	 send_city_info(city_owner(pcity_out_of_dest), pcity_dest);
+      }
+      if (pplayer != city_owner(pcity_out_of_dest)) {
+	 send_city_info(pplayer, pcity_out_of_dest);
+	 send_city_info(city_owner(pcity_out_of_dest), pcity_homecity);
+      }
+      if (pcity_out_of_home && city_owner(pcity_out_of_home) !=
+					city_owner(pcity_out_of_dest)) {
+	 send_city_info(city_owner(pcity_out_of_dest), pcity_out_of_home);
+      }
+    }
+  }
+  
   send_player_info(pplayer, pplayer);
-  city_refresh(pcity_homecity);
-  city_refresh(pcity_dest);
-
-  /* Notify the owners of the city. */
-  send_city_info(pplayer, pcity_homecity);
-  send_city_info(city_owner(pcity_dest), pcity_dest);
-
-  /* 
-   * Notify the players about the other city so that they get the
-   * tile_trade value.
-   */
-  send_city_info(city_owner(pcity_dest), pcity_homecity);
-  send_city_info(pplayer, pcity_dest);
-
   conn_list_do_unbuffer(&pplayer->connections);
   return TRUE;
 }

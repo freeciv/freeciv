@@ -1228,7 +1228,7 @@ void popup_caravan_dialog(struct unit *punit,
 			   caravan_keep_moving_callback, 0, 0,
 			   NULL);
   
-  if(!can_establish_trade_route(phomecity, pdestcity))
+  if (!can_cities_trade(phomecity, pdestcity))
     XtSetSensitive(XtNameToWidget(caravan_dialog, "*button0"), FALSE);
   
   if(!unit_can_help_build_wonder(punit, pdestcity))

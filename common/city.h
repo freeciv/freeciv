@@ -396,10 +396,14 @@ bool is_worker_here(struct city *pcity, int city_x, int city_y);
 bool city_can_be_built_here(int x, int y);
 
 /* trade functions */
+bool can_cities_trade(struct city *pc1, struct city *pc2);
 bool can_establish_trade_route(struct city *pc1, struct city *pc2);
+bool have_cities_trade_route(struct city *pc1, struct city *pc2);
 int trade_between_cities(struct city *pc1, struct city *pc2);
 int city_num_trade_routes(struct city *pcity);
-
+int get_caravan_enter_city_trade_bonus(struct city *pc1, struct city *pc2);
+int get_city_min_trade_route(struct city *pcity, int *slot);
+  
 /* list functions */
 struct city *city_list_find_id(struct city_list *This, int id);
 struct city *city_list_find_name(struct city_list *This, const char *name);

@@ -2477,7 +2477,9 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
        players_iterate(aplayer) {
          if (pplayers_at_war(pplayer, aplayer)) continue;
          city_list_iterate(pplayer->cities,pdest) {
-           if (pcity && can_establish_trade_route(pcity, pdest)
+           if (pcity
+	       && can_cities_trade(pcity, pdest)
+	       && can_establish_trade_route(pcity, pdest)
                && map_get_continent(pcity->x, pcity->y) 
                                 == map_get_continent(pdest->x, pdest->y)) {
              tradeval=trade_between_cities(pcity, pdest);

@@ -1993,7 +1993,6 @@ void popup_economy_report_dialog(bool make_modal)
         set_wflag(pBuf, WF_HIDDEN);
       }
       
-    
     }
   
     FREESTRING16(pStr);
@@ -2447,22 +2446,11 @@ static void disable_science_dialog(void)
 **************************************************************************/
 void science_dialog_update(void)
 {
-  char cBuf[128];
-  int cost = total_bulbs_required(game.player_ptr);
-  struct GUI *pWindow = get_research_widget();
-
-  my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
-	      get_tech_name(game.player_ptr,
-			    game.player_ptr->research.researching),
-	      game.player_ptr->research.bulbs_researched, cost);
-
-  FREE(pWindow->string16->text);
-  pWindow->string16->text = convert_to_utf16(cBuf);
-  
   if(pScienceDlg && !is_report_dialogs_frozen()) {
+    char cBuf[128];
     SDL_String16 *pStr;
     SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
-    int step, i;
+    int step, i, cost = total_bulbs_required(game.player_ptr);
     SDL_Rect dest, src;
     SDL_Color color;
     struct impr_type *pImpr;
@@ -2470,7 +2458,7 @@ void science_dialog_update(void)
     int turns_to_advance, turns_to_next_tech, steps;
     int curent_output = 0;
           
-    pWindow = pScienceDlg->pEndWidgetList;
+    struct GUI *pWindow = pScienceDlg->pEndWidgetList;
     color = *get_game_colorRGB(COLOR_STD_WHITE);
       
     if(game.player_ptr->research.researching != A_FUTURE) {
@@ -2536,7 +2524,6 @@ void science_dialog_update(void)
 
     dest.y += pSurf->h + 2;
     FREESURFACE(pSurf);
-
 
     /* ------------------------------------- */
     dest.x = pWindow->prev->size.x;
@@ -2791,7 +2778,8 @@ static int change_research(struct GUI *pWidget)
 
   if (!is_future_tech(game.player_ptr->research.researching)) {
     for (i = A_FIRST; i < game.num_tech_types; i++) {
-      if (get_invention(game.player_ptr, i) != TECH_REACHABLE) {
+      if (!tech_is_available(game.player_ptr, i)
+	 || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
 	continue;
       }
       

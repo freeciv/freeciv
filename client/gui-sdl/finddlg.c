@@ -143,8 +143,8 @@ void popup_find_dialog(void)
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   		(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
-  SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
+  SDL_SetColorKey(pBuf->theme,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   
   w += pBuf->size.w + 10;
   pBuf->action = exit_find_city_dlg_callback;
@@ -169,11 +169,16 @@ void popup_find_dialog(void)
         pLogo = GET_SURF(get_nation_by_idx(
 			get_player(pCity->owner)->nation)->flag_sprite);
         pLogo = make_flag_surface_smaler(pLogo);
-        owner = pCity->owner;
       }
+      
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
     	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    
+      
+      if(pCity->owner != owner) {
+        set_wflag(pBuf, WF_FREE_THEME);
+        owner = pCity->owner;
+      }
+      
       pBuf->string16->style &= ~SF_CENTER;
       pBuf->string16->forecol =
 	    *(get_game_colorRGB(player_color(get_player(pCity->owner))));
@@ -183,7 +188,7 @@ void popup_find_dialog(void)
       pBuf->data.city = pCity;
   
       pBuf->action = find_city_callback;
-      set_wstate(pBuf , FC_WS_NORMAL);
+      set_wstate(pBuf, FC_WS_NORMAL);
   
       add_to_gui_list(ID_LABEL , pBuf);
     

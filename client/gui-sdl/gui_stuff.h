@@ -170,7 +170,8 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, SDL_bool transp,
 void init_gui_list(Uint16 ID, struct GUI *pGUI);
 void add_to_gui_list(Uint16 ID, struct GUI *pGUI);
 void del_widget_pointer_from_gui_list(struct GUI *pGUI);
-
+void DownAdd(struct GUI *pNew_Widget, struct GUI *pAdd_Dock);
+  
 bool is_this_widget_first_on_list(struct GUI *pGUI);
 void move_widget_to_front_of_gui_list(struct GUI *pGUI);
 
@@ -417,7 +418,12 @@ do {								\
     FREESURFACE(pGUI->gfx);					\
   }								\
   if ((get_wflags(pGUI) & WF_FREE_THEME) == WF_FREE_THEME) {	\
-    FREESURFACE(pGUI->theme);					\
+    if (get_wtype(pGUI) == WT_CHECKBOX) {			\
+      FREESURFACE(pGUI->data.cbox->pTRUE_Theme);		\
+      FREESURFACE(pGUI->data.cbox->pFALSE_Theme);		\
+    } else {							\
+      FREESURFACE(pGUI->theme);				\
+    }								\
   }								\
   if ((get_wflags(pGUI) & WF_FREE_DATA) == WF_FREE_DATA) {	\
     FREE(pGUI->data.ptr);					\
@@ -470,7 +476,7 @@ do {									\
 #define set_key(ID, keyb)	\
 	get_widget_pointer_form_main_list(ID)->key = keyb
 
-#define set_mod(ID, mod )	\
+#define set_mod(ID, mod)	\
 	get_widget_pointer_form_main_list(ID)->mod = mod
 
 #define enable(ID)						\

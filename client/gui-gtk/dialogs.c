@@ -1147,6 +1147,7 @@ void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity)
 {
   char buf[128];
+  bool can_establish, can_trade;
   
   my_snprintf(buf, sizeof(buf),
 	      _("Your caravan from %s reaches the city of %s.\nWhat now?"),
@@ -1155,15 +1156,20 @@ void popup_caravan_dialog(struct unit *punit,
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
   
+  can_trade = can_cities_trade(phomecity, pdestcity);
+  can_establish = can_trade
+		 && can_establish_trade_route(phomecity, pdestcity);
+  
   caravan_dialog = popup_message_dialog(top_vbox,
 					_("Your Caravan Has Arrived"), buf,
 					caravan_close_callback, NULL,
-			   _("Establish _Traderoute"),caravan_establish_trade_callback, 0,
+			   (can_establish ? _("Establish _Traderoute") :
+  			   _("Enter Marketplace")),caravan_establish_trade_callback, 0,
 			   _("Help build _Wonder"),caravan_help_build_wonder_callback, 0,
 			   _("_Keep moving"),NULL, 0,
 			   0);
   
-  if (!can_establish_trade_route(phomecity, pdestcity)) {
+  if (!can_trade) {
     message_dialog_button_set_sensitive(caravan_dialog, "button0", FALSE);
   }
   

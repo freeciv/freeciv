@@ -1102,8 +1102,8 @@ void Init_MapView(void)
   pResearch_Button = pBuf;
 
   /* revolution button */
-  pBuf = create_icon2(NULL, Main.gui, WF_FREE_GFX | WF_FREE_THEME
-						  | WF_WIDGET_HAS_INFO_LABEL);
+  pBuf = create_icon2(NULL, Main.gui, (WF_FREE_GFX | WF_FREE_THEME
+						 | WF_WIDGET_HAS_INFO_LABEL));
   pBuf->string16 = create_str16_from_char(_("Revolution (Shift + R)"), 12);
   pBuf->size.w = 19;
   pBuf->size.h = 24;

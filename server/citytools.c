@@ -59,7 +59,6 @@ static char *search_for_city_name(int x, int y, struct city_name *city_names,
 				  struct player *pplayer);
 static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 				 enum city_tile_type type);
-static void remove_trade_route(struct city *pc1, struct city *pc2);
 static bool update_city_tile_status(struct city *pcity, int city_x,
 				    int city_y);
 
@@ -1696,9 +1695,9 @@ void reality_check_city(struct player *pplayer,int x, int y)
 }
 
 /**************************************************************************
-...
+  Remove the trade route between pc1 and pc2 (if one exists).
 **************************************************************************/
-static void remove_trade_route(struct city *pc1, struct city *pc2)
+void remove_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
 
@@ -1713,13 +1712,34 @@ static void remove_trade_route(struct city *pc1, struct city *pc2)
 }
 
 /**************************************************************************
-Establish a trade route, notice that there has to be space for them, 
-So use can_establish_Trade_route first.
-returns the revenue aswell.
+  Remove/cancel the city's least valuable trade route.
 **************************************************************************/
-int establish_trade_route(struct city *pc1, struct city *pc2)
+static void remove_smallest_trade_route(struct city *pcity)
 {
-  int i, tb;
+  int slot;
+
+  if (get_city_min_trade_route(pcity, &slot) <= 0) {
+    return;
+  }
+
+  remove_trade_route(pcity, find_city_by_id(pcity->trade[slot]));
+}
+
+/**************************************************************************
+  Establish a trade route.  Notice that there has to be space for them, 
+  so you should check can_establish_trade_route first.
+**************************************************************************/
+void establish_trade_route(struct city *pc1, struct city *pc2)
+{
+  int i;
+
+  if (city_num_trade_routes(pc1) == NUM_TRADEROUTES) {
+    remove_smallest_trade_route(pc1);
+  }
+
+  if (city_num_trade_routes(pc2) == NUM_TRADEROUTES) {
+    remove_smallest_trade_route(pc2);
+  }
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     if (pc1->trade[i] == 0) {
@@ -1733,26 +1753,6 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
       break;
     }
   }
-
-  tb=(map_distance(pc1->x, pc1->y, pc2->x, pc2->y)+10);
-/* should this be real_map_distance?  Leaving for now -- Syela */
-  tb=(tb*(pc1->trade_prod+pc2->trade_prod))/24;
-  /* 
-   * fudge factor to more closely approximate Civ2 behavior (Civ2 is
-   * really very different -- this just fakes it a little better) 
-   */
-  tb *= 3;
-
-  /* 
-   * one time bonus is not affected by factors in
-   * trade_between_cities() 
-   */
-  for (i = 0; i < num_known_tech_with_flag(city_owner(pc1),
-					   TF_TRADE_REVENUE_REDUCE); i++) {
-    tb = (tb * 2) / 3;
-  }
-  /* was: A_RAILROAD, A_FLIGHT */
-  return tb;
 }
 
 /**************************************************************************

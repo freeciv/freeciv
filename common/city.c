@@ -836,34 +836,79 @@ bool city_can_be_built_here(int x, int y)
 }
 
 /**************************************************************************
-...
+  Return TRUE iff the two cities are capable of trade; i.e., if a caravan
+  from one city can enter the other to sell its goods.
+
+  See also can_establish_trade_route().
+**************************************************************************/
+bool can_cities_trade(struct city *pc1, struct city *pc2)
+{
+  return (pc1 && pc2 && pc1 != pc2
+          && (pc1->owner != pc2->owner
+	      || map_distance(pc1->x, pc1->y, pc2->x, pc2->y) > 8));
+}
+
+/**************************************************************************
+  Find the worst (minimum) trade route the city has.  The value of the
+  trade route is returned and its position (slot) is put into the slot
+  variable.
+**************************************************************************/
+int get_city_min_trade_route(struct city *pcity, int *slot)
+{
+  int i, value = pcity->trade_value[0];
+
+  if (slot) {
+    *slot = 0;
+  }
+  /* find min */
+  for (i = 1; i < NUM_TRADEROUTES; i++) {
+    if (value > pcity->trade_value[i]) {
+      if (slot) {
+	*slot = i;
+      }
+      value = pcity->trade_value[i];
+    }
+  }
+
+  return value;
+}
+
+/**************************************************************************
+  Returns TRUE iff the two cities can establish a trade route.  We look
+  at the distance and ownership of the cities as well as their existing
+  trade routes.  Should only be called if you already know that
+  can_cities_trade().
 **************************************************************************/
 bool can_establish_trade_route(struct city *pc1, struct city *pc2)
 {
-  int i, free1 = 0, free2 = 0;
+  int trade = -1;
+
+  assert(can_cities_trade(pc1, pc2));
 
   if (!pc1 || !pc2 || pc1 == pc2
-      || (pc1->owner == pc2->owner
-	  && map_distance(pc1->x, pc1->y, pc2->x, pc2->y) <= 8)) {
+      || have_cities_trade_route(pc1, pc2)) {
     return FALSE;
   }
-
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (pc1->trade[i] == pc2->id || pc2->trade[i] == pc1->id) {
-      /* cities already have a traderoute */
+    
+  if (city_num_trade_routes(pc1) == NUM_TRADEROUTES) {
+    trade = trade_between_cities(pc1, pc2);
+    /* can we replace traderoute? */
+    if (get_city_min_trade_route(pc1, NULL) >= trade) {
       return FALSE;
     }
-
-    if (pc1->trade[i] == 0) {
-      free1++;
-    }
-    if (pc2->trade[i] == 0) {
-      free2++;
-    }
   }
+  
+  if (city_num_trade_routes(pc2) == NUM_TRADEROUTES) {
+    if (trade == -1) {
+      trade = trade_between_cities(pc1, pc2);
+    }
+    /* can we replace traderoute? */
+    if (get_city_min_trade_route(pc2, NULL) >= trade) {
+      return FALSE;
+    }
+  }  
 
-  /* both cities need a free slot */
-  return (free1 > 0 && free2 > 0);
+  return TRUE;
 }
 
 /**************************************************************************
@@ -900,6 +945,51 @@ int city_num_trade_routes(struct city *pcity)
     if(pcity->trade[i] != 0) n++;
   
   return n;
+}
+
+/**************************************************************************
+  Returns the revenue trade bonus - you get this when establishing a
+  trade route and also when you simply sell your trade goods at the
+  new city.
+
+  Note if you trade with a city you already have a trade route with,
+  you'll only get 1/3 of this value.
+**************************************************************************/
+int get_caravan_enter_city_trade_bonus(struct city *pc1, struct city *pc2)
+{
+  int i, tb;
+
+  /* Should this be real_map_distance? */
+  tb = map_distance(pc1->x, pc1->y, pc2->x, pc2->y) + 10;
+  tb = (tb * (pc1->trade_prod + pc2->trade_prod)) / 24;
+
+  /*  fudge factor to more closely approximate Civ2 behavior (Civ2 is
+   * really very different -- this just fakes it a little better) */
+  tb *= 3;
+
+  /* Check for technologies that reduce trade revenues. */
+  for (i = 0; i < num_known_tech_with_flag(city_owner(pc1),
+					   TF_TRADE_REVENUE_REDUCE); i++) {
+    tb = (tb * 2) / 3;
+  }
+
+  return tb;
+}
+
+/**************************************************************************
+  Check if cities have an established trade route.
+**************************************************************************/
+bool have_cities_trade_route(struct city *pc1, struct city *pc2)
+{
+  int i;
+  
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    if (pc1->trade[i] == pc2->id || pc2->trade[i] == pc1->id) {
+      /* Looks like they do have a traderoute. */
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
 
 /*************************************************************************

@@ -239,12 +239,10 @@ bool unit_can_est_traderoute_here(struct unit *punit)
 {
   struct city *phomecity, *pdestcity;
 
-  if (!unit_flag(punit, F_TRADE_ROUTE)) return FALSE;
-  pdestcity = map_get_city(punit->x, punit->y);
-  if (!pdestcity) return FALSE;
-  phomecity = find_city_by_id(punit->homecity);
-  if (!phomecity) return FALSE;
-  return can_establish_trade_route(phomecity, pdestcity);
+  return (unit_flag(punit, F_TRADE_ROUTE)
+	  && (pdestcity = map_get_city(punit->x, punit->y))
+	  && (phomecity = find_city_by_id(punit->homecity))
+	  && can_cities_trade(phomecity, pdestcity));
 }
 
 /**************************************************************************

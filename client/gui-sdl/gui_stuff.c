@@ -96,19 +96,6 @@ do {						\
   pAdd_Dock->next = pNew_Widget;		\
 } while(0)
 
-#define DownAdd(pNew_Widget, pAdd_Dock)		\
-do {						\
-  pNew_Widget->next = pAdd_Dock;		\
-  pNew_Widget->prev = pAdd_Dock->prev;		\
-  if(pAdd_Dock->prev) {				\
-    pAdd_Dock->prev->next = pNew_Widget;	\
-  }						\
-  pAdd_Dock->prev = pNew_Widget;		\
-  if(pAdd_Dock == pBeginMainWidgetList) {	\
-    pBeginMainWidgetList = pNew_Widget;		\
-  }						\
-} while(0)
-
 /**************************************************************************
   ...
 **************************************************************************/
@@ -787,6 +774,22 @@ void add_to_gui_list(Uint16 ID, struct GUI *pGUI)
   pGUI->ID = ID;
   pBeginMainWidgetList->prev = pGUI;
   pBeginMainWidgetList = pGUI;
+}
+
+/**************************************************************************
+  Add Widget to Widget's List at pAdd_Dock position on 'prev' slot.
+**************************************************************************/
+void DownAdd(struct GUI *pNew_Widget, struct GUI *pAdd_Dock)
+{
+  pNew_Widget->next = pAdd_Dock;
+  pNew_Widget->prev = pAdd_Dock->prev;
+  if (pAdd_Dock->prev) {
+    pAdd_Dock->prev->next = pNew_Widget;
+  }
+  pAdd_Dock->prev = pNew_Widget;
+  if (pAdd_Dock == pBeginMainWidgetList) {
+    pBeginMainWidgetList = pNew_Widget;
+  }
 }
 
 /**************************************************************************
@@ -2283,9 +2286,7 @@ void setup_vertical_vidgets_position(int step,
   while(pBuf) {
     pBuf->size.x = real_start_x;
     pBuf->size.y = start_y;
-    
-
-    
+   
     if(w) {
       pBuf->size.w = w;
     }

@@ -971,15 +971,19 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
   my_snprintf(buf, sizeof(buf),_("Your caravan from %s reaches the city of %s.\nWhat now?"),
           phomecity->name, pdestcity->name);
 
-  if(can_establish_trade_route(phomecity, pdestcity))
+  if (can_cities_trade(phomecity, pdestcity))
   {
     struct caravan_data *cd = malloc_struct(struct caravan_data);
     if(cd)
     {
       cd->caravan_city_id = pdestcity->id;
       cd->caravan_unit_id = punit->id;
-
-      msg_dlg[i].label = _("_Establish traderoute");
+      if (can_establish_trade_route(phomecity, pdestcity))
+      {
+        msg_dlg[i].label = _("_Establish traderoute");
+      } else {
+	 msg_dlg[i].label = _("_Enter Marketplace");
+      }
       msg_dlg[i].function = (APTR)caravan_establish;
       msg_dlg[i].data = (APTR)cd;
       i++;

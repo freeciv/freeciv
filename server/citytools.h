@@ -74,7 +74,8 @@ void create_city(struct player *pplayer, const int x, const int y,
 		 const char *name);
 void remove_city(struct city *pcity);
 
-int establish_trade_route(struct city *pc1, struct city *pc2);
+void establish_trade_route(struct city *pc1, struct city *pc2);
+void remove_trade_route(struct city *pc1, struct city *pc2);
 
 void do_sell_building(struct player *pplayer, struct city *pcity, int id);
 void building_lost(struct city *pcity, int id);
