@@ -35,6 +35,7 @@
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "connectdlg_common.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "inteldlg.h"
@@ -63,6 +64,8 @@ static void players_war_callback(GtkMenuItem *item, gpointer data);
 static void players_vision_callback(GtkMenuItem *item, gpointer data);
 static void players_intel_callback(GtkMenuItem *item, gpointer data);
 static void players_sship_callback(GtkMenuItem *item, gpointer data);
+static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data);
+static void players_ai_skill_callback(GtkMenuItem *item, gpointer data);
 
 
 static void update_views(void);
@@ -110,7 +113,7 @@ static void update_players_menu(void)
     gint plrno;
 
     gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
-    plr = &game.players[plrno];
+    plr = get_player(plrno);
   
     if (plr->spaceship.state != SSHIP_NONE) {
       gtk_widget_set_sensitive(players_sship_command, TRUE);
@@ -377,6 +380,30 @@ void create_players_dialog(void)
   players_sship_command = gtk_menu_item_new_with_mnemonic(_("_Spaceship"));
   gtk_widget_set_sensitive(players_sship_command, FALSE);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_sship_command);
+
+
+  item = gtk_menu_item_new_with_mnemonic(_("_AI"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+
+  menu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Toggle AI Mode"));
+  g_signal_connect(item, "activate",
+      G_CALLBACK(players_ai_toggle_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+  sep = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
+
+  for (i = 0; i < NUM_SKILL_LEVELS; i++) {
+    item = gtk_menu_item_new_with_label(_(skill_level_names[i]));
+    g_signal_connect(item, "activate",
+	G_CALLBACK(players_ai_skill_callback), GUINT_TO_POINTER(i));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  }
+  gtk_widget_show_all(menu);
+
 
   item = gtk_menu_item_new_with_mnemonic(_("S_how"));
   menu = create_show_menu();
@@ -653,6 +680,46 @@ void players_sship_callback(GtkMenuItem *item, gpointer data)
     gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
 
     popup_spaceship_dialog(&game.players[plrno]);
+  }
+}
+
+/**************************************************************************
+  AI toggle callback.
+**************************************************************************/
+static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    gint plrno;
+    char buf[512];
+
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
+
+    my_snprintf(buf, sizeof(buf), "/aitoggle %s", get_player(plrno)->name);
+    send_chat(buf);
+  }
+}
+
+/**************************************************************************
+  AI skill level setting callback.
+**************************************************************************/
+static void players_ai_skill_callback(GtkMenuItem *item, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+
+  if (gtk_tree_selection_get_selected(players_selection, &model, &it)) {
+    gint plrno;
+    char buf[512];
+
+    gtk_tree_model_get(model, &it, (num_player_dlg_columns+1), &plrno, -1);
+
+    my_snprintf(buf, sizeof(buf), "/%s %s",
+	skill_level_names[GPOINTER_TO_UINT(data)],
+	get_player(plrno)->name);
+    send_chat(buf);
   }
 }
 
