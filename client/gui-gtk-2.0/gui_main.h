@@ -15,7 +15,14 @@
 
 #include <gtk/gtk.h>
 
+#include "gtkpixcomm.h"
 #include "gui_main_g.h"
+
+struct canvas_store
+{
+  GdkPixmap *pixmap;	/* if NULL, the pixcomm is drawn to instead. */
+  GtkPixcomm *pixcomm;
+};
 
 /* network string charset conversion */
 gchar *ntoh_str(const gchar *netstr);
