@@ -63,6 +63,7 @@ struct ai_data {
   /* AI diplomacy and opinions on other players */
   struct {
     int acceptable_reputation;
+    int acceptable_reputation_for_ceasefire;
     struct ai_dip_intel player_intel[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
     enum winning_strategy strategy;
     int timer; /* pursue our goals with some stubbornness, in turns */
