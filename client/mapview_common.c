@@ -291,10 +291,16 @@ struct city *find_city_near_tile(int x, int y)
   pcity2 = NULL;		/* rule f */
   city_map_checked_iterate(x, y, city_x, city_y, map_x, map_y) {
     pcity = map_get_city(map_x, map_y);
-    if (pcity && pcity->owner == game.player_idx) {
+    if (pcity && pcity->owner == game.player_idx
+	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
+			   CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY) {
       /* rule c */
-      assert(get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
-			     CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY);
+      /*
+       * Note, we must explicitly check if the tile is workable (with
+       * get_worker_city(), above) since it is possible that another
+       * city (perhaps an unseen enemy city) may be working it,
+       * causing it to be marked as C_TILE_UNAVAILABLE.
+       */
       if (pcity == last_pcity) {
 	return pcity;		/* rule d */
       }
