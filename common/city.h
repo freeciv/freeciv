@@ -347,6 +347,7 @@ int city_change_production_penalty(struct city *pcity,
 				   int target, bool is_unit, bool apply_it);
 int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
                         bool include_shield_stock );
+int city_turns_to_grow(struct city *pcity);
 
 /* textual representation of buildings */
 

@@ -1267,6 +1267,26 @@ int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
 }
 
 /**************************************************************************
+ Calculates the turns which are needed for the city to grow.  A value
+ of FC_INFINITY means the city will never grow.  A value of 0 means
+ city growth is blocked.  A negative value of -x means the city will
+ shrink in x turns.  A positive value of x means the city will grow in
+ x turns.
+**************************************************************************/
+int city_turns_to_grow(struct city *pcity)
+{
+  if (pcity->food_surplus > 0) {
+    return (city_granary_size(pcity->size) - pcity->food_stock +
+	    pcity->food_surplus - 1) / pcity->food_surplus;
+  } else if (pcity->food_surplus < 0) {
+    /* turns before famine loss */
+    return -1 + (pcity->food_stock / pcity->food_surplus);
+  } else {
+    return FC_INFINITY;
+  }
+}
+
+/**************************************************************************
  is there an enemy city on this tile?
 **************************************************************************/
 struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer)
