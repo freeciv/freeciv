@@ -15,16 +15,6 @@
 
 #include "map.h"
 
-struct client_goto_map {
-  short **move_cost;
-  char **vector;
-  unsigned char **drawn; /* Should not be modified directly. */
-  int unit_id; /* The unit of the goto map */
-  int src_x, src_y;
-};
-
-extern struct client_goto_map goto_map;
-
 void init_client_goto(void);
 void free_client_goto(void);
 void enter_goto_state(struct unit *punit);

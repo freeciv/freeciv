@@ -30,6 +30,29 @@
 
 #include "goto.h"
 
+struct client_goto_map {
+  /* For each tile we store the following information:
+   *   - The cost it will take to move there, up to MAXCOST.
+   *   - A bitfield of vectors (used internally when making the map).
+   *   - A list of which directions have goto lines drawn on them.  Since
+   *     each line is undirected, we only store the 4 lower-numbered
+   *     directions for each tile; the 4 upper-numbered directions are
+   *     stored as reverses from the target tile.  (Note that this assumes
+   *     an appropriate ordering of the direction8 enumeration.)
+   */
+  struct {
+    short move_cost;
+    char vector;
+    unsigned char drawn[4];
+  } *tiles;
+  int unit_id; /* The unit of the goto map */
+  int src_x, src_y;
+};
+
+#define MOVE_COST(x, y) (goto_map.tiles[map_inx(x, y)].move_cost)
+#define VECTOR(x, y) (goto_map.tiles[map_inx(x, y)].vector)
+#define DRAWN(x, y, dir) (goto_map.tiles[map_inx(x, y)].drawn[(dir)])
+
 static void undraw_line(void);
 static unsigned char *get_drawn_char(int x, int y, int dir);
 
@@ -63,8 +86,7 @@ static int waypoint_list_index = 0;
 static bool is_active = FALSE;
 
 static bool is_init = FALSE;
-static int old_xsize;
-struct client_goto_map goto_map;
+static struct client_goto_map goto_map;
 
 /* These are used for all GOTO's */
 
@@ -201,7 +223,7 @@ static bool get_from_mapqueue(int *x, int *y)
     *x = our_array->pos[our_array->first_pos].x;
     *y = our_array->pos[our_array->first_pos].y;
     our_array->first_pos++;
-    freelog(LOG_DEBUG, "got %i,%i, at cost %i", *x, *y, goto_map.move_cost[*x][*y]);
+    freelog(LOG_DEBUG, "got %i,%i, at cost %i", *x, *y, MOVE_COST(*x, *y));
     return TRUE;
   }
   return FALSE;
@@ -212,8 +234,6 @@ Called once per game.
 ***********************************************************************/
 void init_client_goto(void)
 {
-  int x_itr;
-
   if (!goto_array) {
     goto_array = fc_malloc(INITIAL_ARRAY_LENGTH
 					    * sizeof(struct map_position));
@@ -224,40 +244,26 @@ void init_client_goto(void)
     free_client_goto();
   }
 
-  goto_map.move_cost = fc_malloc(map.xsize * sizeof(short *));
-  goto_map.vector = fc_malloc(map.xsize * sizeof(char *));
-  goto_map.drawn = fc_malloc(map.xsize * sizeof(char *));
-  for (x_itr = 0; x_itr < map.xsize; x_itr++) {
-    goto_map.move_cost[x_itr] = fc_malloc(map.ysize * sizeof(short));
-    goto_map.vector[x_itr] = fc_malloc(map.ysize * sizeof(char));
-    goto_map.drawn[x_itr] = fc_malloc(map.ysize * sizeof(char) * 4);
-  }
+  goto_map.tiles = fc_malloc(map.xsize * map.ysize
+			     * sizeof(*goto_map.tiles));
+
   goto_map.unit_id = -1;
   goto_map.src_x = -1;
   goto_map.src_y = -1;
   whole_map_iterate(x, y) {
     int dir;
     for (dir=0; dir<4; dir++)
-      *(goto_map.drawn[x] + y * 4 + dir) = 0;
+      DRAWN(x, y, dir) = 0;
   } whole_map_iterate_end;
   initialize_move_costs();
 
   is_init = TRUE;
-  old_xsize = map.xsize;
 }
 
 void free_client_goto()
 {
   if (is_init) {
-    int x_itr;
-    for (x_itr = 0; x_itr < old_xsize; x_itr++) {
-      free(goto_map.move_cost[x_itr]);
-      free(goto_map.vector[x_itr]);
-      free(goto_map.drawn[x_itr]);
-    }
-    free(goto_map.move_cost);
-    free(goto_map.vector);
-    free(goto_map.drawn);
+    free(goto_map.tiles);
 
     memset(&goto_map,0,sizeof(goto_map));
 
@@ -279,12 +285,12 @@ static void init_goto_map(struct unit *punit, int src_x, int src_y)
 {
   goto_map.unit_id = punit->id;
   whole_map_iterate(x, y) {
-    goto_map.move_cost[x][y] = MAXCOST;
-    goto_map.vector[x][y] = 0;
+    MOVE_COST(x, y) = MAXCOST;
+    VECTOR(x, y) = 0;
   } whole_map_iterate_end;
   goto_map.src_x = src_x;
   goto_map.src_y = src_y;
-  goto_map.move_cost[src_x][src_y] = 0;
+  MOVE_COST(src_x, src_y) = 0;
 }
 
 /**************************************************************************
@@ -354,7 +360,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
       pdesttile = map_get_tile(x1, y1);
       add_to_queue = TRUE;
 
-      if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y]) {
+      if (MOVE_COST(x1, y1) <= MOVE_COST(x, y)) {
 	/* No need for all the calculations. Note that this also excludes
 	 * RR loops, ie you can't create a cycle with the same move_cost */
 	continue;
@@ -441,13 +447,13 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
       } /****** end switch ******/
 
       /* Add the route to our warmap if it is worth keeping */
-      total_cost = move_cost + goto_map.move_cost[x][y];
-      if (goto_map.move_cost[x1][y1] > total_cost) {
-	goto_map.move_cost[x1][y1] = total_cost;
+      total_cost = move_cost + MOVE_COST(x, y);
+      if (MOVE_COST(x1, y1) > total_cost) {
+	MOVE_COST(x1, y1) = total_cost;
 	if (add_to_queue) {
 	  add_to_mapqueue(total_cost, x1, y1);
 	}
-	goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
+	VECTOR(x1, y1) = 1 << DIR_REVERSE(dir);
 	freelog(LOG_DEBUG,
 		"Candidate: %s from (%d, %d) to (%d, %d), cost %d",
 		dir_get_name(dir), x, y, x1, y1, total_cost);
@@ -672,7 +678,7 @@ static unsigned char *get_drawn_char(int x, int y, int dir)
     dir = DIR_REVERSE(dir);
   }
 
-  return goto_map.drawn[x] + y*4 + dir;
+  return &DRAWN(x, y, dir);
 }
 
 /********************************************************************** 
@@ -786,7 +792,7 @@ static int find_route(int x, int y)
   }
 
   adjc_dir_iterate(x, y, new_x, new_y, dir) {
-    if (TEST_BIT(goto_map.vector[x][y], dir)) {
+    if (TEST_BIT(VECTOR(x, y), dir)) {
       /* expand array as neccesary */
       if (route_index == route_length) {
 	route_length *= 2;
@@ -821,7 +827,7 @@ void draw_line(int dest_x, int dest_y)
   assert(is_real_tile(dest_x, dest_y));
   normalize_map_pos(&dest_x, &dest_y);
 
-  if (goto_map.vector[dest_x][dest_y] == 0) {
+  if (VECTOR(dest_x, dest_y) == 0) {
     undraw_line();
     return;
   }
