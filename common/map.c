@@ -131,6 +131,20 @@ char *map_get_tile_info_text(int x, int y)
 }
 
 /***************************************************************
+  Return a (static) string with a tile's food/prod/trade
+***************************************************************/
+char *map_get_tile_fpt_text(int x, int y)
+{
+  static char s[64];
+  
+  my_snprintf(s, sizeof(s), "%d/%d/%d",
+	      get_food_tile(x, y),
+	      get_shields_tile(x, y),
+	      get_trade_tile(x, y));
+  return s;
+}
+
+/***************************************************************
   Returns 1 if we are at a stage of the game where the map
   has not yet been generated/loaded.
   (To be precise, returns 1 if map_allocate() has not yet been

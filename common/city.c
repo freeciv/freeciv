@@ -834,8 +834,34 @@ static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths)
 /**************************************************************************
 ...
 **************************************************************************/
+int get_shields_tile(int x, int y)
+{
+  int s=0;
+  enum tile_special_type spec_t = map_get_special(x, y);
+  enum tile_terrain_type tile_t = map_get_terrain(x, y);
 
-int get_shields_tile(int x, int y, struct city *pcity)
+  if (spec_t & S_SPECIAL_1) 
+    s = get_tile_type(tile_t)->shield_special_1;
+  else if (spec_t & S_SPECIAL_2) 
+    s = get_tile_type(tile_t)->shield_special_2;
+  else
+    s = get_tile_type(tile_t)->shield;
+
+  if (spec_t & S_MINE)
+    s += (get_tile_type(tile_t))->mining_shield_incr;
+  if (spec_t & S_RAILROAD)
+    s+=(s*terrain_control.rail_shield_bonus)/100;
+  if (spec_t & S_POLLUTION)
+    s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here are icky */
+  if (spec_t & S_FALLOUT)
+    s-=(s*terrain_control.fallout_shield_penalty)/100;
+  return s;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int city_get_shields_tile(int x, int y, struct city *pcity)
 {
   int s=0;
   enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
@@ -870,7 +896,7 @@ int get_shields_tile(int x, int y, struct city *pcity)
   if (before_penalty && s > before_penalty)
     s--;
   if (spec_t & S_POLLUTION)
-    s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here is icky */
+    s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here are icky */
   if (spec_t & S_FALLOUT)
     s-=(s*terrain_control.fallout_shield_penalty)/100;
   return s;
@@ -879,8 +905,44 @@ int get_shields_tile(int x, int y, struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
+int get_trade_tile(int x, int y)
+{
+  enum tile_special_type spec_t = map_get_special(x, y);
+  enum tile_terrain_type tile_t = map_get_terrain(x,y);
+  int t;
+ 
+  if (spec_t & S_SPECIAL_1) 
+    t = get_tile_type(tile_t)->trade_special_1;
+  else if (spec_t & S_SPECIAL_2) 
+    t = get_tile_type(tile_t)->trade_special_2;
+  else
+    t = get_tile_type(tile_t)->trade;
 
-int get_trade_tile(int x, int y, struct city *pcity)
+  if (t<game.rgame.min_city_center_trade && x==2 && y==2)
+    t = game.rgame.min_city_center_trade;
+
+  if ((spec_t & S_RIVER) && (tile_t != T_OCEAN)) {
+    t += terrain_control.river_trade_incr;
+  }
+  if (spec_t & S_ROAD) {
+    t += (get_tile_type(tile_t))->road_trade_incr;
+  }
+  if (t) {
+    if (spec_t & S_RAILROAD)
+      t+=(t*terrain_control.rail_trade_bonus)/100;
+
+    if (spec_t & S_POLLUTION)
+      t-=(t*terrain_control.pollution_trade_penalty)/100; /* The trade here is dirty */
+    if (spec_t & S_FALLOUT)
+      t-=(t*terrain_control.fallout_trade_penalty)/100;
+  }
+  return t;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int city_get_trade_tile(int x, int y, struct city *pcity)
 {
   enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
   enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
@@ -933,12 +995,44 @@ int get_trade_tile(int x, int y, struct city *pcity)
 }
 
 /***************************************************************
+...
+***************************************************************/
+int get_food_tile(int x, int y)
+{
+  int f;
+  enum tile_special_type spec_t=map_get_special(x, y);
+  enum tile_terrain_type tile_t=map_get_terrain(x, y);
+  struct tile_type *type = get_tile_type(tile_t);
+
+  if (spec_t & S_SPECIAL_1) 
+    f=get_tile_type(tile_t)->food_special_1;
+  else if (spec_t & S_SPECIAL_2) 
+    f=get_tile_type(tile_t)->food_special_2;
+  else
+    f=get_tile_type(tile_t)->food;
+
+  if (spec_t & S_IRRIGATION) {
+    f += type->irrigation_food_incr;
+    /* No farmland since we do not assume a city with a supermarket */
+  }
+
+  if (spec_t & S_RAILROAD)
+    f+=(f*terrain_control.rail_food_bonus)/100;
+
+  if (spec_t & S_POLLUTION)
+    f-=(f*terrain_control.pollution_food_penalty)/100; /* The food here is yucky */
+  if (spec_t & S_FALLOUT)
+    f-=(f*terrain_control.fallout_food_penalty)/100;
+
+  return f;
+}
+
+/***************************************************************
 Here the exact food production should be calculated. That is
 including ALL modifiers. 
 Center tile acts as irrigated...
 ***************************************************************/
-
-int get_food_tile(int x, int y, struct city *pcity)
+int city_get_food_tile(int x, int y, struct city *pcity)
 {
   int f;
   enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);

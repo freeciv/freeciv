@@ -1571,9 +1571,9 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 			pcity->y+y-CITY_MAP_SIZE/2, 1);
 	if(pcity->city_map[x][y]==C_TILE_WORKER)
 	  put_city_tile_output(XtWindow(pdialog->map_canvas), x, y, 
-			       get_food_tile(x, y, pcity),
-			       get_shields_tile(x, y, pcity), 
-			       get_trade_tile(x, y, pcity) );
+			       city_get_food_tile(x, y, pcity),
+			       city_get_shields_tile(x, y, pcity), 
+			       city_get_trade_tile(x, y, pcity) );
 	else if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
 	  pixmap_frame_tile_red(XtWindow(pdialog->map_canvas), x, y);
       }

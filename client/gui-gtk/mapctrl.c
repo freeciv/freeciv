@@ -124,6 +124,13 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				   NULL);
     count++;
 
+    my_snprintf(s, sizeof(s), _("food/prod/trade: %s"),
+		map_get_tile_fpt_text(xtile, ytile));
+    gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+				    "GtkLabel::label", s,
+				    NULL);
+    count++;
+
     if(ptile->special&S_HUT) {
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", _("Minor Tribe Village"),

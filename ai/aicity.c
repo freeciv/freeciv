@@ -568,11 +568,11 @@ static int worst_elvis_tile(struct city *pcity, int x, int y, int bx, int by,
 {
   int a, b;
   a = city_tile_value(pcity, x, y,
-      foodneed + get_food_tile(x, y, pcity),
-      prodneed + get_shields_tile(x, y, pcity));
+		      foodneed + city_get_food_tile(x, y, pcity),
+		      prodneed + city_get_shields_tile(x, y, pcity));
   b = city_tile_value(pcity, bx, by,
-      foodneed + get_food_tile(bx, by, pcity),
-      prodneed + get_shields_tile(bx, by, pcity));
+		      foodneed + city_get_food_tile(bx, by, pcity),
+		      prodneed + city_get_shields_tile(bx, by, pcity));
   return (a < b);
 }
 
@@ -862,8 +862,8 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
     }
   }
   if (*xp == 0 && *yp == 0) return 0;
-  foodneed += get_food_tile(*xp, *yp, pcity);
-  prodneed += get_shields_tile(*xp, *yp, pcity);
+  foodneed += city_get_food_tile(*xp, *yp, pcity);
+  prodneed += city_get_shields_tile(*xp, *yp, pcity);
   if (e > 1) {
     foodneed -= (e - 1) * 2; /* forgetting these two lines */
     prodneed -= (e - 1); /* led to remarkable idiocy -- Syela */
@@ -909,9 +909,9 @@ static void make_elvises(struct city *pcity)
  
   while (1) {
     if ((elviscost = ai_find_elvis_pos(pcity, &xp, &yp))) {
-      if (get_food_tile(xp, yp, pcity) > pcity->food_surplus)
+      if (city_get_food_tile(xp, yp, pcity) > pcity->food_surplus)
 	break;
-      if (get_food_tile(xp, yp, pcity) == pcity->food_surplus && city_happy(pcity))
+      if (city_get_food_tile(xp, yp, pcity) == pcity->food_surplus && city_happy(pcity))
 	break; /* scientists don't party */
       if (elviscost >= 24) /* doesn't matter if we wtbb or not! */
         break; /* no benefit here! */

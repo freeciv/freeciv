@@ -160,6 +160,7 @@ void map_init(void);
 void map_allocate(void);
 
 char *map_get_tile_info_text(int x, int y);
+char *map_get_tile_fpt_text(int x, int y);
 struct tile *map_get_tile(int x, int y);
 
 int map_distance(int x0, int y0, int x1, int y1);

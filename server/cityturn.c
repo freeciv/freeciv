@@ -358,9 +358,9 @@ static void set_food_trade_shields(struct city *pcity)
 
   city_map_iterate(x, y) {
     if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
-      pcity->food_prod+=get_food_tile(x, y, pcity);
-      pcity->shield_prod+=get_shields_tile(x, y, pcity);
-      pcity->trade_prod+=get_trade_tile(x, y, pcity);
+      pcity->food_prod += city_get_food_tile(x, y, pcity);
+      pcity->shield_prod += city_get_shields_tile(x, y, pcity);
+      pcity->trade_prod += city_get_trade_tile(x, y, pcity);
     }
   }
   pcity->tile_trade=pcity->trade_prod;
@@ -637,8 +637,8 @@ static void worker_loop(struct city *pcity, int *foodneed,
     if(bx || by) {
       set_worker_city(pcity, bx, by, C_TILE_WORKER);
       (*workers)--; /* amazing what this did with no parens! -- Syela */
-      *foodneed -= get_food_tile(bx,by,pcity) - 2;
-      *prodneed -= get_shields_tile(bx,by,pcity) - 1;
+      *foodneed -= city_get_food_tile(bx,by,pcity) - 2;
+      *prodneed -= city_get_shields_tile(bx,by,pcity) - 1;
     }
   } while(*workers && (bx || by));
   *foodneed += 2 * (*workers - 1 - e);
@@ -696,9 +696,9 @@ void auto_arrange_workers(struct city *pcity)
       set_worker_city(pcity, x, y, C_TILE_EMPTY);
   
   set_worker_city(pcity, 2, 2, C_TILE_WORKER); 
-  foodneed=(pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
+  foodneed=(pcity->size *2 -city_get_food_tile(2,2, pcity)) + settler_eats(pcity);
   prodneed = 0;
-  prodneed -= get_shields_tile(2,2,pcity);
+  prodneed -= city_get_shields_tile(2,2,pcity);
   prodneed -= citygov_free_shield(pcity, g);
 
   unit_list_iterate(pcity->units_supported, this_unit) {

@@ -136,7 +136,7 @@ static int pollution_cost(struct player *pplayer, struct city *pcity,
   p = 0;
   city_map_iterate(x, y) {
     if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
-      p += get_shields_tile(x, y, pcity);
+      p += city_get_shields_tile(x, y, pcity);
     }
   }
   if (city_got_building(pcity, B_FACTORY) || id == B_FACTORY) {

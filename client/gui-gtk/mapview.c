@@ -1285,9 +1285,9 @@ void put_city_workers(struct city *pcity, int color)
     }
     if(t==C_TILE_WORKER) {
       put_city_tile_output(map_canvas->window, x+i-2, y+j-2, 
-			   get_food_tile(i, j, pcity),
-			   get_shields_tile(i, j, pcity), 
-			   get_trade_tile(i, j, pcity) );
+			   city_get_food_tile(i, j, pcity),
+			   city_get_shields_tile(i, j, pcity), 
+			   city_get_trade_tile(i, j, pcity) );
     }
   }
 

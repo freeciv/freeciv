@@ -462,11 +462,17 @@ int city_turns_to_build(struct city *pcity, int id, int id_is_unit);
 char *get_improvement_name(Impr_Type_id id);
 char *get_impr_name_ex(struct city *pcity, Impr_Type_id id);
 
+/* tile production functions */
+
+int get_shields_tile(int x, int y); /* shield on spot */
+int get_trade_tile(int x, int y);   /* trade  on spot */
+int get_food_tile(int x, int y);    /* food   on spot */
+
 /* city map functions */
 
-int get_shields_tile(int x, int y, struct city *pcity); /* shield on spot */
-int get_trade_tile(int x, int y, struct city *pcity);   /* trade  on spot */
-int get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */
+int city_get_shields_tile(int x, int y, struct city *pcity); /* shield on spot */
+int city_get_trade_tile(int x, int y, struct city *pcity);   /* trade  on spot */
+int city_get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */
 void set_worker_city(struct city *pcity, int x, int y, enum city_tile_type type); 
 enum city_tile_type get_worker_city(struct city *pcity, int x, int y);
 int is_worker_here(struct city *pcity, int x, int y);
