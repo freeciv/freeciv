@@ -306,7 +306,6 @@ this:
 static void create_goto_map(struct unit *punit, int src_x, int src_y,
 			    enum goto_move_restriction restriction)
 {
-  static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int x, y, x1, y1, dir;
   struct tile *psrctile, *pdesttile;
   enum unit_move_type move_type = unit_types[punit->type].move_type;
@@ -325,8 +324,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
     /* Try to move to all tiles adjacent to x,y. The coordinats of the tile we
        try to move to are x1,y1 */
     for (dir = 0; dir < 8; dir++) {
-      /* if the direction is N, S, E or W d[dir][1] is the /0 character... */
-      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[dir][1]) continue;
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
+	  && !DIR_IS_CARDINAL(dir)) continue;
 
       x1 = x + DIR_DX[dir];
       y1 = y + DIR_DY[dir];
@@ -385,10 +384,10 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  goto_map.move_cost[x1][y1] = total_cost;
 	  if (add_to_queue)
 	    add_to_mapqueue(total_cost, x1, y1);
-	  goto_map.vector[x1][y1] = 128>>dir;
+	  goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	  freelog(LOG_DEBUG,
 		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		  d[dir], x, y, x1, y1, total_cost);
+		  dir_get_name(dir), x, y, x1, y1, total_cost);
 	}
 	break;
 
@@ -417,10 +416,10 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  goto_map.move_cost[x1][y1] = total_cost;
 	  if (add_to_queue)
 	    add_to_mapqueue(total_cost, x1, y1);
-	  goto_map.vector[x1][y1] = 128>>dir;
+	  goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	  freelog(LOG_DEBUG,
 		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		  d[dir], x, y, x1, y1, total_cost);
+		  dir_get_name(dir), x, y, x1, y1, total_cost);
 	}
 	break;
 
@@ -443,10 +442,10 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  goto_map.move_cost[x1][y1] = total_cost;
 	  if (add_to_queue)
 	    add_to_mapqueue(total_cost, x1, y1);
-	  goto_map.vector[x1][y1] = 128>>dir;
+	  goto_map.vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	  freelog(LOG_DEBUG,
 		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		  d[dir], x, y, x1, y1, total_cost);
+		  dir_get_name(dir), x, y, x1, y1, total_cost);
 	}
 	break;
 
@@ -644,7 +643,7 @@ static unsigned char *get_drawn_char(int x, int y, int dir)
   if (dir >= 4) {
     x = x1;
     y = y1;
-    dir = 7 - dir;
+    dir = DIR_REVERSE(dir);
   }
 
   return goto_map.drawn[x] + y*4 + dir;

@@ -329,7 +329,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	/* else c = ptile->move_cost[k]; 
 	   This led to a bad bug where a unit in a swamp was considered too far away */
         else { /* we have a city */
-          int tmp = map_get_tile(x1, y1)->move_cost[7-dir]; /* The move in the opposite direction*/
+	  int tmp = map_get_tile(x1, y1)->move_cost[DIR_REVERSE(dir)];
           move_cost = (ptile->move_cost[dir] + tmp +
 		       (ptile->move_cost[dir] > tmp ? 1 : 0))/2;
         }
@@ -624,7 +624,6 @@ static int find_the_shortest_path(struct unit *punit,
 				  enum goto_move_restriction restriction)
 {
   struct player *pplayer = unit_owner(punit);
-  static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int igter, x, y, x1, y1, dir;
   int orig_x, orig_y;
   struct tile *psrctile, *pdesttile;
@@ -678,8 +677,8 @@ static int find_the_shortest_path(struct unit *punit,
     /* Try to move to all tiles adjacent to x,y. The coordinats of the tile we
        try to move to are x1,y1 */
     for (dir = 0; dir < 8; dir++) {
-      /* if the direction is N, S, E or W d[dir][1] is the /0 character... */
-      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[dir][1]) continue;
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
+	  && !DIR_IS_CARDINAL(dir)) continue;
 
       x1 = x + DIR_DX[dir];
       y1 = y + DIR_DY[dir];
@@ -755,15 +754,15 @@ static int find_the_shortest_path(struct unit *punit,
           if (warmap.cost[x1][y1] > total_cost) {
             warmap.cost[x1][y1] = total_cost;
             add_to_mapqueue(total_cost, x1, y1);
-            local_vector[x1][y1] = 128>>dir;
+            local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	    freelog(LOG_DEBUG,
 		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    d[dir], x, y, x1, y1, total_cost);
+		    dir_get_name(dir), x, y, x1, y1, total_cost);
           } else if (warmap.cost[x1][y1] == total_cost) {
-            local_vector[x1][y1] |= 128>>dir;
+            local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
 	    freelog(LOG_DEBUG,
 		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    d[dir], x, y, x1, y1, total_cost);
+		    dir_get_name(dir), x, y, x1, y1, total_cost);
           }
         }
 	break;
@@ -822,15 +821,15 @@ static int find_the_shortest_path(struct unit *punit,
 	  if (warmap.seacost[x1][y1] > total_cost) {
 	    warmap.seacost[x1][y1] = total_cost;
 	    add_to_mapqueue(total_cost, x1, y1);
-	    local_vector[x1][y1] = 128>>dir;
+	    local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	    freelog(LOG_DEBUG,
 		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    d[dir], x, y, x1, y1, total_cost);
+		    dir_get_name(dir), x, y, x1, y1, total_cost);
 	  } else if (warmap.seacost[x1][y1] == total_cost) {
-	    local_vector[x1][y1] |= 128>>dir;
+	    local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
 	    freelog(LOG_DEBUG,
 		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    d[dir], x, y, x1, y1, total_cost);
+		    dir_get_name(dir), x, y, x1, y1, total_cost);
 	  }
 	}
 	break;
@@ -865,15 +864,15 @@ static int find_the_shortest_path(struct unit *punit,
 	  if (warmap.cost[x1][y1] > total_cost) {
 	    warmap.cost[x1][y1] = total_cost;
 	    add_to_mapqueue(total_cost, x1, y1);
-	    local_vector[x1][y1] = 128>>dir;
+	    local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
 	    freelog(LOG_DEBUG,
 		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    d[dir], x, y, x1, y1, total_cost);
+		    dir_get_name(dir), x, y, x1, y1, total_cost);
 	  } else if (warmap.cost[x1][y1] == total_cost) {
-	    local_vector[x1][y1] |= 128>>dir;
+	    local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
 	    freelog(LOG_DEBUG,
 		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    d[dir], x, y, x1, y1, total_cost);
+		    dir_get_name(dir), x, y, x1, y1, total_cost);
 	  }
 	}
 	break;
@@ -912,8 +911,8 @@ static int find_the_shortest_path(struct unit *punit,
       break;
 
     for (dir = 0; dir < 8; dir++) {
-      if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && d[dir][1])
-	continue;
+      if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
+	  && !DIR_IS_CARDINAL(dir)) continue;
 
       if (local_vector[x][y] & (1<<dir)) {
 	x1 = x + DIR_DX[dir];
@@ -923,10 +922,11 @@ static int find_the_shortest_path(struct unit *punit,
 	move_cost = (move_type == SEA_MOVING) ? warmap.seacost[x1][y1] : warmap.cost[x1][y1];
 
         add_to_mapqueue(MAXCOST-1 - move_cost, x1, y1);
-        warmap.vector[x1][y1] |= 128>>dir; /* Mark it on the warmap */
+	/* Mark it on the warmap */
+	warmap.vector[x1][y1] |= 1 << DIR_REVERSE(dir);	
         local_vector[x][y] -= 1<<dir; /* avoid repetition */
 	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
-		d[7-dir], x1, y1, x, y);
+		dir_get_name(DIR_REVERSE(dir)), x1, y1, x, y);
       }
     }
   }
@@ -950,7 +950,6 @@ static int find_a_direction(struct unit *punit,
 			    const int dest_x, const int dest_y)
 {
   int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
-  const char *dir[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   struct tile *ptile, *adjtile;
   int nearland;
   struct city *pcity;
@@ -964,8 +963,9 @@ static int find_a_direction(struct unit *punit,
   /* If we can get to the destination rigth away there is nothing to be gained
      from going round in little circles to move across desirable squares */
   for (k = 0; k < 8; k++) {
-    if (warmap.vector[punit->x][punit->y]&(1<<k)
-	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY && dir[k][1])) {
+    if (warmap.vector[punit->x][punit->y] & (1 << k)
+	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY
+	     && !DIR_IS_CARDINAL(k))) {
       x = map_adjust_x(punit->x + DIR_DX[k]);
       y = map_adjust_y(punit->y + DIR_DY[k]);
       if (x == dest_x && y == dest_y)
@@ -974,7 +974,9 @@ static int find_a_direction(struct unit *punit,
   }
 
   for (k = 0; k < 8; k++) {
-    if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && dir[k][1]) continue;
+    if ((restriction == GOTO_MOVE_CARDINAL_ONLY) && !DIR_IS_CARDINAL(k))
+      continue;
+
     if (!(warmap.vector[punit->x][punit->y]&(1<<k))) d[k] = 0;
     else {
       if (is_ground_unit(punit))
@@ -1066,7 +1068,8 @@ static int find_a_direction(struct unit *punit,
   do {
     do {
       k = myrand(8);
-    } while ((restriction == GOTO_MOVE_CARDINAL_ONLY) && dir[k][1]);
+    } while ((restriction == GOTO_MOVE_CARDINAL_ONLY)
+	     && !DIR_IS_CARDINAL(k));
   } while (d[k] < best);
   return(k);
 }
@@ -1128,7 +1131,6 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
 {
   struct player *pplayer = unit_owner(punit);
   int x, y, dir;
-  static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int unit_id, dest_x, dest_y, waypoint_x, waypoint_y;
   struct unit *penemy = NULL;
 
@@ -1188,7 +1190,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
 	return;
       }
 
-      freelog(LOG_DEBUG, "Going %s", d[dir]);
+      freelog(LOG_DEBUG, "Going %s", dir_get_name(dir));
       x = map_adjust_x(punit->x + DIR_DX[dir]);
       y = punit->y + DIR_DY[dir]; /* no need to adjust this */
       penemy = is_enemy_unit_tile(map_get_tile(x, y), punit->owner);

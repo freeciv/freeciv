@@ -1286,8 +1286,10 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
               put_line(_rp(o), _mleft(o),_mtop(o),src_x, src_y, dir);
 	    }
 	    if (tile_visible_mapcanvas(dest_x, dest_y)) {
-	      put_line(data->map_layer->rp, 0,0,dest_x, dest_y, 7-dir);
-	      put_line(_rp(o), _mleft(o),_mtop(o),dest_x, dest_y, 7-dir);
+	      put_line(data->map_layer->rp, 0, 0,
+		       dest_x, dest_y, DIR_REVERSE(dir));
+	      put_line(_rp(o), _mleft(o), _mtop(o),
+		       dest_x, dest_y, DIR_REVERSE(dir));
 	    }
 	    increment_drawn(src_x, src_y, dir);
 	  }
@@ -1339,19 +1341,20 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    normalize_map_pos(&dest_x, &dest_y);
 	    refresh_tile_mapcanvas(dest_x, dest_y, 1); /* !! */
 	    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-	      if (dir == 2) { /* Since the tile doesn't have a middle we draw an extra pixel
-				 on the adjacent tile when drawing in this direction. */
+	      if (dir == DIR8_NORTHEAST) {
+		/* Since the tile doesn't have a middle we draw an extra pixel
+		   on the adjacent tile when drawing in this direction. */
 		dest_x = src_x + 1;
 		dest_y = src_y;
 		assert(is_real_tile(dest_x, dest_y));
 		normalize_map_pos(&dest_x, &dest_y);
-		refresh_tile_mapcanvas(dest_x, dest_y, 1); /* !! */
-	      } else if (dir == 5) { /* the same */
+		refresh_tile_mapcanvas(dest_x, dest_y, 1);	/* !! */
+	      } else if (dir == DIR8_SOUTHWEST) {	/* the same */
 		dest_x = src_x;
 		dest_y = src_y + 1;
 		assert(is_real_tile(dest_x, dest_y));
 		normalize_map_pos(&dest_x, &dest_y);
-		refresh_tile_mapcanvas(dest_x, dest_y, 1); /* !! */
+		refresh_tile_mapcanvas(dest_x, dest_y, 1);	/* !! */
 	      }
 	    }
 	  }

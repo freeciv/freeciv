@@ -1058,8 +1058,8 @@ void reset_move_costs(int x, int y)
       tile0->move_cost[dir] = tile_move_cost_ai(tile0, tile1, x, y,
 						x1, y1, maxcost);
       /* reverse: not at all obfuscated now --dwp */
-      tile1->move_cost[7 - dir] = tile_move_cost_ai(tile1, tile0, x1, y1,
-						    x, y, maxcost);
+      tile1->move_cost[DIR_REVERSE(dir)] =
+	  tile_move_cost_ai(tile1, tile0, x1, y1, x, y, maxcost);
     } else {
       /* trying to move off the screen. */
       tile0->move_cost[dir] = maxcost;
@@ -1333,4 +1333,16 @@ void rand_neighbour(int x0, int y0, int *x, int *y)
 
   assert(is_real_tile(*x, *y));
   normalize_map_pos(x, y);
+}
+
+/**************************************************************************
+Return the debugging name of the direction.
+**************************************************************************/
+const char *dir_get_name(enum direction8 dir)
+{
+  static const char *names[8] = { "NW", "N", "NE", "W",
+    "E", "SW", "S", "SE"
+  };
+  assert(dir >= 0 && dir < 8);
+  return names[dir];
 }

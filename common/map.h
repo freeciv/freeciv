@@ -429,6 +429,31 @@ will give you the tile as shown below.
 |5|6|7|
 -------
  */
+
+enum direction8 {
+  /* FIXME: DIR8 is used to avoid conflict with
+   * enum Directions in client/tilespec.h */
+  DIR8_NORTHWEST = 0,
+  DIR8_NORTH = 1,
+  DIR8_NORTHEAST = 2,
+  DIR8_WEST = 3,
+  DIR8_EAST = 4,
+  DIR8_SOUTHWEST = 5,
+  DIR8_SOUTH = 6,
+  DIR8_SOUTHEAST = 7
+};
+
+/* return the reverse of the direction */
+#define DIR_REVERSE(dir) (7 - (dir))
+
+/* is the direction "cardinal"?  Cardinal directions
+ * (also called cartesian) are the four main ones */
+#define DIR_IS_CARDINAL(dir)                           \
+  ((dir) == DIR8_NORTH || (dir) == DIR8_EAST ||        \
+   (dir) == DIR8_WEST || (dir) == DIR8_SOUTH)
+
+const char* dir_get_name(enum direction8 dir);
+
 extern const int DIR_DX[8];
 extern const int DIR_DY[8];
 
