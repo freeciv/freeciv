@@ -259,15 +259,6 @@ const char *effect_type_name(enum effect_type effect_type)
   number of possible sources increases.
 **************************************************************************/
 
-static const char *req_type_names[] = {
-  "None",
-  "Tech",
-  "Gov",
-  "Building",
-  "Special",
-  "Terrain"
-};
-
 /*
  * A group lists which sources are in it and at what range.
  * Each effect also lists which group it is in.  So an effect is in the
@@ -361,25 +352,6 @@ struct effect_type_vector *get_building_effect_types(Impr_Type_id id)
 }
 
 /**************************************************************************
-  Get requirements type from string.  This is used when loading the
-  ruleset.  REQ_LAST is returned if no other match is found.
-**************************************************************************/
-enum effect_req_type effect_req_type_from_str(const char *str)
-{
-  enum effect_req_type req_type;
-
-  assert(ARRAY_SIZE(req_type_names) == REQ_LAST);
-
-  for (req_type = 0; req_type < ARRAY_SIZE(req_type_names); req_type++) {
-    if (0 == mystrcasecmp(req_type_names[req_type], str)) {
-      return req_type;
-    }
-  }
-
-  return REQ_LAST;
-}
-
-/**************************************************************************
   Create a new effects group.
 **************************************************************************/
 struct effect_group *effect_group_new(const char *name)
@@ -444,8 +416,6 @@ void ruleset_cache_init(void)
 {
   int i, j;
 
-  assert(ARRAY_SIZE(req_type_names) == REQ_LAST);
-
   effect_group_list_init(&groups);
   next_group_id = 0;
 
@@ -488,76 +458,11 @@ void ruleset_cache_free(void)
 }
 
 /**************************************************************************
-  Parse the effect requirement.
-
-  In the effect
-
-    { "name", "value", "equiv", "req_type", "req"
-      "Prod_Bonus", 25, "Generators", "Building", "Factory"
-    }
-
-  the req_type "Building" has already been parsed by req_type_from_str,
-  and the req "Factory" is passed as the req variable here.
-**************************************************************************/
-int parse_effect_requirement(Impr_Type_id source,
-			     enum effect_req_type req_type,
-			     const char *req_value)
-{
-  bool problem;
-  int data = -1;
-  const struct government *pgov;
-
-  switch (req_type) {
-  case REQ_NONE:
-    problem = FALSE;
-    data = 0;
-    break;
-  case REQ_TECH:
-    data = find_tech_by_name(req_value);
-    problem = (A_LAST == data);
-    break;
-  case REQ_GOV:
-    pgov = find_government_by_name(req_value);
-    problem = (NULL == pgov);
-    if (pgov) {
-      data = pgov->index;
-    }
-    break;
-  case REQ_BUILDING:
-    data = find_improvement_by_name(req_value);
-    problem = (B_LAST == data);
-    break;
-  case REQ_SPECIAL:
-    data = get_special_by_name(req_value);
-    problem = (S_NO_SPECIAL == data);
-    break;
-  case REQ_TERRAIN:
-    data = get_terrain_by_name(req_value);
-    problem = (T_UNKNOWN == data);
-    break;
-  default:
-    die("for %s: unimplemented requirement type '%d'",
-	get_improvement_name(source), req_type);
-    return -1;
-  }
-
-  if (problem) {
-    freelog(LOG_ERROR,
-	    /* TRANS: Obscure ruleset error. */
-	    _("for building %s: bad effect requirement data '%s'"),
-	    get_improvement_name(source), req_value);
-    return -1;
-  } else {
-    return data;
-  }
-}
-
-/**************************************************************************
   Add effect to ruleset cache.
 **************************************************************************/
 void ruleset_cache_add(Impr_Type_id source, enum effect_type effect_type,
 		       enum effect_range range, bool survives, int eff_value,
-		       enum effect_req_type req_type, int req_value,
+		       struct requirement *req,
 		       int group_id)
 {
   struct effect *peffect;
@@ -569,29 +474,7 @@ void ruleset_cache_add(Impr_Type_id source, enum effect_type effect_type,
   peffect->value = eff_value;
 
   /* Set effect's requirement data. */
-  peffect->req.type = req_type;
-  switch (req_type) {
-  case REQ_NONE:
-    break;
-  case REQ_TECH:
-    peffect->req.value.tech = req_value;
-    break;
-  case REQ_GOV:
-    peffect->req.value.gov = req_value;
-    break;
-  case REQ_BUILDING:
-    peffect->req.value.building = req_value;
-    break;
-  case REQ_SPECIAL:
-    peffect->req.value.special = req_value;
-    break;
-  case REQ_TERRAIN:
-    peffect->req.value.terrain = req_value;
-    break;
-  case REQ_LAST:
-    assert(0);
-    break;
-  }
+  peffect->req = *req;
 
   /* Find the effect's group. */
   if (group_id >= 0) {
@@ -697,29 +580,7 @@ static void send_ruleset_cache_effects(struct conn_list *dest)
 	  packet.group_id = -1;
 	}
 
-	switch (packet.req_type) {
-	case REQ_NONE:
-	  packet.req_value = 0;
-	  break;
-	case REQ_TECH:
-	  packet.req_value = peffect->req.value.tech;
-	  break;
-	case REQ_GOV:
-	  packet.req_value = peffect->req.value.gov;
-	  break;
-	case REQ_BUILDING:
-	  packet.req_value = peffect->req.value.building;
-	  break;
-	case REQ_SPECIAL:
-	  packet.req_value = peffect->req.value.special;
-	  break;
-	case REQ_TERRAIN:
-	  packet.req_value = peffect->req.value.terrain;
-	  break;
-	case REQ_LAST:
-	  assert(0);
-	  break;
-	}
+	packet.req_value = req_get_value(&peffect->req);
 
 	lsend_packet_ruleset_cache_effect(dest, &packet);
       } effect_list_iterate_end;
@@ -900,12 +761,12 @@ static bool is_target_possible(enum target_type target,
   the number of available sources.  However not all source caches exist: if
   the cache doesn't exist then we return 0.
 **************************************************************************/
-static int count_sources_in_range(enum target_type target,
-				  const struct player *target_player,
-				  const struct city *target_city,
-				  Impr_Type_id target_building,
-				  enum effect_range range, bool survives,
-				  Impr_Type_id source)
+int count_sources_in_range(enum target_type target,
+			   const struct player *target_player,
+			   const struct city *target_city,
+			   Impr_Type_id target_building,
+			   enum effect_range range, bool survives,
+			   Impr_Type_id source)
 {
   if (!is_target_possible(target, range)) {
     return 0;
@@ -998,15 +859,6 @@ static bool is_effect_redundant(enum target_type target,
   Checks the requirements of the effect to see if it is active on the
   given target. (If the requirements are not met the effect should be
   ignored.)
-
-  target gives the type of the target
-  (player,city,building,tile) give the exact target
-  source gives the source type of the effect
-  peffect gives the exact effect value
-
-  Make sure you give all aspects of the target when calling this function:
-  for instance if you have TARGET_CITY pass the city's owner as the target
-  player as well as the city itself as the target city.
 **************************************************************************/
 static bool are_effect_reqs_active(enum target_type target,
 				   const struct player *target_player,
@@ -1016,49 +868,8 @@ static bool are_effect_reqs_active(enum target_type target,
 				   Impr_Type_id source,
 				   const struct effect *peffect)
 {
-  /* Note the target may actually not exist.  In particular, effects that
-   * have a REQ_SPECIAL or REQ_TERRAIN may often be passed to this function
-   * with a city as their target.  In this case the requirement is simply
-   * not met. */
-  switch (peffect->req.type) {
-  case REQ_NONE:
-    return TRUE;
-    break;
-  case REQ_TECH:
-    /* The requirement is filled if the player owns the tech. */
-    return target_player && (get_invention(target_player,
-					   peffect->req.value.tech)
-			     == TECH_KNOWN);
-    break;
-  case REQ_GOV:
-    /* The requirement is filled if the player is using the government. */
-    return target_player && (target_player->government
-			     == peffect->req.value.gov);
-    break;
-  case REQ_BUILDING:
-    /* The requirement is filled if there's at least one of the building
-     * in the city.  (This is a slightly nonstandard use of
-     * count_sources_in_range.) */
-    return (count_sources_in_range(target, target_player, target_city,
-				   target_building, EFR_CITY, FALSE,
-				   peffect->req.value.building) > 0);
-    break;
-  case REQ_SPECIAL:
-    /* The requirement is filled if the tile has the special. */
-    return target_tile && tile_has_special(target_tile,
-					   peffect->req.value.special);
-    break;
-  case REQ_TERRAIN:
-    /* The requirement is filled if the tile has the terrain. */
-    return target_tile && (target_tile->terrain
-			   == peffect->req.value.terrain);
-    break;
-  case REQ_LAST:
-    break;
-  }
-
-  assert(0);
-  return FALSE;
+  return is_req_active(target, target_player, target_city, target_building,
+		       target_tile, &peffect->req);
 }
 
 /**************************************************************************

@@ -992,7 +992,7 @@ struct packet_ruleset_cache_effect {
   enum effect_range range;
   bool survives;
   int eff_value;
-  enum effect_req_type req_type;
+  enum req_type req_type;
   int req_value;
   int group_id;
 };

@@ -1335,8 +1335,9 @@ static void load_ruleset_buildings(struct section_file *file)
 	enum effect_type eff;
 	enum effect_range range;
 	bool survives;
-	enum effect_req_type type;
-	int req, equiv;
+	struct requirement req;
+	char *req_type, *req_value;
+	int equiv;
 
 	if ((eff = effect_type_from_str(item)) == EFT_LAST) {
 	  freelog(LOG_ERROR,
@@ -1382,35 +1383,21 @@ static void load_ruleset_buildings(struct section_file *file)
 	}
 
 	/* Sometimes the ruleset will have to list "" here. */
-	item = secfile_lookup_str_default(file, "", "%s.effect%d.req_type",
-	    				  sec[i], j);
-	if (item[0] != '\0') {
-	  if ((type = effect_req_type_from_str(item)) == REQ_LAST) {
-	    freelog(LOG_ERROR,
-		    /* TRANS: Obscure ruleset error */
-		    _("Building %s has unknown req type: \"%s\" (%s)"),
-		    b->name, item, filename);
-	    continue;
-          }
+	req_type = secfile_lookup_str_default(file, "", "%s.effect%d.req_type",
+					      sec[i], j);
+	req_value = secfile_lookup_str_default(file, "", "%s.effect%d.req",
+					       sec[i], j);
+	req = req_from_str(req_type, req_value);
+	if (req.type == REQ_LAST) {
+	  /* Error.  Log it, clear the req and continue. */
+	  freelog(LOG_ERROR,
+		  /* TRANS: Obscure ruleset error */
+		  _("Building %s has unknown req: \"%s\" \"%s\" (%s)"),
+		  b->name, req_type, req_value, filename);
+	  req.type = REQ_NONE;
+	}
 
-	  item = secfile_lookup_str_default(file, NULL, "%s.effect%d.req",
-					    sec[i], j);
-
-	  if (!item) {
-	    freelog(LOG_ERROR,
-		    /* TRANS: Obscure ruleset error */
-		    _("Building %s has missing requirement data (%s)"),
-		    b->name, filename);
-	    continue;
-	  } else {
-	    req = parse_effect_requirement(i, type, item);
-	  }
-        } else {
-          type = REQ_NONE;
-          req = 0;
-        }
-
-	ruleset_cache_add(i, eff, range, survives, value, type, req, equiv);
+	ruleset_cache_add(i, eff, range, survives, value, &req, equiv);
       }
     }
 

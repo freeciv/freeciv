@@ -2879,8 +2879,16 @@ void handle_ruleset_cache_group(struct packet_ruleset_cache_group *packet)
 **************************************************************************/
 void handle_ruleset_cache_effect(struct packet_ruleset_cache_effect *packet)
 {
+  struct requirement req;
+
+  req.type = packet->req_type;
+  if (req.type < 0 || req.type >= REQ_LAST) {
+    req.type = REQ_NONE;
+  }
+  req_set_value(&req, packet->req_value);
+
   ruleset_cache_add(packet->id, packet->effect_type, packet->range,
 		    packet->survives, packet->eff_value,
-		    packet->req_type, packet->req_value, packet->group_id);
+		    &req, packet->group_id);
 }
 
