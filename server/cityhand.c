@@ -148,7 +148,6 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
 {
   struct city *pcity, *othercity;
   int i, x_itr, y_itr;
-  struct tile_type *pcitytile;
 
   freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
@@ -242,6 +241,8 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   city_refresh(pcity);
 
   city_incite_cost(pcity);
+  map_clear_special(x, y, S_FORTRESS);
+  send_tile_info(NULL, x, y);
   initialize_infrastructure_cache(pcity);
   reset_move_costs(x, y);
 /* I stupidly thought that setting S_ROAD took care of this, but of course
@@ -254,26 +255,12 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
   send_city_info(0, pcity);
   maybe_make_first_contact(x, y, pcity->owner);
 
-  /* if anyone changing to ocean here, stop them */
-  pcitytile = get_tile_type(map_get_terrain(x, y));
-  if (pcitytile->mining_result == T_OCEAN) {
-    unit_list_iterate(map_get_tile(x, y)->units, punit) {
-      if (punit->activity == ACTIVITY_MINE)
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    } unit_list_iterate_end;
-  }
-  if (pcitytile->irrigation_result == T_OCEAN) {
-    unit_list_iterate(map_get_tile(x, y)->units, punit) {
-      if (punit->activity == ACTIVITY_IRRIGATE)
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    } unit_list_iterate_end;
-  }
-  if (pcitytile->transform_result == T_OCEAN) {
-    unit_list_iterate(map_get_tile(x, y)->units, punit) {
-      if (punit->activity == ACTIVITY_TRANSFORM)
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    } unit_list_iterate_end;
-  }
+  /* Catch fortress building, transforming into ocean, etc. */
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    if (punit->activity != ACTIVITY_FORTIFIED
+	&& !can_unit_do_activity(punit, punit->activity))
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  } unit_list_iterate_end;
 }
 
 /**************************************************************************

@@ -709,6 +709,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
 
   case ACTIVITY_FORTRESS:
     return (unit_flag(punit->type, F_SETTLERS) &&
+	    !map_get_city(punit->x, punit->y) &&
 	    player_knows_techs_with_flag(pplayer, TF_FORTRESS) &&
 	    !(ptile->special&S_FORTRESS) && ptile->terrain!=T_OCEAN);
 
