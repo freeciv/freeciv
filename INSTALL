@@ -425,7 +425,7 @@ The Procedure:
 
  - You can now configure Freeciv with
 
-     % ./configure --with-xpm=$MYXPMDEST
+     % ./configure --with-xpm-prefix=$MYXPMDEST
 
    which will add the proper -I/-L/-R options to the compile and link
    commands.
