@@ -1019,6 +1019,7 @@ void check_pollution(struct city *pcity)
     while (k) {
       x=pcity->x+myrand(5)-2;
       y=pcity->y+myrand(5)-2;
+      x=map_adjust_x(x); y=map_adjust_y(y);
       if ( (x!=pcity->x || y!=pcity->x) && 
 	   (map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
 	   (!(map_get_special(x,y)&S_POLLUTION)) ) { 

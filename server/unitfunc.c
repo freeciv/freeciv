@@ -747,7 +747,7 @@ void do_nuclear_explosion(int x, int y)
   int i,j;
   for (i=0;i<3;i++)
     for (j=0;j<3;j++)
-      do_nuke_tile(x+i-1,y+j-1);
+      do_nuke_tile(map_adjust_x(x+i-1),map_adjust_y(y+j-1));
 }
 
 
