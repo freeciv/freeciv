@@ -238,22 +238,6 @@ void map_expose(HDC hdc)
 /**************************************************************************
 
 **************************************************************************/
-void put_unit_city_overlays(struct unit *punit, HDC hdc, int x, int y)
-{
-  int upkeep_food = CLIP(0, punit->upkeep_food, 2);
-  int unhappy = CLIP(0, punit->unhappiness, 2);   
-  
-  if (punit->upkeep > 0)
-    draw_sprite(sprites.upkeep.shield,hdc,x,y+NORMAL_TILE_HEIGHT);
-  if (upkeep_food > 0)
-    draw_sprite(sprites.upkeep.food[upkeep_food-1],hdc,x,y+NORMAL_TILE_HEIGHT);
-  if (unhappy > 0)
-    draw_sprite(sprites.upkeep.unhappy[unhappy-1],hdc,x,y+NORMAL_TILE_HEIGHT);
-}
-
-/**************************************************************************
-
-**************************************************************************/
 void pixmap_frame_tile_red(HDC hdc, int canvas_x, int canvas_y)
 {
   HPEN old;

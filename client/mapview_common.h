@@ -165,6 +165,9 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
 	      int unit_width, int unit_height);
 void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
 		   int canvas_x, int canvas_y);
+void put_unit_city_overlays(struct unit *punit,
+			    struct canvas_store *pcanvas_store,
+			    int canvas_x, int canvas_y);
 
 void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode);

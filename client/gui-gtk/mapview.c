@@ -55,9 +55,6 @@
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite);
-static void put_overlay_tile_gpixmap(GtkPixcomm *p,
-				     int canvas_x, int canvas_y,
-				     struct Sprite *ssprite);
 static void put_line(GdkDrawable *pm, int x, int y, int dir);
 
 static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
@@ -731,26 +728,9 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 **************************************************************************/
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 {
-  int upkeep_food = CLIP(0, punit->upkeep_food, 2);
-  int upkeep_gold = CLIP(0, punit->upkeep_gold, 2);
-  int unhappy = CLIP(0, punit->unhappiness, 2);
- 
-  /* draw overlay pixmaps */
-  if (punit->upkeep > 0) {
-    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.shield);
-  }
-  if (upkeep_food > 0) {
-    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, 
-                             sprites.upkeep.food[upkeep_food-1]);
-  }
-  if (upkeep_gold > 0) {
-    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT,
-                             sprites.upkeep.gold[upkeep_gold - 1]);
-  }
-  if (unhappy > 0) {
-    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, 
-                             sprites.upkeep.unhappy[unhappy-1]);
-  }
+  struct canvas_store store = {NULL, p};
+
+  put_unit_city_overlays(punit, &store, 0, NORMAL_TILE_HEIGHT);
 }
 
 /**************************************************************************
@@ -830,19 +810,6 @@ void pixmap_frame_tile_red(GdkDrawable *pm,
 		       canvas_x, canvas_y,
 		       NORMAL_TILE_WIDTH-1, NORMAL_TILE_HEIGHT-1);
   }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void put_overlay_tile_gpixmap(GtkPixcomm *p, int canvas_x, int canvas_y,
-				     struct Sprite *ssprite)
-{
-  if (!ssprite)
-    return;
-
-  gtk_pixcomm_copyto (p, ssprite, canvas_x, canvas_y,
-		FALSE);
 }
 
 /**************************************************************************

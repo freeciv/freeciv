@@ -663,6 +663,40 @@ void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
 	   0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 }
 
+/****************************************************************************
+  Draw food, gold, and shield upkeep values on the unit.
+
+  The proper way to do this is probably something like what Civ II does
+  (one sprite drawn N times on top of itself), but we just use separate
+  sprites (limiting the number of combinations).
+****************************************************************************/
+void put_unit_city_overlays(struct unit *punit,
+			    struct canvas_store *pcanvas_store,
+			    int canvas_x, int canvas_y)
+{
+  int upkeep_food = CLIP(0, punit->upkeep_food, 2);
+  int upkeep_gold = CLIP(0, punit->upkeep_gold, 2);
+  int unhappy = CLIP(0, punit->unhappiness, 2);
+
+  /* draw overlay pixmaps */
+  if (punit->upkeep > 0) {
+    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+			sprites.upkeep.shield);
+  }
+  if (upkeep_food > 0) {
+    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+			sprites.upkeep.food[upkeep_food - 1]);
+  }
+  if (upkeep_gold > 0) {
+    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+			sprites.upkeep.gold[upkeep_gold - 1]);
+  }
+  if (unhappy > 0) {
+    gui_put_sprite_full(pcanvas_store, canvas_x, canvas_y,
+			sprites.upkeep.unhappy[unhappy - 1]);
+  }
+}
+
 /**************************************************************************
    Draw the borders of the given map tile at the given canvas position
    in non-isometric view.

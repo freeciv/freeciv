@@ -2827,6 +2827,7 @@ static ULONG Unit_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	int x = _mleft(o);
 
 	/* draw overlay pixmaps */
+	/* FIXME: call put_unit_city_overlays here. */
 	if (punit->upkeep > 0)
 	  put_sprite_overlay_height(_rp(o), sprites.upkeep.shield, x, y, get_normal_tile_height() / 2);
 	if (upkeep_food > 0)

@@ -368,6 +368,8 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++)
     {
       RECT rc;
+      struct canvas_store store = {hdc, NULL};
+
       punit=(struct unit*)ITERATOR_PTR(myiter);
       if(unitid && punit->id!=unitid)
 	continue;     
@@ -379,9 +381,9 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
       put_unit_full(punit,&canvas_store,
 		    pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
 		    pdialog->supported_y);
-      put_unit_city_overlays(punit,hdc,
-		      pdialog->pop_x+i*(SMALL_TILE_WIDTH+NORMAL_TILE_WIDTH),
-		      pdialog->supported_y);
+      put_unit_city_overlays(punit, &store,
+		pdialog->pop_x + i * (SMALL_TILE_WIDTH + NORMAL_TILE_WIDTH),
+		pdialog->supported_y + NORMAL_TILE_HEIGHT);
       pdialog->support_unit_ids[i]=punit->id;    
     }
   for(; i<NUM_UNITS_SHOWN; i++) {   

@@ -773,24 +773,14 @@ void put_city_tile_output(Pixmap pm, int canvas_x, int canvas_y,
 **************************************************************************/
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 {
-  int upkeep_food = CLIP(0, punit->upkeep_food, 2);
-  int unhappy = CLIP(0, punit->unhappiness, 2);
+  struct canvas_store store = {pm};
  
   /* wipe the slate clean */
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
   XFillRectangle(display, pm, fill_bg_gc, 0, NORMAL_TILE_WIDTH, 
 		 NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
 
-  /* draw overlay pixmaps */
-  if (punit->upkeep > 0)
-    pixmap_put_overlay_tile(pm, 0, NORMAL_TILE_HEIGHT,
-			    sprites.upkeep.shield);
-  if (upkeep_food > 0)
-    pixmap_put_overlay_tile(pm, 0, NORMAL_TILE_HEIGHT,
-			    sprites.upkeep.food[upkeep_food-1]);
-  if (unhappy > 0)
-    pixmap_put_overlay_tile(pm, 0, NORMAL_TILE_HEIGHT,
-			    sprites.upkeep.unhappy[unhappy-1]);
+  put_unit_city_overlays(punit, &store, 0, NORMAL_TILE_HEIGHT);
 }
 
 /**************************************************************************
