@@ -81,7 +81,7 @@ static void check_misc(void)
   } players_iterate_end;
   assert(nbarbs == game.nbarbarians);
 
-  assert(game.nplayers <= MAX_NUM_PLAYERS);
+  assert(game.nplayers <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 }
 
 /**************************************************************************
