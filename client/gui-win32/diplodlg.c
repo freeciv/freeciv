@@ -609,7 +609,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   
   my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold); 
   pdialog->gold0_label=fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
-  fcwin_box_add_edit(vbox,"",6,ID_GOLD0,ES_WANTRETURN | ES_MULTILINE,
+  fcwin_box_add_edit(vbox,"",6,ID_GOLD0,ES_WANTRETURN | ES_MULTILINE | ES_AUTOVSCROLL,
 		     FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Give shared vision"),ID_VISION0,0,
 		       FALSE,FALSE,5);
