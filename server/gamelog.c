@@ -74,20 +74,18 @@ void gamelog(int level, char *message, ...)
 
 void gamelog_map(void)
 {
-  int x,y;
-  char* hline;
-  if ((hline = (char*)calloc(map.xsize,sizeof(char)))!=0){
-    for (y=0;y<map.ysize;y++) {
+  int x, y;
+  char *hline = calloc(map.xsize+1,sizeof(char));
 
-      for (x=0;x<map.xsize;x++) {
-	if (map_get_terrain(x,y)!=T_OCEAN)
-	  hline[x]='.';
-	else
-	  hline[x] = ' ';
-      }
-      gamelog(GAMELOG_MAP,"%s",hline);
+  if(!hline) return;
+  
+  for (y=0;y<map.ysize;y++) {
+    for (x=0;x<map.xsize;x++) {
+      hline[x] = (map_get_terrain(x,y)==T_OCEAN) ? ' ' : '.';
     }
+    gamelog(GAMELOG_MAP,"%s",hline);
   }
+  free(hline);
 }
 
 /*Stuff for gamelog_save()*/
