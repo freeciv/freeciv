@@ -1057,7 +1057,7 @@ Freeciv.iconName: Freeciv
 *sciencechangemenubutton.left:        chainLeft
 *sciencechangemenubutton.right:       chainLeft
 
-*sciencehelpnote.label:              Help
+*sciencehelpnote.label:              Help:
 *sciencehelpnote.fromVert:           sciencechangemenubutton
 *sciencehelpnote.fromHoriz:          sciencegoalmenubutton
 !*sciencehelpnote.internalHeight:     0
@@ -1135,6 +1135,7 @@ Freeciv.iconName: Freeciv
 *reportcitylistlabel.label:Name            Happy(H/C/U)    (F/P/T)     (G/L/S)     Food      Production          
 *reportcitylistlabel.justify:            left
 *reportcitylistlabel.width:              600
+*reportcitylistlabel.font:		 6x13
 *reportcitylistlabel.borderWidth:        1
 *reportcitylistlabel.resizable:          True
 *reportcitylistlabel.top:                chainTop
@@ -1158,6 +1159,7 @@ Freeciv.iconName: Freeciv
 *reportcityviewport.right:               chainRight
 *reportcityviewport.fromVert:            reportcitylistlabel
 
+*reportcitylist.font:		     6x13
 *reportcitylist.forceColumns:        true
 *reportcitylist.defaultColumns:      1
 *reportcitylist.verticalList:        true
@@ -1937,8 +1939,6 @@ Freeciv.iconName: Freeciv
 *unitpixcanvas.label:
 *unitpixcanvas.background:                   lightblue
 *unitpixcanvas.borderWidth:                  0
-*unitpixcanvas.width:                        30
-*unitpixcanvas.height:                       30
 *unitpixcanvas.internalWidth:                0
 *unitpixcanvas.internalHeight:               0
 *unitpixcanvas.fromVert:                     unitinfolabel
@@ -1948,8 +1948,6 @@ Freeciv.iconName: Freeciv
 *unitpixcanvas.right:                        chainRight
 
 *unitbelowcanvas0.label:
-*unitbelowcanvas0.width:                     30
-*unitbelowcanvas0.height:                    30
 *unitbelowcanvas0.internalWidth:             0
 *unitbelowcanvas0.internalHeight:            0
 *unitbelowcanvas0.fromVert:                  unitpixcanvas
@@ -1961,8 +1959,6 @@ Freeciv.iconName: Freeciv
 *unitbelowcanvas0.background:                lightblue
 
 *unitbelowcanvas1.label:
-*unitbelowcanvas1.width:                     30
-*unitbelowcanvas1.height:                    30
 *unitbelowcanvas1.internalWidth:             0
 *unitbelowcanvas1.internalHeight:            0
 *unitbelowcanvas1.fromVert:                  unitpixcanvas
@@ -1975,8 +1971,6 @@ Freeciv.iconName: Freeciv
 *unitbelowcanvas1.background:                lightblue
 
 *unitbelowcanvas2.label:
-*unitbelowcanvas2.width:                     30
-*unitbelowcanvas2.height:                    30
 *unitbelowcanvas2.internalWidth:             0
 *unitbelowcanvas2.internalHeight:            0
 *unitbelowcanvas2.fromVert:                  unitpixcanvas
@@ -1989,8 +1983,6 @@ Freeciv.iconName: Freeciv
 *unitbelowcanvas2.background:                lightblue
 
 *unitbelowcanvas3.label:
-*unitbelowcanvas3.width:                     30
-*unitbelowcanvas3.height:                    30
 *unitbelowcanvas3.internalWidth:             0
 *unitbelowcanvas3.internalHeight:            0
 *unitbelowcanvas3.fromVert:                  unitpixcanvas
