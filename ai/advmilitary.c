@@ -155,10 +155,10 @@ int assess_danger(struct city *pcity)
         m = get_unit_type(punit->type)->move_rate;
 /* if dist = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
 /* Samarkand bug should be obsoleted by re-ordering of events */
-        if (!dist) {
-          printf("Dist = 0: %s's %s at (%d, %d), %s at (%d, %d)\n",
+        if (!dist) { /* Discovered the obvious that railroads are to blame! -- Syela */
+/*          printf("Dist = 0: %s's %s at (%d, %d), %s at (%d, %d)\n",
              game.players[punit->owner].name, unit_types[punit->type].name,
-             punit->x, punit->y, pcity->name, pcity->x, pcity->y);
+             punit->x, punit->y, pcity->name, pcity->x, pcity->y); */
           dist = 1;
         }
         if (dist <= m * 3 && v) urgency++;
@@ -170,6 +170,7 @@ int assess_danger(struct city *pcity)
             pplayer->ai.tech_want[A_FEUDALISM] += v * m / 2 / dist;
         }
 
+        v /= 30; /* rescaling factor to stop the overflow nonsense */
         v *= v;
 
         danger2 += v * m / dist;
@@ -178,6 +179,8 @@ int assess_danger(struct city *pcity)
       unit_list_iterate_end;
     }
   } /* end for */
+  if (danger < 0 || danger > 1<<30) /* I hope never to see this! */
+    printf("Dangerous danger (%d) in %s.  Beware of overflow.\n", danger, pcity->name);
   pcity->ai.danger = danger;
   if (pcity->ai.building_want[B_CITY] > 0 && danger2) {
     i = assess_defense(pcity); 
@@ -194,9 +197,11 @@ int assess_defense(struct city *pcity)
   def = 0;
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     v = get_defense_power(punit) * punit->hp * get_unit_type(punit->type)->firepower;
+    v /= 20; /* divides reasonably well, should stop overflows */
+/* actually is *= 1.5 for city, then /= 30 for scale - don't be confused */
+/* just trying to minimize calculations and thereby rounding errors -- Syela */
     if (is_military_unit(punit)) def += v * v;
   unit_list_iterate_end;
-  def *= 2.25; /* because we are in a city == fortified */ 
   if (city_got_citywalls(pcity)) def *= 9; /* walls rule */
   /* def is an estimate of our total defensive might */
   return(def);
@@ -269,7 +274,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   danger = pcity->ai.danger; /* we now have our warmap and will use it! */
 /* printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def); */
 
-  if (danger > DANGEROUS) { /* might be able to wait a little longer to defend */
+  if (danger) { /* might be able to wait a little longer to defend */
     danger -= def;   /* I think we're better off with this now -- Syela */
     if (danger >= def) {
       if (urgency) danger = 101; /* > 100 means BUY RIGHT NOW */
@@ -304,7 +309,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   }
 
   if (acity || punit) {
-    if (def || pcity->ai.danger <= DANGEROUS) {
+    if (def || !pcity->ai.danger) {
       v = ai_choose_attacker(pcity);
       unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, aunit)
         if (get_unit_type(aunit->type)->attack_strength >

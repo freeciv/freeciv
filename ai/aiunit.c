@@ -623,7 +623,7 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
 /* tired of AI abandoning its cities! -- Syela */
   if (punit->homecity) {
     pcity = find_city_by_id(punit->homecity);
-    if (pcity->ai.danger > DANGEROUS) { /* otherwise we can attack */
+    if (pcity->ai.danger) { /* otherwise we can attack */
       if (punit->x == pcity->x && punit->y == pcity->y) /* I'm home! */
         val = unit_defensiveness(punit);
       else val = -1;
@@ -676,7 +676,7 @@ else
    punit->ai.ai_role=AIUNIT_NONE;
    if (unit_attack_desirability(punit->type)) punit->ai.ai_role=AIUNIT_EXPLORE;
 /* this is disabled until cities know that units are coming home and behave! -- Syela
-   else if (pcity && pcity->ai.danger <= DANGEROUS) punit->ai.ai_role=AIUNIT_EXPLORE; */
+   else if (pcity && !pcity->ai.danger) punit->ai.ai_role=AIUNIT_EXPLORE; */
    else if (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)) punit->ai.ai_role=AIUNIT_EXPLORE; 
 /* else printf("%s's %s doesn't know what to do!\n", pplayer->name, unit_types[punit->type].name); */
    }
