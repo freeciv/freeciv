@@ -264,6 +264,10 @@ struct city {
     /* Only used at the client (the serer is omniscient). */
     bool occupied;
     bool happy, unhappy;
+
+    /* The color is an index into the city_colors array in mapview_common */
+#define DEFAULT_CITY_COLOR 0
+    int color;
   } client;
 
   int steal;		      /* diplomats steal once; for spies, gets harder */

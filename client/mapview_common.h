@@ -257,6 +257,7 @@ void put_city_tile_output(struct city *pcity, int city_x, int city_y,
 void put_unit_city_overlays(struct unit *punit,
 			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y);
+void toggle_city_color(struct city *pcity);
 void put_red_frame_tile(struct canvas *pcanvas,
 			int canvas_x, int canvas_y);
 

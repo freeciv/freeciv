@@ -2719,6 +2719,10 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->tax_bonus = 100;
   pcity->science_bonus = 100;
 
+  pcity->client.occupied = FALSE;
+  pcity->client.happy = pcity->client.unhappy = FALSE;
+  pcity->client.color = DEFAULT_CITY_COLOR;
+
   unit_list_init(&pcity->units_supported);
   pcity->debug = FALSE;
 

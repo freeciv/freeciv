@@ -804,6 +804,44 @@ void put_unit_city_overlays(struct unit *punit,
   }
 }
 
+/*
+ * pcity->client.color is an index into the city_colors array.  The default
+ * color index is DEFAULT_CITY_COLOR in city.h.  When toggle_city_color is
+ * called the index moves forward one position.  Each color in the array
+ * tells what color the citymap will be drawn on the mapview; COLOR_STD_LAST
+ * is a marker meaning nothing will be drawn (which of course is the
+ * default).
+ *
+ * This array can be added to without breaking anything elsewhere.
+ */
+static enum color_std city_colors[] = {
+  COLOR_STD_LAST,  /* Default color (see DEFAULT_CITY_COLOR in city.h). */
+  COLOR_STD_RED,
+  COLOR_STD_WHITE,
+  COLOR_STD_YELLOW,
+};
+#define NUM_CITY_COLORS ARRAY_SIZE(city_colors)
+
+
+/****************************************************************************
+  Toggle the city color.  This cycles through the possible colors for the
+  citymap as shown on the mapview.  These colors are listed in the
+  city_colors array; above.
+****************************************************************************/
+void toggle_city_color(struct city *pcity)
+{
+  int canvas_x, canvas_y;
+  int width = get_citydlg_canvas_width();
+  int height = get_citydlg_canvas_height();
+
+  pcity->client.color = (pcity->client.color + 1) % NUM_CITY_COLORS;
+
+  map_to_canvas_pos(&canvas_x, &canvas_y, pcity->x, pcity->y);
+  update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
+		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
+		    width, height);
+}
+
 /****************************************************************************
   Return the vertices of the given edge of the tile.  This will return
   FALSE if the edge doesn't exist (or if it does exist but is part of an
@@ -1425,6 +1463,30 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       put_tile(map_x, map_y);
     } gui_rect_iterate_end;
   }
+
+  /* Draw citymap overlays on top. */
+  gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
+    if (((draw & D_B) || (draw & D_M))
+	&& normalize_map_pos(&map_x, &map_y)) {
+      struct city *pcity = find_city_near_tile(map_x, map_y);
+      int city_x, city_y, canvas_x2, canvas_y2;
+
+      if (pcity
+	  && city_colors[pcity->client.color] != COLOR_STD_LAST
+	  && map_to_city_map(&city_x, &city_y, pcity, map_x, map_y)
+	  && map_to_canvas_pos(&canvas_x2, &canvas_y2, map_x, map_y)) {
+	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
+
+	put_city_worker(mapview_canvas.store,
+			city_colors[pcity->client.color], worker,
+			canvas_x2, canvas_y2);
+	if (worker == C_TILE_WORKER) {
+	  put_city_tile_output(pcity, city_x, city_y,
+			       mapview_canvas.store, canvas_x2, canvas_y2);
+	}
+      }
+    }
+  } gui_rect_iterate_end;
 
   show_city_descriptions(canvas_x, canvas_y, width, height);
 

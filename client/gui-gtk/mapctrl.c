@@ -411,8 +411,7 @@ void key_city_workers(GtkWidget *w, GdkEventKey *ev)
   }
 
   /* Shade tiles on usage */
-  city_workers_color = (city_workers_color % 3) + 1;
-  put_city_workers(pcity, city_workers_color);
+  toggle_city_color(pcity);
 }
 
 

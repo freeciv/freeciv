@@ -71,7 +71,9 @@ void update_map_canvas_scrollbars(void);
 void update_map_canvas_scrollbars_size(void);
 
 void put_cross_overlay_tile(int x,int y);
-void put_city_workers(struct city *pcity, int color);
+void put_city_worker(struct canvas *pcanvas,
+		     enum color_std color, enum city_tile_type worker,
+		     int canvas_x, int canvas_y);
 
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h);
 void tileset_changed(void);

@@ -747,51 +747,28 @@ void put_cross_overlay_tile(int x,int y)
   }
 }
 
-
-/**************************************************************************
- Shade the tiles around a city to indicate the location of workers
-**************************************************************************/
-void put_city_workers(struct city *pcity, int color)
+/****************************************************************************
+  Draw a single tile of the citymap onto the mapview.  The tile is drawn
+  as the given color with the given worker on it.  The exact method of
+  drawing is left up to the GUI.
+****************************************************************************/
+void put_city_worker(struct canvas *pcanvas,
+		     enum color_std color, enum city_tile_type worker,
+		     int canvas_x, int canvas_y)
 {
-  int canvas_x, canvas_y;
-  static struct city *last_pcity = NULL;
-  struct canvas store = {XtWindow(map_canvas)};
-
-  if (color == -1) {
-    if (pcity != last_pcity)
-      city_workers_color = (city_workers_color%3)+1;
-    color = city_workers_color;
+  if (worker == C_TILE_EMPTY) {
+    XSetStipple(display, fill_tile_gc, gray25);
+  } else if (worker == C_TILE_WORKER) {
+    XSetStipple(display, fill_tile_gc, gray50);
+  } else {
+    return;
   }
 
   XSetForeground(display, fill_tile_gc, colors_standard[color]);
-  city_map_checked_iterate(pcity->x, pcity->y, i, j, x, y) {
-    enum city_tile_type worked = get_worker_city(pcity, i, j);
-
-    if (!map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
-      continue;
-    }
-    if (!is_city_center(i, j)) {
-      if (worked == C_TILE_EMPTY) {
-	XSetStipple(display, fill_tile_gc, gray25);
-      } else if (worked == C_TILE_WORKER) {
-	XSetStipple(display, fill_tile_gc, gray50);
-      } else
-	continue;
-      XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
-		canvas_x, canvas_y,
-		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, canvas_x, canvas_y);
-      XFillRectangle(display, XtWindow(map_canvas), fill_tile_gc,
-		     canvas_x, canvas_y,
-		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
-    if (worked == C_TILE_WORKER) {
-      put_city_tile_output(pcity, i, j, &store, canvas_x, canvas_y);
-    }
-  } city_map_checked_iterate_end;
-
-  last_pcity = pcity;
+  XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
+		 canvas_x, canvas_y,
+		 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 }
-
 
 /**************************************************************************
 ...

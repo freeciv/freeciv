@@ -396,7 +396,8 @@ void handle_city_info(struct packet_city_info *packet)
 
   if(!pcity) {
     city_is_new = TRUE;
-    pcity=fc_malloc(sizeof(struct city));
+    pcity = create_city_virtual(get_player(packet->owner),
+				packet->x, packet->y, packet->name);
     pcity->id=packet->id;
     idex_register_city(pcity);
     update_descriptions = TRUE;
@@ -594,7 +595,6 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   }
 
   if (city_workers_display==pcity)  {
-    put_city_workers(pcity, -1);
     city_workers_display=NULL;
   }
 

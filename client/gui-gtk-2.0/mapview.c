@@ -853,67 +853,37 @@ void put_cross_overlay_tile(int x, int y)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void put_city_workers(struct city *pcity, int color)
+/****************************************************************************
+  Draw a single tile of the citymap onto the mapview.  The tile is drawn
+  as the given color with the given worker on it.  The exact method of
+  drawing is left up to the GUI.
+****************************************************************************/
+void put_city_worker(struct canvas *pcanvas,
+		     enum color_std color, enum city_tile_type worker,
+		     int canvas_x, int canvas_y)
 {
-  int canvas_x, canvas_y;
-  static struct city *last_pcity=NULL;
-  struct canvas store = {.type = CANVAS_PIXMAP, .v.pixmap = map_canvas->window};
-
-  if (color==-1) {
-    if (pcity!=last_pcity)
-      city_workers_color = city_workers_color%3 + 1;
-    color=city_workers_color;
+  if (worker == C_TILE_EMPTY) {
+    gdk_gc_set_stipple(fill_tile_gc, gray25);
+  } else if (worker == C_TILE_WORKER) {
+    gdk_gc_set_stipple(fill_tile_gc, gray50);
+  } else {
+    return;
   }
+
   gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
 
-  city_map_checked_iterate(pcity->x, pcity->y, i, j, x, y) {
-    enum city_tile_type worked = get_worker_city(pcity, i, j);
+  if (is_isometric) {
+    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
+  }
 
-    if (!map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
-      continue;
-    }
+  gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
+		     canvas_x, canvas_y,
+		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
-    /* stipple the area */
-    if (!is_city_center(i, j)) {
-      if (worked == C_TILE_EMPTY) {
-	gdk_gc_set_stipple(fill_tile_gc, gray25);
-      } else if (worked == C_TILE_WORKER) {
-	gdk_gc_set_stipple(fill_tile_gc, gray50);
-      } else
-	continue;
-
-      if (is_isometric) {
-	gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-	gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
-	gdk_draw_drawable(map_canvas->window, fill_tile_gc, map_canvas_store,
-			  canvas_x, canvas_y,
-			  canvas_x, canvas_y,
-			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-	gdk_draw_rectangle(map_canvas->window, fill_tile_gc, TRUE,
-			   canvas_x, canvas_y,
-			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-	gdk_gc_set_clip_mask(fill_tile_gc, NULL);
-      } else {
-	gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
-			  canvas_x, canvas_y,
-			  canvas_x, canvas_y,
-			  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-	gdk_draw_rectangle(map_canvas->window, fill_tile_gc, TRUE,
-			   canvas_x, canvas_y,
-			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      }
-    }
-
-    /* draw tile output */
-    if (worked == C_TILE_WORKER) {
-      put_city_tile_output(pcity, i, j, &store, canvas_x, canvas_y);
-    }
-  } city_map_checked_iterate_end;
-
-  last_pcity=pcity;
+  if (is_isometric) {
+    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+  }
 }
 
 /**************************************************************************
