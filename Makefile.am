@@ -21,9 +21,7 @@ endif
 
 SUBDIRS=	$(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc
 
-EXTRA_DIST=	PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt \
-		README.AI README.rulesets README.graphics \
-		civ ser config.mac.h diff_ignore \
+EXTRA_DIST=	civ ser config.mac.h diff_ignore \
 		amiga/amigaclient.c    \
 		amiga/amigaserver.c    \
 		amiga/config.h         \

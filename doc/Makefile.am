@@ -2,7 +2,12 @@
 
 
 EXTRA_DIST =		\
+	BUGS		\
+	BUGS.de		\
 	BUGS.sv		\
+	CodingStyle	\
+	HACKING		\
+	HOWTOPLAY	\
 	HOWTOPLAY.de	\
 	HOWTOPLAY.fr	\
 	HOWTOPLAY.it	\
@@ -14,9 +19,18 @@ EXTRA_DIST =		\
 	INSTALL.it	\
 	NEWS.de		\
 	NEWS.ja		\
+	PEOPLE		\
+	README.AI	\
+	README.agents	\
+	README.attributes \
+	README.cma	\
+	README.cma.de	\
+	README.graphics	\
+	README.rulesets	\
 	README.de	\
 	README.fr	\
 	README.it	\
 	README.ja	\
 	README.rulesets.de \
-	README.sv
+	README.sv	\
+	TODO
