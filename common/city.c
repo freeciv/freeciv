@@ -1180,7 +1180,7 @@ int city_gold_surplus(struct city *pcity)
 
 /**************************************************************************
  Whether a city has an improvement, or the same effect via a wonder.
- (The improvement_type_id should be an improvement, not a wonder.)
+ (The Impr_Type_id should be an improvement, not a wonder.)
  Note also: city_got_citywalls(), and server/citytools:city_got_barracks()
 **************************************************************************/
 int city_got_effect(struct city *pcity, Impr_Type_id id)
