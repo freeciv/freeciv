@@ -1211,15 +1211,16 @@ int city_name_compare(const void *p1, const void *p2)
 }
 
 /**************************************************************************
-  Return the number of free shields for unit support the city would get
-  under the given government.
+  Return the number of free units of upkeep for unit support the city
+  would get under the given government.
 **************************************************************************/
-int citygov_free_shield(const struct city *pcity, struct government *gov)
+int citygov_free_upkeep(const struct city *pcity,
+			const struct government *gov, Output_type_id otype)
 {
-  if (gov->free_upkeep[O_SHIELD] == G_CITY_SIZE_FREE) {
+  if (gov->free_upkeep[otype] == G_CITY_SIZE_FREE) {
     return pcity->size;
   } else {
-    return gov->free_upkeep[O_SHIELD];
+    return gov->free_upkeep[otype];
   }
 }
 
@@ -1232,31 +1233,6 @@ int citygov_free_happy(const struct city *pcity, struct government *gov)
     return pcity->size;
   } else {
     return gov->free_happy;
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int citygov_free_food(const struct city *pcity, struct government *gov)
-{
-  if (gov->free_upkeep[O_FOOD] == G_CITY_SIZE_FREE) {
-    return pcity->size;
-  } else {
-    return gov->free_upkeep[O_FOOD];
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static int citygov_free_gold(const struct city *pcity, 
-                             struct government *gov)
-{
-  if (gov->free_upkeep[O_GOLD] == G_CITY_SIZE_FREE) {
-    return pcity->size;
-  } else {
-    return gov->free_upkeep[O_GOLD];
   }
 }
 
@@ -2064,9 +2040,9 @@ static inline void city_support(struct city *pcity,
   struct government *g = get_gov_pcity(pcity);
 
   int free_happy = citygov_free_happy(pcity, g);
-  int free_shield = citygov_free_shield(pcity, g);
-  int free_food = citygov_free_food(pcity, g);
-  int free_gold = citygov_free_gold(pcity, g);
+  int free_shield = citygov_free_upkeep(pcity, g, O_SHIELD);
+  int free_food = citygov_free_upkeep(pcity, g, O_FOOD);
+  int free_gold = citygov_free_upkeep(pcity, g, O_GOLD);
 
   /* ??  This does the right thing for normal Republic and Democ -- dwp */
   free_happy += get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);

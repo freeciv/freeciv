@@ -466,9 +466,9 @@ struct city *city_list_find_name(struct city_list *This, const char *name);
 int city_name_compare(const void *p1, const void *p2);
 
 /* city free cost values depending on government: */
-int citygov_free_shield(const struct city *pcity, struct government *gov);
+int citygov_free_upkeep(const struct city *pcity,
+			const struct government *gov, Output_type_id otype);
 int citygov_free_happy(const struct city *pcity, struct government *gov);
-int citygov_free_food(const struct city *pcity, struct government *gov);
 
 /* city style functions */
 int get_city_style(const struct city *pcity);
