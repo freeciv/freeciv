@@ -871,10 +871,11 @@ static void finish_revolution(struct player *pplayer)
 	  "Revolution finished for %s.  Government is %s.  Revofin %d (%d).",
 	  pplayer->name, get_government_name(government),
 	  pplayer->revolution_finishes, game.turn);
-  notify_player(pplayer, _("Game: %s now governs the %s as a %s."), 
-		pplayer->name, 
-  	        get_nation_name_plural(pplayer->nation),
-		get_government_name(government));  
+  notify_player_ex(pplayer, NULL, E_REVOLT_DONE,
+		   _("Game: %s now governs the %s as a %s."), 
+		   pplayer->name, 
+		   get_nation_name_plural(pplayer->nation),
+		   get_government_name(government));  
   gamelog(GAMELOG_GOVERNMENT, _("%s form a %s"),
 	  get_nation_name_plural(pplayer->nation),
 	  get_government_name(government));
@@ -1014,11 +1015,20 @@ void update_revolution(struct player *pplayer)
 	  get_government_name(pplayer->target_government),
 	  pplayer->revolution_finishes, game.turn);
   if (pplayer->government == game.government_when_anarchy
-      && pplayer->target_government != game.government_when_anarchy
-      && pplayer->revolution_finishes == game.turn) {
-    freelog(LOG_DEBUG, "Update: finishing revolution for %s.",
-	    pplayer->name);
-    finish_revolution(pplayer);
+      && pplayer->revolution_finishes <= game.turn) {
+    if (pplayer->target_government != game.government_when_anarchy) {
+      /* If the revolution is over and a target government is set, go into
+       * the new government. */
+      freelog(LOG_DEBUG, "Update: finishing revolution for %s.",
+	      pplayer->name);
+      finish_revolution(pplayer);
+    } else {
+      /* If the revolution is over but there's no target government set,
+       * alert the player. */
+      notify_player_ex(pplayer, NULL, E_REVOLT_DONE,
+		       _("You should choose a new government from the "
+			 "government menu."));
+    }
   } else if (pplayer->government != game.government_when_anarchy
 	     && pplayer->revolution_finishes < game.turn) {
     /* Reset the revolution counter.  If the player has another revolution

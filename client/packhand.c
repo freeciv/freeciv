@@ -1576,16 +1576,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       append_output_window(msg);
     }
   }
-  
-  if (pplayer == game.player_ptr
-      && pplayer->revolution_finishes >= 0
-      && pplayer->revolution_finishes <= game.turn
-      && pplayer->government == game.government_when_anarchy
-      && (!game.player_ptr->ai.control || ai_popup_windows)
-      && can_client_change_view()) {
-    create_event(NULL, E_REVOLT_DONE, _("Game: Revolution finished"));
-  }
-  
+
   update_players_dialog();
   update_worklist_report_dialog();
   upgrade_canvas_clipboard();
