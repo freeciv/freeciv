@@ -1,18 +1,20 @@
 # Hungarian translations for Freeciv
-# Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
+# Copyright (C) 2000 Free Software Foundation, Inc.
+# This translation is covered by the GNU General Public License Version 2.
 # Zoltán Bárdosi <hck@lkg.rulez.org>, 1999.
+# Gábor Dukai <dukai@EUnet.yu>, 2000.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.9.4\n"
-"POT-Creation-Date: 2000-02-21 16:09-0500\n"
-"PO-Revision-Date: 2000-02-17 20:41+0100\n"
+"Project-Id-Version: Freeciv 1.9.6\n"
+"POT-Creation-Date: 2000-02-19 03:16-0500\n"
+"PO-Revision-Date: 2000-02-24 18:50+0100\n"
 "Last-Translator: Gábor Dukai <dukai@EUnet.yu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: common/city.c:177
 msgid "?wonder:w"
@@ -118,12 +120,12 @@ msgstr ""
 #: common/shared.c:228
 #, c-format
 msgid "%d BC"
-msgstr ""
+msgstr "i.e. %d"
 
 #: common/shared.c:230
 #, c-format
 msgid "%d AD"
-msgstr ""
+msgstr "i.sz. %d"
 
 #: client/tilespec.c:174 common/shared.c:579
 #, c-format
@@ -193,15 +195,15 @@ msgstr "Vár"
 msgid "Pollution"
 msgstr "Szennyezés"
 
-#: client/gui-gtk/menu.c:547 client/gui-xaw/menu.c:156 common/unit.c:854
+#: client/gui-gtk/menu.c:544 client/gui-xaw/menu.c:156 common/unit.c:854
 msgid "Fortify"
 msgstr "Megerõsít"
 
-#: client/gui-gtk/menu.c:549 client/gui-xaw/menu.c:157 common/unit.c:856
+#: client/gui-gtk/menu.c:546 client/gui-xaw/menu.c:157 common/unit.c:856
 msgid "Sentry"
 msgstr "Õrjáratozik"
 
-#: client/gui-gtk/menu.c:551 client/gui-xaw/menu.c:158 common/unit.c:858
+#: client/gui-gtk/menu.c:548 client/gui-xaw/menu.c:158 common/unit.c:858
 msgid "Pillage"
 msgstr "Fosztogat"
 
@@ -225,14 +227,14 @@ msgid "Unknown"
 msgstr "Ismeretlen"
 
 #: common/unit.c:1093
-#, fuzzy
+#
 msgid " (veteran)"
-msgstr "(veterán)"
+msgstr " (veterán)"
 
 #: common/unit.c:1110
-#, fuzzy
+#
 msgid "Moves"
-msgstr "Lépések:"
+msgstr "Lépések"
 
 #: common/version.c:26
 msgid "January"
@@ -296,12 +298,12 @@ msgstr ""
 #: server/barbarian.c:431
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr ""
+msgstr "Bennszülött felkelés %s közelében %s vezetésével."
 
 #: server/barbarian.c:434
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr ""
+msgstr "Kalózok %s közelében!"
 
 #: server/cityhand.c:116
 #, c-format
@@ -355,12 +357,12 @@ msgstr ""
 #: server/cityhand.c:560
 #, c-format
 msgid "Game: %s is building %s%s."
-msgstr ""
+msgstr "Játék: %s %s-t épít"
 
 #: server/cityhand.c:564
 #, c-format
 msgid "Game: %s is building %s."
-msgstr ""
+msgstr "Játék: %s %s-t épít"
 
 #: ai/aicity.c:247 server/cityhand.c:571
 #, c-format
@@ -397,6 +399,7 @@ msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
 "the rebel states."
 msgstr ""
+"Játék: A néped fellázadt, %s a lett a lázadó államok vezetõje."
 
 #: server/citytools.c:954
 #, c-format
@@ -412,11 +415,14 @@ msgid ""
 "rebel cause,\n"
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
+"Játék: A %s fõvárosának elfoglalása és a birodalom hivatalnoki szervezetének "
+"lerombolása polgárháborút robbantott ki. Az alkalmat kihsználók összegyûltek "
+"és a lázadó %s %d tartományt tart irányítása alatt."
 
 #: server/cityturn.c:555
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
-msgstr ""
+msgstr "Játék: %s %s-t (elavult) ad el %d aranyért."
 
 #: server/cityturn.c:734
 msgid "Game: WARNING, we're LOW on FUNDS sire."
@@ -450,7 +456,7 @@ msgstr "Játék: Éhínség van %s-ban, %s elveszett!"
 #: server/cityturn.c:988 server/cityturn.c:1028
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr ""
+msgstr "Játék: %s nem tudja megépíteni a munkatervben lévõ %s-t. Törölve..."
 
 #: server/cityturn.c:1007 server/cityturn.c:1047
 #, c-format
@@ -458,6 +464,8 @@ msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
 msgstr ""
+"Játék: %s nem tudja megépíteni a munkatervben lévõ %s-t; a technika még "
+"nem elérhetõ. Elhalasztva..."
 
 #: server/cityturn.c:1015 server/cityturn.c:1055 server/cityturn.c:1156
 #, c-format
@@ -467,7 +475,7 @@ msgstr "Játék: A %s gyártása %s-re cserélõdött %s-ban."
 #: server/cityturn.c:1080
 #, c-format
 msgid "Game: %s's worklist is now empty."
-msgstr ""
+msgstr "Játék: %s munkaterve most üres."
 
 #: server/cityturn.c:1176
 #, c-format
@@ -502,7 +510,7 @@ msgstr "Játék: A %s ûrhajót kezdtek építeni!"
 #: server/cityturn.c:1288
 #, c-format
 msgid "Game: %s can't build %s yet."
-msgstr ""
+msgstr "Játék: %s még nem építhet %s-t."
 
 #: server/cityturn.c:1304
 #, c-format
@@ -554,17 +562,17 @@ msgstr "Játék: Rend helyreállt %s-ban."
 #: server/cityturn.c:1579
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
-msgstr ""
+msgstr "Játék: Az emberek megdöntötték a %s-odat, az országban nyugtalanság van."
 
 #: server/cityturn.c:1614
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
-msgstr ""
+msgstr "Játék: %s még nemépíthet %s-t, és nem szüntethetjük meg az egyetlen városunkat."
 
 #: server/cityturn.c:1628
 #, c-format
 msgid "Game: %s is disbanded into %s."
-msgstr ""
+msgstr "Játék: %s %s-ba lett olvasztva."
 
 #: server/civserver.c:194
 #, c-format
@@ -574,7 +582,7 @@ msgstr ""
 #: server/civserver.c:225
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr ""
+msgstr "Hiba: ismeretlen opció '%s'\n"
 
 #: server/civserver.c:237
 #, c-format
@@ -616,9 +624,8 @@ msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FILE\tFILE logfájl használata\n"
 
 #: client/civclient.c:106 server/civserver.c:248
-#, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
-msgstr "  -l, --log=FILE\tFILE használata logfájlként.\n"
+msgstr "  -l, --log FILE\tFILE használata logfájlként.\n"
 
 #: server/civserver.c:249
 msgid "  -m, --meta\t\tSend info to metaserver\n"
@@ -676,7 +683,7 @@ msgstr "Most elfogadom új kliensek kapcsolódását."
 
 #: server/civserver.c:378
 msgid "Last player has disconnected: will need to restart."
-msgstr ""
+msgstr "Az utolsó játékos lekapcsolódott: újra kell indítani."
 
 #: server/civserver.c:504
 msgid "Game: The game is over..."
@@ -717,6 +724,8 @@ msgid ""
 "Another player named '%s' has already joined the game.  Please choose "
 "another name."
 msgstr ""
+"Másik '%s' nevû játékos már csatlakozott a játékhoz. Kérlek válassz "
+"másik nevet."
 
 #: server/civserver.c:1156
 #, fuzzy, c-format
@@ -730,7 +739,7 @@ msgstr ""
 #: server/civserver.c:1186 server/civserver.c:1461
 #, c-format
 msgid "Game full - %s was rejected."
-msgstr ""
+msgstr "Játék tele - %s kidobva."
 
 #: server/civserver.c:1238
 #, c-format
@@ -778,7 +787,7 @@ msgstr "1 játékos van kapcsolatban:"
 
 #: server/civserver.c:1317 server/civserver.c:1333
 msgid " (R.I.P.)"
-msgstr " (R.I.P.)"
+msgstr " (Nyugodjék békében!)"
 
 #: server/civserver.c:1318
 msgid " (AI mode)"
@@ -1151,7 +1160,7 @@ msgstr ""
 msgid "%s has been DESTROYED\n"
 msgstr "%s MEGSEMMISÜLT\n"
 
-#: client/gui-gtk/menu.c:606 client/gui-xaw/menu.c:187 data/helpdata.txt:716
+#: client/gui-gtk/menu.c:603 client/gui-xaw/menu.c:187 data/helpdata.txt:716
 #: server/plrhand.c:205
 msgid "Wonders of the World"
 msgstr "A Világ Csodái"
@@ -1220,7 +1229,7 @@ msgstr "Termelés"
 
 #: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175
 #: data/default/techs.ruleset:175 server/plrhand.c:812
-#, fuzzy
+#
 msgid "Economics"
 msgstr "Gazdaság"
 
@@ -1234,17 +1243,17 @@ msgstr "Demográfiai Jelentés:"
 
 #: server/plrhand.c:841
 msgid "Sorry, the Demographics report is unavailable."
-msgstr ""
+msgstr "Bocs, a Demográfiai Jelentés nem elérhetõ."
 
 #: server/plrhand.c:846
 #, c-format
 msgid "The %s of the %s"
-msgstr ""
+msgstr "A %s %s-a"
 
 #: server/plrhand.c:1270
 #, c-format
 msgid "%2d: The %s %s scored %d points\n"
-msgstr ""
+msgstr "%2d: A %s %s-a %d pontot ért el\n"
 
 #: server/plrhand.c:1277
 msgid "Final Report:"
@@ -1277,7 +1286,7 @@ msgstr "Játék: A %s nincsenek többet!"
 #: server/plrhand.c:1389
 #, c-format
 msgid "%s are first to learn %s"
-msgstr ""
+msgstr "%s fejlesztették ki %s-t elsõnek"
 
 #: server/plrhand.c:1414
 #, c-format
@@ -1387,9 +1396,8 @@ msgid "Message too long in page_player_generic!!"
 msgstr ""
 
 #: server/plrhand.c:2479
-#, fuzzy
 msgid "Game: You've been removed from the game!"
-msgstr "Kiutasítottak a játékból: %s"
+msgstr "Játék: Kiutasítottak a játékból!"
 
 #: server/plrhand.c:2483
 #, c-format
@@ -1439,15 +1447,15 @@ msgstr ""
 
 #: server/ruleset.c:1925
 msgid "Loading rulesets"
-msgstr ""
+msgstr "Szabályok (ruleset) betöltése"
 
 #: server/spacerace.c:163
 msgid "Game: Your spaceship is already launched!"
-msgstr ""
+msgstr "Játék: Az ûrhajódat már kilõtték!"
 
 #: server/spacerace.c:168
 msgid "Game: Your spaceship can't be launched yet!"
-msgstr ""
+msgstr "Játék: Az ûrhajódat még nem lehet kilõni!"
 
 #: server/spacerace.c:177
 #, c-format
@@ -1455,6 +1463,8 @@ msgid ""
 "Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
+"Játék: A %s kilõttek egy ûrhajót! Az Alpha Centaurira való érkezés becsült "
+"ideje %s."
 
 #: server/spacerace.c:196
 msgid "Game: Spaceship action received, but you don't have a spaceship!"
@@ -1462,57 +1472,57 @@ msgstr ""
 
 #: server/spacerace.c:205
 msgid "Game: You can't modify your spaceship after launch!"
-msgstr ""
+msgstr "Játék: Kilövés után nem módosíthatod az ûrhajódat!"
 
 #: server/spacerace.c:214
 msgid "Game: You don't have any unplaced Space Structurals!"
-msgstr ""
+msgstr "Játék: Nincs nem elhelyezett Ûrhajó vázad!"
 
 #: server/spacerace.c:219
 msgid "Game: That Space Structural would not be connected!"
-msgstr ""
+msgstr "Játék: Azt az Ûrhajó vázat nem lehetne csatlakoztatni!"
 
 #: server/spacerace.c:233 server/spacerace.c:252
 msgid "Game: You don't have any unplaced Space Components!"
-msgstr "Játék: Nincs nem elhelyezett Ûrhajókomponensed!"
+msgstr "Játék: Nincs nem elhelyezett Ûrhajó alkatrészed!"
 
 #: server/spacerace.c:238
 msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
-msgstr ""
+msgstr "Játék: Az ûrhajódon már meg van az összes Üzemagyag-egység!"
 
 #: server/spacerace.c:257
 msgid ""
 "Game: Your spaceship already has the maximum number of Propulsion Components!"
-msgstr ""
+msgstr "Játék: Az ûrhajódon már meg van az összes Hajtómû-egység!"
 
 #: server/spacerace.c:272 server/spacerace.c:292 server/spacerace.c:312
 msgid "Game: You don't have any unplaced Space Modules!"
-msgstr "Játék: Nincs nem elhelyezett Ûrhajómodulod!"
+msgstr "Játék: Nincs nem elhelyezett Ûrhajó modulod!"
 
 #: server/spacerace.c:277
 msgid ""
 "Game: Your spaceship already has the maximum number of Habitation Modules!"
-msgstr ""
+msgstr "Játék: Az ûrhajódon már meg van az összes Lakóegység!"
 
 #: server/spacerace.c:297
 msgid ""
 "Game: Your spaceship already has the maximum number of Life Support Modules!"
-msgstr ""
+msgstr "Játék: Az ûrhajódon már meg van az összes Létfenntartó egység"
 
 #: server/spacerace.c:317
 msgid ""
 "Game: Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr ""
+msgstr "Játék: Az ûrhajódon már meg van az összes Napelem-egység!"
 
 #: server/spacerace.c:336
 #, c-format
 msgid "Game: With the capture of %s's capital, the %s spaceship is lost!"
-msgstr ""
+msgstr "Játék: A %s fõvárosának elfoglalásával a %s ûrhajó elveszett!"
 
 #: server/spacerace.c:374
 #, c-format
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr ""
+msgstr "Játék: A %s ûrhajó megérkezett az Alpha Centaurira."
 
 #: server/stdinhand.c:138
 msgid "Map width in squares"
@@ -3425,46 +3435,46 @@ msgstr ""
 #: server/unithand.c:666 server/unithand.c:674 server/unithand.c:680
 #, c-format
 msgid "Game: You found %d credits."
-msgstr ""
+msgstr "Játék: %d aranyat találtál."
 
 #: server/unithand.c:688
 msgid "Game: You found ancient scrolls of wisdom."
-msgstr ""
+msgstr "Játék: Õsi papírtekercseket találtál."
 
 #: server/unithand.c:701
 #, c-format
 msgid "Game: You gain knowledge about %s."
-msgstr ""
+msgstr "Játék: Megtanultad %s-t."
 
 #: server/unithand.c:709
 #, c-format
 msgid "Game: The %s have aquired %s from ancient scrolls of wisdom"
-msgstr ""
+msgstr "Játék: A %s megszerezték a %s-t õsi tekercsekbõl."
 
 #: server/unithand.c:718
 #, c-format
 msgid "Game: You gain knowledge about Future Tech. %d."
-msgstr ""
+msgstr "Játék: A Jövõbeni Technika %d-t megtanultad."
 
 #: server/unithand.c:729
 msgid "Game: A band of friendly mercenaries joins your cause."
-msgstr ""
+msgstr "Játék: Egy csapat szolgálatkész zsoldos csatlakozott hozzád."
 
 #: server/unithand.c:737
 msgid "Game: An abandoned village is here."
-msgstr ""
+msgstr "Játék: Egy elhagyott falu van itt."
 
 #: server/unithand.c:742
 msgid "Game: You have unleashed a horde of barbarians!"
-msgstr ""
+msgstr "Játék: Elszabadítottál egy barbár hordát!"
 
 #: server/unithand.c:743
 msgid "Game: Your unit has been killed by barbarians."
-msgstr ""
+msgstr "Játék: Barbárok megölék az egységedet."
 
 #: server/unithand.c:758
 msgid "Game: Friendly nomads are impressed by you, and join you."
-msgstr ""
+msgstr "Játék: Jó benyomást tettél egy csapat nomádra és csatlakoztak hozzád."
 
 #: server/unithand.c:836
 msgid "Game: This unit has no moves left."
@@ -3527,12 +3537,12 @@ msgstr ""
 #: server/unithand.c:1172
 #, c-format
 msgid "Game: You destroy %s completely."
-msgstr ""
+msgstr "Játék: %s-t teljesen megsemmisítetted."
 
 #: server/unithand.c:1174
 #, c-format
 msgid "Game: %s has been destroyed by %s."
-msgstr ""
+msgstr "Játék: %s-t megsemmisítette %s."
 
 #: server/unithand.c:1194
 #, c-format
@@ -3557,11 +3567,11 @@ msgstr ""
 #: server/unittools.c:91
 #, c-format
 msgid "Game: Only %s can attack from sea."
-msgstr ""
+msgstr "Játék: Csak %s támadhatnak tengerrõl."
 
 #: server/unittools.c:96
 msgid "Game: Cannot attack from sea."
-msgstr ""
+msgstr "Játék: Nem lehet tengerrõl támadni."
 
 #: server/unittools.c:109
 #, c-format
@@ -4544,7 +4554,7 @@ msgstr ""
 msgid "Trade Routes"
 msgstr "Kereskedelmi Útvonalak"
 
-#: client/gui-gtk/citydlg.c:909 client/gui-gtk/menu.c:589
+#: client/gui-gtk/citydlg.c:909 client/gui-gtk/menu.c:586
 #: client/gui-xaw/menu.c:177
 msgid "Done"
 msgstr "Kész"
@@ -4710,7 +4720,7 @@ msgstr "Cserél Építendõ Dolgot"
 msgid "Ca_ncel"
 msgstr "_Mégse"
 
-#: client/gui-gtk/citydlg.c:1752 client/gui-gtk/menu.c:615
+#: client/gui-gtk/citydlg.c:1752 client/gui-gtk/menu.c:612
 msgid "_Help"
 msgstr ""
 
@@ -4792,7 +4802,7 @@ msgstr ""
 msgid "No Units Available"
 msgstr ""
 
-#: client/gui-gtk/cityrep.c:429 client/gui-gtk/menu.c:596
+#: client/gui-gtk/cityrep.c:429 client/gui-gtk/menu.c:593
 #: client/gui-xaw/menu.c:182 data/Freeciv:1484
 msgid "City Report"
 msgstr "Városinfók"
@@ -4900,17 +4910,17 @@ msgstr "Cserél"
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Játék: %s ára %d arany, de neked csak %d aranyad van."
 
-#: client/gui-gtk/cityrep.c:1270 data/Freeciv:1640
+#: client/gui-gtk/cityrep.c:1249 data/Freeciv:1640
 msgid "Configure City Report"
 msgstr "Városinfó ablak konfigurálása"
 
-#: client/gui-gtk/cityrep.c:1273 data/Freeciv:1645
+#: client/gui-gtk/cityrep.c:1252 data/Freeciv:1645
 msgid "Set columns shown"
 msgstr "Mutatott sorok"
 
 #. - Now, let's create some command buttons.
 #. + Close
-#: client/gui-gtk/cityrep.c:1284 client/gui-gtk/dialogs.c:199
+#: client/gui-gtk/cityrep.c:1263 client/gui-gtk/dialogs.c:199
 #: client/gui-gtk/dialogs.c:324 client/gui-gtk/dialogs.c:684
 #: client/gui-gtk/dialogs.c:782 client/gui-gtk/dialogs.c:1663
 #: client/gui-gtk/gamedlgs.c:414 client/gui-gtk/helpdlg.c:445
@@ -4941,7 +4951,7 @@ msgstr "Verzió"
 msgid "Status"
 msgstr "Státusz"
 
-#: client/gui-gtk/connectdlg.c:125 client/gui-gtk/menu.c:476
+#: client/gui-gtk/connectdlg.c:125 client/gui-gtk/menu.c:473
 #: client/gui-gtk/plrdlg.c:93 client/gui-xaw/menu.c:109 data/Freeciv:3036
 #: data/Freeciv:3037
 msgid "Players"
@@ -4980,12 +4990,12 @@ msgid "Update"
 msgstr "Frissít"
 
 #: client/gui-gtk/connectdlg.c:220 client/gui-gtk/dialogs.c:1400
-#: client/gui-gtk/menu.c:569 client/gui-xaw/menu.c:167 data/Freeciv:87
+#: client/gui-gtk/menu.c:566 client/gui-xaw/menu.c:167 data/Freeciv:87
 #: data/Freeciv:2419
 msgid "Connect"
 msgstr "Kapcsolódik"
 
-#: client/gui-gtk/connectdlg.c:226 client/gui-gtk/menu.c:496
+#: client/gui-gtk/connectdlg.c:226 client/gui-gtk/menu.c:493
 #: client/gui-xaw/menu.c:119 data/Freeciv:94 data/Freeciv:3024
 msgid "Quit"
 msgstr "Kilép"
@@ -5516,7 +5526,7 @@ msgstr ""
 msgid "Trans. Rslt/Time:"
 msgstr ""
 
-#: client/gui-gtk/helpdlg.c:115 client/gui-gtk/menu.c:655
+#: client/gui-gtk/helpdlg.c:115 client/gui-gtk/menu.c:652
 #: client/gui-xaw/helpdlg.c:129 client/gui-xaw/menu.c:213 data/helpdata.txt:37
 msgid "About"
 msgstr "About"
@@ -5700,367 +5710,367 @@ msgstr ""
 msgid "(veteran)"
 msgstr "(veterán)"
 
-#: client/gui-gtk/menu.c:462
+#: client/gui-gtk/menu.c:459
 msgid "_Game"
 msgstr "_Játék"
 
-#: client/gui-gtk/menu.c:464 client/gui-gtk/menu.c:466
-#: client/gui-gtk/menu.c:468 client/gui-gtk/menu.c:470
-#: client/gui-gtk/menu.c:472 client/gui-gtk/menu.c:474
-#: client/gui-gtk/menu.c:476 client/gui-gtk/menu.c:478
-#: client/gui-gtk/menu.c:480 client/gui-gtk/menu.c:482
-#: client/gui-gtk/menu.c:484 client/gui-gtk/menu.c:486
-#: client/gui-gtk/menu.c:488 client/gui-gtk/menu.c:490
-#: client/gui-gtk/menu.c:492 client/gui-gtk/menu.c:494
-#: client/gui-gtk/menu.c:496 data/Freeciv:1943
+#: client/gui-gtk/menu.c:461 client/gui-gtk/menu.c:463
+#: client/gui-gtk/menu.c:465 client/gui-gtk/menu.c:467
+#: client/gui-gtk/menu.c:469 client/gui-gtk/menu.c:471
+#: client/gui-gtk/menu.c:473 client/gui-gtk/menu.c:475
+#: client/gui-gtk/menu.c:477 client/gui-gtk/menu.c:479
+#: client/gui-gtk/menu.c:481 client/gui-gtk/menu.c:483
+#: client/gui-gtk/menu.c:485 client/gui-gtk/menu.c:487
+#: client/gui-gtk/menu.c:489 client/gui-gtk/menu.c:491
+#: client/gui-gtk/menu.c:493 data/Freeciv:1943
 msgid "Game"
 msgstr "Játék"
 
-#: client/gui-gtk/menu.c:468 client/gui-xaw/menu.c:105
+#: client/gui-gtk/menu.c:465 client/gui-xaw/menu.c:105
 msgid "Local Options"
 msgstr "Lokális Opciók"
 
-#: client/gui-gtk/menu.c:470 client/gui-gtk/messagedlg.c:88
+#: client/gui-gtk/menu.c:467 client/gui-gtk/messagedlg.c:88
 #: client/gui-xaw/menu.c:106 data/Freeciv:1223
 msgid "Message Options"
 msgstr "Üzenet Opciók"
 
-#: client/gui-gtk/menu.c:472 client/gui-xaw/menu.c:107
+#: client/gui-gtk/menu.c:469 client/gui-xaw/menu.c:107
 msgid "Save Settings"
 msgstr "Beállítások Mentése"
 
-#: client/gui-gtk/menu.c:478 client/gui-gtk/messagewin.c:127
+#: client/gui-gtk/menu.c:475 client/gui-gtk/messagewin.c:127
 #: client/gui-gtk/messagewin.c:137 client/gui-xaw/menu.c:110 data/Freeciv:3100
 #: data/Freeciv:3101 data/Freeciv:3110
 msgid "Messages"
 msgstr "Üzenetek"
 
-#: client/gui-gtk/menu.c:482 client/gui-xaw/menu.c:112
+#: client/gui-gtk/menu.c:479 client/gui-xaw/menu.c:112
 msgid "Server Opt initial"
 msgstr "Szerver Opc. Kezdeti"
 
-#: client/gui-gtk/menu.c:484 client/gui-xaw/menu.c:113
+#: client/gui-gtk/menu.c:481 client/gui-xaw/menu.c:113
 msgid "Server Opt ongoing"
 msgstr "Szerver Opc. Menetközben"
 
-#: client/gui-gtk/menu.c:488 client/gui-xaw/menu.c:115
+#: client/gui-gtk/menu.c:485 client/gui-xaw/menu.c:115
 msgid "Export Log"
 msgstr "Log exportálás"
 
-#: client/gui-gtk/menu.c:490 client/gui-xaw/menu.c:116
+#: client/gui-gtk/menu.c:487 client/gui-xaw/menu.c:116
 msgid "Clear Log"
 msgstr "Log törlés"
 
-#: client/gui-gtk/menu.c:494 client/gui-xaw/menu.c:118 data/Freeciv:3022
+#: client/gui-gtk/menu.c:491 client/gui-xaw/menu.c:118 data/Freeciv:3022
 msgid "Disconnect"
 msgstr "Szétkapcsolás"
 
-#: client/gui-gtk/menu.c:499
+#: client/gui-gtk/menu.c:496
 msgid "_Kingdom"
 msgstr "_Birodalom"
 
-#: client/gui-gtk/menu.c:501 client/gui-gtk/menu.c:503
-#: client/gui-gtk/menu.c:505 client/gui-gtk/menu.c:507
-#: client/gui-gtk/menu.c:509 client/gui-gtk/menu.c:511
-#: client/gui-gtk/menu.c:513 data/Freeciv:1944
+#: client/gui-gtk/menu.c:498 client/gui-gtk/menu.c:500
+#: client/gui-gtk/menu.c:502 client/gui-gtk/menu.c:504
+#: client/gui-gtk/menu.c:506 client/gui-gtk/menu.c:508
+#: client/gui-gtk/menu.c:510 data/Freeciv:1944
 msgid "Kingdom"
 msgstr "Birodalom"
 
-#: client/gui-gtk/menu.c:503
+#: client/gui-gtk/menu.c:500
 msgid "_Tax Rates"
 msgstr "_Adók Aránya"
 
-#: client/gui-gtk/menu.c:507
+#: client/gui-gtk/menu.c:504
 #, fuzzy
 msgid "_Find City"
 msgstr "Városkeresés"
 
-#: client/gui-gtk/menu.c:509
+#: client/gui-gtk/menu.c:506
 #, fuzzy
 msgid "Work_lists"
 msgstr "Munkások"
 
-#: client/gui-gtk/menu.c:513 client/gui-xaw/menu.c:129
+#: client/gui-gtk/menu.c:510 client/gui-xaw/menu.c:129
 msgid "Revolution"
 msgstr "Forradalom"
 
-#: client/gui-gtk/menu.c:516
+#: client/gui-gtk/menu.c:513
 msgid "_View"
 msgstr "_Látvány"
 
-#: client/gui-gtk/menu.c:518 client/gui-gtk/menu.c:520
-#: client/gui-gtk/menu.c:522 data/Freeciv:1945
+#: client/gui-gtk/menu.c:515 client/gui-gtk/menu.c:517
+#: client/gui-gtk/menu.c:519 data/Freeciv:1945
 msgid "View"
 msgstr "Látvány"
 
-#: client/gui-gtk/menu.c:520 client/gui-xaw/menu.c:134
+#: client/gui-gtk/menu.c:517 client/gui-xaw/menu.c:134
 msgid "Map Grid"
 msgstr "Térképbeosztás"
 
-#: client/gui-gtk/menu.c:522 client/gui-xaw/menu.c:135
+#: client/gui-gtk/menu.c:519 client/gui-xaw/menu.c:135
 msgid "Center View"
 msgstr "Kép középre hoz"
 
-#: client/gui-gtk/menu.c:525
+#: client/gui-gtk/menu.c:522
 msgid "_Orders"
 msgstr "_Parancsok"
 
-#: client/gui-gtk/menu.c:527 client/gui-gtk/menu.c:529
-#: client/gui-gtk/menu.c:531 client/gui-gtk/menu.c:533
-#: client/gui-gtk/menu.c:535 client/gui-gtk/menu.c:537
-#: client/gui-gtk/menu.c:539 client/gui-gtk/menu.c:541
-#: client/gui-gtk/menu.c:543 client/gui-gtk/menu.c:545
-#: client/gui-gtk/menu.c:547 client/gui-gtk/menu.c:549
-#: client/gui-gtk/menu.c:551 client/gui-gtk/menu.c:553
-#: client/gui-gtk/menu.c:555 client/gui-gtk/menu.c:557
-#: client/gui-gtk/menu.c:559 client/gui-gtk/menu.c:561
-#: client/gui-gtk/menu.c:563 client/gui-gtk/menu.c:565
-#: client/gui-gtk/menu.c:567 client/gui-gtk/menu.c:569
-#: client/gui-gtk/menu.c:571 client/gui-gtk/menu.c:573
-#: client/gui-gtk/menu.c:575 client/gui-gtk/menu.c:577
-#: client/gui-gtk/menu.c:579 client/gui-gtk/menu.c:581
-#: client/gui-gtk/menu.c:583 client/gui-gtk/menu.c:585
-#: client/gui-gtk/menu.c:587 client/gui-gtk/menu.c:589 data/Freeciv:1946
+#: client/gui-gtk/menu.c:524 client/gui-gtk/menu.c:526
+#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:530
+#: client/gui-gtk/menu.c:532 client/gui-gtk/menu.c:534
+#: client/gui-gtk/menu.c:536 client/gui-gtk/menu.c:538
+#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:542
+#: client/gui-gtk/menu.c:544 client/gui-gtk/menu.c:546
+#: client/gui-gtk/menu.c:548 client/gui-gtk/menu.c:550
+#: client/gui-gtk/menu.c:552 client/gui-gtk/menu.c:554
+#: client/gui-gtk/menu.c:556 client/gui-gtk/menu.c:558
+#: client/gui-gtk/menu.c:560 client/gui-gtk/menu.c:562
+#: client/gui-gtk/menu.c:564 client/gui-gtk/menu.c:566
+#: client/gui-gtk/menu.c:568 client/gui-gtk/menu.c:570
+#: client/gui-gtk/menu.c:572 client/gui-gtk/menu.c:574
+#: client/gui-gtk/menu.c:576 client/gui-gtk/menu.c:578
+#: client/gui-gtk/menu.c:580 client/gui-gtk/menu.c:582
+#: client/gui-gtk/menu.c:584 client/gui-gtk/menu.c:586 data/Freeciv:1946
 msgid "Orders"
 msgstr "Parancsok"
 
-#: client/gui-gtk/menu.c:529 client/gui-gtk/menu.c:907
+#: client/gui-gtk/menu.c:526 client/gui-gtk/menu.c:904
 #: client/gui-xaw/menu.c:140
 msgid "Build City"
 msgstr "Várost Épít"
 
-#: client/gui-gtk/menu.c:531 client/gui-gtk/menu.c:947
+#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:944
 #: client/gui-xaw/menu.c:142
 msgid "Build Road"
 msgstr "Utat Épít"
 
-#: client/gui-gtk/menu.c:533 client/gui-gtk/menu.c:848
+#: client/gui-gtk/menu.c:530 client/gui-gtk/menu.c:845
 #: client/gui-xaw/menu.c:144
 msgid "Build Irrigation"
 msgstr "Öntözõrendszert Épít"
 
-#: client/gui-gtk/menu.c:535 client/gui-gtk/menu.c:849
+#: client/gui-gtk/menu.c:532 client/gui-gtk/menu.c:846
 #: client/gui-xaw/menu.c:147
 msgid "Build Mine"
 msgstr "Bányát Épít"
 
-#: client/gui-gtk/menu.c:537 client/gui-gtk/menu.c:850
+#: client/gui-gtk/menu.c:534 client/gui-gtk/menu.c:847
 #: client/gui-xaw/menu.c:149
 msgid "Transform Terrain"
 msgstr "Tájat Átalakít"
 
-#: client/gui-gtk/menu.c:539 client/gui-xaw/menu.c:151
+#: client/gui-gtk/menu.c:536 client/gui-xaw/menu.c:151
 msgid "Build Fortress"
 msgstr "Erõdöt Épít"
 
-#: client/gui-gtk/menu.c:541 client/gui-xaw/menu.c:152
+#: client/gui-gtk/menu.c:538 client/gui-xaw/menu.c:152
 #, fuzzy
 msgid "Build Airbase"
 msgstr "Bányát Épít"
 
-#: client/gui-gtk/menu.c:543 client/gui-gtk/menu.c:936
+#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:933
 #: client/gui-xaw/menu.c:153
 msgid "Clean Pollution"
 msgstr "Szennyezést Feltakarít"
 
-#: client/gui-gtk/menu.c:555 client/gui-xaw/menu.c:160
+#: client/gui-gtk/menu.c:552 client/gui-xaw/menu.c:160
 msgid "Make Homecity"
 msgstr "Ellátó Várost Kijelöl"
 
-#: client/gui-gtk/menu.c:557 client/gui-xaw/menu.c:161
+#: client/gui-gtk/menu.c:554 client/gui-xaw/menu.c:161
 msgid "Unload"
 msgstr "Kirakodik"
 
-#: client/gui-gtk/menu.c:559 client/gui-xaw/menu.c:162
+#: client/gui-gtk/menu.c:556 client/gui-xaw/menu.c:162
 msgid "Wake up others"
 msgstr "Felkelti a többieket"
 
-#: client/gui-gtk/menu.c:563 client/gui-xaw/menu.c:164
+#: client/gui-gtk/menu.c:560 client/gui-xaw/menu.c:164
 msgid "Auto Settler"
 msgstr "Automata Telepes"
 
-#: client/gui-gtk/menu.c:565 client/gui-xaw/menu.c:165
+#: client/gui-gtk/menu.c:562 client/gui-xaw/menu.c:165
 msgid "Auto Attack"
 msgstr "Automata Támadás"
 
-#: client/gui-gtk/menu.c:567 client/gui-xaw/menu.c:166
+#: client/gui-gtk/menu.c:564 client/gui-xaw/menu.c:166
 msgid "Auto Explore"
 msgstr "Automata Felfedezés"
 
-#: client/gui-gtk/menu.c:571 client/gui-xaw/menu.c:168
+#: client/gui-gtk/menu.c:568 client/gui-xaw/menu.c:168
 msgid "Go to"
 msgstr "Menj..."
 
-#: client/gui-gtk/menu.c:573
+#: client/gui-gtk/menu.c:570
 msgid "Go|Airlift to City"
 msgstr "Menj|Repülj ... városba"
 
-#: client/gui-gtk/menu.c:577 client/gui-xaw/menu.c:171
+#: client/gui-gtk/menu.c:574 client/gui-xaw/menu.c:171
 msgid "Disband Unit"
 msgstr "Egységet Feloszlat"
 
-#: client/gui-gtk/menu.c:579 client/gui-xaw/menu.c:172
+#: client/gui-gtk/menu.c:576 client/gui-xaw/menu.c:172
 msgid "Help Build Wonder"
 msgstr "Segít Csodát Építeni"
 
-#: client/gui-gtk/menu.c:581 client/gui-xaw/menu.c:173
+#: client/gui-gtk/menu.c:578 client/gui-xaw/menu.c:173
 msgid "Make Trade Route"
 msgstr "Kereskedelmi Útvonalkij."
 
-#: client/gui-gtk/menu.c:583 client/gui-xaw/menu.c:174
+#: client/gui-gtk/menu.c:580 client/gui-xaw/menu.c:174
 msgid "Explode Nuclear"
 msgstr "Atomrobbantás"
 
-#: client/gui-gtk/menu.c:587 client/gui-xaw/menu.c:176
+#: client/gui-gtk/menu.c:584 client/gui-xaw/menu.c:176
 msgid "Wait"
 msgstr "Várakozik"
 
-#: client/gui-gtk/menu.c:592
+#: client/gui-gtk/menu.c:589
 msgid "_Reports"
 msgstr "_Infók"
 
-#: client/gui-gtk/menu.c:594 client/gui-gtk/menu.c:596
-#: client/gui-gtk/menu.c:598 client/gui-gtk/menu.c:600
-#: client/gui-gtk/menu.c:602 client/gui-gtk/menu.c:604
-#: client/gui-gtk/menu.c:606 client/gui-gtk/menu.c:608
-#: client/gui-gtk/menu.c:610 client/gui-gtk/menu.c:612 data/Freeciv:1947
+#: client/gui-gtk/menu.c:591 client/gui-gtk/menu.c:593
+#: client/gui-gtk/menu.c:595 client/gui-gtk/menu.c:597
+#: client/gui-gtk/menu.c:599 client/gui-gtk/menu.c:601
+#: client/gui-gtk/menu.c:603 client/gui-gtk/menu.c:605
+#: client/gui-gtk/menu.c:607 client/gui-gtk/menu.c:609 data/Freeciv:1947
 msgid "Reports"
 msgstr "Infók"
 
-#: client/gui-gtk/menu.c:598 client/gui-gtk/repodlgs.c:781
+#: client/gui-gtk/menu.c:595 client/gui-gtk/repodlgs.c:781
 #: client/gui-gtk/repodlgs.c:783 client/gui-gtk/repodlgs.c:954
 #: client/gui-xaw/menu.c:183 client/gui-xaw/repodlgs.c:887
 #: client/gui-xaw/repodlgs.c:1080 data/Freeciv:1816
 msgid "Military Report"
 msgstr "Katonai Infók"
 
-#: client/gui-gtk/menu.c:600 client/gui-gtk/repodlgs.c:515
+#: client/gui-gtk/menu.c:597 client/gui-gtk/repodlgs.c:515
 #: client/gui-xaw/menu.c:184 data/Freeciv:1739
 msgid "Trade Report"
 msgstr "Kereskedelmi Infók"
 
-#: client/gui-gtk/menu.c:602 client/gui-gtk/repodlgs.c:183
+#: client/gui-gtk/menu.c:599 client/gui-gtk/repodlgs.c:183
 #: client/gui-xaw/menu.c:185 data/Freeciv:1334
 msgid "Science Report"
 msgstr "Tudomány Infók"
 
-#: client/gui-gtk/menu.c:608 client/gui-xaw/menu.c:188
+#: client/gui-gtk/menu.c:605 client/gui-xaw/menu.c:188
 msgid "Top Five Cities"
 msgstr "Top 5 Város"
 
-#: client/gui-gtk/menu.c:610 client/gui-xaw/menu.c:189
+#: client/gui-gtk/menu.c:607 client/gui-xaw/menu.c:189
 msgid "Demographics"
 msgstr "Demográfiák"
 
-#: client/gui-gtk/menu.c:612 client/gui-xaw/menu.c:190 data/Freeciv:3089
+#: client/gui-gtk/menu.c:609 client/gui-xaw/menu.c:190 data/Freeciv:3089
 msgid "Spaceship"
 msgstr "Ûrhajók"
 
-#: client/gui-gtk/menu.c:617 client/gui-gtk/menu.c:619
-#: client/gui-gtk/menu.c:621 client/gui-gtk/menu.c:623
-#: client/gui-gtk/menu.c:625 client/gui-gtk/menu.c:627
-#: client/gui-gtk/menu.c:629 client/gui-gtk/menu.c:631
-#: client/gui-gtk/menu.c:633 client/gui-gtk/menu.c:635
-#: client/gui-gtk/menu.c:637 client/gui-gtk/menu.c:639
-#: client/gui-gtk/menu.c:641 client/gui-gtk/menu.c:643
-#: client/gui-gtk/menu.c:645 client/gui-gtk/menu.c:647
-#: client/gui-gtk/menu.c:649 client/gui-gtk/menu.c:651
-#: client/gui-gtk/menu.c:653 client/gui-gtk/menu.c:655
+#: client/gui-gtk/menu.c:614 client/gui-gtk/menu.c:616
+#: client/gui-gtk/menu.c:618 client/gui-gtk/menu.c:620
+#: client/gui-gtk/menu.c:622 client/gui-gtk/menu.c:624
+#: client/gui-gtk/menu.c:626 client/gui-gtk/menu.c:628
+#: client/gui-gtk/menu.c:630 client/gui-gtk/menu.c:632
+#: client/gui-gtk/menu.c:634 client/gui-gtk/menu.c:636
+#: client/gui-gtk/menu.c:638 client/gui-gtk/menu.c:640
+#: client/gui-gtk/menu.c:642 client/gui-gtk/menu.c:644
+#: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:648
+#: client/gui-gtk/menu.c:650 client/gui-gtk/menu.c:652
 #: client/gui-gtk/repodlgs.c:210 client/gui-gtk/wldlg.c:356
 #: client/gui-gtk/wldlg.c:443 data/Freeciv:1948 data/Freeciv:2016
 #: data/Freeciv:2099 data/Freeciv:2105
 msgid "Help"
 msgstr ""
 
-#: client/gui-gtk/menu.c:619 client/gui-xaw/menu.c:195
+#: client/gui-gtk/menu.c:616 client/gui-xaw/menu.c:195
 #, fuzzy
 msgid "Help Languages"
 msgstr "Boldogság"
 
-#: client/gui-gtk/menu.c:621 client/gui-xaw/menu.c:196
+#: client/gui-gtk/menu.c:618 client/gui-xaw/menu.c:196
 msgid "Help Connecting"
 msgstr "Kapcsolódás"
 
-#: client/gui-gtk/menu.c:623 client/gui-xaw/menu.c:197
+#: client/gui-gtk/menu.c:620 client/gui-xaw/menu.c:197
 msgid "Help Controls"
 msgstr "Vezérlés"
 
-#: client/gui-gtk/menu.c:625 client/gui-xaw/menu.c:198
+#: client/gui-gtk/menu.c:622 client/gui-xaw/menu.c:198
 msgid "Help Chatline"
 msgstr "Csevegés"
 
-#: client/gui-gtk/menu.c:627 client/gui-xaw/menu.c:199
+#: client/gui-gtk/menu.c:624 client/gui-xaw/menu.c:199
 msgid "Help Playing"
 msgstr "Játék"
 
-#: client/gui-gtk/menu.c:631 client/gui-xaw/menu.c:201
+#: client/gui-gtk/menu.c:628 client/gui-xaw/menu.c:201
 msgid "Help Improvements"
 msgstr "Épületek"
 
-#: client/gui-gtk/menu.c:633 client/gui-xaw/menu.c:202
+#: client/gui-gtk/menu.c:630 client/gui-xaw/menu.c:202
 msgid "Help Units"
 msgstr "Egységek"
 
-#: client/gui-gtk/menu.c:635 client/gui-xaw/menu.c:203
+#: client/gui-gtk/menu.c:632 client/gui-xaw/menu.c:203
 msgid "Help Combat"
 msgstr "Harc"
 
-#: client/gui-gtk/menu.c:637 client/gui-xaw/menu.c:204
+#: client/gui-gtk/menu.c:634 client/gui-xaw/menu.c:204
 msgid "Help ZOC"
 msgstr "Kontroll Zónák"
 
-#: client/gui-gtk/menu.c:639 client/gui-xaw/menu.c:205
+#: client/gui-gtk/menu.c:636 client/gui-xaw/menu.c:205
 msgid "Help Technology"
 msgstr "Technológiák"
 
-#: client/gui-gtk/menu.c:641 client/gui-xaw/menu.c:206
+#: client/gui-gtk/menu.c:638 client/gui-xaw/menu.c:206
 msgid "Help Terrain"
 msgstr "Tájak"
 
-#: client/gui-gtk/menu.c:643 client/gui-xaw/menu.c:207
+#: client/gui-gtk/menu.c:640 client/gui-xaw/menu.c:207
 msgid "Help Wonders"
 msgstr "Csodák"
 
-#: client/gui-gtk/menu.c:645 client/gui-xaw/menu.c:208
+#: client/gui-gtk/menu.c:642 client/gui-xaw/menu.c:208
 msgid "Help Government"
 msgstr "Államformák"
 
-#: client/gui-gtk/menu.c:647 client/gui-xaw/menu.c:209
+#: client/gui-gtk/menu.c:644 client/gui-xaw/menu.c:209
 msgid "Help Happiness"
 msgstr "Boldogság"
 
-#: client/gui-gtk/menu.c:649 client/gui-xaw/menu.c:210
+#: client/gui-gtk/menu.c:646 client/gui-xaw/menu.c:210
 msgid "Help Space Race"
 msgstr "Ûrverseny"
 
-#: client/gui-gtk/menu.c:653 client/gui-xaw/menu.c:212 data/helpdata.txt:77
+#: client/gui-gtk/menu.c:650 client/gui-xaw/menu.c:212 data/helpdata.txt:77
 msgid "Copying"
 msgstr "Licensz"
 
-#: client/gui-gtk/menu.c:841 client/gui-xaw/menu.c:146
+#: client/gui-gtk/menu.c:838 client/gui-xaw/menu.c:146
 #: client/gui-xaw/menu.c:148
 #, c-format
 msgid "Change to %s"
 msgstr "Cserél %s-re"
 
-#: client/gui-gtk/menu.c:842 client/gui-xaw/menu.c:150
+#: client/gui-gtk/menu.c:839 client/gui-xaw/menu.c:150
 #, c-format
 msgid "Transform to %s"
 msgstr "Átalakít %s-re"
 
-#: client/gui-gtk/menu.c:905 client/gui-xaw/menu.c:141
+#: client/gui-gtk/menu.c:902 client/gui-xaw/menu.c:141
 msgid "Add to City"
 msgstr "Városhoz fûz"
 
-#: client/gui-gtk/menu.c:920 client/gui-xaw/menu.c:145
+#: client/gui-gtk/menu.c:917 client/gui-xaw/menu.c:145
 msgid "Build Farmland"
 msgstr "Farmokat Épít"
 
-#: client/gui-gtk/menu.c:934 client/gui-xaw/menu.c:154
+#: client/gui-gtk/menu.c:931 client/gui-xaw/menu.c:154
 msgid "Paradrop"
 msgstr "Ejtõernyõs Támadás"
 
-#: client/gui-gtk/menu.c:944 client/gui-xaw/menu.c:143
+#: client/gui-gtk/menu.c:941 client/gui-xaw/menu.c:143
 msgid "Build Railroad"
 msgstr "Vasútépítés"
 
@@ -6419,7 +6429,7 @@ msgid ""
 "Trade: %3d (%+-4d)"
 msgstr ""
 "Élelem:    %2d (%+2d)\n"
-"Prod:      %2d (%+2d)\n"
+"Term:      %2d (%+2d)\n"
 "Keresk:    %2d (%+2d)"
 
 #: client/gui-xaw/citydlg.c:282
@@ -6450,11 +6460,11 @@ msgstr ""
 
 #: client/gui-xaw/citydlg.c:336
 msgid "(is empty)"
-msgstr ""
+msgstr "(üres)"
 
 #: client/gui-xaw/citydlg.c:338
 msgid "(in prog.)"
-msgstr ""
+msgstr "(folyamatban)"
 
 #: client/gui-xaw/citydlg.c:2279 client/gui-xaw/citydlg.c:2296
 #: client/gui-xaw/cityrep.c:342 client/gui-xaw/cityrep.c:357
@@ -6517,9 +6527,9 @@ msgstr "Nem sikerült megtalálni a szervert"
 
 #: client/gui-xaw/helpdlg.c:917 client/gui-xaw/helpdlg.c:922
 #: client/gui-xaw/helpdlg.c:929
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s.\n"
-msgstr "Engedélyezi "
+msgstr "Lehetõvétesz %s-t.\n"
 
 #: client/gui-xaw/helpdlg.c:932 client/gui-xaw/helpdlg.c:936
 #, c-format
@@ -6532,9 +6542,9 @@ msgid "%s F/R/T:"
 msgstr ""
 
 #: client/gui-xaw/mapctrl.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s(%s) %s"
-msgstr "Egység: %s(%s%s)"
+msgstr "Város: %s(%s) %s"
 
 #: client/gui-xaw/mapctrl.c:173
 #, c-format
@@ -6550,7 +6560,7 @@ msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr ""
 
 #: client/gui-xaw/mapview.c:277
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s People\n"
 "Year: %s\n"
@@ -6560,7 +6570,7 @@ msgstr ""
 "Populáció: %s\n"
 "Év: %s\n"
 "Arany: %d\n"
-"Adó: %d Lux: %d Tud: %d"
+"Adó:%d Lux:%d Tud:%d"
 
 #: client/gui-xaw/menu.c:124
 msgid "Tax Rates"
@@ -8105,12 +8115,12 @@ msgstr ""
 #: data/civ1/buildings.ruleset:54 data/civ2/buildings.ruleset:62
 #: data/default/buildings.ruleset:62
 msgid "Aqueduct"
-msgstr ""
+msgstr "Vízvezeték"
 
 #: data/civ1/buildings.ruleset:64 data/civ2/buildings.ruleset:72
 #: data/default/buildings.ruleset:72
 msgid "Bank"
-msgstr ""
+msgstr "Bank"
 
 #: data/civ1/buildings.ruleset:71 data/civ2/buildings.ruleset:79
 #: data/default/buildings.ruleset:79
@@ -8123,7 +8133,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:77 data/civ2/buildings.ruleset:85
 #: data/default/buildings.ruleset:85
 msgid "Barracks"
-msgstr ""
+msgstr "Kaszárnya"
 
 #: data/civ2/buildings.ruleset:92 data/civ2/buildings.ruleset:110
 #: data/civ2/buildings.ruleset:128 data/default/buildings.ruleset:92
@@ -8138,17 +8148,17 @@ msgstr ""
 #: data/civ1/buildings.ruleset:95 data/civ2/buildings.ruleset:103
 #: data/default/buildings.ruleset:103
 msgid "Barracks II"
-msgstr ""
+msgstr "Kaszárnya II"
 
 #: data/civ1/buildings.ruleset:113 data/civ2/buildings.ruleset:121
 #: data/default/buildings.ruleset:121
 msgid "Barracks III"
-msgstr ""
+msgstr "Kaszárnya III"
 
 #: data/civ1/buildings.ruleset:130 data/civ2/buildings.ruleset:138
 #: data/default/buildings.ruleset:138
 msgid "Cathedral"
-msgstr ""
+msgstr "Katedrális"
 
 #: data/civ1/buildings.ruleset:137 data/civ2/buildings.ruleset:145
 #: data/default/buildings.ruleset:145
@@ -8159,9 +8169,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:144 data/civ2/buildings.ruleset:152
 #: data/default/buildings.ruleset:152
-#, fuzzy
 msgid "City Walls"
-msgstr "Városnév"
+msgstr "Városfal"
 
 #: data/civ2/buildings.ruleset:159 data/default/buildings.ruleset:159
 msgid ""
@@ -8174,9 +8183,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:161 data/civ2/buildings.ruleset:169
 #: data/default/buildings.ruleset:169
-#, fuzzy
 msgid "Coastal Defense"
-msgstr "Védekezés:"
+msgstr "Partmenti védelem"
 
 #: data/civ2/buildings.ruleset:176 data/default/buildings.ruleset:176
 msgid ""
@@ -8186,9 +8194,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:170 data/civ2/buildings.ruleset:182
 #: data/default/buildings.ruleset:182
-#, fuzzy
 msgid "Colosseum"
-msgstr "Bezár"
+msgstr "Kolosszeum"
 
 #: data/civ1/buildings.ruleset:177 data/civ2/buildings.ruleset:189
 #: data/default/buildings.ruleset:189
@@ -8198,7 +8205,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:183 data/civ2/buildings.ruleset:195
 #: data/default/buildings.ruleset:195
 msgid "Courthouse"
-msgstr ""
+msgstr "Bíróság"
 
 #: data/civ1/buildings.ruleset:190 data/civ2/buildings.ruleset:202
 #: data/default/buildings.ruleset:202
@@ -8211,7 +8218,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:198 data/civ2/buildings.ruleset:210
 #: data/default/buildings.ruleset:210
 msgid "Factory"
-msgstr ""
+msgstr "Gyár"
 
 #: data/civ1/buildings.ruleset:205 data/civ2/buildings.ruleset:217
 #: data/default/buildings.ruleset:217
@@ -8223,7 +8230,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:211 data/civ2/buildings.ruleset:223
 #: data/default/buildings.ruleset:223
 msgid "Granary"
-msgstr ""
+msgstr "Magtár"
 
 #: data/civ1/buildings.ruleset:218 data/civ2/buildings.ruleset:230
 #: data/default/buildings.ruleset:230
@@ -8236,7 +8243,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:228 data/civ2/buildings.ruleset:240
 #: data/default/buildings.ruleset:240
 msgid "Harbour"
-msgstr ""
+msgstr "Kikötõ"
 
 #: data/civ2/buildings.ruleset:247 data/default/buildings.ruleset:247
 msgid ""
@@ -8247,7 +8254,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:237 data/civ2/buildings.ruleset:253
 #: data/default/buildings.ruleset:253
 msgid "Hydro Plant"
-msgstr ""
+msgstr "Vízerõmû"
 
 #: data/civ1/buildings.ruleset:244 data/civ2/buildings.ruleset:260
 #: data/default/buildings.ruleset:260
@@ -8266,7 +8273,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:260 data/civ2/buildings.ruleset:276
 #: data/default/buildings.ruleset:276
 msgid "Library"
-msgstr ""
+msgstr "Könyvtár"
 
 #: data/civ1/buildings.ruleset:267 data/civ2/buildings.ruleset:283
 #: data/default/buildings.ruleset:283
@@ -8277,7 +8284,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:272 data/civ2/buildings.ruleset:288
 #: data/default/buildings.ruleset:288
 msgid "Marketplace"
-msgstr ""
+msgstr "Piac"
 
 #: data/civ1/buildings.ruleset:279 data/civ2/buildings.ruleset:295
 #: data/default/buildings.ruleset:295
@@ -8288,7 +8295,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:300
 #: data/default/buildings.ruleset:300
 msgid "Mass Transit"
-msgstr ""
+msgstr "Tömegközlekedés"
 
 #: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:307
 #: data/default/buildings.ruleset:307
@@ -8300,7 +8307,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:298 data/civ2/buildings.ruleset:314
 #: data/default/buildings.ruleset:314
 msgid "Mfg. Plant"
-msgstr ""
+msgstr "Gyártósor"
 
 #: data/civ1/buildings.ruleset:305 data/civ2/buildings.ruleset:321
 #: data/default/buildings.ruleset:321
@@ -8313,7 +8320,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:311 data/civ2/buildings.ruleset:327
 #: data/default/buildings.ruleset:327
 msgid "Nuclear Plant"
-msgstr ""
+msgstr "Atomerõmû"
 
 #: data/civ1/buildings.ruleset:318 data/civ2/buildings.ruleset:334
 #: data/default/buildings.ruleset:334
@@ -8330,7 +8337,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:335 data/civ2/buildings.ruleset:351
 #: data/default/buildings.ruleset:351
 msgid "Offshore Platform"
-msgstr ""
+msgstr "Partmenti platform"
 
 #: data/civ2/buildings.ruleset:358 data/default/buildings.ruleset:358
 msgid ""
@@ -8340,9 +8347,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:344 data/civ2/buildings.ruleset:364
 #: data/default/buildings.ruleset:364
-#, fuzzy
 msgid "Palace"
-msgstr "Béke"
+msgstr "Palota"
 
 #: data/civ1/buildings.ruleset:351 data/civ2/buildings.ruleset:371
 #: data/default/buildings.ruleset:371
@@ -8359,9 +8365,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:364 data/civ2/buildings.ruleset:384
 #: data/default/buildings.ruleset:384
-#, fuzzy
 msgid "Police Station"
-msgstr "Szennyezés"
+msgstr "Rendõrállomás"
 
 #: data/civ2/buildings.ruleset:391 data/default/buildings.ruleset:391
 msgid ""
@@ -8373,7 +8378,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:373 data/civ2/buildings.ruleset:400
 #: data/default/buildings.ruleset:400
 msgid "Port Facility"
-msgstr ""
+msgstr "Kikötõi berendezés"
 
 #: data/civ2/buildings.ruleset:407 data/default/buildings.ruleset:407
 msgid ""
@@ -8384,7 +8389,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:382 data/civ2/buildings.ruleset:414
 #: data/default/buildings.ruleset:414
 msgid "Power Plant"
-msgstr ""
+msgstr "Erõmû"
 
 #: data/civ1/buildings.ruleset:389 data/civ2/buildings.ruleset:421
 #: data/default/buildings.ruleset:421
@@ -8401,7 +8406,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:404 data/civ2/buildings.ruleset:436
 #: data/default/buildings.ruleset:436
 msgid "Recycling Center"
-msgstr ""
+msgstr "Újrahasznosító központ"
 
 #: data/civ1/buildings.ruleset:411 data/civ2/buildings.ruleset:443
 #: data/default/buildings.ruleset:443
@@ -8413,9 +8418,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:417 data/civ2/buildings.ruleset:449
 #: data/default/buildings.ruleset:449
-#, fuzzy
 msgid "Research Lab"
-msgstr "Kutatási cél:"
+msgstr "Kutató laboratórium"
 
 #: data/civ2/buildings.ruleset:456 data/default/buildings.ruleset:456
 #, c-format
@@ -8427,7 +8431,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:426 data/civ2/buildings.ruleset:462
 #: data/default/buildings.ruleset:462
 msgid "SAM Battery"
-msgstr ""
+msgstr "Légvédelmi üteg"
 
 #: data/civ1/buildings.ruleset:433 data/civ2/buildings.ruleset:469
 #: data/default/buildings.ruleset:469
@@ -8438,9 +8442,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:439 data/civ2/buildings.ruleset:475
 #: data/default/buildings.ruleset:475
-#, fuzzy
 msgid "SDI Defense"
-msgstr "Védekezés:"
+msgstr "SDI Védelem"
 
 #: data/civ1/buildings.ruleset:446 data/civ2/buildings.ruleset:482
 #: data/default/buildings.ruleset:482
@@ -8453,17 +8456,17 @@ msgstr ""
 #: data/civ1/buildings.ruleset:453 data/civ2/buildings.ruleset:489
 #: data/default/buildings.ruleset:489
 msgid "Sewer System"
-msgstr ""
+msgstr "Csatornarendszer"
 
 #: data/civ1/buildings.ruleset:463 data/civ2/buildings.ruleset:499
 #: data/default/buildings.ruleset:499
 msgid "Solar Plant"
-msgstr ""
+msgstr "Naperõmû"
 
 #: data/civ1/buildings.ruleset:473 data/civ2/buildings.ruleset:509
 #: data/default/buildings.ruleset:509
 msgid "Space Component"
-msgstr ""
+msgstr "Ûrhajó alkatrész"
 
 #: data/civ1/buildings.ruleset:480 data/civ2/buildings.ruleset:516
 #: data/default/buildings.ruleset:516
@@ -8479,7 +8482,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:490 data/civ2/buildings.ruleset:526
 #: data/default/buildings.ruleset:526
 msgid "Space Module"
-msgstr ""
+msgstr "Ûrhajó modul"
 
 #: data/civ1/buildings.ruleset:497 data/civ2/buildings.ruleset:533
 #: data/default/buildings.ruleset:533
@@ -8504,7 +8507,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:516 data/civ2/buildings.ruleset:552
 #: data/default/buildings.ruleset:552
 msgid "Space Structural"
-msgstr ""
+msgstr "Ûrhajó váz"
 
 #: data/civ1/buildings.ruleset:523 data/civ2/buildings.ruleset:559
 #: data/default/buildings.ruleset:559
@@ -8520,7 +8523,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:533 data/civ2/buildings.ruleset:569
 #: data/default/buildings.ruleset:569
 msgid "Stock Exchange"
-msgstr ""
+msgstr "Tõzsde"
 
 #: data/civ2/buildings.ruleset:576 data/default/buildings.ruleset:576
 #, c-format
@@ -8532,7 +8535,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:542 data/civ2/buildings.ruleset:582
 #: data/default/buildings.ruleset:582
 msgid "Super Highways"
-msgstr ""
+msgstr "Autópálya"
 
 #: data/civ2/buildings.ruleset:589 data/default/buildings.ruleset:589
 #, c-format
@@ -8543,7 +8546,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:551 data/civ2/buildings.ruleset:595
 #: data/default/buildings.ruleset:595
 msgid "Supermarket"
-msgstr ""
+msgstr "Szupermarket"
 
 #: data/civ2/buildings.ruleset:602 data/default/buildings.ruleset:602
 #, c-format
@@ -8555,9 +8558,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:560 data/civ2/buildings.ruleset:609
 #: data/default/buildings.ruleset:609
-#, fuzzy
 msgid "Temple"
-msgstr "Lány"
+msgstr "Templom"
 
 #: data/civ1/buildings.ruleset:567 data/civ2/buildings.ruleset:616
 #: data/default/buildings.ruleset:616
@@ -8571,7 +8573,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:623 data/civ2/techs.ruleset:559
 #: data/default/buildings.ruleset:623 data/default/techs.ruleset:559
 msgid "University"
-msgstr ""
+msgstr "Egyetem"
 
 #: data/civ1/buildings.ruleset:581 data/civ2/buildings.ruleset:630
 #: data/default/buildings.ruleset:630
@@ -8584,7 +8586,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:587 data/civ2/buildings.ruleset:636
 #: data/default/buildings.ruleset:636
 msgid "Apollo Program"
-msgstr ""
+msgstr "Apollo program"
 
 #: data/civ1/buildings.ruleset:594 data/civ2/buildings.ruleset:643
 #: data/default/buildings.ruleset:643
@@ -8597,7 +8599,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:650
 #: data/default/buildings.ruleset:650
 msgid "A.Smith's Trading Co."
-msgstr ""
+msgstr "A.Smith Keresk. Vállalat"
 
 #: data/civ2/buildings.ruleset:657 data/default/buildings.ruleset:657
 msgid ""
@@ -8607,9 +8609,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:610 data/civ2/buildings.ruleset:663
 #: data/default/buildings.ruleset:663
-#, fuzzy
 msgid "Colossus"
-msgstr "Bezár"
+msgstr "Kolosszus"
 
 #: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:670
 #: data/default/buildings.ruleset:670
@@ -8621,7 +8622,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:623 data/civ2/buildings.ruleset:676
 #: data/default/buildings.ruleset:676
 msgid "Copernicus' Observatory"
-msgstr ""
+msgstr "Kopernikusz csillagv."
 
 #: data/civ1/buildings.ruleset:630 data/civ2/buildings.ruleset:683
 #: data/default/buildings.ruleset:683
@@ -8632,7 +8633,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:635 data/civ2/buildings.ruleset:688
 #: data/default/buildings.ruleset:688
 msgid "Cure For Cancer"
-msgstr ""
+msgstr "A rák gyógymódja"
 
 #: data/civ1/buildings.ruleset:642 data/civ2/buildings.ruleset:695
 #: data/default/buildings.ruleset:695
@@ -8644,7 +8645,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:648 data/civ2/buildings.ruleset:701
 #: data/default/buildings.ruleset:701
 msgid "Darwin's Voyage"
-msgstr ""
+msgstr "Darwin utazása"
 
 #: data/civ1/buildings.ruleset:655 data/civ2/buildings.ruleset:708
 #: data/default/buildings.ruleset:708
@@ -8657,13 +8658,12 @@ msgstr ""
 #: data/civ1/buildings.ruleset:662 data/civ2/buildings.ruleset:715
 #: data/default/buildings.ruleset:715
 msgid "Eiffel Tower"
-msgstr ""
+msgstr "Eiffel torony"
 
 #: data/civ1/buildings.ruleset:672 data/civ2/buildings.ruleset:725
 #: data/default/buildings.ruleset:725
-#, fuzzy
 msgid "Great Library"
-msgstr "Tech. szerezve Nagy Könyvtárból"
+msgstr "Nagy Könyvtár"
 
 #: data/civ1/buildings.ruleset:679 data/civ2/buildings.ruleset:732
 #: data/default/buildings.ruleset:732
@@ -8674,9 +8674,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:685 data/civ2/buildings.ruleset:738
 #: data/default/buildings.ruleset:738
-#, fuzzy
 msgid "Great Wall"
-msgstr "Aktivál mindenkit"
+msgstr "Nagy Fal"
 
 #: data/civ1/buildings.ruleset:692 data/civ2/buildings.ruleset:745
 #: data/default/buildings.ruleset:745
@@ -8686,7 +8685,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:697 data/civ2/buildings.ruleset:750
 #: data/default/buildings.ruleset:750
 msgid "Hanging Gardens"
-msgstr ""
+msgstr "Függõkertek"
 
 #: data/civ1/buildings.ruleset:704 data/civ2/buildings.ruleset:757
 #: data/default/buildings.ruleset:757
@@ -8716,7 +8715,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:736 data/civ2/buildings.ruleset:785
 #: data/default/buildings.ruleset:785
 msgid "Isaac Newton's College"
-msgstr ""
+msgstr "Isaac Newton Fõiskolája"
 
 #: data/civ1/buildings.ruleset:743 data/civ2/buildings.ruleset:792
 #: data/default/buildings.ruleset:792
@@ -8727,7 +8726,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:748 data/civ2/buildings.ruleset:797
 #: data/default/buildings.ruleset:797
 msgid "J.S. Bach's Cathedral"
-msgstr ""
+msgstr "J.S. Bach Katedrálisa"
 
 #: data/civ2/buildings.ruleset:804 data/default/buildings.ruleset:804
 msgid "Makes two unhappy citizens content in every city."
@@ -8736,7 +8735,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:763 data/civ2/buildings.ruleset:811
 #: data/default/buildings.ruleset:811
 msgid "King Richard's Crusade"
-msgstr ""
+msgstr "Richard király keresztesh."
 
 #: data/civ2/buildings.ruleset:818 data/default/buildings.ruleset:818
 msgid ""
@@ -8747,7 +8746,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:772 data/civ2/buildings.ruleset:824
 #: data/default/buildings.ruleset:824
 msgid "Leonardo's Workshop"
-msgstr ""
+msgstr "Leonardo mûhelye"
 
 #: data/civ2/buildings.ruleset:831 data/default/buildings.ruleset:831
 #, fuzzy
@@ -8757,7 +8756,7 @@ msgstr "Elavult egységek fejlesztése"
 #: data/civ1/buildings.ruleset:781 data/civ2/buildings.ruleset:837
 #: data/default/buildings.ruleset:837
 msgid "Lighthouse"
-msgstr ""
+msgstr "Világítótorony"
 
 #: data/civ1/buildings.ruleset:788 data/civ2/buildings.ruleset:844
 #: data/default/buildings.ruleset:844
@@ -8770,7 +8769,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:795 data/civ2/buildings.ruleset:851
 #: data/default/buildings.ruleset:851
 msgid "Magellan's Expedition"
-msgstr ""
+msgstr "Magellán Expedíciója"
 
 #: data/civ2/buildings.ruleset:858 data/default/buildings.ruleset:858
 #, fuzzy
@@ -8785,7 +8784,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:818 data/civ2/buildings.ruleset:874
 #: data/default/buildings.ruleset:874
 msgid "Marco Polo's Embassy"
-msgstr ""
+msgstr "Marco Polo Nagykövetsége"
 
 #: data/civ2/buildings.ruleset:881 data/default/buildings.ruleset:881
 msgid "The player who owns it gets an embassy with all players."
@@ -8794,7 +8793,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:827 data/civ2/buildings.ruleset:886
 #: data/default/buildings.ruleset:886
 msgid "Michelangelo's Chapel"
-msgstr ""
+msgstr "Michelangelo Kápolnája"
 
 #: data/civ2/buildings.ruleset:893 data/default/buildings.ruleset:893
 msgid ""
@@ -8804,9 +8803,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:843 data/civ2/buildings.ruleset:901
 #: data/default/buildings.ruleset:901
-#, fuzzy
 msgid "Oracle"
-msgstr "Fiú"
+msgstr "Jósda"
 
 #: data/civ1/buildings.ruleset:850 data/civ2/buildings.ruleset:908
 #: data/default/buildings.ruleset:908
@@ -8817,7 +8815,7 @@ msgstr "Növeli a templomok hatását.\n"
 #: data/civ1/buildings.ruleset:855 data/civ2/buildings.ruleset:913
 #: data/default/buildings.ruleset:913
 msgid "Pyramids"
-msgstr ""
+msgstr "Piramisok"
 
 #: data/civ2/buildings.ruleset:920 data/default/buildings.ruleset:920
 msgid "Counts as having a Granary in every city."
@@ -8837,7 +8835,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:882 data/civ2/buildings.ruleset:942
 #: data/default/buildings.ruleset:942
 msgid "Shakespeare's Theatre"
-msgstr ""
+msgstr "Shakespeare színháza"
 
 #: data/civ1/buildings.ruleset:889 data/civ2/buildings.ruleset:949
 #: data/default/buildings.ruleset:949
@@ -8847,7 +8845,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:894 data/civ2/buildings.ruleset:954
 #: data/default/buildings.ruleset:954
 msgid "Statue of Liberty"
-msgstr ""
+msgstr "Szabadságszobor"
 
 #: data/civ1/buildings.ruleset:862 data/civ1/buildings.ruleset:919
 #: data/civ2/buildings.ruleset:961 data/default/buildings.ruleset:961
@@ -8860,7 +8858,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:903 data/civ2/buildings.ruleset:968
 #: data/default/buildings.ruleset:968
 msgid "Sun Tzu's War Academy"
-msgstr ""
+msgstr "Sun Tzu Katonai Akadémiája"
 
 #: data/civ2/buildings.ruleset:975 data/default/buildings.ruleset:975
 msgid ""
@@ -8870,9 +8868,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:983
 #: data/default/buildings.ruleset:983
-#, fuzzy
 msgid "United Nations"
-msgstr "Egységválasztás"
+msgstr "Egyesült Nemzetek"
 
 #: data/civ2/buildings.ruleset:990 data/default/buildings.ruleset:990
 msgid "Units regain two extra hitpoints per turn."
@@ -8881,7 +8878,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:933 data/civ2/buildings.ruleset:1005
 #: data/default/buildings.ruleset:1005
 msgid "Women's Suffrage"
-msgstr ""
+msgstr "Nõk választójoga"
 
 #: data/civ2/buildings.ruleset:1012 data/default/buildings.ruleset:1012
 msgid ""
@@ -8893,7 +8890,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:948 data/civ2/buildings.ruleset:1024
 #: data/default/buildings.ruleset:1024
 msgid "Capitalization"
-msgstr ""
+msgstr "Kapitalizáció"
 
 #: data/civ1/buildings.ruleset:955 data/civ2/buildings.ruleset:1031
 #: data/default/buildings.ruleset:1031
@@ -8963,29 +8960,28 @@ msgstr ""
 
 #: data/default/cities.ruleset:26
 msgid "European"
-msgstr ""
+msgstr "Európai"
 
 #: data/default/cities.ruleset:33
 msgid "Classical"
-msgstr ""
+msgstr "Klasszikus"
 
 #: data/default/cities.ruleset:40
-#, fuzzy
 msgid "Industrial"
-msgstr "Ipari Szabotázs"
+msgstr "Ipari"
 
 #: data/default/cities.ruleset:47
 msgid "Modern"
-msgstr ""
+msgstr "Modern"
 
 #: data/default/cities.ruleset:54
 msgid "PostModern"
-msgstr ""
+msgstr "PostModern"
 
 #: data/civ1/governments.ruleset:103 data/civ2/governments.ruleset:101
 #: data/default/governments.ruleset:102
 msgid "Anarchy"
-msgstr ""
+msgstr "Anarchia"
 
 #: data/civ1/governments.ruleset:144 data/civ2/governments.ruleset:142
 #: data/default/governments.ruleset:143
@@ -9026,17 +9022,17 @@ msgstr ""
 #: data/default/governments.ruleset:173
 #, fuzzy
 msgid "Despotism"
-msgstr "Infók"
+msgstr "Despotizmus"
 
 #: data/civ1/governments.ruleset:214 data/civ2/governments.ruleset:212
 #: data/default/governments.ruleset:213
 msgid "Emperor"
-msgstr ""
+msgstr "Császár"
 
 #: data/civ1/governments.ruleset:215 data/civ2/governments.ruleset:213
 #: data/default/governments.ruleset:214
 msgid "Empress"
-msgstr ""
+msgstr "Császárnõ"
 
 #: data/civ1/governments.ruleset:217 data/civ2/governments.ruleset:215
 #: data/default/governments.ruleset:216
@@ -9077,7 +9073,7 @@ msgstr "Birodalom"
 #: data/civ1/governments.ruleset:284 data/civ2/governments.ruleset:282
 #: data/default/governments.ruleset:283 data/default/nations.ruleset:1514
 msgid "Queen"
-msgstr ""
+msgstr "Királynõ"
 
 #: data/civ1/governments.ruleset:286 data/civ2/governments.ruleset:284
 #: data/default/governments.ruleset:285
@@ -9247,7 +9243,7 @@ msgstr "Fõpapnõ"
 
 #: data/civ2/governments.ruleset:428
 msgid "(Sorry, no helptext available.)"
-msgstr ""
+msgstr "(Bocs, nincs segítség.)"
 
 #: data/default/nations.ruleset:52
 msgid "Roman"
@@ -9279,11 +9275,11 @@ msgstr "?plural:Babilóniaiak"
 
 #: data/default/nations.ruleset:125
 msgid "German"
-msgstr ""
+msgstr "Germán"
 
 #: data/default/nations.ruleset:126
 msgid "?plural:Germans"
-msgstr ""
+msgstr "?plural:Germánok"
 
 #: data/default/nations.ruleset:133
 msgid "Chancellor"
@@ -9295,11 +9291,11 @@ msgstr "Érsek"
 
 #: data/default/nations.ruleset:167
 msgid "Egyptian"
-msgstr ""
+msgstr "Egyiptomi"
 
 #: data/default/nations.ruleset:168
 msgid "?plural:Egyptians"
-msgstr ""
+msgstr "?plural:Egyiptomiak"
 
 #: data/default/nations.ruleset:176
 msgid "Pharaoh"
@@ -9311,11 +9307,11 @@ msgstr "Nagy Fáraó"
 
 #: data/default/nations.ruleset:201
 msgid "American"
-msgstr ""
+msgstr "Amerikai"
 
 #: data/default/nations.ruleset:202
 msgid "?plural:Americans"
-msgstr ""
+msgstr "?plural:Amerikaiak"
 
 #: data/default/nations.ruleset:210 data/default/nations.ruleset:1294
 msgid "Speaker"
@@ -9327,11 +9323,11 @@ msgstr "Tiszteletes"
 
 #: data/default/nations.ruleset:241
 msgid "Greek"
-msgstr ""
+msgstr "Görög"
 
 #: data/default/nations.ruleset:242
 msgid "?plural:Greeks"
-msgstr ""
+msgstr "?plural:Görögök"
 
 #: data/default/nations.ruleset:249 data/default/nations.ruleset:493
 #: data/default/nations.ruleset:602 data/default/nations.ruleset:863
@@ -9341,15 +9337,15 @@ msgstr ""
 #: data/default/nations.ruleset:1236 data/default/nations.ruleset:1295
 #: data/default/nations.ruleset:1328 data/default/nations.ruleset:1386
 msgid "Prime Minister"
-msgstr ""
+msgstr "Miniszterelnök"
 
 #: data/default/nations.ruleset:280
 msgid "Indian"
-msgstr ""
+msgstr "Indián"
 
 #: data/default/nations.ruleset:281
 msgid "?plural:Indians"
-msgstr ""
+msgstr "?plural:Indiánok"
 
 #: data/default/nations.ruleset:289
 msgid "Maharaja"
@@ -9357,11 +9353,11 @@ msgstr "Maharadzsa"
 
 #: data/default/nations.ruleset:313
 msgid "Russian"
-msgstr ""
+msgstr "Orosz"
 
 #: data/default/nations.ruleset:314
 msgid "?plural:Russians"
-msgstr ""
+msgstr "?plural:Oroszok"
 
 #: data/default/nations.ruleset:322
 msgid "Czar"
@@ -9381,19 +9377,19 @@ msgstr "Matriarcha"
 
 #: data/default/nations.ruleset:348
 msgid "Zulu"
-msgstr ""
+msgstr "Zulu"
 
 #: data/default/nations.ruleset:349
 msgid "?plural:Zulus"
-msgstr ""
+msgstr "?plural:Zuluk"
 
 #: data/default/nations.ruleset:376
 msgid "French"
-msgstr ""
+msgstr "Francia"
 
 #: data/default/nations.ruleset:377
 msgid "?plural:French"
-msgstr ""
+msgstr "?plural:Franciák"
 
 #: data/default/nations.ruleset:384
 msgid "Premier"
@@ -9401,11 +9397,11 @@ msgstr ""
 
 #: data/default/nations.ruleset:411
 msgid "Aztec"
-msgstr ""
+msgstr "Azték"
 
 #: data/default/nations.ruleset:412
 msgid "?plural:Aztecs"
-msgstr ""
+msgstr "?plural:Aztékok"
 
 #: data/default/nations.ruleset:440
 msgid "Chinese"
@@ -9425,11 +9421,11 @@ msgstr ""
 
 #: data/default/nations.ruleset:483
 msgid "English"
-msgstr ""
+msgstr "Angol"
 
 #: data/default/nations.ruleset:484
 msgid "?plural:English"
-msgstr ""
+msgstr "?plural:Angolok"
 
 #: data/default/nations.ruleset:494
 msgid "Lord Protector"
@@ -9441,11 +9437,11 @@ msgstr ""
 
 #: data/default/nations.ruleset:526
 msgid "Mongol"
-msgstr ""
+msgstr "Mongol"
 
 #: data/default/nations.ruleset:527
 msgid "?plural:Mongols"
-msgstr ""
+msgstr "?plural:Mongolok"
 
 #: data/default/nations.ruleset:534
 msgid "Khan"
@@ -9457,11 +9453,11 @@ msgstr "Nagy Kán"
 
 #: data/default/nations.ruleset:559
 msgid "Turk"
-msgstr ""
+msgstr "Török"
 
 #: data/default/nations.ruleset:560
 msgid "?plural:Turks"
-msgstr ""
+msgstr "?plural:Törökök"
 
 #: data/default/nations.ruleset:570
 msgid "Sultan"
@@ -9489,11 +9485,11 @@ msgstr "Sah"
 
 #: data/default/nations.ruleset:660
 msgid "Arab"
-msgstr ""
+msgstr "Arab"
 
 #: data/default/nations.ruleset:661
 msgid "?plural:Arabs"
-msgstr ""
+msgstr "?plural:Arabok"
 
 #: data/default/nations.ruleset:669
 msgid "Caliph"
@@ -9501,19 +9497,19 @@ msgstr ""
 
 #: data/default/nations.ruleset:694
 msgid "Carthaginian"
-msgstr ""
+msgstr "Karthágói"
 
 #: data/default/nations.ruleset:695
 msgid "?plural:Carthaginians"
-msgstr ""
+msgstr "?plural:Karthágóiak"
 
 #: data/default/nations.ruleset:725
 msgid "Inca"
-msgstr ""
+msgstr "Inka"
 
 #: data/default/nations.ruleset:726
 msgid "?plural:Incas"
-msgstr ""
+msgstr "?plural:Inkák"
 
 #: data/default/nations.ruleset:734
 msgid "Warlord"
@@ -9521,11 +9517,11 @@ msgstr ""
 
 #: data/default/nations.ruleset:758
 msgid "Viking"
-msgstr ""
+msgstr "Viking"
 
 #: data/default/nations.ruleset:759
 msgid "?plural:Vikings"
-msgstr ""
+msgstr "?plural:Vikingek"
 
 #: data/default/nations.ruleset:793
 msgid "Polish"
@@ -9553,59 +9549,59 @@ msgstr "Dán"
 
 #: data/default/nations.ruleset:856
 msgid "?plural:Danes"
-msgstr ""
+msgstr "?plural:Dánok"
 
 #: data/default/nations.ruleset:889
 msgid "Dutch"
-msgstr ""
+msgstr "Holland"
 
 #: data/default/nations.ruleset:890
 msgid "?plural:Dutch"
-msgstr ""
+msgstr "?plural:Hollandok"
 
 #: data/default/nations.ruleset:933
 msgid "Swedish"
-msgstr ""
+msgstr "Svéd"
 
 #: data/default/nations.ruleset:934
 msgid "?plural:Swedes"
-msgstr ""
+msgstr "?plural:Svédek"
 
 #: data/default/nations.ruleset:966
 msgid "Japanese"
-msgstr ""
+msgstr "Japán"
 
 #: data/default/nations.ruleset:967
 msgid "?plural:Japanese"
-msgstr ""
+msgstr "?plural:Japánok"
 
 #: data/default/nations.ruleset:975
 msgid "Shogun"
-msgstr ""
+msgstr "Sógun"
 
 #: data/default/nations.ruleset:999
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugál"
 
 #: data/default/nations.ruleset:1000
 msgid "?plural:Portuguese"
-msgstr ""
+msgstr "?plural:Portugálok"
 
 #: data/default/nations.ruleset:1037
 msgid "Finnish"
-msgstr ""
+msgstr "Finn"
 
 #: data/default/nations.ruleset:1038
 msgid "?plural:Finns"
-msgstr ""
+msgstr "?plural:Finnek"
 
 #: data/default/nations.ruleset:1087
 msgid "Sioux"
-msgstr ""
+msgstr "Sziú"
 
 #: data/default/nations.ruleset:1088
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "?plural:Sziúk"
 
 #: data/default/nations.ruleset:1096
 msgid "Chief"
@@ -9617,11 +9613,11 @@ msgstr ""
 
 #: data/default/nations.ruleset:1119
 msgid "Czech"
-msgstr ""
+msgstr "Cseh"
 
 #: data/default/nations.ruleset:1120
 msgid "?plural:Czechs"
-msgstr ""
+msgstr "?plural:Csehek"
 
 #: data/default/nations.ruleset:1137
 #, fuzzy
@@ -9642,11 +9638,11 @@ msgstr "?plural:Ausztrálok"
 
 #: data/default/nations.ruleset:1220
 msgid "Welsh"
-msgstr ""
+msgstr "Walesi"
 
 #: data/default/nations.ruleset:1221
 msgid "?plural:Welsh"
-msgstr ""
+msgstr "?plural:Walesiek"
 
 #: data/default/nations.ruleset:1235
 msgid "Prince"
@@ -9662,43 +9658,43 @@ msgstr "Koreai"
 
 #: data/default/nations.ruleset:1259
 msgid "?plural:Koreans"
-msgstr ""
+msgstr "?plural:Koreaiak"
 
 #: data/default/nations.ruleset:1285
 msgid "Scottish"
-msgstr ""
+msgstr "Skót"
 
 #: data/default/nations.ruleset:1286
 msgid "?plural:Scottish"
-msgstr ""
+msgstr "?plural:Skótok"
 
 #: data/default/nations.ruleset:1319
 msgid "Israeli"
-msgstr ""
+msgstr "Izraeli"
 
 #: data/default/nations.ruleset:1320
 msgid "?plural:Israelis"
-msgstr ""
+msgstr "?plural:Izraeliek"
 
 #: data/default/nations.ruleset:1353
 msgid "Argentine"
-msgstr ""
+msgstr "Argentín"
 
 #: data/default/nations.ruleset:1354
 msgid "?plural:Argentines"
-msgstr ""
+msgstr "?plural:Argentínek"
 
 #: data/default/nations.ruleset:1378
 msgid "Canadian"
-msgstr ""
+msgstr "Kanadai"
 
 #: data/default/nations.ruleset:1379
 msgid "?plural:Canadians"
-msgstr ""
+msgstr "?plural:Kanadaiak"
 
 #: data/default/nations.ruleset:1413
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrán"
 
 #: data/default/nations.ruleset:1414
 msgid "?plural:Ukrainians"
@@ -9710,7 +9706,7 @@ msgstr ""
 
 #: data/default/nations.ruleset:1444
 msgid "Lithuanian"
-msgstr ""
+msgstr "Litván"
 
 #: data/default/nations.ruleset:1445
 msgid "?plural:Lithuanians"
@@ -9726,11 +9722,11 @@ msgstr ""
 
 #: data/default/nations.ruleset:1477
 msgid "Kenyan"
-msgstr ""
+msgstr "Kenyai"
 
 #: data/default/nations.ruleset:1478
 msgid "?plural:Kenyans"
-msgstr ""
+msgstr "?plural:Kenyaiak"
 
 #: data/default/nations.ruleset:1505
 msgid "Dúnedain"
@@ -9748,27 +9744,27 @@ msgstr ""
 msgid "?plural:Vietnamese"
 msgstr ""
 
-#: data/default/nations.ruleset:1561
+#: data/default/nations.ruleset:1560
 msgid "Thai"
 msgstr ""
 
-#: data/default/nations.ruleset:1562
+#: data/default/nations.ruleset:1561
 msgid "?plural:Thai"
 msgstr ""
 
-#: data/default/nations.ruleset:1589
+#: data/default/nations.ruleset:1587
 msgid "Olympic"
 msgstr ""
 
-#: data/default/nations.ruleset:1590
+#: data/default/nations.ruleset:1588
 msgid "?plural:Olympians"
 msgstr ""
 
-#: data/default/nations.ruleset:1615
+#: data/default/nations.ruleset:1613
 msgid "Krevi"
 msgstr ""
 
-#: data/default/nations.ruleset:1616
+#: data/default/nations.ruleset:1614
 msgid "?plural:Krevis"
 msgstr ""
 
@@ -9780,12 +9776,12 @@ msgstr "Fejlett Repülés"
 #: data/civ1/techs.ruleset:55 data/civ2/techs.ruleset:55
 #: data/default/techs.ruleset:55
 msgid "Alphabet"
-msgstr ""
+msgstr "Ábécé"
 
 #: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61
 #: data/default/techs.ruleset:61
 msgid "Amphibious Warfare"
-msgstr ""
+msgstr "Kétéltû Hadviselés"
 
 #: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67
 #: data/default/techs.ruleset:67
@@ -9795,17 +9791,17 @@ msgstr "Csillagászat"
 #: data/civ1/techs.ruleset:73 data/civ2/techs.ruleset:73
 #: data/default/techs.ruleset:73
 msgid "Atomic Theory"
-msgstr ""
+msgstr "Atomteória"
 
 #: data/civ1/techs.ruleset:79 data/civ2/techs.ruleset:79
 #: data/default/techs.ruleset:79
 msgid "Automobile"
-msgstr ""
+msgstr "Automobil"
 
 #: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
 #: data/default/techs.ruleset:85
 msgid "Banking"
-msgstr ""
+msgstr "Bank"
 
 #: data/civ1/techs.ruleset:91 data/civ2/techs.ruleset:91
 #: data/default/techs.ruleset:91
@@ -9815,32 +9811,32 @@ msgstr "Hídépítés"
 #: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
 #: data/default/techs.ruleset:97
 msgid "Bronze Working"
-msgstr ""
+msgstr "Bronzmegmunkálás"
 
 #: data/civ1/techs.ruleset:103 data/civ2/techs.ruleset:103
 #: data/default/techs.ruleset:103
 msgid "Ceremonial Burial"
-msgstr ""
+msgstr "Szertartásos Temetkezés"
 
 #: data/civ1/techs.ruleset:109 data/civ2/techs.ruleset:109
 #: data/default/techs.ruleset:109
 msgid "Chemistry"
-msgstr ""
+msgstr "Kémia"
 
 #: data/civ1/techs.ruleset:115 data/civ2/techs.ruleset:115
 #: data/default/techs.ruleset:115
 msgid "Chivalry"
-msgstr ""
+msgstr "Lovagi Rend"
 
 #: data/civ1/techs.ruleset:121 data/civ2/techs.ruleset:121
 #: data/default/techs.ruleset:121
 msgid "Code of Laws"
-msgstr ""
+msgstr "Törvény"
 
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127
 #: data/default/techs.ruleset:127
 msgid "Combined Arms"
-msgstr ""
+msgstr "Kombinált Fegyvernem"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
 #: data/default/techs.ruleset:133
@@ -9850,57 +9846,57 @@ msgstr ""
 #: data/civ1/techs.ruleset:145 data/civ2/techs.ruleset:145
 #: data/default/techs.ruleset:145
 msgid "Computers"
-msgstr ""
+msgstr "Számítógépek"
 
 #: data/civ1/techs.ruleset:151 data/civ2/techs.ruleset:151
 #: data/default/techs.ruleset:151
 msgid "Conscription"
-msgstr ""
+msgstr "Sorozás"
 
 #: data/civ1/techs.ruleset:157 data/civ2/techs.ruleset:157
 #: data/default/techs.ruleset:157
 msgid "Construction"
-msgstr ""
+msgstr "Építkezés"
 
 #: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
 #: data/default/techs.ruleset:163
 msgid "Currency"
-msgstr ""
+msgstr "Valuta"
 
 #: data/civ1/techs.ruleset:181 data/civ2/techs.ruleset:181
 #: data/default/techs.ruleset:181
 msgid "Electricity"
-msgstr ""
+msgstr "Elektromosság"
 
 #: data/civ1/techs.ruleset:187 data/civ2/techs.ruleset:187
 #: data/default/techs.ruleset:187
 msgid "Electronics"
-msgstr ""
+msgstr "Elektronika"
 
 #: data/civ1/techs.ruleset:193 data/civ2/techs.ruleset:193
 #: data/default/techs.ruleset:193
 msgid "Engineering"
-msgstr ""
+msgstr "Mérnöki Munka"
 
 #: data/civ1/techs.ruleset:199 data/civ2/techs.ruleset:199
 #: data/default/techs.ruleset:199
 msgid "Environmentalism"
-msgstr ""
+msgstr "Környezetvédelem"
 
 #: data/civ1/techs.ruleset:205 data/civ2/techs.ruleset:205
 #: data/default/techs.ruleset:205
 msgid "Espionage"
-msgstr ""
+msgstr "Kémkedés"
 
 #: data/civ1/techs.ruleset:211 data/civ2/techs.ruleset:211
 #: data/default/techs.ruleset:211
 msgid "Explosives"
-msgstr ""
+msgstr "Robbanóanyagok"
 
 #: data/civ1/techs.ruleset:217 data/civ2/techs.ruleset:217
 #: data/default/techs.ruleset:217
 msgid "Feudalism"
-msgstr ""
+msgstr "Feudalizmus"
 
 #: data/civ1/techs.ruleset:223 data/civ2/techs.ruleset:223
 #: data/default/techs.ruleset:223
@@ -9915,22 +9911,22 @@ msgstr "Fúziós Erõ"
 #: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
 #: data/default/techs.ruleset:241
 msgid "Genetic Engineering"
-msgstr ""
+msgstr "Genetika"
 
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
 #: data/default/techs.ruleset:247
 msgid "Guerilla Warfare"
-msgstr ""
+msgstr "Gerilla Hadviselés"
 
 #: data/civ1/techs.ruleset:253 data/civ2/techs.ruleset:253
 #: data/default/techs.ruleset:253
 msgid "Gunpowder"
-msgstr ""
+msgstr "Puskapor"
 
 #: data/civ1/techs.ruleset:259 data/civ2/techs.ruleset:259
 #: data/default/techs.ruleset:259
 msgid "Horseback Riding"
-msgstr ""
+msgstr "Lovaglás"
 
 #: data/civ1/techs.ruleset:265 data/civ2/techs.ruleset:265
 #: data/default/techs.ruleset:265
@@ -9940,22 +9936,22 @@ msgstr "Iparosítás"
 #: data/civ1/techs.ruleset:271 data/civ2/techs.ruleset:271
 #: data/default/techs.ruleset:271
 msgid "Invention"
-msgstr ""
+msgstr "Feltalálás"
 
 #: data/civ1/techs.ruleset:277 data/civ2/techs.ruleset:277
 #: data/default/techs.ruleset:277
 msgid "Iron Working"
-msgstr ""
+msgstr "Vasmegmunkálás"
 
 #: data/civ1/techs.ruleset:283 data/civ2/techs.ruleset:283
 #: data/default/techs.ruleset:283
 msgid "Labor Union"
-msgstr ""
+msgstr "Munkarõ Egyesítés"
 
 #: data/civ1/techs.ruleset:289 data/civ2/techs.ruleset:289
 #: data/default/techs.ruleset:289
 msgid "Laser"
-msgstr ""
+msgstr "Lézer"
 
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
 #: data/default/techs.ruleset:295
@@ -9965,22 +9961,22 @@ msgstr "Vezetõi Képesség"
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
 #: data/default/techs.ruleset:307
 msgid "Machine Tools"
-msgstr ""
+msgstr "Szerszámgépek"
 
 #: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313
 #: data/default/techs.ruleset:313
 msgid "Magnetism"
-msgstr ""
+msgstr "Mágnesesség"
 
 #: data/civ1/techs.ruleset:319 data/civ2/techs.ruleset:319
 #: data/default/techs.ruleset:319
 msgid "Map Making"
-msgstr ""
+msgstr "Térképkészítés"
 
 #: data/civ1/techs.ruleset:325 data/civ2/techs.ruleset:325
 #: data/default/techs.ruleset:325
 msgid "Masonry"
-msgstr ""
+msgstr "Kõmûvesség"
 
 #: data/civ1/techs.ruleset:331 data/civ2/techs.ruleset:331
 #: data/default/techs.ruleset:331
@@ -10000,67 +9996,67 @@ msgstr "Gyógyszer"
 #: data/civ1/techs.ruleset:349 data/civ2/techs.ruleset:349
 #: data/default/techs.ruleset:349
 msgid "Metallurgy"
-msgstr ""
+msgstr "Kohászat"
 
 #: data/civ1/techs.ruleset:355 data/civ2/techs.ruleset:355
 #: data/default/techs.ruleset:355
 msgid "Miniaturization"
-msgstr ""
+msgstr "Miniatürizáció"
 
 #: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361
 #: data/default/techs.ruleset:361
 msgid "Mobile Warfare"
-msgstr ""
+msgstr "Mobil Hadviselés"
 
 #: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373
 #: data/default/techs.ruleset:373
 msgid "Monotheism"
-msgstr ""
+msgstr "Egyistenhit"
 
 #: data/civ1/techs.ruleset:379 data/civ2/techs.ruleset:379
 #: data/default/techs.ruleset:379
 msgid "Mysticism"
-msgstr ""
+msgstr "Miszticizmus"
 
 #: data/civ1/techs.ruleset:385 data/civ2/techs.ruleset:385
 #: data/default/techs.ruleset:385
 msgid "Navigation"
-msgstr ""
+msgstr "Navigáció"
 
 #: data/civ1/techs.ruleset:391 data/civ2/techs.ruleset:391
 #: data/default/techs.ruleset:391
 msgid "Nuclear Fission"
-msgstr ""
+msgstr "Maghasadás"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:397
 #: data/default/techs.ruleset:397
 msgid "Nuclear Power"
-msgstr ""
+msgstr "Atomenergia"
 
 #: data/civ1/techs.ruleset:403 data/civ2/techs.ruleset:403
 #: data/default/techs.ruleset:403
 msgid "Philosophy"
-msgstr ""
+msgstr "Filozófia"
 
 #: data/civ1/techs.ruleset:409 data/civ2/techs.ruleset:409
 #: data/default/techs.ruleset:409
 msgid "Physics"
-msgstr ""
+msgstr "Fizika"
 
 #: data/civ1/techs.ruleset:415 data/civ2/techs.ruleset:415
 #: data/default/techs.ruleset:415
 msgid "Plastics"
-msgstr ""
+msgstr "Mûanyagok"
 
 #: data/civ1/techs.ruleset:421 data/civ2/techs.ruleset:421
 #: data/default/techs.ruleset:421
 msgid "Polytheism"
-msgstr ""
+msgstr "Többistenhit"
 
 #: data/civ1/techs.ruleset:427 data/civ2/techs.ruleset:427
 #: data/default/techs.ruleset:427
 msgid "Pottery"
-msgstr ""
+msgstr "Fazekasság"
 
 #: data/civ1/techs.ruleset:433 data/civ2/techs.ruleset:433
 #: data/default/techs.ruleset:433
@@ -10075,48 +10071,47 @@ msgstr "Újrahasznosítás"
 #: data/civ1/techs.ruleset:451 data/civ2/techs.ruleset:451
 #: data/default/techs.ruleset:451
 msgid "Refining"
-msgstr ""
+msgstr "Finomítás"
 
 #: data/civ1/techs.ruleset:457 data/civ2/techs.ruleset:457
 #: data/default/techs.ruleset:457
 msgid "Refrigeration"
-msgstr ""
+msgstr "Hûtés"
 
 #: data/civ1/techs.ruleset:463 data/civ2/techs.ruleset:463
 #: data/default/techs.ruleset:463
 msgid "Robotics"
-msgstr ""
+msgstr "Robot"
 
 #: data/civ1/techs.ruleset:469 data/civ2/techs.ruleset:469
 #: data/default/techs.ruleset:469
 msgid "Rocketry"
-msgstr ""
+msgstr "Rakéta"
 
 #: data/civ1/techs.ruleset:475 data/civ2/techs.ruleset:475
 #: data/default/techs.ruleset:475
 msgid "Sanitation"
-msgstr ""
+msgstr "Egészségügy"
 
 #: data/civ1/techs.ruleset:481 data/civ2/techs.ruleset:481
 #: data/default/techs.ruleset:481
 msgid "Seafaring"
-msgstr ""
+msgstr "Hajózás"
 
 #: data/civ1/techs.ruleset:487 data/civ2/techs.ruleset:487
 #: data/default/techs.ruleset:487
 msgid "Space Flight"
-msgstr ""
+msgstr "Ûrrepülés"
 
 #: data/civ1/techs.ruleset:493 data/civ2/techs.ruleset:493
 #: data/default/techs.ruleset:493
-#, fuzzy
 msgid "Stealth"
-msgstr "Lop"
+msgstr "Lopakodó"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:499
 #: data/default/techs.ruleset:499
 msgid "Steam Engine"
-msgstr ""
+msgstr "Gõzgép"
 
 #: data/civ1/techs.ruleset:505 data/civ2/techs.ruleset:505
 #: data/default/techs.ruleset:505
@@ -10126,12 +10121,12 @@ msgstr "Acél"
 #: data/civ1/techs.ruleset:511 data/civ2/techs.ruleset:511
 #: data/default/techs.ruleset:511
 msgid "Superconductors"
-msgstr ""
+msgstr "Szuperkonduktor"
 
 #: data/civ1/techs.ruleset:517 data/civ2/techs.ruleset:517
 #: data/default/techs.ruleset:517
 msgid "Tactics"
-msgstr ""
+msgstr "Taktika"
 
 #: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:523
 #: data/default/techs.ruleset:523
@@ -10155,17 +10150,17 @@ msgstr "Teológia"
 #: data/civ1/techs.ruleset:547 data/civ2/techs.ruleset:547
 #: data/default/techs.ruleset:547
 msgid "Theory of Gravity"
-msgstr ""
+msgstr "Gravitáció Teória"
 
 #: data/civ1/techs.ruleset:565 data/civ2/techs.ruleset:565
 #: data/default/techs.ruleset:565
 msgid "Warrior Code"
-msgstr ""
+msgstr "Harcos Jelrendszer"
 
 #: data/civ1/techs.ruleset:571 data/civ2/techs.ruleset:571
 #: data/default/techs.ruleset:571
 msgid "Writing"
-msgstr ""
+msgstr "Írás"
 
 #: data/civ1/techs.ruleset:541
 msgid "Religion"
@@ -10184,11 +10179,11 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:135 data/default/terrain.ruleset:135
 msgid "Glacier"
-msgstr ""
+msgstr "Gleccser"
 
 #: data/civ2/terrain.ruleset:143 data/default/terrain.ruleset:143
 msgid "Ivory"
-msgstr ""
+msgstr "Elefántcsont"
 
 #: data/civ1/terrain.ruleset:500 data/civ2/terrain.ruleset:149
 #: data/civ2/terrain.ruleset:186 data/classic/terrain.ruleset:500
@@ -10218,6 +10213,8 @@ msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
 msgstr ""
+"A sivatagok különösen száraz területek, ezért körülményessé teszik a földmûvelést "
+"és a kereskedelmet."
 
 #: data/civ1/terrain.ruleset:200 data/civ2/terrain.ruleset:208
 #: data/classic/terrain.ruleset:200 data/default/terrain.ruleset:208
@@ -10226,7 +10223,7 @@ msgstr "Erdõ"
 
 #: data/civ2/terrain.ruleset:216 data/default/terrain.ruleset:216
 msgid "Pheasant"
-msgstr ""
+msgstr "Fácán"
 
 #: data/civ2/terrain.ruleset:222 data/default/terrain.ruleset:222
 msgid "Silk"
@@ -10235,7 +10232,7 @@ msgstr "Selyem"
 #: data/civ1/terrain.ruleset:230 data/civ2/terrain.ruleset:238
 #: data/classic/terrain.ruleset:230 data/default/terrain.ruleset:238
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
-msgstr ""
+msgstr "Az erdõk sûrûn vannak fával, ezért a földmûvelés nehéz."
 
 #: data/civ1/terrain.ruleset:236 data/civ2/terrain.ruleset:244
 #: data/classic/terrain.ruleset:236 data/default/terrain.ruleset:244
@@ -10252,7 +10249,7 @@ msgstr "Erõforrások"
 #: data/civ1/terrain.ruleset:266 data/civ2/terrain.ruleset:274
 #: data/classic/terrain.ruleset:266 data/default/terrain.ruleset:274
 msgid "Grasslands afford exceptional agricultural opportunities."
-msgstr ""
+msgstr "A mezõk kiváló mezõgazdasági lehetõségeket nyújtanak."
 
 #: data/civ1/terrain.ruleset:271 data/civ2/terrain.ruleset:279
 #: data/classic/terrain.ruleset:271 data/default/terrain.ruleset:279
@@ -10292,7 +10289,7 @@ msgstr "Gyümölcs"
 #: data/civ1/terrain.ruleset:337 data/civ2/terrain.ruleset:345
 #: data/classic/terrain.ruleset:337 data/default/terrain.ruleset:345
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
-msgstr ""
+msgstr "A dzsungelek sûrûn benõttek növénnyel, ezért a földmûvelés nehéz."
 
 #: data/civ1/terrain.ruleset:343 data/civ2/terrain.ruleset:351
 #: data/classic/terrain.ruleset:343 data/default/terrain.ruleset:351
@@ -10314,6 +10311,8 @@ msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr ""
+"A hegyek nagy magasságú területek, ezért körülményessé teszik a földmûvelést "
+"és a kereskedelmet."
 
 #: data/civ1/terrain.ruleset:379 data/civ2/terrain.ruleset:387
 #: data/classic/terrain.ruleset:379 data/default/terrain.ruleset:387
@@ -10405,7 +10404,7 @@ msgstr ""
 
 #: data/civ1/terrain.ruleset:135 data/classic/terrain.ruleset:135
 msgid "Seals"
-msgstr ""
+msgstr "Fókák"
 
 #: data/civ1/terrain.ruleset:157 data/classic/terrain.ruleset:157
 msgid ""
@@ -10484,36 +10483,33 @@ msgstr ""
 
 #: data/civ1/units.ruleset:184 data/civ2/units.ruleset:189
 #: data/default/units.ruleset:189
-#, fuzzy
 msgid "Archers"
-msgstr "Parancsok"
+msgstr "Íjászok"
 
 #: data/civ1/units.ruleset:207 data/civ2/units.ruleset:212
 #: data/default/units.ruleset:212
-#, fuzzy
 msgid "Legion"
-msgstr "Verzió"
+msgstr "Légió"
 
 #: data/civ1/units.ruleset:230 data/civ2/units.ruleset:235
 #: data/default/units.ruleset:235
 msgid "Pikemen"
-msgstr ""
+msgstr "Lándzsások"
 
 #: data/civ1/units.ruleset:253 data/civ2/units.ruleset:258
 #: data/default/units.ruleset:258
-#, fuzzy
 msgid "Musketeers"
-msgstr "Métaszerver"
+msgstr "Muskétások"
 
 #: data/civ1/units.ruleset:277 data/civ2/units.ruleset:282
 #: data/default/units.ruleset:282
 msgid "Fanatics"
-msgstr ""
+msgstr "Fanatikusok"
 
 #: data/civ1/units.ruleset:300 data/civ2/units.ruleset:305
 #: data/default/units.ruleset:305
 msgid "Partisan"
-msgstr ""
+msgstr "Partizán"
 
 #: data/civ2/units.ruleset:326 data/default/units.ruleset:326
 msgid ""
@@ -10532,29 +10528,27 @@ msgstr ""
 #: data/civ1/units.ruleset:323 data/civ2/units.ruleset:340
 #: data/default/units.ruleset:340
 msgid "Alpine Troops"
-msgstr ""
+msgstr "Alpesi Sereg"
 
 #: data/civ1/units.ruleset:346 data/civ2/units.ruleset:363
 #: data/default/units.ruleset:363
-#, fuzzy
 msgid "Riflemen"
-msgstr "Követelmény:"
+msgstr "Puskások"
 
 #: data/civ1/units.ruleset:369 data/civ2/units.ruleset:386
 #: data/default/units.ruleset:386
 msgid "Marines"
-msgstr ""
+msgstr "Tengerészek"
 
 #: data/civ1/units.ruleset:392 data/civ2/units.ruleset:409
 #: data/default/units.ruleset:409
-#, fuzzy
 msgid "Paratroopers"
-msgstr "Ejtõernyõs Támadás"
+msgstr "Ejtõernyõsök"
 
 #: data/civ1/units.ruleset:415 data/civ2/units.ruleset:436
 #: data/default/units.ruleset:436
 msgid "Mech. Inf."
-msgstr ""
+msgstr "Gép. Gyalogság"
 
 #: data/civ1/units.ruleset:436 data/civ2/units.ruleset:457
 #: data/default/units.ruleset:457
@@ -10565,59 +10559,57 @@ msgstr ""
 
 #: data/civ2/units.ruleset:464 data/default/units.ruleset:464
 msgid "Horsemen"
-msgstr ""
+msgstr "Lovasok"
 
 #: data/civ1/units.ruleset:466 data/civ2/units.ruleset:487
 #: data/default/units.ruleset:487
 msgid "Chariot"
-msgstr ""
+msgstr "Harci Szekér"
 
 #: data/civ1/units.ruleset:489 data/civ2/units.ruleset:510
 #: data/default/units.ruleset:510
 msgid "Elephants"
-msgstr ""
+msgstr "Elefántok"
 
 #: data/civ1/units.ruleset:512 data/civ2/units.ruleset:533
 #: data/default/units.ruleset:533
-#, fuzzy
 msgid "Crusaders"
-msgstr "Parancsok"
+msgstr "Keresztes Vitéz"
 
 #: data/civ1/units.ruleset:535 data/civ2/units.ruleset:556
 #: data/default/units.ruleset:556
 msgid "Knights"
-msgstr ""
+msgstr "Lovagok"
 
 #: data/civ1/units.ruleset:559 data/civ2/units.ruleset:580
 #: data/default/units.ruleset:580
 msgid "Dragoons"
-msgstr ""
+msgstr "Dragonyosok"
 
 #: data/civ1/units.ruleset:443 data/civ2/units.ruleset:603
 #: data/default/units.ruleset:603
 msgid "Cavalry"
-msgstr ""
+msgstr "Lovasság"
 
 #: data/civ1/units.ruleset:605 data/civ2/units.ruleset:626
 #: data/default/units.ruleset:626
 msgid "Armor"
-msgstr ""
+msgstr "Tank"
 
 #: data/civ1/units.ruleset:628 data/civ2/units.ruleset:649
 #: data/default/units.ruleset:649
 msgid "Catapult"
-msgstr ""
+msgstr "Katapult"
 
 #: data/civ1/units.ruleset:651 data/civ2/units.ruleset:672
 #: data/default/units.ruleset:672
-#, fuzzy
 msgid "Cannon"
-msgstr "Ismeretlen"
+msgstr "Ágyú"
 
 #: data/civ1/units.ruleset:697 data/civ2/units.ruleset:695
 #: data/default/units.ruleset:695
 msgid "Artillery"
-msgstr ""
+msgstr "Tüzérség"
 
 #: data/civ2/units.ruleset:718 data/default/units.ruleset:718
 msgid "Howitzer"
@@ -10626,17 +10618,17 @@ msgstr ""
 #: data/civ1/units.ruleset:720 data/civ2/units.ruleset:741
 #: data/default/units.ruleset:741
 msgid "Fighter"
-msgstr ""
+msgstr "Vadászgép"
 
 #: data/civ1/units.ruleset:743 data/civ2/units.ruleset:764
 #: data/default/units.ruleset:764
 msgid "Bomber"
-msgstr ""
+msgstr "Bombázó"
 
 #: data/civ1/units.ruleset:766 data/civ2/units.ruleset:787
 #: data/default/units.ruleset:787
 msgid "Helicopter"
-msgstr ""
+msgstr "Helikopter"
 
 #: data/civ2/units.ruleset:808 data/default/units.ruleset:808
 msgid ""
@@ -10649,7 +10641,7 @@ msgstr ""
 #: data/civ1/units.ruleset:789 data/civ2/units.ruleset:816
 #: data/default/units.ruleset:816
 msgid "Stealth Fighter"
-msgstr ""
+msgstr "Lopakodó Vadász"
 
 #: data/civ2/units.ruleset:837 data/default/units.ruleset:837
 msgid "An improved Fighter, with improved attack and a higher movement radius."
@@ -10658,7 +10650,7 @@ msgstr ""
 #: data/civ1/units.ruleset:812 data/civ2/units.ruleset:843
 #: data/default/units.ruleset:843
 msgid "Stealth Bomber"
-msgstr ""
+msgstr "Lopakodó Bombázó"
 
 #: data/civ2/units.ruleset:864 data/default/units.ruleset:864
 msgid "An improved Bomber, with improved attack and a higher movement radius."
@@ -10667,32 +10659,31 @@ msgstr ""
 #: data/civ1/units.ruleset:835 data/civ2/units.ruleset:870
 #: data/default/units.ruleset:870
 msgid "Trireme"
-msgstr ""
+msgstr "Görög Gálya"
 
 #: data/civ2/units.ruleset:893 data/default/units.ruleset:893
-#, fuzzy
 msgid "Caravel"
-msgstr "Mégse"
+msgstr ""
 
 #: data/civ1/units.ruleset:881 data/civ2/units.ruleset:916
 #: data/default/units.ruleset:916
 msgid "Galleon"
-msgstr ""
+msgstr "Gálya"
 
 #: data/civ1/units.ruleset:904 data/civ2/units.ruleset:939
 #: data/default/units.ruleset:939
 msgid "Frigate"
-msgstr ""
+msgstr "Fregatt"
 
 #: data/civ1/units.ruleset:927 data/civ2/units.ruleset:962
 #: data/default/units.ruleset:962
 msgid "Ironclad"
-msgstr ""
+msgstr "Páncélos Hajó"
 
 #: data/civ1/units.ruleset:950 data/civ2/units.ruleset:985
 #: data/default/units.ruleset:985
 msgid "Destroyer"
-msgstr ""
+msgstr "Romboló"
 
 #: data/civ2/units.ruleset:1006 data/default/units.ruleset:1006
 msgid ""
@@ -10703,24 +10694,22 @@ msgstr ""
 #: data/civ1/units.ruleset:973 data/civ2/units.ruleset:1012
 #: data/default/units.ruleset:1012
 msgid "Cruiser"
-msgstr ""
+msgstr "Cirkáló"
 
 #: data/civ1/units.ruleset:996 data/civ2/units.ruleset:1035
 #: data/default/units.ruleset:1035
 msgid "AEGIS Cruiser"
-msgstr ""
+msgstr "AEGIS Cirkáló"
 
 #: data/civ1/units.ruleset:1019 data/civ2/units.ruleset:1058
 #: data/default/units.ruleset:1058
-#, fuzzy
 msgid "Battleship"
-msgstr "Ûrhajók"
+msgstr "Csatahajó"
 
 #: data/civ1/units.ruleset:1042 data/civ2/units.ruleset:1081
 #: data/default/units.ruleset:1081
-#, fuzzy
 msgid "Submarine"
-msgstr " vagy Tengeralattjáró"
+msgstr "Tengeralattjáró"
 
 #: data/civ1/units.ruleset:1063 data/civ2/units.ruleset:1102
 #: data/default/units.ruleset:1102
@@ -10734,7 +10723,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1072 data/civ2/units.ruleset:1111
 #: data/default/units.ruleset:1111
 msgid "Carrier"
-msgstr ""
+msgstr "Csapatszállító"
 
 #: data/civ1/units.ruleset:1093 data/civ2/units.ruleset:1132
 #: data/default/units.ruleset:1132
@@ -10745,14 +10734,13 @@ msgstr ""
 
 #: data/civ1/units.ruleset:1100 data/civ2/units.ruleset:1139
 #: data/default/units.ruleset:1139
-#, fuzzy
 msgid "Transport"
-msgstr "Kereskedelmi Infók"
+msgstr "Szállítóhajó"
 
 #: data/civ1/units.ruleset:1123 data/civ2/units.ruleset:1162
 #: data/default/units.ruleset:1162
 msgid "Cruise Missile"
-msgstr ""
+msgstr "Cirkáló Rakéta"
 
 #: data/civ2/units.ruleset:1183 data/default/units.ruleset:1183
 msgid ""
@@ -10762,9 +10750,8 @@ msgstr ""
 
 #: data/civ1/units.ruleset:1146 data/civ2/units.ruleset:1189
 #: data/default/units.ruleset:1189
-#, fuzzy
 msgid "Nuclear"
-msgstr "Atomrobbantás"
+msgstr "Nukleáris Rakéta"
 
 #: data/civ2/units.ruleset:1210 data/default/units.ruleset:1210
 msgid ""
@@ -10787,9 +10774,8 @@ msgstr ""
 
 #: data/civ1/units.ruleset:1188 data/civ2/units.ruleset:1231
 #: data/default/units.ruleset:1231
-#, fuzzy
 msgid "Diplomat"
-msgstr "Diplomáciai Találkozó"
+msgstr "Diplomata"
 
 #: data/civ1/units.ruleset:1209 data/civ2/units.ruleset:1252
 #: data/default/units.ruleset:1252
@@ -10814,7 +10800,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1229 data/civ2/units.ruleset:1272
 #: data/default/units.ruleset:1272
 msgid "Spy"
-msgstr ""
+msgstr "Kém"
 
 #: data/civ2/units.ruleset:1293 data/default/units.ruleset:1293
 msgid ""
@@ -10840,7 +10826,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1252 data/civ2/units.ruleset:1314
 #: data/default/units.ruleset:1314
 msgid "Caravan"
-msgstr ""
+msgstr "Karaván"
 
 #: data/civ1/units.ruleset:1273 data/civ2/units.ruleset:1335
 #: data/default/units.ruleset:1335
@@ -10856,7 +10842,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1283 data/civ2/units.ruleset:1345
 #: data/default/units.ruleset:1345
 msgid "Freight"
-msgstr ""
+msgstr "Áruszállító"
 
 #: data/civ2/units.ruleset:1366 data/default/units.ruleset:1366
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -10864,9 +10850,8 @@ msgstr ""
 
 #: data/civ1/units.ruleset:1306 data/civ2/units.ruleset:1371
 #: data/default/units.ruleset:1371
-#, fuzzy
 msgid "Explorer"
-msgstr "Automata Felfedezés"
+msgstr "Felfedezõ"
 
 #: data/civ2/units.ruleset:1392 data/default/units.ruleset:1392
 msgid "Explorers are very useful for mapping unknown territory."
@@ -10875,7 +10860,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1329 data/civ2/units.ruleset:1397
 #: data/default/units.ruleset:1397
 msgid "Barbarian Leader"
-msgstr ""
+msgstr "Barbár Vezetõ"
 
 #: data/civ2/units.ruleset:1418 data/default/units.ruleset:1418
 msgid ""
@@ -10900,7 +10885,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:134
 msgid "Militia"
-msgstr ""
+msgstr "Milícia"
 
 #: data/civ1/units.ruleset:858
 #, fuzzy
