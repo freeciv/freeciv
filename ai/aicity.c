@@ -547,46 +547,6 @@ void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_c
 }
 
 /************************************************************************** 
-  don't ask me why this is in aicity, I can't even remember -- Syela 
-**************************************************************************/
-static Unit_Type_id ai_choose_attacker(struct city *pcity,
-                                       enum unit_move_type which)
-{
-  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
-  int best = 0;
-  int cur;
-
-  simple_ai_unit_type_iterate(i) {
-    cur = ai_unit_attack_desirability(i);
-    if (which == unit_types[i].move_type) {
-      if (can_build_unit(pcity, i) && (cur > best || (cur == best &&
- get_unit_type(i)->build_cost <= get_unit_type(bestid)->build_cost))) {
-        best = cur;
-        bestid = i;
-      }
-    }
-  } simple_ai_unit_type_iterate_end;
-
-  return bestid;
-}
-
-/************************************************************************** 
-  ...
-**************************************************************************/
-Unit_Type_id ai_choose_attacker_ground(struct city *pcity)
-{
-  return(ai_choose_attacker(pcity, LAND_MOVING));
-}
-
-/************************************************************************** 
-  ...
-**************************************************************************/
-Unit_Type_id ai_choose_attacker_sailing(struct city *pcity)
-{
-  return(ai_choose_attacker(pcity, SEA_MOVING));
-}
-
-/************************************************************************** 
   ...
 **************************************************************************/
 Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)

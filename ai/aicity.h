@@ -27,8 +27,6 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
 Unit_Type_id ai_choose_defender_by_type(struct city *pcity,
                                         enum unit_move_type which);
 Unit_Type_id ai_choose_defender(struct city *pcity);
-Unit_Type_id ai_choose_attacker_ground(struct city *pcity);
-Unit_Type_id ai_choose_attacker_sailing(struct city *pcity);
 int ai_make_elvis(struct city *pcity);
 void ai_scientists_taxmen(struct city *pcity);
 bool ai_fix_unhappy(struct city *pcity);

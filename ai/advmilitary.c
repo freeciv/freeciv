@@ -48,6 +48,35 @@ void military_advisor_choose_tech(struct player *pplayer,
   /* This function hasn't been implemented yet. */
 }
 
+/**************************************************************************
+  Choose best attacker based on movement type. It chooses based on unit
+  desirability without regard to cost, unless costs are equal. This is
+  very wrong. FIXME, use amortize on time to build.
+**************************************************************************/
+static Unit_Type_id ai_choose_attacker(struct city *pcity,
+                                       enum unit_move_type which)
+{
+  Unit_Type_id bestid = -1;
+  int best = 0;
+  int cur;
+
+  simple_ai_unit_type_iterate(i) {
+    cur = ai_unit_attack_desirability(i);
+    if (which == unit_types[i].move_type) {
+      if (can_build_unit(pcity, i)
+          && (cur > best
+              || (cur == best
+                  && get_unit_type(i)->build_cost
+                     <= get_unit_type(bestid)->build_cost))) {
+        best = cur;
+        bestid = i;
+      }
+    }
+  } simple_ai_unit_type_iterate_end;
+
+  return bestid;
+}
+
 /********************************************************************** 
 Helper for assess_defense_quadratic and assess_defense_unit.
 ***********************************************************************/
@@ -1366,7 +1395,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
   if (myunit) kill_something_with(pplayer, pcity, myunit, choice);
   else {
     freelog(LOG_DEBUG, "Killing with virtual unit in %s", pcity->name);
-    v = ai_choose_attacker_sailing(pcity);
+    v = ai_choose_attacker(pcity, SEA_MOVING);
     if (v > 0 && /* have to put sailing first before we mung the seamap */
       (city_got_building(pcity, B_PORT) || /* only need a few ports */
       !port_is_within(pplayer, 18))) { /* using move_rate is quirky -- Syela */
@@ -1377,7 +1406,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
       kill_something_with(pplayer, pcity, &virtualunit, choice);
     } /* ok.  can now mung seamap for ferryboat code.  Proceed! */
     ai_choose_attacker_air(pplayer, pcity, choice);
-    v = ai_choose_attacker_ground(pcity);
+    v = ai_choose_attacker(pcity, LAND_MOVING);
     virtualunit.type = v;
 /*    virtualunit.veteran = do_make_unit_veteran(pcity, v);*/
     virtualunit.veteran = TRUE;
