@@ -2067,7 +2067,7 @@ static void server_remove_unit(struct unit *punit)
   struct packet_generic_integer packet;
   struct city *pcity = map_get_city(punit->x, punit->y);
   struct city *phomecity = find_city_by_id(punit->homecity);
-  int punit_x = punit->x, punit_y = punit->y;
+  int punit_x = punit->x, punit_y = punit->y, punit_owner = punit->owner;
 
   remove_unit_sight_points(punit);
 
@@ -2089,7 +2089,7 @@ static void server_remove_unit(struct unit *punit)
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   map_city_radius_iterate(punit_x, punit_y, x, y) {
     struct city *pcity2 = map_get_city(x, y);
-    if (pcity2 && pcity2->owner != punit->owner) {
+    if (pcity2 && pcity2->owner != punit_owner) {
       if (city_check_workers(pcity2, 1)) {
 	send_city_info(city_owner(pcity2), pcity2);
       }
