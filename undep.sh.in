@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# @configure_input@
+#
+# This script gets run at the end of configure, to modify
+# the Makefile's produced by configure to remove deps stuff 
+# which can (for cvs sources and snapshots) upset some make 
+# programs and C compilers.  (GNU make and gcc work, maybe 
+# some others work too...)
+#
+# Whether anything is actually modified depends on how configure
+# sets CVS_DEPS; see configure.in; if CVS_DEPS is set to "yes",
+# this script does nothing.   For a "release" distribution
+# of freeciv (where the deps are done differently and are portable) 
+# this script will in effect do nothing because the sed regex's 
+# won't match. 
+
+CVS_DEPS=@CVS_DEPS@
+
+if test "$CVS_DEPS" = "yes"; then
+    exit
+fi
+
+@CLIENT_TRUE@CSUBDIRS="client"
+@CLIENT_FALSE@CSUBDIRS=""
+
+@SERVER_TRUE@SSUBDIRS="ai server"
+@SERVER_FALSE@SSUBDIRS=""
+
+SUBDIRS="common $SSUBDIRS $CSUBDIRS"
+
+for subdir in $SUBDIRS ; do
+
+if test ! -d $subdir; then
+   echo "No directory $subdir"
+   continue
+fi
+
+name=$subdir/Makefile
+
+if test ! -r $name; then
+    echo "No file $name"
+    continue
+fi
+
+echo "removing cvs-deps from $name"
+
+mv -f $name $name.bak
+
+sed '
+s/^DEPS_MAGIC.*//
+s/^-include $(DEP_FILES)//
+s/^%\.o: %\.c/.c.o:/
+s/\@echo\ '"'"'$(COMPILE) -c $<'"'"'; \\/$(COMPILE) -c $</
+s/$(COMPILE) -Wp,-MD,\.deps\/$(\*F)\.P -c $<//
+' $name.bak > $name
+
+done

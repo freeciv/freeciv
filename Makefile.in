@@ -60,6 +60,7 @@ POST_UNINSTALL = :
 AWK = @AWK@
 CC = @CC@
 CPP = @CPP@
+CVS_DEPS = @CVS_DEPS@
 LN_S = @LN_S@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
@@ -85,10 +86,11 @@ EXTRA_DIST=	AUTHORS COPYING ChangeLog HOWTOPLAY \
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  undep.sh
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
 Makefile.in NEWS acconfig.h acinclude.m4 aclocal.m4 config.h.in \
-configure configure.in install-sh missing mkinstalldirs stamp-h.in
+configure configure.in install-sh missing mkinstalldirs stamp-h.in \
+undep.sh.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -134,6 +136,8 @@ distclean-hdr:
 	-rm -f config.h
 
 maintainer-clean-hdr:
+undep.sh: $(top_builddir)/config.status undep.sh.in
+	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= ./config.status
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
