@@ -430,6 +430,14 @@ int unit_desirability(int i, int def)
   return(cur);  
 }
 
+/************************************************************************** 
+...
+**************************************************************************/
+int unit_attack_desirability(int i)
+{
+  return(unit_desirability(i, 0));
+} 
+
 static void process_defender_want(struct player *pplayer, struct city *pcity,
 				  int danger, struct ai_choice *choice)
 {

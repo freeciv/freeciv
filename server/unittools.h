@@ -32,8 +32,6 @@ int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
 int unit_bribe_cost(struct unit *punit);
 int count_diplomats_on_tile(int x, int y);
 int hp_gain_coord(struct unit *punit);
-int rate_unit_d(struct unit *punit, struct unit *against);
-int rate_unit_a(struct unit *punit, struct unit *against);
 struct unit *get_defender(struct player *pplayer, struct unit *aunit, 
 			  int x, int y);
 struct unit *get_attacker(struct player *pplayer, struct unit *aunit, 
@@ -52,7 +50,6 @@ struct city *sdi_defense_close(int owner, int x, int y);
 int find_a_unit_type(int role, int role_tech);
 int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int dest_x, int dest_y);
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
-int build_points_left(struct city *pcity);
 int can_place_partisan(int x, int y);
 int enemies_at(struct unit *punit, int x, int y);
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost,

@@ -114,6 +114,7 @@ static void enable_fog_of_war_player(struct player *pplayer);
 static void disable_fog_of_war_player(struct player *pplayer);
 static void enable_fog_of_war(void);
 static void disable_fog_of_war(void);
+static int check_for_full_turn_done(void);
 
 #ifdef GENERATING_MAC
 static void Mac_options(int *argc, char *argv[]);
@@ -1270,7 +1271,7 @@ int get_next_id_number(void)
 /**************************************************************************
 ...
 **************************************************************************/
-int check_for_full_turn_done(void)
+static int check_for_full_turn_done(void)
 {
   int i;
 
@@ -1983,17 +1984,6 @@ static void disable_fog_of_war(void)
     disable_fog_of_war_player(&game.players[o]);
 }
 
-
-/********************************************************************** 
-The initmap option is used because we don't want to initialize the map
-before the x and y sizes have been determined
-***********************************************************************/
-void server_player_init(struct player *pplayer, int initmap)
-{
-  if (initmap)
-    player_map_allocate(pplayer);
-  player_init(pplayer);
-}
 
 #ifdef GENERATING_MAC
 /*************************************************************************

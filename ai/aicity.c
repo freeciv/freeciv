@@ -50,6 +50,8 @@
 
 #include "aicity.h"
 
+static void ai_manage_city(struct player *pplayer, struct city *pcity);
+     
 #ifdef UNUSED
 /************************************************************************** 
 ...
@@ -616,22 +618,16 @@ int city_get_settlers(struct city *pcity)
   return set;
 }
 
+#ifdef UNUSED
 /************************************************************************** 
-...
+... (unused)
 **************************************************************************/
 int ai_in_initial_expand(struct player *pplayer)
 {
   int expand_cities [3] = {3, 5, 7};
   return (pplayer->score.cities < expand_cities[get_nation_by_plr(pplayer)->expand]);  
 }
-
-/************************************************************************** 
-...
-**************************************************************************/
-int unit_attack_desirability(int i)
-{
-  return(unit_desirability(i, 0));
-} 
+#endif
 
 void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)
 {
@@ -810,7 +806,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 /**************************************************************************
  cities, build order and worker allocation stuff here..
 **************************************************************************/
-void ai_manage_city(struct player *pplayer, struct city *pcity)
+static void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
   city_check_workers(pplayer, pcity); /* no reason not to, many reasons to do so! */
   auto_arrange_workers(pcity);

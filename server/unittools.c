@@ -413,7 +413,7 @@ int hp_gain_coord(struct unit *punit)
 /**************************************************************************
   used to find the best defensive unit on a square
 **************************************************************************/
-int rate_unit_d(struct unit *punit, struct unit *against)
+static int rate_unit_d(struct unit *punit, struct unit *against)
 {
   int val;
 
@@ -460,7 +460,7 @@ struct unit *get_defender(struct player *pplayer, struct unit *aunit,
 /**************************************************************************
   used to find the best offensive unit on a square
 **************************************************************************/
-int rate_unit_a(struct unit *punit, struct unit *against)
+static int rate_unit_a(struct unit *punit, struct unit *against)
 {
   int val;
 
@@ -712,14 +712,6 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
   struct unit *pdefender;
   pdefender=get_defender(&game.players[punit->owner], punit, dest_x, dest_y);
   return(can_unit_attack_unit_at_tile(punit, pdefender, dest_x, dest_y));
-}
-
-/**************************************************************************
-  calculate the remaining build points 
-**************************************************************************/
-int build_points_left(struct city *pcity)
-{
- return (improvement_value(pcity->currently_building) - pcity->shield_stock);
 }
 
 /**************************************************************************

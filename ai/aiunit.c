@@ -49,8 +49,19 @@
 
 extern struct move_cost_map warmap;
 
-static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader);
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat);
+static void ai_manage_military(struct player *pplayer,struct unit *punit);
+static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
+static void ai_manage_barbarian_leader(struct player *pplayer,
+				       struct unit *leader);
+
+static void ai_military_findjob(struct player *pplayer,struct unit *punit);
+static void ai_military_gohome(struct player *pplayer,struct unit *punit);
+static void ai_military_attack(struct player *pplayer,struct unit *punit);
+
+static int unit_move_turns(struct unit *punit, int x, int y);
+static int unit_can_defend(int type);
+
 
 /**************************************************************************
   Similar to is_my_zoc(), but with some changes:
@@ -172,7 +183,7 @@ static int has_defense(struct city *pcity)
 /********************************************************************** 
   ...
 ***********************************************************************/
-int unit_move_turns(struct unit *punit, int x, int y)
+static int unit_move_turns(struct unit *punit, int x, int y)
 {
   int m, d;
   m = unit_types[punit->type].move_rate;
@@ -959,7 +970,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 /*************************************************************************
 ...
 **************************************************************************/
-int unit_can_defend(int type)
+static int unit_can_defend(int type)
 {
   if (unit_types[type].move_type != LAND_MOVING) return 0; /* temporary kluge */
   return (unit_has_role(type, L_DEFEND_GOOD));
@@ -1017,7 +1028,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit, struct unit **au
   return((val * 100) / u);
 }
 
-void ai_military_findjob(struct player *pplayer,struct unit *punit)
+static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity = NULL, *acity = NULL;
   struct unit *aunit;
@@ -1132,7 +1143,7 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
   else punit->ai.ai_role = AIUNIT_DEFEND_HOME; /* for default */
 }
 
-void ai_military_gohome(struct player *pplayer,struct unit *punit)
+static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity;
   int dest_x, dest_y;
@@ -1473,8 +1484,8 @@ This seems to do the attack. First find victim on the neighbouring tiles.
 If no enemies nearby find_something_to_kill() anywhere else. If there is
 nothing to kill, sailing units go home, others explore.
 **************************************************************************/
-void ai_military_attack(struct player *pplayer,struct unit *punit)
-{ /* rewritten by Syela - old way was crashy and not smart (nor is this) */
+static void ai_military_attack(struct player *pplayer,struct unit *punit)
+{
   int dest_x, dest_y; 
   int id, flag, went, ct = 10;
 
@@ -1541,7 +1552,7 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
 /*************************************************************************
 ...
 **************************************************************************/
-void ai_manage_caravan(struct player *pplayer, struct unit *punit)
+static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
   struct packet_unit_request req;
@@ -1724,7 +1735,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 /**************************************************************************
 decides what to do with a military unit.
 **************************************************************************/
-void ai_manage_military(struct player *pplayer,struct unit *punit)
+static void ai_manage_military(struct player *pplayer,struct unit *punit)
 {
   int id;
 

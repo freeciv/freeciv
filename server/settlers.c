@@ -44,6 +44,9 @@ static unsigned int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
 /*************************************************************************/
 
+static const char *get_a_name(struct player *pplayer);
+static int city_desirability(struct player *pplayer, int x, int y);
+
 static int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
 static void auto_settlers_player(struct player *pplayer); 
 
@@ -52,10 +55,13 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer,
 
 static int city_exists_within_city_radius(int x, int y);
 
+static int make_dy(int y1, int y2);
+static int make_dx(int x1, int x2);
+
 /**************************************************************************
 ...
 **************************************************************************/
-const char *get_a_name(struct player *pplayer)
+static const char *get_a_name(struct player *pplayer)
 {
   static char buf[80];
   static int x=0;
@@ -191,8 +197,9 @@ void add_city_to_minimap(int x, int y)
   }
 }    
 
+#ifdef UNUSED
 /**************************************************************************
-...
+... (unused)
 **************************************************************************/
 void locally_zero_minimap(int x, int y)
 {
@@ -207,13 +214,15 @@ void locally_zero_minimap(int x, int y)
       }
     }
   }
-}  
+}
+#endif
 
 /**************************************************************************
 ...
+this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela
 **************************************************************************/
-int city_desirability(struct player *pplayer, int x, int y)
-{ /* this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela */
+static int city_desirability(struct player *pplayer, int x, int y)
+{
   int taken[5][5], food[5][5], shield[5][5], trade[5][5];
   int irrig[5][5], mine[5][5], road[5][5];
   int i, j, f, n = 0;
@@ -432,8 +441,9 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
 
 /*************************************************************************
   returns dy according to the wrap rules
+  fixme: non-static in some other module?
 **************************************************************************/
-int make_dy(int y1, int y2)
+static int make_dy(int y1, int y2)
 {
   int dy=y2-y1;
   if (dy<0) dy=-dy;
@@ -442,8 +452,9 @@ int make_dy(int y1, int y2)
 
 /*************************************************************************
   returns dx according to the wrap rules
+  fixme: non-static in some other module?
 **************************************************************************/
-int make_dx(int x1, int x2)
+static int make_dx(int x1, int x2)
 {
   int tmp;
   x1=map_adjust_x(x1);
@@ -784,18 +795,6 @@ int is_ok_city_spot(int x, int y)
     city_list_iterate_end;
   }
   return 1;
-}
-
-/*************************************************************************
-  return true if a city is in range of this square.
-**************************************************************************/
-int in_city_radius(int x, int y)
-{
-  int i, j;
-  city_map_iterate(i, j) {
-    if (map_get_city(x+i-2, y+j-2)) return 1;
-  }
-  return 0;
 }
 
 /**************************************************************************

@@ -151,6 +151,26 @@ int get_colosseum_power(struct city *pcity)
 }
 
 /**************************************************************************
+  calculate the remaining build points 
+**************************************************************************/
+int build_points_left(struct city *pcity)
+{
+  return (improvement_value(pcity->currently_building) - pcity->shield_stock);
+}
+
+/*************************************************************************
+  return true if a city is in range of this square.
+**************************************************************************/
+int in_city_radius(int x, int y)
+{
+  int i, j;
+  city_map_iterate(i, j) {
+    if (map_get_city(x+i-2, y+j-2)) return 1;
+  }
+  return 0;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int is_worked_here(int x, int y)
@@ -246,8 +266,9 @@ int best_worker_tile_value(struct city *pcity)
   return(best);
 }
 
+#ifdef UNUSED
 /**************************************************************************
-...
+... (unused)
 **************************************************************************/
 int better_tile(struct city *pcity, int x, int y, int bx, int by,
 		int foodneed, int prodneed)
@@ -255,6 +276,7 @@ int better_tile(struct city *pcity, int x, int y, int bx, int by,
   return (city_tile_value(pcity, x, y, foodneed, prodneed) >
           city_tile_value(pcity, bx, by, foodneed, prodneed));
 }
+#endif
 
 /**************************************************************************
 ...
@@ -303,9 +325,9 @@ int built_elsewhere(struct city *pc, int wonder)
   return 0;
 }
 
-
+#ifdef UNUSED
 /**************************************************************************
-...
+... (unused)
 **************************************************************************/
 void eval_buildings(struct city *pcity,int *values)
 {
@@ -441,6 +463,7 @@ void eval_buildings(struct city *pcity,int *values)
   if (can_build_improvement(pcity, B_CAPITAL))
     values[B_CAPITAL]=pcity->shield_prod;
 }
+#endif
 
 /**************************************************************************
 ...

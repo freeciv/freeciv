@@ -40,7 +40,13 @@
 
 static void player_tile_init(struct player_tile *ptile);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
-						 struct player *pdest, int x, int y);
+						 struct player *pdest,
+						 int x, int y);
+static void send_NODRAW_tiles(struct player *pplayer, int x, int y, int len);
+static int map_get_sent(int x, int y, struct player *pplayer);
+static void map_set_sent(int x, int y, struct player *pplayer);
+static void map_clear_sent(int x, int y, struct player *pplayer);
+static void set_unknown_tiles_to_unsent(struct player *pplayer);
 
 static char dec2hex[] = "0123456789abcdef";
 static struct player_tile *player_tiles[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
@@ -326,7 +332,7 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 send KNOWN_NODRAW tiles
 We send only the unknown tiles around the square with lenght len
 **************************************************************************/
-void send_NODRAW_tiles(struct player *pplayer, int x, int y, int len)
+static void send_NODRAW_tiles(struct player *pplayer, int x, int y, int len)
 {
   int dx,dy,abs_x,abs_y;
   connection_do_buffer(pplayer->conn);
@@ -1029,10 +1035,24 @@ void map_know_and_see_all(struct player *pplayer)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void show_map_to_all(void)
+{
+  int i=0;
+  struct player *pplayer;
+
+  for (i=0;i<game.nplayers;i++) {
+    pplayer = &game.players[i];
+    map_know_and_see_all(pplayer);
+  }
+}
+
 /***************************************************************
 ...
 ***************************************************************/
-void map_set_sent(int x, int y, struct player *pplayer)
+static void map_set_sent(int x, int y, struct player *pplayer)
 {
   (map.tiles+map_adjust_x(x)+
    map_adjust_y(y)*map.xsize)->sent|=(1u<<pplayer->player_no);
@@ -1041,7 +1061,7 @@ void map_set_sent(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-void map_clear_sent(int x, int y, struct player *pplayer)
+static void map_clear_sent(int x, int y, struct player *pplayer)
 {
   (map.tiles+map_adjust_x(x)+
    map_adjust_y(y)*map.xsize)->sent&=~(1u<<pplayer->player_no);
@@ -1050,7 +1070,7 @@ void map_clear_sent(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-int map_get_sent(int x, int y, struct player *pplayer)
+static int map_get_sent(int x, int y, struct player *pplayer)
 {
   return ((map.tiles+map_adjust_x(x)+
 	   map_adjust_y(y)*map.xsize)->sent)&(1u<<pplayer->player_no);
@@ -1059,7 +1079,7 @@ int map_get_sent(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-void set_unknown_tiles_to_unsent(struct player *pplayer)
+static void set_unknown_tiles_to_unsent(struct player *pplayer)
 {
   int x,y;
   for(y=0; y<map.ysize; y++)

@@ -1327,21 +1327,6 @@ void show_ending(void)
 ...
 **************************************************************************/
 
-void show_map_to_all(void)
-{
-  int i=0;
-  struct player *pplayer;
-
-  for (i=0;i<game.nplayers;i++) {
-    pplayer = &game.players[i];
-    map_know_and_see_all(pplayer);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
 static void great_library(struct player *pplayer)
 {
   int i;
@@ -3029,6 +3014,17 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     }
     secfile_insert_int(file, i, "player%d.total_ncities", plrno);
   }
+}
+
+/********************************************************************** 
+The initmap option is used because we don't want to initialize the map
+before the x and y sizes have been determined
+***********************************************************************/
+void server_player_init(struct player *pplayer, int initmap)
+{
+  if (initmap)
+    player_map_allocate(pplayer);
+  player_init(pplayer);
 }
 
 /********************************************************************** 

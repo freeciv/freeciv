@@ -90,6 +90,8 @@ static int update_city_activity(struct player *pplayer, struct city *pcity);
 static void worker_loop(struct city *pcity, int *foodneed,
 			int *prodneed, int *workers);
 
+static int advisor_choose_build(struct player *pplayer, struct city *pcity);
+
 /**************************************************************************
 calculate the incomes according to the taxrates and # of specialists.
 **************************************************************************/
@@ -981,8 +983,8 @@ static void city_populate(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int advisor_choose_build(struct player *pplayer, struct city *pcity)
-{ /* Old stuff that I obsoleted deleted. -- Syela */
+static int advisor_choose_build(struct player *pplayer, struct city *pcity)
+{
   struct ai_choice choice;
   int i;
   int id=-1;

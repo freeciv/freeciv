@@ -56,6 +56,10 @@ extern struct move_cost_map warmap;
 
 /****************************************************************************/
 
+static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
+static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
+static void maybe_make_veteran(struct unit *punit);
+
 static void wakeup_neighbor_sentries(struct player *pplayer,
 				     int cent_x, int cent_y);
 static void diplomat_charge_movement (struct unit *pdiplomat, int x, int y);
@@ -1582,7 +1586,7 @@ void player_restore_units(struct player *pplayer)
   Units which have moved don't gain hp, except the United Nations and
   helicopter effects still occur.
 *****************************************************************************/
-void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
+static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 {
   int was_lower;
 
@@ -1620,7 +1624,7 @@ void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
  move points are trivial, only modifiers to the base value is if it's
   sea units and the player has certain wonders/techs
 ***************************************************************************/
-void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
+static void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
 {
   punit->moves_left=unit_move_rate(punit);
 }
@@ -1630,7 +1634,7 @@ void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
   should become a veteran, if unit isn't already.
   there is a 50/50% chance for it to happend, (100% if player got SUNTZU)
 **************************************************************************/
-void maybe_make_veteran(struct unit *punit)
+static void maybe_make_veteran(struct unit *punit)
 {
     if (punit->veteran) 
       return;
@@ -2429,7 +2433,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
  if it isn't a city square or an ocean square then with 50% chance 
  add some fallout, then notify the client about the changes.
 **************************************************************************/
-void do_nuke_tile(int x, int y)
+static void do_nuke_tile(int x, int y)
 {
   struct unit_list *punit_list;
   struct city *pcity;
@@ -2670,7 +2674,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 /**************************************************************************
   finds a spot around pcity and place a partisan.
 **************************************************************************/
-void place_partisans(struct city *pcity,int count)
+static void place_partisans(struct city *pcity,int count)
 {
   int x,y,i;
   int ok[25];

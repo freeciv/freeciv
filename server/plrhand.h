@@ -19,13 +19,12 @@ struct player;
 struct packet_player_request;
 struct section_file;
 
+void server_player_init(struct player *pplayer, int initmap);
 void server_remove_player(struct player *pplayer);
 void begin_player_turn(struct player *pplayer);
 void update_player_activities(struct player *pplayer);
 
 void handle_player_revolution(struct player *pplayer);
-void handle_player_ai_options(struct player *pplayer,
-			      struct packet_player_request *preq);
 void handle_player_rates(struct player *pplayer, 
 			 struct packet_player_request *preq);
 void check_player_government_rates(struct player *pplayer);
@@ -56,7 +55,6 @@ void handle_player_tech_goal(struct player *pplayer,
                             struct packet_player_request *preq);
 void handle_player_worklist(struct player *pplayer,
                             struct packet_player_request *preq);
-void researchprogress(int plr);
 void found_new_tech(struct player *plr, int tech_found, char was_discovery, 
 		    char saving_bulbs);
 void tech_researched(struct player* plr);
@@ -75,7 +73,6 @@ void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
 void show_ending(void);
-void show_map_to_all(void);
 void player_load(struct player *plr, int plrno, struct section_file *file);
 void player_map_load(struct player *plr, int plrno, struct section_file *file);
 void player_save(struct player *plr, int plrno, struct section_file *file);

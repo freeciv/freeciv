@@ -51,6 +51,7 @@
 
 static void package_dumb_city(struct player* pplayer, int x, int y,
 			      struct packet_city_info *packet);
+static void remove_trade_route(int c1, int c2); 
 
 /**************************************************************************
 Establish a trade route, notice that there has to be space for them, 
@@ -812,7 +813,7 @@ void send_city_info_at_tile(struct player *dest, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void remove_trade_route(int c1, int c2) 
+static void remove_trade_route(int c1, int c2) 
 {
   int i;
   struct city *pc1, *pc2;

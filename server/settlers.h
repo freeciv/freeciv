@@ -24,19 +24,13 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap);
 
 #define MORT 24
 
-const char *get_a_name(struct player *pplayer);
 int amortize(int benefit, int delay);
-int city_desirability(struct player *pplayer, int x, int y);
 void ai_manage_settler(struct player *pplayer, struct unit *punit);
 
-int in_city_radius(int x, int y);
 int is_ok_city_spot(int x, int y); /* laughable, really. */
-int make_dy(int y1, int y2);
-int make_dx(int x1, int x2);
 void generate_minimap(void);
 void remove_city_from_minimap(int x, int y);
 void add_city_to_minimap(int x, int y);
-void locally_zero_minimap(int x, int y); /* I should imp this someday -- Syela */
 void initialize_infrastructure_cache(struct city *pcity);
 void contemplate_settling(struct player *pplayer, struct city *pcity);
 struct unit *other_passengers(struct unit *punit);

@@ -37,8 +37,6 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       struct city *pcity, int improvement);
 
 void player_restore_units(struct player *pplayer);
-void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
-void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 void update_unit_activities(struct player *pplayer);
 
 void create_unit(struct player *pplayer, int x, int y, Unit_Type_id type,
@@ -55,20 +53,17 @@ void kill_unit(struct unit *pkiller, struct unit *punit);
 void send_unit_info(struct player *dest, struct unit *punit);
 void send_unit_info_to_onlookers(struct player *dest, struct unit *punit,
 				 int x, int y, int carried, int select_it);
-void maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 int get_total_attack_power(struct unit *attacker, struct unit *defender);
 int get_total_defense_power(struct unit *attacker, struct unit *defender);
 int get_simple_defense_power(int d_type, int x, int y);
 int get_virtual_defense_power(int a_type, int d_type, int x, int y);
-void do_nuke_tile(int x, int y);
 void do_nuclear_explosion(int x, int y);
 int try_move_unit(struct unit *punit, int dest_x, int dest_y); 
 int do_airline(struct unit *punit, int dest_x, int dest_y);
 int do_paradrop(struct unit *punit, int dest_x, int dest_y);
 void raze_city(struct city *pcity);
 void get_a_tech(struct player *pplayer, struct player *target);
-void place_partisans(struct city *pcity,int count);
 void make_partisans(struct city *pcity);
 void send_all_known_units(struct player *dest);
 void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
