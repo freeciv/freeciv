@@ -399,6 +399,32 @@ void put_sprite(struct RastPort *rp, struct Sprite *sprite, LONG x, LONG y)
 
 }
 
+/****************************************************************
+ A safer BltBitMapRastPort (ignores negativ coordinates)
+*****************************************************************/
+VOID MyBltBitMapRastPort( CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct RastPort *destRP, LONG xDest, LONG yDest, LONG xSize, LONG ySize, ULONG minterm )
+{
+  if (xSrc < 0)
+  {
+    xSize += xSrc;
+    xDest -= xSrc;
+    xSrc = 0;
+  }
+
+  if (ySrc < 0)
+  {
+    ySize += ySrc;
+    yDest -= ySrc;
+    ySrc = 0;
+  }
+
+  if (xSize > 0 && ySize > 0)
+  {
+    BltBitMapRastPort(srcBitMap, xSrc, ySrc, destRP, xDest, yDest, xSize, ySize, minterm);
+  }
+}
+
+
 struct LayerHookMsg
 {
   struct Layer *layer;
@@ -492,8 +518,14 @@ void put_sprite_overlay_total(struct RastPort *rp, struct Sprite *sprite, LONG x
 
   if (mask)
   {
-    MyBltMaskBitMapRastPort(bmap, sprite->offx + ox, sprite->offy + oy,
-			    rp, x, y, MIN(width,sprite->width), MIN(height,sprite->height), 0xe2, mask);
+    int w = MIN(width,sprite->width);
+    int h = MIN(height,sprite->height);
+
+    if (w > 0 && h > 0)
+    {
+      MyBltMaskBitMapRastPort(bmap, sprite->offx + ox, sprite->offy + oy,
+			      rp, x, y, w, h, 0xe2, mask);
+    }
   }
 }
 
@@ -721,6 +753,47 @@ int overhead_view_supported(void)
 }
 
 /**************************************************************************
+draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
+map_canvas_store
+FIXME: We currently always draw the line.
+Only used for isometric view.
+**************************************************************************/
+void really_draw_segment(struct RastPort *rp, int dest_x_add, int dest_y_add,
+                         int src_x, int src_y, int dir, int force)
+{
+  int dest_x, dest_y;
+  int canvas_start_x, canvas_start_y;
+  int canvas_end_x, canvas_end_y;
+
+  dest_x = src_x + DIR_DX[dir];
+  dest_y = src_y + DIR_DY[dir];
+  assert(normalize_map_pos(&dest_x, &dest_y));
+
+  /* Find middle of tiles. y-1 to not undraw the the middle pixel of a
+     horizontal line when we refresh the tile below-between. */
+  get_canvas_xy(src_x, src_y, &canvas_start_x, &canvas_start_y);
+  get_canvas_xy(dest_x, dest_y, &canvas_end_x, &canvas_end_y);
+  canvas_start_x += NORMAL_TILE_WIDTH/2;
+  canvas_start_y += NORMAL_TILE_HEIGHT/2-1;
+  canvas_end_x += NORMAL_TILE_WIDTH/2;
+  canvas_end_y += NORMAL_TILE_HEIGHT/2-1;
+
+  /* somewhat hackish way of solving the problem where draw from a tile on
+     one side of the screen out of the screen, and the tile we draw to is
+     found to be on the other side of the screen. */
+  if (abs(canvas_end_x - canvas_start_x) > NORMAL_TILE_WIDTH
+      || abs(canvas_end_y - canvas_start_y) > NORMAL_TILE_HEIGHT)
+    return;
+
+  /* draw it! */
+  SetAPen(rp,2); /* CYAN */
+  Move(rp,dest_x_add + canvas_start_x, dest_y_add + canvas_start_y);
+  Draw(rp,dest_x_add + canvas_end_x, dest_y_add + canvas_end_y);
+  return;
+}
+
+
+/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 static void put_black_tile_iso(struct RastPort *rp,
@@ -746,8 +819,11 @@ static void put_overlay_tile_draw(struct RastPort *rp,
   if (!ssprite || !width || !height)
     return;
 
-
-  put_sprite_overlay_total(rp, ssprite, canvas_x + offset_x, canvas_y + offset_y, offset_x, offset_y, width, height);
+  put_sprite_overlay_total(rp, ssprite,
+                           canvas_x + offset_x, canvas_y + offset_y, 
+                           offset_x, offset_y,
+                           MIN(width, MAX(0, ssprite->width-offset_x)),
+                           MIN(height, MAX(0, ssprite->height-offset_y)));
 
   /* I imagine this could be done more efficiently. Some pixels We first
      draw from the sprite, and then draw black afterwards. It would be much

@@ -336,7 +336,7 @@ int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
     int diff_xy;
     int diff_x, diff_y;
     int width, height;
-/*    gdk_window_get_size(map_canvas->window, &width, &height);*/
+
     width = _mwidth(main_map_area); /* !! */
     height = _mheight(main_map_area); /* !! */
 
@@ -462,7 +462,7 @@ int tile_visible_and_not_on_border_mapcanvas(int x, int y)
     int width, height;
     width = _mwidth(main_map_area);
     height = _mheight(main_map_area);
-//    gdk_window_get_size(map_canvas->window, &width, &height);
+
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
     return canvas_x > NORMAL_TILE_WIDTH/2

@@ -623,41 +623,25 @@ STATIC void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
     ox = NORMAL_TILE_WIDTH / steps;
     oy = NORMAL_TILE_HEIGHT / steps;
 
-    w = NORMAL_TILE_WIDTH + 2*ox;
-    h = NORMAL_TILE_HEIGHT + 2*oy;
-
     for (i = 1; i <= steps; i++) {
       anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
-/*      if (is_isometric) {
-	/* FIXME: We need to draw units on tiles below the moving unit on top. */
-	gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
-			this_x, this_y, this_x, this_y,
-			single_tile_pixmap_width, single_tile_pixmap_height);
+      w = UNIT_TILE_WIDTH + 2*ox;
+      h = UNIT_TILE_HEIGHT + 2*oy;
 
-	this_x = start_x + ((i * canvas_dx)/steps);
-	this_y = start_y + ((i * canvas_dy)/steps);
+      this_x = start_x + ((i * canvas_dx)/steps) - ox;
+      this_y = start_y + ((i * canvas_dy)/steps) - oy;
 
-	gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store,
-			this_x, this_y, 0, 0,
-			single_tile_pixmap_width, single_tile_pixmap_height);
-	put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+      if (this_x + w > _mwidth(o)) w = _mwidth(o) - this_x;
+      if (this_y + h > _mheight(o)) h = _mheight(o) - this_y;
 
-	gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap,
-			0, 0, this_x, this_y,
-			single_tile_pixmap_width, single_tile_pixmap_height);
-      } else*/ {
-	this_x = start_x + ((i * canvas_dx)/steps);
-	this_y = start_y + ((i * canvas_dy)/steps);
-
-	BltBitMapRastPort(data->map_bitmap, this_x - ox, this_y - oy,
+      MyBltBitMapRastPort(data->map_bitmap, this_x, this_y,
 			  data->unit_layer->rp, 0, 0, w, h, 0xc0);
 
-	put_unit_tile(data->unit_layer->rp, punit, ox, oy);
+      put_unit_tile(data->unit_layer->rp, punit, ox, oy);
 
-	BltBitMapRastPort(data->unit_bitmap, 0, 0,
-			 _rp(o), _mleft(o) + this_x - ox, _mtop(o) + this_y - oy, w, h, 0xc0);
-      }
+      MyBltBitMapRastPort(data->unit_bitmap, 0, 0,
+			 _rp(o), _mleft(o) + this_x, _mtop(o) + this_y, w, h, 0xc0);
 
       if (i < steps) {
 	usleep_since_timer_start(anim_timer, 10000);
@@ -879,12 +863,12 @@ static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
     if (data->overview_object)
       set(data->overview_object, MUIA_Overview_RadarPicture, data->radar_gfx_sprite->picture);
 
-    if ((data->unit_bitmap = AllocBitMap(NORMAL_TILE_WIDTH * 2, NORMAL_TILE_HEIGHT * 2, GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_DEPTH), BMF_MINPLANES, _screen(o)->RastPort.BitMap)))
+    if ((data->unit_bitmap = AllocBitMap(UNIT_TILE_WIDTH * 3, UNIT_TILE_HEIGHT * 3, GetBitMapAttr(_screen(o)->RastPort.BitMap, BMA_DEPTH), BMF_MINPLANES, _screen(o)->RastPort.BitMap)))
     {
       if ((data->unit_layerinfo = NewLayerInfo()))
       {
 	InstallLayerInfoHook(data->unit_layerinfo, LAYERS_NOBACKFILL);
-	if ((data->unit_layer = CreateBehindHookLayer(data->unit_layerinfo, data->unit_bitmap, 0, 0, NORMAL_TILE_WIDTH * 2 - 1, NORMAL_TILE_HEIGHT * 2 - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
+	if ((data->unit_layer = CreateBehindHookLayer(data->unit_layerinfo, data->unit_bitmap, 0, 0, UNIT_TILE_WIDTH * 3 - 1, UNIT_TILE_HEIGHT * 3 - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
 	{
 	  if (render_sprites( /*_screen(o),*/ dh))
 	  {
@@ -1232,7 +1216,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
 	    return 0;
 	  } else {
-//	    really_draw_segment(src_x, src_y, dir, 1, 0);
+	    really_draw_segment(data->map_layer->rp, 0, 0, src_x, src_y, dir, 0);
+	    really_draw_segment(_rp(o), _mleft(o), _mtop(o), src_x, src_y, dir, 0);
 	  }
 	} else {
 	  int dest_x, dest_y;
@@ -1552,7 +1537,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	     we want it completely on top. ***/
 	/* Drawing is cheap; we just draw all the lines.
 	   Perhaps this should be optimized, though... */
-/*	for (x_itr = x-1; x_itr <= x+width; x_itr++) {
+	for (x_itr = x-1; x_itr <= x+width; x_itr++) {
 	  for (y_itr = y-1; y_itr <= y+height; y_itr++) {
 	    int x1 = x_itr;
 	    int y1 = y_itr;
@@ -1563,13 +1548,13 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 		  int x2 = x1 + DIR_DX[dir];
 	          int y2 = y1 + DIR_DY[dir];
 	          if (normalize_map_pos(&x2, &y2)) {
-		    really_draw_segment(x1, y1, dir, 0, 1);
+		    really_draw_segment(data->map_layer->rp, 0, 0, x1, y1, dir, 1);
 	          }
 	        }
 	      }
 	    }
           }
-        }*/
+        }
 
         /*** Lastly draw our changes to the screen. ***/
         if (write_to_screen) {

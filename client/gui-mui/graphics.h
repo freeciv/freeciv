@@ -64,6 +64,7 @@ extern struct Sprite *get_thumb_sprite(int onoff);
 extern int load_all_sprites(void);
 extern void free_all_sprites(void);
 
+VOID MyBltBitMapRastPort( CONST struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct RastPort *destRP, LONG xDest, LONG yDest, LONG xSize, LONG ySize, ULONG minterm );
 VOID MyBltMaskBitMapRastPort(struct BitMap *srcBitMap, LONG xSrc, LONG ySrc, struct RastPort *destRP, LONG xDest, LONG yDest, LONG xSize, LONG ySize, ULONG minterm, APTR bltMask);
 
 enum draw_part {
@@ -90,6 +91,8 @@ enum draw_type {
 };
 
 
+void really_draw_segment(struct RastPort *rp, int dest_x_add, int dest_y_add,
+                         int src_x, int src_y, int dir, int force);
 void put_one_tile(struct RastPort *rp, int x, int y, enum draw_type draw);
 void put_one_tile_full(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int citymode);
 
