@@ -464,6 +464,7 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter)
   pf_map->lattice[pf_map->tile->index].cost = pf_map->params->move_rate
       - pf_map->params->moves_left_initially;
   pf_map->lattice[pf_map->tile->index].extra_cost = 0;
+  pf_map->lattice[pf_map->tile->index].dir_to_here = -1;
   if (pf_map->params->is_pos_dangerous) {
     /* The starting point is safe */
     pf_map->d_lattice[pf_map->tile->index].is_dangerous = FALSE;
@@ -638,8 +639,10 @@ static struct pf_path* construct_path(const struct pf_map *pf_map,
 
     dir_next = node->dir_to_here;
 
-    /* Step further back, if we haven't finished yet */
-    ptile = mapstep(ptile, DIR_REVERSE(dir_next));
+    if (i > 0) {
+      /* Step further back, if we haven't finished yet */
+      ptile = mapstep(ptile, DIR_REVERSE(dir_next));
+    }
   }
 
   return path;
