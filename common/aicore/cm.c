@@ -1599,11 +1599,10 @@ static double estimate_fitness(const struct cm_state *state,
   estimates[O_GOLD]
     += pplayer->economic.tax * estimates[O_TRADE] / 100.0;
 
-  /* now add in the bonuses (none for food or trade) (in percentage) */
-  estimates[O_SHIELD] *= pcity->bonus[O_SHIELD] / 100.0;
-  estimates[O_LUXURY] *= pcity->bonus[O_LUXURY] / 100.0;
-  estimates[O_GOLD] *= pcity->bonus[O_GOLD] / 100.0;
-  estimates[O_SCIENCE] *= pcity->bonus[O_SCIENCE] / 100.0;
+  /* now add in the bonuses from building effects (in percentage) */
+  output_type_iterate(stat) {
+    estimates[stat] *= pcity->bonus[stat] / 100.0;
+  } output_type_iterate_end;
 
   /* finally, sum it all up, weighted by the parameter, but give additional
    * weight to luxuries to take account of disorder/happy constraints */
