@@ -80,7 +80,7 @@ pkgdata_DATA = Freeciv	\
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = default civ1
+SUBDIRS = default civ1 classic
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 
