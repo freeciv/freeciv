@@ -3088,13 +3088,16 @@ enum goto_result goto_route_execute(struct unit *punit)
     x = pgr->pos[index].x; y = pgr->pos[index].y;
     freelog(LOG_DEBUG, "%i,%i -> %i,%i\n", punit->x, punit->y, x, y);
 
+    if (punit->moves_left == 0) {
+      return GR_OUT_OF_MOVEPOINTS;
+    }
+
     if (punit->activity == ACTIVITY_PATROL
 	&& maybe_cancel_patrol_due_to_enemy(punit)) {
       return GR_FAILED;
     }
 
     /* Move unit */
-    assert(is_tiles_adjacent(punit->x, punit->y, x, y));
     last_tile = (((index + 1) % pgr->length) == (pgr->last_index));
     freelog(LOG_DEBUG, "handling\n");
     res = handle_unit_move_request(punit, x, y, 0, !last_tile);
@@ -3103,8 +3106,24 @@ enum goto_result goto_route_execute(struct unit *punit)
       return GR_DIED;
     }
 
-    if (punit->moves_left == 0) {
-      return GR_OUT_OF_MOVEPOINTS;
+    if (same_pos(punit->x, punit->y, x, y)) {
+      /* We succeeded in moving one step forward */
+      pgr->first_index = (pgr->first_index + 1) % pgr->length;
+      if (punit->activity == ACTIVITY_PATROL) {
+	/* When patroling we go in little circles; 
+	 * done by reinserting points */
+	pgr->pos[pgr->last_index].x = x;
+	pgr->pos[pgr->last_index].y = y;
+	pgr->last_index = (pgr->last_index + 1) % pgr->length;
+
+	if (patrol_stop_index == pgr->first_index) {
+	  freelog(LOG_DEBUG, "stopping because we ran a round\n");
+	  return GR_ARRIVED;	/* don't patrol more than one round */
+	}
+	if (maybe_cancel_patrol_due_to_enemy(punit)) {
+	  return GR_FAILED;
+	}
+      }
     }
 
     if (res && !same_pos(x, y, punit->x, punit->y)) {
@@ -3119,25 +3138,6 @@ enum goto_result goto_route_execute(struct unit *punit)
       freelog(LOG_DEBUG, "move idling\n");
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
       return GR_FAILED;
-    }
-
-    if (punit->activity == ACTIVITY_PATROL
-	&& maybe_cancel_patrol_due_to_enemy(punit)) {
-      return GR_FAILED;
-    }
-
-    pgr->first_index = (pgr->first_index+1) % pgr->length;
-
-    /* When patroling we go in little circles; done by reinserting points */
-    if (punit->activity == ACTIVITY_PATROL) {
-      pgr->pos[pgr->last_index].x = x;
-      pgr->pos[pgr->last_index].y = y;
-      pgr->last_index = (pgr->last_index+1) % pgr->length;
-
-      if (patrol_stop_index == pgr->first_index) {
-	freelog(LOG_DEBUG, "stopping because we ran a round\n");
-	return GR_ARRIVED; /* don't patrol more than one round */
-      }
     }
   } /* end while*/
 }
