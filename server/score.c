@@ -368,6 +368,7 @@ void calc_civ_score(struct player *pplayer)
   struct city *pcity;
   int landarea = 0, settledarea = 0;
   static struct claim_map cmap = { NULL, NULL, NULL,NULL };
+  static int turn = 0;
 
   pplayer->score.happy = 0;
   pplayer->score.content = 0;
@@ -390,10 +391,7 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.literacy = 0;
   pplayer->score.spaceship = 0;
 
-  if (is_barbarian(pplayer)) {
-    if (pplayer->player_no == game.nplayers - 1) {
-      free_landarea_map(&cmap);
-    }
+  if (is_barbarian(pplayer) || pplayer->is_observer) {
     return;
   }
 
@@ -418,19 +416,17 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.literacy += (city_population(pcity) * bonus) / 100;
   } city_list_iterate_end;
 
-  if (pplayer->player_no == 0) {
+  /* rebuild map only once per turn */
+  if (game.turn != turn) {
     free_landarea_map(&cmap);
     build_landarea_map(&cmap);
   }
   get_player_landarea(&cmap, pplayer, &landarea, &settledarea);
   pplayer->score.landarea = landarea;
   pplayer->score.settledarea = settledarea;
-  if (pplayer->player_no == game.nplayers - 1) {
-    free_landarea_map(&cmap);
-  }
 
   tech_type_iterate(i) {
-    if (get_invention(pplayer, i)==TECH_KNOWN) {
+    if (i > A_NONE && get_invention(pplayer, i) == TECH_KNOWN) {
       pplayer->score.techs++;
     }
   } tech_type_iterate_end;
