@@ -197,11 +197,14 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     /* Probability to lose our unit */
     p_failure = (unit_type_flag(u, F_SPY) ? 100 - p_success : 100);
 
-    time_to_dest *= (time_to_dest/2); /* No long treks, please */
+    /* Get the time to dest in turns (minimum 1 turn) */
+    time_to_dest = (time_to_dest + ut->move_rate - 1) / ut->move_rate;
+    /* Discourage long treks */
+    time_to_dest *= ((time_to_dest + 1) / 2);
 
     /* Almost kill_desire */
     want = (p_success * gain - p_failure * loss) / 100
-           - SHIELD_WEIGHTING * (time_to_dest / ut->move_rate);
+           - SHIELD_WEIGHTING * time_to_dest;
     if (want <= 0) {
       return;
     }
