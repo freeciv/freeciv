@@ -180,6 +180,14 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
   if (message[0] == ALLIESCHAT_COMMAND_PREFIX) {
     char sender_name[MAX_LEN_CHAT_NAME];
 
+    /* this won't work if we aren't attached to a player */
+    if (!pconn->player) {
+      my_snprintf(chat, sizeof(chat),
+                  _("Game: You are not attached to a player."));
+      dsend_packet_chat_msg(pconn, chat, -1, -1, E_NOEVENT, -1);
+      return;
+    }
+
     message[0] = ' '; /* replace command prefix */
     form_chat_name(pconn, sender_name, sizeof(sender_name));
     my_snprintf(chat, sizeof(chat),
