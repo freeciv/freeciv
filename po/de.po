@@ -13124,7 +13124,7 @@ msgid ""
 "with City Walls built on a Forest tile."
 msgstr ""
 "Kanonen (Veteran, A:8, V:1, TP:20, FK:1) mit 2/3 Bewegungspunkten greifen "
-"Musketiere (A:3, D:3, HP:20, F:1) in einer Stadt mit Stadtmauern im Wald an."
+"Musketiere (A:3, V:3, TP:20, FK:1) in einer Stadt mit Stadtmauern im Wald an."
 
 #: data/helpdata.txt:979
 msgid ""
@@ -13190,7 +13190,7 @@ msgid ""
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
 "Ein Schlachtschiff (Veteran, A:12, V:12, TP:40, FK:2) mit 3 Bewegungspunkten "
-"greift Gebirgsjäger (Veteran, A:5, D:5, HP:20, F:1) in einer Stadt mit "
+"greift Gebirgsjäger (Veteran, A:5, V:5, TP:20, FK:1) in einer Stadt mit "
 "Stadtmauern und Küstenverteidigung im Grasland an."
 
 #: data/helpdata.txt:1019
@@ -13227,8 +13227,9 @@ msgid ""
 "attacker's firepower is 2).  Otherwise, the attacker loses 1 hit point."
 msgstr ""
 "In jeder Kampfrunde wird nun eine Zufallszahl zwischen 1 und 405 erzeugt. "
-"Wenn sie größer als 225 ist, verlieren die Verteidiger 2 Trefferpunkte, "
-"andernfalls verliert der Angreifer 1 Trefferpunkt."
+"Wenn sie größer als 225 (ca. 44%) ist, verlieren die Verteidiger 2 "
+"Trefferpunkte (die Feuerkraft des Angreifers ist 2), andernfalls verliert "
+"der Angreifer 1 Trefferpunkt."
 
 #: data/helpdata.txt:1044
 #, no-c-format
