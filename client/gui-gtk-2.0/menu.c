@@ -1160,7 +1160,9 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 {
   Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
+#ifndef NDEBUG
   struct tile_type *ptype = get_tile_type(ptile->terrain);
+#endif
   const char *text;
 
   /* Change the terrain manually to avoid any side effects. */

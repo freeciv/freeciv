@@ -181,7 +181,6 @@ static int base_want(struct player *pplayer, struct city *pcity,
 {
   struct ai_data *ai = ai_data_get(pplayer);
   int final_want = 0;
-  struct city *capital = find_palace(pplayer);
   int great_wonders_tmp = 0, small_wonders_tmp = 0;
 
   if (ai->impr_calc[id] == AI_IMPR_ESTIMATE) {
@@ -214,9 +213,6 @@ static int base_want(struct player *pplayer, struct city *pcity,
   } else if (is_small_wonder(id)) {
     pplayer->small_wonders[id] = small_wonders_tmp;
   }
-
-  /* Ensure that we didn't inadvertantly move our palace */
-  assert(find_palace(pplayer) == capital);
 
   return final_want;
 }

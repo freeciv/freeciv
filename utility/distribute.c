@@ -33,7 +33,9 @@
 void distribute(int number, int groups, int *ratios, int *result)
 {
   int i, sum = 0, rest[groups], max_groups[groups], max_count, max;
+#ifndef NDEBUG
   const int original_number = number;
+#endif
 
   /* 
    * Distribution of a number of items into a number of groups with a given
