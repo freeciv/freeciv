@@ -329,7 +329,7 @@ update_worklist_report_dialog(void)
 /****************************************************************
  ...
 *****************************************************************/
-static void worklist_help(int id, int is_unit)
+static void worklist_help(int id, bool is_unit)
 {
   if (id >= 0) {
     if (is_unit) {
@@ -451,7 +451,8 @@ static void get_selected(struct worklist_editor *peditor,
 static void targets_help_callback(struct worklist_editor *peditor,
 				  int sel)
 {
-  int id, is_unit = 0;
+  int id;
+  bool is_unit = FALSE;
 
   if (sel>=0) {
     wid wid =
@@ -740,7 +741,8 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
                                         int before, wid wid)
 {
   int i, first_free;
-  int target = wid_id(wid), is_unit = wid_is_unit(wid);
+  int target = wid_id(wid);
+  bool is_unit = wid_is_unit(wid);
 
   assert(!wid_is_worklist(wid));
 
@@ -798,7 +800,8 @@ static void copy_worklist_to_editor(struct worklist *pwl,
   int i;
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    int target, is_unit;
+    int target;
+    bool is_unit;
 
     /* end of list */
     if (!worklist_peek_ith(pwl, &target, &is_unit, i)) {

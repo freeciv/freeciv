@@ -415,7 +415,7 @@ void center_on_unit()
 
 **************************************************************************/
 void
-set_turn_done_button_state( int state )
+set_turn_done_button_state( bool state )
 {
   EnableWindow(turndone_button,state);
 }

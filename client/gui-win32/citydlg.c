@@ -114,7 +114,7 @@ static int city_map_height;
 static struct genlist dialog_list;
 static int city_dialogs_have_been_initialised;
 struct city_dialog *get_city_dialog(struct city *pcity);
-struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);   
+struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal);   
 
 void city_dialog_update_improvement_list(struct city_dialog *pdialog);
 void city_dialog_update_supported_units(HDC hdc,struct city_dialog *pdialog, int id);
@@ -180,12 +180,12 @@ void refresh_city_dialog(struct city *pcity)
 }
 
 
-int city_dialog_is_open(struct city *pcity)
+bool city_dialog_is_open(struct city *pcity)
 {
   if (get_city_dialog(pcity)) {
-    return 1;
+    return TRUE;
   } else {
-    return 0;
+    return FALSE;
   }
 }
 
@@ -1170,7 +1170,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int k, id, is_unit;
+  int k, id;
+  bool is_unit;
 
   /* Update the worklist.  Remember, though -- the current build
      target really isn't in the worklist; don't send it to the server
@@ -1844,7 +1845,7 @@ LONG APIENTRY CitydlgWndProc (
 ...
 **************************************************************************/
 
-struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
+struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 {   
   HDC hdc;
   int i;
@@ -1930,7 +1931,7 @@ struct city_dialog *get_city_dialog(struct city *pcity)
 **************************************************************************/
 
 void
-popup_city_dialog(struct city *pcity, int make_modal)
+popup_city_dialog(struct city *pcity, bool make_modal)
 {
   struct city_dialog *pdialog;
  

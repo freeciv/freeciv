@@ -266,7 +266,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 
 **************************************************************************/
 void
-popup_science_dialog(int make_modal)
+popup_science_dialog(bool make_modal)
 {
   if (!science_dlg)
     {
@@ -471,7 +471,7 @@ static LONG CALLBACK economy_proc(HWND hWnd,
 
 **************************************************************************/
 void
-popup_economy_report_dialog(int make_modal)
+popup_economy_report_dialog(bool make_modal)
 {
   int i;
   struct fcwin_box *hbox;
@@ -717,7 +717,7 @@ activeunits_report_dialog_update(void)
 
 **************************************************************************/
 void
-popup_activeunits_report_dialog(int make_modal)
+popup_activeunits_report_dialog(bool make_modal)
 {
   if (!activeunits_dlg)
     {

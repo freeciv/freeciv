@@ -65,7 +65,7 @@ static HWND caravan_dialog;
 static int caravan_city_id;
 static int caravan_unit_id;
 
-static int is_showing_pillage_dialog = FALSE;
+static bool is_showing_pillage_dialog = FALSE;
 static int unit_to_use_to_pillage;
 
 static HWND spy_tech_dialog;
@@ -74,7 +74,7 @@ static int advance_type[A_LAST+1];
 static HWND spy_sabotage_dialog;
 static int improvement_type[B_LAST+1];
 
-static int is_showing_government_dialog;
+static bool is_showing_government_dialog;
 
 
                             
@@ -1032,7 +1032,7 @@ popup_caravan_dialog(struct unit *punit,
   
 }
 
-int
+bool
 caravan_dialog_is_open(void)
 {
   return BOOL_VAL(caravan_dialog);          
@@ -1693,7 +1693,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 /****************************************************************
 ...
 *****************************************************************/
-int diplomat_dialog_is_open(void)
+bool diplomat_dialog_is_open(void)
 {
   return diplomat_dialog_open;
 }
@@ -1740,7 +1740,7 @@ static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
 
 **************************************************************************/
 void
-popup_pillage_dialog(struct unit *punit, int may_pillage)
+popup_pillage_dialog(struct unit *punit, bool may_pillage)
 {
   int what;
   HWND dlg;

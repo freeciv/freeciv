@@ -413,7 +413,7 @@ SPRITE *get_citizen_sprite(int frame)
 /**************************************************************************
 
 **************************************************************************/
-int
+bool
 tile_visible_mapcanvas(int x, int y)
 {
   if (is_isometric)
@@ -434,7 +434,7 @@ tile_visible_mapcanvas(int x, int y)
 /**************************************************************************
 
 **************************************************************************/
-int
+bool
 tile_visible_and_not_on_border_mapcanvas(int x, int y)
 {
   return ((y>=map_view_y+2 || (y >= map_view_y && map_view_y == 0))
@@ -669,7 +669,7 @@ get_center_tile_mapcanvas(int *x, int *y)
 **************************************************************************/
 void
 update_map_canvas(int x, int y, int width, int height,
-                       int write_to_screen)
+		  bool write_to_screen)
 {
   HDC mapstoredc;
   HBITMAP old;
