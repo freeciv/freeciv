@@ -89,6 +89,7 @@ Configuring server without readline support.)
                dnl Some older Unices may need both -lcurses and -ltermlib,
                dnl but we don't support that just yet....
 
+               AC_CHECK_LIB(tinfo, tgetent, HAVE_TERMCAP="-ltinfo")
                AC_CHECK_LIB(termlib, tgetent, HAVE_TERMCAP="-ltermlib")
                AC_CHECK_LIB(termcap, tgetent, HAVE_TERMCAP="-ltermcap")
                AC_CHECK_LIB(curses, tgetent, HAVE_TERMCAP="-lcurses")
