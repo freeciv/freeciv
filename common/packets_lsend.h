@@ -48,9 +48,9 @@ void lsend_packet_join_game_reply(struct conn_list *dest,
 			        const struct packet_join_game_reply *reply);
 void lsend_packet_alloc_nation(struct conn_list *dest, 
 			     const struct packet_alloc_nation *packet);
-void lsend_packet_generic_message(struct conn_list *dest, int type,
-				const struct packet_generic_message *message);
-void lsend_packet_generic_integer(struct conn_list *dest, int type,
+void lsend_packet_generic_message(struct conn_list *dest, enum packet_type type,
+				const struct packet_generic_message *packet);
+void lsend_packet_generic_integer(struct conn_list *dest, enum packet_type type,
 				const struct packet_generic_integer *packet);
 void lsend_packet_city_info(struct conn_list *dest,
                           const struct packet_city_info *req);
@@ -67,7 +67,7 @@ void lsend_packet_unit_request(struct conn_list *dest,
 			     enum packet_type req_type);
 void lsend_packet_unittype_info(struct conn_list *dest, int type, int action);
 void lsend_packet_ruleset_control(struct conn_list *dest, 
-				const struct packet_ruleset_control *pinfo);
+				const struct packet_ruleset_control *packet);
 void lsend_packet_ruleset_unit(struct conn_list *dest,
 			     const struct packet_ruleset_unit *packet);
 void lsend_packet_ruleset_tech(struct conn_list *dest,
@@ -88,7 +88,7 @@ void lsend_packet_ruleset_city(struct conn_list *dest,
 			     const struct packet_ruleset_city *packet);
 void lsend_packet_ruleset_game(struct conn_list *dest,
                              const struct packet_ruleset_game *packet);
-void lsend_packet_generic_values(struct conn_list *dest, int type,
+void lsend_packet_generic_values(struct conn_list *dest, enum packet_type type,
 			       const struct packet_generic_values *req);
 void lsend_packet_spaceship_info(struct conn_list *dest,
 			       const struct packet_spaceship_info *packet);
@@ -103,4 +103,4 @@ void lsend_packet_goto_route(struct conn_list *dest,
 			   enum goto_route_type type);
 void lsend_packet_attribute_chunk(struct conn_list *dest,
 				struct packet_attribute_chunk *packet);
-void lsend_packet_generic_empty(struct conn_list *dest, int type);
+void lsend_packet_generic_empty(struct conn_list *dest, enum packet_type type);

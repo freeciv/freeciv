@@ -145,15 +145,15 @@ void lsend_packet_alloc_nation(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
-void lsend_packet_generic_message(struct conn_list *dest, int type,
-				const struct packet_generic_message *message)
+void lsend_packet_generic_message(struct conn_list *dest, enum packet_type type,
+				const struct packet_generic_message *packet)
 {
   conn_list_iterate(*dest, pconn)
-    send_packet_generic_message(pconn, type, message);
+    send_packet_generic_message(pconn, type, packet);
   conn_list_iterate_end;
 }
 
-void lsend_packet_generic_integer(struct conn_list *dest, int type,
+void lsend_packet_generic_integer(struct conn_list *dest, enum packet_type type,
 				const struct packet_generic_integer *packet)
 {
   conn_list_iterate(*dest, pconn)
@@ -212,10 +212,10 @@ void lsend_packet_unittype_info(struct conn_list *dest, int type, int action)
 }
 
 void lsend_packet_ruleset_control(struct conn_list *dest, 
-				const struct packet_ruleset_control *pinfo)
+				const struct packet_ruleset_control *packet)
 {
   conn_list_iterate(*dest, pconn)
-    send_packet_ruleset_control(pconn, pinfo);
+    send_packet_ruleset_control(pconn, packet);
   conn_list_iterate_end;
 }
 
@@ -299,7 +299,7 @@ void lsend_packet_ruleset_game(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
-void lsend_packet_generic_values(struct conn_list *dest, int type,
+void lsend_packet_generic_values(struct conn_list *dest, enum packet_type type,
 			       const struct packet_generic_values *req)
 {
   conn_list_iterate(*dest, pconn)
@@ -356,7 +356,7 @@ void lsend_packet_attribute_chunk(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
-void lsend_packet_generic_empty(struct conn_list *dest, int type)
+void lsend_packet_generic_empty(struct conn_list *dest, enum packet_type type)
 {
   conn_list_iterate(*dest, pconn)
     send_packet_generic_empty(pconn, type);
