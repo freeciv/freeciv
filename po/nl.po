@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2000-10-11 15:41+0200\n"
-"PO-Revision-Date: 2000-09-07 16:45+MET\n"
+"POT-Creation-Date: 2000-10-23 09:37+0200\n"
+"PO-Revision-Date: 2000-10-23 09:35+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -103,7 +103,7 @@ msgstr "Spoorlijn"
 msgid "Mine"
 msgstr "Mijn"
 
-#: client/cityrepdata.c:218 client/options.c:96 common/map.c:56 common/unit.c:510 server/report.c:898
+#: client/cityrepdata.c:219 client/options.c:96 common/map.c:56 common/unit.c:510 server/report.c:898
 msgid "Pollution"
 msgstr "Verontreiniging"
 
@@ -173,28 +173,28 @@ msgid "Atrocious"
 msgstr "Gruwelijk"
 
 #: common/player.c:438
-msgid "Neutral"
-msgstr "Neutraal"
+msgid "?diplomatic_state:Neutral"
+msgstr "?diplomatic_state:Neutraal"
 
 #: common/player.c:439
-msgid "War"
-msgstr "Oorlog"
+msgid "?diplomatic_state:War"
+msgstr "?diplomatic_state:Oorlog"
 
 #: client/gui-gtk/diplodlg.c:446 client/gui-mui/diplodlg.c:632 client/gui-xaw/diplodlg.c:516 common/player.c:440
-msgid "Cease-fire"
-msgstr "Wapenstilstand"
+msgid "?diplomatic_state:Cease-fire"
+msgstr "?diplomatic_state:Wapenstilstand"
 
-#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:451 client/gui-mui/diplodlg.c:636 client/gui-xaw/diplodlg.c:520 common/player.c:441
-msgid "Peace"
-msgstr "Vrede"
+#: client/gui-gtk/diplodlg.c:451 client/gui-mui/diplodlg.c:636 client/gui-xaw/diplodlg.c:520 common/player.c:441
+msgid "?diplomatic_state:Peace"
+msgstr "?diplomatic_state:Vrede"
 
 #: client/gui-gtk/diplodlg.c:456 client/gui-mui/diplodlg.c:640 client/gui-xaw/diplodlg.c:524 common/player.c:442
-msgid "Alliance"
-msgstr "Alliantie"
+msgid "?diplomatic_state:Alliance"
+msgstr "?diplomatic_state:Alliantie"
 
 #: common/player.c:443
-msgid "No Contact"
-msgstr "Geen contact"
+msgid "?diplomatic_state:No Contact"
+msgstr "?diplomatic_state:Geen contact"
 
 #: common/shared.c:140
 #, c-format
@@ -855,7 +855,7 @@ msgstr "Spel: %s heeft de vergadering afgezegd!"
 msgid "Game: Meeting with %s canceled."
 msgstr "Spel: Ontmoeting met %s afgezegd."
 
-#: client/gui-mui/mapview.c:240 server/gamehand.c:167
+#: client/gui-mui/mapview.c:240 server/gamehand.c:171
 #, c-format
 msgid "Year: %s"
 msgstr "Jaar: %s"
@@ -890,28 +890,28 @@ msgstr "Spel: Er is geen verbinding met de naam %s."
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Spel: Er is geen speler of verbinding met de naam %s."
 
-#: server/mapgen.c:721
+#: server/mapgen.c:714
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Kaartgenerator: niet genoeg startplaatsen, aanpassen."
 
-#: server/mapgen.c:724
+#: server/mapgen.c:717
 #, c-format
 msgid "The map has %i starting positions on %i isles."
 msgstr "De kaart heeft %i startplaatsen op %i eilanden."
 
-#: server/mapgen.c:1309
+#: server/mapgen.c:1260
 msgid "High landmass - this may take a few seconds."
 msgstr "Grote landmassa - dit kan een paar seconden duren."
 
-#: server/mapgen.c:1507
+#: server/mapgen.c:1458
 msgid "Falling back to generator 2."
 msgstr "Val terug op generator 2."
 
-#: server/mapgen.c:1521
+#: server/mapgen.c:1472
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generator 3 kon niet alle grote eilanden plaatsen."
 
-#: server/mapgen.c:1544
+#: server/mapgen.c:1495
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 liet %li landmassa ongeplaatst."
@@ -4103,126 +4103,130 @@ msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spel: Teleporteerde uw %s van (%d, %d) naar %s."
 
 #: client/cityrepdata.c:68
-msgid "Rapture"
-msgstr "Extase"
+msgid "?city_state:Rapture"
+msgstr "?city_state:Extase"
 
 #: client/cityrepdata.c:69
-msgid "Disorder"
-msgstr "Onlusten"
+msgid "?city_state:Disorder"
+msgstr "?city_state:Onlusten"
 
-#: client/cityrepdata.c:147
+#: client/cityrepdata.c:70
+msgid "?city_state:Peace"
+msgstr "?city_state:Vrede"
+
+#: client/cityrepdata.c:148
 msgid "(worklist)"
 msgstr "(werklijst)"
 
-#: client/cityrepdata.c:194 client/gui-gtk/plrdlg.c:106 client/gui-mui/plrdlg.c:180 data/Freeciv:71
+#: client/cityrepdata.c:195 client/gui-gtk/plrdlg.c:106 client/gui-mui/plrdlg.c:180 data/Freeciv:71
 msgid "Name"
 msgstr "Naam"
 
-#: client/cityrepdata.c:194
+#: client/cityrepdata.c:195
 msgid "City Name"
 msgstr "Stadsnaam"
 
-#: client/cityrepdata.c:196
+#: client/cityrepdata.c:197
 msgid "Sz"
 msgstr "Gr"
 
-#: client/cityrepdata.c:196
+#: client/cityrepdata.c:197
 msgid "Size"
 msgstr "Grootte"
 
-#: client/cityrepdata.c:198 client/gui-gtk/plrdlg.c:108 client/gui-mui/plrdlg.c:186
+#: client/cityrepdata.c:199 client/gui-gtk/plrdlg.c:108 client/gui-mui/plrdlg.c:186
 msgid "State"
 msgstr "Toestand"
 
-#: client/cityrepdata.c:198
+#: client/cityrepdata.c:199
 msgid "Rapture/Peace/Disorder"
 msgstr "Extase/Vrede/Onlusten"
 
-#: client/cityrepdata.c:200
+#: client/cityrepdata.c:201
 msgid "Concise *=Rapture, X=Disorder"
 msgstr "Beknopt *=Extase, X=Onlusten"
 
-#: client/cityrepdata.c:202 client/gui-mui/citydlg.c:1225 client/gui-xaw/citydlg.c:2622
+#: client/cityrepdata.c:203 client/gui-mui/citydlg.c:1225 client/gui-xaw/citydlg.c:2622
 msgid "Workers"
 msgstr "Arbeiders"
 
-#: client/cityrepdata.c:202
+#: client/cityrepdata.c:203
 msgid "H/C/U"
 msgstr "G/T/O"
 
-#: client/cityrepdata.c:203
+#: client/cityrepdata.c:204
 msgid "Workers: Happy, Content, Unhappy"
 msgstr "Arbeiders: Gelukkig, Tevreden, Ontevreden"
 
-#: client/cityrepdata.c:205
+#: client/cityrepdata.c:206
 msgid "Special"
 msgstr "Speciaal"
 
-#: client/cityrepdata.c:205
+#: client/cityrepdata.c:206
 msgid "E/S/T"
 msgstr "S/W/B"
 
-#: client/cityrepdata.c:206
+#: client/cityrepdata.c:207
 msgid "Entertainers, Scientists, Taxmen"
 msgstr "Showbiz, Wetenschappers, Belastingsambtenaren"
 
-#: client/cityrepdata.c:208
+#: client/cityrepdata.c:209
 msgid "Surplus"
 msgstr "Overcapaciteit"
 
-#: client/cityrepdata.c:208
+#: client/cityrepdata.c:209
 msgid "F/P/T"
 msgstr "V/P/H"
 
-#: client/cityrepdata.c:209
+#: client/cityrepdata.c:210
 msgid "Surplus: Food, Production, Trade"
 msgstr "Overcapaciteit: Voeding, Produktie, Handel"
 
-#: client/cityrepdata.c:211 client/gui-gtk/repodlgs.c:583 client/gui-gtk/repodlgs.c:585 client/gui-gtk/repodlgs.c:748 client/gui-xaw/menu.c:189 client/gui-xaw/repodlgs.c:644 client/gui-xaw/repodlgs.c:800 data/Freeciv:1763
+#: client/cityrepdata.c:212 client/gui-gtk/repodlgs.c:583 client/gui-gtk/repodlgs.c:585 client/gui-gtk/repodlgs.c:748 client/gui-xaw/menu.c:189 client/gui-xaw/repodlgs.c:644 client/gui-xaw/repodlgs.c:800 data/Freeciv:1763
 msgid "Economy"
 msgstr "Economie"
 
-#: client/cityrepdata.c:211
+#: client/cityrepdata.c:212
 msgid "G/L/S"
 msgstr "G/L/W"
 
-#: client/cityrepdata.c:212
+#: client/cityrepdata.c:213
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "Economie: Goud, Luxe, Wetenschap"
 
-#: client/cityrepdata.c:214
+#: client/cityrepdata.c:215
 msgid "Number of Trade Routes"
 msgstr "Aantal Handelsroutes"
 
-#: client/cityrepdata.c:216 client/gui-gtk/repodlgs.c:836 client/gui-mui/repodlgs.c:767
+#: client/cityrepdata.c:217 client/gui-gtk/repodlgs.c:836 client/gui-mui/repodlgs.c:767
 msgid "Food"
 msgstr "Voeding"
 
-#: client/cityrepdata.c:216
+#: client/cityrepdata.c:217
 msgid "Stock"
 msgstr "Voorraad"
 
-#: client/cityrepdata.c:216
+#: client/cityrepdata.c:217
 msgid "Food Stock"
 msgstr "Voedsel Voorraad"
 
-#: client/cityrepdata.c:218
+#: client/cityrepdata.c:219
 msgid "Pol"
 msgstr "Ver"
 
-#: client/cityrepdata.c:220
+#: client/cityrepdata.c:221
 msgid "Cor"
 msgstr "Cor"
 
-#: client/cityrepdata.c:220
+#: client/cityrepdata.c:221
 msgid "Corruption"
 msgstr "Corruptie"
 
-#: client/cityrepdata.c:222 client/cityrepdata.c:223
+#: client/cityrepdata.c:223 client/cityrepdata.c:224
 msgid "Currently Building"
 msgstr "In Aanbouw"
 
-#: client/cityrepdata.c:222
+#: client/cityrepdata.c:223
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Voorraad,Doel,Zetten,Koop)"
 
@@ -11970,6 +11974,30 @@ msgstr "Zoeloe"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zoeloes"
+
+#~ msgid "Neutral"
+#~ msgstr "Neutraal"
+
+#~ msgid "War"
+#~ msgstr "Oorlog"
+
+#~ msgid "Cease-fire"
+#~ msgstr "Wapenstilstand"
+
+#~ msgid "Peace"
+#~ msgstr "Vrede"
+
+#~ msgid "Alliance"
+#~ msgstr "Alliantie"
+
+#~ msgid "No Contact"
+#~ msgstr "Geen contact"
+
+#~ msgid "Rapture"
+#~ msgstr "Extase"
+
+#~ msgid "Disorder"
+#~ msgstr "Onlusten"
 
 #~ msgid "Ecomony"
 #~ msgstr "Economie"
