@@ -83,11 +83,11 @@ uk_gold       = 0
 flags         = "Settlers", "NonMil", "Airbase", "Cities"
 roles         = ""
 helptext      = _("\
-Setters are one of the key units in the game.  They can be used to\
+Settlers are one of the key units in the game.  They can be used to\
  found new cities, irrigate land, build roads, railroads,\
  fortresses, airbases and mines, and clean up pollution and nuclear\
  fallout.  Upkeep for Settlers is in food\
- as well as production, and a Setter can die if its supporting city\
+ as well as production, and a Settler can die if its supporting city\
  runs out of food.\
 \n\n\
 Settlers and Engineers may work together to decrease the amount of\
