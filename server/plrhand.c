@@ -1376,7 +1376,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit->ai.bodyguard = 0;
     punit->ai.charge = 0;
     punit->hp=secfile_lookup_int(file, "player%d.u%d.hp", plrno, i);
-    punit->bribe_cost=unit_bribe_cost(punit);
+    punit->bribe_cost=-1;	/* flag value */
     
     punit->ord_map=secfile_lookup_int_default(file, 0, "player%d.u%d.ord_map",
 					      plrno, i);

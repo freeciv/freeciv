@@ -150,8 +150,14 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct un
      (this is handled outside this function)
   if these conditions are fulfilled, the unit will be bribed
 ****************************************************************************/
-void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, struct unit *pvictim)
+void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
+		    struct unit *pvictim)
 {
+  if(pvictim->bribe_cost == -1) {
+    freelog(LOG_NORMAL, "Bribe cost -1 in diplomat_bribe by %s",
+	    pplayer->name);
+    pvictim->bribe_cost = unit_bribe_cost(pvictim);
+  }
   if(pplayer->economic.gold>=pvictim->bribe_cost) {
     if(game.players[pvictim->owner].government==G_DEMOCRACY)
       notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT, 
@@ -1118,7 +1124,7 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
   unit_list_insert(&map_get_tile(x, y)->units, punit);
   if (pcity)
     unit_list_insert(&pcity->units_supported, punit);
-  punit->bribe_cost=unit_bribe_cost(punit);
+  punit->bribe_cost=-1;		/* flag value */
   if(moves_left < 0)  
     punit->moves_left=unit_move_rate(punit);
   else
