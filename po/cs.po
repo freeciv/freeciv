@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-31 21:20+0100\n"
+"PO-Revision-Date: 2005-02-01 07:11+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1563,7 +1563,7 @@ msgstr "Hlasovat."
 #: server/commands.c:114
 #, no-c-format
 msgid "A player with info level access issuing a control level command starts a new vote for the command.  The /vote command followed by \"yes\" or \"no\", and optionally a vote number, gives your vote.  If you do not add a vote number, your vote applies to the latest command.  You can only suggest one vote at a time.  The vote will pass immediately if more than half of the players vote for it, or fail immediately if at least half of the players vote against it.  If one full turn elapses the vote may pass in any case if nobody votes against it."
-msgstr ""
+msgstr "Hráč s přístupovou úrovní info může použít příkazy pro hlasování.  Příkaz /vote následovaný \"yes\" nebo \"no\" a volitelně číslem hlasování provede vaše hlasování.  Pokud nechcete zadávat číslo, vaše hlasování se vztáhne k poslednímu příkazu.  Můžete navrhnout jen jedno hlasování.  Hlasování projde, pokud více než polovina hráčů halsuje pro, nebo okamžitě neprojde, pokud více jak polovina hráčů hlasuje proti.  Pokud proběhne jedno celé kolo, hlasování projde, i když proti němu někdo hlasuje."
 
 #: server/commands.c:125
 msgid "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
