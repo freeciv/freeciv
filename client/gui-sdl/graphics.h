@@ -203,6 +203,11 @@ int center_main_window_on_screen(void);
 Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *pSurface);
 
+void * my_memset8 (void *dst_mem, Uint8  var, size_t lenght);
+void * my_memset16(void *dst_mem, Uint16 var, size_t lenght);
+void * my_memset24(void *dst_mem, Uint32 var, size_t lenght);
+void * my_memset32(void *dst_mem, Uint32 var, size_t lenght);
+
 void putline(SDL_Surface *pDest, Sint16 x0, Sint16 y0, Sint16 x1,
 	     Sint16 y1, Uint32 color);
 void putframe(SDL_Surface *pDest, Sint16 x0, Sint16 y0, Sint16 x1,

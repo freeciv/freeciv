@@ -1114,6 +1114,8 @@ void set_overview_dimensions(int w, int h)
   free_dither_tiles();
   init_dither_tiles();
   
+  draw_city_names = TRUE;
+  
 }
 
 /**************************************************************************
@@ -1561,7 +1563,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   static struct Sprite *pDither[4] = {NULL, NULL, NULL, NULL};
   static SDL_Surface *pDitherBufs[4];
   static SDL_Surface *pBufSurface = NULL;
-  static SDL_Rect dst , des;
+  static SDL_Rect dst, des;
   static struct tile *pTile = NULL;
   static struct city *pCity = NULL;
   static struct unit *pUnit = NULL, *pFocus = NULL;
@@ -1930,7 +1932,7 @@ void real_blink_active_unit(void)
         area = backup;
 	
         /* create unit graphic */
-        SDL_FillRect(pBlinkSurfaceB,NULL, 0x0);
+        SDL_FillRect(pBlinkSurfaceB, NULL, 0x0);
         put_unit_pixmap_draw(pUnit, pBlinkSurfaceB, 0, 0);
 	  
 	/* left unit */

@@ -49,56 +49,42 @@
 
 struct GUI *pSellected_Widget;
 
-extern char *pDataPath;
-
 extern Uint32 widget_info_counter;
+
+/* ================================ Private ============================ */
+
+struct MOVE {
+  void *pPixelArray;
+  struct GUI *pWindow;
+};
+
+struct EDIT {
+  struct UniChar *pBeginTextChain;
+  struct UniChar *pEndTextChain;
+  struct UniChar *pInputChain;
+  SDL_Surface *pBg;
+  struct GUI *pWidget;
+  int ChainLen;
+  int Start_X;
+  int Truelength;
+  int InputChain_X;
+};
+
+struct UP_DOWN {
+  struct GUI *pBegin;
+  struct GUI *pEnd;
+  struct GUI *pBeginWidgetLIST;
+  struct GUI *pEndWidgetLIST;
+  struct ScrollBar *pVscroll;
+  int old_y;
+  int step;
+};
 
 static SDL_Rect *pInfo_Area = NULL;
 static SDL_Surface *pLocked_buffer = NULL;
 
 static struct GUI *pBeginMainWidgetList;
 /* static struct GUI *pEndMainWidgetList; */
-
-/*
- *	Set new pixel and return old pixel value in 'old_pixel'
- */
-#define putpixel_and_save_bcg(pSurface, x, y, new_pixel, old_pixel)	\
-do {									\
-  Uint8 *buf_ptr = (Uint8 *)pSurface->pixels + (y * pSurface->pitch);	\
-  switch(pSurface->format->BytesPerPixel) {				\
-  case 1:								\
-    buf_ptr += x;							\
-    old_pixel = *(Uint8 *)buf_ptr;					\
-    *(Uint8 *)buf_ptr = new_pixel;					\
-    break;								\
-  case 2:								\
-    buf_ptr += 2 * x;							\
-    old_pixel = *(Uint16 *)buf_ptr;					\
-    *(Uint16 *)buf_ptr = new_pixel;					\
-    break;								\
-  case 3:								\
-    buf_ptr += 3 * x;							\
-    if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {				\
-      old_pixel =  (buf_ptr[0] << 16)					\
-        | (buf_ptr[1] << 8) | buf_ptr[2];				\
-      buf_ptr[0] = (new_pixel >> 16) & 0xff;				\
-      buf_ptr[1] = (new_pixel >> 8) & 0xff;				\
-      buf_ptr[2] = new_pixel & 0xff;					\
-    } else {								\
-      old_pixel = buf_ptr[0] | (buf_ptr[1] << 8)			\
-        | (buf_ptr[2] << 16);						\
-      buf_ptr[0] = new_pixel & 0xff;					\
-      buf_ptr[1] = (new_pixel >> 8) & 0xff;				\
-      buf_ptr[2] = (new_pixel >> 16) & 0xff;				\
-    }									\
-    break;								\
-  case 4:								\
-    buf_ptr += 4 * x;							\
-    old_pixel = *(Uint32 *)buf_ptr;					\
-    *(Uint32 *)buf_ptr = new_pixel;					\
-    break;								\
-  }									\
-} while(0)
 
 #define UpperAdd(pNew_Widget, pAdd_Dock)	\
 do {						\
@@ -315,20 +301,17 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   Simple "Search and De..." no search in 'pGUI_List' == "Widget's list" and
   return ( not Disabled and not Hiden ) widget under cursor 'pPosition'.
 **************************************************************************/
-struct GUI * WidgetListScaner(const struct GUI *pGUI_List,
-			     SDL_MouseMotionEvent *pPosition)
+struct GUI * WidgetListScaner(const struct GUI *pGUI_List, int x, int y)
 {
   while (pGUI_List) {
-    if ((pPosition->x >= pGUI_List->size.x) &&
-	(pPosition->x <= pGUI_List->size.x + pGUI_List->size.w) &&
-	(pPosition->y >= pGUI_List->size.y) &&
-	(pPosition->y <= pGUI_List->size.y + pGUI_List->size.h)) {
+    if ((x >= pGUI_List->size.x) && (y >= pGUI_List->size.y) &&
+      (x <= pGUI_List->size.x + pGUI_List->size.w) &&
+      (y <= pGUI_List->size.y + pGUI_List->size.h)) {
       if (!((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
 	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
 	return (struct GUI *) pGUI_List;
       }
     }
-
     pGUI_List = pGUI_List->next;
   }
   return NULL;
@@ -360,9 +343,9 @@ struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List, SDL_keysym Key)
   This function only calls 'WidgetListScaner' in Main list
   'pBeginMainWidgetList'
 **************************************************************************/
-struct GUI *MainWidgetListScaner(SDL_MouseMotionEvent * pPosition)
+struct GUI *MainWidgetListScaner(int x, int y)
 {
-  return WidgetListScaner(pBeginMainWidgetList, pPosition);
+  return WidgetListScaner(pBeginMainWidgetList, x, y);
 }
 
 /**************************************************************************
@@ -1433,7 +1416,9 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pBeginActiveWidgetLIS
   return pBegin;
 }
 
-
+/**************************************************************************
+  ...
+**************************************************************************/
 static inline int get_step(struct ScrollBar *pScroll)
 {
   float step = pScroll->max - pScroll->min;
@@ -1445,6 +1430,9 @@ static inline int get_step(struct ScrollBar *pScroll)
   return (int)step;
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static int get_position(struct ADVANCED_DLG *pDlg)
 {
   struct GUI *pBuf = pDlg->pActiveWidgetList;
@@ -1475,65 +1463,209 @@ static int get_position(struct ADVANCED_DLG *pDlg)
 /**************************************************************************
   ...
 **************************************************************************/
-struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
-				    struct GUI *pBeginActiveWidgetLIST,
-				    struct GUI *pBeginWidgetLIST,
-				    struct GUI *pEndWidgetLIST)
+static void inside_scroll_down_loop(void *pData)
 {
-
-  struct GUI *pBegin = pBeginActiveWidgetLIST;
-  struct GUI *pEnd = pBeginActiveWidgetLIST;
-  int step = pVscroll->active * pVscroll->step - 1;
-
-  while (step--) {
-    pEnd = pEnd->prev;
-  }
-
-  step = get_step(pVscroll);
-  
-  do {
-    if (pEnd != pBeginWidgetLIST) {
-      if (pVscroll->pScrollBar &&
-	  pVscroll->pScrollBar->size.y <
-	  pVscroll->max - pVscroll->pScrollBar->size.h) {
+  struct UP_DOWN *pDown = (struct UP_DOWN *)pData;
+  if (pDown->pEnd != pDown->pBeginWidgetLIST) {
+      if (pDown->pVscroll->pScrollBar &&
+	  pDown->pVscroll->pScrollBar->size.y <
+	  pDown->pVscroll->max - pDown->pVscroll->pScrollBar->size.h) {
 
 	/* draw bcgd */
-	blit_entire_src(pVscroll->pScrollBar->gfx, pVscroll->pScrollBar->dst,
-			pVscroll->pScrollBar->size.x,
-			pVscroll->pScrollBar->size.y);
+	blit_entire_src(pDown->pVscroll->pScrollBar->gfx,
+	    		pDown->pVscroll->pScrollBar->dst,
+			pDown->pVscroll->pScrollBar->size.x,
+			pDown->pVscroll->pScrollBar->size.y);
 
-	sdl_dirty_rect(pVscroll->pScrollBar->size);
+	sdl_dirty_rect(pDown->pVscroll->pScrollBar->size);
 
-	if (pVscroll->pScrollBar->size.y + step >
-	    pVscroll->max - pVscroll->pScrollBar->size.h) {
-	  pVscroll->pScrollBar->size.y =
-	      pVscroll->max - pVscroll->pScrollBar->size.h;
+	if (pDown->pVscroll->pScrollBar->size.y + pDown->step >
+	    pDown->pVscroll->max - pDown->pVscroll->pScrollBar->size.h) {
+	  pDown->pVscroll->pScrollBar->size.y =
+	      pDown->pVscroll->max - pDown->pVscroll->pScrollBar->size.h;
 	} else {
-	  pVscroll->pScrollBar->size.y += step;
+	  pDown->pVscroll->pScrollBar->size.y += pDown->step;
 	}
+	
       }
 
-      pBegin = vertical_scroll_widget_list(pBegin,
-			  pBeginWidgetLIST, pEndWidgetLIST,
-			  pVscroll->active, pVscroll->step, 1);
+      pDown->pBegin = vertical_scroll_widget_list(pDown->pBegin,
+			  pDown->pBeginWidgetLIST, pDown->pEndWidgetLIST,
+			  pDown->pVscroll->active, pDown->pVscroll->step, 1);
 
-      pEnd = pEnd->prev;
+      pDown->pEnd = pDown->pEnd->prev;
 
-      redraw_group(pBeginWidgetLIST, pEndWidgetLIST, TRUE);
+      redraw_group(pDown->pBeginWidgetLIST, pDown->pEndWidgetLIST, TRUE);
   
-      if (pVscroll->pScrollBar) {
+      if (pDown->pVscroll->pScrollBar) {
 	/* redraw scroolbar */
-	refresh_widget_background(pVscroll->pScrollBar);
-	redraw_vert(pVscroll->pScrollBar);
-	sdl_dirty_rect(pVscroll->pScrollBar->size);
+	refresh_widget_background(pDown->pVscroll->pScrollBar);
+	redraw_vert(pDown->pVscroll->pScrollBar);
+	sdl_dirty_rect(pDown->pVscroll->pScrollBar->size);
       }
 
       flush_dirty();
 
     }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void inside_scroll_up_loop(void *pData)
+{
+  struct UP_DOWN *pUp = (struct UP_DOWN *)pData;
+  if (pUp && pUp->pBegin != pUp->pEndWidgetLIST) {
+
+    if (pUp->pVscroll->pScrollBar &&
+      (pUp->pVscroll->pScrollBar->size.y > pUp->pVscroll->min)) {
+
+      /* draw bcgd */
+      blit_entire_src(pUp->pVscroll->pScrollBar->gfx,
+			pUp->pVscroll->pScrollBar->dst,
+			pUp->pVscroll->pScrollBar->size.x,
+			pUp->pVscroll->pScrollBar->size.y);
+      sdl_dirty_rect(pUp->pVscroll->pScrollBar->size);
+
+      if (((pUp->pVscroll->pScrollBar->size.y - pUp->step) < pUp->pVscroll->min)) {
+	pUp->pVscroll->pScrollBar->size.y = pUp->pVscroll->min;
+      } else {
+	pUp->pVscroll->pScrollBar->size.y -= pUp->step;
+      }
+    }
+
+    pUp->pBegin = vertical_scroll_widget_list(pUp->pBegin,
+			pUp->pBeginWidgetLIST, pUp->pEndWidgetLIST,
+			pUp->pVscroll->active, pUp->pVscroll->step, -1);
+
+    redraw_group(pUp->pBeginWidgetLIST, pUp->pEndWidgetLIST, TRUE);
+
+    if (pUp->pVscroll->pScrollBar) {
+      /* redraw scroolbar */
+      refresh_widget_background(pUp->pVscroll->pScrollBar);
+      redraw_vert(pUp->pVscroll->pScrollBar);
+      sdl_dirty_rect(pUp->pVscroll->pScrollBar->size);
+    }
+
+    flush_dirty();
+  }
+}
+
+/**************************************************************************
+  FIXME
+**************************************************************************/
+static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
+{
+  struct UP_DOWN *pMotion = (struct UP_DOWN *)pData;
+  int count;
+  div_t tmp;
+
+  if (pMotion && pMotionEvent->yrel &&
+    /*(old_y >= pMotion->pVscroll->min) && (old_y <= pMotion->pVscroll->max) &&*/
+    (pMotionEvent->y >= pMotion->pVscroll->min) &&
+    (pMotionEvent->y <= pMotion->pVscroll->max)) {
+
+    /* draw bcgd */
+    blit_entire_src(pMotion->pVscroll->pScrollBar->gfx,
+       			pMotion->pVscroll->pScrollBar->dst,
+			pMotion->pVscroll->pScrollBar->size.x,
+      			pMotion->pVscroll->pScrollBar->size.y);
+    sdl_dirty_rect(pMotion->pVscroll->pScrollBar->size);
+       
+    if ((pMotion->pVscroll->pScrollBar->size.y + pMotionEvent->yrel) >
+	 (pMotion->pVscroll->max - pMotion->pVscroll->pScrollBar->size.h)) {
+      pMotion->pVscroll->pScrollBar->size.y =
+	      pMotion->pVscroll->max - pMotion->pVscroll->pScrollBar->size.h;
+    } else {
+      if ((pMotion->pVscroll->pScrollBar->size.y + pMotionEvent->yrel) <
+	  pMotion->pVscroll->min) {
+	pMotion->pVscroll->pScrollBar->size.y = pMotion->pVscroll->min;
+      } else {
+	pMotion->pVscroll->pScrollBar->size.y += pMotionEvent->yrel;
+      }
+    }
     
-    SDL_PollEvent(&Main.event);
-  } while (Main.event.type != SDL_MOUSEBUTTONUP);
+    count = pMotion->pVscroll->pScrollBar->size.y - pMotion->old_y;
+    tmp = div(count, pMotion->step);
+    count = tmp.quot;
+
+    if (count) {
+
+      /* correct div */
+      if (tmp.rem) {
+	if (count > 0) {
+	  count++;
+	} else {
+	  count--;
+	}
+      }
+      
+      while (count) {
+
+	pMotion->pBegin = vertical_scroll_widget_list(pMotion->pBegin,
+			pMotion->pBeginWidgetLIST, pMotion->pEndWidgetLIST,
+				pMotion->pVscroll->active,
+				pMotion->pVscroll->step, count);
+
+	if (count > 0) {
+	  count--;
+	} else {
+	  count++;
+	}
+
+      }	/* while (count) */
+      
+      pMotion->old_y = pMotion->pVscroll->pScrollBar->size.y;
+      redraw_group(pMotion->pBeginWidgetLIST, pMotion->pEndWidgetLIST, TRUE);
+    }
+
+    /* redraw scroolbar */
+    refresh_widget_background(pMotion->pVscroll->pScrollBar);
+    redraw_vert(pMotion->pVscroll->pScrollBar);
+    sdl_dirty_rect(pMotion->pVscroll->pScrollBar->size);
+
+    flush_dirty();
+  }				/* if (count) */
+  
+  return ID_ERROR;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent, void *pData)
+{
+  return ID_SCROLLBAR;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
+				    struct GUI *pBeginActiveWidgetLIST,
+				    struct GUI *pBeginWidgetLIST,
+				    struct GUI *pEndWidgetLIST)
+{
+  struct UP_DOWN *pDown = MALLOC(sizeof(struct UP_DOWN));
+  struct GUI *pBegin = pBeginActiveWidgetLIST;
+  int step = pVscroll->active * pVscroll->step - 1;
+
+  while (step--) {
+    pBegin = pBegin->prev;
+  }
+
+  pDown->step = get_step(pVscroll);
+  pDown->pBegin = pBeginActiveWidgetLIST;
+  pDown->pEnd = pBegin;
+  pDown->pBeginWidgetLIST = pBeginWidgetLIST;
+  pDown->pEndWidgetLIST = pEndWidgetLIST;
+  pDown->pVscroll = pVscroll;
+  
+  gui_event_loop((void *)pDown, inside_scroll_down_loop,
+	NULL, NULL, NULL, scroll_mouse_button_up, NULL);
+  
+  pBegin = pDown->pBegin;
+  FREE(pDown);
 
   return pBegin;
 }
@@ -1546,49 +1678,21 @@ struct GUI *up_scroll_widget_list(struct ScrollBar *pVscroll,
 				  struct GUI *pBeginWidgetLIST,
 				  struct GUI *pEndWidgetLIST)
 {
-  struct GUI *pBegin = pBeginActiveWidgetLIST;
-  int step = get_step(pVscroll);
-
-  while (1) {
-    if (pBegin != pEndWidgetLIST) {
-
-      if (pVscroll->pScrollBar &&
-	(pVscroll->pScrollBar->size.y > pVscroll->min)) {
-
-	/* draw bcgd */
-	blit_entire_src(pVscroll->pScrollBar->gfx, pVscroll->pScrollBar->dst,
-			pVscroll->pScrollBar->size.x,
-			pVscroll->pScrollBar->size.y);
-	sdl_dirty_rect(pVscroll->pScrollBar->size);
-
-        if (((pVscroll->pScrollBar->size.y - step) < pVscroll->min)) {
-	  pVscroll->pScrollBar->size.y = pVscroll->min;
-	} else {
-	  pVscroll->pScrollBar->size.y -= step;
-	}
-      }
-
-      pBegin = vertical_scroll_widget_list(pBegin,
-			pBeginWidgetLIST, pEndWidgetLIST,
-			pVscroll->active, pVscroll->step, -1);
-
-      redraw_group(pBeginWidgetLIST, pEndWidgetLIST, TRUE);
-
-      if (pVscroll->pScrollBar) {
-	/* redraw scroolbar */
-	refresh_widget_background(pVscroll->pScrollBar);
-	redraw_vert(pVscroll->pScrollBar);
-	sdl_dirty_rect(pVscroll->pScrollBar->size);
-      }
-
-      flush_dirty();
-    }
-
-    if(SDL_PollEvent(&Main.event) == 1 && Main.event.type == SDL_MOUSEBUTTONUP) {
-        break;
-    }
-  }
-
+  struct UP_DOWN *pUp = MALLOC(sizeof(struct UP_DOWN));
+  struct GUI *pBegin;
+    
+  pUp->step = get_step(pVscroll);
+  pUp->pBegin = pBeginActiveWidgetLIST;
+  pUp->pBeginWidgetLIST = pBeginWidgetLIST;
+  pUp->pEndWidgetLIST = pEndWidgetLIST;
+  pUp->pVscroll = pVscroll;
+  
+  gui_event_loop((void *)pUp, inside_scroll_up_loop,
+	NULL, NULL, NULL, scroll_mouse_button_up, NULL);
+  
+  pBegin = pUp->pBegin;
+  FREE(pUp);
+  
   return pBegin;
 }
 
@@ -1600,95 +1704,24 @@ struct GUI *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 				      struct GUI *pBeginWidgetLIST,
 				      struct GUI *pEndWidgetLIST)
 {
-  struct GUI *pBegin = pBeginActiveWidgetLIST;
-  int ret = 1;
-  div_t tmp;
-  int count, old_y;
-  int step = get_step(pVscroll);
-
-  old_y = pVscroll->pScrollBar->size.y;
-
-  while (ret) {
-    SDL_WaitEvent(&Main.event);
-    switch (Main.event.type) {
-    case SDL_MOUSEBUTTONUP:
-      ret = 0;
-      break;
-    case SDL_MOUSEMOTION:
-      if ((Main.event.motion.yrel) &&
-	  (pVscroll->pScrollBar->size.y >= pVscroll->min) &&
-	  (pVscroll->pScrollBar->size.y <= pVscroll->max) &&
-	  (Main.event.motion.y >= pVscroll->min) &&
-	  (Main.event.motion.y <= pVscroll->max)) {
-
-	/* draw bcgd */
-	blit_entire_src(pVscroll->pScrollBar->gfx, pVscroll->pScrollBar->dst,
-			pVscroll->pScrollBar->size.x,
-			pVscroll->pScrollBar->size.y);
-	sdl_dirty_rect(pVscroll->pScrollBar->size);
-
-
-	if ((pVscroll->pScrollBar->size.y + Main.event.motion.yrel) >
-	    pVscroll->max - pVscroll->pScrollBar->size.h) {
-	  pVscroll->pScrollBar->size.y =
-	      pVscroll->max - pVscroll->pScrollBar->size.h;
-	} else {
-	  if ((pVscroll->pScrollBar->size.y + Main.event.motion.yrel) <
-	      pVscroll->min) {
-	    pVscroll->pScrollBar->size.y = pVscroll->min;
-	  } else {
-	    pVscroll->pScrollBar->size.y += Main.event.motion.yrel;
-	  }
-	}
-
-	tmp = div((pVscroll->pScrollBar->size.y - old_y), step);
-	count = tmp.quot;
-
-	if (count) {
-
-	  /* correct div */
-	  if (tmp.rem) {
-	    if (count > 0) {
-	      count++;
-	    } else {
-	      count--;
-	    }
-	  }
-
-	  while (count) {
-
-	    pBegin = vertical_scroll_widget_list(pBegin,
-				pBeginWidgetLIST, pEndWidgetLIST,
-				pVscroll->active, pVscroll->step, count);
-
-	    if (count > 0) {
-	      count--;
-	    } else {
-	      count++;
-	    }
-
-	  }			/* while (count) */
-
-	  old_y = pVscroll->pScrollBar->size.y;
-	  redraw_group(pBeginWidgetLIST, pEndWidgetLIST, TRUE);
-	}
-
-	/* redraw scroolbar */
-	refresh_widget_background(pVscroll->pScrollBar);
-	redraw_vert(pVscroll->pScrollBar);
-	sdl_dirty_rect(pVscroll->pScrollBar->size);
-
-	flush_dirty();
-      }				/* if (count) */
-      break;
-    default:
-      break;
-    }				/* switch */
-  }				/* while */
+  struct UP_DOWN *pMotion = MALLOC(sizeof(struct UP_DOWN));
+  struct GUI *pBegin;
+    
+  pMotion->step = get_step(pVscroll);
+  pMotion->pBegin = pBeginActiveWidgetLIST;
+  pMotion->pBeginWidgetLIST = pBeginWidgetLIST;
+  pMotion->pEndWidgetLIST = pEndWidgetLIST;
+  pMotion->pVscroll = pVscroll;
+  pMotion->old_y = pVscroll->pScrollBar->size.y;
+  
+  gui_event_loop((void *)pMotion, NULL,	NULL, NULL, NULL,
+		  scroll_mouse_button_up, scroll_mouse_motion_handler);
+  
+  pBegin = pMotion->pBegin;
+  FREE(pMotion);
 
   return pBegin;
 }
-
 
 /* ==================================================================== */
 
@@ -1862,7 +1895,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 /**************************************************************************
   Del widget from srolled list and set draw position of all changed widgets
   Don't free pDlg and pDlg->pScroll (if exist)
-  It is full secure to multi widget list.
+  It is full secure for multi widget list case.
 **************************************************************************/
 bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
   						struct GUI *pWidget)
@@ -2929,8 +2962,10 @@ int real_redraw_ibutton(struct GUI *pIButton)
 			  pIButton->size.w, pIButton->size.h + 1);
   }
 
-  /* make AA on Button Sufrace */
-  pButton = ResizeSurface(pBuf, pIButton->size.w, pIButton->size.h, 2);
+  /* make AA on Button Sufrace - this give nice effects on small and med.
+     buttons size but rather don't work on big butons 
+     NOTE: ALPHA BLENDING code */
+  pButton = ResizeSurface(pBuf, pIButton->size.w, pIButton->size.h, 1);
 
   FREESURFACE(pBuf);
 
@@ -3326,11 +3361,11 @@ int redraw_edit(struct GUI *pEdit_Widget)
 }
 
 /**************************************************************************
-  This function is pure madness :)
+  This functions are pure madness :)
   Create Edit Field surface ( with Text) and blit them to Main.screen,
   on position 'pEdit_Widget->size.x , pEdit_Widget->size.y'
 
-  Main role of this function is been text input to GUI.
+  Main role of this functions are been text input to GUI.
   This code allow you to add, del unichar from unistring.
 
   Graphic is taken from 'pEdit_Widget->theme'
@@ -3341,49 +3376,284 @@ int redraw_edit(struct GUI *pEdit_Widget)
   if flag 'FW_DRAW_THEME_TRANSPARENT' is set theme will be blit
   transparent ( Alpha = 128 )
 
-  NOTE: This function can return NULL in 'pEdit_Widget->sting16->text' but
+  NOTE: This functions can return NULL in 'pEdit_Widget->sting16->text' but
         never free 'pEdit_Widget->sting16' struct.
 **************************************************************************/
+static void redraw_edit_chain(struct EDIT *pEdt)
+{
+  struct UniChar *pInputChain_TMP;
+  SDL_Rect Dest, Dest_Copy;
+  int iStart_Mod_X;
+  
+  Dest_Copy.x = pEdt->pWidget->size.x;
+  Dest_Copy.y = pEdt->pWidget->size.y;
+
+  /* blit backgroud ( if any ) */
+  if (get_wflags(pEdt->pWidget) & WF_DRAW_THEME_TRANSPARENT) {
+    Dest = Dest_Copy;
+    SDL_BlitSurface(pEdt->pWidget->gfx, NULL, pEdt->pWidget->dst, &Dest);
+  }
+
+  /* blit theme */
+  Dest = Dest_Copy;
+  SDL_BlitSurface(pEdt->pBg, NULL, pEdt->pWidget->dst, &Dest);
+
+  /* set start parametrs */
+  pInputChain_TMP = pEdt->pBeginTextChain;
+  iStart_Mod_X = 0;
+
+  Dest_Copy.y += (pEdt->pBg->h - pInputChain_TMP->pTsurf->h) / 2;
+  Dest_Copy.x += pEdt->Start_X;
+
+  /* draw loop */
+  while (pInputChain_TMP) {
+    Dest_Copy.x += iStart_Mod_X;
+    /* chech if we draw inside of edit rect */
+    if (Dest_Copy.x > pEdt->pWidget->size.x + pEdt->pBg->w - 4) {
+      break;
+    }
+
+    if (Dest_Copy.x > pEdt->pWidget->size.x) {
+      Dest = Dest_Copy;
+      SDL_BlitSurface(pInputChain_TMP->pTsurf, NULL,
+			  			pEdt->pWidget->dst, &Dest);
+   }
+
+   iStart_Mod_X = pInputChain_TMP->pTsurf->w;
+
+   /* draw cursor */
+   if (pInputChain_TMP == pEdt->pInputChain) {
+     putline(pEdt->pWidget->dst, Dest_Copy.x - 1,
+		  Dest_Copy.y + (pEdt->pBg->h / 8), Dest_Copy.x - 1,
+		  Dest_Copy.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
+		  0xff0088ff);
+     /* save active element position */
+     pEdt->InputChain_X = Dest_Copy.x;
+   }
+	
+   pInputChain_TMP = pInputChain_TMP->next;
+  }	/* while - draw loop */
+
+  flush_rect(pEdt->pWidget->size);
+  
+}
+
+static Uint16 edit_key_down(SDL_keysym Key, void *pData)
+{
+  struct EDIT *pEdt = (struct EDIT *)pData;
+  struct UniChar *pInputChain_TMP;
+  bool Redraw = FALSE;
+    
+  /* find which key is pressed */
+  switch (Key.sym) {
+    case SDLK_RETURN:
+    case SDLK_KP_ENTER:
+      /* exit from loop */
+      return ID_EDIT;
+    break;
+    case SDLK_RIGHT:
+      /* move cursor right */
+      if (pEdt->pInputChain->next) {
+	
+       if (pEdt->InputChain_X >= (pEdt->pWidget->size.x + pEdt->pBg->w - 10)) {
+	pEdt->Start_X -= pEdt->pInputChain->pTsurf->w -
+		(pEdt->pWidget->size.x + pEdt->pBg->w - 5 - pEdt->InputChain_X);
+       }
+
+	pEdt->pInputChain = pEdt->pInputChain->next;
+	Redraw = TRUE;
+      }
+      break;
+    case SDLK_LEFT:
+      /* move cursor left */
+      if (pEdt->pInputChain->prev) {
+        pEdt->pInputChain = pEdt->pInputChain->prev;
+	if ((pEdt->InputChain_X <=
+	       (pEdt->pWidget->size.x + 9)) && (pEdt->Start_X != 5)) {
+	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + 5)) {
+	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + 5);
+	  }
+
+	  pEdt->Start_X += (pEdt->pInputChain->pTsurf->w);
+	}
+	Redraw = TRUE;
+      }
+      break;
+    case SDLK_HOME:
+      /* move cursor to begin of chain (and edit field) */
+      pEdt->pInputChain = pEdt->pBeginTextChain;
+      Redraw = TRUE;
+      pEdt->Start_X = 5;
+
+    break;
+    case SDLK_END:
+	/* move cursor to end of chain (and edit field) */
+      pEdt->pInputChain = pEdt->pEndTextChain;
+      Redraw = TRUE;
+
+      if (pEdt->pWidget->size.w - pEdt->Truelength < 0) {
+	  pEdt->Start_X = pEdt->pWidget->size.w - pEdt->Truelength - 5;
+      }
+    break;
+    case SDLK_BACKSPACE:
+	/* del element of chain (and move cursor left) */
+      if (pEdt->pInputChain->prev) {
+
+	if ((pEdt->InputChain_X <=
+	       (pEdt->pWidget->size.x + 9)) && (pEdt->Start_X != 5)) {
+	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + 5)) {
+	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + 5);
+	  }
+	  pEdt->Start_X += (pEdt->pInputChain->prev->pTsurf->w);
+	}
+
+	if (pEdt->pInputChain->prev->prev) {
+	  pEdt->pInputChain->prev->prev->next = pEdt->pInputChain;
+	  pInputChain_TMP = pEdt->pInputChain->prev->prev;
+	  pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
+	  FREESURFACE(pEdt->pInputChain->prev->pTsurf);
+	  FREE(pEdt->pInputChain->prev);
+	  pEdt->pInputChain->prev = pInputChain_TMP;
+	} else {
+	  pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
+	  FREESURFACE(pEdt->pInputChain->prev->pTsurf);
+	  FREE(pEdt->pInputChain->prev);
+	  pEdt->pBeginTextChain = pEdt->pInputChain;
+	}
+	pEdt->ChainLen--;
+	Redraw = TRUE;
+      }
+    break;
+    case SDLK_DELETE:
+	/* del element of chain */
+      if (pEdt->pInputChain->next && pEdt->pInputChain->prev) {
+	pEdt->pInputChain->prev->next = pEdt->pInputChain->next;
+	pEdt->pInputChain->next->prev = pEdt->pInputChain->prev;
+	pInputChain_TMP = pEdt->pInputChain->next;
+	pEdt->Truelength -= pEdt->pInputChain->pTsurf->w;
+	FREESURFACE(pEdt->pInputChain->pTsurf);
+	FREE(pEdt->pInputChain);
+	pEdt->pInputChain = pInputChain_TMP;
+	pEdt->ChainLen--;
+	Redraw = TRUE;
+      }
+
+      if (pEdt->pInputChain->next && !pEdt->pInputChain->prev) {
+	pEdt->pInputChain = pEdt->pInputChain->next;
+	pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
+	FREESURFACE(pEdt->pInputChain->prev->pTsurf);
+	FREE(pEdt->pInputChain->prev);
+	pEdt->pBeginTextChain = pEdt->pInputChain;
+	pEdt->ChainLen--;
+	Redraw = TRUE;
+      }
+
+    break;
+    default:
+      /* add new element of chain (and move cursor right) */
+      if (Key.unicode) {
+	if (pEdt->pInputChain != pEdt->pBeginTextChain) {
+	  pInputChain_TMP = pEdt->pInputChain->prev;
+	  pEdt->pInputChain->prev = MALLOC(sizeof(struct UniChar));
+	  pEdt->pInputChain->prev->next = pEdt->pInputChain;
+	  pEdt->pInputChain->prev->prev = pInputChain_TMP;
+	  pInputChain_TMP->next = pEdt->pInputChain->prev;
+	} else {
+	  pEdt->pInputChain->prev = MALLOC(sizeof(struct UniChar));
+	  pEdt->pInputChain->prev->next = pEdt->pInputChain;
+	  pEdt->pBeginTextChain = pEdt->pInputChain->prev;
+	}
+
+	/* convert and add to chain */
+	/* ugly fix */
+	if(Key.unicode < 0x80 && Key.unicode > 0) {
+	  char chr = (char)(Key.unicode);
+	  convertcopy_to_utf16(pEdt->pInputChain->prev->chr, &chr);
+        } else {
+	  pEdt->pInputChain->prev->chr[0] = Key.unicode;
+        }
+	  
+	pEdt->pInputChain->prev->chr[1] = 0;
+	
+	if (pEdt->pInputChain->prev->chr) {
+	  pEdt->pInputChain->prev->pTsurf =
+	    TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
+					  pEdt->pInputChain->prev->chr,
+					  pEdt->pWidget->string16->forecol);
+
+	  pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
+	}
+
+	if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - 10) {
+	  if (pEdt->pInputChain == pEdt->pEndTextChain) {
+	    pEdt->Start_X = pEdt->pBg->w - 5 - pEdt->Truelength;
+	  } else {
+	    pEdt->Start_X -= pEdt->pInputChain->prev->pTsurf->w -
+		  (pEdt->pWidget->size.x + pEdt->pBg->w - 5 - pEdt->InputChain_X);
+	  }
+	}
+	
+	pEdt->ChainLen++;
+	Redraw = TRUE;
+      }
+      break;
+    }				/* key pressed switch */
+    
+    if (Redraw) {
+      redraw_edit_chain(pEdt);
+    }
+    
+  return ID_ERROR;
+}
+
+static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *pData)
+{
+  struct EDIT *pEdt = (struct EDIT *)pData;
+  if (!(pButtonEvent->x >= pEdt->pWidget->size.x &&
+	    pButtonEvent->x <= pEdt->pWidget->size.x + pEdt->pBg->w &&
+	    pButtonEvent->y >= pEdt->pWidget->size.y &&
+	    pButtonEvent->y <= pEdt->pWidget->size.y + pEdt->pBg->h)) {
+	/* exit from loop */
+	return ID_EDIT;
+  }
+  return ID_ERROR;
+}
+
 void edit_field(struct GUI *pEdit_Widget)
 {
-  char chr;
-  SDL_Rect rDest;
-  SDL_Surface *pEdit = NULL;
-  Uint16 *pUniChar = NULL;
-
-  int iChainLen = 0, iRet = 0, iTruelength = 0;
-  int iRedraw = 1;
-  int iStart_X = 5, iInputChain_X = 0;
-  int iStart_Mod_X;
-
+  struct EDIT *pEdt;
   struct UniChar ___last;
-  struct UniChar *pBeginTextChain = NULL;
-  struct UniChar *pEndTextChain = NULL;
-  struct UniChar *pInputChain = NULL;
   struct UniChar *pInputChain_TMP = NULL;
 
+  pEdt = MALLOC(sizeof(struct EDIT));
+  pEdt->pWidget = pEdit_Widget;
+  pEdt->ChainLen = 0;
+  pEdt->Truelength = 0;
+  pEdt->Start_X = 5;
+  pEdt->InputChain_X = 0;
+  
   SDL_EnableUNICODE(1);
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
   if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
-    pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
+    pEdt->pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
 			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
   } else {
-    pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
+    pEdt->pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
 			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
   }
 
   /* Creating Chain */
-  pBeginTextChain = text2chain(pEdit_Widget->string16->text);
+  pEdt->pBeginTextChain = text2chain(pEdit_Widget->string16->text);
 
 
   /* Creating Empty (Last) pice of Chain */
-  pInputChain = &___last;
-  pEndTextChain = pInputChain;
-  pEndTextChain->chr[0] = 32;	/*spacebar */
-  pEndTextChain->chr[1] = 0;	/*spacebar */
-  pEndTextChain->next = NULL;
+  pEdt->pInputChain = &___last;
+  pEdt->pEndTextChain = pEdt->pInputChain;
+  pEdt->pEndTextChain->chr[0] = 32;	/*spacebar */
+  pEdt->pEndTextChain->chr[1] = 0;	/*spacebar */
+  pEdt->pEndTextChain->next = NULL;
 
   /* set font style (if any ) */
   if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
@@ -3392,23 +3662,23 @@ void edit_field(struct GUI *pEdit_Widget)
   }
 
 
-  pEndTextChain->pTsurf =
+  pEdt->pEndTextChain->pTsurf =
       TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-			      pEndTextChain->chr,
+			      pEdt->pEndTextChain->chr,
 			      pEdit_Widget->string16->forecol);
   
   /* create surface for each font in chain and find chain length */
-  if (pBeginTextChain) {
-    pInputChain_TMP = pBeginTextChain;
+  if (pEdt->pBeginTextChain) {
+    pInputChain_TMP = pEdt->pBeginTextChain;
     while (TRUE) {
-      iChainLen++;
+      pEdt->ChainLen++;
 
       pInputChain_TMP->pTsurf =
 	  TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
 				    pInputChain_TMP->chr,
 				    pEdit_Widget->string16->forecol);
 
-      iTruelength += pInputChain_TMP->pTsurf->w;
+      pEdt->Truelength += pInputChain_TMP->pTsurf->w;
 
       if (pInputChain_TMP->next == NULL) {
 	break;
@@ -3417,272 +3687,40 @@ void edit_field(struct GUI *pEdit_Widget)
       pInputChain_TMP = pInputChain_TMP->next;
     }
     /* set terminator of list */
-    pInputChain_TMP->next = pInputChain;
-    pInputChain->prev = pInputChain_TMP;
+    pInputChain_TMP->next = pEdt->pInputChain;
+    pEdt->pInputChain->prev = pInputChain_TMP;
     pInputChain_TMP = NULL;
-    pInputChain = pBeginTextChain;
+    pEdt->pInputChain = pEdt->pBeginTextChain;
   } else {
-    pBeginTextChain = pInputChain;
+    pEdt->pBeginTextChain = pEdt->pInputChain;
   }
 
-  /* main local loop */
-  while (!iRet) {
-    if (iRedraw) {
-      rDest.x = pEdit_Widget->size.x;
-      rDest.y = pEdit_Widget->size.y;
-
-      /* blit backgroud ( if any ) */
-      if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
-	SDL_BlitSurface(pEdit_Widget->gfx, NULL, pEdit_Widget->dst, &rDest);
-      }
-
-      /* blit theme */
-      SDL_BlitSurface(pEdit, NULL, pEdit_Widget->dst, &rDest);
-
-      /* set start parametrs */
-      pInputChain_TMP = pBeginTextChain;
-      iStart_Mod_X = 0;
-
-      rDest.y += (pEdit->h - pInputChain_TMP->pTsurf->h) / 2;
-      rDest.x += iStart_X;
-
-      /* draw loop */
-      while (pInputChain_TMP) {
-	rDest.x += iStart_Mod_X;
-	/* chech if we draw inside of edit rect */
-	if (rDest.x > pEdit_Widget->size.x + pEdit->w - 4) {
-	  break;
-	}
-
-	if (rDest.x > pEdit_Widget->size.x) {
-	  SDL_BlitSurface(pInputChain_TMP->pTsurf, NULL,
-			  pEdit_Widget->dst, &rDest);
-	}
-
-	iStart_Mod_X = pInputChain_TMP->pTsurf->w;
-
-	/* draw cursor */
-	if (pInputChain_TMP == pInputChain) {
-	  putline(pEdit_Widget->dst, rDest.x - 1,
-		  rDest.y + (pEdit->h / 8),
-		  rDest.x - 1, rDest.y + pEdit->h - (pEdit->h / 4), 0xff0088ff);
-	  /* save active element position */
-	  iInputChain_X = rDest.x;
-	}
-	
-	pInputChain_TMP = pInputChain_TMP->next;
-      }				/* while - draw loop */
-
-      flush_rect(pEdit_Widget->size);
-      iRedraw = 0;
-    }
-    /* iRedraw */
-    SDL_WaitEvent(&Main.event);
-    switch (Main.event.type) {
-    case SDL_QUIT:
-      /* just in case */
-      iRet = -1;
-      break;
-    case SDL_MOUSEBUTTONDOWN:
-      if (!(Main.event.motion.x >= pEdit_Widget->size.x &&
-	    Main.event.motion.x <= pEdit_Widget->size.x + pEdit->w &&
-	    Main.event.motion.y >= pEdit_Widget->size.y &&
-	    Main.event.motion.y <= pEdit_Widget->size.y + pEdit->h)) {
-	/* exit from loop */
-	iRet = 1;
-      }
-      break;
-    case SDL_KEYUP:
-      /* obsoleted */
-      break;
-    case SDL_KEYDOWN:
-      /* find which key is pressed */
-      switch (Main.event.key.keysym.sym) {
-      case SDLK_RETURN:
-	/* exit from loop */
-	iRet = 1;
-	break;
-      case SDLK_KP_ENTER:
-	/* exit from loop */
-	iRet = 1;
-	break;
-      case SDLK_RIGHT:
-	/* move cursor right */
-	if (pInputChain->next) {
-	  if (iInputChain_X >= (pEdit_Widget->size.x + pEdit->w - 10)) {
-	    iStart_X -= pInputChain->pTsurf->w -
-		(pEdit_Widget->size.x + pEdit->w - 5 - iInputChain_X);
-	  }
-
-	  pInputChain = pInputChain->next;
-	  iRedraw = 1;
-	}
-	break;
-      case SDLK_LEFT:
-	/* move cursor left */
-	if (pInputChain->prev) {
-	  pInputChain = pInputChain->prev;
-	  if ((iInputChain_X <=
-	       (pEdit_Widget->size.x + 9)) && (iStart_X != 5)) {
-	    if (iInputChain_X != (pEdit_Widget->size.x + 5)) {
-	      iStart_X += (pEdit_Widget->size.x - iInputChain_X + 5);
-	    }
-
-	    iStart_X += (pInputChain->pTsurf->w);
-	  }
-	  iRedraw = 1;
-	}
-	break;
-      case SDLK_HOME:
-	/* move cursor to begin of chain (and edit field) */
-	pInputChain = pBeginTextChain;
-	iRedraw = 1;
-	iStart_X = 5;
-
-	break;
-      case SDLK_END:
-	/* move cursor to end of chain (and edit field) */
-	pInputChain = pEndTextChain;
-	iRedraw = 1;
-
-	if (pEdit_Widget->size.w - iTruelength < 0) {
-	  iStart_X = pEdit_Widget->size.w - iTruelength - 5;
-	}
-	break;
-      case SDLK_BACKSPACE:
-	/* del element of chain (and move cursor left) */
-	if (pInputChain->prev) {
-
-	  if ((iInputChain_X <=
-	       (pEdit_Widget->size.x + 9)) && (iStart_X != 5)) {
-	    if (iInputChain_X != (pEdit_Widget->size.x + 5)) {
-	      iStart_X += (pEdit_Widget->size.x - iInputChain_X + 5);
-	    }
-	    iStart_X += (pInputChain->prev->pTsurf->w);
-	  }
-
-	  if (pInputChain->prev->prev) {
-	    pInputChain->prev->prev->next = pInputChain;
-	    pInputChain_TMP = pInputChain->prev->prev;
-	    iTruelength -= pInputChain->prev->pTsurf->w;
-	    FREESURFACE(pInputChain->prev->pTsurf);
-	    FREE(pInputChain->prev);
-	    pInputChain->prev = pInputChain_TMP;
-	  } else {
-	    iTruelength -= pInputChain->prev->pTsurf->w;
-	    FREESURFACE(pInputChain->prev->pTsurf);
-	    FREE(pInputChain->prev);
-	    pBeginTextChain = pInputChain;
-	  }
-	  iChainLen--;
-	  iRedraw = 1;
-	}
-
-	break;
-      case SDLK_DELETE:
-	/* del element of chain */
-	if (pInputChain->next && pInputChain->prev) {
-	  pInputChain->prev->next = pInputChain->next;
-	  pInputChain->next->prev = pInputChain->prev;
-	  pInputChain_TMP = pInputChain->next;
-	  iTruelength -= pInputChain->pTsurf->w;
-	  FREESURFACE(pInputChain->pTsurf);
-	  FREE(pInputChain);
-	  pInputChain = pInputChain_TMP;
-	  iChainLen--;
-	  iRedraw = 1;
-	}
-
-	if (pInputChain->next && !pInputChain->prev) {
-	  pInputChain = pInputChain->next;
-	  iTruelength -= pInputChain->prev->pTsurf->w;
-	  FREESURFACE(pInputChain->prev->pTsurf);
-	  FREE(pInputChain->prev);
-	  pBeginTextChain = pInputChain;
-	  iChainLen--;
-	  iRedraw = 1;
-	}
-
-	break;
-      default:
-	/* add new element of chain (and move cursor right) */
-	if (Main.event.key.keysym.unicode) {
-	  if (pInputChain != pBeginTextChain) {
-	    pInputChain_TMP = pInputChain->prev;
-	    pInputChain->prev = MALLOC(sizeof(struct UniChar));
-	    pInputChain->prev->next = pInputChain;
-	    pInputChain->prev->prev = pInputChain_TMP;
-	    pInputChain_TMP->next = pInputChain->prev;
-	  } else {
-	    pInputChain->prev = MALLOC(sizeof(struct UniChar));
-	    pInputChain->prev->next = pInputChain;
-	    pBeginTextChain = pInputChain->prev;
-	  }
-
-	  /* convert and add to chain */
-	  /* ugly fix */
-	  if(Main.event.key.keysym.unicode < 0x80 &&
-		    Main.event.key.keysym.unicode > 0) {
-	    chr = (char)(Main.event.key.keysym.unicode);
-	    pUniChar = convert_to_utf16(&chr);
-          } else {
-	    *pUniChar = Main.event.key.keysym.unicode;
-          }
-	  
-	  pInputChain->prev->chr[0] = *pUniChar;
-	  pInputChain->prev->chr[1] = 0;
-	  FREE(pUniChar);
-
-
-	  if (pInputChain->prev->chr) {
-	    pInputChain->prev->pTsurf =
-		TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
-					  pInputChain->prev->chr,
-					  pEdit_Widget->string16->forecol);
-
-	    iTruelength += pInputChain->prev->pTsurf->w;
-	  }
-
-	  if (iInputChain_X >= pEdit_Widget->size.x + pEdit->w - 10) {
-	    if (pInputChain == pEndTextChain) {
-	      iStart_X = pEdit->w - 5 - iTruelength;
-	    } else {
-	      iStart_X -= pInputChain->prev->pTsurf->w -
-		  (pEdit_Widget->size.x + pEdit->w - 5 - iInputChain_X);
-	    }
-	  }
-	  iChainLen++;
-	  iRedraw = 1;
-	}
-	break;
-      }				/* key pressed switch */
-
-      break;
-
-    default:
-
-      break;
-    }				/* event switch */
-
-  }				/* while */
-
+  redraw_edit_chain(pEdt);
+  
+  /* local loop */  
+  gui_event_loop((void *)pEdt, NULL,
+  	edit_key_down, NULL, edit_mouse_button_down, NULL, NULL);
+  
   /* reset font settings */
   if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
     TTF_SetFontStyle(pEdit_Widget->string16->font, TTF_STYLE_NORMAL);
   }
 
-  if (pBeginTextChain == pEndTextChain) {
-    pBeginTextChain = NULL;
+  if (pEdt->pBeginTextChain == pEdt->pEndTextChain) {
+    pEdt->pBeginTextChain = NULL;
   }
 
-  FREESURFACE(pEndTextChain->pTsurf);
+  FREESURFACE(pEdt->pEndTextChain->pTsurf);
 
   FREE(pEdit_Widget->string16->text);
-  pEdit_Widget->string16->text = chain2text(pBeginTextChain, iChainLen);
+  pEdit_Widget->string16->text =
+		  chain2text(pEdt->pBeginTextChain, pEdt->ChainLen);
 
-  FREESURFACE(pEdit);
-  del_chain(pBeginTextChain);
-
+  del_chain(pEdt->pBeginTextChain);
+  
+  FREESURFACE(pEdt->pBg);
+  FREE(pEdt);
+  
   /* disable repeate key */
   SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 
@@ -3964,7 +4002,7 @@ int draw_horiz(struct GUI *pHoriz, Sint16 x, Sint16 y)
   on screen during flush operations.
   This consume lots of memory but is extremly effecive.
 
-  Each widget has own "destination" parm what desice where ( on what buffer )
+  Each widget has own "destination" parm == where ( on what buffer )
   will be draw.
 **************************************************************************/
 
@@ -4048,7 +4086,7 @@ static void remove_buffer_layer(SDL_Surface *pBuffer)
 }
 
 /**************************************************************************
-  In some cases we want popdown_dialog but don't want destroy his buffer
+  In some cases we want popdown dialog but don't want destroy his buffer
   becouse we know that we popup new dialogs and don't want free and alloc 
   in the same time.
 
@@ -4209,16 +4247,14 @@ int resize_window(struct GUI *pWindow,
 }
 
 /**************************************************************************
-  Draw window frame with 'color' and
-  save old pixels in 'pPixelArray'
+  Draw window frame with 'color' and save old pixels in 'pPixelArray'.
 **************************************************************************/
 static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
-		Uint32 color, Uint32 *pPixelArray , SDL_Surface *pDest)
+		Uint32 color, void *pPixelArray , SDL_Surface *pDest)
 {
-  register int x, y;
+  int x, y;
   Uint16 w, h;
   int x0, y0;
-  int i = 0;
 
   if (pWindow->size.x > pDest->w - 1 || pWindow->size.y > pDest->h - 1 ||
     pWindow->size.x + pWindow->size.w < 0 ||
@@ -4255,64 +4291,384 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
   w = x + w;
   h = y + h;
   
-  /*left */
-  y++;
-  if (x == pWindow->size.x) {
-    for (; y < h; y++) {
-      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
+  switch(pDest->format->BitsPerPixel) {
+    case 8:
+    {
+      Uint8 *pPixel = NULL;
+      int pitch = pDest->pitch;
+      
+      /* top */
+      if (y >= 0) {
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	
+	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint8));
+	my_memset8(pPixel, (color & 0xFF), w - x);
+	((Uint8 *)pPixelArray) += (w - x);
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  *(Uint8 *)pPixelArray = *pPixel;
+	  *pPixel = (color & 0xFF);
+	  ((Uint8 *)pPixelArray)++;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	} else {
+	  pPixel++;
+	}
+	
+	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint8));
+	my_memset8(pPixel, (color & 0xFF), w - x);
+	
+        pPixel += (w - x) - 1;
+	((Uint8 *)pPixelArray) += (w - x);
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  *(Uint8 *)pPixelArray = *pPixel;
+	  *pPixel = (color & 0xFF);
+	  ((Uint8 *)pPixelArray)++;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1);
+	
+	memcpy(pPixelArray, pPixel, (w - x0 - 2) * sizeof(Uint8));
+	my_memset8(pPixel, (color & 0xFF), w - x0 - 2);
+      }
+      
     }
-    y--;
-  } else {
-    y = h - 1;
-  }
-
-  /* botton */
-  x++;
-  if (pWindow->size.y + pWindow->size.h < pDest->h) {
-    for (; x < w; x++) {
-      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
+    break;
+    case 16:
+    {
+      Uint16 *pPixel = NULL;
+      int pitch = pDest->pitch / 2;
+      
+      /* top */
+      if (y >= 0) {
+	pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	
+	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint16));
+	my_memset16(pPixel, (color & 0xFFFF), w - x);
+	((Uint16 *)pPixelArray) += (w - x);
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  *(Uint16 *)pPixelArray = *pPixel;
+	  *pPixel = (color & 0xFFFF);
+	  ((Uint16 *)pPixelArray)++;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel++;
+	}
+	
+	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint16));
+	my_memset16(pPixel, (color & 0xFFFF), w - x);
+	
+        pPixel += (w - x) - 1;
+	((Uint16 *)pPixelArray) += (w - x);
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  *(Uint16 *)pPixelArray = *pPixel;
+	  *pPixel = (color & 0xFFFF);
+	  ((Uint16 *)pPixelArray)++;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1) * 2);
+	
+	memcpy(pPixelArray, pPixel, (w - x0 - 2) * sizeof(Uint16));
+	my_memset16(pPixel, (color & 0xFFFF), w - x0 - 2);
+      }
+      
     }
-    x--;
-  } else {
-    x = w - 1;
-  }
-
-  /*right */
-  y--;
-  if (pWindow->size.x + pWindow->size.w < pDest->w) {
-    for (; y >= y0; y--) {
-      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
+    break;
+    case 24:
+    {
+      Uint8 *pPixel = NULL;
+      int pitch = pDest->pitch / 3;
+      int size;
+    
+      /* top */
+      if (y >= 0) {
+	size = (w - x) * 3;
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2 + x;
+	
+	memcpy(pPixelArray, pPixel, size * sizeof(Uint8));
+	my_memset24(pPixel, (color & 0xFFFFFF), size);
+	((Uint8 *)pPixelArray) += size;
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2 + x;
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  memmove(pPixelArray, pPixel, 3);
+	  memmove(pPixel, &color, 3);
+	  ((Uint8 *)pPixelArray) += 3;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2 + x;
+	} else {
+	  pPixel += 3;
+	}
+	
+	size = (w - x) * 3;
+	memcpy(pPixelArray, pPixel, size * sizeof(Uint8));
+	my_memset24(pPixel, (color & 0xFFFFFF), size);
+	
+        pPixel += size - 3;
+	((Uint8 *)pPixelArray) += size;
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2 + x;
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  memmove(pPixelArray, pPixel, 3);
+	  memmove(pPixel, &color, 3);
+	  ((Uint8 *)pPixelArray) += 3;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1) * 3;
+	size = (w - x0 - 2) * 3;
+	memcpy(pPixelArray, pPixel, size * sizeof(Uint8));
+	my_memset24(pPixel, (color & 0xFFFFFF), size);
+      }
+      
     }
-    y++;
-  } else {
-    y = y0;
+    break;
+    case 32:
+    {
+      Uint32 *pPixel = NULL;
+      int pitch = pDest->pitch / 4;
+      
+      /* top */
+      if (y >= 0) {
+	pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 4);
+	
+	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint32));
+	my_memset32(pPixel, color, w - x); 
+	((Uint32 *)pPixelArray) += (w - x);
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 4);
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  *(Uint32 *)pPixelArray = *pPixel;
+	  *pPixel = color;
+	  ((Uint32 *)pPixelArray)++;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel++;
+	}
+	
+	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint32));
+	my_memset32(pPixel, color, w - x);
+	
+        pPixel += (w - x) - 1;
+	((Uint32 *)pPixelArray) += (w - x);
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 4);
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  *(Uint32 *)pPixelArray = *pPixel;
+	  *pPixel = color;
+	  ((Uint32 *)pPixelArray)++;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1) * 4);
+	
+	memcpy(pPixelArray, pPixel, (w - x0 - 2) * sizeof(Uint32));
+	my_memset32(pPixel, color, w - x0 - 2);
+      }
+      
+      
+    }      
+    break;
+    default:
+    break;
   }
-
-  /* top */
-  x--;
-  if (y >= 0) {
-    for (; x >= x0; x--) {
-      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
-    }
-  }
-
-  y = (pWindow->size.y + WINDOW_TILE_HIGH);
-  if (y >= 0 && y < pDest->h) {
-    for (x = x0 + 1; x < w - 1; x++) {
-      putpixel_and_save_bcg(pDest, x, y, color, pPixelArray[i++]);
-    }
-  }
+    
 }
 
 /**************************************************************************
-  Restore old pixel from 'pPixelArray'.
-  ( Undraw Window Frame )
+  Restore old pixel from 'pPixelArray' ( Undraw Window Frame ).
 **************************************************************************/
 static void draw_frame_of_window_from_array(struct GUI *pWindow,
-				Uint32 *pPixelArray , SDL_Surface *pDest)
+				void *pPixelArray , SDL_Surface *pDest)
 {
-  register int x, y;
-  int i = 0;
+  int x, y;
   Uint16 w, h;
   int x0, y0;
 
@@ -4351,125 +4707,462 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
   w = x + w;
   h = y + h;
   
-  /*left */
-  y++;
-  if (x == pWindow->size.x) {
-    for (; y < h; y++) {
-      putpixel(pDest, x, y, pPixelArray[i++]);
+  switch(pDest->format->BitsPerPixel) {
+    case 8:
+    {
+      Uint8 *pPixel = NULL;
+      int pitch = pDest->pitch;
+      
+      /* top */
+      if (y >= 0) {
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	
+	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint8));
+	((Uint8 *)pPixelArray) += (w - x);
+	
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  *pPixel = *(Uint8 *)pPixelArray;
+	  ((Uint8 *)pPixelArray)++;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	} else {
+	  pPixel++;
+	}
+	
+	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint8));
+		
+        pPixel += (w - x) - 1;
+	((Uint8 *)pPixelArray) += (w - x);
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  *pPixel = *(Uint8 *)pPixelArray;
+	  ((Uint8 *)pPixelArray)++;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1);
+	
+	memcpy(pPixel, pPixelArray, (w - x0 - 2) * sizeof(Uint8));
+      }
+      
     }
-    y--;
-  } else {
-    y = h - 1;
-  }
-
-  /* botton */
-  x++;
-  if (pWindow->size.y + pWindow->size.h < Main.screen->h) {
-    for (; x < w; x++) {
-      putpixel(pDest, x, y, pPixelArray[i++]);
+    break;
+    case 16:
+    {
+      Uint16 *pPixel = NULL;
+      int pitch = pDest->pitch / 2;
+      
+      /* top */
+      if (y >= 0) {
+	pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	
+	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint16));
+	((Uint16 *)pPixelArray) += (w - x);
+	
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  *pPixel = *(Uint16 *)pPixelArray;
+	  ((Uint16 *)pPixelArray)++;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel++;
+	}
+	
+	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint16));
+		
+        pPixel += (w - x) - 1;
+	((Uint16 *)pPixelArray) += (w - x);
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  *pPixel = *(Uint16 *)pPixelArray;
+	  ((Uint16 *)pPixelArray)++;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1) * 2);
+	
+	memcpy(pPixel, pPixelArray, (w - x0 - 2) * sizeof(Uint16));
+      }
+      
     }
-    x--;
-  } else {
-    x = w - 1;
-  }
-
-  /*right */
-  y--;
-  if (pWindow->size.x + pWindow->size.w < Main.screen->w) {
-    for (; y >= y0; y--) {
-      putpixel(pDest, x, y, pPixelArray[i++]);
+    break;
+    case 24:
+    {
+      Uint8 *pPixel = NULL;
+      int pitch = pDest->pitch / 3;
+      int size;
+      
+      /* top */
+      if (y >= 0) {
+	size = (w - x) * 3;
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 3;
+	
+	memcpy(pPixel, pPixelArray, size * sizeof(Uint8));
+	((Uint8 *)pPixelArray) += size;
+	
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 3;
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  memmove(pPixel, pPixelArray, 3);
+	  ((Uint8 *)pPixelArray) += 3;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 3;
+	} else {
+	  pPixel++;
+	}
+	size = (w - x) * 3;
+	memcpy(pPixel, pPixelArray, size * sizeof(Uint8));
+		
+        pPixel += size - 3;
+	((Uint8 *)pPixelArray) += size;
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 3;
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  memmove(pPixel, pPixelArray, 3);
+	  ((Uint8 *)pPixelArray) += 3;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1) * 3;
+	
+	memcpy(pPixel, pPixelArray, 3 * (w - x0 - 2) * sizeof(Uint8));
+      }
+      
     }
-    y++;
-  } else {
-    y = y0;
+    break;
+    case 32:
+    {
+      Uint32 *pPixel = NULL;
+      int pitch = pDest->pitch / 4;
+      
+      /* top */
+      if (y >= 0) {
+	pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 4);
+	
+	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint32));
+	((Uint32 *)pPixelArray) += (w - x);
+      }
+      
+      /*left */
+      y++;
+      if (x == pWindow->size.x) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 4);
+	} else {
+	  pPixel += pitch;
+	}
+	
+        for (; y < h; y++) {
+	  *pPixel = *(Uint32 *)pPixelArray;
+	  ((Uint32 *)pPixelArray)++;
+	  pPixel += pitch;
+        }
+	
+        y--;
+	pPixel -= pitch;
+      } else {
+        y = h - 1;
+	x--;/* fix for 0 pozition */
+	pPixel = NULL;
+      }
+      
+      /* botton */
+      x++;
+      if (pWindow->size.y + pWindow->size.h < pDest->h) {
+	
+	if(!pPixel) {
+	  pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
+	} else {
+	  pPixel++;
+	}
+	
+	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint32));
+		
+        pPixel += (w - x) - 1;
+	((Uint32 *)pPixelArray) += (w - x);
+	
+        x = w - 1;
+      } else {
+        x = w - 1;
+	y++;
+	pPixel = NULL;
+      }
+      
+      /*right */
+      y--;
+      if (pWindow->size.x + pWindow->size.w < pDest->w) {
+	if(!pPixel) {
+	  pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 4);
+	} else {
+	  pPixel -= pitch;
+	}
+	
+        for (; y > y0; y--) {
+	  *pPixel = *(Uint32 *)pPixelArray;
+	  ((Uint32 *)pPixelArray)++;
+	  pPixel -= pitch;
+        }
+        
+      } 
+      
+      y = (pWindow->size.y + WINDOW_TILE_HIGH);
+      if (y >= 0 && y < pDest->h) {
+	pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + (x0 + 1) * 4);
+	
+	memcpy(pPixel, pPixelArray, (w - x0 - 2) * sizeof(Uint32));
+      }
+      
+      
+    }      
+    break;
+    default:
+    break;
   }
-
-  /* top */
-  x--;
-  if (y >= 0) {
-    for (; x >= x0; x--) {
-      putpixel(pDest, x, y, pPixelArray[i++]);
-    }
-  }
-
-  
-  y = pWindow->size.y + WINDOW_TILE_HIGH;
-  if (y >= 0 && y < pDest->h) {
-    for (x = x0 + 1; x < w - 1; x++) {
-      putpixel(pDest, x, y, pPixelArray[i++]);
-    }
-  }
+   
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData)
+{
+  struct MOVE *pMove = (struct MOVE *)pData;
+  SDL_Rect update;
+  
+  if (!pMove->pPixelArray) {
+   pMove->pPixelArray = CALLOC(3 * pMove->pWindow->size.w +
+			     2 * pMove->pWindow->size.h,
+    				pMove->pWindow->dst->format->BytesPerPixel);
+   
+   /* undraw window */
+   blit_entire_src(pMove->pWindow->gfx, pMove->pWindow->dst,
+			pMove->pWindow->size.x, pMove->pWindow->size.y);
+   sdl_dirty_rect(pMove->pWindow->size);    
+  } else {
+    /* undraw frame */
+    draw_frame_of_window_from_array(pMove->pWindow,
+    				pMove->pPixelArray, pMove->pWindow->dst);
+    
+    update = pMove->pWindow->size;
+    update.h = 1;
+    sdl_dirty_rect(update);
+    
+    update.y += WINDOW_TILE_HIGH;
+    sdl_dirty_rect(update);
+    
+    update.y = pMove->pWindow->size.y + pMove->pWindow->size.h - 1;
+    sdl_dirty_rect(update);
+    
+    update = pMove->pWindow->size;
+    update.w = 1;
+    sdl_dirty_rect(update);
+    
+    update.x += pMove->pWindow->size.w - 1;
+    sdl_dirty_rect(update);
+  }
+
+  sdl_dirty_rect(pMove->pWindow->size);
+  
+  pMove->pWindow->size.x += pMotionEvent->xrel;
+  pMove->pWindow->size.y += pMotionEvent->yrel;
+
+  make_copy_of_pixel_and_draw_frame_window(pMove->pWindow, 0xFF000000,
+				pMove->pPixelArray, pMove->pWindow->dst);
+
+
+  update = pMove->pWindow->size;
+  update.h = 1;
+  sdl_dirty_rect(update);
+    
+  update.y += WINDOW_TILE_HIGH;
+  sdl_dirty_rect(update);
+    
+  update.y = pMove->pWindow->size.y + pMove->pWindow->size.h - 1;
+  sdl_dirty_rect(update);
+    
+  update = pMove->pWindow->size;
+  update.w = 1;
+  sdl_dirty_rect(update);
+    
+  update.x += pMove->pWindow->size.w - 1;
+  sdl_dirty_rect(update);
+    
+  flush_dirty();
+  
+  return ID_ERROR;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent, void *pData)
+{
+  struct MOVE *pMove = (struct MOVE *)pData;
+  if (pMove && pMove->pPixelArray) {
+    /* undraw frame */
+    draw_frame_of_window_from_array(pMove->pWindow,
+    			pMove->pPixelArray, pMove->pWindow->dst);
+    refresh_widget_background(pMove->pWindow);
+    FREE(pMove->pPixelArray);
+    return ID_MOVED_WINDOW;
+  }
+  
+  return ID_WINDOW;
+}
+
 
 /**************************************************************************
   ...
 **************************************************************************/
-int move_window(struct GUI *pWindow)
+bool move_window(struct GUI *pWindow)
 {
-  int ret = 1, create = 0;
-
-  Uint32 *pPixelArray = NULL;
-
-  SDL_Rect *pRect_tab = NULL;
-
-  while (ret) {
-    SDL_WaitEvent(&Main.event);
-    switch (Main.event.type) {
-    case SDL_MOUSEBUTTONUP:
-      ret = 0;
-
-      break;
-    case SDL_MOUSEMOTION:
-      if (!create) {
-	pPixelArray = CALLOC(3 * pWindow->size.w +
-			     2 * pWindow->size.h, sizeof(Uint32));
-
-	pRect_tab = CALLOC(2, sizeof(SDL_Rect));
-
-	/* undraw window */
-	blit_entire_src(pWindow->gfx, pWindow->dst,
-			pWindow->size.x, pWindow->size.y);
-
-	make_copy_of_pixel_and_draw_frame_window(pWindow, 0,
-					pPixelArray , Main.screen);
-
-	/*refresh_rect(pWindow->size);*/
-        flush_rect(pWindow->size);
-	
-	create = 1;
-      } else {
-        draw_frame_of_window_from_array(pWindow, pPixelArray , Main.screen);
-      }
-
-      pRect_tab[0] = pWindow->size;
-      correct_rect_region(&pRect_tab[0]);
-            
-      pWindow->size.x += Main.event.motion.xrel;
-      pWindow->size.y += Main.event.motion.yrel;
-
-      make_copy_of_pixel_and_draw_frame_window(pWindow, 0, pPixelArray, Main.screen);
-
-
-      pRect_tab[1] = pWindow->size;
-      correct_rect_region(&pRect_tab[1]);
-            
-      SDL_UpdateRects(Main.screen, 2, pRect_tab);
-      
-      break;
-    }				/* switch */
-  }				/* while */
-
-  if (create) {
-    /* undraw frame */
-    draw_frame_of_window_from_array(pWindow, pPixelArray, Main.screen);
-
-    refresh_widget_background(pWindow);
-  }
-
-  FREE(pRect_tab);
-  FREE(pPixelArray);
-
-  return create;
+  bool ret;
+  struct MOVE *pMove = MALLOC(sizeof(struct MOVE));
+  pMove->pWindow = pWindow;
+  pMove->pPixelArray = NULL;
+  ret = (gui_event_loop((void *)pMove, NULL, NULL, NULL, NULL,
+	  move_window_button_up, move_window_motion) == ID_MOVED_WINDOW);
+  FREE(pMove);
+  return ret;
 }
 
 /**************************************************************************
@@ -4526,7 +5219,7 @@ void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
 		Uint16 w, Uint16 h)
 {
   SDL_Surface *pTmp_Vert =
-      ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w, h - 2, 2);
+      ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w, h - 2, 1);
   SDL_Surface *pTmp_Hor =
       ResizeSurface(pTheme->FR_Hor, w - 2, pTheme->FR_Hor->h, 1);
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};

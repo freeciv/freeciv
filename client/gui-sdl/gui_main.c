@@ -120,7 +120,6 @@ static SDL_Event *pInfo_User_Event = NULL;
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static void game_focused_unit_anim(void);
-static void gui_main_loop(void);
 
 /* =========================================================== */
 
@@ -164,317 +163,123 @@ static void parse_options(int argc, char **argv)
 }
 
 /**************************************************************************
-  Main SDL client loop.
+...
 **************************************************************************/
-static void gui_main_loop(void)
+static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 {
-  Uint16 ID = 0;
-  bool RSHIFT = FALSE;
-  struct GUI *pWidget = NULL;
-  struct timeval tv;
-  fd_set civfdset;
-  int result;
-  Uint32 t1 , t2;
-  int schot_nr = 0;
-  char schot[32];
-  struct unit *pUnit;
-  struct city *pCity;
-    
-  LSHIFT = FALSE;
-  LCTRL = FALSE;
-  LALT = FALSE;
-  is_unit_move_blocked = FALSE;
-  
-  t1 = SDL_GetTicks();
-  while (!ID) {
-    /* ========================================= */
-    /* net check with 10ms delay event loop */
-    if (net_socket >= 0) {
-      FD_ZERO(&civfdset);
-      FD_SET(net_socket, &civfdset);
-      tv.tv_sec = 0;
-      tv.tv_usec = 10000;/* 10ms*/
-    
-      result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
-      if(result < 0) {
-        if (errno != EINTR) {
-	  break;
-        } else {
-	  continue;
-        }
-      } else {
-        if (result > 0 && FD_ISSET(net_socket, &civfdset)) {
-	  SDL_PushEvent(pNet_User_Event);
-	}
-      }
-    } else { /* if connection is not establish */
-      SDL_Delay(10);
-    }
-    /* ========================================= */
-    
-    t2 = SDL_GetTicks();
-    if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
-      if(widget_info_counter || autoconnect) {
-        if(widget_info_counter > 10) {
-          SDL_PushEvent(pInfo_User_Event);
-          widget_info_counter = 0;
-        } else {
-          widget_info_counter++;
-          SDL_PushEvent(pAnim_User_Event);
-        }
-      } else {
-        SDL_PushEvent(pAnim_User_Event);
-      }
-      t1 = SDL_GetTicks();
-    }
-  
-    /* ========================================= */
-    
-    while(SDL_PollEvent(&Main.event) == 1) {
-      switch (Main.event.type) {
-      case SDL_QUIT:
-        return;
-    
-      case SDL_KEYUP:
-        switch (Main.event.key.keysym.sym) {
-	  /* find if Shifts are released */
-	  case SDLK_RSHIFT:
-	    RSHIFT = FALSE;
-	  break;
-	  case SDLK_LSHIFT:
-	    LSHIFT = FALSE;
-	  break;
-	  case SDLK_LCTRL:
-	    LCTRL = FALSE;
-	  break;
-	  case SDLK_LALT:
-	    LALT = FALSE;
-	  break;
-	  default:
-	  break;
-	}
-        break;
-      case SDL_KEYDOWN:
-
-        pWidget = MainWidgetListKeyScaner(Main.event.key.keysym);
-
-        if (pWidget) {
-
-	  ID = widget_pressed_action(pWidget);
-	  unsellect_widget_action();
-        } else if (RSHIFT && (Main.event.key.keysym.sym == SDLK_RETURN)) {
-	  /* input */
-	  popup_input_line();
-	
-        } else {
-	  if (!(SDL_Client_Flags & CF_OPTION_OPEN) &&
-	    (map_event_handler(Main.event.key.keysym))) {
-	    switch (Main.event.key.keysym.sym) {
-
-	    case SDLK_RETURN:
-	    case SDLK_KP_ENTER:
-	      if((pUnit = get_unit_in_focus()) != NULL && 
-		(pCity = map_get_tile(pUnit->x, pUnit->y)->city) != NULL &&
-	         city_owner(pCity) == game.player_ptr) {
-		  popup_city_dialog(pCity, FALSE);
-	      } else {
-	        disable_focus_animation();
-	        key_end_turn();
-	      }
-	    break;
-
-	    case SDLK_RSHIFT:
-	      /* Right Shift is Pressed */
-	      RSHIFT = TRUE;
-	    break;
-	    
-	    case SDLK_LSHIFT:
-	      /* Left Shift is Pressed */
-	      LSHIFT = TRUE;
-	    break;
-	    
-	    case SDLK_LCTRL:
-	      /* Left CTRL is Pressed */
-	      LCTRL = TRUE;
-	    break;
-	    
-	    case SDLK_LALT:
-	      /* Left ALT is Pressed */
-	      LALT = TRUE;
-	    break;
-	    
-	    case SDLK_UP:
-	    case SDLK_KP8:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_NORTH);
-	      }
-	    break;
-
-	    case SDLK_PAGEUP:
-	    case SDLK_KP9:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_NORTHEAST);
-	      }
-	    break;
-
-	    case SDLK_RIGHT:
-	    case SDLK_KP6:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_EAST);
-	      }
-	    break;
-
-	    case SDLK_PAGEDOWN:
-	    case SDLK_KP3:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_SOUTHEAST);
-	      }
-	    break;
-
-	    case SDLK_DOWN:
-	    case SDLK_KP2:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_SOUTH);
-	      }
-	    break;
-
-	    case SDLK_END:
-	    case SDLK_KP1:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_SOUTHWEST);
-	      }
-	    break;
-
-	    case SDLK_LEFT:
-	    case SDLK_KP4:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_WEST);
-	      }
-	    break;
-
-	    case SDLK_HOME:
-	    case SDLK_KP7:
-	      if(!is_unit_move_blocked) {
-	        key_unit_move(DIR8_NORTHWEST);
-	      }
-	    break;
-
-	    case SDLK_KP5:
-	      advance_unit_focus();
-	    break;
-
-	    case SDLK_ESCAPE:
-	      key_cancel_action();
-	      draw_goto_patrol_lines = FALSE;
-	    break;
-
-	    case SDLK_c:
-	      request_center_focus_unit();
-	    break;
-
-	    case SDLK_PRINT:
-	      freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
-	      my_snprintf(schot, sizeof(schot), "schot0%d.bmp",
-			schot_nr++);
-	      SDL_SaveBMP(Main.screen, schot);
-	    break;
-
-	    case SDLK_F1:
-              popup_city_report_dialog(FALSE);
-	    break;
-	    
-	    case SDLK_F2:
-	      popup_activeunits_report_dialog(FALSE);
-	    break;
-	    
-	    case SDLK_F7:
-              send_report_request(REPORT_WONDERS_OF_THE_WORLD);
-            break;
-	    
-            case SDLK_F8:
-              send_report_request(REPORT_TOP_5_CITIES);
-            break;
-	    
-	    case SDLK_F10:
-              if(is_meswin_open()) {
-                popdown_meswin_dialog();
-                /*FREE(pWidget->string16->text);
-                  pWidget->string16->text = convert_to_utf16(_("Show Log (F10)")); */
-              } else {
-                popup_meswin_dialog();
-                /*FREE(pWidget->string16->text);
-                pWidget->string16->text = convert_to_utf16(_("Hide Log (F10)"));*/
-              }
-	      flush_dirty();
-            break;
-	    	        
-	    case SDLK_F11:
-              send_report_request(REPORT_DEMOGRAPHIC);
-            break;
-	    
-	    default:
-	    break;
-	  }
-	}
-      }
-      break;
-
-      case SDL_MOUSEBUTTONDOWN:
-
-        pWidget = MainWidgetListScaner(&Main.event.motion);
-
-        if (pWidget) {
-	  ID = widget_pressed_action(pWidget);
-        } else {
-	  button_down_on_map(&Main.event.button);
-        }
-      break;
-
-      case SDL_USEREVENT:
-        switch(Main.event.user.code) {
-	  case NET:
-            input_from_server(net_socket);
-	  break;
-	  case ANIM:
-	    game_focused_unit_anim();
-	  break;
-	  case SHOW_WIDGET_INFO_LABBEL:
-	    draw_widget_info_label();
-	  break;
-	  case TRY_AUTO_CONNECT:
-	    if (try_to_autoconnect()) {
-	      pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
-	      autoconnect = FALSE;
+  static struct GUI *pWidget;
+  if ((pWidget = MainWidgetListKeyScaner(Key)) != NULL) {
+    return widget_pressed_action(pWidget);
+  } else {
+    if (RSHIFT && (Key.sym == SDLK_RETURN)) {
+      /* input */
+      popup_input_line();
+    } else {
+      if (map_event_handler(Key)
+		&& get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+        switch (Key.sym) {
+	  case SDLK_RETURN:
+	  case SDLK_KP_ENTER:
+	  {
+	    struct unit *pUnit;
+	    struct city *pCity;
+	    if((pUnit = get_unit_in_focus()) != NULL && 
+	      (pCity = map_get_tile(pUnit->x, pUnit->y)->city) != NULL &&
+	      city_owner(pCity) == game.player_ptr) {
+	      popup_city_dialog(pCity, FALSE);
+	    } else {
+	      disable_focus_animation();
+	      key_end_turn();
 	    }
-	  break;
-          case FLUSH:
-	    unqueue_flush();
-	  break;
+	  }
+	  return ID_ERROR;
+
+	  case SDLK_F1:
+            popup_city_report_dialog(FALSE);
+	  return ID_ERROR;
+	    
+	  case SDLK_F2:
+	    popup_activeunits_report_dialog(FALSE);
+	  return ID_ERROR;
+	   
+	  case SDLK_F7:
+            send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+          return ID_ERROR;
+	    
+          case SDLK_F8:
+            send_report_request(REPORT_TOP_5_CITIES);
+          return ID_ERROR;
+	    
+	  case SDLK_F10:
+            if(is_meswin_open()) {
+              popdown_meswin_dialog();
+              /*FREE(pWidget->string16->text);
+                pWidget->string16->text = convert_to_utf16(_("Show Log (F10)")); */
+            } else {
+              popup_meswin_dialog();
+              /*FREE(pWidget->string16->text);
+              pWidget->string16->text = convert_to_utf16(_("Hide Log (F10)"));*/
+            }
+	    flush_dirty();
+          return ID_ERROR;
+	    	        
+	  case SDLK_F11:
+            send_report_request(REPORT_DEMOGRAPHIC);
+          return ID_ERROR;
+	    
 	  default:
-	  break;
-        }    
-      break;
-      
-      case SDL_MOUSEMOTION:
-
-        if(draw_goto_patrol_lines) {
-	  update_line(Main.event.motion.x, Main.event.motion.y);
-        }
-      
-        pWidget = MainWidgetListScaner(&Main.event.motion);
-        if (pWidget) {
-	  widget_sellected_action(pWidget);
-        } else {
-	  unsellect_widget_action();
-        }
-        ID = 0;
-
-      break;
+	  return ID_ERROR;
+	}
       }
     }
   }
   
-  /*del_main_list();*/
+  return ID_ERROR;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static Uint16 main_key_up_handler(SDL_keysym Key, void *pData)
+{
+  if(pSellected_Widget) {
+    unsellect_widget_action();
+  }
+  return ID_ERROR;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
+{
+  static struct GUI *pWidget;
+  if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
+    return widget_pressed_action(pWidget);
+  } else {
+    button_down_on_map(pButtonEvent);
+  }
+  return ID_ERROR;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
+{
+  static struct GUI *pWidget;
+    
+  if(draw_goto_patrol_lines) {
+    update_line(pMotionEvent->x, pMotionEvent->y);
+  }
+      
+  if ((pWidget = MainWidgetListScaner(pMotionEvent->x, pMotionEvent->y)) != NULL) {
+    widget_sellected_action(pWidget);
+  } else {
+    unsellect_widget_action();
+  }
+  
+  return ID_ERROR;
 }
 
 /**************************************************************************
@@ -526,10 +331,202 @@ static void game_focused_unit_anim(void)
   return;
 }
 
+/* ============================ Public ========================== */
+
+/**************************************************************************
+...
+**************************************************************************/
 void add_autoconnect_to_timer(void)
 {
   autoconnect = TRUE;
   pInfo_User_Event->user.code = TRY_AUTO_CONNECT;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
+	Uint16 (*key_down_handler)(SDL_keysym Key, void *pData),
+        Uint16 (*key_up_handler)(SDL_keysym Key, void *pData),
+	Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
+        Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
+        Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData))
+{
+  static Uint16 ID;
+  static struct timeval tv;
+  static fd_set civfdset;
+  static int result;
+  static Uint32 t1, t2;
+  static int schot_nr = 0;
+  static char schot[32];
+
+  ID = ID_ERROR;
+  t1 = SDL_GetTicks();
+  while (ID == ID_ERROR) {
+    /* ========================================= */
+    /* net check with 10ms delay event loop */
+    if (net_socket >= 0) {
+      FD_ZERO(&civfdset);
+      FD_SET(net_socket, &civfdset);
+      tv.tv_sec = 0;
+      tv.tv_usec = 10000;/* 10ms*/
+    
+      result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
+      if(result < 0) {
+        if (errno != EINTR) {
+	  break;
+        } else {
+	  continue;
+        }
+      } else {
+        if (result > 0 && FD_ISSET(net_socket, &civfdset)) {
+	  SDL_PushEvent(pNet_User_Event);
+	}
+      }
+    } else { /* if connection is not establish */
+      SDL_Delay(10);
+    }
+    /* ========================================= */
+    
+    t2 = SDL_GetTicks();
+    if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
+      if(widget_info_counter || autoconnect) {
+        if(widget_info_counter > 10) {
+          SDL_PushEvent(pInfo_User_Event);
+          widget_info_counter = 0;
+        } else {
+          widget_info_counter++;
+          SDL_PushEvent(pAnim_User_Event);
+        }
+      } else {
+        SDL_PushEvent(pAnim_User_Event);
+      }
+      t1 = SDL_GetTicks();
+    }
+    /* ========================================= */
+    
+    if(loop_action) {
+      loop_action(pData);
+    }
+    
+    /* ========================================= */
+    
+    while(SDL_PollEvent(&Main.event) == 1) {
+      switch (Main.event.type) {
+      case SDL_QUIT:
+	abort();
+      break;
+    
+      case SDL_KEYUP:
+        switch (Main.event.key.keysym.sym) {
+	  /* find if Shifts are released */
+	  case SDLK_RSHIFT:
+	    RSHIFT = FALSE;
+	  break;
+	  case SDLK_LSHIFT:
+	    LSHIFT = FALSE;
+	  break;
+	  case SDLK_LCTRL:
+	    LCTRL = FALSE;
+	  break;
+	  case SDLK_RCTRL:
+	    RCTRL = FALSE;
+	  break;
+	  case SDLK_LALT:
+	    LALT = FALSE;
+	  break;
+	  default:
+	    if(key_up_handler) {
+	      key_up_handler(Main.event.key.keysym, pData);
+	    }
+	  break;
+	}
+        break;
+      case SDL_KEYDOWN:
+	switch(Main.event.key.keysym.sym) {
+	  case SDLK_PRINT:
+	    freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
+	    my_snprintf(schot, sizeof(schot), "schot0%d.bmp", schot_nr++);
+	    SDL_SaveBMP(Main.screen, schot);
+	  break;
+	  
+  	  case SDLK_RSHIFT:
+	    /* Right Shift is Pressed */
+	    RSHIFT = TRUE;
+	  break;
+	    
+	  case SDLK_LSHIFT:
+	    /* Left Shift is Pressed */
+	    LSHIFT = TRUE;
+	  break;
+	    
+	  case SDLK_LCTRL:
+	    /* Left CTRL is Pressed */
+	    LCTRL = TRUE;
+	  break;
+	   
+          case SDLK_RCTRL:
+	    /* Right CTRL is Pressed */
+	    RCTRL = TRUE;
+	  break;
+	  
+	  case SDLK_LALT:
+	    /* Left ALT is Pressed */
+	    LALT = TRUE;
+	  break;
+	  
+          default:
+	    if(key_down_handler) {
+	      ID = key_down_handler(Main.event.key.keysym, pData);
+	    }
+	  break;
+	}
+      break;
+      case SDL_MOUSEBUTTONDOWN:
+        if(mouse_button_down_handler) {
+	  ID = mouse_button_down_handler(&Main.event.button, pData);
+	}	
+      break;
+      case SDL_MOUSEBUTTONUP:
+	if(mouse_button_up_handler) {
+	  ID = mouse_button_up_handler(&Main.event.button, pData);
+	}
+      break;
+      case SDL_MOUSEMOTION:
+	if(mouse_motion_handler) {
+	  ID = mouse_motion_handler(&Main.event.motion, pData);
+	}	
+      break;
+      case SDL_USEREVENT:
+        switch(Main.event.user.code) {
+	  case NET:
+            input_from_server(net_socket);
+	  break;
+	  case ANIM:
+	    game_focused_unit_anim();
+	  break;
+	  case SHOW_WIDGET_INFO_LABBEL:
+	    draw_widget_info_label();
+	  break;
+	  case TRY_AUTO_CONNECT:
+	    if (try_to_autoconnect()) {
+	      pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
+	      autoconnect = FALSE;
+	    }
+	  break;
+          case FLUSH:
+	    unqueue_flush();
+	  break;
+	  default:
+	  break;
+        }    
+      break;
+	
+      }
+    }
+  }
+  
+  return ID;
 }
 
 /* ============ Freeciv native game function =========== */
@@ -603,6 +600,9 @@ void ui_init(void)
   
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void clear_double_messages_call(void)
 {
   int i;
@@ -654,6 +654,9 @@ void ui_main(int argc, char *argv[])
   
   smooth_move_unit_steps = 8;
   update_city_text_in_refresh_tile = FALSE;
+  draw_city_names = FALSE;
+  draw_city_productions = FALSE;
+  is_unit_move_blocked = FALSE;
   
   tilespec_load_tiles();
   
@@ -670,7 +673,7 @@ void ui_main(int argc, char *argv[])
   create_units_order_widgets();
 
   setup_auxiliary_tech_icons();
-  
+    
   if((SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) == CF_TOGGLED_FULLSCREEN) {
     set_video_mode(800, 600, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
@@ -702,7 +705,10 @@ void ui_main(int argc, char *argv[])
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 
-  gui_main_loop();
+  /* Main game loop */
+  gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,
+  		 main_mouse_button_down_handler, NULL,
+		 main_mouse_motion_handler);
 
   free_auxiliary_tech_icons();
   tilespec_unload_theme();

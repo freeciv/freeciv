@@ -52,11 +52,20 @@ extern struct canvas_store Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 bool LSHIFT;
+bool RSHIFT;
 bool LCTRL;
+bool RCTRL;
 bool LALT;
 
 void add_autoconnect_to_timer(void);
 void enable_focus_animation(void);
 void disable_focus_animation(void);
+
+Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
+	Uint16 (*key_down_handler)(SDL_keysym Key, void *pData),
+        Uint16 (*key_up_handler)(SDL_keysym Key, void *pData),
+	Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
+        Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
+        Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData));
 
 #endif	/* FC__GUI_MAIN_H */

@@ -261,20 +261,16 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat * pSpf,
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
 				   SDL_Color * pColor)
 {
-  /* pColor->unused == ALPHA */
   SDL_Surface *pNew = create_surf(w, h, iFlags);
-  SDL_Color color;
-
+  
   if (!pNew) {
     return NULL;
   }
 
   if (!pColor) {
+    /* pColor->unused == ALPHA */
+    SDL_Color color ={255, 255, 255, 128};
     pColor = &color;
-    pColor->r = 255;
-    pColor->g = 255;
-    pColor->b = 255;
-    pColor->unused = 128;
   }
 
   SDL_FillRect(pNew, NULL,
@@ -415,6 +411,53 @@ Uint32 get_first_pixel(SDL_Surface *pSurface)
 /**************************************************************************
   Idea of "putline" code came from SDL_gfx lib. 
 **************************************************************************/
+
+void * my_memset8(void *dst_mem, Uint8 var, size_t lenght)
+{
+  return memset(dst_mem, var, lenght);
+}
+
+void * my_memset16(void *dst_mem, Uint16 var, size_t lenght)
+{
+  Uint16 *ptr = (Uint16 *)dst_mem;
+  Uint32 color = (var << 16) | var;
+  int i = 0;
+  
+  if (lenght & 0x01) {
+    *ptr = var;
+     ptr++;
+     i = 1;
+  }
+
+  for (; i < lenght; i+=2, ptr += 2) {
+      *(Uint32 *)ptr = color;
+  }
+  
+  return dst_mem;
+}
+
+void * my_memset24(void *dst_mem, Uint32 var, size_t lenght)
+{
+  Uint8 *ptr = (Uint8 *)dst_mem;
+  int i;
+  
+  var &= 0xFFFFFF;
+  for (i = 0; i < lenght; i++, ptr += 3) {
+    memmove(ptr, &var, 3);
+  }
+  
+  return dst_mem;
+}
+
+void * my_memset32(void *dst_mem, Uint32 var, size_t lenght)
+{
+  Uint32 *ptr = (Uint32 *)dst_mem;
+  int i;
+  for (i = 0; i < lenght; i++, ptr++) {
+      *ptr = var;
+  }
+  return dst_mem;
+}
 
 /**************************************************************************
   Draw Vertical line;

@@ -181,9 +181,8 @@ void unlock_buffer(void);
 SDL_Surface * get_locked_buffer(void);
 void remove_locked_buffer(void);
 
-struct GUI *WidgetListScaner(const struct GUI *pGUI_List,
-			     SDL_MouseMotionEvent *pPosition);
-struct GUI *MainWidgetListScaner(SDL_MouseMotionEvent *pPosition);
+struct GUI *WidgetListScaner(const struct GUI *pGUI_List, int x, int y);
+struct GUI *MainWidgetListScaner(int x, int y);
 struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List,
 				SDL_keysym Key);
 struct GUI *MainWidgetListKeyScaner(SDL_keysym Key);
@@ -334,7 +333,7 @@ int resize_window(struct GUI *pWindow, SDL_Surface *pBcgd,
 		  SDL_Color *pColor, Uint16 new_w, Uint16 new_h);
 
 int redraw_window(struct GUI *pWindow);
-int move_window(struct GUI *pWindow);
+bool move_window(struct GUI *pWindow);
 
 /* misc */
 void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
