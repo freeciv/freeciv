@@ -300,6 +300,12 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	refresh_unit_mapcanvas(punit1, punit1->tile, TRUE, FALSE);
       }
     }
+    if (make_winner_veteran) {
+      struct unit *pwinner = (defender_hp == 0 ? punit0 : punit1);
+
+      pwinner->veteran++;
+      refresh_unit_mapcanvas(pwinner, pwinner->tile, TRUE, FALSE);
+    }
   }
 }
 
