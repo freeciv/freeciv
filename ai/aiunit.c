@@ -804,7 +804,10 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 
   if (!same_pos(punit->tile, ptile)) {
     if (goto_is_sane(punit, ptile, TRUE)) {
-      (void) ai_unit_goto(punit, ptile);
+      if (!ai_unit_goto(punit, ptile)) {
+        /* We died */
+        return;
+      }
     } else {
       /* can't possibly get there to help */
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
