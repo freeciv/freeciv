@@ -1066,6 +1066,27 @@ static struct Sprite *get_dither(int ttype, int ttype_other)
 }
 
 /**********************************************************************
+Converts from a dir8 (8 directions) direction to a dir4 (cardinal
+directions) value.
+***********************************************************************/
+enum direction4 dir8_to_dir4(enum direction8 dir8)
+{
+  switch (dir8) {
+  case DIR8_NORTH:
+    return DIR4_NORTH;
+  case DIR8_SOUTH:
+    return DIR4_SOUTH;
+  case DIR8_EAST:
+    return DIR4_EAST;
+  case DIR8_WEST:
+    return DIR4_WEST;
+  default:
+    freelog(LOG_FATAL, "dir8_to_dir4: bad direction %d.", dir8);
+    abort();
+  }
+}
+
+/**********************************************************************
 Fill in the sprite array for the tile at position (abs_x0,abs_y0).
 Does not fill in the city or unit; that have to be done seperatly in
 isometric view. Also, no fog here.
@@ -1087,22 +1108,14 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 {
   int ttype, ttype_near[8];
   int tspecial, tspecial_near[8];
-  int ttype_north, ttype_south, ttype_east, ttype_west;
-  int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
-  int tspecial_north, tspecial_south, tspecial_east, tspecial_west;
-  int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west;
-
-  int tileno;
+  int tileno, dir, i;
   struct tile *ptile;
   struct city *pcity;
   struct Sprite **save_sprs = sprs;
-  int dir, i;
 
   *solid_bg = 0;
 
-  if (!normalize_map_pos(&x, &y))
-    return -1;
-
+  assert(is_normal_map_pos(x, y));
   ptile = map_get_tile(x, y);
   if (!ptile->known)
     return -1;
@@ -1132,49 +1145,32 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       tspecial_near[dir] |= S_RIVER;
     }
   } adjc_dir_iterate_end;
-
-  ttype_north      = ttype_near[DIR8_NORTH];
-  ttype_north_east = ttype_near[DIR8_NORTHEAST];
-  ttype_east       = ttype_near[DIR8_EAST];
-  ttype_south_east = ttype_near[DIR8_SOUTHEAST];
-  ttype_south      = ttype_near[DIR8_SOUTH];
-  ttype_south_west = ttype_near[DIR8_SOUTHWEST];
-  ttype_west       = ttype_near[DIR8_WEST];
-  ttype_north_west = ttype_near[DIR8_NORTHWEST];
-  tspecial_north      = tspecial_near[DIR8_NORTH];
-  tspecial_north_east = tspecial_near[DIR8_NORTHEAST];
-  tspecial_east       = tspecial_near[DIR8_EAST];
-  tspecial_south_east = tspecial_near[DIR8_SOUTHEAST];
-  tspecial_south      = tspecial_near[DIR8_SOUTH];
-  tspecial_south_west = tspecial_near[DIR8_SOUTHWEST];
-  tspecial_west       = tspecial_near[DIR8_WEST];
-  tspecial_north_west = tspecial_near[DIR8_NORTHWEST];
   
   if (draw_terrain) {
     if (ttype != T_OCEAN) /* painted via coasts. */
       *sprs++ = get_tile_type(ttype)->sprite[0];
 
     if (ttype == T_HILLS) {
-      tileno = INDEX_NSEW((ttype_north==T_HILLS || ttype_north==T_HILLS),
-			  (ttype_south==T_HILLS || ttype_south==T_HILLS),
-			  (ttype_east==T_HILLS || ttype_east==T_HILLS),
-			  (ttype_west==T_HILLS || ttype_west==T_HILLS));
+      tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_HILLS,
+			  ttype_near[DIR8_SOUTH] == T_HILLS,
+			  ttype_near[DIR8_EAST] == T_HILLS,
+			  ttype_near[DIR8_WEST] == T_HILLS);
       *sprs++=sprites.tx.spec_hill[tileno];
     }
 
     if (ttype == T_FOREST) {
-      tileno = INDEX_NSEW((ttype_north==T_FOREST || ttype_north==T_FOREST),
-			  (ttype_south==T_FOREST || ttype_south==T_FOREST),
-			  (ttype_east==T_FOREST || ttype_east==T_FOREST),
-			  (ttype_west==T_FOREST || ttype_west==T_FOREST));
+      tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_FOREST,
+			  ttype_near[DIR8_SOUTH] == T_FOREST,
+			  ttype_near[DIR8_EAST] == T_FOREST,
+			  ttype_near[DIR8_WEST] == T_FOREST);
       *sprs++=sprites.tx.spec_forest[tileno];
     }
 
     if (ttype == T_MOUNTAINS) {
-      tileno = INDEX_NSEW((ttype_north==T_MOUNTAINS || ttype_north==T_MOUNTAINS),
-			  (ttype_south==T_MOUNTAINS || ttype_south==T_MOUNTAINS),
-			  (ttype_east==T_MOUNTAINS || ttype_east==T_MOUNTAINS),
-			  (ttype_west==T_MOUNTAINS || ttype_west==T_MOUNTAINS));
+      tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_MOUNTAINS,
+			  ttype_near[DIR8_SOUTH] == T_MOUNTAINS,
+			  ttype_near[DIR8_EAST] == T_MOUNTAINS,
+			  ttype_near[DIR8_WEST] == T_MOUNTAINS);
       *sprs++=sprites.tx.spec_mountain[tileno];
     }
     
@@ -1187,22 +1183,28 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     }
 
     if (tspecial&S_RIVER) {
-      tileno = INDEX_NSEW((tspecial_north&S_RIVER || ttype_north==T_OCEAN),
-			  (tspecial_south&S_RIVER || ttype_south==T_OCEAN),
-			  (tspecial_east&S_RIVER || ttype_east==T_OCEAN),
-			  (tspecial_west&S_RIVER || ttype_west==T_OCEAN));
+      tileno = INDEX_NSEW(tspecial_near[DIR8_NORTH] & S_RIVER
+			  || ttype_near[DIR8_NORTH] == T_OCEAN,
+			  tspecial_near[DIR8_SOUTH] & S_RIVER
+			  || ttype_near[DIR8_SOUTH] == T_OCEAN,
+			  tspecial_near[DIR8_EAST] & S_RIVER
+			  || ttype_near[DIR8_EAST] == T_OCEAN,
+			  tspecial_near[DIR8_WEST] & S_RIVER
+			  || ttype_near[DIR8_WEST] == T_OCEAN);
       *sprs++=sprites.tx.spec_river[tileno];
     }
 
     if (ttype == T_OCEAN) {
-      if(tspecial_north&S_RIVER || ttype_north==T_RIVER)
-	*sprs++ = sprites.tx.river_outlet[DIR_NORTH];
-      if(tspecial_west&S_RIVER || ttype_west==T_RIVER)
-	*sprs++ = sprites.tx.river_outlet[DIR_WEST];
-      if(tspecial_south&S_RIVER || ttype_south==T_RIVER)
-	*sprs++ = sprites.tx.river_outlet[DIR_SOUTH];
-      if(tspecial_east&S_RIVER || ttype_east==T_RIVER)
-	*sprs++ = sprites.tx.river_outlet[DIR_EAST];
+      int dir8;
+
+      for (dir8 = 0; dir8 < 8; dir8++) {
+	if (!DIR_IS_CARDINAL(dir8)) {
+	  continue;
+	}
+	if (tspecial_near[dir8] & S_RIVER || ttype_near[dir8] == T_RIVER) {
+	  *sprs++ = sprites.tx.river_outlet[dir8_to_dir4(dir8)];
+	}
+      }
     }
   } else {
     *solid_bg = 1;
@@ -1263,44 +1265,42 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   /* put coasts */
   if (ttype == T_OCEAN) {
     for (i = 0; i < 4; i++) {
-      int ttype_adj[3];
-      int array_index;
+      int array_index, dir;
+
       switch (i) {
-      case 0: /* up */
-	ttype_adj[0] = ttype_west;
-	ttype_adj[1] = ttype_north_west;
-	ttype_adj[2] = ttype_north;
+      case 0:			/* up */
+	dir = DIR8_NORTHWEST;
 	break;
-      case 1: /* down */
-	ttype_adj[0] = ttype_east;
-	ttype_adj[1] = ttype_south_east;
-	ttype_adj[2] = ttype_south;
+      case 1:			/* down */
+	dir = DIR8_SOUTHEAST;
 	break;
-      case 2: /* left */
-	ttype_adj[0] = ttype_south;
-	ttype_adj[1] = ttype_south_west;
-	ttype_adj[2] = ttype_west;
+      case 2:			/* left */
+	dir = DIR8_SOUTHWEST;
 	break;
-      case 3: /* right*/
-	ttype_adj[0] = ttype_north;
-	ttype_adj[1] = ttype_north_east;
-	ttype_adj[2] = ttype_east;
+      case 3:			/* right */
+	dir = DIR8_NORTHEAST;
 	break;
       default:
 	abort();
       }
 
-      array_index = (ttype_adj[0] != T_OCEAN ? 1 : 0)
-	+  (ttype_adj[1] != T_OCEAN ? 2 : 0)
-	+  (ttype_adj[2] != T_OCEAN ? 4 : 0);
+      array_index = (ttype_near[DIR_CCW(dir)] != T_OCEAN ? 1 : 0)
+	  + (ttype_near[dir] != T_OCEAN ? 2 : 0)
+	  + (ttype_near[DIR_CW(dir)] != T_OCEAN ? 4 : 0);
       coasts[i] = sprites.tx.coast_cape_iso[array_index][i];
     }
   }
 
-  dither[0] = get_dither(ttype, tile_is_known(x, y-1) ? ttype_north : T_UNKNOWN);
-  dither[1] = get_dither(ttype, tile_is_known(x, y+1) ? ttype_south : T_UNKNOWN);
-  dither[2] = get_dither(ttype, tile_is_known(x+1, y) ? ttype_east : T_UNKNOWN);
-  dither[3] = get_dither(ttype, tile_is_known(x-1, y) ? ttype_west : T_UNKNOWN);
+  for (dir = 0; dir < 4; dir++) {
+    dither[dir] = get_dither(ttype, T_UNKNOWN);
+  }
+  adjc_dir_iterate(x, y, x1, y1, dir8) {
+    if (!DIR_IS_CARDINAL(dir8) || !tile_is_known(x1, y1)) {
+      continue;
+    }
+
+    dither[dir8_to_dir4(dir8)] = get_dither(ttype, ttype_near[dir8]);
+  } adjc_dir_iterate_end;
 
   return sprs - save_sprs;
 }
@@ -1325,13 +1325,12 @@ The sprites are drawn in the following order:
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 			   int citymode, int *solid_bg, struct player **pplayer)
 {
-  int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
-  int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
-  int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
-  int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west;
+  int ttype, ttype_near[8];
+  int tspecial, tspecial_near[8];
   int rail_card_tileno=0, rail_semi_tileno=0, road_card_tileno=0, road_semi_tileno=0;
   int rail_card_count=0, rail_semi_count=0, road_card_count=0, road_semi_count=0;
 
+  int dir;
   int tileno;
   struct tile *ptile;
   struct Sprite *mysprite;
@@ -1344,9 +1343,10 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   *solid_bg = 0;
   *pplayer = NULL;
 
+  assert(is_normal_map_pos(abs_x0, abs_y0));
   ptile=map_get_tile(abs_x0, abs_y0);
 
-  if(abs_y0>=map.ysize || ptile->known == TILE_UNKNOWN) {
+  if (ptile->known == TILE_UNKNOWN) {
     return 0;
   }
 
@@ -1373,53 +1373,36 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   }
 
   ttype=map_get_terrain(abs_x0, abs_y0);
-  ttype_east=map_get_terrain(abs_x0+1, abs_y0);
-  ttype_west=map_get_terrain(abs_x0-1, abs_y0);
+  for (dir = 0; dir < 8; dir++) {
+    int x, y;
 
-  /* make north and south pole seamless: */
-  if(abs_y0==0) {
-    ttype_north=ttype;
-    ttype_north_east=ttype_east;
-    ttype_north_west=ttype_west;
-  } else {
-    ttype_north=map_get_terrain(abs_x0, abs_y0-1);
-    ttype_north_east=map_get_terrain(abs_x0+1, abs_y0-1);
-    ttype_north_west=map_get_terrain(abs_x0-1, abs_y0-1);
-  }
-  if(abs_y0==map.ysize-1) {
-    ttype_south=ttype;
-    ttype_south_east=ttype_east;
-    ttype_south_west=ttype_west;
-  } else {
-    ttype_south=map_get_terrain(abs_x0, abs_y0+1);
-    ttype_south_east=map_get_terrain(abs_x0+1, abs_y0+1);
-    ttype_south_west=map_get_terrain(abs_x0-1, abs_y0+1);
+    /* nearest_real_pos is used to make the poles seamless */
+    SAFE_MAPSTEP(x, y, abs_x0, abs_y0, dir);
+    ttype_near[dir] = map_get_terrain(x, y);
   }
 
-  /* map_get_special() returns S_NO_SPECIAL past poles anyway */
+  /* make sure that S_NO_SPECIAL is set past poles */
   tspecial=map_get_special(abs_x0, abs_y0);
-  tspecial_north=map_get_special(abs_x0, abs_y0-1);
-  tspecial_east=map_get_special(abs_x0+1, abs_y0);
-  tspecial_south=map_get_special(abs_x0, abs_y0+1);
-  tspecial_west=map_get_special(abs_x0-1, abs_y0);
-  tspecial_north_east=map_get_special(abs_x0+1, abs_y0-1);
-  tspecial_south_east=map_get_special(abs_x0+1, abs_y0+1);
-  tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
-  tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
+  for (dir = 0; dir < 8; dir++) {
+    tspecial_near[dir] = S_NO_SPECIAL;
+  }
+  adjc_dir_iterate(abs_x0, abs_y0, x, y, dir) {
+    tspecial_near[dir] = map_get_special(x, y);
+  } adjc_dir_iterate_end;
 
   if(map.is_earth &&
      abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
     mysprite = sprites.tx.denmark[abs_y0-den_y][abs_x0-34];
   } else {
-    tileno = INDEX_NSEW((ttype_north==ttype),
-			(ttype_south==ttype),
-			(ttype_east==ttype),	
-			(ttype_west==ttype));
+    tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == ttype,
+			ttype_near[DIR8_SOUTH] == ttype,
+			ttype_near[DIR8_EAST] == ttype,
+			ttype_near[DIR8_WEST] == ttype);
     if(ttype==T_RIVER) {
-      tileno |= INDEX_NSEW((ttype_north==T_OCEAN),
-			   (ttype_south==T_OCEAN),
-			   (ttype_east==T_OCEAN),
-			   (ttype_west==T_OCEAN));
+      tileno |= INDEX_NSEW(ttype_near[DIR8_NORTH] == T_OCEAN,
+			   ttype_near[DIR8_SOUTH] == T_OCEAN,
+			   ttype_near[DIR8_EAST] == T_OCEAN,
+			   ttype_near[DIR8_WEST] == T_OCEAN);
     }
     mysprite = get_tile_type(ttype)->sprite[tileno];
   }
@@ -1428,32 +1411,42 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   else *solid_bg = 1;
 
   if(ttype==T_OCEAN && draw_terrain) {
-    tileno = INDEX_NSEW((ttype_north==T_OCEAN && ttype_east==T_OCEAN && 
-                         ttype_north_east!=T_OCEAN),
-                        (ttype_south==T_OCEAN && ttype_west==T_OCEAN && 
-                         ttype_south_west!=T_OCEAN),
-                        (ttype_east==T_OCEAN && ttype_south==T_OCEAN && 
-                         ttype_south_east!=T_OCEAN),
-                        (ttype_north==T_OCEAN && ttype_west==T_OCEAN && 
-                         ttype_north_west!=T_OCEAN));
+    int dir8;
+
+    tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_OCEAN
+			&& ttype_near[DIR8_EAST] == T_OCEAN
+			&& ttype_near[DIR8_NORTHEAST] != T_OCEAN,
+			ttype_near[DIR8_SOUTH] == T_OCEAN
+			&& ttype_near[DIR8_WEST] == T_OCEAN
+			&& ttype_near[DIR8_SOUTHWEST] != T_OCEAN,
+			ttype_near[DIR8_EAST] == T_OCEAN
+			&& ttype_near[DIR8_SOUTH] == T_OCEAN
+			&& ttype_near[DIR8_SOUTHEAST] != T_OCEAN,
+			ttype_near[DIR8_NORTH] == T_OCEAN
+			&& ttype_near[DIR8_WEST] == T_OCEAN
+			&& ttype_near[DIR8_NORTHWEST] != T_OCEAN);
     if(tileno!=0)
       *sprs++ = sprites.tx.coast_cape[tileno];
 
-    if(tspecial_north&S_RIVER || ttype_north==T_RIVER)
-      *sprs++ = sprites.tx.river_outlet[DIR_NORTH];
-    if(tspecial_west&S_RIVER || ttype_west==T_RIVER)
-      *sprs++ = sprites.tx.river_outlet[DIR_WEST];
-    if(tspecial_south&S_RIVER || ttype_south==T_RIVER)
-      *sprs++ = sprites.tx.river_outlet[DIR_SOUTH];
-    if(tspecial_east&S_RIVER || ttype_east==T_RIVER)
-      *sprs++ = sprites.tx.river_outlet[DIR_EAST];
+    for (dir8 = 0; dir8 < 8; dir8++) {
+      if (!DIR_IS_CARDINAL(dir8)) {
+	continue;
+      }
+      if (tspecial_near[dir8] & S_RIVER || ttype_near[dir8] == T_RIVER) {
+	*sprs++ = sprites.tx.river_outlet[dir8_to_dir4(dir8)];
+      }
+    }
   }
 
   if (tspecial&S_RIVER && draw_terrain) {
-    tileno = INDEX_NSEW((tspecial_north&S_RIVER || ttype_north==T_OCEAN),
-			(tspecial_south&S_RIVER || ttype_south==T_OCEAN),
-			(tspecial_east&S_RIVER  || ttype_east==T_OCEAN),
-			(tspecial_west&S_RIVER  || ttype_west== T_OCEAN));
+    tileno = INDEX_NSEW(tspecial_near[DIR8_NORTH] & S_RIVER
+			|| ttype_near[DIR8_NORTH] == T_OCEAN,
+			tspecial_near[DIR8_SOUTH] & S_RIVER
+			|| ttype_near[DIR8_SOUTH] == T_OCEAN,
+			tspecial_near[DIR8_EAST] & S_RIVER
+			|| ttype_near[DIR8_EAST] == T_OCEAN,
+			tspecial_near[DIR8_WEST] & S_RIVER
+			|| ttype_near[DIR8_WEST] == T_OCEAN);
     *sprs++=sprites.tx.spec_river[tileno];
   }
 
@@ -1464,32 +1457,32 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 
   if(((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) && draw_roads_rails) {
     int n, s, e, w;
-    
-    n = BOOL_VAL(tspecial_north&S_RAILROAD);
-    s = BOOL_VAL(tspecial_south&S_RAILROAD);
-    e = BOOL_VAL(tspecial_east&S_RAILROAD);
-    w = BOOL_VAL(tspecial_west&S_RAILROAD);
+
+    n = BOOL_VAL(tspecial_near[DIR8_NORTH] & S_RAILROAD);
+    s = BOOL_VAL(tspecial_near[DIR8_SOUTH] & S_RAILROAD);
+    e = BOOL_VAL(tspecial_near[DIR8_EAST] & S_RAILROAD);
+    w = BOOL_VAL(tspecial_near[DIR8_WEST] & S_RAILROAD);
     rail_card_count = n + s + e + w;
     rail_card_tileno = INDEX_NSEW(n,s,e,w);
     
-    n = BOOL_VAL(tspecial_north&S_ROAD);
-    s = BOOL_VAL(tspecial_south&S_ROAD);
-    e = BOOL_VAL(tspecial_east&S_ROAD);
-    w = BOOL_VAL(tspecial_west&S_ROAD);
+    n = BOOL_VAL(tspecial_near[DIR8_NORTH] & S_ROAD);
+    s = BOOL_VAL(tspecial_near[DIR8_SOUTH] & S_ROAD);
+    e = BOOL_VAL(tspecial_near[DIR8_EAST] & S_ROAD);
+    w = BOOL_VAL(tspecial_near[DIR8_WEST] & S_ROAD);
     road_card_count = n + s + e + w;
     road_card_tileno = INDEX_NSEW(n,s,e,w);
     
-    n = BOOL_VAL(tspecial_north_east&S_RAILROAD);
-    s = BOOL_VAL(tspecial_south_west&S_RAILROAD);
-    e = BOOL_VAL(tspecial_south_east&S_RAILROAD);
-    w = BOOL_VAL(tspecial_north_west&S_RAILROAD);
+    n = BOOL_VAL(tspecial_near[DIR8_NORTHEAST] & S_RAILROAD);
+    s = BOOL_VAL(tspecial_near[DIR8_SOUTHWEST] & S_RAILROAD);
+    e = BOOL_VAL(tspecial_near[DIR8_SOUTHEAST] & S_RAILROAD);
+    w = BOOL_VAL(tspecial_near[DIR8_NORTHWEST] & S_RAILROAD);
     rail_semi_count = n + s + e + w;
     rail_semi_tileno = INDEX_NSEW(n,s,e,w);
     
-    n = BOOL_VAL(tspecial_north_east&S_ROAD);
-    s = BOOL_VAL(tspecial_south_west&S_ROAD);
-    e = BOOL_VAL(tspecial_south_east&S_ROAD);
-    w = BOOL_VAL(tspecial_north_west&S_ROAD);
+    n = BOOL_VAL(tspecial_near[DIR8_NORTHEAST] & S_ROAD);
+    s = BOOL_VAL(tspecial_near[DIR8_SOUTHWEST] & S_ROAD);
+    e = BOOL_VAL(tspecial_near[DIR8_SOUTHEAST] & S_ROAD);
+    w = BOOL_VAL(tspecial_near[DIR8_NORTHWEST] & S_ROAD);
     road_semi_count = n + s + e + w;
     road_semi_tileno = INDEX_NSEW(n,s,e,w);
 
@@ -1573,10 +1566,22 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   if(ptile->known==TILE_KNOWN_FOGGED && draw_fog_of_war) *sprs++ = sprites.tx.fog;
 
   if(!citymode) {
-    tileno = INDEX_NSEW((tile_is_known(abs_x0, abs_y0-1)==TILE_UNKNOWN),
-                        (tile_is_known(abs_x0, abs_y0+1)==TILE_UNKNOWN),
-                        (tile_is_known(abs_x0+1, abs_y0)==TILE_UNKNOWN),
-                        (tile_is_known(abs_x0-1, abs_y0)==TILE_UNKNOWN));
+    /* 
+     * We're looking to find the INDEX_NSEW for the directions that
+     * are unknown
+     */
+    int known[4];
+    memset(known, 0, sizeof(known));
+    adjc_dir_iterate(abs_x0, abs_y0, x, y, dir8) {
+      if (!DIR_IS_CARDINAL(dir8))
+	continue;
+      known[dir8_to_dir4(dir8)] = (tile_is_known(x, y) != TILE_UNKNOWN);
+    } adjc_dir_iterate_end;
+
+    tileno =
+	INDEX_NSEW(!known[DIR4_NORTH], !known[DIR4_SOUTH],
+		   !known[DIR4_EAST], !known[DIR4_WEST]);
+
     if (tileno) 
       *sprs++ = sprites.tx.darkness[tileno];
   }

@@ -214,11 +214,54 @@ void reset_move_costs(int x, int y);
 (    (dest_x) = DIR_DX[(dir)],      	\
      (dest_y) = DIR_DY[(dir)])
 
+/*
+ * Returns true if the step yields a new valid map position. If yes
+ * (dest_x, dest_y) is set to the new map position.
+ */
 #define MAPSTEP(dest_x, dest_y, src_x, src_y, dir)	\
 (    DIRSTEP(dest_x, dest_y, dir),			\
      (dest_x) += (src_x),		   		\
      (dest_y) += (src_y),   				\
      normalize_map_pos(&(dest_x), &(dest_y)))
+
+/*
+ * Sets (dest_x, dest_y) to the new map position or a real map
+ * position near. In most cases it is better to use MAPSTEP instead of
+ * SAFE_MAPSTEP.
+ */
+#define SAFE_MAPSTEP(dest_x, dest_y, src_x, src_y, dir)	\
+(    DIRSTEP(dest_x, dest_y, dir),			\
+     (dest_x) += (src_x),		   		\
+     (dest_y) += (src_y),   				\
+     nearest_real_pos(&(dest_x), &(dest_y)))
+
+/*
+ * Returns the next direction clock-wise
+ */
+#define DIR_CW(dir) \
+  ((dir)==DIR8_WEST ? DIR8_NORTHWEST : \
+   ((dir)==DIR8_EAST ? DIR8_SOUTHEAST : \
+    ((dir)==DIR8_NORTH ? DIR8_NORTHEAST : \
+     ((dir)==DIR8_SOUTH ? DIR8_SOUTHWEST : \
+      ((dir)==DIR8_NORTHWEST ? DIR8_NORTH : \
+       ((dir)==DIR8_NORTHEAST ? DIR8_EAST : \
+        ((dir)==DIR8_SOUTHWEST ? DIR8_WEST : \
+         ((dir)==DIR8_SOUTHEAST ? DIR8_SOUTH : \
+         (dir)/0))))))))
+
+/*
+ * Returns the next direction counter-clock-wise
+ */
+#define DIR_CCW(dir) \
+  ((dir)==DIR8_WEST ? DIR8_SOUTHWEST : \
+   ((dir)==DIR8_EAST ? DIR8_NORTHEAST : \
+    ((dir)==DIR8_NORTH ? DIR8_NORTHWEST : \
+     ((dir)==DIR8_SOUTH ? DIR8_SOUTHEAST : \
+      ((dir)==DIR8_NORTHWEST ? DIR8_WEST : \
+       ((dir)==DIR8_NORTHEAST ? DIR8_NORTH : \
+        ((dir)==DIR8_SOUTHWEST ? DIR8_SOUTH : \
+         ((dir)==DIR8_SOUTHEAST ? DIR8_EAST : \
+         (dir)/0))))))))
 
 struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);

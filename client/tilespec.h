@@ -70,8 +70,12 @@ struct unit *get_drawable_unit(int x, int y, int citymode);
 #define NUM_TILES_HP_BAR 11
 #define NUM_TILES_DIGITS 10
 
-enum Directions { DIR_NORTH=0, DIR_SOUTH, DIR_EAST, DIR_WEST };
+/* This could be moved to common/map.h if there's more use for it. */
+enum direction4 {
+  DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
+};
 
+enum direction4 dir8_to_dir4(enum direction8 dir8);
 
 struct named_sprites {
   struct Sprite
@@ -165,7 +169,7 @@ struct named_sprites {
       *fog,
       *spec_river[NUM_DIRECTION_NSEW],
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */
-      *river_outlet[4],		/* indexed by enum Directions */
+      *river_outlet[4],		/* indexed by enum direction4 */
       /* for isometric */
       *spec_forest[NUM_DIRECTION_NSEW],
       *spec_mountain[NUM_DIRECTION_NSEW],
