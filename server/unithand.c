@@ -665,7 +665,7 @@ void handle_unit_enter_hut(struct unit *punit)
 void wakeup_neighbor_sentries(struct player *pplayer,int cent_x,int cent_y)
 {
   int x,y;
-  struct unit *punit;
+/*  struct unit *punit; The unit_list_iterate defines punit locally. -- Syela */
 
   for (x = cent_x-1;x <= cent_x+1;x++)
     for (y = cent_y-1;y <= cent_y+1;y++)
