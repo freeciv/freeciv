@@ -12,13 +12,13 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-05 17:07+0100\n"
+"PO-Revision-Date: 2005-01-08 12:36+0100\n"
 "Last-Translator: Dušan Hokův <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 
 #: common/city.c:266
 msgid "?redundant:*"
@@ -2115,7 +2115,7 @@ msgstr "serverid"
 
 #: server/commands.c:362
 msgid "Simply returns the id of the server."
-msgstr ""
+msgstr "Jednoduše vrátí id serveru."
 
 #: server/connecthand.c:84
 #, c-format
@@ -4362,7 +4362,7 @@ msgstr ""
 
 #: server/settings.c:625
 msgid "civstyle is an obsolete setting"
-msgstr ""
+msgstr "civstyle je zastaralé nastavení"
 
 #: server/settings.c:626
 msgid ""
@@ -5092,7 +5092,7 @@ msgstr "Zahajuji hru."
 #: server/srv_main.c:826
 #, c-format
 msgid "Game: request for unknown report (type %d)"
-msgstr ""
+msgstr "Hra: požadavek pro neznámé hlášení (typ %d)"
 
 #: server/srv_main.c:889
 #, c-format
@@ -5740,7 +5740,7 @@ msgstr ""
 
 #: server/stdinhand.c:2195
 msgid "Can only use this command once game has begun."
-msgstr ""
+msgstr "Tento příkaz lze použít jednou po zahájení hry."
 
 #: server/stdinhand.c:2222 server/stdinhand.c:2253
 #, c-format
@@ -7123,7 +7123,7 @@ msgstr "?Supported (units):Podp"
 
 #: client/cityrepdata.c:446
 msgid "Number of units supported"
-msgstr ""
+msgstr "Počet poporovaných jednotek"
 
 #: client/cityrepdata.c:447
 msgid "?Present (units):Prs"
@@ -7336,7 +7336,7 @@ msgstr ""
 
 #: client/civclient.c:243 client/civclient.c:256
 msgid "Try using --help.\n"
-msgstr ""
+msgstr "Zkuste použít --help.\n"
 
 #: client/civclient.c:254
 #, c-format
@@ -7371,7 +7371,7 @@ msgstr "?embassy:Ano"
 
 #: client/climisc.c:207
 msgid "?embassy:With Us"
-msgstr ""
+msgstr "?embassy:S námi"
 
 #: client/climisc.c:210
 msgid "?embassy:Contact"
@@ -7383,15 +7383,15 @@ msgstr "?embassy:Bez kontaktu"
 
 #: client/climisc.c:223
 msgid "?vision:Both"
-msgstr ""
+msgstr "?vision:Oba"
 
 #: client/climisc.c:225
 msgid "?vision:To Them"
-msgstr ""
+msgstr "?vision:Jim"
 
 #: client/climisc.c:228
 msgid "?vision:To Us"
-msgstr ""
+msgstr "?vision:Nám"
 
 #: client/climisc.c:244 client/climisc.c:251
 #, c-format
@@ -7556,11 +7556,11 @@ msgstr ""
 
 #: client/control.c:992
 msgid "Game: Only nuclear units can do this."
-msgstr ""
+msgstr "Hra: Toto může jen jaderná střela."
 
 #: client/control.c:1009
 msgid "Game: Only paratrooper units can do this."
-msgstr ""
+msgstr "Hra: Toto mohou jen výsadkáři."
 
 #: client/control.c:1432
 msgid "Game: Too far for this unit."
@@ -8126,6 +8126,8 @@ msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
 msgstr ""
+"Trasy delší než 99 tahů nejsou podporovány.\n"
+"Nahlašte tento bug prosím na bugs@freeciv.org."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -8723,7 +8725,7 @@ msgstr "?Player_dlg:Host"
 
 #: client/plrdlg_common.c:236
 msgid "?Player_dlg:Idle"
-msgstr ""
+msgstr "?Player_dlg:Nečinný"
 
 #: client/plrdlg_common.c:237 client/gui-gtk/plrdlg.c:143
 msgid "Ping"
@@ -9103,7 +9105,7 @@ msgstr "?dys/hrs:%02dd %02dh"
 
 #: client/text.c:671
 msgid "?duration:overflow"
-msgstr ""
+msgstr "?duration:pretečení"
 
 #: client/text.c:690
 #, c-format
@@ -9621,7 +9623,7 @@ msgstr "_Rozpustit jednotku"
 
 #: client/gui-gtk-2.0/citydlg.c:1949
 msgid "_Load unit"
-msgstr ""
+msgstr "_Naložit jednotku"
 
 #: client/gui-gtk-2.0/citydlg.c:1959
 msgid "_Unload unit"
@@ -10516,7 +10518,7 @@ msgstr "Konec tahu"
 
 #: client/gui-gtk-2.0/gui_main.c:855
 msgid "Shift+Return"
-msgstr ""
+msgstr "Shift+Enter"
 
 #: client/gui-gtk-2.0/gui_main.c:887
 msgid "_Map"
@@ -10570,7 +10572,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1494
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Opravdu to chcete ukončit?"
 
 #: client/gui-gtk-2.0/gui_stuff.c:440
 #, c-format
@@ -10581,7 +10583,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_stuff.c:440
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-gtk/happiness.c:113
 #: client/gui-mui/citydlg.c:1374 client/gui-mui/citydlg.c:1511
@@ -10855,7 +10857,7 @@ msgstr "žádné extra / %d"
 #: client/gui-xaw/helpdlg.c:1007 client/gui-xaw/helpdlg.c:1025
 #: client/gui-xaw/helpdlg.c:1049
 msgid "n/a"
-msgstr ""
+msgstr "neznámo"
 
 #: client/gui-gtk-2.0/helpdlg.c:1047 client/gui-gtk/helpdlg.c:978
 #: client/gui-win32/helpdlg.c:605 client/gui-xaw/helpdlg.c:1012
@@ -10923,7 +10925,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:231
 msgid "Leaving a local game will end it!"
-msgstr ""
+msgstr "Opuštění lokální hry ji ukončí!"
 
 #: client/gui-gtk-2.0/menu.c:628 client/gui-gtk/menu.c:584
 #: client/gui-gtk/menu.c:586 client/gui-gtk/menu.c:588
@@ -11272,7 +11274,7 @@ msgstr "_Vyložit"
 #: client/gui-gtk-2.0/menu.c:776 client/gui-gtk/menu.c:725
 #: client/gui-win32/menu.c:374
 msgid "Wake up o_thers"
-msgstr ""
+msgstr "Probudit os_tatní"
 
 #: client/gui-gtk-2.0/menu.c:780 client/gui-gtk-2.0/menu.c:1415
 #: client/gui-gtk/menu.c:729 client/gui-gtk/menu.c:1259
@@ -11337,7 +11339,7 @@ msgstr ""
 #: client/gui-mui/gui_main.c:272 client/gui-mui/mapclass.c:1692
 #: client/gui-win32/menu.c:390 client/gui-xaw/menu.c:207
 msgid "Explode Nuclear"
-msgstr ""
+msgstr "Odpálit jadernou střelu"
 
 #: client/gui-gtk-2.0/menu.c:808 client/gui-gtk/menu.c:757
 #: client/gui-win32/menu.c:392
@@ -11586,7 +11588,7 @@ msgstr "_Opevnit"
 
 #: client/gui-gtk-2.0/menu.c:1407 client/gui-gtk/menu.c:1252
 msgid "_Paradrop"
-msgstr ""
+msgstr "_Výsadek"
 
 #: client/gui-gtk-2.0/menu.c:1413 client/gui-gtk/menu.c:1257
 msgid "_Auto Attack"
@@ -11913,7 +11915,7 @@ msgstr ""
 #: client/gui-gtk-2.0/repodlgs.c:936 client/gui-gtk/repodlgs.c:842
 #: client/gui-mui/repodlgs.c:665 client/gui-win32/repodlgs.c:660
 msgid "In-Prog"
-msgstr ""
+msgstr "Probíhá"
 
 #: client/gui-gtk-2.0/repodlgs.c:937 client/gui-gtk/repodlgs.c:842
 #: client/gui-mui/repodlgs.c:666 client/gui-win32/repodlgs.c:660
@@ -12123,7 +12125,7 @@ msgstr "Přítomné jednotky"
 
 #: client/gui-gtk/citydlg.c:1096
 msgid "Acti_vate present units"
-msgstr ""
+msgstr "Akti_vovat přítomné jednotky"
 
 #: client/gui-gtk/citydlg.c:1102
 msgid "_Sentry idle units"
@@ -13505,7 +13507,7 @@ msgstr ""
 
 #: client/gui-mui/gui_main.c:258 client/gui-xaw/menu.c:190
 msgid "Wake up others"
-msgstr ""
+msgstr "Probudit ostatní"
 
 #: client/gui-mui/gui_main.c:260 client/gui-mui/mapclass.c:1684
 #: client/gui-win32/menu.c:376 client/gui-win32/menu.c:1239
@@ -13721,7 +13723,7 @@ msgstr "Jednotka %s"
 #: client/gui-mui/mapclass.c:1637
 #, c-format
 msgid "Tile %s"
-msgstr ""
+msgstr "Dlaždice %s"
 
 #: client/gui-mui/mapclass.c:1650 client/gui-win32/messagewin.c:151
 #: data/Freeciv.in:3329
@@ -13785,7 +13787,7 @@ msgstr ""
 #: client/gui-mui/messagedlg.c:102 client/gui-win32/messagedlg.c:140
 #: client/gui-win32/messagedlg.c:144
 msgid "Pop:"
-msgstr ""
+msgstr "Pop:"
 
 #: client/gui-mui/messagewin.c:209
 msgid "_Goto Location"
@@ -13975,7 +13977,7 @@ msgstr "Auto-útočit proti helikoptérám"
 
 #: client/gui-win32/cityrep.c:464
 msgid "Available To Build"
-msgstr ""
+msgstr "Dostupné stavby"
 
 #: client/gui-win32/cityrep.c:684
 msgid "Game: Select a unit or improvement to change production from."
@@ -14232,7 +14234,7 @@ msgstr "PNG soubor nemá paletu: %s"
 
 #: client/gui-xaw/gui_main.c:302
 msgid "No version number in resources."
-msgstr ""
+msgstr "Číslo verze ve zdrojích chybí."
 
 #: client/gui-xaw/gui_main.c:303
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
@@ -14430,22 +14432,22 @@ msgstr "Úroveň: %s.<br>"
 #: manual/civmanual.c:146
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "Kategorie: %s.<br>"
 
 #: manual/civmanual.c:149
 #, c-format
 msgid "Can only be used in server console. "
-msgstr ""
+msgstr "Může být použito pouze v serverové konzoli. "
 
 #: manual/civmanual.c:152
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "Může být změněno v průběhu hry. "
 
 #: manual/civmanual.c:154
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "<b>Nemůže</b> být změněno v průběhu hry. "
 
 #: manual/civmanual.c:159
 #, c-format
@@ -14462,6 +14464,8 @@ msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Hodnota nastavena na %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:168
 #, c-format
@@ -14478,6 +14482,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Výchozí: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:181
 #, c-format
@@ -14485,6 +14491,8 @@ msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Hodnota nastavena na %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:190
 #, c-format
@@ -14492,6 +14500,8 @@ msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s serverové příkazy</h1>\n"
+"\n"
 
 #: manual/civmanual.c:196
 #, fuzzy, c-format
@@ -14515,6 +14525,8 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">Úroveň: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:212
 #, c-format
@@ -14531,11 +14543,13 @@ msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Freeciv %s nápověda k terénu</h1>\n"
+"\n"
 
 #: manual/civmanual.c:221
 #, c-format
 msgid "<table border=1><tr><th>Terrain</th>"
-msgstr ""
+msgstr "<table border=1><tr><th>Terén</th>"
 
 #: manual/civmanual.c:222
 #, c-format
@@ -14570,42 +14584,42 @@ msgstr "<th>Transformovat na</th>"
 #: manual/civmanual.c:265
 #, c-format
 msgid "</table><br><br><br><table border=1>"
-msgstr ""
+msgstr "</table><br><br><br><table border=1>"
 
 #: manual/civmanual.c:266
 #, c-format
 msgid "<caption>Time to perform action</caption>"
-msgstr ""
+msgstr "<caption>Doba na provedení akce</caption>"
 
 #: manual/civmanual.c:267
 #, c-format
 msgid "<tr><th>Terrain</th>\n"
-msgstr ""
+msgstr "<tr><th>Terén</th>\n"
 
 #: manual/civmanual.c:268
 #, c-format
 msgid "<th>Road</th><th>Irrigation</th>\n"
-msgstr ""
+msgstr "<th>Cesta</th><th>Závlaha</th>\n"
 
 #: manual/civmanual.c:269
 #, c-format
 msgid "<th>Mining</th><th>Rail</th>\n"
-msgstr ""
+msgstr "<th>Doly</th><th>Železnice</th>\n"
 
 #: manual/civmanual.c:270
 #, c-format
 msgid "<th>Airbase</th><th>Fortress</th>\n"
-msgstr ""
+msgstr "<th>Letiště</th><th>Opevnění</th>\n"
 
 #: manual/civmanual.c:271
 #, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
-msgstr ""
+msgstr "<th>Odstranit znečištění</th><th>Odstranit radioaktivní spad</th>\n"
 
 #: manual/civmanual.c:272
 #, c-format
 msgid "<th>Transform</th></tr>\n"
-msgstr ""
+msgstr "<th>Transformovat</th></tr>\n"
 
 #: manual/civmanual.c:298
 #, c-format
@@ -14617,7 +14631,7 @@ msgstr ""
 #: manual/civmanual.c:311 manual/civmanual.c:340
 #, c-format
 msgid "<tr><td>Cost: <td>%d</tr>\n"
-msgstr ""
+msgstr "<tr><td>Stojí: <td>%d</tr>\n"
 
 #: manual/civmanual.c:312 manual/civmanual.c:341
 #, c-format
@@ -15348,7 +15362,7 @@ msgstr ""
 
 #: data/helpdata.txt:558
 msgid "  - Messages starting with '.' will be sent only to all your allies."
-msgstr ""
+msgstr "  - Zprávy začínající '.' budou poslány pouze vašim spojencům."
 
 #: data/helpdata.txt:563
 msgid "Worklist Editor"
@@ -20316,7 +20330,7 @@ msgstr ""
 #: data/default/units.ruleset:590 data/civ2/units.ruleset:449
 #: data/civ1/units.ruleset:426 data/history/units.ruleset:516
 msgid "Riflemen"
-msgstr ""
+msgstr "Pěchota"
 
 #: data/default/units.ruleset:618 data/civ2/units.ruleset:477
 #: data/civ1/units.ruleset:454 data/history/units.ruleset:544
