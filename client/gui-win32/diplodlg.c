@@ -125,6 +125,7 @@ static void diplomacy_dialog_close(struct Diplomacy_dialog *pdialog)
 
   pa.plrno0=game.player_idx;
   pa.plrno1=pdialog->treaty.plr1->player_no;
+  pa.plrno_from=pa.plrno0;
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CANCEL_MEETING, 
                              &pa);
   DestroyWindow(pdialog->mainwin);
