@@ -289,16 +289,19 @@ static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 static struct unit *find_best_air_unit_to_refuel(struct player *pplayer, 
 						 int x, int y, bool missile)
 {
-  struct unit *best_unit=NULL;
+  struct unit *best_unit = NULL;
+
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if ((unit_owner(punit) == pplayer) && is_air_unit(punit) && 
-        (!missile || unit_flag(punit, F_MISSILE))) {
+    if (unit_owner(punit) == pplayer
+        && is_air_unit(punit)
+        && (!missile || unit_flag(punit, F_MISSILE))) {
       /* We must check that it isn't already refuelled. */ 
       if (punit->fuel < unit_type(punit)->fuel) { 
-        if (!best_unit) 
-          best_unit=punit;
-        else 
-          best_unit=choose_more_important_refuel_target(best_unit, punit);
+        if (!best_unit) {
+          best_unit = punit;
+        } else {
+          best_unit = choose_more_important_refuel_target(best_unit, punit);
+        }
       }
     }
   } unit_list_iterate_end;
@@ -306,7 +309,8 @@ static struct unit *find_best_air_unit_to_refuel(struct player *pplayer,
 }
 
 /***************************************************************************
-...
+  Refuel fuel-based units up to carrying capacity of carriers on the
+  same tile.
 ****************************************************************************/
 static void refuel_air_units_from_carriers(struct player *pplayer)
 {
@@ -317,58 +321,48 @@ static void refuel_air_units_from_carriers(struct player *pplayer)
   
   unit_list_init(&carriers);
   unit_list_init(&missile_carriers);
-  
-  /* Temporarily use 'fuel' on Carriers and Subs to keep track
-     of numbers of supported Air Units:   --dwp */
 
+  /* Make a list of all missile and aircraft carriers. */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit, F_CARRIER)) {
       unit_list_insert(&carriers, punit);
-      punit->fuel = unit_type(punit)->transport_capacity;
     } else if (unit_flag(punit, F_MISSILE_CARRIER)) {
       unit_list_insert(&missile_carriers, punit);
-      punit->fuel = unit_type(punit)->transport_capacity;
     }
   } unit_list_iterate_end;
 
-  /* Now iterate through missile_carriers and
-   * refuel as many missiles as possible */
-
+  /* Now iterate through missile_carriers and refuel as many 
+   * missiles as possible. */
   unit_list_iterate(missile_carriers, punit) {
-    while(punit->fuel > 0) {
-      punit_to_refuel= find_best_air_unit_to_refuel(
+    int cargo_fuel = unit_type(punit)->transport_capacity;
+
+    while (cargo_fuel > 0) {
+      punit_to_refuel = find_best_air_unit_to_refuel(
           pplayer, punit->x, punit->y, TRUE /*missile */);
-      if (!punit_to_refuel)
+      if (!punit_to_refuel) {
         break; /* Didn't find any */
+      }
       punit_to_refuel->fuel = unit_type(punit_to_refuel)->fuel;
-      punit->fuel--;
+      cargo_fuel--;
     }
   } unit_list_iterate_end;
 
   /* Now refuel air units from carriers (also not yet refuelled missiles) */
-
   unit_list_iterate(carriers, punit) {
-    while(punit->fuel > 0) {
-      punit_to_refuel= find_best_air_unit_to_refuel(
+    int cargo_fuel = unit_type(punit)->transport_capacity;
+
+    while(cargo_fuel > 0) {
+      punit_to_refuel = find_best_air_unit_to_refuel(
           pplayer, punit->x, punit->y, FALSE /* any */);
-      if (!punit_to_refuel) 
-        break;
+      if (!punit_to_refuel) {
+        break; /* Didn't find any */
+      }
       punit_to_refuel->fuel = unit_type(punit_to_refuel)->fuel;
-      punit->fuel--;
+      cargo_fuel--;
     }
-  } unit_list_iterate_end;			
-
-  /* Clean up temporary use of 'fuel' on Carriers and Subs: */
-  unit_list_iterate(carriers, punit) {
-    punit->fuel = 0;
   } unit_list_iterate_end;
 
   unit_list_unlink_all(&carriers);
-
-  unit_list_iterate(missile_carriers, punit) {
-    punit->fuel = 0;
-  } unit_list_iterate_end;
-
   unit_list_unlink_all(&missile_carriers);
 }
 
