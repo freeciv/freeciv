@@ -169,6 +169,9 @@ void put_city_tile_output(struct city *pcity, int city_x, int city_y,
 void put_unit_city_overlays(struct unit *punit,
 			    struct canvas_store *pcanvas_store,
 			    int canvas_x, int canvas_y);
+void put_red_frame_tile(struct canvas_store *pcanvas_store,
+			int canvas_x, int canvas_y);
+
 void put_nuke_mushroom_pixmaps(int map_x, int map_y);
 
 void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,

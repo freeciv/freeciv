@@ -15,7 +15,6 @@
 
 #include "mapview_g.h"
 
-void pixmap_frame_tile_red(HDC hdc, int x, int y);
 void put_one_tile_full(HDC hdc, int x, int y,
 		       int canvas_x, int canvas_y, int citymode);
 void check_mapstore(void);

@@ -803,36 +803,6 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 }
 
 /**************************************************************************
-canvas_x, canvas_y is the top left corner of the pixmap.
-**************************************************************************/
-void pixmap_frame_tile_red(GdkDrawable *pm,
-			   int canvas_x, int canvas_y)
-{
-  if (is_isometric) {
-    gdk_gc_set_foreground(thick_line_gc, colors_standard[COLOR_STD_RED]);
-
-    gdk_draw_line(pm, thick_line_gc,
-		  canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y,
-		  canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
-    gdk_draw_line(pm, thick_line_gc,
-		  canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1,
-		  canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y+NORMAL_TILE_HEIGHT-1);
-    gdk_draw_line(pm, thick_line_gc,
-		  canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y+NORMAL_TILE_HEIGHT-1,
-		  canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2-1);
-    gdk_draw_line(pm, thick_line_gc,
-		  canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2-1,
-		  canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y);
-  } else {
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_RED]);
-
-    gdk_draw_rectangle(pm, fill_bg_gc, FALSE,
-		       canvas_x, canvas_y,
-		       NORMAL_TILE_WIDTH-1, NORMAL_TILE_HEIGHT-1);
-  }
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
@@ -938,9 +908,20 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
-  GdkGC *gc;
+  GdkGC *gc = NULL;
 
-  gc = (ltype == LINE_BORDER ? border_line_gc : civ_gc);
+  switch (ltype) {
+  case LINE_NORMAL:
+    gc = civ_gc;
+    break;
+  case LINE_BORDER:
+    gc = border_line_gc;
+    break;
+  case LINE_TILE_FRAME:
+    gc = thick_line_gc;
+    break;
+  }
+
   gdk_gc_set_foreground(gc, colors_standard[color]);
   gdk_draw_line(pcanvas_store->pixmap, gc,
 		start_x, start_y, start_x + dx, start_y + dy);

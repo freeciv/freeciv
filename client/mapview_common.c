@@ -733,6 +733,41 @@ void put_unit_city_overlays(struct unit *punit,
 }
 
 /****************************************************************************
+  Draw a red frame around the tile.  (canvas_x, canvas_y) is the tile origin.
+****************************************************************************/
+void put_red_frame_tile(struct canvas_store *pcanvas_store,
+			int canvas_x, int canvas_y)
+{
+  if (is_isometric) {
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+		 canvas_x + NORMAL_TILE_WIDTH / 2 - 1, canvas_y,
+		 NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2 - 1);
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+		 canvas_x + NORMAL_TILE_WIDTH - 1,
+		 canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+		 -NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 2);
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+		 canvas_x + NORMAL_TILE_WIDTH / 2 - 1,
+		 canvas_y + NORMAL_TILE_HEIGHT - 1,
+		 -(NORMAL_TILE_WIDTH / 2 - 1), -NORMAL_TILE_HEIGHT / 2);
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_TILE_FRAME,
+		 canvas_x, canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+		 NORMAL_TILE_WIDTH / 2 - 1, -(NORMAL_TILE_HEIGHT / 2 - 1));
+  } else {
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+		 canvas_x, canvas_y, NORMAL_TILE_WIDTH - 1, 0);
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+		 canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y,
+		 0, NORMAL_TILE_HEIGHT - 1);
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+		 canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT - 1);
+    gui_put_line(pcanvas_store, COLOR_STD_RED, LINE_NORMAL,
+		 canvas_x, canvas_y + NORMAL_TILE_HEIGHT - 1,
+		 NORMAL_TILE_WIDTH - 1, 0);
+  }
+}
+
+/****************************************************************************
   Animate the nuke explosion at map(x, y).
 ****************************************************************************/
 void put_nuke_mushroom_pixmaps(int map_x, int map_y)

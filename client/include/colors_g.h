@@ -28,7 +28,7 @@ enum color_std {
 };
 
 enum line_type {
-  LINE_NORMAL, LINE_BORDER
+  LINE_NORMAL, LINE_BORDER, LINE_TILE_FRAME
 };
 
 enum Display_color_type {

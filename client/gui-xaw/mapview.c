@@ -802,25 +802,6 @@ void pixmap_put_black_tile(Pixmap pm, int canvas_x, int canvas_y)
 		 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 }
 		     
-
-/**************************************************************************
-...
-**************************************************************************/
-void pixmap_frame_tile_red(Pixmap pm, int canvas_x, int canvas_y)
-{
-  XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RED]);
-
-  XDrawRectangle(display, pm, fill_bg_gc,  
-		 canvas_x, canvas_y,
-		 NORMAL_TILE_WIDTH-1, NORMAL_TILE_HEIGHT-1);
-  XDrawRectangle(display, pm, fill_bg_gc,  
-		 canvas_x+1, canvas_y+1,
-		 NORMAL_TILE_WIDTH-3, NORMAL_TILE_HEIGHT-3);
-  XDrawRectangle(display, pm, fill_bg_gc,  
-		 canvas_x+2, canvas_y+2,
-		 NORMAL_TILE_WIDTH-5, NORMAL_TILE_HEIGHT-5);
-}
-
 /**************************************************************************
 ...
 **************************************************************************/

@@ -1549,8 +1549,7 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 	if (pcity->city_map[x][y] == C_TILE_WORKER)
 	  put_city_tile_output(pcity, x, y, &store, canvas_x, canvas_y);
 	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	  pixmap_frame_tile_red(XtWindow(pdialog->map_canvas),
-				canvas_x, canvas_y);
+	  put_red_frame_tile(&store, canvas_x, canvas_y);
       }
     }
   }

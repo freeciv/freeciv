@@ -252,27 +252,6 @@ void map_expose(HDC hdc)
 } 
 
 /**************************************************************************
-
-**************************************************************************/
-void pixmap_frame_tile_red(HDC hdc, int canvas_x, int canvas_y)
-{
-  HPEN old;
-  old=SelectObject(hdc,pen_std[COLOR_STD_RED]);
-  if (is_isometric) {
-    MoveToEx(hdc, canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y, NULL);
-    LineTo(hdc, canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
-    LineTo(hdc, canvas_x+NORMAL_TILE_WIDTH/2-1,
-	   canvas_y+NORMAL_TILE_HEIGHT-1);
-    LineTo(hdc, canvas_x, canvas_y+NORMAL_TILE_HEIGHT/2-1);
-    LineTo(hdc, canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y);
-  } else {
-    mydrawrect(hdc,canvas_x,canvas_y,
-	       NORMAL_TILE_WIDTH-1,NORMAL_TILE_HEIGHT-1);
-  }  
-  SelectObject(hdc,old);
-}
-
-/**************************************************************************
 hack to ensure that mapstorebitmap is usable. 
 On win95/win98 mapstorebitmap becomes somehow invalid. 
 **************************************************************************/

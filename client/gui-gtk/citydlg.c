@@ -1807,7 +1807,7 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
     if (tile_get_known(map_x, map_y)
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
-      pixmap_frame_tile_red(pdialog->map_canvas_store, canvas_x, canvas_y);
+      put_red_frame_tile(&store, canvas_x, canvas_y);
     }
   }
   city_map_checked_iterate_end;
@@ -1836,9 +1836,8 @@ static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
 			       x * NORMAL_TILE_WIDTH,
 			       y * NORMAL_TILE_HEIGHT);
 	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	  pixmap_frame_tile_red(pdialog->map_canvas_store,
-				x * NORMAL_TILE_WIDTH,
-				y * NORMAL_TILE_HEIGHT);
+	  put_red_frame_tile(&store,
+			     x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT);
       } else {
 	pixmap_put_black_tile(pdialog->map_canvas_store,
 			      x * NORMAL_TILE_WIDTH,
