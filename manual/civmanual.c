@@ -361,6 +361,9 @@ static bool manual_command(void)
 
 int main(int argc, char **argv)
 {
+  init_nls();
+  init_character_encodings("UTF-8", FALSE);
+
   manual_command();
 
   return 0;
