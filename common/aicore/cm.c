@@ -1268,7 +1268,7 @@ static void find_best_specialist_arrangement(struct city *pcity, const struct cm
   for (scientists = 0;
        scientists <= base_combination->max_scientists; scientists++) {
     for (taxmen = 0;
-	 taxmen <= base_combination->max_scientists - scientists; taxmen++) {
+	 taxmen <= base_combination->max_taxmen - scientists; taxmen++) {
       int major_fitness, minor_fitness;
       struct cm_result result;
 
