@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.41\n"
+"Project-Id-Version: 0.42\n"
 "POT-Creation-Date: 2002-12-11 12:31+0100\n"
-"PO-Revision-Date: 2002-12-11 16:25+0100\n"
+"PO-Revision-Date: 2002-12-12 11:23+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -764,7 +764,7 @@ msgstr "Spel: Hungersnöd orsakade befolkningsminskning i %s."
 #: server/cityturn.c:683 server/cityturn.c:723
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr "Spel: %s can inte bygga %s från arbetslistan. Tar bort..."
+msgstr "Spel: %s kan inte bygga %s från arbetslistan. Tar bort..."
 
 #: server/cityturn.c:702 server/cityturn.c:743
 #, c-format
@@ -825,7 +825,7 @@ msgstr "%s bygger %s i %s"
 #: server/cityturn.c:972
 #, c-format
 msgid "Game: %s has finished building %s."
-msgstr "Spel: %s ha färdigställt %s."
+msgstr "Spel: %s har färdigställt %s."
 
 #: server/cityturn.c:979
 #, c-format
@@ -845,12 +845,12 @@ msgstr "Spel: %s ha börjat bygga ett rymdskepp!"
 #: server/cityturn.c:1045
 #, c-format
 msgid "Game: %s can't build %s yet."
-msgstr "Spel: %s kan inte bygga %s än."
+msgstr "Spel: %s kan ej bygga %s än."
 
 #: server/cityturn.c:1072
 #, c-format
 msgid "Game: %s is finished building %s."
-msgstr "Spel: %s ha färdigställt %s."
+msgstr "Spel: %s har färdigställt %s."
 
 #: server/cityturn.c:1076
 #, c-format
@@ -860,7 +860,7 @@ msgstr "%s bygger %s i %s (%i,%i)"
 #: server/cityturn.c:1115
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
-msgstr "Spel: Vi ha inte råd att underhålla %s i %s, byggnaden såld!"
+msgstr "Spel: Vi ha ej råd att underhålla %s i %s, byggnaden såld!"
 
 #: server/cityturn.c:1151
 #, c-format
@@ -1763,7 +1763,7 @@ msgstr "%s från en %s"
 #: server/plrhand.c:742
 #, c-format
 msgid "Game: The %s have incited a revolt!"
-msgstr "Spel: %s satt i gång en revolution!"
+msgstr "Spel: %s ha satt i gång en revolution!"
 
 #: server/plrhand.c:744
 #, c-format
@@ -2983,7 +2983,10 @@ msgid ""
 "Introduces angry citizens like civilization II. Angry citizens have to "
 "become unhappy before any other class of citizens may be considered. See "
 "also unhappysize, cityfactor and governments."
-msgstr "Inför arga medborgare liksom civilization II. Arga medborgare måste bli otillfredställda innan någon annan medborgargrupp medtages i beräkningen. Se även unhappysize, cityfactor och governments."
+msgstr ""
+"Inför arga medborgare liksom civilization II. Arga medborgare måste bli "
+"otillfredställda innan någon annan medborgargrupp medtages i beräkningen. Se "
+"även unhappysize, cityfactor och governments."
 
 #: server/stdinhand.c:465
 msgid "Number of cities for higher unhappiness"
@@ -3394,7 +3397,8 @@ msgstr "Sekunder mellan PING"
 msgid ""
 "The civserver will poll the clients with a PING request each time this "
 "period elapses."
-msgstr "civserver kommer att kontakta klienterna med en PING-förfrågning så här ofta."
+msgstr ""
+"civserver kommer att kontakta klienterna med en PING-förfrågning så här ofta."
 
 #: server/stdinhand.c:737
 msgid "Time to cut a client"
@@ -3403,7 +3407,8 @@ msgstr "Tid för att koppla bort en klient"
 #: server/stdinhand.c:738
 msgid ""
 "If a client doesn't reply to a PONG in this time the client is disconnected."
-msgstr "Om en klient inte svarar på ett PONG inom denna tid så kopplas klienten bort."
+msgstr ""
+"Om en klient inte svarar på ett PONG inom denna tid så kopplas klienten bort."
 
 #: server/stdinhand.c:743
 msgid "Turn-blocking game play mode"
@@ -5868,7 +5873,8 @@ msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
-"      --\t\tSkicka alla efterföljande valmöjligheter till användargränssnittet.\n"
+"      --\t\tSkicka alla efterföljande valmöjligheter till "
+"användargränssnittet.\n"
 "\t\t\tProva \"%s -- --help\" för mer.\n"
 
 #: client/civclient.c:189
@@ -7076,9 +7082,9 @@ msgstr ""
 "Tillverkning: %10s Överflöd:  %10s\n"
 "Handel:       %10s Forskning: %10s\n"
 "\n"
-" Invånare (A/U/F/S): %s\n"
-"         City grows: %s\n"
-"Tillverkning färdig: %s"
+"    Invånare (A/U/V/S): %s\n"
+"         Stad växer om: %s\n"
+"Tillverkning färdig om: %s"
 
 #: client/gui-gtk-2.0/chatline.c:114 client/gui-gtk/chatline.c:96
 #: client/gui-win32/chatline.c:134 client/gui-xaw/chatline.c:143
@@ -7114,7 +7120,7 @@ msgstr "Forskning:"
 #: client/gui-gtk-2.0/citydlg.c:586 client/gui-gtk/citydlg.c:581
 #: client/gui-mui/citydlg.c:1417
 msgid "Granary:"
-msgstr "sädeslager:"
+msgstr "Sädeslager:"
 
 #: client/gui-gtk-2.0/citydlg.c:587 client/gui-gtk/citydlg.c:582
 #: client/gui-mui/citydlg.c:1419
@@ -9865,7 +9871,7 @@ msgstr "Beskickning"
 #: client/gui-gtk-2.0/plrdlg.c:178 client/gui-gtk/plrdlg.c:136
 #: client/gui-mui/plrdlg.c:168 client/gui-win32/plrdlg.c:356
 msgid "Dipl.State"
-msgstr "Diplomatisk status"
+msgstr "Dipl. förh."
 
 #: client/gui-gtk-2.0/plrdlg.c:179 client/gui-gtk/plrdlg.c:136
 #: client/gui-mui/plrdlg.c:169 client/gui-win32/plrdlg.c:356
@@ -12197,7 +12203,12 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Detta är version 0.41 av den svenska översättningen av Freeciv. Den innehåller vissa fel som ännu inte kunna rättas till, eftersom det kräver omfattande arbete på programmeringssidan, utanför den svenska översättningen. Exempel på sådana fel äro versal/gemen och böjningsformer av ord. Andra uppenbara fel, som till exempel skrivfel, stavfel, oklarheter eller felöversättningar anmäler man till:\n"
+"Detta är version 0.42 av den svenska översättningen av Freeciv. Den "
+"innehåller vissa fel som ännu inte kunna rättas till, eftersom det kräver "
+"omfattande arbete på programmeringssidan, utanför den svenska "
+"översättningen. Exempel på sådana fel äro versal/gemen och böjningsformer av "
+"ord. Andra uppenbara fel, som till exempel skrivfel, stavfel, oklarheter "
+"eller felöversättningar anmäler man till:\n"
 "\n"
 "  <freeciv@home.se>\n"
 "\n"
@@ -12206,6 +12217,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.42; 2002-12-12\n"
+"  Rättelser.\n"
 "Version 0.41; 2002-12-11\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.40; 2002-11-10\n"
@@ -12311,12 +12324,20 @@ msgstr ""
 "\n"
 "Anpassning av översättningen (endast för vana användare):\n"
 "=========================================================\n"
-"Man kan i viss mån anpassa den svenska översättningen av Freeciv efter tycke och smak. Här är ett exempel på hur man kan gå till väga för att sätta personlig prägel på den svenska översättningen av Freeciv.\n"
+"Man kan i viss mån anpassa den svenska översättningen av Freeciv efter tycke "
+"och smak. Här är ett exempel på hur man kan gå till väga för att sätta "
+"personlig prägel på den svenska översättningen av Freeciv.\n"
 "\n"
-"Låt oss säga att man föredrar att kalla \"fallskärmstrupper\" för \"fallskärmshoppare\" i stället. Då kan man göra ett skalskript som ser ut ungefär så här:\n"
+"Låt oss säga att man föredrar att kalla \"fallskärmstrupper\" för "
+"\"fallskärmshoppare\" i stället. Då kan man göra ett skalskript som ser ut "
+"ungefär så här:\n"
 "\n"
 "#! /bin/bash\n"
-"#Detta är ett skript som anpassar den svenska översättningen av Freeciv. Skriptet skall köras från katalogen där man har källkoden till Freeciv. Man skall ha utförtkommandot configure innan. Efterråt skall man kompilera och installera Freeciv. Ändra detta skript för att passa det system som det skall köras på.\n"
+"#Detta är ett skript som anpassar den svenska översättningen av Freeciv. "
+"Skriptet skall köras från katalogen där man har källkoden till Freeciv. Man "
+"skall ha utförtkommandot configure innan. Efterråt skall man kompilera och "
+"installera Freeciv. Ändra detta skript för att passa det system som det "
+"skall köras på.\n"
 "cd po/\n"
 "cp sv.po sv.po~\n"
 "sed s/'fallskärmstrupper'/'fallskärmshoppare'/ < sv.po > sv.po.temp\n"
@@ -12720,7 +12741,7 @@ msgstr ""
 "grunda en till stad och använda den tredje bosättaren för att bygga "
 "bevattningsanläggningar och vägar kring städerna om man föredrar det i "
 "stället. Kom ihåg att en stor befolkning ökar både tillverkningsförmågan och "
-"civilisationens forskningstakt."
+"civilisationens forskningsfart."
 
 #: data/helpdata.txt:599
 msgid ""
@@ -15878,7 +15899,7 @@ msgstr ""
 "Den högsta satsen för forskning, skatt och överflöd är 80%.\n"
 "\n"
 "Den högsta verksamma satsen för forskning är 50%, överskjutande del blir "
-"skatteinkomst. Dessutom är forskningstakten halverad.\n"
+"skatteinkomst. Dessutom är forskningsfarten halverad.\n"
 "\n"
 "En liten mängd mutning förekommer i städer under fundamentalism.\n"
 "\n"
