@@ -730,19 +730,19 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
 
   if (count > 0) {
     shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-	GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	GTK_DIALOG_DESTROY_WITH_PARENT,
 	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
 	_("Sold %d %s for %d gold"), count, get_improvement_name(i), gold);
   } else {
     shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-	GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	GTK_DIALOG_DESTROY_WITH_PARENT,
 	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
 	_("No %s could be sold"), get_improvement_name(i));
   }
+  g_signal_connect_swapped(shell, "response",
+                           G_CALLBACK(gtk_widget_destroy), GTK_OBJECT(shell));
   gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
-
-  gtk_dialog_run(GTK_DIALOG(shell));
-  gtk_widget_destroy(shell);
+  gtk_window_present(GTK_WINDOW(shell));
 }
 
 /****************************************************************
