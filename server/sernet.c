@@ -38,6 +38,7 @@
 #include <sernet.h>
 #include <shared.h>
 #include <civserver.h>
+#include <stdinhand.h>
 #include <packets.h>
 
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
