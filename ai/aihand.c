@@ -252,7 +252,14 @@ void ai_manage_taxes(struct player *pplayer)
   city_list_iterate_end;
 
 /*  printf("%s has %d trade.\n", pplayer->name, trade); */
-  if (!trade) return; /* damn division by zero! */
+  if (!trade) { /* can't return right away - thanks for the evidence, Muzz */
+    city_list_iterate(pplayer->cities, pcity) 
+      auto_arrange_workers(pcity);
+      if (ai_fix_unhappy(pcity))
+        ai_scientists_taxmen(pcity);
+    city_list_iterate_end;
+    return; /* damn division by zero! */
+  }
 
   pplayer->economic.luxury = 0;
 
