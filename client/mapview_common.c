@@ -170,9 +170,10 @@ enum color_std get_grid_color(const struct tile *tile1, enum direction8 dir)
   Note that a gui_to_map_vector function is not possible, since the
   resulting map vector may differ based on the origin of the gui vector.
 ****************************************************************************/
-void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy)
+void map_to_gui_vector(const struct tileset *t,
+		       int *gui_dx, int *gui_dy, int map_dx, int map_dy)
 {
-  if (tileset_is_isometric(tileset)) {
+  if (tileset_is_isometric(t)) {
     /*
      * Convert the map coordinates to isometric GUI
      * coordinates.  We'll make tile map(0,0) be the origin, and
@@ -184,11 +185,11 @@ void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy)
      * 789                4 8
      *                     7
      */
-    *gui_dx = (map_dx - map_dy) * tileset_tile_width(tileset) / 2;
-    *gui_dy = (map_dx + map_dy) * tileset_tile_height(tileset) / 2;
+    *gui_dx = (map_dx - map_dy) * tileset_tile_width(t) / 2;
+    *gui_dy = (map_dx + map_dy) * tileset_tile_height(t) / 2;
   } else {
-    *gui_dx = map_dx * tileset_tile_height(tileset);
-    *gui_dy = map_dy * tileset_tile_width(tileset);
+    *gui_dx = map_dx * tileset_tile_height(t);
+    *gui_dy = map_dy * tileset_tile_width(t);
   }
 }
 
@@ -198,11 +199,12 @@ void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy)
   GUI coordinates are comparable to canvas coordinates but extend in all
   directions.  gui(0,0) == map(0,0).
 ****************************************************************************/
-static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
+static void map_to_gui_pos(const struct tileset *t,
+			   int *gui_x, int *gui_y, int map_x, int map_y)
 {
   /* Since the GUI origin is the same as the map origin we can just do a
    * vector conversion. */
-  map_to_gui_vector(gui_x, gui_y, map_x, map_y);
+  map_to_gui_vector(t, gui_x, gui_y, map_x, map_y);
 }
 
 /****************************************************************************
@@ -212,10 +214,11 @@ static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
   from a gui position to a map position and back, you will probably not get
   the same value you started with.
 ****************************************************************************/
-static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
+static void gui_to_map_pos(const struct tileset *t,
+			   int *map_x, int *map_y, int gui_x, int gui_y)
 {
-  const int W = tileset_tile_width(tileset), H = tileset_tile_height(tileset);
-  const int HH = tileset_hex_height(tileset), HW = tileset_hex_width(tileset);
+  const int W = tileset_tile_width(t), H = tileset_tile_height(t);
+  const int HH = tileset_hex_height(t), HW = tileset_hex_width(t);
 
   if (HH > 0 || HW > 0) {
     /* To handle hexagonal cases we have to revert to a less elegant method
@@ -223,7 +226,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
     int x, y, dx, dy;
     int xmult, ymult, mod, compar;
 
-    assert(tileset_is_isometric(tileset));
+    assert(tileset_is_isometric(t));
 
     x = DIVIDE(gui_x, W);
     y = DIVIDE(gui_y, H);
@@ -248,7 +251,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
 
     *map_x = (x + y) + mod * (xmult + ymult) / 2;
     *map_y = (y - x) + mod * (ymult - xmult) / 2;
-  } else if (tileset_is_isometric(tileset)) {
+  } else if (tileset_is_isometric(t)) {
     /* The basic operation here is a simple pi/4 rotation; however, we
      * have to first scale because the tiles have different width and
      * height.  Mathematically, this looks like
@@ -282,7 +285,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
     gui_x -= W / 2;
     *map_x = DIVIDE(gui_x * H + gui_y * W, W * H);
     *map_y = DIVIDE(gui_y * W - gui_x * H, W * H);
-  } else {			/* tileset_is_isometric(tileset) */
+  } else {			/* tileset_is_isometric(t) */
     /* We use DIVIDE so that we will get the correct result even
      * for negative coordinates. */
     *map_x = DIVIDE(gui_x, W);
@@ -328,7 +331,8 @@ bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
   base_map_distance_vector(&dx, &dy,
 			   center_map_x, center_map_y, ptile->x, ptile->y);
 
-  map_to_gui_pos(canvas_x, canvas_y, center_map_x + dx, center_map_y + dy);
+  map_to_gui_pos(tileset,
+		 canvas_x, canvas_y, center_map_x + dx, center_map_y + dy);
   *canvas_x -= mapview.gui_x0;
   *canvas_y -= mapview.gui_y0;
 
@@ -356,7 +360,7 @@ bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
 				   int canvas_x, int canvas_y)
 {
-  gui_to_map_pos(map_x, map_y,
+  gui_to_map_pos(tileset, map_x, map_y,
 		 canvas_x + mapview.gui_x0,
 		 canvas_y + mapview.gui_y0);
 }
@@ -393,14 +397,15 @@ struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y)
   Normalize (wrap) the GUI position.  This is equivalent to a map wrapping,
   but in GUI coordinates so that pixel accuracy is preserved.
 ****************************************************************************/
-static void normalize_gui_pos(int *gui_x, int *gui_y)
+static void normalize_gui_pos(const struct tileset *t,
+			      int *gui_x, int *gui_y)
 {
   int map_x, map_y, nat_x, nat_y, gui_x0, gui_y0, diff_x, diff_y;
 
   /* Convert the (gui_x, gui_y) into a (map_x, map_y) plus a GUI offset
    * from this tile. */
-  gui_to_map_pos(&map_x, &map_y, *gui_x, *gui_y);
-  map_to_gui_pos(&gui_x0, &gui_y0, map_x, map_y);
+  gui_to_map_pos(t, &map_x, &map_y, *gui_x, *gui_y);
+  map_to_gui_pos(t, &gui_x0, &gui_y0, map_x, map_y);
   diff_x = *gui_x - gui_x0;
   diff_y = *gui_y - gui_y0;
 
@@ -418,7 +423,7 @@ static void normalize_gui_pos(int *gui_x, int *gui_y)
 
   /* Now convert the wrapped map position back to a GUI position and add the
    * offset back on. */
-  map_to_gui_pos(gui_x, gui_y, map_x, map_y);
+  map_to_gui_pos(t, gui_x, gui_y, map_x, map_y);
   *gui_x += diff_x;
   *gui_y += diff_y;
 }
@@ -427,7 +432,8 @@ static void normalize_gui_pos(int *gui_x, int *gui_y)
   Find the vector with minimum "real" distance between two GUI positions.
   This corresponds to map_to_distance_vector but works for GUI coordinates.
 ****************************************************************************/
-static void gui_distance_vector(int *gui_dx, int *gui_dy,
+static void gui_distance_vector(const struct tileset *t,
+				int *gui_dx, int *gui_dy,
 				int gui_x0, int gui_y0,
 				int gui_x1, int gui_y1)
 {
@@ -437,18 +443,18 @@ static void gui_distance_vector(int *gui_dx, int *gui_dy,
   int map_dx, map_dy;
 
   /* Make sure positions are canonical.  Yes, this is the only way. */
-  normalize_gui_pos(&gui_x0, &gui_y0);
-  normalize_gui_pos(&gui_x1, &gui_y1);
+  normalize_gui_pos(t, &gui_x0, &gui_y0);
+  normalize_gui_pos(t, &gui_x1, &gui_y1);
 
   /* Now we have to find the offset of each GUI position from its tile
    * origin.  This is complicated: it means converting to a map position and
    * then back to the GUI position to find the tile origin, then subtracting
    * to get the offset. */
-  gui_to_map_pos(&map_x0, &map_y0, gui_x0, gui_y0);
-  gui_to_map_pos(&map_x1, &map_y1, gui_x1, gui_y1);
+  gui_to_map_pos(t, &map_x0, &map_y0, gui_x0, gui_y0);
+  gui_to_map_pos(t, &map_x1, &map_y1, gui_x1, gui_y1);
 
-  map_to_gui_pos(&gui_x0_base, &gui_y0_base, map_x0, map_y0);
-  map_to_gui_pos(&gui_x1_base, &gui_y1_base, map_x1, map_y1);
+  map_to_gui_pos(t, &gui_x0_base, &gui_y0_base, map_x0, map_y0);
+  map_to_gui_pos(t, &gui_x1_base, &gui_y1_base, map_x1, map_y1);
 
   gui_x0_diff = gui_x0 - gui_x0_base;
   gui_y0_diff = gui_y0 - gui_y0_base;
@@ -458,7 +464,7 @@ static void gui_distance_vector(int *gui_dx, int *gui_dy,
   /* Next we find the map distance vector and convert this into a GUI
    * vector. */
   base_map_distance_vector(&map_dx, &map_dy, map_x0, map_y0, map_x1, map_y1);
-  map_to_gui_pos(gui_dx, gui_dy, map_dx, map_dy);
+  map_to_gui_pos(t, gui_dx, gui_dy, map_dx, map_dy);
 
   /* Finally we add on the difference in offsets to retain pixel
    * resolution. */
@@ -487,8 +493,8 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
    * the original mapview origin relative to the current position.  Thus
    * if we move one tile to the left, even if this causes GUI positions
    * to wrap the distance vector is only one tile. */
-  normalize_gui_pos(&gui_x0, &gui_y0);
-  gui_distance_vector(&dx, &dy,
+  normalize_gui_pos(tileset, &gui_x0, &gui_y0);
+  gui_distance_vector(tileset, &dx, &dy,
 		      mapview.gui_x0, mapview.gui_y0,
 		      gui_x0, gui_y0);
   old_gui_x0 = gui_x0 - dx;
@@ -567,7 +573,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
   int xmin, xmax, ymin, ymax, xsize, ysize;
 
   /* Normalize (wrap) the mapview origin. */
-  normalize_gui_pos(&gui_x0, &gui_y0);
+  normalize_gui_pos(tileset, &gui_x0, &gui_y0);
 
   /* First wrap/clip the position.  Wrapping is done in native positions
    * while clipping is done in scroll (native) positions. */
@@ -604,7 +610,8 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     static double total_frames = 0.01;
     static double total_time = 0.0001;
 
-    gui_distance_vector(&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
+    gui_distance_vector(tileset,
+			&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
     unqueue_mapview_updates(TRUE);
@@ -683,10 +690,10 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
   if (MAP_IS_ISOMETRIC == tileset_is_isometric(tileset)) {
     /* If the map and view line up, it's easy. */
     NATIVE_TO_MAP_POS(xmin, ymin, 0, 0);
-    map_to_gui_pos(xmin, ymin, *xmin, *ymin);
+    map_to_gui_pos(tileset, xmin, ymin, *xmin, *ymin);
 
     NATIVE_TO_MAP_POS(xmax, ymax, map.xsize - 1, map.ysize - 1);
-    map_to_gui_pos(xmax, ymax, *xmax, *ymax);
+    map_to_gui_pos(tileset, xmax, ymax, *xmax, *ymax);
     *xmax += tileset_tile_width(tileset);
     *ymax += tileset_tile_height(tileset);
 
@@ -715,16 +722,16 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
     int map_x, map_y;
 
     NATIVE_TO_MAP_POS(&map_x, &map_y, 0, 0);
-    map_to_gui_pos(&gui_x1, &gui_y1, map_x, map_y);
+    map_to_gui_pos(tileset, &gui_x1, &gui_y1, map_x, map_y);
 
     NATIVE_TO_MAP_POS(&map_x, &map_y, map.xsize - 1, 0);
-    map_to_gui_pos(&gui_x2, &gui_y2, map_x, map_y);
+    map_to_gui_pos(tileset, &gui_x2, &gui_y2, map_x, map_y);
 
     NATIVE_TO_MAP_POS(&map_x, &map_y, 0, map.ysize - 1);
-    map_to_gui_pos(&gui_x3, &gui_y3, map_x, map_y);
+    map_to_gui_pos(tileset, &gui_x3, &gui_y3, map_x, map_y);
 
     NATIVE_TO_MAP_POS(&map_x, &map_y, map.xsize - 1, map.ysize - 1);
-    map_to_gui_pos(&gui_x4, &gui_y4, map_x, map_y);
+    map_to_gui_pos(tileset, &gui_x4, &gui_y4, map_x, map_y);
 
     *xmin = MIN(gui_x1, MIN(gui_x2, gui_x3)) - mapview.width / 2;
     *ymin = MIN(gui_y1, MIN(gui_y2, gui_y3)) - mapview.height / 2;
@@ -807,7 +814,7 @@ void center_tile_mapcanvas(struct tile *ptile)
   assert(!first || !can_slide);
   first = FALSE;
 
-  map_to_gui_pos(&gui_x, &gui_y, ptile->x, ptile->y);
+  map_to_gui_pos(tileset, &gui_x, &gui_y, ptile->x, ptile->y);
 
   /* Put the center pixel of the tile at the exact center of the mapview. */
   gui_x -= (mapview.width - tileset_tile_width(tileset)) / 2;
@@ -1426,7 +1433,7 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
   canvas_y += tileset_tile_height(tileset) / 2;
 
   /* Determine the vector of the segment. */
-  map_to_gui_vector(&canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
+  map_to_gui_vector(tileset, &canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
 
   /* Draw the segment. */
   canvas_put_line(mapview.store, COLOR_STD_CYAN, LINE_GOTO,
@@ -1573,7 +1580,7 @@ void move_unit_map_canvas(struct unit *punit,
 
     assert(smooth_move_unit_msec > 0);
 
-    map_to_gui_vector(&canvas_dx, &canvas_dy, dx, dy);
+    map_to_gui_vector(tileset, &canvas_dx, &canvas_dy, dx, dy);
 
     tile_to_canvas_pos(&start_x, &start_y, src_tile);
     if (tileset_is_isometric(tileset)) {

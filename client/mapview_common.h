@@ -229,7 +229,8 @@ void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
 
 enum color_std get_grid_color(const struct tile *ptile, enum direction8 dir);
 
-void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy);
+void map_to_gui_vector(const struct tileset *t,
+		       int *gui_dx, int *gui_dy, int map_dx, int map_dy);
 bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);
 struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y);
 struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y);

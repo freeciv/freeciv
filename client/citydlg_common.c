@@ -62,7 +62,7 @@ void generate_citydlg_dimensions(void)
   city_map_iterate(city_x, city_y) {
     int canvas_x, canvas_y;
 
-    map_to_gui_vector(&canvas_x, &canvas_y,
+    map_to_gui_vector(tileset, &canvas_x, &canvas_y,
 		      city_x - CITY_MAP_RADIUS, city_y - CITY_MAP_RADIUS);
 
     min_x = MIN(canvas_x, min_x);
@@ -86,7 +86,7 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
   const int height = get_citydlg_canvas_height();
 
   /* The citymap is centered over the center of the citydlg canvas. */
-  map_to_gui_vector(canvas_x, canvas_y, city_x - x0, city_y - y0);
+  map_to_gui_vector(tileset, canvas_x, canvas_y, city_x - x0, city_y - y0);
   *canvas_x += (width - tileset_tile_width(tileset)) / 2;
   *canvas_y += (height - tileset_tile_height(tileset)) / 2;
 
@@ -147,10 +147,10 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
   const int _my_width = get_citydlg_canvas_width();			    \
   const int _my_height = get_citydlg_canvas_height();			    \
   									    \
-  map_to_gui_vector(&_my_gui_x0, &_my_gui_y0,				    \
+  map_to_gui_vector(tileset, &_my_gui_x0, &_my_gui_y0,			    \
 		    _pcity->tile->x, _pcity->tile->y);			    \
-  _my_gui_x0 -= (_my_width - tileset_tile_width(tileset)) / 2;			    \
-  _my_gui_y0 -= (_my_height - tileset_tile_height(tileset)) / 2;			    \
+  _my_gui_x0 -= (_my_width - tileset_tile_width(tileset)) / 2;		    \
+  _my_gui_y0 -= (_my_height - tileset_tile_height(tileset)) / 2;	    \
   freelog(LOG_DEBUG, "citydlg: %d,%d + %dx%d",				    \
 	  _my_gui_x0, _my_gui_y0, _my_width, _my_height);		    \
 									    \
