@@ -616,6 +616,14 @@ helps to follow some simple style rules:
 
 - Don't use C++-style comments (i.e., // comments).
 
+- Comments to translators are stored before the N_(), _() or Q_() marked
+  string and are preceed by "TRANS:". These comments are copied to the
+  translators file. Use them whenever you think the translators may need
+  some more information.
+  Example:
+    /* TRANS: Don`t translate command name */
+    printf(N_("commandname <arg> [-o <optarg>]"));
+
 - If you send patches, use "diff -u" (or "diff -r -u").  For further
   information, see <http://www.freeciv.org/contribute.html>.  Also,
   name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,

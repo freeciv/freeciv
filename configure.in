@@ -519,7 +519,7 @@ AC_OUTPUT_COMMANDS(
      fi
    fi])
 
-dnl Finally, the default behavior of msgmerge breaks 2-byte character
+dnl The default behavior of msgmerge breaks 2-byte character
 dnl encodings, as used in ja.po and others.
 dnl We fix this by forcing the "-w 0" option on all msgmerge calls.
 AC_OUTPUT_COMMANDS(
@@ -528,9 +528,27 @@ AC_OUTPUT_COMMANDS(
        # has already been modified
        :
      else
-       echo modifying po/Makefile
+       echo modifying po/Makefile msgmerge
        mv -f po/Makefile po/Makefile.tmp
        sed -e 's/MSGMERGE = PATH=..\/src:$$PATH msgmerge/MSGMERGE = PATH=..\/src:$$PATH msgmerge -w 0/' po/Makefile.tmp > po/Makefile
+       rm po/Makefile.tmp
+     fi
+   fi])
+
+dnl Most of the C comments copied to freeciv.pot are spurious; 
+dnl change to only copy those with prefix "TRANS:"
+dnl Also add --escape to the arguments to convert extended
+dnl characters to escape characters.  This affects some of the 
+dnl gui-mui strings, which use 0x1B escape character.
+AC_OUTPUT_COMMANDS(
+  [if test -f po/Makefile ; then
+     if grep 'add-comments="TRANS:" --escape' po/Makefile >/dev/null 2>&1 ; then
+       # has already been modified
+       :
+     else
+       echo modifying po/Makefile add-comments/escape
+       mv -f po/Makefile po/Makefile.tmp
+       sed -e 's/add-comments/add-comments="TRANS:" --escape/' po/Makefile.tmp > po/Makefile
        rm po/Makefile.tmp
      fi
    fi])

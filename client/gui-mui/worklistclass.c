@@ -189,24 +189,24 @@ HOOKPROTO(worklistview_display, void, char **array, struct worklist_entry *entry
 	    break;
 
       case  3:
-            {
-              *array++ = _("\33u\338Units\33n");
+            { /* TRANS: \033u\0338 before and \033n after the text are required */
+              *array++ = _("\033u\0338Units\033n");
               *array++ = "";
               *array = "";
             }
             break;
 
       case  4:
-	    {
-              *array++ = _("\33u\338Improvements\33n");
+            { /* TRANS: \033u\0338 before and \033n after the text are required */
+              *array++ = _("\033u\0338Improvements\033n");
               *array++ = "";
               *array = "";
             }
             break;
 
       case  5:
-            {
-	      *array++ = _("\33u\338Worklists\33n");
+            { /* TRANS: \033u\0338 before and \033n after the text are required */
+              *array++ = _("\033u\0338Worklists\033n");
               *array++ = "";
               *array = "";
             }
@@ -228,7 +228,7 @@ STATIC ULONG Worklistview_New(struct IClass *cl, Object * o, struct opSet *msg)
   if ((o = (Object *) DoSuperNew(cl, o,
 	MUIA_NList_AutoVisible, TRUE,
 	MUIA_NList_DragType, MUIV_NList_DragType_Default,
-	MUIA_NList_Format,"BAR,P=\33c BAR,P=\33r NOBAR",
+	MUIA_NList_Format,"BAR,P=\033c BAR,P=\033r NOBAR",
 	TAG_MORE, msg->ops_AttrList)))
   {
     struct Worklistview_Data *data = (struct Worklistview_Data *) INST_DATA(cl, o);
@@ -641,7 +641,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 		End,
   	    Child, HGroup,
 		Child, VGroup,
-		    Child, TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_Contents, _("Current Targets"), End,
+		    Child, TextObject, MUIA_Text_PreParse, "\033c", MUIA_Text_Contents, _("Current Targets"), End,
 		    Child, clv = NListviewObject,
 		        MUIA_CycleChain, 1,
 		        MUIA_NListview_NList, clist = WorklistviewObject,
@@ -654,7 +654,7 @@ STATIC ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 	                End,
 	            End,
 	        Child, VGroup,
-		    Child, TextObject, MUIA_Text_PreParse, "\33c", MUIA_Text_Contents, _("Available Targets"), End,
+		    Child, TextObject, MUIA_Text_PreParse, "\033c", MUIA_Text_Contents, _("Available Targets"), End,
 		    Child, alv = NListviewObject,
 		        MUIA_CycleChain, 1,
 		        MUIA_NListview_NList, alist = WorklistviewObject,

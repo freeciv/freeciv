@@ -870,7 +870,7 @@ static struct command commands[] = {
   },
 
   {"help",	ALLOW_INFO,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("help\n"
       "help commands\n"
       "help options\n"
@@ -899,7 +899,7 @@ static struct command commands[] = {
    N_("Quit the game and shutdown the server.")
   },
   {"cut",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("cut <connection-name>"),
    N_("Cut a client's connection to server."),
    N_("Cut specified client's connection to the server, removing that client "
@@ -908,7 +908,7 @@ static struct command commands[] = {
       "Note that this command now takes connection names, not player names.")
   },
   {"explain",	ALLOW_INFO,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("explain\n"
       "explain <option-name>"),
    N_("Explain server options."),
@@ -918,7 +918,7 @@ static struct command commands[] = {
       "it gives help for a particular option (like 'help <option-name>').")
   },
   {"show",	ALLOW_INFO,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("show\n"
       "show <option-name>\n"
       "show <option-prefix>"),
@@ -942,7 +942,7 @@ static struct command commands[] = {
    N_("This command is not currently implemented."),
   },
   {"metainfo",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("metainfo <meta-line>"),
    N_("Set metaserver info line.")
   },
@@ -956,24 +956,24 @@ static struct command commands[] = {
       "'metaconnection up' or 'metac u' brings the metaserver connection up.")
   },
   {"metaserver",ALLOW_HACK,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("metaserver <address>"),
    N_("Set address for metaserver to report to.")
   },
   {"aitoggle",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("aitoggle <player-name>"),
    N_("Toggle AI status of player.")
   },
   {"create",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("create <player-name>"),
    N_("Create an AI player with a given name."),
    N_("The 'create' command is only available before the game has "
       "been started.")
   },
   {"easy",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("easy\n"
       "easy <player-name>"),
    N_("Set one or all AI players to 'easy'."),
@@ -982,7 +982,7 @@ static struct command commands[] = {
       "argument, sets the skill level for that player only.")
   },
   {"normal",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("normal\n"
       "normal <player-name>"),
    N_("Set one or all AI players to 'normal'."),
@@ -991,7 +991,7 @@ static struct command commands[] = {
       "argument, sets the skill level for that player only.")
   },
   {"hard",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("hard\n"
       "hard <player-name>"),
    N_("Set one or all AI players to 'hard'."),
@@ -1000,7 +1000,7 @@ static struct command commands[] = {
       "argument, sets the skill level for that player only.")
   },
   {"cmdlevel",	ALLOW_HACK,  /* confusing to leave this at ALLOW_CTRL */
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("cmdlevel\n"
       "cmdlevel <level>\n"
       "cmdlevel <level> new\n"
@@ -1042,14 +1042,14 @@ static struct command commands[] = {
    N_("This command ends the game immediately.")
   },
   {"remove",	ALLOW_CTRL,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("remove <player-name>"),
    N_("Fully remove player from game."),
    N_("This *completely* removes a player from the game, including "
       "all cities and units etc.  Use with care!")
   },
   {"save",	ALLOW_HACK,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("save <file-name>"),
    N_("Save game to file."),
    N_("Save the current game to a file.  To reload a savegame created "
@@ -1058,17 +1058,17 @@ static struct command commands[] = {
       "and use the 'start' command once players have reconnected.")
   },
   {"read",	ALLOW_HACK,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("read <file-name>"),
    N_("Process server commands from file.")
   },
   {"write",	ALLOW_HACK,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("write <file-name>"),
    N_("Write current settings as server commands to file.")
   },
   {"rulesout",	ALLOW_HACK,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("rulesout <rules-type> <file-name>"),
    N_("Write selected rules information to file."),
    N_("Write a file with information from currently loaded ruleset data.  "
@@ -1078,7 +1078,7 @@ static struct command commands[] = {
       "by the 'techtree' utility program to produce a graph of the advances.")
   },
   {"log",	ALLOW_HACK,
-   /* translate <> only */
+   /* TRANS: translate text between <> only */
    N_("log <message>"),
    N_("Generate a log message."),
    N_("Generates a 'log message' with level 1.  "
