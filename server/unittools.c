@@ -637,7 +637,7 @@ int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc)
     return 0;
 
   /* 2) */
-  if (dest_x<0 || dest_x>=map.xsize || dest_y<0 || dest_y>=map.ysize)
+  if (!normalize_map_pos(&dest_x, &dest_y))
     return 0;
 
   /* 3) */

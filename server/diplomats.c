@@ -809,14 +809,17 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   /* this may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_INCITE, pplayer, NULL, pcity);
 
-  /* Check if a spy survives her mission. Diplomats never do. */
-  diplomat_escape (pplayer, pdiplomat, pcity);
-
   /* Transfer city and units supported by this city (that
      are within one square of the city) to the new owner.
      Remember that pcity is destroyed as part of the transfer,
      Which is why we do this last */
   transfer_city (pplayer, pcity, 1, 1, 1, 0);
+
+  /* Check if a spy survives her mission. Diplomats never do.
+     _After_ transfering the city, or the city area is first fogged
+     when the diplomat is removed, and then unfogged when the city
+     is transfered. */
+  diplomat_escape (pplayer, pdiplomat, pcity);
 
   /* Update the players gold in the client */
   send_player_info(pplayer, pplayer);

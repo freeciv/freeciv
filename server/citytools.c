@@ -48,6 +48,7 @@
 #include "unittools.h"
 
 #include "aicity.h"
+#include "aiunit.h"
 
 #include "citytools.h"
 
@@ -666,22 +667,66 @@ int wants_to_be_bigger(struct city *pcity)
 
 
 /*********************************************************************
+Note: the old unit is not wiped here.
+***********************************************************************/
+static void transfer_unit(struct unit *punit, struct city *tocity,
+			  int verbose)
+{
+  struct player *from_player = unit_owner(punit);
+  struct player *to_player = city_owner(tocity);
+
+  if (from_player == to_player) {
+    freelog(LOG_VERBOSE, "Changed homecity of %s's %s to %s",
+	    from_player->name, unit_name(punit->type), tocity->name);
+    if (verbose) {
+      notify_player(from_player, _("Game: Changed homecity of %s to %s."),
+		    unit_name(punit->type), tocity->name);
+    }
+  } else {
+    struct city *in_city = map_get_city(punit->x, punit->y);
+    if (in_city) {
+      freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
+	      unit_name(punit->type), in_city->name,
+	      from_player->name, to_player->name);
+      if (verbose) {
+	notify_player(from_player, _("Game: Transfered %s in %s from %s to %s."),
+		      unit_name(punit->type), in_city->name,
+		      from_player->name, to_player->name);
+      }
+    } else {
+      freelog(LOG_VERBOSE, "Transfered %s from %s to %s",
+	      unit_name(punit->type),
+	      from_player->name, to_player->name);
+      if (verbose) {
+	notify_player(from_player, _("Game: Transfered %s from %s to %s."),
+		      unit_name(punit->type),
+		      from_player->name, to_player->name);
+      }
+    }
+  }
+
+  create_unit_full(to_player, punit->x, punit->y, punit->type, 
+		   punit->veteran, tocity->id, punit->moves_left,
+		   punit->hp);
+}
+
+/*********************************************************************
  Units in a bought city are transferred to the new owner, units 
  supported by the city, but held in other cities are updated to
  reflect those cities as their new homecity.  Units supported 
  by the bought city, that are not in a city square may be deleted.
- This depends on the value of kill_outside.  If the units are in
- an unexplored square the area is automatically reveiled when the
- unit if created.
 
  - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
 
- If verbose is true, send extra messages to players detailing what
- happens to all the units.  --dwp
-
- Interpretation of kill_outside changed to mean the radius outside
- of which supported units are killed.  If 0, all supported units not
- in the city are killed.  If -1, no supported units are killed.  --jjm
+pplayer: The player recieving the units if they are not disbanded and
+         are not in a city
+pvictim: The owner of the city the units are transfered from.
+units:   A list of units to be transfered, typically a cities unit list.
+pcity:   Default city the units are transfered to.
+exclude_city: The units cannot be transfered to this city.
+kill_outside: Units outside this range are deleted. -1 means no units
+              are deleted.
+verbose: Messages are sent to the involved parties.
 ***********************************************************************/
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct unit_list *units, struct city *pcity,
@@ -691,74 +736,39 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   int x = pcity->x;
   int y = pcity->y;
 
-  /* Transfer enemy units in the city to the new owner */
-  unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
-    /* Dont transfer units already owned by new city-owner --wegge */ 
-    if (unit_owner(vunit) == pvictim && pcity) {
-      freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
-	      unit_name(vunit->type), pcity->name, pvictim->name, pplayer->name);
-      if (verbose) {
-	notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s."),
-		      unit_name(vunit->type), pcity->name,
-		      pvictim->name, pplayer->name);
+  /* Transfer enemy units in the city to the new owner.
+     Only relevant if we are transfering to another player. */
+  if (pplayer != pvictim) {
+    unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
+      /* Dont transfer units already owned by new city-owner --wegge */ 
+      if (unit_owner(vunit) == pvictim && pcity) {
+	transfer_unit(vunit, pcity, verbose);
+	wipe_unit_safe(vunit, &myiter);
+	unit_list_unlink(units, vunit);
       }
-      
-      create_unit_full(pplayer, x, y, vunit->type, vunit->veteran,
-		       pcity->id, vunit->moves_left, vunit->hp);
-      wipe_unit_safe(vunit, &myiter);
-      unit_list_unlink(units, vunit);
-    }
-  } unit_list_iterate_end;
+    } unit_list_iterate_end;
+  }
 
   /* Any remaining units supported by the city are either given new home
-   * cities or maybe destroyed */
+     cities or maybe destroyed */
   unit_list_iterate(*units, vunit) {
     struct city *new_home_city = map_get_city(vunit->x, vunit->y);
     if (new_home_city && new_home_city != exclude_city) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
-
-      if (pvictim == city_owner(new_home_city)) {
-	freelog(LOG_VERBOSE, "Changed homecity of %s's %s in %s",
-	     pvictim->name, unit_name(vunit->type), new_home_city->name);
-	if (verbose) {
-	  notify_player(pvictim, _("Game: Changed homecity of %s in %s."),
-			unit_name(vunit->type), new_home_city->name);
-	}
-      } else {
-	freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
-	     unit_name(vunit->type), new_home_city->name,
-	     pvictim->name, city_owner(new_home_city)->name);
-	if (verbose) {
-	  notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s."),
-			unit_name(vunit->type), new_home_city->name,
-			pvictim->name, pplayer->name);
-	}
-      }
-      create_unit_full(city_owner(new_home_city), vunit->x, vunit->y,
-		       vunit->type, vunit->veteran, new_home_city->id,
-		       vunit->moves_left, vunit->hp);
-    } else if (((kill_outside < 0) ||
-		((kill_outside > 0) &&
-		 (real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside)))
-	       && pcity) {
-      freelog(LOG_VERBOSE, "Transfered %s at (%d, %d) from %s to %s",
-	      unit_name(vunit->type), vunit->x, vunit->y,
-	      pvictim->name, pplayer->name);
-      if (verbose) {
-	notify_player(pvictim,
-		      _("Game: Transfered %s at (%d, %d) from %s to %s."),
-		      unit_name(vunit->type), vunit->x, vunit->y,
-		      pvictim->name, pplayer->name);
-      }
-      create_unit_full(pplayer, vunit->x, vunit->y, vunit->type, 
-		       vunit->veteran, pcity->id, vunit->moves_left,
-		       vunit->hp);
+      transfer_unit(vunit, new_home_city, verbose);
+    } else if (kill_outside == -1
+	       || real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside) {
+      /* else transfer to specified city. */
+      transfer_unit(vunit, pcity, verbose);
     }
 
+    /* not deleting cargo as it may be carried by units transfered later.
+       no cargo deletion => no trouble with "units" list.
+       In cases where the cargo can be left without transport the calling
+       function should take that into account. */
     wipe_unit_spec_safe(vunit, NULL, 0);
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
 }
 
 /**********************************************************************
@@ -1082,6 +1092,7 @@ void remove_city(struct city *pcity)
 {
   int o, x, y;
   struct player *pplayer = city_owner(pcity);
+  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
 
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
           get_nation_name_plural(pplayer->nation),
@@ -1092,7 +1103,7 @@ void remove_city(struct city *pcity)
   unit_list_iterate(pcity->units_supported, punit) {
     struct city *new_home_city = map_get_city(punit->x, punit->y);
     x = punit->x; y = punit->y;
-    if(new_home_city && new_home_city != pcity) {
+    if (new_home_city && new_home_city != pcity) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
       freelog(LOG_VERBOSE, "Changed homecity of %s in %s",
@@ -1105,19 +1116,57 @@ void remove_city(struct city *pcity)
     }
 
     wipe_unit_safe(punit, &myiter);
-  }
-  unit_list_iterate_end;
-
-  for (o=0; o<4; o++)
-    remove_trade_route(pcity->trade[o], pcity->id); 
+  } unit_list_iterate_end;
 
   x = pcity->x;
   y = pcity->y;
 
+  /* make sure ships are not left on land when city is removed. */
+ MOVE_SEA_UNITS:
+  unit_list_iterate(ptile->units, punit) {
+    int moved;
+    if (!punit
+	|| !same_pos(punit->x, punit->y, x, y)
+	|| !is_sailing_unit(punit)) {
+      continue;
+    }
+
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    moved = 0;
+    adjc_iterate(x, y, x1, y1) {
+      if (map_get_terrain(x1, y1) == T_OCEAN) {
+	if (could_unit_move_to_tile(punit, x, y, x1, y1) == 1) {
+	  moved = handle_unit_move_request(punit, x1, y1, 0, 1);
+	  if (moved) {
+	    notify_player_ex(unit_owner(punit), -1, -1, E_NOEVENT,
+			     _("Game: Moved %s out of disbanded city %s "
+			       "to avoid being landlocked."),
+			     get_unit_type(punit->type)->name, pcity->name);
+	    goto OUT;
+	  }
+	}
+      }
+    } adjc_iterate_end;
+  OUT:
+    if (!moved) {
+      notify_player_ex(unit_owner(punit), -1, -1, E_NOEVENT,
+		       _("Game: When %s was disbanded your %s could not "
+			 "get out, and it was therefore stranded."),
+		       get_unit_type(punit->type)->name, pcity->name);
+      wipe_unit(punit);
+    }
+    /* We just messed with the unit list. Avoid trouble by starting over.
+       Note that the problem is reduced by one unit, so no loop trouble. */
+    goto MOVE_SEA_UNITS;
+  } unit_list_iterate_end;
+
+  for (o=0; o<4; o++)
+    remove_trade_route(pcity->trade[o], pcity->id); 
+
   /* idex_unregister_city() is called in game_remove_city() below */
 
   /* dealloc_id(pcity->id); We do NOT dealloc cityID's as the cities may still be
-     alive in the client. As the number of romoved cities is small the leak is
+     alive in the client. As the number of removed cities is small the leak is
      acceptable. */
 
 /* DO NOT remove city from minimap here. -- Syela */

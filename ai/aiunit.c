@@ -98,6 +98,19 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 }
 
 /**************************************************************************
+  unit can be moved if:
+  1) the unit is idle or on goto or connecting.
+  2) the target location is on the map
+  3) the target location is next to the unit
+  4) there are no non-allied units on the target tile
+  5) a ground unit can only move to ocean squares if there
+     is a transporter with free capacity
+  6) marines are the only units that can attack from a ocean square
+  7) naval units can only be moved to ocean squares or city squares
+  8) there are no peaceful but un-allied units on the target tile
+  9) there is not a peaceful but un-allied city on the target tile
+  10) there is no non-allied unit blocking (zoc)
+
   this WAS can_unit_move_to_tile with the notifys removed -- Syela 
   but is now a little more complicated to allow non-adjacent tiles
   returns:
@@ -105,56 +118,71 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
     1 if zoc_ok
    -1 if zoc could be ok?
 **************************************************************************/
-int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
+int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
+			    int dest_x, int dest_y)
 {
-  struct tile *ptile,*ptile2;
+  struct tile *pfromtile,*ptotile;
   struct city *pcity;
 
-  if(punit->activity!=ACTIVITY_IDLE &&
-     punit->activity!=ACTIVITY_GOTO && !punit->connecting)
+  /* 1) */
+  if (punit->activity!=ACTIVITY_IDLE
+      && punit->activity!=ACTIVITY_GOTO
+      && punit->activity!=ACTIVITY_PATROL
+      && !punit->connecting)
     return 0;
 
-  if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)
-    return 0;
-  
-  if(!is_tiles_adjacent(x0, y0, x, y))
-    return 0; 
-
-  if(is_non_allied_unit_tile(map_get_tile(x,y),punit->owner))
+  /* 2) */
+  if (!normalize_map_pos(&dest_x, &dest_y))
     return 0;
 
-  ptile=map_get_tile(x, y);
-  ptile2=map_get_tile(x0, y0);
-  if(is_ground_unit(punit)) {
-    /* Check condition 4 */
-    if(ptile->terrain==T_OCEAN &&
-       ground_unit_transporter_capacity(x, y, punit->owner) <= 0)
-	return 0;
+  /* 3) */
+  if (!is_tiles_adjacent(src_x, src_y, dest_x, dest_y))
+    return 0;
+
+  pfromtile = map_get_tile(src_x, src_y);
+  ptotile = map_get_tile(dest_x, dest_y);
+
+  /* 4) */
+  if (is_non_allied_unit_tile(ptotile, punit->owner))
+    return 0;
+
+  if (is_ground_unit(punit)) {
+    /* 5) */
+    if (ptotile->terrain==T_OCEAN &&
+	ground_unit_transporter_capacity(dest_x, dest_y, punit->owner) <= 0)
+      return 0;
 
     /* Moving from ocean */
-    if(ptile2->terrain==T_OCEAN) {
-      /* Can't attack a city from ocean unless marines */
-      if(!unit_flag(punit->type, F_MARINES)
-	 && is_enemy_city_tile(map_get_tile(x, y), punit->owner)) {
+    if (pfromtile->terrain==T_OCEAN) {
+      /* 6) */
+      if (!unit_flag(punit->type, F_MARINES)
+	  && is_enemy_city_tile(ptotile, punit->owner)) {
 	return 0;
       }
     }
-  } else if(is_sailing_unit(punit)) {
-    if(ptile->terrain!=T_OCEAN && ptile->terrain!=T_UNKNOWN)
-      if(!is_allied_city_tile(map_get_tile(x, y), punit->owner))
-	return 0;
+  } else if (is_sailing_unit(punit)) {
+    /* 7) */
+    if (ptotile->terrain!=T_OCEAN
+	&& ptotile->terrain!=T_UNKNOWN
+	&& !is_allied_city_tile(ptotile, punit->owner))
+      return 0;
   } 
 
-  pcity = map_get_city(x, y);
-  if (pcity && !is_allied_city_tile(map_get_tile(x, y), punit->owner)) {
-    if (is_air_unit(punit) || !is_military_unit(punit)) {
-      return 0;  
-    }
+  /* 8) */
+  if (is_non_attack_unit_tile(ptotile, punit->owner)) {
+    return 0;
   }
 
-  if (zoc_ok_move_gen(punit, x0, y0, x, y))
+  /* 9) */
+  pcity = ptotile->city;
+  if (pcity && players_non_attack(pcity->owner, punit->owner)) {
+    return 0;
+  }
+
+  /* 10) */
+  if (zoc_ok_move_gen(punit, src_x, src_y, dest_x, dest_y))
     return 1;
-  else if (could_be_my_zoc(punit, x0, y0))
+  else if (could_be_my_zoc(punit, src_x, src_y))
     return -1;	/* flag value  */
   else
     return 0;
