@@ -757,25 +757,25 @@ msgstr "Spiel: In %s wurde die Ordnung wieder hergestellt."
 #: server/cityturn.c:1841
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
-msgstr "Spiel: Das Volk hat die %s gestürzt. Das Land befindet sich im Aufruhr"
+msgstr "Spiel: Das Volk hat die %s gestürzt. Das Land befindet sich im Aufruhr."
 
 #: server/cityturn.c:1866
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
-"Spiel: %s kann zur keine %s bauen und wir können nicht unsere einzige Stadt "
+"Spiel: %s kann zur Zeit keine %s bauen und wir können nicht unsere einzige Stadt "
 "aufgeben."
 
 #: server/cityturn.c:1882
 #, c-format
 msgid "Game: %s is disbanded into %s."
-msgstr "Spiel: %s wurde aufgegeben um %s zu bekommen."
+msgstr "Spiel: %s wurde aufgegeben, um %s zu bekommen."
 
 #: server/civserver.c:81
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
-"WARNUNG: Die '%s' Option gibt es nicht mehr. Benutzen Sie '-m' um die\n"
+"WARNUNG: Die '%s' Option gibt es nicht mehr. Benutzen Sie '-m', um die\n"
 "         Metaserver-Option einzuschalten.\n"
 
 #: server/civserver.c:108
@@ -914,7 +914,7 @@ msgstr "Spiel: Ein Abkommen mit %d Klauseln wurde vereinbart."
 msgid ""
 "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
-"Spiel: Eine der Städte die %s abgibt wurde zerstört! Das Abkommen ist "
+"Spiel: Eine der Städte, die %s abgeben möchte, wurde zerstört! Das Abkommen ist "
 "gegenstandslos!"
 
 #: server/diplhand.c:215 server/diplhand.c:220
@@ -1068,7 +1068,7 @@ msgstr "Spiel: Es ist nicht möglich, eine Einheit dieses Staates zu bestechen"
 #: server/diplomats.c:430
 #, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
-msgstr "Spiel: Nicht genug Gold um %ss %s zu bestechen."
+msgstr "Spiel: Nicht genug Gold, um %ss %s zu bestechen."
 
 #: server/diplomats.c:447
 #, c-format
@@ -1149,7 +1149,7 @@ msgstr "Spiel: %s wurde beim Versuch eine Revolte auszulösen festgenommen!"
 #: server/diplomats.c:775
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr "Spiel: %ser %s beim Versuch eine Revolte in %s auszulösen gefaßt!"
+msgstr "Spiel: %ser %s beim Versuch, eine Revolte in %s auszulösen, gefaßt!"
 
 #: server/diplomats.c:798
 #, c-format
@@ -1712,7 +1712,7 @@ msgstr "%s Bericht über die GRÖSSTEN Nationen der Welt."
 
 #: server/report.c:49
 msgid "Herodotus'"
-msgstr "Herodotus"
+msgstr "Herodots"
 
 #: server/report.c:50
 msgid "Thucydides'"
@@ -2007,7 +2007,8 @@ msgstr ""
 
 #: server/spacerace.c:161
 msgid "Game: You need to have a capital in order to launch your spaceship."
-msgstr "Spiel: Ein Raumschiff kann nur von einer Hauptstadt gestartet werden."
+msgstr "Spiel: Man benötigt eine Hauptstadt, um ein Raumschiff starten zu "
+"können."
 
 #: server/spacerace.c:166
 msgid "Game: Your spaceship is already launched!"
@@ -2510,14 +2511,14 @@ msgstr "Der Standardwert 0 nimmt die Zeit als Basis."
 
 #: server/stdinhand.c:236
 msgid "Amount of \"special\" resource squares"
-msgstr "Anzahl der 'besonderen' Resourcenfelder"
+msgstr "Anzahl der 'besonderen' Ressourcenfelder"
 
 #: server/stdinhand.c:237
 msgid ""
 "Special resources improve the basic terrain type they are on.  The server "
 "variable's scale is parts per thousand."
 msgstr ""
-"Besondere Resourcenfelder verbessern das Gelände, auf dem sie liegen.\n"
+"Besondere Ressourcenfelder verbessern das Gelände, auf dem sie liegen.\n"
 "Der Wert gibt die Anzahl der Ressourcen pro 1000 Felder an."
 
 #: server/stdinhand.c:243
@@ -3029,7 +3030,7 @@ msgid ""
 "TCP connection is closed. Zero means there is no timeout beyond that "
 "enforced by the TCP protocol implementation itself."
 msgstr ""
-"Falls ein Klient länger als diese Zeit die TCP Verbindung blockiert wird "
+"Falls ein Klient länger als diese Zeit die TCP-Verbindung blockiert, wird "
 "diese geschlossen. 0 bedeutet, es gibt nur das Zeitlimit aus der TCP "
 "Protokoll Vereinbarung."
 
@@ -3057,7 +3058,7 @@ msgid ""
 "PING request the client is disconnected."
 msgstr ""
 "Der Server fordert am Ende dieser Zeitspanne ein PING von den Klienten. "
-"Falls ein Client dieser Aufforderung nicht bis zur nächsten Auffoderung "
+"Falls ein Client dieser Aufforderung nicht bis zur nächsten Aufforderung "
 "folgt, wird die Verbindung zu ihm geschlossen."
 
 #: server/stdinhand.c:657
@@ -3206,7 +3207,7 @@ msgstr ""
 "(benötigten) KI-Spieler erzeugt wurden und alle gewünschten "
 "Servereinstellungen gemacht wurden. Nach Eingabe von 'start' dürfen sich "
 "alle menschlichen Spieler ihre Nation aussuchen; danach beginnt das Spiel. "
-"'start' wird auch benötigt um ein geladenes Spiel fortzusetzen. Nach "
+"'start' wird auch benötigt, um ein geladenes Spiel fortzusetzen. Nach "
 "Spielbeginn steht der Befehl nicht mehr zur Verfügung."
 
 #. TRANS: translate text between <> only
@@ -3274,11 +3275,11 @@ msgid ""
 "from the game, otherwise there is no effect on the player.  Note that this "
 "command now takes connection names, not player names."
 msgstr ""
-"Beendet eine bestimmte Client-Server-Verbindung indem dieser Client aus "
+"Beendet eine bestimmte Client-Server-Verbindung, indem dieser Client aus "
 "Spiel entfernt wird. Falls das Spiel noch nicht begonnen hat, wird der "
 "Spieler dieses Clienten aus dem Spiel entfernt, ansonsten hat es keine "
 "Wirkung. HINWEIS: Ab sofort benötigt dieser Befehl nicht mehr den "
-"Spielernamen sondern die Bezeichnung der Verbindung als Argument."
+"Spielernamen, sondern die Bezeichnung der Verbindung als Argument."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:928
@@ -4056,7 +4057,7 @@ msgstr "Erläuterungen sind für folgende Serveroptionen verfügbar:"
 
 #: server/stdinhand.c:2243
 msgid "No explanation for that yet."
-msgstr "Noch nicht erklärbar."
+msgstr "Dafür gibt es noch keine Erklärung."
 
 #: server/stdinhand.c:2246 server/stdinhand.c:2505
 msgid "Ambiguous option name."
@@ -5570,7 +5571,7 @@ msgstr "abgebrochene Weltwunder"
 
 #: client/options.c:147
 msgid "City Needs Aq Being Built"
-msgstr "Aquädukt fertig stellen  "
+msgstr "Aquädukt fertigstellen  "
 
 #: client/options.c:148
 msgid "Diplomat Actions - Own"
@@ -6654,7 +6655,7 @@ msgstr "Es MUSS ein Geschlecht gewählt werden."
 
 #: client/gui-gtk/dialogs.c:2205 client/gui-xaw/dialogs.c:2319
 msgid "You must select your city style."
-msgstr "Es MUSS eine Bauweise gewählt werden werden."
+msgstr "Es MUSS eine Bauweise gewählt werden."
 
 #: client/gui-gtk/dialogs.c:2218 client/gui-mui/dialogs.c:1641
 #: client/gui-xaw/dialogs.c:2333
@@ -8360,7 +8361,7 @@ msgid ""
 "and\n"
 "The %s %s %s"
 msgstr ""
-"In diesem auf ewig geltende Abkommen\n"
+"In diesem auf ewig geltenden Abkommen\n"
 "sind die Vereinbarungen zwischen\n"
 "dem %sen %s %s\n"
 "und\n"
@@ -9282,7 +9283,7 @@ msgstr "Optionen zur Anzeige von Nachrichten                  "
 #: data/Freeciv:1261
 msgid ""
 "Out = Output window, Mes = Messages window, Pop = Popup individual window"
-msgstr "Txt = Textfenter, Nach = Nachrichtenfenster, Eig = eigenes Fenster"
+msgstr "Txt = Textfenster, Nach = Nachrichtenfenster, Eig = eigenes Fenster"
 
 #: data/Freeciv:1270
 msgid "Out: Mes: Pop:"
@@ -9512,7 +9513,7 @@ msgid ""
 "extinction of all other civilizations."
 msgstr ""
 "Freeciv ist ein rundenbasiertes Multi-Player-Strategiespiel, in dem jeder "
-"Spieler versucht, eine Nation innerhalb eines vorgegeben Zeitraums von den "
+"Spieler versucht, eine Nation innerhalb eines vorgegebenen Zeitraums von den "
 "Anfängen der Zivilisation bis in das Zeitalter der Raumfahrt führen."
 
 #: data/helpdata.txt:42
@@ -9722,7 +9723,7 @@ msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
 msgstr ""
-"Der Client bietet eine einfache Möglichkeit zum Chatten. Alle eingegbenen "
+"Der Client bietet eine einfache Möglichkeit zum Chatten. Alle eingegebenen "
 "Zeilen werden an alle Mitspieler geschickt. Ausgenommen davon sind nur:"
 
 #: data/helpdata.txt:499
@@ -9731,7 +9732,7 @@ msgid ""
 "'foo'; player names can be abbreviated."
 msgstr ""
 " - Nachrichten, die mit einem Spielernamen (oder einer Abkürzung davon), "
-"gefolgt von einem Doppelpunkt, beginnen sind private Mitteilungen an diesen "
+"gefolgt von einem Doppelpunkt beginnen, sind private Mitteilungen an diesen "
 "Spieler."
 
 #: data/helpdata.txt:502
@@ -9937,7 +9938,7 @@ msgstr ""
 "Jede Stadt hat Bürger, die zu verschiedenen Zwecken eingesetzt werden "
 "können. Im Stadtfenster kann man sehen, wie das Gelände genutzt wird. "
 "Besonders zu Spielbeginn sollte darauf geachtet werden, daß Gelände optimal "
-"genutzt wird. Es ist beachten, daß ein Teil der Bürger nicht nur als "
+"genutzt wird. Es ist zu beachten, daß ein Teil der Bürger nicht nur als "
 "Arbeiter, sondern auch als Unterhalter, Forscher oder Steuereintreiber "
 "eingesetzt werden können."
 
@@ -10245,7 +10246,7 @@ msgid ""
 "enemy cities."
 msgstr ""
 "Ähnlich wie Luftwaffeneinheiten können Hubschrauber sich auf jedes nicht von "
-"Gegenern besetzte Feld begeben. Auch Ihre Geschwindigkeit wird durch den "
+"Gegnern besetzte Feld begeben. Auch Ihre Geschwindigkeit wird durch den "
 "Verlust von Trefferpunkten nicht beeinflußt. Sie benötigen keinen "
 "Treibstoff, verlieren aber am Ende jeder Runde, in der sie sich nicht in "
 "einer Stadt oder einem Fliegerhorst befinden, 2 Trefferpunkte. Anders als "
@@ -10273,7 +10274,7 @@ msgstr ""
 "Marineeinheiten in einer Stadt mit Werft oder Luftwaffeneinheiten in einer "
 "Stadt mit Flughafen erhalten in einer Runde ohne Bewegung alle verlorenen "
 "Trefferpunkte zurück. In anderen Städten werden 1/3 der ursprünglichen "
-"Trefferpunkte zurück gewonnen. Einheiten in Befestigungen erhalten 1/4 der "
+"Trefferpunkte zurückgewonnen. Einheiten in Befestigungen erhalten 1/4 der "
 "ursprünglichen Trefferpunkte, eingegrabene Einheiten 1 zusätzlichen "
 "Trefferpunkt zurück. Besitz ein Spieler das Weltwunder 'Vereinte Nationen', "
 "so erhalten alle beschädigten Einheiten 2 zusätzliche Trefferpunkte zurück. "
@@ -10673,7 +10674,7 @@ msgstr ""
 "HINWEIS: Man kann in feindliche Kontrollzonen eindringen, in dem man "
 "zunächst einen Diplomaten (oder eine entsprechende Einheit) hineinführt. "
 "Reguläre Einheiten kann man jetzt auf das von dem Diplomaten besetzte Feld "
-"ziehen. Wenn man das wiederholt (und im Idealfall Einheiten zurück läßt, um "
+"ziehen. Wenn man das wiederholt (und im Idealfall Einheiten zurückläßt, um "
 "die Felder besetzt zu halten), kann man einen Weg durch feindliches Gebiet "
 "öffnen."
 
@@ -10813,7 +10814,7 @@ msgid ""
 "up) for Engineers, and they can be reduced further by stockpiling several "
 "Settlers/Engineers, doing teamwork."
 msgstr ""
-"Die folgende Tabelle zeigt die Anzahl an Runden die eine Siedler-Einheit "
+"Die folgende Tabelle zeigt die Anzahl an Runden, die eine Siedler-Einheit "
 "benötigt, um einen Auftrag auszuführen. Diese Zeiten können für Ingenieure "
 "halbiert werden (aufgerundet). Noch schnellere Arbeit ist möglich, wenn "
 "Teamwork geleistet wird."
@@ -11045,7 +11046,7 @@ msgid ""
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
-" - Unter 'Republik' oder 'Demokratie' wächst eine Stadt jährlich um 1 bis "
+" - Unter 'Republik' oder 'Demokratie' wächst eine Stadt jährlich um 1, bis "
 "keine überschüssige Nahrung mehr vorhanden ist oder die Anzahl der "
 "glücklichen Bürger zum Feiern nicht mehr ausreicht."
 
@@ -11390,7 +11391,7 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
-"Vermindert nicht nur die Produktion einer Stadt verursachte "
+"Vermindert nicht nur die durch die Produktion einer Stadt verursachte "
 "Umweltverschmutzung um die Hälfte, sondern steigert auch die Produktion von "
 "Fabriken und Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik "
 "oder einer Fertigungsstätte gibt es einen Bonus von 75%, sind beide "
@@ -11465,7 +11466,7 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Vermindert nicht nur die Produktion einer Stadt verursachte "
+"Vermindert nicht nur die durch die Produktion einer Stadt verursachte "
 "Umweltverschmutzung um die Hälfte, sondern steigert auch die Produktion von "
 "Fabriken und Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik "
 "oder einer Fertigungsstätte gibt es einen Bonus von 75%, sind beide "
@@ -11922,7 +11923,7 @@ msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
 msgstr ""
-"Jede Erkenntnis, die mindestens zwei andere Zivisilationen gewonnen haben, "
+"Jede Erkenntnis, die mindestens zwei andere Zivilisationen gewonnen haben, "
 "steht auch der Zivilisation mit der Großen Bibliothek zur Verfügung."
 
 #: data/civ1/buildings.ruleset:1259 data/civ2/buildings.ruleset:1250
@@ -12025,7 +12026,7 @@ msgid ""
 msgstr ""
 "Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt.\n"
 "\n"
-"Tiremen gehen nicht mehr auf hoher See verloren.\n"
+"Triremen gehen nicht mehr auf hoher See verloren.\n"
 "\n"
 "In allen eigenen Städten erhalten neue Marineeinheiten Veteran-Status."
 
@@ -12197,7 +12198,7 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
-"Vermindert nicht nur die Produktion einer Stadt verursachte "
+"Vermindert nicht nur die durch die Produktion einer Stadt verursachte "
 "Umweltverschmutzung um die Hälfte, sondern steigert auch die Produktion von "
 "Fabriken und Fertigungsstätten der Stadt. In Verbindung mit einer Fabrik "
 "oder einer Fertigungsstätte gibt es einen Bonus von 100%, sind beide "
@@ -12334,7 +12335,7 @@ msgid ""
 msgstr ""
 "Der Besitzer sieht alle Städte.\n"
 "\n"
-"Erlaubt allen Spielern mit den notwenigen Kenntnissen mit dem Raumschiffbau "
+"Erlaubt allen Spielern mit den notwendigen Kenntnissen mit dem Raumschiffbau "
 "zu beginnen."
 
 #: data/civ1/buildings.ruleset:1332
@@ -13480,7 +13481,7 @@ msgstr "Grasland"
 #: data/classic/terrain.ruleset:261 data/classic/terrain.ruleset:478
 #: data/default/terrain.ruleset:269 data/default/terrain.ruleset:275
 msgid "Resources"
-msgstr "Resourcen"
+msgstr "Ressourcen"
 
 #: data/civ1/terrain.ruleset:283 data/civ2/terrain.ruleset:291
 #: data/classic/terrain.ruleset:283 data/default/terrain.ruleset:291
@@ -13576,7 +13577,7 @@ msgid ""
 "Ocean squares can never be polluted or subjected to fallout."
 msgstr ""
 "Ozeanfelder machen einen großen Teil der Welt aus. Sie können nur von "
-"Seeeinheiten (Tiremen und anderen Schiffen) befahren werden.\n"
+"Marineeinheiten (Tiremen und anderen Schiffen) befahren werden.\n"
 "\n"
 "In Freeciv gibt es hier weder Umweltverschmutzung noch Fallout."
 
@@ -13985,7 +13986,7 @@ msgid ""
 "Transports."
 msgstr ""
 "HINWEIS: Eine sehr schnelle Einheit, sehr nützlich zur Jagd auf feindliche "
-"Transporte."
+"Transportschiffe."
 
 #: data/civ1/units.ruleset:974 data/civ2/units.ruleset:1012
 #: data/default/units.ruleset:1012
@@ -14074,13 +14075,13 @@ msgstr ""
 "Projekt durchgeführt hat.\n"
 "\n"
 "Bei der Explosion wird JEDE Einheit in einem 3x3-Feld zerstört. Ein Angriff "
-"auf eine Stadt, halbiert die Größe und verursacht Fallout auf allen "
+"auf eine Stadt halbiert deren Größe und verursacht Fallout auf allen "
 "angrenzenden Felder.\n"
 "\n"
 "HINWEIS 1: Da der Ozean nicht verseucht werden kann, ist eine Atomrakete ein "
 "äußerst effektives (aber teures!) Mittel, feindliche Schiffe zu versenken.\n"
 "\n"
-"HINWEIS 2: In einer Situation in der man auf feindlichem Gebiet zwar stark "
+"HINWEIS 2: In einer Situation, in der man auf feindlichem Gebiet zwar stark "
 "vertreten ist, die feindlichen Städten aber nicht einnehmen kann, sollte man "
 "vorab einige Siedler/Ingenieure in die Nähe der Stadt bringen, damit sie mit "
 "der Beseitigung des Fallouts in der gleichen Runde beginnen können, in der "
@@ -14148,7 +14149,7 @@ msgstr ""
 "Er kann\n"
 " - Städte auskundschaften.\n"
 " - Botschaften einrichten.\n"
-" - das Wasser vergiften (und so die Bevölkerung vermindern.\n"
+" - das Wasser vergiften (und so die Bevölkerung vermindern).\n"
 " - ein bestimmtes Forschungsergebnis stehlen.\n"
 " - bestimmte Stadterweiterungen sabotieren.\n"
 " - eine Revolte auslösen und die Stadt übernehmen.\n"
@@ -14267,7 +14268,7 @@ msgid ""
 "ready to fix the fallout on the same turn it occurs!  This minimizes the "
 "chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"Atomraketen können erst gebaut werden, wenn irgend ein Spieler das Manhattan "
+"Atomraketen können erst gebaut werden, wenn irgendein Spieler das Manhattan "
 "Projekt durchgeführt hat.\n"
 "\n"
 "Bei der Explosion wird JEDE Einheit in einem 3x3-Feld zerstört. Ein Angriff "
