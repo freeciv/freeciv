@@ -24,12 +24,12 @@ The extinction of all other civilizations.
             Claus Leth Gregersen - leth@daimi.aau.dk
             Peter Joachim Unold  - pjunold@daimi.aau.dk
 
-  Present administrator:
-             David Pfitzner       -dwp@mso.anu.edu.au 
-             Nicolas Brunel       -brunel@ham.esil.univ-mrs.fr
+  Present administrators:
+             Nicolas Brunel      - brunel@ham.esil.univ-mrs.fr
+             David Pfitzner      - dwp@mso.anu.edu.au
 
 If you find any bugs, then please send us a bug report.  You can
-either email the present administrator (listed above), or the
+either email the present administrators (listed above), or the
 Freeciv developers mailing list.  Details about Freeciv mailing
 lists, as well as helpful details on submitting bug reports, the
 Freeciv FAQ, and more, can be found on the Freeciv website, at:
@@ -351,7 +351,7 @@ Keyboard:
   a: (A)uto-settler                     arrow keys: Move unit
   A: (A)uto-attack (military units)          space: Unit stay put
   c: (C)enter view on unit                  return: Turn done
-  b: (B)uild City                       
+  b: (B)uild City
   D: (D)isband unit
   f: (F)ortify unit
   F: Build (F)ortress on tile
