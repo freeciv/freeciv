@@ -351,8 +351,7 @@ struct unit *find_visible_unit(struct tile *ptile)
 	  panyowned = punit;
         }
       }
-    } else if (!ptptother && !punit->transported_by &&
-	       player_can_see_unit(game.player_ptr, punit)) {
+    } else if (!ptptother && !punit->transported_by) {
       if (get_transporter_capacity(punit) > 0) {
 	ptptother = punit;
       } else if (!panyother) {

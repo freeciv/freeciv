@@ -217,23 +217,47 @@ struct player *find_player_by_user(const char *name)
   return NULL;
 }
 
-/***************************************************************
-  Returns TRUE iff the player can see the unit at (x,y), i.e. if 
-  the unit is not invisible or if it is adjacent to one of our 
-  cities or units.  No map visibility check here! The unit does 
-  not have to be at (x,y)! 
-  Allied units and cities can be used for sub hunting. 
-***************************************************************/
-bool player_can_see_unit_at_location(struct player *pplayer, 
-                                     struct unit *punit, 
-                                     int x, int y)
+/****************************************************************************
+  Checks if a unit can be seen by pplayer at (x,y).
+  A player can see a unit if he:
+  (a) can see the tile AND
+  (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
+  (c) the unit is outside a city OR in an allied city AND
+  (d) the unit isn't in a transporter, or we are allied AND
+  (e) the unit isn't in a transporter, or we can see the transporter
+****************************************************************************/
+bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
+			    int x, int y)
 {
+  struct city *pcity;
+
+  /* If the player can't even see the tile... */
+  if (!map_get_known(x, y, pplayer) == TILE_KNOWN) {
+    return FALSE;
+  }
+
+  /* Don't show non-allied units that are in transports.  This is logical
+   * because allied transports can also contain our units.  Shared vision
+   * isn't taken into account. */
+  if (punit->transported_by != -1 && unit_owner(punit) != pplayer
+      && !pplayers_allied(pplayer, unit_owner(punit))) {
+    return FALSE;
+  }
+
+  /* Units in cities may be hidden. */
+  pcity = map_get_city(x, y);
+  if (pcity && !can_player_see_units_in_city(pplayer, pcity)) {
+    return FALSE;
+  }
+
+  /* Allied or non-hiding units are always seen. */
   if (pplayers_allied(unit_owner(punit), pplayer)
       || !is_hiding_unit(punit)) {
     return TRUE;
   }
 
-  /* Search for units/cities that might be able to see the sub/missile */
+  /* Hiding units may only be seen by adjacent allied units or cities. */
+  /* FIXME: shouldn't a check for shared vision be done here? */
   adjc_iterate(x, y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
     if (pcity && pplayers_allied(city_owner(pcity), pplayer)) {
@@ -249,44 +273,15 @@ bool player_can_see_unit_at_location(struct player *pplayer,
   return FALSE;
 }
 
-/***************************************************************
-  Same thing as above only the location is the unit's current one.
-***************************************************************/
-bool player_can_see_unit(struct player *pplayer, struct unit *punit)
-{
-  return player_can_see_unit_at_location(pplayer, punit, punit->x, punit->y);
-}
 
 /****************************************************************************
-  Checks if a unit can be seen by pplayer at (x,y).
-  A player can see a unit if he:
-  (a) can see the tile AND
-  (b) can see the unit at the tile (i.e. unit not invisible at this tile) AND
-  (c) the unit is outside a city OR in an allied city AND
-  (d) the unit isn't in a transporter, or we are allied AND
-  (e) the unit isn't in a transporter, or we can see the transporter
-  
-  TODO: the name is confusingly similar to player_can_see_unit_at_location
-  But we need to rename p_c_s_u_a_t because it is really 
-  is_unit_visible_to_player_at or player_ignores_unit_invisibility_at.
+  Checks if a unit can be seen by pplayer at its current location.
+
+  See can_player_see_unit_at.
 ****************************************************************************/
-bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
-			    int x, int y)
+bool can_player_see_unit(struct player *pplayer, struct unit *punit)
 {
-  struct city *pcity;
-
-  /* Don't show non-allied units that are in transports.  This is logical
-   * because allied transports can also contain our units.  Shared vision
-   * isn't taken into account. */
-  if (punit->transported_by != -1 && unit_owner(punit) != pplayer
-      && !pplayers_allied(pplayer, unit_owner(punit))) {
-    return FALSE;
-  }
-
-  pcity = map_get_city(x, y);
-  return ((map_get_known(x, y, pplayer) == TILE_KNOWN)
-	  && player_can_see_unit_at_location(pplayer, punit, x, y)
-	  && (!pcity || can_player_see_units_in_city(pplayer, pcity)));
+  return can_player_see_unit_at(pplayer, punit, punit->x, punit->y);
 }
 
 /****************************************************************************

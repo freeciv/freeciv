@@ -1385,9 +1385,8 @@ void move_unit_map_canvas(struct unit *punit,
 
   flush_dirty();
 
-  if (player_can_see_unit(game.player_ptr, punit) &&
-      (tile_visible_mapcanvas(map_x, map_y) ||
-       tile_visible_mapcanvas(dest_x, dest_y))) {
+  if (tile_visible_mapcanvas(map_x, map_y)
+      || tile_visible_mapcanvas(dest_x, dest_y)) {
     int i, steps;
     int start_x, start_y;
     int this_x, this_y;

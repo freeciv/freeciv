@@ -2745,9 +2745,8 @@ static void wakeup_neighbor_sentries(struct unit *punit)
       
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
-	  && map_is_known_and_seen(punit->x, punit->y, unit_owner(penemy))
 	  && range >= real_map_distance(punit->x, punit->y, x, y)
-	  && player_can_see_unit(unit_owner(penemy), punit)
+	  && can_player_see_unit(unit_owner(penemy), punit)
 	  /* on board transport; don't awaken */
 	  && !(move_type == LAND_MOVING && is_ocean(terrain))) {
 	set_unit_activity(penemy, ACTIVITY_IDLE);
@@ -3134,6 +3133,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 {
   bool cancel = FALSE;
   int range;
+  struct player *pplayer = unit_owner(punit);
 
   if (map_has_special(punit->x, punit->y, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
@@ -3143,9 +3143,14 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   
   square_iterate(punit->x, punit->y, range, x, y) {
     struct unit *penemy =
-	is_non_allied_unit_tile(map_get_tile(x, y), unit_owner(punit));
-    if (penemy && player_can_see_unit(unit_owner(punit), penemy)) {
+	is_non_allied_unit_tile(map_get_tile(x, y), pplayer);
+    struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
+
+    if ((penemy && can_player_see_unit(pplayer, penemy))
+	|| (pdcity && !pplayers_allied(pplayer, get_player(pdcity->owner))
+	    && pdcity->occupied)) {
       cancel = TRUE;
+      break;
     }
   } square_iterate_end;
 
