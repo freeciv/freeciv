@@ -227,14 +227,14 @@ void cityresult_fill(struct player *pplayer,
      * never make cities. */
     if (game.fulltradesize == 1) {
       result->corruption = ai->science_priority
-	* city_corruption(pcity, 
-			  result->citymap[result->o_x][result->o_y].trade
-			  + result->citymap[2][2].trade);
+	* city_waste(pcity, O_TRADE,
+		     result->citymap[result->o_x][result->o_y].trade
+		     + result->citymap[2][2].trade);
     } else {
       result->corruption = 0;
     }
     result->waste = ai->shield_priority
-      * city_waste(pcity,
+      * city_waste(pcity, O_SHIELD,
 		   result->citymap[result->o_x][result->o_y].shield
 		   + result->citymap[2][2].shield);
   } else {
@@ -242,11 +242,11 @@ void cityresult_fill(struct player *pplayer,
      * is possible (with notradesize) that we _gain_ value here. */
     pcity->size++;
     result->corruption = ai->science_priority
-      * (city_corruption(pcity,
-			 result->citymap[result->o_x][result->o_y].trade)
+      * (city_waste(pcity, O_TRADE,
+		    result->citymap[result->o_x][result->o_y].trade)
 	 - pcity->corruption);
     result->waste = ai->shield_priority
-      * (city_waste(pcity,
+      * (city_waste(pcity, O_SHIELD,
 		    result->citymap[result->o_x][result->o_y].shield)
 	 - pcity->shield_waste);
     pcity->size--;

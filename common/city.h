@@ -503,8 +503,7 @@ void generic_city_refresh(struct city *pcity,
 			  void (*send_unit_info) (struct player * pplayer,
 						  struct unit * punit));
 void adjust_city_free_cost(int *num_free, int *this_cost);
-int city_corruption(const struct city *pcity, int trade);
-int city_waste(const struct city *pcity, int shields);
+int city_waste(const struct city *pcity, Output_type_id otype, int total);
 int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
 Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity);

@@ -87,8 +87,8 @@ void city_refresh(struct city *pcity)
    generic_city_refresh(pcity, TRUE, send_unit_info);
    /* AI would calculate this 1000 times otherwise; better to do it
       once -- Syela */
-   pcity->ai.trade_want =
-       TRADE_WEIGHTING - city_corruption(pcity, TRADE_WEIGHTING);
+   pcity->ai.trade_want
+     = TRADE_WEIGHTING - city_waste(pcity, O_TRADE, TRADE_WEIGHTING);
 }
 
 /**************************************************************************

@@ -109,8 +109,8 @@ static inline int city_want(struct player *pplayer, struct city *acity,
   int want = 0, food, trade, shields, lux, sci, tax;
 
   get_food_trade_shields(acity, &food, &trade, &shields);
-  trade -= city_corruption(acity, trade);
-  shields -= city_waste(acity, shields);
+  trade -= city_waste(acity, O_TRADE, trade);
+  shields -= city_waste(acity, O_SHIELD, shields);
   get_tax_income(pplayer, trade, &sci, &lux, &tax);
 
   built_impr_iterate(acity, i) {
