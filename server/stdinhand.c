@@ -1796,10 +1796,14 @@ static bool set_away(struct connection *caller, char *name, bool check)
                 caller->player->name);
     set_ai_level_directer(caller->player, 1);
     caller->player->ai.control = TRUE;
+    cancel_all_meetings(caller->player);
   } else if (!check) {
     notify_conn(&game.est_connections, _("%s returned to game."), 
                 caller->player->name);
     caller->player->ai.control = FALSE;
+    /* We have to do it, because the client doesn't display 
+     * dialogs for meetings in AI mode. */
+    cancel_all_meetings(caller->player);
   }
   return TRUE;
 }
