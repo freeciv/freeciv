@@ -1,0 +1,36 @@
+[nation_swiss]
+
+name=_("Swiss")
+plural=_("?plural:Swiss")
+class=_("Modern")
+leader=	"Wilhelm Tell", "Arnold von Winkelried", "Gessler", "General Guisan",
+	"Adolf Ogi", "Ruth Dreifuss", "Moritz Leuenberger",
+	"Christoph Blocher"
+leader_sex="Male", "Male", "Male", "Male", "Male",
+  "Female", "Male", "Male"
+flag="f.switzerland"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=1
+civilized=0
+advisors=100,100,100,100,100,100,100
+init_techs=""
+
+tech_goals = "Democracy", "Iron Working", "Trade", "Engineering",
+             "Railroad", "Bridge Building", "Banking"
+wonder="United Nations"
+government="Democracy"
+
+cities =
+  "Bern (river)", "Zürich", "Basel (river)", "Genève", "Lausanne",
+  "Winterthur", "St. Gallen", "Luzern", "Biel / Bienne", "Thun (river)",
+  "Köniz", "La Chaux-de-Fonds", "Fribourg (river)", "Schaffhausen (river)",
+  "Neuchatel", "Chur", "Vernier GE", "Emmen LU", "Sion (river)", "Lugano",
+  "Uster ZH", "Kriens LU", "Lancy GE", "Montreux VD",
+  "Yverdon-les-bains VD (river)",
+  "Zug", "Dietikon ZH", "Dübendorf ZH", "Frauenfeld TG", "Riehen BS",
+  "Aarau (river)", "Herisau", "Appenzell", "Liestal", "Glarus",
+  "Delemont", "Stans", "Sarnen", "Schwyz",
+  "Solothurn (river)", "Bellinzona", "Altdorf"
