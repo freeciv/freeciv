@@ -693,6 +693,7 @@ int ui_main(int argc, char **argv)
   
   setup_widgets();
   load_intro_gfx();
+  load_cursors();
 
   gtk_signal_connect(GTK_OBJECT(inputline), "activate",
 	GTK_SIGNAL_FUNC(inputline_return), NULL);
