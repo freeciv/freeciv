@@ -29,6 +29,7 @@
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 
@@ -970,14 +971,28 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		     improvement_types[pcity->currently_building].name);
 
     if (pcity->currently_building == B_DARWIN) {
-      notify_player(pplayer,
-		    _("Game: %s boosts research, "
-		      "you gain 2 immediate advances."),
+      Tech_Type_id first, second;
+      char buffer[200];
+
+      notify_player(pplayer, _("Game: %s boosts research, "
+			       "you gain 2 immediate advances."),
 		    improvement_types[B_DARWIN].name);
+
       do_free_cost(pplayer);
+      first = pplayer->research.researching;
       found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
+
       do_free_cost(pplayer);
+      second = pplayer->research.researching;
       found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE);
+
+      mystrlcpy(buffer,get_tech_name(pplayer, first),sizeof(buffer));
+
+      notify_embassies(pplayer, NULL,
+		       _("Game: The %s have acquired %s and %s from %s."),
+		       get_nation_name_plural(pplayer->nation), buffer,
+		       get_tech_name(pplayer, second),
+		       improvement_types[B_DARWIN].name);
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
       notify_player_ex(NULL, pcity->x, pcity->y, E_SPACESHIP,
