@@ -987,7 +987,7 @@ build_cost  = 600
 upkeep      = 0
 variant     = 0
 helptext    = _("\
-Units regain one extra hitpoint per turn.\
+Units regain two extra hitpoints per turn.\
 ")
 ; Variant 1: 
 ; Allows you to choose any government, including those that have not yet
