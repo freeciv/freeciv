@@ -72,6 +72,9 @@ void handle_nuke_tile(struct packet_nuke_tile *packet);
 void handle_page_msg(struct packet_generic_message *packet);
 void handle_before_new_year();
 void handle_remove_player(struct packet_generic_integer *packet);
+void handle_ruleset_unit(struct packet_ruleset_unit *packet);
+void handle_ruleset_tech(struct packet_ruleset_tech *packet);
+void handle_ruleset_building(struct packet_ruleset_building *packet);
 
 /**************************************************************************
 ...
@@ -222,6 +225,18 @@ void handle_packet_input(char *packet, int type)
     handle_remove_player((struct packet_generic_integer *)packet);
     break;
 
+  case PACKET_RULESET_UNIT:
+    handle_ruleset_unit((struct packet_ruleset_unit *)packet);
+    break;
+    
+  case PACKET_RULESET_TECH:
+    handle_ruleset_tech((struct packet_ruleset_tech *)packet);
+    break;
+    
+  case PACKET_RULESET_BUILDING:
+    handle_ruleset_building((struct packet_ruleset_building *)packet);
+    break;
+
   case PACKET_INCITE_COST:
     handle_incite_cost((struct packet_generic_values *)packet);
     break;
@@ -302,8 +317,8 @@ void set_client_state(enum client_states newstate)
     client_state=newstate;
 
     if(client_state==CLIENT_GAME_RUNNING_STATE) {
-      set_civ_style(game.civstyle);
       update_research(game.player_ptr);
+      role_unit_precalcs();
       boot_help_texts();	/* reboot */
       update_unit_focus();
     }

@@ -4,6 +4,7 @@
 #include <packets.h>
 #include <climisc.h>
 #include <game.h>
+#include <unit.h>
 #include <mapview.h>
 #include <mapctrl.h>
 #include <map.h>
@@ -566,12 +567,22 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.techpenalty=pinfo->techpenalty;
   game.foodbox=pinfo->foodbox;
   game.civstyle=pinfo->civstyle;
+
+  game.aqueduct_size = pinfo->aqueduct_size;
+  game.sewer_size = pinfo->sewer_size;
+  game.rtech.get_bonus_tech = pinfo->rtech.get_bonus_tech;
+  game.rtech.boat_fast = pinfo->rtech.boat_fast;
+  game.rtech.cathedral_plus = pinfo->rtech.cathedral_plus;
+  game.rtech.cathedral_minus = pinfo->rtech.cathedral_minus;
+  game.rtech.colosseum_plus = pinfo->rtech.colosseum_plus;
+
   boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
   if (boot_help) {
     boot_help_texts();		/* reboot, after setting game.spacerace */
   }
+  
   update_unit_focus();
 }
 
@@ -750,6 +761,61 @@ void handle_select_race(struct packet_generic_integer *packet)
   else
     flog(LOG_DEBUG, "got a select race packet in an incompatible state");
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_unit(struct packet_ruleset_unit *p)
+{
+  struct unit_type *u = &unit_types[p->id];
+
+  strcpy(u->name, p->name);
+  u->graphics           = p->graphics;
+  u->move_type          = p->move_type;
+  u->build_cost         = p->build_cost;
+  u->attack_strength    = p->attack_strength;
+  u->defense_strength   = p->defense_strength;
+  u->move_rate          = p->move_rate;
+  u->tech_requirement   = p->tech_requirement;
+  u->vision_range       = p->vision_range;
+  u->transport_capacity = p->transport_capacity;
+  u->hp                 = p->hp;
+  u->firepower          = p->firepower;
+  u->obsoleted_by       = p->obsoleted_by;
+  u->fuel               = p->fuel;
+  u->flags              = p->flags;
+  u->roles              = p->roles;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_tech(struct packet_ruleset_tech *p)
+{
+  struct advance *a = &advances[p->id];
+
+  strcpy(a->name, p->name);
+  a->req[0] = p->req[0];
+  a->req[1] = p->req[1];
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_building(struct packet_ruleset_building *p)
+{
+  struct improvement_type *b = &improvement_types[p->id];
+
+  strcpy(b->name, p->name);
+  b->is_wonder        = p->is_wonder;
+  b->tech_requirement = p->tech_requirement;
+  b->build_cost       = p->build_cost;      
+  b->shield_upkeep    = p->shield_upkeep;   
+  b->obsolete_by      = p->obsolete_by;     
+  b->variant          = p->variant;         
+ 
+}
+
 
 /**************************************************************************
 ...
