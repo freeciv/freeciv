@@ -29,7 +29,7 @@ const char * const our_capability = our_capability_internal;
  * a capability that this version of Freeciv understands.
  * If a capability word is mandatory, it should start with a "+".
  *
- * #define CAPABILITY "+1.6, MapScroll, +AutoSettlers";
+ * eg, #define CAPABILITY "+1.6, MapScroll, +AutoSettlers"
  *
  * Client and server functions can test these strings for a particular
  * capability by calling the functions in capability.c
@@ -68,7 +68,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.8 caravan1 nuke clientcommands";
+#define CAPABILITY "+1.8 caravan1 nuke clientcommands"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
