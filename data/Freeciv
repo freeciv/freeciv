@@ -197,6 +197,7 @@ Freeciv*borderColor: black
 !
 Freeciv*popupinfo.*.background:                  grey
 Freeciv*popupinfo.*.foreground:                  black
+Freeciv*popupinfo.*.borderWidth:                 3
 
 
 !

@@ -105,6 +105,9 @@ popit_button_release(GtkWidget *w, GdkEventButton *event)
 static void popit(GdkEventButton *event, int xtile, int ytile)
 {
   GtkWidget *p, *b;
+  static struct map_position cross_list[2+1];
+  struct map_position *cross_head = cross_list;
+  int i;
   char s[512];
   struct city *pcity;
   struct unit *punit;
@@ -172,15 +175,17 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				     NULL);
 
       if(punit->owner==game.player_idx)  {
-        sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s", ptype->attack_strength, 
+	char uc[64] = "";
+	if(unit_list_size(&ptile->units)>=2)
+	  sprintf(uc, "  (%d more)", unit_list_size(&ptile->units) - 1);
+        sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s%s", ptype->attack_strength, 
 	        ptype->defense_strength, ptype->firepower, punit->hp, 
-	        ptype->hp, punit->veteran?" V":"");
+	        ptype->hp, punit->veteran?" V":"", uc);
 
         if(punit->activity==ACTIVITY_GOTO)  {
-          put_cross_overlay_tile(punit->goto_dest_x,punit->goto_dest_y);
-
-	  gtk_signal_connect(GTK_OBJECT(p),"destroy",
-		GTK_SIGNAL_FUNC(popupinfo_popdown_callback),punit);
+	  cross_head->x = punit->goto_dest_x;
+	  cross_head->y = punit->goto_dest_y;
+	  cross_head++;
         }
       } else {
         sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
@@ -191,7 +196,20 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				     "GtkLabel::label", s,
 				     NULL);
     }
+
+    cross_head->x = xtile;
+    cross_head->y = ytile;
+    cross_head++;
+
     gtk_widget_show_all(b);
+
+    cross_head->x = -1;
+    for (i = 0; cross_list[i].x >= 0; i++) {
+      put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
+    }
+    gtk_signal_connect(GTK_OBJECT(p),"destroy",
+		       GTK_SIGNAL_FUNC(popupinfo_popdown_callback),
+		       cross_list);
 
     gtk_widget_popup(p, event->x_root, event->y_root);
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
@@ -208,9 +226,12 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 **************************************************************************/
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
 {
-  struct unit *punit=(struct unit *)data;
+  struct map_position *cross_list=(struct map_position *)data;
 
-  refresh_tile_mapcanvas(punit->goto_dest_x,punit->goto_dest_y,1);
+  while (cross_list->x >= 0) {
+    refresh_tile_mapcanvas(cross_list->x,cross_list->y,1);
+    cross_list++;
+  }
 }
 
 /**************************************************************************

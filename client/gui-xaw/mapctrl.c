@@ -49,6 +49,7 @@
 #include "mapctrl.h"
 
 extern Display	*display;
+extern int screen_number;
 
 extern int map_view_x0, map_view_y0;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
@@ -108,6 +109,11 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
 static void popit(int xin, int yin, int xtile, int ytile)
 {
   Position x, y;
+  int dw, dh;
+  Dimension w, h, b;
+  static struct map_position cross_list[2+1];
+  struct map_position *cross_head = cross_list;
+  int i;
   char s[512];
   struct city *pcity;
   struct unit *punit;
@@ -116,7 +122,6 @@ static void popit(int xin, int yin, int xtile, int ytile)
   
   if(ptile->known>=TILE_KNOWN) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass, map_canvas, NULL, 0);
-    XtAddCallback(p,XtNpopdownCallback,destroy_me_callback,NULL);
     sprintf(s, "Terrain: %s", map_get_tile_info_text(xtile, ytile));
     XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
@@ -150,7 +155,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
       *(s+strlen(s)-1)='\0';
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
-    
+
     if((punit=player_find_visible_unit(game.player_ptr, ptile)) && !pcity) {
       char cn[64];
       struct unit_type *ptype=get_unit_type(punit->type);
@@ -166,14 +171,17 @@ static void popit(int xin, int yin, int xtile, int ytile)
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
       if(punit->owner==game.player_idx)  {
-        sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s", ptype->attack_strength, 
+	char uc[64] = "";
+	if(unit_list_size(&ptile->units)>=2)
+	  sprintf(uc, "  (%d more)", unit_list_size(&ptile->units) - 1);
+        sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s%s", ptype->attack_strength, 
 	        ptype->defense_strength, ptype->firepower, punit->hp, 
-	        ptype->hp, punit->veteran?" V":"");
+	        ptype->hp, punit->veteran?" V":"", uc);
 
         if(punit->activity==ACTIVITY_GOTO)  {
-          put_cross_overlay_tile(punit->goto_dest_x,punit->goto_dest_y);
-          XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
-                       (XtPointer)punit);
+	  cross_head->x = punit->goto_dest_x;
+	  cross_head->y = punit->goto_dest_y;
+	  cross_head++;
         }
       } else {
         sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
@@ -182,10 +190,38 @@ static void popit(int xin, int yin, int xtile, int ytile)
       };
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
-    
+
+    cross_head->x = xtile;
+    cross_head->y = ytile;
+    cross_head++;
+
+    xin /= NORMAL_TILE_WIDTH;
+    xin *= NORMAL_TILE_WIDTH;
+    yin /= NORMAL_TILE_HEIGHT;
+    yin *= NORMAL_TILE_HEIGHT;
+    xin += (NORMAL_TILE_WIDTH / 2);
     XtTranslateCoords(map_canvas, xin, yin, &x, &y);
-    
+    dw = XDisplayWidth (display, screen_number);
+    dh = XDisplayHeight (display, screen_number);
+    XtRealizeWidget(p);
+    XtVaGetValues(p, XtNwidth, &w, XtNheight, &h, XtNborderWidth, &b, NULL);
+    w += (2 * b);
+    h += (2 * b);
+    x -= (w / 2);
+    y -= h;
+    if ((x + w) > dw) x = dw - w;
+    if (x < 0) x = 0;
+    if ((y + h) > dh) y = dh - h;
+    if (y < 0) y = 0;
     XtVaSetValues(p, XtNx, x, XtNy, y, NULL);
+
+    cross_head->x = -1;
+    for (i = 0; cross_list[i].x >= 0; i++) {
+      put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
+    }
+    XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
+		  (XtPointer)cross_list);
+
     XtPopupSpringLoaded(p);
   }
   
@@ -197,9 +233,14 @@ static void popit(int xin, int yin, int xtile, int ytile)
 void popupinfo_popdown_callback(Widget w, XtPointer client_data,
         XtPointer call_data)
 {
-  struct unit *punit=(struct unit *)client_data;
+  struct map_position *cross_list=(struct map_position *)client_data;
 
-  refresh_tile_mapcanvas(punit->goto_dest_x,punit->goto_dest_y,1);
+  while (cross_list->x >= 0) {
+    refresh_tile_mapcanvas(cross_list->x,cross_list->y,1);
+    cross_list++;
+  }
+
+  XtDestroyWidget(w);
 }
 
 /**************************************************************************
