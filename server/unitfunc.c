@@ -488,10 +488,14 @@ void player_restore_units(struct player *pplayer)
 	  notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			   "Game: Your Trireme has been lost on the high seas");
           transporter_cargo_to_unitlist(punit, &list);
-          while (next_unit = (struct unit *)ITERATOR_PTR(myiter)) {
-             if (unit_list_find(&list, next_unit->id)) {
-printf("Iterating\n");
-ITERATOR_NEXT(myiter); }
+          printf("Trireme has gone Kaput!\n");
+          while (1) {
+            next_unit = (struct unit *)ITERATOR_PTR(myiter);
+            if (next_unit && unit_list_find(&list, next_unit->id)) {
+              ITERATOR_NEXT(myiter);
+              printf("Iterating %d->%d\n", next_unit->id, (ITERATOR_PTR(myiter) ? 
+                  ((struct unit *)ITERATOR_PTR(myiter))->id : 0));
+            } else break;
           }
 /* following filched from wipe_unit since t_c_2_u unlinks the damned -- Syela */
           unit_list_iterate(list, punit2) {
@@ -706,6 +710,10 @@ void create_unit(struct player *pplayer, int x, int y, enum unit_type_id type,
   punit->fuel=get_unit_type(punit->type)->fuel;
   punit->ai.control=0;
   punit->ai.ai_role = AIUNIT_NONE;
+  punit->ai.ferryboat = 0;
+  punit->ai.passenger = 0;
+  punit->ai.bodyguard = 0;
+  punit->ai.charge = 0;
   unit_list_insert(&pplayer->units, punit);
   unit_list_insert(&map_get_tile(x, y)->units, punit);
   if (pcity)
