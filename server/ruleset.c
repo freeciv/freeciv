@@ -1328,7 +1328,7 @@ static void load_ruleset_buildings(struct section_file *file)
 **************************************************************************/
 static void load_terrain_names(struct section_file *file)
 {
-  int nval, i;
+  int nval;
   char **sec;
   const char *filename = secfile_filename(file);
 
@@ -1344,13 +1344,14 @@ static void load_terrain_names(struct section_file *file)
       exit(EXIT_FAILURE);
     }
 
-  for (i = T_FIRST; i < T_COUNT; i++) {
+  terrain_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.terrain_name", sec[i]);
     name_strlcpy(tile_types[i].terrain_name, name);
     if (0 == strcmp(tile_types[i].terrain_name, "unused")) {
       tile_types[i].terrain_name[0] = 0;
     }
-  }
+  } terrain_type_iterate_end;
+
   free(sec);
 }
 
@@ -1362,8 +1363,7 @@ static void load_ruleset_terrain(struct section_file *file)
   char *datafile_options;
   int nval;
   char **sec;
-  int i, j;
-  struct tile_type *t;
+  int j;
   const char *filename = secfile_filename(file);
 
   datafile_options =
@@ -1429,10 +1429,9 @@ static void load_ruleset_terrain(struct section_file *file)
 
   /* terrain details */
 
-  for (i = T_FIRST; i < T_COUNT; i++)
-    {
+  terrain_type_iterate(i) {
+      struct tile_type *t = &(tile_types[i]);
       char *s1_name, *s2_name, **slist;
-      t = &(tile_types[i]);
 
       sz_strlcpy(t->graphic_str,
 		 secfile_lookup_str(file,"%s.graphic", sec[i]));
@@ -1506,7 +1505,7 @@ static void load_ruleset_terrain(struct section_file *file)
       free(slist);
       
       t->helptext = lookup_helptext(file, sec[i]);
-    }
+  } terrain_type_iterate_end;
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -2622,14 +2621,13 @@ static void send_ruleset_buildings(struct conn_list *dest)
 static void send_ruleset_terrain(struct conn_list *dest)
 {
   struct packet_ruleset_terrain packet;
-  struct tile_type *t;
-  int i, j;
+
+  int j;
 
   lsend_packet_ruleset_terrain_control(dest, &terrain_control);
 
-  for (i = T_FIRST; i < T_COUNT; i++)
-    {
-      t = &(tile_types[i]);
+  terrain_type_iterate(i) {
+      struct tile_type *t = &(tile_types[i]);
 
       packet.id = i;
 
@@ -2678,7 +2676,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
       packet.helptext = t->helptext;   /* pointer assignment */
       
       lsend_packet_ruleset_terrain(dest, &packet);
-    }
+  } terrain_type_iterate_end;
 }
 
 /**************************************************************************

@@ -533,7 +533,7 @@ void translate_data_names(void)
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
   } impr_type_iterate_end;
 
-  for (i=T_FIRST; i<T_COUNT; i++) {
+  terrain_type_iterate(i) {
     struct tile_type *tthis = &tile_types[i];
     sz_strlcpy(tthis->terrain_name_orig, tthis->terrain_name);
     name_strlcpy(tthis->terrain_name,
@@ -547,7 +547,8 @@ void translate_data_names(void)
     name_strlcpy(tthis->special_2_name,
 		 (strcmp(tthis->special_2_name_orig, "") != 0) ?
 			Q_(tthis->special_2_name_orig) : "");
-  }
+  } terrain_type_iterate_end;
+
   government_iterate(tthis) {
     int j;
 

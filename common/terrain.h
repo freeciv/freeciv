@@ -93,4 +93,14 @@ enum known_type {
 
 #define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
 
+/* This iterator iterates over all terrain types. */
+#define terrain_type_iterate(id)                                            \
+{                                                                           \
+  enum tile_terrain_type id;                                                \
+  for (id = T_FIRST; id < T_COUNT; id++) {
+
+#define terrain_type_iterate_end                                            \
+  }                                                                         \
+}
+
 #endif  /* FC__TERRAIN_H */
