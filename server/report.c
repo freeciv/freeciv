@@ -162,8 +162,7 @@ static void historian_generic(enum historian_type which_news)
   int i, j = 0, rank = 0;
   char buffer[4096];
   char title[1024];
-  struct player_score_entry *size =
-      fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
+  struct player_score_entry size[game.nplayers];
 
   players_iterate(pplayer) {
     if (pplayer->is_alive && !is_barbarian(pplayer)) {
@@ -201,7 +200,6 @@ static void historian_generic(enum historian_type which_news)
 		 _("%2d: The %s %s\n"), rank + 1, _(greatness[rank]),
 		 get_nation_name_plural(size[i].player->nation));
   }
-  free(size);
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
     _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
   page_conn_etype(&game.game_connections, _("Historian Publishes!"),
@@ -232,8 +230,7 @@ void report_top_five_cities(struct conn_list *dest)
   const int NUM_BEST_CITIES = 5;
   /* a wonder equals WONDER_FACTOR citizen */
   const int WONDER_FACTOR = 5;
-  struct city_score_entry *size =
-      fc_malloc(sizeof(struct city_score_entry) * NUM_BEST_CITIES);
+  struct city_score_entry size[NUM_BEST_CITIES];
   int i;
   char buffer[4096];
 
@@ -280,7 +277,6 @@ void report_top_five_cities(struct conn_list *dest)
 		   PL_("with %d wonder\n", "with %d wonders\n", wonders),
 		   wonders);}
   }
-  free(size);
   page_conn(dest, _("Traveler's Report:"),
 	    _("The Five Greatest Cities in the World!"), buffer);
 }
@@ -1081,8 +1077,7 @@ void report_progress_scores(void)
 {
   int i, j = 0;
   char buffer[4096];
-  struct player_score_entry *size =
-      fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
+  struct player_score_entry size[game.nplayers];
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
@@ -1104,7 +1099,6 @@ void report_progress_scores(void)
 		 get_nation_name_plural(size[i].player->nation),
 		 size[i].value);
   }
-  free(size);
   page_conn(&game.game_connections,
 	    _("Progress Scores:"),
 	    _("The Greatest Civilizations in the world."), buffer);

@@ -73,7 +73,7 @@
 #define SAVE_MAP_DATA(map_x, map_y, nat_x, nat_y, line,                     \
                       GET_XY_CHAR, SECFILE_INSERT_LINE)                     \
 {                                                                           \
-  char *line = fc_malloc(map.xsize + 1);                                    \
+  char line[map.xsize + 1];                                                 \
   int nat_x, nat_y, map_x, map_y;                                           \
                                                                             \
   for (nat_y = 0; nat_y < map.ysize; nat_y++) {                             \
@@ -88,7 +88,6 @@
     line[map.xsize] = '\0';                                                 \
     (SECFILE_INSERT_LINE);                                                  \
   }                                                                         \
-  free(line);                                                               \
 }
 
 /*

@@ -142,10 +142,7 @@ void gamelog_save(void) {
   int i, count = 0, highest = -1;
   struct player *highest_plr = NULL;
   char buffer[4096];
-  struct player_score_entry *size =
-    fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
-  struct player_score_entry *rank =
-    fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
+  struct player_score_entry size[game.nplayers], rank[game.nplayers];
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
@@ -186,7 +183,6 @@ void gamelog_save(void) {
 		 size[i].value);
   }
   gamelog(GAMELOG_EOT,buffer);
-  free(size);
   qsort(rank, count, sizeof(struct player_score_entry), secompare1);
   buffer[0] = 0;
   for (i = 0; i < count; i++) {
@@ -206,6 +202,4 @@ void gamelog_save(void) {
 		 game.players[rank[i].idx].is_connected, rank[i].value);
   }
   gamelog(GAMELOG_STATUS, buffer);
-
-  free(rank);
 }

@@ -214,7 +214,7 @@ struct unit {
 { \
   int _size = unit_list_size(&unitlist); \
   if (_size > 0) { \
-    int *_ids = fc_malloc(sizeof(int) * _size); \
+    int _ids[_size]; \
     int _i = 0; \
     unit_list_iterate(unitlist, punit) { \
       _ids[_i++] = punit->id; \
@@ -226,7 +226,6 @@ struct unit {
 #define unit_list_iterate_safe_end \
       } \
     } \
-    free(_ids); \
   } \
 }
 
