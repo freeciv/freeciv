@@ -22,7 +22,6 @@ struct Sprite
 {
   GdkPixmap *pixmap;
   GdkBitmap *mask;
-  int	     has_mask;
   int	     width;
   int	     height;
 

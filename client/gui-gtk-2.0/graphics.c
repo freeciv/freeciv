@@ -180,7 +180,7 @@ struct Sprite *crop_sprite(struct Sprite *source,
   gdk_draw_drawable(mypixmap, civ_gc, source->pixmap, x, y, 0, 0,
 		    width, height);
 
-  if (source->has_mask) {
+  if (source->mask) {
     mymask = gdk_pixmap_new(NULL, width, height, 1);
     gdk_draw_rectangle(mymask, mask_bg_gc, TRUE, 0, 0, -1, -1);
 
@@ -291,7 +291,6 @@ SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask,
 
     mysprite->pixmap	= mypixmap;
 
-    mysprite->has_mask = (mask != NULL);
     mysprite->mask = mask;
 
     mysprite->width	= width;
@@ -349,7 +348,6 @@ struct Sprite *load_gfxfile(const char *filename)
   w = gdk_pixbuf_get_width(im); h = gdk_pixbuf_get_height(im);
   gdk_pixbuf_render_pixmap_and_mask(im, &mysprite->pixmap, &mysprite->mask, 1);
 
-  mysprite->has_mask  = (mysprite->mask != NULL);
   mysprite->width     = w;
   mysprite->height    = h;
 
@@ -448,7 +446,6 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
 
   gdk_pixbuf_render_pixmap_and_mask(im, &mysprite->pixmap, &mysprite->mask, 1);
 
-  mysprite->has_mask  = (mysprite->mask != NULL);
   mysprite->width     = new_w;
   mysprite->height    = new_h;
 
@@ -470,7 +467,7 @@ void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
   GdkImage *mask_image;
   int i, j;
 
-  if (!sprite->has_mask || !sprite->mask) {
+  if (!sprite->mask) {
     *start_x = 0;
     *start_y = 0;
     *end_x = sprite->width - 1;
