@@ -246,10 +246,9 @@ const char *unit_class_name(Unit_Class_id id);
 const char *get_unit_name(Unit_Type_id id);
 const char *get_units_with_flag_string(int flag);
 
-int utype_shield_cost(struct unit_type *ut, struct government *g);
-int utype_food_cost(struct unit_type *ut, struct government *g);
+int utype_upkeep_cost(const struct unit_type *ut,
+		      const struct government *gov, Output_type_id otype);
 int utype_happy_cost(struct unit_type *ut, struct government *g);
-int utype_gold_cost(struct unit_type *ut, struct government *g);
 
 int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id);
 int unit_upgrade_price(const struct player * const pplayer,

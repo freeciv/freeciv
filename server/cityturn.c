@@ -836,7 +836,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 
   if (pcity->surplus[O_SHIELD] < 0) {
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      if (utype_shield_cost(unit_type(punit), g) > 0
+      if (utype_upkeep_cost(unit_type(punit), g, O_SHIELD) > 0
 	  && pcity->surplus[O_SHIELD] < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	notify_player_ex(pplayer, pcity->tile, E_UNIT_LOST,
@@ -854,7 +854,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
      * it! If we make it here all normal units are already disbanded, so only
      * undisbandable ones remain. */
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      int upkeep = utype_shield_cost(unit_type(punit), g);
+      int upkeep = utype_upkeep_cost(unit_type(punit), g, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
 	assert(unit_flag(punit, F_UNDISBANDABLE));

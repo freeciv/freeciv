@@ -2080,10 +2080,10 @@ static inline void city_support(struct city *pcity,
    * gold etc -- SKi */
   unit_list_iterate(pcity->units_supported, this_unit) {
     struct unit_type *ut = unit_type(this_unit);
-    int shield_cost = utype_shield_cost(ut, g);
+    int shield_cost = utype_upkeep_cost(ut, g, O_SHIELD);
     int happy_cost = utype_happy_cost(ut, g);
-    int food_cost = utype_food_cost(ut, g);
-    int gold_cost = utype_gold_cost(ut, g);
+    int food_cost = utype_upkeep_cost(ut, g, O_FOOD);
+    int gold_cost = utype_upkeep_cost(ut, g, O_GOLD);
 
     /* Save old values so we can decide if the unit info should be resent */
     int old_unhappiness = this_unit->unhappiness;

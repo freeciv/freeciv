@@ -116,23 +116,17 @@ bool is_water_unit(Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Returns the upkeep of a unit of this type under the given government.
 **************************************************************************/
-int utype_shield_cost(struct unit_type *ut, struct government *g)
+int utype_upkeep_cost(const struct unit_type *ut,
+		      const struct government *g, Output_type_id otype)
 {
   if (government_has_flag(g, G_FANATIC_TROOPS) &&
       BV_ISSET(ut->flags, F_FANATIC)) {
+    /* Special case: fanatics have no upkeep under fanaticism. */
     return 0;
   }
-  return ut->upkeep[O_SHIELD] * g->unit_upkeep_factor[O_SHIELD];
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int utype_food_cost(struct unit_type *ut, struct government *g)
-{
-  return ut->upkeep[O_FOOD] * g->unit_upkeep_factor[O_FOOD];
+  return ut->upkeep[otype] * g->unit_upkeep_factor[otype];
 }
 
 /**************************************************************************
@@ -141,14 +135,6 @@ int utype_food_cost(struct unit_type *ut, struct government *g)
 int utype_happy_cost(struct unit_type *ut, struct government *g)
 {
   return ut->happy_cost * g->unit_happy_cost_factor;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int utype_gold_cost(struct unit_type *ut, struct government *g)
-{
-  return ut->upkeep[O_GOLD] * g->unit_upkeep_factor[O_GOLD];
 }
 
 /**************************************************************************
