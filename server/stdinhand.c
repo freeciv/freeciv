@@ -319,9 +319,10 @@ static struct settings_s settings[] = {
   
   GEN_INT("maxplayers", game.max_players, SSET_PLAYERS, SSET_TO_CLIENT,
 	  N_("Maximum number of players"),
-	  N_("For new games, the game will start automatically "
-	     "if/when this number of players are connected or (for "
-	     "AI's) created."), valid_max_players,
+          N_("The maximal number of human and AI players who can be in "
+             "the game. When this number of players are connected in "
+             "the pregame state, any new players who try to connect "
+             "will be rejected."), valid_max_players,
 	  GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS,
 	  GAME_DEFAULT_MAX_PLAYERS)
 
