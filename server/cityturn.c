@@ -979,11 +979,17 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 			       "you gain 2 immediate advances."),
 		    improvement_types[B_DARWIN].name);
 
+      if (pplayer->research.researching == A_UNSET) {
+        choose_random_tech(pplayer);
+      }
       do_free_cost(pplayer);
       first = pplayer->research.researching;
       found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE, 
                      A_NONE);
 
+      if (pplayer->research.researching == A_UNSET) {
+        choose_random_tech(pplayer);
+      }
       do_free_cost(pplayer);
       second = pplayer->research.researching;
       found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE,

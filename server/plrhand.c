@@ -308,7 +308,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 		       advances[tech_found].name, gov->name);
     }
   } government_iterate_end;
-    
+
   if (tech_flag(tech_found, TF_BONUS_TECH) && was_first) {
     bonus_tech_hack = TRUE;
   }
@@ -320,7 +320,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     upgrade_city_rails(plr, was_discovery);
   }
 
-  /* enhace vision of units inside a fortress */
+  /* enhance vision of units inside a fortress */
   if (tech_flag(tech_found, TF_WATCHTOWER)) {
     unit_list_iterate(plr->units, punit) {
       if (map_has_special(punit->x, punit->y, S_FORTRESS)
@@ -398,7 +398,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 			   "an immediate advance."));
     }
     if (plr->research.researching == A_UNSET) {
-      choose_random_tech(plr); /* always random tech here */
+      choose_random_tech(plr);
     }
     tech_researched(plr);
   }
