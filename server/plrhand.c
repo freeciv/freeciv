@@ -1456,9 +1456,9 @@ void handle_player_revolution(struct player *pplayer)
   pplayer->revolution=myrand(5)+1;
   pplayer->government=game.government_when_anarchy;
   notify_player(pplayer, _("Game: The %s have incited a revolt!"), 
-		get_nation_name(pplayer->nation));
+		get_nation_name_plural(pplayer->nation));
   gamelog(GAMELOG_REVOLT,"The %s revolt!",
-                get_nation_name(pplayer->nation));
+                get_nation_name_plural(pplayer->nation));
 
   if (!pplayer->ai.control)
      check_player_government_rates(pplayer);
