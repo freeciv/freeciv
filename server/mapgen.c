@@ -199,24 +199,24 @@ static void make_forest(int x, int y, int height, int diff)
 **************************************************************************/
 static void make_forests(void)
 {
-  int x,y;
+  int x, y;
   int forestsize = (map_num_tiles() * map.forestsize) / 1000;
 
   forests = 0;
 
   do {
     rand_map_pos(&x, &y);
-    if (map_get_terrain(x, y)==T_GRASSLAND) {
-      make_forest(x,y, hmap(x, y), 25);
+    if (map_get_terrain(x, y) == T_GRASSLAND) {
+      make_forest(x, y, hmap(x, y), 25);
     }
-    if (myrand(100)>75) {
-      y=(myrand(map.ysize*2/10))+map.ysize*4/10;
-      x=myrand(map.xsize);
-      if (map_get_terrain(x, y)==T_GRASSLAND) {
-	make_forest(x,y, hmap(x, y), 25);
+    if (has_poles && myrand(100) > 75) {
+      y = (myrand(map.ysize * 2 / 10)) + map.ysize * 4 / 10;
+      x = myrand(map.xsize);
+      if (map_get_terrain(x, y) == T_GRASSLAND) {
+	make_forest(x, y, hmap(x, y), 25);
       }
     }
-  } while (forests<forestsize);
+  } while (forests < forestsize);
 }
 
 /**************************************************************************
@@ -677,16 +677,13 @@ static void make_rivers(void)
      Is needed to stop a potentially infinite loop. */
   int iteration_counter = 0;
 
-  river_map = fc_malloc(sizeof(int)*map.xsize*map.ysize);
+  river_map = fc_malloc(sizeof(int) * map.xsize * map.ysize);
 
   /* The main loop in this function. */
-  while (current_riverlength < desirable_riverlength &&
-	 iteration_counter < RIVERS_MAXTRIES) {
+  while (current_riverlength < desirable_riverlength
+	 && iteration_counter < RIVERS_MAXTRIES) {
 
-    /* Don't start any rivers at the poles. */
-    do {
-      rand_map_pos(&x, &y);
-    } while (y == 0 || y == map.ysize-1);
+    rand_map_pos(&x, &y);
 
     /* Check if it is suitable to start a river on the current tile.
      */
@@ -808,25 +805,22 @@ static void make_passable(void)
 **************************************************************************/
 static void make_fair(void)
 {
-  int x,y;
-  for (y=2;y<map.ysize-2;y++) {
-    for (x=0;x<map.xsize;x++) {
-      if (terrain_is_clean(x,y)) {
-	if (map_get_terrain(x, y) != T_RIVER &&
-	    !map_has_special(x, y, S_RIVER)) {
-	  map_set_terrain(x, y, T_HILLS);
-	}
-	cartesian_adjacent_iterate(x, y, x1, y1) {
-	  if (myrand(100) > 66 &&
-	      !is_ocean(map_get_terrain(x1, y1))
-	      && map_get_terrain(x1, y1) != T_RIVER
-	      && !map_has_special(x1, y1, S_RIVER)) {
-	    map_set_terrain(x1, y1, T_HILLS);
-	  }	  
-	} cartesian_adjacent_iterate_end;
+  whole_map_iterate(map_x, map_y) {
+    if (terrain_is_clean(map_x, map_y)) {
+      if (map_get_terrain(map_x, map_y) != T_RIVER
+	  && !map_has_special(map_x, map_y, S_RIVER)) {
+	map_set_terrain(map_x, map_y, T_HILLS);
       }
+      cartesian_adjacent_iterate(map_x, map_y, x1, y1) {
+	if (myrand(100) > 66
+	    && !is_ocean(map_get_terrain(x1, y1))
+	    && map_get_terrain(x1, y1) != T_RIVER
+	    && !map_has_special(x1, y1, S_RIVER)) {
+	  map_set_terrain(x1, y1, T_HILLS);
+	}
+      } cartesian_adjacent_iterate_end;
     }
-  }
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
