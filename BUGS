@@ -38,9 +38,9 @@ KNOWN BUGS:
    after. Fx when building the lighthouse some triremes will only get
    the movement bonus the next turn.
 
- - The XAW client can only display 25 citizens in the city dialog
+ - The XAW client can only display 25 citizens in the city dialog.
 
- - The autoattack generelly doesn't work very well.
+ - The autoattack generally doesn't work very well.
 
  - When planning a goto in the server, fx for an autosettler or an
    airplane, the server will use knowledge not available to the player.
