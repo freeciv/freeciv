@@ -273,8 +273,8 @@ static struct my_agent *find_agent_by_name(char *agent_name)
 ***********************************************************************/
 static bool is_outstanding_request(struct my_agent *agent)
 {
-  if (agent->first_outstanding_request_id &&
-      aconnection.client.request_id_of_currently_handled_packet &&
+  if (agent->first_outstanding_request_id != 0 &&
+      aconnection.client.request_id_of_currently_handled_packet != 0 &&
       agent->first_outstanding_request_id <=
       aconnection.client.request_id_of_currently_handled_packet &&
       agent->last_outstanding_request_id >=

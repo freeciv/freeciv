@@ -75,7 +75,7 @@ void cmafec_init(void)
 
   if (!preset_list_has_been_initialized) {
     preset_list_init(&preset_list);
-    preset_list_has_been_initialized = 1;
+    preset_list_has_been_initialized = TRUE;
   }
 
   memset(&self, 0, sizeof(self));

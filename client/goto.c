@@ -352,7 +352,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	    move_cost += MOVE_COST_ROAD; /* Rather arbitrary deterrent */
 	  }
 	} else if (igter) {
-	  move_cost = (psrctile->move_cost[dir] ? MOVE_COST_ROAD : 0);
+	  move_cost = ((psrctile->move_cost[dir] != 0) ? MOVE_COST_ROAD : 0);
 	} else {
 	  move_cost =
 	      MIN(psrctile->move_cost[dir], unit_type(punit)->move_rate);
@@ -581,7 +581,7 @@ void get_line_dest(int *x, int *y)
 {
   assert(is_active);
 
-  if (goto_array_index) {
+  if (goto_array_index != 0) {
     *x = goto_array[goto_array_index-1].x;
     *y = goto_array[goto_array_index-1].y;
   } else {
@@ -750,7 +750,7 @@ static int find_route(int x, int y)
   }
 
   adjc_dir_iterate(x, y, new_x, new_y, dir) {
-    if (goto_map.vector[x][y] & (1<<dir)) {
+    if (TEST_BIT(goto_map.vector[x][y], dir)) {
       /* expand array as neccesary */
       if (route_index == route_length) {
 	route_length *= 2;
@@ -785,7 +785,7 @@ void draw_line(int dest_x, int dest_y)
   assert(is_real_tile(dest_x, dest_y));
   normalize_map_pos(&dest_x, &dest_y);
 
-  if (!goto_map.vector[dest_x][dest_y]) {
+  if (goto_map.vector[dest_x][dest_y] == 0) {
     undraw_line();
     return;
   }

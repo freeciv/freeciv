@@ -538,7 +538,7 @@ void center_on_something(void)
     /* Just any known tile will do; search near the middle first. */
     iterate_outward(map.xsize / 2, map.ysize / 2,
 		    MAX(map.xsize / 2, map.ysize / 2), x, y) {
-      if (tile_get_known(x, y)) {
+      if (tile_get_known(x, y) != TILE_UNKNOWN) {
 	center_tile_mapcanvas(x, y);
 	goto OUT;
       }
@@ -569,7 +569,7 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
 
   unit_list_iterate(ptile->units, punit) {
     mr = get_unit_type(punit->type)->move_rate;
-    au = mr ? mr / SINGLE_MOVE : 1;
+    au = (mr > 0) ? mr / SINGLE_MOVE : 1;
     activity_total[punit->activity] += punit->activity_count;
     if (punit->moves_left > 0) {
       /* current turn */
@@ -580,8 +580,8 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
   unit_list_iterate_end;
 
   for (i = 0; i < ACTIVITY_LAST; i++) {
-    if (is_build_or_clean_activity(i) && activity_units[i]) {
-      if (num_activities)
+    if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
+      if (num_activities > 0)
 	mystrlcat(buf, "/", buf_size);
       remains = map_activity_time(i, x, y) - activity_total[i];
       if (remains > 0) {
@@ -825,7 +825,7 @@ int collect_cids2(cid * dest_cids)
 
   memset(mapping, 0, sizeof(mapping));
   city_list_iterate(game.player_ptr->cities, pcity) {
-    mapping[cid_encode_from_city(pcity)] = 1;
+    mapping[cid_encode_from_city(pcity)] = TRUE;
   }
   city_list_iterate_end;
 
@@ -920,7 +920,7 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
   assert(pcity != NULL);
 
   for (id = 0; id < game.num_impr_types; id++) {
-    if (pcity->improvements[id]) {
+    if (pcity->improvements[id] != 0) {
       dest_cids[cids_used] = cid_encode(FALSE, id);
       cids_used++;
     }
@@ -1078,7 +1078,7 @@ char *get_spaceship_descr(struct player_spaceship *pship)
 	     "Year of arrival:  1234 AD");
   }
 
-  if (pship->propulsion) {
+  if (pship->propulsion > 0) {
     my_snprintf(travel_buf, sizeof(travel_buf),
 		_("Travel time:     %5.1f years"),
 		(float) (0.1 * ((int) (pship->travel_time * 10.0))));

@@ -527,7 +527,7 @@ static bool apply_result_on_server(struct city *pcity,
     if ((pcity->city_map[x][y] == C_TILE_WORKER) &&
 	!result->worker_positions_used[x][y]) {
       last_request_id = set_worker(pcity, x, y, FALSE);
-      if (!first_request_id) {
+      if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
     }
@@ -540,7 +540,7 @@ static bool apply_result_on_server(struct city *pcity,
     packet.specialist_to = SP_ELVIS;
     last_request_id = send_packet_city_request(&aconnection, &packet,
 					       PACKET_CITY_CHANGE_SPECIALIST);
-    if (!first_request_id) {
+    if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
   }
@@ -551,7 +551,7 @@ static bool apply_result_on_server(struct city *pcity,
     packet.specialist_to = SP_ELVIS;
     last_request_id = send_packet_city_request(&aconnection, &packet,
 					       PACKET_CITY_CHANGE_SPECIALIST);
-    if (!first_request_id) {
+    if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
   }
@@ -563,7 +563,7 @@ static bool apply_result_on_server(struct city *pcity,
     if (result->worker_positions_used[x][y] &&
 	pcity->city_map[x][y] != C_TILE_WORKER) {
       last_request_id = set_worker(pcity, x, y, TRUE);
-      if (!first_request_id) {
+      if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }
     }
@@ -576,7 +576,7 @@ static bool apply_result_on_server(struct city *pcity,
     packet.specialist_to = SP_SCIENTIST;
     last_request_id = send_packet_city_request(&aconnection, &packet,
 					       PACKET_CITY_CHANGE_SPECIALIST);
-    if (!first_request_id) {
+    if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
   }
@@ -587,12 +587,12 @@ static bool apply_result_on_server(struct city *pcity,
     packet.specialist_to = SP_TAXMAN;
     last_request_id = send_packet_city_request(&aconnection, &packet,
 					       PACKET_CITY_CHANGE_SPECIALIST);
-    if (!first_request_id) {
+    if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
   }
 
-  if (!last_request_id && ALWAYS_APPLY_AT_SERVER) {
+  if (last_request_id == 0 && ALWAYS_APPLY_AT_SERVER) {
     struct packet_generic_integer packet;
 
     packet.value = pcity->id;
@@ -604,7 +604,7 @@ static bool apply_result_on_server(struct city *pcity,
 
   connection_do_unbuffer(&aconnection);
 
-  if (last_request_id) {
+  if (last_request_id != 0) {
     wait_for_requests("CMA", first_request_id, last_request_id);
   }
 
@@ -637,7 +637,9 @@ static void get_current_as_result(struct city *pcity,
   my_city_map_iterate(pcity, x, y) {
     result->worker_positions_used[x][y] =
 	(pcity->city_map[x][y] == C_TILE_WORKER);
-    worker += result->worker_positions_used[x][y];
+    if (result->worker_positions_used[x][y]) {
+      worker++;
+    }
   }
   my_city_map_iterate_end;
 

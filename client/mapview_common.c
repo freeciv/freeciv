@@ -59,7 +59,7 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
     normalize_map_pos(&x2, &y2);
     assert(is_tiles_adjacent(x1, y1, x2, y2));
 
-    if (!map_get_tile(x2, y2)->known) {
+    if (map_get_tile(x2, y2)->known == TILE_UNKNOWN) {
       return COLOR_STD_BLACK;
     }
 

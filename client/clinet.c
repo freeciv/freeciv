@@ -251,7 +251,7 @@ static int read_from_connection(struct connection *pc, bool block)
     fd_set readfs, writefs, exceptfs;
     int socket_fd = pc->sock;
     bool have_data_for_server = (pc->used && pc->send_buffer
-				&& pc->send_buffer->ndata);
+				&& pc->send_buffer->ndata > 0);
     int n;
     struct timeval tv;
 
@@ -486,7 +486,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     char *s;
     if ((s = strchr(server,':'))) {
       port = atoi(&s[1]);
-      if (!port) {
+      if (port == 0) {
         port = 80;
       }
       s[0] = '\0';
@@ -502,7 +502,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     if (s[0] == '/') {
       s[0] = '\0';
       ++s;
-    } else if (s[0]) {
+    } else if (s[0] != '\0') {
       mystrlcpy(errbuf,
 		_("Invalid $http_proxy value, cannot find separating '/'"),
 		n_errbuf);

@@ -110,7 +110,7 @@ static void insert_generated_table(const char* name, char* outbuf)
       strcat (outbuf, "---------------------------------------------------------------\n");
       for (i = T_FIRST; i < T_COUNT; i++)
 	{
-	  if (*(tile_types[i].terrain_name))
+	  if (*(tile_types[i].terrain_name) != '\0')
 	    {
 	      outbuf = strchr (outbuf, '\0');
 	      sprintf(outbuf,
@@ -162,7 +162,7 @@ static int help_item_compar(const void *a, const void *b)
   char *ta, *tb;
   ha = (const struct help_item*) *(const void**)a;
   hb = (const struct help_item*) *(const void**)b;
-  for (ta = ha->topic, tb = hb->topic; *ta && *tb; ta++, tb++) {
+  for (ta = ha->topic, tb = hb->topic; *ta != '\0' && *tb != '\0'; ta++, tb++) {
     if (*ta != ' ') {
       if (*tb == ' ') return -1;
       break;
@@ -265,7 +265,7 @@ void boot_help_texts(void)
 	  }
 	} else if(current_type==HELP_TERRAIN) {
 	  for(i=T_FIRST; i<T_COUNT; i++) {
-	    if(*(tile_types[i].terrain_name)) {
+	    if(*(tile_types[i].terrain_name) != '\0') {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", tile_types[i].terrain_name);
 	      pitem->topic = mystrdup(name);
@@ -705,12 +705,12 @@ void helptext_unit(char *buf, int i, const char *user_text)
     sprintf(buf+strlen(buf), _("turn in a city, or on a Carrier"));
     if (unit_type_flag(i, F_MISSILE) &&
 	num_role_units(F_MISSILE_CARRIER)>0 &&
-	get_unit_type(get_role_unit(F_MISSILE_CARRIER,0))->transport_capacity) {
+	get_unit_type(get_role_unit(F_MISSILE_CARRIER,0))->transport_capacity > 0) {
       sprintf(buf+strlen(buf), _(" or Submarine"));
     }
     sprintf(buf+strlen(buf), _(", or will run out of fuel and be lost.\n"));
   }
-  if (strlen(buf)) {
+  if (strlen(buf) > 0) {
     sprintf(buf+strlen(buf), "\n");
   } 
   if (utype->helptext) {
@@ -856,25 +856,29 @@ char *helptext_unit_upkeep_str(int i)
   static char buf[128];
   struct unit_type *utype = get_unit_type(i);
 
-  if (utype->shield_cost || utype->food_cost
-      || utype->gold_cost || utype->happy_cost) {
+  if (utype->shield_cost > 0 || utype->food_cost > 0
+      || utype->gold_cost > 0 || utype->happy_cost > 0) {
     int any = 0;
     buf[0] = '\0';
-    if (utype->shield_cost) {
+    if (utype->shield_cost > 0) {
       sprintf(buf+strlen(buf), _("%s%d shield"),
-	      (any++ ? ", " : ""), utype->shield_cost);
+	      (any > 0 ? ", " : ""), utype->shield_cost);
+      any++;
     }
-    if (utype->food_cost) {
+    if (utype->food_cost > 0) {
       sprintf(buf+strlen(buf), _("%s%d food"),
-	      (any++ ? ", " : ""), utype->food_cost);
+	      (any > 0 ? ", " : ""), utype->food_cost);
+      any++;
     }
-    if (utype->happy_cost) {
+    if (utype->happy_cost > 0) {
       sprintf(buf+strlen(buf), _("%s%d unhappy"),
-	      (any++ ? ", " : ""), utype->happy_cost);
+	      (any > 0 ? ", " : ""), utype->happy_cost);
+      any++;
     }
-    if (utype->gold_cost) {
+    if (utype->gold_cost > 0) {
       sprintf(buf+strlen(buf), _("%s%d gold"),
-	      (any++ ? ", " : ""), utype->gold_cost);
+	      (any > 0 ? ", " : ""), utype->gold_cost);
+      any++;
     }
   } else {
     /* strcpy(buf, _("None")); */

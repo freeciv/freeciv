@@ -67,7 +67,7 @@
 
 #include "packhand.h"
 
-static void handle_city_packet_common(struct city *pcity, int is_new,
+static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate);
 
 #define TEST_ATTRIBUTES 0
@@ -492,7 +492,7 @@ void handle_city_info(struct packet_city_info *packet)
 /**************************************************************************
   ...
 **************************************************************************/
-static void handle_city_packet_common(struct city *pcity, int is_new,
+static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate)
 {
   int i;
@@ -774,11 +774,11 @@ void handle_chat_msg(struct packet_generic_message *packet)
   } else if (packet->event >= 0)  {
     where = messages_where[packet->event];
   }
-  if (where & MW_OUTPUT)
+  if (BOOL_VAL(where & MW_OUTPUT))
     append_output_window(packet->message);
-  if (where & MW_MESSAGES)
+  if (BOOL_VAL(where & MW_MESSAGES))
     add_notify_window(packet);
-  if ((where & MW_POPUP) &&
+  if (BOOL_VAL(where & MW_POPUP) &&
       (!game.player_ptr->ai.control || ai_popup_windows))
     popup_notify_goto_dialog(_("Popup Request"), packet->message, 
 			     packet->x, packet->y);
@@ -1144,8 +1144,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
-  if (game.timeout) {
-    if (pinfo->seconds_to_turndone)
+  if (game.timeout != 0) {
+    if (pinfo->seconds_to_turndone != 0)
       seconds_to_turndone = pinfo->seconds_to_turndone;
   } else
     seconds_to_turndone = 0;
@@ -1279,7 +1279,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
   freelog(LOG_DEBUG, "conn_info \"%s\" \"%s\" \"%s\"",
 	  pinfo->name, pinfo->addr, pinfo->capability);
   
-  if (pinfo->used==0) {
+  if (!pinfo->used) {
     /* Forget the connection */
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server removed unknown connection %d", pinfo->id);

@@ -302,14 +302,14 @@ struct unit *find_visible_unit(struct tile *ptile)
      (always return first in stack). */
   unit_list_iterate(ptile->units, punit)
     if (unit_owner(punit) == game.player_ptr) {
-      if (get_transporter_capacity(punit)) {
+      if (get_transporter_capacity(punit) > 0) {
 	return punit;
       } else if (!panyowned) {
 	panyowned = punit;
       }
     } else if (!ptptother &&
 	       player_can_see_unit(game.player_ptr, punit)) {
-      if (get_transporter_capacity(punit)) {
+      if (get_transporter_capacity(punit) > 0) {
 	ptptother = punit;
       } else if (!panyother) {
 	panyother = punit;
@@ -380,7 +380,7 @@ void process_caravan_arrival(struct unit *punit)
     return;
   }
   
-  while (genlist_size(&arrival_queue)) {
+  while (genlist_size(&arrival_queue) > 0) {
     int id;
     
     p_id = genlist_get(&arrival_queue, 0);
@@ -423,7 +423,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     is_init_arrival_queue = TRUE;
   }
 
-  if (pdiplomat && victim_id) {
+  if (pdiplomat && victim_id != 0) {
     p_ids = fc_malloc(2*sizeof(int));
     p_ids[0] = pdiplomat->id;
     p_ids[1] = victim_id;
@@ -435,7 +435,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     return;
   }
 
-  while (genlist_size(&arrival_queue)) {
+  while (genlist_size(&arrival_queue) > 0) {
     int diplomat_id, victim_id;
     struct city *pcity;
     struct unit *punit;
@@ -518,7 +518,7 @@ void request_unit_unload(struct unit *punit)
 {
   struct packet_unit_request req;
 
-  if(!get_transporter_capacity(punit)) {
+  if(get_transporter_capacity(punit) == 0) {
     append_output_window(_("Game: Only transporter units can be unloaded."));
     return;
   }
@@ -698,7 +698,7 @@ void request_unit_pillage(struct unit *punit)
 
   if ((game.rgame.pillage_select) &&
       ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
-    popup_pillage_dialog(punit, pspresent & (~psworking));
+    popup_pillage_dialog(punit, (pspresent & (~psworking)) != S_NO_SPECIAL);
   } else {
     request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what);
   }
@@ -1219,7 +1219,7 @@ void do_unit_goto(int x, int y)
 {
   struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
-  if (!hover_unit || hover_state != HOVER_GOTO)
+  if (hover_unit == 0 || hover_state != HOVER_GOTO)
     return;
 
   if (punit) {

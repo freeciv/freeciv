@@ -585,7 +585,7 @@ void client_remove_cli_conn(struct connection *pconn)
 **************************************************************************/
 static void client_remove_all_cli_conn(void)
 {
-  while (conn_list_size(&game.all_connections)) {
+  while (conn_list_size(&game.all_connections) > 0) {
     struct connection *pconn = conn_list_get(&game.all_connections, 0);
     client_remove_cli_conn(pconn);
   }
