@@ -67,7 +67,7 @@ RANLIB = @RANLIB@
 SERVER_LIBS = @SERVER_LIBS@
 VERSION = @VERSION@
 
-pkgdatadir = $(datadir)/@PACKAGE@/default
+pkgdatadir = $(datadir)/@PACKAGE@/data/default
 
 pkgdata_DATA =          \
 	techs.ruleset	\
