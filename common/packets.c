@@ -1774,11 +1774,15 @@ int send_packet_city_request(struct connection *pc,
   } else {
     copy.is_valid = FALSE;
   }
-  
+
   cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint16(cptr, packet->city_id);
   cptr=put_uint8(cptr, packet->build_id);
-  cptr=put_bool8(cptr, packet->is_build_id_unit_id);
+  if (req_type == PACKET_CITY_CHANGE) {
+    cptr = put_bool8(cptr, packet->is_build_id_unit_id);
+  } else {
+    cptr = put_bool8(cptr, FALSE);
+  }
   cptr=put_uint8(cptr, packet->worker_x);
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
