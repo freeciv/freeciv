@@ -2159,6 +2159,9 @@ void game_load(struct section_file *file)
 						    "game.barbarians");
     game.onsetbarbarian = secfile_lookup_int_default(file, game.onsetbarbarian,
 						     "game.onsetbarbs");
+    game.revolution_length
+      = secfile_lookup_int_default(file, game.revolution_length,
+				   "game.revolen");
     game.nbarbarians = 0; /* counted in player_load for compatibility with 
 			     1.10.0 */
     game.occupychance = secfile_lookup_int_default(file, game.occupychance,
@@ -2531,6 +2534,7 @@ void game_save(struct section_file *file)
   secfile_insert_bool(file, game.fixedlength, "game.fixedlength");
   secfile_insert_int(file, game.barbarianrate, "game.barbarians");
   secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");
+  secfile_insert_int(file, game.revolution_length, "game.revolen");
   secfile_insert_int(file, game.occupychance, "game.occupychance");
   secfile_insert_str(file, game.demography, "game.demography");
   secfile_insert_int(file, game.borders, "game.borders");
