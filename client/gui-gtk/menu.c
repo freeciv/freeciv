@@ -1160,7 +1160,7 @@ void update_menus(void)
       menus_set_sensitive("<main>/_Orders/Make _Homecity",
 			  can_unit_change_homecity(punit));
       menus_set_sensitive("<main>/_Orders/_Unload Transporter",
-			  get_transporter_capacity(punit)>0);
+			  get_transporter_occupancy(punit) > 0);
       menus_set_sensitive("<main>/_Orders/Load",
 	can_unit_load(punit, find_transporter_for_unit(punit,
 						       punit->tile)));

@@ -1446,7 +1446,7 @@ static void fill_actions(void)
       ADD("unit_homecity");
     }
 
-    if (get_transporter_capacity(punit) > 0) {
+    if (get_transporter_occupancy(punit) > 0) {
       ADD("unit_unload");
     }
     if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->tile)) {

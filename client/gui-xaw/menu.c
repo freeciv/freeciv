@@ -397,7 +397,7 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_HOMECITY, 
 			   can_unit_change_homecity(punit));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_UNLOAD_TRANSPORTER, 
-			   get_transporter_capacity(punit)>0);
+			   get_transporter_occupancy(punit) > 0);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_LOAD,
 	can_unit_load(punit, find_transporter_for_unit(punit,
 						       punit->tile)));

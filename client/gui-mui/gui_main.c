@@ -1259,7 +1259,8 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_SENTRY, can_unit_do_activity(punit, ACTIVITY_SENTRY));
       menu_entry_sensitive(MENU_ORDER_PILLAGE, can_unit_do_activity(punit, ACTIVITY_PILLAGE));
       menu_entry_sensitive(MENU_ORDER_HOMECITY, can_unit_change_homecity(punit));
-      menu_entry_sensitive(MENU_ORDER_UNLOAD, get_transporter_capacity(punit) > 0);
+      menu_entry_sensitive(MENU_ORDER_UNLOAD,
+			   get_transporter_occupancy(punit) > 0);
       menu_entry_sensitive(MENU_ORDER_WAKEUP_OTHERS, is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->tile));
       menu_entry_sensitive(MENU_ORDER_AUTO_SETTLER, (can_unit_do_auto(punit) && unit_flag(punit, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_ATTACK, (can_unit_do_auto(punit) && !unit_flag(punit, F_SETTLERS)));

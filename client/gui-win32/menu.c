@@ -753,7 +753,7 @@ void handle_menu(int code)
 	if (can_unit_unload(punit, find_unit_by_id(punit->transported_by))
 	 && can_unit_exist_at_tile(punit, punit->tile)) {
 	  request_unit_unload(punit);
-	} else if (get_transporter_capacity(punit) > 0) {
+	} else if (get_transporter_occupancy(punit) > 0) {
 	  key_unit_unload_all();
 	}
       }
@@ -1137,7 +1137,7 @@ update_menus(void)
       my_enable_menu(menu, IDM_ORDERS_UNLOAD,
 	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
 	 && can_unit_exist_at_tile(punit, punit->tile)) 
-	|| get_transporter_capacity(punit) > 0);
+	|| get_transporter_occupancy(punit) > 0);
       my_enable_menu(menu, IDM_ORDERS_WAKEUP_OTHERS,
 		     is_unit_activity_on_tile(ACTIVITY_SENTRY,
 					      punit->tile));

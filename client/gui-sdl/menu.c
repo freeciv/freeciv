@@ -1156,7 +1156,7 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_HOMECITY);
       }
 
-      if (pUnit->occupy && get_transporter_capacity(pUnit) > 0) {
+      if (pUnit->occupy && get_transporter_occupancy(pUnit) > 0) {
 	local_show(ID_UNIT_ORDER_UNLOAD);
       } else {
 	local_hide(ID_UNIT_ORDER_UNLOAD);
