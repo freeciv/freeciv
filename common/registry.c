@@ -136,12 +136,12 @@
 ***************************************************************************/
 
 /**************************************************************************
-  Hashing registry lookups: (by dwp)
-  - Have a hash table direct to entries, bypassing sections division.
-  - For convenience, store the key (the full section+entry name)
-    in the hash table (some memory overhead).
-  - The number of entries is fixed when the hash table is built.
-  - Now uses hash.c
+  Hashing:
+  - All registry section_files are now kept fully hashed all the time
+    (using hash.c), allowing things to be simpler and more flexible.
+  - Each section_file has two hash tables:
+      hsec: hash on section names to sections;
+      hent: hash on full name (section.entry) to entries.
 **************************************************************************/
 
 #include <stdio.h>
@@ -208,17 +208,16 @@ struct section {
        TYPED_LIST_ITERATE_REV(struct section, seclist, psection)
 #define section_list_iterate_rev_end  LIST_ITERATE_REV_END
 
-/* The hash table and some extra data: */
-struct hash_data {
-  struct hash_table *htbl;
-  int num_entries_hashbuild;
-  int allow_duplicates;
-  int num_duplicates;
-};
 
-static void secfilehash_check(struct section_file *file);
-static void secfilehash_insert(struct section_file *file,
-			       char *key, struct entry *data);
+/* Sometimes want fullname, and sometimes section and entry names
+   separately.  This struct contains all of them, and can be built
+   from either starting point:
+*/
+struct all_name {
+  char sec[MAX_LEN_BUFFER];
+  char ent[MAX_LEN_BUFFER];
+  char full[MAX_LEN_BUFFER];
+};
 
 static char *minstrdup(struct sbuffer *sb, const char *str);
 static char *moutstr(char *str);
@@ -229,6 +228,70 @@ section_file_lookup_internal(struct section_file *my_section_file,
 static struct entry*
 section_file_insert_internal(struct section_file *my_section_file, 
 			     char *fullpath);
+
+static struct entry *secfile_insert_aname(struct section_file *sf,
+					  const struct all_name *aname);
+
+/**************************************************************************
+  If name ends in ',0', insert a null so it doesn't.  Returns 1 if modified.
+**************************************************************************/
+static int truncate_comma_zero(char *name)
+{
+  int len = strlen(name);
+  
+  if(len>2 && name[len-2]==',' && name[len-1]=='0') {
+    name[len-2] = '\0';
+    return 1;
+  } else {
+    return 0;
+  }
+}
+  
+/**************************************************************************
+  Fill a struct all_name, given full name.
+  Also strip ",0" off the end of any name.
+**************************************************************************/
+static void fill_allname1(struct all_name *aname, const char *fullname)
+{
+  char *pdelim;
+
+  if (strlen(fullname) >= sizeof(aname->full)) {
+    freelog(LOG_FATAL, "Name too long: %s", fullname);
+    exit(1);
+  }
+  sz_strlcpy(aname->full, fullname);
+  truncate_comma_zero(aname->full);
+  
+  pdelim = strchr(aname->full, '.');
+  if (pdelim == NULL) {
+    freelog(LOG_FATAL, "Name must be in form \"section.entry\": %s",
+	    aname->full);
+    exit(1);
+  }
+  mystrlcpy(aname->sec, aname->full, MIN((pdelim - aname->full + 1),
+					 sizeof(aname->sec)));
+  sz_strlcpy(aname->ent, pdelim+1);
+}
+
+/**************************************************************************
+  Fill a struct all_name, given section and entry names.
+  Don't bother to strip ",0", because this is only called
+  internally when loading file, and we construct names
+  appropriately.
+**************************************************************************/
+static void fill_allname2(struct all_name *aname, const char *sec_name,
+			  const char *ent_name)
+{
+  if (strlen(sec_name) + strlen(ent_name) + 1 >= MAX_LEN_BUFFER) {
+    freelog(LOG_FATAL, "Overall name too long: %s + %s", sec_name, ent_name);
+    exit(1);
+  }
+  sz_strlcpy(aname->sec, sec_name);
+  sz_strlcpy(aname->ent, ent_name);
+  /* truncate_comma_zero(aname->ent); */
+  my_snprintf(aname->full, sizeof(aname->full),
+	      "%s.%s", aname->sec, aname->ent);
+}
 
 /**************************************************************************
 ...
@@ -251,8 +314,11 @@ void section_file_init(struct section_file *file)
   file->sections = fc_malloc(sizeof(struct section_list));
   section_list_init(file->sections);
   file->num_entries = 0;
-  file->hashd = NULL;
+  file->allow_duplicates = 0;
+  file->num_duplicates = 0;
   file->sb = sbuf_new();
+  file->hsec = hash_new(hash_fval_string, hash_fcmp_string);
+  file->hent = hash_new(hash_fval_string, hash_fcmp_string);
 }
 
 /**************************************************************************
@@ -273,10 +339,8 @@ void section_file_free(struct section_file *file)
   free(file->sections);
   file->sections = NULL;
 
-  /* free the hash data: */
-  if(secfilehash_hashash(file)) {
-    secfilehash_free(file);
-  }
+  hash_free(file->hsec);
+  hash_free(file->hent);
   
   /* free the real data: */
   sbuf_free(file->sb);
@@ -313,32 +377,32 @@ void section_file_check_unused(struct section_file *file, const char *filename)
 }
 
 /**************************************************************************
-  Return a new entry struct, allocated from sb, with given name,
-  and where tok is a "value" return token from inputfile.
-  The entry value has any escaped double-quotes etc removed.
+  Insert an entry, where tok is a "value" return token from inputfile.
+  The entry value has any escaped double-quotes etc removed via
+  minstrdup.
 **************************************************************************/
-static struct entry *new_entry(struct sbuffer *sb, const char *name,
-			       const char *tok)
+static void insert_from_tok(struct section_file *sf, const char *sec_name,
+			    const char *ent_name, const char *tok)
 {
+  struct all_name aname;
   struct entry *pentry;
 
-  pentry = sbuf_malloc(sb, sizeof(struct entry));
-  pentry->name = sbuf_strdup(sb, name);
+  fill_allname2(&aname, sec_name, ent_name);
+  pentry = secfile_insert_aname(sf, &aname);
+  
   if (tok[0] == '\"') {
-    pentry->svalue = minstrdup(sb, tok+1);
+    pentry->svalue = minstrdup(sf->sb, tok+1);
     pentry->ivalue = 0;
     if (SECF_DEBUG_ENTRIES) {
-      freelog(LOG_DEBUG, "entry %s '%s'", name, pentry->svalue);
+      freelog(LOG_DEBUG, "entry %s '%s'", aname.full, pentry->svalue);
     }
   } else {
     pentry->svalue = NULL;
     pentry->ivalue = atoi(tok);
     if (SECF_DEBUG_ENTRIES) {
-      freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
+      freelog(LOG_DEBUG, "entry %s %d", aname.full, pentry->ivalue);
     }
   }
-  pentry->used = 0;
-  return pentry;
 }
 	
 
@@ -350,13 +414,11 @@ static int section_file_load_dup(struct section_file *sf,
 				 int allow_duplicates)
 {
   struct inputfile *inf;
-  struct section *psection = NULL;
-  struct entry *pentry;
   int table_state = 0;		/* 1 when within tabular format */
   int table_lineno = 0;		/* row number in tabular, 0=top data row */
-  struct sbuffer *sb;
   const char *tok;
   int i;
+  struct astring section_name = ASTRING_INIT;
   struct astring base_name = ASTRING_INIT;    /* for table or single entry */
   struct astring entry_name = ASTRING_INIT;
   struct athing columns_tab;	        /* astrings for column headings */
@@ -369,8 +431,9 @@ static int section_file_load_dup(struct section_file *sf,
   }
   section_file_init(sf);
   sf->filename = mystrdup(filename);
+  sf->allow_duplicates = allow_duplicates;
+  
   ath_init(&columns_tab, sizeof(struct astring));
-  sb = sf->sb;
 
   freelog(LOG_VERBOSE, "Reading file \"%s\"", filename);
 
@@ -386,31 +449,16 @@ static int section_file_load_dup(struct section_file *sf,
       if (table_state) {
 	inf_die(inf, "new section during table");
       }
-      /* Check if we already have a section with this name.
-	 (Could ignore this and have a duplicate sections internally,
-	 but then secfile_get_secnames_prefix would return duplicates.)
-	 Duplicate section in input are likely to be useful for includes.
-	 This is slow if there are lots of sections; [cs]hould have a
-	 hash on section names.
+      /* New (or repeated) section: just get the name, and the actual
+	 section will be created later (if required) when we add an
+	 entry with this section name.
       */
-      psection = NULL;
-      section_list_iterate(*sf->sections, asection) {
-	if (strcmp(asection->name, tok)==0) {
-	  psection = asection;
-	  break;
-	}
-      }
-      section_list_iterate_end;
-      if (psection==NULL) {
-	psection = sbuf_malloc(sb, sizeof(struct section));
-	psection->name = sbuf_strdup(sb, tok);
-	entry_list_init(&psection->entries);
-	section_list_insert_back(sf->sections, psection);
-      }
+      astr_minsize(&section_name, strlen(tok));
+      strcpy(section_name.str, tok);
       inf_token_required(inf, INF_TOK_EOL);
       continue;
     }
-    if (!psection) {
+    if (!section_name.n) {
       inf_die(inf, "data before first section");
     }
     if (inf_token(inf, INF_TOK_TABLE_END)) {
@@ -437,9 +485,7 @@ static int section_file_load_dup(struct section_file *sf,
 		      base_name.str, table_lineno,
 		      columns[columns_tab.n-1].str, i-columns_tab.n+1);
 	}
-	pentry = new_entry(sb, entry_name.str, tok);
-	entry_list_insert_back(&psection->entries, pentry);
-	sf->num_entries++;
+	insert_from_tok(sf, section_name.str, entry_name.str, tok);
       } while(inf_token(inf, INF_TOK_COMMA));
       
       inf_token_required(inf, INF_TOK_EOL);
@@ -489,15 +535,13 @@ static int section_file_load_dup(struct section_file *sf,
       inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
       tok = inf_token_required(inf, INF_TOK_VALUE);
       if (i==0) {
-	pentry = new_entry(sb, base_name.str, tok);
+	insert_from_tok(sf, section_name.str, base_name.str, tok);
       } else {
 	astr_minsize(&entry_name, base_name.n + 20);
 	my_snprintf(entry_name.str, entry_name.n_alloc,
 		    "%s,%d", base_name.str, i);
-	pentry = new_entry(sb, entry_name.str, tok);
+	insert_from_tok(sf, section_name.str, entry_name.str, tok);
       }
-      entry_list_insert_back(&psection->entries, pentry);
-      sf->num_entries++;
     } while(inf_token(inf, INF_TOK_COMMA));
     inf_token_required(inf, INF_TOK_EOL);
   }
@@ -509,6 +553,7 @@ static int section_file_load_dup(struct section_file *sf,
 
   inf_close(inf);
   
+  astr_free(&section_name);
   astr_free(&base_name);
   astr_free(&entry_name);
   for(i=0; i<columns_tab.n_alloc; i++) {
@@ -516,8 +561,6 @@ static int section_file_load_dup(struct section_file *sf,
   }
   ath_free(&columns_tab);
   
-  secfilehash_build(sf, allow_duplicates);
-    
   return 1;
 }
 
@@ -885,224 +928,94 @@ int section_file_lookup(struct section_file *my_section_file,
 
 
 /**************************************************************************
-...
+  Note that fullpath must be writeable: if it ends in ',0', a null
+  character is inserted at the comma.
 **************************************************************************/
 static struct entry*
 section_file_lookup_internal(struct section_file *my_section_file,  
 			     char *fullpath) 
 {
-  char *pdelim;
-  char sec_name[MAX_LEN_BUFFER];
-  char ent_name[MAX_LEN_BUFFER];
-  char mod_fullpath[2*MAX_LEN_BUFFER];
-  int len;
-  struct entry *result;
+  struct entry *pentry;
 
-  /* freelog(LOG_DEBUG, "looking up: %s", fullpath); */
-  
-  /* treat "sec.foo,0" as "sec.foo": */
-  len = strlen(fullpath);
-  if(len>2 && fullpath[len-2]==',' && fullpath[len-1]=='0') {
-    assert(len<sizeof(mod_fullpath));
-    strcpy(mod_fullpath, fullpath);
-    fullpath = mod_fullpath;	/* reassign local pointer 'fullpath' */
-    fullpath[len-2] = '\0';
+  truncate_comma_zero(fullpath);
+  pentry = hash_lookup_data(my_section_file->hent, fullpath);
+  if (pentry) {
+    pentry->used++;
   }
-  
-  if (secfilehash_hashash(my_section_file)) {
-    result = hash_lookup_data(my_section_file->hashd->htbl, fullpath);
-    if (result) {
-      result->used++;
-    }
-    return result;
-  }
-
-  if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
-    return 0;
-
-  mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1, sizeof(sec_name)));
-  sz_strlcpy(ent_name, pdelim+1);
-
-  section_list_iterate(*my_section_file->sections, psection) {
-    if (strcmp(psection->name, sec_name) == 0 ) {
-      entry_list_iterate(psection->entries, pentry) {
-   	if (strcmp(pentry->name, ent_name) == 0) {
-	  result = pentry;
-	  result->used++;
-	  return result;
-	}
-      }
-      entry_list_iterate_end;
-    }
-  }
-  section_list_iterate_end;
-
-  return 0;
+  return pentry;
 }
 
 
 /**************************************************************************
- The caller should ensure that "fullpath" should not refer to an entry
- which already exists in "my_section_file".  (Actually, in some cases
- now it is ok to have duplicate entries, but be careful...)
+  Insert a new entry given filled all_name.  If duplicates are allowed,
+  this could really be an old entry (in which case returned entry will
+  have svalue and ivalue still set from before).
+  If non-null, ppsection points to a variable which, if non-null,
+  points to the previous section; this is updated if the section
+  changes.  This avoids unnecessary refinding of the previous
+  section when loading from a file.
 **************************************************************************/
-static struct entry*
-section_file_insert_internal(struct section_file *my_section_file, 
-			     char *fullpath)
+static struct entry *secfile_insert_aname(struct section_file *sf,
+					  const struct all_name *aname)
 {
-  char *pdelim;
-  char sec_name[MAX_LEN_BUFFER];
-  char ent_name[MAX_LEN_BUFFER];
-  struct section *psection;
   struct entry *pentry;
-  struct sbuffer *sb = my_section_file->sb;
+  struct section *psection;
+  int ret;
 
-  if(!(pdelim=strchr(fullpath, '.'))) { /* d dont like strtok */
-    freelog(LOG_FATAL,
-	    "Insertion fullpath \"%s\" missing '.' for sectionfile %s",
-	    fullpath, secfile_filename(my_section_file));
-    exit(1);
-  }
-  mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1,sizeof(sec_name)));
-  sz_strlcpy(ent_name, pdelim+1);
-  my_section_file->num_entries++;
-  
-  if(strlen(sec_name)==0 || strlen(ent_name)==0) {
-    freelog(LOG_FATAL,
-	    "Insertion fullpath \"%s\" missing %s for sectionfile %s",
-	    fullpath, (strlen(sec_name)==0 ? "section" : "entry"),
-	    secfile_filename(my_section_file));
-    exit(1);
-  }
+  pentry = hash_lookup_data(sf->hent, aname->full);
 
-  /* Do a reverse search of sections, since we're most likely
-   * to be adding to the lastmost section.
-   */
-  section_list_iterate_rev(*my_section_file->sections, psection) {
-    if(strcmp(psection->name, sec_name)==0) {
-      /* This DOES NOT check whether the entry already exists in
-       * the section, to avoid O(N^2) behaviour.
-       */
-      pentry = sbuf_malloc(sb, sizeof(struct entry));
-      pentry->name = sbuf_strdup(sb, ent_name);
-      entry_list_insert_back(&psection->entries, pentry);
+  if (pentry) {
+    if (sf->allow_duplicates) {
+      sf->num_duplicates++;
+      pentry->used = 0;
       return pentry;
+    } else {
+      freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
+	      aname->full, secfile_filename(sf));
+      exit(1);
     }
   }
-  section_list_iterate_rev_end;
 
-  psection = sbuf_malloc(sb, sizeof(struct section));
-  psection->name = sbuf_strdup(sb, sec_name);
-  entry_list_init(&psection->entries);
-  section_list_insert_back(my_section_file->sections, psection);
-  
-  pentry = sbuf_malloc(sb, sizeof(struct entry));
-  pentry->name = sbuf_strdup(sb, ent_name);
+  psection = hash_lookup_data(sf->hsec, aname->sec);
+
+  if (!psection) {
+    psection = sbuf_malloc(sf->sb, sizeof(struct section));
+    psection->name = sbuf_strdup(sf->sb, aname->sec);
+    entry_list_init(&psection->entries);
+    section_list_insert_back(sf->sections, psection);
+    ret = hash_insert(sf->hsec, psection->name, psection);
+    assert(ret);
+  }
+
+  pentry = sbuf_malloc(sf->sb, sizeof(struct entry));
+  pentry->name = sbuf_strdup(sf->sb, aname->ent);
   entry_list_insert_back(&psection->entries, pentry);
+  ret = hash_insert(sf->hent, sbuf_strdup(sf->sb, aname->full), pentry);
+  assert(ret);
+  
+  pentry->used = 0;
+  pentry->ivalue = 0;
+  pentry->svalue = NULL;
+
+  sf->num_entries++;
 
   return pentry;
 }
 
 
 /**************************************************************************
- Return 0 if the section_file has not been setup for hashing.
+...
 **************************************************************************/
-int secfilehash_hashash(struct section_file *file)
+static struct entry*
+section_file_insert_internal(struct section_file *my_section_file, 
+			     char *fullpath)
 {
-  return (file->hashd!=NULL && hash_num_buckets(file->hashd->htbl)!=0);
+  struct all_name aname;
+
+  fill_allname1(&aname, fullpath);
+  return secfile_insert_aname(my_section_file, &aname);
 }
 
-/**************************************************************************
-  Basic checks for existence/integrity of hash data and fail if bad.
-**************************************************************************/
-static void secfilehash_check(struct section_file *file)
-{
-  if (!secfilehash_hashash(file)) {
-    freelog(LOG_FATAL, "sectionfile %s hash operation before setup",
-	    secfile_filename(file));
-    exit(1);
-  }
-  if (file->num_entries != file->hashd->num_entries_hashbuild) {
-    freelog(LOG_FATAL, "sectionfile %s has more entries than when hash built",
-	    secfile_filename(file));
-    exit(1);
-  }
-}
-
-/**************************************************************************
- Insert a entry into the hash table.  The key is malloced here (using sbuf;
- malloc somewhere required by hash implementation).
-**************************************************************************/
-static void secfilehash_insert(struct section_file *file,
-			       char *key, struct entry *data)
-{
-  struct entry *hentry;
-
-  key = sbuf_strdup(file->sb, key);
-  hentry = hash_replace(file->hashd->htbl, key, data);
-  if (hentry) {
-    if (file->hashd->allow_duplicates) {
-      hentry->used = 1;
-      file->hashd->num_duplicates++;
-      /* Subsequent entries replace earlier ones; could do differently so
-	 that first entry would be used and following ones ignored.
-	 Need to mark the replaced one as used or else it will show
-	 up when we iterate the sections and entries (since hash
-	 lookup will never find it to mark it as used).
-      */
-    } else {
-      freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
-	      key, secfile_filename(file));
-      exit(1);
-    }
-  }
-}
-
-/**************************************************************************
- Build a hash table for the file.  Note that the section_file should
- not be modified (except to free it) subsequently.
- If allow_duplicates is true, then relax normal condition that
- all entries must have unique names; in this case for duplicates
- the hash ref will be to the _last_ entry.
-**************************************************************************/
-void secfilehash_build(struct section_file *file, int allow_duplicates)
-{
-  struct hash_data *hashd;
-  char buf[256];
-
-  hashd = file->hashd = fc_malloc(sizeof(struct hash_data));
-  hashd->htbl = hash_new_nentries(hash_fval_string, hash_fcmp_string,
-				  file->num_entries);
-  
-  hashd->num_entries_hashbuild = file->num_entries;
-  hashd->allow_duplicates = allow_duplicates;
-  hashd->num_duplicates = 0;
-  
-  section_list_iterate(*file->sections, psection) {
-    entry_list_iterate(psection->entries, pentry) {
-      my_snprintf(buf, sizeof(buf), "%s.%s", psection->name, pentry->name);
-      secfilehash_insert(file, buf, pentry);
-    }
-    entry_list_iterate_end;
-  }
-  section_list_iterate_end;
-  
-  if (hashd->allow_duplicates) {
-    freelog(LOG_DEBUG, "Hash duplicates during build: %d",
-	    hashd->num_duplicates);
-  }
-}
-
-
-/**************************************************************************
- Free the memory allocated for the hash table.
-**************************************************************************/
-void secfilehash_free(struct section_file *file)
-{
-  secfilehash_check(file);
-  hash_free(file->hashd->htbl);
-  free(file->hashd);
-}
 
 /**************************************************************************
  Returns the number of elements in a "vector".
