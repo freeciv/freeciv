@@ -38,7 +38,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.14.1\n"
-"POT-Creation-Date: 2003-09-19 11:48+0200\n"
+"POT-Creation-Date: 2003-10-03 00:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -1563,18 +1563,18 @@ msgstr ""
 "Spiel: %s hat durch die Anstiftung einer Revolte in %s eine diplomatische "
 "Krise verursacht."
 
-#: client/gui-mui/mapview.c:196 server/gamehand.c:183
+#: client/gui-mui/mapview.c:196 server/gamehand.c:184
 #, c-format
 msgid "Year: %s"
 msgstr "Jahr: %s"
 
-#: server/gamehand.c:285
+#: server/gamehand.c:286
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr ""
 "Die zulässige Rundenzeit hat das Maximum überschritten, sie wird auf den "
 "Maximalwert gesetzt."
 
-#: server/gamehand.c:293
+#: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Die zulässige Rundenzeit ist negativ, sie wird auf Null gesetzt."
 
@@ -1845,13 +1845,13 @@ msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 msgid "Tax"
 msgstr "Steuern"
 
-#: client/agents/cma_core.c:2017 client/gui-gtk-2.0/gamedlgs.c:272
+#: client/agents/cma_core.c:2021 client/gui-gtk-2.0/gamedlgs.c:272
 #: client/gui-gtk/gamedlgs.c:263 client/gui-mui/citydlg.c:1691
 #: client/gui-win32/ratesdlg.c:321 server/plrhand.c:649
 msgid "Luxury"
 msgstr "Luxus"
 
-#: client/agents/cma_core.c:2019 client/gui-gtk-2.0/gamedlgs.c:292
+#: client/agents/cma_core.c:2023 client/gui-gtk-2.0/gamedlgs.c:292
 #: client/gui-gtk-2.0/repodlgs.c:128 client/gui-gtk/gamedlgs.c:283
 #: client/gui-gtk/repodlgs.c:139 client/gui-mui/citydlg.c:1695
 #: client/gui-mui/repodlgs.c:280 client/gui-win32/ratesdlg.c:327
@@ -3852,12 +3852,12 @@ msgid ""
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
 msgstr ""
-"Ordnet einen Spieler einem Team zu. Wenn kein Team angegeben ist, spielt "
-"der Spieler alleine. Der Spielername muss eventuell in \"\" angegeben "
-"werden. Ein Team ist eine Gruppe von Spielern, die von Anfang an Verbündete "
-"sind, mit gegenseitiger Karteneinsicht und Botschaften, und gemeinsam "
-"für einen Sieg des Teams kämpfen. Sie erhalten als Punktbewertung den "
-"Duchschnitt der Teammitglieder"
+"Ordnet einen Spieler einem Team zu. Wenn kein Team angegeben ist, spielt der "
+"Spieler alleine. Der Spielername muss eventuell in \"\" angegeben werden. "
+"Ein Team ist eine Gruppe von Spielern, die von Anfang an Verbündete sind, "
+"mit gegenseitiger Karteneinsicht und Botschaften, und gemeinsam für einen "
+"Sieg des Teams kämpfen. Sie erhalten als Punktbewertung den Duchschnitt der "
+"Teammitglieder"
 
 #: server/stdinhand.c:1086
 msgid "fix <option-name>"
@@ -5743,7 +5743,7 @@ msgstr "?trade_routes:H"
 msgid "Number of Trade Routes"
 msgstr "Anzahl der Handelswege"
 
-#: client/agents/cma_core.c:2009 client/cityrepdata.c:229
+#: client/agents/cma_core.c:2013 client/cityrepdata.c:229
 #: client/gui-gtk-2.0/repodlgs.c:836 client/gui-gtk/repodlgs.c:780
 #: client/gui-mui/citydlg.c:1675 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:701
@@ -6936,7 +6936,7 @@ msgid "CMA: You lost control of %s. Detaching from city."
 msgstr ""
 "ASV: %s wird nicht mehr von uns verwaltet, da es uns nicht mehr gehört."
 
-#: client/agents/cma_core.c:1789
+#: client/agents/cma_core.c:1793
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
@@ -6944,7 +6944,7 @@ msgstr ""
 "ASV: Die Vorgaben für %s können nicht eingehalten werden. Kontrolle "
 "abgegeben."
 
-#: client/agents/cma_core.c:1798
+#: client/agents/cma_core.c:1802
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6952,7 +6952,7 @@ msgstr ""
 "ASV: Da sich %s geändert hat, sind die bisherigen Berechnungen nicht mehr "
 "gültig. Die Neuberechnung erfolgt automatisch."
 
-#: client/agents/cma_core.c:1818 client/agents/cma_core.c:1826
+#: client/agents/cma_core.c:1822 client/agents/cma_core.c:1830
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6963,19 +6963,19 @@ msgstr ""
 "liegen: Bitte informieren Sie <freeciv-dev@freeciv.org>. Die ASV für diese "
 "Stadt wird deshalb jetzt abgeschaltet."
 
-#: client/agents/cma_core.c:2011 client/gui-gtk-2.0/repodlgs.c:835
+#: client/agents/cma_core.c:2015 client/gui-gtk-2.0/repodlgs.c:835
 #: client/gui-gtk/repodlgs.c:780 client/gui-mui/citydlg.c:1679
 #: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:701
 msgid "Shield"
 msgstr "Schild"
 
-#: client/agents/cma_core.c:2013 client/gui-mui/citydlg.c:1683
+#: client/agents/cma_core.c:2017 client/gui-mui/citydlg.c:1683
 #: data/Freeciv:2966 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
 #: data/default/techs.ruleset:562 data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Handel"
 
-#: client/agents/cma_core.c:2015 client/gui-gtk/citydlg.c:546
+#: client/agents/cma_core.c:2019 client/gui-gtk/citydlg.c:546
 #: client/gui-mui/citydlg.c:1687 data/civ1/terrain.ruleset:368
 #: data/civ2/terrain.ruleset:376 data/default/terrain.ruleset:376
 #: data/history/terrain.ruleset:376
@@ -8129,6 +8129,12 @@ msgstr "Einheiten stationieren"
 msgid "What Nation Will You Be?"
 msgstr "Bitte wählen:"
 
+#: client/gui-gtk-2.0/dialogs.c:1781 client/gui-gtk-2.0/menu.c:570
+#: client/gui-gtk/menu.c:571 client/gui-mui/dialogs.c:1776
+#: client/gui-win32/menu.c:287
+msgid "_Disconnect"
+msgstr "Verbindung _trennen"
+
 #: client/gui-gtk-2.0/dialogs.c:1800
 msgid "Select a nation"
 msgstr "Wähle eine Nation"
@@ -8957,11 +8963,6 @@ msgstr "_Textfenster speichern"
 #: client/gui-win32/menu.c:285
 msgid "_Clear Log"
 msgstr "Textfenster _löschen"
-
-#: client/gui-gtk-2.0/menu.c:570 client/gui-gtk/menu.c:571
-#: client/gui-mui/dialogs.c:1776 client/gui-win32/menu.c:287
-msgid "_Disconnect"
-msgstr "Verbindung _trennen"
 
 #: client/gui-gtk-2.0/menu.c:572 client/gui-gtk/menu.c:573
 #: client/gui-mui/connectdlg.c:225 client/gui-mui/dialogs.c:1777
@@ -9812,6 +9813,10 @@ msgstr "Arbeitsliste:"
 #: client/gui-gtk-2.0/wldlg.c:974
 msgid "_Add Global Worklist"
 msgstr "Global verfügbar machen"
+
+#: client/gui-gtk-2.0/wldlg.c:988
+msgid "Chan_ge Production"
+msgstr "Produktion ändern"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15557,14 +15562,14 @@ msgstr ""
 "Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten macht 1 Unzufriedenen "
 "zufrieden."
 
-#: data/civ1/governments.ruleset:311 data/civ1/techs.ruleset:139
+#: data/civ1/governments.ruleset:310 data/civ1/techs.ruleset:139
 #: data/civ2/governments.ruleset:313 data/civ2/techs.ruleset:139
 #: data/default/governments.ruleset:314 data/default/techs.ruleset:146
 #: data/history/governments.ruleset:314 data/history/techs.ruleset:146
 msgid "Communism"
 msgstr "Kommunismus"
 
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
+#: data/civ1/governments.ruleset:350 data/civ1/governments.ruleset:351
 #: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
 #: data/default/governments.ruleset:354 data/default/governments.ruleset:355
 #: data/history/governments.ruleset:354 data/history/governments.ruleset:355
@@ -15617,12 +15622,12 @@ msgstr ""
 "Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten macht 2 Unzufriedene "
 "zufrieden."
 
-#: data/civ1/governments.ruleset:386 data/civ2/governments.ruleset:470
+#: data/civ1/governments.ruleset:385 data/civ2/governments.ruleset:470
 #: data/default/governments.ruleset:391 data/history/governments.ruleset:391
 msgid "Republic"
 msgstr "Republik"
 
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
+#: data/civ1/governments.ruleset:425 data/civ1/governments.ruleset:426
 #: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
 #: data/default/governments.ruleset:431 data/default/governments.ruleset:432
 #: data/history/governments.ruleset:431 data/history/governments.ruleset:432
@@ -15681,14 +15686,14 @@ msgstr ""
 "In einer Republik zählen alle stationierte Einheiten außer Landeinheiten als "
 "Kampfeinheiten."
 
-#: data/civ1/governments.ruleset:464 data/civ1/techs.ruleset:169
+#: data/civ1/governments.ruleset:463 data/civ1/techs.ruleset:169
 #: data/civ2/governments.ruleset:550 data/civ2/techs.ruleset:169
 #: data/default/governments.ruleset:471 data/default/techs.ruleset:176
 #: data/history/governments.ruleset:471 data/history/techs.ruleset:176
 msgid "Democracy"
 msgstr "Demokratie"
 
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
+#: data/civ1/governments.ruleset:503 data/civ1/governments.ruleset:504
 #: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
 #: data/default/governments.ruleset:512 data/default/governments.ruleset:513
 #: data/history/governments.ruleset:512 data/history/governments.ruleset:513
@@ -15931,8 +15936,8 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"You may impose martial law under Monarchy: each military unit in a city will "
+"keep one unhappy citizen content."
 msgstr ""
 "In einer (konstitutionellen) Monarchie ist der König der erbliche "
 "Repräsentant des Staates.\n"
@@ -15944,10 +15949,10 @@ msgstr ""
 "Jede Stadt kann bis zu 3 Militäreinheiten ohne Kosten unterhalten. Jede "
 "weitere Einheit kostet 1 Schild.\n"
 "\n"
-"Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten macht 1 Unzufriedenen "
+"Kriegsrecht gilt: Jede Militäreinheit in einer Stadt macht 1 Unzufriedenen "
 "zufrieden."
 
-#: data/civ1/governments.ruleset:354
+#: data/civ1/governments.ruleset:353
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15989,7 +15994,7 @@ msgstr ""
 "Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten macht 1 Unzufriedenen "
 "zufrieden."
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:428
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -16037,7 +16042,7 @@ msgstr ""
 "In einer Republik zählen stationierte Einheiten außer Landeinheiten als "
 "Kampfeinheiten."
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:506
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
