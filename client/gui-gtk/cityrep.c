@@ -87,6 +87,25 @@ static GtkWidget *city_select_command;
 
 static int city_dialog_shell_is_modal;
 
+/*******************************************************************
+ Replacement for the Gtk+ standard compare function for CLISTs,
+ to enable correct sorting of numbers included in text strings.
+*******************************************************************/
+static gint report_sort(GtkCList *report,
+			gconstpointer ptr1, gconstpointer ptr2)
+{
+  const GtkCListRow *row1 = ptr1;
+  const GtkCListRow *row2 = ptr2;
+  const char *buf1, *buf2;
+
+  /* Retrieve the text of the fields... */
+  buf1 = GTK_CELL_TEXT(row1->cell[report->sort_column])->text;
+  buf2 = GTK_CELL_TEXT(row2->cell[report->sort_column])->text;
+
+  /* ...and perform a comparison. */
+  return cityrepfield_compare(buf1, buf2);
+}
+
 /****************************************************************
  Sort cities by column...
 *****************************************************************/
@@ -671,6 +690,8 @@ static void create_city_report_dialog(bool make_modal)
 
   gtk_widget_show_all( GTK_DIALOG(city_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(city_dialog_shell)->action_area );
+
+  gtk_clist_set_compare_func(GTK_CLIST(city_list), report_sort);
 
   gtk_widget_add_accelerator(close_command, "clicked",
 	accel, GDK_Escape, 0, 0);

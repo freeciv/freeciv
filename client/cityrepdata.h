@@ -63,4 +63,6 @@ const char *city_report_spec_tagname(int i);
 
 void init_city_report_data(void);
 
+int cityrepfield_compare(const char *field1, const char *field2);
+
 #endif  /* FC__CITYREPDATA_H */

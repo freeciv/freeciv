@@ -526,3 +526,37 @@ void init_city_report_data(void)
     p->explanation = _(p->explanation);
   }
 }
+
+/**********************************************************************
+  This allows more intelligent sorting city report fields by column,
+  although it still does not give the preferred behavior for all
+  fields.
+
+  The GUI can give us the two fields and we will try to guess if
+  they are text or numeric fields. It returns a number less then,
+  equal to, or greater than 0 if field1 is less than, equal to, or
+  greater than field2, respectively. If we are given two text
+  fields, we will compare them as text. If we are given one text and
+  one numerical field, we will place the numerical field first.
+**********************************************************************/
+int cityrepfield_compare(const char *field1, const char *field2)
+{
+  int scanned1, scanned2;
+  int number1, number2;
+
+  scanned1 = sscanf(field1, "%d", &number1);
+  scanned2 = sscanf(field2, "%d", &number2);
+
+  if (scanned1 == 1 && scanned2 == 1) {
+    /* Both fields are numerical.  Compare them numerically. */
+    return number1 - number2;
+  } else if (scanned1 == 0 && scanned2 == 0) {
+    /* Both fields are text.  Compare them as strings. */
+    return strcmp(field1, field2);
+  } else {
+    /* One field is numerical and one field is text.  To preserve
+     * the logic of comparison sorting we must always sort one before
+     * the other. */
+    return scanned1 - scanned2;
+  }
+}
