@@ -3,6 +3,9 @@
 
 pkgdata_DATA = Freeciv	\
 	helpdata.txt	\
+	earth-80x50.sav \
+	earth-160x90.sav\
+	europe.sav	\
 	intro.xpm	\
 	radar.xpm	\
 	small.xpm	\
