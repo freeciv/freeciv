@@ -26,14 +26,15 @@ wonder="Magellan's Expedition"
 government="Monarchy"
 
 cities =
-  "Armenelos", "Romenna", "Meneltarma", "Andúnië", "Eldalondë",
-  "Nindamos", "Lond Daer", "Vinyalondë", "Emerië", "Hyarastorni",
-  "Osgiliath", "Minas Anor", "Minas Ithil", "Pelargir", "Erech",
-  "Umbar", "Aglarond", "Angrenost", "Elastirion", "Annúminas",
-  "Amon Sûl", "Fornost", "Ethring", "Dol Amroth", "Edhellond", "Linhir",
-  "Calembel", "Tharbad", "Elostirion", "Isengard", "Belfalas", "Anorien",
-  "Bree", "Staddle", "Combe", "Archet", "Minas Tirith", "Halifirien",
-  "Calenhad", "Minrimmon", "Erelas", "Nardol", "Eilenach", "Amon Dîn",
-  "Henneth Anûn", "Tarnost", "Anórien", "Arthedain", "Cardolan",
+  "Armenelos", "Romenna", "Meneltarma (mountains)", "Andúnië",
+  "Eldalondë (ocean)", "Nindamos", "Vinyalondë (ocean)", "Lond Daer (ocean)",
+  "Emerië", "Hyarastorni", "Osgiliath", "Minas Anor", "Minas Ithil",
+  "Pelargir", "Erech (hills)", "Umbar", "Aglarond", "Angrenost", "Annúminas",
+  "Amon Sûl (hills)", "Fornost", "Ethring (river)", "Dol Amroth",
+  "Edhellond (ocean)", "Linhir", "Calembel", "Tharbad", "Elostirion (hills)",
+  "Isengard (hills)", "Belfalas", "Anórien", "Bree (hills)", "Staddle",
+  "Combe", "Archet", "Minas Tirith", "Halifirien (mountains, hills)",
+  "Calenhad", "Min-Rimmon (hills)", "Erelas", "Nardol", "Eilenach (hills)",
+  "Amon Dîn (hills)", "Henneth Annûn", "Tarnost", "Arthedain", "Cardolan",
   "Calenardhon", "Enedwaith", "Evendim", "Lamedon", "Lebennin",
-  "Lossarnach", "Minhiriath"
+  "Lossarnach (!mountains)", "Minhiriath"
