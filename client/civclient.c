@@ -558,9 +558,6 @@ void client_remove_all_cli_conn(void)
   }
 }
 
-void dealloc_id(int id); /* double kludge (suppress a possible warning) */
-void dealloc_id(int id) { }/* kludge */
-
 /**************************************************************************
 ..
 **************************************************************************/

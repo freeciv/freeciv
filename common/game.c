@@ -38,7 +38,6 @@
 
 #include "game.h"
 
-void dealloc_id(int id);
 struct civ_game game;
 
 /*
@@ -158,8 +157,8 @@ void game_remove_unit(struct unit *punit)
 
   idex_unregister_unit(punit);
 
-  if (is_server) {
-    dealloc_id(punit->id);
+  if (game.callbacks.unit_deallocate) {
+    (game.callbacks.unit_deallocate)(punit->id);
   }
   destroy_unit_virtual(punit);
 }

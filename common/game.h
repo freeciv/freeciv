@@ -246,6 +246,11 @@ struct civ_game {
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
   int revolution_length; /* 0=> random length, else the fixated length */
+
+  struct {
+    /* Function to be called in game_remove_unit when a unit is deleted. */
+    void (*unit_deallocate)(int unit_id);
+  } callbacks;
 };
 
 /* Unused? */

@@ -204,6 +204,9 @@ void srv_init(void)
   /* init character encodings. */
   init_character_encodings(FC_DEFAULT_DATA_ENCODING);
 
+  /* Initialize callbacks. */
+  game.callbacks.unit_deallocate = dealloc_id;
+
   /* done */
   return;
 }
