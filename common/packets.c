@@ -2905,7 +2905,9 @@ struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
   for (i = 0; i < GOTO_CHUNK; i++) {
     dio_get_uint8(&din, &pos[i].x);
     dio_get_uint8(&din, &pos[i].y);
-    if (pos[i].x != map.xsize) num_valid++;
+    if (is_normal_map_pos(pos[i].x, pos[i].y)) {
+      num_valid++;
+    }
   }
   dio_get_uint16(&din, &unit_id);
 
