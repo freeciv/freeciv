@@ -36,6 +36,7 @@
 #include <mapctrl.h> /* good to know I'm not the only one with .h problems -- Syela */
 #include <chatline.h>
 #include <clinet.h>
+#include <spaceshipdlg.h>
 
 enum MenuID {
   MENU_END_OF_LIST=0,
@@ -83,6 +84,7 @@ enum MenuID {
   MENU_REPORT_DEMOGRAPHIC,
   MENU_REPORT_TOP_CITIES,
   MENU_REPORT_WOW,
+  MENU_REPORT_SPACESHIP,
 
   MENU_HELP_CONTROLS,
   MENU_HELP_PLAYING,
@@ -163,6 +165,7 @@ struct MenuEntry reports_menu_entries[]={
     { "Demographic",    MENU_REPORT_DEMOGRAPHIC, 0},
     { "Top 5 Cities",   MENU_REPORT_TOP_CITIES, 0},
     { "Wonders of the World", MENU_REPORT_WOW, 0},
+    { "Spaceship", MENU_REPORT_SPACESHIP, 0},
     { 0, MENU_END_OF_LIST, 0}
 };
 
@@ -236,7 +239,9 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_DISCONNECT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
-  
+
+    menu_entry_sensitive(reports_menu, MENU_REPORT_SPACESHIP,
+			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     if((punit=get_unit_in_focus())) {
       char *irrtext, *mintext, *roadtext;
@@ -489,6 +494,9 @@ void reports_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
    case MENU_REPORT_WOW:
     send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+    break;
+   case MENU_REPORT_SPACESHIP:
+    popup_spaceship_dialog(game.player_ptr);
     break;
   }
 }
