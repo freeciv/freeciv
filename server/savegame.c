@@ -737,6 +737,7 @@ static void player_load(struct player *plr, int plrno,
               plr->name, aplayer->name);
       plr->diplstates[aplayer->player_no].type = DS_PEACE;
       aplayer->diplstates[plr->player_no].type = DS_PEACE;
+      resolve_unit_stacks(plr, aplayer, FALSE);
     }
   } players_iterate_end;
 
