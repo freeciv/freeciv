@@ -1752,8 +1752,10 @@ static void show_help_option(struct player *caller,
 
   if(op->extra_help && strcmp(op->extra_help,"")!=0) {
     static struct astring abuf = ASTRING_INIT;
-    astr_minsize(&abuf, strlen(op->extra_help)+1);
-    strcpy(abuf.str, op->extra_help);
+    const char *help = _(op->extra_help);
+
+    astr_minsize(&abuf, strlen(help)+1);
+    strcpy(abuf.str, help);
     wordwrap_string(abuf.str, 76);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
     cmd_reply_prefix(help_cmd, caller, C_COMMENT,
