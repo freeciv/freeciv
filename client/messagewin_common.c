@@ -204,7 +204,7 @@ void meswin_popup_city(int message_index)
        * and we'd better not try to pop it up.  In this case, it would
        * be better if the popup button weren't highlighted at all, but
        * that's OK. */
-      popup_city_dialog(pcity, 0);
+      popup_city_dialog(pcity, FALSE);
     }
   }
 }

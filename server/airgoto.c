@@ -498,7 +498,7 @@ void refuel_iterate_process(struct pqueue *rp_list, struct refuel *pfrom)
         pto->turns = total_turns;
         
         /* Insert it into the queue.  No problem if it's already there */
-        pqinsert(rp_list, k, queue_priority_function(pto));
+	(void) pqinsert(rp_list, k, queue_priority_function(pto));
         pto->listed = RLS_YES;
         
         freelog(LOG_DEBUG, "Recorded (%i,%i) from (%i,%i) in (%d %d)", 

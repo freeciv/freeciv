@@ -354,7 +354,7 @@ void tilespec_reread(const char *tileset_name)
 **************************************************************************/
 void tilespec_reread_callback(struct client_option *option)
 {
-  assert(option->p_string_value && *option->p_string_value);
+  assert(option->p_string_value && *option->p_string_value != '\0');
   tilespec_reread(option->p_string_value);
 }
 

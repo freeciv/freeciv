@@ -765,7 +765,7 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
 
   for (line_nr = 1;; line_nr++) {
     if (!fgets(line, sizeof(line), fp)) {
-      if (feof(fp)) {
+      if (feof(fp) != 0) {
 	break;
       }
       freelog(LOG_ERROR, "Can't read scorelog file header!");

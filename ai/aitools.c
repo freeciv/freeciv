@@ -392,7 +392,7 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
   Is it a city/fortress or will the whole stack die in an attack
   TODO: use new killstack thing
 **************************************************************************/
-int is_stack_vulnerable(int x, int y)
+bool is_stack_vulnerable(int x, int y)
 {
   return !(map_get_city(x, y) != NULL ||
 	   map_has_special(x, y, S_FORTRESS) ||

@@ -83,7 +83,7 @@ bool popup_new_cities = TRUE;
                                       NULL, NULL, oname, sizeof(oname), \
                                       callback, str_defaults, NULL }
 #define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, \
-                                NULL, NULL, NULL, 0, NULL }
+                                NULL, NULL, NULL, 0, NULL, NULL, NULL }
 
 client_option options[] = {
   GEN_STR_OPTION(default_player_name,       N_("Default player's username"),
@@ -503,8 +503,8 @@ void load_ruleset_specific_options(void)
   /* load global worklists */
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     game.player_ptr->worklists[i].is_valid =
-                secfile_lookup_int_default(&sf, FALSE,
-                                          "worklists.worklist%d.is_valid", i);
+	secfile_lookup_bool_default(&sf, FALSE,
+				    "worklists.worklist%d.is_valid", i);
     strcpy(game.player_ptr->worklists[i].name,
            secfile_lookup_str_default(&sf, "",
                                       "worklists.worklist%d.name", i));
@@ -568,8 +568,8 @@ void save_options(void)
   /* insert global worklists */
   for(i = 0; i < MAX_NUM_WORKLISTS; i++){
     if (game.player_ptr->worklists[i].is_valid) {
-      secfile_insert_int(&sf, game.player_ptr->worklists[i].is_valid,
-                         "worklists.worklist%d.is_valid", i);
+      secfile_insert_bool(&sf, game.player_ptr->worklists[i].is_valid,
+			  "worklists.worklist%d.is_valid", i);
       secfile_insert_str(&sf, game.player_ptr->worklists[i].name,
                          "worklists.worklist%d.name", i);
       save_global_worklist(&sf, "worklists.worklist%d", i, 
@@ -619,7 +619,7 @@ static void load_cma_preset(struct section_file *file, int inx)
 	secfile_lookup_int_default(file, 0, "cma.preset%d.factor%d", inx, i);
   }
   parameter.require_happy =
-      secfile_lookup_int_default(file, 0, "cma.preset%d.reqhappy", inx);
+      secfile_lookup_bool_default(file, FALSE, "cma.preset%d.reqhappy", inx);
   parameter.factor_target =
       secfile_lookup_int_default(file, 0, "cma.preset%d.factortarget", inx);
   parameter.happy_factor =
@@ -644,8 +644,8 @@ static void save_cma_preset(struct section_file *file, char *name,
     secfile_insert_int(file, pparam->factor[i],
 		       "cma.preset%d.factor%d", inx, i);
   }
-  secfile_insert_int(file, pparam->require_happy,
-		     "cma.preset%d.reqhappy", inx);
+  secfile_insert_bool(file, pparam->require_happy,
+		      "cma.preset%d.reqhappy", inx);
   secfile_insert_int(file, pparam->factor_target,
 		     "cma.preset%d.factortarget", inx);
   secfile_insert_int(file, pparam->happy_factor,

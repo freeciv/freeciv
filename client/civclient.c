@@ -695,7 +695,7 @@ void set_client_state(enum client_states newstate)
 	exit(EXIT_FAILURE);
       } else {
 	server_autoconnect();
-        auto_connect = 0;  /* don't try this again */
+	auto_connect = FALSE;	/* don't try this again */
       }
     } else {
       gui_server_connect();

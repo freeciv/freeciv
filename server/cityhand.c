@@ -365,7 +365,7 @@ void handle_city_change(struct player *pplayer,
      return;
    if (!preq->is_build_id_unit_id && !can_build_improvement(pcity, preq->build_id))
      return;
-  if (pcity->did_buy && pcity->shield_stock) {
+  if (pcity->did_buy && pcity->shield_stock > 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     _("Game: You have bought this turn, can't change."));
     return;

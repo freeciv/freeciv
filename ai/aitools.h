@@ -30,7 +30,7 @@ enum bodyguard_enum {
 struct unit *create_unit_virtual(struct player *pplayer, int x, int y,
 				 Unit_Type_id type, bool make_veteran);
 void destroy_unit_virtual(struct unit *punit);
-int is_stack_vulnerable(int x, int y);
+bool is_stack_vulnerable(int x, int y);
 
 bool ai_unit_gothere(struct unit *punit);
 bool ai_unit_goto(struct unit *punit, int x, int y);

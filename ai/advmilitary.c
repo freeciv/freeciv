@@ -1413,7 +1413,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   }
 
   /* Consider making an airplane */
-  ai_choose_attacker_air(pplayer, pcity, choice);
+  (void) ai_choose_attacker_air(pplayer, pcity, choice);
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */

@@ -158,8 +158,8 @@ void gamelog_save(void){
     } players_iterate_end;
 
     /* average them */
-    team_score = floor(team_score / team_members);
-    team_size = floor(team_size / team_members);
+    team_score = team_score / team_members;
+    team_size = team_size / team_members;
 
     /* set scores to average */
     count = 0;
@@ -194,12 +194,12 @@ void gamelog_save(void){
   gamelog(GAMELOG_RANK,buffer);
   buffer[0] = 0;
   for (i = 0; i < count; i++) {
-    cat_snprintf(buffer, sizeof(buffer),    
-         "%s,%i,%i,%i|",
-         game.players[rank[i].idx].name,
-         game.players[rank[i].idx].ai.control * game.players[rank[i].idx].ai.skill_level,
-         game.players[rank[i].idx].is_connected,
-         rank[i].value);
+    cat_snprintf(buffer, sizeof(buffer),
+		 "%s,%i,%i,%i|",
+		 game.players[rank[i].idx].name,
+		 game.players[rank[i].idx].ai.control ? 1 : 0 *
+		 game.players[rank[i].idx].ai.skill_level,
+		 game.players[rank[i].idx].is_connected, rank[i].value);
   }
   gamelog(GAMELOG_STATUS, buffer);
 

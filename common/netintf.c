@@ -204,7 +204,9 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
 
 #ifdef HAVE_FDOPEN
   fp = fdopen(sock, "r+b");
-  fwrite(buf, 1, size, fp);
+  if (fwrite(buf, 1, size, fp) != size) {
+    die("socket %d: write error", sock);
+  }
   fflush(fp);
 
   /* we don't use my_closesocket on sock here since when fp is closed
@@ -217,8 +219,11 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
     fp = tmpfile();
     my_writesocket(sock, buf, size);
 
-    while ((n = my_readsocket(sock, tmp, sizeof(tmp))) > 0)
-      fwrite(tmp, 1, n, fp);
+    while ((n = my_readsocket(sock, tmp, sizeof(tmp))) > 0) {
+      if (fwrite(tmp, 1, n, fp) != n) {
+	die("socket %d: write error", sock);
+      }
+    }
     fflush(fp);
 
     my_closesocket(sock);

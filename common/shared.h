@@ -90,7 +90,7 @@ typedef unsigned int fc_bool;
  * rounds toward 0.  It is assumed that the divisor is positive.
  */
 #define DIVIDE(n, d) \
-    ( (n) / (d) - ( (n) < 0 && (n) % (d) < 0 ) )
+    ( (n) / (d) - (( (n) < 0 && (n) % (d) < 0 ) ? 1 : 0) )
 
 /* Deletes bit no in val,
    moves all bits larger than no one down,
