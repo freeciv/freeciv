@@ -1,5 +1,5 @@
 ====================
-Freeciv Version 1.10
+Freeciv Version 1.11
 ====================
 
 Welcome to Freeciv!
@@ -8,8 +8,8 @@ This archive contains Freeciv, a free Civilization clone for X,
 primarily under Unix.  It has support for multiplayer games locally or
 over a network, and an AI which gives most people a run for their money.
 
-Freeciv aims to be mostly rule-compatible with Civilization II[tm],
-published by Sid Meier and Microprose[tm].  A few rules are different
+Freeciv aims to be mostly rule-compatible with Civilization II [tm],
+published by Sid Meier and Microprose [tm].  A few rules are different
 where we think it makes more sense, and we have lots and lots of
 adjustable parameters to make customizing games possible.
 
@@ -59,14 +59,13 @@ is in progress, there will be one server program running, and as many
 client programs as there are human players.  The server does not need
 X, but the clients do.
 
-    NOTE:
-
-    The following examples assume that Freeciv has been installed on
-    your system, and that the directory containing the "civclient" and
-    "civserver" programs is in your PATH.  If Freeciv is not
-    installed, then you may want to use the "civ" and "ser" programs,
-    which can be found in the top Freeciv directory.  They are used
-    in exactly the same fashion as "civclient" and "civserver".
+  NOTE:
+  The following examples assume that Freeciv has been installed on
+  your system, and that the directory containing the "civclient"
+  and "civserver" programs is in your PATH.  If Freeciv is not
+  installed, then you may want to use the "civ" and "ser" programs,
+  which can be found in the top Freeciv directory.  They are used
+  in exactly the same fashion as "civclient" and "civserver".
 
 Running Freeciv involves starting the server, then the client(s)
 and AI(s), then telling the server to start the game.  Here are the
@@ -194,9 +193,9 @@ Computer Players:
 
   This will create an AI-controlled player called HumanKiller.
 
-  AI players are assigned to tribes after all human players have
-  chosen their tribes, but you can choose a particular tribe for an AI
-  player by using the normal name for that nation's leader.  For
+  AI players are assigned to nations after all human players have
+  chosen their nations, but you can choose a particular nation for an
+  AI player by using the normal name for that nation's leader.  For
   example, to play against AI-controlled Romans, use this server
   command:
 
@@ -212,7 +211,6 @@ Server:
 
   |  > start
 
-
 And the game is on!
 
 
@@ -222,7 +220,7 @@ Announcing the game:
 If you do not want to limit your opponents to local friends or AI players,
 visit the Freeciv metaserver:
 
-  http://meta.freeciv.org/metaserver
+  http://meta.freeciv.org/metaserver/
 
 It is a list of Freeciv servers.  To make your own server announce itself
 there, start civserver with the '--meta' option, or just '-m' for short.
@@ -256,19 +254,20 @@ Playing the game:
 The game may be saved the game at any time using the 'save' server
 command, like so:
 
-  |  > save mygame
+  |  > save mygame.sav
 
 The Freeciv client works pretty much as you would expect from a
-multiplayer civilization game.  That is, the players move at the same
-time.  There's a turn timeout value, which is by default set to 0
-seconds (no timeout).  The server operator can alter this value at
-any time with the 'set' command.
+multiplayer civilization game.  That is, the human players all move
+at the same time, then all the AI players move when all the human
+players have completed their turn.  There's a turn timeout value,
+which is by default set to 0 seconds (no timeout).  The server
+operator can alter this value at any time with the 'set' command.
 
 Have a look at the online help system. All three mouse-buttons are
 used, and documented in the help.
 
 Players can push the 'Return' key to announce the end of their turn,
-or just push the 'Turn done' button.
+or just push the 'Turn Done' button.
 
 Use the 'Players' dialog to see who has announced their end of turn,
 and who you're waiting for.  (Hey feller, are you asleep or what?? ;).
@@ -276,13 +275,13 @@ and who you're waiting for.  (Hey feller, are you asleep or what?? ;).
 Use the input line at the bottom of the window for broadcasting
 messages to other players.
 
-You can send a message to an individual player (say, 'peter') like so:
+You can send a message to an individual player (e.g., 'peter') like so:
 
   |  peter: move that armor away *NOW*!
 
 The server is smart enough to perform "name completion", so if you had
-typed "pet:", it will pick find a player name that matches the part of
-the name you typed.
+typed "pet:", it will find a player name that matches the part of the
+name you typed.
 
 On newer servers (version 1.8.1 or later, or some development 1.8.0
 versions) you can issue server commands from the client input line:
@@ -308,7 +307,7 @@ For lots more information about the client, the server, and the
 concepts and rules of the game, see the Freeciv manual, available
 at the web pages at:
 
-  http://www.freeciv.org/manual/main.html
+  http://www.freeciv.org/manual/manual.html
 
 
 Ending the game:

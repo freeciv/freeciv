@@ -2,10 +2,14 @@
 BUGS
 ====
 
-Freeciv 1.10.0 is a "stable" release and is considered bug-free enough
+Freeciv 1.11.0 is a "stable" release and is considered bug-free enough
 for everyday use.  However if you do find a bug, we would really like to
 know, so that we can fix it.  This file lists known bugs in this release,
 and gives information about reporting new bugs.
+
+This lists only the most obvious bugs.  For a complete list, see:
+
+    http://www.freeciv.org/cgi-bin/bugs
 
 KNOWN BUGS:
 ===========
@@ -27,25 +31,11 @@ KNOWN BUGS:
    still does some stupid things.  E.g., it prefers leaving cities in
    revolt rather than letting them starve/shrink.
 
- - If you scroll to the bottom of the map, sometimes the bottom row
-   of squares is not fully visible.  As a work-around, try adjusting
-   the size of the client window.
-
  - Sometimes there may be too many advances in the "goal" menu of
    the science report, such that the menu goes off the bottom of the
    screen and you cannot select some items.
 
- - Spy and diplomat special actions cannot be used when using "goto".
-   (You will get a message "can't attack".)  You must move the spy or
-   diplomat (at least the last move, into the enemy) using the arrow
-   keys instead of the "goto" command.
-
  - The server truncates the display of very long hostnames.
-
- - Units on goto can attack enemy units and cities unintentionally.
-
- - When a unit is moved to the edge of the map display, the map should
-   shift sooner, before the unit actually gets to the edge.
 
  - The Great Wall wonder, which acts as a city wall in every city,
    disallows cities to build "proper" city walls that won't disappear
