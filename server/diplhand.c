@@ -139,7 +139,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  }
 	  gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",
                   get_race_name_plural(pdest->race),
-                  advances[pclause->value],
+                  advances[pclause->value].name,
                   get_race_name_plural(pgiver->race));
 	  set_invention(pdest, pclause->value, TECH_KNOWN);
 	  update_research(pdest);

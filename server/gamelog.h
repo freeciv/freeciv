@@ -14,6 +14,8 @@
 #ifndef FC_GAMELOG_H
 #define FC_GAMELOG_H
 
+#include "attribute.h"
+
 #define GAMELOG_FATAL  0
 #define GAMELOG_NORMAL 1
 #define GAMELOG_INIT  2
@@ -50,7 +52,8 @@
 
 void gamelog_init(char *filename);
 void gamelog_set_level(int level);
-void gamelog(int level, char *message, ...);
+void gamelog(int level, char *message, ...)
+             fc__attribute((format (printf, 2, 3)));
 void gamelog_map(void);
 void gamelog_save(void);
 
