@@ -793,7 +793,9 @@ void handle_page_msg(struct packet_generic_message *packet)
 **************************************************************************/
 void handle_move_unit(struct packet_move_unit *packet)
 {
-  /* should there be something here? - mjd */
+  /* this packet should never get sent to a client */
+  assert(0);
+  exit(1);
 }
 
 /**************************************************************************
