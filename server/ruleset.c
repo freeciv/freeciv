@@ -1866,15 +1866,15 @@ static void load_ruleset_nations(struct section_file *file)
     }
     for (j = 0; j < dim; j++) {
       if (0 == mystrcasecmp(leaders[j], "Male")) {
-        pl->leader_is_male[j] = 1;
+        pl->leader_is_male[j] = TRUE;
       } else if (0 == mystrcasecmp(leaders[j], "Female")) {
-        pl->leader_is_male[j] = 0;
+        pl->leader_is_male[j] = FALSE;
       } else {
         freelog(LOG_ERROR,
 		"Nation %s, leader %s: sex must be either Male or Female; "
 		"assuming Male",
 		pl->name, pl->leader_name[j]);
-	pl->leader_is_male[j] = 1;
+	pl->leader_is_male[j] = TRUE;
       }
     }
     free(leaders);

@@ -393,7 +393,7 @@ get this EXACTLY right instead of just reasonably close. -- Syela */
 **************************************************************************/
 void ai_manage_settler(struct player *pplayer, struct unit *punit)
 {
-  punit->ai.control = 1;
+  punit->ai.control = TRUE;
   if (punit->ai.ai_role == AIUNIT_NONE) /* if BUILD_CITY must remain BUILD_CITY */
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
 /* gonna handle city-building in the auto-settler routine -- Syela */
@@ -652,7 +652,7 @@ static int road_bonus(int x, int y, int spc)
   for (k = 0; k < 12; k++) {
     int x1 = x + ii[k], y1 = y + jj[k];
     if (!normalize_map_pos(&x1, &y1)) {
-      rd[k] = 0;
+      rd[k] = FALSE;
     } else {
       ptile = map_get_tile(x1, y1);
       rd[k] = ptile->special&spc;
@@ -858,7 +858,7 @@ static void consider_settler_action(struct player *pplayer, enum unit_activity a
   int consider;
 
   if (extra >= 0) {
-    consider = 1;
+    consider = TRUE;
   } else {
     consider = (newv > oldv);
   }
@@ -966,7 +966,7 @@ static int evaluate_city_building(struct unit *punit,
  /* hope 11 is far enough -- Syela */
   square_iterate(punit->x, punit->y, 11, x, y) {
     int near = real_map_distance(punit->x, punit->y, x, y);
-    int w_virtual = 0;	/* I'm no entirely sure what this is --dwp */
+    int w_virtual = FALSE;	/* I'm no entirely sure what this is --dwp */
     int mv_cost;
     if (!is_already_assigned(punit, pplayer, x, y)
 	&& map_get_terrain(x, y) != T_OCEAN
@@ -974,7 +974,7 @@ static int evaluate_city_building(struct unit *punit,
 	/* pretty good, hope it's enough! -- Syela */
 	&& (near < 8 || map_get_continent(x, y) != ucont)
 	&& city_can_be_built_here(x,y)
-	&& !city_exists_within_city_radius(x, y, 0)) {
+	&& !city_exists_within_city_radius(x, y, FALSE)) {
 
       /* potential target, calculate mv_cost: */
       if (*ferryboat) {
@@ -992,7 +992,7 @@ static int evaluate_city_building(struct unit *punit,
 	  mv_cost = 9999;
 	} else if (boatid) {
 	  if (!punit->id && mycity->id == boatid) {
-	    w_virtual = 1;
+	    w_virtual = TRUE;
 	  }
 	  mv_cost = warmap.cost[bx][by] + real_map_distance(bx, by, x, y)
 	    + mv_rate; 
@@ -1004,7 +1004,7 @@ static int evaluate_city_building(struct unit *punit,
 	  /* this should be fresh; the only thing that could have
 	     munged the seacost is the ferryboat code in
 	     k_s_w/f_s_t_k, but only if find_boat succeeded */
-	  w_virtual = 1;
+	  w_virtual = TRUE;
 	}
       } else {
 	mv_cost = warmap.cost[x][y];
@@ -1343,7 +1343,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
     /* This line makes non-AI autosettlers go off auto when they run
        out of squares to improve. I would like keep them on, prepared for
        future pollution and warming, but there wasn't consensus to do so. */
-    punit->ai.control=0;
+    punit->ai.control = FALSE;
   }
 
   /* If we are at the destination then do the activity. */

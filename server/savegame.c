@@ -339,7 +339,7 @@ static void map_rivers_overlay_load(struct section_file *file)
   LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.n%03d", y),
 		map_get_tile(x, y)->special |=
 		(ascii_hex2bin(ch, 2) & S_RIVER));
-  map.have_rivers_overlay = 1;
+  map.have_rivers_overlay = TRUE;
 }
 
 /***************************************************************
@@ -400,7 +400,7 @@ static void map_load(struct section_file *file)
   }
 
 
-  map.have_specials = 1;
+  map.have_specials = TRUE;
 
   /* Should be handled as part of send_all_know_tiles,
      but do it here too for safety */
@@ -495,7 +495,7 @@ static void worklist_load(struct section_file *file,
 {
   char efpath[64];
   char idpath[64];
-  int i, end = 0;
+  int i, end = FALSE;
 
   sz_strlcpy(efpath, path);
   sz_strlcat(efpath, ".wlef%d");
@@ -519,7 +519,7 @@ static void worklist_load(struct section_file *file,
 	  ((pwl->wlefs[i] == WEF_IMPR) && !improvement_exists(pwl->wlids[i]))) {
 	pwl->wlefs[i] = WEF_END;
 	pwl->wlids[i] = 0;
-	end = 1;
+	end = TRUE;
       }
     }
   }
@@ -534,7 +534,7 @@ static void worklist_load_old(struct section_file *file,
 			      char *path, int plrno, int wlinx,
 			      struct worklist *pwl)
 {
-  int i, id, end = 0;
+  int i, id, end = FALSE;
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     if (end) {
@@ -547,7 +547,7 @@ static void worklist_load_old(struct section_file *file,
       if ((id < 0) || (id >= 284)) {	/* 284 was flag value for end of list */
 	pwl->wlefs[i] = WEF_END;
 	pwl->wlids[i] = 0;
-	end = 1;
+	end = TRUE;
       } else if (id >= 68) {		/* 68 was offset to unit ids */
 	pwl->wlefs[i] = WEF_UNIT;
 	pwl->wlids[i] = id - 68;
@@ -813,7 +813,7 @@ static void player_load(struct player *plr, int plrno,
       pcity->airlift=secfile_lookup_bool(file,
 					"player%d.c%d.airlift", plrno,i);
     else
-      pcity->airlift=0;
+      pcity->airlift = FALSE;
 
     pcity->city_options =
       secfile_lookup_int_default(file, CITYOPT_DEFAULT,
@@ -1123,7 +1123,7 @@ static void player_map_load(struct player *plr, int plrno,
      3) is not from a "unit only" fog of war save file
   */
   if (secfile_lookup_int_default(file, -1, "game.fogofwar") != -1
-      && game.fogofwar == 1
+      && game.fogofwar == TRUE
       && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1
       && secfile_lookup_bool_default(file, TRUE, "game.save_private_map")
       && game.load_options.load_private_map) {
@@ -1954,11 +1954,11 @@ void game_load(struct section_file *file)
 	     &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
 	     &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
     }
-    rstate.is_init = 1;
+    rstate.is_init = TRUE;
     set_myrand_state(rstate);
   } else {
     /* mark it */
-    secfile_lookup_int_default(file, 1, "game.save_random");
+    secfile_lookup_int_default(file, TRUE, "game.save_random");
   }
 
 

@@ -1429,7 +1429,7 @@ static void add_specials(int prob)
       }
     }
   }
-  map.have_specials = 1;
+  map.have_specials = TRUE;
 }
 
 /**************************************************************************

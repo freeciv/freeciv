@@ -1533,7 +1533,7 @@ static void cmd_reply_no_such_conn(enum command_id cmd,
 static void open_metaserver_connection(struct connection *caller)
 {
   server_open_udp();
-  if (send_server_info_to_metaserver(1,0)) {
+  if (send_server_info_to_metaserver(TRUE, FALSE)) {
     notify_player(NULL, _("Open metaserver connection to [%s]."),
 		  meta_addr_port());
     cmd_reply(CMD_METACONN, caller, C_OK,
@@ -1546,7 +1546,7 @@ static void open_metaserver_connection(struct connection *caller)
 **************************************************************************/
 static void close_metaserver_connection(struct connection *caller)
 {
-  if (send_server_info_to_metaserver(1,1)) {
+  if (send_server_info_to_metaserver(TRUE, TRUE)) {
     server_close_udp();
     notify_player(NULL, _("Close metaserver connection to [%s]."),
 		  meta_addr_port());
@@ -1597,7 +1597,7 @@ static void metaconnection_command(struct connection *caller, char *arg)
 static void metainfo_command(struct connection *caller, char *arg)
 {
   sz_strlcpy(srvarg.metaserver_info_line, arg);
-  if (send_server_info_to_metaserver(1,0) == 0) {
+  if (send_server_info_to_metaserver(TRUE, FALSE) == 0) {
     cmd_reply(CMD_METAINFO, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
   } else {
@@ -1812,7 +1812,7 @@ static void create_ai_player(struct connection *caller, char *arg)
     return;
   }
 
-  pplayer->ai.control = 1;
+  pplayer->ai.control = TRUE;
   set_ai_level_directer(pplayer, game.skill_level);
   cmd_reply(CMD_CREATE, caller, C_OK,
 	    _("Created new AI player: %s."), pplayer->name);
@@ -2774,7 +2774,7 @@ static void set_command(struct connection *caller, char *str)
 **************************************************************************/
 static void cut_comment(char *str)
 {
-  int i, in_single_quotes = 0, in_double_quotes = 0;
+  int i, in_single_quotes = FALSE, in_double_quotes = FALSE;
 
   freelog(LOG_DEBUG,"cut_comment(str='%s')",str);
 
@@ -2839,9 +2839,9 @@ void handle_stdin_input(struct connection *caller, char *str)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
-  cmd = command_named(command,0);
+  cmd = command_named(command, FALSE);
   if (cmd == CMD_AMBIGUOUS) {
-    cmd = command_named(command,1);
+    cmd = command_named(command, TRUE);
     cmd_reply(cmd, caller, C_SYNTAX,
 	_("Warning: '%s' interpreted as '%s', but it is ambiguous."
 	  "  Try '%shelp'."),
@@ -2929,7 +2929,7 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_SCORE:
     if(server_state==RUN_GAME_STATE) {
-      report_scores(0);
+      report_scores(FALSE);
     } else {
       cmd_reply(cmd, caller, C_SYNTAX,
 		_("The game must be running before you can see the score."));
@@ -3007,7 +3007,7 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_END_GAME:
     if (server_state==RUN_GAME_STATE) {
       server_state = GAME_OVER_STATE;
-      force_end_of_sniff = 1;
+      force_end_of_sniff = TRUE;
     } else {
       cmd_reply(cmd,caller, C_FAIL,
 		_("Cannot end the game: no game running."));
