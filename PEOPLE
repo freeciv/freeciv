@@ -215,11 +215,6 @@ contributions to the Freeciv project.
 
 	Peter Dam Mains <lancelot@daimi.au.dk>
 
-  Mirror Sites:
-
-	Tod Detre <tod@tod.net> 
-	    (http://www.tod.net/freeciv and ftp://129.22.250.198/freeciv)
-
   Bug reports before 1.9.0:
 
 	Marko Lindqvist <caz@students.cc.tut.fi>
@@ -295,7 +290,7 @@ contributions to the Freeciv project.
 	Mitch Davis <mjd@aus.hp.com> (Domain name)
 	James Blackwell <innocent@mercury.merconline.com> (Domain name)
 
-  Civworld: (our map editor)
+  CivWorld (our map editor):
 
 	Benjamin Drieu <drieu@bocal.cs.univ-paris8.fr> (original author)
 	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (recent maintainer)
