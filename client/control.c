@@ -1131,7 +1131,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   x=punit->x;
   y=punit->y;
 
-  if (!was_teleported && punit->activity != ACTIVITY_SENTRY) {
+  if (!was_teleported && punit->activity != ACTIVITY_SENTRY && !pinfo->carried) {
     audio_play_sound(unit_type(punit)->sound_move,
 		     unit_type(punit)->sound_move_alt);
   }
