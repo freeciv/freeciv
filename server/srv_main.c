@@ -1802,15 +1802,14 @@ void srv_main(void)
   init_our_capability();
   game_init();
 
-  /* load a saved game */
-  
-  if (srvarg.load_filename) {
-    load_command(NULL, srvarg.load_filename);
-  } 
-
   /* init network */  
   init_connections(); 
   server_open_socket();
+
+  /* load a saved game */
+  if (srvarg.load_filename) {
+    load_command(NULL, srvarg.load_filename);
+  } 
 
   if(!(srvarg.metaserver_no_send)) {
     freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),

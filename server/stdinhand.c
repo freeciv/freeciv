@@ -2930,6 +2930,23 @@ void load_command(struct connection *caller, char *arg)
   freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
           read_timer_seconds_free(loadtimer),
           read_timer_seconds_free(uloadtimer));
+
+  /* associate players with any connections that may  
+   * be present. currently, this applies only to connections 
+   * that have the correct username */
+
+  conn_list_iterate(game.est_connections, pconn) {
+    if (pconn->player) {
+      unassociate_player_connection(pconn->player, pconn);
+    }
+    players_iterate(pplayer) {
+      if (strcmp(pconn->name, pplayer->username) == 0) {
+        associate_player_connection(pplayer, pconn);
+        break;
+      }
+    } players_iterate_end;
+  } conn_list_iterate_end;
+
 }
 
 /**************************************************************************
@@ -3206,6 +3223,14 @@ void handle_stdin_input(struct connection *caller, char *str)
         cmd_reply(cmd,caller, C_FAIL,
 		  _("Not enough players, game will not start."));
       } else {
+        conn_list_iterate(game.est_connections, pconn) {
+          if (!pconn->player) {
+            notify_conn(&pconn->self, _("You're not associated with a player "
+                                        "and the game is starting. Bye."));
+            close_connection(pconn);
+          }
+        } conn_list_iterate_end;
+
         start_game();
       }
     }
