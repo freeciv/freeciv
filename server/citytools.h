@@ -46,7 +46,7 @@ int city_science_bonus(struct city *pcity);
 int set_city_tax_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 int wants_to_be_bigger(struct city *pcity);
-
+int worst_worker_tile_value(struct city *pcity);
 #endif
 
 
