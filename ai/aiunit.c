@@ -160,17 +160,18 @@ static bool has_defense(struct city *pcity)
 
  path1 costs: first tile = 3, second tile = 2
 
- turn 0: points=2, unit has to wait
- turn 1: points=3, unit can move, points=0, has to wait
- turn 2: points=3, unit can move, points=1
+ turn 0: points = 2, unit has to wait
+ turn 1: points = 3, unit can move, points = 0, has to wait
+ turn 2: points = 3, unit can move, points = 1
 
- path2 costs: first tile=2, second tile=3
+ path2 costs: first tile = 2, second tile = 3
 
- turn 0: points=2, unit can move, points=0, has to wait
- turn 1: points=3, unit can move, points=0
+ turn 0: points = 2, unit can move, points = 0, has to wait
+ turn 1: points = 3, unit can move, points = 0
 
- In spite of the path costs being the same, these two units will arrive
- at different times. This function also does not take into account ZOC.
+ In spite of the path costs being the same, units that take a path of the
+ same length will arrive at different times. This function also does not 
+ take into account ZOC or lack of hp affecting movement.
  
  Note: even if a unit has only fractional move points left, there is
  still a possibility it could cross the tile.
@@ -181,49 +182,49 @@ static int unit_move_turns(struct unit *punit, int x, int y)
   int move_rate = unit_type(punit)->move_rate;
  
   switch (unit_type(punit)->move_type) {
-    case LAND_MOVING:
+  case LAND_MOVING:
+  
+   /* FIXME: IGTER units should have their move rates multiplied by 
+    * igter_speedup. Note: actually, igter units should never have their 
+    * move rates multiplied. The correct behaviour is to have every tile 
+    * they cross cost 1/3 of a movement point. ---RK */
+ 
+    if (unit_flag(punit, F_IGTER)) {
+      move_rate *= 3;
+    }
+    move_time = warmap.cost[x][y] / move_rate;
+    break;
+ 
+  case SEA_MOVING:
+   
+    if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
+        move_rate += SINGLE_MOVE;
+    }
     
-     /* FIXME: IGTER units should have their move rates multiplied by 
-      * igter_speedup. Note: actually, igter units should never have their 
-      * move rates multiplied. The correct behaviour is to have every tile 
-      * they cross cost 1/3 of a movement point. ---RK */
-   
-      if (unit_flag(punit, F_IGTER)) {
-        move_rate *= 3;
-      }
-      move_time = warmap.cost[x][y] / move_rate;
-      break;
-   
-    case SEA_MOVING:
-     
-      if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
-          move_rate += SINGLE_MOVE;
-      }
+    if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
+        move_rate += (improvement_variant(B_MAGELLAN) == 1) 
+                       ?  SINGLE_MOVE : 2 * SINGLE_MOVE;
+    }
       
-      if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
-          move_rate += (improvement_variant(B_MAGELLAN) == 1) 
-                         ?  SINGLE_MOVE : 2 * SINGLE_MOVE;
-      }
-        
-      if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
-          move_rate += SINGLE_MOVE;
-      }
-        
-      move_time = warmap.seacost[x][y] / move_rate;
-      break;
-   
-    case HELI_MOVING:
-    case AIR_MOVING:
-       move_time = real_map_distance(punit->x, punit->y, x, y) 
-                     * SINGLE_MOVE / move_rate;
-       break;
-   
-    default:
-      assert(0);
-      freelog(LOG_FATAL, "In ai/aiunit.c: function unit_move_turns");
-      freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
-      exit(EXIT_FAILURE);
-      move_time = -1;
+    if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
+        move_rate += SINGLE_MOVE;
+    }
+      
+    move_time = warmap.seacost[x][y] / move_rate;
+    break;
+ 
+  case HELI_MOVING:
+  case AIR_MOVING:
+     move_time = real_map_distance(punit->x, punit->y, x, y) 
+                   * SINGLE_MOVE / move_rate;
+     break;
+ 
+  default:
+    freelog(LOG_FATAL, "In ai/aiunit.c: function unit_move_turns");
+    freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
+    assert(0);
+    exit(EXIT_FAILURE);
+    move_time = -1;
   }
   return move_time;
 }

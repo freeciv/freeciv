@@ -33,50 +33,53 @@
 #include "speclist_c.h"
 
 /***************************************************************
-Unit move rate calculates the move rate of the unit taking into 
-account the penalty for reduced hitpoints (affects sea and land units 
-only) and the effects of wonders for sea units. --RK
+This function calculates the move rate of the unit taking into 
+account the penalty for reduced hitpoints (affects sea and land 
+units only) and the effects of wonders for sea units. 
+
+FIXME: Use generalised improvements code instead of hardcoded
+wonder effects --RK
 ***************************************************************/
 int unit_move_rate(struct unit *punit)
 {
   int move_rate = unit_type(punit)->move_rate;
 
   switch (unit_type(punit)->move_type) {
-    case LAND_MOVING:
-      move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
-      break;
-   
-    case SEA_MOVING:
-      move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
-  
-      if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
-        move_rate += SINGLE_MOVE;
-      }
-   
-      if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
-        move_rate += (improvement_variant(B_MAGELLAN) == 1) 
-                       ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-      }
-   
-      if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
-        move_rate += SINGLE_MOVE;
-      }
-   
-      if (move_rate < 2 * SINGLE_MOVE) {
-        move_rate = 2 * SINGLE_MOVE; 
-      }
-      break;
+  case LAND_MOVING:
+    move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
+    break;
+ 
+  case SEA_MOVING:
+    move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
 
-    case HELI_MOVING:
-    case AIR_MOVING:
-      break;
+    if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
+      move_rate += SINGLE_MOVE;
+    }
+ 
+    if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
+      move_rate += (improvement_variant(B_MAGELLAN) == 1) 
+                     ? SINGLE_MOVE : 2 * SINGLE_MOVE;
+    }
+ 
+    if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
+      move_rate += SINGLE_MOVE;
+    }
+ 
+    if (move_rate < 2 * SINGLE_MOVE) {
+      move_rate = 2 * SINGLE_MOVE; 
+    }
+    break;
 
-    default:
-      assert(0);
-      freelog(LOG_FATAL, "In common/unit.c: function unit_move_rate");
-      freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
-      exit(EXIT_FAILURE);
-      move_rate = -1;
+  case HELI_MOVING:
+  case AIR_MOVING:
+    break;
+
+  default:
+    freelog(LOG_FATAL, "In common/unit.c: function unit_move_rate");
+    freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
+    assert(0);
+    exit(EXIT_FAILURE);
+    move_rate = -1;
   }
   
   if (move_rate < SINGLE_MOVE && unit_type(punit)->move_rate > 0) {
