@@ -1755,7 +1755,8 @@ void create_races_dialog(void)
 			    races_action_form,
 			    NULL));
 
-  if(has_capability("dconn_in_sel_nat", aconnection.capability)) {
+  /* if(has_capability("dconn_in_sel_nat", aconnection.capability)) */
+  {
     races_disconnect_command =
       I_L(XtVaCreateManagedWidget("racesdisconnectcommand",
 			      commandWidgetClass,

@@ -860,8 +860,7 @@ void update_menus(void)
       menus_set_sensitive("<main>/Orders/Make Homecity",
 			   can_unit_change_homecity(punit));
       menus_set_sensitive("<main>/Orders/Explode Nuclear",
-                           unit_flag(punit->type, F_NUCLEAR) &&
-                           has_capability("nuke", aconnection.capability));
+                           unit_flag(punit->type, F_NUCLEAR));
       menus_set_sensitive("<main>/Orders/Unload",
 			   get_transporter_capacity(punit)>0);
       menus_set_sensitive("<main>/Orders/Wake up others", 

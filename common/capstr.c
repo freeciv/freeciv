@@ -68,60 +68,10 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
-    " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
-    " +ruleset_control +ask_pillage +gen_tech2 +nationsruleset2" \
-    " +long_names +paratroopers2 +helptext3 dconn_in_sel_nat" \
-    " +airbase"
+#define CAPABILITY "+1.9pre1"
 
-/* "caravan1" means the server automatically establishes a traderoute
-   when a caravan type unit moves into an enemy city.  For older
-   servers the client has to explicitly ask for a trade route.
-
-   "nuke" means that it is possible to explode nuclear units
-   at a tile without enemy units.  Maybe it should be mandatory
-   because it improves player's fighting capabilities.
-
-   "clientcommands" indicates that the server supports server commands
-   sent by clients.
-
-   "terrainrulesets1" means that the protocol is extended to handle
-   the new, expanded terrain rulesets.  (jjm@codewell.com 13aug1999)
-
-   "governmentrulesets2" is for the new government.ruleset packages;
-   includes unit upkeep changes and split flags into actual flags
-   and hints.
-  
-   "num_units" means the number of unit types is variable.
- 
-   "tilespec" means units etc send strings for graphic instead of
-   numbers, to be used with tilespec system.
-   
-   "ruleset_control" means new ruleset_control packet, and related
-   new handling of some ruleset info.
-
-   "ask_pillage" means that the player is asked for what to pillage.
-
-   "gen_tech2" means generalised some tech data (packets changed),
-   added flags for techs and variable number of techs
-
-   "nationsruleset2" is for new nations.ruleset changes;
-   this implies/requires/replaces old "citynamesuggest" tag;
-   now with multiple leaders and other changes compared to
-   original "nationsruleset" tag.
-
-   "long_names" means that player names longer than 9 chars are allowed.
-
-   "paratroopers2" is for the support of the "Paratroopers" unit flag
-   and some paratroopers specific fields.
-
-   "helptext3" means unit type, tech, building, terrain and government
-   helptext is sent from server.
-
-   "dconn_in_sel_nat" means that the server can handle the last client
-   disconnecting from the Select Nation dialog.
-
-   "airbase" means the airbase map special
+/* "+1.9pre1" is testing consolidated capability string before
+   finalize protocol to "+1.9".
 */
 
 void init_our_capability(void)

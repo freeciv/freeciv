@@ -281,58 +281,21 @@ void request_unit_build_city(struct unit *punit)
 
 /**************************************************************************
 ...
+
+  No need to do caravan-specific stuff here any more: server does trade
+  routes to enemy cities automatically, and for friendly cities we wait
+  for the unit to enter the city.  --dwp
+  
 **************************************************************************/
 void request_move_unit_direction(struct unit *punit, int dx, int dy)
 {
-  int dest_x, dest_y, i;
+  int dest_x, dest_y;
   struct unit req_unit;
-  char buf[512];
 
   dest_x=map_adjust_x(punit->x+dx);
-  dest_y=punit->y+dy;   /* not adjusting on purpose*/
+  dest_y=punit->y+dy;   /* not adjusting on purpose*/   /* why? --dwp */
  
-  /* Now only do caravan stuff here for old servers and a caravan
-     entering an enemy city.  New servers do trade routes to enemy
-     cities automatically, and for friendly cities we wait for the
-     unit to enter the city.  --dwp
-  */
-  if(unit_flag(punit->type, F_CARAVAN)) {
-    struct city *pcity, *phomecity;
-
-    if((pcity=map_get_city(dest_x, dest_y))
-       && pcity->owner != game.player_idx
-       && !has_capability("caravan1", aconnection.capability)
-       && (phomecity=find_city_by_id(punit->homecity))) {
-      if (can_establish_trade_route(phomecity, pcity)) {
-	popup_caravan_dialog(punit, phomecity, pcity);
-	return;
-      } else {
-	append_output_window(_("Game: You cannot establish a trade route here."));
-	for (i=0;i<4;i++) {
-	  if (phomecity->trade[i]==pcity->id) {
-	    sprintf(buf, _("      A traderoute already exists between %s and %s!"),
-		    phomecity->name, pcity->name);
-	    append_output_window(buf);
-	    return;
-	  }
-	}
-	if (city_num_trade_routes(phomecity)==4) {
-	  sprintf(buf, _("      The city of %s already has 4 trade routes!"),
-		  phomecity->name);
-	  append_output_window(buf);
-	  return;
-	} 
-	if (city_num_trade_routes(pcity)==4) {
-	  sprintf(buf, _("      The city of %s already has 4 trade routes!"),
-		  pcity->name);
-	  append_output_window(buf);
-	  return;
-	}
-	return;
-      }
-    }
-  }
-  else if(unit_flag(punit->type, F_DIPLOMAT) &&
+  if(unit_flag(punit->type, F_DIPLOMAT) &&
           is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
                                        dest_x, dest_y)) {
     if (diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
@@ -485,8 +448,6 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 **************************************************************************/
 void request_unit_nuke(struct unit *punit)
 {
-  if(!has_capability("nuke", aconnection.capability))
-    return;
   if(!unit_flag(punit->type, F_NUCLEAR)) {
     append_output_window(_("Game: Only nuclear units can do this."));
     return;

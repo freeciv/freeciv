@@ -412,8 +412,7 @@ void update_menus(void)
       menu_entry_sensitive(orders_menu, MENU_ORDER_TRADE_ROUTE,
 			   unit_can_est_traderoute_here(punit));
       menu_entry_sensitive(orders_menu, MENU_ORDER_NUKE,
-                           unit_flag(punit->type, F_NUCLEAR) &&
-                           has_capability("nuke", aconnection.capability));
+                           unit_flag(punit->type, F_NUCLEAR));
 
       if (unit_flag(punit->type, F_SETTLERS) && map_get_city(punit->x, punit->y)) {
 	menu_entry_rename(orders_menu, MENU_ORDER_CITY,
