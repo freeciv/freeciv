@@ -1791,7 +1791,7 @@ static inline void citizen_luxury_happy(const struct city *pcity, int *luxuries,
     /* Upgrade content to happy: costs HAPPY_COST each. */
     (*content)--;
     (*happy)++;
-    *luxuries -= 2;
+    *luxuries -= HAPPY_COST;
   }
   while (*luxuries >= 2 * HAPPY_COST && *unhappy > 0) {
     /* Upgrade unhappy to happy.  Note this is a 2-level upgrade with
