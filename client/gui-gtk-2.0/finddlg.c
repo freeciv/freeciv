@@ -179,7 +179,9 @@ static void find_response(struct gui_dialog *dlg, int response)
 **************************************************************************/
 static void find_destroy_callback(GtkWidget *w, gpointer data)
 {
+  can_slide = FALSE;
   center_tile_mapcanvas(pos);
+  can_slide = TRUE;
 }
 
 /**************************************************************************
@@ -196,6 +198,9 @@ static void find_selection_callback(GtkTreeSelection *selection,
 
   gtk_tree_model_get(model, &it, 1, &pcity, -1);
 
-  if (pcity)
+  if (pcity) {
+    can_slide = FALSE;
     center_tile_mapcanvas(pcity->tile);
+    can_slide = TRUE;
+  }
 }

@@ -2880,7 +2880,9 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   reset_worklist(pdialog->production.worklist,
 		 &pdialog->pcity->worklist, pdialog->pcity);
 
+  can_slide = FALSE;
   center_tile_mapcanvas(pdialog->pcity->tile);
+  can_slide = TRUE;
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
 
   refresh_city_dialog(pdialog->pcity);
