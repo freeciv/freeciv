@@ -548,6 +548,7 @@ void send_unit_info(struct unit *punit)
    * network.  Note we could just use memset instead.  They're set
    * above the applicable fields for safety.
    */
+  info.done_moving = punit->done_moving;
   info.carried = FALSE;
   info.ai = FALSE;
   info.paradropped = FALSE;
@@ -568,6 +569,7 @@ void send_unit_info(struct unit *punit)
   info.x=punit->x;
   info.y=punit->y;
   info.homecity=punit->homecity;
+  info.occupy = punit->occupy;
   info.veteran=punit->veteran;
   info.type=punit->type;
   info.movesleft=punit->moves_left;
