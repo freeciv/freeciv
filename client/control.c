@@ -1203,8 +1203,6 @@ void update_unit_pix_label(struct unit *punit)
 /**************************************************************************
  Finish the goto mode and let the unit which is stored in hover_unit move
  to a given location.
- returns 1 if goto mode was activated before calling this function
- otherwise 0 (then this function does nothing)
 **************************************************************************/
 void do_unit_goto(int x, int y)
 {
