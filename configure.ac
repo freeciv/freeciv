@@ -295,7 +295,7 @@ if test x"$MINGW32" = "xyes"; then
   AC_DEFINE(ALWAYS_ROOT, 1, [Mingw32-specific setting - root])
   AC_DEFINE(WIN32_NATIVE, 1, [Mingw32-specific setting - native])
   AC_DEFINE(HAVE_WINSOCK, 1, [Mingw32-specific setting - winsock])
-  SERVER_LIBS="-lwsock32"
+  LIBS="$LIBS -lwsock32"
 fi
 
 dnl Check and choose clients
