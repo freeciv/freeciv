@@ -65,14 +65,14 @@ static void get_from_warstack(unsigned int i, int *x, int *y)
 
 void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
 {
-  int x, y;
-  for (x = 0; x < map.xsize; x++) 
-    for (y = 0; y < map.ysize; y++) 
-      if (which == LAND_MOVING) warmap.cost[x][y] = 255; /* one if by land */
-      else warmap.seacost[x][y] = 255;
-      /* why a seacost and a landcost nb */
-  if (which == LAND_MOVING) warmap.cost[orig_x][orig_y] = 0;
-  else warmap.seacost[orig_x][orig_y] = 0;
+  if (which == LAND_MOVING) {
+    memset(&warmap.cost,255,sizeof(warmap.cost));
+    warmap.cost[orig_x][orig_y] = 0; /* one if by land */
+  } else {
+    /* why a seacost and a landcost nb */
+    memset(&warmap.seacost,255,sizeof(warmap.seacost));
+    warmap.seacost[orig_x][orig_y] = 0;
+  }
 }  
 
 void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_move_type which)
