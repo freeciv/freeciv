@@ -1348,6 +1348,10 @@ void send_player_cities(struct player *pplayer)
 void send_city_info(struct player *dest, struct city *pcity)
 {
   assert(pcity);
+
+  if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE)
+    return;
+
   if (dest == city_owner(pcity) && nocity_send)
     return;
 
