@@ -1596,7 +1596,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 
     while (get_from_mapqueue(&x, &y)) {
       if (warmap.cost[x][y] > moves /* no chance */
-	  || warmap.cost[dest_x][dest_y] == 255) /* found route */
+	  || warmap.cost[dest_x][dest_y] != 255) /* found route */
 	break;
 
       for (dir = 0; dir < 8; dir++) {
@@ -1610,7 +1610,7 @@ int air_can_move_between(int moves, int src_x, int src_y,
 	if (warmap.cost[x1][y1] == 255) {
 	  ptile = map_get_tile(x1, y1);
 	  penemy = is_non_allied_unit_tile(ptile, playerid);
-	  if (penemy
+	  if (!penemy
 	      || (x1 == dest_x && y1 == dest_y)) { /* allow attack goto's */
 	    cost = warmap.cost[x1][y1] = warmap.cost[x][y] + 1;
 	    add_to_mapqueue(cost, x1, y1);
