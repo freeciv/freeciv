@@ -43,6 +43,10 @@
     can, but they have no particular significance.
     There can be optional whitespace before and/or after the equals
     sign (partly new: previously only after).
+    
+  Backslash is an escape character in strings (double-quoted strings
+  only, not names); recognised escapes are \n, \\, and \".
+  (Any other \<char> is just treated as <char>.)
 
   The above is the basic savefile format as originally implemented.
   The following modifications/extensions are by dwp:
@@ -160,6 +164,7 @@ static void secfilehash_insert(struct section_file *file,
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
 static char *minstrdup(struct sbuffer *sb, char *str);
+static char *moutstr(char *str);
 
 
 struct flat_entry_list {
@@ -329,9 +334,10 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
       
     } else if(*cptr == '\"') {
 
-      /* string: find next double-quotes and terminate sub-string */
+      /* string: find next non-escaped double-quotes and terminate
+       * the sub-string */
       start=++cptr;
-      for(; *cptr && *cptr!='\"'; cptr++);
+      for(; *cptr && (*cptr!='\"' || *(cptr-1)=='\\'); cptr++);
       if (!*cptr) {
 	freelog(LOG_FATAL, "missing end of string in %s - line %d",
 	     filename, lineno);
@@ -639,8 +645,8 @@ int section_file_save(struct section_file *my_section_file, char *filename)
 
 	  if(icol>0)
 	    fprintf(fs, ",");
-	  if(pentry->svalue)
-	    fprintf(fs, "\"%s\"", pentry->svalue);
+	  if(pentry->svalue) 
+	    fprintf(fs, "\"%s\"", moutstr(pentry->svalue));
 	  else
 	    fprintf(fs, "%d", pentry->ivalue);
 	  
@@ -660,11 +666,12 @@ int section_file_save(struct section_file *my_section_file, char *filename)
       if(!pentry) break;
 
       if(pentry->svalue)
-	fprintf(fs, "%s=\"%s\"\n", pentry->name, pentry->svalue);
+	fprintf(fs, "%s=\"%s\"\n", pentry->name, moutstr(pentry->svalue));
       else
 	fprintf(fs, "%s=%d\n", pentry->name, pentry->ivalue);
     }
   }
+  moutstr(NULL);		/* free internal buffer */
 
   if(ferror(fs) || fclose(fs) == EOF)
     return 0;
@@ -1219,7 +1226,9 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
 }
 
 /***************************************************************
- Copies a string and does \n -> newline translation
+ Copies a string and does '\n' -> newline translation.
+ Other '\c' sequences (any character 'c') are just passed
+ through with the '\' removed (eg, includes '\\', '\"')
 ***************************************************************/
 static char *minstrdup(struct sbuffer *sb, char *str)
 {
@@ -1245,4 +1254,58 @@ static char *minstrdup(struct sbuffer *sb, char *str)
     *dest='\0';
   }
   return d2;
+}
+
+/***************************************************************
+ Returns a pointer to an internal buffer (can only get one
+ string at a time) with str escaped the opposite of minstrdup.
+ Specifically, any newline, backslash, or double quote is
+ escaped with a backslash.
+ The internal buffer is grown as necessary, and not normally
+ freed (since this will be called frequently.)  A call with
+ str=NULL frees the buffer and does nothing else (returns NULL).
+***************************************************************/
+static char *moutstr(char *str)
+{
+  static char *buf = NULL;
+  static int nalloc = 0;
+
+  int len;			/* required length, including terminator */
+  char *c, *dest;
+
+  if (str==NULL) {
+    freelog(LOG_DEBUG, "moutstr alloc was %d", nalloc);
+    free(buf);
+    buf = NULL;
+    nalloc = 0;
+    return NULL;
+  }
+  
+  len = strlen(str)+1;
+  for(c=str; *c; c++) {
+    if (*c == '\n' || *c == '\\' || *c == '\"') {
+      len++;
+    }
+  }
+  if (len > nalloc) {
+    nalloc = 2 * len + 1;
+    buf = fc_realloc(buf, nalloc);
+  }
+  
+  dest = buf;
+  while(*str) {
+    if (*str == '\n' || *str == '\\' || *str == '\"') {
+      *dest++ = '\\';
+      if (*str == '\n') {
+	*dest++ = 'n';
+	str++;
+      } else {
+	*dest++ = *str++;
+      }
+    } else {
+      *dest++ = *str++;
+    }
+  }
+  *dest = '\0';
+  return buf;
 }
