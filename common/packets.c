@@ -680,7 +680,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
 
   iget_int8(piter, &npack);
   if (npack <= 0) {
-    piter->bad_bit_string = 1;
+    piter->bad_bit_string = (npack < 0);
     str[0] = '\0';
     return;
   }

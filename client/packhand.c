@@ -720,10 +720,12 @@ void handle_player_info(struct packet_player_info *pinfo)
   update_players_dialog();
 
   if(pplayer==game.player_ptr) {
-    if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
-       !game.player_ptr->turn_done)
-      enable_turn_done_button();
-    update_info_label();
+    if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
+      if (!game.player_ptr->turn_done) {
+	enable_turn_done_button();
+      }
+      update_info_label();
+    }
   }
 }
 

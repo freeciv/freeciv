@@ -69,7 +69,7 @@ Returns name of the nation
 ***************************************************************/
 char *get_nation_name(Nation_Type_id nation)
 {
-  if (!bounds_check_nation_id(nation, LOG_VERBOSE, "get_nation_name")) {
+  if (!bounds_check_nation_id(nation, LOG_NORMAL, "get_nation_name")) {
     return "";
   }
   return nations[nation].name;
