@@ -1,4 +1,4 @@
-# $Id$
+## $Id$
 # This translation is covered by the GNU General Public License Version 2.
 #
 # ###########################################################
@@ -2148,7 +2148,7 @@ msgid ""
 msgstr ""
 "Wenn eine Stadt wachsen würde, aber mangels eines fehlenden Aquädukts (oder "
 "Abwassersystems) nicht kann, geht dieser Prozentsatz (oder die Häfte davon, "
-"falls ein Vorratsspeicher vorhanden ist) verloren."
+"falls ein Kornspeicher vorhanden ist) verloren."
 
 #: server/stdinhand.c:424
 msgid "City size before people become unhappy"
@@ -2299,7 +2299,7 @@ msgstr ""
 
 #: server/stdinhand.c:522
 msgid "Chance in diplomat/spy contests"
-msgstr "Chance (1:N) für Diplomaten/Spione"
+msgstr "Chance (%) für Diplomaten/Spione"
 
 #: server/stdinhand.c:523
 #, c-format
@@ -2312,8 +2312,8 @@ msgid ""
 "capable as Diplomats, veteran units 50% more capable than non-veteran ones."
 msgstr ""
 "Ein Diplomat (oder Spion), der gegen eine von Diplomaten (oder Spionen) "
-"verteidigte Stadt agiert, hat die Chance 1:N gegenüber jedem einzelnen "
-"Verrteidiger, diesen zu überwinden. Mit der gleichen Chance kehrt ein Spion "
+"verteidigte Stadt agiert, hat die Chance in Prozent gegenüber jedem einzelnen "
+"Verteidiger, diesen zu überwinden. Mit der gleichen Chance kehrt ein Spion "
 "von einer erfolgreichen Mission zurück. (Diplomaten kehren nie zurück.) "
 "Verteidigende Spione sind doppelt so fähig wie Diplomaten; erfahrene "
 "Einheiten sind anderen um 50 % überlegen."
@@ -5405,7 +5405,7 @@ msgstr "Verschmutzung: %3d"
 #: client/gui-gtk/citydlg.c:992
 #, c-format
 msgid "Granary: %3d/%-3d"
-msgstr "Getreidevorrat: %3d/%-3d"
+msgstr "Kornvorrat: %3d/%-3d"
 
 #: client/gui-gtk/citydlg.c:1015 client/gui-gtk/citydlg.c:1036
 #, c-format, ycp-format
@@ -6065,7 +6065,7 @@ msgstr "Revolution!"
 
 #: client/gui-gtk/dialogs.c:1320 client/gui-xaw/dialogs.c:1335
 msgid "You say you wanna revolution?"
-msgstr "Sicher?"
+msgstr "Wollen Sie wirklich eine Revolution?"
 
 #: client/gui-gtk/dialogs.c:1374 data/Freeciv:2408
 msgid "What To Pillage"
@@ -6364,7 +6364,7 @@ msgstr "Bewäss. Erg./Zeit:"
 
 #: client/gui-gtk/helpdlg.c:107
 msgid "Mine Rslt/Time:"
-msgstr "Bergerk Erg./Zeit:"
+msgstr "Bergwerk Erg./Zeit:"
 
 #: client/gui-gtk/helpdlg.c:107
 msgid "Trans. Rslt/Time:"
@@ -7196,7 +7196,7 @@ msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
 msgstr ""
-"Modernisieren von %s zu %s für %d Gold pro Einheit?\n"
+"Möglichst viele %s zu %s modernisieren? Kosten: %d Goldstücke / Einheit?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
 #: client/gui-gtk/repodlgs.c:971 client/gui-xaw/citydlg.c:2615
@@ -7343,7 +7343,7 @@ msgstr "Umweltverschmutzung: %3d"
 #: client/gui-xaw/citydlg.c:224
 #, c-format
 msgid "Granary: %c%3d/%-3d"
-msgstr "Getreidevorrat: %c%3d/%-3d"
+msgstr "Kornvorrat: %c%3d/%-3d"
 
 #: client/gui-xaw/citydlg.c:253
 #, c-format
@@ -7974,7 +7974,7 @@ msgstr ""
 "das Feld 'Aktualisieren'. Falls dies bei Ihnen nicht funktionieren sollte, "
 "überprüfen Sie bitte, ob Ihr Webbrowser einen sogenannten HTTP-Proxyserver "
 "benutzt. Falls ja, kann er auch von Ihrem CivClient verwendet werden, wenn "
-"sie vor dessen Aufruf die Umgebungsvariable $http_proxy auf entsprechend "
+"sie vor dessen Aufruf die Umgebungsvariable $http_proxy entsprechend "
 "setzen:\n"
 "\n"
 "  http://Proxyserver:Proxyport/"
@@ -9782,7 +9782,7 @@ msgid ""
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
 msgstr ""
-"Wenn die Stadt ihre Größe verändert, wird der Getreidevorrat bis zur Hälfte "
+"Wenn die Stadt ihre Größe verändert, wird der Kornvorrat bis zur Hälfte "
 "aufgefüllt. Das hilft der Stadt zu wachsen und einer Hungersnot besser zu "
 "widerstehen."
 
