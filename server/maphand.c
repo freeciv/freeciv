@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <log.h>
 #include <ctype.h>
+#include <plrhand.h>           /* notify_player */
+
 
 char terrain_chars[]="adfghjm prst";
 char dec2hex[]="0123456789abcdef";
@@ -248,6 +250,32 @@ void lighten_area(struct player *pplayer, int x, int y)
 
   light_square(pplayer, x, y, 1);
   
+  connection_do_unbuffer(pplayer->conn);
+}
+
+/***************************************************************
+To be called when a player gains the Railroad tech for the first
+time.  Sends a message, and then upgrade all city squares to
+railroads.  "discovery" just affects the message: set to
+   1 if the tech is a "discovery",
+   0 if otherwise aquired (conquer/trade/GLib).        --dwp
+***************************************************************/
+void upgrade_city_rails(struct player *pplayer, int discovery)
+{
+  connection_do_buffer(pplayer->conn);
+
+  if (discovery) {
+    notify_player(pplayer, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
+  } else {
+    notify_player(pplayer, "Game: The people are pleased to hear that your scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.");
+  }
+  
+  city_list_iterate(pplayer->cities, pcity) {
+    map_set_special(pcity->x, pcity->y, S_RAILROAD);
+    send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
+  }
+  city_list_iterate_end;
+
   connection_do_unbuffer(pplayer->conn);
 }
 

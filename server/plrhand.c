@@ -552,7 +552,10 @@ void great_library(struct player *pplayer)
 	    && game.global_advances[i]>=2) {
 	  notify_player_ex(pplayer,0,0, E_TECH_GAIN, "Game: %s acquired from The Great Library!", advances[i].name);
 	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",get_race_name_plural(pplayer->race),advances[i].name);
- 
+
+	  if (i==A_RAILROAD) {
+	    upgrade_city_rails(pplayer, 0);
+	  }
 	  set_invention(pplayer, i, TECH_KNOWN);
 	  update_research(pplayer);	
 	  do_free_cost(pplayer);
@@ -702,15 +705,7 @@ int update_tech(struct player *plr, int bulbs)
   }
 
   if (old==A_RAILROAD) {
-/*    struct city_list cl=plr->cities; -- unused? */
-    struct genlist_iterator myiter;
-    genlist_iterator_init(&myiter, &plr->cities.list, 0);
-    notify_player(plr, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
-    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-      struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
-      map_set_special(pcity->x, pcity->y, S_RAILROAD);
-      send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
-    }
+    upgrade_city_rails(plr, 1);
   }
   return 1;
 }

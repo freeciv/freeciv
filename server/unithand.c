@@ -675,15 +675,7 @@ void handle_unit_enter_hut(struct unit *punit)
                         "Game: You gain knowledge about %s.", 
                         advances[pplayer->research.researching].name);
        if (pplayer->research.researching==A_RAILROAD) {
-/*         struct city_list cl=pplayer->cities;*/
-         struct genlist_iterator myiter;
-         genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
-         notify_player(pplayer, "Game: New hope sweeps like fire through the country as the discovery of railroad is announced.\n      Workers spontaneously gather and upgrade all cities with railroads.");
-         for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-           struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
-           map_set_special(pcity->x, pcity->y, S_RAILROAD);
-           send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
-         }
+	 upgrade_city_rails(pplayer, 1);
        }
        set_invention(pplayer, pplayer->research.researching, TECH_KNOWN);
       }

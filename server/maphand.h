@@ -28,6 +28,8 @@ void light_square(struct player *pplayer, int x, int y, int len);
 void send_map_info(struct player *dest);
 void global_warming(int effect);
 
+void upgrade_city_rails(struct player *pplayer, int discovery);
+
 void map_save(struct section_file *file);
 void map_startpos_load(struct section_file *file);
 void map_tiles_load(struct section_file *file);

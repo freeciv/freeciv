@@ -285,15 +285,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		   pplayer->name, unit_name(pdiplomat->type),
 		   advances[i].name, pcity->name); 
   if (i==A_RAILROAD) {
-    /*    struct city_list cl=pplayer->cities;*/
-    struct genlist_iterator myiter;
-    genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
-    notify_player(pplayer, "Game: The people are pleased to hear that your scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.", pcity->name);
-    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-      struct city *pcity1=(struct city *)ITERATOR_PTR(myiter);
-      map_set_special(pcity1->x, pcity1->y, S_RAILROAD);
-      send_tile_info(0, pcity1->x, pcity1->y, TILE_KNOWN);
-    }
+    upgrade_city_rails(pplayer, 0);
   }
   gamelog(GAMELOG_TECH,"%s steals %s from the %s",
           get_race_name_plural(pplayer->race),
@@ -1490,6 +1482,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		advances[i].name, target->name); 
   notify_player(target, "Game: %s discovered %s in the city.", pplayer->name, 
 		advances[i].name); 
+  if (i==A_RAILROAD) {
+    upgrade_city_rails(pplayer, 0);
+  }
   if (pplayer->research.researching==i) {
     tec=pplayer->research.researched;
     if (!choose_goal_tech(pplayer))
