@@ -390,10 +390,23 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 	  (punit ? unit_type(punit)->name : "NULL"));
 
   if (punit) {
-    if (pcity && pcity == warmap.warcity)
+    /* 
+     * Checking for an existing warmap. If the previous warmap was for
+     * a city and our unit is in that city, use city's warmap.
+     */
+    if (pcity && pcity == warmap.warcity) {
       return;
-    if (warmap.warunit == punit && !warmap.cost[punit->x][punit->y])
+    }
+
+    /* 
+     * If the previous warmap was for the same unit and it's still
+     * correct (warmap.(sea)cost[x][y] == 0), reuse it.
+     */
+    if (warmap.warunit == punit &&
+	(is_sailing_unit(punit) ? (warmap.seacost[punit->x][punit->y] == 0)
+	 : (warmap.cost[punit->x][punit->y] == 0))) {
       return;
+    }
 
     pcity = NULL;
   }
@@ -403,10 +416,8 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 
   if (punit) {
     if (is_sailing_unit(punit)) {
-      init_warmap(punit->x, punit->y, LAND_MOVING);
       really_generate_warmap(pcity, punit, SEA_MOVING);
     } else {
-      init_warmap(punit->x, punit->y, SEA_MOVING);
       really_generate_warmap(pcity, punit, LAND_MOVING);
     }
     warmap.orig_x = punit->x;
