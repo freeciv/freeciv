@@ -22,21 +22,9 @@ enum production_class_type {
   TYPE_UNIT, TYPE_NORMAL_IMPROVEMENT, TYPE_WONDER
 };
 
-enum specialist_type {
-  SP_ELVIS, SP_SCIENTIST, SP_TAXMAN, SP_LAST
-};
-#define SP_COUNT SP_LAST
-#define SP_MAX SP_LAST
-
 enum city_tile_type {
   C_TILE_EMPTY, C_TILE_WORKER, C_TILE_UNAVAILABLE
 };
-
-enum output_type {
-  O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
-};
-#define O_COUNT num_output_types
-#define O_MAX O_LAST
 
 enum city_options {
   /* The first 4 are whether to auto-attack versus each unit move_type
