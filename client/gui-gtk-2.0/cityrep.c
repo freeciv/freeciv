@@ -1120,32 +1120,20 @@ void city_report_dialog_update(void)
 {
   if (city_dialog_shell && !is_report_dialogs_frozen()) {
     GtkTreeModel *model;
-    GtkTreeIter it, it2;
-    GtkTreePath *path;
-    GList *copy;
-    struct city *cursor;
-    bool found;
+    GtkTreeIter it;
+    GHashTable *copy;
 
     model = GTK_TREE_MODEL(city_model);
 
-    gtk_tree_view_get_cursor(GTK_TREE_VIEW(city_view), &path, NULL);
-    cursor = NULL;
-    if (path) {
-      if (gtk_tree_model_get_iter(model, &it, path)) {
-	gtk_tree_model_get(model, &it, 0, &cursor, -1);
-      }
-      gtk_tree_path_free(path);
-    }
-
     /* copy the selection. */
-    copy = NULL;
+    copy = g_hash_table_new(NULL, NULL);
     if (gtk_tree_model_get_iter_first(model, &it)) {
       do {
 	if (gtk_tree_selection_iter_is_selected(city_selection, &it)) {
 	  gpointer pcity;
 
 	  gtk_tree_model_get(model, &it, 0, &pcity, -1);
-	  copy = g_list_append(copy, pcity);
+	  g_hash_table_insert(copy, pcity, NULL);
 	}
       } while (gtk_tree_model_iter_next(model, &it));
     }
@@ -1153,29 +1141,17 @@ void city_report_dialog_update(void)
     /* update. */
     gtk_list_store_clear(city_model);
 
-    found = FALSE;
     city_list_iterate(game.player_ptr->cities, pcity) {
       gtk_list_store_append(city_model, &it);
       update_row(&it, pcity);
 
-      if (g_list_find(copy, pcity)) {
+      if (g_hash_table_remove(copy, pcity)) {
 	gtk_tree_selection_select_iter(city_selection, &it);
-      }
-
-      if (pcity == cursor) {
-	it2 = it;
-	found = TRUE;
       }
     } city_list_iterate_end;
 
-    if (found) {
-      path = gtk_tree_model_get_path(model, &it2);
-      gtk_tree_view_set_cursor(GTK_TREE_VIEW(city_view), path, NULL, FALSE);
-      gtk_tree_path_free(path);
-    }
-	
     /* free the selection. */
-    g_list_free(copy);
+    g_hash_table_destroy(copy);
 
     city_selection_changed_callback(city_selection);
 
