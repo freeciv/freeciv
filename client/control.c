@@ -379,15 +379,12 @@ void blink_active_unit(void)
       /* When the focus unit changes, we reset the is_shown flag. */
       pblinking_unit = punit;
       is_shown = TRUE;
-    }
-    if(is_shown) {
-      set_focus_unit_hidden_state(TRUE);
-      refresh_tile_mapcanvas(punit->tile, TRUE);
-      set_focus_unit_hidden_state(FALSE);
     } else {
-      refresh_tile_mapcanvas(punit->tile, TRUE);
+      /* Reverse the shown status. */
+      is_shown = !is_shown;
     }
-    is_shown=!is_shown;
+    set_focus_unit_hidden_state(!is_shown);
+    refresh_tile_mapcanvas(punit->tile, TRUE);
   }
 }
 
