@@ -760,7 +760,7 @@ static gint cityrep_sort_func(GtkTreeModel *model,
   my_snprintf(buf2, sizeof(buf2), "%*s", NEG_VAL(sp->width),
 	      (sp->func)(pcity2, sp->data));
 
-  return strcmp(buf1, buf2);
+  return cityrepfield_compare(buf1, buf2);
 }
 
 /****************************************************************
