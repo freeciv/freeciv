@@ -516,6 +516,7 @@ void send_turn_done(void)
   attribute_flush();
 
   gen_packet.message[0] = '\0';
+  gen_packet.x = gen_packet.y = -1;
 
   send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
 
