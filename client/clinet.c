@@ -381,6 +381,7 @@ void input_from_server_till_request_got_processed(int fd,
       }
     } else {
       close_socket_callback(&aconnection);
+      break;
     }
   }
 
