@@ -756,8 +756,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	       0, FALSE);
   
   players_iterate(other_player) {
-    if (map_get_known_and_seen(punit->x, punit->y, other_player) ||
-	map_get_known_and_seen(def_x, def_y, other_player)) {
+    if (map_is_known_and_seen(punit->x, punit->y, other_player) ||
+	map_is_known_and_seen(def_x, def_y, other_player)) {
 
       /* 
        * Special case for attacking/defending:

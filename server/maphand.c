@@ -310,7 +310,7 @@ void send_all_known_tiles(struct conn_list *dest)
 
       if (!pplayer) {
 	send_tile_info_always(pplayer, &pconn->self, x, y);
-      } else if (map_get_known(x, y, pplayer)) {
+      } else if (map_is_known(x, y, pplayer)) {
 	send_tile_info_always(pplayer, &pconn->self, x, y);
       }
     } conn_list_iterate_end;
@@ -343,7 +343,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
     if (!pplayer && !pconn->observer) {
       continue;
     }
-    if (!pplayer || map_get_known_and_seen(x, y, pplayer)) {
+    if (!pplayer || map_is_known_and_seen(x, y, pplayer)) {
       info.known = TILE_KNOWN;
       info.type = ptile->terrain;
       info.special = ptile->special;
@@ -352,7 +352,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
 	update_tile_knowledge(pplayer,x,y);
       }
       send_packet_tile_info(pconn, &info);
-    } else if (pplayer && map_get_known(x, y, pplayer)
+    } else if (pplayer && map_is_known(x, y, pplayer)
 	       && !map_get_seen(x, y, pplayer)) {
       /* Just update the owner */
       struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
@@ -387,24 +387,28 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
   info.y = y;
   info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
 
-  if (!pplayer) {	/* observer sees all */
+  if (!pplayer) {
+    /* Observer sees all. */
     info.known=TILE_KNOWN;
     info.type = ptile->terrain;
     info.special = ptile->special;
     info.continent = ptile->continent;
-  }
-  else if (map_get_known(x, y, pplayer)) {
-    if (map_get_seen(x, y, pplayer) != 0) { /* known and seen */
-      update_tile_knowledge(pplayer,x,y); /* visible; update info */
+  } else if (map_is_known(x, y, pplayer)) {
+    if (map_get_seen(x, y, pplayer) != 0) {
+      /* Known and seen. */
+      /* Visible; update info. */
+      update_tile_knowledge(pplayer,x,y);
       info.known = TILE_KNOWN;
-    } else { /* known but not seen */
+    } else {
+      /* Known but not seen. */
       info.known = TILE_KNOWN_FOGGED;
     }
     plrtile = map_get_player_tile(x, y, pplayer);
     info.type = plrtile->terrain;
     info.special = plrtile->special;
     info.continent = ptile->continent;
-  } else { /* unknown (the client needs these sometimes to draw correctly) */
+  } else {
+    /* Unknown (the client needs these sometimes to draw correctly). */
     info.known = TILE_UNKNOWN;
     info.type = ptile->terrain;
     info.special = ptile->special;
@@ -484,7 +488,7 @@ void reveal_hidden_units(struct player *pplayer, int x, int y)
 static void really_unfog_area(struct player *pplayer, int x, int y)
 {
   struct city *pcity;
-  bool old_known = map_get_known(x, y, pplayer);
+  bool old_known = map_is_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "really unfogging %d,%d\n", x, y);
 
@@ -530,16 +534,18 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
     /* the player himself */
     shared_vision_change_seen(abs_x, abs_y, pplayer, +1);
     if (map_get_seen(abs_x, abs_y, pplayer) == 1
-	|| !map_get_known(abs_x, abs_y, pplayer))
+	|| !map_is_known(abs_x, abs_y, pplayer)) {
       really_unfog_area(pplayer, abs_x, abs_y);
+    }
 
     /* players (s)he gives shared vision */
     players_iterate(pplayer2) {
-      if (!really_gives_vision(pplayer, pplayer2))
+      if (!really_gives_vision(pplayer, pplayer2)) {
 	continue;
+      }
 
       if (map_get_seen(abs_x, abs_y, pplayer2) == 1
-	  || !map_get_known(abs_x, abs_y, pplayer2)) {
+	  || !map_is_known(abs_x, abs_y, pplayer2)) {
 	really_unfog_area(pplayer2, abs_x, abs_y);
       }
       reveal_pending_seen(pplayer2, abs_x, abs_y, 0);
@@ -571,18 +577,21 @@ void fog_area(struct player *pplayer, int x, int y, int len)
 {
   buffer_shared_vision(pplayer);
   square_iterate(x, y, len, abs_x, abs_y) {
-    if (map_get_known(abs_x, abs_y, pplayer)) {
+    if (map_is_known(abs_x, abs_y, pplayer)) {
       /* the player himself */
       shared_vision_change_seen(abs_x, abs_y, pplayer, -1);
-      if (map_get_seen(abs_x, abs_y, pplayer) == 0)
+      if (map_get_seen(abs_x, abs_y, pplayer) == 0) {
 	really_fog_area(pplayer, abs_x, abs_y);
+      }
 
       /* players (s)he gives shared vision */
       players_iterate(pplayer2) {
-	if (!really_gives_vision(pplayer, pplayer2))
+	if (!really_gives_vision(pplayer, pplayer2)) {
 	  continue;
-	if (map_get_seen(abs_x, abs_y, pplayer2) == 0)
+	}
+	if (map_get_seen(abs_x, abs_y, pplayer2) == 0) {
 	  really_fog_area(pplayer2, abs_x, abs_y);
+	}
       } players_iterate_end;
     } else {
       decrement_pending_seen(pplayer, abs_x, abs_y);
@@ -654,7 +663,7 @@ void map_unfog_pseudo_city_area(struct player *pplayer, int x, int y)
 
   buffer_shared_vision(pplayer);
   map_city_radius_iterate(x, y, x_itr, y_itr) {
-    if (map_get_known(x_itr, y_itr, pplayer)) {
+    if (map_is_known(x_itr, y_itr, pplayer)) {
       unfog_area(pplayer, x_itr, y_itr, 0);
     } else {
       increment_pending_seen(pplayer, x_itr, y_itr);
@@ -672,7 +681,7 @@ void map_fog_pseudo_city_area(struct player *pplayer, int x, int y)
 
   buffer_shared_vision(pplayer);
   map_city_radius_iterate(x, y, x_itr, y_itr) {
-    if (map_get_known(x_itr, y_itr, pplayer)) {
+    if (map_is_known(x_itr, y_itr, pplayer)) {
       fog_area(pplayer, x_itr, y_itr, 0);
     } else {
       decrement_pending_seen(pplayer, x_itr, y_itr);
@@ -706,11 +715,11 @@ shown
 static void really_show_area(struct player *pplayer, int x, int y)
 {
   struct city *pcity;
-  bool old_known = map_get_known(x, y, pplayer);
+  bool old_known = map_is_known(x, y, pplayer);
 
   freelog(LOG_DEBUG, "Showing %i,%i", x, y);
 
-  if (!map_get_known_and_seen(x, y, pplayer)) {
+  if (!map_is_known_and_seen(x, y, pplayer)) {
     map_set_known(x, y, pplayer);
 
     /* as the tile may be fogged send_tile_info won't always do this for us */
@@ -773,7 +782,7 @@ void show_area(struct player *pplayer, int x, int y, int len)
 /***************************************************************
 ...
 ***************************************************************/
-bool map_get_known(int x, int y, struct player *pplayer)
+bool map_is_known(int x, int y, struct player *pplayer)
 {
   return TEST_BIT(map_get_tile(x, y)->known, pplayer->player_no);
 }
@@ -781,7 +790,7 @@ bool map_get_known(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-bool map_get_known_and_seen(int x, int y, struct player *pplayer)
+bool map_is_known_and_seen(int x, int y, struct player *pplayer)
 {
   int offset = map_pos_to_index(x, y);
 
@@ -814,8 +823,9 @@ void map_change_seen(int x, int y, struct player *pplayer, int change)
 static int map_get_own_seen(int x, int y, struct player *pplayer)
 {
   int own_seen = map_get_player_tile(x, y, pplayer)->own_seen;
-  if (own_seen != 0)
-    assert(map_get_known(x, y, pplayer));
+  if (own_seen != 0) {
+    assert(map_is_known(x, y, pplayer));
+  }
   return own_seen;
 }
 
@@ -924,7 +934,7 @@ static void player_tile_init(int x, int y, struct player *pplayer)
   plrtile->seen = 0;
   plrtile->pending_seen = 0;
   if (!game.fogofwar_old) {
-    if (map_get_known(x, y, pplayer)) {
+    if (map_is_known(x, y, pplayer)) {
       plrtile->seen = 1;
     } else {
       plrtile->pending_seen = 1;
@@ -971,18 +981,19 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 							int x, int y)
 {
   struct player_tile *from_tile, *dest_tile;
-  if (!map_get_known_and_seen(x, y, pdest)) {
+  if (!map_is_known_and_seen(x, y, pdest)) {
     /* I can just hear people scream as they try to comprehend this if :).
-       Let me try in words:
-       1) if the tile is seen by pdest the info is sent to pfrom
-       OR
-       2) if the tile is known by pfrom AND (he has more resent info
-          OR it is not known by pdest) */
-    if (map_get_known_and_seen(x, y, pfrom)
-	|| (map_get_known(x,y,pfrom)
+     * Let me try in words:
+     * 1) if the tile is seen by pdest the info is sent to pfrom
+     *  OR
+     * 2) if the tile is known by pfrom AND (he has more recent info
+     *     OR it is not known by pdest)
+     */
+    if (map_is_known_and_seen(x, y, pfrom)
+	|| (map_is_known(x,y,pfrom)
 	    && (((map_get_player_tile(x, y, pfrom)->last_updated
 		 > map_get_player_tile(x, y, pdest)->last_updated))
-	        || !map_get_known(x, y, pdest)))) {
+	        || !map_is_known(x, y, pdest)))) {
       from_tile = map_get_player_tile(x, y, pfrom);
       dest_tile = map_get_player_tile(x, y, pdest);
       /* Update and send tile knowledge */
@@ -1186,7 +1197,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 *************************************************************************/
 enum known_type map_get_known2(int x, int y, struct player *pplayer)
 {
-  if (map_get_known(x, y, pplayer)) {
+  if (map_is_known(x, y, pplayer)) {
     if (map_get_own_seen(x, y, pplayer) > 0) {
       return TILE_KNOWN;
     } else {
@@ -1203,7 +1214,7 @@ enum known_type map_get_known2(int x, int y, struct player *pplayer)
 static void enable_fog_of_war_player(struct player *pplayer)
 {
   whole_map_iterate(x, y) {
-    if (map_get_known(x, y, pplayer)) {
+    if (map_is_known(x, y, pplayer)) {
       fog_area(pplayer, x, y, 0);
     } else {
       decrement_pending_seen(pplayer, x, y);
@@ -1227,7 +1238,7 @@ void enable_fog_of_war(void)
 static void disable_fog_of_war_player(struct player *pplayer)
 {
   whole_map_iterate(x, y) {
-    if (map_get_known(x, y, pplayer)) {
+    if (map_is_known(x, y, pplayer)) {
       unfog_area(pplayer, x, y, 0);
     } else {
       increment_pending_seen(pplayer, x, y);
@@ -1260,7 +1271,7 @@ bool is_coast_seen(int x, int y, struct player *pplayer)
       continue;
     }
     /* Found land next to (x,y).  Can we see it? */
-    if (ai_always_see_map || map_get_known(x1, y1, pplayer)) {
+    if (ai_always_see_map || map_is_known(x1, y1, pplayer)) {
       /* Yes, we can see it */
       return TRUE;
     }
@@ -1271,7 +1282,7 @@ bool is_coast_seen(int x, int y, struct player *pplayer)
         /* We cannot see strip of land on diagonal tiles */
         continue;
       }
-      if (map_get_known(x2, y2, pplayer)) {
+      if (map_is_known(x2, y2, pplayer)) {
         /* Yes, we can see (x2, y2) and it will display
          * the strip of land.  We can conclude that (x1, y1) is land
          * and therefore (x,y) is right next to (or on) the land */

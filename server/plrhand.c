@@ -994,7 +994,7 @@ static void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
     if (server_state >= RUN_GAME_STATE
 	&& (x != -1 || y != -1) /* special case, see above */
 	&& ((!pconn->player && pconn->observer)
-	    || (pconn->player && map_get_known(x, y, pconn->player)))) {
+	    || (pconn->player && map_is_known(x, y, pconn->player)))) {
       CHECK_MAP_POS(x, y);
       genmsg.x = x;
       genmsg.y = y;

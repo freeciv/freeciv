@@ -69,8 +69,9 @@ static void check_fow(void)
       assert(plr_tile->pending_seen < 60000);
 
       assert(plr_tile->own_seen <= plr_tile->seen);
-      if (map_get_known(x, y, pplayer))
+      if (map_is_known(x, y, pplayer)) {
 	assert(plr_tile->pending_seen == 0);
+      }
     } players_iterate_end;
   } whole_map_iterate_end;
 }
@@ -188,7 +189,7 @@ static void check_cities(void)
 	  case C_TILE_UNAVAILABLE:
 	    if (!map_get_tile(map_x, map_y)->worked
 		&& !is_enemy_unit_tile(ptile, pplayer)
-		&& map_get_known(map_x, map_y, pplayer)
+		&& map_is_known(map_x, map_y, pplayer)
 		&& (!owner || owner->player_no == pcity->owner)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "unavailable but seems to be available!",

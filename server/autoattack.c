@@ -121,7 +121,7 @@ static struct unit *search_best_target(struct player *pplayer,
      * H_TARGETS handicap, but currently AI never uses auto-attack.
      */
     if ((ai_handicap(pplayer, H_TARGETS)
-         && !map_get_known_and_seen(x, y, pplayer))
+         && !map_is_known_and_seen(x, y, pplayer))
 	|| !player_can_see_unit_at_location(pplayer, enemy, x, y)) {
       freelog(LOG_DEBUG, "can't see %s at (%d,%d)", unit_name(enemy->type),
               x, y);

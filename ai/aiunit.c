@@ -308,7 +308,7 @@ static int likely_ocean(int x, int y, struct player *pplayer)
 {
   int sum;
 
-  if (map_get_known(x, y, pplayer)) {
+  if (map_is_known(x, y, pplayer)) {
     /* we've seen the tile already. */
     return (is_ocean(map_get_terrain(x,y)) ? 100 : 0);
   }
@@ -321,7 +321,7 @@ static int likely_ocean(int x, int y, struct player *pplayer)
    * the centre tile. */
   sum = 50;
   adjc_dir_iterate(x, y, x1, y1, dir) {
-    if (map_get_known(x1, y1, pplayer)) {
+    if (map_is_known(x1, y1, pplayer)) {
       if (DIR_IS_CARDINAL(dir)) {
 	/* If a tile is cardinally adjacent, we can tell if the 
 	 * central tile is ocean or not by the appearance of
@@ -449,7 +449,7 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   square_iterate(x, y, range, x1, y1) {
     int ocean = likely_ocean(x1, y1, pplayer);
 
-    if (!map_get_known(x1, y1, pplayer)) {
+    if (!map_is_known(x1, y1, pplayer)) {
       unknown++;
 
       /* FIXME: we should add OWN_CITY_SCORE to desirable if the tile 
@@ -477,7 +477,7 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   }
 
   if ((!pplayer->ai.control || !ai_handicap(pplayer, H_HUTS))
-      && map_get_known(x, y, pplayer)
+      && map_is_known(x, y, pplayer)
       && map_has_special(x, y, S_HUT)) {
     /* we want to explore huts whenever we can,
      * even if doing so will not uncover any tiles. */
@@ -2065,7 +2065,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                          && !(goto_is_sane(punit, acity->x, acity->y, TRUE) 
                               && WARMAP_COST(acity->x, acity->y) < maxd));
 
-      if (handicap && !map_get_known(acity->x, acity->y, pplayer)) {
+      if (handicap && !map_is_known(acity->x, acity->y, pplayer)) {
         /* Can't see it */
         continue;
       }
@@ -2215,7 +2215,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
 
-      if (handicap && !map_get_known(aunit->x, aunit->y, pplayer)) {
+      if (handicap && !map_is_known(aunit->x, aunit->y, pplayer)) {
         /* Can't see the target */
         continue;
       }

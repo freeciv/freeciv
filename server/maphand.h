@@ -66,9 +66,9 @@ void show_area(struct player *pplayer,int x, int y, int len);
 void map_unfog_pseudo_city_area(struct player *pplayer, int x,int y);
 void map_fog_pseudo_city_area(struct player *pplayer, int x,int y);
 
-bool map_get_known_and_seen(int x, int y, struct player *pplayer);
+bool map_is_known_and_seen(int x, int y, struct player *pplayer);
 void map_change_seen(int x, int y, struct player *pplayer, int change);
-bool map_get_known(int x, int y, struct player *pplayer);
+bool map_is_known(int x, int y, struct player *pplayer);
 void map_set_known(int x, int y, struct player *pplayer);
 void map_clear_known(int x, int y, struct player *pplayer);
 void map_know_all(struct player *pplayer);

@@ -348,7 +348,7 @@ static void try_summon_barbarians(void)
 
   /* I think Sea Raiders can come out of unknown sea territory */
   if (!find_empty_tile_nearby(x,y,&xu,&yu)
-      || (!map_get_known(xu, yu, victim)
+      || (!map_is_known(xu, yu, victim)
 	  && !is_ocean(map_get_terrain(xu, yu)))
       || !is_near_land(xu, yu)) {
     return;
@@ -408,7 +408,7 @@ static void try_summon_barbarians(void)
     notify_player_ex(victim, xu, yu, E_UPRISING,
 		     _("Native unrest near %s led by %s."), pc->name,
 		     barbarians->name);
-  } else if (map_get_known_and_seen(xu, yu, victim)) {
+  } else if (map_is_known_and_seen(xu, yu, victim)) {
     notify_player_ex(victim, xu, yu, E_UPRISING,
 		     _("Sea raiders seen near %s!"), pc->name);
   }

@@ -1255,7 +1255,7 @@ bool enemies_at(struct unit *punit, int x, int y)
 
   adjc_iterate(x, y, x1, y1) {
     if (ai_handicap(pplayer, H_FOG)
-	&& !map_get_known_and_seen(x1, y1, unit_owner(punit))) {
+	&& !map_is_known_and_seen(x1, y1, unit_owner(punit))) {
       /* We cannot see danger at (x1, y1) => assume there is none */
       continue;
     }
@@ -1565,7 +1565,7 @@ static void server_remove_unit(struct unit *punit)
 
   packet.value = punit->id;
   players_iterate(pplayer) {
-    if (map_get_known_and_seen(punit_x, punit_y, pplayer)) {
+    if (map_is_known_and_seen(punit_x, punit_y, pplayer)) {
       lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_UNIT,
 				   &packet);
     }
@@ -1825,7 +1825,7 @@ static bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
     freelog(LOG_ERROR, "NULL pointer in can_player_see_unit_at");
     return FALSE;
   } else {
-    bool see_tile = map_get_known_and_seen(x, y, pplayer);
+    bool see_tile = map_is_known_and_seen(x, y, pplayer);
     bool see_unit = player_can_see_unit_at_location(pplayer, punit, x, y);
     bool not_in_city = (pplayers_allied(unit_owner(punit), pplayer)
 			|| !map_get_city(x, y));
@@ -1896,7 +1896,7 @@ void send_all_known_units(struct conn_list *dest)
       struct player *unitowner = &game.players[p];
       unit_list_iterate(unitowner->units, punit) {
 	if (!pplayer
-	    || map_get_known_and_seen(punit->x, punit->y, pplayer)) {
+	    || map_is_known_and_seen(punit->x, punit->y, pplayer)) {
 	  send_unit_info_to_onlookers(&pconn->self, punit,
 				      punit->x, punit->y, FALSE);
 	}
@@ -2078,7 +2078,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return FALSE;
   }
 
-  if (!map_get_known(dest_x, dest_y, pplayer)) {
+  if (!map_is_known(dest_x, dest_y, pplayer)) {
     notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
                      _("Game: The destination location is not known."));
     return FALSE;
@@ -2091,8 +2091,9 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
     return FALSE;    
   }
 
-  if (map_get_known_and_seen(dest_x, dest_y, pplayer) && ((ptile->city
-      && pplayers_non_attack(pplayer, city_owner(ptile->city))) 
+  if (map_is_known_and_seen(dest_x, dest_y, pplayer)
+      && ((ptile->city
+	  && pplayers_non_attack(pplayer, city_owner(ptile->city)))
       || is_non_attack_unit_tile(ptile, pplayer))) {
     notify_player_ex(pplayer, dest_x, dest_y, E_NOEVENT,
                      _("Game: Cannot attack unless you declare war first."));
@@ -2623,7 +2624,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
       
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
-	  && map_get_known_and_seen(punit->x, punit->y, unit_owner(penemy))
+	  && map_is_known_and_seen(punit->x, punit->y, unit_owner(penemy))
 	  && range >= real_map_distance(punit->x, punit->y, x, y)
 	  && player_can_see_unit(unit_owner(penemy), punit)
 	  /* on board transport; don't awaken */

@@ -1162,7 +1162,7 @@ void remove_city(struct city *pcity)
   map_update_borders_city_destroyed(x, y);
 
   players_iterate(other_player) {
-    if (map_get_known_and_seen(x, y, other_player)) {
+    if (map_is_known_and_seen(x, y, other_player)) {
       reality_check_city(other_player, x, y);
     }
   } players_iterate_end;
@@ -1325,7 +1325,7 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   sz_strlcpy(packet->name, pdcity->name);
 
   packet->size=pdcity->size;
-  if (map_get_known_and_seen(x, y, pplayer)) {
+  if (map_is_known_and_seen(x, y, pplayer)) {
     /* Since the tile is visible the player can see the tile,
        and if it didn't actually have a city pdcity would be NULL */
     assert(pcity != NULL);
@@ -1356,7 +1356,7 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
 void refresh_dumb_city(struct city *pcity)
 {
   players_iterate(pplayer) {
-    if (map_get_known_and_seen(pcity->x, pcity->y, pplayer)
+    if (map_is_known_and_seen(pcity->x, pcity->y, pplayer)
 	|| player_has_traderoute_with_city(pplayer, pcity)) {
       if (update_dumb_city(pplayer, pcity)) {
 	struct packet_short_city sc_pack;
@@ -1400,9 +1400,13 @@ static void broadcast_city_info(struct city *pcity)
 
   /* send to all others who can see the city: */
   players_iterate(pplayer) {
-    if(city_owner(pcity) == pplayer) continue; /* already sent above */
-    if (map_get_known_and_seen(pcity->x, pcity->y, pplayer) ||
-	player_has_traderoute_with_city(pplayer, pcity)) {
+    if (city_owner(pcity) == pplayer) {
+      /* Already sent above. */
+      continue;
+    }
+
+    if (map_is_known_and_seen(pcity->x, pcity->y, pplayer)
+	|| player_has_traderoute_with_city(pplayer, pcity)) {
       update_dumb_city(pplayer, pcity);
       package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
       lsend_packet_short_city(&pplayer->connections, &sc_pack);
@@ -1534,10 +1538,10 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	lsend_packet_city_info(dest, &packet);
       }
     } else {
-      if (!map_get_known(x, y, pviewer)) {
+      if (!map_is_known(x, y, pviewer)) {
 	show_area(pviewer, x, y, 0);
       }
-      if (map_get_known_and_seen(x, y, pviewer)) {
+      if (map_is_known_and_seen(x, y, pviewer)) {
 	if (pcity) {		/* it's there and we see it; update and send */
 	  update_dumb_city(pviewer, pcity);
 	  package_dumb_city(pviewer, x, y, &sc_pack);
@@ -1883,19 +1887,24 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
   int map_x, map_y;
   struct tile *ptile;
 
-  if (!city_map_to_map(&map_x, &map_y, pcity, city_x, city_y))
+  if (!city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
     return FALSE;
+  }
+  
   ptile = map_get_tile(map_x, map_y);
 
   if (is_enemy_unit_tile(ptile, city_owner(pcity))
-      && !is_city_center(city_x, city_y))
+      && !is_city_center(city_x, city_y)) {
     return FALSE;
+  }
 
-  if (!map_get_known(map_x, map_y, city_owner(pcity)))
+  if (!map_is_known(map_x, map_y, city_owner(pcity))) {
     return FALSE;
+  }
 
-  if (ptile->worked && ptile->worked != pcity)
+  if (ptile->worked && ptile->worked != pcity) {
     return FALSE;
+  }
 
   if (ptile->owner && ptile->owner->player_no != pcity->owner) {
     return FALSE;

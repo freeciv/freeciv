@@ -651,7 +651,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	else
 	  move_cost = MIN(psrctile->move_cost[dir], unit_type(punit)->move_rate);
 
-	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
+	if (!pplayer->ai.control && !map_is_known(x1, y1, pplayer)) {
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
@@ -723,7 +723,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	  move_cost = 20 * SINGLE_MOVE;
 	}
 
-	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer))
+	if (!pplayer->ai.control && !map_is_known(x1, y1, pplayer))
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE; /* arbitrary deterrent. */
 
 	/* We don't allow attacks during GOTOs here; you can almost
@@ -1072,7 +1072,7 @@ static int find_a_direction(struct unit *punit,
     adjc_iterate(x, y, tmp_x, tmp_y) {
       struct tile *adjtile = map_get_tile(tmp_x, tmp_y);
 
-      if (!map_get_known(tmp_x, tmp_y, pplayer)) {
+      if (!map_is_known(tmp_x, tmp_y, pplayer)) {
 	if (punit->moves_left < base_move_cost) {
 	  /* Avoid the unknown */
 	  fitness[dir] -=
@@ -1207,7 +1207,7 @@ bool goto_is_sane(struct unit *punit, int x, int y, bool omni)
     return TRUE;
   }
 
-  if (!(omni || map_get_known_and_seen(x, y, pplayer))) {
+  if (!(omni || map_is_known_and_seen(x, y, pplayer))) {
     /* The destination is in unknown -- assume sane */
     return TRUE;
   }
@@ -1466,7 +1466,7 @@ static bool airspace_looks_safe(int x, int y, struct player *pplayer)
    */
 
   /* If the tile's unknown, we (may) assume it's safe. */
-  if (ai_handicap(pplayer, H_MAP) && !map_get_known(x, y, pplayer)) {
+  if (ai_handicap(pplayer, H_MAP) && !map_is_known(x, y, pplayer)) {
     return AIR_ASSUMES_UNKNOWN_SAFE;
   }
 
@@ -1478,7 +1478,7 @@ static bool airspace_looks_safe(int x, int y, struct player *pplayer)
 
   /* If the tile's fogged we again (may) assume it's safe. */
   if (ai_handicap(pplayer, H_FOG) &&
-      !map_get_known_and_seen(x, y, pplayer)) {
+      !map_is_known_and_seen(x, y, pplayer)) {
     return AIR_ASSUMES_FOGGED_SAFE;
   }
 

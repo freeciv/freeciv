@@ -517,7 +517,9 @@ static bool is_wet(struct player *pplayer, int x, int y)
   enum tile_terrain_type t;
   enum tile_special_type s;
 
-  if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) return FALSE;
+  if (!pplayer->ai.control && !map_is_known(x, y, pplayer)) {
+    return FALSE;
+  }
 
   t=map_get_terrain(x,y);
   if (is_ocean(t) || t == T_RIVER) {

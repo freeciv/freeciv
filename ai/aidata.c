@@ -151,8 +151,9 @@ void ai_data_turn_init(struct player *pplayer)
 
     if (is_ocean(ptile->terrain)) {
       if (ai->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
-          && !map_get_known(x, y, pplayer)) {
-        ai->explore.sea_done = FALSE; /* we're not done there */
+          && !map_is_known(x, y, pplayer)) {
+	/* We're not done there. */
+        ai->explore.sea_done = FALSE;
       }
       /* skip rest, which is land only */
       continue;
@@ -163,7 +164,7 @@ void ai_data_turn_init(struct player *pplayer)
     }
     if ((map_has_special(x, y, S_HUT) 
          && (!ai_handicap(pplayer, H_HUTS)
-             || map_get_known(x, y, pplayer)))
+             || map_is_known(x, y, pplayer)))
         || (ptile->city && unit_list_size(&ptile->units) == 0
             && pplayers_at_war(pplayer, city_owner(ptile->city)))) {
       /* hut, empty city... what is the difference? :) */
@@ -171,7 +172,7 @@ void ai_data_turn_init(struct player *pplayer)
       ai->explore.continent[continent] = TRUE;
       continue;
     }
-    if (ai_handicap(pplayer, H_TARGETS) && !map_get_known(x, y, pplayer)) {
+    if (ai_handicap(pplayer, H_TARGETS) && !map_is_known(x, y, pplayer)) {
       /* this AI must explore */
       ai->explore.land_done = FALSE;
       ai->explore.continent[continent] = TRUE;

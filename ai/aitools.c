@@ -396,7 +396,7 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
       if ((best_dist == -1 || city_dist < best_dist)
 	  && (everywhere || con == 0
 	      || con == map_get_continent(pcity->x, pcity->y))
-	  && (!pplayer || map_get_known(pcity->x, pcity->y, pplayer))) {
+	  && (!pplayer || map_is_known(pcity->x, pcity->y, pplayer))) {
 	best_dist = city_dist;
         pc = pcity;
       }
