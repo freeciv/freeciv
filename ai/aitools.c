@@ -180,11 +180,11 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
   ptile = map_get_tile(punit->x, punit->y);
   /* We look for the bodyguard where we stand. */
   if (!unit_list_find(&ptile->units, punit->ai.bodyguard)) {
-    /* FIXME: use veteran system to calculate defense. */
-    int my_def = (punit->hp * (punit->veteran != 0 ? 15 : 10)
-		  * unit_type(punit)->defense_strength);
+    int my_def = (punit->hp 
+                  * unit_type(punit)->veteran[punit->veteran].power_fact
+		  * unit_type(punit)->defense_strength
+                  * POWER_FACTOR);
     
-    /* FIXME: danger is multiplied by POWER_FACTOR, my_def isn't. */
     if (danger >= my_def) {
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
                "want bodyguard @(%d, %d) danger=%d, my_def=%d", 
