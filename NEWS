@@ -1,16 +1,88 @@
-Welcome to Freeciv 1.8!
+Welcome to Freeciv 1.8! [FIXME]
 
-This is release 1.8.1.
+This is release [FIXME].
 
 Thanks again to all our developers, who continue to work so hard.
-Special mention this release goes to Vasco Alexandre da Silva Costa,
-who did most of the work for the new Gtk+ client.  Special thanks
-also to Nicolas Brunel, who has retired from maintaining Freeciv,
-after doing lots of work for this release, as well as for the 
-previous 1.8.0 release. 
+
+[Special items: FIXME]
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.8.1:
+
+ - Internationalization added.  Some aspects still need improvement,
+   and in particular currently only works well if client and server 
+   both use the same language.
+ - Improvements to "trident" tileset, and this set is now the default.
+ - New ruleset support for NATIONS, and many new nations added --
+   there are now 29 nations in the default nations file.  Also allow
+   multiple leaders choices for each nation, allow longer player
+   names, and allow specifying/choosing sex of leader.
+ - New ruleset support for TERRAIN, and changes to allow Civ2 style
+   terrain with more specials, multi-terrain rivers, and new farmland
+   infrastructure.  Moved some server options into terrain ruleset,
+   and added new rule option regarding movement along rivers.
+ - New ruleset support for GOVERNMENTS, and more general unit upkeep.
+ - The contents and layout of the graphics files is now described in
+   user-editable 'spec' files, instead of being hardwired into the
+   code; see README.graphics for details.
+ - Changes to city graphics: can now see cities grow.  Also, code
+   support for different city styles for different nations, and for
+   technology dependent styles, but lacking good graphics except for
+   the default style.  Cities show a small flag when occupied by one 
+   or more units.
+ - From Civ2, added Paratroopers unit and Airbase infrastructure.
+ - Initial window size of Gtk+ client is smaller, to fit better on
+   smaller screens, and can now resize detached chat/output window.
+ - City report enhancements: New "Change All" dialog to convert all
+   production of a given item to some other item (both clients); can
+   select multiple cities and issue commands (Gtk+ client only); can
+   sort by different columns (Gtk+ client only).  Can also select
+   multiple items in the Trade Report (Gtk+ client only).
+ - In Civ2 style, can select which infrastructure item to pillage, and
+   multiple units can pillage together.  Can now pillage fortresses,
+   as well as new farmland and airbase infrastructure items.
+ - More fields added to Demographics Report, and now configurable from
+   a server option.
+ - Added more information to "Active Units Report", and renamed to 
+   "Military Report".
+ - New cursors added for Goto, Nuke and Paradrop modes; <Escape> key
+   cancels Go-To/Paradrop/nuke mode; pollution on city squares is now
+   always clearly visible; improvements to refresh method for pixmaps
+   in Gtk+ client; various other improvements to both clients.
+ - Autosettlers no longer convert Plains/Grasslands to Forests, but
+   will now Transform terrain.
+ - AI can build spaceships, although does not do so very aggressively
+   or intelligently yet.
+ - Server and client may specify a different metaserver to use.  There
+   is now a metaserver running on www.freeciv.org, and that is now the
+   default metaserver (http://www.freeciv.org/metaserver).
+ - New server option for "turn blocking" mode, in which players will
+   never miss a turn even if sometimes disconnected.
+ - More flexible rulesets for units and techs (advances) allowing
+   variable number of items in each (up to 200) and no longer any
+   techs with hardwired effects depending on position in ruleset file.
+ - Appropriate helptext now appears in ruleset files, allowing
+   modpacks to give modified help to correspond to modified items.
+ - Format of ruleset files is changed, no longer compatible with
+   those for 1.8.0 and 1.8.1.
+ - Removed science bonus of +1 per city per turn.
+ - In Civ2 mode, overflight of a hut causes it to disappear, and can't
+   build cities next to each other.
+ - Rapture_size now 3, to conform to Civ2.
+ - Settlers and Engineers now cost shield upkeep as well as food
+   upkeep (depending on government type) as in both Civ1 and Civ2.
+ - Helicopters do not lose hitpoints when over an airbase.
+ - The amount of food required for a city grow is now ((citysize+1) *
+   foodbox), instead of (citysize * foodbox); new behavior matches
+   both Civ1 and Civ2.
+ - Some re-organization of data directory, in adding data/scenario,
+   and graphics now in data/trident, data/engels and data/misc.
+ - Preliminary support for compiling the server on Mac (but networking
+   code not yet ported).
+ - Progressively moving code out of client gui-dependent directories.
+ - Lots of bug fixes, code cleanups, and help-text improvements.
 
 WHAT'S CHANGED SINCE 1.8.0:
 
@@ -46,7 +118,6 @@ WHAT'S CHANGED SINCE 1.8.0:
  - Server will refuse to run as root, as a security measure.
  - As always: lots of bug fixes, code cleanups, and help-text 
    improvements.
-
 
 WHAT'S CHANGED SINCE 1.7.2:
 
