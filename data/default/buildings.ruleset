@@ -399,9 +399,9 @@ upkeep		= 1
 sabotage	= 100
 effect		=
     { "type", "range", "amount", "cond_gov"
-	"Reduce_Corrupt", "City", 50
+	"Corrupt_Pct", "City", 50
 	"Make_Content", "City", 1, "Democracy"
-	"Revolt_Dist", "City", 50
+	"Revolt_Dist_Pct", "City", 50
     }
 sound		= "b_courthouse"
 sound_alt	= "b_generic"
@@ -517,8 +517,8 @@ effect		=
     { "type", "range", "amount", "cond_bldg"
 	"Prod_Bonus", "City", 25, "Factory"
 	"Prod_Bonus", "City", 25, "Mfg. Plant"
-	"Pollu_Adj_Prod", "City", 50
-	"Pollu_Adj_Prod", "City", -50, "Recycling Center"
+	"Pollu_Prod_Pct", "City", 50
+	"Pollu_Prod_Pct", "City", -50, "Recycling Center"
     }
 sound		= "b_hydro_plant"
 sound_alt	= "b_generic"
@@ -613,7 +613,7 @@ upkeep		= 4
 sabotage	= 100
 effect		=
     { "type", "range", "amount"
-	"Pollu_Set_Pop", "City", 0
+	"Pollu_Pop_Pct", "City", 0
     }
 sound		= "b_mass_transit"
 sound_alt	= "b_generic"
@@ -671,8 +671,8 @@ effect		=
     { "type", "range", "amount", "cond_bldg"
 	"Prod_Bonus", "City", 25, "Factory"
 	"Prod_Bonus", "City", 25, "Mfg. Plant"
-	"Pollu_Adj_Prod", "City", 50
-	"Pollu_Adj_Prod", "City", -50, "Recycling Center"
+	"Pollu_Prod_Pct", "City", 50
+	"Pollu_Prod_Pct", "City", -50, "Recycling Center"
     }
 sound		= "b_nuclear_plant"
 sound_alt	= "b_generic"
@@ -876,7 +876,7 @@ upkeep		= 2
 sabotage	= 100
 effect		=
     { "type", "range", "amount"
-	"Pollu_Adj_Prod", "City", 34
+	"Pollu_Prod_Pct", "City", 34
     }
 sound		= "b_recycling_center"
 sound_alt	= "b_generic"
@@ -1024,7 +1024,7 @@ effect		=
     { "type", "range", "amount", "cond_bldg"
 	"Prod_Bonus", "City", 25, "Factory"
 	"Prod_Bonus", "City", 25, "Mfg. Plant"
-	"Pollu_Set_Prod", "City", 0
+	"Pollu_Prod_Pct", "City", 0
 	"Slow_Global_Warm", "World", 10
     }
 sound		= "b_solar_plant"
@@ -1599,8 +1599,8 @@ effect		=
     { "type", "range", "amount", "cond_bldg"
 	"Prod_Bonus", "Player", 25, "Factory"
 	"Prod_Bonus", "Player", 25, "Mfg. Plant"
-	"Pollu_Adj_Prod", "Player", 50
-	"Pollu_Adj_Prod", "Player", -50, "Recycling Center"
+	"Pollu_Prod_Pct", "Player", 50
+	"Pollu_Prod_Pct", "Player", -50, "Recycling Center"
     }
 sound		= "w_hoover_dam"
 sound_alt	= "w_generic"
