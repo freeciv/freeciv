@@ -382,7 +382,7 @@ static void build_flag(int playerindex)
   assert(flag_w >= MIN_DIMENSION && flag_h >= MIN_DIMENSION);
   
   /* croping */
-  croped = crop_sprite(flag, start_x, start_y, flag_w, flag_h);
+  croped = crop_sprite(flag, start_x, start_y, flag_w, flag_h, NULL, -1, -1);
 
   /* scaling */
   newflag_h = GTK_CLIST(players_list)->row_height;

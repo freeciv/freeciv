@@ -53,8 +53,6 @@ tiles = { "row", "column","tag"
 
   9,    0, "t.jungle1"
 
-  10,   0, "t.ocean1"
-
 ; Terrain special resources:
 
  0,   2, "ts.oasis"
@@ -136,7 +134,8 @@ tiles = { "row", "column","tag"
   0, 0, "tx.darkness"
   0, 1, "tx.fog"
   0, 2, "t.black_tile"
-  0, 3, "t.coast_color"
+  0, 2, "t.unknown1"
+  0, 3, "t.ocean1"
 
   0, 4, "user.attention"
 }

@@ -29,7 +29,9 @@ const char **gfx_fileextensions(void);
 
 struct Sprite *load_gfxfile(const char *filename);
 struct Sprite *crop_sprite(struct Sprite *source,
-			   int x, int y, int width, int height);
+			   int x, int y, int width, int height,
+			   struct Sprite *mask,
+			   int mask_offset_x, int mask_offset_y);
 void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height);
 void free_sprite(struct Sprite *s);
 

@@ -157,12 +157,14 @@ static void sprite2hbitmap(struct Sprite *s,HBITMAP *bmp, HBITMAP *mask)
   }
 }
 
-/**************************************************************************
-
-**************************************************************************/
-struct Sprite *
-crop_sprite(struct Sprite *source,
-                           int x, int y, int width, int height)
+/****************************************************************************
+  Create a new sprite by cropping and taking only the given portion of
+  the image.
+****************************************************************************/
+struct Sprite *crop_sprite(struct Sprite *source,
+			   int x, int y, int width, int height,
+			   struct Sprite *mask,
+			   int mask_offset_x, int mask_offset_y)
 {
   SPRITE *mysprite;
   HDC hdc;
@@ -172,71 +174,84 @@ crop_sprite(struct Sprite *source,
   HBITMAP bigmask;
   HBITMAP bigsave;
   HBITMAP smallsave;
-  hdc=GetDC(root_window);
-  mysprite=NULL;
-  if (!hdcbig)
-    hdcbig=CreateCompatibleDC(hdc);
-  if (!hdcsmall)
-    hdcsmall=CreateCompatibleDC(hdc);
-  if (sprcache!=source)
-    {
-      if (bitmapcache) DeleteObject(bitmapcache);
-      sprcache=source;
-      bitmapcache=BITMAP2HBITMAP(&(source->bmp));
+
+  hdc = GetDC(root_window);
+  mysprite = NULL;
+  if (!hdcbig) {
+    hdcbig = CreateCompatibleDC(hdc);
+  }
+  if (!hdcsmall) {
+    hdcsmall = CreateCompatibleDC(hdc);
+  }
+  if (sprcache != source) {
+    if (bitmapcache) {
+      DeleteObject(bitmapcache);
     }
-  bigbitmap=bitmapcache;
-  if (!bigbitmap)
-    {
-      freelog(LOG_FATAL,"BITMAP2HBITMAP failed");
-      return NULL;
-    }
-  if (!(hdcsmall&&hdcbig))
-    {
-      freelog(LOG_FATAL,"CreateCompatibleDC failed");
-    }
-  if (!(smallbitmap=CreateCompatibleBitmap(hdc,width,height)))
-    {
-      freelog(LOG_FATAL,"CreateCompatibleBitmap failed");
-      return NULL;
-    }
+    sprcache = source;
+    bitmapcache = BITMAP2HBITMAP(&(source->bmp));
+  }
+  bigbitmap = bitmapcache;
+  if (!bigbitmap) {
+    freelog(LOG_FATAL,"BITMAP2HBITMAP failed");
+    return NULL;
+  }
+  if (!(hdcsmall && hdcbig)) {
+    freelog(LOG_FATAL,"CreateCompatibleDC failed");
+  }
+  if (!(smallbitmap = CreateCompatibleBitmap(hdc, width, height))) {
+    freelog(LOG_FATAL,"CreateCompatibleBitmap failed");
+    return NULL;
+  }
   
-  bigsave=SelectObject(hdcbig,bigbitmap);
-  smallsave=SelectObject(hdcsmall,smallbitmap);
-  BitBlt(hdcsmall,0,0,width,height,hdcbig,x,y,SRCCOPY);
-  smallmask=NULL;
+  bigsave = SelectObject(hdcbig, bigbitmap);
+  smallsave = SelectObject(hdcsmall, smallbitmap);
+  BitBlt(hdcsmall, 0, 0, width, height, hdcbig, x, y, SRCCOPY);
+  smallmask = NULL;
 
-  if (source->has_mask)
-    {
-      bigmask=BITMAP2HBITMAP(&source->mask);
-      SelectObject(hdcbig,bigmask);
-      if ((smallmask=CreateBitmap(width,height,1,1,NULL)))
-        {
-          SelectObject(hdcsmall,smallmask);
-          BitBlt(hdcsmall,0,0,width,height,hdcbig,x,y,SRCCOPY);
-        }
-      SelectObject(hdcbig,bigbitmap);
-      DeleteObject(bigmask);
+  if (source->has_mask) {
+    bigmask = BITMAP2HBITMAP(&source->mask);
+    SelectObject(hdcbig, bigmask);
+    if ((smallmask = CreateBitmap(width,height, 1, 1, NULL))) {
+      SelectObject(hdcsmall, smallmask);
+      BitBlt(hdcsmall, 0, 0, width, height, hdcbig, x, y, SRCCOPY);
     }
+    SelectObject(hdcbig, bigbitmap);
+    DeleteObject(bigmask);
+  }
 
-  mysprite=fc_malloc(sizeof(struct Sprite));
-  mysprite->cache_id=0;
-  mysprite->width=width;
-  mysprite->height=height;
-  HBITMAP2BITMAP(smallbitmap,&mysprite->bmp);
-  mysprite->has_mask=0;
-  if (smallmask)
-    {
-      mysprite->has_mask=1;
-      HBITMAP2BITMAP(smallmask,&mysprite->mask);
+  if (mask && mask->has_mask) {
+    bigmask = BITMAP2HBITMAP(&mask->mask);
+    SelectObject(hdcbig, bigmask);
+    if (!smallmask) {
+      smallmask = CreateBitmap(width,height, 1, 1, NULL);
+      SelectObject(hdcsmall, smallmask);
     }
+    BitBlt(hdcsmall, 0, 0, width, height, hdcbig,
+	   x - mask_offset_x, y - mask_offset_y, SRCPAINT);
+    
+    SelectObject(hdcbig, bigbitmap);
+    DeleteObject(bigmask);
+  }
 
-  SelectObject(hdcbig,bigsave);
-  SelectObject(hdcsmall,smallsave);
-  ReleaseDC(root_window,hdc);
-  if (smallmask) DeleteObject(smallmask);
+  mysprite = fc_malloc(sizeof(struct Sprite));
+  mysprite->cache_id = 0;
+  mysprite->width = width;
+  mysprite->height = height;
+  HBITMAP2BITMAP(smallbitmap, &mysprite->bmp);
+  mysprite->has_mask = 0;
+  if (smallmask) {
+    mysprite->has_mask = 1;
+    HBITMAP2BITMAP(smallmask, &mysprite->mask);
+  }
+
+  SelectObject(hdcbig, bigsave);
+  SelectObject(hdcsmall, smallsave);
+  ReleaseDC(root_window, hdc);
+  if (smallmask) {
+    DeleteObject(smallmask);
+  }
   DeleteObject(smallbitmap);
-     
-   
+
   return mysprite;
 }
 
@@ -448,11 +463,11 @@ void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y)
 /**************************************************************************
 
 **************************************************************************/
-void  draw_sprite_part_with_mask(struct Sprite *sprite,
-				 struct Sprite *sprite_mask,
-				 HDC hdc,
-				 int x, int y,int w, int h,
-				 int xsrc, int ysrc)
+static void draw_sprite_part_with_mask(struct Sprite *sprite,
+				       struct Sprite *sprite_mask,
+				       HDC hdc,
+				       int x, int y,int w, int h,
+				       int xsrc, int ysrc)
 {
   HDC hdccomp;
   HDC hdcmask;

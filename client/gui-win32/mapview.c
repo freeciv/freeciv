@@ -713,72 +713,6 @@ static void pixmap_put_black_tile_iso(HDC hdc,
 }
 
 /**************************************************************************
-
-**************************************************************************/
-static void dither_tile(HDC hdc, struct Sprite **dither,
-                        int canvas_x, int canvas_y,
-                        int offset_x, int offset_y,
-                        int width, int height, bool fog)
-{
-  if (!width || !height)
-    return;
-  
-  assert(offset_x == 0 || offset_x == NORMAL_TILE_WIDTH/2);
-  assert(offset_y == 0 || offset_y == NORMAL_TILE_HEIGHT/2);
-  assert(width == NORMAL_TILE_WIDTH || width == NORMAL_TILE_WIDTH/2);
-  assert(height == NORMAL_TILE_HEIGHT || height == NORMAL_TILE_HEIGHT/2);
-  
-  /* north */
-  if (dither[0]
-      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
-      && (offset_y == 0)) {
-    draw_sprite_part_with_mask(dither[0],sprites.dither_tile,hdc,
-			       canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
-			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-			       NORMAL_TILE_WIDTH/2, 0);
-  }
-
-  /* south */
-  if (dither[1] && offset_x == 0
-      && (offset_y == NORMAL_TILE_HEIGHT/2 || height == NORMAL_TILE_HEIGHT)) {
-    draw_sprite_part_with_mask(dither[1],sprites.dither_tile,hdc,
-			       canvas_x,
-			       canvas_y + NORMAL_TILE_HEIGHT/2,
-			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-			       0, NORMAL_TILE_HEIGHT/2);
-  }
-
-  /* east */
-  if (dither[2]
-      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
-      && (offset_y != 0 || height == NORMAL_TILE_HEIGHT)) {
-    draw_sprite_part_with_mask(dither[2],sprites.dither_tile,hdc,
-			       canvas_x + NORMAL_TILE_WIDTH/2,
-			       canvas_y + NORMAL_TILE_HEIGHT/2,
-			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
-  }
-
-  /* west */
-  if (dither[3] && offset_x == 0 && offset_y == 0) {
-    draw_sprite_part_with_mask(dither[3],sprites.dither_tile,hdc,
-			       canvas_x,
-			       canvas_y,
-			       NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-			       0,0);
-  }
-
-
-  if (fog) {
-    draw_fog_part(hdc,canvas_x+offset_x, canvas_y+offset_y,
-		  MIN(width, MAX(0, NORMAL_TILE_WIDTH-offset_x)),
-		  MIN(height, MAX(0, NORMAL_TILE_HEIGHT-offset_y)),
-		  offset_x,offset_y);
-  }
-
-}
-
-/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 static void pixmap_put_overlay_tile_draw(HDC hdc,
@@ -1014,19 +948,17 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 enum draw_type draw)
 {
   struct drawn_sprite tile_sprs[80];
-  struct Sprite *dither[4];
   struct city *pcity;
   struct unit *punit, *pfocus;
   struct canvas canvas_store={hdc,NULL};
   enum tile_special_type special;
-  int count, i = 0, dither_count;
+  int count, i;
   bool fog, solid_bg, is_real;
 
   if (!width || !(height || height_unit))
     return;
 
-  count = fill_tile_sprite_array_iso(tile_sprs, dither, &dither_count,
-                                     x, y, citymode, &solid_bg);
+  count = fill_tile_sprite_array_iso(tile_sprs, x, y, citymode, &solid_bg);
 
   if (count == -1) { /* tile is unknown */
     pixmap_put_black_tile_iso(hdc, canvas_x, canvas_y,
@@ -1060,19 +992,8 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
     SelectObject(hdc,oldbrush);
   }
 
-  /*** Draw and dither base terrain ***/
-  if (dither_count > 0) {
-    for (i = 0; i < dither_count; i++) {
-      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
-			      offset_x, offset_y, width, height, fog);
-    }
-
-    dither_tile(hdc, dither, canvas_x, canvas_y,
-                  offset_x, offset_y, width, height, fog);
-  }
-  
-  /*** Rest of terrain and specials ***/
-  for (; i<count; i++) {
+  /*** Draw terrain and specials ***/
+  for (i = 0; i < count; i++) {
     if (tile_sprs[i].sprite)
       pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
                                    offset_x, offset_y, width, height, fog);

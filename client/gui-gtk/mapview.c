@@ -993,81 +993,6 @@ static void pixmap_put_black_tile_iso(GdkDrawable *pm,
 }
 
 /**************************************************************************
-Blend the tile with neighboring tiles.
-Only used for isometric view.
-**************************************************************************/
-static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
-			int canvas_x, int canvas_y,
-			int offset_x, int offset_y,
-			int width, int height, bool fog)
-{
-  if (!width || !height)
-    return;
-
-  gdk_gc_set_clip_mask(civ_gc, sprites.dither_tile->mask);
-  gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
-  assert(offset_x == 0 || offset_x == NORMAL_TILE_WIDTH/2);
-  assert(offset_y == 0 || offset_y == NORMAL_TILE_HEIGHT/2);
-  assert(width == NORMAL_TILE_WIDTH || width == NORMAL_TILE_WIDTH/2);
-  assert(height == NORMAL_TILE_HEIGHT || height == NORMAL_TILE_HEIGHT/2);
-
-  /* north */
-  if (dither[0]
-      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
-      && (offset_y == 0)) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[0]->pixmap,
-		    NORMAL_TILE_WIDTH/2, 0,
-		    canvas_x + NORMAL_TILE_WIDTH/2, canvas_y,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
-  }
-
-  /* south */
-  if (dither[1] && offset_x == 0
-      && (offset_y == NORMAL_TILE_HEIGHT/2 || height == NORMAL_TILE_HEIGHT)) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[1]->pixmap,
-		    0, NORMAL_TILE_HEIGHT/2,
-		    canvas_x,
-		    canvas_y + NORMAL_TILE_HEIGHT/2,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
-  }
-
-  /* east */
-  if (dither[2]
-      && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
-      && (offset_y != 0 || height == NORMAL_TILE_HEIGHT)) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[2]->pixmap,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2,
-		    canvas_x + NORMAL_TILE_WIDTH/2,
-		    canvas_y + NORMAL_TILE_HEIGHT/2,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
-  }
-
-  /* west */
-  if (dither[3] && offset_x == 0 && offset_y == 0) {
-    gdk_draw_pixmap(pixmap, civ_gc, dither[3]->pixmap,
-		    0, 0,
-		    canvas_x,
-		    canvas_y,
-		    NORMAL_TILE_WIDTH/2, NORMAL_TILE_HEIGHT/2);
-  }
-
-  gdk_gc_set_clip_mask(civ_gc, NULL);
-
-  if (fog) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, sprites.dither_tile->mask);
-    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
-    gdk_gc_set_stipple(fill_tile_gc, black50);
-
-    gdk_draw_rectangle(pixmap, fill_tile_gc, TRUE,
-		       canvas_x+offset_x, canvas_y+offset_y,
-		       MIN(width, MAX(0, NORMAL_TILE_WIDTH-offset_x)),
-		       MIN(height, MAX(0, NORMAL_TILE_HEIGHT-offset_y)));
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
-  }
-}
-
-/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
@@ -1078,18 +1003,17 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				enum draw_type draw)
 {
   struct drawn_sprite tile_sprs[80];
-  struct Sprite *dither[4];
   struct city *pcity;
   struct unit *punit, *pfocus;
   enum tile_special_type special;
-  int count, i = 0, dither_count;
+  int count, i;
   bool solid_bg, fog, tile_hilited;
   struct canvas canvas_store = {pm};
 
   if (!width || !(height || height_unit))
     return;
 
-  count = fill_tile_sprite_array_iso(tile_sprs, dither, &dither_count,
+  count = fill_tile_sprite_array_iso(tile_sprs,
 				     x, y, citymode, &solid_bg);
 
   if (count == -1) { /* tile is unknown */
@@ -1133,19 +1057,8 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     }
   }
 
-  /*** Draw and dither base terrain ***/
-  if (dither_count > 0) {
-    for (i = 0; i < dither_count; i++) {
-      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[i],
-			      offset_x, offset_y, width, height, fog);
-    }
-
-    dither_tile(pm, dither, canvas_x, canvas_y,
-		offset_x, offset_y, width, height, fog);
-  }
-
-  /*** Rest of terrain and specials ***/
-  for (; i<count; i++) {
+  /*** Draw terrain and specials ***/
+  for (i = 0; i < count; i++) {
     if (tile_sprs[i].sprite)
       pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[i],
 			      offset_x, offset_y, width, height, fog);

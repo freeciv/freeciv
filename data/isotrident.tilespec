@@ -102,7 +102,7 @@ mine_sprite = "tx.mine"
 
 ; ocean has special handling
 [terrain_ocean]
-is_blended = 0
+is_blended = 1
 is_layered = 0
 match_type = 6
 cell_type = "rect"

@@ -162,14 +162,17 @@ void load_intro_gfx( void )
   return;
 }
 
-/***************************************************************************
-return newly allocated sprite cropped from source
-***************************************************************************/
+/****************************************************************************
+  Create a new sprite by cropping and taking only the given portion of
+  the image.
+****************************************************************************/
 struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y,
-			   int width, int height)
+			   int width, int height,
+			   struct Sprite *mask,
+			   int mask_offset_x, int mask_offset_y)
 {
-  GdkPixmap *mypixmap, *mask = NULL;
+  GdkPixmap *mypixmap, *mymask = NULL;
 
   mypixmap = gdk_pixmap_new(root_window, width, height, -1);
 
@@ -177,14 +180,30 @@ struct Sprite *crop_sprite(struct Sprite *source,
 		  width, height);
 
   if (source->has_mask) {
-    mask = gdk_pixmap_new(mask_bitmap, width, height, 1);
-    gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
+    mymask = gdk_pixmap_new(mask_bitmap, width, height, 1);
+    gdk_draw_rectangle(mymask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
 
-    gdk_draw_pixmap(mask, mask_fg_gc, source->mask,
+    gdk_draw_pixmap(mymask, mask_fg_gc, source->mask,
 		    x, y, 0, 0, width, height);
   }
 
-  return ctor_sprite_mask(mypixmap, mask, width, height);
+  if (mask) {
+    if (mymask) {
+      gdk_gc_set_function(mask_fg_gc, GDK_AND);
+      gdk_draw_pixmap(mymask, mask_fg_gc, mask->mask,
+		      x - mask_offset_x, y - mask_offset_y,
+		      0, 0, width, height);
+      gdk_gc_set_function(mask_fg_gc, GDK_OR);
+    } else {
+      mymask = gdk_pixmap_new(NULL, width, height, 1);
+      gdk_draw_rectangle(mymask, mask_bg_gc, TRUE, 0, 0, -1, -1);
+
+      gdk_draw_pixmap(mymask, mask_fg_gc, source->mask,
+                       x, y, 0, 0, width, height);
+    }
+  }
+
+  return ctor_sprite_mask(mypixmap, mymask, width, height);
 }
 
 /****************************************************************************
@@ -629,5 +648,5 @@ SPRITE *crop_blankspace(SPRITE *s)
 
   sprite_get_bounding_box(s, &x1, &y1, &x2, &y2);
 
-  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1);
+  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1, NULL, -1, -1);
 }

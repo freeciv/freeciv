@@ -53,7 +53,6 @@ void tilespec_free_city_tiles(int count);
 /* Gfx support */
 
 int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
-			       struct Sprite **dither, int *dither_count,
 			       int x, int y, bool citymode, bool *solid_bg);
 int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 			   bool citymode, bool *solid_bg,
@@ -111,6 +110,7 @@ struct terrain_drawing_data {
   struct Sprite *base;
   struct Sprite *match[NUM_DIRECTION_NSEW];
   struct Sprite *cells[8][4]; /* 4 = up down left right */
+  struct Sprite *blend[4]; /* indexed by a direction4 */
   struct Sprite *special[2];
   struct Sprite *mine;
 };
@@ -124,8 +124,7 @@ struct named_sprites {
     *right_arrow,
 
     *black_tile,      /* only used for isometric view */
-    *dither_tile,     /* only used for isometric view */
-    *coast_color;     /* only used for isometric view */
+    *dither_tile;     /* only used for isometric view */
 
   struct {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different

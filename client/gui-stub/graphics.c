@@ -111,7 +111,9 @@ struct Sprite *load_gfxfile(const char *filename)
   the image.
 ****************************************************************************/
 struct Sprite *crop_sprite(struct Sprite *source,
-			   int x, int y, int width, int height)
+			   int x, int y, int width, int height,
+			   struct Sprite *mask,
+			   int mask_offset_x, int mask_offset_y)
 {
   /* PORTME */
   return NULL;

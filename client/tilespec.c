@@ -853,7 +853,6 @@ static void tilespec_lookup_sprite_tags(void)
   if (is_isometric) {
     SET_SPRITE(black_tile, "t.black_tile");
     SET_SPRITE(dither_tile, "t.dither_tile");
-    SET_SPRITE(coast_color, "t.coast_color");
   }
 
   /* Load the citizen sprite graphics. */
@@ -1067,7 +1066,8 @@ static void tilespec_lookup_sprite_tags(void)
 
     for (i = 0; i < 4; i++) {
       sprites.tx.darkness[i] = crop_sprite(darkness, offsets[i][0],
-					   offsets[i][1], W / 2, H / 2);
+					   offsets[i][1], W / 2, H / 2,
+					   NULL, 0, 0);
     }
   }
 
@@ -1232,11 +1232,30 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 						    tt->terrain_name);
 	}
       }
+      my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
+      draw->base = lookup_sprite_tag_alt(buffer1, "", FALSE, "tile_type",
+					 tt->terrain_name);
       break;
     }
 
     if (!draw->base) {
       draw->base = draw->match[0];
+    }
+  }
+
+  if (draw->is_blended && is_isometric) {
+    /* Set up blending sprites. This only works in iso-view! */
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    const int offsets[4][2] = {
+      {W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
+    };
+    enum direction4 dir;
+
+    for (dir = 0; dir < 4; dir++) {
+      draw->blend[dir] = crop_sprite(draw->base,
+				     offsets[dir][0], offsets[dir][1],
+				     W / 2, H / 2,
+				     sprites.dither_tile, 0, 0);
     }
   }
 
@@ -1593,25 +1612,6 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
   return sprs - save_sprs;
 }
 
-/**********************************************************************
-Only used for isometric view.
-***********************************************************************/
-static struct Sprite *get_dither(int ttype, int ttype_other)
-{
-  if (ttype_other == T_UNKNOWN)
-    return NULL;
-
-  if (!sprites.terrain[ttype]->is_blended) {
-    return NULL;
-  }
-
-  if (is_ocean(ttype_other)) {
-    return sprites.coast_color;
-  }
-
-  return sprites.terrain[ttype_other]->base;
-}
-
 /**************************************************************************
   Add any corner road sprites to the sprite array.
 **************************************************************************/
@@ -1900,20 +1900,59 @@ static int fill_irrigation_sprite_array(struct drawn_sprite *sprs,
 }
 
 /****************************************************************************
+  Fill in the sprite array for blended terrain.
+****************************************************************************/
+static int fill_blending_sprite_array(struct drawn_sprite *sprs,
+				      int map_x, int map_y,
+				      enum tile_terrain_type *ttype_near)
+{
+  struct drawn_sprite *saved_sprs = sprs;
+
+  if (is_isometric) {
+    enum tile_terrain_type ttype = map_get_terrain(map_x, map_y);
+    enum direction4 dir;
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    const int offsets[4][2] = {
+      {W/2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}
+    };
+
+    /*
+     * We want to mark unknown tiles so that an unreal tile will be
+     * given the same marking as our current tile - that way we won't
+     * get the "unknown" dither along the edge of the map.
+     */
+    for (dir = 0; dir < 4; dir++) {
+      int x1, y1;
+      enum tile_terrain_type other = ttype_near[DIR4_TO_DIR8[dir]];
+
+      if (!MAPSTEP(x1, y1, map_x, map_y, DIR4_TO_DIR8[dir])
+	  || tile_get_known(x1, y1) == TILE_UNKNOWN
+	  || other == ttype) {
+	continue;
+      }
+
+      ADD_SPRITE(sprites.terrain[other]->blend[dir],
+		 offsets[dir][0], offsets[dir][1]);
+    }
+  }
+
+  return sprs - saved_sprs;
+}
+
+/****************************************************************************
   Add sprites for the base terrain to the sprite list.  This doesn't
   include specials or rivers.
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
-				     struct tile *ptile,
-				     enum tile_terrain_type *ttype_near,
-				     int *dither_count)
+				     int map_x, int map_y,
+				     enum tile_terrain_type *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
   struct Sprite *sprite;
+  struct tile *ptile = map_get_tile(map_x, map_y);
   enum tile_terrain_type ttype = ptile->terrain;
 
   if (!draw_terrain) {
-    *dither_count = 0;
     return 0;
   }
 
@@ -1926,7 +1965,10 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   if (sprites.terrain[ttype]->match_type == 0
       || sprites.terrain[ttype]->is_layered) {
     ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->base);
-    *dither_count = 1;
+  }
+
+  if (sprites.terrain[ttype]->is_layered) {
+    sprs += fill_blending_sprite_array(sprs, map_x, map_y, ttype_near);
   }
 
   if (sprites.terrain[ttype]->match_type != 0) {
@@ -1941,9 +1983,6 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 			  MATCH(DIR8_EAST), MATCH(DIR8_WEST));
 
       ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->match[tileno]);
-      if (!sprites.terrain[ttype]->is_layered) {
-	*dither_count = 1;
-      }
     } else if (sprites.terrain[ttype]->cell_type == CELL_RECT) {
       /* Divide the tile up into four rectangular cells.  Now each of these
        * cells covers one corner, and each is adjacent to 3 different
@@ -1975,18 +2014,6 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 
 	ADD_SPRITE(sprites.terrain[ttype]->cells[array_index][i], x, y);
       }
-
-      /* Short-cut past dithering if all adjacent tiles are the same. */
-      if (!sprites.terrain[ttype]->is_layered) {
-	if (ttype_near[DIR8_NORTH] == ttype
-	    && ttype_near[DIR8_SOUTH] == ttype
-	    && ttype_near[DIR8_EAST] == ttype
-	    && ttype_near[DIR8_WEST] == ttype) {
-	  *dither_count = 0;
-	} else {
-	  *dither_count = 4;
-	}
-      }
     }
 #undef MATCH
   }
@@ -2010,6 +2037,10 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
     }
   }
 
+  if (!sprites.terrain[ttype]->is_layered) {
+    sprs += fill_blending_sprite_array(sprs, map_x, map_y, ttype_near);
+  }
+
   return sprs - saved_sprs;
 }
 
@@ -2029,7 +2060,6 @@ The sprites are drawn in the following order:
  5) huts
 ***********************************************************************/
 int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
-			       struct Sprite **dither, int *dither_count,
 			       int x, int y, bool citymode, bool *solid_bg)
 {
   enum tile_terrain_type ttype, ttype_near[8];
@@ -2040,14 +2070,13 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
   struct drawn_sprite *save_sprs = sprs;
 
   *solid_bg = FALSE;
-  *dither_count = 0;
 
   if (tile_get_known(x, y) == TILE_UNKNOWN)
     return -1;
 
   build_tile_data(x, y, &ttype, &tspecial, ttype_near, tspecial_near);
 
-  sprs += fill_terrain_sprite_array(sprs, ptile, ttype_near, dither_count);
+  sprs += fill_terrain_sprite_array(sprs, x, y, ttype_near);
 
   if (is_ocean(ttype) && draw_terrain) {
     for (dir = 0; dir < 4; dir++) {
@@ -2125,23 +2154,6 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
     }
 #endif
   }
-  
-  if (dither) {
-    /*
-     * We want to mark unknown tiles so that an unreal tile will be
-     * given the same marking as our current tile - that way we won't
-     * get the "unknown" dither along the edge of the map.
-     */
-    for (dir = 0; dir < 4; dir++) {
-      int x1, y1, other;
-
-      if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir]))
-        other = (tile_get_known(x1, y1) != TILE_UNKNOWN) ? ttype_near[DIR4_TO_DIR8[dir]]:T_UNKNOWN;
-      else
-        other = ttype_near[dir];
-      dither[dir] = get_dither(ttype, other);
-    }
-  }
 
   return sprs - save_sprs;
 }
@@ -2169,7 +2181,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
-  int dir, tileno, dither_count;
+  int dir, tileno;
   struct tile *ptile;
   struct city *pcity;
   struct unit *pfocus;
@@ -2210,7 +2222,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
   build_tile_data(abs_x0, abs_y0, 
 		  &ttype, &tspecial, ttype_near, tspecial_near);
 
-  sprs += fill_terrain_sprite_array(sprs, ptile, ttype_near, &dither_count);
+  sprs += fill_terrain_sprite_array(sprs, abs_x0, abs_y0, ttype_near);
 
   if (!draw_terrain) {
     *solid_bg = TRUE;
@@ -2634,7 +2646,8 @@ struct Sprite *load_sprite(const char *tag_name)
     assert(ss->ref_count == 0);
     ensure_big_sprite(ss->sf);
     ss->sprite =
-	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height);
+      crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
+		  NULL, -1, -1);
   }
 
   /* Track the reference count so we know when to free the sprite. */

@@ -161,13 +161,17 @@ void load_intro_gfx(void)
   return;
 }
 
-/***************************************************************************
-return newly allocated sprite cropped from source
-***************************************************************************/
+/****************************************************************************
+  Create a new sprite by cropping and taking only the given portion of
+  the image.
+****************************************************************************/
 struct Sprite *crop_sprite(struct Sprite *source,
-			   int x, int y, int width, int height)
+			   int x, int y, int width, int height,
+			   struct Sprite *mask,
+			   int mask_offset_x, int mask_offset_y)
 {
-  Pixmap mypixmap;
+  Pixmap mypixmap, mymask;
+  GC plane_gc;
 
   mypixmap = XCreatePixmap(display, root_window,
 			   width, height, display_depth);
@@ -175,16 +179,33 @@ struct Sprite *crop_sprite(struct Sprite *source,
 	    x, y, width, height, 0, 0);
 
   if (source->has_mask) {
-    GC plane_gc;
-    Pixmap mask;
+    mymask = XCreatePixmap(display, root_window, width, height, 1);
 
-    mask = XCreatePixmap(display, root_window, width, height, 1);
-
-    plane_gc = XCreateGC(display, mask, 0, NULL);
-    XCopyArea(display, source->mask, mask, plane_gc, 
+    plane_gc = XCreateGC(display, mymask, 0, NULL);
+    XCopyArea(display, source->mask, mymask, plane_gc, 
 	      x, y, width, height, 0, 0);
     XFreeGC(display, plane_gc);
-    return ctor_sprite_mask(mypixmap, mask, width, height);
+
+    if (mask) {
+      XGCValues values;
+
+      values.function = GXand;
+
+      plane_gc = XCreateGC(display, mymask, GCFunction, &values);
+      XCopyArea(display, mask->mask, mymask, plane_gc,
+		x - mask_offset_x, y - mask_offset_y, width, height, 0, 0);
+      XFreeGC(display, plane_gc);
+    }
+
+    return ctor_sprite_mask(mypixmap, mymask, width, height);
+  } else if (mask) {
+    mymask = XCreatePixmap(display, root_window, width, height, 1);
+
+    plane_gc = XCreateGC(display, mymask, 0, NULL);
+    XCopyArea(display, source->mask, mymask, plane_gc, 
+	      x, y, width, height, 0, 0);
+    XFreeGC(display, plane_gc);
+    return ctor_sprite_mask(mypixmap, mymask, width, height);
   } else {
     return ctor_sprite(mypixmap, width, height);
   }
