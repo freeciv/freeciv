@@ -80,6 +80,10 @@ struct ai_data {
   int angry_priority;
   int pollution_priority;
 
+  /* Government data */
+  int *government_want;
+  short govt_reeval;
+
   /* Goals */
   struct {
     struct {
@@ -93,6 +97,9 @@ struct ai_data {
 
 void ai_data_turn_init(struct player *pplayer);
 void ai_data_turn_done(struct player *pplayer);
+
+void ai_data_init(struct player *pplayer);
+void ai_data_done(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
 

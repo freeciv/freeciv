@@ -293,3 +293,24 @@ struct ai_data *ai_data_get(struct player *pplayer)
   }
   return ai;
 }
+
+/**************************************************************************
+  Initialize with sane values.
+**************************************************************************/
+void ai_data_init(struct player *pplayer)
+{
+  struct ai_data *ai = &aidata[pplayer->player_no];
+
+  ai->govt_reeval = 0;
+  ai->government_want = fc_calloc(game.government_count + 1, sizeof(int));
+}
+
+/**************************************************************************
+  Deinitialize data
+**************************************************************************/
+void ai_data_done(struct player *pplayer)
+{
+  struct ai_data *ai = &aidata[pplayer->player_no];
+
+  free(ai->government_want);
+}

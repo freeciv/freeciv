@@ -1763,6 +1763,10 @@ main_start_players:
       }
     } players_iterate_end;
   }
+
+  players_iterate(pplayer) {
+    ai_data_init(pplayer); /* Initialize this at last moment */
+  } players_iterate_end;
   
   /* We want to reset the timer as late as possible but before the info is
    * sent to the clients */

@@ -312,11 +312,11 @@ static void ai_manage_taxes(struct player *pplayer)
   best of the governments is not available to us (it is not yet discovered),
   we record it in the goal.gov structure with the aim of wanting the
   necessary tech more.  The best of the available governments is recorded 
-  in goal.revolution.
+  in goal.revolution.  We record the want of each government, and only
+  recalculate this data every ai->govt_reeval_turns turns.
 **************************************************************************/
 void ai_best_government(struct player *pplayer)
 {
-#undef ANALYSE
   struct ai_data *ai = ai_data_get(pplayer);
   int best_val = 0;
   int i;
@@ -328,106 +328,95 @@ void ai_best_government(struct player *pplayer)
   ai->goal.govt.req = A_UNSET;
   ai->goal.revolution = pplayer->government;
 
-  if (ai_handicap(pplayer, H_AWAY)) {
+  if (ai_handicap(pplayer, H_AWAY) || !pplayer->is_alive) {
     return;
   }
 
-  for (i = 0; i < game.government_count; i++) {
-    struct government *gov = &governments[i];
-    int val = 0;
-    int dist;
+  if (ai->govt_reeval == 0) {
+    for (i = 0; i < game.government_count; i++) {
+      struct government *gov = &governments[i];
+      int val = 0;
+      int dist;
 
-#ifdef ANALYSE
-    int food_surplus = 0;
-    int shield_surplus = 0;
-    int luxury_total = 0;
-    int tax_total = 0;
-    int science_total = 0;
-    int ppl_happy = 0;
-    int ppl_unhappy = 0;
-    int ppl_angry = 0;
-    int pollution = 0;
-#endif
+      if (i == game.government_when_anarchy) {
+        continue; /* pointless */
+      }
+      pplayer->government = gov->index;
+      /* Ideally we should change tax rates here, but since
+       * this is a rather big CPU operation, we'd rather not. */
+      check_player_government_rates(pplayer);
+      city_list_iterate(pplayer->cities, acity) {
+        generic_city_refresh(acity, TRUE, NULL);
+        auto_arrange_workers(acity);
+        if (ai_fix_unhappy(acity)) {
+          ai_scientists_taxmen(acity);
+        }
+      } city_list_iterate_end;
+      city_list_iterate(pplayer->cities, pcity) {
+        val += ai_eval_calc_city(pcity, ai);
+      } city_list_iterate_end;
 
-    if (i == game.government_when_anarchy) {
-      continue; /* pointless */
+      /* Bonuses for non-economic abilities. We increase val by
+       * a very small amount here to choose govt in cases where
+       * we have no cities yet. */
+      if (government_has_flag(gov, G_BUILD_VETERAN_DIPLOMAT)) {
+        bonus += 3; /* WAG */
+      }
+      if (government_has_flag(gov, G_REVOLUTION_WHEN_UNHAPPY)) {
+        bonus -= 3; /* Not really a problem for us */ /* WAG */
+      }
+      if (government_has_flag(gov, G_UNBRIBABLE)) {
+        bonus += 5; /* WAG */
+      }
+      if (government_has_flag(gov, G_INSPIRES_PARTISANS)) {
+        bonus += 3; /* WAG */
+      }
+      if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
+        bonus += 5; /* WAG */
+        val += 1;
+      }
+      if (government_has_flag(gov, G_FANATIC_TROOPS)) {
+        bonus += 3; /* WAG */
+      }
+      val += gov->trade_bonus + gov->shield_bonus + gov->food_bonus;
+
+      val += (val * bonus) / 100;
+
+      dist = MAX(1, num_unknown_techs_for_goal(pplayer, gov->required_tech));
+      val = amortize(val, dist);
+      ai->government_want[i] = val; /* Save want */
     }
-    pplayer->government = gov->index;
-    /* Ideally we should change tax rates here, but since
-     * this is a rather big CPU operation, we'd rather not. */
-    check_player_government_rates(pplayer);
+    /* Now reset our gov to it's real state. */
+    pplayer->government = current_gov;
     city_list_iterate(pplayer->cities, acity) {
-      generic_city_refresh(acity, TRUE, NULL);
+      generic_city_refresh(acity, FALSE, NULL);
       auto_arrange_workers(acity);
       if (ai_fix_unhappy(acity)) {
         ai_scientists_taxmen(acity);
       }
     } city_list_iterate_end;
-    city_list_iterate(pplayer->cities, pcity) {
-      val += ai_eval_calc_city(pcity, ai);
-#ifdef ANALYSE
-      food_surplus += pcity->food_surplus;
-      shield_surplus += pcity->shield_surplus;
-      luxury_total += pcity->luxury_total;
-      tax_total += pcity->tax_total;
-      science_total += pcity->science_total;
-      ppl_happy += pcity->ppl_happy[4];
-      ppl_unhappy += pcity->ppl_unhappy[4];
-      ppl_angry += pcity->ppl_angry[4];
-      pollution += pcity->pollution;
-#endif
-    } city_list_iterate_end;
+    ai->govt_reeval = CLIP(5, city_list_size(&pplayer->cities), 20);
+  }
+  ai->govt_reeval--;
 
-    /* Bonuses for non-economic abilities. We increase val by
-     * a very small amount here to choose govt in cases where
-     * we have no cities yet. */
-    if (government_has_flag(gov, G_BUILD_VETERAN_DIPLOMAT)) {
-      bonus += 3; /* WAG */
-    }
-    if (government_has_flag(gov, G_REVOLUTION_WHEN_UNHAPPY)) {
-      bonus -= 3; /* Not really a problem for us */ /* WAG */
-    }
-    if (government_has_flag(gov, G_UNBRIBABLE)) {
-      bonus += 5; /* WAG */
-    }
-    if (government_has_flag(gov, G_INSPIRES_PARTISANS)) {
-      bonus += 3; /* WAG */
-    }
-    if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
-      bonus += 5; /* WAG */
-      val += 1;
-    }
-    if (government_has_flag(gov, G_FANATIC_TROOPS)) {
-      bonus += 3; /* WAG */
-    }
-    val += gov->trade_bonus + gov->shield_bonus + gov->food_bonus;
+  /* Figure out which government is the best for us this turn. */
+  for (i = 0; i < game.government_count; i++) {
+    struct government *gov = &governments[i];
 
-    val += (val * bonus) / 100;
-
-    dist = MAX(1, num_unknown_techs_for_goal(pplayer, gov->required_tech));
-    val = amortize(val, dist);
-    if (val > best_val && can_change_to_government(pplayer, i)) {
-      best_val = val;
+    if (ai->government_want[i] > best_val 
+        && can_change_to_government(pplayer, i)) {
+      best_val = ai->government_want[i];
       ai->goal.revolution = i;
     }
-    if (val > ai->goal.govt.val) {
+    if (ai->government_want[i] > ai->goal.govt.val) {
       ai->goal.govt.idx = i;
-      ai->goal.govt.val = val;
+      ai->goal.govt.val = ai->government_want[i];
       ai->goal.govt.req = gov->required_tech;
     }
-#ifdef ANALYSE
-    freelog(LOG_NORMAL, "%s govt eval %s (dist %d): "
-            "%d [f%d|sh%d|l%d|g%d|sc%d|h%d|u%d|a%d|p%d]",
-            pplayer->name, gov->name, dist, val, food_surplus,
-            shield_surplus, luxury_total, tax_total, science_total,
-            ppl_happy, ppl_unhappy, ppl_angry, pollution);
-#endif
   }
   /* Goodness of the ideal gov is calculated relative to the goodness of the
    * best of the available ones. */
   ai->goal.govt.val -= best_val;
-  /* Now reset our gov to it's real state. */
-  pplayer->government = current_gov;
 }
 
 /**************************************************************************
@@ -436,6 +425,10 @@ void ai_best_government(struct player *pplayer)
 static void ai_manage_government(struct player *pplayer)
 {
   struct ai_data *ai = ai_data_get(pplayer);
+
+  if (!pplayer->is_alive || ai_handicap(pplayer, H_AWAY)) {
+    return;
+  }
 
   if (ai->goal.revolution != pplayer->government) {
     ai_government_change(pplayer, ai->goal.revolution); /* change */

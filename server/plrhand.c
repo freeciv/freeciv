@@ -1316,6 +1316,7 @@ void server_remove_player(struct player *pplayer)
     }
   } conn_list_iterate_end;
 
+  ai_data_done(pplayer);
   game_remove_player(pplayer);
   game_renumber_players(pplayer->player_no);
 }
@@ -1457,7 +1458,8 @@ static struct player *split_player(struct player *pplayer)
   /* make a new player */
 
   server_player_init(cplayer, TRUE);
-  
+  ai_data_init(cplayer);
+
   /* select a new name and nation for the copied player. */
 
   for(i=0; i<game.playable_nation_count;i++){
