@@ -200,6 +200,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   int v = 0;
   int cities[EFR_LAST];
   int nplayers = game.nplayers
+                 - game.nbarbarians
                  - team_count_members_alive(pplayer->team);
   struct ai_data *ai = ai_data_get(pplayer);
   struct tile *ptile = pcity->tile;
