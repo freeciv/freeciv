@@ -235,9 +235,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   }
   gtk_widget_show_all(menu);
 
-  if (cids_used == 0) {
-    gtk_widget_set_sensitive(GTK_WIDGET(parent_item), FALSE);
-  }
+  gtk_widget_set_sensitive(GTK_WIDGET(parent_item), (cids_used > 0));
 }
 
 /****************************************************************
