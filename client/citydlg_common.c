@@ -341,7 +341,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
       my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
 
       /* from city.c get_impr_name_ex() */
-      if (pcity && wonder_replacement(pcity, id)) {
+      if (pcity && building_replaced(pcity, id)) {
 	my_snprintf(buf[1], column_size, "*");
       } else {
 	const char *state = "";

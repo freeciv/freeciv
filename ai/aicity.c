@@ -620,7 +620,8 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
   built_impr_iterate(pcity, i) {
     if(!is_wonder(i) 
        && i != B_CITY /* selling city walls is really, really dumb -- Syela */
-       && (wonder_replacement(pcity, i) || building_unwanted(city_owner(pcity), i))) {
+       && (building_replaced(pcity, i)
+	   || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
 		       _("Game: %s is selling %s (not needed) for %d."), 

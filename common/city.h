@@ -369,7 +369,7 @@ bool city_affected_by_wonder(const struct city *pcity, Impr_Type_id id);
 bool city_got_effect(const struct city *pcity, Impr_Type_id id);
 bool is_capital(const struct city *pcity);
 bool city_got_citywalls(const struct city *pcity);
-bool wonder_replacement(const struct city *pcity, Impr_Type_id id);
+bool building_replaced(const struct city *pcity, Impr_Type_id id);
 int city_change_production_penalty(const struct city *pcity,
 				   int target, bool is_unit);
 int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,

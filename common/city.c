@@ -263,10 +263,10 @@ bool is_worker_here(const struct city *pcity, int city_x, int city_y)
 }
 
 /**************************************************************************
- FIXME: This should be replaced in the near future with
- improvment_redundant()
+  Returns TRUE if a building is replaced.  To be replaced, all its effects
+  must be redundant.
 **************************************************************************/
-bool wonder_replacement(const struct city *pcity, Impr_Type_id id)
+bool building_replaced(const struct city *pcity, Impr_Type_id id)
 {
   if(is_wonder(id)) return FALSE;
   switch (id) {
@@ -1116,7 +1116,7 @@ int city_gold_surplus(const struct city *pcity)
 **************************************************************************/
 bool city_got_effect(const struct city *pcity, Impr_Type_id id)
 {
-  return city_got_building(pcity, id) || wonder_replacement(pcity, id);
+  return city_got_building(pcity, id) || building_replaced(pcity, id);
 }
 
 /**************************************************************************
