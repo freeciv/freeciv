@@ -1555,11 +1555,13 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
        level could have been set as AI, then toggled, then saved,
        then reloaded. */ 
     set_ai_level(caller, pplayer->name, pplayer->ai.skill_level);
+    /* The ai can't handle pacts and stacked enemy units,
+       so do this *before* access_danger. */
+    neutralize_ai_player(pplayer);
     /* The following is sometimes necessary to avoid using
        uninitialized data... */
     if (server_state == RUN_GAME_STATE)
       assess_danger_player(pplayer);
-    neutralize_ai_player(pplayer);
   } else {
     notify_player(0, _("Game: %s is now human."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
