@@ -330,7 +330,6 @@ void science_close_callback(GtkWidget *widget, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-
 void science_help_callback(GtkWidget *w, gint row, gint column)
 {
   gtk_clist_unselect_row(GTK_CLIST(w), row, column);
@@ -350,6 +349,32 @@ void science_help_callback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
+static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
+{
+  gchar *a_str, *b_str;
+  gchar text_a[512], text_b[512];
+  gint a=(gint)a_p, b=(gint)b_p;
+
+  if(a < game.num_tech_types) {
+    a_str=advances[a].name;
+  } else {
+    my_snprintf(text_a,sizeof(text_a), _("Researching Future Tech. %d"),a);
+    a_str=text_a;
+  }
+
+  if(b < game.num_tech_types) {
+    b_str=advances[b].name;
+  } else {
+    my_snprintf(text_b,sizeof(text_b), _("Researching Future Tech. %d"),b);
+    b_str=text_b;
+  }
+
+  return strcmp(a_str,b_str);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void science_dialog_update(void)
 {
   if(science_dialog_shell) {
@@ -358,7 +383,8 @@ void science_dialog_update(void)
   char *report_title;
   static char *row	[1];
   GtkWidget *item;
-    
+  GList *sorting_list = NULL;
+
   if(delay_report_update) return;
   report_title=get_report_title(_("Science Advisor"));
   gtk_set_label(science_label, report_title);
@@ -369,14 +395,22 @@ void science_dialog_update(void)
     gtk_clist_clear(GTK_CLIST(science_list[i]));
   }
 
-  for(j=0, i=A_FIRST; i<game.num_tech_types; i++)
-  {
-    if ((get_invention(game.player_ptr, i)==TECH_KNOWN)){
-      row[0] = advances[i].name;
-      gtk_clist_append(GTK_CLIST(science_list[j%4]), row);
-      j++;
+  /* collect all researched techs in sorting_list */
+  for(i=A_FIRST; i<game.num_tech_types; i++) {
+    if ((get_invention(game.player_ptr, i)==TECH_KNOWN)) {
+      sorting_list = g_list_append(sorting_list,(gpointer)i);
     }
   }
+
+  /* sort them, and install them in the list */
+  sorting_list = g_list_sort(sorting_list, cmp_func);
+  for(i=0; i<g_list_length(sorting_list); i++) {
+    j = (gint)g_list_nth_data(sorting_list, i);
+    row[0] = advances[j].name;
+    gtk_clist_append(GTK_CLIST(science_list[i%4]), row);
+  }
+  g_list_free(sorting_list);
+  sorting_list = NULL;
 
   for (i=0; i<4; i++) {
     gtk_clist_thaw(GTK_CLIST(science_list[i]));
@@ -390,37 +424,55 @@ void science_dialog_update(void)
 	      research_time(game.player_ptr));
   gtk_set_label(science_current_label,text);
 
+  /* collect all techs which are reachable in the next step
+   * hist will hold afterwards the techid of the current choice
+   */
   hist=0;
-  if (game.player_ptr->research.researching!=A_NONE)
-  {
-    for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
-    {
+  if (game.player_ptr->research.researching!=A_NONE) {
+    for(i=A_FIRST; i<game.num_tech_types; i++) {
       if(get_invention(game.player_ptr, i)!=TECH_REACHABLE)
 	continue;
 
       if (i==game.player_ptr->research.researching)
-	hist=j;
-
-      item = gtk_menu_item_new_with_label(advances[i].name);
-      gtk_menu_append(GTK_MENU(popupmenu), item);
-
-      gtk_signal_connect(GTK_OBJECT(item), "activate",
-	GTK_SIGNAL_FUNC(science_change_callback ), (gpointer)i);
-      j++;
+	hist=i;
+      sorting_list = g_list_append(sorting_list,(gpointer)i);
     }
+  } else {
+    sorting_list = g_list_append(sorting_list, 
+				 (gpointer)(game.num_tech_types+
+					    (game.player_ptr->future_tech)
+					    +1));
   }
-  else
-  {
-    my_snprintf(text, sizeof(text), _("Researching Future Tech. %d"),
-		((game.player_ptr->future_tech)+1));
 
-    item = gtk_menu_item_new_with_label(text);
+  /* sort the list and build from it the menu */
+  sorting_list = g_list_sort(sorting_list, cmp_func);
+  for (i = 0; i < g_list_length(sorting_list); i++) {
+    gchar *data;
+
+    if((gint)g_list_nth_data(sorting_list, i) < game.num_tech_types) {
+      data=advances[(gint)g_list_nth_data(sorting_list, i)].name;
+    } else {
+      my_snprintf(text, sizeof(text), _("Researching Future Tech. %d"),
+		  (gint)g_list_nth_data(sorting_list, i));
+      data=text;
+    }
+
+    item = gtk_menu_item_new_with_label(data);
     gtk_menu_append(GTK_MENU(popupmenu), item);
+    if (strlen(data) > 0)
+      gtk_signal_connect(GTK_OBJECT(item), "activate",
+			 GTK_SIGNAL_FUNC(science_change_callback),
+			 (gpointer) g_list_nth_data(sorting_list, i));
   }
-  gtk_widget_show_all(popupmenu);
-  gtk_menu_set_active(GTK_MENU(popupmenu), hist);
-  gtk_option_menu_set_menu(GTK_OPTION_MENU(science_change_menu_button), popupmenu);
 
+  gtk_widget_show_all(popupmenu);
+  gtk_menu_set_active(GTK_MENU(popupmenu),
+		      g_list_index(sorting_list,(gpointer)hist));
+  g_list_free(sorting_list);
+  sorting_list = NULL;
+
+  gtk_option_menu_set_menu(GTK_OPTION_MENU(science_change_menu_button), 
+			   popupmenu);
 
   gtk_widget_destroy(goalmenu);
   goalmenu = gtk_menu_new();
@@ -429,35 +481,46 @@ void science_dialog_update(void)
 	      tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
   gtk_set_label(science_goal_label,text);
 
-  if (game.player_ptr->ai.tech_goal==A_NONE)
-  {
+  if (game.player_ptr->ai.tech_goal==A_NONE) {
     item = gtk_menu_item_new_with_label(advances[A_NONE].name);
     gtk_menu_append(GTK_MENU(goalmenu), item);
   }
 
+  /* collect all techs which are reachable in under 11 steps
+   * hist will hold afterwards the techid of the current choice
+   */
   hist=0;
-  for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
-  {
+  for(i=A_FIRST; i<game.num_tech_types; i++) {
     if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
        advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-       tech_goal_turns(game.player_ptr, i) < 11)
-    {
+       tech_goal_turns(game.player_ptr, i) < 11) {
       if (i==game.player_ptr->ai.tech_goal)
-        hist=j;
-
-      item = gtk_menu_item_new_with_label(advances[i].name);
-      gtk_menu_append(GTK_MENU(goalmenu), item);
-
-      gtk_signal_connect(GTK_OBJECT(item), "activate",
-        GTK_SIGNAL_FUNC(science_goal_callback), (gpointer)i);
-      j++;
+	hist=i;
+      sorting_list = g_list_append(sorting_list,(gpointer)i);
     }
   }
-  gtk_widget_show_all(goalmenu);
-  gtk_menu_set_active(GTK_MENU(goalmenu), hist);
-  gtk_option_menu_set_menu(GTK_OPTION_MENU(science_goal_menu_button), goalmenu);
+
+  /* sort the list and build from it the menu */
+  sorting_list = g_list_sort(sorting_list, cmp_func);
+  for (i = 0; i < g_list_length(sorting_list); i++) {
+    gchar *data=advances[(gint)g_list_nth_data(sorting_list, i)].name;
+
+    item = gtk_menu_item_new_with_label(data);
+    gtk_menu_append(GTK_MENU(goalmenu), item);
+    gtk_signal_connect(GTK_OBJECT(item), "activate",
+		       GTK_SIGNAL_FUNC(science_goal_callback),
+		       (gpointer) g_list_nth_data(sorting_list, i));
   }
-  
+
+  gtk_widget_show_all(goalmenu);
+  gtk_menu_set_active(GTK_MENU(goalmenu), 
+		      g_list_index(sorting_list,(gpointer)hist));
+  g_list_free(sorting_list);
+  sorting_list = NULL;
+
+  gtk_option_menu_set_menu(GTK_OPTION_MENU(science_goal_menu_button), 
+			   goalmenu);
+  }
 }
 
 
