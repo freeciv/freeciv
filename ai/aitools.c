@@ -279,7 +279,8 @@ int closestunit;
 
 /* Pick out units that have attack=defense or better */
 agression=10*(get_attack_power(punit)/10+1-get_defense_power(punit)/10);
-if (agression<0) { agression=0; }
+if (agression<=0) { agression=0; }
+/* was <0, thus pikemen became aggressive? -- Syela */
 else { agression+=5; }
 pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y); 
 penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y); 

@@ -39,9 +39,12 @@
 
 void ai_manage_units(struct player *pplayer) 
 {
+/*  printf("Managing units for %s\n", pplayer->name); */
   unit_list_iterate(pplayer->units, punit)
-    ai_manage_unit(pplayer, punit);
+printf("Managing %s's %s\n", pplayer->name,  unit_types[punit->type].name); 
+      ai_manage_unit(pplayer, punit); 
   unit_list_iterate_end;
+/*  printf("Managed units successfully.\n"); */
 }
  
 /**************************************************************************
@@ -235,11 +238,12 @@ int ai_want_settlers(struct player *pplayer, int cont)
 /**************************************************************************
 ...
 **************************************************************************/
-const char *get_a_name(void)
+const char *get_a_name(struct player *pplayer)
 {
   static char buf[80];
   static int x=0;
-  sprintf(buf, "city%d", x++);
+  sprintf(buf, "%s", city_name_suggestion(pplayer)); /* Not a Number -- Syela */
+  if (!buf[0]) sprintf(buf, "city%d", x++);
   return buf;
 }
 
@@ -252,7 +256,7 @@ int ai_do_build_city(struct player *pplayer, struct unit *punit)
   struct packet_unit_request req;
   struct city *pcity;
   req.unit_id=punit->id;
-  strcpy(req.name, get_a_name());
+  strcpy(req.name, get_a_name(pplayer));
   handle_unit_build_city(pplayer, &req);        
   pcity=map_get_city(punit->x, punit->y);
   if (!pcity)
@@ -284,11 +288,20 @@ decides what to do with a military unit.
 
 void ai_manage_military(struct player *pplayer,struct unit *punit)
 {
+  if (punit->activity == ACTIVITY_FORTIFY)
+    handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+
+#ifdef YUCKY
 switch (punit->ai.ai_role)
    {
    case AIUNIT_NONE:
       ai_military_findjob(pplayer, punit);
-      break;
+      break; /* wastes time -- Syela */
+#else
+if (punit->ai.ai_role == AIUNIT_NONE) ai_military_findjob(pplayer, punit);
+switch (punit->ai.ai_role)
+   {
+#endif
    case AIUNIT_AUTO_SETTLER:
       punit->ai.ai_role = AIUNIT_NONE; 
       break;
@@ -314,6 +327,24 @@ switch (punit->ai.ai_role)
 
 void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
+  struct city *pcity;
+  struct unit *pdef;
+  int val;
+/* tired of AI abandoning its cities! -- Syela */
+  if (punit->homecity) {
+    pcity = find_city_by_id(punit->homecity);
+    if (punit->x == pcity->x && punit->y == pcity->y) /* I'm home! */
+      val = get_defense_power(punit) * punit->hp;
+    else val = -1;
+    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef)
+      if (get_defense_power(pdef) * pdef->hp >= val && pdef != punit) val = 0;
+    unit_list_iterate_end;
+    if (val) { /* Guess I better stay / you can live at home now */
+      punit->ai.ai_role=AIUNIT_DEFEND_HOME;
+      return;
+    }
+  }
+/* here follows the old code */
 if (ai_military_findtarget(pplayer,punit))
    {
    punit->ai.ai_role=AIUNIT_ATTACK;
@@ -331,15 +362,16 @@ struct city *pcity;
 if (punit->homecity)
    {
    pcity=find_city_by_id(punit->homecity);
-   printf("GOHOME (%d)(%d,%d)C(%d,%d)\n",punit->id,punit->x,punit->y,pcity->x,pcity->y);
+/*   printf("GOHOME
+(%d)(%d,%d)C(%d,%d)\n",punit->id,punit->x,punit->y,pcity->x,pcity->y); */
    if ((punit->x == pcity->x)&&(punit->y == pcity->y))
       {
-      printf("INHOUSE. GOTO AI_NONE(%d)\n", punit->id);
+/*      printf("INHOUSE. GOTO AI_NONE(%d)\n", punit->id); */
       punit->ai.ai_role=AIUNIT_NONE;
       }
    else
       {
-      printf("GOHOME(%d,%d)\n",punit->goto_dest_x,punit->goto_dest_y);
+ /*     printf("GOHOME(%d,%d)\n",punit->goto_dest_x,punit->goto_dest_y); */
       punit->goto_dest_x=pcity->x;
       punit->goto_dest_y=pcity->y;
       punit->activity=ACTIVITY_GOTO;
@@ -348,49 +380,102 @@ if (punit->homecity)
    }
 else
    {
-   punit->ai.ai_role=ACTIVITY_FORTIFY;
+     handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFY);
    }
 }
 
+int ai_military_findvictim(struct player *pplayer,struct unit *punit)
+{ /* work of Syela - mostly to fix the ZOC/goto strangeness */
+  int xx[3], yy[3], x, y;
+  int i, j, k, weakest, v;
+  int dest;
+  struct unit *pdef;
+  struct city *pcity;
+  x = punit->x;
+  y = punit->y;
+  dest = y * map.xsize + x;
+  v = get_attack_power(punit) * punit->hp * 
+            get_unit_type(punit->type)->firepower;
+  weakest = v * v * get_unit_type(punit->type)->build_cost + 1;
+/* kluge to prevent stacks of fortified, stuck units */
+  unit_list_iterate(map_get_tile(x,y)->units, pdef)
+    if (pdef->activity == ACTIVITY_FORTIFY) weakest = 2000000000;
+  unit_list_iterate_end;
 
-void ai_military_attack(struct player *pplayer,struct unit *punit)
-{
-int dist_city=0;
-int dist_unit;
-int dest_x,dest_y;
-struct city *pcity;
-struct unit *penemyunit;
-if (punit->activity!=ACTIVITY_GOTO)
-   {
-   if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y))
-      {
-      dist_city=map_distance(punit->x,punit->y, pcity->x, pcity->y);
-      dest_x=pcity->x;
-      dest_y=pcity->y;
+/* stolen from gotohand.c */
+  if((xx[2]=x+1)==map.xsize) xx[2]=0;
+  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
+  xx[1] = x;
+  if ((yy[0]=y-1)==-1) yy[0] = 0;
+  if ((yy[2]=y+1)==map.ysize) yy[2]=y;
+  yy[1] = y;
+
+  for (k = 0; k < 9; k++) {
+    i = k / 3; j = k % 3;
+    if (k != 4) {
+      pdef = get_defender(pplayer, punit, xx[i], yy[j]);
+      if (pdef) {
+        v = get_total_defense_power(punit, pdef) * pdef->hp * 
+                 get_unit_type(pdef->type)->firepower *
+             get_total_defense_power(punit, pdef) * pdef->hp * 
+                 get_unit_type(pdef->type)->firepower *
+                 get_unit_type(pdef->type)->build_cost;
+        if (v < weakest) {
+/*          printf("Better than %d is %d (%s)\n", weakest, v,
+             unit_types[pdef->type].name); */
+          weakest = v; dest = yy[j] * map.xsize + xx[i];
+         } /* else printf("NOT better than %d is %d (%s)\n", weakest, v,
+             unit_types[pdef->type].name); */
+      } else {
+        pcity = map_get_city(xx[i], yy[j]);
+        if (pcity) {
+          if (pcity->owner != pplayer->player_no) { /* free goodies */
+            weakest = -1; dest = yy[j] * map.xsize + xx[i];
+          }
+        }
       }
-   if (penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y))
-      {
-      dist_unit=map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
-      dest_x=penemyunit->x;
-      dest_y=penemyunit->y;
-      }
-   
-   if (dist_city||dist_unit)
-      {
-      if (dist_unit > dist_city) dist_unit=dist_city;
-      do_unit_goto(pplayer,punit);
-      handle_unit_move_request(pplayer, punit, dest_x,dest_y);
-      printf("On da move %d squares \n",dist_unit);
-      }
-   else      
-      {
-      printf("Code Boo-Boo in AI code!\n");      
-      punit->ai.ai_role=AIUNIT_NONE;
-      }
-   }   
+    }
+  }
+
+  return(dest);
 }
+ 
+void ai_military_attack(struct player *pplayer,struct unit *punit)
+{ /* rewritten by Syela - old way was crashy and not smart (nor is this) */
+  int dest, dest_x, dest_y; 
+  struct city *pcity;
+  int id;
 
+  id = punit->id;
 
+  if (punit->activity!=ACTIVITY_GOTO) {
+    dest = ai_military_findvictim(pplayer, punit);  
+    dest_x = dest % map.xsize;
+    dest_y = dest / map.xsize;
+    if (dest_x == punit->x && dest_y == punit->y) {
+/* no one to bash here.  Will try to move onward */
+      if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y)) {
+        if (!is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) {
+          dest_x = pcity->x; dest_y = pcity->y;
+        }
+      }
+    }
+    if (!(dest_x == punit->x && dest_y == punit->y)) {
+      punit->goto_dest_x = dest_x;
+      punit->goto_dest_y = dest_y;
+      printf("Syela - Doing unit goto.  From (%d,%d) to (%d,%d)\n",
+          punit->x, punit->y, dest_x, dest_y); 
+      do_unit_goto(pplayer,punit);
+/* liable to bump into someone that will kill us.  Should avoid? */
+    }
+    if (unit_list_find(&pplayer->units, id)) { /* didn't die */
+      if (punit->moves_left) { /* didn't move, or reached goal */
+        handle_unit_activity_request(pplayer, punit,
+           ACTIVITY_FORTIFY); /* better than doing nothing */
+      }
+    }
+  }
+}
 
 /*************************************************************************
 ...
