@@ -1308,8 +1308,6 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
   struct city *pcity = map_get_city(x, y);
 
-  assert(pcity != NULL);
-
   packet->id=pdcity->id;
   packet->owner=pdcity->owner;
   packet->x=x;
@@ -1320,19 +1318,20 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   if (map_get_known_and_seen(x, y, pplayer)) {
     /* Since the tile is visible the player can see the tile,
        and if it didn't actually have a city pdcity would be NULL */
+    assert(pcity != NULL);
     packet->happy = !city_unhappy(pcity);
   } else {
     packet->happy = TRUE;
   }
 
-  if (pcity->id == pdcity->id && city_got_building(pcity, B_PALACE))
+  if (pcity && pcity->id == pdcity->id && city_got_building(pcity, B_PALACE))
     packet->capital = TRUE;
   else
     packet->capital = FALSE;
 
   packet->walls = pdcity->has_walls;
 
-  if (player_has_traderoute_with_city(pplayer, pcity)) {
+  if (pcity && player_has_traderoute_with_city(pplayer, pcity)) {
     packet->tile_trade = pcity->tile_trade;
   } else {
     packet->tile_trade = 0;
