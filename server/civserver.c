@@ -227,7 +227,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -s, --server H\t\tList this server as host H\n");
     fprintf(stderr, "  -d, --debug N\t\t\tSet debug log level (0,1,2)\n");
     fprintf(stderr, "  -v, --version\t\t\tPrint the version number\n");
-    fprintf(stderr, "Report bug to %s.\n",MAILING_LIST);
+    fprintf(stderr, "Report bugs to <%s>.\n",MAILING_LIST);
     exit(0);
   }
 

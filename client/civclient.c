@@ -98,10 +98,9 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -port N\t\tconnect to port N\n");
     fprintf(stderr, "  -server S\t\tConnect to the server at S\n");
     fprintf(stderr, "  -debug N\t\tSet debug log level (0,1,2)\n");
-    fprintf(stderr, "  -version\t\tPrint the version number (%s)\n", \
-                    FREECIV_NAME_VERSION);
-    fprintf(stderr, "  -tiles D\t\tLook in directory D for the tiles\n");
-    fprintf(stderr, "Report bugs to %s.\n",MAILING_LIST);
+    fprintf(stderr, "  -version\t\tPrint the version number\n");
+    fprintf(stderr, "  -tiles D\t\tLook in data subdirectory D for the tiles\n");
+    fprintf(stderr, "Report bugs to <%s>.\n",MAILING_LIST);
     exit(0);
   }
   
