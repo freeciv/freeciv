@@ -31,7 +31,7 @@
 #define PATCH_VERSION		1
 #endif
 #ifndef VERSION_LABEL
-#define VERSION_LABEL		"-beta4"
+#define VERSION_LABEL		""
 #endif
 #ifndef IS_DEVEL_VERSION
 #define IS_DEVEL_VERSION	0

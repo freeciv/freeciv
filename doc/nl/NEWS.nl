@@ -2,7 +2,7 @@
 Welkom bij Freeciv 1.14
 =======================
 
-Dit is versie 1.14.1-beta4.
+Dit is versie 1.14.1.
 
 Opnieuw dank aan alle ontwikkelaars, die doorgaan met zo hard te werken.
 
