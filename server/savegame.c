@@ -1625,6 +1625,47 @@ static void apply_unit_ordering(void)
 /***************************************************************
 ...
 ***************************************************************/
+static void check_city(struct city *pcity)
+{
+  int x, y;
+  city_map_iterate(x, y) {
+    int res = city_can_work_tile(pcity, x, y);
+    switch (pcity->city_map[x][y]) {
+    case C_TILE_EMPTY:
+      if (!res) {
+	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+	freelog(LOG_ERROR, "ERROR: unavailable tile marked as empty!");
+      }
+    case C_TILE_WORKER:
+      if (!res) {
+	int map_x, map_y;
+	pcity->ppl_elvis++;
+	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+	freelog(LOG_ERROR, "ERROR: Worked tile was unavailable!");
+
+	get_citymap_xy(pcity, x, y, &map_x, &map_y);
+	map_city_radius_iterate(map_x, map_y, x2, y2) {
+	  struct city *pcity2 = map_get_city(x2, y2);
+	  if (pcity2)
+	    check_city(pcity2);
+	} map_city_radius_iterate_end;
+      }
+      break;
+    case C_TILE_UNAVAILABLE:
+      if (res) {
+	pcity->city_map[x][y] = C_TILE_EMPTY;
+	freelog(LOG_ERROR, "ERROR: Empty tile Marked as unavailable!");
+      }
+      break;
+    }
+  }
+
+  city_refresh(pcity);
+}
+
+/***************************************************************
+...
+***************************************************************/
 void game_load(struct section_file *file)
 {
   int i, o;
@@ -1934,12 +1975,21 @@ void game_load(struct section_file *file)
     initialize_globals();
     apply_unit_ordering();
 
-    for(i=0; i<game.nplayers; i++) {
-      update_research(&game.players[i]);
-      city_list_iterate(game.players[i].cities, pcity)
-	city_refresh(pcity);
-      city_list_iterate_end;
-    }
+    /* Make sure everything is consistent. */
+    players_iterate(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+	if (!can_unit_continue_current_activity(punit)) {
+	  freelog(LOG_ERROR, "ERROR: Unit doing illegal activity in savegame!");
+	  punit->activity = ACTIVITY_IDLE;
+	}
+      } unit_list_iterate_end;
+
+      city_list_iterate(pplayer->cities, pcity) {
+	check_city(pcity);
+      } city_list_iterate_end;
+
+      update_research(pplayer);
+    } players_iterate_end;
   } else {
     game.nplayers = 0;
   }
