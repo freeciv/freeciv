@@ -85,8 +85,21 @@ static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
   }
 
   /* trump coinage, and wall, and sam */
-  return ai->threats.ocean[map_get_continent(pcity->x, pcity->y)] 
-         ? TRADE_WEIGHTING + 3 : 1;
+  if (is_ocean(map_get_terrain(pcity->x, pcity->y))) {
+    return ai->threats.ocean[-map_get_continent(pcity->x, pcity->y)]
+           ? TRADE_WEIGHTING + 3 : 1;
+  } else {
+    adjc_iterate(pcity->x, pcity->y, x2, y2) {
+      if (is_ocean(map_get_terrain(x2, y2))) {
+        Continent_id ocean_number = map_get_continent(x2, y2);
+
+        if (ai->threats.ocean[-ocean_number]) {
+          return TRADE_WEIGHTING + 3;
+        }
+      }
+    } adjc_iterate_end;
+  }
+  return 1;
 }
 
 /**************************************************************************
