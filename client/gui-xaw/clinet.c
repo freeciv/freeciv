@@ -19,6 +19,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
+#include <signal.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -45,10 +46,6 @@
 
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
-#endif
-
-#ifdef HAVE_SIGNAL_H
-#include <signal.h>
 #endif
 
 #ifdef HAVE_NETDB_H
@@ -123,7 +120,9 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   src.sin_port = htons(port);
   
   /* ignore broken pipes */
+#ifdef HAVE_SIGPIPE
   signal (SIGPIPE, SIG_IGN);
+#endif
   
   if((aconnection.sock = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
     strcpy(errbuf, mystrerror(errno));
