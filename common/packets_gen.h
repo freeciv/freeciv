@@ -313,6 +313,7 @@ struct packet_player_info {
   char name[MAX_LEN_NAME];
   bool is_male;
   int government;
+  int target_government;
   int embassy;
   int city_style;
   Nation_Type_id nation;
@@ -351,11 +352,7 @@ struct packet_player_rates {
   int science;
 };
 
-struct packet_player_revolution {
-  char __dummy;			/* to avoid malloc(0); */
-};
-
-struct packet_player_government {
+struct packet_player_change_government {
   int government;
 };
 
@@ -1088,8 +1085,7 @@ enum packet_type {
   PACKET_PLAYER_INFO,
   PACKET_PLAYER_TURN_DONE,               /* 40 */
   PACKET_PLAYER_RATES,
-  PACKET_PLAYER_REVOLUTION,
-  PACKET_PLAYER_GOVERNMENT,
+  PACKET_PLAYER_CHANGE_GOVERNMENT = 43,
   PACKET_PLAYER_RESEARCH,
   PACKET_PLAYER_TECH_GOAL,
   PACKET_PLAYER_ATTRIBUTE_BLOCK,
@@ -1343,12 +1339,9 @@ struct packet_player_rates *receive_packet_player_rates(struct connection *pc, e
 int send_packet_player_rates(struct connection *pc, const struct packet_player_rates *packet);
 int dsend_packet_player_rates(struct connection *pc, int tax, int luxury, int science);
 
-struct packet_player_revolution *receive_packet_player_revolution(struct connection *pc, enum packet_type type);
-int send_packet_player_revolution(struct connection *pc);
-
-struct packet_player_government *receive_packet_player_government(struct connection *pc, enum packet_type type);
-int send_packet_player_government(struct connection *pc, const struct packet_player_government *packet);
-int dsend_packet_player_government(struct connection *pc, int government);
+struct packet_player_change_government *receive_packet_player_change_government(struct connection *pc, enum packet_type type);
+int send_packet_player_change_government(struct connection *pc, const struct packet_player_change_government *packet);
+int dsend_packet_player_change_government(struct connection *pc, int government);
 
 struct packet_player_research *receive_packet_player_research(struct connection *pc, enum packet_type type);
 int send_packet_player_research(struct connection *pc, const struct packet_player_research *packet);

@@ -182,6 +182,7 @@ struct player {
   char username[MAX_LEN_NAME];
   bool is_male;
   int government;
+  int target_government;
   Nation_Type_id nation;
   Team_Type_id team;
   bool turn_done;

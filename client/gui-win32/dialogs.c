@@ -916,7 +916,7 @@ void popup_revolution_dialog(void)
 **************************************************************************/ 
 static void government_callback(HWND w, void *data)
 {
-  dsend_packet_player_government(&aconnection, (size_t)data);
+  set_government_choice((size_t)data);
  
   destroy_message_dialog(w);
   is_showing_government_dialog=0;

@@ -116,13 +116,9 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_player_rates *)packet)->science);
     return TRUE;
 
-  case PACKET_PLAYER_REVOLUTION:
-    handle_player_revolution(pplayer);
-    return TRUE;
-
-  case PACKET_PLAYER_GOVERNMENT:
-    handle_player_government(pplayer,
-      ((struct packet_player_government *)packet)->government);
+  case PACKET_PLAYER_CHANGE_GOVERNMENT:
+    handle_player_change_government(pplayer,
+      ((struct packet_player_change_government *)packet)->government);
     return TRUE;
 
   case PACKET_PLAYER_RESEARCH:

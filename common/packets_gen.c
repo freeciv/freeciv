@@ -173,11 +173,8 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_PLAYER_RATES:
     return receive_packet_player_rates(pc, type);
 
-  case PACKET_PLAYER_REVOLUTION:
-    return receive_packet_player_revolution(pc, type);
-
-  case PACKET_PLAYER_GOVERNMENT:
-    return receive_packet_player_government(pc, type);
+  case PACKET_PLAYER_CHANGE_GOVERNMENT:
+    return receive_packet_player_change_government(pc, type);
 
   case PACKET_PLAYER_RESEARCH:
     return receive_packet_player_research(pc, type);
@@ -533,11 +530,8 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_PLAYER_RATES:
     return "PACKET_PLAYER_RATES";
 
-  case PACKET_PLAYER_REVOLUTION:
-    return "PACKET_PLAYER_REVOLUTION";
-
-  case PACKET_PLAYER_GOVERNMENT:
-    return "PACKET_PLAYER_GOVERNMENT";
+  case PACKET_PLAYER_CHANGE_GOVERNMENT:
+    return "PACKET_PLAYER_CHANGE_GOVERNMENT";
 
   case PACKET_PLAYER_RESEARCH:
     return "PACKET_PLAYER_RESEARCH";
@@ -9171,7 +9165,7 @@ static int cmp_packet_player_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_player_info_100_fields, 29);
+BV_DEFINE(packet_player_info_100_fields, 30);
 
 static struct packet_player_info *receive_packet_player_info_100(struct connection *pc, enum packet_type type)
 {
@@ -9221,11 +9215,19 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
     {
       int readin;
     
+      dio_get_uint8(&din, &readin);
+      real_packet->target_government = readin;
+    }
+  }
+  if (BV_ISSET(fields, 4)) {
+    {
+      int readin;
+    
       dio_get_uint32(&din, &readin);
       real_packet->embassy = readin;
     }
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 5)) {
     {
       int readin;
     
@@ -9233,7 +9235,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->city_style = readin;
     }
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 6)) {
     {
       int readin;
     
@@ -9241,7 +9243,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->nation = readin;
     }
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 7)) {
     {
       int readin;
     
@@ -9249,8 +9251,8 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->team = readin;
     }
   }
-  real_packet->turn_done = BV_ISSET(fields, 7);
-  if (BV_ISSET(fields, 8)) {
+  real_packet->turn_done = BV_ISSET(fields, 8);
+  if (BV_ISSET(fields, 9)) {
     {
       int readin;
     
@@ -9258,8 +9260,8 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->nturns_idle = readin;
     }
   }
-  real_packet->is_alive = BV_ISSET(fields, 9);
-  if (BV_ISSET(fields, 10)) {
+  real_packet->is_alive = BV_ISSET(fields, 10);
+  if (BV_ISSET(fields, 11)) {
     {
       int readin;
     
@@ -9267,7 +9269,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->reputation = readin;
     }
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 12)) {
     
     {
       int i;
@@ -9277,7 +9279,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       }
     }
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 13)) {
     {
       int readin;
     
@@ -9285,7 +9287,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->gold = readin;
     }
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 14)) {
     {
       int readin;
     
@@ -9293,7 +9295,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->tax = readin;
     }
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 15)) {
     {
       int readin;
     
@@ -9301,7 +9303,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->science = readin;
     }
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 16)) {
     {
       int readin;
     
@@ -9309,7 +9311,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->luxury = readin;
     }
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 17)) {
     {
       int readin;
     
@@ -9317,7 +9319,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->bulbs_last_turn = readin;
     }
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 18)) {
     {
       int readin;
     
@@ -9325,7 +9327,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->bulbs_researched = readin;
     }
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 19)) {
     {
       int readin;
     
@@ -9333,7 +9335,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->techs_researched = readin;
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 20)) {
     {
       int readin;
     
@@ -9341,7 +9343,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->researching = readin;
     }
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 21)) {
     {
       int readin;
     
@@ -9349,7 +9351,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->future_tech = readin;
     }
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 22)) {
     {
       int readin;
     
@@ -9357,8 +9359,8 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->tech_goal = readin;
     }
   }
-  real_packet->is_connected = BV_ISSET(fields, 22);
-  if (BV_ISSET(fields, 23)) {
+  real_packet->is_connected = BV_ISSET(fields, 23);
+  if (BV_ISSET(fields, 24)) {
     {
       int readin;
     
@@ -9366,8 +9368,8 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->revolution_finishes = readin;
     }
   }
-  real_packet->ai = BV_ISSET(fields, 24);
-  if (BV_ISSET(fields, 25)) {
+  real_packet->ai = BV_ISSET(fields, 25);
+  if (BV_ISSET(fields, 26)) {
     {
       int readin;
     
@@ -9375,7 +9377,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->barbarian_type = readin;
     }
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 27)) {
     {
       int readin;
     
@@ -9383,10 +9385,10 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->gives_shared_vision = readin;
     }
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 28)) {
     dio_get_bit_string(&din, real_packet->inventions, sizeof(real_packet->inventions));
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 29)) {
     
     {
       int i;
@@ -9447,37 +9449,41 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->embassy != real_packet->embassy);
+  differ = (old->target_government != real_packet->target_government);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (old->city_style != real_packet->city_style);
+  differ = (old->embassy != real_packet->embassy);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->nation != real_packet->nation);
+  differ = (old->city_style != real_packet->city_style);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (old->team != real_packet->team);
+  differ = (old->nation != real_packet->nation);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
+  differ = (old->team != real_packet->team);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
   differ = (old->turn_done != real_packet->turn_done);
   if(differ) {different++;}
-  if(packet->turn_done) {BV_SET(fields, 7);}
+  if(packet->turn_done) {BV_SET(fields, 8);}
 
   differ = (old->nturns_idle != real_packet->nturns_idle);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 9);}
 
   differ = (old->is_alive != real_packet->is_alive);
   if(differ) {different++;}
-  if(packet->is_alive) {BV_SET(fields, 9);}
+  if(packet->is_alive) {BV_SET(fields, 10);}
 
   differ = (old->reputation != real_packet->reputation);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 11);}
 
 
     {
@@ -9493,71 +9499,71 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 12);}
 
   differ = (old->gold != real_packet->gold);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 13);}
 
   differ = (old->tax != real_packet->tax);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 14);}
 
   differ = (old->science != real_packet->science);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->luxury != real_packet->luxury);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 16);}
 
   differ = (old->bulbs_last_turn != real_packet->bulbs_last_turn);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->bulbs_researched != real_packet->bulbs_researched);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 18);}
 
   differ = (old->techs_researched != real_packet->techs_researched);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 19);}
 
   differ = (old->researching != real_packet->researching);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 20);}
 
   differ = (old->future_tech != real_packet->future_tech);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 21);}
 
   differ = (old->tech_goal != real_packet->tech_goal);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 22);}
 
   differ = (old->is_connected != real_packet->is_connected);
   if(differ) {different++;}
-  if(packet->is_connected) {BV_SET(fields, 22);}
+  if(packet->is_connected) {BV_SET(fields, 23);}
 
   differ = (old->revolution_finishes != real_packet->revolution_finishes);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 24);}
 
   differ = (old->ai != real_packet->ai);
   if(differ) {different++;}
-  if(packet->ai) {BV_SET(fields, 24);}
+  if(packet->ai) {BV_SET(fields, 25);}
 
   differ = (old->barbarian_type != real_packet->barbarian_type);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 26);}
 
   differ = (old->gives_shared_vision != real_packet->gives_shared_vision);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
+  if(differ) {BV_SET(fields, 27);}
 
   differ = (strcmp(old->inventions, real_packet->inventions) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
+  if(differ) {BV_SET(fields, 28);}
 
 
     {
@@ -9573,7 +9579,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
+  if(differ) {BV_SET(fields, 29);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -9590,26 +9596,29 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
     dio_put_uint8(&dout, real_packet->government);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_put_uint32(&dout, real_packet->embassy);
+    dio_put_uint8(&dout, real_packet->target_government);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint8(&dout, real_packet->city_style);
+    dio_put_uint32(&dout, real_packet->embassy);
   }
   if (BV_ISSET(fields, 5)) {
-    dio_put_uint16(&dout, real_packet->nation);
+    dio_put_uint8(&dout, real_packet->city_style);
   }
   if (BV_ISSET(fields, 6)) {
+    dio_put_uint16(&dout, real_packet->nation);
+  }
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->team);
   }
-  /* field 7 is folded into the header */
-  if (BV_ISSET(fields, 8)) {
+  /* field 8 is folded into the header */
+  if (BV_ISSET(fields, 9)) {
     dio_put_sint16(&dout, real_packet->nturns_idle);
   }
-  /* field 9 is folded into the header */
-  if (BV_ISSET(fields, 10)) {
+  /* field 10 is folded into the header */
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint32(&dout, real_packet->reputation);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 12)) {
   
     {
       int i;
@@ -9619,51 +9628,51 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
       }
     } 
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint32(&dout, real_packet->gold);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_uint8(&dout, real_packet->tax);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_uint8(&dout, real_packet->science);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_uint8(&dout, real_packet->luxury);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 17)) {
     dio_put_uint16(&dout, real_packet->bulbs_last_turn);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint32(&dout, real_packet->bulbs_researched);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 19)) {
     dio_put_uint32(&dout, real_packet->techs_researched);
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 20)) {
     dio_put_uint8(&dout, real_packet->researching);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 21)) {
     dio_put_uint16(&dout, real_packet->future_tech);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 22)) {
     dio_put_uint8(&dout, real_packet->tech_goal);
   }
-  /* field 22 is folded into the header */
-  if (BV_ISSET(fields, 23)) {
+  /* field 23 is folded into the header */
+  if (BV_ISSET(fields, 24)) {
     dio_put_sint16(&dout, real_packet->revolution_finishes);
   }
-  /* field 24 is folded into the header */
-  if (BV_ISSET(fields, 25)) {
+  /* field 25 is folded into the header */
+  if (BV_ISSET(fields, 26)) {
     dio_put_uint8(&dout, real_packet->barbarian_type);
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 27)) {
     dio_put_uint32(&dout, real_packet->gives_shared_vision);
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 28)) {
     dio_put_bit_string(&dout, real_packet->inventions);
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 29)) {
   
     {
       int i;
@@ -10007,95 +10016,25 @@ int dsend_packet_player_rates(struct connection *pc, int tax, int luxury, int sc
   return send_packet_player_rates(pc, real_packet);
 }
 
-static struct packet_player_revolution *receive_packet_player_revolution_100(struct connection *pc, enum packet_type type)
+#define hash_packet_player_change_government_100 hash_const
+
+#define cmp_packet_player_change_government_100 cmp_const
+
+BV_DEFINE(packet_player_change_government_100_fields, 1);
+
+static struct packet_player_change_government *receive_packet_player_change_government_100(struct connection *pc, enum packet_type type)
 {
-  RECEIVE_PACKET_START(packet_player_revolution, real_packet);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_player_revolution_100(struct connection *pc)
-{
-  SEND_PACKET_START(PACKET_PLAYER_REVOLUTION);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_player_revolution(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_PLAYER_REVOLUTION] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_PLAYER_REVOLUTION] = variant;
-}
-
-struct packet_player_revolution *receive_packet_player_revolution(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if(!is_server) {
-    freelog(LOG_ERROR, "Receiving packet_player_revolution at the client.");
-  }
-  ensure_valid_variant_packet_player_revolution(pc);
-
-  switch(pc->phs.variant[PACKET_PLAYER_REVOLUTION]) {
-    case 100: return receive_packet_player_revolution_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_player_revolution(struct connection *pc)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if(is_server) {
-    freelog(LOG_ERROR, "Sending packet_player_revolution from the server.");
-  }
-  ensure_valid_variant_packet_player_revolution(pc);
-
-  switch(pc->phs.variant[PACKET_PLAYER_REVOLUTION]) {
-    case 100: return send_packet_player_revolution_100(pc);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-#define hash_packet_player_government_100 hash_const
-
-#define cmp_packet_player_government_100 cmp_const
-
-BV_DEFINE(packet_player_government_100_fields, 1);
-
-static struct packet_player_government *receive_packet_player_government_100(struct connection *pc, enum packet_type type)
-{
-  packet_player_government_100_fields fields;
-  struct packet_player_government *old;
+  packet_player_change_government_100_fields fields;
+  struct packet_player_change_government *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_player_government *clone;
-  RECEIVE_PACKET_START(packet_player_government, real_packet);
+  struct packet_player_change_government *clone;
+  RECEIVE_PACKET_START(packet_player_change_government, real_packet);
 
   DIO_BV_GET(&din, fields);
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_player_government_100, cmp_packet_player_government_100);
+    *hash = hash_new(hash_packet_player_change_government_100, cmp_packet_player_change_government_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -10124,18 +10063,18 @@ static struct packet_player_government *receive_packet_player_government_100(str
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_player_government_100(struct connection *pc, const struct packet_player_government *packet)
+static int send_packet_player_change_government_100(struct connection *pc, const struct packet_player_change_government *packet)
 {
-  const struct packet_player_government *real_packet = packet;
-  packet_player_government_100_fields fields;
-  struct packet_player_government *old, *clone;
+  const struct packet_player_change_government *real_packet = packet;
+  packet_player_change_government_100_fields fields;
+  struct packet_player_change_government *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_PLAYER_GOVERNMENT];
+  struct hash_table **hash = &pc->phs.sent[PACKET_PLAYER_CHANGE_GOVERNMENT];
   int different = 0;
-  SEND_PACKET_START(PACKET_PLAYER_GOVERNMENT);
+  SEND_PACKET_START(PACKET_PLAYER_CHANGE_GOVERNMENT);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_player_government_100, cmp_packet_player_government_100);
+    *hash = hash_new(hash_packet_player_change_government_100, cmp_packet_player_change_government_100);
   }
   BV_CLR_ALL(fields);
 
@@ -10173,11 +10112,11 @@ static int send_packet_player_government_100(struct connection *pc, const struct
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_player_government(struct connection *pc)
+static void ensure_valid_variant_packet_player_change_government(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_PLAYER_GOVERNMENT] != -1) {
+  if(pc->phs.variant[PACKET_PLAYER_CHANGE_GOVERNMENT] != -1) {
     return;
   }
 
@@ -10187,10 +10126,10 @@ static void ensure_valid_variant_packet_player_government(struct connection *pc)
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_PLAYER_GOVERNMENT] = variant;
+  pc->phs.variant[PACKET_PLAYER_CHANGE_GOVERNMENT] = variant;
 }
 
-struct packet_player_government *receive_packet_player_government(struct connection *pc, enum packet_type type)
+struct packet_player_change_government *receive_packet_player_change_government(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -10200,17 +10139,17 @@ struct packet_player_government *receive_packet_player_government(struct connect
   }
   assert(pc->phs.variant != NULL);
   if(!is_server) {
-    freelog(LOG_ERROR, "Receiving packet_player_government at the client.");
+    freelog(LOG_ERROR, "Receiving packet_player_change_government at the client.");
   }
-  ensure_valid_variant_packet_player_government(pc);
+  ensure_valid_variant_packet_player_change_government(pc);
 
-  switch(pc->phs.variant[PACKET_PLAYER_GOVERNMENT]) {
-    case 100: return receive_packet_player_government_100(pc, type);
+  switch(pc->phs.variant[PACKET_PLAYER_CHANGE_GOVERNMENT]) {
+    case 100: return receive_packet_player_change_government_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_player_government(struct connection *pc, const struct packet_player_government *packet)
+int send_packet_player_change_government(struct connection *pc, const struct packet_player_change_government *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -10220,23 +10159,23 @@ int send_packet_player_government(struct connection *pc, const struct packet_pla
   }
   assert(pc->phs.variant != NULL);
   if(is_server) {
-    freelog(LOG_ERROR, "Sending packet_player_government from the server.");
+    freelog(LOG_ERROR, "Sending packet_player_change_government from the server.");
   }
-  ensure_valid_variant_packet_player_government(pc);
+  ensure_valid_variant_packet_player_change_government(pc);
 
-  switch(pc->phs.variant[PACKET_PLAYER_GOVERNMENT]) {
-    case 100: return send_packet_player_government_100(pc, packet);
+  switch(pc->phs.variant[PACKET_PLAYER_CHANGE_GOVERNMENT]) {
+    case 100: return send_packet_player_change_government_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-int dsend_packet_player_government(struct connection *pc, int government)
+int dsend_packet_player_change_government(struct connection *pc, int government)
 {
-  struct packet_player_government packet, *real_packet = &packet;
+  struct packet_player_change_government packet, *real_packet = &packet;
 
   real_packet->government = government;
   
-  return send_packet_player_government(pc, real_packet);
+  return send_packet_player_change_government(pc, real_packet);
 }
 
 #define hash_packet_player_research_100 hash_const

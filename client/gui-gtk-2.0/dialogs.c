@@ -1017,7 +1017,7 @@ bool caravan_dialog_is_open(void)
 *****************************************************************/
 static void government_callback(GtkWidget *w, gpointer data)
 {
-  dsend_packet_player_government(&aconnection, GPOINTER_TO_INT(data));
+  set_government_choice(GPOINTER_TO_INT(data));
   is_showing_government_dialog = FALSE;
 }
 

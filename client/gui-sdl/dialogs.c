@@ -3647,7 +3647,7 @@ static struct SMALL_DLG *pGov_Dlg = NULL;
 **************************************************************************/
 static int government_dlg_callback(struct GUI *pGov_Button)
 {
-  dsend_packet_player_government(&aconnection, MAX_ID - pGov_Button->ID);
+  set_government_choice(MAX_ID - pGov_Button->ID);
   popdown_window_group_dialog(pGov_Dlg->pBeginWidgetList,
 			      pGov_Dlg->pEndWidgetList);
   FREE(pGov_Dlg);

@@ -1179,7 +1179,7 @@ bool caravan_dialog_is_open(void)
 *****************************************************************/
 static void government_callback(gpointer data)
 {
-  dsend_packet_player_government(&aconnection, GPOINTER_TO_INT(data));
+  set_government_choice(GPOINTER_TO_INT(data));
 
   assert(government_dialog_is_open);
   government_dialog_is_open = FALSE;

@@ -157,39 +157,6 @@ void do_tech_parasite_effect(struct player *pplayer)
   }
 }
 
-/**************************************************************************
-  See if the player has finished their revolution.  This function should
-  be called at the beginning of a player's phase.
-**************************************************************************/
-void update_revolution(struct player *pplayer)
-{
-  /* The player's revolution counter is stored in the revolution_finishes
-   * field.  This value has the following meanings:
-   *   - If negative (-1), then the player is not in a revolution.  In this
-   *     case the player should never be in anarchy.
-   *   - If positive, the player is in the middle of a revolution.  In this
-   *     case the value indicates the turn in which the revolution finishes.
-   *     * If this value is > than the current turn, then the revolution is
-   *       in progress.  In this case the player should always be in anarchy.
-   *     * If the value is == to the current turn, then the revolution is
-   *       finished.  The player may now choose a government.  However the
-   *       value isn't reset until the end of the turn.  If the player has
-   *       chosen a government by the end of the turn, then the revolution is
-   *       over and the value is reset to -1.
-   *     * If the player doesn't pick a government then the revolution
-   *       continues.  At this point the value is <= to the current turn,
-   *       and the player can leave the revolution at any time.  The value
-   *       is reset at the end of any turn when a non-anarchy government is
-   *       chosen.
-   */
-  if (pplayer->revolution_finishes <= game.turn
-      && pplayer->government != game.government_when_anarchy) {
-    /* Reset the revolution counter.  If the player has another revolution
-     * they'll have to re-enter anarchy. */
-    pplayer->revolution_finishes = -1;
-  }
-}
-
 /****************************************************************************
   Check all players to see if they are dying.  Kill them if so.
 
@@ -872,21 +839,30 @@ void handle_player_tech_goal(struct player *pplayer, int tech)
 }
 
 /**************************************************************************
-...
+  Finish the revolution and set the player's government.  Call this as soon
+  as the player has set a target_government and the revolution_finishes
+  turn has arrived.
 **************************************************************************/
-void handle_player_government(struct player *pplayer, int government)
+static void finish_revolution(struct player *pplayer)
 {
-  if (government < 0 || government >= game.government_count ||
-      !can_change_to_government(pplayer, government)) {
+  int government = pplayer->target_government;
+
+  if (pplayer->target_government == game.government_when_anarchy) {
+    assert(0);
     return;
   }
-
-  if (pplayer->revolution_finishes < 0
-      || pplayer->revolution_finishes > game.turn) {
+  if (pplayer->revolution_finishes > game.turn) {
+    assert(0);
     return;
   }
 
   pplayer->government = government;
+  /* Leave the target government the same. */
+
+  freelog(LOG_DEBUG,
+	  "Revolution finished for %s.  Government is %s.  Revofin %d (%d).",
+	  pplayer->name, get_government_name(government),
+	  pplayer->revolution_finishes, game.turn);
   notify_player(pplayer, _("Game: %s now governs the %s as a %s."), 
 		pplayer->name, 
   	        get_nation_name_plural(pplayer->nation),
@@ -897,11 +873,14 @@ void handle_player_government(struct player *pplayer, int government)
 
   if (!pplayer->ai.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
-    pplayer->economic.science = MIN (100 - pplayer->economic.luxury,
-				     get_government_max_rate (pplayer->government));
-    pplayer->economic.tax = MIN(100 - (pplayer->economic.luxury + pplayer->economic.science),
-				get_government_max_rate (pplayer->government));
-    pplayer->economic.luxury = 100 - pplayer->economic.science - pplayer->economic.tax;
+    int max = get_government_max_rate(pplayer->government);
+
+    pplayer->economic.science
+      = MIN(100 - pplayer->economic.luxury, max);
+    pplayer->economic.tax
+      = MIN(100 - pplayer->economic.luxury - pplayer->economic.science, max);
+    pplayer->economic.luxury
+      = 100 - pplayer->economic.science - pplayer->economic.tax;
   }
 
   check_player_government_rates(pplayer);
@@ -910,36 +889,135 @@ void handle_player_government(struct player *pplayer, int government)
 }
 
 /**************************************************************************
-...
+  Start a revolution.  This can be called even for AI players; it will
+  call finish_revolution immediately if no revolution is needed.
 **************************************************************************/
-void handle_player_revolution(struct player *pplayer)
+static void start_revolution(struct player *pplayer)
 {
-  if (pplayer->government == game.government_when_anarchy) {
-    /* Already having a revolution. */
-    return;
+  pplayer->government = game.government_when_anarchy;
+
+  /* Set revolution_finishes value. */
+  if (pplayer->revolution_finishes > 0) {
+    /* Player already has an active revolution. */
+  } else if (pplayer->ai.control
+	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
+    /* TODO: Make this a handicap. */
+    pplayer->revolution_finishes = game.turn;
+  } else if (game.revolution_length == 0) {
+    pplayer->revolution_finishes = game.turn + myrand(5) + 1;
+  } else {
+    pplayer->revolution_finishes = game.revolution_length;
   }
-  if (pplayer->revolution_finishes < 0) {
-    /* Start a revolution from scratch (otherwise a revolution is in
-     * progress, even if the player isn't in anarchy). */
-    if (game.revolution_length == 0) {
-      pplayer->revolution_finishes = game.turn + myrand(5) + 1;
-    } else {
-      pplayer->revolution_finishes = game.revolution_length;
-    }
-  }
-  pplayer->government=game.government_when_anarchy;
+
+  freelog(LOG_DEBUG,
+	  "Revolution started for %s.  Target government is %s.  "
+	  "Revofin %d (%d).",
+	  pplayer->name, get_government_name(pplayer->target_government),
+	  pplayer->revolution_finishes, game.turn);
   notify_player_ex(pplayer, -1, -1, E_REVOLT_START,
 		   _("Game: The %s have incited a revolt!"),
 		   get_nation_name_plural(pplayer->nation));
   gamelog(GAMELOG_REVOLT, _("The %s revolt!"),
 	  get_nation_name_plural(pplayer->nation));
 
+  /* Now see if the revolution is instantaneous. */
+  if (pplayer->revolution_finishes <= game.turn
+      && pplayer->target_government != game.government_when_anarchy) {
+    finish_revolution(pplayer);
+    return;
+  }
+
   check_player_government_rates(pplayer);
   global_city_refresh(pplayer);
-  if (get_player_bonus(pplayer, EFT_NO_ANARCHY) > 0) {
-    pplayer->revolution_finishes = game.turn;
-  }
   send_player_info(pplayer, pplayer);
+}
+
+/**************************************************************************
+  Called by the client or AI to change government.
+**************************************************************************/
+void handle_player_change_government(struct player *pplayer, int government)
+{
+  if (government < 0 || government >= game.government_count
+      || !can_change_to_government(pplayer, government)) {
+    return;
+  }
+
+  pplayer->target_government = government;
+
+  freelog(LOG_DEBUG,
+	  "Government changed for %s.  Target government is %s; "
+	  "old %s.  Revofin %d, Turn %d.",
+	  pplayer->name,
+	  get_government_name(pplayer->target_government),
+	  get_government_name(pplayer->government),
+	  pplayer->revolution_finishes, game.turn);
+
+  if (pplayer->government == game.government_when_anarchy) {
+    /* Already having a revolution. */
+    assert(pplayer->revolution_finishes >= 0);
+    if (pplayer->revolution_finishes <= game.turn) {
+      /* The revolution was already over.  Now we should enter the new
+       * government immediately. */
+      finish_revolution(pplayer);
+    }
+  } else {
+    /* No revolution: start one. */
+    start_revolution(pplayer);
+  }
+
+  freelog(LOG_DEBUG,
+	  "Government change complete for %s.  Target government is %s; "
+	  "now %s.  Turn %d; revofin %d.",
+	  pplayer->name,
+	  get_government_name(pplayer->target_government),
+	  get_government_name(pplayer->government),
+	  game.turn, pplayer->revolution_finishes);
+}
+
+/**************************************************************************
+  See if the player has finished their revolution.  This function should
+  be called at the beginning of a player's phase.
+**************************************************************************/
+void update_revolution(struct player *pplayer)
+{
+  /* The player's revolution counter is stored in the revolution_finishes
+   * field.  This value has the following meanings:
+   *   - If negative (-1), then the player is not in a revolution.  In this
+   *     case the player should never be in anarchy.
+   *   - If positive, the player is in the middle of a revolution.  In this
+   *     case the value indicates the turn in which the revolution finishes.
+   *     * If this value is > than the current turn, then the revolution is
+   *       in progress.  In this case the player should always be in anarchy.
+   *     * If the value is == to the current turn, then the revolution is
+   *       finished.  The player may now choose a government.  However the
+   *       value isn't reset until the end of the turn.  If the player has
+   *       chosen a government by the end of the turn, then the revolution is
+   *       over and the value is reset to -1.
+   *     * If the player doesn't pick a government then the revolution
+   *       continues.  At this point the value is <= to the current turn,
+   *       and the player can leave the revolution at any time.  The value
+   *       is reset at the end of any turn when a non-anarchy government is
+   *       chosen.
+   */
+  freelog(LOG_DEBUG, "Update revolution for %s.  Current government %s, "
+	  "target %s, revofin %d, turn %d.",
+	  pplayer->name, get_government_name(pplayer->government),
+	  get_government_name(pplayer->target_government),
+	  pplayer->revolution_finishes, game.turn);
+  if (pplayer->government == game.government_when_anarchy
+      && pplayer->target_government != game.government_when_anarchy
+      && pplayer->revolution_finishes == game.turn) {
+    freelog(LOG_DEBUG, "Update: finishing revolution for %s.",
+	    pplayer->name);
+    finish_revolution(pplayer);
+  } else if (pplayer->government != game.government_when_anarchy
+	     && pplayer->revolution_finishes < game.turn) {
+    /* Reset the revolution counter.  If the player has another revolution
+     * they'll have to re-enter anarchy. */
+    freelog(LOG_DEBUG, "Update: resetting revofin for %s.",
+	    pplayer->name);
+    pplayer->revolution_finishes = -1;
+  }
 }
 
 /**************************************************************************
@@ -1103,7 +1181,7 @@ repeat_break_treaty:
         notify_player_ex(pplayer, -1, -1, E_ANARCHY,
                          _("Game: The senate decides to dissolve "
                          "rather than support your actions any longer."));
-	handle_player_revolution(pplayer);
+	handle_player_change_government(pplayer, pplayer->government);
       }
     }
   }
@@ -1411,6 +1489,7 @@ static void package_player_info(struct player *plr,
    * contact with. */
   if (info_level >= INFO_EMBASSY
       || receiver->diplstates[plr->player_no].contact_turns_left > 0) {
+    packet->target_government = plr->target_government;
     packet->embassy = plr->embassy;
     packet->gives_shared_vision = plr->gives_shared_vision;
     for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -1421,6 +1500,7 @@ static void package_player_info(struct player *plr,
       packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
     }
   } else {
+    packet->target_government = packet->government;
     if (!receiver || !player_has_embassy(plr, receiver)) {
       packet->embassy  = 0;
     } else {

@@ -1223,7 +1223,7 @@ bool caravan_dialog_is_open(void)
 static void government_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
-  dsend_packet_player_government(&aconnection, (size_t) client_data);
+  set_government_choice((size_t) client_data);
   destroy_message_dialog(w);
   is_showing_government_dialog = 0;
 }

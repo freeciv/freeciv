@@ -1352,7 +1352,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 		       _("Game: The people have overthrown your %s, "
 			 "your country is in turmoil."),
 		       get_government_name(g->index));
-      handle_player_revolution(pplayer);
+      handle_player_change_government(pplayer, g->index);
     }
     sanity_check_city(pcity);
   }

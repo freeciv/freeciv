@@ -1462,41 +1462,15 @@ static bool read_player_info_techs(struct player *pplayer,
 }
 
 /**************************************************************************
-  government_selected will be set if the player has chosen a 'target'
-  government.  If so, then government_choice holds that government value.
-
-  revolution_over is set if the revolution is complete but the government
-  has not been set yet (it's still anarchy).  This value is used to
-  avoid giving the user duplicate messages or government choice menus.
-**************************************************************************/
-static bool government_selected = FALSE;
-static int government_choice;
-static bool revolution_over = FALSE;
-
-/**************************************************************************
-  Reset the target government (for instance when you disconnect from a
-  server).
-**************************************************************************/
-void target_government_init(void)
-{
-  /* We have to reset this, otherwise if we joined a new game where we
-   * were already in anarchy, odd behavior would result. */
-  government_selected = FALSE;
-  revolution_over = FALSE;
-}
-
-/**************************************************************************
   Sets the target government.  This will automatically start a revolution
   if the target government differs from the current one.
 **************************************************************************/
 void set_government_choice(int government)
 {
-  if (!government_selected && government != game.player_ptr->government
+  if (government != game.player_ptr->government
       && can_client_issue_orders()) {
-    send_packet_player_revolution(&aconnection);
-    government_selected = TRUE;
+    dsend_packet_player_change_government(&aconnection, government);
   }
-  government_choice = government;
 }
 
 /**************************************************************************
@@ -1505,37 +1479,8 @@ void set_government_choice(int government)
 **************************************************************************/
 void start_revolution(void)
 {
-  government_selected = FALSE;
-  send_packet_player_revolution(&aconnection);
-}
-
-/**************************************************************************
-  Choose the government after a revolution completes, either by taking the
-  government that the player has already specified or by popping up a
-  dialog to ask.
-**************************************************************************/
-static void choose_government(void)
-{
-  if (government_selected) {
-    dsend_packet_player_government(&aconnection, government_choice);
-
-    government_selected = FALSE;
-  } else if (!client_is_observer()) {
-    int i = 0, governments = game.government_count - 1;
-    struct government *government[governments];
-
-    assert(game.government_when_anarchy >= 0
-	   && game.government_when_anarchy < game.government_count);
-
-    government_iterate(g) {
-      if (g->index != game.government_when_anarchy) {
-	government[i] = g;
-	i++;
-      }
-    } government_iterate_end;
-
-    popup_government_dialog(governments, government);
-  }
+  dsend_packet_player_change_government(&aconnection,
+					game.government_when_anarchy);
 }
 
 /**************************************************************************
@@ -1559,6 +1504,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.science=pinfo->science;
   pplayer->economic.luxury=pinfo->luxury;
   pplayer->government=pinfo->government;
+  pplayer->target_government = pinfo->target_government;
   pplayer->embassy=pinfo->embassy;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->city_style=pinfo->city_style;
@@ -1644,15 +1590,8 @@ void handle_player_info(struct packet_player_info *pinfo)
       && pplayer->revolution_finishes <= game.turn
       && pplayer->government == game.government_when_anarchy
       && (!game.player_ptr->ai.control || ai_popup_windows)
-      && can_client_change_view()
-      && !revolution_over) {
+      && can_client_change_view()) {
     create_event(-1, -1, E_REVOLT_DONE, _("Game: Revolution finished"));
-
-    choose_government();
-    revolution_over = TRUE;
-  } else if (pplayer == game.player_ptr
-	     && pplayer->government != game.government_when_anarchy) {
-    revolution_over = FALSE; /* No revolution right now. */
   }
   
   update_players_dialog();

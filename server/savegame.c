@@ -1507,7 +1507,23 @@ static void player_load(struct player *plr, int plrno,
     exit(EXIT_FAILURE);
   }
   plr->government = gov->index;
-  
+
+  /* Target government */
+  name = secfile_lookup_str_default(file, NULL,
+				    "player%d.target_government_name",
+				    plrno);
+  if (name) {
+    gov = find_government_by_name_orig(name);
+  } else {
+    gov = NULL;
+  }
+  if (gov) {
+    plr->target_government = gov->index;
+  } else {
+    /* Old servers didn't have this value. */
+    plr->target_government = plr->government;
+  }
+
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
 
   p = secfile_lookup_str_default(file, NULL, "player%d.city_style_by_name",
@@ -2229,6 +2245,10 @@ static void player_save(struct player *plr, int plrno,
    * compatibility */
   secfile_insert_int(file, old_government_id(gov),
                      "player%d.government", plrno);
+
+  gov = get_government(plr->target_government);
+  secfile_insert_str(file, gov->name_orig,
+		     "player%d.target_government_name", plrno);
   
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
 

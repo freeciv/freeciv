@@ -398,7 +398,6 @@ void client_game_init()
   game_init();
   attribute_init();
   agents_init();
-  target_government_init();
 }
 
 /**************************************************************************
