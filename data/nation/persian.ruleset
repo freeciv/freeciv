@@ -3,8 +3,8 @@
 name=_("Persian")
 plural=_("?plural:Persians")
 class=_("Historical")
-legend=_("The first Persan (Achmaenid) Empire lasted from 55BC-330BC; \
-the second (Sassanid) from 226AD-642AD.")
+legend=_("The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; \
+the second (Sassanid) from 226AD to 642AD.")
 leader="Cyrus", "Darius", "Xerxes", "Ardashir"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.iran"

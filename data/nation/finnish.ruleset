@@ -3,10 +3,10 @@
 name=_("Finnish")
 plural=_("?plural:Finns")
 class=_("Modern")
-legend=_("Finland is a small, cold country on the northen fringe of Europe, \
+legend=_("Finland is a small, cold country on the northern fringe of Europe, \
 noted for exporting timber, cellular phones, and world-class operating \
 systems.")
-leader="Carl Gustav Mannerheim", "Urho Kekkonen", "Martti Ahtisaari",
+leader="C.G.E. Mannerheim", "Urho Kekkonen", "Martti Ahtisaari",
        "Tarja Halonen", "Linus Torvalds"
 leader_sex="Male", "Male", "Male",
            "Female", "Male"
@@ -34,22 +34,38 @@ government="Republic"
 ; all the Finnish cities, the situation in 1998,
 ; ordered by combined population and age (in 2000)
 
+; location preferences created if relevant to the city image
+; - if the city is at a notable lake or quite near the Baltic
+;   Sea, ocean isn't preferred either way
+
 cities =
- "Helsinki", "Turku", "Oulu", "Tampere", "Pori", "Porvoo", "Vaasa",
- "Rauma", "Lappeenranta", "Kuopio", "Hämeenlinna", "Kokkola", "Kajaani",
- "Jyväskylä", "Savonlinna", "Lahti", "Tornio", "Joensuu", "Naantali",
- "Pietarsaari", "Kotka", "Uusikaupunki", "Tammisaari", "Raahe", "Espoo",
- "Mikkeli", "Vantaa", "Heinola", "Hamina", "Kemi", "Kristiinankaupunki",
- "Uusikaarlepyy", "Iisalmi", "Loviisa", "Hyvinkää", "Maarianhamina",
- "Rovaniemi", "Hanko", "Kouvola", "Seinäjoki", "Järvenpää", "Lohja",
- "Riihimäki", "Salo", "Imatra", "Varkaus", "Kerava", "Valkeakoski",
- "Forssa", "Nokia", "Raisio", "Kuusankoski", "Vammala", "Pieksämäki",
- "Lieksa", "Anjalankoski", "Ylivieska", "Äänekoski", "Kankaanpää",
- "Kaskinen", "Lapua", "Jämsä", "Kemijärvi", "Parainen", "Nurmes",
- "Kurikka", "Kauniainen", "Alavus", "Loimaa", "Huittinen", "Kokemäki",
- "Karjaa", "Karkkila", "Virrat", "Outokumpu", "Haapajärvi", "Mänttä",
- "Suonenjoki", "Oulainen", "Toijala", "Harjavalta", "Parkano",
- "Ikaalinen", "Keuruu", "Kuhmo", "Saarijärvi", "Kaarina", "Suolahti",
- "Alajärvi", "Orivesi", "Laitila", "Kauhava", "Orimattila", "Jämsänkoski",
- "Ähtäri", "Nivala", "Kannus", "Kitee", "Kiuruvesi", "Närpiö", "Somero",
- "Pyhäjärvi", "Haapavesi", "Viitasaari", "Paimio", "Nilsiä", "Juankoski"
+ "Helsinki (ocean)", "Turku (ocean, river)", "Oulu (ocean, river)",
+ "Tampere", "Pori (ocean, river)", "Porvoo (ocean, river)", "Vaasa (ocean)",
+ "Rauma (ocean)", "Lappeenranta", "Kuopio", "Hämeenlinna", "Kokkola (ocean)",
+ "Kajaani", "Jyväskylä", "Savonlinna", "Lahti (hills)", "Tornio (river)",
+ "Joensuu (river)", "Naantali (ocean)", "Pietarsaari (ocean)",
+ "Kotka (ocean, river)", "Uusikaupunki (ocean)", "Tammisaari (ocean)",
+ "Raahe (ocean)", "Espoo", "Mikkeli", "Vantaa (river)", "Heinola",
+ "Hamina (ocean)", "Kemi (ocean, river)", "Kristiinankaupunki (ocean)",
+ "Uusikaarlepyy (river)", "Iisalmi", "Loviisa (ocean)", "Hyvinkää (!ocean)",
+ "Maarianhamina (ocean)", "Rovaniemi (!ocean, river)", "Hanko (ocean)",
+ "Kouvola (!ocean)", "Seinäjoki (!ocean, river)", "Järvenpää", "Lohja (hills)",
+ "Riihimäki (!ocean)", "Salo", "Imatra (river)", "Varkaus", "Kerava (!ocean)",
+ "Valkeakoski", "Forssa (!ocean)", "Nokia", "Raisio (ocean)", "Kuusankoski",
+ "Vammala", "Pieksämäki", "Lieksa", "Anjalankoski (river, !ocean)",
+ "Ylivieska (river, !ocean)", "Äänekoski", "Kankaanpää (!ocean)",
+ "Kaskinen (ocean)", "Lapua (river, !ocean)", "Jämsä", "Kemijärvi (river)",
+ "Parainen (ocean)", "Nurmes", "Kurikka (!ocean)", "Kauniainen",
+ "Alavus (!ocean)", "Loimaa (river, !ocean)", "Huittinen (river, !ocean)",
+ "Kokemäki (river, !ocean)", "Karjaa", "Karkkila (!ocean)",
+ "Virrat (river, !ocean)", "Outokumpu (!ocean, hills)",
+ "Haapajärvi (river, !ocean)", "Mänttä", "Suonenjoki (river, !ocean)",
+ "Oulainen (!ocean)", "Toijala (!ocean)", "Harjavalta (river, !ocean)",
+ "Parkano (river, !ocean)", "Ikaalinen", "Keuruu", "Kuhmo (!ocean)",
+ "Saarijärvi", "Kaarina (river)", "Suolahti", "Alajärvi", "Orivesi",
+ "Laitila (!ocean)", "Kauhava (!ocean)", "Orimattila (!ocean)",
+ "Jämsänkoski (river)", "Ähtäri (!ocean)", "Nivala (river, !ocean)",
+ "Kannus (river, !ocean)", "Kitee", "Kiuruvesi (river, !ocean)",
+ "Närpiö (ocean)", "Somero (river, !ocean)", "Pyhäjärvi",
+ "Haapavesi (river, !ocean)", "Viitasaari", "Paimio", "Nilsiä",
+ "Juankoski (river, !ocean)"

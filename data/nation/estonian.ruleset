@@ -3,13 +3,13 @@
 name=_("Estonian")
 plural=_("?plural:Estonians")
 class=_("Modern")
-legend=_("Estonia is a small country on the south shore of the estern \
+legend=_("Estonia is a small country on the south shore of the eastern \
 Baltic Sea.  Its people and language are closely related to those of \
 Finland.")
-leader="Kalevipoeg", "Lembitu", "Carl Robert Jakobson", "Konstatin Päts",
-  "Tunne Kelam", "Lennart Meri"
+leader="Kalevipoeg", "Lembitu", "Carl Robert Jakobson", "Konstantin Päts",
+  "Tunne Kelam", "Lennart Meri", "Mart Laar"
 leader_sex="Male", "Male", "Male", "Male",
-  "Male", "Male"
+  "Male", "Male", "Male"
 flag="f.estonia"
 flag_alt = "-"
 city_style = "European"

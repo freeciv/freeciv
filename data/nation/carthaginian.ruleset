@@ -3,7 +3,7 @@
 name=_("Carthaginian")
 plural=_("?plural:Carthaginians")
 class=_("Historical")
-legend=_("The Carthaginians, descendendents of Phoenician traders, \
+legend=_("The Carthaginians, descendants of Phoenician traders, \
 ran a naval empire in the Mediterranean from the 5th to 2nd centuries \
 BC. Carthage was destroyed by Rome in 146BC.")
 leader="Hannibal", "Hasdrubal", "Hamilcar", "Dido"
