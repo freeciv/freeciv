@@ -54,8 +54,12 @@
 /******************************************************************/
 static void create_city_report_dialog(bool make_modal);
 static void city_model_init(void);
+
 static void city_center_callback(GtkWidget *w, gpointer data);
 static void city_popup_callback(GtkWidget *w, gpointer data);
+static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
+				    GtkTreeViewColumn *col, gpointer data);
+
 static void city_buy_callback(GtkWidget *w, gpointer data);
 static void city_refresh_callback(GtkWidget *w, gpointer data);
 static void city_selection_changed_callback(GtkTreeSelection *selection);
@@ -692,11 +696,13 @@ static void create_city_report_dialog(bool make_modal)
 
   city_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(city_model));
   g_object_unref(city_model);
+  g_signal_connect(city_view, "row_activated",
+		   G_CALLBACK(city_activated_callback), NULL);
   city_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(city_view));
   gtk_tree_selection_set_mode(city_selection, GTK_SELECTION_MULTIPLE);
   g_signal_connect(city_selection, "changed",
 	G_CALLBACK(city_selection_changed_callback), NULL);
-
+  
   for (i=0; i<NUM_CREPORT_COLS; i++) {
     gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(city_model), i,
 	cityrep_sort_func, GINT_TO_POINTER(i), NULL);
@@ -973,6 +979,31 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
 static void city_popup_callback(GtkWidget *w, gpointer data)
 {
   gtk_tree_selection_selected_foreach(city_selection, popup_iterate, NULL);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
+				    GtkTreeViewColumn *col, gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  GdkModifierType mask;
+
+  model = gtk_tree_view_get_model(view);
+
+  if (!gtk_tree_model_get_iter(model, &it, path)) {
+    return;
+  }
+
+  gdk_window_get_pointer(NULL, NULL, NULL, &mask);
+
+  if (!(mask & GDK_CONTROL_MASK)) {
+    popup_iterate(model, path, &it, NULL);
+  } else {
+    center_iterate(model, path, &it, NULL);
+  }
 }
 
 /****************************************************************
