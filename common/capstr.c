@@ -83,6 +83,12 @@ const char * const our_capability = our_capability_internal;
  *
  * "username_info" means that the username is sent in the player_info packet
  *
+ * "new_hack" means a new-style hack-request method
+ *
+ * "spec_multi" means specialists may provide more than one type of output.
+ * Note that actually using this feature with an unsupported client will
+ * break it.
+ *
  *   - No new manditory capabilities can be added to the release branch; doing
  *     so would break network capability of supposedly "compatible" releases.
  *
@@ -90,7 +96,8 @@ const char * const our_capability = our_capability_internal;
  *     as long as possible.  We want to maintain network compatibility with
  *     the stable branch for as long as possible.
  */
-#define CAPABILITY "+2.0 connecting conn_ping_info username_info new_hack"
+#define CAPABILITY "+2.0 connecting conn_ping_info username_info new_hack " \
+                   "spec_multi"
 
 void init_our_capability(void)
 {

@@ -174,7 +174,7 @@ struct cm_tile_type {
   int production[O_MAX];
   double estimated_fitness; /* weighted sum of production */
   bool is_specialist;
-  enum specialist_type spec; /* valid only if is_specialist */
+  Specialist_type_id spec; /* valid only if is_specialist */
   struct tile_vector tiles;  /* valid only if !is_specialist */
   struct tile_type_vector better_types;
   struct tile_type_vector worse_types;
@@ -911,19 +911,7 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
 
 /*
  * Add the specialist types to the lattice.
- * This structure is necessary for now because each specialist
- * creates only one type of production and we need to map
- * indices from specialist_type to cm_stat.
  */
-struct spec_stat_pair {
-  enum specialist_type spec;
-  Output_type_id stat;
-};
-const static struct spec_stat_pair pairs[SP_COUNT] =  {
-  { SP_ELVIS, O_LUXURY },
-  { SP_SCIENTIST, O_SCIENCE },
-  { SP_TAXMAN, O_GOLD }
-};
 
 /****************************************************************************
   Create lattice nodes for each type of specialist.  This adds a new
@@ -940,14 +928,13 @@ static void init_specialist_lattice_nodes(struct tile_type_vector *lattice,
   /* for each specialist type, create a tile_type that has as production
    * the bonus for the specialist (if the city is allowed to use it) */
   specialist_type_iterate(i) {
-    if (city_can_use_specialist(pcity, pairs[i].spec)) {
-      type.spec = pairs[i].spec;
-      type.production[pairs[i].stat]
-        = game.rgame.specialists[pairs[i].spec].bonus;
+    if (city_can_use_specialist(pcity, i)) {
+      type.spec = i;
+      output_type_iterate(output) {
+	type.production[output] = game.rgame.specialists[i].bonus[output];
+      } output_type_iterate_end;
 
       tile_type_lattice_add(lattice, &type, 0, 0);
-
-      type.production[pairs[i].stat] = 0;
     }
   } specialist_type_iterate_end;
 }

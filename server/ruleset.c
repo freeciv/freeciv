@@ -2554,13 +2554,17 @@ static void load_ruleset_cities(struct section_file *file)
 
   for (i = 0; i < nval; i++) {
     const char *name = specialist_names[i];
+    int *bonus = game.rgame.specialists[i].bonus;
 
     sz_strlcpy(game.rgame.specialists[i].name, name);
     game.rgame.specialists[i].min_size
       = secfile_lookup_int(file, "specialist.%s_min_size", name);
-    game.rgame.specialists[i].bonus
-      = secfile_lookup_int(file, "specialist.%s_base_bonus", name);
-    
+
+    output_type_iterate(o) {
+      bonus[o] = secfile_lookup_int_default(file, 0,
+					    "specialist.%s_bonus_%s",
+					    name, get_output_identifier(o));
+    } output_type_iterate_end;
   }
   free(specialist_names);
 
@@ -3149,9 +3153,19 @@ static void send_ruleset_game(struct conn_list *dest)
   struct packet_ruleset_game misc_p;
 
   specialist_type_iterate(sp) {
+    int *bonus = game.rgame.specialists[sp].bonus;
+    int max_bonus = 0;
+
     sz_strlcpy(misc_p.specialist_name[sp], game.rgame.specialists[sp].name);
     misc_p.specialist_min_size[sp] = game.rgame.specialists[sp].min_size;
-    misc_p.specialist_bonus[sp] = game.rgame.specialists[sp].bonus;
+
+    output_type_iterate(o) {
+      misc_p.specialist_bonus[sp * O_COUNT + o] = bonus[o];
+      max_bonus = MAX(max_bonus, bonus[0]);
+    } output_type_iterate_end;
+
+    /* This is included for compatability. */
+    misc_p.specialist_bonus_old[sp] = max_bonus;
   } specialist_type_iterate_end;
   misc_p.changable_tax = game.rgame.changable_tax;
   misc_p.forced_science = game.rgame.forced_science;

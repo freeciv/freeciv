@@ -195,7 +195,8 @@ struct civ_game {
   struct {
     struct {
       char name[MAX_LEN_NAME];
-      int min_size, bonus;
+      int min_size;
+      int bonus[O_MAX];
     } specialists[SP_COUNT];
 #define DEFAULT_SPECIALIST SP_ELVIS
     bool changable_tax;

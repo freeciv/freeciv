@@ -2641,7 +2641,30 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   specialist_type_iterate(sp) {
     sz_strlcpy(game.rgame.specialists[sp].name, packet->specialist_name[sp]);
     game.rgame.specialists[sp].min_size = packet->specialist_min_size[sp];
-    game.rgame.specialists[sp].bonus = packet->specialist_bonus[sp];
+    if (has_capability("spec_multi", aconnection.capability)) {
+      int *bonus = game.rgame.specialists[sp].bonus;
+
+      output_type_iterate(o) {
+	bonus[o] = packet->specialist_bonus[sp * O_COUNT + o];
+      } output_type_iterate_end;
+    } else {
+      /* This is included for compatability. */
+      int bonus = packet->specialist_bonus_old[sp];
+
+      memset(game.rgame.specialists[sp].bonus, 0,
+	     O_COUNT * sizeof(*game.rgame.specialists[sp].bonus));
+      switch (sp) {
+      case SP_ELVIS:
+	game.rgame.specialists[sp].bonus[O_LUXURY] = bonus;
+	break;
+      case SP_SCIENTIST:
+	game.rgame.specialists[sp].bonus[O_SCIENCE] = bonus;
+	break;
+      case SP_TAXMAN:
+	game.rgame.specialists[sp].bonus[O_GOLD] = bonus;
+	break;
+      }
+    }
   } specialist_type_iterate_end;
   tilespec_setup_specialist_types();
 

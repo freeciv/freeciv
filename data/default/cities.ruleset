@@ -21,14 +21,13 @@ options="1.9"
 ; the city is of a certain size.
 [specialist]
 
-; Changing the order or names of specialists will break things
 types = "elvis", "scientist", "taxman"
 elvis_min_size = 0
-elvis_base_bonus = 2
+elvis_bonus_luxury = 2
 scientist_min_size = 5
-scientist_base_bonus = 3
+scientist_bonus_science = 3
 taxman_min_size = 5
-taxman_base_bonus = 3
+taxman_bonus_gold = 3
 
 changable_tax = 1
 ;forced_science = 0

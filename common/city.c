@@ -1731,12 +1731,15 @@ static inline void set_tax_income(struct city *pcity)
   get_tax_income(city_owner(pcity), pcity->trade_prod, &pcity->science_total, 
                  &pcity->luxury_total, &pcity->tax_total);
 
-  pcity->luxury_total += (pcity->specialists[SP_ELVIS]
-			  * game.rgame.specialists[SP_ELVIS].bonus);
-  pcity->science_total += (pcity->specialists[SP_SCIENTIST]
-			   * game.rgame.specialists[SP_SCIENTIST].bonus);
-  pcity->tax_total += (pcity->specialists[SP_TAXMAN]
-			* game.rgame.specialists[SP_TAXMAN].bonus);
+  specialist_type_iterate(sp) {
+    int *bonus = game.rgame.specialists[sp].bonus;
+    int count = pcity->specialists[sp];
+
+    pcity->luxury_total += count * bonus[O_LUXURY];
+    pcity->science_total += count * bonus[O_SCIENCE];
+    pcity->tax_total += count * bonus[O_GOLD];
+  } specialist_type_iterate_end;
+
   pcity->tax_total += get_city_tithes_bonus(pcity);
 }
 
