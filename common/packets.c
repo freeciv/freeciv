@@ -968,7 +968,6 @@ int send_packet_unit_info(struct connection *pc,
   pack=(req->upkeep&0x3)|((req->unhappiness&0x3)<<2)|((req->activity&0xf)<<4);
   cptr=put_int8(cptr, pack);
   cptr=put_int8(cptr, req->activity_count);
-  cptr=put_int32(cptr, req->bribe_cost);
   cptr=put_int8(cptr, req->goto_dest_x);
   cptr=put_int8(cptr, req->goto_dest_y);
   if(req->fuel) cptr=put_int8(cptr, req->fuel);
@@ -1132,10 +1131,9 @@ recieve_packet_unit_info(struct connection *pc)
   packet->activity=pack>>4; packet->upkeep=pack&0x3;
   packet->unhappiness=(pack>>2)&0x3;
   cptr=get_int8(cptr, &packet->activity_count);
-  cptr=get_int32(cptr, &packet->bribe_cost);
   cptr=get_int8(cptr, &packet->goto_dest_x);
   cptr=get_int8(cptr, &packet->goto_dest_y);
-  if(pc->buffer.data+length-cptr >= 4)
+  if(pc->buffer.data+length-cptr >= 1)
     cptr=get_int8(cptr, &packet->fuel);
   else
     packet->fuel=0;

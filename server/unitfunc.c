@@ -1168,7 +1168,6 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.activity_count=punit->activity_count;
   info.unhappiness=punit->unhappiness;
   info.upkeep=punit->upkeep;
-  info.bribe_cost=punit->bribe_cost;
   info.ai=punit->ai.control;
   info.fuel=punit->fuel;
   info.goto_dest_x=punit->goto_dest_x;

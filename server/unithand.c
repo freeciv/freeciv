@@ -98,17 +98,26 @@ void handle_upgrade_unit_request(struct player *pplayer,
 
 /***************************************************************
 ...  Tell the client the cost of inciting a revolt
+     or bribing a unit
 ***************************************************************/
 void handle_incite_inq(struct player *pplayer,
 		       struct packet_generic_integer *packet)
 {
   struct city *pcity=find_city_by_id(packet->value);
+  struct unit *punit=find_unit_by_id(packet->value);
   struct packet_generic_values req;
 
   if(pcity)  {
     city_incite_cost(pcity);
     req.id=packet->value;
     req.value1=pcity->incite_revolt_cost;
+    send_packet_generic_values(pplayer->conn, PACKET_INCITE_COST, &req);
+    return;
+  }
+  if(punit)  {
+    punit->bribe_cost = unit_bribe_cost(punit);
+    req.id=packet->value;
+    req.value1=punit->bribe_cost;
     send_packet_generic_values(pplayer->conn, PACKET_INCITE_COST, &req);
   }
 }

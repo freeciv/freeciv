@@ -320,41 +320,43 @@ void diplomat_bribe_no_callback(Widget w, XtPointer client_data,
   destroy_message_dialog(w);
 }
 
-
-
 /****************************************************************
-...
+...  Ask the server how much the bribe is
 *****************************************************************/
 void diplomat_bribe_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
-  char buf[512];
-  struct unit *ptarget;
-  
-  destroy_message_dialog(w);
-  
-  if(find_unit_by_id(diplomat_id) && 
-     (ptarget=find_unit_by_id(diplomat_target_id))) { 
-    
-    if(game.player_ptr->economic.gold>=ptarget->bribe_cost) {
-      sprintf(buf, "Bribe unit for %d gold?\nTreasury contains %d gold.", 
-	      ptarget->bribe_cost,
-	      game.player_ptr->economic.gold);
-      popup_message_dialog(toplevel, "diplomatbribedialog", buf,
-			   diplomat_bribe_yes_callback, 0,
-			   diplomat_bribe_no_callback, 0, 0);
-    }
-    else {
-      sprintf(buf, "Bribing the unit costs %d gold.\nTreasury contains %d gold.", 
-	      ptarget->bribe_cost,
-	      game.player_ptr->economic.gold);
-      popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
-			   diplomat_bribe_no_callback, 0, 
-			   0);
-    }
-  
-  }
+  struct packet_generic_integer packet;
 
+  destroy_message_dialog(w);
+
+  if(find_unit_by_id(diplomat_id) && 
+     find_unit_by_id(diplomat_target_id)) { 
+    packet.value = diplomat_target_id;
+    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void popup_bribe_dialog(struct unit *punit)
+{
+  char buf[128];
+  
+  if(game.player_ptr->economic.gold>=punit->bribe_cost) {
+    sprintf(buf, "Bribe unit for %d gold?\nTreasury contains %d gold.", 
+	    punit->bribe_cost, game.player_ptr->economic.gold);
+    popup_message_dialog(toplevel, "diplomatbribedialog", buf,
+			 diplomat_bribe_yes_callback, 0,
+			 diplomat_bribe_no_callback, 0, 0);
+  } else {
+    sprintf(buf, "Bribing the unit costs %d gold.\nTreasury contains %d gold.", 
+	    punit->bribe_cost, game.player_ptr->economic.gold);
+    popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
+			 diplomat_bribe_no_callback, 0, 
+			 0);
+  }
 }
 
 /****************************************************************

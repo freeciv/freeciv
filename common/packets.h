@@ -227,7 +227,6 @@ struct packet_unit_info {
   int activity_count;
   int unhappiness;
   int upkeep;
-  int bribe_cost;
   int ai;
   int fuel;
   int goto_dest_x, goto_dest_y;

@@ -370,7 +370,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 
     punit->veteran=packet->veteran;
     punit->moves_left=packet->movesleft;
-    punit->bribe_cost=packet->bribe_cost;
+    punit->bribe_cost=0;
     punit->ai.control=packet->ai;
     punit->fuel=packet->fuel;
     punit->goto_dest_x=packet->goto_dest_x;
@@ -394,7 +394,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->activity_count=0;
     punit->upkeep=0;
     punit->hp=packet->hp;
-    punit->bribe_cost=packet->bribe_cost;
+    punit->bribe_cost=0;
     punit->fuel=0;
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
@@ -654,9 +654,16 @@ void handle_select_race(struct packet_generic_integer *packet)
 void handle_incite_cost(struct packet_generic_values *packet)
 {
   struct city *pcity=find_city_by_id(packet->id);
+  struct unit *punit=find_unit_by_id(packet->id);
 
   if(pcity)  {
     pcity->incite_revolt_cost = packet->value1;
     popup_incite_dialog(pcity);
+    return;
+  }
+
+  if(punit) {
+    punit->bribe_cost = packet->value1;
+    popup_bribe_dialog(punit);
   }
 }
