@@ -1,4 +1,15 @@
-/* connectdlg.c -- PLACEHOLDER */
+/********************************************************************** 
+ Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -18,11 +29,12 @@
 
 static void try_to_autoconnect(void);
 
-
-void
-gui_server_connect(void)
+/**************************************************************************
+  Provide an interface for connecting to a FreeCiv server.
+**************************************************************************/
+void gui_server_connect(void)
 {
-	/* PORTME */
+  /* PORTME */
 }
 
 
@@ -33,7 +45,7 @@ gui_server_connect(void)
   roughly every AUTOCONNECT_INTERVAL milliseconds, until success,
   fatal error or user intervention.
 **************************************************************************/
-void server_autoconnect()
+void server_autoconnect(void)
 {
   char buf[512];
   int outcome;
@@ -79,15 +91,18 @@ static void try_to_autoconnect(void)
   }
 
   switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
-  case 0:			/* Success! */
+  case 0:
+    /* Success! */
     return;
-  case ECONNREFUSED:		/* Server not available (yet) - wait & retry */
+  case ECONNREFUSED:
+    /* Server not available (yet) - wait & retry */
 #if 0
     /* PORTME */
     schedule_timer(AUTOCONNECT_INTERVAL, try_to_autoconnect, NULL);
 #endif
     return;
-  default:			/* All other errors are fatal */
+  default:
+    /* All other errors are fatal */
     freelog(LOG_FATAL,
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
