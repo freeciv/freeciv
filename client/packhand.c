@@ -34,6 +34,7 @@
 #include "mem.h"
 #include "nation.h"
 #include "packets.h"
+#include "player.h"
 #include "spaceship.h"
 #include "support.h"
 #include "unit.h"
@@ -902,7 +903,9 @@ void handle_unit_info(struct packet_unit_info *packet)
       struct city *pcity;
       pcity=map_get_city(punit->x, punit->y);
       
-      if(tile_get_known(packet->x, packet->y) == TILE_KNOWN) {
+      if(tile_get_known(packet->x, packet->y) == TILE_KNOWN
+         && player_can_see_unit_at_location(game.player_ptr, punit, 
+                                            packet->x, packet->y)) {
 	do_move_unit(punit, packet);
 	update_unit_focus();
       }

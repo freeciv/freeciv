@@ -2032,9 +2032,11 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
     if (!pplayer && !pconn->observer) continue;
-    if (!pplayer || ((map_get_known_and_seen(info.x, info.y, pplayer)
-		      || map_get_known_and_seen(x, y, pplayer))
-		     && player_can_see_unit(pplayer, punit))) {
+    if (!pplayer 
+        || ((map_get_known_and_seen(info.x, info.y, pplayer)
+             || map_get_known_and_seen(x, y, pplayer))
+            && (player_can_see_unit(pplayer, punit)
+                || player_can_see_unit_at_location(pplayer, punit, x, y)))) {
       send_packet_unit_info(pconn, &info);
     }
   }
@@ -3027,6 +3029,11 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
   send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE, FALSE);
+
+  /* The hidden units might not have been previously revealed 
+   * because when we did the unfogging, the unit was still 
+   * at (src_x, src_y) */
+  reveal_hidden_units(pplayer, dest_x, dest_y);
 
   if (unit_profits_of_watchtower(punit)
       && tile_has_special(psrctile, S_FORTRESS))

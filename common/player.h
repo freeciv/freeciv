@@ -213,6 +213,10 @@ void player_set_unit_focus_status(struct player *pplayer);
 bool player_has_embassy(struct player *pplayer, struct player *pplayer2);
 
 bool player_can_see_unit(struct player *pplayer, struct unit *punit);
+bool player_can_see_unit_at_location(struct player *pplayer, 
+                                     struct unit *punit, 
+                                     int x, int y);
+
 bool player_owns_city(struct player *pplayer, struct city *pcity);
 
 struct city *player_find_city_by_id(struct player *pplayer, int city_id);

@@ -233,10 +233,15 @@ struct player *find_player_by_user(const char *name)
 }
 
 /***************************************************************
-  Returns TRUE iff the player can see the unit. No map visibility
-  check here! Allied units and cities can be used for sub hunting.
+  Returns TRUE iff the player can see the unit at (x,y), i.e. if 
+  the unit is not invisible or if it is adjacent to one of our 
+  cities or units.  No map visibility check here! The unit does 
+  not have to be at (x,y)! 
+  Allied units and cities can be used for sub hunting. 
 ***************************************************************/
-bool player_can_see_unit(struct player *pplayer, struct unit *punit)
+bool player_can_see_unit_at_location(struct player *pplayer, 
+                                     struct unit *punit, 
+                                     int x, int y)
 {
   if (pplayers_allied(unit_owner(punit), pplayer)
       || !is_hiding_unit(punit)) {
@@ -244,7 +249,7 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
   }
 
   /* Search for units/cities that might be able to see the sub/missile */
-  adjc_iterate(punit->x, punit->y, x1, y1) {
+  adjc_iterate(x, y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
     unit_list_iterate(map_get_tile(x1, y1)->units, punit2) {
       if (pplayers_allied(unit_owner(punit2), pplayer)) {
@@ -258,6 +263,14 @@ bool player_can_see_unit(struct player *pplayer, struct unit *punit)
   } adjc_iterate_end;
 
   return FALSE;
+}
+
+/***************************************************************
+  Same thing as above only the location is the unit's current one.
+***************************************************************/
+bool player_can_see_unit(struct player *pplayer, struct unit *punit)
+{
+  return player_can_see_unit_at_location(pplayer, punit, punit->x, punit->y);
 }
 
 /***************************************************************

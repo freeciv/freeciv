@@ -25,6 +25,7 @@
 #include "packets.h"
 #include "rand.h"
 #include "support.h"
+#include "unit.h"
 
 #include "citytools.h"
 #include "cityturn.h"
@@ -451,6 +452,22 @@ static void reveal_pending_seen(struct player *pplayer, int x, int y, int len)
       pseen--;
     }
   } square_iterate_end;
+}
+
+/*************************************************************************
+ * Checks for hidden units around (x,y).  Such units can be invisible even
+ * on a KNOWN_AND_SEEN tile, so unfogging might not reveal them.
+ ************************************************************************/
+void reveal_hidden_units(struct player *pplayer, int x, int y)
+{
+  adjc_iterate(x, y, x1, y1) {
+    unit_list_iterate(map_get_tile(x1, y1)->units, punit) {
+      if (is_hiding_unit(punit)) {
+        /* send_unit_info will check whether it is visible */
+        send_unit_info(pplayer, punit);
+      }
+    } unit_list_iterate_end;
+  } adjc_iterate_end;
 }
 
 /**************************************************************************
