@@ -24,12 +24,7 @@ for NAME in $@ ; do
     echo "! nls checks disabled"
     FC_USE_NLS=no
   fi
-  if [ "x$NAME" = "x--disable-autoconf2.52" ]; then 
-    echo "! forcing old autoconf configuration"
-    FC_USE_NEWAUTOCONF=no
-  else
-    FC_NEWARGLINE="$FC_NEWARGLINE $NAME"
-  fi
+  FC_NEWARGLINE="$FC_NEWARGLINE $NAME"
 done
 
 debug ()
@@ -116,40 +111,11 @@ cd $SRCDIR
   exit 1
 }
 
-# We need to move configure.in out of the way in case we have autoconf
-# > 2.13 since that would cause lots of spurious warnings. Same goes
-# for acconfig.h
-[ -f configure.in ] && {
-  mv configure.in configure.old
-}
-
-[ -f acconfig.h ] && {
-  mv acconfig.h acconfig.old
-}
-
 # x.252 is autoconf 2.52 compatible version of this macro, while x.213 is
 # the original autoconf 2.13 version; we must suppose 2.52 by default here
 cp m4/x.252 m4/x.m4
 
-if [ "$FC_USE_NEWAUTOCONF" = "yes" -a -f configure.old2 ]; then
-  mv configure.old2 configure.ac
-fi
-if [ "$FC_USE_NEWAUTOCONF" = "no" -a -f configure.ac ]; then
-  mv configure.ac configure.old2
-fi
-
-if [ "$FC_USE_NEWAUTOCONF" = "yes" ] \
- && version_check 0 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 52
-then
-  FC_AUTOCONF=new
-else
-  FC_AUTOCONF=old
-  mv configure.old configure.in
-  mv acconfig.old acconfig.h
-  cp m4/x.213 m4/x.m4
-  version_check 1 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 13 || DIE=1
-fi
-
+version_check 1 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 52 || DIE=1
 version_check 1 "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 4 || DIE=1
 if [ "$FC_USE_NLS" = "yes" ]; then
   DIE2=0
@@ -165,10 +131,6 @@ fi
 
 if [ "$DIE" -eq 1 ]; then
   exit 1
-fi
-
-if [ "$FC_AUTOCONF" = "new" ]; then
-  echo "+ using new autoconf configuration (use --disable-autoconf2.52 to use old)"
 fi
 
 echo "+ creating acinclude.m4"
@@ -223,17 +185,6 @@ $SRCDIR/configure $FC_NEWARGLINE || {
   echo
   echo "configure failed"
   exit 1
-}
-
-# Reverse changes to make tree sane
-[ -f $SRCDIR/configure.old ] && { 
-  mv $SRCDIR/configure.old $SRCDIR/configure.in 
-}
-[ -f $SRCDIR/configure.old2 ] && { 
-  mv $SRCDIR/configure.old2 $SRCDIR/configure.ac 
-}
-[ -f $SRCDIR/acconfig.h ] && { 
-  mv $SRCDIR/acconfig.h $SRCDIR/acconfig.old
 }
 
 # abort if we did --help
