@@ -232,13 +232,20 @@ void handle_city_remove(int city_id)
 void handle_unit_remove(int unit_id)
 {
   struct unit *punit = find_unit_by_id(unit_id);
+  struct player *powner;
 
   if (!punit) {
     return;
   }
 
+  powner = unit_owner(punit);
+
   agents_unit_remove(punit);
   client_remove_unit(punit);
+
+  if (powner == game.player_ptr) {
+    activeunits_report_dialog_update();
+  }
 }
 
 /**************************************************************************
