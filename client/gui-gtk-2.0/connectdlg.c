@@ -1102,7 +1102,7 @@ void gui_server_connect(void)
 
   update_dialog(FIRST_PAGE);
 
-  gtk_widget_set_size_request(dialog, 500, 250);
+  gtk_window_set_default_size(GTK_WINDOW(dialog), 500, 250);
   gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
 
   if (!auto_connect) {
