@@ -50,6 +50,7 @@ client/cityrepdata.c
 client/civclient.c
 client/climisc.c
 client/clinet.c
+client/connectdlg_common.c
 client/control.c
 client/helpdata.c
 client/mapctrl_common.c

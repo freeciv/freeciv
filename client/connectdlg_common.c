@@ -326,13 +326,13 @@ handle response (by the server) if the client has got hack or not.
 void handle_single_want_hack_reply(bool you_have_hack)
 {
   if (you_have_hack) {
-    append_output_window("We have control of the server "
-                         "(command access level hack)");
+    append_output_window(_("We have control of the server "
+                         "(command access level hack)"));
     client_has_hack = TRUE;
   } else if (is_server_running()) {
     /* only output this if we started the server and we NEED hack */
-    append_output_window("We can't take control of server, "
-                         "attempting to kill it.");
+    append_output_window(_("We can't take control of server, "
+                         "attempting to kill it."));
     client_kill_server();
   }
 }
