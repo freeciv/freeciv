@@ -1543,11 +1543,16 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
   tb=(map_distance(pc1->x, pc1->y, pc2->x, pc2->y)+10);
 /* should this be real_map_distance?  Leaving for now -- Syela */
   tb=(tb*(pc1->trade_prod+pc2->trade_prod))/24;
-  if (map_get_continent(pc1->x, pc1->y) == map_get_continent(pc2->x, pc2->y))
-    tb/=2;
-  if (pc1->owner==pc2->owner)
-    tb/=2;
+  /* 
+   * fudge factor to more closely approximate Civ2 behavior (Civ2 is
+   * really very different -- this just fakes it a little better) 
+   */
+  tb *= 3;
 
+  /* 
+   * one time bonus is not affected by factors in
+   * trade_between_cities() 
+   */
   for(i=0;i<player_knows_techs_with_flag(city_owner(pc1),TF_TRADE_REVENUE_REDUCE);i++) {
     tb = (tb * 2)/3;
   }
