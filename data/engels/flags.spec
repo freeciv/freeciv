@@ -12,6 +12,7 @@ artists = "
     Jerzy Klek <qpkjeek@epk.ericsson.se> (more flags added)
     Reineir Post <rp@win.tue.nl> (Sweden, Holland)
     Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
+    Jeff Mallatt <jjm@codewell.com> (England)
 "
 
 [file]
@@ -63,5 +64,6 @@ tiles = { "row", "column", "tag"
   2,  7, "f.norway"
   2,  8, "f.portugal"
   2,  9, "f.czech"
+  2, 10, "f.england"
   2, 13, "f.barbarian"
 }
