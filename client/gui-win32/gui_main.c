@@ -584,6 +584,7 @@ ui_main(int argc, char *argv[])
 	DispatchMessage(&msg);   
       }
     }
+    Sleep(1);
   }
 }
 
