@@ -563,6 +563,7 @@ void popit(int xin, int yin, int xtile, int ytile)
   
   if(ptile->known>=TILE_KNOWN) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass, map_canvas, NULL, 0);
+    XtAddCallback(p,XtNpopdownCallback,destroy_me_callback,NULL);
     sprintf(s, "Terrain: %s", map_get_tile_info_text(xtile, ytile));
     XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     
@@ -609,6 +610,11 @@ void popit(int xin, int yin, int xtile, int ytile)
         sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s", ptype->attack_strength, 
 	  ptype->defense_strength, ptype->firepower, punit->hp, 
 	  ptype->hp, punit->veteran?" V":"");
+
+      if(punit->activity==ACTIVITY_GOTO)
+        put_cross_overlay_tile(punit->goto_dest_x,punit->goto_dest_y);
+        XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
+		      (XtPointer)punit);
       } else {
         sprintf(s, "A:%d D:%d FP:%d HP:%d0%%", ptype->attack_strength, 
 	  ptype->defense_strength, ptype->firepower, 
@@ -623,6 +629,17 @@ void popit(int xin, int yin, int xtile, int ytile)
     XtPopupSpringLoaded(p);
   }
   
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void popupinfo_popdown_callback(Widget w, XtPointer client_data,
+				XtPointer call_data)
+{
+  struct unit *punit=(struct unit *)client_data;
+
+  refresh_tile_mapcanvas(punit->goto_dest_x,punit->goto_dest_y,1);
 }
 
 

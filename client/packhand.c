@@ -340,6 +340,8 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->moves_left=packet->movesleft;
     punit->bribe_cost=packet->bribe_cost;
     punit->ai.control=packet->ai;
+    punit->goto_dest_x=packet->goto_dest_x;
+    punit->goto_dest_y=packet->goto_dest_y;
   }
   
   else {      /* create new unit */
@@ -361,8 +363,8 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->hp=packet->hp;
     punit->bribe_cost=packet->bribe_cost;
     punit->fuel=0;
-    punit->goto_dest_x=0;
-    punit->goto_dest_y=0;
+    punit->goto_dest_x=packet->goto_dest_x;
+    punit->goto_dest_y=packet->goto_dest_y;
     punit->focus_status=FOCUS_AVAIL;
     punit->ai.control=0;
     

@@ -62,6 +62,8 @@ void pixmap_frame_tile_red(Pixmap pm, int x, int y);
 
 void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0);
 
+void put_cross_overlay_tile(int x,int y);
+
 void my_XawScrollbarSetThumb(Widget w, float top, float shown);
 void update_map_canvas_scrollbars(void);
 void scrollbar_jump_callback(Widget scrollbar, XtPointer client_data,

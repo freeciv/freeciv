@@ -71,5 +71,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 
 void city_new_name_return(Widget w, XEvent *event, String *params,
 			  Cardinal *num_params);
+void popupinfo_popdown_callback(Widget w, XtPointer client_data,
+				XtPointer call_data);
 
 #endif

@@ -225,6 +225,7 @@ struct packet_unit_info {
   int upkeep;
   int bribe_cost;
   int ai;
+  int goto_dest_x, goto_dest_y;
 };
 
 

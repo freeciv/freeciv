@@ -940,6 +940,8 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.upkeep=punit->upkeep;
   info.bribe_cost=punit->bribe_cost;
   info.ai=punit->ai.control;
+  info.goto_dest_x=punit->goto_dest_x;
+  info.goto_dest_y=punit->goto_dest_y;
     
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest)

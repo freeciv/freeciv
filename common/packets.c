@@ -872,6 +872,8 @@ int send_packet_unit_info(struct connection *pc,
   cptr=put_int32(cptr, req->unhappiness);
   cptr=put_int32(cptr, req->bribe_cost);
   cptr=put_int32(cptr, req->ai);
+  cptr=put_int32(cptr, req->goto_dest_x);
+  cptr=put_int32(cptr, req->goto_dest_y);
   
   put_int16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1025,6 +1027,8 @@ recieve_packet_unit_info(struct connection *pc)
   cptr=get_int32(cptr, &packet->unhappiness);
   cptr=get_int32(cptr, &packet->bribe_cost);
   cptr=get_int32(cptr, &packet->ai);
+  cptr=get_int32(cptr, &packet->goto_dest_x);
+  cptr=get_int32(cptr, &packet->goto_dest_y);
 
   remove_packet_from_buffer(&pc->buffer);
 

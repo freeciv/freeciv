@@ -1304,8 +1304,19 @@ void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y, int tileno)
   XSetClipMask(display, civ_gc, None); 
 }
 
+/**************************************************************************
+ Draws a cross-hair overlay on a tile
+**************************************************************************/
+void put_cross_overlay_tile(int x,int y)
+{
+  x=map_adjust_x(x);
+  y=map_adjust_y(y);
 
-
+  if(tile_visible_mapcanvas(x, y)) {
+    pixmap_put_overlay_tile(XtWindow(map_canvas),map_canvas_adjust_x(x),
+                            map_canvas_adjust_y(y),CROSS_TILE);
+  }
+}
 
 /**************************************************************************
 ...
