@@ -7433,14 +7433,22 @@ rm -f conftest*
             eval echo \""$FREECIV_DATADIR"\"
         )`
 
-cat >> confdefs.h <<EOF
+
+if test x"$MINGW32" = xyes; then
+  cat >> confdefs.h <<EOF
+#define DEFAULT_DATA_PATH ".;data;~/.freeciv;$FREECIV_DATADIR"
+EOF
+
+else
+  cat >> confdefs.h <<EOF
 #define DEFAULT_DATA_PATH ".:data:~/.freeciv:$FREECIV_DATADIR"
 EOF
 
+fi
 
 if test -n "$WITH_EFENCE"; then
   echo $ac_n "checking for malloc in -lefence""... $ac_c" 1>&6
-echo "configure:7444: checking for malloc in -lefence" >&5
+echo "configure:7452: checking for malloc in -lefence" >&5
 ac_lib_var=`echo efence'_'malloc | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -7448,7 +7456,7 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lefence  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 7452 "configure"
+#line 7460 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -7459,7 +7467,7 @@ int main() {
 malloc()
 ; return 0; }
 EOF
-if { (eval echo configure:7463: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:7471: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else

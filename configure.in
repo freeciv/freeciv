@@ -547,7 +547,12 @@ AC_TRY_COMPILE([#include <signal.h>],[signal (SIGPIPE, SIG_IGN)],
 
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
-AC_DEFINE_UNQUOTED(DEFAULT_DATA_PATH, ".:data:~/.freeciv:$FREECIV_DATADIR")
+
+if test x"$MINGW32" = xyes; then
+  AC_DEFINE_UNQUOTED(DEFAULT_DATA_PATH, ".;data;~/.freeciv;$FREECIV_DATADIR")
+else
+  AC_DEFINE_UNQUOTED(DEFAULT_DATA_PATH, ".:data:~/.freeciv:$FREECIV_DATADIR")
+fi
 
 dnl This has to be last library
 if test -n "$WITH_EFENCE"; then
