@@ -1434,7 +1434,9 @@ void get_mapview_corners(int x[4], int y[4])
   map_to_overview_pos(&x[0], &y[0],
 		      mapview_canvas.map_x0, mapview_canvas.map_y0);
 
-  if (is_isometric) {
+  /* Note: these calculations operate on overview coordinates as if they
+   * are native. */
+  if (is_isometric && !topo_has_flag(TF_ISO)) {
     /* We start with the west corner. */
 
     /* North */
@@ -1448,16 +1450,32 @@ void get_mapview_corners(int x[4], int y[4])
     /* South */
     x[3] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height;
     y[3] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
+  } else if (!is_isometric && topo_has_flag(TF_ISO)) {
+    /* We start with the west corner.  Note the X scale is smaller. */
+
+    /* North */
+    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width / 2;
+    y[1] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_width;
+
+    /* East */
+    x[2] = x[1] - OVERVIEW_TILE_WIDTH * mapview_canvas.tile_height / 2;
+    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height;
+
+    /* South */
+    x[3] = x[2] - OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width / 2;
+    y[3] = y[2] - OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_width;
   } else {
     /* We start with the northwest corner. */
+    int screen_width = mapview_canvas.tile_width;
+    int screen_height = mapview_canvas.tile_height * (is_isometric ? 2 : 1);
 
     /* Northeast */
-    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview_canvas.tile_width - 1;
+    x[1] = x[0] + OVERVIEW_TILE_WIDTH * screen_width - 1;
     y[1] = y[0];
 
     /* Southeast */
     x[2] = x[1];
-    y[2] = y[0] + OVERVIEW_TILE_HEIGHT * mapview_canvas.tile_height - 1;
+    y[2] = y[0] + OVERVIEW_TILE_HEIGHT * screen_height - 1;
 
     /* Southwest */
     x[3] = x[0];
