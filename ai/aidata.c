@@ -197,8 +197,8 @@ void ai_data_turn_init(struct player *pplayer)
     }
     if (unit_flag(punit, F_DIPLOMAT) && punit->ai.ai_role == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
-      struct city *pcity = map_get_city(punit->goto_dest_x,
-                                        punit->goto_dest_y);
+      struct city *pcity = map_get_city(goto_dest_x(punit),
+					goto_dest_y(punit));;
       if (pcity) {
         BV_SET(ai->stats.diplomat_reservations, pcity->id);
       }

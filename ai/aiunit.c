@@ -1430,16 +1430,17 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 
     if (ferryboat && (ferryboat->ai.passenger == 0 
                       || ferryboat->ai.passenger == punit->id)) {
+      int boat_x, boat_y;
+
       freelog(LOG_DEBUG, "We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d, %d).",
               punit->id, ferryboat->id, punit->x, punit->y, dest_x, dest_y);
       handle_unit_activity_request(punit, ACTIVITY_SENTRY);
       ferryboat->ai.passenger = punit->id;
 
       /* Last ingredient: a beachhead. */
-      if (find_beachhead(punit, dest_x, dest_y, 
-                         &ferryboat->goto_dest_x, &ferryboat->goto_dest_y)) {
-        punit->goto_dest_x = dest_x;
-        punit->goto_dest_y = dest_y;
+      if (find_beachhead(punit, dest_x, dest_y, &boat_x, &boat_y)) {
+	set_goto_dest(ferryboat, boat_x, boat_y);
+	set_goto_dest(punit, dest_x, dest_y);
         if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer)
             <= 0) {
           /* FIXME: perhaps we should only require only two passengers */
@@ -1474,9 +1475,8 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
      * our target, and either 1) we don't need a bodyguard, 2) we have a
      * bodyguard, or 3) we are going to an empty city.  Previously, cannons
      * would disembark before the cruisers arrived and die. -- Syela */
-    
-    punit->goto_dest_x = dest_x;
-    punit->goto_dest_y = dest_y;
+
+    set_goto_dest(punit, dest_x, dest_y);
     
     /* The following code block is supposed to stop units from running away 
      * from their bodyguards, and not interfere with those that don't have 
@@ -1880,8 +1880,8 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
   CHECK_UNIT(punit);
 
   if (dest) {
-    x = punit->goto_dest_x;
-    y = punit->goto_dest_y;
+    x = goto_dest_x(punit);
+    y = goto_dest_y(punit);
   } else {
     x = punit->x;
     y = punit->y;
@@ -1987,7 +1987,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     if (IS_ATTACKER(aunit)) {
       if (aunit->activity == ACTIVITY_GOTO) {
         invasion_funct(aunit, TRUE, 0, (COULD_OCCUPY(aunit) ? 1 : 2));
-        if ((pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
+        if ((pcity = map_get_city(goto_dest_x(aunit), goto_dest_y(aunit)))) {
           pcity->ai.attack += unit_att_rating(aunit);
           pcity->ai.bcost += unit_type(aunit)->build_cost;
         } 
@@ -2545,7 +2545,11 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       }
       p++;
       bodyguard = unit_list_find(&map_get_tile(punit->x, punit->y)->units, aunit->ai.bodyguard);
-      pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y);
+      if (is_goto_dest_set(aunit)) { /* HACK */
+	pcity = map_get_city(goto_dest_x(aunit), goto_dest_y(aunit));
+      } else {
+	pcity = NULL;
+      }
       if (aunit->ai.bodyguard == BODYGUARD_NONE || bodyguard ||
          (pcity && pcity->ai.invasion >= 2)) {
 	if (pcity) {
@@ -2574,15 +2578,13 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (p != 0) {
     freelog(LOG_DEBUG, "%s#%d@(%d,%d), p=%d, n=%d",
 		  unit_name(punit->type), punit->id, punit->x, punit->y, p, n);
-    if (punit->moves_left > 0 && n != 0) {
+    if (is_goto_dest_set(punit) && punit->moves_left > 0 && n != 0) {
       (void) ai_unit_gothere(punit);
     } else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
-      x = punit->goto_dest_x; y = punit->goto_dest_y;
       port = find_nearest_safe_city(punit);
       if (port && !ai_unit_goto(punit, port->x, port->y)) {
         return; /* oops! */
       }
-      punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "Ferryboat %d@(%d,%d) stalling.",
@@ -2640,8 +2642,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   } unit_list_iterate_end;
   if (best < 4 * unit_type(punit)->move_rate) {
     /* Pickup is within 4 turns to grab, so move it! */
-    punit->goto_dest_x = x;
-    punit->goto_dest_y = y;
+    set_goto_dest(punit, x, y);
     UNIT_LOG(LOG_DEBUG, punit, "Found a friend and going to him @(%d, %d)",
              x, y);
     (void) ai_unit_gothere(punit);
@@ -2656,8 +2657,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (pcity) {
     if (!ai_handicap(pplayer, H_TARGETS) ||
         unit_move_turns(punit, pcity->x, pcity->y) < p) {
-      punit->goto_dest_x = pcity->x;
-      punit->goto_dest_y = pcity->y;
+      set_goto_dest(punit, pcity->x, pcity->y);
       UNIT_LOG(LOG_DEBUG, punit, "No friends.  Going home.");
       (void) ai_unit_gothere(punit);
       return;

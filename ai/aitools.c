@@ -96,8 +96,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 bool ai_unit_gothere(struct unit *punit)
 {
   CHECK_UNIT(punit);
-  assert(punit->goto_dest_x != -1 && punit->goto_dest_y != -1);
-  if (ai_unit_goto(punit, punit->goto_dest_x, punit->goto_dest_y)) {
+  if (ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit))) {
     return TRUE; /* ... and survived */
   } else {
     return FALSE; /* we died */
@@ -113,19 +112,27 @@ bool ai_unit_gothere(struct unit *punit)
 bool ai_unit_goto(struct unit *punit, int x, int y)
 {
   enum goto_result result;
-  int oldx = punit->goto_dest_x, oldy = punit->goto_dest_y;
+  int oldx = -1, oldy = -1;
   enum unit_activity activity = punit->activity;
+  bool is_set = is_goto_dest_set(punit);
+
+  if (is_set) {
+    oldx = goto_dest_x(punit);
+    oldy = goto_dest_y(punit);
+  }
 
   CHECK_UNIT(punit);
   /* TODO: log error on same_pos with punit->x|y */
-  punit->goto_dest_x = x;
-  punit->goto_dest_y = y;
+  set_goto_dest(punit, x, y);
   handle_unit_activity_request(punit, ACTIVITY_GOTO);
   result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
   if (result != GR_DIED) {
     handle_unit_activity_request(punit, activity);
-    punit->goto_dest_x = oldx;
-    punit->goto_dest_y = oldy;
+    if (is_set) {
+      set_goto_dest(punit, oldx, oldy);
+    } else {
+      clear_goto_dest(punit);
+    }
     return TRUE;
   }
   return FALSE;
@@ -147,8 +154,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   }
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    assert(is_normal_map_pos(punit->goto_dest_x, punit->goto_dest_y));
-    remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
+    remove_city_from_minimap(goto_dest_x(punit), goto_dest_y(punit));
   }
 
   if (charge && (charge->ai.bodyguard == punit->id)) {
@@ -163,12 +169,9 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
    * stringent, but for now we don't want to break things too badly. */
   if (x == -1 && y == -1) {
     /* No goto_dest. */
-    punit->goto_dest_x = 0;
-    punit->goto_dest_y = 0;
+    clear_goto_dest(punit);
   } else {
-    assert(is_normal_map_pos(x, y));
-    punit->goto_dest_x = x;
-    punit->goto_dest_y = y;
+    set_goto_dest(punit, x, y);
   }
 
   if (punit->ai.ai_role == AIUNIT_NONE && bodyguard) {

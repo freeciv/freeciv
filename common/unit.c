@@ -1427,8 +1427,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
     punit->y = -1;
     punit->homecity = 0;
   }
-  punit->goto_dest_x = 0;
-  punit->goto_dest_y = 0;
+  clear_goto_dest(punit);
   punit->veteran = make_veteran;
   punit->upkeep = 0;
   punit->upkeep_food = 0;

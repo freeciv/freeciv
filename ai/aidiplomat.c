@@ -562,7 +562,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   /* If we have a role, we have a valid goto. Check if we have a valid city. */
   if (punit->ai.ai_role == AIUNIT_ATTACK
       || punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
-    ctarget = map_get_city(punit->goto_dest_x, punit->goto_dest_y);
+    ctarget = map_get_city(goto_dest_x(punit), goto_dest_y(punit));
   }
 
   /* Check if existing target still makes sense */
@@ -638,9 +638,8 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 
   /* Check if we can do something with our destination now. */
   if (punit->ai.ai_role == AIUNIT_ATTACK) {
-    int dist = real_map_distance(punit->x, punit->y,
-                                 punit->goto_dest_x,
-                                 punit->goto_dest_y);
+    int dist  = real_map_distance(punit->x, punit->y,
+				  goto_dest_x(punit), goto_dest_y(punit));
     UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s (%s goto)",
              dist, ctarget ? ctarget->name : "(none)", 
              punit->activity == ACTIVITY_GOTO ? "has" : "no");

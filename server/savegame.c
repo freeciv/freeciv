@@ -1010,11 +1010,17 @@ static void player_load(struct player *plr, int plrno,
     punit->connecting=secfile_lookup_bool_default(file, FALSE,
 						"player%d.u%d.connecting",
 						plrno, i);
+    /* Load the goto information.  Older savegames will not have the
+     * "go" field, so we just load the goto destination by default. */
+    if (secfile_lookup_bool_default(file, TRUE,
+				    "player%d.u%d.go", plrno, i)) {
+      int x = secfile_lookup_int(file, "player%d.u%d.goto_x", plrno, i);
+      int y = secfile_lookup_int(file, "player%d.u%d.goto_y", plrno, i);
+      set_goto_dest(punit, x, y);
+    } else {
+      clear_goto_dest(punit);
+    }
 
-    punit->goto_dest_x=secfile_lookup_int(file, 
-					  "player%d.u%d.goto_x", plrno,i);
-    punit->goto_dest_y=secfile_lookup_int(file, 
-					  "player%d.u%d.goto_y", plrno,i);
     punit->ai.control=secfile_lookup_bool(file, "player%d.u%d.ai", plrno,i);
     punit->ai.ai_role = AIUNIT_NONE;
     punit->ai.ferryboat = 0;
@@ -1444,8 +1450,19 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->fuel, "player%d.u%d.fuel",
 		                plrno, i);
 
-    secfile_insert_int(file, punit->goto_dest_x, "player%d.u%d.goto_x", plrno, i);
-    secfile_insert_int(file, punit->goto_dest_y, "player%d.u%d.goto_y", plrno, i);
+    if (is_goto_dest_set(punit)) {
+      secfile_insert_bool(file, TRUE, "player%d.u%d.go", plrno, i);
+      secfile_insert_int(file, goto_dest_x(punit),
+			 "player%d.u%d.goto_x", plrno, i);
+      secfile_insert_int(file, goto_dest_y(punit), "player%d.u%d.goto_y",
+			 plrno, i);
+    } else {
+      secfile_insert_bool(file, FALSE, "player%d.u%d.go", plrno, i);
+      /* for compatility with older servers */
+      secfile_insert_int(file, 0, "player%d.u%d.goto_x", plrno, i);
+      secfile_insert_int(file, 0, "player%d.u%d.goto_y", plrno, i);
+    }
+
     secfile_insert_bool(file, punit->ai.control, "player%d.u%d.ai", plrno, i);
     secfile_insert_int(file, punit->ord_map, "player%d.u%d.ord_map", plrno, i);
     secfile_insert_int(file, punit->ord_city, "player%d.u%d.ord_city", plrno, i);

@@ -123,7 +123,10 @@ struct unit {
   int bribe_cost;
   struct unit_ai ai;
   enum unit_activity activity;
-  int goto_dest_x, goto_dest_y;
+  struct {
+    /* We can't use struct map_position because map.h cannot be included. */
+    int x, y;
+  } goto_dest;
   int activity_count;
   enum tile_special_type activity_target;
   enum unit_focus_status focus_status;
@@ -137,6 +140,19 @@ struct unit {
   struct goto_route *pgr;
 };
 
+/* Wrappers for accessing the goto destination of a unit.  This goto_dest
+ * is used by client goto as well as by the AI. */
+#define is_goto_dest_set(punit) ((punit)->goto_dest.x != -1      \
+                                 && (punit)->goto_dest.y != -1)
+#define goto_dest_x(punit) (assert((punit)->goto_dest.x != -1),  \
+                            (punit)->goto_dest.x)
+#define goto_dest_y(punit) (assert((punit)->goto_dest.y != -1),  \
+                            (punit)->goto_dest.y)
+#define set_goto_dest(punit, map_x, map_y) (CHECK_MAP_POS(map_x, map_y),  \
+                                            (punit)->goto_dest.x = map_x, \
+                                            (punit)->goto_dest.y = map_y)
+#define clear_goto_dest(punit) ((punit)->goto_dest.x = -1, \
+                                (punit)->goto_dest.y = -1)
 
 /* get 'struct unit_list' and related functions: */
 #define SPECLIST_TAG unit

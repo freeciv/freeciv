@@ -150,7 +150,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
 /**********************************************************************
  * Find something to bomb
  * Air-units specific victim search
- * Returns the want for the best target, records target in goto_dest_x,y
+ * Returns the want for the best target, records target in punit's goto_dest
  * TODO: take counterattack dangers into account
  * TODO: make separate handicaps for air units seeing targets
  *       IMO should be more restrictive than general H_MAP, H_FOG
@@ -193,8 +193,7 @@ static int find_something_to_bomb(struct unit *punit, int x, int y)
 	&& (air_can_move_between (max_dist, x, y, x1, y1, pplayer) >= 0)){
       int new_best = ai_evaluate_tile_for_air_attack(punit, x1, y1);
       if (new_best > best) {
-	punit->goto_dest_x = x1;
-	punit->goto_dest_y = y1;
+	set_goto_dest(punit, x1, y1);
 	best = new_best;
 	freelog(LOG_DEBUG, "%s wants to attack tile (%d, %d)", 
 		unit_type(punit)->name, x1, y1);
@@ -290,19 +289,18 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 
     if (punit->activity == ACTIVITY_GOTO
       /* We are on a GOTO.  Check if it will get us anywhere */
-	&& is_airunit_refuel_point(punit->goto_dest_x, punit->goto_dest_y, 
+	&& is_airunit_refuel_point(goto_dest_x(punit), goto_dest_y(punit), 
 				   pplayer, punit->type, FALSE)
 	&& air_can_move_between (punit->moves_left/SINGLE_MOVE, 
                                  punit->x, punit->y, 
-				 punit->goto_dest_x, punit->goto_dest_y,
+				 goto_dest_x(punit), goto_dest_y(punit),
 				 pplayer) >= 0) {
       /* It's an ok GOTO, just go there */
       result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
     } else if (find_nearest_airbase(punit->x, punit->y, punit, 
 			     &refuel_x, &refuel_y)) {
       /* Go refuelling */
-      punit->goto_dest_x = refuel_x;
-      punit->goto_dest_y = refuel_y;
+      set_goto_dest(punit, refuel_x, refuel_y);
       freelog(LOG_DEBUG, "Sent %s to refuel", unit_type(punit)->name);
       set_unit_activity(punit, ACTIVITY_GOTO);
       result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
@@ -323,9 +321,10 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
   } else if (punit->fuel == unit_type(punit)->fuel
 	     && find_something_to_bomb(punit, punit->x, punit->y) > 0) {
 
-    /* Found target, coordinates are in punit->goto_dest_[xy]
+    /* Found target, coordinates are in punit's goto_dest.
      * TODO: separate attacking into a function, check for the best 
      * tile to attack from */
+    assert(is_goto_dest_set(punit));
     set_unit_activity(punit, ACTIVITY_GOTO);
     if (!ai_unit_gothere(punit)) {
       return; /* died */
@@ -335,11 +334,11 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 
     /* We could use ai_military_findvictim here, but I don't trust it... */
     set_unit_activity(punit, ACTIVITY_IDLE);
-    if (is_tiles_adjacent(punit->x, punit->y, 
-			  punit->goto_dest_x, punit->goto_dest_y)) {
+    if (is_tiles_adjacent(punit->x, punit->y,
+			  goto_dest_x(punit), goto_dest_y(punit))) {
       int id = punit->id;
-      (void) handle_unit_move_request(punit, punit->goto_dest_x,
-				      punit->goto_dest_y, TRUE, FALSE);
+      (void) handle_unit_move_request(punit, goto_dest_x(punit),
+				      goto_dest_y(punit), TRUE, FALSE);
       if ((punit = find_unit_by_id(id)) != NULL && punit->moves_left > 0) {
 	/* Fly home now */
 	ai_manage_airunit(pplayer, punit);
@@ -357,8 +356,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
               unit_type(punit)->name, dest_x, dest_y, 
               (map_get_city(dest_x, dest_y) ? 
                map_get_city(dest_x, dest_y)->name : ""));
-      punit->goto_dest_x = dest_x;
-      punit->goto_dest_y = dest_y;
+      set_goto_dest(punit, dest_x, dest_y);
       set_unit_activity(punit, ACTIVITY_GOTO);
       result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
     } else {

@@ -68,15 +68,23 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   char buffer2[500];
   va_list ap;
   int minlevel = MIN(LOGLEVEL_UNIT, level);
+  int gx, gy;
 
   if (minlevel > fc_log_level) {
     return;
   }
 
+  if (is_goto_dest_set(punit)) {
+    gx = goto_dest_x(punit);
+    gy = goto_dest_y(punit);
+  } else {
+    gx = gy = -1;
+  }
+  
   my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d)->(%d,%d){%d} ",
               unit_owner(punit)->name, unit_type(punit)->name,
               punit->id, punit->x, punit->y,
-              punit->goto_dest_x, punit->goto_dest_y, 
+	      gx, gy,
               punit->ai.bodyguard);
 
   va_start(ap, msg);
@@ -100,12 +108,20 @@ void GOTO_LOG(int level, struct unit *punit, enum goto_result result,
     char buffer[500];
     char buffer2[500];
     va_list ap;
+    int gx, gy;
+
+    if (is_goto_dest_set(punit)) {
+      gx = goto_dest_x(punit);
+      gy = goto_dest_y(punit);
+    } else {
+      gx = gy = -1;
+    }
 
     my_snprintf(buffer, sizeof(buffer),
                 "%s's %s[%d] on GOTO (%d,%d)->(%d,%d) %s : ",
                 unit_owner(punit)->name, unit_type(punit)->name,
                 punit->id, punit->x, punit->y,
-                punit->goto_dest_x, punit->goto_dest_y,
+		gx, gy,
                (result == GR_FAILED) ? "failed" : "fought");
 
     va_start(ap, msg);

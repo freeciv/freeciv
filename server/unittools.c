@@ -465,8 +465,7 @@ void player_restore_units(struct player *pplayer)
 	      (air_can_move_between
 	       (punit->moves_left / 3, punit->x, punit->y, x_itr, y_itr,
 		unit_owner(punit)) >= 0)) {
-	    punit->goto_dest_x = x_itr;
-	    punit->goto_dest_y = y_itr;
+	    set_goto_dest(punit, x_itr, y_itr);
 	    set_unit_activity(punit, ACTIVITY_GOTO);
 	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
 	    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
@@ -1789,8 +1788,14 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->upkeep_gold = punit->upkeep_gold;
   packet->ai = punit->ai.control;
   packet->fuel = punit->fuel;
-  packet->goto_dest_x = punit->goto_dest_x;
-  packet->goto_dest_y = punit->goto_dest_y;
+  if (is_goto_dest_set(punit)) {
+    packet->goto_dest_x = goto_dest_x(punit);
+    packet->goto_dest_y = goto_dest_y(punit);
+  } else {
+    packet->goto_dest_x = 255;
+    packet->goto_dest_y = 255;
+    assert(!is_normal_map_pos(255, 255));
+  }
   packet->activity_target = punit->activity_target;
   packet->paradropped = punit->paradropped;
   packet->connecting = punit->connecting;
@@ -2791,7 +2796,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   }
   /* A transporter should not take units with it when on an attack goto -- fisch */
   if ((punit->activity == ACTIVITY_GOTO) &&
-      get_defender(punit, punit->goto_dest_x, punit->goto_dest_y) &&
+      get_defender(punit, goto_dest_x(punit), goto_dest_y(punit)) &&
       !is_ocean(psrctile->terrain)) {
     transport_units = FALSE;
   }
@@ -2862,14 +2867,15 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   check_unit_activity(punit);
 
   /* set activity to sentry if boarding a ship unless the unit is just 
-     passing through the ship on its way somewhere else */
+   * passing through the ship on its way somewhere else.  If the unit is
+   * GOTOing and the ship isn't the final destination, then don't go
+   * to sleep. */
   if (is_ground_unit(punit)
       && is_ocean(pdesttile->terrain)
       && !(pplayer->ai.control)
-      && !(punit->activity == ACTIVITY_GOTO      /* if unit is GOTOing and the ship */ 
-	   && (dest_x != punit->goto_dest_x      /* isn't the final destination */
-	       || dest_y != punit->goto_dest_y)) /* then don't go to sleep */
-      ) {
+      && !(punit->activity == ACTIVITY_GOTO
+	   && !same_pos(goto_dest_x(punit), goto_dest_y(punit),
+			dest_x, dest_y))) {
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
 

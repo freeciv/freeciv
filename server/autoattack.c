@@ -166,8 +166,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
 		   unit_owner(enemy)->name, unit_name(enemy->type));
   
   set_unit_activity(punit, ACTIVITY_GOTO);
-  punit->goto_dest_x=enemy->x;
-  punit->goto_dest_y=enemy->y;
+  set_goto_dest(punit, enemy->x, enemy->y);
   
   send_unit_info(NULL, punit);
   (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
@@ -176,8 +175,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   
   if (punit) {
     set_unit_activity(punit, ACTIVITY_GOTO);
-    punit->goto_dest_x=pcity->x;
-    punit->goto_dest_y=pcity->y;
+    set_goto_dest(punit, pcity->x, pcity->y);
     send_unit_info(NULL, punit);
     
     (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);

@@ -165,8 +165,8 @@ static void popit(int xin, int yin, int xtile, int ytile)
 	        ptype->hp, punit->veteran?_(" V"):"", uc);
 
         if(punit->activity==ACTIVITY_GOTO)  {
-	  cross_head->x = punit->goto_dest_x;
-	  cross_head->y = punit->goto_dest_y;
+	  cross_head->x = goto_dest_x(punit);
+	  cross_head->y = goto_dest_y(punit);
 	  cross_head++;
         }
       } else {

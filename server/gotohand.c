@@ -745,8 +745,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	  total_cost += unit_type(punit)->move_rate;
 	  freelog(LOG_DEBUG, "%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)",
 		  unit_type(punit)->name, punit->id,
-		  punit->x, punit->y, x1, y1,
-		  punit->goto_dest_x, punit->goto_dest_y);
+		  punit->x, punit->y, x1, y1, dest_x, dest_y);
 	}
 	break;
 
@@ -1279,8 +1278,8 @@ enum goto_result do_unit_goto(struct unit *punit,
   }
 
   unit_id = punit->id;
-  dest_x = waypoint_x = punit->goto_dest_x;
-  dest_y = waypoint_y = punit->goto_dest_y;
+  dest_x = waypoint_x = goto_dest_x(punit);
+  dest_y = waypoint_y = goto_dest_y(punit);
 
   if (same_pos(punit->x, punit->y, dest_x, dest_y) ||
       !goto_is_sane(punit, dest_x, dest_y, FALSE)) {
@@ -1343,7 +1342,7 @@ enum goto_result do_unit_goto(struct unit *punit,
       penemy = is_enemy_unit_tile(map_get_tile(x, y), unit_owner(punit));
       assert(punit->moves_left > 0);
 
-      last_tile = same_pos(x, y, punit->goto_dest_x, punit->goto_dest_y);
+      last_tile = same_pos(x, y, goto_dest_x(punit), goto_dest_y(punit));
 
       /* Call handle_unit_move_request for humans and ai_unit_move for AI */
       success = (!pplayer->ai.control 

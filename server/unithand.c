@@ -76,8 +76,7 @@ void handle_unit_goto_tile(struct player *pplayer,
     return;
   }
 
-  punit->goto_dest_x = req->x;
-  punit->goto_dest_y = req->y;
+  set_goto_dest(punit, req->x, req->y);
 
   set_unit_activity(punit, ACTIVITY_GOTO);
 
@@ -133,8 +132,7 @@ void handle_unit_connect(struct player *pplayer,
     return;
   }
 
-  punit->goto_dest_x = req->dest_x;
-  punit->goto_dest_y = req->dest_y;
+  set_goto_dest(punit, req->dest_x, req->dest_y);
 
   set_unit_activity(punit, req->activity_type);
   punit->connecting = TRUE;
@@ -1044,7 +1042,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
      * human players the server-side goto implementation should be
      * obsoleted for client usage. So in time, remove the code below. */
     if (punit->activity == ACTIVITY_GOTO && 
-        !same_pos(punit->goto_dest_x, punit->goto_dest_y, dest_x, dest_y)) {
+        !same_pos(goto_dest_x(punit), goto_dest_y(punit), dest_x, dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
  		       _("Game: %s aborted GOTO as there are units in the way."),
  		       unit_type(punit)->name);
@@ -1467,8 +1465,8 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
 #endif
 
   if (punit->activity == ACTIVITY_GOTO) {
-    punit->goto_dest_x = pgr->pos[pgr->last_index-1].x;
-    punit->goto_dest_y = pgr->pos[pgr->last_index-1].y;
+    set_goto_dest(punit, pgr->pos[pgr->last_index-1].x,
+		  pgr->pos[pgr->last_index-1].y);
     send_unit_info(pplayer, punit);
   }
 
