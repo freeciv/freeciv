@@ -2019,11 +2019,11 @@ static void sentry_transported_idle_units(struct unit *ptrans)
 }
 
 /**************************************************************************
- nuke a square
- 1) remove all units on the square
- 2) half the size of the city on the square
- if it isn't a city square or an ocean square then with 50% chance 
- add some fallout, then notify the client about the changes.
+  Nuke a square: 1) remove all units on the square, and 2) halve the 
+  size of the city on the square.
+
+  If it isn't a city square or an ocean square then with 50% chance add 
+  some fallout, then notify the client about the changes.
 **************************************************************************/
 static void do_nuke_tile(struct player *pplayer, int x, int y)
 {
@@ -2059,11 +2059,7 @@ static void do_nuke_tile(struct player *pplayer, int x, int y)
 		       pcity->name);
     }
 
-    if (pcity->size > 1) { /* size zero cities are ridiculous -- Syela */
-      pcity->size /= 2;
-      auto_arrange_workers(pcity);
-      send_city_info(NULL, pcity);
-    }
+    city_reduce_size(pcity, pcity->size / 2);
   }
 
   if (!is_ocean(map_get_terrain(x, y)) && myrand(2) == 1) {
