@@ -130,8 +130,6 @@ struct unit *punit_caravan;
 
 static GtkWidget *caravan_dialog;
 
-extern GtkStyle *notify_dialog_style;
-
 static int is_showing_unit_connect_dialog = FALSE;
 static int unit_to_use_to_connect;
 static int connect_unit_x;
@@ -166,6 +164,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_signal_connect( GTK_OBJECT(notify_dialog_shell),"delete_event",
 	GTK_SIGNAL_FUNC(deleted_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(notify_dialog_shell));
+  gtk_widget_set_name(notify_dialog_shell, "Freeciv");
 
   gtk_window_set_title( GTK_WINDOW( notify_dialog_shell ), caption );
   
@@ -176,8 +175,8 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   notify_headline = gtk_label_new( headline);   
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
 	notify_headline, FALSE, FALSE, 0 );
+  gtk_widget_set_name(notify_headline, "notify label");
 
-  gtk_widget_set_style( notify_headline, notify_dialog_style );
   gtk_label_set_justify( GTK_LABEL( notify_headline ), GTK_JUSTIFY_LEFT );
   gtk_misc_set_alignment(GTK_MISC(notify_headline), 0.0, 0.0);
 
@@ -188,7 +187,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW (notify_scrolled),
 					notify_label);
 
-  gtk_widget_set_style( notify_label, notify_dialog_style );
+  gtk_widget_set_name(notify_label, "notify label");
   gtk_label_set_justify( GTK_LABEL( notify_label ), GTK_JUSTIFY_LEFT );
   gtk_misc_set_alignment(GTK_MISC(notify_label), 0.0, 0.0);
 

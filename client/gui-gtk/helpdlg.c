@@ -43,9 +43,6 @@
 #include "helpdlg.h"
 
 
-#define	HELP_TEXT_FONT		"-*-fixed-medium-r-*-*-14-*-*-*-*-*-iso8859-*"
-
-
 extern GtkWidget *toplevel;
 
 extern char long_buffer[64000];	      /* helpdata.c */
@@ -287,12 +284,12 @@ static void create_help_dialog(void)
 {
   GtkWidget *hbox;
   GtkWidget *button;
-  GtkStyle  *style;
   char      *row       [1];
   int	     i, j;
 
 
   help_dialog_shell = gtk_dialog_new();
+  gtk_widget_set_name(help_dialog_shell, "Freeciv");
 
   gtk_signal_connect( GTK_OBJECT( help_dialog_shell ), "destroy",
   	  GTK_SIGNAL_FUNC( gtk_widget_destroyed ), &help_dialog_shell );
@@ -333,17 +330,12 @@ static void create_help_dialog(void)
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
 
-
-  style = gtk_style_new( );
-  style->fg[GTK_STATE_NORMAL] = *colors_standard[COLOR_STD_RED];
-
-
   help_itable = gtk_table_new(6, 1, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
 
   for (i=0; i<6; i++) {
     help_ilabel[i] = gtk_label_new(_(help_ilabel_name[i]));
-    gtk_widget_set_style(help_ilabel[i], style);
+    gtk_widget_set_name(help_ilabel[i], "help label");
 
     if (i==5) {
       button = help_hyperlink_new(help_ilabel[i], HELP_TECH);
@@ -359,7 +351,7 @@ static void create_help_dialog(void)
 
   for (i=0; i<6; i++) {
     help_wlabel[i] = gtk_label_new(_(help_wlabel_name[i]));
-    gtk_widget_set_style(help_wlabel[i], style);
+    gtk_widget_set_name(help_wlabel[i], "help label");
 
     if (i==3 || i==5) {
       button = help_hyperlink_new(help_wlabel[i], HELP_TECH);
@@ -378,7 +370,7 @@ static void create_help_dialog(void)
     for (j=0; j<5; j++)
     {
       help_ulabel[j][i] = gtk_label_new(_(help_ulabel_name[j][i]));
-      gtk_widget_set_style(help_ulabel[j][i], style);
+      gtk_widget_set_name(help_ulabel[j][i], "help label");
 
       if (j==4 && (i==1 || i==4))
       {
@@ -403,7 +395,7 @@ static void create_help_dialog(void)
     for (j=0; j<4; j++)
     {
       help_tlabel[j][i] = gtk_label_new(_(help_tlabel_name[j][i]));
-      gtk_widget_set_style(help_tlabel[j][i], style);
+      gtk_widget_set_name(help_tlabel[j][i], "help label");
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
 					  help_tlabel[j][i], i, i+1, j, j+1);
@@ -420,13 +412,7 @@ static void create_help_dialog(void)
   			  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_text_set_editable( GTK_TEXT( help_text ), FALSE );
   gtk_box_pack_start( GTK_BOX( help_box ), help_text_scrolled, TRUE, TRUE, 0 );
-
-  style = gtk_style_new();
-  gdk_font_unref (style->font);
-  style->font = gdk_font_load( HELP_TEXT_FONT );
-  gdk_font_ref (style->font);
-  gtk_widget_set_style( help_text, style );
-  gtk_widget_realize( help_text );
+  gtk_widget_set_name(help_text, "help text");
 
   help_tree = gtk_ctree_new(1,0);
   gtk_clist_set_column_width(GTK_CLIST(help_tree), 0, GTK_CLIST(help_tree)->clist_window_width);

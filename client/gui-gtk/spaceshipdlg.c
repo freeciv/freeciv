@@ -61,8 +61,6 @@ struct spaceship_dialog {
   GtkWidget *close_command;
 };
 
-#define FIXED_12_BFONT  "-b&h-lucidatypewriter-bold-r-normal-*-12-*-*-*-*-*-*-*"
-
 
 static struct genlist dialog_list;
 static int dialog_list_has_been_initialised;
@@ -173,7 +171,6 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 {
   struct spaceship_dialog *pdialog;
   GtkWidget *hbox, *frame;
-  GtkStyle *style;
   
   pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
@@ -202,11 +199,6 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_container_add(GTK_CONTAINER (frame), pdialog->image_canvas);
   gtk_widget_realize(pdialog->image_canvas);
 
-  style=gtk_style_copy (GTK_WIDGET (pdialog->shell)->style);
-  gdk_font_unref (style->font);
-  style->font=gdk_font_load (FIXED_12_BFONT);
-  gdk_font_ref (style->font);
-
   pdialog->info_label=gtk_label_new (_("Population:       1234\n"
 				     "Support:           100 %\n"
 				     "Energy:            100 %\n"
@@ -217,7 +209,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_label_set_justify (GTK_LABEL (pdialog->info_label), GTK_JUSTIFY_LEFT);
   gtk_misc_set_alignment(GTK_MISC(pdialog->info_label), 0.0, 0.0);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->info_label, FALSE, FALSE, 0);
-  gtk_widget_set_style (pdialog->info_label, style);
+  gtk_widget_set_name(pdialog->info_label, "spaceship label");
 
   
   pdialog->close_command=gtk_button_new_with_label (_("Close"));

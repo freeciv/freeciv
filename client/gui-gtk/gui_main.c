@@ -53,14 +53,12 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
+#include "resources.h"
 #include "tilespec.h"
 
 #include "gui_main.h"
 
 #include "freeciv.ico"
-
-#define NOTIFY_DIALOG_FONT	"-b&h-lucidatypewriter-bold-r-normal-*-12-*-*-*-*-*-*-*"
-#define FIXED_10_BFONT		"-b&h-lucidatypewriter-bold-r-normal-*-10-*-*-*-*-*-*-*"
 
 /*void file_quit_cmd_callback( GtkWidget *widget, gpointer data )*/
 void game_rates( GtkWidget *widget, gpointer data );
@@ -132,9 +130,6 @@ GtkWidget *	inputline;
 
 GtkWidget *	map_horizontal_scrollbar, *map_vertical_scrollbar;
 gint		gdk_input_id;
-
-GtkStyle *	notify_dialog_style;
-GtkStyle *	city_dialog_style;
 
 GdkWindow *	root_window;
 
@@ -532,7 +527,8 @@ static void setup_widgets(void)
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {
-  GdkBitmap	      *icon_bitmap;
+  GdkBitmap *icon_bitmap;
+  gchar *homedir, *rc_file;
 
   parse_options(argc, argv);
 
@@ -540,23 +536,23 @@ void ui_main(int argc, char **argv)
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
 
+  /* Load resources */
+  gtk_rc_parse_string(fallback_resources);
+
+  homedir = g_get_home_dir();	/* should i gfree() this also? --vasc */
+  rc_file = g_strdup_printf("%s%s%s", homedir, G_DIR_SEPARATOR_S, "freeciv.rc");
+  gtk_rc_parse(rc_file);
+  g_free (rc_file);
+
+
   display_color_type=get_visual();
 
   toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_realize (toplevel);
+  gtk_widget_set_name(toplevel, "Freeciv");
 
   root_window=toplevel->window;
   init_color_system();
-
-  notify_dialog_style=gtk_style_new();
-  gdk_font_unref (notify_dialog_style->font);
-  notify_dialog_style->font=gdk_font_load (NOTIFY_DIALOG_FONT);
-  gdk_font_ref (notify_dialog_style->font);
-
-  city_dialog_style=gtk_style_new();
-  gdk_font_unref (city_dialog_style->font);
-  city_dialog_style->font=gdk_font_load (FIXED_10_BFONT);
-  gdk_font_ref (city_dialog_style->font);
 
   gtk_signal_connect( GTK_OBJECT(toplevel),"delete_event",
       GTK_SIGNAL_FUNC(gtk_main_quit),NULL );

@@ -58,8 +58,6 @@ extern int map_view_x0, map_view_y0;
 extern GdkGC *fill_bg_gc;
 extern GdkGC *civ_gc;
 
-extern GtkStyle *city_dialog_style;
-
 #define NUM_UNITS_SHOWN  12
 #define NUM_CITIZENS_SHOWN 25
 
@@ -321,6 +319,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 	GTK_SIGNAL_FUNC(city_dialog_delete_callback),(gpointer)pdialog);
   gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
   gtk_accel_group_attach(accel, GTK_OBJECT(pdialog->shell));
+  gtk_widget_set_name(pdialog->shell, "Freeciv");
 
   gtk_window_set_title(GTK_WINDOW(pdialog->shell), pcity->name);
 
@@ -369,25 +368,25 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   pdialog->production_label=gtk_label_new("\n\n");
   gtk_box_pack_start(GTK_BOX(box),pdialog->production_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->production_label, city_dialog_style);
+  gtk_widget_set_name(pdialog->production_label, "city label");
   gtk_label_set_justify (GTK_LABEL (pdialog->production_label),
 			 GTK_JUSTIFY_LEFT);
 
   pdialog->output_label=gtk_label_new("\n\n");
   gtk_box_pack_start(GTK_BOX(box),pdialog->output_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->output_label, city_dialog_style);
+  gtk_widget_set_name(pdialog->output_label, "city label");
   gtk_label_set_justify (GTK_LABEL (pdialog->output_label),
 			 GTK_JUSTIFY_LEFT);
 
   pdialog->storage_label=gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(box),pdialog->storage_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->storage_label, city_dialog_style);
+  gtk_widget_set_name(pdialog->storage_label, "city label");
   gtk_label_set_justify (GTK_LABEL (pdialog->storage_label),
 			 GTK_JUSTIFY_LEFT);
 
   pdialog->pollution_label=gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(box),pdialog->pollution_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->pollution_label, city_dialog_style);
+  gtk_widget_set_name(pdialog->pollution_label, "city label");
   gtk_label_set_justify (GTK_LABEL (pdialog->pollution_label),
 			 GTK_JUSTIFY_LEFT);
   
