@@ -700,21 +700,22 @@ static int server_accept_connection(int sockfd)
 # endif
 
   int new_sock;
-  struct sockaddr_in fromend;
+  union my_sockaddr fromend;
   struct hostent *from;
   int i;
 
   fromlen = sizeof(fromend);
 
-  if ((new_sock=accept(sockfd, (struct sockaddr *) &fromend, &fromlen)) == -1) {
+  if ((new_sock = accept(sockfd, &fromend.sockaddr, &fromlen)) == -1) {
     freelog(LOG_ERROR, "accept failed: %s", mystrerror(errno));
     return -1;
   }
 
   my_nonblock(new_sock);
 
-  from=gethostbyaddr((char *)&fromend.sin_addr, sizeof(fromend.sin_addr),
-		     AF_INET);
+  from =
+      gethostbyaddr((char *) &fromend.sockaddr_in.sin_addr,
+		    sizeof(fromend.sockaddr_in.sin_addr), AF_INET);
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     struct connection *pconn = &connections[i];
@@ -740,7 +741,8 @@ static int server_accept_connection(int sockfd)
 
       sz_strlcpy(pconn->username, makeup_connection_name(&pconn->id));
       sz_strlcpy(pconn->addr,
-		 (from ? from->h_name : inet_ntoa(fromend.sin_addr)));
+		 (from ? from->
+		  h_name : inet_ntoa(fromend.sockaddr_in.sin_addr)));
 
       conn_list_insert_back(&game.all_connections, pconn);
   
@@ -762,8 +764,8 @@ static int server_accept_connection(int sockfd)
 int server_open_socket(void)
 {
   /* setup socket address */
-  struct sockaddr_in src;
-  struct sockaddr_in addr;
+  union my_sockaddr src;
+  union my_sockaddr addr;
   struct ip_mreq mreq;
   const char *group;
   int opt;
@@ -779,15 +781,13 @@ int server_open_socket(void)
     freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror(errno));
   }
 
-  if (!net_lookup_service
-      (srvarg.bind_addr, srvarg.port, (struct sockaddr *) &src,
-       sizeof(src))) {
+  if (!net_lookup_service(srvarg.bind_addr, srvarg.port, &src)) {
     freelog(LOG_ERROR, _("Server: bad address: [%s:%d]."),
 	    srvarg.bind_addr, srvarg.port);
     exit(EXIT_FAILURE);
   }
 
-  if(bind(sock, (struct sockaddr *) &src, sizeof (src)) == -1) {
+  if(bind(sock, &src.sockaddr, sizeof (src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror(errno));
     exit(EXIT_FAILURE);
   }
@@ -812,11 +812,11 @@ int server_open_socket(void)
   group = get_multicast_group();
 
   memset(&addr, 0, sizeof(addr));
-  addr.sin_family = AF_INET;
-  addr.sin_addr.s_addr = htonl(INADDR_ANY);
-  addr.sin_port = htons(SERVER_LAN_PORT);
+  addr.sockaddr_in.sin_family = AF_INET;
+  addr.sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY);
+  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT);
 
-  if (bind(socklan, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+  if (bind(socklan, &addr.sockaddr, sizeof(addr)) < 0) {
     freelog(LOG_ERROR, "bind failed: %s", mystrerror(errno));
   }
 
@@ -1002,7 +1002,7 @@ static void send_lanserver_response(void)
   unsigned char players[256];
   unsigned char status[256];
   struct data_out dout;
-  struct sockaddr_in addr;
+  union my_sockaddr addr;
   int socksend, setting = 1;
   const char *group;
   size_t size;
@@ -1017,9 +1017,9 @@ static void send_lanserver_response(void)
   /* Set the UDP Multicast group IP address of the packet. */
   group = get_multicast_group();
   memset(&addr, 0, sizeof(addr));
-  addr.sin_family = AF_INET;
-  addr.sin_addr.s_addr = inet_addr(group);
-  addr.sin_port = htons(SERVER_LAN_PORT + 1);
+  addr.sockaddr_in.sin_family = AF_INET;
+  addr.sockaddr_in.sin_addr.s_addr = inet_addr(group);
+  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT + 1);
 
   /* Set the Time-to-Live field for the packet.  */
   ttl = SERVER_LAN_TTL;
@@ -1073,7 +1073,7 @@ static void send_lanserver_response(void)
   size = dio_output_used(&dout);
 
   /* Sending packet to client with the information gathered above. */
-  if (sendto(socksend, buffer,  size, 0, (struct sockaddr *)&addr,
+  if (sendto(socksend, buffer,  size, 0, &addr.sockaddr,
       sizeof(addr)) < 0) {
     freelog(LOG_ERROR, "sendto failed: %s", mystrerror(errno));
     return;

@@ -24,6 +24,9 @@
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
@@ -43,7 +46,10 @@
 #define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 #endif
 
-struct sockaddr;
+union my_sockaddr {
+  struct sockaddr sockaddr;
+  struct sockaddr_in sockaddr_in;
+};
 
 int my_readsocket(int sock, void *buf, size_t size);
 int my_writesocket(int sock, const void *buf, size_t size); 
@@ -53,7 +59,7 @@ void my_shutdown_network(void);
 
 void my_nonblock(int sockfd);
 bool net_lookup_service(const char *name, int port, 
-                        struct sockaddr *sa, int len);
+                        union my_sockaddr *addr);
 fz_FILE *my_querysocket(int sock, void *buf, size_t size);
 
 #endif  /* FC__NETINTF_H */

@@ -33,20 +33,11 @@
 #ifdef HAVE_NETDB_H
 #include <netdb.h>
 #endif 
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
 #ifdef HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
-#endif
-#ifdef HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
 #endif
 #ifdef HAVE_WINSOCK
 #include <winsock.h>
@@ -163,16 +154,11 @@ void my_nonblock(int sockfd)
 /***************************************************************************
   Look up the service at hostname:port and fill in *sa.
 ***************************************************************************/
-bool net_lookup_service(const char *name,int port,struct sockaddr *sa,int len)
+bool net_lookup_service(const char *name, int port, union my_sockaddr *addr)
 {
   struct hostent *hp;
-  struct sockaddr_in *sock = NULL;
+  struct sockaddr_in *sock = &addr->sockaddr_in;
 
-  if (len != sizeof(*sock)) {
-    return FALSE;
-  }
-
-  sock = (struct sockaddr_in *) sa;
   sock->sin_family = AF_INET;
   sock->sin_port = htons(port);
 

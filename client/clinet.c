@@ -89,7 +89,7 @@
 struct connection aconnection;
 static int socklan;
 static struct server_list *lan_servers;
-static struct sockaddr_in server_addr;
+static union my_sockaddr server_addr;
 
 /**************************************************************************
   Close socket and cleanup.  This one doesn't print a message, so should
@@ -154,8 +154,7 @@ int get_server_address(const char *hostname, int port, char *errbuf,
   if (!hostname)
     hostname = "localhost";
 
-  if (!net_lookup_service(hostname, port, (struct sockaddr *)&server_addr,
-      sizeof(server_addr))) {
+  if (!net_lookup_service(hostname, port, &server_addr)) {
     (void) mystrlcpy(errbuf, _("Failed looking up host."), errbufsize);
     return -1;
   }
@@ -189,7 +188,7 @@ int try_to_connect(char *username, char *errbuf, int errbufsize)
     return -1;
   }
 
-  if (connect(aconnection.sock, (struct sockaddr *) &server_addr,
+  if (connect(aconnection.sock, &server_addr.sockaddr,
       sizeof(server_addr)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     my_closesocket(aconnection.sock);
@@ -493,7 +492,7 @@ static char *win_uname()
 struct server_list *create_server_list(char *errbuf, int n_errbuf)
 {
   struct server_list *server_list;
-  struct sockaddr_in addr;
+  union my_sockaddr addr;
   int s;
   fz_FILE *f;
   char *proxy_url;
@@ -554,7 +553,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     urlpath = s;
   }
 
-  if (!net_lookup_service(server,port,(struct sockaddr *) &addr,sizeof(addr))) {
+  if (!net_lookup_service(server, port, &addr)) {
     (void) mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
     return NULL;
   }
@@ -564,7 +563,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     return NULL;
   }
   
-  if(connect(s, (struct sockaddr *) &addr, sizeof (addr)) == -1) {
+  if(connect(s, &addr.sockaddr, sizeof (addr)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
     my_closesocket(s);
     return NULL;
@@ -668,7 +667,7 @@ void delete_server_list(struct server_list *server_list)
 **************************************************************************/
 int begin_lanserver_scan(void)
 {
-  struct sockaddr_in addr;
+  union my_sockaddr addr;
   struct data_out dout;
   int sock, opt = 1;
   unsigned char buffer[MAX_LEN_PACKET];
@@ -691,9 +690,9 @@ int begin_lanserver_scan(void)
   /* Set the UDP Multicast group IP address. */
   group = get_multicast_group();
   memset(&addr, 0, sizeof(addr));
-  addr.sin_family = AF_INET;
-  addr.sin_addr.s_addr = inet_addr(get_multicast_group());
-  addr.sin_port = htons(SERVER_LAN_PORT);
+  addr.sockaddr_in.sin_family = AF_INET;
+  addr.sockaddr_in.sin_addr.s_addr = inet_addr(get_multicast_group());
+  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT);
 
   /* Set the Time-to-Live field for the packet  */
   ttl = SERVER_LAN_TTL;
@@ -714,7 +713,7 @@ int begin_lanserver_scan(void)
   size = dio_output_used(&dout);
  
 
-  if (sendto(sock, buffer, size, 0, (struct sockaddr *) &addr,
+  if (sendto(sock, buffer, size, 0, &addr.sockaddr,
       sizeof(addr)) < 0) {
     freelog(LOG_ERROR, "sendto failed: %s", mystrerror(errno));
     return 0;
@@ -738,11 +737,11 @@ int begin_lanserver_scan(void)
   }
                                                                                
   memset(&addr, 0, sizeof(addr));
-  addr.sin_family = AF_INET;
-  addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-  addr.sin_port = htons(SERVER_LAN_PORT + 1);
+  addr.sockaddr_in.sin_family = AF_INET;
+  addr.sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY); 
+  addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT + 1);
 
-  if (bind(socklan, (struct sockaddr *) &addr, sizeof(addr)) < 0) {
+  if (bind(socklan, &addr.sockaddr, sizeof(addr)) < 0) {
     freelog(LOG_ERROR, "bind failed: %s", mystrerror(errno));
     return 0;
   }
@@ -772,7 +771,7 @@ struct server_list *get_lan_server_list(void) {
 # else
     int fromlen;
 # endif
-  struct sockaddr_in fromend;
+  union my_sockaddr fromend;
   struct hostent *from;
   char msgbuf[128];
   int type;
@@ -806,7 +805,7 @@ struct server_list *get_lan_server_list(void) {
 
   /* Try to receive a packet from a server. */ 
   if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0,
-                   (struct sockaddr *) &fromend, &fromlen)) {
+                   &fromend.sockaddr, &fromlen)) {
     struct server *pserver;
 
     dio_get_uint8(&din, &type);
@@ -821,9 +820,9 @@ struct server_list *get_lan_server_list(void) {
     dio_get_string(&din, metastring, sizeof(metastring));
 
     if (!mystrcasecmp("none", servername)) {
-      from = gethostbyaddr((char *)&fromend.sin_addr, 
-                           sizeof(fromend.sin_addr), AF_INET);
-      sz_strlcpy(servername, inet_ntoa(fromend.sin_addr));
+      from = gethostbyaddr((char *) &fromend.sockaddr_in.sin_addr,
+			   sizeof(fromend.sockaddr_in.sin_addr), AF_INET);
+      sz_strlcpy(servername, inet_ntoa(fromend.sockaddr_in.sin_addr));
     }
 
     /* UDP can send duplicate or delayed packets. */
