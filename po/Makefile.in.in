@@ -54,6 +54,11 @@ POTFILES = \
 
 CATALOGS = @CATALOGS@
 
+nb.po: no.po
+	cp no.po nb.po
+
+BUILT_SOURCES = nb.po
+
 .SUFFIXES:
 .SUFFIXES: .c .o .po .pox .gmo .mo
 
