@@ -80,6 +80,7 @@
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"
+#include "sanitycheck.h"
 #include "savegame.h"
 #include "sernet.h"
 #include "settlers.h"
@@ -419,6 +420,10 @@ main_start_players:
     freelog(LOG_DEBUG, "Begin turn");
     begin_turn();
 
+#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
+    sanity_check();
+#endif
+
     force_end_of_sniff=0;
 
     freelog(LOG_DEBUG, "Shuffleplayers");
@@ -448,6 +453,10 @@ main_start_players:
     clear_timer_start(eot_timer);
     
     conn_list_do_buffer(&game.game_connections);
+
+#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
+    sanity_check();
+#endif
 
     before_end_year();
     /* This empties the client Messages window; put this before
