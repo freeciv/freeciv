@@ -953,6 +953,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->original = pplayer->player_no;
   pcity->is_building_unit = TRUE;
   pcity->did_buy=-1; /* code so we get a different message */
+  pcity->did_sell = FALSE;
   pcity->airlift = FALSE;
   pcity->currently_building=best_role_unit(pcity, L_FIRSTBUILD);
 
