@@ -45,8 +45,7 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
   case WM_COMMAND:
     if (LOWORD(wParam)==IDOK) {
       client_option *o;
-      int len = MAX(o->string_length, 20); /* Make sure it fits */
-      char dp[len];
+      char dp[512];
       bool b;
       int i;
       
@@ -72,8 +71,8 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
 	    break;
 	  }
 	  GetWindowText((HWND) (o->p_gui_data), dp,
-			o->string_length);
-	  if (!strcmp(dp, o->p_string_value)) {
+			sizeof(dp));
+	  if (strcmp(dp, o->p_string_value)) {
 	    mystrlcpy(o->p_string_value, dp, o->string_length);
 	    if (o->change_callback) {
 	      (o->change_callback)(o);
@@ -190,7 +189,7 @@ void popup_option_dialog(void)
 	break;
       }
 
-      if (o->p_string_vals) {
+      if ((o->p_string_vals) && (o->p_string_value[0] != 0)) {
 	int i =
 	    ComboBox_FindStringExact(o->p_gui_data, 0, o->p_string_value);
 
@@ -198,9 +197,8 @@ void popup_option_dialog(void)
 	  i = ComboBox_AddString(o->p_gui_data, o->p_string_value);
 	}
 	ComboBox_SetCurSel(o->p_gui_data, i);
-      } else {
-	SetWindowText((HWND)(o->p_gui_data), o->p_string_value);
-      }
+      } 
+      SetWindowText((HWND)(o->p_gui_data), o->p_string_value);
       break;
     }
   }
