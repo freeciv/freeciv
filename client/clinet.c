@@ -668,7 +668,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 **************************************************************************/
 void delete_server_list(struct server_list *server_list)
 {
-  server_list_iterate(*server_list, ptmp)
+  server_list_iterate(*server_list, ptmp) {
     int i;
     int n = atoi(ptmp->nplayers);
 
@@ -690,7 +690,7 @@ void delete_server_list(struct server_list *server_list)
     free(ptmp->nplayers);
 
     free(ptmp);
-  server_list_iterate_end;
+  } server_list_iterate_end;
 
   server_list_unlink_all(server_list);
   free(server_list);
