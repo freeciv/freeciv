@@ -56,6 +56,7 @@ char *main_intro_filename;
 char *minimap_intro_filename;
 
 struct named_sprites sprites;
+char current_tile_set_name[512];
 
 const int DIR4_TO_DIR8[4] = {DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST};
 
@@ -439,6 +440,8 @@ void tilespec_read_toplevel(const char *tileset_name)
   section_file_free(file);
   freelog(LOG_VERBOSE, "finished reading %s", fname);
   free(fname);
+
+  sz_strlcpy(current_tile_set_name, tileset_name);
 }
 
 /**********************************************************************

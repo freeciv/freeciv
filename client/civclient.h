@@ -39,7 +39,6 @@ enum client_states get_client_state(void);
 
 void client_remove_cli_conn(struct connection *pconn);
 
-extern char tile_set_name[512];
 extern char sound_plugin_name[512];
 extern char sound_set_name[512];
 extern char server_host[512];

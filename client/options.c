@@ -93,7 +93,7 @@ client_option options[] = {
 		 NULL, NULL),
   GEN_STR_OPTION(default_tile_set_name,     N_("Default tileset"),
 		 get_tileset_list, NULL),
-  GEN_STR_OPTION(tile_set_name, N_("Current tileset (EXPERIMENTAL)"),
+  GEN_STR_OPTION(current_tile_set_name, N_("Current tileset (EXPERIMENTAL)"),
 		  get_tileset_list, tilespec_reread_callback),
   GEN_STR_OPTION(default_sound_set_name,    N_("Default name of sound set"),
 		 get_soundset_list, NULL),

@@ -192,6 +192,8 @@ struct named_sprites {
 
 extern struct named_sprites sprites;
 
+extern char current_tile_set_name[512];
+
 /* full pathnames: */
 extern char *main_intro_filename;
 extern char *minimap_intro_filename;
