@@ -2,6 +2,7 @@
 
 name=_("Belgian")
 plural=_("?plural:Belgians")
+class=_("Modern")
 legend = _("Belgium gained independance from the Dutch Kingdom in 1830. \
 Belgium is mainly characterized by its movement from a unified state \
 to a federal one. This is the result of the Flemish and the \

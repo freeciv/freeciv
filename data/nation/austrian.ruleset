@@ -2,6 +2,7 @@
 
 name=_("Austrian")
 plural=_("?plural:Austrians")
+class=_("Modern")
 leader="Maria Theresia", "Franz Joseph", "Luitpold" 
 leader_sex="Female", "Male", "Male"
 flag="f.austria"
