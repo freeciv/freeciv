@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2000-08-21 14:36+0200\n"
+"POT-Creation-Date: 2000-08-22 09:14+0200\n"
 "PO-Revision-Date: 2000-08-21 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -103,7 +103,7 @@ msgstr "Spoorlijn"
 msgid "Mine"
 msgstr "Mijn"
 
-#: client/cityrepdata.c:218 common/map.c:56 common/unit.c:508
+#: client/cityrepdata.c:218 common/map.c:56 common/unit.c:508 server/report.c:898
 msgid "Pollution"
 msgstr "Verontreiniging"
 
@@ -374,6 +374,31 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
+#: ai/aicity.c:242 server/cityhand.c:570
+#, c-format
+msgid "Game: The %s have stopped building The %s in %s."
+msgstr "Spel: De %s zijn gestopt met het bouwen van De %s in %s."
+
+#: ai/aicity.c:251 server/cityhand.c:612
+#, c-format
+msgid "Game: The %s have started building The %s in %s."
+msgstr "Spel: De %s zijn begonnen met het bouwen van De %s in %s."
+
+#: ai/aicity.c:359 ai/aicity.c:487
+#, c-format
+msgid "Game: %s upgraded to %s in %s for %d gold."
+msgstr "Spel: %s opgewaardeerd naar %s in %s voor %d credits."
+
+#: ai/aicity.c:383
+#, c-format
+msgid "Game: %s disbanded in %s."
+msgstr "Spel: %s ontbonden in %s."
+
+#: ai/aicity.c:798
+#, c-format
+msgid "Game: %s is selling %s (not needed) for %d."
+msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
+
 #: server/barbarian.c:437
 #, c-format
 msgid "Native unrest near %s led by %s."
@@ -428,11 +453,6 @@ msgstr "Spel: Kan geen eenheden kopen wanneer stad in wanorde is."
 msgid "Game: %s bought in %s for %d gold."
 msgstr "Spel: %s gekocht in %s voor %d goud."
 
-#: ai/aicity.c:242 server/cityhand.c:570
-#, c-format
-msgid "Game: The %s have stopped building The %s in %s."
-msgstr "Spel: De %s zijn gestopt met het bouwen van De %s in %s."
-
 #: server/cityhand.c:591
 msgid " from the worklist"
 msgstr " van de werklijst"
@@ -446,11 +466,6 @@ msgstr "Spel: %s is %s%s aan het bouwen."
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Spel: %s is %s aan het bouwen."
-
-#: ai/aicity.c:251 server/cityhand.c:612
-#, c-format
-msgid "Game: The %s have started building The %s in %s."
-msgstr "Spel: De %s zijn begonnen met het bouwen van De %s in %s."
 
 #: server/cityhand.c:639
 msgid "Game: You have bought this turn, can't change."
@@ -1081,6 +1096,238 @@ msgstr "Spel: %s is uit het spel verwijderd."
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
+
+#: server/report.c:41
+#, c-format
+msgid "%s report on the RICHEST Civilizations in the World."
+msgstr "%s rapport over de RIJKSTE beschavingen ter wereld."
+
+#: server/report.c:42
+#, c-format
+msgid "%s report on the most ADVANCED Civilizations in the World."
+msgstr "%s rapport over de MODERNSTE beschavingen ter wereld."
+
+#: server/report.c:43
+#, c-format
+msgid "%s report on the most MILITARIZED Civilizations in the World."
+msgstr "%s rapport over de BEST BEWAPENDE beschavingen ter wereld."
+
+#: server/report.c:44
+#, c-format
+msgid "%s report on the HAPPIEST Civilizations in the World."
+msgstr "%s rapport over de GELUKKIGSTE beschavingen ter wereld."
+
+#: server/report.c:45
+#, c-format
+msgid "%s report on the LARGEST Civilizations in the World."
+msgstr "%s rapport over de GROOTSTE beschavingen ter wereld."
+
+#: server/report.c:49
+msgid "Herodotus'"
+msgstr "Herodotus'"
+
+#: server/report.c:50
+msgid "Thucydides'"
+msgstr "Thucydides"
+
+#: server/report.c:51
+msgid "Pliny the Elder's"
+msgstr "Pliny de Ouder's"
+
+#: server/report.c:52
+msgid "Livy's"
+msgstr "Livy's"
+
+#: server/report.c:53
+msgid "Toynbee's"
+msgstr "Toynbee's"
+
+#: server/report.c:54
+msgid "Gibbon's"
+msgstr "Gibbon's"
+
+#: server/report.c:55
+msgid "Ssu-ma Ch'ien's"
+msgstr "Ssu-ma Ch'ien's"
+
+#: server/report.c:56
+msgid "Pan Ku's"
+msgstr "Pan Ku's"
+
+#: server/report.c:74
+msgid "Magnificent"
+msgstr "Schitterende"
+
+#: server/report.c:74
+msgid "Glorious"
+msgstr "Glorieuze"
+
+#: server/report.c:74
+msgid "Great"
+msgstr "Grote"
+
+#: server/report.c:74
+msgid "Decent"
+msgstr "Beschaafde"
+
+#: server/report.c:75
+msgid "Mediocre"
+msgstr "Middelmatige"
+
+#: server/report.c:75
+msgid "Hilarious"
+msgstr "Lachwekkende"
+
+#: server/report.c:75
+msgid "Worthless"
+msgstr "Waardeloze"
+
+#: server/report.c:75
+msgid "Pathetic"
+msgstr "Zielige"
+
+#: server/report.c:76
+msgid "Useless"
+msgstr "Onbruikbare"
+
+#: server/report.c:127
+#, c-format
+msgid "%2d: The %s %s\n"
+msgstr "%2d: De %s %s\n"
+
+#: server/report.c:134
+msgid "Historian Publishes!"
+msgstr "Geschiedkundige Publicaties!"
+
+#: server/report.c:180
+#, c-format
+msgid "%2d: The %s City of %s of size %d, with %d wonders\n"
+msgstr "%2d: De %s stad %s met grootte %d en %d wonderen\n"
+
+#: server/report.c:186 server/report.c:230
+msgid "Traveler's Report:"
+msgstr "Reizigers Rapport:"
+
+#: server/report.c:187
+msgid "The Five Greatest Cities in the World!"
+msgstr "De Vijf Mooiste Steden ter wereld!"
+
+#: server/report.c:204
+#, c-format
+msgid "%s in %s (%s)\n"
+msgstr "%s in %s (%s)\n"
+
+#: server/report.c:208
+#, c-format
+msgid "%s has been DESTROYED\n"
+msgstr "%s is VERNIETIGD\n"
+
+#: server/report.c:221
+#, c-format
+msgid "(building %s in %s (%s))\n"
+msgstr "(%s wordt gebouwd in %s (%s))\n"
+
+#: client/gui-gtk/menu.c:632 client/gui-mui/gui_main.c:300 client/gui-xaw/menu.c:191 data/helpdata.txt:716 server/report.c:231
+msgid "Wonders of the World"
+msgstr "Wereldwonderen"
+
+#: server/report.c:584
+msgid "st"
+msgstr "ste"
+
+#: server/report.c:587
+msgid "nd"
+msgstr "de"
+
+#: server/report.c:590
+msgid "rd"
+msgstr "de"
+
+#: server/report.c:595 server/report.c:600
+msgid "th"
+msgstr "de"
+
+#: server/report.c:682 server/report.c:697 server/report.c:706 server/report.c:722
+msgid " sq. mi."
+msgstr " km2."
+
+#: server/report.c:779 server/report.c:794
+msgid " M tons"
+msgstr " M ton"
+
+#: server/report.c:803 server/report.c:818
+msgid " M goods"
+msgstr " M goederen"
+
+#: server/report.c:827 server/report.c:843
+msgid " months"
+msgstr " maanden"
+
+#: server/report.c:852 server/report.c:867
+msgid " tons"
+msgstr " ton"
+
+#: server/report.c:890
+msgid "Population"
+msgstr "Bevolking"
+
+#: server/report.c:891
+msgid "Land Area"
+msgstr "Landoppervlak"
+
+#: server/report.c:892
+msgid "Settled Area"
+msgstr "Bewoond Oppervlak"
+
+#: server/report.c:893
+msgid "Research Speed"
+msgstr "Onderzoekssnelheid"
+
+#: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301 data/default/techs.ruleset:301 server/report.c:894
+msgid "Literacy"
+msgstr "Literatuur"
+
+#: client/gui-mui/citydlg.c:1324 server/report.c:895
+msgid "Production"
+msgstr "Produktie"
+
+#: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175 data/default/techs.ruleset:175 server/report.c:896
+msgid "Economics"
+msgstr "Economie"
+
+#: server/report.c:897
+msgid "Military Service"
+msgstr "Militaire Dienst"
+
+#: server/report.c:922 server/report.c:946
+msgid "Demographics Report:"
+msgstr "Volkenkundig Rapport:"
+
+#: server/report.c:923
+msgid "Sorry, the Demographics report is unavailable."
+msgstr "Sorry, het Volkenkundig rapport is niet beschikbaar."
+
+#: server/report.c:928
+#, c-format
+msgid "The %s of the %s"
+msgstr "De %s van de %s"
+
+#: server/report.c:1339
+#, c-format
+msgid "%2d: The %s %s scored %d points\n"
+msgstr "%2d: De %s %s behaalden %d punten\n"
+
+#: server/report.c:1347
+msgid "Final Report:"
+msgstr "Slot Rapport"
+
+#: server/report.c:1347
+msgid "Progress Scores:"
+msgstr ""
+
+#: server/report.c:1348
+msgid "The Greatest Civilizations in the world."
+msgstr "De Grootste Beschavingen ter wereld."
 
 #: server/ruleset.c:110
 #, c-format
@@ -3888,21 +4135,6 @@ msgstr "Spel: Ontbond uw %s bij (%d, %d)."
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spel: Teleporteerde uw %s van (%d, %d) naar %s."
 
-#: ai/aicity.c:359 ai/aicity.c:487
-#, c-format
-msgid "Game: %s upgraded to %s in %s for %d gold."
-msgstr "Spel: %s opgewaardeerd naar %s in %s voor %d credits."
-
-#: ai/aicity.c:383
-#, c-format
-msgid "Game: %s disbanded in %s."
-msgstr "Spel: %s ontbonden in %s."
-
-#: ai/aicity.c:798
-#, c-format
-msgid "Game: %s is selling %s (not needed) for %d."
-msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
-
 #: client/cityrepdata.c:68
 msgid "Rapture"
 msgstr "Extase"
@@ -6298,10 +6530,6 @@ msgstr "Handels Rapport"
 msgid "Science Report"
 msgstr "Wetenschappelijk Rapport"
 
-#: client/gui-gtk/menu.c:632 client/gui-mui/gui_main.c:300 client/gui-xaw/menu.c:191 data/helpdata.txt:716
-msgid "Wonders of the World"
-msgstr "Wereldwonderen"
-
 #: client/gui-gtk/menu.c:634 client/gui-mui/gui_main.c:301 client/gui-xaw/menu.c:192
 msgid "Top Five Cities"
 msgstr "Top Vijf Steden"
@@ -6856,10 +7084,6 @@ msgstr "Stadskaart"
 #: client/gui-mui/citydlg.c:1313 data/helpdata.txt:688
 msgid "City Improvements"
 msgstr "Stadsverbeteringen"
-
-#: client/gui-mui/citydlg.c:1324
-msgid "Production"
-msgstr "Produktie"
 
 #: client/gui-mui/citydlg.c:1378
 msgid "Freeciv - Cityoptions"
@@ -9994,10 +10218,6 @@ msgstr "Constructie"
 msgid "Currency"
 msgstr "Geld"
 
-#: data/civ1/techs.ruleset:175 data/civ2/techs.ruleset:175 data/default/techs.ruleset:175
-msgid "Economics"
-msgstr "Economie"
-
 #: data/civ1/techs.ruleset:181 data/civ2/techs.ruleset:181 data/default/techs.ruleset:181
 msgid "Electricity"
 msgstr "Electriciteit"
@@ -10073,10 +10293,6 @@ msgstr "Laser"
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295 data/default/techs.ruleset:295
 msgid "Leadership"
 msgstr "Leiderschap"
-
-#: data/civ1/techs.ruleset:301 data/civ2/techs.ruleset:301 data/default/techs.ruleset:301
-msgid "Literacy"
-msgstr "Literatuur"
 
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307 data/default/techs.ruleset:307
 msgid "Machine Tools"
@@ -11566,154 +11782,7 @@ msgid "?plural:Zulus"
 msgstr "?plural:Zoeloes"
 
 #~ msgid "Treaty city id %d not found - skipping clause."
-#~ msgstr "Verdrags stad id %d niet gevonden - sla clausule over."
-
-#~ msgid "%s report on the RICHEST Civilizations in the World."
-#~ msgstr "%s rapport over de RIJKSTE beschavingen ter wereld."
-
-#~ msgid "%s report on the most ADVANCED Civilizations in the World."
-#~ msgstr "%s rapport over de MODERNSTE beschavingen ter wereld."
-
-#~ msgid "%s report on the most MILITARIZED Civilizations in the World."
-#~ msgstr "%s rapport over de BEST BEWAPENDE beschavingen ter wereld."
-
-#~ msgid "%s report on the HAPPIEST Civilizations in the World."
-#~ msgstr "%s rapport over de GELUKKIGSTE beschavingen ter wereld."
-
-#~ msgid "%s report on the LARGEST Civilizations in the World."
-#~ msgstr "%s rapport over de GROOTSTE beschavingen ter wereld."
-
-#~ msgid "Herodotus'"
-#~ msgstr "Herodotus'"
-
-#~ msgid "Thucydides'"
-#~ msgstr "Thucydides"
-
-#~ msgid "Pliny the Elder's"
-#~ msgstr "Pliny de Ouder's"
-
-#~ msgid "Livy's"
-#~ msgstr "Livy's"
-
-#~ msgid "Toynbee's"
-#~ msgstr "Toynbee's"
-
-#~ msgid "Gibbon's"
-#~ msgstr "Gibbon's"
-
-#~ msgid "Ssu-ma Ch'ien's"
-#~ msgstr "Ssu-ma Ch'ien's"
-
-#~ msgid "Pan Ku's"
-#~ msgstr "Pan Ku's"
-
-#~ msgid "Magnificent"
-#~ msgstr "Schitterende"
-
-#~ msgid "Glorious"
-#~ msgstr "Glorieuze"
-
-#~ msgid "Great"
-#~ msgstr "Grote"
-
-#~ msgid "Decent"
-#~ msgstr "Beschaafde"
-
-#~ msgid "Mediocre"
-#~ msgstr "Middelmatige"
-
-#~ msgid "Hilarious"
-#~ msgstr "Lachwekkende"
-
-#~ msgid "Worthless"
-#~ msgstr "Waardeloze"
-
-#~ msgid "Pathetic"
-#~ msgstr "Zielige"
-
-#~ msgid "Useless"
-#~ msgstr "Onbruikbare"
-
-#~ msgid "%2d: The %s %s\n"
-#~ msgstr "%2d: De %s %s\n"
-
-#~ msgid "Historian Publishes!"
-#~ msgstr "Geschiedkundige Publicaties!"
-
-#~ msgid "%2d: The %s City of %s of size %d, with %d wonders\n"
-#~ msgstr "%2d: De %s stad %s met grootte %d en %d wonderen\n"
-
-#~ msgid "Traveler's Report:"
-#~ msgstr "Reizigers Rapport:"
-
-#~ msgid "The Five Greatest Cities in the World!"
-#~ msgstr "De Vijf Mooiste Steden ter wereld!"
-
-#~ msgid "%s in %s (%s)\n"
-#~ msgstr "%s in %s (%s)\n"
-
-#~ msgid "%s has been DESTROYED\n"
-#~ msgstr "%s is VERNIETIGD\n"
-
-#~ msgid "(building %s in %s (%s))\n"
-#~ msgstr "(%s wordt gebouwd in %s (%s))\n"
-
-#~ msgid "st"
-#~ msgstr "ste"
-
-#~ msgid "nd"
-#~ msgstr "de"
-
-#~ msgid "rd"
-#~ msgstr "de"
-
-#~ msgid "th"
-#~ msgstr "de"
-
-#~ msgid " sq. mi."
-#~ msgstr " km2."
-
-#~ msgid " M tons"
-#~ msgstr " M ton"
-
-#~ msgid " M goods"
-#~ msgstr " M goederen"
-
-#~ msgid " months"
-#~ msgstr " maanden"
-
-#~ msgid " tons"
-#~ msgstr " ton"
-
-#~ msgid "Land Area"
-#~ msgstr "Landoppervlak"
-
-#~ msgid "Settled Area"
-#~ msgstr "Bewoond Oppervlak"
-
-#~ msgid "Research Speed"
-#~ msgstr "Onderzoekssnelheid"
-
-#~ msgid "Military Service"
-#~ msgstr "Militaire Dienst"
-
-#~ msgid "Demographics Report:"
-#~ msgstr "Volkenkundig Rapport:"
-
-#~ msgid "Sorry, the Demographics report is unavailable."
-#~ msgstr "Sorry, het Volkenkundig rapport is niet beschikbaar."
-
-#~ msgid "The %s of the %s"
-#~ msgstr "De %s van de %s"
-
-#~ msgid "%2d: The %s %s scored %d points\n"
-#~ msgstr "%2d: De %s %s behaalden %d punten\n"
-
-#~ msgid "Final Report:"
-#~ msgstr "Slot Rapport"
-
-#~ msgid "The Greatest Civilizations in the world."
-#~ msgstr "De Grootste Beschavingen ter wereld."
+#~ msgstr "Stad id %d uit verdrag niet gevonden - sla clausule over."
 
 #~ msgid "Bad value %i for min_dist_bw_cities. Using 2."
 #~ msgstr "Verkeerde waarde %i voor min_dist_bw_cities. Gebruik 2."
