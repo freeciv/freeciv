@@ -55,6 +55,10 @@ struct call {
     TYPED_LIST_ITERATE(struct call, calllist, pcall)
 #define call_list_iterate_end  LIST_ITERATE_END
 
+/*
+ * Main data structure. Contains all registered agents and all
+ * outstanding calls.
+ */
 static struct {
   int entries_used;
   struct my_agent {
@@ -72,7 +76,7 @@ static bool initialized = FALSE;
 static int frozen_level;
 
 /***********************************************************************
-...
+ Called once per client startup.
 ***********************************************************************/
 void agents_init(void)
 {
@@ -85,9 +89,9 @@ void agents_init(void)
 }
 
 /***********************************************************************
-...
+ Registers an agent.
 ***********************************************************************/
-void register_agent(struct agent *agent)
+void register_agent(const struct agent *agent)
 {
   struct my_agent *priv_agent = &agents.entries[agents.entries_used];
 
@@ -107,7 +111,8 @@ void register_agent(struct agent *agent)
 }
 
 /***********************************************************************
-...
+ If the call described by the given arguments isn't contained in
+ agents.calls list add the call to this list.
 ***********************************************************************/
 static void enqueue_call(struct my_agent *agent,
 			 enum oct type,
@@ -120,8 +125,7 @@ static void enqueue_call(struct my_agent *agent,
 	&& pcall->arg == arg && pcall->agent == agent) {
       return;
     }
-  }
-  call_list_iterate_end;
+  } call_list_iterate_end;
 
   pcall2 = fc_malloc(sizeof(struct call));
 
@@ -138,7 +142,7 @@ static void enqueue_call(struct my_agent *agent,
 }
 
 /***********************************************************************
-...
+ Helper.
 ***********************************************************************/
 static int my_call_sort(const void *a, const void *b)
 {
@@ -149,7 +153,8 @@ static int my_call_sort(const void *a, const void *b)
 }
 
 /***********************************************************************
-...
+ Return an outstanding call. The call is removed from the agents.calls
+ list. Returns NULL if there no more outstanding calls.
 ***********************************************************************/
 static struct call *remove_and_return_a_call(void)
 {
@@ -172,9 +177,9 @@ static struct call *remove_and_return_a_call(void)
 }
 
 /***********************************************************************
-...
+ Calls an callback of an agent as described in the given call.
 ***********************************************************************/
-static void execute_call(struct call *call)
+static void execute_call(const struct call *call)
 {
   if (call->type == OCT_NEW_TURN) {
     call->agent->agent.turn_start_notify();
@@ -184,12 +189,15 @@ static void execute_call(struct call *call)
   } else if (call->type == OCT_CITY) {
     call->agent->agent.city_callbacks[call->
 				      cb_type] ((struct city *) call->arg);
-  } else
+  } else {
     assert(0);
+  }
 }
 
 /***********************************************************************
-...
+ Execute all outstanding calls. This method will do nothing if the
+ dispatching is frozen (frozen_level > 0). Also call_handle_methods
+ will ensure that only one instance is running at any given time.
 ***********************************************************************/
 static void call_handle_methods(void)
 {
@@ -223,7 +231,7 @@ static void call_handle_methods(void)
 }
 
 /***********************************************************************
-...
+ Increase the frozen_level by one.
 ***********************************************************************/
 static void freeze(void)
 {
@@ -238,7 +246,8 @@ static void freeze(void)
 }
 
 /***********************************************************************
-...
+ Decrease the frozen_level by one. If the dispatching is not frozen
+ anymore (frozen_level == 0) all outstanding calls are executed.
 ***********************************************************************/
 static void thaw(void)
 {
@@ -253,7 +262,7 @@ static void thaw(void)
 }
 
 /***********************************************************************
-...
+ Helper.
 ***********************************************************************/
 static struct my_agent *find_agent_by_name(char *agent_name)
 {
@@ -269,7 +278,8 @@ static struct my_agent *find_agent_by_name(char *agent_name)
 }
 
 /***********************************************************************
-...
+ Returns TRUE iff currently handled packet was caused by the given
+ agent.
 ***********************************************************************/
 static bool is_outstanding_request(struct my_agent *agent)
 {
@@ -291,7 +301,7 @@ static bool is_outstanding_request(struct my_agent *agent)
 }
 
 /***********************************************************************
-...
+ Print statistics for the given agent.
 ***********************************************************************/
 static void print_stats(struct my_agent *agent)
 {
@@ -305,7 +315,7 @@ static void print_stats(struct my_agent *agent)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c.
 ***********************************************************************/
 void agents_disconnect(void)
 {
@@ -314,7 +324,7 @@ void agents_disconnect(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c.
 ***********************************************************************/
 void agents_processing_started(void)
 {
@@ -323,7 +333,7 @@ void agents_processing_started(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c.
 ***********************************************************************/
 void agents_processing_finished(void)
 {
@@ -332,7 +342,7 @@ void agents_processing_finished(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c.
 ***********************************************************************/
 void agents_game_joined(void)
 {
@@ -341,7 +351,7 @@ void agents_game_joined(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c.
 ***********************************************************************/
 void agents_game_start(void)
 {
@@ -349,7 +359,7 @@ void agents_game_start(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c.
 ***********************************************************************/
 void agents_before_new_turn(void)
 {
@@ -358,7 +368,7 @@ void agents_before_new_turn(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c.
 ***********************************************************************/
 void agents_start_turn(void)
 {
@@ -367,7 +377,8 @@ void agents_start_turn(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
 ***********************************************************************/
 void agents_new_turn(void)
 {
@@ -390,7 +401,12 @@ void agents_new_turn(void)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c. A call is created and added to the
+ list of outstanding calls if an agent wants to be informed about this
+ event and the change wasn't caused by the agent. We then try (this
+ may no be successfull in every case since we can be frozen or another
+ call_handle_methods is running higher up on the stack) to execute
+ all outstanding calls.
 ***********************************************************************/
 void agents_unit_changed(struct unit *punit)
 {
@@ -415,7 +431,8 @@ void agents_unit_changed(struct unit *punit)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
 ***********************************************************************/
 void agents_unit_new(struct unit *punit)
 {
@@ -441,7 +458,8 @@ void agents_unit_new(struct unit *punit)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
 ***********************************************************************/
 void agents_unit_remove(struct unit *punit)
 {
@@ -467,7 +485,8 @@ void agents_unit_remove(struct unit *punit)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
 ***********************************************************************/
 void agents_city_changed(struct city *pcity)
 {
@@ -490,7 +509,8 @@ void agents_city_changed(struct city *pcity)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
 ***********************************************************************/
 void agents_city_new(struct city *pcity)
 {
@@ -516,7 +536,8 @@ void agents_city_new(struct city *pcity)
 }
 
 /***********************************************************************
-...
+ Called from client/packhand.c. See agents_unit_changed for a generic
+ documentation.
 ***********************************************************************/
 void agents_city_remove(struct city *pcity)
 {
@@ -542,7 +563,8 @@ void agents_city_remove(struct city *pcity)
 }
 
 /***********************************************************************
-...
+ Called from an agent. This function will return until the last
+ request has been processed by the server.
 ***********************************************************************/
 void wait_for_requests(char *agent_name, int first_request_id,
 		       int last_request_id)
@@ -579,7 +601,7 @@ void wait_for_requests(char *agent_name, int first_request_id,
 }
 
 /***********************************************************************
-...
+ Adds a specific call for the given agent.
 ***********************************************************************/
 void cause_a_unit_changed_for_agent(char *name_of_calling_agent,
 				    struct unit *punit)
@@ -592,7 +614,7 @@ void cause_a_unit_changed_for_agent(char *name_of_calling_agent,
 }
 
 /***********************************************************************
-...
+ Adds a specific call for the given agent.
 ***********************************************************************/
 void cause_a_city_changed_for_agent(char *name_of_calling_agent,
 				    struct city *pcity)

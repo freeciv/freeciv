@@ -59,6 +59,9 @@ struct cma_result {
   short int entertainers, scientists, taxmen;
 };
 
+/*
+ * Called once per client start.
+ */
 void cma_init(void);
 
 /*

@@ -39,7 +39,7 @@ struct agent {
 };
 
 void agents_init(void);
-void register_agent(struct agent *agent);
+void register_agent(const struct agent *agent);
 
 /* called from client/packhand.c */
 void agents_disconnect(void);

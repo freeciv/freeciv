@@ -42,33 +42,108 @@
 #include "cma_core.h"
 
 /*
- * Terms used:
+ * Terms used
+ * ==========
+ *
+ * Primary Stats: food, shields and trade
+ *
+ * Secondary Stats: luxury, science and gold
+ *
+ * Happy State: disorder (unhappy), content (!unhappy && !happy) and
+ * happy (happy)
  *
  * Combination: A combination is a distribution of workers on the city
  * map. There are several realisations of a certain combination. Each
- * realisation has a different number of specialists. All
- * realisations of a certain combination have the same primary stats.
+ * realisation has a different number of specialists. All realisations
+ * of a certain combination have the same primary stats.
  *
- * Description of the alogrithm:
+ * Simple Primary Stats: Primary Stats which are calculated as the sum
+ * over all city tiles which are used by a worker.
+ *
+ * Rough description of the alogrithm
+ * ==================================
+ *
+ * 1) for i in [0..max number of workers]:
+ * 2)  list_i = generate all possible combinations with use i workers
+ * 3)  list_i = filter list_i to discard combinations which are \
+ *              worse than others in list_i
+ * 4) best_r = null
+ * 5) for c in concatenation of all list_i:
+ * 6)   x = best realisation of all possible realisations of c
+ * 7)   if fitness(x) > fitness(best_r):
+ * 8)      best_r = x
+ *
+ * Reducing expensive calls
+ * ========================
+ *
+ * As it can seen in the outline above the alogrithm is quite
+ * computationally expensive. So we want to avoid calculating information
+ * a second or third time. The bottleneck here is generic_city_refresh
+ * calls. generic_city_refresh recalculates the city locally. This is
+ * a quite complex calculation and it can be expected that with the
+ * full implementation of generalized improvements it will become even
+ * more expensive. generic_city_refresh will calculate based on the
+ * worker allocation, the number of specialists, the government,
+ * rates of the player, existing traderoutes, the primary and
+ * secondary stats, and also the happy state. Fortunately
+ * generic_city_refresh has properties which make it possible to avoid
+ * calling it:
+ * 
+ *  a) the primary stats as returned by generic_city_refresh are always
+ *  greater than or equal to the simple primary stats (which can be
+ *  computed cheaply).
+ *  b) the primary stats as computed by generic_city_refresh only
+ *  depends on the simple primary stats. So simple primary stats will
+ *  yield same primary stats.
+ *  c) the secondary stats as computed by generic_city_refresh only
+ *  depend on the trade and the number of specialists.
+ *  d) the happy state as computed by generic_city_refresh only
+ *  depend on the luxury and the number of workers.
+ *
+ * a) and b) allow the fast comparison of certain combinations in step
+ * 3) above by comparing the simple primary stats of the combinations.
+ *
+ * b) allows it to only have to call generic_city_refresh one time to
+ * yield the primary stats of a certain combination and so also of all
+ * its realisations.
+ *
+ * c) and d) allow the almost complete caching of the secondary stats.
+ *
+ * Top-down description of the alogrithm
+ * ==============================================
+ * 
+ * Main entry point is cma_query_result which calls optimize_final.
+ *
+ * optimize_final implements all of the above mentioned steps
+ * 1)-8). It will use build_cache3 to do steps 1)-3). It will use
+ * find_best_specialist_arrangement to do step 6). optimize_final will
+ * also test if the realisation --- which makes the spare workers
+ * entertainers --- can meet the requirements for the primary stats. The
+ * user given goal can only be satisfied if this test is true.
  *
  * build_cache3 will create all possible combinations for a given
  * city. There are at most 2^MAX_FIELDS_USED possible
  * combinations. Usually the number is smaller because a certain
- * combination is worse than another. Example: two combinations which
- * both use 2 tiles/worker. The first one yields (food=3, shield=4,
- * trade=2) the second one (food=3, shield=3, trade=1). The second one
- * will be discarded because it is worse than the first one.
+ * combination is worse than another. Only combinations which have the
+ * same number of workers can be compared this way. Example: two
+ * combinations which both use 2 tiles/worker. The first one yields
+ * (food=3, shield=4, trade=2) the second one (food=3, shield=3,
+ * trade=1). The second one will be discarded because it is worse than
+ * the first one.
  *
  * find_best_specialist_arrangement will try all realisations for a
  * given combination. It will find the best one (according to the
  * fitness function) and will return this one. It may be the case that
- * no realisation can meet the requirements
+ * no realisation can meet the requirements.
  *
- * optimize_final goes through all combinations. It tests if the
- * realisation, which makes the spare people entertainers, can meet
- * the requirements. If it can it will call
- * find_best_specialist_arrangement to get the best realisation. It
- * will find the best realisation over all combinations.
+ * Outside the algorithm
+ * =====================
+ *
+ * The CMA is also an agent. The CMA will subscribe itself to all city
+ * events. So if a city changes the callback function city_changed is
+ * called. handle_city will be called from city_changed to update the
+ * given city. handle_city will call cma_query_result and
+ * apply_result_on_server to update the server city state.
  */
 
 /****************************************************************************
@@ -96,9 +171,7 @@
 #define DISABLE_CACHE3                                  FALSE
 #define ALWAYS_APPLY_AT_SERVER                          FALSE
 
-#define MAX_TRADE					200
-#define MAX_LUXURY					150
-#define NUM_SPECIALISTS_ROLLES				3
+#define NUM_SPECIALISTS_ROLES				3
 #define MAX_FIELDS_USED	       	(CITY_MAP_SIZE * CITY_MAP_SIZE - 4 - 1)
 #define MAX_COMBINATIONS				100
 
@@ -114,16 +187,21 @@ static struct {
  * Maps (luxury, workers) -> (city_is_in_disorder, city_is_happy)
  */
 static struct {
+  int allocated_trade, allocated_size, allocated_luxury;
+  int hits, misses;
+
   struct secondary_stat {
     short int is_valid, production, surplus;
-  } secondary_stats[MAX_TRADE][MAX_CITY_SIZE][NUM_SPECIALISTS_ROLLES];
+  } *secondary_stats;
   struct city_status {
     short int is_valid, disorder, happy;
-  } city_status[MAX_LUXURY][MAX_CITY_SIZE];
-  int hits, misses;
+  } *city_status;
 } cache2;
 
-/* Contains all combinations. */
+/* 
+ * Contains all combinations. Caches all the data about a city across
+ * multiple cma_query_result calls about the same city.
+ */
 static struct {
   int fields_available_total;
 
@@ -141,36 +219,24 @@ static struct {
   struct city *pcity;
 } cache3;
 
+/*
+ * Misc statistic to analyze performance.
+ */
 static struct {
   struct timer *wall_timer;
   int queries, apply_result_ignored, apply_result_applied, refresh_forced;
 } stats;
 
+/*
+ * Cached results of city_get_{food,trade,shield}_tile calls. Indexed
+ * by city map.
+ */
 struct tile_stats {
   struct {
     short int stats[NUM_PRIMARY_STATS];
     short int is_valid;
   } tiles[CITY_MAP_SIZE][CITY_MAP_SIZE];
 };
-
-static void init_caches(void);
-static void clear_caches(struct city *pcity);
-static int set_worker(struct city *pcity, int x, int y, bool set_clear);
-static bool can_field_be_used_for_worker(struct city *pcity, int x, int y);
-static bool can_use_specialist(struct city *pcity,
-			      enum specialist_type specialist_type);
-static void real_fill_out_result(struct city *pcity,
-				 struct cma_result *result);
-static void copy_stats(struct city *pcity, struct cma_result *result);
-static void optimize_final(struct city *pcity,
-			   const struct cma_parameter *const parameter,
-			   struct cma_result *best_result);
-static void calc_fitness(struct city *pcity,
-			 const struct cma_parameter *const parameter,
-			 const struct cma_result *const result,
-			 int *major_fitness, int *minor_fitness);
-static void get_current_as_result(struct city *pcity,
-				  struct cma_result *result);
 
 #define my_city_map_iterate(pcity, cx, cy) {                           \
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, map_x, map_y) { \
@@ -187,39 +253,8 @@ static void get_current_as_result(struct city *pcity,
  ****************************************************************************/
 
 /****************************************************************************
-...
-*****************************************************************************/
-static void print_city(struct city *pcity)
-{
-  freelog(LOG_NORMAL, "print_city(city='%s'(id=%d))",
-	  pcity->name, pcity->id);
-  freelog(LOG_NORMAL,
-	  "  size=%d, entertainers=%d, scientists=%d, taxmen=%d",
-	  pcity->size, pcity->ppl_elvis, pcity->ppl_scientist,
-	  pcity->ppl_taxman);
-  freelog(LOG_NORMAL, "  workers at:");
-  my_city_map_iterate(pcity, x, y) {
-    if (pcity->city_map[x][y] == C_TILE_WORKER) {
-      freelog(LOG_NORMAL, "    (%2d,%2d)", x, y);
-    }
-  }
-  my_city_map_iterate_end;
-
-  freelog(LOG_NORMAL, "  food    = %3d (%+3d)",
-	  pcity->food_prod, pcity->food_surplus);
-  freelog(LOG_NORMAL, "  shield  = %3d (%+3d)",
-	  pcity->shield_prod, pcity->shield_surplus);
-  freelog(LOG_NORMAL, "  trade   = %3d (%+3d)",
-	  pcity->trade_prod + pcity->corruption, pcity->trade_prod);
-
-  freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->tax_total,
-	  city_gold_surplus(pcity));
-  freelog(LOG_NORMAL, "  luxury  = %3d", pcity->luxury_total);
-  freelog(LOG_NORMAL, "  science = %3d", pcity->science_total);
-}
-
-/****************************************************************************
-...
+ Returns the number of workers of the given result. The given result
+ has to be a result for the given city.
 *****************************************************************************/
 static int count_worker(struct city *pcity,
 			const struct cma_result *const result)
@@ -230,95 +265,18 @@ static int count_worker(struct city *pcity,
     if (result->worker_positions_used[x][y]) {
       worker++;
     }
-  }
-  my_city_map_iterate_end;
+  } my_city_map_iterate_end;
 
   return worker;
 }
-
-/****************************************************************************
-...
-*****************************************************************************/
-static void print_result(struct city *pcity,
-			 const struct cma_result *const result)
-{
-  int y, i, worker = count_worker(pcity, result);
-
-  freelog(LOG_NORMAL, "print_result(result=%p)", result);
-  freelog(LOG_NORMAL,
-	  "print_result:  found_a_valid=%d disorder=%d happy=%d",
-	  result->found_a_valid, result->disorder, result->happy);
-#if UNUSED
-  freelog(LOG_NORMAL, "print_result:  workers at:");
-  my_city_map_iterate(pcity, x, y) {
-    if (result->worker_positions_used[x][y]) {
-      freelog(LOG_NORMAL, "print_result:    (%2d,%2d)", x, y);
-    }
-  }
-  my_city_map_iterate_end;
-#endif
-
-  for (y = 0; y < CITY_MAP_SIZE; y++) {
-    char line[CITY_MAP_SIZE + 1];
-    int x;
-
-    line[CITY_MAP_SIZE] = 0;
-
-    for (x = 0; x < CITY_MAP_SIZE; x++) {
-      if (!is_valid_city_coords(x, y)) {
-	line[x] = '-';
-      } else if (is_city_center(x, y)) {
-	line[x] = 'c';
-      } else if (result->worker_positions_used[x][y]) {
-	line[x] = 'w';
-      } else {
-	line[x] = '.';
-      }
-    }
-    freelog(LOG_NORMAL, "print_result: %s", line);
-  }
-
-  freelog(LOG_NORMAL,
-	  "print_result:  people: W/E/S/T %d/%d/%d/%d",
-	  worker, result->entertainers, result->scientists,
-	  result->taxmen);
-
-  for (i = 0; i < NUM_STATS; i++) {
-    freelog(LOG_NORMAL,
-	    "print_result:  %10s production=%d surplus=%d",
-	    cma_get_stat_name(i), result->production[i],
-	    result->surplus[i]);
-  }
-}
-
-#if UNUSED
-/****************************************************************************
-...
-*****************************************************************************/
-static void print_parameter(const struct cma_parameter *const parameter)
-{
-  int i;
-
-  freelog(LOG_NORMAL, "print_parameter:");
-
-  for (i = 0; i < NUM_STATS; i++) {
-    freelog(LOG_NORMAL,
-	    "print_parameter:  %10s min_surplus=%d factor=%d",
-	    cma_get_stat_name(i), parameter->minimal_surplus[i],
-	    parameter->factor[i]);
-  }
-  freelog(LOG_NORMAL,
-	  "print_parameter:  require happy=%d happy factor=%d",
-	  parameter->require_happy, parameter->happy_factor);
-}
-#endif
 
 #define T(x) if (result1->x != result2->x) { \
 	freelog(RESULTS_ARE_EQUAL_LOG_LEVEL, #x); \
 	return FALSE; }
 
 /****************************************************************************
-...
+ Returns TRUE iff the two results are equal. Both results have to be
+ results for the given city.
 *****************************************************************************/
 static bool results_are_equal(struct city *pcity,
 			     const struct cma_result *const result1,
@@ -350,8 +308,7 @@ static bool results_are_equal(struct city *pcity,
       freelog(RESULTS_ARE_EQUAL_LOG_LEVEL, "worker_positions_used");
       return FALSE;
     }
-  }
-  my_city_map_iterate_end;
+  } my_city_map_iterate_end;
 
   return TRUE;
 }
@@ -359,29 +316,8 @@ static bool results_are_equal(struct city *pcity,
 #undef T
 
 /****************************************************************************
-...
-*****************************************************************************/
-static void print_combination(struct city *pcity,
-			      struct combination *combination)
-{
-  assert(combination->is_valid);
-
-  freelog(LOG_NORMAL, "combination:  workers at:");
-  my_city_map_iterate(pcity, x, y) {
-    if (combination->worker_positions[x][y] == C_TILE_WORKER) {
-      freelog(LOG_NORMAL, "combination:    (%2d,%2d)", x, y);
-    }
-  }
-  my_city_map_iterate_end;
-
-  freelog(LOG_NORMAL,
-	  "combination:  food=%d shield=%d trade=%d",
-	  combination->production2[FOOD], combination->production2[SHIELD],
-	  combination->production2[TRADE]);
-}
-
-/****************************************************************************
-...
+ Returns the number of valid combinations which use the given number
+ of fields/tiles.
 *****************************************************************************/
 static int count_valid_combinations(int fields_used)
 {
@@ -417,7 +353,7 @@ static int set_worker(struct city *pcity, int x, int y, bool set_clear)
 }
 
 /****************************************************************************
- Tests if the given field can be used for a worker. 
+ Returns TRUE iff the given field can be used for a worker.
 *****************************************************************************/
 static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
 {
@@ -445,10 +381,10 @@ static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
 }
 
 /****************************************************************************
- Tests if the given city can use this kind of specialists.
+ Returns TRUE iff if the given city can use this kind of specialists.
 *****************************************************************************/
 static bool can_use_specialist(struct city *pcity,
-			      enum specialist_type specialist_type)
+			       enum specialist_type specialist_type)
 {
   if (specialist_type == SP_ELVIS) {
     return TRUE;
@@ -460,11 +396,11 @@ static bool can_use_specialist(struct city *pcity,
 }
 
 /****************************************************************************
- Does the result have the required surplus and the city isn't in
- disorder and the city is happy if this is required?
+ Returns TRUE iff is the result has the required surplus and the city
+ isn't in disorder and the city is happy if this is required.
 *****************************************************************************/
 static bool is_valid_result(const struct cma_parameter *const parameter,
-			   const struct cma_result *const result)
+			    const struct cma_result *const result)
 {
   int i;
 
@@ -484,11 +420,178 @@ static bool is_valid_result(const struct cma_parameter *const parameter,
 }
 
 /****************************************************************************
- Change the actual city setting to the given result. Returns true if
+ Print the current state of the given city via
+ freelog(LOG_NORMAL,...).
+*****************************************************************************/
+static void print_city(struct city *pcity)
+{
+  freelog(LOG_NORMAL, "print_city(city='%s'(id=%d))",
+	  pcity->name, pcity->id);
+  freelog(LOG_NORMAL,
+	  "  size=%d, entertainers=%d, scientists=%d, taxmen=%d",
+	  pcity->size, pcity->ppl_elvis, pcity->ppl_scientist,
+	  pcity->ppl_taxman);
+  freelog(LOG_NORMAL, "  workers at:");
+  my_city_map_iterate(pcity, x, y) {
+    if (pcity->city_map[x][y] == C_TILE_WORKER) {
+      freelog(LOG_NORMAL, "    (%2d,%2d)", x, y);
+    }
+  } my_city_map_iterate_end;
+
+  freelog(LOG_NORMAL, "  food    = %3d (%+3d)",
+	  pcity->food_prod, pcity->food_surplus);
+  freelog(LOG_NORMAL, "  shield  = %3d (%+3d)",
+	  pcity->shield_prod, pcity->shield_surplus);
+  freelog(LOG_NORMAL, "  trade   = %3d (%+3d)",
+	  pcity->trade_prod + pcity->corruption, pcity->trade_prod);
+
+  freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->tax_total,
+	  city_gold_surplus(pcity));
+  freelog(LOG_NORMAL, "  luxury  = %3d", pcity->luxury_total);
+  freelog(LOG_NORMAL, "  science = %3d", pcity->science_total);
+}
+
+/****************************************************************************
+ Print the given result via freelog(LOG_NORMAL,...). The given result
+ has to be a result for the given city.
+*****************************************************************************/
+static void print_result(struct city *pcity,
+			 const struct cma_result *const result)
+{
+  int y, i, worker = count_worker(pcity, result);
+
+  freelog(LOG_NORMAL, "print_result(result=%p)", result);
+  freelog(LOG_NORMAL,
+	  "print_result:  found_a_valid=%d disorder=%d happy=%d",
+	  result->found_a_valid, result->disorder, result->happy);
+#if UNUSED
+  freelog(LOG_NORMAL, "print_result:  workers at:");
+  my_city_map_iterate(pcity, x, y) {
+    if (result->worker_positions_used[x][y]) {
+      freelog(LOG_NORMAL, "print_result:    (%2d,%2d)", x, y);
+    }
+  } my_city_map_iterate_end;
+#endif
+
+  for (y = 0; y < CITY_MAP_SIZE; y++) {
+    char line[CITY_MAP_SIZE + 1];
+    int x;
+
+    line[CITY_MAP_SIZE] = 0;
+
+    for (x = 0; x < CITY_MAP_SIZE; x++) {
+      if (!is_valid_city_coords(x, y)) {
+	line[x] = '-';
+      } else if (is_city_center(x, y)) {
+	line[x] = 'c';
+      } else if (result->worker_positions_used[x][y]) {
+	line[x] = 'w';
+      } else {
+	line[x] = '.';
+      }
+    }
+    freelog(LOG_NORMAL, "print_result: %s", line);
+  }
+
+  freelog(LOG_NORMAL,
+	  "print_result:  people: W/E/S/T %d/%d/%d/%d",
+	  worker, result->entertainers, result->scientists,
+	  result->taxmen);
+
+  for (i = 0; i < NUM_STATS; i++) {
+    freelog(LOG_NORMAL,
+	    "print_result:  %10s production=%d surplus=%d",
+	    cma_get_stat_name(i), result->production[i],
+	    result->surplus[i]);
+  }
+}
+
+/****************************************************************************
+ Print the given combination via freelog(LOG_NORMAL,...). The given
+ combination has to be a result for the given city.
+*****************************************************************************/
+static void print_combination(struct city *pcity,
+			      struct combination *combination)
+{
+  assert(combination->is_valid);
+
+  freelog(LOG_NORMAL, "combination:  workers at:");
+  my_city_map_iterate(pcity, x, y) {
+    if (combination->worker_positions[x][y] == C_TILE_WORKER) {
+      freelog(LOG_NORMAL, "combination:    (%2d,%2d)", x, y);
+    }
+  } my_city_map_iterate_end;
+
+  freelog(LOG_NORMAL,
+	  "combination:  food=%d shield=%d trade=%d",
+	  combination->production2[FOOD], combination->production2[SHIELD],
+	  combination->production2[TRADE]);
+}
+
+/****************************************************************************
+ Copy the current production stats and happy status of the given city
+ to the result.
+*****************************************************************************/
+static void copy_stats(struct city *pcity, struct cma_result *result)
+{
+  result->production[FOOD] = pcity->food_prod;
+  result->production[SHIELD] = pcity->shield_prod;
+  result->production[TRADE] = pcity->trade_prod + pcity->corruption;
+
+  result->surplus[FOOD] = pcity->food_surplus;
+  result->surplus[SHIELD] = pcity->shield_surplus;
+  result->surplus[TRADE] = pcity->trade_prod;
+
+  result->production[GOLD] = pcity->tax_total;
+  result->production[LUXURY] = pcity->luxury_total;
+  result->production[SCIENCE] = pcity->science_total;
+
+  result->surplus[GOLD] = city_gold_surplus(pcity);
+  result->surplus[LUXURY] = result->production[LUXURY];
+  result->surplus[SCIENCE] = result->production[SCIENCE];
+
+  result->disorder = city_unhappy(pcity);
+  result->happy = city_happy(pcity);
+}
+
+/****************************************************************************
+ Copy the current city state (citizen assignment, production stats and
+ happy state) in the given result.
+*****************************************************************************/
+static void get_current_as_result(struct city *pcity,
+				  struct cma_result *result)
+{
+  int worker = 0;
+
+  memset(result->worker_positions_used, 0,
+	 sizeof(result->worker_positions_used));
+
+  my_city_map_iterate(pcity, x, y) {
+    result->worker_positions_used[x][y] =
+	(pcity->city_map[x][y] == C_TILE_WORKER);
+    if (result->worker_positions_used[x][y]) {
+      worker++;
+    }
+  } my_city_map_iterate_end;
+
+  result->entertainers = pcity->ppl_elvis;
+  result->scientists = pcity->ppl_scientist;
+  result->taxmen = pcity->ppl_taxman;
+
+  assert(worker + result->entertainers + result->scientists +
+	 result->taxmen == pcity->size);
+
+  result->found_a_valid = TRUE;
+
+  copy_stats(pcity, result);
+}
+
+/****************************************************************************
+ Change the actual city setting to the given result. Returns TRUE iff
  the actual data matches the calculated one.
 *****************************************************************************/
 static bool apply_result_on_server(struct city *pcity,
-				  const struct cma_result *const result)
+				   const struct cma_result *const result)
 {
   struct packet_city_request packet;
   int first_request_id = 0, last_request_id = 0, i, worker;
@@ -531,8 +634,7 @@ static bool apply_result_on_server(struct city *pcity,
 	first_request_id = last_request_id;
       }
     }
-  }
-  my_city_map_iterate_end;
+  } my_city_map_iterate_end;
 
   /* Change surplus scientists to entertainers */
   for (i = 0; i < pcity->ppl_scientist - result->scientists; i++) {
@@ -567,8 +669,7 @@ static bool apply_result_on_server(struct city *pcity,
 	first_request_id = last_request_id;
       }
     }
-  }
-  my_city_map_iterate_end;
+  } my_city_map_iterate_end;
 
   /* Set scientists. */
   for (i = 0; i < result->scientists - pcity->ppl_scientist; i++) {
@@ -624,39 +725,39 @@ static bool apply_result_on_server(struct city *pcity,
 }
 
 /****************************************************************************
- Copies the current city state in the given result.
+ Wraps the array access to cache2.secondary_stats.
 *****************************************************************************/
-static void get_current_as_result(struct city *pcity,
-				  struct cma_result *result)
+static struct secondary_stat *get_secondary_stat(int trade, int specialists,
+						 enum specialist_type
+						 specialist_type)
 {
-  int worker = 0;
+  freelog(LOG_DEBUG, "second: trade=%d spec=%d type=%d", trade, specialists,
+	  specialist_type);
 
-  memset(result->worker_positions_used, 0,
-	 sizeof(result->worker_positions_used));
+  assert(trade <= cache2.allocated_trade);
+  assert(specialists <= cache2.allocated_size);
 
-  my_city_map_iterate(pcity, x, y) {
-    result->worker_positions_used[x][y] =
-	(pcity->city_map[x][y] == C_TILE_WORKER);
-    if (result->worker_positions_used[x][y]) {
-      worker++;
-    }
-  }
-  my_city_map_iterate_end;
-
-  result->entertainers = pcity->ppl_elvis;
-  result->scientists = pcity->ppl_scientist;
-  result->taxmen = pcity->ppl_taxman;
-
-  assert(worker + result->entertainers + result->scientists +
-	 result->taxmen == pcity->size);
-
-  result->found_a_valid = TRUE;
-
-  copy_stats(pcity, result);
+  return &cache2.secondary_stats[NUM_SPECIALISTS_ROLES *
+				 (cache2.allocated_size * (trade) +
+				  specialists) + specialist_type];
 }
 
 /****************************************************************************
-...
+ Wraps the array access to cache2.city_status.
+*****************************************************************************/
+static struct city_status *get_city_status(int luxury, int workers)
+{
+  freelog(LOG_DEBUG, "status: lux=%d worker=%d", luxury, workers);
+
+  assert(luxury <= cache2.allocated_luxury);
+  assert(workers <= cache2.allocated_size);
+
+  return &cache2.city_status[cache2.allocated_size * luxury + workers];
+}
+
+/****************************************************************************
+ Update the cache2 according to the filled out result. If the info is
+ already in the cache check that the two match.
 *****************************************************************************/
 static void update_cache2(struct city *pcity,
 			  const struct cma_result *const result)
@@ -664,18 +765,13 @@ static void update_cache2(struct city *pcity,
   struct secondary_stat *p;
   struct city_status *q;
 
-  assert(result->production[TRADE] < MAX_TRADE);
-  assert(result->production[LUXURY] < MAX_LUXURY);
-
   /*
    * Science is set to 0 if the city is unhappy/in disorder. See
    * unhappy_city_check.
    */
   if (!result->disorder) {
-    p =
-	&cache2.secondary_stats[result->production[TRADE]][result->
-							   scientists]
-	[SP_SCIENTIST];
+    p = get_secondary_stat(result->production[TRADE], result->scientists,
+			   SP_SCIENTIST);
     if (!p->is_valid) {
       p->production = result->production[SCIENCE];
       p->surplus = result->surplus[SCIENCE];
@@ -691,8 +787,8 @@ static void update_cache2(struct city *pcity,
    * unhappy_city_check.
    */
   if (!result->disorder) {
-    p = &cache2.secondary_stats[result->production[TRADE]][result->taxmen]
-	[SP_TAXMAN];
+    p = get_secondary_stat(result->production[TRADE], result->taxmen,
+			   SP_TAXMAN);
     if (!p->is_valid && !result->disorder) {
       p->production = result->production[GOLD];
       p->surplus = result->surplus[GOLD];
@@ -703,10 +799,8 @@ static void update_cache2(struct city *pcity,
     }
   }
 
-  p =
-      &cache2.secondary_stats[result->
-			      production[TRADE]][result->entertainers]
-      [SP_ELVIS];
+  p = get_secondary_stat(result->production[TRADE], result->entertainers,
+			 SP_ELVIS);
   if (!p->is_valid) {
     p->production = result->production[LUXURY];
     p->surplus = result->surplus[LUXURY];
@@ -718,9 +812,8 @@ static void update_cache2(struct city *pcity,
     }
   }
 
-  q =
-      &cache2.
-      city_status[result->production[LUXURY]][count_worker(pcity, result)];
+  q = get_city_status(result->production[LUXURY],
+		      count_worker(pcity, result));
   if (!q->is_valid) {
     q->disorder = result->disorder;
     q->happy = result->happy;
@@ -760,15 +853,13 @@ static void real_fill_out_result(struct city *pcity,
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
       pcity->city_map[x][y] = C_TILE_EMPTY;
     }
-  }
-  my_city_map_iterate_end;
+  } my_city_map_iterate_end;
 
   my_city_map_iterate(pcity, x, y) {
     if (result->worker_positions_used[x][y]) {
       pcity->city_map[x][y] = C_TILE_WORKER;
     }
-  }
-  my_city_map_iterate_end;
+  } my_city_map_iterate_end;
 
   pcity->ppl_elvis = result->entertainers;
   pcity->ppl_scientist = result->scientists;
@@ -795,35 +886,10 @@ static void real_fill_out_result(struct city *pcity,
 }
 
 /****************************************************************************
- Copy the current stats of the given city to the result.
-*****************************************************************************/
-static void copy_stats(struct city *pcity, struct cma_result *result)
-{
-  result->production[FOOD] = pcity->food_prod;
-  result->production[SHIELD] = pcity->shield_prod;
-  result->production[TRADE] = pcity->trade_prod + pcity->corruption;
-
-  result->surplus[FOOD] = pcity->food_surplus;
-  result->surplus[SHIELD] = pcity->shield_surplus;
-  result->surplus[TRADE] = pcity->trade_prod;
-
-  result->production[GOLD] = pcity->tax_total;
-  result->production[LUXURY] = pcity->luxury_total;
-  result->production[SCIENCE] = pcity->science_total;
-
-  result->surplus[GOLD] = city_gold_surplus(pcity);
-  result->surplus[LUXURY] = result->production[LUXURY];
-  result->surplus[SCIENCE] = result->production[SCIENCE];
-
-  result->disorder = city_unhappy(pcity);
-  result->happy = city_happy(pcity);
-}
-
-/****************************************************************************
  Estimates the fitness of the given result with respect to the given
- parameters. Will fill out fitnes and minor fitness.
+ parameters. Will fill out major fitnes and minor fitness.
 
- minor_fitness should be used if the major fitness are equal.
+ The minor fitness should be used if the major fitness are equal.
 *****************************************************************************/
 static void calc_fitness(struct city *pcity,
 			 const struct cma_parameter *const parameter,
@@ -877,23 +943,9 @@ static void calc_fitness(struct city *pcity,
 }
 
 /****************************************************************************
-...
-*****************************************************************************/
-static void init_caches(void)
-{
-  cache1.hits = 0;
-  cache1.misses = 0;
-
-  cache2.hits = 0;
-  cache2.misses = 0;
-
-  cache3.pcity = NULL;
-  cache3.hits = 0;
-  cache3.misses = 0;
-}
-
-/****************************************************************************
-...
+ Invalidate cache3 if the given city is the one which is cached by
+ cache3. The other caches (cache1, cache2 and tile_stats) doesn't have
+ to be invalidated since they are chained on cache3.
 *****************************************************************************/
 static void clear_caches(struct city *pcity)
 {
@@ -918,7 +970,7 @@ static void clear_caches(struct city *pcity)
 }
 
 /****************************************************************************
-...
+ Prints the data of the stats struct via freelog(LOG_NORMAL,...).
 *****************************************************************************/
 static void report_stats(void)
 {
@@ -1027,8 +1079,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
   my_city_map_iterate(pcity, x, y) {
     result->worker_positions_used[x][y] =
 	(base_combination->worker_positions[x][y] == C_TILE_WORKER);
-  }
-  my_city_map_iterate_end;
+  } my_city_map_iterate_end;
 
   result->scientists = scientists;
   result->taxmen = taxmen;
@@ -1060,10 +1111,8 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
       result->surplus[i] = base_combination->all_entertainer.surplus[i];
     }
 
-    p =
-	&cache2.secondary_stats[result->production[TRADE]][result->
-							   scientists]
-	[SP_SCIENTIST];
+    p = get_secondary_stat(result->production[TRADE], result->scientists,
+			   SP_SCIENTIST);
     if (!p->is_valid) {
       got_all = FALSE;
     } else {
@@ -1071,9 +1120,8 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
       result->surplus[SCIENCE] = p->surplus;
     }
 
-    p = &cache2.secondary_stats[result->production[TRADE]][result->taxmen]
-	[SP_TAXMAN];
-
+    p = get_secondary_stat(result->production[TRADE], result->taxmen,
+			   SP_TAXMAN);
     if (!p->is_valid) {
       got_all = FALSE;
     } else {
@@ -1081,11 +1129,8 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
       result->surplus[GOLD] = p->surplus;
     }
 
-    p =
-	&cache2.secondary_stats[result->production[TRADE]][result->
-							   entertainers]
-	[SP_ELVIS];
-
+    p = get_secondary_stat(result->production[TRADE], result->entertainers,
+			   SP_ELVIS);
     if (!p->is_valid) {
       got_all = FALSE;
     } else {
@@ -1093,9 +1138,8 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
       result->surplus[LUXURY] = p->surplus;
     }
 
-    q =
-	&cache2.city_status[result->
-			    production[LUXURY]][base_combination->worker];
+    q = get_city_status(result->production[LUXURY],
+			base_combination->worker);
     if (!q->is_valid) {
       got_all = FALSE;
     } else {
@@ -1131,8 +1175,8 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
 
 
 /****************************************************************************
- The given combination is added only if no other better combination
- is found. add_combination will also remove any combination which
+ The given combination is added only if no other better combination is
+ already known. add_combination will also remove any combination which
  may have become worse than the inserted.
 *****************************************************************************/
 static void add_combination(int fields_used,
@@ -1287,14 +1331,102 @@ static void expand_cache3(struct city *pcity, int fields_to_use,
 }
 
 /****************************************************************************
+ Expand the secondary_stats and city_status fields of cache2 if this
+ is necessary. For this the function tries to estimate the upper limit
+ of trade and luxury. It will also invalidate cache2.
+*****************************************************************************/
+static void ensure_invalid_cache2(struct city *pcity, int total_tile_trade)
+{
+  bool change_size = FALSE;
+  int i, luxury, total_trade = total_tile_trade;
+
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    struct city *pc2 = find_city_by_id(pcity->trade[i]);
+
+    if (pc2) {
+      int bonus = (total_tile_trade + pc2->tile_trade + 4) / 8;
+
+      /* Double if on different continents. */
+      if (map_get_continent(pcity->x, pcity->y) !=
+	  map_get_continent(pc2->x, pc2->y)) {bonus *= 2;
+      }
+
+      if (pcity->owner == pc2->owner) {
+	bonus /= 2;
+      }
+      total_trade += bonus;
+    }
+  }
+
+  /*
+   * Estimate an upper limit for the luxury. We assume that the player
+   * has set the luxury rate to 100%. There are two extremal cases: all
+   * citizen are entertainers (yielding a luxury of "(pcity->size * 2
+   * * get_city_tax_bonus(pcity))/100" = A) or all citizen are
+   * working on tiles and the resulting trade is converted to luxury
+   * (yielding a luxury of "(total_trade * get_city_tax_bonus(pcity))
+   * / 100" = B) . We can't use MAX(A, B) since there may be cases in
+   * between them which are better than these two exremal cases. So we
+   * use A+B as upper limit.
+   */
+  luxury =
+      ((pcity->size * 2 + total_trade) * get_city_tax_bonus(pcity)) / 100;
+
+  /* +1 because we want to index from 0 to pcity->size inclusive */
+  if (pcity->size + 1 > cache2.allocated_size) {
+    cache2.allocated_size = pcity->size + 1;
+    change_size = TRUE;
+  }
+
+  if (total_trade + 1 > cache2.allocated_trade) {
+    cache2.allocated_trade = total_trade + 1;
+    change_size = TRUE;
+  }
+
+  if (luxury + 1 > cache2.allocated_luxury) {
+    cache2.allocated_luxury = luxury + 1;
+    change_size = TRUE;
+  }
+
+  if (change_size) {
+    freelog(LOG_DEBUG,
+	    "CMA: expanding cache2 to size=%d, trade=%d, luxury=%d",
+	    cache2.allocated_size, cache2.allocated_trade,
+	    cache2.allocated_luxury);
+    if (cache2.secondary_stats) {
+      free(cache2.secondary_stats);
+      cache2.secondary_stats = NULL;
+    }
+    cache2.secondary_stats =
+	fc_malloc(cache2.allocated_trade * cache2.allocated_size *
+		  NUM_SPECIALISTS_ROLES * sizeof(struct secondary_stat));
+
+    if (cache2.city_status) {
+      free(cache2.city_status);
+      cache2.city_status = NULL;
+    }
+    cache2.city_status =
+	fc_malloc(cache2.allocated_luxury * cache2.allocated_size *
+		  sizeof(struct city_status));
+  }
+
+  /* Make cache2 invalid */
+  memset(cache2.secondary_stats, 0,
+	 cache2.allocated_trade * cache2.allocated_size *
+	 NUM_SPECIALISTS_ROLES * sizeof(struct secondary_stat));
+  memset(cache2.city_status, 0,
+	 cache2.allocated_luxury * cache2.allocated_size *
+	 sizeof(struct city_status));
+}
+/****************************************************************************
  Setup. Adds the root combination (the combination which doesn't use
- any worker but has the production of the city center). Incrementaly
- calls expand_cache3.
+ any worker but the production of the city center). Incrementaly calls
+ expand_cache3.
 *****************************************************************************/
 static void build_cache3(struct city *pcity)
 {
   struct combination root_combination;
-  int i, j;
+  int i, j, total_tile_trade;
   struct tile_stats tile_stats;
   bool is_celebrating = base_city_celebrating(pcity);
 
@@ -1327,18 +1459,13 @@ static void build_cache3(struct city *pcity)
   root_combination.production2[TRADE] =
       base_city_get_trade_tile(2, 2, pcity, is_celebrating);
 
+  total_tile_trade = root_combination.production2[TRADE];
+
   cache3.fields_available_total = 0;
 
   memset(&tile_stats, 0, sizeof(tile_stats));
 
   my_city_map_iterate(pcity, x, y) {
-    if (can_field_be_used_for_worker(pcity, x, y)) {
-      cache3.fields_available_total++;
-      root_combination.worker_positions[x][y] = C_TILE_EMPTY;
-    } else {
-      root_combination.worker_positions[x][y] = C_TILE_UNAVAILABLE;
-    }
-
     tile_stats.tiles[x][y].is_valid = TRUE;
     tile_stats.tiles[x][y].stats[FOOD] =
 	base_city_get_food_tile(x, y, pcity, is_celebrating);
@@ -1346,8 +1473,15 @@ static void build_cache3(struct city *pcity)
 	base_city_get_shields_tile(x, y, pcity, is_celebrating);
     tile_stats.tiles[x][y].stats[TRADE] =
 	base_city_get_trade_tile(x, y, pcity, is_celebrating);
-  }
-  my_city_map_iterate_end;
+
+    if (can_field_be_used_for_worker(pcity, x, y)) {
+      cache3.fields_available_total++;
+      root_combination.worker_positions[x][y] = C_TILE_EMPTY;
+      total_tile_trade += tile_stats.tiles[x][y].stats[TRADE];
+    } else {
+      root_combination.worker_positions[x][y] = C_TILE_UNAVAILABLE;
+    }
+  } my_city_map_iterate_end;
 
   /* Add root combination. */
   root_combination.is_valid = TRUE;
@@ -1357,9 +1491,7 @@ static void build_cache3(struct city *pcity)
     expand_cache3(pcity, i, &tile_stats);
   }
 
-  /* Make cache2 invalid */
-  memset(cache2.secondary_stats, 0, sizeof(cache2.secondary_stats));
-  memset(cache2.city_status, 0, sizeof(cache2.city_status));
+  ensure_invalid_cache2(pcity, total_tile_trade);
 }
 
 /****************************************************************************
@@ -1562,7 +1694,9 @@ static void optimize_final(struct city *pcity,
 }
 
 /****************************************************************************
-...
+ The given city has changed. handle_city ensures that either the city
+ follows the set CMA goal or that the CMA detaches itself from the
+ city.
 *****************************************************************************/
 static void handle_city(struct city *pcity)
 {
@@ -1584,18 +1718,9 @@ static void handle_city(struct city *pcity)
 	  pcity->id, pcity->x, pcity->y, city_owner(pcity)->name);
 
   if (city_owner(pcity) != game.player_ptr) {
-    struct packet_generic_message packet;
-
-    cma_release_city(pcity);
-
-    my_snprintf(packet.message, sizeof(packet.message),
-		_("CMA: You lost control of %s. Detaching from city."),
-		pcity->name);
-    packet.x = pcity->x;
-    packet.y = pcity->y;
-    packet.event = E_CITY_CMA_RELEASE;
-
-    handle_chat_msg(&packet);
+    create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
+		 _("CMA: You lost control of %s. Detaching from city."),
+		 pcity->name);
     return;
   }
 
@@ -1663,7 +1788,7 @@ static void handle_city(struct city *pcity)
 }
 
 /****************************************************************************
-...
+ Callback for the agent interface.
 *****************************************************************************/
 static void city_changed(struct city *pcity)
 {
@@ -1672,7 +1797,7 @@ static void city_changed(struct city *pcity)
 }
 
 /****************************************************************************
-...
+ Callback for the agent interface.
 *****************************************************************************/
 static void city_remove(struct city *pcity)
 {
@@ -1680,7 +1805,7 @@ static void city_remove(struct city *pcity)
 }
 
 /****************************************************************************
-...
+ Callback for the agent interface.
 *****************************************************************************/
 static void new_turn()
 {
@@ -1703,7 +1828,17 @@ void cma_init(void)
 	  sizeof(struct combination));
   freelog(LOG_DEBUG, "sizeof(cache2)=%d", sizeof(cache2));
   freelog(LOG_DEBUG, "sizeof(cache3)=%d", sizeof(cache3));
-  init_caches();
+
+  /* reset cache counters */
+  cache1.hits = 0;
+  cache1.misses = 0;
+
+  cache2.hits = 0;
+  cache2.misses = 0;
+
+  cache3.pcity = NULL;
+  cache3.hits = 0;
+  cache3.misses = 0;
 
   memset(&stats, 0, sizeof(stats));
   stats.wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
