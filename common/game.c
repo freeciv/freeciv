@@ -937,11 +937,12 @@ void translate_data_names(void)
     sz_strlcpy(tthis->name_orig, tthis->name);
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
   }
-  for (i=0; i<game.num_unit_types; i++) {
+
+  unit_type_iterate(i) {
     struct unit_type *tthis = &unit_types[i];
     sz_strlcpy(tthis->name_orig, tthis->name);
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
-  }
+  } unit_type_iterate_end;
 
   impr_type_iterate(i) {
     struct impr_type *tthis = &improvement_types[i];

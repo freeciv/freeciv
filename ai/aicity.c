@@ -592,12 +592,11 @@ void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_c
 static Unit_Type_id ai_choose_attacker(struct city *pcity,
                                        enum unit_move_type which)
 {
-  Unit_Type_id i;
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int best = 0;
   int cur;
 
-  for (i = 0; i < game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     /* not dealing with planes yet */
     if (!is_ai_simple_military(i)) continue;
     cur = unit_attack_desirability(i);
@@ -608,7 +607,8 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
         bestid = i;
       }
     }
-  }
+  } unit_type_iterate_end;
+
   return bestid;
 }
 
@@ -624,12 +624,11 @@ Unit_Type_id ai_choose_attacker_sailing(struct city *pcity)
 
 Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
 {
-  Unit_Type_id i;
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int j, m;
   int best= 0;
 
-  for (i = 0; i < game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && (m == LAND_MOVING || m == SEA_MOVING)) {
@@ -640,7 +639,8 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
         bestid = i;
       }
     }
-  }
+  } unit_type_iterate_end;
+
   return bestid;
 }
 
@@ -678,14 +678,13 @@ bool has_a_normal_defender(struct city *pcity)
 Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
                                         enum unit_move_type which)
 {
-  Unit_Type_id i;
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int j, m;
   int best= 0;
   const bool walls = TRUE; /* just assume city_got_citywalls(pcity); in the long run -- Syela */
   bool isdef = has_a_normal_defender(pcity);
 
-  for (i = 0; i < game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && get_unit_type(i)->build_cost <= n &&
@@ -701,7 +700,8 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
         bestid = i;
       }
     }
-  }
+  } unit_type_iterate_end;
+
   return bestid;
 }
 

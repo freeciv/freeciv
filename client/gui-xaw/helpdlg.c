@@ -916,11 +916,11 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 		improvement_types[j].name);
     } impr_type_iterate_end;
 
-    for(j=0; j<game.num_unit_types; ++j) {
+    unit_type_iterate(j) {
       if(i==get_unit_type(j)->tech_requirement) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"), 
 		get_unit_type(j)->name);
-    }
+    } unit_type_iterate_end;
 
     for(j=0; j<game.num_tech_types; ++j) {
       if(i==advances[j].req[0]) {

@@ -2339,7 +2339,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   pdialog->change_list_num_improvements=n;
 
 
-  for(i=0; i<game.num_unit_types; i++)
+  unit_type_iterate(i) {
     if(can_build_unit(pdialog->pcity, i)) {
       turns = city_turns_to_build(pdialog->pcity, i, TRUE, TRUE);
       my_snprintf(pdialog->change_list_names[n],
@@ -2349,6 +2349,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
+  } unit_type_iterate_end;
   
   pdialog->change_list_names_ptrs[n]=0;
 

@@ -673,7 +673,7 @@ activeunits_report_dialog_update(void)
 
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
-    for (i=0;i<game.num_unit_types;i++) {
+    unit_type_iterate(i) {
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) 
 {
         can = (can_upgrade_unittype(game.player_ptr, i) != -1);
@@ -691,7 +691,8 @@ activeunits_report_dialog_update(void)
         unittotals.upkeep_food += unitarray[i].upkeep_food;
         unittotals.building_count += unitarray[i].building_count;
       }
-    }
+    } unit_type_iterate_end;
+
     my_snprintf(buf[0],sizeof(buf[0]),"%s",_("Totals"));
     buf[1][0]='\0';
     my_snprintf(buf[1],sizeof(buf[1]),"%d",unittotals.building_count);

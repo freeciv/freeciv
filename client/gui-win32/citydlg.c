@@ -1148,13 +1148,14 @@ void change_callback(struct city_dialog *pdialog)
 	
       pdialog->change_list_num_improvements=n;
       
-      for(i=0; i<game.num_unit_types; i++)
+      unit_type_iterate(i) {
 	if(can_build_unit(pdialog->pcity, i)) {
 	  get_city_dialog_production_row(row, sizeof(buf[0]), i,
 	                                 TRUE, pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
 	  pdialog->change_list_ids[n++]=i;
 	}
+      } unit_type_iterate_end;
       
       ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
       for(i=1;i<4;i++) {

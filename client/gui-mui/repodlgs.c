@@ -940,8 +940,7 @@ void activeunits_report_dialog_update(void)
   set(actunit_units_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(actunit_units_listview, MUIM_NList_Clear);
 
-  for (i = 0; i < game.num_unit_types; i++)
-  {
+  unit_type_iterate(i) {
     if (unitarray[i].active_count)
     {
       entry.type = i;
@@ -952,7 +951,7 @@ void activeunits_report_dialog_update(void)
       entry.building_count = unitarray[i].building_count;
       DoMethod(actunit_units_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
     }
-  }
+  } unit_type_iterate_end;
 
   set(actunit_units_listview, MUIA_NList_Quiet, FALSE);
 }

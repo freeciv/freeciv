@@ -228,4 +228,13 @@ int num_role_units(int role);
 Unit_Type_id get_role_unit(int role, int index);
 Unit_Type_id best_role_unit(struct city *pcity, int role);
 
+#define unit_type_iterate(m_i)                                                \
+{                                                                             \
+  Unit_Type_id m_i;                                                           \
+  for (m_i = 0; m_i < game.num_unit_types; m_i++) {
+
+#define unit_type_iterate_end                                                 \
+  }                                                                           \
+}
+
 #endif  /* FC__UNITTYPE_H */

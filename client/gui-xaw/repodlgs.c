@@ -1114,7 +1114,7 @@ void activeunits_report_dialog_update(void)
 
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
-    for (i=0;i<game.num_unit_types;i++) {
+    unit_type_iterate(i) {
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
 	my_snprintf
 	  (
@@ -1136,7 +1136,8 @@ void activeunits_report_dialog_update(void)
 	unittotals.upkeep_food += unitarray[i].upkeep_food;
 	unittotals.building_count += unitarray[i].building_count;
       }
-    }
+    } unit_type_iterate_end;
+
     if (k==0) {
       sz_strlcpy(activeunits_list_names[0], "                                ");
       activeunits_list_names_ptrs[0]=activeunits_list_names[0];

@@ -244,7 +244,7 @@ void boot_help_texts(void)
 	
 	genlist_init(&category_nodes);
 	if(current_type==HELP_UNIT) {
-	  for(i=0; i<game.num_unit_types; i++) {
+	  unit_type_iterate(i) {
 	    if(unit_type_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", unit_name(i));
@@ -252,7 +252,7 @@ void boot_help_texts(void)
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
-	  }
+	  } unit_type_iterate_end;
 	} else if(current_type==HELP_TECH) {
 	  for(i=A_FIRST; i<game.num_tech_types; i++) {  /* skip A_NONE */
 	    if(tech_exists(i)) {

@@ -758,7 +758,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       }
     } impr_type_iterate_end;
 
-    for(j=0; j<game.num_unit_types; ++j) {
+    unit_type_iterate(j) {
       if(i!=get_unit_type(j)->tech_requirement) continue;
       hbox=fcwin_hbox_new(helpdlg_win,FALSE);
       fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
@@ -766,7 +766,8 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       fcwin_box_add_button(hbox,get_unit_type(j)->name,
 			   ID_HELP_UNIT_LINK,
 			   0,FALSE,FALSE,5);
-    }
+    } unit_type_iterate_end;
+
     for(j=0; j<game.num_tech_types; ++j) {
       if(i==advances[j].req[0]) {
         if(advances[j].req[1]==A_NONE) {

@@ -572,7 +572,7 @@ static void load_ruleset_techs(struct section_file *file)
 static void load_unit_names(struct section_file *file)
 {
   char **sec;
-  int nval, i;
+  int nval;
   const char *filename = secfile_filename(file);
 
   (void) section_file_lookup(file, "datafile.description");	/* unused */
@@ -589,11 +589,14 @@ static void load_unit_names(struct section_file *file)
 	    nval, U_LAST, filename);
     exit(EXIT_FAILURE);
   }
+
   game.num_unit_types = nval;
-  for (i = 0; i < game.num_unit_types; i++ ) {
+
+  unit_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
     name_strlcpy(unit_types[i].name, name);
-  }
+  } unit_type_iterate_end;
+
   free(sec);
 }
 
@@ -625,12 +628,13 @@ static void load_ruleset_units(struct section_file *file)
      we might want to know for other fields.  After this we
      can use unit_type_exists()
   */
-  for( i=0; i<game.num_unit_types; i++ ) {
+  unit_type_iterate(i) {
     u = &unit_types[i];
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
 				      FALSE, filename, u->name);
-  }
-  for( i=0; i<game.num_unit_types; i++ ) {
+  } unit_type_iterate_end;
+
+  unit_type_iterate(i) {
     u = &unit_types[i];
     if (unit_type_exists(i)) {
       u->obsoleted_by = lookup_unit_type(file, sec[i],
@@ -639,10 +643,10 @@ static void load_ruleset_units(struct section_file *file)
       (void) section_file_lookup(file, "%s.obsolete_by", sec[i]); /* unused */
       u->obsoleted_by = -1;
     }
-  }
+  } unit_type_iterate_end;
 
   /* main stats: */
-  for( i=0; i<game.num_unit_types; i++ ) {
+  unit_type_iterate(i) {
     u = &unit_types[i];
     
     sval = secfile_lookup_str(file, "%s.move_type", sec[i]);
@@ -697,10 +701,10 @@ static void load_ruleset_units(struct section_file *file)
     u->gold_cost   = secfile_lookup_int(file, "%s.uk_gold", sec[i]);
 
     u->helptext = lookup_helptext(file, sec[i]);
-  }
+  } unit_type_iterate_end;
   
   /* flags */
-  for(i=0; i<game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     u = &unit_types[i];
     u->flags = 0;
     
@@ -739,10 +743,10 @@ static void load_ruleset_units(struct section_file *file)
       }
     }
     free(slist);
-  }
+  } unit_type_iterate_end;
     
   /* roles */
-  for(i=0; i<game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     u = &unit_types[i];
     u->roles = 0;
     
@@ -760,14 +764,14 @@ static void load_ruleset_units(struct section_file *file)
       u->roles |= (1<<(ival-L_FIRST));
     }
     free(slist);
-  }
+  } unit_type_iterate_end;
 
   lookup_tech_list(file, "u_specials", "partisan_req",
 		   game.rtech.partisan_req, filename);
 
 
   /* Some more consistency checking: */
-  for( i=0; i<game.num_unit_types; i++ ) {
+  unit_type_iterate(i) {
     if (unit_type_exists(i)) {
       u = &unit_types[i];
       if (!tech_exists(u->tech_requirement)) {
@@ -783,7 +787,7 @@ static void load_ruleset_units(struct section_file *file)
 	u->obsoleted_by = -1;
       }
     }
-  }
+  } unit_type_iterate_end;
 
   /* Setup roles and flags pre-calcs: */
   role_unit_precalcs();
@@ -2291,9 +2295,10 @@ static void load_ruleset_game(char *ruleset_subdir)
 static void send_ruleset_units(struct conn_list *dest)
 {
   struct packet_ruleset_unit packet;
-  struct unit_type *u;
 
-  for(u=unit_types; u<unit_types+game.num_unit_types; u++) {
+  unit_type_iterate(utype_id) {
+    struct unit_type *u = get_unit_type(utype_id);
+
     packet.id = u-unit_types;
     sz_strlcpy(packet.name, u->name_orig);
     sz_strlcpy(packet.graphic_str, u->graphic_str);
@@ -2323,7 +2328,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.helptext = u->helptext;   /* pointer assignment */
 
     lsend_packet_ruleset_unit(dest, &packet);
-  }
+  } unit_type_iterate_end;
 }
 
 /**************************************************************************

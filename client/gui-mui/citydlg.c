@@ -1350,8 +1350,7 @@ void popup_city_production_dialog(struct city *pcity)
     }
     DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, 20000, MUIV_NList_Insert_Bottom);
 
-    for (i = 0; i < game.num_unit_types; i++)
-    {
+    unit_type_iterate(i) {
       if (can_build_unit(pcity, i))
       {
         DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, i + 10000, MUIV_NList_Insert_Bottom);
@@ -1361,7 +1360,7 @@ void popup_city_production_dialog(struct city *pcity)
 
         pos++;
       }
-    }
+    } unit_type_iterate_end;
 
     set(pcprod->available_listview, MUIA_NList_Quiet, FALSE);
 

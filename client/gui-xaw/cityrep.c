@@ -332,12 +332,12 @@ void city_list_callback(Widget w, XtPointer client_data,
       }
     } impr_type_iterate_end;
 
-    for (i = 0; i < game.num_unit_types; i++) {
+    unit_type_iterate(i) {
       if (can_build_unit(pcity, i)) {
 	cids[cids_used] = cid_encode(TRUE, i);
 	cids_used++;
       }
-    }
+    } unit_type_iterate_end;
 
     name_and_sort_items(cids, cids_used, items, TRUE, NULL);
     

@@ -37,6 +37,7 @@
 #include "support.h"
 #include "tech.h"
 #include "unit.h"
+#include "unittype.h"
 
 #include "rulesout.h"
 
@@ -104,14 +105,14 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   }
     
   /* Units */
-  for(j=0; j<game.num_unit_types; j++ ) {
+  unit_type_iterate(j) {
     struct unit_type *ut = get_unit_type(j);
     if (ut->tech_requirement == itech) {
       strcpy(buf, "unit: ");
       sz_strlcat(buf, ut->name);
       secfile_insert_str(file, buf, "%s.effect%d", prefix, ieffect++);
     }
-  }
+  } unit_type_iterate_end;
     
   /* Improvements and Wonders */
   impr_type_iterate(j) {
@@ -128,7 +129,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   } impr_type_iterate_end;
   
   /* Obsoleted units: */
-  for(j=0; j<game.num_unit_types; j++ ) {
+  unit_type_iterate(j) {
     struct unit_type *ut = get_unit_type(j);
     k = ut->obsoleted_by;
     if (unit_type_exists(j)
@@ -139,7 +140,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
       sz_strlcat(buf, ut->name);
       secfile_insert_str(file, buf, "%s.effect%d", prefix, ieffect++);
     }
-  }
+  } unit_type_iterate_end;
     
   /* Obsoleted buildings: */
   impr_type_iterate(j) {

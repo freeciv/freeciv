@@ -465,7 +465,6 @@ int unit_attack_desirability(Unit_Type_id i)
 static void process_defender_want(struct player *pplayer, struct city *pcity,
 				  int danger, struct ai_choice *choice)
 {
-  Unit_Type_id i;
   Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   Tech_Type_id tech_req;
   int j, k, l, m, n;
@@ -476,7 +475,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   bool isdef = has_a_normal_defender(pcity);
 
   memset(desire, 0, sizeof(desire));
-  for (i = 0; i < game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     if ((m == LAND_MOVING || m == SEA_MOVING)) {
@@ -506,7 +505,8 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
         desire[i] = j * danger / (unit_types[i].build_cost + l);
       }
     }
-  }
+  } unit_type_iterate_end;
+
   if (!walls && unit_types[bestid].move_type == LAND_MOVING) {
     best *= pcity->ai.wallvalue;
     best /= 10;
@@ -516,7 +516,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   if (best == 0) best = 1;   /* avoid divide-by-zero below */
 
 /* multiply by unit_types[bestid].build_cost / best */
-  for (i = 0; i < game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     if (desire[i] != 0 && is_ai_simple_military(i)) {
       tech_req = unit_types[i].tech_requirement;
       n = desire[i] * unit_types[bestid].build_cost / best;
@@ -524,7 +524,8 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
       freelog(LOG_DEBUG, "%s wants %s for defense with desire %d <%d>",
 		    pcity->name, advances[tech_req].name, n, desire[i]);
     }
-  }
+  } unit_type_iterate_end;
+
   choice->choice = bestid;
   choice->want = danger;
   choice->type = CT_DEFENDER;
@@ -540,8 +541,7 @@ static void process_attacker_want(struct player *pplayer,
 			    struct city *pcity, int b, Unit_Type_id n,
                             bool vet, int x, int y, bool unhap, int *e0, int *v,
                             int bx, int by, int boatspeed, int needferry)
-{ 
-  Unit_Type_id i;
+{
   Tech_Type_id j;
   int a, c, d, e, b0, f, g, fprime;
   int k, l, m, q;
@@ -549,7 +549,7 @@ static void process_attacker_want(struct player *pplayer,
   struct city *acity = map_get_city(x, y);
   int movetype = unit_types[*v].move_type;
 
-  for (i = 0; i < game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     if (!is_ai_simple_military(i)) continue;
     m = unit_types[i].move_type;
     j = unit_types[i].tech_requirement;
@@ -655,7 +655,7 @@ static void process_attacker_want(struct player *pplayer,
         }
       }
     }
-  }
+  } unit_type_iterate_end;
 }
 
 static void kill_something_with(struct player *pplayer, struct city *pcity, 

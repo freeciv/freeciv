@@ -1331,7 +1331,7 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   pdialog->worklist_avail_num_improvements=n;
 
   /*     + Second, units. */
-  for(i=0; i<game.num_unit_types; i++) {
+  unit_type_iterate(i) {
     /* Can the player (eventually) build this improvement? */
     can_build = can_player_build_unit(pplr,i);
     can_eventually_build = can_player_eventually_build_unit(pplr,i);
@@ -1350,7 +1350,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
       pdialog->worklist_avail_names_ptrs[n]=pdialog->worklist_avail_names[n];
       pdialog->worklist_avail_ids[n++]=i;
     }
-  }
+  } unit_type_iterate_end;
+
   pdialog->worklist_avail_num_targets=n;
 
   /*     + Finally, the global worklists. */

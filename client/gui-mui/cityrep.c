@@ -133,13 +133,12 @@ static void cityrep_active(void)
       }
     }
 
-    for (i = 0; i < game.num_unit_types; i++)
-    {
+    unit_type_iterate(i) {
       if (can_build_unit(pcity, i))
       {
 	flag = 1;
       }
-    }
+    } unit_type_iterate_end;
 
 
     if (!flag)

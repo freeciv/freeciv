@@ -327,12 +327,11 @@ Returns U_LAST if none match.
 **************************************************************************/
 Unit_Type_id find_unit_type_by_name(char *s)
 {
-  int i;
-
-  for( i=0; i<game.num_unit_types; i++ ) {
+  unit_type_iterate(i) {
     if (strcmp(unit_types[i].name, s)==0)
       return i;
-  }
+  } unit_type_iterate_end;
+
   return U_LAST;
 }
 
@@ -474,22 +473,23 @@ Do the real work for role_unit_precalcs, for one role (or flag), given by i.
 **************************************************************************/
 static void precalc_one(int i, bool (*func_has)(Unit_Type_id, int))
 {
-  Unit_Type_id u;
   int j;
 
   /* Count: */
-  for(u=0; u<game.num_unit_types; u++) {
+  unit_type_iterate(u) {
     if(unit_type_exists(u) && func_has(u, i)) {
       n_with_role[i]++;
     }
-  }
+  } unit_type_iterate_end;
+
   if(n_with_role[i] > 0) {
     with_role[i] = fc_malloc(n_with_role[i]*sizeof(Unit_Type_id));
-    for(j=0, u=0; u<game.num_unit_types; u++) {
+    j = 0;
+    unit_type_iterate(u) {
       if(unit_type_exists(u) && func_has(u, i)) {
 	with_role[i][j++] = u;
       }
-    }
+    } unit_type_iterate_end;
     assert(j==n_with_role[i]);
   }
 }

@@ -869,7 +869,7 @@ int collect_cids3(cid * dest_cids)
  */
 int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
 {
-  int id, cids_used = 0;
+  int cids_used = 0;
 
   impr_type_iterate(id) {
     bool can_build = can_player_build_improvement(game.player_ptr, id);
@@ -890,7 +890,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
     }
   } impr_type_iterate_end;
 
-  for (id = 0; id < game.num_unit_types; id++) {
+  unit_type_iterate(id) {
     bool can_build = can_player_build_unit(game.player_ptr, id);
     bool can_eventually_build =
 	can_player_eventually_build_unit(game.player_ptr, id);
@@ -907,7 +907,8 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
       dest_cids[cids_used] = cid_encode(TRUE, id);
       cids_used++;
     }
-  }
+  } unit_type_iterate_end;
+
   return cids_used;
 }
 
