@@ -431,6 +431,14 @@ void city_reduce_size(struct city *pcity, int pop_loss)
     return;
   }
   pcity->size -= pop_loss;
+
+  /*
+   * Cap the food stock at the new granary size.
+   */
+  if (pcity->food_stock > city_granary_size(pcity->size)) {
+    pcity->food_stock = city_granary_size(pcity->size);
+  }
+
   while (pop_loss > 0 && city_specialists(pcity)) {
     if(pcity->ppl_taxman) {
       pcity->ppl_taxman--;
@@ -447,7 +455,6 @@ void city_reduce_size(struct city *pcity, int pop_loss)
   if (pop_loss == 0) {
     city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
-    return;
   } else {
     auto_arrange_workers(pcity);
     sync_cities();
