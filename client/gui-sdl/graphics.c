@@ -1686,11 +1686,11 @@ bool overhead_view_supported(void)
 }
 
 /**************************************************************************
-  Load the introductory graphics.
-**************************************************************************/
+    Now it setup only paths to those files.
+ **************************************************************************/
 void load_intro_gfx(void)
 {
-  char *buf = datafilename("misc/intro3.png");
+  char *buf = datafilename("theme/default/intro3.png");
   freelog(LOG_NORMAL, _("intro : %s"),
 	  buf ? buf : "n/a");	
   if ( buf )
@@ -1702,8 +1702,8 @@ void load_intro_gfx(void)
     pIntro_gfx_path = NULL;
   }
   
-  buf = datafilename("misc/logo.png");
-  freelog(LOG_DEBUG, _("intro : %s"),
+  buf = datafilename("theme/default/logo.png");
+  freelog(LOG_NORMAL, _("intro : %s"),
 	  buf ? buf : "n/a");
   if ( buf )
   {
@@ -1714,8 +1714,8 @@ void load_intro_gfx(void)
     pLogo_gfx_path = NULL;
   }
   
-  buf = datafilename("misc/city.png");
-  freelog(LOG_DEBUG, _("city : %s"),
+  buf = datafilename("theme/default/city.png");
+  freelog(LOG_NORMAL, _("city : %s"),
 	  buf ? buf : "n/a");
   if ( buf )
   {
