@@ -34,7 +34,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-01-27 03:06+0100\n"
+"POT-Creation-Date: 2002-01-28 04:23+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -3959,7 +3959,7 @@ msgstr "Das ist sinnvoll zu DEBUGGING Zwecken."
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: client/packhand.c:1010 server/stdinhand.c:1378
+#: client/packhand.c:1012 server/stdinhand.c:1378
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -5690,7 +5690,6 @@ msgstr ""
 "Die Erforschung von %s erfordert zunächst den Abschluß von %d anderen "
 "Forschungsprojekten. Insgesamt werden %d Punkte benötigt."
 
-
 #: client/helpdata.c:748
 msgid " This number may vary depending on what other players will research.\n"
 msgstr " Diese Anzahl hängt davon ab, was die anderen Spieler erforschen.\n"
@@ -6031,7 +6030,7 @@ msgstr "NICHT GESPEICHERT: Kann nicht in Datei '%s' schreiben."
 
 #: client/options.c:338
 #, c-format
-msgid "Saved setttings to file %s"
+msgid "Saved settings to file %s"
 msgstr "Einstellungen in Datei %s gespeichert."
 
 #: client/packhand.c:161
@@ -6055,16 +6054,16 @@ msgstr "Server capability string: %s"
 msgid "Popup Request"
 msgstr "Sondermeldung"
 
-#: client/packhand.c:1210
+#: client/packhand.c:1212
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1211
+#: client/packhand.c:1213
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1211
+#: client/packhand.c:1213
 msgid "OFF"
 msgstr "AUS"
 
@@ -6365,11 +6364,10 @@ msgstr "Umbenennen"
 msgid "Next time open"
 msgstr "Beim nächsten Aufruf öffnen"
 
-# ?
 #: client/gui-gtk/citydlg.c:1426 client/gui-gtk/citydlg.c:1434
 #, c-format
 msgid "City of %s"
-msgstr ""
+msgstr "Stadt %s"
 
 #: client/gui-gtk/citydlg.c:1493
 msgid "Close dialog"
