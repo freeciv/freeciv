@@ -141,9 +141,7 @@
   - For convenience, store the key (the full section+entry name)
     in the hash table (some memory overhead).
   - The number of entries is fixed when the hash table is built.
-  - Use closed hashing with simple collision resolution.
-  - Should have implemented abstract hash table and used it here,
-    rather than tie hashing closely to section_file...
+  - Now uses hash.c
 **************************************************************************/
 
 #include <stdio.h>
@@ -155,6 +153,7 @@
 
 #include "astring.h"
 #include "genlist.h"
+#include "hash.h"
 #include "inputfile.h"
 #include "log.h"
 #include "mem.h"
@@ -166,8 +165,6 @@
 
 #define MAX_LEN_BUFFER 1024
 
-#define DO_HASH 1
-#define HASH_DEBUG 1		/* 0,1,2 */
 #define SAVE_TABLES 1		/* set to 0 for old-style savefiles */
 #define SECF_DEBUG_ENTRIES 0	/* LOG_DEBUG each entry value */
 
@@ -211,27 +208,15 @@ struct section {
        TYPED_LIST_ITERATE_REV(struct section, seclist, psection)
 #define section_list_iterate_rev_end  LIST_ITERATE_REV_END
 
-
-struct hash_entry {
-  struct entry *data;
-  char *key_val;		/* including section prefix */
-  int hash_val;			/* not really necessary, but may reduce
-				   key comparisons? */
-};
-
+/* The hash table and some extra data: */
 struct hash_data {
-  struct hash_entry *table;
-  int num_buckets;
+  struct hash_table *htbl;
   int num_entries_hashbuild;
-  int num_collisions;
   int allow_duplicates;
   int num_duplicates;
 };
 
-static int hashfunc(char *name, int num_buckets);
 static void secfilehash_check(struct section_file *file);
-static struct hash_entry *secfilehash_lookup(struct section_file *file,
-					     char *key, int *hash_return);
 static void secfilehash_insert(struct section_file *file,
 			       char *key, struct entry *data);
 
@@ -531,9 +516,7 @@ static int section_file_load_dup(struct section_file *sf,
   }
   ath_free(&columns_tab);
   
-  if(DO_HASH) {
-    secfilehash_build(sf, allow_duplicates);
-  }
+  secfilehash_build(sf, allow_duplicates);
     
   return 1;
 }
@@ -913,7 +896,6 @@ section_file_lookup_internal(struct section_file *my_section_file,
   char ent_name[MAX_LEN_BUFFER];
   char mod_fullpath[2*MAX_LEN_BUFFER];
   int len;
-  struct hash_entry *hentry;
   struct entry *result;
 
   /* freelog(LOG_DEBUG, "looking up: %s", fullpath); */
@@ -928,14 +910,11 @@ section_file_lookup_internal(struct section_file *my_section_file,
   }
   
   if (secfilehash_hashash(my_section_file)) {
-    hentry = secfilehash_lookup(my_section_file, fullpath, NULL);
-    if (hentry->data) {
-      result = hentry->data;
+    result = hash_lookup_data(my_section_file->hashd->htbl, fullpath);
+    if (result) {
       result->used++;
-      return result;
-    } else {
-      return 0;
     }
+    return result;
   }
 
   if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
@@ -1026,36 +1005,11 @@ section_file_insert_internal(struct section_file *my_section_file,
 
 
 /**************************************************************************
-  Anyone know a good general string->hash function?
-**************************************************************************/
-/* plenty of primes, not too small, in random order: */
-static unsigned int coeff[] = { 113, 59, 23, 73, 31, 79, 97, 103, 67, 109,
-				71, 89, 53, 37, 101, 41, 29, 43, 13, 61,
-				107, 47, 83, 17 };
-#define NCOEFF (sizeof(coeff)/sizeof(coeff[0]))
-static int hashfunc(char *name, int num_buckets)
-{
-  unsigned int result=0;
-  int i;
-
-  /* if(name[0]=='p') name+=6; */  /* no longer needed --dwp */
-  for(i=0; *name; i++, name++) {
-    if (i==NCOEFF) {
-      i = 0;
-    }
-    result *= (unsigned int)5;
-    result += coeff[i] * (unsigned int)(*name);
-  }
-  return (result % (unsigned int)num_buckets);
-}
-
-/**************************************************************************
  Return 0 if the section_file has not been setup for hashing.
 **************************************************************************/
 int secfilehash_hashash(struct section_file *file)
 {
-  return (file->hashd!=NULL && file->hashd->table!=NULL
-	  && file->hashd->num_buckets!=0);
+  return (file->hashd!=NULL && hash_num_buckets(file->hashd->htbl)!=0);
 }
 
 /**************************************************************************
@@ -1076,63 +1030,22 @@ static void secfilehash_check(struct section_file *file)
 }
 
 /**************************************************************************
-  Return pointer to entry in hash table where key resides, or
-  where it should go if its to be a new key.
-  Insert the hash value in parameter (*hash_return) unless hash_return==NULL
-**************************************************************************/
-static struct hash_entry *secfilehash_lookup(struct section_file *file,
-					     char *key, int *hash_return)
-{
-  int hash_val, i;
-  struct hash_entry *hentry;
-
-  secfilehash_check(file);
-  i = hash_val = hashfunc(key, file->hashd->num_buckets);
-  if (hash_return) {
-    *hash_return = hash_val;
-  }
-  do {
-    hentry = &(file->hashd->table[i]);
-    if (hentry->key_val == NULL) {	/* empty position in table */
-      return hentry;
-    }
-    if (hentry->hash_val==hash_val &&
-	strcmp(hentry->key_val, key)==0) { /* match */
-      return hentry;
-    }
-    file->hashd->num_collisions++;
-    if (HASH_DEBUG>=2) {
-      freelog(LOG_DEBUG, "Hash collision for \"%s\", %d\n   with \"%s\", %d",
-	   key, hash_val, hentry->key_val, hentry->hash_val);
-    }
-    i++;
-    if (i==file->hashd->num_buckets) {
-      i=0;
-    }
-  } while (i!=hash_val);	/* catch loop all the way round  */
-  freelog(LOG_FATAL, "Full hash table?? (sectionfile %s)",
-	  secfile_filename(file));
-  exit(1);
-}
-
-
-/**************************************************************************
- Insert a entry into the hash table.
- Note the hash table key_val is malloced here.
+ Insert a entry into the hash table.  The key is malloced here (using sbuf;
+ malloc somewhere required by hash implementation).
 **************************************************************************/
 static void secfilehash_insert(struct section_file *file,
 			       char *key, struct entry *data)
 {
-  struct hash_entry *hentry;
-  int hash_val;
+  struct entry *hentry;
 
-  hentry = secfilehash_lookup(file, key, &hash_val);
-  if (hentry->key_val != NULL) {
+  key = sbuf_strdup(file->sb, key);
+  hentry = hash_replace(file->hashd->htbl, key, data);
+  if (hentry) {
     if (file->hashd->allow_duplicates) {
-      hentry->data->used = 1;
+      hentry->used = 1;
       file->hashd->num_duplicates++;
-      /* Fall-through, to replace entry; could 'return' here and
-	 then first entry would be used and following ones ignored.
+      /* Subsequent entries replace earlier ones; could do differently so
+	 that first entry would be used and following ones ignored.
 	 Need to mark the replaced one as used or else it will show
 	 up when we iterate the sections and entries (since hash
 	 lookup will never find it to mark it as used).
@@ -1143,9 +1056,6 @@ static void secfilehash_insert(struct section_file *file,
       exit(1);
     }
   }
-  hentry->data = data;
-  hentry->key_val = sbuf_strdup(file->sb, key);
-  hentry->hash_val = hash_val;
 }
 
 /**************************************************************************
@@ -1159,35 +1069,15 @@ void secfilehash_build(struct section_file *file, int allow_duplicates)
 {
   struct hash_data *hashd;
   char buf[256];
-  int i;
-  unsigned int uent, pow2;
 
   hashd = file->hashd = fc_malloc(sizeof(struct hash_data));
-
-  /* Power of two which is larger than num_entries, then
-     extra factor of 2 for breathing space: */
-  uent = file->num_entries;
-  pow2 = 2;
-  while (uent) {
-    uent >>= 1;
-    pow2 <<= 1;
-  };
-  if (pow2<128) pow2 = 128;
+  hashd->htbl = hash_new_nentries(hash_fval_string, hash_fcmp_string,
+				  file->num_entries);
   
-  hashd->num_buckets = pow2;
   hashd->num_entries_hashbuild = file->num_entries;
-  hashd->num_collisions = 0;
   hashd->allow_duplicates = allow_duplicates;
   hashd->num_duplicates = 0;
   
-  hashd->table = fc_malloc(hashd->num_buckets*sizeof(struct hash_entry));
-
-  for(i=0; i<hashd->num_buckets; i++) {
-    hashd->table[i].data = NULL;
-    hashd->table[i].key_val = NULL;
-    hashd->table[i].hash_val = -1;
-  }
-
   section_list_iterate(*file->sections, psection) {
     entry_list_iterate(psection->entries, pentry) {
       my_snprintf(buf, sizeof(buf), "%s.%s", psection->name, pentry->name);
@@ -1197,14 +1087,9 @@ void secfilehash_build(struct section_file *file, int allow_duplicates)
   }
   section_list_iterate_end;
   
-  if (HASH_DEBUG>=1) {
-    freelog(LOG_DEBUG, "Hash collisions during build: "
-	    "%d (%d entries, %d buckets)",
-	    hashd->num_collisions, file->num_entries, hashd->num_buckets );
-    if (hashd->allow_duplicates) {
-      freelog(LOG_DEBUG, "Hash duplicates during build: %d",
-	      hashd->num_duplicates);
-    }
+  if (hashd->allow_duplicates) {
+    freelog(LOG_DEBUG, "Hash duplicates during build: %d",
+	    hashd->num_duplicates);
   }
 }
 
@@ -1215,7 +1100,7 @@ void secfilehash_build(struct section_file *file, int allow_duplicates)
 void secfilehash_free(struct section_file *file)
 {
   secfilehash_check(file);
-  free(file->hashd->table);
+  hash_free(file->hashd->htbl);
   free(file->hashd);
 }
 

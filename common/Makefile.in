@@ -106,7 +106,7 @@ noinst_LIBRARIES = libcivcommon.a
 
 INCLUDES = -I../intl
 
-libcivcommon_a_SOURCES =  		astring.c       		astring.h       		attribute.h			capability.c			capability.h			capstr.c			capstr.h			city.c				city.h				diptreaty.c			diptreaty.h			events.h			fcintl.c			fcintl.h			game.c				game.h				genlist.c			genlist.h			government.c			government.h			inputfile.c			inputfile.h			log.c				log.h				map.c				map.h				nation.c        		nation.h        		packets.c			packets.h			player.c			player.h			mem.c           		mem.h				rand.c				rand.h				registry.c			registry.h			sbuffer.c			sbuffer.h			shared.c			shared.h			spaceship.c			spaceship.h			speclist.h			speclist_c.h			support.c			support.h			tech.c				tech.h				timing.c			timing.h			unit.c				unit.h				worklist.c			worklist.h			version.c			version.h
+libcivcommon_a_SOURCES =  		astring.c       		astring.h       		attribute.h			capability.c			capability.h			capstr.c			capstr.h			city.c				city.h				diptreaty.c			diptreaty.h			events.h			fcintl.c			fcintl.h			game.c				game.h				genlist.c			genlist.h			government.c			government.h			hash.c				hash.h				inputfile.c			inputfile.h			log.c				log.h				map.c				map.h				nation.c        		nation.h        		packets.c			packets.h			player.c			player.h			mem.c           		mem.h				rand.c				rand.h				registry.c			registry.h			sbuffer.c			sbuffer.h			shared.c			shared.h			spaceship.c			spaceship.h			speclist.h			speclist_c.h			support.c			support.h			tech.c				tech.h				timing.c			timing.h			unit.c				unit.h				worklist.c			worklist.h			version.c			version.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -124,10 +124,10 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libcivcommon_a_LIBADD = 
 libcivcommon_a_OBJECTS =  astring.o capability.o capstr.o city.o \
-diptreaty.o fcintl.o game.o genlist.o government.o inputfile.o log.o \
-map.o nation.o packets.o player.o mem.o rand.o registry.o sbuffer.o \
-shared.o spaceship.o support.o tech.o timing.o unit.o worklist.o \
-version.o
+diptreaty.o fcintl.o game.o genlist.o government.o hash.o inputfile.o \
+log.o map.o nation.o packets.o player.o mem.o rand.o registry.o \
+sbuffer.o shared.o spaceship.o support.o tech.o timing.o unit.o \
+worklist.o version.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -142,11 +142,11 @@ TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/astring.P .deps/capability.P .deps/capstr.P \
 .deps/city.P .deps/diptreaty.P .deps/fcintl.P .deps/game.P \
-.deps/genlist.P .deps/government.P .deps/inputfile.P .deps/log.P \
-.deps/map.P .deps/mem.P .deps/nation.P .deps/packets.P .deps/player.P \
-.deps/rand.P .deps/registry.P .deps/sbuffer.P .deps/shared.P \
-.deps/spaceship.P .deps/support.P .deps/tech.P .deps/timing.P \
-.deps/unit.P .deps/version.P .deps/worklist.P
+.deps/genlist.P .deps/government.P .deps/hash.P .deps/inputfile.P \
+.deps/log.P .deps/map.P .deps/mem.P .deps/nation.P .deps/packets.P \
+.deps/player.P .deps/rand.P .deps/registry.P .deps/sbuffer.P \
+.deps/shared.P .deps/spaceship.P .deps/support.P .deps/tech.P \
+.deps/timing.P .deps/unit.P .deps/version.P .deps/worklist.P
 SOURCES = $(libcivcommon_a_SOURCES)
 OBJECTS = $(libcivcommon_a_OBJECTS)
 

@@ -27,6 +27,8 @@ libcivcommon_a_SOURCES = \
 		genlist.h	\
 		government.c	\
 		government.h	\
+		hash.c		\
+		hash.h		\
 		inputfile.c	\
 		inputfile.h	\
 		log.c		\
