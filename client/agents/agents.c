@@ -84,6 +84,9 @@ static bool initialized = FALSE;
 static int frozen_level;
 static bool currently_running = FALSE;
 
+/****************************************************************************
+  Return TRUE iff the two agent calls are equal.
+****************************************************************************/
 static bool calls_are_equal(const struct call *pcall1,
 			    const struct call *pcall2)
 {
@@ -96,13 +99,14 @@ static bool calls_are_equal(const struct call *pcall1,
   case OCT_CITY:
     return (pcall1->arg.int_arg == pcall2->arg.int_arg);
   case OCT_TILE:
-    return (pcall1->arg.pos_arg.x == pcall2->arg.pos_arg.x &&
-	    pcall1->arg.pos_arg.y == pcall2->arg.pos_arg.y);
+    return (pcall1->arg.pos_arg.x == pcall2->arg.pos_arg.x
+	    && pcall1->arg.pos_arg.y == pcall2->arg.pos_arg.y);
   case OCT_NEW_TURN:
     return TRUE;
-  default:
-    assert(0);
   }
+
+  assert(0);
+  return FALSE;
 }
 
 /***********************************************************************
