@@ -56,6 +56,7 @@ extern int RAIL_TILES;
 #define DENMARK_TILES    10*20+12
 #define X_TILE           10*20+19
 
+#define OCCUPIED_TILE    9*20+16
 #define CROSS_TILE       9*20+17
 #define AUTO_TILE        9*20+18
 #define PLUS_TILE        9*20+19

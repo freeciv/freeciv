@@ -869,7 +869,12 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
   
   pixmap_put_overlay_tile(pm, xtile, ytile, CITY_TILE+
 			  city_got_citywalls(pcity));
-  
+
+  if(genlist_size(&((map_get_tile(pcity->x, pcity->y))->units.list)) > 0)
+    {
+      pixmap_put_overlay_tile(pm, xtile, ytile, OCCUPIED_TILE);
+    }
+
   if(pcity->size>=10)
     pixmap_put_overlay_tile(pm, xtile, ytile, NUMBER_MSD_TILES+
 			    pcity->size/10);
