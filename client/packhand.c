@@ -617,6 +617,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 		      width, height);
+    overview_update_tile(pcity->tile);
   } else {
     refresh_tile_mapcanvas(pcity->tile, FALSE);
   }

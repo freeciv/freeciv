@@ -1388,6 +1388,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
       update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 			width, height);
+      overview_update_tile(ptile);
     } else {
       refresh_tile_mapcanvas(ptile, FALSE);
     }
