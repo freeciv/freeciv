@@ -13,6 +13,8 @@
 #ifndef FC__REGISTRY_H
 #define FC__REGISTRY_H
 
+#include <stdio.h>  	    	/* FILE type */
+
 #include "shared.h"		/* bool type and fc__attribute */
 
 struct sbuffer;
@@ -29,9 +31,11 @@ struct section_file {
 
 void section_file_init(struct section_file *file);
 bool section_file_load(struct section_file *my_section_file,
-		      const char *filename);
+		       const char *filename);
 bool section_file_load_nodup(struct section_file *my_section_file,
 			    const char *filename);
+bool section_file_loadFP(struct section_file *my_section_file,
+		      	 FILE *stream);
 bool section_file_save(struct section_file *my_section_file,
 		      const char *filename, int compression_level);
 void section_file_free(struct section_file *file);

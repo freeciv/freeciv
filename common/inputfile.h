@@ -19,14 +19,16 @@
 #ifndef FC__INPUTFILE_H
 #define FC__INPUTFILE_H
 
+#include <stdio.h>  	    	/* FILE type */
+
 #include "shared.h"		/* bool type */
 
 struct inputfile;		/* opaque */
 
 typedef char *(*datafilename_fn_t)(const char *filename);
 
-struct inputfile *inf_open(const char *filename,
-			   datafilename_fn_t datafn);
+struct inputfile *inf_fromFile(const char *filename, datafilename_fn_t datafn);
+struct inputfile *inf_fromFP(FILE *stream, datafilename_fn_t datafn);
 void inf_close(struct inputfile *inf);
 bool inf_at_eof(struct inputfile *inf);
 

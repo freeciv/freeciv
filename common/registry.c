@@ -290,7 +290,9 @@ void section_file_free(struct section_file *file)
   sbuf_free(file->sb);
   file->sb = NULL;
 
-  free(file->filename);
+  if (file->filename) {
+    free(file->filename);
+  }
   file->filename = NULL;
 }
 
@@ -357,11 +359,11 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
 /**************************************************************************
 ...
 **************************************************************************/
-static bool section_file_load_dup(struct section_file *sf,
-				 const char *filename,
-				 bool allow_duplicates)
+static bool section_file_read_dup(struct section_file *sf,
+      	      	      	      	  const char *filename,
+      	      	      	      	  struct inputfile *inf,
+				  bool allow_duplicates)
 {
-  struct inputfile *inf;
   struct section *psection = NULL;
   struct entry *pentry;
   bool table_state = FALSE;	/* 1 when within tabular format */
@@ -374,16 +376,23 @@ static bool section_file_load_dup(struct section_file *sf,
   struct athing columns_tab;	        /* astrings for column headings */
   struct astring *columns = NULL;	/* -> columns_tab.ptr */
 
-  inf = inf_open(filename, datafilename);
   if (!inf) {
     return FALSE;
   }
   section_file_init(sf);
-  sf->filename = mystrdup(filename);
+  if (filename) {
+    sf->filename = mystrdup(filename);
+  } else {
+    sf->filename = NULL;
+  }
   ath_init(&columns_tab, sizeof(struct astring));
   sb = sf->sb;
 
-  freelog(LOG_VERBOSE, "Reading file \"%s\"", filename);
+  if (filename) {
+    freelog(LOG_VERBOSE, "Reading registry from \"%s\"", filename);
+  } else {
+    freelog(LOG_VERBOSE, "Reading registry");
+  }
 
   while(!inf_at_eof(inf)) {
     if (inf_token(inf, INF_TOK_EOL))
@@ -516,7 +525,11 @@ static bool section_file_load_dup(struct section_file *sf,
   }
   
   if (table_state) {
-    freelog(LOG_FATAL, "finished file %s before end of table\n", filename);
+    if (filename) {
+      freelog(LOG_FATAL, "finished registry %s before end of table\n", filename);
+    } else {
+      freelog(LOG_FATAL, "finished registry before end of table\n");
+    }
     exit(EXIT_FAILURE);
   }
 
@@ -541,7 +554,9 @@ static bool section_file_load_dup(struct section_file *sf,
 bool section_file_load(struct section_file *my_section_file,
 		      const char *filename)
 {
-  return section_file_load_dup(my_section_file, filename, TRUE);
+  struct inputfile *inf = inf_fromFile(filename, datafilename);
+
+  return section_file_read_dup(my_section_file, filename, inf, TRUE);
 }
 
 /**************************************************************************
@@ -550,7 +565,20 @@ bool section_file_load(struct section_file *my_section_file,
 bool section_file_load_nodup(struct section_file *my_section_file,
 			    const char *filename)
 {
-  return section_file_load_dup(my_section_file, filename, FALSE);
+  struct inputfile *inf = inf_fromFile(filename, datafilename);
+
+  return section_file_read_dup(my_section_file, filename, inf, FALSE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+bool section_file_loadFP(struct section_file *my_section_file,
+		      	 FILE *stream)
+{
+  struct inputfile *inf = inf_fromFP(stream, datafilename);
+
+  return section_file_read_dup(my_section_file, NULL, inf, TRUE);
 }
 
 /**************************************************************************
@@ -569,13 +597,13 @@ bool section_file_load_nodup(struct section_file *my_section_file,
 
  If compression_level is non-zero, then compress using zlib.  (Should
  only supply non-zero compression_level if already know that HAVE_LIBZ.)
- Below simply specifies FZ_ZLIB method, since fz_fopen() automatically
+ Below simply specifies FZ_ZLIB method, since fz_fromFile() automatically
  changes to FZ_PLAIN method when level==0.
 **************************************************************************/
 bool section_file_save(struct section_file *my_section_file, const char *filename,
 		      int compression_level)
 {
-  fz_FILE *fs = fz_fopen(filename, "w", FZ_ZLIB, compression_level);
+  fz_FILE *fs = fz_fromFile(filename, "w", FZ_ZLIB, compression_level);
 
   struct genlist_iterator ent_iter, save_iter, col_iter;
   struct entry *pentry, *col_pentry;
