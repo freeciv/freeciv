@@ -7,7 +7,7 @@ class  = _("Modern")
 legend = _("Germany was united in 1871 by the Prussian military \
 force.  After World War I it became a republic, but fell into \
 Nazism 1933 and started World War II.  After the war it was split \
-into two states, that reunited 1990 when the USSR collapsed.")
+into two states, which reunited in 1990 at the end of the Cold War.")
 
 leader = "Arminius", "Alarich", "Karl der Groﬂe", "Otto I.", 
          "Friedrich I. Barbarossa", "Friedrich II.", "Wilhelm I.",
