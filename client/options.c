@@ -53,8 +53,8 @@ bool concise_city_production = FALSE;
 bool auto_turn_done = FALSE;
 bool meta_accelerators = TRUE;
 
-#define GEN_INT_OPTION(name, desc) { #name, desc, COT_BOOL, &name, NULL, NULL }
-#define GEN_BOOL_OPTION(name, desc) { #name, desc, COT_INT, NULL, &name, NULL }
+#define GEN_INT_OPTION(name, desc) { #name, desc, COT_INT, &name, NULL, NULL }
+#define GEN_BOOL_OPTION(name, desc) { #name, desc, COT_BOOL, NULL, &name, NULL }
 #define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL, NULL }
 
 client_option options[] = {
