@@ -939,11 +939,23 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     return;
   }
 
+  if (server_state != RUN_GAME_STATE
+      && type != PACKET_ALLOC_NATION
+      && type != PACKET_CHAT_MSG
+      && type != PACKET_CONN_PONG) {
+    freelog(LOG_ERROR, _("got a packet of type %d "
+			 "outside RUN_GAME_STATE"), type);
+    free(packet);
+    return;
+  }
+
   pplayer->nturns_idle=0;
 
   if((!pplayer->is_alive || pconn->observer)
      && !(type == PACKET_CHAT_MSG || type == PACKET_REPORT_REQUEST
 	  || type == PACKET_CONN_PONG)) {
+    freelog(LOG_ERROR, _("Got a packet of type %d from a "
+			 "dead or observer player"), type);
     free(packet);
     return;
   }
@@ -1187,6 +1199,12 @@ static void handle_alloc_nation(struct player *pplayer,
   int i, nation_used_count;
   struct packet_generic_values select_nation; 
 
+  if (server_state != SELECT_RACES_STATE) {
+    freelog(LOG_ERROR, _("Trying to alloc nation outside "
+			 "of SELECT_RACES_STATE!"));
+    return;
+  }  
+
   remove_leading_trailing_spaces(packet->name);
 
   if (strlen(packet->name)==0) {
@@ -1194,7 +1212,7 @@ static void handle_alloc_nation(struct player *pplayer,
     send_select_nation(pplayer);
     return;
   }
-  
+
   for(i=0; i<game.nplayers; i++)
     if(game.players[i].nation==packet->nation_no) {
        send_select_nation(pplayer); /* it failed - nation taken */
