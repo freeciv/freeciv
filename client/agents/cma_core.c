@@ -693,7 +693,15 @@ static bool apply_result_on_server(struct city *pcity,
     }
   }
 
-  if (last_request_id == 0 && ALWAYS_APPLY_AT_SERVER) {
+  if (last_request_id == 0 || ALWAYS_APPLY_AT_SERVER) {
+      /*
+       * If last_request is 0 no change request was send. But it also
+       * means that the results are different or the results_are_equal
+       * test at the start of the function would be true. So this
+       * means that the client has other results for the same
+       * allocation of citizen than the server. We just send a
+       * PACKET_CITY_REFRESH to bring them in sync.
+       */
     struct packet_generic_integer packet;
 
     packet.value = pcity->id;
