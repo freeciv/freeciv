@@ -243,10 +243,6 @@ static int ai_goldequiv_clause(struct player *pplayer,
     } players_iterate_end;
   break;
 
-  case CLAUSE_TEAM:
-    worth = 1;
-    break;
-
   case CLAUSE_ALLIANCE:
   case CLAUSE_PEACE:
   case CLAUSE_CEASEFIRE:
