@@ -335,7 +335,7 @@ void ui_main(int argc, char *argv[])
   
   icon_pixmap = XCreateBitmapFromData(display,
 				      RootWindowOfScreen(XtScreen(toplevel)),
-				      (char *) freeciv_bits,
+				      freeciv_bits,
 				      freeciv_width, freeciv_height);
   XtVaSetValues(toplevel, XtNiconPixmap, icon_pixmap, NULL);
 

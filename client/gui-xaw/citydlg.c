@@ -501,7 +501,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
     icon_pixmap =
 	XCreateBitmapFromData(display,
 			      RootWindowOfScreen(XtScreen(toplevel)),
-			      (char *) cityicon_bits,
+			      cityicon_bits,
 			      cityicon_width, cityicon_height);
   }
 
