@@ -167,9 +167,9 @@ static void popit(int x, int y, struct tile *ptile)
 **************************************************************************/
 static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM lParam)
 {
-  HDC hdc;
   PAINTSTRUCT ps;
   struct tile *ptile;
+
   switch(message) {
   case WM_CREATE:
     break;
@@ -246,9 +246,11 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
     }
     break;
   case WM_PAINT:
-    hdc=BeginPaint(hwnd,(LPPAINTSTRUCT)&ps);
-    map_expose(hdc); 
-    EndPaint(hwnd,(LPPAINTSTRUCT)&ps);
+    BeginPaint(hwnd, (LPPAINTSTRUCT)&ps);
+    map_expose(ps.rcPaint.left, ps.rcPaint.top,
+	       ps.rcPaint.right - ps.rcPaint.left,
+	       ps.rcPaint.bottom - ps.rcPaint.top);
+    EndPaint(hwnd, (LPPAINTSTRUCT)&ps);
     break;
   default:
     return DefWindowProc(hwnd,message,wParam,lParam);

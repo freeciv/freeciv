@@ -766,10 +766,17 @@ popup_unit_select_dialog(struct tile *ptile)
   max_height+=4;
   for (i=0;i<n;i++)
     {
-      struct canvas canvas_store = {unitsel_dc, NULL};
+      struct canvas canvas_store;
       struct unit *punit=unit_list[i];
       struct unit_type *punittemp=unit_type(punit);
       struct city *pcity;
+
+      canvas_store.type = CANVAS_DC;
+      canvas_store.hdc = unitsel_dc;
+      canvas_store.bmp = NULL;
+      canvas_store.wnd = NULL;
+      canvas_store.tmp = NULL;
+
       pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
       my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 		  punittemp->name,

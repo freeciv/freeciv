@@ -70,6 +70,10 @@ HCURSOR patrol_cursor;
 static void scale_cursor(int old_w, int old_h, int new_w, int new_h,
 			 char *old_bits, char *new_bits, bool flip);
 
+extern BOOL have_AlphaBlend;
+
+extern BOOL (WINAPI * AlphaBlend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFUNCTION);
+
 /**************************************************************************
 
 **************************************************************************/
@@ -228,14 +232,35 @@ gfx_fileextensions(void)
  *************************************************************************/
 HBITMAP BITMAP2HBITMAP(BITMAP *bmp)
 {
-  return CreateBitmap(bmp->bmWidth,bmp->bmHeight,bmp->bmPlanes,
-                      bmp->bmBitsPixel,bmp->bmBits);
+  HDC hdc;
+  BITMAPINFO bi;
+  HBITMAP hbmp;
+
+  bi.bmiHeader.biSize           = sizeof(BITMAPINFOHEADER);
+  bi.bmiHeader.biWidth          = bmp->bmWidth;
+  bi.bmiHeader.biHeight         = -bmp->bmHeight;
+  bi.bmiHeader.biPlanes         = bmp->bmPlanes;
+  bi.bmiHeader.biBitCount       = bmp->bmBitsPixel;
+
+  bi.bmiHeader.biCompression    = BI_RGB;
+  bi.bmiHeader.biSizeImage      = 0;
+  bi.bmiHeader.biXPelsPerMeter  = 0;
+  bi.bmiHeader.biYPelsPerMeter  = 0;
+  bi.bmiHeader.biClrUsed        = 0;
+  bi.bmiHeader.biClrImportant   = 0;
+
+  hdc = GetDC(root_window);
+  hbmp = CreateDIBitmap(hdc, &bi.bmiHeader, CBM_INIT, bmp->bmBits, &bi, 0);
+  ReleaseDC(root_window, hdc);
+
+  return hbmp;
 }
 
 
 /**************************************************************************
 
 **************************************************************************/
+#if 0
 static void HBITMAP2BITMAP(HBITMAP hbmp,BITMAP *bmp)
 {
   int bmpsize;
@@ -244,6 +269,7 @@ static void HBITMAP2BITMAP(HBITMAP hbmp,BITMAP *bmp)
   bmp->bmBits=fc_malloc(bmpsize);
   GetBitmapBits(hbmp,bmpsize,bmp->bmBits);
 }
+#endif
 
 /**************************************************************************
   Retrieve an image from the HBITMAP cache, or if it is not there, place
@@ -254,15 +280,109 @@ static HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id)
   struct Bitmap_cache *bmpc;
   bmpc = &bitmap_cache[*cache_id];
   if (bmpc->src != bmp) {
+    unsigned char *src, *dst;
+    BITMAP alphabmp;
+
+    int row, col;
     cache_id_count++;
     cache_id_count %= CACHE_SIZE;
     *cache_id = cache_id_count;
     bmpc = &bitmap_cache[cache_id_count];
     DeleteObject(bmpc->hbmp);
     bmpc->src = bmp;
-    bmpc->hbmp = BITMAP2HBITMAP(bmp);
+
+    if (have_AlphaBlend) {
+      alphabmp = *bmp;
+      alphabmp.bmBits = fc_malloc(bmp->bmWidthBytes * bmp->bmHeight);
+
+      for (row = 0; row < bmp->bmHeight; row++) {
+	src = (unsigned char *)bmp->bmBits + bmp->bmWidthBytes * row;
+	dst = (unsigned char *)alphabmp.bmBits + alphabmp.bmWidthBytes * row;
+	for (col = 0; col < bmp->bmWidth; col++) {
+	  dst[0] = src[0] * src[3] / 255;
+	  dst[1] = src[1] * src[3] / 255;
+	  dst[2] = src[2] * src[3] / 255;
+	  dst[3] = src[3];
+	  src += 4;
+	  dst += 4;
+	}
+      }
+    
+      bmpc->hbmp = BITMAP2HBITMAP(&alphabmp);
+      free(alphabmp.bmBits);
+    } else {
+      bmpc->hbmp = BITMAP2HBITMAP(bmp);
+    }
   }
   return bmpc->hbmp;
+}
+
+
+/**************************************************************************
+  Generate a mask from a bitmap's alpha channel, using a different dither
+  function depending on transparency level.
+**************************************************************************/
+static HBITMAP generate_mask(BITMAP *bmp)
+{
+  BITMAP mask;
+  HBITMAP hbmp;
+  unsigned char *src, *dst;
+  int row, col;
+
+  mask = *bmp;
+  mask.bmBits = fc_malloc(mask.bmWidthBytes * mask.bmHeight);
+
+  for (row = 0; row < bmp->bmHeight; row++) {
+    src = (unsigned char *)bmp->bmBits + bmp->bmWidthBytes * row;
+    dst = (unsigned char *)mask.bmBits + mask.bmWidthBytes * row;
+    for (col = 0; col < bmp->bmWidth; col++) {
+      src += 3;
+      if (*src > 255 * 4 / 5) {
+	*dst++ = 0;
+	*dst++ = 0;
+	*dst++ = 0;
+      } else if (*src > 255 * 3 / 5) {
+	if ((row + col * 2) % 4 == 0) {
+	  *dst++ = 255;
+	  *dst++ = 255;
+	  *dst++ = 255;
+	} else {
+	  *dst++ = 0;
+	  *dst++ = 0;
+	  *dst++ = 0;
+	}
+      } else if (*src > 255 * 2 / 5) {
+	if ((row + col) % 2 == 0) {
+	  *dst++ = 255;
+	  *dst++ = 255;
+	  *dst++ = 255;
+	} else {
+	  *dst++ = 0;
+	  *dst++ = 0;
+	  *dst++ = 0;
+	}
+      } else if (*src > 255 * 1 / 5) {
+	if ((row + col * 2) % 4 == 0) {
+	  *dst++ = 0;
+	  *dst++ = 0;
+	  *dst++ = 0;
+	} else {
+	  *dst++ = 255;
+	  *dst++ = 255;
+	  *dst++ = 255;
+	}
+      } else {
+	*dst++ = 255;
+	*dst++ = 255;
+	*dst++ = 255;
+      }
+      *dst++ = 0;
+      src++;
+    }
+  }
+  hbmp = BITMAP2HBITMAP(&mask);
+  free(mask.bmBits);
+  return hbmp;
 }
 
 /****************************************************************************
@@ -275,81 +395,59 @@ struct Sprite *crop_sprite(struct Sprite *sprsrc,
 			   int mask_offset_x, int mask_offset_y)
 {
   SPRITE *mysprite = NULL;
-  HDC hdc;
-  HDC hdcsrc;
-  HDC hdcdst;
-  HBITMAP dstbmp;
-  HBITMAP dstmask = NULL;
-  HBITMAP srcbmp;
-  HBITMAP srcmask;
-  HBITMAP srcsave;
-  HBITMAP dstsave;
-
-  hdc = GetDC(root_window);
-
-  hdcsrc = CreateCompatibleDC(hdc);
-  hdcdst = CreateCompatibleDC(hdc);
-
-  if (sprcache != sprsrc) {
-    if (bitmapcache) {
-      DeleteObject(bitmapcache);
-    }
-    sprcache = sprsrc;
-    bitmapcache = BITMAP2HBITMAP(&(sprsrc->img));
-  }
-  srcbmp = bitmapcache;
-  dstbmp = CreateCompatibleBitmap(hdc, width, height);
-  
-  srcsave = SelectObject(hdcsrc, srcbmp);
-  dstsave = SelectObject(hdcdst, dstbmp);
-  BitBlt(hdcdst, 0, 0, width, height, hdcsrc, x, y, SRCCOPY);
-
-  if (sprsrc->has_mask || (sprmask && sprmask->has_mask)) {
-    dstmask = CreateBitmap(width, height, 1, 1, NULL);
-    SelectObject(hdcdst, dstmask);
-  }
-
-  if (sprsrc->has_mask) {
-    srcmask = BITMAP2HBITMAP(&sprsrc->mask);
-    SelectObject(hdcsrc, srcmask);
-    BitBlt(hdcdst, 0, 0, width, height, hdcsrc, x, y, SRCCOPY);
-    SelectObject(hdcsrc, srcbmp);
-    DeleteObject(srcmask);
-  }
-
-  if (sprmask && sprmask->has_mask) {
-    srcmask = BITMAP2HBITMAP(&sprmask->mask);
-    SelectObject(hdcsrc, srcmask);
-    BitBlt(hdcdst, 0, 0, width, height, hdcsrc,
-	   x - mask_offset_x, y - mask_offset_y, SRCPAINT);    
-    SelectObject(hdcsrc, srcbmp);
-    DeleteObject(srcmask);
-  }
+  unsigned char *srcimg, *dstimg, *mskimg;
+  int row, col;
 
   mysprite = fc_malloc(sizeof(struct Sprite));
   mysprite->img_cache_id = 0;
   mysprite->fog_cache_id = 0;
-  mysprite->mask_cache_id = 0;
   mysprite->width = width;
   mysprite->height = height;
-  HBITMAP2BITMAP(dstbmp, &mysprite->img);
   mysprite->has_mask = 0;
-  if (dstmask) {
-    mysprite->has_mask = 1;
-    HBITMAP2BITMAP(dstmask, &mysprite->mask);
-  }
   mysprite->has_fog = 0;
 
-  SelectObject(hdcsrc, srcsave);
-  SelectObject(hdcdst, dstsave);
-  ReleaseDC(root_window, hdc);
-  DeleteDC(hdcsrc);
-  DeleteDC(hdcdst);
-  if (dstmask) {
-    DeleteObject(dstmask);
-  }
-  DeleteObject(dstbmp);
+  mysprite->img.bmType = 0;
+  mysprite->img.bmWidth = width;
+  mysprite->img.bmHeight = height;
+  mysprite->img.bmWidthBytes = width << 2;
+  mysprite->img.bmPlanes = 1;
+  mysprite->img.bmBitsPixel = 32;
+  mysprite->img.bmBits = fc_malloc(width * height * 4);
 
+  if ((sprmask && sprmask->has_mask) || sprsrc->has_mask) {
+    mysprite->has_mask = 1;
+  }
+
+  for (row = 0; row < height; row++) {
+    srcimg = (unsigned char *)sprsrc->img.bmBits
+	     + sprsrc->img.bmWidthBytes * (row + y) + 4 * x;
+    dstimg = (unsigned char *)mysprite->img.bmBits
+	     + mysprite->img.bmWidthBytes * row;
+    for (col = 0; col < width; col++) {
+      *dstimg++ = *srcimg++;
+      *dstimg++ = *srcimg++;
+      *dstimg++ = *srcimg++;
+      *dstimg++ = *srcimg++;
+    }
+  }
+
+  if (sprmask && sprmask->has_mask) {
+    for (row = 0; row < height; row++) {
+      mskimg = (unsigned char *)sprmask->img.bmBits
+	       + sprmask->img.bmWidthBytes * (row + y - mask_offset_y)
+	       + 4 * (x - mask_offset_x);
+      dstimg = (unsigned char *)mysprite->img.bmBits
+	       + mysprite->img.bmWidthBytes * row;
+      for (col = 0; col < width; col++) {
+	dstimg += 3;
+	mskimg += 3;
+	*dstimg = *dstimg * *mskimg / 255;
+	dstimg++;
+	mskimg++;
+      }
+    }
+  }
+  
   return mysprite;
 }
 
@@ -408,12 +506,8 @@ struct Sprite *load_gfxfile(const char *filename)
    
   struct Sprite *mysprite;
   int has_mask;
-  BITMAPINFO bi;
   void *buf;
   BYTE *pb, *p;
-  HDC hdc;
-  HBITMAP bmp;
-  HBITMAP dib;
 
   if (!(fp=fopen(filename, "rb"))) {
     MessageBox(NULL, "failed reading", filename, MB_OK);
@@ -449,7 +543,6 @@ struct Sprite *load_gfxfile(const char *filename)
   png_set_tRNS_to_alpha(pngp);
   png_set_filler(pngp, 0xFF, PNG_FILLER_AFTER);
   png_set_bgr(pngp);
-  png_set_invert_alpha(pngp); 
 
   png_read_update_info(pngp, infop);
   png_get_IHDR(pngp, infop, &width, &height, &bit_depth, &color_type,
@@ -467,74 +560,45 @@ struct Sprite *load_gfxfile(const char *filename)
   fclose(fp);
 
 
-  mysprite=fc_malloc(sizeof(struct Sprite));
+  mysprite = fc_malloc(sizeof(struct Sprite));
 
-  /* init DIB BITMAPINFOHEADER */
-  bi.bmiHeader.biSize           = sizeof(BITMAPINFOHEADER);
-  bi.bmiHeader.biWidth          = width;
-  bi.bmiHeader.biHeight         = height;
-  bi.bmiHeader.biPlanes         = 1;
-  bi.bmiHeader.biBitCount       = 32;
+  buf = fc_malloc((width * height) << 2);
 
-  bi.bmiHeader.biCompression    = BI_RGB;
-  bi.bmiHeader.biSizeImage      = 0;
-  bi.bmiHeader.biXPelsPerMeter  = 0;
-  bi.bmiHeader.biYPelsPerMeter  = 0;
-  bi.bmiHeader.biClrUsed        = 0;
-  bi.bmiHeader.biClrImportant   = 0;
-
-  hdc=GetDC(root_window);
-  dib=CreateDIBSection(hdc, &bi, DIB_RGB_COLORS, &buf, NULL, 0);
-  bmp=CreateCompatibleBitmap(hdc,bi.bmiHeader.biWidth, bi.bmiHeader.biHeight);
-
-
-  for (row = height-1, pb = buf; row>=0; row--) {
-    for (col = 0, p = row_pointers[row]; col<width; col++) {
-      *pb++=*p++;
-      *pb++=*p++;
-      *pb++=*p++;
-      *pb++=0;
-      p++;
-    } 
-  }
-  
-  SetDIBits(hdc, bmp, 0, bi.bmiHeader.biHeight,
-	    buf, &bi, DIB_RGB_COLORS);
-  DeleteObject(dib);
-  ReleaseDC(root_window, hdc);
-  HBITMAP2BITMAP(bmp, &mysprite->img);
-  DeleteObject(bmp);
   if (has_mask) {
-    hdc=CreateCompatibleDC(NULL);
-    dib=CreateDIBSection(hdc, &bi, DIB_RGB_COLORS, &buf, NULL, 0);
-    for (row = height-1, pb = buf; row >= 0; row--) {
-      for (col=0, p=row_pointers[row]; col<width; col++) {
-        p+=3;
-        *pb++=*p;
-        *pb++=*p;
-        *pb++=*p;
-        *pb++=0;
-        p+=1;
+    for (row = 0, pb = buf; row < height; row++) {
+      for (col = 0, p = row_pointers[row]; col<width; col++) {
+	*pb++ = *p++;
+	*pb++ = *p++;
+	*pb++ = *p++;
+	*pb++ = *p++;
       }
     }
-    bmp=CreateCompatibleBitmap(hdc, bi.bmiHeader.biWidth,
-			       bi.bmiHeader.biHeight);
-    SetDIBits(hdc, bmp, 0, bi.bmiHeader.biHeight, buf, 
-	      &bi, DIB_RGB_COLORS);
-    DeleteDC(hdc);
-    HBITMAP2BITMAP(bmp,&mysprite->mask);
-    DeleteObject(dib);
-    DeleteObject(bmp);
+  } else {
+    for (row = 0, pb = buf; row < height; row++) {
+      for (col = 0, p = row_pointers[row]; col<width; col++) {
+	*pb++ = *p++;
+	*pb++ = *p++;
+	*pb++ = *p++;
+	*pb++ = 255;
+	p++;
+      }
+    } 
   }
+
+  mysprite->img.bmType = 0;
+  mysprite->img.bmWidth = width;
+  mysprite->img.bmHeight = height;
+  mysprite->img.bmWidthBytes = width << 2;
+  mysprite->img.bmPlanes = 1;
+  mysprite->img.bmBitsPixel = 32;
+  mysprite->img.bmBits = buf;
 
   mysprite->has_mask = has_mask;
   mysprite->has_fog = 0;
   mysprite->img_cache_id = 0;
   mysprite->fog_cache_id = 0;
-  mysprite->mask_cache_id = 0;
   mysprite->width = width;
   mysprite->height = height;
-
 
   for (row=0; row<height; row++)
     free(row_pointers[row]);
@@ -544,17 +608,12 @@ struct Sprite *load_gfxfile(const char *filename)
 }
 
 /**************************************************************************
-  Create a half bright version of this sprite's image.  Doesn't work in
-  paletted video modes.
+  Create a dimmed version of this sprite's image.
 **************************************************************************/
 void fog_sprite(struct Sprite *sprite)
 {
   int bmpsize, i;
-
-  if (sprite->img.bmBitsPixel != 32 && sprite->img.bmBitsPixel != 24
-      && sprite->img.bmBitsPixel != 15 && sprite->img.bmBitsPixel != 16) {
-    return;
-  }
+  unsigned char *p, *pb;
 
   bmpsize = sprite->img.bmHeight * sprite->img.bmWidthBytes;
 
@@ -562,64 +621,17 @@ void fog_sprite(struct Sprite *sprite)
   sprite->fog = sprite->img;
   sprite->fog.bmBits = fc_malloc(bmpsize);
 
+  /* RGBA 8888 */
+  p = sprite->img.bmBits;
+  pb = sprite->fog.bmBits;
+
 #define FOG_BRIGHTNESS 65
 
-  /* RGBA 8888 */
-  if (sprite->img.bmBitsPixel == 32) {
-    unsigned int *src, *dst;
-    unsigned int r, g, b, a;
-
-    src = sprite->img.bmBits;
-    dst = sprite->fog.bmBits;
-
-    for (i = 0; i < bmpsize; i += 4) {
-      a =  (*src & 0xFF000000) >> 24;
-      r = ((*src & 0x00FF0000) >> 16) * FOG_BRIGHTNESS / 100;
-      g = ((*src & 0x0000FF00) >> 8 ) * FOG_BRIGHTNESS / 100;
-      b = ((*src & 0x000000FF)      ) * FOG_BRIGHTNESS / 100;
-      *dst++ = (a << 24) | (r << 16) | (g << 8) | b;
-      src++;
-    }
-  /* RGB 888 */
-  } else if (sprite->img.bmBitsPixel == 24) {
-    unsigned char *src, *dst;
-
-    src = sprite->img.bmBits;
-    dst = sprite->fog.bmBits;
-
-    for (i = 0; i < bmpsize; i++) {
-      *dst++ = *src++ * FOG_BRIGHTNESS / 100;
-    }
-  /* RGB 565 */
-  } else if (sprite->img.bmBitsPixel == 16) {
-    unsigned short *src, *dst;
-    unsigned int r, g, b;
-
-    src = sprite->img.bmBits;
-    dst = sprite->fog.bmBits;
-
-    for (i = 0; i < bmpsize; i += 2) {
-      r = ((*src & 0xF800) >> 11) * FOG_BRIGHTNESS / 100;
-      g = ((*src & 0x07E0) >> 5 ) * FOG_BRIGHTNESS / 100;
-      b = ((*src & 0x001F)      ) * FOG_BRIGHTNESS / 100;
-      *dst++ = (r << 11) | (g << 5) | b;
-      src++;
-    }
-  /* RGB 555 */
-  } else if (sprite->img.bmBitsPixel == 15) {
-    unsigned short *src, *dst;
-    unsigned int r, g, b;
-
-    src = sprite->img.bmBits;
-    dst = sprite->fog.bmBits;
-
-    for (i = 0; i < bmpsize; i += 2) {
-      r = ((*src & 0x7C00) >> 10) * FOG_BRIGHTNESS / 100;
-      g = ((*src & 0x03E0) >> 5 ) * FOG_BRIGHTNESS / 100;
-      b = ((*src & 0x001F)      ) * FOG_BRIGHTNESS / 100;
-      *dst++ = (r << 10) | (g << 5) | b;
-      src++;
-    }
+  for (i = 0; i < bmpsize; i += 4) {
+    *pb++ = *p++ * FOG_BRIGHTNESS / 100;
+    *pb++ = *p++ * FOG_BRIGHTNESS / 100;
+    *pb++ = *p++ * FOG_BRIGHTNESS / 100;
+    *pb++ = *p++;
   }
 
 #undef FOG_BRIGHTNESS
@@ -653,25 +665,35 @@ static void real_draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y,
 
   tempbit = SelectObject(hdccomp, bmpimg);
 
-  if (sprite->has_mask) {
-    HDC hdcmask;
-    HBITMAP tempmask;
-    HBITMAP bmpmask;
-
-    bmpmask = getcachehbitmap(&(sprite->mask), &(sprite->mask_cache_id));
-
-    hdcmask = CreateCompatibleDC(hdc);
-
-    tempmask = SelectObject(hdcmask, bmpmask);
-
-    BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCINVERT);
-    BitBlt(hdc, x, y, w, h, hdcmask, 0, 0, SRCAND);
-    BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCINVERT);
-
-    SelectObject(hdcmask, tempmask);
-    DeleteDC(hdcmask);
+  if (have_AlphaBlend) {
+    BLENDFUNCTION bf;
+    bf.BlendOp = AC_SRC_OVER;
+    bf.BlendFlags = 0;
+    bf.SourceConstantAlpha = 255;
+    bf.AlphaFormat = AC_SRC_ALPHA;
+    AlphaBlend(hdc, x, y, w, h, hdccomp, 0, 0, w, h, bf);
   } else {
-    BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCCOPY);
+    if (sprite->has_mask) {
+      HDC hdcmask;
+      HBITMAP tempmask;
+      HBITMAP bmpmask;
+
+      bmpmask = generate_mask(&sprite->img);
+
+      hdcmask = CreateCompatibleDC(hdc);
+
+      tempmask = SelectObject(hdcmask, bmpmask);
+
+      BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCINVERT);
+      BitBlt(hdc, x, y, w, h, hdcmask, 0, 0, SRCAND);
+      BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCINVERT);
+
+      SelectObject(hdcmask, tempmask);
+      DeleteDC(hdcmask);
+      DeleteObject(bmpmask);
+    } else {
+      BitBlt(hdc, x, y, w, h, hdccomp, 0, 0, SRCCOPY);
+    }
   }
 
   SelectObject(hdccomp, tempbit);
@@ -699,6 +721,7 @@ void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y)
 **************************************************************************/
 void draw_fog(struct Sprite *sprmask, HDC hdc, int x, int y)
 {
+#if 0
   HDC hdcmask;
   HDC hdcsrc;
 
@@ -733,6 +756,7 @@ void draw_fog(struct Sprite *sprmask, HDC hdc, int x, int y)
 
   SelectObject(hdcmask, tempmask);
   DeleteDC(hdcmask);
+#endif
 }
         
 /**************************************************************************
@@ -741,7 +765,6 @@ void draw_fog(struct Sprite *sprmask, HDC hdc, int x, int y)
 void free_sprite(struct Sprite *s)
 {
   if (s->has_mask) {
-    free(s->mask.bmBits);
   }
 
   if (s->has_fog) {

@@ -58,8 +58,6 @@ static struct Sprite *indicator_sprite[3];
 
 static HBITMAP intro_gfx;
 
-#define single_tile_pixmap (mapview_canvas.single_tile->bitmap)
-
 extern HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
 
 extern void do_mainwin_layout();
@@ -69,6 +67,50 @@ void update_map_canvas_scrollbars_size(void);
 void refresh_overview_viewrect_real(HDC hdcp);
 static void draw_rates(HDC hdc);
 
+/***************************************************************************
+ ...
+***************************************************************************/
+static HDC canvas_get_hdc(struct canvas *pcanvas)
+{
+  if (!pcanvas->hdc) {
+    switch(pcanvas->type) {
+      case CANVAS_BITMAP:
+	pcanvas->hdc = CreateCompatibleDC(NULL);
+	pcanvas->tmp = SelectObject(pcanvas->hdc, pcanvas->bmp);
+	break;
+      case CANVAS_WINDOW:
+	pcanvas->hdc = GetDC(pcanvas->wnd);
+	pcanvas->tmp = 1; /* non-null */
+	break;
+      default:
+	break;
+    }
+  }
+
+  return pcanvas->hdc;
+}
+
+/***************************************************************************
+ ...
+***************************************************************************/
+static void canvas_release_hdc(struct canvas *pcanvas)
+{
+  if (pcanvas->tmp) {
+    switch(pcanvas->type) {
+      case CANVAS_BITMAP:
+	SelectObject(pcanvas->hdc, pcanvas->tmp);
+	DeleteDC(pcanvas->hdc);
+	break;
+      case CANVAS_WINDOW:
+	ReleaseDC(pcanvas->wnd, pcanvas->hdc);
+	break;
+      default:
+	break;
+    }
+    pcanvas->hdc = NULL;
+    pcanvas->tmp = NULL;
+  }
+}
 
 /***************************************************************************
  ...
@@ -78,8 +120,11 @@ struct canvas *canvas_create(int width, int height)
   struct canvas *result = fc_malloc(sizeof(*result));
   HDC hdc;
   hdc = GetDC(root_window);
-  result->bitmap = CreateCompatibleBitmap(hdc, width, height);
+  result->type = CANVAS_BITMAP;
   result->hdc = NULL;
+  result->bmp = CreateCompatibleBitmap(hdc, width, height);
+  result->wnd = NULL;
+  result->tmp = NULL;
   ReleaseDC(root_window, hdc);
   return result;
 }
@@ -89,68 +134,64 @@ struct canvas *canvas_create(int width, int height)
 ***************************************************************************/
 void canvas_free(struct canvas *store)
 {
-  DeleteObject(store->bitmap);
+  DeleteObject(store->bmp);
   free(store);
 }
 
 static struct canvas overview_canvas;
+static struct canvas real_mapview_canvas; /* conflict with mapview_canvas */
 
 /****************************************************************************
   Return a canvas that is the overview window.
 ****************************************************************************/
 struct canvas *get_overview_window(void)
 {
+  overview_canvas.type = CANVAS_WINDOW;
+  overview_canvas.hdc = NULL;
+  overview_canvas.bmp = NULL;
+  overview_canvas.wnd = root_window;
+  overview_canvas.tmp = NULL;
   return &overview_canvas;
+}
+
+/****************************************************************************
+  Return a canvas that is the mapview window.
+****************************************************************************/
+struct canvas *get_mapview_window(void)
+{
+  real_mapview_canvas.type = CANVAS_WINDOW;
+  real_mapview_canvas.hdc = NULL;
+  real_mapview_canvas.bmp = NULL;
+  real_mapview_canvas.wnd = map_window;
+  real_mapview_canvas.tmp = NULL;
+  return &real_mapview_canvas;
 }
 
 /***************************************************************************
    ...
 ***************************************************************************/
-void canvas_copy(struct canvas *dest, struct canvas *src,
-		 int src_x, int src_y, int dest_x, int dest_y,
+void canvas_copy(struct canvas *dst, struct canvas *src,
+		 int src_x, int src_y, int dst_x, int dst_y,
 		 int width, int height)
 {
-  HDC hdcsrc = NULL;
-  HDC hdcdst = NULL;
-  HBITMAP oldsrc = NULL;
-  HBITMAP olddst = NULL;
-  if (src->hdc) {
-    hdcsrc = src->hdc;
-  } else {
-    hdcsrc = CreateCompatibleDC(NULL);
-    oldsrc = SelectObject(hdcsrc, src->bitmap);
-  }
-  if (dest->hdc) {
-    hdcdst = dest->hdc;
-  } else if (dest->bitmap) {
-    hdcdst = CreateCompatibleDC(NULL);
-    olddst = SelectObject(hdcdst, dest->bitmap);
-  } else {
-    hdcdst = GetDC(root_window);
-  }
-  BitBlt(hdcdst, dest_x, dest_y, width, height, hdcsrc, src_x, src_y, SRCCOPY);
-  if (!src->hdc) {
-    SelectObject(hdcsrc, oldsrc);
-    DeleteDC(hdcsrc);
-  }
-  if (!dest->hdc) {
-    if (dest->bitmap) {
-      SelectObject(hdcdst, olddst);
-      DeleteDC(hdcdst);
-    } else {
-      ReleaseDC(root_window, hdcdst);
-    }
-  }
+  HDC hdcsrc = canvas_get_hdc(src);
+  HDC hdcdst = canvas_get_hdc(dst);
+
+  BitBlt(hdcdst, dst_x, dst_y, width, height, hdcsrc, src_x, src_y, SRCCOPY);
+
+  canvas_release_hdc(src);
+  canvas_release_hdc(dst);
 }
 
 /**************************************************************************
 
 **************************************************************************/
-void map_expose(HDC hdc)
+void map_expose(int x, int y, int width, int height)
 {
-
   HBITMAP bmsave;
   HDC introgfxdc;
+  HDC hdc;
+
   if (!can_client_change_view()) {
     if (!intro_gfx_sprite) {
       load_intro_gfx();
@@ -158,6 +199,7 @@ void map_expose(HDC hdc)
     if (!intro_gfx) {
       intro_gfx = BITMAP2HBITMAP(&intro_gfx_sprite->img);
     }
+    hdc = GetDC(map_window);
     introgfxdc = CreateCompatibleDC(hdc);
     bmsave = SelectObject(introgfxdc, intro_gfx);
     StretchBlt(hdc, 0, 0, map_win_width, map_win_height,
@@ -167,15 +209,10 @@ void map_expose(HDC hdc)
 	       SRCCOPY);
     SelectObject(introgfxdc, bmsave);
     DeleteDC(introgfxdc);
+    ReleaseDC(map_window, hdc);
   } else {
-    HBITMAP old;
-    HDC mapstoredc;
-    mapstoredc = CreateCompatibleDC(NULL);
-    old = SelectObject(mapstoredc, mapstorebitmap);
-    BitBlt(hdc, 0, 0, map_win_width, map_win_height,
-	   mapstoredc, 0, 0, SRCCOPY);
-    SelectObject(mapstoredc, old);
-    DeleteDC(mapstoredc);
+    canvas_copy(get_mapview_window(), mapview_canvas.store, x, y, x, y,
+		width, height);
   }
 } 
 
@@ -360,17 +397,8 @@ map_size_changed(void)
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height)
 {
-  HDC hdcwin = GetDC(map_window);
-  HDC mapstoredc = CreateCompatibleDC(NULL);
-  HBITMAP old = SelectObject(mapstoredc, mapstorebitmap);
-  BitBlt(hdcwin, canvas_x, canvas_y,
-	 pixel_width, pixel_height,
-	 mapstoredc,
-	 canvas_x, canvas_y,
-	 SRCCOPY);
-  ReleaseDC(map_window, hdcwin);
-  SelectObject(mapstoredc, old);
-  DeleteDC(mapstoredc);
+  canvas_copy(get_mapview_window(), mapview_canvas.store, canvas_x, canvas_y,
+	      canvas_x, canvas_y, pixel_width, pixel_height);
 }
 
 #define MAX_DIRTY_RECTS 20
@@ -521,12 +549,8 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
   char buffer[500];
   int y_offset;
   HDC hdc;
-  HBITMAP old;
 
-  /* TODO: hdc should be stored statically */
-  /* FIXME: we should draw to the given pcanvas. */
-  hdc = CreateCompatibleDC(NULL);
-  old = SelectObject(hdc, mapstorebitmap);
+  hdc = canvas_get_hdc(pcanvas);
   SetBkMode(hdc,TRANSPARENT);
 
   *width = *height = 0;
@@ -585,8 +609,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
     *height += rc.bottom - rc.top + 1;
   }
 
-  SelectObject(hdc, old);
-  DeleteDC(hdc);
+  canvas_release_hdc(pcanvas);
 }
 
 /**************************************************************************
@@ -682,9 +705,7 @@ void overview_expose(HDC hdc)
 	DeleteObject(bmp);
       DeleteDC(hdctest);
       draw_rates(hdc);
-      overview_canvas.hdc = hdc;
-      refresh_overview_canvas(/* hdc */);
-      overview_canvas.hdc = NULL;
+      refresh_overview_canvas();
     }
 }
 
@@ -759,21 +780,11 @@ void canvas_put_sprite(struct canvas *pcanvas,
 		       struct Sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
-  HDC hdc;
-  HBITMAP old = NULL; /*Remove warning*/
+  HDC hdc = canvas_get_hdc(pcanvas);
 
-  /* FIXME: we don't want to have to recreate the hdc each time! */
-  if (pcanvas->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas->hdc);
-    old = SelectObject(hdc, pcanvas->bitmap);
-  } else {
-    hdc = pcanvas->hdc;
-  }
   draw_sprite(sprite, hdc, canvas_x, canvas_y);
-  if (pcanvas->bitmap) {
-    SelectObject(hdc, old);
-    DeleteDC(hdc);
-  }
+
+  canvas_release_hdc(pcanvas);
 }
 
 /**************************************************************************
@@ -796,23 +807,12 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      struct Sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
-  HDC hdc;
-  HBITMAP old = NULL;
-
-  if (pcanvas->hdc == NULL) {
-    hdc = CreateCompatibleDC(NULL);
-    old = SelectObject(hdc, pcanvas->bitmap);
-  } else {
-    hdc = pcanvas->hdc;
-  }
+  HDC hdc = canvas_get_hdc(pcanvas);
 
   pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y,
 			       psprite, fog);
 
-  if (pcanvas->hdc == NULL) {
-    SelectObject(hdc, old);
-    DeleteDC(hdc);
-  }
+  canvas_release_hdc(pcanvas);
 }
 
 /**************************************************************************
@@ -822,16 +822,8 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 			  enum color_std color,
 			  int canvas_x, int canvas_y, int width, int height)
 {
-  HDC hdc;
-  HBITMAP old = NULL; /*Remove warning*/
+  HDC hdc = canvas_get_hdc(pcanvas);
   RECT rect;
-
-  if (pcanvas->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas->hdc);
-    old = SelectObject(hdc, pcanvas->bitmap);
-  } else {
-    hdc = pcanvas->hdc;
-  }
 
   /* FillRect doesn't fill bottom and right edges, however canvas_x + width
    * and canvas_y + height are each 1 larger than necessary. */
@@ -840,11 +832,9 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 
   FillRect(hdc, &rect, brush_std[color]);
 
-  if (pcanvas->bitmap) {
-    SelectObject(hdc, old);
-    DeleteDC(hdc);
-  }
+  canvas_release_hdc(pcanvas);
 }
+
 /****************************************************************************
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
@@ -853,18 +843,10 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 			     int canvas_x, int canvas_y)
 {
   /* FIXME: this may be inefficient */
-  HDC hdc;
-  HBITMAP old = NULL; /*Remove warning*/
+  HDC hdc = canvas_get_hdc(pcanvas);
   HPEN oldpen;
   HBRUSH oldbrush;
   POINT points[4];
-
-  if (pcanvas->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas->hdc);
-    old = SelectObject(hdc, pcanvas->bitmap);
-  } else {
-    hdc = pcanvas->hdc;
-  }
 
   /* FIXME: give a real implementation of this function. */
   assert(psprite == sprites.black_tile);
@@ -883,10 +865,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   SelectObject(hdc, oldpen);
   SelectObject(hdc, oldbrush);
 
-  if (pcanvas->bitmap) {
-    SelectObject(hdc, old);
-    DeleteDC(hdc);
-  }
+  canvas_release_hdc(pcanvas);
 }
 
 /****************************************************************************
@@ -905,18 +884,8 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
-  HDC hdc;
-  HBITMAP old = NULL; /*Remove warning*/
+  HDC hdc = canvas_get_hdc(pcanvas);
   HPEN old_pen;
-
-  if (pcanvas->hdc) {
-    hdc = pcanvas->hdc;
-  } else if (pcanvas->bitmap) {
-    hdc = CreateCompatibleDC(pcanvas->hdc);
-    old = SelectObject(hdc, pcanvas->bitmap);
-  } else {
-    hdc = GetDC(root_window);
-  }
 
   /* FIXME: set line type (size). */
   old_pen = SelectObject(hdc, pen_std[color]);
@@ -924,15 +893,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
   LineTo(hdc, start_x + dx, start_y + dy);
   SelectObject(hdc, old_pen);
 
-  if (!pcanvas->hdc) {
-    if (pcanvas->bitmap) {
-      SelectObject(hdc, old);
-      DeleteDC(hdc);
-    } else {
-      ReleaseDC(root_window, hdc);
-    }
-  }
-
+  canvas_release_hdc(pcanvas);
 }
 
 /**************************************************************************

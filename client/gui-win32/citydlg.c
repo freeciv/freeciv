@@ -290,7 +290,13 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog)
 {
   int i;
   struct unit_list *plist;
-  struct canvas store = {hdc, NULL};
+  struct canvas store;
+  
+  store.type = CANVAS_DC;
+  store.hdc = hdc;
+  store.bmp = NULL;
+  store.wnd = NULL;
+  store.tmp = NULL;
  
   if(pdialog->pcity->owner != game.player_idx) {
     plist = pdialog->pcity->info_units_present;
@@ -314,7 +320,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog)
   unit_list_iterate(plist, punit) {
     put_unit(punit, &store,
 	     pdialog->pop_x + i * (SMALL_TILE_WIDTH + NORMAL_TILE_WIDTH),
-	     pdialog->supported_y);
+	     pdialog->present_y);
     pdialog->present_unit_ids[i] = punit->id;
     i++;
     if (i == NUM_UNITS_SHOWN) {
@@ -331,7 +337,13 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
 {
   int i;
   struct unit_list *plist;
-  struct canvas store = {hdc, NULL};
+  struct canvas store;
+
+  store.type = CANVAS_DC;
+  store.hdc = hdc;
+  store.bmp = NULL;
+  store.wnd = NULL;
+  store.tmp = NULL;
 
   if(pdialog->pcity->owner != game.player_idx) {
     plist = pdialog->pcity->info_units_supported;
@@ -456,28 +468,28 @@ static void city_dialog_update_information(HWND *info_label,
 }
 
 /**************************************************************************
-									   ...
+  ...
 **************************************************************************/
-void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog)
+void city_dialog_update_map(HDC hdc, struct city_dialog *pdialog)
 {
-  HDC hdcsrc;
-  HBITMAP oldbit;
+  struct canvas window;
   struct canvas store;
 
-  hdcsrc = CreateCompatibleDC(NULL);
-  oldbit=SelectObject(hdcsrc,pdialog->map_bmp);
-  BitBlt(hdcsrc,0,0,pdialog->map_w,pdialog->map_h,
-	 NULL,0,0,BLACKNESS);
+  window.type = CANVAS_DC;
+  window.hdc = hdc;
+  window.bmp = NULL;
+  window.wnd = NULL;
+  window.tmp = NULL;
 
-  store.hdc = hdcsrc;
-  store.bitmap = NULL;
+  store.type = CANVAS_BITMAP;
+  store.hdc = NULL;
+  store.bmp = pdialog->map_bmp;
+  store.wnd = NULL;
+  store.tmp = NULL;
+
   city_dialog_redraw_map(pdialog->pcity, &store);
-                           
-  BitBlt(hdc,pdialog->map.x,pdialog->map.y,city_map_width,
-	 city_map_height,
-	 hdcsrc,0,0,SRCCOPY);
-  SelectObject(hdcsrc,oldbit);
-  DeleteDC(hdcsrc);
+  canvas_copy(&window, &store, 0, 0, pdialog->map.x, pdialog->map.y,
+	      city_map_width, city_map_height);
 }
 
 /**************************************************************************

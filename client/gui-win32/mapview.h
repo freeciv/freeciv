@@ -18,7 +18,7 @@
 void check_mapstore(void);
 void map_resize(void);
 void init_map_win(void);
-void map_expose(HDC hdc);
+void map_expose(int x, int y, int width, int height);
 void overview_expose(HDC hdc);
 void map_handle_hscroll(int pos);
 void map_handle_vscroll(int pos);
@@ -30,7 +30,7 @@ void map_handle_vscroll(int pos);
 #define map_win_height mapview_canvas.height
 #define map_view_width mapview_canvas.tile_width
 #define map_view_height mapview_canvas.tile_height
-#define mapstorebitmap		(mapview_canvas.store->bitmap)
+#define mapstorebitmap		(mapview_canvas.store->bmp)
 
 /* Use of these wrapper functions is deprecated. */
 #define get_canvas_xy(map_x, map_y, canvas_x, canvas_y) \

@@ -32,18 +32,27 @@ struct Sprite
   int has_fog;
   BITMAP img;
   BITMAP fog;
-  BITMAP mask;
   int img_cache_id;
   int fog_cache_id;
-  int mask_cache_id;
   int width;
   int height;
 };
 
+enum canvas_type {
+  CANVAS_DC,
+  CANVAS_BITMAP,
+  CANVAS_WINDOW
+};
+
 struct canvas
 {
+  enum canvas_type type;
+
   HDC hdc;
-  HBITMAP bitmap;
+  HBITMAP bmp;
+  HWND wnd;
+
+  HGDIOBJ tmp;
 };
 
 void fog_sprite(struct Sprite *sprite);

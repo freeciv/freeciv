@@ -131,6 +131,10 @@ void set_city_names_font_sizes(int my_city_names_font_size,
   /* PORTME */
 }
 
+BOOL have_AlphaBlend = FALSE;
+
+BOOL (WINAPI * AlphaBlend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFUNCTION);
+
 /**************************************************************************
 
 **************************************************************************/
@@ -576,10 +580,32 @@ ui_main(int argc, char *argv[])
 {
   RECT rc;
   MSG msg;
+  HINSTANCE hmsimg32;
+  HDC hdc;
+
   freecivhinst=GetModuleHandle(NULL); /* There is no WinMain! */
   bool quit = FALSE;
   init_layoutwindow();
   InitCommonControls();
+
+  /* Try to get AlphaBlend() from msimg32.dll */
+  if ((hmsimg32 = LoadLibrary("msimg32.dll"))) {
+    if ((AlphaBlend = GetProcAddress(hmsimg32, "AlphaBlend"))) {
+      have_AlphaBlend = TRUE;
+    } else {
+      freelog(LOG_NORMAL, "No AlphaBlend() in msimg32.dll, alpha blending disabled");
+    }
+  } else {
+    freelog(LOG_NORMAL, "No msimg32.dll, alpha blending disabled");
+  }
+
+  hdc = GetDC(map_window);
+  if (GetDeviceCaps(hdc, BITSPIXEL) < 32) {
+    freelog(LOG_NORMAL, "Not running in 32 bit color, alpha blending disabled");
+    have_AlphaBlend = FALSE;
+  }
+  ReleaseDC(map_window, hdc);
+
   unitselect_init(freecivhinst);
   init_mapwindow();
   font_8courier=GetStockObject(ANSI_FIXED_FONT);
@@ -625,6 +651,8 @@ ui_main(int argc, char *argv[])
 
   callback_list_unlink_all(callbacks);
   free(callbacks);
+
+  FreeLibrary(hmsimg32);
 }
 
 
