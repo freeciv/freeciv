@@ -19,7 +19,7 @@ x_top_left = 0
 y_top_left = 0
 dx = 90
 dy = 88
-is_pixel_border = 0
+pixel_border = 0
 
 tiles = { "row", "column", "tag"
  0, 0, "explode.nuke"

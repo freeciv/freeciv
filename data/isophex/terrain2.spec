@@ -22,7 +22,7 @@ x_top_left = 1
 y_top_left = 1
 dx = 64
 dy = 32
-is_pixel_border = 1
+pixel_border = 1
 
 tiles = { "row", "column","tag"
 ; Rivers are in rivers.spec
@@ -253,7 +253,7 @@ x_top_left = 1
 y_top_left = 429
 dx = 32
 dy = 16
-is_pixel_border = 1
+pixel_border = 1
 
 tiles = { "row", "column","tag"
  0, 0,  "t.ocean_cell_u000"
