@@ -121,8 +121,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 civserver_OBJECTS =  cityhand.o citytools.o cityturn.o civserver.o \
 diplhand.o gamehand.o gotohand.o handchat.o mapgen.o maphand.o meta.o \
-plrhand.o registry.o sernet.o settlers.o stdinhand.o unitfunc.o unithand.o \
-unittools.o
+plrhand.o registry.o sernet.o settlers.o stdinhand.o unitfunc.o \
+unithand.o unittools.o
 civserver_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
