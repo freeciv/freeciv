@@ -1072,22 +1072,19 @@ msgstr "Willkommen auf dem %s Server (%s Port: %d)."
 msgid "Welcome to the %s Server at port %d."
 msgstr "Willkommen auf dem %s Server (Port %d)."
 
-# ?
 #: server/connecthand.c:84
 #, c-format
 msgid "%s has connected from %s."
-msgstr ""
+msgstr "%s von %s hat Verbindung aufgenommen."
 
-# ?
 #: server/connecthand.c:88
 #, c-format
 msgid "Server: %s has connected from %s."
-msgstr ""
+msgstr "Server: %s von %s hat Verbindung aufgenommen."
 
-# ?
 #: server/connecthand.c:113
 msgid "Couldn't attach your connection to new player."
-msgstr ""
+msgstr "Es steht kein neuer Spieler mehr zur Verfügung."
 
 #: server/connecthand.c:125
 #, c-format
@@ -2704,7 +2701,8 @@ msgid ""
 "(Zero indicates a scenario map.)"
 msgstr ""
 "1 = normal, mit zufälligen Kontinenten;\n"
-"2 = gleichgroße Inseln für jeden Spieler und doppelt soviele kleinere Inseln;\n"
+"2 = gleichgroße Inseln für jeden Spieler und doppelt soviele kleinere "
+"Inseln;\n"
 "3 = gleichgroße Inseln für jeden Spieler und eine Anzahl vergleichbarer\n"
 "    Inseln;\n"
 "4 = gleichgroße Inseln für jeweils 2 bis 3 Spieler und ein Anzahl kleinerer\n"
@@ -3271,8 +3269,8 @@ msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met. Set this to zero to turn this feature off entirely."
 msgstr ""
-"Spieler können für eine Anzahl von Runden, nachdem sie Kontakt hatten, "
-"eine Konferenz einberufen. Bei Null ist diese Möglichkeit abgeschaltet."
+"Spieler können für eine Anzahl von Runden, nachdem sie Kontakt hatten, eine "
+"Konferenz einberufen. Bei Null ist diese Möglichkeit abgeschaltet."
 
 #: server/stdinhand.c:646
 msgid "Rebuild palace if capital is conquered"
@@ -4696,33 +4694,32 @@ msgstr "Syntax: take <Spieler>"
 
 #: server/stdinhand.c:3092
 msgid "You can't switch players with \"take\" after the game has started."
-msgstr "Nach Spielstart kann der Spieler nicht mehr mit 'take' gewechselt werden."
+msgstr ""
+"Nach Spielstart kann der Spieler nicht mehr mit 'take' gewechselt werden."
 
-# ?
 #: server/stdinhand.c:3099
 #, c-format
 msgid "%s already controls or observes %s"
-msgstr ""
+msgstr "%s kontrolliert oder beobachtet %s bereits."
 
-# ?
 #: server/stdinhand.c:3109
 #, c-format
 msgid ""
 "%s already controls or observes %s.\n"
 "  multiple controlling connections aren't allowed yet."
 msgstr ""
+"%s kontrolliert oder beobachtet %s bereits.\n"
+"  Es ist nur eine kontrollierende Verbindung erlaubt."
 
-# ?
 #: server/stdinhand.c:3129
 #, c-format
 msgid "%s unconnecting from  %s"
-msgstr ""
+msgstr "%s kontrolliert oder beobachtet %s nicht mehr."
 
-# ?
 #: server/stdinhand.c:3139
 #, c-format
 msgid "removing %s [%d]"
-msgstr ""
+msgstr "Spieler %s [%d] wird entfernt."
 
 #: server/stdinhand.c:3170
 #, c-format
@@ -7780,7 +7777,6 @@ msgstr "Mögliche Stadterweiterungen"
 msgid "Available Wonders"
 msgstr "Mögliche Weltwunder"
 
-# ?
 #: client/gui-gtk-2.0/cma_fe.c:188
 msgid ""
 "For information on:\n"
@@ -7788,6 +7784,10 @@ msgid ""
 "including sample presets,\n"
 "see README.cma."
 msgstr ""
+"Zur Information über\n"
+"die ASV und Vorgaben\n"
+"(mit Beispielen) siehe\n"
+"doc/README.cma.de."
 
 #: client/gui-gtk-2.0/cma_fe.c:201
 msgid "_Presets:"
@@ -9051,34 +9051,36 @@ msgstr ""
 "Gold: %d\n"
 "St: %d Luxus: %d Forschung: %d"
 
-# ?
 #: client/gui-gtk-2.0/mapview.c:264
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
-msgstr ""
+msgstr "Zeigt aktuelle Luxus-, Forschungs- und Steuerraten; durch klicken verstellbar."
 
-# ?
 #: client/gui-gtk-2.0/mapview.c:268
 #, c-format
 msgid ""
 "Shows your progress in researching the current technology.\n"
 "%s: %d/%d."
 msgstr ""
+"Zeigt den Stand der Erforschung der aktuellen Technologie.\n"
+"%s: %d/%d."
 
-# ?
 #: client/gui-gtk-2.0/mapview.c:277
 #, c-format
 msgid ""
 "Shows the progress of global warming:\n"
 "%d."
 msgstr ""
+"Zeigt das Fortschreiten der Globalen Erwärmung an:\n"
+"%d."
 
-# ?
 #: client/gui-gtk-2.0/mapview.c:283
 #, c-format
 msgid ""
 "Shows the progress of nuclear winter:\n"
 "%d."
 msgstr ""
+"Zeigt das Fortschreiten des Nuklearen Winters an:\n"
+"%d."
 
 #: client/gui-gtk-2.0/mapview.c:289
 #, c-format
@@ -10002,10 +10004,9 @@ msgstr "Arbeitslisten:"
 msgid "Type"
 msgstr "Bezeichnung"
 
-# ?
 #: client/gui-gtk-2.0/wldlg.c:790
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "Mögliche Aufgaben:"
 
 #: client/gui-gtk-2.0/wldlg.c:795
 msgid "Show _Future Targets"
@@ -10015,10 +10016,9 @@ msgstr "Zeige alle Aufträge"
 msgid "Target _Worklist:"
 msgstr "Arbeitsliste:"
 
-# ?
 #: client/gui-gtk-2.0/wldlg.c:861
 msgid "_Add Global Worklist"
-msgstr ""
+msgstr "Neue generelle Arbeitsliste"
 
 #: client/gui-gtk/citydlg.c:625
 msgid "City improvements"
@@ -15698,10 +15698,9 @@ msgstr "tropisch"
 msgid "Asian"
 msgstr "asiatisch"
 
-# ?
 #: data/default/cities.ruleset:64
 msgid "Renaissance"
-msgstr ""
+msgstr "Renaissance"
 
 #: data/default/cities.ruleset:73
 msgid "Industrial"
