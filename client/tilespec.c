@@ -1055,6 +1055,20 @@ static void tilespec_lookup_sprite_tags(void)
       my_snprintf(buffer, sizeof(buffer), "tx.coast_cape_%s", nsew_str(i));
       SET_SPRITE(tx.coast_cape[i], buffer);
     }
+  } else {
+    /* Isometric: take a single tx.darkness tile and split it into 4. */
+    struct Sprite *darkness = load_sprite("tx.darkness");
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+
+    if (!darkness) {
+      die("Sprite tag darkness missing.");
+    }
+
+    for (i = 0; i < 4; i++) {
+      sprites.tx.darkness[i] = crop_sprite(darkness, offsets[i][0],
+					   offsets[i][1], W / 2, H / 2);
+    }
   }
 
   for(i=0; i<4; i++) {
@@ -1585,7 +1599,7 @@ Only used for isometric view.
 static struct Sprite *get_dither(int ttype, int ttype_other)
 {
   if (ttype_other == T_UNKNOWN)
-    return sprites.black_tile;
+    return NULL;
 
   if (!sprites.terrain[ttype]->is_blended) {
     return NULL;
@@ -2113,6 +2127,19 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
       else
         other = ttype_near[dir];
       dither[dir] = get_dither(ttype, other);
+    }
+  }
+
+  /* Add darkness sprites. */
+  for (dir = 0; dir < 4; dir++) {
+    int x1, y1;
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+    int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
+
+    if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir])
+	&& tile_get_known(x1, y1) == TILE_UNKNOWN) {
+      ADD_SPRITE(sprites.tx.darkness[dir],
+		 offsets[dir][0], offsets[dir][1]);
     }
   }
 

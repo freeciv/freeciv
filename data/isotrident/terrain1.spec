@@ -133,6 +133,7 @@ is_pixel_border = 1
 
 tiles = { "row", "column","tag"
   0, 0, "t.dither_tile"
+  0, 0, "tx.darkness"
   0, 1, "tx.fog"
   0, 2, "t.black_tile"
   0, 3, "t.coast_color"
