@@ -2424,7 +2424,6 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->ai.danger = 0;
   pcity->ai.urgency = 0;
   pcity->ai.grave_danger = 0;
-  pcity->ai.already_considered_for_diplomat = FALSE;
   pcity->corruption = 0;
   pcity->shield_waste = 0;
   pcity->shield_bonus = 100;

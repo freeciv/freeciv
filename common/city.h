@@ -202,9 +202,6 @@ struct ai_city {
   int invasion; /* who's coming to kill us, for attack co-ordination */
   int attack, bcost; /* This is also for invasion - total power and value of
                       * all units coming to kill us. */
-
-  /* Used by _other_ cities temporarily while assigning diplomat targets */
-  bool already_considered_for_diplomat;
 };
 
 struct city {

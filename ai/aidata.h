@@ -13,6 +13,9 @@
 #ifndef FC__AIDATA_H
 #define FC__AIDATA_H
 
+/* max size of a short */
+#define MAX_NUM_ID 32767
+
 #include "shared.h"		/* bool type */
 
 struct player;
@@ -30,6 +33,7 @@ struct ai_dip_intel {
   bool is_allied_with_ally;
 };
 
+BV_DEFINE(bv_id, MAX_NUM_ID);
 struct ai_data {
   /* AI diplomacy and opinions on other players */
   struct {
@@ -54,12 +58,13 @@ struct ai_data {
     bool sea_done;    /* nothing more to explore at sea */
   } explore;
 
-  /* this struct is used for statistical unit building, to ensure
+  /* This struct is used for statistical unit building, to ensure
      that we don't build too few or too many units of a given type */
   struct {
     int *workers; /* cities to workers on continent*/
     int *cities;  /* number of cities on continent */
     int average_production;
+    bv_id diplomat_reservations;
   } stats;
 
   int num_continents; /* last time we updated our continent data */

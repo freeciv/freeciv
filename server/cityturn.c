@@ -397,7 +397,6 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 void begin_cities_turn(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
-    pcity->ai.already_considered_for_diplomat = FALSE; /* ai hack */
     define_orig_production_values(pcity);
   } city_list_iterate_end;
 }

@@ -48,6 +48,7 @@
 
 #include "advmilitary.h"
 #include "aicity.h"
+#include "aidata.h"
 #include "aihand.h"
 #include "ailog.h"
 #include "aitools.h"
@@ -137,6 +138,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
                                   struct ai_choice *choice)
 {
   Unit_Type_id u = best_role_unit(pcity, F_DIPLOMAT);
+  struct ai_data *ai = ai_data_get(pplayer);
 
   if (u >= U_LAST) {
     /* We don't know diplomats yet! */
@@ -159,7 +161,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
 
     find_city_to_diplomat(pplayer, punit, &acity, &time_to_dest);
 
-    if (acity == NULL || acity->ai.already_considered_for_diplomat) {
+    if (acity == NULL || BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {
       /* Found no target or city already considered */
       return;
     }
@@ -222,7 +224,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       choice->want = want; 
       choice->type = CT_NONMIL; /* so we don't build barracks for it */
       choice->choice = u;
-      acity->ai.already_considered_for_diplomat = TRUE;
+      BV_SET(ai->stats.diplomat_reservations, acity->id);
     }
     destroy_unit_virtual(punit);
   }

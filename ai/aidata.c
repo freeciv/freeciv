@@ -190,10 +190,20 @@ void ai_data_turn_init(struct player *pplayer)
     ai->stats.average_production += pcity->shield_surplus;
   } city_list_iterate_end;
   ai->stats.average_production /= MAX(1, city_list_size(&pplayer->cities));
+  BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = map_get_tile(punit->x, punit->y);
+
     if (!is_ocean(ptile->terrain) && unit_flag(punit, F_SETTLERS)) {
       ai->stats.workers[(int)map_get_continent(punit->x, punit->y)]++;
+    }
+    if (unit_flag(punit, F_DIPLOMAT) && punit->ai.ai_role == AIUNIT_ATTACK) {
+      /* Heading somewhere on a mission, reserve target. */
+      struct city *pcity = map_get_city(punit->goto_dest_x,
+                                        punit->goto_dest_y);
+      if (pcity) {
+        BV_SET(ai->stats.diplomat_reservations, pcity->id);
+      }
     }
   } unit_list_iterate_end;
 
