@@ -121,11 +121,11 @@ msgstr ""
 
 #: common/player.c:570
 msgid "?attitude:Genocidal"
-msgstr ""
+msgstr "?attitude:Геноцид"
 
 #: common/player.c:572
 msgid "?attitude:Belligerent"
-msgstr ""
+msgstr "?attitude:Воинственные"
 
 #: common/player.c:574
 msgid "?attitude:Hostile"
@@ -141,7 +141,7 @@ msgstr "?attitude:Беспокойные"
 
 #: common/player.c:580
 msgid "?attitude:Neutral"
-msgstr "?nation:Нейтральные"
+msgstr "?attitude:Нейтральные"
 
 #: common/player.c:582
 msgid "?attitude:Respectful"
@@ -1346,15 +1346,15 @@ msgstr ""
 
 #: server/civserver.c:138
 msgid "  -a  --auth\t\tEnable server authentication.\n"
-msgstr ""
+msgstr "  -a --auth\t\tРазрешить авторизацию на стороне сервера.\n"
 
 #: server/civserver.c:139
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
-msgstr ""
+msgstr "  -G  --Guests\t\tРазрешить подключаться гостям, если авторизацию включена.\n"
 
 #: server/civserver.c:140
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
-msgstr ""
+msgstr "  -N  --Newusers\tРазрешить подключаться новым пользователям, если авторизация включена.\n"
 
 #: server/civserver.c:141
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
@@ -3218,12 +3218,13 @@ msgstr ""
 "Игра: %s разорвали догвор. Дипломатическое состояние между %s и %s сейчас %s."
 
 #: server/plrhand.c:1235
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: %s has attacked your ally %s! You cancel your alliance to the "
 "aggressor."
 msgstr ""
-"Игра: %s атаковал одного из Ваших союзников! Союз ввергает Вас в войну."
+"Игра: %s атаковал Вашего союзника %s! Вы отменили Ваш союз с "
+"агрессором."
 
 #: server/plrhand.c:1246
 #, c-format
@@ -3776,9 +3777,9 @@ msgid "Nation %s (used by %s) isn't available."
 msgstr "Народ %s (управляемый  %s) не доступен."
 
 #: server/savegame.c:1504
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported government found (%s)"
-msgstr "поддерживаемые настройки: %s"
+msgstr "Найдена неподдерживаемая форма правления (%s)"
 
 #: server/savegame.c:1539
 #, c-format
@@ -3863,18 +3864,16 @@ msgid "Rare"
 msgstr "Редкий"
 
 #: server/settings.c:55
-#, fuzzy
 msgid ""
 "notradesize must be always smaller than fulltradesize; keeping old value."
 msgstr ""
-"notradesize всегда меньше, чем fulltradesize, оставляем старое значение"
+"notradesize всегда меньше, чем fulltradesize; оставляем старое значение."
 
 #: server/settings.c:69
-#, fuzzy
 msgid ""
 "fulltradesize must be always bigger than notradesize; keeping old value."
 msgstr ""
-"fulltradesize всегда больше, чем notradesize, оставляем старое значение"
+"fulltradesize всегда больше, чем notradesize; оставляем старое значение."
 
 #: server/settings.c:125
 msgid ""
@@ -3885,13 +3884,12 @@ msgstr ""
 "символы. Попробуйте \"help allowtake\"."
 
 #: server/settings.c:158
-#, fuzzy
 msgid ""
 "Starting units string contains invalid\n"
 "characters.  Try \"help startunits\"."
 msgstr ""
 "Строка разрешенных перехватов соединений содержит неправильные\n"
-"символы. Попробуйте \"help allowtake\"."
+"символы. Попробуйте \"help startunits\"."
 
 #: server/settings.c:164
 msgid ""
@@ -3901,10 +3899,9 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:180
-#, fuzzy
 msgid "Number of players is higher than requested value; Keeping old value."
 msgstr ""
-"Число игроков выше, чем запрашиваемое значение; оставлаяем старое значение"
+"Число игроков выше, чем запрашиваемое значение; Оставлаяем старое значение."
 
 #: server/settings.c:226
 msgid "Map size in 1,000 tiles units"
@@ -4462,7 +4459,6 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:649
-#, fuzzy
 msgid "Ability to do diplomacy with other players"
 msgstr "Возможность дипломатических отношений с другими игроками"
 
@@ -5061,9 +5057,8 @@ msgstr ""
 "выберите другое имя."
 
 #: server/srv_main.c:1086
-#, fuzzy
 msgid "Please choose a name containing only ASCII characters."
-msgstr "Выберите непустое имя."
+msgstr "Выберите имя, содержащее только ASCII символы."
 
 #: server/srv_main.c:1106
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
@@ -5555,14 +5550,12 @@ msgid "All options"
 msgstr "Все настройки"
 
 #: server/stdinhand.c:1821
-#, fuzzy
 msgid "Vital options"
-msgstr "Настройки города"
+msgstr "Основные настройки"
 
 #: server/stdinhand.c:1824
-#, fuzzy
 msgid "Situational options"
-msgstr "Установить локальные настройки"
+msgstr "Ситуационные настройки"
 
 #: server/stdinhand.c:1827
 msgid "Rarely used options"
@@ -5587,7 +5580,7 @@ msgstr "описание"
 
 #: server/stdinhand.c:1898
 msgid "Try 'show situational' or 'show rare' to show more options"
-msgstr ""
+msgstr "Попробуйте 'показать ситуационные' или 'показать редкие' для просмотра дополнительных настроек"
 
 #: server/stdinhand.c:1945
 msgid "Cannot change teams once game has begun."
@@ -5603,9 +5596,8 @@ msgid "Player %s is made teamless."
 msgstr "Игрок %s сейчас без команды."
 
 #: server/stdinhand.c:1981
-#, fuzzy
 msgid "Only ASCII characters are allowed for team names."
-msgstr "Игроки, место которых может занять пользователь"
+msgstr "Только ASCII символы разрешены для названий команд."
 
 #: server/stdinhand.c:1986
 msgid "Cannot team a barbarian."
@@ -5963,7 +5955,7 @@ msgstr "Неизвестная команда. Попробуйте '%shelp'."
 
 #: server/stdinhand.c:3203
 msgid "Your new vote cancelled your previous vote."
-msgstr ""
+msgstr "Ваше новое голосование отменяет предыдущее голосование."
 
 #: server/stdinhand.c:3211
 #, c-format
@@ -6697,11 +6689,10 @@ msgstr ""
 #: server/unittools.c:2940
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
-msgstr ""
-"Игра: %s отменил команду ИДТИ К, т.к. другие соединения находятся рядом."
+msgstr "Игра: Приказ для %s отменён, невозможно выполнить приказ."
 
 #: server/unittools.c:2981
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Игра: %s отменил команду ИДТИ К, т.к. другие соединения находятся рядом."
@@ -6746,7 +6737,7 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "Генератор 3 оставил %li процентов земли неиспользованными."
 
 #: server/generator/startpos.c:276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions, and will abort.\n"
@@ -6755,7 +6746,7 @@ msgid ""
 msgstr ""
 "Сервер, похоже, вошел в бесконечный цикл при распределении стартовых позиций "
 "и его функционирование будет прервано.\n"
-"Карта сохранена в файл %s.\n"
+"Возможно, количество игроков слишком велико для данной карты.\n"
 "Пожалуйста, сообщите об этой ошибке по адресу %s."
 
 #: client/attribute.c:277
@@ -7557,9 +7548,8 @@ msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Игра: Извините, патрулирование воздушными войсками еще не работает."
 
 #: client/control.c:1685
-#, fuzzy
 msgid "Game: Sorry, airunit connect not yet implemented."
-msgstr "Игра: Извините, патрулирование воздушными войсками еще не работает."
+msgstr "Игра: Извините, соединение воздушных единиц еще не работает."
 
 #: client/control.c:1741
 msgid "Game: Oh my! You seem to have no capital!"
@@ -7655,19 +7645,18 @@ msgid "* Can establish trade routes.\n"
 msgstr "* Может устанавливать торговые пути.\n"
 
 #: client/helpdata.c:645
-#, fuzzy, c-format
+#, c-format
 msgid "* Can help build wonders (adds %d production).\n"
-msgstr "* Может помогать строить чудеса.\n"
+msgstr "* Может помогать строить чудеса (добавляет %d единиц производства).\n"
 
 #: client/helpdata.c:649
-#, fuzzy
 msgid "* May not be disbanded.\n"
-msgstr "Нельзя распустить %s"
+msgstr "* Нельзя распустить.\n"
 
 #: client/helpdata.c:651
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
-msgstr ""
+msgstr "* Может быть распущен в городе с получением 50%% от стоимости.\n"
 
 #: client/helpdata.c:655
 msgid "* Can build new cities.\n"
@@ -18688,13 +18677,12 @@ msgid "A.Smith's Trading Co."
 msgstr "Koмпaния A.Cмитa"
 
 #: data/default/buildings.ruleset:1410
-#, fuzzy
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
 msgstr ""
-"Здания, обычно требующие 1 золотой на поддержку становятся бесплатными, для "
-"всех городов."
+"Городские улучшения, обычно требующие 1 единицу золота на поддержку, "
+"становятся бесплатными, для всех городов."
 
 #: data/default/buildings.ruleset:1416 data/civ2/buildings.ruleset:1335
 #: data/civ1/buildings.ruleset:991 data/history/buildings.ruleset:1355
@@ -18727,13 +18715,12 @@ msgid "Cure For Cancer"
 msgstr "Лeкapcтвo oт paкa"
 
 #: data/default/buildings.ruleset:1491
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
 msgstr ""
-"Это невероятное открытие делает одного недовольного гражданина нейтральным в "
-"каждом городе."
+"Это невероятное открытие делает одного недовольного гражданина довольным во "
+"всех Ваших городах."
 
 #: data/default/buildings.ruleset:1499 data/civ2/buildings.ruleset:1416
 #: data/civ1/buildings.ruleset:1074 data/history/buildings.ruleset:1438
@@ -18988,13 +18975,12 @@ msgid "Sun Tzu's War Academy"
 msgstr "Вoeннaя aкaдeмия"
 
 #: data/default/buildings.ruleset:2077 data/history/buildings.ruleset:2011
-#, fuzzy
 msgid ""
 "All your new ground units start at the first veteran level. The  chance of a "
 "unit getting the next veteran level after a battle  increases by half."
 msgstr ""
-"Все Ваши новые наземные соединения становятся ветеранами (для всех городов). "
-"Шансы соединения стать ветераном после битвы увеличиваются с 50% до 100%."
+"Все Ваши новые наземные соединения становятся ветеранами первого уровня. Шансы "
+"соединения стать ветераном следующего уровня после битвы увеличиваются на половину."
 
 #: data/default/buildings.ruleset:2084 data/civ2/buildings.ruleset:1995
 #: data/civ1/buildings.ruleset:1518 data/history/buildings.ruleset:2018
@@ -21171,7 +21157,6 @@ msgid "Settlers"
 msgstr "Колонисты"
 
 #: data/default/units.ruleset:222
-#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -21188,17 +21173,18 @@ msgid ""
 "attacks."
 msgstr ""
 "Колонисты - одна из ключевых фигур в игре. При помощи колонистов Вы можете "
-"основывать новые города, строить дороги, орошения, крепости, аэродромы, "
-"шахты, очищать загрязнения. Для содержания колонистов необходимо затрачивать "
+"основывать новые города, строить орошения, дороги, железные дороги, крепости, аэродромы и "
+"шахты, очищать загрязнения и радиоакивные загрязнения. Для содержания колонистов необходимо затрачивать "
 "пищу и продукцию города, и если пищи не хватит, колонисты умрут. \n"
 "\n"
 "Колонисты и инженеры могут работать совместно для ускорения строительства "
-"долгих проектов. Но не ставьте слишком много колонистов или инженеров в одну "
-"клетку на одну работу - третий не поможет сделать работу, если двое сделают "
-"ее за 1 ход. Кроме того, они часто подвергаются атакам."
+"долгих проектов. Если два или более Колониста и/или Инженера вместе делает одну и ту же работу "
+"на одном и том же квадрате, они будут работать вместе, пока не выполнят задание. "
+"Но не ставьте слишком много колонистов или инженеров в одну "
+"клетку на одну работу - третий не будет помогать доделывать работу двум работающим соединениям. "
+"Кроме того, группа Колонистов и/или Инженеров часто подвергается атакам противника."
 
 #: data/default/units.ruleset:266
-#, fuzzy
 msgid ""
 "Workers are one of the key units in the game.  They can be used to irrigate "
 "land, build roads, railroads, fortresses, airbases and mines, and clean up "
@@ -21212,15 +21198,16 @@ msgid ""
 "and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
 "enemy attacks."
 msgstr ""
-"Колонисты - одна из ключевых фигур в игре. При помощи колонистов Вы можете "
-"основывать новые города, строить дороги, орошения, крепости, аэродромы, "
-"шахты, очищать загрязнения. Для содержания колонистов необходимо затрачивать "
-"пищу и продукцию города, и если пищи не хватит, колонисты умрут. \n"
+"Рабочие - одна из ключевых фигур в игре. При помощи рабочих Вы можете "
+"строить орошения, дороги, железные дороги, крепости, аэродромы и "
+"шахты, очищать загрязнения и радиоакивные загрязнения.\n"
 "\n"
-"Колонисты и инженеры могут работать совместно для ускорения строительства "
-"долгих проектов. Но не ставьте слишком много колонистов или инженеров в одну "
-"клетку на одну работу - третий не поможет сделать работу, если двое сделают "
-"ее за 1 ход. Кроме того, они часто подвергаются атакам."
+"Колонисты, Рабочие  и Инженеры могут работать совместно для ускорения строительства "
+"долгих проектов. Если два или более Рабочих и/или Инженера вместе делает одну и ту же работу "
+"на одном и том же квадрате, они будут работать вместе, пока не выполнят задание. "
+"Но не ставьте слишком много рабочих в одну "
+"клетку на одну работу - третий не будет помогать доделывать работу двум работающим соединениям. "
+"Кроме того, группа Рабочих, Колонистов и/или Инженеров часто подвергается атакам противника."
 
 #: data/default/units.ruleset:281 data/civ2/units.ruleset:134
 #: data/civ1/units.ruleset:142 data/history/units.ruleset:207
@@ -21228,7 +21215,6 @@ msgid "Engineers"
 msgstr "Инженеры"
 
 #: data/default/units.ruleset:307
-#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast.  Engineers may also perform major terrain transformations (for "
@@ -21242,8 +21228,8 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
 "upgraded for free."
 msgstr ""
-"Инженеры двигаются и строят вдвое быстрее колонистов, а так же могут "
-"выполнять преобразование ландшафта.\n"
+"Инженеры аналогичны Колонистам, но двигаются и строят вдвое быстрее. Инженеры так же могут "
+"выполнять преобразования ландшафта (например, преобразовывать Тундру в Пустыню).\n"
 "\n"
 "Совет: Модернизируйте колонистов до инженеров как можно быстрее, т.к. они "
 "потребляют пищи столько-же, а работают быстрее.\n"
@@ -22474,9 +22460,8 @@ msgid "?plural:Ethiopians"
 msgstr "?plural:Эфиопы"
 
 #: data/nation/ethiopian.ruleset:14
-#, fuzzy
 msgid "Emporer"
-msgstr "Исследователь"
+msgstr "Император"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -22524,14 +22509,12 @@ msgid "Premier"
 msgstr "Премьер"
 
 #: data/nation/galician.ruleset:3
-#, fuzzy
 msgid "Galician"
-msgstr "Итальянцы"
+msgstr "Галисийцы"
 
 #: data/nation/galician.ruleset:4
-#, fuzzy
 msgid "?plural:Galicians"
-msgstr "Итальянцы"
+msgstr "?plural:Галисийцы"
 
 #: data/nation/galician.ruleset:14
 msgid "Primeiro Ministro"
@@ -22699,12 +22682,10 @@ msgid "Chieftain"
 msgstr "Вождь"
 
 #: data/nation/irish.ruleset:38
-#, fuzzy
 msgid "High King"
 msgstr "Король"
 
 #: data/nation/irish.ruleset:38
-#, fuzzy
 msgid "High Queen"
 msgstr "Королева"
 
@@ -22768,22 +22749,19 @@ msgstr "Сегун"
 
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr ""
+msgstr "Кампучиане"
 
 #: data/nation/kampuchean.ruleset:4
-#, fuzzy
 msgid "?plural:Kampucheans"
-msgstr "Корейцы"
+msgstr "?plural:Кампучиане"
 
 #: data/nation/kampuchean.ruleset:13
-#, fuzzy
 msgid "Brother"
-msgstr "Буры"
+msgstr "Брат"
 
 #: data/nation/kampuchean.ruleset:13
-#, fuzzy
 msgid "Sister"
-msgstr "Истребитель"
+msgstr "Сестра"
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
@@ -22988,17 +22966,15 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr ""
+msgstr "Квебекцы"
 
 #: data/nation/quebecois.ruleset:4
-#, fuzzy
 msgid "?plural:Quebecois"
-msgstr "Шотландцы"
+msgstr "?plural:Квебекцы"
 
 #: data/nation/quebecois.ruleset:14
-#, fuzzy
 msgid "Governor"
-msgstr "Форма правления"
+msgstr "Губернатор"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -23006,7 +22982,7 @@ msgstr "Римляне"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr "Римляне"
+msgstr "?plural:Римляне"
 
 #: data/nation/roman.ruleset:6
 msgid ""
