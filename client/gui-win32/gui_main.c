@@ -196,7 +196,7 @@ static void taxinfoline_minsize(POINT * minsize,void *data)
 **************************************************************************/
 static void indicator_line_minsize(POINT *minsize, void *data)
 {
-  minsize->x=3*SMALL_TILE_WIDTH;
+  minsize->x=4*SMALL_TILE_WIDTH;
   minsize->y=1*SMALL_TILE_HEIGHT;
 }
 /**************************************************************************
@@ -510,7 +510,18 @@ static VOID CALLBACK socket_timer(HWND  hwnd,UINT uMsg,UINT idEvent,DWORD  dwTim
   handle_pipe_and_process();
 } 
 
- 
+/**************************************************************************
+  This pops down every dialog
+**************************************************************************/
+void popdown_everything(void)
+{
+  RECT rc;
+  fcwin_close_all_childs(root_window);
+  GetClientRect(root_window, &rc);
+  InvalidateRect(root_window, &rc, FALSE);
+  UpdateWindow(root_window);
+  InvalidateRect(root_window, &rc, FALSE);
+}
 
 /**************************************************************************
 
