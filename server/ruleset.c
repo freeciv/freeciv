@@ -1872,26 +1872,6 @@ static void load_ruleset_governments(struct section_file *file)
     free(slist);
   } government_iterate_end;
 
-  /* hints: */
-  government_iterate(g) {
-    g->hints = 0;
-    slist = secfile_lookup_str_vec(file, &nval, "%s.hints", sec[g->index]);
-    for(j=0; j<nval; j++) {
-      char *sval = slist[j];
-      enum government_hint_id hint = government_hint_from_str(sval);
-      if (strcmp(sval, "-") == 0) {
-        continue;
-      }
-      if (hint == G_LAST_HINT) {
-        freelog(LOG_FATAL, "government %s has unknown hint %s", g->name, sval);
-        exit(EXIT_FAILURE);
-      } else {
-        g->hints |= (1<<hint);
-      }
-    }
-    free(slist);
-  } government_iterate_end;
-
   /* titles */
   government_iterate(g) {
     int i = g->index;
@@ -1908,24 +1888,6 @@ static void load_ruleset_governments(struct section_file *file)
 	       secfile_lookup_str(file, "%s.ruler_female_title", sec[i]));
   } government_iterate_end;
 
-  /* subgoals: */
-  government_iterate(g) {
-    char *sval;
-    sval = secfile_lookup_str(file, "%s.subgoal", sec[g->index]);
-    if (strcmp(sval, "-")==0) {
-      g->subgoal = -1;
-    } else {
-      struct government *subgov = find_government_by_name(sval);
-      if (!subgov) {
-	freelog(LOG_ERROR, "Bad subgoal government \"%s\" for gov \"%s\" (%s)",
-		sval, g->name, filename);
-      } else {
-	g->subgoal = subgov - governments;
-      }
-    }
-    freelog(LOG_DEBUG, "%s subgoal %d", g->name, g->subgoal);
-  } government_iterate_end;
-    
   /* ai tech_hints: */
   j = -1;
   while((c = secfile_lookup_str_default(file, NULL,
@@ -3057,7 +3019,6 @@ static void send_ruleset_governments(struct conn_list *dest)
     gov.waste_max_distance_cap = g->waste_max_distance_cap;
         
     gov.flags = g->flags;
-    gov.hints = g->hints;
     gov.num_ruler_titles = g->num_ruler_titles;
 
     sz_strlcpy(gov.name, g->name_orig);
