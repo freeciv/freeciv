@@ -793,13 +793,14 @@ static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
 *********************************************************************/
 static bool make_river(int x, int y)
 {
-  /* The comparison values of the 4 tiles surrounding the current
-     tile. It is the suitability to continue a river to that tile that
-     is being compared. Lower is better.                  -Erik Sigra */
-  static int rd_comparison_val[4];
+  /* Comparison value for each tile surrounding the current tile.  It is
+   * the suitability to continue a river to the tile in that direction;
+   * lower is better.  However rivers may only run in cardinal directions;
+   * the other directions are ignored entirely. */
+  int rd_comparison_val[8];
 
-  bool rd_direction_is_valid[4];
-  int num_valid_directions, dir, func_num, direction;
+  bool rd_direction_is_valid[8];
+  int num_valid_directions, func_num, direction;
 
   while (TRUE) {
     /* Mark the current tile as river. */
@@ -822,15 +823,19 @@ static bool make_river(int x, int y)
 
     /* Else choose a direction to continue the river. */
     freelog(LOG_DEBUG,
-	    "The river did not end at (%d, %d). Evaluating directions...\n", x, y);
+	    "The river did not end at (%d, %d). Evaluating directions...\n",
+	    x, y);
 
-    /* Mark all directions as available. */
-    for (dir = 0; dir < 4; dir++)
+    /* Mark all available cardinal directions as available. */
+    memset(rd_direction_is_valid, 0, sizeof(rd_direction_is_valid));
+    cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
       rd_direction_is_valid[dir] = TRUE;
+    } cardinal_adjc_dir_iterate_end;
 
     /* Test series that selects a direction for the river. */
     for (func_num = 0; func_num < NUM_TEST_FUNCTIONS; func_num++) {
       int best_val = -1;
+
       /* first get the tile values for the function */
       cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
 	if (rd_direction_is_valid[dir]) {
@@ -845,13 +850,16 @@ static bool make_river(int x, int y)
       assert(best_val != -1);
 
       /* should we abort? */
-      if (best_val > 0 && test_funcs[func_num].fatal) return FALSE;
+      if (best_val > 0 && test_funcs[func_num].fatal) {
+	return FALSE;
+      }
 
       /* mark the less attractive directions as invalid */
       cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
 	if (rd_direction_is_valid[dir]) {
-	  if (rd_comparison_val[dir] != best_val)
+	  if (rd_comparison_val[dir] != best_val) {
 	    rd_direction_is_valid[dir] = FALSE;
+	  }
 	}
       } cardinal_adjc_dir_iterate_end;
     }
@@ -859,44 +867,36 @@ static bool make_river(int x, int y)
     /* Directions evaluated with all functions. Now choose the best
        direction before going to the next iteration of the while loop */
     num_valid_directions = 0;
-    for (dir = 0; dir < 4; dir++)
-      if (rd_direction_is_valid[dir])
+    cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
+      if (rd_direction_is_valid[dir]) {
 	num_valid_directions++;
+      }
+    } cardinal_adjc_dir_iterate_end;
 
-    switch (num_valid_directions) {
-    case 0:
+    if (num_valid_directions == 0) {
       return FALSE; /* river aborted */
-    case 1:
-      cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
-	if (rd_direction_is_valid[dir]) {
+    }
+
+    /* One or more valid directions: choose randomly. */
+    freelog(LOG_DEBUG, "mapgen.c: Had to let the random number"
+	    " generator select a direction for a river.");
+    direction = myrand(num_valid_directions);
+    freelog(LOG_DEBUG, "mapgen.c: direction: %d", direction);
+
+    /* Find the direction that the random number generator selected. */
+    cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
+      if (rd_direction_is_valid[dir]) {
+	if (direction > 0) {
+	  direction--;
+	} else {
 	  river_blockmark(x, y);
 	  x = x1;
 	  y = y1;
+	  break;
 	}
-      } cardinal_adjc_dir_iterate_end;
-      break;
-    default:
-      /* More than one possible direction; Let the random number
-	 generator select the direction. */
-      freelog(LOG_DEBUG, "mapgen.c: Had to let the random number"
-	      " generator select a direction for a river.");
-      direction = myrand(num_valid_directions - 1);
-      freelog(LOG_DEBUG, "mapgen.c: direction: %d", direction);
-
-      /* Find the direction that the random number generator selected. */
-      cardinal_adjc_dir_iterate(x, y, x1, y1, dir) {
-	if (rd_direction_is_valid[dir]) {
-	  if (direction > 0) direction--;
-	  else {
-	    river_blockmark(x, y);
-	    x = x1;
-	    y = y1;
-	    break;
-	  }
-	}
-      } cardinal_adjc_dir_iterate_end;
-      break;
-    } /* end switch (rd_number_of_directions()) */
+      }
+    } cardinal_adjc_dir_iterate_end;
+    assert(direction == 0);
 
   } /* end while; (Make a river.) */
 }
