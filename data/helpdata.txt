@@ -1054,7 +1054,7 @@ Bridge Building.)  Roads and railroads allow your units to move \
 more quickly, and they increase the resources produced in cities.\
 "), _("\
  - Units use only one third of a movement point when going from one \
-square to an adjecent square, if both squares have a road.\
+square to an adjacent square, if both squares have a road.\
 "), _("\
  - Units expend no movement points when moving along a railroad. \
 You may ride a railroad indefinitely.\
