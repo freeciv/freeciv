@@ -31,13 +31,13 @@
 #define PATCH_VERSION		2
 #endif
 #ifndef VERSION_LABEL
-#define VERSION_LABEL		"-beta2"
+#define VERSION_LABEL		""
 #endif
 #ifndef IS_DEVEL_VERSION
 #define IS_DEVEL_VERSION	0
 #endif
 #ifndef IS_BETA_VERSION
-#define IS_BETA_VERSION		1
+#define IS_BETA_VERSION		0
 #endif
 
 /* This is only used if IS_BETA_VERSION is true. */
