@@ -65,7 +65,7 @@ static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
                || (ai->threats.invasions
                    && is_water_adjacent_to_tile(pcity->x, pcity->y));
 
-  return vulnerable ? 20 : 1; /* WAG */
+  return vulnerable ? TRADE_WEIGHTING + 2 : 1; /* trump coinage, and sam */
 }
 
 /**************************************************************************
@@ -80,7 +80,8 @@ static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
     return 40;
   }
 
-  return ai->threats.sea ? 30 : 1; /* WAG */
+  /* trump coinage, and wall, and sam */
+  return ai->threats.sea ? TRADE_WEIGHTING + 3 : 1;
 }
 
 /**************************************************************************
@@ -103,8 +104,7 @@ static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
                    || is_water_adjacent_to_tile(pcity->x, pcity->y) 
                    || city_got_building(pcity, B_PALACE));
 
-  /* 50 is a magic number inherited from Syela */
-  return vulnerable ? 40 : 1;
+  return vulnerable ? TRADE_WEIGHTING + 1 : 1; /* trump coinage */
 }
 
 /**************************************************************************
@@ -155,8 +155,8 @@ static int ai_eval_threat_missile(struct player *pplayer, struct city *pcity)
                     || city_got_building(pcity, B_PALACE);
 
   /* Only build missile defence if opponent builds them, and we are in
-     a vulnerable spot. FIXME: 10 is a totally arbitrary Syelaism. - Per */
-  return (ai->threats.missile && vulnerable) ? 10 : 1;
+     a vulnerable spot. Trump coinage but not wall or coastal. */
+  return (ai->threats.missile && vulnerable) ? TRADE_WEIGHTING + 1 : 1;
 }
 
 /**************************************************************************
@@ -525,11 +525,7 @@ void ai_eval_buildings(struct city *pcity)
       values[id] = road_trade(pcity) * t;
       break;
     case B_CAPITAL:
-      /* rationale: If cost is N and benefit is N gold per MORT turns, want is
-       * TRADE_WEIGHTING * 100 / MORT. This is comparable, thus the same weight 
-      values[id] = TRADE_WEIGHTING * 999 / MORT; / * trust me * /
-      -- Syela */
-      values[id] = -60 * TRADE_WEIGHTING / MORT; /* want ~50 */
+      values[id] = TRADE_WEIGHTING; /* a kind of default */
       break;
   
     /* unhappiness relief */
@@ -786,11 +782,21 @@ void ai_eval_buildings(struct city *pcity)
       } unit_list_iterate_end;
       break;
     case B_APOLLO:
-      if (game.spacerace) 
-        values[id] = values[B_CAPITAL]+1;
+      if (game.spacerace) {
+        values[id] = values[B_CAPITAL] + 1; /* trump coinage and defenses */
+      }
       break;
-
-    /* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
+    case B_UNITED:
+      values[id] = values[B_CAPITAL] + 4; /* trump coinage and defenses */
+      break;
+    case B_LIGHTHOUSE:
+      values[id] = values[B_CAPITAL] + 4; /* trump coinage and defenses */
+      break;
+    case B_MAGELLAN:
+      values[id] = values[B_CAPITAL] + 4; /* trump coinage and defenses */
+      break;
+    /* also, MAGELLAN is special cased in ai_manage_buildings() */
+    /* ignoring MANHATTAN and STATUE */
     } /* end switch */
   } impr_type_iterate_end;
 
