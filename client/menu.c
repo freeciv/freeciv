@@ -79,6 +79,8 @@ enum MenuID {
   MENU_ORDER_GOTO,
   MENU_ORDER_GOTO_CITY,
   MENU_ORDER_DISBAND,
+  MENU_ORDER_BUILD_WONDER,
+  MENU_ORDER_TRADE_ROUTE,
   MENU_ORDER_DONE,
 
   MENU_REPORT_CITY,
@@ -159,6 +161,8 @@ struct MenuEntry order_menu_entries[]={
     { "Disband Unit        D", MENU_ORDER_DISBAND, 0},
     { "Pillage             P", MENU_ORDER_PILLAGE, 0},
     { "Auto-explore        x", MENU_ORDER_EXPLORE, 0},
+    { "Help Build Wonder   B", MENU_ORDER_BUILD_WONDER, 0},
+    { "Make Trade Route    R", MENU_ORDER_TRADE_ROUTE, 0},
     { "Done              spc", MENU_ORDER_DONE, 0},
     { 0, MENU_END_OF_LIST, 0}
 };
@@ -294,6 +298,10 @@ void update_menus()
       menu_entry_sensitive(orders_menu, MENU_ORDER_WAKEUP, 
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
 				punit->x,punit->y));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_BUILD_WONDER,
+			   unit_can_help_build_wonder_here(punit));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_TRADE_ROUTE,
+			   unit_can_est_traderoute_here(punit));
 
       switch(map_get_tile(punit->x, punit->y)->terrain) {
       case T_ARCTIC:
@@ -497,6 +505,16 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
    case MENU_ORDER_EXPLORE:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_EXPLORE);
+     break;
+   case MENU_ORDER_BUILD_WONDER:
+    if(get_unit_in_focus())
+      request_unit_caravan_action(get_unit_in_focus(),
+				  PACKET_UNIT_HELP_BUILD_WONDER);
+     break;
+   case MENU_ORDER_TRADE_ROUTE:
+    if(get_unit_in_focus())
+      request_unit_caravan_action(get_unit_in_focus(),
+				  PACKET_UNIT_ESTABLISH_TRADE);
      break;
    case MENU_ORDER_DONE:
     if(get_unit_in_focus())

@@ -44,6 +44,7 @@
 #include <menu.h>
 #include <graphics.h>
 #include <colors.h>
+#include <log.h>
 
 extern Display	*display;
 
@@ -317,6 +318,28 @@ void request_unit_auto(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
+void request_unit_caravan_action(struct unit *punit, enum packet_type action)
+{
+  struct packet_unit_request req;
+  struct city *pcity = map_get_city(punit->x, punit->y);
+
+  if (!pcity) return;
+  if (!(action==PACKET_UNIT_ESTABLISH_TRADE
+	||(action==PACKET_UNIT_HELP_BUILD_WONDER))) {
+    freelog(LOG_NORMAL, "Bad action (%d) in request_unit_caravan_action",
+	    action);
+    return;
+  }
+  
+  req.unit_id = punit->id;
+  req.city_id = pcity->id;
+  req.name[0]='\0';
+  send_packet_unit_request(&aconnection, &req, action);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   struct unit *punit=get_unit_in_focus();
@@ -441,8 +464,12 @@ void key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc)
 void key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   struct unit *punit=get_unit_in_focus();
-  if(punit)
+  if (!punit) return;
+  if (unit_flag(punit->type, F_CARAVAN)) {
+    request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
+  } else {
     request_unit_build_city(punit);
+  }
 }
 
 /**************************************************************************
@@ -563,11 +590,18 @@ void key_unit_transform(Widget w, XEvent *event, String *argv, Cardinal *argc)
 **************************************************************************/
 void key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if(get_unit_in_focus()) {
-    if(can_unit_do_activity(punit_focus, ACTIVITY_ROAD))
-      request_new_unit_activity(punit_focus, ACTIVITY_ROAD);
-    else if(can_unit_do_activity(punit_focus, ACTIVITY_RAILROAD))
-      request_new_unit_activity(punit_focus, ACTIVITY_RAILROAD);
+  struct unit *punit=get_unit_in_focus();
+  
+  if (!punit) return;
+
+  if (unit_flag(punit->type, F_CARAVAN)) {
+    request_unit_caravan_action(punit, PACKET_UNIT_ESTABLISH_TRADE);
+  }
+  else {
+    if(can_unit_do_activity(punit, ACTIVITY_ROAD))
+      request_new_unit_activity(punit, ACTIVITY_ROAD);
+    else if(can_unit_do_activity(punit, ACTIVITY_RAILROAD))
+      request_new_unit_activity(punit, ACTIVITY_RAILROAD);
   }
 }
 

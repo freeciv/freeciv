@@ -246,6 +246,8 @@ char *get_unit_name(enum unit_type_id id);
 
 int unit_move_rate(struct unit *punit);
 int unit_can_help_build_wonder(struct unit *punit, struct city *pcity);
+int unit_can_help_build_wonder_here(struct unit *punit);
+int unit_can_est_traderoute_here(struct unit *punit);
 int unit_can_defend_here(struct unit *punit);
 int unit_can_airlift_to(struct unit *punit, struct city *pcity);
 

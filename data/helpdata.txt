@@ -352,6 +352,7 @@ Keyboard:
   A: (A)uto-attack (military units)          space: Unit stay put
   c: (C)enter view on unit                  return: Turn done
   b: (B)uild City
+  B: Help (B)uild Wonder
   D: (D)isband unit
   f: (F)ortify unit
   F: Build (F)ortress on tile
@@ -364,6 +365,7 @@ Keyboard:
   p: clean (p)ollution
   P: (P)illage tile
   r: Build (r)oad/railroad
+  R: Establish trade(R)oute
   s: (S)entry unit
   u: (U)nload boat
   w: (W)ait until later in turn

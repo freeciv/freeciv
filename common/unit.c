@@ -197,12 +197,38 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity)
 **************************************************************************/
 int unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
 {
-  return is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y) &&
+  return unit_flag(punit->type, F_CARAVAN) &&
+    is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y) &&
     punit->owner==pcity->owner && !pcity->is_building_unit  && 
     is_wonder(pcity->currently_building) &&
     (pcity->shield_stock < improvement_value(pcity->currently_building));
 }
 
+
+/**************************************************************************
+...
+**************************************************************************/
+int unit_can_help_build_wonder_here(struct unit *punit)
+{
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  return pcity && unit_can_help_build_wonder(punit, pcity);
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+int unit_can_est_traderoute_here(struct unit *punit)
+{
+  struct city *phomecity, *pdestcity;
+
+  if (!unit_flag(punit->type, F_CARAVAN)) return 0;
+  pdestcity = map_get_city(punit->x, punit->y);
+  if (!pdestcity) return 0;
+  phomecity = find_city_by_id(punit->homecity);
+  if (!phomecity) return 0;
+  return can_establish_trade_route(phomecity, pdestcity);
+}
 
 /**************************************************************************
 ...

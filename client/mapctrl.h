@@ -33,6 +33,8 @@ void request_unit_wakeup(struct unit *punit);
 
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
 
+void request_unit_caravan_action(struct unit *punit, enum packet_type action);
+
 void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void butt_down_wakeup(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void set_unit_focus(struct unit *punit);
