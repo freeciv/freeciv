@@ -436,7 +436,9 @@ void city_remove_improvement(struct city *pcity,Impr_Type_id impr);
 
 /* city update functions */
 void generic_city_refresh(struct city *pcity,
-			  bool refresh_trade_route_cities);
+			  bool refresh_trade_route_cities,
+			  void (*send_unit_info) (struct player * pplayer,
+						  struct unit * punit));
 void adjust_city_free_cost(int *num_free, int *this_cost);
 int city_corruption(struct city *pcity, int trade);
 int city_waste(struct city *pcity, int shields);

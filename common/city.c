@@ -27,6 +27,7 @@
 #include "support.h"
 
 #include "city.h"
+#include "foobalskj"
 
 /* get 'struct city_list' functions: */
 #define SPECLIST_TAG city
@@ -46,7 +47,9 @@ static void citizen_happy_wonders(struct city *pcity);
 static void unhappy_city_check(struct city *pcity);
 static void set_pollution(struct city *pcity);
 static void set_food_trade_shields(struct city *pcity);
-static void city_support(struct city *pcity);
+static void city_support(struct city *pcity,
+			 void (*send_unit_info) (struct player * pplayer,
+						 struct unit * punit));
 /* end helper functions for generic_city_refresh */
 
 static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
@@ -69,9 +72,6 @@ int city_map_iterate_outwards_indices[CITY_TILES][2] =
 };
 
 struct citystyle *city_styles = NULL;
-
-/* from server/unittools.h */
-void send_unit_info(struct player *dest, struct unit *punit);
 
 /**************************************************************************
 ...
@@ -1941,7 +1941,9 @@ static void set_food_trade_shields(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static void city_support(struct city *pcity)
+static void city_support(struct city *pcity, 
+                         void (*send_unit_info) (struct player *pplayer,
+                                                  struct unit *punit))
 {
   struct government *g = get_gov_pcity(pcity);
 
@@ -2063,10 +2065,11 @@ static void city_support(struct city *pcity)
     }
 
     /* Send unit info if anything has changed */
-    if ((this_unit->unhappiness != old_unhappiness
-	 || this_unit->upkeep != old_upkeep
-	 || this_unit->upkeep_food != old_upkeep_food
-	 || this_unit->upkeep_gold != old_upkeep_gold) && is_server) {
+    if (send_unit_info
+        && (this_unit->unhappiness != old_unhappiness
+            || this_unit->upkeep != old_upkeep
+            || this_unit->upkeep_food != old_upkeep_food
+            || this_unit->upkeep_gold != old_upkeep_gold)) {
       send_unit_info(unit_owner(this_unit), this_unit);
     }
   }
@@ -2077,7 +2080,9 @@ static void city_support(struct city *pcity)
 ...
 **************************************************************************/
 void generic_city_refresh(struct city *pcity,
-			  bool refresh_trade_route_cities)
+			  bool refresh_trade_route_cities,
+			  void (*send_unit_info) (struct player * pplayer,
+						  struct unit * punit))
 {
   int prev_tile_trade = pcity->tile_trade;
 
@@ -2088,7 +2093,7 @@ void generic_city_refresh(struct city *pcity,
   set_pollution(pcity);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_happy_buildings(pcity);	/* temple cathedral colosseum */
-  city_support(pcity);		/* manage settlers, and units */
+  city_support(pcity, send_unit_info);	/* manage settlers, and units */
   citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
 
@@ -2099,7 +2104,7 @@ void generic_city_refresh(struct city *pcity,
       struct city *pcity2 = find_city_by_id(pcity->trade[i]);
 
       if (pcity2) {
-	generic_city_refresh(pcity2, FALSE);
+	generic_city_refresh(pcity2, FALSE, send_unit_info);
       }
     }
   }

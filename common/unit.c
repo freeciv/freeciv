@@ -44,6 +44,7 @@ wonder effects --RK
 ***************************************************************/
 int unit_move_rate(struct unit *punit)
 {
+  int x;
   int move_rate = unit_type(punit)->move_rate;
 
   switch (unit_type(punit)->move_type) {

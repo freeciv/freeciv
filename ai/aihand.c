@@ -357,7 +357,7 @@ void ai_best_government(struct player *pplayer)
      * this is a rather big CPU operation, we'd rather not. */
     check_player_government_rates(pplayer);
     city_list_iterate(pplayer->cities, acity) {
-      generic_city_refresh(acity, TRUE);
+      generic_city_refresh(acity, TRUE, NULL);
       auto_arrange_workers(acity);
       if (ai_fix_unhappy(acity)) {
         ai_scientists_taxmen(acity);

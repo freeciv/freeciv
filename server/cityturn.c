@@ -85,7 +85,7 @@ static void advisor_choose_build(struct player *pplayer, struct city *pcity);
 **************************************************************************/
 void city_refresh(struct city *pcity)
 {
-   generic_city_refresh(pcity, TRUE);
+   generic_city_refresh(pcity, TRUE, send_unit_info);
    /* AI would calculate this 1000 times otherwise; better to do it
       once -- Syela */
    pcity->ai.trade_want =

@@ -614,7 +614,7 @@ static void real_fill_out_result(struct city *pcity,
   pcity->ppl_taxman = result->taxmen;
 
   /* Do a local recalculation of the city */
-  generic_city_refresh(pcity, FALSE);
+  generic_city_refresh(pcity, FALSE, NULL);
 
   copy_stats(pcity, result);
 
