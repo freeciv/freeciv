@@ -325,6 +325,16 @@ extern struct tile_type tile_types[T_LAST];
   }                                                                           \
 }
 
+/* iterating y, x for cache efficiency */
+#define whole_map_iterate(WMI_x_itr, WMI_y_itr)                               \
+{                                                                             \
+  int WMI_x_itr, WMI_y_itr;                                                   \
+  for (WMI_y_itr = 0; WMI_y_itr < map.ysize; WMI_y_itr++)                     \
+    for (WMI_x_itr = 0; WMI_x_itr < map.xsize; WMI_x_itr++)
+
+#define whole_map_iterate_end                                                 \
+}
+
 /*
 used to compute neighboring tiles:
 using
