@@ -775,8 +775,12 @@ int handle_unit_enter_hut(struct unit *punit)
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       _("Game: An abandoned village is here."));
     else {
-      ok = unleash_barbarians(pplayer, punit->x, punit->y);
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+      int punit_x, punit_y;
+
+      punit_x = punit->x;
+      punit_y = punit->y;
+      ok = unleash_barbarians(pplayer, punit_x, punit_y);
+      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
 		       ok ?
 		         _("Game: You have unleashed a horde of barbarians!") :
 		         _("Game: Your unit has been killed by barbarians."));
