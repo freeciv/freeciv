@@ -625,7 +625,9 @@ static int river_test_highlands(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_ocean(int x, int y)
 {
-  return 4 - adjacent_ocean_tiles4(x, y);
+  /* This number must always be >= 0.  6 is the maximum number of
+   * cardinal directions. */
+  return 6 - count_ocean_near_tile(x, y, TRUE);
 }
 
 /*********************************************************************
@@ -641,9 +643,8 @@ static int river_test_adjacent_river(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_highlands(int x, int y)
 {
-  return
-    adjacent_terrain_tiles4(x, y, T_HILLS) +
-    2 * adjacent_terrain_tiles4(x, y , T_MOUNTAINS);
+  return (count_terrain_near_tile(x, y, TRUE, T_HILLS)
+	  + 2 * count_terrain_near_tile(x, y, TRUE, T_MOUNTAINS));
 }
 
 /*********************************************************************
@@ -659,7 +660,9 @@ static int river_test_swamp(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_swamp(int x, int y)
 {
-  return 4 - adjacent_terrain_tiles4(x, y, T_SWAMP);
+  /* This number must always be >= 0.  6 is the maximum number of
+   * cardinal directions. */
+  return 6 - count_terrain_near_tile(x, y, TRUE, T_SWAMP);
 }
 
 /*********************************************************************
@@ -817,7 +820,7 @@ static bool make_river(int x, int y)
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
     if (adjacent_river_tiles4(x, y) != 0
-	|| adjacent_ocean_tiles4(x, y) != 0
+	|| count_ocean_near_tile(x, y, TRUE) != 0
         || (map_get_terrain(x, y) == T_ARCTIC 
 	    && map_temperature(x, y) < 8 * MAX_TEMP / 100)) { 
 
@@ -953,43 +956,42 @@ static void make_rivers(void)
      */
     if (
 	/* Don't start a river on ocean. */
-	!is_ocean(map_get_terrain(x, y)) &&
+	!is_ocean(map_get_terrain(x, y))
 
 	/* Don't start a river on river. */
-	!map_has_special(x, y, S_RIVER) &&
+	&& !map_has_special(x, y, S_RIVER)
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
-	adjacent_river_tiles4(x, y) +
-	adjacent_ocean_tiles4(x, y) <= 1 &&
+	&& (adjacent_river_tiles4(x, y)
+	    + count_ocean_near_tile(x, y, TRUE) <= 1)
 
 	/* Don't start a river on a tile that is surrounded by hills or
 	   mountains unless it is hard to find somewhere else to start
 	   it. */
-	(adjacent_terrain_tiles4(x, y, T_HILLS) +
-	 adjacent_terrain_tiles4(x, y, T_MOUNTAINS) < 4 ||
-	 iteration_counter == RIVERS_MAXTRIES/10 * 5) &&
+	&& (count_terrain_near_tile(x, y, TRUE, T_HILLS)
+	    + count_terrain_near_tile(x, y, TRUE, T_MOUNTAINS) < 4
+	    || iteration_counter == RIVERS_MAXTRIES / 10 * 5)
 
 	/* Don't start a river on hills unless it is hard to find
 	   somewhere else to start it. */
-	(map_get_terrain(x, y) != T_HILLS ||
-	 iteration_counter == RIVERS_MAXTRIES/10 * 6) &&
+	&& (map_get_terrain(x, y) != T_HILLS
+	    || iteration_counter == RIVERS_MAXTRIES / 10 * 6)
 
 	/* Don't start a river on mountains unless it is hard to find
 	   somewhere else to start it. */
-	(map_get_terrain(x, y) != T_MOUNTAINS ||
-	 iteration_counter == RIVERS_MAXTRIES/10 * 7) &&
+	&& (map_get_terrain(x, y) != T_MOUNTAINS
+	    || iteration_counter == RIVERS_MAXTRIES / 10 * 7)
 
 	/* Don't start a river on arctic unless it is hard to find
 	   somewhere else to start it. */
-	(map_get_terrain(x, y) != T_ARCTIC ||
-	 iteration_counter == RIVERS_MAXTRIES/10 * 8) &&
+	&& (map_get_terrain(x, y) != T_ARCTIC
+	    || iteration_counter == RIVERS_MAXTRIES / 10 * 8)
 
 	/* Don't start a river on desert unless it is hard to find
 	   somewhere else to start it. */
-	(map_get_terrain(x, y) != T_DESERT ||
-	 iteration_counter == RIVERS_MAXTRIES/10 * 9)){
-
+	&& (map_get_terrain(x, y) != T_DESERT
+	    || iteration_counter == RIVERS_MAXTRIES / 10 * 9)) {
 
       /* Reset river_map before making a new river. */
       for (i = 0; i < map.xsize * map.ysize; i++) {
@@ -1950,31 +1952,34 @@ static void fill_island_rivers(int coast, long int *bucket,
   int x, y, i, k, capac;
   long int failsafe;
 
-  if (*bucket <= 0 ) return;
+  if (*bucket <= 0 ) {
+    return;
+  }
   capac = pstate->totalmass;
   i = *bucket / capac;
   i++;
   *bucket -= i * capac;
 
-  k= i;
+  k = i;
   failsafe = i * (pstate->s - pstate->n) * (pstate->e - pstate->w);
-  if(failsafe<0){ failsafe= -failsafe; }
+  if (failsafe < 0) {
+    failsafe = -failsafe;
+  }
 
   while (i > 0 && (failsafe--) > 0) {
     get_random_map_position_from_state(&x, &y, pstate);
-    if (map_get_continent(x, y) == pstate->isleindex &&
-	not_placed(x, y)) {
+    if (map_get_continent(x, y) == pstate->isleindex
+	&& not_placed(x, y)) {
 
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
-      if ( ( i*3>k*2 
-	     || count_special_near_tile(x, y, S_RIVER) > 0
-	     || myrand(100)<50 
-	     )
-	   &&( !is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast )) {
-	if (is_water_adjacent_to_tile(x, y) &&
-	    count_ocean_near_tile(x, y) < 4 &&
-            count_special_near_tile(x, y, S_RIVER) < 3) {
+      if ((i * 3 > k * 2 
+	   || count_special_near_tile(x, y, S_RIVER) > 0
+	   || myrand(100) < 50)
+	  && (!is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast)) {
+	if (is_water_adjacent_to_tile(x, y)
+	    && count_ocean_near_tile(x, y, FALSE) < 4
+            && count_special_near_tile(x, y, S_RIVER) < 3) {
 	  map_set_special(x, y, S_RIVER);
 	  i--;
 	}
