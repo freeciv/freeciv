@@ -54,4 +54,5 @@ libguiclient_a_SOURCES = \
 	spaceshipdlg.h	\
 	wldlg.c		\
 	wldlg.h		\
-	oog.c
+	chat.c		\
+	chat.h
