@@ -127,12 +127,12 @@ void ai_eval_buildings(struct city *pcity)
   int i, gov, tech, val, a, t, food, j, k, hunger, bar, grana;
   int tax, prod, sci, values[B_LAST];
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
-  struct player *plr = city_owner(pcity);
+  struct player *pplayer = city_owner(pcity);
   int needpower;
   
   a = get_race(city_owner(pcity))->attack;
   t = pcity->ai.trade_want; /* trade_weighting */
-  sci = (pcity->trade_prod * plr->economic.science + 50) / 100;
+  sci = (pcity->trade_prod * pplayer->economic.science + 50) / 100;
   tax = pcity->trade_prod - sci;
 #ifdef STUPID
   sci *= t;
@@ -158,7 +158,7 @@ void ai_eval_buildings(struct city *pcity)
   else hunger = 1;
 
   gov = get_government(pcity->owner);
-  tech = (plr->research.researching != A_NONE);
+  tech = (pplayer->research.researching != A_NONE);
 
   for (i=0;i<B_LAST;i++) {
     values[i]=0;
@@ -178,7 +178,7 @@ void ai_eval_buildings(struct city *pcity)
     values[B_BANK] = tax / 2;
   
   j = 0; k = 0;
-  city_list_iterate(plr->cities, acity)
+  city_list_iterate(pplayer->cities, acity)
     if (acity->is_building_unit) {
       if (!unit_flag(acity->currently_building, F_NONMIL) &&
           unit_types[acity->currently_building].move_type == LAND_MOVING)
@@ -207,6 +207,8 @@ void ai_eval_buildings(struct city *pcity)
 
   if (could_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
+  else if (get_invention(pplayer, A_THEOLOGY) != TECH_KNOWN)
+    values[B_CATHEDRAL] = building_value(4, pcity, val) - building_value(3, pcity, val);
 
 /* old wall code depended on danger, was a CPU hog and didn't really work anyway */
 /* it was so stupid, AI wouldn't start building walls until it was in danger */
@@ -224,6 +226,8 @@ void ai_eval_buildings(struct city *pcity)
 
   if (could_build_improvement(pcity, B_COLOSSEUM))
     values[B_COLOSSEUM] = building_value(get_colosseum_power(pcity), pcity, val);
+  else if (get_invention(pplayer, A_ELECTRICITY) != TECH_KNOWN)
+    values[B_COLOSSEUM] = building_value(4, pcity, val) - building_value(3, pcity, val);
   
   if (could_build_improvement(pcity, B_COURTHOUSE)) {
     values[B_COURTHOUSE] = pcity->corruption * t / 2;
@@ -266,6 +270,9 @@ void ai_eval_buildings(struct city *pcity)
 
   if (could_build_improvement(pcity, B_RESEARCH) && !built_elsewhere(pcity, B_SETI))
     values[B_RESEARCH] = sci / 2;
+
+  if (could_build_improvement(pcity, B_SDI))
+    values[B_SDI] = 50; /* WAG */
   
   if (could_build_improvement(pcity, B_SEWER)) {
     values[B_SEWER] = food * est_food * 12 * game.foodbox /
@@ -292,7 +299,7 @@ void ai_eval_buildings(struct city *pcity)
     values[B_UNIVERSITY] = sci / 2;
 
 /* ignored: AIRPORT, MASS, PALACE, POLICE, PORT, */
-/* RECYCLING, SDI, and any effects of pollution. -- Syela */
+/* RECYCLING, and any effects of pollution. -- Syela */
 /* military advisor will deal with CITY */
 
   for (i = 0; i < B_LAST; i++) {
@@ -308,11 +315,11 @@ void ai_eval_buildings(struct city *pcity)
       if (i == B_CURE)
         values[i] = building_value(1, pcity, val);
       if (i == B_DARWIN) /* this is a one-time boost, not constant */
-        values[i] = (research_time(plr) * 2 + game.techlevel) * t -
-                    plr->research.researched * t - /* Have to time it right */
+        values[i] = (research_time(pplayer) * 2 + game.techlevel) * t -
+                    pplayer->research.researched * t - /* Have to time it right */
                     400 * SHIELD_WEIGHTING; /* rough estimate at best */
       if (i == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
-        values[i] = (research_time(plr) * (100 - game.freecost)) * t / 100 *
+        values[i] = (research_time(pplayer) * (100 - game.freecost)) * t / 100 *
                     (game.nplayers - 2) / (game.nplayers); /* guessing */
 
       if (i == B_WALL && !city_got_citywalls(pcity))
@@ -329,8 +336,8 @@ void ai_eval_buildings(struct city *pcity)
         values[i] = sci;
       if (i == B_LEONARDO) {
         unit_list_iterate(pcity->units_supported, punit)
-          j = can_upgrade_unittype(plr, punit->type);
-          if (j >= 0) values[i] = MAX(values[i], 8 * unit_upgrade_price(plr,
+          j = can_upgrade_unittype(pplayer, punit->type);
+          if (j >= 0) values[i] = MAX(values[i], 8 * unit_upgrade_price(pplayer,
                punit->type, j)); /* this is probably wrong -- Syela */
         unit_list_iterate_end;
       }
@@ -342,7 +349,7 @@ void ai_eval_buildings(struct city *pcity)
         values[i] = building_value(get_cathedral_power(pcity), pcity, val);
       if (i == B_ORACLE) {
         if (city_got_building(pcity, B_TEMPLE)) {
-          if (get_invention(plr, A_MYSTICISM) == TECH_KNOWN)
+          if (get_invention(pplayer, A_MYSTICISM) == TECH_KNOWN)
             values[i] = building_value(2, pcity, val);
           else {
             values[i] = building_value(4, pcity, val) - building_value(1, pcity, val);
@@ -350,7 +357,7 @@ void ai_eval_buildings(struct city *pcity)
 /* The += has nothing to do with oracle, just the tech_Want of mysticism! */
           }
         } else {
-          if (get_invention(plr, A_MYSTICISM) != TECH_KNOWN) {
+          if (get_invention(pplayer, A_MYSTICISM) != TECH_KNOWN) {
             values[i] = building_value(2, pcity, val) - building_value(1, pcity, val);
             values[i] += building_value(2, pcity, val) - building_value(1, pcity, val);
           }
