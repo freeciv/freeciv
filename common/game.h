@@ -262,6 +262,7 @@ enum sset_type {
 };
 
 void game_init(void);
+void game_map_init(void);
 void game_free(void);
 void ruleset_data_free(void);
 

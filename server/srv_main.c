@@ -389,7 +389,7 @@ static void update_environmental_upset(enum tile_special_type cause,
     if (myrand(200) <= *accum) {
       upset_action_fn((map.xsize / 10) + (map.ysize / 10) + ((*accum) * 5));
       *accum = 0;
-      *level+=4;
+      *level += (map_num_tiles() + 999) / 1000;
     }
   }
 

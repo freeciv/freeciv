@@ -982,7 +982,7 @@ static int evaluate_improvements(struct unit *punit,
 	  time = mv_turns
 	    + get_turns_for_activity_at(punit, ACTIVITY_FALLOUT, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_FALLOUT,
-				  pplayer->ai.warmth,
+				  pplayer->ai.frost,
 				  pcity->ai.derad[i][j], oldv, in_use, time,
 				  &best_newv, &best_oldv,
 				  best_act, best_tile,
@@ -1248,10 +1248,21 @@ void auto_settlers_player(struct player *pplayer)
   /* Initialize the infrastructure cache, which is used shortly. */
   initialize_infrastructure_cache(pplayer);
 
-  pplayer->ai.warmth = WARMING_FACTOR * (game.heating > game.warminglevel ? 2 : 1);
+  /* An extra consideration for the benefit of cleaning up pollution/fallout.
+   * This depends heavily on the calculations in update_environmental_upset.
+   * Aside from that it's more or less a WAG that simply grows incredibly
+   * large as an environmental disaster approaches. */
+  pplayer->ai.warmth
+    = (WARMING_FACTOR * game.heating / ((game.warminglevel + 1) / 2)
+       + game.globalwarming);
+  pplayer->ai.frost
+    = (COOLING_FACTOR * game.cooling / ((game.coolinglevel + 1) / 2)
+       + game.nuclearwinter);
 
   freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
 	  pplayer->ai.warmth, game.globalwarming);
+  freelog(LOG_DEBUG, "Frost = %d, game.nuclearwinter=%d",
+	  pplayer->ai.warmth, game.nuclearwinter);
 
   /* Auto-settle with a settler unit if it's under AI control (e.g. human
    * player auto-settler mode) or if the player is an AI.  But don't

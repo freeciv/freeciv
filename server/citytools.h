@@ -29,6 +29,7 @@
  */
 #define POLLUTION_WEIGHTING 14 /* tentative */
 #define WARMING_FACTOR 50
+#define COOLING_FACTOR WARMING_FACTOR
 
 int build_points_left(struct city *pcity);
 int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);

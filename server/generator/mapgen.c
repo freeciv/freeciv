@@ -1125,6 +1125,7 @@ void map_fractal_generate(bool autosize)
   }
 
   assign_continent_numbers(FALSE);
+  game_map_init();
 
   print_mapgen_map();
 }

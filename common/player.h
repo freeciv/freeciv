@@ -140,7 +140,7 @@ struct player_ai {
   int expand;			/* percentage factor to value new cities */
   int science_cost;             /* Cost in bulbs to get new tech, relative
                                    to non-AI players (100: Equal cost) */
-  int warmth; /* threat of global warming */
+  int warmth, frost; /* threat of global warming / nuclear winter */
   enum barbarian_type barbarian_type;
 
   int love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];

@@ -176,9 +176,9 @@ void game_init(void)
   int i;
   game.is_new_game   = TRUE;
   game.globalwarming = 0;
-  game.warminglevel  = 8;
+  game.warminglevel  = 0; /* set later */
   game.nuclearwinter = 0;
-  game.coolinglevel  = 8;
+  game.coolinglevel  = 0; /* set later */
   game.gold          = GAME_DEFAULT_GOLD;
   game.tech          = GAME_DEFAULT_TECHLEVEL;
   game.skill_level   = GAME_DEFAULT_SKILL_LEVEL;
@@ -292,6 +292,20 @@ void game_init(void)
   game.player_idx=0;
   game.player_ptr=&game.players[0];
   terrain_control.river_help_text[0] = '\0';
+}
+
+/****************************************************************************
+  Initialize map-specific parts of the game structure.  Maybe these should
+  be moved into the map structure?
+****************************************************************************/
+void game_map_init(void)
+{
+  /* FIXME: it's not clear where these values should be initialized.  It
+   * can't be done in game_init because the map isn't created yet.  Maybe it
+   * should be done in the mapgen code or in the maphand code.  It should
+   * surely be called when the map is generated. */
+  game.warminglevel = (map_num_tiles() + 499) / 500;
+  game.coolinglevel = (map_num_tiles() + 499) / 500;
 }
 
 /***************************************************************
