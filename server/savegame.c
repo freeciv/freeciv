@@ -294,8 +294,6 @@ static void map_startpos_load(struct section_file *file)
 {
   int i;
 
-  map.fixed_start_positions = secfile_lookup_bool_default(file, FALSE, "map.fixed_start_positions");
-
   for (i = 0; secfile_lookup_int_default(file, -1, "map.r%dsx", i) != -1;
        i++) {
     /* Nothing. */
@@ -412,7 +410,6 @@ static void map_load(struct section_file *file)
     map_startpos_load(file);
   } else {
     map.num_start_positions = 0;
-    map.fixed_start_positions = FALSE;
   }
 
   /* get 4-bit segments of 16-bit "special" field. */
@@ -482,7 +479,6 @@ static void map_save(struct section_file *file)
 
   secfile_insert_bool(file, game.save_options.save_starts, "game.save_starts");
   if (game.save_options.save_starts) {
-    secfile_insert_bool(file, map.fixed_start_positions, "map.fixed_start_positions");
     for (i=0; i<map.num_start_positions; i++) {
       secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
       secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
@@ -2244,7 +2240,6 @@ void game_load(struct section_file *file)
 	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
           map_load(file);
-	  map.fixed_start_positions = TRUE;
           return;
         }
         map_tiles_load(file);
@@ -2253,7 +2248,6 @@ void game_load(struct section_file *file)
 	}
         if (has_capability("startpos",savefile_options)) {
           map_startpos_load(file);
-	  map.fixed_start_positions = TRUE;
           return;
         }
 	return;
