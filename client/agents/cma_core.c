@@ -1821,13 +1821,13 @@ void cma_init(void)
   struct agent self;
 
   freelog(LOG_DEBUG, "sizeof(struct cma_result)=%d",
-	  sizeof(struct cma_result));
+	  (unsigned int) sizeof(struct cma_result));
   freelog(LOG_DEBUG, "sizeof(struct cma_parameter)=%d",
-	  sizeof(struct cma_parameter));
+	  (unsigned int) sizeof(struct cma_parameter));
   freelog(LOG_DEBUG, "sizeof(struct combination)=%d",
-	  sizeof(struct combination));
-  freelog(LOG_DEBUG, "sizeof(cache2)=%d", sizeof(cache2));
-  freelog(LOG_DEBUG, "sizeof(cache3)=%d", sizeof(cache3));
+	  (unsigned int) sizeof(struct combination));
+  freelog(LOG_DEBUG, "sizeof(cache2)=%d", (unsigned int) sizeof(cache2));
+  freelog(LOG_DEBUG, "sizeof(cache3)=%d", (unsigned int) sizeof(cache3));
 
   /* reset cache counters */
   cache1.hits = 0;

@@ -16,7 +16,7 @@
 #include "packets.h"		/* enum report_type */
 #include "game.h"		/* enum client_states */
 
-void handle_packet_input(char *packet, int type);
+void handle_packet_input(void *packet, int type);
 
 void send_unit_info(struct unit *punit);
 void send_move_unit(struct unit *punit);

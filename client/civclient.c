@@ -222,7 +222,7 @@ int main(int argc, char *argv[])
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_packet_input(char *packet, int type)
+void handle_packet_input(void *packet, int type)
 {
   switch(type) {
   case PACKET_JOIN_GAME_REPLY:

@@ -319,7 +319,7 @@ void input_from_server(int fd)
   if (read_from_connection(&aconnection, FALSE) >= 0) {
     enum packet_type type;
     bool result;
-    char *packet;
+    void *packet;
 
     while (TRUE) {
       packet = get_packet_from_connection(&aconnection, &type, &result);
@@ -357,7 +357,7 @@ void input_from_server_till_request_got_processed(int fd,
     if (read_from_connection(&aconnection, TRUE) >= 0) {
       enum packet_type type;
       bool result;
-      char *packet;
+      void *packet;
 
       while (TRUE) {
 	packet = get_packet_from_connection(&aconnection, &type, &result);

@@ -20,6 +20,7 @@
 #define FC__ASTRING_H
 
 #include <stddef.h>		/* size_t */
+#include "shared.h"		/* ADD_TO_POINTER */
 
 struct astring {
   char *str;			/* the string */
@@ -50,6 +51,6 @@ void ath_free(struct athing *ath);
 
 /* Returns a pointer to the nth (0-based) element in the given athing. Does
    no boundary or pointer checking */
-#define ath_get(ath,n) ((char *)((ath)->ptr)+(ath)->size*(n))
+#define ath_get(ath,n) ADD_TO_POINTER((ath)->ptr, (ath)->size*(n))
 
 #endif  /* FC__ASTRING_H */

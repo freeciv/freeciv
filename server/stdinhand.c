@@ -3190,7 +3190,7 @@ static void show_help_command(struct connection *caller,
     size_t synlen = strlen(syn);
     char prefix[40];
 
-    my_snprintf(prefix, sizeof(prefix), "%*s", synlen, " ");
+    my_snprintf(prefix, sizeof(prefix), "%*s", (int) synlen, " ");
     cmd_reply_prefix(help_cmd, caller, C_COMMENT, prefix,
 		     "%s%s", syn, _(cmd->synopsis));
   }

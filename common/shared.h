@@ -72,6 +72,7 @@ typedef int bool;
 #define MAX_UINT32 0xFFFFFFFF
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+#define ADD_TO_POINTER(p, n) ((void *)((char *)(p)+(n)))
 
 char *create_centered_string(char *s);
 

@@ -93,7 +93,7 @@ static void recycle_continent_num(int cont)
   recyc_ptr = recyc_conts.ptr;
   recyc_ptr[recyc_conts.n-1] = cont;
   freelog(LOG_DEBUG, "clicont: recycling %d (max %d recyc %d)",
-	  cont, max_cont_used, recyc_conts.n);
+	  cont, max_cont_used, (unsigned int)recyc_conts.n);
 }
 
 /**************************************************************************
@@ -112,7 +112,7 @@ static int new_continent_num(void)
     update_island_impr_effect(max_cont_used-1, max_cont_used);
   }
   freelog(LOG_DEBUG, "clicont: new %d (max %d, recyc %d)",
-	  ret, max_cont_used, recyc_conts.n);
+	  ret, max_cont_used, (unsigned int)recyc_conts.n);
   return ret;
 }
 

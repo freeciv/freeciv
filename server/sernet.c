@@ -543,7 +543,7 @@ int sniff_packets(void)
   	struct connection *pconn = &connections[i];
 	if(pconn->used && FD_ISSET(pconn->sock, &readfs)) {
 	  if(read_socket_data(pconn->sock, pconn->buffer)>=0) {
-	    char *packet;
+	    void *packet;
 	    enum packet_type type;
 	    bool result;
 

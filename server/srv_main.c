@@ -601,7 +601,7 @@ int get_next_id_number(void)
 Returns 0 if connection should be closed (because the clients was
 rejected). Returns 1 else.
 **************************************************************************/
-bool handle_packet_input(struct connection *pconn, char *packet, int type)
+bool handle_packet_input(struct connection *pconn, void *packet, int type)
 {
   struct player *pplayer;
 

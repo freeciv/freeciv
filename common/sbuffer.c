@@ -34,13 +34,15 @@ sbuffer: ("string buffer")
 #include <string.h>
 
 #include "mem.h"
+#include "shared.h"
+
 #include "sbuffer.h"
 
 /* default buffer size: */
 #define SBUF_DEFAULT_SIZE (64*1024)
 
 struct sbuffer {
-  char *buffer;
+  void *buffer;
   int size;
   int offset;
 
@@ -72,12 +74,12 @@ struct aligner {
 **************************************************************************/
 static void sbuf_expand(struct sbuffer *sb)
 {
-  char *prev_buffer;
+  void *prev_buffer;
 
   assert(sb && (sb->size>0));
   
   prev_buffer = sb->buffer;
-  sb->buffer = (char *)fc_malloc(sb->size);
+  sb->buffer = fc_malloc(sb->size);
 
   /* store pointer to previous buffer: */
   *(char **)(sb->buffer) = (char*)prev_buffer;
@@ -131,7 +133,7 @@ struct sbuffer *sbuf_new_size(size_t size)
 **************************************************************************/
 void *sbuf_malloc(struct sbuffer *sb, size_t size)
 {
-  char *ret;
+  void *ret;
   
   assert(sb && sb->buffer && (sb->size>0) && (sb->offset>0));
   assert(size > 0 && size <= (sb->size-SBUF_ALIGN_SIZE));
@@ -145,7 +147,7 @@ void *sbuf_malloc(struct sbuffer *sb, size_t size)
     assert(size <= (sb->size - sb->offset));
   }
 
-  ret = sb->buffer + sb->offset;
+  ret = ADD_TO_POINTER(sb->buffer, sb->offset);
   sb->offset += size;
   return ret;
 }
@@ -155,7 +157,7 @@ void *sbuf_malloc(struct sbuffer *sb, size_t size)
 **************************************************************************/
 char *sbuf_strdup(struct sbuffer *sb, const char *str)
 {
-  int size = strlen(str)+1;
+  size_t size = strlen(str)+1;
   char *ret;
   
   assert(sb && sb->buffer && (sb->size>0) && (sb->offset>0));
@@ -166,7 +168,7 @@ char *sbuf_strdup(struct sbuffer *sb, const char *str)
     sbuf_expand(sb);
     assert(size <= (sb->size - sb->offset));
   }
-  ret = sb->buffer + sb->offset;
+  ret = ADD_TO_POINTER(sb->buffer, sb->offset);
   memcpy(ret, str, size);	/* includes null-terminator */
   sb->offset += size;
   return ret;
@@ -178,12 +180,10 @@ char *sbuf_strdup(struct sbuffer *sb, const char *str)
 **************************************************************************/
 void sbuf_free(struct sbuffer *sb)
 {
-  char *next;
-
   assert(sb && sb->buffer);
   
   do {
-    next = *(char **)sb->buffer;
+    void *next = *(char **)sb->buffer;
     free(sb->buffer);
     sb->buffer = next;
   } while(sb->buffer);

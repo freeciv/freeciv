@@ -75,7 +75,8 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
   int preamble_length, header_length, body_length, total_length, i,
       current_body_offset, entries = hash_num_entries(hash);
   size_t key_size = sizeof(struct attr_key);
-  char *result, *body;
+  void *result;
+  char *body;
   int *value_lengths, *header, *preamble;
 
   value_lengths = fc_malloc(sizeof(int) * entries);
@@ -115,7 +116,7 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
   /*
    * Step 5: fill out the header
    */
-  header = (int *)(result + preamble_length);
+  header = (int *)(ADD_TO_POINTER(result, preamble_length));
   current_body_offset = 0;
 
   for (i = 0; i < entries; i++) {
@@ -134,7 +135,7 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
   /*
    * Step 6: fill out the body.
    */
-  body = result + preamble_length + header_length;
+  body = ADD_TO_POINTER(result, preamble_length + header_length);
   for (i = 0; i < entries; i++) {
     const void *pkey = hash_key_by_number(hash, i);
     const void *pvalue = hash_value_by_number(hash, i);
@@ -158,7 +159,7 @@ static void serialize_hash(struct hash_table *hash, void **pdata,
 /****************************************************************************
 ...
 *****************************************************************************/
-static void unserialize_hash(struct hash_table *hash, char *data,
+static void unserialize_hash(struct hash_table *hash, void *data,
 			     size_t data_length)
 {
   int *preamble, *header;
@@ -172,12 +173,12 @@ static void unserialize_hash(struct hash_table *hash, char *data,
   assert(preamble[1] == data_length);
 
   freelog(LOG_DEBUG, "try to unserialized %d entries from %d bytes",
-	  entries, data_length);
+	  entries, (unsigned int) data_length);
   preamble_length = 2 * sizeof(int);
   header_length = entries * sizeof(int) * 4;
 
-  header = (int *)(data + preamble_length);
-  body = data + preamble_length + header_length;
+  header = (int *)(ADD_TO_POINTER(data, preamble_length));
+  body = ADD_TO_POINTER(data, preamble_length + header_length);
 
   for (i = 0; i < entries; i++) {
     void *pkey = fc_malloc(header[0]);
@@ -244,7 +245,8 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   void *pvalue = NULL;
 
   freelog(ATTRIBUTE_LOG_LEVEL, "attribute_set(key=%d, id=%d, x=%d, y=%d, "
-	  "data_length=%d, data=%p)", key, id, x, y, data_length, data);
+	  "data_length=%d, data=%p)", key, id, x, y,
+	  (unsigned int) data_length, data);
 
   assert(attribute_hash != NULL);
 
@@ -285,8 +287,8 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
   int length;
 
   freelog(ATTRIBUTE_LOG_LEVEL, "attribute_get(key=%d, id=%d, x=%d, y=%d, "
-	  "max_data_length=%d, data=%p)", key, id, x, y, max_data_length,
-	  data);
+	  "max_data_length=%d, data=%p)", key, id, x, y,
+	  (unsigned int) max_data_length, data);
 
   assert(attribute_hash != NULL);
 
@@ -313,7 +315,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
           "\"attribute_block_\" may alleviate the problem (though you will " 
           "lose some non-critical client data). If you still encounter this, "
           "submit a bug report to <freeciv-dev@freeciv.org>", 
-          max_data_length, length);
+          (unsigned int) max_data_length, length);
 
     exit(EXIT_FAILURE);
   }

@@ -444,7 +444,8 @@ static bool section_file_load_dup(struct section_file *sf,
 		       base_name.n + 20 +  columns[columns_tab.n-1].n);
 	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
 		      base_name.str, table_lineno,
-		      columns[columns_tab.n-1].str, i-columns_tab.n+1);
+		      columns[columns_tab.n - 1].str,
+		      (int) (i - columns_tab.n + 1));
 	}
 	pentry = new_entry(sb, entry_name.str, tok);
 	entry_list_insert_back(&psection->entries, pentry);
