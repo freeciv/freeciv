@@ -563,6 +563,7 @@ int enemies_at(struct unit *punit, int x, int y)
   for (j = y - 1; j <= y + 1; j++) {
     if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
+      if (same_pos(i, j, x, y)) continue; /* after some contemplation */
       if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) continue;
       if (is_enemy_city_tile(i, j, punit->owner)) return 1;
       unit_list_iterate(map_get_tile(i, j)->units, enemy)
