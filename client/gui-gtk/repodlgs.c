@@ -71,7 +71,7 @@ void economy_list_ucallback(GtkWidget *w, gint row, gint column);
 int economy_improvement_type[B_LAST];
 
 GtkWidget *economy_dialog_shell=NULL;
-GtkWidget *economy_label, *economy_label2;
+GtkWidget *economy_label2;
 GtkWidget *economy_list, *economy_list_label;
 GtkWidget *sellall_command, *sellobsolete_command;
 int economy_dialog_shell_is_modal;
@@ -86,7 +86,7 @@ void activeunits_list_ucallback(GtkWidget *w, gint row, gint column);
 int activeunits_type[U_LAST];
 
 GtkWidget *activeunits_dialog_shell=NULL;
-GtkWidget *activeunits_label, *activeunits_label2;
+GtkWidget *activeunits_label2;
 GtkWidget *activeunits_list, *activeunits_list_label;
 GtkWidget *upgrade_command;
 
@@ -123,25 +123,6 @@ void update_report_dialogs(void)
   science_dialog_update();
 }
 
-/****************************************************************
-...
-****************************************************************/
-char *get_report_title(char *report_name)
-{
-  static char buf[512];
-
-  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
-	  report_name,
-	  get_government_name(game.player_ptr->government),
-	  get_nation_name_plural(game.player_ptr->nation),
-	  get_ruler_title(game.player_ptr->government,
-			  game.player_ptr->is_male, game.player_ptr->nation),
-	  game.player_ptr->name,
-	  textyear(game.year));
-
-  return buf;
-}
-
 
 /****************************************************************
 ...
@@ -168,11 +149,10 @@ void popup_science_dialog(int make_modal)
 void create_science_dialog(int make_modal)
 {
   GtkWidget *close_command;
-  char *report_title;
   GtkWidget *frame, *hbox, *w;
   GtkAccelGroup *accel=gtk_accel_group_new();
   int i;
-  char text[512], rate[128];
+  char text[512];
 
   science_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(science_dialog_shell),"delete_event",
@@ -181,11 +161,8 @@ void create_science_dialog(int make_modal)
 
   gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science"));
 
-  report_title=get_report_title(_("Science"));
-  sz_strlcpy(text, report_title);
-  my_snprintf(rate, sizeof(rate), _("\n(%d turns/advance)"),
+  my_snprintf(text, sizeof(text), _("Research speed: %d turns/advance"),
 	      tech_turns_to_advance(game.player_ptr));
-  sz_strlcat(text, rate);
   science_label = gtk_label_new(text);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
@@ -390,20 +367,17 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 void science_dialog_update(void)
 {
   if(science_dialog_shell) {
-  char text[512], rate[128];
+  char text[512];
   int i, j, hist;
-  char *report_title;
   static char *row	[1];
   GtkWidget *item;
   GList *sorting_list = NULL;
   gfloat pct;
 
   if(delay_report_update) return;
-  report_title=get_report_title(_("Science"));
-  sz_strlcpy(text, report_title);
-  my_snprintf(rate, sizeof(rate), _("\n(%d turns/advance)"),
+
+  my_snprintf(text, sizeof(text), _("Research speed: %d turns/advance"),
 	      tech_turns_to_advance(game.player_ptr));
-  sz_strlcat(text, rate);
   gtk_set_label(science_label, text);
 
   for (i=0; i<4; i++) {
@@ -577,7 +551,6 @@ void popup_economy_report_dialog(int make_modal)
 void create_economy_report_dialog(int make_modal)
 {
   GtkWidget *close_command, *scrolled;
-  char *report_title;
   static gchar *titles_[4] = { N_("Building Name"), N_("Count"),
 			      N_("Cost"), N_("U Total") };
   static gchar **titles;
@@ -592,11 +565,6 @@ void create_economy_report_dialog(int make_modal)
   gtk_accel_group_attach(accel, GTK_OBJECT(economy_dialog_shell));
 
   gtk_window_set_title(GTK_WINDOW(economy_dialog_shell),_("Economy"));
-
-  report_title=get_report_title(_("Economy"));
-  economy_label = gtk_label_new(report_title);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->vbox ),
-        economy_label, FALSE, FALSE, 0 );
 
   economy_list = gtk_clist_new_with_titles( 4, titles );
   gtk_clist_column_titles_passive(GTK_CLIST(economy_list));
@@ -747,7 +715,6 @@ void economy_report_dialog_update(void)
   if(delay_report_update) return;
   if(economy_dialog_shell) {
     int j, k, count, tax, cost, total;
-    char  *report_title;
     char   buf0 [64];
     char   buf1 [64];
     char   buf2 [64];
@@ -756,9 +723,6 @@ void economy_report_dialog_update(void)
     char economy_total[48];
     struct city *pcity;
     
-    report_title=get_report_title(_("Economy"));
-    gtk_set_label(economy_label, report_title);
-
     gtk_clist_freeze(GTK_CLIST(economy_list));
     gtk_clist_clear(GTK_CLIST(economy_list));
 
@@ -841,7 +805,6 @@ void popup_activeunits_report_dialog(int make_modal)
 void create_activeunits_report_dialog(int make_modal)
 {
   GtkWidget *close_command, *refresh_command;
-  char *report_title;
   static gchar *titles_[AU_COL]
     = { N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
 	N_("Shield"), N_("Food") };
@@ -857,11 +820,6 @@ void create_activeunits_report_dialog(int make_modal)
   gtk_accel_group_attach(accel, GTK_OBJECT(activeunits_dialog_shell));
 
   gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),_("Units"));
-
-  report_title=get_report_title(_("Units"));
-  activeunits_label = gtk_label_new(report_title);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
-        activeunits_label, FALSE, FALSE, 0 );
 
   activeunits_list = gtk_clist_new_with_titles( AU_COL, titles );
   gtk_clist_column_titles_passive(GTK_CLIST(activeunits_list));
@@ -1023,13 +981,9 @@ void activeunits_report_dialog_update(void)
     int    i, k, can;
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;
-    char  *report_title;
     char   activeunits_total[100];
     gchar *row[AU_COL];
     char   buf[AU_COL][64];
-
-    report_title=get_report_title(_("Units"));
-    gtk_set_label(activeunits_label, report_title);
 
     gtk_clist_freeze(GTK_CLIST(activeunits_list));
     gtk_clist_clear(GTK_CLIST(activeunits_list));

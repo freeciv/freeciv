@@ -71,7 +71,6 @@ static gboolean city_select_callback(GtkWidget *w, GdkEvent *event, gpointer dat
 static void city_report_list_callback(GtkWidget *w, gint row, gint col, GdkEvent *ev, gpointer data);
 
 static GtkWidget *city_dialog_shell=NULL;
-static GtkWidget *city_label;
 static GtkWidget *city_list;
 static GtkWidget *city_center_command, *city_popup_command, *city_buy_command,
   *city_refresh_command, *city_config_command;
@@ -423,7 +422,6 @@ static void create_city_report_dialog(int make_modal)
   static char  buf	[NUM_CREPORT_COLS][64];
 
   GtkWidget *close_command, *scrolled;
-  char      *report_title;
   int        i;
   GtkAccelGroup *accel=gtk_accel_group_new();
   
@@ -433,12 +431,6 @@ static void create_city_report_dialog(int make_modal)
   gtk_accel_group_attach(accel, GTK_OBJECT(city_dialog_shell));
 
   gtk_window_set_title(GTK_WINDOW(city_dialog_shell),_("Cities"));
-
-  report_title=get_report_title(_("Cities"));
-  city_label = gtk_label_new(report_title);
-
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->vbox ),
-        city_label, FALSE, FALSE, 0 );
 
   for (i=0;i<NUM_CREPORT_COLS;i++)
     titles[i]=buf[i];
@@ -1152,14 +1144,10 @@ void city_report_dialog_update(void)
     char *row	[NUM_CREPORT_COLS];
     char  buf	[NUM_CREPORT_COLS][64];
     int   i;
-    char *report_title;
     struct city_report_spec *spec;
 
   if(delay_report_update) return;
   if(!city_dialog_shell) return;
-
-    report_title=get_report_title(_("Cities"));
-    gtk_set_label(city_label, report_title);
 
     for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
     {
