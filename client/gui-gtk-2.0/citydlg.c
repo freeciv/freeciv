@@ -2393,7 +2393,7 @@ static void buy_callback(GtkWidget *w, gpointer data)
         _("Buy %s for %d gold?\nTreasury contains %d gold."),
         name, value, game.player_ptr->economic.gold);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
-    gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
+    gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
 
     if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
       struct packet_city_request packet;
