@@ -54,102 +54,120 @@
 #include "savegame.h"
 
 /* 
- * This loops over the entire map to save data. It collects all the
- * data of a line using get_xy_char and then executes the
- * secfile_insert_line code. The macro provides the variables x and y
- * and line. Parameter:
- * - get_xy_char: code that returns the character for each (x, y)
- * coordinate.
- *  - secfile_insert_line: code which is executed every time a line is
- *  processed
+ * This loops over the entire map to save data. It collects all the data of
+ * a line using GET_XY_CHAR and then executes the macro SECFILE_INSERT_LINE.
+ * Internal variables map_x, map_y, nat_x, nat_y, and line are allocated
+ * within the macro but definable by the caller of the macro.
+ *
+ * Parameters:
+ *   line: buffer variable to hold a line of chars
+ *   map_x, map_y: variables for internal map coordinates
+ *   nat_x, nat_y: variables for output/native coordinates
+ *   GET_XY_CHAR: macro returning the map character for each position
+ *   SECFILE_INSERT_LINE: macro to output each processed line (line nat_y)
+ *
+ * Note: don't use this macro DIRECTLY, use 
+ * SAVE_NORMAL_MAP_DATA or SAVE_PLAYER_MAP_DATA instead.
  */
-
-#define SAVE_MAP_DATA(get_xy_char, secfile_insert_line) \
-{                                                       \
-  char *line = fc_malloc(map.xsize + 1);                \
-  int x, y;                                             \
-                                                        \
-  for (y = 0; y < map.ysize; y++) {                     \
-    for (x = 0; x < map.xsize; x++) {                   \
-      if (regular_map_pos_is_normal(x, y)) {            \
-	line[x] = get_xy_char;                          \
-        if(!my_isprint(line[x] & 0x7f)) {               \
-          die("Trying to write invalid map "            \
-              "data: '%c' %d", line[x], line[x]);       \
-        }                                               \
-      } else {                                          \
-        /* skipped over in loading */                   \
-	line[x] = '#';                                  \
-      }                                                 \
-    }                                                   \
-    line[map.xsize] = '\0';                             \
-    secfile_insert_line;                                \
-  }                                                     \
-  free(line);                                           \
+#define SAVE_MAP_DATA(map_x, map_y, nat_x, nat_y, line,                     \
+                      GET_XY_CHAR, SECFILE_INSERT_LINE)                     \
+{                                                                           \
+  char *line = fc_malloc(map.xsize + 1);                                    \
+  int nat_x, nat_y, map_x, map_y;                                           \
+                                                                            \
+  for (nat_y = 0; nat_y < map.ysize; nat_y++) {                             \
+    for (nat_x = 0; nat_x < map.xsize; nat_x++) {                           \
+      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);                      \
+      line[nat_x] = (GET_XY_CHAR);                                          \
+      if (!my_isprint(line[nat_x] & 0x7f)) {                                \
+          die("Trying to write invalid map "                                \
+              "data: '%c' %d", line[nat_x], line[nat_x]);                   \
+      }                                                                     \
+    }                                                                       \
+    line[map.xsize] = '\0';                                                 \
+    (SECFILE_INSERT_LINE);                                                  \
+  }                                                                         \
+  free(line);                                                               \
 }
 
-#define SAVE_NORMAL_MAP_DATA(secfile, get_xy_char, secfile_name)          \
-	SAVE_MAP_DATA(get_xy_char,                                        \
-		      secfile_insert_str(secfile, line, secfile_name, y))
+/*
+ * Wrappers for SAVE_MAP_DATA.
+ *
+ * SAVE_NORMAL_MAP_DATA saves a standard line of map data.
+ *
+ * SAVE_PLAYER_MAP_DATA saves a line of map data from a playermap.
+ */
+#define SAVE_NORMAL_MAP_DATA(map_x, map_y, secfile, secname, GET_XY_CHAR)   \
+  SAVE_MAP_DATA(map_x, map_y, _nat_x, _nat_y, _line, GET_XY_CHAR,           \
+		secfile_insert_str(secfile, _line, secname, _nat_y))
 
-#define SAVE_PLAYER_MAP_DATA(secfile, get_xy_char, secfile_name, plrno)   \
-	SAVE_MAP_DATA(get_xy_char,                                        \
-		      secfile_insert_str(secfile, line, secfile_name,     \
-					 plrno, y))
+#define SAVE_PLAYER_MAP_DATA(map_x, map_y, secfile, secname, plrno,         \
+			     GET_XY_CHAR)                                   \
+  SAVE_MAP_DATA(map_x, map_y, _nat_x, _nat_y, _line, GET_XY_CHAR,           \
+		secfile_insert_str(secfile, _line, secname, plrno, _nat_y))
 
-/* This loops over the entire map to load data. It loads all the data
- * of a line using secfile_lookup_line and then executes the
- * set_xy_char code for every position in that line. The macro
- * provides the variables x and y and ch (ch is the current character
- * of the line). Parameters:
- * - set_xy_char: code that sets the character for each (x, y)
- * coordinate.
- *  - secfile_lookup_line: code which is executed every time a line is
- *  processed; it returns a char* for the line */
-
-/* Note: some (but not all) of the code this is replacing used to
+/*
+ * This loops over the entire map to load data. It inputs a line of data
+ * using the macro SECFILE_LOOKUP_LINE and then loops using the macro
+ * SET_XY_CHAR to load each char into the map at (map_x, map_y).  Internal
+ * variables ch, map_x, map_y, nat_x, and nat_y are allocated within the
+ * macro but definable by the caller.
+ *
+ * Parameters:
+ *   ch: a variable to hold a char (data for a single position)
+ *   map_x, map_y: variables for internal map coordinates
+ *   nat_x, nat_y: variables for output/native coordinates
+ *   SET_XY_CHAR: macro to load the map character at each (map_x, map_y)
+ *   SECFILE_LOOKUP_LINE: macro to input the nat_y line for processing
+ *
+ * Note: some (but not all) of the code this is replacing used to
  * skip over lines that did not exist.  This allowed for
  * backward-compatibility.  We could add another parameter that
  * specified whether it was OK to skip the data, but there's not
  * really much advantage to exiting early in this case.  Instead,
  * we let any map data type to be empty, and just print an
- * informative warning message about it. */
-
-#define LOAD_MAP_DATA(secfile_lookup_line, set_xy_char)                       \
-{                                                                             \
-  int y;                                                                      \
-  bool warning_printed = FALSE;                                               \
-  for (y = 0; y < map.ysize; y++) {                                           \
-    char *line = secfile_lookup_line;                                         \
-    int x;                                                                    \
-    if (!line || strlen(line) != map.xsize) {                                 \
-      if(!warning_printed) {                                                  \
-        freelog(LOG_ERROR, _("The save file contains incomplete "             \
-                "map data.  This can happen with old saved "                  \
-                "games, or it may indicate an invalid saved "                 \
-                "game file.  Proceed at your own risk."));                    \
-        if(!line) {                                                           \
-          freelog(LOG_ERROR, _("Reason: line not found"));                    \
-        } else {                                                              \
-          freelog(LOG_ERROR, _("Reason: line too short "                      \
-                  "(expected %d got %lu"), map.xsize,                         \
-                  (unsigned long) strlen(line));                              \
-        }                                                                     \
-        freelog(LOG_ERROR, "secfile_lookup_line='%s'",                        \
-                #secfile_lookup_line);                                        \
-        warning_printed = TRUE;                                               \
-      }                                                                       \
-      continue;                                                               \
-    }                                                                         \
-    for(x = 0; x < map.xsize; x++) {                                          \
-      char ch = line[x];                                                      \
-      if (regular_map_pos_is_normal(x, y)) {                                  \
-        set_xy_char;                                                          \
-      } else {                                                                \
-        assert(ch == '#');                                                    \
-      }                                                                       \
-    }                                                                         \
-  }                                                                           \
+ * informative warning message about it.
+ */
+#define LOAD_MAP_DATA(ch, map_x, map_y, nat_x, nat_y,                       \
+		      SECFILE_LOOKUP_LINE, SET_XY_CHAR)                     \
+{                                                                           \
+  int nat_x, nat_y;                                                         \
+                                                                            \
+  bool _warning_printed = FALSE;                                            \
+  for (nat_y = 0; nat_y < map.ysize; nat_y++) {                             \
+    const char *_line = (SECFILE_LOOKUP_LINE);                              \
+                                                                            \
+    if (!_line || strlen(_line) != map.xsize) {                             \
+      if (!_warning_printed) {                                              \
+        /* TRANS: Error message. */                                         \
+        freelog(LOG_ERROR, _("The save file contains incomplete "           \
+                "map data.  This can happen with old saved "                \
+                "games, or it may indicate an invalid saved "               \
+                "game file.  Proceed at your own risk."));                  \
+        if(!_line) {                                                        \
+          /* TRANS: Error message. */                                       \
+          freelog(LOG_ERROR, _("Reason: line not found"));                  \
+        } else {                                                            \
+          /* TRANS: Error message. */                                       \
+          freelog(LOG_ERROR, _("Reason: line too short "                    \
+                  "(expected %d got %lu"), map.xsize,                       \
+                  (unsigned long) strlen(_line));                           \
+        }                                                                   \
+        /* Do not translate.. */                                            \
+        freelog(LOG_ERROR, "secfile_lookup_line='%s'",                      \
+                #SECFILE_LOOKUP_LINE);                                      \
+        _warning_printed = TRUE;                                            \
+      }                                                                     \
+      continue;                                                             \
+    }                                                                       \
+    for (nat_x = 0; nat_x < map.xsize; nat_x++) {                           \
+      int map_x, map_y;                                                     \
+      const char ch = _line[nat_x];                                         \
+                                                                            \
+      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);                      \
+      (SET_XY_CHAR);                                                        \
+    }                                                                       \
+  }                                                                         \
 }
 
 /* The following should be removed when compatibility with
@@ -315,7 +333,8 @@ static void map_tiles_load(struct section_file *file)
   map_allocate();
 
   /* get the terrain type */
-  LOAD_MAP_DATA(secfile_lookup_str(file, "map.t%03d", y),
+  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		secfile_lookup_str(file, "map.t%03d", nat_y),
 		map_get_tile(x, y)->terrain = char2terrain(ch));
 
   assign_continent_numbers();
@@ -334,7 +353,8 @@ static void map_rivers_overlay_load(struct section_file *file)
 {
   /* Get the bits of the special flags which contain the river special
      and extract the rivers overlay from them. */
-  LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.n%03d", y),
+  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		secfile_lookup_str_default(file, NULL, "map.n%03d", nat_y),
 		map_get_tile(x, y)->special |=
 		(ascii_hex2bin(ch, 2) & S_RIVER));
   map.have_rivers_overlay = TRUE;
@@ -362,37 +382,49 @@ static void map_load(struct section_file *file)
   }
 
   /* get 4-bit segments of 16-bit "special" field. */
-  LOAD_MAP_DATA(secfile_lookup_str(file, "map.l%03d", y),
+  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		secfile_lookup_str(file, "map.l%03d", nat_y),
 		map_get_tile(x, y)->special = ascii_hex2bin(ch, 0));
-  LOAD_MAP_DATA(secfile_lookup_str(file, "map.u%03d", y),
+  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		secfile_lookup_str(file, "map.u%03d", nat_y),
 		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 1));
-  LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.n%03d", y),
+  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		secfile_lookup_str_default(file, NULL, "map.n%03d", nat_y),
 		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 2));
-  LOAD_MAP_DATA(secfile_lookup_str_default(file, NULL, "map.f%03d", y),
+  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		secfile_lookup_str_default(file, NULL, "map.f%03d", nat_y),
 		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 3));
 
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")
       && game.load_options.load_known) {
 
     /* get 4-bit segments of the first half of the 32-bit "known" field */
-    LOAD_MAP_DATA(secfile_lookup_str(file, "map.a%03d", y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str(file, "map.a%03d", nat_y),
 		  map_get_tile(x, y)->known = ascii_hex2bin(ch, 0));
-    LOAD_MAP_DATA(secfile_lookup_str(file, "map.b%03d", y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str(file, "map.b%03d", nat_y),
 		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 1));
-    LOAD_MAP_DATA(secfile_lookup_str(file, "map.c%03d", y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str(file, "map.c%03d", nat_y),
 		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 2));
-    LOAD_MAP_DATA(secfile_lookup_str(file, "map.d%03d", y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str(file, "map.d%03d", nat_y),
 		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 3));
 
     if (has_capability("known32fix", savefile_options)) {
       /* get 4-bit segments of the second half of the 32-bit "known" field */
-      LOAD_MAP_DATA(secfile_lookup_str(file, "map.e%03d", y),
+      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		    secfile_lookup_str(file, "map.e%03d", nat_y),
 		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 4));
-      LOAD_MAP_DATA(secfile_lookup_str(file, "map.g%03d", y),
+      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		    secfile_lookup_str(file, "map.g%03d", nat_y),
 		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 5));
-      LOAD_MAP_DATA(secfile_lookup_str(file, "map.h%03d", y),
+      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		    secfile_lookup_str(file, "map.h%03d", nat_y),
 		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 6));
-      LOAD_MAP_DATA(secfile_lookup_str(file, "map.i%03d", y),
+      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		    secfile_lookup_str(file, "map.i%03d", nat_y),
 		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 7));
     }
   }
@@ -423,8 +455,8 @@ static void map_save(struct section_file *file)
   }
     
   /* put the terrain type */
-  SAVE_NORMAL_MAP_DATA(file, terrain_chars[map_get_tile(x, y)->terrain],
-		       "map.t%03d");
+  SAVE_NORMAL_MAP_DATA(x, y, file, "map.t%03d",
+		       terrain_chars[map_get_tile(x, y)->terrain]);
 
   if (!map.have_specials) {
     if (map.have_rivers_overlay) {
@@ -435,45 +467,43 @@ static void map_save(struct section_file *file)
        */
 
       /* bits 8-11 of special flags field */
-      SAVE_NORMAL_MAP_DATA(file,
-			   bin2ascii_hex(map_get_tile(x, y)->special, 2),
-			   "map.n%03d");
+      SAVE_NORMAL_MAP_DATA(x, y, file, "map.n%03d",
+			   bin2ascii_hex(map_get_tile(x, y)->special, 2));
     }
     return;
   }
 
   /* put 4-bit segments of 12-bit "special flags" field */
-  SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->special, 0),
-		       "map.l%03d");
-  SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->special, 1),
-		       "map.u%03d");
-  SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->special, 2),
-		       "map.n%03d");
+  SAVE_NORMAL_MAP_DATA(x, y, file, "map.l%03d",
+		       bin2ascii_hex(map_get_tile(x, y)->special, 0));
+  SAVE_NORMAL_MAP_DATA(x, y, file, "map.u%03d",
+		       bin2ascii_hex(map_get_tile(x, y)->special, 1));
+  SAVE_NORMAL_MAP_DATA(x, y, file, "map.n%03d",
+		       bin2ascii_hex(map_get_tile(x, y)->special, 2));
 
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
     /* put the top 4 bits (bits 12-15) of special flags */
-    SAVE_NORMAL_MAP_DATA(file,
-			 bin2ascii_hex(map_get_tile(x, y)->special, 3),
-			 "map.f%03d");
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.f%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->special, 3));
 
     /* put 4-bit segments of the 32-bit "known" field */
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 0),
-			 "map.a%03d");
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 1),
-			 "map.b%03d");
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 2),
-			 "map.c%03d");
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 3),
-			 "map.d%03d");
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 4),
-			 "map.e%03d");
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 5),
-			 "map.g%03d");
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 6),
-			 "map.h%03d");
-    SAVE_NORMAL_MAP_DATA(file, bin2ascii_hex(map_get_tile(x, y)->known, 7),
-			 "map.i%03d");
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.a%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 0));
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.b%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 1));
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.c%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 2));
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.d%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 3));
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.e%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 4));
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.g%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 5));
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.h%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 6));
+    SAVE_NORMAL_MAP_DATA(x, y, file, "map.i%03d",
+			 bin2ascii_hex(map_get_tile(x, y)->known, 7));
   }
 }
 
@@ -1184,37 +1214,48 @@ static void player_map_load(struct player *plr, int plrno,
       && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1
       && secfile_lookup_bool_default(file, TRUE, "game.save_private_map")
       && game.load_options.load_private_map) {
-    LOAD_MAP_DATA(secfile_lookup_str(file, "player%d.map_t%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str(file, "player%d.map_t%03d",
+				     plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->terrain =
 		  char2terrain(ch));
 
     /* get 4-bit segments of 12-bit "special" field. */
-    LOAD_MAP_DATA(secfile_lookup_str(file, "player%d.map_l%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str(file, "player%d.map_l%03d",
+				     plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->special =
 		  ascii_hex2bin(ch, 0));
-    LOAD_MAP_DATA(secfile_lookup_str(file, "player%d.map_u%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str(file, "player%d.map_u%03d",
+				     plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->special |=
 		  ascii_hex2bin(ch, 1));
-    LOAD_MAP_DATA(secfile_lookup_str_default
-		  (file, NULL, "player%d.map_n%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str_default
+		  (file, NULL, "player%d.map_n%03d", plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->special |=
 		  ascii_hex2bin(ch, 2));
 
     /* get 4-bit segments of 16-bit "updated" field */
-    LOAD_MAP_DATA(secfile_lookup_str
-		  (file, "player%d.map_ua%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str
+		  (file, "player%d.map_ua%03d", plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->last_updated =
 		  ascii_hex2bin(ch, 0));
-    LOAD_MAP_DATA(secfile_lookup_str
-		  (file, "player%d.map_ub%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str
+		  (file, "player%d.map_ub%03d", plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->last_updated |=
 		  ascii_hex2bin(ch, 1));
-    LOAD_MAP_DATA(secfile_lookup_str
-		  (file, "player%d.map_uc%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str
+		  (file, "player%d.map_uc%03d", plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->last_updated |=
 		  ascii_hex2bin(ch, 2));
-    LOAD_MAP_DATA(secfile_lookup_str
-		  (file, "player%d.map_ud%03d", plrno, y),
+    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  secfile_lookup_str
+		  (file, "player%d.map_ud%03d", plrno, nat_y),
 		  map_get_player_tile(x, y, plr)->last_updated |=
 		  ascii_hex2bin(ch, 3));
 
@@ -1605,42 +1646,34 @@ static void player_save(struct player *plr, int plrno,
       && game.save_options.save_private_map) {
 
     /* put the terrain type */
-    SAVE_PLAYER_MAP_DATA(file,
+    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_t%03d", plrno, 
 			 terrain_chars[map_get_player_tile
-				       (x, y, plr)->terrain],
-			 "player%d.map_t%03d", plrno);
+				       (x, y, plr)->terrain]);
 
     /* put 4-bit segments of 12-bit "special flags" field */
-    SAVE_PLAYER_MAP_DATA(file,
+    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_l%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
-				       special, 0), "player%d.map_l%03d",
-			 plrno);
-    SAVE_PLAYER_MAP_DATA(file,
+				       special, 0));
+    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_u%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
-				       special, 1), "player%d.map_u%03d",
-			 plrno);
-    SAVE_PLAYER_MAP_DATA(file,
+				       special, 1));
+    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_n%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
-				       special, 2), "player%d.map_n%03d",
-			 plrno);
+				       special, 2));
 
     /* put 4-bit segments of 16-bit "updated" field */
-    SAVE_PLAYER_MAP_DATA(file,
+    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_ua%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 0),
-			 "player%d.map_ua%03d", plrno);
-    SAVE_PLAYER_MAP_DATA(file,
+				       (x, y, plr)->last_updated, 0));
+    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_ub%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 1),
-			 "player%d.map_ub%03d", plrno);
-    SAVE_PLAYER_MAP_DATA(file,
+				       (x, y, plr)->last_updated, 1));
+    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_uc%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 2),
-			 "player%d.map_uc%03d", plrno);
-    SAVE_PLAYER_MAP_DATA(file,
+				       (x, y, plr)->last_updated, 2));
+    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_ud%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 3),
-			 "player%d.map_ud%03d", plrno);
+				       (x, y, plr)->last_updated, 3));
 
     if (TRUE) {
       struct dumb_city *pdcity;

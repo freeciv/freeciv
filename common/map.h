@@ -312,13 +312,6 @@ bool tile_has_special(struct tile *ptile,
 bool contains_special(enum tile_special_type all,
 		      enum tile_special_type to_test_for);
 
-/* 
- * Determines whether the position is normal given that it's in the
- * range 0<=x<map.xsize and 0<=y<map.ysize.  It's primarily a faster
- * version of is_normal_map_pos since such checks are pretty common.
- */
-#define regular_map_pos_is_normal(x, y) (TRUE)
-
 /*
  * A "border position" is any one that _may have_ positions within
  * map distance dist that are non-normal.  To see its correctness,
