@@ -1,0 +1,78 @@
+    1.6.4 is not a stable version, and does not necessarily have
+a stable AI.  The AI will still do stupid things that I know it
+shouldn't but haven't had time to correct yet.  If it does something
+stupid that isn't referred to on this list, send me mail describing
+the problem and attach a save file so I can take a look at it.
+As many of the following as possible will be fixed before the
+1.7.0 release on the 26th.  If you have opinions on which problems
+are most important, send me mail about it.  I'm always happy to
+get user feedback.
+
+John Stonebraker
+ppaqebb@surfshop.net
+
+AI doesn't understand when to become DEMOCRACY
+GOHOME doesn't work very well for ground units
+AI doesn't understand obsolescence
+related: AI likes to build Oracle more than Chapel
+AI doesn't know how to use spies and diplomats, even for defense
+AI doesn't know how to use planes and missiles
+AI doesn't understand how to favor trade when it needs luxury
+AI builds cities without regard to danger at that location
+city tile values are not cached; wastes CPU time
+Food tiles should be less wanted if city can't expand
+Auto-settlers know tiles are irrigable even if water source is unseen
+AI doesn't build infrastructure near where a city is about to be built
+ai_calc* routines are slow and perhaps shouldn't regard government
+AI won't build cross-country roads outside of city radii
+In the near <city> combat messages, <city> may be unknown.
+Non-military units need to stop going where they will be killed
+Explorer routine should be available to players from the client
+GOTO doesn't popup diplomat/caravan dialog when city is reached
+AI handicaps are not implemented
+Locally_zero_minimap is not implemented when wilderness tiles change
+AI doesn't understand 13th city is unlucky
+Settlers won't treat about-to-be-built ferryboats as ferryboats
+If no path to chosen victim is found, new victim should be chosen
+Values for Mysticism, Electricity, and Theology need to be verified
+AI doesn't know how to make trade routes or when
+AI doesn't understand it needs ground forces to take over cities
+Bodyguard and charge are not yet implemented
+AI doesn't co-ordinate city defenders
+Unverified: AI is vulnerable to well-co-ordinated mass attacks
+AI is too tough for beginning players anyway and there is no easy mode
+
+Problems created or discovered since 1.6.4
+-------------------------------------------------------------------------
+AI doesn't acknowledge effects of MAGELLAN in its calculations
+AI cities occasionally repeatedly have and resolve emergencies
+Something mungs the minimap so that save+load inspires colonization
+
+Fixed since 1.6.4
+-------------------------------------------------------------------------
+Caravans still waste turns helping with wonders
+Ferryboats remain on GOTO even after their passengers leave
+Settlers sometimes leave ferryboats too early just because they can
+When aboard ship, settlers calculate distances stupidly.
+Only ground units and ferryboats should be grave or urgent danger
+AI disbands units it can't upkeep rather than scrapping them
+Other cities should avail tiles to prevent famine or disorder
+AI doesn't really understand the consequences of pollution yet
+
+Probably Fixed since 1.6.4
+-------------------------------------------------------------------------
+AI doesn't attack enough
+
+Partially fixed since 1.6.4
+-------------------------------------------------------------------------
+AI doesn't co-ordinate attacking forces
+AI manages workers one at a time, which is not as dumb as it used to be
+
+Fixed since 1.6.4, but not uploaded
+-------------------------------------------------------------------------
+Only settlers use ferryboats when ground forces also should
+
+Broken since 1.6.4, but not uploaded
+-------------------------------------------------------------------------
+AI treats all its ground forces like they were marines
+Boats sometimes sail away from landlocked would-be passengers
