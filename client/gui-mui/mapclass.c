@@ -1141,51 +1141,54 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       	return 0;
       }
 
-// implement me
-#ifdef DISABLED
       if (data->update == 6)
       {
-      	/* Draw Mushroom */
-	int x, y, w, h;
+      	int x = data->mushroom_x0;
+      	int y = data->mushroom_y0;
+
 	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 
-	for(y=0; y<3; y++) {
-	  for(x=0; x<3; x++) {
-	    int map_x = map_canvas_adjust_x(x - 1 + data->mushroom_x0) * get_normal_tile_width();
-	    int map_y = map_canvas_adjust_y(y - 1 + data->mushroom_y0) * get_normal_tile_height();
-	    struct Sprite *mysprite = sprites.explode.nuke[y][x];
+	if (is_isometric)
+	{
+	  /* Do I get points for style? */
+/*	  char boom[] = "Really Loud BOOM!!!";
+	  int w = gdk_string_width(city_productions_font, boom);
+	  int canvas_x, canvas_y;
 
-	    put_sprite_overlay( _rp(o), mysprite, _mleft(o) + map_x, _mtop(o) + map_y);
-	  }
+	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
+	  draw_shadowed_string(map_canvas->window, main_font,
+			 toplevel->style->black_gc,
+			 toplevel->style->white_gc,
+			 canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			 canvas_y + NORMAL_TILE_HEIGHT,
+			 boom); */
+
+	} else
+	{
+	  int x_itr, y_itr;
+	  int canvas_x, canvas_y;
+
+	  for (y_itr=0; y_itr<3; y_itr++) {
+	    for (x_itr=0; x_itr<3; x_itr++) {
+	      struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
+	      get_canvas_xy(x + x_itr - 1, y + y_itr - 1, &canvas_x, &canvas_y);
+	      put_sprite_overlay( _rp(o), mysprite, _mleft(o) + canvas_x, _mtop(o) + canvas_y);
+  	    }
+          }
 	}
-
-	TimeDelay( UNIT_VBLANK, 1,0);
-
-	/* Restore the map */
-	x = map_canvas_adjust_x(data->mushroom_x0-1) * get_normal_tile_width();
-	y = map_canvas_adjust_y(data->mushroom_y0-1) * get_normal_tile_height();
-
-	w = get_normal_tile_width() * 3;
-	h = get_normal_tile_height() * 3;
-
-	if (x<0) {
-	  w +=x;
-	  x = 0;
-	}
-
-	if (y<0) {
-	  h +=y;
-	  y = 0;
-	}
-
-	BltBitMapRastPort(data->map_bitmap, x, y,
-			  _rp(o), _mleft(o) + x, _mtop(o) + y,
-			  w, h, 0xc0);
 
 	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
+	TimeDelay( UNIT_VBLANK, 1,0);
+
+	BltBitMapRastPort(data->map_bitmap, 0, 0,
+			  _rp(o), _mleft(o), _mtop(o),
+			  _mwidth(o), _mheight(o), 0xc0);
+
       	return 0;
       }
 
+// implement me
+#ifdef DISABLED
       if (data->update == 7)
       {
       	/* Draw City Workers */
