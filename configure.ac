@@ -149,7 +149,7 @@ dnl Programs already checked by AM_INIT_AUTOMAKE:
 dnl  AC_PROG_MAKE_SET
 
 dnl I18n support
-ALL_LINGUAS="ca da de en_GB es et fi fr he_IL hu it ja nl no pl pt pt_BR ro ru sv uk"
+ALL_LINGUAS="cs ca da de en_GB es et fi fr he_IL hu it ja nl no pl pt pt_BR ro ru sv uk"
 AM_GNU_GETTEXT(,need-ngettext)
 
 dnl AM_GNU_GETTEXT doesn't have all features we want
