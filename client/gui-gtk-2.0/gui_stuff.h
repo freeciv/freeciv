@@ -101,6 +101,7 @@ void gui_dialog_present(struct gui_dialog *dlg);
 void gui_dialog_raise(struct gui_dialog *dlg);
 void gui_dialog_alert(struct gui_dialog *dlg);
 void gui_dialog_destroy(struct gui_dialog *dlg);
+void gui_dialog_destroy_all(void);
 GtkWidget *gui_dialog_get_toplevel(struct gui_dialog *dlg);
 void gui_dialog_response_set_callback(struct gui_dialog *dlg,
     GUI_DIALOG_RESPONSE_FUN fun);
