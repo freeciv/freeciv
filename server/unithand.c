@@ -1455,15 +1455,34 @@ void handle_unit_activity_request_targeted(struct unit *punit,
 void handle_unit_unload_request(struct player *pplayer, 
 				struct packet_unit_request *req)
 {
-  struct unit *punit;
-  if((punit=player_find_unit_by_id(pplayer, req->unit_id))) {
+  struct unit *punit = player_find_unit_by_id(pplayer, req->unit_id);
+
+  if (punit) {
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-      if(punit2->activity==ACTIVITY_SENTRY) {
-	set_unit_activity(punit2, ACTIVITY_IDLE);
-	send_unit_info(0, punit2);
+      if (punit != punit2 && punit2->activity == ACTIVITY_SENTRY) {
+	int wakeup = 0;
+
+	if (is_ground_units_transport(punit)) {
+	  if (is_ground_unit(punit2))
+	    wakeup = 1;
+	}
+
+	if (unit_flag(punit->type, F_MISSILE_CARRIER)) {
+	  if (unit_flag(punit2->type, F_MISSILE))
+	    wakeup = 1;
+	}
+
+	if (unit_flag(punit->type, F_CARRIER)) {
+	  if (is_air_unit(punit2))
+	    wakeup = 1;
+	}
+
+	if (wakeup) {
+	  set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2);
+	}
       }
-    }
-    unit_list_iterate_end;
+    } unit_list_iterate_end;
   }
 }
 
