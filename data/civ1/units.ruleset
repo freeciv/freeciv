@@ -851,7 +851,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Trireme"
+flags         = "Trireme"
 roles         = "Ferryboat"
 
 [unit_sail]
@@ -920,7 +920,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = "Ferryboat"
 
 [unit_ironclad]
@@ -943,7 +943,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_destroyer]
@@ -966,7 +966,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_cruiser]
@@ -989,7 +989,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_aegis_cruiser]
@@ -1012,7 +1012,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "AEGIS"
+flags         = "AEGIS"
 roles         = ""
 
 [unit_battleship]
@@ -1035,7 +1035,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_submarine]
@@ -1058,7 +1058,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Partial_Invis", "No_Land_Attack"
+flags         = "Partial_Invis", "No_Land_Attack"
 roles         = ""
 helptext      = _("\
 Submarines have a very high strategic value, but have a weak\
@@ -1085,7 +1085,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Carrier"
+flags         = "Carrier"
 roles         = ""
 helptext      = _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\

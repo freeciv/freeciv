@@ -886,7 +886,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Trireme"
+flags         = "Trireme"
 roles         = "Ferryboat"
 
 [unit_caravel]
@@ -955,7 +955,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_ironclad]
@@ -978,7 +978,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_destroyer]
@@ -1001,7 +1001,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 helptext      = _("\
 TIP:  A very fast unit, which is very useful for hunting down enemy\
@@ -1028,7 +1028,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_aegis_cruiser]
@@ -1051,7 +1051,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "AEGIS"
+flags         = "AEGIS"
 roles         = ""
 
 [unit_battleship]
@@ -1074,7 +1074,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit"
+flags         = ""
 roles         = ""
 
 [unit_submarine]
@@ -1097,7 +1097,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Partial_Invis", 
+flags         = "Partial_Invis", 
 	        "Missile_Carrier", "No_Land_Attack"
 roles         = ""
 helptext      = _("\
@@ -1125,7 +1125,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Carrier"
+flags         = "Carrier"
 roles         = ""
 helptext      = _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
