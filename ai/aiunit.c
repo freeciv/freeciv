@@ -360,36 +360,34 @@ int dist_unit;
 struct city *pcity;
 struct unit *penemyunit;
 if (punit->activity!=ACTIVITY_GOTO)
-{
-if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y))
    {
-   dist_city=map_distance(punit->x,punit->y, pcity->x, pcity->y);
-   
-   punit->goto_dest_x=pcity->x;
-   punit->goto_dest_y=pcity->y;
-   punit->activity=ACTIVITY_GOTO;
-   }
-if (penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y))
-   {
-   dist_unit=map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
+   if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y))
       {
+      dist_city=map_distance(punit->x,punit->y, pcity->x, pcity->y);
+      punit->goto_dest_x=pcity->x;
+      punit->goto_dest_y=pcity->y;
+      punit->activity=ACTIVITY_GOTO;
+      }
+   if (penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y))
+      {
+      dist_unit=map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
       punit->goto_dest_x=penemyunit->x;
       punit->goto_dest_y=penemyunit->y;
       punit->activity=ACTIVITY_GOTO;
       }
-   }
    
-if (dist_city||dist_unit)
-   {
-   do_unit_goto(pplayer,punit);
-   printf("On da move %d or %d squares \n",dist_city,dist_unit);
-   }
-else      
-   {
-   printf("Code Boo-Boo in AI code!\n");      
-   punit->ai.ai_role=AIUNIT_NONE;
-   }
-}   
+   if (dist_city||dist_unit)
+      {
+      if (dist_unit > dist_city) dist_unit=dist_city;
+      do_unit_goto(pplayer,punit);
+      printf("On da move %d squares \n",dist_unit);
+      }
+   else      
+      {
+      printf("Code Boo-Boo in AI code!\n");      
+      punit->ai.ai_role=AIUNIT_NONE;
+      }
+   }   
 }
 
 
