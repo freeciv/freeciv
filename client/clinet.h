@@ -16,10 +16,18 @@
 #define DEFAULT_SOCK_PORT 5555
 #define METALIST_ADDR "http://meta.freeciv.org/metaserver/"
 
+/* In autoconnect mode, try to connect to once a second */
+#define AUTOCONNECT_INTERVAL		500
+
+/* In autoconnect mode, try to connect 100 times */
+#define MAX_AUTOCONNECT_ATTEMPTS	100
+
 struct connection;
 
 int connect_to_server(char *name, char *hostname, int port,
-		      char *errbuf, int n_errbuf);
+		      char *errbuf, int errbufsize);
+int get_server_address(char *hostname, int port, char *errbuf, int errbufsize);
+int try_to_connect(char *user_name, char *errbuf, int errbufsize);
 void input_from_server(int fd);
 void disconnect_from_server(void);
 

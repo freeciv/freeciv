@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -27,6 +28,7 @@
 #include <X11/Xaw/List.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "mem.h"     /* mystrdup() */
 #include "support.h"
 #include "version.h"
@@ -298,4 +300,75 @@ static int get_meta_list(char **list, char *errbuf, int n_errbuf)
   delete_server_list(server_list);
   *list=NULL;
   return 0;
+}
+
+/**************************************************************************
+  Make an attempt to autoconnect to the server.  If the server isn't
+  there yet, get the Xt kit to call this routine again about
+  AUTOCONNECT_INTERVAL milliseconds.  If anything else goes wrong, log
+  a fatal error.
+**************************************************************************/
+static void try_to_autoconnect()
+{
+  char errbuf[512];
+  static int count = 0;
+
+  count++;
+
+  if (count >= MAX_AUTOCONNECT_ATTEMPTS) {
+    freelog(LOG_FATAL,
+	    _("Failed to contact server \"%s\" at port "
+	      "%d as \"%s\" after %d attempts"),
+	    server_host, server_port, player_name, count);
+    exit(1);
+  }
+
+  switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
+    /* Success! */
+  case 0:
+    return;
+
+    /* Server not available (yet) - wait & retry */
+  case ECONNREFUSED:
+    XtAppAddTimeOut(app_context,
+		    AUTOCONNECT_INTERVAL, try_to_autoconnect, NULL);
+    break;
+
+    /* All other errors are fatal */
+  default:
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, player_name, errbuf);
+    exit(1);
+  }
+}
+
+/**************************************************************************
+  Start trying to autoconnect to civserver.
+  Calls get_server_address() then try_to_autoconnect().
+**************************************************************************/
+void server_autoconnect()
+{
+  char buf[512];
+  int outcome;
+
+  my_snprintf(buf, sizeof(buf),
+	      _("Auto-connecting to server \"%s\" at port %d "
+		"as \"%s\" every %d.%d second(s) for %d times"),
+	      server_host, server_port, player_name,
+	      AUTOCONNECT_INTERVAL / 1000,AUTOCONNECT_INTERVAL % 1000, 
+	      MAX_AUTOCONNECT_ATTEMPTS);
+  append_output_window(buf);
+  outcome = get_server_address(server_host, server_port, buf, sizeof(buf));
+  if (outcome < 0) {
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, player_name, buf);
+    exit(1);
+  }
+
+  try_to_autoconnect();
+  XtSetSensitive(toplevel, True);
 }

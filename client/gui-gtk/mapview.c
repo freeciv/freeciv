@@ -1040,7 +1040,6 @@ void refresh_overview_viewrect(void)
   }
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1124,6 +1123,8 @@ gint map_canvas_expose(GtkWidget *widget, GdkEventExpose *event)
     }
     refresh_overview_canvas();
   }
+
+  center_on_something();
   return TRUE;
 }
 
@@ -1289,12 +1290,13 @@ the screen.
 void update_map_canvas(int x, int y, int width, int height, 
 		       int write_to_screen)
 {
+  freelog(LOG_DEBUG,
+	  "update_map_canvas(pos=(%d,%d), size=(%d,%d), write_to_screen=%d)",
+	  x, y, width, height, write_to_screen);
+
   if (is_isometric) {
     int i;
     int x_itr, y_itr;
-
-    freelog(LOG_DEBUG, "updating %d,%d with width=%d, height=%d",
-	    x, y, width, height);
 
     /*** First refresh the tiles above the area to remove the old tiles'
 	 overlapping gfx ***/

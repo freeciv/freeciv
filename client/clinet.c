@@ -75,6 +75,7 @@
 #include "clinet.h"
 
 struct connection aconnection;
+static struct sockaddr_in server_addr;
 
 /**************************************************************************
   Close socket and cleanup.  This one doesn't print a message, so should
@@ -113,76 +114,113 @@ static void close_socket_callback(struct connection *pc)
 }
 
 /**************************************************************************
-...
+  Connect to a civserver instance -- or at least try to.  On success,
+  return 0; on failure, put an error message in ERRBUF and return -1.
 **************************************************************************/
 int connect_to_server(char *name, char *hostname, int port,
-		      char *errbuf, int n_errbuf)
+		      char *errbuf, int errbufsize)
 {
-  /* use name to find TCP/IP address of server */
-  struct sockaddr_in src;
-  struct packet_req_join_game req;
-
-  if(port==0)
-    port=DEFAULT_SOCK_PORT;
-  
-  if(!hostname)
-    hostname="localhost";
-  
-  if (!fc_lookup_host(hostname, &src)) {
-    mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
+  if (get_server_address(hostname, port, errbuf, errbufsize) != 0) {
     return -1;
   }
-  
-  src.sin_port = htons(port);
+
+  if (try_to_connect(name, errbuf, errbufsize) != 0) {
+    return -1;
+  }
+  return 0;
+}
+
+/**************************************************************************
+  Get ready to [try to] connect to a server:
+   - translate HOSTNAME and PORT (with defaults of "localhost" and
+     DEFAULT_SOCK_PORT respectively) to a raw IP address and port number, and
+     store them in the `server_addr' variable
+   - return 0 on success
+     or put an error message in ERRBUF and return -1 on failure
+**************************************************************************/
+int get_server_address(char *hostname, int port, char *errbuf,
+		       int errbufsize)
+{
+  if (port == 0)
+    port = DEFAULT_SOCK_PORT;
+
+  /* use name to find TCP/IP address of server */
+  if (!hostname)
+    hostname = "localhost";
+
+  if (!fc_lookup_host(hostname, &server_addr)) {
+    mystrlcpy(errbuf, _("Failed looking up host"), errbufsize);
+    return -1;
+  }
+
+  server_addr.sin_port = htons(port);
 
 #ifdef HAVE_SIGPIPE
   /* ignore broken pipes */
-  signal (SIGPIPE, SIG_IGN);
+  signal(SIGPIPE, SIG_IGN);
 #endif
-  
-  if((aconnection.sock = socket (AF_INET, SOCK_STREAM, 0)) < 0) {
-    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
+
+  return 0;
+}
+
+/**************************************************************************
+  Try to connect to a server (get_server_address() must be called first!):
+   - try to create a TCP socket and connect it to `server_addr'
+   - if successful:
+	  - start monitoring the socket for packets from the server
+	  - send a "join game request" packet to the server
+      and - return 0
+   - if unable to create the connection, close the socket, put an error
+     message in ERRBUF and return the Unix error code (ie., errno, which
+     will be non-zero).
+**************************************************************************/
+int try_to_connect(char *user_name, char *errbuf, int errbufsize)
+{
+  struct packet_req_join_game req;
+
+  if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     return -1;
   }
-  
-  if(connect(aconnection.sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
-    mystrlcpy(errbuf, mystrerror(errno), n_errbuf);
+
+  if (connect
+      (aconnection.sock, (struct sockaddr *) &server_addr,
+       sizeof(server_addr)) < 0) {
+    mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     my_closesocket(aconnection.sock);
     aconnection.sock = -1;
-    return -1;
+    return errno;
   }
 
   if (aconnection.buffer) {
     /* didn't close cleanly previously? */
-    freelog(LOG_ERROR, "Unexpected buffers in connect_to_server()");
+    freelog(LOG_ERROR, "Unexpected buffers in try_to_connect()");
     /* get newly initialized ones instead */
     free_socket_packet_buffer(aconnection.buffer);
     free_socket_packet_buffer(aconnection.send_buffer);
   }
+
   aconnection.buffer = new_socket_packet_buffer();
   aconnection.send_buffer = new_socket_packet_buffer();
   aconnection.last_write = 0;
-  
-  aconnection.used = 1;
-  aconnection.delayed_disconnect = 0;
 
-  /* gui-dependent details now in gui_main.c: */
+  aconnection.used = 1;
+
+  /* call gui-dependent stuff in gui_main.c */
   add_net_input(aconnection.sock);
-  
-  close_socket_set_callback(close_socket_callback);
 
   /* now send join_request package */
 
-  mystrlcpy(req.short_name, name, MAX_LEN_USERNAME);
-  req.major_version=MAJOR_VERSION;
-  req.minor_version=MINOR_VERSION;
-  req.patch_version=PATCH_VERSION;
+  mystrlcpy(req.short_name, user_name, MAX_LEN_USERNAME);
+  req.major_version = MAJOR_VERSION;
+  req.minor_version = MINOR_VERSION;
+  req.patch_version = PATCH_VERSION;
   sz_strlcpy(req.version_label, VERSION_LABEL);
   sz_strlcpy(req.capability, our_capability);
-  sz_strlcpy(req.name, name);
-
-  send_packet_req_join_game(&aconnection, &req);
+  sz_strlcpy(req.name, user_name);
   
+  send_packet_req_join_game(&aconnection, &req);
+
   return 0;
 }
 

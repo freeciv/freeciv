@@ -14,5 +14,6 @@
 #define FC__CONNECTDLG_G_H
 
 void gui_server_connect(void);
+void server_autoconnect(void);
 
 #endif  /* FC__CONNECTDLG_G_H */

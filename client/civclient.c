@@ -70,6 +70,11 @@ char server_host[512];
 char player_name[512];
 int server_port;
 
+/*
+ * Non-zero = skip "Connect to Freeciv Server" dialog
+ */
+int auto_connect = 0;	
+
 enum client_states client_state=CLIENT_BOOT_STATE;
 
 static char *tile_set_name = NULL;
@@ -113,6 +118,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
     fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
     fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
+    fprintf(stderr, _("  -a, --autoconnect\tAutomatically connect to server\n"));
     fprintf(stderr, _("  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"));
 #ifdef SOUND
     fprintf(stderr, _("  -s, --sound FILE\tRead sound information from FILE\n"));
@@ -138,6 +144,8 @@ int main(int argc, char *argv[])
      server_port=atoi(option);
    else if ((option = get_option("--server",argv,&i,argc)) != NULL)
       sz_strlcpy(server_host, option);
+   else if (is_option("--autoconnect",argv[i]))
+      auto_connect = 1;
    else if ((option = get_option("--debug",argv,&i,argc)) != NULL) {
       loglevel=log_parse_level_str(option);
       if (loglevel==-1) {
@@ -499,8 +507,13 @@ void set_client_state(enum client_states newstate)
     }
     update_menus();
   }
-  if(client_state==CLIENT_PRE_GAME_STATE)
-    gui_server_connect();
+  if (client_state == CLIENT_PRE_GAME_STATE) {
+    if (auto_connect) {
+      server_autoconnect();
+    } else {
+      gui_server_connect();
+    }
+  }
 }
 
 

@@ -14,12 +14,14 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <gtk/gtk.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "support.h"
 #include "version.h"
 
@@ -288,4 +290,71 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
   gtk_clist_thaw(GTK_CLIST(list));
 
   return 0;
+}
+
+/**************************************************************************
+  Make an attempt to autoconnect to the server.
+  (server_autoconnect() gets GTK to call this function every so often.)
+**************************************************************************/
+static int try_to_autoconnect()
+{
+  char errbuf[512];
+  static int count = 0;
+
+  count++;
+
+  if (count >= MAX_AUTOCONNECT_ATTEMPTS) {
+    freelog(LOG_FATAL,
+	    _("Failed to contact server \"%s\" at port "
+	      "%d as \"%s\" after %d attempts"),
+	    server_host, server_port, player_name, count);
+    exit(1);
+  }
+
+  switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
+  case 0:			/* Success! */
+    return FALSE;		/*  Tells GTK not to call this
+				   function again */
+  case ECONNREFUSED:		/* Server not available (yet) */
+    return TRUE;		/*  Tells GTK to keep calling this function */
+  default:			/* All other errors are fatal */
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, player_name, errbuf);
+    gtk_exit(1);
+    exit(1);			/* Suppresses a gcc warning */
+  }
+}
+
+/**************************************************************************
+  Start trying to autoconnect to civserver.  Calls
+  get_server_address(), then arranges for try_to_autoconnect(), which
+  calls try_to_connect(), to be called roughly every
+  AUTOCONNECT_INTERVAL milliseconds, until success, fatal error or
+  user intervention.  (Doesn't use widgets, but is GTK-specific
+  because it calls gtk_timeout_add().)
+**************************************************************************/
+void server_autoconnect()
+{
+  char buf[512];
+
+  my_snprintf(buf, sizeof(buf),
+	      _("Auto-connecting to server \"%s\" at port %d "
+		"as \"%s\" every %d.%d second(s) for %d times"),
+	      server_host, server_port, player_name,
+	      AUTOCONNECT_INTERVAL / 1000,AUTOCONNECT_INTERVAL % 1000, 
+	      MAX_AUTOCONNECT_ATTEMPTS);
+  append_output_window(buf);
+
+  if (get_server_address(server_host, server_port, buf, sizeof(buf)) < 0) {
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, player_name, buf);
+    gtk_exit(1);
+  }
+  if (try_to_autoconnect()) {
+    gtk_timeout_add(AUTOCONNECT_INTERVAL, try_to_autoconnect, NULL);
+  }
 }
