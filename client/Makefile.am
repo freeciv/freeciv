@@ -7,9 +7,6 @@
 if CLIENT_GUI_SDL
 GUI_SUBDIR = gui-sdl
 endif
-if CLIENT_GUI_GTK
-GUI_SUBDIR = gui-gtk
-endif
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIR = gui-gtk-2.0
 endif

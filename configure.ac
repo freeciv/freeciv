@@ -59,13 +59,14 @@ WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 
 dnl  no=do not compile client,  yes=guess it,  *=use this client or error
 AC_ARG_ENABLE(client,
-[  --enable-client[=no/yes/xaw3d/xaw/gtk/gtk2/win32/sdl/ftwl]
+[  --enable-client[=no/yes/xaw3d/xaw/gtk/win32/sdl/ftwl]
                           compile a client [default=yes] (if yes, guess type)],
 [case "${enableval}" in
   yes)	  client=yes ;;
   no)	  client=no ;;
   xaw3d)  client=xaw
 	  WITH_XAW3D=1 ;;
+  gtk)    client=gtk-2.0 ;;
   gtk2)   client=gtk-2.0 ;;
   gtk2.0) client=gtk-2.0 ;;
   gtk20)  client=gtk-2.0 ;;
@@ -366,9 +367,6 @@ if test x$client != xno; then
   dnl Gtk-2.0-specific overrides
   FC_GTK2_CLIENT
 
-  dnl Gtk-specific overrides
-  FC_GTK_CLIENT
-
   dnl SDL-specific overrides
   FC_SDL_CLIENT
 
@@ -435,7 +433,6 @@ AM_CONDITIONAL(SDL, test "x$SDL_mixer" = "xyes")
 AM_CONDITIONAL(ALSA, test "x$ALSA" = "xyes")
 AM_CONDITIONAL(WINMM, test "x$WINMM" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "$gui_sources" = "gui-sdl")
-AM_CONDITIONAL(CLIENT_GUI_GTK, test "$gui_sources" = "gui-gtk")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")
 AM_CONDITIONAL(CLIENT_GUI_BEOS, test "$gui_sources" = "gui-beos")
@@ -674,7 +671,6 @@ AC_CONFIG_FILES([Makefile
 	  client/agents/Makefile
 	  client/include/Makefile 
 	  client/gui-sdl/Makefile 
-	  client/gui-gtk/Makefile 
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-xaw/Makefile 
 	  client/gui-win32/Makefile 

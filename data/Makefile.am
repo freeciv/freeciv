@@ -10,9 +10,6 @@ COMMON_CLIENT_FILES =			\
 if CLIENT_GUI_XAW
 CLIENT_EXTRA_FILES = Freeciv
 endif
-if CLIENT_GUI_GTK
-CLIENT_EXTRA_FILES = freeciv.rc
-endif
 if CLIENT_GUI_GTK_2_0
 CLIENT_EXTRA_FILES = freeciv.rc-2.0
 endif
@@ -35,7 +32,6 @@ pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
 EXTRA_DIST = \
 	Freeciv	\
-	freeciv.rc	\
 	freeciv.rc-2.0	\
 	isophex.tilespec	\
 	isotrident.tilespec \
