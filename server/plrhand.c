@@ -40,6 +40,7 @@
 #include <aitech.h>
 #include <settlers.h>
 #include <capability.h>
+#include <gamelog.h>
 #include <log.h>
 
 extern struct advance advances[];
@@ -549,6 +550,8 @@ void great_library(struct player *pplayer)
 	if (get_invention(pplayer, i)!=TECH_KNOWN 
 	    && game.global_advances[i]>=2) {
 	  notify_player_ex(pplayer,0,0, E_TECH_GAIN, "Game: %s acquired from The Great Library!", advances[i].name);
+	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",get_race_name_plural(pplayer->race),advances[i].name);
+ 
 	  set_invention(pplayer, i, TECH_KNOWN);
 	  update_research(pplayer);	
 	  do_free_cost(pplayer);
@@ -615,6 +618,9 @@ void update_player_aliveness(struct player *pplayer)
       pplayer->is_alive=0;
       notify_player_ex(0, 0,0, E_DESTROYED, "Game: The %s are no more!", 
 		       get_race_name_plural(pplayer->race));
+      gamelog(GAMELOG_GENO, "%s civilization destroyed",
+              races[pplayer->race].name);
+
       map_know_all(pplayer);
       send_all_known_tiles(pplayer);
     }
@@ -629,6 +635,7 @@ int update_tech(struct player *plr, int bulbs)
 {
   int old, i;
   int philohack=0;
+  char* origtech;
   plr->research.researched+=bulbs;
   if (plr->research.researched < research_time(plr)) 
     return 0;
@@ -637,6 +644,14 @@ int update_tech(struct player *plr, int bulbs)
   old=plr->research.researching;
   if (old==A_PHILOSOPHY && !game.global_advances[A_PHILOSOPHY]) 
     philohack=1;
+  if (!game.global_advances[plr->research.researching]) 
+    origtech = "(first)";
+  else 
+    origtech = "";
+  gamelog(GAMELOG_TECH,"%s discover %s %s",get_race_name_plural(plr->race),
+	  advances[plr->research.researching].name, origtech
+	  );
+ 
   set_invention(plr, plr->research.researching, TECH_KNOWN);
   update_research(plr);
   remove_obsolete_buildings(plr);
@@ -829,6 +844,9 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.tax=preq->tax;
     pplayer->economic.luxury=preq->luxury;
     pplayer->economic.science=preq->science;
+    gamelog(GAMELOG_EVERYTHING, "RATE CHANGE: %s %i %i %i", 
+	    get_race_name_plural(pplayer->race), preq->tax, 
+	    preq->luxury, preq->science);
     connection_do_buffer(pplayer->conn);
     send_player_info(pplayer, pplayer);
     global_city_refresh(pplayer);
@@ -874,6 +892,10 @@ void handle_player_government(struct player *pplayer,
 		pplayer->name, 
   	        get_race_name_plural(pplayer->race),
 		get_government_name(preq->government));  
+  gamelog(GAMELOG_GOVERNMENT,"%s form a %s",
+          get_race_name_plural(pplayer->race),
+          get_government_name(preq->government));
+  
   send_player_info(pplayer, pplayer);
 }
 
@@ -891,6 +913,9 @@ void handle_player_revolution(struct player *pplayer)
   pplayer->government=G_ANARCHY;
   notify_player(pplayer, "Game: The %s have incited a revolt!", 
 		races[pplayer->race].name);
+  gamelog(GAMELOG_REVOLT,"The %s revolt!",
+                races[pplayer->race].name);
+
   send_player_info(pplayer, pplayer);
   if (player_owns_active_wonder(pplayer, B_LIBERTY))
     pplayer->revolution=1;

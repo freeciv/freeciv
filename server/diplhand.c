@@ -22,6 +22,7 @@
 #include <plrhand.h>
 #include <maphand.h>
 #include <map.h>
+#include <gamelog.h>
 
 struct genlist treaties;
 int did_init_treaties;
@@ -92,8 +93,10 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 		    genlist_size(&ptreaty->clauses));
       notify_player(plr1, "Game: A treaty containing %d clauses was agreed upon",
 		    genlist_size(&ptreaty->clauses));
+      gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
+	      get_race_name_plural(plr0->race),
+	      get_race_name_plural(plr1->race));
       
-
       
       /* verify gold! the player's gold amount could have changed during
        * the meeting */
@@ -135,6 +138,10 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	      send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
 	    }
 	  }
+	  gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",
+                  get_race_name_plural(pdest->race),
+                  advances[pclause->value],
+                  get_race_name_plural(pgiver->race));
 	  set_invention(pdest, pclause->value, TECH_KNOWN);
 	  update_research(pdest);
 	  do_dipl_cost(pdest);
@@ -279,3 +286,4 @@ void handle_diplomacy_init(struct player *pplayer,
   }
 
 }
+

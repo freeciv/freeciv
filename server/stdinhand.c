@@ -27,7 +27,9 @@
 #include <registry.h>
 #include <plrhand.h>
 #include <stdinhand.h>
+#include <gamelog.h>
 
+extern int gamelog_level;
 extern char metaserver_info_line[256];
 
 void cut_player_connection(char *playername);
@@ -373,6 +375,14 @@ struct settings_s settings[] = {
     "  \"civscore.log\" every turn.  These statistics can be used to create\n"
     "  power graphs after the game." },
 
+  { "gamelog", &gamelog_level,
+    SSET_META, SSET_SERVER_ONLY,
+    0, 40, 20,
+    "Detail level for logging game events",
+    "  Only applies if the game log feature is enabled (with the -g command line\n"
+    "  option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging,\n"
+    "  40=debuging logging." },
+  
   { NULL, NULL,
     SSET_LAST, SSET_SERVER_ONLY,
     0, 0, 0,

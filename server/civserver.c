@@ -38,6 +38,7 @@
 #include <city.h>
 #include <tech.h>
 #include <sernet.h>
+#include <gamelog.h>
 #include <log.h>
 #include <packets.h>
 #include <unithand.h>
@@ -96,8 +97,9 @@ int is_server = 1;
 
 int is_new_game=1;
 
+/* The following is unused, AFAICT.  --dwp */
 char usage[] = 
-"Usage: %s [-fhlpv] [--file] [--help] [--log] [--port]\n\t[--version]\n";
+"Usage: %s [-fhlpgv] [--file] [--help] [--log] [--port]\n\t[--gamelog] [--version]\n";
 
 int port=DEFAULT_SOCK_PORT;
 int nocity_send=0;
@@ -116,6 +118,7 @@ int main(int argc, char *argv[])
 {
   int h=0, v=0, n=0;
   char *log_filename=NULL;
+  char *gamelog_filename=NULL;
   char *load_filename=NULL;
   char *script_filename=NULL;
   int i;
@@ -148,6 +151,15 @@ int main(int argc, char *argv[])
 	fprintf(stderr, "Error: filename not specified.\n");
 	h=1;
 	break;
+      }
+    }
+    else if(!strcmp("-g", argv[i]) || !strcmp("--gamelog", argv[i])) {
+      if(++i<argc)
+        gamelog_filename=argv[i];
+      else {
+        fprintf(stderr, "Error: Game log filename not specified.\n");
+        h=1;
+        break;
       }
     }
     else if(!strcmp("-n", argv[i]) || !strcmp("--nometa", argv[i])) { 
@@ -203,6 +215,7 @@ int main(int argc, char *argv[])
   if(h) {
     fprintf(stderr, "This is the Freeciv server\n");
     fprintf(stderr, "  -f, --file F\t\t\tLoad saved game F\n");
+    fprintf(stderr, "  -g, --gamelog F\t\tUse F as game logfile\n");
     fprintf(stderr, "  -h, --help\t\t\tPrint a summary of the options\n");
     fprintf(stderr, "  -l, --log F\t\t\tUse F as logfile\n");
     fprintf(stderr, "  -n, --nometa\t\t\tDon't send info to Metaserver\n");
@@ -221,6 +234,9 @@ int main(int argc, char *argv[])
 
   log_init(log_filename);
   log_set_level(log_level);
+  gamelog_init(gamelog_filename);
+  gamelog_set_level(GAMELOG_FULL);
+  gamelog(GAMELOG_NORMAL,"Starting new log");
   
   printf(FREECIV_NAME_VERSION " server\n");
 #if MINOR_VERSION < 7
@@ -335,6 +351,7 @@ int main(int argc, char *argv[])
     map_fractal_generate();
   else 
     flood_it(1);
+  gamelog_map();
   /* start the game */
 
   set_civ_style(game.civstyle);
@@ -714,6 +731,7 @@ void save_game(void)
     printf("Game saved as %s\n", filename);
 
   section_file_free(&file);
+  gamelog_save();
 }
 
 /**************************************************************************

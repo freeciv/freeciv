@@ -37,6 +37,7 @@
 #include <sys/time.h>
 #include <gotohand.h>
 #include <settlers.h>
+#include <gamelog.h>
 
 extern struct move_cost_map warmap;
 
@@ -287,6 +288,11 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       send_tile_info(0, pcity1->x, pcity1->y, TILE_KNOWN);
     }
   }
+  gamelog(GAMELOG_TECH,"%s steals %s from the %s",
+          get_race_name_plural(pplayer->race),
+          advances[i].name,
+          get_race_name_plural(target->race));
+
   set_invention(pplayer, i, TECH_KNOWN);
   update_research(pplayer);
   do_conquer_cost(pplayer);
@@ -802,6 +808,9 @@ void player_restore_units(struct player *pplayer)
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			 "Game: Your %s has run out of fuel",
 			 unit_name(punit->type));
+	gamelog(GAMELOG_UNITF, "%s lose a %s (fuel)", 
+		get_race_name_plural(pplayer->race),
+		unit_name(punit->type));
 	wipe_unit(0, punit);
       }
     } else if (unit_flag(punit->type, F_TRIREME) && (lighthouse_effect!=1) &&
@@ -812,6 +821,8 @@ void player_restore_units(struct player *pplayer)
       if ((!lighthouse_effect) && (myrand(100) >= 50)) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
 			 "Game: Your Trireme has been lost on the high seas");
+	gamelog(GAMELOG_UNITTRI, "%s Trireme lost at sea",
+		get_race_name_plural(pplayer->race));
 	wipe_unit_safe(pplayer, punit, &myiter);
       }
     }
@@ -1345,6 +1356,11 @@ void get_a_tech(struct player *pplayer, struct player *target)
   }
   if (i==A_LAST) 
     printf("Bug in get_a_tech\n");
+  gamelog(GAMELOG_TECH,"%s acquire %s from %s",
+          get_race_name_plural(pplayer->race),
+          advances[i].name,
+          get_race_name_plural(target->race));
+
   set_invention(pplayer, i, TECH_KNOWN);
   update_research(pplayer);
   do_conquer_cost(pplayer);
@@ -1447,12 +1463,18 @@ void wipe_unit_safe(struct player *dest, struct unit *punit,
 		       n_if_vowel(get_unit_type(punit2->type)->name[0]),
 		       get_unit_type(punit2->type)->name,
 		       get_unit_type(punit->type)->name);
+      gamelog(GAMELOG_UNITL, "%s lose a%s %s when %s lost", 
+	      get_race_name_plural(game.players[punit2->owner].race),
+	      n_if_vowel(get_unit_type(punit2->type)->name[0]),
+	      get_unit_type(punit2->type)->name,
+	      get_unit_type(punit->type)->name);
       send_remove_unit(0, punit2->id);
       game_remove_unit(punit2->id);
     }
     unit_list_iterate_end;
     unit_list_unlink_all(&list);
   }
+
   send_remove_unit(0, punit->id);
   game_remove_unit(punit->id);
 }
@@ -1476,6 +1498,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   struct city *nearcity = dist_nearest_city(get_player(punit->owner), punit->x, punit->y);
   struct city *incity = map_get_city(punit->x, punit->y);
   struct player *dest = &game.players[pkiller->owner];
+  struct player *pplayer = &game.players[punit->owner];
   klaf=unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
   if( (incity) || 
       (map_get_special(punit->x, punit->y)&S_FORTRESS) || 
@@ -1508,6 +1531,12 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		       n_if_vowel(get_unit_type(punit->type)->name[0]),
 		       get_unit_type(punit->type)->name, dest->name,
                        unit_name(pkiller->type));
+    gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
+	    get_race_name_plural(pplayer->race),
+	    n_if_vowel(get_unit_type(punit->type)->name[0]),
+	    get_unit_type(punit->type)->name,
+	    get_race_name_plural(dest->race));
+    
     send_remove_unit(0, punit->id);
     game_remove_unit(punit->id);
   }  else {
@@ -1531,6 +1560,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 			 n_if_vowel(get_unit_type(punit2->type)->name[0]),
 			 get_unit_type(punit2->type)->name, dest->name,
                          unit_name(pkiller->type));
+	gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
+		get_race_name_plural(pplayer->race),
+		n_if_vowel(get_unit_type(punit2->type)->name[0]),
+		get_unit_type(punit2->type)->name,
+		get_race_name_plural(dest->race));
 	send_remove_unit(0, punit2->id);
 	game_remove_unit(punit2->id);
       }

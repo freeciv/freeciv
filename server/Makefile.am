@@ -16,6 +16,8 @@ civserver_SOURCES = \
 		diplhand.h	\
 		gamehand.c	\
 		gamehand.h	\
+		gamelog.c	\
+		gamelog.h	\
 		gotohand.c	\
 		gotohand.h	\
 		handchat.c	\

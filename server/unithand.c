@@ -35,6 +35,7 @@
 #include <aiunit.h>
 #include <aitools.h>
 #include <settlers.h>
+#include <gamelog.h>
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 
 /**************************************************************************
@@ -257,6 +258,12 @@ void handle_diplomat_action(struct player *pplayer,
 	notify_player_ex(&game.players[pcity->owner], pcity->x, pcity->y, E_DIPLOMATED, 
 			 "Game: The %s have established an embassy in %s",
 		         get_race_name_plural(pplayer->race), pcity->name);
+        gamelog(GAMELOG_EMBASSY,"%s establish an embassy in %s (%s) (%i,%i)\n",
+                get_race_name_plural(pplayer->race),
+                pcity->name,
+                get_race_name(game.players[pcity->owner].race),
+		pcity->x,pcity->y);
+
       }
       wipe_unit(0, pdiplomat);
       break;
@@ -968,6 +975,11 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
 		    "Game: %s has been destroyed by %s", 
 		    pcity->name, pplayer->name);
+      gamelog(GAMELOG_LOSEC,"%s (%s) (%i,%i) destroyed by %s",
+              pcity->name,
+              get_race_name(game.players[pcity->owner].race),
+	      pcity->x,pcity->y,
+              get_race_name_plural(pplayer->race));
       remove_city_from_minimap(pcity->x, pcity->y);
       remove_city(pcity);
       return;
@@ -986,6 +998,12 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
 		       "Game: %s conquered %s and looted %d gold from the city.",
 		       pplayer->name, pcity->name, coins);
+      gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s",
+              pcity->name,
+              get_race_name(game.players[pcity->owner].race),
+	      pcity->x,pcity->y,
+              get_race_name_plural(pplayer->race));
+ 
     } else {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		       "Game: You have liberated %s!! lootings accumulate to %d gold.",
@@ -994,6 +1012,12 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
       notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
 		       "Game: %s liberated %s and looted %d gold from the city.",
 		       pplayer->name, pcity->name, coins);
+      gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s",
+              pcity->name,
+              get_race_name(game.players[pcity->owner].race),
+	      pcity->x,pcity->y,
+              get_race_name_plural(pplayer->race));
+
     }
 
     pnewcity=(struct city *)malloc(sizeof(struct city));

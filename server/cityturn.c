@@ -36,6 +36,7 @@
 #include <settlers.h>
 #include <advdomestic.h>
 #include <log.h>
+#include <gamelog.h>
 
 extern signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
@@ -836,6 +837,8 @@ void city_populate(struct city *pcity)
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
 			 "Game: Famine feared in %s, Settlers lost!", 
 			 pcity->name);
+	gamelog(GAMELOG_UNITFS, "%s lose Settlers (famine)",
+		get_race_name_plural(game.players[pcity->owner].race));
 	if (city_got_effect(pcity, B_GRANARY))
 	  pcity->food_stock=(pcity->size*game.foodbox)/2;
 	else
@@ -979,7 +982,17 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 		      get_race_name_plural(pplayer->race),
 		      get_imp_name_ex(pcity, pcity->currently_building),
 		      pcity->name);
-      }
+        gamelog(GAMELOG_WONDER,"%s build %s in %s",
+                get_race_name_plural(pplayer->race),
+                get_imp_name_ex(pcity, pcity->currently_building),
+                pcity->name);
+
+      } else 
+	gamelog(GAMELOG_IMP, "%s build %s in %s",
+                get_race_name_plural(pplayer->race),
+                get_imp_name_ex(pcity, pcity->currently_building),
+                pcity->name);
+      
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_BUILD,
 		    "Game: %s has finished building %s", pcity->name, 
 		    improvement_types[pcity->currently_building].name
@@ -1022,6 +1035,12 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 		       "Game: %s is finished building %s", 
 		       pcity->name, 
 		       unit_types[pcity->currently_building].name);
+    gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
+	    get_race_name_plural(pplayer->race), 
+	    unit_types[pcity->currently_building].name,
+	    pcity->name, pcity->x, pcity->y);
+
+
     }
   }
 }

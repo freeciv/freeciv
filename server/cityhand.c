@@ -32,6 +32,7 @@
 #include <events.h>
 #include <aicity.h>
 #include <settlers.h>
+#include <gamelog.h>
 #include <log.h>
 
 static struct city **citycache = NULL;
@@ -128,6 +129,8 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   struct city *pcity, *othercity;
   int i;
 /* printf("Creating city %s\n", name);   */
+  gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
+	  x,y, get_race_name_plural(pplayer->race));
   pcity=(struct city *)malloc(sizeof(struct city));
 
   pcity->id=get_next_id_number();
@@ -698,6 +701,9 @@ void remove_city(struct city *pcity)
 {
   int o, x, y;
   struct packet_generic_integer packet;
+  gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
+          get_race_name_plural(game.players[pcity->owner].race),
+          pcity->name,pcity->x,pcity->y);
   for (o=0; o<4; o++)
     remove_trade_route(pcity->trade[0], pcity->id);
   packet.value=pcity->id;
