@@ -19,7 +19,7 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
-#include <X11/Xaw/SimpleMenu.h>
+#include <X11/Xaw/SimpleMenu.h> 
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/List.h>
@@ -27,7 +27,8 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
-#include <X11/Xaw/Toggle.h>     
+#include <X11/Xaw/Toggle.h>
+#include <X11/Xaw/Viewport.h>
 
 #include <player.h>
 #include <packets.h>
@@ -97,6 +98,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 
 Widget city_dialog_shell;
 Widget city_label;
+Widget city_viewport;
 Widget city_list, city_list_label;
 Widget city_center_command, city_popup_command, city_buy_command,
        city_refresh_command;
@@ -104,6 +106,12 @@ Widget city_change_command, city_popupmenu;
 
 int city_dialog_shell_is_modal;
 int cities_in_list[MAX_CITIES_SHOWN];
+
+static char *dummy_city_list[]={ 
+  "    "
+  " ",  " ",  " ",  " ",  " ",  " ",  " ",  " ",  " ",  " ",  " ",  " ",  " ",
+  " ",  " ",  " ",  0
+};
 
 
 /******************************************************************/
@@ -138,12 +146,32 @@ Widget activeunits_list, activeunits_list_label;
 Widget upgrade_command;
 
 int activeunits_dialog_shell_is_modal;
+/******************************************************************/
+
+static int delay_report_update=0;
+
+/******************************************************************
+ Turn off updating of reports
+*******************************************************************/
+void report_update_delay_on()
+{
+  delay_report_update=1;
+}
+
+/******************************************************************
+ Turn on updating of reports
+*******************************************************************/
+void report_update_delay_off()
+{
+  delay_report_update=0;
+}
 
 /******************************************************************
 ...
 *******************************************************************/
 void update_report_dialogs(void)
 {
+  if(delay_report_update) return;
   activeunits_report_dialog_update();
   trade_report_dialog_update();
   city_report_dialog_update(); 
@@ -442,6 +470,7 @@ void science_help_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void science_dialog_update(void)
 {
+  if(delay_report_update) return;
   if(science_dialog_shell) {
     char text[512];
     static char *tech_list_names_ptrs[A_LAST+1];
@@ -560,6 +589,10 @@ void popup_city_report_dialog(int make_modal)
       XtVaSetValues(city_dialog_shell, XtNx, x, XtNy, y, NULL);
       
       XtPopup(city_dialog_shell, XtGrabNone);
+
+      /* force refresh of viewport so the scrollbar is added.
+       * Buggy sun athena requires this */
+      XtVaSetValues(city_viewport, XtNforceBars, True, NULL);
    }
 }
 
@@ -574,16 +607,16 @@ void create_city_report_dialog(int make_modal)
   char *report_title;
   
   city_dialog_shell = XtVaCreatePopupShell("reportcitypopup", 
-					      make_modal ? 
-					      transientShellWidgetClass :
-					      topLevelShellWidgetClass,
-					      toplevel, 
-					      0);
+					   make_modal ? 
+					   transientShellWidgetClass :
+					   topLevelShellWidgetClass,
+					   toplevel, 
+					   0);
 
   city_form = XtVaCreateManagedWidget("reportcityform", 
-					 formWidgetClass,
-					 city_dialog_shell,
-					 NULL);   
+				      formWidgetClass,
+				      city_dialog_shell,
+				      NULL);   
 
   report_title=get_report_title("City Advisor");
   city_label = XtVaCreateManagedWidget("reportcitylabel", 
@@ -593,15 +626,20 @@ void create_city_report_dialog(int make_modal)
 				       report_title,
 				       NULL);
   free(report_title);
-
   city_list_label = XtVaCreateManagedWidget("reportcitylistlabel", 
-				       labelWidgetClass, 
-				       city_form,
-				       NULL);
+				            labelWidgetClass, 
+				            city_form,
+				            NULL);
+  city_viewport = XtVaCreateManagedWidget("reportcityviewport", 
+				          viewportWidgetClass, 
+				          city_form, 
+				          NULL);
   
   city_list = XtVaCreateManagedWidget("reportcitylist", 
 				      listWidgetClass,
-				      city_form,
+				      city_viewport,
+                                      XtNlist,
+				      (XtArgVal)dummy_city_list,
 				      NULL);
 
   close_command = XtVaCreateManagedWidget("reportcityclosecommand", 
@@ -850,6 +888,7 @@ void city_popup_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void city_report_dialog_update(void)
 {
+  if(delay_report_update) return;
   if(city_dialog_shell) {
     int i;
     Dimension width; 
@@ -937,8 +976,12 @@ void city_report_dialog_update(void)
 
     XawListChange(city_list, city_list_names_ptrs, 0, 0, 1);
 
+
     XtVaGetValues(city_list, XtNwidth, &width, NULL);
-    XtVaSetValues(city_list_label, XtNwidth, width, NULL); 
+    /* I don't know the proper way to set the width of this viewport widget.
+       Someone who knows is more than welcome to fix this */
+    XtVaSetValues(city_viewport, XtNwidth, width+45, NULL); 
+    XtVaSetValues(city_list_label, XtNwidth, width+45, NULL); 
     XtSetSensitive(city_change_command, FALSE);
     XtSetSensitive(city_center_command, FALSE);
     XtSetSensitive(city_popup_command, FALSE);
@@ -1131,6 +1174,7 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void trade_report_dialog_update(void)
 {
+  if(delay_report_update) return;
   if(trade_dialog_shell) {
     int j, k, count, cost, total;
     Dimension width; 
@@ -1363,6 +1407,7 @@ void activeunits_close_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void activeunits_report_dialog_update(void)
 {
+  if(delay_report_update) return;
   if(activeunits_dialog_shell) {
     int i, k, total;
     Dimension width; 

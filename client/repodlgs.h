@@ -13,6 +13,8 @@
 #ifndef __REPODLGS_H
 #define __REPODLGS_H
 
+void report_update_delay_on();
+void report_update_delay_off();
 void city_report_dialog_update();
 void science_dialog_update(void);
 void update_report_dialogs();
