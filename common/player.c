@@ -586,29 +586,29 @@ bool ai_fuzzy(struct player *pplayer, bool normal_decision)
 **************************************************************************/
 const char *love_text(const int love)
 {
-  if (love < -51) {
-    return "Bloodfeud";
+  if (love <= -51) {
+    return Q_("?attitude:Bloodfeud");
   } else if (love >= -50 && love <= -21) {
-    return "Loathing";
+    return Q_("?attitude:Loathing");
   } else if (love >= -20 && love <= -11) {
-    return "Hatred";
+    return Q_("?attitude:Hatred");
   } else if (love >= -10 && love <= -5) {
-    return "Dislike";
+    return Q_("?attitude:Dislike");
   } else if (love >= -4 && love <= -3) {
-    return "Unease";
+    return Q_("?attitude:Unease");
   } else if (love >= -2 && love <= 2) {
-    return "Indifferent";
+    return Q_("?attitude:Indifferent");
   } else if (love >= 3 && love <= 9) {
-    return "Peaceful";
+    return Q_("?attitude:Peaceful");
   } else if (love >= 10 && love <= 20) {
-    return "Relaxed";
+    return Q_("?attitude:Relaxed");
   } else if (love >= 21 && love <= 50) {
-    return "Friendly";
+    return Q_("?attitude:Friendly");
   } else if (love >= 51 && love <= 70) {
-    return "Amiable";
+    return Q_("?attitude:Amiable");
   } else {
     assert(love >= 71);
-    return "Harmony";
+    return Q_("?attitude:Harmony");
   }
 }
 
