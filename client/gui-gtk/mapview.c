@@ -710,10 +710,11 @@ void refresh_overview_canvas(void)
 **************************************************************************/
 void overview_update_tile(int x, int y)
 {
-  int pos=x+map.xsize/2-(map_view_x0+map_canvas_store_twidth/2);
+  int pos = x + map.xsize/2 - (map_view_x0 + map_canvas_store_twidth/2);
   
-  if(pos>=map.xsize)
-    pos-=map.xsize;
+  pos %= map.xsize;
+  if (pos < 0)
+    pos += map.xsize;
   
   set_overview_tile_foreground_color(x, y);
   gdk_draw_rectangle( overview_canvas_store, fill_bg_gc, TRUE, x*2, y*2,
