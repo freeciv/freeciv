@@ -419,6 +419,7 @@ void tilespec_reread(const char *tileset_name)
        we don't want/need to redraw. */
     return;
   }
+  generate_citydlg_dimensions();
   tileset_changed();
   center_tile_mapcanvas(center_x, center_y);
 }

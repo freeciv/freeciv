@@ -1318,6 +1318,8 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   map_allocate();
   init_client_goto();
 
+  generate_citydlg_dimensions();
+
   set_overview_dimensions(map.xsize, map.ysize);
 }
 

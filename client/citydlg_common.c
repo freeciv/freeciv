@@ -31,16 +31,14 @@
 #include "options.h"		/* for concise_city_production */
 #include "tilespec.h"		/* for is_isometric */
 
+static int citydlg_width, citydlg_height;
+
 /**************************************************************************
   Return the width of the city dialog canvas.
 **************************************************************************/
 int get_citydlg_canvas_width(void)
 {
-  if (is_isometric) {
-    return (CITY_MAP_SIZE - 1) * NORMAL_TILE_WIDTH;
-  } else {
-    return CITY_MAP_SIZE * NORMAL_TILE_WIDTH;
-  }
+  return citydlg_width;
 }
 
 /**************************************************************************
@@ -48,16 +46,35 @@ int get_citydlg_canvas_width(void)
 **************************************************************************/
 int get_citydlg_canvas_height(void)
 {
-  if (is_isometric) {
-    return (CITY_MAP_SIZE - 1) * NORMAL_TILE_HEIGHT;
-  } else {
-    return CITY_MAP_SIZE * NORMAL_TILE_HEIGHT;
-  }
+  return citydlg_height;
 }
 
 /**************************************************************************
-This converts a city coordinate position to citymap canvas coordinates
-(either isometric or overhead).  It should be in cityview.c instead.
+  Calculate the citydlg width and height.
+**************************************************************************/
+void generate_citydlg_dimensions(void)
+{
+  int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
+
+  city_map_iterate(city_x, city_y) {
+    int canvas_x, canvas_y;
+
+    map_to_gui_vector(&canvas_x, &canvas_y,
+		      city_x - CITY_MAP_RADIUS, city_y - CITY_MAP_RADIUS);
+
+    min_x = MIN(canvas_x, min_x);
+    max_x = MAX(canvas_x, max_x);
+    min_y = MIN(canvas_y, min_y);
+    max_y = MAX(canvas_y, max_y);
+  } city_map_iterate_end;
+
+  citydlg_width = max_x - min_x + NORMAL_TILE_WIDTH;
+  citydlg_height = max_y - min_y + NORMAL_TILE_HEIGHT;
+}
+
+/**************************************************************************
+  Converts a (cartesian) city position to citymap canvas coordinates.
+  Returns TRUE if the city position is valid.
 **************************************************************************/
 bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
 {
@@ -65,6 +82,7 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
   const int width = get_citydlg_canvas_width();
   const int height = get_citydlg_canvas_height();
 
+  /* The citymap is centered over the center of the citydlg canvas. */
   map_to_gui_vector(canvas_x, canvas_y, city_x - x0, city_y - y0);
   *canvas_x += (width - NORMAL_TILE_WIDTH) / 2;
   *canvas_y += (height - NORMAL_TILE_HEIGHT) / 2;
@@ -77,33 +95,40 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
 }
 
 /**************************************************************************
-This converts a citymap canvas position to a city coordinate position
-(either isometric or overhead).  It should be in cityview.c instead.
+  Converts a citymap canvas position to a (cartesian) city coordinate
+  position.  Returns TRUE iff the city position is valid.
 **************************************************************************/
 bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 {
   int orig_canvas_x = canvas_x, orig_canvas_y = canvas_y;
+  const int width = get_citydlg_canvas_width();
+  const int height = get_citydlg_canvas_height();
+
+  /* The citymap is centered over the center of the citydlg canvas. */
+  canvas_x -= (width - NORMAL_TILE_WIDTH) / 2;
+  canvas_y -= (height - NORMAL_TILE_HEIGHT) / 2;
 
   if (is_isometric) {
     const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
 
-    /* Shift the tile right so the top corner of tile (-2,2) is at
+    /* Shift the tile left so the top corner of the origin tile is at
        canvas position (0,0). */
-    canvas_y += H / 2;
+    canvas_x -= W / 2;
 
     /* Perform a pi/4 rotation, with scaling.  See canvas_pos_to_map_pos
        for a full explanation. */
     *city_x = DIVIDE(canvas_x * H + canvas_y * W, W * H);
     *city_y = DIVIDE(canvas_y * W - canvas_x * H, W * H);
-
-    /* Add on the offset of the top-left corner to get the final
-     * coordinates (like in canvas_to_map_pos). */
-    *city_x -= CITY_MAP_RADIUS;
-    *city_y += CITY_MAP_RADIUS;
   } else {
-    *city_x = canvas_x / NORMAL_TILE_WIDTH;
-    *city_y = canvas_y / NORMAL_TILE_HEIGHT;
+    *city_x = DIVIDE(canvas_x, NORMAL_TILE_WIDTH);
+    *city_y = DIVIDE(canvas_y, NORMAL_TILE_HEIGHT);
   }
+
+  /* Add on the offset of the top-left corner to get the final
+   * coordinates (like in canvas_to_map_pos). */
+  *city_x += CITY_MAP_RADIUS;
+  *city_y += CITY_MAP_RADIUS;
+
   freelog(LOG_DEBUG, "canvas_to_city_pos(pos=(%d,%d))=(%d,%d)",
 	  orig_canvas_x, orig_canvas_y, *city_x, *city_y);
 
