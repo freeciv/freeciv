@@ -756,17 +756,6 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Place a (possibly masked) sprite on a pixmap.
-**************************************************************************/
-void pixmap_put_sprite_full(GdkDrawable *pixmap,
-			    int pixmap_x, int pixmap_y,
-			    struct Sprite *ssprite)
-{
-  pixmap_put_sprite(pixmap, pixmap_x, pixmap_y, ssprite,
-		    0, 0, ssprite->width, ssprite->height);
-}
-
-/**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas,

@@ -169,11 +169,12 @@ static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
 
   GdkPixmap *happiness_pixmap = gdk_pixmap_new(root_window, true_pix_width,
 					       SMALL_TILE_HEIGHT, -1);
+  struct canvas canvas = {happiness_pixmap};
 
   get_city_citizen_types(pcity, index, citizens);
 
   for (i = 0; i < num_citizens; i++) {
-    pixmap_put_sprite_full(happiness_pixmap,
+    canvas_put_sprite_full(&canvas,
 			   i * offset, 0,
 			   get_citizen_sprite(citizens[i], i, pcity));
   }
