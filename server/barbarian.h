@@ -14,7 +14,7 @@
 #ifndef FC__BARBARIAN_H
 #define FC__BARBARIAN_H
 
-#include "player.h"
+struct player;
 
 #define MIN_UNREST_DIST   5
 #define MAX_UNREST_DIST   8

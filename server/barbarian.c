@@ -25,8 +25,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "aitools.h"
-
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -45,6 +43,8 @@
 #include "unitfunc.h"
 #include "unithand.h"
 #include "unittools.h"
+
+#include "aitools.h"
 
 #include "barbarian.h"
 
@@ -240,7 +240,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
   int i, xu, yu, me;
   int xx[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int yy[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
-  int alive = 1;     /* explorer survided */
+  int alive = 1;     /* explorer survived */
 
   unit_cnt = 3 + myrand(4);
 
