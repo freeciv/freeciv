@@ -3803,7 +3803,7 @@ msgstr "Spel: U hebt een schandaal veroorzaakt met het omkopen van %s's %s."
 #: server/unitfunc.c:1262
 #, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
-msgstr "Spel: %s heeft een schandaal veroorzaakt met het omkopen van %s's %s."
+msgstr "Spel: %s heeft een schandaal veroorzaakt met het omkopen van uw %s."
 
 #: server/unitfunc.c:1269
 #, c-format
