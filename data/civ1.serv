@@ -15,6 +15,7 @@ set techs civ1
 set governments civ1
 set units civ1
 set buildings civ1
+set game civ1
 #
 # Optional:
 #set nations civ1

@@ -315,7 +315,11 @@ void handle_packet_input(char *packet, int type)
   case PACKET_RULESET_CITY:
     handle_ruleset_city((struct packet_ruleset_city *)packet);
     break;
-    
+
+  case PACKET_RULESET_GAME:
+    handle_ruleset_game((struct packet_ruleset_game *)packet);
+    break;
+
   case PACKET_INCITE_COST:
     handle_incite_cost((struct packet_generic_values *)packet);
     break;

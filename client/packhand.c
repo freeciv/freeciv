@@ -767,6 +767,28 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.techpenalty=pinfo->techpenalty;
   game.foodbox=pinfo->foodbox;
   game.civstyle=pinfo->civstyle;
+/* when removing "game_ruleset" capability,
+remove this *entire* piece of code (to REMOVE TO HERE, below) */
+if (!has_capability("game_ruleset", aconnection.capability)) {
+if (game.civstyle == 1) {
+game.rgame.min_city_center_food = 0;
+game.rgame.min_city_center_shield = 0;
+game.rgame.min_city_center_trade = 0;
+game.rgame.min_dist_bw_cities = 1;
+game.rgame.init_vis_radius_sq = 2;
+game.rgame.hut_overflight = OVERFLIGHT_NOTHING;
+game.rgame.pillage_select = 0;
+} else {
+game.rgame.min_city_center_food = 1;
+game.rgame.min_city_center_shield = 1;
+game.rgame.min_city_center_trade = 0;
+game.rgame.min_dist_bw_cities = 2;
+game.rgame.init_vis_radius_sq = 5;
+game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
+game.rgame.pillage_select = 1;
+}
+}
+/* REMOVE TO HERE */
 
   boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && game.spacerace != pinfo->spacerace);
@@ -1712,6 +1734,20 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
 
   tilespec_setup_city_tiles(id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_game(struct packet_ruleset_game *packet)
+{
+  game.rgame.min_city_center_food = packet->min_city_center_food;
+  game.rgame.min_city_center_shield = packet->min_city_center_shield;
+  game.rgame.min_city_center_trade = packet->min_city_center_trade;
+  game.rgame.min_dist_bw_cities = packet->min_dist_bw_cities;
+  game.rgame.init_vis_radius_sq = packet->init_vis_radius_sq;
+  game.rgame.hut_overflight = packet->hut_overflight;
+  game.rgame.pillage_select = packet->pillage_select;
 }
 
 /**************************************************************************

@@ -660,7 +660,7 @@ void request_unit_pillage(struct unit *punit)
   what = get_preferred_pillage(pspresent & (~psworking));
   would = what | map_get_infrastructure_prerequisite (what);
 
-  if ((game.civstyle==2) &&
+  if ((game.rgame.pillage_select) &&
       ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
     popup_pillage_dialog(punit, pspresent & (~psworking));
   } else {

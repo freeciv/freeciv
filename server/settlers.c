@@ -773,9 +773,13 @@ int is_ok_city_spot(int x, int y)
       if (map_distance(x, y, pcity->x, pcity->y)<=8) {
         dx=make_dx(pcity->x, x);
         dy=make_dy(pcity->y, y);
+	/* these are heuristics... */
         if (dx<=5 && dy<5)
           return 0;
         if (dx<5 && dy<=5)
+          return 0;
+	/* this is the law... */
+	if (dx<game.rgame.min_dist_bw_cities && dy<game.rgame.min_dist_bw_cities)
           return 0;
       }
     }
@@ -1082,6 +1086,7 @@ static int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 	    && (territory[x][y]&(1<<player_num))
 				/* pretty good, hope it's enough! -- Syela */
             && (near < 8 || map_get_continent(x, y) != ucont)
+	    && city_can_be_built_here(x,y)
 	    && !city_exists_within_city_radius(x,y)) {
 
 	  /* potential target, calculate mv_cost: */

@@ -53,6 +53,7 @@ diplchance_percent"
 void init_new_game(void)
 {
   int i, j, x, y;
+  int vx, vy;
   int start_pos[MAX_NUM_PLAYERS]; /* indices into map.start_positions[] */
   
   if (!map.fixed_start_positions) {
@@ -121,15 +122,19 @@ void init_new_game(void)
       freelog(LOG_VERBOSE, "Removed hut on start position for %s",
 	      game.players[i].name);
     }
-    /* Civ 1 exposes a single square radius of the map to start the game. */
-    /* Civ 2 exposes a "city radius". -AJS */
-    show_area(&game.players[i], x, y, 1);
-    if (game.civstyle==2) {
-      show_area(&game.players[i], x-1, y, 1);
-      show_area(&game.players[i], x+1, y, 1);
-      show_area(&game.players[i], x, y-1, 1);
-      show_area(&game.players[i], x, y+1, 1);
+
+    /* Expose visible area. */
+    for(vx=1; vx*vx <= game.rgame.init_vis_radius_sq; vx++) {
+      for(vy=1; vy*vy <= game.rgame.init_vis_radius_sq; vy++) {
+	if(vx*vx+vy*vy <= game.rgame.init_vis_radius_sq) {
+	  show_area(&game.players[i], x-vx+1, y-vy+1, 1);
+	  show_area(&game.players[i], x+vx-1, y-vy+1, 1);
+	  show_area(&game.players[i], x-vx+1, y+vy-1, 1);
+	  show_area(&game.players[i], x+vx-1, y+vy-1, 1);
+	}
+      }
     }
+
     for (j=0;j<game.settlers;j++) 
       create_unit(&game.players[i], x, y, get_role_unit(F_CITIES,0), 0, 0, -1);
     for (j=0;j<game.explorer;j++) 
@@ -330,7 +335,7 @@ void game_load(struct section_file *file)
     section_file_lookup(file, "game.farmfood");
   }
   if (game.version >= 10300) {
-    game.civstyle = secfile_lookup_int(file, "game.civstyle");
+    game.civstyle = secfile_lookup_int_default(file, 0, "game.civstyle");
     game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
   }
 
@@ -419,6 +424,15 @@ void game_load(struct section_file *file)
 					"game.ruleset.nations"));
   sz_strlcpy(game.ruleset.cities,
 	     secfile_lookup_str_default(file, "default", "game.ruleset.cities"));
+  if(game.civstyle == 1) {
+    string = "civ1";
+  } else {
+    string = "default";
+    game.civstyle = GAME_DEFAULT_CIVSTYLE;
+  }
+  sz_strlcpy(game.ruleset.game,
+	     secfile_lookup_str_default(file, string,
+					"game.ruleset.game"));
 
   sz_strlcpy(game.demography,
 	     secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
@@ -612,6 +626,7 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.ruleset.governments, "game.ruleset.governments");
   secfile_insert_str(file, game.ruleset.nations, "game.ruleset.nations");
   secfile_insert_str(file, game.ruleset.cities, "game.ruleset.cities");
+  secfile_insert_str(file, game.ruleset.game, "game.ruleset.game");
   secfile_insert_str(file, game.demography, "game.demography");
 
   if (1) {

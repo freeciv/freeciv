@@ -102,7 +102,7 @@ l = @l@
 
 pkgdatadir = $(datadir)/@PACKAGE@/civ2
 
-pkgdata_DATA =  	terrain.ruleset		techs.ruleset		governments.ruleset 	units.ruleset		buildings.ruleset
+pkgdata_DATA =  	buildings.ruleset 	game.ruleset		governments.ruleset 	techs.ruleset		terrain.ruleset		units.ruleset
 
 
 EXTRA_DIST = $(pkgdata_DATA)

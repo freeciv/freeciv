@@ -851,9 +851,9 @@ int get_shields_tile(int x, int y, struct city *pcity)
   else
     s=get_tile_type(tile_t)->shield;
 
-  if (x == 2 &&  y == 2 && !s) /* Always give a single shield on city square */
-    s=1;
-  
+  if (s<game.rgame.min_city_center_shield && x==2 && y==2)
+    s=game.rgame.min_city_center_shield;
+
   if (spec_t & S_MINE) {
     s += (get_tile_type(tile_t))->mining_shield_incr;
   }
@@ -890,7 +890,10 @@ int get_trade_tile(int x, int y, struct city *pcity)
     t=get_tile_type(tile_t)->trade_special_2;
   else
     t=get_tile_type(tile_t)->trade;
-    
+
+  if (t<game.rgame.min_city_center_trade && x==2 && y==2)
+    t=game.rgame.min_city_center_trade;
+
   if ((spec_t & S_RIVER) && (tile_t != T_OCEAN)) {
     t += terrain_control.river_trade_incr;
   }
@@ -953,6 +956,9 @@ int get_food_tile(int x, int y, struct city *pcity)
   else
     f=get_tile_type(tile_t)->food;
 
+  if (f<game.rgame.min_city_center_food && x==2 && y==2)
+    f=game.rgame.min_city_center_food;
+
   if ((spec_t & S_IRRIGATION) || city_auto_water) {
     f += type->irrigation_food_incr;
     if (((spec_t & S_FARMLAND) ||
@@ -969,9 +975,6 @@ int get_food_tile(int x, int y, struct city *pcity)
   if (spec_t & S_RAILROAD)
     f+=(f*terrain_control.rail_food_bonus)/100;
 
-  if (game.civstyle==2 && tile_t==T_MOUNTAINS && x==2 && y==2)
-    f++;
-
   if (f)
     f += (celeb ? g->celeb_food_bonus : g->food_bonus);
   if (before_penalty && f > before_penalty) 
@@ -981,6 +984,25 @@ int get_food_tile(int x, int y, struct city *pcity)
     f-=(f*terrain_control.pollution_food_penalty)/100; /* The food here is yucky */
 
   return f;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int city_can_be_built_here(int x, int y)
+{
+  int dx, dy;
+
+  if(map_get_terrain(x, y)==T_OCEAN)
+    return 0;
+
+  /* game.rgame.min_dist_bw_cities minimum is 1, which means adjacent is okay */
+  for (dx = -game.rgame.min_dist_bw_cities+1; dx < game.rgame.min_dist_bw_cities; dx++)
+    for (dy = -game.rgame.min_dist_bw_cities+1; dy < game.rgame.min_dist_bw_cities; dy++)
+      if (map_get_city(x + dx, y + dy))
+	return 0;
+
+  return 1;
 }
 
 /**************************************************************************

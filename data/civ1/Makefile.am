@@ -4,11 +4,12 @@
 pkgdatadir = $(datadir)/@PACKAGE@/civ1
 
 pkgdata_DATA =          \
-	nations.ruleset	\
-	terrain.ruleset	\
-	techs.ruleset	\
+	buildings.ruleset \
+	game.ruleset	\
 	governments.ruleset \
-	units.ruleset	\
-	buildings.ruleset
+	nations.ruleset	\
+	techs.ruleset	\
+	terrain.ruleset	\
+	units.ruleset
 
 EXTRA_DIST = $(pkgdata_DATA)

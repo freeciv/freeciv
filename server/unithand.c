@@ -675,7 +675,6 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
 }
 
 /**************************************************************************
-...
 Return 1 if unit is alive, and 0 if it was killed
 **************************************************************************/
 int handle_unit_enter_hut(struct unit *punit)
@@ -684,14 +683,14 @@ int handle_unit_enter_hut(struct unit *punit)
   int ok = 1;
   int cred;
 
-  if ((game.civstyle==1) && is_air_unit(punit)) {
+  if (game.rgame.hut_overflight==OVERFLIGHT_NOTHING && is_air_unit(punit)) {
     return ok;
   }
 
   map_get_tile(punit->x, punit->y)->special^=S_HUT;
   send_tile_info(0, punit->x, punit->y);
 
-  if ((game.civstyle==2) && is_air_unit(punit)) {
+  if (game.rgame.hut_overflight==OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: Your overflight frightens the tribe;"
 		       " they scatter in terror."));

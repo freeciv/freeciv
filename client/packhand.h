@@ -45,6 +45,7 @@ void handle_ruleset_government_ruler_title(struct packet_ruleset_government_rule
 void handle_city_name_suggestion(struct packet_city_name_suggestion *packet);
 void handle_ruleset_nation(struct packet_ruleset_nation *packet);
 void handle_ruleset_city(struct packet_ruleset_city *packet);
+void handle_ruleset_game(struct packet_ruleset_game *packet);
 void handle_diplomat_action(struct packet_diplomat_action *packet);
 void handle_sabotage_list(struct packet_sabotage_list *packet);
 

@@ -606,28 +606,13 @@ char *get_units_with_flag_string(int flag)
 **************************************************************************/
 int can_unit_build_city(struct unit *punit)
 {
-  int x, y;
-
   if(!unit_flag(punit->type, F_CITIES))
-    return 0;
-    
-  if(map_get_terrain(punit->x, punit->y)==T_OCEAN)
     return 0;
 
   if(!punit->moves_left)
     return 0;
 
-  if(game.civstyle==1) {
-    if(map_get_city(punit->x, punit->y))
-      return 0;
-  } else {
-    for(x=-1; x<=1; x++)
-      for(y=-1; y<=1; y++)
-	if(map_get_city(punit->x + x, punit->y + y))
-	  return 0;
-  }
-
-  return 1;
+  return city_can_be_built_here(punit->x, punit->y);
 }
 
 /**************************************************************************
@@ -960,7 +945,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
 	if (target == S_NO_SPECIAL)
 	  return ((pspresent & (~psworking)) != 0);
-	else if ((game.civstyle != 2) &&
+	else if ((!game.rgame.pillage_select) &&
 		 (target != get_preferred_pillage(pspresent)))
 	  return 0;
 	else

@@ -363,6 +363,17 @@ static struct settings_s settings[] = {
     game.ruleset.cities, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.cities) },
 
+  { "game", NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    0, 0, 0,
+    N_("Data subdir containing game.ruleset"),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"game.ruleset\".  "
+       "The file is used to initialize some miscellanous game rules.  "
+       "See also README.rulesets."),
+    game.ruleset.game, GAME_DEFAULT_RULESET,
+    sizeof(game.ruleset.game) },
+
   { "researchspeed", &game.techlevel,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
@@ -450,14 +461,8 @@ static struct settings_s settings[] = {
     N_("Style of Civ rules"),
     N_("Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
        "Currently this option affects the following rules:\n"
-       "  - Civ2 exposes more area at the very start of a new game.\n"
-       "  - Civ2 allows the player to pick which improvement to pillage.\n"
-       "  - In Civ2, cities cannot be built next to each other.\n"
-       "  - In Civ2, overflight of a hut causes it to disappear.\n"
-       "  - In Civ2, cities on mountains produce some food.\n"
        "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
-       "See also README.rulesets and the techs, units, buildings and "
-       "terrain options.") },
+       "See also README.rulesets.") },
 
   { "occupychance", &game.occupychance,
     SSET_RULES, SSET_TO_CLIENT,

@@ -41,6 +41,9 @@ enum client_states {
 struct unit;
 struct city;
 
+#define OVERFLIGHT_NOTHING  1
+#define OVERFLIGHT_FRIGHTEN 2
+
 struct civ_game {
   int is_new_game;		/* 1 for games never started */
   int version;
@@ -117,6 +120,7 @@ struct civ_game {
     char governments[MAX_LEN_NAME];
     char nations[MAX_LEN_NAME];
     char cities[MAX_LEN_NAME];
+    char game[MAX_LEN_NAME];
   } ruleset;
   int firepower_factor;		/* See README.rulesets */
   struct {
@@ -136,6 +140,17 @@ struct civ_game {
     */
     int partisan_req[MAX_NUM_TECH_LIST];       /* all required for uprisings */
   } rtech;
+
+  /* values from game.ruleset */
+  struct {
+    int min_city_center_food;
+    int min_city_center_shield;
+    int min_city_center_trade;
+    int min_dist_bw_cities;
+    int init_vis_radius_sq;
+    int hut_overflight;
+    int pillage_select;
+  } rgame;
 
   char demography[MAX_LEN_DEMOGRAPHY];
 };

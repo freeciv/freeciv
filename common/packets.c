@@ -341,6 +341,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_ruleset_nation(pc);
   case PACKET_RULESET_CITY:
     return receive_packet_ruleset_city(pc);
+  case PACKET_RULESET_GAME:
+    return receive_packet_ruleset_game(pc);
 
   case PACKET_SPACESHIP_INFO:
     return receive_packet_spaceship_info(pc);
@@ -3321,6 +3323,57 @@ receive_packet_ruleset_city(struct connection *pc)
   return packet;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_game(struct connection *pc,
+                             struct packet_ruleset_game *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+/* when removing "game_ruleset" capability,
+remove this *entire* piece of code (to REMOVE TO HERE, below) */
+if (pc && !has_capability("game_ruleset", pc->capability)) {
+return 0;
+}
+/* REMOVE TO HERE */
+  cptr=put_uint8(buffer+2, PACKET_RULESET_GAME);
+
+  cptr=put_uint8(cptr, packet->min_city_center_food);
+  cptr=put_uint8(cptr, packet->min_city_center_shield);
+  cptr=put_uint8(cptr, packet->min_city_center_trade);
+  cptr=put_uint8(cptr, packet->min_dist_bw_cities);
+  cptr=put_uint8(cptr, packet->init_vis_radius_sq);
+  cptr=put_uint8(cptr, packet->hut_overflight);
+  cptr=put_uint8(cptr, packet->pillage_select);
+
+  put_uint16(buffer, cptr-buffer);
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_game *
+receive_packet_ruleset_game(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_ruleset_game *packet=
+    fc_malloc(sizeof(struct packet_ruleset_game));
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint8(&iter, &packet->min_city_center_food);
+  iget_uint8(&iter, &packet->min_city_center_shield);
+  iget_uint8(&iter, &packet->min_city_center_trade);
+  iget_uint8(&iter, &packet->min_dist_bw_cities);
+  iget_uint8(&iter, &packet->init_vis_radius_sq);
+  iget_uint8(&iter, &packet->hut_overflight);
+  iget_uint8(&iter, &packet->pillage_select);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
 
 /**************************************************************************
 ...

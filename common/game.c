@@ -770,6 +770,7 @@ void game_init(void)
   sz_strlcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
   sz_strlcpy(game.ruleset.nations,     GAME_DEFAULT_RULESET);
   sz_strlcpy(game.ruleset.cities,      GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.game,        GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
   game.num_unit_types = 0;
   game.num_tech_types = 0;

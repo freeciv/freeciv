@@ -66,6 +66,7 @@ static void load_ruleset_buildings(char *ruleset_subdir);
 static void load_ruleset_terrain(char *ruleset_subdir);
 static void load_ruleset_governments(char *ruleset_subdir);
 static void load_ruleset_nations(char *ruleset_subdir);
+static void load_ruleset_game(char *ruleset_subdir);
 
 static void send_ruleset_techs(struct player *dest);
 static void send_ruleset_units(struct player *dest);
@@ -74,6 +75,7 @@ static void send_ruleset_terrain(struct player *dest);
 static void send_ruleset_governments(struct player *dest);
 static void send_ruleset_nations(struct player *dest);
 static void send_ruleset_cities(struct player *dest);
+static void send_ruleset_game(struct player *dest);
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
@@ -1878,6 +1880,55 @@ static void load_ruleset_cities(char *ruleset_subdir)
 }
 
 /**************************************************************************
+Load game.ruleset file
+**************************************************************************/
+static void load_ruleset_game(char *ruleset_subdir)
+{
+  struct section_file file;
+  char *filename, *datafile_options;
+  char *sval;
+
+  filename = openload_ruleset_file(&file, ruleset_subdir, "game");
+  datafile_options = check_ruleset_capabilities(&file, "+1.11.1", filename);
+  section_file_lookup(&file,"datafile.description"); /* unused */
+
+  game.rgame.min_city_center_food =
+    secfile_lookup_int(&file, "civstyle.min_city_center_food");
+  game.rgame.min_city_center_shield =
+    secfile_lookup_int(&file, "civstyle.min_city_center_shield");
+  game.rgame.min_city_center_trade =
+    secfile_lookup_int(&file, "civstyle.min_city_center_trade");
+
+  game.rgame.min_dist_bw_cities =
+    secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
+  if(game.rgame.min_dist_bw_cities<1) {
+    freelog(LOG_NORMAL, _("Bad value %i for min_dist_bw_cities. Using 2."),
+	    game.rgame.min_dist_bw_cities);
+    game.rgame.min_dist_bw_cities = 2;
+  }
+
+  game.rgame.init_vis_radius_sq =
+    secfile_lookup_int(&file, "civstyle.init_vis_radius_sq");
+
+  sval = secfile_lookup_str(&file, "civstyle.hut_overflight" );
+  if (mystrcasecmp(sval, "Nothing") == 0) {
+    game.rgame.hut_overflight = OVERFLIGHT_NOTHING;
+  } else if (mystrcasecmp(sval, "Frighten") == 0) {
+    game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
+  } else {
+    freelog(LOG_NORMAL, _("Bad value %s for hut_overflight. Using "
+            "\"Frighten\"."), sval);
+    game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
+  }
+
+  game.rgame.pillage_select =
+    secfile_lookup_int(&file, "civstyle.pillage_select");
+
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void send_ruleset_units(struct player *dest)
@@ -2208,11 +2259,35 @@ static void send_ruleset_cities(struct player *dest)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void send_ruleset_game(struct player *dest)
+{
+  int to;
+  struct packet_ruleset_game misc_p;
+
+  misc_p.min_city_center_food = game.rgame.min_city_center_food;
+  misc_p.min_city_center_shield = game.rgame.min_city_center_shield;
+  misc_p.min_city_center_trade = game.rgame.min_city_center_trade;
+  misc_p.min_dist_bw_cities = game.rgame.min_dist_bw_cities;
+  misc_p.init_vis_radius_sq = game.rgame.init_vis_radius_sq;
+  misc_p.hut_overflight = game.rgame.hut_overflight;
+  misc_p.pillage_select = game.rgame.pillage_select;
+
+  for(to = 0; to < game.nplayers; to++) {           /* dests */
+    if(dest==0 || get_player(to)==dest) {
+      send_packet_ruleset_game(get_player(to)->conn, &misc_p);
+    }
+  }
+}
+
+/**************************************************************************
 ...  
 **************************************************************************/
 void load_rulesets(void)
 {
   freelog(LOG_NORMAL, _("Loading rulesets"));
+  load_ruleset_game(game.ruleset.game);
   load_ruleset_techs(game.ruleset.techs);
   load_ruleset_cities(game.ruleset.cities);
   load_ruleset_governments(game.ruleset.governments);
@@ -2237,6 +2312,7 @@ void send_rulesets(struct player *dest)
   }
 
   send_ruleset_control(dest);
+  send_ruleset_game(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_units(dest);

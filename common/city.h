@@ -466,6 +466,8 @@ int is_worker_here(struct city *pcity, int x, int y);
 int map_to_city_x(struct city *pcity, int x);
 int map_to_city_y(struct city *pcity, int y);
 
+int city_can_be_built_here(int x, int y);
+
 /* trade functions */
 int can_establish_trade_route(struct city *pc1, struct city *pc2);
 int trade_between_cities(struct city *pc1, struct city *pc2);

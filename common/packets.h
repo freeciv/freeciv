@@ -110,6 +110,7 @@ enum packet_type {
   PACKET_UNIT_CONNECT,
   PACKET_SABOTAGE_LIST,
   PACKET_ADVANCE_FOCUS,
+  PACKET_RULESET_GAME,
   PACKET_LAST  /* leave this last */
 };
 
@@ -717,6 +718,16 @@ struct packet_ruleset_city {
   int replaced_by;
 };
 
+struct packet_ruleset_game {
+  int min_city_center_food;
+  int min_city_center_shield;
+  int min_city_center_trade;
+  int min_dist_bw_cities;
+  int init_vis_radius_sq;
+  int hut_overflight;
+  int pillage_select;
+};
+
 /*********************************************************
 ...
 *********************************************************/
@@ -983,6 +994,11 @@ int send_packet_ruleset_city(struct connection *pc,
 			     struct packet_ruleset_city *packet);
 struct packet_ruleset_city *
 receive_packet_ruleset_city(struct connection *pc);
+
+int send_packet_ruleset_game(struct connection *pc,
+                             struct packet_ruleset_game *packet);
+struct packet_ruleset_game *
+receive_packet_ruleset_game(struct connection *pc);
 
 int send_packet_before_end_year(struct connection *pc);
 

@@ -6,10 +6,10 @@
 Quickstart:
 -----------
  Rulesets allow modifiable sets of data for units, advances, terrain,
- improvements, wonders, nations, cities and governments, without
- requiring recompilation, in a way which is consistent across a
- network and through savegames.  (In the future there could be other
- categories of rulesets.)
+ improvements, wonders, nations, cities, governments and miscellaneous
+ game rules, without requiring recompilation, in a way which is
+ consistent across a network and through savegames.  (In the future
+ there could be other categories of rulesets.)
 
 - To play Freeciv normally: don't do anything special; the new
   features all have defaults which give the standard Freeciv 
@@ -51,8 +51,8 @@ of "./ser -r data/civ1.serv" just reads a file which sets these
 options (as well as a few of the standard server options).  
 The new server options are:
 
-        techs, governments, units,
-        buildings, terrain, nations, cities.
+        techs, governments, units, buildings,
+        terrain, nations, cities, game.
 
 They are special server options in that they take string values, but 
 otherwise the behave like normal server options.  Eg, try the server 
@@ -64,13 +64,14 @@ name techs.ruleset, units.ruleset, buildings.ruleset, etc.
 
 Eg, the commands:
    
-	set techs default 
-	set governments default 
+	set techs default
+	set governments default
 	set units civ1
 	set buildings custom
 	set terrain civ2
-	set nations default 
-	set cities default 
+	set nations default
+	set cities default
+	set game custom
 
 would specify the files:
 
@@ -81,6 +82,7 @@ would specify the files:
 	data/civ2/terrain.ruleset
 	data/default/nations.ruleset
 	data/default/cities.ruleset
+	data/custom/game.ruleset
 
 (This is just an example, and may not give very sensible rules; the
 directory data/custom and the file data/custom/buildings.ruleset do 
@@ -134,13 +136,11 @@ Properties of buildings are still rather inflexible.
 The civstyle option:
 --------------------
 
-The server option civstyle still exists, but, as before, it doesn't
-actually do very much.  In the server, 'explain civstyle' now gives
-details of what exactly is affected.  Rulesets allows Civ1 style rules
-(to some approximation) in a more flexible way than a single server
-option.  Currently the civstyle option is used for minor Civ1/Civ2
-differences which are not covered by rulesets, but it may go away in
-future.
+The server option civstyle still exists, but its only current use is
+to determine how much of the map is revealed when the Apollo Program
+id built.
+
+The civstyle option will be removed in the near future.
 
 ----------------------------------------------------------------------
 The AI:

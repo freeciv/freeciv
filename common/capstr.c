@@ -70,7 +70,8 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix"
+#define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix
+ game_ruleset"
 
 /* "+1.11" is protocol for 1.11.0 stable release
 
@@ -81,6 +82,8 @@ const char * const our_capability = our_capability_internal;
    "production_change_fix" extends the protocol so that city production
    changes are correctly accounted for, allowing for recovery of penalty
    when changing back to original class.
+
+   "game_ruleset" is use of game.ruleset instead of civstyle option.
 */
 
 void init_our_capability(void)
