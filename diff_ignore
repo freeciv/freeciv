@@ -26,6 +26,7 @@ aclocal.m4
 autom4te.cache
 cat-id-tbl.c
 charset.alias
+civ
 civclient
 civgame*.sav
 *.sav.gz
@@ -49,6 +50,7 @@ missing
 mkinstalldirs
 ref-add.sed
 ref-del.sed
+ser
 stamp-cat-id
 stamp-h
 stamp-h1
