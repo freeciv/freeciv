@@ -30,6 +30,7 @@ void handle_player_rates(struct player *pplayer,
 void send_player_info(struct player *src, struct player *dest);
 
 void page_player(struct player *pplayer, char *headline, char *lines);
+void page_player_generic(struct player *pplayer, char *headline, char *lines, int event);
 void notify_player(struct player *pplayer, char *format, ...);
 void notify_player_ex(struct player *pplayer, int x, int y, int event, char *format, ...);
 void handle_player_government(struct player *pplayer,

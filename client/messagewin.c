@@ -64,10 +64,6 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_meswin_dialog(void)
 {
-  /* don't popup message window if we're watching AI controlled 
-     player */
-  if(game.player_ptr->ai.control && !ai_popup_windows) return;
-
   if(!meswin_dialog_shell)
     create_meswin_dialog();
 
@@ -186,7 +182,8 @@ void add_notify_window(struct packet_generic_message *packet)
 void update_meswin_dialog(void)
 {
   if (!meswin_dialog_shell) { 
-    if (messages_total > 0)
+    if (messages_total > 0 && 
+        (!game.player_ptr->ai.control || ai_popup_windows))
       popup_meswin_dialog();
   }
    if(meswin_dialog_shell) {

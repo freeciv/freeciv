@@ -23,6 +23,7 @@
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING
 
 #define CITY_NAMES_FONT "10x20"
+#define BROADCAST_EVENT -2
 
 #define MAX_PLAYERS 14
 #define MAX_LENGTH_NAME 32

@@ -72,7 +72,9 @@ void historian_richest()
     strcat(buffer,buf2);
   }
   free(size);
-  page_player(0, "Herodot's report on the RICHEST Civilizations in the World.", buffer);
+  page_player_generic(0, 
+    "Herodot's report on the RICHEST Civilizations in the World.", buffer,
+     BROADCAST_EVENT);
 }
 
 void historian_advanced()
@@ -93,7 +95,9 @@ void historian_advanced()
     strcat(buffer,buf2);
   }
   free(size);
-  page_player(0, "Herodot's report on the most ADVANCED Civilizations in the World.", buffer);
+  page_player_generic(0, 
+      "Herodot's report on the most ADVANCED Civilizations in the World.", buffer,
+       BROADCAST_EVENT);
   
 }
 
@@ -115,7 +119,9 @@ void historian_military()
     strcat(buffer,buf2);
   }
   free(size);
-  page_player(0, "Herodots report on the most MILITARIZED Civilizations in the World.", buffer);
+  page_player_generic(0, 
+     "Herodot's report on the most MILITARIZED Civilizations in the World.", buffer,
+      BROADCAST_EVENT);
   
 }
 
@@ -139,7 +145,9 @@ void historian_happiest()
     strcat(buffer,buf2);
   }
   free(size);
-  page_player(0, "Herodot's report on the HAPPIEST Civilizations in the World.", buffer);
+  page_player_generic(0, 
+     "Herodot's report on the HAPPIEST Civilizations in the World.", buffer,
+      BROADCAST_EVENT);
 }  
 
 void historian_largest()
@@ -160,7 +168,8 @@ void historian_largest()
     strcat(buffer,buf2);
   }
   free(size);
-  page_player(0, "Herodot's report on the LARGEST Civilizations in the World.", buffer);
+  page_player_generic(0, "Herodot's report on the LARGEST Civilizations in the World.", 
+                      buffer,BROADCAST_EVENT);
 }
 
 int nr_wonders(struct city *pcity)
@@ -376,12 +385,12 @@ void make_history_report()
     return;
 
   time_to_report--;
-  
+
   if (time_to_report>0) 
     return;
 
   time_to_report=myrand(20)+20;
-  
+
   switch (report) {
   case 0:
     historian_richest();
@@ -817,9 +826,23 @@ void notify_player(struct player *pplayer, char *format, ...)
 }
 
 /**************************************************************************
-This function popup a none-modal message dialog on the player's desktop
+This function pops up a non-modal message dialog on the player's desktop
 **************************************************************************/
-void page_player(struct player *pplayer, char *headline, char *lines) 
+void page_player(struct player *pplayer, char *headline, char *lines) {
+    page_player_generic(pplayer,headline,lines,-1);
+}
+
+
+/**************************************************************************
+This function pops up a non-modal message dialog on the player's desktop
+event == -1: message should not be ignored by clients watching AI players with 
+             ai_popup_windows off.  Example: Server Options, Demographics 
+             Report, etc.
+event == BROADCAST_EVENT: message can safely be ignored by clients watching AI
+                          players with ai_popup_windows off.
+         For example: Herodot's report... and similar messages.
+**************************************************************************/
+void page_player_generic(struct player *pplayer, char *headline, char *lines, int event) 
 {
   int i;
   struct packet_generic_message genmsg;
@@ -827,7 +850,7 @@ void page_player(struct player *pplayer, char *headline, char *lines)
   strcpy(genmsg.message, headline);
   strcat(genmsg.message, "\n");
   strcat(genmsg.message, lines);
-  genmsg.event = -1;
+  genmsg.event = event;
   
   
   for(i=0; i<game.nplayers; i++)

@@ -243,7 +243,8 @@ void handle_page_msg(struct packet_generic_message *packet)
     title[i]=packet->message[i];
   title[i]='\0';
   
-  if (!game.player_ptr->ai.control || ai_popup_windows)
+  if (!game.player_ptr->ai.control || ai_popup_windows || 
+       packet->event != BROADCAST_EVENT)
     popup_notify_dialog(title, packet->message+i+1);
 }
 
