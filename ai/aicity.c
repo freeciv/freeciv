@@ -706,6 +706,8 @@ int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   if (*xp == 0 && *yp == 0) return 0;
   foodneed += get_food_tile(*xp, *yp, pcity);
   prodneed += get_shields_tile(*xp, *yp, pcity);
+  foodneed -= (e - 1) * 2; /* forgetting these two lines */
+  prodneed -= (e - 1); /* led to remarkable idiocy -- Syela */
   if (foodneed > pcity->food_stock) {
 /*    printf("No elvis_pos in %s - would create famine.\n", pcity->name); */
     return 0; /* Bad time to Elvis */
