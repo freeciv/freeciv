@@ -800,6 +800,14 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
                unit_name(passenger->type), passenger->id);
           }
         }
+        if (get_unit_type(punit->type)->attack_strength == 0) {
+          char message[MAX_LENGTH_NAME + 64];
+          sprintf(message, "Game: A %s cannot attack other units.",
+                           unit_name(punit->type));
+          notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+                           message);
+          return 0;
+        }
 	handle_unit_attack_request(pplayer, punit, pdefender);
         return 1;
       };
