@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
   
   printf(FREECIV_NAME_VERSION " server\n");
 #if IS_BETA_VERSION
-  printf("Freeciv 1.8 will be released second week of march  at http://www.freeciv.org\n");
+  printf("Freeciv 1.8 will be released second week of March at http://www.freeciv.org\n");
 #endif
   fflush(stdout);
 
