@@ -2306,7 +2306,7 @@ static void buy_callback(GtkWidget *w, gpointer data)
         GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
         _("%s costs %d gold.\nTreasury contains %d gold."),
         name, value, game.player_ptr->economic.gold);
-
+    setup_dialog(shell, toplevel);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
       NULL);
