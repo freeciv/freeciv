@@ -78,7 +78,7 @@ static struct SMALL_DLG *pNewCity_Dlg = NULL;
 
 #define HIDDEN_MINI_MAP_W	36
 
-#define UNITS_W			180
+#define UNITS_W			196
 #define UNITS_H			106
 
 #define HIDDEN_UNITS_W		36
@@ -721,11 +721,33 @@ int map_event_handler(SDL_keysym Key)
       return 0;
 
     case SDLK_n:
-      request_toggle_city_names();
+      if (!can_client_change_view()) {
+    	return 0;
+      }
+
+      draw_city_names ^= 1;
+      if(draw_city_names||draw_city_productions) {
+        show_city_descriptions();
+      } else {
+	prepare_show_city_descriptions();
+      }
+      dirty_all();
+      flush_dirty();
       return 0;
 
     case SDLK_p:
-      request_toggle_city_productions();
+      if (!can_client_change_view()) {
+    	return 0;
+      }
+
+      draw_city_productions ^= 1;
+      if(draw_city_names||draw_city_productions) {
+        show_city_descriptions();
+      } else {
+	prepare_show_city_descriptions();
+      }
+      dirty_all();
+      flush_dirty();
       return 0;
 
     case SDLK_t:

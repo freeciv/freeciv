@@ -67,6 +67,7 @@
 #include "gui_tilespec.h"
 
 #include "menu.h"
+#include "dialogs.h" /*sdl_map_get_tile_info_text(...)*/
 #include "mapctrl.h"
 #include "options.h"
 #include "tilespec.h"
@@ -402,7 +403,6 @@ void update_info_label(void)
   SDL_Color col = {0, 0, 0, 80};
   char buffer[512];
   SDL_String16 *pText = create_string16(NULL, 10);
-/* const struct calendar *pCal = game_get_current_calendar(); */
 
   /* set text settings */
   pText->style |= TTF_STYLE_BOLD;
@@ -499,42 +499,49 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
       change_ptsize16(pInfo_Window->string16, 12);
 
       /* get and draw unit name (with veteran status) */
-      my_snprintf(buffer, sizeof(buffer), "%s %s",
-		  unit_type(pUnit)->name,
-		  (pUnit->veteran) ? _("(veteran)") : "");
-
       FREE(pInfo_Window->string16->text);
-      pInfo_Window->string16->text = convert_to_utf16(buffer);
-
+      pInfo_Window->string16->text = convert_to_utf16(unit_type(pUnit)->name);
+      
+      pInfo_Window->string16->style |= TTF_STYLE_BOLD;
       pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
-
-      area.x = pInfo_Window->size.x
-	  + (pInfo_Window->size.w - pBuf_Surf->w + len) / 2;
+      pInfo_Window->string16->style &= ~TTF_STYLE_BOLD;
+      
+      area.x = pInfo_Window->size.x + len
+	  + (pInfo_Window->size.w - pBuf_Surf->w - len) / 2;
       area.y = pInfo_Window->size.y + DOUBLE_FRAME_WH;
-
     
       SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
-      SDL_BlitSurface(pBuf_Surf, NULL, Main.gui , &area);
+      SDL_BlitSurface(pBuf_Surf, NULL, Main.gui, &area);
       
-      sy = pInfo_Window->size.y + DOUBLE_FRAME_WH + pBuf_Surf->h;
+      if(pUnit->veteran) {
+	area.y += pBuf_Surf->h - 3;
+        FREESURFACE(pBuf_Surf);
+        FREE(pInfo_Window->string16->text);
+        pInfo_Window->string16->text = convert_to_utf16(_("veteran"));
+        change_ptsize16(pInfo_Window->string16, 10);
+	pInfo_Window->string16->forecol.b = 255;
+        pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
+        pInfo_Window->string16->forecol.b = 0;
+        area.x = pInfo_Window->size.x + len
+	  + (pInfo_Window->size.w - pBuf_Surf->w - len) / 2;
+        
+        SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
+        SDL_BlitSurface(pBuf_Surf, NULL, Main.gui , &area);
+      
+      }
+      sy = area.y + pBuf_Surf->h;
       FREESURFACE(pBuf_Surf);
 
 
       /* draw unit sprite */
-      pBuf_Surf = (SDL_Surface *)unit_type(pUnit)->sprite;
-#if 0
-      pBuf_Surf = ZoomSurface(pBuf_Surf2, 1.5, 1.5, 1);
-      SDL_SetColorKey(pBuf_Surf, COLORKEYFLAG,
-		      pBuf_Surf2->format->colorkey);
-#endif
-
+      pBuf_Surf = GET_SURF(unit_type(pUnit)->sprite);
       area.x = pInfo_Window->size.x + len;
-      area.y = pInfo_Window->size.y - DOUBLE_FRAME_WH
-	  + (pInfo_Window->size.h - pBuf_Surf->h) / 2;
+      area.y = pInfo_Window->size.y + FRAME_WH
+	  + (pInfo_Window->size.h - pBuf_Surf->h - DOUBLE_FRAME_WH) / 2;
 
-      
-      
       SDL_BlitSurface(pBuf_Surf, NULL, Main.gui , &area);
+      
+      area.x += pBuf_Surf->w;
       
       /* get and draw other info (MP, terran, city, etc.) */
       change_ptsize16(pInfo_Window->string16, 10);
@@ -542,7 +549,7 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
       my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
 		  (hover_unit == pUnit->id) ? _("Select destination") :
 		  unit_activity_text(pUnit),
-		  map_get_tile_info_text(pUnit->x, pUnit->y),
+		  sdl_map_get_tile_info_text(pUnit->x, pUnit->y),
 		  infrastructure ?
 		  map_get_infrastructure_text(infrastructure) : "",
 		  infrastructure ? "\n" : "", pCity ? pCity->name : "");
@@ -552,14 +559,10 @@ void redraw_unit_info_label(struct unit *pUnit, struct GUI *pInfo_Window)
 
       pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
 
-      area.x = pInfo_Window->size.x + pInfo_Window->size.w / 2 +
-	  (pInfo_Window->size.w / 2 - pBuf_Surf->w - len) / 2 + 10;
+      area.y = sy + (Main.gui->h - sy - FRAME_WH - pBuf_Surf->h)/2;
 
-      area.y = pInfo_Window->size.y
-	  + (pInfo_Window->size.h - pBuf_Surf->h) / 2;
-
+      area.x += (Main.gui->w - area.x - FRAME_WH - pBuf_Surf->w)/2;
       SDL_SetAlpha(pBuf_Surf, 0x0 , 0x0);
-      
       
       /* blit unit info text */
       SDL_BlitSurface(pBuf_Surf, NULL, Main.gui , &area);
@@ -676,8 +679,6 @@ void update_unit_info_label(struct unit *pUnit)
       break;
     }
 
-  } else {
-    /*flush_dirty();*/
   }
 
   update_unit_pix_label(pUnit);
@@ -700,9 +701,7 @@ void update_city_descriptions(void)
 {
   /* redraw buffer */
   show_city_descriptions();
-  
   dirty_all();  
-
 }
 
 /**************************************************************************
@@ -813,7 +812,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   }
   else
   {
-    if ( !pCity_Name && ( SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE ) )
+    if (!pCity_Name && (SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE))
     {
       /* Civ3 style don't draw player flag and size
          outside city description and that is reason I made this hack */
@@ -881,7 +880,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
 					color_bg.b, color_bg.unused));
       /* solid text background */
       dst.w = pCity_Size->h + 1;	    
-      SDL_FillRect( pDest, &dst ,
+      SDL_FillRect(pDest, &dst ,
 	      SDL_MapRGBA(pDest->format, color_size.r, color_size.g,
 					color_size.b, color_size.unused));
 					
@@ -889,7 +888,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       SDL_SetAlpha(pCity_Size, 0x0, 0x0);
       /* this isn't error */
       dst.x = clear_area.x + (pCity_Size->h - pCity_Size->w) / 2;
-      dst.y = canvas_y + ( clear_area.h - pCity_Size->h ) / 2;
+      dst.y = canvas_y + (clear_area.h - pCity_Size->h) / 2;
       SDL_BlitSurface(pCity_Size, NULL, pDest, &dst);
 
       /* Draw Frame */
@@ -898,7 +897,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       putline(pDest, clear_area.x , clear_area.y - 1,
 			  clear_area.x + clear_area.w,
                           clear_area.y - 1, frame_color);
-      putline(pDest, clear_area.x  , clear_area.y + clear_area.h,
+      putline(pDest, clear_area.x, clear_area.y + clear_area.h,
 			  clear_area.x + clear_area.w,
                           clear_area.y + clear_area.h, frame_color);
 

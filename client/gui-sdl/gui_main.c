@@ -233,36 +233,6 @@ static void gui_main_loop(void)
     switch (Main.event.type) {
     case SDL_QUIT:
       return;
-
-    case SDL_USEREVENT:
-      switch(Main.event.user.code) {
-	case NET:
-          input_from_server(net_socket);
-#ifdef THREADS    
-          SDL_SemPost(pNetLock);
-#endif
-	break;
-	case ANIM:
-	  real_blink_active_unit();
-	break;
-	case SHOW_WIDGET_INFO_LABBEL:
-	  draw_widget_info_label();
-	break;
-	case TRY_AUTO_CONNECT:
-	  if (try_to_autoconnect()) {
-#ifdef TIMERS
-	    SDL_RemoveTimer(autoconnect_timer_id);
-#endif
-	    pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
-	    widget_info_cunter = 0;
-	    break;
-	  }
-	  widget_info_cunter = 1;
-	break;
-	default:
-	break;
-      }    
-    break;
     
     case SDL_KEYUP:
       /* find if Right Shift is released */
@@ -373,6 +343,36 @@ static void gui_main_loop(void)
       }
       break;
 
+    case SDL_USEREVENT:
+      switch(Main.event.user.code) {
+	case NET:
+          input_from_server(net_socket);
+#ifdef THREADS    
+          SDL_SemPost(pNetLock);
+#endif
+	break;
+	case ANIM:
+	  real_blink_active_unit();
+	break;
+	case SHOW_WIDGET_INFO_LABBEL:
+	  draw_widget_info_label();
+	break;
+	case TRY_AUTO_CONNECT:
+	  if (try_to_autoconnect()) {
+#ifdef TIMERS
+	    SDL_RemoveTimer(autoconnect_timer_id);
+#endif
+	    pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
+	    widget_info_cunter = 0;
+	    break;
+	  }
+	  widget_info_cunter = 1;
+	break;
+	default:
+	break;
+      }    
+    break;
+      
     case SDL_MOUSEMOTION:
 
       pWidget = MainWidgetListScaner(&Main.event.motion);
@@ -436,7 +436,7 @@ static int socket_thread(void *socket)
     
     FD_ZERO(&civfdset);
     FD_SET(net_socket, &civfdset);
-    tv.tv_sec = 0;
+    tv.tv_sec = 1;
     tv.tv_usec = 0;
     
     result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);

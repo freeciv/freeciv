@@ -295,10 +295,10 @@ void popup_unit_select_dialog(struct tile *ptile)
             
     add_to_gui_list(MAX_ID - pUnit->id , pBuf);
     
-    w = MAX(w , pBuf->size.w);
+    w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
     
-    if ( i > 14 )
+    if (i > 14)
     {
       set_wflag(pBuf , WF_HIDDEN);
     }
@@ -500,13 +500,12 @@ static int terrain_info_window_dlg_callback( struct GUI *pWindow )
 **************************************************************************/
 static void popdown_terrain_info_dialog(void)
 {
-  if ( !pTerrain_Info_Dlg ) return;
-    
-  popdown_window_group_dialog(pTerrain_Info_Dlg->pBeginWidgetList,
-				pTerrain_Info_Dlg->pEndWidgetList, Main.gui);
-				   
-  FREE( pTerrain_Info_Dlg );
-  flush_dirty();
+  if (pTerrain_Info_Dlg) {
+    popdown_window_group_dialog(pTerrain_Info_Dlg->pBeginWidgetList,
+				pTerrain_Info_Dlg->pEndWidgetList, Main.gui);			   
+    FREE(pTerrain_Info_Dlg);
+    flush_dirty();
+  }
 }
 
 /**************************************************************************
@@ -524,14 +523,13 @@ static int exit_terrain_info_dialog( struct GUI *pButton )
   eg: "Hills (Coals)"
   eg: "Hills (Coals) [Pollution]"
 ***************************************************************/
-static const char *sdl_map_get_tile_info_text(int x, int y)
+const char *sdl_map_get_tile_info_text(int x, int y)
 {
   static char s[64];
   struct tile *ptile=map_get_tile(x, y);
   bool first;
 
-  my_snprintf(s, sizeof(s), _("Terrain: %s"), 
-  				tile_types[ptile->terrain].terrain_name);
+  my_snprintf(s, sizeof(s), "%s", tile_types[ptile->terrain].terrain_name);
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));
@@ -609,7 +607,7 @@ static void popup_terrain_info_dialog(struct tile *pTile , int x , int y)
   /* ----------- */  
   my_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), x , y);
   
-  pWindow = create_window( create_str16_from_char(cBuf , 12) , 10 , 10 , 0 );
+  pWindow = create_window(create_str16_from_char(cBuf , 12) , 10 , 10 , 0);
   pWindow->string16->style |= TTF_STYLE_BOLD;
   
   pWindow->action = terrain_info_window_dlg_callback;
@@ -621,18 +619,18 @@ static void popup_terrain_info_dialog(struct tile *pTile , int x , int y)
   
   if(tile_get_known(x, y) >= TILE_KNOWN_FOGGED) {
   
-    my_snprintf(cBuf, sizeof(cBuf), _("%s\nFood/Prod/Trade: %s\n"),
+    my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n"),
 		sdl_map_get_tile_info_text(x, y),
 		map_get_tile_fpt_text(x, y) );
   
   
-    if ( tile_has_special(pTile, S_HUT) )
+    if (tile_has_special(pTile, S_HUT))
     { 
-      sz_strlcat(cBuf, _("Minor Tribe Village") );
+      sz_strlcat(cBuf, _("Minor Tribe Village"));
     }
     else
     {
-      if ( get_tile_infrastructure_set(pTile) )
+      if (get_tile_infrastructure_set(pTile))
       {
         sz_strlcat(cBuf, _("Infrastructure: "));
         sz_strlcat(cBuf, map_get_infrastructure_text(pTile->special));
@@ -644,9 +642,9 @@ static void popup_terrain_info_dialog(struct tile *pTile , int x , int y)
     my_snprintf(cBuf, sizeof(cBuf), _("Terrain : UNKNOWN"));
   }
   
-  pBuf = create_iconlabel( pSurf ,
-	  create_str16_from_char( cBuf , 12), 
-    		WF_FREE_THEME );
+  pBuf = create_iconlabel(pSurf ,
+	  create_str16_from_char(cBuf, 12), 
+    		WF_FREE_THEME);
   
   pBuf->size.h += NORMAL_TILE_HEIGHT / 2;
   

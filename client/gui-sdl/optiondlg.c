@@ -594,7 +594,7 @@ static int local_setting_callback(struct GUI *pWidget)
 
   /* 'sound befor new turn' label */
   pTmpGui = create_iconlabel_from_chars(NULL,
-			_("Sound befor new turn"), 10, 0);
+			_("Sound bell at new turn"), 10, 0);
   pTmpGui->string16->style |= TTF_STYLE_BOLD;
   pTmpGui->string16->forecol.r = 255;
   pTmpGui->string16->forecol.g = 255;

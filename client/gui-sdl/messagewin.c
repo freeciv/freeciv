@@ -371,6 +371,7 @@ void real_update_meswin_dialog(void)
   SDL_String16 *pStr = NULL;
   SDL_Color color = { 255 , 255, 255, 128 };
   bool show = (get_wflags(pMsg_Dlg->pEndWidgetList) & WF_HIDDEN) == 0;
+  bool create;
   
   if (i && msg_count <= i) {
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
@@ -388,7 +389,9 @@ void real_update_meswin_dialog(void)
     i = 0;
   }
   
-  if ( msg_count ) {  
+  create = (i == 0);
+  
+  if (msg_count) {  
     for(; i<msg_count; i++)
     {
       pMsg = get_message(i);
@@ -435,26 +438,53 @@ void real_update_meswin_dialog(void)
     pMsg_Dlg->pBeginWidgetList = pBuf;
   
     if(pMsg_Dlg->pScroll->count > N_MSG_VIEW) {
-      i = N_MSG_VIEW;
-      while(i)
-      {
-        pMsg_Active = pBuf->next;
-        while(pMsg_Active != pMsg_Active_Last)
-        {
-          pMsg_Active = pMsg_Active->next;
+      if(create) {
+        i = N_MSG_VIEW - 1;
+        pMsg_Active = pBuf;
+        while(i) {
+	  pMsg_Active = pMsg_Active->next;
+	  i--;
         }
-        set_wflag(pMsg_Active, WF_HIDDEN);
-        pBuf->size.y = pMsg_Active->size.y;
-        pBuf->gfx = pMsg_Active->gfx;
-	pMsg_Active->gfx = NULL;
-	if(show) {
-          clear_wflag(pBuf, WF_HIDDEN);
+	pMsg_Dlg->pActiveWidgetList = pMsg_Active;
+        pMsg_Active->size.y =
+	      pMsg_Dlg->pEndWidgetList->size.y + WINDOW_TILE_HIGH + 2;
+        if(show) {
+          clear_wflag(pMsg_Active, WF_HIDDEN);
+        }
+	pMsg_Active = pMsg_Active->prev;
+	while(TRUE) {
+	  pMsg_Active->size.y = pMsg_Active->next->size.y +
+					  pMsg_Active->next->size.h;
+	  if(show) {
+            clear_wflag(pMsg_Active, WF_HIDDEN);
+          }
+	  if(pMsg_Active == pBuf) {
+	    break;
+	  }
+	  pMsg_Active = pMsg_Active->prev;
 	}
-        pBuf = pBuf->next;
-	pMsg_Active_Last = pMsg_Active_Last->next;
-        i--;
+      } else {
+        i = N_MSG_VIEW - 1;
+        while(i)
+        {
+          pMsg_Active = pBuf->next;
+          while(pMsg_Active != pMsg_Active_Last)
+          {
+            pMsg_Active = pMsg_Active->next;
+          }
+          set_wflag(pMsg_Active, WF_HIDDEN);
+          pBuf->size.y = pMsg_Active->size.y;
+          pBuf->gfx = pMsg_Active->gfx;
+	  pMsg_Active->gfx = NULL;
+	  if(show) {
+            clear_wflag(pBuf, WF_HIDDEN);
+	  }
+          pBuf = pBuf->next;
+	  pMsg_Active_Last = pMsg_Active_Last->next;
+          i--;
+        }
+        pMsg_Dlg->pActiveWidgetList = pBuf->prev;
       }
-      pMsg_Dlg->pActiveWidgetList = pBuf->prev;
       if(show) {
         /* show up buton */
         clear_wflag(pMsg_Dlg->pEndWidgetList->prev, WF_HIDDEN);
@@ -495,7 +525,7 @@ void real_update_meswin_dialog(void)
 	  }  
 	}
 	pMsg_Active = pMsg_Active->prev;
-        while(TRUE)
+        while(pMsg_Active)
         {
 	  pMsg_Active->size.y = pMsg_Active->next->size.y +
 						pMsg_Active->next->size.h;

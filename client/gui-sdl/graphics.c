@@ -1570,10 +1570,9 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
 static bool correct_black(SDL_Surface * pSrc)
 {
   bool ret = 0;
-  
+  register int x;
   if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask ) {
-
-    register int x;
+    
     register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
     Uint32 Amask = pSrc->format->Amask;
     
@@ -1592,13 +1591,27 @@ static bool correct_black(SDL_Surface * pSrc)
       } else {
 	if (!ret) {
 	  alpha = *pPixels & Amask;
-	  if (alpha && (alpha != Amask))
+	  if (alpha && (alpha != Amask)) {
 	    ret = 1;
+	  }
 	}
       }
     }
 
     unlock_surf(pSrc);
+  } else {
+    if (pSrc->format->BitsPerPixel == 8) {
+      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
+	if(x != pSrc->format->colorkey &&
+	  pSrc->format->palette->colors[x].r < 4 &&
+	  pSrc->format->palette->colors[x].g < 4 &&
+	  pSrc->format->palette->colors[x].b < 4) {
+	    pSrc->format->palette->colors[x].r = 4;
+	    pSrc->format->palette->colors[x].g = 4;
+	    pSrc->format->palette->colors[x].b = 4;
+	  }
+      }
+    }
   }
 
   return ret;
@@ -1706,7 +1719,7 @@ void load_intro_gfx(void)
   if(!pIntro_gfx_path) {
     char *buf = datafilename("theme/default/intro3.png");
     freelog(LOG_NORMAL, _("intro : %s"), buf ? buf : "n/a");	
-    if ( buf )
+    if (buf)
     {
       pIntro_gfx_path = mystrdup(buf);	
     }
@@ -1848,10 +1861,8 @@ struct Sprite * load_gfxfile(const char *filename)
     return NULL;		/* Should I use abotr() ? */
   }
 
-  if (pBuf->format->Amask) {
-    alpha = correct_black(pBuf);
-  }
-
+  alpha = correct_black(pBuf);
+  
   if (pBuf->flags & SDL_SRCCOLORKEY) {
     SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, pBuf->format->colorkey);
   }

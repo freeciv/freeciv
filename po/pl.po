@@ -385,7 +385,7 @@ msgstr "Nieznane"
 
 #: common/unit.c:859
 msgid "Moves"
-msgstr "Punktów ruchu"
+msgstr "Punkty ruchu"
 
 #: common/unittype.c:280
 msgid " and "
