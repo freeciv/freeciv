@@ -9,112 +9,471 @@
 
 [datafile]
 description="Civ1-style technology data for Freeciv"
-options="1.7"
+options="1.8.2"
 
-[advances]
+; Below: The individual advances, one per section.
+; For now, the number of such sections must be kept the same (=89).
+; Also, some effects are still hardwired, according to position
+; in this list of sections.
+;
+; The actual tag used (the * in [advance_*]) doesn't matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; Notes:
+;
+; name          = name as seen by user 
+; req1, req2	= advances required before researching this one
+;
+; Special values for req1 and req2 are "None" (first section below) 
+; and "Never" (never available).  If only one tech is required, 
+; it should be listed as req1.
 
-; Advances table: should be kept as close as possible to
-; original hard-wired version, since some other parts of
-; freeciv are still hardwired.
-; Must keep the same number of entries.
-; Special value: "Never"
+[advance_none]		; Don't change this one, and leave it first!
+name     = "None"
+req1     = "None"
+req2     = "None"
 
-a={ "name", "req1", "req2"
+[advance_advanced_flight]
+name     = "Advanced Flight"
+req1     = "Flight"
+req2     = "Electricity"
 
-; Don't change the first line below!
+[advance_alphabet]
+name     = "Alphabet"
+req1     = "None"
+req2     = "None"
 
-"None",                  "None",                "None"
-"Advanced Flight",       "Flight",              "Electricity"
-"Alphabet",              "None",                "None"
-"Amphibious Warfare",    "Never",               "Never"
-"Astronomy",             "Mysticism",           "Mathematics"
-"Atomic Theory",         "Theory of Gravity",   "Physics"
-"Automobile",            "Combustion",          "Steel"
-"Banking",               "Trade",               "The Republic"
-"Bridge Building",       "Iron Working",        "Construction"
-"Bronze Working",        "None",                "None"
-"Ceremonial Burial",     "None",                "None"
-"Chemistry",             "University",          "Medicine"
-"Chivalry",              "Feudalism",           "Horseback Riding"
-"Code of Laws",          "Alphabet",            "None"
-"Combined Arms",         "Never",               "Never"
-"Combustion",            "Refining",            "Explosives"
-"Communism",             "Philosophy",          "Industrialization"
-"Computers",             "Mathematics",         "Electronics"
-"Conscription",          "The Republic",            "Explosives"
-"Construction",          "Masonry",             "Currency"
-"Currency",              "Bronze Working",      "None"
-"Democracy",             "Philosophy",          "Literacy"
-"Economics",             "Never",               "Never"
-"Electricity",           "Metallurgy",          "Magnetism"
-"Electronics",           "Engineering",         "Electricity"
-"Engineering",           "The Wheel",           "Construction"
-"Environmentalism",      "Never",               "Never"
-"Espionage",             "Never",               "Never"
-"Explosives",            "Gunpowder",           "Chemistry"
-"Feudalism",             "Masonry",             "Monarchy"
-"Flight",                "Combustion",          "Physics"
-"Fundamentalism",        "Never",               "Never"
-"Fusion Power",          "Nuclear Power",       "Superconductors"
-"Genetic Engineering",   "Medicine",            "The Corporation"
-"Guerilla Warfare",      "Never",               "Never"
-"Gunpowder",             "Invention",           "Iron Working"
-"Horseback Riding",      "None",                "None"
-"Industrialization",     "Railroad",            "Banking"
-"Invention",             "Engineering",         "Literacy"
-"Iron Working",          "Bronze Working",      "None"
-"Labor Union",           "Mass Production",     "Communism"
-"Laser",                 "Never",               "Never"
-"Leadership",            "Never",               "Never"
-"Literacy",              "Writing",             "Code of Laws"
-"Machine Tools",         "Never",               "Never"
-"Magnetism",             "Navigation",          "Physics"
-"Map Making",            "Alphabet",            "None"
-"Masonry",               "None",                "None"
-"Mass Production",       "Automobile",          "The Corporation"
-"Mathematics",           "Alphabet",            "Masonry"
-"Medicine",              "Philosophy",          "Trade"
-"Metallurgy",            "Gunpowder",           "University"
-"Miniaturization",       "Never",               "Never"
-"Mobile Warfare",        "Never",               "Never"
-"Monarchy",              "Ceremonial Burial",   "Code of Laws"
-"Monotheism",            "Never",               "Never"
-"Mysticism",             "Ceremonial Burial",   "None"
-"Navigation",            "Map Making",          "Astronomy"
-"Nuclear Fission",       "Mass Production",     "Atomic Theory"
-"Nuclear Power",         "Nuclear Fission",     "Electronics"
-"Philosophy",            "Mysticism",           "Literacy"
-"Physics",               "Mathematics",         "Navigation"
-"Plastics",              "Refining",            "Space Flight"
-"Polytheism",            "Never",               "Never"
-"Pottery",               "None",                "None"
-"Radio",                 "Never",               "Never"
-"Railroad",              "Steam Engine",        "Bridge Building"
-"Recycling",             "Mass Production",     "Democracy"
-"Refining",              "Chemistry",           "The Corporation"
-"Refrigeration",         "Never",               "Never"
-"Robotics",              "Plastics",            "Computers"
-"Rocketry",              "Advanced Flight",     "Electronics"
-"Sanitation",            "Never",               "Never"
-"Seafaring",             "Never",               "Never"
-"Space Flight",          "Computers",           "Rocketry"
-"Stealth",               "Never",               "Never"
-"Steam Engine",          "Physics",             "Invention"
-"Steel",                 "Metallurgy",          "Industrialization"
-"Superconductors",       "Plastics",            "Mass Production"
-"Tactics",               "Never",               "Never"
-"The Corporation",       "Banking",             "Industrialization"
-"The Republic",          "Code of Laws",        "Literacy"
-"The Wheel",             "None",                "None"
-"Religion",              "Philosophy",          "Writing"
-; Religion = Civ2 Theology
-"Theory of Gravity",     "Astronomy",           "University"
-"Trade",                 "Currency",            "Code of Laws"
-"University",            "Mathematics",         "Philosophy"
-"Warrior Code",          "Never",               "Never"
-"Writing",               "Alphabet",            "None"
+[advance_amphibious_warfare]
+name     = "Amphibious Warfare"
+req1     = "Never"
+req2     = "Never"
 
-}
+[advance_astronomy]
+name     = "Astronomy"
+req1     = "Mysticism"
+req2     = "Mathematics"
+
+[advance_atomic_theory]
+name     = "Atomic Theory"
+req1     = "Theory of Gravity"
+req2     = "Physics"
+
+[advance_automobile]
+name     = "Automobile"
+req1     = "Combustion"
+req2     = "Steel"
+
+[advance_banking]
+name     = "Banking"
+req1     = "Trade"
+req2     = "The Republic"
+
+[advance_bridge_building]
+name     = "Bridge Building"
+req1     = "Iron Working"
+req2     = "Construction"
+
+[advance_bronze_working]
+name     = "Bronze Working"
+req1     = "None"
+req2     = "None"
+
+[advance_ceremonial_burial]
+name     = "Ceremonial Burial"
+req1     = "None"
+req2     = "None"
+
+[advance_chemistry]
+name     = "Chemistry"
+req1     = "University"
+req2     = "Medicine"
+
+[advance_chivalry]
+name     = "Chivalry"
+req1     = "Feudalism"
+req2     = "Horseback Riding"
+
+[advance_code_of_laws]
+name     = "Code of Laws"
+req1     = "Alphabet"
+req2     = "None"
+
+[advance_combined_arms]
+name     = "Combined Arms"
+req1     = "Never"
+req2     = "Never"
+
+[advance_combustion]
+name     = "Combustion"
+req1     = "Refining"
+req2     = "Explosives"
+
+[advance_communism]
+name     = "Communism"
+req1     = "Philosophy"
+req2     = "Industrialization"
+
+[advance_computers]
+name     = "Computers"
+req1     = "Mathematics"
+req2     = "Electronics"
+
+[advance_conscription]
+name     = "Conscription"
+req1     = "The Republic"
+req2     = "Explosives"
+
+[advance_construction]
+name     = "Construction"
+req1     = "Masonry"
+req2     = "Currency"
+
+[advance_currency]
+name     = "Currency"
+req1     = "Bronze Working"
+req2     = "None"
+
+[advance_democracy]
+name     = "Democracy"
+req1     = "Philosophy"
+req2     = "Literacy"
+
+[advance_economics]
+name     = "Economics"
+req1     = "Never"
+req2     = "Never"
+
+[advance_electricity]
+name     = "Electricity"
+req1     = "Metallurgy"
+req2     = "Magnetism"
+
+[advance_electronics]
+name     = "Electronics"
+req1     = "Engineering"
+req2     = "Electricity"
+
+[advance_engineering]
+name     = "Engineering"
+req1     = "The Wheel"
+req2     = "Construction"
+
+[advance_environmentalism]
+name     = "Environmentalism"
+req1     = "Never"
+req2     = "Never"
+
+[advance_espionage]
+name     = "Espionage"
+req1     = "Never"
+req2     = "Never"
+
+[advance_explosives]
+name     = "Explosives"
+req1     = "Gunpowder"
+req2     = "Chemistry"
+
+[advance_feudalism]
+name     = "Feudalism"
+req1     = "Masonry"
+req2     = "Monarchy"
+
+[advance_flight]
+name     = "Flight"
+req1     = "Combustion"
+req2     = "Physics"
+
+[advance_fundamentalism]
+name     = "Fundamentalism"
+req1     = "Never"
+req2     = "Never"
+
+[advance_fusion_power]
+name     = "Fusion Power"
+req1     = "Nuclear Power"
+req2     = "Superconductors"
+
+[advance_genetic_engineering]
+name     = "Genetic Engineering"
+req1     = "Medicine"
+req2     = "The Corporation"
+
+[advance_guerilla_warfare]
+name     = "Guerilla Warfare"
+req1     = "Never"
+req2     = "Never"
+
+[advance_gunpowder]
+name     = "Gunpowder"
+req1     = "Invention"
+req2     = "Iron Working"
+
+[advance_horseback_riding]
+name     = "Horseback Riding"
+req1     = "None"
+req2     = "None"
+
+[advance_industrialization]
+name     = "Industrialization"
+req1     = "Railroad"
+req2     = "Banking"
+
+[advance_invention]
+name     = "Invention"
+req1     = "Engineering"
+req2     = "Literacy"
+
+[advance_iron_working]
+name     = "Iron Working"
+req1     = "Bronze Working"
+req2     = "None"
+
+[advance_labor_union]
+name     = "Labor Union"
+req1     = "Mass Production"
+req2     = "Communism"
+
+[advance_laser]
+name     = "Laser"
+req1     = "Never"
+req2     = "Never"
+
+[advance_leadership]
+name     = "Leadership"
+req1     = "Never"
+req2     = "Never"
+
+[advance_literacy]
+name     = "Literacy"
+req1     = "Writing"
+req2     = "Code of Laws"
+
+[advance_machine_tools]
+name     = "Machine Tools"
+req1     = "Never"
+req2     = "Never"
+
+[advance_magnetism]
+name     = "Magnetism"
+req1     = "Navigation"
+req2     = "Physics"
+
+[advance_map_making]
+name     = "Map Making"
+req1     = "Alphabet"
+req2     = "None"
+
+[advance_masonry]
+name     = "Masonry"
+req1     = "None"
+req2     = "None"
+
+[advance_mass_production]
+name     = "Mass Production"
+req1     = "Automobile"
+req2     = "The Corporation"
+
+[advance_mathematics]
+name     = "Mathematics"
+req1     = "Alphabet"
+req2     = "Masonry"
+
+[advance_medicine]
+name     = "Medicine"
+req1     = "Philosophy"
+req2     = "Trade"
+
+[advance_metallurgy]
+name     = "Metallurgy"
+req1     = "Gunpowder"
+req2     = "University"
+
+[advance_miniaturization]
+name     = "Miniaturization"
+req1     = "Never"
+req2     = "Never"
+
+[advance_mobile_warfare]
+name     = "Mobile Warfare"
+req1     = "Never"
+req2     = "Never"
+
+[advance_monarchy]
+name     = "Monarchy"
+req1     = "Ceremonial Burial"
+req2     = "Code of Laws"
+
+[advance_monotheism]
+name     = "Monotheism"
+req1     = "Never"
+req2     = "Never"
+
+[advance_mysticism]
+name     = "Mysticism"
+req1     = "Ceremonial Burial"
+req2     = "None"
+
+[advance_navigation]
+name     = "Navigation"
+req1     = "Map Making"
+req2     = "Astronomy"
+
+[advance_nuclear_fission]
+name     = "Nuclear Fission"
+req1     = "Mass Production"
+req2     = "Atomic Theory"
+
+[advance_nuclear_power]
+name     = "Nuclear Power"
+req1     = "Nuclear Fission"
+req2     = "Electronics"
+
+[advance_philosophy]
+name     = "Philosophy"
+req1     = "Mysticism"
+req2     = "Literacy"
+
+[advance_physics]
+name     = "Physics"
+req1     = "Mathematics"
+req2     = "Navigation"
+
+[advance_plastics]
+name     = "Plastics"
+req1     = "Refining"
+req2     = "Space Flight"
+
+[advance_polytheism]
+name     = "Polytheism"
+req1     = "Never"
+req2     = "Never"
+
+[advance_pottery]
+name     = "Pottery"
+req1     = "None"
+req2     = "None"
+
+[advance_radio]
+name     = "Radio"
+req1     = "Never"
+req2     = "Never"
+
+[advance_railroad]
+name     = "Railroad"
+req1     = "Steam Engine"
+req2     = "Bridge Building"
+
+[advance_recycling]
+name     = "Recycling"
+req1     = "Mass Production"
+req2     = "Democracy"
+
+[advance_refining]
+name     = "Refining"
+req1     = "Chemistry"
+req2     = "The Corporation"
+
+[advance_refrigeration]
+name     = "Refrigeration"
+req1     = "Never"
+req2     = "Never"
+
+[advance_robotics]
+name     = "Robotics"
+req1     = "Plastics"
+req2     = "Computers"
+
+[advance_rocketry]
+name     = "Rocketry"
+req1     = "Advanced Flight"
+req2     = "Electronics"
+
+[advance_sanitation]
+name     = "Sanitation"
+req1     = "Never"
+req2     = "Never"
+
+[advance_seafaring]
+name     = "Seafaring"
+req1     = "Never"
+req2     = "Never"
+
+[advance_space_flight]
+name     = "Space Flight"
+req1     = "Computers"
+req2     = "Rocketry"
+
+[advance_stealth]
+name     = "Stealth"
+req1     = "Never"
+req2     = "Never"
+
+[advance_steam_engine]
+name     = "Steam Engine"
+req1     = "Physics"
+req2     = "Invention"
+
+[advance_steel]
+name     = "Steel"
+req1     = "Metallurgy"
+req2     = "Industrialization"
+
+[advance_superconductors]
+name     = "Superconductors"
+req1     = "Plastics"
+req2     = "Mass Production"
+
+[advance_tactics]
+name     = "Tactics"
+req1     = "Never"
+req2     = "Never"
+
+[advance_the_corporation]
+name     = "The Corporation"
+req1     = "Banking"
+req2     = "Industrialization"
+
+[advance_the_republic]
+name     = "The Republic"
+req1     = "Code of Laws"
+req2     = "Literacy"
+
+[advance_the_wheel]
+name     = "The Wheel"
+req1     = "None"
+req2     = "None"
+
+[advance_religion]		; for Civ2 Theology
+name     = "Religion"
+req1     = "Philosophy"
+req2     = "Writing"
+
+[advance_theory_of_gravity]
+name     = "Theory of Gravity"
+req1     = "Astronomy"
+req2     = "University"
+
+[advance_trade]
+name     = "Trade"
+req1     = "Currency"
+req2     = "Code of Laws"
+
+[advance_university]
+name     = "University"
+req1     = "Mathematics"
+req2     = "Philosophy"
+
+[advance_warrior_code]
+name     = "Warrior Code"
+req1     = "Never"
+req2     = "Never"
+
+[advance_writing]
+name     = "Writing"
+req1     = "Alphabet"
+req2     = "None"
+
 
 [a_special]
 

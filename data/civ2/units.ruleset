@@ -12,7 +12,7 @@
 
 [datafile]
 description="Civ2 unit_type data for Freeciv (incomplete)"
-options="1.7 nontabular"
+options="1.8.2"
 
 [units_adjust]
 max_hitpoints=0                 ; 0 means no max

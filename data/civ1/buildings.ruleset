@@ -14,101 +14,643 @@
 
 [datafile]
 description="Approximate Civ1-style buildings data for Freeciv"
-options="1.7"
+options="1.8.2"
 
-[buildings]
+; Below: The individual buildings, one per section.
+; (Buildings = City Improvements and Wonders)
+; For now, the number of such sections must be kept the same (=68).
+; Also, the actual building effects are currently still hardwired, 
+; according to position in this list of sections.
+;
+; The actual tag used (the * in [building_*]) doesn't matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; Notes:
+;
+; name          = name as seen by user 
+; tech_req	= advance required to build; special value "Never"
+;		  meaning building is never available
+; obsolete_by	= advance which makes building obsolete; value "None"
+;		  if does not become obsolete
+; is_wonder	= 1 for wonders (only one instance can ever be built)
+; build_cost	= production shields required to build
+; upkeep	= monetary upkeep value
+; variant	= controls hardwired effects options, unique to each
+;		  building; 0 means default effect; see README.rulesets
 
-; Buildings table: (City Improvements and Wonders)
-; should be kept as close as possible to original
-; hard-wired version, since the effects are still hardwired.
-; Must keep the same number of entries.
-; Special tech_required value: "Never"
-; Special obsolete_by value: "None"
-; Variant: controls hardwired effects options, unique to each
-; building; 0 means default effect.
+[building_airport]
+name        = "Airport"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 3
+variant     = 0
 
-b={ "name", "is_wonder", "tech_requirement", "build_cost", "shield_upkeep", "variant", "obsolete_by"
+[building_aqueduct]
+name        = "Aqueduct"
+tech_req    = "Construction"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 120
+upkeep      = 2
+variant     = 0
 
-; City Improvements:
-; Name,        is_wonder, tech_required,    bcost, upk, var, obsolete_by:
+[building_bank]
+name        = "Bank"
+tech_req    = "Banking"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 120
+upkeep      = 3
+variant     = 0
 
-"Airport",           0, "Never",              160, 3,  0, "None"
-"Aqueduct",          0, "Construction",       120, 2,  0, "None"
-"Bank",              0, "Banking",            120, 3,  0, "None"
-"Barracks",          0, "None",                40, 0,  1, "Gunpowder"
-"Barracks II",       0, "Gunpowder",           40, 1,  0, "Combustion"
-"Barracks III",      0, "Combustion",          40, 2,  0, "None"
-"Cathedral",         0, "Religion",           160, 3,  0, "None"
-"City Walls",        0, "Masonry",            120, 2,  1, "None"
-"Coastal Defense",   0, "Never",               80, 1,  0, "None"
-"Colosseum",         0, "Construction",       100, 4,  0, "None"
-"Courthouse",        0, "Code of Laws",        80, 1,  0, "None"
-"Factory",           0, "Industrialization",  200, 4,  0, "None"
-"Granary",           0, "Pottery",             60, 1,  0, "None"
-"Harbour",           0, "Never",               60, 1,  0, "None"
-"Hydro Plant",       0, "Electronics",        240, 4,  0, "None"
-"Library",           0, "Writing",             80, 1,  0, "None"
-"Marketplace",       0, "Currency",            80, 1,  0, "None"
-"Mass Transit",      0, "Mass Production",    160, 4,  0, "None"
-"Mfg. Plant",        0, "Robotics",           320, 6,  0, "None"
-"Nuclear Plant",     0, "Nuclear Power",      160, 2,  0, "None"
-"Offshore Platform", 0, "Never",              160, 3,  0, "None"
-"Palace",            0, "Masonry",            200, 0,  0, "None"
-"Police Station",    0, "Never",               60, 2,  0, "None"
-"Port Facility",     0, "Never",               80, 3,  0, "None"
-"Power Plant",       0, "Refining",           160, 4,  0, "None"
-"Recycling Center",  0, "Recycling",          200, 2,  0, "None"
-"Research Lab",      0, "Never",              160, 3,  0, "None"
-"SAM Battery",       0, "Never",              100, 2,  0, "None"
-"SDI Defense",       0, "Superconductors",    200, 4,  0, "None"
-"Sewer System",      0, "Never",              120, 2,  0, "None"
-"Solar Plant",       0, "Never",              320, 4,  0, "None"
-"Space Component",   0, "Plastics",           160, 0,  0, "None"
-"Space Module",      0, "Robotics",           320, 0,  0, "None"
-"Space Structural",  0, "Space Flight",        80, 0,  0, "None"
-"Stock Exchange",    0, "Never",              160, 4,  0, "None"
-"Super Highways",    0, "Never",              160, 3,  0, "None"
-"Supermarket",       0, "Never",              120, 3,  0, "None"
-"Temple",            0, "Ceremonial Burial",   40, 1,  0, "None"
-"University",        0, "University",         160, 3,  0, "None"
+[building_barracks]
+name        = "Barracks"
+tech_req    = "None"
+obsolete_by = "Gunpowder"
+is_wonder   = 0
+build_cost  = 40
+upkeep      = 0
+variant     = 1
 
-; Wonders:
-; Name,             is_wonder, tech_required,    bcost, upk, var, obsolete_by:
+[building_barracks_ii]
+name        = "Barracks II"
+tech_req    = "Gunpowder"
+obsolete_by = "Combustion"
+is_wonder   = 0
+build_cost  = 40
+upkeep      = 1
+variant     = 0
 
-"Apollo Program",          1, "Space Flight",        600, 0, 0, "None"
-"A.Smith's Trading Co.",   1, "Never",               400, 0, 0, "None"
-"Colossus",                1, "Bronze Working",      200, 0, 0, "Flight"
-"Copernicus' Observatory", 1, "Astronomy",           300, 0, 0, "Automobile"
-"Cure For Cancer",         1, "Genetic Engineering", 600, 0, 0, "None"
-"Darwin's Voyage",         1, "Railroad",            300, 0, 0, "None"
-"Eiffel Tower",            1, "Never",               300, 0, 0, "None"
-"Great Library",           1, "Literacy",            300, 0, 0, "University"
-"Great Wall",              1, "Masonry",             300, 0, 0, "Gunpowder"
-"Hanging Gardens",         1, "Pottery",             300, 0, 0, "Invention"
-"Hoover Dam",              1, "Electronics",         600, 0, 1, "None"
-"Isaac Newton's College",  1, "Theory of Gravity",   400, 0, 0, "Nuclear Fission"
-"J.S. Bach's Cathedral",   1, "Religion",            400, 0, 1, "None"
-"King Richard's Crusade",  1, "Never",               300, 0, 0, "Industrialization"
-"Leonardo's Workshop",     1, "Never",               400, 0, 0, "Automobile"
-"Lighthouse",              1, "Map Making",          200, 0, 0, "Magnetism"
-"Magellan's Expedition",   1, "Navigation",          400, 0, 1, "None"
-"Manhattan Project",       1, "Nuclear Fission",     600, 0, 0, "None"
-"Marco Polo's Embassy",    1, "Never",               200, 0, 0, "Communism"
-"Michelangelo's Chapel",   1, "Religion",            300, 0, 0, "Communism"
-"Oracle",                  1, "Mysticism",           300, 0, 0, "Religion"
-"Pyramids",                1, "Masonry",             300, 0, 1, "Communism"
-"SETI Program",            1, "Computers",           600, 0, 0, "None"
-"Shakespeare's Theatre",   1, "Medicine",            400, 0, 0, "Electronics"
-"Statue of Liberty",       1, "Never",               400, 0, 0, "None"
-"Sun Tzu's War Academy",   1, "Never",               300, 0, 0, "Mobile Warfare"
-"United Nations",          1, "Communism",           600, 0, 1, "None"
-"Women's Suffrage",        1, "Industrialization",   600, 0, 1, "None"
+[building_barracks_iii]
+name        = "Barracks III"
+tech_req    = "Combustion"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 40
+upkeep      = 2
+variant     = 0
 
-; Special:
-; Name,             is_wonder, tech_required,    bcost, upk, var, obsolete_by:
-"Capitalization",          0, "Never",               999, 0, 0, "None"
+[building_cathedral]
+name        = "Cathedral"
+tech_req    = "Religion"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 3
+variant     = 0
 
-}
+[building_city_walls]
+name        = "City Walls"
+tech_req    = "Masonry"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 120
+upkeep      = 2
+variant     = 1
+
+[building_coastal_defense]
+name        = "Coastal Defense"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 80
+upkeep      = 1
+variant     = 0
+
+[building_colosseum]
+name        = "Colosseum"
+tech_req    = "Construction"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 100
+upkeep      = 4
+variant     = 0
+
+[building_courthouse]
+name        = "Courthouse"
+tech_req    = "Code of Laws"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 80
+upkeep      = 1
+variant     = 0
+
+[building_factory]
+name        = "Factory"
+tech_req    = "Industrialization"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 200
+upkeep      = 4
+variant     = 0
+
+[building_granary]
+name        = "Granary"
+tech_req    = "Pottery"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 60
+upkeep      = 1
+variant     = 0
+
+[building_harbour]
+name        = "Harbour"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 60
+upkeep      = 1
+variant     = 0
+
+[building_hydro_plant]
+name        = "Hydro Plant"
+tech_req    = "Electronics"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 240
+upkeep      = 4
+variant     = 0
+
+[building_library]
+name        = "Library"
+tech_req    = "Writing"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 80
+upkeep      = 1
+variant     = 0
+
+[building_marketplace]
+name        = "Marketplace"
+tech_req    = "Currency"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 80
+upkeep      = 1
+variant     = 0
+
+[building_mass_transit]
+name        = "Mass Transit"
+tech_req    = "Mass Production"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 4
+variant     = 0
+
+[building_mfg_plant]
+name        = "Mfg. Plant"
+tech_req    = "Robotics"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 320
+upkeep      = 6
+variant     = 0
+
+[building_nuclear_plant]
+name        = "Nuclear Plant"
+tech_req    = "Nuclear Power"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 2
+variant     = 0
+
+[building_offshore_platform]
+name        = "Offshore Platform"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 3
+variant     = 0
+
+[building_palace]
+name        = "Palace"
+tech_req    = "Masonry"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 200
+upkeep      = 0
+variant     = 0
+
+[building_police_station]
+name        = "Police Station"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 60
+upkeep      = 2
+variant     = 0
+
+[building_port_facility]
+name        = "Port Facility"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 80
+upkeep      = 3
+variant     = 0
+
+[building_power_plant]
+name        = "Power Plant"
+tech_req    = "Refining"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 4
+variant     = 0
+
+[building_recycling_center]
+name        = "Recycling Center"
+tech_req    = "Recycling"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 200
+upkeep      = 2
+variant     = 0
+
+[building_research_lab]
+name        = "Research Lab"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 3
+variant     = 0
+
+[building_sam_battery]
+name        = "SAM Battery"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 100
+upkeep      = 2
+variant     = 0
+
+[building_sdi_defense]
+name        = "SDI Defense"
+tech_req    = "Superconductors"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 200
+upkeep      = 4
+variant     = 0
+
+[building_sewer_system]
+name        = "Sewer System"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 120
+upkeep      = 2
+variant     = 0
+
+[building_solar_plant]
+name        = "Solar Plant"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 320
+upkeep      = 4
+variant     = 0
+
+[building_space_component]
+name        = "Space Component"
+tech_req    = "Plastics"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 0
+variant     = 0
+
+[building_space_module]
+name        = "Space Module"
+tech_req    = "Robotics"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 320
+upkeep      = 0
+variant     = 0
+
+[building_space_structural]
+name        = "Space Structural"
+tech_req    = "Space Flight"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 80
+upkeep      = 0
+variant     = 0
+
+[building_stock_exchange]
+name        = "Stock Exchange"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 4
+variant     = 0
+
+[building_super_highways]
+name        = "Super Highways"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 3
+variant     = 0
+
+[building_supermarket]
+name        = "Supermarket"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 120
+upkeep      = 3
+variant     = 0
+
+[building_temple]
+name        = "Temple"
+tech_req    = "Ceremonial Burial"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 40
+upkeep      = 1
+variant     = 0
+
+[building_university]
+name        = "University"
+tech_req    = "University"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 160
+upkeep      = 3
+variant     = 0
+
+[building_apollo_program]
+name        = "Apollo Program"
+tech_req    = "Space Flight"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 600
+upkeep      = 0
+variant     = 0
+
+[building_asmiths_trading_co]
+name        = "A.Smith's Trading Co."
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 400
+upkeep      = 0
+variant     = 0
+
+[building_colossus]
+name        = "Colossus"
+tech_req    = "Bronze Working"
+obsolete_by = "Flight"
+is_wonder   = 1
+build_cost  = 200
+upkeep      = 0
+variant     = 0
+
+[building_copernicus_observatory]
+name        = "Copernicus' Observatory"
+tech_req    = "Astronomy"
+obsolete_by = "Automobile"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_cure_for_cancer]
+name        = "Cure For Cancer"
+tech_req    = "Genetic Engineering"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 600
+upkeep      = 0
+variant     = 0
+
+[building_darwins_voyage]
+name        = "Darwin's Voyage"
+tech_req    = "Railroad"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_eiffel_tower]
+name        = "Eiffel Tower"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_great_library]
+name        = "Great Library"
+tech_req    = "Literacy"
+obsolete_by = "University"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_great_wall]
+name        = "Great Wall"
+tech_req    = "Masonry"
+obsolete_by = "Gunpowder"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_hanging_gardens]
+name        = "Hanging Gardens"
+tech_req    = "Pottery"
+obsolete_by = "Invention"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_hoover_dam]
+name        = "Hoover Dam"
+tech_req    = "Electronics"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 600
+upkeep      = 0
+variant     = 1
+
+[building_isaac_newtons_college]
+name        = "Isaac Newton's College"
+tech_req    = "Theory of Gravity"
+obsolete_by = "Nuclear Fission"
+is_wonder   = 1
+build_cost  = 400
+upkeep      = 0
+variant     = 0
+
+[building_js_bachs_cathedral]
+name        = "J.S. Bach's Cathedral"
+tech_req    = "Religion"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 400
+upkeep      = 0
+variant     = 1
+
+[building_king_richards_crusade]
+name        = "King Richard's Crusade"
+tech_req    = "Never"
+obsolete_by = "Industrialization"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_leonardos_workshop]
+name        = "Leonardo's Workshop"
+tech_req    = "Never"
+obsolete_by = "Automobile"
+is_wonder   = 1
+build_cost  = 400
+upkeep      = 0
+variant     = 0
+
+[building_lighthouse]
+name        = "Lighthouse"
+tech_req    = "Map Making"
+obsolete_by = "Magnetism"
+is_wonder   = 1
+build_cost  = 200
+upkeep      = 0
+variant     = 0
+
+[building_magellans_expedition]
+name        = "Magellan's Expedition"
+tech_req    = "Navigation"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 400
+upkeep      = 0
+variant     = 1
+
+[building_manhattan_project]
+name        = "Manhattan Project"
+tech_req    = "Nuclear Fission"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 600
+upkeep      = 0
+variant     = 0
+
+[building_marco_polos_embassy]
+name        = "Marco Polo's Embassy"
+tech_req    = "Never"
+obsolete_by = "Communism"
+is_wonder   = 1
+build_cost  = 200
+upkeep      = 0
+variant     = 0
+
+[building_michelangelos_chapel]
+name        = "Michelangelo's Chapel"
+tech_req    = "Religion"
+obsolete_by = "Communism"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_oracle]
+name        = "Oracle"
+tech_req    = "Mysticism"
+obsolete_by = "Religion"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_pyramids]
+name        = "Pyramids"
+tech_req    = "Masonry"
+obsolete_by = "Communism"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 1
+
+[building_seti_program]
+name        = "SETI Program"
+tech_req    = "Computers"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 600
+upkeep      = 0
+variant     = 0
+
+[building_shakespeares_theatre]
+name        = "Shakespeare's Theatre"
+tech_req    = "Medicine"
+obsolete_by = "Electronics"
+is_wonder   = 1
+build_cost  = 400
+upkeep      = 0
+variant     = 0
+
+[building_statue_of_liberty]
+name        = "Statue of Liberty"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 400
+upkeep      = 0
+variant     = 0
+
+[building_sun_tzus_war_academy]
+name        = "Sun Tzu's War Academy"
+tech_req    = "Never"
+obsolete_by = "Mobile Warfare"
+is_wonder   = 1
+build_cost  = 300
+upkeep      = 0
+variant     = 0
+
+[building_united_nations]
+name        = "United Nations"
+tech_req    = "Communism"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 600
+upkeep      = 0
+variant     = 1
+
+[building_womens_suffrage]
+name        = "Women's Suffrage"
+tech_req    = "Industrialization"
+obsolete_by = "None"
+is_wonder   = 1
+build_cost  = 600
+upkeep      = 0
+variant     = 1
+
+[building_capitalization]		; Special case
+name        = "Capitalization"
+tech_req    = "Never"
+obsolete_by = "None"
+is_wonder   = 0
+build_cost  = 999
+upkeep      = 0
+variant     = 0
+
 
 [b_special]
 

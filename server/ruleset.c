@@ -37,7 +37,6 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
 static int lookup_tech(struct section_file *file, char *prefix,
 		       char *entry, int required, char *filename,
 		       char *description);
-static int match_name_from_list(char *name, char **list, int n_list);
 static enum tile_terrain_type lookup_terrain(char *name, int this);
 
 static void load_ruleset_techs(char *ruleset_subdir);
@@ -49,13 +48,6 @@ static void send_ruleset_techs(struct player *dest);
 static void send_ruleset_units(struct player *dest);
 static void send_ruleset_buildings(struct player *dest);
 static void send_ruleset_terrain(struct player *dest);
-
-static void old_load_ruleset_units(char *filename, char *datafile_options,
-				   struct section_file *file);
-static void new_load_ruleset_units(char *filename, char *datafile_options,
-				   struct section_file *file);
-static void after_load_ruleset_units(char *filename);
-
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
@@ -178,6 +170,7 @@ static int lookup_tech(struct section_file *file, char *prefix,
   return i;
 }
 
+#ifdef UNUSED
 /**************************************************************************
  Return the index of the name in the list, or -1
 **************************************************************************/
@@ -192,6 +185,7 @@ static int match_name_from_list(char *name, char **list, int n_list)
   }
   return -1;
 }
+#endif
 
 
 /**************************************************************************
@@ -230,26 +224,33 @@ static void load_ruleset_techs(char *ruleset_subdir)
 {
   struct section_file file;
   char *filename, *datafile_options;
-  char prefix[64];
+  char **sec;
   struct advance *a;
-  int i;
+  int i, nval;
   
   filename = openload_ruleset_file(&file, ruleset_subdir, "techs");
-  datafile_options = check_ruleset_capabilities(&file, "1.7", filename);
+  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
+
+  /* The names: */
+  sec = secfile_get_secnames_prefix(&file, "advance_", &nval);
+  if(nval != A_LAST) {
+    /* sometime this restriction should be removed */
+    freelog(LOG_FATAL, "Bad number of techs %d (%s)", nval, filename);
+    exit(1);
+  }
 
   /* have to read all names first, so can lookup names for reqs! */
   for( i=0; i<A_LAST; i++ ) {
     a = &advances[i];
-    strcpy(a->name, secfile_lookup_str(&file, "advances.a%d.name", i));
+    strcpy(a->name, secfile_lookup_str(&file, "%s.name", sec[i]));
   }
   
   for( i=0; i<A_LAST; i++ ) {
     a = &advances[i];
-    sprintf(prefix, "advances.a%d", i);
 
-    a->req[0] = lookup_tech(&file, prefix, "req1", 0, filename, a->name);
-    a->req[1] = lookup_tech(&file, prefix, "req2", 0, filename, a->name);
+    a->req[0] = lookup_tech(&file, sec[i], "req1", 0, filename, a->name);
+    a->req[1] = lookup_tech(&file, sec[i], "req2", 0, filename, a->name);
     
     if ((a->req[0]==A_LAST && a->req[1]!=A_LAST) ||
 	(a->req[0]!=A_LAST && a->req[1]==A_LAST)) {
@@ -299,200 +300,15 @@ static void load_ruleset_techs(char *ruleset_subdir)
 **************************************************************************/
 static void load_ruleset_units(char *ruleset_subdir)
 {
-  struct section_file file;
+  struct section_file the_file, *file = &the_file;
   char *filename, *datafile_options;
-
-  filename = openload_ruleset_file(&file, ruleset_subdir, "units");
-  datafile_options = check_ruleset_capabilities(&file, "1.7", filename);
-  section_file_lookup(&file,"datafile.description"); /* unused */
-
-  if (has_capability("nontabular", datafile_options)) {
-    new_load_ruleset_units(filename, datafile_options, &file);
-  } else {
-    old_load_ruleset_units(filename, datafile_options, &file);
-  }
-  section_file_check_unused(&file, filename);
-  section_file_free(&file);
-  after_load_ruleset_units(filename);
-  return;
-}
-
-/**************************************************************************
-  This is for old-style (tabular) units.ruleset files.
-  This support could disappear in future.
-**************************************************************************/
-static void old_load_ruleset_units(char *filename, char *datafile_options,
-				   struct section_file *file)
-{
-  char prefix[64];
   struct unit_type *u;
-  int max_hp, max_firepower;
-  char **flag_names;
-  int i, j, ival, nval, num_flag_names;
-  char *sval, **slist;
-
-  section_file_lookup(file,"datafile.description"); /* unused */
-
-  max_hp =
-    secfile_lookup_int_default(file, 0, "unit_adjustments.max_hitpoints");
-  max_firepower =
-    secfile_lookup_int_default(file, 0, "unit_adjustments.max_firepower");
-  game.firepower_factor =
-    secfile_lookup_int_default(file, 1, "unit_adjustments.firepower_factor");
-
-  /* The names: */
-  for( i=0; i<U_LAST; i++ ) {
-    u = &unit_types[i];
-    strcpy(u->name, secfile_lookup_str(file, "units.u1%d.name", i));
-  }
-
-  /* Tech requirement is used to flag removed unit_types, which
-     we might want to know for other fields.  After this we
-     can use unit_type_exists()
-  */
-  for( i=0; i<U_LAST; i++ ) {
-    u = &unit_types[i];
-    sprintf(prefix, "units.u1%d", i);
-    u->tech_requirement = lookup_tech(file, prefix, "tech_requirement",
-				      0, filename, u->name);
-  }
-  for( i=0; i<U_LAST; i++ ) {
-    u = &unit_types[i];
-    sprintf(prefix, "units.u1%d", i);
-    if (unit_type_exists(i)) {
-      u->obsoleted_by = lookup_unit_type(file, prefix, "obsoleted_by", 0,
-					 filename, u->name);
-    } else {
-      section_file_lookup(file, "%s.obsoleted_by", prefix);  /* unused */
-      u->obsoleted_by = -1;
-    }
-  }
-  
-  /* second block: */
-  for( i=0; i<U_LAST; i++ ) {
-    u = &unit_types[i];
-    sprintf(prefix, "units.u2%d", i);
-    
-    sval = secfile_lookup_str(file, "%s.name", prefix);
-    if (strcmp(u->name, sval) != 0) {
-      freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
-	   "block 2 (%s)", u->name, sval, filename);
-    }
-
-    u->move_type = ival = secfile_lookup_int(file,"%s.move_type", prefix);
-    if (ival<LAND_MOVING || ival>AIR_MOVING) {
-      freelog(LOG_FATAL, "for unit_type \"%s\": bad move_type %d (%s)",
-	   u->name, ival, filename);
-      exit(1);
-    }
-    u->graphics =
-      secfile_lookup_int(file,"%s.graphics", prefix);
-    u->build_cost =
-      secfile_lookup_int(file,"%s.build_cost", prefix);
-    u->attack_strength =
-      secfile_lookup_int(file,"%s.attack_strength", prefix);
-    u->defense_strength =
-      secfile_lookup_int(file,"%s.defense_strength", prefix);
-    u->move_rate =
-      3*secfile_lookup_int(file,"%s.move_rate", prefix);
-    
-    u->vision_range =
-      secfile_lookup_int(file,"%s.vision_range", prefix);
-    u->transport_capacity =
-      secfile_lookup_int(file,"%s.transport_capacity", prefix);
-    u->hp = secfile_lookup_int(file,"%s.hitpoints", prefix);
-    if( max_hp && u->hp > max_hp ) {
-      u->hp = max_hp;
-    }
-    u->firepower = secfile_lookup_int(file,"%s.firepower", prefix);
-    if( max_firepower && u->firepower > max_firepower ) {
-      u->firepower = max_firepower;
-    }
-    u->fuel = secfile_lookup_int(file,"%s.fuel", prefix);
-  }
-  
-  /* third block: flags */
-  flag_names = secfile_lookup_str_vec(file, &num_flag_names,
-				      "units.flag_names");
-  if (num_flag_names==0) {
-    freelog(LOG_FATAL, "Couldn't find units.flag_names in %s", filename);
-    exit(1);
-  }
-    
-  for(i=0; i<U_LAST; i++) {
-    u = &unit_types[i];
-    u->flags = 0;
-    sprintf(prefix, "units.u3%d", i);
-    
-    sval = secfile_lookup_str(file, "%s.name", prefix);
-    if (strcmp(u->name, sval) != 0) {
-      freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
-	   "block 3 (%s)", u->name, sval, filename);
-    }
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", prefix );
-    for(j=0; j<nval; j++) {
-      sval = slist[j];
-      if(strcmp(sval,"")==0) {
-	continue;
-      }
-      ival = match_name_from_list(sval, flag_names, num_flag_names);
-      if (ival==-1) {
-	freelog(LOG_NORMAL, "for unit_type \"%s\": unmatched flag name \"%s\" (%s)",
-	     u->name, sval, filename);
-      }
-      u->flags |= (1<<ival);
-    }
-    free(slist);
-  }
-  free(flag_names);
-    
-  /* fourth block: roles */
-  flag_names = secfile_lookup_str_vec(file, &num_flag_names,
-				      "units.role_names");
-  if (num_flag_names==0) {
-    freelog(LOG_FATAL, "Couldn't find units.role_names in %s", filename);
-    exit(1);
-  }
-    
-  for(i=0; i<U_LAST; i++) {
-    u = &unit_types[i];
-    u->roles = 0;
-    sprintf(prefix, "units.u4%d", i);
-    
-    sval = secfile_lookup_str(file, "%s.name", prefix);
-    if (strcmp(u->name, sval) != 0) {
-      freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
-	   "block 4 (%s)", u->name, sval, filename);
-    }
-    slist = secfile_lookup_str_vec(file, &nval, "%s.roles", prefix );
-    for(j=0; j<nval; j++) {
-      sval = slist[j];
-      if(strcmp(sval,"")==0) {
-	continue;
-      }
-      ival = match_name_from_list(sval, flag_names, num_flag_names);
-      if (ival==-1) {
-	freelog(LOG_NORMAL, "for unit_type \"%s\": unmatched role name \"%s\" (%s)",
-	     u->name, sval, filename);
-      }
-      u->roles |= (1<<ival);
-    }
-    free(slist);
-  }
-  free(flag_names);
-}
-
-/**************************************************************************
-...  
-**************************************************************************/
-static void new_load_ruleset_units(char *filename, char *datafile_options,
-				   struct section_file *file)
-{
-  struct unit_type *u;
-  int max_hp, max_firepower;
   int i, j, ival, nval;
+  int max_hp, max_firepower;
   char *sval, **slist, **sec;
 
+  filename = openload_ruleset_file(file, ruleset_subdir, "units");
+  datafile_options = check_ruleset_capabilities(file, "1.8.2", filename);
   section_file_lookup(file,"datafile.description"); /* unused */
 
   max_hp =
@@ -614,16 +430,9 @@ static void new_load_ruleset_units(char *filename, char *datafile_options,
     free(slist);
   }
   free(sec);
-}
 
-/**************************************************************************
-  This does some consistency checking, and pre-calcs, after loading
-  units ruleset data.
-**************************************************************************/
-static void after_load_ruleset_units(char *filename)
-{
-  struct unit_type *u;
-  int i, j;
+  section_file_check_unused(file, filename);
+  section_file_free(file);
 
   /* Some more consistency checking: */
   for( i=0; i<U_LAST; i++ ) {
@@ -694,32 +503,39 @@ static void load_ruleset_buildings(char *ruleset_subdir)
 {
   struct section_file file;
   char *filename, *datafile_options;
-  char prefix[64];
-  int i, j;
+  char **sec;
+  int i, j, nval;
   struct improvement_type *b;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "buildings");
-  datafile_options = check_ruleset_capabilities(&file, "1.7", filename);
+  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
+
+  /* The names: */
+  sec = secfile_get_secnames_prefix(&file, "building_", &nval);
+  if(nval != B_LAST) {
+    /* sometime this restriction should be removed */
+    freelog(LOG_FATAL, "Bad number of buildings %d (%s)", nval, filename);
+    exit(1);
+  }
 
   for( i=0, j=0; i<B_LAST; i++ ) {
     b = &improvement_types[i];
-    sprintf(prefix, "buildings.b%d", j++);
     
-    strcpy(b->name, secfile_lookup_str(&file, "%s.name", prefix));
-    b->is_wonder = secfile_lookup_int(&file, "%s.is_wonder", prefix);
-    b->tech_requirement = lookup_tech(&file, prefix, "tech_requirement",
+    strcpy(b->name, secfile_lookup_str(&file, "%s.name", sec[i]));
+    b->is_wonder = secfile_lookup_int(&file, "%s.is_wonder", sec[i]);
+    b->tech_requirement = lookup_tech(&file, sec[i], "tech_req",
 				      0, filename, b->name);
 
-    b->obsolete_by = lookup_tech(&file, prefix, "obsolete_by", 
+    b->obsolete_by = lookup_tech(&file, sec[i], "obsolete_by", 
 				 0, filename, b->name);
     if (b->obsolete_by==A_LAST || !tech_exists(b->obsolete_by)) {
       b->obsolete_by = A_NONE;
     }
 
-    b->build_cost = secfile_lookup_int(&file, "%s.build_cost", prefix);
-    b->shield_upkeep = secfile_lookup_int(&file, "%s.shield_upkeep", prefix);
-    b->variant = secfile_lookup_int(&file, "%s.variant", prefix);
+    b->build_cost = secfile_lookup_int(&file, "%s.build_cost", sec[i]);
+    b->shield_upkeep = secfile_lookup_int(&file, "%s.upkeep", sec[i]);
+    b->variant = secfile_lookup_int(&file, "%s.variant", sec[i]);
   }
 
   /* Some more consistency checking: */
