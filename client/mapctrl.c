@@ -191,15 +191,15 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
       }
     }
   }
-  else if(unit_flag(punit->type, F_DIPLOMAT)) {
-    if(diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y) ||
-       diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y) ||
-       (unit_flag(punit->type, F_SPY) && 
-	diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y)) ||
-       diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y)) {
+  else if(unit_flag(punit->type, F_DIPLOMAT) &&
+          is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
+                                       dest_x, dest_y)) {
+    if (diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
       popup_diplomat_dialog(punit, dest_x, dest_y);
-      return;
+    } else {
+      append_output_window("Game: You don't have enough movement left");
     }
+    return;
   }
   
   req_unit=*punit;

@@ -187,7 +187,8 @@ void handle_diplomat_action(struct player *pplayer,
   }
   move_cost = tile_move_cost(pdiplomat,pdiplomat->x,pdiplomat->y, x, y);
   
-  if(pdiplomat && pdiplomat->moves_left >= move_cost) {
+  if(pdiplomat->moves_left >= move_cost ||
+     pdiplomat->moves_left >= unit_move_rate(pdiplomat)) {
 
     switch(packet->action_type) {
     case DIPLOMAT_BRIBE:

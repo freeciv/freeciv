@@ -150,46 +150,72 @@ sabotage city
 **************************************************************************/
 
 /**************************************************************************
-...
+Whether a diplomat can move to a particular tile and perform a
+particular action there.
 **************************************************************************/
 int diplomat_can_do_action(struct unit *pdiplomat,
 			   enum diplomat_actions action, 
 			   int destx, int desty)
 {
-  struct city *pcity=map_get_city(destx, desty);
-  struct tile *ptile=map_get_tile(destx, desty);
-  int move_cost = tile_move_cost(pdiplomat,pdiplomat->x,pdiplomat->y, destx, desty);
-  
-  if(is_tiles_adjacent(pdiplomat->x, pdiplomat->y, destx, desty) && pdiplomat->moves_left >= move_cost) {
-    
-    if(pcity) {  
-      if(pcity->owner!=pdiplomat->owner) {
-	if(action==DIPLOMAT_SABOTAGE)
-	  return 1;
+  if(!is_diplomat_action_available(pdiplomat, action, destx, desty))
+    return 0;
 
-        if(action==DIPLOMAT_EMBASSY &&
-	   !player_has_embassy(&game.players[pdiplomat->owner], 
-			       &game.players[pcity->owner]))
-	   return 1;
-	if(action==SPY_POISON && unit_flag(pdiplomat->type, F_SPY))
-	  return 1;
-	if(action==DIPLOMAT_INVESTIGATE)
-	  return 1;
-	if(action==DIPLOMAT_STEAL)
-	  return 1;
-	if(action==DIPLOMAT_INCITE)
-	  return 1;
-      }
-    }
-    else {
-      if(action==SPY_SABOTAGE_UNIT && unit_list_size(&ptile->units)>=1 &&
-	 unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner &&
-	 unit_flag(pdiplomat->type, F_SPY))
+  if(!is_tiles_adjacent(pdiplomat->x, pdiplomat->y, destx, desty))
+    return 0;
+
+  if(pdiplomat->moves_left >= unit_move_rate(pdiplomat))
+    return 1;   /* Hasn't moved yet this turn */
+
+  if(pdiplomat->moves_left >= map_move_cost(pdiplomat, destx, desty))
+    return 1;
+
+  return 0;
+}
+
+/**************************************************************************
+Whether a diplomat can perform a particular action at a particular
+tile.  This does _not_ check whether the diplomat can move there.
+If the action is DIPLOMAT_ANY_ACTION, checks whether there is any
+action the diplomat can perform at the tile.
+**************************************************************************/
+int is_diplomat_action_available(struct unit *pdiplomat,
+				 enum diplomat_actions action, 
+				 int destx, int desty)
+{
+  struct city *pcity=map_get_city(destx, desty);
+
+  if(pcity) {  
+    if(pcity->owner!=pdiplomat->owner) {
+      if(action==DIPLOMAT_SABOTAGE)
+        return 1;
+
+      if(action==DIPLOMAT_EMBASSY &&
+	 !player_has_embassy(&game.players[pdiplomat->owner], 
+			     &game.players[pcity->owner]))
 	return 1;
-      if(action==DIPLOMAT_BRIBE && unit_list_size(&ptile->units)==1 &&
-	 unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner)
-	return 1;
+      if(action==SPY_POISON && unit_flag(pdiplomat->type, F_SPY))
+        return 1;
+      if(action==DIPLOMAT_INVESTIGATE)
+        return 1;
+      if(action==DIPLOMAT_STEAL)
+        return 1;
+      if(action==DIPLOMAT_INCITE)
+        return 1;
+      if(action==DIPLOMAT_ANY_ACTION)
+        return 1;
     }
+  }
+  else {
+    struct tile *ptile=map_get_tile(destx, desty);
+    if((action==SPY_SABOTAGE_UNIT || action==DIPLOMAT_ANY_ACTION) &&
+       unit_list_size(&ptile->units)>=1 &&
+       unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner &&
+       unit_flag(pdiplomat->type, F_SPY))
+      return 1;
+    if((action==DIPLOMAT_BRIBE || action==DIPLOMAT_ANY_ACTION) &&
+       unit_list_size(&ptile->units)==1 &&
+       unit_list_get(&ptile->units, 0)->owner!=pdiplomat->owner)
+      return 1;
   }
   return 0;
 }

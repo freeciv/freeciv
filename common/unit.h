@@ -92,7 +92,8 @@ enum unit_focus_status {
 enum diplomat_actions {
   DIPLOMAT_BRIBE, DIPLOMAT_EMBASSY, DIPLOMAT_SABOTAGE,
   DIPLOMAT_STEAL, DIPLOMAT_INCITE, SPY_POISON, 
-  DIPLOMAT_INVESTIGATE, SPY_SABOTAGE_UNIT
+  DIPLOMAT_INVESTIGATE, SPY_SABOTAGE_UNIT,
+  DIPLOMAT_ANY_ACTION
 };
 
 struct unit_ai {
@@ -198,6 +199,10 @@ void unit_list_sort_ord_city(struct unit_list *This);
 int diplomat_can_do_action(struct unit *pdiplomat,
 			   enum diplomat_actions action, 
 			   int destx, int desty);
+int is_diplomat_action_available(struct unit *pdiplomat,
+                                 enum diplomat_actions action,
+                                 int destx, int desty);
+
 struct unit *find_unit_by_id(int id);
 
 char *get_unit_name(enum unit_type_id id);
