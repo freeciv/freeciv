@@ -659,8 +659,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
   
   my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold); 
   pdialog->gold1_label=fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
-  fcwin_box_add_edit(vbox,"",6,ID_GOLD1,ES_WANTRETURN | ES_MULTILINE,
-		     FALSE,FALSE,5);
+  fcwin_box_add_edit(vbox, "", 6, ID_GOLD1, ES_WANTRETURN | ES_MULTILINE
+		     | ES_AUTOVSCROLL, FALSE, FALSE, 5);
   fcwin_box_add_button(vbox,_("Give shared vision"),ID_VISION1,0,
 		       FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Erase Clause"), ID_ERASE, 0, FALSE, FALSE, 5);
