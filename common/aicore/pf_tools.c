@@ -471,7 +471,11 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     break;
   case AIR_MOVING:
     parameter->get_MC = single_airmove;
-    parameter->is_pos_dangerous = air_is_pos_dangerous;
+    if (unit_type(punit)->fuel > 0) {
+      parameter->is_pos_dangerous = air_is_pos_dangerous;
+    } else {
+      parameter->is_pos_dangerous = NULL;
+    }
     parameter->turn_mode = TM_WORST_TIME;
     break;
   case HELI_MOVING:
