@@ -418,8 +418,9 @@ void eval_buildings(struct city *pcity,int *values)
 **************************************************************************/
 int do_make_unit_veteran(struct city *pcity, enum unit_type_id id)
 {
-  if (unit_flag(id,F_DIPLOMAT) && get_government(pcity->owner)==G_COMMUNISM)
-    return 1;
+  if (unit_flag(id,F_DIPLOMAT))
+    return(get_government(pcity->owner)==G_COMMUNISM);
+
   if (is_ground_unittype(id) || improvement_variant(B_BARRACKS)==1)
     return city_got_barracks(pcity);
   else if (is_water_unit(id))
