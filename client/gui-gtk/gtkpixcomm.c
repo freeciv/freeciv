@@ -218,7 +218,7 @@ gtk_pixcomm_copyto (GtkPixcomm *pixcomm, SPRITE *src,
   else
   {
     gdk_draw_rectangle (pixcomm->mask, pixcomm->mask_fg_gc, TRUE,
-			0, 0, src->width, src->height);
+			x, y, src->width, src->height);
   }
 
   if (refresh)
