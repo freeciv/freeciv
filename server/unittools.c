@@ -2100,23 +2100,6 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 }
 
 /**************************************************************************
-Move the unit if possible 
-  if the unit has less moves than it costs to enter a square, we roll the dice:
-  1) either succeed
-  2) or have it's moves set to 0
-  a unit can always move atleast once
-**************************************************************************/
- bool try_move_unit(struct unit *punit, struct tile *dst_tile)
-{
-  if (myrand(1 + map_move_cost(punit, dst_tile)) > punit->moves_left
-      && punit->moves_left<unit_move_rate(punit)) {
-    punit->moves_left=0;
-    send_unit_info(unit_owner(punit), punit);
-  }
-  return punit->moves_left > 0;
-}
-
-/**************************************************************************
   go by airline, if both cities have an airport and neither has been used this
   turn the unit will be transported by it and have it's moves set to 0
 **************************************************************************/
