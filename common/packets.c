@@ -79,6 +79,24 @@ struct pack_iter {
   bool bad_bit_string;		/* set to 1 if received bad bit-string */
 };
 
+#define SEND_PACKET_START(type) \
+  unsigned char buffer[MAX_LEN_PACKET], *cptr; \
+  cptr = put_uint8(buffer + 2, type);
+
+#define SEND_PACKET_END \
+  (void) put_uint16(buffer, cptr - buffer); \
+  return send_packet_data(pc, buffer, cptr - buffer);
+
+#define RECEIVE_PACKET_START(type, result) \
+  struct pack_iter iter; \
+  struct type *result = fc_malloc(sizeof(*result)); \
+  pack_iter_init(&iter, pc);
+
+#define RECEIVE_PACKET_END(result) \
+  pack_iter_end(&iter, pc); \
+  remove_packet_from_buffer(pc->buffer); \
+  return result;
+
 static void pack_iter_init(struct pack_iter *piter, struct connection *pc);
 static void pack_iter_end(struct pack_iter *piter, struct connection *pc);
 static int  pack_iter_remaining(struct pack_iter *piter);
@@ -1506,24 +1524,22 @@ static void iget_worklist(struct connection *pc, struct pack_iter *piter,
     }
   }
 }
-    
+
 /*************************************************************************
 ...
 **************************************************************************/
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 			       const struct packet_diplomacy_info *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, pt);
+  SEND_PACKET_START(pt);
   
   cptr=put_uint32(cptr, packet->plrno0);
   cptr=put_uint32(cptr, packet->plrno1);
   cptr=put_uint32(cptr, packet->plrno_from);
   cptr=put_uint32(cptr, packet->clause_type);
   cptr=put_uint32(cptr, packet->value);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -1532,11 +1548,7 @@ int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
 struct packet_diplomacy_info *
 receive_packet_diplomacy_info(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_diplomacy_info *preq=
-    fc_malloc(sizeof(struct packet_diplomacy_info));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_diplomacy_info, preq);
 
   iget_uint32(&iter, &preq->plrno0);
   iget_uint32(&iter, &preq->plrno1);
@@ -1544,9 +1556,7 @@ receive_packet_diplomacy_info(struct connection *pc)
   iget_uint32(&iter, &preq->clause_type);
   iget_uint32(&iter, &preq->value);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 
@@ -1556,16 +1566,14 @@ receive_packet_diplomacy_info(struct connection *pc)
 int send_packet_diplomat_action(struct connection *pc, 
 				const struct packet_diplomat_action *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_DIPLOMAT_ACTION);
+  SEND_PACKET_START(PACKET_DIPLOMAT_ACTION);
   
   cptr=put_uint8(cptr, packet->action_type);
   cptr=put_uint16(cptr, packet->diplomat_id);
   cptr=put_uint16(cptr, packet->target_id);
   cptr=put_uint16(cptr, packet->value);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -1574,20 +1582,14 @@ int send_packet_diplomat_action(struct connection *pc,
 struct packet_diplomat_action *
 receive_packet_diplomat_action(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_diplomat_action *preq=
-    fc_malloc(sizeof(struct packet_diplomat_action));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_diplomat_action, preq);
 
   iget_uint8(&iter, &preq->action_type);
   iget_uint16(&iter, &preq->diplomat_id);
   iget_uint16(&iter, &preq->target_id);
   iget_uint16(&iter, &preq->value);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 /*************************************************************************
@@ -1596,14 +1598,12 @@ receive_packet_diplomat_action(struct connection *pc)
 int send_packet_nuke_tile(struct connection *pc, 
 			  const struct packet_nuke_tile *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_NUKE_TILE);
+  SEND_PACKET_START(PACKET_NUKE_TILE);
   
   cptr=put_uint8(cptr, packet->x);
   cptr=put_uint8(cptr, packet->y);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -1613,18 +1613,12 @@ int send_packet_nuke_tile(struct connection *pc,
 struct packet_nuke_tile *
 receive_packet_nuke_tile(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_nuke_tile *preq=
-    fc_malloc(sizeof(struct packet_nuke_tile));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_nuke_tile, preq);
 
   iget_uint8(&iter, &preq->x);
   iget_uint8(&iter, &preq->y);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 
@@ -1634,17 +1628,15 @@ receive_packet_nuke_tile(struct connection *pc)
 int send_packet_unit_combat(struct connection *pc, 
 			    const struct packet_unit_combat *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_UNIT_COMBAT);
+  SEND_PACKET_START(PACKET_UNIT_COMBAT);
   
   cptr=put_uint16(cptr, packet->attacker_unit_id);
   cptr=put_uint16(cptr, packet->defender_unit_id);
   cptr=put_uint8(cptr, packet->attacker_hp);
   cptr=put_uint8(cptr, packet->defender_hp);
   cptr=put_uint8(cptr, packet->make_winner_veteran);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -1654,11 +1646,7 @@ int send_packet_unit_combat(struct connection *pc,
 struct packet_unit_combat *
 receive_packet_unit_combat(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_unit_combat *preq=
-    fc_malloc(sizeof(struct packet_unit_combat));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_unit_combat, preq);
 
   iget_uint16(&iter, &preq->attacker_unit_id);
   iget_uint16(&iter, &preq->defender_unit_id);
@@ -1666,9 +1654,7 @@ receive_packet_unit_combat(struct connection *pc)
   iget_uint8(&iter, &preq->defender_hp);
   iget_uint8(&iter, &preq->make_winner_veteran);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 
@@ -1679,16 +1665,15 @@ int send_packet_unit_request(struct connection *pc,
 			     const struct packet_unit_request *packet,
 			     enum packet_type req_type)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, req_type);
+  SEND_PACKET_START(req_type);
+
   cptr=put_uint16(cptr, packet->unit_id);
   cptr=put_uint16(cptr, packet->city_id);
   cptr=put_uint8(cptr, packet->x);
   cptr=put_uint8(cptr, packet->y);
   cptr=put_string(cptr, packet->name);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -1698,11 +1683,7 @@ int send_packet_unit_request(struct connection *pc,
 struct packet_unit_request *
 receive_packet_unit_request(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_unit_request *preq=
-    fc_malloc(sizeof(struct packet_unit_request));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_unit_request, preq);
 
   iget_uint16(&iter, &preq->unit_id);
   iget_uint16(&iter, &preq->city_id);
@@ -1710,9 +1691,7 @@ receive_packet_unit_request(struct connection *pc)
   iget_uint8(&iter, &preq->y);
   iget_string(&iter, preq->name, sizeof(preq->name));
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 /*************************************************************************
@@ -1721,16 +1700,14 @@ receive_packet_unit_request(struct connection *pc)
 int send_packet_unit_connect(struct connection *pc, 
 			     const struct packet_unit_connect *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_UNIT_CONNECT);
+  SEND_PACKET_START(PACKET_UNIT_CONNECT);
   
   cptr=put_uint8(cptr, packet->activity_type);
   cptr=put_uint16(cptr, packet->unit_id);
   cptr=put_uint16(cptr, packet->dest_x);
   cptr=put_uint16(cptr, packet->dest_y);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -1739,20 +1716,14 @@ int send_packet_unit_connect(struct connection *pc,
 struct packet_unit_connect *
 receive_packet_unit_connect(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_unit_connect *preq =
-    fc_malloc(sizeof(struct packet_unit_connect));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_unit_connect, preq);
 
   iget_uint8(&iter, &preq->activity_type);
   iget_uint16(&iter, &preq->unit_id);
   iget_uint16(&iter, &preq->dest_x);
   iget_uint16(&iter, &preq->dest_y);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 /*************************************************************************
@@ -1762,9 +1733,8 @@ int send_packet_player_request(struct connection *pc,
 			       const struct packet_player_request *packet,
 			       enum packet_type req_type)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  SEND_PACKET_START(req_type);
 
-  cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint8(cptr, packet->tax);
   cptr=put_uint8(cptr, packet->luxury);
   cptr=put_uint8(cptr, packet->science);
@@ -1772,9 +1742,7 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->tech);
   cptr = put_bool8(cptr, req_type == PACKET_PLAYER_ATTRIBUTE_BLOCK);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -1783,11 +1751,7 @@ int send_packet_player_request(struct connection *pc,
 struct packet_player_request *
 receive_packet_player_request(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_player_request *preq=
-    fc_malloc(sizeof(struct packet_player_request));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_player_request, preq);
 
   iget_uint8(&iter, &preq->tax);
   iget_uint8(&iter, &preq->luxury);
@@ -1796,9 +1760,7 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->tech);
   iget_bool8(&iter, &preq->attribute_block);
   
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 
@@ -1809,10 +1771,9 @@ int send_packet_city_request(struct connection *pc,
 			     const struct packet_city_request *packet,
 			     enum packet_type req_type)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-
   /* can't modify the packet directly */
   struct worklist copy;
+  SEND_PACKET_START(req_type);
 
   if (req_type == PACKET_CITY_WORKLIST) {
     assert(packet->worklist.is_valid);
@@ -1821,7 +1782,6 @@ int send_packet_city_request(struct connection *pc,
     copy.is_valid = FALSE;
   }
 
-  cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint16(cptr, packet->city_id);
   cptr=put_uint8(cptr, packet->build_id);
   if (req_type == PACKET_CITY_CHANGE) {
@@ -1839,9 +1799,8 @@ int send_packet_city_request(struct connection *pc,
   } else {
     cptr = put_string(cptr, "");
   }
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -1851,11 +1810,7 @@ int send_packet_city_request(struct connection *pc,
 struct packet_city_request *
 receive_packet_city_request(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_city_request *preq=
-    fc_malloc(sizeof(struct packet_city_request));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_city_request, preq);
 
   iget_uint16(&iter, &preq->city_id);
   iget_uint8(&iter, &preq->build_id);
@@ -1867,9 +1822,7 @@ receive_packet_city_request(struct connection *pc)
   iget_worklist(pc, &iter, &preq->worklist);
   iget_string(&iter, preq->name, sizeof(preq->name));
   
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return preq;
+  RECEIVE_PACKET_END(preq);
 }
 
 
@@ -1879,10 +1832,9 @@ receive_packet_city_request(struct connection *pc)
 int send_packet_player_info(struct connection *pc,
                             const struct packet_player_info *pinfo)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
+  SEND_PACKET_START(PACKET_PLAYER_INFO);
 
-  cptr=put_uint8(buffer+2, PACKET_PLAYER_INFO);
   cptr=put_uint8(cptr, pinfo->playerno);
   cptr=put_string(cptr, pinfo->name);
 
@@ -1923,9 +1875,7 @@ int send_packet_player_info(struct connection *pc,
  
   cptr=put_uint32(cptr, pinfo->gives_shared_vision);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -1935,12 +1885,8 @@ int send_packet_player_info(struct connection *pc,
 struct packet_player_info *
 receive_packet_player_info(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_player_info *pinfo=
-     fc_malloc(sizeof(struct packet_player_info));
   int i;
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_player_info, pinfo);
 
   iget_uint8(&iter,  &pinfo->playerno);
   iget_string(&iter, pinfo->name, sizeof(pinfo->name));
@@ -1983,9 +1929,7 @@ receive_packet_player_info(struct connection *pc)
   iget_uint32(&iter, &i);
   pinfo->gives_shared_vision = i;
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return pinfo;
+  RECEIVE_PACKET_END(pinfo);
 }
 
 /*************************************************************************
@@ -1996,9 +1940,7 @@ receive_packet_player_info(struct connection *pc)
 int send_packet_conn_info(struct connection *pc,
 			  const struct packet_conn_info *pinfo)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
- 
-  cptr=put_uint8(buffer+2, PACKET_CONN_INFO);
+  SEND_PACKET_START(PACKET_CONN_INFO);
   
   cptr=put_uint32(cptr, pinfo->id);
   
@@ -2013,9 +1955,7 @@ int send_packet_conn_info(struct connection *pc,
   cptr=put_string(cptr, pinfo->addr);
   cptr=put_string(cptr, pinfo->capability);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -2024,13 +1964,9 @@ int send_packet_conn_info(struct connection *pc,
 struct packet_conn_info *
 receive_packet_conn_info(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_conn_info *pinfo=
-     fc_malloc(sizeof(struct packet_conn_info));
   int data;
-
-  pack_iter_init(&iter, pc);
-
+  RECEIVE_PACKET_START(packet_conn_info, pinfo);
+  
   iget_uint32(&iter, &pinfo->id);
   
   iget_uint8(&iter, &data);
@@ -2046,9 +1982,7 @@ receive_packet_conn_info(struct connection *pc)
   iget_string(&iter, pinfo->addr, sizeof(pinfo->addr));
   iget_string(&iter, pinfo->capability, sizeof(pinfo->capability));
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return pinfo;
+  RECEIVE_PACKET_END(pinfo);
 }
 
 
@@ -2058,10 +1992,9 @@ receive_packet_conn_info(struct connection *pc)
 int send_packet_game_info(struct connection *pc, 
 			  const struct packet_game_info *pinfo)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
-  
-  cptr=put_uint8(buffer+2, PACKET_GAME_INFO);
+  SEND_PACKET_START(PACKET_GAME_INFO);
+
   cptr=put_uint16(cptr, pinfo->gold);
   cptr=put_uint32(cptr, pinfo->tech);
   cptr=put_uint8(cptr, pinfo->researchcost);
@@ -2099,9 +2032,7 @@ int send_packet_game_info(struct connection *pc,
 
   cptr = put_uint32(cptr, pinfo->turn);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -2110,11 +2041,7 @@ int send_packet_game_info(struct connection *pc,
 struct packet_game_info *receive_packet_game_info(struct connection *pc)
 {
   int i;
-  struct pack_iter iter;
-  struct packet_game_info *pinfo=
-     fc_malloc(sizeof(struct packet_game_info));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_game_info, pinfo);
 
   iget_uint16(&iter, &pinfo->gold);
   iget_uint32(&iter, &pinfo->tech);
@@ -2153,9 +2080,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
 
   iget_uint32(&iter, &pinfo->turn);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return pinfo;
+  RECEIVE_PACKET_END(pinfo);
 }
 
 /*************************************************************************
@@ -2164,15 +2089,13 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
 int send_packet_map_info(struct connection *pc, 
 			 const struct packet_map_info *pinfo)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  SEND_PACKET_START(PACKET_MAP_INFO);
 
-  cptr=put_uint8(buffer+2, PACKET_MAP_INFO);
   cptr=put_uint8(cptr, pinfo->xsize);
   cptr=put_uint8(cptr, pinfo->ysize);
   cptr=put_bool8(cptr, pinfo->is_earth);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -2180,19 +2103,13 @@ int send_packet_map_info(struct connection *pc,
 **************************************************************************/
 struct packet_map_info *receive_packet_map_info(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_map_info *pinfo=
-     fc_malloc(sizeof(struct packet_map_info));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_map_info, pinfo);
 
   iget_uint8(&iter, &pinfo->xsize);
   iget_uint8(&iter, &pinfo->ysize);
   iget_bool8(&iter, &pinfo->is_earth);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return pinfo;
+  RECEIVE_PACKET_END(pinfo);
 }
 
 /*************************************************************************
@@ -2201,11 +2118,7 @@ struct packet_map_info *receive_packet_map_info(struct connection *pc)
 struct packet_tile_info *
 receive_packet_tile_info(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_tile_info *packet=
-    fc_malloc(sizeof(struct packet_tile_info));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_tile_info, packet);
 
   iget_uint8(&iter, &packet->x);
   iget_uint8(&iter, &packet->y);
@@ -2213,26 +2126,18 @@ receive_packet_tile_info(struct connection *pc)
   iget_uint16(&iter, &packet->special);
   iget_uint8(&iter, &packet->known);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 struct packet_unittype_info *
 receive_packet_unittype_info(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_unittype_info *packet=
-    fc_malloc(sizeof(struct packet_unittype_info));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_unittype_info, packet);
 
   iget_uint8(&iter, &packet->type);
   iget_uint8(&iter, &packet->action);
   
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /*************************************************************************
@@ -2242,17 +2147,15 @@ int send_packet_tile_info(struct connection *pc,
 			  const struct packet_tile_info *pinfo)
 
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  SEND_PACKET_START(PACKET_TILE_INFO);
 
-  cptr=put_uint8(buffer+2, PACKET_TILE_INFO);
   cptr=put_uint8(cptr, pinfo->x);
   cptr=put_uint8(cptr, pinfo->y);
   cptr=put_uint8(cptr, pinfo->type);
   cptr=put_uint16(cptr, pinfo->special);
   cptr=put_uint8(cptr, pinfo->known);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2261,12 +2164,11 @@ int send_packet_tile_info(struct connection *pc,
 int send_packet_new_year(struct connection *pc, 
 			 const struct packet_new_year *request)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_NEW_YEAR);
+  SEND_PACKET_START(PACKET_NEW_YEAR);
+
   cptr=put_uint32(cptr, request->year);
   cptr = put_uint32(cptr, request->turn);
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2274,12 +2176,11 @@ int send_packet_new_year(struct connection *pc,
 **************************************************************************/
 int send_packet_unittype_info(struct connection *pc, int type, int action)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_UNITTYPE_UPGRADE);
+  SEND_PACKET_START(PACKET_UNITTYPE_UPGRADE);
+
   cptr=put_uint8(cptr, type);
   cptr=put_uint8(cptr, action);
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2288,14 +2189,9 @@ int send_packet_unittype_info(struct connection *pc, int type, int action)
 struct packet_generic_empty *
 receive_packet_generic_empty(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_generic_empty *packet=
-    fc_malloc(sizeof(struct packet_generic_empty));
+  RECEIVE_PACKET_START(packet_generic_empty, packet);
 
-  pack_iter_init(&iter, pc);
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2303,10 +2199,9 @@ receive_packet_generic_empty(struct connection *pc)
 **************************************************************************/
 int send_packet_generic_empty(struct connection *pc, enum packet_type type)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, type);
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_START(type);
+
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -2315,10 +2210,9 @@ int send_packet_generic_empty(struct connection *pc, enum packet_type type)
 int send_packet_unit_info(struct connection *pc, 
 			  const struct packet_unit_info *req)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   unsigned char pack;
+  SEND_PACKET_START(PACKET_UNIT_INFO);
 
-  cptr=put_uint8(buffer+2, PACKET_UNIT_INFO);
   cptr=put_uint16(cptr, req->id);
   cptr=put_uint8(cptr, req->owner);
   pack = (COND_SET_BIT(req->select_it, 2) |
@@ -2349,8 +2243,7 @@ int send_packet_unit_info(struct connection *pc,
 
   if(req->fuel > 0) cptr=put_uint8(cptr, req->fuel);
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -2359,9 +2252,9 @@ int send_packet_unit_info(struct connection *pc,
 int send_packet_city_info(struct connection *pc,
                           const struct packet_city_info *req)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int data;
-  cptr=put_uint8(buffer+2, PACKET_CITY_INFO);
+  SEND_PACKET_START(PACKET_CITY_INFO);
+
   cptr=put_uint16(cptr, req->id);
   cptr=put_uint8(cptr, req->owner);
   cptr=put_uint8(cptr, req->x);
@@ -2429,9 +2322,7 @@ int send_packet_city_info(struct connection *pc,
     }
   }
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -2441,11 +2332,7 @@ struct packet_city_info *
 receive_packet_city_info(struct connection *pc)
 {
   int data;
-  struct pack_iter iter;
-  struct packet_city_info *packet=
-    fc_malloc(sizeof(struct packet_city_info));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_city_info, packet);
 
   iget_uint16(&iter, &packet->id);
   iget_uint8(&iter, &packet->owner);
@@ -2517,9 +2404,7 @@ receive_packet_city_info(struct connection *pc)
   for (; data < NUM_TRADEROUTES; data++) {
     packet->trade_value[data] = packet->trade[data] = 0;
   }
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /*************************************************************************
@@ -2528,9 +2413,8 @@ receive_packet_city_info(struct connection *pc)
 int send_packet_short_city(struct connection *pc,
                            const struct packet_short_city *req)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  SEND_PACKET_START(PACKET_SHORT_CITY);
 
-  cptr=put_uint8(buffer+2, PACKET_SHORT_CITY);
   cptr=put_uint16(cptr, req->id);
   cptr=put_uint8(cptr, req->owner);
   cptr=put_uint8(cptr, req->x);
@@ -2545,9 +2429,7 @@ int send_packet_short_city(struct connection *pc,
 
   cptr = put_uint16(cptr, req->tile_trade);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -2557,12 +2439,8 @@ int send_packet_short_city(struct connection *pc,
 struct packet_short_city *
 receive_packet_short_city(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_short_city *packet=
-    fc_malloc(sizeof(struct packet_short_city));
   int i;
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_short_city, packet);
 
   iget_uint16(&iter, &packet->id);
   iget_uint8(&iter, &packet->owner);
@@ -2579,9 +2457,7 @@ receive_packet_short_city(struct connection *pc)
 
   iget_uint16(&iter, &packet->tile_trade);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /*************************************************************************
@@ -2591,11 +2467,7 @@ struct packet_unit_info *
 receive_packet_unit_info(struct connection *pc)
 {
   int pack;
-  struct pack_iter iter;
-  struct packet_unit_info *packet=
-    fc_malloc(sizeof(struct packet_unit_info));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_unit_info, packet);
 
   iget_uint16(&iter, &packet->id);
   iget_uint8(&iter, &packet->owner);
@@ -2632,9 +2504,7 @@ receive_packet_unit_info(struct connection *pc)
     packet->fuel=0;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2643,18 +2513,12 @@ receive_packet_unit_info(struct connection *pc)
 struct packet_new_year *
 receive_packet_new_year(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_new_year *packet=
-    fc_malloc(sizeof(struct packet_new_year));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_new_year, packet);
 
   iget_uint32(&iter, &packet->year);
   iget_uint32(&iter, &packet->turn);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 
@@ -2664,15 +2528,13 @@ receive_packet_new_year(struct connection *pc)
 int send_packet_move_unit(struct connection *pc,
 			  const struct packet_move_unit *request)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  SEND_PACKET_START(PACKET_MOVE_UNIT);
 
-  cptr=put_uint8(buffer+2, PACKET_MOVE_UNIT);
   cptr=put_uint8(cptr, request->x);
   cptr=put_uint8(cptr, request->y);
   cptr=put_uint16(cptr, request->unid);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -2682,19 +2544,13 @@ int send_packet_move_unit(struct connection *pc,
 **************************************************************************/
 struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_move_unit *packet=
-    fc_malloc(sizeof(struct packet_move_unit));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_move_unit, packet);
 
   iget_uint8(&iter, &packet->x);
   iget_uint8(&iter, &packet->y);
   iget_uint16(&iter, &packet->unid);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2703,8 +2559,8 @@ struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
 int send_packet_req_join_game(struct connection *pc, 
 			      const struct packet_req_join_game *request)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_REQUEST_JOIN_GAME);
+  SEND_PACKET_START(PACKET_REQUEST_JOIN_GAME);
+
   cptr=put_string(cptr, request->short_name);
   cptr=put_uint32(cptr, request->major_version);
   cptr=put_uint32(cptr, request->minor_version);
@@ -2712,9 +2568,8 @@ int send_packet_req_join_game(struct connection *pc,
   cptr=put_string(cptr, request->capability);
   cptr=put_string(cptr, request->name);
   cptr=put_string(cptr, request->version_label);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2723,8 +2578,8 @@ Fills in conn.id automatically, no need to set in packet_join_game_reply.
 int send_packet_join_game_reply(struct connection *pc,
 			        const struct packet_join_game_reply *reply)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_JOIN_GAME_REPLY);
+  SEND_PACKET_START(PACKET_JOIN_GAME_REPLY);
+
   cptr=put_bool32(cptr, reply->you_can_join);
   /* if other end is byte swapped, you_can_join should be 0,
      which is 0 even if bytes are swapped! --dwp */
@@ -2752,8 +2607,7 @@ int send_packet_join_game_reply(struct connection *pc,
 int send_packet_generic_message(struct connection *pc, enum packet_type type,
 				const struct packet_generic_message *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, type);
+  SEND_PACKET_START(type);
 
   if (packet->x == -1) {
     /* since we can currently only send unsigned ints... */
@@ -2767,9 +2621,8 @@ int send_packet_generic_message(struct connection *pc, enum packet_type type,
   cptr=put_uint32(cptr, packet->event);
 
   cptr=put_string(cptr, packet->message);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2778,11 +2631,10 @@ int send_packet_generic_message(struct connection *pc, enum packet_type type,
 int send_packet_generic_integer(struct connection *pc, enum packet_type type,
 				const struct packet_generic_integer *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, type);
+  SEND_PACKET_START(type);
+
   cptr=put_uint32(cptr, packet->value);
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2791,11 +2643,7 @@ int send_packet_generic_integer(struct connection *pc, enum packet_type type,
 struct packet_req_join_game *
 receive_packet_req_join_game(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_req_join_game *packet=
-    fc_malloc(sizeof(struct packet_req_join_game));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_req_join_game, packet);
 
   iget_string(&iter, packet->short_name, sizeof(packet->short_name));
   iget_uint32(&iter, &packet->major_version);
@@ -2813,9 +2661,7 @@ receive_packet_req_join_game(struct connection *pc)
     packet->version_label[0] = '\0';
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2824,11 +2670,7 @@ receive_packet_req_join_game(struct connection *pc)
 struct packet_join_game_reply *
 receive_packet_join_game_reply(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_join_game_reply *packet=
-    fc_malloc(sizeof(struct packet_join_game_reply));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_join_game_reply, packet);
 
   iget_bool32(&iter, &packet->you_can_join);
   iget_string(&iter, packet->message, sizeof(packet->message));
@@ -2842,9 +2684,7 @@ receive_packet_join_game_reply(struct connection *pc)
     packet->conn_id = 0;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2853,11 +2693,7 @@ receive_packet_join_game_reply(struct connection *pc)
 struct packet_generic_message *
 receive_packet_generic_message(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_generic_message *packet=
-    fc_malloc(sizeof(struct packet_generic_message));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_generic_message, packet);
 
   iget_uint8(&iter, &packet->x);
   iget_uint8(&iter, &packet->y);
@@ -2869,9 +2705,7 @@ receive_packet_generic_message(struct connection *pc)
   iget_uint32(&iter, &packet->event);
   iget_string(&iter, packet->message, sizeof(packet->message));
   
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2880,17 +2714,11 @@ receive_packet_generic_message(struct connection *pc)
 struct packet_generic_integer *
 receive_packet_generic_integer(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_generic_integer *packet=
-    fc_malloc(sizeof(struct packet_generic_integer));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_generic_integer, packet);
 
   iget_uint32(&iter, &packet->value);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2899,15 +2727,14 @@ receive_packet_generic_integer(struct connection *pc)
 int send_packet_alloc_nation(struct connection *pc, 
 			     const struct packet_alloc_nation *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_ALLOC_NATION);
+  SEND_PACKET_START(PACKET_ALLOC_NATION);
+
   cptr=put_uint32(cptr, packet->nation_no);
   cptr=put_string(cptr, packet->name);
   cptr=put_bool8(cptr,packet->is_male);
   cptr=put_uint8(cptr,packet->city_style);
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2916,20 +2743,14 @@ int send_packet_alloc_nation(struct connection *pc,
 struct packet_alloc_nation *
 receive_packet_alloc_nation(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_alloc_nation *packet=
-    fc_malloc(sizeof(struct packet_alloc_nation));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_alloc_nation, packet);
 
   iget_uint32(&iter, &packet->nation_no);
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_bool8(&iter, &packet->is_male);
   iget_uint8(&iter, &packet->city_style);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -2938,16 +2759,13 @@ receive_packet_alloc_nation(struct connection *pc)
 int send_packet_generic_values(struct connection *pc, enum packet_type type,
 			       const struct packet_generic_values *req)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  
-  cptr=put_uint8(buffer+2, type);
+  SEND_PACKET_START(type);
+
   cptr=put_uint16(cptr, req->id);
   cptr=put_uint32(cptr, req->value1);
   cptr=put_uint32(cptr, req->value2);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -2956,11 +2774,7 @@ int send_packet_generic_values(struct connection *pc, enum packet_type type,
 struct packet_generic_values *
 receive_packet_generic_values(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_generic_values *packet=
-    fc_malloc(sizeof(struct packet_generic_values));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_generic_values, packet);
 
   iget_uint16(&iter, &packet->id);
   if (pack_iter_remaining(&iter) >= 4) {
@@ -2974,9 +2788,7 @@ receive_packet_generic_values(struct connection *pc)
     packet->value2 = 0;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /*************************************************************************
@@ -2985,9 +2797,7 @@ receive_packet_generic_values(struct connection *pc)
 int send_packet_ruleset_control(struct connection *pc, 
 				const struct packet_ruleset_control *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  
-  cptr=put_uint8(buffer+2, PACKET_RULESET_CONTROL);
+  SEND_PACKET_START(PACKET_RULESET_CONTROL);
   
   cptr=put_uint8(cptr, packet->aqueduct_size);
   cptr=put_uint8(cptr, packet->sewer_size);
@@ -3014,9 +2824,7 @@ int send_packet_ruleset_control(struct connection *pc,
 
   cptr=put_tech_list(cptr, packet->rtech.partisan_req);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /*************************************************************************
@@ -3025,11 +2833,7 @@ int send_packet_ruleset_control(struct connection *pc,
 struct packet_ruleset_control *
 receive_packet_ruleset_control(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_control *packet =
-    fc_malloc(sizeof(struct packet_ruleset_control));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_control, packet);
 
   iget_uint8(&iter, &packet->aqueduct_size);
   iget_uint8(&iter, &packet->sewer_size);
@@ -3056,9 +2860,7 @@ receive_packet_ruleset_control(struct connection *pc)
 
   iget_tech_list(&iter, packet->rtech.partisan_req);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3067,8 +2869,7 @@ receive_packet_ruleset_control(struct connection *pc)
 int send_packet_ruleset_unit(struct connection *pc,
 			     const struct packet_ruleset_unit *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_UNIT);
+  SEND_PACKET_START(PACKET_RULESET_UNIT);
   
   cptr=put_uint8(cptr, packet->id);
   cptr=put_uint8(cptr, packet->move_type);
@@ -3108,9 +2909,8 @@ int send_packet_ruleset_unit(struct connection *pc,
   if(packet->helptext) {
     cptr=put_string(cptr, packet->helptext);
   }
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3119,12 +2919,8 @@ int send_packet_ruleset_unit(struct connection *pc,
 struct packet_ruleset_unit *
 receive_packet_ruleset_unit(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_unit *packet=
-    fc_malloc(sizeof(struct packet_ruleset_unit));
   int len;
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_unit, packet);
 
   iget_uint8(&iter, &packet->id);
   iget_uint8(&iter, &packet->move_type);
@@ -3174,9 +2970,7 @@ receive_packet_ruleset_unit(struct connection *pc)
     packet->helptext = NULL;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 
@@ -3186,8 +2980,7 @@ receive_packet_ruleset_unit(struct connection *pc)
 int send_packet_ruleset_tech(struct connection *pc,
 			     const struct packet_ruleset_tech *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_TECH);
+  SEND_PACKET_START(PACKET_RULESET_TECH);
   
   cptr=put_uint8(cptr, packet->id);
   cptr=put_uint8(cptr, packet->req[0]);
@@ -3201,9 +2994,8 @@ int send_packet_ruleset_tech(struct connection *pc,
   if(packet->helptext) {
     cptr=put_string(cptr, packet->helptext);
   }
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3212,12 +3004,8 @@ int send_packet_ruleset_tech(struct connection *pc,
 struct packet_ruleset_tech *
 receive_packet_ruleset_tech(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_tech *packet=
-    fc_malloc(sizeof(struct packet_ruleset_tech));
   int len;
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_tech, packet);
 
   iget_uint8(&iter, &packet->id);
   iget_uint8(&iter, &packet->req[0]);
@@ -3235,9 +3023,7 @@ receive_packet_ruleset_tech(struct connection *pc)
     packet->helptext = NULL;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3246,11 +3032,9 @@ receive_packet_ruleset_tech(struct connection *pc)
 int send_packet_ruleset_building(struct connection *pc,
 			        const struct packet_ruleset_building *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   struct impr_effect *eff;
   int count;
-
-  cptr=put_uint8(buffer+2, PACKET_RULESET_BUILDING);
+  SEND_PACKET_START(PACKET_RULESET_BUILDING);
 
   cptr=put_uint8(cptr, packet->id);
   cptr=put_uint8(cptr, packet->tech_req);
@@ -3293,9 +3077,8 @@ int send_packet_ruleset_building(struct connection *pc,
   if(packet->helptext) {
     cptr=put_string(cptr, packet->helptext);
   }
-  (void) put_uint16(buffer, cptr - buffer);
 
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3304,12 +3087,8 @@ int send_packet_ruleset_building(struct connection *pc,
 struct packet_ruleset_building *
 receive_packet_ruleset_building(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_building *packet=
-    fc_malloc(sizeof(struct packet_ruleset_building));
   int len, inx, count;
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_building, packet);
 
   iget_uint8(&iter, &packet->id);
   iget_uint8(&iter, &packet->tech_req);
@@ -3354,9 +3133,7 @@ receive_packet_ruleset_building(struct connection *pc)
     packet->helptext = NULL;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3366,8 +3143,7 @@ int send_packet_ruleset_terrain(struct connection *pc,
 				const struct packet_ruleset_terrain *packet)
 {
   int i;
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_TERRAIN);
+  SEND_PACKET_START(PACKET_RULESET_TERRAIN);
 
   cptr=put_uint8(cptr, packet->id);
   cptr=put_string(cptr, packet->terrain_name);
@@ -3406,9 +3182,7 @@ int send_packet_ruleset_terrain(struct connection *pc,
     cptr=put_string(cptr, packet->helptext);
   }
   
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3418,11 +3192,7 @@ struct packet_ruleset_terrain *
 receive_packet_ruleset_terrain(struct connection *pc)
 {
   int i, len;
-  struct pack_iter iter;
-  struct packet_ruleset_terrain *packet=
-    fc_malloc(sizeof(struct packet_ruleset_terrain));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_terrain, packet);
 
   iget_uint8(&iter, &packet->id);
   iget_string(&iter, packet->terrain_name, sizeof(packet->terrain_name));
@@ -3467,9 +3237,7 @@ receive_packet_ruleset_terrain(struct connection *pc)
     packet->helptext = NULL;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3478,8 +3246,7 @@ receive_packet_ruleset_terrain(struct connection *pc)
 int send_packet_ruleset_terrain_control(struct connection *pc,
 					const struct terrain_misc *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_TERRAIN_CONTROL);
+  SEND_PACKET_START(PACKET_RULESET_TERRAIN_CONTROL);
 
   cptr=put_uint8(cptr, packet->river_style);
   cptr=put_bool8(cptr, packet->may_road);
@@ -3506,9 +3273,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
 
   if (packet->river_help_text) cptr=put_string(cptr, packet->river_help_text);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3517,12 +3282,8 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
 struct terrain_misc *
 receive_packet_ruleset_terrain_control(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct terrain_misc *packet=
-    fc_malloc(sizeof(struct terrain_misc));
   int len;
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(terrain_misc, packet);
 
   iget_uint8(&iter, (int*)&packet->river_style);
   iget_bool8(&iter, &packet->may_road);
@@ -3555,9 +3316,7 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
     packet->river_help_text = NULL;
   }
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3566,8 +3325,7 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
 int send_packet_ruleset_government(struct connection *pc,
 			     const struct packet_ruleset_government *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_GOVERNMENT);
+  SEND_PACKET_START(PACKET_RULESET_GOVERNMENT);
   
   cptr=put_uint8(cptr, packet->id);
   
@@ -3628,15 +3386,13 @@ int send_packet_ruleset_government(struct connection *pc,
   
   freelog(LOG_DEBUG, "send gov %s", packet->name);
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 int send_packet_ruleset_government_ruler_title(struct connection *pc,
 		    const struct packet_ruleset_government_ruler_title *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_GOVERNMENT_RULER_TITLE);
+  SEND_PACKET_START(PACKET_RULESET_GOVERNMENT_RULER_TITLE);
   
   cptr=put_uint8(cptr, packet->gov);
   cptr=put_uint8(cptr, packet->id);
@@ -3645,8 +3401,7 @@ int send_packet_ruleset_government_ruler_title(struct connection *pc,
   cptr=put_string(cptr, packet->male_title);
   cptr=put_string(cptr, packet->female_title);
   
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3655,12 +3410,8 @@ int send_packet_ruleset_government_ruler_title(struct connection *pc,
 struct packet_ruleset_government *
 receive_packet_ruleset_government(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_government *packet=
-    fc_calloc(1, sizeof(struct packet_ruleset_government));
   int len;
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_government, packet);
 
   iget_uint8(&iter, &packet->id);
   
@@ -3725,18 +3476,13 @@ receive_packet_ruleset_government(struct connection *pc)
 
   freelog(LOG_DEBUG, "recv gov %s", packet->name);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
+
 struct packet_ruleset_government_ruler_title *
 receive_packet_ruleset_government_ruler_title(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_government_ruler_title *packet=
-    fc_malloc(sizeof(struct packet_ruleset_government_ruler_title));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_government_ruler_title, packet);
 
   iget_uint8(&iter, &packet->gov);
   iget_uint8(&iter, &packet->id);
@@ -3745,9 +3491,7 @@ receive_packet_ruleset_government_ruler_title(struct connection *pc)
   iget_string(&iter, packet->male_title, sizeof(packet->male_title));
   iget_string(&iter, packet->female_title, sizeof(packet->female_title));
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3757,8 +3501,7 @@ int send_packet_ruleset_nation(struct connection *pc,
 			       const struct packet_ruleset_nation *packet)
 {
   int i;
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_NATION);
+  SEND_PACKET_START(PACKET_RULESET_NATION);
 
   cptr=put_uint8(cptr, packet->id);
 
@@ -3774,9 +3517,7 @@ int send_packet_ruleset_nation(struct connection *pc,
   cptr=put_uint8(cptr, packet->city_style);
   cptr = put_tech_list(cptr, packet->init_techs);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 
@@ -3787,11 +3528,7 @@ struct packet_ruleset_nation *
 receive_packet_ruleset_nation(struct connection *pc)
 {
   int i;
-  struct pack_iter iter;
-  struct packet_ruleset_nation *packet=
-    fc_malloc(sizeof(struct packet_ruleset_nation));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_nation, packet);
 
   iget_uint8(&iter, &packet->id);
   iget_string(&iter, packet->name, sizeof(packet->name));
@@ -3806,9 +3543,7 @@ receive_packet_ruleset_nation(struct connection *pc)
   iget_uint8(&iter, &packet->city_style);
   iget_tech_list(&iter, packet->init_techs);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3817,8 +3552,7 @@ receive_packet_ruleset_nation(struct connection *pc)
 int send_packet_ruleset_city(struct connection *pc,
                              const struct packet_ruleset_city *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_RULESET_CITY);
+  SEND_PACKET_START(PACKET_RULESET_CITY);
 
   cptr=put_uint8(cptr, packet->style_id);
   cptr=put_uint8(cptr, packet->techreq);
@@ -3828,9 +3562,7 @@ int send_packet_ruleset_city(struct connection *pc,
   cptr=put_string(cptr, packet->graphic);
   cptr=put_string(cptr, packet->graphic_alt);
 
-  (void) put_uint16(buffer, cptr - buffer);
-
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3839,11 +3571,7 @@ int send_packet_ruleset_city(struct connection *pc,
 struct packet_ruleset_city *
 receive_packet_ruleset_city(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_city *packet=
-    fc_malloc(sizeof(struct packet_ruleset_city));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_city, packet);
 
   iget_uint8(&iter, &packet->style_id);
   iget_uint8(&iter, &packet->techreq);
@@ -3853,9 +3581,7 @@ receive_packet_ruleset_city(struct connection *pc)
   iget_string(&iter, packet->graphic, MAX_LEN_NAME);
   iget_string(&iter, packet->graphic_alt, MAX_LEN_NAME);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3864,9 +3590,7 @@ receive_packet_ruleset_city(struct connection *pc)
 int send_packet_ruleset_game(struct connection *pc,
                              const struct packet_ruleset_game *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-
-  cptr=put_uint8(buffer+2, PACKET_RULESET_GAME);
+  SEND_PACKET_START(PACKET_RULESET_GAME);
 
   cptr=put_uint8(cptr, packet->min_city_center_food);
   cptr=put_uint8(cptr, packet->min_city_center_shield);
@@ -3882,8 +3606,7 @@ int send_packet_ruleset_game(struct connection *pc,
   cptr = put_uint8(cptr, packet->tech_leakage);
   cptr = put_tech_list(cptr, packet->global_init_techs);
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3892,11 +3615,7 @@ int send_packet_ruleset_game(struct connection *pc,
 struct packet_ruleset_game *
 receive_packet_ruleset_game(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_ruleset_game *packet=
-    fc_malloc(sizeof(struct packet_ruleset_game));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_ruleset_game, packet);
 
   iget_uint8(&iter, &packet->min_city_center_food);
   iget_uint8(&iter, &packet->min_city_center_shield);
@@ -3912,9 +3631,7 @@ receive_packet_ruleset_game(struct connection *pc)
   iget_uint8(&iter, &packet->tech_leakage);
   iget_tech_list(&iter, packet->global_init_techs);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -3923,8 +3640,7 @@ receive_packet_ruleset_game(struct connection *pc)
 int send_packet_spaceship_info(struct connection *pc,
 			       const struct packet_spaceship_info *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_SPACESHIP_INFO);
+  SEND_PACKET_START(PACKET_SPACESHIP_INFO);
   
   cptr=put_uint8(cptr, packet->player_num);
   cptr=put_uint8(cptr, packet->sship_state);
@@ -3945,8 +3661,7 @@ int send_packet_spaceship_info(struct connection *pc,
   cptr=put_uint32(cptr, (int) (packet->travel_time*10000));
   cptr=put_bit_string(cptr, (char*)packet->structure);
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -3956,11 +3671,7 @@ struct packet_spaceship_info *
 receive_packet_spaceship_info(struct connection *pc)
 {
   int tmp;
-  struct pack_iter iter;
-  struct packet_spaceship_info *packet=
-    fc_malloc(sizeof(struct packet_spaceship_info));
-  
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_spaceship_info, packet);
 
   iget_uint8(&iter, &packet->player_num);
   iget_uint8(&iter, &packet->sship_state);
@@ -3991,9 +3702,7 @@ receive_packet_spaceship_info(struct connection *pc)
 
   iget_bit_string(&iter, (char*)packet->structure, sizeof(packet->structure));
   
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -4002,14 +3711,12 @@ receive_packet_spaceship_info(struct connection *pc)
 int send_packet_spaceship_action(struct connection *pc,
 				 const struct packet_spaceship_action *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_SPACESHIP_ACTION);
+  SEND_PACKET_START(PACKET_SPACESHIP_ACTION);
   
   cptr=put_uint8(cptr, packet->action);
   cptr=put_uint8(cptr, packet->num);
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -4018,18 +3725,12 @@ int send_packet_spaceship_action(struct connection *pc,
 struct packet_spaceship_action *
 receive_packet_spaceship_action(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_spaceship_action *packet=
-    fc_malloc(sizeof(struct packet_spaceship_action));
-  
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_spaceship_action, packet);
 
   iget_uint8(&iter, &packet->action);
   iget_uint8(&iter, &packet->num);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -4038,14 +3739,12 @@ receive_packet_spaceship_action(struct connection *pc)
 int send_packet_city_name_suggestion(struct connection *pc,
 			      const struct packet_city_name_suggestion *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_CITY_NAME_SUGGESTION);
+  SEND_PACKET_START(PACKET_CITY_NAME_SUGGESTION);
   
   cptr=put_uint16(cptr, packet->id);
   cptr=put_string(cptr, packet->name);
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -4054,18 +3753,12 @@ int send_packet_city_name_suggestion(struct connection *pc,
 struct packet_city_name_suggestion *
 receive_packet_city_name_suggestion(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_city_name_suggestion *packet=
-    fc_malloc(sizeof(struct packet_city_name_suggestion));
-  
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_city_name_suggestion, packet);
 
   iget_uint16(&iter, &packet->id);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -4074,15 +3767,13 @@ receive_packet_city_name_suggestion(struct connection *pc)
 int send_packet_sabotage_list(struct connection *pc,
 			      const struct packet_sabotage_list *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr = put_uint8(buffer+2, PACKET_SABOTAGE_LIST);
+  SEND_PACKET_START(PACKET_SABOTAGE_LIST);
 
   cptr = put_uint16(cptr, packet->diplomat_id);
   cptr = put_uint16(cptr, packet->city_id);
   cptr = put_bit_string(cptr, (char *)packet->improvements);
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr-buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -4091,20 +3782,14 @@ int send_packet_sabotage_list(struct connection *pc,
 struct packet_sabotage_list *
 receive_packet_sabotage_list(struct connection *pc)
 {
-  struct pack_iter iter;
-  struct packet_sabotage_list *packet=
-    fc_malloc(sizeof(struct packet_sabotage_list));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_sabotage_list, packet);
 
   iget_uint16(&iter, &packet->diplomat_id);
   iget_uint16(&iter, &packet->city_id);
   iget_bit_string(&iter, (char*)packet->improvements,
 		  sizeof(packet->improvements));
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 enum packet_goto_route_type {
@@ -4119,13 +3804,13 @@ int send_packet_goto_route(struct connection *pc,
 			   enum goto_route_type type)
 {
   int i;
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int num_poses = packet->last_index > packet->first_index ?
     packet->last_index - packet->first_index :
     packet->length - packet->first_index + packet->last_index;
   int num_chunks = (num_poses + GOTO_CHUNK - 1) / GOTO_CHUNK;
   int this_chunk = 1;
   int chunk_pos;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
   i = packet->first_index;
   assert(num_chunks > 0);
@@ -4267,17 +3952,15 @@ struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
 int send_packet_nations_used(struct connection *pc,
 			     const struct packet_nations_used *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
-
-  cptr = put_uint8(buffer + 2, PACKET_SELECT_NATION);
+  SEND_PACKET_START(PACKET_SELECT_NATION);
 
   for (i = 0; i < packet->num_nations_used; i++) {
     assert((packet->nations_used[i] & 0xffff) == packet->nations_used[i]);
     cptr = put_uint16(cptr, packet->nations_used[i]);
   }
-  put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr - buffer);
+
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -4286,11 +3969,7 @@ int send_packet_nations_used(struct connection *pc,
 struct packet_nations_used *receive_packet_nations_used(struct connection
 							*pc)
 {
-  struct pack_iter iter;
-  struct packet_nations_used *packet =
-      fc_malloc(sizeof(struct packet_nations_used));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_nations_used, packet);
 
   packet->num_nations_used = 0;
 
@@ -4304,10 +3983,8 @@ struct packet_nations_used *receive_packet_nations_used(struct connection
     iget_uint16(&iter, &packet->nations_used[packet->num_nations_used]);
     packet->num_nations_used++;
   }
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
 
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
@@ -4316,7 +3993,7 @@ struct packet_nations_used *receive_packet_nations_used(struct connection
 int send_packet_attribute_chunk(struct connection *pc,
 				struct packet_attribute_chunk *packet)
 {
-  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  SEND_PACKET_START(PACKET_ATTRIBUTE_CHUNK);
 
   assert(packet->total_length > 0
 	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
@@ -4329,8 +4006,6 @@ int send_packet_attribute_chunk(struct connection *pc,
   freelog(LOG_DEBUG, "sending attribute chunk %d/%d %d", packet->offset,
 	  packet->total_length, packet->chunk_length);
 
-  cptr = put_uint8(buffer + 2, PACKET_ATTRIBUTE_CHUNK);
-
   cptr = put_uint32(cptr, packet->offset);
   cptr = put_uint32(cptr, packet->total_length);
   cptr = put_uint32(cptr, packet->chunk_length);
@@ -4338,8 +4013,7 @@ int send_packet_attribute_chunk(struct connection *pc,
   memcpy(cptr, packet->data, packet->chunk_length);
   cptr += packet->chunk_length;
 
-  (void) put_uint16(buffer, cptr - buffer);
-  return send_packet_data(pc, buffer, cptr - buffer);
+  SEND_PACKET_END;
 }
 
 /**************************************************************************
@@ -4349,11 +4023,7 @@ struct packet_attribute_chunk *receive_packet_attribute_chunk(struct
 							      connection
 							      *pc)
 {
-  struct pack_iter iter;
-  struct packet_attribute_chunk *packet =
-      fc_malloc(sizeof(struct packet_attribute_chunk));
-
-  pack_iter_init(&iter, pc);
+  RECEIVE_PACKET_START(packet_attribute_chunk, packet);
 
   iget_uint32(&iter, &packet->offset);
   iget_uint32(&iter, &packet->total_length);
@@ -4383,13 +4053,10 @@ struct packet_attribute_chunk *receive_packet_attribute_chunk(struct
 
   memcpy(packet->data, iter.ptr, packet->chunk_length);
 
-  pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(pc->buffer);
-
   freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", packet->offset,
 	  packet->total_length, packet->chunk_length);
 
-  return packet;
+  RECEIVE_PACKET_END(packet);
 }
 
 /**************************************************************************
