@@ -628,6 +628,8 @@ void dont_run_as_root(const char *argv0, const char *fallback)
   Return a description string of the result.
   In English, form of description is suitable to substitute in, eg:
      prefix is <description>
+  (N.B.: The description is always in English, but they have all been marked
+   for translation.  If you want a localized version, use _() on the return.)
 ***************************************************************************/
 const char *m_pre_description(enum m_pre_result result)
 {
@@ -640,7 +642,7 @@ const char *m_pre_description(enum m_pre_result result)
     N_("non-match")
   };
   assert(result > 0 && result < sizeof(descriptions)/sizeof(descriptions[0]));
-  return _(descriptions[result]);
+  return descriptions[result];
 }
 
 /***************************************************************************

@@ -1177,8 +1177,8 @@ static void cmd_reply_no_such_player(enum command_id cmd,
     break;
   default:
     cmd_reply(cmd, caller, C_FAIL,
-	      "Unexpected match_result %d (%s) for '%s'.",
-	      match_result, m_pre_description(match_result), name);
+	      _("Unexpected match_result %d (%s) for '%s'."),
+	      match_result, _(m_pre_description(match_result)), name);
     freelog(LOG_NORMAL,
 	    "Unexpected match_result %d (%s) for '%s'.",
 	    match_result, m_pre_description(match_result), name);
