@@ -356,17 +356,15 @@ only supply one filename at a time.
 ***************************************************************************/
 char *datafilename(char *filename)
 {
-  static const char* datadir=0;
+  static char* datadir=0;
   static char  realfile[512];
   if(!datadir) {
-    char *tmp;
-    if((tmp = getenv("FREECIV_DATADIR"))) {
+    if((datadir = getenv("FREECIV_DATADIR"))) {
       int i;
       for(i=strlen(datadir)-1; i>=0 && isspace((int)datadir[i]); i--)
-	tmp[i] = '\0';
-      if(tmp[i] == '/')
-	tmp[i] = '\0';
-      datadir = tmp;
+	datadir[i] = '\0';
+      if(datadir[i] == '/')
+	datadir[i] = '\0';
     } else {
       datadir = FREECIV_DATADIR; /* correct if not 'data' is the default */
     };
