@@ -357,10 +357,12 @@ void x_main(int argc, char *argv[])
   init_color_system();
 
   
-  civ_gc = XCreateGC(display, root_window, 0, NULL);
 
   {
     XGCValues values;
+
+    values.graphics_exposures = False;
+    civ_gc = XCreateGC(display, root_window, GCGraphicsExposures, &values);
 
     main_font_struct=XLoadQueryFont(display, CITY_NAMES_FONT);
     if(main_font_struct==0) {
@@ -371,18 +373,19 @@ void x_main(int argc, char *argv[])
     values.background = colors_standard[COLOR_STD_BLACK];
     values.font = main_font_struct->fid;
     font_gc= XCreateGC(display, root_window, 
-			  GCForeground | GCBackground | GCFont, &values);
-  }
+		       GCForeground|GCBackground|GCFont|GCGraphicsExposures, 
+		       &values);
 
-  {
-    XGCValues values;
     values.foreground = 0;
     values.background = 0;
     fill_bg_gc= XCreateGC(display, root_window, 
-			  GCForeground | GCBackground, &values);
+			  GCForeground|GCBackground|GCGraphicsExposures,
+			  &values);
+
     values.fill_style=FillStippled;
     fill_tile_gc= XCreateGC(display, root_window, 
-    			    GCForeground|GCBackground|GCFillStyle, &values);
+    			    GCForeground|GCBackground|GCFillStyle|GCGraphicsExposures,
+			    &values);
   }
 
   {
