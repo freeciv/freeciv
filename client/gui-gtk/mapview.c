@@ -816,25 +816,34 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
   gtk_pixcomm_changed(GTK_PIXCOMM(p));
 }
 
-
 /**************************************************************************
-  FIXME:
-  For now only two food, one shield and two masks can be drawn per unit,
-  the proper way to do this is probably something like what Civ II does.
-  (One food/shield/mask drawn N times, possibly one top of itself. -- SKi 
+  FIXME: For now only two food, two golds, one shield and two masks can be 
+  drawn per unit, the proper way to do this is probably something like 
+  what Civ II does. (One food/shield/mask drawn N times, possibly one top 
+  of itself.)
 **************************************************************************/
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 {
   int upkeep_food = CLIP(0, punit->upkeep_food, 2);
+  int upkeep_gold = CLIP(0, punit->upkeep_gold, 2);
   int unhappy = CLIP(0, punit->unhappiness, 2);
  
   /* draw overlay pixmaps */
-  if (punit->upkeep > 0)
+  if (punit->upkeep > 0) {
     put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.shield);
-  if (upkeep_food > 0)
-    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.food[upkeep_food-1]);
-  if (unhappy > 0)
-    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.unhappy[unhappy-1]);
+  }
+  if (upkeep_food > 0) {
+    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, 
+                             sprites.upkeep.food[upkeep_food-1]);
+  }
+  if (upkeep_gold > 0) {
+    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT,
+                             sprites.upkeep.gold[upkeep_gold - 1]);
+  }
+  if (unhappy > 0) {
+    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, 
+                             sprites.upkeep.unhappy[unhappy-1]);
+  }
 }
 
 /**************************************************************************

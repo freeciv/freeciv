@@ -167,6 +167,7 @@ struct named_sprites {
     struct Sprite
       *food[2],
       *unhappy[2],
+      *gold[2],
       *shield;
   } upkeep;
   struct {

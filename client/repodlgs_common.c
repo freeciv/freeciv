@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "game.h"
+#include "government.h"
 
 #include "repodlgs_g.h"
 
@@ -72,6 +73,53 @@ void get_economy_report_data(struct improvement_entry *entries,
       *total_income += MAX(0, pcity->shield_surplus);
     }
   } city_list_iterate_end;
+}
+
+/******************************************************************
+  Returns an array of units with gold_upkeep. Number of units in 
+  the array is added to num_entries_used.
+******************************************************************/
+void get_economy_report_units_data(struct unit_entry *entries,
+				   int *num_entries_used, int *total_cost)
+{
+  int count, cost, partial_cost;
+  struct unit_type *unittype;
+
+  unit_type_iterate(utype) {
+    unittype = get_unit_type(utype);
+    cost = utype_gold_cost(unittype, get_gov_pplayer(game.player_ptr));
+
+    if (cost == 0) {
+      continue;
+    }
+
+    count = 0;
+    partial_cost = 0;
+
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      unit_list_iterate(pcity->units_supported, punit) {
+
+	if (punit->type == utype) {
+	  count++;
+	  partial_cost += punit->upkeep_gold;
+	}
+
+      } unit_list_iterate_end;
+    } city_list_iterate_end;
+
+    if (count == 0) {
+      continue;
+    }
+
+    (*total_cost) += partial_cost;
+
+    entries[*num_entries_used].type = utype;
+    entries[*num_entries_used].count = count;
+    entries[*num_entries_used].cost = cost;
+    entries[*num_entries_used].total_cost = partial_cost;
+    (*num_entries_used)++;
+
+  } unit_type_iterate_end;
 }
 
 static int frozen_level = 0;

@@ -33,6 +33,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "repodlgs_common.h"
+#include "control.h"
 
 #include "cityrep.h"
 #include "dialogs.h"
@@ -67,7 +68,12 @@ static void economy_close_callback(GtkWidget * w, gpointer data);
 static void economy_selloff_callback(GtkWidget * w, gpointer data);
 static void economy_list_callback(GtkWidget * w, gint row, gint column);
 static void economy_list_ucallback(GtkWidget * w, gint row, gint column);
-static int economy_improvement_type[B_LAST];
+
+struct economy_row {
+  int is_impr;
+  int type;
+};
+static struct economy_row economy_row_type[U_LAST + B_LAST];
 
 static GtkWidget *economy_dialog_shell = NULL;
 static GtkWidget *economy_label2;
@@ -664,14 +670,19 @@ void create_economy_report_dialog(bool make_modal)
 *****************************************************************/
 void economy_list_callback(GtkWidget *w, gint row, gint column)
 {
-  int i = economy_improvement_type[row];
-  bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
+  int i = economy_row_type[row].type;
+  
+  if (economy_row_type[row].is_impr == TRUE) {
+    bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
 
-  gtk_widget_set_sensitive(sellobsolete_command, is_sellable
-			   && can_client_issue_orders()
-			   && improvement_obsolete(game.player_ptr, i));
-  gtk_widget_set_sensitive(sellall_command, is_sellable
-			   && can_client_issue_orders());
+    gtk_widget_set_sensitive(sellobsolete_command, is_sellable
+			     && can_client_issue_orders()
+			     && improvement_obsolete(game.player_ptr, i));
+    gtk_widget_set_sensitive(sellall_command, is_sellable
+			     && can_client_issue_orders());
+  } else {
+    gtk_widget_set_sensitive(sellall_command, can_client_issue_orders());
+  }
 }
 
 /****************************************************************
@@ -696,35 +707,66 @@ static void economy_close_callback(GtkWidget * w, gpointer data)
 *****************************************************************/
 void economy_selloff_callback(GtkWidget *w, gpointer data)
 {
-  int i,count=0,gold=0;
+  int count = 0, gold = 0;
+  struct economy_row row_type;
   char str[64];
-  GList              *selection;
-  gint                row;
+  GList *selection;
+  int row;
 
   while ((selection = GTK_CLIST(economy_list)->selection)) {
     row = GPOINTER_TO_INT(selection->data);
 
-  i=economy_improvement_type[row];
-
-  city_list_iterate(game.player_ptr->cities, pcity) {
-    if(!pcity->did_sell && city_got_building(pcity, i) && 
-       (data ||
-	improvement_obsolete(game.player_ptr,i) ||
-        wonder_replacement(pcity, i) ))  {
-	count++; gold+=improvement_value(i);
-	city_sell_improvement(pcity, i);
+    row_type = economy_row_type[row];
+    
+    if (row_type.is_impr == TRUE) {
+      city_list_iterate(game.player_ptr->cities, pcity) {
+	if (!pcity->did_sell && city_got_building(pcity, row_type.type)
+	    && (data
+ 	        || improvement_obsolete(game.player_ptr, row_type.type)
+		|| wonder_replacement(pcity, row_type.type))) {
+ 	  count++;
+	  gold += improvement_value(row_type.type);
+ 	  packet.city_id = pcity->id;
+ 	  packet.build_id = row_type.type;
+ 	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+	}
+      } city_list_iterate_end;
+      
+      if (count) {
+ 	my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
+ 		    count, get_improvement_name(row_type.type), gold);
+      } else {
+ 	my_snprintf(str, sizeof(str), _("No %s could be sold"),
+		get_improvement_name(row_type.type));
+      }
+    } else {
+      /* With this code only units supported by cities will be disbanded
+       * That's like this because it is a non-sense of selling units with
+       * no upkeep */
+      city_list_iterate(game.player_ptr->cities, pcity) {
+ 	unit_list_iterate(pcity->units_supported, punit) {
+ 	  /* We don't sell obsolete units when sell obsolete is clicked. 
+ 	   * Indeed, unlike improvements, obsolete units can fight like
+	   * up-to-date ones */
+ 	  if (punit->type == row_type.type && data) {
+ 	    count++;
+ 	    request_unit_disband(punit);
+ 	  }
+ 	} unit_list_iterate_end;
+      } city_list_iterate_end;
+      
+      if (count > 0) {
+ 	my_snprintf(str, sizeof(str), "Disbanded %d %s", count,
+ 		    unit_name(row_type.type));
+      } else {
+ 	my_snprintf(str, sizeof(str), "No %s could be disbanded", 
+ 		    unit_name(row_type.type));
+      }
     }
-  } city_list_iterate_end;
-
-  if(count)  {
-    my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
-		count, get_improvement_name(i), gold);
-  } else {
-    my_snprintf(str, sizeof(str), _("No %s could be sold"),
-		get_improvement_name(i));
-  }
-  gtk_clist_unselect_row(GTK_CLIST(economy_list),row,0);
-  popup_notify_dialog(_("Sell-Off:"),_("Results"),str);
+ 
+    gtk_clist_unselect_row(GTK_CLIST(economy_list), row, 0);
+    popup_notify_dialog(_("Sell-Off:"),_("Results"), str);
+    
   }
   return;
 }
@@ -734,9 +776,11 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void economy_report_dialog_update(void)
 {
-  if(is_report_dialogs_frozen()) return;
-  if(economy_dialog_shell) {
-    int tax, total, i, entries_used;
+  if (is_report_dialogs_frozen()) {
+    return;
+  }
+  if (economy_dialog_shell) {
+    int tax, total, i, entries_used, nbr_impr;
     char   buf0 [64];
     char   buf1 [64];
     char   buf2 [64];
@@ -744,6 +788,7 @@ void economy_report_dialog_update(void)
     gchar *row  [4];
     char economy_total[48];
     struct improvement_entry entries[B_LAST];
+    struct unit_entry entries_units[U_LAST];
 
     gtk_clist_freeze(GTK_CLIST(economy_list));
     gtk_clist_clear(GTK_CLIST(economy_list));
@@ -765,7 +810,26 @@ void economy_report_dialog_update(void)
 
       gtk_clist_append(GTK_CLIST(economy_list), row);
 
-      economy_improvement_type[i] = p->type;
+      economy_row_type[i].is_impr = TRUE;
+      economy_row_type[i].type = p->type;
+    }
+
+    nbr_impr = entries_used;
+    entries_used = 0;
+    get_economy_report_units_data(entries_units, &entries_used, &total);
+
+    for (i = 0; i < entries_used; i++) {
+      my_snprintf(buf0, sizeof(buf0), "%-20s",
+		  unit_name(entries_units[i].type));
+      my_snprintf(buf1, sizeof(buf1), "%5d", entries_units[i].count);
+      my_snprintf(buf2, sizeof(buf2), "%5d", entries_units[i].cost);
+      my_snprintf(buf3, sizeof(buf3), "%6d", entries_units[i].total_cost);
+
+      gtk_clist_append(GTK_CLIST(economy_list), row);
+
+      economy_row_type[i + nbr_impr].is_impr = FALSE;
+      economy_row_type[i + nbr_impr].type = entries_units[i].type;
+      
     }
 
     my_snprintf(economy_total, sizeof(economy_total),
@@ -783,7 +847,7 @@ void economy_report_dialog_update(void)
  
 ****************************************************************/
 
-#define AU_COL 6
+#define AU_COL 7
 
 /****************************************************************
 ...
@@ -825,7 +889,7 @@ void create_activeunits_report_dialog(bool make_modal)
   GtkWidget *close_command, *refresh_command;
   static const char *titles_[AU_COL]
     = { N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
-	N_("Shield"), N_("Food") };
+	N_("Shield"), N_("Food"), N_("Gold") };
   static gchar **titles;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
@@ -983,7 +1047,7 @@ void activeunits_report_dialog_update(void)
     int active_count;
     int upkeep_shield;
     int upkeep_food;
-    /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
+    int upkeep_gold;   
     int building_count;
   };
   if(is_report_dialogs_frozen()) return;
@@ -1008,6 +1072,7 @@ void activeunits_report_dialog_update(void)
       if (punit->homecity) {
 	unitarray[punit->type].upkeep_shield += punit->upkeep;
 	unitarray[punit->type].upkeep_food += punit->upkeep_food;
+	unitarray[punit->type].upkeep_gold += punit->upkeep_gold;
       }
     }
     unit_list_iterate_end;
@@ -1029,6 +1094,7 @@ void activeunits_report_dialog_update(void)
         my_snprintf(buf[3], sizeof(buf[3]), "%9d", unitarray[i].active_count);
         my_snprintf(buf[4], sizeof(buf[4]), "%9d", unitarray[i].upkeep_shield);
         my_snprintf(buf[5], sizeof(buf[5]), "%9d", unitarray[i].upkeep_food);
+	my_snprintf(buf[6], sizeof(buf[6]), "%9d", unitarray[i].upkeep_gold);
 
 	gtk_clist_append( GTK_CLIST( activeunits_list ), row );
 
@@ -1037,17 +1103,19 @@ void activeunits_report_dialog_update(void)
 	unittotals.active_count += unitarray[i].active_count;
 	unittotals.upkeep_shield += unitarray[i].upkeep_shield;
 	unittotals.upkeep_food += unitarray[i].upkeep_food;
+	unittotals.upkeep_gold += unitarray[i].upkeep_gold;
 	unittotals.building_count += unitarray[i].building_count;
       }
     } unit_type_iterate_end;
 
     /* horrible kluge, but I can't get gtk_label_set_justify() to work --jjm */
     my_snprintf(activeunits_total, sizeof(activeunits_total),
-	    _("Totals:                     %s%9d%s%9d%s%9d%s%9d"),
+	    _("Totals:                     %s%9d%s%9d%s%9d%s%9d%s%9d"),
 	    "        ", unittotals.building_count,
 	    " ", unittotals.active_count,
 	    " ", unittotals.upkeep_shield,
-	    " ", unittotals.upkeep_food);
+	    " ", unittotals.upkeep_food,
+	    " ", unittotals.upkeep_gold);
     gtk_set_label(activeunits_label2, activeunits_total); 
 
     gtk_widget_show_all(activeunits_list);

@@ -935,6 +935,8 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(upkeep.food[1], "upkeep.food2");
   SET_SPRITE(upkeep.unhappy[0], "upkeep.unhappy");
   SET_SPRITE(upkeep.unhappy[1], "upkeep.unhappy2");
+  SET_SPRITE(upkeep.gold[0], "upkeep.gold");
+  SET_SPRITE(upkeep.gold[1], "upkeep.gold2");
   SET_SPRITE(upkeep.shield, "upkeep.shield");
   
   SET_SPRITE(user.attention, "user.attention");

@@ -38,6 +38,7 @@
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "options.h"
+#include "control.h"
 
 #include "repodlgs_common.h"
 #include "repodlgs.h"
@@ -64,7 +65,11 @@ static void create_economy_report_dialog(bool make_modal);
 static void economy_command_callback(GtkWidget *w, gint response_id);
 static void economy_selection_callback(GtkTreeSelection *selection,
 				       gpointer data);
-static int economy_improvement_type[B_LAST];
+struct economy_row {
+  int is_impr;
+  int type;
+};
+static struct economy_row economy_row_type[U_LAST + B_LAST];
 
 static GtkWidget *economy_dialog_shell = NULL;
 static GtkWidget *economy_label2;
@@ -702,17 +707,22 @@ static void economy_selection_callback(GtkTreeSelection *selection,
 				       gpointer data)
 {
   gint row = gtk_tree_selection_get_row(selection);
+  int i = economy_row_type[row].type;
 
   if (row >= 0) {
-    /* The user has selected an improvement type. */
-    int i = economy_improvement_type[row];
-    bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
+    if (economy_row_type[row].is_impr == TRUE) {
+      /* The user has selected an improvement type. */
+      bool is_sellable = (i >= 0 && i < game.num_impr_types && !is_wonder(i));
 
-    gtk_widget_set_sensitive(sellobsolete_command, is_sellable
-			     && can_client_issue_orders()
-			     && improvement_obsolete(game.player_ptr, i));
-    gtk_widget_set_sensitive(sellall_command, is_sellable
-			     && can_client_issue_orders());
+      gtk_widget_set_sensitive(sellobsolete_command, is_sellable
+			       && can_client_issue_orders()
+			       && improvement_obsolete(game.player_ptr, i));
+      gtk_widget_set_sensitive(sellall_command, is_sellable
+			       && can_client_issue_orders());
+    } else {
+      /* An unit has been selected */
+      gtk_widget_set_sensitive(sellall_command, can_client_issue_orders());
+    }
   } else {
     /* No selection has been made. */
     gtk_widget_set_sensitive(sellobsolete_command, FALSE);
@@ -725,7 +735,7 @@ static void economy_selection_callback(GtkTreeSelection *selection,
 *****************************************************************/
 static void economy_command_callback(GtkWidget *w, gint response_id)
 {
-  int i, count = 0, gold = 0;
+  int i, count = 0, gold = 0, is_impr;
   gint row;
   GtkWidget *shell;
 
@@ -737,28 +747,60 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
 
   /* sell obsolete and sell all. */
   row = gtk_tree_selection_get_row(economy_selection);
-  i = economy_improvement_type[row];
+  is_impr = economy_row_type[row].is_impr;
+  i = economy_row_type[row].type;
 
-  city_list_iterate(game.player_ptr->cities, pcity) {
-    if(!pcity->did_sell && city_got_building(pcity, i) && 
-       (response_id == 2 ||
-	improvement_obsolete(game.player_ptr,i) ||
-        wonder_replacement(pcity, i) ))  {
-	count++; gold+=improvement_value(i);
+  if (is_impr == TRUE) {
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      if (!pcity->did_sell && city_got_building(pcity, i ) &&
+	  (response_id == 2 ||
+	   improvement_obsolete(game.player_ptr, i) ||
+	   wonder_replacement(pcity, i) )) {
+	count++; 
+	gold += improvement_value(i);
 	city_sell_improvement(pcity, i);
-    }
-  } city_list_iterate_end;
+      }
+    } city_list_iterate_end;
 
-  if (count > 0) {
-    shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-	GTK_DIALOG_DESTROY_WITH_PARENT,
-	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-	_("Sold %d %s for %d gold"), count, get_improvement_name(i), gold);
+    if (count > 0) {
+      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
+				     GTK_DIALOG_DESTROY_WITH_PARENT,
+				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+				     _("Sold %d %s for %d gold"), count,
+				     get_improvement_name(i), gold);
+    } else {
+      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
+				     GTK_DIALOG_DESTROY_WITH_PARENT,
+				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+				     _("No %s could be sold"), 
+				     get_improvement_name(i));
+    }
   } else {
-    shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-	GTK_DIALOG_DESTROY_WITH_PARENT,
-	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-	_("No %s could be sold"), get_improvement_name(i));
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      unit_list_iterate(pcity->units_supported, punit) {
+ 	/* We don't sell obsolete units when sell obsolete is clicked
+	 * Indeed, unlike improvements, obsolete units can fight like
+ 	 * up-to-dates ones. And they are also all obsolete at the same
+ 	 * time so if the user want to sell them off, he can use the
+	 * sell all button */
+ 	if (punit->type == i && response_id == 2) {
+	  count++;
+ 	  request_unit_disband(punit);
+ 	}
+      } unit_list_iterate_end;
+    } city_list_iterate_end;
+    
+    if (count > 0) {
+      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
+				     GTK_DIALOG_DESTROY_WITH_PARENT,
+				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+				     _("Disbanded %d %s."), count, unit_name(i));
+    } else {
+      shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
+				     GTK_DIALOG_DESTROY_WITH_PARENT,
+				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+				     _("No %s could be disbanded"), unit_name(i));
+    }
   }
   g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
   gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
@@ -771,9 +813,10 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
 void economy_report_dialog_update(void)
 {
   if(!is_report_dialogs_frozen() && economy_dialog_shell) {
-    int tax, total, i, entries_used;
+    int tax, total, i, entries_used, nbr_impr;
     char economy_total[48];
     struct improvement_entry entries[B_LAST];
+    struct unit_entry entries_units[U_LAST];
     GtkTreeIter it;
     GValue value = { 0, };
 
@@ -794,7 +837,28 @@ void economy_report_dialog_update(void)
       gtk_list_store_set_value(economy_store, &it, 0, &value);
       g_value_unset(&value);
 
-      economy_improvement_type[i] = p->type;
+      economy_row_type[i].is_impr = TRUE;
+      economy_row_type[i].type = p->type;
+    }
+
+    nbr_impr = entries_used;
+    entries_used = 0;
+    get_economy_report_units_data(entries_units, &entries_used, &total);
+
+    for (i = 0; i < entries_used; i++) {
+      gtk_list_store_append(economy_store, &it);
+      gtk_list_store_set(economy_store, &it,
+			 1, entries_units[i].count,
+			 2, entries_units[i].cost,
+			 3, entries_units[i].total_cost,
+			 -1);
+      g_value_init(&value, G_TYPE_STRING);
+      g_value_set_static_string(&value, unit_name(entries_units[i].type));
+      gtk_list_store_set_value(economy_store, &it, 0, &value);
+      g_value_unset(&value);
+    
+      economy_row_type[i + nbr_impr].is_impr = FALSE;
+      economy_row_type[i + nbr_impr].type = entries_units[i].type;
     }
 
     my_snprintf(economy_total, sizeof(economy_total),
@@ -809,7 +873,7 @@ void economy_report_dialog_update(void)
  
 ****************************************************************/
 
-#define AU_COL 6
+#define AU_COL 7
 
 /****************************************************************
 ...
@@ -878,7 +942,8 @@ void create_activeunits_report_dialog(bool make_modal)
     N_("In-Prog"),
     N_("Active"),
     N_("Shield"),
-    N_("Food")
+    N_("Food"),
+    N_("Gold")
   };
   static bool titles_done;
   int i;
@@ -886,6 +951,7 @@ void create_activeunits_report_dialog(bool make_modal)
   static GType model_types[AU_COL+1] = {
     G_TYPE_STRING,
     G_TYPE_BOOLEAN,
+    G_TYPE_INT,
     G_TYPE_INT,
     G_TYPE_INT,
     G_TYPE_INT,
@@ -1067,7 +1133,7 @@ void activeunits_report_dialog_update(void)
     int active_count;
     int upkeep_shield;
     int upkeep_food;
-    /* int upkeep_gold;   FIXME: add gold when gold is implemented --jjm */
+    int upkeep_gold;
     int building_count;
   };
 
@@ -1089,6 +1155,7 @@ void activeunits_report_dialog_update(void)
       if (punit->homecity) {
 	unitarray[punit->type].upkeep_shield += punit->upkeep;
 	unitarray[punit->type].upkeep_food += punit->upkeep_food;
+	unitarray[punit->type].upkeep_gold += punit->upkeep_gold;
       }
     }
     unit_list_iterate_end;
@@ -1113,7 +1180,8 @@ void activeunits_report_dialog_update(void)
 		3, unitarray[i].active_count,
 		4, unitarray[i].upkeep_shield,
 		5, unitarray[i].upkeep_food,
-		6, TRUE, -1);
+		6, unitarray[i].upkeep_gold,
+		7, TRUE, -1);
 	g_value_init(&value, G_TYPE_STRING);
 	g_value_set_static_string(&value, unit_name(i));
 	gtk_list_store_set_value(activeunits_store, &it, 0, &value);
@@ -1124,6 +1192,7 @@ void activeunits_report_dialog_update(void)
 	unittotals.active_count += unitarray[i].active_count;
 	unittotals.upkeep_shield += unitarray[i].upkeep_shield;
 	unittotals.upkeep_food += unitarray[i].upkeep_food;
+	unittotals.upkeep_gold += unitarray[i].upkeep_gold;
 	unittotals.building_count += unitarray[i].building_count;
       }
     } unit_type_iterate_end;
@@ -1135,7 +1204,8 @@ void activeunits_report_dialog_update(void)
 	    3, 0,
 	    4, 0,
 	    5, 0,
-	    6, FALSE, -1);
+	    6, 0,
+	    7, FALSE, -1);
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, "");
     gtk_list_store_set_value(activeunits_store, &it, 0, &value);
@@ -1148,7 +1218,8 @@ void activeunits_report_dialog_update(void)
     	    3, unittotals.active_count,
     	    4, unittotals.upkeep_shield,
     	    5, unittotals.upkeep_food,
-	    6, FALSE, -1);
+	    6, unittotals.upkeep_gold,
+	    7, FALSE, -1);
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, _("Totals:"));
     gtk_list_store_set_value(activeunits_store, &it, 0, &value);
