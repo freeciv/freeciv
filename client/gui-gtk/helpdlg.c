@@ -949,7 +949,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
       sprintf(buf+strlen(buf), "* Ignores the effects of city walls.\n");
     }
     if (unit_flag(i, F_AEGIS)) {
-      sprintf(buf+strlen(buf), "* Gets double defence against missiles and aircraft.\n");
+      sprintf(buf+strlen(buf), "* Gets quintuple defence against missiles and aircraft.\n");
     }
     if (unit_flag(i, F_IGTER)) {
       sprintf(buf+strlen(buf), "* Ignores terrain effects (treats all squares as roads).\n");
