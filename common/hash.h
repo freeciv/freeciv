@@ -42,7 +42,10 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data);
 int hash_key_exists(const struct hash_table *h, const void *key);
 void *hash_lookup_data(const struct hash_table *h, const void *key);
 
+void *hash_delete_entry(struct hash_table *h, const void *key);
+
 unsigned int hash_num_entries(const struct hash_table *h);
 unsigned int hash_num_buckets(const struct hash_table *h);
+unsigned int hash_num_deleted(const struct hash_table *h);
 
 #endif  /* FC__HASH_H */

@@ -41,22 +41,27 @@
    use of the ordering information if the return value is non-zero).
 
    Implementation uses closed hashing with simple collision resolution.
-
-   There are currently some big limitations:
-   -- Cannot resize the hash table!
-   -- Cannot delete individual entries!
+   Deleted elements are marked as DELETED rather than UNUSED so that
+   lookups on previously added entries work properly.
+   Resize hash table when deemed necessary by making and populating
+   a new table.
 
 ***************************************************************************/
 
 #include <string.h>
+#include <assert.h>
 
 #include "log.h"
 #include "mem.h"
 
 #include "hash.h"
 
+#define FULL_RATIO 0.75		/* resize when above this */
+
+enum Bucket_State { BUCKET_UNUSED=0, BUCKET_USED, BUCKET_DELETED };
+
 struct hash_bucket {
-  int used;			/* 0 or 1 */
+  enum Bucket_State used;
   const void *key;
   const void *data;
   unsigned int hash_val;	/* to avoid recalculating, or an extra fcmp,
@@ -69,7 +74,9 @@ struct hash_table {
   hash_val_fn_t fval;
   hash_cmp_fn_t fcmp;
   unsigned int num_buckets;
-  unsigned int num_entries;
+  unsigned int num_entries;	/* does not included deleted entries */
+  unsigned int num_deleted;
+  int frozen;			/* do not auto-resize when set */
 };
 
 /* Calculate hash value given hash_table ptr and key: */
@@ -80,7 +87,7 @@ struct hash_table {
 **************************************************************************/
 static void zero_hbucket(struct hash_bucket *bucket)
 {
-  bucket->used = 0;
+  bucket->used = BUCKET_UNUSED;
   bucket->key = NULL;
   bucket->data = NULL;
   bucket->hash_val = 0;
@@ -94,7 +101,8 @@ static void zero_htable(struct hash_table *h)
   h->buckets = NULL;
   h->fval = NULL;
   h->fcmp = NULL;
-  h->num_buckets = h->num_entries = 0;
+  h->num_buckets = h->num_entries = h->num_deleted = 0;
+  h->frozen = 0;
 }
 
 /**************************************************************************
@@ -159,6 +167,8 @@ static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
   struct hash_table *h;
   int i;
 
+  freelog(LOG_DEBUG, "New hash table with %u buckets", nbuckets);
+  
   h = fc_malloc(sizeof(struct hash_table));
   zero_htable(h);
 
@@ -186,8 +196,6 @@ struct hash_table *hash_new_nentries(hash_val_fn_t fval, hash_cmp_fn_t fcmp,
 
 /**************************************************************************
   Constructor with unspecified number of entries:
-  (This is not very useful now because hash table does not grow,
-  but should be more useful in future.)
 **************************************************************************/
 struct hash_table *hash_new(hash_val_fn_t fval, hash_cmp_fn_t fcmp)
 {
@@ -195,10 +203,10 @@ struct hash_table *hash_new(hash_val_fn_t fval, hash_cmp_fn_t fcmp)
 }
 
 /**************************************************************************
-  Destructor: free internal memory (not user-data memory)
-  (also zeros memory, ... may be useful?)
+  Free the contents of the hash table, _except_ leave the struct itself
+  intact.  (also zeros memory, ... may be useful?)
 **************************************************************************/
-void hash_free(struct hash_table *h)
+static void hash_free_contents(struct hash_table *h)
 {
   int i;
 
@@ -207,36 +215,120 @@ void hash_free(struct hash_table *h)
   }
   free(h->buckets);
   zero_htable(h);
+}
+
+/**************************************************************************
+  Destructor: free internal memory (not user-data memory)
+  (also zeros memory, ... may be useful?)
+**************************************************************************/
+void hash_free(struct hash_table *h)
+{
+  hash_free_contents(h);
   free(h);
+}
+
+/**************************************************************************
+  Resize the hash table: create a new table, insert, then remove
+  the old and assign.
+**************************************************************************/
+static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
+{
+  struct hash_table *h_new;
+  int i;
+
+  assert(new_nbuckets >= h->num_entries);
+
+  h_new = hash_new_nbuckets(h->fval, h->fcmp, new_nbuckets);
+  h_new->frozen = 1;
+  
+  for(i=0; i<h->num_buckets; i++) {
+    struct hash_bucket *bucket = &h->buckets[i];
+    if (bucket->used == BUCKET_USED) {
+      int ret = hash_insert(h_new, bucket->key, bucket->data);
+      assert(ret);
+    }
+  }
+  h_new->frozen = 0;
+
+  hash_free_contents(h);
+  *h = *h_new;
+  free(h_new);
+}
+
+/**************************************************************************
+  Call this when an entry might be added: resizes the hash table if
+  seems like a good idea.  Count deleted entries in check because
+  efficiency may be degraded if there are too many deleted entries.
+  But not for appropriate new size. (?)
+**************************************************************************/
+static void hash_maybe_resize(struct hash_table *h)
+{
+  unsigned int num_used, limit, new_nbuckets;
+
+  if (h->frozen) {
+    return;
+  }
+  num_used = h->num_entries + h->num_deleted;
+  limit = FULL_RATIO * h->num_buckets;
+  if (num_used < limit) {
+    return;
+  }
+  new_nbuckets = calc_appropriate_nbuckets(2*h->num_entries);
+  freelog(LOG_DEBUG, "Resizing hash table "
+	  "(used %u del %u nbuck %u used %u limit %u new %u)",
+	  h->num_entries, h->num_deleted, h->num_buckets,
+	  num_used, limit, new_nbuckets);
+  hash_resize_table(h, new_nbuckets);
 }
 
 /**************************************************************************
   Return pointer to bucket in hash table where key resides, or where it
   should go if it is to be a new key.  Note caller needs to provide
   pre-calculated hash_val (this is to avoid re-calculations).
+  Return any bucket marked "deleted" in preference to using an
+  unused bucket.  (But have to get to an unused bucket first, to
+  know that the key is not in the table.  Use first such deleted
+  to speed subsequent lookups on that key.)
 **************************************************************************/
 static struct hash_bucket *internal_lookup(const struct hash_table *h,
 					   const void *key,
 					   unsigned int hash_val)
 {
   struct hash_bucket *bucket;
+  struct hash_bucket *deleted = NULL;
   unsigned int i = hash_val;
 
   do {
     bucket = &h->buckets[i];
-    if (!bucket->used) {
-      return bucket;
-    }
-    if (bucket->hash_val==hash_val &&
-	h->fcmp(bucket->key, key)==0) { /* match */
-      return bucket;
+    switch (bucket->used) {
+    case BUCKET_UNUSED:
+      return deleted ? deleted : bucket;
+    case BUCKET_USED:
+      if (bucket->hash_val==hash_val
+	  && h->fcmp(bucket->key, key)==0) { /* match */
+	return bucket;
+      }
+      break;
+    case BUCKET_DELETED:
+      if (deleted == NULL) {
+	deleted = bucket;
+      }
+      break;
+    default:
+      freelog(LOG_FATAL, "Bad value %d in switch(bucket->used)",
+	      (int)bucket->used);
+      exit(1);
     }
     i++;
     if (i==h->num_buckets) {
       i=0;
     }
   } while (i!=hash_val);	/* catch loop all the way round  */
-  freelog(LOG_FATAL, "Full hash table -- and resize not implemented!!");
+
+  if (deleted) {
+    return deleted;
+  }
+  freelog(LOG_FATAL, "Full hash table -- and somehow did not resize!!");
   exit(1);
 }
 
@@ -248,15 +340,20 @@ int hash_insert(struct hash_table *h, const void *key, const void *data)
 {
   struct hash_bucket *bucket;
   int hash_val;
-    
+
+  hash_maybe_resize(h);
   hash_val = HASH_VAL(h, key);
   bucket = internal_lookup(h, key, hash_val);
-  if (bucket->used) {
+  if (bucket->used == BUCKET_USED) {
     return 0;
+  }
+  if (bucket->used == BUCKET_DELETED) {
+    assert(h->num_deleted>0);
+    h->num_deleted--;
   }
   bucket->key = key;
   bucket->data = data;
-  bucket->used = 1;
+  bucket->used = BUCKET_USED;
   bucket->hash_val = hash_val;
   h->num_entries++;
   return 1;
@@ -273,12 +370,17 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
   int hash_val;
   const void *ret;
     
+  hash_maybe_resize(h);
   hash_val = HASH_VAL(h, key);
   bucket = internal_lookup(h, key, hash_val);
-  if (bucket->used) {
+  if (bucket->used == BUCKET_USED) {
     ret = bucket->data;
   } else {
     ret = NULL;
+    if (bucket->used == BUCKET_DELETED) {
+      assert(h->num_deleted>0);
+      h->num_deleted--;
+    }
     h->num_entries++;
     bucket->used = 1;
   }
@@ -286,6 +388,27 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
   bucket->data = data;
   bucket->hash_val = hash_val;
   return (void*)ret;
+}
+
+/**************************************************************************
+  Delete an entry with specified key.  Returns user-data or deleted
+  entry, or NULL if not found.
+**************************************************************************/
+void *hash_delete_entry(struct hash_table *h, const void *key)
+{
+  struct hash_bucket *bucket = internal_lookup(h, key, HASH_VAL(h,key));
+
+  if (bucket->used == BUCKET_USED) {
+    const void *ret = bucket->data;
+    zero_hbucket(bucket);
+    bucket->used = BUCKET_DELETED;
+    h->num_deleted++;
+    assert(h->num_entries>0);
+    h->num_entries--;
+    return (void*) ret;
+  } else {
+    return NULL;
+  }
 }
 
 /**************************************************************************
@@ -318,4 +441,8 @@ unsigned int hash_num_entries(const struct hash_table *h)
 unsigned int hash_num_buckets(const struct hash_table *h)
 {
   return h->num_buckets;
+}
+unsigned int hash_num_deleted(const struct hash_table *h)
+{
+  return h->num_deleted;
 }
