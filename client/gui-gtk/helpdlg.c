@@ -69,7 +69,7 @@ GtkWidget *		help_tree;
 GtkWidget *		help_tree_scrolled;
 GtkWidget *		help_ilabel	[6];
 GtkWidget *		help_wlabel	[6];
-GtkWidget *		help_ulabel	[4][5];
+GtkWidget *		help_ulabel	[5][5];
 GtkWidget *		help_tlabel	[4][5];
 
 char *help_ilabel_name[6] =
@@ -78,11 +78,12 @@ char *help_ilabel_name[6] =
 char *help_wlabel_name[6] =
 { N_("Cost:"), "", N_("Requirement:"), "", N_("Obsolete by:"), "" };
 
-char *help_ulabel_name[4][5] =
+char *help_ulabel_name[5][5] =
 {
     { N_("Cost:"),		"", "",	N_("Attack:"),	"" },
     { N_("Defense:"),	"", "",	N_("Move:")	,	"" },
     { N_("FirePower:"),	"", "",	N_("Hitpoints:"),	"" },
+    { N_("Basic Upkeep:"),	"", "",	N_("Vision:"),	"" },
     { N_("Requirement:"),	"", "",	N_("Obsolete by:"),	"" }
 };
 
@@ -364,12 +365,12 @@ static void create_help_dialog(void)
   gtk_box_pack_start(GTK_BOX(help_box), help_utable, FALSE, FALSE, 0);
 
   for (i=0; i<5; i++)
-    for (j=0; j<4; j++)
+    for (j=0; j<5; j++)
     {
       help_ulabel[j][i] = gtk_label_new(_(help_ulabel_name[j][i]));
       gtk_widget_set_style(help_ulabel[j][i], style);
 
-      if (j==3 && (i==1 || i==4))
+      if (j==4 && (i==1 || i==4))
       {
 	if (i==1)
           button = help_hyperlink_new(help_ulabel[j][i], HELP_TECH);
@@ -559,25 +560,22 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_set_label(help_ulabel[2][1], buf);
     sprintf(buf, "%d", utype->hp);
     gtk_set_label(help_ulabel[2][4], buf);
+    gtk_set_label(help_ulabel[3][1], helptext_unit_upkeep_str(i));
     sprintf(buf, "%d", utype->vision_range);
-/*    xaw_set_label(help_unit_visrange_data, buf); -- FIXME */
+    gtk_set_label(help_ulabel[3][4], buf);
     if(utype->tech_requirement==A_LAST) {
-      gtk_set_label(help_ulabel[3][1], _("(Never)"));
+      gtk_set_label(help_ulabel[4][1], _("(Never)"));
     } else {
-      gtk_set_label(help_ulabel[3][1], advances[utype->tech_requirement].name);
+      gtk_set_label(help_ulabel[4][1], advances[utype->tech_requirement].name);
     }
 /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
     if(utype->obsoleted_by==-1) {
-      gtk_set_label(help_ulabel[3][4], _("None"));
+      gtk_set_label(help_ulabel[4][4], _("None"));
     } else {
-      gtk_set_label(help_ulabel[3][4], get_unit_type(utype->obsoleted_by)->name);
+      gtk_set_label(help_ulabel[4][4], get_unit_type(utype->obsoleted_by)->name);
     }
 
-    /* No separate Vision widget for Gtk+ client (yet?) */
-    sprintf(buf, _("* Vision range of %d square%s.\n"),
-	utype->vision_range, (utype->vision_range==1)?"":"s"); /* -- REMOVE ME */
-
-    helptext_unit(buf+strlen(buf), i, pitem->text);
+    helptext_unit(buf, i, pitem->text);
 
     gtk_text_freeze(GTK_TEXT(help_text));
     gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, buf, -1);
@@ -595,11 +593,12 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_set_label(help_ulabel[1][4], "0");
     gtk_set_label(help_ulabel[2][1], "0");
     gtk_set_label(help_ulabel[2][4], "0");
-/*    xaw_set_label(help_unit_visrange_data, "0 "); -- FIXME */
+    gtk_set_label(help_ulabel[3][1], "0");
+    gtk_set_label(help_ulabel[3][4], "0");
 
-    gtk_set_label(help_ulabel[3][1], _("(Never)"));
+    gtk_set_label(help_ulabel[4][1], _("(Never)"));
 /*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);*/
-    gtk_set_label(help_ulabel[3][4], _("None"));
+    gtk_set_label(help_ulabel[4][4], _("None"));
 
     gtk_text_freeze(GTK_TEXT(help_text));
     gtk_text_insert(GTK_TEXT(help_text), NULL, NULL, NULL, pitem->text, -1);

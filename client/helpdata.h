@@ -37,6 +37,8 @@ void helptext_tech(char *buf, int i, const char *user_text);
 void helptext_terrain(char *buf, int i, const char *user_text);
 void helptext_government(char *buf, int i, const char *user_text);
 
+char *helptext_unit_upkeep_str(int i);
+
 #define help_items_iterate(pitem) {       \
         const struct help_item *pitem;    \
         help_iter_start();                \

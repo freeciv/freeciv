@@ -913,3 +913,71 @@ void helptext_government(char *buf, int i, const char *user_text)
   wordwrap_string(buf, 68);
 }
 
+/****************************************************************
+  Returns pointer to static string with eg: "1 shield, 1 unhappy"
+*****************************************************************/
+char *helptext_unit_upkeep_str(int i)
+{
+  static char buf[128];
+  struct unit_type *utype = get_unit_type(i);
+
+  if (utype->shield_cost || utype->food_cost
+      || utype->gold_cost || utype->happy_cost) {
+    int any = 0;
+    buf[0] = '\0';
+    if (utype->shield_cost) {
+      sprintf(buf+strlen(buf), _("%s%d shield"),
+	      (any++ ? ", " : ""), utype->shield_cost);
+    }
+    if (utype->food_cost) {
+      sprintf(buf+strlen(buf), _("%s%d food"),
+	      (any++ ? ", " : ""), utype->food_cost);
+    }
+    if (utype->happy_cost) {
+      sprintf(buf+strlen(buf), _("%s%d unhappy"),
+	      (any++ ? ", " : ""), utype->happy_cost);
+    }
+    if (utype->gold_cost) {
+      sprintf(buf+strlen(buf), _("%s%d gold"),
+	      (any++ ? ", " : ""), utype->gold_cost);
+    }
+  } else {
+    /* strcpy(buf, _("None")); */
+    sprintf(buf, "%d", 0);
+  }
+  return buf;
+}
+
+/****************************************************************
+  Similar to above, with eg: "1s/1h"
+*****************************************************************/
+char *helptext_unit_upkeep_str_short(int i)
+{
+  static char buf[32];
+  struct unit_type *utype = get_unit_type(i);
+
+  if (utype->shield_cost || utype->food_cost
+      || utype->gold_cost || utype->happy_cost) {
+    int any = 0;
+    buf[0] = '\0';
+    if (utype->shield_cost) {
+      sprintf(buf+strlen(buf), /*s=shields*/ _("%s%ds"),
+	      (any++ ? "/" : ""), utype->shield_cost);
+    }
+    if (utype->food_cost) {
+      sprintf(buf+strlen(buf), /*f=food*/ _("%s%df"),
+	      (any++ ? "/" : ""), utype->food_cost);
+    }
+    if (utype->happy_cost) {
+      sprintf(buf+strlen(buf), /*h=(un)happy*/ _("%s%dh"),
+	      (any++ ? "/" : ""), utype->happy_cost);
+    }
+    if (utype->gold_cost) {
+      sprintf(buf+strlen(buf), /*g=gold*/ _("%s%dg"),
+	      (any++ ? "/" : ""), utype->gold_cost);
+    }
+  } else {
+    sprintf(buf, "%d", 0);
+  }
+  return buf;
+}

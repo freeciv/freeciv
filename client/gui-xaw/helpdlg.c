@@ -81,6 +81,7 @@ Widget help_unit_hp, help_unit_hp_data;
 Widget help_unit_fp, help_unit_fp_data;
 Widget help_unit_cost, help_unit_cost_data;
 Widget help_unit_visrange, help_unit_visrange_data;
+Widget help_unit_upkeep, help_unit_upkeep_data;
 Widget help_unit_tile;
 
 Widget help_terrain_movement_defense, help_terrain_movement_defense_data;
@@ -543,29 +544,39 @@ static void create_help_page(enum help_page_type type)
 			      labelWidgetClass,
 			      help_right_form,
 			      NULL);
+    help_unit_upkeep =
+      I_L(XtVaCreateManagedWidget("helpunitupkeep",
+				  labelWidgetClass,
+				  help_right_form,
+				  NULL));
+    help_unit_upkeep_data =
+      XtVaCreateManagedWidget("helpunitupkeepdata",
+			      labelWidgetClass,
+			      help_right_form,
+			      NULL);
     help_improvement_req =
       I_L(XtVaCreateManagedWidget("helpimprreq", 
 				  labelWidgetClass, 
 				  help_right_form,
-				  XtNfromVert,help_unit_hp, 
+				  XtNfromVert, help_unit_upkeep, 
 				  NULL));
      help_improvement_req_data =
        XtVaCreateManagedWidget("helpimprreqdata", 
 			       labelWidgetClass, 
 			       help_right_form,
-			       XtNfromVert,help_unit_hp, 
+			       XtNfromVert, help_unit_upkeep, 
 			       NULL);
      help_wonder_obsolete =
        I_L(XtVaCreateManagedWidget("helpwonderobsolete", 
 				   labelWidgetClass, 
 				   help_right_form,
-				   XtNfromVert,help_unit_hp, 
+				   XtNfromVert, help_unit_upkeep, 
 				   NULL));
      help_wonder_obsolete_data =
        XtVaCreateManagedWidget("helpwonderobsoletedata", 
 			       labelWidgetClass, 
 			       help_right_form,
-			       XtNfromVert,help_unit_hp, 
+			       XtNfromVert, help_unit_upkeep, 
 			       NULL);
      XtVaGetValues(help_improvement_req, XtNy, &ay, XtNheight, &ah, NULL);
      help_tree_viewport =
@@ -846,6 +857,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_hp_data, buf);
     sprintf(buf, "%d ", utype->vision_range);
     xaw_set_label(help_unit_visrange_data, buf);
+    xaw_set_label(help_unit_upkeep_data, helptext_unit_upkeep_str(i));
     if(utype->tech_requirement==A_LAST) {
       xaw_set_label(help_improvement_req_data, "(Never)");
     } else {
