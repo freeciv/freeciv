@@ -1445,13 +1445,16 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(city.tile_tradenum[i], buffer);
   }
 
-  SET_SPRITE(upkeep.food[0], "upkeep.food");
-  SET_SPRITE(upkeep.food[1], "upkeep.food2");
   SET_SPRITE(upkeep.unhappy[0], "upkeep.unhappy");
   SET_SPRITE(upkeep.unhappy[1], "upkeep.unhappy2");
-  SET_SPRITE(upkeep.gold[0], "upkeep.gold");
-  SET_SPRITE(upkeep.gold[1], "upkeep.gold2");
-  SET_SPRITE(upkeep.shield, "upkeep.shield");
+  output_type_iterate(o) {
+    my_snprintf(buffer, sizeof(buffer),
+		"upkeep.%s", get_output_identifier(o));
+    sprites.upkeep.output[o][0] = load_sprite(buffer);
+    my_snprintf(buffer, sizeof(buffer),
+		"upkeep.%s2", get_output_identifier(o));
+    sprites.upkeep.output[o][1] = load_sprite(buffer);
+  } output_type_iterate_end;
   
   SET_SPRITE(user.attention, "user.attention");
 

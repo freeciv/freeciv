@@ -283,10 +283,8 @@ struct named_sprites {
   } unit;
   struct {
     struct Sprite
-      *food[2],
       *unhappy[2],
-      *gold[2],
-      *shield;
+      *output[O_MAX][2];
   } upkeep;
   struct {
     struct Sprite
