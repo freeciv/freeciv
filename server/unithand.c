@@ -689,8 +689,10 @@ void handle_unit_establish_trade(struct player *pplayer,
       wipe_unit(0, punit);
       pplayer->economic.gold+=revenue;
       send_player_info(pplayer, pplayer);
+      city_refresh(pcity_homecity);
+      city_refresh(pcity_dest);
       send_city_info(pplayer, pcity_homecity, 0);
-      send_city_info(pplayer, pcity_dest, 0);
+      send_city_info(city_owner(pcity_dest), pcity_dest, 0);
     }
   }
 }
