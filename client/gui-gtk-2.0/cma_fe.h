@@ -41,6 +41,9 @@ struct cma_dialog {
   GtkAdjustment *minimal_surplus[NUM_STATS];
   GtkWidget *happy_button;
   GtkAdjustment *factor[NUM_STATS + 1];
+  GtkTooltips *tips;
+  GtkTreeSelection *selection;
+  GtkListStore *store;
   int id;			/* needed to pass a preset_index */
 };
 
