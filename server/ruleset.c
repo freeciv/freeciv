@@ -278,6 +278,58 @@ static int lookup_tech(struct section_file *file, const char *prefix,
 
 /**************************************************************************
  Lookup a prefix.entry string vector in the file and fill in the
+ array, which should hold MAX_NUM_UNIT_LIST items. The output array is
+ either U_LAST terminated or full (contains MAX_NUM_UNIT_LIST
+ items). If the vector is not found and the required parameter is set,
+ we report it as an error, otherwise we just punt.
+**************************************************************************/
+static void lookup_unit_list(struct section_file *file, const char *prefix,
+			     const char *entry, int *output, 
+                             const char *filename, bool required)
+{
+  char **slist;
+  int i, nval;
+
+  /* pre-fill with U_LAST: */
+  for(i = 0; i < MAX_NUM_UNIT_LIST; i++) {
+    output[i] = A_LAST;
+  }
+  slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
+  if (nval == 0) {
+    if (required) {
+      freelog(LOG_FATAL, "Missing string vector %s.%s (%s)",
+	      prefix, entry, filename);
+      exit(EXIT_FAILURE);
+    }
+    return;
+  }
+  if (nval > MAX_NUM_UNIT_LIST) {
+    freelog(LOG_FATAL, "String vector %s.%s too long (%d, max %d) (%s)",
+	    prefix, entry, nval, MAX_NUM_UNIT_LIST, filename);
+    exit(EXIT_FAILURE);
+  }
+  if (nval == 1 && strcmp(slist[0], "") == 0) {
+    free(slist);
+    return;
+  }
+  for (i = 0; i < nval; i++) {
+    char *sval = slist[i];
+    Unit_Type_id uid = find_unit_type_by_name(sval);
+
+    if (uid == U_LAST) {
+      freelog(LOG_FATAL, "For %s %s (%d) couldn't match unit \"%s\" (%s)",
+	      prefix, entry, i, sval, filename);
+      exit(EXIT_FAILURE);
+    }
+    output[i] = uid;
+    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, uid);
+  }
+  free(slist);
+  return;
+}
+
+/**************************************************************************
+ Lookup a prefix.entry string vector in the file and fill in the
  array, which should hold MAX_NUM_TECH_LIST items. The output array is
  either A_LAST terminated or full (contains MAX_NUM_TECH_LIST
  items). All valid entries of the output array are guaranteed to
@@ -1103,38 +1155,35 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     freelog(LOG_FATAL, "No role=ferryboat units? (%s)", filename);
     exit(EXIT_FAILURE);
   }
-  if(num_role_units(L_HUT)==0) {
-    freelog(LOG_FATAL, "No role=hut units? (%s)", filename);
-    exit(EXIT_FAILURE);
-  }
   if(num_role_units(L_FIRSTBUILD)==0) {
     freelog(LOG_FATAL, "No role=firstbuild units? (%s)", filename);
     exit(EXIT_FAILURE);
   }
-  if(num_role_units(L_BARBARIAN)==0) {
+  if (num_role_units(L_BARBARIAN) == 0 && game.barbarianrate > 0) {
     freelog(LOG_FATAL, "No role=barbarian units? (%s)", filename);
     exit(EXIT_FAILURE);
   }
-  if(num_role_units(L_BARBARIAN_LEADER)==0) {
+  if (num_role_units(L_BARBARIAN_LEADER) == 0 && game.barbarianrate > 0) {
     freelog(LOG_FATAL, "No role=barbarian leader units? (%s)", filename);
     exit(EXIT_FAILURE);
   }
-  if(num_role_units(L_BARBARIAN_BUILD)==0) {
+  if (num_role_units(L_BARBARIAN_BUILD) == 0 && game.barbarianrate > 0) {
     freelog(LOG_FATAL, "No role=barbarian build units? (%s)", filename);
     exit(EXIT_FAILURE);
   }
-  if(num_role_units(L_BARBARIAN_BOAT)==0) {
+  if (num_role_units(L_BARBARIAN_BOAT) == 0 && game.barbarianrate > 0) {
     freelog(LOG_FATAL, "No role=barbarian ship units? (%s)", filename);
     exit(EXIT_FAILURE);
+  } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
+    u = &unit_types[get_role_unit(L_BARBARIAN_BOAT,0)];
+    if(u->move_type != SEA_MOVING) {
+      freelog(LOG_FATAL, "Barbarian boat (%s) needs to be a sea unit (%s)",
+              u->name, filename);
+      exit(EXIT_FAILURE);
+    }
   }
-  if(num_role_units(L_BARBARIAN_SEA)==0) {
+  if (num_role_units(L_BARBARIAN_SEA) == 0 && game.barbarianrate > 0) {
     freelog(LOG_FATAL, "No role=sea raider barbarian units? (%s)", filename);
-    exit(EXIT_FAILURE);
-  }
-  u = &unit_types[get_role_unit(L_BARBARIAN_BOAT,0)];
-  if(u->move_type != SEA_MOVING) {
-    freelog(LOG_FATAL, "Barbarian boat (%s) needs to be a sea unit (%s)",
-            u->name, filename);
     exit(EXIT_FAILURE);
   }
 
@@ -1618,6 +1667,14 @@ static void load_ruleset_governments(struct section_file *file)
   
   game.government_when_anarchy
     = lookup_government(file, "governments.when_anarchy", filename);
+
+  if (game.default_government == game.government_when_anarchy) {
+    players_iterate(pplayer) {
+      /* If we do not do this, the game will crash. It enables us to
+       * select a valid government on game start. */
+      pplayer->revolution_finishes = 0;
+    } players_iterate_end;
+  }
   
   /* Because player_init is called before rulesets are loaded we set
    * all players governments here, if they have not been previously
@@ -2215,6 +2272,8 @@ static void load_ruleset_nations(struct section_file *file)
     lookup_tech_list(file, sec[i], "init_techs", pl->init_techs, filename);
     lookup_building_list(file, sec[i], "init_buildings", pl->init_buildings,
 			 filename);
+    lookup_unit_list(file, sec[i], "init_units", pl->init_units, filename,
+                     FALSE);
 
     /* read "normal" city names */
 
@@ -2330,7 +2389,7 @@ static void load_ruleset_cities(struct section_file *file)
       const char *value
 	= secfile_lookup_str_default(file, "", "specialist.%s_req%d.value",
 				     name, j);
-      struct requirement req = req_from_str(type, range, survives, value);
+      struct requirement req = req_from_str(type, range, survives, value); 
 
       if (req.source.type == REQ_LAST) {
 	freelog(LOG_ERROR,

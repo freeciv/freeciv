@@ -21,6 +21,20 @@
  * Nothing in this file should require anything else from the common/
  * directory! */
 
+#define BUG_EMAIL_ADDRESS "bugs@freeciv.org"
+#define WEBSITE_URL "http://www.freeciv.org/"
+
+/* MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS <= 32 !!!! */
+#define MAX_NUM_PLAYERS  30
+#define MAX_NUM_BARBARIANS   2
+#define MAX_NUM_CONNECTIONS (2 * (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS))
+#define MAX_NUM_ITEMS   200     /* eg, unit_types */
+#define MAX_NUM_TECH_LIST 10
+#define MAX_NUM_UNIT_LIST 10
+#define MAX_NUM_BUILDING_LIST 10
+#define MAX_LEN_VET_SHORT_NAME 8
+#define MAX_VET_LEVELS 10
+
 enum output_type {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };

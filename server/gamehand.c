@@ -141,6 +141,26 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
 }
 
 /****************************************************************************
+  Find a valid position not far from our starting position.
+****************************************************************************/
+static struct tile *find_dispersed_position(struct player *pplayer,
+                                            struct start_position *p)
+{
+  struct tile *ptile;
+  int x, y;
+
+  do {
+    x = p->tile->x + myrand(2 * game.dispersion + 1) - game.dispersion;
+    y = p->tile->y + myrand(2 * game.dispersion + 1) - game.dispersion;
+  } while (!((ptile = map_pos_to_tile(x, y))
+             && map_get_continent(p->tile) == map_get_continent(ptile)
+             && !is_ocean(map_get_terrain(ptile))
+             && !is_non_allied_unit_tile(ptile, pplayer)));
+
+  return ptile;
+}
+
+/****************************************************************************
   Initialize a new game: place the players' units onto the map, etc.
 ****************************************************************************/
 void init_new_game(void)
@@ -225,8 +245,9 @@ void init_new_game(void)
 
   /* Place all other units. */
   players_iterate(pplayer) {
-    int i, x, y;
+    int i;
     struct tile *ptile;
+    struct nation_type *nation = get_nation_by_plr(pplayer);
     struct start_position p
       = map.start_positions[start_pos[pplayer->player_no]];
 
@@ -235,18 +256,20 @@ void init_new_game(void)
       continue;
     }
 
+    /* Place global start units */
     for (i = 1; i < strlen(game.start_units); i++) {
-      do {
-	x = p.tile->x + myrand(2 * game.dispersion + 1) - game.dispersion;
-	y = p.tile->y + myrand(2 * game.dispersion + 1) - game.dispersion;
-      } while (!((ptile = map_pos_to_tile(x, y))
-		 && map_get_continent(p.tile) == map_get_continent(ptile)
-		 && !is_ocean(map_get_terrain(ptile))
-		 && !is_non_allied_unit_tile(ptile, pplayer)));
-
+      ptile = find_dispersed_position(pplayer, &p);
 
       /* Create the unit of an appropriate type. */
       place_starting_unit(ptile, pplayer, game.start_units[i]);
+    }
+
+    /* Place nation specific start units (not role based!) */
+    i = 0;
+    while (nation->init_units[i] != U_LAST && i < MAX_NUM_UNIT_LIST) {
+      ptile = find_dispersed_position(pplayer, &p);
+      create_unit(pplayer, ptile, nation->init_units[i], FALSE, 0, 0);
+      i++;
     }
   } players_iterate_end;
 

@@ -17,6 +17,7 @@
 
 #include "fc_types.h"
 #include "terrain.h"		/* T_COUNT */
+#include "unittype.h"           /* Unit_Type_id */
 
 #define MAX_NUM_TECH_GOALS 10
 
@@ -100,6 +101,7 @@ struct nation_type {
   /* Items given to this nation at game start.  Server only. */
   int init_techs[MAX_NUM_TECH_LIST];
   int init_buildings[MAX_NUM_BUILDING_LIST];
+  Unit_Type_id init_units[MAX_NUM_UNIT_LIST];
 
   /* Groups which this nation is assigned to */
   int num_groups;
