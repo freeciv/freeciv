@@ -1364,7 +1364,8 @@ static void broadcast_city_info(struct city *pcity)
   for(o=0; o<game.nplayers; o++) {
     struct player *pplayer = &game.players[o];
     if(pcity->owner==o) continue; /* already sent above */
-    if (map_get_known_and_seen(pcity->x, pcity->y, pplayer)) {
+    if (map_get_known_and_seen(pcity->x, pcity->y, pplayer) ||
+	player_has_traderoute_with_city(pplayer, pcity)) {
       update_dumb_city(pplayer, pcity);
       package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
       lsend_packet_short_city(&pplayer->connections, &sc_pack);
