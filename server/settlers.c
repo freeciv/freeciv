@@ -432,16 +432,15 @@ static bool is_already_assigned(struct unit *myunit, struct player *pplayer, int
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_calc_pollution(struct city *pcity, int i, int j, int best)
+static int ai_calc_pollution(struct city *pcity, int cx, int cy, int best,
+			     int mx, int my)
 {
-  int x, y, m;
+  int m;
 
-  if (!city_map_to_map(&x, &y, pcity, i, j))
-    return -1;
-  if (!map_has_special(x, y, S_POLLUTION)) return(-1);
-  map_clear_special(x, y, S_POLLUTION);
-  m = city_tile_value(pcity, i, j, 0, 0);
-  map_set_special(x, y, S_POLLUTION);
+  if (!map_has_special(mx, my, S_POLLUTION)) return(-1);
+  map_clear_special(mx, my, S_POLLUTION);
+  m = city_tile_value(pcity, cx, cy, 0, 0);
+  map_set_special(mx, my, S_POLLUTION);
   m = (m + best + 50) * 2;
   return(m);
 }
@@ -450,16 +449,14 @@ static int ai_calc_pollution(struct city *pcity, int i, int j, int best)
 ...
 **************************************************************************/
 static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
-			   int i, int j, int best)
+			   int cx, int cy, int best, int mx, int my)
 {
-  int x, y, m;
+  int m;
 
-  if (!city_map_to_map(&x, &y, pcity, i, j))
-    return -1;
-  if (!map_has_special(x, y, S_FALLOUT)) return(-1);
-  map_clear_special(x, y, S_FALLOUT);
-  m = city_tile_value(pcity, i, j, 0, 0);
-  map_set_special(x, y, S_FALLOUT);
+  if (!map_has_special(mx, my, S_FALLOUT)) return(-1);
+  map_clear_special(mx, my, S_FALLOUT);
+  m = city_tile_value(pcity, cx, cy, 0, 0);
+  map_set_special(mx, my, S_FALLOUT);
   if (!pplayer->ai.control)
     m = (m + best + 50) * 2;
   return(m);
@@ -503,47 +500,40 @@ static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer, int x,
 ...
 **************************************************************************/
 static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
-			    int i, int j)
+			    int cx, int cy, int mx, int my)
 {
-  int m, x, y;
-  enum tile_terrain_type t;
-  struct tile_type *type;
-  int s;
-  struct tile *ptile;
-
-  if (!city_map_to_map(&x, &y, pcity, i, j))
-    return -1;
-  ptile = map_get_tile(x, y);
-  t = ptile->terrain;
-  type = get_tile_type(t);
-  s = ptile->special;
+  int m;
+  struct tile *ptile = map_get_tile(mx, my);
+  enum tile_terrain_type t = ptile->terrain;
+  struct tile_type *type = get_tile_type(t);
+  int s = ptile->special;
 
   if (ptile->terrain != type->irrigation_result &&
       type->irrigation_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
     if (ptile->city && type->irrigation_result == T_OCEAN)
       return -1;
     ptile->terrain = type->irrigation_result;
-    map_clear_special(x, y, S_MINE);
-    m = city_tile_value(pcity, i, j, 0, 0);
+    map_clear_special(mx, my, S_MINE);
+    m = city_tile_value(pcity, cx, cy, 0, 0);
     ptile->terrain = t;
     ptile->special = s;
     return(m);
   } else if((ptile->terrain==type->irrigation_result &&
      !tile_has_special(ptile, S_IRRIGATION) &&
      !tile_has_special(ptile, S_MINE) && !(ptile->city) &&
-     (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
-    map_set_special(x, y, S_IRRIGATION);
-    m = city_tile_value(pcity, i, j, 0, 0);
-    map_clear_special(x, y, S_IRRIGATION);
+     (is_wet_or_is_wet_cardinal_around(pplayer, mx, my)))) {
+    map_set_special(mx, my, S_IRRIGATION);
+    m = city_tile_value(pcity, cx, cy, 0, 0);
+    map_clear_special(mx, my, S_IRRIGATION);
     return(m);
   } else if((ptile->terrain==type->irrigation_result &&
     tile_has_special(ptile, S_IRRIGATION) && !tile_has_special(ptile, S_FARMLAND) &&
      player_knows_techs_with_flag(pplayer, TF_FARMLAND) &&
      !tile_has_special(ptile, S_MINE) && !(ptile->city) &&
-     (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
-    map_set_special(x, y, S_FARMLAND);
-    m = city_tile_value(pcity, i, j, 0, 0);
-    map_clear_special(x, y, S_FARMLAND);
+     (is_wet_or_is_wet_cardinal_around(pplayer, mx, my)))) {
+    map_set_special(mx, my, S_FARMLAND);
+    m = city_tile_value(pcity, cx, cy, 0, 0);
+    map_clear_special(mx, my, S_FARMLAND);
     return(m);
   } else return(-1);
 }
@@ -551,14 +541,10 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_calc_mine(struct city *pcity, int i, int j)
+static int ai_calc_mine(struct city *pcity, int cx, int cy, int mx, int my)
 {
-  int m, x, y;
-  struct tile *ptile;
-
-  if (!city_map_to_map(&x, &y, pcity, i, j))
-    return -1;
-  ptile = map_get_tile(x, y);
+  int m;
+  struct tile *ptile = map_get_tile(mx, my);
 
 #if 0
   enum tile_terrain_type t = ptile->terrain;
@@ -580,9 +566,9 @@ static int ai_calc_mine(struct city *pcity, int i, int j)
   /* Note that this code means we will never try to mine a city into the ocean */
   if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
       !tile_has_special(ptile, S_IRRIGATION) && !tile_has_special(ptile, S_MINE)) {
-    map_set_special(x, y, S_MINE);
-    m = city_tile_value(pcity, i, j, 0, 0);
-    map_clear_special(x, y, S_MINE);
+    map_set_special(mx, my, S_MINE);
+    m = city_tile_value(pcity, cx, cy, 0, 0);
+    map_clear_special(mx, my, S_MINE);
     return(m);
   } else return(-1);
 }
@@ -590,27 +576,19 @@ static int ai_calc_mine(struct city *pcity, int i, int j)
 /**************************************************************************
 ...
 **************************************************************************/
-static int ai_calc_transform(struct city *pcity, int i, int j)
+static int ai_calc_transform(struct city *pcity, int cx, int cy, int mx,
+			     int my)
 {
-  int m, x, y;
-  enum tile_terrain_type t;
-  struct tile_type *type;
-  int s;
-  enum tile_terrain_type r;
-  struct tile *ptile;
+  int m;
+  struct tile *ptile = map_get_tile(mx, my);
+  enum tile_terrain_type t = ptile->terrain;
+  struct tile_type *type = get_tile_type(t);
+  int s = ptile->special;
+  enum tile_terrain_type r = type->transform_result;
 
-  if (!city_map_to_map(&x, &y, pcity, i, j))
+  if (t == T_OCEAN && !can_reclaim_ocean(mx, my))
     return -1;
-  ptile = map_get_tile(x, y);
-
-  t = ptile->terrain;
-  type = get_tile_type(t);
-  s = ptile->special;
-  r = type->transform_result;
-
-  if (t == T_OCEAN && !can_reclaim_ocean(x, y))
-    return -1;
-  if (r == T_OCEAN && !can_channel_land(x, y))
+  if (r == T_OCEAN && !can_channel_land(mx, my))
     return -1;
 
   if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
@@ -621,14 +599,14 @@ static int ai_calc_transform(struct city *pcity, int i, int j)
     ptile->terrain = r;
 
     if (get_tile_type(r)->mining_result != r) 
-      map_clear_special(x, y, S_MINE);
+      map_clear_special(mx, my, S_MINE);
 
     if (get_tile_type(r)->irrigation_result != r) {
-      map_clear_special(x, y, S_FARMLAND);
-      map_clear_special(x, y, S_IRRIGATION);
+      map_clear_special(mx, my, S_FARMLAND);
+      map_clear_special(mx, my, S_IRRIGATION);
     }
-
-    m = city_tile_value(pcity, i, j, 0, 0);
+    
+    m = city_tile_value(pcity, cx, cy, 0, 0);
     ptile->terrain = t;
     ptile->special = s;
     return(m);
@@ -688,20 +666,17 @@ static int road_bonus(int x, int y, int spc)
 ...
 **************************************************************************/
 static int ai_calc_road(struct city *pcity, struct player *pplayer,
-			int i, int j)
+			int cx, int cy, int mx, int my)
 {
-  int m, x, y;
-  struct tile *ptile;
+  int m;
+  struct tile *ptile = map_get_tile(mx, my);
 
-  if (!city_map_to_map(&x, &y, pcity, i, j))
-    return -1;
-  ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       (((ptile->terrain != T_RIVER) && !tile_has_special(ptile, S_RIVER)) ||
        player_knows_techs_with_flag(pplayer, TF_BRIDGE)) &&
       !tile_has_special(ptile, S_ROAD)) {
     ptile->special|=S_ROAD; /* have to do this to avoid reset_move_costs -- Syela */
-    m = city_tile_value(pcity, i, j, 0, 0);
+    m = city_tile_value(pcity, cx, cy, 0, 0);
     ptile->special&=~S_ROAD;
     return(m);
   } else return(-1);
@@ -711,22 +686,18 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
 ...
 **************************************************************************/
 static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
-			    int i, int j)
+			    int cx, int cy, int mx, int my)
 {
-  int m, x, y;
-  struct tile *ptile;
+  int m;
   enum tile_special_type spe_sav;
+  struct tile *ptile = map_get_tile(mx, my);
 
-  if (!city_map_to_map(&x, &y, pcity, i, j))
-    return -1;
-  
-  ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       player_knows_techs_with_flag(pplayer, TF_RAILROAD) &&
       !tile_has_special(ptile, S_RAILROAD)) {
     spe_sav = ptile->special;
     ptile->special|=(S_ROAD | S_RAILROAD);
-    m = city_tile_value(pcity, i, j, 0, 0);
+    m = city_tile_value(pcity, cx, cy, 0, 0);
     ptile->special = spe_sav;
     return(m);
   } else return(-1);
@@ -1372,17 +1343,31 @@ void initialize_infrastructure_cache(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   int best = best_worker_tile_value(pcity);
-  city_map_iterate(i, j) {
-    pcity->ai.detox[i][j] = ai_calc_pollution(pcity, i, j, best);
-    pcity->ai.derad[i][j] = ai_calc_fallout(pcity, pplayer, i, j, best);
-    pcity->ai.mine[i][j] = ai_calc_mine(pcity, i, j);
-    pcity->ai.irrigate[i][j] = ai_calc_irrigate(pcity, pplayer, i, j);
-    pcity->ai.transform[i][j] = ai_calc_transform(pcity, i, j);
-    pcity->ai.road[i][j] = ai_calc_road(pcity, pplayer, i, j);
+
+  city_map_iterate(cx, cy) {
+    pcity->ai.detox[cx][cy] = -1;
+    pcity->ai.derad[cx][cy] = -1;
+    pcity->ai.mine[cx][cy] = -1;
+    pcity->ai.irrigate[cx][cy] = -1;
+    pcity->ai.transform[cx][cy] = -1;
+    pcity->ai.road[cx][cy] = -1;
+    pcity->ai.railroad[cx][cy] = -1;
+  } city_map_iterate_end;
+
+  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
+    pcity->ai.detox[cx][cy] = ai_calc_pollution(pcity, cx, cy, best, mx, my);
+    pcity->ai.derad[cx][cy] =
+	ai_calc_fallout(pcity, pplayer, cx, cy, best, mx, my);
+    pcity->ai.mine[cx][cy] = ai_calc_mine(pcity, cx, cy, mx, my);
+    pcity->ai.irrigate[cx][cy] =
+	ai_calc_irrigate(pcity, pplayer, cx, cy, mx, my);
+    pcity->ai.transform[cx][cy] = ai_calc_transform(pcity, cx, cy, mx, my);
+    pcity->ai.road[cx][cy] = ai_calc_road(pcity, pplayer, cx, cy, mx, my);
 /* gonna handle road_bo dynamically for now since it can change
 as punits arrive at adjacent tiles and start laying road -- Syela */
-    pcity->ai.railroad[i][j] = ai_calc_railroad(pcity, pplayer, i, j);
-  } city_map_iterate_end;
+    pcity->ai.railroad[cx][cy] =
+	ai_calc_railroad(pcity, pplayer, cx, cy, mx, my);
+  } city_map_checked_iterate_end;
 }
 
 /************************************************************************** 
