@@ -1559,7 +1559,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
     if (flags_are_transparent)
       gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), FALSE);
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]), 0,0);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
     put_unit_gpixmap_city_overlays(punit, 
 				  GTK_PIXCOMM(pdialog->support_unit_pixmaps[i]));
 
@@ -1631,9 +1631,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
     if (flags_are_transparent)
       gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), FALSE);
 
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]), 0,0);
-    put_unit_gpixmap_city_overlays(punit, 
-				  GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
+    put_unit_gpixmap(punit, GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
 
     gtk_pixcomm_changed(GTK_PIXCOMM(pdialog->present_unit_pixmaps[i]));
 

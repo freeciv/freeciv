@@ -1755,7 +1755,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     if (flags_are_transparent) {
        gtk_pixcomm_clear(GTK_PIXCOMM(pix), FALSE);
     }
-    put_unit_gpixmap(punit, GTK_PIXCOMM(pix), 0, 0);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(pix));
 
     unit_select_labels[i]=gtk_label_new(buffer);
     gtk_box_pack_start(GTK_BOX(hbox),unit_select_labels[i],

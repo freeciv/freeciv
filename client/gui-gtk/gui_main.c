@@ -939,7 +939,7 @@ void set_unit_icon(int idx, struct unit *punit)
   
   if (punit) {
     gtk_pixcomm_clear(GTK_PIXCOMM(w), FALSE);
-    put_unit_gpixmap(punit, GTK_PIXCOMM(w), 0, 0);
+    put_unit_gpixmap(punit, GTK_PIXCOMM(w));
   } else {
     gtk_pixcomm_clear(GTK_PIXCOMM(w), TRUE);
   }

@@ -115,7 +115,8 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite);
 static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
-				     int x, int y, struct Sprite *ssprite);
+				     int canvas_x, int canvas_y,
+				     struct Sprite *ssprite);
 static void show_city_descriptions(void);
 static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 			    int canvas_x, int canvas_y);
@@ -135,8 +136,6 @@ static void really_draw_segment(int src_x, int src_y, int dir,
 #else
 static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y, int dir);
 #endif
-static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
-				     int x, int y, struct Sprite *ssprite);
 static void show_city_descriptions(void);
 
 /* the intro picture is held in this pixmap, which is scaled to
@@ -1937,29 +1936,26 @@ void put_city_tile_output(GdkDrawable *pm, int canvas_x, int canvas_y,
 /**************************************************************************
 ...
 **************************************************************************/
-void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
+void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
   struct Sprite *sprites[40];
   int count = fill_unit_sprite_array(sprites, punit);
 
-  if(count)
-  {
+  if (count) {
     int i;
 
-    if(!sprites[0])
-    {
+    if (!sprites[0]) {
       gtk_pixcomm_fill(p,
 		       colors_standard[player_color(get_player(punit->owner))],
 		       FALSE);
     }
 
-    for(i=0;i<count;i++)
-    {
-      if(sprites[i])
-        put_overlay_tile_gpixmap(p, xtile, ytile,sprites[i]);
+    for (i=0;i<count;i++) {
+      if (sprites[i])
+        put_overlay_tile_gpixmap(p, 0, 0, sprites[i]);
     }
   }
-  
+
   gtk_pixcomm_changed(GTK_PIXCOMM(p));
 }
 
@@ -1977,11 +1973,11 @@ void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
  
   /* draw overlay pixmaps */
   if (punit->upkeep > 0)
-    put_overlay_tile_gpixmap(p, 0, 1, sprites.upkeep.shield);
+    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.shield);
   if (upkeep_food > 0)
-    put_overlay_tile_gpixmap(p, 0, 1, sprites.upkeep.food[upkeep_food-1]);
+    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.food[upkeep_food-1]);
   if (unhappy > 0)
-    put_overlay_tile_gpixmap(p, 0, 1, sprites.upkeep.unhappy[unhappy-1]);
+    put_overlay_tile_gpixmap(p, 0, NORMAL_TILE_HEIGHT, sprites.upkeep.unhappy[unhappy-1]);
 }
 
 /**************************************************************************
@@ -2067,13 +2063,13 @@ void pixmap_frame_tile_red(GdkDrawable *pm, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-static void put_overlay_tile_gpixmap(GtkPixcomm *p, int x, int y,
+static void put_overlay_tile_gpixmap(GtkPixcomm *p, int canvas_x, int canvas_y,
 				     struct Sprite *ssprite)
 {
   if (!ssprite)
     return;
 
-  gtk_pixcomm_copyto (p, ssprite, x*UNIT_TILE_WIDTH, y*UNIT_TILE_HEIGHT,
+  gtk_pixcomm_copyto (p, ssprite, canvas_x, canvas_y,
 		FALSE);
 }
 
