@@ -33,6 +33,7 @@
 #include "helpdlg.h"
 #include "mem.h"
 #include "packets.h"
+#include "support.h"
 #include "worklist.h"
 
 #include "clinet.h"
@@ -107,7 +108,7 @@ static void worklist_report_insert( struct worklist_report_dialog **ppdialog)
   /* Validate this slot. */
   init_worklist(&packet.worklist);
   packet.worklist.is_valid = 1;
-  strcpy(packet.worklist.name, _("empty worklist"));
+  sz_strlcpy(packet.worklist.name, _("empty worklist"));
   packet.wl_idx = j;
 
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
@@ -215,8 +216,7 @@ static void worklist_report_rename( struct worklist_report_dialog **ppdialog)
   packet.wl_idx = selection;
   copy_worklist(&packet.worklist, 
 		&pdialog->pplr->worklists[selection]);
-  strncpy(packet.worklist.name, getstring(pdialog->name_string), MAX_LEN_NAME);
-  packet.worklist.name[MAX_LEN_NAME-1] = '\0';
+  sz_strlcpy(packet.worklist.name, getstring(pdialog->name_string));
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_WORKLIST);
 }
 

@@ -84,20 +84,17 @@ HOOKPROTONH(cityrep_display, int, char **array, struct city *pcity)
       if(pcity)
       {
         if((text = city_report_specs[i].func(pcity)))
-        {
-          strncpy(buf[j], text, 63);
-          buf[j][63] = 0;
-        }
+          sz_strlcpy(buf[j], text);
       }
       else /* the header */
       {
         if(city_report_specs[i].title1)
         {
-          strcpy(buf[j], city_report_specs[i].title1);
-          strcat(buf[j], " ");
+          sz_strlcpy(buf[j], city_report_specs[i].title1);
+          sz_strlcat(buf[j], " ");
         }
         if(city_report_specs[i].title2)
-          strcat(buf[j], city_report_specs[i].title2);
+          sz_strlcat(buf[j], city_report_specs[i].title2);
       }
       array[j] = buf[j];
       ++j;

@@ -37,6 +37,7 @@
 #include "registry.h"
 #include "shared.h"
 #include "support.h"
+#include "version.h"
 
 #include "console.h"
 #include "gamehand.h"

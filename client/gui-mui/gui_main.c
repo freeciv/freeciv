@@ -54,6 +54,7 @@
 #include "fcintl.h"
 #include "mem.h"
 #include "netintf.h"
+#include "support.h"
 #include "version.h"
 
 #include "chatline.h"
@@ -1275,28 +1276,35 @@ void update_menus(void) /* from menu.c */
       tinfo = get_tile_type(ttype);
       if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype))
       {
-	sprintf(irrtext, chgfmt, (get_tile_type(tinfo->irrigation_result))->terrain_name);
+	my_snprintf(irrtext, sizeof(irrtext), chgfmt, (get_tile_type(tinfo->irrigation_result))->terrain_name);
       }
       else if ((map_get_tile(punit->x, punit->y)->special & S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
       {
-	strcpy(irrtext, _("Build Farmland"));
+	sz_strlcpy(irrtext, _("Build Farmland"));
       }
       else
-	strcpy(irrtext, _("Build Irrigation"));
+      {
+        sz_strlcpy(irrtext, _("Build Irrigation"));
+      }
 
       if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
       {
-	sprintf(mintext, chgfmt, (get_tile_type(tinfo->mining_result))->terrain_name);
+	my_snprintf(mintext, sizeof(mintext), chgfmt, (get_tile_type(tinfo->mining_result))->terrain_name);
       }
       else
-	strcpy(mintext, _("Build Mine"));
+      {
+        sz_strlcpy(mintext, _("Build Mine"));
+      }
+
       if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
       {
-	sprintf(transtext, chgfmt, (get_tile_type(tinfo->transform_result))->terrain_name);
+	my_snprintf(transtext, sizeof(transtext), chgfmt, (get_tile_type(tinfo->transform_result))->terrain_name);
       }
       else
-	strcpy(transtext, _("Transform terrain"));
+      {
+        sz_strlcpy(transtext, _("Transform terrain"));
+      }
 
       if (map_get_tile(punit->x, punit->y)->special & S_ROAD)
       {

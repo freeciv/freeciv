@@ -474,75 +474,75 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
     {
       if (which == 20000)
       {
-	strcpy(name, _("\33u\338Units\33n"));
+	sz_strlcpy(name, _("\33u\338Units\33n"));
 	info[0] = cost[0] = rounds[0] = 0;
       }
       else
       {
 	if (which == 20001)
 	{
-	  strcpy(name, _("\33u\338Improvements\33n"));
+	  sz_strlcpy(name, _("\33u\338Improvements\33n"));
 	  info[0] = cost[0] = rounds[0] = 0;
 	}
 	else
 	{
 	  /* Unit */
 	  which -= 10000;
-	  strcpy(name, unit_name(which));
+	  sz_strlcpy(name, unit_name(which));
 
 	  {
 	    /* from unit.h get_unit_name() */
 	    struct unit_type *ptype;
 	    ptype = get_unit_type(which);
 	    if (ptype->fuel)
-	      sprintf(info, "%d/%d/%d(%d)", ptype->attack_strength,
+	      my_snprintf(info, sizeof(info), "%d/%d/%d(%d)", ptype->attack_strength,
 		      ptype->defense_strength,
 		ptype->move_rate / 3, (ptype->move_rate / 3) * ptype->fuel);
 	    else
-	      sprintf(info, "%d/%d/%d", ptype->attack_strength,
+	      my_snprintf(info, sizeof(info), "%d/%d/%d", ptype->attack_strength,
 		      ptype->defense_strength, ptype->move_rate / 3);
 
 	  }
 
-	  sprintf(cost, "%d", get_unit_type(which)->build_cost);
-	  sprintf(rounds, "%d", city_turns_to_build(pcity, which, TRUE));
+	  my_snprintf(cost, sizeof(cost), "%d", get_unit_type(which)->build_cost);
+	  my_snprintf(rounds, sizeof(rounds), "%d", city_turns_to_build(pcity, which, TRUE));
 	}
       }
     }
     else
     {
       which--;
-      strcpy(name, get_improvement_type(which)->name);
+      sz_strlcpy(name, get_improvement_type(which)->name);
       info[0] = 0;
 
       {
 	/* from city.c get_impr_name_ex() */
 	if (wonder_replacement(pcity, which))
-	{
-	  strcpy(info, "*");
+        {
+          sz_strlcpy(info, "*");
 	}
 	else
 	{
 	  if (is_wonder(which))
 	  {
-	    strcpy(info, _("Wonder"));
+	    sz_strlcpy(info, _("Wonder"));
 	    if (game.global_wonders[which])
-	      strcpy(info, _("Built"));
+	      sz_strlcpy(info, _("Built"));
 	    if (wonder_obsolete(which))
-	      strcpy(info, _("Obsolete"));
+	      sz_strlcpy(info, _("Obsolete"));
 	  }
 	}
       }
 
       if (which != B_CAPITAL)
       {
-	sprintf(cost, "%d", get_improvement_type(which)->build_cost);
-	sprintf(rounds, "%d", city_turns_to_build(pcity, which, FALSE));
+	my_snprintf(cost, sizeof(cost), "%d", get_improvement_type(which)->build_cost);
+	my_snprintf(rounds, sizeof(rounds), "%d", city_turns_to_build(pcity, which, FALSE));
       }
       else
       {
-	strcpy(cost, "--");
-	strcpy(rounds, "--");
+	sz_strlcpy(cost, "--");
+	sz_strlcpy(rounds, "--");
       }
     }
     *array++ = name;
@@ -575,8 +575,8 @@ HOOKPROTO(city_imprv_display, int, char **array, APTR msg)
   {
     struct city_dialog *pdialog = (struct city_dialog *) hook->h_Data;
     which--;
-    sprintf(name, "%s", get_impr_name_ex(pdialog->pcity, which));
-    sprintf(cost, "%d", improvement_upkeep(pdialog->pcity, which));
+    my_snprintf(name, sizeof(name), "%s", get_impr_name_ex(pdialog->pcity, which));
+    my_snprintf(cost, sizeof(cost), "%d", improvement_upkeep(pdialog->pcity, which));
     *array++ = name;
     *array = cost;
   }
@@ -943,7 +943,7 @@ static void city_buy(struct city_dialog **ppdialog)
 
   if (game.player_ptr->economic.gold >= value)
   {
-    sprintf(buf, _("Buy %s for %d gold?\nTreasury contains %d gold."),
+    my_snprintf(buf, sizeof(buf), _("Buy %s for %d gold?\nTreasury contains %d gold."),
 	    name, value, game.player_ptr->economic.gold);
 
     popup_message_dialog(pdialog->wnd, _("Buy It!"), buf,
@@ -953,7 +953,7 @@ static void city_buy(struct city_dialog **ppdialog)
   }
   else
   {
-    sprintf(buf, _("%s costs %d gold.\nTreasury contains %d gold."),
+    my_snprintf(buf, sizeof(buf), _("%s costs %d gold.\nTreasury contains %d gold."),
 	    name, value, game.player_ptr->economic.gold);
 
     popup_message_dialog(pdialog->wnd, _("Buy It!"), buf,

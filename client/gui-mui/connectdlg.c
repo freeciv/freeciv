@@ -25,6 +25,7 @@
 
 #include "fcintl.h"
 #include "mem.h"
+#include "support.h"
 #include "version.h"
 
 #include "connectdlg.h"
@@ -56,8 +57,8 @@ static void connect_connect(void)
 {
   char errbuf [512];
 
-  strcpy(name, getstring(connect_name_string));
-  strcpy(server_host, getstring(connect_host_string));
+  mystrlcpy(name, getstring(connect_name_string), 512);
+  mystrlcpy(server_host, getstring(connect_host_string), 512);
   server_port = xget(connect_port_string, MUIA_String_Integer);
   
   if(connect_to_server(name, server_host, server_port,

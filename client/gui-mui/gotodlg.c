@@ -33,6 +33,7 @@
 #include "map.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 #include "unit.h"
 
 #include "clinet.h"
@@ -60,9 +61,9 @@ STATIC Object *goto_airlift_button;
 HOOKPROTONH(goto_cities_display, void, char **array, struct city *pcity)
 {
   static char name[80];
-  strcpy(name, pcity->name);
+  sz_strlcpy(name, pcity->name);
   if (pcity->improvements[B_AIRPORT] == 1)
-    strcat(name, "(A)");
+    sz_strlcat(name, "(A)");
   *array = name;
 }
 

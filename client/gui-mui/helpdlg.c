@@ -400,7 +400,7 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     return;
   }
   
-  sprintf(label,"%s:%d",advances[tech].name,
+  my_snprintf(label,sizeof(label), "%s:%d",advances[tech].name,
                         tech_goal_turns(game.player_ptr,tech));
 
   o = ColorTextObject,
@@ -939,7 +939,7 @@ static void help_update_government(const struct help_item *pitem,
 
   if (gov == NULL)
   {
-    strcat(buf, pitem->text);
+    sz_strlcat(buf, pitem->text);
   }
   else
   {

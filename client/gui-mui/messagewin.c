@@ -34,6 +34,7 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "citydlg.h"
@@ -114,7 +115,7 @@ HOOKPROTONHNO(mes_construct, struct message_entry *, struct message_entry *entry
     *newentry = *entry;
 
     if ((newentry->message = (char *) AllocVec(len + 1, 0)))
-      strcpy(newentry->message, entry->message);
+      sz_strlcpy(newentry->message, entry->message);
   }
   return newentry;
 }

@@ -609,7 +609,7 @@ STATIC VOID worklist_ok(struct Worklist_Data **pdata)
     wl.wlids[0] = wl.wlids[1] = 0;
   }
 
-  strcpy(wl.name, data->worklist->name);
+  sz_strlcpy(wl.name, data->worklist->name);
   wl.is_valid = data->worklist->is_valid;
   
   /* Invoke the dialog's parent-specified callback */

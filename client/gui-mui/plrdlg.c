@@ -122,7 +122,7 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
     const struct player_diplstate *pds;
 
     if (game.players[i].nturns_idle > 3)
-      sprintf(idlebuf, _("(idle %d turns)"), game.players[i].nturns_idle - 1);
+      my_snprintf(idlebuf, sizeof(idlebuf), _("(idle %d turns)"), game.players[i].nturns_idle - 1);
     else
       idlebuf[0] = '\0';
 
@@ -131,26 +131,26 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
       if (game.players[i].is_connected)
       {
 	if (game.players[i].turn_done)
-	  strcpy(statebuf, _("done"));
+	  sz_strlcpy(statebuf, _("done"));
 	else
-	  strcpy(statebuf, _("moving"));
+	  sz_strlcpy(statebuf, _("moving"));
       }
       else
 	statebuf[0] = '\0';
     }
     else
-      strcpy(statebuf, _("R.I.P"));
+      sz_strlcpy(statebuf, _("R.I.P"));
 
     if (game.players[i].ai.control)
-      sprintf(namebuf, "*%-15s", game.players[i].name);
+      my_snprintf(namebuf, sizeof(namebuf), "*%-15s", game.players[i].name);
     else
-      sprintf(namebuf, "%-16s", game.players[i].name);
+      my_snprintf(namebuf, sizeof(namebuf), "%-16s", game.players[i].name);
 
 
 
     /* text for diplstate type and turns -- not applicable if this is me */
     if (i == game.player_idx) {
-      strcpy(dsbuf, "-");
+      sz_strlcpy(dsbuf, "-");
     } else {
       pds = player_get_diplstate(game.player_idx, i);
       if (pds->type == DS_CEASEFIRE) {

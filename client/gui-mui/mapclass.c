@@ -724,7 +724,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
     if (obj)
     {
       Object *text_obj;
-      sprintf(s, _("Terrain: %s"), map_get_tile_info_text(xtile, ytile));
+      my_snprintf(s, sizeof(s), _("Terrain: %s"), map_get_tile_info_text(xtile, ytile));
       text_obj = TextObject, MUIA_Text_Contents, s, End;
       DoMethod(group, OM_ADDMEMBER, text_obj);
 
@@ -736,7 +736,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 
       if ((pcity = map_get_city(xtile, ytile)))
       {
-	sprintf(s, _("City: %s(%s)"), pcity->name, get_nation_name(game.players[pcity->owner].nation));
+	my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name, get_nation_name(game.players[pcity->owner].nation));
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 
 	if(text_obj)
@@ -751,8 +751,8 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 
       if (get_tile_infrastructure_set(ptile))
       {
-	strcpy(s, _("Infrastructure: "));
-	strcat(s, map_get_infrastructure_text(ptile->special));
+	sz_strlcpy(s, _("Infrastructure: "));
+	sz_strlcat(s, map_get_infrastructure_text(ptile->special));
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 	DoMethod(group, OM_ADDMEMBER, text_obj);
       }
@@ -767,9 +767,9 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	  struct city *pcity;
 	  pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
 	  if (pcity)
-	    sprintf(cn, "/%s", pcity->name);
+	    my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
 	}
-	sprintf(s, _("Unit: %s(%s%s)"), ptype->name, get_nation_name(game.players[punit->owner].nation), cn);
+	my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name, get_nation_name(game.players[punit->owner].nation), cn);
 
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 	DoMethod(group, OM_ADDMEMBER, text_obj);
@@ -778,9 +778,9 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	{
 	  char uc[64] = "";
 	  if (unit_list_size(&ptile->units) >= 2)
-	    sprintf(uc, _("  (%d more)"), unit_list_size(&ptile->units) - 1);
+	    my_snprintf(uc, sizeof(uc), _("  (%d more)"), unit_list_size(&ptile->units) - 1);
 
-	  sprintf(s, _("A:%d D:%d FP:%d HP:%d/%d%s%s"), ptype->attack_strength,
+	  my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d/%d%s%s"), ptype->attack_strength,
 		  ptype->defense_strength, ptype->firepower, punit->hp,
 		  ptype->hp, punit->veteran ? " V" : "", uc);
 
@@ -793,7 +793,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	}
 	else
 	{
-	  sprintf(s, _("A:%d D:%d FP:%d HP:%d0%%"), ptype->attack_strength,
+	  my_snprintf(s, sizeof(s), _("A:%d D:%d FP:%d HP:%d0%%"), ptype->attack_strength,
 		  ptype->defense_strength, ptype->firepower,
 		  (punit->hp * 100 / ptype->hp + 9) / 10);
 	}
@@ -2061,11 +2061,11 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	focus = get_unit_in_focus();
 
 	if (pcity)
-	  sprintf(title, _("City %s"), pcity->name);
+	  my_snprintf(title, sizeof(title), _("City %s"), pcity->name);
 	else if (punit)
-	  sprintf(title, _("Unit %s"), unit_name(punit->type));
+	  my_snprintf(title, sizeof(title), _("Unit %s"), unit_name(punit->type));
 	else
-	  sprintf(title, _("Tile %s"), map_get_tile_info_text(x, y));
+	  my_snprintf(title, sizeof(title), _("Tile %s"), map_get_tile_info_text(x, y));
 
 	context_menu = MenustripObject,
 	  Child, menu_title = MenuObjectT(title),
@@ -2134,24 +2134,24 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  if ((map_get_tile(punit->x, punit->y)->special & S_IRRIGATION) &&
 		      player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
 		  {
-		    strcpy(irrtext, _("Build Farmland"));
+		    sz_strlcpy(irrtext, _("Build Farmland"));
 		  }
 		  else
-		    strcpy(irrtext, _("Build Irrigation"));
+		    sz_strlcpy(irrtext, _("Build Irrigation"));
 		  Map_InsertCommand(&list, irrtext, PACK_USERDATA(punit, MENU_ORDER_IRRIGATE));
 		}
 
 		if (can_unit_do_activity(punit, ACTIVITY_MINE))
 		{
 		  static char mintext[64];
-		  strcpy(mintext, _("Build Mine"));
+		  sz_strlcpy(mintext, _("Build Mine"));
 		  Map_InsertCommand(&list, mintext, PACK_USERDATA(punit, MENU_ORDER_MINE));
 		}
 
 		if (can_unit_do_activity(punit, ACTIVITY_TRANSFORM))
 		{
 		  static char transtext[64];
-		  strcpy(transtext, _("Transform terrain"));
+		  sz_strlcpy(transtext, _("Transform terrain"));
 		  Map_InsertCommand(&list, transtext, PACK_USERDATA(punit, MENU_ORDER_TRANSFORM));
 		}
 

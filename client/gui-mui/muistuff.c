@@ -27,6 +27,8 @@
 #include <proto/exec.h>
 #include <proto/muimaster.h>
 
+#include "support.h"
+
 #include "muistuff.h"
 
 
@@ -104,11 +106,17 @@ struct MinNode *List_Find(APTR list, ULONG num)
 *****************************************************************/
 STRPTR StrCopy(const STRPTR str)
 {
-  STRPTR dest;
-  if (!str)
-    return 0;
-  dest = (STRPTR) AllocVec(strlen(str) + 1, 0);
-  strcpy(dest, str);
+  STRPTR dest = 0;
+
+  if(str)
+  {
+    LONG i;
+
+    i = strlen(str) + 1;
+    if((dest = (STRPTR) AllocVec(i, 0)))
+      CopyMem(str, dest, i);
+  }
+
   return dest;
 }
 
@@ -160,7 +168,7 @@ VOID settext(Object * obj, STRPTR text)
 VOID vsettextf(Object * obj, STRPTR format, APTR args)
 {
   char buf[1024];
-  vsprintf(buf, format, args);
+  my_vsnprintf(buf, sizeof(buf), format, args);
   settext(obj, buf);
 }
 

@@ -1601,8 +1601,7 @@ static void nations_ok(void)
   packet.is_male = !selected_sex;
   packet.city_style = styles_basic_index[selected_style];
 
-  strncpy(packet.name, (char*)s, MAX_LEN_NAME);
-  packet.name[MAX_LEN_NAME-1]='\0';
+  sz_strlcpy(packet.name, (char*)s);
   
   if(!get_sane_name(packet.name)) {
     append_output_window(_("You must type a legal name."));

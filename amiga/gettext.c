@@ -3,24 +3,14 @@ It may not work with other programs, as the functions do not do the
 stuff of gettext package. Also client and server cannot use one data file,
 but need to load it individually.
 
-They do:
-bindtextdomain loads the locale file.
-gettext returns an text from locale file.
-
-All the stuff around is not implemented!
-
-This is because freeciv uses following to use NLS:
-
-  setlocale (LC_ALL, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-
 And I did not want to port gettext completely, which would have been
 much more work!
 
 Modification history;
 08.08.2000 : Dirk Stöcker <stoecker@amigaworld.com>
   Initial version
+27.08.2000 : Dirk Stöcker <stoecker@amigaworld.com>
+  fixes to match changed calling mechanism
 */
 
 #include <stdio.h>
@@ -275,4 +265,9 @@ char *gettext(const char *msgid)
   }
 
   return res;
+}
+
+char *setlocale(int a, char *b)
+{
+  return "C";
 }

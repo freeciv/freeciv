@@ -33,6 +33,7 @@
 #include "government.h"
 #include "packets.h"
 #include "shared.h"
+#include "support.h"
 
 #include "cityrep.h"
 #include "clinet.h"
@@ -125,7 +126,7 @@ char *get_report_title(char *report_name)
 {
   char buf[512];
 
-  sprintf(buf, _("%s\n%s of the %s\n%s %s: %s"),
+  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
 	  report_name,
 	  get_government_name(game.player_ptr->government),
 	  get_nation_name_plural(game.player_ptr->nation),
@@ -293,16 +294,6 @@ void popup_science_dialog(int make_modal)
       goal_entries = help_goal_entries;
     }
   }
-
-/*  else
-   {
-   sprintf(text, _("Researching Future Tech. %d"),
-   ((game.player_ptr->future_tech)+1));
-
-   item = gtk_menu_item_new_with_label(text);
-   gtk_menu_append(GTK_MENU(popupmenu), item);
-   } */
-
 
   if (!science_wnd)
   {
@@ -490,9 +481,9 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *en
     int j = entry->type;
     int cost = entry->count * improvement_upkeep(pcity, j);
 
-    sprintf(count, "%5d", entry->count);
-    sprintf(coststr, "%5d", improvement_upkeep(pcity, j));
-    sprintf(utotal, "%6d", cost);
+    my_snprintf(count, sizeof(count), "%5d", entry->count);
+    my_snprintf(coststr, sizeof(coststr), "%5d", improvement_upkeep(pcity, j));
+    my_snprintf(utotal, sizeof(utotal), "%6d", cost);
 
     *array++ = get_improvement_name(j);
     *array++ = count;
@@ -554,11 +545,11 @@ static void trade_sell(int *data)
 
     if (count)
     {
-      sprintf(str, _("Sold %d %s for %d gold"), count, get_improvement_name(i), gold);
+      my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"), count, get_improvement_name(i), gold);
     }
     else
     {
-      sprintf(str, _("No %s could be sold"), get_improvement_name(i));
+      my_snprintf(str, sizeof(str), _("No %s could be sold"), get_improvement_name(i));
     }
     popup_notify_dialog(_("Sell-Off:"), _("Results"), str);
   }
@@ -753,11 +744,11 @@ HOOKPROTONH(actunit_units_display, void, char **array, struct actunit_units_entr
     static char building_count[16];
     int i = entry->type;
 
-    sprintf(active_count, "%5d", entry->active_count);
-    sprintf(upkeep_shield, "%5d", entry->upkeep_shield);
-    sprintf(upkeep_food, "%5d", entry->upkeep_food);
-    sprintf(upkeep_gold, "%5d", entry->upkeep_gold);
-    sprintf(building_count, "%5d", entry->building_count);
+    my_snprintf(active_count, sizeof(active_count), "%5d", entry->active_count);
+    my_snprintf(upkeep_shield, sizeof(upkeep_shield), "%5d", entry->upkeep_shield);
+    my_snprintf(upkeep_food, sizeof(upkeep_food), "%5d", entry->upkeep_food);
+    my_snprintf(upkeep_gold, sizeof(upkeep_gold), "%5d", entry->upkeep_gold);
+    my_snprintf(building_count, sizeof(building_count), "%5d", entry->building_count);
 
     *array++ = unit_name(i);
     *array++ = can_upgrade_unittype(game.player_ptr, i) != -1 ? "*" : "-";
@@ -822,7 +813,7 @@ static void actunit_upgrade(void)
     {
       char buf[512];
 
-      sprintf(buf,
+      my_snprintf(buf, sizeof(buf),
 	      _("Upgrade as many %s to %s as possible for %d gold each?\n"
 	      "Treasury contains %d gold."),
 	      unit_types[ut1].name, unit_types[ut2].name,
