@@ -1363,6 +1363,16 @@ static void load_ruleset_terrain(struct section_file *file)
   }
   terrain_control.fortress_defense_bonus =
     secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");
+
+  game.watchtower_extra_vision = 
+    secfile_lookup_int_default(file, GAME_DEFAULT_WATCHTOWER_EXTRA_VISION,
+                               "parameters.fortress_extra_vision");
+  if (game.watchtower_extra_vision < GAME_MIN_WATCHTOWER_EXTRA_VISION
+      || game.watchtower_extra_vision > GAME_MAX_WATCHTOWER_EXTRA_VISION) {
+    freelog(LOG_FATAL, _("Fortress vision range set to illegal value."));
+    exit(EXIT_FAILURE);
+  }
+
   terrain_control.road_superhighway_trade_bonus =
     secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");
   output_type_iterate(o) {

@@ -3245,23 +3245,16 @@ bool execute_orders(struct unit *punit)
 }
 
 /**************************************************************************
-...
+  Get the vision range of a unit standing inside a 'watchtower'.
 **************************************************************************/
 int get_watchtower_vision(struct unit *punit)
 {
-  int base_vision = unit_type(punit)->vision_range;
-
-  assert(base_vision > 0);
-  assert(game.watchtower_vision > 0);
-  assert(game.watchtower_extra_vision >= 0);
-
-  return MAX(base_vision,
-	     MAX(game.watchtower_vision,
-		 base_vision + game.watchtower_extra_vision));
+  return (unit_type(punit)->vision_range + game.watchtower_extra_vision);
 }
 
 /**************************************************************************
-...
+  Would a unit gain extra vision range due to a 'watchtower', if there
+  was one present?
 **************************************************************************/
 bool unit_profits_of_watchtower(struct unit *punit)
 {

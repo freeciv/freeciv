@@ -165,7 +165,6 @@ struct civ_game {
   int terrain_count;
 
   int watchtower_extra_vision;
-  int watchtower_vision;
   int allowed_city_names;
 
   int borders;		/* distance of border from city; 0=disabled. */
@@ -504,13 +503,9 @@ extern bool is_server;
 #define GAME_MAX_REPUTATION 1000
 #define GAME_REPUTATION_INCR 2
 
-#define GAME_DEFAULT_WATCHTOWER_VISION 2
-#define GAME_MIN_WATCHTOWER_VISION 1
-#define GAME_MAX_WATCHTOWER_VISION 3
-
-#define GAME_DEFAULT_WATCHTOWER_EXTRA_VISION 0
+#define GAME_DEFAULT_WATCHTOWER_EXTRA_VISION 2
 #define GAME_MIN_WATCHTOWER_EXTRA_VISION 0
-#define GAME_MAX_WATCHTOWER_EXTRA_VISION 2
+#define GAME_MAX_WATCHTOWER_EXTRA_VISION 4
 
 #define GAME_DEFAULT_ALLOWED_CITY_NAMES 1
 #define GAME_MIN_ALLOWED_CITY_NAMES 0

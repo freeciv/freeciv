@@ -626,31 +626,6 @@ struct settings_s settings[] = {
 	  GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
 	  GAME_DEFAULT_KILLCITIZEN)
 
-  GEN_INT("wtowervision", game.watchtower_vision,
-	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Range of vision for units in a fortress"),
-	  N_("If set to 1, it has no effect. "
-	     "If 2 or larger, the vision range of a unit inside a "
-	     "fortress is set to this value, if the necessary invention "
-	     "has been made. This invention is determined by the flag "
-	     "'Watchtower' in the techs ruleset. See also wtowerevision."), 
-	  NULL, 
-	  GAME_MIN_WATCHTOWER_VISION, GAME_MAX_WATCHTOWER_VISION, 
-	  GAME_DEFAULT_WATCHTOWER_VISION)
-
-  GEN_INT("wtowerevision", game.watchtower_extra_vision,
-	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Extra vision range for units in a fortress"),
-	  N_("If set to 0, it has no "
-	     "effect. If larger than 0, the vision range of a unit is "
-	     "raised by this value, if the unit is inside a fortress "
-	     "and the invention determined by the flag 'Watchtower' "
-	     "in the techs ruleset has been made. Always the larger "
-	     "value of wtowervision and wtowerevision will be used. "
-	     "Also see wtowervision."), NULL, 
-	  GAME_MIN_WATCHTOWER_EXTRA_VISION, GAME_MAX_WATCHTOWER_EXTRA_VISION, 
-	  GAME_DEFAULT_WATCHTOWER_EXTRA_VISION)
-
   GEN_INT("borders", game.borders,
 	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("National borders radius"),

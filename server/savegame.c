@@ -3204,11 +3204,8 @@ void game_load(struct section_file *file)
     if (has_capability("watchtower", savefile_options)) {
       game.watchtower_extra_vision =
 	  secfile_lookup_int(file, "game.watchtower_extra_vision");
-      game.watchtower_vision =
-	  secfile_lookup_int(file, "game.watchtower_vision");
     } else {
       game.watchtower_extra_vision = 0;
-      game.watchtower_vision = 1;
     }
 
     sz_strlcpy(game.save_name,
@@ -3740,7 +3737,6 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.borders, "game.borders");
   secfile_insert_bool(file, game.happyborders, "game.happyborders");
   secfile_insert_int(file, game.diplomacy, "game.diplomacy");
-  secfile_insert_int(file, game.watchtower_vision, "game.watchtower_vision");
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
   secfile_insert_int(file, game.allowed_city_names, "game.allowed_city_names");
 
