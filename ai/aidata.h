@@ -142,6 +142,9 @@ struct ai_data {
     } govt;
     int revolution;   /* The best gov of the now available */
   } goal;
+  
+  /* If the ai doesn't want/need any research */
+  bool wants_no_science;
 };
 
 void ai_data_init(struct player *pplayer);

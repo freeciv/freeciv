@@ -792,5 +792,5 @@ bool ai_assess_military_unhappiness(struct city *pcity,
 **************************************************************************/
 bool ai_wants_no_science(struct player *pplayer)
 {
-  return is_future_tech(pplayer->research.researching);
+  return ai_data_get(pplayer)->wants_no_science;
 }

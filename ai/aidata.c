@@ -116,6 +116,46 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
 }
 
 /**************************************************************************
+  Check if the player still takes advantage of EFT_TECH_PARASITE.
+  Research is useless if there are still techs which may be given to the
+  player for free.
+**************************************************************************/
+static bool player_has_really_useful_tech_parasite(struct player* pplayer)
+{
+  int players_needed = get_player_bonus(pplayer, EFT_TECH_PARASITE);
+
+  if (players_needed == 0) {
+    return FALSE;
+  }
+  
+  tech_type_iterate(tech) {
+    int players_having;
+
+    if (get_invention(pplayer, tech) == TECH_KNOWN
+        || !tech_is_available(pplayer, tech)) {
+      continue;
+    }
+
+    players_having = 0;
+
+    players_iterate(aplayer) {
+      if (aplayer == pplayer || !aplayer->is_alive) {
+        continue;
+      }
+
+      if (get_invention(aplayer, tech) == TECH_KNOWN
+          || aplayer->research.researching == tech) {
+	players_having++;
+	if (players_having >= players_needed) {
+	  return TRUE;
+	}
+      }
+    } players_iterate_end;
+  } tech_type_iterate_end;
+  return FALSE;
+}
+
+/**************************************************************************
   Analyze rulesets. Must be run after rulesets after loaded, unlike
   _init, which must be run before savegames are loaded, which is usually
   before rulesets.
@@ -409,6 +449,14 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       *punit->ai.cur_pos = punit->tile;
     } unit_list_iterate_end;
   } players_iterate_end;
+  
+  /* Research want */
+  if (is_future_tech(pplayer->research.researching)
+      || player_has_really_useful_tech_parasite(pplayer)) {
+    ai->wants_no_science = TRUE;
+  } else {
+    ai->wants_no_science = FALSE;
+  }
 }
 
 /**************************************************************************
@@ -494,4 +542,5 @@ void ai_data_init(struct player *pplayer)
     ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;
     ai->diplomacy.player_intel[i].warned_about_space = 0;
   }
+  ai->wants_no_science = FALSE;
 }
