@@ -1105,7 +1105,7 @@ class Packet:
 
         result='''%(receive_prototype)s
 {
-  assert(pc->phs.variant);
+  assert(pc->phs.variant != NULL);
 %(restrict)s  ensure_valid_variant_%(name)s(pc);
 
   switch(pc->phs.variant[%(type)s]) {
@@ -1135,7 +1135,7 @@ class Packet:
 
         result='''%(send_prototype)s
 {
-  assert(pc->phs.variant);
+  assert(pc->phs.variant != NULL);
 %(restrict)s  ensure_valid_variant_%(name)s(pc);
 
   switch(pc->phs.variant[%(type)s]) {

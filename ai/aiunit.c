@@ -2415,7 +2415,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       /* Cannot select a passenger-in-charge */
       break;
     }
-  } while (punit->occupy);
+  } while (punit->occupy != 0);
 
   /* Not carrying anyone, even the ferryman */
 

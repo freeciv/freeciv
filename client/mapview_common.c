@@ -660,7 +660,7 @@ void put_unit(struct unit *punit, bool stacked, bool backdrop,
     }
   }
 
-  if (punit->occupy) {
+  if (punit->occupy != 0) {
     canvas_put_sprite(pcanvas, canvas_x, canvas_y,
 		      sprites.unit.stack,
 		      unit_offset_x, unit_offset_y, unit_width, unit_height);
@@ -985,7 +985,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
 	   || dir == DIR8_NORTH || dir == DIR8_SOUTHWEST)
 	  && get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
 				  &start_x, &start_y, &end_x, &end_y)
-	  && tile_get_known(adjc_x, adjc_y)
+	  && tile_get_known(adjc_x, adjc_y) != TILE_UNKNOWN
 	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
 	if (this_owner) {
 	  canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
@@ -1007,7 +1007,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
     adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
       if (get_tile_boundaries(dir, 0, BORDER_WIDTH, draw,
 			      &start_x, &start_y, &end_x, &end_y)
-	  && tile_get_known(adjc_x, adjc_y)
+	  && tile_get_known(adjc_x, adjc_y) != TILE_UNKNOWN
 	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
 	canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 			canvas_x + start_x, canvas_y + start_y,
@@ -1029,7 +1029,7 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
   enum color_std bg_color;
   bool is_real = normalize_map_pos(&map_x, &map_y);
 
-  if (is_real && tile_get_known(map_x, map_y)) {
+  if (is_real && tile_get_known(map_x, map_y) != TILE_UNKNOWN) {
     int count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
 				       map_x, map_y, citymode);
     int i = 0;
@@ -1067,7 +1067,7 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
       enum direction8 dir;
 
       for (dir = 0; dir < 8; dir++) {
-	if (get_drawn(map_x, map_y, dir)) {
+	if (get_drawn(map_x, map_y, dir) != 0) {
 	  draw_segment(map_x, map_y, dir);
 	}
       }
@@ -1078,7 +1078,7 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
       int line_x = map_x - 1, line_y = map_y;
 
       if (normalize_map_pos(&line_x, &line_y)
-	  && get_drawn(line_x, line_y, DIR8_NORTHEAST)) {
+	  && get_drawn(line_x, line_y, DIR8_NORTHEAST) != 0) {
 	draw_segment(line_x, line_y, DIR8_NORTHEAST);
       }
     }
@@ -1547,9 +1547,9 @@ void draw_segment(int src_x, int src_y, enum direction8 dir)
   if (is_isometric) {
     draw_segment_iso(src_x, src_y, dir);
   } else {
-    int dest_x, dest_y, is_real;
+    int dest_x, dest_y;
+    bool is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
 
-    is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
     assert(is_real);
 
     if (tile_visible_mapcanvas(src_x, src_y)) {

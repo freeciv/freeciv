@@ -141,7 +141,7 @@ void city_dialog_redraw_map(struct city *pcity,
 
       if (is_valid_city_coords(city_x, city_y)
 	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)
-	  && tile_get_known(map_x, map_y)
+	  && tile_get_known(map_x, map_y) != TILE_UNKNOWN
 	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
 	if (is_isometric) {
 	  put_one_tile_iso(pcanvas, map_x, map_y,
@@ -163,7 +163,7 @@ void city_dialog_redraw_map(struct city *pcity,
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
     int canvas_x, canvas_y;
 
-    if (tile_get_known(map_x, map_y)
+    if (tile_get_known(map_x, map_y) != TILE_UNKNOWN
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	&& pcity->city_map[x][y] == C_TILE_WORKER) {
       put_city_tile_output(pcity, x, y, pcanvas, canvas_x, canvas_y);
@@ -177,7 +177,7 @@ void city_dialog_redraw_map(struct city *pcity,
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
     int canvas_x, canvas_y;
 
-    if (tile_get_known(map_x, map_y)
+    if (tile_get_known(map_x, map_y) != TILE_UNKNOWN
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
       put_red_frame_tile(pcanvas, canvas_x, canvas_y);
@@ -404,7 +404,7 @@ void get_city_citizen_types(struct city *pcity, int index,
 void city_rotate_specialist(struct city *pcity, int citizen_index)
 {
   enum citizen_type citizens[MAX_CITY_SIZE];
-  enum citizen_type from, to;
+  enum specialist_type from, to;
 
   if (citizen_index < 0 || citizen_index >= pcity->size) {
     return;

@@ -182,7 +182,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
 **************************************************************************/
 static void eval_hunter_want(struct player *pplayer, struct city *pcity,
                              struct ai_choice *choice, int best_type,
-                             bool veteran)
+                             int veteran)
 {
   struct unit *virtualunit;
   int want = 0;
@@ -273,7 +273,7 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
       struct unit *defender;
 
       if (ptile->city
-          || target->ai.hunted & (1 << pplayer->player_no)
+          || TEST_BIT(target->ai.hunted, pplayer->player_no)
           || !is_ocean(ptile->terrain)
           || !is_sailing_unit(target)
           || !goto_is_sane(punit, target->x, target->y, TRUE)) {

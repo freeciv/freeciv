@@ -668,5 +668,5 @@ bool is_stack_vulnerable(int x, int y)
   return !(map_get_city(x, y) != NULL
            || map_has_special(x, y, S_FORTRESS)
            || map_has_special(x, y, S_AIRBASE)
-           || !(game.rgame.killstack));
+           || game.rgame.killstack == 0);
 }

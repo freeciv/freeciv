@@ -697,7 +697,7 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
       adip->love -= ai->diplomacy.love_incr;
       PLAYER_LOG(LOG_DEBUG, pplayer, ai, "Reduced love for %s (now %d) ",
                  aplayer->name, adip->love);
-    } else if (pplayer->diplstates[a].has_reason_to_cancel) {
+    } else if (pplayer->diplstates[a].has_reason_to_cancel != 0) {
       /* Provoked in time of peace */
       if (adip->love > 0) {
         PLAYER_LOG(LOG_DEBUG, pplayer, ai, "Provoked by %s! Love halved "

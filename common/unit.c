@@ -1746,7 +1746,7 @@ struct unit *find_transporter_for_unit(struct unit *pcargo, int x, int y)
     }
   } unit_list_iterate_end;
 
-  return FALSE;
+  return NULL;
 }
 
 /***************************************************************************

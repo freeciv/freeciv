@@ -127,7 +127,9 @@ static void define_tiles_within_rectangle(void)
 
       /*  For diamond shaped tiles, every other row is indented.
        */
-      if (yy % 2 ^ xx % 2)  continue;
+      if ((yy % 2 ^ xx % 2) != 0) {
+	continue;
+      }
 
       is_real = canvas_to_map_pos(&tile_x, &tile_y, x, y);
 
@@ -138,7 +140,9 @@ static void define_tiles_within_rectangle(void)
        */
       map_to_canvas_pos(&x2, &y2, tile_x, tile_y);
 
-      if (yy % 2 && (rec_corner_x % W) ^ abs(x2 % W))  continue;
+      if ((yy % 2) != 0 && ((rec_corner_x % W) ^ abs(x2 % W)) != 0) {
+	continue;
+      }
 
       /*  Tile passed all tests; process it.
        */
@@ -199,7 +203,7 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
 
   /*  Adjust width, height if mapview has recentered.
    */
-  if (diff_x || diff_y) {
+  if (diff_x != 0 || diff_y != 0) {
 
     if (is_isometric) {
       rec_w += (diff_x - diff_y) * half_W;
