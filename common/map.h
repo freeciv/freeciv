@@ -203,7 +203,11 @@ signed short map_get_continent(int x, int y);
 void initialize_move_costs(void);
 void reset_move_costs(int x, int y);
 
+#ifdef DEBUG
 #define CHECK_MAP_POS(x,y) assert(is_normal_map_pos((x),(y)))
+#else
+#define CHECK_MAP_POS(x,y) ((void)0)
+#endif
 
 #define map_adjust_x(X)            \
   ((X) < 0                         \
