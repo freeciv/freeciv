@@ -33,7 +33,7 @@ struct player *player_leading_spacerace(void)
 {
   struct player *best = NULL;
   int best_arrival = FC_INFINITY;
-  int best_state = SSHIP_NONE;
+  enum spaceship_state best_state = SSHIP_NONE;
 
   if (game.spacerace == FALSE) {
     return NULL;
