@@ -1218,21 +1218,21 @@ static int misc_panel_city_dlg_callback(struct GUI *pWidget)
   case 0x20:
     new ^= 0x20;
     new ^= 0x40;
-    pWidget->gfx = pCity_Icon->pBIG_Spec_Tax;
+    pWidget->gfx = (SDL_Surface *)get_citizen_sprite(CITIZEN_TAXMAN, 0, pCityDlg->pCity);
     pWidget->ID = MAX_ID - 0x40;
     redraw_ibutton(pWidget);
     refresh_rect(pWidget->size);
     break;
   case 0x40:
     new &= 0x1f;
-    pWidget->gfx = pCity_Icon->pBIG_Spec_Lux;
+    pWidget->gfx = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCityDlg->pCity);
     pWidget->ID = MAX_ID - 0x60;
     redraw_ibutton(pWidget);
     refresh_rect(pWidget->size);
     break;
   case 0x60:
     new |= 0x20;
-    pWidget->gfx = pCity_Icon->pBIG_Spec_Sci;
+    pWidget->gfx = (SDL_Surface *)get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCityDlg->pCity);
     pWidget->ID = MAX_ID - 0x20;
     redraw_ibutton(pWidget);
     refresh_rect(pWidget->size);
@@ -1362,16 +1362,16 @@ static void create_city_options_widget_list(struct city *pCity)
   change_ptsize16(pStr, 13);
 
   if (pCity->city_options & 0x20) {
-    pSurf = pCity_Icon->pBIG_Spec_Sci;
+    pSurf = (SDL_Surface *)get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCityDlg->pCity);
     pBuf = create_icon_button(pSurf, pStr, WF_ICON_CENTER_RIGHT);
     add_to_gui_list(MAX_ID - 0x20, pBuf);
   } else {
     if (pCity->city_options & 0x40) {
-      pSurf = pCity_Icon->pBIG_Spec_Tax;
+      pSurf = (SDL_Surface *)get_citizen_sprite(CITIZEN_TAXMAN, 0, pCityDlg->pCity);
       pBuf = create_icon_button(pSurf, pStr, WF_ICON_CENTER_RIGHT);
       add_to_gui_list(MAX_ID - 0x40, pBuf);
     } else {
-      pSurf = pCity_Icon->pBIG_Spec_Lux;
+      pSurf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCityDlg->pCity);
       pBuf = create_icon_button(pSurf, pStr, WF_ICON_CENTER_RIGHT);
       add_to_gui_list(MAX_ID - 0x60, pBuf);
     }
@@ -4412,65 +4412,46 @@ static void redraw_city_dialog(struct city *pCity)
       pCity->ppl_unhappy[4] + pCity->ppl_angry[4] +
       pCity->ppl_elvis + pCity->ppl_scientist + pCity->ppl_taxman;
 
+  pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCity);
   if (count > 13) {
-    step = (400 - pCity_Icon->pBIG_Male_Happy->w) / (12 + count - 13);
+    step = (400 - pBuf->w) / (12 + count - 13);
   } else {
-    step = pCity_Icon->pBIG_Male_Happy->w;
+    step = pBuf->w;
   }
 
   dest.y =
-      pWindow->size.y + 26 + (42 - pCity_Icon->pBIG_Male_Happy->h) / 2;
+      pWindow->size.y + 26 + (42 - pBuf->h) / 2;
   dest.x = pWindow->size.x + 227;
 
   if (pCity->ppl_happy[4]) {
-    pBuf = pCity_Icon->pBIG_Male_Happy;
     for (i = 0; i < pCity->ppl_happy[4]; i++) {
+      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_HAPPY, i, pCity);
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
-      if (pBuf == pCity_Icon->pBIG_Male_Happy) {
-	pBuf = pCity_Icon->pBIG_Female_Happy;
-      } else {
-	pBuf = pCity_Icon->pBIG_Male_Happy;
-      }
     }
   }
 
   if (pCity->ppl_content[4]) {
-    pBuf = pCity_Icon->pBIG_Male_Content;
     for (i = 0; i < pCity->ppl_content[4]; i++) {
+      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_CONTENT, i, pCity);
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
-      if (pBuf == pCity_Icon->pBIG_Male_Content) {
-	pBuf = pCity_Icon->pBIG_Female_Content;
-      } else {
-	pBuf = pCity_Icon->pBIG_Male_Content;
-      }
     }
   }
 
   if (pCity->ppl_unhappy[4]) {
-    pBuf = pCity_Icon->pBIG_Male_Unhappy;
     for (i = 0; i < pCity->ppl_unhappy[4]; i++) {
+      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_UNHAPPY, i, pCity);
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
-      if (pBuf == pCity_Icon->pBIG_Male_Unhappy) {
-	pBuf = pCity_Icon->pBIG_Female_Unhappy;
-      } else {
-	pBuf = pCity_Icon->pBIG_Male_Unhappy;
-      }
     }
   }
 
   if (pCity->ppl_angry[4]) {
-    pBuf = pCity_Icon->pBIG_Male_Angry;
     for (i = 0; i < pCity->ppl_angry[4]; i++) {
+      pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ANGRY, i, pCity);
       SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
-      if (pBuf == pCity_Icon->pBIG_Male_Angry) {
-	pBuf = pCity_Icon->pBIG_Female_Angry;
-      } else {
-	pBuf = pCity_Icon->pBIG_Male_Angry;
-      }
     }
   }
 
@@ -4479,13 +4460,14 @@ static void redraw_city_dialog(struct city *pCity)
   FREE(pCityDlg->specs_area[2]);
 
   if (pCity->ppl_elvis) {
+    pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_ELVIS, 0, pCity);
     pCityDlg->specs_area[0] = MALLOC(sizeof(SDL_Rect));
     pCityDlg->specs_area[0]->x = dest.x;
     pCityDlg->specs_area[0]->y = dest.y;
-    pCityDlg->specs_area[0]->w = pCity_Icon->pBIG_Spec_Lux->w;
-    pCityDlg->specs_area[0]->h = pCity_Icon->pBIG_Spec_Lux->h;
+    pCityDlg->specs_area[0]->w = pBuf->w;
+    pCityDlg->specs_area[0]->h = pBuf->h;
     for (i = 0; i < pCity->ppl_elvis; i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Spec_Lux, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
       pCityDlg->specs_area[0]->w += step;
     }
@@ -4493,13 +4475,14 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   if (pCity->ppl_taxman) {
+    pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_TAXMAN, 0, pCity);
     pCityDlg->specs_area[1] = MALLOC(sizeof(SDL_Rect));
     pCityDlg->specs_area[1]->x = dest.x;
     pCityDlg->specs_area[1]->y = dest.y;
-    pCityDlg->specs_area[1]->w = pCity_Icon->pBIG_Spec_Tax->w;
-    pCityDlg->specs_area[1]->h = pCity_Icon->pBIG_Spec_Tax->h;
+    pCityDlg->specs_area[1]->w = pBuf->w;
+    pCityDlg->specs_area[1]->h = pBuf->h;
     for (i = 0; i < pCity->ppl_taxman; i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Spec_Tax, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
       pCityDlg->specs_area[1]->w += step;
     }
@@ -4507,13 +4490,14 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   if (pCity->ppl_scientist) {
+    pBuf = (SDL_Surface *)get_citizen_sprite(CITIZEN_SCIENTIST, 0, pCity);
     pCityDlg->specs_area[2] = MALLOC(sizeof(SDL_Rect));
     pCityDlg->specs_area[2]->x = dest.x;
     pCityDlg->specs_area[2]->y = dest.y;
-    pCityDlg->specs_area[2]->w = pCity_Icon->pBIG_Spec_Sci->w;
-    pCityDlg->specs_area[2]->h = pCity_Icon->pBIG_Spec_Sci->h;
+    pCityDlg->specs_area[2]->w = pBuf->w;
+    pCityDlg->specs_area[2]->h = pBuf->h;
     for (i = 0; i < pCity->ppl_scientist; i++) {
-      SDL_BlitSurface(pCity_Icon->pBIG_Spec_Sci, NULL, Main.screen, &dest);
+      SDL_BlitSurface(pBuf, NULL, Main.screen, &dest);
       dest.x += step;
       pCityDlg->specs_area[2]->w += step;
     }
