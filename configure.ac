@@ -582,7 +582,8 @@ AC_CHECK_FUNCS(fileno gethostname getpwuid inet_aton \
                strlcat strlcpy strstr usleep vsnprintf uname)
 
 AC_MSG_CHECKING(for working gettimeofday)
-  FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY),)
+  FC_CHECK_GETTIMEOFDAY_RUNTIME(,AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
+	[Define if the gettimeofday function works and is sane.]),)
 
 dnl The use of both AC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
 dnl deliberate.
