@@ -87,7 +87,7 @@ void handle_authentication_request(struct packet_authentication_request *
   gtk_entry_set_text(GTK_ENTRY(iinput), "");
   gtk_button_set_label(GTK_BUTTON(connw), _("Next"));
   gtk_widget_set_sensitive(connw, TRUE);
-  gtk_set_label(imsg, packet->message);
+  gtk_label_set_text(GTK_LABEL(imsg), packet->message);
 
   switch (packet->type) {
   case AUTH_NEWUSER_FIRST:
@@ -131,9 +131,6 @@ static void connect_callback(GtkWidget *w, gpointer data)
   char errbuf [512];
   struct packet_authentication_reply reply;
 
-  /* FIXME: where was this actually used? -mck */
-/* local_server_host = g_locale_from_utf8(server_host, -1, NULL, NULL, NULL);*/
-
   if (gtk_notebook_get_current_page(GTK_NOTEBOOK(book)) == METASERVER_PAGE) {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(book), LOGIN_PAGE);
     return;
@@ -154,7 +151,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
     break; 
   case NEW_PASSWORD_TYPE:
     sz_strlcpy(password, gtk_entry_get_text(GTK_ENTRY(iinput)));
-    gtk_set_label(imsg, _("Verify Password"));
+    gtk_label_set_text(GTK_LABEL(imsg), _("Verify Password"));
     gtk_entry_set_text(GTK_ENTRY(iinput), "");
     gtk_widget_grab_focus(iinput);
     dialog_config = VERIFY_PASSWORD_TYPE;
@@ -169,7 +166,8 @@ static void connect_callback(GtkWidget *w, gpointer data)
     } else { 
       gtk_widget_grab_focus(iinput);
       gtk_entry_set_text(GTK_ENTRY(iinput), "");
-      gtk_set_label(imsg, _("Passwords don't match, enter password."));
+      gtk_label_set_text(GTK_LABEL(imsg),
+	  		 _("Passwords don't match, enter password."));
       dialog_config = NEW_PASSWORD_TYPE;
     }
     break;
@@ -181,8 +179,6 @@ static void connect_callback(GtkWidget *w, gpointer data)
   default:
     assert(0);
   }
-
-  /* g_free(local_server_host);*/
 }
 
 /**************************************************************************
@@ -557,9 +553,9 @@ void server_autoconnect()
 
   my_snprintf(buf, sizeof(buf),
 	      _("Auto-connecting to server \"%s\" at port %d "
-		"as \"%s\" every %d.%d second(s) for %d times"),
+		"as \"%s\" every %f second(s) for %d times"),
 	      server_host, server_port, user_name,
-	      AUTOCONNECT_INTERVAL / 1000,AUTOCONNECT_INTERVAL % 1000, 
+	      0.001 * AUTOCONNECT_INTERVAL,
 	      MAX_AUTOCONNECT_ATTEMPTS);
   append_output_window(buf);
 
