@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-11-10 09:24+0100\n"
+"POT-Creation-Date: 2003-12-02 09:20+0100\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -1089,7 +1089,7 @@ msgstr ""
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr "Nie kontrolujesz miasta %s, nie mo¿esz zaakceptowaæ traktatu."
 
-#: server/diplhand.c:169
+#: server/diplhand.c:169 server/diplhand.c:258
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr ""
@@ -1123,87 +1123,87 @@ msgstr "%s przekazuje miasto, które zosta³o zniszczone! Traktat anulowany!"
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Gra: %s nie kontroluje ju¿ miasta %s! Traktat anulowany!"
 
-#: server/diplhand.c:260 server/diplhand.c:264
+#: server/diplhand.c:267 server/diplhand.c:271
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Gra: %s nie maj± zadeklarowanej ilo¶ci z³ota! Traktat anulowany!"
 
-#: server/diplhand.c:289
+#: server/diplhand.c:296
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Gra: Zosta³e¶ nauczony technologii: %s."
 
-#: server/diplhand.c:293
+#: server/diplhand.c:300
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Gra: %s otrzymali %s od %s."
 
-#: server/diplhand.c:298
+#: server/diplhand.c:305
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "%s otrzyma³ %s (Traktat) od %s"
 
-#: server/diplhand.c:308
+#: server/diplhand.c:315
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Gra: Dosta³e¶ %d z³ota."
 
-#: server/diplhand.c:314
+#: server/diplhand.c:321
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Gra: Otrzyma³e¶ mapê ¶wiata od %s."
 
-#: server/diplhand.c:319
+#: server/diplhand.c:326
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Gra: Otrzyma³e¶ mapê morza od %s."
 
-#: server/diplhand.c:334
+#: server/diplhand.c:341
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Gra: Otrzyma³e¶ miasto %s od %s."
 
-#: server/diplhand.c:338
+#: server/diplhand.c:345
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Gra: %2$s otrzyma³(a) od ciebie miasto %1$s."
 
-#: server/diplhand.c:350 server/diplhand.c:353
+#: server/diplhand.c:357 server/diplhand.c:360
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Gra: Zgodzi³e¶ siê na zawieszenie broni z %s."
 
-#: server/diplhand.c:362 server/diplhand.c:365
+#: server/diplhand.c:369 server/diplhand.c:372
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Gra: Zgodzi³e¶ siê na traktat pokojowy z %s."
 
-#: server/diplhand.c:374 server/diplhand.c:377
+#: server/diplhand.c:381 server/diplhand.c:384
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Gra: Zgodzi³e¶ siê na sojusz z %s."
 
-#: server/diplhand.c:385
+#: server/diplhand.c:392
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Gra: %s otrzyma³(a) od ciebie widok dzielony."
 
-#: server/diplhand.c:388
+#: server/diplhand.c:395
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Gra: %s przekaza³(a) ci widok dzielony."
 
-#: server/diplhand.c:489
+#: server/diplhand.c:496
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Gra: %s zerwali spotkanie!"
 
-#: server/diplhand.c:495
+#: server/diplhand.c:502
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Gra: Spotkanie z %s zerwane."
 
-#: server/diplhand.c:538
+#: server/diplhand.c:545
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr "AI nie potrafi (jeszcze) prowadziæ dyplomacji."
 
@@ -1890,7 +1890,13 @@ msgstr "Gra: %s zosta³ usuniêty z gry."
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Gra: %s spotkani! Rz±dzi nimi %s."
 
-#: server/plrhand.c:1748
+#: server/plrhand.c:1733
+#, c-format
+msgid "Could not throw %s into civil war - too many players"
+msgstr "Niestety wojna domowa nie mo¿e siê odbyæ(gracz %s). Za "
+"du¿o graczy"
+
+#: server/plrhand.c:1755
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1898,12 +1904,12 @@ msgid ""
 msgstr ""
 "Gra: W twoim pañstwie wybuch³a wojna domowa. Przywódc± rebelii jest %s."
 
-#: server/plrhand.c:1768
+#: server/plrhand.c:1775
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Gra: %s og³asza sojusz z %s."
 
-#: server/plrhand.c:1791
+#: server/plrhand.c:1801
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
