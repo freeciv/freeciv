@@ -227,9 +227,15 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->airlift=packet->airlift;
   
   i=0;
-  for(y=0; y<CITY_MAP_SIZE; y++)
-    for(x=0; x<CITY_MAP_SIZE; x++)
+  for(y=0; y<CITY_MAP_SIZE; y++) {
+    for(x=0; x<CITY_MAP_SIZE; x++) {
+      if (city_is_new) {
+	/* Need to pre-initialize before set_worker_city()  -- dwp */
+	pcity->city_map[x][y] = C_TILE_EMPTY;
+      }
       set_worker_city(pcity,x,y,packet->city_map[i++]-'0');
+    }
+  }
     
   for(i=0; i<B_LAST; i++)
     pcity->improvements[i]=(packet->improvements[i]=='1') ? 1 : 0;

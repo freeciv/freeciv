@@ -2074,17 +2074,36 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     
     unit_list_init(&pcity->units_supported);
 
+    /* Initialize pcity->city_map[][], using set_worker_city() so that
+       ptile->worked gets initialized correctly.  The pre-initialisation
+       to C_TILE_EMPTY is necessary because set_worker_city() accesses
+       the existing value to possibly adjust ptile->worked, so need to
+       initialize a non-worked value so ptile->worked (possibly already
+       set from neighbouring city) does not get unset for C_TILE_EMPTY
+       or C_TILE_UNAVAILABLE here.  -- dwp
+    */
     p=secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
     for(y=0; y<CITY_MAP_SIZE; y++) {
       for(x=0; x<CITY_MAP_SIZE; x++) {
-	/* sorry, I have to change this to make ->worked work -- Syela */
-        if (*p=='0')      set_worker_city(pcity, x, y, C_TILE_EMPTY);
-	else if (*p=='1') set_worker_city(pcity, x, y, C_TILE_WORKER);
-	else              set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+	pcity->city_map[x][y] = C_TILE_EMPTY;
+        if (*p=='0') {
+	  set_worker_city(pcity, x, y, C_TILE_EMPTY);
+	} else if (*p=='1') {
+	  if (map_get_tile(pcity->x+x-2, pcity->y+y-2)->worked) {
+	    /* oops, inconsistent savegame; minimal fix: */
+	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
+		    "converting to elvis", pcity->name, x, y);
+	    pcity->ppl_elvis++;
+	    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+	  } else {
+	    set_worker_city(pcity, x, y, C_TILE_WORKER);
+	  }
+	} else {
+	  set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+	}
         p++;
       }
     }
-    /* was pcity->city_map[x][y]=(*p++=='1') ? C_TILE_WORKER : C_TILE_EMPTY; */
 
     p=secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
     
