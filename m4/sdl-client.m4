@@ -8,7 +8,12 @@ AC_DEFUN(FC_SDL_CLIENT,
   if test "$client" = sdl || test "$client" = yes ; then
     AM_PATH_SDL([1.1.4], [sdl_found="yes"], [sdl_found="no"])
     if test "$sdl_found" = yes; then
-      LIBS="$SDL_LIBS"
+      ac_save_CFLAGS="$CFLAGS"
+      ac_save_LIBS="$LIBS"
+      ac_save_CPPFLAGS="$CPPFLAGS"
+      CPPFLAGS="$CPPFLAGS $SDL_CFLAGS"
+      CFLAGS="$CFLAGS $SDL_CFLAGS"
+      LIBS="$LIBS $SDL_LIBS"
       AC_CHECK_LIB([SDL_image], [IMG_Load],
                    [sdl_image_found="yes"], [sdl_image_found="no"])
       if test "$sdl_image_found" = "yes"; then
@@ -37,6 +42,9 @@ AC_DEFUN(FC_SDL_CLIENT,
       elif test "$client" = "sdl"; then
         AC_MSG_ERROR([specified client 'sdl' not configurable (SDL_image is needed)])
       fi
+      CPPFLAGS="$ac_save_CPPFLAGS"
+      CFLAGS="$ac_save_CFLAGS"
+      LIBS="$ac_save_LIBS"
     fi
 
     if test "$found_client" = yes; then
