@@ -199,11 +199,14 @@ void meswin_popup_city(int message_index)
       center_tile_mapcanvas(x, y);
     }
 
-    if (pcity) {
+    if (pcity && city_owner(pcity) == game.player_ptr) {
       /* If the event was the city being destroyed, pcity will be NULL
-       * and we'd better not try to pop it up.  In this case, it would
-       * be better if the popup button weren't highlighted at all, but
-       * that's OK. */
+       * and we'd better not try to pop it up.  It's also possible that
+       * events will happen on enemy cities; we generally don't want to pop
+       * those dialogs up either (although it's hard to be certain).
+       *
+       * In both cases, it would be better if the popup button weren't
+       * highlighted at all - this is left up to the GUI. */
       popup_city_dialog(pcity, FALSE);
     }
   }
