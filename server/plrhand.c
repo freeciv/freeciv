@@ -548,9 +548,9 @@ void init_tech(struct player *plr, int tech)
     set_invention(plr, nation->init_techs[i], TECH_KNOWN);
   }
 
-  update_research(plr);
 
   for (i=0;i<tech;i++) {
+    update_research(plr);
     choose_random_tech(plr); /* could be choose_goal_tech -- Syela */
     set_invention(plr, plr->research.researching, TECH_KNOWN);
   }
