@@ -2802,8 +2802,10 @@ static bool take_command(struct connection *caller, char *str, bool check)
     toggle_ai_player_direct(NULL, pplayer);
   }
 
-  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s"), 
-            pconn->username, pplayer->name);
+  cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"), 
+            pconn->username, pplayer->name, 
+            is_barbarian(pplayer) ? _("Barbarian") : pplayer->ai.control ?
+            _("AI") : _("Human"), pplayer->is_alive ? _("Alive") : _("Dead"));
 
   end:;
   /* free our args */
