@@ -384,6 +384,8 @@ static void add_target_to_production(struct GUI *pTarget)
   /* check if we change to the same target */
   if(((pEditor->currently_building == target) && 
   	(pEditor->is_building_unit == is_unit)) || pEditor->pCity->did_buy) {
+    /* comit changes and exit - double click detection */
+    ok_worklist_editor_callback(NULL);
     return;
   }
   
