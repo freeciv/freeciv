@@ -30,7 +30,8 @@
 #include "player.h"
 #include "shared.h"
 #include "support.h"
- 
+
+#include "canvas.h"
 #include "climap.h"
 #include "climisc.h"
 #include "cityrep.h"
@@ -38,7 +39,6 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
-#include "graphics.h"
 #include "gui_stuff.h"
 #include "happiness.h"
 #include "helpdlg.h"
@@ -46,6 +46,7 @@
 #include "mapview.h"
 #include "options.h"
 #include "repodlgs.h"
+#include "sprite.h"
 #include "tilespec.h"
 #include "wldlg.h"   
 #include "gui_main.h"

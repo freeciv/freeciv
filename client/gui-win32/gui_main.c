@@ -41,8 +41,8 @@
 #include "control.h"
 #include "dialogs.h"
 #include "gotodlg.h"
-#include "graphics.h"
 #include "gui_stuff.h"
+#include "graphics.h"
 #include "helpdata.h"           /* boot_help_texts() */
 #include "mapctrl.h"
 #include "mapview.h"
@@ -50,6 +50,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
+#include "sprite.h"
 #include "tilespec.h"
 
 #include <stdio.h>

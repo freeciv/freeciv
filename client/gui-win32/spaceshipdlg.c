@@ -29,11 +29,11 @@
 #include "shared.h"
 #include "support.h"
 
+#include "canvas.h"
 #include "clinet.h"
 #include "climisc.h"
 #include "colors.h"
 #include "dialogs.h"
-#include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
@@ -44,7 +44,6 @@
 #include "spaceship.h"
 #include "tilespec.h"
 #include "text.h"
-
 
 #include "spaceshipdlg.h"
 

@@ -31,14 +31,15 @@
 #include "shared.h"
 #include "support.h"
 
+#include "canvas.h"
 #include "chatline.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "diptreaty.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "graphics.h"
 #include "mapview.h"
+#include "sprite.h"
 #include "tilespec.h"
 
 #include "diplodlg.h"

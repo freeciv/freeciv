@@ -15,63 +15,12 @@
 
 #include "graphics_g.h"
 
-/**********************************************************************
-Some notes about sprite management in this client:
-Some windows versions (e.g: Win95, Win98, WinME) have some strange 
-limitiations on gdi objects (like bitmaps). The number of bitmaps 
-(I really mean number and not size) is limited. And the limit is too low
-for the sprites freeciv uses.
-That means HBITMAPs cannot be stored in a sprite struct.
-The bitmaps are stored using GetObject/GetBitmapBits. 
-**********************************************************************/
+extern struct Sprite *intro_gfx_sprite;
+extern struct Sprite *radar_gfx_sprite;
 
-typedef struct Sprite SPRITE;
-struct Sprite
-{
-  bool has_mask;
-  bool has_fog;
-  bool has_pmimg;
-  bool alphablend;
-  BITMAP img;
-  BITMAP fog;
-  BITMAP mask;
-  BITMAP pmimg;
-  int img_cache_id;
-  int fog_cache_id;
-  int mask_cache_id;
-  int pmimg_cache_id;
-  int width;
-  int height;
-};
-
-enum canvas_type {
-  CANVAS_DC,
-  CANVAS_BITMAP,
-  CANVAS_WINDOW
-};
-
-struct canvas
-{
-  enum canvas_type type;
-
-  HDC hdc;
-  HBITMAP bmp;
-  HWND wnd;
-
-  HGDIOBJ tmp;
-};
-
-void fog_sprite(struct Sprite *sprite);
-void draw_sprite(struct Sprite *sprite, HDC hdc, int x, int y);
-void draw_sprite_fog(struct Sprite *sprite, HDC hdc, int x, int y);
-void draw_sprite_part(struct Sprite *sprite, HDC hdc, int x, int y, int w,
-		      int h, int offset_x, int offset_y);
-void init_fog_bmp(void);
-void draw_fog(struct Sprite *sprite, HDC hdc, int x, int y);
-
-extern HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
-extern SPRITE *intro_gfx_sprite;
-extern SPRITE *radar_gfx_sprite;
-
+HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
+HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id);
+BITMAP premultiply_alpha(BITMAP bmp);
+BITMAP generate_mask(BITMAP bmp);
 
 #endif  /* FC__GRAPHICS_H */

@@ -41,10 +41,10 @@
 #include "packhand.h"
 #include "text.h"
 
+#include "canvas.h"
 #include "chatline.h"
 #include "dialogs.h"
 #include "gui_stuff.h"
-#include "graphics.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "gui_main.h" 
