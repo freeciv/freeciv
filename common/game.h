@@ -312,8 +312,6 @@ extern bool is_server;
 #define GAME_MAX_DIPLCOST            100
 
 #define GAME_DEFAULT_FOGOFWAR        TRUE
-#define GAME_MIN_FOGOFWAR            FALSE
-#define GAME_MAX_FOGOFWAR            TRUE
 
 #define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          1
@@ -339,8 +337,6 @@ extern bool is_server;
 #define GAME_MIN_CIVILWARSIZE        6
 #define GAME_MAX_CIVILWARSIZE        1000
 
-#define GAME_MIN_SAVEPALACE          FALSE
-#define GAME_MAX_SAVEPALACE          TRUE
 #define GAME_DEFAULT_SAVEPALACE      TRUE
 
 #define GAME_DEFAULT_FOODBOX         10
@@ -368,16 +364,10 @@ extern bool is_server;
 #define GAME_MAX_CIVSTYLE            2
 
 #define GAME_DEFAULT_SCORELOG        FALSE
-#define GAME_MIN_SCORELOG            FALSE
-#define GAME_MAX_SCORELOG            TRUE
 
 #define GAME_DEFAULT_SPACERACE       TRUE
-#define GAME_MIN_SPACERACE           FALSE
-#define GAME_MAX_SPACERACE           TRUE
 
 #define GAME_DEFAULT_AUTO_AI_TOGGLE  FALSE
-#define GAME_MIN_AUTO_AI_TOGGLE      FALSE
-#define GAME_MAX_AUTO_AI_TOGGLE      TRUE
 
 #define GAME_DEFAULT_TIMEOUT         0
 #ifndef NDEBUG

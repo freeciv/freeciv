@@ -98,41 +98,57 @@ enum sset_to_client {
   SSET_TO_CLIENT, SSET_SERVER_ONLY
 };
 
+/*
+ * The type of the setting.
+ */
+enum sset_type {
+  SSET_BOOL, SSET_INT, SSET_STRING
+};
+
 #define SSET_MAX_LEN  16	/* max setting name length (plus nul) */
 
 struct settings_s {
   char *name;
-  int *value;
-  /* Validating function for integer settings.  If the function is non-NULL,
-     it is called with the new value, and returns whether the change is
-     legal.  The char * is an error message in the case of reject. */
-  bool (*func_change)(int, char **);
-  /* The same, for string settings. The first char* is the new
-     value as an argument, the second is for returning the error
-     message. */
-  bool (*func_change_s)(char *, char **);
   enum sset_class sclass;
   enum sset_to_client to_client;
-  int min_value, max_value, default_value;
+
+  /*
+   * Sould be less than 42 chars (?), or shorter if the values may
+   * have more than about 4 digits.  Don't put "." on the end.
+   */
   char *short_help;
+
+  /*
+   * May be empty string, if short_help is sufficient.  Need not
+   * include embedded newlines (but may, for formatting); lines will
+   * be wrapped (and indented) automatically.  Should have punctuation
+   * etc, and should end with a "."
+   */
   char *extra_help;
-  /* short_help:
-       Sould be less than 42 chars (?), or shorter if the values may
-       have more than about 4 digits.   Don't put "." on the end.
-     extra_help:
-       May be empty string, if short_help is sufficient.
-       Need not include embedded newlines (but may, for formatting);
-       lines will be wrapped (and indented) automatically.
-       Should have punctuation etc, and should end with a "."
-  */
-  /* The following apply if the setting is string valued; note these
-     default to 0 (NULL) if not explicitly mentioned in initialization
-     array.  The setting is integer valued if svalue is NULL.
-     (Yes, we could use a union here.  But we don't.)
-  */
-  char *svalue;	
-  char *default_svalue;
-  size_t sz_svalue;		/* max size we can write into svalue */
+  enum sset_type type;
+
+  /* 
+   * About the *_validate functions: If the function is non-NULL, it
+   * is called with the new value, and returns whether the change is
+   * legal. The char * is an error message in the case of reject. 
+   */
+
+  /*** bool part ***/
+  bool *bool_value;
+  bool bool_default_value;
+  bool (*bool_validate)(bool, char **);
+
+  /*** int part ***/
+  int *int_value;
+  int int_default_value;
+  bool (*int_validate)(int, char **);
+  int int_min_value, int_max_value;
+
+  /*** string part ***/
+  char *string_value;
+  char *string_default_value;
+  bool (*string_validate)(char *, char **);
+  size_t string_value_size;	/* max size we can write into string_value */
 };
 
 /********************************************************************
@@ -142,7 +158,7 @@ the fixed number of arguments and the reject_message - change? - rp
 
 static bool valid_notradesize(int value, char **reject_message);
 static bool valid_fulltradesize(int value, char **reject_message);
-static bool autotoggle(int value, char **reject_message);
+static bool autotoggle(bool value, char **reject_message);
 
 static bool valid_ruleset(char *whichset, char *subdir, char **reject_message)
 {
@@ -196,451 +212,434 @@ static bool valid_max_players(int v, char **r_m)
   return TRUE;
 }
   
-#define SETTING_IS_INT(s)     ((s)->value)
-#define SETTING_IS_STRING(s)  (!((s)->value))
+#define GEN_BOOL(name, value, sclass, to_client, short_help, extra_help, func, default) \
+ { name, sclass, to_client, short_help, extra_help, SSET_BOOL, \
+   &value, default, func, \
+   NULL, 0, NULL, 0, 0, \
+   NULL, NULL, NULL, 0 },
+
+#define GEN_INT(name, value, sclass, to_client, short_help, extra_help, func, min, max, default) \
+ { name, sclass, to_client, short_help, extra_help, SSET_INT, \
+   NULL, FALSE, NULL, \
+   &value, default, func, min, max, \
+   NULL, NULL, NULL, 0 },
+
+#define GEN_STRING(name, value, sclass, to_client, short_help, extra_help, func, default) \
+ { name, sclass, to_client, short_help, extra_help, SSET_STRING, \
+   NULL, FALSE, NULL, \
+   NULL, 0, NULL, 0, 0, \
+   value, default, func, sizeof(value)},
+
+#define GEN_END \
+ { NULL, SSET_LAST, SSET_SERVER_ONLY, NULL, NULL, SSET_INT, \
+   NULL, FALSE, NULL, \
+   NULL, 0, NULL, 0, 0, \
+   NULL, NULL, NULL, 0 },
 
 static struct settings_s settings[] = {
 
   /* These should be grouped by sclass */
   
 /* Map size parameters: adjustable if we don't yet have a map */  
-  { "xsize", &map.xsize, NULL, NULL,
-    SSET_MAP_SIZE, SSET_TO_CLIENT,
-    MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH,
-    N_("Map width in squares"), "", NULL, NULL, 0 },
-  
-  { "ysize", &map.ysize, NULL, NULL,
-    SSET_MAP_SIZE, SSET_TO_CLIENT,
-    MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT,
-    N_("Map height in squares"), "", NULL, NULL, 0 }, 
+  GEN_INT("xsize", map.xsize, SSET_MAP_SIZE, SSET_TO_CLIENT,
+	  N_("Map width in squares"), "", NULL,
+	  MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH)
+    
+  GEN_INT("ysize", map.ysize, SSET_MAP_SIZE, SSET_TO_CLIENT,
+	  N_("Map height in squares"), "", NULL,
+	  MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT)
 
 /* Map generation parameters: once we have a map these are of historical
  * interest only, and cannot be changed.
  */
-  { "generator", &map.generator, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR,
-    N_("Method used to generate map"),
+  GEN_INT("generator", map.generator, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Method used to generate map"),
     N_("1 = standard, with random continents;\n"
-       "2 = equally sized large islands with one player each, and twice that many\n"
+       "2 = equally sized large islands with one player each, and "
+       "twice that many\n"
        "    smaller islands;\n"
-       "3 = equally sized large islands with one player each, and a number of other\n"
+       "3 = equally sized large islands with one player each, and "
+       "a number of other\n"
        "    islands of similar size;\n"
-       "4 = equally sized large islands with two players on every island (or one\n"
-       "    with three players for an odd number of players), and additional\n"
+       "4 = equally sized large islands with two players on every "
+       "island (or one\n"
+       "    with three players for an odd number of players), and "
+       "additional\n"
        "    smaller islands.\n"
-       "Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
-       "(Zero indicates a scenario map.)"), NULL, NULL, 0 },
+       "Note: values 2,3 and 4 generate \"fairer\" (but more boring) "
+       "maps.\n"
+       "(Zero indicates a scenario map.)"), NULL,
+	  MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR)
 
-  { "tinyisles", &map.tinyisles, NULL, NULL, 
-    SSET_MAP_GEN, SSET_TO_CLIENT, 
-    MAP_MIN_TINYISLES, MAP_MAX_TINYISLES, MAP_DEFAULT_TINYISLES, 
-    N_("Presence or absence of 1x1 islands"),
-    N_("0 = no 1x1 islands; 1 = some 1x1 islands"), NULL, NULL, 0 },
+  GEN_BOOL("tinyisles", map.tinyisles, SSET_MAP_GEN, SSET_TO_CLIENT,
+	   N_("Presence or absence of 1x1 islands"),
+	   N_("0 = no 1x1 islands; 1 = some 1x1 islands"), NULL,
+	   MAP_DEFAULT_TINYISLES)
 
-  { "separatepoles", &map.separatepoles, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_SEPARATE_POLES, MAP_MAX_SEPARATE_POLES, MAP_DEFAULT_SEPARATE_POLES,
-    N_("Whether the poles are separate continents"),
-    N_("0 = continents may attach to poles; 1 = poles will be separate"),
-    NULL, NULL, 0 },
+  GEN_BOOL("separatepoles", map.separatepoles, SSET_MAP_GEN, SSET_TO_CLIENT,
+	   N_("Whether the poles are separate continents"),
+	   N_("0 = continents may attach to poles; 1 = poles will "
+	      "be separate"), NULL, 
+	   MAP_DEFAULT_SEPARATE_POLES)
 
-  { "landmass", &map.landpercent, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS,
-    N_("Amount of land vs ocean"), "", NULL, NULL, 0 },
+  GEN_INT("landmass", map.landpercent, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Amount of land vs ocean"), "", NULL,
+	  MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS)
 
-  { "mountains", &map.mountains, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS,
-    N_("Amount of hills/mountains"),
-    N_("Small values give flat maps, higher values give more "
-       "hills and mountains."), NULL, NULL, 0},
+  GEN_INT("mountains", map.mountains, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Amount of hills/mountains"),
+	  N_("Small values give flat maps, higher values give more "
+	     "hills and mountains."), NULL,
+	  MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS)
 
-  { "rivers", &map.riverlength, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS,
-    N_("Amount of river squares"), "", NULL, NULL, 0 },
+  GEN_INT("rivers", map.riverlength, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Amount of river squares"), "", NULL,
+	  MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS)
 
-  { "grass", &map.grasssize, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_GRASS, MAP_MAX_GRASS, MAP_DEFAULT_GRASS,
-    N_("Amount of grass squares"), "", NULL, NULL, 0 },
+  GEN_INT("grass", map.grasssize, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Amount of grass squares"), "", NULL,
+	  MAP_MIN_GRASS, MAP_MAX_GRASS, MAP_DEFAULT_GRASS)
 
-  { "forests", &map.forestsize, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS,
-    N_("Amount of forest squares"), "", NULL, NULL, 0 },
+  GEN_INT("forests", map.forestsize, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Amount of forest squares"), "", NULL, 
+	  MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS)
 
-  { "swamps", &map.swampsize, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS,
-    N_("Amount of swamp squares"), "", NULL, NULL, 0 },
+  GEN_INT("swamps", map.swampsize, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Amount of swamp squares"), "", NULL, 
+	  MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS)
     
-  { "deserts", &map.deserts, NULL, NULL,
-    SSET_MAP_GEN, SSET_TO_CLIENT,
-    MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS,
-    N_("Amount of desert squares"), "", NULL, NULL, 0 },
+  GEN_INT("deserts", map.deserts, SSET_MAP_GEN, SSET_TO_CLIENT,
+	  N_("Amount of desert squares"), "", NULL, 
+	  MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS)
 
-  { "seed", &map.seed, NULL, NULL,
-    SSET_MAP_GEN, SSET_SERVER_ONLY,
-    MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED,
-    N_("Map generation random seed"),
-    N_("The same seed will always produce the same map; "
-       "for zero (the default) a seed will be chosen based on the time, "
-       "to give a random map."), NULL, NULL, 0 },
+  GEN_INT("seed", map.seed, SSET_MAP_GEN, SSET_SERVER_ONLY,
+	  N_("Map generation random seed"),
+	  N_("The same seed will always produce the same map; "
+	     "for zero (the default) a seed will be chosen based on "
+	     "the time, to give a random map."), NULL, 
+	  MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED)
 
 /* Map additional stuff: huts and specials.  randseed also goes here
  * because huts and specials are the first time the randseed gets used (?)
  * These are done when the game starts, so these are historical and
  * fixed after the game has started.
  */
-  { "randseed", &game.randseed, NULL, NULL,
-    SSET_MAP_ADD, SSET_SERVER_ONLY,
-    GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED,
-    N_("General random seed"),
-    N_("For zero (the default) a seed will be chosen based on the time."),
-    NULL, NULL, 0},
+  GEN_INT("randseed", game.randseed, SSET_MAP_ADD, SSET_SERVER_ONLY,
+	  N_("General random seed"),
+	  N_("For zero (the default) a seed will be chosen based "
+	     "on the time."), NULL, 
+	  GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED)
 
-  { "specials", &map.riches, NULL, NULL,
-    SSET_MAP_ADD, SSET_TO_CLIENT,
-    MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES,
-    N_("Amount of \"special\" resource squares"), 
-    N_("Special resources improve the basic terrain type they are on.  " 
-       "The server variable's scale is parts per thousand."), NULL, NULL, 0 },
+  GEN_INT("specials", map.riches, SSET_MAP_ADD, SSET_TO_CLIENT,
+	  N_("Amount of \"special\" resource squares"), 
+	  N_("Special resources improve the basic terrain type they "
+	     "are on.  The server variable's scale is parts per "
+	     "thousand."), NULL,
+	  MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES)
 
-  { "huts", &map.huts, NULL, NULL,
-    SSET_MAP_ADD, SSET_TO_CLIENT,
-    MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS,
-    N_("Amount of huts (minor tribe villages)"), "", NULL, NULL, 0 },
+  GEN_INT("huts", map.huts, SSET_MAP_ADD, SSET_TO_CLIENT,
+	  N_("Amount of huts (minor tribe villages)"), "", NULL, 
+	  MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
 
 /* Options affecting numbers of players and AI players.  These only
  * affect the start of the game and can not be adjusted after that.
  * (Actually, minplayers does also affect reloads: you can't start a
  * reload game until enough players have connected (or are AI).)
  */
-  { "minplayers", &game.min_players, NULL, NULL,
-    SSET_PLAYERS, SSET_TO_CLIENT,
-    GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS,
-    N_("Minimum number of players"),
-    N_("There must be at least this many players (connected players or AI's) "
-       "before the game can start."), NULL, NULL, 0 },
+  GEN_INT("minplayers", game.min_players, SSET_PLAYERS, SSET_TO_CLIENT,
+	  N_("Minimum number of players"),
+	  N_("There must be at least this many players (connected "
+	     "players or AI's) before the game can start."), NULL,
+	  GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS,
+	  GAME_DEFAULT_MIN_PLAYERS)
   
-  { "maxplayers", &game.max_players, valid_max_players, NULL,
-    SSET_PLAYERS, SSET_TO_CLIENT,
-    GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS,
-    N_("Maximum number of players"),
-    N_("For new games, the game will start automatically if/when this "
-       "number of players are connected or (for AI's) created."), 
-    NULL, NULL, 0 },
+  GEN_INT("maxplayers", game.max_players, SSET_PLAYERS, SSET_TO_CLIENT,
+	  N_("Maximum number of players"),
+	  N_("For new games, the game will start automatically "
+	     "if/when this number of players are connected or (for "
+	     "AI's) created."), valid_max_players,
+	  GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS,
+	  GAME_DEFAULT_MAX_PLAYERS)
 
-  { "aifill", &game.aifill, NULL, NULL,
-    SSET_PLAYERS, SSET_TO_CLIENT,
-    GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL,
-    N_("Number of players to fill to with AI's"),
-    N_("If there are fewer than this many players when the game starts, "
-       "extra AI players will be created to increase the total number "
-       "of players to the value of this option."), NULL, NULL, 0 },
+  GEN_INT("aifill", game.aifill, SSET_PLAYERS, SSET_TO_CLIENT,
+	  N_("Number of players to fill to with AI's"),
+	  N_("If there are fewer than this many players when the "
+	     "game starts, extra AI players will be created to "
+	     "increase the total number of players to the value of "
+	     "this option."), NULL, 
+	  GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL)
 
 /* Game initialization parameters (only affect the first start of the game,
  * and not reloads).  Can not be changed after first start of game.
  */
-  { "settlers", &game.settlers, NULL, NULL,
-    SSET_GAME_INIT, SSET_TO_CLIENT,
-    GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS,
-    N_("Number of initial settlers per player"), "", NULL, NULL, 0 },
+  GEN_INT("settlers", game.settlers, SSET_GAME_INIT, SSET_TO_CLIENT,
+	  N_("Number of initial settlers per player"), "", NULL, 
+	  GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS)
 
-  { "explorer", &game.explorer, NULL, NULL,
-    SSET_GAME_INIT, SSET_TO_CLIENT,
-    GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER,
-    N_("Number of initial explorers per player"), "", NULL, NULL, 0 },
+  GEN_INT("explorer", game.explorer, SSET_GAME_INIT, SSET_TO_CLIENT,
+	  N_("Number of initial explorers per player"), "", NULL, 
+	  GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER)
 
-  { "dispersion", &game.dispersion, NULL, NULL,
-    SSET_GAME_INIT, SSET_TO_CLIENT,
-    GAME_MIN_DISPERSION, GAME_MAX_DISPERSION, GAME_DEFAULT_DISPERSION,
-    N_("Area where initial units are located"),
-    N_("This is half the length of a side of the square within "
-       "which the initial units are dispersed."), NULL, NULL, 0 },
+  GEN_INT("dispersion", game.dispersion, SSET_GAME_INIT, SSET_TO_CLIENT,
+	  N_("Area where initial units are located"),
+	  N_("This is half the length of a side of the square within "
+	     "which the initial units are dispersed."), NULL,
+	  GAME_MIN_DISPERSION, GAME_MAX_DISPERSION, GAME_DEFAULT_DISPERSION)
 
-  { "gold", &game.gold, NULL, NULL,
-    SSET_GAME_INIT, SSET_TO_CLIENT,
-    GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD,
-    N_("Starting gold per player"), "", NULL, NULL, 0 },
+  GEN_INT("gold", game.gold, SSET_GAME_INIT, SSET_TO_CLIENT,
+	  N_("Starting gold per player"), "", NULL,
+	  GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD)
 
-  { "techlevel", &game.tech, NULL, NULL,
-    SSET_GAME_INIT, SSET_TO_CLIENT,
-    GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL,
-    N_("Number of initial advances per player"), "", NULL, NULL, 0 },
+  GEN_INT("techlevel", game.tech, SSET_GAME_INIT, SSET_TO_CLIENT,
+	  N_("Number of initial advances per player"), "", NULL,
+	  GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL)
 
 /* Various rules: these cannot be changed once the game has started. */
-  { "techs", NULL, NULL, valid_techs_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing techs.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"techs.ruleset\".  "
-       "The advances (technologies) present in the game will be "
-       "initialized from this file.  "
-       "See also README.rulesets."),
-    game.ruleset.techs, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.techs) },
 
-  { "governments", NULL, NULL, valid_governments_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing governments.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"governments.ruleset\".  "
-       "The government types available in the game will be "
-       "initialized from this file.  "
-       "See also README.rulesets."),
-    game.ruleset.governments, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.governments) },
+  GEN_STRING("techs", game.ruleset.techs, SSET_RULES, SSET_TO_CLIENT,
+	     N_("Data subdir containing techs.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"techs.ruleset\".  "
+		"The advances (technologies) present in the game will be "
+		"initialized from this file.  "
+		"See also README.rulesets."), valid_techs_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "units", NULL, NULL, valid_units_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing units.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"units.ruleset\".  "
-       "The unit types present in the game will be "
-       "initialized from this file.  "
-       "See also README.rulesets."),
-    game.ruleset.units, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.units) },
+  GEN_STRING("governments", game.ruleset.governments, SSET_RULES,
+	     SSET_TO_CLIENT,
+	     N_("Data subdir containing governments.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"governments.ruleset\".  "
+		"The government types available in the game will be "
+		"initialized from this file.  "
+		"See also README.rulesets."), valid_governments_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "buildings", NULL, NULL, valid_buildings_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing buildings.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"buildings.ruleset\".  "
-       "The building types (City Improvements and Wonders) "
-       "in the game will be initialized from this file.  "
-       "See also README.rulesets."),
-    game.ruleset.buildings, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.buildings) },
+  GEN_STRING("units", game.ruleset.units, SSET_RULES, SSET_TO_CLIENT,
+	     N_("Data subdir containing units.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"units.ruleset\".  "
+		"The unit types present in the game will be "
+		"initialized from this file.  "
+		"See also README.rulesets."), valid_units_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "terrain", NULL, NULL, valid_terrain_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing terrain.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"terrain.ruleset\".  "
-       "The terrain types present in the game will be "
-       "initialized from this file.  "
-       "See also README.rulesets."),
-    game.ruleset.terrain, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.terrain) },
+  GEN_STRING("buildings", game.ruleset.buildings, SSET_RULES, SSET_TO_CLIENT,
+	     N_("Data subdir containing buildings.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"buildings.ruleset\".  "
+		"The building types (City Improvements and Wonders) "
+		"in the game will be initialized from this file.  "
+		"See also README.rulesets."), valid_buildings_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "nations", NULL, NULL, valid_nations_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing nations.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"nations.ruleset\".  "
-       "The nations present in the game will be "
-       "initialized from this file.  "
-       "See also README.rulesets."),
-    game.ruleset.nations, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.nations) },
+  GEN_STRING("terrain", game.ruleset.terrain, SSET_RULES, SSET_TO_CLIENT,
+	     N_("Data subdir containing terrain.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"terrain.ruleset\".  "
+		"The terrain types present in the game will be "
+		"initialized from this file.  "
+		"See also README.rulesets."), valid_terrain_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "cities", NULL, NULL, valid_cities_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing cities.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"cities.ruleset\".  "
-       "The file is used to initialize city data (such as city style).  "
-       "See also README.rulesets."),
-    game.ruleset.cities, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.cities) },
+  GEN_STRING("nations", game.ruleset.nations, SSET_RULES, SSET_TO_CLIENT,
+	     N_("Data subdir containing nations.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"nations.ruleset\".  "
+		"The nations present in the game will be "
+		"initialized from this file.  "
+		"See also README.rulesets."), valid_nations_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "game", NULL, NULL, valid_game_ruleset,
-    SSET_RULES, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("Data subdir containing game.ruleset"),
-    N_("This should specify a subdirectory of the data directory, "
-       "containing a file called \"game.ruleset\".  "
-       "The file is used to initialize some miscellanous game rules.  "
-       "See also README.rulesets."),
-    game.ruleset.game, GAME_DEFAULT_RULESET,
-    sizeof(game.ruleset.game) },
+  GEN_STRING("cities", game.ruleset.cities, SSET_RULES, SSET_TO_CLIENT,
+	     N_("Data subdir containing cities.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"cities.ruleset\".  "
+		"The file is used to initialize city data (such as city "
+		"style).  See also README.rulesets."), valid_cities_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "researchcost", &game.researchcost, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_RESEARCHCOST, GAME_MAX_RESEARCHCOST, GAME_DEFAULT_RESEARCHCOST,
-    N_("Points required to gain a new advance"),
-    N_("This affects how quickly players can research new technology."), 
-    NULL, NULL, 0 },
+  GEN_STRING("game", game.ruleset.game, SSET_RULES, SSET_TO_CLIENT,
+	     N_("Data subdir containing game.ruleset"),
+	     N_("This should specify a subdirectory of the data directory, "
+		"containing a file called \"game.ruleset\".  "
+		"The file is used to initialize some miscellanous game "
+		"rules.  See also README.rulesets."), valid_game_ruleset,
+	     GAME_DEFAULT_RULESET)
 
-  { "techpenalty", &game.techpenalty, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY,
-    N_("Percentage penalty when changing tech"),
-    N_("If you change your current research technology, and you have "
-       "positive research points, you lose this percentage of those "
-       "research points.  This does not apply if you have just gained "
-       "tech this turn."), NULL, NULL, 0 },
+  GEN_INT("researchcost", game.researchcost, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Points required to gain a new advance"),
+	  N_("This affects how quickly players can research new "
+	     "technology."), NULL,
+	  GAME_MIN_RESEARCHCOST, GAME_MAX_RESEARCHCOST, 
+	  GAME_DEFAULT_RESEARCHCOST)
 
-  { "diplcost", &game.diplcost, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST,
-    N_("Penalty when getting tech from treaty"),
-    N_("For each advance you gain from a diplomatic treaty, you lose "
-       "research points equal to this percentage of the cost to "
-       "research an new advance.  "
-       "You can end up with negative research points if this is non-zero."), 
-    NULL, NULL, 0 },
+  GEN_INT("techpenalty", game.techpenalty, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Percentage penalty when changing tech"),
+	  N_("If you change your current research technology, and you have "
+	     "positive research points, you lose this percentage of those "
+	     "research points.  This does not apply if you have just gained "
+	     "tech this turn."), NULL,
+	  GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY,
+	  GAME_DEFAULT_TECHPENALTY)
 
-  { "conquercost", &game.conquercost, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST,
-    N_("Penalty when getting tech from conquering"),
-    N_("For each advance you gain by conquering an enemy city, you "
-       "lose research points equal to this percentage of the cost "
-       "to research an new advance.  "
-       "You can end up with negative research points if this is non-zero."), 
-    NULL, NULL, 0 },
+  GEN_INT("diplcost", game.diplcost, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Penalty when getting tech from treaty"),
+	  N_("For each advance you gain from a diplomatic treaty, you lose "
+	     "research points equal to this percentage of the cost to "
+	     "research an new advance.  You can end up with negative "
+	     "research points if this is non-zero."), NULL, 
+	  GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST)
+
+  GEN_INT("conquercost", game.conquercost, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Penalty when getting tech from conquering"),
+	  N_("For each advance you gain by conquering an enemy city, you "
+	     "lose research points equal to this percentage of the cost "
+	     "to research an new advance.  You can end up with negative "
+	     "research points if this is non-zero."), NULL,
+	  GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST,
+	  GAME_DEFAULT_CONQUERCOST)
+
+  GEN_INT("freecost", game.freecost, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Penalty when getting a free tech"),
+	  N_("For each advance you gain \"for free\" (other than covered by "
+	     "diplcost or conquercost: specifically, from huts or from the "
+	     "Great Library), you lose research points equal to this "
+	     "percentage of the cost to research a new advance.  You can "
+	     "end up with negative research points if this is non-zero."), 
+	  NULL, 
+	  GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST)
+
+  GEN_INT("foodbox", game.foodbox, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Food required for a city to grow"), "", NULL,
+	  GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX)
+
+  GEN_INT("aqueductloss", game.aqueductloss, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Percentage food lost when need aqueduct"),
+	  N_("If a city would expand, but it can't because it needs "
+	     "an Aqueduct (or Sewer System), it loses this percentage "
+	     "of its foodbox (or half that amount if it has a "
+	     "Granary)."), NULL, 
+	  GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, 
+	  GAME_DEFAULT_AQUEDUCTLOSS)
+
+  GEN_INT("notradesize", game.notradesize, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Maximum size of a city without trade"),
+	  N_("All the cities of smaller or equal size to this do not "
+	     "produce trade at all. The produced trade increases "
+	     "gradually for cities larger than notradesize and smaller "
+	     "than fulltradesize.  See also fulltradesize."),
+	  valid_notradesize,
+	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
+	  GAME_DEFAULT_NOTRADESIZE)
+
+  GEN_INT("fulltradesize", game.fulltradesize, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Minimum city size to get full trade"),
+	  N_("There is a trade penalty in all cities smaller than this. "
+	     "The penalty is 100% (no trade at all) for sizes up to "
+	     "notradesize, and decreases gradually to 0% (no penalty "
+	     "except the normal corruption) for size=fulltradesize.  "
+	     "See also notradesize."), valid_fulltradesize, 
+	  GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, 
+	  GAME_DEFAULT_FULLTRADESIZE)
+
+  GEN_INT("unhappysize", game.unhappysize, SSET_RULES, SSET_TO_CLIENT,
+	  N_("City size before people become unhappy"),
+	  N_("Before other adjustments, the first unhappysize citizens in a "
+	     "city are content, and subsequent citizens are unhappy.  "
+	     "See also cityfactor."), NULL,
+	  GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE,
+	  GAME_DEFAULT_UNHAPPYSIZE)
+
+  GEN_INT("angrycitizen", game.angrycitizen, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Whether angry citizens are enabled"),
+	  N_("Introduces angry citizens like civilization II. Angry "
+	     "citizens have to become unhappy before any other class "
+	     "of citizens may be considered. See also unhappysize, "
+	     "cityfactor and governments."), NULL, 
+	  GAME_MIN_ANGRYCITIZEN, GAME_MAX_ANGRYCITIZEN,
+	  GAME_DEFAULT_ANGRYCITIZEN)
+
+  GEN_INT("cityfactor", game.cityfactor, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Number of cities for higher unhappiness"),
+	  N_("When the number of cities a player owns is greater than "
+	     "cityfactor, one extra citizen is unhappy before other "
+	     "adjustments; see also unhappysize.  This assumes a "
+	     "Democracy; for other governments the effect occurs at "
+	     "smaller numbers of cities."), NULL, 
+	  GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR)
+
+  GEN_INT("citymindist", game.citymindist, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Minimum distance between cities (move distance)"),
+	  N_("When a player founds a new city, it is checked if there is "
+	     "no other city in citymindist distance. For example, if "
+	     "citymindist is 3, there have to be at least two empty "
+	     "fields between two cities every direction. If it is set "
+	     "to 0 (default), it is overwritten by the current ruleset "
+	     "when the game starts."), NULL,
+	  GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST,
+	  GAME_DEFAULT_CITYMINDIST)
   
-  { "freecost", &game.freecost, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST,
-    N_("Penalty when getting a free tech"),
-    N_("For each advance you gain \"for free\" (other than covered by "
-       "diplcost or conquercost: specifically, from huts or from the "
-       "Great Library), you lose research points equal to this "
-       "percentage of the cost to research a new advance.  "
-       "You can end up with negative research points if this is non-zero."), 
-    NULL, NULL, 0 },
+  GEN_INT("razechance", game.razechance, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Chance for conquered building destruction"),
+	  N_("When a player conquers a city, each City Improvement has this "
+	     "percentage chance to be destroyed."), NULL, 
+	  GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE)
 
-  { "foodbox", &game.foodbox, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX,
-    N_("Food required for a city to grow"), "", NULL, NULL, 0 },
+  GEN_INT("civstyle", game.civstyle, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Style of Civ rules"),
+	  N_("Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
+	     "Currently this option affects the following rules:\n"
+	     "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
+	     "See also README.rulesets."), NULL, 
+	  GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE)
 
-  { "aqueductloss", &game.aqueductloss, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS,
-    N_("Percentage food lost when need aqueduct"),
-    N_("If a city would expand, but it can't because it needs an Aqueduct "
-       "(or Sewer System), it loses this percentage of its foodbox "
-       "(or half that amount if it has a Granary)."), NULL, NULL, 0 },
+  GEN_INT("occupychance", game.occupychance, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Chance of moving into tile after attack"),
+	  N_("If set to 0, combat is Civ1/2-style (when you attack, "
+	     "you remain in place).  If set to 100, attacking units "
+	     "will always move into the tile they attacked if they win "
+	     "the combat (and no enemy units remain in the tile).  If "
+	     "set to a value between 0 and 100, this will be used as "
+	     "the percent chance of \"occupying\" territory."), NULL, 
+	  GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, 
+	  GAME_DEFAULT_OCCUPYCHANCE)
 
-  { "notradesize", &game.notradesize, valid_notradesize, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE, GAME_DEFAULT_NOTRADESIZE,
-    N_("Maximum size of a city without trade"),
-    N_("All the cities of smaller or equal size to this do not produce trade "
-       "at all. The produced trade increases gradually for cities larger "
-       "than notradesize and smaller than fulltradesize.  "
-       "See also fulltradesize."), NULL, NULL, 0 },
+  GEN_INT("killcitizen", game.killcitizen, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Reduce city population after attack"),
+	  N_("This flag indicates if city population is reduced "
+	     "after successful attack of enemy unit, depending on "
+	     "its movement type (OR-ed):\n"
+	     "  1 = land\n"
+	     "  2 = sea\n"
+	     "  4 = heli\n"
+	     "  8 = air"), NULL,
+	  GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
+	  GAME_DEFAULT_KILLCITIZEN)
 
-  { "fulltradesize", &game.fulltradesize, valid_fulltradesize, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, GAME_DEFAULT_FULLTRADESIZE,
-    N_("Minimum city size to get full trade"),
-    N_("There is a trade penalty in all cities smaller than this. "
-       "The penalty is 100% (no trade at all) for sizes up to "
-       "notradesize, and decreases gradually to 0% (no penalty except the "
-       "normal corruption) for size=fulltradesize.  "
-       "See also notradesize."), NULL, NULL, 0 },
+  GEN_INT("wtowervision", game.watchtower_vision, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Range of vision for units in a fortress"),
+	  N_("watchtower vision range: If set to 1, it has no effect. "
+	     "If 2 or larger, the vision range of a unit inside a "
+	     "fortress is set to this value, if the necessary invention "
+	     "has been made. This invention is determined by the flag "
+	     "'Watchtower' in the techs ruleset. Also see wtowerevision."), 
+	  NULL, 
+	  GAME_MIN_WATCHTOWER_VISION, GAME_MAX_WATCHTOWER_VISION, 
+	  GAME_DEFAULT_WATCHTOWER_VISION)
 
-  { "unhappysize", &game.unhappysize, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
-    N_("City size before people become unhappy"),
-    N_("Before other adjustments, the first unhappysize citizens in a "
-       "city are content, and subsequent citizens are unhappy.  "
-       "See also cityfactor."), NULL, NULL, 0 },
-
-  { "angrycitizen", &game.angrycitizen, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_ANGRYCITIZEN, GAME_MAX_ANGRYCITIZEN,
-    GAME_DEFAULT_ANGRYCITIZEN,
-    N_("Whether angry citizens are enabled"),
-    N_("Introduces angry citizens like civilization II. Angry citizens "
-       "have to become unhappy before any other class of citizens may "
-       "be considered. See also unhappysize, cityfactor and governments."), 
-    NULL, NULL, 0 },
-
-  { "cityfactor", &game.cityfactor, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR,
-    N_("Number of cities for higher unhappiness"),
-    N_("When the number of cities a player owns is greater than "
-       "cityfactor, one extra citizen is unhappy before other "
-       "adjustments; see also unhappysize.  This assumes a "
-       "Democracy; for other governments the effect occurs at "
-       "smaller numbers of cities."), NULL, NULL, 0 },
-
-  { "citymindist", &game.citymindist, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST, GAME_DEFAULT_CITYMINDIST,
-    N_("Minimum distance between cities (move distance)"),
-    N_("When a player founds a new city, it is checked if there is no "
-       "other city in citymindist distance. For example, if citymindist "
-       "is 3, there have to be at least two empty fields between two cities "
-       "every direction. If it is set to 0 (default), it is overwritten by "
-       "the current ruleset when the game starts."), NULL, NULL, 0 },
-
-  { "razechance", &game.razechance, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE,
-    N_("Chance for conquered building destruction"),
-    N_("When a player conquers a city, each City Improvement has this "
-       "percentage chance to be destroyed."), NULL, NULL, 0 },
-
-  { "civstyle", &game.civstyle, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE,
-    N_("Style of Civ rules"),
-    N_("Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
-       "Currently this option affects the following rules:\n"
-       "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
-       "See also README.rulesets."), NULL, NULL, 0 },
-
-  { "occupychance", &game.occupychance, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, GAME_DEFAULT_OCCUPYCHANCE,
-    N_("Chance of moving into tile after attack"),
-    N_("If set to 0, combat is Civ1/2-style (when you attack, you remain in "
-       "place).  If set to 100, attacking units will always move into the "
-       "tile they attacked if they win the combat (and no enemy units remain "
-       "in the tile).  If set to a value between 0 and 100, this will be used "
-       "as the percent chance of \"occupying\" territory."), NULL, NULL, 0 },
-
-  { "killcitizen", &game.killcitizen, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN, GAME_DEFAULT_KILLCITIZEN,
-    N_("Reduce city population after attack"),
-    N_("This flag indicates if city population is reduced after successful "
-       "attack of enemy unit, depending on its movement type (OR-ed):\n"
-       "  1 = land\n"
-       "  2 = sea\n"
-       "  4 = heli\n"
-       "  8 = air"), NULL, NULL, 0 },
-
-  { "wtowervision", &game.watchtower_vision, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_WATCHTOWER_VISION, GAME_MAX_WATCHTOWER_VISION, GAME_DEFAULT_WATCHTOWER_VISION,
-    N_("Range of vision for units in a fortress"),
-    N_("watchtower vision range: If set to 1, it has no effect.\n"
-       "If 2 or larger, the vision range of a unit inside a fortress is\n"
-       "set to this value, if the necessary invention has been made.\n"
-       "This invention is determined by the flag 'Watchtower' in the\n"
-       "techs ruleset. Also see wtowerevision."), NULL, NULL, 0 },
-
-  { "wtowerevision", &game.watchtower_extra_vision, NULL, NULL,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_WATCHTOWER_EXTRA_VISION, GAME_MAX_WATCHTOWER_EXTRA_VISION, GAME_DEFAULT_WATCHTOWER_EXTRA_VISION,
-    N_("Extra vision range for units in a fortress"),
-    N_("watchtower extra vision range: If set to 0, it has no effect. \n"
-       "If larger than 0, the visionrange of a unit is raised by this value,\n"
-       "if the unit is inside a fortress and the invention determined \n"
-       "by the flag 'Watchtower' in the techs ruleset has been made. \n"
-       "Always the larger value of wtowervision and wtowerevision will \n"
-       "be used. Also see wtowervision."), NULL, NULL, 0 },
+  GEN_INT("wtowerevision", game.watchtower_extra_vision, SSET_RULES,
+	  SSET_TO_CLIENT,
+	  N_("Extra vision range for units in a fortress"),
+	  N_("watchtower extra vision range: If set to 0, it has no "
+	     "effect. If larger than 0, the visionrange of a unit is "
+	     "raised by this value, if the unit is inside a fortress "
+	     "and the invention determined by the flag 'Watchtower' "
+	     "in the techs ruleset has been made. Always the larger "
+	     "value of wtowervision and wtowerevision will be used. "
+	     "Also see wtowervision."), NULL, 
+	  GAME_MIN_WATCHTOWER_EXTRA_VISION, GAME_MAX_WATCHTOWER_EXTRA_VISION, 
+	  GAME_DEFAULT_WATCHTOWER_EXTRA_VISION)
 
 /* Flexible rules: these can be changed after the game has started.
  *
@@ -655,67 +654,67 @@ static struct settings_s settings[] = {
  *      packet_game_info) should probably not be flexible, or at
  *      least need extra care to be flexible.
  */
-  { "barbarians", &game.barbarianrate, NULL, NULL,
-    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
-    GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, GAME_DEFAULT_BARBARIANRATE,
-    N_("Barbarian appearance frequency"),
-    N_("0 - no barbarians \n"
-    "1 - barbarians only in huts \n"
-    "2 - normal rate of barbarian appearance \n"
-    "3 - frequent barbarian uprising \n"
-    "4 - raging hordes, lots of barbarians"), NULL, NULL, 0 },
+  GEN_INT("barbarians", game.barbarianrate, SSET_RULES_FLEXIBLE,
+	  SSET_TO_CLIENT,
+	  N_("Barbarian appearance frequency"),
+	  N_("0 - no barbarians \n"
+	     "1 - barbarians only in huts \n"
+	     "2 - normal rate of barbarian appearance \n"
+	     "3 - frequent barbarian uprising \n"
+	     "4 - raging hordes, lots of barbarians"), NULL, 
+	  GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, 
+	  GAME_DEFAULT_BARBARIANRATE)
 
-  { "onsetbarbs", &game.onsetbarbarian, NULL, NULL,
-    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
-    GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, GAME_DEFAULT_ONSETBARBARIAN,
-    N_("Barbarian onset year"),
-    N_("Barbarians will not appear before this year."), NULL, NULL, 0 },
+  GEN_INT("onsetbarbs", game.onsetbarbarian, SSET_RULES_FLEXIBLE,
+	  SSET_TO_CLIENT,
+	  N_("Barbarian onset year"),
+	  N_("Barbarians will not appear before this year."), NULL, 
+	  GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, 
+	  GAME_DEFAULT_ONSETBARBARIAN)
 
-  { "fogofwar", &game.fogofwar, NULL, NULL,
-    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
-    GAME_MIN_FOGOFWAR, GAME_MAX_FOGOFWAR, GAME_DEFAULT_FOGOFWAR,
-    N_("Whether to enable fog of war"),
-    N_("If this is set to 1, only those units and cities within the sightrange "
-       "of your own units and cities will be revealed to you. You will not see "
-       "new cities or terrain changes in squares not observed."), 
-    NULL, NULL, 0 },
+  GEN_BOOL("fogofwar", game.fogofwar, SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+	  N_("Whether to enable fog of war"),
+	  N_("If this is set to 1, only those units and cities within "
+	     "the sightrange of your own units and cities will be "
+	     "revealed to you. You will not see new cities or terrain "
+	     "changes in squares not observed."), NULL, 
+	  GAME_DEFAULT_FOGOFWAR)
 
-  { "diplchance", &game.diplchance, NULL, NULL,
-    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
-    GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,
-    N_("Chance in diplomat/spy contests"),
-    /* xgettext:no-c-format */
-    N_("A Diplomat or Spy acting against a city which has one or more "
-       "defending Diplomats or Spies has a diplchance (percent) chance to "
-       "defeat each such defender.  Also, the chance of a Spy returning "
-       "from a successful mission is diplchance percent.  (Diplomats never "
-       "return.)  Also, a basic chance of success for Diplomats and Spies.  "
-       "Defending Spys are generally twice as capable as Diplomats, "
-       "veteran units 50% more capable than non-veteran ones."),
-    NULL, NULL, 0 },
+  GEN_INT("diplchance", game.diplchance, SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+	  N_("Chance in diplomat/spy contests"),
+	  /* xgettext:no-c-format */
+	  N_("A Diplomat or Spy acting against a city which has one or "
+	     "more defending Diplomats or Spies has a diplchance "
+	     "(percent) chance to defeat each such defender.  Also, the "
+	     "chance of a Spy returning from a successful mission is "
+	     "diplchance percent.  (Diplomats never return.)  Also, a "
+	     "basic chance of success for Diplomats and Spies. "
+	     "Defending Spys are generally twice as capable as "
+	     "Diplomats, veteran units 50% more capable than "
+	     "non-veteran ones."), NULL, 
+	  GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE)
 
-  { "spacerace", &game.spacerace, NULL, NULL,
-    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
-    GAME_MIN_SPACERACE, GAME_MAX_SPACERACE, GAME_DEFAULT_SPACERACE,
-    N_("Whether to allow space race"),
-    N_("If this option is 1, players can build spaceships."), NULL, NULL, 0 },
+  GEN_BOOL("spacerace", game.spacerace, SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+	   N_("Whether to allow space race"),
+	   N_("If this option is 1, players can build spaceships."), NULL, 
+	   GAME_DEFAULT_SPACERACE)
 
-  { "civilwarsize", &game.civilwarsize, NULL, NULL,
-    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
-    GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, GAME_DEFAULT_CIVILWARSIZE,
-    N_("Minimum number of cities for civil war"),
-    N_("A civil war is triggered if a player has at least this many cities "
-       "and the player's capital is captured.  If this option is set to "
-       "the maximum value, civil wars are turned off altogether."), 
-    NULL, NULL, 0 },
+  GEN_INT("civilwarsize", game.civilwarsize, SSET_RULES_FLEXIBLE,
+	  SSET_TO_CLIENT,
+	  N_("Minimum number of cities for civil war"),
+	  N_("A civil war is triggered if a player has at least this "
+	     "many cities and the player's capital is captured.  If "
+	     "this option is set to the maximum value, civil wars are "
+	     "turned off altogether."), NULL, 
+	  GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, 
+	  GAME_DEFAULT_CIVILWARSIZE)
 
-  { "savepalace", &game.savepalace, NULL, NULL,
-    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
-    GAME_MIN_SAVEPALACE, GAME_MAX_SAVEPALACE, GAME_DEFAULT_SAVEPALACE,
-    N_("Rebuild palace if capital is conquered"),
-    N_("If this is set to 1 when the capital is conquered, palace is "
-       "automatically rebuilt for free in another randomly choosed "
-       "city, regardless on the knowledge of Masonry."), NULL, NULL, 0 },
+  GEN_BOOL("savepalace", game.savepalace, SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+	   N_("Rebuild palace if capital is conquered"),
+	   N_("If this is set to 1 when the capital is conquered, palace "
+	      "is automatically rebuilt for free in another randomly "
+	      "choosed city, regardless on the knowledge of Masonry."), NULL, 
+	   GAME_DEFAULT_SAVEPALACE)
 
 /* Meta options: these don't affect the internal rules of the game, but
  * do affect players.  Also options which only produce extra server
@@ -724,181 +723,174 @@ static struct settings_s settings[] = {
  * affect what happens in the game, it just determines when the
  * players stop playing and look at the score.)
  */
-  { "allowconnect", NULL, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("What connections are allowed"),
-    N_("This should be a string of characters, each of which specifies a "
-       "type or status of a civilization, or \"player\".  Clients will only "
-       "be permitted to connect to those players which match one of the "
-       "specified letters.  This only affects future connections, and "
-       "existing connections are unchanged.  "
-       "The characters and their meanings are:\n"
-       "    N   = New players (only applies pre-game)\n"
-       "    H,h = Human players (pre-existing)\n"
-       "    A,a = AI players\n"
-       "    d   = Dead players\n"
-       "    b   = Barbarian players\n"
-       "The first description from the _bottom_ which matches a "
-       "player is the one which applies.  Thus 'd' does not include Barbarians, "
-       "'a' does not include dead AI players, and so on.  Upper case letters "
-       "apply before the game has started, lower case letters afterwards.\n"
-       "Each character above may be followed by one of the following "
-       "special characters to allow or restrict multiple and observer "
-       "connections:\n"
-       "   * = Multiple controlling connections allowed;\n"
-       "   + = One controller and multiple observers allowed;\n"
-       "   = = Multiple observers allowed, no controllers;\n"
-       "   - = Single observer only, no controllers;\n"
-       "   (none) = Single controller only.\n"
-       "Multiple connections and observer connections are currently "
-       "EXPERIMENTAL."),
-    game.allow_connect, GAME_DEFAULT_ALLOW_CONNECT,
-    sizeof(game.allow_connect) },
+  GEN_STRING("allowconnect", game.allow_connect, SSET_META, SSET_TO_CLIENT,
+	     N_("What connections are allowed"),
+	     N_("This should be a string of characters, each of which "
+		"specifies a type or status of a civilization, or "
+		"\"player\".  Clients will only be permitted to connect "
+		"to those players which match one of the specified "
+		"letters.  This only affects future connections, and "
+		"existing connections are unchanged.  "
+		"The characters and their meanings are:\n"
+		"    N   = New players (only applies pre-game)\n"
+		"    H,h = Human players (pre-existing)\n"
+		"    A,a = AI players\n"
+		"    d   = Dead players\n"
+		"    b   = Barbarian players\n"
+		"The first description from the _bottom_ which matches a "
+		"player is the one which applies.  Thus 'd' does not "
+		"include Barbarians, 'a' does not include dead AI "
+		"players, and so on.  Upper case letters apply before "
+		"the game has started, lower case letters afterwards.\n"
+		"Each character above may be followed by one of the "
+		"following special characters to allow or restrict "
+		"multiple and observer connections:\n"
+		"   * = Multiple controlling connections allowed;\n"
+		"   + = One controller and multiple observers allowed;\n"
+		"   = = Multiple observers allowed, no controllers;\n"
+		"   - = Single observer only, no controllers;\n"
+		"   (none) = Single controller only.\n"
+		"Multiple connections and observer connections are "
+		"currently EXPERIMENTAL."), NULL,
+	     GAME_DEFAULT_ALLOW_CONNECT)
 
-  { "autotoggle", &game.auto_ai_toggle, autotoggle, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    GAME_MIN_AUTO_AI_TOGGLE, GAME_MAX_AUTO_AI_TOGGLE,
-    GAME_DEFAULT_AUTO_AI_TOGGLE,
-    N_("Whether AI-status toggles with connection"),
-    N_("If this is set to 1, AI status is turned off when a player "
-       "connects, and on when a player disconnects."), NULL, NULL, 0 },
+  GEN_BOOL("autotoggle", game.auto_ai_toggle, SSET_META, SSET_TO_CLIENT,
+	   N_("Whether AI-status toggles with connection"),
+	   N_("If this is set to 1, AI status is turned off when a player "
+	      "connects, and on when a player disconnects."), autotoggle, 
+	   GAME_DEFAULT_AUTO_AI_TOGGLE)
 
-  { "endyear", &game.end_year, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR,
-    N_("Year the game ends"), "", NULL, NULL, 0 },
+  GEN_INT("endyear", game.end_year, SSET_META, SSET_TO_CLIENT,
+	  N_("Year the game ends"), "", NULL, 
+	  GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR)
 
-  { "timeout", &game.timeout, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT,
-    N_("Maximum seconds per turn"),
 #ifndef NDEBUG
-    N_("If all players have not hit \"Turn Done\" before this time is up, "
-       "then the turn ends automatically. Zero means there is no timeout. "
-       "In DEBUG servers, a timeout of -1 sets the autogame test mode."),
+  GEN_INT( "timeout", game.timeout, SSET_META, SSET_TO_CLIENT,
+	   N_("Maximum seconds per turn"),
+	   N_("If all players have not hit \"Turn Done\" before this "
+	      "time is up, then the turn ends automatically. Zero "
+	      "means there is no timeout. In DEBUG servers, a timeout "
+	      "of -1 sets the autogame test mode."), NULL, 
+	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 #else
-    N_("If all players have not hit \"Turn Done\" before this time is up, "
-       "then the turn ends automatically. Zero means there is no timeout."),
+  GEN_INT( "timeout", game.timeout, SSET_META, SSET_TO_CLIENT,
+	   N_("Maximum seconds per turn"),
+	   N_("If all players have not hit \"Turn Done\" before this "
+	      "time is up, then the turn ends automatically. Zero "
+	      "means there is no timeout."), NULL, 
+	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 #endif
-    NULL, NULL, 0 },
 
-  { "tcptimeout", &game.tcptimeout, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    GAME_MIN_TCPTIMEOUT, GAME_MAX_TCPTIMEOUT, GAME_DEFAULT_TCPTIMEOUT,
-    N_("Seconds to let a client connection block"),
-    N_("If a TCP connection is blocking for a time greater than this value, "
-       "then the TCP connection is closed. Zero means there is no timeout "
-       "beyond that enforced by the TCP protocol implementation itself."), 
-    NULL, NULL, 0 },
+  GEN_INT("tcptimeout", game.tcptimeout, SSET_META, SSET_TO_CLIENT,
+	  N_("Seconds to let a client connection block"),
+	  N_("If a TCP connection is blocking for a time greater than "
+	     "this value, then the TCP connection is closed. Zero "
+	     "means there is no timeout beyond that enforced by the "
+	     "TCP protocol implementation itself."), NULL, 
+	  GAME_MIN_TCPTIMEOUT, GAME_MAX_TCPTIMEOUT, GAME_DEFAULT_TCPTIMEOUT)
 
-  { "netwait", &game.netwait, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    GAME_MIN_NETWAIT, GAME_MAX_NETWAIT, GAME_DEFAULT_NETWAIT,
-    N_("Max seconds for TCP buffers to drain"),
-    N_("The civserver will wait for upto the value of this parameter in "
-       "seconds, for all client connection TCP buffers to unblock. Zero means "
-       "the server will not wait at all."), NULL, NULL, 0 },
+  GEN_INT("netwait", game.netwait, SSET_META, SSET_TO_CLIENT,
+	  N_("Max seconds for TCP buffers to drain"),
+	  N_("The civserver will wait for upto the value of this "
+	     "parameter in seconds, for all client connection TCP "
+	     "buffers to unblock. Zero means the server will not "
+	     "wait at all."), NULL, 
+	  GAME_MIN_NETWAIT, GAME_MAX_NETWAIT, GAME_DEFAULT_NETWAIT)
 
-  { "pingtimeout", &game.pingtimeout, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    GAME_MIN_PINGTIMEOUT, GAME_MAX_PINGTIMEOUT, GAME_DEFAULT_PINGTIMEOUT,
-    N_("Maximum seconds between PINGs"),
-    N_("The civserver will poll the clients with a PING request each time this "
-       "period elapses. If a client doesn't reply with a PONG before the "
-       "next server PING request the client is disconnected."), 
-    NULL, NULL, 0 },
+  GEN_INT("pingtimeout", game.pingtimeout, SSET_META, SSET_TO_CLIENT,
+	  N_("Maximum seconds between PINGs"),
+	  N_("The civserver will poll the clients with a PING request "
+	     "each time this period elapses. If a client doesn't reply "
+	     "with a PONG before the next server PING request the "
+	     "client is disconnected."), NULL, 
+	  GAME_MIN_PINGTIMEOUT, GAME_MAX_PINGTIMEOUT, GAME_DEFAULT_PINGTIMEOUT)
 
-  { "turnblock", &game.turnblock, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    0, 1, 0,
-    N_("Turn-blocking game play mode"),
-    N_("If this is set to 1 the game turn is not advanced until all players "
-       "have finished their turn, including disconnected players."), 
-    NULL, NULL, 0 },
+  GEN_BOOL("turnblock", game.turnblock, SSET_META, SSET_TO_CLIENT,
+	   N_("Turn-blocking game play mode"),
+	   N_("If this is set to 1 the game turn is not advanced "
+	      "until all players have finished their turn, including "
+	      "disconnected players."), NULL, 
+	   FALSE)
 
-  { "fixedlength", &game.fixedlength, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    0, 1, 0,
-    N_("Fixed-length turns play mode"),
-    N_("If this is set to 1 the game turn will not advance until the timeout "
-       "has expired, irrespective of players clicking on \"Turn Done\"."), 
-    NULL, NULL, 0 },
+  GEN_BOOL("fixedlength", game.fixedlength, SSET_META, SSET_TO_CLIENT,
+	   N_("Fixed-length turns play mode"),
+	   N_("If this is set to 1 the game turn will not advance "
+	      "until the timeout has expired, irrespective of players "
+	      "clicking on \"Turn Done\"."), NULL,
+	   FALSE)
+  
+  GEN_STRING("demography", game.demography, SSET_META, SSET_TO_CLIENT,
+	     N_("What is in the Demographics report"),
+	     N_("This should be a string of characters, each of which "
+		"specifies the the inclusion of a line of information "
+		"in the Demographics report.\n"
+		"The characters and their meanings are:\n"
+		"    N = include Population           P = include Production\n"
+		"    A = include Land Area            E = include Economics\n"
+		"    S = include Settled Area         M = include Military Service\n"
+		"    R = include Research Speed       O = include Pollution\n"
+		"    L = include Literacy\n"
+		"Additionally, the following characters control whether "
+		"or not certain columns are displayed in the report:\n"
+		"    q = display \"quantity\" column    r = display \"rank\" column\n"
+		"    b = display \"best nation\" column\n"
+		"(The order of these characters is not significant, but their case is.)"), NULL,
+	     GAME_DEFAULT_DEMOGRAPHY)
 
-  { "demography", NULL, NULL, NULL,
-    SSET_META, SSET_TO_CLIENT,
-    0, 0, 0,
-    N_("What is in the Demographics report"),
-    N_("This should be a string of characters, each of which specifies the "
-       "the inclusion of a line of information in the Demographics report.\n"
-       "The characters and their meanings are:\n"
-       "    N = include Population           P = include Production\n"
-       "    A = include Land Area            E = include Economics\n"
-       "    S = include Settled Area         M = include Military Service\n"
-       "    R = include Research Speed       O = include Pollution\n"
-       "    L = include Literacy\n"
-       "Additionally, the following characters control whether or not certain "
-       "columns are displayed in the report:\n"
-       "    q = display \"quantity\" column    r = display \"rank\" column\n"
-       "    b = display \"best nation\" column\n"
-       "(The order of these characters is not significant, but their case is.)"),
-    game.demography, GAME_DEFAULT_DEMOGRAPHY,
-    sizeof(game.demography) },
-
-  { "saveturns", &game.save_nturns, NULL, NULL,
-    SSET_META, SSET_SERVER_ONLY,
-    0, 200, 10,
-    N_("Turns per auto-save"),
-    N_("The game will be automatically saved per this number of turns.\n"
-       "Zero means never auto-save."), NULL, NULL, 0 },
+  GEN_INT("saveturns", game.save_nturns, SSET_META, SSET_SERVER_ONLY,
+	  N_("Turns per auto-save"),
+	  N_("The game will be automatically saved per this number of turns.\n"
+	     "Zero means never auto-save."), NULL, 
+	  0, 200, 10)
 
   /* Could undef entire option if !HAVE_LIBZ, but this way users get to see
    * what they're missing out on if they didn't compile with zlib?  --dwp
    */
-  { "compress", &game.save_compress_level, NULL, NULL,
-    SSET_META, SSET_SERVER_ONLY,
 #ifdef HAVE_LIBZ
-    GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
-    GAME_DEFAULT_COMPRESS_LEVEL,
+  GEN_INT("compress", game.save_compress_level, SSET_META, SSET_SERVER_ONLY,
+	  N_("Savegame compression level"),
+	  N_("If non-zero, saved games will be compressed using zlib "
+	     "(gzip format).  Larger values will give better "
+	     "compression but take longer.  If the maximum is zero "
+	     "this server was not compiled to use zlib."), NULL, 
+
+	  GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
+	  GAME_DEFAULT_COMPRESS_LEVEL)
 #else
-    GAME_NO_COMPRESS_LEVEL, GAME_NO_COMPRESS_LEVEL, GAME_NO_COMPRESS_LEVEL,
+  GEN_INT("compress", game.save_compress_level, SSET_META, SSET_SERVER_ONLY,
+	  N_("Savegame compression level"),
+	  N_("If non-zero, saved games will be compressed using zlib "
+	     "(gzip format).  Larger values will give better "
+	     "compression but take longer.  If the maximum is zero "
+	     "this server was not compiled to use zlib."), NULL, 
+
+	  GAME_NO_COMPRESS_LEVEL, GAME_NO_COMPRESS_LEVEL, 
+	  GAME_NO_COMPRESS_LEVEL)
 #endif
-    N_("Savegame compression level"),
-    N_("If non-zero, saved games will be compressed using zlib (gzip format).  "
-       "Larger values will give better compression but take longer.  If the "
-       "maximum is zero this server was not compiled to use zlib."), 
-    NULL, NULL, 0 },
 
-  { "savename", NULL, NULL, NULL,
-    SSET_META, SSET_SERVER_ONLY,
-    0, 0, 0,
-    N_("Auto-save name prefix"),
-    N_("Automatically saved games will have name \"<prefix><year>.sav\".\n"
-       "This setting sets the <prefix> part."),
-    game.save_name, GAME_DEFAULT_SAVE_NAME,
-    sizeof(game.save_name) },
+  GEN_STRING("savename", game.save_name, SSET_META, SSET_SERVER_ONLY,
+	     N_("Auto-save name prefix"),
+	     N_("Automatically saved games will have name "
+		"\"<prefix><year>.sav\".\nThis setting sets "
+		"the <prefix> part."), NULL,
+	     GAME_DEFAULT_SAVE_NAME)
 
-  { "scorelog", &game.scorelog, NULL, NULL,
-    SSET_META, SSET_SERVER_ONLY,
-    GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG,
-    N_("Whether to log player statistics"),
-    N_("If this is set to 1, player statistics are appended to the file "
-       "\"civscore.log\" every turn.  These statistics can be used to "
-       "create power graphs after the game."), NULL, NULL, 0 },
+  GEN_BOOL("scorelog", game.scorelog, SSET_META, SSET_SERVER_ONLY,
+	   N_("Whether to log player statistics"),
+	   N_("If this is set to 1, player statistics are appended to "
+	      "the file \"civscore.log\" every turn.  These statistics "
+	      "can be used to create power graphs after the game."), NULL,
+	   GAME_DEFAULT_SCORELOG)
 
-  { "gamelog", &gamelog_level, NULL, NULL,
-    SSET_META, SSET_SERVER_ONLY,
-    0, 40, 20,
-    N_("Detail level for logging game events"),
-    N_("Only applies if the game log feature is enabled "
-       "(with the -g command line option).  "
-       "Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
-       "40=debuging logging."), NULL, NULL, 0 },
+  GEN_INT("gamelog", gamelog_level, SSET_META, SSET_SERVER_ONLY,
+	  N_("Detail level for logging game events"),
+	  N_("Only applies if the game log feature is enabled "
+	     "(with the -g command line option).  "
+	     "Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
+	     "40=debuging logging."), NULL, 
+	  0, 40, 20)
 
-  { NULL, NULL, NULL, NULL,
-    SSET_LAST, SSET_SERVER_ONLY,
-    0, 0, 0,
-    NULL, NULL, NULL, NULL, 0 }
+  GEN_END
 };
 
 #define SETTINGS_NUM (ARRAY_SIZE(settings)-1)
@@ -1951,10 +1943,17 @@ static void write_init_script(char *script_filename)
     for (i=0;settings[i].name;i++) {
       struct settings_s *op = &settings[i];
 
-      if (SETTING_IS_INT(op)) {
-        fprintf(script_file, "set %s %i\n", op->name, *op->value);
-      } else {
-        fprintf(script_file, "set %s %s\n", op->name, op->svalue);
+      switch (op->type) {
+      case SSET_INT:
+	fprintf(script_file, "set %s %i\n", op->name, *op->int_value);
+	break;
+      case SSET_BOOL:
+	fprintf(script_file, "set %s %i\n", op->name,
+		(*op->bool_value) ? 1 : 0);
+	break;
+      case SSET_STRING:
+	fprintf(script_file, "set %s %s\n", op->name, op->string_value);
+	break;
       }
     }
 
@@ -2354,14 +2353,23 @@ static void show_help_option(struct connection *caller,
 				  ? _("changeable") : _("fixed")));
   
   if (may_view_option(caller, id)) {
-    if (SETTING_IS_INT(op)) {
+    switch (op->type) {
+    case SSET_BOOL:
+      cmd_reply(help_cmd, caller, C_COMMENT,
+		_("Value: %d, Minimum: 0, Default: %d, Maximum: 1"),
+		(*(op->bool_value)) ? 1 : 0, op->bool_default_value ? 1 : 0);
+      break;
+    case SSET_INT:
       cmd_reply(help_cmd, caller, C_COMMENT,
 		_("Value: %d, Minimum: %d, Default: %d, Maximum: %d"),
-		*(op->value), op->min_value, op->default_value, op->max_value);
-    } else {
+		*(op->int_value), op->int_min_value, op->int_default_value,
+		op->int_max_value);
+      break;
+    case SSET_STRING:
       cmd_reply(help_cmd, caller, C_COMMENT,
-		_("Value: \"%s\", Default: \"%s\""),
-		op->svalue, op->default_svalue);
+		_("Value: \"%s\", Default: \"%s\""), op->string_value,
+		op->string_default_value);
+      break;
     }
   }
 }
@@ -2465,14 +2473,25 @@ void report_server_options(struct conn_list *dest, int which)
     if (!sset_is_to_client(i)) continue;
     if (which==1 && op->sclass > SSET_GAME_INIT) continue;
     if (which==2 && op->sclass <= SSET_GAME_INIT) continue;
-    if (SETTING_IS_INT(op)) {
+    switch (op->type) {
+    case SSET_BOOL:
+      cat_snprintf(buffer, sizeof(buffer), "%-20s%c%-6d (0,1)\n",
+		   op->name,
+		   (*op->bool_value == op->bool_default_value) ? '*' : ' ',
+		   *op->bool_value);
+      break;
+
+    case SSET_INT:
       cat_snprintf(buffer, sizeof(buffer), "%-20s%c%-6d (%d,%d)\n", op->name,
-		   (*op->value==op->default_value) ? '*' : ' ',
-		   *op->value, op->min_value, op->max_value);
-    } else {
+		   (*op->int_value == op->int_default_value) ? '*' : ' ',
+		   *op->int_value, op->int_min_value, op->int_max_value);
+      break;
+    case SSET_STRING:
       cat_snprintf(buffer, sizeof(buffer), "%-20s%c\"%s\"\n", op->name,
-		   (strcmp(op->svalue, op->default_svalue)==0) ? '*' : ' ',
-		   op->svalue);
+		   (strcmp(op->string_value,
+			   op->string_default_value) == 0) ? '*' : ' ',
+		   op->string_value);
+      break;
     }
   }
   freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
@@ -2614,23 +2633,38 @@ static void show_command(struct connection *caller, char *str)
 	    || (cmd==-2 && mystrncasecmp(settings[i].name, command, clen)==0))) {
       /* in the cmd==i case, this loop is inefficient. never mind - rp */
       struct settings_s *op = &settings[i];
-      int len;
+      int len = 0;
 
-      if (SETTING_IS_INT(op)) {
-        len = my_snprintf(buf, sizeof(buf),
-		      "%-*s %c%c%-5d (%d,%d)", OPTION_NAME_SPACE, op->name,
-		      may_set_option_now(caller,i) ? '+' : ' ',
-		      ((*op->value==op->default_value) ? '=' : ' '),
-		      *op->value, op->min_value, op->max_value);
-	if (len == -1)
-	  len = sizeof(buf) - 1;
-      } else {
-        len = my_snprintf(buf, sizeof(buf),
-		      "%-*s %c%c\"%s\"", OPTION_NAME_SPACE, op->name,
-		      may_set_option_now(caller,i) ? '+' : ' ',
-		      ((strcmp(op->svalue, op->default_svalue)==0) ? '=' : ' '),
-		      op->svalue);
-	if (len == -1)
+      switch (op->type) {
+      case SSET_BOOL:
+	len = my_snprintf(buf, sizeof(buf),
+			  "%-*s %c%c%-5d (0,1)", OPTION_NAME_SPACE, op->name,
+			  may_set_option_now(caller, i) ? '+' : ' ',
+			  ((*op->bool_value == op->bool_default_value) ?
+			   '=' : ' '), (*op->bool_value) ? 1 : 0);
+	break;
+
+      case SSET_INT:
+	len = my_snprintf(buf, sizeof(buf),
+			  "%-*s %c%c%-5d (%d,%d)", OPTION_NAME_SPACE,
+			  op->name, may_set_option_now(caller,
+						       i) ? '+' : ' ',
+			  ((*op->int_value == op->int_default_value) ?
+			   '=' : ' '),
+			  *op->int_value, op->int_min_value,
+			  op->int_max_value);
+	break;
+
+      case SSET_STRING:
+	len = my_snprintf(buf, sizeof(buf),
+			  "%-*s %c%c\"%s\"", OPTION_NAME_SPACE, op->name,
+			  may_set_option_now(caller, i) ? '+' : ' ',
+			  ((strcmp(op->string_value,
+				   op->string_default_value) == 0) ?
+			   '=' : ' '), op->string_value);
+	break;
+      }
+      if (len == -1) {
 	  len = sizeof(buf) - 1;
       }
       /* Line up the descriptions: */
@@ -2680,6 +2714,8 @@ static void set_command(struct connection *caller, char *str)
   char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int val, cmd;
   struct settings_s *op;
+  bool do_update;
+  char buffer[500];
 
   for (cptr_s = str; *cptr_s != '\0' && !is_ok_opt_name_char(*cptr_s);
        cptr_s++) {
@@ -2724,56 +2760,93 @@ static void set_command(struct connection *caller, char *str)
   }
 
   op = &settings[cmd];
-  
-  if (SETTING_IS_INT(op)) {
+
+  do_update = FALSE;
+  buffer[0] = '\0';
+
+  switch (op->type) {
+  case SSET_BOOL:
     if (sscanf(arg, "%d", &val) != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
-    } else if (val >= op->min_value && val <= op->max_value) {
+    } else if (val != 0 && val != 1) {
+      cmd_reply(CMD_SET, caller, C_SYNTAX,
+		_("Value out of range (minimum: 0, maximum: 1)."));
+    } else {
       char *reject_message = NULL;
-      if (!settings[cmd].func_change || settings[cmd].func_change(val, &reject_message)) {
-	*(op->value) = val;
-	cmd_reply(CMD_SET, caller, C_OK, _("Option: %s has been set to %d."), 
-		  settings[cmd].name, val);
-	if (sset_is_to_client(cmd)) {
-	  notify_player(NULL, _("Option: %s has been set to %d."),
-			settings[cmd].name, val);
-	  /* canonify map generator settings( all of which are int ) */
-	  adjust_terrain_param();
-	  /* send any modified game parameters to the clients --
-	     if sent before RUN_GAME_STATE, triggers a popdown_races_dialog()
-	     call in client/packhand.c#handle_game_info() */
-	  if (server_state==RUN_GAME_STATE)
-	    send_game_info(NULL);
-	}
-      } else { /* check function returned an error */
-	cmd_reply(CMD_SET, caller, C_SYNTAX,
-		  reject_message,
-		  op->min_value, op->max_value);
+      bool b_val = (val != 0);
+
+      if (settings[cmd].bool_validate
+	  || !settings[cmd].bool_validate(b_val, &reject_message)) {
+	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+      } else {
+	*(op->bool_value) = b_val;
+	my_snprintf(buffer, sizeof(buffer),
+		    _("Option: %s has been set to %d."), op->name,
+		    *(op->bool_value) ? 1 : 0);
       }
-    } else { /* not in valid range */
+    }
+    break;
+
+  case SSET_INT:
+    if (sscanf(arg, "%d", &val) != 1) {
+      cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
+    } else if (val < op->int_min_value || val > op->int_max_value) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("Value out of range (minimum: %d, maximum: %d)."),
-		op->min_value, op->max_value);
-    }
-  } else {
-    if (strlen(arg)<op->sz_svalue) {
-      char *reject_message = NULL;
-      if (!settings[cmd].func_change_s
-	  || settings[cmd].func_change_s(arg, &reject_message)) {
-	strcpy(op->svalue, arg);
-	cmd_reply(CMD_SET, caller, C_OK,
-		  _("Option: %s has been set to \"%s\"."),
-		  op->name, op->svalue);
-	if (sset_is_to_client(cmd)) {
-	  notify_player(NULL, _("Option: %s has been set to \"%s\"."),
-			op->name, op->svalue);
-	}
-      } else { /* func_change_s barked. */
-	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
-      }
+		op->int_min_value, op->int_max_value);
     } else {
+      char *reject_message = NULL;
+
+      if (settings[cmd].int_validate
+	  || !settings[cmd].int_validate(val, &reject_message)) {
+	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+      } else {
+	*(op->int_value) = val;
+	my_snprintf(buffer, sizeof(buffer),
+		    _("Option: %s has been set to %d."), op->name,
+		    *(op->int_value));
+	do_update = TRUE;
+      }
+    }
+    break;
+
+  case SSET_STRING:
+    if (strlen(arg) >= op->string_value_size) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("String value too long.  Usage: set <option> <value>."));
+    } else {
+      char *reject_message = NULL;
+
+      if (settings[cmd].string_validate
+	  || !settings[cmd].string_validate(arg, &reject_message)) {
+	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+      } else {
+	strcpy(op->string_value, arg);
+	my_snprintf(buffer, sizeof(buffer),
+		    _("Option: %s has been set to \"%s\"."), op->name,
+		    op->string_value);
+      }
+    }
+    break;
+  }
+
+  if (strlen(buffer) > 0) {
+    cmd_reply(CMD_SET, caller, C_OK, "%s", buffer);
+    if (sset_is_to_client(cmd)) {
+      notify_player(NULL, "%s", buffer);
+    }
+  }
+
+  if (do_update) {
+    /* canonify map generator settings (all of which are int) */
+    adjust_terrain_param();
+    /* 
+     * send any modified game parameters to the clients -- if sent
+     * before RUN_GAME_STATE, triggers a popdown_races_dialog() call
+     * in client/packhand.c#handle_game_info() 
+     */
+    if (server_state == RUN_GAME_STATE) {
+      send_game_info(NULL);
     }
   }
 }
@@ -3450,9 +3523,9 @@ static bool valid_fulltradesize(int value, char **reject_message)
   return FALSE;
 }
 
-static bool autotoggle(int value, char **reject_message)
+static bool autotoggle(bool value, char **reject_message)
 {
-  if (value == 0)
+  if (!value)
     return TRUE;
 
   players_iterate(pplayer) {
