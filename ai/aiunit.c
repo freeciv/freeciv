@@ -652,7 +652,7 @@ static bool stay_and_defend(struct unit *punit)
     /* change homecity to this city */
     if (ai_unit_make_homecity(punit, pcity)) {
       /* Very important, or will not stay -- Syela */
-      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME);
+      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1);
       return TRUE;
     }
   }
@@ -1100,7 +1100,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     y = acity->y; 
   } else { 
     /* should be impossible */
-    ai_unit_new_role(punit, AIUNIT_NONE);
+    ai_unit_new_role(punit, AIUNIT_NONE, -1 , -1);
     return;
   }
   
@@ -1122,7 +1122,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
       }
     } else {
       /* can't possibly get there to help */
-      ai_unit_new_role(punit, AIUNIT_NONE);
+      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
     }
   } else {
     /* I had these guys set to just fortify, which is so dumb. -- Syela */
@@ -1360,9 +1360,6 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
   /* Dead unit shouldn't reach this point */
   assert(player_find_unit_by_id(pplayer, id) != NULL);
   
-  /* in case we need to change */
-  punit->ai.ai_role = AIUNIT_NONE; /* this can't be right -- Per */
-
   if (!same_pos(punit->x, punit->y, x, y)) {
     return 1;			/* moved */
   } else {
@@ -1489,9 +1486,9 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)
 	&& is_land_barbarian(pplayer))
       /* land barbarians pillage */
-      ai_unit_new_role(punit, AIUNIT_PILLAGE);
+      ai_unit_new_role(punit, AIUNIT_PILLAGE, -1, -1);
     else
-      ai_unit_new_role(punit, AIUNIT_ATTACK);
+      ai_unit_new_role(punit, AIUNIT_ATTACK, -1, -1);
     return;
   }
 
@@ -1508,7 +1505,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
       punit->ai.ai_role = AIUNIT_ESCORT; /* do not use ai_unit_new_role() */
       return;
     } else {
-      ai_unit_new_role(punit, AIUNIT_NONE);
+      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
     }
   }
 
@@ -1520,7 +1517,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 
   if (q > 0) {
     if (pcity->ai.urgency != 0) {
-      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME);
+      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1);
       return;
     }
   }
@@ -1546,27 +1543,27 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
 
   }
   if (q > val && ai_fuzzy(pplayer, TRUE)) {
-    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME);
+    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1);
     return;
   }
   /* this is bad; riflemen might rather attack if val is low -- Syela */
   if (acity) {
-    ai_unit_new_role(punit, AIUNIT_ESCORT);
+    ai_unit_new_role(punit, AIUNIT_ESCORT, acity->x, acity->y);
     punit->ai.charge = acity->id;
     freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
 		  unit_type(punit)->name, punit->x, punit->y,
 		  acity->name, acity->x, acity->y);
   } else if (aunit) {
-    ai_unit_new_role(punit, AIUNIT_ESCORT);
+    ai_unit_new_role(punit, AIUNIT_ESCORT, aunit->x, aunit->y);
     punit->ai.charge = aunit->id;
     freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
 		  unit_type(punit)->name, punit->x, punit->y,
 		  unit_type(aunit)->name, aunit->x, aunit->y);
   } else if (ai_unit_attack_desirability(punit->type) != 0 ||
       (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)))
-     ai_unit_new_role(punit, AIUNIT_ATTACK);
+     ai_unit_new_role(punit, AIUNIT_ATTACK, -1, -1);
   else {
-    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME); /* for default */
+    ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1); /* for default */
   }
 }
 
@@ -1582,7 +1579,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 		 punit->id,punit->x,punit->y,pcity->x,pcity->y); 
     if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
-      ai_unit_new_role(punit, AIUNIT_NONE);
+      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
       /* aggro defense goes here -- Syela */
       punit = ai_military_rampage(punit, 2); /* 2 is better than pillage */
     } else {
@@ -2270,7 +2267,6 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
-  punit->ai.ai_role = AIUNIT_NONE; /* this can't be right -- Per */
   /* was getting a bad bug where a settlers caused a defender to leave home */
   /* and then all other supported units went on DEFEND_HOME/goto */
   ai_military_findjob(pplayer, punit);
@@ -2278,7 +2274,7 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
   switch (punit->ai.ai_role) {
   case AIUNIT_AUTO_SETTLER:
   case AIUNIT_BUILD_CITY:
-    ai_unit_new_role(punit, AIUNIT_NONE);
+    ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
     break;
   case AIUNIT_DEFEND_HOME:
     ai_military_gohome(pplayer, punit);

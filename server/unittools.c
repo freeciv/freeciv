@@ -1776,11 +1776,8 @@ static void server_remove_unit(struct unit *punit)
      are built, so that no two settlers head towards the same city
      spot, we need to ensure this reservation is cleared should
      the settler die on the way. */
-  if (unit_owner(punit)->ai.control 
-      && punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
-    if (normalize_map_pos(&punit->goto_dest_x, &punit->goto_dest_y)) {
-      remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
-    }
+  if (unit_owner(punit)->ai.control) {
+    ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
   }
 
   remove_unit_sight_points(punit);

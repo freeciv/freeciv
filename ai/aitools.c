@@ -108,17 +108,33 @@ void destroy_unit_virtual(struct unit *punit)
 }
 
 /**************************************************************************
-  Ensure unit sanity
+  Ensure unit sanity by telling charge that we won't bodyguard it anymore,
+  add and remove city spot reservation, and set destination.
 **************************************************************************/
-void ai_unit_new_role(struct unit *punit, enum ai_unit_task task)
+void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 {
   struct unit *charge = find_unit_by_id(punit->ai.charge);
+
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+    assert(is_normal_map_pos(punit->goto_dest_x, punit->goto_dest_y));
+    remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
+  }
+
   if (charge && (charge->ai.bodyguard == punit->id)) {
     /* ensure we don't let the unit believe we bodyguard it */
-    charge->ai.bodyguard = BODYGUARD_NONE; 
+    charge->ai.bodyguard = BODYGUARD_NONE;
   }
   punit->ai.charge = BODYGUARD_NONE;
+
   punit->ai.ai_role = task;
+/* TODO:
+  punit->goto_dest_x = x;
+  punit->goto_dest_y = y; */
+
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+    assert(is_normal_map_pos(x, y));
+    add_city_to_minimap(x, y);
+  }
 }
 
 /**************************************************************************

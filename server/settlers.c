@@ -33,6 +33,7 @@
 #include "aicity.h"
 #include "aiunit.h"
 #include "aidata.h"
+#include "aitools.h"
 
 #include "settlers.h"
 
@@ -427,7 +428,7 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
   punit->ai.control = TRUE;
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
   if (punit->ai.ai_role == AIUNIT_NONE) {
-    punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
+    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, -1, -1);
   }
   return;
 }
@@ -919,10 +920,9 @@ static int evaluate_city_building(struct unit *punit,
 
   generate_warmap(mycity, punit);
 
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
-  }
-  punit->ai.ai_role = AIUNIT_AUTO_SETTLER; /* here and not before! -- Syela */
+  /* A default, and also resets minimap if we reserved it previously */
+  ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, -1, -1);
+
  /* hope 11 is far enough -- Syela */
   square_iterate(punit->x, punit->y, 11, x, y) {
     int near = real_map_distance(punit->x, punit->y, x, y);
@@ -1277,32 +1277,26 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   if (gx!=-1 && gy!=-1) {
     map_get_tile(gx, gy)->assigned =
       map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
-  } else if (pplayer->ai.control) { /* settler has no purpose */
-    /* possibly add Gilligan's Island here */
-    ;
-  }
-
-  /* If we intent on building a city then reserve the square. */
-  if (unit_flag(punit, F_CITIES) &&
-      best_act == ACTIVITY_UNKNOWN /* flag */) {
-    punit->ai.ai_role = AIUNIT_BUILD_CITY;
-    /* FIXME: is the unit taken off the minimap if it dies?
-     * Or if he decides to build a road instead? */
-    add_city_to_minimap(gx, gy);
-  } else {
-    punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
-  }
-
-  /* We've now worked out what to do; go to it! */
-  if (gx != -1 && gy != -1) {
-    bool survived = ai_gothere(punit, gx, gy, ferryboat);
-    if (!survived)
-      return;
   } else {
     /* This line makes non-AI autosettlers go off auto when they run
        out of squares to improve. I would like keep them on, prepared for
        future pollution and warming, but there wasn't consensus to do so. */
     punit->ai.control = FALSE;
+    return;
+  }
+
+  /* If we intent on building a city then reserve the square. */
+  if (unit_flag(punit, F_CITIES) &&
+      best_act == ACTIVITY_UNKNOWN /* flag */) {
+    ai_unit_new_role(punit, AIUNIT_BUILD_CITY, gx, gy);
+  } else {
+    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, gx, gy);
+  }
+
+  /* We've now worked out what to do; go to it! */
+  if (!ai_gothere(punit, gx, gy, ferryboat)) {
+    /* died */
+    return;
   }
 
   /* If we are at the destination then do the activity. */
