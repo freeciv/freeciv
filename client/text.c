@@ -395,6 +395,9 @@ const char *unit_description(struct unit *punit)
   }
 
   add_line("%s", get_nearest_city_text(pcity_near, pcity_near_dist));
+#ifdef DEBUG
+  add_line("Unit ID: %d", punit->id);
+#endif
 
   RETURN;
 }
@@ -514,9 +517,17 @@ const char *get_unit_info_label_text2(struct unit *punit)
       add_line(" ");
     }
     if (pcity) {
+#ifdef DEBUG
+      add_line("%s (Unit ID %d)", pcity->name, punit->id);
+#else
       add_line("%s", pcity->name);
+#endif
     } else {
+#ifdef DEBUG
+      add_line("(Unit ID %d)", punit->id);
+#else
       add_line(" ");
+#endif
     }
   } else {
     add("\n\n\n");
