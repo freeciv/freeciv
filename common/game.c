@@ -241,6 +241,7 @@ void game_init(void)
   game.fogofwar    = GAME_DEFAULT_FOGOFWAR;
   game.fogofwar_old= game.fogofwar;
   game.borders     = GAME_DEFAULT_BORDERS;
+  game.happyborders = GAME_DEFAULT_HAPPYBORDERS;
   game.slow_invasions = GAME_DEFAULT_SLOW_INVASIONS;
   game.auto_ai_toggle = GAME_DEFAULT_AUTO_AI_TOGGLE;
   game.notradesize    = GAME_DEFAULT_NOTRADESIZE;
