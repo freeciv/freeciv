@@ -805,28 +805,28 @@ static bool get_tile_boundaries(enum direction8 dir,
       *end_x = W - inset;
       *start_y = inset + width;
       *end_y = H / 2 + width;
-      return (draw & D_M_R);
+      return (draw & D_M_R) == D_M_R;
     case DIR8_SOUTH:
       /* Bottom left. */
       *start_x = inset;
       *end_x = W / 2;
       *start_y = H / 2 - overlap;
       *end_y = H - inset - overlap;
-      return (draw & D_B_L) && (inset + overlap) > 0;
+      return (draw & D_B_L) == D_B_L && (inset + overlap) > 0;
     case DIR8_EAST:
       /* Bottom right. */
       *start_x = W - inset;
       *end_x = W / 2;
       *start_y = H / 2 - overlap;
       *end_y = H - inset - overlap;
-      return (draw & D_B_R) && (inset + overlap) > 0;
+      return (draw & D_B_R) == D_B_R && (inset + overlap) > 0;
     case DIR8_WEST:
       /* Top left. */
       *start_x = inset;
       *end_x = W / 2;
       *start_y = H / 2 + width;
       *end_y = inset + width;
-      return (draw & D_M_L);
+      return (draw & D_M_L) == D_M_L;
     case DIR8_NORTHEAST:
     case DIR8_SOUTHEAST:
     case DIR8_SOUTHWEST:
@@ -1197,36 +1197,36 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d), draw %x",
 	    map_x, map_y, canvas_x, canvas_y, draw);
 
-    if ((draw & D_TMB_L) && (draw & D_TMB_R)) {
+    if ((draw & D_L) && (draw & D_R)) {
       width = NORMAL_TILE_WIDTH;
     } else {
       width = NORMAL_TILE_WIDTH / 2;
     }
 
-    if (draw & D_TMB_L) {
+    if (draw & D_L) {
       offset_x = 0;
     } else {
       offset_x = NORMAL_TILE_WIDTH / 2;
     }
 
     height = 0;
-    if (draw & D_M_LR) {
+    if (draw & D_M) {
       height += NORMAL_TILE_HEIGHT / 2;
     }
-    if (draw & D_B_LR) {
+    if (draw & D_B) {
       height += NORMAL_TILE_HEIGHT / 2;
     }
 
     height_unit = height;
-    if (draw & D_T_LR) {
+    if (draw & D_T) {
       height_unit += NORMAL_TILE_HEIGHT / 2;
     }
 
-    offset_y = (draw & D_M_LR) ? 0 : NORMAL_TILE_HEIGHT / 2;
+    offset_y = (draw & D_M) ? 0 : NORMAL_TILE_HEIGHT / 2;
 
-    if (draw & D_T_LR) {
+    if (draw & D_T) {
       offset_y_unit = 0;
-    } else if (draw & D_M_LR) {
+    } else if (draw & D_M) {
       offset_y_unit = NORMAL_TILE_HEIGHT / 2;
     } else {
       offset_y_unit = NORMAL_TILE_HEIGHT;
