@@ -312,7 +312,9 @@ static int get_meta_list(char *errbuf, int n_errbuf)
 		       3, row[3], 4, row[4], 5, row[5], -1);
 
     for (i=0; i<6; i++) {
-      g_free(row[i]);
+      if (i != 3) {
+        g_free(row[i]);
+      }
     }
   }
   server_list_iterate_end;
