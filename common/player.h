@@ -54,12 +54,14 @@ struct player_economic {
 };
 
 struct player_research {
-  int researched;     /* # bulbs reseached */
-  int researchpoints; /* # bulbs to complete */
-  int researching;    /* invention being researched in */
-  int changed_from;   /* if the player changed techs, which one changed from */
-  int before_researched;	/* if the player changed techs, how many */
-				/* points they had before the change */
+  int bulbs_researched;   /* # bulbs reseached for the current tech */    
+  int techs_researched;   /* # techs the player has researched/acquired */
+  int researching;        /* invention being researched in */
+  int changed_from;       /* if the player changed techs, which one
+			     changed from */
+  int bulbs_researched_before;  /* if the player changed techs, how
+				   many points they had before the
+				   change */
   unsigned char inventions[A_LAST];
 };
 
@@ -93,7 +95,13 @@ struct player_ai {
   int maxbuycost;
   int est_upkeep; /* estimated upkeep of buildings in cities */
   int tech_want[A_LAST+1];
-  int tech_turns[A_LAST+1]; /* saves zillions of calculations! */
+
+  /* 
+   * num_unknown_techs[i] contains the value of
+   * num_unknown_techs_for_goal(i). This is cached here to save
+   * calculations.
+   */
+  int num_unknown_techs[A_LAST+1];
   int handicap;			/* sum of enum handicap_type */
   int skill_level;		/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */

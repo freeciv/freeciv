@@ -122,14 +122,14 @@ static void intel_create_dialog(struct player *p)
   
   hbox=fcwin_hbox_new(intel_dialog,FALSE);
    
-  if (p->research.researching!=A_NONE) {
-    my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"), 
+  if (p->research.researching != A_NONE) {
+    my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		advances[p->research.researching].name,
-		p->research.researched, 
-		research_time(p));
+		p->research.bulbs_researched, total_bulbs_required(p));
   } else {
     my_snprintf(buf, sizeof(buf), _("Researching Future Tech. %d: %d/%d"),
-		((p->future_tech)+1), p->research.researched,research_time(p));
+		((p->future_tech) + 1), p->research.bulbs_researched,
+		total_bulbs_required(p));
   }
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);
   

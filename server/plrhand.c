@@ -60,15 +60,18 @@ static void package_player_info(struct player *plr,
 **************************************************************************/
 void do_dipl_cost(struct player *pplayer)
 {
-  pplayer->research.researched -=(research_time(pplayer)*game.diplcost)/100;
+  pplayer->research.bulbs_researched -=
+      (total_bulbs_required(pplayer) * game.diplcost) / 100;
 }
 void do_free_cost(struct player *pplayer)
 {
-  pplayer->research.researched -=(research_time(pplayer)*game.freecost)/100;
+  pplayer->research.bulbs_researched -=
+      (total_bulbs_required(pplayer) * game.freecost) / 100;
 }
 void do_conquer_cost(struct player *pplayer)
 {
-  pplayer->research.researched -=(research_time(pplayer)*game.conquercost)/100;
+  pplayer->research.bulbs_researched -=
+      (total_bulbs_required(pplayer) * game.conquercost) / 100;
 }
 
 /**************************************************************************
@@ -218,7 +221,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   struct city *pcity;
 
   plr->got_tech=1;
-  plr->research.researchpoints++;
+  plr->research.techs_researched++;
   was_first = !game.global_advances[tech_found];
 
   if (was_first) {
@@ -279,7 +282,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   if (tech_found==plr->research.researching) {
     /* need to pick new tech to research */
 
-    saved_bulbs=plr->research.researched;
+    saved_bulbs = plr->research.bulbs_researched;
 
     if (choose_goal_tech(plr)) {
       notify_player(plr, 
@@ -308,8 +311,9 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 		      plr->future_tech,(plr->future_tech)+1);
       }
     }
-    if(saving_bulbs)
-      plr->research.researched=saved_bulbs;
+    if (saving_bulbs) {
+      plr->research.bulbs_researched = saved_bulbs;
+    }
   }
 
   if (bonus_tech_hack) {
@@ -363,13 +367,11 @@ Called from each city to update the research.
 **************************************************************************/
 int update_tech(struct player *plr, int bulbs)
 {
-  plr->research.researched+=bulbs;
-  if (plr->research.researched < research_time(plr)) {
+  plr->research.bulbs_researched += bulbs;
+  if (plr->research.bulbs_researched < total_bulbs_required(plr)) {
     return 0;
   } else {
-    
-    tech_researched( plr );
-    
+    tech_researched(plr);
     return 1;
   }
 }
@@ -381,15 +383,16 @@ int choose_goal_tech(struct player *plr)
 {
   int sub_goal;
 
-  if (plr->research.researched >0)
-    plr->research.researched = 0;
+  if (plr->research.bulbs_researched > 0) {
+    plr->research.bulbs_researched = 0;
+  }
   update_research(plr);
   if (plr->ai.control) {
     ai_next_tech_goal(plr); /* tech-AI has been changed */
     sub_goal = get_next_tech(plr, plr->ai.tech_goal); /* should be changed */
   } else sub_goal = get_next_tech(plr, plr->ai.tech_goal);
   if (!sub_goal) {
-    if (plr->ai.control || plr->research.researchpoints == 1) {
+    if (plr->ai.control || plr->research.techs_researched == 1) {
       ai_next_tech_goal(plr);
       sub_goal = get_next_tech(plr, plr->ai.tech_goal);
     } else {
@@ -409,27 +412,33 @@ int choose_goal_tech(struct player *plr)
 **************************************************************************/
 void choose_random_tech(struct player *plr)
 {
-  int researchable=0;
-  int i;
-  int choosen;
-  if (plr->research.researched >0)
-    plr->research.researched = 0;
+  int choosen, researchable = 0;
+  Tech_Type_id i;
+
+  if (plr->research.bulbs_researched >0) {
+    plr->research.bulbs_researched = 0;
+  }
   update_research(plr);
-  for (i=0;i<game.num_tech_types;i++)
-    if (get_invention(plr, i)==TECH_REACHABLE) 
+  for (i = 0; i < game.num_tech_types; i++) {
+    if (get_invention(plr, i) == TECH_REACHABLE) {
       researchable++;
-  if (researchable==0) { 
-    plr->research.researching=A_NONE;
+    }
+  }
+  if (researchable == 0) {
+    plr->research.researching = A_NONE;
     return;
   }
-  choosen=myrand(researchable)+1;
+  choosen = myrand(researchable) + 1;
   
-  for (i=0;i<game.num_tech_types;i++)
-    if (get_invention(plr, i)==TECH_REACHABLE) {
+  for (i = 0; i < game.num_tech_types; i++) {
+    if (get_invention(plr, i) == TECH_REACHABLE) {
       choosen--;
-      if (!choosen) break;
+      if (!choosen) {
+	break;
+      }
     }
-  plr->research.researching=i;
+  }
+  plr->research.researching = i;
 }
 
 /**************************************************************************
@@ -444,13 +453,16 @@ void choose_tech(struct player *plr, int tech)
     return;
   }
   if (!plr->got_tech && plr->research.changed_from == -1) {
-    plr->research.before_researched = plr->research.researched;
+    plr->research.bulbs_researched_before = plr->research.bulbs_researched;
     plr->research.changed_from = plr->research.researching;
     /* subtract a penalty because we changed subject */
-    if (plr->research.researched > 0)
-      plr->research.researched -= ((plr->research.researched * game.techpenalty) / 100);
+    if (plr->research.bulbs_researched > 0) {
+      plr->research.bulbs_researched -=
+	  ((plr->research.bulbs_researched * game.techpenalty) / 100);
+      assert(plr->research.bulbs_researched >= 0);
+    }
   } else if (tech == plr->research.changed_from) {
-    plr->research.researched = plr->research.before_researched;
+    plr->research.bulbs_researched = plr->research.bulbs_researched_before;
     plr->research.changed_from = -1;
   }
   plr->research.researching=tech;
@@ -474,7 +486,7 @@ void init_tech(struct player *plr, int tech)
     set_invention(plr, i, 0);
   set_invention(plr, A_NONE, TECH_KNOWN);
 
-  plr->research.researchpoints=1;
+  plr->research.techs_researched = 1;
 
   /*
    * Give game wide initial techs
@@ -523,7 +535,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
   if (!j)  {
     if (target->future_tech > pplayer->future_tech) {
       pplayer->future_tech++;
-      pplayer->research.researchpoints++;
+      pplayer->research.techs_researched++;
 
       notify_player(pplayer, _("Game: You acquire Future Tech %d from %s."),
 		    pplayer->future_tech, target->name);
@@ -1111,8 +1123,8 @@ static void package_player_info(struct player *plr,
     packet->tax             = plr->economic.tax;
     packet->science         = plr->economic.science;
     packet->luxury          = plr->economic.luxury;
-    packet->researched      = plr->research.researched;
-    packet->researchpoints  = plr->research.researchpoints;
+    packet->bulbs_researched= plr->research.bulbs_researched;
+    packet->techs_researched= plr->research.techs_researched;
     packet->researching     = plr->research.researching;
     packet->future_tech     = plr->future_tech;
     if (plr->revolution)
@@ -1131,8 +1143,8 @@ static void package_player_info(struct player *plr,
     packet->tax             = 0;
     packet->science         = 0;
     packet->luxury          = 0;
-    packet->researched      = 0;
-    packet->researchpoints  = 0;
+    packet->bulbs_researched= 0;
+    packet->techs_researched= 0;
     packet->researching     = A_NONE;
     packet->future_tech     = 0;
     packet->revolution      = 0;
@@ -1554,8 +1566,8 @@ struct player *split_player(struct player *pplayer)
 
   /* Copy the research */
 
-  cplayer->research.researched = 0;
-  cplayer->research.researchpoints = pplayer->research.researchpoints;
+  cplayer->research.bulbs_researched = 0;
+  cplayer->research.techs_researched = pplayer->research.techs_researched;
   cplayer->research.researching = pplayer->research.researching;
   
   for(i = 0; i<game.num_tech_types ; i++)
@@ -1575,7 +1587,7 @@ struct player *split_player(struct player *pplayer)
 		    
   for(i = 0; i<game.num_tech_types ; i++){
     cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
-    cplayer->ai.tech_turns[i] = pplayer->ai.tech_turns[i];
+    cplayer->ai.num_unknown_techs[i] = pplayer->ai.num_unknown_techs[i];
   }
   
   /* change the original player */
@@ -1586,7 +1598,7 @@ struct player *split_player(struct player *pplayer)
   pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
   pplayer->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
   pplayer->economic.gold = cplayer->economic.gold;
-  pplayer->research.researched = 0;
+  pplayer->research.bulbs_researched = 0;
   pplayer->turn_done = 1; /* Have other things to think about - paralysis*/
   pplayer->embassy = 0; /* all embassys destroyed */
 

@@ -238,7 +238,7 @@ static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
   default:		      bg = COLOR_STD_WHITE;	      break;
   }
   d->tech = tech;
-  d->turns_to_tech = tech_goal_turns(game.player_ptr, tech);
+  d->turns_to_tech = num_unknown_techs_for_goal(game.player_ptr, tech);
   l = gtk_ctree_find_by_row_data_custom(ctree, NULL, d, (GCompareFunc)help_tndata_compare);
   if (l != NULL) {
     /* l is the original in the tree. */

@@ -262,10 +262,10 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     gfloat pct;
 
     my_snprintf(text, sizeof(text), "%d/%d",
-		game.player_ptr->research.researched,
-		research_time(game.player_ptr));
-    pct=CLAMP((gfloat) game.player_ptr->research.researched /
-		research_time(game.player_ptr), 0.0, 1.0);
+		game.player_ptr->research.bulbs_researched,
+		total_bulbs_required(game.player_ptr));
+    pct=CLAMP((gfloat) game.player_ptr->research.bulbs_researched /
+		total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
     gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
     gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
@@ -294,7 +294,7 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
   }
   else {  
     my_snprintf(text, sizeof(text), _("(%d steps)"),
-	    tech_goal_turns(game.player_ptr, to));
+	    num_unknown_techs_for_goal(game.player_ptr, to));
     gtk_set_label(science_goal_label,text);
 
     packet.tech=to;
@@ -410,11 +410,11 @@ void science_dialog_update(void)
   popupmenu = gtk_menu_new();
 
   my_snprintf(text, sizeof(text), "%d/%d",
-	      game.player_ptr->research.researched,
-	      research_time(game.player_ptr));
+	      game.player_ptr->research.bulbs_researched,
+	      total_bulbs_required(game.player_ptr));
 
-  pct=CLAMP((gfloat) game.player_ptr->research.researched /
-	    research_time(game.player_ptr), 0.0, 1.0);
+  pct=CLAMP((gfloat) game.player_ptr->research.bulbs_researched /
+	    total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
   gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
   gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
@@ -475,7 +475,8 @@ void science_dialog_update(void)
   goalmenu = gtk_menu_new();
 
   my_snprintf(text, sizeof(text), _("(%d steps)"),
-	      tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
+	      num_unknown_techs_for_goal(game.player_ptr,
+					 game.player_ptr->ai.tech_goal));
   gtk_set_label(science_goal_label,text);
 
   if (game.player_ptr->ai.tech_goal==A_NONE) {
@@ -490,7 +491,7 @@ void science_dialog_update(void)
   for(i=A_FIRST; i<game.num_tech_types; i++) {
     if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
        advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-       tech_goal_turns(game.player_ptr, i) < 11) {
+       num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
       if (i==game.player_ptr->ai.tech_goal)
 	hist=i;
       sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));

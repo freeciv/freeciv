@@ -699,8 +699,8 @@ void main_show_info_popup(XEvent *event)
 		game.player_ptr->economic.luxury,
 		game.player_ptr->economic.science,
 		advances[game.player_ptr->research.researching].name,
-		game.player_ptr->research.researched,
-		research_time(game.player_ptr));
+		game.player_ptr->research.bulbs_researched,
+		total_bulbs_required(game.player_ptr));
 
     p=XtCreatePopupShell("popupinfo", 
 			 overrideShellWidgetClass, 

@@ -2301,13 +2301,13 @@ static void hut_get_tech(struct unit *punit)
 		   _("Game: You found ancient scrolls of wisdom."));
 
   /* Save old values, choose tech, then restore old values: */
-  res_ed = pplayer->research.researched;
+  res_ed = pplayer->research.bulbs_researched;
   res_ing = pplayer->research.researching;
   
   choose_random_tech(pplayer);
   new_tech = pplayer->research.researching;
   
-  pplayer->research.researched = res_ed;
+  pplayer->research.bulbs_researched = res_ed;
   pplayer->research.researching = res_ing;
  
   if (new_tech!=A_NONE) {
@@ -2330,7 +2330,7 @@ static void hut_get_tech(struct unit *punit)
     notify_player(pplayer,
 		  _("Game: You gain knowledge about Future Tech. %d."),
 		  pplayer->future_tech);
-    pplayer->research.researchpoints++; /* don't call found_new_tech() */
+    pplayer->research.techs_researched++; /* don't call found_new_tech() */
   }
   do_free_cost(pplayer);
 }

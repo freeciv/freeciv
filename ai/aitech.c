@@ -115,18 +115,17 @@ static Tech_Type_id get_wonder_tech(struct player *plr)
 static void ai_next_tech_goal_default(struct player *pplayer, 
 				      struct ai_choice *choice)
 {
-  struct nation_type *prace;
+  struct nation_type *prace = get_nation_by_plr(pplayer);
   int bestdist = A_LAST + 1;
   int dist, i;
   Tech_Type_id goal = A_NONE;
   Tech_Type_id tech;
 
-  prace = get_nation_by_plr(pplayer);
   for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
     Tech_Type_id j = prace->goals.tech[i];
     if (!tech_exists(j) || get_invention(pplayer, j) == TECH_KNOWN) 
       continue;
-    dist = tech_goal_turns(pplayer, j);
+    dist = num_unknown_techs_for_goal(pplayer, j);
     if (dist < bestdist) { 
       bestdist = dist;
       goal = j;
@@ -135,7 +134,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
   } 
   tech = get_government_tech(pplayer);
   if (tech != A_NONE && tech_exists(tech)) {
-    dist = tech_goal_turns(pplayer, tech);
+    dist = num_unknown_techs_for_goal(pplayer, tech);
     if (dist < bestdist) { 
       bestdist = dist;
       goal = tech;
@@ -143,7 +142,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
   }
   tech = get_wonder_tech(pplayer);
   if (tech != A_NONE) {
-    dist = tech_goal_turns(pplayer, tech);
+    dist = num_unknown_techs_for_goal(pplayer, tech);
     if (dist < bestdist) { 
 /*    bestdist = dist; */ /* useless, reinclude when adding a new if statement */
       goal = tech;
@@ -212,7 +211,7 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   memset(goal_values, 0, sizeof(goal_values));
   memset(cache, 0, sizeof(cache));
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    j = pplayer->ai.tech_turns[i];
+    j = pplayer->ai.num_unknown_techs[i];
     if (j) { /* if we already got it we don't want it */
       values[i] += pplayer->ai.tech_want[i];
       memset(prereq, 0, sizeof(prereq));
@@ -227,7 +226,7 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   }
 
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    if (pplayer->ai.tech_turns[i]) {
+    if (pplayer->ai.num_unknown_techs[i]) {
       for (k = A_FIRST; k < game.num_tech_types; k++) {
 	if (CACHE_TEST(i,k)) {
           goal_values[i] += values[k];
@@ -239,8 +238,8 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
 setting goal to Republic and learning Monarchy, but that's what it's supposed
 to be doing; it just looks strange. -- Syela */
       
-      goal_values[i] /= pplayer->ai.tech_turns[i];
-      if (pplayer->ai.tech_turns[i]<6) {
+      goal_values[i] /= pplayer->ai.num_unknown_techs[i];
+      if (pplayer->ai.num_unknown_techs[i] < 6) {
 	freelog(LOG_DEBUG, "%s: want = %d, value = %d, goal_value = %d",
 		advances[i].name, pplayer->ai.tech_want[i],
 		values[i], goal_values[i]);
@@ -282,12 +281,17 @@ static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice
   ai_select_tech(pplayer, 0, choice);
 }
 
-void calculate_tech_turns(struct player *pplayer)
+/**************************************************************************
+ Fill the pplayer->ai.num_unknown_techs cache with the current values.
+**************************************************************************/
+void calculate_num_unknown_techs(struct player *pplayer)
 {
   Tech_Type_id i;
-  memset(pplayer->ai.tech_turns, 0, sizeof(pplayer->ai.tech_turns));
+  memset(pplayer->ai.num_unknown_techs, 0,
+	 sizeof(pplayer->ai.num_unknown_techs));
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    pplayer->ai.tech_turns[i] = tech_goal_turns(pplayer, i);
+    pplayer->ai.num_unknown_techs[i] =
+	num_unknown_techs_for_goal(pplayer, i);
   }
 }
 
@@ -298,7 +302,7 @@ void ai_next_tech_goal(struct player *pplayer)
   bestchoice.choice = A_NONE;      
   bestchoice.want   = 0;
 
-  calculate_tech_turns(pplayer);
+  calculate_num_unknown_techs(pplayer);
   ai_select_tech_goal(pplayer, &curchoice);
   copy_if_better_choice(&curchoice, &bestchoice); /* not dealing with the rest */
 
@@ -329,12 +333,14 @@ void ai_manage_tech(struct player *pplayer)
   struct ai_choice choice, gol;
   int penalty;
 
-  penalty = (pplayer->got_tech ? 0 : pplayer->research.researched);
+  penalty = (pplayer->got_tech ? 0 : pplayer->research.bulbs_researched);
 
   ai_select_tech(pplayer, &choice, &gol);
   if (choice.choice != pplayer->research.researching) {
-    if ((choice.want - choice.type) > penalty &&             /* changing */
-   penalty + pplayer->research.researched <= research_time(pplayer)) {
+    /* changing */
+    if ((choice.want - choice.type) > penalty &&
+	penalty + pplayer->research.bulbs_researched <=
+	total_bulbs_required(pplayer)) {
       freelog(LOG_DEBUG, "%s switching from %s to %s with penalty of %d.",
 	      pplayer->name, advances[pplayer->research.researching].name,
 	      advances[choice.choice].name, penalty);

@@ -32,6 +32,10 @@
 #define MAX_LEN_NAME     32
 #define MAX_LEN_ADDR     32
 
+/* Use INFINITY to denote that a certain event will never occur or
+   another unreachable condition. */
+#define INFINITY    	(1000 * 1000 * 1000)
+
 #ifndef TRUE
 #define TRUE (1)
 #endif

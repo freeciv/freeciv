@@ -56,10 +56,12 @@ enum tech_flag_id {
   TF_LAST
 };
 
-#define TECH_UNKNOWN 0
-#define TECH_KNOWN 1
-#define TECH_REACHABLE 2
-#define TECH_MARKED 3
+enum tech_state {
+  TECH_UNKNOWN = 0,
+  TECH_KNOWN = 1,
+  TECH_REACHABLE = 2,
+  TECH_MARKED = 3
+};
 
 struct advance {
   char name[MAX_LEN_NAME];
@@ -71,18 +73,19 @@ struct advance {
   char *bonus_message;
 };
 
-int get_invention(struct player *plr, int tech);
-void set_invention(struct player *plr, int tech, int value);
+enum tech_state get_invention(struct player *plr, Tech_Type_id tech);
+void set_invention(struct player *plr, Tech_Type_id tech,
+		   enum tech_state value);
 void update_research(struct player *plr);
-int tech_goal_turns(struct player *plr, int goal);
-int get_next_tech(struct player *plr, int goal);
+int num_unknown_techs_for_goal(struct player *plr, Tech_Type_id goal);
+Tech_Type_id get_next_tech(struct player *plr, Tech_Type_id goal);
 
 int tech_exists(Tech_Type_id id);
 Tech_Type_id find_tech_by_name(const char *s);
 
-int tech_flag(int tech, enum tech_flag_id flag);
+int tech_flag(Tech_Type_id tech, enum tech_flag_id flag);
 enum tech_flag_id tech_flag_from_str(char *s);
-int find_tech_by_flag(int index, enum tech_flag_id flag);
+Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag);
 int tech_turns_to_advance(struct player *pplayer);
 
 extern struct advance advances[];

@@ -1756,8 +1756,8 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->science);
   cptr=put_uint8(cptr, pinfo->luxury);
 
-  cptr=put_uint32(cptr, pinfo->researched);
-  cptr=put_uint32(cptr, pinfo->researchpoints);
+  cptr = put_uint32(cptr, pinfo->bulbs_researched);
+  cptr = put_uint32(cptr, pinfo->techs_researched);
   cptr=put_uint8(cptr, pinfo->researching);
 
   cptr=put_bit_string(cptr, (char*)pinfo->inventions);
@@ -1819,8 +1819,8 @@ receive_packet_player_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->science);
   iget_uint8(&iter, &pinfo->luxury);
 
-  iget_uint32(&iter, &pinfo->researched); /* signed */
-  iget_uint32(&iter, &pinfo->researchpoints);
+  iget_uint32(&iter, &pinfo->bulbs_researched);
+  iget_uint32(&iter, &pinfo->techs_researched);
   iget_uint8(&iter, &pinfo->researching);
   iget_bit_string(&iter, (char*)pinfo->inventions, sizeof(pinfo->inventions));
   iget_uint16(&iter, &pinfo->future_tech);

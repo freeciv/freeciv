@@ -1125,8 +1125,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   update_research(pplayer);
 
   poptechup = (pplayer->research.researching!=pinfo->researching);
-  pplayer->research.researched=pinfo->researched;
-  pplayer->research.researchpoints=pinfo->researchpoints;
+  pplayer->research.bulbs_researched = pinfo->bulbs_researched;
+  pplayer->research.techs_researched = pinfo->techs_researched;
   pplayer->research.researching=pinfo->researching;
   pplayer->future_tech=pinfo->future_tech;
   pplayer->ai.tech_goal=pinfo->tech_goal;

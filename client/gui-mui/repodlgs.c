@@ -162,7 +162,9 @@ static void science_goal(ULONG * newgoal)
     else
     {
       request_player_tech_goal(to);
-      DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, _("(%ld steps)"), tech_goal_turns(game.player_ptr, to));
+      DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents,
+	       _("(%ld steps)"),
+	       num_unknown_techs_for_goal(game.player_ptr, to));
     }
   }
 }
@@ -260,7 +262,7 @@ void popup_science_dialog(int make_modal)
   {
     if (get_invention(game.player_ptr, i) != TECH_KNOWN &&
 	advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-	tech_goal_turns(game.player_ptr, i) < 11)
+	num_unknown_techs_for_goal(game.player_ptr, i) < 11)
       j++;
   }
   if (game.player_ptr->ai.tech_goal == A_NONE)
@@ -279,7 +281,7 @@ void popup_science_dialog(int make_modal)
       {
 	if (get_invention(game.player_ptr, i) != TECH_KNOWN &&
 	    advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-	    tech_goal_turns(game.player_ptr, i) < 11)
+	    num_unknown_techs_for_goal(game.player_ptr, i) < 11)
 	{
 	  if (i == game.player_ptr->ai.tech_goal)
 	    science_goal_active = j;
@@ -371,12 +373,17 @@ void popup_science_dialog(int make_modal)
 	DoMethod(science_research_popup, MUIM_Notify, MUIA_Cycle_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, science_research, MUIV_TriggerValue);
 	DoMethod(science_goal_popup, MUIM_Notify, MUIA_Cycle_Active, MUIV_EveryTime, app, 4, MUIM_CallHook, &civstandard_hook, science_goal, MUIV_TriggerValue);
 
-	DoMethod(status_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld/%ld", game.player_ptr->research.researched, research_time(game.player_ptr));
+	DoMethod(status_text, MUIM_SetAsString, MUIA_Text_Contents,
+		 "%ld/%ld", game.player_ptr->research.bulbs_researched,
+		 total_bulbs_required(game.player_ptr));
       }
     }
     DoMethod(science_cycle_group, MUIM_Group_ExitChange);
 
-    DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, _("(%ld steps)"), tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
+    DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents,
+	     _("(%ld steps)"), num_unknown_techs_for_goal(game.player_ptr,
+							  game.player_ptr->
+							  ai.tech_goal));
 
     DoMethod(science_researched_group, MUIM_Group_InitChange);
     DoMethod(science_researched_group, MUIM_AutoGroup_DisposeChilds);

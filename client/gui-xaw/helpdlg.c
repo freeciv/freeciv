@@ -279,8 +279,8 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
   }
   
   my_snprintf(label, sizeof(label),
-	      "%s:%d",advances[tech].name,
-	      tech_goal_turns(game.player_ptr,tech));
+	      "%s:%d", advances[tech].name,
+	      num_unknown_techs_for_goal(game.player_ptr, tech));
 
   if(parent) {
     l=XtVaCreateManagedWidget("treenode", 

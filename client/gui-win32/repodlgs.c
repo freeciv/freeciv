@@ -129,8 +129,8 @@ science_dialog_update(void)
 	}
     }
   my_snprintf(text, sizeof(text), "%d/%d",
-              game.player_ptr->research.researched,
-	      research_time(game.player_ptr));
+              game.player_ptr->research.bulbs_researched,
+	      total_bulbs_required(game.player_ptr));
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_PROG),text);
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_RESEARCH));
   if (game.player_ptr->research.researching!=A_NONE)
@@ -161,7 +161,7 @@ science_dialog_update(void)
   for(i=A_FIRST; i<game.num_tech_types; i++) {
     if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
        advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-       tech_goal_turns(game.player_ptr, i) < 11) {
+       num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
       id=ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			    advances[i].name);
       ComboBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
@@ -173,7 +173,8 @@ science_dialog_update(void)
     }
   }   
   my_snprintf(text, sizeof(text), _("(%d steps)"),
-	      tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
+	      num_unknown_techs_for_goal(game.player_ptr,
+					 game.player_ptr->ai.tech_goal));
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_STEPS),text);
   fcwin_redo_layout(science_dlg);
 }
@@ -209,8 +210,8 @@ static LONG CALLBACK science_proc(HWND hWnd,
 						   ID_SCIENCE_RESEARCH),
 					to);
 		my_snprintf(text, sizeof(text), "%d/%d",
-			    game.player_ptr->research.researched,
-			    research_time(game.player_ptr));  
+			    game.player_ptr->research.bulbs_researched,
+			    total_bulbs_required(game.player_ptr));
 	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_PROG),text);
 	      packet.tech=to;
 	      send_packet_player_request(&aconnection, &packet,
@@ -226,7 +227,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	      struct packet_player_request packet;
 	      to=ComboBox_GetItemData(GetDlgItem(hWnd,ID_SCIENCE_GOAL),to);
 	      my_snprintf(text, sizeof(text), _("(%d steps)"),
-			  tech_goal_turns(game.player_ptr, to));
+			  num_unknown_techs_for_goal(game.player_ptr, to));
 	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_STEPS),text);       
 	      packet.tech=to;
 	      send_packet_player_request(&aconnection, &packet, 

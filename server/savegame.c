@@ -624,9 +624,9 @@ static void player_load(struct player *plr, int plrno,
 
   plr->future_tech=secfile_lookup_int(file, "player%d.futuretech", plrno);
 
-  plr->research.researched=secfile_lookup_int(file, 
+  plr->research.bulbs_researched=secfile_lookup_int(file, 
 					     "player%d.researched", plrno);
-  plr->research.researchpoints=secfile_lookup_int(file, 
+  plr->research.techs_researched=secfile_lookup_int(file, 
 					     "player%d.researchpoints", plrno);
   plr->research.researching=secfile_lookup_int(file, 
 					     "player%d.researching", plrno);
@@ -1260,9 +1260,9 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_int(file,plr->future_tech,"player%d.futuretech", plrno);
 
-  secfile_insert_int(file, plr->research.researched, 
+  secfile_insert_int(file, plr->research.bulbs_researched, 
 		     "player%d.researched", plrno);
-  secfile_insert_int(file, plr->research.researchpoints,
+  secfile_insert_int(file, plr->research.techs_researched,
 		     "player%d.researchpoints", plrno);
   secfile_insert_int(file, plr->research.researching,
 		     "player%d.researching", plrno);  

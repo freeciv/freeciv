@@ -628,8 +628,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     /* Steal a future-tech. */
 
     /* Do it. */
-    (pplayer->future_tech)++;
-    (pplayer->research.researchpoints)++;
+    pplayer->future_tech++;
+    pplayer->research.techs_researched++;
+
     /* Report it. */
     notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 		      _("Game: Your %s stole Future Tech. %d from %s."),

@@ -399,8 +399,8 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     return;
   }
   
-  my_snprintf(label,sizeof(label), "%s:%d",advances[tech].name,
-                        tech_goal_turns(game.player_ptr,tech));
+  my_snprintf(label, sizeof(label), "%s:%d", advances[tech].name,
+	      num_unknown_techs_for_goal(game.player_ptr, tech));
 
   o = ColorTextObject,
       ButtonFrame,

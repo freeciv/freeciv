@@ -38,7 +38,7 @@ static const char *flag_names[] = {
 /**************************************************************************
 ...
 **************************************************************************/
-int get_invention(struct player *plr, int tech)
+enum tech_state get_invention(struct player *plr, Tech_Type_id tech)
 {
   if(!tech_exists(tech))
     return TECH_UNKNOWN;
@@ -48,7 +48,8 @@ int get_invention(struct player *plr, int tech)
 /**************************************************************************
 ...
 **************************************************************************/
-void set_invention(struct player *plr, int tech, int value)
+void set_invention(struct player *plr, Tech_Type_id tech,
+		   enum tech_state value)
 {
   if(plr->research.inventions[tech]==value)
     return;
@@ -64,11 +65,13 @@ void set_invention(struct player *plr, int tech, int value)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_research(struct player *plr) 
+void update_research(struct player *plr)
 {
-  int i, known;
+  Tech_Type_id i;
   
   for (i=0;i<game.num_tech_types;i++) {
+    enum tech_state known;
+
     if(!tech_exists(i)) {
       plr->research.inventions[i]=TECH_UNKNOWN;
       continue;
@@ -84,45 +87,48 @@ void update_research(struct player *plr)
 }
 
 /**************************************************************************
-  we mark nodes visited so we won't count them more than once, this function
-  isn't to be called direct, use tech_goal_turns instead.
+  We mark nodes visited so we won't count them more than once, this
+  function isn't to be called direct, use num_unknown_techs_for_goal
+  instead.
 **************************************************************************/
-static int tech_goal_turns_rec(struct player *plr, int goal)
+static int num_unknown_techs_for_goal_helper(struct player *plr,
+					     Tech_Type_id goal)
 {
   if (goal == A_NONE || !tech_exists(goal) ||
       get_invention(plr, goal) == TECH_KNOWN || 
       get_invention(plr, goal) == TECH_MARKED) 
     return 0; 
   set_invention(plr, goal, TECH_MARKED);
-  return (tech_goal_turns_rec(plr, advances[goal].req[0]) + 
-          tech_goal_turns_rec(plr, advances[goal].req[1]) + 1);
+  return (num_unknown_techs_for_goal_helper(plr, advances[goal].req[0]) +
+	  num_unknown_techs_for_goal_helper(plr, advances[goal].req[1]) + 
+	  1);
 }
 
 /**************************************************************************
- returns the number of techs the player need to research to get the goal
+ Returns the number of techs the player need to research to get the goal
  tech, techs are only counted once.
 **************************************************************************/
-int tech_goal_turns(struct player *plr, int goal)
+int num_unknown_techs_for_goal(struct player *plr, Tech_Type_id goal)
 {
-  int res;
-  res = tech_goal_turns_rec(plr, goal);
+  int result = num_unknown_techs_for_goal_helper(plr, goal);
+
   update_research(plr);
-  return res;
+  return result;
 }
 
 
 /**************************************************************************
 ...don't use this function directly, call get_next_tech instead.
 **************************************************************************/
-static int get_next_tech_rec(struct player *plr, int goal)
+static Tech_Type_id get_next_tech_rec(struct player *plr, Tech_Type_id goal)
 {
-  int sub_goal;
+  Tech_Type_id sub_goal;
   if (!tech_exists(goal) || get_invention(plr, goal) == TECH_KNOWN)
-    return 0;
+    return A_NONE;
   if (get_invention(plr, goal) == TECH_REACHABLE)
     return goal;
   sub_goal = get_next_tech_rec(plr, advances[goal].req[0]);
-  if (sub_goal) 
+  if (sub_goal != A_NONE)
     return sub_goal;
   else
     return get_next_tech_rec(plr, advances[goal].req[1]);
@@ -134,7 +140,7 @@ static int get_next_tech_rec(struct player *plr, int goal)
     if return value > A_LAST then we have a bug
     caller should do something in that case.
 **************************************************************************/
-int get_next_tech(struct player *plr, int goal)
+Tech_Type_id get_next_tech(struct player *plr, Tech_Type_id goal)
 {
   if (goal == A_NONE || !tech_exists(goal) ||
       get_invention(plr, goal) == TECH_KNOWN) 
@@ -165,7 +171,7 @@ Returns A_LAST if none match.
 **************************************************************************/
 Tech_Type_id find_tech_by_name(const char *s)
 {
-  int i;
+  Tech_Type_id i;
 
   for( i=0; i<game.num_tech_types; i++ ) {
     if (strcmp(advances[i].name, s)==0)
@@ -177,7 +183,7 @@ Tech_Type_id find_tech_by_name(const char *s)
 /**************************************************************************
  Return TRUE if the tech has this flag otherwise FALSE
 **************************************************************************/
-int tech_flag(int tech, enum tech_flag_id flag)
+int tech_flag(Tech_Type_id tech, enum tech_flag_id flag)
 {
   assert(flag>=0 && flag<TF_LAST);
   return BOOL_VAL(advances[tech].flags & (1<<flag));
@@ -205,9 +211,9 @@ enum tech_flag_id tech_flag_from_str(char *s)
  Search for a tech with a given flag starting at index
  Returns A_LAST if no tech has been found
 **************************************************************************/
-int find_tech_by_flag( int index, enum tech_flag_id flag )
+Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag)
 {
-  int i;
+  Tech_Type_id i;
   for(i=index;i<game.num_tech_types;i++)
   {
     if(tech_flag(i,flag)) return i;
@@ -216,19 +222,22 @@ int find_tech_by_flag( int index, enum tech_flag_id flag )
 }
 
 /**************************************************************************
- Returns number of turns to complete an advance
- (assuming current state of civilization)
+ Returns number of turns to advance (assuming current state of
+ civilization).
 **************************************************************************/
 int tech_turns_to_advance(struct player *pplayer)
 {
-  int res = 0;
+  /* The number of bulbs the civilization produces every turn. */
+  int current_output = 0;
 
-  city_list_iterate(pplayer->cities, pcity)
-    res += pcity->science_total;
-  city_list_iterate_end;
+  city_list_iterate(pplayer->cities, pcity) {
+    current_output += pcity->science_total;
+  } city_list_iterate_end;
 
-  if (res <= 0)
-    return 999;
+  if (current_output <= 0) {
+    return INFINITY;
+  }
 
-  return  ((research_time(pplayer) + res - 1) / res);
+  return ((total_bulbs_required(pplayer) + current_output - 1)
+	  / current_output);
 }

@@ -330,7 +330,7 @@ static struct player *best_settledarea(void)
 **************************************************************************/
 static int rank_calc_research(struct player *pplayer)
 {
-  return (pplayer->score.techout*100)/(research_time(pplayer));
+  return (pplayer->score.techout * 100) / (total_bulbs_required(pplayer));
 }
 
 /**************************************************************************

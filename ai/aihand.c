@@ -494,9 +494,15 @@ void ai_do_first_activities(struct player *pplayer)
 void ai_do_last_activities(struct player *pplayer)
 {
 /*  ai_manage_units(pplayer);  very useful to include this! -- Syela */
-/* I finally realized how stupid it was to call manage_units in update_player_ac
-instead of right before it.  Managing units before end-turn reset now. -- Syela */
-  calculate_tech_turns(pplayer); /* has to be here thanks to the above */
+
+  /* 
+   * I finally realized how stupid it was to call manage_units in
+   * update_player_ac instead of right before it.  Managing units
+   * before end-turn reset now. -- Syela
+   */
+
+  /* has to be here thanks to the above */
+  calculate_num_unknown_techs(pplayer); 
   ai_manage_cities(pplayer);
   /* manage cities will establish our tech_wants. */
   /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 

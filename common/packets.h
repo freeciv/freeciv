@@ -466,8 +466,8 @@ struct packet_player_info {
   int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int gold, tax, science, luxury;
-  int researched;
-  int researchpoints;
+  int bulbs_researched;
+  int techs_researched;
   int researching;
   int future_tech;
   int tech_goal;

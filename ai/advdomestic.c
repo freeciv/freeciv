@@ -421,12 +421,20 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
         values[id] = sci/2;
       if (id == B_CURE)
         values[id] = building_value(1, pcity, val);
-      if (id == B_DARWIN) /* this is a one-time boost, not constant */
-        values[id] = ((research_time(pplayer) * 2 + game.researchcost) * t -
-                    pplayer->research.researched * t) / MORT;
-      if (id == B_GREAT) /* basically (100 - freecost)% of a free tech per turn */
-        values[id] = (research_time(pplayer) * (100 - game.freecost)) * t *
-                    (game.nplayers - 2) / (game.nplayers * 100); /* guessing */
+
+      /* this is a one-time boost, not constant */
+      if (id == B_DARWIN) {
+	values[id] =
+	    ((total_bulbs_required(pplayer) * 2 + game.researchcost) * t -
+	     pplayer->research.bulbs_researched * t) / MORT;
+      }
+
+      /* basically (100 - freecost)% of a free tech per turn guessing */
+      if (id == B_GREAT) {
+	values[id] =
+	    (total_bulbs_required(pplayer) * (100 - game.freecost)) * t *
+	    (game.nplayers - 2) / (game.nplayers * 100);
+      }
 
       if (id == B_WALL && !city_got_citywalls(pcity))
 /* allowing B_CITY when B_WALL exists, don't like B_WALL when B_CITY exists. */

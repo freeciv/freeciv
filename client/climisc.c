@@ -424,11 +424,9 @@ Return the sprite index for the research indicator.
 **************************************************************************/
 int client_research_sprite(void)
 {
-  int index;
-  index =
-    (NUM_TILES_PROGRESS * game.player_ptr->research.researched) /
-    (research_time(game.player_ptr) + 1);
-  return index;
+  return (NUM_TILES_PROGRESS *
+	  game.player_ptr->research.bulbs_researched) /
+      (total_bulbs_required(game.player_ptr) + 1);
 }
 
 /**************************************************************************

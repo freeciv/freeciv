@@ -919,8 +919,8 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 	    game.player_ptr->economic.science,
 	    
 	    advances[game.player_ptr->research.researching].name,
-	    game.player_ptr->research.researched,
-	    research_time(game.player_ptr));
+	    game.player_ptr->research.bulbs_researched,
+	    total_bulbs_required(game.player_ptr));
     
     p=gtk_window_new(GTK_WINDOW_POPUP);
 
