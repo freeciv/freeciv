@@ -69,7 +69,7 @@ struct city_dialog {
   Widget sub_form;
   Widget map_canvas;
   Widget sell_command;
-  Widget close_command, rename_command, trade_command;
+  Widget close_command, rename_command, trade_command, activate_command;
   Widget building_label, progress_label, buy_command, change_command;
   Widget improvement_viewport, improvement_list;
   Widget support_unit_label;
@@ -120,6 +120,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void rename_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void trade_callback(Widget w, XtPointer client_data, XtPointer call_data);
+void activate_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 void elvis_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void scientist_callback(Widget w, XtPointer client_data, XtPointer call_data);
@@ -552,7 +553,15 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    XtNfromHoriz,
 			    pdialog->rename_command,
 			    NULL);
- 
+
+  pdialog->activate_command=
+    XtVaCreateManagedWidget("cityactivatecommand",
+    			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, pdialog->present_unit_pixcomms[0],
+			    XtNfromHoriz, pdialog->trade_command,
+			    NULL);
+
   XtAddCallback(pdialog->sell_command, XtNcallback, sell_callback,
 		(XtPointer)pdialog);
 
@@ -569,6 +578,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 		(XtPointer)pdialog);
 
   XtAddCallback(pdialog->trade_command, XtNcallback, trade_callback,
+		(XtPointer)pdialog);
+
+  XtAddCallback(pdialog->activate_command, XtNcallback, activate_callback,
 		(XtPointer)pdialog);
 
   genlist_insert(&dialog_list, pdialog, 0);
@@ -600,6 +612,23 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
 
   return pdialog;
+}
+
+void activate_callback(Widget w, XtPointer client_data,
+		       XtPointer call_data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)client_data;
+  int x=pdialog->pcity->x,y=pdialog->pcity->y;
+  struct unit_list *punit_list = &map_get_tile(x,y)->units;
+
+  if( unit_list_size(punit_list) )  {
+    unit_list_iterate((*punit_list), punit) {
+      if(game.player_idx==punit->owner) {
+	request_new_unit_activity(punit, ACTIVITY_IDLE);
+      }
+    } unit_list_iterate_end;
+    set_unit_focus(unit_list_get(punit_list, 0));
+  }
 }
 
 /****************************************************************

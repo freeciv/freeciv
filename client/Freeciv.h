@@ -1904,6 +1904,9 @@ Now.. Go give'em hell!",
 "*citytradecommand.label: Trade",
 "*citytradecommand.foreground:          White",
 "*citytradecommand.background:          Blue",
+"*cityactivatecommand.label: Activate Units",
+"*cityactivatecommand.foreground: White",
+"*cityactivatecommand.background: Blue",
 "*cityprodlabel.label: \
 Food:    12 (-2)\\n\
 Prod:     2 (+2)\\n\
