@@ -1821,13 +1821,20 @@ void tilespec_setup_government(int id)
 ***********************************************************************/
 void tilespec_setup_nation_flag(int id)
 {
-  struct nation_type *this_nation = get_nation_by_idx(id);
+  struct nation_type *nation = get_nation_by_idx(id);
+  char *tags[] = {nation->flag_graphic_str,
+		  nation->flag_graphic_alt,
+		  "f.unknown", NULL};
+  int i;
 
-  this_nation->flag_sprite = lookup_sprite_tag_alt(this_nation->flag_graphic_str, 
-					    this_nation->flag_graphic_alt,
-					    TRUE, "nation", this_nation->name);
-
-  /* should probably do something if NULL, eg generic default? */
+  for (i = 0; tags[i] && !nation->flag_sprite; i++) {
+    nation->flag_sprite = load_sprite(tags[i]);
+  }
+  if (!nation->flag_sprite) {
+    /* Should never get here because of the f.unknown fallback. */
+    freelog(LOG_FATAL, "No national flag for %s.", nation->name);
+    exit(EXIT_FAILURE);
+  }
 }
 
 /**********************************************************************
