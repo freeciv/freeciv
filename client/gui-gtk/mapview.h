@@ -31,7 +31,6 @@ SPRITE *get_citizen_sprite(int frame);
 gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev);
 gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev);
 
-void put_city_pixmap(struct city *pcity, GdkPixmap *pm, int xtile, int ytile);
 void put_city_tile_output(GdkDrawable *pm, int x, int y, 
 			  int food, int shield, int trade);
 void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile);

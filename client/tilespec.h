@@ -31,6 +31,11 @@ void tilespec_setup_tile_type(int id);
 void tilespec_setup_government(int id);
 void tilespec_setup_nation_flag(int id);
 
+/* Gfx support */
+
+int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int citymode);
+int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit);
+
 /* This the way directional indices are now encoded: */
 
 #define BIT_NORTH (0x01)

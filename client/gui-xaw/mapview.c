@@ -421,22 +421,6 @@ void set_bulb_sol_government(int bulb, int sol, int government)
 /**************************************************************************
 ...
 **************************************************************************/
-static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
-{
-  return get_nation_by_plr(&game.players[pcity->owner])->flag_sprite;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static struct Sprite *get_unit_nation_flag_sprite(struct unit *punit)
-{
-  return get_nation_by_plr(&game.players[punit->owner])->flag_sprite;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 int map_canvas_adjust_x(int x)
 {
   if(map_view_x0+map_canvas_store_twidth<=map.xsize)
@@ -883,7 +867,7 @@ static void show_city_names(void)
 }
 
 
-
+#ifdef UNUSED
 /**************************************************************************
 ...
 **************************************************************************/
@@ -929,7 +913,7 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
     pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.disorder);
   
 }
-
+#endif
 
 /**************************************************************************
 ...
@@ -952,84 +936,39 @@ void put_city_tile_output(Pixmap pm, int x, int y,
 **************************************************************************/
 void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 {
-  struct Sprite *mysprite;
-  int ihp;
+  struct Sprite *sprites[40];
+  int count = fill_unit_sprite_array(sprites, punit);
 
-  if(use_solid_color_behind_units) {
-    XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-		   game.players[punit->owner].nation]);
-    XFillRectangle(display, pm, fill_bg_gc, 
-		   xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
-		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-  }
-  else {
-    if(flags_are_transparent) {
-      pixmap_put_overlay_tile(pm, xtile, ytile, 
-			      get_unit_nation_flag_sprite(punit));
-    } else {
-      mysprite=get_unit_nation_flag_sprite(punit);
-      XCopyArea(display, mysprite->pixmap, pm, civ_gc, 0, 0,
-		mysprite->width, mysprite->height, 
-		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
-    };
-  }
-    
-  pixmap_put_overlay_tile(pm, xtile, ytile,
-			  get_unit_type(punit->type)->sprite);
+  if(count)
+  {
+    int i;
 
-  if(punit->activity!=ACTIVITY_IDLE) {
-    struct Sprite *s = NULL;
-    switch(punit->activity) {
-    case ACTIVITY_MINE:
-      s = sprites.unit.mine;
-      break;
-    case ACTIVITY_POLLUTION:
-      s = sprites.unit.pollution;
-      break;
-    case ACTIVITY_PILLAGE:
-      s = sprites.unit.pillage;
-      break;
-    case ACTIVITY_ROAD:
-    case ACTIVITY_RAILROAD:
-      s = sprites.unit.road;
-      break;
-    case ACTIVITY_IRRIGATE:
-      s = sprites.unit.irrigate;
-      break;
-    case ACTIVITY_EXPLORE:
-      s = sprites.unit.auto_explore;
-      break;
-    case ACTIVITY_FORTIFY:
-      s = sprites.unit.fortify;
-      break;
-    case ACTIVITY_FORTRESS:
-      s = sprites.unit.fortress;
-      break;
-    case ACTIVITY_SENTRY:
-      s = sprites.unit.sentry;
-      break;
-    case ACTIVITY_GOTO:
-      s = sprites.unit.go_to;
-      break;
-    case ACTIVITY_TRANSFORM:
-      s = sprites.unit.transform;
-    default:
-      break;
+    if(sprites[0])
+    {
+			if(flags_are_transparent)
+			{
+				pixmap_put_overlay_tile(pm, xtile, ytile, sprites[0]);
+			}	else
+			{
+        XCopyArea(display, sprites[0]->pixmap, pm, civ_gc, 0, 0,
+                  sprites[0]->width, sprites[0]->height, 
+                  xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
+			}
+    } else
+    {
+      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
+                     game.players[punit->owner].nation]);
+      XFillRectangle(display, pm, fill_bg_gc, 
+                     xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
+                     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     }
-    pixmap_put_overlay_tile(pm, xtile, ytile, s);
-  }
 
-  if(punit->ai.control) {
-    if(is_military_unit(punit)) {
-      pixmap_put_overlay_tile(pm, xtile, ytile, sprites.unit.auto_attack);
-    } else {
-      pixmap_put_overlay_tile(pm, xtile, ytile, sprites.unit.auto_settler);
+    for(i=1;i<count;i++)
+    {
+      if(sprites[i])
+        pixmap_put_overlay_tile(pm, xtile, ytile, sprites[i]);
     }
   }
-
-  ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / get_unit_type(punit->type)->hp;
-  ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
-  pixmap_put_overlay_tile(pm, xtile, ytile, sprites.unit.hp_bar[ihp]);
 }
 
 
@@ -1126,290 +1065,64 @@ void pixmap_frame_tile_red(Pixmap pm, int x, int y)
 void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0, 
 		     int citymode)
 {
-  int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
-  int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
-  int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
-  int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west;
-  int rail_card_tileno=0, rail_semi_tileno=0, road_card_tileno=0, road_semi_tileno=0;
-  int rail_card_count=0, rail_semi_count=0, road_card_count=0, road_semi_count=0;
+  struct Sprite *sprites[80];
+  int count = fill_tile_sprite_array(sprites, abs_x0, abs_y0, citymode);
 
-  int tileno;
-  struct tile *ptile;
-  struct Sprite *mysprite;
-  struct unit *punit;
-  struct city *pcity;
-  int den_y=map.ysize*.24;
+  int x1 = x * NORMAL_TILE_WIDTH;
+  int y1 = y * NORMAL_TILE_HEIGHT;
 
-  ptile=map_get_tile(abs_x0, abs_y0);
-  punit=get_unit_in_focus();
-  
-  if(abs_y0>=map.ysize || ptile->known<TILE_KNOWN) {
-    XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+  if(count)
+  {
+    int i;
 
-    XFillRectangle(display, pm, fill_bg_gc,  
-		   x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT,
-		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    return;
-  }
+    if(sprites[0])
+    {
+      /* first tile without mask */
+      XCopyArea(display, sprites[0]->pixmap, pm, 
+              civ_gc, 0, 0,
+              sprites[0]->width, sprites[0]->height, x1,y1);
+    } else
+    {
+      /* normally when use_solid_color_behind_units */
+      struct city *pcity;
+      struct player *pplayer=NULL;
 
-  if(!flags_are_transparent) {
-    /* non-transparent flags -> just draw city or unit. */
-    if((pcity=map_get_city(abs_x0, abs_y0))
-       && (citymode || !(punit=get_unit_in_focus())
-	   || punit->x!=abs_x0 || punit->y!=abs_y0
-	   || (unit_list_size(&ptile->units)==0))) {
-        /* above, unit_list_size==0 happens when focus unit is blinking --dwp */ 
-	put_city_pixmap(pcity, pm, x, y);
-	return;
-    }
+      if(count>1 && !sprites[1])
+      {
+        /* it's the unit */
+        struct tile *ptile;
+        struct unit *punit;
+        ptile=map_get_tile(abs_x0, abs_y0);
+        if((punit=player_find_visible_unit(game.player_ptr, ptile)))
+          pplayer = &game.players[punit->owner];
 
-    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
-      if(!citymode || punit->owner!=game.player_idx) {
-	put_unit_pixmap(punit, pm, x, y);
-	if(unit_list_size(&ptile->units)>1)
-	  pixmap_put_overlay_tile(pm, x, y, sprites.unit.stack);
-	return;
+      } else
+      {
+        /* it's the city */
+        if((pcity=map_get_city(abs_x0, abs_y0)))
+          pplayer = &game.players[pcity->owner];
       }
-    }
-  }
-    
-  ttype=map_get_terrain(abs_x0, abs_y0);
-  ttype_east=map_get_terrain(abs_x0+1, abs_y0);
-  ttype_west=map_get_terrain(abs_x0-1, abs_y0);
 
-  /* make north and south pole seamless: */
-  if(abs_y0==0) {
-    ttype_north=ttype;
-    ttype_north_east=ttype_east;
-    ttype_north_west=ttype_west;
-  } else {
-    ttype_north=map_get_terrain(abs_x0, abs_y0-1);
-    ttype_north_east=map_get_terrain(abs_x0+1, abs_y0-1);
-    ttype_north_west=map_get_terrain(abs_x0-1, abs_y0-1);
-  }
-  if(abs_y0==map.ysize-1) {
-    ttype_south=ttype;
-    ttype_south_east=ttype_east;
-    ttype_south_west=ttype_west;
-  } else {
-    ttype_south=map_get_terrain(abs_x0, abs_y0+1);
-    ttype_south_east=map_get_terrain(abs_x0+1, abs_y0+1);
-    ttype_south_west=map_get_terrain(abs_x0-1, abs_y0+1);
-  }
-
-  /* map_get_specials() returns S_NO_SPECIAL past poles anyway */
-  tspecial=map_get_special(abs_x0, abs_y0);
-  tspecial_north=map_get_special(abs_x0, abs_y0-1);
-  tspecial_east=map_get_special(abs_x0+1, abs_y0);
-  tspecial_south=map_get_special(abs_x0, abs_y0+1);
-  tspecial_west=map_get_special(abs_x0-1, abs_y0);
-  tspecial_north_east=map_get_special(abs_x0+1, abs_y0-1);
-  tspecial_south_east=map_get_special(abs_x0+1, abs_y0+1);
-  tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
-  tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
-
-  if(map.is_earth &&
-     abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
-    mysprite = sprites.tx.denmark[abs_y0-den_y][abs_x0-34];
-  } else {
-    tileno = INDEX_NSEW((ttype_north==ttype),
-			(ttype_south==ttype),
-			(ttype_east==ttype),	
-			(ttype_west==ttype));
-    if(ttype==T_RIVER) {
-      tileno |= INDEX_NSEW((ttype_north==T_OCEAN),
-			   (ttype_south==T_OCEAN),
-			   (ttype_east==T_OCEAN),
-			   (ttype_west==T_OCEAN));
-    }
-    mysprite = get_tile_type(ttype)->sprite[tileno];
-  }
-
-  if (mysprite) {
-    XCopyArea(display, mysprite->pixmap, pm, 
-	      civ_gc, 0, 0,
-	      mysprite->width, mysprite->height, 
-	      x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
-  }
-
-  if(ttype==T_OCEAN) {
-    tileno = INDEX_NSEW((ttype_north==T_OCEAN && ttype_east==T_OCEAN && 
-			 ttype_north_east!=T_OCEAN),
-			(ttype_south==T_OCEAN && ttype_west==T_OCEAN && 
-			 ttype_south_west!=T_OCEAN),
-			(ttype_east==T_OCEAN && ttype_south==T_OCEAN && 
-			 ttype_south_east!=T_OCEAN),
-			(ttype_north==T_OCEAN && ttype_west==T_OCEAN && 
-			 ttype_north_west!=T_OCEAN));
-    if(tileno!=0) 
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.coast_cape[tileno]);
-
-    if(tspecial_north&S_RIVER || ttype_north==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_NORTH]);
-    if(tspecial_west&S_RIVER || ttype_west==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_WEST]);
-    if(tspecial_south&S_RIVER || ttype_south==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_SOUTH]);
-    if(tspecial_east&S_RIVER || ttype_east==T_RIVER)
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_EAST]);
-  }
-
-  if (tspecial&S_RIVER) {
-    tileno = INDEX_NSEW((tspecial_north&S_RIVER || ttype_north==T_OCEAN),
-			(tspecial_south&S_RIVER || ttype_south==T_OCEAN),
-			(tspecial_east&S_RIVER  || ttype_east==T_OCEAN),
-			(tspecial_west&S_RIVER  || ttype_west== T_OCEAN));
-    pixmap_put_overlay_tile(pm, x, y, sprites.tx.spec_river[tileno]);
-  }
-
-  if(tspecial & S_IRRIGATION) {
-    if(tspecial & S_FARMLAND)
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.farmland);
-    else
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.irrigation);
-  }
-
-  if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
-    int n, s, e, w;
-    
-    n = !!(tspecial_north&S_RAILROAD);
-    s = !!(tspecial_south&S_RAILROAD);
-    e = !!(tspecial_east&S_RAILROAD);
-    w = !!(tspecial_west&S_RAILROAD);
-    rail_card_count = n + s + e + w;
-    rail_card_tileno = INDEX_NSEW(n,s,e,w);
-    
-    n = !!(tspecial_north&S_ROAD);
-    s = !!(tspecial_south&S_ROAD);
-    e = !!(tspecial_east&S_ROAD);
-    w = !!(tspecial_west&S_ROAD);
-    road_card_count = n + s + e + w;
-    road_card_tileno = INDEX_NSEW(n,s,e,w);
-    
-    n = !!(tspecial_north_east&S_RAILROAD);
-    s = !!(tspecial_south_west&S_RAILROAD);
-    e = !!(tspecial_south_east&S_RAILROAD);
-    w = !!(tspecial_north_west&S_RAILROAD);
-    rail_semi_count = n + s + e + w;
-    rail_semi_tileno = INDEX_NSEW(n,s,e,w);
-    
-    n = !!(tspecial_north_east&S_ROAD);
-    s = !!(tspecial_south_west&S_ROAD);
-    e = !!(tspecial_south_east&S_ROAD);
-    w = !!(tspecial_north_west&S_ROAD);
-    road_semi_count = n + s + e + w;
-    road_semi_tileno = INDEX_NSEW(n,s,e,w);
-    
-    if(tspecial & S_RAILROAD) {
-      road_card_tileno&=~rail_card_tileno;
-      road_semi_tileno&=~rail_semi_tileno;
-    } else if(tspecial & S_ROAD) {
-      rail_card_tileno&=~road_card_tileno;
-      rail_semi_tileno&=~road_semi_tileno;
-    }
-
-    if(road_semi_count > road_card_count) {
-      if(road_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y,
-				sprites.road.cardinal[road_card_tileno]);
-      }
-      if(road_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y,
-				sprites.road.diagonal[road_semi_tileno]);
-      }
-    } else {
-      if(road_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y,
-				sprites.road.diagonal[road_semi_tileno]);
-      }
-      if(road_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y, 
-				sprites.road.cardinal[road_card_tileno]);
+      if(pplayer)
+      {
+        XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
+                       pplayer->nation]);
+        XFillRectangle(display, pm, fill_bg_gc, 
+                       x1,y1,NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       }
     }
 
-    if(rail_semi_count > rail_card_count) {
-      if(rail_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y,
-				sprites.rail.cardinal[rail_card_tileno]);
-      }
-      if(rail_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y,
-				sprites.rail.diagonal[rail_semi_tileno]);
-      }
-    } else {
-      if(rail_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y,
-				sprites.rail.diagonal[rail_semi_tileno]);
-      }
-      if(rail_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y,
-				sprites.rail.cardinal[rail_card_tileno]);
-      }
+    for(i=1;i<count;i++)
+    {
+      if(sprites[i])
+        pixmap_put_overlay_tile(pm, x, y, sprites[i]);
     }
-  }
-
-  if(tspecial & S_SPECIAL_1)
-    pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].special[0].sprite);
-  else if(tspecial & S_SPECIAL_2)
-    pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].special[1].sprite);
-
-  if(tspecial & S_MINE) {
-    if(ttype==T_HILLS || ttype==T_MOUNTAINS)
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.mine);
-    else /* desert */
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.oil_mine);
-  }
-
-  if (tspecial & S_RAILROAD) {
-    int adjacent = rail_card_tileno;
-    if (draw_diagonal_roads)
-      adjacent |= rail_semi_tileno;
-    if (!adjacent)
-      pixmap_put_overlay_tile(pm, x, y, sprites.rail.isolated);
-  }
-  else if (tspecial & S_ROAD) {
-    int adjacent = (rail_card_tileno | road_card_tileno);
-    if (draw_diagonal_roads)
-      adjacent |= (rail_semi_tileno | road_semi_tileno);
-    if (!adjacent)
-      pixmap_put_overlay_tile(pm, x, y, sprites.road.isolated);
-  }
-
-  if(tspecial & S_HUT)
-    pixmap_put_overlay_tile(pm, x, y, sprites.tx.village);
-    
-  if(tspecial & S_FORTRESS)
-    pixmap_put_overlay_tile(pm, x, y, sprites.tx.fortress);
-
-  if(tspecial & S_POLLUTION)
-    pixmap_put_overlay_tile(pm, x, y, sprites.tx.pollution);
-
-  if(!citymode) {
-    tileno = INDEX_NSEW((tile_is_known(abs_x0, abs_y0-1)==TILE_UNKNOWN),
-			(tile_is_known(abs_x0, abs_y0+1)==TILE_UNKNOWN),
-			(tile_is_known(abs_x0+1, abs_y0)==TILE_UNKNOWN),
-			(tile_is_known(abs_x0-1, abs_y0)==TILE_UNKNOWN));
-    if (tileno) 
-      pixmap_put_overlay_tile(pm, x, y, sprites.tx.darkness[tileno]);
-  }
-
-  if(flags_are_transparent) {  /* transparent flags -> draw city or unit last */
-    if((pcity=map_get_city(abs_x0, abs_y0))) {
-      put_city_pixmap(pcity, pm, x, y);
-    }
-
-    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
-      if(pcity && punit!=get_unit_in_focus()) return;
-      if(!citymode || punit->owner!=game.player_idx) {
-	put_unit_pixmap(punit, pm, x, y);
-	if(unit_list_size(&ptile->units)>1)  
-	  pixmap_put_overlay_tile(pm, x, y, sprites.unit.stack);
-      }
-    }
+  } else
+  {
+    /* tile is unknow */
+    pixmap_put_black_tile(pm, x,y);
   }
 }
-
 
 /**************************************************************************
 ...

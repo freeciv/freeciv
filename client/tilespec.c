@@ -23,6 +23,7 @@
 
 #include "astring.h"
 #include "capability.h"
+#include "game.h" /* for fill_xxx */
 #include "government.h"
 #include "log.h"
 #include "map.h"
@@ -33,7 +34,9 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "control.h" /* for fill_xxx */
 #include "graphics_g.h"
+#include "options.h" /* for fill_xxx */
 
 #include "tilespec.h"
 
@@ -659,3 +662,398 @@ void tilespec_setup_nation_flag(int id)
 
   /* should probably do something if NULL, eg generic default? */
 }
+
+/**********************************************************************
+  ...
+***********************************************************************/
+static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
+{
+  return get_nation_by_plr(&game.players[pcity->owner])->flag_sprite;
+}
+
+/**********************************************************************
+ ...
+***********************************************************************/
+static struct Sprite *get_unit_nation_flag_sprite(struct unit *punit)
+{
+  return get_nation_by_plr(&game.players[punit->owner])->flag_sprite;
+}
+
+/**********************************************************************
+  Fill in the sprite array for the city
+***********************************************************************/
+static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity)
+{
+  struct Sprite **save_sprs=sprs;
+
+  if(!use_solid_color_behind_units) {
+    /* will be the first sprite if flags_are_transparent == FALSE */
+    *sprs++ = get_city_nation_flag_sprite(pcity);
+  } else *sprs++ = NULL;
+  
+  *sprs++ = (city_got_citywalls(pcity)? sprites.tx.city_walls : sprites.tx.city);
+
+  if(genlist_size(&((map_get_tile(pcity->x, pcity->y))->units.list)) > 0)
+    *sprs++ = sprites.city.occupied;
+
+  if(pcity->size>=10)
+    *sprs++ = sprites.city.size_tens[pcity->size/10];
+
+  *sprs++ = sprites.city.size[pcity->size%10];
+
+  if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
+    *sprs++ = sprites.tx.pollution;
+
+  if(city_unhappy(pcity))
+    *sprs++ = sprites.city.disorder;
+
+  return sprs - save_sprs;
+}
+
+/**********************************************************************
+  Fill in the sprite array for the unit
+***********************************************************************/
+int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit)
+{
+  struct Sprite **save_sprs=sprs;
+  int ihp;
+
+  if(!use_solid_color_behind_units) {
+    /* will be the first sprite if flags_are_transparent == FALSE */
+    *sprs++ = get_unit_nation_flag_sprite(punit);
+  }
+	else {
+    /* Two NULLs means unit */
+	  *sprs++ = NULL;
+    *sprs++ = NULL;
+  }
+
+  *sprs++ = get_unit_type(punit->type)->sprite;
+
+  if(punit->activity!=ACTIVITY_IDLE) {
+    struct Sprite *s = NULL;
+    switch(punit->activity) {
+    case ACTIVITY_MINE:
+      s = sprites.unit.mine;
+      break;
+    case ACTIVITY_POLLUTION:
+      s = sprites.unit.pollution;
+      break;
+    case ACTIVITY_PILLAGE:
+      s = sprites.unit.pillage;
+      break;
+    case ACTIVITY_ROAD:
+    case ACTIVITY_RAILROAD:
+      s = sprites.unit.road;
+      break;
+    case ACTIVITY_IRRIGATE:
+      s = sprites.unit.irrigate;
+      break;
+    case ACTIVITY_EXPLORE:
+      s = sprites.unit.auto_explore;
+      break;
+    case ACTIVITY_FORTIFY:
+      s = sprites.unit.fortify;
+      break;
+    case ACTIVITY_FORTRESS:
+      s = sprites.unit.fortress;
+      break;
+    case ACTIVITY_SENTRY:
+      s = sprites.unit.sentry;
+      break;
+    case ACTIVITY_GOTO:
+      s = sprites.unit.go_to;
+      break;
+    case ACTIVITY_TRANSFORM:
+      s = sprites.unit.transform;
+    default:
+      break;
+    }
+
+    *sprs++ = s;
+  }
+
+  if(punit->ai.control) {
+    if(is_military_unit(punit)) {
+      *sprs++ = sprites.unit.auto_attack;
+    } else {
+      *sprs++ = sprites.unit.auto_settler;
+    }
+  }
+
+  ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / get_unit_type(punit->type)->hp;
+  ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
+  *sprs++ = sprites.unit.hp_bar[ihp];
+
+  return sprs - save_sprs;
+}
+
+/**********************************************************************
+  Fill in the sprite array for the tile at position (abs_x0,abs_y0)
+***********************************************************************/
+int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int citymode)
+{
+  int ttype, ttype_north, ttype_south, ttype_east, ttype_west;
+  int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
+  int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
+  int tspecial_north_east, tspecial_south_east, tspecial_south_west, tspecial_north_west;
+  int rail_card_tileno=0, rail_semi_tileno=0, road_card_tileno=0, road_semi_tileno=0;
+  int rail_card_count=0, rail_semi_count=0, road_card_count=0, road_semi_count=0;
+
+  int tileno;
+  struct tile *ptile;
+  struct Sprite *mysprite;
+  struct unit *punit;
+  struct city *pcity;
+  int den_y=map.ysize*.24;
+
+  struct Sprite **save_sprs=sprs;
+
+  ptile=map_get_tile(abs_x0, abs_y0);
+  punit=get_unit_in_focus();
+  
+  if(abs_y0>=map.ysize || ptile->known<TILE_KNOWN) {
+    return 0;
+  }
+
+  if(!flags_are_transparent || use_solid_color_behind_units) {
+    /* non-transparent flags -> just draw city or unit. */
+    if((pcity=map_get_city(abs_x0, abs_y0))
+       && (citymode || !(punit=get_unit_in_focus())
+	     || punit->x!=abs_x0 || punit->y!=abs_y0
+	     || (unit_list_size(&ptile->units)==0))) {
+
+      /* above, unit_list_size==0 happens when focus unit is blinking --dwp */ 
+      sprs += fill_city_sprite_array(sprs,pcity);
+      return sprs - save_sprs;
+    }
+
+    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+      if(!citymode || punit->owner!=game.player_idx) {
+        sprs += fill_unit_sprite_array(sprs,punit);
+        if(unit_list_size(&ptile->units)>1)
+          *sprs++ = sprites.unit.stack;
+        return sprs - save_sprs;
+      }
+    }
+  }
+    
+  ttype=map_get_terrain(abs_x0, abs_y0);
+  ttype_east=map_get_terrain(abs_x0+1, abs_y0);
+  ttype_west=map_get_terrain(abs_x0-1, abs_y0);
+
+  /* make north and south pole seamless: */
+  if(abs_y0==0) {
+    ttype_north=ttype;
+    ttype_north_east=ttype_east;
+    ttype_north_west=ttype_west;
+  } else {
+    ttype_north=map_get_terrain(abs_x0, abs_y0-1);
+    ttype_north_east=map_get_terrain(abs_x0+1, abs_y0-1);
+    ttype_north_west=map_get_terrain(abs_x0-1, abs_y0-1);
+  }
+  if(abs_y0==map.ysize-1) {
+    ttype_south=ttype;
+    ttype_south_east=ttype_east;
+    ttype_south_west=ttype_west;
+  } else {
+    ttype_south=map_get_terrain(abs_x0, abs_y0+1);
+    ttype_south_east=map_get_terrain(abs_x0+1, abs_y0+1);
+    ttype_south_west=map_get_terrain(abs_x0-1, abs_y0+1);
+  }
+
+  /* map_get_specials() returns S_NO_SPECIAL past poles anyway */
+  tspecial=map_get_special(abs_x0, abs_y0);
+  tspecial_north=map_get_special(abs_x0, abs_y0-1);
+  tspecial_east=map_get_special(abs_x0+1, abs_y0);
+  tspecial_south=map_get_special(abs_x0, abs_y0+1);
+  tspecial_west=map_get_special(abs_x0-1, abs_y0);
+  tspecial_north_east=map_get_special(abs_x0+1, abs_y0-1);
+  tspecial_south_east=map_get_special(abs_x0+1, abs_y0+1);
+  tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
+  tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
+
+  if(map.is_earth &&
+     abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
+    mysprite = sprites.tx.denmark[abs_y0-den_y][abs_x0-34];
+  } else {
+    tileno = INDEX_NSEW((ttype_north==ttype),
+                        (ttype_south==ttype),
+                        (ttype_east==ttype),	
+                        (ttype_west==ttype));
+    if(ttype==T_RIVER) {
+      tileno |= INDEX_NSEW((ttype_north==T_OCEAN),
+                           (ttype_south==T_OCEAN),
+                           (ttype_east==T_OCEAN),
+                           (ttype_west==T_OCEAN));
+    }
+    mysprite = get_tile_type(ttype)->sprite[tileno];
+  }
+
+  if (mysprite) *sprs++=mysprite;
+
+  if(ttype==T_OCEAN) {
+    tileno = INDEX_NSEW((ttype_north==T_OCEAN && ttype_east==T_OCEAN && 
+                         ttype_north_east!=T_OCEAN),
+                        (ttype_south==T_OCEAN && ttype_west==T_OCEAN && 
+                         ttype_south_west!=T_OCEAN),
+                        (ttype_east==T_OCEAN && ttype_south==T_OCEAN && 
+                         ttype_south_east!=T_OCEAN),
+                        (ttype_north==T_OCEAN && ttype_west==T_OCEAN && 
+                         ttype_north_west!=T_OCEAN));
+    if(tileno!=0)
+      *sprs++ = sprites.tx.coast_cape[tileno];
+
+    if(tspecial_north&S_RIVER || ttype_north==T_RIVER)
+      *sprs++ = sprites.tx.river_outlet[DIR_NORTH];
+    if(tspecial_west&S_RIVER || ttype_west==T_RIVER)
+      *sprs++ = sprites.tx.river_outlet[DIR_WEST];
+    if(tspecial_south&S_RIVER || ttype_south==T_RIVER)
+      *sprs++ = sprites.tx.river_outlet[DIR_SOUTH];
+    if(tspecial_east&S_RIVER || ttype_east==T_RIVER)
+      *sprs++ = sprites.tx.river_outlet[DIR_EAST];
+  }
+
+  if (tspecial&S_RIVER) {
+    tileno = INDEX_NSEW((tspecial_north&S_RIVER || ttype_north==T_OCEAN),
+			(tspecial_south&S_RIVER || ttype_south==T_OCEAN),
+			(tspecial_east&S_RIVER  || ttype_east==T_OCEAN),
+			(tspecial_west&S_RIVER  || ttype_west== T_OCEAN));
+    *sprs++=sprites.tx.spec_river[tileno];
+  }
+
+  if(tspecial & S_IRRIGATION) {
+    if(tspecial & S_FARMLAND) *sprs++=sprites.tx.farmland;
+    else *sprs++=sprites.tx.irrigation;
+  }
+
+  if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
+    int n, s, e, w;
+    
+    n = !!(tspecial_north&S_RAILROAD);
+    s = !!(tspecial_south&S_RAILROAD);
+    e = !!(tspecial_east&S_RAILROAD);
+    w = !!(tspecial_west&S_RAILROAD);
+    rail_card_count = n + s + e + w;
+    rail_card_tileno = INDEX_NSEW(n,s,e,w);
+    
+    n = !!(tspecial_north&S_ROAD);
+    s = !!(tspecial_south&S_ROAD);
+    e = !!(tspecial_east&S_ROAD);
+    w = !!(tspecial_west&S_ROAD);
+    road_card_count = n + s + e + w;
+    road_card_tileno = INDEX_NSEW(n,s,e,w);
+    
+    n = !!(tspecial_north_east&S_RAILROAD);
+    s = !!(tspecial_south_west&S_RAILROAD);
+    e = !!(tspecial_south_east&S_RAILROAD);
+    w = !!(tspecial_north_west&S_RAILROAD);
+    rail_semi_count = n + s + e + w;
+    rail_semi_tileno = INDEX_NSEW(n,s,e,w);
+    
+    n = !!(tspecial_north_east&S_ROAD);
+    s = !!(tspecial_south_west&S_ROAD);
+    e = !!(tspecial_south_east&S_ROAD);
+    w = !!(tspecial_north_west&S_ROAD);
+    road_semi_count = n + s + e + w;
+    road_semi_tileno = INDEX_NSEW(n,s,e,w);
+
+    if(tspecial & S_RAILROAD) {
+      road_card_tileno&=~rail_card_tileno;
+      road_semi_tileno&=~rail_semi_tileno;
+    } else if(tspecial & S_ROAD) {
+      rail_card_tileno&=~road_card_tileno;
+      rail_semi_tileno&=~road_semi_tileno;
+    }
+
+    if(road_semi_count > road_card_count) {
+      if(road_card_tileno!=0) {
+        *sprs++ = sprites.road.cardinal[road_card_tileno];
+      }
+      if(road_semi_tileno!=0 && draw_diagonal_roads) {
+        *sprs++ = sprites.road.diagonal[road_semi_tileno];
+      }
+    } else {
+      if(road_semi_tileno!=0 && draw_diagonal_roads) {
+        *sprs++ = sprites.road.diagonal[road_semi_tileno];
+      }
+      if(road_card_tileno!=0) {
+        *sprs++ = sprites.road.cardinal[road_card_tileno];
+      }
+    }
+
+    if(rail_semi_count > rail_card_count) {
+      if(rail_card_tileno!=0) {
+        *sprs++ = sprites.rail.cardinal[rail_card_tileno];
+      }
+      if(rail_semi_tileno!=0 && draw_diagonal_roads) {
+        *sprs++ = sprites.rail.diagonal[rail_semi_tileno];
+      }
+    } else {
+      if(rail_semi_tileno!=0 && draw_diagonal_roads) {
+        *sprs++ = sprites.rail.diagonal[rail_semi_tileno];
+      }
+      if(rail_card_tileno!=0) {
+        *sprs++ = sprites.rail.cardinal[rail_card_tileno];
+      }
+    }
+  }
+
+  if(tspecial & S_SPECIAL_1)
+    *sprs++ = tile_types[ttype].special[0].sprite;
+  else if(tspecial & S_SPECIAL_2)
+    *sprs++ = tile_types[ttype].special[1].sprite;
+
+  if(tspecial & S_MINE) {
+    if(ttype==T_HILLS || ttype==T_MOUNTAINS)
+      *sprs++ = sprites.tx.mine;
+    else /* desert */
+      *sprs++ = sprites.tx.oil_mine;
+  }
+
+  if (tspecial & S_RAILROAD) {
+    int adjacent = rail_card_tileno;
+    if (draw_diagonal_roads)
+      adjacent |= rail_semi_tileno;
+    if (!adjacent)
+      *sprs++ = sprites.rail.isolated;
+  }
+  else if (tspecial & S_ROAD) {
+    int adjacent = (rail_card_tileno | road_card_tileno);
+    if (draw_diagonal_roads)
+      adjacent |= (rail_semi_tileno | road_semi_tileno);
+    if (!adjacent)
+      *sprs++ = sprites.road.isolated;
+  }
+
+  if(tspecial & S_HUT) *sprs++ = sprites.tx.village;
+  if(tspecial & S_FORTRESS) *sprs++ = sprites.tx.fortress;
+  if(tspecial & S_POLLUTION) *sprs++ = sprites.tx.pollution;
+
+  if(!citymode) {
+    tileno = INDEX_NSEW((tile_is_known(abs_x0, abs_y0-1)==TILE_UNKNOWN),
+                        (tile_is_known(abs_x0, abs_y0+1)==TILE_UNKNOWN),
+                        (tile_is_known(abs_x0+1, abs_y0)==TILE_UNKNOWN),
+                        (tile_is_known(abs_x0-1, abs_y0)==TILE_UNKNOWN));
+    if (tileno) 
+      *sprs++ = sprites.tx.darkness[tileno];
+  }
+
+  if(flags_are_transparent) {  /* transparent flags -> draw city or unit last */
+    if((pcity=map_get_city(abs_x0, abs_y0))) {
+      sprs+=fill_city_sprite_array(sprs,pcity);
+    }
+
+    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+      if(pcity && punit!=get_unit_in_focus()) return sprs - save_sprs;
+      if(!citymode || punit->owner!=game.player_idx) {
+        sprs+=fill_unit_sprite_array(sprs,punit);
+        if(unit_list_size(&ptile->units)>1)  
+          *sprs++ = sprites.unit.stack;
+      }
+    }
+  }
+
+  return sprs - save_sprs;
+}
+
