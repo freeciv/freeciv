@@ -1194,13 +1194,10 @@ void ui_main(int argc, char **argv)
 
   timer_id = gtk_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
 
-  overview_canvas_store = gdk_pixmap_new(root_window,
-                                         overview_canvas_store_width,
-                                         overview_canvas_store_height, -1);
-
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
-  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, 0, 0,
-                     overview_canvas_store_width, overview_canvas_store_height);
+  overview.store = NULL;
+  overview.window = fc_malloc(sizeof(*overview.window));
+  overview.window->pixmap = overview_canvas->window;
+  overview.window->pixcomm = NULL;
 
   single_tile_pixmap = gdk_pixmap_new(root_window, 
 				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);
