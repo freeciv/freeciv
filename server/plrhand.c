@@ -1102,14 +1102,25 @@ repeat_break_treaty:
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
         && !pplayers_at_war(pplayer, other)) {
       /* A declaration of war by A against B also means A declares
-       * war against all of B's allies.  But if A is in the same
-       * team as B's ally, we break that alliance instead. */
-      notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
-                       _("Game: %s has attacked one of your allies! "
-                         "The alliance brings you into the war as well."),
-                       pplayer->name);
-      pplayer->diplstates[other->player_no].has_reason_to_cancel = 3;
-      handle_diplomacy_cancel_pact(pplayer, other->player_no, CLAUSE_LAST);
+       * war against all of B's allies.  If B has any allies in
+       * A's team, then they break off their alliance. */
+      if (other->team != TEAM_NONE && other->team == pplayer->team) {
+        notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
+                         _("Game: Your team mate %s declared war on %s. "
+                           "You are obligated to cancel alliance with %s."),
+                         pplayer->name,
+                         get_nation_name_plural(pplayer2->nation),
+                         pplayer2->name);
+        handle_diplomacy_cancel_pact(other, pplayer2->player_no,
+                                     CLAUSE_ALLIANCE);
+      } else {
+        notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
+                         _("Game: %s has attacked one of your allies! "
+                           "The alliance brings you into the war as well."),
+                         pplayer->name);
+        pplayer->diplstates[other->player_no].has_reason_to_cancel = 3;
+        handle_diplomacy_cancel_pact(pplayer, other->player_no, CLAUSE_LAST);
+      }
     }
   } players_iterate_end;
 }
