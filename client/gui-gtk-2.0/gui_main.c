@@ -217,17 +217,13 @@ static void parse_options(int argc, char **argv)
 /**************************************************************************
  handles main window keyboard events.
 **************************************************************************/
-static void set_menu_accelerators(bool enable)
-{
-  gtk_widget_set_sensitive(main_menubar, enable);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static gboolean inputline_focus(GtkWidget *w, GdkEventFocus *ev, gpointer data)
 {
-  set_menu_accelerators(GPOINTER_TO_INT(data) == 0);
+  if (GPOINTER_TO_INT(data) != 0) {
+    gtk_window_remove_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
+  } else {
+    gtk_window_add_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
+  }
   return FALSE;
 }
 
