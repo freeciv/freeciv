@@ -250,10 +250,6 @@ struct named_sprites {
   struct terrain_drawing_data *terrain[MAX_NUM_TERRAINS];
 };
 
-/* Stores the currently loaded tileset.  This differs from the value in
- * options.h since that variable is changed by the GUI code. */
-char current_tileset[512];
-
 static const int DIR4_TO_DIR8[4] =
     { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
 
@@ -330,6 +326,8 @@ struct small_sprite {
 #define small_sprite_list_iterate_end  LIST_ITERATE_END
 
 struct tileset {
+  char name[512];
+
   bool is_isometric;
   int hex_width, hex_height;
 
@@ -768,15 +766,17 @@ static void tileset_free_toplevel(struct tileset *t)
 
   It will also call the necessary functions to redraw the graphics.
 ***********************************************************************/
-void tilespec_reread(const char *tileset_name)
+void tilespec_reread(const char *new_tileset_name)
 {
   int id;
   struct tile *center_tile;
   enum client_states state = get_client_state();
+  const char *name = new_tileset_name ? new_tileset_name : tileset->name;
+  char tileset_name[strlen(name) + 1], old_name[strlen(tileset->name) + 1];
 
-  if (!tileset_name) {
-    tileset_name = current_tileset;
-  }
+  /* Make local copies since these values may be freed down below */
+  sz_strlcpy(tileset_name, name);
+  sz_strlcpy(old_name, tileset->name);
 
   freelog(LOG_NORMAL, "Loading tileset %s.", tileset_name);
 
@@ -799,7 +799,7 @@ void tilespec_reread(const char *tileset_name)
    * We read in the new tileset.  This should be pretty straightforward.
    */
   if (!(tileset = tileset_read_toplevel(tileset_name))) {
-    if (!(tileset = tileset_read_toplevel(current_tileset))) {
+    if (!(tileset = tileset_read_toplevel(old_name))) {
       die("Failed to re-read the currently loaded tileset.");
     }
   }
@@ -1160,6 +1160,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 
   (void) section_file_lookup(file, "tilespec.name"); /* currently unused */
 
+  sz_strlcpy(t->name, tileset_name);
+
   t->is_isometric = secfile_lookup_bool_default(file, FALSE,
 						"tilespec.is_isometric");
 
@@ -1456,8 +1458,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   section_file_free(file);
   freelog(LOG_VERBOSE, "finished reading %s", fname);
   free(fname);
-
-  sz_strlcpy(current_tileset, tileset_name);
 
   return t;
 }
