@@ -28,6 +28,7 @@
 #include "player.h"
 #include "shared.h"
 #include "spaceship.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 
@@ -740,17 +741,17 @@ void game_init(void)
   game.barbarians  = GAME_DEFAULT_BARBARIAN;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
   game.heating     = 0;
-  strcpy(game.save_name, "civgame");
+  sz_strlcpy(game.save_name, "civgame");
   game.save_nturns=10;
   game.randseed=GAME_DEFAULT_RANDSEED;
 
-  strcpy(game.ruleset.techs, GAME_DEFAULT_RULESET);
-  strcpy(game.ruleset.units, GAME_DEFAULT_RULESET);
-  strcpy(game.ruleset.buildings, GAME_DEFAULT_RULESET);
-  strcpy(game.ruleset.terrain, GAME_DEFAULT_RULESET);
-  strcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
-  strcpy(game.ruleset.nations, GAME_DEFAULT_RULESET);
-  strcpy(game.ruleset.cities, GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.techs,       GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.units,       GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.buildings,   GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.terrain,     GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.nations,     GAME_DEFAULT_RULESET);
+  sz_strlcpy(game.ruleset.cities,      GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
   game.num_unit_types = 0;
   game.num_tech_types = 0;
@@ -760,7 +761,7 @@ void game_init(void)
   game.government_when_anarchy = G_MAGIC;   /* flag */
   game.ai_goal_government = G_MAGIC;        /* flag */
 
-  strcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
+  sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
 
   map_init();
   
@@ -927,50 +928,50 @@ void translate_data_names(void)
   
   for (i=0; i<game.num_tech_types; i++) {
     struct advance *this = &advances[i];
-    strcpy(this->name_orig, this->name);
-    strcpy(this->name, Q_(this->name_orig));
+    sz_strlcpy(this->name_orig, this->name);
+    sz_strlcpy(this->name, Q_(this->name_orig));
   }
   for (i=0; i<game.num_unit_types; i++) {
     struct unit_type *this = &unit_types[i];
-    strcpy(this->name_orig, this->name);
-    strcpy(this->name, Q_(this->name_orig));
+    sz_strlcpy(this->name_orig, this->name);
+    sz_strlcpy(this->name, Q_(this->name_orig));
   }
   for (i=0; i<B_LAST; i++) {
     struct improvement_type *this = &improvement_types[i];
-    strcpy(this->name_orig, this->name);
-    strcpy(this->name, Q_(this->name_orig));
+    sz_strlcpy(this->name_orig, this->name);
+    sz_strlcpy(this->name, Q_(this->name_orig));
   }
   for (i=T_FIRST; i<T_COUNT; i++) {
     struct tile_type *this = &tile_types[i];
-    strcpy(this->terrain_name_orig, this->terrain_name);
-    strcpy(this->terrain_name, Q_(this->terrain_name_orig));
-    strcpy(this->special_1_name_orig, this->special_1_name);
-    strcpy(this->special_1_name, Q_(this->special_1_name_orig));
-    strcpy(this->special_2_name_orig, this->special_2_name);
-    strcpy(this->special_2_name, Q_(this->special_2_name_orig));
+    sz_strlcpy(this->terrain_name_orig, this->terrain_name);
+    sz_strlcpy(this->terrain_name, Q_(this->terrain_name_orig));
+    sz_strlcpy(this->special_1_name_orig, this->special_1_name);
+    sz_strlcpy(this->special_1_name, Q_(this->special_1_name_orig));
+    sz_strlcpy(this->special_2_name_orig, this->special_2_name);
+    sz_strlcpy(this->special_2_name, Q_(this->special_2_name_orig));
   }
   for (i=0; i<game.government_count; i++) {
     struct government *this = &governments[i];
-    strcpy(this->name_orig, this->name);
-    strcpy(this->name, Q_(this->name_orig));
+    sz_strlcpy(this->name_orig, this->name);
+    sz_strlcpy(this->name, Q_(this->name_orig));
     for(j=0; j<this->num_ruler_titles; j++) {
       struct ruler_title *that = &this->ruler_titles[j];
-      strcpy(that->male_title_orig, that->male_title);
-      strcpy(that->male_title, Q_(that->male_title_orig));
-      strcpy(that->female_title_orig, that->female_title);
-      strcpy(that->female_title, Q_(that->female_title_orig));
+      sz_strlcpy(that->male_title_orig, that->male_title);
+      sz_strlcpy(that->male_title, Q_(that->male_title_orig));
+      sz_strlcpy(that->female_title_orig, that->female_title);
+      sz_strlcpy(that->female_title, Q_(that->female_title_orig));
     }
   }
   for (i=0; i<game.nation_count; i++) {
     struct nation_type *this = get_nation_by_idx(i);
-    strcpy(this->name_orig, this->name);
-    strcpy(this->name, Q_(this->name_orig));
-    strcpy(this->name_plural_orig, this->name_plural);
-    strcpy(this->name_plural, Q_(this->name_plural_orig));
+    sz_strlcpy(this->name_orig, this->name);
+    sz_strlcpy(this->name, Q_(this->name_orig));
+    sz_strlcpy(this->name_plural_orig, this->name_plural);
+    sz_strlcpy(this->name_plural, Q_(this->name_plural_orig));
   }
   for (i=0; i<game.styles_count; i++) {
     struct citystyle *this = &city_styles[i];
-    strcpy(this->name_orig, this->name);
-    strcpy(this->name, Q_(this->name_orig));
+    sz_strlcpy(this->name_orig, this->name);
+    sz_strlcpy(this->name, Q_(this->name_orig));
   }
 }

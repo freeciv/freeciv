@@ -24,6 +24,7 @@
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
 #include "unit.h"
 
 #include "map.h"
@@ -49,16 +50,19 @@ char *map_get_tile_info_text(int x, int y)
   static char s[64];
   struct tile *ptile=map_get_tile(x, y);
   
-  sprintf(s, "%s%s",
-	  (ptile->special&S_POLLUTION ? _("Polluted ") : ""),
-	  tile_types[ptile->terrain].terrain_name);
-  if(ptile->special&S_RIVER) 
-    sprintf(s+strlen(s), "/%s", _("River"));
-  if(ptile->special&S_SPECIAL_1) 
-    sprintf(s+strlen(s), "(%s)", tile_types[ptile->terrain].special_1_name);
-  else if(ptile->special&S_SPECIAL_2) 
-    sprintf(s+strlen(s), "(%s)", tile_types[ptile->terrain].special_2_name);
-
+  my_snprintf(s, sizeof(s), "%s%s",
+	      (ptile->special&S_POLLUTION ? _("Polluted ") : ""),
+	      tile_types[ptile->terrain].terrain_name);
+  if(ptile->special&S_RIVER) {
+    cat_snprintf(s, sizeof(s), "/%s", _("River"));
+  }
+  if(ptile->special&S_SPECIAL_1) {
+    cat_snprintf(s, sizeof(s), "(%s)",
+		 tile_types[ptile->terrain].special_1_name);
+  } else if(ptile->special&S_SPECIAL_2) {
+    cat_snprintf(s, sizeof(s), "(%s)",
+		 tile_types[ptile->terrain].special_2_name);
+  }
   return s;
 }
 
@@ -539,22 +543,24 @@ char *map_get_infrastructure_text(int spe)
   *s = '\0';
 
   if(spe&S_ROAD)
-    sprintf(s+strlen(s), "%s/", _("Road"));
+    cat_snprintf(s, sizeof(s), "%s/", _("Road"));
   if(spe&S_RAILROAD)
-    sprintf(s+strlen(s), "%s/", _("Railroad"));
+    cat_snprintf(s, sizeof(s), "%s/", _("Railroad"));
   if(spe&S_IRRIGATION)
-    sprintf(s+strlen(s), "%s/", _("Irrigation"));
+    cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
   if(spe&S_FARMLAND)
-    sprintf(s+strlen(s), "%s/", _("Farmland"));
+    cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
   if(spe&S_MINE)
-    sprintf(s+strlen(s), "%s/", _("Mine"));
+    cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
   if(spe&S_FORTRESS)
-    sprintf(s+strlen(s), "%s/", _("Fortress"));
+    cat_snprintf(s, sizeof(s), "%s/", _("Fortress"));
   if(spe&S_AIRBASE)
-    sprintf(s+strlen(s), "%s/", _("Airbase"));
+    cat_snprintf(s, sizeof(s), "%s/", _("Airbase"));
 
-  if(*s)
-    *(s+strlen(s)-1)='\0';
+  if(*s) {
+    char *p = s + strlen(s) - 1;
+    if (*p == '/') *p = '\0';
+  }
 
   return (s);
 }

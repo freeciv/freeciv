@@ -154,8 +154,11 @@
 #include "mem.h"
 #include "sbuffer.h"
 #include "shared.h"
+#include "support.h"
 
 #include "registry.h"
+
+#define MAX_LEN_BUFFER 512
 
 #define DO_HASH 1
 #define HASH_DEBUG 1		/* 0,1,2 */
@@ -414,13 +417,13 @@ int section_file_load(struct section_file *sf, const char *filename)
 	tok = inf_token_required(inf, INF_TOK_VALUE);
 	if (i<columns_tab.n) {
 	  astr_minsize(&entry_name, base_name.n + 10 + columns[i].n);
-	  sprintf(entry_name.str, "%s%d.%s", base_name.str,
-		  table_lineno, columns[i].str);
+	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
+		      base_name.str, table_lineno, columns[i].str);
 	} else {
 	  astr_minsize(&entry_name, base_name.n + 20 + columns[i].n);
-	  sprintf(entry_name.str, "%s%d.%s,%d", base_name.str,
-		  table_lineno, columns[columns_tab.n-1].str,
-		  i-columns_tab.n+1);
+	  my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
+		      base_name.str, table_lineno,
+		      columns[columns_tab.n-1].str, i-columns_tab.n+1);
 	}
 	pentry = new_entry(sb, entry_name.str, tok);
 	entry_list_insert_back(&psection->entries, pentry);
@@ -477,7 +480,8 @@ int section_file_load(struct section_file *sf, const char *filename)
 	pentry = new_entry(sb, base_name.str, tok);
       } else {
 	astr_minsize(&entry_name, base_name.n + 20);
-	sprintf(entry_name.str, "%s,%d", base_name.str, i);
+	my_snprintf(entry_name.str, entry_name.n_alloc,
+		    "%s,%d", base_name.str, i);
 	pentry = new_entry(sb, entry_name.str, tok);
       }
       entry_list_insert_back(&psection->entries, pentry);
@@ -569,7 +573,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 
 	offset = c - first;
 	first[offset-2] = '\0';
-	strcpy(base, first);
+	sz_strlcpy(base, first);
 	first[offset-2] = '0';
 	fprintf(fs, "%s={", base);
 
@@ -601,7 +605,8 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	  pentry = ITERATOR_PTR(ent_iter);
 	  col_pentry = ITERATOR_PTR(col_iter);
 
-	  sprintf(expect, "%s%d.%s", base, irow, col_pentry->name+offset);
+	  my_snprintf(expect, sizeof(expect), "%s%d.%s",
+		      base, irow, col_pentry->name+offset);
 
 	  /* break out of tabular if doesn't match: */
 	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
@@ -658,11 +663,11 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
 {
   struct entry *pentry;
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
@@ -688,13 +693,13 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
 			     int *ival, char *path, ...)
 {
   struct entry *pentry;
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   assert(ival);
   
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
@@ -719,11 +724,11 @@ void secfile_insert_int(struct section_file *my_section_file,
 			int val, char *path, ...)
 {
   struct entry *pentry;
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   pentry=section_file_insert_internal(my_section_file, buf);
@@ -740,11 +745,11 @@ void secfile_insert_str(struct section_file *my_section_file,
 			char *sval, char *path, ...)
 {
   struct entry *pentry;
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   pentry = section_file_insert_internal(my_section_file, buf);
@@ -759,11 +764,11 @@ int secfile_lookup_int(struct section_file *my_section_file,
 		       char *path, ...)
 {
   struct entry *pentry;
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
@@ -790,11 +795,11 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
 			       int def, char *path, ...)
 {
   struct entry *pentry;
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
@@ -816,11 +821,11 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
 				 char *def, char *path, ...)
 {
   struct entry *pentry;
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
@@ -842,11 +847,11 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
 int section_file_lookup(struct section_file *my_section_file, 
 			char *path, ...)
 {
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   return BOOL_VAL(section_file_lookup_internal(my_section_file, buf));
@@ -861,9 +866,9 @@ section_file_lookup_internal(struct section_file *my_section_file,
 			     char *fullpath) 
 {
   char *pdelim;
-  char sec_name[512];
-  char ent_name[512];
-  char mod_fullpath[1024];
+  char sec_name[MAX_LEN_BUFFER];
+  char ent_name[MAX_LEN_BUFFER];
+  char mod_fullpath[2*MAX_LEN_BUFFER];
   int len;
   struct hash_entry *hentry;
   struct entry *result;
@@ -873,6 +878,7 @@ section_file_lookup_internal(struct section_file *my_section_file,
   /* treat "sec.foo,0" as "sec.foo": */
   len = strlen(fullpath);
   if(len>2 && fullpath[len-2]==',' && fullpath[len-1]=='0') {
+    assert(len<sizeof(mod_fullpath));
     strcpy(mod_fullpath, fullpath);
     fullpath = mod_fullpath;	/* reassign local pointer 'fullpath' */
     fullpath[len-2] = '\0';
@@ -892,9 +898,8 @@ section_file_lookup_internal(struct section_file *my_section_file,
   if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
     return 0;
 
-  strncpy(sec_name, fullpath, pdelim-fullpath);
-  sec_name[pdelim-fullpath]='\0';
-  strcpy(ent_name, pdelim+1);
+  mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1, sizeof(sec_name)));
+  sz_strlcpy(ent_name, pdelim+1);
 
   section_list_iterate(*my_section_file->sections, psection) {
     if (strcmp(psection->name, sec_name) == 0 ) {
@@ -923,8 +928,8 @@ section_file_insert_internal(struct section_file *my_section_file,
 			     char *fullpath)
 {
   char *pdelim;
-  char sec_name[512];
-  char ent_name[512];
+  char sec_name[MAX_LEN_BUFFER];
+  char ent_name[MAX_LEN_BUFFER];
   struct section *psection;
   struct entry *pentry;
   struct sbuffer *sb = my_section_file->sb;
@@ -935,9 +940,8 @@ section_file_insert_internal(struct section_file *my_section_file,
 	    fullpath, secfile_filename(my_section_file));
     exit(1);
   }
-  strncpy(sec_name, fullpath, pdelim-fullpath);
-  sec_name[pdelim-fullpath]='\0';
-  strcpy(ent_name, pdelim+1);
+  mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1,sizeof(sec_name)));
+  sz_strlcpy(ent_name, pdelim+1);
   my_section_file->num_entries++;
   
   if(strlen(sec_name)==0 || strlen(ent_name)==0) {
@@ -1126,7 +1130,7 @@ void secfilehash_build(struct section_file *file)
 
   section_list_iterate(*file->sections, psection) {
     entry_list_iterate(psection->entries, pentry) {
-      sprintf(buf, "%s.%s", psection->name, pentry->name);
+      my_snprintf(buf, sizeof(buf), "%s.%s", psection->name, pentry->name);
       secfilehash_insert(file, buf, pentry);
     }
     entry_list_iterate_end;
@@ -1159,12 +1163,12 @@ void secfilehash_free(struct section_file *file)
 int secfile_lookup_vec_dimen(struct section_file *my_section_file, 
 			     char *path, ...)
 {
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
   int j=0;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   while(section_file_lookup(my_section_file, "%s,%d", buf, j)) {
@@ -1182,12 +1186,12 @@ int secfile_lookup_vec_dimen(struct section_file *my_section_file,
 int *secfile_lookup_int_vec(struct section_file *my_section_file,
 			    int *dimen, char *path, ...)
 {
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
   int j, *res;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   *dimen = secfile_lookup_vec_dimen(my_section_file, buf);
@@ -1213,13 +1217,13 @@ int *secfile_lookup_int_vec(struct section_file *my_section_file,
 char **secfile_lookup_str_vec(struct section_file *my_section_file,
 			      int *dimen, char *path, ...)
 {
-  char buf[512];
+  char buf[MAX_LEN_BUFFER];
   va_list ap;
   int j;
   char **res;
 
   va_start(ap, path);
-  vsprintf(buf, path, ap);
+  my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
   *dimen = secfile_lookup_vec_dimen(my_section_file, buf);

@@ -15,6 +15,8 @@
 #include <stdlib.h>		/* getenv() */
 
 #include "packets.h"		/* MAX_LEN_CAPSTR */
+#include "support.h"
+
 #include "capstr.h"
 
 static char our_capability_internal[MAX_LEN_CAPSTR];
@@ -95,5 +97,5 @@ void init_our_capability(void)
   if (s == NULL) {
     s = CAPABILITY;
   }
-  strncpy(our_capability_internal, s, MAX_LEN_CAPSTR-1);
+  sz_strlcpy(our_capability_internal, s);
 }

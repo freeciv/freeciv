@@ -36,6 +36,7 @@
 #include "capability.h"
 #include "log.h"
 #include "mem.h"
+#include "support.h"
 
 #include "packets.h"
 
@@ -1929,12 +1930,12 @@ receive_packet_req_join_game(struct connection *pc)
   if (pack_iter_remaining(&iter)) {
     iget_string(&iter, packet->name, sizeof(packet->name));
   } else {
-    strcpy(packet->name, packet->short_name);
+    sz_strlcpy(packet->name, packet->short_name);
   }
   if (pack_iter_remaining(&iter)) {
     iget_string(&iter, packet->version_label, sizeof(packet->version_label));
   } else {
-    strcpy(packet->version_label, "");
+    packet->version_label[0] = '\0';
   }
 
   pack_iter_end(&iter, pc);

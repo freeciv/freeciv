@@ -55,15 +55,15 @@ void player_init(struct player *plr)
 {
   plr->player_no=plr-game.players;
 
-  strcpy(plr->name, "YourName");
-  strcpy(plr->username, "UserName");
+  sz_strlcpy(plr->name, "YourName");
+  sz_strlcpy(plr->username, "UserName");
   plr->is_male = 1;
   plr->government=game.default_government;
   plr->nation=MAX_NUM_NATIONS;
   plr->capital=0;
   unit_list_init(&plr->units);
   city_list_init(&plr->cities);
-  strcpy(plr->addr, "---.---.---.---");
+  sz_strlcpy(plr->addr, "---.---.---.---");
   plr->is_alive=1;
   plr->embassy=0;
   plr->city_style=0;            /* should be first basic style */

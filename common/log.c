@@ -20,6 +20,7 @@
 
 #include "fcintl.h"
 #include "mem.h"
+#include "shared.h"
 #include "support.h"
 
 #include "log.h"
@@ -212,10 +213,11 @@ For repeat message, may wait and print instead
 "last message repeated ..." at some later time.
 Calls log_callback if non-null, else prints to stderr.
 **************************************************************************/
+#define MAX_LEN_LOG_LINE 512
 void vreal_freelog(int level, char *message, va_list ap)
 {
-  static char bufbuf[2][512];
-  char buf[512];
+  static char bufbuf[2][MAX_LEN_LOG_LINE];
+  char buf[MAX_LEN_LOG_LINE];
   static int whichbuf=0;
   static unsigned int repeated=0; /* total times current message repeated */
   static unsigned int next=2;	/* next total to print update */
@@ -234,14 +236,15 @@ void vreal_freelog(int level, char *message, va_list ap)
     }
     else fs=stderr;
 
-    my_vsnprintf(bufbuf[whichbuf], 512, message, ap);
+    my_vsnprintf(bufbuf[whichbuf], MAX_LEN_LOG_LINE, message, ap);
     
-    if(level==prev_level && 0==strncmp(bufbuf[0],bufbuf[1],511)){
+    if(level==prev_level && 0==strncmp(bufbuf[0],bufbuf[1],MAX_LEN_LOG_LINE-1)){
       repeated++;
       if(repeated==next){
-	sprintf(buf, _("last message repeated %d times"), repeated-prev);
+	my_snprintf(buf, sizeof(buf),
+		    _("last message repeated %d times"), repeated-prev);
 	if (repeated>2) {
-	  sprintf(buf+strlen(buf), _(" (total %d repeats)"), repeated);
+	  cat_snprintf(buf, sizeof(buf), _(" (total %d repeats)"), repeated);
 	}
 	log_write(fs, prev_level, buf);
 	prev=repeated;
@@ -254,12 +257,13 @@ void vreal_freelog(int level, char *message, va_list ap)
 	  log_write(fs, prev_level, bufbuf[!whichbuf]);
 	} else {
 	  if(repeated-prev==1) {
-	    strcpy(buf, _("last message repeated once"));
+	    sz_strlcpy(buf, _("last message repeated once"));
 	  } else {
-	    sprintf(buf, _("last message repeated %d times"), repeated-prev);
+	    my_snprintf(buf, sizeof(buf),
+			_("last message repeated %d times"), repeated-prev);
 	  }
 	  if (repeated>2) {
-	    sprintf(buf+strlen(buf), _(" (total %d repeats)"), repeated);
+	    cat_snprintf(buf, sizeof(buf), _(" (total %d repeats)"), repeated);
 	  }
 	  log_write(fs, prev_level, buf);
 	}

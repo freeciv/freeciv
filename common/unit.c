@@ -70,13 +70,16 @@ char *get_unit_name(Unit_Type_id id)
   struct unit_type *ptype;
   static char buffer[256];
   ptype =get_unit_type(id);
-  if (ptype->fuel)
-    sprintf(buffer,"%s [%d/%d/%d(%d)]", ptype->name, ptype->attack_strength,
-	    ptype->defense_strength,
-	    ptype->move_rate/3,(ptype->move_rate/3)*ptype->fuel);
-  else
-    sprintf(buffer,"%s [%d/%d/%d]", ptype->name, ptype->attack_strength,
-	    ptype->defense_strength, ptype->move_rate/3);
+  if (ptype->fuel) {
+    my_snprintf(buffer, sizeof(buffer),
+		"%s [%d/%d/%d(%d)]", ptype->name, ptype->attack_strength,
+		ptype->defense_strength,
+		ptype->move_rate/3,(ptype->move_rate/3)*ptype->fuel);
+  } else {
+    my_snprintf(buffer, sizeof(buffer),
+		"%s [%d/%d/%d]", ptype->name, ptype->attack_strength,
+		ptype->defense_strength, ptype->move_rate/3);
+  }
   return buffer;
 }
 
@@ -1083,7 +1086,7 @@ char *unit_description(struct unit *punit)
 
   pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
 
-  sprintf(buffer, "%s%s\n%s\n%s", 
+  my_snprintf(buffer, sizeof(buffer), "%s%s\n%s\n%s", 
 	  get_unit_type(punit->type)->name, 
 	  punit->veteran ? _(" (veteran)") : "",
 	  unit_activity_text(punit), 
@@ -1108,30 +1111,33 @@ char *unit_activity_text(struct unit *punit)
        rate=get_unit_type(punit->type)->move_rate/3;
        f=((punit->fuel)-1);
        if(punit->moves_left%3) {
-        if(punit->moves_left/3>0)
-          sprintf(text, "%s: (%d)%d %d/3", moves_str,
-                  ((rate*f)+(punit->moves_left/3)),
-                  punit->moves_left/3, punit->moves_left%3);
-        else
-          sprintf(text, "%s: (%d)%d/3", moves_str,
-                  ((rate*f)+(punit->moves_left/3)),
-                  punit->moves_left%3);
+	 if(punit->moves_left/3>0) {
+	   my_snprintf(text, sizeof(text), "%s: (%d)%d %d/3", moves_str,
+		       ((rate*f)+(punit->moves_left/3)),
+		       punit->moves_left/3, punit->moves_left%3);
+	 } else {
+	   my_snprintf(text, sizeof(text), "%s: (%d)%d/3", moves_str,
+		       ((rate*f)+(punit->moves_left/3)),
+		       punit->moves_left%3);
+	 }
+       } else {
+	 my_snprintf(text, sizeof(text), "%s: (%d)%d", moves_str,
+		     rate*f+punit->moves_left/3,
+		     punit->moves_left/3);
        }
-       else
-        sprintf(text, "%s: (%d)%d", moves_str,
-		rate*f+punit->moves_left/3,
-                punit->moves_left/3);
-     }
-     else {
+     } else {
        if(punit->moves_left%3) {
-        if(punit->moves_left/3>0)
-          sprintf(text, "%s: %d %d/3", moves_str,
-		  punit->moves_left/3, punit->moves_left%3);
-        else
-          sprintf(text, "%s: %d/3", moves_str, punit->moves_left%3);
+	 if(punit->moves_left/3>0) {
+	   my_snprintf(text, sizeof(text), "%s: %d %d/3", moves_str,
+		       punit->moves_left/3, punit->moves_left%3);
+	 } else {
+	   my_snprintf(text, sizeof(text),
+		       "%s: %d/3", moves_str, punit->moves_left%3);
+	 }
+       } else {
+	 my_snprintf(text, sizeof(text),
+		     "%s: %d", moves_str, punit->moves_left/3);
        }
-       else
-        sprintf(text, "%s: %d", moves_str, punit->moves_left/3);
      }
      return text;
    case ACTIVITY_POLLUTION:
@@ -1151,8 +1157,9 @@ char *unit_activity_text(struct unit *punit)
      if(punit->activity_target == 0) {
        return get_activity_text (punit->activity);
      } else {
-       sprintf(text, "%s: %s", get_activity_text (punit->activity),
-	       map_get_infrastructure_text(punit->activity_target));
+       my_snprintf(text, sizeof(text), "%s: %s",
+		   get_activity_text (punit->activity),
+		   map_get_infrastructure_text(punit->activity_target));
        return (text);
      }
    default:

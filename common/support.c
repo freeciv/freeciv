@@ -108,7 +108,8 @@ char *mystrerror(int errnum)
   return strerror(errnum);
 #else
   static char buf[64];
-  sprintf(buf, _("error %d (compiled without strerror)"), errnum);
+  my_snprintf(buf, sizeof(buf),
+	      _("error %d (compiled without strerror)"), errnum);
   return buf;
 #endif
 }

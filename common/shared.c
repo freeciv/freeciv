@@ -27,6 +27,7 @@
 #include <pwd.h>
 #endif
 
+#include "astring.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -158,7 +159,7 @@ char *int_to_text(int nr)
   static char buf[20];
   char *to=buf;
   char *from=tmpbuf;
-  sprintf(tmpbuf,"%d", nr);
+  my_snprintf(tmpbuf, sizeof(tmpbuf), "%d", nr);
   while (*from) {
     *to++=*from++;
     if (strlen(from)%3==0 && *from)  
@@ -184,8 +185,7 @@ char *get_sane_name(char *name)
   if(*cp)
     return 0; 
 
-  strncpy(str, name, MAX_LEN_NAME-1);
-  str[MAX_LEN_NAME-1]='\0';
+  sz_strlcpy(str, name);
   
   *str=toupper(*str);
   return str;
@@ -214,8 +214,7 @@ char *get_sane_name(char *name)
   if(*cp)
     return 0; 
 
-  strncpy(str, name, MAX_LEN_NAME-1);
-  str[MAX_LEN_NAME-1]='\0';
+  sz_strlcpy(str, name);
   
   return str;
 }
@@ -227,9 +226,9 @@ char *textyear(int year)
 {
   static char y[10];
   if (year<0) 
-    sprintf(y, "%d BC", -year);
+    my_snprintf(y, sizeof(y), "%d BC", -year);
   else
-    sprintf(y, "%d AD", year);
+    my_snprintf(y, sizeof(y), "%d AD", year);
   return y;
 }
 
@@ -442,8 +441,8 @@ char *user_username(void)
     }
   }
 #endif
-  username = fc_malloc(30);
-  sprintf(username, "name%d", (int)getuid());
+  username = fc_malloc(MAX_LEN_NAME);
+  my_snprintf(username, MAX_LEN_NAME, "name%d", (int)getuid());
   freelog(LOG_VERBOSE, "fake username is %s", username);
   return username;
 }
@@ -471,8 +470,7 @@ char *datafilename(const char *filename)
   static int init = 0;
   static int num_dirs = 0;
   static char **dirs = NULL;
-  static char *realfile = NULL;
-  static int n_alloc_realfile = 0;
+  static struct astring realfile = ASTRING_INIT;
   int i;
 
   if (!init) {
@@ -506,8 +504,9 @@ char *datafilename(const char *filename)
 		    "No HOME, skipping data path component %s", tok);
 	    i = 0;
 	  } else {
-	    char *tmp = fc_malloc(strlen(home) + i);    /* +1 -1 */
-	    sprintf(tmp, "%s%s", home, tok+1);
+	    int len = strlen(home) + i;	   /* +1 -1 */
+	    char *tmp = fc_malloc(len);
+	    my_snprintf(tmp, len, "%s%s", home, tok+1);
 	    tok = tmp;
 	    i = -1;		/* flag to free tok below */
 	  }
@@ -534,36 +533,31 @@ char *datafilename(const char *filename)
 
   if (filename == NULL) {
     int len = 1;		/* in case num_dirs==0 */
+    int seplen = strlen(PATH_SEPARATOR);
     for(i=0; i<num_dirs; i++) {
-      len += strlen(dirs[i]) + 1; /* ':' or '\0' */
+      len += strlen(dirs[i]) + MAX(1,seplen);    /* separator or '\0' */
     }
-    if (len > n_alloc_realfile) {
-      realfile = fc_realloc(realfile, len);
-      n_alloc_realfile = len;
-    }
-    realfile[0] = '\0';
+    astr_minsize(&realfile, len);
+    realfile.str[0] = '\0';
     for(i=0; i<num_dirs; i++) {
-      strcat(realfile, dirs[i]);
+      mystrlcat(realfile.str, dirs[i], len);
       if(i != num_dirs-1) {
-	strcat(realfile, PATH_SEPARATOR);
+	mystrlcat(realfile.str, PATH_SEPARATOR, len);
       }
     }
-    return realfile;
+    return realfile.str;
   }
   
   for(i=0; i<num_dirs; i++) {
     FILE *fp;			/* see if we can open the file */
     int len = strlen(dirs[i]) + strlen(filename) + 2;
     
-    if (len > n_alloc_realfile) {
-      realfile = fc_realloc(realfile, len);
-      n_alloc_realfile = len;
-    } 
-    sprintf(realfile,"%s/%s", dirs[i], filename);
-    fp = fopen(realfile, "r");
+    astr_minsize(&realfile, len);
+    my_snprintf(realfile.str, len, "%s/%s", dirs[i], filename);
+    fp = fopen(realfile.str, "r");
     if (fp) {
       fclose(fp);
-      return realfile;
+      return realfile.str;
     }
   }
   return NULL;

@@ -175,7 +175,8 @@ char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id)
   static char buffer[256];
   char *state = Q_("?wonder:w");
   if (wonder_replacement(pcity, id)) {
-    sprintf(buffer, "%s(*)", get_improvement_type(id)->name);
+    my_snprintf(buffer, sizeof(buffer), "%s(*)",
+		get_improvement_type(id)->name);
     return buffer;
   }
   if (!is_wonder(id)) 
@@ -183,7 +184,8 @@ char *get_imp_name_ex(struct city *pcity, enum improvement_type_id id)
 
   if (game.global_wonders[id]) state = Q_("?built:B");
   if (wonder_obsolete(id)) state = Q_("?obsolete:O");
-  sprintf(buffer, "%s(%s)", get_improvement_type(id)->name, state); 
+  my_snprintf(buffer, sizeof(buffer), "%s(%s)",
+	      get_improvement_type(id)->name, state); 
   return buffer;
 }
 
