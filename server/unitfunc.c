@@ -1249,13 +1249,23 @@ gx, gy, v, x, y, v2, d, b);*/
     }
   }
 
-  if (!punit->id) return(v); /* virtual unit for assessing settler want */
+/* I had the return here, but it led to stupidity where several engineers would
+be built to solve one problem.  Moving the return down will solve this. -- Syela */
+
+  if (gx!=-1 && gy!=-1) {
+    map_get_tile(gx, gy)->assigned =
+        map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
+  }
+
+  if (!punit->id) { /* has to be before we try to send_unit_info()! -- Syela */
+/*    printf("%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)\n",
+      mycity->name, mycity->x, mycity->y, v, t, gx, gy);*/
+    return(v); /* virtual unit for assessing settler want */
+  }
 
   if (gx!=-1 && gy!=-1) {
     if (t == ACTIVITY_UNKNOWN) punit->ai.ai_role = AIUNIT_BUILD_CITY;
     else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
-    map_get_tile(gx, gy)->assigned =
-        map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
     if (!same_pos(gx, gy, punit->x, punit->y))
       auto_settler_do_goto(pplayer, punit,gx, gy);
   } else {

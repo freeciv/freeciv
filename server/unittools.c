@@ -521,19 +521,26 @@ int can_place_partisan(int x, int y)
  return 1 if there is already a unit on this square or one destined for it 
  (via goto)
 **************************************************************************/
-int new_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
-{ /* fails to handle a unit on GOTO passing over an assigned tile correctly */
-/* this can be worked around, but I'm testing old version for profiling -- Syela */
+int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+{ 
   x=map_adjust_x(x);
   y=map_adjust_y(y);
-  if (same_pos(myunit->x, myunit->y, x, y))
+  if (same_pos(myunit->x, myunit->y, x, y) || 
+      same_pos(myunit->goto_dest_x, myunit->goto_dest_y, x, y)) {
+/* I'm still not sure this is exactly right -- Syela */
+    unit_list_iterate(map_get_tile(x, y)->units, punit)
+      if (myunit==punit) continue;
+      if (punit->owner!=pplayer->player_no)
+        return 1;
+      if (unit_flag(punit->type, F_SETTLERS) && unit_flag(myunit->type, F_SETTLERS))
+        return 1;
+    unit_list_iterate_end;
     return 0;
-  if (same_pos(myunit->goto_dest_x, myunit->goto_dest_y, x, y))
-    return 0;
+  }
   return(map_get_tile(x, y)->assigned & (1<<pplayer->player_no));
 }
 
-int is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
+int old_is_already_assigned(struct unit *myunit, struct player *pplayer, int x, int y)
 {
   x=map_adjust_x(x);
   y=map_adjust_y(y);
@@ -594,6 +601,7 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
 
   if((ptile->terrain==type->irrigation_result &&
      !(ptile->special&S_IRRIGATION) &&
+     !(ptile->special&S_MINE) && !(ptile->city_id) && /* Duh! */
      is_water_adjacent_to_tile(x, y))) {
     map_set_special(x, y, S_IRRIGATION);
     m = city_tile_value(pcity, i, j, 0, 0);
