@@ -177,10 +177,6 @@ static void unitupgrade_callback_no(Widget w, XtPointer client_data,
 				    XtPointer call_data);
 static void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
-static void elvis_callback(Widget w, XtPointer client_data, XtPointer call_data);
-static void scientist_callback(Widget w, XtPointer client_data, XtPointer call_data);
-static void taxman_callback(Widget w, XtPointer client_data, XtPointer call_data);
-
 static void present_units_callback(Widget w, XtPointer client_data, 
 				   XtPointer call_data);
 static void cityopt_callback(Widget w, XtPointer client_data, 
@@ -1519,6 +1515,26 @@ void city_dialog_update_output(struct city_dialog *pdialog)
   xaw_set_label(pdialog->output_label, buf);
 }
 
+/****************************************************************************
+  Handle the callback when a citizen sprite widget is clicked.
+****************************************************************************/
+static void citizen_callback(Widget w, XtPointer client_data,
+			     XtPointer call_data)
+{
+  struct city_dialog *pdialog = client_data;
+  int i;
+
+  /* HACK: figure out which figure was clicked. */
+  for (i = 0; i < pdialog->pcity->size; i++) {
+    if (pdialog->citizen_labels[i] == w) {
+      break;
+    }
+  }
+  assert(i < pdialog->pcity->size);
+
+  city_rotate_specialist(pdialog->pcity, i);
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -1536,27 +1552,9 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 
     /* HACK: set sensitivity/callbacks on the widget */
     XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-    switch (citizens[i]) {
-    case CITIZEN_ELVIS:
-      XtAddCallback(pdialog->citizen_labels[i], XtNcallback,
-		    elvis_callback, (XtPointer)pdialog);
-      XtSetSensitive(pdialog->citizen_labels[i], TRUE);
-      break;
-    case CITIZEN_SCIENTIST:
-      XtAddCallback(pdialog->citizen_labels[i], XtNcallback,
-		    scientist_callback, (XtPointer)pdialog);
-      XtSetSensitive(pdialog->citizen_labels[i], TRUE);
-      break;
-    case CITIZEN_TAXMAN:
-      XtAddCallback(pdialog->citizen_labels[i], XtNcallback, taxman_callback,
-		    (XtPointer)pdialog);
-      XtSetSensitive(pdialog->citizen_labels[i], TRUE);
-      break;      
-    default:
-      XtSetSensitive(pdialog->citizen_labels[i], FALSE);
-      XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
-      break;
-    }
+    XtAddCallback(pdialog->citizen_labels[i], XtNcallback,
+		  citizen_callback, (XtPointer)pdialog);
+    XtSetSensitive(pdialog->citizen_labels[i], TRUE);
   }
 
   if (i >= pdialog->num_citizens_shown && i < pcity->size) {
@@ -1854,36 +1852,6 @@ void citydlg_btn_select_citymap(Widget w, XEvent *event)
       }
     }
   }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void elvis_callback(Widget w, XtPointer client_data, XtPointer call_data)
-{
-  struct city_dialog *pdialog = client_data;
-
-  city_change_specialist(pdialog->pcity, SP_ELVIS, SP_SCIENTIST);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void scientist_callback(Widget w, XtPointer client_data, XtPointer call_data)
-{
-  struct city_dialog *pdialog = client_data;
-
-  city_change_specialist(pdialog->pcity, SP_SCIENTIST, SP_TAXMAN);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void taxman_callback(Widget w, XtPointer client_data, XtPointer call_data)
-{
-  struct city_dialog *pdialog = client_data;
-
-  city_change_specialist(pdialog->pcity, SP_TAXMAN, SP_ELVIS);
 }
 
 /****************************************************************
