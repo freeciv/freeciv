@@ -23,7 +23,9 @@
 #include <unistd.h>
 #endif
 
+#ifndef WIN32_NATIVE
 #define HAS_FILE_LOCKING
+#endif
 
 #ifdef HAVE_FLOCK
 #ifdef HAVE_SYS_FILE_H
