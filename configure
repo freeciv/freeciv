@@ -1289,7 +1289,7 @@ test "$program_transform_name" = "" && program_transform_name="s,x,x,"
 
 
 if test -n "$GCC"; then
-   CFLAGS="$CFLAGS -Wall"
+   CFLAGS="$CFLAGS -Wall -pipe"
 fi
 
 if test "$CVS_DEPS" = "maybe"; then
