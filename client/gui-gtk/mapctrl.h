@@ -18,6 +18,7 @@
 #include "mapctrl_g.h"
 
 struct unit;
+struct t_popup_pos {int xroot, yroot;};
 
 void key_city_workers(GtkWidget *w, GdkEventKey *ev);
 void adjust_workers(GtkWidget *widget, GdkEventButton *ev);
@@ -31,6 +32,8 @@ void update_line(int window_x, int window_y);
 void center_on_unit(void);
 void focus_to_next_unit(void);
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data);
+void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc, 
+                                    gpointer user_data);
 
 /* Color to use to display the workers */
 extern int city_workers_color;
