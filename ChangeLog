@@ -1,3 +1,121 @@
+Fri Aug 10 14:09:21 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* po/nl.po:
+
+	Run msgmerge on nl.po.
+
+Fri Aug 10 13:39:18 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Last update nl.po
+
+Fri Aug 10 13:36:43 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* configure, configure.in:
+
+	Set version to 1.12.0.
+
+Fri Aug 10 13:29:17 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv, po/de.po, po/en_GB.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/ja.po, po/nl.po, po/no.po,
+	po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sv.po:
+
+	Final source update for Version 1.12.0 release.  - Set version to
+	1.12.0 - Ran msgmerge on all .po files (normal part of 'make
+	dist').
+
+Thu Aug  9 22:31:32 2001  Michael Stefaniuc <mstefani@redhat.de>:
+
+	* po/ro.po:
+
+	- fixed some typos - added some new translated strings
+
+Thu Aug  9 20:56:06 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* BUGS:
+
+	Mention that KDE and the xaw client don't work well together.
+
+Thu Aug  9 20:28:14 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* data/nation/thai.ruleset:
+
+	"Adon Thani" -> "Udon Thani"
+
+Thu Aug  9 20:23:28 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* doc/Makefile.am, doc/Makefile.in:
+
+	Add HOWTOPLAY.ja to Makefile.am so that it gets included in the
+	distribution.
+
+Thu Aug  9 09:56:02 2001  Gaute B Strokkenes <gs234@cam.ac.uk>:
+
+	* ai/aiunit.c:
+
+	Fix typo: map_adjust_x() -> map_adjust_y().
+
+Wed Aug  8 11:28:19 2001  Egbert Hinzen <egbert@ehinzen.de>:
+
+	* po/de.po:
+
+	de.po updated
+
+Wed Aug  8 09:59:02 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated nl.po
+
+Wed Aug  8 09:46:27 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* server/unithand.c:
+
+	When a player tries to use a diplomat who is in a boat (changed in
+	1.12.0 to not be allowed), make the error message say so.
+
+Wed Aug  8 07:34:21 2001  Pieter J. Kersten <kersten@dia.eur.nl>:
+
+	* po/nl.po:
+
+	Updated nl.po
+
+Wed Aug  8 01:12:19 2001  Sawada Katsuya <amanatto@mail2.dddd.ne.jp>:
+
+	* doc/HOWTOPLAY.ja:
+
+	Initial HOWTOPLAY.ja file based on cvs-1.10's HOWTOPLAY.
+
+Tue Aug  7 21:20:31 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* configure, configure.in:
+
+	Bump version to 1.11.13-devel for some more files.
+
+Tue Aug  7 21:19:53 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv:
+
+	Bump version to 1.11.13-devel.
+
+Tue Aug  7 20:58:25 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* ChangeLog, configure, configure.in:
+
+	Update files for 1.11.12 beta.
+
+Tue Aug  7 20:54:38 2001  Thue Janus Kristensen <thue@diku.dk>:
+
+	* common/version.h, data/Freeciv, po/de.po, po/en_GB.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/ja.po, po/nl.po, po/no.po,
+	po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sv.po:
+
+	Updates for the forth beta leading to version 1.12.0: - Changed
+	version to 1.11.12 (beta).  - Ran msgmerge on all .po files
+	(normal	part of 'make dist').  - Updated Changelog
+
 Tue Aug  7 19:46:42 2001  Thue Janus Kristensen <thue@diku.dk>:
 
 	* PEOPLE:
