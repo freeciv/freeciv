@@ -17,6 +17,7 @@
 *~
 .#*
 .deps
+.svn
 CVS
 Freeciv.h
 Makefile
