@@ -27,11 +27,6 @@ bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
 void maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender);
 
-
-/* move check related */
-bool can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
-				       int dest_y, bool igzoc);
-
 /* turn update related */
 void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);

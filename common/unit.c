@@ -1211,15 +1211,16 @@ bool zoc_ok_move(struct unit *punit, int x, int y)
   return zoc_ok_move_gen(punit, punit->x, punit->y, x, y);
 }
 
-bool can_unit_move_to_tile(Unit_Type_id type,
-			  struct player *unit_owner,
-			  enum unit_activity activity,
-			  bool connecting, int src_x,
-			  int src_y, int dest_x, int dest_y, bool igzoc)
+/**************************************************************************
+  Convenience wrapper for test_unit_move_to_tile.
+**************************************************************************/
+bool can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
+			   bool igzoc)
 {
-  return MR_OK == test_unit_move_to_tile(type, unit_owner, activity,
-					 connecting, src_x,
-					 src_y, dest_x, dest_y, igzoc);
+  return MR_OK == test_unit_move_to_tile(punit->type, unit_owner(punit),
+					 punit->activity, punit->connecting,
+					 punit->x, punit->y, dest_x, dest_y,
+					 igzoc);
 }
 
 /**************************************************************************

@@ -317,7 +317,7 @@ bool ai_manage_explorer(struct unit *punit)
         if (map_get_continent(x1, y1) != continent)
           continue;
         
-        if (!can_unit_move_to_tile_with_notify(punit, x1, y1, FALSE))
+        if (!can_unit_move_to_tile(punit, x1, y1, FALSE))
           continue;
 
         /* We won't travel into cities, unless we are able to do so - diplomats
@@ -2455,7 +2455,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
     square_iterate(leader->x, leader->y, 1, x, y) {
       if (warmap.cost[x][y] > safest
-	  && can_unit_move_to_tile_with_notify(leader, x, y, FALSE)) {
+	  && can_unit_move_to_tile(leader, x, y, FALSE)) {
 	safest = warmap.cost[x][y];
 	freelog(LOG_DEBUG,
 		"Barbarian leader: safest is %d, %d, safeness %d", x, y,

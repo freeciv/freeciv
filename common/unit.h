@@ -248,11 +248,8 @@ bool unit_being_aggressive(struct unit *punit);
 bool can_step_taken_wrt_to_zoc(Unit_Type_id type, struct player *unit_owner,
 			      int src_x, int src_y, int dest_x,
 			      int dest_y);
-bool can_unit_move_to_tile(Unit_Type_id type,
-			  struct player *unit_owner,
-			  enum unit_activity activity,
-			  bool connecting, int src_x,
-			  int src_y, int dest_x, int dest_y, bool igzoc);
+bool can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
+			   bool igzoc);
 enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 					     struct player *unit_owner,
 					     enum unit_activity activity,

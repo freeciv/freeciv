@@ -839,6 +839,45 @@ static void how_to_declare_war(struct player *pplayer)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static bool can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
+					      int dest_y, bool igzoc)
+{
+  enum unit_move_result reason;
+  int src_x = punit->x, src_y = punit->y;
+
+  reason =
+      test_unit_move_to_tile(punit->type, unit_owner(punit),
+			     punit->activity, punit->connecting,
+			     punit->x, punit->y, dest_x, dest_y, igzoc);
+  if (reason == MR_OK)
+    return TRUE;
+
+  if (reason == MR_BAD_TYPE_FOR_CITY_TAKE_OVER) {
+    char *units_str = get_units_with_flag_string(F_MARINES);
+    if (units_str) {
+      notify_player_ex(unit_owner(punit), src_x, src_y,
+		       E_NOEVENT, _("Game: Only %s can attack from sea."),
+		       units_str);
+      free(units_str);
+    } else {
+      notify_player_ex(unit_owner(punit), src_x, src_y,
+		       E_NOEVENT, _("Game: Cannot attack from sea."));
+    }
+  } else if (reason == MR_NO_WAR) {
+    notify_player_ex(unit_owner(punit), src_x, src_y,
+		     E_NOEVENT,
+		     _("Game: Cannot attack unless you declare war first."));
+  } else if (reason == MR_ZOC) {
+    notify_player_ex(unit_owner(punit), src_x, src_y, E_NOEVENT,
+		     _("Game: %s can only move into your own zone of control."),
+		     unit_type(punit)->name);
+  }
+  return FALSE;
+}
+
+/**************************************************************************
   Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
   could be done, false if it couldn't for some reason.
   
@@ -926,7 +965,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
       lsend_packet_diplomat_action(player_reply_dest(pplayer), &packet);
       return FALSE;
-    } else if (!can_unit_move_to_tile_with_notify(punit, dest_x, dest_y, igzoc)) {
+    } else if (!can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       map_get_terrain(punit->x, punit->y) == T_OCEAN
 		       ? _("Game: Unit must be on land to "
