@@ -2541,6 +2541,10 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   if(!pdialog->misc.block_signal){
     int i, new_options = 0;
     struct city *pcity = pdialog->pcity;
