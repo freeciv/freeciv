@@ -306,7 +306,7 @@ this:
 static void create_goto_map(struct unit *punit, int src_x, int src_y,
 			    enum goto_move_restriction restriction)
 {
-  int x, y, x1, y1, dir;
+  int x, y;
   struct tile *psrctile, *pdesttile;
   enum unit_move_type move_type = unit_types[punit->type].move_type;
   int move_cost, total_cost;
@@ -321,15 +321,10 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
   while (get_from_mapqueue(&x, &y)) { /* until all accesible is marked */
     psrctile = map_get_tile(x, y);
 
-    /* Try to move to all tiles adjacent to x,y. The coordinats of the tile we
-       try to move to are x1,y1 */
-    for (dir = 0; dir < 8; dir++) {
-      if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
-	  && !DIR_IS_CARDINAL(dir)) continue;
-
-      x1 = x + DIR_DX[dir];
-      y1 = y + DIR_DY[dir];
-      if (!normalize_map_pos(&x1, &y1))
+    /* Try to move to all tiles adjacent to x,y. The coordinats of the
+       tile we try to move to are x1,y1 */
+    adjc_dir_iterate(x, y, x1, y1, dir) {
+      if (restriction == GOTO_MOVE_CARDINAL_ONLY && !DIR_IS_CARDINAL(dir))
 	continue;
 
       pdesttile = map_get_tile(x1, y1);
@@ -456,7 +451,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	abort();
 	break;
       } /****** end switch ******/
-    } /* end  for (dir = 0; dir < 8; dir++) */
+    } 
+    adjc_dir_iterate_end;
   } /* end while */
 }
 
@@ -486,15 +482,15 @@ static void goto_array_insert(int x, int y)
     old_y = goto_array[goto_array_index-1].y;
   }
 
-  for (dir=0; dir<8; dir++) {
-    int x1 = old_x + DIR_DX[dir];
-    int y1 = old_y + DIR_DY[dir];
-    if (normalize_map_pos(&x1, &y1)) {
-      if (x1 == x && y1 == y)
-	break; /* Now dir is set correctly. */
-    }
-  }
-  assert(dir != 8);
+  /* 
+   * TODO: if true, the code below breaks badly. goto_array_index was
+   * 0 and the waypoint had our current position, which doesn't seem
+   * too unreasonable.
+   */
+  assert(!(old_x == x && old_y == y));
+
+  dir = get_direction_for_step(old_x, old_y, x, y);
+
   draw_segment(old_x, old_y, dir);
 
   /* insert into array */
@@ -689,12 +685,12 @@ Not many checks here.
 static void undraw_one(void)
 {
   int line_x, line_y;
+  int dir;
+
   /* current line destination */
   int dest_x = goto_array[goto_array_index-1].x;
   int dest_y = goto_array[goto_array_index-1].y;
   struct waypoint *pwaypoint = &waypoint_list[waypoint_list_index-1];
-  int found_direction = 0;
-  int dir;
 
   /* find the new line destination */
   if (goto_array_index > pwaypoint->goto_array_start + 1) {
@@ -706,18 +702,8 @@ static void undraw_one(void)
   }
 
   /* undraw the line segment */
-  for (dir = 0; dir < 8; dir++) {
-    int x = map_adjust_x(line_x + DIR_DX[dir]);
-    int y = line_y + DIR_DY[dir];
-    if (normalize_map_pos(&x, &y)
-	&& x == dest_x && y == dest_y) {
-      undraw_segment(line_x, line_y, dir);
-      found_direction = 1;
-      break; /* not needed; for clarity. */
-    }
-  }
-  if (!found_direction)
-    abort();
+  dir = get_direction_for_step(line_x, line_y, dest_x, dest_y);
+  undraw_segment(line_x, line_y, dir);
 
   assert(goto_array_index > 0);
   goto_array_index--;
@@ -765,9 +751,7 @@ so we find the common part.
 ***********************************************************************/
 static int find_route(int x, int y)
 {
-  int last_x, last_y;
-  int dir, i;
-  int first_index;
+  int i, first_index, last_x, last_y;
 
   if (route == NULL) {
     route = fc_malloc(route_length * sizeof(struct map_position));
@@ -782,19 +766,14 @@ static int find_route(int x, int y)
     return first_index;
 
   /* Try to see of we can find this position in the goto array */
-  for (i = goto_array_index-1; i >= first_index; i--) {
+  for (i = goto_array_index - 1; i >= first_index; i--) {
     if (x == goto_array[i].x && y == goto_array[i].y) {
       return i+1; /* found common point */
     }
   }
 
-  for (dir = 0; dir < 8; dir++) {
+  adjc_dir_iterate(x, y, new_x, new_y, dir) {
     if (goto_map.vector[x][y] & (1<<dir)) {
-      int new_x = x + DIR_DX[dir];
-      int new_y = y + DIR_DY[dir];
-      assert(is_real_tile(new_x, new_y));
-      normalize_map_pos(&new_x, &new_y);
-
       /* expand array as neccesary */
       if (route_index == route_length) {
 	route_length *= 2;
@@ -806,7 +785,8 @@ static int find_route(int x, int y)
       route_index++;
       return find_route(new_x, new_y); /* how about recoding freeciv in MosML? */
     }
-  }
+  } 
+  adjc_dir_iterate_end;
   assert(0); /* should find direction... */
   return -1; /* why can't the compiler figure out that create_goto_map()
 		will newer create a vector that leads to a pos without a

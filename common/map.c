@@ -1375,3 +1375,22 @@ const char *dir_get_name(enum direction8 dir)
     return "[Bad Direction]";
   }
 }
+
+/**************************************************************************
+Return the direction which is needed for a step on the map from
+(start_x,start_y) to (end_x,end_y).
+**************************************************************************/
+int get_direction_for_step(int start_x, int start_y, int end_x, int end_y)
+{
+  int dir;
+
+  assert(is_tiles_adjacent(start_x, start_y, end_x, end_y));
+
+  for (dir = 0; dir < 8; dir++) {
+    int x1 = start_x + DIR_DX[dir];
+    int y1 = start_y + DIR_DY[dir];
+    if (normalize_map_pos(&x1, &y1) && x1 == end_x && y1 == end_y)
+      return dir;
+  }
+  assert(0);
+}

@@ -196,10 +196,10 @@ static int new_continent_num(void)
 **************************************************************************/
 static void climap_renumber_continent(int x, int y, int newnumber)
 {
-  int i, j, old;
+  int old;
 
-  if (y<0 || y>=map.ysize) return;
-  x = map_adjust_x(x);
+  if( !normalize_map_pos(&x, &y) )
+    return;
 
   old = map_get_continent(x,y);
 
@@ -209,16 +209,14 @@ static void climap_renumber_continent(int x, int y, int newnumber)
   assert(old>0 && old<=max_cont_used);
   
   map_set_continent(x,y,newnumber);
-  for(i=x-1; i<=x+1; i++) {
-    for(j=y-1; j<=y+1; j++) {
-      if(!(i==x && j==y) && j>=0 && j<map.ysize
-	 && tile_is_known(i,j)>=TILE_KNOWN_FOGGED
-	 && map_get_terrain(i,j)!=T_OCEAN
-	 && map_get_continent(i,j)==old) {
-	climap_renumber_continent(i,j,newnumber);
-      }
+  adjc_iterate(x, y, i, j) {
+    if (tile_is_known(i, j) >= TILE_KNOWN_FOGGED
+	&& map_get_terrain(i, j) != T_OCEAN
+	&& map_get_continent(i, j) == old) {
+      climap_renumber_continent(i, j, newnumber);
     }
   }
+  adjc_iterate_end;
 }
 
 /**************************************************************************
@@ -232,29 +230,30 @@ static void climap_renumber_continent(int x, int y, int newnumber)
 void climap_update_continents(int x, int y)
 {
   struct tile *ptile = map_get_tile(x,y);
-  int i, j, con, this_con;
+  int con, this_con;
 
   if(ptile->terrain == T_OCEAN) return;
+
   this_con = -1;
-  for(i=x-1; i<=x+1; i++) {
-    for(j=y-1; j<=y+1; j++) {
-      if(!(i==x && j==y) && j>=0 && j<map.ysize
-	 && tile_is_known(i,j)>=TILE_KNOWN_FOGGED
-	 && map_get_terrain(i,j)!=T_OCEAN) {
-	con = map_get_continent(i,j);
-	if(con>0) {
-	  if(this_con==-1) {
-	    ptile->continent = this_con = con;
-	  } else if(con != this_con) {
-	    freelog(LOG_DEBUG, "renumbering client continent %d to %d at (%d %d)",
-		    con, this_con, x, y);
-	    climap_renumber_continent(i, j, this_con);
-	    recycle_continent_num(con);
-	  }
+  adjc_iterate(x, y, i, j) {
+    if (tile_is_known(i, j) >= TILE_KNOWN_FOGGED
+	&& map_get_terrain(i, j) != T_OCEAN) {
+      con = map_get_continent(i, j);
+      if (con > 0) {
+	if (this_con == -1) {
+	  ptile->continent = this_con = con;
+	} else if (con != this_con) {
+	  freelog(LOG_DEBUG,
+		  "renumbering client continent %d to %d at (%d %d)", con,
+		  this_con, x, y);
+	  climap_renumber_continent(i, j, this_con);
+	  recycle_continent_num(con);
 	}
       }
     }
   }
+  adjc_iterate_end;
+
   if(this_con==-1) {
     ptile->continent = new_continent_num();
     freelog(LOG_DEBUG, "new client continent %d at (%d %d)",

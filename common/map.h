@@ -182,6 +182,7 @@ int map_distance(int x0, int y0, int x1, int y1);
 int real_map_distance(int x0, int y0, int x1, int y1);
 int sq_map_distance(int x0, int y0, int x1, int y1);
 int same_pos(int x1, int y1, int x2, int y2);
+int get_direction_for_step(int start_x, int start_y, int end_x, int end_y);
 
 void map_set_continent(int x, int y, int val);
 signed short map_get_continent(int x, int y);
@@ -401,7 +402,7 @@ extern struct tile_type tile_types[T_LAST];
         x_itr -= map.xsize;                                                   \
     }
 
-#define adjc_iterate_dir_end                                                  \
+#define adjc_dir_iterate_end                                                  \
   }                                                                           \
 }
 

@@ -358,7 +358,8 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	freelog(LOG_FATAL, "Bad/unimplemented move_type in really_generate_warmap().");
 	abort();
       }
-    } adjc_iterate_dir_end;
+    } 
+    adjc_dir_iterate_end;
   }
 
   freelog(LOG_DEBUG, "Generated warmap for (%d,%d).",
