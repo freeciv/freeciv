@@ -384,8 +384,8 @@ void x_main(int argc, char *argv[])
   x_interval_id=XtAppAddTimeOut(app_context, 500,
 				(XtTimerCallbackProc)timer_callback, NULL);
 
-  map_canvas_store_twidth=17;
-  map_canvas_store_theight=10;
+  map_canvas_store_twidth=510/NORMAL_TILE_WIDTH;
+  map_canvas_store_theight=300/NORMAL_TILE_HEIGHT;
   map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas), 
 				 map_canvas_store_twidth*NORMAL_TILE_WIDTH,
 				 map_canvas_store_theight*NORMAL_TILE_HEIGHT,
