@@ -2885,3 +2885,75 @@ void init_mapcanvas_and_overview(void)
   /* Create a dummy map to make sure mapview.store is never NULL. */
   map_canvas_resized(1, 1);
 }
+
+/****************************************************************************
+  Return the desired width of the spaceship canvas.
+****************************************************************************/
+void get_spaceship_dimensions(int *width, int *height)
+{
+  get_sprite_dimensions(sprites.spaceship.habitation, width, height);
+  *width *= 7;
+  *height *= 7;
+}
+
+/****************************************************************************
+  Draw the spaceship onto the canvas.
+****************************************************************************/
+void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
+		   const struct player *pplayer)
+{
+  int i, x, y;  
+  const struct player_spaceship *ship = &pplayer->spaceship;
+  int w, h;
+
+  get_sprite_dimensions(sprites.spaceship.habitation, &w, &h);
+
+  canvas_put_rectangle(pcanvas, COLOR_STD_BLACK, 0, 0, w * 7, h * 7);
+
+  for (i = 0; i < NUM_SS_MODULES; i++) {
+    const int j = i / 3;
+    const int k = i % 3;
+    struct Sprite *sprite;
+
+    if ((k == 0 && j >= ship->habitation)
+	|| (k == 1 && j >= ship->life_support)
+	|| (k == 2 && j >= ship->solar_panels)) {
+      continue;
+    }
+    x = modules_info[i].x * w / 4 - w / 2;
+    y = modules_info[i].y * h / 4 - h / 2;
+
+    sprite = (k == 0 ? sprites.spaceship.habitation
+	      : k == 1 ? sprites.spaceship.life_support
+	      : sprites.spaceship.solar_panels);
+    canvas_put_sprite_full(pcanvas, x, y, sprite);
+  }
+
+  for (i=0; i < NUM_SS_COMPONENTS; i++) {
+    const int j = i / 2;
+    const int k = i % 2;
+    struct Sprite *sprite;
+
+    if ((k == 0 && j >= ship->fuel)
+	|| (k == 1 && j >= ship->propulsion)) {
+      continue;
+    }
+    x = components_info[i].x * w / 4 - w / 2;
+    y = components_info[i].y * h / 4 - h / 2;
+
+    sprite = ((k == 0) ? sprites.spaceship.fuel
+	      : sprites.spaceship.propulsion);
+
+    canvas_put_sprite_full(pcanvas, x, y, sprite);
+  }
+
+  for (i = 0; i < NUM_SS_STRUCTURALS; i++) {
+    if (!ship->structure[i]) {
+      continue;
+    }
+    x = structurals_info[i].x * w / 4 - w / 2;
+    y = structurals_info[i].y * h / 4 - h / 2;
+
+    canvas_put_sprite_full(pcanvas, x, y, sprites.spaceship.structural);
+  }
+}
