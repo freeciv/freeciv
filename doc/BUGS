@@ -18,10 +18,6 @@ KNOWN BUGS:
    turn done, and therefore changes you make to CMA in the same
    turn as you save a game will be lost.
 
- - If you use the CMA the resulting savegame isn't endian and 64 bit
-   safe. So you can't use the savegame on a computer with a different
-   architecture.
-
  - The easy AI is not easy enough for novice players.  If the AI is
    beating you up early in the game, try setting the "generator" server
    option to 2 or 3.  That is, in the server, before starting a game,
@@ -114,6 +110,17 @@ Here's what to do:
    but don't want to lodge a bug report, you can sent email to
    <freeciv-dev@freeciv.org>, the Freeciv developer's mailing list.
 
+   If you get any GDK/GTK messages (they look like this:
+
+     Gtk-CRITICAL **: file gtkobject.c: line 1163 (gtk_object_ref): 
+     assertion oject->ref_count > 0' failed.
+
+   ) please restart your client and append "-- --g-fatal-warnings" to
+   the command line. Unfortunately this only works with a current CVS
+   or with version 1.15 or better. You will get a core dump this
+   way. Please include in your bug report the "stack trace" of this
+   core dump.
+
    What to include in your bug report:
 
    - Describe the problem, including any messages that were displayed.
@@ -143,8 +150,8 @@ Here's what to do:
          got it from.
 
    - If Freeciv "dumps core", then we may ask you to use a debugger to
-   give us a "stack trace".  You'll need the "core" file for this, so
-   please hold onto it for a while.
+   give us a "stack trace".  You'll need the "core" file for this as
+   well as the binary which you used, so please backup both.
 
 FURTHER INFORMATION:
 ====================
