@@ -22,7 +22,7 @@
 #include <pwd.h>
 #include <string.h>
 
-#ifdef AIX
+#if defined(AIX) || defined(__EMX__)
 #include <sys/select.h>
 #endif
 

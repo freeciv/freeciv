@@ -12,6 +12,9 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef __EMX__
+#include <sys/select.h>
+#endif
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>

@@ -15,6 +15,14 @@
 #include <ctype.h>
 #include <unistd.h>
 #include <sys/types.h>
+
+#ifdef __EMX__
+#include <netdb.h>
+#include <sys/ioctl.h>
+#include <sys/termio.h>
+#include <termios.h>
+#endif
+
 #include <time.h>
 #include <game.h>
 #include <gamehand.h>

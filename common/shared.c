@@ -270,7 +270,7 @@ char *textyear(int year)
 int myrand(int size)
 {
   /* Is it an operating system which says lrand48 is obsoleted by SVID 3?? */
-#ifdef linux
+#if defined(linux) || defined(__EMX__)
   return random()%size;
 #else
   return lrand48()%size;
@@ -280,7 +280,7 @@ int myrand(int size)
 void mysrand(unsigned int seed)
 {
   /* Is it an operating system which says srand48 is obsoleted by SVID 3?? */
-#ifdef linux
+#if defined(linux) || defined(__EMX__)
   srandom(seed);
 #else
   srand48(seed);
