@@ -161,6 +161,10 @@ void calc_unit_ordering(void)
   int i, j, x, y;
   
   for(i=0; i<game.nplayers; i++) {
+    /* to avoid junk values for unsupported units: */
+    unit_list_iterate(get_player(i)->units, punit) 
+      punit->ord_city = 0;
+    unit_list_iterate_end;
     city_list_iterate(get_player(i)->cities, pcity) {
       j = 0;
       unit_list_iterate(pcity->units_supported, punit) 
