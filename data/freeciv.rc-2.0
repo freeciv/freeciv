@@ -1,21 +1,21 @@
 style "city_label"
 {
-  font_name = "LucidaTypewriter Bold 10"
+  font_name = "Monospace Bold 10"
 }
 
 style "notify_label"
 {
-  font_name = "Console Bold 12"
+  font_name = "Monospace Bold 11"
 }
 
 style "spaceship_label"
 {
-  font_name = "Console Bold 12"
+  font_name = "Monospace Bold 11"
 }
 
 style "help_label"
 {
-  font_name = "Helvetica Bold 12"
+  font_name = "Sans Bold 10"
 
   fg[PRELIGHT] = { 1.0, 0.0, 0.0 }
   fg[ACTIVE] = { 1.0, 0.0, 0.0 }
@@ -25,14 +25,14 @@ style "help_label"
 
 style "help_text"
 {
-  font_name = "Console 10"
+  font_name = "Monospace 11"
   base[NORMAL] = { 0.0, 0.0, 0.0 }
   text[NORMAL] = { 0.7, 0.7, 0.7 }
 }
 
 style "chatline"
 {
-  font_name = "Console 10"
+  font_name = "Monospace 10"
   base[NORMAL] = { 0.0, 0.0, 0.0 }
   text[NORMAL] = { 0.7, 0.7, 0.7 }
   base[INSENSITIVE] = { 0.0, 0.0, 0.0 }
@@ -41,7 +41,7 @@ style "chatline"
 
 style "monospace_label"
 {
-  font_name = "LucidaTypewriter 10"
+  font_name = "Monospace 10"
   fg[NORMAL] = { 0.0, 0.0, 1.0 }
   fg[PRELIGHT] = { 0.0, 0.0, 1.0 }
 }
