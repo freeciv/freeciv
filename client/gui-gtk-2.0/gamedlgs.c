@@ -381,11 +381,11 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
   for (o=options; o->name; ++o) {
     switch (o->type) {
     case COT_BOOL:
-      *(o->p_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
+      *(o->p_bool_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
       break;
     case COT_INT:
       dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
-      sscanf(dp, "%d", o->p_value);
+      sscanf(dp, "%d", o->p_int_value);
       break;
     }
   }
@@ -469,10 +469,11 @@ void popup_option_dialog(void)
   for (o=options; o->name; ++o) {
     switch (o->type) {
     case COT_BOOL:
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(o->p_gui_data), *(o->p_value));
+      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(o->p_gui_data),
+				  *(o->p_bool_value));
       break;
     case COT_INT:
-      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_value));
+      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));
       gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), valstr);
       break;
     }

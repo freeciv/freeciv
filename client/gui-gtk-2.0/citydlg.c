@@ -1696,25 +1696,20 @@ static void city_dialog_update_information(GtkWidget **info_label,
   my_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%2d",
 	      pcity->science_total);
 
-  if (pcity->food_surplus > 0) {
-    granaryturns = (city_granary_size(pcity->size) - pcity->food_stock +
-		    pcity->food_surplus - 1) / pcity->food_surplus;
-  } else if (pcity->food_surplus < 0) {
-    granaryturns = 1 - (pcity->food_stock / pcity->food_surplus);
-    /* turns before famine loss */
-  } else {
-    granaryturns = 999;
-  }
-
   my_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%d/%-d",
 	      pcity->food_stock, city_granary_size(pcity->size));
+	
+  granaryturns = city_turns_to_grow(pcity);
   if (granaryturns == 0) {
     my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), "blocked");
-  } else if (granaryturns == 999) {
+  } else if (granaryturns == FC_INFINITY) {
     my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), "never");
   } else {
+    /* A negative value means we'll have famine in that many turns.
+       But that's handled down below. */
     my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]),
-		PL_("%d turn", "%d turns", granaryturns), granaryturns);
+		PL_("%d turn", "%d turns", abs(granaryturns)),
+		abs(granaryturns));
   }
   my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%2d",
 	      pcity->corruption);
@@ -1727,10 +1722,11 @@ static void city_dialog_update_information(GtkWidget **info_label,
     gtk_set_label(info_label[i], buf[i]);
   }
 
-  /* special style stuff for granary, growth and pollution below.
-   * the "4" below is arbitrary. 3 turns should be enough of a warning. */
-
-  style = (pcity->food_surplus < 0 && granaryturns < 4) ? RED : NORMAL;
+  /* 
+   * Special style stuff for granary, growth and pollution below. The
+   * "4" below is arbitrary. 3 turns should be enough of a warning.
+   */
+  style = (granaryturns > -4 && granaryturns < 0) ? RED : NORMAL;
   gtk_widget_modify_style(info_label[GRANARY], info_label_style[style]);
 
   style = (granaryturns == 0 || pcity->food_surplus < 0) ? RED : NORMAL;
