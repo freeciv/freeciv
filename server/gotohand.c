@@ -387,13 +387,13 @@ and independently I can worry about optimizing them. -- Syela */
         }
       }
       if (xx[i] == dest_x && yy[j] == dest_y && maxcost > tm) {
-printf("Found path, cost = %d\n", tm);
+/*printf("Found path, cost = %d\n", tm);*/
         maxcost = tm + 1; /* NOT = tm.  Duh! -- Syela */
       }
     } /* end for */
   } while (warstacksize > warnodes);
-printf("GOTO: (%d, %d) -> (%d, %d), %d nodes, cost = %d\n", 
-orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);
+/*printf("GOTO: (%d, %d) -> (%d, %d), %d nodes, cost = %d\n", 
+orig_x, orig_y, dest_x, dest_y, warnodes, maxcost - 1);*/
   if (maxcost == 255) return(0);
 /* succeeded.  the vector at the destination indicates which way we get there */
 /* backtracing */
@@ -425,7 +425,7 @@ is not adequate to prevent RR loops.  Bummer. -- Syela */
       }
     }
   } while (warstacksize > warnodes);
-  printf("BACKTRACE: %d nodes\n", warnodes);
+/*printf("BACKTRACE: %d nodes\n", warnodes);*/
   return(1);
 /* DONE! */
 }
@@ -489,21 +489,53 @@ int find_a_direction(struct unit *punit)
 void do_unit_goto(struct player *pplayer, struct unit *punit)
 {
   int x, y, k;
+  int possible = 0;
   int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
   int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
   char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
 
   int id=punit->id;
-  if(!is_air_unit(punit) && !is_sailing_unit(punit) && map_get_continent(punit->x, punit->y) != 
-     map_get_continent(punit->goto_dest_x, punit->goto_dest_y) && 
-     map_get_known(punit->goto_dest_x, punit->goto_dest_y, pplayer) &&
-     !map_get_city(punit->x, punit->y) &&
-     !is_tiles_adjacent(punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y) &&
-     !map_get_city(punit->goto_dest_x, punit->goto_dest_y)) {
+
+/* there was a really oogy if here.  Mighty Mouse told me not to axe it
+because it would cost oodles of CPU time.  He's right for the most part
+but Peter and others have recommended more flexibility, so this is a little
+different but should still pre-empt calculation of impossible GOTO's. -- Syela */
+
+  if (is_ground_unit(punit) && 
+          map_get_known(punit->goto_dest_x, punit->goto_dest_y, pplayer)) {
+    if (map_get_terrain(punit->goto_dest_x, punit->goto_dest_y) == T_OCEAN) {
+      if (is_transporter_with_free_space(pplayer, punit->goto_dest_x, punit->goto_dest_y)) {
+        for (k = 0; k < 8; k++) {
+          if (map_get_continent(punit->x, punit->y) ==
+              map_get_continent(punit->goto_dest_x + ii[k], punit->goto_dest_y + jj[k]))
+            possible++;
+        }
+      }
+    } else { /* going to a land tile */
+      if (map_get_continent(punit->x, punit->y) ==
+            map_get_continent(punit->goto_dest_x, punit->goto_dest_y))
+         possible++;
+      else {
+        for (k = 0; k < 8; k++) {
+          if (map_get_continent(punit->x + ii[k], punit->y + jj[k]) ==
+              map_get_continent(punit->goto_dest_x, punit->goto_dest_y))
+            possible++;
+        }
+      }
+    }
+    if (!possible) {
+      punit->activity=ACTIVITY_IDLE;
+      send_unit_info(0, punit, 0);
+      return;
+    }
+  } else if (is_sailing_unit(punit) && map_get_known(punit->goto_dest_x,
+       punit->goto_dest_y, pplayer) && map_get_terrain(punit->goto_dest_x,
+       punit->goto_dest_y) != T_OCEAN && !map_get_tile(punit->goto_dest_x,
+       punit->goto_dest_y)->city_id) {
     punit->activity=ACTIVITY_IDLE;
     send_unit_info(0, punit, 0);
     return;
-  }
+  } /* end pre-emption subroutine. */
 
   if(find_the_shortest_path(pplayer, punit, 
 			    punit->goto_dest_x, punit->goto_dest_y)) {
