@@ -63,7 +63,7 @@ contributions to the Freeciv project.
      Sebastian Bauer <sebauer@t-online.de> (amiga client maintainer)
      Thomas Strub <ue80@rz.uni-karlsruhe.de> (new tax algorithm, 
 	end turn reorganisation)
-     tkurppa <teemu@hoasnet.fi> (unique city names)
+     Teemu Kurppa <teemu@hoasnet.fi> (unique city names)
      Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt> (gtk and gtk2
 	clients maintainer, bitvectors, fixes)
 
@@ -940,6 +940,23 @@ contributions to the Freeciv project.
      Mitch Davis <mjd@aus.hp.com> (Domain name)
      James Blackwell <innocent@mercury.merconline.com> (Domain name)
      Geoffrey S. Rivell <grivell@home.com> (Tux Games)
+
+     Alex Volkov
+     Geoffrey S. Rivell
+     Ian Rees
+     James Blackwell
+     John McMullan
+     Lasse Greiner
+     Martin Willemoes Hansen
+     Miguel Farah
+     Mitch Davis
+     Paul Carroll
+     Per Mathisen
+     Peter Kessler
+     T. E. Evans
+     T.J.T van Kooten
+     Todd Goodman
+     William Ingram
 
   CivWorld (our map editor):
 
