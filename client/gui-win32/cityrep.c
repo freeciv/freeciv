@@ -55,7 +55,7 @@ int max_improvement_id;
 static int city_sort_id;
 static int city_sort_order;
 static HMENU menu_shown; 
-static HWND sort_buttons[NUM_CREPORT_COLS];
+static HWND *sort_buttons;
 HWND cityrep_list;
 typedef bool TestCityFunc(struct city *, int);     
 
@@ -300,7 +300,8 @@ static void get_city_text(struct city *pcity, char *buf[], int n)
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     buf[i][0]='\0';
     if(!spec->show) continue;
-    my_snprintf(buf[i], n, "%*s", NEG_VAL(spec->width)-2, (spec->func)(pcity)); 
+    my_snprintf(buf[i], n, "%*s", NEG_VAL(spec->width)-2,
+		(spec->func)(pcity, spec->data)); 
   }
 }
 
@@ -866,8 +867,8 @@ static void list_del(void *data)
 **************************************************************************/
 static void city_report_create(HWND hWnd)
 {
-  static char *titles   [NUM_CREPORT_COLS];
-  static char  buf      [NUM_CREPORT_COLS][64];   
+  static char **titles;
+  static char (*buf)[64];   
   struct city_report_spec *spec;        
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
@@ -889,24 +890,35 @@ static void city_report_create(HWND hWnd)
 			TRUE,TRUE,5);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
   
- 
+  if (titles) {
+    free(titles);
+  }
+  if (buf) {
+    free(buf);
+  }
+  if (sort_buttons) {
+    free(sort_buttons);
+  }
+  
+  titles = fc_malloc(sizeof(*titles) * NUM_CREPORT_COLS);
+  buf = fc_malloc(sizeof(*buf) * NUM_CREPORT_COLS);
+  sort_buttons = fc_malloc(sizeof(*sort_buttons) * NUM_CREPORT_COLS);
+
   for (i=0;i<NUM_CREPORT_COLS;i++)
     titles[i]=buf[i];
   
   get_city_table_header(titles, sizeof(buf[0]));  
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {         
-    if (spec->show)
-      {
-	sort_buttons[i]=CreateWindow("BUTTON",titles[i],
-				     WS_CHILD | WS_VISIBLE | BS_MULTILINE,
-				     0,0,0,0,
-				     hWnd,
-				     (HMENU)(ID_CITYREP_SORTBASE+i),
-				     freecivhinst,
-				     NULL);
-	SendMessage(sort_buttons[i],
-		    WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));
- 				           }
+    if (spec->show) {
+      sort_buttons[i]=CreateWindow("BUTTON", titles[i], WS_CHILD | WS_VISIBLE
+				   | BS_MULTILINE, 0, 0, 0, 0, hWnd,
+				   (HMENU)(ID_CITYREP_SORTBASE+i),
+				   freecivhinst, NULL);
+      SendMessage(sort_buttons[i], WM_SETFONT, (WPARAM)font_12courier,
+		  MAKELPARAM(TRUE,0));
+    } else {
+      sort_buttons[i] = NULL;
+    }
   }
 
   cityrep_list=CreateWindow("LISTBOX",NULL,WS_CHILD | WS_VISIBLE | 
