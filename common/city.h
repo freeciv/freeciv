@@ -14,6 +14,7 @@
 #define __CITY_H
 
 #include "genlist.h"
+#include "shared.h"		/* MAX_LENGTH_NAME */
 
 struct player;
 
