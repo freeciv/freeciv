@@ -387,7 +387,7 @@ if test x$server = xtrue; then
     fi
     dnl looking for readline library and header
     if test "$WITH_READLINE" = "yes"; then
-	AC_CHECK_LIB(readline, rl_callback_handler_install, 
+	AC_CHECK_LIB(readline, rl_completion_matches, 
 	    [SERVER_LIBS="-lreadline $SERVER_LIBS"
 	     AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE)],
 	    AC_MSG_ERROR([Specified --with-readline but did not find library.]),
@@ -398,7 +398,7 @@ You may need to install a readline \"development\" package.]))
     elif test "$WITH_READLINE" = "maybe"; then
 	AC_CHECK_HEADER(readline/readline.h, have_readline_h=1, have_readline_h=0)
 	if test "$have_readline_h" = "1"; then
-	    AC_CHECK_LIB(readline, rl_callback_handler_install, 
+	    AC_CHECK_LIB(readline, rl_completion_matches, 
                          have_readline_lib=1, have_readline_lib=0)
 	    if test "$have_readline_lib" = "1"; then
                 FC_CHECK_READLINE_RUNTIME($SERVER_LIBS,

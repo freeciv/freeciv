@@ -477,7 +477,7 @@ The configure script will check if you have the readline library correctly
 installed. If so it will automatically set up the makefiles so that readline
 is compiled into the server. If not then it will just silently configure
 without readline support.
-Any version of the readline library will work. (as far as we know.)
+You need readline version >= 4.2.
 You can force configure to include readline or die trying by giving
 configure the --with-readline option:
 

@@ -5921,9 +5921,9 @@ fi
 
     fi
         if test "$WITH_READLINE" = "yes"; then
-	echo $ac_n "checking for rl_callback_handler_install in -lreadline""... $ac_c" 1>&6
-echo "configure:5926: checking for rl_callback_handler_install in -lreadline" >&5
-ac_lib_var=`echo readline'_'rl_callback_handler_install | sed 'y%./+-%__p_%'`
+	echo $ac_n "checking for rl_completion_matches in -lreadline""... $ac_c" 1>&6
+echo "configure:5926: checking for rl_completion_matches in -lreadline" >&5
+ac_lib_var=`echo readline'_'rl_completion_matches | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -5935,10 +5935,10 @@ cat > conftest.$ac_ext <<EOF
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
     builtin and then its argument prototype would still apply.  */
-char rl_callback_handler_install();
+char rl_completion_matches();
 
 int main() {
-rl_callback_handler_install()
+rl_completion_matches()
 ; return 0; }
 EOF
 if { (eval echo configure:5945: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
@@ -6037,9 +6037,9 @@ have_readline_h=0
 fi
 
 	if test "$have_readline_h" = "1"; then
-	    echo $ac_n "checking for rl_callback_handler_install in -lreadline""... $ac_c" 1>&6
-echo "configure:6042: checking for rl_callback_handler_install in -lreadline" >&5
-ac_lib_var=`echo readline'_'rl_callback_handler_install | sed 'y%./+-%__p_%'`
+	    echo $ac_n "checking for rl_completion_matches in -lreadline""... $ac_c" 1>&6
+echo "configure:6042: checking for rl_completion_matches in -lreadline" >&5
+ac_lib_var=`echo readline'_'rl_completion_matches | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -6051,10 +6051,10 @@ cat > conftest.$ac_ext <<EOF
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
     builtin and then its argument prototype would still apply.  */
-char rl_callback_handler_install();
+char rl_completion_matches();
 
 int main() {
-rl_callback_handler_install()
+rl_completion_matches()
 ; return 0; }
 EOF
 if { (eval echo configure:6061: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
