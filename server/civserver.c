@@ -349,7 +349,7 @@ int main(int argc, char *argv[])
 
 main_start_players:
 
-  send_rulesets(0);
+  send_rulesets(&game.est_connections);
 
   num_nations_avail = game.playable_nation_count;
   for(i=0; i<game.playable_nation_count; i++) {
@@ -1698,7 +1698,7 @@ static void handle_request_join_game(struct connection *pconn,
       join_game_accept(pconn, 1);
       introduce_game_to_player(pplayer);
       if(server_state==RUN_GAME_STATE) {
-        send_rulesets(pplayer);
+        send_rulesets(&pconn->self);
 	send_all_info(pplayer);
         send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
 	send_player_info(NULL,NULL);

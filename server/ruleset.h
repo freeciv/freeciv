@@ -13,9 +13,9 @@
 #ifndef FC__RULESET_H
 #define FC__RULESET_H
 
-struct player;
+struct conn_list;
 
 void load_rulesets(void);
-void send_rulesets(struct player *dest);
+void send_rulesets(struct conn_list *dest);
 
 #endif  /* FC__RULESET_H */

@@ -78,14 +78,14 @@ static void load_ruleset_nations(struct section_file *file);
 
 static void load_ruleset_game(char *ruleset_subdir);
 
-static void send_ruleset_techs(struct player *dest);
-static void send_ruleset_units(struct player *dest);
-static void send_ruleset_buildings(struct player *dest);
-static void send_ruleset_terrain(struct player *dest);
-static void send_ruleset_governments(struct player *dest);
-static void send_ruleset_nations(struct player *dest);
-static void send_ruleset_cities(struct player *dest);
-static void send_ruleset_game(struct player *dest);
+static void send_ruleset_techs(struct conn_list *dest);
+static void send_ruleset_units(struct conn_list *dest);
+static void send_ruleset_buildings(struct conn_list *dest);
+static void send_ruleset_terrain(struct conn_list *dest);
+static void send_ruleset_governments(struct conn_list *dest);
+static void send_ruleset_nations(struct conn_list *dest);
+static void send_ruleset_cities(struct conn_list *dest);
+static void send_ruleset_game(struct conn_list *dest);
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
@@ -1610,12 +1610,13 @@ static void load_ruleset_governments(struct section_file *file)
 }
 
 /**************************************************************************
-...
+  Send information in packet_ruleset_control (numbers of units etc, and
+  other miscellany) to specified connections.
 **************************************************************************/
-static void send_ruleset_control(struct player *dest)
+static void send_ruleset_control(struct conn_list *dest)
 {
   struct packet_ruleset_control packet;
-  int to, i;
+  int i;
 
   packet.aqueduct_size = game.aqueduct_size;
   packet.sewer_size = game.sewer_size;
@@ -1642,11 +1643,7 @@ static void send_ruleset_control(struct player *dest)
   packet.playable_nation_count = game.playable_nation_count;
   packet.style_count = game.styles_count;
 
-  for(to=0; to<game.nplayers; to++) {           /* dests */
-    if(dest==0 || get_player(to)==dest) {
-      send_packet_ruleset_control(get_player(to)->conn, &packet);
-    }
-  }
+  lsend_packet_ruleset_control(dest, &packet);
 }
 
 /**************************************************************************
@@ -2053,13 +2050,13 @@ static void load_ruleset_game(char *ruleset_subdir)
 }
 
 /**************************************************************************
-...
+  Send the units ruleset information (all individual units) to the
+  specified connections.
 **************************************************************************/
-static void send_ruleset_units(struct player *dest)
+static void send_ruleset_units(struct conn_list *dest)
 {
   struct packet_ruleset_unit packet;
   struct unit_type *u;
-  int to;
 
   for(u=unit_types; u<unit_types+game.num_unit_types; u++) {
     packet.id = u-unit_types;
@@ -2089,22 +2086,18 @@ static void send_ruleset_units(struct player *dest)
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
     packet.helptext = u->helptext;   /* pointer assignment */
 
-    for(to=0; to<game.nplayers; to++) {           /* dests */
-      if(dest==0 || get_player(to)==dest) {
-	send_packet_ruleset_unit(get_player(to)->conn, &packet);
-      }
-    }
+    lsend_packet_ruleset_unit(dest, &packet);
   }
 }
 
 /**************************************************************************
-...  
+  Send the techs ruleset information (all individual advances) to the
+  specified connections.
 **************************************************************************/
-static void send_ruleset_techs(struct player *dest)
+static void send_ruleset_techs(struct conn_list *dest)
 {
   struct packet_ruleset_tech packet;
   struct advance *a;
-  int to;
 
   for(a=advances; a<advances+game.num_tech_types; a++) {
     packet.id = a-advances;
@@ -2114,22 +2107,18 @@ static void send_ruleset_techs(struct player *dest)
     packet.flags = a->flags;
     packet.helptext = a->helptext;   /* pointer assignment */
 
-    for(to=0; to<game.nplayers; to++) {           /* dests */
-      if(dest==0 || get_player(to)==dest) {
-	send_packet_ruleset_tech(get_player(to)->conn, &packet);
-      }
-    }
+    lsend_packet_ruleset_tech(dest, &packet);
   }
 }
 
 /**************************************************************************
-...  
+  Send the buildings ruleset information (all individual improvements and
+  wonders) to the specified connections.
 **************************************************************************/
-static void send_ruleset_buildings(struct player *dest)
+static void send_ruleset_buildings(struct conn_list *dest)
 {
   struct packet_ruleset_building packet;
   struct impr_type *b;
-  int to;
 
   for(b=improvement_types; b<improvement_types+B_LAST; b++) {
     packet.id = b-improvement_types;
@@ -2150,30 +2139,21 @@ static void send_ruleset_buildings(struct player *dest)
     packet.variant = b->variant;	/* FIXME: remove when gen-impr obsoletes */
     packet.helptext = b->helptext;		/* pointer assignment */
 
-    for(to=0; to<game.nplayers; to++) {           /* dests */
-      if(dest==0 || get_player(to)==dest) {
-	send_packet_ruleset_building(get_player(to)->conn, &packet);
-      }
-    }
+    lsend_packet_ruleset_building(dest, &packet);
   }
 }
 
 /**************************************************************************
-...  
+  Send the terrain ruleset information (terrain_control, and the individual
+  terrain types) to the specified connections.
 **************************************************************************/
-static void send_ruleset_terrain(struct player *dest)
+static void send_ruleset_terrain(struct conn_list *dest)
 {
   struct packet_ruleset_terrain packet;
   struct tile_type *t;
-  int i, j, to;
+  int i, j;
 
-  for (to = 0; to < game.nplayers; to++)      /* dests */
-    {
-      if (dest==0 || get_player(to)==dest)
-	{
-	  send_packet_ruleset_terrain_control(get_player(to)->conn, &terrain_control);
-	}
-    }
+  lsend_packet_ruleset_terrain_control(dest, &terrain_control);
 
   for (i = T_FIRST; i < T_COUNT; i++)
     {
@@ -2223,26 +2203,21 @@ static void send_ruleset_terrain(struct player *dest)
 
       packet.helptext = t->helptext;   /* pointer assignment */
       
-      for (to = 0; to < game.nplayers; to++)      /* dests */
-	{
-	  if (dest==0 || get_player(to)==dest)
-	    {
-	      send_packet_ruleset_terrain(get_player(to)->conn, &packet);
-	    }
-	}
+      lsend_packet_ruleset_terrain(dest, &packet);
     }
 }
 
 /**************************************************************************
-...  
+  Send the government ruleset information to the specified connections.
+  One packet per government type, and for each type one per ruler title.
 **************************************************************************/
-static void send_ruleset_governments(struct player *dest)
+static void send_ruleset_governments(struct conn_list *dest)
 {
   struct packet_ruleset_government gov;
   struct packet_ruleset_government_ruler_title title;
   struct ruler_title *p_title;
   struct government *g;
-  int i, j, to;
+  int i, j;
 
   for (i = 0; i < game.government_count; ++i) {
     g = &governments[i];
@@ -2301,11 +2276,7 @@ static void send_ruleset_governments(struct player *dest)
     
     gov.helptext = g->helptext;   /* pointer assignment */
       
-    for(to=0; to<game.nplayers; to++) {           /* dests */
-      if(dest==0 || get_player(to)==dest) {
-	send_packet_ruleset_government(get_player(to)->conn, &gov);
-      }
-    }
+    lsend_packet_ruleset_government(dest, &gov);
     
     /* send one packet_government_ruler_title per ruler title */
     for(j=0; j<g->num_ruler_titles; j++) {
@@ -2317,23 +2288,20 @@ static void send_ruleset_governments(struct player *dest)
       sz_strlcpy(title.male_title, p_title->male_title);
       sz_strlcpy(title.female_title, p_title->female_title);
     
-      for(to=0; to<game.nplayers; to++) {           /* dests */
-        if(dest==0 || get_player(to)==dest) {
-	  send_packet_ruleset_government_ruler_title(get_player(to)->conn, &title);
-        }
-      }
+      lsend_packet_ruleset_government_ruler_title(dest, &title);
     }
   }
 }
 
 /**************************************************************************
-...  
+  Send the nations ruleset information (info on each nation) to the
+  specified connections.
 **************************************************************************/
-static void send_ruleset_nations(struct player *dest)
+static void send_ruleset_nations(struct conn_list *dest)
 {
   struct packet_ruleset_nation packet;
   struct nation_type *n;
-  int to, i, k;
+  int i, k;
 
   for( k=0; k<game.nation_count; k++) {
     n = get_nation_by_idx(k);
@@ -2349,21 +2317,18 @@ static void send_ruleset_nations(struct player *dest)
     }
     packet.city_style = n->city_style;
 
-    for(to=0; to<game.nplayers; to++) {           /* dests */
-      if(dest==0 || get_player(to)==dest) {
-	send_packet_ruleset_nation(get_player(to)->conn, &packet);
-      }
-    }
+    lsend_packet_ruleset_nation(dest, &packet);
   }
 }
 
 /**************************************************************************
-...  
+  Send the city-style ruleset information (each style) to the specified
+  connections.
 **************************************************************************/
-static void send_ruleset_cities(struct player *dest)
+static void send_ruleset_cities(struct conn_list *dest)
 {
-  int to, k;
   struct packet_ruleset_city city_p;
+  int k;
 
   for( k=0; k<game.styles_count; k++) {
     city_p.style_id = k;
@@ -2374,20 +2339,16 @@ static void send_ruleset_cities(struct player *dest)
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
     sz_strlcpy(city_p.graphic_alt, city_styles[k].graphic_alt);
 
-    for(to=0; to<game.nplayers; to++) {           /* dests */
-      if(dest==0 || get_player(to)==dest) {
-        send_packet_ruleset_city(get_player(to)->conn, &city_p);
-      }
-    }
+    lsend_packet_ruleset_city(dest, &city_p);
   }
 }
 
 /**************************************************************************
-...
+  Send information in packet_ruleset_game (miscellaneous rules) to the
+  specified connections.
 **************************************************************************/
-static void send_ruleset_game(struct player *dest)
+static void send_ruleset_game(struct conn_list *dest)
 {
-  int to;
   struct packet_ruleset_game misc_p;
 
   misc_p.min_city_center_food = game.rgame.min_city_center_food;
@@ -2399,11 +2360,7 @@ static void send_ruleset_game(struct player *dest)
   misc_p.pillage_select = game.rgame.pillage_select;
   misc_p.nuke_contamination = game.rgame.nuke_contamination;
 
-  for(to = 0; to < game.nplayers; to++) {           /* dests */
-    if(dest==0 || get_player(to)==dest) {
-      send_packet_ruleset_game(get_player(to)->conn, &misc_p);
-    }
-  }
+  lsend_packet_ruleset_game(dest, &misc_p);
 }
 
 /**************************************************************************
@@ -2449,17 +2406,11 @@ void load_rulesets(void)
 }
 
 /**************************************************************************
- dest can be NULL meaning all players
+  Send all ruleset information to the specified connections.
 **************************************************************************/
-void send_rulesets(struct player *dest)
+void send_rulesets(struct conn_list *dest)
 {
-  int to;
-  
-  for(to=0; to<game.nplayers; to++) {
-    if(dest==0 || get_player(to)==dest) {
-      connection_do_buffer(get_player(to)->conn);
-    }
-  }
+  conn_list_do_buffer(dest);
 
   send_ruleset_control(dest);
   send_ruleset_game(dest);
@@ -2471,9 +2422,5 @@ void send_rulesets(struct player *dest)
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
 
-  for(to=0; to<game.nplayers; to++) {
-    if(dest==0 || get_player(to)==dest) {
-      connection_do_unbuffer(get_player(to)->conn);
-    }
-  }
+  conn_list_do_unbuffer(dest);
 }
