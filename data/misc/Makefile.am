@@ -16,8 +16,6 @@ pkgdata_DATA =          \
 	small.spec	\
 	space.png	\
 	space.spec	\
-	techs.png	\
-	techs.spec	\
 	treaty.png	\
 	treaty.spec
 
