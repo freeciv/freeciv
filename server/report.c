@@ -530,9 +530,7 @@ static const char *value_units(int val, const char *uni)
   static char buf[64];
 
   if (my_snprintf(buf, sizeof(buf), "%s%s", int_to_text(val), uni) == -1) {
-    freelog(LOG_ERROR, "String truncated in value_units()!");
-    assert(0);
-    exit(EXIT_FAILURE);
+    die("String truncated in value_units()!");
   }
 
   return buf;

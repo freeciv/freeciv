@@ -1108,11 +1108,9 @@ void create_start_positions(void)
     }
     counter++;
     if (counter > MAXTRIES) {
-      freelog(LOG_FATAL,
-	      "The server appears to have gotten into an infinite loop "
-	      "in the allocation of starting positions, and will abort.\n"
-	      "Please report this bug at " WEBSITE_URL);
-      abort();
+      die("The server appears to have gotten into an infinite loop "
+	  "in the allocation of starting positions, and will abort.\n"
+	  "Please report this bug at " WEBSITE_URL);
     }
   }
   map.num_start_positions = game.nplayers;

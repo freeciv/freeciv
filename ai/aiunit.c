@@ -230,10 +230,8 @@ static int unit_move_turns(struct unit *punit, int x, int y)
      break;
  
   default:
-    freelog(LOG_FATAL, "In ai/aiunit.c: function unit_move_turns");
-    freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
-    assert(FALSE);
-    exit(EXIT_FAILURE);
+    die("ai/aiunit.c:unit_move_turns: illegal move type %d",
+	unit_type(punit)->move_type);
   }
   return move_time;
 }

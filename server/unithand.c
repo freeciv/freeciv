@@ -644,17 +644,13 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 
   /* Sanity checks */
   if (pplayers_non_attack(unit_owner(punit), unit_owner(pdefender))) {
-    freelog(LOG_FATAL,
-	    "Trying to attack a unit with which you have peace or cease-fire at %i, %i",
-	    def_x, def_y);
-    abort();
+    die("Trying to attack a unit with which you have peace "
+	"or cease-fire at %i, %i", def_x, def_y);
   }
   if (pplayers_allied(unit_owner(punit), unit_owner(pdefender))
       && !(unit_flag(punit, F_NUCLEAR) && punit == pdefender)) {
-    freelog(LOG_FATAL,
-	    "Trying to attack a unit with which you have alliance at %i, %i",
-	    def_x, def_y);
-    abort();
+    die("Trying to attack a unit with which you have alliance at %i, %i",
+	def_x, def_y);
   }
 
   if(unit_flag(punit, F_NUCLEAR)) {
@@ -944,8 +940,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       } else if (pdefender) {
 	packet.target_id = pdefender->id;
       } else {
-	freelog(LOG_FATAL, "Bug in unithand.c: no diplomat target.");
-	abort();
+	die("Bug in unithand.c: no diplomat target.");
       }
       packet.diplomat_id = punit->id;
       packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;

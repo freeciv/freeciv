@@ -76,10 +76,8 @@ int unit_move_rate(struct unit *punit)
     break;
 
   default:
-    freelog(LOG_FATAL, "In common/unit.c: function unit_move_rate");
-    freelog(LOG_FATAL, "Illegal move type %d", unit_type(punit)->move_type);
-    assert(0);
-    exit(EXIT_FAILURE);
+    die("In common/unit.c:unit_move_rate: illegal move type %d",
+	unit_type(punit)->move_type);
   }
   
   if (move_rate < SINGLE_MOVE && unit_type(punit)->move_rate > 0) {
@@ -936,9 +934,7 @@ const char *unit_activity_text(struct unit *punit)
        return (text);
      }
    default:
-    freelog(LOG_FATAL, "Unknown unit activity %d in unit_activity_text()",
-	    punit->activity);
-    exit(EXIT_FAILURE);
+    die("Unknown unit activity %d in unit_activity_text()", punit->activity);
   }
 }
 

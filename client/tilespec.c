@@ -847,9 +847,7 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
   
   /* (should get sprite_hash before connection) */
   if (!sprite_hash) {
-    freelog(LOG_FATAL, "attempt to lookup for %s %s before sprite_hash setup",
-	    what, name);
-    exit(EXIT_FAILURE);
+    die("attempt to lookup for %s %s before sprite_hash setup", what, name);
   }
 
   sp = hash_lookup_data(sprite_hash, tag);

@@ -97,9 +97,7 @@ int find_a_unit_type(int role, int role_tech)
     /* Ruleset code should ensure there is at least one unit for each
      * possibly-required role, or check before calling this function.
      */
-    freelog(LOG_FATAL, "No unit types in find_a_unit_type(%d,%d)!",
-	    role, role_tech);
-    abort();
+    die("No unit types in find_a_unit_type(%d,%d)!", role, role_tech);
   }
   return which[myrand(num)];
 }
@@ -1945,8 +1943,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   } else { /* unitcount > 1 */
     int i;
     if (!(unitcount > 1)) {
-      freelog(LOG_FATAL, "Error in kill_unit, unitcount is %i", unitcount);
-      abort();
+      die("Error in kill_unit, unitcount is %i", unitcount);
     }
     /* initialize */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {

@@ -2885,7 +2885,7 @@ int send_packet_goto_route(struct connection *pc,
       dio_put_uint8(&dout, PACKET_PATROL_ROUTE);
       break;
     default:
-      abort();
+      die("unknown type %d", type);
     }
 
     chunk_pos = 0;

@@ -794,9 +794,7 @@ void handle_page_msg(struct packet_generic_message *packet)
 **************************************************************************/
 void handle_move_unit()
 {
-  /* this packet should never get sent to a client */
-  assert(0);
-  exit(EXIT_FAILURE);
+  die("this packet should never get sent to a client");
 }
 
 /**************************************************************************

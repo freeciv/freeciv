@@ -406,7 +406,7 @@ void player_limit_to_government_rates(struct player *pplayer)
     } else if (pplayer->economic.luxury < maxrate) {
       pplayer->economic.luxury += 10;
     } else {
-      abort();
+      die("byebye");
     }
     surplus -= 10;
   }
@@ -534,8 +534,7 @@ const char *diplstate_text(const enum diplstate_type type)
 
   if (type < DS_LAST)
     return Q_(ds_names[type]);
-  freelog(LOG_FATAL, "Bad diplstate_type in diplstate_text: %d", type);
-  abort();
+  die("Bad diplstate_type in diplstate_text: %d", type);
 }
 
 /***************************************************************

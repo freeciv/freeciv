@@ -72,10 +72,8 @@
       if (regular_map_pos_is_normal(x, y)) {            \
 	line[x] = get_xy_char;                          \
         if(!my_isprint(line[x] & 0x7f)) {               \
-          freelog(LOG_FATAL, _("Trying to write invalid"\
-		  " map data: '%c' %d"),                \
-		  line[x], line[x]);                    \
-          exit(EXIT_FAILURE);                           \
+          die("Trying to write invalid map "            \
+              "data: '%c' %d", line[x], line[x]);       \
         }                                               \
       } else {                                          \
         /* skipped over in loading */                   \
@@ -193,8 +191,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
   pch = strchr(hex_chars, ch);
 
   if (!pch || ch == '\0') {
-    freelog(LOG_FATAL, "Unknown hex value: '%c' %d", ch, ch);
-    exit(EXIT_FAILURE);
+    die("Unknown hex value: '%c' %d", ch, ch);
   }
   return (pch - hex_chars) << (halfbyte * 4);
 }
@@ -208,8 +205,7 @@ static int char2terrain(char ch)
   char *pch = strchr(terrain_chars, ch);
 
   if (!pch || ch == '\0') {
-    freelog(LOG_FATAL, "Unknown terrain type: '%c' %d", ch, ch);
-    exit(EXIT_FAILURE);
+    die("Unknown terrain type: '%c' %d", ch, ch);
   }
   return pch - terrain_chars;
 }
@@ -1000,12 +996,14 @@ static void player_load(struct player *plr, int plrno,
 	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_x", plrno, i);
 	goto_buf_ptr = goto_buf;
 	for (j = 0; j < len; j++) {
-	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].x) == 0)
-	    abort();
+	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].x) == 0) {
+	    die("not an int");
+	  }
 	  while (*goto_buf_ptr != ',') {
 	    goto_buf_ptr++;
-	    if (*goto_buf_ptr == '\0')
-	      abort();
+	    if (*goto_buf_ptr == '\0') {
+	      die("byebye");
+	    }
 	  }
 	  goto_buf_ptr++;
 	}
@@ -1013,12 +1011,14 @@ static void player_load(struct player *plr, int plrno,
 	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_y", plrno, i);
 	goto_buf_ptr = goto_buf;
 	for (j = 0; j < len; j++) {
-	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].y) == 0)
-	    abort();
+	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].y) == 0) {
+	    die("not an int");
+	  }
 	  while (*goto_buf_ptr != ',') {
 	    goto_buf_ptr++;
-	    if (*goto_buf_ptr == '\0')
-	      abort();
+	    if (*goto_buf_ptr == '\0') {
+	      die("byebye");
+	    }
 	  }
 	  goto_buf_ptr++;
 	}

@@ -646,6 +646,19 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   return (int) (ret + len);
 }
 
+void die(const char *format, ...)
+{
+  va_list ap;
+
+  va_start(ap, format);
+  vreal_freelog(LOG_FATAL, format, ap);
+  va_end(ap);
+
+  assert(FALSE);
+
+  exit(EXIT_FAILURE);
+}
+
 /***************************************************************************
   Returns string which gives users home dir, as specified by $HOME.
   Gets value once, and then caches result.

@@ -1703,9 +1703,8 @@ void pick_ai_player_name(Nation_Type_id nation, char *newname)
 *************************************************************************/
 static int mark_nation_as_used (int nation) 
 {
-  if(num_nations_avail <= 0) {/* no more unused nation */
-      freelog(LOG_FATAL, _("Argh! ran out of nations!"));
-      exit(EXIT_FAILURE);
+  if (num_nations_avail <= 0) {	/* no more unused nation */
+    die("Argh! ran out of nations!");
   }
 
    nations_used[nations_avail[num_nations_avail-1]]=nations_used[nation];

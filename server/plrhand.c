@@ -1337,8 +1337,7 @@ void server_remove_player(struct player *pplayer)
   /* Not allowed after a game has started */
   if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
 			     server_state==SELECT_RACES_STATE))) {
-    freelog(LOG_FATAL, "You can't remove players after the game has started!");
-    abort();
+    die("You can't remove players after the game has started!");
   }
 
   freelog(LOG_NORMAL, _("Removing player %s."), pplayer->name);

@@ -89,7 +89,7 @@ sets dim to number of leaders.
 char **get_nation_leader_names(Nation_Type_id nation, int *dim)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_leader_names")) {
-    exit(EXIT_FAILURE);
+    die("wrong nation %d", nation);
   }
   *dim = nations[nation].leader_count;
   return nations[nation].leader_name;
@@ -152,7 +152,7 @@ struct nation_type *get_nation_by_plr(struct player *plr)
 {
   assert(plr != NULL);
   if (!bounds_check_nation_id(plr->nation, LOG_FATAL, "get_nation_by_plr")) {
-    exit(EXIT_FAILURE);
+    die("wrong nation %d", plr->nation);
   }
   return &nations[plr->nation];
 }
@@ -163,7 +163,7 @@ struct nation_type *get_nation_by_plr(struct player *plr)
 struct nation_type *get_nation_by_idx(Nation_Type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_by_idx")) {
-    exit(EXIT_FAILURE);
+    die("wrong nation %d", nation);
   }
   return &nations[nation];
 }
@@ -240,7 +240,7 @@ Returns nation's city style
 int get_nation_city_style(Nation_Type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_city_style")) {
-    exit(EXIT_FAILURE);
+    die("wrong nation %d", nation);
   }
   return nations[nation].city_style;
 }
@@ -316,9 +316,7 @@ void team_add_player(struct player *pplayer, const char *team_name)
     }
     /* check if too many teams */
     if (team_id == TEAM_NONE) {
-      freelog(LOG_ERROR, "Impossible: Too many teams!");
-      assert(FALSE);
-      exit(EXIT_FAILURE);
+      die("Impossible: Too many teams!");
     }
     /* add another team */
     teams[team_id].id = team_id;

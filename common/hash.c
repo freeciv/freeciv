@@ -452,9 +452,7 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
       }
       break;
     default:
-      freelog(LOG_FATAL, "Bad value %d in switch(bucket->used)",
-	      (int)bucket->used);
-      exit(EXIT_FAILURE);
+      die("Bad value %d in switch(bucket->used)", (int) bucket->used);
     }
     i++;
     if (i==h->num_buckets) {
@@ -465,8 +463,7 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
   if (deleted) {
     return deleted;
   }
-  freelog(LOG_FATAL, "Full hash table -- and somehow did not resize!!");
-  exit(EXIT_FAILURE);
+  die("Full hash table -- and somehow did not resize!!");
 }
 
 /**************************************************************************
@@ -615,9 +612,7 @@ const void *hash_key_by_number(const struct hash_table *h,
       return bucket->key;
     counter++;
   }
-  /* never reached */
-  assert(0);
-  exit(EXIT_FAILURE);
+  die("never reached");
 }
 
 /**************************************************************************

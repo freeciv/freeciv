@@ -545,8 +545,7 @@ int sniff_packets(void)
       char buf[BUF_SIZE+1];
       
       if((didget=read(0, buf, BUF_SIZE))==-1) {
-	freelog(LOG_FATAL, "read from stdin failed");
-	exit(EXIT_FAILURE);
+	die("read from stdin failed");
       }
 
       if(didget==0) {
@@ -758,8 +757,7 @@ int server_open_socket(void)
   int opt;
 
   if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    freelog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
-    exit(EXIT_FAILURE);
+    die("socket failed: %s", mystrerror(errno));
   }
 
   opt=1; 

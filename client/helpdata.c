@@ -311,8 +311,7 @@ void boot_help_texts(void)
 	    }
 	  } impr_type_iterate_end;
 	} else {
-	  freelog(LOG_FATAL, "Bad current_type %d", current_type);
-	  exit(EXIT_FAILURE);
+	  die("Bad current_type %d", current_type);
 	}
 	genlist_sort(&category_nodes, help_item_compar);
 	help_list_iterate(category_nodes, ptmp) {

@@ -1298,12 +1298,10 @@ static void add_combination(int fields_used,
 
   /* Insert the given combination. */
   if (invalid_slot_for_insert == NULL) {
-    freelog(LOG_FATAL,
-	    "No more free combinations left. You may increase "
-	    "MAX_COMBINATIONS or \nreport this error to "
-	    "freeciv-dev@freeciv.org.\nCurrent MAX_COMBINATIONS=%d",
-	    MAX_COMBINATIONS);
-    exit(EXIT_FAILURE);
+    die("No more free combinations left. You may increase "
+	"MAX_COMBINATIONS or \nreport this error to "
+	"freeciv-dev@freeciv.org.\nCurrent MAX_COMBINATIONS=%d",
+	MAX_COMBINATIONS);
   }
 
   memcpy(invalid_slot_for_insert, combination, sizeof(struct combination));
@@ -1823,12 +1821,10 @@ static void handle_city(struct city *pcity)
     cma_release_city(pcity);
 
 #if (IS_DEVEL_VERSION || IS_BETA_VERSION)
-    freelog(LOG_ERROR, _("CMA: %s has changed multiple times. This may be "
-			 "an error in freeciv or bad luck. Please contact "
-			 "<freeciv-dev@freeciv.org>. The CMA will detach "
-			 "itself from the city now."), pcity->name);
-    assert(0);
-    exit(EXIT_FAILURE);
+    die("CMA: %s has changed multiple times. This may be "
+	"an error in freeciv or bad luck. Please contact "
+	"<freeciv-dev@freeciv.org>. The CMA will detach "
+	"itself from the city now.", pcity->name);
 #endif
   }
 

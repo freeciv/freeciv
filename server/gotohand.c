@@ -336,8 +336,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	break;
       default:
 	move_cost = 0; /* silence compiler warning */
-	freelog(LOG_FATAL, "Bad/unimplemented move_type in really_generate_warmap().");
-	abort();
+	die("Bad/unimplemented move_type in really_generate_warmap().");
       }
     } adjc_dir_iterate_end;
   }
@@ -762,8 +761,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
       default:
 	move_cost = MAXCOST;	/* silence compiler warning */
-	freelog(LOG_FATAL, "Bad move_type in find_the_shortest_path().");
-	abort();
+	die("Bad move_type in find_the_shortest_path().");
       } /****** end switch ******/
 
       /* Add the route to our warmap if it is worth keeping */

@@ -1226,8 +1226,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     y = victim_unit->y;
     victim_player = unit_owner(victim_unit);
   } else {
-    freelog(LOG_FATAL, "No victim in call to maybe_cause_incident()");
-    abort();
+    die("No victim in call to maybe_cause_incident()");
   }
 
   if (!pplayers_at_war(offender, victim_player) &&
@@ -1277,8 +1276,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     case DIPLOMAT_SABOTAGE:
       /* You can only do these when you are at war, so we should never
  	 get inside this "if" */
-      freelog(LOG_FATAL, "Bug in maybe_cause_incident()");
-      abort();
+      die("Bug in maybe_cause_incident()");
     }
     switch (ds) {
     case DS_WAR:
@@ -1297,8 +1295,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
       punishment = GAME_MAX_REPUTATION/5;
       break;
     default:
-      freelog(LOG_FATAL, "Illegal diplstate in maybe_cause_incident.");
-      abort();
+      die("Illegal diplstate in maybe_cause_incident.");
     }
     offender->reputation = MAX(offender->reputation - punishment, 0);
     victim_player->diplstates[offender->player_no].has_reason_to_cancel = 2;

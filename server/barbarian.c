@@ -100,8 +100,7 @@ static struct player *create_barbarian_player(bool land)
   } players_iterate_end;
 
   if( newplayer >= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS ) {
-    freelog( LOG_FATAL, "Too many players?");
-    abort();
+    die("Too many players?");
   }
 
   barbarians = &game.players[newplayer];

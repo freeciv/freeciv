@@ -388,10 +388,8 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
 	GAME_DEFAULT_RESEARCHCOST;
     break;
   default:
-    freelog(LOG_ERROR, "Invalid tech_cost_style %d %d",
-	    game.rgame.tech_cost_style, tech_cost_style);
-    assert(0);
-    exit(EXIT_FAILURE);
+    die("Invalid tech_cost_style %d %d", game.rgame.tech_cost_style,
+	tech_cost_style);
   }
 
   /* Research becomes more expensive. */
@@ -454,9 +452,7 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
     break;
 
   default:
-    freelog(LOG_ERROR, "Invalid tech_leakage %d", game.rgame.tech_leakage);
-    assert(0);
-    exit(EXIT_FAILURE);
+    die("Invalid tech_leakage %d", game.rgame.tech_leakage);
   }
 
   /* If we have many players, tech cost may drop to 0.  */
