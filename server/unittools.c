@@ -456,16 +456,14 @@ int find_a_unit_type()
  3) if it's not a marine (and ground unit) and it attacks from ocean
  4) a ground unit can't attack a ship on an ocean square
 **************************************************************************/
-int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
+int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int dest_x, int dest_y)
 {
-  struct unit *pdefender;
   int fromtile=map_get_terrain(punit->x, punit->y);
   int totile=map_get_terrain(dest_x, dest_y);
 
   if(!is_military_unit(punit))
     return 0;
-  
-  pdefender=get_defender(&game.players[punit->owner], punit, dest_x, dest_y);
+
   /*only fighters can attack planes, except for city attacks */
   if (!unit_flag(punit->type, F_FIGHTER) && is_air_unit(pdefender) && !map_get_city(dest_x, dest_y)) {
     return 0;
@@ -489,6 +487,14 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
   return 1;
 }
 
+
+int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
+{
+  struct unit *pdefender;
+  pdefender=get_defender(&game.players[punit->owner], punit, dest_x, dest_y);
+  return(can_unit_attack_unit_at_tile(punit, pdefender, dest_x, dest_y));
+}
+
 /**************************************************************************
   calculate the remaining build points 
 **************************************************************************/
@@ -509,4 +515,23 @@ int can_place_partisan(int x, int y)
   struct tile *ptile;
   ptile = map_get_tile(x, y);
   return (!map_get_city(x, y) && !unit_list_size(&ptile->units) && map_get_terrain(x,y) != T_OCEAN && map_get_terrain(x, y) < T_UNKNOWN); 
+}
+
+int enemies_at(struct unit *punit, int x, int y)
+{
+  int i, j, a = 0, d;
+  for (j = y - 1; j <= y + 1; j++) {
+    if (j < 0 || j >= map.ysize) continue;
+    for (i = x - 1; i <= x + 1; i++) {
+      if (is_enemy_city_tile(i, j, punit->owner)) return 1;
+      unit_list_iterate(map_get_tile(i, j)->units, enemy)
+        if (enemy->owner != punit->owner &&
+            can_unit_attack_unit_at_tile(enemy, punit, x, y))
+          a += unit_belligerence_basic(enemy);
+      unit_list_iterate_end;
+    }
+  }
+  d = unit_vulnerability_virtual(punit) *
+      get_tile_type(map_get_terrain(x, y))->defense_bonus;
+  return((a * a * 10) >= d); /* as good a quick'n'dirty should be -- Syela */
 }
