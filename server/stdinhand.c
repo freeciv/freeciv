@@ -2776,7 +2776,7 @@ static void set_command(struct connection *caller, char *str)
       bool b_val = (val != 0);
 
       if (settings[cmd].bool_validate
-	  || !settings[cmd].bool_validate(b_val, &reject_message)) {
+	  && !settings[cmd].bool_validate(b_val, &reject_message)) {
 	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
       } else {
 	*(op->bool_value) = b_val;
@@ -2798,7 +2798,7 @@ static void set_command(struct connection *caller, char *str)
       char *reject_message = NULL;
 
       if (settings[cmd].int_validate
-	  || !settings[cmd].int_validate(val, &reject_message)) {
+	  && !settings[cmd].int_validate(val, &reject_message)) {
 	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
       } else {
 	*(op->int_value) = val;
@@ -2818,7 +2818,7 @@ static void set_command(struct connection *caller, char *str)
       char *reject_message = NULL;
 
       if (settings[cmd].string_validate
-	  || !settings[cmd].string_validate(arg, &reject_message)) {
+	  && !settings[cmd].string_validate(arg, &reject_message)) {
 	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
       } else {
 	strcpy(op->string_value, arg);
