@@ -1650,6 +1650,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   int count, i = 0;
   int fog;
   int solid_bg;
+  int is_real;
 
   if (!width || !(height || height_unit))
     return;
@@ -1662,7 +1663,8 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                               offset_x, offset_y, width, height);
     return;
   }
-  assert(normalize_map_pos(&x, &y));
+  is_real = normalize_map_pos(&x, &y);
+  assert(is_real);
   fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
   pcity = map_get_city(x, y);
   punit = get_drawable_unit(x, y, citymode);
@@ -1970,12 +1972,14 @@ xel
                          on the adjacent tile when drawing in this direction. */
         dest_x = src_x + 1;
         dest_y = src_y;
-        assert(normalize_map_pos(&dest_x, &dest_y));
+        is_real = normalize_map_pos(&dest_x, &dest_y);
+	assert(is_real);
         refresh_tile_mapcanvas(dest_x, dest_y, 1);
       } else if (dir == DIR8_SOUTHWEST) { /* the same */
         dest_x = src_x;
         dest_y = src_y + 1;
-        assert(normalize_map_pos(&dest_x, &dest_y));
+        is_real = normalize_map_pos(&dest_x, &dest_y);
+	assert(is_real);
         refresh_tile_mapcanvas(dest_x, dest_y, 1);
       }
     }
