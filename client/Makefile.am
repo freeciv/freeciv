@@ -60,5 +60,5 @@ civclient_SOURCES = \
 	tilespec.c	\
 	tilespec.h
 
-civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLDEPS@
+civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a
 civclient_LDADD        = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@

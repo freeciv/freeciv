@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -57,8 +57,11 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
 ARFLAGS = @ARFLAGS@
 AWK = @AWK@
+BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
 CATALOGS = @CATALOGS@
 CATOBJEXT = @CATOBJEXT@
 CC = @CC@
@@ -70,21 +73,21 @@ DATADIRNAME = @DATADIRNAME@
 GDK_IMLIB_CFLAGS = @GDK_IMLIB_CFLAGS@
 GDK_IMLIB_LIBS = @GDK_IMLIB_LIBS@
 GENCAT = @GENCAT@
+GLIBC21 = @GLIBC21@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GTK_CFLAGS = @GTK_CFLAGS@
 GTK_CONFIG = @GTK_CONFIG@
 GTK_LIBS = @GTK_LIBS@
-GT_NO = @GT_NO@
-GT_YES = @GT_YES@
 IMLIB_CFLAGS = @IMLIB_CFLAGS@
 IMLIB_CONFIG = @IMLIB_CONFIG@
 IMLIB_LIBS = @IMLIB_LIBS@
-INCLUDE_LOCALE_H = @INCLUDE_LOCALE_H@
 INSTOBJEXT = @INSTOBJEXT@
-INTLDEPS = @INTLDEPS@
+INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
 INTLOBJS = @INTLOBJS@
+INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
+LIBICONV = @LIBICONV@
 LN_S = @LN_S@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
@@ -100,7 +103,6 @@ USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 gui_sources = @gui_sources@
-l = @l@
 
 bin_PROGRAMS = civserver
 noinst_LIBRARIES = libcivserver.a
@@ -112,7 +114,7 @@ civserver_SOURCES =  		civserver.c			civserver.h
 libcivserver_a_SOURCES =  		autoattack.c			autoattack.h			barbarian.c			barbarian.h			cityhand.c			cityhand.h			citytools.c			citytools.h			cityturn.c			cityturn.h			console.c			console.h			diplhand.c			diplhand.h			diplomats.c			diplomats.h			gamehand.c			gamehand.h			gamelog.c			gamelog.h			gotohand.c			gotohand.h			handchat.c			handchat.h			mapgen.c			mapgen.h			maphand.c			maphand.h			meta.c				meta.h				plrhand.c			plrhand.h			report.c			report.h			ruleset.c			ruleset.h			rulesout.c			rulesout.h			sanitycheck.c			sanitycheck.h			savegame.c			savegame.h			sernet.c			sernet.h			settlers.c			settlers.h			spacerace.c			spacerace.h			srv_main.c			srv_main.h			stdinhand.c			stdinhand.h			unithand.c			unithand.h			unittools.c			unittools.h
 
 
-civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLDEPS@
+civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a
 civserver_LDADD = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLLIBS@ ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a $(SERVER_LIBS)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h

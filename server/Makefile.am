@@ -69,5 +69,5 @@ libcivserver_a_SOURCES = \
 		unittools.h
 
 
-civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLDEPS@
+civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a
 civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a @INTLLIBS@ ../common/libcivcommon.a ../ai/libcivai.a ./libcivserver.a $(SERVER_LIBS)
