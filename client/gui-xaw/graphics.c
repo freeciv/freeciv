@@ -271,6 +271,7 @@ static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
   mysprite->pixmap=mypixmap;
   mysprite->width=width;
   mysprite->height=height;
+  mysprite->pcolorarray = NULL;
   mysprite->has_mask=0;
   return mysprite;
 }
@@ -287,6 +288,7 @@ static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask,
 
   mysprite->width=width;
   mysprite->height=height;
+  mysprite->pcolorarray = NULL;
   mysprite->has_mask=1;
   return mysprite;
 }
@@ -497,8 +499,10 @@ void free_sprite(struct Sprite *s)
   if (s->has_mask) {
     XFreePixmap(display, s->mask);
   }
-  free_colors(s->pcolorarray, s->ncols);
-  free(s->pcolorarray);
+  if (s->pcolorarray) {
+    free_colors(s->pcolorarray, s->ncols);
+    free(s->pcolorarray);
+  }
   free(s);
 }
 
