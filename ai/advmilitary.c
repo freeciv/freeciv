@@ -525,7 +525,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   }
   choice->choice = bestid;
   choice->want = danger;
-  choice->type = 3;
+  choice->type = CT_DEFENDER;
   return;
 }
 
@@ -859,11 +859,11 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
           choice->choice = B_BARRACKS2;
         else choice->choice = B_BARRACKS;
         choice->want = e;
-        choice->type = 0;
+        choice->type = CT_BUILDING;
       } else {
         if (!myunit->id) {
           choice->choice = v;
-          choice->type = 2; /* type == 2 identifies attackers */
+          choice->type = CT_ATTACKER;
           choice->want = e;
           if (needferry) ai_choose_ferryboat(pplayer, pcity, choice);
 	  freelog(LOG_DEBUG, "%s has chosen attacker, %s",
@@ -872,7 +872,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
           choice->choice = ai_choose_defender(pcity);
 	  freelog(LOG_DEBUG, "%s has chosen defender, %s",
 			pcity->name, unit_types[choice->choice].name);
-          choice->type = 1;
+          choice->type = CT_NONMIL;
           choice->want = e;
         }
         if (is_sailing_unit(myunit) && improvement_exists(B_PORT)
@@ -881,7 +881,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
           if (get_invention(pplayer, tech) == TECH_KNOWN) {
             choice->choice = B_PORT;
             choice->want = e;
-            choice->type = 0;
+            choice->type = CT_BUILDING;
           } else pplayer->ai.tech_want[tech] += e;
         }
       }
@@ -919,7 +919,6 @@ static int port_is_within(struct player *pplayer, int d)
 ... this function should assign a value to choice and want and type, 
     where want is a value between 1 and 100.
     if want is 0 this advisor doesn't want anything
-    type = 1 means unit, type = 0 means building
 ***********************************************************************/
 void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice)
@@ -933,7 +932,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   struct unit *aunit = 0;
   choice->choice = 0;
   choice->want   = 0;
-  choice->type   = 0;
+  choice->type   = CT_NONE;
 
 /* TODO: recognize units that can DEFEND_HOME but are in the field. -- Syela */
 
@@ -952,7 +951,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
        freelog(LOG_DEBUG, "A diplomat will be built in city %s.", pcity->name);
        choice->want = 16000; /* diplomat more important than soldiers */ 
        pcity->ai.urgency = 1;
-       choice->type = 3; /* defender */
+       choice->type = CT_DEFENDER;
        choice->choice = u;
        return;
     } else if (num_role_units(F_DIPLOMAT)>0) {
@@ -985,7 +984,7 @@ creating any other problems that are worse. -- Syela */
       choice->choice = B_CITY; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_CITY]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;
-      choice->type = 0;
+      choice->type = CT_BUILDING;
     } else if (pcity->ai.building_want[B_COASTAL] && def &&
         can_build_improvement(pcity, B_COASTAL) &&
         (danger < 101 || unit_list_size(&ptile->units) > 1) &&
@@ -993,7 +992,7 @@ creating any other problems that are worse. -- Syela */
       choice->choice = B_COASTAL; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_COASTAL]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;
-      choice->type = 0;
+      choice->type = CT_BUILDING;
     } else if (pcity->ai.building_want[B_SAM] && def &&
         can_build_improvement(pcity, B_SAM) &&
         (danger < 101 || unit_list_size(&ptile->units) > 1) &&
@@ -1001,7 +1000,7 @@ creating any other problems that are worse. -- Syela */
       choice->choice = B_SAM; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_SAM]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;
-      choice->type = 0;
+      choice->type = CT_BUILDING;
     } else if (danger > 0 && unit_list_size(&ptile->units) <= urgency) {
       process_defender_want(pplayer, pcity, danger, choice);
       if (!urgency && unit_types[choice->choice].defense_strength == 1) {
@@ -1035,7 +1034,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
     if (want > choice->want) {
       choice->want = want;
       choice->choice = v;
-      choice->type = 1;
+      choice->type = CT_NONMIL; /* Why not CT_DEFENDER? -- Caz */
     }
   }
 

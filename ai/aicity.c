@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -184,7 +185,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 
   bestchoice.choice = A_NONE;      
   bestchoice.want   = 0;
-  bestchoice.type   = 0;
+  bestchoice.type   = CT_NONE;
 
   if( is_barbarian(pplayer) ) {    /* always build best attack unit */
     Unit_Type_id i, iunit, bestunit = -1;
@@ -207,7 +208,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     if (bestunit != -1) {
       bestchoice.choice = bestunit;
       bestchoice.want   = 101;
-      bestchoice.type   = 2;
+      bestchoice.type   = CT_ATTACKER;
     }
     else {
       freelog(LOG_VERBOSE, "Barbarians don't know what to build!\n");
@@ -232,22 +233,25 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     pcity->ai.choice.type = bestchoice.type; /* instead of the one atop the list */
   }
 
-/* type 0 = building, 1 = non-mil unit, 2 = attacker, 3 = defender */
-
   if (bestchoice.want) { /* Note - on fallbacks, will NOT get stopped building msg */
+
+    ASSERT_REAL_CHOICE_TYPE(bestchoice.type);
+
     freelog(LOG_DEBUG, "%s wants %s with desire %d.", pcity->name,
-		  (bestchoice.type ? unit_name(bestchoice.choice)
-		   : get_improvement_name(bestchoice.choice)),
+		  (is_unit_choice_type(bestchoice.type) ?
+                   unit_name(bestchoice.choice) :
+		   get_improvement_name(bestchoice.choice)),
 		  bestchoice.want);
     if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
-      (bestchoice.type || bestchoice.choice != pcity->currently_building))
+       (is_unit_choice_type(bestchoice.type) ||
+        bestchoice.choice != pcity->currently_building))
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
                    _("Game: The %s have stopped building The %s in %s."),
                    get_nation_name_plural(pplayer->nation),
                    get_impr_name_ex(pcity, pcity->currently_building),
                    pcity->name);
 
-    if (!bestchoice.type && (pcity->is_building_unit ||
+    if (bestchoice.type == CT_BUILDING && (pcity->is_building_unit ||
                  pcity->currently_building != bestchoice.choice) &&
                  is_wonder(bestchoice.choice)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
@@ -255,12 +259,12 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
                     get_nation_name_plural(city_owner(pcity)->nation),
                     get_impr_name_ex(pcity, bestchoice.choice), pcity->name);
       pcity->currently_building = bestchoice.choice;
-      pcity->is_building_unit    = (bestchoice.type > 0);
+      pcity->is_building_unit    = is_unit_choice_type(bestchoice.type);
       generate_warmap(pcity, 0); /* need to establish distance to wondercity */
       establish_city_distances(pplayer, pcity); /* for caravans in other cities */
     } else {
       pcity->currently_building = bestchoice.choice;
-      pcity->is_building_unit    = (bestchoice.type > 0);
+      pcity->is_building_unit   = is_unit_choice_type(bestchoice.type);
     }
 
     return;
@@ -330,7 +334,7 @@ static void ai_new_spend_gold(struct player *pplayer)
       break;
 
     bestchoice.want = 0;
-    bestchoice.type = 0;
+    bestchoice.type = CT_NONE;
     bestchoice.choice = 0;
     city_list_iterate(pplayer->cities, acity)
       if (acity->anarchy) continue;
@@ -343,8 +347,12 @@ static void ai_new_spend_gold(struct player *pplayer)
     city_list_iterate_end;
 
     if (!bestchoice.want) break;
+
+    ASSERT_REAL_CHOICE_TYPE(bestchoice.type);
  
-    if (bestchoice.type && (!frugal || bestchoice.want > 200)) { /* if we want a unit */
+    if (is_unit_choice_type(bestchoice.type) &&
+        (!frugal || bestchoice.want > 200)) { /* if we want a unit */
+
       buycost = city_buy_cost(pcity);
       unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
         id = can_upgrade_unittype(pplayer, punit->type);
@@ -445,10 +453,14 @@ static void ai_new_spend_gold(struct player *pplayer)
           } else if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
 /* possibly upgrade units here */
         } /* end panic subroutine */
-        if (bestchoice.type && unit_flag(bestchoice.choice, F_CARAVAN))
-            if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
+        if (is_unit_choice_type(bestchoice.type) &&
+            unit_flag(bestchoice.choice, F_CARAVAN)) {
+          if (buycost > pplayer->ai.maxbuycost)
+            pplayer->ai.maxbuycost = buycost;
 /* Gudy reminded me AI was slow to build wonders, I thought of the above -- Syela */
-        if (!bestchoice.type) switch (bestchoice.choice) {
+        }
+        if (bestchoice.type == CT_BUILDING) {
+          switch (bestchoice.choice) {
           case B_AQUEDUCT:
             if (city_happy(pcity)) break;
         /* PASS THROUGH */
@@ -463,7 +475,8 @@ static void ai_new_spend_gold(struct player *pplayer)
             if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
             break;
 /* granaries/harbors/wonders not worth the tax increase */
-        } /* end switch */
+          } /* end switch */
+        }
 /* I just saw Alexander save up for walls then buy a granary.  Never again! -- Syela */
 /*        if (bestchoice.want > 200 && pplayer->ai.maxbuycost) frugal++; */
         if (pplayer->ai.maxbuycost) frugal++; /* much more frugal -- Syela */

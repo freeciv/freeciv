@@ -116,6 +116,22 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
 }
 
 
+enum choice_type { CT_NONE = 0, CT_BUILDING = 0, CT_NONMIL, CT_ATTACKER,
+                   CT_DEFENDER, CT_LAST };
+
+/* FIXME:
+
+   This should detect also cases where type is just initialized with
+   CT_NONE (probably in order to silence compiler warnings), but no real value
+   is given. You have to change value of CT_BUILDING into 1 before you
+   can add this check. It's left this way for now, is case hardcoded
+   value 0 is still used somewhere instead of CT_BUILDING.
+
+   -- Caz
+*/
+#define ASSERT_REAL_CHOICE_TYPE(type)                                    \
+        assert(type >= 0 && type < CT_LAST /* && type != CT_NONE */ );
+
 
 struct ai_choice {
   int choice;            /* what the advisor wants */

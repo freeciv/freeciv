@@ -32,12 +32,6 @@
 
 #include "advdomestic.h"
 
-/********************************************************************** 
-... this function should assign a value to choice and want and type, where 
-    want is a value between 1 and 100.
-    if want is 0 this advisor doesn't want anything
-    type = 1 means unit, type = 0 means building
-***********************************************************************/
 
 static int ai_best_tile_value(struct city *pcity)
 {
@@ -528,7 +522,13 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
   }
 
   return;
-}  
+}
+
+/********************************************************************** 
+... this function should assign a value to choice and want and type, where 
+    want is a value between 1 and 100.
+    if want is 0 this advisor doesn't want anything
+***********************************************************************/
 
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
@@ -543,7 +543,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   choice->choice = 0;
   choice->want   = 0;
-  choice->type   = 0;
+  choice->type   = CT_NONE;
   con = map_get_continent(pcity->x, pcity->y);
 
   utid = best_role_unit(pcity, F_SETTLERS);
@@ -558,11 +558,11 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       freelog(LOG_DEBUG, "%s (%d, %d) desires settlers with passion %d",
 	      pcity->name, pcity->x, pcity->y, want);
       choice->want = want;
-      choice->type = 1;
+      choice->type = CT_NONMIL;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);
     } else if (want < 0) { /* need boats to colonize! */
       choice->want = 0 - want;
-      choice->type = 1;
+      choice->type = CT_NONMIL;
       choice->choice = best_role_unit(pcity, F_SETTLERS); /* default */
       ai_choose_ferryboat(pplayer, pcity, choice);
     }
@@ -581,11 +581,11 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 	freelog(LOG_DEBUG, "%s (%d, %d) desires founders with passion %d",
 		pcity->name, pcity->x, pcity->y, want);
 	choice->want = want;
-	choice->type = 1;
+	choice->type = CT_NONMIL;
 	ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, want);
       } else if (want < -choice->want) { /* need boats to colonize! */
 	choice->want = 0 - want;
-	choice->type = 1;
+	choice->type = CT_NONMIL;
 	choice->choice = best_role_unit(pcity, F_CITIES); /* default */
 	ai_choose_ferryboat(pplayer, pcity, choice);
       }
@@ -622,7 +622,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       if (can_build_unit_direct(pcity, iunit)) {
         if (want > choice->want) {
           choice->want = want;
-          choice->type = 1;
+          choice->type = CT_NONMIL;
 	  ai_choose_role_unit(pplayer, pcity, choice, F_CARAVAN, dw/2);
         }
       } else
@@ -636,7 +636,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     choice->want = cur.want;
 /*    if (choice->want > 100) choice->want = 100; */
 /* want > 100 means BUY RIGHT NOW */
-    choice->type = 0;
+    choice->type = CT_BUILDING;
   }
 /* allowing buy of peaceful units after much testing -- Syela */
 
@@ -648,7 +648,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     }
     if (iunit != U_LAST) {
       choice->want = 1;
-      choice->type = 1;
+      choice->type = CT_NONMIL;
       choice->choice = iunit;
     }
   }

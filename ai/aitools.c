@@ -169,7 +169,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   }
   choice->want = want;
   choice->choice = id;
-  choice->type = 0;
+  choice->type = CT_BUILDING;
 }
 
 

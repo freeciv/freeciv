@@ -513,3 +513,9 @@ instead of right before it.  Managing units before end-turn reset now. -- Syela 
   freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
 }
 
+
+int is_unit_choice_type(enum choice_type type)
+{
+   return type == CT_NONMIL || type == CT_ATTACKER || type == CT_DEFENDER;
+}
+
