@@ -928,13 +928,13 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
       sprintf(buf+strlen(buf), "* Can attack enemy air units.\n");
     }
     if (unit_flag(i, F_MARINES)) {
-      sprintf(buf+strlen(buf), "* Can attack from aboad sea units: against enemy cities and\n  onto land squares.");
+      sprintf(buf+strlen(buf), "* Can attack from aboard sea units: against enemy cities and\n  onto land squares.");
     }
     if (unit_flag(i, F_PIKEMEN)) {
-      sprintf(buf+strlen(buf), "* Gets double defense against horseback units (other than Cavalry).\n");
+      sprintf(buf+strlen(buf), "* Gets double defense against units specified as 'mounted'.\n");
     }
     if (unit_flag(i, F_HORSE)) {
-      sprintf(buf+strlen(buf), "* Counts as a horseback unit against Pikemen.\n");
+      sprintf(buf+strlen(buf), "* Counts as 'mounted' against certain defenders.\n");
     }
     if (unit_flag(i, F_MISSILE)) {
       sprintf(buf+strlen(buf), "* A missile unit: gets used up in making an attack.\n");
