@@ -49,11 +49,10 @@
 #define PLAINS_TILES     5*20
 #define SWAMP_TILES      6*20
 #define TUNDRA_TILES     7*20
-#define THUMB_TILES       7*20+16
 #define ROAD_TILES       8*20
 
 #define RIVER_TILES      9*20
-#define OUTLET_TILES      9*20+16
+#define OUTLET_TILES     9*20+16
 #define OCEAN_TILES      10*20
 #define HILLS_TILES      11*20
 #define FOREST_TILES     11*20+4
@@ -71,7 +70,9 @@
 
 #define RAIL_TILES       13*20
 #define FLAG_TILES       14*20
+#define CROSS_TILE       14*20+17
 #define AUTO_TILE        14*20+18
+#define PLUS_TILE        14*20+19
 
 /*
 #define UNIT_TILES       15*20
@@ -79,40 +80,39 @@ The tiles for the units are now stored in units.xpm
 */
 extern int UNIT_TILES;
 
-#define IRRIGATION_TILE  16*20+8
-#define HILLMINE_TILE    16*20+9
+#define IRRIGATION_TILE  15*20+8
+#define HILLMINE_TILE    15*20+9
+#define DESERTMINE_TILE  15*20+10
+#define POLLUTION_TILE   15*20+11
+#define CITY_TILE        15*20+12
+#define CITY_WALLS_TILE  15*20+13
+#define HUT_TILE         15*20+14
+#define FORTRESS_TILE    15*20+15
 
-/* Are these next two supposed to be the same? */
-#define DESERTMINE_TILE  16*20+10
-#define FORTIFY_TILE     16*20+10
-#define POLLUTION_TILE   16*20+11
-#define CITY_TILE        16*20+12
-#define CITY_WALLS_TILE  16*20+13
-#define HUT_TILE         16*20+14
-#define FORTRESS_TILE    16*20+15
+#define BORDER_TILES     16*20
 
-#define BORDER_TILES     17*20
+#define NUMBER_TILES     17*20
+#define NUMBER_MSD_TILES 17*20+9
 
-#define NUMBER_TILES     18*20
-#define NUMBER_MSD_TILES 18*20+9
+#define SHIELD_NUMBERS   18*20
+#define TRADE_NUMBERS    18*20+10
 
-#define SHIELD_NUMBERS   19*20
-#define TRADE_NUMBERS    19*20+10
+#define HP_BAR_TILES     19*20
 
-#define HP_BAR_TILES     20*20
+#define CITY_FLASH_TILE  19*20+14
+#define CITY_FOOD_TILES  19*20+15
+#define CITY_MASK_TILES  19*20+17
+#define CITY_SHIELD_TILE 19*20+19
 
-#define CITY_FLASH_TILE  20*20+14
-#define CITY_FOOD_TILES  20*20+15
-#define CITY_MASK_TILES  20*20+17
-#define CITY_SHIELD_TILE 20*20+19
+#define FOOD_NUMBERS     20*20
 
-#define FOOD_NUMBERS     21*20
+#define BULB_TILES       21*20
+#define GOVERNMENT_TILES 21*20+8
+#define SUN_TILES        21*20+14
+#define PEOPLE_TILES     21*20+22
+#define RIGHT_ARROW_TILE 21*20+30
 
-#define BULB_TILES        22*20
-#define GOVERNMENT_TILES  22*20+8
-#define SUN_TILES        22*20+14
-#define PEOPLE_TILES     22*20+22
-#define RIGHT_ARROW_TILE 22*20+30
+#define THUMB_TILES      21*20+31
 
 int terrain_to_tile_map[13]= {
   ARCTIC_TILES, DESERT_TILES, FOREST_TILES, GRASSLAND_TILES,
@@ -985,7 +985,7 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 
   if(punit->ai.control)
     pixmap_put_overlay_tile(pm, xtile, ytile, AUTO_TILE);
-  
+
   pixmap_put_overlay_tile(pm, xtile, ytile, HP_BAR_TILES+
 			  (12*(get_unit_type(punit->type)->hp-punit->hp))/
 			  (get_unit_type(punit->type)->hp));
@@ -1090,7 +1090,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   int ttype_north_east, ttype_south_east, ttype_south_west, ttype_north_west;
   int tspecial, tspecial_north, tspecial_south, tspecial_east, tspecial_west;
 
-  int tileno;
+  int tileno,n;
   struct tile *ptile;
   struct Sprite *mysprite;
   struct unit *punit;
@@ -1115,10 +1115,11 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       return;
   }
   
-  if(unit_list_size(&ptile->units))
+  if((n=unit_list_size(&ptile->units))>0)
     if(!citymode || unit_list_get(&ptile->units, 0)->owner!=game.player_idx) {
       if(player_can_see_unit(game.player_ptr, unit_list_get(&ptile->units, 0))) {
 	put_unit_pixmap(unit_list_get(&ptile->units, 0), pm, x, y);
+	if(n>1)  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
 	return;
       }
     }

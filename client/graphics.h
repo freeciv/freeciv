@@ -40,8 +40,13 @@
  * noticed at all! :-) (mjd)
  */
 
+ /*
 #define NORMAL_TILE_WIDTH  30
 #define NORMAL_TILE_HEIGHT 30
+ */
+extern int NORMAL_TILE_WIDTH;
+extern int NORMAL_TILE_HEIGHT;
+
 #define SMALL_TILE_WIDTH   15
 #define SMALL_TILE_HEIGHT  20
 
