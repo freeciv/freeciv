@@ -558,6 +558,11 @@ static void load_ruleset_techs(struct section_file *file)
   for( i=A_FIRST; i<game.num_tech_types; i++ ) {
     if (tech_exists(i)) {
       a = &advances[i];
+      if (a->req[0] == i || a->req[1] == i) {
+        freelog(LOG_FATAL, "tech \"%s\": requires itself (%s)", a->name,
+                filename);
+        exit(EXIT_FAILURE);
+      }
       if (!tech_exists(a->req[0])) {
 	freelog(LOG_FATAL, "tech \"%s\": req1 leads to removed tech \"%s\" (%s)",
 	     a->name, advances[a->req[0]].name, filename);
