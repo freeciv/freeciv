@@ -163,11 +163,8 @@ void handle_remove_city(struct packet_generic_integer *packet)
   reset_move_costs(x, y);
 
   /* update menus if the focus unit is on the tile. */
-  {
-    struct unit *punit = get_unit_in_focus();
-    if (punit && same_pos(punit->x, punit->y, x, y)) {
-      update_menus();
-    }
+  if (get_unit_in_focus()) {
+    update_menus();
   }
 }
 
