@@ -1671,7 +1671,8 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
        Rigth now I don't know how to use bodyguards! (17/12/98) (--NB)
     */
   }
-  else if (unit_flag(punit->type, F_SETTLERS)) {
+  else if (unit_flag(punit->type, F_SETTLERS)
+           ||unit_flag(punit->type, F_CITIES)) {
     if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
   } else if (unit_flag(punit->type, F_CARAVAN)) {

@@ -1200,7 +1200,7 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_TRADE_ROUTE, unit_can_est_traderoute_here(punit));
       menu_entry_sensitive(MENU_ORDER_NUKE, unit_flag(punit->type, F_NUCLEAR));
 
-      if (unit_flag(punit->type, F_SETTLERS) && map_get_city(punit->x, punit->y))
+      if (unit_flag(punit->type, F_CITIES) && map_get_city(punit->x, punit->y))
       {
 	menu_entry_rename(MENU_ORDER_CITY, "Add to City", FALSE);
       }

@@ -2217,6 +2217,10 @@ receive_packet_ruleset_unit(struct connection *pc)
     packet->paratroopers_mr_sub=0;
   }
 
+  if (!(has_capability("founders", pc->capability))) {
+    packet->flags |= (1L<<F_CITIES);
+  }
+
   len = pack_iter_remaining(&iter);
   if (len) {
     packet->helptext = fc_malloc(len);

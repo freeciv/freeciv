@@ -644,6 +644,9 @@ void helptext_unit(char *buf, int i, const char *user_text)
     sprintf(buf+strlen(buf),
 	    _("* Can establish trade routes and help build wonders.\n"));
   }
+  if (unit_flag(i, F_CITIES)) {
+    sprintf(buf+strlen(buf), _("* Can build new cities.\n"));
+  }
   if (unit_flag(i, F_SETTLERS)) {
     sprintf(buf+strlen(buf), _("* Can perform settler actions.\n"));
   }

@@ -68,13 +68,16 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.9 river_help_text +barbarians"
+#define CAPABILITY "+1.9 river_help_text +barbarians founders"
 
 /* "+1.9" is protocol for 1.9.0 stable release
 
    "river_help_text" is protocol extension for Civ2-style river help text.
 
    "barbarians" is protocol extension for Barbarians.
+
+   "founders" means that city founders are specified by an extra unit type
+   flag (F_CITIES) in addition to the standard settlers (F_SETTLERS) flag.
 */
 
 void init_our_capability(void)

@@ -863,7 +863,8 @@ static void city_reduce_size(struct city *pcity)
 }
  
 /**************************************************************************
-...
+  Check whether the population can be increased or
+  if the city is unable to support a 'settler'...
 **************************************************************************/
 static void city_populate(struct city *pcity)
 {
@@ -871,8 +872,15 @@ static void city_populate(struct city *pcity)
   if(pcity->food_stock >= (pcity->size+1)*game.foodbox) 
     city_increase_size(pcity);
   else if(pcity->food_stock<0) {
+    /* FIXME: should this depend on units with ability to build
+     * cities or on units that require food in uppkeep?
+     * I'll assume citybuilders (units that 'contain' 1 pop) -- sjolie
+     * The above may make more logical sense, but in game terms
+     * you want to disband a unit that is draining your food
+     * reserves.  Hence, I'll assume food upkeep > 0 units. -- jjm
+     */
     unit_list_iterate(pcity->units_supported, punit) {
-      if (unit_flag(punit->type, F_SETTLERS)) {
+      if (get_unit_type(punit->type)->food_cost > 0) {
 	char *utname = get_unit_type(punit->type)->name;
 	wipe_unit(0, punit);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
@@ -1089,8 +1097,11 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
     } 
   } else {
     upgrade_unit_prod(pcity);
+    /* FIXME: F_CITIES should be changed to any unit
+     * that 'contains' 1 (or more) pop -- sjolie
+     */
     if(pcity->shield_stock>=unit_value(pcity->currently_building)) {
-      if (unit_flag(pcity->currently_building, F_SETTLERS)) {
+      if (unit_flag(pcity->currently_building, F_CITIES)) {
 	if (pcity->size==1) {
 
 	  /* Should we disband the city? -- Massimo */

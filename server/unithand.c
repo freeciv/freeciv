@@ -387,8 +387,8 @@ void handle_unit_build_city(struct player *pplayer,
   unit_name = get_unit_type(punit->type)->name;
   pcity = map_get_city(punit->x, punit->y);
   
-  if (!unit_flag(punit->type, F_SETTLERS)) {
-    char *us = get_units_with_flag_string(F_SETTLERS);
+  if (!unit_flag(punit->type, F_CITIES)) {
+    char *us = get_units_with_flag_string(F_CITIES);
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: Only %s can build or add to a city."), us);
     free(us);
@@ -759,7 +759,7 @@ int handle_unit_enter_hut(struct unit *punit)
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       _("Game: Friendly nomads are impressed by you,"
 			 " and join you."));
-      create_unit(pplayer, punit->x, punit->y, get_role_unit(F_SETTLERS,0),
+      create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),
 		  0, punit->homecity, -1);
     }
     break;

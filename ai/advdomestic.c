@@ -517,7 +517,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
   struct government *g = get_gov_pplayer(pplayer);
-  int set, con, i, want, iunit;
+  int set, con, utid, want, iunit, dw;
   struct ai_choice cur;
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   int vans = 0;
@@ -529,9 +529,9 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   set = city_get_settlers(pcity);
   con = map_get_continent(pcity->x, pcity->y);
 
-  i = best_role_unit(pcity, F_SETTLERS);
+  utid = best_role_unit(pcity, F_SETTLERS);
 
-  if (est_food > utype_food_cost(get_unit_type(i), g)) {
+  if (est_food > utype_food_cost(get_unit_type(utid), g)) {
 /* allowing multiple settlers per city now.  I think this is correct. -- Syela */
 /* settlers are an option */
 /* settler_want calculated in settlers.c, called from ai_manage_city */
@@ -549,6 +549,31 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       choice->choice = best_role_unit(pcity, F_SETTLERS); /* default */
       ai_choose_ferryboat(pplayer, pcity, choice);
     }
+  }
+
+  if (!(unit_flag(utid, F_CITIES))) {
+/* basically, copied from above and adjusted to handle city founders -- jjm */
+/* founder_want calculated in settlers.c, called from ai_manage_city */
+
+    utid = best_role_unit(pcity, F_CITIES);
+
+    if (est_food > utype_food_cost(get_unit_type(utid), g)) {
+      want = pcity->ai.founder_want;
+
+      if (want > choice->want) {
+	freelog(LOG_DEBUG, "%s (%d, %d) desires founders with passion %d",
+		pcity->name, pcity->x, pcity->y, want);
+	choice->want = want;
+	choice->type = 1;
+	ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, want);
+      } else if (want < -choice->want) { /* need boats to colonize! */
+	choice->want = 0 - want;
+	choice->type = 1;
+	choice->choice = best_role_unit(pcity, F_CITIES); /* default */
+	ai_choose_ferryboat(pplayer, pcity, choice);
+      }
+    }
+
   }
 
   unit_list_iterate(pplayer->units, punit)
@@ -571,9 +596,9 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* notify comes equipped with an update.  It calls generate_warmap, but this */
 /* is a lot less warmap generation than there would be otherwise. -- Syela */
       iunit = best_role_unit(pcity, F_CARAVAN);
-      i = pcity->ai.distance_to_wonder_city * 8 /
+      dw = pcity->ai.distance_to_wonder_city * 8 /
 	((iunit==U_LAST) ? 3 : get_unit_type(iunit)->move_rate);
-      want -= i;
+      want -= dw;
       /* value of 8 is a total guess and could be wrong,
        * but it's better than 0 -- Syela */
       iunit = get_role_unit(F_CARAVAN, 0);
@@ -581,7 +606,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
         if (want > choice->want) {
           choice->want = want;
           choice->type = 1;
-	  ai_choose_role_unit(pplayer, pcity, choice, F_CARAVAN, i/2);
+	  ai_choose_role_unit(pplayer, pcity, choice, F_CARAVAN, dw/2);
         }
       } else
 	pplayer->ai.tech_want[get_unit_type(iunit)->tech_requirement] += want;

@@ -880,7 +880,7 @@ void update_menus(void)
       menus_set_sensitive("<main>/Orders/Make Trade Route",
 			   unit_can_est_traderoute_here(punit));
 
-      if (unit_flag(punit->type, F_SETTLERS)
+      if (unit_flag(punit->type, F_CITIES)
 	 && map_get_city(punit->x, punit->y)) {
        menus_rename("<main>/Orders/Build City", _("Add to City"));
       } else {

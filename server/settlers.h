@@ -17,8 +17,6 @@
 
 int auto_settler_do_goto(struct player *pplayer, struct unit *punit, 
 			 int x, int y);
-int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
-void auto_settlers_player(struct player *pplayer); 
 void auto_settlers(void);
 int find_boat(struct player *pplayer, int *x, int *y, int cap);
 
@@ -29,8 +27,6 @@ int amortize(int b, int d);
 int city_desirability(struct player *pplayer, int x, int y);
 void ai_manage_settler(struct player *pplayer, struct unit *punit);
 
-int is_already_assigned(struct unit *myunit, struct player *pplayer, 
-			int x, int y);
 int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j);
 int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j);
 int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j);

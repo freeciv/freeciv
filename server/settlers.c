@@ -40,6 +40,14 @@ signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 static unsigned short int territory[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 /* negative: in_city_radius, 0: unassigned, positive: city_des */
 
+/*************************************************************************/
+
+static int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
+static void auto_settlers_player(struct player *pplayer); 
+
+static int is_already_assigned(struct unit *myunit, struct player *pplayer, 
+			       int x, int y);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1014,9 +1022,10 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 
   /** Decide whether to build a new city:
    ** if so, modify: gx, gy, best_newv, best_act */
-  
-  if (pplayer->ai.control && 
-		ai_fuzzy(pplayer,1)) { /* don't want to make cities otherwise */
+
+  if (unit_flag(punit->type, F_CITIES) &&
+      pplayer->ai.control &&
+      ai_fuzzy(pplayer,1)) {    /* don't want to make cities otherwise */
     if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
       remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
     }
@@ -1163,7 +1172,8 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
 
   /** We've now worked out what to do; go to it! **/
   if (gx!=-1 && gy!=-1) {
-    if (best_act == ACTIVITY_UNKNOWN /* flag */) {
+    if (unit_flag(punit->type, F_CITIES) &&
+	(best_act == ACTIVITY_UNKNOWN /* flag */)) {
       punit->ai.ai_role = AIUNIT_BUILD_CITY;
       add_city_to_minimap(gx, gy);
     } else {
@@ -1265,10 +1275,9 @@ void auto_settlers_player(struct player *pplayer)
   freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
 	  pplayer->ai.warmth, game.globalwarming);
   unit_list_iterate(pplayer->units, punit) {
-    freelog(LOG_DEBUG, "%s's settler at (%d, %d)",
-	    pplayer->name, punit->x, punit->y); 
     if (punit->ai.control && unit_flag(punit->type, F_SETTLERS)) {
-      freelog(LOG_DEBUG, "Is ai controlled.");
+      freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
+	      pplayer->name, punit->x, punit->y); 
       if(punit->activity == ACTIVITY_SENTRY)
 	set_unit_activity(punit, ACTIVITY_IDLE);
       if (punit->activity == ACTIVITY_GOTO && punit->moves_left)
@@ -1384,7 +1393,9 @@ void contemplate_settling(struct player *pplayer, struct city *pcity)
 {
   struct unit virtualunit;
   int want;
+
 /* used to use old crappy formulas for settler want, but now using actual want! */
+
   memset(&virtualunit, 0, sizeof(struct unit));
   virtualunit.id = 0;
   virtualunit.owner = pplayer->player_no;
@@ -1398,4 +1409,22 @@ void contemplate_settling(struct player *pplayer, struct city *pcity)
     if (qpass->ai.ferryboat == pcity->id) want = -199;
   unit_list_iterate_end;
   pcity->ai.settler_want = want;
+
+  if (unit_flag(virtualunit.type, F_CITIES)) {
+    pcity->ai.founder_want = pcity->ai.settler_want;
+  } else {
+    memset(&virtualunit, 0, sizeof(struct unit));
+    virtualunit.id = 0;
+    virtualunit.owner = pplayer->player_no;
+    virtualunit.x = pcity->x;
+    virtualunit.y = pcity->y;
+    virtualunit.type = best_role_unit(pcity, F_CITIES);
+    virtualunit.moves_left = unit_types[virtualunit.type].move_rate;
+    virtualunit.hp = unit_types[virtualunit.type].hp;  
+    want = auto_settler_findwork(pplayer, &virtualunit);
+    unit_list_iterate(pplayer->units, qpass)
+      if (qpass->ai.ferryboat == pcity->id) want = -199;
+    unit_list_iterate_end;
+    pcity->ai.founder_want = want;
+  }
 }

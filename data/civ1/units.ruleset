@@ -89,7 +89,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil"
+flags         = "Settlers", "NonMil", "Cities"
 roles         = ""
 helptext      = _("\
 Setters are one of the key units in the game.  They can be used to\
@@ -127,7 +127,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil"
+flags         = "Settlers", "NonMil", "Cities"
 roles         = ""
 
 [unit_militia]

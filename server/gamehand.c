@@ -130,7 +130,7 @@ void init_new_game(void)
       light_square(&game.players[i], x, y+1, 1);
     }
     for (j=0;j<game.settlers;j++) 
-      create_unit(&game.players[i], x, y, get_role_unit(F_SETTLERS,0), 0, 0, -1);
+      create_unit(&game.players[i], x, y, get_role_unit(F_CITIES,0), 0, 0, -1);
     for (j=0;j<game.explorer;j++) 
       create_unit(&game.players[i], x, y, get_role_unit(L_EXPLORER,0), 0, 0, -1);
   }

@@ -50,7 +50,7 @@ static char *flag_names[] = {
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
   "Fighter", "Marines", "Submarine", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
-  "Airbase"
+  "Airbase", "Cities"
 };
 static char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -699,7 +699,7 @@ int can_unit_build_city(struct unit *punit)
 {
   int x, y;
 
-  if(!unit_flag(punit->type, F_SETTLERS))
+  if(!unit_flag(punit->type, F_CITIES))
     return 0;
     
   if(map_get_terrain(punit->x, punit->y)==T_OCEAN)
@@ -728,7 +728,7 @@ int can_unit_add_to_city(struct unit *punit)
 {
   struct city *pcity;
 
-  if(!unit_flag(punit->type, F_SETTLERS))
+  if(!unit_flag(punit->type, F_CITIES))
     return 0;
   if(!punit->moves_left)
     return 0;

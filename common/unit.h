@@ -132,7 +132,7 @@ enum unit_flag_id {
   F_FIGHTER,     
   F_MARINES,     
   F_SUBMARINE,   
-  F_SETTLERS,    
+  F_SETTLERS,         /* Does not include ability to found cities */
   F_DIPLOMAT,    
   F_TRIREME,          /* Trireme sinking effect */
   F_NUCLEAR,          /* Nuclear attack effect */
@@ -140,6 +140,7 @@ enum unit_flag_id {
   F_TRANSFORM,        /* Can transform terrain types (Engineers) */
   F_PARATROOPERS,
   F_AIRBASE,          /* Can build Airbases */
+  F_CITIES,           /* Can build cities */
   F_LAST
 };
 
@@ -149,6 +150,7 @@ enum unit_flag_id {
    in various circumstances, or "roles".
    Note that in some cases flags can act as roles, eg, we don't need
    a role for "settlers", because we can just use F_SETTLERS.
+   (Now have to consider F_CITIES too)
    So we make sure flag values and role values are distinct,
    so some functions can use them interchangably.
 */
