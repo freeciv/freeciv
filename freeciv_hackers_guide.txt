@@ -53,7 +53,7 @@ call waits for packets or input on stdin(server-op commands).
 ===========================================================================
 Data Structures
 ===========================================================================
-For variable lenght list of fx units and cities freeciv uses a genlist,
+For variable length list of fx units and cities freeciv uses a genlist,
 which is implemented in common/genlist.c. By some macro magic type specific
 macros have been defined, avoiding much trouble.
 For example a tile struct (the pointer to it we call ptile) has a unit
@@ -112,63 +112,114 @@ There are still examples of this in the code]
 Network and Packets
 =========================================================================
 The basic netcode is located in server/sernet.c and client/clinet.c.
-Notice the XtAppAddInput() call in client, that tells Xt to call
-the callback functions, when something happens on the client socket.
 
-All information passed between the server and clients, is send as
-serialized packet structures. These packets structures are all
-defined in common/packets.h.
+All information passed between the server and clients, must be sent
+through the network as serialized packet structures.
+These are defined in common/packets.h.
 
-For each packet, there's two corresponding send and receive functions:
+For each 'foo' packet structure, there is one send and one receive function:
 
-int send_packet_unit_combat(struct connection *pc, 
-                            struct packet_unit_combat *packet);
-struct packet_unit_combat *recieve_packet_unit_combat(struct connection *pc);
+int		    send_packet_foo	(struct connection *pc,
+					 struct packet_foo *packet);
+struct packet_foo * receive_packet_foo	(struct connection *pc);
 
-Each of these functions (de-)serializes a bytestream representation of
-the corresponding packet. Each entry in a packet-structure is
-(de-)serialized using architecture independent function such as
-get_int32() and put_int32().
+The send_packet_foo() function serializes a structure into a bytestream
+and adds this to the send buffer in the connection struct.
+The receive_packet_foo() function de-serializes a bytestream into a
+structure and removes the bytestream from the input buffer in the
+connection struct.
+The connection struct is defined in common/connection.h.
+
+Each structure field in a structure is serialized using architecture
+independent functions such as put_int32() and de-serialized with
+functions like get_int32().
+
+A packet is constituted by header followed by the serialized structure
+data. The header contains the following fields:
+
+uint16	:	length		(the length of the entire packet)
+uint8	:	type		(e.g. PACKET_TILE_INFO)
 
 To demonstrate the route for a packet through the system, here's how
-a unit disband is performed.
+a unit disband is performed:
 
 1)  A player disbands a unit.
 2)  The client initializes a packet_unit_request structure, and calls the
-    packet layer with this structure and packet type: PACKET_UNIT_DISBAND
+    packet layer function send_packet_unit_request() with this structure and
+    packet type: PACKET_UNIT_DISBAND.
 3)  The packet layer serializes the structure, wraps it up in a packet
-    containing the type, the packetlength and the serialized data. Finally
+    containing the packetlength, type and the serialized data. Finally
     the data is send to the server.
 4)  On the server the packet is read. Based on the type, the corresponding
-    deserialize function is called. 
+    de-serialize function is called is called by get_packet_from_connection(). 
 5)  a packet_unit_request is initialized with the bytestream.
-6)  Finally the corresponding packet-handler(handle_unit_disband) function
+6)  Finally the corresponding packet-handler, handle_unit_disband() function,
     is called with the newly constructed structure.
-7)  The handler function checks if the disband request is legal(is the sender
+7)  The handler function checks if the disband request is legal (is the sender
     really the owner of the unit) etc.
-8)  The unit is disbanded=> wipe_unit() => send_remove_unit().
+8)  The unit is disbanded => wipe_unit() => send_remove_unit().
 9)  Now an integer, containing the id of the disbanded unit is
     wrapped into a packet along with the type PACKET_REMOVE_UNIT:
-    send_packet_generic_integer
-10) The packet is serialized and send across the network
+    send_packet_generic_integer().
+10) The packet is serialized and send across the network.
 11) On the client the packet is deserialized into a packet_generic_integer
-    structure
+    structure.
 12) The corresponding client handler function is now called 
     handle_remove_unit(), and finally the unit is disbanded.
     
-Notice that both packets involved in this scenery was generic packets.
-That is the packet structures involved, are used in various requests
-and updated. The packet_unit_request is for example also used for
+Notice that both packets involved in this scenario were generic packets.
+That means the packet structures involved, are used by various requests.
+The packet_unit_request() is for example also used for
 the packets PACKET_UNIT_BUILD_CITY and PACKET_UNIT_CHANGE_HOMECITY.
 
-When adding a new packet type, then check to see if you can reuse
-some of the existing packet types. This saves you the trouble of
+When adding a new packet type, check to see if you can reuse some of the
+existing packet types. This saves you the trouble of
 writing new serialize/deserialize functions.
+
+The Xaw client uses XtAppAddInput() to tell Xt to call the callback
+functions, when something happens on the client socket.
+The Gtk+ client uses a similar gdk_input_add() call.
 
 [The packet system started out as a pain and it stayed that way all the time. 
 After using Java's object serialize system, this handcoded serialize
 code really feels like the stoneage. That said, I fear it requires some
 advanced pre-processing system etc to automate the task for C structures. -PU]
+
+=========================================================================
+Network Improvements
+=========================================================================
+
+In previous versions when a connection send buffer in the server got full
+we emptied the buffer contents and continued processing. Unfortunately this
+caused incomplete packets to be sent to the client, which caused crashes
+in either the client or the server, since the client cannot detect this
+situation. This has been fixed by closing the client connection when the
+buffer is emptied.
+
+We also had (and still have) several problems related to flow control.
+Basically the problem is the server can send packets much faster than the
+client can process them. This is especially true when in the end of the
+turn the AIs move all their units. Unit moves in particular take a long
+time for the client to process since by default smooth unit moves is on.
+
+There are 3 ways to solve this problem:
+1) We wait for the send buffers to be flushed before continuing processing.
+2) We cut the player's connection and flush the send buffer.
+3) We lose packets (this is similar to 2) but can cause an incoherent
+   state in the client).
+
+We mitigated the problem by increasing the send buffer size on the server
+and making it dynamic. We also added in strategic places in the code calls
+to a new flush_packets() function that make the server stall for some time
+draining the send buffers. Strategic places include whenever we send the
+whole map. The maximum amount of time spent per flush_packets() call is
+specified by the 'netwait' variable.
+
+To disconnect unreachable clients we added two other features: the server
+terminates a client connection if it doesn't accept writes for a period
+of time (set using the 'tcptimeout' variable). It also pings the client
+after a certain time elapses (set using the 'pingtimeout' variable). If
+the client doesn't reply its connection is closed.
 
 =========================================================================
 Graphics
