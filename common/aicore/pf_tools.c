@@ -75,7 +75,7 @@ static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
 
 /************************************************************
   A cost function for a sea unit which allows going one step 
-  into the land (shore bombardment).
+  into the land (for shore bombardment and ferries).
   Things to remember: we should prevent going from land to
   anywhere, unless we are leaving a friendly city, in which
   case we can move into the ocean but not into the land.
@@ -470,8 +470,8 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 }
 
 /**********************************************************************
-  Switch on one tile overlapping into the sea/land 
-  ("sea/land bombardment")
+  Switch on one tile overlapping into the sea/land.
+  For sea/land bombardment and for ferries.
 **********************************************************************/
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 struct unit *punit)

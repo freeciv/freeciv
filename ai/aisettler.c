@@ -522,17 +522,20 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
 
   pf_destroy_map(map);
 
+  assert(!found || 0 <= best->result);
   return found;
 }
 
 /**************************************************************************
   Find nearest and best city placement or (TODO) a city to immigrate to.
 
-  Option look_for_boat forces to find a boat before cosidering going 
-  overseas.  Option use_virt_boat allows to use virtual boat but only
+  Option look_for_boat forces us to find a (real) boat before cosidering
+  going overseas.  Option use_virt_boat allows to use virtual boat but only
   if punit is in a coastal city right now (should only be used by 
   virtual units).  I guess it won't hurt to remove this condition, PF 
   will just give no positions.
+  If (!look_for_boat && !use_virt_boat), will not consider placements
+  overseas.
 **************************************************************************/
 void find_best_city_placement(struct unit *punit, struct cityresult *best,
 			      bool look_for_boat, bool use_virt_boat)
@@ -542,6 +545,8 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   struct unit *ferry = NULL;
 
   assert(pplayer->ai.control);
+  /* Only virtual units may use virtual boats: */
+  assert(0 == punit->id || !use_virt_boat);
 
   best->tile = NULL;
   best->result = 0;
@@ -586,6 +591,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
       ferry->tile = punit->tile;
     }
 
+    assert(SEA_MOVING == unit_type(ferry)->move_type);
     pft_fill_unit_overlap_param(&parameter, ferry);
     parameter.get_TB = no_fights_or_unknown;
 
@@ -599,4 +605,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
       best->virt_boat = (ferry->id == 0);
     }
   }
+  /* If we use a virtual boat, we must have permission and be emigrating: */
+  assert(!best->virt_boat || use_virt_boat);
+  assert(!best->virt_boat || best->overseas);
 }

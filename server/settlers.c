@@ -750,7 +750,7 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
 }
 
 /**************************************************************************
-  Tries to find a boat for our settler. Requires warmap to be initialized
+  Tries to find a boat for our unit. Requires warmap to be initialized
   with respect to x, y. cap is the requested capacity on the transport.
   Note that it may return a transport with less than cap capacity if this
   transport has zero move cost to x, y.
@@ -1126,6 +1126,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   }
 
   if (unit_flag(punit, F_CITIES) && pplayer->ai.control) {
+    /* may use a boat: */
     find_best_city_placement(punit, &result, TRUE, FALSE);
     UNIT_LOG(LOG_SETTLER, punit, "city want %d (impr want %d)", result.result,
              best_impr);
@@ -1476,6 +1477,7 @@ void contemplate_new_city(struct city *pcity)
     bool is_coastal = is_ocean_near_tile(pcity->tile);
 
     find_best_city_placement(virtualunit, &result, is_coastal, is_coastal);
+    assert(0 <= result.result);
 
     CITY_LOG(LOG_DEBUG, pcity, "want(%d) to establish city at"
 	     " (%d, %d) and will %s to get there", result.result, 

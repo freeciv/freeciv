@@ -44,7 +44,7 @@
  * The below is used only by passengers in ai.ferryboat field 
  */ 
 #define FERRY_WANTED      -1      /* Needs a boat */
-#define FERRY_NONE         0      /* Has no boa and doesn't need one */
+#define FERRY_NONE         0      /* Has no boat and doesn't need one */
 
 
 /* =================== group log levels, debug options ================= */
@@ -281,6 +281,7 @@ static bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 /****************************************************************************
   Proper and real PF function for finding a boat.  If you don't require
   the path to the ferry, pass path=NULL.
+  Return the unit ID of the boat; punit is the passenger.
 
   WARNING: Due to the nature of this function and PF (see the comment of 
   combined_land_sea_move), the path won't lead onto the boat itself.
@@ -293,12 +294,15 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
   int best_id = 0;
   struct pf_parameter param;
   struct pf_map *search_map;
+  int ferryboat = punit->ai.ferryboat; /*currently assigned ferry*/
 
-
+  assert(0 < ferryboat
+	 || FERRY_NONE == ferryboat
+	 || FERRY_WANTED == ferryboat);
   UNIT_LOG(LOGLEVEL_FINDFERRY, punit, "asked find_ferry for a boat");
 
   if (aiferry_avail_boats(unit_owner(punit)) <= 0 
-      && punit->ai.ferryboat <= 0) {
+      && ferryboat <= 0) {
     /* No boats to be found (the second check is to ensure that we are not 
      * the ones keeping the last boat busy) */
     return 0;

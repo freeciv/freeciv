@@ -201,7 +201,10 @@ struct ai_city {
   signed short int tile_value[CITY_MAP_SIZE][CITY_MAP_SIZE];
 
   /* so we can contemplate with warmap fresh and decide later */
-  int settler_want, founder_want; /* for builder (F_SETTLERS) and founder (F_CITIES) */
+  /* These values are for builder (F_SETTLERS) and founder (F_CITIES) units.
+   * Negative values indicate that the city needs a boat first;
+   * -value is the degree of want in that case. */
+  int settler_want, founder_want;
   bool founder_boat; /* if the city founder will need a boat */
   int invasion; /* who's coming to kill us, for attack co-ordination */
   int attack, bcost; /* This is also for invasion - total power and value of

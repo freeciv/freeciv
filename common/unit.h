@@ -107,7 +107,7 @@ enum unit_upgrade_result {
 struct unit_ai {
   bool control; /* 0: not automated    1: automated */
   enum ai_unit_task ai_role;
-  /* The following are all unit ids */
+  /* The following are unit ids or special indicator values (<=0) */
   int ferryboat; /* the ferryboat assigned to us */
   int passenger; /* the unit assigned to this ferryboat */
   int bodyguard; /* the unit bodyguarding us */

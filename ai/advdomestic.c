@@ -194,8 +194,12 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       
     } else if (want < -choice->want) {
       /* We need boats to colonize! */
+      /* We might need boats even if there are boats free,
+       * if they are blockaded or in inland seas. */
+      struct ai_data *ai = ai_data_get(pplayer);
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
-	       " for a boat", want);
+	       " for a new boat (%d of %d free)",
+	       want, ai->stats.available_boats, ai->stats.boats);
       choice->want = 0 - want;
       choice->type = CT_NONMIL;
       choice->choice = unit_type; /* default */
