@@ -636,6 +636,12 @@ static int find_the_shortest_path(struct unit *punit,
   int straight_dir = 0;	/* init to silence compiler warning */
   static unsigned char local_vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
   struct unit *pcargo;
+  /* 
+   * Land/air units use warmap.cost while sea units use
+   * warmap.seacost.  Don't ask me why.  --JDS 
+   */
+  unsigned char **warmap_cost =
+      (move_type == SEA_MOVING) ? warmap.seacost : warmap.cost;
 
   orig_x = punit->x;
   orig_y = punit->y;
@@ -751,23 +757,7 @@ static int find_the_shortest_path(struct unit *punit,
 	if (restriction == GOTO_MOVE_STRAIGHTEST && dir == straight_dir)
 	  move_cost /= SINGLE_MOVE;
 
-	/* Add the route to our warmap if it is worth keeping */
 	total_cost = move_cost + warmap.cost[x][y];
-	if (total_cost < maxcost) {
-          if (warmap.cost[x1][y1] > total_cost) {
-            warmap.cost[x1][y1] = total_cost;
-            add_to_mapqueue(total_cost, x1, y1);
-            local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
-	    freelog(LOG_DEBUG,
-		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    dir_get_name(dir), x, y, x1, y1, total_cost);
-          } else if (warmap.cost[x1][y1] == total_cost) {
-            local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
-	    freelog(LOG_DEBUG,
-		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    dir_get_name(dir), x, y, x1, y1, total_cost);
-          }
-        }
 	break;
 
       case SEA_MOVING:
@@ -820,23 +810,6 @@ static int find_the_shortest_path(struct unit *punit,
 		  punit->x, punit->y, x1, y1,
 		  punit->goto_dest_x, punit->goto_dest_y);
 	}
-
-	/* Add the route to our warmap if it is worth keeping */
-	if (total_cost < maxcost) {
-	  if (warmap.seacost[x1][y1] > total_cost) {
-	    warmap.seacost[x1][y1] = total_cost;
-	    add_to_mapqueue(total_cost, x1, y1);
-	    local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
-	    freelog(LOG_DEBUG,
-		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    dir_get_name(dir), x, y, x1, y1, total_cost);
-	  } else if (warmap.seacost[x1][y1] == total_cost) {
-	    local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
-	    freelog(LOG_DEBUG,
-		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    dir_get_name(dir), x, y, x1, y1, total_cost);
-	  }
-	}
 	break;
 
       case AIR_MOVING:
@@ -863,24 +836,7 @@ static int find_the_shortest_path(struct unit *punit,
 
 	if ((restriction == GOTO_MOVE_STRAIGHTEST) && (dir == straight_dir))
 	  move_cost /= SINGLE_MOVE;
-
-	/* Add the route to our warmap if it is worth keeping */
 	total_cost = move_cost + warmap.cost[x][y];
-	if (total_cost < maxcost) {
-	  if (warmap.cost[x1][y1] > total_cost) {
-	    warmap.cost[x1][y1] = total_cost;
-	    add_to_mapqueue(total_cost, x1, y1);
-	    local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
-	    freelog(LOG_DEBUG,
-		    "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    dir_get_name(dir), x, y, x1, y1, total_cost);
-	  } else if (warmap.cost[x1][y1] == total_cost) {
-	    local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
-	    freelog(LOG_DEBUG,
-		    "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
-		    dir_get_name(dir), x, y, x1, y1, total_cost);
-	  }
-	}
 	break;
 
       default:
@@ -889,6 +845,23 @@ static int find_the_shortest_path(struct unit *punit,
 	abort();
 	break;
       } /****** end switch ******/
+
+      /* Add the route to our warmap if it is worth keeping */
+      if (total_cost < maxcost) {
+	if (warmap_cost[x1][y1] > total_cost) {
+	  warmap_cost[x1][y1] = total_cost;
+	  add_to_mapqueue(total_cost, x1, y1);
+	  local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
+	  freelog(LOG_DEBUG,
+		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		  dir_get_name(dir), x, y, x1, y1, total_cost);
+	} else if (warmap_cost[x1][y1] == total_cost) {
+	  local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
+	  freelog(LOG_DEBUG,
+		  "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
+		  dir_get_name(dir), x, y, x1, y1, total_cost);
+	}
+      }
 
       if (x1 == dest_x && y1 == dest_y && maxcost > total_cost) {
 	freelog(LOG_DEBUG, "Found path, cost = %d", total_cost);
