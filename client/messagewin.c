@@ -21,6 +21,7 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
+#include <X11/Xaw/Viewport.h>
 
 #include <game.h>
 #include <player.h>
@@ -45,12 +46,14 @@ Widget meswin_dialog_shell;
 Widget meswin_form;
 Widget meswin_label;
 Widget meswin_list;
+Widget meswin_viewport;
 Widget meswin_close_command;
 Widget meswin_goto_command;
 Widget meswin_popcity_command;
 
 void create_meswin_dialog(void);
-void meswin_button_callback(Widget w, XtPointer client_data, 
+void meswin_scroll_down(void);
+void meswin_close_callback(Widget w, XtPointer client_data, 
 			      XtPointer call_data);
 void meswin_list_callback(Widget w, XtPointer client_data, 
 			   XtPointer call_data);
@@ -59,18 +62,36 @@ void meswin_goto_callback(Widget w, XtPointer client_data,
 void meswin_popcity_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data);
 
+static char *dummy_message_list[] = {
+  "                                                        ", 0 };
+
+#define N_MSG_VIEW 24 		/* max before scrolling happens */
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
 void popup_meswin_dialog(void)
 {
-  if(!meswin_dialog_shell)
+  int updated = 0;
+  
+  if(!meswin_dialog_shell) {
     create_meswin_dialog();
+    updated = 1;		/* create_ calls update_ */
+  }
 
   xaw_set_relative_position(toplevel, meswin_dialog_shell, 25, 25);
   XtPopup(meswin_dialog_shell, XtGrabNone);
-  update_meswin_dialog();
+  if(!updated) 
+    update_meswin_dialog();
+  
+  /* Is this necessary here? 
+   * from popup_city_report_dialog():
+   * force refresh of viewport so the scrollbar is added.
+   * Buggy sun athena requires this
+   */
+  XtVaSetValues(meswin_viewport, XtNforceBars, True, NULL);
+  
+  meswin_scroll_down();
 }
 
 
@@ -91,11 +112,17 @@ void create_meswin_dialog(void)
 					labelWidgetClass, 
 					meswin_form, NULL);   
   
+  meswin_viewport = XtVaCreateManagedWidget("meswinviewport", 
+					    viewportWidgetClass, 
+					    meswin_form, 
+					    NULL);
    
   meswin_list = XtVaCreateManagedWidget("meswinlist", 
-					 listWidgetClass, 
-					 meswin_form, 
-					 NULL);
+					listWidgetClass,
+					meswin_viewport,
+					XtNlist,
+					(XtArgVal)dummy_message_list,
+					NULL);
 					 
   meswin_close_command = XtVaCreateManagedWidget("meswinclosecommand", 
 						  commandWidgetClass,
@@ -117,7 +144,7 @@ void create_meswin_dialog(void)
   XtAddCallback(meswin_list, XtNcallback, meswin_list_callback, 
 		NULL);
 	       
-  XtAddCallback(meswin_close_command, XtNcallback, meswin_button_callback, 
+  XtAddCallback(meswin_close_command, XtNcallback, meswin_close_callback, 
 		NULL);
 
   XtAddCallback(meswin_goto_command, XtNcallback, meswin_goto_callback, 
@@ -135,10 +162,35 @@ void create_meswin_dialog(void)
 ...
 **************************************************************************/
 
-int messages_total;
-char *string_ptrs[32];
-int xpos[32];
-int ypos[32];
+static int messages_total = 0;	/* current total number of message lines */
+static int messages_alloc = 0;	/* number allocated for */
+static char **string_ptrs = NULL;
+static int *xpos = NULL;
+static int *ypos = NULL;
+
+/**************************************************************************
+ This can be called:
+ - when we want to use string_ptrs[0] before we add any messages.
+ - when the number allocated might need to grow due to adding more messages.
+ Note update_meswin_dialog should always be called soon after this since
+ it contains pointers to the memory we're reallocing here.
+**************************************************************************/
+static void meswin_allocate(void)
+{
+  int i;
+  
+  if (messages_total>=messages_alloc) {
+    messages_alloc = messages_total + 32;
+    string_ptrs = realloc(string_ptrs, messages_alloc*sizeof(char*));
+    xpos = realloc(xpos, messages_alloc*sizeof(int));
+    ypos = realloc(ypos, messages_alloc*sizeof(int));
+    for( i=messages_total; i<messages_alloc; i++ ) {
+      string_ptrs[i] = NULL;
+      xpos[i] = 0;
+      ypos[i] = 0;
+    }
+  }
+}
 
 /**************************************************************************
 ...
@@ -147,8 +199,13 @@ int ypos[32];
 void clear_notify_window()
 {
   int i;
-  for (i = 0; i <messages_total; i++)
+  meswin_allocate();
+  for (i = 0; i <messages_total; i++) {
     free(string_ptrs[i]);
+    string_ptrs[i] = NULL;
+    xpos[i] = 0;
+    ypos[i] = 0;
+  }
   string_ptrs[0]=0;
   messages_total = 0;
   update_meswin_dialog();
@@ -171,7 +228,7 @@ void add_notify_window(struct packet_generic_message *packet)
 			     packet->x, 
 			     packet->y);
 
-  if (messages_total == 32) return; /* should not happend... */ 
+  meswin_allocate();
   s = (char *)malloc(strlen(packet->message) + 50);
   if (!strncmp(packet->message, "Game: ", 6)) 
    strcpy(s, packet->message + 6);
@@ -188,6 +245,31 @@ void add_notify_window(struct packet_generic_message *packet)
   messages_total++;
   string_ptrs[messages_total] = 0;  
   update_meswin_dialog();
+  meswin_scroll_down();
+}
+
+/**************************************************************************
+ This scrolls the messages window down to the bottom.
+ NOTE: it seems this must not be called until _after_ meswin_dialog_shell
+ is ...? realized, popped up, ... something.
+ Its a toss-up whether we _should_ scroll the window down:
+ Against: user will likely want to read from the top and scroll down manually.
+ For: if we don't scroll down, new messages which appear at the bottom
+ (including combat results etc) will be easily missed.
+**************************************************************************/
+void meswin_scroll_down(void)
+{
+  Dimension height;
+  int pos;
+  
+  if (!meswin_dialog_shell)
+    return;
+  if (messages_total <= N_MSG_VIEW)
+    return;
+  
+  XtVaGetValues(meswin_list, XtNheight, &height, NULL);
+  pos = (((double)(messages_total-1))/messages_total)*height;
+  XawViewportSetCoordinates(meswin_viewport, 0, pos);
 }
 
 /**************************************************************************
@@ -197,22 +279,49 @@ void update_meswin_dialog(void)
 {
   if (!meswin_dialog_shell) { 
     if (messages_total > 0 && 
-        (!game.player_ptr->ai.control || ai_popup_windows))
+        (!game.player_ptr->ai.control || ai_popup_windows)) {
       popup_meswin_dialog();
+      /* Can return here because popup_meswin_dialog will call
+       * this very function again.
+       */
+      return;
+    }
   }
-   if(meswin_dialog_shell) {
-     Dimension width;
-     if(messages_total==0) {
-       string_ptrs[0]="                                                  ";
-       XawListChange(meswin_list, string_ptrs, 1, 0, True);
-     }
-     else
+  if(meswin_dialog_shell) {
+     Dimension height, iheight, width;
+     int i;
+
+     XawFormDoLayout(meswin_form, False);
+
+     if(messages_total==0) 
+       XawListChange(meswin_list, dummy_message_list, 1, 0, True);
+     else 
        XawListChange(meswin_list, string_ptrs, messages_total, 0, True);
+     
+     /* Much of the following copied from city_report_dialog_update() */
+     XtVaGetValues(meswin_list, XtNlongest, &i, NULL);
+     width=i+10;
+     /* I don't know the proper way to set the width of this viewport widget.
+        Someone who knows is more than welcome to fix this */
+     XtVaSetValues(meswin_viewport, XtNwidth, width+15, NULL); 
+     XtVaSetValues(meswin_label, XtNwidth, width+15, NULL);
 
-     XtVaGetValues(meswin_list,  XtNwidth, &width, NULL);
-     XtVaSetValues(meswin_label, XtNwidth, width, NULL); 
+     /* Seems have to do this here so we get the correct height below. */
+     XawFormDoLayout(meswin_form, True);
+
+     if(messages_total <= N_MSG_VIEW) {
+       XtVaGetValues(meswin_list, XtNheight, &height, NULL);
+       XtVaSetValues(meswin_viewport, XtNheight, height, NULL);
+     } else {
+       XtVaGetValues(meswin_list, XtNheight, &height, NULL);
+       XtVaGetValues(meswin_list, XtNinternalHeight, &iheight, NULL);
+       height -= (iheight*2);
+       height /= messages_total;
+       height *= N_MSG_VIEW;
+       height += (iheight*2);
+       XtVaSetValues(meswin_viewport, XtNheight, height, NULL);
+     }
    }
-
 }
 
 /**************************************************************************
@@ -247,7 +356,7 @@ void meswin_list_callback(Widget w, XtPointer client_data,
 /**************************************************************************
 ...
 **************************************************************************/
-void meswin_button_callback(Widget w, XtPointer client_data, 
+void meswin_close_callback(Widget w, XtPointer client_data, 
 			      XtPointer call_data)
 {
   XtDestroyWidget(meswin_dialog_shell);

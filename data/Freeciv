@@ -2303,18 +2303,22 @@ Freeciv*meswinlabel.left:               chainLeft
 Freeciv*meswinlabel.right:              chainRight
 Freeciv*meswinlabel.label:              Messages
 
-Freeciv*meswinlist.fromVert:            meswinlabel
+Freeciv*meswinviewport.resizable:           True
+Freeciv*meswinviewport.allowVert:           True
+Freeciv*meswinviewport.allowHoriz:          False
+Freeciv*meswinviewport.forceBars:           True
+Freeciv*meswinviewport.top:                 chainTop
+Freeciv*meswinviewport.bottom:              chainBottom
+Freeciv*meswinviewport.left:                chainLeft
+Freeciv*meswinviewport.right:               chainRight
+Freeciv*meswinviewport.fromVert:            meswinlabel
+
 Freeciv*meswinlist.forceColumns:        true
 Freeciv*meswinlist.defaultColumns:      1
 Freeciv*meswinlist.verticalList:        true
-Freeciv*meswinlist.resizable:           true
-Freeciv*meswinlist.top:                 chainTop
-Freeciv*meswinlist.bottom:              chainBottom
-Freeciv*meswinlist.left:                chainLeft
-Freeciv*meswinlist.right:               chainRight
 
 Freeciv*meswinclosecommand.label:         Close
-Freeciv*meswinclosecommand.fromVert:      meswinlist
+Freeciv*meswinclosecommand.fromVert:      meswinviewport
 Freeciv*meswinclosecommand.top:           chainBottom
 Freeciv*meswinclosecommand.bottom:        chainBottom
 Freeciv*meswinclosecommand.left:          chainLeft
@@ -2322,7 +2326,7 @@ Freeciv*meswinclosecommand.right:         chainLeft
 
 Freeciv*meswingotocommand.label:           Goto location
 Freeciv*meswingotocommand.fromHoriz:       meswinclosecommand
-Freeciv*meswingotocommand.fromVert:        meswinlist
+Freeciv*meswingotocommand.fromVert:        meswinviewport
 Freeciv*meswingotocommand.top:             chainBottom
 Freeciv*meswingotocommand.bottom:          chainBottom
 Freeciv*meswingotocommand.left:            chainLeft
@@ -2330,7 +2334,7 @@ Freeciv*meswingotocommand.right:           chainLeft
 
 Freeciv*meswinpopcitycommand.label:           Popup City
 Freeciv*meswinpopcitycommand.fromHoriz:       meswingotocommand
-Freeciv*meswinpopcitycommand.fromVert:        meswinlist
+Freeciv*meswinpopcitycommand.fromVert:        meswinviewport
 Freeciv*meswinpopcitycommand.top:             chainBottom
 Freeciv*meswinpopcitycommand.bottom:          chainBottom
 Freeciv*meswinpopcitycommand.left:            chainLeft
