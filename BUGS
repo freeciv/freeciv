@@ -14,6 +14,11 @@ This lists only the most obvious bugs.  For a complete list, see:
 KNOWN BUGS:
 ===========
 
+ - When a Diplomat or Spy Investigates a City, the Supported Units and
+   Present Units are incorrect.  There may be *more* units in either
+   list than show up.  So be careful!  Don't attack a City that looks
+   empty -- it may not be (check the "occupied flag", first).  [PR#422]
+
  - The Gtk+ client sometimes has a problem where the focus gets stuck
    on the chatline, and the arrow keys no longer work to move units in
    the main window.  A way to get back to the main window is to use
