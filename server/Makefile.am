@@ -30,6 +30,8 @@ civserver_SOURCES = \
 		registry.h	\
 		sernet.c		\
 		sernet.h		\
+		settlers.c	\
+		settlers.h	\
 		stdinhand.c	\
 		stdinhand.h	\
 		unitfunc.c	\
