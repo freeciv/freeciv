@@ -1061,7 +1061,7 @@ static void make_list_of_refuel_points(struct player *pplayer)
 	continue;
       }
       if ((ptile = map_get_tile(x,y))->special&S_AIRBASE) {
-	if ((unit_list_get(&(ptile->units), 0))->owner != playerid)
+	if (is_enemy_unit_tile(x, y, playerid))
 	  continue;
 	prefuel = fc_malloc(sizeof(struct refuel));
 	prefuel->x = x; prefuel->y = y;
