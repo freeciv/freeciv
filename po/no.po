@@ -8,7 +8,6 @@
 #  - Jørgen Skjaanes    <jorgen@gulesider.no>
 #  - Gaute B Strokkenes <gs234@cam.ac.uk>
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.9.0\n"

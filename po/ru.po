@@ -1,7 +1,6 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #  Valek Filippov <frob@df.ru>, 1999.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.11.4\n"

@@ -9,7 +9,6 @@
 # Freeciv Italian Team <slug-freeciv@siena.linux.it>, 2000, 2001.
 # For more information, please visit: http://www.freeciv.it/
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.5-devel\n"

@@ -5,7 +5,6 @@
 # Freeciv french team <freeciv-fr@egroups.fr>, 2000.
 #
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"

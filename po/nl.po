@@ -2,7 +2,6 @@
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Pieter J. Kersten <P.J.Kersten@dia.eur.nl>, 2000.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"

@@ -3,7 +3,6 @@
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguell@madrid.com>, 2000.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.1\n"

@@ -3,7 +3,6 @@
 # Artur Biesiadowski <abies@pg.gda.pl>, 1999.
 # GNOME PL Team <gnomepl@pandora.info.bielsko.pl>, 1999
 # Tomasz Wêgrzanowski <maniek@beer.com> 2000
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"

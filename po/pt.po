@@ -9,7 +9,6 @@
 #
 #   Vasco Costa		<vasc@rnl.ist.utl.pt>	1999, 2000.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"

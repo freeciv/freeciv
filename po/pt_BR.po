@@ -5,7 +5,6 @@
 #
 # FIXME: Insert some appropriate Plural-Forms: header.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"

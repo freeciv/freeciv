@@ -3,7 +3,6 @@
 # Gábor Dukai <dukai@EUnet.yu>, 2000-2001
 # This translation is covered by the GNU General Public License Version 2.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4 v0.5\n"

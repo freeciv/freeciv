@@ -2,7 +2,6 @@
 # Copyright (C) 2000 Erik Sigra
 # Erik Sigra <freeciv@home.se>, 2000.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.11\n"
