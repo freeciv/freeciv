@@ -10,12 +10,15 @@ the ChangeLog file.
 
 KNOWN BUGS:
 
-1.6.1 is still not completely bug-free, and there are a couple of
-known bugs in this release:
- - When compiling with the experimental "configure" script, keyboard
-   input is ignored.
- - There's possibly a problem with worker placement in the city dialog.
+While we're not saying Freeciv 1.6.2 is bug-free, we believe it's stable
+enough to be considered safe for everyday use.
 
-Please report problems to the Freeciv mailing list.  See:
+However if you do find one, please report it (or other problems) to
+the Freeciv mailing list.  See:
 
   http://freeciv.ultraviolet.org
+
+THINGS TO DO:
+
+ - goto should be looked at, as units with moves left after a goto should
+   be active but aren't.
