@@ -354,11 +354,11 @@ economy_report_dialog_update(void)
 	my_snprintf( buf3, sizeof(buf3), "%6d", cost );
 	fcwin_listview_add_row(lv,k,4,row);
 	
- 
-	  total+=cost;
-	  economy_improvement_type[k]=j;
-	  k++;
-	}
+	
+	total+=cost;
+	economy_improvement_type[k]=j;
+	k++;
+      }
       city_list_iterate(game.player_ptr->cities,pcity) {
 	tax+=pcity->tax_total;
 	if (!pcity->is_building_unit &&
@@ -366,18 +366,18 @@ economy_report_dialog_update(void)
 	  tax+=pcity->shield_surplus;
       } city_list_iterate_end;
     } impr_type_iterate_end;
-
-    my_snprintf(economy_total, sizeof(economy_total),
-		_("Income:%6d    Total Costs: %6d"), tax, total);
-    SetWindowText(GetDlgItem(economy_dlg,ID_TRADEREP_CASH),economy_total);
-    ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
-    for(j=1;j<4;j++) {
-      ListView_SetColumnWidth(lv,j,
-			      LVSCW_AUTOSIZE_USEHEADER);	
-    }
-    fcwin_redo_layout(economy_dlg);
+  }
+  my_snprintf(economy_total, sizeof(economy_total),
+	      _("Income:%6d    Total Costs: %6d"), tax, total);
+  SetWindowText(GetDlgItem(economy_dlg,ID_TRADEREP_CASH),economy_total);
+  ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
+  for(j=1;j<4;j++) {
+    ListView_SetColumnWidth(lv,j,
+			    LVSCW_AUTOSIZE_USEHEADER);	
+  }
+  fcwin_redo_layout(economy_dlg);
 }
-
+  
 /**************************************************************************
 
 **************************************************************************/
