@@ -128,7 +128,7 @@ dnl Programs already checked by AM_INIT_AUTOMAKE:
 dnl  AC_PROG_MAKE_SET
 
 dnl I18n support
-ALL_LINGUAS="es fr"
+ALL_LINGUAS="pt es fr"
 AM_GNU_GETTEXT
 
 if test -n "$GCC"; then

@@ -1,0 +1,24 @@
+# Translatables strings for freeciv
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Vasco Costa <vasc@camoes.rnl.ist.utl.pt>, 1999.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 1999-07-29 17:17+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
+
+#: server/civserver.c:350
+#, c-format
+msgid "This is the server for %s"
+msgstr "Este é o servidor do %s"
+
+#: client/civclient.c:85
+msgid "This is the Freeciv client\n"
+msgstr "Este é o client Freeciv\n"
