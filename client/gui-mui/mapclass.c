@@ -2506,6 +2506,8 @@ STATIC ULONG CityMap_New(struct IClass *cl, Object * o, struct opSet *msg)
     struct TagItem *tl = msg->ops_AttrList;
     struct TagItem *ti;
 
+    set(o,MUIA_FillArea,FALSE);
+
     while ((ti = NextTagItem(&tl)))
     {
       switch (ti->ti_Tag)
@@ -2650,8 +2652,10 @@ STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	  }
 	} else
 	{
-	  SetAPen(rp, _dri(o)->dri_Pens[BACKGROUNDPEN]);
-	  RectFill(rp, x1, y1, x2, y2);
+	  if (msg->flags & MADF_DRAWOBJECT)
+	  {
+	    DoMethod(o,MUIM_DrawBackground,x1,y1,x2-x1+1,y2-y1+1,0,0,0);
+	  }
 	}
       }
     }
@@ -3396,7 +3400,6 @@ STATIC ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct
 
 STATIC ULONG PresentUnit_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
 {
-  struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
   ULONG udata = muiUserData(msg->item);
   ULONG command = UNPACK_COMMAND(udata);
 
@@ -3481,25 +3484,16 @@ STATIC ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, stru
 
       context_menu = MenustripObject,
 	  Child, menu_title = MenuObjectT(unit_name(punit->type)),
-	  End,
-      End;
-
-      if (context_menu)
-      {
-      	Object *entry;
-
-	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Activate"), NULL, MUIO_Menuitem_CopyStrings, 0)))
-	{
-	  set(entry, MUIA_UserData, PACK_USERDATA(punit, UNIT_ACTIVATE));
-	  DoMethod(menu_title, MUIM_Family_AddTail, entry);
-	}
-
-	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Disband"), NULL, MUIO_Menuitem_CopyStrings, 0)))
-	{
-	  set(entry, MUIA_UserData, NULL);
-	  DoMethod(menu_title, MUIM_Family_AddTail, PACK_USERDATA(punit, MENU_ORDER_DISBAND));
-	}
-      }
+	      MUIA_Family_Child, MenuitemObject,
+	          MUIA_Menuitem_Title, _("Activate"),
+	          MUIA_UserData, PACK_USERDATA(punit, UNIT_ACTIVATE),
+	          End,
+	      MUIA_Family_Child, MenuitemObject,
+	          MUIA_Menuitem_Title, _("Disband"),
+	          MUIA_UserData, PACK_USERDATA(punit, MENU_ORDER_DISBAND),
+	          End,
+	      End,
+	  End;
     }
   }
 
@@ -3510,7 +3504,6 @@ STATIC ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, stru
 
 STATIC ULONG SupportedUnit_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
 {
-  struct PresentUnit_Data *data = (struct PresentUnit_Data *) INST_DATA(cl, o);
   ULONG udata = muiUserData(msg->item);
   ULONG command = UNPACK_COMMAND(udata);
 
@@ -3528,13 +3521,13 @@ DISPATCHERPROTO(SupportedUnit_Dispatcher)
   switch (msg->MethodID)
   {
   case OM_NEW:
-    return PresentUnit_New(cl, obj, (struct opSet *) msg);
+    return SupportedUnit_New(cl, obj, (struct opSet *) msg);
   case OM_DISPOSE:
-    return PresentUnit_Dispose(cl, obj, msg);
+    return SupportedUnit_Dispose(cl, obj, msg);
   case MUIM_ContextMenuBuild:
-    return PresentUnit_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
+    return SupportedUnit_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
   case MUIM_ContextMenuChoice:
-    return PresentUnit_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
+    return SupportedUnit_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
   }
   return (DoSuperMethodA(cl, obj, msg));
 }
