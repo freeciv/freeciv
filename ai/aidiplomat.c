@@ -34,6 +34,9 @@
 #include "timing.h"
 #include "unit.h"
 
+#include "pf_tools.h"
+#include "path_finding.h"
+
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -55,8 +58,8 @@
 
 #define LOG_DIPLOMAT LOG_DEBUG
 
-static struct city *find_city_to_diplomat(struct player *pplayer, int x,
-					  int y, bool foul);
+static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
+                                  struct city **ctarget, int *move_dist);
 
 /******************************************************************************
   Number of improvements that can be sabotaged in pcity.
@@ -129,8 +132,6 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
 /**********************************************************************
   Calculates our need for diplomats as offensive units. May replace
   values in choice.
-
-  Requires an initialized warmap!
 ***********************************************************************/
 void ai_choose_diplomat_offensive(struct player *pplayer,
                                   struct city *pcity,
@@ -151,11 +152,13 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
   /* Do we have a good reason for building diplomats? */
   {
     struct unit_type *ut = get_unit_type(u);
-    struct city *acity = find_city_to_diplomat(pplayer, pcity->x,
-                                               pcity->y, FALSE);
+    struct city *acity;
     int want, loss, p_success, p_failure, time_to_dest;
     int gain_incite = 0, gain_theft = 0, gain = 1;
     int incite_cost;
+    struct unit *punit = create_unit_virtual(pplayer, pcity, u, FALSE);
+
+    find_city_to_diplomat(pplayer, punit, &acity, &time_to_dest);
 
     if (acity == NULL || acity->ai.already_considered_for_diplomat) {
       /* Found no target or city already considered */
@@ -192,7 +195,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     /* Probability to lose our unit */
     p_failure = (unit_type_flag(u, F_SPY) ? 100 - p_success : 100);
 
-    time_to_dest = WARMAP_COST(acity->x, acity->y) / ut->move_rate;
+    time_to_dest /= ut->move_rate;
     time_to_dest *= (time_to_dest/2); /* No long treks, please */
 
     /* Almost kill_desire */
@@ -222,6 +225,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       choice->choice = u;
       acity->ai.already_considered_for_diplomat = TRUE;
     }
+    destroy_unit_virtual(punit);
   }
 }
 
@@ -300,96 +304,95 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
 
 /**************************************************************************
   Find a city to send diplomats against, or NULL if none available on
-  this continent. x,y are coordinates of diplomat or city which wishes
-  to build diplomats, and foul is TRUE if diplomat has done something bad
-  before.
-
-  Requires an initialized warmap!
+  this continent.  punit can be virtual.
 **************************************************************************/
-static struct city *find_city_to_diplomat(struct player *pplayer, int x,
-					  int y, bool foul)
+static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
+                                  struct city **ctarget, int *move_dist)
 {
   bool has_embassy;
   int incite_cost = 0; /* incite cost */
-  int move_cost = 0; /* move cost */
-  int best_dist = MAX(map.xsize, map.ysize);
-  int continent = map_get_continent(x, y);
   bool dipldef; /* whether target is protected by diplomats */
-  bool handicap = ai_handicap(pplayer, H_TARGETS);
-  struct city *ctarget = NULL;
 
-  players_iterate(aplayer) {
+  assert(punit != NULL);
+  *ctarget = NULL;
+  *move_dist = MAX(map.xsize, map.ysize);
+
+  simple_unit_path_iterator(punit, pos) {
+    struct city *acity = map_get_city(pos.x, pos.y);
+    struct player *aplayer;
+    bool can_incite;
+
+    if (!acity) {
+      continue;
+    }
+    aplayer = city_owner(acity);
+
     /* sneaky way of avoiding foul diplomat capture  -AJS */
-    has_embassy = player_has_embassy(pplayer, aplayer) || foul;
+    has_embassy = player_has_embassy(pplayer, aplayer) || punit->foul;
 
     if (aplayer == pplayer || is_barbarian(aplayer)
         || (pplayers_allied(pplayer, aplayer) && has_embassy)) {
       continue; 
     }
 
-    city_list_iterate(aplayer->cities, acity) {
-      bool can_incite
-        = !(city_got_building(acity, B_PALACE) ||
-            government_has_flag(get_gov_pplayer(aplayer), G_UNBRIBABLE));
+    can_incite = !(city_got_building(acity, B_PALACE)
+                   || government_has_flag(get_gov_pplayer(aplayer), 
+                                          G_UNBRIBABLE));
 
-      if (handicap && !map_get_known(acity->x, acity->y, pplayer)) { 
-        /* Target is not visible */
-        continue; 
-      }
-      if (continent != map_get_continent(acity->x, acity->y)) { 
-        /* Diplomats don't do sea travel yet */
-        continue; 
-      }
-
-      incite_cost = city_incite_cost(pplayer, acity);
-      move_cost = WARMAP_COST(acity->x, acity->y);
-      dipldef = (count_diplomats_on_tile(acity->x, acity->y) > 0);
-      /* Three actions to consider:
-       * 1. establishing embassy OR
-       * 2. stealing techs OR
-       * 3. inciting revolt */
-      if ((!ctarget || best_dist > move_cost) 
-          && (!has_embassy
-              || (acity->steal == 0 && pplayer->research.techs_researched < 
-                  city_owner(acity)->research.techs_researched && !dipldef)
-              || (incite_cost < (pplayer->economic.gold - pplayer->ai.est_upkeep)
-                  && can_incite && !dipldef))) {
-        /* We have the closest enemy city so far on the same continent */
-        ctarget = acity;
-        best_dist = move_cost;
-      }
-    } city_list_iterate_end;
-  } players_iterate_end;
-
-  return ctarget;
+    incite_cost = city_incite_cost(pplayer, acity);
+    dipldef = (count_diplomats_on_tile(acity->x, acity->y) > 0);
+    /* Three actions to consider:
+     * 1. establishing embassy OR
+     * 2. stealing techs OR
+     * 3. inciting revolt */
+    if ((!*ctarget || *move_dist > pos.total_MC)
+        && (!has_embassy
+            || (acity->steal == 0 && pplayer->research.techs_researched < 
+                city_owner(acity)->research.techs_researched && !dipldef)
+            || (incite_cost < (pplayer->economic.gold - pplayer->ai.est_upkeep)
+                && can_incite && !dipldef))) {
+      /* We have the closest enemy city so far on the same continent */
+      *ctarget = acity;
+      *move_dist = pos.total_MC;
+    }
+  } simple_unit_path_iterator_end;
 }
 
 /**************************************************************************
   Go to nearest/most threatened city (can be the current city too).
-
-  Requires an initialized warmap!
 **************************************************************************/
-static struct city *ai_diplomat_defend(struct player *pplayer, int x, int y,
+static struct city *ai_diplomat_defend(struct player *pplayer,
+                                       struct unit *punit,
                                        Unit_Type_id utype)
 {
-  int dist, urgency;
   int best_dist = 30; /* any city closer than this is better than none */
   int best_urgency = 0;
   struct city *ctarget = NULL;
-  int continent = map_get_continent(x, y);
+  struct city *pcity = map_get_city(punit->x, punit->y);
 
-  city_list_iterate(pplayer->cities, acity) {
-    int dipls;
+  if (pcity 
+      && count_diplomats_on_tile(pcity->x, pcity->y) == 1
+      && pcity->ai.urgency > 0) {
+    /* Danger and we are only diplomat present - stay. */
+    return pcity;
+  }
 
-    if (continent != map_get_continent(acity->x, acity->y)) {
+  simple_unit_path_iterator(punit, pos) {
+    struct city *acity = map_get_city(pos.x, pos.y);
+    struct player *aplayer;
+    int dipls, urgency;
+
+    if (!acity) {
+      continue;
+    }
+    aplayer = city_owner(acity);
+    if (aplayer != pplayer) {
       continue;
     }
 
-    /* No urgency -- no bother */
     urgency = acity->ai.urgency;
-    /* How many diplomats in acity (excluding ourselves) */
-    dipls = (count_diplomats_on_tile(acity->x, acity->y) 
-             - (same_pos(x, y, acity->x, acity->y) ? 1 : 0));
+    dipls = (count_diplomats_on_tile(pos.x, pos.y)
+             - (same_pos(pos.x, pos.y, punit->x, punit->y) ? 1 : 0));
     if (dipls == 0 && acity->ai.diplomat_threat) {
       /* We are _really_ needed there */
       urgency = (urgency + 1) * 5;
@@ -398,11 +401,10 @@ static struct city *ai_diplomat_defend(struct player *pplayer, int x, int y,
       urgency /= 3;
     }
 
-    dist = WARMAP_COST(acity->x, acity->y);
     /* This formula may not be optimal, but it works. */
-    if (dist > best_dist) {
+    if (pos.total_MC > best_dist) {
       /* punish city for being so far away */
-      urgency /= (float)(dist/best_dist);
+      urgency /= (float)(pos.total_MC / best_dist);
     }
 
     if (urgency > best_urgency) {
@@ -410,91 +412,62 @@ static struct city *ai_diplomat_defend(struct player *pplayer, int x, int y,
       ctarget = acity;
       best_urgency = urgency;
       /* squelch divide-by-zero */
-      best_dist = MAX(dist,1);
+      best_dist = MAX(pos.total_MC, 1);
     }
-  } city_list_iterate_end;
+  } simple_unit_path_iterator_end;
+
   return ctarget;
 }
 
 /**************************************************************************
   Find units that we can reach, and bribe them. Returns TRUE if survived
   the ordeal, FALSE if not or we expended all our movement.
-
-  Requires an initialized warmap!  Might move the unit!
+  Will try to bribe a ship on the coast as well as land stuff.
 **************************************************************************/
 static bool ai_diplomat_bribe_nearby(struct player *pplayer, 
                                      struct unit *punit)
 {
   struct packet_diplomat_action packet;
-  int move_rate = punit->moves_left;
-  struct unit *pvictim;
-  struct tile *ptile;
   int gold_avail = pplayer->economic.gold - pplayer->ai.est_upkeep;
-  int cost, destx, desty;
-  bool threat = FALSE;
-  int sanity = punit->id;
 
-  /* Check ALL possible targets */
-  whole_map_iterate(x, y) {
-    ptile = map_get_tile(x, y);
-    if (WARMAP_COST(x, y) > move_rate && !is_ocean(ptile->terrain)) {
-      /* Can't get there */
+  simple_unit_overlap_path_iterator(punit, pos) {
+    struct tile *ptile = map_get_tile(pos.x, pos.y);
+    bool threat = FALSE;
+    int newval, bestval = 0, cost;
+    struct unit *pvictim = unit_list_get(&ptile->units, 0);
+    int sanity = punit->id;
+
+    if (pos.total_MC > punit->moves_left) {
+      /* Didn't find anything within range. */
+      break;
+    }
+
+    if (!pvictim
+        || !pplayers_at_war(pplayer, unit_owner(pvictim))
+        || unit_list_size(&ptile->units) > 1
+        || map_get_city(pos.x, pos.y)
+        || government_has_flag(get_gov_pplayer(unit_owner(pvictim)),
+                               G_UNBRIBABLE)) {
       continue;
     }
-    destx = x;
-    desty = y;
-    if (is_ocean(ptile->terrain)) {
-      /* Try to bribe a ship on the coast */
-      int best = 9999;
-      adjc_iterate(x, y, x2, y2) {
-        if (best > WARMAP_COST(x2, y2)) {
-          best = WARMAP_COST(x2, y2);
-          destx = x2;
-          desty = y2;
-        }
-      } adjc_iterate_end;
-      if (best >= move_rate) {
-        /* Can't get there, either */
-        continue;
-      }
-    }
-    pvictim = unit_list_get(&ptile->units, 0);
-    if (!pvictim || !pplayers_at_war(pplayer, unit_owner(pvictim))) {
-      continue;
-    }
-    if (unit_list_size(&ptile->units) > 1) {
-      /* Can't do a stack */
-      continue;
-    }
-    if (map_get_city(x, y)) {
-      /* Can't do city */
-      continue;
-    }
-    if (government_has_flag(get_gov_pplayer(unit_owner(pvictim)), 
-                            G_UNBRIBABLE)) {
-      /* Can't bribe */
-      continue;
-    }
+
     /* Calculate if enemy is a threat */
-    {
-      /* First find best defender on our tile */
-      int newval, bestval = 0;
-      unit_list_iterate(ptile->units, aunit) {
-        newval = DEFENCE_POWER(aunit);
-        if (bestval < newval) {
-          bestval = newval;
-        }
-      } unit_list_iterate_end;
-      /* Compare with victim's attack power */
-      newval = ATTACK_POWER(pvictim);
-      if (newval > bestval 
-          && unit_type(pvictim)->move_rate > WARMAP_COST(x, y)) {
-        /* Enemy can probably kill us */
-        threat = TRUE;
-      } else {
-        /* Enemy cannot reach us or probably not kill us */
-        threat = FALSE;
+    /* First find best defender on our tile */
+    unit_list_iterate(ptile->units, aunit) {
+      newval = DEFENCE_POWER(aunit);
+      if (bestval < newval) {
+        bestval = newval;
       }
+    } unit_list_iterate_end;
+    /* Compare with victim's attack power */
+    newval = ATTACK_POWER(pvictim);
+    if (newval > bestval
+        && unit_type(pvictim)->move_rate > pos.total_MC) {
+      /* Enemy can probably kill us */
+      threat = TRUE;
+    } else {
+      /* Enemy cannot reach us or probably not kill us */
+      threat = FALSE;
     }
     /* Don't bribe settlers! */
     if (unit_flag(pvictim, F_SETTLERS)
@@ -511,13 +484,21 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       /* Can't afford */
       continue;
     }
+
     /* Found someone! */
-    if (!ai_unit_goto(punit, destx, desty) || punit->moves_left <= 0) {
-      return FALSE;
+    {
+      int x, y;
+
+      MAPSTEP(x, y, pos.x, pos.y, DIR_REVERSE(pos.dir_to_here));
+
+      if (!ai_unit_goto(punit, x, y) || punit->moves_left <= 0) {
+        return FALSE;
+      }
     }
-    if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, x, y)) {
+
+    if (diplomat_can_do_action(punit, DIPLOMAT_BRIBE, pos.x, pos.y)) {
       packet.diplomat_id = punit->id;
-      packet.target_id = pvictim->id;
+      packet.target_id = unit_list_get(&ptile->units, 0)->id;
       packet.action_type = DIPLOMAT_BRIBE;
       handle_diplomat_action(pplayer, &packet);
       /* autoattack might kill us as we move in */
@@ -528,10 +509,11 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       }
     } else {
       /* usually because we ended move early due to another unit */
-      UNIT_LOG(LOG_DIPLOMAT, punit, "could not bribe target "
-               " (%d, %d), %d moves left", x, y, punit->moves_left);
+      UNIT_LOG(LOG_DIPLOMAT, punit, "could not bribe target (%d, %d), "
+               " %d moves left", pos.x, pos.y, punit->moves_left);
+      return FALSE;
     }
-  } whole_map_iterate_end;
+  } simple_unit_overlap_path_iterator_end;
 
   return (punit->moves_left > 0);
 }
@@ -553,15 +535,12 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   CHECK_UNIT(punit);
 
   pcity = map_get_city(punit->x, punit->y);
-  generate_warmap(pcity, punit);
 
   /* Look for someone to bribe */
   if (!ai_diplomat_bribe_nearby(pplayer, punit)) {
     /* Died or ran out of moves */
     return;
   }
-  /* Note that the warmap may now be slightly wrong, but we
-   * don't care, its accuracy is good enough for our purposes */
 
   /* If we are the only diplomat in a threatened city, then stay to defend */
   pcity = map_get_city(punit->x, punit->y); /* we may have moved */
@@ -608,13 +587,15 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   /* If we are not busy, acquire a target. */
   if (punit->ai.ai_role == AIUNIT_NONE) {
     enum ai_unit_task task;
+    int move_dist; /* dummy */
 
-    if ((ctarget = find_city_to_diplomat(pplayer, punit->x, punit->y, 
-                                         punit->foul)) != NULL) {
+    find_city_to_diplomat(pplayer, punit, &ctarget, &move_dist);
+
+    if (ctarget) {
       task = AIUNIT_ATTACK;
       punit->ai.bodyguard = -1; /* want one */
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
-    } else if ((ctarget = ai_diplomat_defend(pplayer, punit->x, punit->y,
+    } else if ((ctarget = ai_diplomat_defend(pplayer, punit,
                                              punit->type)) != NULL) {
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going defensive");
@@ -653,10 +634,9 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     int dist = real_map_distance(punit->x, punit->y,
                                  punit->goto_dest_x,
                                  punit->goto_dest_y);
-    UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s (%s goto)"
-             "[%d mc]", dist, ctarget ? ctarget->name : "(none)", 
-             punit->activity == ACTIVITY_GOTO ? "has" : "no",
-             WARMAP_COST(punit->goto_dest_x, punit->goto_dest_y));
+    UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s (%s goto)",
+             dist, ctarget ? ctarget->name : "(none)", 
+             punit->activity == ACTIVITY_GOTO ? "has" : "no");
     if (dist == 1) {
       /* Do our stuff */
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
