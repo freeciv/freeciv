@@ -2012,9 +2012,9 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
     if (!pplayer && !pconn->observer) continue;
-    if (!pplayer
-	|| map_get_known_and_seen(info.x, info.y, pplayer)
-	|| map_get_known_and_seen(x, y, pplayer)) {
+    if (!pplayer || ((map_get_known_and_seen(info.x, info.y, pplayer)
+		      || map_get_known_and_seen(x, y, pplayer))
+		     && player_can_see_unit(pplayer, punit))) {
       send_packet_unit_info(pconn, &info);
     }
   }

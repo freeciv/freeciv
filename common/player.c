@@ -231,29 +231,31 @@ struct player *find_player_by_user(char *name)
 }
 
 /***************************************************************
-no map visibility check here!
+  Returns TRUE iff the player can see the unit. No map visibility
+  check here! Allied units and cities can be used for sub hunting.
 ***************************************************************/
 bool player_can_see_unit(struct player *pplayer, struct unit *punit)
 {
-  if (pplayers_allied(unit_owner(punit), pplayer))
-    return TRUE;
-  if (is_hiding_unit(punit)) {
-    /* Search for units/cities that might be able to see the sub/missile */
-    struct city *pcity;
-    square_iterate(punit->x, punit->y, 1, x, y) {
-      unit_list_iterate(map_get_tile(x, y)->units, punit2) {
-	if (pplayers_allied(unit_owner(punit2), pplayer))
-	  return TRUE;
-      } unit_list_iterate_end;
-
-      pcity = map_get_city(x, y);
-      if (pcity && (pplayers_allied(city_owner(pcity), pplayer)))
-	return TRUE;
-    } square_iterate_end;
-    return FALSE;
-  } else {
+  if (pplayers_allied(unit_owner(punit), pplayer)
+      || !is_hiding_unit(punit)) {
     return TRUE;
   }
+
+  /* Search for units/cities that might be able to see the sub/missile */
+  adjc_iterate(punit->x, punit->y, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+    unit_list_iterate(map_get_tile(x1, y1)->units, punit2) {
+      if (pplayers_allied(unit_owner(punit2), pplayer)) {
+	return TRUE;
+      }
+    } unit_list_iterate_end;
+
+    if (pcity && pplayers_allied(city_owner(pcity), pplayer)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
 }
 
 /***************************************************************

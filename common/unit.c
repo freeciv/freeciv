@@ -392,25 +392,16 @@ bool is_field_unit(struct unit *punit)
 
 
 /**************************************************************************
-  Is the unit one that is invisible on the map, which is currently limited
-  to subs and missiles in subs.
-  FIXME: this should be made more general: does not handle cargo units
-  on an invisible transport, or planes on invisible carrier.
+  Is the unit one that is invisible on the map. A unit is invisible if
+  it has the F_PARTIAL_INVIS flag or if it transported by a unit with
+  this flag.
 **************************************************************************/
 bool is_hiding_unit(struct unit *punit)
 {
-  if(unit_flag(punit, F_PARTIAL_INVIS)) return TRUE;
-  if(unit_flag(punit, F_MISSILE)) {
-    if(map_get_terrain(punit->x, punit->y)==T_OCEAN) {
-      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-	if(unit_flag(punit2, F_PARTIAL_INVIS)
-	   && unit_flag(punit2, F_MISSILE_CARRIER)) {
-	  return TRUE;
-	}
-      } unit_list_iterate_end;
-    }
-  }
-  return FALSE;
+  struct unit *transporter = find_unit_by_id(punit->transported_by);
+
+  return (unit_flag(punit, F_PARTIAL_INVIS)
+	  || (transporter && unit_flag(transporter, F_PARTIAL_INVIS)));
 }
 
 /**************************************************************************
