@@ -23,6 +23,10 @@ may_transform=1      ; 0 means no, 1 means yes
 
 [parameters]
 
+; number of "land" tiles required to be adjacent to an ocean tile before
+; it may be "reclaimed" into a land tile (0-9; 0=anywhere, 9=nowhere)
+ocean_reclaim_requirement=3
+
 ; special movement costs for rivers:
 ;   0 - normal movement cost for rivers (matches Civ1)
 ;   1 - 1/3 movement cost, but only when moving exactly along rivers,
@@ -412,8 +416,8 @@ irrigation_time      = 0
 mining_result        = "no"
 mining_shield_incr   = 0
 mining_time          = 0
-transform_result     = "no"
-transform_time       = 0
+transform_result     = "Swamp"
+transform_time       = 36
 helptext	     = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\

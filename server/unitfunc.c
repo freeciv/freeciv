@@ -1747,6 +1747,50 @@ static int total_activity_targeted (int x, int y,
 }
 
 /**************************************************************************
+  For each city adjacent to (x,y), check if landlocked.  If so, sell all
+  improvements in the city that depend upon being next to an ocean tile.
+  (Should be called after any terrain changes.  Assumes no city at (x,y).)
+**************************************************************************/
+static void city_landlocked_sell_coastal_improvements(int x, int y)
+{
+  /* FIXME: this should come from buildings.ruleset */
+  static int coastal_improvements[] =
+  {
+    B_HARBOUR,
+    B_PORT,
+    B_COASTAL,
+    B_OFFSHORE
+  };
+  #define coastal_improvements_count \
+    (sizeof(coastal_improvements)/sizeof(coastal_improvements[0]))
+
+  int i, j, k;
+  struct city *pcity;
+  struct player *pplayer;
+
+  for (i=-1; i<=1; i++) {
+    for (j=-1; j<=1; j++) {
+      if ((i || j) &&
+	  (pcity = map_get_city(x+i, y+j)) &&
+	  (!(is_terrain_near_tile(x+i, y+j, T_OCEAN)))) {
+	pplayer = city_owner(pcity);
+	for (k=0; k<coastal_improvements_count; k++) {
+	  if (city_got_building(pcity, coastal_improvements[k])) {
+	    do_sell_building(pplayer, pcity, coastal_improvements[k]);
+	    notify_player_ex(pplayer, x+i, y+j, E_IMP_SOLD,
+			     _("Game: You sell %s in %s (now landlocked)"
+			       " for %d credits."),
+			     get_improvement_name(coastal_improvements[k]),
+			     pcity->name,
+			     improvement_value(coastal_improvements[k]));
+	  }
+	}
+      }
+    }
+  }
+}
+
+/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -1772,8 +1816,6 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     punit->activity_count = 0;
     do_unit_goto (pplayer, punit, get_activity_move_restriction(activity));
   }
-
-
 
   /* if connecting, automagically build prerequisities first */
   if (punit->connecting && activity == ACTIVITY_RAILROAD &&
@@ -1842,6 +1884,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     if (total_activity (punit->x, punit->y, ACTIVITY_IRRIGATE) >=
         map_build_irrigation_time(punit->x, punit->y)) {
       map_irrigate_tile(punit->x, punit->y);
+      city_landlocked_sell_coastal_improvements(punit->x, punit->y);
       unit_activity_done = 1;
     }
   }
@@ -1866,6 +1909,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     if (total_activity (punit->x, punit->y, ACTIVITY_MINE) >=
         map_build_mine_time(punit->x, punit->y)) {
       map_mine_tile(punit->x, punit->y);
+      city_landlocked_sell_coastal_improvements(punit->x, punit->y);
       unit_activity_done = 1;
     }
   }
@@ -1874,6 +1918,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
     if (total_activity (punit->x, punit->y, ACTIVITY_TRANSFORM) >=
         map_transform_time(punit->x, punit->y)) {
       map_transform_tile(punit->x, punit->y);
+      city_landlocked_sell_coastal_improvements(punit->x, punit->y);
       unit_activity_done = 1;
     }
   }

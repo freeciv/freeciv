@@ -1380,6 +1380,7 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
   terrain_control.may_irrigate = p->may_irrigate;
   terrain_control.may_mine = p->may_mine;
   terrain_control.may_transform = p->may_transform;
+  terrain_control.ocean_reclaim_requirement = p->ocean_reclaim_requirement;
   terrain_control.river_move_mode = p->river_move_mode;
   terrain_control.river_defense_bonus = p->river_defense_bonus;
   terrain_control.river_trade_incr = p->river_trade_incr;

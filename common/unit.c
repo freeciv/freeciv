@@ -411,23 +411,6 @@ void transporter_min_cargo_to_unitlist(struct unit *ptran,
 /**************************************************************************
 ...
 **************************************************************************/
-void move_unit_list_to_tile(struct unit_list *units, int x, int y)
-{
-  struct genlist_iterator myiter;
-  
-  genlist_iterator_init(&myiter, &units->list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct unit *punit=(struct unit *)ITERATOR_PTR(myiter);
-    punit->x=x;
-    punit->y=y;
-    unit_list_insert_back(&map_get_tile(x, y)->units, punit);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 int get_transporter_capacity(struct unit *punit)
 {
   return unit_types[punit->type].transport_capacity;
@@ -639,6 +622,9 @@ char *unit_name(Unit_Type_id id)
   return (unit_types[id].name);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 struct unit_type *get_unit_type(Unit_Type_id id)
 {
   return &unit_types[id];
@@ -788,6 +774,9 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
   return id;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int unit_upgrade_price(struct player *pplayer, Unit_Type_id from, Unit_Type_id to)
 {
   int total, build;
@@ -839,7 +828,6 @@ int can_unit_do_connect (struct unit *punit, enum unit_activity activity)
 /**************************************************************************
 Return name of activity in static buffer
 **************************************************************************/
-
 char* get_activity_text (int activity)
 {
   char *text;
@@ -900,6 +888,34 @@ int can_unit_paradropped(struct unit *punit)
 }
 
 /**************************************************************************
+This function returns true if the tile at the given location can be
+"reclaimed" from ocean into land.  This is the case only when there are
+a sufficient number of adjacent tiles that are not ocean.
+**************************************************************************/
+static int can_reclaim_ocean(int x, int y)
+{
+  int i, j, landtiles;
+
+  if (terrain_control.ocean_reclaim_requirement >= 9)
+    return 0;
+
+  landtiles = 0;
+  for (i = -1; i <= 1; i++) {
+    for (j = -1; j <= 1; j++) {
+      if (i || j) {
+	if (map_get_tile(x+i, y+j)->terrain != T_OCEAN) {
+	  landtiles++;
+	}
+	if (landtiles >= terrain_control.ocean_reclaim_requirement)
+	  return 1;
+      }
+    }
+  }
+
+  return 0;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
@@ -913,28 +929,25 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 int can_unit_do_activity_targeted(struct unit *punit,
 				  enum unit_activity activity, int target)
 {
+  struct player *pplayer;
   struct tile *ptile;
   struct tile_type *type;
-  struct player *pplayer;
-  pplayer = &game.players[punit->owner];
-  
-  ptile=map_get_tile(punit->x, punit->y);
-  type=get_tile_type(ptile->terrain);
-  
-  if(activity==ACTIVITY_IDLE)
-    return 1;
 
-  if (activity == ACTIVITY_EXPLORE) /* added 980803 by Syela */
-    return (is_ground_unit(punit) || is_sailing_unit(punit));
+  pplayer = &game.players[punit->owner];
+  ptile = map_get_tile(punit->x, punit->y);
+  type = get_tile_type(ptile->terrain);
 
   switch(activity) {
+  case ACTIVITY_IDLE:
+    return 1;
+
   case ACTIVITY_POLLUTION:
     return unit_flag(punit->type, F_SETTLERS) && (ptile->special&S_POLLUTION);
 
   case ACTIVITY_ROAD:
     return terrain_control.may_road &&
            unit_flag(punit->type, F_SETTLERS) &&
-           !(ptile->special&S_ROAD) && ptile->terrain!=T_OCEAN &&
+           !(ptile->special&S_ROAD) && type->road_time &&
 	   ((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER)) || 
 	    player_knows_techs_with_flag(pplayer, TF_BRIDGE));
 
@@ -943,7 +956,12 @@ int can_unit_do_activity_targeted(struct unit *punit,
      * *Do* allow it if they're transforming - the mine may survive */
     if (terrain_control.may_mine &&
 	unit_flag(punit->type, F_SETTLERS) &&
-	type->mining_result!=T_LAST && !(ptile->special&S_MINE)) {
+	( (ptile->terrain==type->mining_result && 
+	   !(ptile->special&S_MINE)) ||
+	  (ptile->terrain!=type->mining_result &&
+	   type->irrigation_result!=T_LAST &&
+	   (ptile->terrain!=T_OCEAN ||
+	    can_reclaim_ocean(punit->x, punit->y))) )) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_IRRIGATE) return 0;
       }
@@ -962,7 +980,9 @@ int can_unit_do_activity_targeted(struct unit *punit,
 	( (ptile->terrain==type->irrigation_result && 
 	   is_water_adjacent_to_tile(punit->x, punit->y)) ||
 	  (ptile->terrain!=type->irrigation_result &&
-	   type->irrigation_result!=T_LAST))) {
+	   type->irrigation_result!=T_LAST &&
+	   (ptile->terrain!=T_OCEAN ||
+	    can_reclaim_ocean(punit->x, punit->y))) )) {
       unit_list_iterate(ptile->units, tunit) {
 	if(tunit->activity==ACTIVITY_MINE) return 0;
       }
@@ -996,7 +1016,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
     return terrain_control.may_road &&
            unit_flag(punit->type, F_SETTLERS) &&
            ((ptile->special&S_ROAD) || (punit->connecting
-	    && (ptile->terrain!=T_OCEAN &&
+	    && (type->road_time &&
 		((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER))
 		 || player_knows_techs_with_flag(pplayer, TF_BRIDGE)))))
            && !(ptile->special&S_RAILROAD) &&
@@ -1018,10 +1038,15 @@ int can_unit_do_activity_targeted(struct unit *punit,
       }
     }
 
+  case ACTIVITY_EXPLORE:
+    return (is_ground_unit(punit) || is_sailing_unit(punit));
+
   case ACTIVITY_TRANSFORM:
     return terrain_control.may_transform &&
-           (ptile->terrain != T_OCEAN) &&
-           (ptile->terrain != T_RIVER) &&
+	   (type->transform_result!=T_LAST) &&
+	   (ptile->terrain!=type->transform_result) &&
+	   (ptile->terrain!=T_OCEAN ||
+	    can_reclaim_ocean(punit->x, punit->y)) &&
 	   unit_flag(punit->type, F_TRANSFORM);
 
   default:

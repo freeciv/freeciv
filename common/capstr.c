@@ -70,7 +70,8 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list"
+#define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
+ocean_reclamation"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -80,6 +81,9 @@ const char * const our_capability = our_capability_internal;
 
    "get_sabotage_list" is protocol extension for fetching an up-to-date
    list of improvements when a Spy is attempting sabotage in a city.
+
+   "ocean_reclamation" is protocol extension for allowing changing ocean
+   tiles into "land" (non-ocean) tiles.
 */
 
 void init_our_capability(void)

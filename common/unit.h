@@ -297,7 +297,6 @@ int utype_food_cost(struct unit_type *ut, struct government *g);
 int utype_happy_cost(struct unit_type *ut, struct government *g);
 int utype_gold_cost(struct unit_type *ut, struct government *g);
 
-void move_unit_list_to_tile(struct unit_list *units, int x, int y);
 void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list);
 void transporter_min_cargo_to_unitlist(struct unit *ptran,
 				       struct unit_list *list);

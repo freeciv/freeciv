@@ -2592,6 +2592,8 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->may_irrigate);
   cptr=put_uint8(cptr, packet->may_mine);
   cptr=put_uint8(cptr, packet->may_transform);
+  if (pc && has_capability("ocean_reclamation", pc->capability))
+    cptr=put_uint8(cptr, packet->ocean_reclaim_requirement);
   cptr=put_uint8(cptr, packet->river_move_mode);
   cptr=put_uint16(cptr, packet->river_defense_bonus);
   cptr=put_uint16(cptr, packet->river_trade_incr);
@@ -2629,6 +2631,10 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_uint8(&iter, &packet->may_irrigate);
   iget_uint8(&iter, &packet->may_mine);
   iget_uint8(&iter, &packet->may_transform);
+  if (pc && has_capability("ocean_reclamation", pc->capability))
+    iget_uint8(&iter, (int*)&packet->ocean_reclaim_requirement);
+  else
+    packet->ocean_reclaim_requirement = 9;
   iget_uint8(&iter, (int*)&packet->river_move_mode);
   iget_uint16(&iter, &packet->river_defense_bonus);
   iget_uint16(&iter, &packet->river_trade_incr);
