@@ -950,8 +950,8 @@ static void log_civ_score(void)
       fprintf(fp, "%s%s\n", scorelog_magic, VERSION_STRING);
       fprintf(fp, 
 	      "\n"
-	      "# For a specification of the format of this see doc/scorelog-v2 or \n"
-	      "# <http://www.freeciv.org/lxr/source/doc/scorelog-v2?v=cvs>.\n"
+	      "# For a specification of the format of this see doc/README.scorelog or \n"
+	      "# <http://www.freeciv.org/lxr/source/doc/README.scorelog?v=cvs>.\n"
 	      "\n");
 
       fprintf(fp, "id %s\n", game.id);
