@@ -1947,7 +1947,7 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   }
 
   notify_player(pplayer,
-		_("Game: The diplomatic state between %s and the %s is now %s."),
+		_("Game: The diplomatic state between the %s and the %s is now %s."),
 		get_nation_name_plural(pplayer->nation),
 		get_nation_name_plural(pplayer2->nation),
 		diplstate_text(new_type));
