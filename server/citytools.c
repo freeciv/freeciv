@@ -326,20 +326,17 @@ void eval_buildings(struct city *pcity,int *values)
   if (can_build_improvement(pcity, B_MARKETPLACE)) 
     values[B_MARKETPLACE]=pcity->trade_prod*200;
   
-  if (pcity->trade_prod > 15) 
+  if (pcity->trade_prod > 15) {
     if (can_build_improvement(pcity, B_BANK)) 
       values[B_BANK]=pcity->tax_total*100;
 
-    /* FIXME: I'm guessing this should really be included
-       in the above if(), like indentation/logic suggests?  --dwp */ 
     if (can_build_improvement(pcity, B_STOCK)) 
       values[B_STOCK]=pcity->tax_total*100;
+  }
 
-  /* FIXME: I think this should trigger on g->trade_bonus,
-     not G_IS_NICE --dwp */
-  if (government_has_hint(g, G_IS_NICE))
-    if (can_build_improvement(pcity, B_SUPERHIGHWAYS)) 
-      values[B_SUPERHIGHWAYS]=pcity->trade_prod*60;
+  if (g->trade_bonus > 0 && can_build_improvement(pcity, B_SUPERHIGHWAYS))
+    values[B_SUPERHIGHWAYS]=pcity->trade_prod*60;
+  
   if (can_build_improvement(pcity, B_COURTHOUSE)) {
     if (g->corruption_level) 
       values[B_COURTHOUSE]=pcity->corruption*100;
