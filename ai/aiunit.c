@@ -413,22 +413,24 @@ bool ai_manage_explorer(struct unit *punit)
       /* We can die because easy AI may stumble on huts and so disappear in the
        * wilderness - unit_id is used to check this */
       int unit_id = punit->id;
+      bool broken = TRUE; /* failed movement */
       
       /* Some tile have unexplored territory adjacent, let's move there. */
-      
-      if (!ai_unit_move(punit, best_x, best_y)) {
-        /* This shouldn't happen, but occassionally it can. */
-        break;
+
+      /* ai_unit_move for AI players, handle_unit_move_request for humans */
+      if ((pplayer->ai.control && ai_unit_move(punit, best_x, best_y))
+          || (handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE))) {
+        x = punit->x;
+        y = punit->y;
+        broken = FALSE;
       }
       
       if (!player_find_unit_by_id(pplayer, unit_id)) {
         /* We're dead. */
         return FALSE;
       }
-      
-      x = punit->x;
-      y = punit->y;
-      
+
+      if (broken) { break; } /* a move failed, so danger of endless loop */
     } else {
       /* Everything is already explored. */
       break;
