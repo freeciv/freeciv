@@ -805,22 +805,22 @@ bool tilespec_read_toplevel(const char *tileset_name)
    * entirely on the tileset, not the topology.  They are also in clockwise
    * rotational ordering. */
   num_valid_tileset_dirs = num_cardinal_tileset_dirs = 0;
-  num_index_valid = num_index_cardinal = 2;
   dir = DIR8_NORTH;
   do {
     if (is_valid_tileset_dir(dir)) {
       valid_tileset_dirs[num_valid_tileset_dirs] = dir;
-      num_index_valid *= 2;
       num_valid_tileset_dirs++;
     }
     if (is_cardinal_tileset_dir(dir)) {
       cardinal_tileset_dirs[num_cardinal_tileset_dirs] = dir;
-      num_index_cardinal *= 2;
       num_cardinal_tileset_dirs++;
     }
 
     dir = dir_cw(dir);
   } while (dir != DIR8_NORTH);
+  assert(num_valid_tileset_dirs % 2 == 0); /* Assumed elsewhere. */
+  num_index_valid = 1 << num_valid_tileset_dirs;
+  num_index_cardinal = 1 << num_cardinal_tileset_dirs;
 
   NORMAL_TILE_WIDTH = secfile_lookup_int(file, "tilespec.normal_tile_width");
   NORMAL_TILE_HEIGHT = secfile_lookup_int(file, "tilespec.normal_tile_height");
@@ -1281,23 +1281,37 @@ static void tilespec_lookup_sprite_tags(void)
       SET_SPRITE(rail.dir[i], buffer);
     }
   } else if (roadstyle == 1) {
+    int num_index = 1 << (num_valid_tileset_dirs / 2), j;
+
     /* Roadstyle 1 has 32 additional sprites for both road and rail:
      * 16 each for cardinal and diagonal directions.  Each set
      * of 16 provides a NSEW-indexed sprite to provide connectors for
      * all rails in the cardinal/diagonal directions.  The 0 entry is
      * unused (the "isolated" sprite is used instead). */
-    for(i=1; i<NUM_DIRECTION_NSEW; i++) {
-      my_snprintf(buffer, sizeof(buffer), "r.c_road_%s", nsew_str(i));
-      SET_SPRITE(road.cardinal[i], buffer);
 
-      my_snprintf(buffer, sizeof(buffer), "r.d_road_%s", nsew_str(i));
-      SET_SPRITE(road.diagonal[i], buffer);
+    for (i = 1; i < num_index; i++) {
+      char c[64] = "", d[64] = "";
 
-      my_snprintf(buffer, sizeof(buffer), "r.c_rail_%s", nsew_str(i));
-      SET_SPRITE(rail.cardinal[i], buffer);
+      for (j = 0; j < num_valid_tileset_dirs / 2; j++) {
+	int value = (i >> j) & 1;
 
-      my_snprintf(buffer, sizeof(buffer), "r.d_rail_%s", nsew_str(i));
-      SET_SPRITE(rail.diagonal[i], buffer);
+	snprintf(c + strlen(c), sizeof(c) - strlen(c), "%s%d",
+		 dir_get_tileset_name(valid_tileset_dirs[2 * j]), value);
+	snprintf(d + strlen(d), sizeof(d) - strlen(d), "%s%d",
+		 dir_get_tileset_name(valid_tileset_dirs[2 * j + 1]), value);
+      }
+
+      my_snprintf(buffer, sizeof(buffer), "r.c_road_%s", c);
+      SET_SPRITE(road.even[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "r.d_road_%s", d);
+      SET_SPRITE(road.odd[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "r.c_rail_%s", c);
+      SET_SPRITE(rail.even[i], buffer);
+
+      my_snprintf(buffer, sizeof(buffer), "r.d_rail_%s", d);
+      SET_SPRITE(rail.odd[i], buffer);
     }
   } else {
     /* Roadstyle 2 includes 256 sprites, one for every possibility.
@@ -2222,41 +2236,51 @@ static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
 
     /* First draw roads under rails. */
     if (road) {
-      int road_cardinal_tileno = INDEX_NSEW(draw_road[DIR8_NORTH],
-					    draw_road[DIR8_SOUTH],
-					    draw_road[DIR8_EAST],
-					    draw_road[DIR8_WEST]);
-      int road_diagonal_tileno = INDEX_NSEW(draw_road[DIR8_NORTHEAST],
-					    draw_road[DIR8_SOUTHWEST],
-					    draw_road[DIR8_SOUTHEAST],
-					    draw_road[DIR8_NORTHWEST]);
+      int road_even_tileno = 0, road_odd_tileno = 0, i;
 
-      /* Draw the cardinal roads first. */
-      if (road_cardinal_tileno != 0) {
-	ADD_SPRITE_SIMPLE(sprites.road.cardinal[road_cardinal_tileno]);
+      for (i = 0; i < num_valid_tileset_dirs / 2; i++) {
+	enum direction8 even = valid_tileset_dirs[2 * i];
+	enum direction8 odd = valid_tileset_dirs[2 * i + 1];
+
+	if (draw_road[even]) {
+	  road_even_tileno |= 1 << i;
+	}
+	if (draw_road[odd]) {
+	  road_odd_tileno |= 1 << i;
+	}
       }
-      if (road_diagonal_tileno != 0) {
-	ADD_SPRITE_SIMPLE(sprites.road.diagonal[road_diagonal_tileno]);
+
+      /* Draw the cardinal/even roads first. */
+      if (road_even_tileno != 0) {
+	ADD_SPRITE_SIMPLE(sprites.road.even[road_even_tileno]);
+      }
+      if (road_odd_tileno != 0) {
+	ADD_SPRITE_SIMPLE(sprites.road.odd[road_odd_tileno]);
       }
     }
 
     /* Then draw rails over roads. */
     if (rail) {
-      int rail_cardinal_tileno = INDEX_NSEW(draw_rail[DIR8_NORTH],
-					    draw_rail[DIR8_SOUTH],
-					    draw_rail[DIR8_EAST],
-					    draw_rail[DIR8_WEST]);
-      int rail_diagonal_tileno = INDEX_NSEW(draw_rail[DIR8_NORTHEAST],
-					    draw_rail[DIR8_SOUTHWEST],
-					    draw_rail[DIR8_SOUTHEAST],
-					    draw_rail[DIR8_NORTHWEST]);
+      int rail_even_tileno = 0, rail_odd_tileno = 0, i;
 
-      /* Draw the cardinal rails first. */
-      if (rail_cardinal_tileno != 0) {
-	ADD_SPRITE_SIMPLE(sprites.rail.cardinal[rail_cardinal_tileno]);
+      for (i = 0; i < num_valid_tileset_dirs / 2; i++) {
+	enum direction8 even = valid_tileset_dirs[2 * i];
+	enum direction8 odd = valid_tileset_dirs[2 * i + 1];
+
+	if (draw_rail[even]) {
+	  rail_even_tileno |= 1 << i;
+	}
+	if (draw_rail[odd]) {
+	  rail_odd_tileno |= 1 << i;
+	}
       }
-      if (rail_diagonal_tileno != 0) {
-	ADD_SPRITE_SIMPLE(sprites.rail.diagonal[rail_diagonal_tileno]);
+
+      /* Draw the cardinal/even rails first. */
+      if (rail_even_tileno != 0) {
+	ADD_SPRITE_SIMPLE(sprites.rail.even[rail_even_tileno]);
+      }
+      if (rail_odd_tileno != 0) {
+	ADD_SPRITE_SIMPLE(sprites.rail.odd[rail_odd_tileno]);
       }
     }
   } else {

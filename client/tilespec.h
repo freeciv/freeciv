@@ -83,6 +83,7 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
 /* This the way directional indices are now encoded: */
 #define NUM_DIRECTION_NSEW 		16
 #define MAX_INDEX_CARDINAL 		64
+#define MAX_INDEX_HALF                  16
 #define NUM_DIRECTION_CW		256
 
 #define BIT_NORTH (0x01)
@@ -194,8 +195,8 @@ struct named_sprites {
       /* for roadstyle 0 */
       *dir[8],     /* all entries used */
       /* for roadstyle 1 */
-      *cardinal[NUM_DIRECTION_NSEW],     /* first unused */
-      *diagonal[NUM_DIRECTION_NSEW],     /* first unused */
+      *even[MAX_INDEX_HALF],    /* first unused */
+      *odd[MAX_INDEX_HALF],     /* first unused */
       /* for roadstyle 0 and 1 */
       *isolated,
       *corner[NUM_DIRECTION_NSEW], /* only diagonal directions used */
