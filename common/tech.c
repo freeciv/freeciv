@@ -575,15 +575,28 @@ const char *get_tech_name(struct player *pplayer, Tech_Type_id tech)
 {
   static char buffer[200];
 
-  if (tech == A_NOINFO) {
+  switch (tech) {
+  case A_NOINFO:
     my_snprintf(buffer, sizeof(buffer), _("(Unknown)"));
-  } else if (!is_future_tech(tech)) {
-    assert(tech_exists(tech));
-    my_snprintf(buffer, sizeof(buffer), "%s", advances[tech].name);
-  } else {
+    break;
+  case A_UNSET:
+    my_snprintf(buffer, sizeof(buffer), _("None"));
+    break;
+  case A_FUTURE:
     my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
 		pplayer->future_tech + 1);
+    break;
+  default:
+    /* Includes A_NONE */
+    if (!tech_exists(tech)) {
+      assert(0);
+      my_snprintf(buffer, sizeof(buffer), _("(Unknown)"));
+    } else {
+      my_snprintf(buffer, sizeof(buffer), "%s", advances[tech].name);
+    }
+    break;
   }
+
   return buffer;
 }
 
