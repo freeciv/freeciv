@@ -45,6 +45,7 @@ data/civ1/buildings.ruleset
 data/default/governments.ruleset
 data/civ2/governments.ruleset
 data/civ1/governments.ruleset
+data/default/nations.ruleset
 data/default/techs.ruleset
 data/civ2/techs.ruleset
 data/civ1/techs.ruleset

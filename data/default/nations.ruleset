@@ -1,6 +1,6 @@
 
 ; Modifying this file:
-; You shouldn't modify this file except to make bugfixes or
+; You should not modify this file except to make bugfixes or
 ; for other "maintenance".  If you want to make custom changes
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
@@ -20,8 +20,8 @@ options="1.8.2"
 ; 
 ; name          = name of the nation
 ; plural        = plural form of the nation name
-; leader        = default leaders' names for the nation
-; leader_sex    = default leaders' sex: "Male" or "Female"
+; leader        = default leader names for the nation
+; leader_sex    = sex of each default leader: "Male" or "Female"
 ; flag		= string to look for in client tilespec files for 
 ;		  preferred flag icon
 ; flag_alt	= alternate flag icon string, or "-"
@@ -33,7 +33,7 @@ options="1.8.2"
 ; attack        = c 0 = optimize for food, 2 =  optimize for prod
 ;                 c0 = large amount of buildings, 2 = units
 ; expand        = c0 = transform first ,  2 = build cities first
-; civilized     = c 0 = don't use nukes,  2 = use nukes, lots of pollution
+; civilized     = c 0 = do not use nukes,  2 = use nukes, lots of pollution
 ; advisors      = some kind of advisors, not implemented anyway
 ; tech_goals    = technology goals, up to 10
 ; wonder        = primary wonder
@@ -49,8 +49,8 @@ options="1.8.2"
 
 [nation0]
 
-name="Roman"
-plural="Romans"
+name=_("Roman")
+plural=_("Romans")
 leader="Caesar", "August", "Livia", "Trajan", "Constantin"
 leader_sex="Male", "Male", "Female", "Male", "Male"
 flag = "f.italy"
@@ -86,8 +86,8 @@ cities =
 
 [nation1]
 
-name="Babylonian"
-plural="Babylonians"
+name=_("Babylonian")
+plural=_("Babylonians")
 leader="Hammurabi", "Sargon", "Nabuchadnezzar"
 leader_sex="Male", "Male", "Male"
 flag = "f.iraq_old"
@@ -114,8 +114,8 @@ cities =
 
 [nation2]
 
-name="German"
-plural="Germans"
+name=_("German")
+plural=_("Germans")
 leader="Frederick", "Otto", "Wilhelm"
 leader_sex="Male", "Male", "Male"
 flag="f.germany"
@@ -149,8 +149,8 @@ cities = "Frankfurt", "Mainz", "Trier", "Aachen", "Münster",
 
 [nation3]
 
-name="Egyptian"
-plural="Egyptians"
+name=_("Egyptian")
+plural=_("Egyptians")
 leader="Ramesses", "Cleopatra", "Tutanhamon", "Hatshepsut", "Nefertiti", "Cheops"
 leader_sex="Male", "Female", "Male", "Female", "Female", "Male"
 flag="f.egypt"
@@ -176,8 +176,8 @@ cities = "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe",
 
 [nation4]
 
-name="American"
-plural="Americans"
+name=_("American")
+plural=_("Americans")
 leader="Lincoln", "Washington", "Franklin D. Roosevelt",
        "J.F. Kennedy", "Eleonore Roosevelt"
 leader_sex="Male", "Male", "Male", "Male", "Female"
@@ -209,8 +209,8 @@ cities = "Washington", "New York", "Boston", "Philadelphia", "Los Angeles",
 
 [nation5]
 
-name="Greek"
-plural="Greeks"
+name=_("Greek")
+plural=_("Greeks")
 leader="Alexander", "Perikles", "Leonidas"
 leader_sex="Male", "Male", "Male"
 flag="f.greece"
@@ -242,8 +242,8 @@ cities = "Athenae", "Sparta", "Thebae", "Corinthus", "Byzantium",
 
 [nation6]
 
-name="Indian"
-plural="Indians"
+name=_("Indian")
+plural=_("Indians")
 leader="Gandhi", "Ashoka", "Chandragupta", "Indhira Gandhi"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.india"
@@ -267,8 +267,8 @@ cities = "Delhi", "Bombay", "Madras", "Bangalore", "Calcutta",
 
 [nation7]
 
-name="Russian"
-plural="Russians"
+name=_("Russian")
+plural=_("Russians")
 leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter the Great", "Anne"
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.russia"
@@ -295,8 +295,8 @@ cities = "Moskva", "Petersburg", "Tver", "Novgorod",
 
 [nation8]
 
-name="Zulu"
-plural="Zulus"
+name=_("Zulu")
+plural=_("Zulus")
 leader="Shaka"
 leader_sex="Male"
 flag="f.south_africa"
@@ -321,8 +321,8 @@ cities =
 
 [nation9]
 
-name="French"
-plural="French"
+name=_("French")
+plural=_("French")
 leader="Napoleon", "Louis XIV", "Charles de Gaulle"
 leader_sex="Male", "Male", "Male"
 flag="f.france"
@@ -347,8 +347,8 @@ cities = "Paris", "Lyon", "Marseille", "Lille", "Bordeaux",
 
 [nation10]
 
-name="Aztec"
-plural="Aztecs"
+name=_("Aztec")
+plural=_("Aztecs")
 leader="Montezuma", "Cuahtemoc", "Itzcoatl", "Axayacatl"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.mexico"
@@ -374,8 +374,8 @@ cities = "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",
 
 [nation11]
 
-name="Chinese"
-plural="Chinese"
+name=_("Chinese")
+plural=_("Chinese")
 leader="Mao", "Cixi"
 leader_sex="Male", "Female"
 flag="f.china"
@@ -400,8 +400,8 @@ cities = "Beijing", "Shanghai", "Guangzhou", "Nanjing", "Tianjin",
 
 [nation12]
 
-name="English"
-plural="English"
+name=_("English")
+plural=_("English")
 leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII", "Victoria"
 leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.united_kingdom"
@@ -426,8 +426,8 @@ cities = "London", "Birmingham", "Liverpool", "Manchester", "Leeds",
 
 [nation13]
 
-name="Mongol"
-plural="Mongols"
+name=_("Mongol")
+plural=_("Mongols")
 leader="Genghis", "Ogodei", "Timur", "Batu", "Tokhtamysh"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.mongolia"
@@ -452,8 +452,8 @@ cities = "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara",
 
 [nation14]
 
-name="Turk"
-plural="Turks"
+name=_("Turk")
+plural=_("Turks")
 leader="Kemal Atatürk", "Sulayman the Magnificient", "Osman", "Murad", "Selim", "Mehmed"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.turkey"
@@ -480,8 +480,8 @@ cities =
 
 [nation15]
 
-name="Spanish"
-plural="Spanish"
+name=_("Spanish")
+plural=_("Spanish")
 leader="Charles V", "Isabella", "Ferdinand", "Joanna", "Philip"
 leader_sex="Male", "Female", "Male", "Female", "Male"
 flag="f.spain"
@@ -506,8 +506,8 @@ cities =
 
 [nation16]
 
-name="Persian"
-plural="Persians"
+name=_("Persian")
+plural=_("Persians")
 leader="Cyrus", "Darius", "Xerxes", "Ardashir"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.iran"
@@ -533,8 +533,8 @@ cities = ;first are ancient cities in latin version
 
 [nation17]
 
-name="Arab"
-plural="Arabs"
+name=_("Arab")
+plural=_("Arabs")
 leader="Mohammad", "Umar", "Harun al-Rashid", "Saladin"
 leader_sex="Male", "Male", "Male", "Male"
 flag ="f.arab"
@@ -559,8 +559,8 @@ cities = ;Arab Peninsula and Near East
 
 [nation18]
 
-name="Carthaginian"
-plural="Carthaginians"
+name=_("Carthaginian")
+plural=_("Carthaginians")
 leader="Hannibal", "Hasdrubal", "Hamilcar", "Dido"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.tunisia"
@@ -587,8 +587,8 @@ cities = ;Ancient cities from Africa and south Spain,
 
 [nation19]
 
-name="Inca"
-plural="Incas"
+name=_("Inca")
+plural=_("Incas")
 leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.peru"
@@ -615,8 +615,8 @@ cities =
 
 [nation20]
 
-name="Viking"
-plural="Vikings"
+name=_("Viking")
+plural=_("Vikings")
 leader="Erik the Bloodaxe", "Harald" 
 leader_sex="Male", "Male"
 flag="f.norway"
@@ -646,8 +646,8 @@ cities =
 
 [nation21]
 
-name="Polish"
-plural="Polish"
+name=_("Polish")
+plural=_("Polish")
 leader="Mieszko", "Jadwiga", "Jan Sobieski"
 leader_sex="Male", "Female", "Male"
 flag="f.poland"
@@ -673,8 +673,8 @@ cities =
 
 [nation22]
 
-name="Hungarian"
-plural="Hungarians"
+name=_("Hungarian")
+plural=_("Hungarians")
 leader="Arpad", "Stephen", "Bela", "Mary", "Louis the Great"
 leader_sex="Male", "Male", "Male", "Female", "Male"
 flag="f.hungary"
@@ -698,8 +698,8 @@ cities =
 
 [nation23]
 
-name="Danish"
-plural="Danes"
+name=_("Danish")
+plural=_("Danes")
 leader="Valdemar", "Knut", "Margaret"
 leader_sex="Male", "Male", "Female"
 flag="f.denmark"
@@ -726,8 +726,8 @@ cities = "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers",
 
 [nation24]
 
-name="Dutch"
-plural="Dutch"
+name=_("Dutch")
+plural=_("Dutch")
 leader="Willem", "Beatrix"
 leader_sex="Male", "Female"
 flag="f.holland"
@@ -765,8 +765,8 @@ cities =
 
 [nation25]
 
-name="Swedish"
-plural="Swedish"
+name=_("Swedish")
+plural=_("Swedes")
 leader="Gustav Vasa", "Erik", "Karl", "Christine"
 leader_sex="Male", "Male", "Male", "Female"
 flag="f.sweden"
@@ -792,8 +792,8 @@ cities =
 
 [nation26]
 
-name="Japanese"
-plural="Japanese"
+name=_("Japanese")
+plural=_("Japanese")
 leader="Mutsuhito", "Jimmu Tenno", "Hirohito", "Tokugawa Ieyasu"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.japan"
