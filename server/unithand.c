@@ -879,6 +879,15 @@ int handle_unit_enter_hut(struct unit *punit)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static void how_to_declare_war(struct player *pplayer)
+{
+  notify_player_ex(pplayer, -1, -1, E_NOEVENT,
+		   _("Game: Cancel treaty in the players dialog first (F3)."));
+}
+
+/**************************************************************************
   Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
   could be done, false if it couldn't for some reason.
   
@@ -982,6 +991,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 		       unit_owner(pdefender)->name,
 		       pcity->name,
 		       city_owner(pcity)->name);
+      how_to_declare_war(pplayer);
       return 0;
     }
 
@@ -1039,6 +1049,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: No war declared against %s, cannot attack."),
 		     game.players[pdefender->owner].name);
+    how_to_declare_war(pplayer);
     return 0;
   }
 
@@ -1084,6 +1095,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 		       _("Game: No war declared against %s, cannot take "
 			 "over city."),
 		       game.players[pcity->owner].name);
+      how_to_declare_war(pplayer);
       return 0;
     }
   }
