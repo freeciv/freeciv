@@ -1972,18 +1972,20 @@ void server_set_worker_city(struct city *pcity, int city_x, int city_y)
 }
 
 /**************************************************************************
-Wrapper.
-You need to call sync_cities for the affected cities to be synced with the
-client.
+Wrapper (using map positions) for update_city_tile_status (which uses
+city map positions).
+
+You need to call sync_cities for the affected cities to be synced with
+the client.
 **************************************************************************/
-void update_city_tile_status_map(struct city *pcity, int map_x, int map_y)
+bool update_city_tile_status_map(struct city *pcity, int map_x, int map_y)
 {
   int city_x, city_y;
   bool is_valid;
 
   is_valid = map_to_city_map(&city_x, &city_y, pcity, map_x, map_y);
   assert(is_valid);
-  update_city_tile_status(pcity, city_x, city_y);
+  return update_city_tile_status(pcity, city_x, city_y);
 }
 
 /**************************************************************************
@@ -1991,11 +1993,14 @@ Updates the worked status of a tile.
 city_x, city_y is in city map coords.
 You need to call sync_cities for the affected cities to be synced with the
 client.
+
+Returns TRUE iff a tile got available.
 **************************************************************************/
-void update_city_tile_status(struct city *pcity, int city_x, int city_y)
+bool update_city_tile_status(struct city *pcity, int city_x, int city_y)
 {
   enum city_tile_type current;
   bool is_available;
+  bool result = FALSE;
 
   assert(is_valid_city_coords(city_x, city_y));
 
@@ -2008,12 +2013,14 @@ void update_city_tile_status(struct city *pcity, int city_x, int city_y)
       server_set_tile_city(pcity, city_x, city_y, C_TILE_UNAVAILABLE);
       add_adjust_workers(pcity); /* will place the displaced */
       city_refresh(pcity);
+      send_city_info(NULL, pcity);
     }
     break;
 
   case C_TILE_UNAVAILABLE:
     if (is_available) {
       server_set_tile_city(pcity, city_x, city_y, C_TILE_EMPTY);
+      result = TRUE;
     }
     break;
 
@@ -2023,6 +2030,8 @@ void update_city_tile_status(struct city *pcity, int city_x, int city_y)
     }
     break;
   }
+
+  return result;
 }
 
 /**************************************************************************

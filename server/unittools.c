@@ -2938,15 +2938,18 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
   /* First check cities near the source. */
   map_city_radius_iterate(src_x, src_y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-    if (pcity) {
-      update_city_tile_status_map(pcity, src_x, src_y);
+
+    if (pcity && update_city_tile_status_map(pcity, src_x, src_y)) {
+      auto_arrange_workers(pcity);
+      send_city_info(NULL, pcity);
     }
   } map_city_radius_iterate_end;
   /* Then check cities near the destination. */
   map_city_radius_iterate(dest_x, dest_y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-    if (pcity) {
-      update_city_tile_status_map(pcity, dest_x, dest_y);
+    if (pcity && update_city_tile_status_map(pcity, dest_x, dest_y)) {
+      auto_arrange_workers(pcity);
+      send_city_info(NULL, pcity);
     }
   } map_city_radius_iterate_end;
   sync_cities();
