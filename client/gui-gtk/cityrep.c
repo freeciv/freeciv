@@ -404,6 +404,9 @@ void create_city_report_dialog(int make_modal)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->vbox ),
         scrolled, TRUE, TRUE, 0 );
 
+  for (i=0;i<NUM_CREPORT_COLS;i++)
+    gtk_clist_set_column_auto_resize (GTK_CLIST (city_list), i, TRUE);
+
   close_command		= gtk_accelbutton_new("C_lose", accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         close_command, TRUE, TRUE, 0 );

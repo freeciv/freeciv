@@ -115,7 +115,6 @@ void gui_server_connect(void)
   GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update, *label2;
   char *titles[6]= {"Server Name", "Port", "Version", "Status", "Players",
 		    "Comment"};
-  int   widths[6]= {100, 30, 40, 35, 50, 20};
   char buf [256];
   int i;
 
@@ -192,7 +191,7 @@ void gui_server_connect(void)
   gtk_clist_column_titles_passive(GTK_CLIST(list));
 
   for(i=0; i<6; i++)
-    gtk_clist_set_column_width(GTK_CLIST(list), i, widths[i]);
+    gtk_clist_set_column_auto_resize(GTK_CLIST(list), i, TRUE);
 
   scrolled=gtk_scrolled_window_new(NULL,NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), list);
@@ -235,7 +234,7 @@ void gui_server_connect(void)
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
   gtk_widget_show_all(GTK_DIALOG(dialog)->action_area);
 
-  gtk_widget_set_usize(dialog, 400, 200);
+  gtk_widget_set_usize(dialog, 450, 200);
   gtk_set_relative_position(toplevel, dialog, 50, 50);
   gtk_widget_show(dialog);
 }

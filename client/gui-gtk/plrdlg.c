@@ -68,9 +68,7 @@ void popup_players_dialog(void)
 void create_players_dialog(void)
 {
   gchar *titles	[ 6] = { "Name", "Race", "Embassy", "State", "Host", "Idle" };
-  gint   widths	[13] = { 90, 60, 50, 50, 110, 90 };
   int    i;
-  GtkWidget *scrolled;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
   players_dialog_shell = gtk_dialog_new();
@@ -82,17 +80,12 @@ void create_players_dialog(void)
 
   players_list=gtk_clist_new_with_titles(6, titles);
   gtk_clist_column_titles_passive(GTK_CLIST(players_list));
-  scrolled=gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled),players_list);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(scrolled, 500, 150);
 
   for(i=0; i<6; i++)
-    gtk_clist_set_column_width(GTK_CLIST(players_list), i, widths[i]);
+    gtk_clist_set_column_auto_resize (GTK_CLIST (players_list), i, TRUE);
 
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox),
-	scrolled, TRUE, TRUE, 0);
+	players_list, TRUE, TRUE, 0);
 
   players_close_command=gtk_accelbutton_new("C_lose", accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
