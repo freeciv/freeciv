@@ -108,7 +108,7 @@ static void ai_start_turn(void);
 static bool is_game_over(void);
 static void save_game_auto(void);
 static void generate_ai_players(void);
-static int mark_nation_as_used(int nation);
+static void mark_nation_as_used(Nation_Type_id nation);
 static void announce_ai_player(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static void srv_loop(void);
@@ -131,11 +131,8 @@ bool nocity_send = FALSE;
 */
 bool force_end_of_sniff;
 
-
-/* The next three variables make selecting nations for AI players cleaner */
-static int *nations_avail;
-static int *nations_used;
-static int num_nations_avail;
+/* List of which nations are available. */
+static bool *nations_available;
 
 /* this counter creates all the id numbers used */
 /* use get_next_id_number()                     */
@@ -1138,33 +1135,33 @@ static char* find_common_class(void)
 **************************************************************************/
 static Nation_Type_id select_random_nation(const char* class)
 {
-  Nation_Type_id* nations, selected;
-  int i, j;
-  
-  if (class == NULL) {
-    return nations_avail[myrand(num_nations_avail)];
-  }
-  
-  nations = fc_malloc(num_nations_avail * sizeof(*nations));
-  for (j = i = 0; i < num_nations_avail; i++) {
-    struct nation_type* nation = get_nation_by_idx(nations_avail[i]);
+  Nation_Type_id i, available[game.playable_nation_count];
+  int count = 0;
 
-    assert(nation->class != NULL);
-    if (strcmp(nation->class, class) == 0) {
-      nations[j++] = nations_avail[i];
+  /* Determine which nations are available. */
+  for (i = 0; i < game.playable_nation_count; i++) {
+    struct nation_type *nation = get_nation_by_idx(i);
+
+    if (nations_available[i]
+	&& (class == NULL || strcmp(nation->class, class) == 0)) {
+      available[count] = i;
+      count++;
     }
   }
 
-  if (j == 0) {
-    /* Pick any available nation. */
-    selected = nations_avail[myrand(num_nations_avail)];
-  } else {
-    selected = nations[myrand(j)];
-    assert(strcmp(get_nation_by_idx(selected)->class, class) == 0);
+  /* Handle the case where no nations are possible. */
+  if (count == 0) {
+    if (class) {
+      /* Try other classes. */
+      return select_random_nation(NULL);
+    }
+
+    /* Or else return an invalid value. */
+    return NO_NATION_SELECTED;
   }
 
-  free(nations);
-  return selected;
+  /* Then pick one. */
+  return available[myrand(count)];
 }
 
 /**************************************************************************
@@ -1208,10 +1205,23 @@ static void generate_ai_players(void)
       continue;
     }
 
-    if (num_nations_avail == 0) {
+    /* See if the AI player matches a known leader name. */
+    for (nation = 0; nation < game.playable_nation_count; nation++) {
+      if (check_nation_leader_name(nation, pplayer->name)
+	  && nations_available[nation]) {
+	mark_nation_as_used(nation);
+	pplayer->nation = nation;
+	pplayer->city_style = get_nation_city_style(nation);
+	pplayer->is_male = get_nation_leader_sex(nation, pplayer->name);
+	continue;
+      }
+    }
+
+    nation = select_random_nation(common_class);
+    if (nation == NO_NATION_SELECTED) {
       freelog(LOG_NORMAL,
 	      _("Ran out of nations.  AI controlled player %s not created."),
-	      pplayer->name );
+	      pplayer->name);
       server_remove_player(pplayer); 
       /*
        * Below decrement loop index 'i' so that the loop is redone with
@@ -1221,23 +1231,10 @@ static void generate_ai_players(void)
        */
       i--;  
       continue;
-    }
-
-    for (nation = 0; nation < game.playable_nation_count; nation++) {
-      if (check_nation_leader_name(nation, pplayer->name)) {
-        if (nations_used[nation] != -1) {
-	  pplayer->nation = mark_nation_as_used(nation);
-	  pplayer->city_style = get_nation_city_style(nation);
-          pplayer->is_male = get_nation_leader_sex(nation, pplayer->name);
-	  break;
-        }
-      }
-    }
-
-    if (nation == game.playable_nation_count) {
-      pplayer->nation =
-	mark_nation_as_used(select_random_nation(common_class));
-      pplayer->city_style = get_nation_city_style(pplayer->nation);
+    } else {
+      mark_nation_as_used(nation);
+      pplayer->nation = nation;
+      pplayer->city_style = get_nation_city_style(nation);
       pplayer->is_male = (myrand(2) == 1);
     }
 
@@ -1270,7 +1267,9 @@ static void generate_ai_players(void)
   }
 
   for(;game.nplayers < game.aifill;) {
-    nation = mark_nation_as_used(select_random_nation(common_class));
+    nation = select_random_nation(common_class);
+    assert(nation != NO_NATION_SELECTED);
+    mark_nation_as_used(nation);
     pick_ai_player_name(nation, player_name);
 
     old_nplayers = game.nplayers;
@@ -1360,23 +1359,12 @@ void pick_ai_player_name(Nation_Type_id nation, char *newname)
 }
 
 /*************************************************************************
- mark_nation_as_used() - shuffles the appropriate arrays to indicate that
- the specified nation number has been allocated to some player and is
- therefore no longer available to any other player.  We do things this way
- so that the process of determining which nations are available to AI players
- is more efficient.
+  Simply mark the nation as unavailable.
 *************************************************************************/
-static int mark_nation_as_used (int nation) 
+static void mark_nation_as_used (Nation_Type_id nation) 
 {
-  if (num_nations_avail <= 0) {	/* no more unused nation */
-    die("Argh! ran out of nations!");
-  }
-
-   nations_used[nations_avail[num_nations_avail-1]]=nations_used[nation];
-   nations_avail[nations_used[nation]]=nations_avail[--num_nations_avail];
-   nations_used[nation]=-1;
-
-   return nation;
+  assert(nations_available[nation]);
+  nations_available[nation] = FALSE;
 }
 
 /*************************************************************************
@@ -1592,17 +1580,16 @@ static void srv_loop(void)
     /* otherwise rulesets were loaded when savegame was loaded */
   }
 
-  nations_avail = fc_calloc(game.playable_nation_count, sizeof(int));
-  nations_used = fc_calloc(game.playable_nation_count, sizeof(int));
+  nations_available
+    = fc_realloc(nations_available,
+		 game.playable_nation_count * sizeof(*nations_available));
 
 main_start_players:
 
   send_rulesets(&game.game_connections);
 
-  num_nations_avail = game.playable_nation_count;
   for (i = 0; i < game.playable_nation_count; i++) {
-    nations_avail[i] = i;
-    nations_used[i] = i;
+    nations_available[i] = TRUE;
   }
 
   if (game.auto_ai_toggle) {
