@@ -111,7 +111,8 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     x = punit->x; y = punit->y;
     for (i = -1; i <= 1; i++) {
       for (j = -1; j <= 1; j++) {
-        if (map_get_continent(x + i, y + j) == con) {
+        if (map_get_continent(x + i, y + j) == con &&
+        !is_enemy_unit_tile(x + i, y + j, punit->owner)) {
           cur = 0;
           for (a = i - 1; a <= i + 1; a++)
             for (b = j - 1; b <= j + 1; b++)
@@ -141,7 +142,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   best = 0;
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
-      if (map_get_continent(x, y) == con) {
+      if (map_get_continent(x, y) == con && !is_enemy_unit_tile(x, y, punit->owner)) {
         cur = 0;
         for (a = -1; a <= 1; a++)
           for (b = -1; b <= 1; b++)
