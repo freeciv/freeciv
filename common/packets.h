@@ -767,7 +767,7 @@ struct packet_ruleset_nation {
 
   int leader_count;
   char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
-  int leader_sex[MAX_NUM_LEADERS];
+  bool leader_sex[MAX_NUM_LEADERS];
   int city_style;
   int init_techs[MAX_NUM_TECH_LIST];
 };

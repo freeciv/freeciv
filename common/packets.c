@@ -3770,7 +3770,7 @@ int send_packet_ruleset_nation(struct connection *pc,
   cptr=put_uint8(cptr, packet->leader_count);
   for( i=0; i<packet->leader_count; i++ ) {
     cptr=put_string(cptr, packet->leader_name[i]);
-    cptr=put_uint8(cptr, packet->leader_sex[i]);
+    cptr=put_bool8(cptr, packet->leader_sex[i]);
   }
   cptr=put_uint8(cptr, packet->city_style);
   if (has_capability("init_techs", pc->capability)) {
@@ -3804,7 +3804,7 @@ receive_packet_ruleset_nation(struct connection *pc)
   iget_uint8(&iter, &packet->leader_count);
   for( i=0; i<packet->leader_count; i++ ) {
     iget_string(&iter, packet->leader_name[i], sizeof(packet->leader_name[i]));
-    iget_uint8(&iter, &packet->leader_sex[i]);
+    iget_bool8(&iter, &packet->leader_sex[i]);
   }
   iget_uint8(&iter, &packet->city_style);
   if (has_capability("init_techs", pc->capability)) {
