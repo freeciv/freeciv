@@ -116,7 +116,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat, struct
 void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat, struct unit *pvictim){
   
   if(pvictim && pvictim->hp > 1){
-    pvictim->hp = pvictim->hp >> 1;
+    pvictim->hp /= 2;
     notify_player_ex(get_player(pvictim->owner), 
     		     pvictim->x, pvictim->y, E_DIPLOMATED,
 		     "Your %s was sabotaged by %s!", 

@@ -134,7 +134,7 @@ int dangerfunct(int v, int m, int dist)
     denom += (denom + m * 2) / (m * 4);
     dist--;
   }
-  v = (v*num + (denom>>1)) / denom;
+  v = (v*num + (denom/2)) / denom;
   return(v);
 #endif
 }
@@ -147,8 +147,8 @@ int assess_danger_unit(struct city *pcity, struct unit *punit)
   if (is_sailing_unit(punit) && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) v = 0;
 /* get_attack_power will be wrong if moves_left == 1 || == 2 */
   v *= punit->hp * get_unit_type(punit->type)->firepower;
-  if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v >>= 1;
-  if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v >>= 1;
+  if (city_got_building(pcity, B_COASTAL) && is_sailing_unit(punit)) v /= 2;
+  if (city_got_building(pcity, B_SAM) && is_air_unit(punit)) v /= 2;
   v /= 30; /* rescaling factor to stop the overflow nonsense */
   return(v);
 }
@@ -256,9 +256,9 @@ content to let it remain that way for now. -- Syela 980805 */
           }
 
           if (unit_flag(funit->type, F_HORSE)) {
-            if (pikemen) v >>= 1;
+            if (pikemen) v /= 2;
             else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
-				    (v * m / (dist<<1)));
+				    (v * m / (dist*2)));
           }
 
         if (unit_flag(funit->type, F_DIPLOMAT) && (dist <= 2 * m)) 
@@ -298,9 +298,9 @@ content to let it remain that way for now. -- Syela 980805 */
         }
 
         if (unit_flag(punit->type, F_HORSE)) {
-          if (pikemen) v >>= 1;
+          if (pikemen) v /= 2;
 	  else ai_wants_role_unit(pplayer, pcity, F_PIKEMEN,
-				  (v * m / (dist<<1)));
+				  (v * m / (dist*2)));
         }
 
         if (unit_flag(punit->type, F_DIPLOMAT) && (dist <= 2 * m))
@@ -400,7 +400,7 @@ int unit_desirability(int i, int def)
   d = get_unit_type(i)->defense_strength;
   if (def) cur *= d;
   else if (d > a) return(0);
-/*  else if (d < 2) cur = (cur * (a + d))>>1; Don't believe in this anymore */
+/*  else if (d < 2) cur = (cur * (a + d))/2; Don't believe in this anymore */
   else cur *= a; /* wanted to rank Legion > Catapult > Archer */
 /* which we will do by munging f in the attacker want equations */
   if (unit_flag(i, F_IGTER) && !def) cur *= 3;
@@ -495,8 +495,8 @@ it some more variables for it to meddle with -- Syela */
          unit_types[i].attack_strength && /* otherwise we get SIGFPE's */
          m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
       l = k * (k + pplayer->research.researchpoints) * game.techlevel;
-      if (game.year > 0) l >>= 1;
-      else l >>= 2; /* cost (shield equiv) of gaining these techs */
+      if (game.year > 0) l /= 2;
+      else l /= 4; /* cost (shield equiv) of gaining these techs */
       l /= city_list_size(&pplayer->cities);
 /* Katvrr advises that with danger high, l should be weighted more heavily */
 

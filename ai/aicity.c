@@ -316,7 +316,7 @@ void ai_new_spend_gold(struct player *pplayer)
 		 && is_on_unit_upgrade_path(bestchoice.choice, punit->type)))
 	    && ai_fuzzy(pplayer, 1)) {
           if (!did_upgrade) { /* might want to disband */
-            build = pcity->shield_stock + (get_unit_type(punit->type)->build_cost>>1);
+            build = pcity->shield_stock + (get_unit_type(punit->type)->build_cost/2);
             total = get_unit_type(bestchoice.choice)->build_cost;
             cost=(total-build)*2+(total-build)*(total-build)/20;
             if ((bestchoice.want <= 100 && build >= total) ||

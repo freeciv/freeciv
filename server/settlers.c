@@ -98,7 +98,7 @@ int amortize(int b, int d)
       d--;
     }
     if (denom > 1) {
-      b = (b + (denom>>1)) / denom;
+      b = (b + (denom/2)) / denom;
     }
   }
   return(b * s);
@@ -848,11 +848,11 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 
 	newv = pcity->ai.irrigate[i][j];
         if (newv >= oldv) { /* worth evaluating */
-          b = MAX((newv - oldv)<<6, MORT);
+          b = MAX((newv - oldv)*64, MORT);
           d = (map_build_irrigation_time(x, y) * 3 + mv_rate - 1) / mv_rate
 	    + mv_turns;
           a = amortize(b, d);
-          newv = ((a * b) / (MAX(1, b - a)))>>6;
+          newv = ((a * b) / (MAX(1, b - a)))/64;
         } else newv = 0;
         if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	    && ai_fuzzy(pplayer, 1)) {
@@ -882,11 +882,11 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 
 	newv = pcity->ai.mine[i][j];
         if (newv >= oldv) {
-          b = MAX((newv - oldv)<<6, MORT);
+          b = MAX((newv - oldv)*64, MORT);
           d = (map_build_mine_time(x, y) * 3 + mv_rate - 1) / mv_rate
 	    + mv_turns;
           a = amortize(b, d);
-          newv = ((a * b) / (MAX(1, b - a)))>>6;
+          newv = ((a * b) / (MAX(1, b - a)))/64;
         } else newv = 0;
 	if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	    && ai_fuzzy(pplayer, 1)) {
@@ -903,11 +903,11 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
             newv = MAX(newv, oldv) + road_bonus(x, y, S_ROAD) * 8;
 	    /* guessing about the weighting based on unit upkeeps;
 	       (* 11) was too high! -- Syela */
-            b = MAX((newv - oldv)<<6, MORT);
+            b = MAX((newv - oldv)*64, MORT);
             d = (map_build_road_time(x, y) * 3 + 3 + mv_rate - 1) / mv_rate
 	      + mv_turns; /* uniquely weird! */
             a = amortize(b, d);
-            newv = ((a * b) / (MAX(1, b - a)))>>6;
+            newv = ((a * b) / (MAX(1, b - a)))/64;
           } else newv = 0;
           if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	      && ai_fuzzy(pplayer, 1)) {
@@ -921,11 +921,11 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 	  newv = pcity->ai.railroad[i][j];
           if (newv >= 0) {    
             newv = MAX(newv, oldv) + road_bonus(x, y, S_RAILROAD) * 4;
-            b = MAX((newv - oldv)<<6, MORT);
+            b = MAX((newv - oldv)*64, MORT);
             d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + mv_rate - 1)
 	         / mv_rate + mv_turns;
             a = amortize(b, d);
-            newv = ((a * b) / (MAX(1, b - a)))>>6;
+            newv = ((a * b) / (MAX(1, b - a)))/64;
           } else newv = 0;
           if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	      && ai_fuzzy(pplayer, 1)) {
@@ -936,10 +936,10 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 	  newv = pcity->ai.railroad[i][j];
           if (newv >= 0) {    
             newv = MAX(newv, oldv) + road_bonus(x, y, S_RAILROAD) * 4;
-            b = MAX((newv - oldv)<<6, MORT);
+            b = MAX((newv - oldv)*64, MORT);
             d = (3 * 3 + mv_rate - 1) / mv_rate + mv_turns;
             a = amortize(b, d);
-            newv = ((a * b) / (MAX(1, b - a)))>>6;
+            newv = ((a * b) / (MAX(1, b - a)))/64;
           } else newv = 0;
           if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
 	      && ai_fuzzy(pplayer, 1)) {
@@ -951,10 +951,10 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 	newv = pcity->ai.detox[i][j];
         if (newv >= 0) {
           newv = MAX(newv, oldv) + pplayer->ai.warmth;
-          b = MAX((newv - oldv)<<6, MORT);
+          b = MAX((newv - oldv)*64, MORT);
           d = (3 * 3 + mv_turns + mv_rate - 1) / mv_rate + mv_turns;
           a = amortize(b, d);
-          newv = ((a * b) / (MAX(1, b - a)))>>6;
+          newv = ((a * b) / (MAX(1, b - a)))/64;
         } else newv = 0;
         if (newv > best_newv || (newv == best_newv && oldv > best_oldv)) {
 	  best_act = ACTIVITY_POLLUTION;

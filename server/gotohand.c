@@ -106,7 +106,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
 
   if (punit && unit_flag(punit->type, F_IGTER)) igter++;
   if (punit && unit_flag(punit->type, F_SETTLERS)
-      && get_unit_type(punit->type)->move_rate==3) maxcost >>= 1;
+      && get_unit_type(punit->type)->move_rate==3) maxcost /= 2;
   /* (?) was punit->type == U_SETTLERS -- dwp */
 
   do {
@@ -129,7 +129,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
 This led to a bad bug where a unit in a swamp was considered too far away */
         else {
           tm = map_get_tile(x1, y1)->move_cost[7-k];
-          c = (tile0->move_cost[k] + tm + (tile0->move_cost[k] > tm ? 1 : 0))>>1;
+          c = (tile0->move_cost[k] + tm + (tile0->move_cost[k] > tm ? 1 : 0))/2;
         }
         
         tm = warmap.cost[x][y] + c;
@@ -197,9 +197,9 @@ These if's might cost some CPU but hopefully less overall. -- Syela */
   if (y1 > y0) s = y1 - y0;
   else n = y0 - y1;
   dx = x1 - x0;
-  if (dx > map.xsize>>1) w = map.xsize - dx;
+  if (dx > map.xsize/2) w = map.xsize - dx;
   else if (dx > 0) e = dx;
-  else if (dx + (map.xsize>>1) > 0) w = 0 - dx;
+  else if (dx + (map.xsize/2) > 0) w = 0 - dx;
   else e = map.xsize + dx;
   if (e == map.xsize / 2 || w == map.xsize / 2) { /* thanks, Massimo */
     if (k < 3 && s >= MAX(e, w)) return 0;
@@ -616,7 +616,7 @@ int find_a_direction(struct unit *punit)
         adjtile = map_get_tile(x + ii[n], y + jj[n]);
         if (adjtile->terrain != T_OCEAN) nearland++;
         if (!((adjtile->known)&(1u<<punit->owner))) {
-          if (punit->moves_left <= c) d[k] -= (d[k]>>4); /* Avoid the unknown */
+          if (punit->moves_left <= c) d[k] -= (d[k]/16); /* Avoid the unknown */
           else d[k]++; /* nice but not important */
         } else { /* NOTE: Not being omniscient here!! -- Syela */
           unit_list_iterate(adjtile->units, aunit) /* lookin for trouble */

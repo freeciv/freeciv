@@ -272,10 +272,10 @@ void ai_manage_taxes(struct player *pplayer)
 	ai_fuzzy(pplayer,1)) {
       freelog(LOG_DEBUG, "%d happy people in %s",
 		    pcity->ppl_happy[4], pcity->name);
-      n = ((pcity->size>>1) - pcity->ppl_happy[4]) * 20;
+      n = ((pcity->size/2) - pcity->ppl_happy[4]) * 20;
       if (n > pcity->ppl_content[1] * 20) n += (n - pcity->ppl_content[1] * 20);
       m = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
-	     (pcity->size+1) * game.foodbox)>>1) -
+	     (pcity->size+1) * game.foodbox)/2) -
            pcity->food_stock) * food_weighting(pcity->size);
       freelog(LOG_DEBUG, "Checking HHJJ for %s, m = %d", pcity->name, m);
       tot = 0;
@@ -283,7 +283,7 @@ void ai_manage_taxes(struct player *pplayer)
         if (pcity->trade_prod * i * city_tax_bonus(pcity) >= n * 100) {
 	  if (!tot) freelog(LOG_DEBUG, "%s celebrates at %d.",
 			    pcity->name, i * 10);
-          hhjj[i] += (pcity->was_happy ? m : m>>1);
+          hhjj[i] += (pcity->was_happy ? m : m/2);
           tot++;
         }
       }
@@ -358,7 +358,7 @@ void ai_manage_taxes(struct player *pplayer)
   } else { /* have to balance things logically */
 /* if we need 50 gold and we have trade = 100, need 50 % tax (n = 5) */
 /*  n = ((ai_gold_reserve(pplayer) - gnow - expense) ... I hate typos. -- Syela */
-    n = ((ai_gold_reserve(pplayer) - gnow + expense + cities) * 20 + (trade<<1) - 1) / (trade<<1);
+    n = ((ai_gold_reserve(pplayer) - gnow + expense + cities) * 20 + (trade*2) - 1) / (trade*2);
 /* same bug here as above, caused us not to afford city walls we needed. -- Syela */
     if (n < 0) n = 0; /* shouldn't allow 0 tax? */
     while (n > 10 - (pplayer->economic.luxury / 10) || n > maxrate) n--;
