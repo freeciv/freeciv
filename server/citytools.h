@@ -29,6 +29,8 @@ int get_cathedral_power(struct city *pcity);
 int get_colosseum_power(struct city *pcity);
 int is_worked_here(int x, int y);
 int can_place_worker_here(struct city *pcity, int x, int y);
+int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed);
+int better_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed);
 int best_tile(struct city *pcity, int x, int y, int bx, int by);
 int best_food_tile(struct city *pcity, int x, int y, int bx, int by);
 int settler_eats(struct city *pcity);
@@ -36,8 +38,11 @@ int is_building_other_wonder(struct city *pc);
 int built_elsewhere(struct city *pc, int wonder);
 void eval_buildings(struct city *pcity,int *values);
 int do_make_unit_veteran(struct city *pcity, enum unit_type_id id);
+int city_corruption(struct city *pcity, int trade);
+int city_shield_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
+int wants_to_be_bigger(struct city *pcity);
 
 #endif
 

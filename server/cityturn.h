@@ -20,6 +20,7 @@
 int advisor_choose_build(struct city *pcity);  /* used by the AI */
 int city_refresh(struct city *pcity);          /* call if city has changed */
 					       
+void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers);
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
 int  add_adjust_workers(struct city *pcity);   /* will add workers */
 void city_check_workers(struct player *pplayer, struct city *pcity);

@@ -203,32 +203,66 @@ int can_place_worker_here(struct city *pcity, int x, int y)
     && !is_worked_here(map_adjust_x(pcity->x+x-2), pcity->y+y-2));
 }
 
+int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed)
+{ /* by Syela, unifies best_tile, best_food_tile, worst_elvis_tile */
+  int a, f, s;
+  int i, j, k;
+  int shield_weighting[3] = { 11, 13, 15 };
+  int food_weighting[3] = { 15, 14, 13 };
+  struct player *plr;
+
+  plr = city_owner(pcity);
+
+  a = get_race(plr)->attack;
+  s = pcity->size;
+
+  i = food_weighting[a];
+  if (foodneed > 0) i *= 10; /* all else is secondary until we are fed */
+  else { i *= 4; i /= s; }
+  i *= get_food_tile(x, y, pcity);
+  
+  j = get_shields_tile(x, y, pcity) * shield_weighting[a] *
+      city_shield_bonus(pcity) / 100;
+  if (prodneed > 0) j *= 10; /* trying to avoid non-support of units */
+  k = get_trade_tile(x, y, pcity) * (8 - city_corruption(pcity, 8)) *
+      (city_tax_bonus(pcity) * plr->economic.tax +
+       city_science_bonus(pcity) * plr->economic.science +
+       100 * plr->economic.luxury) / 100 / 100;
+  return(i + j + k);
+}  
+  
+int better_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed)
+{
+  return (city_tile_value(pcity, x, y, foodneed, prodneed) >
+          city_tile_value(pcity, bx, by, foodneed, prodneed));
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
 int best_tile(struct city *pcity, int x, int y, int bx, int by)
-{
-  return (4*get_food_tile(x, y, pcity) + 
-	  12*get_shields_tile(x, y, pcity) + 
-	  8*get_trade_tile(x, y, pcity) > 
-	  4*get_food_tile(bx, by, pcity) + 
-	  12*get_shields_tile(bx, by, pcity) +
-	  8*get_trade_tile(bx, by, pcity) 
-	  );
+{ /* obsoleted but not deleted by Syela */
+  return (4*get_food_tile(x, y, pcity) +
+          12*get_shields_tile(x, y, pcity) +
+          8*get_trade_tile(x, y, pcity) >
+          4*get_food_tile(bx, by, pcity) +
+          12*get_shields_tile(bx, by, pcity) +
+          8*get_trade_tile(bx, by, pcity) 
+          );
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
 int best_food_tile(struct city *pcity, int x, int y, int bx, int by)
-{
-  return (100*get_food_tile(x, y, pcity) + 
-	  12*get_shields_tile(x, y, pcity) + 
-	  8*get_trade_tile(x, y, pcity) > 
-	  100*get_food_tile(bx, by, pcity) + 
-	  12*get_shields_tile(bx, by, pcity) +
-	  8*get_trade_tile(bx, by, pcity) 
-	  );
+{ /* obsoleted but not deleted by Syela */
+  return (100*get_food_tile(x, y, pcity) +
+          12*get_shields_tile(x, y, pcity) +
+          8*get_trade_tile(x, y, pcity) >
+          100*get_food_tile(bx, by, pcity) +
+          12*get_shields_tile(bx, by, pcity) +
+          8*get_trade_tile(bx, by, pcity) 
+          );
 }
 
 /**************************************************************************
@@ -257,7 +291,7 @@ int is_building_other_wonder(struct city *pc)
   struct player *pplayer = city_owner(pc);
   city_list_iterate(pplayer->cities, pcity) 
     if ((pc != pcity) && !(pcity->is_building_unit) && is_wonder(pcity->currently_building) && map_get_continent(pcity->x, pcity->y) == map_get_continent(pc->x, pc->y))
-      return 1;
+      return pcity->currently_building; /* why return 1? -- Syela */
   city_list_iterate_end;
   return 0;
 }
@@ -425,6 +459,60 @@ int do_make_unit_veteran(struct city *pcity, enum unit_type_id id)
 }
 
 /**************************************************************************
+corruption, corruption is halfed during love the XXX days.
+**************************************************************************/
+int city_corruption(struct city *pcity, int trade)
+{
+  struct city *capital;
+  int dist;
+  int val;
+  int corruption[]= { 12,8,20,24,20,0}; /* original {12,8,16,20,24,0} */
+  if (get_government(pcity->owner)==G_DEMOCRACY) {
+    return(0);
+  }
+  if (get_government(pcity->owner)==G_COMMUNISM) {
+    dist=10;
+  } else {
+    capital=find_palace(city_owner(pcity));
+    if (!capital)
+      dist=36;
+    else
+      dist=min(36,map_distance(capital->x, capital->y, pcity->x, pcity->y));
+  }
+  if (get_government(pcity->owner) == G_DESPOTISM)
+    dist = dist*2 + 3; /* yes, DESPOTISM is even worse than ANARCHY */
+  
+  val=(trade*dist*3)/(corruption[get_government(pcity->owner)]*10);
+
+  if (city_got_building(pcity, B_COURTHOUSE) ||   
+      city_got_building(pcity, B_PALACE))
+    val /= 2;
+  if (val >= trade && val)
+    val = pcity->trade_prod - 1;
+}
+  
+
+int city_shield_bonus(struct city *pcity)
+{
+  int tmp = 0;
+  if (city_got_building(pcity, B_FACTORY)) {
+    if (city_got_building(pcity, B_MFG))
+      tmp = 100;
+    else
+      tmp = 50;
+  }
+
+  if (city_affected_by_wonder(pcity, B_HOOVER) ||
+      city_got_building(pcity, B_POWER) ||
+      city_got_building(pcity, B_HYDRO) ||
+      city_got_building(pcity,B_NUCLEAR))
+    tmp *= 1.5;
+
+  return (tmp + 100);
+
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int city_tax_bonus(struct city *pcity)
@@ -461,3 +549,12 @@ int city_science_bonus(struct city *pcity)
     science_bonus+=100;
   return science_bonus;
 }
+
+int wants_to_be_bigger(struct city *pcity)
+{
+  if (pcity->size < 8) return 1;
+  if (city_got_building(pcity, B_SEWER)) return 1;
+  if (city_got_building(pcity, B_AQUEDUCT) && pcity->size < 12) return 1;
+  return 0;
+}
+

@@ -30,6 +30,7 @@
 #include <plrhand.h>
 #include <events.h>
 #include <aicity.h>
+#include <aitools.h> /* for ai_advisor_choose_building/ai_choice */
 
 static void set_trade_prod(struct city *pcity);
 static void set_tax_income(struct city *pcity);
@@ -62,43 +63,16 @@ static void sanity_check_city(struct city *pcity);
 
 static int update_city_activity(struct player *pplayer, struct city *pcity);
 
-/**************************************************************************
-corruption, corruption is halfed during love the XXX days.
-**************************************************************************/
 void set_trade_prod(struct city *pcity)
 {
-  struct city *capital;
   int i;
-  int dist;
-  int corruption[]= { 12,8,20,24,20,0}; /* original {12,8,16,20,24,0} */
   for (i=0;i<4;i++) {
     pcity->trade_prod+=trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
   }
-  if (get_government(pcity->owner)==G_DEMOCRACY) {
-    pcity->corruption=0;
-    return;
-  }
-  if (get_government(pcity->owner)==G_COMMUNISM) {
-    dist=10;
-  } else { 
-    capital=find_palace(city_owner(pcity));
-    if (!capital)  
-      dist=36;
-    else 
-      dist=min(36,map_distance(capital->x, capital->y, pcity->x, pcity->y)); 
-  }
-  if (get_government(pcity->owner) == G_DESPOTISM) 
-    dist = dist*2 + 3;
-
-  pcity->corruption=(pcity->trade_prod*dist*3)/(corruption[get_government(pcity->owner)]*10);
-  
-  if (city_got_building(pcity, B_COURTHOUSE) || 
-      city_got_building(pcity, B_PALACE)) 
-    pcity->corruption/=2;
-  if (pcity->corruption >= pcity->trade_prod && pcity->corruption) 
-    pcity->corruption = pcity->trade_prod - 1;
-  pcity->trade_prod-=pcity->corruption;
+  pcity->corruption = city_corruption(pcity, pcity->trade_prod);
+  pcity->trade_prod -= pcity->corruption;
 }
+
 
 /**************************************************************************
 calculate the incomes according to the taxrates and # of specialists.
@@ -142,25 +116,13 @@ void add_buildings_effect(struct city *pcity)
 {
   int tmp=0;
   int tax_bonus, science_bonus;
-  int shield_bonus=100;
+  int shield_bonus;
 
   tax_bonus = city_tax_bonus(pcity);
   science_bonus = city_science_bonus(pcity);
+  shield_bonus = city_shield_bonus(pcity);
   
-  if (city_got_building(pcity, B_FACTORY)) {
-    if (city_got_building(pcity, B_MFG)) 
-      tmp=pcity->shield_prod;
-    else 
-      tmp=pcity->shield_prod/2;
-  }
-
-  if (city_affected_by_wonder(pcity, B_HOOVER) || 
-      city_got_building(pcity, B_POWER) ||
-      city_got_building(pcity, B_HYDRO) ||
-      city_got_building(pcity,B_NUCLEAR)) 
-    shield_bonus+=50;
-  
-  pcity->shield_prod+=((tmp*shield_bonus)/100);
+  pcity->shield_prod =(pcity->shield_prod*shield_bonus)/100;
   pcity->luxury_total=(pcity->luxury_total*tax_bonus)/100;
   pcity->tax_total=(pcity->tax_total*tax_bonus)/100;
   pcity->science_total=(pcity->science_total*science_bonus)/100;
@@ -271,6 +233,7 @@ void citizen_happy_buildings(struct city *pcity)
     pcity->ppl_content[2]++;
     faces--;
   }
+  pcity->ppl_content[0] = faces; /* this won't be needed, so I'm hijacking it -- Syela */
   /* TV doesn't make people happy just content...
  
   while (faces && pcity->ppl_content[2]) { 
@@ -545,6 +508,35 @@ void remove_obsolete_buildings(struct player *pplayer)
   city_list_iterate_end;
 }
 
+void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
+{
+  int x, y, bx, by;
+  do {
+    bx=0;
+    by=0;
+    city_map_iterate(x, y) {
+      if(can_place_worker_here(pcity, x, y)) {
+         if(bx==0 && by==0) {
+	    bx=x;
+	    by=y;
+	  } else {
+            if (better_tile(pcity, x, y, bx, by, *foodneed, *prodneed)) {
+	      bx=x;
+	      by=y;
+	    }
+	  }
+	}
+    }
+    if(bx || by) {
+      set_worker_city(pcity, bx, by, C_TILE_WORKER);
+      (*workers)--; /* amazing what this did with no parens! -- Syela */
+      *foodneed -= get_food_tile(bx,by,pcity);
+      *prodneed -= get_shields_tile(bx,by,pcity);
+    }
+  } while(*workers && (bx || by));
+  if (*prodneed > 0) printf("Ignored prodneed? in %s (%d)\n", pcity->name, *prodneed);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -554,6 +546,7 @@ int  add_adjust_workers(struct city *pcity)
   int iswork=0;
   int toplace;
   int foodneed;
+  int prodneed = 0;
   int x,y,bx,by;
   city_map_iterate(x, y) 
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
@@ -566,33 +559,9 @@ int  add_adjust_workers(struct city *pcity)
     return 1;
   toplace=workers-(iswork+city_specialists(pcity));
   foodneed = -pcity->food_surplus +2;
-  do {
-    bx=0;
-    by=0;
-    city_map_iterate(x, y) {
-      if(can_place_worker_here(pcity, x, y)) {
-	  if(bx==0 && by==0) {
-	    bx=x;
-	    by=y;
-	  } else {
-	    if (foodneed >0 || (pcity->size < 4)) {
-	      if (best_food_tile(pcity, x, y, bx, by)) {
-		bx=x;
-		by=y;
-	      }
- 	    } else if(best_tile(pcity, x, y,bx, by)) {
-	      bx=x;
-	      by=y;
-	    }
-	  }
-	}
-    }
-    if(bx || by) {
-      set_worker_city(pcity, bx, by, C_TILE_WORKER);
-      toplace--;
-      foodneed -= get_food_tile(bx,by,pcity);
-    }
-  } while(toplace && (bx || by));
+
+  worker_loop(pcity, &foodneed, &prodneed, &toplace);
+
   pcity->ppl_elvis+=toplace;
   return 1;
 }
@@ -607,42 +576,24 @@ void auto_arrange_workers(struct city *pcity)
   int taxwanted,sciwanted;
   int bx,by;
   int x,y;
-  int foodneed;
+  int foodneed, prodneed, gov;
+
   city_map_iterate(x, y)
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
       set_worker_city(pcity, x, y, C_TILE_EMPTY);
   
-
   set_worker_city(pcity, 2, 2, C_TILE_WORKER); 
   foodneed=(pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
+  prodneed = 0;
+  prodneed -= get_shields_tile(2,2,pcity);
+  unit_list_iterate(pcity->units_supported, punit)
+    if (is_military_unit(punit)) prodneed++;
+  unit_list_iterate_end;
+  gov = get_government(pcity->owner);
+  if (gov == G_DESPOTISM) prodneed -= pcity->size;
+  if (gov == G_MONARCHY || gov == G_COMMUNISM) prodneed -= 3;
   
-  do {
-    bx=0;
-    by=0;
-    city_map_iterate(x, y) {
-      if(can_place_worker_here(pcity, x, y)) {
-	if(bx==0 && by==0) {
-	  bx=x;
-	  by=y;
-	} else {
-	  if (foodneed >0 || pcity->size < 4) {
-	    if (best_food_tile(pcity, x, y, bx, by)) {
-	      bx=x;
-	      by=y;
-	    }
-	  } else if(best_tile(pcity, x, y,bx, by)) {
-	    bx=x;
-	    by=y;
-	  }
-	}
-      }
-    }
-    if(bx || by) {
-      set_worker_city(pcity, bx, by, C_TILE_WORKER);
-      foodneed -= get_food_tile(bx, by, pcity);
-      workers--;
-    }
-  } while(workers && (bx || by));
+  worker_loop(pcity, &foodneed, &prodneed, &workers);
 
   taxwanted=pcity->ppl_taxman;
   sciwanted=pcity->ppl_scientist;
@@ -789,31 +740,29 @@ void city_populate(struct city *pcity)
 ...
 **************************************************************************/
 int advisor_choose_build(struct city *pcity)
-{
+{ /* this function isn't docked very well.  WTF is the return value? -- Syela */
+  struct ai_choice *choice;
   int i;
   int id=-1;
   int want=0;
-  int values[B_LAST];
   
-  eval_buildings(pcity, values);
-  
-  for(i=0; i<B_LAST; i++)
-    if(values[i]>0) {
-      if(values[i]>want) {
-	want=values[i];
-	id=i;
-      }
-    }
-  if (id == B_CAPITAL)
-    return 0;
-  if (pcity->currently_building == id && !pcity->is_building_unit)
-    return 1;
- 
- if (id!=1 && is_wonder(id) && is_building_other_wonder(pcity)) {
-    return 0;
-  }
 
-  if(id!=-1) {
+  choice = ai_advisor_choose_building(pcity); /* much smarter version -- Syela */
+/*  printf("Advisor_choose_build got %s/%d from ai_advisor_choose_building.\n", 
+  get_improvement_name(choice->choice), choice->want); */
+  id = choice->choice;
+  want = choice->want;
+
+  if (id == B_CAPITAL)
+    return 0; /* we won't build this.  therefore exit, 0 = undecided */
+  if (pcity->currently_building == id && !pcity->is_building_unit)
+    return 1; /* we're already building this.  1 = decided */
+ 
+  if (id!=-1 && id != B_LAST) {
+    if (is_wonder(id) && is_building_other_wonder(pcity)) {
+      return 0;
+    } /* one wonder per continent.  therefore exit, 0 = undecided */
+
     if(is_wonder(id)) {
       notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
 		    "Game: The %s have started building The %s in %s.",
@@ -822,12 +771,12 @@ int advisor_choose_build(struct city *pcity)
     }
     pcity->currently_building=id;
     pcity->is_building_unit=0;
-    return 1;
+    return 1; /* making a wonder.  return value = 1 */
   }
-  if (city_owner(pcity)->ai.control)
-    return 0;
+/*  if (city_owner(pcity)->ai.control) return 0; */
+/* No longer needed, was creating finished building X / now building X bug */
   for (i=0;i<B_LAST;i++)
-    if(can_build_improvement(pcity, i)) {
+    if(can_build_improvement(pcity, i)) { /* build something random, undecided */
       pcity->currently_building=i;
       pcity->is_building_unit=0;
       return 0;
@@ -941,7 +890,9 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
 	update_tech(pplayer, 1000000); 
       }
       city_refresh(pcity);
+/* printf("Trying advisor_choose_build.\n"); */
       advisor_choose_build(pcity);
+/* printf("Advisor_choose_build didn't kill us.\n"); */
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUTO,
 		    "Game: %s is now building %s", pcity->name, 
 		    improvement_types[pcity->currently_building].name
@@ -1018,9 +969,12 @@ void city_check_workers(struct player *pplayer, struct city *pcity)
     if(unit_list_size(&ptile->units)>0) {
       struct unit *punit=unit_list_get(&ptile->units, 0);
       if(pplayer->player_no!=punit->owner) {
-	if(get_worker_city(pcity, x, y)==C_TILE_WORKER)
-	  pcity->ppl_elvis++;
-	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+	if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
+/*	  pcity->ppl_elvis++; -- this is really not polite -- Syela */
+  	  set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+          add_adjust_workers(pcity); /* will place the displaced */
+          city_refresh(pcity); /* may be unnecessary; can't hurt */
+        } else	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	continue;
       }
     }
