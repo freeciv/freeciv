@@ -14,14 +14,14 @@
 #define FC__REGISTRY_H
 
 #include "sbuffer.h"
-#include "genlist.h"
 #include "attribute.h"
 
 struct hash_data;
+struct section_list;
 
 struct section_file {
-  struct genlist section_list;
   int num_entries;
+  struct section_list *sections;
   struct hash_data *hashd;
   struct sbuffer *sb;
 };

@@ -131,6 +131,7 @@
 #include <ctype.h>
 #include <stdarg.h>
 
+#include "genlist.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
@@ -141,20 +142,49 @@
 #define HASH_DEBUG 1		/* 0,1,2 */
 #define SAVE_TABLES 1		/* set to 0 for old-style savefiles */
 
-struct section {
-  char *name;
-  struct genlist entry_list;
-};
-
-struct section_entry {
-  char *name;
-  int  ivalue;
-  char *svalue;
+/* An 'entry' is a single value, either a string or integer;
+ * Whether string or int is determined by whether svalue is NULL.
+ */
+struct entry {
+  char *name;			/* name, not including section prefix */
+  int  ivalue;			/* value if integer */
+  char *svalue;			/* value if string (in sbuffer) */
   int  used;			/* number of times entry looked up */
 };
 
+/* create a 'struct entry_list' and related functions: */
+#define SPECLIST_TAG entry
+#include "speclist.h"
+#define SPECLIST_TAG entry
+#include "speclist_c.h"
+
+#define entry_list_iterate(entlist, pentry) \
+       TYPED_LIST_ITERATE(struct entry, entlist, pentry)
+#define entry_list_iterate_end  LIST_ITERATE_END
+
+
+struct section {
+  char *name;
+  struct entry_list entries;
+};
+
+/* create a 'struct section_list' and related functions: */
+#define SPECLIST_TAG section
+#include "speclist.h"
+#define SPECLIST_TAG section
+#include "speclist_c.h"
+
+#define section_list_iterate(seclist, psection) \
+       TYPED_LIST_ITERATE(struct section, seclist, psection)
+#define section_list_iterate_end  LIST_ITERATE_END
+
+#define section_list_iterate_rev(seclist, psection) \
+       TYPED_LIST_ITERATE_REV(struct section, seclist, psection)
+#define section_list_iterate_rev_end  LIST_ITERATE_REV_END
+
+
 struct hash_entry {
-  struct section_entry *data;
+  struct entry *data;
   char *key_val;		/* including section prefix */
   int hash_val;			/* not really necessary, but may reduce
 				   key comparisons? */
@@ -168,7 +198,7 @@ struct hash_data {
 };
 
 struct flat_entry_list {
-  struct section_entry **plist;	/* list of pointers to individual mallocs */
+  struct entry **plist;		/* list of pointers to individual mallocs */
   int n;			/* number used */
   int n_alloc;			/* number allocated */
 };
@@ -179,7 +209,7 @@ static void secfilehash_check(struct section_file *file);
 static struct hash_entry *secfilehash_lookup(struct section_file *file,
 					     char *key, int *hash_return);
 static void secfilehash_insert(struct section_file *file,
-			       char *key, struct section_entry *data);
+			       char *key, struct entry *data);
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
 
@@ -189,10 +219,10 @@ static char *moutstr(char *str);
 static void parse_commalist(struct flat_entry_list *entries, char *buffer,
 			    char *filename, int lineno, struct sbuffer *sb);
 
-static struct section_entry*
-section_file_lookup_internal(struct section_file  *my_section_file,  
+static struct entry*
+section_file_lookup_internal(struct section_file *my_section_file,  
 			     char *fullpath);
-static struct section_entry*
+static struct entry*
 section_file_insert_internal(struct section_file *my_section_file, 
 			     char *fullpath);
 
@@ -201,7 +231,8 @@ section_file_insert_internal(struct section_file *my_section_file,
 **************************************************************************/
 void section_file_init(struct section_file *file)
 {
-  genlist_init(&file->section_list);
+  file->sections = fc_malloc(sizeof(struct section_list));
+  section_list_init(file->sections);
   file->num_entries = 0;
   file->hashd = NULL;
   file->sb = sbuf_new();
@@ -212,29 +243,27 @@ void section_file_init(struct section_file *file)
 **************************************************************************/
 void section_file_free(struct section_file *file)
 {
-  struct genlist_iterator myiter;
-
-  genlist_iterator_init(&myiter, &file->section_list, 0);
-  for(; ITERATOR_PTR(myiter); ) {
-    struct genlist_iterator myiter2;
-    struct section *psection=(struct section *)ITERATOR_PTR(myiter);
-
-    genlist_iterator_init(&myiter2, &psection->entry_list, 0);
-    for(; ITERATOR_PTR(myiter2);) {
-      struct section_entry *pentry=
-	(struct section_entry *)ITERATOR_PTR(myiter2);
-      ITERATOR_NEXT(myiter2);
-      genlist_unlink(&psection->entry_list, pentry);
-    }
-
-    ITERATOR_NEXT(myiter);
-    genlist_unlink(&file->section_list, psection);
+  /* all the real data is stored in the sbuffer;
+     just free the list meta-data:
+  */
+  section_list_iterate(*file->sections, psection) {
+    entry_list_unlink_all(&psection->entries);
   }
+  section_list_iterate_end;
+  
+  section_list_unlink_all(file->sections);
+  
+  free(file->sections);
+  file->sections = NULL;
+
+  /* free the hash data: */
   if(secfilehash_hashash(file)) {
     secfilehash_free(file);
   }
-
+  
+  /* free the real data: */
   sbuf_free(file->sb);
+
   file->sb = NULL;
 }
 
@@ -247,27 +276,22 @@ void section_file_free(struct section_file *file)
 **************************************************************************/
 void section_file_check_unused(struct section_file *file, char *filename)
 {
-  struct genlist_iterator myiter, myiter2;
-  struct section *psection;
-  struct section_entry *pentry;
   int any = 0;
 
-  genlist_iterator_init(&myiter, &file->section_list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    psection = (struct section *)ITERATOR_PTR(myiter);
-    genlist_iterator_init(&myiter2, &psection->entry_list, 0);
-    for(; ITERATOR_PTR(myiter2); ITERATOR_NEXT(myiter2)) {
-      pentry = (struct section_entry *)ITERATOR_PTR(myiter2);
+  section_list_iterate(*file->sections, psection) {
+    entry_list_iterate(psection->entries, pentry) {
       if (!pentry->used) {
 	if (any==0 && filename!=NULL) {
 	  freelog(LOG_NORMAL, "Unused entries in file %s:", filename);
 	  any = 1;
 	}
-	freelog(LOG_NORMAL, "  unused entry: %s.%s", psection->name, pentry->name);
+	freelog(LOG_NORMAL, "  unused entry: %s.%s",
+		psection->name, pentry->name);
       }
     }
+    entry_list_iterate_end;
   }
+  section_list_iterate_end;
 }
 
 /**************************************************************************
@@ -286,7 +310,7 @@ void section_file_check_unused(struct section_file *file, char *filename)
   for this instead of the strbuffer stuff, as this is reused many
   times during loading the datafile.)
   
-  In the section_entry structs we fill in ivalue and svalue,
+  In the entry structs we fill in ivalue and svalue,
   but not name (which is set to NULL).  svalue, if used, is 
   strbuffermalloc-ed memory.
   (As usual svalue==NULL implies integer, else string.)
@@ -300,7 +324,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
 			    char *filename, int lineno, struct sbuffer *sb)
 {
   char *cptr=buffer, *start;
-  struct section_entry *this_entry;
+  struct entry *this_entry;
   int end=0;
 
   entries->n = 0;
@@ -316,11 +340,11 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
 
     /* prepare for next entry: */
     entries->n++;
-    this_entry = sbuf_malloc(sb, sizeof(struct section_entry));
+    this_entry = sbuf_malloc(sb, sizeof(struct entry));
     if (entries->n > entries->n_alloc) {
       entries->n_alloc = 2*entries->n+1;
       entries->plist = fc_realloc(entries->plist,
-				  entries->n_alloc*sizeof(struct section_entry*));
+				  entries->n_alloc*sizeof(struct entry*));
     }
     entries->plist[entries->n-1] = this_entry;
     this_entry->name = NULL;
@@ -445,8 +469,8 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 
       psection = sbuf_malloc(sb, sizeof(struct section));
       psection->name = sbuf_strdup(sb, sname);
-      genlist_init(&psection->entry_list);
-      genlist_insert(&my_section_file->section_list, psection, -1);
+      entry_list_init(&psection->entries);
+      section_list_insert_back(my_section_file->sections, psection);
 
       current_section=psection;
 
@@ -478,7 +502,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 		  columns.plist[columns.n-1]->svalue, i-columns.n+1);
 	}
 	entries.plist[i]->name = sbuf_strdup(sb, temp_name);
-	genlist_insert(&current_section->entry_list, entries.plist[i], -1); 
+	entry_list_insert_back(&current_section->entries, entries.plist[i]); 
 	my_section_file->num_entries++;
       }
       table_lineno++;
@@ -517,7 +541,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 	    sprintf(temp_name,"%s,%d", pname, i);
 	    entries.plist[i]->name = sbuf_strdup(sb, temp_name);
 	  }
-	  genlist_insert(&current_section->entry_list, entries.plist[i], -1); 
+	  entry_list_insert_back(&current_section->entries, entries.plist[i]);
 	  my_section_file->num_entries++;
 	}
 	
@@ -571,19 +595,19 @@ int section_file_save(struct section_file *my_section_file, char *filename)
 {
   FILE *fs;
 
-  struct genlist_iterator sec_iter, ent_iter, save_iter, col_iter;
-  struct section *psection;
-  struct section_entry *pentry, *col_pentry;
+  struct genlist_iterator ent_iter, save_iter, col_iter;
+  struct entry *pentry, *col_pentry;
 
   if(!(fs=fopen(filename, "w")))
     return 0;
 
-  for(genlist_iterator_init(&sec_iter, &my_section_file->section_list, 0);
-      (psection = ITERATOR_PTR(sec_iter));
-      ITERATOR_NEXT(sec_iter)) {
+  section_list_iterate(*my_section_file->sections, psection) {
     fprintf(fs, "\n[%s]\n", psection->name);
 
-    for(genlist_iterator_init(&ent_iter, &psection->entry_list, 0);
+    /* Following doesn't use entry_list_iterate() because we want to do
+     * tricky things with the iterators...
+     */
+    for(genlist_iterator_init(&ent_iter, &psection->entries.list, 0);
 	(pentry = ITERATOR_PTR(ent_iter));
 	ITERATOR_NEXT(ent_iter)) {
 
@@ -688,6 +712,8 @@ int section_file_save(struct section_file *my_section_file, char *filename)
 	fprintf(fs, "%s=%d\n", pentry->name, pentry->ivalue);
     }
   }
+  section_list_iterate_end;
+  
   moutstr(NULL);		/* free internal buffer */
 
   if(ferror(fs) || fclose(fs) == EOF)
@@ -701,7 +727,7 @@ int section_file_save(struct section_file *my_section_file, char *filename)
 **************************************************************************/
 char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
 {
-  struct section_entry *entry;
+  struct entry *pentry;
   char buf[512];
   va_list ap;
 
@@ -709,18 +735,17 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
   vsprintf(buf, path, ap);
   va_end(ap);
 
-
-  if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
     exit(1);
   }
 
-  if(!entry->svalue) {
+  if(!pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile entry '%s' doesn't contain a string", buf);
     exit(1);
   }
   
-  return entry->svalue;
+  return pentry->svalue;
 }
 
       
@@ -731,7 +756,7 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
 void secfile_insert_int(struct section_file *my_section_file,
 			int val, char *path, ...)
 {
-  struct section_entry *pentry;
+  struct entry *pentry;
   char buf[512];
   va_list ap;
 
@@ -752,7 +777,7 @@ void secfile_insert_int(struct section_file *my_section_file,
 void secfile_insert_str(struct section_file *my_section_file,
 			char *sval, char *path, ...)
 {
-  struct section_entry *pentry;
+  struct entry *pentry;
   char buf[512];
   va_list ap;
 
@@ -771,7 +796,7 @@ void secfile_insert_str(struct section_file *my_section_file,
 int secfile_lookup_int(struct section_file *my_section_file, 
 		       char *path, ...)
 {
-  struct section_entry *entry;
+  struct entry *pentry;
   char buf[512];
   va_list ap;
 
@@ -779,17 +804,17 @@ int secfile_lookup_int(struct section_file *my_section_file,
   vsprintf(buf, path, ap);
   va_end(ap);
 
-  if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile doesn't contain a '%s' entry", buf);
     exit(1);
   }
 
-  if(entry->svalue) {
+  if(pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile entry '%s' doesn't contain an integer", buf);
     exit(1);
   }
   
-  return entry->ivalue;
+  return pentry->ivalue;
 }
 
 
@@ -800,7 +825,7 @@ int secfile_lookup_int(struct section_file *my_section_file,
 int secfile_lookup_int_default(struct section_file *my_section_file,
 			       int def, char *path, ...)
 {
-  struct section_entry *entry;
+  struct entry *pentry;
   char buf[512];
   va_list ap;
 
@@ -808,14 +833,14 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
   vsprintf(buf, path, ap);
   va_end(ap);
 
-  if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     return def;
   }
-  if(entry->svalue) {
+  if(pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile contains a '%s', but string not integer", buf);
     exit(1);
   }
-  return entry->ivalue;
+  return pentry->ivalue;
 }
 
 /**************************************************************************
@@ -825,7 +850,7 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
 char *secfile_lookup_str_default(struct section_file *my_section_file, 
 				 char *def, char *path, ...)
 {
-  struct section_entry *entry;
+  struct entry *pentry;
   char buf[512];
   va_list ap;
 
@@ -833,16 +858,16 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
   vsprintf(buf, path, ap);
   va_end(ap);
 
-  if(!(entry=section_file_lookup_internal(my_section_file, buf))) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     return def;
   }
 
-  if(!entry->svalue) {
+  if(!pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile contains a '%s', but integer not string", buf);
     exit(1);
   }
   
-  return entry->svalue;
+  return pentry->svalue;
 }
 
 /**************************************************************************
@@ -865,7 +890,7 @@ int section_file_lookup(struct section_file *my_section_file,
 /**************************************************************************
 ...
 **************************************************************************/
-static struct section_entry*
+static struct entry*
 section_file_lookup_internal(struct section_file *my_section_file,  
 			     char *fullpath) 
 {
@@ -874,10 +899,11 @@ section_file_lookup_internal(struct section_file *my_section_file,
   char ent_name[512];
   char mod_fullpath[1024];
   int len;
-  struct genlist_iterator myiter;
   struct hash_entry *hentry;
-  struct section_entry *result;
+  struct entry *result;
 
+  /* freelog(LOG_DEBUG, "looking up: %s", fullpath); */
+  
   /* treat "sec.foo,0" as "sec.foo": */
   len = strlen(fullpath);
   if(len>2 && fullpath[len-2]==',' && fullpath[len-1]=='0') {
@@ -904,22 +930,19 @@ section_file_lookup_internal(struct section_file *my_section_file,
   sec_name[pdelim-fullpath]='\0';
   strcpy(ent_name, pdelim+1);
 
-  genlist_iterator_init(&myiter, &my_section_file->section_list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(!strcmp(((struct section *)ITERATOR_PTR(myiter))->name, sec_name)) {
-      struct genlist_iterator myiter2;
-      genlist_iterator_init(&myiter2, &((struct section *)
-				 ITERATOR_PTR(myiter))->entry_list, 0);
-      for(; ITERATOR_PTR(myiter2); ITERATOR_NEXT(myiter2)) {
-   	if(!strcmp(((struct section_entry *)ITERATOR_PTR(myiter2))->name, 
-		   ent_name)) {
-	  result = (struct section_entry *)ITERATOR_PTR(myiter2);
+  section_list_iterate(*my_section_file->sections, psection) {
+    if (strcmp(psection->name, sec_name) == 0 ) {
+      entry_list_iterate(psection->entries, pentry) {
+   	if (strcmp(pentry->name, ent_name) == 0) {
+	  result = pentry;
 	  result->used++;
 	  return result;
 	}
       }
+      entry_list_iterate_end;
     }
+  }
+  section_list_iterate_end;
 
   return 0;
 }
@@ -929,16 +952,15 @@ section_file_lookup_internal(struct section_file *my_section_file,
  The caller should ensure that "fullpath" should not refer to an entry
  which already exists in "my_section_file".
 **************************************************************************/
-static struct section_entry*
+static struct entry*
 section_file_insert_internal(struct section_file *my_section_file, 
 			     char *fullpath)
 {
   char *pdelim;
   char sec_name[512];
   char ent_name[512];
-  struct genlist_iterator myiter;
   struct section *psection;
-  struct section_entry *pentry;
+  struct entry *pentry;
   struct sbuffer *sb = my_section_file->sb;
 
   if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
@@ -951,28 +973,27 @@ section_file_insert_internal(struct section_file *my_section_file,
   /* Do a reverse search of sections, since we're most likely
    * to be adding to the lastmost section.
    */
-  for(genlist_iterator_init(&myiter, &my_section_file->section_list, -1);
-      (psection = (struct section *)ITERATOR_PTR(myiter));
-      ITERATOR_PREV(myiter)) {
+  section_list_iterate_rev(*my_section_file->sections, psection) {
     if(strcmp(psection->name, sec_name)==0) {
       /* This DOES NOT check whether the entry already exists in
        * the section, to avoid O(N^2) behaviour.
        */
-      pentry = sbuf_malloc(sb, sizeof(struct section_entry));
+      pentry = sbuf_malloc(sb, sizeof(struct entry));
       pentry->name = sbuf_strdup(sb, ent_name);
-      genlist_insert(&psection->entry_list, pentry, -1);
+      entry_list_insert_back(&psection->entries, pentry);
       return pentry;
     }
   }
+  section_list_iterate_rev_end;
 
   psection = sbuf_malloc(sb, sizeof(struct section));
   psection->name = sbuf_strdup(sb, sec_name);
-  genlist_init(&psection->entry_list);
-  genlist_insert(&my_section_file->section_list, psection, -1);
+  entry_list_init(&psection->entries);
+  section_list_insert_back(my_section_file->sections, psection);
   
-  pentry = sbuf_malloc(sb, sizeof(struct section_entry));
+  pentry = sbuf_malloc(sb, sizeof(struct entry));
   pentry->name = sbuf_strdup(sb, ent_name);
-  genlist_insert(&psection->entry_list, pentry, -1);
+  entry_list_insert_back(&psection->entries, pentry);
 
   return pentry;
 }
@@ -1071,7 +1092,7 @@ static struct hash_entry *secfilehash_lookup(struct section_file *file,
  Note the hash table key_val is malloced here.
 **************************************************************************/
 static void secfilehash_insert(struct section_file *file,
-			       char *key, struct section_entry *data)
+			       char *key, struct entry *data)
 {
   struct hash_entry *hentry;
   int hash_val;
@@ -1093,9 +1114,6 @@ static void secfilehash_insert(struct section_file *file,
 static void secfilehash_build(struct section_file *file)
 {
   struct hash_data *hashd;
-  struct genlist_iterator myiter, myiter2;
-  struct section *this_section;
-  struct section_entry *this_entry;
   char buf[256];
   int i;
   unsigned int uent, pow2;
@@ -1124,19 +1142,15 @@ static void secfilehash_build(struct section_file *file)
     hashd->table[i].hash_val = -1;
   }
 
-  genlist_iterator_init(&myiter, &file->section_list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    this_section = (struct section *)ITERATOR_PTR(myiter);
-    genlist_iterator_init(&myiter2, &((struct section *)
-			       ITERATOR_PTR(myiter))->entry_list, 0);
-
-    for(; ITERATOR_PTR(myiter2); ITERATOR_NEXT(myiter2)) {
-      this_entry = (struct section_entry *)ITERATOR_PTR(myiter2);
-      sprintf(buf, "%s.%s", this_section->name, this_entry->name);
-      secfilehash_insert(file, buf, this_entry);
+  section_list_iterate(*file->sections, psection) {
+    entry_list_iterate(psection->entries, pentry) {
+      sprintf(buf, "%s.%s", psection->name, pentry->name);
+      secfilehash_insert(file, buf, pentry);
     }
+    entry_list_iterate_end;
   }
+  section_list_iterate_end;
+  
   if (HASH_DEBUG>=1) {
     freelog(LOG_DEBUG, "Hash collisions during build: %d (%d entries, %d buckets)",
 	hashd->num_collisions, file->num_entries, hashd->num_buckets );
@@ -1336,21 +1350,19 @@ static char *moutstr(char *str)
 char **secfile_get_secnames_prefix(struct section_file *my_section_file,
 				   char *prefix, int *num)
 {
-  struct genlist_iterator myiter;
   char **ret;
   int len, i;
 
   len = strlen(prefix);
 
   /* count 'em: */
-  genlist_iterator_init(&myiter, &my_section_file->section_list, 0);
-  for(i=0; ITERATOR_PTR(myiter); ) {
-    struct section *psection=(struct section *)ITERATOR_PTR(myiter);
+  i = 0;
+  section_list_iterate(*my_section_file->sections, psection) {
     if (strncmp(psection->name, prefix, len) == 0) {
       i++;
     }
-    ITERATOR_NEXT(myiter);
   }
+  section_list_iterate_end;
   (*num) = i;
 
   if (i==0) {
@@ -1358,15 +1370,14 @@ char **secfile_get_secnames_prefix(struct section_file *my_section_file,
   }
   
   ret = fc_malloc((*num)*sizeof(char*));
-  
-  genlist_iterator_init(&myiter, &my_section_file->section_list, 0);
-  for(i=0; ITERATOR_PTR(myiter); ) {
-    struct section *psection=(struct section *)ITERATOR_PTR(myiter);
+
+  i = 0;
+  section_list_iterate(*my_section_file->sections, psection) {
     if (strncmp(psection->name, prefix, len) == 0) {
       ret[i++] = psection->name;
     }
-    ITERATOR_NEXT(myiter);
   }
+  section_list_iterate_end;
   return ret;
 }
 
