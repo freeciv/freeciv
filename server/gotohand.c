@@ -21,6 +21,7 @@
 #include <unithand.h>
 #include <unittools.h>
 #include <gotohand.h>
+#include <settlers.h>
 
 struct move_cost_map warmap;
 
@@ -146,6 +147,7 @@ pcity->name : "NULL"), (punit ? unit_types[punit->type].name : "NULL"));*/
 
   if (punit) {
     if (pcity && pcity == warmap.warcity) return; /* time-saving shortcut */
+    if (warmap.warunit == punit && !warmap.cost[punit->x][punit->y]) return;
     pcity = 0;
   }
 
@@ -271,6 +273,11 @@ These if's might cost some CPU but hopefully less overall. -- Syela */
   else if (dx > 0) e = dx;
   else if (dx + (map.xsize>>1) > 0) w = 0 - dx;
   else e = map.xsize + dx;
+  if (e == map.xsize / 2 || w == map.xsize / 2) { /* thanks, Massimo */
+    if (k < 3 && s >= MAX(e, w)) return 0;
+    if (k > 4 && n >= MAX(e, w)) return 0;
+    return 1;
+  }
   switch(k) {
     case 0:
       if (e >= n && s >= w) return 0;
@@ -325,6 +332,7 @@ int find_the_shortest_path(struct player *pplayer, struct unit *punit,
   enum unit_move_type which = unit_types[punit->type].move_type;
   int maxcost = 255;
   unsigned char local_vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+  struct unit *passenger; /* and I ride and I ride */
   
 /* Often we'll already have a working warmap, but I don't want to
 deal with merging these functions yet.  Once they work correctly
@@ -343,6 +351,18 @@ and independently I can worry about optimizing them. -- Syela */
   add_to_stack(orig_x, orig_y);
 
   if (punit && unit_flag(punit->type, F_IGTER)) igter++;
+  if (which == SEA_MOVING) passenger = other_passengers(punit);
+  else passenger = punit;
+
+  if (passenger)
+    if (map_get_terrain(dest_x, dest_y) == T_OCEAN ||
+          is_friendly_unit_tile(dest_x, dest_y, passenger->owner) ||
+          is_friendly_city_tile(dest_x, dest_y, passenger->owner) ||
+          (unit_flag(passenger->type, F_MARINES) &&
+          get_defender(pplayer, passenger, dest_x, dest_y)) ||
+          is_my_zoc(passenger, dest_x, dest_y)) passenger = 0;
+
+/* if passenger is nonzero, the next-to-last tile had better be zoc-ok! */
 
   do {
     x = warstack[warnodes].x;
@@ -361,7 +381,7 @@ and independently I can worry about optimizing them. -- Syela */
       if (which != SEA_MOVING) {
         if (which != LAND_MOVING) c = 3;
         else if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost; 
-        else if (igter) c = 3; /* NOT c = 1 */
+        else if (igter) c = (tile0->move_cost[k] ? 3 : 0); /* Reinier's fix -- Syela */
         else c = tile0->move_cost[k];
         c = goto_tile_cost(pplayer, punit, x, y, xx[i], yy[j], c);
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
@@ -386,7 +406,9 @@ and independently I can worry about optimizing them. -- Syela */
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
         tm = warmap.seacost[x][y] + c;
         if (tm < maxcost) {
-          if (warmap.seacost[xx[i]][yy[j]] > tm) {
+          if (xx[i] == dest_x && yy[j] == dest_y && passenger &&
+              !is_my_zoc(passenger, x, y)) ; /* passenger cannot disembark */
+          else if (warmap.seacost[xx[i]][yy[j]] > tm) {
             warmap.seacost[xx[i]][yy[j]] = tm;
             add_to_stack(xx[i], yy[j]);
             local_vector[xx[i]][yy[j]] = 128>>k;
@@ -478,6 +500,9 @@ int find_a_direction(struct unit *punit)
       else if ((d0 * h0) <= (d1 * h1)) d[k] = (d1 * h1) * (u - 1) / u;
       else d[k] = MIN(d0 * h0 * u, d0 * h0 * d0 * h0 * (u - 1) / MAX(u, (d1 * h1 * u)));
       if (d0 > d1) d1 = d0;
+
+      if (ptile->special&S_ROAD) d[k] += 10; /* in case we change directions */
+      if (ptile->special&S_RAILROAD) d[k] += 10; /* next turn, roads are nice */
 
       nearland = 0;
       for (n = 0; n < 8; n++) {
