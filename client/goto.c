@@ -323,7 +323,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  else
 	    move_cost = 3;
 	} else if (psrctile->terrain == T_OCEAN) {
-	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost;
+	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
 	} else if (igter) {
 	  move_cost = (psrctile->move_cost[dir] ? 1 : 0);

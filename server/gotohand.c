@@ -324,7 +324,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
           else
 	    continue;
 	} else if (ptile->terrain == T_OCEAN) {
-	  int base_cost = get_tile_type(map_get_terrain(x1, y1))->movement_cost;
+	  int base_cost = get_tile_type(map_get_terrain(x1, y1))->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
@@ -709,7 +709,7 @@ static int find_the_shortest_path(struct unit *punit,
 	  else
 	    move_cost = 3;
 	} else if (psrctile->terrain == T_OCEAN) {
-	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost;
+	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
 	} else if (igter)
 	  move_cost = (psrctile->move_cost[dir] ? 3 : 0);
