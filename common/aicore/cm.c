@@ -1167,8 +1167,8 @@ static void build_cache3(struct city *pcity)
   cache3.pcity = pcity;
   stats.cache3.misses++;
 
-  /* Make cache3 invalid */
-  for (i = 0; i < MAX_FIELDS_USED + 1; i++) {
+  /* Make as invalid the parts of cache3 we'll use. */
+  for (i = 0; i < MIN(pcity->size, MAX_FIELDS_USED) + 1; i++) {
     for (j = 0; j < MAX_COMBINATIONS; j++) {
       cache3.results[i].combinations[j].is_valid = FALSE;
       if (cache3.results[i].combinations[j].cache1) {
