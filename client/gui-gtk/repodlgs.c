@@ -14,10 +14,6 @@
 #include <config.h>
 #endif
 
-#if defined(__VMS)
-#  include <memory.h>
-#endif
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
