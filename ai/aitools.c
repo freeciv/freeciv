@@ -62,7 +62,7 @@ int military_amortize(struct player *pplayer, struct city *pcity,
   struct ai_data *ai = ai_data_get(pplayer);
   int city_output = (pcity ? pcity->shield_surplus : 1);
   int output = MAX(city_output, ai->stats.average_production);
-  int build_time = build_cost / output;
+  int build_time = build_cost / MAX(output, 1);
 
   if (value <= 0) {
     return 0;
