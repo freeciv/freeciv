@@ -2829,8 +2829,8 @@ void report_settable_server_options(struct connection *dest, int which)
   static struct packet_options_settable packet;
   int i, s = 0;
 
-  if (dest->access_level < ALLOW_CTRL ||
-      (which == 1 && server_state > PRE_GAME_STATE)){
+  if (dest->access_level == ALLOW_NONE
+      || (which == 1 && server_state > PRE_GAME_STATE)) {
     report_server_options(&dest->self, which);
     return;
   }
