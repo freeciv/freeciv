@@ -1033,7 +1033,6 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
 					    const char *name)
 {
   struct Sprite *sp;
-  int loglevel = required ? LOG_NORMAL : LOG_DEBUG;
   
   /* (should get sprite_hash before connection) */
   if (!sprite_hash) {
@@ -1045,13 +1044,18 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
 
   sp = load_sprite(alt);
   if (sp) {
-    freelog(loglevel, "Using alternate graphic %s (instead of %s) for %s %s",
+    freelog(LOG_VERBOSE,
+	    "Using alternate graphic %s (instead of %s) for %s %s",
 	    alt, tag, what, name);
     return sp;
   }
-  
-  freelog(loglevel, "Don't have graphics tags %s or %s for %s %s",
+
+  freelog(required ? LOG_FATAL : LOG_VERBOSE,
+	  _("Don't have graphics tags %s or %s for %s %s"),
 	  tag, alt, what, name);
+  if (required) {
+    exit(EXIT_FAILURE);
+  }
   return NULL;
 }
 
@@ -1080,7 +1084,7 @@ void tilespec_setup_impr_type(int id)
 
   pimpr->sprite = lookup_sprite_tag_alt(pimpr->graphic_str,
 					pimpr->graphic_alt,
-					improvement_exists(id), "impr_type",
+					FALSE, "impr_type",
 					pimpr->name);
 
   /* should maybe do something if NULL, eg generic default? */
