@@ -482,12 +482,13 @@ extern struct terrain_misc terrain_control;
  * radius.  Positions returned will have adjusted (x, y); unreal
  * positions will be automatically discarded. 
  */
-#define circle_iterate(center_x, center_y, sq_radius, x_itr, y_itr)           \
-{                                                                             \
-  int _cr_radius = (int)sqrt((double)(sq_radius));                            \
-  square_dxy_iterate(center_x, center_y, _cr_radius,                          \
-		     x_itr, y_itr, _dx, _dy) {                                \
-    if (_dy * _dy + _dx * _dx <= (sq_radius)) {
+#define circle_iterate(center_x, center_y, sq_radius, x_itr, y_itr)         \
+{                                                                           \
+  int _sq_radius = (sq_radius);						    \
+  int _cr_radius = (int)sqrt((double)_sq_radius);			    \
+  square_dxy_iterate(center_x, center_y, _cr_radius,                        \
+		     x_itr, y_itr, _dx, _dy) {                              \
+    if (map_vector_to_sq_distance(_dx, _dy) <= _sq_radius) {
 
 #define circle_iterate_end                                                    \
     }                                                                         \
