@@ -107,12 +107,19 @@ void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
 			     bool (*filter)(const struct tile *ptile,
 					    const void *data))
 {
-  int minval = +(int)HUGE_VAL, maxval = -(int)HUGE_VAL, total = 0;
+  int minval = 0, maxval = 0, total = 0;
+  bool first = TRUE;
 
   /* Determine minimum and maximum value. */
   whole_map_iterate_filtered(ptile, data, filter) {
-    maxval = MAX(maxval, int_map[ptile->index]);
-    minval = MIN(minval, int_map[ptile->index]);
+    if (first) {
+      minval = int_map[ptile->index];
+      maxval = int_map[ptile->index];
+    } else {
+      maxval = MAX(maxval, int_map[ptile->index]);
+      minval = MIN(minval, int_map[ptile->index]);
+    }
+    first = FALSE;
     total++;
   } whole_map_iterate_filtered_end;
 
