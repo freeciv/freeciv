@@ -2,7 +2,7 @@
 FEHLER
 ======                                                                                                 
 
-Stand:  05.06.2002
+Stand:  09.06.2002
 
 Freeciv 1.13.0 ist eine stabile Version, und kann für den täglichen
 Gebrauch als ausreichend fehlerfrei betrachtet werden. Informationen
@@ -24,6 +24,15 @@ BEKANNTE FEHLER:
    angezeigt, wenn die "locale" (die Umgebungsvariable LANG) auf "C"
    gestellt ist. Zur Umgehung kann die "locale" auf etwas anderes, 
    zum Beispiel "de_DE" gestellt werden.
+
+ - Die Einstellungen der Automatischen Stadtverwaltung werden erst am
+   Ende der Runde an den Server geschickt; deshalb gehen Änderungen, die
+   in der gleichen Runde gemacht werden in der das Spiel abgespeichert
+   wird verloren.
+
+ - Wenn die Automatische Stadtverwaltung benutzt wird, können die
+   gespeicherten Spiele nur unter dem gleichen Betriebssystem
+   verwendet werden.
 
  - Die auf "easy" gestellten Computerspieler sind nicht leicht genug
    für neue Spieler. Wenn die KI schon in einer früher Spielphase
