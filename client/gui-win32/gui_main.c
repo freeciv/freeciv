@@ -527,30 +527,9 @@ ui_main(int argc, char *argv[])
   InitCommonControls();
   unitselect_init(freecivhinst);
   init_mapwindow();
-  font_8courier=CreateFont(8,0,0,0,0,
-			   FALSE,FALSE,FALSE,
-			   DEFAULT_CHARSET,
-			   OUT_DEFAULT_PRECIS,
-			   CLIP_DEFAULT_PRECIS,
-			   DEFAULT_QUALITY,
-			   DEFAULT_PITCH | FF_MODERN,
-			   NULL);
-  font_12courier=CreateFont(12,0,0,0,0,
-			    FALSE,FALSE,FALSE,
-			    DEFAULT_CHARSET,
-			    OUT_DEFAULT_PRECIS,
-			    CLIP_DEFAULT_PRECIS,
-			    DEFAULT_QUALITY,
-			    DEFAULT_PITCH,
-			    "Courier");
-  font_12arial=CreateFont(12,0,0,0,0,
-			  FALSE,FALSE,FALSE,
-			  DEFAULT_CHARSET,
-			  OUT_DEFAULT_PRECIS,
-			  CLIP_DEFAULT_PRECIS,
-			  DEFAULT_QUALITY,
-			  DEFAULT_PITCH,
-			  "Arial");
+  font_8courier=GetStockObject(ANSI_FIXED_FONT);
+  font_12courier=font_8courier;
+  font_12arial=GetStockObject(DEFAULT_GUI_FONT);
   create_main_window();
   GetWindowRect(root_window,&rc);
   MoveWindow(root_window,rc.left,rc.top,640,480,TRUE);
