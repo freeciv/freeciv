@@ -1,3 +1,1657 @@
+Sun Jun 13 05:15:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.in, acconfig.h, aclocal.m4, config.h.in, configure,
+	configure.in, undep.sh.in, ai/Makefile.in, client/Makefile.in,
+	client/gui-gtk/Makefile.in, client/gui-xaw/Makefile.in,
+	client/include/Makefile.in, common/Makefile.in, data/Makefile.in,
+	data/civ1/Makefile.in, data/classic/Makefile.in,
+	server/Makefile.in, data/default/Makefile.in: Updated to
+	automake-1.4 and autoconf-2.13.
+
+Sat Jun 12 17:52:51 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/helpdlg.c, client/gui-xaw/helpdlg.c: This pair of
+	near-identical patches (one for each widget set) replaces some
+	hardcoded text that is overly specific to the standard game with
+	some more general verbiage that will be more correct under certain
+	ruleset modifications.  I am referring to the situation where
+	"Pikemen" have their defense doubled against "horseback (except
+	Cavalry)"; the flags in units.ruleset allow a more general
+	combination of the units participating in the effect.
+
+	I also corrected a helptext spelling error that I noticed nearby
+	in the code ("aboad" --> "aboard").
+
+	Patch submitted by "Bobby D. Bryant" <bdbryant@mail.utexas.edu>
+
+Sat Jun 12 08:06:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_stuff.c, client/gui-gtk/gui_stuff.h:
+	Parameters of gtk_scale_pixmap did not match prototype or usage;
+	removed unused parameter "root"; now include gui_stuff.h to check
+	prototypes.
+
+Sat Jun 12 07:41:40 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advattitude.c, ai/advattitude.h, ai/advdomestic.c,
+	ai/advdomestic.h, ai/advforeign.c, ai/advforeign.h,
+	ai/advisland.c, ai/advisland.h, ai/advleader.c, ai/advleader.h,
+	ai/advmilitary.c, ai/advmilitary.h, ai/advscience.c,
+	ai/advscience.h, ai/advtrade.c, ai/advtrade.h, ai/aicity.c,
+	ai/aicity.h, ai/aihand.c, ai/aihand.h, ai/aitech.c, ai/aitech.h,
+	ai/aitools.c, ai/aitools.h, ai/aiunit.c, ai/aiunit.h,
+	client/civclient.c, client/climisc.c, client/options.c,
+	client/packhand.c, client/gui-gtk/chatline.c,
+	client/gui-gtk/chatline.h, client/gui-gtk/citydlg.c,
+	client/gui-gtk/citydlg.h, client/gui-gtk/cityrep.c,
+	client/gui-gtk/clinet.c, client/gui-gtk/clinet.h,
+	client/gui-gtk/colors.c, client/gui-gtk/colors.h,
+	client/gui-gtk/connectdlg.c, client/gui-gtk/connectdlg.h,
+	client/gui-gtk/dialogs.c, client/gui-gtk/dialogs.h,
+	client/gui-gtk/diplodlg.c, client/gui-gtk/diplodlg.h,
+	client/gui-gtk/finddlg.c, client/gui-gtk/gamedlgs.c,
+	client/gui-gtk/gotodlg.c, client/gui-gtk/gotodlg.h,
+	client/gui-gtk/graphics.c, client/gui-gtk/graphics.h,
+	client/gui-gtk/gui_main.c, client/gui-gtk/gui_main.h,
+	client/gui-gtk/gui_stuff.c, client/gui-gtk/gui_stuff.h,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/inputdlg.c,
+	client/gui-gtk/inputdlg.h, client/gui-gtk/inteldlg.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapctrl.h,
+	client/gui-gtk/mapview.c, client/gui-gtk/mapview.h,
+	client/gui-gtk/menu.c, client/gui-gtk/menu.h,
+	client/gui-gtk/messagedlg.c, client/gui-gtk/messagewin.c,
+	client/gui-gtk/optiondlg.h, client/gui-gtk/plrdlg.c,
+	client/gui-gtk/repodlgs.c, client/gui-gtk/repodlgs.h,
+	client/gui-gtk/spaceshipdlg.c, client/gui-gtk/spaceshipdlg.h,
+	client/gui-xaw/canvas.c, client/gui-xaw/chatline.c,
+	client/gui-xaw/chatline.h, client/gui-xaw/citydlg.c,
+	client/gui-xaw/citydlg.h, client/gui-xaw/cityrep.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/clinet.h,
+	client/gui-xaw/colors.c, client/gui-xaw/colors.h,
+	client/gui-xaw/connectdlg.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/dialogs.h, client/gui-xaw/diplodlg.c,
+	client/gui-xaw/diplodlg.h, client/gui-xaw/finddlg.c,
+	client/gui-xaw/gotodlg.c, client/gui-xaw/gotodlg.h,
+	client/gui-xaw/graphics.c, client/gui-xaw/graphics.h,
+	client/gui-xaw/gui_main.c, client/gui-xaw/gui_main.h,
+	client/gui-xaw/gui_stuff.c, client/gui-xaw/gui_stuff.h,
+	client/gui-xaw/helpdlg.c, client/gui-xaw/inputdlg.c,
+	client/gui-xaw/inputdlg.h, client/gui-xaw/inteldlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapctrl.h,
+	client/gui-xaw/mapview.c, client/gui-xaw/mapview.h,
+	client/gui-xaw/menu.c, client/gui-xaw/menu.h,
+	client/gui-xaw/messagedlg.c, client/gui-xaw/messagewin.c,
+	client/gui-xaw/optiondlg.c, client/gui-xaw/optiondlg.h,
+	client/gui-xaw/pixcomm.c, client/gui-xaw/plrdlg.c,
+	client/gui-xaw/ratesdlg.c, client/gui-xaw/repodlgs.c,
+	client/gui-xaw/repodlgs.h, client/gui-xaw/resources.c,
+	client/gui-xaw/resources.h, client/gui-xaw/spaceshipdlg.c,
+	client/gui-xaw/spaceshipdlg.h, client/include/civclient.h,
+	client/include/finddlg.h, client/include/helpdlg.h,
+	client/include/inteldlg.h, client/include/meswindlg.h,
+	client/include/packhand.h, client/include/plrdlg.h,
+	client/include/ratesdlg.h, common/city.c, common/city.h,
+	common/diptreaty.c, common/game.c, common/genlist.c,
+	common/genlist.h, common/log.c, common/log.h, common/map.c,
+	common/packets.c, common/packets.h, common/player.c,
+	common/player.h, common/registry.c, common/registry.h,
+	common/shared.c, common/tech.c, common/tech.h, common/unit.c,
+	common/unit.h, server/autoattack.c, server/cityhand.c,
+	server/cityhand.h, server/citytools.c, server/citytools.h,
+	server/cityturn.c, server/cityturn.h, server/civserver.c,
+	server/console.h, server/diplhand.c, server/diplhand.h,
+	server/gamehand.c, server/gamehand.h, server/gamelog.c,
+	server/gamelog.h, server/gotohand.c, server/gotohand.h,
+	server/handchat.c, server/handchat.h, server/mapgen.c,
+	server/maphand.c, server/maphand.h, server/meta.c, server/meta.h,
+	server/plrhand.c, server/ruleset.c, server/ruleset.h,
+	server/sernet.c, server/sernet.h, server/settlers.c,
+	server/spacerace.c, server/stdinhand.c, server/stdinhand.h,
+	server/unitfunc.c, server/unitfunc.h, server/unithand.c,
+	server/unithand.h, server/unittools.c, server/unittools.h: 
+	Tidied up include files and include lines.  
+	- Use #include "foo.h" instead of #include <foo.h>, for all foo.h 
+	  files which are part of freeciv; 
+	- Better grouping and sorting of include lines; 
+	- Standardized the define used to avoid multiple inclusions, as 
+	  eg, FC__FOO_H for foo.h; 
+	- For each .c file, always include the corresponding .h file to 
+	  check prototypes; 
+	- Removed duplicate definition of ai_choice in city.h and 
+	  aitools.h (now only in city.h, and include city.h in aitools.h); 
+	- Removed some unnecessary includes (just some I happened to 
+	  notice).
+
+Sat Jun 12 07:35:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/capstr.c: Fixed example capability line in comments, and
+	a stray semicolon in define.
+
+Thu Jun 10 20:47:55 1999  Lalo Martins <lalo@debian.org>:
+
+	* debian/freeciv-gtk.dirs, debian/freeciv-xaw.dirs,
+	debian/freeciv-xaw3d.dirs, debian/freeciv.desktop, debian/rules:
+	Last fixes for building for Debian the "new" way, plus a gnome
+	.desktop file
+
+Thu Jun 10 16:05:59 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c: When the
+	turn-done button is blinking, other widgets using the same style
+	occasionally get drawn with the inverted colors (at least they do
+	here with gtk+-1.2.3). The attached patch against very recent cvs
+	fixes this by setting a seperate style for the turn_done_button
+	widget. The second part of the patch is cosmetic.
+
+	Patch submitted by Daniel Deckers <fh5y076@public.uni-hamburg.de>
+
+Thu Jun 10 15:35:13 1999  Lalo Martins <lalo@debian.org>:
+
+	* debian/changelog, debian/control, debian/dirs,
+	debian/freeciv-gtk.dirs, debian/freeciv-gtk.menu,
+	debian/freeciv-gtk.postinst, debian/freeciv-gtk.postrm,
+	debian/freeciv-xaw.dirs, debian/freeciv-xaw.menu,
+	debian/freeciv-xaw.postinst, debian/freeciv-xaw.postrm,
+	debian/freeciv-xaw.xaw, debian/freeciv-xaw3d.postinst,
+	debian/freeciv-xaw3d.postrm, debian/menu, debian/postinst,
+	debian/postrm, debian/rules, debian/xaw-wrappers: Finally fixed
+	the xaw-wrappers new version problem and have the new packaging
+	"status quo" really working and ready to upload.
+
+Thu Jun 10 12:26:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/packhand.c, client/gui-gtk/menu.c,
+	client/gui-gtk/menu.h, client/gui-gtk/messagewin.c,
+	client/gui-gtk/repodlgs.c, client/gui-gtk/repodlgs.h,
+	client/gui-xaw/connectdlg.c, client/gui-xaw/gotodlg.c,
+	client/gui-xaw/gotodlg.h, client/gui-xaw/menu.c,
+	client/gui-xaw/menu.h, client/gui-xaw/messagewin.c,
+	client/gui-xaw/repodlgs.c, client/gui-xaw/repodlgs.h,
+	client/include/cityrep.h, client/include/meswindlg.h,
+	common/game.c, common/game.h, server/civserver.c,
+	server/civserver.h, server/mapgen.c, server/mapgen.h,
+	server/meta.h, server/plrhand.c, server/plrhand.h,
+	server/settlers.c, server/settlers.h, server/unittools.c,
+	server/unittools.h: Declare functions taking no arguments as
+	foo(void) rather than foo().
+
+Thu Jun 10 12:23:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/packets.c, common/packets.h, server/diplhand.c: Fixed
+	spelling of "recieve" to "receive" (mainly in function names).
+
+Thu Jun 10 12:22:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/clinet.c, client/gui-gtk/gui_main.c,
+	client/civclient.c, client/packhand.c, client/gui-xaw/clinet.c,
+	client/gui-xaw/gui_main.c, common/Makefile.am, common/Makefile.in,
+	common/capstr.c, common/capstr.h, common/packets.c,
+	common/packets.h, common/shared.h, server/civserver.c: Moved the
+	definition of the capability string into a new module "capstr". 
+	This means we don't have to recompile almost everything when the
+	capability string is changed.  Also moved our_capability into
+	capstr, and the comment block (somewhat revised) about the
+	capability string.  Consolidated the code setting our_capability
+	into a new function init_our_capability() in capstr, and in the
+	client, moved this initialisation from the gui_main() functions
+	into main().  Also introduced a new define, MAX_CAPSTR_LEN (the
+	previous use of MSG_SIZE for this seemed excessive, though the new
+	size is still quite generous).
+
+Thu Jun 10 12:15:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/capability.c, common/capability.h: Declare the arguments
+	of has_capability() and has_capabilities() as "const char *"
+	instead of "char *", to indicate that the strings are not
+	modified, and so that we can pass "const char*" strings to these
+	functions without warnings.
+
+Thu Jun 10 12:11:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.h.in: Update for usleep patch.
+
+Wed Jun  9 11:52:25 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/cityrep.c,
+	ai/advdomestic.c, ai/aicity.c, ai/aihand.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	server/cityturn.c: Removed the granary patch for version 1.8.0 to
+	be fully compatible with 1.8.1 .
+
+Wed Jun  9 11:33:25 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* data/helpdata.txt: Document in help control the new available
+	keys: 0 to 9.
+
+Wed Jun  9 10:22:59 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c, acconfig.h,
+	configure, configure.in, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/mapview.c, data/Freeciv: This patch allows the use
+	of key '0-9' to move a unit.  Also, it checks if the function
+	sleep is present.  If it's not, it uses select in replacement. 
+	Patch submitted by sebauer@t-online.de (Sebastian Bauer).
+
+Tue Jun  8 11:41:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c: Improvements to registry to allow reading and
+	writing strings with internal escaped double-quote, backslash or
+	newline characters, and to write such escapes when saving. 
+	(Previously read escaped baskslashes and newlines only, but not
+	double-quotes, and didn't do any escapes when saving.)  Fixes bug
+	reported by Reinier Post and others.
+
+Tue Jun  8 11:39:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/optiondlg.c,
+	data/Freeciv: Made Xaw options dialog have Ok and Cancel buttons
+	instead of just Close.
+
+Tue Jun  8 11:38:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/cityrep.c, client/gui-xaw/gui_main.c,
+	client/gui-xaw/helpdlg.c, client/gui-xaw/messagewin.c,
+	client/gui-xaw/plrdlg.c: Some Xaw dialogs caused core dumps if
+	closed via window manager controls, while some such dialogs have
+	been fixed previously.  This patch fixes the remaining ones I
+	could find: the city report, the help dialog, the messages window,
+	and the players dialog.  (Bug reported by several people.)
+
+Tue Jun  8 11:34:17 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/log.c: Changed a strdup to mystrdup in
+	log_parse_level_str().
+
+Mon Jun  7 12:14:01 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: Commented out some "unit not implemented"
+	messages in the help text, to avoid bogus help text if a modpack
+	_does_ implement a unit with that name.
+
+Sun Jun  6 06:40:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/diplhand.c, server/gamelog.h: In
+	handle_diplomacy_accept_treaty(), call to gamelog() for tech trade
+	had a wrong argument, leading to core dumps; fixed (PR#17).  Bug
+	reported by Chip Richards <chipr@niestu.com>.
+
+	Also fixed omission that gamelog() is a printf-like function, and
+	so should use fc__attribute accordingly, to catch such bugs.
+
+Sun Jun  6 05:44:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/aicity.c, ai/aihand.c,
+	ai/aitech.c, ai/aitools.c, ai/aiunit.c, client/civclient.c,
+	client/climisc.c, client/options.c, client/packhand.c,
+	client/gui-gtk/colors.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/menu.c,
+	client/gui-xaw/colors.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/helpdlg.c, common/game.c, common/map.c,
+	common/packets.c, common/shared.c, server/autoattack.c,
+	server/cityhand.c, server/citytools.c, server/cityturn.c,
+	server/civserver.c, server/gamehand.c, server/gotohand.c,
+	server/mapgen.c, server/ruleset.c, server/sernet.c,
+	server/settlers.c, server/stdinhand.c, server/unitfunc.c,
+	server/unithand.c, server/unittools.c: Changed some LOG_DEBUG
+	messages to LOG_VERBOSE.  Removed lots of "if(0)" checks which
+	some people didn't like; such loggging can now be selectively
+	enabled via LOG_DEBUG features.
+
+Sun Jun  6 05:40:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* README, client/civclient.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/repodlgs.c, client/gui-xaw/gui_main.c,
+	client/gui-xaw/resources.h, common/log.c, common/log.h,
+	server/civserver.c, server/console.c: Added a new log level
+	LOG_VERBOSE, between LOG_NORMAL and LOG_DEBUG.  Made LOG_DEBUG
+	messages only occur when compiled with DEBUG defined (eg configure
+	with --enable-debug), and allow LOG_DEBUG messages to be
+	controlled on a per-file, per-line basis from command line (see
+	README).  Based on patches submitted by Markus Linnala
+	<maage@cs.tut.fi>.
+
+Sat Jun  5 12:26:16 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/menu.c, client/gui-xaw/menu.c, data/helpdata.txt:
+	Put Help->Chatline in menu for gtk client; moved Chatline help to
+	after Controls help.
+
+Sat Jun  5 11:48:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* README, freeciv_hackers_guide.txt, client/gui-gtk/menu.c,
+	client/gui-xaw/menu.c, client/include/helpdlg.h, common/packets.h,
+	common/player.c, common/player.h, common/shared.h,
+	data/helpdata.txt, server/civserver.c, server/console.c,
+	server/handchat.c, server/sernet.c, server/stdinhand.c,
+	server/stdinhand.h: This patch provides the ability for civclients
+	to execute server commands.  Chatline input which starts with '/'
+	is interpreted as a server command.  The resulting output is
+	written to the client output window and a note about the command
+	is written to the server console.
+
+	The patch works fine with regular 1.8.0 clients, but patched
+	clients have a new Help->Chatline menu option explaining the
+	feature.
+
+	The following changes were made to the server:
+
+	+ chatlines from clients starting with '/' are interpreted as
+	  commands 
+	+ commands may be prefixed with '/' on the server cmdline (for 
+	  consistency) 
+	+ command names can be abbreviated; when ambiguous, a warning 
+	  is issued 
+	+ 'show optionname' works as expected now
+	+ with 'show', the status of options is shown in a slightly 
+	  different way 
+	+ setting the AI level now provides feedback in all cases
+	+ a new command, 'cmdlevel', is used to	control access to commands
+
+	There are four access levels: 'none', 'info', 'ctrl', and 'hack'. 
+	With 'none', no commands are allowed from civclients at all.  With
+	'info', the default, only informational commands are allowed. 
+	With 'ctrl', commands are allowed that can be used to control the
+	game, including starting the game, adding and removing players,
+	and setting options.  The 'hack' level allows all commands,
+	including the ones that read or write files.  Note that the save
+	command can be used to overwite any file where the civserver
+	process has write-premission; note system security implications.
+
+	The 'ctrl' level allows hosts to be operated without direct access
+	to the server command line prompt, but some refinements are needed
+	to make this a viable option in practice.
+
+	Player names must now be unique even in pre-game, so that players
+	can be uniquely identified for various server commands.
+
+	Patch submitted by Reinier Post <rp@win.tue.nl>, plus changes by
+	me.
+
+Sat Jun  5 11:41:16 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c: Added player_init() call in
+	accept_new_player(), sometimes needed if a previous player
+	disconnects or is removed, to avoid inheriting stale AI status
+	etc.
+
+Sat Jun  5 11:40:27 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/plrhand.c: In notify_player_ex(), only send (x,y) if
+	RUN_GAME_STATE.  Fix submitted by Reinier Post <rp@win.tue.nl>.
+
+Sat Jun  5 03:43:10 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/chatline.c, client/gui-gtk/cityrep.c,
+	client/gui-gtk/gamedlgs.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/gui_stuff.c, client/gui-gtk/mapview.c,
+	client/gui-xaw/chatline.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/optiondlg.c: Removed "#include <log.h>" lines in
+	files where not needed.  Changed a freelog() call in
+	client/gui-gtk/gui_main.c where logging not yet initialized.
+
+Wed Jun  2 20:28:18 1999  Lalo Martins <lalo@debian.org>:
+
+	* debian/changelog: freeciv/debian finally knows about 1.8 :-)
+
+Mon May 31 18:17:01 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* ai/advmilitary.c, ai/aitools.c, ai/aitools.h, ai/aiunit.c: The
+	following patch creates a new function to evaluate military
+	unhappiness for ai purposes. It removes code duplication and adds
+	support for Democracy.
+
+	Patch submitted by rizos@rice.edu.
+
+Mon May 31 08:25:36 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/unithand.c: When going over a hut and being rewarded
+	credits, the message for 25, 50, or 100 credits are "You found 25
+	credits." "You found 50 credits." and "You found 100 credits"
+	respectively.  The bug being that there is no period after the 100
+	credit message.  This patch fixes this bug.
+
+	Patch submitted by  Jonathan Hall <jonhall@futureks.net>
+
+Sat May 29 02:09:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* civ, ser, client/climisc.c, client/gui-gtk/graphics.c,
+	client/gui-gtk/helpdlg.c, client/gui-xaw/graphics.c,
+	client/gui-xaw/helpdlg.c, server/ruleset.c, common/shared.c,
+	common/shared.h: Replaced single data directory with a data
+	"path".  Can be set with FREECIV_PATH environment variable, but
+	usually default should be ok:
+	".:data:~/.freeciv:<installation_dir>".  The FREECIV_DATADIR
+	environment variable should not longer be necessary, but if set it
+	is prepended to the data path.
+
+	Main changes in datafilename().  New utility functions
+	user_home_dir(), remove_leading_spaces(),
+	remove_trailing_spaces(), remove_trailing_char(),
+	datafilename_required().  Changed usages of datafilename() to suit
+	slightly altered semantics (may return NULL), and to give modified
+	error messages.  Commented out FREECIV_DATADIR stuff in ser and
+	civ scripts, since it is no longer needed.
+
+Fri May 28 18:57:44 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/gotohand.c: Reverting previous change as warmap.cost and
+	warmap.seacost are declared with MAX_MAP_WIDTH and MAP_MAX_HEIGHT
+	leading to useless initialization with memset.
+
+Fri May 28 18:26:22 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/gotohand.c: Init_warmap should just call memset() to
+	initialize the array that it is supposed to work on.  Patch
+	submitted by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>
+
+Fri May 28 17:28:27 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/citytools.c: In city_corruption changes the corruption
+	array to avoid 2 unnecessary multiplications.
+
+Fri May 28 11:26:55 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/gui_main.c: fix for
+	warnings in gtk+ 1.2.3.  fixed a small memory leak.
+
+Fri May 28 11:24:16 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_stuff.c: fix for memory leak in the
+	gtk_new_pixmap () function.
+
+Wed May 26 23:35:03 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/settlers.c: In is_ok_city_spot, only some forms of land
+	are considered good places to start new cities.  Looking at the
+	terrain production numbers shows that Oasis should be considered
+	"good".  Patch submitted by Tony Stuckey
+	<stuckey@jaka.ece.uiuc.edu>
+
+Wed May 26 11:59:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/space.xpm: Replaced space.xpm with one with an
+	individually optimised 64-color palette (based on original
+	full-color xpm).
+
+Wed May 26 11:58:46 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/small.xpm: New small.xpm images submitted by
+	Alexandre BERAUD <a_beraud@lemel.fr>.  (With a small pixel offset
+	problem fixed by me; re-indexed colors to individually optimised
+	64-color palette based on submitted full-color file.)
+
+Wed May 26 11:58:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/graphics.c, client/gui-xaw/graphics.h,
+	client/gui-xaw/gui_main.c: Changed Xaw client to load tiles.xpm
+	and small.xpm first, then setup_widgets(), then the rest of the
+	graphics, instead of all graphics before setup_widgets().  This
+	allows us to use more colors for the rest of the xpm files and
+	still work ok on 256-color systems (which will dither colors once
+	they run out).  No changes to gtk client since it handles colors
+	differently and doesn't need this change.
+
+Wed May 26 11:15:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Removed an extra newline which was printed
+	when changing string-valued server options.
+
+Mon May 24 17:36:34 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c: reverting this file back to previous
+	commit by me.  I've also added Nicolas's changes to the "Granary:"
+	line.
+
+Mon May 24 17:26:56 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c: i made a big mistake in my last
+	commit. reversing changes.
+
+Mon May 24 16:56:12 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* ai/advdomestic.c, ai/aicity.c, ai/aihand.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/cityrep.c,
+	server/cityturn.c, client/gui-xaw/citydlg.c,
+	client/gui-xaw/cityrep.c: This patch makes freeciv use
+	(citysize+1)* game.foodbox as the base granary size.  This is the
+	formula used by both Civ1 and Civ2.  Patch submitted by Tony
+	Stuckey <stuckey@jaka.ece.uiuc.edu>
+
+Mon May 24 16:36:49 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/city.c: When calculating trade produced in a square, Civ1
+	calculates railroad trade effects before governmental trade
+	effects.  This patch fixes this.  If Civ2 does it differently,
+	that needs to be protected by a game.civstyle test.
+
+	This patch also streamlines other trade production math.  Working
+	the numbers shows that many calculations could be avoided for
+	squares that generate no trade.
+
+	Patch submitted by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>.
+
+Mon May 24 16:15:49 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c: lign 404 I added a 'd' in wiget.
+
+Mon May 24 13:48:03 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/gui_main.c: fix for
+	gtk+ warnings.
+
+Mon May 24 10:38:51 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/helpdlg.c, client/gui-gtk/spaceshipdlg.c: fix to
+	free fonts in gtk styles. fixed "first time I popup help gives a
+	small text region" bug.
+
+Mon May 24 10:38:02 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/repodlgs.c: improved list in the science report
+	to be multi-columned. added context help to the science report.
+	fixed several lists to make their columns autoresizeable.
+
+Mon May 24 10:37:08 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/mapview.c: fix to initial "only top left square
+	visible" bug. minor code cleanups.
+
+Mon May 24 10:36:05 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c: added hack to make the output window
+	text readable when it's insensitive. made command line parsing
+	more flexible.
+
+Mon May 24 10:35:30 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/clinet.c: added missing initialization of pointer
+	to NULL.
+
+Mon May 24 10:34:55 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/cityrep.c, client/gui-gtk/connectdlg.c,
+	client/gui-gtk/plrdlg.c: fixed several lists to make their columns
+	autoresizeable.
+
+Mon May 24 10:34:23 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c: fixed middle click "selects unit and
+	closes dialog" shortcut.
+
+Mon May 24 09:28:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/shared.h: Previous nuke patch included some duplicate
+	defines in shared.h; removed.
+
+Sun May 23 18:50:51 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/mapctrl.c, client/gui-gtk/mapctrl.h,
+	client/gui-gtk/menu.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/gui_main.c, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapctrl.h, client/gui-xaw/menu.c, common/packets.c,
+	common/packets.h, common/shared.h, data/Freeciv,
+	server/civserver.c, server/unithand.c, server/unithand.h: This
+	patch adds a new command nuke.  This commands works as the goto
+	command.  Now, nuke can detonate at an empty square.  It solves
+	also a problem with goto.  If the unit in focus changes during
+	goto selection, goto_state is set to zero.  Patch submitted by
+	"Divis, Vaclav" <DivisV@logica.com>
+
+Sat May 22 05:19:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/plrhand.c: This patch fixes the problem that on the first
+	turn after a game is loaded, the red border around tiles occupied
+	by workers from other cities is not displayed.  From the three
+	states at which the tiles around a city can be (C_TILE_EMPTY,
+	C_TILE_WORKER, C_TILE_UNAVAILABLE) only the first two were saved;
+	now all three are saved.  Based on a patch submitted by Rizos
+	Sakellariou.
+
+Sat May 22 04:56:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c, server/plrhand.c: Replaced some explicit
+	genlist stuff with city_list_iterate and unit_list_iterate macros.
+
+Sat May 22 04:40:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* aclocal.m4, configure, configure.in: For the Xaw client,
+	X_PRE_LIBS were appearing twice in the client link line, since
+	they were included in X_EXTRA_LIBS and then again in CLIENT_LIBS. 
+	I removed the direct inclusion in CLIENT_LIBS.
+
+Sat May 22 04:23:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c, common/game.h, server/gamehand.c,
+	server/plrhand.c: Made treatment of destroyed wonders more
+	consistent.  (That is, wonders in destroyed cities.)  Previously,
+	destroyed wonders could not be rebuilt, except if you saved and
+	reloaded they could be rebuilt.  Now destroyed wonders are
+	included in the savefile and can never be rebuilt.  Destroyed
+	wonders also now show up as being destroyed in the Wonders report;
+	I also slightly changd the format of the Wonders report.  Note
+	that some effects (Manhatten allowing Nuclears and Apollo allowing
+	spaceship parts) still work even if the wonder is destroyed.
+
+Fri May 21 20:25:56 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/helpdlg.c: changed tech trees in the help dialog
+	to have all nodes expanded by default.
+
+Fri May 21 20:10:53 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/cityrep.c, client/gui-gtk/messagewin.c: made the
+	city report and message windows longer by default.
+
+Fri May 21 20:07:26 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c: removed superfluous colons on right
+	hand side of the city options dialog.
+
+Thu May 20 12:37:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/cityrep.c, client/gui-xaw/cityrep.c: Added a
+	"corruption" column to the city report.  Patch submitted by
+	Michael Gastright <gastrig@snmpi.com>.  (And adapted to gtk client
+	by me.)
+
+Thu May 20 12:22:48 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c: The
+	following patch fixes a problem that occasionally occurs when
+	dropping nukes: the quantity (x-1+abs_x0-map_view_x0) may get
+	negative values, hence, nuke tiles won't be displayed.  Patch
+	submitted by Rizos Sakellariou; adapted to current sources (Xaw
+	and Gtk) by me.
+
+Thu May 20 12:22:09 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/messagewin.c: more fixes to the gkt+ color style
+	code.
+
+Thu May 20 12:19:56 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/messagewin.c: changed gtk+ styles for colors so
+	fix memory leaks.
+
+Thu May 20 12:03:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/clinet.c, client/gui-xaw/clinet.c: Corrections to
+	previous $http_proxy patch.  Patch submitted by Reinier Post
+	<rp@win.tue.nl>.
+
+Thu May 20 11:51:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/citytools.c: In set_city_shield_bonus() don't bother
+	calculating whether the city is affected by Hoover etc if the city
+	doesn't have a Factory.  (Code cleanup only, no change to actual
+	effect.)  Patch submitted by Tony Stuckey
+	<stuckey@jaka.ece.uiuc.edu>.
+
+Thu May 20 11:44:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unitfunc.c: Bugfix to third arg of send_city_info() in
+	diplomat_sabotage().  Fix submitted by Rizos Sakellariou, who
+	writes: On some (rare) occasions, players may have noticed that a
+	city name appears "out of the blue" in non-explored areas of the
+	map.
+
+Thu May 20 11:34:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: Clarifications in the help text (Apollo
+	allows spaceship parts; Hoover works for _all_ cities; Liberty
+	allows _all_ governments as choices; Submarine visibility range;
+	unhappiness details).  Also a new table showing the number of
+	turns required for terrain improvements.  Patch submitted by Rizos
+	Sakellariou <rizos@cs.rice.edu>.  Minor formatting changes by me,
+	and I also removed all trailing spaces.
+
+Thu May 20 11:19:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c: Make the server refuse to run if it has root
+	privileges, since running the server as root is unsafe.  From a
+	patch submitted by Reinier Post <rp@win.tue.nl>.
+
+Thu May 20 11:14:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_stuff.c: Vasco's previous patch was missing
+	some semicolons.
+
+Thu May 20 07:45:50 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_stuff.c: made the client free the temporary
+	images used in scaling pixmaps.
+
+Tue May 18 12:48:10 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/dialogs.h, client/gui-gtk/mapctrl.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/dialogs.h,
+	client/gui-xaw/mapctrl.c, common/shared.h, server/unithand.c,
+	server/unithand.h: Some fixes/changes to handling of caravans:
+
+	- Caravans adjacent to a city but with insufficient moves_left
+	used to be able to still establish trade routes or help build
+	wonders; this is now fixed.
+
+	- A caravan entering a friendly city via goto (as well as
+	manually) will now popup a caravan dialog if the caravan can
+	establish trade or help build a wonder, if that city is the
+	destination of the goto.  A caravan entering a city by boat or
+	airlift also gets a popup.
+
+	- A caravan entering an enemy city automatically builds a
+	traderoute with no dialog, if a traderoute is possible.  Else the
+	client gets a message why the move is not possible.  This applies
+	whether moving by goto or manually.
+
+	Code changes: the server detects caravans moving into enemy cities
+	and takes appropriate action; the client detects caravans after
+	they move into friendly cities and pops up a dialog if
+	appropriate.  The client queues data for multiple caravan entries
+	since the caravan popup uses global variables so there can only be
+	one popup at a time.  For compatability there is a new capability
+	tag "caravan1", to handle new clients with old servers, where the
+	new client must know to initiate trade route packets for enemy
+	cities.
+
+Tue May 18 12:37:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/clinet.c: Replaced some calls to snprintf with
+	equivalent calls to sprintf (with %.63s format), since not all
+	platforms have snprintf.
+
+Tue May 18 10:11:30 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* INSTALL: fixed some typos in the changes i made earlier.
+
+Mon May 17 13:18:01 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* README: Fix typo in instructions about $http_proxy environment
+	variable.  Patch submitted by Reinier Post <rp@win.tue.nl>.
+
+Mon May 17 10:04:23 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/mapctrl.c, client/gui-gtk/mapctrl.h: patched the
+	gtk+ client to match code reorganization changes made in the xaw
+	client.
+
+Mon May 17 10:01:30 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/repodlgs.c: similar fix to the one done to the
+	city list dialog.
+
+Mon May 17 09:59:32 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/cityrep.c, client/gui-gtk/finddlg.c,
+	client/gui-gtk/gotodlg.c: fix for "city list dialog open when
+	creating a new city crashes the gtk+ client" bug.  it should be ok
+	now (i hope).
+
+Mon May 17 09:55:45 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c: some more goto mouse cursor patch
+	stuff...
+
+Mon May 17 09:54:46 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/graphics.c, client/gui-gtk/graphics.h,
+	client/gui-gtk/mapview.c: Added goto mouse cursor patch as from
+	the Xaw client.
+
+Mon May 17 09:52:29 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_stuff.c: Update to fix a bug in the bitmap
+	scaling code  - taken from the Xaw client.
+
+Sat May 15 04:55:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityhand.c, server/cityturn.c: Minor code simplifications
+	suggested by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>.
+
+Sat May 15 04:45:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: Made the help text for the Hanging Gardens
+	wonder more precise.  Patch submitted by Rizos Sakellariou
+	<rizos@rice.edu>.
+
+Sat May 15 04:36:01 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/mapgen.c: Added call to make_plains() at end of
+	mapgenerator3().  Fix suggested by Ive Kohnenkamp
+	<ive@rocketmail.com>.  Also put in free(height_map).
+
+Fri May 14 21:41:57 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/gotohand.c: Human players boats will no more try to go
+	through cities.
+
+Fri May 14 19:57:22 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/player.c, data/helpdata.txt,
+	data/default/buildings.ruleset: The following patch activates the
+	Marco Polo's Embassy wonder.  Patch written by Rizos Sakellariou
+	rizos@rice.edu
+
+Thu May 13 22:39:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/include/.cvsignore, client/include/Makefile.am,
+	client/include/Makefile.in: Added client/include/Makefile.am and
+	Makefile.in to CVS.  Added .cvsignore for the Makefile.
+
+Thu May 13 20:02:39 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* configure, configure.in, client/Makefile.am, client/Makefile.in,
+	client/gui-gtk/Makefile.am, client/gui-gtk/Makefile.in,
+	client/gui-xaw/Makefile.am, client/gui-xaw/Makefile.in: Dwp mended
+	autostuff files to be abble to do 'make dist'.  He added
+	client/include/Makefile.am.  He added several .h which were
+	missing.
+
+Thu May 13 12:14:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unitfunc.c, server/unitfunc.h, server/unithand.c: New
+	functions get_location_str_in() and get_location_str_at(), in
+	unitfunc.c;  used to clean up code in unitfunc.c:kill_unit() and
+	unithand.c:handle_unit_attack_request(), and to add location to
+	the message when Leonardo's Workshop upgrades a unit.
+
+Thu May 13 12:02:44 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapctrl.h, client/gui-xaw/menu.c, data/Freeciv:
+	Added a "View" menu to the Xaw client, with (essentially) the same
+	items as in the Gtk client: Grid On/Off (Ctl-g), and Center View
+	(c).
+
+Thu May 13 11:52:12 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/options.c, common/events.h, server/cityturn.c,
+	server/spacerace.c: Added a new event/message type E_SPACESHIP,
+	for important spaceship events: spaceship started, launched, lost,
+	landed.  (Only once event type for all of these, since they will
+	not happen often, and there are already too many event types.)
+
+Wed May 12 09:55:07 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* README, client/gui-gtk/clinet.c, client/gui-gtk/clinet.h,
+	client/gui-gtk/connectdlg.c, client/gui-gtk/menu.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/clinet.h,
+	client/gui-xaw/connectdlg.c, client/gui-xaw/menu.c,
+	client/include/helpdlg.h, data/helpdata.txt: Patch written by
+	Reinier Post <rp@win.tue.nl> Here what he says :
+
+	Players behind firewalls that use a non-transparent WWW proxy
+	(i.e. outgoing port 80 is blocked) cannot use the Metaserver
+	button in civclient.  The attached patch fixes this for the Xaw (
+	now also for gtk ) client by making it use the $http_proxy env
+	var.
+
+	For example, wa local Squid proxy (my test environment), use
+
+	% env http_proxy=http://localhost:3128/ civclient
+
+Wed May 12 09:19:51 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-xaw/graphics.c, data/Makefile.am, data/Makefile.in: I
+	had to do a make maintainer-clean to remove the dependency to
+	../data/goto_cursor.xbm and ../data/goto_cursor_mask.xbm.  In
+	gui-xaw/graphics, updated include for the mouse cursor.
+
+Wed May 12 08:31:01 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/include/goto_cursor.xbm,
+	client/include/goto_cursor_mask.xbm, data/goto_cursor.xbm,
+	data/goto_cursor_mask.xbm: Move the files goto_cursor.xbm and
+	goto_cursor_mask.xbm to client/include.
+
+Tue May 11 20:42:07 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* data/goto_cursor.xbm, data/goto_cursor_mask.xbm: here is the
+	data files for the mouse patch.
+
+Tue May 11 20:28:10 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* AUTHORS, client/gui-xaw/graphics.c, client/gui-xaw/graphics.h,
+	client/gui-xaw/gui_main.c, client/gui-xaw/mapview.c,
+	data/Makefile.am, data/Makefile.in, server/unithand.c,
+	server/unittools.c: Goto mouse cursor patch written by Falk
+	Hueffner <falk.hueffner@student.uni-tuebingen.de> Small changes in
+	the AUTHOR file.
+
+Mon May 10 08:23:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/registry.c,
+	common/registry.h: Changes to makefiles and registry to use new
+	sbuffer module.
+
+Mon May 10 08:20:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/sbuffer.c, common/sbuffer.h: New "sbuffer" module based
+	on strbuffer code from registry module.  Generalises strbuffer
+	code so that there is no longer a single global strbuffer, and
+	hence will be able to have more than one registry file open at a
+	time.
+
+Sun May  9 16:53:38 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/settlers.c: In Settler_findwork, if the settler is owned
+	by ai, I use ai_fuzzy to see if it really check for a spot to
+	build a town.
+
+Sun May  9 16:25:30 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/citytools.c: This patch halves corruption for Communism. 
+	Patch written by Per Mathisen <permath@ifi.ntnu.no>.
+
+Sun May  9 16:15:22 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c: Here is a patch so the GTK+ client
+	treats the numeric keypad more sensibly, even with numlock off. 
+	Without this patch, and running with numlock off, using the keypad
+	to move units causes the input focus to wander around, and
+	eventually the keypad no longer moves the units.  Patch written
+	Patrick Smith <patsmith@pobox.com>
+
+Sat May  8 21:07:24 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* ai/aiunit.c: This patch will cause the AI to create trade routes
+	under certain minimal conditions.  Trade will be created between
+	towns on the same continents owned by the same player.  Patch
+	submitted by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>
+
+Sat May  8 21:12:25 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* ai/aiunit.c: add best_city = -1 if no city is found to etablish
+	trade.
+
+Sat May  8 12:34:55 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/mapgen.c: For functions internal to mapgen.c, put protos
+	back in mapgen.c (after moved to mapgen.h, then removed from
+	there).
+
+Sat May  8 12:28:32 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/plrhand.c: Add an enum type historian_type to be used in
+	historian_generic.  Change some indentations to try to follow
+	freeciv indentation style.  Hints suggested by dwp.
+
+Sat May  8 12:27:40 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/mapgen.h: Wipeout in mapgen.h the declarations of
+	functions which were used only in mapgen.c
+
+Sat May  8 01:12:35 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/unittools.c: Patch done by Tony Stuckey
+	<stuckey@jaka.ece.uiuc.edu> to save some CPU cycles around lign
+	358 when best_value is calculed.
+
+Thu May  6 18:05:23 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/mapgen.c, server/mapgen.h, server/maphand.c,
+	server/maphand.h: 4 ligns in maphan.c were similar to
+	init_workmap.  I deleted those ligns and remplace them by
+	init_workmap.  I modified maphand.h and mapgen.h so that it works.
+
+Thu May  6 16:05:59 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* AUTHORS: There were some tabulations.  I withdraw them and
+	replace them by spaces.
+
+Thu May  6 15:57:25 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/plrhand.c: Historian reports no more include dead
+	civilisations.  Bug reported by Alexande Beraud
+	<berauda@crit2.univ-montp2.fr>
+
+Tue May  4 11:33:55 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/handchat.h,
+	server/Makefile.am, server/Makefile.in, server/handchat.c,
+	server/handchat.h: Moved handchat.h from common to server, since
+	the prototype it contains only applies to the function in
+	server/handchat.c and not to a similarly named function in the
+	client; the client does not include handchat.h anywhere.
+
+Tue May  4 11:25:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/diplodlg.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/diplodlg.c: Changed
+	defines etc with NO_ to NUM_ where approriate, since NO meaning
+	"number" is easily confused with NO meaning "the opposite of yes".
+	Changed: NO_UNITS_SHOWN; NO_CITIZENS_SHOWN; MAX_NO_CLAUSES;
+	city_dialog.change_list_no_improvements.
+
+Tue May  4 11:23:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityhand.c: The messages about "wonder started" sometimes
+	included cityname, sometimes not (specifically, "not" if the
+	player changed production, but "with" if the AI or auto-next-build
+	chose); this change makes the cityname always appear in the
+	message.
+
+Mon May  3 22:03:16 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/unit.c: Another little fix to prevent non usefull
+	initializations.  Thank to Tony Stuckey
+	<stuckey@jaka.ece.uiuc.edu>
+
+Mon May  3 21:14:05 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/unit.c: Add 2 'kind silly' ligns in
+	is_transporter_with_free_space This was suggested by Tony Stuckey
+	<stuckey@jaka.ece.uiuc.edu>
+
+Mon May  3 20:46:58 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/cityturn.c: Merged the function set_trade_prod and
+	set_food_trade_shields
+
+Mon May  3 15:19:35 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c: Made log_init() log to stderr by
+	default. Fix was sent by various people.
+
+Mon May  3 12:38:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/options.c, client/gui-gtk/messagedlg.c,
+	client/gui-xaw/messagedlg.c, client/include/options.h: Calculate
+	sorted event list (sorted by message_text) once in
+	init_messages_where(), instead of each time in
+	create_messageopt_dialog().
+
+Mon May  3 12:37:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/messagedlg.c, client/gui-xaw/optiondlg.c,
+	client/civclient.c, client/options.c, client/packhand.c,
+	client/gui-gtk/gamedlgs.c, client/gui-gtk/messagedlg.c,
+	client/include/messagedlg.h, client/include/options.h: Moved
+	gui-independent message options data and functions out of
+	messagedlg.[ch], into options.[ch].  Specifically: message_text[],
+	messages_where[], init_messages_where(), compar_message_texts(). 
+	Changes to other files are adjustments to "#include" lines.
+
+Sun May  2 18:21:08 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/unit.h: Sub the declaration of can_unit_move_to_tiles in
+	common/unit.h .  The code is in unittools.c .
+
+Sun May  2 17:46:26 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-xaw/gui_stuff.c: In the function put_line_24, there
+	was +1 instead of a +2 for the third byte. Bug reported by Peter
+	Berg Larsen <pebl@math.ku.dk>
+
+Sun May  2 04:24:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/map.c: Rewrote tile_move_cost(), initialize_move_costs()
+	and reset_move_costs(), to simplify code and reduce duplication;
+	new functions tile_move_cost_ptrs(), tile_move_cost_ai(),
+	debug_log_move_costs().
+
+	Also introduced code to make the river movement bonus not apply
+	for diagonal moves, but have not yet "turned on" the change.
+
+Sun May  2 04:23:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/gotohand.c, ai/aiunit.c: Changed lots of cases of xx[i],
+	yy[j] to temp variables x1, y1.
+
+Sun May  2 04:22:31 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aiunit.c, common/map.c, common/map.h, server/gotohand.c: New
+	functions map_calc_adjacent_xy() and map_calc_adjacent_xy_void(),
+	to reduce code duplication.
+
+Sun May  2 04:21:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/mapgen.c, common/map.c, common/map.h: Removed unused
+	map.age; moved isledata, MAP_NCONT, and islands[], from common/map
+	to server/mapgen, since that is the only place they are used. 
+	Initialize void_tile in map_init() instead of in
+	initialize_move_costs().  In map.h, removed protos for
+	non-existent functions: send_full_tile_info(),
+	map_fractal_create(); duplicate proto for reset_move_costs(). 
+	Renamed same_island() to map_same_continent().  Other minor map.c
+	formating changes and additional comments.
+
+Sun May  2 04:19:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unittools.c: In get_defender(), don't unnecessarily
+	re-calculate rate_unit_d() for the same units.  Based on a patch
+	submitted by Tony Stuckey <stuckey@jaka.ece.uiuc.edu>.
+
+Sat May  1 04:09:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/helpdlg.c,
+	data/Freeciv: Added scrollbars to the "tech trees" in the help
+	pages of the Xaw client.
+
+Sat May  1 04:04:26 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/registry.c,
+	common/registry.h, server/Makefile.am, server/Makefile.in,
+	server/registry.c, server/registry.h: Moved "registry" module from
+	server/ to common/.  (To allow future use by client, eg, for
+	parsing .civclientrc).
+
+Sat May  1 03:57:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/mem.h: Include stdlib.h in mem.h to make sure we have
+	size_t.
+
+Fri Apr 30 11:53:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c: Put back log_init() change which got
+	clobbered by a recent check-in.
+
+Thu Apr 29 09:41:36 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_main.c, client/gui-gtk/helpdlg.c: Increased
+	size of the timeout label in the toplevel window so that 3 digits
+	can fit there.  Fixed help window so that clicking on hyperlinks
+	which point to "None" don't get you that weird error page.  Added
+	a scrollbar to the text dialog in the help window.
+
+Wed Apr 28 04:01:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/menu.c, client/gui-xaw/menu.c: Minor fixes to Gtk
+	client: make disconnect always available (whenever Game menu is
+	available); fixed names of Server options menu items in
+	menus_set_sensitive() calls.  For both Xaw and Gtk client: made
+	Server opt initial, Server opt ongoing, Export Log, and Clear Log
+	menu items always available (whenever the Game menu is), including
+	before the game has been started by the server.
+
+Tue Apr 27 12:26:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt, server/gotohand.c, server/unittools.c: Made
+	changes to ZOC rules (and docs) to bring the rules in line with
+	Civ1/Civ2.  Specifically: empty cities no longer impose ZOC; and
+	units moving from ocean squares (that is, disembarking from boats)
+	are not subject to ZOC (but are still subject to normal attack
+	rules; ie no attacks except for Marines).
+
+Tue Apr 27 12:17:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c, client/gui-xaw/gui_main.c,
+	common/log.c, common/log.h, server/Makefile.am,
+	server/Makefile.in, server/civserver.c, server/meta.c,
+	server/sernet.c, server/stdinhand.c, server/stdinhand.h: Changes
+	related to new console module: enhanced logging to accept a
+	callback function to control log output; gui_main.c changes for
+	new log_init(); use console functions instead of printf/puts in
+	civserver.c, meta.c, stdinhand.c; removed old show_prompt() stuff;
+	new prompt stuff (console function calls) in
+	sernet.c:sniff_packets().  Based on patches submitted by Per
+	Mathisen <permath@ifi.ntnu.no>.
+
+Tue Apr 27 12:15:48 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/console.c, server/console.h: New "console" module to
+	handle server console output, and prompt printing, and new
+	"rfcstyle" feature (option for more parser-friendly server console
+	output).  Main visible benefit at the moment is to eliminate
+	unnecessary new console prompt every turn.  Based on patches
+	submitted by Per Mathisen <permath@ifi.ntnu.no>.
+
+Tue Apr 27 12:00:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/small.xpm: Replaced light bulbs in small.xpm with
+	nicer ones drawn by Alexandre BERAUD <a_beraud@lemel.fr> (bulbs
+	re-indexed to current default palette).
+
+Mon Apr 26 09:27:30 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Makefile.am, client/Makefile.in, client/civclient.c,
+	client/options.c, client/gui-gtk/cityrep.c,
+	client/gui-gtk/gamedlgs.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/menu.c, client/gui-gtk/messagewin.c,
+	client/gui-gtk/optiondlg.h, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/cityrep.c, client/gui-xaw/gui_main.c,
+	client/gui-xaw/menu.c, client/gui-xaw/messagewin.c,
+	client/gui-xaw/optiondlg.c, client/gui-xaw/optiondlg.h,
+	client/include/cityrep.h, client/include/options.h, data/Freeciv:
+	This patch takes the (client) option list out of the gui-*
+	directories, so new options only have to be added in one place. 
+	Note that new options still have to be added in data/Freeciv.
+
+	The patch also moves the open/load/save option functions out into
+	client/options.c.  Also the patch changes the names of the
+	option*label and opiton*toggle resources in data/Freeciv to be the
+	same as in the code; this allows the Xaw GUI to runtime get the
+	resources names, instead of using some form of hardcoded lookup
+	table.
+
+	Patch submitted by Sune Kirkeby <sune@interspace.dk>, with minor
+	changes by me; renamed options[] array (client command line
+	options) in gui-xaw/gui_main.c to cmd_options[].
+
+Mon Apr 26 07:55:09 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c: Put back a call to show_prompt() which I
+	accidently removed recently.
+
+Mon Apr 26 07:19:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/mem.c, common/mem.h: New "mem" module in common/, to
+	provide malloc wrappers which check malloc return value and do
+	freeciv-specific processing if it is NULL.  Wrappers for malloc,
+	realloc, calloc, and strdup (as mystrdup).  (Any missed/future
+	code which accidently uses malloc will not cause problems, just
+	will not gain the benefits of the wrappers.)
+
+Mon Apr 26 07:15:21 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, client/gui-gtk/chatline.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/diplodlg.c, client/gui-gtk/graphics.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/messagewin.c,
+	client/gui-gtk/spaceshipdlg.c, client/gui-xaw/chatline.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/finddlg.c,
+	client/gui-xaw/gotodlg.c, client/gui-xaw/graphics.c,
+	client/gui-xaw/gui_stuff.c, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/menu.c, client/gui-xaw/messagewin.c,
+	client/gui-xaw/spaceshipdlg.c, common/Makefile.am,
+	common/Makefile.in, common/capability.c, common/city.c,
+	common/diptreaty.c, common/genlist.c, common/packets.c,
+	common/shared.c, common/shared.h, common/unit.c,
+	server/cityhand.c, server/citytools.c, server/diplhand.c,
+	server/gamelog.c, server/mapgen.c, server/maphand.c,
+	server/plrhand.c, server/registry.c, server/unitfunc.c,
+	server/unithand.c: Changes for new mem module providing wrappers
+	for malloc etc, as fc_malloc etc.
+
+Mon Apr 26 07:10:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/attribute.h,
+	common/log.h, server/plrhand.h, server/registry.h: When using gcc,
+	use gcc's __attribute__ keyword to check variadic parameters to
+	printf-like functions.  (When using other compilers, should have
+	no effect.)
+
+Mon Apr 26 07:04:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/mapctrl.c, common/packets.c, server/meta.c: Fixed
+	some warnings from Sun cc on Solaris: in packets.c, re-wrote
+	put_string() and get_string() to avoid using strcpy() and strlen()
+	on an (unsigned char*).  In other places added some casts.
+
+Sun Apr 25 11:46:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c, server/mapgen.c, server/mapgen.h: Renamed
+	poorly named choose_start_positions() to create_start_positions().
+	From a patch by Per Mathisen <permath@ifi.ntnu.no>.
+
+Sun Apr 25 11:44:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/game.h, common/map.h, server/stdinhand.c,
+	server/unithand.c: Minor cleanups: moved GAME_{DEFAULT,MIN,MAX}_*,
+	from map.h to game.h; map.h doesn't use genlist.h; added
+	GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT.
+
+Sun Apr 25 11:42:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityhand.c: In really_handle_city_buy(), moved the test
+	for anarchy out the front with the other tests.
+
+Sun Apr 25 11:40:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/citytools.c: Make veteran status of newly built diplomats
+	not depend on whether the city has Barracks (now only on whether
+	government is Communism).  (This will matter when diplomat veteran
+	effects go in.)  Patch submitted by Kris Bubendorfer
+	<Kris.Bubendorfer@MCS.VUW.AC.NZ>.
+
+Sun Apr 25 11:38:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, client/gui-xaw/connectdlg.c,
+	client/gui-xaw/connectdlg.h, client/gui-xaw/inputdlg.c,
+	client/include/climisc.h, client/include/packhand.h: Added
+	standard freeciv copyright header to a few more files where it was
+	missing.
+
+Sun Apr 25 02:30:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/aicity.c, ai/aihand.c,
+	ai/aitech.c, ai/aitools.c, ai/aiunit.c, common/map.c,
+	common/packets.c, server/cityhand.c, server/cityturn.c,
+	server/civserver.c, server/gamelog.c, server/gotohand.c,
+	server/mapgen.c, server/settlers.c, server/stdinhand.c,
+	server/unitfunc.c, server/unithand.c, server/unittools.c:
+	Converted debug printf's (including commented, now if(0)) to use
+	freelog(), in preparation for server console improvements.
+
+Sat Apr 24 04:38:44 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/gamelog.c: Fixed memory leak and possible buffer overflow
+	in gamelog_map().
+
+Sat Apr 24 04:38:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/diplhand.c, server/mapgen.c, server/maphand.c: Fixed some
+	cases of printf-like functions with arguments not matching format
+	string.
+
+Thu Apr 22 12:12:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/citydlg.c, client/gui-xaw/citydlg.c: In
+	popdown_all_city_dialogs(), also popdown the cityopt dialog, if
+	applicable.
+
+Thu Apr 22 11:53:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/graphics.c, client/gui-xaw/graphics.c: New
+	function crop_sprite() in graphics.c, to clean up where there was
+	too much cut&paste code; also added a sanity check for spacerace
+	tiles.  From a patch submitted by Falk Hueffner
+	<falk.hueffner@student.uni-tuebingen.de> (with corresponding
+	changes for gtk graphics.c intuited by dwp).
+
+Thu Apr 22 11:19:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c, server/stdinhand.c: Adjusted code in
+	accept_new_player() and handle_request_join_game() so players get
+	the same info about other players whether the game is new or a
+	reload.  Adjusted that info.  New functions join_game_accept() and
+	introduce_game_to_player().  Made accept_new_player() set
+	pplayer->is_connected properly, and removed some then unnecessary
+	code to adjust it elsewhere.
+
+Mon Apr 19 17:46:34 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* INSTALL: added some info about the requirements and how to
+	compile the new integrated gtk+/xaw client.  isn't perfect, but
+	it's better than nothing.
+
+Mon Apr 19 14:11:48 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/Makefile.am, client/Makefile.in, client/climisc.c,
+	client/gui-gtk/Makefile.am, client/gui-gtk/Makefile.in,
+	client/gui-gtk/citydlg.h, client/gui-gtk/climisc.c,
+	client/gui-xaw/Makefile.am, client/gui-xaw/Makefile.in,
+	client/gui-xaw/citydlg.h, client/gui-xaw/climisc.c: moved
+	climisc.c to client/ dir.  (this file is toolkit independent).
+
+Sun Apr 18 02:44:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* undep.sh.in: Update for undep.sh for new client directory
+	structure.
+
+Sun Apr 18 02:44:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.h: Include shared.h in city.h, since we use
+	MAX_LENGTH_NAME.  Problem noted by Frank Schaefer
+	<fransch@netscape.net>.
+
+Sun Apr 18 02:43:34 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c, common/city.h, common/game.c, common/unit.c,
+	server/citytools.c: Removed some obsolete code which had been
+	#if-ed out a while ago: city.[ch]:city_list_find_coor(),
+	game.c:old_city_name_compare(), unit.c:string_center(),
+	citytools.c:old_is_worked_here().  (Left in some other similar
+	#if-ed out code which may still be instructive, eg, AI code.)
+
+Fri Apr 16 13:06:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, data/Freeciv: Added/adjusted resources
+	to make resizing the xaw diplomatic treaty dialog behave nicer.
+
+Fri Apr 16 13:05:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Makefile.am, client/Makefile.in,
+	client/gui-gtk/Makefile.am, client/gui-gtk/Makefile.in,
+	client/gui-xaw/Makefile.am, client/gui-xaw/Makefile.in,
+	client/gui-xaw/resources.c: Fix so can build from a directory
+	other than the source directory; including ensuring
+	gui-xaw/resources.c depends on locally generated Freeciv.h
+	(possibly based on locally modifed data/Freeciv) rather than on
+	source distribution Freeciv.h.
+
+Fri Apr 16 13:02:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.in, ai/Makefile.in, common/Makefile.in,
+	data/Makefile.in, data/civ1/Makefile.in, data/classic/Makefile.in,
+	data/default/Makefile.in, server/Makefile.in: Auto-gen changes
+	after gtk configure changes, for non-client dirs (these changes
+	don't actually do anything, but checking them in avoids patch
+	clutter).
+
+Fri Apr 16 13:01:05 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/.cvsignore, client/gui-gtk/.cvsignore: Added
+	.cvsignore files for gui-xaw and gui-gtk dirs.
+
+Thu Apr 15 09:43:25 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/mapview.c: added changes from the xaw client to 
+	focus handling of units.
+
+Wed Apr 14 18:01:30 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/mapctrl.c: changed included file from strings.h 
+	to string.h because that is the correct ANSI c header.
+
+Wed Apr 14 17:57:24 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/civclient.c: added include for string.h because strstr() 
+	needs it.
+
+Tue Apr 13 12:27:51 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* aclocal.m4, configure, configure.in: changed files to acommodate
+	the xaw & gtk+ integrated client.
+
+Tue Apr 13 12:24:59 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/civclient.c, client/packhand.c: renamed functions to be
+	more consistent.
+
+Tue Apr 13 12:17:33 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/Makefile.am, client/Makefile.in: changed makefiles.
+
+Tue Apr 13 12:14:41 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/Makefile.am, client/gui-gtk/Makefile.in,
+	client/gui-gtk/chatline.c, client/gui-gtk/chatline.h,
+	client/gui-gtk/citydlg.c, client/gui-gtk/citydlg.h,
+	client/gui-gtk/cityrep.c, client/gui-gtk/climisc.c,
+	client/gui-gtk/clinet.c, client/gui-gtk/clinet.h,
+	client/gui-gtk/colors.c, client/gui-gtk/colors.h,
+	client/gui-gtk/connectdlg.c, client/gui-gtk/connectdlg.h,
+	client/gui-gtk/dialogs.c, client/gui-gtk/dialogs.h,
+	client/gui-gtk/diplodlg.c, client/gui-gtk/diplodlg.h,
+	client/gui-gtk/finddlg.c, client/gui-gtk/gamedlgs.c,
+	client/gui-gtk/gotodlg.c, client/gui-gtk/gotodlg.h,
+	client/gui-gtk/graphics.c, client/gui-gtk/graphics.h,
+	client/gui-gtk/gui_main.c, client/gui-gtk/gui_main.h,
+	client/gui-gtk/gui_stuff.c, client/gui-gtk/gui_stuff.h,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/inputdlg.c,
+	client/gui-gtk/inputdlg.h, client/gui-gtk/inteldlg.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapctrl.h,
+	client/gui-gtk/mapview.c, client/gui-gtk/mapview.h,
+	client/gui-gtk/menu.c, client/gui-gtk/menu.h,
+	client/gui-gtk/messagedlg.c, client/gui-gtk/messagewin.c,
+	client/gui-gtk/optiondlg.h, client/gui-gtk/plrdlg.c,
+	client/gui-gtk/repodlgs.c, client/gui-gtk/repodlgs.h,
+	client/gui-gtk/spaceshipdlg.c, client/gui-gtk/spaceshipdlg.h:
+	added gtk+ client source code.
+
+Tue Apr 13 11:11:00 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-xaw/Makefile.am, client/gui-xaw/Makefile.in: added
+	makefiles.
+
+Tue Apr 13 11:09:04 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-xaw/canvas.c, client/gui-xaw/chatline.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/connectdlg.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/diplodlg.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/gui_main.h,
+	client/gui-xaw/gui_stuff.h, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/inputdlg.c, client/gui-xaw/inteldlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/messagedlg.c, client/gui-xaw/messagewin.c,
+	client/gui-xaw/optiondlg.c, client/gui-xaw/pixcomm.c,
+	client/gui-xaw/plrdlg.c, client/gui-xaw/ratesdlg.c,
+	client/gui-xaw/repodlgs.c, client/gui-xaw/spaceshipdlg.c: renamed
+	functions to be more consistent.
+
+Tue Apr 13 11:01:46 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-xaw/gui_main.c, client/gui-xaw/gui_main.h,
+	client/gui-xaw/gui_stuff.c, client/gui-xaw/gui_stuff.h,
+	client/gui-xaw/xmain.c, client/gui-xaw/xmain.h,
+	client/gui-xaw/xstuff.c, client/gui-xaw/xstuff.h: renamed files to
+	be more consistent.
+
+Tue Apr 13 10:53:11 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/Freeciv.h, client/ad2c, client/canvas.c, client/canvas.h,
+	client/canvasp.h, client/chatline.c, client/chatline.h,
+	client/citydlg.c, client/citydlg.h, client/cityicon.ico,
+	client/cityrep.c, client/cityrep.h, client/civclient.h,
+	client/climisc.c, client/climisc.h, client/clinet.c,
+	client/clinet.h, client/colors.c, client/colors.h,
+	client/connectdlg.c, client/connectdlg.h, client/dialogs.c,
+	client/dialogs.h, client/diplodlg.c, client/diplodlg.h,
+	client/finddlg.c, client/finddlg.h, client/freeciv.ico,
+	client/gotodlg.c, client/gotodlg.h, client/graphics.c,
+	client/graphics.h, client/helpdlg.c, client/helpdlg.h,
+	client/inputdlg.c, client/inputdlg.h, client/inteldlg.c,
+	client/inteldlg.h, client/mapctrl.c, client/mapctrl.h,
+	client/mapview.c, client/mapview.h, client/menu.c, client/menu.h,
+	client/messagedlg.c, client/messagedlg.h, client/messagewin.c,
+	client/meswindlg.h, client/optiondlg.c, client/optiondlg.h,
+	client/packhand.h, client/pixcomm.c, client/pixcomm.h,
+	client/pixcommp.h, client/plrdlg.c, client/plrdlg.h,
+	client/ratesdlg.c, client/ratesdlg.h, client/repodlgs.c,
+	client/repodlgs.h, client/resources.c, client/resources.h,
+	client/spaceshipdlg.c, client/spaceshipdlg.h, client/xmain.c,
+	client/xmain.h, client/xstuff.c, client/xstuff.h,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/ad2c,
+	client/gui-xaw/canvas.c, client/gui-xaw/canvas.h,
+	client/gui-xaw/canvasp.h, client/gui-xaw/chatline.c,
+	client/gui-xaw/chatline.h, client/gui-xaw/citydlg.c,
+	client/gui-xaw/citydlg.h, client/gui-xaw/cityrep.c,
+	client/gui-xaw/climisc.c, client/gui-xaw/clinet.c,
+	client/gui-xaw/clinet.h, client/gui-xaw/colors.c,
+	client/gui-xaw/colors.h, client/gui-xaw/connectdlg.c,
+	client/gui-xaw/connectdlg.h, client/gui-xaw/dialogs.c,
+	client/gui-xaw/dialogs.h, client/gui-xaw/diplodlg.c,
+	client/gui-xaw/diplodlg.h, client/gui-xaw/finddlg.c,
+	client/gui-xaw/gotodlg.c, client/gui-xaw/gotodlg.h,
+	client/gui-xaw/graphics.c, client/gui-xaw/graphics.h,
+	client/gui-xaw/helpdlg.c, client/gui-xaw/inputdlg.c,
+	client/gui-xaw/inputdlg.h, client/gui-xaw/inteldlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapctrl.h,
+	client/gui-xaw/mapview.c, client/gui-xaw/mapview.h,
+	client/gui-xaw/menu.c, client/gui-xaw/menu.h,
+	client/gui-xaw/messagedlg.c, client/gui-xaw/messagewin.c,
+	client/gui-xaw/optiondlg.c, client/gui-xaw/optiondlg.h,
+	client/gui-xaw/pixcomm.c, client/gui-xaw/pixcomm.h,
+	client/gui-xaw/pixcommp.h, client/gui-xaw/plrdlg.c,
+	client/gui-xaw/ratesdlg.c, client/gui-xaw/repodlgs.c,
+	client/gui-xaw/repodlgs.h, client/gui-xaw/resources.c,
+	client/gui-xaw/resources.h, client/gui-xaw/spaceshipdlg.c,
+	client/gui-xaw/spaceshipdlg.h, client/gui-xaw/xmain.c,
+	client/gui-xaw/xmain.h, client/gui-xaw/xstuff.c,
+	client/gui-xaw/xstuff.h, client/include/cityicon.ico,
+	client/include/cityrep.h, client/include/civclient.h,
+	client/include/climisc.h, client/include/finddlg.h,
+	client/include/freeciv.ico, client/include/helpdlg.h,
+	client/include/inteldlg.h, client/include/messagedlg.h,
+	client/include/meswindlg.h, client/include/packhand.h,
+	client/include/plrdlg.h, client/include/ratesdlg.h: moved client
+	source files around to gui-xaw and include dirs.
+
+Sun Apr 11 11:33:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/plrhand.c, server/unitfunc.c: Include punit->moved in the
+	savefile (otherwise hp regeneration can be wrong on reload turn). 
+	Also explicitly set punit->moved in create_unit_full().  (Assume
+	that if moves_left<0 (flag value) then the unit is "fresh", and
+	not moved; else the unit has had something happen to it (eg,
+	bribed) which we treat as equivalent to having moved).
+
+Sun Apr 11 02:38:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Bounds checking in handle_stdin_input()
+	wasn't quite militant enough, causing stack-clobbering segfaults
+	with too long commands (parameters were immune, though).  Patch
+	submitted by Juho Snellman <jsnell@iki.fi>.
+
+Sun Apr 11 02:37:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Allow server option names to be abbreviated
+	where unambiguous (for the "set" and "explain" commands).  The
+	patch also prints a notification of the change to the server
+	console, since abbreviations could cause a typo to change the
+	wrong option, and without any feedback that would never be
+	noticed.  Patch submitted by Juho Snellman <jsnell@iki.fi>.
+
+Sun Apr 11 02:36:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityturn.c: In upgrade_unit_prod(), check for multiple
+	upgrades.  Based on a patch submitted by Juho Snellman
+	<jsnell@iki.fi>.
+
+Sun Apr 11 02:34:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unithand.c: Prevent units with attack strength 0 from
+	attacking, since they will always lose.  The message produced is,
+	e.g., "A Galleon cannot attack other units."  Patch submitted by
+	Patrick Smith <patsmith@pobox.com>.
+
+Sun Apr 11 02:34:01 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapview.c: Fixed a problem that if
+	!flags_are_transparent, then when the focus unit was in a city,
+	you didn't see the city when the unit was blinked off.
+
+Sun Apr 11 02:33:09 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aiunit.c, server/gotohand.c, server/unittools.c,
+	server/unittools.h: Cleanups of various ZOC code; no changes to
+	actual ZOC effects in this patch.  Includes new functions
+	zoc_ok_move_gen() (zoc_ok_move() generalised to specified start
+	position) and unit_really_ignores_zoc() (takes into account
+	non-ground units and F_IGZOC).
+
+Sun Apr 11 02:32:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/autoattack.c, server/civserver.c: Suppressed some
+	"--debug 2" messages.
+
+Sat Apr 10 05:16:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/diptreaty.h, common/events.h, server/meta.c,
+	server/meta.h: Added the standard freeciv copyright header to some
+	files where it was missing.
+
+Sat Apr 10 05:15:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c, server/civserver.h, server/stdinhand.c:
+	Eliminated code duplication in save_game() and save_command(). 
+	Now save_game() takes filename arg; new function save_game_auto().
+
+Sat Apr 10 05:14:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c: Eliminated code duplication in can_build_unit(),
+	can_build_unit_direct().
+
+Sun Apr  4 00:12:00 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* data/helpdata.txt, server/unitfunc.c: Add a variant of
+	Leonardo's Workshop to upgrade all units each turn.  Patch written
+	by Jeff Mallatt <jjm@codewell.com>.
+
 Fri Apr  2 05:26:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* common/shared.h: Changed capability string to "+1.8".
