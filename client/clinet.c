@@ -209,6 +209,7 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
   }
 
   connection_common_init(&aconnection);
+  aconnection.is_server = FALSE;
   aconnection.client.last_request_id_used = 0;
   aconnection.client.last_processed_request_id_seen = 0;
   aconnection.client.request_id_of_currently_handled_packet = 0;

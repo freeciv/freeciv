@@ -147,6 +147,8 @@ struct connection {
   void (*notify_of_writable_data) (struct connection * pc,
 				   bool data_available_and_socket_full);
 
+  /* Determines whether client or server behavior should be used. */
+  bool is_server;
   struct {
     /* 
      * Increases for every packet send to the server.

@@ -756,6 +756,7 @@ static int server_accept_connection(int sockfd)
       pconn->access_level = access_level_for_next_connection();
       pconn->delayed_disconnect = FALSE;
       pconn->notify_of_writable_data = NULL;
+      pconn->is_server = TRUE;
       pconn->server.currently_processed_request_id = 0;
       pconn->server.last_request_id_seen = 0;
       pconn->server.authentication_tries = 0;
