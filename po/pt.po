@@ -8652,7 +8652,7 @@ msgstr ""
 "governar; uma vez que os líderes eleitos devem manter-se populares para ficar "
 "no poder, é dado aos cidadãos um maior grau de liberdade.  Os cidadãos sob a "
 "República descontentam-se facilmente, mas a auto-suficiência dos seus "
-"cidadãos permite níveis elevados de comércio.\n"
+"cidadãos permite níveis elevados de comércio."
 
 #: data/civ1/governments.ruleset:456 data/civ1/techs.ruleset:168
 #: data/civ2/governments.ruleset:504 data/civ2/techs.ruleset:168
@@ -8703,7 +8703,7 @@ msgstr ""
 "Numa Democracia, os cidadãos governam directamente votando nos assuntos.  A "
 "Democracia oferece o maior nível possível de comércio, mas também oferece o "
 "maior potencial possível para o descontentamento.  Não existe corrupção numa "
-"Democracia, mas os cidadãos ficam muito descontentes durante uma guerra.\n"
+"Democracia, mas os cidadãos ficam muito descontentes durante uma guerra."
 
 #: data/civ1/techs.ruleset:228 data/civ2/governments.ruleset:377
 #: data/civ2/techs.ruleset:228 data/default/techs.ruleset:228
