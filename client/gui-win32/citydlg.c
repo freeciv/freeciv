@@ -1300,7 +1300,7 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 **************************************************************************/
 void worklist_callback(struct city_dialog *pdialog)
 {
-  popup_worklist(pdialog->pcity->worklist,
+  popup_worklist(&pdialog->pcity->worklist,
 		 pdialog->pcity,pdialog->mainwindow,(void *)pdialog,
 		 commit_city_worklist, NULL);
 }

@@ -1125,7 +1125,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
       gtk_label_parse_uline(GTK_LABEL(label), tab_title);
 
   pdialog->wl_editor =
-      create_worklist_editor(pdialog->pcity->worklist, pdialog->pcity,
+      create_worklist_editor(&pdialog->pcity->worklist, pdialog->pcity,
 			     (void *) pdialog, commit_city_worklist, NULL, 1);
   gtk_signal_connect(GTK_OBJECT(pdialog->shell), "key_press_event",
 		     GTK_SIGNAL_FUNC(pdialog->wl_editor->keyboard_handler),
@@ -1940,7 +1940,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   }
   
   my_snprintf(buf2, sizeof(buf2), "%s%s", descr,
-	      worklist_is_empty(pcity->worklist) ? "" : _(" (worklist)"));
+	      worklist_is_empty(&pcity->worklist) ? "" : _(" (worklist)"));
   gtk_frame_set_label(GTK_FRAME
 		      (pdialog->overview.currently_building_frame), buf2);
   gtk_progress_set_percentage(GTK_PROGRESS
@@ -3702,7 +3702,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 		     get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
   pdialog->cma_editor->pcity = new_pcity;
   pdialog->wl_editor->pcity = new_pcity;
-  pdialog->wl_editor->pwl = new_pcity->worklist;
+  pdialog->wl_editor->pwl = &new_pcity->worklist;
   pdialog->wl_editor->user_data = (void *) pdialog;
 
   center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);

@@ -144,7 +144,7 @@ static char *cr_entry_building(struct city *pcity)
   char *name;
   int cost, turns;
   char *from_worklist =
-    worklist_is_empty(pcity->worklist) ? "" :
+    worklist_is_empty(&pcity->worklist) ? "" :
     concise_city_production ? "*" : _("(worklist)");
 
   if(pcity->currently_building==B_CAPITAL) {

@@ -257,7 +257,7 @@ struct city {
   Impr_Status improvements[B_LAST];
   struct ceff_vector effects;
   
-  struct worklist *worklist;
+  struct worklist worklist;
 
   enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
 

@@ -20,18 +20,6 @@
 
 #include "worklist.h"
 
-
-/****************************************************************
-...
-****************************************************************/
-struct worklist *create_worklist(void)
-{
-  struct worklist *pwl = (struct worklist *)fc_malloc(sizeof(struct worklist));
-  init_worklist(pwl);
-
-  return pwl;
-}
-
 /****************************************************************
   Initialize a worklist to be empty and have a default name.
   For elements, only really need to set [0], but initialize the
@@ -48,14 +36,6 @@ void init_worklist(struct worklist *pwl)
     pwl->wlefs[i] = WEF_END;
     pwl->wlids[i] = 0;
   }
-}
-
-/****************************************************************
-...
-****************************************************************/
-void destroy_worklist(struct worklist *pwl)
-{
-  free(pwl);
 }
 
 /****************************************************************

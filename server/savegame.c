@@ -895,12 +895,12 @@ static void player_load(struct player *plr, int plrno,
       }
     }
 
-    pcity->worklist = create_worklist();
+    init_worklist(&pcity->worklist);
     if (has_capability("worklists2", savefile_options)) {
-      worklist_load(file, "player%d.c%d", plrno, i, pcity->worklist);
+      worklist_load(file, "player%d.c%d", plrno, i, &pcity->worklist);
     } else {
       worklist_load_old(file, "player%d.c%d.worklist%d",
-			plrno, i, pcity->worklist);
+			plrno, i, &pcity->worklist);
     }
 
     map_set_city(pcity->x, pcity->y, pcity);
@@ -1495,7 +1495,7 @@ static void player_save(struct player *plr, int plrno,
     buf[j]='\0';
     secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
 
-    worklist_save(file, "player%d.c%d", plrno, i, pcity->worklist);
+    worklist_save(file, "player%d.c%d", plrno, i, &pcity->worklist);
   }
   city_list_iterate_end;
 

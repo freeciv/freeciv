@@ -1812,7 +1812,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     sz_strlcpy(buf2, get_impr_name_ex(pcity, pcity->currently_building));
   }
 
-  if (!worklist_is_empty(pcity->worklist))
+  if (!worklist_is_empty(&pcity->worklist))
   {
     my_snprintf(buf3, sizeof(buf3), _("%s (%s) (worklist)"), buf, buf2);
   } else

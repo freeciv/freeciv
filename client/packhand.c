@@ -408,7 +408,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->is_building_unit=packet->is_building_unit;
   pcity->currently_building=packet->currently_building;
   if (city_is_new) {
-    pcity->worklist = create_worklist();
+    init_worklist(&pcity->worklist);
 
     /* Initialise list of improvements with city/building wide equiv_range. */
     improvement_status_init(pcity->improvements);
@@ -416,7 +416,7 @@ void handle_city_info(struct packet_city_info *packet)
     /* Initialise city's vector of improvement effects. */
     ceff_vector_init(&pcity->effects);
   }
-  copy_worklist(pcity->worklist, &packet->worklist);
+  copy_worklist(&pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
   pcity->did_sell=packet->did_sell;
   pcity->was_happy=packet->was_happy;
@@ -625,8 +625,9 @@ void handle_short_city(struct packet_short_city *packet)
   update_improvement_from_packet(pcity, B_CITY, packet->walls,
                                  &need_effect_update);
 
-  if (city_is_new)
-    pcity->worklist = create_worklist();
+  if (city_is_new) {
+    init_worklist(&pcity->worklist);
+  }
 
   /* This sets dumb values for everything else. This is not really required,
      but just want to be at the safe side. */
@@ -656,7 +657,7 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->city_options       = 0;
     pcity->is_building_unit   = FALSE;
     pcity->currently_building = 0;
-    init_worklist(pcity->worklist);
+    init_worklist(&pcity->worklist);
     pcity->airlift            = FALSE;
     pcity->did_buy            = 0;
     pcity->did_sell           = FALSE;

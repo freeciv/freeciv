@@ -653,7 +653,7 @@ static bool worklist_change_build_target(struct player *pplayer,
   bool success = FALSE;
   int i;
 
-  if (worklist_is_empty(pcity->worklist))
+  if (worklist_is_empty(&pcity->worklist))
     /* Nothing in the worklist; bail now. */
     return FALSE;
 
@@ -663,7 +663,7 @@ static bool worklist_change_build_target(struct player *pplayer,
     bool is_unit;
 
     /* What's the next item in the worklist? */
-    if (!worklist_peek_ith(pcity->worklist, &target, &is_unit, i))
+    if (!worklist_peek_ith(&pcity->worklist, &target, &is_unit, i))
       /* Nothing more in the worklist.  Ah, well. */
       break;
 
@@ -686,7 +686,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			    new_target. */
 			 get_unit_type(target)->name);
 	/* Purge this worklist item. */
-	worklist_remove(pcity->worklist, i-1);
+	worklist_remove(&pcity->worklist, i-1);
 	/* Reset i to index to the now-next element. */
 	i--;
 	
@@ -724,7 +724,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			 get_impr_name_ex(pcity, target));
 
 	/* Purge this worklist item. */
-	worklist_remove(pcity->worklist, i-1);
+	worklist_remove(&pcity->worklist, i-1);
 	/* Reset i to index to the now-next element. */
 	i--;
 	
@@ -780,10 +780,10 @@ static bool worklist_change_build_target(struct player *pplayer,
   if (success) {
     /* i is the index immediately _after_ the item we're changing to.
        Remove the (i-1)th item from the worklist. */
-    worklist_remove(pcity->worklist, i-1);
+    worklist_remove(&pcity->worklist, i-1);
   }
 
-  if (worklist_is_empty(pcity->worklist)) {
+  if (worklist_is_empty(&pcity->worklist)) {
     /* There *was* something in the worklist, but it's empty now.  Bug the
        player about it. */
     notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,

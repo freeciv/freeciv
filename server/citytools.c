@@ -957,7 +957,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->currently_building=best_role_unit(pcity, L_FIRSTBUILD);
 
   /* Set up the worklist */
-  pcity->worklist = create_worklist();
+  init_worklist(&pcity->worklist);
 
   /* Initialise list of improvements with City- and Building-wide equiv_range */
   improvement_status_init(pcity->improvements);
@@ -1582,7 +1582,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->disbanded_shields=pcity->disbanded_shields;
   packet->caravan_shields=pcity->caravan_shields;
 
-  copy_worklist(&packet->worklist, pcity->worklist);
+  copy_worklist(&packet->worklist, &pcity->worklist);
   packet->diplomat_investigate=dipl_invest;
 
   packet->airlift=pcity->airlift;

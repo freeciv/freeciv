@@ -324,7 +324,7 @@ static void get_contents_of_worklist(struct city_dialog *pdialog,
 {
   struct city *pcity = pdialog ? pdialog->pcity : NULL;
 
-  if (pcity && worklist_is_empty(pcity->worklist)) {
+  if (pcity && worklist_is_empty(&pcity->worklist)) {
     mystrlcpy(retbuf, _("(is empty)"), n);
   } else {
     mystrlcpy(retbuf, _("(in prog.)"), n);
@@ -2399,8 +2399,8 @@ void worklist_callback(Widget w, XtPointer client_data, XtPointer call_data)
     XtPopup(pdialog->worklist_shell, XtGrabNone);
   } else {
     pdialog->worklist_shell = 
-      popup_worklist(pdialog->pcity->worklist, pdialog->pcity, pdialog->shell, 
-		     (void *)pdialog, commit_city_worklist,
+      popup_worklist(&pdialog->pcity->worklist, pdialog->pcity,
+		     pdialog->shell, (void *) pdialog, commit_city_worklist,
 		     cancel_city_worklist);
   }
 }

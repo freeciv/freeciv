@@ -35,9 +35,7 @@ struct worklist {
   int wlids[MAX_LEN_WORKLIST];
 };
 
-struct worklist *create_worklist(void);
 void init_worklist(struct worklist *pwl);
-void destroy_worklist(struct worklist *pwl);
 
 int worklist_length(const struct worklist *pwl);
 bool worklist_is_empty(const struct worklist *pwl);

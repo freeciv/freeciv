@@ -998,7 +998,7 @@ static void worklist_prep(struct worklist_editor *peditor)
 	wid_encode(peditor->pcity->is_building_unit, FALSE,
 		   peditor->pcity->currently_building);
     peditor->worklist_wids[1] = WORKLIST_END;
-    copy_worklist_to_editor(peditor->pcity->worklist, peditor,
+    copy_worklist_to_editor(&peditor->pcity->worklist, peditor,
 			    MAX_LEN_WORKLIST);
   } else {
     peditor->worklist_wids[0] = WORKLIST_END;

@@ -309,7 +309,7 @@ void handle_city_worklist(struct player *pplayer, struct packet_city_request *pr
   if (!player_owns_city(pplayer, pcity))  
     return;
 
-  copy_worklist(pcity->worklist, &preq->worklist);
+  copy_worklist(&pcity->worklist, &preq->worklist);
 
   send_city_info(pplayer, pcity);
 }
