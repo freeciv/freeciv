@@ -254,8 +254,6 @@ bool handle_login_request(struct connection *pconn,
   if (strlen(req->username) == 0
       || my_isdigit(req->username[0])
       || !is_ascii_name(req->username)
-      || mystrcasecmp(req->username, "all") == 0
-      || mystrcasecmp(req->username, "none") == 0
       || mystrcasecmp(req->username, ANON_USER_NAME) == 0) {
     my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
     reject_new_connection(msg, pconn);
