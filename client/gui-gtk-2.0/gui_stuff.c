@@ -238,6 +238,14 @@ void gtk_tree_view_focus(GtkTreeView *view)
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static void close_callback(GtkDialog *dialog, gpointer data)
+{
+  gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
 /**********************************************************************
   This function handles new windows which are subwindows to the
   toplevel window. It must be called on every dialog in the game,
@@ -254,4 +262,10 @@ void setup_dialog(GtkWidget *shell, GtkWidget *parent)
     gtk_window_set_type_hint(GTK_WINDOW(shell),
                              GDK_WINDOW_TYPE_HINT_NORMAL);
   }
+
+  /* Close dialog window on Escape keypress. */
+  if (GTK_IS_DIALOG(shell)) {
+    g_signal_connect_after(shell, "close", G_CALLBACK(close_callback), shell);
+  }
 }
+
