@@ -175,18 +175,18 @@ endif
 <
 
 # Amiga server creation
-civserver: ${AMIGASERVEROBJS} ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS} ${OBJDIR}gettext.o
+civserver: ${AMIGASERVEROBJS} ${AIOBJS} ${COMMONOBJS} ${SERVEROBJS} ${OBJDIR}gettext.o ${OBJDIR}vsnprintf.o
   ${CC} ${LNFLAGS0} $@ ${LNFLAGS1} ${AMIGASERVEROBJS} ${OBJDIR}ai/\#?.o ${OBJDIR}common/\#?.o\
-${OBJDIR}server/\#?.o ${OBJDIR}gettext.o
+${OBJDIR}server/\#?.o ${OBJDIR}gettext.o ${OBJDIR}vsnprintf.o
 
 
 ${OBJDIR}amigaserver.o: amigaserver.c
   ${CC} ${CCFLAGS} amigaserver.c ${INCDIRS} $(INC)${FREECIV_DIR}common ${TO}$@
 
 # Amiga client creation
-civclient: ${AMIGACLIENTOBJS} ${COMMONOBJS} ${CLIENTOBJS} ${CLIENTGUIOBJS} ${OBJDIR}gettext.o
+civclient: ${AMIGACLIENTOBJS} ${COMMONOBJS} ${CLIENTOBJS} ${CLIENTGUIOBJS} ${OBJDIR}gettext.o ${OBJDIR}vsnprintf.o
   ${CC} ${LNFLAGS0} $@ ${LNFLAGS1} ${AMIGACLIENTOBJS} ${OBJDIR}common/\#?.o ${OBJDIR}client/\#?.o\
-${OBJDIR}client/gui-mui/\#?.o ${OBJDIR}gettext.o
+${OBJDIR}client/gui-mui/\#?.o ${OBJDIR}gettext.o ${OBJDIR}vsnprintf.o
 
 
 ${OBJDIR}amigaclient.o: amigaclient.c
@@ -196,6 +196,11 @@ ${OBJDIR}amigaclient.o: amigaclient.c
 
 ${OBJDIR}gettext.o: gettext.c
   ${CC} ${CCFLAGS} gettext.c ${INCDIRS} ${TO}$@
+
+# vsnprintf file
+
+${OBJDIR}vsnprintf.o: vsnprintf.c
+  ${CC} ${CCFLAGS} vsnprintf.c ${INCDIRS} ${TO}$@
 
 # AI Files
 

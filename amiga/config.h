@@ -27,6 +27,10 @@ int ioctl(int fd, unsigned int request, char *argp);
 #undef close
 #endif
 
+/* the prototype for our own vsnprintf function */
+#include <stdarg.h>
+int vsnprintf(char *, int, const char *, va_list);
+
 #ifdef __VBCC__
 #include <stdlib.h>
 #define bzero(a,l) memset(a, 0, l);
@@ -209,7 +213,7 @@ int ioctl(int fd, unsigned int request, char *argp);
 #define HAVE_USLEEP
 
 /* Define if you have the vsnprintf function.  */
-/* #undef HAVE_VSNPRINTF */
+#define HAVE_VSNPRINTF
 
 /* Define if you have the <argz.h> header file.  */
 /* #undef HAVE_ARGZ_H */
