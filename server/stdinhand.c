@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <stdarg.h>
 
+#include "attribute.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -807,29 +808,77 @@ static int may_set_option_now(struct player *pplayer, int option_idx)
   caller == NULL means console.
   No longer duplicate all output to console.
   'console_id' should be one of the C_ identifiers in console.h
+
+  This lowlevel function takes a single line; prefix is prepended to line.
 **************************************************************************/
-static void cmd_reply(enum command_id cmd, struct player *caller,
-		      int console_id, char *format, ...)
+static void cmd_reply_line(enum command_id cmd, const struct player *caller,
+			   int console_id, const char *prefix, const char *line)
 {
-  char line[MAX_LEN_CMD];
-  va_list ap;
   char *cmdname = cmd < CMD_NUM ? commands[cmd].name :
                   cmd == CMD_AMBIGUOUS ? _("(ambiguous)") :
                   cmd == CMD_UNRECOGNIZED ? _("(unknown)") :
 			"(?!?)";  /* this case is a bug! */
 
-  va_start(ap,format);
-  my_vsnprintf(line, MAX_LEN_CMD, format,ap);
-  va_end(ap);
-
   if (caller) {
-    notify_player(caller, "/%s: %s", cmdname, line);
+    notify_player(caller, "/%s: %s%s", cmdname, prefix, line);
     /* cc: to the console - testing has proved it's too verbose - rp
-    con_write(console_id, "%s/%s: %s", caller->name, cmdname, line);
+    con_write(console_id, "%s/%s: %s%s", caller->name, cmdname, prefix, line);
     */
   } else {
-    con_write(console_id, "%s", line);
+    con_write(console_id, "%s%s", prefix, line);
   }
+}
+/**************************************************************************
+  va_list version which allow embedded newlines, and each line is sent
+  separately. 'prefix' is prepended to every line _after_ the first line.
+**************************************************************************/
+static void vcmd_reply_prefix(enum command_id cmd, const struct player *caller,
+			      int console_id, const char *prefix,
+			      const char *format, va_list ap)
+{
+  char buf[4096];
+  char *c0, *c1;
+
+  my_vsnprintf(buf, sizeof(buf), format, ap);
+
+  c0 = buf;
+  while ((c1=strstr(c0, "\n"))) {
+    *c1 = '\0';
+    cmd_reply_line(cmd, caller, console_id, (c0==buf?"":prefix), c0);
+    c0 = c1+1;
+  }
+  cmd_reply_line(cmd, caller, console_id, (c0==buf?"":prefix), c0);
+}
+/**************************************************************************
+  var-args version of above
+  duplicate declaration required for attribute to work...
+**************************************************************************/
+static void cmd_reply_prefix(enum command_id cmd, const struct player *caller,
+			     int console_id, const char *prefix,
+			     const char *format, ...)
+     fc__attribute((format (printf, 5, 6)));
+static void cmd_reply_prefix(enum command_id cmd, const struct player *caller,
+			     int console_id, const char *prefix,
+			     const char *format, ...)
+{
+  va_list ap;
+  va_start(ap, format);
+  vcmd_reply_prefix(cmd, caller, console_id, prefix, format, ap);
+  va_end(ap);
+}
+/**************************************************************************
+  var-args version as above, no prefix
+**************************************************************************/
+static void cmd_reply(enum command_id cmd, const struct player *caller,
+		      int console_id, const char *format, ...)
+     fc__attribute((format (printf, 4, 5)));
+static void cmd_reply(enum command_id cmd, const struct player *caller,
+		      int console_id, const char *format, ...)
+{
+  va_list ap;
+  va_start(ap, format);
+  vcmd_reply_prefix(cmd, caller, console_id, "", format, ap);
+  va_end(ap);
 }
 
 /**************************************************************************

@@ -35,10 +35,10 @@ void page_player(struct player *pplayer, char *caption, char *headline,
 		 char *lines);
 void page_player_generic(struct player *pplayer, char *caption, char *headline,
 			 char *lines, int event);
-void notify_player(struct player *pplayer, char *format, ...)
+void notify_player(const struct player *pplayer, const char *format, ...)
                    fc__attribute((format (printf, 2, 3)));
-void notify_player_ex(struct player *pplayer, int x, int y,
-		      int event, char *format, ...)
+void notify_player_ex(const struct player *pplayer, int x, int y,
+		      int event, const char *format, ...)
                       fc__attribute((format (printf, 5, 6)));
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq);

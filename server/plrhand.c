@@ -1751,7 +1751,8 @@ void check_player_government_rates(struct player *pplayer)
 ...
 **************************************************************************/
 
-void notify_player_ex(struct player *pplayer, int x, int y, int event, char *format, ...) 
+void notify_player_ex(const struct player *pplayer, int x, int y,
+		      int event, const char *format, ...) 
 {
   int i;
   struct packet_generic_message genmsg;
@@ -1779,7 +1780,7 @@ void notify_player_ex(struct player *pplayer, int x, int y, int event, char *for
 ...
 **************************************************************************/
 
-void notify_player(struct player *pplayer, char *format, ...) 
+void notify_player(const struct player *pplayer, const char *format, ...) 
 {
   int i;
   struct packet_generic_message genmsg;
