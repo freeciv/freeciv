@@ -222,14 +222,14 @@ to be doing; it just looks strange. -- Syela */
   }
   freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", pplayer->name,
 		advances[l].name, values[l], pplayer->ai.tech_want[l]);
-  if (choice) {
+  if (choice != NULL) {
     choice->choice = l;
     choice->want = values[l] / num_cities_nonzero;
     choice->type = values[pplayer->research.researching] / num_cities_nonzero;
     /* hijacking this ... in order to leave tech_wants alone */
   }
 
-  if (gol) {
+  if (gol != NULL) {
     gol->choice = k;
     gol->want = goal_values[k] / num_cities_nonzero;
     gol->type = goal_values[pplayer->ai.tech_goal] / num_cities_nonzero;

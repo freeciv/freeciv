@@ -313,13 +313,13 @@ static void ai_manage_taxes(struct player *pplayer)
       defender = NULL;
       unit_list_iterate(pcity->units_supported, punit)
         incity = map_get_city(punit->x, punit->y);
-        if (incity && pcity->shield_surplus < 0) {
+        if (incity != NULL && pcity->shield_surplus < 0) {
 	  /* Note that disbanding here is automatically safe (we don't
 	   * need to use handle_unit_disband_safe()), because the unit is
 	   * in a city, so there are no passengers to get disbanded. --dwp
 	   */
           if (incity == pcity) {
-            if (defender) {
+            if (defender != NULL) {
               if (unit_vulnerability_virtual(punit) <
                   unit_vulnerability_virtual(defender)) {
 		freelog(LOG_VERBOSE, "Disbanding %s in %s",

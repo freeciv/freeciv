@@ -100,13 +100,13 @@ gtk_pixcomm_destroy (GtkObject *object)
 
   gdk_pixmap_unref (GTK_PIXCOMM (object)->pixmap);
   gdk_pixmap_unref (GTK_PIXCOMM (object)->mask);
-  if (GTK_PIXCOMM (object)->pixmap_insensitive)
+  if (GTK_PIXCOMM (object)->pixmap_insensitive != NULL)
     gdk_pixmap_unref (GTK_PIXCOMM (object)->pixmap_insensitive);
   gdk_gc_destroy (GTK_PIXCOMM (object)->fg_gc);
   gdk_gc_destroy (GTK_PIXCOMM (object)->mask_fg_gc);
   gdk_gc_destroy (GTK_PIXCOMM (object)->mask_bg_gc);
 
-  if (GTK_OBJECT_CLASS (parent_class)->destroy)
+  if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
     (* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
@@ -145,7 +145,7 @@ gtk_pixcomm_changed (GtkPixcomm *pixcomm)
   g_return_if_fail (pixcomm != NULL);
   g_return_if_fail (GTK_IS_PIXCOMM (pixcomm));
 
-  if (pixcomm->pixmap_insensitive)
+  if (pixcomm->pixmap_insensitive != NULL)
   {
     gdk_pixmap_unref (pixcomm->pixmap_insensitive);
     pixcomm->pixmap_insensitive=NULL;
@@ -255,7 +255,7 @@ gtk_pixcomm_expose (GtkWidget *widget, GdkEventExpose *event)
 
       if (GTK_WIDGET_STATE (widget) == GTK_STATE_INSENSITIVE)
         {
-          if (!pixcomm->pixmap_insensitive)
+          if (pixcomm->pixmap_insensitive == NULL)
             build_insensitive_pixmap (pixcomm);
           gdk_draw_pixmap (widget->window,
 	   	           widget->style->black_gc,

@@ -53,7 +53,7 @@ static const char * const help_type_names[] = {
   struct genlist_iterator myiter; \
   struct help_item *pitem; \
   for( genlist_iterator_init(&myiter, &helplist, 0); \
-       (pitem=ITERATOR_PTR(myiter)); \
+       (pitem=ITERATOR_PTR(myiter)) != NULL ; \
        ITERATOR_NEXT(myiter) ) {
 #define help_list_iterate_end }}
 
@@ -219,12 +219,12 @@ void boot_help_texts(void)
     char *gen_str =
       secfile_lookup_str_default(sf, NULL, "%s.generate", sec[isec]);
     
-    if (gen_str) {
+    if (gen_str != NULL) {
       enum help_page_type current_type = HELP_ANY;
       if (!booted) {
 	continue; /* on initial boot data tables are empty */
       }
-      for(i=2; help_type_names[i]; i++) {
+      for (i = 2; help_type_names[i] != NULL; i++) {
 	if(strcmp(gen_str, help_type_names[i])==0) {
 	  current_type = i;
 	  break;
@@ -274,7 +274,7 @@ void boot_help_texts(void)
 	    }
 	  }
 	  /* Add special Civ2-style river help text if it's supplied. */
-	  if (terrain_control.river_help_text) {
+	  if (terrain_control.river_help_text != NULL) {
 	    pitem = new_help_item(HELP_TEXT);
 	    pitem->topic = mystrdup(_("  Rivers"));
 	    strcpy(long_buffer, _(terrain_control.river_help_text));
@@ -422,7 +422,7 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
   }
   help_list_iterate_end;
   
-  if(!pitem) {
+  if(pitem == NULL) {
     idx = -1;
     vitem.topic = vtopic;
     sz_strlcpy(vtopic, name);
@@ -499,7 +499,7 @@ void helptext_improvement(char *buf, int which, const char *user_text)
 {
   struct impr_type *imp = &improvement_types[which];
   
-  assert(buf&&user_text);
+  assert(buf != NULL && user_text != NULL);
   buf[0] = '\0';
   if(which==B_AQUEDUCT) {
     sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.  "),
@@ -516,7 +516,7 @@ void helptext_improvement(char *buf, int which, const char *user_text)
     sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.  "),
 	   game.sewer_size);
   }
-  if (imp->helptext) {
+  if (imp->helptext != NULL) {
     sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
   }
   if(which==B_BARRACKS
@@ -550,7 +550,7 @@ void helptext_wonder(char *buf, int which,
 {
   struct impr_type *imp = &improvement_types[which];
   
-  assert(buf&&user_text);
+  assert(buf != NULL && user_text != NULL);
   buf[0] = '\0';
   if(which==B_MANHATTEN && num_role_units(F_NUCLEAR)>0) {
     int u, t;
@@ -562,7 +562,7 @@ void helptext_wonder(char *buf, int which,
 	   _("Allows all players with knowledge of %s to build %s units.  "),
 	   advances[t].name, get_unit_type(u)->name);
   }
-  if (imp->helptext) {
+  if (imp->helptext != NULL) {
     sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
   }
   if (strcmp(user_text, "")!=0) {
@@ -579,7 +579,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
 {
   struct unit_type *utype;
 
-  assert(buf&&user_text);
+  assert(buf != NULL && user_text != NULL);
   if (!unit_type_exists(i)) {
     strcpy(buf, user_text);
     return;
@@ -711,7 +711,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
   if (strlen(buf)) {
     sprintf(buf+strlen(buf), "\n");
   } 
-  if (utype->helptext) {
+  if (utype->helptext != NULL) {
     sprintf(buf+strlen(buf), "%s\n\n", _(utype->helptext));
   }
   strcpy(buf+strlen(buf), user_text);
@@ -725,7 +725,7 @@ void helptext_tech(char *buf, int i, const char *user_text)
 {
   int gov;
   
-  assert(buf&&user_text);
+  assert(buf != NULL && user_text != NULL);
   strcpy(buf, user_text);
 
   if (get_invention(game.player_ptr, i) != TECH_KNOWN) {
@@ -791,7 +791,7 @@ void helptext_tech(char *buf, int i, const char *user_text)
 
   if(tech_flag(i,TF_AIRBASE)) {
     char *units_str = get_units_with_flag_string(F_AIRBASE);
-    if (units_str) {
+    if (units_str != NULL) {
       sprintf(buf+strlen(buf), _("Allows %s to build airbases.\n"),units_str);
       free(units_str);
     }
@@ -823,7 +823,7 @@ void helptext_terrain(char *buf, int i, const char *user_text)
     return;
 
   pt = &tile_types[i];
-  if (pt->helptext) {
+  if (pt->helptext != NULL) {
     sprintf(buf, "%s\n\n", _(pt->helptext));
   }
   strcat(buf, user_text);
@@ -839,7 +839,7 @@ void helptext_government(char *buf, int i, const char *user_text)
   
   buf[0] = '\0';
   
-  if (gov->helptext) {
+  if (gov->helptext != NULL) {
     sprintf(buf, "%s\n\n", _(gov->helptext));
   }
   strcat(buf, user_text);

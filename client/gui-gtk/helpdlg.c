@@ -133,7 +133,7 @@ static void set_title_topic(char *topic)
 *****************************************************************/
 void popdown_help_dialog(void)
 {
-  if(help_dialog_shell) {
+  if(help_dialog_shell != NULL) {
     gtk_widget_destroy(help_dialog_shell);
     help_dialog_shell = NULL;
   }
@@ -148,7 +148,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
   Position x, y;
   Dimension width, height;
 */
-  if(!help_dialog_shell) {
+  if(help_dialog_shell == NULL) {
     create_help_dialog();
 /*
     XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
@@ -421,7 +421,7 @@ static void selected_topic(GtkCList *clist, gint row, gint column,
   }
   help_items_iterate_end;
 
-  if (!p)
+  if (p == NULL)
       return;
 
   help_update_dialog(p);
@@ -486,7 +486,7 @@ static void create_help_dialog(void)
 
   for (i=0; i<6; i++) {
     help_ilabel[i] =
-	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
+	gtk_label_new(help_ilabel_name[i] != NULL ? _(help_ilabel_name[i]) : "");
     gtk_widget_set_name(help_ilabel[i], "help label");
 
     if (i==5) {
@@ -503,7 +503,7 @@ static void create_help_dialog(void)
 
   for (i=0; i<6; i++) {
     help_wlabel[i] =
-	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
+	gtk_label_new(help_wlabel_name[i] != NULL ? _(help_wlabel_name[i]) : "");
     gtk_widget_set_name(help_wlabel[i], "help label");
 
     if (i==3 || i==5) {
@@ -523,7 +523,7 @@ static void create_help_dialog(void)
     for (j=0; j<5; j++)
     {
       help_ulabel[j][i] =
-	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
+	  gtk_label_new(help_ulabel_name[j][i] != NULL ? _(help_ulabel_name[j][i]) : "");
       gtk_widget_set_name(help_ulabel[j][i], "help label");
 
       if (j==4 && (i==1 || i==4))
@@ -548,7 +548,7 @@ static void create_help_dialog(void)
   for (i=0; i<5; i++) {
     for (j=0; j<4; j++) {
       help_tlabel[j][i] =
-	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
+	  gtk_label_new(help_tlabel_name[j][i] != NULL ? _(help_tlabel_name[j][i]) : "");
       gtk_widget_set_name(help_tlabel[j][i], "help label");
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
@@ -814,7 +814,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_widget_show_all(help_tree_buttons_hbox);
 
     helptext_tech(buf, i, pitem->text);
-    if (advances[i].helptext) {
+    if (advances[i].helptext != NULL) {
       if (strlen(buf)) strcat(buf, "\n");
       sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
     }

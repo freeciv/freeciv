@@ -165,7 +165,7 @@ static int write_socket_data(struct connection *pc,
     if (delayed_disconnect) {
       return 0;
     } else {
-      if (close_callback) {
+      if (close_callback != NULL) {
 	(*close_callback)(pc);
       }
       return -1;
@@ -192,7 +192,7 @@ static int write_socket_data(struct connection *pc,
 	pc->delayed_disconnect = 1;
 	return 0;
       } else {
-	if (close_callback) {
+	if (close_callback != NULL) {
 	  (*close_callback)(pc);
 	}
 	return -1;
@@ -212,7 +212,7 @@ static int write_socket_data(struct connection *pc,
 	  pc->delayed_disconnect = 1;
 	  return 0;
 	} else {
-	  if (close_callback) {
+	  if (close_callback != NULL) {
 	    (*close_callback)(pc);
 	  }
 	  return -1;
@@ -236,10 +236,10 @@ static int write_socket_data(struct connection *pc,
 **************************************************************************/
 void flush_connection_send_buffer_all(struct connection *pc)
 {
-  if(pc && pc->used && pc->send_buffer->ndata) {
+  if (pc != NULL && pc->used && pc->send_buffer->ndata) {
     write_socket_data(pc, pc->send_buffer, 0);
-    if (pc->notify_of_writable_data) {
-      pc->notify_of_writable_data(pc, pc->send_buffer
+    if (pc->notify_of_writable_data != NULL) {
+      pc->notify_of_writable_data(pc, pc->send_buffer != NULL
 				  && pc->send_buffer->ndata);
     }
   }
@@ -250,10 +250,10 @@ void flush_connection_send_buffer_all(struct connection *pc)
 **************************************************************************/
 void flush_connection_send_buffer_packets(struct connection *pc)
 {
-  if(pc && pc->used && pc->send_buffer->ndata >= MAX_LEN_PACKET) {
+  if (pc != NULL && pc->used && pc->send_buffer->ndata >= MAX_LEN_PACKET) {
     write_socket_data(pc, pc->send_buffer, MAX_LEN_PACKET-1);
-    if (pc->notify_of_writable_data) {
-      pc->notify_of_writable_data(pc, pc->send_buffer
+    if (pc->notify_of_writable_data != NULL) {
+      pc->notify_of_writable_data(pc, pc->send_buffer != NULL
 				  && pc->send_buffer->ndata);
     }
   }
@@ -265,18 +265,18 @@ void flush_connection_send_buffer_packets(struct connection *pc)
 static int add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
-  if (pc && pc->delayed_disconnect) {
+  if (pc != NULL && pc->delayed_disconnect) {
     if (delayed_disconnect) {
       return 1;
     } else {
-      if (close_callback) {
+      if (close_callback != NULL) {
 	(*close_callback)(pc);
       }
       return 0;
     }
   }
 
-  if (pc && pc->used) {
+  if (pc != NULL && pc->used) {
     struct socket_packet_buffer *buf;
 
     buf = pc->send_buffer;
@@ -291,7 +291,7 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 	  pc->delayed_disconnect = 1;
 	  return 1;
 	} else {
-	  if (close_callback) {
+	  if (close_callback != NULL) {
 	    (*close_callback)(pc);
 	  }
 	  return 0;
@@ -312,7 +312,7 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 **************************************************************************/
 void send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
-  if (pc && pc->used) {
+  if (pc != NULL && pc->used) {
     if(pc->send_buffer->do_buffer_sends) {
       flush_connection_send_buffer_packets(pc);
       if (!add_connection_data(pc, data, len)) {
@@ -337,7 +337,7 @@ void send_connection_data(struct connection *pc, unsigned char *data, int len)
 **************************************************************************/
 void connection_do_buffer(struct connection *pc)
 {
-  if (pc && pc->used) {
+  if (pc != NULL && pc->used) {
     pc->send_buffer->do_buffer_sends++;
   }
 }
@@ -349,7 +349,7 @@ void connection_do_buffer(struct connection *pc)
 **************************************************************************/
 void connection_do_unbuffer(struct connection *pc)
 {
-  if (pc && pc->used) {
+  if (pc != NULL && pc->used) {
     pc->send_buffer->do_buffer_sends--;
     if (pc->send_buffer->do_buffer_sends < 0) {
       freelog(LOG_ERROR, "Too many calls to unbuffer %s!", pc->name);
@@ -454,8 +454,8 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
 **************************************************************************/
 void free_socket_packet_buffer(struct socket_packet_buffer *buf)
 {
-  if (buf) {
-    if (buf->data) {
+  if (buf != NULL) {
+    if (buf->data != NULL) {
       free(buf->data);
     }
     free(buf);
@@ -487,7 +487,7 @@ const char *conn_description(const struct connection *pconn)
     sz_strlcat(buffer, _(" (connection incomplete)"));
     return buffer;
   }
-  if (pconn->player) {
+  if (pconn->player != NULL) {
     cat_snprintf(buffer, sizeof(buffer), _(" (player %s)"),
 		 pconn->player->name);
   }

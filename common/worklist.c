@@ -65,7 +65,7 @@ int worklist_length(const struct worklist *pwl)
 {
   int len = 0;
 
-  if (pwl) {
+  if (pwl != NULL) {
     for (len = 0; len < MAX_LEN_WORKLIST && pwl->wlefs[len] != WEF_END; len++) ;
   }
 

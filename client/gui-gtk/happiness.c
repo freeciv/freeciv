@@ -76,7 +76,7 @@ static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
 
   genlist_iterator_init(&myiter, &happiness_list, 0);
 
-  for (; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
+  for (; ITERATOR_PTR(myiter) != NULL; ITERATOR_NEXT(myiter))
     if (((struct happiness_dialog *) ITERATOR_PTR(myiter))->pcity == pcity)
       return ITERATOR_PTR(myiter);
 

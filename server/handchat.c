@@ -222,7 +222,7 @@ void handle_chat_msg(struct connection *pconn,
 	complain_ambiguous(pconn, name, 1);
 	return;
       }
-      if (conn_dest && match_result_conn < M_PRE_AMBIGUOUS) {
+      if (conn_dest != NULL && match_result_conn < M_PRE_AMBIGUOUS) {
 	chat_msg_to_conn(pconn, conn_dest, cp+2);
 	return;
       }
@@ -233,7 +233,7 @@ void handle_chat_msg(struct connection *pconn,
 	complain_ambiguous(pconn, name, 0);
 	return;
       }
-      if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
+      if (pdest != NULL && match_result_player < M_PRE_AMBIGUOUS) {
 	int nconn = conn_list_size(&pdest->connections);
 	if (nconn==1) {
 	  chat_msg_to_conn(pconn, conn_list_get(&pdest->connections, 0), cp+1);
@@ -249,11 +249,11 @@ void handle_chat_msg(struct connection *pconn,
 	complain_ambiguous(pconn, name, 1);
 	return;
       }
-      if (conn_dest && match_result_conn < M_PRE_AMBIGUOUS) {
+      if (conn_dest != NULL && match_result_conn < M_PRE_AMBIGUOUS) {
 	chat_msg_to_conn(pconn, conn_dest, cp+1);
 	return;
       }
-      if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
+      if (pdest != NULL && match_result_player < M_PRE_AMBIGUOUS) {
 	/* Would have done something above if connected */
 	my_snprintf(genmsg.message, sizeof(genmsg.message),
 		    _("Game: %s is not connected."), pdest->name);
@@ -265,7 +265,7 @@ void handle_chat_msg(struct connection *pconn,
      * to be a global message
      */
     cpblank=strchr(packet->message, ' ');
-    if (!cpblank || (cp < cpblank)) {
+    if (cpblank == NULL || (cp < cpblank)) {
       if (double_colon) {
 	my_snprintf(genmsg.message, sizeof(genmsg.message),
 		    _("Game: There is no connection by the name %s."), name);

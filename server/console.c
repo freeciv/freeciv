@@ -77,7 +77,7 @@ Initialize logging via console.
 ************************************************************************/
 void con_log_init(char *log_filename, int log_level)
 {
-  log_init(log_filename, log_level, (log_filename ? NULL : con_handle_log));
+  log_init(log_filename, log_level, (log_filename != NULL ? NULL : con_handle_log));
   logdebug_suppress_warning;
 }
 

@@ -106,7 +106,7 @@ void meta_addr_split(void)
   char *metaserver_port_separator;
   int specified_port;
 
-  if ((metaserver_port_separator = strchr(srvarg.metaserver_addr,':'))) {
+  if ((metaserver_port_separator = strchr(srvarg.metaserver_addr,':')) != NULL) {
     metaserver_port_separator[0] = '\0';
     if ((specified_port=atoi(&metaserver_port_separator[1]))) {
       srvarg.metaserver_port = (unsigned short int)specified_port;
@@ -277,7 +277,7 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   int num_nonbarbarians;
   int i;
 
-  if (reset_timer && time_since_last_send)
+  if (reset_timer && time_since_last_send != NULL)
   {
     free_timer(time_since_last_send);
     time_since_last_send = NULL;

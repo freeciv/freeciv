@@ -166,14 +166,14 @@ static void find_center_command_callback(GtkWidget *w, gpointer data)
   struct city *pcity;
   GList *selection;
 
-  if ((selection=GTK_CLIST(find_list)->selection))
+  if ((selection=GTK_CLIST(find_list)->selection) != NULL)
   {
     gchar *string;
     gint row=(gint)selection->data;
 
     gtk_clist_get_text(GTK_CLIST(find_list), row, 0, &string);
 
-    if(string&&(pcity=game_find_city_by_name(string)))
+    if (string != NULL && (pcity = game_find_city_by_name(string)) != NULL)
       center_tile_mapcanvas(pcity->x, pcity->y);
   }
   
@@ -199,6 +199,6 @@ static void find_list_callback(GtkWidget *w, gint row, gint column)
 
   gtk_clist_get_text(GTK_CLIST(find_list), row, 0, &string);
 
-  if(string&&(pcity=game_find_city_by_name(string)))
+  if (string != NULL && (pcity = game_find_city_by_name(string)) != NULL)
 	center_tile_mapcanvas(pcity->x, pcity->y);
 }

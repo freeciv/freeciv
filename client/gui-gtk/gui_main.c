@@ -215,7 +215,7 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
       }
     }
 
-    if (data)
+    if (data != NULL)
       gtk_entry_set_text(GTK_ENTRY(inputline), data);
 
     if (keypress)
@@ -770,12 +770,12 @@ void ui_main(int argc, char **argv)
 
   civ_gc = gdk_gc_new(root_window);
 
-  if (!(main_font=gdk_font_load(city_names_font))) {
+  if ((main_font=gdk_font_load(city_names_font)) == NULL) {
       freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
       exit(EXIT_FAILURE);
   }
 
-  if (!(city_productions_font = gdk_font_load(city_productions_font_name))) {
+  if ((city_productions_font = gdk_font_load(city_productions_font_name)) == NULL) {
     freelog(LOG_FATAL, "failed loading font: %s", city_productions_font_name);
     exit(EXIT_FAILURE);
   }
@@ -891,10 +891,10 @@ void set_unit_icon(int idx, struct unit *punit)
     w = unit_pixmap;
   } else {
     w = unit_below_pixmap[idx];
-    unit_ids[idx] = punit ? punit->id : 0;
+    unit_ids[idx] = punit != NULL ? punit->id : 0;
   }
   
-  if (punit) {
+  if (punit != NULL) {
     gtk_pixcomm_clear(GTK_PIXCOMM(w), FALSE);
     put_unit_gpixmap(punit, GTK_PIXCOMM(w));
   } else {
@@ -939,7 +939,7 @@ static void select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
     return;
 
   punit = find_unit_by_id(unit_ids[i]);
-  if(punit) { /* should always be true at this point */
+  if(punit != NULL) { /* should always be true at this point */
     if (punit->owner == game.player_idx) {  /* may be non-true if alliance */
       request_new_unit_activity(punit, ACTIVITY_IDLE);
       set_unit_focus(punit);

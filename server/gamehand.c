@@ -116,8 +116,8 @@ void init_new_game(void)
 	} while (!(is_real_tile(dx, dy)
                    && map_get_continent(x, y) == map_get_continent(dx, dy)
                    && map_get_terrain(dx, dy) != T_OCEAN
-                   && !is_non_allied_unit_tile(map_get_tile(dx, dy),
-                    			       get_player(i))));
+                   && is_non_allied_unit_tile(map_get_tile(dx, dy),
+                    			       get_player(i)) == NULL));
       }
       /* For scenarios or dispersion, huts may coincide with player
 	 starts (in other cases, huts are avoided as start positions).
@@ -240,7 +240,7 @@ void send_game_info(struct conn_list *dest)
 
   conn_list_iterate(*dest, pconn) {
     /* ? fixme: check for non-players: */
-    ginfo.player_idx = (pconn->player ? pconn->player->player_no : -1);
+    ginfo.player_idx = (pconn->player != NULL ? pconn->player->player_no : -1);
     send_packet_game_info(pconn, &ginfo);
   }
   conn_list_iterate_end;

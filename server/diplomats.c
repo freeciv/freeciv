@@ -64,7 +64,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (pcity == NULL)
     return;
   cplayer = city_owner(pcity);
   if (cplayer == NULL || !pplayers_at_war(pplayer, cplayer))
@@ -137,7 +137,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   struct packet_city_info city_packet;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (pcity == NULL)
     return;
   cplayer = city_owner (pcity);
   if ((cplayer == pplayer) || (cplayer == NULL))
@@ -237,7 +237,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (pcity == NULL)
     return;
   cplayer = city_owner (pcity);
   if ((cplayer == pplayer) || (cplayer == NULL))
@@ -331,7 +331,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   struct player *uplayer;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim)
+  if (pvictim == NULL)
     return;
   uplayer = unit_owner(pvictim);
   if (uplayer == NULL || pplayers_allied(pplayer, uplayer))
@@ -397,7 +397,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   int diplomat_id, victim_x, victim_y;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim)
+  if (pvictim == NULL)
     return;
   uplayer = unit_owner(pvictim);
   /* We might make it allowable in peace with a liss of reputaion */
@@ -464,7 +464,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   if (!handle_unit_move_request(pdiplomat, victim_x, victim_y, FALSE, FALSE)) {
     pdiplomat->moves_left = 0;
   }
-  if (player_find_unit_by_id(pplayer, diplomat_id)) {
+  if (player_find_unit_by_id(pplayer, diplomat_id) != NULL) {
     send_unit_info (pplayer, pdiplomat);
   }
 
@@ -500,7 +500,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   int index, count, which, target;
 
   /* Fetch target civilization's player.  Sanity checks. */
-  if (!pcity)
+  if (pcity == NULL)
     return;
   cplayer = city_owner (pcity);
   if ((cplayer == pplayer) || (cplayer == NULL))
@@ -712,7 +712,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   int revolt_cost;
 
   /* Fetch target civilization's player.  Sanity checks. */
-  if (!pcity)
+  if (pcity == NULL)
     return;
   cplayer = city_owner (pcity);
   if (cplayer == NULL || pplayers_allied(cplayer, pplayer))
@@ -851,7 +851,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   struct city *capital;
 
   /* Fetch target city's player.  Sanity checks. */
-  if (!pcity)
+  if (pcity == NULL)
     return;
   cplayer = city_owner (pcity);
   if (cplayer == NULL || !pplayers_at_war(pplayer, cplayer))
@@ -1163,7 +1163,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
   int x, y;
 
   if (unit_flag (pdiplomat, F_SPY)) {
-    if (pcity) {
+    if (pcity != NULL) {
       x = pcity->x;
       y = pcity->y;
     } else {
@@ -1176,7 +1176,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 
       struct city *spyhome = find_city_by_id (pdiplomat->homecity);
 
-      if (!spyhome) {
+      if (spyhome == NULL) {
 	send_unit_info (pplayer, pdiplomat);
 	freelog(LOG_ERROR, "Bug in diplomat_escape: Unhomed Spy.");
 	return;
@@ -1201,7 +1201,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
     } else {
       /* Attacking Spy/Diplomat dies. */
 
-      if (pcity) {
+      if (pcity != NULL) {
 	notify_player_ex (pplayer, x, y, E_NOEVENT,
 			  _("Game: Your %s was captured after completing"
 			    " her mission in %s."),
@@ -1228,11 +1228,11 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
 {
   struct player *victim_player = 0;
   int x = 0, y = 0;
-  if (victim_city) {
+  if (victim_city != NULL) {
     x = victim_city->x;
     y = victim_city->y;
     victim_player = city_owner(victim_city);
-  } else if (victim_unit) {
+  } else if (victim_unit != NULL) {
     x = victim_unit->x;
     y = victim_unit->y;
     victim_player = unit_owner(victim_unit);
@@ -1340,7 +1340,7 @@ int unit_bribe_cost(struct unit *punit)
 
   cost = unit_owner(punit)->economic.gold + 750;
   capital = find_palace(unit_owner(punit));
-  if (capital) {
+  if (capital != NULL) {
     int tmp = map_distance(capital->x, capital->y, punit->x, punit->y);
     dist=MIN(32, tmp);
   }

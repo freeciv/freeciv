@@ -306,7 +306,7 @@ struct Sprite *load_gfxfile(const char *filename)
   SPRITE	*mysprite;
   int		 w, h;
 
-  if(!(im=gdk_imlib_load_image((char*)filename))) {
+  if((im=gdk_imlib_load_image((char*)filename)) == NULL) {
     freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
     exit(EXIT_FAILURE);
   }
@@ -381,11 +381,11 @@ void create_overlay_unit(GtkWidget *pixcomm, int i)
 ***************************************************************************/
 void free_intro_radar_sprites(void)
 {
-  if (intro_gfx_sprite) {
+  if (intro_gfx_sprite != NULL) {
     free_sprite(intro_gfx_sprite);
     intro_gfx_sprite=NULL;
   }
-  if (radar_gfx_sprite) {
+  if (radar_gfx_sprite != NULL) {
     free_sprite(radar_gfx_sprite);
     radar_gfx_sprite=NULL;
   }

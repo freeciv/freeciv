@@ -87,7 +87,7 @@ struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
   
   genlist_iterator_init(&myiter, &dialog_list, 0);
     
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
+  for(; ITERATOR_PTR(myiter) != NULL; ITERATOR_NEXT(myiter))
     if(((struct spaceship_dialog *)ITERATOR_PTR(myiter))->pplayer==pplayer)
       return ITERATOR_PTR(myiter);
 
@@ -102,7 +102,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
   struct spaceship_dialog *pdialog;
   struct player_spaceship *pship;
 
-  if(!(pdialog=get_spaceship_dialog(pplayer)))
+  if((pdialog=get_spaceship_dialog(pplayer)) == NULL)
     return;
 
   pship=&(pdialog->pplayer->spaceship);
@@ -127,7 +127,7 @@ void popup_spaceship_dialog(struct player *pplayer)
 {
   struct spaceship_dialog *pdialog;
   
-  if(!(pdialog=get_spaceship_dialog(pplayer)))
+  if((pdialog=get_spaceship_dialog(pplayer)) == NULL)
     pdialog=create_spaceship_dialog(pplayer);
 
   gtk_set_relative_position(toplevel, pdialog->shell, 10, 10);
@@ -141,7 +141,7 @@ void popdown_spaceship_dialog(struct player *pplayer)
 {
   struct spaceship_dialog *pdialog;
   
-  if((pdialog=get_spaceship_dialog(pplayer)))
+  if((pdialog=get_spaceship_dialog(pplayer)) != NULL)
     close_spaceship_dialog(pdialog);
 }
 
@@ -356,7 +356,7 @@ void close_spaceship_dialog_action(GtkWidget *w, gpointer data)
   struct genlist_iterator myiter;
 
   genlist_iterator_init(&myiter, &dialog_list, 0);
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
+  for(; ITERATOR_PTR(myiter) != NULL; ITERATOR_NEXT(myiter))
     if(((struct spaceship_dialog *)ITERATOR_PTR(myiter))->shell==w) {
       close_spaceship_dialog((struct spaceship_dialog *)ITERATOR_PTR(myiter));
       return;

@@ -225,10 +225,10 @@ static void goto_list_callback(GtkWidget *w, gint row, gint column)
 {
   struct city *pdestcity;
 
-  if((pdestcity=get_selected_city())) {
+  if((pdestcity=get_selected_city()) != NULL) {
     struct unit *punit=get_unit_in_focus();
     center_tile_mapcanvas(pdestcity->x, pdestcity->y);
-    if(punit && unit_can_airlift_to(punit, pdestcity)) {
+    if(punit != NULL && unit_can_airlift_to(punit, pdestcity)) {
       gtk_widget_set_sensitive(goto_airlift_command, TRUE);
       return;
     }
@@ -249,9 +249,9 @@ static void goto_list_ucallback(GtkWidget *w, gint row, gint column)
 static void goto_airlift_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pdestcity=get_selected_city();
-  if (pdestcity) {
+  if (pdestcity != NULL) {
     struct unit *punit=get_unit_in_focus();
-    if (punit) {
+    if (punit != NULL) {
       request_unit_airlift(punit, pdestcity);
     }
   }
@@ -272,9 +272,9 @@ static void goto_all_toggle_callback(GtkWidget *w, gpointer data)
 static void goto_goto_command_callback(GtkWidget *w, gpointer data)
 {
   struct city *pdestcity=get_selected_city();
-  if (pdestcity) {
+  if (pdestcity != NULL) {
     struct unit *punit=get_unit_in_focus();
-    if (punit) {
+    if (punit != NULL) {
       send_goto_unit(punit, pdestcity->x, pdestcity->y);
     }
   }

@@ -63,7 +63,7 @@ void client_remove_unit(int unit_id)
 
   freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
   
-  if((punit=find_unit_by_id(unit_id))) {
+  if ((punit = find_unit_by_id(unit_id)) != NULL) {
     int x=punit->x;
     int y=punit->y;
     int hc=punit->homecity;
@@ -80,7 +80,7 @@ void client_remove_unit(int unit_id)
     }
     else {
       /* calculate before punit disappears, use after punit removed: */
-      int update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
+      int update = (ufocus != NULL && ufocus->x==punit->x && ufocus->y==punit->y);
       game_remove_unit(punit);
       if (update) {
 	update_unit_pix_label(ufocus);
@@ -93,7 +93,7 @@ void client_remove_unit(int unit_id)
       freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
     }
-
+    
     pcity = player_find_city_by_id(game.player_ptr, hc);
     if (pcity != NULL) {
       refresh_city_dialog(pcity);
@@ -406,7 +406,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
     break;
   case CLAUSE_CITY:
     pcity = find_city_by_id(pclause->value);
-    if (pcity) {
+    if (pcity != NULL) {
       my_snprintf(buf, bufsiz, _("The %s give %s"),
                   get_nation_name_plural(pclause->from->nation),
 		  pcity->name);
@@ -518,9 +518,9 @@ void center_on_something(void)
     return;
   }
 
-  if ((punit = get_unit_in_focus())) {
+  if ((punit = get_unit_in_focus()) != NULL) {
     center_tile_mapcanvas(punit->x, punit->y);
-  } else if ((pcity = find_palace(game.player_ptr))) {
+  } else if ((pcity = find_palace(game.player_ptr)) != NULL) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->x, pcity->y);
   } else if (city_list_size(&game.player_ptr->cities) > 0) {
@@ -874,7 +874,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech)
 	could_player_eventually_build_improvement(game.player_ptr, id);
 
     /* If there's a city, can the city build the improvement? */
-    if (pcity) {
+    if (pcity != NULL) {
       can_build = can_build && can_build_improvement(pcity, id);
       can_eventually_build = can_eventually_build &&
 	  can_eventually_build_improvement(pcity, id);
@@ -893,7 +893,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, int advanced_tech)
 	can_player_eventually_build_unit(game.player_ptr, id);
 
     /* If there's a city, can the city build the unit? */
-    if (pcity) {
+    if (pcity != NULL) {
       can_build = can_build && can_build_unit(pcity, id);
       can_eventually_build = can_eventually_build &&
 	  can_eventually_build_unit(pcity, id);
@@ -939,7 +939,7 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
 
   /* Fill in the global worklists now?                      */
   /* perhaps judicious use of goto would be good here? -mck */
-  if (wl_first && game.player_ptr->worklists[0].is_valid && pcity) {
+  if (wl_first && game.player_ptr->worklists[0].is_valid && pcity != NULL) {
     int i;
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
       if (game.player_ptr->worklists[i].is_valid) {
@@ -960,7 +960,7 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
   }
 
   /* we didn't fill in the global worklists above */
-  if (!wl_first && game.player_ptr->worklists[0].is_valid && pcity) {
+  if (!wl_first && game.player_ptr->worklists[0].is_valid && pcity != NULL) {
     int i;
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
       if (game.player_ptr->worklists[i].is_valid) {
@@ -1066,7 +1066,7 @@ char *get_spaceship_descr(struct player_spaceship *pship)
   static char buf[512];
   char arrival[16], travel_buf[100], mass_buf[100];
 
-  if (!pship) {
+  if (pship == NULL) {
     return _("Population:       1234\n"
 	     "Support:           100 %\n"
 	     "Energy:            100 %\n"

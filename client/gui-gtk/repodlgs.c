@@ -124,7 +124,7 @@ void update_report_dialogs(void)
 *****************************************************************/
 void popup_science_dialog(int make_modal)
 {
-  if(!science_dialog_shell) {
+  if(science_dialog_shell == NULL) {
     science_dialog_shell_is_modal=make_modal;
     
     if(make_modal)
@@ -361,7 +361,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 *****************************************************************/
 void science_dialog_update(void)
 {
-  if(science_dialog_shell) {
+  if(science_dialog_shell != NULL) {
   char text[512];
   int i, j, hist;
   static char *row	[1];
@@ -540,7 +540,7 @@ void science_dialog_update(void)
 ****************************************************************/
 void popup_economy_report_dialog(int make_modal)
 {
-  if(!economy_dialog_shell) {
+  if(economy_dialog_shell == NULL) {
       economy_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
@@ -566,7 +566,7 @@ void create_economy_report_dialog(int make_modal)
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
-  if (!titles) titles = intl_slist(4, titles_);
+  if (titles == NULL) titles = intl_slist(4, titles_);
   
   economy_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(economy_dialog_shell),"delete_event",
@@ -688,10 +688,10 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
   i=economy_improvement_type[row];
 
   genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
-  for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
+  for(; ITERATOR_PTR(myiter) != NULL;ITERATOR_NEXT(myiter)) {
     pcity=(struct city *)ITERATOR_PTR(myiter);
     if(!pcity->did_sell && city_got_building(pcity, i) && 
-       (data ||
+       (data != NULL ||
 	improvement_obsolete(game.player_ptr,i) ||
         wonder_replacement(pcity, i) ))  {
 	count++; gold+=improvement_value(i);
@@ -721,7 +721,7 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
 void economy_report_dialog_update(void)
 {
   if(delay_report_update) return;
-  if(economy_dialog_shell) {
+  if(economy_dialog_shell != NULL) {
     int j, k, count, tax, cost, total;
     char   buf0 [64];
     char   buf1 [64];
@@ -743,7 +743,7 @@ void economy_report_dialog_update(void)
     row[3] = buf3;
 
     pcity = city_list_get(&game.player_ptr->cities,0);
-    if(pcity)  {
+    if(pcity != NULL)  {
       for (j=0;j<game.num_impr_types;j++)
       if(!is_wonder(j)) {
        count = 0; 
@@ -793,7 +793,7 @@ void economy_report_dialog_update(void)
 ****************************************************************/
 void popup_activeunits_report_dialog(int make_modal)
 {
-  if(!activeunits_dialog_shell) {
+  if(activeunits_dialog_shell == NULL) {
       activeunits_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
@@ -820,7 +820,7 @@ void create_activeunits_report_dialog(int make_modal)
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
-  if (!titles) titles = intl_slist(AU_COL, titles_);
+  if (titles == NULL) titles = intl_slist(AU_COL, titles_);
 
   activeunits_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(activeunits_dialog_shell),"delete_event",
@@ -928,7 +928,7 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
   GList              *selection;
   gint                row;
 
-  if ( !( selection = GTK_CLIST( activeunits_list )->selection ) )
+  if ((selection = GTK_CLIST(activeunits_list)->selection) == NULL)
       return;
 
   row = GPOINTER_TO_INT(selection->data);
@@ -987,7 +987,7 @@ void activeunits_report_dialog_update(void)
     int building_count;
   };
   if(delay_report_update) return;
-  if(activeunits_dialog_shell) {
+  if(activeunits_dialog_shell != NULL) {
     int    i, k, can;
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;

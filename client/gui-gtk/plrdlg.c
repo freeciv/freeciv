@@ -98,7 +98,7 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_players_dialog(void)
 {
-  if(!players_dialog_shell){
+  if(players_dialog_shell == NULL){
     create_players_dialog();
     gtk_set_relative_position(toplevel, players_dialog_shell, 25, 25);
 
@@ -154,7 +154,7 @@ void create_players_dialog(void)
     listindex_to_playerindex[i] = -1;
   }
 
-  if (!titles) titles = intl_slist(NUM_COLUMNS, titles_);
+  if (titles == NULL) titles = intl_slist(NUM_COLUMNS, titles_);
 
   players_dialog_shell = gtk_dialog_new();
   gtk_box_set_homogeneous(GTK_BOX
@@ -352,7 +352,7 @@ static void build_flag(int playerindex)
   SPRITE *flag, *croped, *scaled;
 
   flag = get_nation_by_plr(&game.players[playerindex])->flag_sprite;
-  if (!flag) {
+  if (flag == NULL) {
     flags[playerindex] = NULL;
     return;
   }
@@ -396,7 +396,7 @@ static void build_flag(int playerindex)
 **************************************************************************/
 void update_players_dialog(void)
 {
-  if (players_dialog_shell && !delay_plrdlg_update) {
+  if (players_dialog_shell != NULL && !delay_plrdlg_update) {
     GdkColor *state_col;
     char *row_texts[NUM_COLUMNS];
     int i, j, row, sort_needed = 0;
@@ -421,7 +421,7 @@ void update_players_dialog(void)
 			       &(listindex_to_playerindex[row]));
 
 	build_flag(i);
-	if (flags[i]) {
+	if (flags[i] != NULL) {
 	  gtk_clist_set_pixmap(GTK_CLIST(players_list), row, 1,
 			       flags[i]->pixmap, flags[i]->mask);
 	}
@@ -535,7 +535,7 @@ void players_meet_callback(GtkWidget *w, gpointer data)
   gint row;
   int player_index;
 
-  if(!(selection=GTK_CLIST(players_list)->selection))
+  if((selection=GTK_CLIST(players_list)->selection) == NULL)
     return;
 
   row = GPOINTER_TO_INT(selection->data);
@@ -564,7 +564,7 @@ void players_war_callback(GtkWidget *w, gpointer data)
   gint row;
   int player_index;
 
-  if (!selection)
+  if (selection == NULL)
     return;
   else {
     struct packet_generic_integer pa;    
@@ -587,7 +587,7 @@ void players_vision_callback(GtkWidget *w, gpointer data)
   gint row;
   int player_index;
 
-  if (!selection)
+  if (selection == NULL)
     return;
   else {
     struct packet_generic_integer pa;    
@@ -610,7 +610,7 @@ void players_intel_callback(GtkWidget *w, gpointer data)
   gint row;
   int player_index;
 
-  if(!(selection=GTK_CLIST(players_list)->selection))
+  if((selection=GTK_CLIST(players_list)->selection) == NULL)
       return;
 
   row = GPOINTER_TO_INT(selection->data);
@@ -629,7 +629,7 @@ void players_sship_callback(GtkWidget *w, gpointer data)
   gint row;
   int player_index;
 
-  if(!(selection=GTK_CLIST(players_list)->selection))
+  if((selection=GTK_CLIST(players_list)->selection) == NULL)
       return;
 
   row = GPOINTER_TO_INT(selection->data);

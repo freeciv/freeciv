@@ -236,16 +236,16 @@ static void notify_goto_widget_remove(GtkWidget *w)
 {
   struct widget_list *cur, *tmp;
   cur=notify_goto_widget_list;
-  if (!cur)
+  if (cur == NULL)
     return;
-  if (cur && cur->w == w) {
+  if (cur != NULL && cur->w == w) {
     cur = cur->next;
     free(notify_goto_widget_list);
     notify_goto_widget_list = cur;
     return;
   }
-  for (; cur->next && cur->next->w!= w; cur=cur->next);
-  if (cur->next) {
+  for (; cur->next != NULL && cur->next->w!= w; cur=cur->next);
+  if (cur->next != NULL) {
     tmp = cur->next;
     cur->next = cur->next->next;
     free(tmp);
@@ -257,8 +257,8 @@ static void notify_goto_find_widget(GtkWidget *w, int *x, int *y)
   struct widget_list *cur;
   *x=0;
   *y=0;
-  for (cur = notify_goto_widget_list; cur && cur->w !=w; cur = cur->next);
-  if (cur) {
+  for (cur = notify_goto_widget_list; cur != NULL && cur->w !=w; cur = cur->next);
+  if (cur != NULL) {
     *x = cur->x;
     *y = cur->y;
   }
@@ -382,8 +382,8 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 
   destroy_message_dialog(w);
   
-  if(find_unit_by_id(diplomat_id) && 
-     find_unit_by_id(diplomat_target_id)) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     find_unit_by_id(diplomat_target_id) != NULL) { 
     packet.value = diplomat_target_id;
     send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
    }
@@ -423,8 +423,8 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     find_city_by_id(diplomat_target_id) != NULL) { 
     struct packet_diplomat_action req;
     
     req.action_type=DIPLOMAT_SABOTAGE;
@@ -446,8 +446,8 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     (find_city_by_id(diplomat_target_id))) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     find_city_by_id(diplomat_target_id) != NULL) { 
     struct packet_diplomat_action req;
 
     req.action_type=DIPLOMAT_INVESTIGATE;
@@ -485,8 +485,8 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     (find_city_by_id(diplomat_target_id))) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     find_city_by_id(diplomat_target_id) != NULL) { 
     struct packet_diplomat_action req;
 
     req.action_type=DIPLOMAT_EMBASSY;
@@ -507,8 +507,8 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) &&
-     (find_city_by_id(diplomat_target_id))) {
+  if(find_unit_by_id(diplomat_id) != NULL &&
+     find_city_by_id(diplomat_target_id) != NULL) {
     struct packet_diplomat_action req;
 
     req.action_type=SPY_POISON;
@@ -529,8 +529,8 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     find_city_by_id(diplomat_target_id) != NULL) { 
     struct packet_diplomat_action req;
 
     req.action_type=DIPLOMAT_STEAL;
@@ -625,8 +625,8 @@ static void spy_steal_callback(GtkWidget *w, gpointer data)
     return;
   }
   
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     find_city_by_id(diplomat_target_id) != NULL) { 
     struct packet_diplomat_action req;
     
     req.action_type=DIPLOMAT_STEAL;
@@ -654,8 +654,8 @@ static void spy_sabotage_callback(GtkWidget *w, gpointer data)
     return;
   }
   
-  if(find_unit_by_id(diplomat_id) && 
-     find_city_by_id(diplomat_target_id)) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     find_city_by_id(diplomat_target_id) != NULL) { 
     struct packet_diplomat_action req;
     
     req.action_type=DIPLOMAT_SABOTAGE;
@@ -681,7 +681,7 @@ static int create_advances_list(struct player *pplayer,
   static gchar **title;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
-  if (!title) title = intl_slist(1, title_);
+  if (title == NULL) title = intl_slist(1, title_);
   
   spy_tech_shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(spy_tech_shell),_("Steal Technology"));
@@ -728,7 +728,7 @@ static int create_advances_list(struct player *pplayer,
   j = 0;
   advance_type[j] = -1;
 
-  if (pvictim) { /* you don't want to know what lag can do -- Syela */
+  if (pvictim != NULL) { /* you don't want to know what lag can do -- Syela */
     gchar *row[1];
 
     for(i=A_FIRST; i<game.num_tech_types; i++) {
@@ -753,7 +753,7 @@ static int create_advances_list(struct player *pplayer,
     static gchar *row_[1] = { N_("NONE") };
     static gchar **row;
     
-    if (!row) row = intl_slist(1, row_);
+    if (row == NULL) row = intl_slist(1, row_);
   
     gtk_clist_append(GTK_CLIST(spy_advances_list), row);
     j++;
@@ -780,7 +780,7 @@ static int create_improvements_list(struct player *pplayer,
   static gchar **title;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
-  if (!title) title = intl_slist(1, title_);
+  if (title == NULL) title = intl_slist(1, title_);
   
   spy_sabotage_shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(spy_sabotage_shell),_("Sabotage Improvements"));
@@ -861,7 +861,7 @@ static void spy_steal_popup(GtkWidget *w, gpointer data)
   struct city *pvcity = find_city_by_id(diplomat_target_id);
   struct player *pvictim = NULL;
 
-  if(pvcity)
+  if(pvcity != NULL)
     pvictim = city_owner(pvcity);
 
 /* it is concievable that pvcity will not be found, because something
@@ -871,7 +871,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if(!spy_tech_shell){
+  if(spy_tech_shell == NULL){
     spy_tech_shell_is_modal=1;
 
     create_advances_list(game.player_ptr, pvictim, spy_tech_shell_is_modal);
@@ -890,8 +890,8 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if(find_unit_by_id(diplomat_id) &&
-     (find_city_by_id(diplomat_target_id))) {
+  if(find_unit_by_id(diplomat_id) != NULL &&
+     find_city_by_id(diplomat_target_id) != NULL) {
     struct packet_diplomat_action req;
 
     req.action_type = SPY_GET_SABOTAGE_LIST;
@@ -908,7 +908,7 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 *****************************************************************/
 void popup_sabotage_dialog(struct city *pcity)
 {
-  if(!spy_sabotage_shell){
+  if(spy_sabotage_shell == NULL){
     spy_sabotage_shell_is_modal=1;
 
     create_improvements_list(game.player_ptr, pcity, spy_sabotage_shell_is_modal);
@@ -958,8 +958,8 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
   
-  if(find_unit_by_id(diplomat_id) && 
-     (pcity=find_city_by_id(diplomat_target_id))) { 
+  if(find_unit_by_id(diplomat_id) != NULL && 
+     (pcity=find_city_by_id(diplomat_target_id)) != NULL) { 
     packet.value = diplomat_target_id;
     send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
   }
@@ -1009,8 +1009,8 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
   destroy_message_dialog(w);
   diplomat_dialog_open=0;
 
-  if( (punit=find_unit_by_id(diplomat_id))
-      && (pcity=find_city_by_id(diplomat_target_id))
+  if ((punit = find_unit_by_id(diplomat_id)) != NULL
+      && (pcity=find_city_by_id(diplomat_target_id)) != NULL
       && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
     struct packet_diplomat_action req;
     req.action_type = DIPLOMAT_MOVE;
@@ -1045,7 +1045,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
   diplomat_id=punit->id;
 
-  if((pcity=map_get_city(dest_x, dest_y))){
+  if((pcity=map_get_city(dest_x, dest_y)) != NULL){
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id=pcity->id;
@@ -1108,7 +1108,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
     diplomat_dialog_open=1;
    }else{ 
-     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
+     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0)) != NULL){
        /* Spy/Diplomat acting against a unit */ 
        
        diplomat_target_id=ptunit->id;
@@ -1367,9 +1367,9 @@ static void pillage_callback(GtkWidget *w, gpointer data)
     return;
   }
 
-  if (data) {
+  if (data != NULL) {
     struct unit *punit = find_unit_by_id (unit_to_use_to_pillage);
-    if (punit) {
+    if (punit != NULL) {
       request_new_unit_activity_targeted (punit,
 					  ACTIVITY_PILLAGE,
 					  (int)data);
@@ -1466,7 +1466,7 @@ static void unit_connect_callback (GtkWidget *w, gpointer data)
 
   punit = find_unit_by_id(unit_to_use_to_connect);
 
-  if (punit) {
+  if (punit != NULL) {
     if (activity != ACTIVITY_IDLE) {
       struct packet_unit_connect req;
       req.activity_type = activity;
@@ -1618,7 +1618,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
   i=0;
   va_start(args, text);
   
-  while((name=va_arg(args, char *))) {
+  while((name=va_arg(args, char *)) != NULL) {
     fcb=va_arg(args, void *);
     data=va_arg(args, gpointer);
     my_snprintf(button_name, sizeof(button_name), "button%d", i++);
@@ -1671,7 +1671,7 @@ static void unit_select_all_callback(GtkWidget *w, gpointer data)
   for(i=0; i<unit_select_no; i++) {
     struct unit *punit = player_find_unit_by_id(game.player_ptr,
 						unit_select_ids[i]);
-    if(punit) {
+    if(punit != NULL) {
       request_new_unit_activity(punit, ACTIVITY_IDLE);
       set_unit_focus(punit);
     }
@@ -1685,7 +1685,7 @@ static void unit_select_callback(GtkWidget *w, int id)
 {
   struct unit *punit = player_find_unit_by_id(game.player_ptr, id);
 
-  if (punit) {
+  if (punit != NULL) {
     request_new_unit_activity(punit, ACTIVITY_IDLE);
     set_unit_focus(punit);
   }
@@ -1728,7 +1728,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   GtkWidget *pix, *hbox, *table;
   GtkWidget *unit_select_all_command, *unit_select_close_command;
 
-  if (!unit_select_dialog_shell){
+  if (unit_select_dialog_shell == NULL){
   gtk_widget_set_sensitive(top_vbox, FALSE);
 
   unit_select_dialog_shell = gtk_dialog_new();
@@ -1763,7 +1763,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 	    punittemp->name, 
-	    pcity ? pcity->name : "",
+	    pcity != NULL ? pcity->name : "",
 	    unit_activity_text(punit));
 
     pix = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
@@ -1834,7 +1834,7 @@ void popup_races_dialog(void)
 *****************************************************************/
 void popdown_races_dialog(void)
 {
-  if (races_dialog_shell) {
+  if (races_dialog_shell != NULL) {
     gtk_widget_set_sensitive (top_vbox, TRUE);
     gtk_widget_destroy (races_dialog_shell);
     races_dialog_shell = NULL;
@@ -2239,7 +2239,7 @@ static void races_buttons_callback( GtkWidget *w, gpointer data )
   packet.city_style = city_style_idx[selected_style];
   sz_strlcpy(packet.name, (char*)s);
   
-  if(!get_sane_name(packet.name)) {
+  if(get_sane_name(packet.name) == NULL) {
     append_output_window(_("You must type a legal name."));
     return;
   }

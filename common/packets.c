@@ -175,7 +175,7 @@ static int send_packet_data(struct connection *pc, unsigned char *data,
     freelog(LOG_DEBUG, "sending request %d", result);
   }
 
-  if (pc->outgoing_packet_notify) {
+  if (pc->outgoing_packet_notify != NULL) {
     pc->outgoing_packet_notify(pc, data[2], len, result);
   }
 
@@ -283,7 +283,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
   *ptype=type;
   *presult = 1;
 
-  if (pc->incoming_packet_notify) {
+  if (pc->incoming_packet_notify != NULL) {
     pc->incoming_packet_notify(pc, type, len);
   }
 
@@ -618,7 +618,7 @@ static void pack_iter_end(struct pack_iter *piter, struct connection *pc)
 **************************************************************************/
 static unsigned char *get_uint8(unsigned char *buffer, int *val)
 {
-  if(val) {
+  if(val != NULL) {
     *val=(*buffer);
   }
   return buffer+1;
@@ -656,7 +656,7 @@ static unsigned char *put_uint8(unsigned char *buffer, int val)
 **************************************************************************/
 static unsigned char *get_uint16(unsigned char *buffer, int *val)
 {
-  if(val) {
+  if(val != NULL) {
     unsigned short x;
     memcpy(&x,buffer,2);
     *val=ntohs(x);
@@ -669,7 +669,7 @@ static unsigned char *get_uint16(unsigned char *buffer, int *val)
 **************************************************************************/
 static unsigned char *get_sint16(unsigned char *buffer, int *val)
 {
-  if(val) {
+  if(val != NULL) {
     unsigned short x;
     int newval;
 
@@ -698,7 +698,7 @@ unsigned char *put_uint16(unsigned char *buffer, int val)
 **************************************************************************/
 static unsigned char *get_uint32(unsigned char *buffer, int *val)
 {
-  if(val) {
+  if(val != NULL) {
     unsigned long x;
     memcpy(&x,buffer,4);
     *val=ntohl(x);
@@ -712,7 +712,7 @@ static unsigned char *get_uint32(unsigned char *buffer, int *val)
 #ifdef SIGNED_INT_FUNCTIONS
 static unsigned char *get_sint32(unsigned char *buffer, int *val)
 {
-  if(val) {
+  if(val != NULL) {
     unsigned long x;
     int newval;
 
@@ -750,13 +750,13 @@ static unsigned char *get_uint8_vec8(unsigned char *buffer, int **val, int stop)
 {
   int count, inx;
   buffer = get_uint8(buffer, &count);
-  if (val) {
+  if (val != NULL) {
     *val = fc_malloc((count + 1) * sizeof(int));
   }
   for (inx = 0; inx < count; inx++) {
-    buffer = get_uint8(buffer, val ? &((*val)[inx]) : NULL);
+    buffer = get_uint8(buffer, val != NULL ? &((*val)[inx]) : NULL);
   }
-  if (val) {
+  if (val != NULL) {
     (*val)[inx] = stop;
   }
   return buffer;
@@ -772,13 +772,13 @@ static unsigned char *get_sint8_vec8(unsigned char *buffer, int **val, int stop)
 {
   int count, inx;
   buffer = get_uint8(buffer, &count);
-  if (val) {
+  if (val != NULL) {
     *val = fc_malloc((count + 1) * sizeof(int));
   }
   for (inx = 0; inx < count; inx++) {
     buffer = get_sint8(buffer, val ? &((*val)[inx]) : NULL);
   }
-  if (val) {
+  if (val != NULL) {
     (*val)[inx] = stop;
   }
   return buffer;
@@ -794,7 +794,7 @@ static unsigned char *put_uint8_vec8(unsigned char *buffer, int *val, int stop)
   unsigned char *pcount = buffer;
   int count;
   buffer = put_uint8(buffer, 0);
-  if (val) {
+  if (val != NULL) {
     for (count = 0; *val != stop; count++, val++) {
       buffer = put_uint8(buffer, *val);
     }
@@ -814,13 +814,13 @@ static unsigned char *get_uint16_vec8(unsigned char *buffer, int **val, int stop
 {
   int count, inx;
   buffer = get_uint8(buffer, &count);
-  if (val) {
+  if (val != NULL) {
     *val = fc_malloc((count + 1) * sizeof(int));
   }
   for (inx = 0; inx < count; inx++) {
-    buffer = get_uint16(buffer, val ? &((*val)[inx]) : NULL);
+    buffer = get_uint16(buffer, val != NULL ? &((*val)[inx]) : NULL);
   }
-  if (val) {
+  if (val != NULL) {
     (*val)[inx] = stop;
   }
   return buffer;
@@ -836,13 +836,13 @@ static unsigned char *get_sint16_vec8(unsigned char *buffer, int **val, int stop
 {
   int count, inx;
   buffer = get_uint8(buffer, &count);
-  if (val) {
+  if (val != NULL) {
     *val = fc_malloc((count + 1) * sizeof(int));
   }
   for (inx = 0; inx < count; inx++) {
     buffer = get_sint16(buffer, val ? &((*val)[inx]) : NULL);
   }
-  if (val) {
+  if (val != NULL) {
     (*val)[inx] = stop;
   }
   return buffer;
@@ -858,7 +858,7 @@ static unsigned char *put_uint16_vec8(unsigned char *buffer, int *val, int stop)
   unsigned char *pcount = buffer;
   int count;
   buffer = put_uint8(buffer, 0);
-  if (val) {
+  if (val != NULL) {
     for (count = 0; *val != stop; count++, val++) {
       buffer = put_uint16(buffer, *val);
     }
@@ -879,7 +879,7 @@ static void iget_uint8(struct pack_iter *piter, int *val)
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
-    if (val) *val = 0;
+    if (val != NULL) *val = 0;
     return;
   }
   piter->ptr = get_uint8(piter->ptr, val);
@@ -896,7 +896,7 @@ static void iget_sint8(struct pack_iter *piter, int *val)
   assert(piter);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
-    if (val) *val = 0;
+    if (val != NULL) *val = 0;
     return;
   }
   piter->ptr = get_sint8(piter->ptr, val);
@@ -914,11 +914,11 @@ static void iget_uint16(struct pack_iter *piter, int *val)
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 2) {
     piter->short_packet = 1;
-    if (val) *val = 0;
+    if (val != NULL) *val = 0;
     return;
   }
   piter->ptr = get_uint16(piter->ptr, val);
-  if (val && piter->swap_bytes) {
+  if (val != NULL && piter->swap_bytes) {
     swab_puint16(val);
   }
 }
@@ -934,11 +934,11 @@ static void iget_sint16(struct pack_iter *piter, int *val)
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 2) {
     piter->short_packet = 1;
-    if (val) *val = 0;
+    if (val != NULL) *val = 0;
     return;
   }
   piter->ptr = get_sint16(piter->ptr, val);
-  if (val && piter->swap_bytes) {
+  if (val != NULL && piter->swap_bytes) {
     swab_puint16(val);
   }
 }
@@ -954,11 +954,11 @@ static void iget_uint32(struct pack_iter *piter, int *val)
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 4) {
     piter->short_packet = 1;
-    if (val) *val = 0;
+    if (val != NULL) *val = 0;
     return;
   }
   piter->ptr = get_uint32(piter->ptr, val);
-  if (val && piter->swap_bytes) {
+  if (val != NULL && piter->swap_bytes) {
     swab_puint32(val);
   }
 }
@@ -975,11 +975,11 @@ static void iget_sint32(struct pack_iter *piter, int *val)
   assert(piter);
   if (pack_iter_remaining(piter) < 4) {
     piter->short_packet = 1;
-    if (val) *val = 0;
+    if (val != NULL) *val = 0;
     return;
   }
   piter->ptr = get_sint32(piter->ptr, val);
-  if (val && piter->swap_bytes) {
+  if (val != NULL && piter->swap_bytes) {
     swab_puint32(val);
   }
 }
@@ -996,14 +996,14 @@ static void iget_uint8_vec8(struct pack_iter *piter, int **val, int stop)
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
-    if (val) *val = NULL;
+    if (val != NULL) *val = NULL;
     return;
   }
   get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
   count += 1;				/* adjust to include count uint8 */
   if (pack_iter_remaining(piter) < count) {
     piter->short_packet = 1;
-    if (val) *val = NULL;
+    if (val != NULL) *val = NULL;
     return;
   }
   piter->ptr = get_uint8_vec8(piter->ptr, val, stop);
@@ -1021,14 +1021,14 @@ static void iget_sint8_vec8(struct pack_iter *piter, int **val, int stop)
   assert(piter);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
-    if (val) *val = NULL;
+    if (val != NULL) *val = NULL;
     return;
   }
   get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
   count += 1;				/* adjust to include count uint8 */
   if (pack_iter_remaining(piter) < count) {
     piter->short_packet = 1;
-    if (val) *val = NULL;
+    if (val != NULL) *val = NULL;
     return;
   }
   piter->ptr = get_sint8_vec8(piter->ptr, val, stop);
@@ -1046,7 +1046,7 @@ static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop)
   assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
-    if (val) *val = NULL;
+    if (val != NULL) *val = NULL;
     return;
   }
   get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
@@ -1054,7 +1054,7 @@ static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop)
   count += 1;				/* adjust to include count uint8 */
   if (pack_iter_remaining(piter) < count) {
     piter->short_packet = 1;
-    if (val) *val = NULL;
+    if (val != NULL) *val = NULL;
     return;
   }
   piter->ptr = get_uint16_vec8(piter->ptr, val, stop);
@@ -1117,7 +1117,7 @@ static void iget_string(struct pack_iter *piter, char *mystring, int navail)
 
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
-    if (mystring) *mystring = '\0';
+    if (mystring != NULL) *mystring = '\0';
     return;
   }
   
@@ -1132,11 +1132,11 @@ static void iget_string(struct pack_iter *piter, char *mystring, int navail)
     ps_len = c - piter->ptr;
   }
   len = ps_len;
-  if (mystring && navail > 0 && ps_len >= navail) {
+  if (mystring != NULL && navail > 0 && ps_len >= navail) {
     piter->bad_string = 1;
     len = navail-1;
   }
-  if (mystring) {
+  if (mystring != NULL) {
     memcpy(mystring, piter->ptr, len);
     mystring[len] = '\0';
   }
@@ -3024,7 +3024,7 @@ int send_packet_ruleset_unit(struct connection *pc,
   }
 
   /* This must be last, so client can determine length: */
-  if(packet->helptext) {
+  if(packet->helptext != NULL) {
     cptr=put_string(cptr, packet->helptext);
   }
   put_uint16(buffer, cptr-buffer);
@@ -3117,7 +3117,7 @@ int send_packet_ruleset_tech(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   
   /* This must be last, so client can determine length: */
-  if(packet->helptext) {
+  if(packet->helptext != NULL) {
     cptr=put_string(cptr, packet->helptext);
   }
   put_uint16(buffer, cptr-buffer);
@@ -3205,7 +3205,7 @@ int send_packet_ruleset_building(struct connection *pc,
   cptr=put_string(cptr, packet->name);
 
   /* This must be last, so client can determine length: */
-  if(packet->helptext) {
+  if(packet->helptext != NULL) {
     cptr=put_string(cptr, packet->helptext);
   }
   put_uint16(buffer, cptr-buffer);
@@ -3314,7 +3314,7 @@ int send_packet_ruleset_terrain(struct connection *pc,
   }
 
   /* This must be last, so client can determine length: */
-  if(packet->helptext) {
+  if(packet->helptext != NULL) {
     cptr=put_string(cptr, packet->helptext);
   }
   
@@ -3416,7 +3416,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_uint16(cptr, packet->fallout_shield_penalty);
   cptr=put_uint16(cptr, packet->fallout_trade_penalty);
 
-  if (packet->river_help_text) cptr=put_string(cptr, packet->river_help_text);
+  if (packet->river_help_text != NULL) cptr=put_string(cptr, packet->river_help_text);
 
   put_uint16(buffer, cptr-buffer);
 
@@ -3537,7 +3537,7 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_string(cptr, packet->graphic_alt);
 
   /* This must be last, so client can determine length: */
-  if(packet->helptext) {
+  if(packet->helptext != NULL) {
     cptr=put_string(cptr, packet->helptext);
   }
   

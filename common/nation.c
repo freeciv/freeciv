@@ -170,7 +170,9 @@ void free_nations(int num)
 {
   int i, j;
 
-  if(!nations) return;
+  if (nations == NULL) {
+    return;
+  }
   for( i = 0; i < num; i++) {
     for( j = 0; j < nations[i].leader_count; j++) {
       free( nations[i].leader_name[j] );

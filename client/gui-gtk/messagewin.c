@@ -85,7 +85,7 @@ void popup_meswin_dialog(void)
 {
   int updated = 0;
   
-  if(!meswin_dialog_shell) {
+  if(meswin_dialog_shell == NULL) {
     create_meswin_dialog();
     updated = 1;	       /* create_ calls update_ */
   }
@@ -127,7 +127,7 @@ void create_meswin_dialog(void)
   GtkWidget *scrolled;
   GtkAccelGroup *accel = gtk_accel_group_new();
 
-  if (!titles) titles = intl_slist(1, titles_);
+  if (titles == NULL) titles = intl_slist(1, titles_);
 
   meswin_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(meswin_dialog_shell),"delete_event",
@@ -176,7 +176,7 @@ void create_meswin_dialog(void)
   gtk_signal_connect(GTK_OBJECT(meswin_popcity_command), "clicked",
 		GTK_SIGNAL_FUNC(meswin_popcity_callback), NULL);
 
-  if (gtk_rc_get_style(meswin_list))
+  if (gtk_rc_get_style(meswin_list) != NULL)
     meswin_visited_style = gtk_style_copy(gtk_rc_get_style(meswin_list));
   else
     meswin_visited_style = gtk_style_new();
@@ -256,7 +256,7 @@ void clear_notify_window(void)
   string_ptrs[0] = NULL;
   messages_total = 0;
   update_meswin_dialog();
-  if(meswin_dialog_shell) {
+  if(meswin_dialog_shell != NULL) {
     gtk_widget_set_sensitive(meswin_goto_command, FALSE);
     gtk_widget_set_sensitive(meswin_popcity_command, FALSE);
   }
@@ -311,7 +311,7 @@ void add_notify_window(struct packet_generic_message *packet)
 **************************************************************************/
 void meswin_scroll_down(void)
 {
-  if (!meswin_dialog_shell)
+  if (meswin_dialog_shell == NULL)
     return;
   if (messages_total <= N_MSG_VIEW)
     return;
@@ -324,7 +324,7 @@ void meswin_scroll_down(void)
 **************************************************************************/
 void update_meswin_dialog(void)
 {
-  if (!meswin_dialog_shell) { 
+  if (meswin_dialog_shell == NULL) { 
     if (messages_total > 0 &&
         (!game.player_ptr->ai.control || ai_popup_windows)) {
       popup_meswin_dialog();
@@ -334,7 +334,7 @@ void update_meswin_dialog(void)
       return;
     }
   }
-   if(meswin_dialog_shell) {
+   if(meswin_dialog_shell != NULL) {
      int i;
 
      gtk_clist_freeze(GTK_CLIST(meswin_list));
@@ -365,10 +365,10 @@ void meswin_list_callback (GtkWidget *w, gint row, gint column, GdkEvent *ev)
   x = xpos[row];
   y = ypos[row];
   location_ok = (x != -1 && y != -1);
-  city_ok = (location_ok && (pcity=map_get_city(x,y))
+  city_ok = (location_ok && (pcity=map_get_city(x,y)) != NULL
 	    && (pcity->owner == game.player_idx));
 
-  if (ev)  /* since we added a gtk_clist_select_row() there may be no event */
+  if (ev != NULL)  /* since we added a gtk_clist_select_row() there may be no event */
   {
     switch (ev->type)
     {
@@ -434,7 +434,7 @@ void meswin_goto_callback(GtkWidget *w, gpointer data)
   GList *selection;
   gint   row;
 
-  if (!(selection=GTK_CLIST(meswin_list)->selection))
+  if ((selection=GTK_CLIST(meswin_list)->selection) == NULL)
       return;
 
   row = GPOINTER_TO_INT(selection->data);
@@ -454,14 +454,14 @@ void meswin_popcity_callback(GtkWidget *w, gpointer data)
   GList *selection;
   gint row;
 
-  if (!(selection=GTK_CLIST(meswin_list)->selection))
+  if ((selection=GTK_CLIST(meswin_list)->selection) == NULL)
       return;
 
   row = GPOINTER_TO_INT(selection->data);
 
   x = xpos[row];
   y = ypos[row];
-  if((x!=-1 && y!=-1) && (pcity=map_get_city(x,y))
+  if((x!=-1 && y!=-1) && (pcity=map_get_city(x,y)) != NULL
      && (pcity->owner == game.player_idx)) {
       if (center_when_popup_city) {
        center_tile_mapcanvas(x,y);

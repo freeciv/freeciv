@@ -280,7 +280,7 @@ void send_all_known_tiles(struct conn_list *dest)
   if (dest==NULL) dest = &game.game_connections;
   
   conn_list_iterate(*dest, pconn) {
-    if (pconn->player) {
+    if (pconn->player != NULL) {
       set_unknown_tiles_to_unsent(pconn->player);
     }
   } conn_list_iterate_end;
@@ -301,11 +301,11 @@ void send_all_known_tiles(struct conn_list *dest)
     conn_list_iterate(*dest, pconn) {
       struct player *pplayer = pconn->player;
 
-      if (!pplayer && !pconn->observer) {	/* no map needed */
+      if (pplayer == NULL && !pconn->observer) {	/* no map needed */
         continue;
       }
 
-      if (!pplayer) {
+      if (pplayer == NULL) {
 	send_tile_info_always(pplayer, &pconn->self, x, y);
       } else if (map_get_known(x, y, pplayer)) {
 	send_NODRAW_tiles(pplayer, &pconn->self, x, y, 0);
@@ -344,7 +344,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
       info.known = TILE_KNOWN;
       info.type = ptile->terrain;
       info.special = ptile->special;
-      if (pplayer) {
+      if (pplayer != NULL) {
 	update_tile_knowledge(pplayer,x,y);
       }
       send_packet_tile_info(pconn, &info);
@@ -465,7 +465,7 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
 
   /* discover cities */ 
   reality_check_city(pplayer, x, y);
-  if ((pcity=map_get_city(x, y)))
+  if ((pcity=map_get_city(x, y)) != NULL)
     send_city_info(pplayer, pcity);
 
   /* send info about the tile itself */
@@ -476,7 +476,7 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
   if (!old_known) {
     map_city_radius_iterate(x, y, x1, y1) {
       pcity = map_get_city(x1, y1);
-      if (pcity && city_owner(pcity) == pplayer) {
+      if (pcity != NULL && city_owner(pcity) == pplayer) {
 	update_city_tile_status_map(pcity, x, y);
       }
     } map_city_radius_iterate_end;
@@ -598,7 +598,7 @@ void send_map_info(struct conn_list *dest)
 **************************************************************************/
 void map_fog_city_area(struct city *pcity)
 {
-  if (!pcity) {
+  if (pcity == NULL) {
     freelog(LOG_ERROR, "Attempting to fog non-existent city");
     return;
   }
@@ -611,7 +611,7 @@ void map_fog_city_area(struct city *pcity)
 **************************************************************************/
 void map_unfog_city_area(struct city *pcity)
 {
-  if (!pcity) {
+  if (pcity == NULL) {
     freelog(LOG_ERROR, "Attempting to unfog non-existent city");
     return;
   }
@@ -711,7 +711,7 @@ static void really_show_area(struct player *pplayer, int x, int y)
 
     /* remove old cities that exist no more */
     reality_check_city(pplayer, x, y);
-    if ((pcity = map_get_city(x, y))) {
+    if ((pcity = map_get_city(x, y)) != NULL) {
       /* as the tile may be fogged send_city_info won't do this for us */
       update_dumb_city(pplayer, pcity);
       send_city_info(pplayer, pcity);
@@ -728,7 +728,7 @@ static void really_show_area(struct player *pplayer, int x, int y)
     if (!old_known) {
       map_city_radius_iterate(x, y, x1, y1) {
 	pcity = map_get_city(x1, y1);
-	if (pcity && city_owner(pcity) == pplayer) {
+	if (pcity != NULL && city_owner(pcity) == pplayer) {
 	  update_city_tile_status_map(pcity, x, y);
 	}
       } map_city_radius_iterate_end;
@@ -1003,8 +1003,8 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	
       /* update and send city knowledge */
       /* remove outdated cities */
-      if (dest_tile->city) {
-	if (!from_tile->city) {
+      if (dest_tile->city != NULL) {
+	if (from_tile->city == NULL) {
 	  /* As the city was gone on the newer from_tile
 	     it will be removed by this function */
 	  reality_check_city(pdest, x, y);
@@ -1015,10 +1015,10 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	    reality_check_city(pdest, x, y);
       }
       /* Set and send new city info */
-      if (from_tile->city && !dest_tile->city) {
+      if (from_tile->city != NULL && dest_tile->city == NULL) {
 	dest_tile->city = fc_malloc(sizeof(struct dumb_city));
       }
-      if ((from_city = from_tile->city) && (dest_city = dest_tile->city)) {
+      if ((from_city = from_tile->city) != NULL && (dest_city = dest_tile->city) != NULL) {
 	dest_city->id = from_city->id;
 	sz_strlcpy(dest_city->name, from_city->name);
 	dest_city->size = from_city->size;
@@ -1031,7 +1031,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 
       map_city_radius_iterate(x, y, x1, y1) {
 	struct city *pcity = map_get_city(x1, y1);
-	if (pcity && city_owner(pcity) == pdest) {
+	if (pcity != NULL && city_owner(pcity) == pdest) {
 	  update_city_tile_status_map(pcity, x, y);
 	}
       } map_city_radius_iterate_end;

@@ -153,7 +153,7 @@ Check if a tile is land and free of enemy units
 static int is_free_land(int x, int y, struct player *who)
 {
   if (!is_real_tile(x, y) || map_get_terrain(x, y) == T_OCEAN
-      || is_non_allied_unit_tile(map_get_tile(x, y), who))
+      || is_non_allied_unit_tile(map_get_tile(x, y), who) != NULL)
     return 0;
   else
     return 1;
@@ -165,7 +165,7 @@ Check if a tile is sea and free of enemy units
 static int is_free_sea(int x, int y, struct player *who)
 {
   if (!is_real_tile(x, y) || map_get_terrain(x, y) != T_OCEAN
-      || is_non_allied_unit_tile(map_get_tile(x, y), who))
+      || is_non_allied_unit_tile(map_get_tile(x, y), who) != NULL)
     return 0;
   else
     return 1;
@@ -329,7 +329,8 @@ static void try_summon_barbarians(void)
     rand_map_pos(&x, &y);
   } while (y == 0 || y == map.ysize - 1);
 
-  if( !(pc = dist_nearest_city(NULL, x, y, 1, 0)) )       /* any city */
+  if ((pc = dist_nearest_city(NULL, x, y, 1, 0)) == NULL)
+    /* any city */
     return;
 
   victim = city_owner(pc);

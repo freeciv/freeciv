@@ -42,7 +42,7 @@ char *helptext_unit_upkeep_str(int i);
 #define help_items_iterate(pitem) {       \
         const struct help_item *pitem;    \
         help_iter_start();                \
-        while((pitem=help_iter_next())) {   
+        while((pitem=help_iter_next()) != NULL) {   
 #define help_items_iterate_end }}
 
 extern char long_buffer[64000];

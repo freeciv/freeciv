@@ -134,7 +134,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       count++;
     }
     
-    if((pcity=map_get_city(xtile, ytile))) {
+    if((pcity=map_get_city(xtile, ytile)) != NULL) {
       my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
 		  get_nation_name(city_owner(pcity)->nation));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
@@ -166,14 +166,14 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       count++;
     }
     
-    if((punit=find_visible_unit(ptile)) && !pcity) {
+    if((punit=find_visible_unit(ptile)) != NULL && pcity == NULL) {
       char cn[64];
       struct unit_type *ptype=unit_type(punit);
       cn[0]='\0';
       if(punit->owner==game.player_idx) {
 	struct city *pcity;
 	pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
-	if(pcity)
+	if(pcity != NULL)
 	  my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
       }
       my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,

@@ -178,7 +178,7 @@ int fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
   }
 #endif
   hp = gethostbyname(hostname);
-  if (!hp || hp->h_addrtype != AF_INET) {
+  if (hp == NULL || hp->h_addrtype != AF_INET) {
     return 0;
   }
 

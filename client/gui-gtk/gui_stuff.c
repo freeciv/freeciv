@@ -108,7 +108,7 @@ GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
 
   accel_mod = meta_accelerators ? GDK_MOD1_MASK : 0;
 
-  if ((accel_key != GDK_VoidSymbol) && accel)
+  if ((accel_key != GDK_VoidSymbol) && accel != NULL)
     gtk_widget_add_accelerator (button, "clicked", accel,
 				accel_key, accel_mod, GTK_ACCEL_LOCKED);
 

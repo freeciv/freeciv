@@ -105,7 +105,7 @@ char *valid_ruleset_filename(char *subdir, char *whichset)
 
   my_snprintf(filename1, sizeof(filename1), "%s/%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename1);
-  if (dfilename)
+  if (dfilename != NULL)
     return dfilename;
 
   freelog(LOG_ERROR, _("Trying alternative ruleset filename syntax."));
@@ -113,7 +113,7 @@ char *valid_ruleset_filename(char *subdir, char *whichset)
   my_snprintf(filename2, sizeof(filename2), "%s_%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename2);
 
-  if (dfilename)
+  if (dfilename != NULL)
     return dfilename;
 
   return(NULL);
@@ -134,7 +134,7 @@ static void openload_ruleset_file(struct section_file *file,
   char sfilename[512];
   char *dfilename = valid_ruleset_filename(subdir, whichset);
 
-  if (!dfilename) {
+  if (dfilename == NULL) {
     freelog(LOG_FATAL,
 	_("Could not find a readable \"%s\" ruleset file."), whichset);
     exit(EXIT_FAILURE);
@@ -204,7 +204,7 @@ static int lookup_tech(struct section_file *file, char *prefix,
     if (i==A_LAST) {
       freelog((required?LOG_FATAL:LOG_ERROR),
 	   "for %s %s couldn't match tech \"%s\" (%s)",
-	   (description?description:prefix), entry, sval, filename);
+	   (description != NULL?description:prefix), entry, sval, filename);
       if (required) {
 	exit(EXIT_FAILURE);
       } else {
@@ -290,7 +290,7 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
     if (i==U_LAST) {
       freelog((required?LOG_FATAL:LOG_ERROR),
 	   "for %s %s couldn't match unit_type \"%s\" (%s)",
-	   (description?description:prefix), entry, sval, filename);
+	   (description != NULL?description:prefix), entry, sval, filename);
       if (required) {
 	exit(EXIT_FAILURE);
       } else {
@@ -323,7 +323,7 @@ static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
     if (id==B_LAST) {
       freelog((required?LOG_FATAL:LOG_ERROR),
 	   "for %s %s couldn't match impr_type \"%s\" (%s)",
-	   (description?description:prefix), entry, sval, filename);
+	   (description != NULL?description:prefix), entry, sval, filename);
       if (required) {
 	exit(EXIT_FAILURE);
       }
@@ -365,7 +365,7 @@ static int lookup_city_cost(struct section_file *file, char *prefix,
   int ival = 0;
   
   sval = secfile_lookup_str_int(file, &ival, "%s.%s", prefix, entry);
-  if (sval) {
+  if (sval != NULL) {
     if (mystrcasecmp(sval, "City_Size") == 0) {
       ival = G_CITY_SIZE_FREE;
     } else {
@@ -386,7 +386,7 @@ static char *lookup_string(struct section_file *file, char *prefix,
   char *sval;
   
   sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, suffix);
-  if (sval) {
+  if (sval != NULL) {
     sval = skip_leading_spaces(sval);
     if (strlen(sval)) {
       return mystrdup(sval);
@@ -1026,7 +1026,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	 secfile_lookup_str_default(file,
 				    NULL,
 				    "%s.effect%d.type",
-				    sec[i], count);
+				    sec[i], count) != NULL;
 	 count++) ;
 
     if (count>MAX_EFFECTS) {
@@ -1084,7 +1084,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	secfile_lookup_str_default(file, "", "%s.effect%d.cond_gov", sec[i], j);
       if (*item) {
 	struct government *g = find_government_by_name(item);
-	if (!g) {
+	if (g == NULL) {
 	  freelog(LOG_ERROR,
 		  "for %s effect[%d].cond_gov couldn't match government \"%s\" (%s)",
 		  b->name, j, item, filename);
@@ -1310,7 +1310,7 @@ static void load_ruleset_terrain(struct section_file *file)
   {
     char *s = secfile_lookup_str_default(file, NULL,
       "parameters.river_help_text");
-    terrain_control.river_help_text = (s && *s) ? mystrdup(s) : NULL;
+    terrain_control.river_help_text = (s != NULL && *s) ? mystrdup(s) : NULL;
   }
   terrain_control.fortress_defense_bonus =
     secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");
@@ -1648,7 +1648,7 @@ static void load_ruleset_governments(struct section_file *file)
   j = -1;
   while((c = secfile_lookup_str_default(file, NULL,
 					"governments.ai_tech_hints%d.tech",
-					++j))) {
+					++j)) != NULL) {
     struct ai_gov_tech_hint *hint = &ai_gov_tech_hints[j];
 
     if (j >= MAX_NUM_TECH_LIST) {
@@ -1847,7 +1847,7 @@ static void load_ruleset_nations(struct section_file *file)
     free(leaders);
 
     /* check if leader name is not already defined */
-    if( (bad_leader=check_leader_names(i)) ) {
+    if ((bad_leader = check_leader_names(i)) != NULL) {
         freelog(LOG_FATAL, "Nation %s: leader %s defined more than once",
 		pl->name, bad_leader);
         exit(EXIT_FAILURE);
@@ -1888,7 +1888,7 @@ static void load_ruleset_nations(struct section_file *file)
     j = -1;
     while ((g = secfile_lookup_str_default(file, NULL,
 					   "%s.ruler_titles%d.government",
-					   sec[i], ++j))) {
+					   sec[i], ++j)) != NULL) {
       char *male_name;
       char *female_name;
       
@@ -1951,7 +1951,7 @@ static void load_ruleset_nations(struct section_file *file)
     }
     for ( j=0; j<ADV_LAST; j++) 
       pl->advisors[j] = res[j];
-    if(res) free(res);
+    if(res != NULL) free(res);
 
     /* Load nation specific initial techs */
 
@@ -1989,7 +1989,7 @@ static void load_ruleset_nations(struct section_file *file)
     }
     while( j < MAX_NUM_TECH_GOALS )
       pl->goals.tech[j++] = A_NONE;
-    if (techs) free(techs);
+    if (techs != NULL) free(techs);
 
     /* AI wonder & government */
 
@@ -2034,7 +2034,7 @@ static void load_ruleset_nations(struct section_file *file)
       target[j][MAX_LEN_NAME - 1] = 0;                          \
     }                                                           \
   }                                                             \
-  if (cities) {                                                 \
+  if (cities != NULL) {                                         \
     free(cities);                                               \
   }
 

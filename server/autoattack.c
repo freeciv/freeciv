@@ -83,12 +83,12 @@ static struct unit *search_best_target(struct player *pplayer,
     if (x == punit->x && y == punit->y)
       continue;
 
-    if (map_get_city(x, y)) continue;
+    if (map_get_city(x, y) != NULL) continue;
     /* don't attack enemy cities (or our own ;-) --dwp */
 
     targets = &(map_get_tile(x, y)->units);
     if (unit_list_size(targets) == 0) continue;
-    if (!is_enemy_unit_tile(map_get_tile(x, y), pplayer))
+    if (is_enemy_unit_tile(map_get_tile(x, y), pplayer) == NULL)
       continue;
 
     freelog(LOG_DEBUG,  "found enemy unit/stack at %d,%d", x, y);
@@ -171,7 +171,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   
   punit = find_unit_by_id(id);
   
-  if (punit) {
+  if (punit != NULL) {
     set_unit_activity(punit, ACTIVITY_GOTO);
     punit->goto_dest_x=pcity->x;
     punit->goto_dest_y=pcity->y;
@@ -179,7 +179,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
     
     do_unit_goto(punit, GOTO_MOVE_ANY, 0);
     
-    if (unit_list_find(&map_get_tile(pcity->x, pcity->y)->units, id)) {
+    if (unit_list_find(&map_get_tile(pcity->x, pcity->y)->units, id) != NULL) {
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
     }
   }

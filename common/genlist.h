@@ -124,7 +124,7 @@ void genlist_iterator_init(struct genlist_iterator *iter,
   struct genlist_iterator myiter;                          \
   atype *var;                                              \
   genlist_iterator_init(&myiter, &(typed_list).list, 0);   \
-  for(; ITERATOR_PTR(myiter);) {                           \
+  for(; ITERATOR_PTR(myiter) != NULL;) {                   \
     var=(atype *)ITERATOR_PTR(myiter);                     \
     ITERATOR_NEXT(myiter);
 
@@ -137,7 +137,7 @@ void genlist_iterator_init(struct genlist_iterator *iter,
   struct genlist_iterator myiter;                          \
   atype *var;                                              \
   genlist_iterator_init(&myiter, &(typed_list).list, -1);  \
-  for(; ITERATOR_PTR(myiter);) {                           \
+  for(; ITERATOR_PTR(myiter) != NULL;) {                   \
     var=(atype *)ITERATOR_PTR(myiter);                     \
     ITERATOR_PREV(myiter);
  

@@ -215,7 +215,7 @@ void free_timer(struct timer *t)
 ***********************************************************************/
 int timer_in_use(struct timer *t)
 {
-  return (t && t->use != TIMER_IGNORE);
+  return (t != NULL && t->use != TIMER_IGNORE);
 }
 
 /********************************************************************** 

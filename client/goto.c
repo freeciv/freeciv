@@ -130,7 +130,7 @@ static void init_queue(void)
 static struct mappos_array *get_empty_array(void)
 {
   struct mappos_array *parray;
-  if (!mappos_arrays[array_count])
+  if (mappos_arrays[array_count] == NULL)
     mappos_arrays[array_count] = fc_malloc(sizeof(struct mappos_array));
   parray = mappos_arrays[array_count++];
   parray->first_pos = 0;
@@ -182,7 +182,7 @@ static int get_from_mapqueue(int *x, int *y)
       continue;
     }
     if (our_array->last_pos < our_array->first_pos) {
-      if (our_array->next_array) {
+      if (our_array->next_array != NULL) {
 	cost_lookup[lowest_cost].first_array = our_array->next_array;
 	continue; /* note NOT "lowest_cost++;" */
       } else {
@@ -208,7 +208,7 @@ void init_client_goto(void)
   int x_itr;
   static int is_init = 0, old_xsize;
 
-  if (!goto_array) {
+  if (goto_array == NULL) {
     goto_array = fc_malloc(INITIAL_ARRAY_LENGTH
 					    * sizeof(struct map_position));
     waypoint_list = fc_malloc(INITIAL_WAYPOINT_LENGTH * sizeof(struct waypoint));
@@ -270,9 +270,9 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 {
   if (unit_flag(punit, F_IGZOC))
     return 1;
-  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), unit_owner(punit)))
+  if (is_allied_unit_tile(map_get_tile(dest_x, dest_y), unit_owner(punit)) != NULL)
     return 1;
-  if (map_get_city(src_x, src_y) || map_get_city(dest_x, dest_y))
+  if (map_get_city(src_x, src_y) != NULL || map_get_city(dest_x, dest_y) != NULL)
     return 1;
   if (map_get_terrain(src_x,src_y)==T_OCEAN || map_get_terrain(dest_x,dest_y)==T_OCEAN)
     return 1;
@@ -361,14 +361,14 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  /* Don't go into the unknown. * 3 is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE 
                                                              : 3 * SINGLE_MOVE;
-	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
+	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit)) != NULL) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
 	    add_to_queue = 0;
 	    move_cost = SINGLE_MOVE;
 	  }
-	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
+	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit)) != NULL) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  } else {
@@ -382,8 +382,8 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
       case SEA_MOVING:
 	if (pdesttile->terrain == T_UNKNOWN) {
 	  move_cost = 2*SINGLE_MOVE; /* arbitrary */
-	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
-		   || is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
+	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit)) != NULL
+		   || is_non_allied_city_tile(pdesttile, unit_owner(punit)) != NULL) {
 	  add_to_queue = 0;
 	  move_cost = SINGLE_MOVE;
 	} else if (psrctile->move_cost[dir] != MOVE_COST_FOR_VALID_SEA_STEP) {
@@ -403,7 +403,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 
-	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
+	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit)) != NULL) {
 	  add_to_queue = 0;
 	}
 	break;
@@ -501,7 +501,7 @@ void goto_add_waypoint(void)
   int x, y;
   struct unit *punit = find_unit_by_id(goto_map.unit_id);
   assert(is_active);
-  assert(punit && punit == get_unit_in_focus());
+  assert(punit != NULL && punit == get_unit_in_focus());
   get_line_dest(&x, &y);
   create_goto_map(punit, x, y, GOTO_MOVE_ANY);
   insert_waypoint(x, y);
@@ -517,7 +517,7 @@ int goto_pop_waypoint(void)
   int dest_x, dest_y, new_way_x, new_way_y;
   struct unit *punit = find_unit_by_id(goto_map.unit_id);
   assert(is_active);
-  assert(punit && punit == get_unit_in_focus());
+  assert(punit != NULL && punit == get_unit_in_focus());
 
   if (waypoint_list_index == 1)
     return 0; /* we don't have any waypoint but the start pos. */

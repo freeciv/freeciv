@@ -909,7 +909,7 @@ static void clear_caches(struct city *pcity)
 	if (!cache3.results[i].combinations[j].is_valid) {
 	  continue;
 	}
-	if (cache3.results[i].combinations[j].cache1) {
+	if (cache3.results[i].combinations[j].cache1 != NULL) {
 	  free(cache3.results[i].combinations[j].cache1);
 	}
       }
@@ -1149,7 +1149,7 @@ static void add_combination(int fields_used,
 	&cache3.results[fields_used].combinations[i];
 
     if (!current->is_valid) {
-      if (!invalid_slot_for_insert) {
+      if (invalid_slot_for_insert == NULL) {
 	invalid_slot_for_insert = current;
       }
       continue;
@@ -1360,7 +1360,7 @@ static void find_best_specialist_arrangement(struct city *pcity, const struct cm
   int specialists = pcity->size - worker;
   int scientists, taxmen;
 
-  if (!base_combination->cache1) {
+  if (base_combination->cache1 == NULL) {
 
     /* setup cache1 */
 
@@ -1793,7 +1793,7 @@ int cma_is_city_under_agent(struct city *pcity,
   }
   assert(len == sizeof(struct cma_parameter));
 
-  if (parameter) {
+  if (parameter != NULL) {
     memcpy(parameter, &my_parameter, sizeof(struct cma_parameter));
   }
   return 1;

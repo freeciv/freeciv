@@ -49,7 +49,7 @@ static void intel_close_command_callback(GtkWidget *w, gpointer data);
 *****************************************************************/
 void popup_intel_dialog(struct player *p)
 {
-  if(!intel_dialog_shell) {
+  if(intel_dialog_shell == NULL) {
     intel_create_dialog(p);
     gtk_set_relative_position(toplevel, intel_dialog_shell, 25, 25);
     gtk_widget_show(intel_dialog_shell);

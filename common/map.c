@@ -965,12 +965,12 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 {
   int cardinal_move;
 
-  if (punit && !is_ground_unit(punit))
+  if (punit != NULL && !is_ground_unit(punit))
     return SINGLE_MOVE;
   if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
     return MOVE_COST_RAIL;
 /* return (unit_move_rate(punit)/RAIL_MAX) */
-  if (punit && unit_flag(punit, F_IGTER))
+  if (punit != NULL && unit_flag(punit, F_IGTER))
     return SINGLE_MOVE/3;
   if( (t1->special&S_ROAD) && (t2->special&S_ROAD) )
     return MOVE_COST_ROAD;
@@ -1027,12 +1027,12 @@ static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
   }
 
   if (tile0->terrain == T_OCEAN
-      && (tile1->city || tile1->terrain == T_UNKNOWN)) {
+      && (tile1->city != NULL || tile1->terrain == T_UNKNOWN)) {
     return MOVE_COST_FOR_VALID_SEA_STEP;
   }
 
   if (tile1->terrain == T_OCEAN
-      && (tile0->city || tile0->terrain == T_UNKNOWN)) {
+      && (tile0->city != NULL || tile0->terrain == T_UNKNOWN)) {
     return MOVE_COST_FOR_VALID_SEA_STEP;
   }
 

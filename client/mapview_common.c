@@ -277,7 +277,7 @@ struct city *find_city_near_tile(int x, int y)
   struct city *pcity = map_get_tile(x, y)->worked, *pcity2;
   static struct city *last_pcity = NULL;
 
-  if (pcity) {
+  if (pcity != NULL) {
     if (pcity->owner == game.player_idx) {
       /* rule a */
       last_pcity = pcity;
@@ -291,7 +291,7 @@ struct city *find_city_near_tile(int x, int y)
   pcity2 = NULL;		/* rule f */
   city_map_checked_iterate(x, y, city_x, city_y, map_x, map_y) {
     pcity = map_get_city(map_x, map_y);
-    if (pcity && pcity->owner == game.player_idx
+    if (pcity != NULL && pcity->owner == game.player_idx
 	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
 			   CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY) {
       /* rule c */

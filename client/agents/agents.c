@@ -211,7 +211,7 @@ static void call_handle_methods(void)
     struct call *pcall;
 
     pcall = remove_and_return_a_call();
-    if (!pcall) {
+    if (pcall == NULL) {
       break;
     }
 
@@ -383,7 +383,7 @@ void agents_new_turn(void)
     if (is_outstanding_request(agent)) {
       continue;
     }
-    if (agent->agent.turn_start_notify) {
+    if (agent->agent.turn_start_notify != NULL) {
       enqueue_call(agent, OCT_NEW_TURN, CB_LAST, NULL);
     }
   }
@@ -411,7 +411,7 @@ void agents_unit_changed(struct unit *punit)
     if (is_outstanding_request(agent)) {
       continue;
     }
-    if (agent->agent.unit_callbacks[CB_CHANGE]) {
+    if (agent->agent.unit_callbacks[CB_CHANGE] != NULL) {
       enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit);
     }
   }
@@ -436,7 +436,7 @@ void agents_unit_new(struct unit *punit)
     if (is_outstanding_request(agent)) {
       continue;
     }
-    if (agent->agent.unit_callbacks[CB_NEW]) {
+    if (agent->agent.unit_callbacks[CB_NEW] != NULL) {
       enqueue_call(agent, OCT_UNIT, CB_NEW, punit);
     }
   }
@@ -462,7 +462,7 @@ void agents_unit_remove(struct unit *punit)
     if (is_outstanding_request(agent)) {
       continue;
     }
-    if (agent->agent.unit_callbacks[CB_REMOVE]) {
+    if (agent->agent.unit_callbacks[CB_REMOVE] != NULL) {
       enqueue_call(agent, OCT_UNIT, CB_REMOVE, punit);
     }
   }
@@ -486,7 +486,7 @@ void agents_city_changed(struct city *pcity)
     if (is_outstanding_request(agent)) {
       continue;
     }
-    if (agent->agent.city_callbacks[CB_CHANGE]) {
+    if (agent->agent.city_callbacks[CB_CHANGE] != NULL) {
       enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity);
     }
   }
@@ -511,7 +511,7 @@ void agents_city_new(struct city *pcity)
     if (is_outstanding_request(agent)) {
       continue;
     }
-    if (agent->agent.city_callbacks[CB_NEW]) {
+    if (agent->agent.city_callbacks[CB_NEW] != NULL) {
       enqueue_call(agent, OCT_CITY, CB_NEW, pcity);
     }
   }
@@ -537,7 +537,7 @@ void agents_city_remove(struct city *pcity)
     if (is_outstanding_request(agent)) {
       continue;
     }
-    if (agent->agent.city_callbacks[CB_REMOVE]) {
+    if (agent->agent.city_callbacks[CB_REMOVE] != NULL) {
       enqueue_call(agent, OCT_CITY, CB_REMOVE, pcity);
     }
   }

@@ -63,7 +63,7 @@ int log_parse_level_str(char *level_str)
 
   /* re-entrant: */
   logd_num_files = 0;
-  if (logd_files) {
+  if (logd_files != NULL) {
     free(logd_files);
     logd_files = NULL;
   }
@@ -206,10 +206,10 @@ Let the callback do its own level formating and add a '\n' if it wants.
 **************************************************************************/
 static void log_write(FILE *fs, int level, char *message)
 {
-  if (log_callback) {
+  if (log_callback != NULL) {
     log_callback(level, message);
   }
-  if (log_filename || (!log_callback)) {
+  if (log_filename != NULL || log_callback == NULL) {
     fprintf(fs, "%d: %s\n", level, message);
   }
 }
@@ -235,8 +235,9 @@ void vreal_freelog(int level, const char *message, va_list ap)
   if(level<=log_level) {
     FILE *fs;
 
-    if(log_filename) {
-      if(!(fs=fopen(log_filename, "a"))) {
+    if (log_filename != NULL) {
+      fs = fopen(log_filename, "a");
+      if (fs == NULL) {
 	fprintf(stderr, _("Couldn't open logfile: %s for appending.\n"), 
 		log_filename);
 	exit(EXIT_FAILURE);
@@ -284,7 +285,7 @@ void vreal_freelog(int level, const char *message, va_list ap)
     }
     whichbuf= !whichbuf;
     fflush(fs);
-    if(log_filename)
+    if(log_filename != NULL)
       fclose(fs);
   }
 }

@@ -299,7 +299,7 @@ static void orders_menu_callback(gpointer callback_data,
 {
   switch(callback_action) {
    case MENU_ORDER_BUILD_CITY:
-    if (get_unit_in_focus()) {
+    if (get_unit_in_focus() != NULL) {
       struct unit *punit = get_unit_in_focus();
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
@@ -311,7 +311,7 @@ static void orders_menu_callback(gpointer callback_data,
     }
     break;
    case MENU_ORDER_ROAD:
-    if (get_unit_in_focus()) {
+    if (get_unit_in_focus() != NULL) {
       if (unit_can_est_traderoute_here(get_unit_in_focus()))
 	key_unit_traderoute();
       else
@@ -328,7 +328,7 @@ static void orders_menu_callback(gpointer callback_data,
     key_unit_transform();
     break;
    case MENU_ORDER_FORTRESS:
-    if (get_unit_in_focus()) {
+    if (get_unit_in_focus() != NULL) {
       if (can_unit_do_activity(get_unit_in_focus(), ACTIVITY_FORTRESS))
 	key_unit_fortress();
       else
@@ -339,7 +339,7 @@ static void orders_menu_callback(gpointer callback_data,
     key_unit_airbase(); 
     break;
    case MENU_ORDER_POLLUTION:
-    if (get_unit_in_focus()) {
+    if (get_unit_in_focus() != NULL) {
       if (can_unit_paradrop(get_unit_in_focus()))
 	key_unit_paradrop();
       else
@@ -365,7 +365,7 @@ static void orders_menu_callback(gpointer callback_data,
     key_unit_wakeup_others();
     break;
    case MENU_ORDER_AUTO_SETTLER:
-    if(get_unit_in_focus())
+    if(get_unit_in_focus() != NULL)
       request_unit_auto(get_unit_in_focus());
     break;
    case MENU_ORDER_AUTO_EXPLORE:
@@ -381,7 +381,7 @@ static void orders_menu_callback(gpointer callback_data,
     key_unit_goto();
     break;
    case MENU_ORDER_GOTO_CITY:
-    if(get_unit_in_focus())
+    if(get_unit_in_focus() != NULL)
       popup_goto_dialog();
     break;
    case MENU_ORDER_DISBAND:
@@ -851,7 +851,7 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
 
   gtk_accel_group_attach(accel, GTK_OBJECT(window));
 
-  if(menubar)
+  if(menubar != NULL)
     *menubar=gtk_item_factory_get_widget(item_factory, "<main>");
 
   /* kluge to get around gtk's interpretation of "/" in menu item names */
@@ -868,7 +868,7 @@ static void menus_set_sensitive(const char *path, int sensitive)
 
   path = translate_menu_path(path, 1);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if((item=gtk_item_factory_get_widget(item_factory, path)) == NULL) {
     freelog(LOG_ERROR,
 	    "Can't set sensitivity for non-existent menu %s.", path);
     return;
@@ -888,7 +888,7 @@ static void menus_set_active(const char *path, int active)
 
   path = translate_menu_path(path, 1);
 
-  if (!(item = gtk_item_factory_get_widget(item_factory, path))) {
+  if ((item = gtk_item_factory_get_widget(item_factory, path)) == NULL) {
     freelog(LOG_ERROR,
 	    "Can't set active for non-existent menu %s.", path);
     return;
@@ -933,7 +933,7 @@ static void menus_rename(const char *path, char *s)
   
   path = translate_menu_path(path, 1);
   
-  if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
+  if((item=gtk_item_factory_get_widget(item_factory, path)) == NULL) {
     freelog(LOG_ERROR, "Can't rename non-existent menu %s.", path);
     return;
   }
@@ -986,7 +986,7 @@ void update_menus(void)
     menus_set_sensitive("<main>/_View/Focus Unit", !draw_units);
     menus_set_active("<main>/_View/Fog of War", draw_fog_of_war);
 
-    if((punit=get_unit_in_focus())) {
+    if((punit=get_unit_in_focus()) != NULL) {
       char *irrfmt = _("Change to %s (_I)");
       char *minfmt = _("Change to %s (_M)");
       char *transfmt = _("Transf_orm to %s");
@@ -1052,7 +1052,7 @@ void update_menus(void)
       if (unit_flag(punit, F_CARAVAN))
 	menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
       else if (unit_flag(punit, F_CITIES)) {
-	if (map_get_city(punit->x, punit->y))
+	if (map_get_city(punit->x, punit->y) != NULL)
 	  menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
 	else
 	  menus_rename("<main>/_Orders/_Build City", _("_Build City"));

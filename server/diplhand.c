@@ -86,7 +86,7 @@ struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
 
   genlist_iterator_init(&myiter, &treaties, 0);
   
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+  for(; ITERATOR_PTR(myiter) != NULL; ITERATOR_NEXT(myiter)) {
     struct Treaty *ptreaty=(struct Treaty *)ITERATOR_PTR(myiter);
     if((ptreaty->plr0==plr0 && ptreaty->plr1==plr1) ||
        (ptreaty->plr0==plr1 && ptreaty->plr1==plr0))
@@ -115,7 +115,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
   pgiver = &game.players[packet->plrno_from];
   ptreaty = find_treaty(plr0, plr1);
 
-  if (!ptreaty)
+  if (ptreaty == NULL)
     return;
   if (pgiver != pplayer)
     return;
@@ -151,7 +151,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  break;
 	case CLAUSE_CITY:
 	  pcity = find_city_by_id(pclause->value);
-	  if (!pcity) { /* Can't find out cityname any more. */
+	  if (pcity == NULL) { /* Can't find out cityname any more. */
 	    notify_player(pplayer,
 			  _("City you are trying to give no longer exists, "
 			    "you can't accept treaty."));
@@ -222,7 +222,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	switch (pclause->type) {
 	case CLAUSE_CITY:
 	  pcity = find_city_by_id(pclause->value);
-	  if (!pcity) { /* Can't find out cityname any more. */
+	  if (pcity == NULL) { /* Can't find out cityname any more. */
 	    notify_player(plr0,
 			  _("Game: One of the cities %s is giving away is destroyed! "
 			    "Treaty canceled!"),
@@ -310,7 +310,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  struct city *pcity = find_city_by_id(pclause->value);
 	  struct city *pnewcity = NULL;
 
-	  if (!pcity) {
+	  if (pcity == NULL) {
 	    freelog(LOG_NORMAL,
 		    "Treaty city id %d not found - skipping clause.",
 		    pclause->value);
@@ -324,7 +324,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			pcity->name, pdest->name);
 
 	  pnewcity = transfer_city(pdest, pcity, -1, 1, 1, 0);
-	  if (!pnewcity) {
+	  if (pnewcity == NULL) {
 	    freelog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
 	    break;
 	  }
@@ -397,7 +397,7 @@ void handle_diplomacy_remove_clause(struct player *pplayer,
   plr1=&game.players[packet->plrno1];
   pgiver=&game.players[packet->plrno_from];
   
-  if((ptreaty=find_treaty(plr0, plr1))) {
+  if((ptreaty=find_treaty(plr0, plr1)) != NULL) {
     if(remove_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {
       lsend_packet_diplomacy_info(&plr0->connections, 
 				 PACKET_DIPLOMACY_REMOVE_CLAUSE, packet);
@@ -424,7 +424,7 @@ void handle_diplomacy_create_clause(struct player *pplayer,
   plr1=&game.players[packet->plrno1];
   pgiver=&game.players[packet->plrno_from];
 
-  if ((ptreaty=find_treaty(plr0, plr1))) {
+  if ((ptreaty=find_treaty(plr0, plr1)) != NULL) {
     if (add_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {
       /* 
        * If we are trading cities, then it is possible that the
@@ -436,7 +436,7 @@ void handle_diplomacy_create_clause(struct player *pplayer,
        */
       if (packet->clause_type == CLAUSE_CITY){
 	struct city *pcity = find_city_by_id(packet->value);
-	if (pcity && !map_get_known_and_seen(pcity->x, pcity->y, plr1))
+	if (pcity != NULL && !map_get_known_and_seen(pcity->x, pcity->y, plr1))
 	  give_citymap_from_player_to_player(pcity, plr0, plr1);
       }
 
@@ -459,7 +459,7 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
   struct Treaty *ptreaty = find_treaty(pplayer, pplayer2);
   struct packet_diplomacy_info packet;
 
-  if (ptreaty) {
+  if (ptreaty != NULL) {
     packet.plrno0 = pplayer->player_no;
     packet.plrno1 = pplayer2->player_no;
     packet.plrno_from = pplayer->player_no;
@@ -514,7 +514,7 @@ void handle_diplomacy_init(struct player *pplayer,
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
 
-  if (!find_treaty(plr0, plr1)) {
+  if (find_treaty(plr0, plr1) == NULL) {
     if (plr0->ai.control || plr1->ai.control) {
       notify_player(plr0, _("AI controlled players cannot participate in "
 			    "diplomatic meetings."));
@@ -560,7 +560,7 @@ void send_diplomatic_meetings(struct connection *dest)
     return;
   }
   players_iterate(other_player) {
-    if ( (ptreaty=find_treaty(pplayer, other_player))) {
+    if ((ptreaty = find_treaty(pplayer, other_player)) != NULL) {
       struct packet_diplomacy_info packet;
       
       packet.plrno0 = pplayer->player_no;
@@ -586,7 +586,7 @@ void send_diplomatic_meetings(struct connection *dest)
 void cancel_all_meetings(struct player *pplayer)
 {
   players_iterate(pplayer2) {
-    if (find_treaty(pplayer, pplayer2)) {
+    if (find_treaty(pplayer, pplayer2) != NULL) {
       really_diplomacy_cancel_meeting(pplayer, pplayer2);
     }
   } players_iterate_end;

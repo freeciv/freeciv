@@ -315,7 +315,7 @@ Notices about cities that should be sent to all players.
 **************************************************************************/
 void send_global_city_turn_notifications(struct conn_list *dest)
 {
-  if (!dest)
+  if (dest == NULL)
     dest = &game.all_connections;
 
   players_iterate(pplayer) {
@@ -1173,7 +1173,7 @@ void city_incite_cost(struct city *pcity)
   } else {
     pcity->incite_revolt_cost=city_owner(pcity)->economic.gold +1000;
     capital=find_palace(city_owner(pcity));
-    if (capital) {
+    if (capital != NULL) {
       int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
       dist=MIN(32, tmp);
     }
@@ -1272,7 +1272,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     {
       int id=pcity->id;
       city_populate(pcity);
-      if(!player_find_city_by_id(pplayer, id))
+      if(player_find_city_by_id(pplayer, id) == NULL)
 	return;
     }
 
@@ -1331,7 +1331,7 @@ static int disband_city(struct city *pcity)
   /* find closest city other than pcity */
   rcity = find_closest_owned_city(pplayer, x, y, 0, pcity);
 
-  if (!rcity) {
+  if (rcity == NULL) {
     /* What should we do when we try to disband our only city? */
     notify_player_ex(pplayer, x, y, E_CITY_CANTBUILD,
 		     _("Game: %s can't build %s yet, "

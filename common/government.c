@@ -185,7 +185,7 @@ char *get_ruler_title(int gov, int male, int nation)
     }
   }
 
-  if (best_match) {
+  if (best_match != NULL) {
     return male ? best_match->male_title : best_match->female_title;
   } else {
     freelog(LOG_ERROR,

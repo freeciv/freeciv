@@ -570,7 +570,7 @@ enum client_states get_client_state(void)
 **************************************************************************/
 void client_remove_cli_conn(struct connection *pconn)
 {
-  if (pconn->player) {
+  if (pconn->player != NULL) {
     conn_list_unlink(&pconn->player->connections, pconn);
   }
   conn_list_unlink(&game.all_connections, pconn);
