@@ -39,67 +39,6 @@ struct ai_tech_choice {
 };
 
 /**************************************************************************
-  Returns tech corresponding to players wonder goal from nations[],
-  if it makes sense, and wonder is not already built and not obsolete.
-  Otherwise returns A_UNSET.
-**************************************************************************/
-static Tech_Type_id get_wonder_tech(struct player *plr)
-{
-  Impr_Type_id building = get_nation_by_plr(plr)->goals.wonder;
-  
-  if (improvement_exists(building)
-      && is_great_wonder(building)
-      && !great_wonder_was_built(building)
-      && !improvement_obsolete(plr, building)) {
-    Tech_Type_id tech = improvement_types[building].tech_req;
-
-    if (tech_is_available(plr, tech) 
-        && get_invention(plr, tech) != TECH_KNOWN) {
-      return tech;
-    }
-  }
-  return A_UNSET;
-}
-
-/**************************************************************************
-  Puts into choice the closest (in terms of unknown techs needed) of
-    - national tech goals,
-    - requirements for the national wonder goal
-**************************************************************************/
-static Tech_Type_id ai_next_tech_goal_default(struct player *pplayer)
-{
-  struct nation_type *prace = get_nation_by_plr(pplayer);
-  int bestdist = A_LAST + 1;
-  int dist, i;
-  Tech_Type_id goal = A_UNSET;
-  Tech_Type_id tech;
-
-  /* Find the closest of the national tech goals */
-  for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
-    Tech_Type_id j = prace->goals.tech[i];
-    if (!tech_is_available(pplayer, j) 
-        || get_invention(pplayer, j) == TECH_KNOWN) {
-      continue;
-    }
-    dist = num_unknown_techs_for_goal(pplayer, j);
-    if (dist < bestdist) { 
-      bestdist = dist;
-      goal = j;
-      break; /* remove this to restore old functionality -- Syela */
-    }
-  } 
-
-  /* Find the requirement for the national wonder */
-  tech = get_wonder_tech(pplayer);
-  if (tech != A_UNSET 
-      && num_unknown_techs_for_goal(pplayer, tech) < bestdist) {
-    goal = tech;
-  }
-
-  return goal;
-}
-
-/**************************************************************************
   Massage the numbers provided to us by ai.tech_want into unrecognizable 
   pulp.
 
@@ -215,64 +154,6 @@ static void ai_select_tech(struct player *pplayer,
 }
 
 /**************************************************************************
-  Choose our next tech goal.  Called by the server when a new tech is 
-  discovered to determine new goal and, from it, the new tech to be 
-  researched, which is quite stupid since ai_manage_tech sets a goal in 
-  ai.tech_goal and we should either respect it or not bother doing it.
-
-  TODO: Kill this function.
-**************************************************************************/
-void ai_next_tech_goal(struct player *pplayer)
-{
-  struct ai_tech_choice goal_choice = {0, 0, 0};
-
-  ai_select_tech(pplayer, NULL, &goal_choice);
-
-  if (goal_choice.want == 0) {
-    goal_choice.choice = ai_next_tech_goal_default(pplayer);
-  }
-  if (goal_choice.choice != A_UNSET) {
-    pplayer->ai.tech_goal = goal_choice.choice;
-    freelog(LOG_DEBUG, "next_tech_goal for %s is set to %s",
-	    pplayer->name, get_tech_name(pplayer, goal_choice.choice));
-  }
-}
-
-/**************************************************************************
-  Use AI tech hints provided in governments.ruleset to up corresponding 
-  tech wants.
-
-  TODO: The hints structure is too complicated, simplify.
-**************************************************************************/
-static void ai_use_gov_tech_hint(struct player *pplayer)
-{
-  int i;
-
-  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    struct ai_gov_tech_hint *hint = &ai_gov_tech_hints[i];
-    
-    if (hint->tech == A_LAST) {
-      break;
-    }
-    
-    if (get_invention(pplayer, hint->tech) != TECH_KNOWN) {
-      int steps = num_unknown_techs_for_goal(pplayer, hint->tech);
-
-      pplayer->ai.tech_want[hint->tech] += 
-	city_list_size(pplayer->cities)
-	* (hint->turns_factor * steps + hint->const_factor);
-      if (hint->get_first) {
-	break;
-      }
-    } else {
-      if (hint->done) {
-	break;
-      }
-    }
-  }
-}
-
-/**************************************************************************
   Key AI research function. Disable if we are in a team with human team
   mates in a research pool.
 **************************************************************************/
@@ -291,18 +172,16 @@ void ai_manage_tech(struct player *pplayer)
     }
   } players_iterate_end;
 
-  ai_use_gov_tech_hint(pplayer);
-
   ai_select_tech(pplayer, &choice, &goal);
   if (choice.choice != pplayer->research.researching) {
     /* changing */
     if ((choice.want - choice.current_want) > penalty &&
 	penalty + pplayer->research.bulbs_researched <=
 	total_bulbs_required(pplayer)) {
-      freelog(LOG_DEBUG, "%s switching from %s to %s with penalty of %d.",
-	      pplayer->name,
-	      get_tech_name(pplayer, pplayer->research.researching),
-	      get_tech_name(pplayer, choice.choice), penalty);
+      TECH_LOG(LOG_DEBUG, pplayer, choice.choice, "new research, was %s, "
+               "penalty was %d", 
+               get_tech_name(pplayer, pplayer->research.researching),
+               penalty);
       choose_tech(pplayer, choice.choice);
     }
   }

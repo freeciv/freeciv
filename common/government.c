@@ -27,38 +27,7 @@
 
 #include "government.h"
 
-/* TODO:
- * o Update and turn on government evaluation code.
- * o Check exact government rules vs Civ1,Civ2.
- * o The clients display wrong upkeep icons in the city display,
- *   not sure what to do here.  (Does the new terrain-ruleset code
- *   have icons that could be used here?)
- * o When change government, server should update cities and unit
- *   upkeep etc and send updated info to client.
- * o Implement actual cost for unit gold upkeep.
- * o Possibly remove ai_gov_tech_hint stuff?
- *   (See usage in ai_manage_cities() in aicity.c)
- * o Update help system, including dynamic help on governments.
- * o Test the new government evaluation code (AI).
- *   [ It seems fine to me, although it favours Democracy very early
- *   on. This is because of the huge trade bonus. -SKi ]
- * o Implement the features needed for fundamentalism:
- *   - A diplomatic penalty modifier when international incidents occur.
- *     (Spy places nuke in city, goes to war, etc).
- *     [ Is this one of those Civ II "features" best be ignored?  I am
- *     inclined to think so -SKi ]
- */
-
-/*
- * WISHLIST:
- * o Features needed for CTP-style rules, just more trade, science and
- *   production modifiers.  (Just counting CTP governments, only
- *   basics).
- */
-
 struct government *governments = NULL;
-
-struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
 
 static const char *flag_names[] = {
   "Build_Veteran_Diplomats", "Revolution_When_Unhappy", "Has_Senate",

@@ -1698,7 +1698,6 @@ static void load_government_names(struct section_file *file)
 static void load_ruleset_governments(struct section_file *file)
 {
   int i, j, nval;
-  char *c;
   char **sec, **slist;
   const char *filename = secfile_filename(file);
 
@@ -1848,41 +1847,6 @@ static void load_ruleset_governments(struct section_file *file)
 	       secfile_lookup_str(file, "%s.ruler_female_title", sec[i]));
     title->female_title = title->female_title_orig;
   } government_iterate_end;
-
-  /* ai tech_hints: */
-  j = -1;
-  while((c = secfile_lookup_str_default(file, NULL,
-					"governments.ai_tech_hints%d.tech",
-					++j))) {
-    struct ai_gov_tech_hint *hint = &ai_gov_tech_hints[j];
-
-    if (j >= MAX_NUM_TECH_LIST) {
-      freelog(LOG_FATAL, "Too many ai tech_hints in %s", filename);
-      exit(EXIT_FAILURE);
-    }
-    hint->tech = find_tech_by_name(c);
-    if (hint->tech == A_LAST) {
-      freelog(LOG_FATAL, "Could not match tech %s for gov ai_tech_hint %d (%s)",
-	      c, j, filename);
-      exit(EXIT_FAILURE);
-    }
-    if (!tech_exists(hint->tech)) {
-      freelog(LOG_FATAL, "For gov ai_tech_hint %d, tech \"%s\" is removed (%s)",
-	      j, c, filename);
-      exit(EXIT_FAILURE);
-    }
-    hint->turns_factor =
-      secfile_lookup_int(file, "governments.ai_tech_hints%d.turns_factor", j);
-    hint->const_factor =
-      secfile_lookup_int(file, "governments.ai_tech_hints%d.const_factor", j);
-    hint->get_first =
-      secfile_lookup_bool(file, "governments.ai_tech_hints%d.get_first", j);
-    hint->done =
-      secfile_lookup_bool(file, "governments.ai_tech_hints%d.done", j);
-  }
-  if (j<MAX_NUM_TECH_LIST) {
-    ai_gov_tech_hints[j].tech = A_LAST;
-  }
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -2159,9 +2123,9 @@ static void load_ruleset_nations(struct section_file *file)
   char *bad_leader, *g;
   struct nation_type *pl;
   struct government *gov;
-  int dim, val, i, j, k, nval;
+  int dim, i, j, k, nval;
   char temp_name[MAX_LEN_NAME];
-  char **techs, **leaders, **sec, **civilwar_nations;
+  char **leaders, **sec, **civilwar_nations;
   const char *filename = secfile_filename(file);
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
@@ -2320,72 +2284,6 @@ static void load_ruleset_nations(struct section_file *file)
     lookup_tech_list(file, sec[i], "init_techs", pl->init_techs, filename);
     lookup_building_list(file, sec[i], "init_buildings", pl->init_buildings,
 			 filename);
-
-    /* AI techs */
-
-    techs = secfile_lookup_str_vec(file, &dim, "%s.tech_goals", sec[i]);
-    if( dim > MAX_NUM_TECH_GOALS ) {
-      freelog(LOG_VERBOSE,
-	      "Only %d techs can be used from %d defined for nation %s",
-	      MAX_NUM_TECH_GOALS, dim, pl->name_plural);
-      dim = MAX_NUM_TECH_GOALS;
-    }
-    /* Below LOG_VERBOSE rather than LOG_ERROR so that can use single
-       nation ruleset file with variety of tech ruleset files: */
-    for( j=0; j<dim; j++) {
-      val = find_tech_by_name(techs[j]);
-      if(val == A_LAST) {
-	freelog(LOG_VERBOSE, "Could not match tech goal \"%s\" for the %s",
-		techs[j], pl->name_plural);
-      } else if (!tech_exists(val)) {
-	freelog(LOG_VERBOSE, "Goal tech \"%s\" for the %s doesn't exist",
-		techs[j], pl->name_plural);
-	val = A_LAST;
-      }
-      if(val != A_LAST && val != A_NONE) {
-	freelog(LOG_DEBUG, "%s tech goal (%d) %3d %s", pl->name, j, val, techs[j]);
-	pl->goals.tech[j] = val;
-      }
-    }
-    freelog(LOG_DEBUG, "%s %d tech goals", pl->name, j);
-    if(j==0) {
-      freelog(LOG_VERBOSE, "No valid goal techs for %s", pl->name);
-    }
-    while( j < MAX_NUM_TECH_GOALS )
-      pl->goals.tech[j++] = A_UNSET;
-    if (techs) free(techs);
-
-    /* AI wonder & government */
-
-    sz_strlcpy(temp_name, secfile_lookup_str(file, "%s.wonder", sec[i]));
-    val = find_improvement_by_name(temp_name);
-    /* Below LOG_VERBOSE rather than LOG_ERROR so that can use single
-       nation ruleset file with variety of building ruleset files: */
-    /* for any problems, leave as B_LAST */
-    if(val == B_LAST) {
-      freelog(LOG_VERBOSE, "Didn't match goal wonder \"%s\" for %s", temp_name, pl->name);
-    } else if(!improvement_exists(val)) {
-      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s doesn't exist", temp_name, pl->name);
-      val = B_LAST;
-    } else if(!is_great_wonder(val)) {
-      freelog(LOG_VERBOSE, "Goal wonder \"%s\" for %s not a wonder", temp_name, pl->name);
-      val = B_LAST;
-    }
-    pl->goals.wonder = val;
-    freelog(LOG_DEBUG, "%s wonder goal %d %s", pl->name, val, temp_name);
-
-    sz_strlcpy(temp_name, secfile_lookup_str(file, "%s.government", sec[i]));
-    gov = find_government_by_name(temp_name);
-    if(!gov) {
-      /* LOG_VERBOSE rather than LOG_ERROR so that can use single nation
-	 ruleset file with variety of government ruleset files: */
-      freelog(LOG_VERBOSE, "Didn't match goal government name \"%s\" for %s",
-	      temp_name, pl->name);
-      val = game.government_when_anarchy;  /* flag value (no goal) (?) */
-    } else {
-      val = gov->index;
-    }
-    pl->goals.government = val;
 
     /* read "normal" city names */
 

@@ -550,19 +550,7 @@ static bool choose_goal_tech(struct player *plr)
 {
   int sub_goal;
 
-  if (plr->ai.control) {
-    ai_next_tech_goal(plr);	/* tech-AI has been changed */
-  }
   sub_goal = get_next_tech(plr, plr->ai.tech_goal);
-
-  if (sub_goal == A_UNSET) {
-    if (plr->ai.control || plr->research.techs_researched == 1) {
-      ai_next_tech_goal(plr);
-      sub_goal = get_next_tech(plr, plr->ai.tech_goal);
-    } else {
-      plr->ai.tech_goal = A_UNSET;	/* clear goal when it is achieved */
-    }
-  }
 
   if (sub_goal != A_UNSET) {
     plr->research.researching = sub_goal;

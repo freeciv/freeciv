@@ -41,13 +41,6 @@ enum government_flag_id {
 };
 #define G_FIRST_FLAG G_BUILD_VETERAN_DIPLOMAT
 
-enum government_hint_id {
-  G_IS_NICE=0,			/* spaceship auto-placement, among others */
-  G_FAVORS_GROWTH,
-  G_LAST_HINT
-};
-#define G_FIRST_HINT G_IS_NICE
-
 /* each government has a list of ruler titles, where at least
  * one entry should have nation=DEFAULT_TITLE.
  */
@@ -132,21 +125,7 @@ struct government
   char *helptext;
 };
 
-/* This should possibly disappear; we don't bother sending these to client;
- * See code in aitech.c for what the fields mean */
-struct ai_gov_tech_hint {
-  int tech;
-  int turns_factor;
-  int const_factor;
-  bool get_first;
-  bool done;
-};
-
 extern struct government *governments;
-
-extern struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
-/* like game.rtech lists, A_LAST terminated (for .tech)
-   and techs before that are guaranteed to exist */
 
 struct government *get_government(int gov);
 struct government *get_gov_pplayer(const struct player *pplayer);

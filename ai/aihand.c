@@ -351,11 +351,19 @@ static void ai_manage_government(struct player *pplayer)
   /* Crank up tech want */
   if (get_invention(pplayer, ai->goal.govt.req) == TECH_KNOWN) {
     return; /* already got it! */
+  } else if (ai->goal.govt.val > 0) {
+    /* We have few cities in the beginning, compensate for this to ensure
+     * that we are sufficiently forward-looking. */
+    int want = MAX(ai->goal.govt.val, 100);
+
+    if (pplayer->government == game.default_government) {
+      want += 25 * game.turn;
+    }
+    pplayer->ai.tech_want[ai->goal.govt.req] += want;
+    TECH_LOG(LOG_DEBUG, pplayer, ai->goal.govt.req, "+ %d for %s in "
+             "ai_manage_government", want,
+             get_government_name(ai->goal.govt.idx));
   }
-  pplayer->ai.tech_want[ai->goal.govt.req] += ai->goal.govt.val;
-  TECH_LOG(LOG_DEBUG, pplayer, ai->goal.govt.req, "+ %d for %s in "
-           "ai_manage_government", ai->goal.govt.val,
-           get_government_name(ai->goal.govt.idx));
 }
 
 /**************************************************************************

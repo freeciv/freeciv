@@ -92,14 +92,6 @@ struct nation_type {
   /* Items given to this nation at game start.  Server only. */
   int init_techs[MAX_NUM_TECH_LIST];
   int init_buildings[MAX_NUM_BUILDING_LIST];
-
-  /* Following basically disabled -- Syela */
-  /* Note the client doesn't use/have these. */
-  struct {
-    int tech[MAX_NUM_TECH_GOALS];               /* tech goals     */
-    int wonder;                                 /* primary Wonder */
-    int government;
-  } goals;
 };
 
 struct team {
