@@ -6,13 +6,13 @@ Using Graphics:
 ---------------
 
 To use different graphics with Freeciv, use the '--tiles' argument to
-the Freeciv client.  Eg, to use the 'trident' graphics, start the
+the Freeciv client.  Eg, to use the 'engels' graphics, start the
 client as:
   
-    civclient --tiles trident
+    civclient --tiles engels
 
 What Freeciv actually does in this case is look for a file called
-'trident.tilespec' somewhere in your Freeciv data path.  (See the file
+'engels.tilespec' somewhere in your Freeciv data path.  (See the file
 INSTALL for some information on the Freeciv data path.)  That tilespec
 file contains information telling Freeciv which graphics files to use,
 and what those graphics files contain.
