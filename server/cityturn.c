@@ -579,7 +579,7 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  /* Build something random, undecided. */
+  /* Build the first thing we can think of (except a new palace). */
   impr_type_iterate(i) {
     if (can_build_improvement(pcity, i)
 	&& !building_has_effect(i, EFT_CAPITAL_CITY)) {
@@ -743,6 +743,37 @@ static bool worklist_change_build_target(struct player *pplayer,
 }
 
 /**************************************************************************
+  Assuming we just finished building something, find something new to
+  build.  The policy is: use the worklist if we can; if not, try not
+  changing; if we must change, get desparate and use the AI advisor.
+**************************************************************************/
+static void choose_build_target(struct player *pplayer,
+				struct city *pcity)
+{
+  /* Pick the next thing off the worklist. */
+  if (worklist_change_build_target(pplayer, pcity)) {
+    return;
+  }
+
+  /* Try building the same thing again.  Repeat building doesn't require a
+   * call to change_build_target, so just return. */
+  if (pcity->is_building_unit) {
+    /* We can build a unit again unless it's unique. */
+    if (!unit_type_flag(pcity->currently_building, F_UNIQUE)) {
+      return;
+    }
+  } else if (can_build_improvement(pcity, pcity->currently_building)) {
+    /* We can build space and coinage again, and possibly others. */
+    return;
+  }
+
+  /* Find *something* to do! */
+  freelog(LOG_DEBUG, "Trying advisor_choose_build.");
+  advisor_choose_build(pplayer, pcity);
+  freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
+}
+
+/**************************************************************************
   Follow the list of replaced_by buildings until we hit something that
   we can build.  Returns -1 if we can't upgrade at all (including if the
   original building is unbuildable).
@@ -901,6 +932,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     pplayer->economic.gold += pcity->before_change_shields;
     pcity->before_change_shields = 0;
     pcity->shield_stock = 0;
+    choose_build_target(pplayer, pcity);
   }
   upgrade_building_prod(pcity);
   if (!can_build_improvement(pcity, id)) {
@@ -1000,17 +1032,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     } else {
       city_refresh(pcity);
     }
-    /* If there's something in the worklist, change the build target.
-     * Else if just built a spaceship part, keep building the same
-     * part.  (Fixme? - doesn't check whether spaceship part is still
-     * sensible.)  Else co-opt AI routines as "city advisor".
-     */
-    if (!worklist_change_build_target(pplayer, pcity) && !space_part) {
-      /* Fall back to the good old ways. */
-      freelog(LOG_DEBUG, "Trying advisor_choose_build.");
-      advisor_choose_build(pplayer, pcity);
-      freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
-    }
+
+    /* Move to the next thing in the worklist */
+    choose_build_target(pplayer, pcity);
   }
 
   return TRUE;
@@ -1083,13 +1107,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     gamelog(GAMELOG_BUILD, pcity);
 
-    /* If there's something in the worklist, change the build
-       target. If there's nothing there, worklist_change_build_target
-       won't do anything, unless the unit built is unique. */
-    if (!worklist_change_build_target(pplayer, pcity) 
-        && unit_type_flag(pcity->currently_building, F_UNIQUE)) {
-      advisor_choose_build(pplayer, pcity);
-    }
+    /* Done building this unit; time to move on to the next. */
+    choose_build_target(pplayer, pcity);
   }
   return TRUE;
 }
