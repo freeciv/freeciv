@@ -1601,24 +1601,14 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
 /**************************************************************************
  disband a city into a settler, supported by the closest city -- Massimo
 **************************************************************************/
-
 static void disband_city(struct city *pcity)
 {
   struct player *pplayer = get_player(pcity->owner);
-  int x = pcity->x, y = pcity->y, dist, dist1;
+  int x = pcity->x, y = pcity->y;
   struct city *rcity=NULL;
 
-  /* We cannot use find_closest_owned_city, since it would return pcity */
-  if (city_list_get(&pplayer->cities, 0)) {
-    dist = 9999;
-    city_list_iterate(pplayer->cities, pcity1);
-    dist1 = real_map_distance(x, y, pcity1->x, pcity1->y);
-    if (dist1 && dist1 < dist) {
-      dist = dist1;
-      rcity = pcity1;
-    }      
-    city_list_iterate_end;
-  }
+  /* find closest city other than pcity */
+  rcity = find_closest_owned_city(pplayer, x, y, 0, pcity);
 
   if (!rcity) {
     /* What should we do when we try to disband our only city? */
@@ -1634,7 +1624,7 @@ static void disband_city(struct city *pcity)
 	      pcity->id, -1);
 
   /* shift all the units supported by pcity (including the new settler) to rcity */
-  transfer_city_units(pplayer, pplayer, rcity, pcity, -1, 1, 0);
+  transfer_city_units(pplayer, pplayer, rcity, pcity, -1, 1);
 
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
 		   _("Game: %s is disbanded into %s."), 

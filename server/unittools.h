@@ -51,7 +51,8 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
 int build_points_left(struct city *pcity);
 int can_place_partisan(int x, int y);
 int enemies_at(struct unit *punit, int x, int y);
-int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost);
+int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost,
+			  int verbose);
 struct unit *is_enemy_unit_on_tile(int x, int y, int owner);
 void resolve_unit_stack(int x, int y, int verbose);
 

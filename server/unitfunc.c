@@ -1146,7 +1146,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
       maybe_make_veteran (pdiplomat);
 
       /* being teleported costs all movement */
-      if (!teleport_unit_to_city (pdiplomat, spyhome, -1)) {
+      if (!teleport_unit_to_city (pdiplomat, spyhome, -1, 0)) {
 	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_NORMAL, "Bug in diplomat_escape: Spy can't teleport.");
 	return;

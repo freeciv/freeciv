@@ -603,9 +603,8 @@ int wants_to_be_bigger(struct city *pcity)
  */
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct city *pcity, struct city *vcity, 
-			 int kill_outside, int verbose, int resolve_stack)
+			 int kill_outside, int verbose)
 {
-  int ux, uy;
   int x = vcity->x;
   int y = vcity->y;
 
@@ -676,53 +675,45 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 		       vunit->hp);
     }
 
-    ux = vunit->x;
-    uy = vunit->y;
     wipe_unit_spec_safe(0, vunit, NULL, 0);
-
-    if (resolve_stack && !new_home_city) {
-      /* Now make sure that if we just deleted a transporter the
-	 carried units are not left floating in the water */
-      resolve_unit_stack(ux, uy, 1);
-    }
   }
   unit_list_iterate_end;
 }
 
+/**********************************************************************
+dist_nearest_city (in ai.c) does not seem to do what I want or expect
+this function finds the closest friendly city to pos x,y.  I'm sure 
+there must be a similar function somewhere, I just can't find it.
 
-/*
- * dist_nearest_city (in ai.c) does not seem to do what I want or expect
- * this function finds the closest friendly city to pos x,y.  I'm sure 
- * there must be a similar function somewhere, I just can't find it.
- * 
- *                                - Kris Bubendorfer 
- */
+                               - Kris Bubendorfer 
 
-struct city *find_closest_owned_city(struct player *pplayer, int x, int y)
+If sea_required, returned city must be adjacent to ocean.
+If pexclcity, do not return it as the closest city.
+Returns NULL if no satisfactory city can be found.
+***********************************************************************/
+struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
+				     int sea_required, struct city *pexclcity)
 {
-  int dist;
-  struct city *rcity = city_list_get(&pplayer->cities, 0);
-  
-  if(rcity){
-    dist = real_map_distance(x, y, rcity->x, rcity->y);
-    
-    city_list_iterate(pplayer->cities, pcity)
-      if (real_map_distance(x, y, pcity->x, pcity->y) < dist){
-	dist = real_map_distance(x, y, pcity->x, pcity->y);
-	rcity = pcity;
-      }      
-    city_list_iterate_end;
-  }  
+  int dist = -1;
+  struct city *rcity = NULL;
+  city_list_iterate(pplayer->cities, pcity)
+    if ((real_map_distance(x, y, pcity->x, pcity->y) < dist || dist == -1) && 
+	(!sea_required || is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) &&
+	(!pexclcity || (pexclcity != pcity))) {
+      dist = real_map_distance(x, y, pcity->x, pcity->y);
+      rcity = pcity;
+    }      
+  city_list_iterate_end;
+
   return rcity;
 }
 
-/*
- * This function creates a new player and copies all of it's science
- * research etc.  Players are both thrown into anarchy and gold is
- * split between both players.
- *                                - Kris Bubendorfer 
- */
-
+/**********************************************************************
+This function creates a new player and copies all of it's science
+research etc.  Players are both thrown into anarchy and gold is
+split between both players.
+                               - Kris Bubendorfer 
+***********************************************************************/
 static struct player *split_player(struct player *pplayer)
 {
   int *nations_used, i, num_nations_avail=game.playable_nation_count, pick;
@@ -993,17 +984,19 @@ void civil_war(struct player *pplayer)
 }  
 
 
-/***************************************************************
+/**********************************************************************
 Handles all transactions in relation to transferring a city.
-the three last arguments are passed to transfer_city_units,
-which is called in the middle of the function.
-***************************************************************/
+
+The kill_outside and transfer_unit_verbose arguments are passed to
+transfer_city_units(), which is called in the middle of the function.
+***********************************************************************/
 struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 			   struct city *pcity, int kill_outside,
 			   int transfer_unit_verbose, int resolve_stack)
 {
   struct city *pnewcity;
-  int i;
+  int *resolve_list=NULL;
+  int i, no_units=0;
 
   if (!pcity)
     return NULL;
@@ -1030,10 +1023,32 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 
   map_unfog_city_area(pnewcity);
 
+  /* transfer_city_units() destroys the city's units_supported
+     list; we save the list so we can resolve units afterwards. */
+  if (resolve_stack) {
+    no_units = unit_list_size(&(pcity->units_supported));
+    if (no_units > 0) {
+      resolve_list = fc_malloc(no_units * 2 * sizeof(int));
+      if (resolve_list) {
+	i = 0;
+	unit_list_iterate(pcity->units_supported, punit) {
+	  resolve_list[i]   = punit->x;
+	  resolve_list[i+1] = punit->y;
+	  i += 2;
+	} unit_list_iterate_end;
+      }
+    }
+  }
   transfer_city_units(pplayer, cplayer, pnewcity, pcity,
-		      kill_outside, transfer_unit_verbose, resolve_stack);
+		      kill_outside, transfer_unit_verbose);
   remove_city(pcity);
-  map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
+  map_set_city(pnewcity->x, pnewcity->y, pnewcity);
+  if (resolve_stack && (no_units > 0) && resolve_list) {
+    for (i = 0; i < no_units * 2; i += 2)
+      resolve_unit_stack(resolve_list[i], resolve_list[i+1],
+			 transfer_unit_verbose);
+    free(resolve_list);
+  }
 
   reestablish_city_trade_routes(pnewcity); 
   city_check_workers(pplayer ,pnewcity);

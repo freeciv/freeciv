@@ -670,14 +670,26 @@ int enemies_at(struct unit *punit, int x, int y)
   return 0; /* as good a quick'n'dirty should be -- Syela */
 }
 
-
+/**************************************************************************
+Disband given unit because of a stack conflict.
+**************************************************************************/
+static void disband_stack_conflict_unit(struct unit *punit, int verbose)
+{
+  freelog(LOG_VERBOSE, "Disbanded %s's %s at (%d, %d)",
+	  get_player(punit->owner)->name, unit_name(punit->type),
+	  punit->x, punit->y);
+  if (verbose) {
+    notify_player(get_player(punit->owner),
+		  _("Game: Disbanded your %s at (%d, %d)."),
+		  unit_name(punit->type), punit->x, punit->y);
+  }
+  wipe_unit(get_player(punit->owner), punit);
+}
 
 /**************************************************************************
   Return first unit on square that is not owned by player.
-
                           - Kris Bubendorfer 
 **************************************************************************/
-
 struct unit *is_enemy_unit_on_tile(int x, int y, int owner)
 {
   unit_list_iterate(map_get_tile(x, y)->units, punit) 
@@ -693,8 +705,8 @@ Teleport punit to city at cost specified.  Returns success.
 (If specified cost is <0, then teleportation costs all movement.)
                          - Kris Bubendorfer
 **************************************************************************/
-
-int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
+int teleport_unit_to_city(struct unit *punit, struct city *pcity,
+			  int mov_cost, int verbose)
 {
   int src_x = punit->x,src_y = punit->y;
   if(pcity->owner == punit->owner){
@@ -709,6 +721,15 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
     
     unit_list_insert(&map_get_tile(pcity->x, pcity->y)->units, punit);
     send_unit_info_to_onlookers(0, punit, src_x,src_y);
+
+    freelog(LOG_VERBOSE, "Teleported %s's %s from (%d, %d) to %s",
+	    get_player(punit->owner)->name, unit_name(punit->type),
+	    src_x, src_y, pcity->name);
+    if (verbose) {
+      notify_player(get_player(punit->owner),
+		    _("Game: Teleported your %s from (%d, %d) to %s."),
+		    unit_name(punit->type), src_x, src_y, pcity->name);
+    }
 
     return 1;
   }
@@ -730,73 +751,75 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
   If verbose is true, the unit owner gets messages about where each
   units goes.  --dwp
 **************************************************************************/
-
 void resolve_unit_stack(int x, int y, int verbose)
 {
   struct unit *punit, *cunit;
 
-  punit = unit_list_get(&map_get_tile(x, y)->units, 0);
-  if (!punit)
-    return;
-  cunit = is_enemy_unit_on_tile(x, y, punit->owner);
-  
-  while(punit && cunit){
-    struct city *pcity = find_closest_owned_city(get_player(punit->owner), x, y);
-    struct city *ccity = find_closest_owned_city(get_player(cunit->owner), x, y);
-    
-    if(map_distance(x, y, pcity->x, pcity->y) 
-       < map_distance(x, y, ccity->x, ccity->y)){
-      teleport_unit_to_city(cunit, ccity, 0);
-      freelog(LOG_VERBOSE, "Teleported %s's %s from (%d, %d) to %s",
-	      get_player(cunit->owner)->name, unit_name(cunit->type),
-	      x, y,ccity->name);
-      if (verbose) {
-	notify_player(get_player(cunit->owner),
-		      _("Game: Teleported your %s from (%d, %d) to %s."),
-		      unit_name(cunit->type), x, y,ccity->name);
-      }
-    }else{
-      teleport_unit_to_city(punit, pcity, 0);
-      freelog(LOG_VERBOSE, "Teleported %s's %s from (%d, %d) to %s",
-	      get_player(punit->owner)->name, unit_name(punit->type),
-	      x, y, pcity->name);
-      if (verbose) {
-	notify_player(get_player(punit->owner),
-		      _("Game: Teleported your %s from (%d, %d) to %s."),
-		      unit_name(punit->type), x, y, pcity->name);
-      }
-    }
-    
+  /* We start by reducing the unit list until we only have units from one nation */
+  while(1) {
+    struct city *pcity, *ccity;
+
     punit = unit_list_get(&map_get_tile(x, y)->units, 0);
     if (!punit)
-      break;
+      return;
+
     cunit = is_enemy_unit_on_tile(x, y, punit->owner);
-  }
+    if (!cunit)
+      break;
 
-  /* There is only one players units left on this square.  If there is not 
-     enough transporter capacity left , send surplus to the closest friendly 
+    pcity = find_closest_owned_city(get_player(punit->owner), x, y,
+				    is_sailing_unit(punit), NULL);
+    ccity = find_closest_owned_city(get_player(cunit->owner), x, y,
+				    is_sailing_unit(cunit), NULL);
+
+    if (pcity && ccity) {
+      /* Both unit owners have cities;
+	 teleport unit closest to its owner's city there. */
+      if (map_distance(x, y, pcity->x, pcity->y) 
+	  < map_distance(x, y, ccity->x, ccity->y))
+	teleport_unit_to_city(cunit, ccity, 0, verbose);
+      else
+	teleport_unit_to_city(punit, pcity, 0, verbose);
+    } else {
+      /* At least one of the unit owners doesn't have any cities;
+	 if the other owner has any cities we teleport his units home.
+	 We take care not to teleport the unit to the original square,
+	 as that would cause the while loop in this function to
+	 potentially never stop. */
+      if (pcity) {
+	if (same_pos(x, y, pcity->x, pcity->y))
+	  disband_stack_conflict_unit(cunit, verbose);
+	else
+	  teleport_unit_to_city(punit, pcity, 0, verbose);
+      } else if (ccity) {
+	if (same_pos(x, y, ccity->x, ccity->y))
+	  disband_stack_conflict_unit(punit, verbose);
+	else
+	  teleport_unit_to_city(cunit, ccity, 0, verbose);
+      } else {
+	/* Neither unit owners have cities;
+	   disband both units. */
+	disband_stack_conflict_unit(punit, verbose);
+	disband_stack_conflict_unit(cunit, verbose);
+      }      
+    }
+  } /* end while */
+
+  /* There is only one player's units left on this square.  If there is not 
+     enough transporter capacity left send surplus to the closest friendly 
      city. */
+  punit = unit_list_get(&map_get_tile(x, y)->units, 0);
 
-  if(!punit && cunit)
-    punit = cunit;
-  
-  if(punit && map_get_terrain(punit->x, punit->y)==T_OCEAN) {
+  if(punit && map_get_terrain(x, y) == T_OCEAN) {
     while(!is_enough_transporter_space(get_player(punit->owner), x, y)) {
       unit_list_iterate(map_get_tile(x, y)->units, vunit) {
 	if(is_ground_unit(vunit)) {
 	  struct city *vcity =
-	    find_closest_owned_city(get_player(vunit->owner), x, y);
-	  teleport_unit_to_city(vunit, vcity, 0);	  
-	  freelog(LOG_VERBOSE, "Teleported  %s's %s to %s"
-		  " as there is no transport space on square (%d, %d)",
-		  get_player(vunit->owner)->name, unit_name(vunit->type),
-		  vcity->name, x, y);
-	  if (verbose) {
-	    notify_player(get_player(vunit->owner),
-			  _("Game: Teleported your %s to %s as there is"
-			    " no transport space on square (%d, %d)."),
-			  unit_name(vunit->type), vcity->name, x, y);
-	  }
+	    find_closest_owned_city(get_player(vunit->owner), x, y, 0, NULL);
+	  if (vcity)
+	    teleport_unit_to_city(vunit, vcity, 0, verbose);
+	  else
+	    disband_stack_conflict_unit(vunit, verbose);
 	  break;   /* break out of unit_list_iterate loop */
 	}
       }
