@@ -1217,7 +1217,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
       punit->ai.control = FALSE;
       break;
     default: 
-      /* do nothing */
+      ; /* do nothing */
     }
     break;
   case ACTIVITY_EXPLORE:
