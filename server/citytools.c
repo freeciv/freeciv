@@ -1578,17 +1578,22 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	package_city(pcity, &packet, FALSE);   /* should be dumb_city info? */
 	lsend_packet_city_info(dest, &packet);
       }
-    } else if (map_get_known_and_seen(x, y, pviewer)) {
-      if (pcity) { /* it's there and we see it; update and send */
-	update_dumb_city(pviewer, pcity);
-	package_dumb_city(pviewer, x, y, &sc_pack);
-	lsend_packet_short_city(dest, &sc_pack);
+    } else {
+      if (!map_get_known(x, y, pviewer)) {
+	show_area(pviewer, x, y, 0);
       }
-    } else { /* not seen; send old info */
-      pdcity = map_get_player_tile(x, y, pviewer)->city;
-      if (pdcity) {
-	package_dumb_city(pviewer, x, y, &sc_pack);
-	lsend_packet_short_city(dest, &sc_pack);
+      if (map_get_known_and_seen(x, y, pviewer)) {
+	if (pcity) {		/* it's there and we see it; update and send */
+	  update_dumb_city(pviewer, pcity);
+	  package_dumb_city(pviewer, x, y, &sc_pack);
+	  lsend_packet_short_city(dest, &sc_pack);
+	}
+      } else {			/* not seen; send old info */
+	pdcity = map_get_player_tile(x, y, pviewer)->city;
+	if (pdcity) {
+	  package_dumb_city(pviewer, x, y, &sc_pack);
+	  lsend_packet_short_city(dest, &sc_pack);
+	}
       }
     }
   }
