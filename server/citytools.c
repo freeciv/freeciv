@@ -1171,7 +1171,9 @@ void create_city(struct player *pplayer, const int x, const int y,
   pcity->ai.trade_want = TRADE_WEIGHTING; 
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
   pcity->ai.workremain = 1; /* there's always work to be done! */
-  pcity->ai.danger = -1; /* flag, may come in handy later */
+  pcity->ai.danger = 0;
+  pcity->ai.urgency = 0;
+  pcity->ai.grave_danger = 0;
   pcity->corruption = 0;
   pcity->shield_bonus = 100;
   pcity->tax_bonus = 100;
