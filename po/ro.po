@@ -422,12 +422,12 @@ msgstr ""
 #: ai/aicity.c:250 server/citytools.c:1770
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
-msgstr "Joc: %s au oprit sã construiascã %s în %s."
+msgstr "Joc: %si au oprit sã construiascã %s în %s."
 
 #: ai/aicity.c:259 server/citytools.c:1812
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
-msgstr "Joc: %s au început sã construiascã %s în %s."
+msgstr "Joc: %si au început sã construiascã %s în %s."
 
 #: ai/aicity.c:373 ai/aicity.c:504
 #, c-format
@@ -569,17 +569,17 @@ msgstr "Joc: Aþi cucerit oraºul %s! %d galbeni vã cad pradã."
 #: server/citytools.c:1252
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
-msgstr "Joc: %s a cucerit %s ºi %d galbeni i-au cãzut pradã."
+msgstr "Joc: %s a cucerit oraºul %s ºi %d galbeni i-au cãzut pradã."
 
 #: server/citytools.c:1263
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
-msgstr "Joc: Aþi eliberat %s!! Prada este de %d galbeni."
+msgstr "Joc: Aþi eliberat oraºul %s!! Prada este de %d galbeni."
 
 #: server/citytools.c:1268
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
-msgstr "Joc: %s a eliberat %s ºi %d galbeni i-au cãzut pradã."
+msgstr "Joc: %s a eliberat oraºul %s ºi %d galbeni i-au cãzut pradã."
 
 #: server/citytools.c:1791
 msgid " from the worklist"
@@ -673,21 +673,21 @@ msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Joc: Producþia de %s este modernizatã în %s în %s."
 
 #: server/cityturn.c:1187
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
 "Postponing..."
 msgstr ""
-"Joc: %s nu poate construi %s din planul de lucru deoarece lipsesc "
-"cunoºtiinþele necesare. Amânez dispoziþia."
+"Joc: %s nu poate construi %s din planul de lucru deoarece are nevoie întâi "
+"de %s. Amânez dispoziþia."
 
 #: server/cityturn.c:1196
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
-"Joc: %s nu poate construi %s din planul de lucru deoarece lipsesc "
-"cunoºtiinþele necesare. Amânez dispoziþia."
+"Joc: %s nu poate construi %s din planul de lucru; motivul este necunoscut! "
+"Amânez dispoziþia."
 
 #: server/cityturn.c:1230
 #, c-format
@@ -4089,26 +4089,25 @@ msgstr "Joc: Atacul nuclear asupra %s a fost anihilat de apãrarea SDI."
 #: server/unithand.c:680
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
-msgstr "Joc: %s dvs %s a supravieþuit atacul patetic a lui %s %s."
+msgstr "Joc: Un %1$s al dvs %2$s a supravieþuit atacul patetic al unui %4$s a lui %3$s."
 
 #: server/unithand.c:690
 #, c-format
 msgid "Game: Your attacking %s failed against %s's %s%s!"
-msgstr "Joc: Atacul %s dumneavoastrã împotriva a lui %s %s%s a eºuat!"
+msgstr "Joc: Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a eºuat!"
 
 #: server/unithand.c:709
 #, c-format
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
-msgstr "Joc: Atacul %s dumneavoastrã împotriva a lui %s %s%s a reuºit!"
+msgstr "Joc: Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s%4$s a reuºit!"
 
 #: server/unithand.c:757
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr ""
 
 #: server/unithand.c:844
-#, fuzzy
 msgid "Game: Diplomats cannot act from sea."
-msgstr "Joc: Nu puteþi ataca de pe mare."
+msgstr "Joc: Diplomaþii nu pot acþiona de pe mare."
 
 #: server/unithand.c:845
 msgid "Game: No diplomat action possible."
@@ -4318,17 +4317,17 @@ msgstr ""
 #: server/unittools.c:1979
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
-msgstr "Joc: %s pierdut într-un atac a lui %s %s%s."
+msgstr "Joc: %1$s pierdut într-un atac al unui %3$s a lui %2$s%4$s."
 
 #: server/unittools.c:2009
 #, c-format
 msgid "Game: You lost %d units to an attack from %s's %s%s."
-msgstr "Joc: Aþi pierdut %d unitãþi într-un atac a lui %s %s%s."
+msgstr "Joc: Aþi pierdut %1$d unitãþi într-un atac al unui %3$s a lui %2$s%4$s."
 
 #: server/unittools.c:2021
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
-msgstr "Joc: %s pierdut într-un atac a lui %s %s."
+msgstr "Joc: %1$s pierdut într-un atac al unui %3$s a lui %2$s."
 
 #: server/unittools.c:2196
 #, c-format
@@ -5012,36 +5011,36 @@ msgstr "Micºoreazã efectul Catedralelor.\n"
 
 #: client/helpdata.c:750
 msgid "Improves the effect of Colosseums.\n"
-msgstr "Mãrteºte efectul Coloseelor.\n"
+msgstr "Mãreºte efectul Coloseelor.\n"
 
 #: client/helpdata.c:752
 msgid "Improves the effect of Temples.\n"
-msgstr "Mãrteºte efectul Templelor.\n"
+msgstr "Mãreºte efectul Templelor.\n"
 
 #: client/helpdata.c:756
 #, c-format
 msgid "Allows %s to build roads on river squares.\n"
-msgstr "Permite %slor construcþia de strãzi pe pãtrate cu un râu.\n"
+msgstr "Permite %silor construcþia de strãzi pe pãtrate cu un râu.\n"
 
 #: client/helpdata.c:762
 #, c-format
 msgid "Allows %s to build fortresses.\n"
-msgstr "Permite %slor construcþia de fortãreþe.\n"
+msgstr "Permite %silor construcþia de fortãreþe.\n"
 
 #: client/helpdata.c:769
 #, c-format
 msgid "Allows %s to build airbases.\n"
-msgstr "Permite %slor sã construiascã piste de aterizare.\n"
+msgstr "Permite %silor sã construiascã piste de aterizare.\n"
 
 #: client/helpdata.c:776
 #, c-format
 msgid "Allows %s to upgrade roads to railroads.\n"
-msgstr "Permite %slor sã transforme strãzile în cãi ferate.\n"
+msgstr "Permite %silor sã transforme strãzile în cãi ferate.\n"
 
 #: client/helpdata.c:782
 #, c-format
 msgid "Allows %s to upgrade irrigation to farmland.\n"
-msgstr "Permite %slor sã transforme terneul irigat în teren agricol.\n"
+msgstr "Permite %silor sã transforme terenul irigat în teren agricol.\n"
 
 #: client/helpdata.c:836
 #, c-format
@@ -6970,7 +6969,7 @@ msgstr "Mine"
 
 #: client/gui-gtk/menu.c:615 client/gui-mui/gui_main.c:258
 msgid "Fortress & Airbase"
-msgstr "Fortãreaþa & Pistã de Aterizare"
+msgstr "Fortãreþe & Piste de Aterizare"
 
 #: client/gui-gtk/menu.c:617 client/gui-mui/gui_main.c:259
 #: client/gui-xaw/menu.c:139
@@ -7664,7 +7663,6 @@ msgstr "Redenumeºte"
 
 #: client/gui-gtk/wldlg.c:232 client/gui-gtk/wldlg.c:380 data/Freeciv:1949
 #: data/Freeciv:2085
-#, fuzzy
 msgid "Insert"
 msgstr "Introduce"
 
@@ -9894,8 +9892,8 @@ msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
 msgstr ""
-"Zona de Control - abreviate ZDC - este o regulã a acestui joc ce interzice "
-"miºcarea liberã în zone controlate parþial sau total de inamic."
+"Zona de Control - abreviate ZDC - este o regulã de bazã a acestui joc. Ea "
+"interzice miºcarea liberã în zonele controlate parþial sau total de inamic."
 
 #: data/helpdata.txt:990
 msgid ""
@@ -9922,7 +9920,7 @@ msgstr ""
 "- o unitate ce se miºcã direct într-un sau înafara unui oraº.\n"
 "- o unitate ce se miºcã pe un pãtrat ocupat de o unitate aliatã.\n"
 "- o unitate ce vine de pe un pãtrat de ocean (debarcheazã de pe o navã.\n"
-"- un tip unitate ce ignoreazã regula ZDC explicit, e.g. Diplomaþi."
+"- un tip de unitate ce ignoreazã regula ZDC explicit, e.g. Diplomaþii."
 
 #: data/helpdata.txt:1002
 msgid ""
@@ -10381,6 +10379,9 @@ msgid ""
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
+"Permite unui oraº sã producã unitãþi aeriene veterane.  Totodatã unitãþile "
+"aeriene avariate, ce stau pentru o rundã întreagã în oraº "
+"fãrã a se miºca, sunt restaurate complet."
 
 #: data/civ1/buildings.ruleset:59 data/civ2/buildings.ruleset:59
 #: data/default/buildings.ruleset:243
@@ -10414,6 +10415,10 @@ msgid ""
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
 msgstr ""
+"Cu o cazarmã fiecare unitate nou formatã în oraº va avea statut de veteran, "
+"cea ce înseamnã cã puterea de atac ºi cea de apãrare cresc cu 50%.  "
+"Totodatã unitãþile terestre avariate, ce stau pentru o rundã întreagã în "
+"oraº fãrã a se miºca, sunt restaurate complet."
 
 #: data/civ1/buildings.ruleset:145 data/civ2/buildings.ruleset:137
 #: data/default/buildings.ruleset:321
@@ -10438,6 +10443,11 @@ msgid ""
 "of Communism lessens the effect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
 msgstr ""
+"O catedralã mulþumeºte 3 cetãþeni nemulþumiþi din oraº, uºurând în "
+"acest fel menþinerea liniºtei în acest oraº.  Descoperirea Teologiei "
+"mãreºte efectul catedralei mulþumind un cetãþean în plus.  Descoperirea "
+"Comunismului micºoreazã catedralei reducând cu unu numãrul cetãþenilor "
+"ce sunt mulþumiþi de catedralã."
 
 #: data/civ1/buildings.ruleset:238 data/civ2/buildings.ruleset:220
 #: data/default/buildings.ruleset:404
@@ -10452,6 +10462,12 @@ msgid ""
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
 msgstr ""
+"Zidul oraºului uºureazã apãrarea unui oraº.  El tripleazã puterea de "
+"apãrare a unitãtilor aflate în oraº contra unitãtilor terestre ºi ale "
+"elicopterelor, dar nu are nici un efect împotriva atacurilor date de nave, "
+"de unitãþi aeriene precum ºi de Howitzer.  Totodatã zidul oraºului "
+"împiedicã pierderea de populaþie când unitatea apãrãtoare este distrusã "
+"de o unitate terestrã."
 
 #: data/civ1/buildings.ruleset:268 data/civ2/buildings.ruleset:249
 #: data/default/buildings.ruleset:433
@@ -10464,6 +10480,8 @@ msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
 msgstr ""
+"Mãreºte de douã puterea de apãrare a unitãþilor aflate în oraº ori "
+"când sunt atacate de unitãþi navale."
 
 #: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:272
 #: data/default/buildings.ruleset:456
@@ -10488,7 +10506,7 @@ msgid ""
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
-"Reduce corupþia într-un oraº cu 50%. Sub o Democraþie o Judacãtorie "
+"Reduce corupþia într-un oraº cu 50%. Într-o Democraþie o Judacãtorie "
 "mulþumeºte un cetãþean nemulþumit. Totodatã înjumãtãþeºte distanþa efectivã "
 "de capitalã, ce intrã în calculul costului unei revolte."
 
@@ -10537,6 +10555,7 @@ msgid "Hydro Plant"
 msgstr "Hidrocentralã"
 
 #: data/default/buildings.ruleset:602
+#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -10548,6 +10567,7 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
+"Reduce poluarea produsã de producþie cu 50%."
 
 #: data/civ1/buildings.ruleset:446 data/civ2/buildings.ruleset:431
 #: data/default/buildings.ruleset:621
@@ -10969,6 +10989,8 @@ msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
 msgstr ""
+"Aceastã tehnologie avansatã transformã în fiecare oraº un cetãþean "
+"nemulþumit într-unul mulþumit."
 
 #: data/civ1/buildings.ruleset:1199 data/civ2/buildings.ruleset:1190
 #: data/default/buildings.ruleset:1397
@@ -11033,6 +11055,11 @@ msgid ""
 "effect of Hanging Gardens, the wonder applies to unhappy citizens (making "
 "them content instead)."
 msgstr ""
+"Transformã un cetãþean mulþumit intr-unul fericit în fiecare oraº. Doi "
+"cetãþeni extra sunt mulþumiþi în oraºul în care se aflã Grãdinile "
+"Suspendate (deci în total 3).  În cazul (neprobabil) cã într-un oraº nu "
+"se aflã un cetãþean mulþumit pentru a fi fericit de Grãdinile Suspendate, "
+"minunea se aplicã pe cetãþeni nemulþumiþi mulþumindui."
 
 #: data/civ1/buildings.ruleset:1325 data/civ2/buildings.ruleset:1316
 #: data/default/buildings.ruleset:1523
@@ -11044,6 +11071,8 @@ msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
+"Conteazã ca Hidrocentralã în fiecare oraº.  (Reduce poluarea ºi mãreºte "
+"efectul Fabricilor ºi Uzinelor.)"
 
 #: data/civ1/buildings.ruleset:1353 data/civ2/buildings.ruleset:1341
 #: data/default/buildings.ruleset:1549
@@ -11099,6 +11128,9 @@ msgid ""
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
 "cities)."
 msgstr ""
+"Toate unitãþile navale primesc o miºcare în plus. Eliminã riscul de a "
+"pierde o triremã în largul oceanului.  Toate unitãþile navale noi "
+"construite sunt veterane (valabil pentru toate oraºele)."
 
 #: data/civ1/buildings.ruleset:1473 data/civ2/buildings.ruleset:1457
 #: data/default/buildings.ruleset:1665
@@ -11259,6 +11291,8 @@ msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
 msgstr ""
+"Distreazã cetãþenii unui oraº mulþumind 3 cetãþeni nemulþumiþi. "
+"(Patru dupã descoperirea Electronicii.)"
 
 #: data/civ1/buildings.ruleset:432 data/civ2/buildings.ruleset:415
 msgid ""
@@ -11332,6 +11366,8 @@ msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city."
 msgstr ""
+"O catedralã mulþumeºte 4 cetãþeni nemulþumiþi într-un oraº, înleznind "
+"menþinerea ordinei în acel oraº."
 
 #: data/civ1/buildings.ruleset:259
 msgid ""
@@ -11344,7 +11380,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:308
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
-msgstr ""
+msgstr "Distreazã cetãþenii unui oraº mulþumind 3 cetãþeni nemulþumiþi."
 
 #: data/civ1/buildings.ruleset:827
 msgid ""
@@ -11678,6 +11714,39 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"În Democraþie cetãþeni participã activ la guvernare prin vot direct. "
+"Democraþia este forma de guvernãmânt cea mai prielnicã negoþului; în ea "
+"nu existã corupþie. Pe de altã parte Democraþia oferã ºi cel mai mare "
+"potenþial pentru nemulþumire; cetãþenii sunt foarte supãraþi pe timp de "
+"rãzboi.\n"
+"\n"
+"Coloniºtii consumã douã porþii de hranã sub Democraþie iar pãtratele, "
+"ce produc cel puþin o porþie de negoþ, primesc o porþie împlus ca bonus.\n"
+"\n"
+"Oraºele democratice în bucurie cresc cu un cetãþean pe rundã; vezi "
+"Fericire pentru detalii.\n"
+"\n"
+"Nu existã limite de taxare sub Democraþie; puteþi seta rata de ºtiinþa, "
+"impozit sau lux la 100%.\n"
+"\n"
+"Sub democraþie unitãþile militare costã o porþie de resurse pe rundã ca "
+"întreþinere.  Adiþional urmãtoarele unitãþi genereazã nemulþumire:\n"
+"\n"
+"- Unitãþi cu o putere de atac mai mare de 0, care nu se aflã într-un oraº "
+"ori într-o fortãreaþã la cel mult 3 patrate distanþã de un oraº aliat, "
+"genereazã doi cetãþeni nemuþumiþi.\n"
+"\n"
+"- Unitãþi aeriene cu o putere atac mai mare de 0 care se aflã într-un oraº "
+"genereazã doar un cetãþean nemulþumit.  Interceptoarele nu produc nemulþumire.\n"
+"\n"
+"Dacã un oraº se aflã pentru mai mult de douã runde în dezordine sub "
+"Democraþie, cetãþenii se vor revolta spontan ºi vor duce civilizaþia "
+"dumneavoastrã într-o Anarhie.\n"
+"\n"
+"Deoarece cetãþenii (fericiþi) ai Democraþiei au o încredere desãvâºitã "
+"în guvernul lor, loialitatea lor este de nezdruncinat. Unitãþile militare "
+"ale civilizaþilor democratice nu pot fi mituite precum ºi oraºele democratice "
+"nu pot fi instigate la revoltã de diplomaþii ºi spionii inamici."
 
 #: data/civ1/techs.ruleset:229 data/civ2/governments.ruleset:390
 #: data/civ2/techs.ruleset:229 data/default/techs.ruleset:229
@@ -11831,6 +11900,36 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"În Democraþie cetãþeni participã activ la guvernare prin vot direct. "
+"Democraþia este forma de guvernãmânt cea mai prielnicã negoþului; în ea "
+"nu existã corupþie. Pe de altã parte Democraþia oferã ºi cel mai mare "
+"potenþial pentru nemulþumire; cetãþenii sunt foarte supãraþi pe timp de "
+"rãzboi.\n"
+"\n"
+"Coloniºtii consumã douã porþii de hranã sub Democraþie iar pãtratele, "
+"ce produc cel puþin o porþie de negoþ, primesc o porþie împlus ca bonus.\n"
+"\n"
+"Oraºele democratice în bucurie cresc cu un cetãþean pe rundã; vezi "
+"Fericire pentru detalii.\n"
+"\n"
+"Sub democraþie unitãþile militare costã o porþie de resurse pe rundã ca "
+"întreþinere.  Adiþional urmãtoarele unitãþi genereazã nemulþumire:\n"
+"\n"
+"- Unitãþi cu o putere de atac mai mare de 0, care nu se aflã într-un oraº "
+"ori într-o fortãreaþã la cel mult 3 patrate distanþã de un oraº aliat, "
+"genereazã doi cetãþeni nemuþumiþi.\n"
+"\n"
+"- Unitãþi aeriene cu o putere atac mai mare de 0 care se aflã într-un oraº "
+"genereazã doar un cetãþean nemulþumit.\n"
+"\n"
+"Dacã un oraº se aflã pentru mai mult de douã runde în dezordine sub "
+"Democraþie, cetãþenii se vor revolta spontan ºi vor duce civilizaþia "
+"dumneavoastrã într-o Anarhie.\n"
+"\n"
+"Deoarece cetãþenii (fericiþi) ai Democraþiei au o încredere desãvâºitã "
+"în guvernul lor, loialitatea lor este de nezdruncinat. Unitãþile militare "
+"ale civilizaþilor democratice nu pot fi mituite precum ºi oraºele democratice "
+"nu pot fi instigate la revoltã de diplomaþii ºi spionii inamici."
 
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
 #: data/default/techs.ruleset:49
@@ -12021,7 +12120,6 @@ msgstr "Laserul"
 
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
 #: data/default/techs.ruleset:295
-#, fuzzy
 msgid "Leadership"
 msgstr "Conducerea"
 
@@ -12270,8 +12368,8 @@ msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
 msgstr ""
-"Gheþari se gãsesc doar la latitudini nordice ºi sudice foarte mari.  Clima "
-"foarte rece face ca orice muncã sã fie foarte grea."
+"Gheþari se gãsesc doar la latitudini nordice ºi sudice foarte mari.  Frigul "
+"aspru îngreuneazã traiul pe aceste pãtrate."
 
 #: data/civ1/terrain.ruleset:181 data/civ2/terrain.ruleset:189
 #: data/classic/terrain.ruleset:181 data/default/terrain.ruleset:189
@@ -12574,8 +12672,8 @@ msgstr ""
 "mai repede decât aceºtia.  Ingineri pot pe deasupra transforma forma de "
 "teren; spre exemplu sã converteascã tundra în deºert.\n"
 "\n"
-"1. SFAT:  Pe cât posibil transformaþi Coloniºti în Ingineri deoarece au "
-"nevoie aceaºi resurse ca ºi Coloniºti de rând.\n"
+"1. SFAT:  Pe cât posibil transformaþi Coloniºti în Ingineri deoarece "
+"consumã tot atâtea resurse ca ºi Coloniºti de rând.\n"
 "\n"
 "2. SFAT:  Dacã cumva reuºiþi sã construiþi Atelierul lui Leonardo, cercetaþi "
 "tehnologia Explosivilor înainte ca Atelierul sã devinã obsolet.  În astfel "
@@ -12685,7 +12783,7 @@ msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
 msgstr ""
-"Infanteria machanizatã este unitatea terestrã cu cea mai mare putere de "
+"Infanteria mechanizatã este unitatea terestrã cu cea mai mare putere de "
 "apãrare, dar se poate construi doar dacã aproape toate tehnologiile auf fost "
 "cercetate."
 
@@ -13086,7 +13184,7 @@ msgstr "arab"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr "arabi"
+msgstr "Arabi"
 
 #: data/nation/arab.ruleset:12
 msgid "Caliph"
@@ -13656,7 +13754,6 @@ msgid "Czar"
 msgstr "Þar"
 
 #: data/nation/russian.ruleset:12
-#, fuzzy
 msgid "Czarina"
 msgstr "Þarina"
 
