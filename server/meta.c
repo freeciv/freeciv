@@ -35,6 +35,7 @@ The info string should look like this:
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -69,6 +70,8 @@ The info string should look like this:
 #define INADDR_NONE     0xffffffff
 #endif
 
+int server_is_open=0;
+
 #ifdef GENERATING_MAC    /* mac network globals */
 TEndpointInfo meta_info;
 EndpointRef meta_ep;
@@ -79,6 +82,33 @@ static struct sockaddr_in	cli_addr,serv_addr;
 #endif /* end network global selector */
 
 extern char metaserver_addr[];
+extern unsigned short int metaserver_port;
+
+
+void meta_addr_split(void)
+{
+  char *metaserver_port_separator;
+  int specified_port;
+
+  if ((metaserver_port_separator = strchr(metaserver_addr,':'))) {
+    metaserver_port_separator[0] = '\0';
+    if ((specified_port=atoi(&metaserver_port_separator[1]))) {
+      metaserver_port = (unsigned short int)specified_port;
+    }
+  }
+}
+
+char *meta_addr_port(void)
+{
+  static char retstr[300];
+
+  if (metaserver_port == DEFAULT_META_SERVER_PORT)
+    strcpy(retstr, metaserver_addr);
+  else
+    sprintf(retstr, "%s:%d", metaserver_addr, metaserver_port);
+
+  return retstr;
+}
 
 int send_to_metaserver(char *desc, char *info)
 {
@@ -108,6 +138,8 @@ int send_to_metaserver(char *desc, char *info)
 
 void server_close_udp(void)
 {
+  server_is_open=0;
+
 #ifdef GENERATING_MAC  /* mac networking */
   OTUnbind(meta_ep);
 #else
@@ -167,7 +199,7 @@ void server_open_udp(void)
 #else  
   memset(&serv_addr, 0, sizeof(serv_addr));
   serv_addr.sin_family      = AF_INET;
-  serv_addr.sin_port        = htons(METASERVER_PORT);
+  serv_addr.sin_port        = htons(metaserver_port);
   memcpy(&serv_addr.sin_addr, hp->h_addr, hp->h_length); 
   bad = ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0);
 #endif
@@ -197,4 +229,6 @@ void server_open_udp(void)
     con_flush();
     return;
   }
+
+  server_is_open=1;
 }

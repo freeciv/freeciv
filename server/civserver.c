@@ -97,7 +97,6 @@ static void send_all_info(struct player *dest);
 static void shuffle_players(void);
 static void ai_start_turn(void);
 static int is_game_over(void);
-static void read_init_script(char *script_filename);
 static void save_game_auto(void);
 static void generate_ai_players(void);
 static int mark_nation_as_used(int nation);
@@ -125,6 +124,8 @@ enum server_states server_state;
 int force_end_of_sniff;
 char metaserver_info_line[256];
 char metaserver_addr[256];
+unsigned short int metaserver_port;
+
 /* server name for metaserver to use for us */
 char metaserver_servername[64]="";
 
@@ -172,6 +173,7 @@ int main(int argc, char *argv[])
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
   strcpy(metaserver_addr, DEFAULT_META_SERVER_ADDR);
+  metaserver_port = DEFAULT_META_SERVER_PORT;
 
 #ifdef GENERATING_MAC
   Mac_options(&argc, argv);
@@ -200,6 +202,8 @@ int main(int argc, char *argv[])
     else if ((option = get_option("--Metaserver",argv,&i,argc)) != NULL)
     {
 	strcpy(metaserver_addr,argv[i]);
+	meta_addr_split();
+
 	no_meta = 0; /* implies --meta */
     }
     else if ((option = get_option("--port",argv,&i,argc)) != NULL)
@@ -316,8 +320,8 @@ int main(int argc, char *argv[])
   init_connections(); 
   server_open_socket();
   if(no_meta==0) {
-    freelog(LOG_NORMAL, _("Sending info to metaserver[%s %d]"),
-	    metaserver_addr, METASERVER_PORT);
+    freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
+	    meta_addr_port());
     server_open_udp(); /* open socket for meta server */ 
   }
 
@@ -529,26 +533,6 @@ static int is_game_over(void)
       alive ++;
   }
   return (alive <= 1);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void read_init_script(char *script_filename)
-{
-  FILE *script_file;
-  char buffer[512];
-
-  script_file = fopen(script_filename,"r");
-  if (script_file)
-    {
-      /* the size 511 is set as to not overflow buffer in handle_stdin_input */
-      while(fgets(buffer,511,script_file))
-	handle_stdin_input((struct player *)NULL, buffer);
-      fclose(script_file);
-    }
-  else
-    freelog(LOG_NORMAL, _("Could not open script file '%s'."), script_filename);
 }
 
 /**************************************************************************

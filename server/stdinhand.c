@@ -29,6 +29,7 @@
 #include "mem.h"
 #include "player.h"
 #include "registry.h"
+#include "shared.h"
 
 #include "civserver.h"
 #include "console.h"
@@ -47,6 +48,7 @@
 extern int gamelog_level;
 extern char metaserver_info_line[256];
 extern char metaserver_addr[256];
+extern int metaserver_port;
 
 enum cmdlevel_id default_access_level = ALLOW_INFO;
 
@@ -631,8 +633,8 @@ enum command_id {
   CMD_SET,
   CMD_RENAME,
   CMD_META,
+  CMD_METAINFO,
   CMD_METASERVER,
-  CMD_NOMETA,
   CMD_AITOGGLE,
   CMD_CREATE,
   CMD_EASY,
@@ -669,9 +671,9 @@ static struct command commands[] = {
   {"score",	ALLOW_CTRL},
   {"set",	ALLOW_CTRL},
   {"rename",	ALLOW_CTRL},
-  {"meta",	ALLOW_CTRL},
+  {"meta",	ALLOW_HACK},
+  {"metainfo",	ALLOW_CTRL},
   {"metaserver",ALLOW_HACK},
-  {"nometa",    ALLOW_HACK},
   {"aitoggle",	ALLOW_CTRL},
   {"create",	ALLOW_CTRL},
   {"easy",	ALLOW_CTRL},
@@ -819,7 +821,71 @@ static void cmd_reply(enum command_id cmd, struct player *caller,
 /**************************************************************************
 ...
 **************************************************************************/
+static void open_metaserver_connection(struct player *caller)
+{
+  server_open_udp();
+  if (send_server_info_to_metaserver(1,0)) {
+    notify_player(0, _("Open metaserver connection to [%s]."),
+		  meta_addr_port());
+    cmd_reply(CMD_META, caller, C_OK,
+	      _("Metaserver connection opened."));
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void close_metaserver_connection(struct player *caller)
+{
+  if (send_server_info_to_metaserver(1,1)) {
+    server_close_udp();
+    notify_player(0, _("Close metaserver connection to [%s]."),
+		  meta_addr_port());
+    cmd_reply(CMD_META, caller, C_OK,
+	      _("Metaserver connection closed."));
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void meta_command(struct player *caller, char *arg)
+{
+  if ((*arg == '\0') ||
+      (0 == strcmp (arg, "?"))) {
+    if (server_is_open) {
+      cmd_reply(CMD_META, caller, C_OK,
+		_("Metaserver connection is open."), arg);
+    } else {
+      cmd_reply(CMD_META, caller, C_OK,
+		_("Metaserver connection is closed."), arg);
+    }
+  } else if ((0 == mystrcasecmp(arg, "u")) ||
+	     (0 == mystrcasecmp(arg, "up"))) {
+    if (!server_is_open) {
+      open_metaserver_connection(caller);
+    } else {
+      cmd_reply(CMD_META, caller, C_METAERROR,
+		_("Metaserver connection is already open."));
+    }
+  } else if ((0 == mystrcasecmp(arg, "d")) ||
+	     (0 == mystrcasecmp(arg, "down"))) {
+    if (server_is_open) {
+      close_metaserver_connection(caller);
+    } else {
+      cmd_reply(CMD_META, caller, C_METAERROR,
+		_("Metaserver connection is already closed."));
+    }
+  } else {
+    cmd_reply(CMD_META, caller, C_METAERROR,
+	      _("Argument must be 'u', 'up', 'd', 'down', or '?'."));
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void metainfo_command(struct player *caller, char *arg)
 {
   strncpy(metaserver_info_line, arg, 256);
   metaserver_info_line[256-1]='\0';
@@ -835,36 +901,20 @@ static void meta_command(struct player *caller, char *arg)
 }
 
 /**************************************************************************
-Is this function really usefull and safe ? --nb
-**************************************************************************/
-
-static void close_udp_safe(struct player *caller)
-{
-  if (send_server_info_to_metaserver(1,1))
-  {
-    server_close_udp();
-    notify_player(0, _("Close metaserver connection to '%s'."), metaserver_addr);
-    cmd_reply(CMD_META, caller, C_OK,
-	      _("Metaserver connection closed."));
-  }
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
-static void set_metaserver(struct player *caller, char *arg)
+static void metaserver_command(struct player *caller, char *arg)
 {
-  close_udp_safe(caller);
+  close_metaserver_connection(caller);
 
   strncpy(metaserver_addr, arg, 256);
   metaserver_addr[256-1]='\0';
-  server_open_udp(); 
-  if (send_server_info_to_metaserver(1,0))
-  { 
-    notify_player(0, _("Metaserver is now '%s'."), metaserver_addr);
-    cmd_reply(CMD_META, caller, C_OK,
-	      _("Metaserver connection opened."));
-  }
+  meta_addr_split();
+
+  notify_player(0, _("Metaserver is now [%s]."),
+		meta_addr_port());
+  cmd_reply(CMD_META, caller, C_OK,
+	    _("Metaserver address set."));
 }
 
 /***************************************************************
@@ -1093,9 +1143,93 @@ static void rename_player(struct player *caller, char *arg)
 /**************************************************************************
 ...
 **************************************************************************/
+void read_init_script(char *script_filename)
+{
+  FILE *script_file;
+  char buffer[512];
+
+  script_file = fopen(script_filename,"r");
+
+  if (script_file) {
+
+    /* the size 511 is set as to not overflow buffer in handle_stdin_input */
+    while(fgets(buffer,511,script_file))
+      handle_stdin_input((struct player *)NULL, buffer);
+    fclose(script_file);
+
+  } else {
+    freelog(LOG_NORMAL,
+	_("Could not read script file '%s'."), script_filename);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void read_command(struct player *caller, char *arg)
 {
-  generic_not_implemented(caller, "read");
+  /* warning: there is no recursion check! */
+  read_init_script(arg);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void write_init_script(char *script_filename)
+{
+  FILE *script_file;
+
+  script_file = fopen(script_filename,"w");
+
+  if (script_file) {
+
+    int i;
+
+    fprintf(script_file,
+	"#FREECIV SERVER COMMAND FILE, version %s\n", VERSION_STRING);
+    fputs("# These are server options saved from a running civserver.\n",
+	script_file);
+
+    /* first, some state info from commands (we can't save everything) */
+
+    fprintf(script_file, "cmdlevel %s\n",
+	cmdlevel_name(default_access_level));
+
+    fprintf(script_file, "%s\n",
+	(game.skill_level <= 3) ?	"easy" :
+	(game.skill_level >= 6) ?	"hard" :
+					"normal");
+
+    if (*metaserver_addr &&
+	((0 != strcmp(metaserver_addr, DEFAULT_META_SERVER_ADDR)) ||
+	 (metaserver_port != DEFAULT_META_SERVER_PORT))) {
+      fprintf(script_file, "metaserver %s\n", meta_addr_port());
+    }
+
+    if (*metaserver_info_line &&
+	(0 != strcmp(metaserver_info_line,
+		     DEFAULT_META_SERVER_INFO_STRING))) {
+      fprintf(script_file, "metainfo %s\n", metaserver_info_line);
+    }
+
+    /* then, the 'set' option settings */
+
+    for (i=0;settings[i].name;i++) {
+      struct settings_s *op = &settings[i];
+
+      if (SETTING_IS_INT(op)) {
+        fprintf(script_file, "set %s %i\n", op->name, *op->value);
+      } else {
+        fprintf(script_file, "set %s %s\n", op->name, op->svalue);
+      }
+    }
+
+    fclose(script_file);
+
+  } else {
+    freelog(LOG_NORMAL,
+	_("Could not write script file '%s'."), script_filename);
+  }
 }
 
 /**************************************************************************
@@ -1103,7 +1237,7 @@ static void read_command(struct player *caller, char *arg)
 **************************************************************************/
 static void write_command(struct player *caller, char *arg)
 {
-  generic_not_implemented(caller, "write");
+  write_init_script(arg);
 }
 
 /**************************************************************************
@@ -1444,9 +1578,9 @@ void set_ai_level(struct player *caller, char *name, int level)
 {
   struct player *pplayer;
   int i;
-  enum command_id cmd = (level == 3) ? CMD_EASY :
-			(level == 5) ? CMD_NORMAL :
-			CMD_HARD;
+  enum command_id cmd = (level <= 3) ?	CMD_EASY :
+			(level >= 6) ?	CMD_HARD :
+					CMD_NORMAL;
     /* kludge - these commands ought to be 'set' options really - rp */
 
   if (test_player_name(name) == PNameTooLong) {
@@ -1729,14 +1863,14 @@ void handle_stdin_input(struct player *caller, char *str)
   case CMD_SAVE:
     save_command(caller,arg);
     break;
-  case CMD_NOMETA:
-    close_udp_safe(caller);
-    break;
   case CMD_META:
     meta_command(caller,arg);
     break;
+  case CMD_METAINFO:
+    metainfo_command(caller,arg);
+    break;
   case CMD_METASERVER:
-    set_metaserver(caller,arg);
+    metaserver_command(caller,arg);
     break;
   case CMD_HELP:
     show_help(caller);
@@ -1888,9 +2022,7 @@ void show_help(struct player *caller)
   if (may_use(caller,cmd)) \
     cmd_reply(CMD_HELP, caller, C_COMMENT, string)
 
-  cmd_reply_help(CMD_HELP,
-		 _("Available commands: (P=player, M=message, F=file,"
-		   " L=level, T=topic, O=option)"));
+  cmd_reply_help(CMD_HELP, _("Available commands (abbreviations are allowed):"));
   cmd_reply_help(CMD_HELP, horiz_line);
   cmd_reply_help(CMD_AITOGGLE,
 	_("ai P            - toggles AI on player"));
@@ -1899,7 +2031,7 @@ void show_help(struct player *caller)
   cmd_reply_help(CMD_CMDLEVEL,
 	_("cmdlevel L      - sets command access level to L for all players"));
   cmd_reply_help(CMD_CMDLEVEL,
-      _("cmdlevel L new  - sets command access level to L for new connections"));
+	_("cmdlevel L new  - sets command access level to L for new connections"));
   cmd_reply_help(CMD_CMDLEVEL,
 	_("cmdlevel L P    - sets command access level to L for player P"));
   cmd_reply_help(CMD_CREATE,
@@ -1907,7 +2039,7 @@ void show_help(struct player *caller)
   cmd_reply_help(CMD_CUT,
 	_("cut P           - cut connection to player"));
   cmd_reply_help(CMD_EASY,
-	_("easy            - All AI players will be easy"));
+	_("easy            - all AI players will be easy"));
   cmd_reply_help(CMD_EASY,
 	_("easy P          - AI player will be easy"));
   cmd_reply_help(CMD_EXPLAIN,
@@ -1915,7 +2047,7 @@ void show_help(struct player *caller)
   cmd_reply_help(CMD_EXPLAIN,
 	_("explain T       - help on a particular server option"));
   cmd_reply_help(CMD_HARD,
-	_("hard            - All AI players will be hard"));
+	_("hard            - all AI players will be hard"));
   cmd_reply_help(CMD_HARD,
 	_("hard P          - AI player will be hard"));
   cmd_reply_help(CMD_HELP,
@@ -1923,17 +2055,19 @@ void show_help(struct player *caller)
   cmd_reply_help(CMD_LIST,
 	_("list            - list players"));
   cmd_reply_help(CMD_META,
-	_("meta M          - Set meta-server infoline to M"));
+	_("meta u|d|?      - metaserver connection control: up, down, report"));
+  cmd_reply_help(CMD_METAINFO,
+	_("metainfo M      - set metaserver infoline to M"));
   cmd_reply_help(CMD_METASERVER,
-	_("metaserver A    - Game are reported to address A"));
-  cmd_reply_help(CMD_NOMETA,
-	_("nometa          - Close connection to the metaserver"));
+	_("metaserver A    - game reported to metaserver at address A"));
   cmd_reply_help(CMD_NORMAL,
-	_("normal          - All AI players will be normal"));
+	_("normal          - all AI players will be normal"));
   cmd_reply_help(CMD_NORMAL,
 	_("normal P        - AI player will be normal"));
   cmd_reply_help(CMD_QUIT,
 	_("quit            - quit game and shutdown server"));
+  cmd_reply_help(CMD_READ,
+	_("read F          - process the server commands from file F"));
   cmd_reply_help(CMD_REMOVE,
 	_("remove P        - fully remove player from game"));
   cmd_reply_help(CMD_SAVE,
@@ -1953,8 +2087,11 @@ void show_help(struct player *caller)
     cmd_reply_help(CMD_START,
 	_("start           - start game (unavailable: already running)"));
   }
+  cmd_reply_help(CMD_WRITE,
+	_("write F         - write current settings as server commands to F"));
+  cmd_reply_help(CMD_HELP, horiz_line);
   cmd_reply_help(CMD_HELP,
-	_("Abbreviations are allowed."));
+	_("(A=address[:port], F=file, L=level, M=message, O=option, P=player, T=topic)"));
 #undef cmd_reply_help
 }
 

@@ -18,10 +18,11 @@
 #define SERVER_COMMAND_PREFIX '/'
   /* the character to mark chatlines as server commands */
 
-void handle_stdin_input(struct player *caller, char *str);
-void report_server_options(struct player *pplayer, int which);
-void set_ai_level_direct(struct player *pplayer, int level);
-void set_ai_level_directer(struct player *pplayer, int level);
+extern void handle_stdin_input(struct player *caller, char *str);
+extern void report_server_options(struct player *pplayer, int which);
+extern void set_ai_level_direct(struct player *pplayer, int level);
+extern void set_ai_level_directer(struct player *pplayer, int level);
+extern void read_init_script(char *script_filename);
 
 extern enum cmdlevel_id default_access_level;
 

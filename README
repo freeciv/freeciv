@@ -87,8 +87,8 @@ Server:
   and, you can see that list by using the help command:
 
   > help
-  Available commands: (P=player, M=message, F=file, L=level, T=topic, O=option)
-  -----------------------------------------------------------------------------
+  Available commands (abbreviations are allowed):
+  ------------------------------------------------------------------------------
   ai P            - toggles AI on player
   cmdlevel        - see current command levels
   cmdlevel L      - sets command access level to L for all players
@@ -96,20 +96,21 @@ Server:
   cmdlevel L P    - sets command access level to L for player P
   create P        - creates an AI player
   cut P           - cut connection to player
-  easy            - All AI players will be easy
+  easy            - all AI players will be easy
   easy P          - AI player will be easy
   explain         - help on server options
   explain T       - help on a particular server option
-  hard            - All AI players will be hard
+  hard            - all AI players will be hard
   hard P          - AI player will be hard
   help            - this help text
   list            - list players
-  meta M          - Set meta-server infoline to M
-  metaserver A    - Game are reported to address A
-  nometa          - Close connection to the metaserver
-  normal          - All AI players will be normal
+  meta u|d|?      - metaserver connection control: up, down, report
+  metainfo M      - set metaserver infoline to M
+  metaserver A    - game reported to metaserver at address A
+  normal          - all AI players will be normal
   normal P        - AI player will be normal
   quit            - quit game and shutdown server
+  read F          - process the server commands from file F
   remove P        - fully remove player from game
   save F          - save game as file F
   score           - show current score
@@ -117,7 +118,9 @@ Server:
   show            - list current server options
   show O          - list current value of server option O
   start           - start game
-  Abbreviations are allowed.
+  write F         - write current settings as server commands to F
+  ------------------------------------------------------------------------------
+  (A=address[:port], F=file, L=level, M=message, O=option, P=player, T=topic)
   >
 
   If you like, you can use the 'set' command to set any of the various

@@ -23,7 +23,7 @@
 
 #include "version.h"
 
-#define	METASERVER_PORT	12245
+#define	DEFAULT_META_SERVER_PORT	12245
 #define	DEFAULT_META_SERVER_ADDR	"meta.freeciv.org"
 #define METASERVER_UPDATE_INTERVAL 3*60
 #if IS_BETA_VERSION
@@ -32,8 +32,14 @@
 #  define DEFAULT_META_SERVER_INFO_STRING "(default)"
 #endif
 
+extern int server_is_open;
+
+void meta_addr_split(void);
+char *meta_addr_port(void);
+
 /* Returns true if able to send */
 int send_to_metaserver(char *desc, char *info);
+
 void server_close_udp(void);
 void server_open_udp(void);
 
