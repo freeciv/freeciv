@@ -579,6 +579,7 @@ static int video_callback(struct GUI *pWidget)
   char cBuf[64] = "";
   Uint16 len = 0, count = 0;
   Sint16 xxx;	/* tmp */
+  SDL_String16 *pStr;
   struct GUI *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
     
   /* don't free this */
@@ -629,15 +630,14 @@ static int video_callback(struct GUI *pWidget)
 
   add_to_gui_list(ID_OPTIONS_RESOLUTION_LABEL, pTmpGui);
 
+  pStr = create_str16_from_char(_("Fullscreen Mode"), 10);
+  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER_RIGHT);
+  
   /* fullscreen mode label */
   pTmpGui =
-      create_themelabel(create_filled_surface
-			(150, 30, SDL_SWSURFACE, NULL), pWindow->dst,
-			create_str16_from_char(_("Fullscreen Mode"),
-					       10), 150, 30, 0);
-  
-  pTmpGui->string16->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  
+      create_themelabel(create_filled_surface(150, 30, SDL_SWSURFACE, NULL),
+      		pWindow->dst, pStr, 150, 30, 0);
+			
   xxx = pTmpGui->size.x = pWindow->size.x +
       ((pWindow->size.w - pTmpGui->size.w) / 2);
   pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 40;
@@ -645,12 +645,10 @@ static int video_callback(struct GUI *pWidget)
   add_to_gui_list(ID_OPTIONS_FULLSCREEN_LABEL, pTmpGui);
 
   /* fullscreen check box */
-  if (Main.screen->flags & SDL_FULLSCREEN) {
-    pTmpGui = create_checkbox(pWindow->dst, TRUE, WF_DRAW_THEME_TRANSPARENT);
-  } else {
-    pTmpGui = create_checkbox(pWindow->dst, FALSE, WF_DRAW_THEME_TRANSPARENT);
-  }
-
+  pTmpGui = create_checkbox(pWindow->dst,
+  		((Main.screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN),
+						WF_DRAW_THEME_TRANSPARENT);
+  
   pTmpGui->action = togle_fullscreen_callback;
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
@@ -662,7 +660,8 @@ static int video_callback(struct GUI *pWidget)
   
   /* create modes buttons */
   for (i = 0; pModes_Rect[i]; i++) {
-    if(i && pModes_Rect[i]->w == pModes_Rect[i - 1]->w) {
+    if (i && ((pModes_Rect[i]->w == pModes_Rect[i - 1]->w) ||
+      (pModes_Rect[i]->w < 640 && pModes_Rect[i]->h < 480))) {
       continue;
     }
   
@@ -805,6 +804,17 @@ static int do_combat_animation_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   do_combat_animation ^= 1;
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int do_focus_animation_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  flush_rect(pWidget->size);
+  do_focus_animation ^= 1;
   return -1;
 }
 
@@ -1001,6 +1011,33 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
 
+  /* 'show focus anim' */
+
+  /* check box */
+  pTmpGui = create_checkbox(pWindow->dst,
+      			do_focus_animation, WF_DRAW_THEME_TRANSPARENT);
+
+  pTmpGui->action = do_focus_animation_callback;
+  set_wstate(pTmpGui, FC_WS_NORMAL);
+
+  pTmpGui->size.x = pWindow->size.x + 15;
+
+  add_to_gui_list(ID_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+
+  /* label */
+  pStr = create_str16_from_char(_("Show focus animation"), 10);
+  pStr->style |= TTF_STYLE_BOLD;
+  pStr->fgcol = text_color;
+  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  
+  pTmpGui->size.x = pWindow->size.x + 55;
+
+  add_to_gui_list(ID_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
+
   /* 'auto center on units' */
   /* check box */
   pTmpGui = create_checkbox(pWindow->dst,
@@ -1172,17 +1209,6 @@ static int local_setting_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int map_grid_callback(struct GUI *pWidget)
-{
-  redraw_icon(pWidget);
-  flush_rect(pWidget->size);
-  draw_map_grid ^= 1;
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 static int draw_city_names_callback(struct GUI *pWidget)
 {
   redraw_icon(pWidget);
@@ -1221,14 +1247,52 @@ static int draw_terrain_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   sdl_dirty_rect(pWidget->size);
   draw_terrain ^= 1;
-  /* check draw_coastline checkbox state */
-  if (get_wstate(pWidget->prev->prev) == FC_WS_NORMAL)
-  {
-    set_wstate(pWidget->prev->prev , FC_WS_DISABLED);
+  flush_dirty();
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int map_grid_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  draw_map_grid ^= 1;
+  
+  if (draw_map_grid) {
+    set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
+  } else {
+    set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
   }
-  else
-  {
-    set_wstate(pWidget->prev->prev , FC_WS_NORMAL);
+  redraw_icon(pWidget->prev->prev);
+  sdl_dirty_rect(pWidget->prev->prev->size);
+  
+  if (draw_map_grid
+      && (SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
+    set_wstate(pWidget->prev->prev->prev->prev, FC_WS_NORMAL);
+  } else {
+    set_wstate(pWidget->prev->prev->prev->prev, FC_WS_DISABLED);
+  }
+  redraw_icon(pWidget->prev->prev->prev->prev);
+  sdl_dirty_rect(pWidget->prev->prev->prev->prev->size);
+  
+  flush_dirty();
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int draw_city_map_grid_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  SDL_Client_Flags ^= CF_DRAW_CITY_GRID;
+  if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
+    set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
+  } else {
+    set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
   }
   redraw_icon(pWidget->prev->prev);
   sdl_dirty_rect(pWidget->prev->prev->size);
@@ -1239,11 +1303,11 @@ static int draw_terrain_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_coastline_callback(struct GUI *pWidget)
+static int draw_city_worker_map_grid_callback(struct GUI *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
-  draw_coastline ^= 1;
+  SDL_Client_Flags ^= CF_DRAW_CITY_WORKER_GRID;
   return -1;
 }
 
@@ -1360,36 +1424,6 @@ static int draw_civ3_city_text_style_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_city_map_grid_callback(struct GUI *pWidget)
-{
-  redraw_icon(pWidget);
-  sdl_dirty_rect(pWidget->size);
-  SDL_Client_Flags ^= CF_DRAW_CITY_GRID;
-  if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
-    set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
-  } else {
-    set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
-  }
-  redraw_icon(pWidget->prev->prev);
-  sdl_dirty_rect(pWidget->prev->prev->size);
-  flush_dirty();
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_city_worker_map_grid_callback(struct GUI *pWidget)
-{
-  redraw_icon(pWidget);
-  flush_rect(pWidget->size);
-  SDL_Client_Flags ^= CF_DRAW_CITY_WORKER_GRID;
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 static int map_setting_callback(struct GUI *pWidget)
 {
   SDL_Color text_color = {255, 255, 0, 255};
@@ -1402,33 +1436,7 @@ static int map_setting_callback(struct GUI *pWidget)
   /* hide main widget group */
   hide_group(pOption_Dlg->pBeginMainOptionsWidgetList,
 	     pOption_Dlg->pBeginCoreOptionsWidgetList->prev);
-
-  /* 'draw map gird' */
-  /* check box */
-  pTmpGui = create_checkbox(pWindow->dst,
-		  draw_map_grid, WF_DRAW_THEME_TRANSPARENT);
-
-  pTmpGui->action = map_grid_callback;
-  set_wstate(pTmpGui, FC_WS_NORMAL);
-
-  pTmpGui->size.x = pWindow->size.x + 15;
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 6;
-
-  add_to_gui_list(ID_OPTIONS_MAP_GRID_CHECKBOX, pTmpGui);
-
-  /* 'sound befor new turn' label */
-  pStr = create_str16_from_char(_("Map Grid"), 10);
-  pStr->style |= TTF_STYLE_BOLD;
-  pStr->fgcol = text_color;
-  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-  
-  pTmpGui->size.x = pWindow->size.x + 55;
-
-  add_to_gui_list(ID_OPTIONS_MAP_GRID_LABEL, pTmpGui);
-
-  pTmpGui->size.y = pTmpGui->next->size.y +
-      ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-
+ 
   /* 'draw city names' */
   /* check box */
   pTmpGui = create_checkbox(pWindow->dst,
@@ -1438,10 +1446,10 @@ static int map_setting_callback(struct GUI *pWidget)
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 15;
-
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 6;
+  
   add_to_gui_list(ID_OPTIONS_MAP_CITY_NAMES_CHECKBOX, pTmpGui);
-  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
-
+  
   /* label */
   pStr = create_str16_from_char(_("City Names"), 10);
   pStr->style |= TTF_STYLE_BOLD;
@@ -1532,36 +1540,91 @@ static int map_setting_callback(struct GUI *pWidget)
 
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-
-  /* 'draw coast line' */
-
+      
+  /* 'draw map gird' */
   /* check box */
   pTmpGui = create_checkbox(pWindow->dst,
-  			draw_coastline, WF_DRAW_THEME_TRANSPARENT);
+		  draw_map_grid, WF_DRAW_THEME_TRANSPARENT);
 
-  pTmpGui->action = draw_coastline_callback;
+  pTmpGui->action = map_grid_callback;
+  set_wstate(pTmpGui, FC_WS_NORMAL);
 
-  if (!draw_terrain) {
+  pTmpGui->size.x = pWindow->size.x + 15;
+  
+  add_to_gui_list(ID_OPTIONS_MAP_GRID_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+  
+  /* 'sound befor new turn' label */
+  pStr = create_str16_from_char(_("Map Grid"), 10);
+  pStr->style |= TTF_STYLE_BOLD;
+  pStr->fgcol = text_color;
+  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  
+  pTmpGui->size.x = pWindow->size.x + 55;
+
+  add_to_gui_list(ID_OPTIONS_MAP_GRID_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
+  
+  /* Draw City Grids */
+  /* check box */
+  pTmpGui = create_checkbox(pWindow->dst,
+  	((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID),
+			    WF_DRAW_THEME_TRANSPARENT);
+
+  pTmpGui->action = draw_city_map_grid_callback;
+  if (draw_map_grid) {
     set_wstate(pTmpGui, FC_WS_NORMAL);
   }
-
   pTmpGui->size.x = pWindow->size.x + 35;
 
-  add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_COAST_CHECKBOX, pTmpGui);
+  add_to_gui_list(ID_CHECKBOX, pTmpGui);
   pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
 
   /* label */
-  pStr = create_str16_from_char(_("Coast outline"), 10);
+  pStr = create_str16_from_char(_("Draw city map grid"), 10);
   pStr->style |= TTF_STYLE_BOLD;
   pStr->fgcol = text_color;
   pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
   
   pTmpGui->size.x = pWindow->size.x + 75;
 
-  add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_COAST_LABEL, pTmpGui);
+  add_to_gui_list(ID_LABEL, pTmpGui);
+
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
+      
+  /* Draw City Workers Grids */
+  /* check box */
+  pTmpGui = create_checkbox(pWindow->dst,
+  	((SDL_Client_Flags & CF_DRAW_CITY_WORKER_GRID) == CF_DRAW_CITY_WORKER_GRID),
+			    WF_DRAW_THEME_TRANSPARENT);
 
+  pTmpGui->action = draw_city_worker_map_grid_callback;
+  if(draw_map_grid
+    && (SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
+    set_wstate(pTmpGui, FC_WS_NORMAL);
+  }
+
+  pTmpGui->size.x = pWindow->size.x + 35;
+
+  add_to_gui_list(ID_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+
+  /* label */
+  pStr = create_str16_from_char(_("Draw city worker map grid"), 10);
+  pStr->style |= TTF_STYLE_BOLD;
+  pStr->fgcol = text_color;
+  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  
+  pTmpGui->size.x = pWindow->size.x + 75;
+
+  add_to_gui_list(ID_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
+  
   /* 'draw specials' */
 
   /* check box */
@@ -1696,21 +1759,7 @@ static int map_setting_callback(struct GUI *pWidget)
 
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-
-  /* label inpr. */
-  pStr = create_str16_from_char(_("Infrastructure"), 10);
-  pStr->style |= TTF_STYLE_BOLD;
-  pStr->fgcol = text_color;
-  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
   
-  pTmpGui->size.x = pWindow->size.x + 185;
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 6;
-
-  add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_INPR_LABEL, pTmpGui);
-#if 0
-  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 10;
-#endif
-
   /* 'draw road / rails' */
   /* check box */
   pTmpGui = create_checkbox(pWindow->dst,
@@ -1720,10 +1769,10 @@ static int map_setting_callback(struct GUI *pWidget)
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + 170;
-
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 6;
+  
   add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_RR_CHECKBOX, pTmpGui);
-  pTmpGui->size.y = pTmpGui->next->size.y + pTmpGui->next->size.h + 4;
-
+  
   /* label */
   pStr = create_str16_from_char(_("Roads and Rails"), 10);
   pStr->style |= TTF_STYLE_BOLD;
@@ -1842,63 +1891,6 @@ static int map_setting_callback(struct GUI *pWidget)
 
   pTmpGui->size.y = pTmpGui->next->size.y +
       (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-      
-      
-  /* Draw City Grids */
-  /* check box */
-  pTmpGui = create_checkbox(pWindow->dst,
-  	((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID),
-			    WF_DRAW_THEME_TRANSPARENT);
-
-  pTmpGui->action = draw_city_map_grid_callback;
-  set_wstate(pTmpGui, FC_WS_NORMAL);
-
-  pTmpGui->size.x = pWindow->size.x + 170;
-
-  add_to_gui_list(ID_CHECKBOX, pTmpGui);
-  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
-
-  /* label */
-  pStr = create_str16_from_char(_("Draw city map grid"), 10);
-  pStr->style |= TTF_STYLE_BOLD;
-  pStr->fgcol = text_color;
-  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-  
-  pTmpGui->size.x = pWindow->size.x + 210;
-
-  add_to_gui_list(ID_LABEL, pTmpGui);
-
-  pTmpGui->size.y = pTmpGui->next->size.y +
-      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-      
-  /* Draw City Workers Grids */
-  /* check box */
-  pTmpGui = create_checkbox(pWindow->dst,
-  	((SDL_Client_Flags & CF_DRAW_CITY_WORKER_GRID) == CF_DRAW_CITY_WORKER_GRID),
-			    WF_DRAW_THEME_TRANSPARENT);
-
-  pTmpGui->action = draw_city_worker_map_grid_callback;
-  if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  }
-
-  pTmpGui->size.x = pWindow->size.x + 170;
-
-  add_to_gui_list(ID_CHECKBOX, pTmpGui);
-  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
-
-  /* label */
-  pStr = create_str16_from_char(_("Draw city worker map grid"), 10);
-  pStr->style |= TTF_STYLE_BOLD;
-  pStr->fgcol = text_color;
-  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-  
-  pTmpGui->size.x = pWindow->size.x + 210;
-
-  add_to_gui_list(ID_LABEL, pTmpGui);
-
-  pTmpGui->size.y = pTmpGui->next->size.y +
-      (pTmpGui->next->size.h - pTmpGui->size.h) / 2;    
       
   /* ================================================== */
   
@@ -2094,7 +2086,7 @@ void popup_optiondlg(void)
   /* ------------------------------------------------------ */
   
   w = MAX(w, 360);
-  h = 330;
+  h = 350;
   
   start_x = (Main.screen->w - w) / 2;
   start_y = (Main.screen->h - h) / 2;

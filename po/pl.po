@@ -7341,7 +7341,7 @@ msgstr "Jednolity kolor t³a jednostki"
 
 #: client/options.c:108 client/gui-sdl/optiondlg.c:908
 msgid "Sound bell at new turn"
-msgstr "D¼wiêk przed now± tur±     "
+msgstr "D¼wiêk przed now± tur±"
 
 #: client/options.c:109 client/gui-sdl/optiondlg.c:934
 msgid "Smooth unit moves"
@@ -12604,7 +12604,7 @@ msgstr "Nazwij schemat prac"
 
 #: client/gui-sdl/chatline.c:462
 #, c-format
-msgid "Total users logged : %d"
+msgid "Total users logged in : %d"
 msgstr "W sumie zalogowanych u¿ytkowników : %d"
 
 #: client/gui-sdl/chatline.c:503
@@ -12626,7 +12626,7 @@ msgstr ""
 #: client/gui-sdl/chatline.c:523
 #, fuzzy
 msgid "Tabs"
-msgstr "??????"
+msgstr "Tablice"
 
 #: client/gui-sdl/citydlg.c:456 data/Freeciv:1158 data/Freeciv:1194
 msgid "Activate unit"
@@ -12843,7 +12843,7 @@ msgstr "Spichlerz"
 
 #: client/gui-sdl/citydlg.c:3421
 msgid "finished"
-msgstr "koniec"
+msgstr "ukoñczony"
 
 #: client/gui-sdl/citydlg.c:3695
 #, c-format
@@ -12964,7 +12964,7 @@ msgid "Player Name :"
 msgstr "Nazwa Gracza :"
 
 #: client/gui-sdl/connectdlg.c:409
-msgid "Freeciv Serwer :"
+msgid "Freeciv Server :"
 msgstr "Serwer Freeciv :"
 
 #: client/gui-sdl/connectdlg.c:411
@@ -13132,12 +13132,12 @@ msgstr "Twoja karawana przyby³a do miasta %s"
 #: client/gui-sdl/dialogs.c:1847
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr "Ustanów trasê handlow± z miastem %s ( %d N&Z + %d handlu)"
+msgstr "Ustanów trasê handlow± z miastem %s ( %d N&Z + %d handlu )"
 
 #: client/gui-sdl/dialogs.c:1853
 #, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr "Rozpocznij handlowanie ( %d nauki i z³ota )"
+msgstr "Sprzedaj towary ( %d nauki i z³ota )"
 
 #: client/gui-sdl/dialogs.c:1871 data/Freeciv:2254
 msgid "Help build Wonder"
@@ -13166,7 +13166,7 @@ msgstr "Zatruj miasto"
 
 #: client/gui-sdl/dialogs.c:2487 data/Freeciv:2274
 msgid "Sabotage City"
-msgstr "_Sabotuj miasto"
+msgstr "Sabotuj miasto"
 
 #: client/gui-sdl/dialogs.c:2518 data/Freeciv:2279 data/Freeciv:2312
 msgid "Incite a Revolt"
@@ -13222,7 +13222,7 @@ msgstr "Anuluj Pakt"
 #: client/gui-sdl/diplodlg.c:1270 client/gui-win32/plrdlg.c:373
 #: data/Freeciv:3217
 msgid "Withdraw vision"
-msgstr "Widok dzielony"
+msgstr "Cofni Widok dzielony"
 
 #: client/gui-sdl/diplodlg.c:1287
 msgid "Call Diplomatic Meeting"
@@ -13486,7 +13486,7 @@ msgid ""
 "as a result.  If you see this message often, please\n"
 "report it to freeciv-dev@freeciv.org."
 msgstr ""
-"Bufer zdarzeñ SDL jest pe³ny. Mo¿esz spodziewaæ siê b³êdów podczas "
+"Bufor zdarzeñ SDL jest pe³ny. Mo¿esz spodziewaæ siê b³êdów podczas "
 "wy¶wietlania.\n"
 "Je¶li widzisz te ostrze¿enie bardzo czêsto skontaktuj siê z freeciv-"
 "dev@freeciv.org."
@@ -13565,7 +13565,7 @@ msgstr "Obud¼ innych"
 
 #: client/gui-sdl/menu.c:532
 msgid "Find Homecity"
-msgstr "Znajd¼ miasto utrzymuj±ce"
+msgstr "Zmieñ miasto utrzymuj±ce"
 
 #: client/gui-sdl/menu.c:622
 msgid "Transform Tile"
@@ -13669,11 +13669,11 @@ msgstr "Podpisy miast w stylu Civ3"
 
 #: client/gui-sdl/optiondlg.c:1862
 msgid "Draw city map grid"
-msgstr "Rysuj siatkê mapy w mie¶cie"
+msgstr "Rysuj miejsk± siatkê mapy"
 
 #: client/gui-sdl/optiondlg.c:1891
 msgid "Draw city worker map grid"
-msgstr "Rysuj siatkê mapy robotników"
+msgstr "Rysuj robotników na miejskiej siatce mapy"
 
 #: client/gui-sdl/optiondlg.c:2081
 msgid "Back"
@@ -13903,7 +13903,7 @@ msgid ""
 "%s"
 msgstr ""
 "(%s)\n"
-"%d/%d tarczek\n"
+"%d/%d tarcz\n"
 "%s"
 
 #: client/gui-sdl/wldlg.c:1418
@@ -13912,7 +13912,7 @@ msgid ""
 "%d/%d shields\n"
 "%s"
 msgstr ""
-"%d/%d tarczek\n"
+"%d/%d tarcz\n"
 "%s"
 
 #: client/gui-sdl/wldlg.c:1423
@@ -13923,7 +13923,7 @@ msgid ""
 "%d %s"
 msgstr ""
 "(%s)\n"
-"%d/%d tarczek\n"
+"%d/%d tarcz\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1427
@@ -13932,7 +13932,7 @@ msgid ""
 "%d/%d shields\n"
 "%d %s"
 msgstr ""
-"%d/%d tarczek\n"
+"%d/%d tarcz\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1434
@@ -13947,16 +13947,16 @@ msgid ""
 "%d shields"
 msgstr ""
 "(%s)\n"
-"%d tarczek"
+"%d tarcz"
 
 #: client/gui-sdl/wldlg.c:1444
 #, c-format
 msgid "%d shields"
-msgstr "%d tarczek"
+msgstr "%d tarcz"
 
 #: client/gui-sdl/wldlg.c:1447
 msgid "shields into gold"
-msgstr "tarczki na z³oto"
+msgstr "tarcz na z³oto"
 
 #: client/gui-sdl/wldlg.c:1524
 #, c-format
@@ -13966,7 +13966,7 @@ msgid ""
 "never"
 msgstr ""
 "(%d/%d/%d)\n"
-"%d/%d tarczek\n"
+"%d/%d tarcz\n"
 "nigdy"
 
 #: client/gui-sdl/wldlg.c:1530
@@ -13977,7 +13977,7 @@ msgid ""
 "%d %s"
 msgstr ""
 "(%d/%d/%d)\n"
-"%d/%d tarczek\n"
+"%d/%d tarcz\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1538
@@ -13987,7 +13987,7 @@ msgid ""
 "%d shields"
 msgstr ""
 "(%d/%d/%d)\n"
-"%d tarczek"
+"%d tarcz"
 
 #: client/gui-win32/citydlg.c:406
 #, c-format

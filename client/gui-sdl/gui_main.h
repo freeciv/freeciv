@@ -56,11 +56,12 @@
 extern struct canvas_store Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
-bool LSHIFT;
-bool RSHIFT;
-bool LCTRL;
-bool RCTRL;
-bool LALT;
+extern bool LSHIFT;
+extern bool RSHIFT;
+extern bool LCTRL;
+extern bool RCTRL;
+extern bool LALT;
+extern bool do_focus_animation;
 
 void force_exit_from_event_loop(void);
 void add_autoconnect_to_timer(void);

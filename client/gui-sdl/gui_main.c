@@ -101,6 +101,12 @@ int MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 extern bool draw_goto_patrol_lines;
 SDL_Event *pFlush_User_Event = NULL;
 bool is_unit_move_blocked;
+bool LSHIFT;
+bool RSHIFT;
+bool LCTRL;
+bool RCTRL;
+bool LALT;
+bool do_focus_animation = TRUE;
 
 /* ================================ Private ============================ */
 static int net_socket = -1;
@@ -314,7 +320,7 @@ static void game_focused_unit_anim(void)
       }
     }
 
-    if(is_isometric && pAnim->num_tiles_focused_unit) {
+    if(is_isometric && do_focus_animation && pAnim->num_tiles_focused_unit) {
       real_blink_active_unit();
     } else {
       blink_active_unit();
