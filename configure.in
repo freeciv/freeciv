@@ -208,7 +208,7 @@ Please update your gettext package.)
     echo error
     )
 
-    AC_MSG_CHECKING(for GNU msgfmt version >= 0.10.35)
+    AC_MSG_CHECKING(for GNU msgfmt version >= 0.10.36)
     msgfmt_version=`$MSGFMT --version 2>&1 | grep GNU | sed 's/"/ /g'`
     AC_TRY_RUN([
 #include <stdio.h>

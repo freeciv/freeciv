@@ -60,7 +60,7 @@ out whether your system is suitable.  If in doubt, just try it.
 The CVS version has additional requirements. A release version
 contains the generated files.
 
- - The programs from GNU gettext version 0.10.38 or better
+ - The programs from GNU gettext version 0.10.36 or better
 
    Especial the xgettext program is required to create the *.gmo
    files which aren't included in the CVS tree.
@@ -397,7 +397,7 @@ Freeciv, there are a few work-arounds you can try:
 3. Finally, you can try to install the latest version of GNU gettext.
    It may be obtained from here:
 
-      ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.10.38.tar.gz
+      ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.11.4.tar.gz
 
 
 6. Readline Support:
