@@ -1555,7 +1555,7 @@ struct player *split_player(struct player *pplayer)
   sz_strlcpy(cplayer->username, cplayer->name);
   cplayer->is_connected = FALSE;
   cplayer->government = game.government_when_anarchy;  
-  pplayer->revolution = 1;
+  cplayer->revolution = 1;
   cplayer->capital = TRUE;
 
   /* This should probably be DS_NEUTRAL when AI knows about diplomacy,
@@ -1608,15 +1608,12 @@ struct player *split_player(struct player *pplayer)
   }
   
   /* change the original player */
-
-  pplayer->government = game.government_when_anarchy;
-  pplayer->revolution = 1;
-  pplayer->economic.tax = PLAYER_DEFAULT_TAX_RATE;
-  pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
-  pplayer->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
+  if (pplayer->government != game.government_when_anarchy) {
+    pplayer->government = game.government_when_anarchy;
+    pplayer->revolution = 1;
+  }
   pplayer->economic.gold = cplayer->economic.gold;
   pplayer->research.bulbs_researched = 0;
-  pplayer->turn_done = TRUE; /* Have other things to think about - paralysis*/
   pplayer->embassy = 0; /* all embassys destroyed */
 
   player_limit_to_government_rates(pplayer);
