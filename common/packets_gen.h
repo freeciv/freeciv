@@ -1228,6 +1228,8 @@ void dlsend_packet_nuke_tile_info(struct conn_list *dest, int x, int y);
 struct packet_chat_msg *receive_packet_chat_msg(struct connection *pc, enum packet_type type);
 int send_packet_chat_msg(struct connection *pc, const struct packet_chat_msg *packet);
 void lsend_packet_chat_msg(struct conn_list *dest, const struct packet_chat_msg *packet);
+int dsend_packet_chat_msg(struct connection *pc, const char *message, int x, int y, enum event_type event);
+void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, int y, enum event_type event);
 
 struct packet_chat_msg_req *receive_packet_chat_msg_req(struct connection *pc, enum packet_type type);
 int send_packet_chat_msg_req(struct connection *pc, const struct packet_chat_msg_req *packet);

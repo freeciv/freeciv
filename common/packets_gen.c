@@ -4314,6 +4314,30 @@ void lsend_packet_chat_msg(struct conn_list *dest, const struct packet_chat_msg 
   } conn_list_iterate_end;
 }
 
+int dsend_packet_chat_msg(struct connection *pc, const char *message, int x, int y, enum event_type event)
+{
+  struct packet_chat_msg packet, *real_packet = &packet;
+
+  sz_strlcpy(real_packet->message, message);
+  real_packet->x = x;
+  real_packet->y = y;
+  real_packet->event = event;
+  
+  return send_packet_chat_msg(pc, real_packet);
+}
+
+void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, int y, enum event_type event)
+{
+  struct packet_chat_msg packet, *real_packet = &packet;
+
+  sz_strlcpy(real_packet->message, message);
+  real_packet->x = x;
+  real_packet->y = y;
+  real_packet->event = event;
+  
+  lsend_packet_chat_msg(dest, real_packet);
+}
+
 #define hash_packet_chat_msg_req_100 hash_const
 
 #define cmp_packet_chat_msg_req_100 cmp_const
