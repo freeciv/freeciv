@@ -435,10 +435,16 @@ int sniff_packets(void)
 	     &&
 	     read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
 	     > game.pingtimeout) || pconn->ping_time > game.pingtimeout) {
-	  /* cut mute players */
-	  freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
-		  conn_description(pconn));
-	  close_socket_callback(pconn);
+	  /* cut mute players, except for hack-level ones */
+	  if (pconn->access_level == ALLOW_HACK) {
+	    freelog(LOG_NORMAL,
+		    "ignoring ping timeout to hack-level connection %s",
+		    conn_description(pconn));
+	  } else {
+	    freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
+		    conn_description(pconn));
+	    close_socket_callback(pconn);
+	  }
 	} else {
 	  ping_connection(pconn);
 	}
