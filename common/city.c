@@ -827,22 +827,30 @@ int city_can_be_built_here(int x, int y)
 **************************************************************************/
 int can_establish_trade_route(struct city *pc1, struct city *pc2)
 {
-  int i;
-  int r=1;
+  int i, free1 = 0, free2 = 0;
+
   if (!pc1 || !pc2 || pc1 == pc2
       || (pc1->owner == pc2->owner
-	  && map_distance(pc1->x, pc1->y, pc2->x, pc2->y) <= 8))
+	  && map_distance(pc1->x, pc1->y, pc2->x, pc2->y) <= 8)) {
     return FALSE;
-  
-  for(i=0;i<4;i++) {
-    r*=pc1->trade[i];
-    if (pc1->trade[i]==pc2->id) return 0;
   }
-  if (r) return 0;
-  r = 1;
-  for (i=0;i<4;i++) 
-    r*=pc2->trade[i];
-  return (!r);
+
+  for (i = 0; i < 4; i++) {
+    if (pc1->trade[i] == pc2->id || pc2->trade[i] == pc1->id) {
+      /* cities already have a traderoute */
+      return FALSE;
+    }
+
+    if (pc1->trade[i] == 0) {
+      free1++;
+    }
+    if (pc2->trade[i] == 0) {
+      free2++;
+    }
+  }
+
+  /* both cities need a free slot */
+  return (free1 > 0 && free2 > 0);
 }
 
 /**************************************************************************
