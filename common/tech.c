@@ -125,12 +125,10 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
   
   build_required_techs_helper(pplayer, goal, goal);
 
-  /* Includes the goal tech */
+  /* Include the goal tech */
   pplayer->research.inventions[goal].bulbs_required =
       base_total_bulbs_required(pplayer, goal);
-
-  /* Doesn't include the goal tech */
-  pplayer->research.inventions[goal].num_required_techs = 0;
+  pplayer->research.inventions[goal].num_required_techs = 1;
 
   counter = 0;
   for (i = A_FIRST; i < game.num_tech_types; i++) {
@@ -414,11 +412,9 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
 }
 
 /**************************************************************************
- Returns the number of technologies the player need to research to
- make the goal technology _reachable_. So to get the benefits of the
- goal technology the player has to reseach
- "num_unknown_techs_for_goal(...)+1" techs. Technologies are only
- counted once.
+ Returns the number of technologies the player need to research to get
+ the goal technology. This includes the goal technology. Technologies
+ are only counted once.
 **************************************************************************/
 int num_unknown_techs_for_goal(struct player *pplayer, Tech_Type_id goal)
 {
