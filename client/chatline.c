@@ -89,13 +89,13 @@ void append_output_window(char *astring)
 void log_output_window(void)
 { 
   String theoutput;
-  FILE *freelog;
+  FILE *fp;
   
   append_output_window("Exporting output window to civgame.log ...");
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
-  freelog = fopen("civgame.log", "w"); /* should allow choice of name? */
-  fprintf(freelog, "%s", theoutput);
-  fclose(freelog);
+  fp = fopen("civgame.log", "w"); /* should allow choice of name? */
+  fprintf(fp, "%s", theoutput);
+  fclose(fp);
   append_output_window("Export complete.");
 }
 
