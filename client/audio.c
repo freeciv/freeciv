@@ -44,6 +44,7 @@ static struct section_file tagstruct, *tagfile = &tagstruct;
 static struct audio_plugin plugins[MAX_NUM_PLUGINS];
 static int num_plugins_used = 0;
 static int selected_plugin = -1;
+static bool audio_off = FALSE;
 
 /**************************************************************************
   Add a plugin.
@@ -126,8 +127,10 @@ void audio_real_init(const char *const spec_name,
   }
   filename = datafilename(spec_name);
   if (filename == NULL) {
-    freelog(LOG_FATAL, _("Cannot find audio spec-file %s"), spec_name);
-    exit(EXIT_FAILURE);
+    freelog(LOG_ERROR, _("Cannot find audio spec-file %s"), spec_name);
+    freelog(LOG_ERROR, _("To get sound you need to download a sound pack!"));
+    audio_off = TRUE;
+    return;
   }
   if (!section_file_load(tagfile, filename)) {
     freelog(LOG_FATAL, _("Could not load audio spec-file: %s"), filename);
@@ -174,7 +177,7 @@ static bool audio_play_tag(const char *tag, bool repeat)
   char *soundfile;
   char *fullpath;
 
-  if (!tag || strcmp(tag, "-") == 0) {
+  if (audio_off || !tag || strcmp(tag, "-") == 0) {
     return FALSE;
   }
 
@@ -196,30 +199,32 @@ static bool audio_play_tag(const char *tag, bool repeat)
 /**************************************************************************
   Play an audio sample as suggested by sound tags
 **************************************************************************/
-void audio_play_sound(const char *const tag, const char *const alt_tag)
+void audio_play_sound(const char *const tag, char *const alt_tag)
 {
+  char *tag2 = alt_tag ? alt_tag : "(null)";
   assert(tag);
 
-  freelog(LOG_DEBUG, "audio_play_sound('%s', '%s')", tag, alt_tag);
+  freelog(LOG_DEBUG, "audio_play_sound('%s', '%s')", tag, tag2);
 
   /* try playing primary tag first, if not go to alternative tag */
   if (!audio_play_tag(tag, FALSE) && !audio_play_tag(alt_tag, FALSE)) {
-    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag, alt_tag);
+    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag, tag2);
   }
 }
 
 /**************************************************************************
   Loop sound sample as suggested by sound tags
 **************************************************************************/
-void audio_play_music(const char *const tag, const char *const alt_tag)
+void audio_play_music(const char *const tag, char *const alt_tag)
 {
+  char *tag2 = alt_tag ? alt_tag : "(null)";
   assert(tag);
 
-  freelog(LOG_DEBUG, "audio_play_music('%s', '%s')", tag, alt_tag);
+  freelog(LOG_DEBUG, "audio_play_music('%s', '%s')", tag, tag2);
 
   /* try playing primary tag first, if not go to alternative tag */
   if (!audio_play_tag(tag, TRUE) && !audio_play_tag(alt_tag, TRUE)) {
-    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag, alt_tag);
+    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag, tag2);
   }
 }
 

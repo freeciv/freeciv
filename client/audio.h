@@ -35,8 +35,8 @@ void audio_add_plugin(struct audio_plugin *p);
 void audio_shutdown(void);
 void audio_stop(void);
 
-void audio_play_sound(const char *const tag, const char *const alt_tag);
-void audio_play_music(const char *const tag, const char *const alt_tag);
+void audio_play_sound(const char *const tag, char *const alt_tag);
+void audio_play_music(const char *const tag, char *const alt_tag);
 
 bool audio_select_plugin(const char *const name);
 const char *const audio_get_all_plugin_names(void);
