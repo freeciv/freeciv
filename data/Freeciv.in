@@ -182,18 +182,18 @@ Freeciv*intelgovlabel.fromVert:              inteltitlelabel
 Freeciv*intelgovlabel.fromHoriz:             intelnamelabel
 Freeciv*intelgovlabel.background:            grey
 
-Freeciv*intelgoldlabel.fromVert:             intelnamelabel
+Freeciv*intelgoldlabel.fromVert:             intelgovlabel
 Freeciv*intelgoldlabel.background:           grey
 
-Freeciv*inteltaxlabel.fromVert:              intelnamelabel
+Freeciv*inteltaxlabel.fromVert:              intelgovlabel
 Freeciv*inteltaxlabel.fromHoriz:             intelgoldlabel
 Freeciv*inteltaxlabel.background:            grey
 
-Freeciv*intelscilabel.fromVert:              intelnamelabel
+Freeciv*intelscilabel.fromVert:              intelgovlabel
 Freeciv*intelscilabel.fromHoriz:             inteltaxlabel
 Freeciv*intelscilabel.background:            grey
 
-Freeciv*intelluxlabel.fromVert:              intelnamelabel
+Freeciv*intelluxlabel.fromVert:              intelgovlabel
 Freeciv*intelluxlabel.fromHoriz:             intelscilabel
 Freeciv*intelluxlabel.background:            grey
 
@@ -211,6 +211,31 @@ Freeciv*inteltechlist.resizable:           true
 
 Freeciv*intelclosecommand.label:             _("Close")
 Freeciv*intelclosecommand.fromVert:          inteltechlist
+
+Freeciv*inteldiplocommand.label:             _("Diplomacy")
+Freeciv*inteldiplocommand.fromHoriz:         intelclosecommand
+Freeciv*inteldiplocommand.fromVert:          inteltechlist
+
+
+!
+! inteligence player's relations dialog
+!
+Freeciv*inteldiplopopup.title:                    _("Foreign Intelligence Report")
+
+Freeciv*inteldiplolabel.background:         gray84
+Freeciv*inteldiplolabel.borderColor:        gray84
+
+Freeciv*inteldiplonamelabel.fromVert:       inteldiplolabel
+Freeciv*inteldiplonamelabel.background:     grey
+
+Freeciv*inteldiplolist.fromVert:            inteldiplonamelabel
+Freeciv*inteldiplolist.forceColumns:        true
+Freeciv*inteldiplolist.defaultColumns:      1
+Freeciv*inteldiplolist.verticalList:        true
+Freeciv*inteldiplolist.resizable:           true
+
+Freeciv*inteldiploclosecommand.label:             _("Close")
+Freeciv*inteldiploclosecommand.fromVert:          inteldiplolist
 
 
 !

@@ -35,6 +35,7 @@
 #include "menu.h"
 #include "messagewin.h"
 #include "plrdlg.h"
+#include "inteldlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
 #include "spaceshipdlg.h"
@@ -689,6 +690,12 @@ static void xaw_msg_close_players(Widget w, XEvent *event, String *argv, Cardina
   plrdlg_msg_close(w);
 }
 
+static void xaw_msg_close_intel_diplo(Widget w, XEvent *event, String *argv,
+				      Cardinal *argc)
+{
+  intel_diplo_dialog_msg_close(w);
+}
+
 static void xaw_msg_close_science_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   sciencereport_msg_close(w);
@@ -802,6 +809,7 @@ static XtActionsRec Actions[] = {
   { "msg-close-help", xaw_msg_close_help },
   { "msg-close-messages", xaw_msg_close_messages },
   { "msg-close-players", xaw_msg_close_players },
+  { "msg-close-intel-diplo", xaw_msg_close_intel_diplo },
   { "msg-close-science-report", xaw_msg_close_science_report },
   { "msg-close-spaceship", xaw_msg_close_spaceship },
   { "msg-close-units-report", xaw_msg_close_units_report },
