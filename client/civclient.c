@@ -456,11 +456,20 @@ void send_turn_done(void)
 {
   struct packet_generic_message gen_packet;
 
+  if (agents_busy()) {
+    /*
+     * The turn done button is disabled but the user may have press
+     * the return key.
+     */
+    return;
+  }
+
   attribute_flush();
 
   gen_packet.message[0] = '\0';
 
   send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
+  set_turn_done_button_state(FALSE);
 }
 /**************************************************************************
 ...

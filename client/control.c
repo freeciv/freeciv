@@ -1349,7 +1349,6 @@ void key_end_turn(void)
 {
   if (!game.player_ptr->turn_done) {
     send_turn_done();
-    set_turn_done_button_state(FALSE);
   }
 }
 

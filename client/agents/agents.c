@@ -21,6 +21,7 @@
 #include "log.h"
 #include "clinet.h"
 #include "timing.h"
+#include "mapctrl_g.h"
 
 #include "cma_core.h"
 #include "cma_fec.h"
@@ -74,6 +75,7 @@ static struct {
 
 static bool initialized = FALSE;
 static int frozen_level;
+static bool currently_running = FALSE;
 
 /***********************************************************************
  Called once per client startup.
@@ -119,6 +121,8 @@ static void enqueue_call(struct my_agent *agent,
 			 enum callback_type cb_type, void *arg)
 {
   struct call *pcall2;
+
+  set_turn_done_button_state(FALSE);
 
   call_list_iterate(agents.calls, pcall) {
     if (pcall->type == type && pcall->cb_type == cb_type
@@ -201,8 +205,6 @@ static void execute_call(const struct call *call)
 ***********************************************************************/
 static void call_handle_methods(void)
 {
-  static bool currently_running = FALSE;
-
   if (currently_running) {
     return;
   }
@@ -228,6 +230,10 @@ static void call_handle_methods(void)
   }
 
   currently_running = FALSE;
+
+  if (!agents_busy()) {
+    set_turn_done_button_state(TRUE);
+  }
 }
 
 /***********************************************************************
@@ -624,4 +630,28 @@ void cause_a_city_changed_for_agent(char *name_of_calling_agent,
   assert(agent->agent.city_callbacks[CB_CHANGE] != NULL);
   enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity);
   call_handle_methods();
+}
+
+/***********************************************************************
+ Returns TRUE iff some agent is currently busy.
+***********************************************************************/
+bool agents_busy(void)
+{
+  int i;
+
+  assert(initialized);
+
+  if (call_list_size(&agents.calls) > 0 || frozen_level > 0
+      || currently_running) {
+    return TRUE;
+  }
+
+  for (i = 0; i < agents.entries_used; i++) {
+    struct my_agent *agent = &agents.entries[i];
+
+    if (agent->first_outstanding_request_id != 0) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
