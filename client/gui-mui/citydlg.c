@@ -274,19 +274,6 @@ struct city_dialog
 /****************************************************************
  ...
 *****************************************************************/
-static void request_city_change_specialist(struct city *pcity, int from, int to)
-{
-  struct packet_city_request packet;
-
-  packet.city_id = pcity->id;
-  packet.specialist_from = from;
-  packet.specialist_to = to;
-
-  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE_SPECIALIST);
-}
-/****************************************************************
- ...
-*****************************************************************/
 static void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
 {
   if(is_valid_city_coords(xtile, ytile))
@@ -1072,25 +1059,27 @@ static void city_click(struct city_map_msg *msg)
 static void city_citizen(struct city_citizen_msg *msg)
 {
   struct city_dialog *pdialog = msg->pdialog;
-  struct city *pcity = pdialog->pcity;
+  enum specialist_type from = msg->type, to;
 
-  switch (msg->type)  {
+  switch (from)  {
   case CITIZEN_ELVIS:
-    request_city_change_specialist(pcity, SP_ELVIS, SP_SCIENTIST);
+    to = SP_SCIENTIST;
     break;
 
   case CITIZEN_SCIENTIST:
-    request_city_change_specialist(pcity, SP_SCIENTIST, SP_TAXMAN);
+    to = SP_TAXMAN;
     break;
 
   case CITIZEN_TAXMAN:
-    request_city_change_specialist(pcity, SP_TAXMAN, SP_ELVIS);
+    to = SP_ELVIST;
     break;
 
   default:
     assert(FALSE);
-    break;
+    return;
   }
+
+  city_change_specialist(pdialog->pcity, from, to);
 }
 
 /**************************************************************************

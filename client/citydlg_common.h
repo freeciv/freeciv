@@ -16,6 +16,7 @@
 
 #include <stddef.h>		/* size_t */
 
+#include "city.h"		/* enum specialist_type */
 #include "improvement.h"	/* Impr_Type_id */
 #include "shared.h"		/* bool type */
 
@@ -48,10 +49,13 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 
 void get_city_citizen_types(struct city *pcity, int index,
 			    enum citizen_type *citizens);
+void city_rotate_specialist(struct city *pcity, int citizen_index);
 
 void activate_all_units(int map_x, int map_y);
 
 int city_change_production(struct city *pcity, bool is_unit, int build_id);
 int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id);
+int city_change_specialist(struct city *pcity, enum specialist_type from,
+			   enum specialist_type to);
 
 #endif /* FC__CITYDLG_COMMON_H */

@@ -322,6 +322,40 @@ void get_city_citizen_types(struct city *pcity, int index,
 }
 
 /**************************************************************************
+  Rotate the given specialist citizen to the next type of citizen.
+**************************************************************************/
+void city_rotate_specialist(struct city *pcity, int citizen_index)
+{
+  enum citizen_type citizens[MAX_CITY_SIZE];
+  enum citizen_type from, to;
+
+  if (citizen_index < 0 || citizen_index >= pcity->size) {
+    return;
+  }
+
+  get_city_citizen_types(pcity, 4, citizens);
+
+  switch (citizens[citizen_index]) {
+  case CITIZEN_ELVIS:
+    from = SP_ELVIS;
+    to = SP_SCIENTIST;
+    break;
+  case CITIZEN_SCIENTIST:
+    from = SP_SCIENTIST;
+    to = SP_TAXMAN;
+    break;
+  case CITIZEN_TAXMAN:
+    from = SP_TAXMAN;
+    to = SP_ELVIS;
+    break;
+  default:
+    return;
+  }
+
+  city_change_specialist(pcity, from, to);
+}
+    
+/**************************************************************************
   Activate all units on the given map tile.
 **************************************************************************/
 void activate_all_units(int map_x, int map_y)
@@ -376,4 +410,25 @@ int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id)
   packet.specialist_from = packet.specialist_to = -1;
 
   return send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
+}
+
+/**************************************************************************
+  Change a specialist in the given city.  Return the request ID.
+**************************************************************************/
+int city_change_specialist(struct city *pcity, enum specialist_type from,
+			   enum specialist_type to)
+{
+  struct packet_city_request packet;
+
+  packet.city_id = pcity->id;
+  packet.specialist_from = from;
+  packet.specialist_to = to;
+
+  /* Fill out unused fields. */
+  packet.build_id = -1;
+  packet.is_build_id_unit_id = FALSE;
+  packet.worker_x = packet.worker_y = -1;
+
+  return send_packet_city_request(&aconnection, &packet,
+				  PACKET_CITY_CHANGE_SPECIALIST);
 }

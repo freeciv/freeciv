@@ -1685,39 +1685,33 @@ static void city_dlg_click_map(struct city_dialog *pdialog, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-
-
 static void city_dlg_click_citizens(struct city_dialog *pdialog, int n)
 {
-  struct packet_city_request packet;
-  if (pdialog->citizen_type[n]<0)
+  enum specialist_type from, to;
+
+  if (pdialog->citizen_type[n] < 0
+      || pdialog->citizen_type[n] > 2) {
     return;
-  if (pdialog->citizen_type[n]>2)
+  }
+
+  switch (pdialog->citizen_type[n]) {
+  case 0: /* elvis */
+    from = SP_ELVIS;
+    to = SP_SCIENTIST;
+    break;
+  case 1: /* scientist */
+    from = SP_SCIENTIST;
+    to = SP_TAXMAN;
+    break;
+  case 2: /* taxman */
+    from = SP_TAXMAN;
+    to = SP_ELVIS;
+    break;
+  default:
     return;
-  packet.city_id=pdialog->pcity->id;
-  switch (pdialog->citizen_type[n])
-    {
-    case 0: /* elvis */
-      packet.specialist_from=SP_ELVIS;
-      packet.specialist_to=SP_SCIENTIST;
-      send_packet_city_request(&aconnection, &packet,
-			       PACKET_CITY_CHANGE_SPECIALIST);   
-      break;
-    case 1: /* scientist */
-      packet.specialist_from=SP_SCIENTIST;
-      packet.specialist_to=SP_TAXMAN;   
-      send_packet_city_request(&aconnection, &packet,
-			       PACKET_CITY_CHANGE_SPECIALIST);  
-      break;
-    case 2: /* taxman */
-      packet.specialist_from=SP_TAXMAN;
-      packet.specialist_to=SP_ELVIS;   
-      send_packet_city_request(&aconnection, &packet,
-			       PACKET_CITY_CHANGE_SPECIALIST);   
-      break;
-    default:
-      break;
-    }
+  }
+
+  city_change_specialist(pdialog->pcity, from, to);
 }
 
 /**************************************************************************

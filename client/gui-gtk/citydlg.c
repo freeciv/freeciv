@@ -2749,51 +2749,16 @@ then change the type of him, else do nothing.
 static void citizens_callback(GtkWidget * w, GdkEventButton * ev,
 			      gpointer data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *) data;
+  struct city_dialog *pdialog = data;
   struct city *pcity = pdialog->pcity;
-  struct packet_city_request packet;
   int citnum;
-  enum specialist_type type;
-  enum citizen_type citizens[MAX_CITY_SIZE];
 
   if (ev->x > (pcity->size - 1) * pdialog->cwidth + SMALL_TILE_WIDTH)
     return;			/* no citizen that far to the right */
 
   citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);
 
-  get_city_citizen_types(pcity, 4, citizens);
-
-  switch (citizens[citnum]) {
-  case CITIZEN_ELVIS:
-    type = SP_ELVIS;
-    break;
-  case CITIZEN_SCIENTIST:
-    type = SP_SCIENTIST;
-    break;
-  case CITIZEN_TAXMAN:
-    type = SP_TAXMAN;
-    break;
-  default:
-    return;
-  }
-
-  packet.city_id = pdialog->pcity->id;
-  packet.specialist_from = type;
-
-  switch (type) {
-  case SP_ELVIS:
-    packet.specialist_to = SP_SCIENTIST;
-    break;
-  case SP_SCIENTIST:
-    packet.specialist_to = SP_TAXMAN;
-    break;
-  case SP_TAXMAN:
-    packet.specialist_to = SP_ELVIS;
-    break;
-  }
-
-  send_packet_city_request(&aconnection, &packet,
-			   PACKET_CITY_CHANGE_SPECIALIST);
+  city_rotate_specialist(pcity, citnum);
 }
 
 /**************************************************************************

@@ -1908,17 +1908,9 @@ void citydlg_btn_select_citymap(Widget w, XEvent *event)
 *****************************************************************/
 void elvis_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
-  
-  pdialog=(struct city_dialog *)client_data;
+  struct city_dialog *pdialog = client_data;
 
-  packet.city_id=pdialog->pcity->id;
-  packet.specialist_from=SP_ELVIS;
-  packet.specialist_to=SP_SCIENTIST;
-  
-  send_packet_city_request(&aconnection, &packet, 
-			   PACKET_CITY_CHANGE_SPECIALIST);
+  city_change_specialist(pdialog->pcity, SP_ELVIS, SP_SCIENTIST);
 }
 
 /****************************************************************
@@ -1926,17 +1918,9 @@ void elvis_callback(Widget w, XtPointer client_data, XtPointer call_data)
 *****************************************************************/
 void scientist_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
-  
-  pdialog=(struct city_dialog *)client_data;
+  struct city_dialog *pdialog = client_data;
 
-  packet.city_id=pdialog->pcity->id;
-  packet.specialist_from=SP_SCIENTIST;
-  packet.specialist_to=SP_TAXMAN;
-  
-  send_packet_city_request(&aconnection, &packet, 
-			   PACKET_CITY_CHANGE_SPECIALIST);
+  city_change_specialist(pdialog->pcity, SP_SCIENTIST, SP_TAXMAN);
 }
 
 /****************************************************************
@@ -1944,17 +1928,9 @@ void scientist_callback(Widget w, XtPointer client_data, XtPointer call_data)
 *****************************************************************/
 void taxman_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
-  
-  pdialog=(struct city_dialog *)client_data;
+  struct city_dialog *pdialog = client_data;
 
-  packet.city_id=pdialog->pcity->id;
-  packet.specialist_from=SP_TAXMAN;
-  packet.specialist_to=SP_ELVIS;
-  
-  send_packet_city_request(&aconnection, &packet, 
-			   PACKET_CITY_CHANGE_SPECIALIST);
+  city_change_specialist(pdialog->pcity, SP_TAXMAN, SP_ELVIS);
 }
 
 /****************************************************************

@@ -240,24 +240,21 @@ static int city_dlg_callback(struct GUI *pWindow)
 
 SEND:
   {
-    struct packet_city_request packet;
-    packet.city_id = pCityDlg->pCity->id;
-    packet.specialist_from = type;
+    enum specialist_type to;
 
     switch (type) {
     case SP_ELVIS:
-      packet.specialist_to = SP_TAXMAN;
+      to = SP_TAXMAN;
       break;
     case SP_TAXMAN:
-      packet.specialist_to = SP_SCIENTIST;
+      to = SP_SCIENTIST;
       break;
     case SP_SCIENTIST:
-      packet.specialist_to = SP_ELVIS;
+      to = SP_ELVIST;
       break;
     }
 
-    send_packet_city_request(&aconnection, &packet,
-			     PACKET_CITY_CHANGE_SPECIALIST);
+    city_change_specialist(pCityDlg->pCity, type, to);
   }
   return -1;
 }

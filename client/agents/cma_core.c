@@ -392,10 +392,7 @@ static bool apply_result_on_server(struct city *pcity,
 
   /* Change surplus scientists to entertainers */
   for (i = 0; i < pcity->ppl_scientist - result->scientists; i++) {
-    packet.specialist_from = SP_SCIENTIST;
-    packet.specialist_to = SP_ELVIS;
-    last_request_id = send_packet_city_request(&aconnection, &packet,
-					       PACKET_CITY_CHANGE_SPECIALIST);
+    last_request_id = city_change_specialist(pcity, SP_SCIENTIST, SP_ELVIS);
     if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
@@ -403,10 +400,7 @@ static bool apply_result_on_server(struct city *pcity,
 
   /* Change surplus taxmen to entertainers */
   for (i = 0; i < pcity->ppl_taxman - result->taxmen; i++) {
-    packet.specialist_from = SP_TAXMAN;
-    packet.specialist_to = SP_ELVIS;
-    last_request_id = send_packet_city_request(&aconnection, &packet,
-					       PACKET_CITY_CHANGE_SPECIALIST);
+    last_request_id = city_change_specialist(pcity, SP_TAXMAN, SP_ELVIS);
     if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
@@ -427,10 +421,7 @@ static bool apply_result_on_server(struct city *pcity,
 
   /* Set scientists. */
   for (i = 0; i < result->scientists - pcity->ppl_scientist; i++) {
-    packet.specialist_from = SP_ELVIS;
-    packet.specialist_to = SP_SCIENTIST;
-    last_request_id = send_packet_city_request(&aconnection, &packet,
-					       PACKET_CITY_CHANGE_SPECIALIST);
+    last_request_id = city_change_specialist(pcity, SP_ELVIS, SP_SCIENTIST);
     if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
@@ -438,10 +429,7 @@ static bool apply_result_on_server(struct city *pcity,
 
   /* Set taxmen. */
   for (i = 0; i < result->taxmen - pcity->ppl_taxman; i++) {
-    packet.specialist_from = SP_ELVIS;
-    packet.specialist_to = SP_TAXMAN;
-    last_request_id = send_packet_city_request(&aconnection, &packet,
-					       PACKET_CITY_CHANGE_SPECIALIST);
+    last_request_id = city_change_specialist(pcity, SP_ELVIS, SP_TAXMAN);
     if (first_request_id == 0) {
       first_request_id = last_request_id;
     }
