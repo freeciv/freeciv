@@ -24,6 +24,8 @@ options="1.9"
 ; req1, req2	= advances required before researching this one
 ; flags         = special flag strings
 ; helptext	= optional help text string (set units ruleset for examples)
+; bonus_message = Text seen when a player is the first to 
+;                 discover an bonus tech.
 ;
 ; Special values for req1 and req2 are "None" (first section below) 
 ; and "Never" (never available).  If only one tech is required, 
@@ -404,6 +406,8 @@ name     = _("Philosophy")
 req1     = "Mysticism"
 req2     = "Literacy"
 flags    = "Bonus_Tech"
+bonus_message = _("Great philosophers from all the world join \
+your civilization: you get an immediate advance.")
 
 [advance_physics]
 name     = _("Physics")

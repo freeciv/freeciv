@@ -375,13 +375,14 @@ static int lookup_city_cost(struct section_file *file, char *prefix,
 }
 
 /**************************************************************************
-  Lookup optional helptext, returning allocated memory or NULL.
+  Lookup optional string, returning allocated memory or NULL.
 **************************************************************************/
-static char *lookup_helptext(struct section_file *file, char *prefix)
+static char *lookup_string(struct section_file *file, char *prefix,
+			   char *suffix)
 {
   char *sval;
   
-  sval = secfile_lookup_str_default(file, NULL, "%s.helptext", prefix);
+  sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, suffix);
   if (sval) {
     sval = skip_leading_spaces(sval);
     if (strlen(sval)) {
@@ -389,6 +390,14 @@ static char *lookup_helptext(struct section_file *file, char *prefix)
     }
   }
   return NULL;
+}
+
+/**************************************************************************
+  Lookup optional helptext, returning allocated memory or NULL.
+**************************************************************************/
+static char *lookup_helptext(struct section_file *file, char *prefix)
+{
+  return lookup_string(file, prefix, "helptext");
 }
 
 /**************************************************************************
@@ -518,8 +527,9 @@ static void load_ruleset_techs(struct section_file *file)
     }
     free(slist);
 
-    a->helptext = lookup_helptext(file, sec[i]);
-
+    a->helptext = lookup_helptext(file, sec[i]);    
+    a->bonus_message = lookup_string(file, sec[i], "bonus_message");
+    
     a++;
   }
 

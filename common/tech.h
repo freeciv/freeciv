@@ -67,6 +67,8 @@ struct advance {
   int req[2];
   unsigned int flags;
   char *helptext;
+  /* Message displayed to the first player to get a bonus tech */
+  char *bonus_message;
 };
 
 int get_invention(struct player *plr, int tech);
