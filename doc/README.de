@@ -1,0 +1,206 @@
+Hinweis:	Dies ist eine gekürzte Übersetzung der Datei README mit
+		zusätzlichen Informationen für deutschsprachige Spieler.
+Stand: 06.11.99
+
+			==============================
+			Deutsche Freeciv Dokumentation
+			==============================
+
+Willkommen bei Freeciv!
+
+Dieses Archiv enthält die aktuelle FreeCiv Version - nach ersten Anfängen in
+Version 1.9.0 - erstmalig vollständig auch in deutscher Sprache. 8-)
+
+Allerdings enthält sie sicherlich noch Fehler und kann noch verbessert
+werden; vorallem die deutsche Dokumentation besteht zur Zeit ausschließlich
+aus dieser Datei. 8-(
+
+Hinweis:	Die deutsche Online-Hilfe ist vollständig übersetzt 8-) und
+		erkärt unter den entsprenden Stichworten vieles besser als
+		dieser Text.
+
+Freeciv ist ein Civilization-Abkömmling für X11, vorzugsweise unter Unix. Es
+unterstützt alle Arten von Multiplayer-Spielen und die KI ist für fast alle
+Spieler eine wirkliche Herausforderung.
+
+Freeciv ist ein absolut eigenständiges Programm; Sie müssen kein
+Civilization besitzen, um es spielen zu können.
+
+Obwohl die Grafiken nicht so schön sind wie bei Civilization II, ist das
+Regelwerk fast vollständig. Unser Multiplayer und Netzwerkcode sind
+hervorragend.
+
+
+WWW:
+====
+Freeciv hat eine eigene Webseite:	http://www.freeciv.org
+
+Hier können Sie neben Neuigkeiten, neuen Versionen und Patchen auch näheres
+über unsere Mailinglisten erfahren. Außerdem können Sie unseren Metaserver
+einsehen, der Spiele auf der ganzen Welt anzeigt.
+
+
+Lizenz:
+=======
+Freeciv wird auf Grundlage der GNU General Public Licence veröffentlicht.
+Kurzgesagt, Sie dürfen das Programm einschließlich der Quelltexte unter
+bestimmten Voraussetzungen frei kopieren. Näheres erfahren Sie in der Datei
+COPYING.
+
+
+Kompilieren und Installieren
+============================
+Bitte lesen Sie sorgfältig die Datei INSTALL.
+
+
+Ein neues Spiel beginnen
+========================
+Freeciv besteht aus einem Server- und einem Clientprogramm. An einem Spiel
+sind ein Serverprogramm und eine der Anzahl der menschlichen Spieler
+entsprechende Zahl an Clientprogrammen beteiligt. X wird nur für die
+Clientprogramme benötigt.
+
+Um Freeciv spielen zu können, muß zunächst der Server, gefolgt von zumindest
+einem Client, gestartet werden. Dann müssen auf dem Server KIs generiert
+und der Startbefehl erteilt werden.
+
+Server:
+	starten:
+	
+	> civserver
+	
+	Mögliche Startoptionen erhalten Sie mit:
+	
+	> civserver --help
+
+	Sobald der Server gestartet ist, meldet er sich mit:
+
+		Freeciv version N.N.N Server
+		Weitere Informationen zu Freeciv finden Sie auf ...
+		1: Warte auf Spieler...
+
+		'help' gibt eine Liste der verfügbaren Befehle aus.
+		>
+
+	Lassen Sie sich die Optionen mit
+
+	> help
+
+	anzeigen.
+
+	Wenn Sie möchten, können Sie sich mit "explain" die Optionen
+	erläutern lassen. Mit "show" können Sie sich die eingestellten
+	Optionen anzeigen lassen oder Sie können sie mit "set" ändern.
+
+Client:
+	starten:
+
+	> civclient
+
+	Wählen Sie den Server durch entsprechende Eingaben in der
+	erscheinenden Dialogbox aus. Vorgabe ist der lokale Server.
+
+KI Spieler:
+	Es gibt zwei Möglichkeiten, KI Spieler zu generieren. Die erste ist,
+	die Gesamtanzahl der Spieler festzulegen. Beispiel:
+
+	> set aifill 7
+
+	Nachdem "start" eingeben wurde, übernimmt die KI alle Spieler, die
+	nicht von Menschen gespielt werden. Sollten in unserem Beispiel zwei
+	menschliche Spieler anwesend sein, werden fünf KI-Spieler generiert.
+
+	Der andere Weg ist, über den Serverbefehl "create" einen KI-Spieler
+	zu erzeugen:
+
+	> create Killer
+
+	Dies erzeugt einen KI-Spieler namens Killer.
+
+Server:
+	Sobald alle Teilnehmer anwesend sind, ("list" zeigt eine Liste der
+	Anwesenden.) wird das Spiel mit
+
+	> start
+
+	begonnen.
+
+
+Spiel ankündigen
+================
+Wenn man auch unbekannte Teilnehmer als Mitspieler zulassen möchte, kann man
+den Server mit der Option "-m" starten. Er "veröffentlicht" seine Existenz
+auf dem Metaserver, über den sich nun Spieler durch Auswahl der Metaserver-
+Registerkarte im Eröffnungsdialog einloggen können.
+
+
+Hinweise zum Spiel
+==================
+- Das Spiel kann jeder Zeit über den Serverbefehl "save" gespeichert werden.
+- Die Spieler ziehen zur gleichen Zeit. Die maximal zulässige Zeit kann
+  vorgegeben werden.
+- Benutzen Sie die Online-Hilfe!
+
+
+Spielende
+=========
+Das Spiel kann auf drei Arten enden:
+- Es ist nur noch eine Nation im Spiel.
+- Das letzte Jahr wurde erreicht.
+- Ein Spieler hat Alpha Centauri erreicht.
+
+
+Gespeichertes Spiel laden
+=========================
+Ein gespeichertes Spiel kann fortgesetzt werden, in dem man den Server mit
+
+> civserver -f DATEINAME
+
+startet. Die Spieler müssen sich jetzt unter ihrem Herrschernamen wieder
+anmelden um teilnehmen zu können. Danach wird das Spiel wie üblich mit dem
+Serverbefehl "start" wieder aufgenommen.
+
+
+Fehler
+======
+Bitte teilen Sie uns mit, wenn Sie Programmfehler finden!
+In der Datei BUGS finden Sie eine Liste der uns bekannten Fehler und
+Informationen darüber, wie Sie neue Fehler melden können.
+
+Übersetzungsfehler mailen Sie bitte an <freeciv-de@ehinzen.de>.
+
+
+Mailinglisten
+==============
+Es gibt 3 englischsprachige, öffentliche Mailinglisten zu Freeciv:
+	<freeciv@freeciv.org>		für Spieler
+	<freeciv-dev@freeciv.org>	für Fehlerberichte und Entwickler
+	<freeciv-cvs@freeciv.org>	um die Entwickler über Änderungen
+					des Sourcecodes zu informieren
+	
+Sie können Sie mit einer Email an <listar@freeciv.org> abonnieren, in dem
+Sie die Betreff-Zeile freilassen und in den Text nur "subscribe LISTE"
+schreiben. Beispiel:
+
+	Wenn Sie die Liste <freeciv@freeciv.org> abonnieren möchten,
+	schreiben Sie einfach "subscribe freeciv".
+
+Zusätzlich gibt es eine deutschsprachige Mailingliste, die sich
+ausschließlich mit Übersetzungsproblemen beschäftigt:
+
+	<freeciv-de@ehinzen.de>
+
+Sie kann mit einer Email an <Majordomo@ehinzen.de> abonniert werden, in dem
+man die Betreff-Zeile frei läßt und in den Text nur "subscribe freeciv-de"
+schreibt.
+
+
+Neue Versionen
+==============
+Sie können etwa alle drei Monate mit einer neuen Version rechnen.
+Kontrollieren Sie ab und zu unsere Webseite.
+
+
+Zum Schluß
+==========
+Viel Spaß!
