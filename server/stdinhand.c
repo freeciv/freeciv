@@ -2960,10 +2960,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     sz_strlcpy(pplayer->name, pconn->username);
   }
 
-  /* aitoggle the player back to human if necessary. */
-  if (pplayer->ai.control && game.auto_ai_toggle) {
-    toggle_ai_player_direct(NULL, pplayer);
-  }
 
   if (server_state == RUN_GAME_STATE) {
     send_packet_freeze_hint(pconn);
@@ -2974,6 +2970,15 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     dsend_packet_start_phase(pconn, game.phase);
+  }
+
+  /* aitoggle the player back to human if necessary. */
+  if (pplayer->ai.control && game.auto_ai_toggle) {
+    toggle_ai_player_direct(NULL, pplayer);
+  }
+
+  /* yes this has to go after the toggle check */
+  if (server_state == RUN_GAME_STATE) {
     gamelog(GAMELOG_PLAYER, pplayer);
   }
 
