@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-EXTRA_DIST = \
+noinst_HEADERS = \
 	cityicon.ico	\
 	freeciv.ico	\
 	goto_cursor.xbm	\

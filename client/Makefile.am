@@ -10,9 +10,11 @@ else
 GUI_SUBDIR = gui-xaw
 endif
 
-## This is always false, so "include" is never recursed into 
-## by 'make', but is included in the dist.
-if CLIENT_INCLUDE_DIST
+## This is usually false, so "include" is not recursed into 
+## by 'make', but it can be enabled in configure, and it is
+## necessary to have something like this so that the include 
+## directory is included for 'make dist'.
+if MAKE_CLIENT_INCLUDE
 CLI_INCLUDE = include
 else
 CLI_INCLUDE = 

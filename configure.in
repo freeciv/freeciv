@@ -87,13 +87,23 @@ AM_CONDITIONAL(SERVER, test x$server = xtrue)
 
 AC_ARG_ENABLE(make_data,
 [  --disable-make-data     do not recurse make into data directories
-                          ok to disable unless you will make install],
+                          (ok to disable unless you will 'make install')],
 [case "${enableval}" in
   yes) make_data=true ;;
   no)  make_data=false ;;
   *)   AC_MSG_ERROR(bad value ${enableval} for --disable-make-data) ;;
 esac], [make_data=true])
 AM_CONDITIONAL(MAKE_DATA, test x$make_data = xtrue)
+
+AC_ARG_ENABLE(make_include,
+[  --enable-make-include   force make to recurse into include directory
+                          (useful for 'make tags')],
+[case "${enableval}" in
+  yes) make_include=true ;;
+  no)  make_include=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --enable-make-include) ;;
+esac], [make_include=false])
+AM_CONDITIONAL(MAKE_CLIENT_INCLUDE, test "$make_include" = "true")
 
 AC_ARG_ENABLE(cvs_deps,
  	[  --disable-cvs-deps      remove cvs-source deps calcs, which require gmake,gcc],,
@@ -202,7 +212,6 @@ AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_LIBS)
 AM_CONDITIONAL(CLIENT_GUI_GTK, test "$gui_sources" = "gui-gtk")
-AM_CONDITIONAL(CLIENT_INCLUDE_DIST, test "x" = "y")
 
 dnl Checks for non-X libraries:
 if test x$server = xtrue; then
