@@ -19,14 +19,16 @@
 #include <string.h>
 #include <assert.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-
+#endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-
-#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
+#ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
 

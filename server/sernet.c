@@ -19,16 +19,21 @@
 #include <string.h>
 #include <time.h>
 #include <errno.h>
+#include <signal.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-
+#endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-
-#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
+#ifdef HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
+#endif
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
+#ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
 
@@ -36,13 +41,19 @@
 #include <sys/select.h>
 #endif
 
-#include <signal.h>
-
-#if !(defined(GENERATING68K) || defined(GENERATINGPPC)) /* non mac header(s) */
+#ifdef HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+#ifdef HAVE_NETDB_H
 #include <netdb.h>
+#endif
+#ifdef HAVE_SYS_UIO_H
 #include <sys/uio.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
 #include <arpa/inet.h>
 #endif
 

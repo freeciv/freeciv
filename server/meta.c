@@ -22,20 +22,28 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-
+#endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
+#ifdef HAVE_NETDB_H
+#include <netdb.h>
+#endif 
 
 #if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac network headers */
 #include <OpenTransport.h>
-#else /* Unix network headers */
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#endif /* end network header selection */
+#endif
 
 #include "packets.h"
 #include "console.h"

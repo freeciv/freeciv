@@ -19,8 +19,9 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-
+#endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif

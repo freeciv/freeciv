@@ -21,21 +21,27 @@
 #include <assert.h>
 #include <time.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac header(s) */
-#include <bool.h> /*from STL, but works w/ c*/
 #endif
-
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-
-#ifdef __EMX__
+#ifdef HAVE_NETDB_H
 #include <netdb.h>
+#endif
+#ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
+#endif
+#ifdef HAVE_SYS_TERMIO_H
 #include <sys/termio.h>
+#endif
+#ifdef HAVE_TERMIOS_H
 #include <termios.h>
+#endif
+
+#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac header(s) */
+#include <bool.h> /*from STL, but works w/ c*/
 #endif
 
 #include "capability.h"
