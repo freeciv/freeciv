@@ -245,6 +245,18 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
+int city_dialog_is_open(struct city *pcity)
+{
+  if (get_city_dialog(pcity)) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static void refresh_this_city_dialog(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;

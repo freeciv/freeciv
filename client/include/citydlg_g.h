@@ -21,6 +21,7 @@ void popdown_city_dialog(struct city *pcity);
 void popdown_all_city_dialogs(void);
 void refresh_city_dialog(struct city *pcity);
 void refresh_unit_city_dialogs(struct unit *punit);
+int city_dialog_is_open(struct city *pcity);
 
 #endif  /* FC__CITYDLG_G_H */
 

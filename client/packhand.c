@@ -63,7 +63,7 @@
 #include "packhand.h"
 
 static void handle_city_packet_common(struct city *pcity, int is_new,
-                                      int popup);
+                                      int popup, int investigate);
 
 /**************************************************************************
 ...
@@ -374,7 +374,7 @@ void handle_city_info(struct packet_city_info *packet)
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
            pcity->owner==game.player_idx) || packet->diplomat_investigate;
 
-  handle_city_packet_common(pcity, city_is_new, popup);
+  handle_city_packet_common(pcity, city_is_new, popup, packet->diplomat_investigate);
 
   /* update the descriptions if necessary */
   if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
@@ -406,7 +406,7 @@ void handle_city_info(struct packet_city_info *packet)
   ...
 **************************************************************************/
 static void handle_city_packet_common(struct city *pcity, int is_new,
-                                      int popup)
+                                      int popup, int investigate)
 {
   int i;
 
@@ -444,16 +444,20 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     refresh_tile_mapcanvas(pcity->x, pcity->y, 1);
   }
 
-  if(city_workers_display==pcity)  {
+  if (city_workers_display==pcity)  {
     put_city_workers(pcity, -1);
     city_workers_display=NULL;
   }
 
-  if( popup &&
-     (!game.player_ptr->ai.control || ai_popup_windows)) {
-    update_menus();
-    popup_city_dialog(pcity, 0);
+  if (city_dialog_is_open(pcity)) {
+    refresh_city_dialog(pcity);
+  } else {
+    if (popup &&
+	(!game.player_ptr->ai.control || ai_popup_windows)) {
+      popup_city_dialog(pcity, 0);
+    }
   }
+
 
   /* update menus if the focus unit is on the tile. */
   {
@@ -461,10 +465,6 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     if (punit && same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       update_menus();
     }
-  }
-
-  if (!is_new && pcity->owner==game.player_idx) {
-    refresh_city_dialog(pcity);
   }
 
   if(is_new) {
@@ -572,7 +572,7 @@ void handle_short_city(struct packet_short_city *packet)
 	pcity->city_map[x][y] = C_TILE_EMPTY;
   } /* Dumb values */
 
-  handle_city_packet_common(pcity, city_is_new, 0);
+  handle_city_packet_common(pcity, city_is_new, 0, 0);
 
   /* update the descriptions if necessary */
   if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
