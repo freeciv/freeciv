@@ -56,9 +56,12 @@ struct citystyle *city_styles = NULL;
 **************************************************************************/
 int is_valid_city_coords(const int city_x, const int city_y)
 {
-  if ((city_x == 0 || city_x == 4) && (city_y == 0 || city_y == 4))
+  if ((city_x == 0 || city_x == CITY_MAP_SIZE-1)
+      && (city_y == 0 || city_y == CITY_MAP_SIZE-1))
     return 0;
-  if (city_x < 0  || city_x > 4 || city_y < 0 || city_y > 4)
+  if (city_x < 0 || city_y < 0
+      || city_x >= CITY_MAP_SIZE
+      || city_y >= CITY_MAP_SIZE)
     return 0;
 
   return 1;
@@ -91,14 +94,14 @@ int get_citymap_xy(const struct city *pcity, const int x, const int y,
 /**************************************************************************
   Set the worker on the citymap.  Also sets the worked field in the map.
 **************************************************************************/
-void set_worker_city(struct city *pcity, int x, int y, 
+void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type) 
 {
-  struct tile *ptile=map_get_tile(pcity->x+x-2, pcity->y+y-2);
-  if (pcity->city_map[x][y] == C_TILE_WORKER)
+  struct tile *ptile=map_get_tile(pcity->x+city_x-2, pcity->y+city_y-2);
+  if (pcity->city_map[city_x][city_y] == C_TILE_WORKER)
     if (ptile->worked == pcity)
       ptile->worked = NULL;
-  pcity->city_map[x][y] = type;
+  pcity->city_map[city_x][city_y] = type;
   if (type == C_TILE_WORKER)
     ptile->worked = pcity;
 }
@@ -106,17 +109,17 @@ void set_worker_city(struct city *pcity, int x, int y,
 /**************************************************************************
 ...
 **************************************************************************/
-enum city_tile_type get_worker_city(struct city *pcity, int x, int y)
+enum city_tile_type get_worker_city(struct city *pcity, int city_x, int city_y)
 {
-  if ((x==0 || x==4) && (y == 0 || y == 4)) 
+  if (!is_valid_city_coords(city_x, city_y)) 
     return C_TILE_UNAVAILABLE;
-  return(pcity->city_map[x][y]);
+  return pcity->city_map[city_x][city_y];
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int is_worker_here(struct city *pcity, int x, int y) 
+int is_worker_here(struct city *pcity, int city_x, int city_y) 
 {
   if (x < 0 || x > 4 || y < 0 || y > 4 || ((x == 0 || x == 4) && (y == 0|| y==4))) {
     return 0;
@@ -129,15 +132,18 @@ int is_worker_here(struct city *pcity, int x, int y)
 **************************************************************************/
 int map_to_city_x(struct city *pcity, int x)
 {
-	int t=map.xsize/2;
-	x-=pcity->x;
-	if(x > t) x-=map.xsize;
-	else if(x < -t) x+=map.xsize;
-	return x+2;
+  int t = map.xsize/2;
+  x -= pcity->x;
+  if (x > t)
+    x -= map.xsize;
+  else if (x < -t)
+    x += map.xsize;
+
+  return x+CITY_MAP_SIZE/2;
 }
 int map_to_city_y(struct city *pcity, int y)
 {
-	return y-pcity->y+2;
+  return y-pcity->y+CITY_MAP_SIZE/2;
 }
 
 /**************************************************************************

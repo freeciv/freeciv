@@ -325,9 +325,10 @@ int get_citymap_xy(const struct city *pcity, const int x, const int y,
 int city_get_shields_tile(int x, int y, struct city *pcity); /* shield on spot */
 int city_get_trade_tile(int x, int y, struct city *pcity);   /* trade  on spot */
 int city_get_food_tile(int x, int y, struct city *pcity);    /* food   on spot */
-void set_worker_city(struct city *pcity, int x, int y, enum city_tile_type type); 
-enum city_tile_type get_worker_city(struct city *pcity, int x, int y);
-int is_worker_here(struct city *pcity, int x, int y);
+void set_worker_city(struct city *pcity, int city_x, int city_y,
+		     enum city_tile_type type); 
+enum city_tile_type get_worker_city(struct city *pcity, int city_x, int city_y);
+int is_worker_here(struct city *pcity, int city_x, int city_y);
 int map_to_city_x(struct city *pcity, int x);
 int map_to_city_y(struct city *pcity, int y);
 
