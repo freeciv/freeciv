@@ -952,9 +952,9 @@ static void help_update_terrain(const struct help_item *pitem,
       xaw_set_label (help_terrain_movement_defense_data, buf);
 
       sprintf (buf, "%d/%d/%d",
-	       tile_types[i].food,
-	       tile_types[i].shield,
-	       tile_types[i].trade);
+	       tile_types[i].output[O_FOOD],
+	       tile_types[i].output[O_SHIELD],
+	       tile_types[i].output[O_TRADE]);
       xaw_set_label (help_terrain_food_shield_trade_data, buf);
 
       if (*(tile_types[i].special[0].name))
@@ -963,9 +963,9 @@ static void help_update_terrain(const struct help_item *pitem,
 		   tile_types[i].special[0].name);
 	  xaw_set_label (help_terrain_special_1, buf);
 	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].special[0].food,
-		   tile_types[i].special[0].shield,
-		   tile_types[i].special[0].trade);
+		   tile_types[i].special[0].output[O_FOOD],
+		   tile_types[i].special[0].output[O_SHIELD],
+		   tile_types[i].special[0].output[O_TRADE]);
 	  xaw_set_label (help_terrain_special_1_data, buf);
 	} else {
 	  xaw_set_label (help_terrain_special_1, "");
@@ -978,9 +978,9 @@ static void help_update_terrain(const struct help_item *pitem,
 		   tile_types[i].special[1].name);
 	  xaw_set_label (help_terrain_special_2, buf);
 	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].special[1].food,
-		   tile_types[i].special[1].shield,
-		   tile_types[i].special[1].trade);
+		   tile_types[i].special[1].output[O_FOOD],
+		   tile_types[i].special[1].output[O_SHIELD],
+		   tile_types[i].special[1].output[O_TRADE]);
 	  xaw_set_label (help_terrain_special_2_data, buf);
 	} else {
 	  xaw_set_label (help_terrain_special_2, "");

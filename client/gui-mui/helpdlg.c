@@ -868,7 +868,9 @@ static void help_update_terrain(const struct help_item *pitem,
 
     help_terrain_dynamic_group = VGroup,End;
 
-    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),tile->food, tile->shield, tile->trade);
+    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),
+		tile->output[O_FOOD], tile->output[O_SHIELD],
+		tile->output[O_TRADE]);
     if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, "", End,
@@ -885,8 +887,10 @@ static void help_update_terrain(const struct help_item *pitem,
 
     g = HGroup, Child, HSpace(0), End;
 
-    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),tile->food_special_1, tile->shield_special_1,
-    tile->trade_special_1);
+    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),
+		tile->special[0].output[O_FOOD],
+		tile->special[0].output[O_SHIELD],
+		tile->special[0].output[O_TRADE]);
     if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, tile->special_1_name, End,
@@ -903,7 +907,10 @@ static void help_update_terrain(const struct help_item *pitem,
       DoMethod(g, OM_ADDMEMBER, o);
     }
 
-    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),tile->food_special_2, tile->shield_special_2,
+    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),
+		tile->special[1].output[O_FOOD],
+		tile->special[1].output[O_SHIELD],
+		tile->special[1].output[O_TRADE]);
     tile->trade_special_2);
     if((o = HGroup,
               Child, HSpace(0),

@@ -729,11 +729,11 @@ bool is_sea_usable(const struct tile *ptile)
 int get_tile_food_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1)) 
-    return tile_types[ptile->terrain].special[0].food;
+    return tile_types[ptile->terrain].special[0].output[O_FOOD];
   else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].special[1].food;
+    return tile_types[ptile->terrain].special[1].output[O_FOOD];
   else
-    return tile_types[ptile->terrain].food;
+    return tile_types[ptile->terrain].output[O_FOOD];
 }
 
 /***************************************************************
@@ -742,11 +742,11 @@ int get_tile_food_base(const struct tile *ptile)
 int get_tile_shield_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].special[0].shield;
+    return tile_types[ptile->terrain].special[0].output[O_SHIELD];
   else if(tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].special[1].shield;
+    return tile_types[ptile->terrain].special[1].output[O_SHIELD];
   else
-    return tile_types[ptile->terrain].shield;
+    return tile_types[ptile->terrain].output[O_SHIELD];
 }
 
 /***************************************************************
@@ -755,11 +755,11 @@ int get_tile_shield_base(const struct tile *ptile)
 int get_tile_trade_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].special[0].trade;
+    return tile_types[ptile->terrain].special[0].output[O_TRADE];
   else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].special[1].trade;
+    return tile_types[ptile->terrain].special[1].output[O_TRADE];
   else
-    return tile_types[ptile->terrain].trade;
+    return tile_types[ptile->terrain].output[O_TRADE];
 }
 
 /***************************************************************

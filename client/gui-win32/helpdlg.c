@@ -554,9 +554,9 @@ static void help_update_terrain(const struct help_item *pitem,
     SetWindowText (help_tlabel[0][1], buf);
 
     sprintf(buf, "%d/%d/%d",
-	    tile_types[i].food,
-	    tile_types[i].shield,
-	    tile_types[i].trade);
+	    tile_types[i].output[O_FOOD],
+	    tile_types[i].output[O_SHIELD],
+	    tile_types[i].output[O_TRADE]);
     SetWindowText(help_tlabel[0][4], buf);
 
     if (*(tile_types[i].special[0].name)) {
@@ -564,9 +564,9 @@ static void help_update_terrain(const struct help_item *pitem,
 	      tile_types[i].special[0].name);
       SetWindowText(help_tlabel[1][0], buf);
       sprintf(buf, "%d/%d/%d",
-	      tile_types[i].special[0].food,
-	      tile_types[i].special[0].shield,
-	      tile_types[i].special[0].trade);
+	      tile_types[i].special[0].output[O_FOOD],
+	      tile_types[i].special[0].output[O_SHIELD],
+	      tile_types[i].special[0].output[O_TRADE]);
       SetWindowText(help_tlabel[1][1], buf);
     } else {
       SetWindowText(help_tlabel[1][0], " ");
@@ -578,9 +578,9 @@ static void help_update_terrain(const struct help_item *pitem,
 	      tile_types[i].special[1].name);
       SetWindowText(help_tlabel[1][3], buf);
       sprintf(buf, "%d/%d/%d",
-	      tile_types[i].special[1].food,
-	      tile_types[i].special[1].shield,
-	      tile_types[i].special[1].trade);
+	      tile_types[i].special[1].output[O_FOOD],
+	      tile_types[i].special[1].output[O_SHIELD],
+	      tile_types[i].special[1].output[O_TRADE]);
       SetWindowText(help_tlabel[1][4], buf);
     } else {
       SetWindowText(help_tlabel[1][3], " ");

@@ -237,15 +237,17 @@ static bool manual_command(void)
 		ptype->graphic_str,
 		IMAGE_END, get_terrain_name(id));
 	fprintf(doc, "<td>%d / %d / %d</td>",
-		ptype->food, ptype->shield, ptype->trade);
+		ptype->output[O_FOOD], ptype->output[O_SHIELD],
+		ptype->output[O_TRADE]);
 
 	for (s = 0; s < MAX_NUM_SPECIALS; s++) {
 	  fprintf(doc, "<td>%s%s%s %s</td>", IMAGE_BEGIN,
 		  ptype->special[s].graphic_str, IMAGE_END,
 		  ptype->special[s].name);
 	  fprintf(doc, "<td>%d / %d / %d</td>",
-		  ptype->special[s].food, ptype->special[s].shield,
-		  ptype->special[s].trade);
+		  ptype->special[s].output[O_FOOD],
+		  ptype->special[s].output[O_SHIELD],
+		  ptype->special[s].output[O_TRADE]);
 	}
 
 	fprintf(doc, "<td>%d</td>\n", ptype->movement_cost);

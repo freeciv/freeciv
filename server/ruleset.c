@@ -1617,9 +1617,10 @@ static void load_ruleset_terrain(struct section_file *file)
       t->movement_cost = secfile_lookup_int(file, "%s.movement_cost", sec[i]);
       t->defense_bonus = secfile_lookup_int(file, "%s.defense_bonus", sec[i]);
 
-      t->food = secfile_lookup_int(file, "%s.food", sec[i]);
-      t->shield = secfile_lookup_int(file, "%s.shield", sec[i]);
-      t->trade = secfile_lookup_int(file, "%s.trade", sec[i]);
+      output_type_iterate(o) {
+	t->output[o] = secfile_lookup_int(file, "%s.%s", sec[i],
+					  get_output_identifier(o));
+      } output_type_iterate_end;
 
       for (j = 0; j < MAX_NUM_SPECIALS; j++) {
 	char *name = secfile_lookup_str(file, "%s.special_%d_name",
@@ -1630,13 +1631,11 @@ static void load_ruleset_terrain(struct section_file *file)
 	  t->special[j].name_orig[0] = '\0';
 	}
 	t->special[j].name = t->special[j].name_orig;
-	t->special[j].food = secfile_lookup_int(file, "%s.food_special_%d",
-						sec[i], j + 1);
-	t->special[j].shield = secfile_lookup_int(file,
-						  "%s.shield_special_%d",
-						  sec[i], j + 1);
-	t->special[j].trade = secfile_lookup_int(file, "%s.trade_special_%d",
-						 sec[i], j + 1);
+	output_type_iterate(o) {
+	  t->special[j].output[o]
+	    = secfile_lookup_int(file, "%s.%s_special_%d", sec[i],
+				 get_output_identifier(o), j + 1);
+	} output_type_iterate_end;
 
 	sz_strlcpy(t->special[j].graphic_str,
 		   secfile_lookup_str(file,"%s.graphic_special_%d",
@@ -2941,19 +2940,19 @@ static void send_ruleset_terrain(struct conn_list *dest)
       packet.movement_cost = t->movement_cost;
       packet.defense_bonus = t->defense_bonus;
 
-      packet.food = t->food;
-      packet.shield = t->shield;
-      packet.trade = t->trade;
+      packet.food = t->output[O_FOOD];
+      packet.shield = t->output[O_SHIELD];
+      packet.trade = t->output[O_TRADE];
 
       sz_strlcpy(packet.special_1_name, t->special[0].name_orig);
-      packet.food_special_1 = t->special[0].food;
-      packet.shield_special_1 = t->special[0].shield;
-      packet.trade_special_1 = t->special[0].trade;
+      packet.food_special_1 = t->special[0].output[O_FOOD];
+      packet.shield_special_1 = t->special[0].output[O_SHIELD];
+      packet.trade_special_1 = t->special[0].output[O_TRADE];
 
       sz_strlcpy(packet.special_2_name, t->special[1].name_orig);
-      packet.food_special_2 = t->special[1].food;
-      packet.shield_special_2 = t->special[1].shield;
-      packet.trade_special_2 = t->special[1].trade;
+      packet.food_special_2 = t->special[1].output[O_FOOD];
+      packet.shield_special_2 = t->special[1].output[O_SHIELD];
+      packet.trade_special_2 = t->special[1].output[O_TRADE];
 
       sz_strlcpy(packet.graphic_str_special_1, t->special[0].graphic_str);
       sz_strlcpy(packet.graphic_alt_special_1, t->special[0].graphic_alt);

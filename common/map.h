@@ -78,15 +78,13 @@ struct tile_type {
   int movement_cost;
   int defense_bonus;
 
-  int food;
-  int shield;
-  int trade;
+  int output[O_MAX];
 
 #define MAX_NUM_SPECIALS 2
   struct {
     const char *name; /* Translated string - doesn't need freeing. */
     char name_orig[MAX_LEN_NAME];
-    int food, shield, trade;
+    int output[O_MAX];
     char graphic_str[MAX_LEN_NAME];
     char graphic_alt[MAX_LEN_NAME];
   } special[MAX_NUM_SPECIALS];
