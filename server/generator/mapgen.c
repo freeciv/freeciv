@@ -105,21 +105,22 @@ typedef enum { MC_NONE, MC_LOW, MC_NLOW } miscellaneous_c;
 /***************************************************************************
  These functions test for conditions used in rand_map_pos_characteristic 
 ***************************************************************************/
+
 /***************************************************************************
   Checks if the given location satisfy some wetness condition
 ***************************************************************************/
 static bool test_wetness(int x, int y, wetness_c c)
 {
-    switch(c) {
-	case WC_ALL:
-	    return TRUE;
-	case WC_DRY:
-	    return map_pos_is_dry(x, y);
-	case WC_NDRY:
-	    return !map_pos_is_dry(x, y);
-	default:
-	    assert(0);
-    }
+  switch(c) {
+  case WC_ALL:
+    return TRUE;
+  case WC_DRY:
+    return map_pos_is_dry(x, y);
+  case WC_NDRY:
+    return !map_pos_is_dry(x, y);
+  }
+  assert(0);
+  return FALSE;
 }
 
 /***************************************************************************
@@ -127,25 +128,25 @@ static bool test_wetness(int x, int y, wetness_c c)
 ***************************************************************************/
 static bool test_miscellaneous(int x, int y, miscellaneous_c c)
 {
-    switch(c) {
-	case MC_NONE:
-	    return TRUE;
-	case MC_LOW:
-	    return map_pos_is_low(x, y);
-	case MC_NLOW:
-	    return !map_pos_is_low(x, y);
-	default:
-	    assert(0);
-    }
+  switch(c) {
+  case MC_NONE:
+    return TRUE;
+  case MC_LOW:
+    return map_pos_is_low(x, y);
+  case MC_NLOW:
+    return !map_pos_is_low(x, y);
+  }
+  assert(0);
+  return FALSE;
 }
 
 /***************************************************************************
   Passed as data to rand_map_pos_filtered() by rand_map_pos_characteristic()
 ***************************************************************************/
 struct DataFilter {
-  wetness_c        wc;
+  wetness_c wc;
   temperature_type tc;
-  miscellaneous_c  mc;
+  miscellaneous_c mc;
 };
 
 /****************************************************************************
@@ -157,9 +158,9 @@ static bool condition_filter(int map_x, int map_y, void *data)
   struct DataFilter *filter = data;
 
   return  not_placed(map_x, map_y) 
-      &&  tmap_is(map_x, map_y, filter->tc) 
-      &&  test_wetness(map_x, map_y, filter->wc) 
-      &&  test_miscellaneous(map_x, map_y, filter->mc) ;
+       && tmap_is(map_x, map_y, filter->tc) 
+       && test_wetness(map_x, map_y, filter->wc) 
+       && test_miscellaneous(map_x, map_y, filter->mc) ;
 }
 
 /****************************************************************************
@@ -168,9 +169,9 @@ static bool condition_filter(int map_x, int map_y, void *data)
   Returns FALSE if there is no such position.
 ****************************************************************************/
 static bool rand_map_pos_characteristic(int *map_x, int *map_y,
-				   wetness_c        wc,
-				   temperature_type tc,
-				   miscellaneous_c  mc )
+					wetness_c wc,
+					temperature_type tc,
+					miscellaneous_c mc )
 {
   struct DataFilter filter;
 

@@ -87,17 +87,39 @@ static void place_starting_unit(int x, int y, struct player *pplayer,
   } circle_iterate_end;
 
   switch(crole) {
-	case 'c': role = L_CITIES; break;
-	case 'w': role = L_SETTLERS; break;
-	case 'x': role = L_EXPLORER; break;
-	case 'k': role = L_GAMELOSS; break;
-	case 's': role = L_DIPLOMAT; break;
-	case 'f': role = L_FERRYBOAT; break;
-	case 'd': role = L_DEFEND_OK; break;
-	case 'D': role = L_DEFEND_GOOD; break;
-	case 'a': role = L_ATTACK_FAST; break;
-	case 'A': role = L_ATTACK_STRONG; break;
-	default: assert(FALSE);
+  case 'c':
+    role = L_CITIES;
+    break;
+  case 'w':
+    role = L_SETTLERS;
+    break;
+  case 'x':
+    role = L_EXPLORER;
+    break;
+  case 'k':
+    role = L_GAMELOSS;
+    break;
+  case 's':
+    role = L_DIPLOMAT;
+    break;
+  case 'f':
+    role = L_FERRYBOAT;
+    break;
+  case 'd':
+    role = L_DEFEND_OK;
+    break;
+  case 'D':
+    role = L_DEFEND_GOOD;
+    break;
+  case 'a':
+    role = L_ATTACK_FAST;
+    break;
+  case 'A':
+    role = L_ATTACK_STRONG;
+    break;
+  default: 
+    assert(FALSE);
+    return;
   }
 
   /* Create the unit of an appropriate type, if it exists */
