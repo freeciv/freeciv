@@ -1414,6 +1414,28 @@ void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
   resolve_stack_conflicts(aplayer, pplayer, verbose);
 }
 
+/****************************************************************************
+  When two players cancel an alliance, a lot of units that were visible may
+  no longer be visible (this includes units in transporters and cities).
+  Call this function to inform the clients that these units are no longer
+  visible.  Note that this function should be called _after_
+  resolve_unit_stacks().
+****************************************************************************/
+void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
+{
+  unit_list_iterate(aplayer->units, punit) {
+    /* We don't know exactly which units have been hidden.  But only a unit
+     * whose tile is visible but who aren't visible themselves are
+     * candidates.  This solution just tells the client to drop all such
+     * units.  If any of these are unknown to the client the client will
+     * just ignore them. */
+    if (map_is_known_and_seen(punit->x, punit->y, pplayer) &&
+        !can_player_see_unit(pplayer, punit)) {
+      unit_goes_out_of_sight(pplayer, punit);
+    }
+  } unit_list_iterate_end;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
