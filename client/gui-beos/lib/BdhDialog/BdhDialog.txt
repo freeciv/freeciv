@@ -1,0 +1,26 @@
+Specification message -- which is template for replying message:
+
+==== BdhDialog =====================================================
+field "button" (int8) [recommended]
+	IN:  count
+	OUT: which pressed (0-based, counting from right)
+		-1 == no button, timed out
+array "buttons" (string) [recommended]
+	IN:  non-standard labels (given right to left)
+		default set is "OK", "Cancel", "Cancel", ...
+field "timeout" (int16)
+	IN:  timeout value in microseconds
+		looking for first keypress, or dismissal
+field "text" (string) [optional]
+	IN:  leading text
+
+
+==== BdhEntryDialog ================================================
+# NOTE:  custom buttons are optional
+array "label" (string)
+	IN:  text labels
+array "data" (string) [recommended]
+	IN:  default text
+	OUT: altered text
+array "hidden" (bool) [optional]
+	IN:  whether to hide text
