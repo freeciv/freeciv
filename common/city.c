@@ -836,6 +836,7 @@ int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id) /*F
   case B_UNITED:
   case B_WOMENS:
   case B_DARWIN:
+  case B_LIGHTHOUSE:
   case B_MAGELLAN:
   case B_MICHELANGELO:
   case B_SETI:
