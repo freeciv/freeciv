@@ -2489,6 +2489,14 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->trade_prod = 0;
   pcity->tile_trade = 0;
   pcity->original = pplayer->player_no;
+
+  /* Initialise improvements list */
+  improvement_status_init(pcity->improvements,
+                          ARRAY_SIZE(pcity->improvements));
+
+  /* Set up the worklist */
+  init_worklist(&pcity->worklist);
+
   {
     int u = best_role_unit(pcity, L_FIRSTBUILD);
 
@@ -2504,14 +2512,6 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->did_buy = TRUE;
   pcity->did_sell = FALSE;
   pcity->airlift = FALSE;
-
-  /* Set up the worklist */
-  init_worklist(&pcity->worklist);
-
-  /* Initialise list of improvements with City- and Building-wide 
-   * equiv_range */
-  improvement_status_init(pcity->improvements,
-                          ARRAY_SIZE(pcity->improvements));
 
   pcity->turn_last_built = game.year;
   pcity->changed_from_id = 0;
