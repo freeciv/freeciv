@@ -6,7 +6,7 @@ class=_("Fictional")
 ; These are pretty arbitrary.  Peregrin was Thain of Tookland;
 ; Meriadoc was Master of Brandybuck; others were mayor of hobbiton.
 ;
-; Frodo Baggins was never a leader of hobbits, so we don't use it.
+; Frodo Baggins was never a leader of hobbits, so we do not use it.
 leader="Will Whitfoot", "Samwise Gamgee", "Tolman Cotton",
        "Peregrin Took", "Meriadoc Brandybuck"
 leader_sex="Male", "Male", "Male", "Male", "Male"
