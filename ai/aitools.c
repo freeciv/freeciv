@@ -81,7 +81,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   struct unit *punit;
   punit=fc_calloc(1, sizeof(struct unit));
 
-  assert(pcity);
+  assert(pcity != NULL);
   punit->type = type;
   punit->owner = pplayer->player_no;
   CHECK_MAP_POS(pcity->x, pcity->y);

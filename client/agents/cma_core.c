@@ -592,7 +592,7 @@ static void handle_city(struct city *pcity)
   pcity = find_city_by_id(city_id);
 
   if (!handled) {
-    assert(pcity);
+    assert(pcity != NULL);
     freelog(HANDLE_CITY_LOG_LEVEL2, "  not handled");
 
     create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
