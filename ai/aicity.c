@@ -278,7 +278,7 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
   } impr_type_iterate_end;
 }
 
-#define LOG_BUY LOG_NORMAL
+#define LOG_BUY LOG_DEBUG
 /************************************************************************** 
   Try to upgrade a city's units. limit is the last amount of gold we can
   end up with after the upgrade. military is if we want to upgrade non-
