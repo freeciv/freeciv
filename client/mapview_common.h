@@ -30,6 +30,7 @@ struct mapview_canvas {
   int width, height;		/* Size in pixels. */
   int tile_width, tile_height;	/* Size in tiles. Rounded up. */
   int store_width, store_height;
+  bool can_do_cached_drawing; /* TRUE if cached drawing is possible. */
   struct canvas *store, *tmp_store;
 };
 

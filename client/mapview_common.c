@@ -421,7 +421,8 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
   common_y0 = MAX(old_gui_y0, gui_y0);
   common_y1 = MIN(old_gui_y0, gui_y0) + height;
 
-  if (common_x1 > common_x0 && common_y1 > common_y0) {
+  if (mapview_canvas.can_do_cached_drawing
+      && common_x1 > common_x0 && common_y1 > common_y0) {
     /* Do a partial redraw only.  This means the area of overlap (a
      * rectangle) is copied.  Then the remaining areas (two rectangles)
      * are updated through update_map_canvas. */
@@ -2447,6 +2448,79 @@ void overview_update_tile(struct tile *ptile)
 }
 
 /**************************************************************************
+  Returns TRUE if cached drawing is possible.  If the mapview is too large
+  we have to turn it off.
+**************************************************************************/
+static bool can_do_cached_drawing(void)
+{
+  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+  int w = mapview_canvas.store_width, h = mapview_canvas.store_height;
+
+  /* If the mapview window is too large, cached drawing is not possible.
+   *
+   * BACKGROUND: cached drawing occurrs when the mapview is scrolled just
+   * a short distance.  The majority of the mapview window can simply be
+   * copied while the newly visible areas must be drawn from scratch.  This
+   * speeds up drawing significantly, especially when using the scrollbars
+   * or mapview sliding.
+   *
+   * When the mapview is larger than the map, however, some tiles may become
+   * visible twice.  In this case one instance of the tile will be drawn
+   * while all others are drawn black.  When this happens the cached drawing
+   * system breaks since it assumes the mapview canvas is an "ideal" window
+   * over the map.  So black tiles may be scrolled from the edges of the
+   * mapview into the center, while drawn tiles may be scrolled from the
+   * center of the mapview out to the edges.  The result is very bad.
+   *
+   * There are a few different ways this could be solved.  One way is simply
+   * to turn off cached drawing, which is what we do now.  If the mapview
+   * window gets to be too large, the caching is disabled.  Another would
+   * be to prevent the window from getting too large in the first place -
+   * but because the window boundaries aren't at an even tile this would
+   * mean the entire map could never be shown.  Yet another way would be
+   * to draw tiles more than once if they are visible in multiple locations
+   * on the mapview.
+   *
+   * The logic below is complicated and determined in part by
+   * trial-and-error. */
+  if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
+    /* An unwrapping map: no limitation.  On an unwrapping map no tile can
+     * be visible twice so there's no problem. */
+    return TRUE;
+  }
+  if (XOR(topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX), is_isometric)) {
+    /* Non-matching.  In this case the mapview does not line up with the
+     * map's axis of wrapping.  This will give very bad results for the
+     * player!
+     * We can never show more than half of the map.
+     *
+     * We divide by 4 below because we have to divide by 2 twice.  The
+     * first division by 2 is because the square must be half the size
+     * of the (width+height).  The second division by two is because for
+     * an iso-map, NATURAL_XXX has a scale of 2, whereas for iso-view
+     * NORMAL_TILE_XXX has a scale of 2. */
+    return (w <= (NATURAL_WIDTH + NATURAL_HEIGHT) * W / 4
+	    && h <= (NATURAL_WIDTH + NATURAL_HEIGHT) * H / 4);
+  } else {
+    /* Matching. */
+    const int isofactor = (is_isometric ? 2 : 1);
+    const int isodiff = (is_isometric ? 6 : 2);
+
+    /* Now we can use the full width and height, with the exception of a small
+     * area on each side. */
+    if (topo_has_flag(TF_WRAPX)
+	&& w > (NATURAL_WIDTH - isodiff) * W / isofactor) {
+      return FALSE;
+    }
+    if (topo_has_flag(TF_WRAPY)
+	&& h > (NATURAL_HEIGHT - isodiff) * H / isofactor) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+}
+
+/**************************************************************************
   Called if the map size is know or changes.
 **************************************************************************/
 void set_overview_dimensions(int width, int height)
@@ -2474,6 +2548,8 @@ void set_overview_dimensions(int width, int height)
   canvas_put_rectangle(overview.store, COLOR_STD_BLACK,
 		       0, 0, overview.width, overview.height);
   update_map_canvas_scrollbars_size();
+
+  mapview_canvas.can_do_cached_drawing = can_do_cached_drawing();
 
   /* Call gui specific function. */
   map_size_changed();
@@ -2539,6 +2615,8 @@ bool map_canvas_resized(int width, int height)
       update_map_canvas_scrollbars();
     }
   }
+
+  mapview_canvas.can_do_cached_drawing = can_do_cached_drawing();
 
   return redrawn;
 }
