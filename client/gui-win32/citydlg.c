@@ -29,6 +29,7 @@
 #include "shared.h"
 #include "support.h"
  
+#include "climisc.h"
 #include "cityrep.h"
 #include "colors.h"
 #include "control.h"
@@ -401,7 +402,6 @@ void city_dialog_update_output(struct city_dialog *pdialog)
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf2[100], buf[32], *descr;
-  int turns;
   struct city *pcity=pdialog->pcity;    
   
   EnableWindow(pdialog->buy_but,!pcity->did_buy);
@@ -975,33 +975,33 @@ static void sell_callback_no(HWND w, void * data)
 *****************************************************************/            
 void sell_callback(struct city_dialog *pdialog)
 {
-  int i,n,row;
+  int row,n;
   row=ListBox_GetCurSel(pdialog->buildings_list);
-  if (row!=LB_ERR)
-    {
-      row=ListBox_GetItemData(pdialog->buildings_list,row);
-      impr_type_iterate(i) {
+  if (row!=LB_ERR) {
+    row=ListBox_GetItemData(pdialog->buildings_list,row);
+    n=0;
+    impr_type_iterate(i) {
       if(pdialog->pcity->improvements[i]) {
-        if(n==row) {
-          char buf[512];
- 
-          if(is_wonder(i))
-            return;
- 
-          pdialog->sell_id=i;
-          my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
-                  get_impr_name_ex(pdialog->pcity, i),
-                  improvement_value(i));
- 
-          popup_message_dialog(pdialog->mainwindow, /*"selldialog"*/ _("Sell It!"), buf,
-                               _("_Yes"), sell_callback_yes, pdialog,
-                               _("_No"), sell_callback_no, pdialog, 0);
-          return;
-        }
-        n++;
+	if(n==row) {
+	  char buf[512];
+	  
+	  if(is_wonder(i))
+	    return;
+	  
+	  pdialog->sell_id=i;
+	  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
+		      get_impr_name_ex(pdialog->pcity, i),
+		      improvement_value(i));
+	  
+	  popup_message_dialog(pdialog->mainwindow, /*"selldialog"*/ _("Sell It!"), buf,
+			       _("_Yes"), sell_callback_yes, pdialog,
+			       _("_No"), sell_callback_no, pdialog, 0);
+	  return;
+	}
+	n++;
       }
-      } impr_type_iterate_end;
-    }
+    } impr_type_iterate_end;
+  }
 }
 
 
@@ -1101,7 +1101,7 @@ void change_callback(struct city_dialog *pdialog)
   char  buf   [4][64];
 
   int i,n;
-  int turns;
+
   dlg=fcwin_create_layouted_window(changedlg_proc,_("Change Production"),
 				   WS_OVERLAPPEDWINDOW,CW_USEDEFAULT,CW_USEDEFAULT,pdialog->mainwindow,NULL,pdialog);
   if (dlg)
@@ -1177,7 +1177,7 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int i, k, id, is_unit;
+  int k, id, is_unit;
 
   /* Update the worklist.  Remember, though -- the current build
      target really isn't in the worklist; don't send it to the server
