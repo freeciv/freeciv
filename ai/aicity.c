@@ -76,6 +76,33 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
 static void ai_sell_obsolete_buildings(struct city *pcity);
 
 /**************************************************************************
+  Return the number of "luxury specialists".  This is the number of
+  specialists who provide at least HAPPY_COST luxury, being the number of
+  luxuries needed to make one citizen content or happy.
+
+  The AI assumes that for any specialist that provides HAPPY_COST luxury, 
+  if we can get that luxury from some other source it allows the specialist 
+  to become a worker.  The benefits from an extra worker are weighed against
+  the losses from acquiring the two extra luxury.
+
+  This is a very bad model if the abilities of specialists are changed.
+  But as long as the civ2 model of specialists is used it will continue
+  to work okay.
+**************************************************************************/
+static int get_entertainers(const struct city *pcity)
+{
+  int providers = 0;
+
+  specialist_type_iterate(i) {
+    if (game.rgame.specialists[i].bonus[O_LUXURY] >= HAPPY_COST) {
+      providers += pcity->specialists[i];
+    }
+  } specialist_type_iterate_end;
+
+  return providers;
+}
+
+/**************************************************************************
   This calculates the usefulness of pcity to us. Note that you can pass
   another player's ai_data structure here for evaluation by different
   priorities.
@@ -275,18 +302,21 @@ static void adjust_building_want_by_effects(struct city *pcity,
             /* TODO */
             break;
 	  case EFT_NO_UNHAPPY:
-            v += (pcity->specialists[SP_ELVIS] + pcity->ppl_unhappy[4]) * 20;
+            v += (get_entertainers(pcity)
+		  + pcity->ppl_unhappy[4]) * 20;
             break;
 	  case EFT_FORCE_CONTENT:
 	    if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
-	      v += (pcity->ppl_unhappy[4] + pcity->specialists[SP_ELVIS]) * 20;
+	      v += (pcity->ppl_unhappy[4]
+		    + get_entertainers(pcity)) * 20;
 	      v += 5 * c;
 	    }
 	    break;
 	  case EFT_MAKE_CONTENT_MIL_PER:
 	  case EFT_MAKE_CONTENT:
 	    if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
-              v += MIN(pcity->ppl_unhappy[4] + pcity->specialists[SP_ELVIS],
+              v += MIN(pcity->ppl_unhappy[4]
+		       + get_entertainers(pcity),
                        amount) * 20;
               v += MIN(amount, 5) * c;
 	    }
@@ -1065,7 +1095,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
       assert(is_valid);
       server_remove_worker_city(acity, city_map_x, city_map_y);
-      acity->specialists[SP_ELVIS]++;
+      acity->specialists[DEFAULT_SPECIALIST]++;
       if (!city_list_find_id(&minilist, acity->id)) {
 	city_list_insert(&minilist, acity);
       }

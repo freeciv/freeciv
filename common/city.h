@@ -94,6 +94,9 @@ enum city_options {
   }									    \
 }
 
+/* Cost in luxuries to make one citizen happier by one level. */
+#define HAPPY_COST 2
+
 /* Iterate a city map, from the center (the city) outwards */
 extern struct iter_index {
   int dx, dy, dist;

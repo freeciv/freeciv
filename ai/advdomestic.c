@@ -147,11 +147,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   struct government *gov = get_gov_pplayer(pplayer);
   /* Unit type with certain role */
   Unit_Type_id unit_type;
-  /* Food surplus assuming that workers and elvii are already accounted for
-   * and properly balanced. */
-  int est_food = pcity->surplus[O_FOOD]
-                 + 2 * pcity->specialists[SP_SCIENTIST]
-                 + 2 * pcity->specialists[SP_TAXMAN];
 
   init_choice(choice);
 
@@ -159,8 +154,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = best_role_unit(pcity, F_SETTLERS);
 
   if (unit_type != U_LAST
-      && est_food > utype_upkeep_cost(get_unit_type(unit_type),
-				      gov, O_FOOD)) {
+      && pcity->surplus[O_FOOD] > utype_upkeep_cost(get_unit_type(unit_type),
+			 	                    gov, O_FOOD)) {
     /* settler_want calculated in settlers.c called from ai_manage_cities() */
     int want = pcity->ai.settler_want;
 
@@ -182,8 +177,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = best_role_unit(pcity, F_CITIES);
 
   if (unit_type != U_LAST
-      && est_food >= utype_upkeep_cost(get_unit_type(unit_type),
-				       gov, O_FOOD)) {
+      && pcity->surplus[O_FOOD] >= utype_upkeep_cost(get_unit_type(unit_type),
+				                     gov, O_FOOD)) {
     /* founder_want calculated in settlers.c, called from ai_manage_cities(). */
     int want = pcity->ai.founder_want;
 
