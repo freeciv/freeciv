@@ -114,7 +114,6 @@ struct city_dialog {
     GtkWidget *progress_label;
     GtkWidget *improvement_list;
     GtkWidget *buy_command;
-    GtkWidget *change_command;
 
     GtkWidget *supported_units_frame;
     GtkWidget *supported_unit_table;
@@ -376,12 +375,9 @@ void refresh_city_dialog(struct city *pcity)
     gtk_widget_set_sensitive(pdialog->show_units_command,
 			     can_client_issue_orders() &&
 			     have_present_units);
-    gtk_widget_set_sensitive(pdialog->overview.change_command,
-			     can_client_issue_orders());
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
     gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
-    gtk_widget_set_sensitive(pdialog->overview.change_command, FALSE);
     gtk_widget_set_sensitive(pdialog->show_units_command, FALSE);
   }
 }
@@ -767,10 +763,6 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 
   pdialog->overview.buy_command = gtk_button_new_with_mnemonic(_("_Buy"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.buy_command,
-		     FALSE, FALSE, 0);
-
-  pdialog->overview.change_command = gtk_button_new_with_mnemonic(_("Chang_e"));
-  gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.change_command,
 		     FALSE, FALSE, 0);
 
   g_signal_connect(pdialog->overview.buy_command, "clicked",
