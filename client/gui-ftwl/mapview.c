@@ -49,6 +49,7 @@
 #define SCREEN_DEPTH DEPTH_MIN+16
 #define FOCUS_LIST_DEPTH DEPTH_MIN+18
 
+static struct ct_point overview_pos;
 static struct te_screen *screen;
 static struct sw_widget *mapview_canvas_window = NULL;
 static struct sw_widget *overview_window = NULL;
@@ -268,7 +269,7 @@ void map_size_changed(void)
 		       FALSE, OVERVIEW_DEPTH);
   sw_window_set_mouse_press_notify(overview_window,
 				   overview_mouse_press_callback, NULL);
-  sw_widget_set_position(overview_window, 9, 371);
+  sw_widget_set_position(overview_window, overview_pos.x, overview_pos.y);
   sw_window_set_draggable(overview_window, FALSE);
 
   sw_window_set_canvas_background(overview_window, TRUE);
@@ -1088,6 +1089,9 @@ static void action_callback(const char *action)
 static void read_properties(void)
 {
   struct section_file *file = te_open_themed_file("mapview.prop");
+
+  /* Overview position */
+  overview_pos = te_read_point(file, "overview", "position");
 
   tooltip_template = te_read_tooltip(file, "focus", FALSE);
 

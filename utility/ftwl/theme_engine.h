@@ -37,7 +37,6 @@ struct te_screen {
 };
 
 void te_init(const char *theme, char *example_file);
-void te_init_colormodel(char *name);
 struct section_file *te_open_themed_file(const char *name);
 struct te_screen *te_get_screen(struct sw_widget *parent_window,
 				const char *screen_name,
@@ -50,6 +49,8 @@ const char *te_edit_get_current_value(struct te_screen *screen,
 struct Sprite *te_load_gfx(const char *filename);
 
 /* Read various data from the files */
+struct ct_point te_read_point(struct section_file *file, const char *section,
+                              const char *prefix);
 struct ct_string *te_read_string(struct section_file *file,
 				 const char *section, const char *prefix,
 				 bool need_background, bool need_text);

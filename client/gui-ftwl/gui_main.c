@@ -233,7 +233,6 @@ void ui_main(int argc, char *argv[])
   }
   te_init(theme, "mapview.screen");
   free(theme);
-  te_init_colormodel("palette.prop");
 
   get_colors();
   root_window = sw_create_root_window();

@@ -84,33 +84,6 @@ void te_init(const char *theme, char *example_file)
 }
 
 /*************************************************************************
-  Initialize colour model from a palette file.
-*************************************************************************/
-void te_init_colormodel(char *name)
-{
-  char filename[512];
-  struct section_file file;
-  char *realname;
-
-  my_snprintf(filename, sizeof(filename), "themes/%s/%s/%s",
-	      current_theme, current_res, name);
-
-  section_file_init(&file);
-  realname = datafilename(filename);
-  if (!realname) {
-    freelog(LOG_FATAL, "Could not find required file %s", name);
-    assert(0);
-    exit(EXIT_FAILURE);
-  }
-  if (!section_file_load(&file, realname)) {
-    freelog(LOG_FATAL, "Could not find required file %s", filename);
-    assert(0);
-    exit(EXIT_FAILURE);
-  }
-  section_file_free(&file);
-}
-
-/*************************************************************************
   ...
 *************************************************************************/
 struct Sprite *te_load_gfx(const char *filename)
@@ -173,6 +146,20 @@ static bool str_color_to_be_color(be_color *col, const char *s)
   }
   *col = be_get_color(values[0], values[1], values[2], values[3]);
   return TRUE;
+}
+
+/*************************************************************************
+  Find a position in a theme file.
+*************************************************************************/
+struct ct_point te_read_point(struct section_file *file, const char *section,
+                              const char *prefix)
+{
+  struct ct_point point;
+
+  point.x = secfile_lookup_int(file, "%s.%s.%s", section, prefix, "x");
+  point.y = secfile_lookup_int(file, "%s.%s.%s", section, prefix, "y");
+
+  return point;
 }
 
 /*************************************************************************
