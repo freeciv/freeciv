@@ -5722,7 +5722,7 @@ msgstr "Einstellungen gespeichert."
 #: client/packhand.c:120
 #, c-format
 msgid "You were rejected from the game: %s"
-msgstr "Verbindungsaufbau von %s abgelehnt."
+msgstr "Verbindungsaufbau abgelehnt: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/packhand.c:127
