@@ -88,10 +88,10 @@ void popup_meswin_dialog(void)
   
   if(!meswin_dialog_shell) {
     create_meswin_dialog();
+    gtk_set_relative_position(toplevel, meswin_dialog_shell, 25, 25);
     updated = 1;	       /* create_ calls update_ */
   }
 
-  gtk_set_relative_position(toplevel, meswin_dialog_shell, 25, 25);
   gtk_window_present(GTK_WINDOW(meswin_dialog_shell));
 
   if(!updated) 
