@@ -503,7 +503,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 			 int target, int is_unit, int event)
 {
   char *name;
-  char source[200];
+  char *source;
 
   /* If the city is already building this thing, don't do anything */
   if (pcity->is_building_unit == is_unit &&
@@ -547,21 +547,21 @@ void change_build_target(struct player *pplayer, struct city *pcity,
     name = improvement_types[pcity->currently_building].name;
 
   switch (event) {
-    case E_WORKLIST: strcpy(source, _("from the worklist")); break;
-      /* Should we give the AI auto code credit?
-    case E_IMP_AUTO: strcpy(source, "as suggested by the AI advisor"); break;
-    */
-    default: strcpy(source, ""); break;
+    case E_WORKLIST: source = _(" from the worklist"); break;
+/* Should we give the AI auto code credit?
+    case E_IMP_AUTO: source = _(" as suggested by the AI advisor"); break;
+*/
+    default: source = ""; break;
   }
 
   /* Tell the player what's up. */
   if (event)
     notify_player_ex(pplayer, pcity->x, pcity->y, event,
-		     _("Game: %s is building %s %s"),
+		     _("Game: %s is building %s%s."),
 		     pcity->name, name, source);
   else
     notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILD,
-		     _("Game: %s is building %s"), 
+		     _("Game: %s is building %s."), 
 		     pcity->name, name);
 
   /* If the city is building a wonder, tell the rest of the world

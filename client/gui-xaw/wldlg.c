@@ -222,7 +222,7 @@ void popup_worklists_dialog(struct player *pplr)
 					      wview,
 					      NULL));
 
-  button_insert = I_L(XtVaCreateManagedWidget("buttoninsert",
+  button_insert = I_L(XtVaCreateManagedWidget("buttoninsertwl",
 					      commandWidgetClass,
 					      wform,
 					      XtNfromVert, 
@@ -232,7 +232,7 @@ void popup_worklists_dialog(struct player *pplr)
 					      NULL));
 
 
-  button_delete = I_L(XtVaCreateManagedWidget("buttondelete",
+  button_delete = I_L(XtVaCreateManagedWidget("buttondeletewl",
 					      commandWidgetClass,
 					      wform,
 					      XtNfromVert, 
@@ -307,6 +307,7 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
   struct worklist_dialog *pdialog;
 
   Widget cshell, cform;
+  Widget aform;
   Widget worklist_label, avail_label, show_advanced_label;
   Widget worklist_view, avail_view;
   Widget button_form, button_ok, button_cancel, button_worklist_help, 
@@ -338,7 +339,7 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
   I_T(cshell=XtCreatePopupShell("worklistdialog", transientShellWidgetClass,
 				parent, NULL, 0));
   
-  cform=XtVaCreateManagedWidget("dform", formWidgetClass, cshell, NULL);
+  cform=XtVaCreateManagedWidget("cform", formWidgetClass, cshell, NULL);
   
   I_L(worklist_label=XtVaCreateManagedWidget("worklistlabel", 
 					     labelWidgetClass, 
@@ -353,6 +354,8 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
 
   pdialog->worklist=XtVaCreateManagedWidget("wlist", listWidgetClass, 
 					    worklist_view, 
+					    XtNfromHoriz, NULL,
+					    XtNfromVert, NULL,
 					    XtNforceColumns, 1,
 					    XtNdefaultColumns,1, 
 					    XtNlist, 
@@ -404,17 +407,20 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
 						  pdialog->btn_up,
 						  NULL));
 
+  aform = XtVaCreateManagedWidget("aform", formWidgetClass,
+				  cform,
+				  XtNborderWidth, 0,
+				  XtNfromHoriz, button_form,
+				  NULL);
+
   I_L(avail_label=XtVaCreateManagedWidget("availlabel", labelWidgetClass, 
-					  cform, 
-					  XtNfromHoriz, button_form,
+					  aform, 
 					  NULL));
 
   avail_view=XtVaCreateManagedWidget("aview", viewportWidgetClass,
-				cform,
+				aform,
 				XtNfromVert, 
 				avail_label,
-				XtNfromHoriz, 
-				button_form,
 				NULL);
 
   pdialog->avail=XtVaCreateManagedWidget("alist", listWidgetClass, 
@@ -457,16 +463,14 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
 
   button_avail_help = I_L(XtVaCreateManagedWidget("buttonavailhelp",
 						   commandWidgetClass,
-						   cform,
+						   aform,
 						   XtNfromVert, 
 						   avail_view,
-						   XtNfromHoriz,
-						   button_form,
 						   NULL));
   
   show_advanced_label = I_L(XtVaCreateManagedWidget("showadvancedlabel",
 						    labelWidgetClass,
-						    cform,
+						    aform,
 						    XtNfromVert,
 						    avail_view,
 						    XtNfromHoriz,
@@ -475,7 +479,7 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
 
   pdialog->toggle_show_advanced = I_L(XtVaCreateManagedWidget("buttonshowadvanced",
 						     toggleWidgetClass,
-						     cform,
+						     aform,
 						     XtNfromVert,
 						     avail_view,
 						     XtNfromHoriz,
@@ -872,6 +876,12 @@ void worklist_prepend_callback(Widget w, XtPointer client_data,
   XawListReturnStruct *retAvail = XawListShowCurrent(pdialog->avail);
 
   worklist_insert_common_callback(pdialog, retAvail, 0);
+
+  if (pdialog->worklist_ids[1] != WORKLIST_END) {
+    XtSetSensitive(pdialog->btn_delete, True);
+    XtSetSensitive(pdialog->btn_up, True);
+    XtSetSensitive(pdialog->btn_down, True);
+  }
 }
 
 /****************************************************************

@@ -849,6 +849,12 @@ void worklist_prepend_callback(GtkWidget *w, gpointer data)
   GList *availSelection = GTK_CLIST(pdialog->avail)->selection;
 
   worklist_insert_common_callback(pdialog, availSelection, 0);
+
+  if (pdialog->worklist_ids[1] != WORKLIST_END) {
+    gtk_widget_set_sensitive(pdialog->btn_delete, TRUE);
+    gtk_widget_set_sensitive(pdialog->btn_up, TRUE);
+    gtk_widget_set_sensitive(pdialog->btn_down, TRUE);
+  }
 }
 
 /****************************************************************

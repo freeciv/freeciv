@@ -2328,32 +2328,53 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *)data;
-  int i, id, is_unit;
+  int i, k, id, is_unit;
 
-  /* Update the worklist.  But, remember -- the first element of the 
-     worklist is actually just the current build target; don't send it
-     to the server as part of the worklist. */
+  /* Update the worklist.  Remember, though -- the current build 
+     target really isn't in the worklist; don't send it to the 
+     server as part of the worklist.  Of course, we have to
+     search through the current worklist to find the first
+     _now_available_ build target (to cope with players who try
+     mean things like adding a Battleship to a city worklist when
+     the player doesn't even yet have the Map Making tech).  */
+
+  for (k = 0; k < MAX_LEN_WORKLIST; k++) {
+    if (! worklist_peek_ith(pwl, &id, &is_unit, k))
+      break;
+
+    /* If it can be built... */
+    if (( is_unit && can_build_unit(pdialog->pcity, id)) ||
+	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
+      /* ...but we're not yet building it, then switch. */
+      if (id != pdialog->pcity->currently_building || 
+	  is_unit != pdialog->pcity->is_building_unit) {
+
+	/* Change the current target */
+	packet.city_id=pdialog->pcity->id;
+	packet.name[0] = '\0';
+	packet.build_id = id;
+	packet.is_build_id_unit_id = is_unit;
+	send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+      }
+
+      /* This item is now (and may have always been) the current
+	 build target.  Drop it out of the worklist. */
+      worklist_remove(pwl, k);
+      break;
+    }
+  }
+
+  /* Send the rest of the worklist on its way. */
   packet.city_id=pdialog->pcity->id;
   packet.name[0] = '\0';
   packet.worklist.name[0] = '\0';
   packet.worklist.is_valid = 1;
   for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
-    packet.worklist.ids[i] = pwl->ids[i+1];
+    packet.worklist.ids[i] = pwl->ids[i];
   }
     
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
 
-  /* Additionally, if the first element in the worklist changed, then
-     send a change build target packet. */
-  worklist_peek(pwl, &id, &is_unit);
-
-  if (id != pdialog->pcity->currently_building || 
-      is_unit != pdialog->pcity->is_building_unit) {
-    /* Change the current target */
-    packet.build_id = id;
-    packet.is_build_id_unit_id = is_unit;
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-  }
   pdialog->worklist_shell = NULL;
 }
 

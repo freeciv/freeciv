@@ -946,21 +946,29 @@ int advisor_choose_build(struct player *pplayer, struct city *pcity)
 
 /**************************************************************************
   Examine the worklist and change the build target.  Return 0 if no
-  targets are available to change to.  Otherwise return non-zero.
+  targets are available to change to.  Otherwise return non-zero.  Has
+  the side-effect of removing from the worklist any no-longer-available
+  targets as well as the target actually selected, if any.
 **************************************************************************/
 int worklist_change_build_target(struct player *pplayer, struct city *pcity)
 {
   int success = 0;
+  int i;
 
   if (worklist_is_empty(pcity->worklist))
     /* Nothing in the worklist; bail now. */
     return 0;
 
-  while (!worklist_is_empty(pcity->worklist)) {
+  i = 0;
+  while (1) {
     int target, is_unit;
 
-    worklist_peek(pcity->worklist, &target, &is_unit);
-    worklist_advance(pcity->worklist);
+    /* What's the next item in the worklist? */
+    if (!worklist_peek_ith(pcity->worklist, &target, &is_unit, i))
+      /* Nothing more in the worklist.  Ah, well. */
+      break;
+
+    i++;
 
     /* Sanity checks */
     if (is_unit &&
@@ -971,9 +979,9 @@ int worklist_change_build_target(struct player *pplayer, struct city *pcity)
       if (new_target == target) {
 	/* Nope, we're stuck.  Dump this item from the worklist. */
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
-			 _("Game: %s can't build %s from the worklist; %s is no longer available.  Purging..."),
+			 _("Game: %s can't build %s from the worklist; "
+			   "tech not yet available.  Postponing..."),
 			 pcity->name,
-			 get_unit_type(target)->name, 
 			 get_unit_type(target)->name);
 	continue;
       } else {
@@ -993,9 +1001,9 @@ int worklist_change_build_target(struct player *pplayer, struct city *pcity)
       if (new_target == target) {
 	/* Nope, no use.  *sigh*  */
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
-			 _("Game: %s can't build %s from the worklist; %s is no longer available.  Purging..."),
+			 _("Game: %s can't build %s from the worklist; "
+			   "tech not yet available.  Postponing..."),
 			 pcity->name,
-			 get_imp_name_ex(pcity, target), 
 			 get_imp_name_ex(pcity, target));
 	continue;
       } else {
@@ -1014,6 +1022,12 @@ int worklist_change_build_target(struct player *pplayer, struct city *pcity)
 
     success = 1;
     break;
+  }
+
+  if (success) {
+    /* i is the index immediately _after_ the item we're changing to.
+       Remove the (i-1)th item from the worklist. */
+    worklist_remove(pcity->worklist, i-1);
   }
 
   if (worklist_is_empty(pcity->worklist)) {
@@ -1229,7 +1243,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	    disband_city(pcity);
 	    return 0;
 	  } else {
-	    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+	    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
 			     _("Game: %s can't build %s yet."),
 			     pcity->name, unit_name(pcity->currently_building));
 	  }
@@ -1558,7 +1572,7 @@ static void disband_city(struct city *pcity)
 
   if (!rcity) {
     /* What should we do when we try to disband our only city? */
-    notify_player_ex(pplayer, x, y, E_NOEVENT,
+    notify_player_ex(pplayer, x, y, E_CITY_CANTBUILD,
 		     _("Game: %s can't build %s yet, "
 		     "and we can't disband our only city."),
 		     pcity->name, unit_name(pcity->currently_building));

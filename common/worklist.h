@@ -38,5 +38,6 @@ int worklist_peek_id_ith(struct worklist *pwl, int idx);
 void worklist_advance(struct worklist *pwl);
 
 void copy_worklist(struct worklist *dst, struct worklist *src);
+void worklist_remove(struct worklist *pwl, int idx);
 
 #endif /* FC__WORKLIST_H */
