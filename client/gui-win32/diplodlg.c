@@ -60,6 +60,8 @@ enum Diplomacy_ids {
   ID_ALLIANCE,
   ID_VISION0,
   ID_VISION1,
+  ID_EMBASSY0,
+  ID_EMBASSY1,
   ID_ERASE,
   ID_LIST,
   ID_ADVANCES_BASE=1000,
@@ -278,6 +280,20 @@ static void handle_vision_button(struct Diplomacy_dialog *pdialog,int plr)
 /****************************************************************
 
 *****************************************************************/
+static void handle_embassy_button(struct Diplomacy_dialog *pdialog, int plr)
+{
+  struct player *pgiver;
+  pgiver = plr ? pdialog->treaty.plr1 : pdialog->treaty.plr0;
+
+  dsend_packet_diplomacy_create_clause_req(&aconnection, 
+					   pdialog->treaty.plr1->player_no,
+					   pgiver->player_no, CLAUSE_EMBASSY,
+					   0);
+}
+
+/****************************************************************
+
+*****************************************************************/
 static void handle_pact_button(struct Diplomacy_dialog *pdialog)
 {
   RECT rc;
@@ -488,6 +504,12 @@ static LONG CALLBACK diplomacy_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM l
     case ID_VISION1:
       handle_vision_button(pdialog,1);
       break;
+    case ID_EMBASSY0:
+      handle_embassy_button(pdialog,0);
+      break;
+    case ID_EMBASSY1:
+      handle_embassy_button(pdialog,1);
+      break;
     case ID_PACT:
       handle_pact_button(pdialog);
       break;
@@ -499,6 +521,11 @@ static LONG CALLBACK diplomacy_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM l
       break;
     case IDOK:
       handle_accept_button(pdialog);
+      break;
+    case ID_LIST:
+      if (HIWORD(wParam) == LBN_DBLCLK) {
+	handle_erase_button(pdialog);
+      }
       break;
     default:
       if (LOWORD(wParam)>=ID_CITIES_BASE) {
@@ -579,6 +606,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
   fcwin_box_add_button(vbox,_("Maps"),ID_MAP0,0,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Advances"),ID_TECH0,0,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Cities"),ID_CITY0,0,FALSE,FALSE,5);
+  fcwin_box_add_button(vbox,_("Embassy"), ID_EMBASSY0, 0, FALSE, FALSE, 5);
   
   my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold); 
   pdialog->gold0_label=fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
@@ -626,6 +654,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
   fcwin_box_add_button(vbox,_("Maps"),ID_MAP1,0,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Advances"),ID_TECH1,0,FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Cities"),ID_CITY1,0,FALSE,FALSE,5);
+  fcwin_box_add_button(vbox,_("Embassy"), ID_EMBASSY1, 0, FALSE, FALSE, 5);
   
   my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold); 
   pdialog->gold1_label=fcwin_box_add_static(vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
@@ -633,6 +662,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(int other_player_id)
 		     FALSE,FALSE,5);
   fcwin_box_add_button(vbox,_("Give shared vision"),ID_VISION1,0,
 		       FALSE,FALSE,5);
+  fcwin_box_add_button(vbox,_("Erase Clause"), ID_ERASE, 0, FALSE, FALSE, 5);
 
   fcwin_box_add_box(hbox,vbox,FALSE,FALSE,5);
   vbox=fcwin_vbox_new(pdialog->mainwin,FALSE);
