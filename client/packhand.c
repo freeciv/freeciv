@@ -296,8 +296,8 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	punit1->hp = hp1;
 
 	set_units_in_combat(NULL, NULL);
-	refresh_tile_mapcanvas(punit0->tile, FALSE);
-	refresh_tile_mapcanvas(punit1->tile, FALSE);
+	refresh_unit_mapcanvas(punit0, punit0->tile, FALSE);
+	refresh_unit_mapcanvas(punit1, punit1->tile, FALSE);
       }
     }
   }
@@ -1219,18 +1219,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   }
 
   if (repaint_unit) {
-    if (unit_type_flag(punit->type, F_CITIES)) {
-      int width = get_citydlg_canvas_width();
-      int height = get_citydlg_canvas_height();
-      int canvas_x, canvas_y;
-
-      tile_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
-      update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
-			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
-			width, height);
-    } else {
-      refresh_tile_mapcanvas(punit->tile, FALSE);
-    }
+    refresh_unit_mapcanvas(punit, punit->tile, FALSE);
   }
 
   if ((check_focus || get_unit_in_focus() == NULL) &&

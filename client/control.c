@@ -167,7 +167,7 @@ void set_unit_focus(struct unit *punit)
     auto_center_on_focus_unit();
 
     punit->focus_status=FOCUS_AVAIL;
-    refresh_tile_mapcanvas(punit->tile, FALSE);
+    refresh_unit_mapcanvas(punit, punit->tile, FALSE);
 
     if (unit_has_orders(punit)) {
       /* Clear the focus unit's orders. */
@@ -183,7 +183,7 @@ void set_unit_focus(struct unit *punit)
   /* avoid the old focus unit disappearing: */
   if (punit_old_focus
       && (!punit || !same_pos(punit_old_focus->tile, punit->tile))) {
-    refresh_tile_mapcanvas(punit_old_focus->tile, FALSE);
+    refresh_unit_mapcanvas(punit_old_focus, punit_old_focus->tile, FALSE);
   }
 
   update_unit_info_label(punit);
@@ -412,7 +412,7 @@ void blink_active_unit(void)
       is_shown = !is_shown;
     }
     set_focus_unit_hidden_state(!is_shown);
-    refresh_tile_mapcanvas(punit->tile, TRUE);
+    refresh_unit_mapcanvas(punit, punit->tile, TRUE);
   }
 }
 
@@ -1395,21 +1395,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
   if (punit->transported_by == -1) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
-    if (unit_type_flag(punit->type, F_CITIES)
-	&& punit->client.color != 0) {
-      /* For settlers with an overlay, redraw the entire area of the
-       * overlay. */
-      int width = get_citydlg_canvas_width();
-      int height = get_citydlg_canvas_height();
-      int canvas_x, canvas_y;
-
-      tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
-      update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
-			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
-			width, height);
-    } else {
-      refresh_tile_mapcanvas(ptile, FALSE);
-    }
+    refresh_unit_mapcanvas(punit, punit->tile, FALSE);
 
     if (do_animation) {
       int dx, dy;

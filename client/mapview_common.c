@@ -84,6 +84,36 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 }
 
 /**************************************************************************
+ Refreshes a single unit on the map canvas.
+**************************************************************************/
+void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
+			    bool write_to_screen)
+{
+  if (unit_type_flag(punit->type, F_CITIES)) {
+    int width = get_citydlg_canvas_width();
+    int height = get_citydlg_canvas_height();
+    int canvas_x, canvas_y;
+
+    tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+    update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
+		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
+		      width, height);
+  } else {
+    int canvas_x, canvas_y;
+
+    if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+      canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
+      update_map_canvas(canvas_x, canvas_y,
+			UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    } 
+  }
+  if (write_to_screen) {
+    flush_dirty();
+  }
+  overview_update_tile(ptile);
+}
+
+/**************************************************************************
 Returns the color the grid should have between tile (x1,y1) and
 (x2,y2).
 **************************************************************************/
@@ -1813,10 +1843,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     if (myrand(diff0 + diff1) < diff0) {
       punit0->hp--;
-      refresh_tile_mapcanvas(punit0->tile, FALSE);
+      refresh_unit_mapcanvas(punit0, punit0->tile, FALSE);
     } else {
       punit1->hp--;
-      refresh_tile_mapcanvas(punit1->tile, FALSE);
+      refresh_unit_mapcanvas(punit1, punit1->tile, FALSE);
     }
 
     flush_dirty();
@@ -1828,7 +1858,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   if (num_tiles_explode_unit > 0
       && tile_to_canvas_pos(&canvas_x, &canvas_y,
 			   losing_unit->tile)) {
-    refresh_tile_mapcanvas(losing_unit->tile, FALSE);
+    refresh_unit_mapcanvas(losing_unit, losing_unit->tile, FALSE);
     canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
 		canvas_x, canvas_y, canvas_x, canvas_y,
 		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -1859,8 +1889,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   }
 
   set_units_in_combat(NULL, NULL);
-  refresh_tile_mapcanvas(punit0->tile, FALSE);
-  refresh_tile_mapcanvas(punit1->tile, FALSE);
+  refresh_unit_mapcanvas(punit0, punit0->tile, FALSE);
+  refresh_unit_mapcanvas(punit1, punit1->tile, FALSE);
 }
 
 /**************************************************************************
