@@ -13,13 +13,7 @@ PACKAGE=freeciv
 
 dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
-dnl These values must match in configure.*, common/version.h, and data/Freeciv.
-MAJOR_VERSION=1
-MINOR_VERSION=14
-PATCH_VERSION=99
-VERSION_LABEL="-devel"
-IS_DEVEL_VERSION=1
-IS_BETA_VERSION=0
+m4_include(version.in)
 
 VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}
 
@@ -608,6 +602,11 @@ AC_OUTPUT_COMMANDS(
 if test -n "$GCC"; then
   CFLAGS="$EXTRA_GCC_DEBUG_CFLAGS $CFLAGS"
 fi
+
+
+dnl Rebuild 'configure' whenever version.in changes, if maintainer mode enabled.
+CONFIGURE_DEPENDENCIES="$CONFIGURE_DEPENDENCIES \$(top_srcdir)/version.in"
+AC_SUBST([CONFIGURE_DEPENDENCIES])
 
 AC_OUTPUT(Makefile
           data/Makefile 

@@ -71,6 +71,7 @@ EXTRA_DIST=	acconfig.old			\
 		m4/sdl-client.m4		\
 		m4/sdl.m4			\
 		m4/sound.m4			\
+		m4/version.m4			\
 		m4/vsnprintf.m4			\
 		m4/win32-client.m4		\
 		m4/x.213			\
@@ -81,6 +82,8 @@ EXTRA_DIST=	acconfig.old			\
 		vms/imlib_config.h_vms		\
 		vms/readme.vms			\
 		vms/vms_build.com
+
+noinst_HEADERS= version.in
 
 src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
