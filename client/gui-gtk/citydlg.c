@@ -335,7 +335,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
     pdialog->citizen_boxes[i]=gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_boxes[i], FALSE, FALSE,0);
+
     gtk_widget_show(pdialog->citizen_boxes[i]);
+
     gtk_widget_set_events(pdialog->citizen_boxes[i], GDK_BUTTON_PRESS_MASK);
 
     pdialog->citizen_pixmaps[i]=gtk_pixmap_new(gdk_pixmap_new(root_window,
@@ -391,10 +393,11 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   pdialog->map_canvas=gtk_drawing_area_new();
   gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->map_canvas),
 			NORMAL_TILE_WIDTH*5, NORMAL_TILE_HEIGHT*5);
-  gtk_container_add(GTK_CONTAINER(frame), pdialog->map_canvas);
-  gtk_widget_realize(pdialog->map_canvas);
+
   gtk_widget_set_events(pdialog->map_canvas, GDK_EXPOSURE_MASK
 						|GDK_BUTTON_PRESS_MASK);
+  gtk_container_add(GTK_CONTAINER(frame), pdialog->map_canvas);
+  gtk_widget_realize(pdialog->map_canvas);
   
   /* "production queue" vbox */
   box=gtk_vbox_new(FALSE, 5);
@@ -444,6 +447,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     gtk_box_pack_start(GTK_BOX(box), pdialog->support_unit_boxes[i],
 		       TRUE, FALSE, 0);
     gtk_widget_show(pdialog->support_unit_boxes[i]);
+
     gtk_widget_set_events(pdialog->support_unit_boxes[i],
 	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
 
@@ -474,6 +478,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     gtk_box_pack_start(GTK_BOX(box), pdialog->present_unit_boxes[i],
 		       TRUE, FALSE, 0);
     gtk_widget_show(pdialog->present_unit_boxes[i]);
+
     gtk_widget_set_events(pdialog->present_unit_boxes[i],
 	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
 
