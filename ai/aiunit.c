@@ -437,10 +437,6 @@ static int stay_and_defend_city(struct unit *punit)
   struct city *pcity = map_get_city(punit->x, punit->y);
   int has_defense = 0;
 
-  printf("evaluating at %d,%d\n", punit->x, punit->y);
-  if (pcity)
-    printf("%s\n", pcity->name);
-
   if (!pcity) return 0;
   if (pcity->id == punit->homecity) return 0;
   if (pcity->owner != punit->owner) return 0;
@@ -453,7 +449,6 @@ static int stay_and_defend_city(struct unit *punit)
     }
   } unit_list_iterate_end;
  
-  printf("has_defense: %d\n", has_defense);
   /* Guess I better stay / you can live at home now */
   if (!has_defense) {
     struct packet_unit_request packet;
