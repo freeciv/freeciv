@@ -99,7 +99,10 @@ int is_diplomat_action_available(struct unit *pdiplomat,
   struct city *pcity=map_get_city(destx, desty);
   int playerid = pdiplomat->owner;
 
-  if(pcity) {  
+  if (action!=DIPLOMAT_MOVE && map_get_terrain(pdiplomat->x, pdiplomat->y)==T_OCEAN)
+    return 0;
+
+  if (pcity) {
     if(pcity->owner!=pdiplomat->owner &&
        real_map_distance(pdiplomat->x, pdiplomat->y, pcity->x, pcity->y) <= 1) {
       if(action==DIPLOMAT_SABOTAGE)

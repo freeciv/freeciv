@@ -940,35 +940,40 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
      final destination.
   */
   if (is_diplomat_unit(punit)
-      && is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
-				      dest_x, dest_y)
       && (is_non_allied_unit_tile(pdesttile, punit->owner)
 	  || is_non_allied_city_tile(pdesttile, punit->owner)
 	  || !move_diplomat_city)) {
-    struct packet_diplomat_action packet;
-    if (punit->activity == ACTIVITY_GOTO && pplayer->ai.control)
+    if (is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
+				     dest_x, dest_y)) {
+      struct packet_diplomat_action packet;
+      if (punit->activity == ACTIVITY_GOTO && pplayer->ai.control)
+	return 0;
+
+      /* If we didn't send_unit_info the client would sometimes think that
+	 the diplomat didn't have any moves left and so don't pop up the box.
+	 (We are in the middle of the unit restore cycle when doing goto's, and
+	 the unit's movepoints have been restored, but we only send the unit
+	 info at the end of the function. */
+      send_unit_info(pplayer, punit);
+
+      /* if is_diplomat_action_available() then there must be a city or a unit */
+      if (pcity) {
+	packet.target_id = pcity->id;
+      } else if (pdefender) {
+	packet.target_id = pdefender->id;
+      } else {
+	freelog(LOG_FATAL, "Bug in unithand.c: no diplomat target.");
+	abort();
+      }
+      packet.diplomat_id = punit->id;
+      packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
+      lsend_packet_diplomat_action(player_reply_dest(pplayer), &packet);
       return 0;
-
-    /* If we didn't send_unit_info the client would sometimes think that
-       the diplomat didn't have any moves left and so don't pop up the box.
-       (We are in the middle of the unit restore cycle when doing goto's, and
-       the unit's movepoints have been restored, but we only send the unit
-       info at the end of the function. */
-    send_unit_info(pplayer, punit);
-
-    /* if is_diplomat_action_available() then there must be a city or a unit */
-    if (pcity) {
-      packet.target_id = pcity->id;
-    } else if (pdefender) {
-      packet.target_id = pdefender->id;
-    } else {
-      freelog(LOG_FATAL, "Bug in unithand.c: no diplomat target.");
-      abort();
+    } else if (!can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
+      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+  		       _("Game: No diplomat action possible."));
+      return 0;
     }
-    packet.diplomat_id = punit->id;
-    packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
-    lsend_packet_diplomat_action(player_reply_dest(pplayer), &packet);
-    return 0;
   }
 
   /*** Try to attack if there is an enemy unit on the target tile ***/
