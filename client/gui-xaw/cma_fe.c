@@ -70,9 +70,9 @@
 Widget *stat_surplus_label, *stat_factor_label;
 Widget control_button, change_button, preset_list, cma_dialog;
 Widget celebrate_toggle, result_label, release_button;
-Widget surplus_slider[O_COUNT], factor_slider[O_COUNT + 1];
+Widget surplus_slider[O_MAX], factor_slider[O_MAX + 1];
 
-int minimal_surplus[O_COUNT], factors[O_COUNT + 1];
+int minimal_surplus[O_MAX], factors[O_MAX + 1];
 struct city *current_city;
 char *initial_preset_list[] = {
       N_("For information on:"),

@@ -38,9 +38,9 @@ struct cma_dialog {
   GtkWidget *change_command;
   GtkWidget *perm_command;
   GtkWidget *release_command;
-  GtkAdjustment *minimal_surplus[O_COUNT];
+  GtkAdjustment *minimal_surplus[O_MAX];
   GtkWidget *happy_button;
-  GtkAdjustment *factor[O_COUNT + 1];
+  GtkAdjustment *factor[O_MAX + 1];
   int id;			/* needed to pass a preset_index */
 };
 

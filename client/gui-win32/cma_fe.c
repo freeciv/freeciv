@@ -52,9 +52,9 @@ struct cma_dialog {
   HWND change;
   HWND perm;
   HWND release;
-  HWND minimal_surplus[O_COUNT];
+  HWND minimal_surplus[O_MAX];
   HWND happy;
-  HWND factor[O_COUNT + 1];
+  HWND factor[O_MAX + 1];
   int id;
 };
 
