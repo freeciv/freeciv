@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
   char *load_filename=NULL;
   char *script_filename=NULL;
   int i;
-  int save_counter;
+  int save_counter=0;
   int log_level=LOG_NORMAL;
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
@@ -366,8 +366,6 @@ int main(int argc, char *argv[])
     
   send_game_state(0, CLIENT_GAME_RUNNING_STATE);
   
-  save_counter=game.save_nturns;
-
   /* from here on, treat scenarios as normal games, as this is what
      they have become (nothing special about them anymore)*/
   game.scenario=0;
@@ -404,8 +402,8 @@ empty get to refresh and defend themselves.  How totally stupid. */
     for(i=0;i<game.nplayers;i++)
       connection_do_unbuffer(game.players[i].conn);
       
-    if(--save_counter==0) {
-      save_counter=game.save_nturns;
+    if(++save_counter>=game.save_nturns) {
+      save_counter=0;
       save_game();
     }
     if (game.year>game.end_year || is_game_over()) 
