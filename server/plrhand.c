@@ -131,7 +131,7 @@ static void great_library(struct player *pplayer)
 	  gamelog(GAMELOG_TECH, _("%s discover %s (Library)"),
 		  get_nation_name_plural(pplayer->nation), advances[i].name);
 	  notify_embassies(pplayer, NULL,
-			   _("Game: The %s have aquired %s"
+			   _("Game: The %s have acquired %s"
 			     " from the Great Library."),
 			   get_nation_name_plural(pplayer->nation),
 			   advances[i].name);
