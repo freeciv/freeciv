@@ -32,7 +32,7 @@ struct unit_type unit_types[U_LAST]={
   {"Pikemen",       37, LAND_MOVING, 20,   1,  2,  1*3, A_FEUDALISM,   1,  0, 10, 1, U_MUSKETEERS, 0, F_PIKEMEN},
   {"Musketeers",    19, LAND_MOVING, 30,   3,  3,  1*3, A_GUNPOWDER,   1,  0, 20, 1, U_RIFLEMEN, 0,0 },
   {"Fanatics",      49, LAND_MOVING, 20,   4,  4,  1*3, A_LAST,        1,  0, 20, 1, -1, 0,0},
-  {"Partisan",      36, LAND_MOVING, 50,   4,  4,  1*3, A_GUERILLA,    1,  0, 20, 1, -1, 0,F_IGZOC},
+  {"Partisan",      36, LAND_MOVING, 50,   4,  4,  1*3, A_GUERILLA,    1,  0, 20, 1, -1, 0,F_IGTER | F_IGZOC},
   {"Alpine Troops", 45, LAND_MOVING, 50,   5,  5,  1*3, A_TACTICS,     1,  0, 20, 1, -1, 0,F_IGTER},  
   {"Riflemen",      22, LAND_MOVING, 40,   5,  4,  1*3, A_CONSCRIPTION,1,  0, 20, 1, -1, 0,0},
   {"Marines",       40, LAND_MOVING, 60,   8,  5,  1*3, A_AMPHIBIOUS,  1,  0, 20, 1, -1, 0,F_MARINES},
