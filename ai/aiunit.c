@@ -1241,7 +1241,8 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
 	    freelog(LOG_DEBUG, "All aboard!");
 	    /* perhaps this should only require two passengers */
             unit_list_iterate(ptile->units, mypass) {
-              if (mypass->ai.ferryboat == ferryboat->id) {
+              if (mypass->ai.ferryboat == ferryboat->id
+                  && punit->owner == mypass->owner) {
                 handle_unit_activity_request(mypass, ACTIVITY_SENTRY);
                 def = unit_list_find(&ptile->units, mypass->ai.bodyguard);
                 if (def) {
@@ -1278,7 +1279,8 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
       if (punit->ai.bodyguard < BODYGUARD_NONE) { 
 	adjc_iterate(punit->x, punit->y, i, j) {
 	  unit_list_iterate(map_get_tile(i, j)->units, aunit) {
-	    if (aunit->ai.charge == punit->id) {
+	    if (aunit->ai.charge == punit->id
+                && punit->owner == aunit->owner) {
 	      freelog(LOG_DEBUG,
 		      "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
 		      i, j, punit->x, punit->y);
@@ -1419,8 +1421,10 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 /* def is the defense of the city without punit */
         if (unit_flag(punit, F_FIELDUNIT)) val = -1;
         unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef)
-          if (is_military_unit(pdef) && pdef != punit &&
-              !unit_flag(pdef, F_FIELDUNIT)) {
+          if (is_military_unit(pdef) 
+              && pdef != punit 
+              && !unit_flag(pdef, F_FIELDUNIT)
+              && pdef->owner == punit->owner) {
             if (assess_defense_unit(pcity, pdef, FALSE) >= val) val = 0;
           }
         unit_list_iterate_end; /* was getting confused without the is_military part in */
@@ -2306,6 +2310,9 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     punit->ai.passenger = 0;
 
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
+    if (punit->owner != aunit->owner) {
+      return;
+    }
     if (aunit->ai.ferryboat == punit->id) {
       if (punit->ai.passenger == 0) punit->ai.passenger = aunit->id; /* oops */
       p++;
