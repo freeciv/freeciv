@@ -702,20 +702,22 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 }
 
 /************************************************************************** 
-This function decides, what unit would be best for erasing enemy. It is called,
-when we just want to kill something, we've found it but we don't have the unit
-for killing that built yet - here we'll choose the type of that unit.
+  This function decides, what unit would be best for erasing enemy. It is 
+  called, when we just want to kill something, we've found it but we don't 
+  have the unit for killing that built yet - here we'll choose the type of 
+  that unit.
 
-We will also set increase the technology want to get units which could perform
-the job better.
+  We will also set increase the technology want to get units which could 
+  perform the job better.
 
-I decided this funct wasn't confusing enough, so I made kill_something_with
-send it some more variables for it to meddle with. -- Syela
+  I decided this funct wasn't confusing enough, so I made 
+  kill_something_with send it some more variables for it to meddle with. 
+  -- Syela
 
-TODO: Get rid of these parameters :).
+  TODO: Get rid of these parameters :).
 
-(x,y) is location of the target.
-(best_value, best_choice) is pre-filled with our current choice, we only 
+  (x,y) is location of the target.
+  (best_value, best_choice) is pre-filled with our current choice, we only 
   consider units of the same move_type as best_choice
 **************************************************************************/
 static void process_attacker_want(struct player *pplayer, struct city *pcity,
@@ -729,12 +731,19 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
   struct city *acity = map_get_city(x, y);
   bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
   int orig_move_type = unit_types[*best_choice].move_type;
-  int victim_move_rate = (acity ? 1
-                                : (unit_types[victim_unit_type].move_rate *
-                             (unit_type_flag(victim_unit_type, F_IGTER) ? 3
-                                                                        : 1)));
-  int victim_count = (acity ? unit_list_size(&(map_get_tile(x, y)->units)) + 1
-                            : 1);
+  int victim_move_rate = 1;
+  int victim_count = 1;
+
+  if (acity) {
+    /* If it is a city, we may have to whack it many times */
+    /* FIXME: Also valid for fortresses! */
+    victim_count += unit_list_size(&(map_get_tile(x, y)->units));
+  } else {
+    victim_move_rate = unit_types[victim_unit_type].move_rate;
+    if (unit_type_flag(victim_unit_type, F_IGTER)) {
+      victim_move_rate *= SINGLE_MOVE;
+    }
+  }
 
   simple_ai_unit_type_iterate (unit_type) {
     Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
@@ -859,7 +868,6 @@ static void process_attacker_want(struct player *pplayer, struct city *pcity,
       } else {
         if (!acity) {
           desire = kill_desire(value, attack, bcost, vuln, victim_count);
-          
         } else {
           int city_attack = acity->ai.attack * acity->ai.attack;
 
