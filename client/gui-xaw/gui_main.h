@@ -17,7 +17,7 @@
 
 #include "gui_main_g.h"
 
-void main_quit_freeciv(void);
+void xaw_ui_exit(void);
 void main_show_info_popup(XEvent *event);
 
 extern Atom         wm_delete_window;

@@ -237,10 +237,9 @@ void connectdlg_key_connect(Widget w)
 /****************************************************************
 ...
 *****************************************************************/
-void quit_callback(Widget w, XtPointer client_data, 
-				    XtPointer call_data) 
+void quit_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  exit(EXIT_SUCCESS);
+  xaw_ui_exit();
 }
 
 /****************************************************************

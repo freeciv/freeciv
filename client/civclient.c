@@ -244,6 +244,17 @@ int main(int argc, char *argv[])
   ui_main(argc, argv);
 
   /* termination */
+  ui_exit();
+  
+  /* not reached */
+  return EXIT_SUCCESS;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void ui_exit(void)
+{
   attribute_flush();
   client_remove_all_cli_conn();
   my_shutdown_network();

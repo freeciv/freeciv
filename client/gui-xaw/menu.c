@@ -39,6 +39,7 @@
 #include "dialogs.h"
 #include "finddlg.h"
 #include "gotodlg.h"
+#include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "mapctrl.h" 
@@ -478,7 +479,7 @@ static void game_menu_callback(Widget w, XtPointer client_data,
     disconnect_from_server();
     break;
   case MENU_GAME_QUIT:
-    exit(EXIT_SUCCESS);
+    xaw_ui_exit();
     break;
   }
 }

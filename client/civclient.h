@@ -62,5 +62,6 @@ bool can_intel_with_player(struct player *pplayer);
 
 void client_game_init(void);
 void client_game_free(void);
+void ui_exit(void);
 
 #endif  /* FC__CIVCLIENT_H */

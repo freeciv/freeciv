@@ -596,7 +596,7 @@ static void xaw_msg_close_units_report(Widget w, XEvent *event, String *argv, Ca
 
 static void xaw_msg_quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  main_quit_freeciv();
+  xaw_ui_exit();
 }
 
 /*******************************************************************************
