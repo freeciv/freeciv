@@ -101,12 +101,18 @@ struct improvement_type improvement_types[B_LAST]={
 
 
 char *default_roman_city_names[] = {
-  "Roma", "Syracusae", "Capua", "Tarentum", "Massilia", 
-  "Tingis", "Nova Carthago", "Numantia", "Tarraco", "Narbo Martius",
-  "Utica", "Chartago", "Caesarea", "Petra", "Ierusalem",
-  "Trapezus", "Durcotorum", "Lugudunum", "Leptis Magna", "Mediolanum",
-  "Messana", "Magontiacum", "Ravenna", "Eburacum", "Aquileia",
-  "Salonae", "Cyrene", "Dyrrachium", "Luni", "Noreia", (char *)0
+  "Roma", "Capua", "Syracusae", "Tarentum", "Neapolis",
+  "Tingis", "Nova Carthago", "Brundisium", "Ravenna", "Numantia",
+  "Utica", "Chartago", "Caesarea", "Messana", "Ierusalem",
+  "Trapezus", "Durcotorum", "Perusia", "Leptis Magna", "Mediolanum",
+  "Ariminum", "Tarraco", "Narbo Martius", "Pergamum", "Aquileia",
+  "Salonae", "Cyrene", "Dyrrachium", "Luni", "Noreia",
+  "Panoramus", "Ancyra", "Caralis", "Patavium", "Petra",
+  "Pisae", "Ancona", "Palmyra", "Tyrus", "Cortona", 
+  "Agrigentum", "Florentia", "Lix", "Sala", "Berytus",
+  "Bononia", "Sabrata","Verona", "Attalea", "Sinope",
+  "Velia", "Segesta", "Gaza", "Aleria", "Genua",
+  "Arretium", "Thapsus", "Ostia", "Altinum", "Tarsus", (char *)0
 };
 
 char *default_babylonian_city_names[] = {
@@ -126,7 +132,14 @@ char *default_german_city_names[] = {
   "Wien", "Fulda", "Würzburg", "Bamberg", "Nürnberg",
   "München", "Brixien", "Salzburg", "Passau", "Köln",
   "Koblenz", "Leipzig", "Regensburg", "Heidelberg", "Verden",
-  "Kassel", "Wittenberg", "Wismar", "Ulm", "Nordlingen", (char *)0
+  "Kassel", "Wittenberg", "Wismar", "Ulm", "Nördlingen",
+  "Stralsund", "Breslau", "Marburg", "Schlettstadt", "Augsburg",
+  "Mansfeld", "Donauwörth", "Dessau", "Osnabrück", "Hannover",
+  "Mühlberg", "Wittstock", "Speyer", "Kleve", "Worms",
+  "Landau", "Heilbronn", "Rosheim", "Schmalkalden", "Lutter", 
+  "Wiesloch", "Rosslau", "Magdeburg", "Minden", "Sinsheim", 
+  "Philippsburg", "Halberstadt", "Hersfeld", "Altenburg", "Klostergrab", 
+ (char *)0
 };
 
 /* Greek/Latin names */
