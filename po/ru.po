@@ -4,14 +4,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.14\n"
-"POT-Creation-Date: 2003-05-20 22:01-0700\n"
+"POT-Creation-Date: 2003-05-31 22:01-0700\n"
 "PO-Revision-Date: 2003-05-20 22:03-0400\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:260
 msgid "?redundant:*"
@@ -166,66 +167,66 @@ msgstr ""
 "Сервер, к которому вы пытались подключиться,- слишком старый (версия 1.12.0 "
 "или ранее). Пожалуйста, выберите другой сервер в следующий раз. До свидания."
 
-#: common/player.c:475
+#: common/player.c:498
 msgid "Spotless"
 msgstr "Безупречная"
 
-#: common/player.c:477
+#: common/player.c:500
 msgid "Excellent"
 msgstr "Отличная"
 
 #  Can't find a good translation...
-#: common/player.c:479
+#: common/player.c:502
 msgid "Honorable"
 msgstr "Неплохая"
 
-#: common/player.c:481
+#: common/player.c:504
 msgid "Questionable"
 msgstr "Спорная"
 
-#: common/player.c:483
+#: common/player.c:506
 msgid "Dishonorable"
 msgstr "Бесчестная"
 
-#: common/player.c:485
+#: common/player.c:508
 msgid "Poor"
 msgstr "Плохая"
 
-#: common/player.c:487
+#: common/player.c:510
 msgid "Despicable"
 msgstr "Отвратительная"
 
-#: common/player.c:489
+#: common/player.c:512
 msgid "Atrocious"
 msgstr "Ужасная"
 
-#: common/player.c:499
+#: common/player.c:522
 msgid "?diplomatic_state:Neutral"
 msgstr "?дипсост:Нейтралитет"
 
-#: common/player.c:500
+#: common/player.c:523
 msgid "?diplomatic_state:War"
 msgstr "?дипсост:Война"
 
 #: client/gui-gtk-2.0/diplodlg.c:330 client/gui-gtk/diplodlg.c:461
 #: client/gui-mui/diplodlg.c:636 client/gui-win32/diplodlg.c:309
-#: client/gui-xaw/diplodlg.c:525 common/player.c:501
+#: client/gui-xaw/diplodlg.c:525 common/player.c:524
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?дипсост:Перемирие"
 
 #: client/gui-gtk-2.0/diplodlg.c:335 client/gui-gtk/diplodlg.c:466
 #: client/gui-mui/diplodlg.c:640 client/gui-win32/diplodlg.c:310
-#: client/gui-xaw/diplodlg.c:529 common/player.c:502
+#: client/gui-xaw/diplodlg.c:529 common/player.c:525
 msgid "?diplomatic_state:Peace"
 msgstr "?дипсост:Мир"
 
 #: client/gui-gtk-2.0/diplodlg.c:340 client/gui-gtk/diplodlg.c:471
 #: client/gui-mui/diplodlg.c:644 client/gui-win32/diplodlg.c:311
-#: client/gui-xaw/diplodlg.c:533 common/player.c:503
+#: client/gui-xaw/diplodlg.c:533 common/player.c:526
 msgid "?diplomatic_state:Alliance"
 msgstr "?дипсост:Союз"
 
-#: common/player.c:504
+#: common/player.c:527
 msgid "?diplomatic_state:Never met"
 msgstr "?дипсост:Не встречал"
 
@@ -469,17 +470,17 @@ msgstr ""
 "ЭТО БЕТА ВЕРСИЯ\n"
 "Дата выпуска Freeciv %s - %s, на %s"
 
-#: ai/aicity.c:239 server/citytools.c:1752
+#: ai/aicity.c:240 server/citytools.c:1752
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Игра: %s прекратили строительство чуда %s в %s."
 
-#: ai/aicity.c:248 server/citytools.c:1794
+#: ai/aicity.c:249 server/citytools.c:1794
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Игра: %s начали строить чудо %s в %s."
 
-#: ai/aicity.c:684
+#: ai/aicity.c:685
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Игра: %s продают %s (ненужные) за %d"
@@ -786,7 +787,7 @@ msgstr ""
 "Игра: %s не может строить %s из рабочего списка; технология еще не "
 "разработана. Откладываем..."
 
-#: server/cityturn.c:713 server/cityturn.c:770 server/cityturn.c:875
+#: server/cityturn.c:713 server/cityturn.c:770 server/cityturn.c:881
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Игра: Производство %s переключено на %s в %s."
@@ -813,114 +814,114 @@ msgstr ""
 msgid "Game: %s's worklist is now empty."
 msgstr "Игра: список работ в %s пуст."
 
-#: server/cityturn.c:894
+#: server/cityturn.c:900
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Игра: %s не может поддерживать %s, соеднинение расформировано."
 
-#: server/cityturn.c:926
+#: server/cityturn.c:932
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Игра: %s строит здание %s, которое более не доступно."
 
-#: server/cityturn.c:962
+#: server/cityturn.c:968
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Игра: %s завершили строительство %s в %s."
 
-#: server/cityturn.c:966 server/cityturn.c:972
+#: server/cityturn.c:972 server/cityturn.c:978
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s строят %s в %s."
 
-#: server/cityturn.c:978
+#: server/cityturn.c:984
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Игра: %s построил %s."
 
-#: server/cityturn.c:985
+#: server/cityturn.c:991
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Игра: %s ускоряет исследования, вы совершаете 2 немедленных отркытия."
 
-#: server/cityturn.c:1001
+#: server/cityturn.c:1007
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Игра: %s приобрели %s и %s от %s."
 
-#: server/cityturn.c:1008
+#: server/cityturn.c:1014
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Игра: %s начали строительство космического корабля!"
 
-#: server/cityturn.c:1051
+#: server/cityturn.c:1057
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Игра: %s еще не может строить %s."
 
-#: server/cityturn.c:1078
+#: server/cityturn.c:1084
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Игра: В городе %s закончено строительство соединения \"%s\"."
 
-#: server/cityturn.c:1082
+#: server/cityturn.c:1088
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s строят %s в %s (%i,%i)"
 
-#: server/cityturn.c:1121
+#: server/cityturn.c:1127
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Игра: Невозможно содержать %s в %s, здание продано!"
 
-#: server/cityturn.c:1157
+#: server/cityturn.c:1163
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Игра: Загрязнение возле %s."
 
-#: server/cityturn.c:1289
+#: server/cityturn.c:1295
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Игра: Празднование дня любви к %s проходит в %s."
 
-#: server/cityturn.c:1297
+#: server/cityturn.c:1303
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Игра: Празднование дня любви к %s прекращено в %s."
 
-#: server/cityturn.c:1329
+#: server/cityturn.c:1335
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Игра: Гражданские беспорядки в %s."
 
-#: server/cityturn.c:1332
+#: server/cityturn.c:1338
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Игра: ГРАЖДАНСКИЕ БЕСПОРЯДКИ ПРОДОЛЖАЮТСЯ в %s."
 
-#: server/cityturn.c:1338
+#: server/cityturn.c:1344
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Игра: Порядок восстановлен в %s."
 
-#: server/cityturn.c:1346
+#: server/cityturn.c:1352
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr "Игра: Ваша %s свергнута, страна в хаосе."
 
-#: server/cityturn.c:1370
+#: server/cityturn.c:1376
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Игра: %s все еще не может построить %s, и мы не можем оставить наш "
 "единственный город."
 
-#: server/cityturn.c:1387
+#: server/cityturn.c:1393
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Игра: %s расформированы в %s."
 
-#: server/cityturn.c:1389
+#: server/cityturn.c:1395
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "Игра: %s (%i, %i) расформированы в %s народом %s"
@@ -989,7 +990,8 @@ msgstr "  -l, --log FILE\tИспользовать FILE для записи журнала\n"
 
 #: server/civserver.c:139
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
-msgstr "  -m, --meta\t\tСвязаться с метасервером и послать информацию о сервере\n"
+msgstr ""
+"  -m, --meta\t\tСвязаться с метасервером и послать информацию о сервере\n"
 
 #: server/civserver.c:140
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
@@ -1149,11 +1151,25 @@ msgstr "Вы не владеете %s, нельзя заключить договор."
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr "Игра: Требуют вашу столицу (%s), нельзя заключить договор."
 
-#: server/diplhand.c:187
+#: server/diplhand.c:187 server/diplhand.c:291
+#, c-format
+msgid ""
+"Game: You are at war with one of %s's allies - an alliance with %s is "
+"impossible."
+msgstr "Игра: Вы находитесь в состоянии войны с союзниками %s, союз с %s невозможен."
+
+#: server/diplhand.c:194 server/diplhand.c:287
+#, c-format
+msgid ""
+"Game: %s is at war with one of your allies - an alliance with %s is "
+"impossible."
+msgstr "Игра: %s находится в состоянии войны с одним из ваших союзников, союз с %s невозможен."
+
+#: server/diplhand.c:203
 msgid "Game: You don't have enough gold, you can't accept treaty."
 msgstr "Игра: У вас недостаточно денег, невозможно заключить договор."
 
-#: server/diplhand.c:219 server/diplhand.c:224
+#: server/diplhand.c:235 server/diplhand.c:240
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
 msgid_plural "Game: A treaty containing %d clauses was agreed upon."
@@ -1161,103 +1177,103 @@ msgstr[0] "Игра: Договор содержащий %d статью был подписан."
 msgstr[1] "Игра: Договор содержащий %d статьи был подписан."
 msgstr[2] "Игра: Договор содержащий %d статей был подписан."
 
-#: server/diplhand.c:228
+#: server/diplhand.c:244
 #, c-format
 msgid "%s and %s agree to a treaty"
 msgstr "%s и %s заключили договор"
 
-#: server/diplhand.c:243 server/diplhand.c:247
+#: server/diplhand.c:259 server/diplhand.c:263
 #, c-format
 msgid ""
 "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr "Игра: Один из городов, который %s отдает, уничтожен! Договор отменен!"
 
-#: server/diplhand.c:254 server/diplhand.c:259
+#: server/diplhand.c:270 server/diplhand.c:275
 #, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Игра: %s более не контролируют %s! Договор отменен!"
 
-#: server/diplhand.c:269 server/diplhand.c:273
+#: server/diplhand.c:300 server/diplhand.c:304
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Игра: %s не имеют обещанное количество денег! Договор отменен!"
 
-#: server/diplhand.c:298
+#: server/diplhand.c:329
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Игра: Вам преподали знание %s."
 
-#: server/diplhand.c:302
+#: server/diplhand.c:333
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Игра: %s приобрели %s от %s."
 
-#: server/diplhand.c:307
+#: server/diplhand.c:338
 #, c-format
 msgid "%s acquire %s (Treaty) from %s"
 msgstr "%s приобрели %s (Договор) от %s."
 
-#: server/diplhand.c:317
+#: server/diplhand.c:348
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Игра: Вы получили %d золотых."
 
-#: server/diplhand.c:323
+#: server/diplhand.c:354
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Игра: Вы получили карту мира %s."
 
-#: server/diplhand.c:328
+#: server/diplhand.c:359
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Вы получили морскую карту %s."
 
-#: server/diplhand.c:343
+#: server/diplhand.c:374
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Игра: Вы захватили город %s у %s."
 
-#: server/diplhand.c:347
+#: server/diplhand.c:378
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Игра: Вы сдали город %s. Захватчик - %s."
 
-#: server/diplhand.c:359 server/diplhand.c:362
+#: server/diplhand.c:390 server/diplhand.c:393
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Игра: Вы договорились о перемирии с %s."
 
-#: server/diplhand.c:371 server/diplhand.c:374
+#: server/diplhand.c:402 server/diplhand.c:405
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Игра: Вы договорились о мире с народом %s."
 
-#: server/diplhand.c:383 server/diplhand.c:386
+#: server/diplhand.c:414 server/diplhand.c:417
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Игра: Вы заключили союз с %s."
 
-#: server/diplhand.c:394
+#: server/diplhand.c:425
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Игра: Вы поделились вашим зрением с %s."
 
-#: server/diplhand.c:397
+#: server/diplhand.c:428
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Игра: %s поделились с вами своим зрением."
 
-#: server/diplhand.c:509
+#: server/diplhand.c:543
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Игра: %s отказались от переговоров!"
 
-#: server/diplhand.c:515
+#: server/diplhand.c:549
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Игра: Встреча с %s прекращена."
 
-#: server/diplhand.c:558
+#: server/diplhand.c:592
 msgid "AI controlled players cannot participate in diplomatic meetings."
 msgstr ""
 "Компьютерные игроки не могут учавствовать в дипломатических переговорах."
@@ -1893,34 +1909,34 @@ msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень роскоши превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:838
+#: server/plrhand.c:844
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s больше не делятся своим зрением!"
 
-#: server/plrhand.c:873
+#: server/plrhand.c:881
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "Сенат пропускает ваш закон из-за постоянных провокаций %s."
 
-#: server/plrhand.c:883
+#: server/plrhand.c:892
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Игра: Ваша репутация сейчас %s."
 
-#: server/plrhand.c:887
+#: server/plrhand.c:896
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr "Игра: Сенат решает распустится, лишц бы не поддерживать ваши действия."
 
-#: server/plrhand.c:919
+#: server/plrhand.c:937
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Игра: Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:925
+#: server/plrhand.c:943
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -1928,26 +1944,26 @@ msgid ""
 msgstr ""
 "Игра: %s разорвали догвор. Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:1302
+#: server/plrhand.c:1336
 #, c-format
 msgid "Removing player %s."
 msgstr "Убираем игрока %s."
 
-#: server/plrhand.c:1303
+#: server/plrhand.c:1337
 msgid "Game: You've been removed from the game!"
 msgstr "Игра: Вы были удалены из игры!"
 
-#: server/plrhand.c:1306
+#: server/plrhand.c:1340
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Игра: %s был удален из игры."
 
-#: server/plrhand.c:1349 server/plrhand.c:1353
+#: server/plrhand.c:1383 server/plrhand.c:1387
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Игра: Вы вступили в контакт с народом, именуемым %s, их лидер - %s."
 
-#: server/plrhand.c:1678
+#: server/plrhand.c:1712
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1956,12 +1972,12 @@ msgstr ""
 "Игра: В вашей стране началась гражданская война, %s об'явлен лидером "
 "повстанцев."
 
-#: server/plrhand.c:1698
+#: server/plrhand.c:1732
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Игра: %s перешел на сторону %s."
 
-#: server/plrhand.c:1712
+#: server/plrhand.c:1746
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2311,18 +2327,18 @@ msgstr ""
 "Число начальных позиций (%d) меньше чем max_players (%d), уменьшаем "
 "max_players."
 
-#: server/savegame.c:1775
+#: server/savegame.c:1786
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Сохраненная игра слишком старая, нужна по крайней мере версия 1.9.0."
 
-#: server/savegame.c:1942
+#: server/savegame.c:1953
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Сохраненная игра использует \"классический\" набор рельефа, который больше "
 "не поддерживается."
 
-#: server/savegame.c:1951
+#: server/savegame.c:1962
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -2488,7 +2504,7 @@ msgstr "Запуск игры."
 #: server/srv_main.c:652
 #, c-format
 msgid "Game: request for unknown report (type %d)"
-msgstr ""
+msgstr "Игра: запрошен неизвестный рапорт (тип %d)"
 
 #: server/srv_main.c:762
 #, c-format
@@ -3187,13 +3203,18 @@ msgstr ""
 
 #: server/stdinhand.c:638
 msgid "Number of turns players may meet after contact"
-msgstr "Число ходов, в течение которого игроки могут встречаться друг с другом после контакта"
+msgstr ""
+"Число ходов, в течение которого игроки могут встречаться друг с другом после "
+"контакта"
 
 #: server/stdinhand.c:639
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met. Set this to zero to turn this feature off entirely."
 msgstr ""
+"Игроки могут встретится с дипломатическими целями в течение этого числа "
+"ходов после последней встречи их соединений. Установите в ноль, чтобы "
+"выключить эту функциональность."
 
 #: server/stdinhand.c:646
 msgid "Rebuild palace if capital is conquered"
@@ -3674,6 +3695,11 @@ msgid ""
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
 msgstr ""
+"Делает игрока членом команды. Если команда не указана, делает игрока игроком "
+"без команды. Используйте \"\" если имена содержат пробелы. Команда - это "
+"группа игроков, которые начинают игру как союзники, с объединенным зрением и "
+"посольствами, и ведут войну вместе для достижения коамдндной победы с "
+"усредненным индивидуальным счетом."
 
 #: server/stdinhand.c:1106
 msgid "fix <option-name>"
@@ -3764,6 +3790,9 @@ msgid ""
 "connections to take over a player. If you're not one of these, only the "
 "<player-name> argument is allowed"
 msgstr ""
+"Только консоль и подсоединения с уровнем команды (cmdlevel) 'hack' могут "
+"позволить чужим подсоединениям получить контроль над игроком. Если к вам это "
+"не относится вы можете использовать только аргумент <имя-игрока>."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1157
@@ -3784,14 +3813,19 @@ msgid ""
 "away\n"
 "away"
 msgstr ""
+"away\n"
+"away"
 
 #: server/stdinhand.c:1165
 msgid "Set yourself in away mode. The AI will watch your back."
 msgstr ""
+"Устанавливает у вас режим 'ушел от компьютера'. Компьютер будет пока играть "
+"за вас."
 
 #: server/stdinhand.c:1166
 msgid "The AI will govern your nation but do minimal changes."
 msgstr ""
+"Компьютер будет управлять вавим народом, но постарается ничего не менять."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1170
@@ -3811,7 +3845,10 @@ msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'.  With an argument, sets "
 "the skill level for that player only."
-msgstr "Без аргументов устанавливает уровень всех компьютерных игроков в 'новичок' и устанавливает уровень по умолчанию для всех новых компьютерных игроков в 'новичок'. С аргументом устанавливает уровень только этого игрока."
+msgstr ""
+"Без аргументов устанавливает уровень всех компьютерных игроков в 'новичок' и "
+"устанавливает уровень по умолчанию для всех новых компьютерных игроков в "
+"'новичок'. С аргументом устанавливает уровень только этого игрока."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1179
@@ -4630,7 +4667,7 @@ msgstr "Вы не можете сменить игрока с помощью \"таке\" после запуска игры."
 #: server/stdinhand.c:3131
 #, c-format
 msgid "%s already controls or observes %s"
-msgstr ""
+msgstr "%s итак контролирует или наблюдает за %s"
 
 #: server/stdinhand.c:3141
 #, c-format
@@ -4638,6 +4675,8 @@ msgid ""
 "%s already controls or observes %s.\n"
 "  multiple controlling connections aren't allowed yet."
 msgstr ""
+"%s итак контролирует или наблюдает за %s.\n"
+"  пока только одно подсоединение может контролировать игрока."
 
 #: server/stdinhand.c:3161
 #, c-format
@@ -4647,7 +4686,7 @@ msgstr "%s отключается от %s"
 #: server/stdinhand.c:3171
 #, c-format
 msgid "removing %s [%d]"
-msgstr ""
+msgstr "удаляем %s [%d]"
 
 #: server/stdinhand.c:3202
 #, c-format
@@ -5018,7 +5057,7 @@ msgstr "Игра: Только %s может атаковать с моря."
 msgid "Game: Cannot attack from sea."
 msgstr "Игра: Невозможно атаковать с моря."
 
-#: server/unithand.c:906 server/unittools.c:2141
+#: server/unithand.c:906 server/unittools.c:2142
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Игра: Невозможно атаковать пока не об'явлена война."
 
@@ -5106,137 +5145,137 @@ msgstr ""
 "Игра: Ваш %s из %s прибыл в %s, доходы составляют %d в золоте и научных "
 "исследованиях."
 
-#: server/unittools.c:326
+#: server/unittools.c:327
 #, c-format
 msgid "Game: %s has upgraded %s to %s%s."
 msgstr "Игра: %s обновил %s до %s%s."
 
-#: server/unittools.c:485
+#: server/unittools.c:486
 #, c-format
 msgid "Game: Your %s has run out of hit points."
 msgstr "Игра: Ваш %s потерял все здоровье."
 
-#: server/unittools.c:487
+#: server/unittools.c:488
 #, c-format
 msgid "%s lose a %s (out of hp)"
 msgstr "%s потеряли %s (закончилась огневая мощь)"
 
-#: server/unittools.c:498
+#: server/unittools.c:499
 #, c-format
 msgid "Game: Your %s has been lost on the high seas."
 msgstr "Игра: Ваша %s потерялась в океане."
 
-#: server/unittools.c:500
+#: server/unittools.c:501
 #, c-format
 msgid "%s Trireme lost at sea"
 msgstr "%s потеряли Трирему в море"
 
-#: server/unittools.c:528
+#: server/unittools.c:529
 #, c-format
 msgid "Game: Your %s has returned to refuel."
 msgstr "Игра: Ваш %s вернулся для дозаправки."
 
-#: server/unittools.c:553
+#: server/unittools.c:554
 #, c-format
 msgid "Game: Your %s has run out of fuel."
 msgstr "Игра: Ваш %s остался без топлива."
 
-#: server/unittools.c:555
+#: server/unittools.c:556
 #, c-format
 msgid "%s lose a %s (fuel)"
 msgstr "%s потеряли %s (горючее)"
 
-#: server/unittools.c:991
+#: server/unittools.c:992
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Игра: Передвинули ваши %s всвязи с изменением земли на море в (%d, %d)."
 
-#: server/unittools.c:1014
+#: server/unittools.c:1015
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Игра: Посадили ваши %s на корабль в связи с изменением земли на море в (%d, %"
 "d)."
 
-#: server/unittools.c:1030
+#: server/unittools.c:1031
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr ""
 "Игра: Распустили ваши %s  всвязи с изменением земли в море на (%d, %d)."
 
-#: server/unittools.c:1054
+#: server/unittools.c:1055
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
 msgstr "Игра: Передвинули ваш %s всвязи с изменением моря в землю на (%d, %d)."
 
-#: server/unittools.c:1076
+#: server/unittools.c:1077
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Игра: Поставили в док ваш %s всвязи с изменением моря в землю на (%d, %d)."
 
-#: server/unittools.c:1092
+#: server/unittools.c:1093
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr "Игра: Распустили ваш %s всвязи с изменением моря в землю на (%d, %d)."
 
-#: server/unittools.c:1125
+#: server/unittools.c:1126
 #, c-format
 msgid " at %s"
 msgstr " у %s"
 
-#: server/unittools.c:1127
+#: server/unittools.c:1128
 #, c-format
 msgid " in %s"
 msgstr " в %s"
 
-#: server/unittools.c:1134
+#: server/unittools.c:1135
 #, c-format
 msgid " outside %s"
 msgstr " у стен города %s"
 
-#: server/unittools.c:1137
+#: server/unittools.c:1138
 #, c-format
 msgid " near %s"
 msgstr " возле %s"
 
-#: server/unittools.c:1342
+#: server/unittools.c:1343
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
 msgstr "Игра: %s распущены в (%d, %d)."
 
-#: server/unittools.c:1366
+#: server/unittools.c:1367
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Игра: Перенесено ваш %s с (%d, %d) в %s."
 
-#: server/unittools.c:1685
+#: server/unittools.c:1686
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Игра: Вы потеряли %s когда %s был потерян."
 
-#: server/unittools.c:1688
+#: server/unittools.c:1689
 #, c-format
 msgid "%s lose %s when %s lost"
 msgstr "%s потеряли %s когда %s был потерян."
 
-#: server/unittools.c:1735
+#: server/unittools.c:1736
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Игра: Лидер варваров пойман, выкуп %d золотых."
 
-#: server/unittools.c:1752
+#: server/unittools.c:1753
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Игра: Вы потеряли %s в результате атаки %s %s%s."
 
-#: server/unittools.c:1755 server/unittools.c:1799
+#: server/unittools.c:1756 server/unittools.c:1800
 #, c-format
 msgid "%s lose %s to the %s"
 msgstr "%s потеряли %s в пользу народа %s"
 
-#: server/unittools.c:1780
+#: server/unittools.c:1781
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
@@ -5244,125 +5283,125 @@ msgstr[0] "Игра: Вы потеряли %d соединение в результате атаки %s %s%s."
 msgstr[1] "Игра: Вы потеряли %d соединения в результате атаки %s %s%s."
 msgstr[2] "Игра: Вы потеряли %d соединений в результате атаки %s %s%s."
 
-#: server/unittools.c:1795
+#: server/unittools.c:1796
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Игра: Вы потеряли %s в результате атаки %s %s."
 
-#: server/unittools.c:1996
+#: server/unittools.c:1997
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Игра: Ваш %s был взорван атомной бомбой %s."
 
-#: server/unittools.c:1998 server/unittools.c:2014
+#: server/unittools.c:1999 server/unittools.c:2015
 msgid "yourself"
 msgstr "вы"
 
-#: server/unittools.c:2002
+#: server/unittools.c:2003
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Игра: %s %s был взорван атомной бомбой."
 
-#: server/unittools.c:2012
+#: server/unittools.c:2013
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Игра: %s был взорван атомной бомбой %s."
 
-#: server/unittools.c:2019
+#: server/unittools.c:2020
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Игра: Вы взорвали %s атомной бомбой!"
 
-#: server/unittools.c:2056
+#: server/unittools.c:2057
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Игра: %s взорвали атомную бомбу."
 
-#: server/unittools.c:2094
+#: server/unittools.c:2095
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Игра: %s перевезен успешно."
 
-#: server/unittools.c:2118
+#: server/unittools.c:2119
 msgid "Game: This unit type can not be paradropped."
 msgstr "Игра: Это соединение не может быть сброшено на парашюте."
 
-#: server/unittools.c:2127
+#: server/unittools.c:2128
 msgid "Game: The destination location is not known."
 msgstr "Игра: Положение цели неизвестно."
 
-#: server/unittools.c:2133
+#: server/unittools.c:2134
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Игра: Невозможно сбросить парашютиста в океан."
 
-#: server/unittools.c:2150
+#: server/unittools.c:2151
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Игра: Расстояние до цели (%i) больше чем возможности соединения (%i)."
 
-#: server/unittools.c:2162
+#: server/unittools.c:2163
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Игра: Ваши %s были сброшены в океан и утонули."
 
-#: server/unittools.c:2175
+#: server/unittools.c:2176
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Игра: Ваши %s были уничтожены врагами в точке парашютной высадки."
 
-#: server/unittools.c:2198
+#: server/unittools.c:2199
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Игра: Вы нашли %d золотых."
 
-#: server/unittools.c:2224
+#: server/unittools.c:2225
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Игра: Вы нашли описание науки \"%s\" в древней рукописи."
 
-#: server/unittools.c:2226
+#: server/unittools.c:2227
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s открыли %s (Хижина)"
 
-#: server/unittools.c:2228
+#: server/unittools.c:2229
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Игра: %s получили %s из древних манускриптов."
 
-#: server/unittools.c:2248
+#: server/unittools.c:2249
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Игра: Группа дружественных наемников присоединяется к вам."
 
-#: server/unittools.c:2265
+#: server/unittools.c:2266
 msgid "Game: An abandoned village is here."
 msgstr "Игра: Эта деревня оставлена жителями."
 
-#: server/unittools.c:2277
+#: server/unittools.c:2278
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Игра: Ваше соединение встретило орды варваров!"
 
-#: server/unittools.c:2280
+#: server/unittools.c:2281
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Игра: Ваши %s были уничтожены варварами."
 
-#: server/unittools.c:2296
+#: server/unittools.c:2297
 msgid "Game: You found a friendly city."
 msgstr "Игра: Вы нашли дружественный город."
 
-#: server/unittools.c:2301
+#: server/unittools.c:2302
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Игра: К вам присоединились дружественные кочевники, потрясенные вашим "
 "могуществом."
 
-#: server/unittools.c:2326
+#: server/unittools.c:2327
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Игра: ваш перелет пугает племя, оно разбегается в ужасе."
 
-#: server/unittools.c:2977
+#: server/unittools.c:2978
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -5915,6 +5954,9 @@ msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
+"      --\t\tПередать все следующие опции графическому интерфейсу.\n"
+"\t\t\tПопробуйте \"%s -- --help\", если вам нужна дополнительная "
+"информация.\n"
 
 #: client/civclient.c:184
 #, c-format
@@ -6418,7 +6460,9 @@ msgstr "Если мы начнем %s, нам потребуется %d лампочек."
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
 "will require %d bulbs to complete."
-msgstr "Для того, чтобы достичь технологию %s, нам нужно приобрести еще %d технологий. Весь проект потребует %d лампочек для завершения."
+msgstr ""
+"Для того, чтобы достичь технологию %s, нам нужно приобрести еще %d "
+"технологий. Весь проект потребует %d лампочек для завершения."
 
 #: client/helpdata.c:799
 msgid " This number may vary depending on what other players will research.\n"
@@ -6525,7 +6569,7 @@ msgstr "Набор рельефа по умолчанию"
 
 #: client/options.c:102
 msgid "Current tileset (EXPERIMENTAL)"
-msgstr ""
+msgstr "Текущий набор рельефа (ЭКСПЕРИМЕНТАЛЬНЫЙ)"
 
 #: client/options.c:104
 msgid "Default name of sound set"
@@ -6593,15 +6637,15 @@ msgstr "Закончить ход автоматически"
 
 #: client/options.c:123
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
-msgstr "Использовать Alt/Meta для ускорителей (только GTK)"
+msgstr "Использовать Alt/Meta для ускорителей (только GTK+)"
 
 #: client/options.c:124
 msgid "Show Map Scrollbars (GTK+ only)"
-msgstr "Показывать полосу прокрутки карты (только GTK)"
+msgstr "Показывать полосу прокрутки карты (только GTK+)"
 
 #: client/options.c:125
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "Держать окна диалогов всегда сверху (только GTK+ 2.0)"
 
 #: client/options.c:126
 msgid "Prompt for city names"
@@ -7030,7 +7074,7 @@ msgstr "Другое"
 #: client/plrdlg_common.c:80
 #, c-format
 msgid "%6d.%02d ms"
-msgstr ""
+msgstr "%6d.%02d мс"
 
 #: client/tilespec.c:223
 msgid "No usable default tileset found, aborting!"
@@ -7713,6 +7757,10 @@ msgid ""
 "including sample presets,\n"
 "see README.cma."
 msgstr ""
+"Для информации о\n"
+"АУГ и пре-установках,\n"
+"включая примеры преустановок,\n"
+"см. README.cma."
 
 #: client/gui-gtk-2.0/cma_fe.c:201
 msgid "_Presets:"
@@ -8931,7 +8979,7 @@ msgstr " В"
 #: client/gui-gtk-2.0/mapctrl.c:183 client/gui-gtk/mapctrl.c:176
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "Вероятность победы: А:%d%% З:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:190 client/gui-gtk/mapctrl.c:182
 #: client/gui-mui/mapclass.c:173 client/gui-win32/mapctrl.c:188
@@ -8973,6 +9021,8 @@ msgstr ""
 #: client/gui-gtk-2.0/mapview.c:264
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
 msgstr ""
+"Показывает ваши нынешние уровни налогов/роскоши/науки; нажмите мышкой, чтобы "
+"их переключить."
 
 #: client/gui-gtk-2.0/mapview.c:268
 #, c-format
@@ -8980,6 +9030,8 @@ msgid ""
 "Shows your progress in researching the current technology.\n"
 "%s: %d/%d."
 msgstr ""
+"Показывает прогресс в изучении текущей технологии.\n"
+"%s: %d/%d."
 
 #: client/gui-gtk-2.0/mapview.c:277
 #, c-format
@@ -8987,6 +9039,8 @@ msgid ""
 "Shows the progress of global warming:\n"
 "%d."
 msgstr ""
+"Показывает прогресс в глобальном потеплении:\n"
+"%d."
 
 #: client/gui-gtk-2.0/mapview.c:283
 #, c-format
@@ -8994,6 +9048,8 @@ msgid ""
 "Shows the progress of nuclear winter:\n"
 "%d."
 msgstr ""
+"Показывает прогресс ядерной зимы:\n"
+"%d."
 
 #: client/gui-gtk-2.0/mapview.c:289
 #, c-format
@@ -9890,7 +9946,7 @@ msgstr "Запустить"
 
 #: client/gui-gtk-2.0/wldlg.c:137
 msgid "new"
-msgstr ""
+msgstr "новый"
 
 #: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/wldlg.c:165
 #: client/gui-win32/wldlg.c:294
@@ -11970,7 +12026,7 @@ msgstr "Не удалось прочесть PNG-файл: %s"
 #: client/gui-xaw/graphics.c:403
 #, c-format
 msgid "PNG file has no palette: %s"
-msgstr ""
+msgstr "В файле PNG нет палитры: %s"
 
 #: client/gui-xaw/gui_main.c:302
 msgid "No version number in resources."
@@ -11991,8 +12047,7 @@ msgstr "Версия игры: %s - Версия ресурсов: %s"
 
 #: client/gui-xaw/gui_main.c:314
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr ""
-"Возможно у вас старый файл ресурсов Freeciv в /usr/lib/X11/app-defaults"
+msgstr "Возможно у вас старый файл ресурсов Freeciv в /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:320
 msgid "Using fallback resources - which is OK"
@@ -12736,7 +12791,11 @@ msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
 "specifying what to build in the turns to come."
-msgstr "Редактор рабочих списков используется для редактирования рабочих списков всех городов (из городского диалога) и глобальных рабочих списков. Используя этот редактор, вы можете создавать списки, указывая, что строить в течение следующих ходов."
+msgstr ""
+"Редактор рабочих списков используется для редактирования рабочих списков "
+"всех городов (из городского диалога) и глобальных рабочих списков. Используя "
+"этот редактор, вы можете создавать списки, указывая, что строить в течение "
+"следующих ходов."
 
 #: data/helpdata.txt:516
 msgid ""
@@ -12776,7 +12835,7 @@ msgstr ""
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
-msgstr ""
+msgstr "Если вы хотите купить соединение, которое является первым в списке, вы можете сделать это в окне \"Обзор Города\"."
 
 #: data/helpdata.txt:535
 msgid "Strategy and tactics"
@@ -13551,25 +13610,25 @@ msgstr ""
 
 #: data/helpdata.txt:943
 msgid "The firepower of the attacker and defender are also modified."
-msgstr ""
+msgstr "Огневая мощь атакующего и защитника также изменяются."
 
 #: data/helpdata.txt:945
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
-msgstr ""
+msgstr " - Если защитник - корабль и находится внутри города, то огневая мощь атакующего удваивается и огневая мощь защитника устанавливается равной 1."
 
 #: data/helpdata.txt:948
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
-msgstr ""
+msgstr " - Если истребитель атакует вертолет, огневая мощь вертолета устанавливается равной 1."
 
 #: data/helpdata.txt:951
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
-msgstr ""
+msgstr " - Если корабль атакует наземное соединение на берегу, огневая мощь обоих устанавливается равной 1."
 
 #: data/helpdata.txt:954
 msgid ""
@@ -13580,7 +13639,14 @@ msgid ""
 "defender loses hit points equal to the attacker's firepower.  Otherwise, the "
 "attacker loses hit points equal to the defender's firepower. The first unit "
 "to reach 0 hit points (or negative hit points) loses. "
-msgstr "После этих приготовлений происходит сражение, до тех пор пока оба соединения все еще живы (т.е. имеют здоровье > 0). Каждый раунд, генерируется случайное число между 1 и суммой силы атакующего и защитника. Если это число больше, чем сила защитника, то защитник теряет здоровье равное огневой мощи атакующего. В противном случае атакующий теряет здоровье, равное огневой мощи защитника. В этом случае нападающий теряет только 1 очко здоровья). Первое соединение, достигнувшее 0(или менее) здоровья - проигрывает."
+msgstr ""
+"После этих приготовлений происходит сражение, до тех пор пока оба соединения "
+"все еще живы (т.е. имеют здоровье > 0). Каждый раунд, генерируется случайное "
+"число между 1 и суммой силы атакующего и защитника. Если это число больше, "
+"чем сила защитника, то защитник теряет здоровье равное огневой мощи "
+"атакующего. В противном случае атакующий теряет здоровье, равное огневой "
+"мощи защитника. В этом случае нападающий теряет только 1 очко здоровья). "
+"Первое соединение, достигнувшее 0(или менее) здоровья - проигрывает."
 
 #: data/helpdata.txt:969
 #, no-c-format
@@ -13655,7 +13721,7 @@ msgstr ""
 
 #: data/helpdata.txt:1002
 msgid "Both units keep their firepower of 1 unchanged."
-msgstr ""
+msgstr "Оба соединения сохраняют свою огневую мощь равной 1."
 
 #: data/helpdata.txt:1005
 #, no-c-format
@@ -13724,7 +13790,7 @@ msgstr ""
 
 #: data/helpdata.txt:1044
 msgid "The firepower of the Battleship is set from 2 to 1."
-msgstr ""
+msgstr "Огневая мощь линкора уменьшается с 2 до 1."
 
 #: data/helpdata.txt:1047
 #, no-c-format
@@ -13732,7 +13798,10 @@ msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
 "than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
 "the attacker loses 1 hit point."
-msgstr "Каждый раунд, генерируется случайное число от 1 до 405. Если оно больше чем 225 (примерно 44% вероятность) защитник теряет 1 очко здоровья. В протибном случае, атакующий теряет 1 очко здоровья."
+msgstr ""
+"Каждый раунд, генерируется случайное число от 1 до 405. Если оно больше чем "
+"225 (примерно 44% вероятность) защитник теряет 1 очко здоровья. В протибном "
+"случае, атакующий теряет 1 очко здоровья."
 
 #: data/helpdata.txt:1058
 #, no-c-format
@@ -13742,7 +13811,11 @@ msgid ""
 "twice as many hit points. The Battleship should expect to lose about 60% of "
 "its hit points during the fight, and should expect to have no movement "
 "points left."
-msgstr "В этом случае у атакующего гораздо больше шансов, чем у защитника. Линкор 25% менее вероятен попасть в противника в каждом раунде, но у него вдвое больше здоровья. Линкор потеряет порядка 60% своего здоровья в результате битвы, после чего он не сможет двигаться."
+msgstr ""
+"В этом случае у атакующего гораздо больше шансов, чем у защитника. Линкор "
+"25% менее вероятен попасть в противника в каждом раунде, но у него вдвое "
+"больше здоровья. Линкор потеряет порядка 60% своего здоровья в результате "
+"битвы, после чего он не сможет двигаться."
 
 #: data/helpdata.txt:1067
 msgid "Zones of Control"
@@ -14075,7 +14148,12 @@ msgid ""
 "will be lost to waste.  (If you do not have a capital, your cities will "
 "suffer extremely high levels of waste.)  A Courthouse will reduce the level "
 "of waste in a city. Waste can result in your cities not building anything."
-msgstr "Растрата - это потери в торговле из-за неэффективности и жадности. При большинстве форм государственного устройства, чем дальше город от столицы, тем больший процент торговли он теряет из-за растраты. (Если у вас нет столицы, вы будете страдать от очень высокого уровня растраты). Суд уменьшит уровень растраты в городе."
+msgstr ""
+"Растрата - это потери в торговле из-за неэффективности и жадности. При "
+"большинстве форм государственного устройства, чем дальше город от столицы, "
+"тем больший процент торговли он теряет из-за растраты. (Если у вас нет "
+"столицы, вы будете страдать от очень высокого уровня растраты). Суд уменьшит "
+"уровень растраты в городе."
 
 #: data/helpdata.txt:1237
 msgid ""
@@ -14509,7 +14587,10 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
-msgstr "Уменьшает коррупцию и растраты в городе на 50%. При Демократии, Суд делает 1 несчастного гражданина довольным. Уменьшает вдвое эффективное расстояние до столицы при подсчете стоимости революции."
+msgstr ""
+"Уменьшает коррупцию и растраты в городе на 50%. При Демократии, Суд делает 1 "
+"несчастного гражданина довольным. Уменьшает вдвое эффективное расстояние до "
+"столицы при подсчете стоимости революции."
 
 #: data/civ1/buildings.ruleset:362 data/civ2/buildings.ruleset:345
 #: data/default/buildings.ruleset:416 data/history/buildings.ruleset:347
@@ -14758,7 +14839,9 @@ msgstr "Перерабатывающий центр"
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
-msgstr "Постройка перерабатывающего центра уменьшает кол-во загрязнений, возникающих в городе в результате производства, на 66%"
+msgstr ""
+"Постройка перерабатывающего центра уменьшает кол-во загрязнений, возникающих "
+"в городе в результате производства, на 66%"
 
 #: data/civ1/buildings.ruleset:787 data/civ2/buildings.ruleset:775
 #: data/default/buildings.ruleset:890 data/history/buildings.ruleset:791
@@ -15950,15 +16033,22 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Анархия это просто  отсутствие любого правительсятва. При этом жители неорганизованы и не выполняют своей работы, тратя все деньги, не платя налогов и ничего не исследуя.\n"
+"Анархия это просто  отсутствие любого правительсятва. При этом жители "
+"неорганизованы и не выполняют своей работы, тратя все деньги, не платя "
+"налогов и ничего не исследуя.\n"
 "\n"
-"Коррупция и растраты при анархии немного меньше, чем при Деспотизме, но люди немного более несчастливы.\n"
+"Коррупция и растраты при анархии немного меньше, чем при Деспотизме, но люди "
+"немного более несчастливы.\n"
 "\n"
-"При Анархии колонисты потребляют 1 единицу пищи. Клетки с продуктивностью (пищей, наукой) больше двух теряют 1 (т.е. вместо 3 будут добывать 2, если только в городе нет празднования; см. раздел Счастье)\n"
+"При Анархии колонисты потребляют 1 единицу пищи. Клетки с продуктивностью "
+"(пищей, наукой) больше двух теряют 1 (т.е. вместо 3 будут добывать 2, если "
+"только в городе нет празднования; см. раздел Счастье)\n"
 "\n"
-"Каждый город может бесплатно поддеживать столько единиц техники, каков размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
+"Каждый город может бесплатно поддеживать столько единиц техники, каков "
+"размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"При помощи единицы военной техники в городах вы можете подавить 1 несчастного жителя, делая его нейтральным."
+"При помощи единицы военной техники в городах вы можете подавить 1 "
+"несчастного жителя, делая его нейтральным."
 
 #: data/civ2/governments.ruleset:244 data/history/governments.ruleset:245
 msgid ""
@@ -15986,15 +16076,20 @@ msgid ""
 msgstr ""
 "При Деспотизме Вы - абсолютный монарх.\n"
 "\n"
-"Уровень коррупции при деспотизме выше, чем при всех прочих формах правления.\n"
+"Уровень коррупции при деспотизме выше, чем при всех прочих формах "
+"правления.\n"
 "\n"
-"Колонисты потребляют 1 единицу пищи. Клетки с продуктивностью (пищей, наукой) больше двух теряют 1 (т.е. вместо 4 будут добывать 3, если только в городе нет празднования; см. раздел Счастье)\n"
+"Колонисты потребляют 1 единицу пищи. Клетки с продуктивностью (пищей, "
+"наукой) больше двух теряют 1 (т.е. вместо 4 будут добывать 3, если только в "
+"городе нет празднования; см. раздел Счастье)\n"
 "\n"
 "Максимальный уровень налогов равен 60%\n"
 "\n"
-"Каждый город может бесплатно поддеживать столько соединений, каков размер города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
+"Каждый город может бесплатно поддеживать столько соединений, каков размер "
+"города. (Каждая доп. единица техники требует по 1 ресурсу)\n"
 "\n"
-"При помощи военного соединения в городах вы можете подавить 1 несчастного жителя, делая его нейтральным."
+"При помощи военного соединения в городах вы можете подавить 1 несчастного "
+"жителя, делая его нейтральным."
 
 #: data/civ2/governments.ruleset:323 data/history/governments.ruleset:324
 msgid ""
@@ -17579,7 +17674,10 @@ msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
-msgstr "СРОН(Система раннего обнаружения и наведения - AWACS) - это самолет оснащенный высокотехнологичным радаром, который может обнаружить соединения противника на большом расстоянии."
+msgstr ""
+"СРОН(Система раннего обнаружения и наведения - AWACS) - это самолет "
+"оснащенный высокотехнологичным радаром, который может обнаружить соединения "
+"противника на большом расстоянии."
 
 #: data/civ2/units.ruleset:350
 msgid ""
@@ -17681,7 +17779,9 @@ msgstr "Американцы"
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
-msgstr "Соединенные Штаты Америки. Получили независимость от Великобритании в результате революции 1776-1783 годов."
+msgstr ""
+"Соединенные Штаты Америки. Получили независимость от Великобритании в "
+"результате революции 1776-1783 годов."
 
 #: data/nation/american.ruleset:64 data/nation/scottish.ruleset:18
 msgid "Speaker"
@@ -17744,7 +17844,9 @@ msgstr "Австралийцы"
 msgid ""
 "Australia was founded as a British penal colony in 1788AD. It is the only "
 "country on earth to occupy an entire continent."
-msgstr "Австралия была основана как колония для правонарушителей в 1788 году. Это единственная страна в мире, занимающая целый континент."
+msgstr ""
+"Австралия была основана как колония для правонарушителей в 1788 году. Это "
+"единственная страна в мире, занимающая целый континент."
 
 #: data/nation/australian.ruleset:15 data/nation/canadian.ruleset:12
 #: data/nation/danish.ruleset:26 data/nation/dutch.ruleset:12
@@ -17772,8 +17874,11 @@ msgid ""
 "AD, reviving the practice of human sacrifice.  They were conquered by the "
 "Spanish under Cortez in 1524."
 msgstr ""
-"Ацтеки, группа варваров из Сонорской пустыни, получили контроль над цивилизацией толтеков в центральной Мексике в 15 столетии, восстановив ритуальные\n"
-"человеческие жертвоприношения. Были завоеваны испанцами под руководством Кортеса в 1524 году."
+"Ацтеки, группа варваров из Сонорской пустыни, получили контроль над "
+"цивилизацией толтеков в центральной Мексике в 15 столетии, восстановив "
+"ритуальные\n"
+"человеческие жертвоприношения. Были завоеваны испанцами под руководством "
+"Кортеса в 1524 году."
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -17788,7 +17893,9 @@ msgid ""
 "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries "
 "BC under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
-msgstr "Вавилон был крупнейшим из городов Месопотамии с 18 по 7 век до н.э. Вавилоном владели Амориты, Касситы, Ассирийцы и Халдеи."
+msgstr ""
+"Вавилон был крупнейшим из городов Месопотамии с 18 по 7 век до н.э. "
+"Вавилоном владели Амориты, Касситы, Ассирийцы и Халдеи."
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -17806,7 +17913,9 @@ msgstr "Баварцы"
 msgid ""
 "Bavaria, before national unification in 1870AD, was one of the largest of "
 "the German kingdoms."
-msgstr "Бавария до об'единения Германии в 1870 году была одним из крупнейших немецких государств."
+msgstr ""
+"Бавария до об'единения Германии в 1870 году была одним из крупнейших "
+"немецких государств."
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -17821,7 +17930,10 @@ msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
-msgstr "Буры были голландскими поселенцами в Британской Южной Африке с 1650 годов. Они некоторое время контролировали два государства: Трансвааль и Оранжевое свободное государство, но были побеждены Англией в войне 1899-1902 годов."
+msgstr ""
+"Буры были голландскими поселенцами в Британской Южной Африке с 1650 годов. "
+"Они некоторое время контролировали два государства: Трансвааль и Оранжевое "
+"свободное государство, но были побеждены Англией в войне 1899-1902 годов."
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -17835,7 +17947,9 @@ msgstr "Бразильцы"
 msgid ""
 "Brazil was founded as a colony of Portugal but became independent in 1822AD. "
 "It is the only country in the New World that has been the seat of a monarchy."
-msgstr "Бразилия была основана как колония Португалии, но получила независимость в 1822 году. Бразилия единственная страна в Америке, которая была монархией."
+msgstr ""
+"Бразилия была основана как колония Португалии, но получила независимость в "
+"1822 году. Бразилия единственная страна в Америке, которая была монархией."
 
 #: data/nation/brazilian.ruleset:17 data/nation/roman.ruleset:16
 msgid "Dictator"
@@ -17886,7 +18000,10 @@ msgid ""
 "The Carthaginians, descendendents of Phoenician traders, ran a naval empire "
 "in the Mediterranean from the 5th to 2nd centuries BC. Carthage was "
 "destroyed by Rome in 146BC."
-msgstr "Карфагеняне, потомки финикийских торговцев, владели морской империей в средиземноморье с 5 по 2 век до н.э. Карфаген был уничтожен Римом в 146 г. до н.э."
+msgstr ""
+"Карфагеняне, потомки финикийских торговцев, владели морской империей в "
+"средиземноморье с 5 по 2 век до н.э. Карфаген был уничтожен Римом в 146 г. "
+"до н.э."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -17987,7 +18104,9 @@ msgstr "Корнуэльцы"
 msgid ""
 "Cornwall is a region in the extreme southwest of England, traditionally the "
 "home of the legendary King Arthur."
-msgstr "Корнуолл - это регион на дальнем юго-западе Англии, традиционно считается родиной короля Артура."
+msgstr ""
+"Корнуолл - это регион на дальнем юго-западе Англии, традиционно считается "
+"родиной короля Артура."
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -18003,7 +18122,7 @@ msgid ""
 "Hungarian Empire, rather than coming under Ottoman rule after the collapse "
 "of Byzantium. During most of the 20th century it was part of the Yugoslav "
 "Federation."
-msgstr ""
+msgstr "Хорватия - территория южных славян, попавшая под власть Австро-Венгерской империи, а не Оттоманской империи, после падения Византии. В течение большей части ХХ века, Хорватия была частью Югославии."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -18017,7 +18136,7 @@ msgstr "Чехи"
 msgid ""
 "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been "
 "until 1918 part of the Austro-Hungarian Empire."
-msgstr ""
+msgstr "Нынешняя Чехия была до 1993 года частью Чехословакии, которая была частью Австро-Венгрии до 1918 года. "
 
 #: data/nation/czech.ruleset:23
 msgid "Thane"
@@ -18042,7 +18161,7 @@ msgstr "Датчане"
 msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
-msgstr ""
+msgstr "Основание Датского королевства обычно относят к правлению Харальда Блатанда, который объединил Данию между 958 и 988 г. н. э."
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
 #. TRANS: U+00FA LATIN SMALL LETTER U WITH ACUTE if available in
@@ -18084,7 +18203,7 @@ msgid ""
 "Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
-msgstr ""
+msgstr "Египет был второй из стрейших цивилизаций мира. С древности он имел высокий процент городского населения и поддерживал большое население на территории, нанесенной илом, принесенным ежегодными разливами Нила."
 
 #: data/nation/egyptian.ruleset:18
 msgid "Pharaoh"
@@ -18107,7 +18226,7 @@ msgid ""
 "England was unified by Alfred the Great of Wessex in the late 9th century "
 "AD, only to be conquered by William of Normandy a century later, in the last "
 "successful invasion of the country."
-msgstr ""
+msgstr "Англия была объединена Альфредом Великим из Уэссекса в конце 9го века н.э., а через век была завоевана Вильгельмом Завоевателем в последнем успешном вторжении в страну."
 
 #: data/nation/english.ruleset:19
 msgid "Lord Protector"
@@ -18129,7 +18248,7 @@ msgstr "Эстонцы"
 msgid ""
 "Estonia is a small country on the south shore of the estern Baltic Sea.  Its "
 "people and language are closely related to those of Finland."
-msgstr ""
+msgstr "Эстония - небольшая страна на южном берегу восточного Балтийского моря. Ее народ и язык близко связаны с народом и языком Финляндии."
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -18143,7 +18262,7 @@ msgstr "Филипинцы"
 msgid ""
 "After centuries of Spanish rule, the Phillipines were ceded to the Americans "
 "in 1898. They attained home rule in 1935 and independence in 1946."
-msgstr ""
+msgstr "После столетий испанкого правления, Филиппины были переданы США в 1898 году. Они получили самоуправление в 1935 году, и независимость в 1946."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -18157,7 +18276,7 @@ msgstr "Финны"
 msgid ""
 "Finland is a small, cold country on the northen fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
-msgstr ""
+msgstr "Финляндия - это маленькая холодная страна на северной окраине Европы, известная экспортом леса, мобильных телефонов и операционных систем мирового класса."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -18185,7 +18304,7 @@ msgid ""
 "I it became a republic, but fell into Nazism 1933 and started World War II.  "
 "After the war it was split into two states, which reunited in 1990 at the "
 "end of the Cold War."
-msgstr ""
+msgstr "Германия была объединена в 1871 прусскими военными силами. После первой мировой войны она стала республикой, но попала под влияние фавистов в 1933 году и начала вторую мировую войну. После войны она была разделена на два государства, которые объединилсь в 1990 году по окончании холодной войны."
 
 #: data/nation/german.ruleset:24
 msgid "Chancellor"
@@ -18205,7 +18324,7 @@ msgstr "Греки"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
-msgstr ""
+msgstr "Древние греки, между Микенами и римским завоеванием."
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -18230,7 +18349,7 @@ msgid ""
 "southern Chile nearly to the Equator. They had the bad timing to do it just "
 "a few decades before the Spanish conquistadores arrived in their part of the "
 "world in the mid-1500s AD."
-msgstr ""
+msgstr "Инки были американско-индейским народом из Северных Анд, которые создали империю, простирающуюся вдоль западного берега Южной Америки от нынешнего южного Чили почти до экватора. Им не повезло с моментом, так как через пару десятилетий (в середине XVI века) там появились испанские конкистадоры."
 
 #: data/nation/inca.ruleset:18
 msgid "Warlord"
@@ -18269,7 +18388,7 @@ msgid ""
 "The nation of Israel was founded in 1948 as a scattered collection of "
 "cantons in British Palestine, and has gradually expanded through winning a "
 "series of wars launched against it in 1948, 1967 and 1973."
-msgstr ""
+msgstr "Государство Израиль было основано в 1948 году как разбросанная группа кантоном в британской Палестине и постепенно расширялось благодаря победам в войнах 1948, 1967 и 1973 годов."
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
@@ -18285,7 +18404,7 @@ msgid ""
 "indigenous nationalists. It was a monarchy under the House of Savoy until "
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the WWII victors."
-msgstr ""
+msgstr "Италия была объединена в 1870 году после десятилетий борьбы местных национальных движений. Она была монархией под властью Савойского дома до 1922 года, затем была фашистским государством до 1945 года, после чего демократия там была восстановлена странами-победителями."
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -18336,7 +18455,7 @@ msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
-msgstr ""
+msgstr "Литва - это маленькое государство на южном берегу Балтийского моря, к северо-востоку от Польши. Литовский язык - наиболее архаичный и сложный из всех северных Индо-Европейских языков."
 
 #: data/nation/lithuanian.ruleset:15
 msgid "Great Duke"
@@ -18360,7 +18479,7 @@ msgid ""
 "conquered the largest empire in human history, encompassing most of the "
 "continent of Asia.  They became notorious for the utter ruthlessness in "
 "warfare."
-msgstr ""
+msgstr "За столетия после их объединения Чингиз-ханом, монголы создали величайшую по площади имеприю за всю историю человечества, занимавшую большую часть Азии. Они также известны своей жестокостью в войне."
 
 #: data/nation/mongol.ruleset:16
 msgid "Khan"
@@ -18372,7 +18491,7 @@ msgstr "Великий хан"
 
 #: data/nation/mordor.ruleset:3
 msgid "Mordor"
-msgstr "Мордор"
+msgstr "Мордорцы"
 
 #: data/nation/mordor.ruleset:4
 msgid "?plural:Mordors"
@@ -18382,7 +18501,7 @@ msgstr "Мордорцы"
 msgid ""
 "The armies of the Dark Lord Sauron, from J.R.R. Tolkien's Middle Earth "
 "fantasies."
-msgstr ""
+msgstr "Войска темного властелина Саурона, из книг Дж. Р. Р. Толкиена о Средиземье."
 
 #: data/nation/mordor.ruleset:15
 msgid "Overlord"
@@ -18472,7 +18591,9 @@ msgstr "Русские"
 msgid ""
 "Russia originated as the Kievan Rus, territory seized during the early "
 "medieval period by Vikings from what is now Sweden."
-msgstr "Россия началась с Киевской Руси, территории, которую в ранние средние века захватили варяги."
+msgstr ""
+"Россия началась с Киевской Руси, территории, которую в ранние средние века "
+"захватили варяги."
 
 #: data/nation/russian.ruleset:15
 msgid "Czar"
@@ -18503,7 +18624,10 @@ msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034AD to "
 "the the Union of Crowns with England in 1701."
-msgstr "Шотландия была заселена в римские времена ирландскими пиратами, которые вытеснили местных пиктов. Шотландия была независимым государством от 1043 г. до об'единения с Англией в 1701 г."
+msgstr ""
+"Шотландия была заселена в римские времена ирландскими пиратами, которые "
+"вытеснили местных пиктов. Шотландия была независимым государством от 1043 г. "
+"до об'единения с Англией в 1701 г."
 
 #: data/nation/scottish.ruleset:19
 msgid "First Minister"
@@ -18680,7 +18804,7 @@ msgstr "Украинцы"
 msgid ""
 "The Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
-msgstr ""
+msgstr "Украина - большая страна на западных границах бывшего СССР. На ее территории находится одна из самых плодородных почв в Европе - чернозем."
 
 #: data/nation/ukrainian.ruleset:15
 msgid "Hetman"
