@@ -30,7 +30,8 @@
 
 #include "mapgen.h"
 
-#define hmap(x,y) &height_map[(y)*map.xsize+map_adjust_x(x)]
+/* Wrapper for easy access.  It's a macro so it can be a lvalue. */
+#define hmap(x,y) (height_map[(y) * map.xsize + map_adjust_x(x)])
 
 static void make_huts(int number);
 static void add_specials(int prob);
@@ -56,15 +57,6 @@ static struct isledata *islands;
 #define MAP_NCONT 255
 
 /**************************************************************************
- Just a wrapper function off the height_map, returns the height at x,y
-**************************************************************************/
-
-static int full_map(int x, int y)
-{
-  return height_map[y*map.xsize+x];
-}
-
-/**************************************************************************
   make_mountains() will convert all squares that are higher than thill to
   mountains and hills. Notice that thill will be adjusted according to
   the map.mountains value, so increase map.mountains and you'll get more 
@@ -80,7 +72,7 @@ static void make_mountains(int thill)
     mount=0;
     for (y=0;y<map.ysize;y++) 
       for (x=0;x<map.xsize;x++) 
-	if (full_map(x, y)>thill) 
+	if (hmap(x, y)>thill) 
 	    mount++;
     if (mount<((map.xsize*map.ysize)*map.mountains)/1000) 
       thill*=95;
@@ -91,7 +83,7 @@ static void make_mountains(int thill)
   
   for (y=0;y<map.ysize;y++) 
     for (x=0;x<map.xsize;x++) 
-      if (full_map(x, y)>thill &&map_get_terrain(x,y)!=T_OCEAN) { 
+      if (hmap(x, y)>thill &&map_get_terrain(x,y)!=T_OCEAN) { 
 	if (myrand(100)>75) 
 	  map_set_terrain(x, y, T_MOUNTAINS);
 	else if (myrand(100)>25) 
@@ -109,7 +101,8 @@ static void make_polar(void)
 
   for (y=0;y<map.ysize/10;y++) {
     for (x=0;x<map.xsize;x++) {
-      if ((full_map(x, y)+(map.ysize/10-y*25)>myrand(maxval) && map_get_terrain(x,y)==T_GRASSLAND) || y==0) { 
+      if ((hmap(x, y)+(map.ysize/10-y*25)>myrand(maxval) &&
+	   map_get_terrain(x,y)==T_GRASSLAND) || y==0) { 
 	if (y<2)
 	  map_set_terrain(x, y, T_ARCTIC);
 	else
@@ -120,7 +113,8 @@ static void make_polar(void)
   }
   for (y=map.ysize*9/10;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
-      if ((full_map(x, y)+(map.ysize/10-(map.ysize-y)*25)>myrand(maxval) && map_get_terrain(x, y)==T_GRASSLAND) || y==map.ysize-1) {
+      if ((hmap(x, y)+(map.ysize/10-(map.ysize-y)*25)>myrand(maxval) &&
+	   map_get_terrain(x, y)==T_GRASSLAND) || y==map.ysize-1) {
 	if (y>map.ysize-3)
 	  map_set_terrain(x, y, T_ARCTIC);
 	else
@@ -138,7 +132,7 @@ static void make_polar(void)
 **************************************************************************/
 static void make_desert(int x, int y, int height, int diff) 
 {
-  if (abs(full_map(x, y)-height)<diff && map_get_terrain(x, y)==T_GRASSLAND) {
+  if (abs(hmap(x, y)-height)<diff && map_get_terrain(x, y)==T_GRASSLAND) {
     map_set_terrain(x, y, T_DESERT);
     make_desert(x-1,y, height, diff-1);
     make_desert(x,y-1, height, diff-3);
@@ -163,7 +157,7 @@ static void make_forest(int x, int y, int height, int diff)
       map_set_terrain(x, y, T_JUNGLE);
     else 
       map_set_terrain(x, y, T_FOREST);
-      if (abs(full_map(x, y)-height)<diff) {
+      if (abs(hmap(x, y)-height)<diff) {
 	if (myrand(10)>5) make_forest(x-1,y, height, diff-5);
 	if (myrand(10)>5) make_forest(x,y-1, height, diff-5);
 	if (myrand(10)>5) make_forest(x+1,y, height, diff-5);
@@ -186,13 +180,13 @@ static void make_forests(void)
     x=myrand(map.xsize);
     y=myrand(map.ysize);
     if (map_get_terrain(x, y)==T_GRASSLAND) {
-      make_forest(x,y, full_map(x, y), 25);
+      make_forest(x,y, hmap(x, y), 25);
     }
     if (myrand(100)>75) {
       y=(myrand(map.ysize*2/10))+map.ysize*4/10;
       x=myrand(map.xsize);
       if (map_get_terrain(x, y)==T_GRASSLAND) {
-	make_forest(x,y, full_map(x, y), 25);
+	make_forest(x,y, hmap(x, y), 25);
       }
     }
   } while (forests<forestsize);
@@ -213,7 +207,7 @@ static void make_swamps(void)
     if (forever>1000) return;
     y=myrand(map.ysize);
     x=myrand(map.xsize);
-    if (map_get_terrain(x, y)==T_GRASSLAND && full_map(x, y)<(maxval*60)/100) {
+    if (map_get_terrain(x, y)==T_GRASSLAND && hmap(x, y)<(maxval*60)/100) {
       map_set_terrain(x, y, T_SWAMP);
       if (myrand(10)>5 && map_get_terrain(x-1, y)!=T_OCEAN) 
 	map_set_terrain(x-1,y, T_SWAMP);
@@ -244,17 +238,17 @@ static void make_deserts(void)
     y=myrand(map.ysize/10)+map.ysize*45/100;
     x=myrand(map.xsize);
     if (map_get_terrain(x, y)==T_GRASSLAND) {
-      make_desert(x,y, full_map(x, y), 50);
+      make_desert(x,y, hmap(x, y), 50);
       i--;
     }
   }
 }
+
 /*************************************************************************
  this recursive function try to make some decent rivers, that run towards
  the ocean, it does this by following a descending path on the map spiced
  with a bit of chance, if it fails to reach the ocean it rolls back.
 **************************************************************************/
-
 static int make_river(int x,int y) 
 {
   int mini=10000;
@@ -281,19 +275,19 @@ static int make_river(int x,int y)
     return 0;
 
   map_set_terrain(x, y, map_get_terrain(x,y)+16);
-  if (full_map(x, y-1)<mini+myrand(10) && map_get_terrain(x, y-1)<16) {
-    mini=full_map(x, y-1);
+  if (hmap(x, y-1)<mini+myrand(10) && map_get_terrain(x, y-1)<16) {
+    mini=hmap(x, y-1);
     mp=0;
   }
-  if (full_map(x, y+1)<mini+myrand(11) && map_get_terrain(x, y+1)<16) {
-    mini=full_map(x, y+1);
+  if (hmap(x, y+1)<mini+myrand(11) && map_get_terrain(x, y+1)<16) {
+    mini=hmap(x, y+1);
     mp=1;
   }
-  if (full_map(x+1, y)<mini+myrand(12) && map_get_terrain(x+1, y)<16) {
-    mini=full_map(x+1, y);
+  if (hmap(x+1, y)<mini+myrand(12) && map_get_terrain(x+1, y)<16) {
+    mini=hmap(x+1, y);
     mp=2;
   }
-  if (full_map(x-1, y)<mini+myrand(13) && map_get_terrain(x-1, y)<16) {
+  if (hmap(x-1, y)<mini+myrand(13) && map_get_terrain(x-1, y)<16) {
     mp=3;
   }
   if (mp==-1) {
@@ -394,7 +388,6 @@ static void make_passable(void)
   we don't want huge areas of grass/plains, 
  so we put in a hill here and there, where it gets too 'clean' 
 **************************************************************************/
-
 static void make_fair(void)
 {
   int x,y;
@@ -432,7 +425,7 @@ static void make_land(void)
     count=0;
     for (y=0;y<map.ysize;y++)
       for (x=0;x<map.xsize;x++) {
-	if (full_map(x, y)<tres)
+	if (hmap(x, y)<tres)
 	  map_set_terrain(x, y, T_OCEAN);
 	else {
 	  map_set_terrain(x, y, T_GRASSLAND);
@@ -819,14 +812,12 @@ void map_fractal_generate(void)
 
   if(!map.have_specials) /* some scenarios already provide specials */
     add_specials(map.riches); /* hvor mange promiller specials oensker vi*/
-  
-  /* print_map(); */
+
   make_huts(map.huts);
-  
+
   /* restore previous random state: */
   set_myrand_state(rstate);
 }
-
 
 /**************************************************************************
  readjust terrain counts so that it makes sense for mapgen 1, 2, 3 and 4
@@ -890,49 +881,6 @@ void adjust_terrain_param(void)
   map.riverlength*= 10;
 }
 
-
-/**************************************************************************
-  this next block is only for debug purposes and could be removed
-**************************************************************************/
-#ifdef UNUSED
-char terrai_chars[] = {'a','D', 'F', 'g', 'h', 'j', 'M', '.', 'p', 'R', 's','T', 'U' };
-
-void print_map(void)
-{
-  int x,y;
-  for (y=0;y<map.ysize;y++) {
-    for (x=0;x<map.xsize;x++) {
-      putchar(terrai_chars[map_get_terrain(x, y)]);
-    }
-    puts("");
-  }
-}
-
-void print_hmap(void)
-{
-  int x,y;
-  for (y=0;y<20;y++) {
-    for (x=0;x<20;x++) {
-      putchar(terrai_chars[height_map[y*20+x]]);
-    }
-    puts("");
-  }
-}
-
-void print_imap(void)
-{ char tohex[16]="0123456789abcdef";
-  int x,y,i;
-  for (y=0;y<map.ysize;y++) {
-    for (x=0;x<map.xsize;x++) {
-      i=map_get_continent(x, y);
-      putchar(tohex[i>>4]);
-      putchar(tohex[i&15]);
-    }
-    puts("");
-  }
-}
-#endif /* UNUSED */
-
 /**************************************************************************
   since the generated map will always have a positive number as minimum height
   i reduce the height so the lowest height is zero, this makes calculations
@@ -943,7 +891,7 @@ static void adjust_map(int minval)
   int x,y;
   for (y=0;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
-      height_map[y*map.xsize+x]-=minval;
+      hmap(x, y) -= minval;
     }
   }
 }
@@ -961,7 +909,7 @@ static void mapgenerator1(void)
   
   for (y=0;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
-      height_map[y*map.xsize+x]=myrand(40)+((500-abs(map.ysize/2-y))/10);
+      hmap(x, y) = myrand(40)+((500-abs(map.ysize/2-y))/10);
     }
   }
   for (i=0;i<1500;i++) {
@@ -977,10 +925,10 @@ static void mapgenerator1(void)
 
   for (y=0;y<map.ysize;y++)
     for (x=0;x<map.xsize;x++) {
-      if (full_map(x, y)>maxval) 
-	maxval=full_map(x, y);
-      if (full_map(x, y)<minval)
-	minval=full_map(x, y);
+      if (hmap(x, y)>maxval) 
+	maxval=hmap(x, y);
+      if (hmap(x, y)<minval)
+	minval=hmap(x, y);
     }
   maxval-=minval;
   adjust_map(minval);
@@ -993,7 +941,6 @@ static void mapgenerator1(void)
   smooth_map should be viewed  as a  corrosion function on the map, it levels
   out the differences in the heightmap.
 **************************************************************************/
-
 static void smooth_map(void)
 {
   int x,y;
@@ -1006,23 +953,23 @@ static void smooth_map(void)
     for (x=0;x<map.xsize;x++) {
       mx=map_adjust_x(x-1);
       px=map_adjust_x(x+1);
-      a=full_map(x, y)*2;
+      a=hmap(x, y)*2;
       
-      a+=full_map(px, my);
-      a+=full_map(mx, my);
-      a+=full_map(mx, py);
-      a+=full_map(px, py);
+      a+=hmap(px, my);
+      a+=hmap(mx, my);
+      a+=hmap(mx, py);
+      a+=hmap(px, py);
 
-      a+=full_map(x, my);
-      a+=full_map(mx, y);
+      a+=hmap(x, my);
+      a+=hmap(mx, y);
       
-      a+=full_map(x, py);
-      a+=full_map(px, y);
+      a+=hmap(x, py);
+      a+=hmap(px, y);
 
       a+=myrand(60);
       a-=30;
       if (a<0) a=0;
-      height_map[y*map.xsize +x]=a/10;
+      hmap(x, y) = a/10;
     }
   }
 }
@@ -1190,6 +1137,7 @@ static void fillislandrivers(int coast, long int *bucket)
   }
 }
 
+/*************************************************************************/
 
 static long int checkmass;
 
@@ -1206,17 +1154,17 @@ static int placeisland(void)
 
   /* this helps a lot for maps with high landmass */
   for (y = n, x = w ; y < s && x < e ; y++, x++)
-    if (*hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
+    if (hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
       return 0;
 		       
   for (y = n ; y < s ; y++)
     for (x = w ; x < e ; x++)
-      if (*hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
+      if (hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
         return 0;
 
   for (y = n ; y < s ; y++) 
     for (x = w ; x < e ; x++) {
-      if (*hmap(x, y)) {
+      if (hmap(x, y)) {
 
 	checkmass--; 
 	if(checkmass<=0) {
@@ -1244,20 +1192,20 @@ static int createisland(int islemass)
   int x, y, i;
   long int tries=islemass*(2+islemass/20)+99;
 
-  memset(hmap(0,0), '\0', sizeof(int) * map.xsize * map.ysize);
+  memset(height_map, '\0', sizeof(int) * map.xsize * map.ysize);
   y = map.ysize / 2;
   x = map.xsize / 2;
-  *hmap(x, y) = 1;
+  hmap(x, y) = 1;
   n = y - 1; w = x - 1;
   s = y + 2; e = x + 2;
   i = islemass - 1;
   while (i && tries-->0) {
     y = myrand(s - n) + n;
     x = myrand(e - w) + w;
-    if ((!*hmap(x, y)) && (
-		*hmap(x+1, y) || *hmap(x-1, y) ||
-		*hmap(x, y+1) || *hmap(x, y-1) )) {
-      *hmap(x, y) = 1;
+    if ((!hmap(x, y)) && (
+		hmap(x+1, y) || hmap(x-1, y) ||
+		hmap(x, y+1) || hmap(x, y-1) )) {
+      hmap(x, y) = 1;
       i--;
       if (y >= s - 1 && s < map.ysize - 2) s++;
       if (x >= e - 1 && e < map.xsize - 2) e++;
@@ -1267,10 +1215,10 @@ static int createisland(int islemass)
     if (i < islemass / 10) {
       for (y = n ; y < s ; y++)
         for (x = w ; x < e ; x++)
-          if ((!*hmap(x, y)) && i && (
-		*hmap(x+1, y) && *hmap(x-1, y) &&
-		*hmap(x, y+1) && *hmap(x, y-1) )) {
-            *hmap(x, y) = 1;
+          if ((!hmap(x, y)) && i && (
+		hmap(x+1, y) && hmap(x-1, y) &&
+		hmap(x, y+1) && hmap(x, y-1) )) {
+            hmap(x, y) = 1;
             i--; 
           }
     }
@@ -1285,7 +1233,10 @@ static int createisland(int islemass)
   return i;
 }
 
+/*************************************************************************/
+
 static long int totalweight;
+
 /**************************************************************************
   make an island, fill every tile type except plains
   note: you have to create big islands first.
@@ -1467,9 +1418,9 @@ static void mapgenerator2(void)
   }
 }
 
-
-/* On popular demand, this tries to mimick the generator 3 */
-/* as best as possible */
+/**************************************************************************
+On popular demand, this tries to mimick the generator 3 as best as possible.
+**************************************************************************/
 static void mapgenerator3(void)
 {
   int spares= 1;
@@ -1548,6 +1499,9 @@ static void mapgenerator3(void)
 
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void mapgenerator4(void)
 {
   int bigweight=70;
