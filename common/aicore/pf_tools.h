@@ -17,7 +17,6 @@
 
 struct pf_path *pft_concat(struct pf_path *dest_path,
 			   const struct pf_path *src_path);
-void pft_fill_default_parameter(struct pf_parameter *parameter);
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
 			     struct unit *punit);
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,

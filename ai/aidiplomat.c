@@ -163,7 +163,6 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     struct unit *punit = create_unit_virtual(pplayer, pcity, u,
                                              do_make_unit_veteran(pcity, u));
 
-    pft_fill_default_parameter(&parameter);
     pft_fill_unit_parameter(&parameter, punit);
     map = pf_create_map(&parameter);
 
@@ -556,7 +555,6 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   CHECK_UNIT(punit);
 
   /* Generate map */
-  pft_fill_default_parameter(&parameter);
   pft_fill_unit_parameter(&parameter, punit);
   parameter.get_zoc = NULL; /* kludge */
   map = pf_create_map(&parameter);
@@ -618,7 +616,6 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   if (parameter.start_x != punit->x || parameter.start_y != punit->y
       || punit->ai.ai_role == AIUNIT_NONE) {
     pf_destroy_map(map);
-    pft_fill_default_parameter(&parameter);
     pft_fill_unit_parameter(&parameter, punit);
     parameter.get_zoc = NULL; /* kludge */
     map = pf_create_map(&parameter);

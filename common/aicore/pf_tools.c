@@ -21,6 +21,10 @@
 
 #include "pf_tools.h"
 
+
+static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
+					    struct unit *punit);
+
 /* ===================== Move Cost Callbacks ========================= */
 
 /*************************************************************
@@ -388,13 +392,7 @@ static bool trireme_is_pos_dangerous(int x, int y, enum known_type known,
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
 			     struct unit *punit)
 {
-  parameter->start_x = punit->x;
-  parameter->start_y = punit->y;
-  parameter->moves_left_initially = punit->moves_left;
-  parameter->move_rate = unit_move_rate(punit);
-  parameter->owner = unit_owner(punit);
-  parameter->unit_flags = unit_type(punit)->flags;
-  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
+  pft_fill_unit_default_parameter(parameter, punit);
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
@@ -438,17 +436,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 struct unit *punit)
 {
-  parameter->turn_mode = TM_CAPPED;
-  parameter->get_TB = NULL;
-  parameter->get_EC = NULL;
-
-  parameter->start_x = punit->x;
-  parameter->start_y = punit->y;
-  parameter->moves_left_initially = punit->moves_left;
-  parameter->move_rate = unit_move_rate(punit);
-  parameter->owner = unit_owner(punit);
-  parameter->unit_flags = unit_type(punit)->flags;
-  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
+  pft_fill_unit_default_parameter(parameter, punit);
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
@@ -478,17 +466,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 void pft_fill_unit_attack_param(struct pf_parameter *parameter,
                                 struct unit *punit)
 {
-  parameter->turn_mode = TM_CAPPED;
-  parameter->get_TB = NULL;
-  parameter->get_EC = NULL;
-
-  parameter->start_x = punit->x;
-  parameter->start_y = punit->y;
-  parameter->moves_left_initially = punit->moves_left;
-  parameter->move_rate = unit_move_rate(punit);
-  parameter->owner = unit_owner(punit);
-  parameter->unit_flags = unit_type(punit)->flags;
-  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
+  pft_fill_unit_default_parameter(parameter, punit);
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
@@ -515,13 +493,25 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 /**********************************************************************
   Fill general use parameters to defaults
 ***********************************************************************/
-void pft_fill_default_parameter(struct pf_parameter *parameter)
+static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
+					    struct unit *punit)
 {
   parameter->turn_mode = TM_CAPPED;
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   BV_CLR_ALL(parameter->unit_flags);
   parameter->omniscience = TRUE;
+
+  parameter->start_x = punit->x;
+  parameter->start_y = punit->y;
+  parameter->moves_left_initially = punit->moves_left;
+  parameter->move_rate = unit_move_rate(punit);
+  parameter->owner = unit_owner(punit);
+  parameter->unit_flags = unit_type(punit)->flags;
+
+  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
+
+
 }
 
 /**********************************************************************

@@ -538,7 +538,6 @@ bool ai_manage_explorer(struct unit *punit)
 
 #define DIST_FACTOR   0.6
 
-  pft_fill_default_parameter(&parameter);
   pft_fill_unit_parameter(&parameter, punit);
   parameter.get_TB = no_fights_or_unknown;
   /* When exploring, even AI should pretend to not cheat. */
@@ -988,7 +987,6 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   int max_want = 0;
   struct player *pplayer = unit_owner(punit);
  
-  pft_fill_default_parameter(&parameter);  
   pft_fill_unit_attack_param(&parameter, punit);
   
   tgt_map = pf_create_map(&parameter);
@@ -2254,7 +2252,6 @@ static bool ai_ferry_findcargo(struct unit *punit)
 
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is looking for cargo.");
 
-  pft_fill_default_parameter(&parameter);
   pft_fill_unit_overlap_param(&parameter, punit);
   /* We are looking for our units, no need to look into the unknown */
   parameter.get_TB = no_fights_or_unknown;

@@ -371,7 +371,6 @@ static enum tile_behavior get_TB_caravan(int x, int y, enum known_type known,
 static void fill_client_goto_parameter(struct unit *punit,
 				       struct pf_parameter *parameter)
 {
-  pft_fill_default_parameter(parameter);
   pft_fill_unit_parameter(parameter, punit);
   assert(parameter->get_EC == NULL);
   parameter->get_EC = get_EC;
