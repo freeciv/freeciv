@@ -40,7 +40,7 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
   }
 
   if (tile_visible_mapcanvas(x, y)) {
-    update_map_canvas(x, y, 1, 1, write_to_screen);
+    update_map_canvas(x, y, 1, 1, FALSE);
 
     if (write_to_screen && (draw_city_names || draw_city_productions)) {
       /* FIXME: update_map_canvas() will overwrite the city descriptions.
@@ -85,6 +85,15 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
 	  }
 	}
       }
+    }
+
+    if (write_to_screen) {
+      int canvas_start_x, canvas_start_y;
+
+      get_canvas_xy(x, y, &canvas_start_x, &canvas_start_y);
+      canvas_start_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
+      flush_mapcanvas(canvas_start_x, canvas_start_y,
+		      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     }
   }
   overview_update_tile(x, y);
@@ -667,13 +676,15 @@ void update_map_canvas_visible(void)
 
     width = height = map_tile_width + map_tile_height;
     update_map_canvas(map_view_x0, map_view_y0 - map_tile_width, width,
-		      height, TRUE);
+		      height, FALSE);
   } else {
     update_map_canvas(map_view_x0, map_view_y0, map_tile_width,
-		      map_tile_height, TRUE);
+		      map_tile_height, FALSE);
   }
 
   show_city_descriptions();
+
+  flush_mapcanvas(0, 0, map_win_width, map_win_height);
 }
 
 /**************************************************************************

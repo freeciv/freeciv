@@ -178,7 +178,6 @@ void map_expose(HDC hdc)
 	   mapstoredc, 0, 0, SRCCOPY);
     SelectObject(mapstoredc, old);
     DeleteDC(mapstoredc);
-    show_city_descriptions();
   }
 } 
 
@@ -711,9 +710,11 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   char buffer[500];
   int y_offset;
   HDC hdc;
+  HBITMAP old;
 
   /* TODO: hdc should be stored statically */
-  hdc = GetDC(map_window);
+  hdc = CreateCompatibleDC(NULL);
+  old = SelectObject(hdc, mapstorebitmap);
   SetBkMode(hdc,TRANSPARENT);
 
   y_offset = canvas_y + NORMAL_TILE_HEIGHT;
@@ -763,7 +764,8 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP | DT_CENTER);
   }
 
-  ReleaseDC(map_window, hdc);
+  SelectObject(hdc, old);
+  DeleteDC(hdc);
 }
 
 /**************************************************************************

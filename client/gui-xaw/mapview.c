@@ -571,7 +571,6 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		event->xexpose.x, event->xexpose.y,
 		event->xexpose.width, event->xexpose.height,
 		event->xexpose.x, event->xexpose.y);
-      show_city_descriptions();
     }
   }
   refresh_overview_canvas();
@@ -701,16 +700,15 @@ static void draw_shadowed_string(XFontStruct * font, GC font_gc,
 				 enum color_std shadow,
 				 int x, int y, const char *string)
 {
-  Window wndw = XtWindow(map_canvas);
   size_t len = strlen(string);
 
   y += font->ascent;
 
   XSetForeground(display, font_gc, colors_standard[shadow]);
-  XDrawString(display, wndw, font_gc, x + 1, y + 1, string, len);
+  XDrawString(display, map_canvas_store, font_gc, x + 1, y + 1, string, len);
 
   XSetForeground(display, font_gc, colors_standard[foreground]);
-  XDrawString(display, wndw, font_gc, x, y, string, len);
+  XDrawString(display, map_canvas_store, font_gc, x, y, string, len);
 }
 
 /**************************************************************************

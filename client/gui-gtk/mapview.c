@@ -766,7 +766,6 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
 		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
 		ev->area.width, ev->area.height );
-	show_city_descriptions();
       }
     }
     refresh_overview_canvas();
@@ -938,14 +937,14 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   }
   w2 = gdk_string_width(prod_fontset, buffer2);
 
-  gtk_draw_shadowed_string(map_canvas->window, main_fontset,
+  gtk_draw_shadowed_string(map_canvas_store, main_fontset,
 			   toplevel->style->black_gc,
 			   toplevel->style->white_gc,
 			   canvas_x - (w + w2) / 2,
 			   canvas_y + ascent,
 			   buffer);
   gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-  gtk_draw_shadowed_string(map_canvas->window, prod_fontset,
+  gtk_draw_shadowed_string(map_canvas_store, prod_fontset,
 			   toplevel->style->black_gc,
 			   civ_gc,
 			   canvas_x - (w + w2) / 2 + w,
@@ -960,7 +959,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     get_city_mapview_production(pcity, buffer, sizeof(buffer));
 
     gdk_string_extents(prod_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
-    gtk_draw_shadowed_string(map_canvas->window, prod_fontset,
+    gtk_draw_shadowed_string(map_canvas_store, prod_fontset,
 			     toplevel->style->black_gc,
 			     toplevel->style->white_gc, canvas_x - w / 2,
 			     canvas_y + ascent + 3, buffer);

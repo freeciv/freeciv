@@ -1744,12 +1744,6 @@ static void redraw_map_widgets(void)
 #ifdef DRAW_TIMING
   struct timer *tttt=new_timer_start(TIMER_USER,TIMER_ACTIVE);
 #endif	  
-  
-#if 0  
-  /* redraw city descriptions
-     should be draw here - under map witgets */
-  show_city_descriptions();
-#endif
 
   /* redraw minimap */
   refresh_ID_background(ID_MINI_MAP_WINDOW);

@@ -455,6 +455,7 @@ static void Map_Priv_ShowCityDesc(Object *o, struct Map_Data *data)
 
   APTR cliphandle;
 
+  /* FIXME: this needs to draw to the backing store, not to the display. */
 
   if (!(new_font = _font(o))) return;
 
@@ -1466,8 +1467,10 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	}
       }
 
+#if 0 /* This is no longer needed. */
       if (!(msg->flags & MADF_DRAWUPDATE) || ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3)))
 	show_city_descriptions();
+#endif
     }
 
     data->update = 0;

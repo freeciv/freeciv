@@ -787,7 +787,6 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
       gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store,
 		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
 		ev->area.width, ev->area.height);
-      show_city_descriptions();
       cleared = FALSE;
     } else {
       if (!cleared) {
@@ -991,7 +990,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
       rect2.width = 0;
     }
 
-    gtk_draw_shadowed_string(map_canvas->window,
+    gtk_draw_shadowed_string(map_canvas_store,
 			     toplevel->style->black_gc,
 			     toplevel->style->white_gc,
 			     canvas_x - (rect.width + rect2.width) / 2,
@@ -1001,7 +1000,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
       pango_layout_set_font_description(layout, city_productions_font);
       pango_layout_set_text(layout, buffer2, -1);
       gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-      gtk_draw_shadowed_string(map_canvas->window,
+      gtk_draw_shadowed_string(map_canvas_store,
 			       toplevel->style->black_gc,
 			       civ_gc,
 			       canvas_x - (rect.width + rect2.width) / 2
@@ -1021,7 +1020,7 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
     pango_layout_set_text(layout, buffer, -1);
 
     pango_layout_get_pixel_extents(layout, &rect, NULL);
-    gtk_draw_shadowed_string(map_canvas->window,
+    gtk_draw_shadowed_string(map_canvas_store,
 			     toplevel->style->black_gc,
 			     toplevel->style->white_gc,
 			     canvas_x - rect.width / 2,
