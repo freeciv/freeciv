@@ -108,6 +108,18 @@ client_option gui_options[] = {
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
+
+struct callback {
+  void (*callback)(void *data);
+  void *data;
+};
+
+#define SPECLIST_TAG callback
+#define SPECLIST_TYPE struct callback
+#include "speclist.h"
+
+struct callback_list *callbacks;
+
 /**************************************************************************
 
 **************************************************************************/
@@ -575,6 +587,8 @@ ui_main(int argc, char *argv[])
  
   set_client_state(CLIENT_PRE_GAME_STATE);
 
+  callbacks = callback_list_new();
+
   SetTimer(root_window, 2, TIMER_INTERVAL, blink_timer);
 
   while (!quit) {
@@ -589,7 +603,16 @@ ui_main(int argc, char *argv[])
 	DispatchMessage(&msg);   
       }
     }
+    if (callbacks && callback_list_size(callbacks) > 0) {
+      struct callback *cb = callback_list_get(callbacks, 0);
+      callback_list_unlink(callbacks, cb);
+      (cb->callback)(cb->data);
+      free(cb);
+    }
   }
+
+  callback_list_unlink_all(callbacks);
+  free(callbacks);
 }
 
 
@@ -653,9 +676,10 @@ set_unit_icons_more_arrow(bool onoff)
 ****************************************************************************/
 void add_idle_callback(void (callback)(void *), void *data)
 {
-  /* PORTME */
+  struct callback *cb = fc_malloc(sizeof(*cb));
 
-  /* This is a reasonable fallback if it's not ported. */
-  freelog(LOG_ERROR, "Unimplemented add_idle_callback.");
-  (callback)(data);
+  cb->callback = callback;
+  cb->data = data;
+
+  callback_list_prepend(callbacks, cb);
 }
