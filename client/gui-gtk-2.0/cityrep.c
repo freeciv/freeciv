@@ -32,7 +32,7 @@
 #include "unit.h"
 
 #include "chatline.h"
-#include "citydlg.h"
+#include "citydlg_common.h"
 #include "cityrepdata.h"
 #include "civclient.h"
 #include "clinet.h"
@@ -46,8 +46,10 @@
 #include "repodlgs.h"
 #include "climisc.h"
 
-#include "cityrep.h"
 #include "cma_fec.h"
+
+#include "citydlg.h"
+#include "cityrep.h"
 
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 #define CMA_NONE	(-1)
@@ -337,10 +339,8 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  /* try to add the object to the worklist. */
-  if (worklist_append(&pcity->worklist, cid_id(cid), cid_is_unit(cid))) {
-    city_set_worklist(pcity, &pcity->worklist);
-  } /* perhaps should warn the user if not successful? */
+  (void) city_queue_insert(pcity, cid_is_unit(cid), cid_id(cid), -1);
+  /* perhaps should warn the user if not successful? */
 }
 
 /****************************************************************
@@ -359,22 +359,12 @@ static void worklist_first_impr_or_unit_iterate(GtkTreeModel *model,
   cid cid = GPOINTER_TO_INT(data);
   gint id;
   struct city *pcity;  
-  int old_id;
-  bool old_is_build_id_unit_id;
 
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  old_id = pcity->currently_building;
-  old_is_build_id_unit_id = pcity->is_building_unit;
-
-  /* first try and insert the old production into the worklist. */
-  if (worklist_insert(&pcity->worklist, old_id, old_is_build_id_unit_id, 0)) {
-    city_set_worklist(pcity, &pcity->worklist);
-
-    /* next change the current production to the new production. */
-    city_change_production(pcity, cid_is_unit(cid), cid_id(cid));
-  }
+  (void) city_queue_insert(pcity, 0, cid_is_unit(cid), cid_id(cid));
+  /* perhaps should warn the user if not successful? */
 }
 
 /****************************************************************
@@ -395,11 +385,9 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  if (worklist_insert(&pcity->worklist, cid_id(cid), cid_is_unit(cid), 0)) {
-    city_set_worklist(pcity, &pcity->worklist);
-  }
+  (void) city_queue_insert(pcity, 1, cid_is_unit(cid), cid_id(cid));
+  /* perhaps should warn the user if not successful? */
 }
-
 
 /****************************************************************
 ...

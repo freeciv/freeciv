@@ -480,6 +480,8 @@ int city_change_production(struct city *pcity, bool is_unit, int build_id)
 
 /**************************************************************************
   Set the worklist for a given city.  Return the request ID.
+
+  Note that the worklist does NOT include the current production.
 **************************************************************************/
 int city_set_worklist(struct city *pcity, struct worklist *pworklist)
 {
@@ -491,6 +493,64 @@ int city_set_worklist(struct city *pcity, struct worklist *pworklist)
   copy.name[0] = '\0';
 
   return dsend_packet_city_worklist(&aconnection, pcity->id, &copy);
+}
+
+/**************************************************************************
+  Insert an item into the city's worklist.
+
+  Note that the queue DOES include the current production.
+**************************************************************************/
+bool city_queue_insert(struct city *pcity, int position,
+		       bool item_is_unit, int item_id)
+{
+  if (position == 0) {
+    int old_id;
+    bool old_is_unit;
+
+    /* Insert as current production. */
+    if (item_is_unit && !can_build_unit_direct(pcity, item_id)) {
+      return FALSE;
+    }
+    if (!item_is_unit && !can_build_improvement_direct(pcity, item_id)) {
+      return FALSE;
+    }
+
+    old_id = pcity->currently_building;
+    old_is_unit = pcity->is_building_unit;
+    if (!worklist_insert(&pcity->worklist, old_id, old_is_unit, 0)) {
+      return FALSE;
+    }
+
+    city_set_worklist(pcity, &pcity->worklist);
+    city_change_production(pcity, item_is_unit, item_id);
+  } else if (position >= 1
+	     && position <= worklist_length(&pcity->worklist)) {
+    /* Insert into middle. */
+    if (item_is_unit && !can_eventually_build_unit(pcity, item_id)) {
+      return FALSE;
+    }
+    if (!item_is_unit && !can_eventually_build_improvement(pcity, item_id)) {
+      return FALSE;
+    }
+    if (!worklist_insert(&pcity->worklist, item_is_unit, item_id,
+			 position - 1)) {
+      return FALSE;
+    }
+    city_set_worklist(pcity, &pcity->worklist);
+  } else {
+    /* Insert at end. */
+    if (item_is_unit && !can_eventually_build_unit(pcity, item_id)) {
+      return FALSE;
+    }
+    if (!item_is_unit && !can_eventually_build_improvement(pcity, item_id)) {
+      return FALSE;
+    }
+    if (!worklist_append(&pcity->worklist, item_is_unit, item_id)) {
+      return FALSE;
+    }
+    city_set_worklist(pcity, &pcity->worklist);
+  }
+  return TRUE;
 }
 
 /**************************************************************************

@@ -62,6 +62,8 @@ void activate_all_units(int map_x, int map_y);
 
 int city_change_production(struct city *pcity, bool is_unit, int build_id);
 int city_set_worklist(struct city *pcity, struct worklist *pworklist);
+bool city_queue_insert(struct city *pcity, int position,
+		       bool item_is_unit, int item_id);
 void city_get_queue(struct city *pcity, struct worklist *pqueue);
 void city_set_queue(struct city *pcity, struct worklist *pqueue);
 bool city_can_buy(const struct city *pcity);
