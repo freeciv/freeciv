@@ -583,32 +583,35 @@ bool ai_fuzzy(struct player *pplayer, bool normal_decision)
 
 /**************************************************************************
   Return a text describing an AI's love for you.  (Oooh, kinky!!)
+  These words should be adjectives which can fit in the sentence
+  "The x are y towards us"
+  "The Babylonians are respectful towards us"
 **************************************************************************/
 const char *love_text(const int love)
 {
-  if (love <= -51) {
-    return Q_("?attitude:Bloodfeud");
-  } else if (love >= -50 && love <= -21) {
-    return Q_("?attitude:Loathing");
-  } else if (love >= -20 && love <= -11) {
-    return Q_("?attitude:Hatred");
-  } else if (love >= -10 && love <= -5) {
-    return Q_("?attitude:Dislike");
-  } else if (love >= -4 && love <= -3) {
-    return Q_("?attitude:Unease");
-  } else if (love >= -2 && love <= 2) {
-    return Q_("?attitude:Indifferent");
-  } else if (love >= 3 && love <= 9) {
-    return Q_("?attitude:Peaceful");
-  } else if (love >= 10 && love <= 20) {
-    return Q_("?attitude:Relaxed");
-  } else if (love >= 21 && love <= 50) {
-    return Q_("?attitude:Friendly");
-  } else if (love >= 51 && love <= 70) {
-    return Q_("?attitude:Amiable");
+  if (love <= -81) {
+    return Q_("?attitude:Genocidal");
+  } else if (love >= -80 && love <= -61) {
+    return Q_("?attitude:Belligerent");
+  } else if (love >= -60 && love <= -41) {
+    return Q_("?attitude:Hostile");
+  } else if (love >= -40 && love <= -21) {
+    return Q_("?attitude:Uncooperative");
+  } else if (love >= -20 && love <= -6) {
+    return Q_("?attitude:Uneasy");
+  } else if (love >= -5 && love <= 5) {
+    return Q_("?attitude:Neutral");
+  } else if (love >= 6 && love <= 20) {
+    return Q_("?attitude:Respectful");
+  } else if (love >= 21 && love <= 40) {
+    return Q_("?attitude:Helpful");
+  } else if (love >= 41 && love <= 60) {
+    return Q_("?attitude:Enthusiastic");
+  } else if (love >= 61 && love <= 80) {
+    return Q_("?attitude:Admiring");
   } else {
-    assert(love >= 71);
-    return Q_("?attitude:Harmony");
+    assert(love >= 81);
+    return Q_("?attitude:Worshipful");
   }
 }
 
