@@ -1059,7 +1059,6 @@ void ui_init(void)
 void ui_main(int argc, char **argv)
 {
   GdkBitmap *icon_bitmap;
-  PangoLanguage *lang;
   const gchar *home;
   guint sig;
   GtkStyle *style;
@@ -1069,9 +1068,6 @@ void ui_main(int argc, char **argv)
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
   
-  lang = gtk_get_default_language();
-  freelog(LOG_NORMAL, "LANGUAGE=\"%s\"", pango_language_to_string(lang));
-
   /* Load resources */
   gtk_rc_parse_string(fallback_resources);
 
