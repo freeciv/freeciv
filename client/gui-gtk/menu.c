@@ -722,7 +722,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_RETURN },
   { "/" N_("Orders") "/sep4",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Orders") "/" N_("Disband Unit"),		"<shift>d",
+  { "/" N_("Orders") "/" N_("_Disband Unit"),		"<shift>d",
 	orders_menu_callback,	MENU_ORDER_DISBAND					},
   { "/" N_("Orders") "/" N_("Diplomat|Spy Actions"),	"d",
 	orders_menu_callback,	MENU_ORDER_DIPLOMAT_DLG					},
