@@ -13,12 +13,14 @@ EXTRA_DIST =			\
 	README.cma		\
 	README.graphics		\
 	README.rulesets		\
+	README.sound		\
 	TODO			\
 	de/BUGS.de		\
 	de/HOWTOPLAY.de		\
 	de/INSTALL.de		\
 	de/INSTALL.debian.de	\
 	de/NEWS.de		\
+	de/README.1st.de	\
 	de/README.cma.de	\
 	de/README.de		\
 	de/README.rulesets.de	\
@@ -28,6 +30,7 @@ EXTRA_DIST =			\
 	it/HOWTOPLAY.it		\
 	it/INSTALL.it		\
 	it/README.it		\
+	ja/BUGS.ja		\
 	ja/HOWTOPLAY.ja		\
 	ja/NEWS.ja		\
 	ja/README.ja		\
