@@ -23,6 +23,7 @@
 #include <X11/Xaw/AsciiText.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "mem.h"
 #include "packets.h"
 #include "shared.h"		/* wordwrap_string() */
@@ -76,7 +77,8 @@ void append_output_window(char *astring)
 {
   static int m_width=0;
 
-  int windowwth, maxlinelen;
+  Dimension windowwth;
+  int maxlinelen;
   String theoutput;
   char *newout, *rmcr;
   char *input_string = astring;
@@ -93,6 +95,9 @@ void append_output_window(char *astring)
   XtVaGetValues(outputwindow_text, XtNwidth, &windowwth, NULL);
   maxlinelen=(windowwth/m_width)-1;
   if (maxlinelen<32) maxlinelen=32;
+
+  freelog(LOG_DEBUG, "m_width %d windowwth %d maxlinelen %d",
+	  m_width, (int)windowwth, maxlinelen);
 
   if (strlen(astring) > maxlinelen) {
     astring = mystrdup(astring);
