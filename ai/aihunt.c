@@ -458,6 +458,12 @@ bool ai_hunter_manage(struct player *pplayer, struct unit *punit)
 
   /* Check if we can nuke it */
   ai_hunter_try_launch(pplayer, punit, target);
+  /* Check if we have nuked it */
+  if (target != find_unit_by_id(sanity_target)) {
+    UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
+    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    return TRUE;
+  }
 
   /* Go towards it. */
   if (!ai_unit_goto(punit, target->tile)) {
@@ -466,6 +472,11 @@ bool ai_hunter_manage(struct player *pplayer, struct unit *punit)
 
   /* Check if we can nuke it now */
   ai_hunter_try_launch(pplayer, punit, target);
+  if (target != find_unit_by_id(sanity_target)) {
+    UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
+    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    return TRUE;
+  }
 
   /* If we are adjacent - RAMMING SPEED! */
   if (is_tiles_adjacent(punit->tile, target->tile)) {
@@ -475,7 +486,7 @@ bool ai_hunter_manage(struct player *pplayer, struct unit *punit)
   if (!find_unit_by_id(sanity_own)) {
     return TRUE;
   }
-  if (!find_unit_by_id(sanity_target)) {
+  if (target != find_unit_by_id(sanity_target)) {
     UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
