@@ -106,18 +106,12 @@ static inline size_t SPECVEC_FOO(_vector_size) (SPECVEC_VECTOR *tthis)
 static inline SPECVEC_TYPE *SPECVEC_FOO(_vector_get) (SPECVEC_VECTOR *tthis,
 						      int index)
 {
-  if (index == -1) {
-    if (tthis->size > 0) {
-      return tthis->p + tthis->size - 1;
-    } else {
-      return NULL;
-    }
+  if (index == -1 && tthis->size > 0) {
+    return tthis->p + tthis->size - 1;
+  } else if (index >= 0 && index < tthis->size) {
+    return tthis->p + index;
   } else {
-    if (index < 0 || index >= tthis->size) {
-      return NULL;
-    } else {
-      return tthis->p + index;
-    }
+    return NULL;
   }
 }
 
@@ -140,10 +134,8 @@ static inline void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)
 static inline void SPECVEC_FOO(_vector_append) (SPECVEC_VECTOR *tthis,
 						SPECVEC_TYPE *pfoo)
 {
-  const size_t last = tthis->size;
-
-  SPECVEC_FOO(_vector_reserve) (tthis, last + 1);
-  tthis->p[last] = *pfoo;
+  SPECVEC_FOO(_vector_reserve) (tthis, tthis->size + 1);
+  tthis->p[tthis->size - 1] = *pfoo;
 }
 
 
