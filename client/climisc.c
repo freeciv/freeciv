@@ -54,92 +54,6 @@ used throughout the client.
 
 static void renumber_island_impr_effect(int old, int newnumber);
 
-/**************************************************************************
-...
-**************************************************************************/
-void client_remove_unit(int unit_id)
-{
-  struct unit *punit;
-  struct city *pcity;
-
-  freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
-  
-  if((punit=find_unit_by_id(unit_id))) {
-    int x=punit->x;
-    int y=punit->y;
-    int hc=punit->homecity;
-    struct unit *ufocus = get_unit_in_focus();
-
-    freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
-	   unit_id, get_nation_name(unit_owner(punit)->nation),
-	   unit_name(punit->type), punit->x, punit->y, hc);
-    
-    if(punit==ufocus) {
-      set_unit_focus_no_center(NULL);
-      game_remove_unit(punit);
-      punit = ufocus = NULL;
-      advance_unit_focus();
-    }
-    else {
-      /* calculate before punit disappears, use after punit removed: */
-      bool update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
-      game_remove_unit(punit);
-      punit = NULL;
-      if (update) {
-	update_unit_pix_label(ufocus);
-      }
-    }
-
-    pcity = map_get_city(x, y);
-    if (pcity) {
-      refresh_city_dialog(pcity);
-      freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
-	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
-    }
-    
-    pcity = player_find_city_by_id(game.player_ptr, hc);
-    if (pcity) {
-      refresh_city_dialog(pcity);
-      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
-    }
-    
-    refresh_tile_mapcanvas(x, y, TRUE);
-  }
-  
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void client_remove_city(struct city *pcity)
-{
-  bool effect_update;
-  int x=pcity->x;
-  int y=pcity->y;
-
-  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	  get_nation_name(city_owner(pcity)->nation), x, y);
-
-  /* Explicitly remove all improvements, to properly remove any global effects
-     and to handle the preservation of "destroyed" effects. */
-  effect_update=FALSE;
-
-  built_impr_iterate(pcity, i) {
-    effect_update = TRUE;
-    city_remove_improvement(pcity, i);
-  } built_impr_iterate_end;
-
-  if (effect_update)
-    update_all_effects();
-
-  popdown_city_dialog(pcity);
-  game_remove_city(pcity);
-  city_report_dialog_update();
-  refresh_tile_mapcanvas(x, y, TRUE);
-}
-
 #define MAX_NUM_CONT 32767   /* max portable value in signed short */
 
 /* Static data used to keep track of continent numbers in client:
@@ -294,6 +208,90 @@ void client_remove_player(int plrno)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+void client_remove_unit(int unit_id)
+{
+  struct unit *punit;
+  struct city *pcity;
+
+  freelog(LOG_DEBUG, "client_remove_unit %d", unit_id);
+  
+  if((punit=find_unit_by_id(unit_id))) {
+    int x=punit->x;
+    int y=punit->y;
+    int hc=punit->homecity;
+    struct unit *ufocus = get_unit_in_focus();
+
+    freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
+	   unit_id, get_nation_name(unit_owner(punit)->nation),
+	   unit_name(punit->type), punit->x, punit->y, hc);
+    
+    if(punit==ufocus) {
+      set_unit_focus_no_center(NULL);
+      game_remove_unit(punit);
+      punit = ufocus = NULL;
+      advance_unit_focus();
+    }
+    else {
+      /* calculate before punit disappears, use after punit removed: */
+      bool update = (ufocus && ufocus->x==punit->x && ufocus->y==punit->y);
+      game_remove_unit(punit);
+      punit = NULL;
+      if (update) {
+	update_unit_pix_label(ufocus);
+      }
+    }
+
+    pcity = map_get_city(x, y);
+    if (pcity) {
+      refresh_city_dialog(pcity);
+      freelog(LOG_DEBUG, "map city %s, %s, (%d %d)",  pcity->name,
+	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
+    }
+    
+    pcity = player_find_city_by_id(game.player_ptr, hc);
+    if (pcity) {
+      refresh_city_dialog(pcity);
+      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
+	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
+    }
+    
+    refresh_tile_mapcanvas(x, y, TRUE);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void client_remove_city(struct city *pcity)
+{
+  bool effect_update;
+  int x=pcity->x;
+  int y=pcity->y;
+
+  freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
+	  get_nation_name(city_owner(pcity)->nation), x, y);
+
+  /* Explicitly remove all improvements, to properly remove any global effects
+     and to handle the preservation of "destroyed" effects. */
+  effect_update=FALSE;
+
+  built_impr_iterate(pcity, i) {
+    effect_update = TRUE;
+    city_remove_improvement(pcity, i);
+  } built_impr_iterate_end;
+
+  if (effect_update)
+    update_all_effects();
+
+  popdown_city_dialog(pcity);
+  game_remove_city(pcity);
+  city_report_dialog_update();
+  refresh_tile_mapcanvas(x, y, TRUE);
+}
+
+/**************************************************************************
 Change all cities building X to building Y, if possible.  X and Y
 could be improvements or units. X and Y are compound ids.
 **************************************************************************/
@@ -332,31 +330,6 @@ void client_change_all(cid x, cid y)
       }
   }
   city_list_iterate_end;
-}
-
-/**************************************************************************
-Format a duration, in seconds, so it comes up in minutes or hours if
-that would be more meaningful.
-(7 characters, maximum.  Enough for, e.g., "99h 59m".)
-**************************************************************************/
-void format_duration(char *buffer, int buffer_size, int duration)
-{
-  if (duration < 0)
-    duration = 0;
-  if (duration < 60)
-    my_snprintf(buffer, buffer_size, Q_("?seconds:%02ds"),
-		duration);
-  else if (duration < 3600)	/* < 60 minutes */
-    my_snprintf(buffer, buffer_size, Q_("?mins/secs:%02dm %02ds"),
-		duration/60, duration%60);
-  else if (duration < 360000)	/* < 100 hours */
-    my_snprintf(buffer, buffer_size, Q_("?hrs/mns:%02dh %02dm"),
-		duration/3600, (duration/60)%60);
-  else if (duration < 8640000)	/* < 100 days */
-    my_snprintf(buffer, buffer_size, Q_("?dys/hrs:%02dd %02dh"),
-		duration/86400, (duration/3600)%24);
-  else
-    my_snprintf(buffer, buffer_size, Q_("?duration:overflow"));
 }
 
 /***************************************************************************
@@ -499,7 +472,7 @@ int client_cooling_sprite(void)
 
  Judicious use of this function also makes things very convenient for
  civworld, since it uses both client and server-style storage; since it
- uses the stock tilespec.c file this function serves as a wrapper.
+ uses the stock tilespec.c file, this function serves as a wrapper.
 *************************************************************************/
 enum known_type tile_get_known(int x, int y)
 {
@@ -552,10 +525,35 @@ void center_on_something(void)
   }
 }
 
-/*
- * Concats buf with activity progress text for given tile. Returns
- * number of activities.
- */
+/**************************************************************************
+Format a duration, in seconds, so it comes up in minutes or hours if
+that would be more meaningful.
+(7 characters, maximum.  Enough for, e.g., "99h 59m".)
+**************************************************************************/
+void format_duration(char *buffer, int buffer_size, int duration)
+{
+  if (duration < 0)
+    duration = 0;
+  if (duration < 60)
+    my_snprintf(buffer, buffer_size, Q_("?seconds:%02ds"),
+		duration);
+  else if (duration < 3600)	/* < 60 minutes */
+    my_snprintf(buffer, buffer_size, Q_("?mins/secs:%02dm %02ds"),
+		duration/60, duration%60);
+  else if (duration < 360000)	/* < 100 hours */
+    my_snprintf(buffer, buffer_size, Q_("?hrs/mns:%02dh %02dm"),
+		duration/3600, (duration/60)%60);
+  else if (duration < 8640000)	/* < 100 days */
+    my_snprintf(buffer, buffer_size, Q_("?dys/hrs:%02dd %02dh"),
+		duration/86400, (duration/3600)%24);
+  else
+    my_snprintf(buffer, buffer_size, Q_("?duration:overflow"));
+}
+
+/**************************************************************************
+ Concats buf with activity progress text for given tile. Returns
+ number of activities.
+**************************************************************************/
 int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
 {
   int activity_total[ACTIVITY_LAST];
@@ -598,32 +596,50 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
   return num_activities;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 cid cid_encode(bool is_unit, int id)
 {
   return id + (is_unit ? B_LAST : 0);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 cid cid_encode_from_city(struct city * pcity)
 {
   return cid_encode(pcity->is_building_unit, pcity->currently_building);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 void cid_decode(cid cid, bool *is_unit, int *id)
 {
   *is_unit = cid_is_unit(cid);
   *id = cid_id(cid);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 bool cid_is_unit(cid cid)
 {
   return (cid >= B_LAST);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int cid_id(cid cid)
 {
   return (cid >= B_LAST) ? (cid - B_LAST) : cid;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 wid wid_encode(bool is_unit, bool is_worklist, int id)
 {
   assert(!is_unit || !is_worklist);
@@ -635,6 +651,9 @@ wid wid_encode(bool is_unit, bool is_worklist, int id)
   return id;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 bool wid_is_unit(wid wid)
 {
   assert(wid != WORKLIST_END);
@@ -642,6 +661,9 @@ bool wid_is_unit(wid wid)
   return (wid >= B_LAST && wid < B_LAST + U_LAST);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 bool wid_is_worklist(wid wid)
 {
   assert(wid != WORKLIST_END);
@@ -649,6 +671,9 @@ bool wid_is_worklist(wid wid)
   return (wid >= B_LAST + U_LAST);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int wid_id(wid wid)
 {
   assert(wid != WORKLIST_END);
@@ -705,9 +730,9 @@ bool city_unit_present(struct city *pcity, cid cid)
   return FALSE;
 }
 
-/*
- * Helper for name_and_sort_items.
- */
+/**************************************************************************
+ Helper for name_and_sort_items.
+**************************************************************************/
 static int my_cmp(const void *p1, const void *p2)
 {
   const struct item *i1 = (const struct item *) p1;
@@ -718,16 +743,16 @@ static int my_cmp(const void *p1, const void *p2)
   return (i1->section - i2->section);
 }
 
-/*
- * Takes an array of compound ids (cids). It will fill out an array of
- * struct items and also sort it.
- *
- * section 0: normal buildings
- * section 1: B_CAPITAL
- * section 2: F_NONMIL units
- * section 3: other units
- * section 4: wonders
- */
+/**************************************************************************
+ Takes an array of compound ids (cids). It will fill out an array of
+ struct items and also sort it.
+
+ section 0: normal buildings
+ section 1: B_CAPITAL
+ section 2: F_NONMIL units
+ section 3: other units
+ section 4: wonders
+**************************************************************************/
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 			 bool show_cost, struct city *pcity)
 {
@@ -774,6 +799,9 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
   qsort(items, num_cids, sizeof(struct item), my_cmp);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int collect_cids1(cid * dest_cids, struct city **selected_cities,
 		  int num_selected_cities, bool append_units,
 		  bool append_wonders, bool change_prod,
@@ -813,10 +841,10 @@ int collect_cids1(cid * dest_cids, struct city **selected_cities,
   return items_used;
 }
 
-/*
- * Collect the cids of all targets (improvements and units) which are
- * currently built in a city.
- */
+/**************************************************************************
+ Collect the cids of all targets (improvements and units) which are
+ currently built in a city.
+**************************************************************************/
 int collect_cids2(cid * dest_cids)
 {
   bool mapping[B_LAST + U_LAST];
@@ -838,10 +866,10 @@ int collect_cids2(cid * dest_cids)
   return cids_used;
 }
 
-/*
- * Collect the cids of all targets (improvements and units) which can
- * be build in a city.
- */
+/**************************************************************************
+ Collect the cids of all targets (improvements and units) which can
+ be build in a city.
+**************************************************************************/
 int collect_cids3(cid * dest_cids)
 {
   int cids_used = 0;
@@ -863,10 +891,10 @@ int collect_cids3(cid * dest_cids)
   return cids_used;
 }
 
-/*
- * Collect the cids of all targets which can be build by this city or
- * in general.
- */
+/**************************************************************************
+ Collect the cids of all targets which can be build by this city or
+ in general.
+**************************************************************************/
 int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
 {
   int cids_used = 0;
@@ -912,9 +940,9 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
   return cids_used;
 }
 
-/*
- * Collect the cids of all improvements which are built in the given city.
- */
+/**************************************************************************
+ Collect the cids of all improvements which are built in the given city.
+**************************************************************************/
 int collect_cids5(cid * dest_cids, struct city *pcity)
 {
   int cids_used = 0;
@@ -929,9 +957,9 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
   return cids_used;
 }
 
-/*
- * Collect the wids of all possible targets of the given city.
- */
+/**************************************************************************
+ Collect the wids of all possible targets of the given city.
+**************************************************************************/
 int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first, 
                   bool advanced_tech)
 {
