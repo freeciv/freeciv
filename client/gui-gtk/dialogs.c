@@ -1961,8 +1961,11 @@ void taxrates_callback( GtkWidget *w, GdkEventButton *event, gpointer data )
   int tax_end,lux_end,sci_end;
   size_t i;
   int delta=10;
-
   struct packet_player_request packet;
+  
+  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
+    return;
+  
   i= (size_t)data;
   
   lux_end= game.player_ptr->economic.luxury;

@@ -1339,7 +1339,14 @@ void handle_player_rates(struct player *pplayer,
                          struct packet_player_request *preq)
 {
   int maxrate;
-  
+
+  if (server_state!=RUN_GAME_STATE) {
+    freelog(LOG_NORMAL, "received player_rates packet from %s before start",
+	    pplayer->name);
+    notify_player(pplayer, "Game: cannot change rates before game start.");
+    return;
+  }
+	
   if (preq->tax+preq->luxury+preq->science!=100)
     return;
   if (preq->tax<0 || preq->tax >100) return;
