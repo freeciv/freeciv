@@ -355,17 +355,15 @@ static void lan_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
 }
 
 /**************************************************************************
-  This function is called on a click in the single player saved list
+  This function is called on a double-click in the single player saved list
 ***************************************************************************/
-static gboolean saved_click_callback(GtkWidget *w, GdkEventButton *event, 
-                                     gpointer data)
+static void saved_click_callback(GtkTreeView *treeview,
+                                 GtkTreePath *arg1,
+                                 GtkTreeViewColumn *arg2,
+                                 gpointer data)
 {
-  if (event->type == GDK_2BUTTON_PRESS) {
-    really_close_connection_dialog();
-    send_start_saved_game();
-  }
-
-  return FALSE;
+  really_close_connection_dialog();
+  send_start_saved_game();
 }
 
 /**************************************************************************
@@ -1095,7 +1093,7 @@ void gui_server_connect(void)
    * it may not be on very slow machines) */
 
 
-  g_signal_connect(listsaved, "button_press_event",
+  g_signal_connect(listsaved, "row_activated",
 		   G_CALLBACK(saved_click_callback), NULL);
   g_signal_connect(selectionsaved, "changed",
                    G_CALLBACK(saved_list_callback), NULL);
