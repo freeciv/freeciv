@@ -1678,6 +1678,16 @@ static gint change_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
+static void change_list_callback(GtkWidget *w, gint row, gint col, GdkEvent *ev, gpointer data)
+     /* Allows new production options to be selected via a double-click */
+{
+  if(ev && ev->type==GDK_2BUTTON_PRESS)
+    change_to_callback(w, data);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void change_callback(GtkWidget *w, gpointer data)
 {
   GtkWidget *cshell, *button, *scrolled;
@@ -1703,6 +1713,10 @@ void change_callback(GtkWidget *w, gpointer data)
   gtk_clist_column_titles_passive(GTK_CLIST(pdialog->change_list));
   scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), pdialog->change_list);
+
+  /* Set up the doubleclick-on-list-item handler */
+  gtk_signal_connect(GTK_OBJECT(pdialog->change_list), "select_row",
+		     GTK_SIGNAL_FUNC(change_list_callback), pdialog);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
