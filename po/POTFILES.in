@@ -4,6 +4,7 @@ common/city.c
 common/log.c
 common/map.c
 common/mem.c
+common/player.c
 common/shared.c
 common/support.c
 common/unit.c
@@ -31,6 +32,7 @@ server/unithand.c
 server/unittools.c
 client/cityrepdata.c
 client/civclient.c
+client/climisc.c
 client/clinet.c
 client/control.c
 client/helpdata.c
