@@ -64,6 +64,14 @@ style "comment_label"
   fg[PRELIGHT] = "blue"
 }
 
+style "default"
+{
+  GtkDialog::content_area_border = 0
+  GtkDialog::action_area_border = 0
+}
+
+class	"GtkWidget"   	    	    	style	"default"
+
 widget	"Freeciv*.city label"		style	"city_label"
 widget	"Freeciv*.notify label"		style	"notify_label"
 widget	"Freeciv*.spaceship label"	style	"spaceship_label"
