@@ -186,15 +186,15 @@ void update_unit_info_label(struct unit *punit)
     int infrastructure =
 	get_tile_infrastructure_set(map_get_tile(punit->x, punit->y));
     struct unit_type *ptype = unit_type(punit);
-      
+
     my_snprintf(buffer, sizeof(buffer), "%s", ptype->name);
-    
-    if (ptype->veteran[punit->veteran].name != "") {
+
+    if (ptype->veteran[punit->veteran].name[0] != '\0') {
       sz_strlcat(buffer, " (");
       sz_strlcat(buffer, ptype->veteran[punit->veteran].name);
       sz_strlcat(buffer, ")");
     }
-    
+
     gtk_frame_set_label(GTK_FRAME(unit_info_frame), buffer);
 
 

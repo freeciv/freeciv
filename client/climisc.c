@@ -1137,15 +1137,15 @@ const char *unit_description(struct unit *punit)
   } else {
     buffer3[0] = 0;
   }
-    
+
   my_snprintf(buffer4, sizeof(buffer4), _("%s"), ptype->name);
-    
-  if (ptype->veteran[punit->veteran].name != "") {
+
+  if (ptype->veteran[punit->veteran].name[0] != '\0') {
     sz_strlcat(buffer4, " (");
     sz_strlcat(buffer4, ptype->veteran[punit->veteran].name);
     sz_strlcat(buffer4, ")");
   }
-  
+
   my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s\n%s", 
 	      buffer4,
 	      unit_activity_text(punit), 
