@@ -289,6 +289,7 @@ static void check_units(void) {
     unit_list_iterate(pplayer->units, punit) {
       struct tile *ptile = punit->tile;
       struct city *pcity;
+      struct unit *transporter = NULL, *transporter2 = NULL;
 
       assert(unit_owner(punit) == pplayer);
 
@@ -309,19 +310,45 @@ static void check_units(void) {
       pcity = map_get_city(ptile);
       if (pcity) {
 	assert(pplayers_allied(city_owner(pcity), pplayer));
-      } else if (is_ocean(map_get_terrain(ptile))) {
-	assert(ground_unit_transporter_capacity(ptile, pplayer) >= 0);
       }
 
       assert(punit->moves_left >= 0);
       assert(punit->hp > 0);
 
+      if (punit->transported_by != -1) {
+        transporter = find_unit_by_id(punit->transported_by);
+        assert(transporter != NULL);
+
+	/* Make sure the transporter is on the tile. */
+	unit_list_iterate(punit->tile->units, tile_unit) {
+	  if (tile_unit == transporter) {
+	    transporter2 = tile_unit;
+	  }
+	} unit_list_iterate_end;
+	assert(transporter2 != NULL);
+
+        /* Also in the list of owner? */
+        assert(player_find_unit_by_id(get_player(transporter->owner),
+				      punit->transported_by) != NULL);
+        assert(same_pos(ptile, transporter->tile));
+
+        /* Transporter capacity will be checked when transporter itself
+	 * is checked */
+      }
+
       /* Check for ground units in the ocean. */
       if (!pcity
-	  && is_ocean(map_get_terrain(punit->tile))
+	  && is_ocean(map_get_terrain(ptile))
 	  && is_ground_unit(punit)) {
-	assert(punit->transported_by != -1);
-	assert(!is_ground_unit(find_unit_by_id(punit->transported_by)));
+        assert(punit->transported_by != -1);
+        assert(!is_ground_unit(transporter));
+        assert(is_ground_units_transport(transporter));
+      } else if (!pcity
+                 && !is_ocean(map_get_terrain(ptile))
+	         && is_sailing_unit(punit)) {
+        assert(punit->transported_by != -1);
+        assert(!is_sailing_unit(transporter));
+        assert(FALSE); /* assert(is_sailing_units_transport(transporter)); */
       }
 
       /* Check for over-full transports. */
