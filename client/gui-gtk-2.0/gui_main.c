@@ -890,8 +890,8 @@ void ui_init(void)
 void ui_main(int argc, char **argv)
 {
   GdkBitmap *icon_bitmap;
-  GtkStyle *has_resources;
   PangoLanguage *lang;
+  const gchar *home;
 
   parse_options(argc, argv);
 
@@ -902,11 +902,15 @@ void ui_main(int argc, char **argv)
   freelog(LOG_NORMAL, "LANGUAGE=\"%s\"", pango_language_to_string(lang));
 
   /* Load resources */
-  has_resources = gtk_rc_get_style_by_paths(gtk_settings_get_default(),
-					    "Freeciv*", NULL, G_TYPE_NONE);
-  if (!has_resources) {
-    freelog(LOG_DEBUG, "Using fallback resources - which is OK");
-    gtk_rc_parse_string(fallback_resources);
+  gtk_rc_parse_string(fallback_resources);
+
+  home = g_get_home_dir();
+  if (home) {
+    gchar *str;
+
+    str = g_build_filename(home, ".freeciv.rc-2.0", NULL);
+    gtk_rc_parse(str);
+    g_free(str);
   }
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
