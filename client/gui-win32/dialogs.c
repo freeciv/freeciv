@@ -558,13 +558,8 @@ static int number_of_rows(int n)
 **************************************************************************/     
 void popdown_unit_select_dialog()
 {
-  int i;
   if (unit_select_main)
     DestroyWindow(unit_select_main);
-  for (i=0;i<unit_select_no;i++)
-    {
-      DeleteObject(unit_select_bitmaps[i]);
-    }
 }
 
 /**************************************************************************
@@ -584,12 +579,17 @@ LONG APIENTRY unitselect_proc (
       popdown_unit_select_dialog();
       return TRUE;
       break;
+    case WM_DESTROY:
+      for (i=0;i<unit_select_no;i++) {
+	DeleteObject(unit_select_bitmaps[i]);
+      }
+      unit_select_main=NULL;
+      break;
     case WM_COMMAND:
       id=LOWORD(wParam);
       switch(id)
 	{
 	case UNITSELECT_CLOSE:
-	  popdown_unit_select_dialog();
 	  break;
 	case UNITSELECT_READY_ALL:
 	  for(i=0; i<unit_select_no; i++) {
@@ -612,8 +612,9 @@ LONG APIENTRY unitselect_proc (
 		set_unit_focus(punit);
 	      }   
 	    }
-	  return TRUE;
+	  break;
 	}
+      popdown_unit_select_dialog();
       break;
     default:
       return DefWindowProc(hWnd,message,wParam,lParam);
@@ -642,7 +643,7 @@ BOOL unitselect_init(HINSTANCE hInstance)
   pWndClass->hIcon=NULL;
   pWndClass->hCursor=LoadCursor(NULL,IDC_ARROW);
   pWndClass->hInstance=hInstance;
-  pWndClass->hbrBackground=GetStockObject(LTGRAY_BRUSH);
+  pWndClass->hbrBackground=CreateSolidBrush(GetSysColor(4));
   pWndClass->lpszClassName=(LPSTR)"freecivunitselect";
   pWndClass->lpszMenuName=(LPSTR)NULL;
   bSuccess=RegisterClass(pWndClass);
@@ -664,6 +665,7 @@ popup_unit_select_dialog(struct tile *ptile)
   char *but1=_("Ready all");
   char *but2=_("Close");
   HDC hdc;
+  POINT pt;
   RECT rc,rc2;
   HBITMAP old;
   static HDC unitsel_dc;
@@ -673,11 +675,12 @@ popup_unit_select_dialog(struct tile *ptile)
   if (unit_select_main) {
     popdown_unit_select_dialog ();
   }
-    
+  
+  GetCursorPos(&pt);
   if (!(unit_select_main=CreateWindow("freecivunitselect","Unit Selection",
 				      WS_POPUP | WS_CAPTION | WS_SYSMENU,
-				      CW_USEDEFAULT,
-				      CW_USEDEFAULT,
+				      pt.x+20,
+				      pt.y+20,
 				      40,40,
 				      NULL,
 				      NULL,

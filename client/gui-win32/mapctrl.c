@@ -273,6 +273,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
   case WM_LBUTTONDOWN:
     if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
       break;
+    SetFocus(root_window);
     get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
     if (wParam&MK_SHIFT) {
       adjust_workers(xtile,ytile);
@@ -293,13 +294,17 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       }
     }
     break;
+  case WM_SETFOCUS:
+  case WM_ACTIVATE:
+    SetFocus(root_window);
+    break;
   case WM_LBUTTONUP:
   case WM_RBUTTONUP:
     if (popit_popup!=NULL) {
       DestroyWindow(popit_popup);
       popit_popup=NULL;
+      SetFocus(root_window);
     }
-    SetFocus(root_window);
     break;
   case WM_MOUSEMOVE:
     if (get_client_state()==CLIENT_GAME_RUNNING_STATE) {
