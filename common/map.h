@@ -58,7 +58,7 @@ struct tile {
   unsigned short known;
   short assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
-  unsigned char continent;
+  signed short continent;
   signed char move_cost[8]; /* don't know if this helps! */
 };
 
@@ -181,7 +181,7 @@ int sq_map_distance(int x0, int y0, int x1, int y1);
 int same_pos(int x1, int y1, int x2, int y2);
 
 void map_set_continent(int x, int y, int val);
-char map_get_continent(int x, int y);
+signed short map_get_continent(int x, int y);
 int map_same_continent(int x1, int y1, int x2, int y2);
 
 void initialize_move_costs(void);

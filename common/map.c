@@ -969,7 +969,7 @@ struct tile *map_get_tile(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-char map_get_continent(int x, int y)
+signed short map_get_continent(int x, int y)
 {
   if (y<0 || y>=map.ysize)
     return -1;
