@@ -24,7 +24,7 @@
 #include "version.h"
 
 #define	METASERVER_PORT	12245
-#define	DEFAULT_META_SERVER_ADDR	"www.freeciv.org"
+#define	DEFAULT_META_SERVER_ADDR	"meta.freeciv.org"
 #define METASERVER_UPDATE_INTERVAL 3*60
 #if IS_BETA_VERSION
 #  define DEFAULT_META_SERVER_INFO_STRING "unstable pre-1.9: beware"

@@ -14,7 +14,7 @@
 #define FC__CLINET_H
 
 #define DEFAULT_SOCK_PORT 5555
-#define METALIST_ADDR "http://www.freeciv.org/metaserver/"
+#define METALIST_ADDR "http://meta.freeciv.org/metaserver/"
 
 struct connection;
 
