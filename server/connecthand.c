@@ -154,7 +154,7 @@ static void establish_new_connection(struct connection *pconn)
   }
 
   /* if need be, tell who we're waiting on to end the game turn */
-  if (game.turnblock) {
+  if (server_state == RUN_GAME_STATE && game.turnblock) {
     players_iterate(cplayer) {
       if (cplayer->is_alive
           && !cplayer->ai.control
