@@ -399,7 +399,7 @@ void create_city_report_dialog(int make_modal)
   gtk_container_add(GTK_CONTAINER(scrolled), city_list);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
   			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize(city_list, 620, 150);
+  gtk_widget_set_usize(city_list, 620, 250);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->vbox ),
         scrolled, TRUE, TRUE, 0 );
