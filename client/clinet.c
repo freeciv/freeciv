@@ -185,6 +185,8 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
   struct packet_server_join_req req;
 
+  close_socket_set_callback(close_socket_callback);
+
   /* connection in progress? wait. */
   if (aconnection.used) {
     (void) mystrlcpy(errbuf, _("Connection in progress."), errbufsize);

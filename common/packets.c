@@ -382,7 +382,16 @@ void *get_packet_from_connection(struct connection *pc,
 	uncompress(decompressed, &decompressed_size,
 		   ADD_TO_POINTER(buffer->data, header_size), 
 		   compressed_size);
-    assert(error == Z_OK);
+    if (error != Z_OK) {
+      CLOSE_FUN close_callback = close_socket_get_callback();
+
+      freelog(LOG_ERROR, "Uncompressing of the packet stream failed. "
+	      "The connection will be closed now.");
+      assert(close_callback);
+      (*close_callback) (pc);
+
+      return NULL;
+    }
 
     buffer->ndata -= whole_packet_len;
     /* 
@@ -417,6 +426,21 @@ void *get_packet_from_connection(struct connection *pc,
     return get_packet_from_connection(pc, ptype, presult);
   }
 #endif
+
+  /*
+   * At this point the packet is a plain uncompressed one. These have
+   * to have to be at least 3 bytes in size.
+   */
+  if (whole_packet_len < 3) {
+    CLOSE_FUN close_callback = close_socket_get_callback();
+
+    freelog(LOG_ERROR, "The packet stream is corrupt. The connection "
+	    "will be closed now.");
+    assert(close_callback);
+    (*close_callback) (pc);
+
+    return NULL;
+  }
 
   dio_get_uint8(&din, &utype.itype);
 
