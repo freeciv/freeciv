@@ -45,6 +45,7 @@
 #include "options.h"
 #include "tilespec.h"
 #include "climisc.h"
+#include "mapctrl_g.h"
 
 #include "mapview.h"
 
@@ -376,28 +377,6 @@ void draw_unit_animation_frame(struct unit *punit,
 {
 	DoMethod(main_map_area, MUIM_Map_DrawUnitAnimationFrame,
 		punit, first_frame, last_frame, old_canvas_x, old_canvas_y, new_canvas_x, new_canvas_y);
-
-#if 0
-
-
-  /* Clear old sprite. */
-  gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
-		  old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
-		  UNIT_TILE_HEIGHT);
-
-  /* Draw the new sprite. */
-  gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
-		  new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-  put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
-
-  /* Write to screen. */
-  gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
-		  new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
-		  UNIT_TILE_HEIGHT);
-
-  /* Flush. */
-  gdk_flush();
-#endif
 }
 
 /**************************************************************************

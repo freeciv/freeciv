@@ -541,7 +541,8 @@ static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
 static void Map_Priv_DrawUnitAnimationFrame(Object *o, struct Map_Data *data)
 {
   struct unit *punit;
-  int old_canvas_x; int old_canvas_y; int new_canvas_x; int new_canvas_y;
+  int old_canvas_x, old_canvas_y, new_canvas_x, new_canvas_y;
+  int diff_x, diff_y, this_x, this_y, w, h, ox, oy;
 
   punit = data->punit;
   old_canvas_x = data->old_canvas_x;
@@ -549,103 +550,40 @@ static void Map_Priv_DrawUnitAnimationFrame(Object *o, struct Map_Data *data)
   new_canvas_x = data->new_canvas_x;
   new_canvas_y = data->new_canvas_y;
 
-#if 0
+  diff_x = old_canvas_x - new_canvas_x;
+  diff_y = old_canvas_y - new_canvas_y;
+  w = UNIT_TILE_WIDTH + abs(diff_x);
+  h = UNIT_TILE_HEIGHT + abs(diff_y);
+  this_x = MIN(old_canvas_x,new_canvas_x);
+  this_y = MIN(old_canvas_y,new_canvas_y);
+
+  if (this_x < 0)
   {
-    int i, steps;
-    int start_x, start_y;
-    int this_x, this_y;
-    int canvas_dx, canvas_dy;
-    int ox,oy;
+    ox = -this_x;
+    w += this_x;
+    this_x = 0;
+  } else ox = 0;
 
-    if (is_isometric) {
-      if (dx == 0) {
-	canvas_dx = -NORMAL_TILE_WIDTH/2 * dy;
-	canvas_dy = NORMAL_TILE_HEIGHT/2 * dy;
-      } else if (dy == 0) {
-	canvas_dx = NORMAL_TILE_WIDTH/2 * dx;
-	canvas_dy = NORMAL_TILE_HEIGHT/2 * dx;
-      } else {
-	if (dx > 0) {
-	  if (dy > 0) {
-	    canvas_dx = 0;
-	    canvas_dy = NORMAL_TILE_HEIGHT;
-	  } else { /* dy < 0 */
-	    canvas_dx = NORMAL_TILE_WIDTH;
-	    canvas_dy = 0;
-	  }
-	} else { /* dx < 0 */
-	  if (dy > 0) {
-	    canvas_dx = -NORMAL_TILE_WIDTH;
-	    canvas_dy = 0;
-	  } else { /* dy < 0 */
-	    canvas_dx = 0;
-	    canvas_dy = -NORMAL_TILE_HEIGHT;
-	  }
-	}
-      }
-    } else {
-      canvas_dx = NORMAL_TILE_WIDTH * dx;
-      canvas_dy = NORMAL_TILE_HEIGHT * dy;
-    }
+  if (this_y < 0)
+  {
+    oy = -this_y;
+    h += this_y;
+    this_y = 0;
+  } else oy = 0;
 
-    if (smooth_move_unit_steps < 2) {
-      steps = 2;
-    } else if (smooth_move_unit_steps > MAX(abs(canvas_dx), abs(canvas_dy))) {
-      steps = MAX(abs(canvas_dx), abs(canvas_dy));
-    } else {
-      steps = smooth_move_unit_steps;
-    }
+  if (this_x + w > _mwidth(o)) w = _mwidth(o) - this_x;
+  if (this_y + h > _mheight(o)) h = _mheight(o) - this_y;
 
-    get_canvas_xy(x0, y0, &start_x, &start_y);
-    if (is_isometric) {
-      start_y -= NORMAL_TILE_HEIGHT/2;
-    }
+  if (w > 0 && h > 0)
+  {
+    MyBltBitMapRastPort(data->map_bitmap, this_x, this_y,
+			data->unit_layer->rp, 0, 0, w, h, 0xc0);
 
-    ox = NORMAL_TILE_WIDTH / steps;
-    oy = NORMAL_TILE_HEIGHT / steps;
+    put_unit_tile(data->unit_layer->rp, punit, ox, oy);
 
-    for (i = 1; i <= steps; i++) {
-      int uox,uoy;
-
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
-
-      w = UNIT_TILE_WIDTH + 2*ox;
-      h = UNIT_TILE_HEIGHT + 2*oy;
-
-      this_x = start_x + ((i * canvas_dx)/steps) - ox;
-      this_y = start_y + ((i * canvas_dy)/steps) - oy;
-
-      if (this_x < 0)
-      {
-      	w += this_x;
-      	uox = -this_x;
-      	this_x = 0;
-      } else uox = 0;
-
-      if (this_y < 0)
-      {
-      	h += this_y;
-      	uoy = -this_y;
-      	this_y = 0;
-      } else uoy = 0;
-
-      if (this_x + w > _mwidth(o)) w = _mwidth(o) - this_x;
-      if (this_y + h > _mheight(o)) h = _mheight(o) - this_y;
-
-      if (w > 0 && h > 0) {
-	MyBltBitMapRastPort(data->map_bitmap, this_x, this_y,
-			    data->unit_layer->rp, 0, 0, w, h, 0xc0);
-	put_unit_tile(data->unit_layer->rp, punit, ox - uox, oy - uoy);
-	MyBltBitMapRastPort(data->unit_bitmap, 0, 0,
+    MyBltBitMapRastPort(data->unit_bitmap, 0, 0,
 			    _rp(o), _mleft(o) + this_x, _mtop(o) + this_y, w, h, 0xc0);
-      }
-
-      if (i < steps) {
-	usleep_since_timer_start(anim_timer, 10000);
-      }
-    }
   }
-#endif
 }
 
 static void Map_Priv_ExplodeUnit(Object *o, struct Map_Data *data)
