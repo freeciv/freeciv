@@ -130,11 +130,7 @@ static void create_goto_dialog(void)
     ("_Goto"),
     CMD_GOTO,
     NULL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(dshell),
-				 GTK_WINDOW(toplevel));
-  }
-
+  setup_dialog(dshell, toplevel);
   gtk_window_set_position(GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
   gtk_dialog_set_default_response(GTK_DIALOG(dshell), CMD_GOTO);
   g_signal_connect(dshell, "destroy",

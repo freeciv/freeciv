@@ -263,13 +263,8 @@ void create_players_dialog(void)
     0,
     GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
     NULL);
+  setup_dialog(players_dialog_shell, toplevel);
 
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(players_dialog_shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(players_dialog_shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_window_set_default_size(GTK_WINDOW(players_dialog_shell), -1, 270);
 
   g_signal_connect(players_dialog_shell, "destroy",

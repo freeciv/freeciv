@@ -1106,12 +1106,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 	NULL,
   	0,
 	NULL);
-  gtk_window_set_type_hint(GTK_WINDOW(pdialog->shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(pdialog->shell),
-				 GTK_WINDOW(toplevel));
-  }
+  setup_dialog(pdialog->shell, toplevel);
   gtk_window_set_role(GTK_WINDOW(pdialog->shell), "city");
 
   g_signal_connect(pdialog->shell, "destroy",
@@ -2149,22 +2144,16 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
     shell = gtk_message_dialog_new(NULL, 0,
 				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
-    if (dialogs_on_top) {
-      gtk_window_set_transient_for(GTK_WINDOW(shell),
-				   GTK_WINDOW(toplevel));
-    }
+    setup_dialog(shell, toplevel);
     g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
-		     NULL);
+                    NULL);
     gtk_window_present(GTK_WINDOW(shell));
   } else {
     shell = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
 				   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 				   buf);
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
-    if (dialogs_on_top) {
-      gtk_window_set_transient_for(GTK_WINDOW(shell),
-				   GTK_WINDOW(toplevel));
-    }
+    setup_dialog(shell, toplevel);
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
 
     if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
@@ -2282,6 +2271,7 @@ static void buy_callback(GtkWidget *w, gpointer data)
         GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
         _("Buy %s for %d gold?\nTreasury contains %d gold."),
         name, value, game.player_ptr->economic.gold);
+    setup_dialog(shell, toplevel);
     gtk_window_set_title(GTK_WINDOW(shell), _("Buy It!"));
     gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_NO);
 
@@ -2332,6 +2322,7 @@ static void sell_callback(Impr_Type_id id, gpointer data)
     GTK_BUTTONS_YES_NO,
     _("Sell %s for %d gold?"),
     get_impr_name_ex(pdialog->pcity, id), impr_sell_gold(id));
+  setup_dialog(shl, toplevel);
   pdialog->sell_shell = shl;
   
   gtk_window_set_title(GTK_WINDOW(shl), _("Sell It!"));

@@ -232,12 +232,7 @@ static GtkWidget *create_rates_dialog(void)
 	GTK_STOCK_OK,
 	GTK_RESPONSE_OK,
 	NULL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
@@ -414,7 +409,11 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
     gtk_widget_hide(map_horizontal_scrollbar);
     gtk_widget_hide(map_vertical_scrollbar);
   }
-
+  if (fullscreen_mode) {
+    gtk_window_fullscreen(GTK_WINDOW(toplevel));
+  } else {
+    gtk_window_unfullscreen(GTK_WINDOW(toplevel));
+  }
   option_dialog_shell = NULL;
 }
 
@@ -433,12 +432,7 @@ static void create_option_dialog(void)
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(option_dialog_shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(option_dialog_shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  setup_dialog(option_dialog_shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(option_dialog_shell),
 				  GTK_RESPONSE_CLOSE);
   g_signal_connect(option_dialog_shell, "response",

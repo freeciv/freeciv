@@ -469,10 +469,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				      0,
 				      NULL);
   pdialog->shell = shell;
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(shell),
-				 GTK_WINDOW(toplevel));
-  }
+  setup_dialog(shell, toplevel);
   g_signal_connect(shell, "destroy",
 		   G_CALLBACK(diplomacy_destroy), pdialog);
   g_signal_connect(shell, "response",

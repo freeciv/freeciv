@@ -47,5 +47,6 @@ void itree_unselect(GtkTreeSelection *selection, ITree *it);
 
 gint gtk_tree_selection_get_row(GtkTreeSelection *selection);
 void gtk_tree_view_focus(GtkTreeView *view);
+void setup_dialog(GtkWidget *shell, GtkWidget *parent);
 
 #endif  /* FC__GUI_STUFF_H */

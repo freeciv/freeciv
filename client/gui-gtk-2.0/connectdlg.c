@@ -760,11 +760,7 @@ void gui_server_connect(void)
                                        NULL,
                                        GTK_DIALOG_DESTROY_WITH_PARENT,
                                        NULL);
-
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(dialog),
-				 GTK_WINDOW(toplevel));
-  }
+  setup_dialog(dialog, toplevel);
   g_signal_connect(dialog, "destroy",
 		   G_CALLBACK(connect_destroy_callback), NULL);
   g_signal_connect(dialog, "response",

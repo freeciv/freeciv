@@ -66,8 +66,8 @@ GtkWidget *input_dialog_create(GtkWindow *parent, char *dialogname,
         parent,
         GTK_DIALOG_DESTROY_WITH_PARENT,
         NULL);
+  setup_dialog(shell, toplevel);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
-
   label = gtk_frame_new(text);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), label, TRUE, TRUE, 0);
 

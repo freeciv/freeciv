@@ -784,12 +784,7 @@ static void create_city_report_dialog(bool make_modal)
   	NULL,
 	0,
 	NULL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(city_dialog_shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(city_dialog_shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  setup_dialog(city_dialog_shell, toplevel);
   gtk_window_set_default_size(GTK_WINDOW(city_dialog_shell), -1, 420);
   gtk_dialog_set_default_response(GTK_DIALOG(city_dialog_shell),
 				  GTK_RESPONSE_CLOSE);

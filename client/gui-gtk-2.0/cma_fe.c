@@ -604,6 +604,7 @@ static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
 			       GTK_MESSAGE_QUESTION,
 			       GTK_BUTTONS_YES_NO,
 			       _("Remove this preset?"));
+  setup_dialog(shl, parent);
   pdialog->preset_remove_shell = shl;
 
   gtk_window_set_title(GTK_WINDOW(shl), cmafec_preset_get_descr(preset_index));

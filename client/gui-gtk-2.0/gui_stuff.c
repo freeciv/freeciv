@@ -237,3 +237,21 @@ void gtk_tree_view_focus(GtkTreeView *view)
     gtk_widget_grab_focus(GTK_WIDGET(view));
   }
 }
+
+/**********************************************************************
+  This function handles new windows which are subwindows to the
+  toplevel window. It must be called on every dialog in the game,
+  so fullscreen windows are handled properly by the window manager.
+***********************************************************************/
+void setup_dialog(GtkWidget *shell, GtkWidget *parent)
+{
+  if (dialogs_on_top || fullscreen_mode) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+                                 GTK_WINDOW(parent));
+    gtk_window_set_type_hint(GTK_WINDOW(shell),
+                             GDK_WINDOW_TYPE_HINT_UTILITY);
+  } else {
+    gtk_window_set_type_hint(GTK_WINDOW(shell),
+                             GDK_WINDOW_TYPE_HINT_NORMAL);
+  }
+}

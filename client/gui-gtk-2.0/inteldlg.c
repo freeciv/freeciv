@@ -112,11 +112,7 @@ void intel_create_dialog(struct player *p)
       GTK_RESPONSE_CLOSE,
       NULL);
   gtk_window_set_default_size(GTK_WINDOW(intel_dialog_shell), 350, 350);
-
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(intel_dialog_shell),
-				 GTK_WINDOW(toplevel));
-  }
+  setup_dialog(intel_dialog_shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(intel_dialog_shell),
         GTK_RESPONSE_CLOSE);
 

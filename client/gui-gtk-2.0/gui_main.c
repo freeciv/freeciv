@@ -80,6 +80,8 @@ GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store
 int overview_canvas_store_width = 2 * 80;
 int overview_canvas_store_height = 2 * 50;
 
+bool fullscreen_mode = FALSE;
+
 GtkWidget *toplevel;
 GtkWidget *top_vbox;
 GdkWindow *root_window;
@@ -129,6 +131,7 @@ client_option gui_options[] = {
   GEN_BOOL_OPTION(keyboardless_goto,	N_("Keyboardless goto")),
   GEN_BOOL_OPTION(dialogs_on_top,	N_("Keep dialogs on top")),
   GEN_BOOL_OPTION(show_task_icons,	N_("Show worklist task icons")),
+  GEN_BOOL_OPTION(fullscreen_mode,	N_("Fullscreen Mode")),
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
@@ -1087,6 +1090,10 @@ void ui_main(int argc, char **argv)
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = toplevel->window;
 
+  if (fullscreen_mode) {
+    gtk_window_fullscreen(GTK_WINDOW(toplevel));
+  }
+  
   gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
   g_signal_connect(toplevel, "delete_event", G_CALLBACK(gtk_main_quit), NULL);

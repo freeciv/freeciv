@@ -73,12 +73,7 @@ void popup_find_dialog(void)
 	GTK_RESPONSE_ACCEPT,
 	NULL);
   find_dialog_shell = shell;
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell),
 	GTK_RESPONSE_ACCEPT);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);

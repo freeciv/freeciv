@@ -171,12 +171,7 @@ void create_science_dialog(bool make_modal)
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(science_dialog_shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(science_dialog_shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  setup_dialog(science_dialog_shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(science_dialog_shell),
 	GTK_RESPONSE_CLOSE);
 
@@ -637,12 +632,7 @@ void create_economy_report_dialog(bool make_modal)
   	NULL,
 	0,
 	NULL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(economy_dialog_shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(economy_dialog_shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  setup_dialog(economy_dialog_shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(economy_dialog_shell),
 	GTK_RESPONSE_CLOSE);
 
@@ -982,12 +972,7 @@ void create_activeunits_report_dialog(bool make_modal)
   	NULL,
 	0,
 	NULL);
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(activeunits_dialog_shell),
-				 GTK_WINDOW(toplevel));
-  }
-  gtk_window_set_type_hint(GTK_WINDOW(activeunits_dialog_shell),
-			   GDK_WINDOW_TYPE_HINT_NORMAL);
+  setup_dialog(activeunits_dialog_shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(activeunits_dialog_shell),
 	GTK_RESPONSE_CLOSE);
 
@@ -1370,11 +1355,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
   g_signal_connect_swapped(endgame_report_shell, "response",
                            G_CALLBACK(gtk_widget_destroy), 
                            GTK_OBJECT(endgame_report_shell));
-  if (dialogs_on_top) {
-    gtk_window_set_transient_for(GTK_WINDOW(endgame_report_shell),
-                                 GTK_WINDOW(toplevel));
-  }
-    
+  setup_dialog(endgame_report_shell, toplevel);
   scores_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
   scores_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scores_store));
   g_object_unref(scores_store);
