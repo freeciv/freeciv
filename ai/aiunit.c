@@ -1971,21 +1971,30 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     /* Then find enemies the hard way */
     find_something_to_kill(pplayer, punit, &dest_x, &dest_y);
     if (!same_pos(punit->x, punit->y, dest_x, dest_y)) {
+     int repeat = 0;
+     while (repeat < 2) {
+      repeat++;
       if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)
           || !can_unit_attack_tile(punit, dest_x, dest_y)
           || !can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
         /* Can't attack or move usually means we are adjacent but
          * on a ferry. This fixes the problem (usually). */
-        (void) ai_military_gothere(pplayer, punit, dest_x, dest_y);
-      } else { 
+        int i = ai_military_gothere(pplayer, punit, dest_x, dest_y);
+        if (i <= 0) {
+          return; /* dead or stuck */
+        } else {
+          UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> %d, %d", 
+                   dest_x, dest_y);
+        }
+      } else {
         /* Close combat. fstk sometimes want us to attack an adjacent
          * enemy that rampage wouldn't */
-        freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
-                pplayer->name, unit_type(punit)->name,
-	        punit->x, punit->y, dest_x, dest_y);
+        UNIT_LOG(LOG_DEBUG, punit, "mil att bash -> %d, %d", dest_x, dest_y);
         ai_unit_attack(punit, dest_x, dest_y);
       }
+     } /* while */
     } else {
+      /* FIXME: This happens a bit too often! */
       UNIT_LOG(LOG_DEBUG, punit, "fstk didn't find us a worthy target!");
       /* No worthy enemies found, so abort loop */
       ct = 0;
