@@ -259,7 +259,7 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 void mapctrl_key_city_workers(XEvent *event)
 {
-  key_city_overlay(event->xbutton->x, event->xbutton->y);
+  key_city_overlay(event->xbutton.x, event->xbutton.y);
 }
 
 /**************************************************************************
