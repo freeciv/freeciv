@@ -15,8 +15,12 @@
 #***********************************************************************/
 
 # Find absolute paths for srcdir and builddir.
-BUILDDIR="@abs_top_builddir@"
-SRCDIR="@abs_top_srcdir@"
+BUILDDIR=`dirname $0`
+
+# make absolute
+BUILDDIR=`cd $BUILDDIR;pwd`
+
+SRCDIR="$BUILDDIR/@top_srcdir@"
 
 [ -x $BUILDDIR/server/civserver ] && EXE=$BUILDDIR/server/civserver
 [ -x $BUILDDIR/civserver ] && EXE=$BUILDDIR/civserver
