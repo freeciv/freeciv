@@ -3,6 +3,8 @@ Die Installation von Freeciv
 ============================
 
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
+Es gibt von dieser Datei übersetzte Versionen im Verzeichnis ./doc, 
+INSTALL.<locale>, z.B. INSTALL.de (aber die haben Sie ja wohl gefunden)
 
 0. Vorraussetzungen:
 ====================
@@ -90,9 +92,9 @@ RedHat Linux).
    X-Window, allerdings ist es auf einigen Plattformen (z.B. HP-UX 10) 
    nur mit eingeschränkter Funktionalität zu finden.
    
-   Um den "Xaw"-Client zu erzeugen, ruft man configure mit "--with-xaw"
-   auf. Im nächsten Abschnitt gibt es weitere informationen über das
-   configure Skript.
+   Um den "Xaw"-Client zu erzeugen, ruft man configure mit 
+   "--enable-client=xaw" auf. Im nächsten Abschnitt gibt es weitere
+   Informationen über das configure Skript.
    
    Viele moderne Unixoide-Systeme (wie z.B. Linux) kommen mit einer
    Variante der "Xaw"-Library, "Xaw3d", die einen moderneren 3D-Look
@@ -120,7 +122,7 @@ RedHat Linux).
    
      ftp://koala.inria.fr/pub/xpm/xpm-3.4k.tar.gz
      ftp://ftp.x.org/contrib/libraries/xpm-3.4k.tar.gz
-   
+
 1b. Anforderungen für den GTK+-Client:
 ======================================
 
@@ -162,7 +164,7 @@ RedHat Linux).
    Falls configure sagt, daß Imlib nicht vorhanden ist, bekommt man es
    hier:
 
-     ftp://ftp.gnome.org/pub/GNOME/sources/imlib/imlib-1.9.7.tar.gz
+     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.7.tar.gz
 
    (Laut Dokumentation benötigt Imlib für bestimmte Features (z.B. für
    die Unterstüzung von PNG-Grafiken) weitere Libraries - diese sind
@@ -207,9 +209,9 @@ Hilfe zu den verschiedenen Optionen von configure gibt es mit --help:
    keine Wirkung.
    
 Standardmäßig erstellt das Makefile den Gtk+-Client, wenn auf dem
-System Gtk+ vorhanden ist, andernfalls den Xaw (oder Xaw3d) Client.
-Um dies zu umgehen, kann man configure entweder mit der Option
-"--with-xaw" oder mit "--with-xaw3d" aufrufen.
+System Gtk+ vorhanden ist, andernfalls den Xaw-Client.
+Um dies zu umgehen, kann man configure mit der Option
+"--enable-client=xaw" aufrufen.
 
 Um die Compileroptionen zu beeinflussen, kann man die Umgebungsvariable
 CFLAGS setzen, bevor man "configure" aufruft, z.B.:
@@ -224,9 +226,11 @@ oder
 Falls man einen "core dump" verfolgen möchte, sollte man "-g" in seine
 CFLAGS mit aufnehmen.
 
-CFLAGS sollte nicht dazu dienen, include- und/oder
-library-Verzeichnisse zu übergeben. Diese sollten mit den passenden
-Optionen von configure geschehen.
+Bei der Installation von Freeciv werden die Dateien nach /usr/local
+installiert. Sollten Sie einen anderen Ort als /usr/local  vorziehen, so
+können sie diesen mit übergeben:
+  
+  % ./configure --prefix=/opt/freeciv
 
 Sollte configure nicht durchlaufen und abbrechen, sollte man die
 folgenden Schritte durchführen:
@@ -244,6 +248,10 @@ folgenden Schritte durchführen:
     sollten in den Standardverzeichnissen installiert oder aber
     configure der Installtionsort mit passenden Optionen übergeben
     werden (siehe auch ./configure --help).
+
+  - Falls das Problem mit "gettext" zusammenhängt, lesen sie bitte den
+    Abschnitt über "NLS" (Native Language Support, weiter unten) für
+    evtl. Work-Arounds.
     
   - Fehler den Entwicklern mitteilen, damit diese zum nächsten Release
     beseitigt werden können (die Fehler ;-) !!
@@ -256,12 +264,12 @@ folgenden Schritte durchführen:
     erstellt.
     
     Mehr zur Mailingliste freeciv-dev gibt es unter
-    http://www.freeciv.org
+    http://www.freeciv.org/
 
 Achtung: Seit der Freeciv Version 1.7.2 wird Imake nicht mehr
 unterstützt, und seit Version 1.8.1 gehört die Datei Makefile.noimake
 nicht mehr zur Freeciv-Distribution.
-    
+
 3. Freeciv compilieren:
 =======================
 
@@ -269,7 +277,9 @@ Wenn bis jetzt alles geklappt hat, sollte das Compilieren allein durch
 die Eingabe von "make" (oder vorzugsweise "gmake") geschehen.
 
 Sollte trotzdem ein Problem auftreten, sollte man die Hinweise in der
-Datei BUGS zu rate ziehen.
+Datei BUGS zu rate ziehen. Sollte das Problem mit "gettext"
+zusammenhängen, lesen Sie bitte den Abschnitt über NLS (Native Language
+Support, weiter unten) für evtl. Work-Arounds
 
 Nach dem Compiliervorgang erhält man die folgenden wichtigen
 "Ergebnisse":
@@ -293,8 +303,9 @@ installieren.)
 ================
 
 Bei der Installation von Freeciv werden die in Abschnitt 3 erwähnten
-Dateien in Verzeichnisse wie /usr/games, /usr/games/freeciv,
-/usr/local/freeciv oder ein anderes passendes Verzeichnis kopiert.
+Dateien in Verzeichnisse wie /usr/local(der Standart), /usr/games,
+/usr/games/freeciv, /usr/local/freeciv oder ein anderes passendes
+Verzeichnis kopiert.
 
 Ein Aufruf von "make install" sollte das jedoch erledigen. Den
 Installationspfad kann man durch die Option "--prefix=DIR" von
@@ -316,6 +327,46 @@ setenv FREECIV_PATH "/usr/game/freeciv/data:./data"
     
 FREECIV_PATH="/usr/game/freeciv/data:./data"; export FREECIV_PATH
     (für die sh, bash, ksh, zsh etc.)
+
+Wie schon oben erwähnt muss Freeciv installiert sein, um andere Sprachen
+als Englisch benutzen zu können. Näheres in "README.de"
     
 Wenn man den Xaw-Client benutzt, sollte man die Datei data/Freeciv in
 das app-defaults Verzeichnis. (Normalerweise in /usr/lib/X11/app-defaults)
+
+5. NLS (Unterstützung von lokalisierten Programmtexten)
+=======================================================
+
+Freeciv benutzt "gettext", um die (alternativ zur Standartsprache, bei
+Freeciv ist das Englisch) lokale Sprache zu unterstützten. Die lokale
+Sprache wird über die Variable "LANG" gesetzt. Für ein deutsches Freeciv
+(oder auch andere Programme) sollte LANG auf "de_DE" gesetzt werden:
+
+ % setenv LANG "de_DE"    [ für die C-Shell oder die tcsh ]
+
+oder:
+
+ % export LANG="de_DE"    [ für die Bourne-Shell oder die bash ]
+
+Falls während des Durchlaufs von "configure" oder beim Compilieren
+Probleme mit "gettext" auftreten, können Sie folgende Work-Arounds
+ausprobieren:
+
+1. Falls Sie nur englische Programmeldungen wünschen oder brauchen,
+   können Sie NLS mittels "--disable-nls" beim Aufruf von "configure"
+   abschalten:
+
+     % ./configure --disable-nls
+     % make
+
+2. Falls sie ein eingedeutschtes Freeciv möchten, können Sie es mit dem
+   bei Freeciv mitgebrachten "gettext" versuchen, mittels
+   "--with-included-gettext" beim Aufruf von configure:
+
+     % ./configure --with-included-gettext
+     % make
+
+3. Schließlich können Sie noch versuchen, die neuste Version von GNU
+   gettext zu installieren. Sie können diese Version hier downloaden:
+
+     ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
