@@ -1,5 +1,5 @@
 Hinweis:	Dies ist *KEINE* Übersetzung der Datei README!
-Stand: 		09.01.01
+Stand: 		22.07.01
 
 			==============================
 			Deutsche Freeciv Dokumentation
@@ -7,7 +7,7 @@ Stand: 		09.01.01
 
 Willkommen bei Freeciv!
 
-Dieses Archiv enthält die aktuelle Freeciv Version (fast) vollständig
+Dieses Archiv enthält die aktuelle Freeciv Version (soweit sinnvoll)
 auch in deutscher Sprache. 8-)
 
 Allerdings enthält sie sicherlich noch Fehler und kann noch verbessert
@@ -180,6 +180,14 @@ schreiben. Beispiel:
 
 	Wenn Sie z.B. die Liste <freeciv@freeciv.org> abonnieren möchten,
 	schreiben Sie einfach "subscribe freeciv".
+
+Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich  mit der
+deutschen Übersetzung beschäftigt <freeciv.de@coollist.com>.
+Um diese Liste zu abonnieren, besuchen Sie bitte www.coollist.com. Der
+Listenname ist "freeciv.de".
+
+Hinweis: Nur Abonnenten können an diese Liste schreiben!
+
 
 Neue Versionen
 ==============
