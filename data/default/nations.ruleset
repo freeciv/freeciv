@@ -51,8 +51,8 @@ options="1.8.2"
 
 name="Roman"
 plural="Romans"
-leader="Caesar", "August", "Traian"
-leader_sex="Male", "Male", "Male"
+leader="Caesar", "August", "Livia", "Trajan", "Constantin"
+leader_sex="Male", "Male", "Female", "Male", "Male"
 flag = "f.italy"
 flag_alt = "-"
 
@@ -63,7 +63,7 @@ advisors=100,100,100,100,100,100,100
 tech_goals = "The Republic", "The Wheel", "Iron Working", "Construction",
              "Railroad"
 wonder="Leonardo's Workshop"
-government="Democracy"
+government="Republic"
 
 cities = 
   "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",
@@ -88,8 +88,8 @@ cities =
 
 name="Babylonian"
 plural="Babylonians"
-leader="Hammurabi", "Sargon"
-leader_sex="Male", "Male"
+leader="Hammurabi", "Sargon", "Nabuchadnezzar"
+leader_sex="Male", "Male", "Male"
 flag = "f.iraq_old"
 flag_alt = "-"
 
@@ -116,8 +116,8 @@ cities =
 
 name="German"
 plural="Germans"
-leader="Frederick", "Otto"
-leader_sex="Male", "Male"
+leader="Frederick", "Otto", "Wilhelm"
+leader_sex="Male", "Male", "Male"
 flag="f.germany"
 flag_alt = "-"
 
@@ -151,8 +151,8 @@ cities = "Frankfurt", "Mainz", "Trier", "Aachen", "Münster",
 
 name="Egyptian"
 plural="Egyptians"
-leader="Ramesses", "Kleopatra"
-leader_sex="Male", "Female"
+leader="Ramesses", "Cleopatra", "Tutanhamon", "Hatshepsut", "Nefertiti", "Cheops"
+leader_sex="Male", "Female", "Male", "Female", "Female", "Male"
 flag="f.egypt"
 flag_alt = "-"
 
@@ -178,8 +178,9 @@ cities = "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe",
 
 name="American"
 plural="Americans"
-leader="Lincoln", "Washington", "Roosevelt", "Kennedy"
-leader_sex="Male", "Male", "Male", "Male"
+leader="Lincoln", "Washington", "Franklin D. Roosevelt",
+       "J.F. Kennedy", "Eleonore Roosevelt"
+leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="f.usa"
 flag_alt = "-"
 
@@ -243,8 +244,8 @@ cities = "Athenae", "Sparta", "Thebae", "Corinthus", "Byzantium",
 
 name="Indian"
 plural="Indians"
-leader="Gandhi", "Ashoka"
-leader_sex="Male", "Male"
+leader="Gandhi", "Ashoka", "Chandragupta", "Indhira Gandhi"
+leader_sex="Male", "Male", "Male", "Female"
 flag="f.india"
 flag_alt = "-"
 
@@ -268,8 +269,8 @@ cities = "Delhi", "Bombay", "Madras", "Bangalore", "Calcutta",
 
 name="Russian"
 plural="Russians"
-leader="Catherine", "Ivan", "Stalin", "Peter"
-leader_sex="Female", "Male", "Male", "Male"
+leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter the Great", "Anne"
+leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.russia"
 flag_alt = "-"
 
@@ -322,8 +323,8 @@ cities =
 
 name="French"
 plural="French"
-leader="Napoleon", "Louis"
-leader_sex="Male", "Male"
+leader="Napoleon", "Louis XIV", "Charles de Gaulle"
+leader_sex="Male", "Male", "Male"
 flag="f.france"
 flag_alt = "-"
 
@@ -348,8 +349,8 @@ cities = "Paris", "Lyon", "Marseille", "Lille", "Bordeaux",
 
 name="Aztec"
 plural="Aztecs"
-leader="Montezuma"
-leader_sex="Male"
+leader="Montezuma", "Cuahtemoc", "Itzcoatl", "Axayacatl"
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.mexico"
 flag_alt = "-"
 
@@ -375,8 +376,8 @@ cities = "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",
 
 name="Chinese"
 plural="Chinese"
-leader="Mao"
-leader_sex="Male"
+leader="Mao", "Cixi"
+leader_sex="Male", "Female"
 flag="f.china"
 flag_alt = "-"
 
@@ -401,8 +402,8 @@ cities = "Beijing", "Shanghai", "Guangzhou", "Nanjing", "Tianjin",
 
 name="English"
 plural="English"
-leader="Elizabeth", "George", "Henry", "Mary"
-leader_sex="Female", "Male", "Male", "Female"
+leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII", "Victoria"
+leader_sex="Female", "Male", "Male", "Male", "Female"
 flag="f.united_kingdom"
 flag_alt = "-"
 
@@ -427,8 +428,8 @@ cities = "London", "Birmingham", "Liverpool", "Manchester", "Leeds",
 
 name="Mongol"
 plural="Mongols"
-leader="Genghis", "Timur"
-leader_sex="Male", "Male"
+leader="Genghis", "Ogodei", "Timur", "Batu", "Tokhtamysh"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.mongolia"
 flag_alt = "-"
 
@@ -453,8 +454,8 @@ cities = "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara",
 
 name="Turk"
 plural="Turks"
-leader="Atatürk", "Suleyman"
-leader_sex="Male", "Male"
+leader="Kemal Atatürk", "Sulayman the Magnificient", "Osman", "Murad", "Selim", "Mehmed"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.turkey"
 flag_alt = "-"
 
@@ -481,8 +482,8 @@ cities =
 
 name="Spanish"
 plural="Spanish"
-leader="Charles", "Isabel" 
-leader_sex="Male", "Female"
+leader="Charles V", "Isabella", "Ferdinand", "Joanna", "Philip"
+leader_sex="Male", "Female", "Male", "Female", "Male"
 flag="f.spain"
 flag_alt = "-"
 
@@ -495,10 +496,10 @@ tech_goals = "Monarchy", "Philosophy", "Navigation", "Iron Working",
 wonder="Magellan's Expedition"
 government="Democracy"
 cities = 
- "Madrid", "Toledo", "Estremadura", "Leon", "Salamanca",
- "Vigo", "La Coruna", "Oviedo", "Bilbao", "Asturia",
- "San Sebastian", "Vitoria", "Zaragozza", "Aragon",
- "Barcelona", "Valencia", "Mallorca", "Murcia",
+ "Madrid", "Toledo", "Leon", "Salamanca",
+ "Vigo", "La Coruna", "Oviedo", "Bilbao", "Valladolid",
+ "San Sebastian", "Vitoria", "Zaragoza",
+ "Barcelona", "Valencia", "Mallorca",
  "Tenerife", "Santander", "Sevilla", "Granada", "Malaga",
  "Jerez", "Alicante", "Cordoba", "Cadiz"
 
@@ -507,8 +508,8 @@ cities =
 
 name="Persian"
 plural="Persians"
-leader="Cyrus", "Darius"
-leader_sex="Male", "Male"
+leader="Cyrus", "Darius", "Xerxes", "Ardashir"
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.iran"
 flag_alt = "-"
 
@@ -534,8 +535,8 @@ cities = ;first are ancient cities in latin version
 
 name="Arab"
 plural="Arabs"
-leader="Mohammad", "al-Rashid"
-leader_sex="Male", "Male"
+leader="Mohammad", "Umar", "Harun al-Rashid", "Saladin"
+leader_sex="Male", "Male", "Male", "Male"
 flag ="f.arab"
 flag_alt = "-"
 
@@ -560,8 +561,8 @@ cities = ;Arab Peninsula and Near East
 
 name="Carthaginian"
 plural="Carthaginians"
-leader="Hannibal", "Hasdrubal"
-leader_sex="Male", "Male"
+leader="Hannibal", "Hasdrubal", "Hamilcar", "Dido"
+leader_sex="Male", "Male", "Male", "Female"
 flag="f.tunisia"
 flag_alt = "-"
 
@@ -588,8 +589,8 @@ cities = ;Ancient cities from Africa and south Spain,
 
 name="Inca"
 plural="Incas"
-leader="Tupac", "Manco", "Atahualpa"
-leader_sex="Male", "Male", "Male"
+leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
+leader_sex="Male", "Male", "Male", "Male"
 flag="f.peru"
 flag_alt = "-"
 
@@ -616,7 +617,7 @@ cities =
 
 name="Viking"
 plural="Vikings"
-leader="Erik", "Harald" 
+leader="Erik the Bloodaxe", "Harald" 
 leader_sex="Male", "Male"
 flag="f.denmark"
 flag_alt = "-"
@@ -643,7 +644,176 @@ cities =
  "Reykjavik", "Ystad", "Luleå", "Kiruna", "Lund",
  "Halmstad", "Östersund", "Helsingfors", "Thisted"
 
+[nation21]
 
+name="Polish"
+plural="Polish"
+leader="Mieszko", "Jadwiga", "Jan Sobieski"
+leader_sex="Male", "Female", "Male"
+flag="f.poland"
+flag_alt = "-"
+
+attack=2
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Trade", "Engineering", "Monotheism", 
+             "Gunpowder", "Railroad"
+wonder="Copernicus' Observatory"
+government="Democracy"
+cities =
+ "Warszawa", "Lódz", "Kraków", "Wroclaw", "Poznan",
+ "Plock", "Wloclawek", "Torun", "Bydgoszcz", "Radom",
+ "Kielce", "Lublin", "Bialystok", "Rzeszów", "Tarnów",
+ "Katowice", "Bielsko-Biala", "Czestochowa", "Opole",
+ "Sandomierz", "Legnica", "Walbrzych", "Olsztyn",
+ "Gdansk", "Gdynia", "Koszalin", "Slupsk", "Szczecin",
+ "Konin", "Kalisz", "Krosno", "Przemysl", "Tarnobrzeg",
+ "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane"
+
+[nation22]
+
+name="Hungarian"
+plural="Hungarians"
+leader="Arpad", "Stephen", "Bela", "Mary", "Louis the Great"
+leader_sex="Male", "Male", "Male", "Female", "Male"
+flag="f.hungary"
+flag_alt = "-"
+
+attack=2
+expand=0
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Iron Working", "Theology", "Gunpowder", 
+             "Railroad"
+wonder="J.S. Bach's Cathedral"
+government="Republic"
+cities = 
+ "Budapest", "Szeged", "Debrecen", "Pécs", "Székesfehervár",
+ "Györ", "Kolosvár", "Temesvar", "Mohacs", "Szombathely",
+ "Veszprém", "Miskolc", "Nyiregyhaza", "Sopron", "Kaposvár",
+ "Kecskemét", "Eger", "Szolnok", "Békécsaba", "Szekszárd",
+ "Esztergom", "Nagykanizsa", "Varazdin", "Zalaegerszeg",
+ "Dunaujváros", "Paks", "Szentes", "Bonyhád", "Siklós", "Tokaj"
+
+[nation23]
+
+name="Danish"
+plural="Danes"
+leader="Valdemar", "Knut", "Margaret"
+leader_sex="Male", "Male", "Female"
+flag="f.denmark"
+flag_alt = "-"
+
+attack=1
+expand=2
+civilized=1
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy", "Chivalry", "Trade", "Theology", "University",
+             "Navigation", "Railroad"
+wonder="Magellan's Expedition"
+government="Democracy"
+
+cities = "København", "Århus", "Odense", "Ålborg", "Esbjerg", "Randers", 
+  "Frederikshavn", "Helsingør", "Roskilde", "Slagelse", "Sønderborg",
+  "Åbenrå", "Haderslev", "Vejle", "Holstebro", "Hirtshals", "Tylstrup",
+  "Skagen", "Hjørring", "Blokhus", "Nørresundby", "Hanstholm", "Thisted",
+  "Løgstør", "Thyborøn", "Skive", "Hadsund", "Ålestrup", "Hadsund", "Grenå",
+  "Struer", "Herning", "Silkeborg", "Yding", "Skovhøj", "Give", "Tarm",
+  "Varde", "Assens", "Nyborg", "Fåborg", "Korsør", "Næstved", "Vordingborg",
+  "Nakskov", "Rødby", "Birkerød", "Nykøbing", "Rønne", "Allinge", "Neksø"
+
+[nation24]
+
+name="Dutch"
+plural="Dutch"
+leader="Willem", "Beatrix"
+leader_sex="Male", "Female"
+flag="f.holland"
+flag_alt = "-"
+
+attack=2
+expand=2
+civilized=0
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Map Making", "The Republic", "Trade", "Navigation",
+  "Economics", "Democracy"
+wonder="Magellan's Expedition"
+government="Democracy"
+
+;names from the Golden Age, from Holland circling outward
+;later important towns added at the end
+
+cities =
+ "Amsterdam", "Utrecht", "Leiden", "Haarlem", "Delft", "Alkmaar",
+ "Hoorn", "Enkhuizen", "'s-Gravenhage", "Dordt", "Gouda", "Naarden",
+ "Rotterdam", "Schiedam", "Vlaardingen",
+ "Middelburg", "Goes", "Veere", "Vlissingen",
+ "Deventer", "Kampen", "Zutphen", "Zwolle", "Arnhem", "Amersfoort",
+ "Groningen", "Leeuwarden", "Dokkum", "Sneek", "Stavoren", "Franeker",
+ "Breda", "'s-Hertogenbosch", "Nijmegen", "Venlo", "Roermond", "Maastricht",
+ "Helmond", "Eindhoven", "Bergen op Zoom", "Hulst", "Batavia", "Willemstad",
+ "Tilburg", "Enschede", "Hengelo", "Almelo", "Oss",
+ "Heerlen", "Sittard", "Geleen", "Weert",
+ "Apeldoorn", "Ede", "Wageningen", "Veenendaal",
+ "Assen", "Emmen", "Hoogeveen", "Drachten", "Delfzijl", "Veendam",
+ "Zaandam", "Beverwijk", "Velsen", "Purmerend", "Hilversum", "Bussum",
+ "Alphen a/d Rijn", "Zoetermeer", "Woerden", "Capelle a/d IJssel",
+ "Spijkenisse", "Terneuzen", "Emmeloord", "Lelystad", "Almere"
+
+[nation25]
+
+name="Swedish"
+plural="Swedish"
+leader="Gustav Vasa", "Erik", "Karl", "Christine"
+leader_sex="Male", "Male", "Male", "Female"
+flag="f.sweden"
+flag_alt = "-"
+
+attack=2
+expand=2
+civilized=0
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Map Making", "The Republic", "Trade", "Gunpowder"
+wonder="Magellan's Expedition"
+government="Democracy"
+
+cities =
+ "Stockholm", "Uppsala", "Solentuna", "Sigtuna", "Birka",
+ "Norrköping", "Linköping", "Örebro", "Gävle", "Västeras",
+ "Göteborg", "Karlstad", "Växjö", "Kalmar", "Visby",
+ "Malmö", "Helsingborg", "Ystad",  "Lund", "Luleå", "Kiruna",
+ "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
+ "Piteå", "Skellefteå", "Umeå", "Jönköping", "Kristianstad",
+ "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun"
+
+[nation26]
+
+name="Japanese"
+plural="Japanese"
+leader="Mutsuhito", "Jimmu Tenno", "Hirohito", "Tokugawa Ieyasu"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.japan"
+flag_alt = "-"
+
+attack=2
+expand=0
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working",
+             "Engineering", "Railroad"
+wonder="Oracle"
+government="Republic"
+cities =
+  "Tokyo", "Osaka", "Yokohama", "Kyoto", "Kobe",
+  "Sapporo", "Hiroshima", "Nagoya", "Kawasaki", "Nagasaki",
+  "Fukuoka", "Sasebo", "Kumamoto", "Kita-Kyushu",
+  "Kagoshima", "Shimonoseki", "Okayama", "Gifu", "Kamazawa",
+  "Shizuoka", "Sendai", "Yokosuka", "Chiba", "Kochi",
+  "Iwaki", "Fukuyama", "Wakayama", "Niigata", "Matsuyama"
 
 [misc]
 
