@@ -739,7 +739,7 @@ int handle_unit_enter_hut(struct unit *punit)
     else {
       ok = unleash_barbarians(pplayer, punit->x, punit->y);
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: You have unleashed a hord of barbarians!"));
+		       _("Game: You have unleashed a horde of barbarians!"));
       if(!ok)
         notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       _("Game: Your unit has been killed by barbarians."));
