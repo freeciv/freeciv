@@ -1168,6 +1168,31 @@ void handle_game_info(struct packet_game_info *pinfo)
 /**************************************************************************
 ...
 **************************************************************************/
+static void read_player_info_techs(struct player *pplayer,
+				   unsigned char *inventions)
+{
+  int i;
+  bool need_effect_update = FALSE;
+
+  for (i = 0; i < game.num_tech_types; i++) {
+    enum tech_state oldstate = pplayer->research.inventions[i].state;
+    enum tech_state newstate = inventions[i] - '0';
+
+    pplayer->research.inventions[i].state = newstate;
+    if (newstate != oldstate
+	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
+      need_effect_update = TRUE;
+    }
+  }
+  if (need_effect_update) {
+    update_all_effects();
+  }
+  update_research(pplayer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
@@ -1203,10 +1228,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   }
   pplayer->reputation = pinfo->reputation;
 
-  for (i = 0; i < game.num_tech_types; i++) {
-    pplayer->research.inventions[i].state = pinfo->inventions[i] - '0';
-  }
-  update_research(pplayer);
+  read_player_info_techs(pplayer, pinfo->inventions);
 
   poptechup = (pplayer->research.researching!=pinfo->researching);
   pplayer->research.bulbs_researched = pinfo->bulbs_researched;
