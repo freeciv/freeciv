@@ -2526,7 +2526,7 @@ static int fill_fog_sprite_array(struct drawn_sprite *sprs,
       int value = -1;
 
       if (!pcorner->tile[i]) {
-	value = known;
+	value = fogged;
       } else {
 	switch (tile_get_known(pcorner->tile[i])) {
 	case TILE_KNOWN:
