@@ -225,7 +225,7 @@ Let the callback do its own level formating and add a '\n' if it wants.
 **************************************************************************/
 static void log_write(FILE *fs, int level, char *message)
 {
-  if (log_callback) {
+  if ((!log_filename) && log_callback) {
     log_callback(level, message);
   }
   if (log_filename || (!log_callback)) {
