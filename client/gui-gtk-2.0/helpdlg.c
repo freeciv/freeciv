@@ -394,7 +394,7 @@ static void create_help_dialog(void)
   GtkWidget *button;
   GtkWidget *text;
   int	     i, j;
-  GtkCellRenderer   *renderer;
+  GtkCellRenderer   *rend;
   GtkTreeViewColumn *col;
   GArray            *array;
   GtkTreeStore      *store;
@@ -466,8 +466,8 @@ static void create_help_dialog(void)
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(help_view));
 
-  renderer = gtk_cell_renderer_text_new();
-  col = gtk_tree_view_column_new_with_attributes(NULL, renderer, "text",0,NULL);
+  rend = gtk_cell_renderer_text_new();
+  col = gtk_tree_view_column_new_with_attributes(NULL, rend, "text", 0, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_view), col);
 
   help_view_sw = gtk_scrolled_window_new(NULL, NULL);
@@ -602,19 +602,26 @@ static void create_help_dialog(void)
   g_signal_connect(help_tree, "row_activated",
 		   G_CALLBACK(help_tech_tree_activated_callback), NULL);
 
-  renderer = gtk_cell_renderer_text_new();
-  g_object_set(renderer, "weight", "bold", NULL);
 
-  col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
-	"text", 0, "background_gdk", 3, NULL);
+  col = gtk_tree_view_column_new();
+
+  rend = gtk_cell_renderer_text_new();
+  g_object_set(rend, "weight", "bold", NULL);
+  gtk_tree_view_column_pack_start(col, rend, TRUE);
+  gtk_tree_view_column_set_attributes(col, rend,
+				      "text", 0,
+				      "background_gdk", 3,
+				      NULL);
+  rend = gtk_cell_renderer_text_new();
+  g_object_set(rend, "weight", "bold", "xalign", 1.0, NULL);
+  gtk_tree_view_column_pack_start(col, rend, FALSE);
+  gtk_tree_view_column_set_attributes(col, rend,
+				      "text", 1,
+				      "background_gdk", 3,
+				      NULL);
+
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);
 
-  renderer = gtk_cell_renderer_text_new();
-  g_object_set(renderer, "weight", "bold", "xalign", 1.0, NULL);
-
-  col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
-	"text", 1, "background_gdk", 3, NULL);
-  gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);
 
   help_tree_sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_tree_sw),
