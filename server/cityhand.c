@@ -696,12 +696,10 @@ void remove_city(struct city *pcity)
   while(unit_list_size(&pcity->units_supported)) {
     wipe_unit(0, unit_list_get(&pcity->units_supported,0));
   }
-  city_map_iterate(x,y) {
-    set_worker_city(pcity, x, y, C_TILE_EMPTY);
-  }
   remove_city_from_cache(pcity->id);
+  dealloc_id(pcity->id);
   x = pcity->x; y = pcity->y;
 /* DO NOT remove city from minimap here. -- Syela */
-  game_remove_city(pcity->id);
+  game_remove_city(pcity);
   reset_move_costs(x, y);
 }
