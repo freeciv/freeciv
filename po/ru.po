@@ -585,7 +585,7 @@ msgstr "Это сервер для %s"
 #: server/civserver.c:238
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr "Вы можете узнать больше о FreeCiv на %s"
+msgstr "Вы можете узнать больше о Freeciv на %s"
 
 #: client/civclient.c:104 server/civserver.c:242
 #, c-format
