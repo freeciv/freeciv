@@ -37,7 +37,7 @@
 
 #include "maphand.h"
 
-static void player_tile_init(struct player_tile *ptile);
+static void player_tile_init(int x, int y, struct player *pplayer);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
 						 int x, int y);
@@ -911,7 +911,7 @@ void player_map_allocate(struct player *pplayer)
   pplayer->private_map =
     fc_malloc(map.xsize*map.ysize*sizeof(struct player_tile));
   whole_map_iterate(x, y) {
-    player_tile_init(map_get_player_tile(x, y, pplayer->player_no));
+    player_tile_init(x, y, pplayer);
   } whole_map_iterate_end;
 }
 
@@ -919,18 +919,27 @@ void player_map_allocate(struct player *pplayer)
 We need to use use fogofwar_old here, so the player's tiles get
 in the same state as the other players' tiles.
 ***************************************************************/
-static void player_tile_init(struct player_tile *plrtile)
+static void player_tile_init(int x, int y, struct player *pplayer)
 {
+  struct player_tile *plrtile =
+    map_get_player_tile(x, y, pplayer->player_no);
+
   plrtile->terrain = T_UNKNOWN;
   plrtile->special = S_NO_SPECIAL;
   plrtile->city = NULL;
-  if (game.fogofwar_old)
-    plrtile->seen = 0;
-  else
-    plrtile->seen = 1;
+
+  plrtile->seen = 0;
+  plrtile->pending_seen = 0;
+  if (!game.fogofwar_old) {
+    if (map_get_known(x, y, pplayer)) {
+      plrtile->seen = 1;
+    } else {
+      plrtile->pending_seen = 1;
+    }
+  }
+
   plrtile->last_updated = GAME_START_YEAR;
   plrtile->own_seen = plrtile->seen;
-  plrtile->pending_seen = 0;
 }
  
 /***************************************************************
