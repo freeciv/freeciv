@@ -943,12 +943,11 @@ static void player_load(struct player *plr, int plrno,
 
     pcity->steal=secfile_lookup_int(file, "player%d.c%d.steal", plrno, i);
 
-    pcity->specialists[SP_ELVIS]
-      = secfile_lookup_int(file, "player%d.c%d.nelvis", plrno, i);
-    pcity->specialists[SP_SCIENTIST]
-      = secfile_lookup_int(file, "player%d.c%d.nscientist", plrno, i);
-    pcity->specialists[SP_TAXMAN]
-      = secfile_lookup_int(file, "player%d.c%d.ntaxman", plrno, i);
+    for (j = 0; j < SP_COUNT; j++) {
+      pcity->specialists[j]
+	= secfile_lookup_int(file, "player%d.c%d.n%s", plrno, i,
+			     game.rgame.specialists[j].name);
+    }
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
       pcity->trade[j]=secfile_lookup_int(file, "player%d.c%d.traderoute%d",
@@ -1710,12 +1709,11 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->size, "player%d.c%d.size", plrno, i);
     secfile_insert_int(file, pcity->steal, "player%d.c%d.steal", plrno, i);
-    secfile_insert_int(file, pcity->specialists[SP_ELVIS],
-		       "player%d.c%d.nelvis", plrno, i);
-    secfile_insert_int(file, pcity->specialists[SP_SCIENTIST],
-		       "player%d.c%d.nscientist", plrno, i);
-    secfile_insert_int(file, pcity->specialists[SP_TAXMAN],
-		       "player%d.c%d.ntaxman", plrno, i);
+    for (j = 0; j < SP_COUNT; j++) {
+      secfile_insert_int(file, pcity->specialists[j],
+			 "player%d.c%d.n%s", plrno, i,
+			 game.rgame.specialists[j].name);
+    }
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
       secfile_insert_int(file, pcity->trade[j], "player%d.c%d.traderoute%d", 

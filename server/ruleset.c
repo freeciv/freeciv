@@ -2490,23 +2490,29 @@ static void load_ruleset_cities(struct section_file *file)
   char **styles, *replacement;
   int i, nval;
   const char *filename = secfile_filename(file);
+  char **specialist_names;
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
 
   /* Specialist options */
+  specialist_names = secfile_lookup_str_vec(file, &nval, "specialist.types");
+  if (nval != SP_COUNT) {
+    freelog(LOG_FATAL, "There must be exactly %d types of specialist.",
+	    SP_COUNT);
+    exit(EXIT_FAILURE);
+  }
 
-  game.rgame.specialists[SP_ELVIS].min_size =
-    secfile_lookup_int_default(file, 0, "specialist.min_size_elvis");
-  game.rgame.specialists[SP_SCIENTIST].min_size =
-    secfile_lookup_int_default(file, 5, "specialist.min_size_scientist");
-  game.rgame.specialists[SP_TAXMAN].min_size =
-    secfile_lookup_int_default(file, 5, "specialist.min_size_taxman");
-  game.rgame.specialists[SP_ELVIS].bonus =
-    secfile_lookup_int_default(file, 2, "specialist.base_elvis");
-  game.rgame.specialists[SP_SCIENTIST].bonus =
-    secfile_lookup_int_default(file, 3, "specialist.base_scientist");
-  game.rgame.specialists[SP_TAXMAN].bonus =
-    secfile_lookup_int_default(file, 3, "specialist.base_taxman");
+  for (i = 0; i < nval; i++) {
+    const char *name = specialist_names[i];
+
+    sz_strlcpy(game.rgame.specialists[i].name, name);
+    game.rgame.specialists[i].min_size
+      = secfile_lookup_int(file, "specialist.%s_min_size", name);
+    game.rgame.specialists[i].bonus
+      = secfile_lookup_int(file, "specialist.%s_base_bonus", name);
+    
+  }
+
   game.rgame.changable_tax = 
     secfile_lookup_bool_default(file, TRUE, "specialist.changable_tax");
   game.rgame.forced_science = 

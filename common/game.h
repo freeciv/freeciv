@@ -187,6 +187,7 @@ struct civ_game {
   /* values from game.ruleset */
   struct {
     struct {
+      char name[MAX_LEN_NAME];
       int min_size, bonus;
     } specialists[SP_COUNT];
     bool changable_tax;
