@@ -759,6 +759,10 @@ static struct player *split_player(struct player *pplayer)
   cplayer->government = game.government_when_anarchy;  
   pplayer->revolution = 1;
   cplayer->capital = 1;
+  for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    cplayer->diplstates[i].type = DS_NEUTRAL;
+    cplayer->diplstates[i].has_reason_to_cancel = 0;
+  }
 
   /* Split the resources */
   

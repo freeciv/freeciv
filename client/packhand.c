@@ -719,7 +719,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->embassy=pinfo->embassy;
   pplayer->city_style=pinfo->city_style;
 
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     pplayer->diplstates[i].type =
       pinfo->diplstates[i].type;
     pplayer->diplstates[i].turns_left =

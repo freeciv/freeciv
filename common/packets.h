@@ -411,7 +411,7 @@ struct packet_player_info {
   int turn_done, nturns_idle;
   int is_alive;
   int reputation;
-  struct player_diplstate diplstates[MAX_NUM_PLAYERS];
+  struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int gold, tax, science, luxury;
   int researched;
   int researchpoints;

@@ -26,6 +26,7 @@
 #define BROADCAST_EVENT -2
 
 #define MAX_NUM_PLAYERS  30
+#define MAX_NUM_BARBARIANS   2
 #define MAX_NUM_ITEMS   200	/* eg, unit_types */
 #define MAX_NUM_TECH_LIST 10
 #define MAX_LEN_NAME     32

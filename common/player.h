@@ -156,7 +156,7 @@ struct player {
   int capital; /* bool used to give player capital in first city. */
   int embassy;
   int reputation;
-  struct player_diplstate diplstates[MAX_NUM_PLAYERS];
+  struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;
   struct unit_list units;
   struct city_list cities;

@@ -76,7 +76,7 @@ void player_init(struct player *plr)
   plr->is_alive=1;
   plr->embassy=0;
   plr->reputation=GAME_DEFAULT_REPUTATION;
-  for(i = 0; i < MAX_NUM_PLAYERS; i++) {
+  for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = DS_NEUTRAL;
     plr->diplstates[i].has_reason_to_cancel = 0;
   }

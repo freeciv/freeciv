@@ -2046,7 +2046,7 @@ void send_player_info(struct player *src, struct player *dest)
              info.city_style=game.players[i].city_style;
 
 	     info.reputation=game.players[i].reputation;
-	     for(j=0; j<MAX_NUM_PLAYERS; j++) {
+	     for(j=0; j<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; j++) {
 	       info.diplstates[j].type=game.players[i].diplstates[j].type;
 	       info.diplstates[j].turns_left=game.players[i].diplstates[j].turns_left;
 	       info.diplstates[j].has_reason_to_cancel =
@@ -2170,7 +2170,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
   plr->reputation=secfile_lookup_int_default(file, GAME_DEFAULT_REPUTATION,
 					     "player%d.reputation", plrno);
-  for(i=0; i<MAX_NUM_PLAYERS; i++) {
+  for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = 
       secfile_lookup_int_default(file, DS_NEUTRAL,
 				 "player%d.diplstate%d.type", plrno, i);
@@ -2684,7 +2684,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_str(file, invs, "player%d.invs", plrno);
 
   secfile_insert_int(file, plr->reputation, "player%d.reputation", plrno);
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+  for (i = 0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
     secfile_insert_int(file, plr->diplstates[i].type,
 		       "player%d.diplstate%d.type", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].turns_left,

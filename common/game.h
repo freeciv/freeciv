@@ -17,7 +17,6 @@
 #include "player.h"
 
 #define MAX_LEN_DEMOGRAPHY  16
-#define MAX_NUM_BARBARIANS   2
 
 enum server_states { 
   PRE_GAME_STATE, 

@@ -151,6 +151,11 @@ static struct player *create_barbarian_player(int land)
   barbarians->government = game.government_when_anarchy; 
   barbarians->capital = 0;
   barbarians->economic.gold = 100;
+  for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    barbarians->diplstates[i].type = DS_NEUTRAL;
+    barbarians->diplstates[i].has_reason_to_cancel = 0;
+  }
+  barbarians->embassy = 0;
 
   barbarians->turn_done = 1;
 

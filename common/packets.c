@@ -1551,7 +1551,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_uint8(cptr, pinfo->is_alive?1:0);
 
   cptr=put_uint32(cptr, pinfo->reputation);
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     cptr=put_uint32(cptr, pinfo->diplstates[i].type);
     cptr=put_uint32(cptr, pinfo->diplstates[i].turns_left);
     cptr=put_uint32(cptr, pinfo->diplstates[i].has_reason_to_cancel);
@@ -1614,7 +1614,7 @@ receive_packet_player_info(struct connection *pc)
   iget_uint8(&iter,  &pinfo->is_alive);
   
   iget_uint32(&iter, &pinfo->reputation);
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     iget_uint32(&iter, (int*)&pinfo->diplstates[i].type);
     iget_uint32(&iter, &pinfo->diplstates[i].turns_left);
     iget_uint32(&iter, &pinfo->diplstates[i].has_reason_to_cancel);

@@ -2630,7 +2630,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     unit_list_iterate_end;
 
     /* inform the owners */
-    for (i = 0; i<MAX_NUM_PLAYERS; i++) {
+    for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i]>0) {
 	notify_player_ex(get_player(i), punit->x, punit->y, E_UNIT_LOST,
 			 _("Game: You lost %d units under an attack"
