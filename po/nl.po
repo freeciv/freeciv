@@ -1205,9 +1205,9 @@ msgstr "Spel: %s is klaar met het bouwen van %s."
 msgid "Game: %s boosts research; you gain %d immediate advance."
 msgid_plural "Game: %s boosts research; you gain %d immediate advances."
 msgstr[0] ""
-"Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang.Spel: %s "
-"versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
+"Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang."
 msgstr[1] ""
+"Spel: %s versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
 
 #: server/cityturn.c:1000 server/plrhand.c:158
 #, c-format
@@ -2707,7 +2707,7 @@ msgid "Game: Your %s could not find the %s to sabotage in %s."
 msgstr "Spel: Uw %s kon de %s niet vinden om te saboteren in %s."
 
 #: server/diplomats.c:1011
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
 msgstr "Spel: Uw %s heeft de productie van %s in %s met succes vernietigd."
 
@@ -3445,8 +3445,7 @@ msgstr "de"
 
 #: server/report.c:689
 msgid "Demography string contains invalid characters. Try \"help demography\"."
-msgstr ""
-"Volkenkundig formaat bevat ongeldige tekens. Probeer \"help demography\"."
+msgstr "Volkenkundig formaat bevat ongeldige tekens. Probeer \"help demografie\"."
 
 #: server/report.c:729 server/report.c:747
 msgid "Demographics Report:"
@@ -3459,7 +3458,7 @@ msgstr "Sorry, het Volkenkundig rapport is niet beschikbaar."
 #: server/report.c:734
 #, c-format
 msgid "The %s of the %s"
-msgstr "De %s van de %s (%s)"
+msgstr "De %s van de %s"
 
 #: server/report.c:1094
 #, c-format
@@ -3561,7 +3560,7 @@ msgstr "Gebouw %s noemt verkeerde effect groep: \"%s\" (%s)"
 #: server/ruleset.c:1391
 #, c-format
 msgid "Building %s has unknown req type: \"%s\" (%s)"
-msgstr "Sectie %s heeft onbekend voorwaarde type: \"%s\":\"%s\" (%s)"
+msgstr "Sectie %s heeft onbekend voorwaarde type: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1402
@@ -9042,6 +9041,7 @@ msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
 msgstr[0] ""
 "Voortgang: %d beurt/vooruitgang (%d pnt/beurt, %d pnt/beurt van team)"
+msgstr[1] ""
 "Voortgang: %d beurten/vooruitgang (%d pnt/beurt, %d pnt/beurt van team)"
 
 #: client/text.c:456 client/gui-mui/mapview.c:190
@@ -11084,9 +11084,8 @@ msgid "Clear _Log"
 msgstr "Maak _Log Leeg"
 
 #: client/gui-gtk-2.0/menu.c:660
-#, fuzzy
 msgid "L_eave"
-msgstr "Verlaat"
+msgstr "Verl_aat"
 
 #: client/gui-gtk-2.0/menu.c:662 client/gui-gtk/menu.c:612
 #: client/gui-mui/connectdlg.c:226 client/gui-mui/dialogs.c:1659
@@ -13952,7 +13951,7 @@ msgstr ""
 "(geen onderzoek)"
 
 #: client/gui-mui/repodlgs.c:309
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "(%d turn/advance)"
@@ -13961,11 +13960,9 @@ msgid_plural ""
 "(%d turns/advance)"
 msgstr[0] ""
 "%s\n"
-"(%d beurt/vooruitgang)%s\n"
-"(%d beurten/vooruitgang)"
+"(%d beurt/vooruitgang)"
 msgstr[1] ""
 "%s\n"
-"(%d beurt/vooruitgang)%s\n"
 "(%d beurten/vooruitgang)"
 
 #: client/gui-mui/repodlgs.c:326 client/gui-mui/repodlgs.c:327
@@ -21559,7 +21556,6 @@ msgid "?plural:Belgians"
 msgstr "?plural:Belgen"
 
 #: data/nation/belgian.ruleset:6
-#, fuzzy
 msgid ""
 "Belgium gained independance from the Dutch Kingdom in 1830. Belgium is "
 "mainly characterized by its movement from a unified state to a federal one. "
@@ -21568,8 +21564,8 @@ msgid ""
 msgstr ""
 "Belgie is onafhankelijk van de Verenigde Nederlanden sinds 1830. Het "
 "opvallendst aan Belgie is de evolutie weg van een unitaire staat naar een "
-"federaal land. Dit als resultaat van een langdurig Vlaams en Waals (bijna) "
-"geweldloos volksnationalisch conflict."
+"federaal land. Dit als resultaat van een langdurig Vlaams en Waals (bijna)"
+"geweldloos volksnationalistisch conflict."
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
