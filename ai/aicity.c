@@ -139,6 +139,7 @@ void ai_manage_buildings(struct player *pplayer)
     pplayer->ai.tech_want[A_PHILOSOPHY] *= 2; /* this probably isn't right -- Syela */
 
   city_list_iterate(pplayer->cities, pcity)
+    pcity->ai.building_want[B_MAGELLAN] = values[B_MAGELLAN];
     pcity->ai.building_want[B_ASMITHS] = values[B_ASMITHS];
     pcity->ai.building_want[B_CURE] = values[B_CURE];
     pcity->ai.building_want[B_HANGING] += values[B_CURE];
@@ -156,6 +157,13 @@ void ai_manage_buildings(struct player *pplayer)
     pcity->ai.building_want[B_PALACE] = corr; /* urgent enough? */
   city_list_iterate_end;
 
+  city_list_iterate(pplayer->cities, pcity) /* wonder-kluge */
+    for (i = 0; i < B_LAST; i++) {
+      if (!pcity->is_building_unit && is_wonder(i) &&
+          is_wonder(pcity->currently_building))
+        pcity->ai.building_want[i] += pcity->shield_stock / 2;
+    } /* this should encourage completion of wonders, I hope! -- Syela */
+  city_list_iterate_end;
 }
 
 /************************************************************************** 
@@ -176,7 +184,7 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 /*  copy_if_better_choice(&curchoice, &bestchoice); */
   copy_if_better_choice(&pcity->ai.choice, &bestchoice);
 
-  if (bestchoice.want <= 100) { /* soldier at 101 cannot be denied */
+  if (bestchoice.want <= 100 || !pcity->ai.urgency) { /* soldier at 101 cannot be denied */
     domestic_advisor_choose_build(pplayer, pcity, &curchoice);
     copy_if_better_choice(&curchoice, &bestchoice);
   }
@@ -235,8 +243,9 @@ int ai_city_defender_value(struct city *pcity, int a_type, int d_type)
 {
   int m;
   m = get_virtual_defense_power(a_type, d_type, pcity->x, pcity->y);
+  if (do_make_unit_veteran(pcity, d_type)) m *= 1.5;
   m *= unit_types[d_type].hp * unit_types[d_type].firepower;
-  m /= (do_make_unit_veteran(pcity, d_type) ? 20 : 30);
+  m /= 30;
   return (m * m);
 }
 
@@ -244,7 +253,8 @@ void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
   int id;
   for (id = 0; id < B_LAST; id++) {
-    if (can_sell_building(pcity, id)) {
+    if (can_sell_building(pcity, id) && id != B_CITY) {
+/* selling walls to buy defenders is counterproductive -- Syela */
       really_handle_city_sell(pplayer, pcity, id);
       break;
     }
@@ -271,7 +281,7 @@ void ai_new_spend_gold(struct player *pplayer)
       }
     city_list_iterate_end;
 
-    if (!bestchoice.want) return;
+    if (!bestchoice.want) break;
  
     if (bestchoice.type && (!frugal || bestchoice.want > 200)) { /* if we want a unit */
       buycost = city_buy_cost(pcity);
@@ -330,7 +340,10 @@ unit_types[punit->type].name, unit_types[id].name); */
           !city_got_building(pcity, B_GRANARY) && (pcity->size < 2 ||
           pcity->food_stock < (pcity->size - 1) * game.foodbox)) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
-        pcity->shield_stock * 3 < buycost) ; /* too expensive */
+        buycost > unit_types[bestchoice.choice].build_cost * 2) { /* too expensive */
+        if (unit_flag(bestchoice.choice, F_CARAVAN) &&
+            pplayer->ai.maxbuycost < 100) pplayer->ai.maxbuycost = 100;
+      }
 #ifdef GRAVEDANGERWORKS
       else if (bestchoice.type == 3 && pcity->size == 1 &&
         pcity->ai.grave_danger > (assess_defense_quadratic(pcity) +
@@ -343,13 +356,7 @@ printf("%s is DOOMED!\n", pcity->name);
       }
 #endif
       else if (pplayer->economic.gold >= buycost && (!frugal || bestchoice.want > 200)) {
-        if (bestchoice.type == 3 && buycost > 4 * build_points_left(pcity)) {
-          if (pcity->ai.grave_danger) { /* buy something affordable, dammit */
-            pcity->currently_building = ai_choose_defender_limited(pcity,
-              (pcity->shield_stock + 40), 0);
-            really_handle_city_buy(pplayer, pcity);
-          } /* else we don't really need to spend our money right now */
-        } else really_handle_city_buy(pplayer, pcity); /* adequately tested now */
+        really_handle_city_buy(pplayer, pcity); /* adequately tested now */
       } else if (bestchoice.type || !is_wonder(bestchoice.choice)) {
 /*        printf("%s wants %s but can't afford to buy it (%d < %d).\n",
 pcity->name, (bestchoice.type ? unit_name(bestchoice.choice) :
@@ -365,6 +372,9 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
           } else if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
 /* possibly upgrade units here */
         } /* end panic subroutine */
+        if (bestchoice.type && unit_flag(bestchoice.choice, F_CARAVAN))
+            if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
+/* Gudy reminded me AI was slow to build wonders, I thought of the above -- Syela */
         if (!bestchoice.type) switch (bestchoice.choice) {
           case B_AQUEDUCT:
             if (city_happy(pcity)) break;
@@ -374,16 +384,40 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
           case B_COASTAL:
           case B_SAM:
           case B_SDI:
+          case B_PALACE:
+          case B_COLOSSEUM:
+          case B_CATHEDRAL:
             if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
             break;
 /* granaries/harbors/wonders not worth the tax increase */
         } /* end switch */
 /* I just saw Alexander save up for walls then buy a granary.  Never again! -- Syela */
-        if (bestchoice.want > 200 && pplayer->ai.maxbuycost) frugal++;
+/*        if (bestchoice.want > 200 && pplayer->ai.maxbuycost) frugal++; */
+        if (pplayer->ai.maxbuycost) frugal++; /* much more frugal -- Syela */
       } /* end can't-afford else */
     } /* end if want > 100 */
     pcity->ai.choice.want = 0; /* not dealing with this city a second time */
   } while (bestchoice.want > 0);
+/* always upgrade triremes, since they vanish and are FIELDUNITS */
+  id = can_upgrade_unittype(pplayer, U_TRIREME);
+  if (id > 0 && !frugal) {
+    unit_list_iterate(pplayer->units, punit)
+      if (punit->type != U_TRIREME) continue;
+      pcity = map_get_city(punit->x, punit->y);
+      if (!pcity) continue;
+      cost = unit_upgrade_price(pplayer, punit->type, id);
+      if (cost < pplayer->economic.gold) { /* let's just upgrade */
+        pplayer->economic.gold -= cost;
+        if (punit->hp==get_unit_type(punit->type)->hp)
+          punit->hp=get_unit_type(id)->hp;
+        notify_player(pplayer, "Game: %s upgraded to %s in %s for %d credits",
+          unit_types[punit->type].name, unit_types[id].name, pcity->name, cost);
+        punit->type = id;
+        send_unit_info(0, punit, 0);
+        send_player_info(pplayer, pplayer);
+      } /* end if upgrade */
+    unit_list_iterate_end;
+  } /* end if */
 }
 
 /**************************************************************************
@@ -595,7 +629,9 @@ int ai_choose_defender_versus(struct city *pcity, int v)
 int has_a_normal_defender(struct city *pcity)
 {
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if (is_military_unit(punit) && is_ground_unit(punit)) return 1;
+    if (is_military_unit(punit) && is_ground_unit(punit) &&
+        unit_types[punit->type].hp > 10 && /* for when we don't get Feudalism */
+        can_build_unit(pcity, punit->type)) return 1;
   unit_list_iterate_end;
   return 0;
 }
@@ -615,7 +651,7 @@ int ai_choose_defender_limited(struct city *pcity, int n, enum unit_move_type wh
         (m == which || !which)) {
       j = unit_desirability(i, 1);
       j *= j;
-      if (unit_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* Experimenting. -- Syela */
+      if (unit_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* This is now confirmed */
       if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
       if (j > best || (j == best && get_unit_type(i)->build_cost <=
                                get_unit_type(bestid)->build_cost)) {
@@ -629,12 +665,12 @@ int ai_choose_defender_limited(struct city *pcity, int n, enum unit_move_type wh
 
 int ai_choose_defender_by_type(struct city *pcity, enum unit_move_type which)
 {
-  return (ai_choose_defender_limited(pcity, 65535, which));
+  return (ai_choose_defender_limited(pcity, pcity->shield_stock + 40, which));
 }
 
 int ai_choose_defender(struct city *pcity)
 {
-  return (ai_choose_defender_limited(pcity, 65535, 0));
+  return (ai_choose_defender_limited(pcity, pcity->shield_stock + 40, 0));
 }
 
 /************************************************************************** 
@@ -906,11 +942,12 @@ pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_s
 /*printf("Rearranging workers in %s\n", pcity->name);*/
 
   unit_list_iterate(pcity->units_supported, punit)
-    if (city_unhappy(pcity) && punit->unhappiness) {
+    if (city_unhappy(pcity) && punit->unhappiness && !punit->ai.passenger) {
 printf("%s's %s is unhappy and causing unrest, disbanding it.\n", pcity->name, unit_types[punit->type].name);
        pack.unit_id = punit->id;
        handle_unit_disband(pplayer, &pack);
        city_refresh(pcity);
+       ai_fix_unhappy(pcity);
      }
   unit_list_iterate_end;       
 
