@@ -55,7 +55,8 @@
 static int evaluate_city_name_priority(int x, int y,
 				       struct city_name *city_name,
 				       int default_priority);
-static char *search_for_city_name(int x, int y, struct city_name *city_names);
+static char *search_for_city_name(int x, int y, struct city_name *city_names,
+				  struct player *pplayer);
 static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 				 enum city_tile_type type);
 
@@ -145,6 +146,24 @@ static int evaluate_city_name_priority(int x, int y,
   return (int)priority;	
 }
 
+/**************************************************************************
+Checks if a city name belongs to default city names of a particular
+player.
+**************************************************************************/
+static bool is_default_city_name(const char *name, struct player *pplayer)
+{
+  struct nation_type *nation = get_nation_by_plr(pplayer);
+  int choice;
+
+  for (choice = 0; nation->city_names[choice].name; choice++) {
+    if (mystrcasecmp(name, nation->city_names[choice].name) == 0) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
 /****************************************************************
 Searches through a city name list (a struct city_name array)
 to pick the best available city name, and returns a pointer to
@@ -153,24 +172,95 @@ evaluate_city_name_priority to determine the priority of the
 city name.  If the list has no valid entries in it, NULL will be
 returned.
 *****************************************************************/
-static char *search_for_city_name(int x, int y, struct city_name *city_names)
+static char *search_for_city_name(int x, int y, struct city_name *city_names,
+				  struct player *pplayer)
 {
   int choice, best_priority = -1;
   char* best_name = NULL;
 
   for (choice = 0; city_names[choice].name; choice++) {
-    if (!game_find_city_by_name(city_names[choice].name)) {
+    if (!game_find_city_by_name(city_names[choice].name) &&
+	is_allowed_city_name(pplayer, city_names[choice].name, x, y, FALSE)) {
       int priority = evaluate_city_name_priority(x, y, &city_names[choice],
-					         choice);
+						 choice);
 
       if (best_priority == -1 || priority < best_priority) {
-        best_priority = priority;
-        best_name = city_names[choice].name;
+	best_priority = priority;
+	best_name = city_names[choice].name;
       }
     }
   }
 
   return best_name;
+}
+
+/**************************************************************************
+Checks, if a city name is allowed for a player. If not, reports a
+reason for rejection. There's 4 different modes:
+0: no restrictions,
+1: a city name has to be unique to player
+2: a city name has to be globally unique
+3: a city name has to be globally unique, and players can't use names
+   that are in another player's default city names. (E.g. Swedish may not
+   call new cities or rename old cities as Helsinki, because it's in
+   Finns' default city names)
+**************************************************************************/
+bool is_allowed_city_name(struct player *pplayer, const char *city_name,
+			  int x, int y, bool notify_player)
+{
+  /* Mode 0: No restrictions to city names */
+  if (game.allowed_city_names == 0) {
+    return TRUE;
+  }
+
+  /* Mode 1: A city name has to be unique to player */
+  if (game.allowed_city_names == 1 &&
+      city_list_find_name(&pplayer->cities, city_name)) {
+    if (notify_player) {
+      notify_player_ex(pplayer, x, y, E_NOEVENT,
+		       _("Game: You already have a city called %s"),
+		       city_name);
+    }
+    return FALSE;
+  }
+
+  /* 
+   * Mode 3: Check first that the proposed city name is not in another
+   * player's default city names.
+   */
+  if (game.allowed_city_names == 3) {
+    struct player *pother = NULL;
+
+    players_iterate(player2) {
+      if (player2 != pplayer && is_default_city_name(city_name, player2)) {
+	pother = player2;
+	break;
+      }
+    } players_iterate_end;
+
+    if (pother != NULL) {
+      if (notify_player) {
+	notify_player_ex(pplayer, x, y, E_NOEVENT,
+			 _("Game: Can't use %s as a city name. "
+			   "It is reserved for %s."),
+			 city_name, get_nation_name_plural(pother->nation));
+      }
+      return FALSE;
+    }
+  }
+
+  /* Modes 2,3: A city name has to be globally unique */
+  if ((game.allowed_city_names == 2 ||
+       game.allowed_city_names == 3) && game_find_city_by_name(city_name)) {
+    if (notify_player) {
+      notify_player_ex(pplayer, x, y, E_NOEVENT,
+		       _("Game: A city called %s already exists."),
+		       city_name);
+    }
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /****************************************************************
@@ -197,13 +287,12 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
   
   CHECK_MAP_POS(x,y);
 
-  /* coastal */
-  name = search_for_city_name(x, y, nation->city_names);
+  name = search_for_city_name(x, y, nation->city_names, pplayer);
   if (name) {
     return name;
   }
 
-  name = search_for_city_name(x, y, misc_city_names);
+  name = search_for_city_name(x, y, misc_city_names, pplayer);
   if (name) {
     return name;
   }
@@ -841,6 +930,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   struct player *pgiver = city_owner(pcity);
   int old_trade_routes[NUM_TRADEROUTES];
   bool had_palace = pcity->improvements[B_PALACE] != I_NONE;
+  char old_city_name[MAX_LEN_NAME];
 
   assert(pgiver != ptaker);
 
@@ -865,6 +955,17 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
   map_unfog_pseudo_city_area(ptaker, pcity->x, pcity->y);
+
+  sz_strlcpy(old_city_name, pcity->name);
+  if (game.allowed_city_names == 1
+      && city_list_find_name(&ptaker->cities, pcity->name)) {
+    sz_strlcpy(pcity->name,
+	       city_name_suggestion(ptaker, pcity->x, pcity->y));
+    notify_player_ex(ptaker, pcity->x, pcity->y, E_NOEVENT,
+		     _("You already had a city called %s."
+		       " The city was renamed to %s."), old_city_name,
+		     pcity->name);
+  }
 
   /* Has to follow the unfog call above. */
   city_list_unlink(&pgiver->cities, pcity);

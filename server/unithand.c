@@ -544,6 +544,11 @@ static void city_build(struct player *pplayer, struct unit *punit,
 		       "such a stupid name."));
     return;
   }
+
+  if (!is_allowed_city_name(pplayer, city_name, punit->x, punit->y, TRUE)) {
+    return;
+  }
+
   create_city(pplayer, punit->x, punit->y, city_name);
   wipe_unit(punit);
 }

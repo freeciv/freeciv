@@ -155,6 +155,7 @@ struct civ_game {
 
   int watchtower_extra_vision;
   int watchtower_vision;
+  int allowed_city_names;
 
   char rulesetdir[MAX_LEN_NAME];
   int firepower_factor;		/* See README.rulesets */
@@ -449,6 +450,10 @@ extern bool is_server;
 #define GAME_DEFAULT_WATCHTOWER_EXTRA_VISION 0
 #define GAME_MIN_WATCHTOWER_EXTRA_VISION 0
 #define GAME_MAX_WATCHTOWER_EXTRA_VISION 2
+
+#define GAME_DEFAULT_ALLOWED_CITY_NAMES 1
+#define GAME_MIN_ALLOWED_CITY_NAMES 0
+#define GAME_MAX_ALLOWED_CITY_NAMES 3
 
 #define GAME_START_YEAR -4000
 

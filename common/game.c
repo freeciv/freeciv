@@ -711,6 +711,7 @@ void game_init(void)
   game.randseed=GAME_DEFAULT_RANDSEED;
   game.watchtower_vision=GAME_DEFAULT_WATCHTOWER_VISION;
   game.watchtower_extra_vision=GAME_DEFAULT_WATCHTOWER_EXTRA_VISION,
+  game.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;
 
   sz_strlcpy(game.rulesetdir, GAME_DEFAULT_RULESETDIR);
 

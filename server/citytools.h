@@ -81,6 +81,8 @@ void building_lost(struct city *pcity, int id);
 void change_build_target(struct player *pplayer, struct city *pcity, 
 			 int target, bool is_unit, int event);
 
+bool is_allowed_city_name(struct player *pplayer, const char *city_name,
+			  int x, int y, bool notify_player);
 char *city_name_suggestion(struct player *pplayer, int x, int y);
 extern struct city_name *misc_city_names;
 

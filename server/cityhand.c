@@ -390,14 +390,19 @@ void handle_city_rename(struct player *pplayer,
     return;
   }
 
-  if((cp=get_sane_name(preq->name))) {
-    /* more sanity tests! any existing city with that name? */
-    sz_strlcpy(pcity->name, cp);
-    city_refresh(pcity);
-    send_city_info(NULL, pcity);
-  } else {
+  cp = get_sane_name(preq->name);
+  if (!cp) {
     notify_player(pplayer, _("Game: %s is not a valid name."), preq->name);
+    return;
   }
+
+  if (!is_allowed_city_name(pplayer, cp, pcity->x, pcity->y, TRUE)) {
+    return;
+  }
+
+  sz_strlcpy(pcity->name, cp);
+  city_refresh(pcity);
+  send_city_info(NULL, pcity);
 }
 
 /**************************************************************************

@@ -1839,6 +1839,9 @@ void game_load(struct section_file *file)
 						   "game.occupychance");
     game.randseed = secfile_lookup_int_default(file, game.randseed,
 					       "game.randseed");
+    game.allowed_city_names =
+	secfile_lookup_int_default(file, game.allowed_city_names,
+				   "game.allowed_city_names"); 
 
     if(game.civstyle == 1) {
       string = "civ1";
@@ -2161,6 +2164,7 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.demography, "game.demography");
   secfile_insert_int(file, game.watchtower_vision, "game.watchtower_vision");
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
+  secfile_insert_int(file, game.allowed_city_names, "game.allowed_city_names");
 
   if (TRUE) {
     /* Now always save these, so the server options reflect the

@@ -549,6 +549,19 @@ static struct settings_s settings[] = {
 	  GAME_MIN_WATCHTOWER_EXTRA_VISION, GAME_MAX_WATCHTOWER_EXTRA_VISION, 
 	  GAME_DEFAULT_WATCHTOWER_EXTRA_VISION)
 
+  GEN_INT("citynames", game.allowed_city_names, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Allowed city names"),
+	  N_("If set to 0, there are no restrictions: players can have "
+	     "multiple cities with the same names. "
+	     "If set to 1, city names have to be unique to a player: "
+	     "one player can't have multiple cities with the same name. "
+	     "If set to 2 or 3, city names have to be globally unique: "
+	     "all cities in a game have to have different names. "
+	     "If set to 3, a player isn't allowed to use a default city name "
+	     "of another nations."),NULL,
+	  GAME_MIN_ALLOWED_CITY_NAMES, GAME_MAX_ALLOWED_CITY_NAMES, 
+	  GAME_DEFAULT_ALLOWED_CITY_NAMES)
+  
 /* Flexible rules: these can be changed after the game has started.
  *
  * The distinction between "rules" and "flexible rules" is not always
