@@ -160,6 +160,15 @@ bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
 {
   struct unit *pdefender;
   pdefender=get_defender(punit, dest_x, dest_y);
+  if (!pdefender) {
+    struct city *pcity = map_get_city(dest_x, dest_y);
+    if (pcity && pplayers_at_war(city_owner(pcity), unit_owner(punit))) {
+      /* empty city, yummy! */
+      return TRUE;
+    }
+    /* nothing to attack */
+    return FALSE;
+  }
   return(can_unit_attack_unit_at_tile(punit, pdefender, dest_x, dest_y));
 }
 
