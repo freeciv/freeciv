@@ -47,10 +47,11 @@ extern int flags_are_transparent;
 extern GdkGC *fill_bg_gc;
 extern GdkGC *civ_gc;
 
+extern GtkStyle *city_dialog_style;
+
 #define NUM_UNITS_SHOWN  12
 #define NUM_CITIZENS_SHOWN 25
 
-#define FIXED_10_BFONT  "-b&h-lucidatypewriter-bold-r-normal-*-10-*-*-*-*-*-*-*"
 
 struct city_dialog {
   struct city *pcity;
@@ -293,7 +294,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   struct city_dialog *pdialog;
   GtkWidget *box, *table, *frame, *vbox, *scrolled;
   GtkAccelGroup *accel=gtk_accel_group_new();
-  GtkStyle *style;
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity=pcity;
@@ -334,14 +334,13 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   
   for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
     pdialog->citizen_boxes[i]=gtk_event_box_new();
-    gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_boxes[i], FALSE, FALSE,0);
-
-    gtk_widget_show(pdialog->citizen_boxes[i]);
-
     gtk_widget_set_events(pdialog->citizen_boxes[i], GDK_BUTTON_PRESS_MASK);
 
-    pdialog->citizen_pixmaps[i]=gtk_pixmap_new(gdk_pixmap_new(root_window,
-	SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT, -1), NULL);
+    gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_boxes[i], FALSE, FALSE,0);
+    gtk_widget_show(pdialog->citizen_boxes[i]);
+
+    pdialog->citizen_pixmaps[i]=
+     gtk_new_pixmap(SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
     gtk_pixmap_set_build_insensitive (GTK_PIXMAP (pdialog->citizen_pixmaps[i]),
 				      FALSE);
     gtk_container_add(GTK_CONTAINER(pdialog->citizen_boxes[i]),
@@ -354,32 +353,27 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   box=gtk_vbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(pdialog->sub_form), box, FALSE, FALSE, 15);
 
-  style=gtk_style_copy (GTK_WIDGET (box)->style);
-  gdk_font_unref (style->font);
-  style->font=gdk_font_load (FIXED_10_BFONT);
-  gdk_font_ref (style->font);
-
   pdialog->production_label=gtk_label_new("\n\n");
   gtk_box_pack_start(GTK_BOX(box),pdialog->production_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->production_label, style);
+  gtk_widget_set_style (pdialog->production_label, city_dialog_style);
   gtk_label_set_justify (GTK_LABEL (pdialog->production_label),
 			 GTK_JUSTIFY_LEFT);
 
   pdialog->output_label=gtk_label_new("\n\n");
   gtk_box_pack_start(GTK_BOX(box),pdialog->output_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->output_label, style);
+  gtk_widget_set_style (pdialog->output_label, city_dialog_style);
   gtk_label_set_justify (GTK_LABEL (pdialog->output_label),
 			 GTK_JUSTIFY_LEFT);
 
   pdialog->storage_label=gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(box),pdialog->storage_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->storage_label, style);
+  gtk_widget_set_style (pdialog->storage_label, city_dialog_style);
   gtk_label_set_justify (GTK_LABEL (pdialog->storage_label),
 			 GTK_JUSTIFY_LEFT);
 
   pdialog->pollution_label=gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(box),pdialog->pollution_label, TRUE, TRUE, 0);
-  gtk_widget_set_style (pdialog->pollution_label, style);
+  gtk_widget_set_style (pdialog->pollution_label, city_dialog_style);
   gtk_label_set_justify (GTK_LABEL (pdialog->pollution_label),
 			 GTK_JUSTIFY_LEFT);
   
@@ -391,13 +385,12 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   gtk_box_pack_start(GTK_BOX(box), frame, TRUE, FALSE, 0);
 
   pdialog->map_canvas=gtk_drawing_area_new();
+  gtk_widget_set_events(pdialog->map_canvas,
+	GDK_EXPOSURE_MASK|GDK_BUTTON_PRESS_MASK);
+
   gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->map_canvas),
 			NORMAL_TILE_WIDTH*5, NORMAL_TILE_HEIGHT*5);
-
-  gtk_widget_set_events(pdialog->map_canvas, GDK_EXPOSURE_MASK
-						|GDK_BUTTON_PRESS_MASK);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->map_canvas);
-  gtk_widget_realize(pdialog->map_canvas);
   
   /* "production queue" vbox */
   box=gtk_vbox_new(FALSE, 5);
@@ -444,12 +437,12 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   for(i=0; i<NUM_UNITS_SHOWN; i++) {
     pdialog->support_unit_boxes[i]=gtk_event_box_new();
+    gtk_widget_set_events(pdialog->support_unit_boxes[i],
+	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
+
     gtk_box_pack_start(GTK_BOX(box), pdialog->support_unit_boxes[i],
 		       TRUE, FALSE, 0);
     gtk_widget_show(pdialog->support_unit_boxes[i]);
-
-    gtk_widget_set_events(pdialog->support_unit_boxes[i],
-	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
 
     pdialog->support_unit_pixmaps[i]=
      gtk_new_pixmap(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT+NORMAL_TILE_HEIGHT/2);
@@ -475,15 +468,15 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   for(i=0; i<NUM_UNITS_SHOWN; i++) {
     pdialog->present_unit_boxes[i]=gtk_event_box_new();
+    gtk_widget_set_events(pdialog->present_unit_boxes[i],
+	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
+
     gtk_box_pack_start(GTK_BOX(box), pdialog->present_unit_boxes[i],
 		       TRUE, FALSE, 0);
     gtk_widget_show(pdialog->present_unit_boxes[i]);
 
-    gtk_widget_set_events(pdialog->present_unit_boxes[i],
-	GDK_BUTTON_PRESS_MASK|GDK_BUTTON_RELEASE_MASK);
-
     pdialog->present_unit_pixmaps[i]=
-      gtk_new_pixmap(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+     gtk_new_pixmap(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
     gtk_container_add(GTK_CONTAINER(pdialog->present_unit_boxes[i]),
 	pdialog->present_unit_pixmaps[i]);
 
@@ -1186,6 +1179,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 				  punit->unhappiness, punit->upkeep);   
 
     gtk_changed_pixmap(pdialog->support_unit_pixmaps[i]);
+
     pdialog->support_unit_ids[i]=punit->id;
 
     gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->support_unit_boxes[i]));
@@ -1793,11 +1787,13 @@ void sell_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void close_city_dialog(struct city_dialog *pdialog)
 {
-  gtk_widget_destroy(pdialog->shell);
+  gtk_widget_hide(pdialog->shell);
   genlist_unlink(&dialog_list, pdialog);
 
   if(pdialog->is_modal)
     gtk_widget_set_sensitive(toplevel, TRUE);
+
+  gtk_widget_destroy(pdialog->shell);
   free(pdialog);
 }
 

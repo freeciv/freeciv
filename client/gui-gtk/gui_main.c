@@ -48,6 +48,7 @@
 #include <options.h>
 
 #define NOTIFY_DIALOG_FONT	"-b&h-lucidatypewriter-bold-r-normal-*-12-*-*-*-*-*-*-*"
+#define FIXED_10_BFONT		"-b&h-lucidatypewriter-bold-r-normal-*-10-*-*-*-*-*-*-*"
 
 /*void file_quit_cmd_callback( GtkWidget *widget, gpointer data )*/
 void game_rates( GtkWidget *widget, gpointer data );
@@ -136,6 +137,7 @@ GtkWidget *	map_horizontal_scrollbar, *map_vertical_scrollbar;
 gint		gdk_input_id;
 
 GtkStyle *	notify_dialog_style;
+GtkStyle *	city_dialog_style;
 
 GdkWindow *	root_window;
 
@@ -419,16 +421,17 @@ void setup_widgets(void)
   gtk_box_pack_start( GTK_BOX( hbox2 ), frame, FALSE, FALSE, 0 );
   
   overview_canvas	      = gtk_drawing_area_new();
-  gtk_container_add( GTK_CONTAINER( frame ), overview_canvas );
+
+  gtk_widget_set_events( overview_canvas, GDK_EXPOSURE_MASK
+        			      | GDK_BUTTON_PRESS_MASK );
+
   gtk_drawing_area_size( GTK_DRAWING_AREA( overview_canvas ), 160, 100 );
+  gtk_container_add( GTK_CONTAINER( frame ), overview_canvas );
 
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "expose_event",
         	      (GtkSignalFunc) overview_canvas_expose, NULL );
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "button_press_event",
         	      (GtkSignalFunc) butt_down_overviewcanvas, NULL );
-  gtk_widget_set_events( overview_canvas, GDK_EXPOSURE_MASK
-        			      | GDK_BUTTON_PRESS_MASK );
-
 
   {   /* Info on player's civilization */
       GtkWidget *vbox4;
@@ -441,9 +444,9 @@ void setup_widgets(void)
       gtk_container_add(GTK_CONTAINER(frame), vbox4);
 /*
       main_label_info_ebox = gtk_event_box_new ();
-      gtk_box_pack_start(GTK_BOX(vbox4), main_label_info_ebox, FALSE, FALSE, 0);
-
       gtk_widget_set_events (main_label_info_ebox, GDK_BUTTON_PRESS_MASK);
+
+      gtk_box_pack_start(GTK_BOX(vbox4), main_label_info_ebox, FALSE, FALSE, 0);
 */
       main_label_info = gtk_label_new("\n\n\n\n");
       gtk_box_pack_start(GTK_BOX(vbox4), main_label_info, FALSE, FALSE, 0);
@@ -469,9 +472,10 @@ void setup_widgets(void)
       for (i=0 ; i<10 ; i++)
       {
           ebox = gtk_event_box_new();
+          gtk_widget_set_events( ebox, GDK_BUTTON_PRESS_MASK );
+
           gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 0, 1);
 
-          gtk_widget_set_events( ebox, GDK_BUTTON_PRESS_MASK );
           gtk_signal_connect( GTK_OBJECT( ebox ), "button_press_event",
               GTK_SIGNAL_FUNC(taxrates_callback), (gpointer)i);
 
@@ -653,10 +657,16 @@ int ui_main(int argc, char **argv)
 
   root_window=toplevel->window;
   init_color_system();
+
   notify_dialog_style=gtk_style_new();
   gdk_font_unref (notify_dialog_style->font);
   notify_dialog_style->font=gdk_font_load (NOTIFY_DIALOG_FONT);
   gdk_font_ref (notify_dialog_style->font);
+
+  city_dialog_style=gtk_style_new();
+  gdk_font_unref (city_dialog_style->font);
+  city_dialog_style->font=gdk_font_load (FIXED_10_BFONT);
+  gdk_font_ref (city_dialog_style->font);
 
   gtk_signal_connect( GTK_OBJECT(toplevel),"delete_event",
       GTK_SIGNAL_FUNC(gtk_main_quit),NULL );
