@@ -29,6 +29,10 @@ darkness_style = 2
 flag_offset_x = 17
 flag_offset_y = 11
 
+; offset the units by this amount when drawing units
+unit_offset_x = 21
+unit_offset_y = 13
+
 ; Hex data.
 is_hex = 1
 is_isometric = 0
@@ -60,7 +64,7 @@ files =
   "isophex/rivers.spec",
   "misc/small.spec",
   "misc/buildings.spec",
-  "isotrident/units.spec",
+  "trident/units.spec",
   "misc/flags.spec",
   "misc/space.spec",
   "misc/treaty.spec",

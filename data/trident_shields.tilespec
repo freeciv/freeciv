@@ -26,14 +26,14 @@ flag_offset_y = 2
 is_mountainous = 0
 
 ; Use fogstyle 0 (old iso style)
-fogstyle = 1
+fogstyle = 2
 
 ; Use roadstyle 1 (old non-iso style)
 roadstyle = 1
 
 ; Use darkness style 3 (15 sprites)
-darkness_style = 3
- 
+darkness_style = 4
+
 ; Font to use to draw city names:
 city_names_font = "9x15bold"
 
