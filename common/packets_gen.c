@@ -21738,7 +21738,7 @@ static int cmp_packet_ruleset_terrain_control_100(const void *vkey1, const void 
   return 0;
 }
 
-BV_DEFINE(packet_ruleset_terrain_control_100_fields, 23);
+BV_DEFINE(packet_ruleset_terrain_control_100_fields, 22);
 
 static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control_100(struct connection *pc, enum packet_type type)
 {
@@ -21762,65 +21762,62 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
     memset(real_packet, 0, sizeof(*real_packet));
   }
 
-  if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->river_style);
-  }
-  real_packet->may_road = BV_ISSET(fields, 1);
-  real_packet->may_irrigate = BV_ISSET(fields, 2);
-  real_packet->may_mine = BV_ISSET(fields, 3);
-  real_packet->may_transform = BV_ISSET(fields, 4);
-  if (BV_ISSET(fields, 5)) {
+  real_packet->may_road = BV_ISSET(fields, 0);
+  real_packet->may_irrigate = BV_ISSET(fields, 1);
+  real_packet->may_mine = BV_ISSET(fields, 2);
+  real_packet->may_transform = BV_ISSET(fields, 3);
+  if (BV_ISSET(fields, 4)) {
     dio_get_uint8(&din, (int *) &real_packet->ocean_reclaim_requirement);
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 5)) {
     dio_get_uint8(&din, (int *) &real_packet->land_channel_requirement);
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_get_uint8(&din, (int *) &real_packet->river_move_mode);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     dio_get_uint16(&din, (int *) &real_packet->river_defense_bonus);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     dio_get_uint16(&din, (int *) &real_packet->river_trade_incr);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
     dio_get_string(&din, real_packet->river_help_text, sizeof(real_packet->river_help_text));
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
     dio_get_uint16(&din, (int *) &real_packet->fortress_defense_bonus);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_uint16(&din, (int *) &real_packet->road_superhighway_trade_bonus);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 12)) {
     dio_get_uint16(&din, (int *) &real_packet->rail_food_bonus);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 13)) {
     dio_get_uint16(&din, (int *) &real_packet->rail_shield_bonus);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     dio_get_uint16(&din, (int *) &real_packet->rail_trade_bonus);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 15)) {
     dio_get_uint16(&din, (int *) &real_packet->farmland_supermarket_food_bonus);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 16)) {
     dio_get_uint16(&din, (int *) &real_packet->pollution_food_penalty);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 17)) {
     dio_get_uint16(&din, (int *) &real_packet->pollution_shield_penalty);
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     dio_get_uint16(&din, (int *) &real_packet->pollution_trade_penalty);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 19)) {
     dio_get_uint16(&din, (int *) &real_packet->fallout_food_penalty);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 20)) {
     dio_get_uint16(&din, (int *) &real_packet->fallout_shield_penalty);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 21)) {
     dio_get_uint16(&din, (int *) &real_packet->fallout_trade_penalty);
   }
 
@@ -21857,97 +21854,93 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->river_style != real_packet->river_style);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
   differ = (old->may_road != real_packet->may_road);
   if(differ) {different++;}
-  if(packet->may_road) {BV_SET(fields, 1);}
+  if(packet->may_road) {BV_SET(fields, 0);}
 
   differ = (old->may_irrigate != real_packet->may_irrigate);
   if(differ) {different++;}
-  if(packet->may_irrigate) {BV_SET(fields, 2);}
+  if(packet->may_irrigate) {BV_SET(fields, 1);}
 
   differ = (old->may_mine != real_packet->may_mine);
   if(differ) {different++;}
-  if(packet->may_mine) {BV_SET(fields, 3);}
+  if(packet->may_mine) {BV_SET(fields, 2);}
 
   differ = (old->may_transform != real_packet->may_transform);
   if(differ) {different++;}
-  if(packet->may_transform) {BV_SET(fields, 4);}
+  if(packet->may_transform) {BV_SET(fields, 3);}
 
   differ = (old->ocean_reclaim_requirement != real_packet->ocean_reclaim_requirement);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
+  if(differ) {BV_SET(fields, 4);}
 
   differ = (old->land_channel_requirement != real_packet->land_channel_requirement);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
+  if(differ) {BV_SET(fields, 5);}
 
   differ = (old->river_move_mode != real_packet->river_move_mode);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 6);}
 
   differ = (old->river_defense_bonus != real_packet->river_defense_bonus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 7);}
 
   differ = (old->river_trade_incr != real_packet->river_trade_incr);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 8);}
 
   differ = (strcmp(old->river_help_text, real_packet->river_help_text) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 9);}
 
   differ = (old->fortress_defense_bonus != real_packet->fortress_defense_bonus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->road_superhighway_trade_bonus != real_packet->road_superhighway_trade_bonus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->rail_food_bonus != real_packet->rail_food_bonus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 12);}
 
   differ = (old->rail_shield_bonus != real_packet->rail_shield_bonus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 13);}
 
   differ = (old->rail_trade_bonus != real_packet->rail_trade_bonus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 14);}
 
   differ = (old->farmland_supermarket_food_bonus != real_packet->farmland_supermarket_food_bonus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->pollution_food_penalty != real_packet->pollution_food_penalty);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 16);}
 
   differ = (old->pollution_shield_penalty != real_packet->pollution_shield_penalty);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->pollution_trade_penalty != real_packet->pollution_trade_penalty);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 18);}
 
   differ = (old->fallout_food_penalty != real_packet->fallout_food_penalty);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 19);}
 
   differ = (old->fallout_shield_penalty != real_packet->fallout_shield_penalty);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 20);}
 
   differ = (old->fallout_trade_penalty != real_packet->fallout_trade_penalty);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 21);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -21955,65 +21948,62 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
 
   DIO_BV_PUT(&dout, fields);
 
-  if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->river_style);
-  }
+  /* field 0 is folded into the header */
   /* field 1 is folded into the header */
   /* field 2 is folded into the header */
   /* field 3 is folded into the header */
-  /* field 4 is folded into the header */
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_uint8(&dout, real_packet->ocean_reclaim_requirement);
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 5)) {
     dio_put_uint8(&dout, real_packet->land_channel_requirement);
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_uint8(&dout, real_packet->river_move_mode);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint16(&dout, real_packet->river_defense_bonus);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_uint16(&dout, real_packet->river_trade_incr);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_string(&dout, real_packet->river_help_text);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_uint16(&dout, real_packet->fortress_defense_bonus);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint16(&dout, real_packet->road_superhighway_trade_bonus);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_uint16(&dout, real_packet->rail_food_bonus);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint16(&dout, real_packet->rail_shield_bonus);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_uint16(&dout, real_packet->rail_trade_bonus);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_uint16(&dout, real_packet->farmland_supermarket_food_bonus);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_uint16(&dout, real_packet->pollution_food_penalty);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 17)) {
     dio_put_uint16(&dout, real_packet->pollution_shield_penalty);
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint16(&dout, real_packet->pollution_trade_penalty);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 19)) {
     dio_put_uint16(&dout, real_packet->fallout_food_penalty);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 20)) {
     dio_put_uint16(&dout, real_packet->fallout_shield_penalty);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 21)) {
     dio_put_uint16(&dout, real_packet->fallout_trade_penalty);
   }
 

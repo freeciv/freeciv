@@ -57,10 +57,8 @@ Used only in global_warming() and nuclear_winter() below.
 **************************************************************************/
 static bool is_terrain_ecologically_wet(int x, int y)
 {
-  return (map_get_terrain(x, y) == T_RIVER
-	  || map_has_special(x, y, S_RIVER)
+  return (map_has_special(x, y, S_RIVER)
 	  || is_ocean_near_tile(x, y)
-	  || is_terrain_near_tile(x, y, T_RIVER)
 	  || is_special_near_tile(x, y, S_RIVER));
 }
 

@@ -15,10 +15,6 @@
 
 #include "shared.h"
 
-enum terrain_river_type {
-  R_AS_TERRAIN=1, R_AS_SPECIAL=2
-};
-
 enum special_river_move {
   RMV_NORMAL=0, RMV_FAST_STRICT=1, RMV_FAST_RELAXED=2, RMV_FAST_ALWAYS=3
 };
@@ -64,9 +60,10 @@ enum tile_special_type {
    | S_FORTRESS             \
    | S_AIRBASE)
 
+/* Changing this breaks savegame and network compatability. */
 enum tile_terrain_type {
   T_ARCTIC, T_DESERT, T_FOREST, T_GRASSLAND, T_HILLS, T_JUNGLE, 
-  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_RIVER, T_SWAMP, T_TUNDRA, T_UNKNOWN,
+  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_UNUSED, T_SWAMP, T_TUNDRA, T_UNKNOWN,
   T_LAST
 };
 #define T_FIRST (T_ARCTIC)
@@ -77,6 +74,7 @@ enum terrain_flag_id {
   TER_NO_BARBS, /* No barbarians summoned on this terrain. */
   TER_NO_POLLUTION, /* This terrain cannot be polluted. */
   TER_STARTER, /* Players will start on this terrain type. */
+  TER_CAN_HAVE_RIVER, /* Terrains with this type can have S_RIVER on them. */
   TER_OCEANIC, /* This is an ocean terrain. */
   TER_LAST
 };
@@ -98,6 +96,7 @@ enum tile_terrain_type get_terrain_by_name(const char * name);
 const char *get_terrain_name(enum tile_terrain_type type);
 enum terrain_flag_id terrain_flag_from_str(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
+enum tile_terrain_type get_flag_terrain(enum terrain_flag_id flag);
 void tile_types_free(void);
 
 /* Functions to operate on a general terrain type. */

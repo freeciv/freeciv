@@ -169,7 +169,6 @@ type SPECIALIST		= uint8(enum specialist_type)
 type DIPLOMAT_ACTION	= uint8(enum diplomat_actions)
 type CMDLEVEL		= uint8(enum cmdlevel_id)
 type PLACE_TYPE		= uint8(enum spaceship_place_type)
-type RIVER_TYPE		= uint8(enum terrain_river_type)
 type RIVER_MOVE		= uint8(enum special_river_move)
 type REPORT_TYPE	= uint8(enum report_type)
 type AUTH_TYPE		= uint8(enum authentication_type)
@@ -1052,7 +1051,6 @@ PACKET_RULESET_GOVERNMENT=100;sc
 end
 
 PACKET_RULESET_TERRAIN_CONTROL=101;sc
-  RIVER_TYPE river_style;
   BOOL may_road;       /* may build roads/railroads */
   BOOL may_irrigate;   /* may build irrigation/farmland */
   BOOL may_mine;       /* may build mines */

@@ -440,8 +440,6 @@ int is_good_tile(int x, int y)
 
   case T_FOREST:
     return (map_get_special(x, y) == S_NO_SPECIAL) ? 3 : 5;
-  case T_RIVER:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 3 : 4;
   case T_GRASSLAND:
   case T_PLAINS:
   case T_HILLS:
@@ -631,7 +629,6 @@ bool is_water_adjacent_to_tile(int x, int y)
 
   ptile = map_get_tile(x, y);
   if (is_ocean(ptile->terrain)
-      || ptile->terrain == T_RIVER
       || tile_has_special(ptile, S_RIVER)
       || tile_has_special(ptile, S_IRRIGATION))
     return TRUE;
@@ -639,7 +636,6 @@ bool is_water_adjacent_to_tile(int x, int y)
   cartesian_adjacent_iterate(x, y, x1, y1) {
     ptile = map_get_tile(x1, y1);
     if (is_ocean(ptile->terrain)
-	|| ptile->terrain == T_RIVER
 	|| tile_has_special(ptile, S_RIVER)
 	|| tile_has_special(ptile, S_IRRIGATION))
       return TRUE;
@@ -932,8 +928,7 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
   if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD))
     return MOVE_COST_ROAD;
 
-  if (((t1->terrain == T_RIVER) && (t2->terrain == T_RIVER)) ||
-      (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER))) {
+  if (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER)) {
     cardinal_move = is_move_cardinal(x1, y1, x2, y2);
     switch (terrain_control.river_move_mode) {
     case RMV_NORMAL:

@@ -1436,13 +1436,6 @@ static void build_tile_data(int map_x, int map_y,
   *tspecial = map_get_special(map_x, map_y);
   *ttype = map_get_terrain(map_x, map_y);
 
-  /* In iso view a river is drawn as an overlay on top of an underlying
-   * grassland terrain. */
-  if (is_isometric && *ttype == T_RIVER) {
-    *ttype = T_GRASSLAND;
-    *tspecial |= S_RIVER;
-  }
-
   /* Loop over all adjacent tiles.  We should have an iterator for this. */
   for (dir = 0; dir < 8; dir++) {
     int x1, y1;
@@ -1451,12 +1444,6 @@ static void build_tile_data(int map_x, int map_y,
 	&& tile_get_known(x1, y1) != TILE_UNKNOWN) {
       tspecial_near[dir] = map_get_special(x1, y1);
       ttype_near[dir] = map_get_terrain(x1, y1);
-
-      /* hacking away the river here... */
-      if (is_isometric && ttype_near[dir] == T_RIVER) {
-	tspecial_near[dir] |= S_RIVER;
-	ttype_near[dir] = T_GRASSLAND;
-      }
     } else {
       /* We draw the edges of the (known) map as if the same terrain just
        * continued off the edge of the map. */
@@ -2181,8 +2168,7 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
       ADD_SPRITE_SIMPLE(sprites.tx.coast_cape[tileno]);
 
     for (dir = 0; dir < 4; dir++) {
-      if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER) ||
-          ttype_near[DIR4_TO_DIR8[dir]] == T_RIVER) {
+      if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
 	ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
       }
     }

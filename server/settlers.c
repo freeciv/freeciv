@@ -533,7 +533,7 @@ static bool is_wet(struct player *pplayer, int x, int y)
   }
 
   t=map_get_terrain(x,y);
-  if (is_ocean(t) || t == T_RIVER) {
+  if (is_ocean(t)) {
     return TRUE;
   }
   s=map_get_special(x,y);
@@ -727,7 +727,7 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
   struct tile *ptile = map_get_tile(mx, my);
 
   if (!is_ocean(ptile->terrain) &&
-      (((ptile->terrain != T_RIVER) && !tile_has_special(ptile, S_RIVER)) ||
+      (!tile_has_special(ptile, S_RIVER) ||
        player_knows_techs_with_flag(pplayer, TF_BRIDGE)) &&
       !tile_has_special(ptile, S_ROAD)) {
     ptile->special|=S_ROAD; /* have to do this to avoid reset_move_costs -- Syela */

@@ -1495,10 +1495,6 @@ static void load_ruleset_terrain(struct section_file *file)
     check_ruleset_capabilities(file, "+1.9", filename);
 
   /* options */
-
-  terrain_control.river_style =
-    secfile_lookup_int_default(file, R_AS_SPECIAL, "options.river_style");
-
   terrain_control.may_road =
     secfile_lookup_bool_default(file, TRUE, "options.may_road");
   terrain_control.may_irrigate =
@@ -2140,7 +2136,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
               /*
                * Note that at this time (before a call to
                * translate_data_names) the terrain_name fields contains an
-               * untranslated string.  Note that name of T_RIVER is "".
+               * untranslated string.  Note that name of T_RIVER_UNUSED is "".
                * However this is not a problem because we take care of rivers
                * separately.
                */

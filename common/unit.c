@@ -690,7 +690,7 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return (terrain_control.may_road &&
 	    unit_flag(punit, F_SETTLERS) &&
 	    !tile_has_special(ptile, S_ROAD) && type->road_time != 0 &&
-	    ((ptile->terrain != T_RIVER && !tile_has_special(ptile, S_RIVER))
+	    (!tile_has_special(ptile, S_RIVER)
 	     || player_knows_techs_with_flag(pplayer, TF_BRIDGE)));
 
   case ACTIVITY_MINE:
@@ -770,7 +770,7 @@ bool can_unit_do_activity_targeted(struct unit *punit,
 	    (tile_has_special(ptile, S_ROAD) ||
 	     (punit->connecting &&
 	      (type->road_time != 0 &&
-	       ((ptile->terrain!=T_RIVER && !tile_has_special(ptile, S_RIVER))
+	       (!tile_has_special(ptile, S_RIVER)
 		|| player_knows_techs_with_flag(pplayer, TF_BRIDGE))))) &&
 	    !tile_has_special(ptile, S_RAILROAD) &&
 	    player_knows_techs_with_flag(pplayer, TF_RAILROAD));

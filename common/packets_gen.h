@@ -819,7 +819,6 @@ struct packet_ruleset_government {
 };
 
 struct packet_ruleset_terrain_control {
-  enum terrain_river_type river_style;
   bool may_road;
   bool may_irrigate;
   bool may_mine;

@@ -2530,7 +2530,6 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 **************************************************************************/
 void handle_ruleset_terrain_control(struct terrain_misc *p)
 {
-  terrain_control.river_style = p->river_style;
   terrain_control.may_road = p->may_road;
   terrain_control.may_irrigate = p->may_irrigate;
   terrain_control.may_mine = p->may_mine;

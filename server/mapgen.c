@@ -325,9 +325,9 @@ static int adjacent_river_tiles4(int x, int y)
   int num_adjacent  = 0;
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) == T_RIVER
-	|| map_has_special(x1, y1, S_RIVER))
+    if (map_has_special(x1, y1, S_RIVER)) {
       num_adjacent++;
+    }
   } cartesian_adjacent_iterate_end;
 
   return num_adjacent;
@@ -711,7 +711,6 @@ static void make_rivers(void)
 	!is_ocean(map_get_terrain(x, y)) &&
 
 	/* Don't start a river on river. */
-	map_get_terrain(x, y) != T_RIVER &&
 	!map_has_special(x, y, S_RIVER) &&
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
@@ -761,11 +760,14 @@ static void make_rivers(void)
       if (make_river(x, y)) {
 	whole_map_iterate(x1, y1) {
 	  if (TEST_BIT(rmap(x1, y1), RS_RIVER)) {
-	    if (terrain_control.river_style == R_AS_TERRAIN) {
-	      map_set_terrain(x1, y1, T_RIVER); /* Civ1 river style. */
-	    } else if (terrain_control.river_style == R_AS_SPECIAL) {
-	      map_set_special(x1, y1, S_RIVER); /* Civ2 river style. */
+	    enum tile_terrain_type t = map_get_terrain(x1, y1);
+
+	    if (!terrain_has_flag(t, TER_CAN_HAVE_RIVER)) {
+	      /* We have to change the terrain to put a river here. */
+	      t = get_flag_terrain(TER_CAN_HAVE_RIVER);
+	      map_set_terrain(x1, y1, t);
 	    }
+	    map_set_special(x1, y1, S_RIVER);
 	    current_riverlength++;
 	    freelog(LOG_DEBUG, "Applied a river to (%d, %d).", x1, y1);
 	  }
@@ -839,14 +841,12 @@ static void make_fair(void)
 {
   whole_map_iterate(map_x, map_y) {
     if (terrain_is_clean(map_x, map_y)) {
-      if (map_get_terrain(map_x, map_y) != T_RIVER
-	  && !map_has_special(map_x, map_y, S_RIVER)) {
+      if (!map_has_special(map_x, map_y, S_RIVER)) {
 	map_set_terrain(map_x, map_y, T_HILLS);
       }
       cartesian_adjacent_iterate(map_x, map_y, x1, y1) {
 	if (myrand(100) > 66
 	    && !is_ocean(map_get_terrain(x1, y1))
-	    && map_get_terrain(x1, y1) != T_RIVER
 	    && !map_has_special(x1, y1, S_RIVER)) {
 	  map_set_terrain(x1, y1, T_HILLS);
 	}
@@ -1287,10 +1287,6 @@ static void adjust_terrain_param(void)
   total = map.mountains + map.deserts + map.forestsize + map.swampsize 
     + map.grasssize;
 
-  if (terrain_control.river_style == R_AS_TERRAIN) {
-    total += map.riverlength;
-  }
-
   if (total != 100 - polar) {
     map.forestsize = map.forestsize * (100 - polar) / total;
     map.swampsize = map.swampsize * (100 - polar) / total;
@@ -1298,10 +1294,6 @@ static void adjust_terrain_param(void)
     map.deserts = map.deserts * (100 - polar) / total;
     map.grasssize = 100 - map.forestsize - map.swampsize - map.mountains 
       - polar - map.deserts;
-    if (terrain_control.river_style == R_AS_TERRAIN) {
-      map.riverlength = map.riverlength * (100 - polar) / total;
-      map.grasssize -= map.riverlength;
-    }
   }
 }
 
@@ -1539,19 +1531,14 @@ static void fill_island(int coast, long int *bucket,
 	     || is_terrain_near_tile(x,y,cold1) 
 	     )
 	   &&( !is_at_coast(x, y) || myrand(100) < coast )) {
-        if (cold1 != T_RIVER) {
-          if (map_pos_is_cold(x, y)) {
-            map_set_terrain(x, y, (myrand(cold0_weight+cold1_weight)<cold0_weight) 
-			    ? cold0 : cold1);
-	  } else {
-            map_set_terrain(x, y, (myrand(warm0_weight+warm1_weight)<warm0_weight) 
-			    ? warm0 : warm1);
-	  }
-        } else {
-          if (is_water_adjacent_to_tile(x, y) &&
-	      count_ocean_near_tile(x, y) < 4 &&
-	      count_terrain_near_tile(x, y, T_RIVER) < 3)
-	    map_set_terrain(x, y, T_RIVER);
+	if (map_pos_is_cold(x, y)) {
+	  map_set_terrain(x, y, (myrand(cold0_weight
+					+ cold1_weight) < cold0_weight) 
+			  ? cold0 : cold1);
+	} else {
+	  map_set_terrain(x, y, (myrand(warm0_weight
+					+ warm1_weight) < warm0_weight) 
+			  ? warm0 : warm1);
 	}
       }
       if (map_get_terrain(x,y) != T_GRASSLAND) i--;
@@ -1560,7 +1547,7 @@ static void fill_island(int coast, long int *bucket,
 }
 
 /**************************************************************************
-  fill an island with rivers, when river style is R_AS_SPECIAL
+  fill an island with rivers
 **************************************************************************/
 static void fill_island_rivers(int coast, long int *bucket,
 			       const struct gen234_state *const pstate)
@@ -1854,17 +1841,10 @@ static bool make_island(int islemass, int starters,
 	    islemass, i, balance, checkmass);
 
     i *= tilefactor;
-    if (terrain_control.river_style==R_AS_TERRAIN) {
-      riverbuck += map.riverlength * i;
-      fill_island(1, &riverbuck,
-		  1,1,1,1,
-		  T_RIVER, T_RIVER, T_RIVER, T_RIVER, 
-		  pstate);
-    }
-    if (terrain_control.river_style==R_AS_SPECIAL) {
-      riverbuck += map.riverlength * i;
-      fill_island_rivers(1, &riverbuck, pstate);
-    }
+
+    riverbuck += map.riverlength * i;
+    fill_island_rivers(1, &riverbuck, pstate);
+
     mountbuck += map.mountains * i;
     fill_island(20, &mountbuck,
 		3,1, 3,1,

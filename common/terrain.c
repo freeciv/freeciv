@@ -16,6 +16,7 @@
 #endif
 
 #include "map.h"
+#include "rand.h"
 #include "shared.h"
 #include "support.h"
 #include "terrain.h"
@@ -65,6 +66,7 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
     "NoBarbs",
     "NoPollution",
     "Starter",
+    "CanHaveRiver",
     "Oceanic"
   };
 
@@ -77,6 +79,34 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
   }
 
   return TER_LAST;
+}
+
+/****************************************************************************
+  Return a random terrain that has the specified flag.
+****************************************************************************/
+enum tile_terrain_type get_flag_terrain(enum terrain_flag_id flag)
+{
+  bool has_flag[T_COUNT];
+  int count = 0;
+
+  terrain_type_iterate(t) {
+    if ((has_flag[t] = terrain_has_flag(t, flag))) {
+      count++;
+    }
+  } terrain_type_iterate_end;
+
+  count = myrand(count);
+  terrain_type_iterate(t) {
+    if (has_flag[t]) {
+      if (count == 0) {
+       return t;
+      }
+      count--;
+    }
+  } terrain_type_iterate_end;
+
+  die("Reached end of get_flag_terrain!");
+  return T_LAST;
 }
 
 /****************************************************************************
