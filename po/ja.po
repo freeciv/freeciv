@@ -18,9 +18,9 @@
 # メールをお待ちしています。(澤田)
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.13.1-devel\n"
+"Project-Id-Version: Freeciv 1.14.1-devel\n"
 "POT-Creation-Date: 2002-10-12 01:15+0200\n"
-"PO-Revision-Date: 2002-10-27 15:14-0800\n"
+"PO-Revision-Date: 2002-10-28 02:12-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -3067,7 +3067,7 @@ msgstr ""
 
 #: server/stdinhand.c:484
 msgid "Number of turns between rapture effect"
-msgstr ""
+msgstr "歓喜を得るまでのターン数"
 
 #: server/stdinhand.c:485
 msgid ""
@@ -3176,7 +3176,7 @@ msgstr ""
 
 #: server/stdinhand.c:552
 msgid "Allowed city names"
-msgstr ""
+msgstr "都市名の許可"
 
 #: server/stdinhand.c:553
 msgid ""
@@ -3186,7 +3186,7 @@ msgid ""
 "city names have to be globally unique: all cities in a game have to have "
 "different names. If set to 3, a player isn't allowed to use a default city "
 "name of another nations."
-msgstr ""
+msgstr "0 に設定したら、制限はありません。つまり、プレイヤーは同じ名前を複数の都市に付けることができます。 1 に設定したら、都市名はプレイヤーでユニークでなければなりません。つまり、あるプレイヤーは同じ名前を複数の都市に付けることはできません。 2 か 3 に設定したら、都市名は世界的にユニークでなければなりません。つまり、ゲーム中の全ての都市は違う名前を持つことになります。 3 に設定したら、プレイヤーは他の国家のデフォルトの都市名を使うことはできません。"
 
 #: server/stdinhand.c:579
 msgid "Barbarian appearance frequency"
@@ -3734,7 +3734,7 @@ msgstr "fix <オプション名>"
 
 #: server/stdinhand.c:1077
 msgid "Make server option unchangeable during game."
-msgstr ""
+msgstr "ゲーム中のサーバ・オプション変更を不可能にします。"
 
 #: server/stdinhand.c:1080
 msgid "unfix <option-name>"
@@ -3742,7 +3742,7 @@ msgstr "unfix <オプション名>"
 
 #: server/stdinhand.c:1081
 msgid "Make server option changeable during game."
-msgstr ""
+msgstr "ゲーム中のサーバ・オプション変更を可能にします。"
 
 #: server/stdinhand.c:1084
 msgid "rulesetdir <directory>"
@@ -4559,12 +4559,12 @@ msgstr ""
 #: server/stdinhand.c:2870
 #, c-format
 msgid "Option: '%s' now cannot be modified after the game has started."
-msgstr ""
+msgstr "オプション: '%s' は今ではゲーム開始後の修正が不可能になりました。"
 
 #: server/stdinhand.c:2876
 #, c-format
 msgid "Option: '%s' may now be modified after the game has started."
-msgstr ""
+msgstr "オプション: '%s' は今ではゲーム開始後の修正が可能です。"
 
 #: server/stdinhand.c:2891
 msgid "Usage: load <filename>"
@@ -6254,7 +6254,7 @@ msgstr "Alt/Meta でアクセラレータ(GTKのみ)"
 
 #: client/options.c:109
 msgid "Show Map Scrollbars (GTK only)"
-msgstr ""
+msgstr "地図のスクロールバーを表示(GTKのみ)"
 
 #: client/options.c:176
 msgid "City: Building Unavailable Item"
@@ -6700,23 +6700,23 @@ msgstr "\"%s\" を開けません。"
 #: client/tilespec.c:252
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
-msgstr ""
+msgstr "クライアントは等角タイルセットをサポートしていません。かわりにデフォルトのタイルセットを使います。"
 
 #: client/tilespec.c:261
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
-msgstr ""
+msgstr "クライアントは頭上ビュー・タイルセットをサポートしていません。かわりにデフォルトタイルセットを使います。"
 
 #: client/tilespec.c:370
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
-msgstr ""
+msgstr "スペックファイル %s 用のグラフィックスファイルがロードできません"
 
 #: client/agents/cma_core.c:640
 #, c-format
 msgid "CMA: You lost control of %s. Detaching from city."
-msgstr ""
+msgstr "CMA: %s の管理を失ないました。都市を切り離しています。"
 
 #: client/agents/cma_core.c:1789
 #, c-format
