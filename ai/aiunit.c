@@ -1097,13 +1097,15 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
   if (!(dest_x == x && dest_y == y)) {
 
 /* do we require protection? */
-    d_val = stack_attack_value(dest_x, dest_y) * 30;
+    d_val = stack_attack_value(dest_x, dest_y);
     if ((dcity = map_get_city(dest_x, dest_y))) {
       d_type = ai_choose_defender_versus(dcity, punit->type);
-      d_val += base_get_attack_power(d_type,
-				     do_make_unit_veteran(dcity, d_type),
-				     SINGLE_MOVE) * unit_types[d_type].hp;
+      d_val += 
+	base_unit_belligerence_primitive(d_type, 
+                                         do_make_unit_veteran(dcity, d_type), 
+                                         SINGLE_MOVE, unit_types[d_type].hp);
     }
+    d_val *= POWER_DIVIDER;
     d_val /= (unit_type(punit)->move_rate / SINGLE_MOVE);
     if (unit_flag(punit, F_IGTER)) d_val /= 1.5;
     freelog(LOG_DEBUG,
@@ -1114,7 +1116,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
     ptile = map_get_tile(punit->x, punit->y);
     if (d_val >= punit->hp * (punit->veteran ? 15 : 10) *
                 unit_type(punit)->defense_strength) {
-/*      if (!unit_list_find(&pplayer->units, punit->ai.bodyguard))      Ugggggh */
+/*      if (!unit_list_find(&pplayer->units, punit->ai.bodyguard))   Ugggggh */
       if (!unit_list_find(&ptile->units, punit->ai.bodyguard))
         punit->ai.bodyguard = -1;
     } else if (!unit_list_find(&ptile->units, punit->ai.bodyguard))
