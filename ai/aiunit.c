@@ -1844,7 +1844,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     /* Nothing else to do, so try exploring. */
     if (ai_manage_explorer(punit)) {
       UNIT_LOG(LOG_DEBUG, punit, "nothing else to do, so exploring");
-    } else {
+    } else if (find_unit_by_id(id)) {
       UNIT_LOG(LOG_DEBUG, punit, "nothing to do - no more exploring either");
     }
   } else {
