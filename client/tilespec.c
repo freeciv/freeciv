@@ -128,6 +128,8 @@ struct named_sprites {
       *unworked_tile;
   } mask;
 
+  struct sprite *tech[A_LAST];
+
   struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
      * sprites, as defined by the tileset. */
@@ -2248,7 +2250,7 @@ void tileset_setup_impr_type(struct tileset *t, int id)
 void tileset_setup_tech_type(struct tileset *t, int id)
 {
   if (tech_exists(id)) {
-    advances[id].sprite
+    t->sprites.tech[id]
       = lookup_sprite_tag_alt(t, advances[id].graphic_str,
 			      advances[id].graphic_alt,
 			      FALSE, "tech_type",
@@ -2256,7 +2258,7 @@ void tileset_setup_tech_type(struct tileset *t, int id)
 
     /* should maybe do something if NULL, eg generic default? */
   } else {
-    advances[id].sprite = NULL;
+    t->sprites.tech[id] = NULL;
   }
 }
 
@@ -4231,6 +4233,18 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      const struct nation_type *nation)
 {
   return nation ? nation->flag_sprite : NULL;
+}
+
+/**************************************************************************
+  Return the sprite for the technology/advance.
+**************************************************************************/
+struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech)
+{
+  if (tech <= 0 || tech >= game.num_tech_types) {
+    assert(0);
+    return NULL;
+  }
+  return t->sprites.tech[tech];
 }
 
 /**************************************************************************
