@@ -132,6 +132,10 @@ int main(int argc, char *argv[])
 
   /* no  we don't use GNU's getopt or even the "standard" getopt */
   /* yes we do have reasons ;)                                   */
+  
+  printf("This is the %s server\n",FREECIV_NAME_VERSION);
+  printf("You can learn a lot about Freeciv at %s\n",SITE);
+
   i=1;
   while(i<argc) {
     if(!strcmp("-f", argv[i]) || !strcmp("--file", argv[i])) { 
@@ -220,7 +224,6 @@ int main(int argc, char *argv[])
   }
     
   if(h) {
-    fprintf(stderr, "This is the Freeciv server\n");
     fprintf(stderr, "  -f, --file F\t\t\tLoad saved game F\n");
     fprintf(stderr, "  -g, --gamelog F\t\tUse F as game logfile\n");
     fprintf(stderr, "  -h, --help\t\t\tPrint a summary of the options\n");
@@ -246,7 +249,6 @@ int main(int argc, char *argv[])
   gamelog_set_level(GAMELOG_FULL);
   gamelog(GAMELOG_NORMAL,"Starting new log");
   
-  printf(FREECIV_NAME_VERSION " server\n");
 #if IS_BETA_VERSION
   printf("Freeciv 1.8 will be released second week of March at http://www.freeciv.org\n");
 #endif

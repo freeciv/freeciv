@@ -14,6 +14,7 @@
 #undef PACKAGE
 #undef VERSION
 #undef MAILING_LIST
+#undef SITE
 #undef MAJOR_VERSION
 #undef MINOR_VERSION
 #undef PATCH_VERSION
