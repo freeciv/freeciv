@@ -1334,12 +1334,6 @@ Works as if you had a Hydro Plant in every city\
  on the same continent where the wonder is built. \
  (This reduces pollution and increases the effects of\
  Factories and Mfg. Plants.)\
-\n\n\
-Like a Hydro Plant, the Hoover Dam can only be built in a city\
- which is next to (or on) a Mountain or River tile.  However, its\
- effect is applicable to all cities in your civilization\
- on the same continent, regardless of whether the other cities\
- are next to, or on, a Mountain or River tile.\
 ")
 
 [building_isaac_newtons_college]

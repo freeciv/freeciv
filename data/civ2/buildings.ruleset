@@ -1318,11 +1318,6 @@ effect		=
 helptext	= _("\
 Works as if you had a Hydro Plant in every city.  (This reduces\
  pollution and increases the effects of Factories and Mfg. Plants.)\
-\n\n\
-Like a Hydro Plant, the Hoover Dam can only be built in a city\
- which is next to (or on) a Mountain or River tile.  However, its\
- effect is applicable to the whole of your civilization (regardless\
- of whether a city is next to, or on, a Mountain or River tile).\
 ")
 
 [building_isaac_newtons_college]
