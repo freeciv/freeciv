@@ -370,6 +370,13 @@ int city_refresh(struct city *pcity)
   return (city_happy(pcity) && pcity->was_happy);
 }
 
+void global_city_refresh(struct player *pplayer)
+{ /* called on government change or wonder completion or stuff like that -- Syela */
+  city_list_iterate(pplayer->cities, pcity)
+    city_refresh(pcity);
+  city_list_iterate_end;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
