@@ -494,6 +494,9 @@ void tilespec_reread(const char *tileset_name)
   tileset_changed();
   can_slide = FALSE;
   center_tile_mapcanvas(center_tile);
+  /* update_map_cavnas_visible forces a full redraw.  Otherwise with fast
+   * drawing we might not get one.  Of course this is slower. */
+  update_map_canvas_visible();
   can_slide = TRUE;
 }
 
