@@ -81,20 +81,9 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
 
 
 /* This the way directional indices are now encoded: */
-#define NUM_DIRECTION_NSEW 		16
 #define MAX_INDEX_CARDINAL 		64
 #define MAX_INDEX_HALF                  16
 #define MAX_INDEX_VALID			256
-
-#define BIT_NORTH (0x01)
-#define BIT_SOUTH (0x02)
-#define BIT_EAST  (0x04)
-#define BIT_WEST  (0x08)
-
-#define INDEX_NSEW(n,s,e,w) (((n) ? BIT_NORTH : 0) | \
-                             ((s) ? BIT_SOUTH : 0) | \
-                             ((e) ? BIT_EAST  : 0) | \
-                             ((w) ? BIT_WEST  : 0))
 
 #define NUM_TILES_PROGRESS 8
 #define NUM_TILES_CITIZEN CITIZEN_LAST
@@ -253,7 +242,7 @@ struct named_sprites {
       *fallout,
       *fog,
       *spec_river[MAX_INDEX_CARDINAL],
-      *darkness[NUM_DIRECTION_NSEW],         /* first unused */
+      *darkness[MAX_INDEX_CARDINAL],         /* first unused */
       *river_outlet[4];		/* indexed by enum direction4 */
   } tx;				/* terrain extra */
 

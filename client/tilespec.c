@@ -101,19 +101,19 @@ static struct {
 /* Darkness style.  Don't reorder this enum since tilesets depend on it. */
 static enum {
   /* No darkness sprites are drawn. */
-  DARKNESS0 = 0,
+  DARKNESS_NONE = 0,
 
   /* 1 sprite that is split into 4 parts and treated as a darkness4.  Only
    * works in iso-view. */
-  DARKNESS1 = 1,
+  DARKNESS_ISORECT = 1,
 
   /* 4 sprites, one per direction.  More than one sprite per tile may be
    * drawn. */
-  DARKNESS4 = 2,
+  DARKNESS_CARD_SINGLE = 2,
 
   /* 15=2^4-1 sprites.  A single sprite is drawn, chosen based on whether
    * there's darkness in _each_ of the cardinal directions. */
-  DARKNESS15 = 3
+  DARKNESS_CARD_FULL = 3
 } darkness_style;
 
 struct specfile;
@@ -841,9 +841,10 @@ bool tilespec_read_toplevel(const char *tileset_name)
   roadstyle = secfile_lookup_int_default(file, is_isometric ? 0 : 1,
 					 "tilespec.roadstyle");
   darkness_style = secfile_lookup_int(file, "tilespec.darkness_style");
-  if (darkness_style < DARKNESS0
-      || darkness_style > DARKNESS15
-      || (darkness_style == DARKNESS1 && !is_isometric)) {
+  if (darkness_style < DARKNESS_NONE
+      || darkness_style > DARKNESS_CARD_FULL
+      || (darkness_style == DARKNESS_ISORECT
+	  && (!is_isometric || hex_width > 0 || hex_height > 0))) {
     freelog(LOG_FATAL, _("Invalid darkness style set in tileset."));
     exit(EXIT_FAILURE);
   }
@@ -1076,25 +1077,12 @@ static const char *get_citizen_name(struct citizen_type citizen)
   return NULL;
 }
 
-/**********************************************************************
-  Return string n0s0e0w0 such that INDEX_NSEW(n,s,e,w) = idx
-  The returned string is pointer to static memory.
-***********************************************************************/
-static char *nsew_str(int idx)
-{
-  static char c[9]; /* strlen("n0s0e0w0") + 1 == 9 */
-
-  sprintf(c, "n%ds%de%dw%d", BOOL_VAL(idx&BIT_NORTH), BOOL_VAL(idx&BIT_SOUTH),
-     	                     BOOL_VAL(idx&BIT_EAST),  BOOL_VAL(idx&BIT_WEST));
-  return c;
-}
-
 /****************************************************************************
   Return a directional string for the cardinal directions.  Normally the
   binary value 1000 will be converted into "n1e0s0w0".  This is in a
   clockwise ordering.
 ****************************************************************************/
-static const char *cardinal_str(int idx)
+static const char *cardinal_index_str(int idx)
 {
   static char c[64];
   int i;
@@ -1438,7 +1426,8 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.fog,        "tx.fog");
 
   for (i = 0; i < num_index_cardinal; i++) {
-    my_snprintf(buffer, sizeof(buffer), "tx.s_river_%s", cardinal_str(i));
+    my_snprintf(buffer, sizeof(buffer), "tx.s_river_%s",
+		cardinal_index_str(i));
     SET_SPRITE(tx.spec_river[i], buffer);
   }
 
@@ -1447,19 +1436,20 @@ static void tilespec_lookup_sprite_tags(void)
    * graphics. */
   for (i = 0; i < num_index_cardinal; i++) {
     my_snprintf(buffer, sizeof(buffer), "tx.s_irrigation_%s",
-		cardinal_str(i));
+		cardinal_index_str(i));
     SET_SPRITE_ALT(tx.irrigation[i], buffer, "tx.irrigation");
   }
   for (i = 0; i < num_index_cardinal; i++) {
-    my_snprintf(buffer, sizeof(buffer), "tx.s_farmland_%s", cardinal_str(i));
+    my_snprintf(buffer, sizeof(buffer), "tx.s_farmland_%s",
+		cardinal_index_str(i));
     SET_SPRITE_ALT(tx.farmland[i], buffer, "tx.farmland");
   }
 
   switch (darkness_style) {
-  case DARKNESS0:
+  case DARKNESS_NONE:
     /* Nothing. */
     break;
-  case DARKNESS1:
+  case DARKNESS_ISORECT:
     {
       /* Isometric: take a single tx.darkness tile and split it into 4. */
       struct Sprite *darkness = load_sprite("tx.darkness");
@@ -1473,16 +1463,19 @@ static void tilespec_lookup_sprite_tags(void)
       }
     }
     break;
-  case DARKNESS4:
-    for (i = 0; i < 4; i++) {
+  case DARKNESS_CARD_SINGLE:
+    for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+      enum direction8 dir = cardinal_tileset_dirs[i];
+
       my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s",
-		  dir_get_name(DIR4_TO_DIR8[i]));
+		  dir_get_tileset_name(dir));
       SET_SPRITE(tx.darkness[i], buffer);
     }
     break;
-  case DARKNESS15:
-    for(i = 1; i < NUM_DIRECTION_NSEW; i++) {
-      my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s", nsew_str(i));
+  case DARKNESS_CARD_FULL:
+    for(i = 1; i < num_index_cardinal; i++) {
+      my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s",
+		  cardinal_index_str(i));
       SET_SPRITE(tx.darkness[i], buffer);
     }
     break;
@@ -1628,7 +1621,7 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 	/* Load 16 cardinally-matched sprites. */
 	for (i = 0; i < num_index_cardinal; i++) {
 	  my_snprintf(buffer1, sizeof(buffer1),
-		      "t.%s_%s", draw->name, cardinal_str(i));
+		      "t.%s_%s", draw->name, cardinal_index_str(i));
 	  draw->layer[l].match[i] = lookup_sprite_tag_alt(buffer1, "", TRUE,
 							  "tile_type",
 							  tt->terrain_name);
@@ -2436,7 +2429,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   struct tile *ptile = map_get_tile(map_x, map_y);
   enum tile_terrain_type ttype = ptile->terrain;
   struct terrain_drawing_data *draw = sprites.terrain[ttype];
-  int l, dir, adjc_x, adjc_y;
+  int l, adjc_x, adjc_y, i, tileno;
 
   if (!draw_terrain) {
     return 0;
@@ -2459,8 +2452,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
        ? sprites.terrain[ttype_near[(dir)]]->layer[l].match_type : -1)
 
       if (draw->layer[l].cell_type == CELL_SINGLE) {
-	int tileno = 0, i;
-
+	tileno = 0;
 	assert(draw->layer[l].match_style == MATCH_BOOLEAN);
 	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
 	  enum direction8 dir = cardinal_tileset_dirs[i];
@@ -2540,43 +2532,45 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
      * drawn, even in citymode, etc. */
     if (l == 0) {
 #define UNKNOWN(dir)                                        \
-  (MAPSTEP(adjc_x, adjc_y, map_x, map_y, DIR4_TO_DIR8[dir]) \
-   && tile_get_known(adjc_x, adjc_y) == TILE_UNKNOWN)
+      (MAPSTEP(adjc_x, adjc_y, map_x, map_y, (dir))	    \
+       && tile_get_known(adjc_x, adjc_y) == TILE_UNKNOWN)
 
       switch (darkness_style) {
-      case DARKNESS0:
+      case DARKNESS_NONE:
 	break;
-      case DARKNESS1:
-	for (dir = 0; dir < 4; dir++) {
+      case DARKNESS_ISORECT:
+	for (i = 0; i < 4; i++) {
 	  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
 	  int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
-	  if (UNKNOWN(dir)) {
-	    ADD_SPRITE(sprites.tx.darkness[dir], DRAW_NORMAL, TRUE,
-		       offsets[dir][0], offsets[dir][1]);
+	  if (UNKNOWN(DIR4_TO_DIR8[i])) {
+	    ADD_SPRITE(sprites.tx.darkness[i], DRAW_NORMAL, TRUE,
+		       offsets[i][0], offsets[i][1]);
 	  }
 	}
 	break;
-      case DARKNESS4:
-	for (dir = 0; dir < 4; dir++) {
-	  if (UNKNOWN(dir)) {
-	    ADD_SPRITE_SIMPLE(sprites.tx.darkness[dir]);
+      case DARKNESS_CARD_SINGLE:
+	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	  if (UNKNOWN(cardinal_tileset_dirs[i])) {
+	    ADD_SPRITE_SIMPLE(sprites.tx.darkness[i]);
 	  }
 	}
 	break;
-      case DARKNESS15:
+      case DARKNESS_CARD_FULL:
 	/* We're looking to find the INDEX_NSEW for the directions that
 	 * are unknown.  We want to mark unknown tiles so that an unreal
 	 * tile will be given the same marking as our current tile - that
 	 * way we won't get the "unknown" dither along the edge of the
 	 * map. */
-	{
-	  int tileno = INDEX_NSEW(UNKNOWN(DIR4_NORTH), UNKNOWN(DIR4_SOUTH),
-				  UNKNOWN(DIR4_EAST), UNKNOWN(DIR4_WEST));
-
-	  if (tileno != 0) {
-	    ADD_SPRITE_SIMPLE(sprites.tx.darkness[tileno]);
+	tileno = 0;
+	for (i = 0; i < num_cardinal_tileset_dirs; i++) {
+	  if (UNKNOWN(cardinal_tileset_dirs[i])) {
+	    tileno |= 1 << i;
 	  }
+	}
+
+	if (tileno != 0) {
+	  ADD_SPRITE_SIMPLE(sprites.tx.darkness[tileno]);
 	}
 	break;
       }
