@@ -1846,7 +1846,7 @@ int is_ai_simple_military(int type)
  */
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 {
-  int i, x, y, bribe, handicap, has_emb, continent, dist, rmd, oic, did;
+  int i, x, y, handicap, has_emb, continent, dist, rmd, oic, did;
   struct packet_unit_request req;
   struct packet_diplomat_action dact;
   struct city *pcity, *ctarget;
@@ -1880,8 +1880,9 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 	  /* A lone trespasser! Seize him! -AJS */
 	  ptile=map_get_tile(pcity->x+x, pcity->y+y);
 	  ptres = unit_list_get(&ptile->units, 0);
-	  bribe=unit_bribe_cost (ptres);
-	  if ( bribe < (pplayer->economic.gold-pplayer->ai.est_upkeep)) {
+	  ptres->bribe_cost=unit_bribe_cost (ptres);
+	  if ( ptres->bribe_cost <
+	       (pplayer->economic.gold-pplayer->ai.est_upkeep)) {
 	    dact.diplomat_id=pdiplomat->id;
 	    dact.target_id=ptres->id;
 	    dact.action_type=DIPLOMAT_BRIBE;
