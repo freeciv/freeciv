@@ -214,7 +214,7 @@ if test x$client != xno; then
 
   dnl Gtk-specific overrides
   if test "$client" = gtk || test "$client" = yes ; then
-    AM_PATH_GTK(1.2.1, gtk_found="yes", gtk_found="", imlib_found="")
+    AM_PATH_GTK(1.2.5, gtk_found="yes", gtk_found="", imlib_found="")
     if test "x$gtk_found" = "xyes"; then
       AM_PATH_GDK_IMLIB(1.9.2, imlib_found="yes", imlib_found="")
       if test "x$imlib_found" = "xyes"; then

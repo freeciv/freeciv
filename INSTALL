@@ -158,7 +158,7 @@ will need to have the appropriate "development" packages installed.
    an abstraction layer over X Windows to implement basic drawing functions,
    windows, clipping, etc.
 
-   Freeciv requires a version of "Gtk+" greater or equal to 1.2.1.
+   Freeciv requires a version of "Gtk+" greater or equal to 1.2.5.
 
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
