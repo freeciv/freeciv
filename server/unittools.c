@@ -680,37 +680,43 @@ static int total_activity_targeted(int x, int y, enum unit_activity act,
   For each city adjacent to (x,y), check if landlocked.  If so, sell all
   improvements in the city that depend upon being next to an ocean tile.
   (Should be called after any ocean to land terrain changes.
-   Assumes no city at (x,y).)
+  Assumes no city at (x,y).)
+
+  N.B. Now uses info from buildings.ruleset to decide which buildings
+  to sell. In theory this could (should?) be generalised to sell
+  relevant buildings after any change of terrain/special type 
 **************************************************************************/
 static void city_landlocked_sell_coastal_improvements(int x, int y)
 {
-  /* FIXME: this should come from buildings.ruleset */
-  static int coastal_improvements[] =
-  {
-    B_HARBOUR,
-    B_PORT,
-    B_COASTAL,
-    B_OFFSHORE
-  };
-
-#define coastal_improvements_count ARRAY_SIZE(coastal_improvements)
-
   adjc_iterate(x, y, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
+
     if (pcity && !is_terrain_near_tile(x1, y1, T_OCEAN)) {
       struct player *pplayer = city_owner(pcity);
-      int k;
-      for (k=0; k<coastal_improvements_count; k++) {
-	if (city_got_building(pcity, coastal_improvements[k])) {
-	  do_sell_building(pplayer, pcity, coastal_improvements[k]);
+
+      /* Sell all buildings (but not Wonders) that must be next to the ocean */
+      built_impr_iterate(pcity, impr) {
+        int i = 0;
+
+        if (is_wonder(impr)) {
+          continue;
+        }
+
+        while (improvement_types[impr].terr_gate[i] != T_OCEAN
+               && improvement_types[impr].terr_gate[i] != T_LAST) {
+          i++;
+        }
+
+        if (improvement_types[impr].terr_gate[i] == T_OCEAN
+            && !city_has_terr_spec_gate(pcity, impr)) {
+	  do_sell_building(pplayer, pcity, impr);
 	  notify_player_ex(pplayer, x1, y1, E_IMP_SOLD,
 			   _("Game: You sell %s in %s (now landlocked)"
 			     " for %d gold."),
-			   get_improvement_name(coastal_improvements[k]),
-			   pcity->name,
-			   improvement_value(coastal_improvements[k]));
+			   get_improvement_name(impr), pcity->name,
+			   improvement_value(impr));
 	}
-      }
+      } built_impr_iterate_end;
     }
   } adjc_iterate_end;
 }
