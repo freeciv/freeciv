@@ -582,16 +582,42 @@ bool city_building_present(struct city *pcity, cid cid)
 }
 
 /**************************************************************************
+  Return the numerical "section" of an item.  This is used for sorting.
+**************************************************************************/
+static int cid_get_section(cid cid)
+{
+  bool is_unit = cid_is_unit(cid);
+  int id = cid_id(cid);
+
+  if (is_unit) {
+    if (unit_type_flag(id, F_NONMIL)) {
+      return 2;
+    } else {
+      return 3;
+    }
+  } else {
+    if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
+      return 1;
+    } else if (is_great_wonder(id)) {
+      return 4;
+    } else {
+      return 0;
+    }
+  }
+}
+
+/**************************************************************************
  Helper for name_and_sort_items.
 **************************************************************************/
 static int my_cmp(const void *p1, const void *p2)
 {
-  const struct item *i1 = (const struct item *) p1;
-  const struct item *i2 = (const struct item *) p2;
+  const struct item *i1 = p1, *i2 = p2;
+  int s1 = cid_get_section(i1->cid), s2 = cid_get_section(i2->cid);
 
-  if (i1->section == i2->section)
+  if (s1 == s2) {
     return mystrcasecmp(i1->descr, i2->descr);
-  return (i1->section - i2->section);
+  }
+  return s1 - s2;
 }
 
 /**************************************************************************
@@ -620,19 +646,12 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
     if (is_unit) {
       name = get_unit_name(id);
       cost = unit_build_shield_cost(id);
-      pitem->section = unit_type_flag(id, F_NONMIL) ? 2 : 3;
     } else {
       name = get_impr_name_ex(pcity, id);
       if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
 	cost = -1;
-	pitem->section = 1;
       } else {
 	cost = impr_build_shield_cost(id);
-	if (is_great_wonder(id)) {
-      	  pitem->section = 4;
-        } else {
-	  pitem->section = 0;
-	}
       }
     }
 

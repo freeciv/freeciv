@@ -83,9 +83,6 @@ bool city_building_present(struct city *pcity, cid cid);
 struct item {
   cid cid;
   char descr[MAX_LEN_NAME + 40];
-
-  /* Privately used for sorting */
-  int section;
 };
 
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
