@@ -49,7 +49,7 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_find_dialog(void)
 {
-  GtkWidget         *label;
+  GtkWidget         *shell, *label;
   GtkWidget         *sw;
   GtkListStore      *store;
   GtkTreeSelection  *selection;
@@ -63,29 +63,23 @@ void popup_find_dialog(void)
 
   get_center_tile_mapcanvas(&pos_x, &pos_y);
 
-  find_dialog_shell = gtk_dialog_new_with_buttons(_("Find City"),
+  shell = gtk_dialog_new_with_buttons(_("Find City"),
   	GTK_WINDOW(toplevel),
 	0,
 	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_REJECT,
+	GTK_RESPONSE_CANCEL,
 	GTK_STOCK_FIND,
 	GTK_RESPONSE_ACCEPT,
 	NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(find_dialog_shell),
+  find_dialog_shell = shell;
+  gtk_dialog_set_default_response(GTK_DIALOG(shell),
 	GTK_RESPONSE_ACCEPT);
-  gtk_window_set_position(GTK_WINDOW(find_dialog_shell), GTK_WIN_POS_MOUSE);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
-  g_signal_connect(find_dialog_shell, "response",
+  g_signal_connect(shell, "response",
 		   G_CALLBACK(find_command_callback), NULL);
-  g_signal_connect(find_dialog_shell, "destroy",
+  g_signal_connect(shell, "destroy",
 		   G_CALLBACK(find_destroy_callback), NULL);
-
-  label = gtk_widget_new(GTK_TYPE_FRAME,
-			 "GtkFrame::label", _("Select a city:"),
-			 "GtkWidget::parent",
-			   GTK_DIALOG(find_dialog_shell)->vbox,
-			 "GtkWidget::visible", TRUE,
-			 NULL);
 
   store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
@@ -104,12 +98,21 @@ void popup_find_dialog(void)
   gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(sw), find_view);
-
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                           GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize(sw, -1, 200);
-  gtk_container_add(GTK_CONTAINER(label), sw);
+  gtk_widget_set_size_request(sw, -1, 200);
+  gtk_container_add(GTK_CONTAINER(sw), find_view);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "use-underline", TRUE,
+		       "mnemonic-widget", find_view,
+		       "label", _("Ci_ties:"),
+		       "xalign", 0.0, "yalign", 0.5, NULL);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), label, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), sw, TRUE, TRUE, 2);
+
 
   g_signal_connect(selection, "changed",
 		   G_CALLBACK(find_selection_callback), store);
@@ -117,8 +120,8 @@ void popup_find_dialog(void)
   update_find_dialog(store);
   gtk_tree_view_focus(GTK_TREE_VIEW(find_view));
 
-  gtk_widget_show_all(sw);
-  gtk_window_present(GTK_WINDOW(find_dialog_shell));
+  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
+  gtk_window_present(GTK_WINDOW(shell));
 }
 
 

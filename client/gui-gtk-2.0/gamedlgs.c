@@ -49,7 +49,7 @@ static GtkWidget *rates_tax_toggle, *rates_lux_toggle, *rates_sci_toggle;
 static GtkWidget *rates_tax_label, *rates_lux_label, *rates_sci_label;
 static GtkObject *rates_tax_adj, *rates_lux_adj, *rates_sci_adj;
 
-static guint      rates_tax_sig, rates_lux_sig, rates_sci_sig;
+static gulong     rates_tax_sig, rates_lux_sig, rates_sci_sig;
 /******************************************************************/
 
 static int rates_tax_value, rates_lux_value, rates_sci_value;
@@ -125,9 +125,9 @@ static void rates_set_values(int tax, int no_tax_scroll,
 	gtk_set_label(rates_tax_label,buf);
     if(!no_tax_scroll)
     {
-	gtk_signal_handler_block(GTK_OBJECT(rates_tax_adj),rates_tax_sig);
-	gtk_adjustment_set_value( GTK_ADJUSTMENT(rates_tax_adj), tax/10 );
-	gtk_signal_handler_unblock(GTK_OBJECT(rates_tax_adj),rates_tax_sig);
+	g_signal_handler_block(rates_tax_adj, rates_tax_sig);
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(rates_tax_adj), tax/10 );
+	g_signal_handler_unblock(rates_tax_adj, rates_tax_sig);
     }
     rates_tax_value=tax;
   }
@@ -138,9 +138,9 @@ static void rates_set_values(int tax, int no_tax_scroll,
 	gtk_set_label(rates_lux_label,buf);
     if(!no_lux_scroll)
     {
-	gtk_signal_handler_block(GTK_OBJECT(rates_lux_adj),rates_lux_sig);
-	gtk_adjustment_set_value( GTK_ADJUSTMENT(rates_lux_adj), lux/10 );
-	gtk_signal_handler_unblock(GTK_OBJECT(rates_lux_adj),rates_lux_sig);
+	g_signal_handler_block(rates_lux_adj, rates_lux_sig);
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(rates_lux_adj), lux/10 );
+	g_signal_handler_unblock(rates_lux_adj, rates_lux_sig);
     }
     rates_lux_value=lux;
   }
@@ -151,9 +151,9 @@ static void rates_set_values(int tax, int no_tax_scroll,
 	gtk_set_label(rates_sci_label,buf);
     if(!no_sci_scroll)
     {
-	gtk_signal_handler_block(GTK_OBJECT(rates_sci_adj),rates_sci_sig);
-	gtk_adjustment_set_value( GTK_ADJUSTMENT(rates_sci_adj), sci/10 );
-	gtk_signal_handler_unblock(GTK_OBJECT(rates_sci_adj),rates_sci_sig);
+	g_signal_handler_block(rates_sci_adj, rates_sci_sig);
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(rates_sci_adj), sci/10 );
+	g_signal_handler_unblock(rates_sci_adj, rates_sci_sig);
     }
     rates_sci_value=sci;
   }
@@ -196,7 +196,7 @@ static void rates_changed_callback(GtkAdjustment *adj)
 **************************************************************************/
 static void rates_command_callback(GtkWidget *w, gint response_id)
 {
-  if (response_id == GTK_RESPONSE_ACCEPT) {
+  if (response_id == GTK_RESPONSE_OK) {
     struct packet_player_request packet;
   
 
@@ -233,11 +233,11 @@ static GtkWidget *create_rates_dialog(void)
   	GTK_WINDOW(toplevel),
 	0,
 	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_REJECT,
+	GTK_RESPONSE_CANCEL,
 	GTK_STOCK_OK,
-	GTK_RESPONSE_ACCEPT,
+	GTK_RESPONSE_OK,
 	NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
   rates_gov_label = gtk_label_new("");
@@ -251,14 +251,14 @@ static GtkWidget *create_rates_dialog(void)
 
   rates_tax_adj = gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
   scale = gtk_hscale_new( GTK_ADJUSTMENT( rates_tax_adj ) );
-  gtk_widget_set_usize( GTK_WIDGET( scale ), 300, 40 );
+  gtk_widget_set_size_request(scale, 300, 40);
   gtk_scale_set_digits( GTK_SCALE( scale ), 0 );
   gtk_scale_set_draw_value( GTK_SCALE( scale ), FALSE );
   gtk_box_pack_start( GTK_BOX( hbox ), scale, TRUE, TRUE, 0 );
 
   rates_tax_label = gtk_label_new("  0%");
   gtk_box_pack_start( GTK_BOX( hbox ), rates_tax_label, TRUE, TRUE, 0 );
-  gtk_widget_set_usize( GTK_WIDGET( rates_tax_label ), 40,0 );
+  gtk_widget_set_size_request(rates_tax_label, 40, -1);
 
   rates_tax_toggle = gtk_check_button_new_with_label( _("Lock") );
   gtk_box_pack_start( GTK_BOX( hbox ), rates_tax_toggle, TRUE, TRUE, 0 );
@@ -271,14 +271,14 @@ static GtkWidget *create_rates_dialog(void)
 
   rates_lux_adj = gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
   scale = gtk_hscale_new( GTK_ADJUSTMENT( rates_lux_adj ) );
-  gtk_widget_set_usize( GTK_WIDGET( scale ), 300, 40 );
+  gtk_widget_set_size_request(scale, 300, 40);
   gtk_scale_set_digits( GTK_SCALE( scale ), 0 );
   gtk_scale_set_draw_value( GTK_SCALE( scale ), FALSE );
   gtk_box_pack_start( GTK_BOX( hbox ), scale, TRUE, TRUE, 0 );
 
   rates_lux_label = gtk_label_new("  0%");
   gtk_box_pack_start( GTK_BOX( hbox ), rates_lux_label, TRUE, TRUE, 0 );
-  gtk_widget_set_usize( GTK_WIDGET( rates_lux_label ), 40,0 );
+  gtk_widget_set_size_request(rates_lux_label, 40, -1);
 
   rates_lux_toggle = gtk_check_button_new_with_label( _("Lock") );
   gtk_box_pack_start( GTK_BOX( hbox ), rates_lux_toggle, TRUE, TRUE, 0 );
@@ -291,14 +291,14 @@ static GtkWidget *create_rates_dialog(void)
 
   rates_sci_adj = gtk_adjustment_new( 0.0, 0.0, 11.0, 1.0, 1.0, 1.0 );
   scale = gtk_hscale_new( GTK_ADJUSTMENT( rates_sci_adj ) );
-  gtk_widget_set_usize( GTK_WIDGET( scale ), 300, 40 );
+  gtk_widget_set_size_request(scale, 300, 40);
   gtk_scale_set_digits( GTK_SCALE( scale ), 0 );
   gtk_scale_set_draw_value( GTK_SCALE( scale ), FALSE );
   gtk_box_pack_start( GTK_BOX( hbox ), scale, TRUE, TRUE, 0 );
 
   rates_sci_label = gtk_label_new("  0%");
   gtk_box_pack_start( GTK_BOX( hbox ), rates_sci_label, TRUE, TRUE, 0 );
-  gtk_widget_set_usize( GTK_WIDGET( rates_sci_label ), 40,0 );
+  gtk_widget_set_size_request(rates_sci_label, 40, -1);
 
   rates_sci_toggle = gtk_check_button_new_with_label( _("Lock") );
   gtk_box_pack_start( GTK_BOX( hbox ), rates_sci_toggle, TRUE, TRUE, 0 );
@@ -317,16 +317,16 @@ static GtkWidget *create_rates_dialog(void)
   rates_sci_value=-1;
 
   rates_tax_sig =
-      gtk_signal_connect_after( GTK_OBJECT( rates_tax_adj ), "value_changed",
-        GTK_SIGNAL_FUNC( rates_changed_callback ), NULL );
+    g_signal_connect_after(rates_tax_adj, "value_changed",
+			   G_CALLBACK(rates_changed_callback), NULL);
 
   rates_lux_sig =
-      gtk_signal_connect_after( GTK_OBJECT( rates_lux_adj ), "value_changed",
-        GTK_SIGNAL_FUNC( rates_changed_callback ), NULL );
+    g_signal_connect_after(rates_lux_adj, "value_changed",
+			   G_CALLBACK(rates_changed_callback), NULL);
 
   rates_sci_sig =
-      gtk_signal_connect_after( GTK_OBJECT( rates_sci_adj ), "value_changed",
-        GTK_SIGNAL_FUNC( rates_changed_callback ), NULL );
+    g_signal_connect_after(rates_sci_adj, "value_changed",
+			   G_CALLBACK(rates_changed_callback), NULL);
 
   rates_set_values( game.player_ptr->economic.tax, 0,
         	    game.player_ptr->economic.luxury, 0,
@@ -368,22 +368,27 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 {
   client_option *o;
   const char *dp;
+  bool b;
+  int i;
 
-  for (o=options; o->name; ++o) {
+  for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:
+      b = *(o->p_bool_value);
       *(o->p_bool_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
       break;
     case COT_INT:
+      i = *(o->p_int_value);
       dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
       sscanf(dp, "%d", o->p_int_value);
       break;
     case COT_STR:
       if (o->p_string_vals) {
-	mystrlcpy(o->p_string_value,
-		  gtk_entry_get_text(GTK_ENTRY
-				     (GTK_COMBO(o->p_gui_data)->entry)),
-		  o->string_length);
+	const char* new_value = gtk_entry_get_text(GTK_ENTRY
+					(GTK_COMBO(o->p_gui_data)->entry));
+	if (strcmp(o->p_string_value, new_value)) {
+	  mystrlcpy(o->p_string_value, new_value, o->string_length);
+	}
       } else {
 	mystrlcpy(o->p_string_value,
 		  gtk_entry_get_text(GTK_ENTRY(o->p_gui_data)),
@@ -428,41 +433,55 @@ static void create_option_dialog(void)
 		   G_CALLBACK(option_ok_command_callback), NULL);
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
 
-  for (o=options, i=0; o->name; ++o, i++)
-    ;
+  for (o = options, i = 0; o->name; o++, i++) {
+    /* nothing */
+  }
 
-  table=gtk_table_new(i, 2, FALSE);
-  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(option_dialog_shell)->vbox),
-  	table);
+  table = gtk_table_new(i, 2, FALSE);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
+		     table, FALSE, FALSE, 0);
 
-  for (o=options, i=0; o->name; ++o, i++) {
+  for (o = options, i = 0; o->name; o++, i++) {
     switch (o->type) {
     case COT_BOOL:
       label = gtk_label_new(_(o->description));
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
-      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       o->p_gui_data = (void *)gtk_check_button_new();
-      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       break;
     case COT_INT:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
-      o->p_gui_data = gtk_entry_new_with_max_length(5);
-      gtk_widget_set_usize(o->p_gui_data, 45, 0);
-      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND,
+		       0, 0);
+      o->p_gui_data = gtk_entry_new();
+      gtk_entry_set_max_length(GTK_ENTRY(o->p_gui_data), 5);
+      gtk_widget_set_size_request(GTK_WIDGET(o->p_gui_data), 45, -1);
+      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       break;
     case COT_STR:
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+      gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
+		       GTK_FILL, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       if (o->p_string_vals) {
         o->p_gui_data = gtk_combo_new();
       } else {
         o->p_gui_data = gtk_entry_new();
       }
-      gtk_widget_set_usize(o->p_gui_data, 150, 0);
-      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      gtk_widget_set_size_request(GTK_WIDGET(o->p_gui_data), 150, -1);
+      gtk_table_attach(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1,
+		       GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+		       0, 0);
       break;
     }
   }
@@ -482,11 +501,11 @@ void popup_option_dialog(void)
     create_option_dialog();
   }
 
-  for (o=options; o->name; ++o) {
+  for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(o->p_gui_data),
-				  *(o->p_bool_value));
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(o->p_gui_data),
+				   *(o->p_bool_value));
       break;
     case COT_INT:
       my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));

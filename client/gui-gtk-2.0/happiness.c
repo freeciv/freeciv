@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -27,10 +28,14 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "happiness.h"
+#include "mapview.h"
 #include "tilespec.h"
 
 /* semi-arbitrary number that controls the width of the happiness widget */
 #define HAPPINESS_PIX_WIDTH 23
+
+#define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH)
+#define	PIXCOMM_HEIGHT	(SMALL_TILE_HEIGHT)
 
 #define NUM_HAPPINESS_MODIFIERS 5
 
@@ -47,7 +52,6 @@ struct happiness_dialog {
   GtkWidget *close;
 };
 
-static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index);
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity);
 static struct happiness_dialog *create_happiness_dialog(struct city
 							*pcity);
@@ -102,24 +106,24 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   gtk_box_pack_start(GTK_BOX(pdialog->shell),
 		     pdialog->cityname_label, TRUE, TRUE, 0);
 
-  vbox = gtk_vbox_new(FALSE, 0);
+  vbox = gtk_vbox_new(FALSE, 18);
   gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), vbox);
-  gtk_container_border_width(GTK_CONTAINER(vbox), 2);
-
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
-    pdialog->hpixmaps[i] =
-	gtk_pixmap_new(create_happiness_pixmap(pcity, i), NULL);
-    gtk_box_pack_start(GTK_BOX(vbox), pdialog->hpixmaps[i], FALSE, FALSE,
-		       0);
+    GtkWidget *box;
+    
+    box = gtk_vbox_new(FALSE, 2);
+    gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
+    
+    pdialog->hpixmaps[i] = gtk_pixcomm_new(PIXCOMM_WIDTH, PIXCOMM_HEIGHT);
+    gtk_box_pack_start(GTK_BOX(box), pdialog->hpixmaps[i], FALSE, FALSE, 0);
 
     pdialog->hlabels[i] = gtk_label_new("");
-    gtk_box_pack_start(GTK_BOX(vbox), pdialog->hlabels[i], TRUE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(box), pdialog->hlabels[i], TRUE, FALSE, 0);
 
     gtk_misc_set_alignment(GTK_MISC(pdialog->hpixmaps[i]), 0, 0);
     gtk_misc_set_alignment(GTK_MISC(pdialog->hlabels[i]), 0, 0);
-    gtk_label_set_justify(GTK_LABEL(pdialog->hlabels[i]),
-			  GTK_JUSTIFY_LEFT);
+    gtk_label_set_justify(GTK_LABEL(pdialog->hlabels[i]), GTK_JUSTIFY_LEFT);
 
     /* gtk_label_set_line_wrap(GTK_LABEL(pdialog->hlabels[i]), TRUE); */
   }
@@ -141,7 +145,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
+static void refresh_pixcomm(GtkPixcomm *dst, struct city *pcity, int index)
 {
   int i;
   int citizen_type;
@@ -152,12 +156,10 @@ static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
   int n5 = n4 + pcity->ppl_elvis;
   int n6 = n5 + pcity->ppl_scientist;
   int num_citizens = pcity->size;
-  int pix_width = HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH;
-  int offset = MIN(SMALL_TILE_WIDTH, pix_width / num_citizens);
-  int true_pix_width = (num_citizens - 1) * offset + SMALL_TILE_WIDTH;
+  int offset = MIN(SMALL_TILE_WIDTH, PIXCOMM_WIDTH / num_citizens);
 
-  GdkPixmap *happiness_pixmap = gdk_pixmap_new(root_window, true_pix_width,
-					       SMALL_TILE_HEIGHT, -1);
+  gtk_pixcomm_freeze(dst);
+  gtk_pixcomm_clear(dst);
 
   for (i = 0; i < num_citizens; i++) {
     if (i < n1)
@@ -175,13 +177,10 @@ static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
     else
       citizen_type = 2;
 
-    gdk_draw_pixmap(happiness_pixmap, civ_gc,
-		    sprites.citizen[citizen_type]->pixmap,
-		    0, 0, i * offset, 0, SMALL_TILE_WIDTH,
-		    SMALL_TILE_HEIGHT);
+    gtk_pixcomm_copyto(dst, sprites.citizen[citizen_type], i * offset, 0);
   }
 
-  return happiness_pixmap;
+  gtk_pixcomm_thaw(dst);
 }
 
 /**************************************************************************
@@ -194,8 +193,7 @@ void refresh_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   for (i = 0; i < 5; i++) {
-    gtk_pixmap_set(GTK_PIXMAP(pdialog->hpixmaps[i]),
-		   create_happiness_pixmap(pdialog->pcity, i), NULL);
+    refresh_pixcomm(GTK_PIXCOMM(pdialog->hpixmaps[i]), pdialog->pcity, i);
   }
 
   happiness_dialog_update_cities(pdialog);
@@ -258,7 +256,7 @@ static void happiness_dialog_update_cities(struct happiness_dialog
   my_snprintf(bptr, nleft, _("%d additional unhappy citizens."), penalty);
   bptr = end_of_strn(bptr, &nleft);
 
-  gtk_set_label(pdialog->hlabels[CITIES], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[CITIES]), buf);
 }
 
 /**************************************************************************
@@ -274,7 +272,7 @@ static void happiness_dialog_update_luxury(struct happiness_dialog
   my_snprintf(bptr, nleft, _("Luxury: %d total."),
 	      pcity->luxury_total);
 
-  gtk_set_label(pdialog->hlabels[LUXURIES], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[LUXURIES]), buf);
 }
 
 /**************************************************************************
@@ -340,7 +338,7 @@ static void happiness_dialog_update_buildings(struct happiness_dialog
     bptr = end_of_strn(bptr, &nleft);
   }
 
-  gtk_set_label(pdialog->hlabels[BUILDINGS], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[BUILDINGS]), buf);
 }
 
 /**************************************************************************
@@ -381,7 +379,7 @@ static void happiness_dialog_update_units(struct happiness_dialog *pdialog)
 
   }
 
-  gtk_set_label(pdialog->hlabels[UNITS], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[UNITS]), buf);
 }
 
 /**************************************************************************
@@ -437,7 +435,7 @@ static void happiness_dialog_update_wonders(struct happiness_dialog
     my_snprintf(bptr, nleft, _("None. "));
   }
 
-  gtk_set_label(pdialog->hlabels[WONDERS], buf);
+  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[WONDERS]), buf);
 }
 
 /**************************************************************************

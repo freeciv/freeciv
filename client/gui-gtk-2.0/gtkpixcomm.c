@@ -33,13 +33,17 @@
  * that we no longer need to insert it inside a GtkEventBox. -vasc
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "gui_main.h"
 #include "gtkpixcomm.h"
 
-static void gtk_pixcomm_class_init (GtkPixcommClass *klass);
-static void gtk_pixcomm_init       (GtkPixcomm *pixcomm);
-static gint gtk_pixcomm_expose     (GtkWidget *widget, GdkEventExpose *event);
-static void gtk_pixcomm_destroy    (GtkObject *object);
+static void	gtk_pixcomm_class_init (GtkPixcommClass *klass);
+static void	gtk_pixcomm_init       (GtkPixcomm *pixcomm);
+static gboolean gtk_pixcomm_expose     (GtkWidget *widget, GdkEventExpose *ev);
+static void	gtk_pixcomm_destroy    (GtkObject *object);
 #if 0
 static void build_insensitive_pixbuf (GtkPixcomm *pixcomm);
 #endif
@@ -63,24 +67,26 @@ struct op {
   gint x, y;
 };
 
-GtkType
+GType
 gtk_pixcomm_get_type(void)
 {
   static GtkType pixcomm_type = 0;
 
   if (!pixcomm_type) {
-    static const GtkTypeInfo pixcomm_info = {
-      "GtkPixcomm",
-      sizeof (GtkPixcomm),
-      sizeof (GtkPixcommClass),
-      (GtkClassInitFunc) gtk_pixcomm_class_init,
-      (GtkObjectInitFunc) gtk_pixcomm_init,
-      /* reserved_1 */ NULL,
-      /* reserved_2 */ NULL,
-      (GtkClassInitFunc) NULL,
+    static const GTypeInfo pixcomm_info = {
+      sizeof(GtkPixcommClass),
+      NULL,
+      NULL,
+      (GClassInitFunc) gtk_pixcomm_class_init,
+      NULL,
+      NULL,
+      sizeof(GtkPixcomm),
+      0,
+      (GInstanceInitFunc) gtk_pixcomm_init
     };
 
-    pixcomm_type=gtk_type_unique(GTK_TYPE_MISC, &pixcomm_info);
+    pixcomm_type = g_type_register_static(GTK_TYPE_MISC, "GtkPixcomm",
+					  &pixcomm_info, 0);
   }
 
   return pixcomm_type;
@@ -93,7 +99,7 @@ gtk_pixcomm_class_init(GtkPixcommClass *klass)
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
 
-  parent_class = gtk_type_class(GTK_TYPE_MISC);
+  parent_class = g_type_class_peek_parent(klass);
   gobject_class = G_OBJECT_CLASS(klass);
   object_class = GTK_OBJECT_CLASS(klass);
   widget_class = GTK_WIDGET_CLASS(klass);
@@ -125,7 +131,9 @@ gtk_pixcomm_destroy(GtkObject *object)
 
   g_object_thaw_notify(G_OBJECT(p));
 
-  GTK_OBJECT_CLASS(parent_class)->destroy(object);
+  if (GTK_OBJECT_CLASS(parent_class)->destroy) {
+    (*GTK_OBJECT_CLASS(parent_class)->destroy)(object);
+  }
 }
 
 GtkWidget*
@@ -133,7 +141,7 @@ gtk_pixcomm_new(gint width, gint height)
 {
   GtkPixcomm *p;
 
-  p = gtk_type_new(GTK_TYPE_PIXCOMM);
+  p = g_object_new(gtk_pixcomm_get_type(), NULL);
   p->w = width; p->h = height;
 
   p->actions = g_array_new(FALSE, FALSE, sizeof(struct op));
@@ -194,11 +202,11 @@ gtk_pixcomm_copyto(GtkPixcomm *p, SPRITE *src, gint x, gint y)
   refresh(p);
 }
 
-static gint
-gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *event)
+static gboolean
+gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 {
   g_return_val_if_fail(GTK_IS_PIXCOMM(widget), FALSE);
-  g_return_val_if_fail(event!=NULL, FALSE);
+  g_return_val_if_fail(ev!=NULL, FALSE);
 
   if (GTK_WIDGET_VISIBLE(widget) && GTK_WIDGET_MAPPED(widget)) {
     GtkPixcomm *p;
