@@ -53,6 +53,7 @@
 #include <aihand.h>
 #include <capability.h>
 #include <settlers.h>
+#include <events.h>
 
 void show_ending();
 void end_game();
@@ -594,7 +595,8 @@ void update_pollution()
       global_warming(map.xsize/10+map.ysize/10+game.globalwarming*5);
       game.globalwarming=0;
       send_all_known_tiles(0);
-      notify_player(0, "Game: Global warming has occurred! Coastlines have been flooded\nand vast ranges of grassland have become deserts.");
+      notify_player_ex(0, 0,0, E_WARMING, "Game: Global warming has occurred!");
+      notify_player(0, "Game: Coastlines have been flooded and vast ranges of grassland have become deserts.");
       game.warminglevel+=4;
     }
   }
