@@ -27,12 +27,14 @@
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
+#include "spacerace.h"
 #include "unithand.h"
 
 #include "aicity.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "advspace.h"
 
 #include "aihand.h"
 
@@ -97,8 +99,8 @@ static void ai_before_work(struct player *pplayer);
 static void ai_manage_taxes(struct player *pplayer); 
 static void ai_manage_government(struct player *pplayer);
 static void ai_manage_diplomacy(struct player *pplayer);
+static void ai_manage_spaceship(struct player *pplayer);
 static void ai_after_work(struct player *pplayer);
-
 
 /**************************************************************************
  Main AI routine.
@@ -125,6 +127,9 @@ instead of right before it.  Managing units before end-turn reset now. -- Syela 
   ai_manage_government(pplayer); 
   ai_manage_diplomacy(pplayer);
   ai_manage_tech(pplayer); 
+  freelog(LOG_DEBUG, "Managing %s's spaceship.", pplayer->name);
+  ai_manage_spaceship(pplayer);
+  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
   ai_after_work(pplayer);
   freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
 }
@@ -146,6 +151,20 @@ static void ai_before_work(struct player *pplayer)
 static void ai_manage_diplomacy(struct player *pplayer)
 {
 
+}
+
+static void ai_manage_spaceship(struct player *pplayer)
+{
+  if (game.spacerace) {
+    if (pplayer->spaceship.state == SSHIP_STARTED) {
+      ai_spaceship_autoplace(pplayer, &pplayer->spaceship);
+      /* if we have built the best possible spaceship  -- AJS 19990610 */
+      if ((pplayer->spaceship.structurals == NUM_SS_STRUCTURALS) &&
+        (pplayer->spaceship.components == NUM_SS_COMPONENTS) &&
+        (pplayer->spaceship.modules == NUM_SS_MODULES))
+        handle_spaceship_launch(pplayer);
+    }
+  }
 }
 
 /**************************************************************************

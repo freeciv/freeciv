@@ -358,6 +358,24 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     }
   }
 
+  if (game.spacerace) {
+    if (could_build_improvement(pcity, B_SCOMP)) {
+      if (pplayer->spaceship.components < NUM_SS_COMPONENTS) {
+        values[B_SCOMP] = values[B_CAPITAL]+1;
+      }
+    }
+    if (could_build_improvement(pcity, B_SMODULE)) {
+      if (pplayer->spaceship.modules < NUM_SS_MODULES) {
+        values[B_SMODULE] = values[B_CAPITAL]+1;
+      }
+    }
+    if (could_build_improvement(pcity, B_SSTRUCTURAL)) {
+      if (pplayer->spaceship.structurals < NUM_SS_STRUCTURALS) {
+        values[B_SSTRUCTURAL] = values[B_CAPITAL]+1;
+      }
+    }
+  }
+
   if (could_build_improvement(pcity, B_STOCK))
     values[B_STOCK] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
 
@@ -463,6 +481,11 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
           if (punit->unhappiness) values[i] += t * 2;
         unit_list_iterate_end;
       }
+
+      if ((i == B_APOLLO) && game.spacerace) {
+        values[i] = values[B_CAPITAL]+1;
+      }
+
       /* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
     }
   }

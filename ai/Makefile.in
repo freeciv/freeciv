@@ -84,7 +84,7 @@ noinst_LIBRARIES = libcivai.a
 
 INCLUDES = -I$(srcdir)/../common -I$(srcdir)/../server
 
-libcivai_a_SOURCES =  		advattitude.c			advattitude.h			advdomestic.c			advdomestic.h			advforeign.c			advforeign.h			advisland.c			advisland.h			advleader.c			advleader.h			advmilitary.c			advmilitary.h			advscience.c			advscience.h			advtrade.c			advtrade.h			aicity.c			aicity.h			aihand.c			aihand.h			aitech.c			aitech.h			aitools.c			aitools.h			aiunit.c			aiunit.h
+libcivai_a_SOURCES =  		advattitude.c			advattitude.h			advdomestic.c			advdomestic.h			advforeign.c			advforeign.h			advisland.c			advisland.h			advleader.c			advleader.h			advmilitary.c			advmilitary.h			advscience.c			advscience.h		advspace.c		advspace.h		advtrade.c			advtrade.h			aicity.c			aicity.h			aihand.c			aihand.h			aitech.c			aitech.h			aitools.c			aitools.h			aiunit.c			aiunit.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
@@ -102,8 +102,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libcivai_a_LIBADD = 
 libcivai_a_OBJECTS =  advattitude.o advdomestic.o advforeign.o \
-advisland.o advleader.o advmilitary.o advscience.o advtrade.o aicity.o \
-aihand.o aitech.o aitools.o aiunit.o
+advisland.o advleader.o advmilitary.o advscience.o advspace.o advtrade.o \
+aicity.o aihand.o aitech.o aitools.o aiunit.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -118,8 +118,8 @@ TAR = tar
 GZIP_ENV = --best
 DEP_FILES =  .deps/advattitude.P .deps/advdomestic.P .deps/advforeign.P \
 .deps/advisland.P .deps/advleader.P .deps/advmilitary.P \
-.deps/advscience.P .deps/advtrade.P .deps/aicity.P .deps/aihand.P \
-.deps/aitech.P .deps/aitools.P .deps/aiunit.P
+.deps/advscience.P .deps/advspace.P .deps/advtrade.P .deps/aicity.P \
+.deps/aihand.P .deps/aitech.P .deps/aitools.P .deps/aiunit.P
 SOURCES = $(libcivai_a_SOURCES)
 OBJECTS = $(libcivai_a_OBJECTS)
 

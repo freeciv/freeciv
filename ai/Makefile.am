@@ -19,6 +19,8 @@ libcivai_a_SOURCES = \
 		advmilitary.h	\
 		advscience.c	\
 		advscience.h	\
+		advspace.c	\
+		advspace.h	\
 		advtrade.c	\
 		advtrade.h	\
 		aicity.c	\
