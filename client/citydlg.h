@@ -18,6 +18,7 @@ struct city_dialog;
 void activate_unit(struct unit *punit);
 void popup_city_dialog(struct city *pcity, int make_modal);
 void popdown_city_dialog(struct city *pcity);
+void popdown_all_city_dialogs(void);
 void button_down_citymap(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void refresh_city_dialog(struct city *pcity);
 void refresh_unit_city_dialogs(struct unit *punit);

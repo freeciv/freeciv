@@ -283,6 +283,18 @@ void popdown_city_dialog(struct city *pcity)
     close_city_dialog(pdialog);
 }
 
+/****************************************************************
+popdown all dialogs
+*****************************************************************/
+void popdown_all_city_dialogs(void)
+{
+  if(!dialog_list_has_been_initialised) {
+    return;
+  }
+  while(genlist_size(&dialog_list)) {
+    close_city_dialog(genlist_get(&dialog_list,0));
+  }
+}
 
 
 /****************************************************************
