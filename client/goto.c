@@ -672,8 +672,7 @@ void decrement_drawn(int x, int y, int dir)
 ***********************************************************************/
 int get_drawn(int x, int y, int dir)
 {
-  if ((y == 0 && dir <= 2)
-      || (y == map.ysize-1 && dir >= 5))
+  if (!is_real_tile(x + DIR_DX[dir], y + DIR_DY[dir]))
     return 0;
 
   return *get_drawn_char(x, y, dir);
