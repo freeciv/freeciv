@@ -86,7 +86,8 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   int i, j, d, f, x, y, con, dest_x=0, dest_y=0, best, lmt, cur, a, b;
   int ok, ct = punit->moves_left + 3;
   struct city *pcity;
-/*  int id = punit->id; - we can't go BOOM anymore as this is now written */
+  int id = punit->id; /* we can now die because easy AI may accidently
+			 stumble on huts it fuzzily ignored */
 
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
@@ -168,6 +169,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     } /* end i */
     if (best) {
       handle_unit_move_request(pplayer, punit, dest_x, dest_y);
+      if(!unit_list_find(&pplayer->units, id)) return; /* died */
     }
     ct--; /* trying to avoid loops */
   }
