@@ -1253,6 +1253,10 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->has_walls = secfile_lookup_bool(file, "player%d.dc%d.has_walls", plrno, j);    
 	pdcity->occupied = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.occupied", plrno, j);
+	pdcity->happy = secfile_lookup_bool_default(file, FALSE,
+					"player%d.dc%d.happy", plrno, j);
+	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
+					"player%d.dc%d.unhappy", plrno, j);
 	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
 	map_get_player_tile(x, y, plr)->city = pdcity;
 	alloc_id(pdcity->id);
@@ -1677,6 +1681,10 @@ static void player_save(struct player *plr, int plrno,
 			     "player%d.dc%d.has_walls", plrno, i);
 	  secfile_insert_bool(file, pdcity->occupied,
 			      "player%d.dc%d.occupied", plrno, i);
+	  secfile_insert_bool(file, pdcity->happy,
+			      "player%d.dc%d.happy", plrno, i);
+	  secfile_insert_bool(file, pdcity->unhappy,
+			      "player%d.dc%d.unhappy", plrno, i);
 	  secfile_insert_int(file, pdcity->owner, "player%d.dc%d.owner",
 			     plrno, i);
 	  i++;
