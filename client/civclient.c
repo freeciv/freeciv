@@ -80,7 +80,7 @@ static char tile_set_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
 char server_host[512] = "\0";
-char player_name[512] = "\0";
+char user_name[512] = "\0";
 char metaserver[512] = "\0";
 int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
    } else if ((option = get_option("--log",argv,&i,argc)))
       logfile = mystrdup(option); /* never free()d */
    else if ((option = get_option("--name",argv,&i,argc)))
-      sz_strlcpy(player_name, option);
+      sz_strlcpy(user_name, option);
    else if ((option = get_option("--meta",argv,&i,argc)))
       sz_strlcpy(metaserver, option);
    else if ((option = get_option("--Sound", argv, &i, argc)))
@@ -198,7 +198,7 @@ int main(int argc, char *argv[])
 
   /* after log_init: */
 
-  sz_strlcpy(default_player_name, user_username());
+  sz_strlcpy(default_user_name, user_username());
 
   /* initialization */
 
@@ -217,8 +217,8 @@ int main(int argc, char *argv[])
     sz_strlcpy(sound_plugin_name, default_sound_plugin_name); 
   if (server_host[0] == '\0')
     sz_strlcpy(server_host, default_server_host); 
-  if (player_name[0] == '\0')
-    sz_strlcpy(player_name, default_player_name); 
+  if (user_name[0] == '\0')
+    sz_strlcpy(user_name, default_user_name); 
   if (metaserver[0] == '\0')
     sz_strlcpy(metaserver, default_metaserver); 
   if (server_port == -1) server_port = default_server_port;

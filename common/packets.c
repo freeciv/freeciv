@@ -982,7 +982,7 @@ int send_packet_conn_info(struct connection *pc,
   dio_put_uint8(&dout, pinfo->player_num);
   dio_put_uint8(&dout, pinfo->access_level);
 
-  dio_put_string(&dout, pinfo->name);
+  dio_put_string(&dout, pinfo->username);
   dio_put_string(&dout, pinfo->addr);
   dio_put_string(&dout, pinfo->capability);
 
@@ -1008,7 +1008,7 @@ struct packet_conn_info *receive_packet_conn_info(struct connection *pc)
   dio_get_uint8(&din, &data);
   pinfo->access_level = data;
 
-  dio_get_string(&din, pinfo->name, sizeof(pinfo->name));
+  dio_get_string(&din, pinfo->username, sizeof(pinfo->username));
   dio_get_string(&din, pinfo->addr, sizeof(pinfo->addr));
   dio_get_string(&din, pinfo->capability, sizeof(pinfo->capability));
 
@@ -1618,7 +1618,7 @@ int send_packet_login_request(struct connection *pc,
   dio_put_uint32(&dout, request->minor_version);
   dio_put_uint32(&dout, request->patch_version);
   dio_put_string(&dout, request->capability);
-  dio_put_string(&dout, request->name);
+  dio_put_string(&dout, request->username);
   dio_put_string(&dout, request->version_label);
 
   SEND_PACKET_END;
@@ -1637,9 +1637,9 @@ struct packet_login_request *receive_packet_login_request(struct connection *pc)
   dio_get_uint32(&din, &packet->patch_version);
   dio_get_string(&din, packet->capability, sizeof(packet->capability));
   if (dio_input_remaining(&din) > 0) {
-    dio_get_string(&din, packet->name, sizeof(packet->name));
+    dio_get_string(&din, packet->username, sizeof(packet->username));
   } else {
-    sz_strlcpy(packet->name, packet->short_name);
+    sz_strlcpy(packet->username, packet->short_name);
   }
   if (dio_input_remaining(&din) > 0) {
     dio_get_string(&din, packet->version_label, sizeof(packet->version_label));

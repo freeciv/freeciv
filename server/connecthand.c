@@ -59,7 +59,7 @@ static void establish_new_connection(struct connection *pconn)
   packet.you_can_login = TRUE;
   sz_strlcpy(packet.capability, our_capability);
   my_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
-              pconn->name);
+              pconn->username);
   send_packet_login_reply(pconn, &packet);
 
   /* "establish" the connection */
@@ -81,16 +81,16 @@ static void establish_new_connection(struct connection *pconn)
 
   /* notify the console and other established connections that you're here */
   freelog(LOG_NORMAL, _("%s has connected from %s."),
-          pconn->name, pconn->addr);
+          pconn->username, pconn->addr);
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
       notify_conn(&aconn->self, _("Server: %s has connected from %s."),
-                  pconn->name, pconn->addr);
+                  pconn->username, pconn->addr);
     }
   } conn_list_iterate_end;
 
   /* a player has already been created for this user, reconnect him */
-  if ((pplayer = find_player_by_user(pconn->name))) {
+  if ((pplayer = find_player_by_user(pconn->username))) {
     attach_connection_to_player(pconn, pplayer);
 
     if (server_state == RUN_GAME_STATE) {
@@ -110,7 +110,7 @@ static void establish_new_connection(struct connection *pconn)
   } else if (server_state == PRE_GAME_STATE && game.is_new_game) {
     if (!attach_connection_to_player(pconn, NULL)) {
       notify_conn(dest, _("Couldn't attach your connection to new player."));
-      freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->name);
+      freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
     }
   }
 
@@ -159,15 +159,15 @@ bool handle_login_request(struct connection *pconn,
   char msg[MAX_LEN_MSG];
   char orig_name[MAX_LEN_NAME];
   
-  sz_strlcpy(orig_name, req->name);
-  remove_leading_trailing_spaces(req->name);
+  sz_strlcpy(orig_name, req->username);
+  remove_leading_trailing_spaces(req->username);
 
   /* Name-sanity check: could add more checks? */
-  if (strlen(req->name) == 0 || my_isdigit(req->name[0])
-      || strcasecmp(req->name, "all") == 0
-      || strcasecmp(req->name, "none") == 0
-      || strcasecmp(req->name, ANON_USER_NAME) == 0) {
-    my_snprintf(msg, sizeof(msg), _("Invalid name '%s'"), req->name);
+  if (strlen(req->username) == 0 || my_isdigit(req->username[0])
+      || strcasecmp(req->username, "all") == 0
+      || strcasecmp(req->username, "none") == 0
+      || strcasecmp(req->username, ANON_USER_NAME) == 0) {
+    my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
     reject_new_connection(msg, pconn);
     freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),
             pconn->addr);
@@ -176,8 +176,9 @@ bool handle_login_request(struct connection *pconn,
 
   /* don't allow duplicate logins */
   conn_list_iterate(game.all_connections, aconn) {
-    if (strcmp(req->name, aconn->name) == 0) { 
-      my_snprintf(msg, sizeof(msg), _("'%s' already connected."), req->name);
+    if (strcmp(req->username, aconn->username) == 0) { 
+      my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
+                  req->username);
       reject_new_connection(msg, pconn);
       freelog(LOG_NORMAL,
               _("Rejected connection from %s with duplicate login name."),
@@ -187,11 +188,11 @@ bool handle_login_request(struct connection *pconn,
   } conn_list_iterate_end;
 
   freelog(LOG_NORMAL, _("Connection request from %s from %s"),
-            req->name, pconn->addr);
+            req->username, pconn->addr);
   
   /* print server and client capabilities to console */
   freelog(LOG_NORMAL, _("%s has client version %d.%d.%d%s"),
-          pconn->name, req->major_version, req->minor_version,
+          pconn->username, req->major_version, req->minor_version,
           req->patch_version, req->version_label);
   freelog(LOG_VERBOSE, "Client caps: %s", req->capability);
   freelog(LOG_VERBOSE, "Server caps: %s", our_capability);
@@ -208,7 +209,7 @@ bool handle_login_request(struct connection *pconn,
                 req->patch_version, req->version_label);
     reject_new_connection(msg, pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
-            req->name);
+            req->username);
     return FALSE;
   }
 
@@ -223,12 +224,12 @@ bool handle_login_request(struct connection *pconn,
                 req->patch_version, req->version_label);
     reject_new_connection(msg, pconn);
     freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
-            req->name);
+            req->username);
     return FALSE;
   }
 
   /* all is well, establish the connection */
-  sz_strlcpy(pconn->name, req->name);
+  sz_strlcpy(pconn->username, req->username);
   establish_new_connection(pconn);
 
   return TRUE;
@@ -312,7 +313,7 @@ static void package_conn_info(struct connection *pconn,
   packet->observer     = pconn->observer;
   packet->access_level = pconn->access_level;
 
-  sz_strlcpy(packet->name, pconn->name);
+  sz_strlcpy(packet->username, pconn->username);
   sz_strlcpy(packet->addr, pconn->addr);
   sz_strlcpy(packet->capability, pconn->capability);
 }
@@ -379,7 +380,7 @@ bool attach_connection_to_player(struct connection *pconn,
   }
 
   if (!pconn->observer) {
-    sz_strlcpy(pplayer->username, pconn->name);
+    sz_strlcpy(pplayer->username, pconn->username);
     pplayer->is_connected = TRUE;
   }
 

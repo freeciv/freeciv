@@ -88,7 +88,7 @@ void gui_server_connect(void)
 
   I_L(XtVaCreateManagedWidget("cnamel", labelWidgetClass, form, NULL));
   iname=XtVaCreateManagedWidget("cnamei", asciiTextWidgetClass, form, 
-				XtNstring, player_name, NULL);
+				XtNstring, user_name, NULL);
 
   I_L(XtVaCreateManagedWidget("chostl", labelWidgetClass, form, NULL));
   ihost=XtVaCreateManagedWidget("chosti", asciiTextWidgetClass, form, 
@@ -148,13 +148,13 @@ void connect_callback(Widget w, XtPointer client_data,
   char errbuf[512];
   
   XtVaGetValues(iname, XtNstring, &dp, NULL);
-  sz_strlcpy(player_name, (char*)dp);
+  sz_strlcpy(user_name, (char*)dp);
   XtVaGetValues(ihost, XtNstring, &dp, NULL);
   sz_strlcpy(server_host, (char*)dp);
   XtVaGetValues(iport, XtNstring, &dp, NULL);
   sscanf((char*)dp, "%d", &server_port);
   
-  if(connect_to_server(player_name, server_host, server_port,
+  if(connect_to_server(user_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {
     XtDestroyWidget(XtParent(XtParent(w)));
     if(meta_dialog_shell) {
@@ -320,11 +320,11 @@ static void try_to_autoconnect(XtPointer data, XtIntervalId * id)
     freelog(LOG_FATAL,
 	    _("Failed to contact server \"%s\" at port "
 	      "%d as \"%s\" after %d attempts"),
-	    server_host, server_port, player_name, count);
+	    server_host, server_port, user_name, count);
     exit(EXIT_FAILURE);
   }
 
-  switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
+  switch (try_to_connect(user_name, errbuf, sizeof(errbuf))) {
     /* Success! */
   case 0:
     return;
@@ -340,7 +340,7 @@ static void try_to_autoconnect(XtPointer data, XtIntervalId * id)
     freelog(LOG_FATAL,
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, player_name, errbuf);
+	    server_host, server_port, user_name, errbuf);
     exit(EXIT_FAILURE);
   }
 }
@@ -357,7 +357,7 @@ void server_autoconnect()
   my_snprintf(buf, sizeof(buf),
 	      _("Auto-connecting to server \"%s\" at port %d "
 		"as \"%s\" every %d.%d second(s) for %d times"),
-	      server_host, server_port, player_name,
+	      server_host, server_port, user_name,
 	      AUTOCONNECT_INTERVAL / 1000,AUTOCONNECT_INTERVAL % 1000, 
 	      MAX_AUTOCONNECT_ATTEMPTS);
   append_output_window(buf);
@@ -366,7 +366,7 @@ void server_autoconnect()
     freelog(LOG_FATAL,
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, player_name, buf);
+	    server_host, server_port, user_name, buf);
     exit(EXIT_FAILURE);
   }
 

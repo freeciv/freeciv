@@ -398,7 +398,7 @@ struct packet_login_request {
   int minor_version;
   int patch_version;
   char capability[MAX_LEN_CAPSTR];
-  char name[MAX_LEN_NAME];
+  char username[MAX_LEN_NAME];
   char version_label[MAX_LEN_NAME];
 };
 
@@ -498,7 +498,7 @@ struct packet_conn_info {
   
   enum cmdlevel_id access_level;   /* range uchar */
   
-  char name[MAX_LEN_NAME];
+  char username[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
   char capability[MAX_LEN_CAPSTR];
 };

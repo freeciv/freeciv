@@ -44,14 +44,14 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
   struct player *pplayer = pconn->player;
 
   if (!pplayer) {
-    my_snprintf(buffer, len, "(%s)", pconn->name);
+    my_snprintf(buffer, len, "(%s)", pconn->username);
   } else if (conn_list_size(&pplayer->connections)==1) {
     (void) mystrlcpy(buffer, pplayer->name, len);
-  } else if (strstr(pconn->name, pplayer->name)) {
+  } else if (strstr(pconn->username, pplayer->username)) {
     /* Fixme: strstr above should be case-independent */
-    my_snprintf(buffer, len, "(%s)", pconn->name);
+    my_snprintf(buffer, len, "(%s)", pconn->username);
   } else {
-    my_snprintf(buffer, len, "%s (%s)", pplayer->name, pconn->name);
+    my_snprintf(buffer, len, "%s (%s)", pplayer->name, pconn->username);
   }
 }
 				
@@ -240,7 +240,7 @@ void handle_chat_msg(struct connection *pconn,
 
     double_colon = (*(cp+1) == ':');
     if (double_colon) {
-      conn_dest = find_conn_by_name_prefix(name, &match_result_conn);
+      conn_dest = find_conn_by_user_prefix(name, &match_result_conn);
       if (match_result_conn == M_PRE_AMBIGUOUS) {
 	complain_ambiguous(pconn, name, 1);
 	return;
@@ -267,7 +267,7 @@ void handle_chat_msg(struct connection *pconn,
 	}
 	/* else try for connection name match before complaining */
       }
-      conn_dest = find_conn_by_name_prefix(name, &match_result_conn);
+      conn_dest = find_conn_by_user_prefix(name, &match_result_conn);
       if (match_result_conn == M_PRE_AMBIGUOUS) {
 	complain_ambiguous(pconn, name, 1);
 	return;

@@ -61,11 +61,11 @@ static void connect_callback(GtkWidget *w, gpointer data)
 {
   char errbuf [512];
 
-  sz_strlcpy(player_name, gtk_entry_get_text(GTK_ENTRY(iname)));
+  sz_strlcpy(user_name, gtk_entry_get_text(GTK_ENTRY(iname)));
   sz_strlcpy(server_host, gtk_entry_get_text(GTK_ENTRY(ihost)));
   sscanf(gtk_entry_get_text(GTK_ENTRY(iport)), "%d", &server_port);
   
-  if(connect_to_server(player_name, server_host, server_port,
+  if(connect_to_server(user_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {
     gtk_widget_destroy(dialog);
     gtk_widget_set_sensitive(top_vbox,TRUE);
@@ -185,7 +185,7 @@ void gui_server_connect(void)
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
   iname=gtk_entry_new();
-  gtk_entry_set_text(GTK_ENTRY(iname), player_name);
+  gtk_entry_set_text(GTK_ENTRY(iname), user_name);
   gtk_table_attach_defaults (GTK_TABLE (table), iname, 1, 2, 0, 1);
 
   label=gtk_label_new(_("Host:"));
@@ -349,11 +349,11 @@ static int try_to_autoconnect(gpointer data)
     freelog(LOG_FATAL,
 	    _("Failed to contact server \"%s\" at port "
 	      "%d as \"%s\" after %d attempts"),
-	    server_host, server_port, player_name, count);
+	    server_host, server_port, user_name, count);
     exit(EXIT_FAILURE);
   }
 
-  switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
+  switch (try_to_connect(user_name, errbuf, sizeof(errbuf))) {
   case 0:			/* Success! */
     return FALSE;		/*  Tells GTK not to call this
 				   function again */
@@ -370,7 +370,7 @@ static int try_to_autoconnect(gpointer data)
     freelog(LOG_FATAL,
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, player_name, errbuf);
+	    server_host, server_port, user_name, errbuf);
     gtk_exit(EXIT_FAILURE);
     exit(EXIT_FAILURE);			/* Suppresses a gcc warning */
   }
@@ -391,7 +391,7 @@ void server_autoconnect()
   my_snprintf(buf, sizeof(buf),
 	      _("Auto-connecting to server \"%s\" at port %d "
 		"as \"%s\" every %d.%d second(s) for %d times"),
-	      server_host, server_port, player_name,
+	      server_host, server_port, user_name,
 	      AUTOCONNECT_INTERVAL / 1000,AUTOCONNECT_INTERVAL % 1000, 
 	      MAX_AUTOCONNECT_ATTEMPTS);
   append_output_window(buf);
@@ -400,7 +400,7 @@ void server_autoconnect()
     freelog(LOG_FATAL,
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, player_name, buf);
+	    server_host, server_port, user_name, buf);
     gtk_exit(EXIT_FAILURE);
   }
   if (try_to_autoconnect(NULL)) {

@@ -196,11 +196,11 @@ static void connect_callback()
 {
   char errbuf[512];
   char portbuf[10];
-  Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_NAME),player_name,512);
+  Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_NAME),user_name,512);
   Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_HOST),server_host,512);
   Edit_GetText(GetDlgItem(tab_childs[0],ID_CONNECTDLG_PORT),portbuf,10);
   sscanf(portbuf, "%d", &server_port);
-  if (connect_to_server(player_name,server_host,server_port,
+  if (connect_to_server(user_name,server_host,server_port,
 			errbuf,sizeof(errbuf))!=-1)
     {
       DestroyWindow(connect_dlg);
@@ -394,7 +394,7 @@ gui_server_connect_real(void)
 		       TRUE,TRUE,5);
   fcwin_box_add_box(hbox,vbox,FALSE,FALSE,5);
   vbox=fcwin_vbox_new(tab_childs[0],FALSE);
-  fcwin_box_add_edit(vbox,player_name,40,ID_CONNECTDLG_NAME,0,
+  fcwin_box_add_edit(vbox,user_name,40,ID_CONNECTDLG_NAME,0,
 		     TRUE,TRUE,10);
   fcwin_box_add_edit(vbox,server_host,40,ID_CONNECTDLG_HOST,0,
 		     TRUE,TRUE,10);
@@ -446,11 +446,11 @@ static int try_to_autoconnect()
     freelog(LOG_FATAL,
             _("Failed to contact server \"%s\" at port "
               "%d as \"%s\" after %d attempts"),
-            server_host, server_port, player_name, count);
+            server_host, server_port, user_name, count);
     exit(EXIT_FAILURE);
   }
 
-  switch (try_to_connect(player_name, errbuf, sizeof(errbuf))) {
+  switch (try_to_connect(user_name, errbuf, sizeof(errbuf))) {
   case 0:                       /* Success! */
     return FALSE;               /* Do not call this
                                    function again */
@@ -462,7 +462,7 @@ static int try_to_autoconnect()
     freelog(LOG_FATAL,
             _("Error contacting server \"%s\" at port %d "
               "as \"%s\":\n %s\n"),
-            server_host, server_port, player_name, errbuf);
+            server_host, server_port, user_name, errbuf);
     exit(EXIT_FAILURE);     
   }
 }
@@ -492,7 +492,7 @@ void server_autoconnect()
   my_snprintf(buf, sizeof(buf),
               _("Auto-connecting to server \"%s\" at port %d "
                 "as \"%s\" every %d.%d second(s) for %d times"),
-              server_host, server_port, player_name,
+              server_host, server_port, user_name,
               AUTOCONNECT_INTERVAL / 1000,AUTOCONNECT_INTERVAL % 1000, 
               MAX_AUTOCONNECT_ATTEMPTS);
   append_output_window(buf);
@@ -500,7 +500,7 @@ void server_autoconnect()
     freelog(LOG_FATAL,
             _("Error contacting server \"%s\" at port %d "
               "as \"%s\":\n %s\n"),
-            server_host, server_port, player_name, buf);
+            server_host, server_port, user_name, buf);
     exit(EXIT_FAILURE);
   }
   printf("server_autoconnect\n");
@@ -887,7 +887,7 @@ static LONG CALLBACK playername_proc(HWND win,UINT message,
 	name=buf;
 	for(i=strlen(name);(i>0)&&(name[i]!='(');i--);
 	name[i-1]=0;
-	strcpy(player_name,name);
+	strcpy(user_name,name);
 	server_autoconnect();
 	add_server_control_buttons();
 	if (Button_GetCheck(GetDlgItem(win,IDYES))==BST_CHECKED) {
@@ -907,7 +907,7 @@ static LONG CALLBACK playername_proc(HWND win,UINT message,
 /*************************************************************************
 
 *************************************************************************/
-static void get_player_name()
+static void get_user_name()
 {
   char buf[512];
   char tmp;
@@ -954,7 +954,7 @@ static void start_server_load_game(char *filename)
 	      server_port,filename);
   start_server(cmdline);
   if (is_server_running())
-    get_player_name();
+    get_user_name();
 }
 
 /**************************************************************************
@@ -1056,7 +1056,7 @@ static void set_new_game_params(HWND win)
   struct packet_generic_message apacket;
   if (!is_server_running())
     start_server_for_new_game();
-  GetWindowText(GetDlgItem(win,ID_NAME),player_name,512);
+  GetWindowText(GetDlgItem(win,ID_NAME),user_name,512);
   server_autoconnect();
   add_server_control_buttons();
   if (IsDlgButtonChecked(win,ID_EASY)) {
@@ -1146,7 +1146,7 @@ static void new_game_callback(HWND w,void * data)
   vbox=fcwin_vbox_new(win,FALSE);
   hbox=fcwin_hbox_new(win,FALSE);
   fcwin_box_add_static(hbox,_("Your name:"),0,SS_LEFT,FALSE,FALSE,5);
-  fcwin_box_add_edit(hbox,player_name,30,ID_NAME,0,TRUE,TRUE,5);
+  fcwin_box_add_edit(hbox,user_name,30,ID_NAME,0,TRUE,TRUE,5);
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
   hbox=fcwin_hbox_new(win,FALSE);
   fcwin_box_add_static(hbox,_("Difficulty:"),0,SS_LEFT,FALSE,FALSE,5);

@@ -43,7 +43,7 @@
  
 /** Defaults for options normally on command line **/
 
-char default_player_name[512] = "\0";
+char default_user_name[512] = "\0";
 char default_server_host[512] = "localhost";
 int  default_server_port = DEFAULT_SOCK_PORT;
 char default_metaserver[512] = METALIST_ADDR;
@@ -89,7 +89,7 @@ bool update_city_text_in_refresh_tile = TRUE;
                                 NULL, NULL, NULL, 0, NULL, NULL, NULL }
 
 client_option options[] = {
-  GEN_STR_OPTION(default_player_name,       N_("Default player's username"),
+  GEN_STR_OPTION(default_user_name,        N_("Default player's login name"),
 		 NULL, NULL), 
   GEN_STR_OPTION(default_server_host,       N_("Default server"),
 		 NULL, NULL),

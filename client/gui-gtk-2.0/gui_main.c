@@ -948,8 +948,8 @@ void ui_init(void)
   dio_set_get_conv_callback(get_conv);
 
   /* convert inputs */
-  s = g_locale_to_utf8(player_name, -1, NULL, NULL, NULL);
-  sz_strlcpy(player_name, s);
+  s = g_locale_to_utf8(user_name, -1, NULL, NULL, NULL);
+  sz_strlcpy(user_name, s);
   g_free(s);
 
   /* this is silly, but i don't want the UI to barf on erroneous input */

@@ -349,7 +349,7 @@ void connection_do_unbuffer(struct connection *pc)
   if (pc && pc->used) {
     pc->send_buffer->do_buffer_sends--;
     if (pc->send_buffer->do_buffer_sends < 0) {
-      freelog(LOG_ERROR, "Too many calls to unbuffer %s!", pc->name);
+      freelog(LOG_ERROR, "Too many calls to unbuffer %s!", pc->username);
       pc->send_buffer->do_buffer_sends = 0;
     }
     if(pc->send_buffer->do_buffer_sends == 0)
@@ -374,38 +374,38 @@ void conn_list_do_unbuffer(struct conn_list *dest)
 }
 
 /***************************************************************
-  Find connection by exact name, from game.all_connections,
+  Find connection by exact user name, from game.all_connections,
   case-insensitve.  Returns NULL if not found.
 ***************************************************************/
-struct connection *find_conn_by_name(const char *name)
+struct connection *find_conn_by_user(const char *user_name)
 {
   conn_list_iterate(game.all_connections, pconn) {
-    if (mystrcasecmp(name, pconn->name)==0) {
+    if (mystrcasecmp(user_name, pconn->username)==0) {
       return pconn;
     }
-  }
-  conn_list_iterate_end;
+  } conn_list_iterate_end;
   return NULL;
 }
 
 /***************************************************************
-  Like find_conn_by_name(), but allow unambigous prefix
+  Like find_conn_by_username(), but allow unambigous prefix
   (ie abbreviation).
   Returns NULL if could not match, or if ambiguous or other
   problem, and fills *result with characterisation of
   match/non-match (see shared.[ch])
 ***************************************************************/
 static const char *connection_accessor(int i) {
-  return conn_list_get(&game.all_connections, i)->name;
+  return conn_list_get(&game.all_connections, i)->username;
 }
-struct connection *find_conn_by_name_prefix(const char *name,
-					    enum m_pre_result *result)
+
+struct connection *find_conn_by_user_prefix(const char *user_name,
+                                            enum m_pre_result *result)
 {
   int ind;
 
   *result = match_prefix(connection_accessor,
 			 conn_list_size(&game.all_connections),
-			 MAX_LEN_NAME-1, mystrncasecmp, name, &ind);
+			 MAX_LEN_NAME-1, mystrncasecmp, user_name, &ind);
   
   if (*result < M_PRE_AMBIGUOUS) {
     return conn_list_get(&game.all_connections, ind);
@@ -474,9 +474,9 @@ const char *conn_description(const struct connection *pconn)
 
   buffer[0] = '\0';
 
-  if (*pconn->name != '\0') {
+  if (*pconn->username != '\0') {
     my_snprintf(buffer, sizeof(buffer), _("%s from %s"),
-		pconn->name, pconn->addr); 
+		pconn->username, pconn->addr); 
   } else {
     sz_strlcpy(buffer, "server");
   }

@@ -87,8 +87,8 @@ static struct player *create_barbarian_player(bool land)
       if (!barbarians->is_alive) {
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
-        pick_ai_player_name( game.nation_count-1, barbarians->name);
-	sz_strlcpy(barbarians->username, barbarians->name);
+        pick_ai_player_name(game.nation_count-1, barbarians->name);
+	sz_strlcpy(barbarians->username, "Barbarians");
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(x, y) {
 	  map_clear_known(x, y, barbarians);
@@ -110,9 +110,9 @@ static struct player *create_barbarian_player(bool land)
   server_player_init(barbarians, TRUE);
 
   barbarians->nation = game.nation_count-1;
-  pick_ai_player_name( game.nation_count-1, barbarians->name);
+  pick_ai_player_name(game.nation_count-1, barbarians->name);
 
-  sz_strlcpy(barbarians->username, barbarians->name);
+  sz_strlcpy(barbarians->username, "Barbarians");
   barbarians->is_connected = FALSE;
   barbarians->government = game.government_when_anarchy; 
   barbarians->capital = FALSE;

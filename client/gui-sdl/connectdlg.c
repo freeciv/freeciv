@@ -76,7 +76,7 @@ static int connect_callback(struct GUI *pWidget)
 {
   char errbuf[512];
 
-  if (connect_to_server(player_name, server_host, server_port,
+  if (connect_to_server(user_name, server_host, server_port,
 			errbuf, sizeof(errbuf)) != -1) {
 			  
     /* clear dlg area */			  
@@ -481,7 +481,7 @@ static int meta_severs_callback(struct GUI *pWidget)
 static int convert_playername_callback(struct GUI *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
-  sz_strlcpy(player_name, tmp);
+  sz_strlcpy(user_name, tmp);
   FREE(tmp);
   return -1;
 }
@@ -598,7 +598,7 @@ static int popup_join_game_callback(struct GUI *pWidget)
   
   /* ------------------------------ */
 
-  pUser = create_edit_from_chars(NULL, pDest, player_name, 14, 210,
+  pUser = create_edit_from_chars(NULL, pDest, user_name, 14, 210,
 					 WF_DRAW_THEME_TRANSPARENT);
   pUser->action = convert_playername_callback;
   set_wstate(pUser, WS_NORMAL);
@@ -848,12 +848,12 @@ bool try_to_autoconnect(void)
     freelog(LOG_FATAL,
 	    _("Failed to contact server \"%s\" at port "
 	      "%d as \"%s\" after %d attempts"),
-	    server_host, server_port, player_name, count);
+	    server_host, server_port, user_name, count);
 
     exit(EXIT_FAILURE);
   }
 
-  if(try_to_connect(player_name, errbuf, sizeof(errbuf))) {
+  if(try_to_connect(user_name, errbuf, sizeof(errbuf))) {
     /* Server not available (yet) */
     if (!warning_shown) {
       freelog(LOG_NORMAL, _("Connection to server refused. "
@@ -883,7 +883,7 @@ void server_autoconnect()
   my_snprintf(buf, sizeof(buf),
 	      _("Auto-connecting to server \"%s\" at port %d "
 		"as \"%s\" every %d.%d second(s) for %d times"),
-	      server_host, server_port, player_name,
+	      server_host, server_port, user_name,
 	      AUTOCONNECT_INTERVAL / 1000, AUTOCONNECT_INTERVAL % 1000,
 	      MAX_AUTOCONNECT_ATTEMPTS);
   append_output_window(buf);
@@ -892,7 +892,7 @@ void server_autoconnect()
     freelog(LOG_FATAL,
 	    _("Error contacting server \"%s\" at port %d "
 	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, player_name, buf);
+	    server_host, server_port, user_name, buf);
 
 
     exit(EXIT_FAILURE);

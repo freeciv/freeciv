@@ -119,14 +119,14 @@ static void close_socket_callback(struct connection *pc)
   Connect to a civserver instance -- or at least try to.  On success,
   return 0; on failure, put an error message in ERRBUF and return -1.
 **************************************************************************/
-int connect_to_server(char *name, char *hostname, int port,
+int connect_to_server(char *username, char *hostname, int port,
 		      char *errbuf, int errbufsize)
 {
   if (get_server_address(hostname, port, errbuf, errbufsize) != 0) {
     return -1;
   }
 
-  if (try_to_connect(name, errbuf, errbufsize) != 0) {
+  if (try_to_connect(username, errbuf, errbufsize) != 0) {
     return -1;
   }
   return 0;
@@ -164,13 +164,13 @@ int get_server_address(const char *hostname, int port, char *errbuf,
    - try to create a TCP socket and connect it to `server_addr'
    - if successful:
 	  - start monitoring the socket for packets from the server
-	  - send a "join game request" packet to the server
+	  - send a "login request" packet to the server
       and - return 0
    - if unable to create the connection, close the socket, put an error
      message in ERRBUF and return the Unix error code (ie., errno, which
      will be non-zero).
 **************************************************************************/
-int try_to_connect(char *user_name, char *errbuf, int errbufsize)
+int try_to_connect(char *username, char *errbuf, int errbufsize)
 {
   struct packet_login_request req;
 
@@ -212,13 +212,13 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
 
   /* now send join_request package */
 
-  sz_strlcpy(req.short_name, user_name);
+  sz_strlcpy(req.short_name, username);
   req.major_version = MAJOR_VERSION;
   req.minor_version = MINOR_VERSION;
   req.patch_version = PATCH_VERSION;
   sz_strlcpy(req.version_label, VERSION_LABEL);
   sz_strlcpy(req.capability, our_capability);
-  sz_strlcpy(req.name, user_name);
+  sz_strlcpy(req.username, username);
   
   send_packet_login_request(&aconnection, &req);
 

@@ -1802,7 +1802,7 @@ static void create_ai_player(struct connection *caller, char *arg)
     return;
   }
 
-  if ((pplayer=find_player_by_user(arg))) {
+  if ((pplayer = find_player_by_user(arg))) {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
               _("A user already exists by that name."));
     return;
@@ -2026,7 +2026,7 @@ static bool set_cmdlevel(struct connection *caller,
 	      _("Cannot decrease command access level '%s' for connection '%s';"
 		" you only have '%s'."),
 	      cmdlevel_name(ptarget->access_level),
-	      ptarget->name,
+	      ptarget->username,
 	      cmdlevel_name(caller->access_level));
     return FALSE;
   } else {
@@ -2114,7 +2114,7 @@ static void cmdlevel_command(struct connection *caller, char *str)
 
     conn_list_iterate(game.est_connections, pconn) {
       cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, "cmdlevel %s %s",
-		cmdlevel_name(pconn->access_level), pconn->name);
+		cmdlevel_name(pconn->access_level), pconn->username);
     }
     conn_list_iterate_end;
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
@@ -2160,12 +2160,12 @@ static void cmdlevel_command(struct connection *caller, char *str)
       if (set_cmdlevel(caller, pconn, level)) {
 	cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		  _("Command access level set to '%s' for connection %s."),
-		  cmdlevel_name(level), pconn->name);
+		  cmdlevel_name(level), pconn->username);
       } else {
 	cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 		  _("Command access level could not be set to '%s' for "
 		    "connection %s."),
-		  cmdlevel_name(level), pconn->name);
+		  cmdlevel_name(level), pconn->username);
       }
     }
     conn_list_iterate_end;
@@ -2203,16 +2203,16 @@ static void cmdlevel_command(struct connection *caller, char *str)
 		cmdlevel_name(level));
     }
   }
-  else if ((ptarget=find_conn_by_name_prefix(arg_name,&match_result))) {
+  else if ((ptarget = find_conn_by_user_prefix(arg_name, &match_result))) {
     if (set_cmdlevel(caller, ptarget, level)) {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		_("Command access level set to '%s' for connection %s."),
-		cmdlevel_name(level), ptarget->name);
+		cmdlevel_name(level), ptarget->username);
     } else {
       cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 		_("Command access level could not be set to '%s'"
 		  " for connection %s."),
-		cmdlevel_name(level), ptarget->name);
+		cmdlevel_name(level), ptarget->username);
     }
   } else {
     cmd_reply_no_such_conn(CMD_CMDLEVEL, caller, arg_name, match_result);
@@ -2243,7 +2243,7 @@ static void firstlevel_command(struct connection *caller)
     cmd_reply(CMD_FIRSTLEVEL, caller, C_OK,
 	_("Command access level '%s' has been grabbed by connection %s."),
 		cmdlevel_name(first_access_level),
-		caller->name);
+		caller->username);
   }
 }
 
@@ -3055,7 +3055,7 @@ static void take_command(struct connection *caller, char *str)
   
   /* match the connection and player */
   if (!caller || (caller && caller->access_level == ALLOW_HACK)) {
-    if (!(pconn = find_conn_by_name_prefix(arg[i], &match_result))) {
+    if (!(pconn = find_conn_by_user_prefix(arg[i], &match_result))) {
       cmd_reply_no_such_conn(CMD_TAKE, caller, arg[i], match_result);
       goto end;
     }
@@ -3085,7 +3085,7 @@ static void take_command(struct connection *caller, char *str)
   if (pconn->player == pplayer) {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
               _("%s already controls or observes %s"),
-              pconn->name, pplayer->name);
+              pconn->username, pplayer->name);
     goto end;
   } 
 
@@ -3114,7 +3114,7 @@ static void take_command(struct connection *caller, char *str)
     attach_connection_to_player(pconn, pplayer);
 
     cmd_reply(CMD_TAKE, caller, C_COMMENT,
-              _("%s unconnecting from  %s"), pconn->name, old_plr->name);
+              _("%s unconnecting from  %s"), pconn->username, old_plr->name);
 
     /* only remove the player if the game is new and in pregame, nobody 
      * is connected to it anymore and it wasn't AI-controlled. */
@@ -3156,7 +3156,7 @@ static void take_command(struct connection *caller, char *str)
   }
 
   cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s"),
-            pconn->name, pplayer->name);
+            pconn->username, pplayer->name);
 
   end:;
   /* free our args */
@@ -3217,7 +3217,7 @@ void load_command(struct connection *caller, char *arg)
       unattach_connection_from_player(pconn);
     }
     players_iterate(pplayer) {
-      if (strcmp(pconn->name, pplayer->username) == 0) {
+      if (strcmp(pconn->username, pplayer->username) == 0) {
         attach_connection_to_player(pconn, pplayer);
         break;
       }
@@ -3299,7 +3299,7 @@ void handle_stdin_input(struct connection *caller, char *str)
 
   /* notify to the server console */
   if (caller) {
-    con_write(C_COMMENT, "%s: '%s'", caller->name, str);
+    con_write(C_COMMENT, "%s: '%s'", caller->username, str);
   }
 
   /* if the caller may not use any commands at all, don't waste any time */
@@ -3378,7 +3378,7 @@ void handle_stdin_input(struct connection *caller, char *str)
      * newline in str when it comes from the server command line
      */
     notify_player(NULL, "%s: '%s %s'",
-      caller ? caller->name : _("(server prompt)"), command, arg);
+      caller ? caller->username : _("(server prompt)"), command, arg);
   }
 
   switch(cmd) {
@@ -3559,7 +3559,7 @@ static void cut_client_connection(struct connection *caller, char *name)
   struct connection *ptarget;
   struct player *pplayer;
 
-  ptarget=find_conn_by_name_prefix(name, &match_result);
+  ptarget = find_conn_by_user_prefix(name, &match_result);
 
   if (!ptarget) {
     cmd_reply_no_such_conn(CMD_CUT, caller, name, match_result);
@@ -3569,7 +3569,7 @@ static void cut_client_connection(struct connection *caller, char *name)
   pplayer = ptarget->player;
 
   cmd_reply(CMD_CUT, caller, C_DISCONNECTED,
-	    _("Cutting connection %s."), ptarget->name);
+	    _("Cutting connection %s."), ptarget->username);
   lost_connection_to_client(ptarget);
   close_connection(ptarget);
 
@@ -3854,12 +3854,8 @@ void show_players(struct connection *caller)
        */
       buf2[0] = '\0';
       if (strlen(pplayer->username) > 0
-	  && strcmp(pplayer->name, pplayer->username) != 0
-	  && strcmp(pplayer->username, "UserName") != 0) {
-	/* Above: old code didn't update UserName for Barbarians and
-	 * civil war leaders - old savegames may contain "UserName"...
-	 */
-	my_snprintf(buf2, sizeof(buf2), _("username %s, "), pplayer->username);
+	  && strcmp(pplayer->username, "nouser") != 0) {
+	my_snprintf(buf2, sizeof(buf2), _("user %s, "), pplayer->username);
       }
       
       if (is_barbarian(pplayer)) {
@@ -3896,7 +3892,7 @@ void show_players(struct connection *caller)
       conn_list_iterate(pplayer->connections, pconn) {
 	my_snprintf(buf, sizeof(buf),
 		    _("  %s from %s (command access level %s), bufsize=%dkb"),
-		    pconn->name, pconn->addr, 
+		    pconn->username, pconn->addr, 
 		    cmdlevel_name(pconn->access_level),
 		    (pconn->send_buffer->nsize>>10));
 	if (pconn->observer) {
@@ -4091,11 +4087,11 @@ static char *player_generator(const char *text, int state)
 }
 
 /**************************************************************************
-The connection names, from game.all_connections.
+The connection user names, from game.all_connections.
 **************************************************************************/
 static const char *connection_name_accessor(int idx)
 {
-  return conn_list_get(&game.all_connections, idx)->name;
+  return conn_list_get(&game.all_connections, idx)->username;
 }
 static char *connection_generator(const char *text, int state)
 {

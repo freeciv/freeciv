@@ -1162,7 +1162,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   pfrom->gives_shared_vision |= 1<<pto->player_no;
   create_vision_dependencies();
   freelog(LOG_DEBUG, "giving shared vision from %s to %s\n",
-	  pfrom->username, pto->username);
+	  pfrom->name, pto->name);
 
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
@@ -1170,7 +1170,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
       if (really_gives_vision(pplayer, pplayer2)
 	  && !TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
 	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
-	       pplayer->username, pplayer2->username);
+	       pplayer->name, pplayer2->name);
 	whole_map_iterate(x, y) {
 	  int change = map_get_own_seen(x, y, pplayer);
 	  if (change != 0) {
@@ -1213,7 +1213,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   } players_iterate_end;
 
   freelog(LOG_DEBUG, "removing shared vision from %s to %s\n",
-	 pfrom->username, pto->username);
+	 pfrom->name, pto->name);
 
   pfrom->gives_shared_vision &= ~(1<<pto->player_no);
   create_vision_dependencies();
@@ -1224,7 +1224,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
       if (!really_gives_vision(pplayer, pplayer2)
 	  && TEST_BIT(save_vision[pplayer->player_no], pplayer2->player_no)) {
 	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
-	       pplayer->username, pplayer2->username);
+	       pplayer->name, pplayer2->name);
 	whole_map_iterate(x, y) {
 	  int change = map_get_own_seen(x, y, pplayer);
 	  if (change > 0) {

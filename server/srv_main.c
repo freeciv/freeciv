@@ -1277,7 +1277,7 @@ static void generate_ai_players(void)
     pplayer = get_player(old_nplayers);
      
     sz_strlcpy(pplayer->name, player_name);
-    sz_strlcpy(pplayer->username, player_name);
+    sz_strlcpy(pplayer->username, "Server AI");
 
     freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
             player_name);

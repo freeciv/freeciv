@@ -667,7 +667,7 @@ static const char *makeup_connection_name(int *id)
     if (!find_player_by_name(name)
 	&& !find_player_by_user(name)
 	&& !find_conn_by_id(i)
-	&& !find_conn_by_name(name)) {
+	&& !find_conn_by_user(name)) {
       *id = i;
       return name;
     }
@@ -731,13 +731,14 @@ static int server_accept_connection(int sockfd)
       pconn->incoming_packet_notify = NULL;
       pconn->outgoing_packet_notify = NULL;
 
-      sz_strlcpy(pconn->name, makeup_connection_name(&pconn->id));
+      sz_strlcpy(pconn->username, makeup_connection_name(&pconn->id));
       sz_strlcpy(pconn->addr,
 		 (from ? from->h_name : inet_ntoa(fromend.sin_addr)));
 
       conn_list_insert_back(&game.all_connections, pconn);
   
-      freelog(LOG_VERBOSE, "connection (%s) from %s", pconn->name, pconn->addr);
+      freelog(LOG_VERBOSE, "connection (%s) from %s", 
+              pconn->username, pconn->addr);
       ping_connection(pconn);
       return 0;
     }

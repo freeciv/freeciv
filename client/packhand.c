@@ -1388,7 +1388,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
 	  pinfo->id, pinfo->used, pinfo->established, pinfo->player_num,
 	  pinfo->observer, (int)pinfo->access_level);
   freelog(LOG_DEBUG, "conn_info \"%s\" \"%s\" \"%s\"",
-	  pinfo->name, pinfo->addr, pinfo->capability);
+	  pinfo->username, pinfo->addr, pinfo->capability);
   
   if (!pinfo->used) {
     /* Forget the connection */
@@ -1407,7 +1407,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     
     if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
-	      pinfo->id, pinfo->name);
+	      pinfo->id, pinfo->username);
       pconn = fc_calloc(1, sizeof(struct connection));
       pconn->buffer = NULL;
       pconn->send_buffer = NULL;
@@ -1420,7 +1420,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       conn_list_insert_back(&game.game_connections, pconn);
     } else {
       freelog(LOG_DEBUG, "Server reports updated connection %d %s",
-	      pinfo->id, pinfo->name);
+	      pinfo->id, pinfo->username);
       if (pplayer != pconn->player) {
 	if (pconn->player) {
 	  conn_list_unlink(&pconn->player->connections, pconn);
@@ -1435,7 +1435,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     pconn->observer = pinfo->observer;
     pconn->access_level = pinfo->access_level;
     pconn->player = pplayer;
-    sz_strlcpy(pconn->name, pinfo->name);
+    sz_strlcpy(pconn->username, pinfo->username);
     sz_strlcpy(pconn->addr, pinfo->addr);
     sz_strlcpy(pconn->capability, pinfo->capability);
   }

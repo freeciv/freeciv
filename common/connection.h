@@ -101,7 +101,7 @@ struct connection {
   double ping_time;
   
   struct conn_list self;	/* list with this connection as single element */
-  char name[MAX_LEN_NAME];
+  char username[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
   char capability[MAX_LEN_CAPSTR];
   /* "capability" gives the capability string of the executable (be it
@@ -196,9 +196,9 @@ void connection_do_unbuffer(struct connection *pc);
 void conn_list_do_buffer(struct conn_list *dest);
 void conn_list_do_unbuffer(struct conn_list *dest);
 
-struct connection *find_conn_by_name(const char *name);
-struct connection *find_conn_by_name_prefix(const char *name,
-					    enum m_pre_result *result);
+struct connection *find_conn_by_user(const char *user_name);
+struct connection *find_conn_by_user_prefix(const char *user_name,
+                                             enum m_pre_result *result);
 struct connection *find_conn_by_id(int id);
 
 struct socket_packet_buffer *new_socket_packet_buffer(void);
