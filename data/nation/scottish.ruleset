@@ -1,0 +1,34 @@
+[nation_scottish]
+
+name=_("Scottish")
+plural=_("?plural:Scottish")
+leader="Robert the Bruce", "William Wallace", "James", "Charles"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.scotland"
+flag_alt = "f.united_kingdom"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Republic",    _("Speaker"),        _("Speaker")
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Iron Working","Trade","Navigation","Railroad","Steel",
+           "Industrialization"
+wonder="Hoover Dam"
+government="Democracy"
+
+cities =
+  "Edinburgh", "Glasgow", "Aberdeen", "Dundee", "Inverness", "Perth",
+  "Ayr", "Cowdenbeath", "Dumbarton", "Dunfermline", "Falkirk",
+  "Fort William", "Gretna", "Irvine", "Johnstone", "Kilmarnok",
+  "Kilwinning", "Livingstone", "Lockerbie", "Motherwell", "Monifieth",
+  "Paisly", "Peterhead", "Prestwick", "Stirling", "Stranraer",
+  "Troon", "Ullapool", "Whitebridge"
+
+

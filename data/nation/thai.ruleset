@@ -1,0 +1,28 @@
+[nation_thai]
+
+name=_("Thai")
+plural=_("?plural:Thai")
+leader = "Rama Thibodi", "Chao Phya Chakri", "Maha Mongkut", "Chulalongkorn",
+         "Pibul Songgram", "Seni Pramoya"
+leader_sex = "Male", "Male", "Male", "Male",
+             "Male", "Male"
+flag="f.thailand"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=2
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Engineering", "Invention", "Railroad",
+             "Explosives"
+wonder= "Marco Polo's Embassy"
+government = "Democracy"
+
+cities =
+  "Bangkok", "Thon Buri", "Nakhon Rachasima", "Chiang Mai", "Khon Kaen",
+  "Hat Yai", "Chiang Rai", "Chumphon", "Hua Hin", "Lop Buri", "Lampang",
+  "Phitsanulok", "Sawankhatok", "Songkhla", "Adon Thani", "Pattaya",
+  "Laem Chabang", "Kanchanaburi", "Surat Thani", "Thammarat", "Phuket"
+
+

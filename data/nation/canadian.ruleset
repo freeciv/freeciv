@@ -1,0 +1,35 @@
+[nation_canadian]
+
+name=_("Canadian")
+plural=_("?plural:Canadians")
+leader="Pierre Trudeau", "John A. MacDonald", "John Diefenbaker"
+leader_sex="Male", "Male", "Male"
+flag="f.canada"
+flag_alt = "f.united_kingdom"
+city_style = "European"
+ruler_titles = { "government",      "male_title",         "female_title"
+                 "Democracy",       _("Prime Minister"),  _("Prime Minister")
+               }
+
+attack=0
+expand=1
+civilized=0
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Trade", "Engineering", "Democracy",
+             "Railroad", "Explosives", "Automobile"
+wonder="Cure For Cancer"
+government="Democracy"
+
+cities =
+  "Ottawa", "Toronto", "Vancouver", "Montreal", "Quebec", "Winnipeg",
+  "Calgary", "Edmonton", "Victoria", "Yellowknife", "Fredericton",
+  "Charlottetown", "Regina", "Saskatoon", "Whitehorse", "Iqaluit",
+  "Hamilton", "Kelowna", "Moose Jaw", "Brandon", "Sudbury", "St. John",
+  "St. John's", "Sault Ste. Marie", "Thunder Bay", "Red Deer", "Jasper",
+  "Prince Rupert", "Windsor", "Prince George", "Kamloops", "Lethbridge",
+  "Medicine Hat", "Prince Albert", "Thompson", "Timmins", "Sarnia",
+  "Guelph", "St. Catharines", "Barrie", "North Bay", "Belleville",
+  "Kingston", "Cornwall", "Trois-Rivieres", "Chicoutimi", "Rimouski",
+  "Moncton", "Dartmouth", "Glace Bay", "Corner Brook", "Gander"
+
+

@@ -1,0 +1,35 @@
+[nation_russian]
+
+name=_("Russian")
+plural=_("?plural:Russians")
+leader="Catherine II", "Ivan the Terrible", "Stalin", "Peter", "Anne"
+leader_sex="Female", "Male", "Male", "Male", "Female"
+flag="f.russia"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title",
+                 "Monarchy",        _("Czar"),         _("Czarina")
+                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
+               }
+
+attack=2
+expand=1
+civilized=0
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade",
+             "Bridge Building", "Railroad", "Communism"
+wonder="Women's Suffrage"
+government="Communism"
+
+cities =
+  "Moskva", "St. Petersburg", "Tver", "Novgorod",
+  "Yekaterinburg", "Samara", "Pskov", "Ryazan", "Vladimir",
+  "Yaroslavl",  "Novosibirsk", "Smolensk", "Briansk", "Oriel",
+  "Voronezh", "Saransk", "Uralsk", "Petrozavodsk", "Perm", "Ufa",
+  "Saratov", "Volgograd", "Rostov", "Tomsk", "Omsk", "Chelyabinsk",
+  "Irkutsk",  "Vladivostok",  "Khabarovsk",  "Krasnoyarsk",
+  "Vologda",  "Murmansk",  "Arkhangelsk",  "Krasnodar",  "Stavropol"
+
+

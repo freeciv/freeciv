@@ -1,0 +1,41 @@
+[nation_australian]
+
+name=_("Australian")
+plural=_("?plural:Australians")
+leader="Robert Menzies"
+leader_sex="Male"
+flag="f.australia"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=1
+expand=0
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Chivalry","Iron Working","Trade","Navigation",
+           "Railroad","Steel"
+wonder="Hoover Dam"
+government="Democracy"
+
+cities =
+  "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide", "Perth",
+  "Darwin", "Hobart", "Wollongong", "Rockhampton", "Launceston",
+  "Townsville", "Albany", "Bunbury", "Kalgoorlie", "Meekatharra",
+  "Winton", "Alice Springs", "Quilpie", "Cairns", "Southport", "Ballarat",
+  "Waneroo", "Fremantle", "Whyalla", "Albury", "Bathurst", "Dubbo",
+  "Mackay", "Newcastle", "Byron Bay", "Monkey Mia", "Grafton",
+  "Wagga Wagga", "Lismore", "Bourke", "Tamworth", "Woomera", "Carnarvon",
+  "Esperance", "Katherine", "Oodnadatta", "Broken Hill", "Hughenden",
+  "Geelong", "Mt. Isa", "Pine Creek", "Daly Waters", "Wyndham", "Broome",
+  "Onslow", "Geraldton", "Meekathrra", "Tennant Creek", "Ceduna",
+  "Longreach", "Renmark", "Mildura", "Hay", "Bega", "Toowoomba",
+  "Queenstown", "Coober Pedy", "Bendigo", "Derby", "Cunnamulla", "Walgett",
+  "Dampier", "Exmouth", "Yorketown", "Kiama", "Moe", "Warwick", "Gosford",
+  "Bowen", "Ingham", "Gympie", "Caloundra", "Taree", "Katoomba", "Prosperpine"
+
+

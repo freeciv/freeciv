@@ -1,0 +1,27 @@
+[nation_korean]
+
+name=_("Korean")
+plural=_("?plural:Koreans")
+leader="T'aejong", "Kim Ir Sen", "Pak Dzonghyi", "Wang Gon"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.korea"
+flag_alt = "-"
+city_style = "European"
+
+attack=0
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Iron Working","Philosophy","Invention","Gunpowder",
+           "Railroad","Steel"
+wonder="Sun Tzu's War Academy"
+government="Democracy"
+
+cities =
+  "Seoul", "Pyongyang", "Pusan", "Taegu", "Inchon", "Taejon",
+  "Wonsan", "Kosong", "Haeju", "Sunchon", "Kimchaek", "Najin",
+  "Ulsan", "Yosu", "Mokpo", "Pohang", "Masan", "Chinhae",
+  "Sonbong", "Songnim", "Sariwon", "Hamhung"
+
+

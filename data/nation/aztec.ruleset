@@ -1,0 +1,29 @@
+[nation_aztec]
+
+name=_("Aztec")
+plural=_("?plural:Aztecs")
+leader="Montezuma", "Cuahtemoc", "Itzcoatl", "Axayacatl"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.mexico"
+flag_alt = "-"
+city_style = "Classical"
+
+attack=1
+expand=0
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy", "Chivalry", "Iron Working", "Trade",
+             "Navigation", "Railroad", "Communism"
+wonder="Hoover Dam"
+government="Communism"
+
+cities =
+  "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",
+  "Tlacopán", "Theotihucanán", "Tezcuco", "Jalapa", "Tlaxcala",
+  "Cholula", "Tenochtitlán", "Yopitzingo", "Teotitlán", "Theuantepec",
+  "Chiauhtia", "Chapultepec", "Coatepec", "Ayotzinco", "Itzapalapa",
+  "Iztapam", "Mitxcoac", "Tacubaya", "Tecamac", "Tepezinco",
+  "Ticomán", "Xaltocán", "Xicalango", "Zumpanco"
+
+

@@ -1,0 +1,28 @@
+[nation_zulu]
+
+name=_("Zulu")
+plural=_("?plural:Zulus")
+leader="Shaka"
+leader_sex="Male"
+flag="f.south_africa"
+flag_alt = "f.rwanda"  ; used previously
+city_style = "European"
+
+attack=2
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
+             "Railroad", "Communism"
+wonder="Apollo Program"
+government="Communism"
+
+cities =
+ "Zimbabwe", "Ulundi", "Bapedi", "Hlobane", "Isandhlwana",
+ "Intombe", "Mpondo", "Ngome", "Swazi", "Tugela", "Umtata",
+ "Umfolozi", "Ibabanago", "Isipezi", "Amatikulu", "Zunguin",
+ "Nongoma", "Ixopo", "Isipingo", "Amanzimtoti", "Mtubatuba",
+ "Ubombo", "Ngobeni", "Ngutu", "Nkande", "Empangeni"
+
+

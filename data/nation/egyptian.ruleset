@@ -1,0 +1,34 @@
+[nation_egyptian]
+
+name=_("Egyptian")
+plural=_("?plural:Egyptians")
+leader="Ramesses", "Cleopatra", "Tutanhamon", "Hatshepsut", "Nefertiti", "Cheops"
+leader_sex="Male", "Female", "Male", "Female", "Female", "Male"
+flag="f.egypt"
+flag_alt = "-"
+city_style = "Classical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Pharaoh"),       _("Pharaoh")
+                 "Monarchy",        _("Great Pharaoh"), _("Great Pharaoh")
+               }
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy", "Philosophy", "Navigation", "Iron Working",
+             "Railroad"
+wonder="Pyramids"
+government="Monarchy"
+
+cities =
+  "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe", "Bubastis",
+  "Ammonium", "Alexandria", "Pelusium", "Canopus", "Naucratis",
+  "Diospolis",  "Sais", "Acoris", "Cynopolis", "Thinis",
+  "Timonepsis", "Nilopolis", "Chemmis", "Antaeopolis", "Hermonthis",
+  "Letopolis", "Aphroditopolis", "Heracleopolis", "Oxyrynchus",
+  "Ibiu", "Busiris", "Andropolis", "Sele", "Antiphrae", "Apis"
+
+

@@ -1,0 +1,43 @@
+[nation_english]
+
+name=_("English")
+plural=_("?plural:English")
+leader="Elizabeth", "William the Conqueror", "Richard Lionheart", "Henry VIII",
+       "Victoria"
+leader_sex="Female", "Male", "Male", "Male",
+           "Female"
+flag="f.england"
+flag_alt = "f.united_kingdom"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+                 "Fundamentalism",  _("Lord Protector"), _("Lady Protector")
+               }
+
+attack=1
+expand=2
+civilized=1
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy",  "Chivalry", "Trade", "Theology", "Monotheism",
+             "Navigation", "Democracy", "Railroad"
+wonder="King Richard's Crusade"
+government="Democracy"
+
+cities =
+  "London", "Birmingham", "Liverpool", "Manchester", "Leeds", "York",
+  "Newcastle", "Canterbury", "Bradford", "Derby", "Southampton",
+  "Middlesborough", "Sheffield", "Nottingham", "Coventry", "Bath", "Bristol",
+  "Brighton", "Portsmouth", "Hull", "Leicester", "Plymouth", "Bournemouth",
+  "Sunderland", "Stoke-on-Trent", "Bolton", "Norwich", "Oxford", "Colchester",
+  "Reading", "Cambridge", "Gloucester", "Blackpool", "Stratford-upon-Avon",
+  "Durham", "Eastleigh", "Winchester", "Folkestone", "Dover",
+  "Huntingdon", "Hereford", "Ipswich", "Kettering", "King's Lynn",
+  "Kidderminster", "Leek", "Lincoln", "Lutterworth", "Macclesfield",
+  "Market Bosworth", "Market Harborough", "Melton Mowbray", "Nuneaton",
+  "Oakham", "Peterborough", "Pickering", "Preston", "Poole", "Rochester",
+  "Ramsgate", "Southend", "Stevenage", "Ashford", "Swindon", "Torquay",
+  "Wolverhampton", "Weymouth", "Yeovil", "Halifax", "Oldham",
+  "Rochdale", "Blackburn", "Burnley", "Lancaster", "Northampton"
+
+

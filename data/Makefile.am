@@ -12,4 +12,4 @@ pkgdata_DATA = Freeciv	\
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = misc trident engels default classic civ1 civ2 scenario
+SUBDIRS = misc trident engels default classic civ1 civ2 scenario nation

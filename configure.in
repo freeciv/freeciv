@@ -458,6 +458,7 @@ AC_OUTPUT(Makefile
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
 	  data/scenario/Makefile 
+	  data/nation/Makefile 
 	  common/Makefile 
 	  ai/Makefile 
 	  client/Makefile 

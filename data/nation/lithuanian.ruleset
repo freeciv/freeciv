@@ -1,0 +1,33 @@
+[nation_lithuanian]
+
+name=_("Lithuanian")
+plural=_("?plural:Lithuanians")
+leader="Gediminas","Jogaila"
+leader_sex="Male", "Male"
+flag="f.lithuania"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",         "female_title"
+                 "Monarchy",      _("Great Duke"),      _("Great Duchess")
+}
+
+attack=2
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy","Chivalry","The Republic","Railroad","Explosives"
+wonder="Copernicus' Observatory"
+government = "Republic"
+
+; Some of these names are not spelled correctly
+; Some of these names are not Lithuanian, but Latvian, Estian or Belarusian
+; they were in Lithuania in some part of history and are not in freeciv yet,
+; so I put them here
+cities =
+  "Vilnius", "Kaunas", "Klaipeda", "Grodno", "Riga", "Siauliai",
+  "Tallin", "Sluck", "Bobruysk", "Minsk", "Slonim",
+  "Brest Litovsk", "Tartu", "Kobrin", "Polock", "Daugavpilsk",
+  "Parnava", "Lipava", "Yelgava", "Yurmala", "Rosienie", "Vindava",
+  "Narva", "Kohtla-Järve"
+
+

@@ -1,0 +1,26 @@
+[nation_bavarian]
+
+name=_("Bavarian")
+plural=_("?plural:Bavarians")
+leader = "Ludwig II", "Maximilian", "Joseph", "F.J.Strauss"
+leader_sex = "Male", "Male", "Male", "Male"
+flag="f.bavarian"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Feudalism", "Gunpowder", "Railroad",
+             "Explosives"
+wonder= "Leonardo's Workshop"
+government = "Monarchy"
+
+cities =
+  "München", "Regensburg", "Ingolstadt", "Landshut", "Rosenheim",
+  "Eichstätt", "Passau",  "Straubing", "Mühldorf", "Freising",
+  "Deggendorf", "Erding", "Freilassing", "Altötting", "Pfaffenhofen",
+  "Vilshofen", "Plattling", "Traunstein", "Burghausen", "Dingolfing"
+
+

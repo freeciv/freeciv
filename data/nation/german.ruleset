@@ -1,0 +1,42 @@
+[nation_german]
+
+name=_("German")
+plural=_("?plural:Germans")
+leader="Frederick", "Otto", "Wilhelm", "Bismarck", "Hitler"
+leader_sex="Male", "Male", "Male", "Male", "Male"
+flag="f.germany"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Chancellor"),   _("Chancellor")
+                 "Fundamentalism",  _("Archbishop"),   _("Archbishop")
+               }
+
+attack=2
+expand=0
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "The Republic", "Iron Working", "Gunpowder", "Explosives",
+             "Flight"
+wonder="J.S. Bach's Cathedral"
+government="Republic"
+
+cities =
+  "Frankfurt", "Mainz", "Trier", "Aachen", "Münster",
+  "Bremen", "Lübeck", "Hamburg", "Berlin", "Dresden",
+  "Wien", "Fulda", "Würzburg", "Bamberg", "Nürnberg",
+  "München", "Brixien", "Salzburg", "Passau", "Köln",
+  "Koblenz", "Leipzig", "Regensburg", "Heidelberg", "Verden",
+  "Kassel", "Wittenberg", "Wismar", "Ulm", "Nördlingen",
+  "Stralsund", "Marburg", "Schlettstadt", "Augsburg", "Rostock", "Schwerin",
+  "Mansfeld", "Donauwörth", "Dessau", "Osnabrück", "Hannover", "Stuttgart",
+  "Mühlberg", "Wittstock", "Speyer", "Kleve", "Worms", "Halle", "Erfurt",
+  "Landau", "Heilbronn", "Rosheim", "Schmalkalden", "Lutter",
+  "Wiesloch", "Rosslau", "Magdeburg", "Minden", "Sinsheim", "Gotha",
+  "Philippsburg", "Halberstadt", "Hersfeld", "Altenburg", "Klostergrab",
+  "Oldenburg", "Weimar", "Freiburg", "Baden-Baden", "Mannheim", "Kiel",
+  "Solingen", "Elberfeld", "Barmen", "Essen", "Dortmund", "Duisburg",
+  "Düsseldorf", "Gelsenkirchen", "Bochum", "Saarbrücken", "Ludwigshafen"
+
+

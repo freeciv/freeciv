@@ -1,0 +1,31 @@
+[nation_carthaginian]
+
+name=_("Carthaginian")
+plural=_("?plural:Carthaginians")
+leader="Hannibal", "Hasdrubal", "Hamilcar", "Dido"
+leader_sex="Male", "Male", "Male", "Female"
+flag="f.tunisia"
+flag_alt = "-"
+city_style = "Classical"
+
+attack=2
+expand=1
+civilized=1
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy", "Philosophy","Chivalry","Trade","Bridge Building",
+           "Navigation"
+wonder="Lighthouse"
+government="Monarchy"
+
+;Ancient cities from Africa and south Spain,
+;some are later roman colonies and not carthaginian towns
+
+cities =
+  "Carthago", "Leptis Magna", "Cirta", "Hadrumetum", "Aspis",
+  "Charax", "Oea", "Sabrata", "Utica", "Saldae", "Cartenna",
+  "Siga", "Rusaddir", "Tingis", "Gades", "Malaca", "Mastia",
+  "Thapsus", "Capsa", "Thugga", "Thevesta", "Madaura", "Sitifis",
+  "Githis", "Uthina", "Thamugaddi", "Lambaesis"
+
+

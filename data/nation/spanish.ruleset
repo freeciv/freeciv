@@ -1,0 +1,31 @@
+[nation_spanish]
+
+name=_("Spanish")
+plural=_("?plural:Spanish")
+leader="Charles V", "Isabella", "Ferdinand", "Joanna", "Philip"
+leader_sex="Male", "Female", "Male", "Female", "Male"
+flag="f.spain"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Philosophy", "Navigation", "Iron Working",
+             "Railroad"
+wonder="Magellan's Expedition"
+government="Democracy"
+
+cities =
+ "Madrid", "Toledo", "León", "Salamanca",
+ "Vigo", "La Coruña", "Oviedo", "Bilbao", "Valladolid",
+ "San Sebastián", "Vitoria", "Zaragoza",
+ "Barcelona", "Valencia", "Palma", "Alcudia",
+ "Tenerife", "Santander", "Sevilla", "Granada", "Málaga",
+ "Jerez", "Alicante", "Córdoba", "Cádiz"
+
+

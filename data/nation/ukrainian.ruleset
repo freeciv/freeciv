@@ -1,0 +1,31 @@
+[nation_ukrainian]
+
+name=_("Ukrainian")
+plural=_("?plural:Ukrainians")
+leader="Khmelnistkyi","Petlura"
+leader_sex="Male","Male"
+flag="f.ukraine"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",         "female_title"
+                 "Despotism",     _("Hetman"),          _("Hetman")
+               }
+
+attack=0
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Chivalry","The Republic","Gunpowder","Leadership","Explosives"
+wonder="Sun Tzu's War Academy"
+government="Communism"
+
+cities =
+  "Kyiv", "Lviv", "Zhytomyr", "Lutsk", "Pereyeslav", "Zaporizhzhia",
+  "Chernihiv", "Braclav", "Kherson", "Kharkiv", "Sumy",
+  "Odesa", "Cherkasy", "Donetsk", "Dnipropetrovsk",
+  "Poltava", "Rivne", "Chernobyl", "Sevastopol", "Yalta",
+  "Kamieniec", "White Church", "Chernivtsi", "Khmelnistkyi",
+  "Ternopil", "Ivano-frankivsk", "Uzhhorod", "Kirovohrad",
+  "Luhansk", "Mykolaiv", "Vinnytsya"
+
+

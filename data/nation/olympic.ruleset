@@ -1,0 +1,26 @@
+[nation_olympic]
+
+name=_("Olympic")
+plural=_("?plural:Olympians")
+leader=""
+leader_sex="Male"
+flag="f.olympic"
+flag_alt = "-"
+city_style = "European"
+
+attack=0
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Philosophy","Invention","Electricity"
+wonder="United Nations"
+government="Democracy"
+
+cities =
+  "Athens", "Paris", "St Louis", "London", "Stockholm", "Antwerp",
+  "Amsterdam", "Los Angeles", "Berlin", "Helsinki", "Melbourne",
+  "Rome", "Tokyo", "Grenoble", "Mexico City", "Munich", "Montreal",
+  "Moscow", "Seoul", "Barcelona", "Atlanta", "Sydney", "Salt Lake"
+
+

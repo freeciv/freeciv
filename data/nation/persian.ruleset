@@ -1,0 +1,35 @@
+[nation_persian]
+
+name=_("Persian")
+plural=_("?plural:Persians")
+leader="Cyrus", "Darius", "Xerxes", "Ardashir"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.iran"
+flag_alt = "-"
+city_style = "Classical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Shah"),         _("Shah")
+               }
+
+attack=1
+expand=2
+civilized=0
+advisors=100,100,100,100,100,100,100
+tech_goals = "Polytheism", "Philosophy", "Trade", "Engineering",
+             "Iron Working", "Railroad"
+wonder="Hanging Gardens"
+government="Monarchy"
+
+;first are ancient cities in latin version
+
+cities =
+  "Persepolis", "Susa", "Ekbatana", "Pasargadae",
+  "Rhagae", "Margiane", "Baktra", "Taxila", "Gabae",
+  "Zadrakarta", "Herat", "Drapsaka", "Karmana", "Pura", ;modern cities
+  "Teheran", "Isfahan", "Tabriz", "Hamadan", "Rasht",
+  "Ahraz", "Shiraz", "Kerman", "Yazd", "Mashhad", "Zahedan",
+  "Bushehr", "Qazrin", "Lhasa", "Bulgar", "Hormuz", "Baghdad",
+  "Esfahan", "Mosul"
+
+

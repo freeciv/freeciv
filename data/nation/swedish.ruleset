@@ -1,0 +1,33 @@
+[nation_swedish]
+
+name=_("Swedish")
+plural=_("?plural:Swedes")
+leader="Gustav Vasa", "Erik", "Karl", "Christine"
+leader_sex="Male", "Male", "Male", "Female"
+flag="f.sweden"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=2
+expand=2
+civilized=0
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Map Making", "The Republic", "Trade", "Gunpowder"
+wonder="Magellan's Expedition"
+government="Democracy"
+
+cities =
+ "Stockholm", "Uppsala", "Solentuna", "Sigtuna", "Birka",
+ "Norrköping", "Linköping", "Örebro", "Gävle", "Västerås",
+ "Göteborg", "Karlstad", "Växjö", "Kalmar", "Visby",
+ "Malmö", "Helsingborg", "Ystad",  "Lund", "Luleå", "Kiruna",
+ "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
+ "Piteå", "Skellefteå", "Umeå", "Jönköping", "Kristianstad",
+ "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun",
+ "Vyborg", "Holmgard"
+
+

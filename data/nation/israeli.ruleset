@@ -1,0 +1,34 @@
+[nation_israeli]
+
+name=_("Israeli")
+plural=_("?plural:Israelis")
+leader="Solomon", "David", "David Ben-Gurion", "Ze'ev Zabotinsky"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.israel"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","Iron Working","Trade","Monotheism","Navigation",
+           "Railroad","Steel","Industrialization"
+wonder="J.S. Bach's Cathedral"
+government="Democracy"
+
+cities =
+  "Jerusalam", "Zephath", "Jeriho", "Beersheba", "Gat", "Tiberias",
+  "Shchem", "Beit-El", "Beit-Horon", "Beit-Shemesh", "Beit-Shaan",
+  "Beit-Lechem", "Hevron", "Acre", "Ceisaria", "Jaffo", "Haifa",
+  "Rishon Le-Zion", "Beit-Shemen", "Rehovot", "Hadera", "Tel Aviv",
+  "Petach-Tikva", "Ashdod", "Lod", "Eilat", "Ashqelon", "Herzliah",
+  "Netania", "Afulla", "Metula", "Dimona", "Carmiel", "Nazareth",
+  "Ra'anana", "Ramat-Gav", "Holon"
+
+

@@ -1,0 +1,28 @@
+[nation_argentine]
+
+name=_("Argentine")
+plural=_("?plural:Argentines")
+leader="San Martin", "Rosas", "Rivadavia", "Peron"
+leader_sex="Male", "Male", "Male", "Male"
+flag="f.argentina"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals="Monarchy","The Republic","Iron Working","Trade","Navigation",
+           "Railroad","Steel","Industrialization","Democracy"
+wonder="J.S. Bach's Cathedral"
+government="Democracy"
+
+cities =
+  "Buenos Aires", "Cordoba", "Rosario", "Mendoza", "Tucuman",
+  "Mar del Plata", "Santa Fe", "Ushuaia", "La Plata", "Posadas",
+  "Neuquen", "Corrientes", "Catamarca", "Formosa", "Resistencia",
+  "Salta", "Bahia Blanca", "Viedma", "Comodoro Rivadavia",
+  "Rawson", "Rio Grande"
+
+

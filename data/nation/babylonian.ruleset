@@ -1,0 +1,29 @@
+[nation_babylonian]
+
+name=_("Babylonian")
+plural=_("?plural:Babylonians")
+leader="Hammurabi", "Sargon", "Nabuchadnezzar"
+leader_sex="Male", "Male", "Male"
+flag = "f.iraq_old"
+flag_alt = "-"
+city_style = "Classical"
+
+attack=0
+expand=0
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy","Philosophy","Mathematics","Chivalry",
+             "Theology","Monotheism"
+wonder="Hanging Gardens"
+government="Monarchy"
+
+cities =
+  "Babylon", "Lagash", "Nippur", "Ur", "Kish",
+  "Shuruppak", "Kisurra", "Cutha", "Adab", "Umma",
+  "Akkad", "Eridu", "Larsa", "Borsippa", "Sippar",
+  "Nineveh", "Ashur", "Calach", "Carcar", "Hamat",
+  "Opis", "Cunaxa", "Arbela", "Nisibis", "Carrhae",
+  "Seleucia", "Ctesiphon", "Sittace", "Orchoe", "Apamea"
+
+

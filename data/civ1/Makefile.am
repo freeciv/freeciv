@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/@PACKAGE@/civ1
 
 pkgdata_DATA =          \
+	nations.ruleset	\
 	terrain.ruleset	\
 	techs.ruleset	\
 	governments.ruleset \

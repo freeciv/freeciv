@@ -1,0 +1,34 @@
+[nation_polish]
+
+name=_("Polish")
+plural=_("?plural:Polish")
+leader="Mieszko", "Jadwiga", "Jan Sobieski", "Kosciuszko", "Pilsudski", "Walesa"
+leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
+flag="f.poland"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Fundamentalism",  _("Prymas"),       _("Prymas")
+               }
+
+attack=2
+expand=1
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Trade", "Engineering", "Monotheism",
+             "Gunpowder", "Railroad"
+wonder="Copernicus' Observatory"
+government="Democracy"
+
+cities =
+ "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Gdansk",
+ "Szczecin", "Lódz", "Torun", "Bydgoszcz", "Lublin", "Czestochowa",
+ "Olsztyn", "Wloclawek", "Radom", "Kielce", "Bialystok", "Opole",
+ "Plock", "Rzeszów", "Tarnów", "Katowice", "Bielsko-Biala",
+ "Sandomierz", "Legnica", "Walbrzych", "Gdynia", "Koszalin",
+ "Slupsk", "Piotrków", "Konin", "Kalisz", "Krosno", "Przemysl",
+ "Tarnobrzeg", "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane",
+ "Oswiecim", "Glogów", "Jawor", "Zielona Góra", "Jelenia Góra",
+ "Boleslawiec", "Gorzów"
+
+

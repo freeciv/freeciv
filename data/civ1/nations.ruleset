@@ -8,7 +8,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Default nations data for Freeciv"
+description="Civ1-equivalent nations data for Freeciv"
 options="1.9"
 
 ; Below: nations data in sections [nation_*] for
@@ -46,9 +46,6 @@ options="1.9"
 ; you run out of default cities for your nation
 ;
 
-; Note: do not change the following order for default nations.ruleset,
-; or nations in savegames will become wrong.
-
 *include "nation/roman.ruleset"
 *include "nation/babylonian.ruleset"
 *include "nation/german.ruleset"
@@ -63,42 +60,6 @@ options="1.9"
 *include "nation/chinese.ruleset"
 *include "nation/english.ruleset"
 *include "nation/mongol.ruleset"
-*include "nation/turk.ruleset"
-*include "nation/spanish.ruleset"
-*include "nation/persian.ruleset"
-*include "nation/arab.ruleset"
-*include "nation/carthaginian.ruleset"
-*include "nation/inca.ruleset"
-*include "nation/viking.ruleset"
-*include "nation/polish.ruleset"
-*include "nation/hungarian.ruleset"
-*include "nation/danish.ruleset"
-*include "nation/dutch.ruleset"
-*include "nation/swedish.ruleset"
-*include "nation/japanese.ruleset"
-*include "nation/portuguese.ruleset"
-*include "nation/finnish.ruleset"
-*include "nation/sioux.ruleset"
-*include "nation/czech.ruleset"
-*include "nation/australian.ruleset"
-*include "nation/welsh.ruleset"
-*include "nation/korean.ruleset"
-*include "nation/scottish.ruleset"
-*include "nation/israeli.ruleset"
-*include "nation/argentine.ruleset"
-*include "nation/canadian.ruleset"
-*include "nation/ukrainian.ruleset"
-*include "nation/lithuanian.ruleset"
-*include "nation/kenyan.ruleset"
-*include "nation/dunedain.ruleset"
-*include "nation/vietnamese.ruleset"
-*include "nation/thai.ruleset"
-*include "nation/mordor.ruleset"
-*include "nation/bavarian.ruleset"
-*include "nation/brazilian.ruleset"
-
-;*include "nation/olympic.ruleset"
-;*include "nation/krevi.ruleset"
 
 ;
 ; barbarians MUST go last

@@ -1,0 +1,35 @@
+[nation_turk]
+
+name=_("Turk")
+plural=_("?plural:Turks")
+leader="Kemal Atatürk", "Sulayman", "Osman", "Murad",
+       "Selim", "Mehmed"
+leader_sex="Male", "Male", "Male", "Male",
+           "Male", "Male"
+flag="f.turkey"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Sultan"),       _("Sultan")
+               }
+
+attack=1
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+
+tech_goals = "Monarchy", "Philosophy", "Mathematics", "Chivalry",
+             "Theology", "Railroad"
+wonder="Sun Tzu's War Academy"
+government="Republic"
+
+cities =
+ "Ankara", "Istanbul", "Izmir", "Adana", "Antalya",
+ "Galatarasay", "Smyrna", "Bursa", "Edirne", "Erzerum",
+ "Eskisehir", "Trabzon", "Konya", "Ordu", "Iskenderun",
+ "Aydin", "Denizli", "Kutahya", "Nevsehir", "Sivas",
+ "Adiyaman", "Kirsehir", "Elazig", "Malatya", "Tunceli",
+ "Balikesli", "Bandirma", "Yozgat", "Diyarbakir", "Giresun"
+
+
