@@ -59,7 +59,7 @@ static int city_sort_order;
 static HMENU menu_shown; 
 static HWND sort_buttons[NUM_CREPORT_COLS];
 HWND cityrep_list;
-typedef int TestCityFunc(struct city *, int);     
+typedef bool TestCityFunc(struct city *, int);     
 
 #define ID_CITYREP_SORTBASE 6400
 #define ID_CHANGE_POPUP_BASE 7000
@@ -239,7 +239,7 @@ static void append_impr_or_unit_to_menu(HMENU menu,
     /* Add all buildings */
     append_impr_or_unit_to_menu_sub(menu, _("No Buildings Available"),
 				    FALSE, FALSE, change_prod,
-				    (int (*)(struct city *, int))
+				    (bool (*)(struct city *, int))
 				    test_func,
 				    selitems, selcount, idcount);
     /* Add a separator */
@@ -263,7 +263,7 @@ static void append_impr_or_unit_to_menu(HMENU menu,
     /* Add all wonders */
     append_impr_or_unit_to_menu_sub(menu, _("No Wonders Available"),
 				    FALSE, TRUE, change_prod,
-				    (int (*)(struct city *, int))
+				    (bool (*)(struct city *, int))
 				    test_func,
 				    selitems, selcount, idcount);
   }
@@ -503,7 +503,7 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
   int selcount;
   int i;
   struct city *pcity; 
-  int is_unit = cid_is_unit(cid);
+  bool is_unit = cid_is_unit(cid);
   int number = cid_id(cid);
   
   selcount=ListBox_GetSelCount(GetDlgItem(hWnd,ID_CITYREP_LIST));
@@ -1073,7 +1073,7 @@ static LONG APIENTRY city_report_proc(HWND hWnd,
 
 **************************************************************************/
 void
-popup_city_report_dialog(int make_modal)
+popup_city_report_dialog(bool make_modal)
 {
   if (hCityRep) return;
   hCityRep=
