@@ -695,12 +695,11 @@ struct settings_s settings[] = {
   GEN_INT("diplomacy", game.diplomacy,
 	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Ability to do diplomacy with other players"),
-	  N_("0 = default; diplomacy is enabled for everyone.\n\n"
-	     "1 = diplomacy is only allowed between human players.\n\n"
-	     "2 = diplomacy is only allowed between AI players.\n\n"
-             "3 = diplomacy is restricted to teams.\n\n"
-             "4 = diplomacy is disabled for everyone.\n\n"
-             "You can always do diplomacy with players on your team."), NULL,
+	  N_("0 = default; diplomacy is enabled for everyone.\n"
+	     "1 = diplomacy is only allowed between human players.\n"
+	     "2 = diplomacy is only allowed between AI players.\n"
+             "3 = diplomacy is restricted to teams.\n"
+             "4 = diplomacy is disabled for everyone."), NULL,
 	  GAME_MIN_DIPLOMACY, GAME_MAX_DIPLOMACY, GAME_DEFAULT_DIPLOMACY)
 
   GEN_INT("citynames", game.allowed_city_names,
