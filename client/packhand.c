@@ -311,6 +311,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   
   if(punit) {
     if(punit->activity!=packet->activity) { /* change activity */
+      repaint_unit=1;
       if(wakeup_focus && (punit->owner==game.player_idx)
                       && (punit->activity==ACTIVITY_SENTRY)) {
         set_unit_focus(punit);
