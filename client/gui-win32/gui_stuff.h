@@ -46,59 +46,59 @@ struct fcwin_box *fcwin_vbox_new(HWND owner,int same_size);
 void fcwin_box_free(struct fcwin_box *box);
 void fcwin_box_freeitem(struct fcwin_box *box, int n);
 void fcwin_box_add_win(struct fcwin_box *box,HWND win,
-		       int expand, int fill, int padding);
+		       bool expand, bool fill, int padding);
 void fcwin_box_add_win_default(struct fcwin_box *box,HWND win);
 void fcwin_box_add_generic(struct fcwin_box *box,
 			t_fcminsize minsize,
 			t_fcsetsize setsize,
 			t_fcdelwidget del,
 			void *data,
-			int expand,
-			int fill,
+			bool expand,
+			bool fill,
 			int padding);
-HWND fcwin_box_add_static_default(struct fcwin_box *box,char *txt,
+HWND fcwin_box_add_static_default(struct fcwin_box *box,const char *txt,
 				  int id, int style);
-HWND fcwin_box_add_button_default(struct fcwin_box *box,char *txt,
+HWND fcwin_box_add_button_default(struct fcwin_box *box,const char *txt,
 				  int id, int style);
-HWND fcwin_box_add_static(struct fcwin_box *box,char *txt,int id, int style,
-			  int expand, int fill, int padding);
-HWND fcwin_box_add_button(struct fcwin_box *box,char *txt,int id, int style,
-			  int expand, int fill, int padding);
-HWND fcwin_box_add_checkbox(struct fcwin_box *box, char *txt,int id,int style,
-			    int expand, int fill, int padding);
-HWND fcwin_box_add_edit(struct fcwin_box *box, char *txt, int maxchars,
+HWND fcwin_box_add_static(struct fcwin_box *box,const char *txt,int id, int style,
+			  bool expand, bool fill, int padding);
+HWND fcwin_box_add_button(struct fcwin_box *box,const char *txt,int id, int style,
+			  bool expand, bool fill, int padding);
+HWND fcwin_box_add_checkbox(struct fcwin_box *box, const char *txt,int id,int style,
+			    bool expand, bool fill, int padding);
+HWND fcwin_box_add_edit(struct fcwin_box *box, const char *txt, int maxchars,
 			int id,int style,
-			int expand, int fill, int padding);
+			bool expand, bool fill, int padding);
 HWND fcwin_box_add_list(struct fcwin_box *box,
 			int rows,
 			int id,
 			int style,
-			int expand, int fill, int padding);
+			bool expand, bool fill, int padding);
 HWND fcwin_box_add_listview(struct fcwin_box *box,
 			    int rows,
 			    int id,
 			    int style,
-			    int expand, int fill, int padding);
+			    bool expand, bool fill, int padding);
 HWND fcwin_box_add_tab(struct fcwin_box *box,
 		       WNDPROC *wndprocs,
 		       HWND *wnds,
 		       char **titles,
 		       void **user_data, int n,
 		       int id,int style,
-		       int expand, int fill, int padding);
+		       bool expand, bool fill, int padding);
 HWND fcwin_box_add_combo(struct fcwin_box *box,
 			 int rows,
 			 int id,
 			 int style,
-			 int expand, int fill, int padding);
-HWND fcwin_box_add_groupbox(struct fcwin_box *box, char *txt,
+			 bool expand, bool fill, int padding);
+HWND fcwin_box_add_groupbox(struct fcwin_box *box, const char *txt,
 			    struct fcwin_box *box_add, int style,
 			    bool expand, bool fill,
 			    int padding);
-HWND fcwin_box_add_radiobutton(struct fcwin_box *box,char *txt, int id,
-			       int style,int expand,int fill, int padding);
+HWND fcwin_box_add_radiobutton(struct fcwin_box *box, const char *txt, int id,
+			       int style,bool expand,bool fill, int padding);
 void fcwin_box_add_box(struct fcwin_box *box, struct fcwin_box *box_to_add,
-		       int expand, int fill, int padding);
+		       bool expand, bool fill, int padding);
 void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize);
 void fcwin_box_do_layout(struct fcwin_box *box, LPRECT size);
 void fcwin_box_calc_layout(struct fcwin_box *box, int x, int y);

@@ -492,7 +492,7 @@ void button_minsize(LPPOINT minsize, void *data)
 
 **************************************************************************/
 
-HWND fcwin_box_add_checkbox(struct fcwin_box *box, char *txt, int id, int style,
+HWND fcwin_box_add_checkbox(struct fcwin_box *box, const char *txt, int id, int style,
 		       bool expand, bool fill, int padding)
 {
   HWND win;
@@ -511,8 +511,8 @@ HWND fcwin_box_add_checkbox(struct fcwin_box *box, char *txt, int id, int style,
 /**************************************************************************
 
 **************************************************************************/
-HWND fcwin_box_add_radiobutton(struct fcwin_box *box,char *txt, int id,
-			       bool expand,int style,bool fill, int padding)
+HWND fcwin_box_add_radiobutton(struct fcwin_box *box, const char *txt, int id,
+			       int style, bool expand, bool fill, int padding)
 {
   HWND win;
   win=CreateWindow("BUTTON",txt,
@@ -574,7 +574,7 @@ static void groupbox_del(void *data)
 /**************************************************************************
 
 **************************************************************************/
-HWND fcwin_box_add_groupbox(struct fcwin_box *box, char *txt,
+HWND fcwin_box_add_groupbox(struct fcwin_box *box,const char *txt,
 			    struct fcwin_box *box_add, int style,
 			    bool expand, bool fill,
 			    int padding)
@@ -593,7 +593,8 @@ HWND fcwin_box_add_groupbox(struct fcwin_box *box, char *txt,
 /**************************************************************************
 
 **************************************************************************/
-HWND fcwin_box_add_static(struct fcwin_box *box, char *txt, int id, int style,
+HWND fcwin_box_add_static(struct fcwin_box *box, const char *txt,
+			  int id, int style,
 			  bool expand, bool fill, int padding)
 {
   HWND win;
@@ -611,7 +612,8 @@ HWND fcwin_box_add_static(struct fcwin_box *box, char *txt, int id, int style,
 /**************************************************************************
 
 **************************************************************************/
-HWND fcwin_box_add_button(struct fcwin_box *box, char *txt, int id, int style,
+HWND fcwin_box_add_button(struct fcwin_box *box, const char *txt,
+			  int id, int style,
 			  bool expand, bool fill, int padding)
 {
   HWND win;
@@ -956,7 +958,7 @@ HWND fcwin_box_add_combo(struct fcwin_box *box,
 /**************************************************************************
 
 **************************************************************************/
-HWND fcwin_box_add_button_default(struct fcwin_box *box, char *txt, 
+HWND fcwin_box_add_button_default(struct fcwin_box *box, const char *txt, 
 				  int id, int style)
 {
   return fcwin_box_add_button(box,txt,id,style,FALSE,FALSE,5);
@@ -965,7 +967,7 @@ HWND fcwin_box_add_button_default(struct fcwin_box *box, char *txt,
 /**************************************************************************
 
 **************************************************************************/
-HWND fcwin_box_add_static_default(struct fcwin_box *box, char *txt, 
+HWND fcwin_box_add_static_default(struct fcwin_box *box, const char *txt, 
 				  int id, int style)
 {
   return fcwin_box_add_static(box,txt,id,style,FALSE,FALSE,5);
@@ -1031,7 +1033,7 @@ static void edit_del(void *data)
 /**************************************************************************
 
  *************************************************************************/
-HWND fcwin_box_add_edit(struct fcwin_box *box, char *txt, int maxchars,
+HWND fcwin_box_add_edit(struct fcwin_box *box, const char *txt, int maxchars,
 			int id,int style,
 			bool expand, bool fill, int padding)
 {
