@@ -50,10 +50,6 @@
 
 static struct Sprite *indicator_sprite[3];
 
-HDC overviewstoredc;
-HBITMAP overviewstorebitmap;
-HBITMAP mapstorebitmap;
-
 static HBITMAP intro_gfx;
 
 #define single_tile_pixmap (mapview_canvas.single_tile->bitmap)
@@ -103,14 +99,14 @@ void canvas_free(struct canvas *store)
   free(store);
 }
 
-static struct canvas overview_store;
+static struct canvas overview_canvas;
 
 /****************************************************************************
   Return a canvas that is the overview window.
 ****************************************************************************/
 struct canvas *get_overview_window(void)
 {
-  return &overview_store;
+  return &overview_canvas;
 }
 
 /***************************************************************************
@@ -151,61 +147,6 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
       ReleaseDC(root_window, hdcdst);
     }
   }
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void map_resize()
-{
-  HBITMAP newbmp;
-  HDC hdc;
-  hdc=GetDC(map_window);
-  newbmp=CreateCompatibleBitmap(hdc,map_win_width,map_win_height);
-  if (mapstorebitmap) DeleteObject(mapstorebitmap);
-  mapstorebitmap=newbmp;
-  ReleaseDC(map_window,hdc);
-
-  if (!mapview_canvas.store) {
-    mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
-  }
-  mapview_canvas.store->hdc = NULL;
-  mapview_canvas.store->bitmap = mapstorebitmap;
-  
-  map_view_width=(map_win_width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
-  map_view_height=(map_win_height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT; 
-
-  /* Since a resize is only triggered when the tile_*** changes, the canvas
-   * width and height must include the entire backing store - otherwise
-   * small resizings may lead to undrawn tiles.
-   *
-   * HACK: The caller sets map_win_width and it gets changed here. */
-  map_win_width = map_view_width * NORMAL_TILE_WIDTH;
-  map_win_height = map_view_height * NORMAL_TILE_HEIGHT;
-
-  update_map_canvas_scrollbars_size();
-  if (can_client_change_view() && map_exists()) {
-    update_map_canvas_visible();
-    update_map_canvas_scrollbars();
-    refresh_overview_canvas();
-  }
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void init_map_win()
-{
-  HDC hdc;
-  hdc=GetDC(root_window);
-  overviewstoredc=CreateCompatibleDC(hdc);
-  ReleaseDC(root_window,hdc);
-  mapstorebitmap=NULL;
-  overviewstorebitmap=NULL;
-  map_view_x=0;
-  map_view_y=0;
-  overview_win_width=160;
-  overview_win_height=100;
 }
 
 /**************************************************************************
@@ -413,20 +354,7 @@ set_indicator_icons(int bulb, int sol, int flake, int gov)
 void
 map_size_changed(void)
 {
-  HDC hdc;
-  HBITMAP newbit;
   set_overview_win_dim(OVERVIEW_TILE_WIDTH * map.xsize,OVERVIEW_TILE_HEIGHT * map.ysize);
-  hdc=GetDC(root_window);
-  newbit=CreateCompatibleBitmap(hdc,
-				overview_win_width,
-				overview_win_height);
-  ReleaseDC(root_window,hdc);
-  SelectObject(overviewstoredc,newbit);
-  if (overviewstorebitmap)
-    DeleteObject(overviewstorebitmap);
-  overviewstorebitmap=newbit;
-  BitBlt(overviewstoredc,0,0,overview_win_width,overview_win_height,
-	 NULL,0,0,BLACKNESS);
 }
 
 /**************************************************************************
@@ -735,9 +663,9 @@ void overview_expose(HDC hdc)
 	DeleteObject(bmp);
       DeleteDC(hdctest);
       draw_rates(hdc);
-      overview_store.hdc = hdc;
+      overview_canvas.hdc = hdc;
       refresh_overview_canvas(/* hdc */);
-      overview_store.hdc = NULL;
+      overview_canvas.hdc = NULL;
     }
 }
 

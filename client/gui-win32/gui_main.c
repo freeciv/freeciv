@@ -293,7 +293,7 @@ static void map_setsize(LPRECT newsize, void *data)
   MoveWindow(map_scroll_h,map_win_x,map_win_y+map_win_height,
 	     map_win_width,15,TRUE);
   
-  map_resize();
+  map_canvas_resized(mw, mh);
 }
 
 
@@ -450,7 +450,12 @@ static void create_main_window(void)
 			       FALSE,FALSE,10);
   
   fcwin_set_box(root_window,main_win_box);
-  init_map_win();
+  init_mapcanvas_and_overview();
+
+  /* Need to set these so the version number shows up properly */
+  overview_win_width = 160;
+  overview_win_height = 100;
+
   init_color_system();
 }
 

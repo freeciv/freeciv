@@ -32,6 +32,7 @@ void map_handle_vscroll(int pos);
 #define map_win_height mapview_canvas.height
 #define map_view_width mapview_canvas.tile_width
 #define map_view_height mapview_canvas.tile_height
+#define mapstorebitmap		(mapview_canvas.store->bitmap)
 
 /* Use of these wrapper functions is deprecated. */
 #define get_canvas_xy(map_x, map_y, canvas_x, canvas_y) \
