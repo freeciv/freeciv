@@ -401,7 +401,7 @@ void setup_widgets(void)
   gtk_widget_realize (vbox);
   
   setup_menus( toplevel, &menubar );
-  gtk_wiget_realize (menubar);
+  gtk_widget_realize (menubar);
 
   gtk_box_pack_start( GTK_BOX( vbox ), menubar, FALSE, FALSE, 0 );
 
