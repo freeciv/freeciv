@@ -296,8 +296,6 @@ static bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 
   WARNING: Due to the nature of this function and PF (see the comment of 
   combined_land_sea_move), the path won't lead onto the boat itself.
-
-  FIXME: Actually check the capacity.
 ****************************************************************************/
 int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
 {
@@ -369,8 +367,6 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
 
 /****************************************************************************
   Find a boat within one move from us (i.e. a one we can board).
-
-  FIXME: Actually check the capacity.
 ****************************************************************************/
 static int aiferry_find_boat_nearby(struct unit *punit, int cap)
 {
