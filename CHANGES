@@ -4,6 +4,12 @@ TODO:
    anylonger.
 
 1.5.5 
+- Autoconf added thanks to Falk Hueffner. Now we can configure just like
+  the big boys!
+
+- Tax/Luxury/Science rates are now visually displayed. needs work still.
+  thanks to Peter Schaefer
+
 - Instead of picking individual techs, players can now set a tech goal, and
   let the actual patch to discovery be automated.
 
