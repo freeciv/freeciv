@@ -1225,6 +1225,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->action_area);
 
+  gtk_window_set_focus(GTK_WINDOW(pdialog->shell), close_command);
+
   return pdialog;
 }
 
