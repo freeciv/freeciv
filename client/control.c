@@ -570,8 +570,8 @@ void request_unit_goto(void)
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punit, HOVER_GOTO);
     update_unit_info_label(punit);
-    /* Not yet implemented for air units */
-    if (is_air_unit(punit)) {
+    /* Not yet implemented for air units, including helicopters. */
+    if (is_air_unit(punit) || is_heli_unit(punit)) {
       draw_goto_line = FALSE;
     } else {
       enter_goto_state(punit);
@@ -855,8 +855,8 @@ void request_unit_patrol(void)
   if (hover_state != HOVER_PATROL) {
     set_hover_state(punit, HOVER_PATROL);
     update_unit_info_label(punit);
-    /* Not yet implemented for air units */
-    if (is_air_unit(punit)) {
+    /* Not yet implemented for air units, including helicopters. */
+    if (is_air_unit(punit) || is_heli_unit(punit)) {
       draw_goto_line = FALSE;
     } else {
       enter_goto_state(punit);
