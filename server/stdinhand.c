@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <stdarg.h>
 
+#include "astring.h"
 #include "attribute.h"
 #include "events.h"
 #include "fcintl.h"
@@ -109,10 +110,9 @@ struct settings_s {
        have more than about 4 digits.   Don't put "." on the end.
      extra_help:
        May be empty string, if short_help is sufficient.
-       If longer than 80 squares should include embedded newlines at
-       less than 80 char intervals.  Each line should start with 2
-       spaces for indentation.  Should have punctuation etc, and
-       should end with a "."
+       Need not include embedded newlines (but may, for formatting);
+       lines will be wrapped (and indented) automatically.
+       Should have punctuation etc, and should end with a "."
   */
   /* The following apply if the setting is string valued; note these
      default to 0 (NULL) if not explicitly mentioned in initialization
@@ -149,16 +149,16 @@ static struct settings_s settings[] = {
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR,
     N_("Method used to generate map"),
-    N_("  1 = standard, with random continents;\n"
-    "  2 = equally sized large islands with one player each, and twice\n"
-    "      that many smaller islands;\n"
-    "  3 = equally sized large islands with one player each, and a number\n"
-    "      of other islands of similar size;\n"
-    "  4 = equally sized large islands with two players on every island\n"
-    "      (or one with three players for an odd number of players), and\n"
-    "      additional smaller islands.\n"
-    "  Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
-    "  (Zero indicates a scenario map.)") },
+    N_("1 = standard, with random continents;\n"
+       "2 = equally sized large islands with one player each, and twice that many\n"
+       "    smaller islands;\n"
+       "3 = equally sized large islands with one player each, and a number of other\n"
+       "    islands of similar size;\n"
+       "4 = equally sized large islands with two players on every island (or one\n"
+       "    with three players for an odd number of players), and additional\n"
+       "    smaller islands.\n"
+       "Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
+       "(Zero indicates a scenario map.)") },
 
   { "landmass", &map.landpercent,
     SSET_MAP_GEN, SSET_TO_CLIENT,
@@ -169,7 +169,8 @@ static struct settings_s settings[] = {
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS,
     N_("Amount of hills/mountains"),
-    N_("  Small values give flat maps, higher values give more hills and mountains.")},
+    N_("Small values give flat maps, higher values give more "
+       "hills and mountains.")},
 
   { "rivers", &map.riverlength, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
@@ -200,8 +201,9 @@ static struct settings_s settings[] = {
     SSET_MAP_GEN, SSET_SERVER_ONLY,
     MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED,
     N_("Map generation random seed"),
-    N_("  The same seed will always produce the same map; for zero (the default)\n"
-    "  a seed will be chosen based on the time, to give a random map.") },
+    N_("The same seed will always produce the same map; "
+       "for zero (the default) a seed will be chosen based on the time, "
+       "to give a random map.") },
 
 /* Map additional stuff: huts and specials.  randseed also goes here
  * because huts and specials are the first time the randseed gets used (?)
@@ -212,14 +214,14 @@ static struct settings_s settings[] = {
     SSET_MAP_ADD, SSET_SERVER_ONLY,
     GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED,
     N_("General random seed"),
-    N_("  For zero (the default) a seed will be chosen based on the time.") },
+    N_("For zero (the default) a seed will be chosen based on the time.") },
 
   { "specials", &map.riches, 
     SSET_MAP_ADD, SSET_TO_CLIENT,
     MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES,
     N_("Amount of \"special\" resource squares"), 
-    N_("  Special resources improve the basic terrain type they are on.\n" 
-    "  The server variable's scale is parts per thousand.") },
+    N_("Special resources improve the basic terrain type they are on.  " 
+       "The server variable's scale is parts per thousand.") },
 
   { "huts", &map.huts, 
     SSET_MAP_ADD, SSET_TO_CLIENT,
@@ -235,23 +237,23 @@ static struct settings_s settings[] = {
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS,
     N_("Minimum number of players"),
-    N_("  There must be at least this many players (connected players or AI's)\n"
-    "  before the game can start.") },
+    N_("There must be at least this many players (connected players or AI's) "
+       "before the game can start.") },
   
   { "maxplayers", &game.max_players,
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS,
     N_("Maximum number of players"),
-    N_("  For new games, the game will start automatically if/when this number of\n"
-    "  players are connected or (for AI's) created.") },
+    N_("For new games, the game will start automatically if/when this "
+       "number of players are connected or (for AI's) created.") },
 
   { "aifill", &game.aifill, 
     SSET_PLAYERS, SSET_TO_CLIENT,
     GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL,
     N_("Number of players to fill to with AI's"),
-    N_("  If there are fewer than this many players when the game starts, extra AI\n"
-    "  players will be created to increase the total number of players to the\n"
-    "  value of this option.") },
+    N_("If there are fewer than this many players when the game starts, "
+       "extra AI players will be created to increase the total number "
+       "of players to the value of this option.") },
 
 /* Game initialization parameters (only affect the first start of the game,
  * and not reloads).  Can not be changed after first start of game.
@@ -281,9 +283,11 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing techs.ruleset"),
-    N_("  This should specify a subdirectory of the data directory, containing a\n"
-    "  file called \"techs.ruleset\".  The advances (technologies) present in\n"
-    "  the game will be initialized from this file.  See also README.rulesets."),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"techs.ruleset\".  "
+       "The advances (technologies) present in the game will be "
+       "initialized from this file.  "
+       "See also README.rulesets."),
     game.ruleset.techs, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.techs) },
 
@@ -291,9 +295,11 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing governments.ruleset"),
-    N_("  This should specify a subdirectory of the data directory, containing a\n"
-    "  file called \"governments.ruleset\".  The government types available in\n"
-    "  the game will be initialized from this file.  See also README.rulesets."),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"governments.ruleset\".  "
+       "The government types available in the game will be "
+       "initialized from this file.  "
+       "See also README.rulesets."),
     game.ruleset.governments, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.governments) },
 
@@ -301,9 +307,11 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing units.ruleset"),
-    N_("  This should specify a subdirectory of the data directory, containing a\n"
-    "  file called \"units.ruleset\".  The unit types present in the game will\n"
-    "  be initialized from this file.  See also README.rulesets."),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"units.ruleset\".  "
+       "The unit types present in the game will be "
+       "initialized from this file.  "
+       "See also README.rulesets."),
     game.ruleset.units, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.units) },
 
@@ -311,10 +319,11 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing buildings.ruleset"),
-    N_("  This should specify a subdirectory of the data directory, containing a\n"
-    "  file called \"buildings.ruleset\".  The building types (City Improvements\n"
-    "  and Wonders) in the game will be initialized from this file.\n"
-    "  See also README.rulesets."),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"buildings.ruleset\".  "
+       "The building types (City Improvements and Wonders) "
+       "in the game will be initialized from this file.  "
+       "See also README.rulesets."),
     game.ruleset.buildings, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.buildings) },
 
@@ -322,9 +331,11 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing terrain.ruleset"),
-    N_("  This should specify a subdirectory of the data directory, containing a\n"
-    "  file called \"terrain.ruleset\".  The terrain types present in the game\n"
-    "  will be initialized from this file.  See also README.rulesets."),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"terrain.ruleset\".  "
+       "The terrain types present in the game will be "
+       "initialized from this file.  "
+       "See also README.rulesets."),
     game.ruleset.terrain, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.terrain) },
 
@@ -332,9 +343,11 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing nations.ruleset"),
-    N_("  This should specify a subdirectory of the data directory, containing a\n"
-    "  file called \"nations.ruleset\".  The nations present in the game\n"
-    "  will be initialized from this file.  See also README.rulesets."),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"nations.ruleset\".  "
+       "The nations present in the game will be "
+       "initialized from this file.  "
+       "See also README.rulesets."),
     game.ruleset.nations, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.nations) },
 
@@ -342,9 +355,10 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,
     N_("Data subdir containing cities.ruleset"),
-    N_("  This should specify a subdirectory of the data directory, containing a\n"
-    "  file called \"cities.ruleset\".  The file is used to initialize\n"
-    "  city data (such as city style).  See also README.rulesets."),
+    N_("This should specify a subdirectory of the data directory, "
+       "containing a file called \"cities.ruleset\".  "
+       "The file is used to initialize city data (such as city style).  "
+       "See also README.rulesets."),
     game.ruleset.cities, GAME_DEFAULT_RULESET,
     sizeof(game.ruleset.cities) },
 
@@ -352,41 +366,44 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL,
     N_("Points required to gain a new advance"),
-    N_("  This affects how quickly players can research new technology.") },
+    N_("This affects how quickly players can research new technology.") },
 
   { "techpenalty", &game.techpenalty,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY,
     N_("Percentage penalty when changing tech"),
-    N_("  If you change your current research technology, and you have positive\n"
-    "  research points, you lose this percentage of those research points.\n"
-    "  This does not apply if you have just gained tech this turn.") },
+    N_("If you change your current research technology, and you have "
+       "positive research points, you lose this percentage of those "
+       "research points.  This does not apply if you have just gained "
+       "tech this turn.") },
 
   { "diplcost", &game.diplcost,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST,
     N_("Penalty when getting tech from treaty"),
-    N_("  For each advance you gain from a diplomatic treaty, you lose research\n"
-    "  points equal to this percentage of the cost to research an new advance.\n"
-    "  You can end up with negative research points if this is non-zero.") },
+    N_("For each advance you gain from a diplomatic treaty, you lose "
+       "research points equal to this percentage of the cost to "
+       "research an new advance.  "
+       "You can end up with negative research points if this is non-zero.") },
 
   { "conquercost", &game.conquercost,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST,
     N_("Penalty when getting tech from conquering"),
-    N_("  For each advance you gain by conquering an enemy city, you lose research\n"
-    "  points equal to this percentage of the cost to research an new advance."
-    "  You can end up with negative research points if this is non-zero.") },
+    N_("For each advance you gain by conquering an enemy city, you "
+       "lose research points equal to this percentage of the cost "
+       "to research an new advance.  "
+       "You can end up with negative research points if this is non-zero.") },
   
   { "freecost", &game.freecost,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST,
     N_("Penalty when getting a free tech"),
-    N_("  For each advance you gain \"for free\" (other than covered by diplcost\n"
-    "  or conquercost: specifically, from huts or from the Great Library), you\n"
-    "  lose research points equal to this percentage of the cost to research a\n"
-    "  new advance.  You can end up with negative research points if this is\n"
-    "  non-zero.") },
+    N_("For each advance you gain \"for free\" (other than covered by "
+       "diplcost or conquercost: specifically, from huts or from the "
+       "Great Library), you lose research points equal to this "
+       "percentage of the cost to research a new advance.  "
+       "You can end up with negative research points if this is non-zero.") },
 
   { "foodbox", &game.foodbox, 
     SSET_RULES, SSET_TO_CLIENT,
@@ -397,65 +414,67 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS,
     N_("Percentage food lost when need aqueduct"),
-    N_("  If a city would expand, but it can't because it needs an Aqueduct\n"
-    "  (or Sewer System), it loses this percentage of its foodbox (or half\n"
-    "  that amount if it has a Granary).") },
+    N_("If a city would expand, but it can't because it needs an Aqueduct "
+       "(or Sewer System), it loses this percentage of its foodbox "
+       "(or half that amount if it has a Granary).") },
   
   { "unhappysize", &game.unhappysize,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
     N_("City size before people become unhappy"),
-    N_("  Before other adjustments, the first unhappysize citizens in a city are\n"
-    "  happy, and subsequent citizens are unhappy. See also cityfactor.") },
+    N_("Before other adjustments, the first unhappysize citizens in a "
+       "city are happy, and subsequent citizens are unhappy.  "
+       "See also cityfactor.") },
 
   { "cityfactor", &game.cityfactor,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR,
     N_("Number of cities for higher unhappiness"),
-    N_("  When the number of cities a player owns is greater than cityfactor, one\n"
-    "  extra citizen is unhappy before other adjustments; see also unhappysize.\n"
-    "  This assumes a Democracy; for other governments the effect occurs at\n"
-    "  smaller numbers of cities.") },
+    N_("When the number of cities a player owns is greater than "
+       "cityfactor, one extra citizen is unhappy before other "
+       "adjustments; see also unhappysize.  This assumes a "
+       "Democracy; for other governments the effect occurs at "
+       "smaller numbers of cities.") },
 
   { "razechance", &game.razechance,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE,
     N_("Chance for conquered building destruction"),
-    N_("  When a player conquers a city, each City Improvement has this percentage\n"
-    "  chance to be destroyed.") },
+    N_("When a player conquers a city, each City Improvement has this "
+       "percentage chance to be destroyed.") },
 
   { "civstyle", &game.civstyle,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE,
     N_("Style of Civ rules"),
-    N_("  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
-    "  Currently this option affects the following rules:\n"
-    "    - Civ2 exposes more area at the very start of a new game.\n"
-    "    - Civ2 allows the player to pick which improvement to pillage.\n"
-    "    - In Civ2, cities cannot be built next to each other.\n"
-    "    - In Civ2, overflight of a hut causes it to disappear.\n"
-    "    - In Civ2, cities on mountains produce some food.\n"
-    "  See also README.rulesets and the techs, units, buildings and terrain\n"
-    "  options.") },
+    N_("Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
+       "Currently this option affects the following rules:\n"
+       "  - Civ2 exposes more area at the very start of a new game.\n"
+       "  - Civ2 allows the player to pick which improvement to pillage.\n"
+       "  - In Civ2, cities cannot be built next to each other.\n"
+       "  - In Civ2, overflight of a hut causes it to disappear.\n"
+       "  - In Civ2, cities on mountains produce some food.\n"
+       "See also README.rulesets and the techs, units, buildings and "
+       "terrain options.") },
 
   { "barbarians", &game.barbarians,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_BARBARIAN, GAME_MAX_BARBARIAN, GAME_DEFAULT_BARBARIAN,
     N_("Barbarian appearance frequency"),
-    N_("  0 - barbarians only in huts \n"
-    "  1 - normal rate of barbarian appearance \n"
-    "  2 - frequent barbarian uprising \n"
-    "  3 - raging hordes, lots of barbarians") },
+    N_("0 - barbarians only in huts \n"
+    "1 - normal rate of barbarian appearance \n"
+    "2 - frequent barbarian uprising \n"
+    "3 - raging hordes, lots of barbarians") },
 
   { "occupychance", &game.occupychance,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, GAME_DEFAULT_OCCUPYCHANCE,
     N_("Chance of moving into tile after attack"),
-    N_("  If set to 0, combat is Civ1/2-style (when you attack, you remain in\n"
-       "  place).  If set to 100, attacking units will always move into the\n"
-       "  tile they attacked if they win the combat (and no enemy units remain\n"
-       "  in the tile).  If set to a value between 0 and 100, this will be used\n"
-       "  as the percent chance of \"occupying\" territory.") },
+    N_("If set to 0, combat is Civ1/2-style (when you attack, you remain in "
+       "place).  If set to 100, attacking units will always move into the "
+       "tile they attacked if they win the combat (and no enemy units remain "
+       "in the tile).  If set to a value between 0 and 100, this will be used "
+       "as the percent chance of \"occupying\" territory.") },
 
 /* Flexible rules: these can be changed after the game has started.
  * Should such flexible rules exist?  diplchance is included here
@@ -466,25 +485,25 @@ static struct settings_s settings[] = {
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,
     N_("Chance (1 in N) for diplomat/spy contests"),
-    N_("  A diplomat (or spy) acting against a city which has one or more defending\n"
-    "  diplomats (or spies) has a one in diplchance chance to defeat each such\n"
-    "  defender.  Also, the chance of a spy returning from a successful mission\n"
-    "  is one in diplchance.  (Diplomats never return.)") },
+    N_("A diplomat (or spy) acting against a city which has one or "
+       "more defending diplomats (or spies) has a one in diplchance "
+       "chance to defeat each such defender.  Also, the chance of a "
+       "spy returning from a successful mission is one in diplchance.  "
+       "(Diplomats never return.)") },
 
   { "spacerace", &game.spacerace,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_SPACERACE, GAME_MAX_SPACERACE, GAME_DEFAULT_SPACERACE,
     N_("Whether to allow space race"),
-    N_("  If this option is 1, players can build spaceships.  The current AI does not\n"
-    "  build spaceships, so this is probably only useful for multiplayer games.") },
+    N_("If this option is 1, players can build spaceships.") },
 
   { "civilwarsize", &game.civilwarsize,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, GAME_DEFAULT_CIVILWARSIZE,
     N_("Minimum number of cities for civil war"),
-    N_("  A civil war is triggered if a player has at least this many cities and\n"
-    "  the player's capital is captured.  If this option is set to the maximum\n"
-    "  value, civil wars are turned off altogether.") },
+    N_("A civil war is triggered if a player has at least this many cities "
+       "and the player's capital is captured.  If this option is set to "
+       "the maximum value, civil wars are turned off altogether.") },
 
 /* Meta options: these don't affect the internal rules of the game, but
  * do affect players.  Also options which only produce extra server
@@ -502,33 +521,33 @@ static struct settings_s settings[] = {
     SSET_META, SSET_TO_CLIENT,
     GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT,
     N_("Maximum seconds per turn"),
-    N_("  If all players have not hit \"end turn\" before this time is up, then the\n"
-    "  turn ends automatically.  Zero means there is no timeout.") },
+    N_("If all players have not hit \"end turn\" before this time is up, "
+       "then the turn ends automatically.  Zero means there is no timeout.") },
 
   { "turnblock", &game.turnblock,
     SSET_META, SSET_TO_CLIENT,
     0, 1, 0,
     N_("Turn-blocking game play mode"),
-    N_("  If this is set to 1 the game turn is not advanced until all players have\n"
-    "  finished their turn, including disconnected players.") },
+    N_("If this is set to 1 the game turn is not advanced until all players "
+       "have finished their turn, including disconnected players.") },
   
   { "demography", NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 0, 0,
     N_("What is in the Demographics report"),
-    N_("  This should be a string of characters, each of which specifies the\n"
-    "  the inclusion of a line of information in the Demographics report.\n"
-    "  The characters and their meanings are:\n"
-    "      N = include Population           P = include Production\n"
-    "      A = include Land Area            E = include Economics\n"
-    "      S = include Settled Area         M = include Military Service\n"
-    "      R = include Research Speed       O = include Pollution\n"
-    "      L = include Literacy\n"
-    "  Additionally, the following characters control whether or not certain\n"
-    "  columns are displayed in the report:\n"
-    "      q = display \"quantity\" column    r = display \"rank\" column\n"
-    "      b = display \"best nation\" column\n"
-    "  (The order of these characters is not significant, but their case is.)"),
+    N_("This should be a string of characters, each of which specifies the "
+       "the inclusion of a line of information in the Demographics report.\n"
+       "The characters and their meanings are:\n"
+       "    N = include Population           P = include Production\n"
+       "    A = include Land Area            E = include Economics\n"
+       "    S = include Settled Area         M = include Military Service\n"
+       "    R = include Research Speed       O = include Pollution\n"
+       "    L = include Literacy\n"
+       "Additionally, the following characters control whether or not certain "
+       "columns are displayed in the report:\n"
+       "    q = display \"quantity\" column    r = display \"rank\" column\n"
+       "    b = display \"best nation\" column\n"
+       "(The order of these characters is not significant, but their case is.)"),
     game.demography, GAME_DEFAULT_DEMOGRAPHY,
     sizeof(game.demography) },
 
@@ -536,24 +555,25 @@ static struct settings_s settings[] = {
     SSET_META, SSET_SERVER_ONLY,
     0, 200, 10,
     N_("Turns per auto-save"),
-    N_("  The game will be automatically saved per this number of turns.\n"
-    "  Zero means never auto-save.") },
+    N_("The game will be automatically saved per this number of turns.\n"
+       "Zero means never auto-save.") },
 
   { "scorelog", &game.scorelog,
     SSET_META, SSET_SERVER_ONLY,
     GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG,
     N_("Whether to log player statistics"),
-    N_("  If this is set to 1, player statistics are appended to the file\n"
-    "  \"civscore.log\" every turn.  These statistics can be used to create\n"
-    "  power graphs after the game.") },
+    N_("If this is set to 1, player statistics are appended to the file "
+       "\"civscore.log\" every turn.  These statistics can be used to "
+       "create power graphs after the game.") },
 
   { "gamelog", &gamelog_level,
     SSET_META, SSET_SERVER_ONLY,
     0, 40, 20,
     N_("Detail level for logging game events"),
-    N_("  Only applies if the game log feature is enabled (with the -g command line\n"
-    "  option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging,\n"
-    "  40=debuging logging.") },
+    N_("Only applies if the game log feature is enabled "
+       "(with the -g command line option).  "
+       "Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
+       "40=debuging logging.") },
 
   { NULL, NULL,
     SSET_LAST, SSET_SERVER_ONLY,
@@ -1545,16 +1565,12 @@ static void explain_option(struct player *caller, char *str)
       cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
 		_("Description: %s."), _(op->short_help));
       if(op->extra_help && strcmp(op->extra_help,"")!=0) {
-	char *line_by_line = mystrdup(_(op->extra_help));
-	char *line = line_by_line;
-	char *line_end;
-	while ((line_end = strchr(line,'\n'))) {
-	  *line_end = '\0';
-	  cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, line);
-	  line = line_end+1;
-	}
-	cmd_reply(CMD_EXPLAIN, caller, C_COMMENT, line);
-	free(line_by_line);
+	static struct astring abuf = ASTRING_INIT;
+	astr_minsize(&abuf, strlen(op->extra_help)+1);
+	strcpy(abuf.str, op->extra_help);
+	wordwrap_string(abuf.str, 76);
+	cmd_reply_prefix(CMD_EXPLAIN, caller, C_COMMENT,
+			 "  ", "  %s", abuf.str);
       }
       cmd_reply(CMD_EXPLAIN, caller, C_COMMENT,
 		_("Status: %s"), (sset_is_changeable(cmd)
