@@ -2120,6 +2120,9 @@ void popdown_all_game_dialogs(void)
 {
   GList *res;
 
+  gui_dialog_destroy_all();
+
+
   res = gtk_window_list_toplevels();
 
   g_list_foreach(res, (GFunc)g_object_ref, NULL);

@@ -32,6 +32,10 @@
 
 #include "gui_stuff.h"
 
+
+static GList *dialog_list;
+
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -305,6 +309,7 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
     *(dlg->source) = NULL;
   }
 
+  dialog_list = g_list_remove(dialog_list, dlg);
   free(dlg);
 }
 
@@ -374,6 +379,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook)
   GtkWidget *vbox, *action_area;
 
   dlg = fc_malloc(sizeof(*dlg));
+  dialog_list = g_list_prepend(dialog_list, dlg);
+
   dlg->source = pdlg;
   *pdlg = dlg;
 
@@ -749,6 +756,20 @@ void gui_dialog_destroy(struct gui_dialog *dlg)
       gtk_notebook_remove_page(GTK_NOTEBOOK(dlg->v.tab.notebook), n);
     }
     break;
+  }
+}
+
+/**************************************************************************
+  Destroy all dialogs.
+**************************************************************************/
+void gui_dialog_destroy_all(void)
+{
+  GList *it, *it_next;
+
+  for (it = dialog_list; it; it = it_next) {
+    it_next = g_list_next(it);
+
+    gui_dialog_destroy((struct gui_dialog *)it->data);
   }
 }
 
