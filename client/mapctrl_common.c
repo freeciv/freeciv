@@ -693,11 +693,12 @@ char* popup_info_text(int xtile, int ytile)
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      "" /* unused, DS_CEASEFIRE*/,
      Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
-     Q_("?nation:Mysterious")};
+     Q_("?nation:Mysterious"), Q_("?nation:Friendly(team)")};
   const char *diplo_city_adjectives[DS_LAST] =
     {Q_("?city:Neutral"), Q_("?city:Hostile"),
      "" /*unused, DS_CEASEFIRE */,
-     Q_("?city:Peaceful"), Q_("?city:Friendly"), Q_("?city:Mysterious")};
+     Q_("?city:Peaceful"), Q_("?city:Friendly"), Q_("?city:Mysterious"),
+     Q_("?city:Friendly(team)")};
 
   out[0] = '\0';
 #ifdef DEBUG
@@ -726,6 +727,8 @@ char* popup_info_text(int xtile, int ytile)
 				       turns),
 		 get_nation_name(owner->nation), turns);
       } else {
+	/* TRANS: "Territory of the friendly Polish".  See the ?nation:
+	 * adjectives. */
 	add_line(out, sizeof(out), _("Territory of the %s %s"),
 		 diplo_nation_plural_adjectives[ds[owner->player_no].type],
 		 get_nation_name_plural(owner->nation));
