@@ -25,6 +25,12 @@ Fallback resources
 **************************************************************************/
 String fallback_resources[] = {
 #include <Freeciv.h>
+#if defined(HAVE_LIBXAW3D)
+"Freeciv*international: False",
+#else
+"Freeciv*international: True",
+"Freeciv*fontSet: -*-*-*-*-*-*-14-*",
+#endif
   /* Deliberate use of angle-brackets instead of double quotes, to
      support compilation from another dir.  Then we "-I." (see Makefile.am)
      to include the locally generated Freeciv.h in the compilation dir,
