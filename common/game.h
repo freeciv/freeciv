@@ -205,7 +205,7 @@ struct civ_game {
      */
     int global_init_techs[MAX_NUM_TECH_LIST];
 
-    int killstack;
+    bool killstack;
   } rgame;
   
   struct {

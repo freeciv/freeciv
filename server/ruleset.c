@@ -2680,13 +2680,7 @@ static void load_ruleset_game()
 		   game.rgame.global_init_techs, filename);
 
   /* Enable/Disable killstack */
-  game.rgame.killstack = secfile_lookup_int(&file, "combat_rules.killstack");
-  if (game.rgame.killstack != 0 && game.rgame.killstack != 1) {
-    freelog(LOG_ERROR, "Bad value %i for killstack. Using 1.",
-	    game.rgame.killstack);
-    game.rgame.killstack = 1;
-  }
-   
+  game.rgame.killstack = secfile_lookup_bool(&file, "combat_rules.killstack");
 	
   section_file_check_unused(&file, filename);
   section_file_free(&file);
