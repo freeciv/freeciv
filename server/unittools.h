@@ -44,19 +44,12 @@ int build_points_left(struct city *pcity);
 int can_place_partisan(int x, int y);
 int is_already_assigned(struct unit *myunit, struct player *pplayer, 
 			int x, int y);
-int benefit_pollution(struct player *pplayer, int x, int y);
-int benefit_road(struct player *pplayer, int x, int y);
-int benefit_mine(struct player *pplayer, int x, int y);
-int benefit_irrigate(struct player *pplayer, int x, int y);
-int ai_calc_pollution(struct unit *punit, struct player *pplayer, 
-		      int x, int y);
-int ai_calc_mine(struct unit *punit, struct player *pplayer, int x, int y);
-int ai_calc_road(struct unit *punit, struct player *pplayer, int x, int y);
-int get_food_tile_bc(int xp, int yp);
-int is_ok_city_spot(int x, int y);
-int in_city_radius(struct player *pplayer, int x, int y);
-int ai_calc_irrigate(struct unit *punit, struct player *pplayer, int x, int y);
-int dist_mod(int dist, int val);
+int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j);
+int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j);
+int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j);
+int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j);
+int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j);
+int in_city_radius(int x, int y);
 int make_dy(int y1, int y2);
 int make_dx(int x1, int x2);
 
