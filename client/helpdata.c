@@ -502,11 +502,18 @@ const struct help_item *help_iter_next(void)
 char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
 			const char *user_text)
 {
-  struct impr_type *imp = &improvement_types[which];
-  
+  struct impr_type *imp;
+
   assert(buf);
   buf[0] = '\0';
 
+  if (!improvement_exists(which)) {
+    freelog(LOG_ERROR, "Unknown building %d.", which);
+    return buf;
+  }
+
+  imp = &improvement_types[which];
+  
   if (imp->helptext && imp->helptext[0] != '\0') {
     my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
 		"%s\n\n", _(imp->helptext));
@@ -641,6 +648,11 @@ void helptext_unit(char *buf, int i, const char *user_text)
 
   assert(buf&&user_text);
   utype = get_unit_type(i);
+  if (!utype) {
+    freelog(LOG_ERROR, "Unknown unit %d.", i);
+    strcpy(buf, user_text);
+    return;
+  }
   
   buf[0] = '\0';
   if (unit_type_flag(i, F_NOBUILD)) {
@@ -963,6 +975,12 @@ void helptext_tech(char *buf, int i, const char *user_text)
   assert(buf&&user_text);
   strcpy(buf, user_text);
 
+  if (!tech_exists(i)) {
+    freelog(LOG_ERROR, "Unknown tech %d.", i);
+    strcpy(buf, user_text);
+    return;
+  }
+
   if (get_invention(game.player_ptr, i) != TECH_KNOWN) {
     if (get_invention(game.player_ptr, i) == TECH_REACHABLE) {
       sprintf(buf + strlen(buf),
@@ -1075,8 +1093,10 @@ void helptext_terrain(char *buf, int i, const char *user_text)
   
   buf[0] = '\0';
   
-  if (i<0 || i>=T_COUNT)
+  if (i < 0 || i >= T_COUNT) {
+    freelog(LOG_ERROR, "Unknown terrain %d.", i);
     return;
+  }
 
   pt = &tile_types[i];
   if (pt->helptext[0] != '\0') {
@@ -1091,10 +1111,16 @@ void helptext_terrain(char *buf, int i, const char *user_text)
 *****************************************************************/
 void helptext_government(char *buf, int i, const char *user_text)
 {
-  struct government *gov = get_government(i);
+  struct government *gov;
   
   buf[0] = '\0';
-  
+
+  if (i < 0 || i >= game.government_count) {
+    freelog(LOG_ERROR, "Unknown government %d.", i);
+    return;
+  }
+
+  gov = get_government(i);
   if (gov->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(gov->helptext));
   }
@@ -1108,7 +1134,14 @@ void helptext_government(char *buf, int i, const char *user_text)
 char *helptext_unit_upkeep_str(int i)
 {
   static char buf[128];
-  struct unit_type *utype = get_unit_type(i);
+  struct unit_type *utype;
+
+  utype = get_unit_type(i);
+  if (!utype) {
+    freelog(LOG_ERROR, "Unknown unit %d.", i);
+    return "";
+  }
+
 
   if (utype->shield_cost > 0 || utype->food_cost > 0
       || utype->gold_cost > 0 || utype->happy_cost > 0) {
