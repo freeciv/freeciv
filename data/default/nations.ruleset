@@ -619,8 +619,8 @@ name="Viking"
 plural="Vikings"
 leader="Erik the Bloodaxe", "Harald" 
 leader_sex="Male", "Male"
-flag="f.denmark"
-flag_alt = "-"
+flag="f.norway"
+flag_alt = "f.denmark"  ; Now used by Danish
 
 attack=2
 expand=2
