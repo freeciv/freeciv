@@ -634,22 +634,26 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 	  /* Don't go into the unknown. 15 is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? 3 : 15;
 	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
-	  if ((x1 == dest_x && y1 == dest_y) /* Allow attack GOTO's */
-	      || pplayer->ai.control) {
-	    if ((!is_enemy_unit_tile(pdesttile, punit->owner)
-		 || !is_military_unit(punit))
-		&& !is_diplomat_unit(punit)) {
-	      continue; /* unit is non_allied and non_enemy, ie non_attack */
+	  if (x1 != dest_x || y1 != dest_y) { /* Allow players to target anything */
+	    if (pplayer->ai.control) {
+	      if ((!is_enemy_unit_tile(pdesttile, punit->owner)
+		   || !is_military_unit(punit))
+		  && !is_diplomat_unit(punit)) {
+		continue; /* unit is non_allied and non_enemy, ie non_attack */
+	      } else {
+		move_cost = 3; /* Attack cost */
+	      }
 	    } else {
-	      move_cost = 3; /* Attack cost */
+	      continue; /* non-AI players don't attack on goto */
 	    }
 	  } else {
-	    continue; /* don't attack on goto */
+	    move_cost = 3;
 	  }
 	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
 	  if ((is_non_attack_city_tile(pdesttile, punit->owner)
 	       || !is_military_unit(punit))) {
-	    if (!is_diplomat_unit(punit))
+	    if (!is_diplomat_unit(punit)
+		&& (x1 != dest_x || y1 != dest_y)) /* Allow players to target anything */
 	      continue;
 	    else
 	      move_cost = 3;
