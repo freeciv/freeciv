@@ -944,10 +944,6 @@ void assign_continent_numbers(void)
 **************************************************************************/
 static void setup_isledata(void)
 {
-  /* this is an upper bound for the maximum number of
-   * continents which can see a given ocean tile */
-#define CITY_TILES (CITY_MAP_SIZE * CITY_MAP_SIZE) - 4
-  
   int starters = 0;
   int min, firstcont, i;
   
@@ -1052,8 +1048,6 @@ static void setup_isledata(void)
       islands[i].starters = islands[i].goodies / min;
     }
   }
-  
-#undef CITY_TILES
 }
 
 /**************************************************************************

@@ -62,6 +62,9 @@ enum city_options {
    Some places in the code hardcodes this number (yet). */
 #define CITY_MAP_SIZE 5
 
+/* Number of tiles a city can use */
+#define CITY_TILES (CITY_MAP_SIZE * CITY_MAP_SIZE - 4)
+
 #define INCITE_IMPOSSIBLE_COST (1000 * 1000 * 1000)
 
 /*
@@ -91,7 +94,7 @@ enum city_options {
 
 /* Iterate a city map, from the center (the city) outwards */
 
-extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2];
+extern int city_map_iterate_outwards_indices[CITY_TILES][2];
 
 /* Iterate a city map, from the center (the city) outwards. x and y
    will be elements of [0, CITY_MAP_SIZE). */
@@ -101,7 +104,7 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
   for                                                                          \
   (                                                                            \
     city_map_iterate_outwards_index = 0;                                       \
-    city_map_iterate_outwards_index < (CITY_MAP_SIZE*CITY_MAP_SIZE)-4;         \
+    city_map_iterate_outwards_index < CITY_TILES;                              \
     city_map_iterate_outwards_index++                                          \
   )                                                                            \
   {                                                                            \

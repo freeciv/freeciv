@@ -54,7 +54,7 @@ static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
 
 /* Iterate a city map, from the center (the city) outwards */
 
-int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2] =
+int city_map_iterate_outwards_indices[CITY_TILES][2] =
 {
   { 2, 2 },
 
