@@ -1646,11 +1646,14 @@ Freeciv*reportactiveunitsupgradecommand.right:       chainLeft
 ! menues
 !
 Freeciv*gamemenu.label:                 Game
+Freeciv*viewmenu.label:                 View
 Freeciv*ordersmenu.label:               Orders
 Freeciv*reportsmenu.label:              Reports
 Freeciv*helpmenu.label:                 Help
 Freeciv*gamemenu.background:            Blue
 Freeciv*gamemenu.foreground:            White
+Freeciv*viewmenu.background:            Blue
+Freeciv*viewmenu.foreground:            White
 Freeciv*ordersmenu.background:          Blue
 Freeciv*ordersmenu.foreground:          White
 Freeciv*reportsmenu.background:         Blue
@@ -1658,12 +1661,16 @@ Freeciv*reportsmenu.foreground:         White
 Freeciv*helpmenu.background:            Blue
 Freeciv*helpmenu.foreground:            White
 Freeciv*gamemenu.borderWidth:           0
+Freeciv*viewmenu.borderWidth:           0
 Freeciv*ordersmenu.borderWidth:         0
 Freeciv*reportsmenu.borderWidth:        0
 Freeciv*helpmenu.borderWidth:           0
 Freeciv*gamemenu.left:                  chainLeft
 Freeciv*gamemenu.right:                 chainLeft
-Freeciv*ordersmenu.fromHoriz:           gamemenu
+Freeciv*viewmenu.fromHoriz:             gamemenu
+Freeciv*viewmenu.left:                  chainLeft
+Freeciv*viewmenu.right:                 chainLeft
+Freeciv*ordersmenu.fromHoriz:           viewmenu
 Freeciv*ordersmenu.left:                chainLeft
 Freeciv*ordersmenu.right:               chainLeft
 Freeciv*reportsmenu.fromHoriz:          ordersmenu

@@ -59,6 +59,9 @@ enum MenuID {
   MENU_GAME_CLEAR_OUTPUT,
   MENU_GAME_DISCONNECT,
   MENU_GAME_QUIT,
+
+  MENU_VIEW_SHOW_MAP_GRID,
+  MENU_VIEW_CENTER_VIEW,
   
   MENU_ORDER_AUTO_SETTLER,
   MENU_ORDER_AUTO_ATTACK,
@@ -121,7 +124,7 @@ struct Menu {
   struct MenuEntry *entries;
 };
 
-struct Menu *game_menu, *orders_menu, *reports_menu, *help_menu;
+struct Menu *game_menu, *view_menu, *orders_menu, *reports_menu, *help_menu;
 
 
 struct MenuEntry game_menu_entries[]={
@@ -139,7 +142,13 @@ struct MenuEntry game_menu_entries[]={
     { "Clear log",      MENU_GAME_CLEAR_OUTPUT, 0 },
     { "Disconnect",     MENU_GAME_DISCONNECT, 0 }, /* added by Syela */
     { "Quit",           MENU_GAME_QUIT, 0 },
-    { 0, MENU_END_OF_LIST, 0 },
+    { 0, MENU_END_OF_LIST, 0 }
+};
+
+struct MenuEntry view_menu_entries[]={
+    { "Grid On/Off  ctl-G",   MENU_VIEW_SHOW_MAP_GRID, 0 },
+    { "Center View      c",   MENU_VIEW_CENTER_VIEW, 0 },
+    { 0, MENU_END_OF_LIST, 0 }
 };
 
 struct MenuEntry order_menu_entries[]={
@@ -216,6 +225,7 @@ void update_menus()
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     XtVaSetValues(reports_menu->button, XtNsensitive, False, NULL);
     XtVaSetValues(orders_menu->button, XtNsensitive, False, NULL);
+    XtVaSetValues(view_menu->button, XtNsensitive, False, NULL);
 
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_OPTIONS, 0);
@@ -236,6 +246,7 @@ void update_menus()
     struct unit *punit;
     XtVaSetValues(reports_menu->button, XtNsensitive, True, NULL);
     XtVaSetValues(orders_menu->button, XtNsensitive, True, NULL);
+    XtVaSetValues(view_menu->button, XtNsensitive, True, NULL);
   
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_OPTIONS, 1);
@@ -426,6 +437,24 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   }
 }
+
+/****************************************************************
+...
+*****************************************************************/
+void view_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
+{
+  size_t pane_num = (size_t)client_data;
+
+  switch(pane_num) {
+  case MENU_VIEW_SHOW_MAP_GRID:
+    request_toggle_map_grid();
+    break;
+  case MENU_VIEW_CENTER_VIEW:
+    request_center_focus_unit();
+    break;
+  }
+}
+
 
 /****************************************************************
 ...
@@ -630,6 +659,9 @@ void setup_menus(Widget parent_form)
 {
   game_menu=create_menu("gamemenu", 
 			game_menu_entries, game_menu_callback, 
+			parent_form);
+  view_menu=create_menu("viewmenu", 
+			view_menu_entries, view_menu_callback, 
 			parent_form);
   orders_menu=create_menu("ordersmenu", 
 			  order_menu_entries, orders_menu_callback, 
