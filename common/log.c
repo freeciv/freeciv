@@ -186,6 +186,14 @@ void log_set_level(int level)
 }
 
 /**************************************************************************
+Adjust the callback function after initial log_init().
+**************************************************************************/
+void log_set_callback(log_callback_fn callback)
+{
+  log_callback=callback;
+}
+
+/**************************************************************************
   Return an updated struct logdebug_afile_info: 
 **************************************************************************/
 struct logdebug_afile_info logdebug_update(const char *file)
