@@ -496,7 +496,7 @@ void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
     }
   }
 
-  g_object_unref(mask_image);
+/*  g_object_unref(mask_image);*/
 }
 
 /*********************************************************************
@@ -547,7 +547,7 @@ GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
 	}
       }
     }
-    g_object_unref(img);
+/*    g_object_unref(img);*/
   }
 
   return dst;

@@ -29,6 +29,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "options.h"
 
 #include "finddlg.h"
 
@@ -64,7 +65,7 @@ void popup_find_dialog(void)
   get_center_tile_mapcanvas(&pos_x, &pos_y);
 
   shell = gtk_dialog_new_with_buttons(_("Find City"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	GTK_STOCK_CANCEL,
 	GTK_RESPONSE_CANCEL,
@@ -72,6 +73,12 @@ void popup_find_dialog(void)
 	GTK_RESPONSE_ACCEPT,
 	NULL);
   find_dialog_shell = shell;
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
+  gtk_window_set_type_hint(GTK_WINDOW(shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell),
 	GTK_RESPONSE_ACCEPT);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);

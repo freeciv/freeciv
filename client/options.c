@@ -67,6 +67,7 @@ bool concise_city_production = FALSE;
 bool auto_turn_done = FALSE;
 bool meta_accelerators = TRUE;
 bool map_scrollbars = TRUE;
+bool dialogs_on_top = TRUE;
 
 #define GEN_INT_OPTION(name, desc) { #name, desc, COT_INT, \
                                      &name, NULL, NULL, 0, NULL, NULL }
@@ -105,8 +106,9 @@ client_option options[] = {
   GEN_BOOL_OPTION(center_when_popup_city,   N_("Center map when Popup city")),
   GEN_BOOL_OPTION(concise_city_production,  N_("Concise City Production")),
   GEN_BOOL_OPTION(auto_turn_done,           N_("End Turn when done moving")),
-  GEN_BOOL_OPTION(meta_accelerators,        N_("Use Alt/Meta for accelerators (GTK only)")),
-  GEN_BOOL_OPTION(map_scrollbars,	    N_("Show Map Scrollbars (GTK only)")),
+  GEN_BOOL_OPTION(meta_accelerators,        N_("Use Alt/Meta for accelerators (GTK+ only)")),
+  GEN_BOOL_OPTION(map_scrollbars,	    N_("Show Map Scrollbars (GTK+ only)")),
+  GEN_BOOL_OPTION(dialogs_on_top,	    N_("Keep dialogs on top (GTK+ 2.0 only)")),
   GEN_OPTION_TERMINATOR
 };
 #undef GEN_INT_OPTION

@@ -230,13 +230,19 @@ static GtkWidget *create_rates_dialog(void)
   GtkWidget	*scale;
   
   shell = gtk_dialog_new_with_buttons(_("Select tax, luxury and science rates"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	GTK_STOCK_CANCEL,
 	GTK_RESPONSE_CANCEL,
 	GTK_STOCK_OK,
 	GTK_RESPONSE_OK,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
+  gtk_window_set_type_hint(GTK_WINDOW(shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
@@ -420,11 +426,17 @@ static void create_option_dialog(void)
   int i;
 
   option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(option_dialog_shell),
+				 GTK_WINDOW(toplevel));
+  }
+  gtk_window_set_type_hint(GTK_WINDOW(option_dialog_shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(option_dialog_shell),
 				  GTK_RESPONSE_CLOSE);
   g_signal_connect(option_dialog_shell, "response",

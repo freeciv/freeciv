@@ -37,7 +37,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
-#include "optiondlg.h"
+#include "options.h"
 
 #include "repodlgs_common.h"
 #include "repodlgs.h"
@@ -126,11 +126,15 @@ void create_science_dialog(bool make_modal)
   int i;
 
   science_dialog_shell = gtk_dialog_new_with_buttons(_("Science"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(science_dialog_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_type_hint(GTK_WINDOW(science_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(science_dialog_shell),
@@ -560,9 +564,13 @@ void create_economy_report_dialog(bool make_modal)
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   
   economy_dialog_shell = gtk_dialog_new_with_buttons(_("Economy"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(economy_dialog_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_type_hint(GTK_WINDOW(economy_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(economy_dialog_shell),
@@ -845,9 +853,13 @@ void create_activeunits_report_dialog(bool make_modal)
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
-  	GTK_WINDOW(toplevel),
+  	NULL,
 	0,
 	NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(activeunits_dialog_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_window_set_type_hint(GTK_WINDOW(activeunits_dialog_shell),
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(activeunits_dialog_shell),

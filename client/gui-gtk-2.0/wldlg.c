@@ -36,6 +36,7 @@
 #include "support.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "options.h"
 
 #include "wldlg.h"
 #include "citydlg.h"
@@ -199,7 +200,7 @@ static GtkWidget *create_worklists_report(void)
   GtkCellRenderer *rend;
 
   shell = gtk_dialog_new_with_buttons(_("Edit worklists"),
-				      GTK_WINDOW(toplevel),
+				      NULL,
 				      0,
 				      GTK_STOCK_NEW,
 				      WORKLISTS_NEW,
@@ -210,6 +211,12 @@ static GtkWidget *create_worklists_report(void)
 				      GTK_STOCK_CLOSE,
 				      WORKLISTS_CLOSE,
 				      NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(shell),
+				 GTK_WINDOW(toplevel));
+  }
+  gtk_window_set_type_hint(GTK_WINDOW(shell),
+			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   
   g_signal_connect(shell, "response",

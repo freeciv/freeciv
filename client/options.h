@@ -44,6 +44,7 @@ extern bool concise_city_production;
 extern bool auto_turn_done;
 extern bool meta_accelerators;
 extern bool map_scrollbars;
+extern bool dialogs_on_top;
 
 enum client_option_type {
   COT_BOOL,

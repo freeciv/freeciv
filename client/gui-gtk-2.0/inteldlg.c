@@ -32,6 +32,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "options.h"
 
 #include "inteldlg.h"
 
@@ -73,11 +74,15 @@ void intel_create_dialog(struct player *p)
   
   intel_dialog_shell =
     gtk_dialog_new_with_buttons(_("Foreign Intelligence Report"),
-      GTK_WINDOW(toplevel),
+      NULL,
       0,
       GTK_STOCK_CLOSE,
       GTK_RESPONSE_CLOSE,
       NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(intel_dialog_shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_dialog_set_default_response(GTK_DIALOG(intel_dialog_shell),
         GTK_RESPONSE_CLOSE);
 

@@ -202,9 +202,13 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   pdialog->shell =
     gtk_dialog_new_with_buttons(pplayer->name,
-				GTK_WINDOW(toplevel),
+				NULL,
 				0,
 				NULL);
+  if (dialogs_on_top) {
+    gtk_window_set_transient_for(GTK_WINDOW(pdialog->shell),
+				 GTK_WINDOW(toplevel));
+  }
   gtk_widget_set_name(pdialog->shell, "Freeciv");
 
   gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
