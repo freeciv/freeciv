@@ -84,6 +84,7 @@ static void sanity_check_city(struct city *pcity);
 
 static void disband_city(struct city *pcity);
 
+static void begin_city_turn(struct player *pplayer, struct city *pcity);
 static int update_city_activity(struct player *pplayer, struct city *pcity);
 
 static void worker_loop(struct city *pcity, int *foodneed,
@@ -766,6 +767,16 @@ void send_city_turn_notifications(struct player *pplayer, struct city *pcity)
 		       pcity->name, pcity->size + 1);
     }
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void begin_cities_turn(struct player *pplayer)
+{
+  city_list_iterate(pplayer->cities, pcity)
+     begin_city_turn(pplayer, pcity);
+  city_list_iterate_end;
 }
 
 /**************************************************************************
@@ -1536,7 +1547,27 @@ void city_incite_cost(struct city *pcity)
 }
 
 /**************************************************************************
- called every turn, for every city.
+ Called every turn, at beginning of turn, for every city.
+**************************************************************************/
+static void begin_city_turn(struct player *pplayer, struct city *pcity)
+{
+  /* remember what this city is building at start of turn,
+     so user can switch production back without penalty */
+  pcity->changed_from_id = pcity->currently_building;
+  pcity->changed_from_is_unit = pcity->is_building_unit;
+  pcity->before_change_shields = pcity->shield_stock;
+  freelog(LOG_DEBUG,
+	  "In %s, building %s.  Beg of Turn shields = %d",
+	  pcity->name,
+	  pcity->changed_from_is_unit ?
+	    unit_types[pcity->changed_from_id].name :
+	    improvement_types[pcity->changed_from_id].name,
+	  pcity->before_change_shields
+	  );
+}
+
+/**************************************************************************
+ Called every turn, at end of turn, for every city.
 **************************************************************************/
 static int update_city_activity(struct player *pplayer, struct city *pcity)
 {

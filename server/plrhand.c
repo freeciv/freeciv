@@ -1384,6 +1384,15 @@ static void update_revolution(struct player *pplayer)
 }
 
 /**************************************************************************
+Turn info update loop, for each player at beginning of turn.
+**************************************************************************/
+
+void begin_player_turn(struct player *pplayer)
+{
+  begin_cities_turn(pplayer);
+}
+
+/**************************************************************************
 Main update loop, for each player at end of turn.
 **************************************************************************/
 
@@ -2340,17 +2349,29 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 						   plrno, i);
     pcity->tile_trade=pcity->trade_prod=0;
     pcity->anarchy=secfile_lookup_int(file, "player%d.c%d.anarchy", plrno,i);
-    pcity->turn_last_built=secfile_lookup_int_default(file, -1,
-						      "player%d.c%d.turn_last_built", plrno,i);
-    pcity->turn_changed_target=secfile_lookup_int_default(file, -1,
-							  "player%d.c%d.turn_changed_target", plrno,i);
     pcity->rapture=secfile_lookup_int_default(file, 0, "player%d.c%d.rapture", plrno,i);
     pcity->was_happy=secfile_lookup_int(file, "player%d.c%d.was_happy", plrno,i);
-    pcity->is_building_unit=secfile_lookup_int(file, 
-				    "player%d.c%d.is_building_unit", plrno, i);
-
-    pcity->currently_building=secfile_lookup_int(file, 
-						 "player%d.c%d.currently_building", plrno, i);
+    pcity->is_building_unit=
+      secfile_lookup_int(file, 
+			 "player%d.c%d.is_building_unit", plrno, i);
+    pcity->currently_building=
+      secfile_lookup_int(file, 
+			 "player%d.c%d.currently_building", plrno, i);
+    pcity->turn_last_built=
+      secfile_lookup_int_default(file, GAME_START_YEAR,
+				 "player%d.c%d.turn_last_built", plrno, i);
+    pcity->turn_changed_target=
+      secfile_lookup_int_default(file, GAME_START_YEAR,
+				 "player%d.c%d.turn_changed_target", plrno, i);
+    pcity->changed_from_id=
+      secfile_lookup_int_default(file, pcity->currently_building,
+				 "player%d.c%d.changed_from_id", plrno, i);
+    pcity->changed_from_is_unit=
+      secfile_lookup_int_default(file, pcity->is_building_unit,
+				 "player%d.c%d.changed_from_is_unit", plrno, i);
+    pcity->before_change_shields=
+      secfile_lookup_int_default(file, pcity->shield_stock,
+				 "player%d.c%d.before_change_shields", plrno, i);
 
     pcity->did_buy=secfile_lookup_int(file,
 				      "player%d.c%d.did_buy", plrno,i);
@@ -2861,9 +2882,17 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 		       plrno, i);
     secfile_insert_int(file, pcity->shield_stock, "player%d.c%d.shield_stock", 
 		       plrno, i);
+    secfile_insert_int(file, pcity->turn_last_built,
+		       "player%d.c%d.turn_last_built", plrno, i);
+    secfile_insert_int(file, pcity->turn_changed_target,
+		       "player%d.c%d.turn_changed_target", plrno, i);
+    secfile_insert_int(file, pcity->changed_from_id,
+		       "player%d.c%d.changed_from_id", plrno, i);
+    secfile_insert_int(file, pcity->changed_from_is_unit,
+		       "player%d.c%d.changed_from_is_unit", plrno, i);
+    secfile_insert_int(file, pcity->before_change_shields,
+		       "player%d.c%d.before_change_shields", plrno, i);
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
-    secfile_insert_int(file, pcity->turn_last_built, "player%d.c%d.turn_last_built", plrno,i);
-    secfile_insert_int(file, pcity->turn_changed_target, "player%d.c%d.turn_changed_target", plrno,i);
     secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);
     secfile_insert_int(file, pcity->was_happy, "player%d.c%d.was_happy", plrno,i);
     secfile_insert_int(file, pcity->did_buy, "player%d.c%d.did_buy", plrno,i);

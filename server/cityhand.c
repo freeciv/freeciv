@@ -179,8 +179,11 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
     pplayer->capital=1;
     pcity->improvements[B_PALACE]=1;
   }
-  pcity->turn_last_built=game.year;
+  pcity->turn_last_built = game.year;
   pcity->turn_changed_target = game.year;
+  pcity->changed_from_id = 0;
+  pcity->changed_from_is_unit = 0;
+  pcity->before_change_shields = 0;
   pcity->anarchy=0;
   pcity->rapture=0;
 
@@ -557,21 +560,9 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 		     pcity->name);
   }
 
-
-  /* If we switch the "type" of the target sometime after a city has
-     produced (ie, not on the turn immed, after), then there's a shield
-     loss.  But only on the first switch that turn. */
-  if ((pcity->is_building_unit != is_unit ||
-       (!is_unit&&is_wonder(pcity->currently_building)!=is_wonder(target))) &&
-      !(pcity->turn_changed_target == game.year ||
-	game_next_year(pcity->turn_last_built) >= game.year)) {
-    pcity->shield_stock /= 2;
-    /* Only set turn_changed_target when we actually cop the penalty -
-       otherwise you can change to something of the same type first, and
-       suffer no penalty for any later changes in the same turn */
-    pcity->turn_changed_target = game.year;
-  }
-
+  /* Manage the city change-production penalty.
+     (May penalize, restore or do nothing to the shield_stock.) */
+  city_change_production_penalty(pcity, target, is_unit, TRUE);
 
   /* Change build target. */
   pcity->currently_building = target;
@@ -977,6 +968,13 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   
   packet->is_building_unit=pcity->is_building_unit;
   packet->currently_building=pcity->currently_building;
+
+  packet->turn_last_built=pcity->turn_last_built;
+  packet->turn_changed_target=pcity->turn_changed_target;
+  packet->changed_from_id=pcity->changed_from_id;
+  packet->changed_from_is_unit=pcity->changed_from_is_unit;
+  packet->before_change_shields=pcity->before_change_shields;
+
   copy_worklist(&packet->worklist, pcity->worklist);
   packet->diplomat_investigate=dipl_invest;
 

@@ -92,6 +92,7 @@
 
 #include "civserver.h"
 
+static void begin_turn(void);
 static void before_end_year(void);
 static int end_turn(void);
 static void send_all_info(struct player *dest);
@@ -473,18 +474,12 @@ main_start_players:
   send_game_state(0, CLIENT_GAME_RUNNING_STATE);
 
   while(server_state==RUN_GAME_STATE) {
-    /* See if the value of fog of war has changed */
-    if (game.fogofwar != game.fogofwar_old) {
-      if (game.fogofwar == 1) {
-	enable_fog_of_war();
-	game.fogofwar_old = 1;
-      } else {
-	disable_fog_of_war();
-	game.fogofwar_old = 0;
-      }
-    }
+    /* absolute beginning of a turn */
+    freelog(LOG_DEBUG, "Begin turn");
+    begin_turn();
 
     force_end_of_sniff=0;
+
     freelog(LOG_DEBUG, "Shuffleplayers");
     shuffle_players();
     freelog(LOG_DEBUG, "Aistartturn");
@@ -493,7 +488,7 @@ main_start_players:
     /* Before sniff (human player activites), report time to now: */
     freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
 	    read_timer_seconds(eot_timer));
-	    
+
     freelog(LOG_DEBUG, "sniffingpackets");
     while(sniff_packets()==1);
 
@@ -865,6 +860,43 @@ static void ai_start_turn(void)
     if(shuffled[i] && shuffled[i]->ai.control) 
       ai_do_first_activities(shuffled[i]);
   }
+}
+
+/**************************************************************************
+Handle the beginning of each turn.
+Note: This does not give "time" to any player;
+      it is solely for updating turn-dependent data.
+**************************************************************************/
+static void begin_turn(void)
+{
+  int i;
+
+  /* See if the value of fog of war has changed */
+  if (game.fogofwar != game.fogofwar_old) {
+    if (game.fogofwar == 1) {
+      enable_fog_of_war();
+      game.fogofwar_old = 1;
+    } else {
+      disable_fog_of_war();
+      game.fogofwar_old = 0;
+    }
+  }
+
+  for(i=0; i<game.nplayers; i++)
+    connection_do_buffer(game.players[i].conn);
+
+  for(i=0; i<game.nplayers; i++) {
+    struct player *pplayer = &game.players[i];
+    freelog(LOG_DEBUG, "beginning player turn for #%d (%s)",
+	    i, pplayer->name);
+    begin_player_turn(pplayer);
+  }
+  for (i=0; i<game.nplayers;i++) {
+    send_player_cities(&game.players[i]);
+  }
+
+  for(i=0; i<game.nplayers; i++)
+    connection_do_unbuffer(game.players[i].conn);
 }
 
 /**************************************************************************

@@ -294,7 +294,13 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->did_sell=packet->did_sell;
   pcity->was_happy=packet->was_happy;
   pcity->airlift=packet->airlift;
-  
+
+  pcity->turn_last_built=packet->turn_last_built;
+  pcity->turn_changed_target=packet->turn_changed_target;
+  pcity->changed_from_id=packet->changed_from_id;
+  pcity->changed_from_is_unit=packet->changed_from_is_unit;
+  pcity->before_change_shields=packet->before_change_shields;
+
   i=0;
   for(y=0; y<CITY_MAP_SIZE; y++) {
     for(x=0; x<CITY_MAP_SIZE; x++) {

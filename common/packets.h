@@ -336,6 +336,12 @@ struct packet_city_info {
   int is_building_unit;
   int currently_building;
 
+  int turn_last_built;
+  int turn_changed_target;
+  int changed_from_id;
+  int changed_from_is_unit;
+  int before_change_shields;
+
   struct worklist worklist;
 
   char improvements[B_LAST+1];

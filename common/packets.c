@@ -1985,6 +1985,13 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_uint16(cptr, req->pollution);
   cptr=put_uint8(cptr, req->currently_building);
 
+if (pc && has_capability("production_change_fix", pc->capability)) {
+  cptr=put_sint16(cptr, req->turn_last_built);
+  cptr=put_sint16(cptr, req->turn_changed_target);
+  cptr=put_uint8(cptr, req->changed_from_id);
+  cptr=put_uint16(cptr, req->before_change_shields);
+}
+
   cptr=put_worklist(cptr, &req->worklist);
 
   data=req->is_building_unit?1:0;
@@ -1993,6 +2000,9 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   data|=req->was_happy?8:0;
   data|=req->airlift?16:0;
   data|=req->diplomat_investigate?32:0; /* gentler implementation -- Syela */
+if (pc && has_capability("production_change_fix", pc->capability)) {
+  data|=req->changed_from_is_unit?64:0;
+}
   cptr=put_uint8(cptr, data);
 
   cptr=put_city_map(cptr, (char*)req->city_map);
@@ -2058,6 +2068,18 @@ receive_packet_city_info(struct connection *pc)
   iget_uint16(&iter, &packet->pollution);
   iget_uint8(&iter, &packet->currently_building);
 
+if (pc && has_capability("production_change_fix", pc->capability)) {
+  iget_sint16(&iter, &packet->turn_last_built);
+  iget_sint16(&iter, &packet->turn_changed_target);
+  iget_uint8(&iter, &packet->changed_from_id);
+  iget_uint16(&iter, &packet->before_change_shields);
+} else {
+  packet->turn_last_built = GAME_START_YEAR;
+  packet->turn_changed_target = GAME_START_YEAR;
+  packet->changed_from_id = packet->currently_building;
+  packet->before_change_shields = packet->shield_stock;
+}
+
   iget_worklist(&iter, &packet->worklist);
 
   iget_uint8(&iter, &data);
@@ -2067,7 +2089,12 @@ receive_packet_city_info(struct connection *pc)
   packet->was_happy = (data>>=1)&1;
   packet->airlift = (data>>=1)&1;
   packet->diplomat_investigate = (data>>=1)&1;
-  
+if (pc && has_capability("production_change_fix", pc->capability)) {
+  packet->changed_from_is_unit = (data>>=1)&1;
+} else {
+  packet->changed_from_is_unit = packet->is_building_unit;
+}
+
   iget_city_map(&iter, (char*)packet->city_map, sizeof(packet->city_map));
   iget_bit_string(&iter, (char*)packet->improvements,
 		  sizeof(packet->improvements));

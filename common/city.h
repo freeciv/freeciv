@@ -345,6 +345,9 @@ struct city {
   int did_buy, did_sell, is_updated;
   int turn_last_built;	      /* The last year in which something was built */
   int turn_changed_target;    /* Suffer shield loss at most once per turn */
+  int changed_from_id;	      /* If changed this turn, what changed from (id) */
+  int changed_from_is_unit;   /* If changed this turn, what changed from (unit?) */
+  int before_change_shields;  /* If changed this turn, shields before penalty */
   int anarchy;		      /* anarchy rounds count */ 
   int rapture;                /* rapture rounds count */ 
   int was_happy;
@@ -443,6 +446,8 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id);
 int city_got_effect(struct city *pcity, Impr_Type_id id);
 int city_got_citywalls(struct city *pcity);
 int wonder_replacement(struct city *pcity, Impr_Type_id id);
+int city_change_production_penalty(struct city *pcity,
+				   int target, int is_unit, int apply_it);
 int city_turns_to_build(struct city *pcity, int id, int id_is_unit);
 
 /* textual representation of buildings */

@@ -22,6 +22,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "shared.h"
@@ -1330,37 +1331,127 @@ int get_style_by_name(char *style_name)
 }
 
 /**************************************************************************
+ Compute and optionally apply the change-production penalty for the given
+ production change (to target,is_unit) in the given city (pcity).
+ Always returns the number of shields which would be in the stock if
+ the penalty had been applied.
+
+ If we switch the "class" of the target sometime after a city has produced
+ (i.e., not on the turn immediately after), then there's a shield loss.
+ But only on the first switch that turn.  Also, if ever change back to
+ original improvement class of this turn, restore lost production.
+**************************************************************************/
+int city_change_production_penalty(struct city *pcity,
+				   int target, int is_unit, int apply_it)
+{
+  int shield_stock_after_adjustment = pcity->shield_stock;
+
+  freelog(LOG_DEBUG, "compute change-production penalty: %s -> %s",
+	  pcity->is_building_unit ?
+	    unit_types[pcity->currently_building].name :
+	    improvement_types[pcity->currently_building].name,
+	  is_unit ?
+	    unit_types[target].name :
+	    improvement_types[target].name
+	  );
+  freelog(LOG_DEBUG,
+	  "before: (stock=%d last/test=%d/%d changed=%d year=%d orig: %d %s)",
+	  pcity->shield_stock,
+	  pcity->turn_last_built, game_next_year(pcity->turn_last_built),
+	  pcity->turn_changed_target, game.year,
+	  pcity->before_change_shields,
+	  pcity->changed_from_is_unit ?
+	    unit_types[pcity->changed_from_id].name :
+	    improvement_types[pcity->changed_from_id].name
+	  );
+
+  /* If already building this thing, nothing to do... */
+  if ((pcity->is_building_unit == is_unit) &&
+      (pcity->currently_building == target)) {
+    freelog(LOG_DEBUG, "...did not change production; do nothing");
+    return shield_stock_after_adjustment;
+  }
+
+  /* We're changing production... */
+  if (((pcity->is_building_unit != is_unit) ||
+       (!is_unit &&
+	(is_wonder(pcity->currently_building) != is_wonder(target)))) &&
+      (game_next_year(pcity->turn_last_built) < game.year)) {
+    /* We've changed "class", and it's not the turn immed after completion. */
+    freelog(LOG_DEBUG, "...changed prod class in latter year");
+    if (pcity->turn_changed_target != game.year) {
+      /* This is the first change this turn... */
+      freelog(LOG_DEBUG, "   ...first change this year; penalty");
+      /* Compute new shield_stock after production penalty. */
+      shield_stock_after_adjustment /= 2;
+      /* Only if really applying the penalty... */
+      if (apply_it) {
+	/* Apply the penalty. */
+	pcity->shield_stock = shield_stock_after_adjustment;
+	/* Only set turn_changed_target when we actually cop the penalty -
+	   otherwise you can change to something of the same class first,
+	   and suffer no penalty for any later changes in the same turn. */
+	pcity->turn_changed_target = game.year;
+      }
+    } else if ((pcity->changed_from_is_unit == is_unit) &&
+	       (is_unit ||
+		(is_wonder(pcity->changed_from_id) == is_wonder(target)))) {
+      /* This is a change back to the initial production class... */
+      freelog(LOG_DEBUG, "   ...revert to initial production class");
+      /* Compute new shield_stock after reverting penalty. */
+      shield_stock_after_adjustment = pcity->before_change_shields;
+      /* Only if really applying the penalty... */
+      if (apply_it) {
+	/* Undo penalty. */
+	pcity->shield_stock = shield_stock_after_adjustment;
+	/* Pretend we havn't changed this turn. */
+	pcity->turn_changed_target = GAME_START_YEAR;
+      }
+#ifdef DEBUG
+    } else {
+      freelog(LOG_DEBUG, "   ...latter change in year; no penalty");
+#endif
+    }
+#ifdef DEBUG
+  } else {
+    freelog(LOG_DEBUG, "...same class or first year; no penalty");
+#endif
+  }
+
+  freelog(LOG_DEBUG,
+	  "--> %-3d (stock=%d last/test=%d/%d changed=%d year=%d orig: %d %s)",
+	  shield_stock_after_adjustment,
+	  pcity->shield_stock,
+	  pcity->turn_last_built, game_next_year(pcity->turn_last_built),
+	  pcity->turn_changed_target, game.year,
+	  pcity->before_change_shields,
+	  pcity->changed_from_is_unit ?
+	    unit_types[pcity->changed_from_id].name :
+	    improvement_types[pcity->changed_from_id].name
+	  );
+
+  return shield_stock_after_adjustment;
+}
+
+/**************************************************************************
  Calculates the turns which are needed to build the requested
- type in the city. GUI Independent.
+ improvement in the city.  GUI Independent.
 **************************************************************************/
 int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
 {
   int city_shield_surplus = pcity->shield_surplus;
+  int city_shield_stock =
+    city_change_production_penalty(pcity, id, id_is_unit, FALSE);
+  int improvement_cost = id_is_unit ?
+    get_unit_type(id)->build_cost : get_improvement_type(id)->build_cost;
 
-  if (city_shield_surplus > 0)
-  {
-    int rounds, cost;
-    int shield_stock = pcity->shield_stock;
-
-    if (id_is_unit)
-    {
-      if (!pcity->is_building_unit)
-	shield_stock /= 2;
-      cost = get_unit_type(id)->build_cost;
-    }
-    else
-    {
-      if (pcity->is_building_unit ||
-	  (is_wonder(pcity->currently_building) != is_wonder(id)))
-	shield_stock /= 2;
-      cost = get_improvement_type(id)->build_cost;
-    }
-
-    rounds = (cost - shield_stock + city_shield_surplus - 1) /
+  if (city_shield_stock >= improvement_cost) {
+    return 1;
+  } else if (city_shield_surplus > 0) {
+    return
+      (improvement_cost - city_shield_stock + city_shield_surplus - 1) /
       city_shield_surplus;
-
-    return (rounds > 0) ? rounds : 1;
+  } else {
+    return 999;
   }
-
-  return 999;
 }

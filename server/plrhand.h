@@ -20,6 +20,7 @@ struct packet_player_request;
 struct section_file;
 
 void server_remove_player(struct player *pplayer);
+void begin_player_turn(struct player *pplayer);
 void update_player_activities(struct player *pplayer);
 
 void handle_player_revolution(struct player *pplayer);
