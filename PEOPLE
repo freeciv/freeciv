@@ -151,7 +151,7 @@ contributions to the Freeciv project.
      Paul Thomas <paul.thomas@cmis.csiro.au> (diplomatic states 1.11.0)
      Daniel Zinsli <s830+priv@ii.uib.no>
 	(patches, bugfixes 1.11.0, turns-remaining 1.10.0)
-     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (bugfix 1.11.0)
+     SAWADA Katsuya <ama@petmail.net> (bugfix 1.11.0)
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
 	(bugfixes 1.11.0, cleanup 1.10.0, options, --metaserver 1.9.0,
 	co-admin and patches 1.8.x, ai diplomat use)
@@ -613,7 +613,7 @@ contributions to the Freeciv project.
      Erik Sigra <freeciv@home.se> (sv.po, BUGS.sv HOWTOPLAY.sv README.sv)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
      Egbert Hinzen <egbert@ehinzen.de> (de.po)
-     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po)
+     SAWADA Katsuya <ama@petmail.net> (ja.po)
      Gaute Strokkenes <gs234@cam.ac.uk> (no.po)
      Dmitriy Genzel <udgenzel@mcs.drexel.edu> (ru.po)
      Frank Osterfeld <frank.osterfeld@dorninger.de> (HOWTOPLAY.de)
@@ -642,7 +642,7 @@ contributions to the Freeciv project.
 
      Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de> (de.po)
      David Pfitzner <dwp@mso.anu.edu.au> (en_GB.po 1.11.4)
-     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po 1.11.4, 1.11.0)
+     SAWADA Katsuya <ama@petmail.net> (ja.po 1.11.4, 1.11.0)
      Egbert Hinzen <garfy@ehinzen.de> (de.po, README.de 1.11.4, 1.11.0, 1.10.0)
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>
 	(pt.po 1.11.0, 1.10.0, 1.9.0)
