@@ -2522,10 +2522,15 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
 
   pcity->ai.trade_want = 1; /* we always want some */
   memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
-  pcity->ai.workremain = 1; /* there's always work to be done! */
   pcity->ai.danger = 0;
   pcity->ai.urgency = 0;
   pcity->ai.grave_danger = 0;
+  pcity->ai.wallvalue = 0;
+  pcity->ai.downtown = 0;
+  pcity->ai.invasion = 0;
+  pcity->ai.bcost = 0;
+  pcity->ai.attack = 0;
+
   pcity->corruption = 0;
   pcity->shield_waste = 0;
   pcity->shield_bonus = 100;

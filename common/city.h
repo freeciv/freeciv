@@ -167,10 +167,9 @@ struct ai_choice {
 };
 
 struct ai_city {
-  int workremain;
-
   /* building desirabilities - easiest to handle them here -- Syela */
   int building_want[B_LAST];    /* not sure these will always be < 256 */
+
   int danger;                   /* danger to be compared to assess_defense */
   bool diplomat_threat;         /* enemy diplomat or spy is near the city */
   bool has_diplomat;            /* this city has diplomat or spy defender */

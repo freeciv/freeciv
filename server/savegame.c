@@ -782,29 +782,18 @@ static void player_load(struct player *plr, int plrno,
   city_list_init(&plr->cities);
   ncities=secfile_lookup_int(file, "player%d.ncities", plrno);
   
-  for(i=0; i<ncities; i++) { /* read the cities */
+  for (i = 0; i < ncities; i++) { /* read the cities */
     struct city *pcity;
-    
-    pcity=fc_malloc(sizeof(struct city));
-    pcity->ai.trade_want = TRADE_WEIGHTING;
-    memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
-    pcity->ai.workremain = 1; /* there's always work to be done! */
-    pcity->ai.danger = -1; /* flag, may come in handy later */
-    pcity->corruption = 0;
-    pcity->shield_waste = 0;
-    pcity->shield_bonus = 100;
-    pcity->tax_bonus = 100;
-    pcity->science_bonus = 100;
- 
+
+    pcity = create_city_virtual(plr,
+                      secfile_lookup_int(file, "player%d.c%d.x", plrno, i),
+                      secfile_lookup_int(file, "player%d.c%d.y", plrno, i),
+                      secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
+
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
     idex_register_city(pcity);
-    pcity->owner=plrno;
-    pcity->x=secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
-    pcity->y=secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
     
-    sz_strlcpy(pcity->name,
-	       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
     if (section_file_lookup(file, "player%d.c%d.original", plrno, i))
       pcity->original = secfile_lookup_int(file, "player%d.c%d.original", 
 					   plrno,i);
@@ -872,11 +861,10 @@ static void player_load(struct player *plr, int plrno,
     pcity->did_sell =
       secfile_lookup_bool_default(file, FALSE, "player%d.c%d.did_sell", plrno,i);
     
-    if (game.version >=10300) 
+    if (game.version >= 10300) {
       pcity->airlift=secfile_lookup_bool(file,
 					"player%d.c%d.airlift", plrno,i);
-    else
-      pcity->airlift = FALSE;
+    }
 
     pcity->city_options =
       secfile_lookup_int_default(file, CITYOPT_DEFAULT,
@@ -977,28 +965,25 @@ static void player_load(struct player *plr, int plrno,
   for(i=0; i<nunits; i++) { /* read the units */
     struct unit *punit;
     struct city *pcity;
-    
-    punit=fc_malloc(sizeof(struct unit));
+
+    punit = create_unit_virtual(plr, NULL, 
+                  secfile_lookup_int(file, "player%d.u%d.type", plrno, i),
+                  secfile_lookup_bool(file, "player%d.u%d.veteran", plrno, i));
     punit->id=secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
     alloc_id(punit->id);
     idex_register_unit(punit);
-    punit->owner=plrno;
     punit->x=secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
     punit->y=secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
 
-    punit->veteran=secfile_lookup_bool(file, "player%d.u%d.veteran", plrno, i);
     punit->foul=secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
 					   plrno, i);
     punit->homecity=secfile_lookup_int(file, "player%d.u%d.homecity",
 				       plrno, i);
 
-    if((pcity=find_city_by_id(punit->homecity)))
+    if ((pcity = find_city_by_id(punit->homecity))) {
       unit_list_insert(&pcity->units_supported, punit);
-    else
-      punit->homecity=0;
+    }
     
-    punit->type=secfile_lookup_int(file, "player%d.u%d.type", plrno, i);
-
     punit->moves_left=secfile_lookup_int(file, "player%d.u%d.moves", plrno, i);
     punit->fuel= secfile_lookup_int(file, "player%d.u%d.fuel", plrno, i);
     set_unit_activity(punit, secfile_lookup_int(file, "player%d.u%d.activity",plrno, i));
@@ -1026,13 +1011,7 @@ static void player_load(struct player *plr, int plrno,
     }
 
     punit->ai.control=secfile_lookup_bool(file, "player%d.u%d.ai", plrno,i);
-    punit->ai.ai_role = AIUNIT_NONE;
-    punit->ai.ferryboat = 0;
-    punit->ai.passenger = 0;
-    punit->ai.bodyguard = 0;
-    punit->ai.charge = 0;
     punit->hp=secfile_lookup_int(file, "player%d.u%d.hp", plrno, i);
-    punit->bribe_cost=-1;	/* flag value */
     
     punit->ord_map=secfile_lookup_int_default(file, 0, "player%d.u%d.ord_map",
 					      plrno, i);
@@ -1051,10 +1030,6 @@ static void player_load(struct player *plr, int plrno,
        otherwise these don't get initialized (and AI calculations
        etc may use junk values).
     */
-    punit->unhappiness = 0;
-    punit->upkeep      = 0;
-    punit->upkeep_food = 0;
-    punit->upkeep_gold = 0;
 
     /* load the goto route */
     {
