@@ -1545,7 +1545,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.sewer_size = packet->sewer_size;
   game.add_to_size_limit = packet->add_to_size_limit;
   
-  game.rtech.get_bonus_tech = packet->rtech.get_bonus_tech;
   game.rtech.cathedral_plus = packet->rtech.cathedral_plus;
   game.rtech.cathedral_minus = packet->rtech.cathedral_minus;
   game.rtech.colosseum_plus = packet->rtech.colosseum_plus;

@@ -160,7 +160,6 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   }
 
   /* building special techs (not yet generalised) */
-  /* note game.rtech.get_bonus_tech is just cached value from tech flag */
   if (itech == game.rtech.cathedral_plus) {
     my_snprintf(buf, sizeof(buf), "special: %s +1",
 		improvement_types[B_CATHEDRAL].name);

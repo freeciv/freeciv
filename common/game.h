@@ -153,7 +153,6 @@ struct civ_game {
   } ruleset;
   int firepower_factor;		/* See README.rulesets */
   struct {
-    int get_bonus_tech;		/* eg Philosophy */
     int cathedral_plus;		/* eg Theology */
     int cathedral_minus;	/* eg Communism */
     int colosseum_plus;		/* eg Electricity */

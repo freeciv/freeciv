@@ -554,6 +554,8 @@ struct packet_ruleset_control {
   int num_impr_types;
   int num_tech_types;
   struct {
+    /* when removing the new_bonus_tech capability remove the
+       following line; has_capability("new_bonus_tech",  */
     int get_bonus_tech;
     int cathedral_plus;
     int cathedral_minus;

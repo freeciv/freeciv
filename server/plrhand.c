@@ -211,7 +211,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 		    char saving_bulbs)
 {
   int i;
-  int philohack=0;
+  int bonus_tech_hack = 0;
   int was_first=0;
   int saved_bulbs;
   int wonder;
@@ -249,8 +249,9 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
     }
   }
     
-  if (tech_found==game.rtech.get_bonus_tech && was_first)
-    philohack=1;
+  if (tech_flag(tech_found, TF_BONUS_TECH) && was_first) {
+    bonus_tech_hack = 1;
+  }
 
   set_invention(plr, tech_found, TECH_KNOWN);
   update_research(plr);
@@ -311,9 +312,9 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
       plr->research.researched=saved_bulbs;
   }
 
-  if (philohack) {
-    notify_player(plr, _("Game: Great philosophers from all the world join "
-			 "your civilization; you get an immediate advance."));
+  if (bonus_tech_hack) {
+    notify_player(plr, _("Game: Great scientists from all the world join "
+			 "your civilization: you get an immediate advance."));
     tech_researched(plr);
   }
 }

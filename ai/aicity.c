@@ -141,13 +141,16 @@ static void ai_manage_buildings(struct player *pplayer)
       j = improvement_types[i].tech_req;
       if (get_invention(pplayer, j) != TECH_KNOWN)
         pplayer->ai.tech_want[j] += values[i];
+      /* if it is a bonus tech double it's value since it give a free
+	 tech */
+      if (!game.global_advances[j] && tech_flag(j, TF_BONUS_TECH))
+	pplayer->ai.tech_want[j] *= 2;
+      /* this probably isn't right -- Syela */
+      /* since it assumes that the next tech is as valuable as the
+	 current -- JJCogliati */
     }
   } /* tired of researching pottery when we need to learn Republic!! -- Syela */
 
-  /* was A_PHILOSOPHY: */
-  if (!game.global_advances[game.rtech.get_bonus_tech])
-    pplayer->ai.tech_want[game.rtech.get_bonus_tech] *= 2;
-      /* this probably isn't right -- Syela */
 
   city_list_iterate(pplayer->cities, pcity)
     pcity->ai.building_want[B_MAGELLAN] = values[B_MAGELLAN];

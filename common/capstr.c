@@ -70,7 +70,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes"
+#define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -84,6 +84,9 @@ const char * const our_capability = our_capability_internal;
    "turn" additionally transfers game.turn to the client.
 
     "attributes" is the ability to request and transfer attribute blocks.
+
+   "new_bonus_tech" is the ability to make every tech a bonus tech
+   like A_PHILOSOPHY
 */
 
 void init_our_capability(void)

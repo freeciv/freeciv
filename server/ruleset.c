@@ -543,10 +543,6 @@ static void load_ruleset_techs(struct section_file *file)
     }
   } 
 
-  /* Should be removed and use the flag directly in the future
-     to allow more bonus techs -- sb */  
-  game.rtech.get_bonus_tech = find_tech_by_flag(0,TF_BONUS_TECH);
-
   free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
@@ -1676,7 +1672,9 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.sewer_size = game.sewer_size;
   packet.add_to_size_limit = game.add_to_size_limit;
 
-  packet.rtech.get_bonus_tech = game.rtech.get_bonus_tech;
+  /* when removing the new_bonus_tech capability remove the following
+     line; has_capability("new_bonus_tech", */
+  packet.rtech.get_bonus_tech = find_tech_by_flag(0, TF_BONUS_TECH);
   packet.rtech.cathedral_plus = game.rtech.cathedral_plus;
   packet.rtech.cathedral_minus = game.rtech.cathedral_minus;
   packet.rtech.colosseum_plus = game.rtech.colosseum_plus;
