@@ -40,7 +40,6 @@
 #include "spaceshipdlg.h"
 #include "colors.h"
 #include "graphics.h"
-#include "log.h"
 
 #include "plrdlg.h"
 

@@ -1838,7 +1838,7 @@ static int spy_steal_popup(struct GUI *pWidget)
   
   pWindow->action = spy_steal_dlg_window_callback;
   set_wstate( pWindow , WS_NORMAL );
-  w = MAX( w , pWindow->size.w + 8 );
+  w = MAX(0, pWindow->size.w + 8);
   
   add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
   pDiplomat_Dlg->pEndWidgetList = pWindow;

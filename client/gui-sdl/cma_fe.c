@@ -23,7 +23,6 @@
 #include "fcintl.h"
 #include "events.h"
 #include "game.h"
-#include "log.h"
 
 #include "gui_mem.h"
 
