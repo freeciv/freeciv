@@ -227,8 +227,8 @@ flags    = "Trade_Revenue_Reduce"
 
 [advance_fundamentalism]
 name     = _("Fundamentalism")
-req1     = "Never";		; "Theology"
-req2     = "Never"		; "Conscription"
+req1     = "Theology"
+req2     = "Conscription"
 flags    = ""
 
 [advance_fusion_power]

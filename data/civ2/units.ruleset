@@ -281,7 +281,7 @@ roles         = "DefendGood", "FirstBuild", "HutTech",
 [unit_fanatics]
 name          = _("Fanatics")
 move_type     = "Land"
-tech_req      = "Never"
+tech_req      = "Fundamentalism"
 obsolete_by   = "None"
 graphic       = "u.fanatics"
 graphic_alt   = "-"
@@ -509,7 +509,7 @@ roles         = "AttackFast", "Hut"
 [unit_elephants]
 name          = _("Elephants")
 move_type     = "Land"
-tech_req      = "Never"
+tech_req      = "Polytheism"
 obsolete_by   = "Crusaders"
 graphic       = "u.elephants"
 graphic_alt   = "-"
@@ -532,7 +532,7 @@ roles         = "AttackFast"
 [unit_crusaders]
 name          = _("Crusaders")
 move_type     = "Land"
-tech_req      = "Never"
+tech_req      = "Monotheism"
 obsolete_by   = "Dragoons"
 graphic       = "u.crusaders"
 graphic_alt   = "-"

@@ -388,7 +388,7 @@ You impose limited but efficient martial law under Communism.  Each\
 [government_fundamentalism]
 
 name        = _("Fundamentalism")
-tech_req    = "Fundamentalism"
+tech_req    = "Never"          ; "Fundamentalism"
 graphic     = "gov.fundamentalism"
 graphic_alt = "-"
 flags       = "-"              ; others TODO
