@@ -53,7 +53,9 @@ void free_intro_radar_sprites(void);
 
 struct Sprite;			/* opaque type, real type is gui-dep */
 
-struct Sprite *load_xpmfile(const char *filename);
+char **gfx_fileextensions(void);
+
+struct Sprite *load_gfxfile(const char *filename);
 struct Sprite *crop_sprite(struct Sprite *source,
 			   int x, int y, int width, int height);
 void free_sprite(struct Sprite *s);

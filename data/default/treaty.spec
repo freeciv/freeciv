@@ -2,7 +2,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+spec1"
+options = "+spec2"
 
 [info]
 
@@ -12,7 +12,7 @@ artists = "
 "
 
 [file]
-xpm = "default/treaty.xpm"
+gfx = "default/treaty"
 
 [grid_main]
 

@@ -2,7 +2,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+spec1"
+options = "+spec2"
 
 [info]
 
@@ -11,7 +11,7 @@ artists = "
 "
 
 [file]
-xpm = "default/small.xpm"
+gfx = "default/small"
 
 [grid_main]
 

@@ -100,7 +100,7 @@ l = @l@
 
 pkgdatadir = $(datadir)/@PACKAGE@/default
 
-pkgdata_DATA =  	terrain.ruleset		techs.ruleset		governments.ruleset 	units.ruleset		buildings.ruleset 	nations.ruleset		flags.xpm		flags.xpm.spec		roads.xpm		roads.xpm.spec		small.xpm		small.xpm.spec		space.xpm		space.xpm.spec		tiles.xpm		tiles.xpm.spec		treaty.xpm		treaty.xpm.spec		units.xpm		units.xpm.spec
+pkgdata_DATA =  	terrain.ruleset		techs.ruleset		governments.ruleset 	units.ruleset		buildings.ruleset 	nations.ruleset		flags.xpm		flags.spec		roads.xpm		roads.spec		small.xpm		small.spec		space.xpm		space.spec		tiles.xpm		tiles.spec		treaty.xpm		treaty.spec		units.xpm		units.spec
 
 
 EXTRA_DIST = $(pkgdata_DATA)

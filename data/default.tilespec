@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec1"
+options = "+tilespec2"
 
 ; A simple name for the tileset specified by this file:
 name = "Engels"
@@ -21,17 +21,17 @@ flags_are_transparent = 1
 
 ; These are special because they get freed and reloaded
 ; as required:
-main_intro_file    = "intro.xpm"
-minimap_intro_file = "radar.xpm"
+main_intro_file    = "intro"
+minimap_intro_file = "radar"
 
 ; Below, the graphics spec files; must be somewhere (anywhere) in 
 ; the data path. Order may be important for color allocation on 
 ; low-color systems.
 files = 
-  "default/tiles.xpm.spec",
-  "default/small.xpm.spec",
-  "default/units.xpm.spec",
-  "default/flags.xpm.spec",
-  "default/roads.xpm.spec",
-  "default/space.xpm.spec",
-  "default/treaty.xpm.spec"
+  "default/tiles.spec",
+  "default/small.spec",
+  "default/units.spec",
+  "default/flags.spec",
+  "default/roads.spec",
+  "default/space.spec",
+  "default/treaty.spec"

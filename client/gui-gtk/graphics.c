@@ -74,8 +74,8 @@ void load_intro_gfx( void )
     int  w;
     char s	[64];
 
-    intro_gfx_sprite = load_xpmfile(main_intro_filename);
-    radar_gfx_sprite = load_xpmfile(minimap_intro_filename);
+    intro_gfx_sprite = load_gfxfile(main_intro_filename);
+    radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
 
     w = gdk_string_width(main_font, WORD_VERSION);
 
@@ -189,11 +189,25 @@ void dtor_sprite( SPRITE *mysprite )
 }
 #endif
 
+/***************************************************************************
+ Returns the filename extensions the client supports
+ Order is important.
+***************************************************************************/
+char **gfx_fileextensions(void)
+{
+  static char *ext[] =
+  {
+    "xpm",
+    NULL
+  };
+
+  return ext;
+}
 
 /***************************************************************************
 ...
 ***************************************************************************/
-struct Sprite *load_xpmfile(const char *filename)
+struct Sprite *load_gfxfile(const char *filename)
 {
   GdkBitmap	*m;
   GdkImlibImage *im;

@@ -2,24 +2,23 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+spec1"
+options = "+spec2"
 
 [info]
 
 artists = "
-    Ralph Engels <rengels@hydra.informatik.uni-ulm.de>
-    Jeff Mallatt <jjm@codewell.com> (additional specials)
+    Tatu Rissanen <tatu.rissanen@hut.fi>
 "
 
 [file]
-xpm = "default/tiles.xpm"
+gfx = "trident/tiles"
 
 [grid_main]
 
 x_top_left = 0
 y_top_left = 0
-dx = 45
-dy = 45
+dx = 30
+dy = 30
 
 tiles = { "row", "column", "tag"
 
@@ -345,14 +344,13 @@ tiles = { "row", "column", "tag"
  11,  0, "ts.seals"
  11,  1, "ts.oasis"
  11,  2, "ts.forest_game"
- 11,  3, "ts.grassland_resources",
-         "ts.river_resources"  ; might as well show something
+ 11,  3, "ts.grassland_resources"
  11,  4, "ts.coal"
  11,  5, "ts.gems"
  11,  6, "ts.gold"
  11,  7, "ts.fish"
  11,  8, "ts.horses"
-;; 11,  9, "ts.river_resources"  ; blank tile
+ 11,  9, "ts.river_resources"
  11, 10, "ts.oil"
  11, 11, "ts.tundra_game"
 

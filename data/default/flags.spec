@@ -2,7 +2,7 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+spec1"
+options = "+spec2"
 
 [info]
 
@@ -14,7 +14,7 @@ artists = "
 "
 
 [file]
-xpm = "default/flags.xpm"
+gfx = "default/flags"
 
 [grid_main]
 

@@ -100,7 +100,7 @@ l = @l@
 
 pkgdatadir = $(datadir)/@PACKAGE@/trident
 
-pkgdata_DATA =  	flags.xpm		flags.xpm.spec		roads.xpm		roads.xpm.spec		tiles.xpm		tiles.xpm.spec		units.xpm		units.xpm.spec
+pkgdata_DATA =  	flags.xpm		flags.spec		roads.xpm		roads.spec		tiles.xpm		tiles.spec		units.xpm		units.spec
 
 
 EXTRA_DIST = $(pkgdata_DATA)

@@ -176,6 +176,31 @@ static void check_tilespec_capabilities(struct section_file *file,
 }
 
 /**********************************************************************
+  Returns the correct name of the gfx file (with path and extension)
+  Must be free'd when no longer used
+***********************************************************************/
+char *tilespec_gfx_filename(const char *gfx_filename)
+{
+  char **gfx_fileexts;
+  char *full_name,*real_full_name,*gfx_current_fileext;
+
+  gfx_fileexts = gfx_fileextensions();
+
+  while((gfx_current_fileext = *gfx_fileexts++))
+  {
+    full_name = (char*)fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
+    sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
+
+    real_full_name = datafilename(full_name);
+    free(full_name);
+    if(real_full_name) return mystrdup(real_full_name);
+  }
+
+  freelog(LOG_FATAL, "Couldn't find a supported gfx file extension for %s", gfx_filename);
+  exit(1);
+}
+
+/**********************************************************************
   Finds and reads the toplevel tilespec file based on given name.
   Sets global variables, including tile sizes and full names for
   intro files.
@@ -193,7 +218,7 @@ void tilespec_read_toplevel(const char *tileset_name)
     freelog(LOG_FATAL, "Could not open \"%s\"", fname);
     exit(1);
   }
-  check_tilespec_capabilities(file, "tilespec", "+tilespec1", fname);
+  check_tilespec_capabilities(file, "tilespec", "+tilespec2", fname);
 
   section_file_lookup(file, "tilespec.name"); /* currently unused */
 
@@ -209,11 +234,11 @@ void tilespec_read_toplevel(const char *tileset_name)
   section_file_lookup(file, "tilespec.flags_are_transparent"); 
 
   c = secfile_lookup_str(file, "tilespec.main_intro_file");
-  main_intro_filename = mystrdup(datafilename_required(c));
+  main_intro_filename = tilespec_gfx_filename(c);
   freelog(LOG_DEBUG, "intro file %s", main_intro_filename);
   
   c = secfile_lookup_str(file, "tilespec.minimap_intro_file");
-  minimap_intro_filename = mystrdup(datafilename_required(c));
+  minimap_intro_filename = tilespec_gfx_filename(c);
   freelog(LOG_DEBUG, "radar file %s", minimap_intro_filename);
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
@@ -242,9 +267,9 @@ void tilespec_read_toplevel(const char *tileset_name)
 static void tilespec_load_one(const char *spec_filename)
 {
   struct section_file the_file, *file = &the_file;
-  struct Sprite *big_sprite;
-  char *xpm_filename;
-  char **gridnames, **tags;
+  struct Sprite *big_sprite = NULL;
+  char *gfx_filename,*gfx_current_fileext;
+  char **gridnames, **tags, **gfx_fileexts;
   int num_grids, num_tags;
   int i, j, k;
   int x_top_left, y_top_left, dx, dy;
@@ -258,13 +283,34 @@ static void tilespec_load_one(const char *spec_filename)
     freelog(LOG_FATAL, "Could not open \"%s\"", spec_filename);
     exit(1);
   }
-  check_tilespec_capabilities(file, "spec", "+spec1", spec_filename);
+  check_tilespec_capabilities(file, "spec", "+spec2", spec_filename);
 
   section_file_lookup(file, "info.artists"); /* currently unused */
 
-  xpm_filename = datafilename_required(secfile_lookup_str(file, "file.xpm"));
-  freelog(LOG_DEBUG, "loading xpm %s", xpm_filename);
-  big_sprite = load_xpmfile(xpm_filename);
+  gfx_fileexts = gfx_fileextensions();
+  gfx_filename = secfile_lookup_str(file, "file.gfx");
+
+  while((!big_sprite) && (gfx_current_fileext = *gfx_fileexts++))
+  {
+    char *full_name,*real_full_name;
+    full_name = (char*)fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
+    sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
+
+    if((real_full_name = datafilename(full_name)))
+    {
+      freelog(LOG_DEBUG, "trying to load gfx file %s", real_full_name);
+      if(!(big_sprite = load_gfxfile(real_full_name)))
+      {
+        freelog(LOG_VERBOSE, "loading the gfx file %s failed", real_full_name);
+      }
+    }
+    free(full_name);
+  }
+
+  if(!big_sprite) {
+    freelog(LOG_FATAL, "Couldn't load gfx file for the spec file %s", spec_filename);
+    exit(1);
+  }
 
   gridnames = secfile_get_secnames_prefix(file, "grid_", &num_grids);
   if (num_grids==0) {

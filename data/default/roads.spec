@@ -2,24 +2,23 @@
 [spec]
 
 ; Format and options of this spec file:
-options = "+spec1"
+options = "+spec2"
 
 [info]
 
 artists = "
-    Tatu Rissanen <tatu.rissanen@hut.fi>
-    David Pfitzner <dwp@mso.anu.edu.au> (original design)
+    David Pfitzner <dwp@mso.anu.edu.au>
 "
 
 [file]
-xpm = "trident/roads.xpm"
+gfx = "default/roads"
 
 [grid_main]
 
 x_top_left = 0
 y_top_left = 0
-dx = 30
-dy = 30
+dx = 45
+dy = 45
 
 tiles = { "row", "column", "tag"
 
