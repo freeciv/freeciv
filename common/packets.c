@@ -499,10 +499,12 @@ static void check_packet(struct data_in *din, struct connection *pc)
 	      type, len, from);
     }
 
-    if (rem < 0) {
+    if (din->too_short) {
       freelog(LOG_ERROR, "received short packet (type %d, len %d)%s",
 	      type, len, from);
-    } else if (rem > 0) {
+    }
+
+    if (rem > 0) {
       /* This may be ok, eg a packet from a newer version with extra info
        * which we should just ignore */
       freelog(LOG_VERBOSE,
