@@ -222,7 +222,7 @@ void update_goto_dialog(Widget goto_list)
     city_list_iterate(game.players[i].cities, pcity) {
       char name[MAX_LEN_NAME+3];
       sz_strlcpy(name, pcity->name);
-      if(pcity->improvements[B_AIRPORT]==1)
+      if (pcity->improvements[B_AIRPORT] == I_ACTIVE)
 	sz_strlcat(name, "(A)");
       city_name_ptrs[j++]=mystrdup(name);
     }

@@ -186,7 +186,7 @@ static void update_goto_dialog(HWND list)
     if(!show_all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
       sz_strlcpy(name, pcity->name);
-      if(pcity->improvements[B_AIRPORT]==1)
+      if (pcity->improvements[B_AIRPORT] == I_ACTIVE)
         sz_strlcat(name, "(A)");
       j=ListBox_AddString(list,name);
       ListBox_SetItemData(list,j,pcity->id);

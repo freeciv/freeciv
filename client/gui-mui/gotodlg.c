@@ -58,7 +58,7 @@ HOOKPROTONH(goto_cities_display, void, char **array, struct city *pcity)
 {
   static char name[80];
   sz_strlcpy(name, pcity->name);
-  if (pcity->improvements[B_AIRPORT] == 1)
+  if (pcity->improvements[B_AIRPORT] == I_ACTIVE)
     sz_strlcat(name, "(A)");
   *array = name;
 }

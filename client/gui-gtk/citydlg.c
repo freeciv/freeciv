@@ -3208,7 +3208,7 @@ static void sell_callback(GtkWidget * w, gpointer data)
   id = (int) gtk_clist_get_row_data(GTK_CLIST
 				    (pdialog->overview.improvement_list),
 				    (int) selection->data);
-  assert(pdialog->pcity->improvements[id]);
+  assert(city_got_building(pdialog->pcity, id));
   if (is_wonder(id))
     return;
 
@@ -3286,7 +3286,7 @@ static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
 					  (pdialog->overview.
 					   improvement_list),
 					  (int) selection->data);
-    assert(pdialog->pcity->improvements[id]);
+    assert(city_got_building(pdialog->pcity, id));
 
     if (!is_wonder(id)) {
       char buf[64];
