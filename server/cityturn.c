@@ -35,6 +35,8 @@
 #include <settlers.h>
 #include <advdomestic.h>
 
+extern signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+
 static void set_trade_prod(struct city *pcity);
 static void set_tax_income(struct city *pcity);
 static void set_food_trade_shields(struct city *pcity);
@@ -530,12 +532,7 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   *prodneed -= (*workers - 1);
 
   city_map_iterate(x, y) {
-    conflict[x][y] = -1;
-    city_list_iterate(game.players[pcity->owner].cities, acity)
-      bx = make_dx(pcity->x + x - 2, acity->x);
-      by = make_dy(pcity->y + y - 2, acity->y);
-      if ((bx <= 2 && by < 2) || (bx < 2 && by <= 2)) conflict[x][y]++;
-    city_list_iterate_end;
+    conflict[x][y] = -1 - minimap[x][y];
   } /* better than nothing, not as good as a global worker allocation -- Syela */
 
   do {
