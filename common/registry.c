@@ -159,7 +159,7 @@ static void secfilehash_insert(struct section_file *file,
 			       char *key, struct section_entry *data);
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
-static char *minstrdup(char *str);
+static char *minstrdup(struct sbuffer *sb, char *str);
 
 
 struct flat_entry_list {
@@ -170,7 +170,7 @@ struct flat_entry_list {
 
 
 static void parse_commalist(struct flat_entry_list *entries, char *buffer,
-			    char *filename, int lineno);
+			    char *filename, int lineno, struct sbuffer *sb);
 
 
 /**************************************************************************
@@ -181,6 +181,7 @@ void section_file_init(struct section_file *file)
   genlist_init(&file->section_list);
   file->num_entries = 0;
   file->hashd = NULL;
+  file->sb = sbuf_new();
 }
 
 
@@ -211,7 +212,8 @@ void section_file_free(struct section_file *file)
     secfilehash_free(file);
   }
 
-  dealloc_strbuffer();
+  sbuf_free(file->sb);
+  file->sb = NULL;
 }
 
 /**************************************************************************
@@ -273,7 +275,7 @@ void section_file_check_unused(struct section_file *file, char *filename)
   "filename" and "lineno" are for error reporting.
 **************************************************************************/
 static void parse_commalist(struct flat_entry_list *entries, char *buffer,
-			    char *filename, int lineno)
+			    char *filename, int lineno, struct sbuffer *sb)
 {
   char *cptr=buffer, *start;
   struct section_entry *this_entry;
@@ -292,7 +294,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
 
     /* prepare for next entry: */
     entries->n++;
-    this_entry = strbuffermalloc(sizeof(struct section_entry));
+    this_entry = sbuf_malloc(sb, sizeof(struct section_entry));
     if (entries->n > entries->n_alloc) {
       entries->n_alloc = 2*entries->n+1;
       entries->plist = fc_realloc(entries->plist,
@@ -349,7 +351,7 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
 	cptr++;			/* skip comma */
       }
 
-      this_entry->svalue=minstrdup(start);
+      this_entry->svalue=minstrdup(sb, start);
       this_entry->ivalue=0;
       
     } else {
@@ -375,6 +377,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
   char *table_basename=NULL;	/* reuse, so normal malloc */
   struct flat_entry_list columns = {NULL, 0, 0};
   struct flat_entry_list entries = {NULL, 0, 0};
+  struct sbuffer *sb;
   int i;
 
   if(!(fs=fopen(filename, "r"))) {
@@ -383,6 +386,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
   }
 
   section_file_init(my_section_file);
+  sb = my_section_file->sb;
   lineno=0;
 
   while(fgets(buffer, sizeof(buffer), fs)) {
@@ -416,8 +420,8 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       }
       *cptr='\0';
 
-      psection = (struct section *)strbuffermalloc(sizeof(struct section));
-      psection->name = strbufferdup(sname);
+      psection = sbuf_malloc(sb, sizeof(struct section));
+      psection->name = sbuf_strdup(sb, sname);
       genlist_init(&psection->entry_list);
       genlist_insert(&my_section_file->section_list, psection, -1);
 
@@ -441,7 +445,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 
     } else if(table_state) {
 
-      parse_commalist(&entries, cptr, filename, lineno);
+      parse_commalist(&entries, cptr, filename, lineno, sb);
       for(i=0; i<entries.n; i++) {
 	if (i<columns.n) {
 	  sprintf(temp_name,"%s%d.%s", table_basename, table_lineno,
@@ -450,7 +454,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 	  sprintf(temp_name,"%s%d.%s,%d", table_basename, table_lineno,
 		  columns.plist[columns.n-1]->svalue, i-columns.n+1);
 	}
-	entries.plist[i]->name = strbufferdup(temp_name);
+	entries.plist[i]->name = sbuf_strdup(sb, temp_name);
 	genlist_insert(&current_section->entry_list, entries.plist[i], -1); 
 	my_section_file->num_entries++;
       }
@@ -482,13 +486,13 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       
       if(isdigit(*cptr) || *cptr=='-' || *cptr=='\"') {
 	
-	parse_commalist(&entries, cptr, filename, lineno);
+	parse_commalist(&entries, cptr, filename, lineno, sb);
 	for(i=0; i<entries.n; i++) {
 	  if (i==0) {
-	    entries.plist[0]->name = strbufferdup(pname);
+	    entries.plist[0]->name = sbuf_strdup(sb, pname);
 	  } else {
 	    sprintf(temp_name,"%s,%d", pname, i);
-	    entries.plist[i]->name = strbufferdup(temp_name);
+	    entries.plist[i]->name = sbuf_strdup(sb, temp_name);
 	  }
 	  genlist_insert(&current_section->entry_list, entries.plist[i], -1); 
 	  my_section_file->num_entries++;
@@ -497,7 +501,7 @@ int section_file_load(struct section_file *my_section_file, char *filename)
       } else if(*cptr=='{') {
 	
 	table_basename = mystrdup(pname);
-	parse_commalist(&columns, cptr+1, filename, lineno);
+	parse_commalist(&columns, cptr+1, filename, lineno, sb);
 	for(i=0; i<columns.n; i++) {
 	  if( !columns.plist[i]->svalue ) {
 	    freelog(LOG_FATAL, "table format entry non-string in %s - line %d",
@@ -732,8 +736,8 @@ void secfile_insert_str(struct section_file *my_section_file,
   vsprintf(buf, path, ap);
   va_end(ap);
 
-  pentry=section_file_insert_internal(my_section_file, buf);
-  pentry->svalue=strbufferdup(sval);
+  pentry = section_file_insert_internal(my_section_file, buf);
+  pentry->svalue = sbuf_strdup(my_section_file->sb, sval);
 }
 
 
@@ -916,6 +920,7 @@ struct section_entry *section_file_insert_internal(struct section_file
   struct genlist_iterator myiter;
   struct section *psection;
   struct section_entry *pentry;
+  struct sbuffer *sb = my_section_file->sb;
 
   if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
     return 0;
@@ -934,21 +939,20 @@ struct section_entry *section_file_insert_internal(struct section_file
       /* This DOES NOT check whether the entry already exists in
        * the section, to avoid O(N^2) behaviour.
        */
-      pentry=(struct section_entry *)
-	strbuffermalloc(sizeof(struct section_entry));
-      pentry->name=strbufferdup(ent_name);
+      pentry = sbuf_malloc(sb, sizeof(struct section_entry));
+      pentry->name = sbuf_strdup(sb, ent_name);
       genlist_insert(&psection->entry_list, pentry, -1);
       return pentry;
     }
   }
 
-  psection=(struct section *)strbuffermalloc(sizeof(struct section));
-  psection->name=strbufferdup(sec_name);
+  psection = sbuf_malloc(sb, sizeof(struct section));
+  psection->name = sbuf_strdup(sb, sec_name);
   genlist_init(&psection->entry_list);
   genlist_insert(&my_section_file->section_list, psection, -1);
   
-  pentry=(struct section_entry *)strbuffermalloc(sizeof(struct section_entry));
-  pentry->name=strbufferdup(ent_name);
+  pentry = sbuf_malloc(sb, sizeof(struct section_entry));
+  pentry->name = sbuf_strdup(sb, ent_name);
   genlist_insert(&psection->entry_list, pentry, -1);
 
   return pentry;
@@ -1059,7 +1063,7 @@ static void secfilehash_insert(struct section_file *file,
     exit(1);
   }
   hentry->data = data;
-  hentry->key_val = strbufferdup(key);
+  hentry->key_val = sbuf_strdup(file->sb, key);
   hentry->hash_val = hash_val;
 }
 
@@ -1214,87 +1218,12 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
   return res;
 }
 
-static char *strbuffer=NULL;
-static int strbufferoffset=65536;
-/**************************************************************************
- Allocate a 64k buffer for strings
-**************************************************************************/
-void alloc_strbuffer(void)
-{
-  char *newbuf;
-
-  newbuf = fc_malloc(64*1024);
-
-  /* add a pointer back to the old buffer */
-  *(char **)(newbuf)=strbuffer;
-  strbufferoffset = sizeof(char *);
-
-  strbuffer=newbuf;
-}
-
-/**************************************************************************
- Copy a string into the string buffer, if there is room.
-**************************************************************************/
-char *strbufferdup(const char *str)
-{
-  int len = strlen(str)+1;
-  char *p;
-
-  if(len > (65536 - strbufferoffset))  {
-    /* buffer must be full */
-    alloc_strbuffer();
-  }
-
-  p=strbuffer+strbufferoffset;
-  memcpy(p,str,len);
-  strbufferoffset+=len;
-
-  return p;
-}
-
-/**************************************************************************
- Allocate size bytes from the string buffer, like malloc() but much
- faster.  Note that size must be < 64k!  strbuffer is for little
- allocations that get freed all at once.
-**************************************************************************/
-void *strbuffermalloc(int len)
-{
-  char *p;
-
-  /* align memory */
-  if(strbufferoffset % sizeof(void*))
-    strbufferoffset += sizeof(void*)-(strbufferoffset%sizeof(void*));
-
-  /* check for space */
-  if(len > (65536 - strbufferoffset))  {
-    alloc_strbuffer();
-  }
-  p=strbuffer+strbufferoffset;
-  strbufferoffset+=len;
-  return p;
-}
-
-/**************************************************************************
- De-allocate all the string buffers
-**************************************************************************/
-void dealloc_strbuffer(void)
-{
-  char *next;
-
-  do {
-    next = *(char **)strbuffer;
-    free(strbuffer);
-    strbuffer=next;
-  } while(next);
-  strbufferoffset=65536;
-}
-
 /***************************************************************
  Copies a string and does \n -> newline translation
 ***************************************************************/
-static char *minstrdup(char *str)
+static char *minstrdup(struct sbuffer *sb, char *str)
 {
-  char *dest=strbuffermalloc(strlen(str)+1);
+  char *dest = sbuf_malloc(sb, strlen(str)+1);
   char *d2=dest;
   if(dest) {
     while (*str) {

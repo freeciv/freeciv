@@ -29,6 +29,8 @@ libcivcommon_a_SOURCES = \
 		mem.h		\
 		registry.c	\
 		registry.h	\
+		sbuffer.c	\
+		sbuffer.h	\
 		shared.c	\
 		shared.h	\
 		spaceship.c	\
