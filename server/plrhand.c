@@ -1353,7 +1353,6 @@ void update_player_activities(struct player *pplayer)
   if (pplayer->ai.control) {
     ai_do_last_activities(pplayer); /* why was this AFTER aliveness? */
   }
-  notify_player(pplayer, _("Year: %s"), textyear(game.year));
   great_library(pplayer);
   update_revolution(pplayer);
   player_restore_units(pplayer); /*note: restoring move point moved

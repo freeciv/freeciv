@@ -20,6 +20,7 @@
 #include <assert.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -149,9 +150,11 @@ void send_year_to_clients(int year)
   apacket.year=year;
 
   for(i=0; i<game.nplayers; i++) {
-    game.players[i].turn_done=0;
-    game.players[i].nturns_idle++;
-    send_packet_new_year(game.players[i].conn, &apacket);
+    struct player *pplayer = &game.players[i];
+    pplayer->turn_done=0;
+    pplayer->nturns_idle++;
+    send_packet_new_year(pplayer->conn, &apacket);
+    notify_player(pplayer, _("Year: %s"), textyear(game.year));
   }
 }
 

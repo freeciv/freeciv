@@ -15,6 +15,7 @@ server/cityturn.c
 server/civserver.c
 server/console.c
 server/diplhand.c
+server/gamehand.c
 server/gamelog.c
 server/handchat.c
 server/mapgen.c
