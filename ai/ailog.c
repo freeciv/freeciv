@@ -123,6 +123,7 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   va_list ap;
   int minlevel = MIN(LOGLEVEL_UNIT, level);
   int gx, gy;
+  bool messwin = FALSE; /* output to message window */
 
   if (punit->debug) {
     minlevel = LOG_NORMAL;
@@ -133,6 +134,7 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
 
       if (pcity && pcity->debug) {
         minlevel = LOG_NORMAL;
+        messwin = TRUE;
       }
     }
     if (minlevel > fc_log_level) {
@@ -158,7 +160,7 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
-  if (punit->debug) {
+  if (punit->debug || messwin) {
     notify_conn(&game.est_connections, buffer);
   }
   freelog(minlevel, buffer);
