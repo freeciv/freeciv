@@ -29,7 +29,6 @@
 #include <shared.h>
 #include <plrhand.h>
 #include <events.h>
-#include <aicity.h>
 
 /****************************************************************
 ...
@@ -212,30 +211,42 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
 { /* by Syela, unifies best_tile, best_food_tile, worst_elvis_tile */
   int a;
   int i, j, k;
-  int shield_weighting[3] = { 17, 17, 18 };
-  int food_weighting[3] = { 18, 18, 17 };
   struct player *plr;
 
   plr = city_owner(pcity);
 
   a = get_race(plr)->attack;
 
-  i = food_weighting[a];
-  i *= get_food_tile(x, y, pcity);
-  if (foodneed > 0) i *= 10; /* all else is secondary until we are fed */
-  else { i *= 4; i /= MAX(2,pcity->size); }
+  i = get_food_tile(x, y, pcity);
+  if (foodneed > 0) i += 9 * (MIN(i, foodneed));
+/* *= 10 led to stupidity with foodneed = 1, mine, and farmland -- Syela */
+  i *= FOOD_WEIGHTING;
+  i *= 4; i /= MAX(2,pcity->size);
   
-  j = get_shields_tile(x, y, pcity) * shield_weighting[a] *
+  j = get_shields_tile(x, y, pcity) * SHIELD_WEIGHTING *
       city_shield_bonus(pcity);
-  if (prodneed > 0) j /= 10; /* trying to avoid non-support of units */
-  else j /= 100;
+  if (prodneed > 0) j += 9 * (MIN(j, prodneed));
+  j /= 100;
   k = get_trade_tile(x, y, pcity) * pcity->ai.trade_want *
       (city_tax_bonus(pcity) * plr->economic.tax +
        city_science_bonus(pcity) * plr->economic.science +
        100 * plr->economic.luxury) / 10000;
   return(i + j + k);
 }  
-  
+
+int worst_worker_tile_value(struct city *pcity)
+{
+  int x, y;
+  int worst = 0, tmp;
+  city_map_iterate(x, y) {
+    if ((x !=2 || y != 2) && get_worker_city(pcity, x, y) == C_TILE_WORKER) {
+      tmp = city_tile_value(pcity, x, y, 0, 0);
+      if (tmp < worst || !worst) worst = tmp;
+    }
+  }
+  return(worst);
+}
+
 int better_tile(struct city *pcity, int x, int y, int bx, int by, int foodneed, int prodneed)
 {
   return (city_tile_value(pcity, x, y, foodneed, prodneed) >
