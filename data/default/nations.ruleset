@@ -124,8 +124,8 @@ cities =
 
 name=_("German")
 plural=_("?plural:Germans")
-leader="Frederick", "Otto", "Wilhelm"
-leader_sex="Male", "Male", "Male"
+leader="Frederick", "Otto", "Wilhelm", "Bismarck", "Hitler"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="f.germany"
 flag_alt = "-"
 city_style = "European"
@@ -788,8 +788,8 @@ cities =
 
 name=_("Polish")
 plural=_("?plural:Polish")
-leader="Mieszko", "Jadwiga", "Jan Sobieski"
-leader_sex="Male", "Female", "Male"
+leader="Mieszko", "Jadwiga", "Jan Sobieski", "Kosciuszko", "Pilsudski", "Walesa"
+leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
 flag="f.poland"
 flag_alt = "-"
 city_style = "European"
