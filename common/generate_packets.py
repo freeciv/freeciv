@@ -1307,13 +1307,25 @@ def get_enum_packet(packets):
 '''
     return intro+body+extro
 
+def strip_c_comment(s):
+  # The obvious way:
+  #    s=re.sub(r"/\*(.|\n)*?\*/","",s)
+  # doesn't work with python version 2.2 and 2.3.
+  # Do it by hand then.
+  result=""
+  for i in filter(lambda x:x,string.split(s,"/*")):
+      l=string.split(i,"*/",1)
+      assert len(l)==2,repr(i)
+      result=result+l[1]
+  return result  
+
 # Main function. It reads and parses the input and generates the
 # various files.
 def main():
     ### parsing input
     input_name="packets.def"
     content=open(input_name).read()
-    content=re.sub(r"/\*(.|\n)*?\*/","",content)
+    content=strip_c_comment(content)
     lines=string.split(content,"\n")
     lines=map(lambda x: re.sub("#.*$","",x),lines)
     lines=map(lambda x: re.sub("//.*$","",x),lines)
