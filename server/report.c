@@ -773,7 +773,7 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
 	{
 	  outptr = end_of_strn (outptr, &nleft);
 	  my_snprintf (outptr, nleft, fmt_quan,
-		       value_units (int_to_text (pplayer->score.mfg),
+		       value_units (int_to_text (MAX(0,pplayer->score.mfg)),
 				    _(" M tons")));
 	}
       if (selcols & DEM_COL_RANK)
@@ -788,7 +788,7 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
 	  outptr = end_of_strn (outptr, &nleft);
 	  my_snprintf (outptr, nleft, fmt_best,
 		       get_nation_name_plural(best_player->nation),
-		       value_units(int_to_text(best_player->score.mfg),
+		       value_units(int_to_text(MAX(0,best_player->score.mfg)),
 				   _(" M tons")));
         }
       break;
