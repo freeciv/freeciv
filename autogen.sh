@@ -198,8 +198,6 @@ autoconf || {
   echo "autoconf failed"
   exit 1
 }
-echo "+ generating automake files..."
-(cd data/nation; sh Makefile.am.sh >Makefile.am)
 echo "+ running automake ... "
 automake -a -c || {
   echo
