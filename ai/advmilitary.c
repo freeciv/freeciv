@@ -65,7 +65,7 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
                                        enum unit_move_type which)
 {
   Unit_Type_id bestid = -1;
-  int best = 0;
+  int best = -1;
   int cur;
 
   simple_ai_unit_type_iterate(i) {
@@ -82,7 +82,7 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
     }
   } simple_ai_unit_type_iterate_end;
 
-  return bestid;
+  return (best <= 0 ? -1 : bestid);
 }
 
 /**************************************************************************
