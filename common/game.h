@@ -168,6 +168,8 @@ struct civ_game {
     int hut_overflight;
     int pillage_select;
     int nuke_contamination;
+    int granary_food_ini;
+    int granary_food_inc;
   } rgame;
 
   char demography[MAX_LEN_DEMOGRAPHY];

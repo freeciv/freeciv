@@ -73,7 +73,8 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
 " event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city" \
-" indef_impr_types worklist_true_ids shared_vision activity_patrol"
+" indef_impr_types worklist_true_ids shared_vision activity_patrol" \
+" gen_granary_size"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -129,6 +130,9 @@ const char * const our_capability = our_capability_internal;
 
    "activity_patrol" is the patrol activity and the ability to send a goto
    route from the client to the server (for both goto and patrol activities).
+
+   "gen_granary_size" adds the option to change the way the size of the 
+   food storage box is calculated.
 */
 
 void init_our_capability(void)

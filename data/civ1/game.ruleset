@@ -38,3 +38,9 @@ pillage_select		= 0
 ;   "Pollution" - Pollution (same as industrial/population-generated).
 ;   "Fallout"   - Nuclear Fallout (distinct from industrial/population).
 nuke_contamination	= "Pollution"
+
+; Parameters used to generalize the calculation of city granary size:
+;   city_granary_size = (granary_food_ini * foodbox) +
+;                       (granary_food_inc * city_size) * foodbox / 100
+granary_food_ini	= 1
+granary_food_inc	= 100

@@ -1241,3 +1241,15 @@ int is_friendly_city_near(int player_id, int x, int y)
 
   return 0;
 }
+
+/**************************************************************************
+generalized formula used to calculate granary size.
+for now, the AI doesn't understand settings other than the default,
+i.e. granary_food_ini=1, granary_food_inc=100.
+for more, see food_weighting().
+**************************************************************************/
+int city_granary_size(int city_size)
+{
+  return (game.rgame.granary_food_ini * game.foodbox) +
+    (game.rgame.granary_food_inc * city_size * game.foodbox) / 100;
+}

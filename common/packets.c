@@ -3812,6 +3812,10 @@ return 0;
 if (pc && has_capability("nuclear_fallout", pc->capability)) {
   cptr=put_uint8(cptr, packet->nuke_contamination);
 }
+if (pc && has_capability("gen_granary_size", pc->capability)) {
+  cptr=put_uint8(cptr, packet->granary_food_ini);
+  cptr=put_uint8(cptr, packet->granary_food_inc);
+}
 
   put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -3840,6 +3844,13 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
   iget_uint8(&iter, &packet->nuke_contamination);
 } else {
   packet->nuke_contamination = CONTAMINATION_POLLUTION;
+}
+if (pc && has_capability("gen_granary_size", pc->capability)) {
+  iget_uint8(&iter, &packet->granary_food_ini);
+  iget_uint8(&iter, &packet->granary_food_inc);
+} else {
+  packet->granary_food_ini = 1;
+  packet->granary_food_inc = 100;
 }
 
   pack_iter_end(&iter, pc);

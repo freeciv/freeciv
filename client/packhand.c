@@ -995,6 +995,8 @@ game.rgame.hut_overflight = OVERFLIGHT_FRIGHTEN;
 game.rgame.pillage_select = 1;
 }
 game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
+game.rgame.granary_food_ini = 1;
+game.rgame.granary_food_inc = 100;
 }
 /* REMOVE TO HERE */
 
@@ -2068,6 +2070,8 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.hut_overflight = packet->hut_overflight;
   game.rgame.pillage_select = packet->pillage_select;
   game.rgame.nuke_contamination = packet->nuke_contamination;
+  game.rgame.granary_food_ini = packet->granary_food_ini;
+  game.rgame.granary_food_inc = packet->granary_food_inc;
 }
 
 /**************************************************************************

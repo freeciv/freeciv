@@ -120,7 +120,7 @@ static char *cr_entry_food(struct city *pcity)
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d",
 	      pcity->food_stock,
-	      (pcity->size+1) * game.foodbox);
+	      city_granary_size(pcity->size) );
   return buf;
 }
 

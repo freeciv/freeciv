@@ -218,7 +218,7 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
     pcity=pdialog->pcity;
     granary=(city_got_effect(pcity, B_GRANARY) ? '*' : ' ');
     foodstock=pcity->food_stock;
-    foodbox=game.foodbox*(pcity->size+1);
+    foodbox=city_granary_size(pcity->size);
   }
 
   my_snprintf(retbuf, n, _("Granary: %c%3d/%-3d"),

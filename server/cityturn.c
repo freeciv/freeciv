@@ -763,7 +763,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
   int can_grow;
 
   if (pcity->food_surplus > 0) {
-    turns_growth = (((pcity->size+1) * game.foodbox) - pcity->food_stock - 1)
+    turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)
 		   / pcity->food_surplus;
 
     if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
@@ -879,7 +879,7 @@ static void city_increase_size(struct city *pcity)
 		       pcity->name, improvement_types[B_AQUEDUCT].name);
     }
     /* Granary can only hold so much */
-    new_food = ((pcity->size+1) * game.foodbox *
+    new_food = (city_granary_size(pcity->size) *
 		(100 - game.aqueductloss/(1+has_granary))) / 100;
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
@@ -898,7 +898,7 @@ static void city_increase_size(struct city *pcity)
 		       pcity->name, improvement_types[B_SEWER].name);
     }
     /* Granary can only hold so much */
-    new_food = ((pcity->size+1) * game.foodbox *
+    new_food = (city_granary_size(pcity->size) *
 		(100 - game.aqueductloss/(1+has_granary))) / 100;
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
@@ -907,10 +907,10 @@ static void city_increase_size(struct city *pcity)
   pcity->size++;
   /* Do not empty food stock if city is growing by celebrating */
   if (rapture_grow) {
-    new_food = (pcity->size+1) * game.foodbox;
+    new_food = city_granary_size(pcity->size);
   } else {
     if (has_granary)
-      new_food = ((pcity->size+1) * game.foodbox) / 2;
+      new_food = city_granary_size(pcity->size) / 2;
     else
       new_food = 0;
   }
@@ -957,7 +957,7 @@ static void city_reduce_size(struct city *pcity)
   notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
 		   _("Game: Famine feared in %s."), pcity->name);
   if (city_got_effect(pcity, B_GRANARY))
-    pcity->food_stock=(pcity->size*game.foodbox)/2;
+    pcity->food_stock=city_granary_size(pcity->size-1)/2;
   else
     pcity->food_stock=0;
   pcity->size--;
@@ -972,8 +972,10 @@ static void city_reduce_size(struct city *pcity)
 static void city_populate(struct city *pcity)
 {
   pcity->food_stock+=pcity->food_surplus;
-  if(pcity->food_stock >= (pcity->size+1)*game.foodbox || city_rapture_grow(pcity))
+  if(pcity->food_stock >= city_granary_size(pcity->size) 
+     || city_rapture_grow(pcity)) {
     city_increase_size(pcity);
+  }
   else if(pcity->food_stock<0) {
     /* FIXME: should this depend on units with ability to build
      * cities or on units that require food in uppkeep?
@@ -993,7 +995,7 @@ static void city_populate(struct city *pcity)
 		get_nation_name_plural(game.players[pcity->owner].nation),
 		utname);
 	if (city_got_effect(pcity, B_GRANARY))
-	  pcity->food_stock=((pcity->size+1)*game.foodbox)/2;
+	  pcity->food_stock=city_granary_size(pcity->size)/2;
 	else
 	  pcity->food_stock=0;
 	return;

@@ -405,7 +405,7 @@ static void ai_new_spend_gold(struct player *pplayer)
                buycost >= 200) ; /* wait for more vans */
       else if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
           !city_got_effect(pcity, B_GRANARY) && (pcity->size < 2 ||
-         pcity->food_stock < pcity->size * game.foodbox)) ;
+         pcity->food_stock < city_granary_size(pcity->size-1))) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
         buycost > unit_types[bestchoice.choice].build_cost * 2) { /* too expensive */
         if (unit_flag(bestchoice.choice, F_CARAVAN) &&

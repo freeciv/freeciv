@@ -2140,6 +2140,24 @@ static void load_ruleset_game(char *ruleset_subdir)
     game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 
+  game.rgame.granary_food_ini =
+    secfile_lookup_int(&file, "civstyle.granary_food_ini");
+  if (game.rgame.granary_food_ini < 0) {
+    freelog(LOG_ERROR, "Bad value %i for granary_food_ini. Using 1.",
+	    game.rgame.granary_food_ini);
+    game.rgame.granary_food_ini = 1;
+  }
+  game.rgame.granary_food_inc =
+    secfile_lookup_int(&file, "civstyle.granary_food_inc");
+  if (game.rgame.granary_food_inc < 0 ||
+      /* can't have a granary size of zero */
+      (game.rgame.granary_food_ini == 0 && 
+       game.rgame.granary_food_inc * game.foodbox / 100 == 0) ) {
+    freelog(LOG_ERROR, "Bad value %i for granary_food_inc. Using 100.",
+	    game.rgame.granary_food_inc);
+    game.rgame.granary_food_inc = 100;
+  }
+
   section_file_check_unused(&file, filename);
   section_file_free(&file);
 }
@@ -2454,6 +2472,8 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.hut_overflight = game.rgame.hut_overflight;
   misc_p.pillage_select = game.rgame.pillage_select;
   misc_p.nuke_contamination = game.rgame.nuke_contamination;
+  misc_p.granary_food_ini = game.rgame.granary_food_ini;
+  misc_p.granary_food_inc = game.rgame.granary_food_inc;
 
   lsend_packet_ruleset_game(dest, &misc_p);
 }

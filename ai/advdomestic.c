@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "city.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -213,11 +214,14 @@ void ai_eval_buildings(struct city *pcity)
 
   memset(values, 0, sizeof(values)); /* clear to initialize */
 
+  /* I don't know how the change in granary size calculation would affect 
+     this because I don't really understand this piece of code.  Exact same 
+     thing with B_SEWER later in this function.  --Jing   12/30/2000 */
   if (could_build_improvement(pcity, B_AQUEDUCT)) {
     int asz = game.aqueduct_size;
     if (city_happy(pcity) && pcity->size > asz-1 && est_food > 0)
       values[B_AQUEDUCT] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
-         (pcity->size+1) * game.foodbox)/2) - pcity->food_stock) * food;
+         city_granary_size(pcity->size))/2) - pcity->food_stock) * food;
     else {
       int tmp = ((asz+1 - MIN(asz, pcity->size)) * (MAX(asz, pcity->size)+1) *
 	       game.foodbox - pcity->food_stock);
@@ -342,12 +346,13 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 
   if (could_build_improvement(pcity, B_SDI))
     values[B_SDI] = 50; /* WAG */
-  
+
+  /* see comments above on B_AQUADUCT (wrt. granary size).  --Jing */
   if (could_build_improvement(pcity, B_SEWER)) {
     int ssz = game.sewer_size;
     if (city_happy(pcity) && pcity->size > ssz-1 && est_food > 0)
       values[B_SEWER] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
-         (pcity->size+1) * game.foodbox)/2) - pcity->food_stock) * food;
+         city_granary_size(pcity->size))/2) - pcity->food_stock) * food;
     else {
       int tmp = ((ssz+1 - MIN(ssz, pcity->size)) * (MAX(ssz, pcity->size)+1) *
 	       game.foodbox - pcity->food_stock);
