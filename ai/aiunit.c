@@ -2742,8 +2742,6 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     return;
   }
 
-  /* was getting a bad bug where a settlers caused a defender to leave home */
-  /* and then all other supported units went on DEFEND_HOME/goto */
   ai_military_findjob(pplayer, punit);
 
   switch (punit->ai.ai_role) {
