@@ -2,9 +2,20 @@
 Die Installation von Freeciv
 ============================
 
+Stand: 28.06.00
+
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
 Es gibt von dieser Datei übersetzte Versionen im Verzeichnis ./doc, 
 INSTALL.<locale>, z.B. INSTALL.de (aber die haben Sie ja wohl gefunden)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ HINWEIS                                                               +
++ =======                                                               +
++ Die (englische) Datei INSTALL enthält zusätzliche Hinweise, wie sie   +
++ als 'normaler' Benutzer Freeciv auch unter SOLARIS 2.5 und höher      +
++ installieren können. Diese Hinweise sind in dieser Beschreibung NICHT +
++ enthalten.                                                            +
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 0. Vorraussetzungen:
 ====================
