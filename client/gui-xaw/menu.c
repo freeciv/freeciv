@@ -176,7 +176,10 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Pillage"), 0              },     "P", MENU_ORDER_PILLAGE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Make Homecity"), 0        },     "h", MENU_ORDER_HOMECITY, 0 },
-    { { N_("Unload"), 0               },     "u", MENU_ORDER_UNLOAD, 0 },
+    { { N_("Unload Transporter"), 0 }, "u",
+      MENU_ORDER_UNLOAD_TRANSPORTER, 0 },
+    { { N_("Load"), 0 }, "", MENU_ORDER_LOAD, 0 },
+    { { N_("Unload"), 0 }, "", MENU_ORDER_UNLOAD, 0 },
     { { N_("Wake up others"), 0       },     "W", MENU_ORDER_WAKEUP_OTHERS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Auto Settler"), 0         },     "a", MENU_ORDER_AUTO_SETTLER, 0 },
@@ -352,8 +355,14 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_PILLAGE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_HOMECITY, 
 			   can_unit_change_homecity(punit));
-      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_UNLOAD, 
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_UNLOAD_TRANSPORTER, 
 			   get_transporter_capacity(punit)>0);
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_LOAD,
+	can_unit_load(punit, find_transporter_for_unit(punit,
+						       punit->x, punit->y)));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_UNLOAD,
+	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
+	 && can_unit_exist_at_tile(punit, punit->x, punit->y)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_WAKEUP_OTHERS, 
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
 				punit->x,punit->y));
@@ -630,8 +639,14 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
   case MENU_ORDER_HOMECITY:
     key_unit_homecity();
     break;
-  case MENU_ORDER_UNLOAD:
+  case MENU_ORDER_UNLOAD_TRANSPORTER:
     key_unit_unload_all();
+    break;
+  case MENU_ORDER_LOAD:
+    request_unit_load(get_unit_in_focus(), NULL);
+    break;
+  case MENU_ORDER_UNLOAD:
+    request_unit_unload(get_unit_in_focus());
     break;
   case MENU_ORDER_WAKEUP_OTHERS:
     key_unit_wakeup_others();
