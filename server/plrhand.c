@@ -1649,7 +1649,17 @@ static struct player *split_player(struct player *pplayer)
   }
   pplayer->economic.gold = cplayer->economic.gold;
   pplayer->research.bulbs_researched = 0;
-  pplayer->embassy = 0; /* all embassys destroyed */
+  pplayer->embassy = 0; /* all embassies destroyed */
+
+  /* give splitted player the embassies to his team mates back, if any */
+  if (pplayer->team != TEAM_NONE) {
+    players_iterate(pdest) {
+      if (pplayer->team == pdest->team
+          && pplayer != pdest) {
+        establish_embassy(pplayer, pdest);
+      }
+    } players_iterate_end;
+  }
 
   player_limit_to_government_rates(pplayer);
 
