@@ -292,6 +292,7 @@ fi
 dnl Check for libiconv (which is usually included in glibc, but may be
 dnl distributed separately) and other locale related functions.
 AM_ICONV
+LIBS="$LIBS $LIBICONV"
 AM_LIBCHARSET
 AM_LANGINFO_CODESET
 
