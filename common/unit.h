@@ -218,6 +218,8 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity);
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
 int unit_value(enum unit_type_id id);
 int is_military_unit(struct unit *this_unit);           /* !set !dip !cara */
+int is_ground_threat(struct player *pplayer, struct unit *punit);
+int is_square_threatened(struct player *pplayer, int x, int y);
 int is_field_unit(struct unit *this_unit);              /* ships+aero */
 void raise_unit_top(struct unit *punit);
 int is_water_unit(enum unit_type_id id);
@@ -234,6 +236,7 @@ char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
 int is_transporter_with_free_space(struct player *pplayer, int x, int y);
 int get_transporter_capacity(struct unit *punit);
+int is_ground_units_transport(struct unit *punit);
 
 void move_unit_list_to_tile(struct unit_list *units, int x, int y);
 void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list);

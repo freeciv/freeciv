@@ -162,7 +162,7 @@ void locally_zero_minimap(int x, int y)
   }
 }  
 
-int city_desirability(int x, int y)
+int city_desirability(struct player *pplayer, int x, int y)
 { /* this whole funct assumes G_REP^H^H^HDEMOCRACY -- Syela */
   int taken[5][5], food[5][5], shield[5][5], trade[5][5];
   int irrig[5][5], mine[5][5], road[5][5];
@@ -179,6 +179,9 @@ int city_desirability(int x, int y)
   struct tile_type *ptype;
   struct city *pcity;
 
+  if (is_square_threatened(pplayer, x, y))
+    return 0;
+  
   ptile = map_get_tile(x, y);
   if (ptile->terrain == T_OCEAN) return(0);
   pcity = map_get_city(x, y);
@@ -658,8 +661,7 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap)
 /* unit is no longer an arg!  we just trust the map! -- Syela */
   int best = 22, id = 0; /* arbitrary maximum distance, I will admit! */
   unit_list_iterate(pplayer->units, aunit)
-    if (get_transporter_capacity(aunit) &&
-        !unit_flag(aunit->type, F_CARRIER | F_SUBMARINE)) {
+    if (is_ground_units_transport(aunit)) {
       if (warmap.cost[aunit->x][aunit->y] < best &&
           (warmap.cost[aunit->x][aunit->y] == 0 ||
           is_transporter_with_free_space(pplayer, aunit->x, aunit->y) >= cap)) {
@@ -898,7 +900,7 @@ in k_s_w/f_s_t_k, but only if find_boat succeeded */
 /* without this, the computer will go 6-7 tiles from X to build a city at Y */
           d *= 2;
 /* and then build its NEXT city halfway between X and Y. -- Syela */
-          z = city_desirability(x, y) * ai_fuzzy(pplayer,1);
+          z = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer,1);
           v2 = amortize(z, d);
           
           b = (food * FOOD_WEIGHTING) * MORT;

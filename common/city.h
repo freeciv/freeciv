@@ -88,6 +88,8 @@ struct ai_city {
   /* building desirabilities - easiest to handle them here -- Syela */
   int building_want[B_LAST]; /* not sure these will always be < 256 */
   int danger; /* danger to be compared to assess_defense */
+  int diplomat_threat; /* an enemy diplomat or spy is near the city,
+			  and this city has no diplomat or spy defender */
   int urgency; /* how close the danger is; if zero, bodyguards can leave */
   int grave_danger; /* danger that is upon us, should show positive feedback */
   int wallvalue; /* how much it helps for defenders to be ground units */

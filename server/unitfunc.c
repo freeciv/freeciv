@@ -696,10 +696,7 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
   tile_cap = 0;
   tile_ncargo = 0;
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
-    if (is_sailing_unit(punit2) &&
-	get_transporter_capacity(punit2) > 0 &&
-	!(unit_flag(punit2->type, F_CARRIER)
-	  || unit_flag(punit2->type, F_SUBMARINE))) {
+    if (is_sailing_unit(punit2) && is_ground_units_transport(punit2)) { 
       tile_cap += get_transporter_capacity(punit2);
     } else if (is_ground_unit(punit2)) {
       tile_ncargo++;

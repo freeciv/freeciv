@@ -185,6 +185,8 @@ int assess_danger(struct city *pcity)
   int danger5 = 0; /* linear for SDI */
   struct player *aplayer, *pplayer;
   int pikemen = 0;
+  int diplomat = 0; /* > 0 mean that this town can defend
+		     * against diplomats or spies */
   int urgency = 0;
   int igwall;
   int badmojo = 0;
@@ -201,9 +203,11 @@ int assess_danger(struct city *pcity)
   generate_warmap(pcity, 0); /* generates both land and sea maps */
 
   pcity->ai.grave_danger = 0;
+  pcity->ai.diplomat_threat = 0;
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
     if (unit_flag(punit->type, F_PIKEMEN)) pikemen++;
+    if (unit_flag(punit->type, F_DIPLOMAT)) diplomat++;
   unit_list_iterate_end;
 
   for(i=0; i<game.nplayers; i++) {
@@ -235,10 +239,7 @@ want to write a funct that takes nine ints by reference. -- Syela */
           if (unit_ignores_citywalls(funit) || 
               (!is_heli_unit(funit) && !is_ground_unit(funit))) igwall++;
           if ((is_ground_unit(funit) && v) ||
-             (get_transporter_capacity(funit) &&
-              !unit_flag(funit->type, F_SUBMARINE) &&
-              !unit_flag(funit->type, F_CARRIER))) {
-
+              (is_ground_units_transport(funit))) {
             if (dist <= m * 3) urgency++;
             if (dist <= m) pcity->ai.grave_danger++;
 /* NOTE: This should actually implement grave_danger, which is supposed
@@ -255,6 +256,10 @@ content to let it remain that way for now. -- Syela 980805 */
             else if (get_invention(pplayer, A_FEUDALISM) != TECH_KNOWN)
               pplayer->ai.tech_want[A_FEUDALISM] += v * m / (dist<<1);
           }
+
+        if ((unit_flag(funit->type, F_DIPLOMAT) && (dist <= 3 * m)) ||
+	     (is_ground_units_transport(funit) && (dist <= 2 * m)))
+	     pcity->ai.diplomat_threat = !diplomat;
 
           v *= v;
 
@@ -279,9 +284,7 @@ content to let it remain that way for now. -- Syela 980805 */
             (!is_heli_unit(punit) && !is_ground_unit(punit))) igwall++;
           
         if ((is_ground_unit(punit) && v) ||
-           (get_transporter_capacity(punit) &&
-            !unit_flag(punit->type, F_SUBMARINE) &&
-            !unit_flag(punit->type, F_CARRIER))) {
+            (is_ground_units_transport(punit))) {
           if (dist <= m * 3) urgency++;
           if (dist <= m) pcity->ai.grave_danger++;
 /* NOTE: This should actually implement grave_danger, which is supposed
@@ -298,6 +301,10 @@ content to let it remain that way for now. -- Syela 980805 */
           else if (get_invention(pplayer, A_FEUDALISM) != TECH_KNOWN)
             pplayer->ai.tech_want[A_FEUDALISM] += v * m / (dist<<1);
         }
+
+        if ((unit_flag(punit->type, F_DIPLOMAT) && (dist <= 3 * m)) ||
+	     (is_ground_units_transport(punit) && (dist <= 2 * m)))
+	     pcity->ai.diplomat_threat = !diplomat;
 
         v *= v;
 
@@ -842,6 +849,33 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 /* changing to quadratic to stop AI from building piles of small units -- Syela */
   danger = pcity->ai.danger; /* we now have our warmap and will use it! */
 /*printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def);*/
+
+  if (pcity->ai.diplomat_threat) {
+  /* if I put a && (danger < def), if def = 0 and there is a little enemy unit
+     near, ai will ignore the diplomat threat.
+     On the other hand, if there is a joined attach of diplomats and
+     classic military units , ai will build a diplomat as last defender.
+     With the actual functions asses_danger and assess_danger_unit,
+     I can't know in which case I am.
+     The confusion is between the actual threat and the virtual threat. 
+     How many units may I loose at this turn and
+     how many units may I loose during next turns? (17/12/98) (--NB)
+  */
+
+     if ((get_invention(pplayer, A_WRITING) == TECH_KNOWN) ||
+         (get_invention(pplayer, A_ESPIONAGE) == TECH_KNOWN)) {
+       /* printf("A diplomat will be build into city %s.\n",pcity->name); */
+       choice->want = 16000; /* diplomat more important than soldiers */ 
+       pcity->ai.urgency = 1;
+       choice->type = 3; /* defender */
+       if (get_invention(pplayer, A_ESPIONAGE) == TECH_KNOWN) {
+	 choice->choice = U_SPY;
+       } else {
+	 choice->choice = U_DIPLOMAT;
+       }
+       return;
+     } else pplayer->ai.tech_want[A_WRITING] += 16000;
+  } 
 
   if (danger) { /* otherwise might be able to wait a little longer to defend */
 /* old version had danger -= def in it, which was necessary before disband/upgrade

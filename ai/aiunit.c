@@ -1397,7 +1397,16 @@ printf("%s in %s is going to %d\n", unit_name(punit->type), pcity->name, punit->
 
 void ai_manage_unit(struct player *pplayer, struct unit *punit) 
 {
-  if (unit_flag(punit->type, F_SETTLERS)) {
+  if ((unit_flag(punit->type, F_DIPLOMAT))
+      || (unit_flag(punit->type, F_SPY))) {
+    return;
+    /* the right test if the unit is in a city and 
+       there is no other diplomat it musn't move.
+       This unit is a bodyguard against enemy diplomats.
+       Rigth now I don't know how to use bodyguards! (17/12/98) (--NB)
+    */
+  }
+  else if (unit_flag(punit->type, F_SETTLERS)) {
     if (!punit->moves_left) return; /* can't do anything with no moves */
     ai_manage_settler(pplayer, punit);
   } else if (unit_flag(punit->type, F_CARAVAN)) {

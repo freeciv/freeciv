@@ -272,7 +272,7 @@ int is_transporter_with_free_space(struct player *pplayer, int x, int y)
   none_transporters=0;
   total_capacity=0;
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if(get_transporter_capacity(punit) && !unit_flag(punit->type, F_SUBMARINE| F_CARRIER))
+    if(is_ground_units_transport(punit))
       total_capacity+=get_transporter_capacity(punit);
     else if (is_ground_unit(punit))
       none_transporters++;
@@ -337,9 +337,7 @@ void transporter_min_cargo_to_unitlist(struct unit *ptran,
   unit_list_init(list);
 
   if (!is_sailing_unit(ptran)
-      || (this_capacity <= 0)
-      || unit_flag(ptran->type, F_CARRIER)
-      || unit_flag(ptran->type, F_SUBMARINE)
+      || !is_ground_units_transport(ptran)
       || (map_get_terrain(x, y) != T_OCEAN) /* includes cities */ ) {
     return;
   }
@@ -351,9 +349,7 @@ void transporter_min_cargo_to_unitlist(struct unit *ptran,
   tile_ncargo = 0;
   unit_list_iterate((*srclist), punit) {
     if (is_sailing_unit(punit)
-	&& get_transporter_capacity(punit) > 0 
-	&& !unit_flag(punit->type, F_CARRIER)
-	&& !unit_flag(punit->type, F_SUBMARINE)) {
+        && !is_ground_units_transport(ptran)) {
       tile_capacity += get_transporter_capacity(punit);
     } else if (is_ground_unit(punit)) {
       tile_ncargo++;
@@ -403,6 +399,15 @@ void move_unit_list_to_tile(struct unit_list *units, int x, int y)
 int get_transporter_capacity(struct unit *punit)
 {
   return unit_types[punit->type].transport_capacity;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_ground_units_transport(struct unit *punit)
+{
+return (get_transporter_capacity(punit) && 
+        !unit_flag(punit->type, F_SUBMARINE | F_CARRIER));
 }
 
 /**************************************************************************
@@ -474,6 +479,36 @@ int is_water_unit(enum unit_type_id id)
 int is_military_unit(struct unit *this_unit)
 {
   return (unit_flag(this_unit->type, F_NONMIL) == 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_ground_threat(struct player *pplayer, struct unit *punit)
+{
+  return ((pplayer->player_no != punit->owner)
+	  && (unit_flag(punit->type, F_DIPLOMAT)
+	      || (is_ground_unit(punit)
+		  && is_military_unit(punit))));
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int is_square_threatened(struct player *pplayer, int x, int y)
+{
+  int i,j;
+  int threat=0;
+
+  for(i=x-2;i<=x+2;i++) {
+    for(j=y-2;j<=y+2;j++) {
+      unit_list_iterate(map_get_tile(i,j)->units, punit) {
+	threat += is_ground_threat(pplayer, punit);
+      }
+      unit_list_iterate_end;
+    }
+  }
+  return threat;
 }
 
 /**************************************************************************
