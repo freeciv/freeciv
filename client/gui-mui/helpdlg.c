@@ -199,13 +199,13 @@ ULONG GetTechBG(int tech)
   switch(get_invention(game.player_ptr, tech))
   {
   case TECH_KNOWN:
-    bg = 0x0000c800; /* green */
+    bg = 0x0074a874; /* green */
     break;
   case TECH_REACHABLE:
-    bg = 0x00ffff00; /* yellow */
+    bg = 0x00d4d074; /* yellow */
     break;
   case TECH_UNKNOWN:
-    bg = 0x00ff0000; /* red */
+    bg = 0x00c89898; /* red */
     break;
   default:
     bg = 0x00ffffff; /* white */
