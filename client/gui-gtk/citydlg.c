@@ -1957,7 +1957,7 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
       /* this shouldn't generally happen, but it is conceivable */
       my_snprintf(buf, sizeof(buf),
 		  _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
-      popup_message_dialog(toplevel, /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
+      popup_message_dialog(top_vbox, /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
 			   _("Darn"), unitupgrade_callback_no, 0,
 			   NULL);
     } else {
@@ -1968,7 +1968,7 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
 	       "Treasury contains %d gold."),
 	       unit_types[ut1].name, unit_types[ut2].name,
 	       value, game.player_ptr->economic.gold);
-	popup_message_dialog(toplevel, 
+	popup_message_dialog(top_vbox, 
 			     /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
 			     _("_Yes"),
 			       unitupgrade_callback_yes, (gpointer)(punit->id),
@@ -1980,7 +1980,7 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
 	       "Treasury contains %d gold."),
 	       unit_types[ut1].name, unit_types[ut2].name,
 	       value, game.player_ptr->economic.gold);
-	popup_message_dialog(toplevel,
+	popup_message_dialog(top_vbox,
 			     /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
 			     _("Darn"), unitupgrade_callback_no, 0,
 			     NULL);

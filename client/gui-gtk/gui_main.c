@@ -170,7 +170,7 @@ static void parse_options(int argc, char **argv)
 **************************************************************************/
 static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
 {
-  if (GTK_WIDGET_HAS_FOCUS(inputline))
+  if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox))
     return FALSE;
 
   if (is_isometric) {
@@ -372,7 +372,7 @@ static void setup_widgets(void)
   top_vbox = gtk_vbox_new(FALSE, 5);
   gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
   
-  setup_menus(top_vbox, &menubar);
+  setup_menus(toplevel, &menubar);
   gtk_box_pack_start(GTK_BOX(top_vbox), menubar, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new(FALSE, 0);

@@ -403,7 +403,7 @@ void popup_bribe_dialog(struct unit *punit)
     my_snprintf(buf, sizeof(buf),
 		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
 		punit->bribe_cost, game.player_ptr->economic.gold);
-    popup_message_dialog(toplevel, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"), buf,
+    popup_message_dialog(top_vbox, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"), buf,
 			_("_Yes"), diplomat_bribe_yes_callback, 0,
 			_("_No"), diplomat_bribe_no_callback, 0, 0);
   } else {
@@ -411,7 +411,7 @@ void popup_bribe_dialog(struct unit *punit)
 		_("Bribing the unit costs %d gold.\n"
 		  "Treasury contains %d gold."), 
 		punit->bribe_cost, game.player_ptr->economic.gold);
-    popup_message_dialog(toplevel, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
+    popup_message_dialog(top_vbox, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
 			_("Darn"), diplomat_bribe_no_callback, 0, 
 			0);
   }
@@ -979,7 +979,7 @@ void popup_incite_dialog(struct city *pcity)
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
 		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
    diplomat_target_id = pcity->id;
-   popup_message_dialog(toplevel, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
+   popup_message_dialog(top_vbox, /*"diplomatrevoltdialog"*/_("Incite a Revolt!"), buf,
 		       _("_Yes"), diplomat_incite_yes_callback, 0,
 		       _("_No"), diplomat_incite_no_callback, 0, 0);
   } else {
@@ -987,7 +987,7 @@ void popup_incite_dialog(struct city *pcity)
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
 		pcity->incite_revolt_cost, game.player_ptr->economic.gold);
-   popup_message_dialog(toplevel, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
+   popup_message_dialog(top_vbox, /*"diplomatnogolddialog"*/_("Traitors Demand Too Much!"), buf,
 		       _("Darn"), diplomat_incite_no_callback, 0, 
 		       0);
   }
@@ -1051,7 +1051,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 		unit_name(punit->type), pcity->name);
 
     if(!unit_flag(punit->type, F_SPY)){
-      shl=popup_message_dialog(toplevel, /*"diplomatdialog"*/
+      shl=popup_message_dialog(top_vbox, /*"diplomatdialog"*/
 			       _(" Choose Your Diplomat's Strategy"), buf,
          		     _("Establish _Embassy"), diplomat_embassy_callback, 0,
          		     _("_Investigate City"), diplomat_investigate_callback, 0,
@@ -1076,7 +1076,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	 || !has_capability("diplo_move_city", aconnection.capability))
        message_dialog_button_set_sensitive(shl,"button5",FALSE);
     }else{
-       shl=popup_message_dialog(toplevel, /*"spydialog"*/
+       shl=popup_message_dialog(top_vbox, /*"spydialog"*/
 				_("Choose Your Spy's Strategy"), buf,
  			      _("Establish _Embassy"), diplomat_embassy_callback, 0,
  			      _("_Investigate City (free)"), diplomat_investigate_callback, 0,
@@ -1112,7 +1112,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
        
        diplomat_target_id=ptunit->id;
  
-       shl=popup_message_dialog(toplevel, /*"spybribedialog"*/_("Subvert Enemy Unit"),
+       shl=popup_message_dialog(top_vbox, /*"spybribedialog"*/_("Subvert Enemy Unit"),
                               (!unit_flag(punit->type, F_SPY))?
  			      _("Sir, the diplomat is waiting for your command"):
  			      _("Sir, the spy is waiting for your command"),
@@ -1214,7 +1214,7 @@ void popup_caravan_dialog(struct unit *punit,
   caravan_city_id=pdestcity->id; /* callbacks need these */
   caravan_unit_id=punit->id;
   
-  caravan_dialog=popup_message_dialog(toplevel,
+  caravan_dialog=popup_message_dialog(top_vbox,
 			   /*"caravandialog"*/_("Your Caravan Has Arrived"), 
 			   buf,
 			   _("Establish _Traderoute"),caravan_establish_trade_callback, 0,
@@ -1348,7 +1348,7 @@ static void revolution_callback_no(GtkWidget *w, gpointer data)
 *****************************************************************/
 void popup_revolution_dialog(void)
 {
-  popup_message_dialog(toplevel, /*"revolutiondialog"*/_("Revolution!"), 
+  popup_message_dialog(top_vbox, /*"revolutiondialog"*/_("Revolution!"), 
 		       _("You say you wanna revolution?"),
 		       _("_Yes"),revolution_callback_yes, 0,
 		       _("_No"),revolution_callback_no, 0, 

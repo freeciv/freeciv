@@ -967,7 +967,7 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
 	  unit_upgrade_price(game.player_ptr, ut1, ut2),
 	  game.player_ptr->economic.gold);
 
-  popup_message_dialog(toplevel, /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
+  popup_message_dialog(top_vbox, /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
         	       _("Yes"), upgrade_callback_yes, (gpointer)(activeunits_type[row]),
         	       _("No"), upgrade_callback_no, 0, 0);
 }
