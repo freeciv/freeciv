@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-27 14:08-0400\n"
+"POT-Creation-Date: 2004-10-27 15:19-0400\n"
 "PO-Revision-Date: 2004-10-27 18:47+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -6196,22 +6196,25 @@ msgid "Barbarian"
 msgstr "Варвары"
 
 #: server/stdinhand.c:2878 server/stdinhand.c:3882 client/plrdlg_common.c:219
-#: client/gui-gtk/plrdlg.c:141 client/gui-win32/connectdlg.c:188
-#: client/gui-win32/plrdlg.c:340
+#: client/gui-gtk-2.0/pages.c:1425 client/gui-gtk/plrdlg.c:141
+#: client/gui-win32/connectdlg.c:188 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "Компьютер"
 
 #: server/stdinhand.c:2878 server/stdinhand.c:3884
+#: client/gui-gtk-2.0/pages.c:1425 client/gui-gtk-2.0/pages.c:1452
 #: client/gui-win32/connectdlg.c:188 client/gui-win32/connectdlg.c:207
 msgid "Human"
 msgstr "Человек"
 
-#: server/stdinhand.c:2878 client/gui-win32/connectdlg.c:187
+#: server/stdinhand.c:2878 client/gui-gtk-2.0/pages.c:1424
+#: client/gui-gtk-2.0/pages.c:1451 client/gui-win32/connectdlg.c:187
 #: client/gui-win32/connectdlg.c:206
 msgid "Alive"
 msgstr "Живой"
 
-#: server/stdinhand.c:2878 client/gui-win32/connectdlg.c:187
+#: server/stdinhand.c:2878 client/gui-gtk-2.0/pages.c:1424
+#: client/gui-win32/connectdlg.c:187
 msgid "Dead"
 msgstr "Умер"
 
@@ -8958,13 +8961,14 @@ msgid "?Player:Name"
 msgstr "?Игрок:Имя"
 
 #: client/plrdlg_common.c:215 client/gui-gtk-2.0/dialogs.c:1584
-#: client/gui-gtk/plrdlg.c:140
+#: client/gui-gtk-2.0/pages.c:1484 client/gui-gtk/plrdlg.c:140
 msgid "Flag"
 msgstr "Флаг"
 
 #: client/plrdlg_common.c:216 client/gui-gtk-2.0/dialogs.c:1588
-#: client/gui-gtk/plrdlg.c:140 client/gui-mui/plrdlg.c:167
-#: client/gui-win32/connectdlg.c:977 client/gui-win32/plrdlg.c:340
+#: client/gui-gtk-2.0/pages.c:1486 client/gui-gtk/plrdlg.c:140
+#: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:977
+#: client/gui-win32/plrdlg.c:340
 msgid "Nation"
 msgstr "Народ"
 
@@ -10524,10 +10528,10 @@ msgstr "Выберите, что разрушать:"
 msgid "Unit"
 msgstr "Соединение"
 
-#: client/gui-gtk-2.0/dialogs.c:1397 client/gui-gtk-2.0/wldlg.c:990
-#: client/gui-gtk/plrdlg.c:140 client/gui-mui/plrdlg.c:166
-#: client/gui-win32/connectdlg.c:972 client/gui-win32/plrdlg.c:340
-#: data/Freeciv.in:77
+#: client/gui-gtk-2.0/dialogs.c:1397 client/gui-gtk-2.0/pages.c:1482
+#: client/gui-gtk-2.0/wldlg.c:990 client/gui-gtk/plrdlg.c:140
+#: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:972
+#: client/gui-win32/plrdlg.c:340 data/Freeciv.in:77
 msgid "Name"
 msgstr "Название"
 
@@ -11857,13 +11861,158 @@ msgstr "Отк"
 msgid "Goto _location"
 msgstr "_Идти к"
 
-#: client/gui-gtk-2.0/plrdlg.c:261 client/gui-gtk/connectdlg.c:383
-#: client/gui-gtk/plrdlg.c:168 client/gui-mui/connectdlg.c:164
-#: client/gui-mui/plrdlg.c:321 client/gui-win32/connectdlg.c:913
-#: client/gui-win32/plrdlg.c:346 client/gui-xaw/menu.c:217
-#: data/Freeciv.in:3171 data/Freeciv.in:3172
+#: client/gui-gtk-2.0/pages.c:185
+msgid "Start _New Game"
+msgstr "_Начать новую игру"
+
+#: client/gui-gtk-2.0/pages.c:191
+msgid "Start _Scenario Game"
+msgstr "Начать _игру по сценарию"
+
+#: client/gui-gtk-2.0/pages.c:197
+msgid "_Load Saved Game"
+msgstr "_Загрузить сохранённую игру"
+
+#: client/gui-gtk-2.0/pages.c:206
+msgid "C_onnect to Network Game"
+msgstr "_Подключиться к сетевой игре"
+
+#: client/gui-gtk-2.0/pages.c:555 client/gui-gtk/connectdlg.c:189
+#: client/gui-win32/connectdlg.c:288 client/gui-xaw/connectdlg.c:311
+msgid "Passwords don't match, enter password."
+msgstr "Пароли не совпадают, введите пароль."
+
+#: client/gui-gtk-2.0/pages.c:635 client/gui-gtk/connectdlg.c:382
+#: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:912
+msgid "Server Name"
+msgstr "Имя сервера"
+
+#: client/gui-gtk-2.0/pages.c:636 client/gui-gtk/connectdlg.c:382
+#: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:912
+#: data/Freeciv.in:93
+msgid "Port"
+msgstr "Порт"
+
+#: client/gui-gtk-2.0/pages.c:637 client/gui-gtk/connectdlg.c:382
+#: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:913
+msgid "Version"
+msgstr "Версия"
+
+#: client/gui-gtk-2.0/pages.c:638 client/gui-gtk-2.0/pages.c:1488
+#: client/gui-gtk/connectdlg.c:383 client/gui-mui/connectdlg.c:163
+#: client/gui-win32/connectdlg.c:913 client/gui-win32/connectdlg.c:982
+msgid "Status"
+msgstr "Состояние"
+
+#: client/gui-gtk-2.0/pages.c:639 client/gui-gtk-2.0/plrdlg.c:261
+#: client/gui-gtk/connectdlg.c:383 client/gui-gtk/plrdlg.c:168
+#: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
+#: client/gui-win32/connectdlg.c:913 client/gui-win32/plrdlg.c:346
+#: client/gui-xaw/menu.c:217 data/Freeciv.in:3171 data/Freeciv.in:3172
 msgid "Players"
 msgstr "Игроки"
+
+#: client/gui-gtk-2.0/pages.c:640 client/gui-gtk/connectdlg.c:383
+#: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:914
+msgid "Comment"
+msgstr "Комментарий"
+
+#: client/gui-gtk-2.0/pages.c:675
+msgid "Internet _Metaserver"
+msgstr "_Интернет Метасервер"
+
+#: client/gui-gtk-2.0/pages.c:707
+msgid "Local _Area Network"
+msgstr "_Локальная сеть"
+
+#: client/gui-gtk-2.0/pages.c:742
+msgid "_Host:"
+msgstr "_Сервер:"
+
+#: client/gui-gtk-2.0/pages.c:759
+msgid "_Port:"
+msgstr "П_орт:"
+
+#: client/gui-gtk-2.0/pages.c:776
+msgid "_Login:"
+msgstr "Ло_гин:"
+
+#: client/gui-gtk-2.0/pages.c:794
+msgid "Pass_word:"
+msgstr "_Пароль:"
+
+#: client/gui-gtk-2.0/pages.c:812
+msgid "Conf_irm Password:"
+msgstr "По_вторите Пароль:"
+
+#: client/gui-gtk-2.0/pages.c:936
+msgid "_Number of Players (including AI):"
+msgstr "_Число игроков (Включая компьютерных игроков):"
+
+#: client/gui-gtk-2.0/pages.c:959
+msgid "_AI Skill Level:"
+msgstr "_Уровень компьютерного противника (AI):"
+
+#: client/gui-gtk-2.0/pages.c:967
+msgid "More Game _Options..."
+msgstr "Н_астройки игры..."
+
+#: client/gui-gtk-2.0/pages.c:1032 client/gui-gtk-2.0/pages.c:1531
+msgid "_Start"
+msgstr "_Начать"
+
+#: client/gui-gtk-2.0/pages.c:1081
+msgid "Choose Saved Game to Load"
+msgstr "Выберите сохранённую игру, которую Вы хотите загрузить"
+
+#: client/gui-gtk-2.0/pages.c:1171
+msgid "Choose Saved Game to _Load:"
+msgstr "_Выберите сохранённую игру, которую Вы хотите загрузить"
+
+#: client/gui-gtk-2.0/pages.c:1191 client/gui-gtk-2.0/pages.c:1759
+msgid "_Browse..."
+msgstr "_Обзор..."
+
+#: client/gui-gtk-2.0/pages.c:1238
+msgid "Choose a Scenario"
+msgstr "Выберите сценарий"
+
+#: client/gui-gtk-2.0/pages.c:1305
+msgid "Choose a _Scenario:"
+msgstr "Выберите _сценарий"
+
+#: client/gui-gtk-2.0/pages.c:1490 client/gui-gtk-2.0/wldlg.c:990
+#: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:314
+#: client/gui-gtk/wldlg.c:320 client/gui-mui/citydlg.c:633
+#: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
+#: client/gui-win32/citydlg.c:1075 client/gui-win32/connectdlg.c:987
+#: client/gui-win32/wldlg.c:673 client/gui-win32/wldlg.c:679
+msgid "Type"
+msgstr "Тип"
+
+#: client/gui-gtk-2.0/pages.c:1500
+msgid "Choose a _nation to play:"
+msgstr "Выберите _народ, которым Вы будете играть:"
+
+#: client/gui-gtk-2.0/pages.c:1520
+msgid "Game _Options..."
+msgstr "Настройки _игры..."
+
+#: client/gui-gtk-2.0/pages.c:1671 client/gui-win32/menu.c:580
+msgid "Select Location to Save"
+msgstr "Выберите место для сохранения"
+
+#: client/gui-gtk-2.0/pages.c:1756
+msgid "Save Game"
+msgstr "Сохранить игру"
+
+#: client/gui-gtk-2.0/pages.c:1797
+msgid "Saved _Games:"
+msgstr "_Сохраненные игры:"
+
+#: client/gui-gtk-2.0/pages.c:1824
+msgid "Save _Filename:"
+msgstr "Имя _файла сохранения:"
 
 #: client/gui-gtk-2.0/plrdlg.c:357
 msgid "_Player"
@@ -12120,15 +12269,6 @@ msgstr "Рабочие списки:"
 #: client/gui-gtk-2.0/wldlg.c:529
 msgid "Edit Global _Worklists"
 msgstr "_Редактировать глобальные списки работ"
-
-#: client/gui-gtk-2.0/wldlg.c:990 client/gui-gtk/citydlg.c:2798
-#: client/gui-gtk/wldlg.c:314 client/gui-gtk/wldlg.c:320
-#: client/gui-mui/citydlg.c:633 client/gui-mui/citydlg.c:662
-#: client/gui-mui/worklistclass.c:237 client/gui-win32/citydlg.c:1075
-#: client/gui-win32/connectdlg.c:987 client/gui-win32/wldlg.c:673
-#: client/gui-win32/wldlg.c:679
-msgid "Type"
-msgstr "Тип"
 
 #: client/gui-gtk-2.0/wldlg.c:1100
 msgid "Source _Tasks:"
@@ -12532,11 +12672,6 @@ msgstr "Пароль:"
 msgid "Verify Password"
 msgstr "Подтвердите пароль"
 
-#: client/gui-gtk/connectdlg.c:189 client/gui-win32/connectdlg.c:288
-#: client/gui-xaw/connectdlg.c:311
-msgid "Passwords don't match, enter password."
-msgstr "Пароли не совпадают, введите пароль."
-
 #: client/gui-gtk/connectdlg.c:370 client/gui-gtk/connectdlg.c:510
 #: client/gui-mui/gui_main.c:262 client/gui-win32/connectdlg.c:1083
 #: client/gui-win32/menu.c:377 data/Freeciv.in:101 data/Freeciv.in:2509
@@ -12546,31 +12681,6 @@ msgstr "Подключиться"
 #: client/gui-gtk/connectdlg.c:372 client/gui-win32/cityrep.c:883
 msgid "Select"
 msgstr "Выбрать"
-
-#: client/gui-gtk/connectdlg.c:382 client/gui-mui/connectdlg.c:160
-#: client/gui-win32/connectdlg.c:912
-msgid "Server Name"
-msgstr "Имя сервера"
-
-#: client/gui-gtk/connectdlg.c:382 client/gui-mui/connectdlg.c:161
-#: client/gui-win32/connectdlg.c:912 data/Freeciv.in:93
-msgid "Port"
-msgstr "Порт"
-
-#: client/gui-gtk/connectdlg.c:382 client/gui-mui/connectdlg.c:162
-#: client/gui-win32/connectdlg.c:913
-msgid "Version"
-msgstr "Версия"
-
-#: client/gui-gtk/connectdlg.c:383 client/gui-mui/connectdlg.c:163
-#: client/gui-win32/connectdlg.c:913 client/gui-win32/connectdlg.c:982
-msgid "Status"
-msgstr "Состояние"
-
-#: client/gui-gtk/connectdlg.c:383 client/gui-mui/connectdlg.c:165
-#: client/gui-win32/connectdlg.c:914
-msgid "Comment"
-msgstr "Комментарий"
 
 #: client/gui-gtk/connectdlg.c:403
 msgid " Connect to Freeciv Server"
@@ -14252,10 +14362,6 @@ msgstr "Налоговые ставки"
 #: client/gui-win32/menu.c:360
 msgid "Transf_orm to Hills"
 msgstr "Преобразовать в холмы"
-
-#: client/gui-win32/menu.c:580
-msgid "Select Location to Save"
-msgstr "Выберите место для сохранения"
 
 #: client/gui-win32/menu.c:1047 client/gui-xaw/menu.c:174
 #, c-format
@@ -22379,23 +22485,8 @@ msgstr ""
 #~ "Невозможно подключиться к серверу. Нельзя стартовать сервер отсюда. Вы "
 #~ "должны запустить сервер вручную. Извините..."
 
-#~ msgid "_Password:"
-#~ msgstr "_Пароль:"
-
 #~ msgid "Loading..."
 #~ msgstr "Загрузка..."
-
-#~ msgid "Choose Saved Game to Load"
-#~ msgstr "Выберите сохранённую игру, которую Вы хотите загрузить"
-
-#~ msgid "Connect to Network Game"
-#~ msgstr "Подключиться к сетевой игре"
-
-#~ msgid "Game _Options"
-#~ msgstr "Настройки _игры"
-
-#~ msgid "_Start"
-#~ msgstr "_Начать"
 
 #~ msgid "_Resume"
 #~ msgstr "_Продолжить"
@@ -22403,23 +22494,8 @@ msgstr ""
 #~ msgid "_Start New Game"
 #~ msgstr "_Начать новую игру"
 
-#~ msgid "_Load Saved Game"
-#~ msgstr "_Загрузить сохранённую игру"
-
 #~ msgid "_Connect to Network Game"
 #~ msgstr "_Подключиться к сетевой игре"
-
-#~ msgid "Choose a _nation to play:"
-#~ msgstr "Выберите _народ, которым Вы будете играть:"
-
-#~ msgid "_Login:"
-#~ msgstr "Логин:"
-
-#~ msgid "_Host:"
-#~ msgstr "Сервер:"
-
-#~ msgid "_Port:"
-#~ msgstr "Порт:"
 
 #~ msgid "_Connected Users:"
 #~ msgstr "_Подключённые игроки:"
@@ -23678,9 +23754,6 @@ msgstr ""
 #~ msgid "Start Game"
 #~ msgstr "Начать игру"
 
-#~ msgid "Save Game"
-#~ msgstr "Сохранить игру"
-
 #~ msgid "End Game"
 #~ msgstr "Закончить игру"
 
@@ -23725,9 +23798,6 @@ msgstr ""
 
 #~ msgid "New Game"
 #~ msgstr "Новая игра"
-
-#~ msgid "Load Scenario"
-#~ msgstr "Загрузить сценарий"
 
 #~ msgid "Quit Game"
 #~ msgstr "Выйти из игры"
