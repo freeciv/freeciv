@@ -28,12 +28,15 @@ struct aiislandglobal  {
   int shared;        /* how many players have cities on this island */
 };
 
+#ifndef __CITY_H
+
 struct ai_choice {
-  int choice;            /* what the advisor wants */ 
+  int choice;            /* what the advisor wants */
   int want;              /* how bad it wants it (0-100) */
   int type;              /* unit/building or other depending on question */
 };
 
+#endif
 
 struct ai_map_struct {
   struct aiislandglobal island_data[100];
