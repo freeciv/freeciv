@@ -891,7 +891,7 @@ void popup_city_report_config_dialog(void)
 		  XtNlabel, city_report_specs[i].show?"Yes":"No", NULL);
   }
 
-  xaw_set_relative_position(toplevel, config_shell, 25, 25);
+  xaw_set_relative_position(city_dialog_shell, config_shell, 25, 25);
   XtPopup(config_shell, XtGrabNone);
   /* XtSetSensitive(main_form, FALSE); */
 }

@@ -2283,7 +2283,7 @@ void cityopt_callback(Widget w, XtPointer client_data,
   
   cityopt_city_id = pcity->id;
 
-  xaw_set_relative_position(toplevel, cityopt_shell, 15, 15);
+  xaw_set_relative_position(pdialog->shell, cityopt_shell, 15, 15);
   XtPopup(cityopt_shell, XtGrabNone);
 }
 

@@ -314,6 +314,9 @@ XtActionsRec Actions[] = {
 };
 
 #ifdef UNUSED
+/**************************************************************************
+...
+**************************************************************************/
 /* This is used below in ui_main(), in commented out code. */
 static int myerr(Display *p, XErrorEvent *e)
 {
@@ -321,6 +324,18 @@ static int myerr(Display *p, XErrorEvent *e)
   return 0;
 }
 #endif
+
+/**************************************************************************
+...
+**************************************************************************/
+static Boolean toplevel_work_proc(XtPointer client_data)
+{
+  /* This will cause the connect dialog to pop-up.
+     We do it here so that the main window exists when that happens,
+     so that the connect dialog can position itself relative to it. */
+  set_client_state(CLIENT_PRE_GAME_STATE);
+  return (True);
+}
 
 /**************************************************************************
 ...
@@ -508,6 +523,8 @@ void ui_main(int argc, char *argv[])
 		scrollbar_scroll_callback, NULL);
   XtAddCallback(turn_done_button, XtNcallback, end_turn_callback, NULL);
 
+  XtAppAddWorkProc(app_context, toplevel_work_proc, NULL);
+
   XtRealizeWidget(toplevel);
 
 
@@ -548,8 +565,8 @@ void ui_main(int argc, char *argv[])
 
   load_options();
 
-  set_client_state(CLIENT_PRE_GAME_STATE);
-  
+  XtSetSensitive(toplevel, FALSE);
+
   XtAppMainLoop(app_context);
 }
 

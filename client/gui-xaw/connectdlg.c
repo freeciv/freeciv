@@ -35,6 +35,8 @@
 
 #include "connectdlg.h"
 
+/****************************************************************/
+
 /* extern AppResources appResources; */
 extern Widget toplevel;
 extern char name[];
@@ -50,12 +52,13 @@ void quit_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void connect_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void connect_meta_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
+/****************************************************************/
 
 /* Meta Server */
 Widget meta_dialog_shell=0;
 char *server_list[64]={NULL};
 
-void create_meta_dialog(void);
+void create_meta_dialog(Widget caller);
 int  update_meta_dialog(Widget meta_list);
 void meta_list_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data);
@@ -64,6 +67,9 @@ void meta_close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 static int get_meta_list(char **list, char *errbuf);
 
+/****************************************************************
+...
+*****************************************************************/
 void gui_server_connect(void)
 {
   Widget shell, form;
@@ -104,10 +110,10 @@ void gui_server_connect(void)
 
   XtAddCallback(connw, XtNcallback, connect_callback, NULL);
   XtAddCallback(quitw, XtNcallback, quit_callback, NULL);
-  XtAddCallback(metaw, XtNcallback, connect_meta_callback, NULL);
+  XtAddCallback(metaw, XtNcallback, connect_meta_callback, (XtPointer)shell);
 
+  xaw_set_relative_position(toplevel, shell, 30, 0);
   XtPopup(shell, XtGrabNone);
-  xaw_set_relative_position(toplevel, shell, 50, 50);
 
   textfieldtranslations = 
     XtParseTranslationTable("<Key>Return: connect-dialog-returnkey()");
@@ -127,18 +133,19 @@ void connect_dialog_returnkey(Widget w, XEvent *event, String *params,
 {
   x_simulate_button_click(connw);
 }
-  
-  
-  
+
+/****************************************************************
+...
+*****************************************************************/
 void quit_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data) 
 {
   exit(0);
 }
 
-
-  
-    
+/****************************************************************
+...
+*****************************************************************/
 void connect_callback(Widget w, XtPointer client_data, 
 		      XtPointer call_data) 
 {
@@ -165,15 +172,20 @@ void connect_callback(Widget w, XtPointer client_data,
   append_output_window(errbuf);
 }
 
-
+/****************************************************************
+...
+*****************************************************************/
 void connect_meta_callback(Widget w, XtPointer client_data,
                            XtPointer call_data)
 {
   if(meta_dialog_shell) return;  /* Metaserver window already poped up */
-  create_meta_dialog();
+  create_meta_dialog((Widget)client_data);
 }
 
-void create_meta_dialog(void)
+/****************************************************************
+...
+*****************************************************************/
+void create_meta_dialog(Widget caller)
 {
   Widget shell, form, label, list, update, close;
   Dimension width;
@@ -206,12 +218,15 @@ void create_meta_dialog(void)
   XtVaGetValues(list, XtNwidth, &width, NULL);
   XtVaSetValues(label, XtNwidth, width, NULL);
 
+  xaw_set_relative_position(caller, shell, 0, 90);
   XtPopup(shell, XtGrabNone);
-  xaw_set_relative_position(toplevel, shell, 5, 20);
 
   XtSetKeyboardFocus(toplevel, shell);
 }
 
+/****************************************************************
+...
+*****************************************************************/
 int update_meta_dialog(Widget meta_list)
 {
   char errbuf[128];
@@ -225,17 +240,26 @@ int update_meta_dialog(Widget meta_list)
   }
 }
 
+/****************************************************************
+...
+*****************************************************************/
 void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   update_meta_dialog((Widget)client_data);
 }
 
+/****************************************************************
+...
+*****************************************************************/
 void meta_close_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   XtDestroyWidget(meta_dialog_shell);
   meta_dialog_shell=0;
 }
 
+/****************************************************************
+...
+*****************************************************************/
 void meta_list_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   XawListReturnStruct *ret=XawListShowCurrent(w);
@@ -246,6 +270,9 @@ void meta_list_callback(Widget w, XtPointer client_data, XtPointer call_data)
   XtVaSetValues(iport, XtNstring, port, NULL);
 }
 
+/****************************************************************
+...
+*****************************************************************/
 void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
 {
   int i;
@@ -255,8 +282,6 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
     server_list[i]=NULL;
   }
 }
-
-
 
 /**************************************************************************
   Get the list of servers from the metaserver

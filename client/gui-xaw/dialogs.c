@@ -225,7 +225,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   
   XtAddCallback(notify_command, XtNcallback, notify_command_callback, NULL);
   
-  xaw_set_relative_position(toplevel, notify_dialog_shell, 25, 25);
+  xaw_set_relative_position(toplevel, notify_dialog_shell, 25, 5);
   XtPopup(notify_dialog_shell, XtGrabNone);
   XtSetSensitive(toplevel, FALSE);
 }
@@ -359,7 +359,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   XtAddCallback(notify_command, XtNcallback, notify_no_goto_command_callback, NULL);
   XtAddCallback(notify_goto_command, XtNcallback, notify_goto_command_callback, NULL);
   notify_goto_add_widget_coords(notify_goto_command, x, y);
-  xaw_set_relative_position(toplevel, notify_dialog_shell, 25, 25);
+  xaw_set_relative_position(toplevel, notify_dialog_shell, 25, 5);
   XtPopup(notify_dialog_shell, XtGrabNone);
   /*  XtSetSensitive(toplevel, FALSE); */
 }
