@@ -102,5 +102,5 @@ void fcwin_box_add_box(struct fcwin_box *box, struct fcwin_box *box_to_add,
 void fcwin_box_calc_sizes(struct fcwin_box *box, POINT *minsize);
 void fcwin_box_do_layout(struct fcwin_box *box, LPRECT size);
 void fcwin_box_calc_layout(struct fcwin_box *box, int x, int y);
-
+void fcwin_close_all_childs(HWND win);
 #endif
