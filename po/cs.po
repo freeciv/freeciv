@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-26 07:27+0100\n"
+"PO-Revision-Date: 2005-01-26 07:45+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14978,7 +14978,7 @@ msgstr "(probíhá)"
 #: client/gui-xaw/citydlg.c:1415
 #, c-format
 msgid "These trade routes have been established with %s:\n"
-msgstr ""
+msgstr "Tyto obchodní trasy byly zřízeny s %s:\n"
 
 #: client/gui-xaw/citydlg.c:1425
 #: client/gui-xaw/citydlg.c:1429
@@ -15385,22 +15385,22 @@ msgstr "Přebytek: Jídlo, Produkce, Obchod"
 #: manual/civmanual.c:223
 #, c-format
 msgid "<th>Special 1</th><th>Food/ Shield/ Trade</th>"
-msgstr ""
+msgstr "<th>Speciál 1</th><th>Jídlo/ Štít/ Obchod</th>"
 
 #: manual/civmanual.c:224
 #, c-format
 msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
-msgstr ""
+msgstr "<th>Speciál 2</th><th>Jídlo/ Štít/ Obchod</th>"
 
 #: manual/civmanual.c:225
 #, c-format
 msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
-msgstr ""
+msgstr "<th>Přesun</th><th>Obrana</th><th>Cesta +obchod</th>\n"
 
 #: manual/civmanual.c:227
 #, c-format
 msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
-msgstr ""
+msgstr "<th>Závlaha +jídlo</th><th>Doly +štíty</th>\n"
 
 #: manual/civmanual.c:228
 #, c-format
@@ -15680,7 +15680,7 @@ msgstr "Konfigurovat..."
 
 #: data/Freeciv.in:1873
 msgid "Building Name       Count Cost Total"
-msgstr ""
+msgstr "Název stavby         Počet Celkem výdaje"
 
 #: data/Freeciv.in:1949
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
