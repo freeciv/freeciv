@@ -98,7 +98,7 @@ static struct {
   char food;
   char trade;
   char shield;
-} cachemap[MAP_MAX_WIDTH * MAP_MAX_HEIGHT];
+} *cachemap;
 
 /**************************************************************************
   Fill cityresult struct with useful info about the city spot. It must 
@@ -443,7 +443,8 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
 **************************************************************************/
 void ai_settler_init(struct player *pplayer)
 {
-  memset(&cachemap, -1, sizeof(cachemap));
+  cachemap = fc_realloc(cachemap, MAX_MAP_INDEX * sizeof(*cachemap));
+  memset(cachemap, -1, MAX_MAP_INDEX * sizeof(*cachemap));
 }
 
 /**************************************************************************

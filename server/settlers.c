@@ -1449,9 +1449,6 @@ void auto_settlers_init(void)
   assign_settlers();
   assign_territory();
   recount_enemy_masks();
-  shuffled_players_iterate(pplayer) {
-    auto_settlers_player(pplayer);
-  } shuffled_players_iterate_end;
 }
 
 /**************************************************************************
