@@ -42,7 +42,7 @@ extern Window root_window;
 extern XFontStruct *main_font_struct;
 extern int use_solid_color_behind_units;
 
-#define FLAG_TILES       14*20
+#define FLAG_TILES       12*20
 
 struct Sprite **tile_sprites;
 struct Sprite *intro_gfx_sprite;
