@@ -1,0 +1,8 @@
+/ai
+/client
+/common
+/server
+/civclient
+/civserver
+/*.bak.info
+/*.c.info
