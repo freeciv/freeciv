@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
-"POT-Creation-Date: 2003-03-27 11:36+0100\n"
+"POT-Creation-Date: 2003-03-27 20:49+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@enter.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -1056,6 +1056,191 @@ msgstr ""
 "- über Probleme mit der deutschen Übersetzung\n"
 "  mit einer Email an <freeciv.de@freelists.org>.\n"
 "\n"
+
+#: server/connecthand.c:65
+#, c-format
+msgid "%s has joined as player %s."
+msgstr "%s nimmt als %s am Spiel teil."
+
+#: server/connecthand.c:70
+#, c-format
+msgid "Game: Connection %s from %s has joined as player %s."
+msgstr "Spiel: %s von %s nimmt als %s am Spiel teil."
+
+#: server/connecthand.c:90
+#, c-format
+msgid "Welcome to the %s Server running at %s port %d."
+msgstr "Willkommen auf dem %s Server (%s Port: %d)."
+
+#: server/connecthand.c:93
+#, c-format
+msgid "Welcome to the %s Server at port %d."
+msgstr "Willkommen auf dem %s Server (Port %d)."
+
+#: server/connecthand.c:104
+#, c-format
+msgid "Turn-blocking game play: waiting on %s to finish turn..."
+msgstr "Runden-Sperre aktiv: %s hat die Runde noch nicht beendet..."
+
+#: server/connecthand.c:145
+#, c-format
+msgid "%s has been added as an AI-controlled player."
+msgstr "%s ist als KI-Spieler dazu gekommen."
+
+#: server/connecthand.c:148
+#, c-format
+msgid "Game: %s has been added as an AI-controlled player."
+msgstr "Spiel: Der KI-Spieler %s ist dazu gekommen."
+
+#: server/connecthand.c:238
+#, c-format
+msgid "Invalid name '%s'"
+msgstr "Unzulässiger Name '%s'"
+
+#: server/connecthand.c:240
+#, c-format
+msgid "Rejected connection from %s with invalid name."
+msgstr "Verbindungsaufbau mit %s wegen unzulässigem Namen abgewiesen."
+
+#: server/connecthand.c:246
+#, c-format
+msgid "Connection request from %s from %s"
+msgstr "%s von %s erbittet Verbindung."
+
+#: server/connecthand.c:250
+#, c-format
+msgid "Connection request from %s from %s (connection named %s)"
+msgstr "%s von %s erbittet Verbindung (unter dem Namen %s)."
+
+#: server/connecthand.c:254
+#, c-format
+msgid "%s has client version %d.%d.%d%s"
+msgstr "%s hat Client %d.%d.%d%s."
+
+#: server/connecthand.c:264
+#, c-format
+msgid ""
+"The client is missing a capability that this server needs.\n"
+"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgstr ""
+"UPDATE ERFORDERLICH:\n"
+"Der Client hat nicht die vom Server benötigten Fähigkeiten.\n"
+"Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
+
+#: server/connecthand.c:271 server/connecthand.c:286
+#, c-format
+msgid "%s was rejected: Mismatched capabilities."
+msgstr "%s abgewiesen: inkompatible Version."
+
+#: server/connecthand.c:279
+#, c-format
+msgid ""
+"The server is missing a capability that the client needs.\n"
+"Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
+msgstr ""
+"UPDATE ERFORDERLICH:\n"
+"Der Server hat nicht die vom Client benötigten Fähigkeiten.\n"
+"Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
+
+#: server/connecthand.c:295
+msgid "Sorry, no observation of barbarians in this game."
+msgstr "Die Beobachtung von Barbaren ist in diesem Spiel nicht möglich."
+
+#: server/connecthand.c:298
+#, c-format
+msgid "%s was rejected: No observation of barbarians."
+msgstr ""
+"%s abgewiesen: Die Beobachtung von Barbaren ist in diesem Spiel unzulässig."
+
+#: server/connecthand.c:304
+msgid "Sorry, no observation of dead players in this game."
+msgstr "Die Beobachtung gestorbener Spieler ist in diesem Spiel nicht möglich."
+
+#: server/connecthand.c:307
+#, c-format
+msgid "%s was rejected: No observation of dead players."
+msgstr ""
+"%s abgewiesen: Die Beobachtung gestorbener Spieler ist in diesem Spiel "
+"unzulässig."
+
+#: server/connecthand.c:314
+msgid "Sorry, no observation of AI players in this game."
+msgstr "Die Beobachtung von KI-Spielern ist in diesem Spiel nicht möglich."
+
+#: server/connecthand.c:317
+#, c-format
+msgid "%s was rejected: No observation of AI players."
+msgstr ""
+"%s abgewiesen: Die Beobachtung von KI-Spielern ist in diesem Spiel "
+"unzulässig."
+
+#: server/connecthand.c:324
+msgid "Sorry, no reconnections to human-mode players in this game."
+msgstr ""
+"Verlorene Verbindungen können in diesem Spiel nicht wieder aufgebaut werden."
+
+#: server/connecthand.c:327
+#, c-format
+msgid "%s was rejected: No reconnection to human players."
+msgstr "%s abgewiesen: Kein Neuaufbau verlorener Verbindungen."
+
+#: server/connecthand.c:344
+msgid "Sorry, someone else already has that name."
+msgstr "Dieser Name ist bereits vergeben."
+
+#: server/connecthand.c:346
+#, c-format
+msgid "%s was rejected: Name %s already used."
+msgstr "%s abgewiesen: der Name %s wird bereits benutzt."
+
+#: server/connecthand.c:350
+#, c-format
+msgid "Sorry, %s is already connected."
+msgstr "Verbindung zu %s besteht schon."
+
+#: server/connecthand.c:353
+#, c-format
+msgid "%s was rejected: %s already connected."
+msgstr "%s abgewiesen: Verbindung zu %s besteht schon."
+
+#: server/connecthand.c:388
+msgid "Sorry, the game is already running."
+msgstr "Das Spiel hat bereits angefangen."
+
+#: server/connecthand.c:390
+#, c-format
+msgid "%s was rejected: Game running and unknown name %s."
+msgstr "%s abgewiesen: Das Spiel läuft und der Name %s ist nicht bekannt."
+
+#: server/connecthand.c:396
+msgid "Sorry, the game is full."
+msgstr ""
+"Mitspielen ist leider nicht mehr möglich: Die max. Spielerzahl ist bereits "
+"erreicht."
+
+#: server/connecthand.c:398
+#, c-format
+msgid "%s was rejected: Maximum number of players reached."
+msgstr "%s abgewiesen: Höchstzahl der Spieler erreicht."
+
+#: server/connecthand.c:404
+msgid "Sorry, no new players allowed in this game."
+msgstr "Neue Spieler sind in diesem Spiel nicht erlaubt."
+
+#: server/connecthand.c:405
+#, c-format
+msgid "%s was rejected: No connections as new player."
+msgstr "%s abgewiesen: Neue Spieler nicht zugelassen."
+
+#: server/connecthand.c:427
+#, c-format
+msgid "Lost connection: %s."
+msgstr "Verbindung verloren: %s."
+
+#: server/connecthand.c:435
+#, c-format
+msgid "Game: Lost connection: %s."
+msgstr "Spiel: Verbindung zu %s verloren."
 
 #: server/console.c:164
 msgid "Ok. RFC-style set."
@@ -7752,7 +7937,7 @@ msgstr "Wie soll die Vorgabe heißen?"
 msgid "Remove this preset?"
 msgstr "Soll die Vorgabe entfernt werden?"
 
-#: client/gui-gtk-2.0/connectdlg.c:153 client/gui-gtk/connectdlg.c:145
+#: client/gui-gtk-2.0/connectdlg.c:153 client/gui-gtk/connectdlg.c:165
 msgid " Connect to Freeciv Server"
 msgstr "Mit Freeciv-Server verbinden"
 
@@ -7762,7 +7947,7 @@ msgstr "Mit Freeciv-Server verbinden"
 msgid "_Connect"
 msgstr "_Verbinden"
 
-#: client/gui-gtk-2.0/connectdlg.c:173 client/gui-gtk/connectdlg.c:151
+#: client/gui-gtk-2.0/connectdlg.c:173 client/gui-gtk/connectdlg.c:171
 #: client/gui-win32/connectdlg.c:364 data/Freeciv:68
 msgid "Freeciv Server Selection"
 msgstr "Freeciv-Server wählen"
@@ -7779,52 +7964,52 @@ msgstr "_Server:"
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/connectdlg.c:244 client/gui-gtk/connectdlg.c:206
+#: client/gui-gtk-2.0/connectdlg.c:244 client/gui-gtk/connectdlg.c:226
 #: client/gui-mui/connectdlg.c:178 client/gui-win32/connectdlg.c:364
 #: data/Freeciv:98
 msgid "Metaserver"
 msgstr "Metaserver"
 
-#: client/gui-gtk-2.0/connectdlg.c:259 client/gui-gtk/connectdlg.c:130
+#: client/gui-gtk-2.0/connectdlg.c:259 client/gui-gtk/connectdlg.c:150
 #: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:365
 msgid "Server Name"
 msgstr "Server"
 
-#: client/gui-gtk-2.0/connectdlg.c:261 client/gui-gtk/connectdlg.c:130
+#: client/gui-gtk-2.0/connectdlg.c:261 client/gui-gtk/connectdlg.c:150
 #: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:365
 #: data/Freeciv:87
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/connectdlg.c:263 client/gui-gtk/connectdlg.c:130
+#: client/gui-gtk-2.0/connectdlg.c:263 client/gui-gtk/connectdlg.c:150
 #: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:365
 msgid "Version"
 msgstr "Version"
 
-#: client/gui-gtk-2.0/connectdlg.c:265 client/gui-gtk/connectdlg.c:131
+#: client/gui-gtk-2.0/connectdlg.c:265 client/gui-gtk/connectdlg.c:151
 #: client/gui-mui/connectdlg.c:163 client/gui-win32/connectdlg.c:366
 msgid "Status"
 msgstr "Status"
 
 #: client/gui-gtk-2.0/connectdlg.c:267 client/gui-gtk-2.0/plrdlg.c:223
-#: client/gui-gtk/connectdlg.c:131 client/gui-gtk/plrdlg.c:160
+#: client/gui-gtk/connectdlg.c:151 client/gui-gtk/plrdlg.c:160
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:312
 #: client/gui-win32/connectdlg.c:366 client/gui-win32/plrdlg.c:354
 #: client/gui-xaw/menu.c:201 data/Freeciv:3092 data/Freeciv:3093
 msgid "Players"
 msgstr "Spieler"
 
-#: client/gui-gtk-2.0/connectdlg.c:269 client/gui-gtk/connectdlg.c:131
+#: client/gui-gtk-2.0/connectdlg.c:269 client/gui-gtk/connectdlg.c:151
 #: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:366
 msgid "Comment"
 msgstr "Kommentar"
 
-#: client/gui-gtk-2.0/connectdlg.c:277 client/gui-gtk/connectdlg.c:223
+#: client/gui-gtk-2.0/connectdlg.c:277 client/gui-gtk/connectdlg.c:243
 #: client/gui-win32/connectdlg.c:410 data/Freeciv:138
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: client/gui-gtk-2.0/connectdlg.c:356 client/gui-gtk/connectdlg.c:314
+#: client/gui-gtk-2.0/connectdlg.c:356 client/gui-gtk/connectdlg.c:349
 #: client/gui-mui/connectdlg.c:272 client/gui-win32/connectdlg.c:447
 #: client/gui-xaw/connectdlg.c:321
 #, c-format
@@ -7834,12 +8019,12 @@ msgstr ""
 "nicht möglich."
 
 #: client/gui-gtk-2.0/connectdlg.c:368 client/gui-gtk-2.0/connectdlg.c:370
-#: client/gui-gtk/connectdlg.c:326 client/gui-gtk/connectdlg.c:328
+#: client/gui-gtk/connectdlg.c:361 client/gui-gtk/connectdlg.c:363
 msgid "Connection to server refused. Please start the server."
 msgstr "Verbindung zum Server nicht möglich. Bitte den Server starten."
 
 #: client/gui-gtk-2.0/connectdlg.c:377 client/gui-gtk-2.0/connectdlg.c:407
-#: client/gui-gtk/connectdlg.c:335 client/gui-gtk/connectdlg.c:365
+#: client/gui-gtk/connectdlg.c:370 client/gui-gtk/connectdlg.c:400
 #: client/gui-mui/connectdlg.c:286 client/gui-mui/connectdlg.c:317
 #: client/gui-win32/connectdlg.c:463 client/gui-win32/connectdlg.c:501
 #: client/gui-xaw/connectdlg.c:341 client/gui-xaw/connectdlg.c:367
@@ -7851,7 +8036,7 @@ msgstr ""
 "Fehler beim Kontaktversuch mit Server '%s' an Port %d als '%s':\n"
 "%s\n"
 
-#: client/gui-gtk-2.0/connectdlg.c:398 client/gui-gtk/connectdlg.c:356
+#: client/gui-gtk-2.0/connectdlg.c:398 client/gui-gtk/connectdlg.c:391
 #: client/gui-mui/connectdlg.c:307 client/gui-win32/connectdlg.c:493
 #: client/gui-xaw/connectdlg.c:358
 #, c-format
@@ -8162,7 +8347,7 @@ msgstr "Was gebrandschatzt werden soll"
 msgid "Select what to pillage:"
 msgstr "Wähle aus, was gebrandschatzt werden soll:"
 
-#: client/gui-gtk-2.0/dialogs.c:1303 client/gui-gtk/connectdlg.c:233
+#: client/gui-gtk-2.0/dialogs.c:1303 client/gui-gtk/connectdlg.c:254
 #: client/gui-gtk/dialogs.c:1463 client/gui-mui/gui_main.c:257
 #: client/gui-win32/connectdlg.c:414 client/gui-win32/dialogs.c:1994
 #: client/gui-xaw/menu.c:182 data/Freeciv:95 data/Freeciv:2445
@@ -9286,39 +9471,39 @@ msgstr "Befehle"
 msgid "Orders"
 msgstr "Befehle"
 
-#: client/gui-gtk-2.0/menu.c:660 client/gui-gtk-2.0/menu.c:1162
-#: client/gui-gtk-2.0/menu.c:1165 client/gui-gtk/menu.c:660
-#: client/gui-gtk/menu.c:1143 client/gui-gtk/menu.c:1146
+#: client/gui-gtk-2.0/menu.c:660 client/gui-gtk-2.0/menu.c:1163
+#: client/gui-gtk-2.0/menu.c:1166 client/gui-gtk/menu.c:660
+#: client/gui-gtk/menu.c:1144 client/gui-gtk/menu.c:1147
 #: client/gui-win32/menu.c:321
 msgid "_Build City"
 msgstr "Stadt gründen"
 
-#: client/gui-gtk-2.0/menu.c:662 client/gui-gtk-2.0/menu.c:1175
-#: client/gui-gtk-2.0/menu.c:1181 client/gui-gtk/menu.c:662
-#: client/gui-gtk/menu.c:1156 client/gui-gtk/menu.c:1162
+#: client/gui-gtk-2.0/menu.c:662 client/gui-gtk-2.0/menu.c:1176
+#: client/gui-gtk-2.0/menu.c:1182 client/gui-gtk/menu.c:662
+#: client/gui-gtk/menu.c:1157 client/gui-gtk/menu.c:1163
 #: client/gui-win32/menu.c:322
 msgid "Build _Road"
 msgstr "Straße bauen"
 
-#: client/gui-gtk-2.0/menu.c:664 client/gui-gtk-2.0/menu.c:1102
-#: client/gui-gtk/menu.c:664 client/gui-gtk/menu.c:1083
+#: client/gui-gtk-2.0/menu.c:664 client/gui-gtk-2.0/menu.c:1103
+#: client/gui-gtk/menu.c:664 client/gui-gtk/menu.c:1084
 #: client/gui-win32/menu.c:323
 msgid "Build _Irrigation"
 msgstr "Bewässerungssystem anlegen"
 
-#: client/gui-gtk-2.0/menu.c:666 client/gui-gtk-2.0/menu.c:1103
-#: client/gui-gtk/menu.c:666 client/gui-gtk/menu.c:1084
+#: client/gui-gtk-2.0/menu.c:666 client/gui-gtk-2.0/menu.c:1104
+#: client/gui-gtk/menu.c:666 client/gui-gtk/menu.c:1085
 #: client/gui-win32/menu.c:324
 msgid "Build _Mine"
 msgstr "Bergwerk bauen"
 
-#: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:1104
-#: client/gui-gtk/menu.c:668 client/gui-gtk/menu.c:1085
+#: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:1105
+#: client/gui-gtk/menu.c:668 client/gui-gtk/menu.c:1086
 msgid "Transf_orm Terrain"
 msgstr "Landschaft verändern"
 
-#: client/gui-gtk-2.0/menu.c:670 client/gui-gtk-2.0/menu.c:1213
-#: client/gui-gtk/menu.c:670 client/gui-gtk/menu.c:1194
+#: client/gui-gtk-2.0/menu.c:670 client/gui-gtk-2.0/menu.c:1214
+#: client/gui-gtk/menu.c:670 client/gui-gtk/menu.c:1195
 #: client/gui-win32/menu.c:326
 msgid "Build _Fortress"
 msgstr "Befestigung errichten"
@@ -9328,8 +9513,8 @@ msgstr "Befestigung errichten"
 msgid "Build Airbas_e"
 msgstr "Fliegerhorst bauen"
 
-#: client/gui-gtk-2.0/menu.c:674 client/gui-gtk-2.0/menu.c:1218
-#: client/gui-gtk/menu.c:674 client/gui-gtk/menu.c:1199
+#: client/gui-gtk-2.0/menu.c:674 client/gui-gtk-2.0/menu.c:1219
+#: client/gui-gtk/menu.c:674 client/gui-gtk/menu.c:1200
 #: client/gui-win32/menu.c:328
 msgid "Clean _Pollution"
 msgstr "Umweltverschmutzung beseitigen"
@@ -9359,8 +9544,8 @@ msgstr "Ausladen"
 msgid "Wake up o_thers"
 msgstr "Andere alarmieren"
 
-#: client/gui-gtk-2.0/menu.c:694 client/gui-gtk-2.0/menu.c:1223
-#: client/gui-gtk/menu.c:694 client/gui-gtk/menu.c:1204
+#: client/gui-gtk-2.0/menu.c:694 client/gui-gtk-2.0/menu.c:1224
+#: client/gui-gtk/menu.c:694 client/gui-gtk/menu.c:1205
 msgid "_Auto Settler"
 msgstr "Siedler automatisieren"
 
@@ -9601,50 +9786,50 @@ msgstr "Lizenz"
 msgid "_About"
 msgstr "Über"
 
-#: client/gui-gtk-2.0/menu.c:1094 client/gui-gtk/menu.c:1075
+#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1076
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Zu %s verändern"
 
-#: client/gui-gtk-2.0/menu.c:1095 client/gui-gtk/menu.c:1076
+#: client/gui-gtk-2.0/menu.c:1096 client/gui-gtk/menu.c:1077
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Zu %s verändern"
 
-#: client/gui-gtk-2.0/menu.c:1096 client/gui-gtk/menu.c:1077
+#: client/gui-gtk-2.0/menu.c:1097 client/gui-gtk/menu.c:1078
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Zu %s verändern"
 
-#: client/gui-gtk-2.0/menu.c:1157 client/gui-gtk/menu.c:1138
+#: client/gui-gtk-2.0/menu.c:1158 client/gui-gtk/menu.c:1139
 msgid "Help _Build Wonder"
 msgstr "Zum Bau eines Weltwunder beitragen"
 
-#: client/gui-gtk-2.0/menu.c:1160 client/gui-gtk/menu.c:1141
+#: client/gui-gtk-2.0/menu.c:1161 client/gui-gtk/menu.c:1142
 msgid "Add to City (_B)"
 msgstr "Zur Stadt hinzufügen"
 
-#: client/gui-gtk-2.0/menu.c:1168 client/gui-gtk/menu.c:1149
+#: client/gui-gtk-2.0/menu.c:1169 client/gui-gtk/menu.c:1150
 msgid "Make Trade _Route"
 msgstr "Handelsweg einrichten"
 
-#: client/gui-gtk-2.0/menu.c:1171 client/gui-gtk/menu.c:1152
+#: client/gui-gtk-2.0/menu.c:1172 client/gui-gtk/menu.c:1153
 msgid "Build _Railroad"
 msgstr "Schienen verlegen"
 
-#: client/gui-gtk-2.0/menu.c:1193 client/gui-gtk/menu.c:1174
+#: client/gui-gtk-2.0/menu.c:1194 client/gui-gtk/menu.c:1175
 msgid "Bu_ild Farmland"
 msgstr "Erzeuge Ackerland"
 
-#: client/gui-gtk-2.0/menu.c:1211 client/gui-gtk/menu.c:1192
+#: client/gui-gtk-2.0/menu.c:1212 client/gui-gtk/menu.c:1193
 msgid "_Fortify"
 msgstr "Eingraben"
 
-#: client/gui-gtk-2.0/menu.c:1216 client/gui-gtk/menu.c:1197
+#: client/gui-gtk-2.0/menu.c:1217 client/gui-gtk/menu.c:1198
 msgid "_Paradrop"
 msgstr "Fallschirmspringen"
 
-#: client/gui-gtk-2.0/menu.c:1221 client/gui-gtk/menu.c:1202
+#: client/gui-gtk-2.0/menu.c:1222 client/gui-gtk/menu.c:1203
 msgid "_Auto Attack"
 msgstr "Automatisch angreifen"
 
@@ -10224,20 +10409,20 @@ msgstr "Stadtbericht: Einstellungen"
 msgid "Set columns shown"
 msgstr "Gewünschte Spalten markieren:"
 
-#: client/gui-gtk/connectdlg.c:162 client/gui-mui/citydlg.c:1629
+#: client/gui-gtk/connectdlg.c:182 client/gui-mui/citydlg.c:1629
 #: client/gui-win32/connectdlg.c:389
 msgid "Name:"
 msgstr "Spielername:"
 
-#: client/gui-gtk/connectdlg.c:170 client/gui-win32/connectdlg.c:391
+#: client/gui-gtk/connectdlg.c:190 client/gui-win32/connectdlg.c:391
 msgid "Host:"
 msgstr "Server:"
 
-#: client/gui-gtk/connectdlg.c:178 client/gui-win32/connectdlg.c:393
+#: client/gui-gtk/connectdlg.c:198 client/gui-win32/connectdlg.c:393
 msgid "Port:"
 msgstr "Port:"
 
-#: client/gui-gtk/connectdlg.c:239 client/gui-gtk/dialogs.c:2257
+#: client/gui-gtk/connectdlg.c:260 client/gui-gtk/dialogs.c:2257
 #: client/gui-mui/gui_main.c:203 client/gui-win32/connectdlg.c:416
 #: client/gui-win32/dialogs.c:554 client/gui-xaw/menu.c:115 data/Freeciv:102
 #: data/Freeciv:3080
@@ -10380,11 +10565,11 @@ msgstr "Gehe|Fliege zu Stadt"
 msgid "Diplomat|Spy Actions"
 msgstr "Aktionen für Diplomaten|Spione"
 
-#: client/gui-gtk/menu.c:882
+#: client/gui-gtk/menu.c:883
 msgid "Go/Air_lift to City"
 msgstr "Gehe (fliege) nach Stadt"
 
-#: client/gui-gtk/menu.c:883
+#: client/gui-gtk/menu.c:884
 msgid "_Diplomat/Spy Actions"
 msgstr "Aktionen für Diplomaten/Spionen"
 
@@ -12211,8 +12396,8 @@ msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
 msgstr ""
-"Name\t\t  Nation       Botsch.  Dipl. Status    Karte    Reputation    "
-"Status   Host"
+"Name             Nation       Botsch.  Dipl. Status    Karte    "
+"Reputation    Status   Host"
 
 #: data/Freeciv:3145
 msgid "Cancel pact"
@@ -16830,15 +17015,13 @@ msgstr "Schrift"
 msgid "Religion"
 msgstr "Religion"
 
-# ?
 #: data/history/techs.ruleset:158
 msgid "Riflery"
-msgstr ""
+msgstr "Gewehrherstellung"
 
-# ?
 #: data/history/techs.ruleset:200
 msgid "Milling"
-msgstr ""
+msgstr "Metallbearbeitung"
 
 #: data/civ2/terrain.ruleset:51 data/default/terrain.ruleset:51
 #: data/history/terrain.ruleset:51
@@ -17031,7 +17214,7 @@ msgid ""
 "Ocean squares can never be polluted or subjected to fallout."
 msgstr ""
 "Ozeanfelder machen einen großen Teil der Welt aus. Sie können nur von "
-"Marineeinheiten (Tiremen und anderen Schiffen) befahren werden.\n"
+"Marineeinheiten (Triremen und anderen Schiffen) befahren werden.\n"
 "\n"
 "In Freeciv gibt es hier weder Umweltverschmutzung noch Fallout."
 
@@ -18153,6 +18336,18 @@ msgstr "kroatisch"
 msgid "?plural:Croatians"
 msgstr "?plural:Kroaten"
 
+#: data/nation/croatian.ruleset:6
+msgid ""
+"Croatia is the region of the Southern Slavs that was held by the Austro-"
+"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
+"of Byzantium. During most of the 20th century it was part of the Yugoslav "
+"Federation."
+msgstr ""
+"Kroatien ist die Region der Südslawen, die nach dem Zusammenbruch von "
+"Byzanz unter österreichisch-ungarische Herrschaft geriet. Während des "
+"größten Teils des 20. Jahrhunderts war es Teil der Bundesrepublik "
+"Jugoslawien."
+
 #: data/nation/czech.ruleset:3
 msgid "Czech"
 msgstr "tschechisch"
@@ -18238,9 +18433,9 @@ msgid ""
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
-"Ägypten war die zweitälteste Zivilisation der Erde. Bereits im Altertum "
-"war es stark urbanisiert, und konnte dank der Schlammablagerungen des "
-"regelmäßig überfluteten Nils eine große Bevölkerung ernähren."
+"Ägypten war die zweitälteste Zivilisation der Erde. Bereits im Altertum war "
+"es stark urbanisiert, und konnte dank der Schlammablagerungen des regelmäßig "
+"überfluteten Nils eine große Bevölkerung ernähren."
 
 #: data/nation/egyptian.ruleset:18
 msgid "Pharaoh"
@@ -18354,8 +18549,8 @@ msgid ""
 "After the war it was split into two states, which reunited in 1990 at the "
 "end of the Cold War."
 msgstr ""
-"Deutschland wurde 1871 durch die preußische Militärmacht vereinigt. Nach "
-"dem ersten Weltkrieg wurde es eine Republik, fiel jedoch 1933 in den "
+"Deutschland wurde 1871 durch die preußische Militärmacht vereinigt. Nach dem "
+"ersten Weltkrieg wurde es eine Republik, fiel jedoch 1933 in den "
 "Nationalsozialismus und begann den zweiten Weltkrieg. Nach dem Krieg wurde "
 "es in zwei Staaten geteilt, die sich 1990, zum Ende des Kalten Krieges, "
 "wiedervereinigten."
@@ -18672,6 +18867,8 @@ msgid ""
 "Russia originated as the Kievan Rus, territory seized during the early "
 "medieval period by Vikings from what is now Sweden."
 msgstr ""
+"Russland ging aus dem Reich von Kiew hervor, dass im frühen Mittelalter "
+"von schwedischen Wikingern in Besitz genommen wurde."
 
 #: data/nation/russian.ruleset:15
 msgid "Czar"
@@ -18725,9 +18922,9 @@ msgid ""
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
 "20th century it was part of the Yugoslav Federation."
 msgstr ""
-"Serbien ist Teil des südslawischen Gebietes, das nach dem Zusammenbruch "
-"des Byzantinischen Reiches von den Ottomanen erobert wurde. Während des "
-"größten Teils des zwanzigsten Jahrhunderts war es Teil von Jugoslawien."
+"Serbien ist Teil des südslawischen Gebietes, das nach dem Zusammenbruch des "
+"Byzantinischen Reiches von den Ottomanen erobert wurde. Während des größten "
+"Teils des zwanzigsten Jahrhunderts war es Teil von Jugoslawien."
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -18766,8 +18963,8 @@ msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula"
 msgstr ""
-"Singapur ist ein auf Handel ausgerichteter Stadtstaat an der Südspitze "
-"der malaysischen Halbinsel."
+"Singapur ist ein auf Handel ausgerichteter Stadtstaat an der Südspitze der "
+"malaysischen Halbinsel."
 
 #: data/nation/singaporean.ruleset:29
 msgid "Ah"
@@ -18865,8 +19062,8 @@ msgid ""
 "The Thai kingdom was the only country in Southeast Asia to preserve its "
 "independence throught the colonial era of the 18th and 19th centuries AD."
 msgstr ""
-"Thailand war der einzige Staat Südostasiens, der während der Kolonialära "
-"im 18. und 19. Jahrhundert seine Unabhängigkeit bewahrte."
+"Thailand war der einzige Staat Südostasiens, der während der Kolonialära im "
+"18. und 19. Jahrhundert seine Unabhängigkeit bewahrte."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -18883,10 +19080,10 @@ msgid ""
 "Powers.  The country was subsequently reformed and secularized by Kemal "
 "Mustapha, the hero of the defense of Gallipoli."
 msgstr ""
-"Die heutige Türkei ist der Nachfolgestaat des Ottomanischen Reiches, das "
-"im ersten Weltkrieg die Zentralmächte unterstützte und von den Siegern "
-"geteilt wurde. Im Anschluß wurde das Land von Kemal Mustafa, dem Helden "
-"Verteidigung von Gallipoli, reformiert und säkularisiert."
+"Die heutige Türkei ist der Nachfolgestaat des Ottomanischen Reiches, das im "
+"ersten Weltkrieg die Zentralmächte unterstützte und von den Siegern geteilt "
+"wurde. Im Anschluß wurde das Land von Kemal Mustafa, dem Helden Verteidigung "
+"von Gallipoli, reformiert und säkularisiert."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -18901,9 +19098,8 @@ msgid ""
 "The Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
 msgstr ""
-"Die Ukraine ist eine weite Region im westlichen Grenzgebiet der "
-"früheren Sowietunion. Sie besitzt eines der fruchtbarsten Kornanbaugebiete "
-"der Erde."
+"Die Ukraine ist eine weite Region im westlichen Grenzgebiet der früheren "
+"Sowietunion. Sie besitzt eines der fruchtbarsten Kornanbaugebiete der Erde."
 
 #: data/nation/ukrainian.ruleset:15
 msgid "Hetman"
@@ -18939,9 +19135,9 @@ msgid ""
 "1100AD. Viking raids eventually became the rulers of Normandy, Russia, and a "
 "short-lived kingdom in Sicily."
 msgstr ""
-"Die Wikinger raubten und handelten an Europas Küsten zwischen 800 und "
-"1100. Wikingische Räuber wurden schließlich die Herrscher der Normandie, "
-"von Russland, und, für kurze Zeit, des Königsreichs Sizilien."
+"Die Wikinger raubten und handelten an Europas Küsten zwischen 800 und 1100. "
+"Wikingische Räuber wurden schließlich die Herrscher der Normandie, von "
+"Russland, und, für kurze Zeit, des Königsreichs Sizilien."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
@@ -18957,8 +19153,8 @@ msgid ""
 "driven into the mountainous western reaches by invading Saxons."
 msgstr ""
 "Die Waliser kontrollierten zu einer Zeit das Gebiet des heutigen Englands, "
-"befor sie von den einfallenden Sachsen in den gebirgigen Westen "
-"vertrieben wurden."
+"befor sie von den einfallenden Sachsen in den gebirgigen Westen vertrieben "
+"wurden."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
@@ -18974,138 +19170,6 @@ msgid ""
 "into southern Africa beginning in the early 1700s, conquering the native "
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
-"Die Zulu sind ein kriegerisches Bantu-Volk, die Anfang des 18. "
-"Jahrhunderts von Westzentralafrika in den Süden einwanderten, wo sie "
-"die Khoisan Völker eroberten und mit europäischen Siedlern "
-"zusammenstießen."
-
-#~ msgid "%s has joined as player %s."
-#~ msgstr "%s nimmt als %s am Spiel teil."
-
-#~ msgid "Game: Connection %s from %s has joined as player %s."
-#~ msgstr "Spiel: %s von %s nimmt als %s am Spiel teil."
-
-#~ msgid "Welcome to the %s Server running at %s port %d."
-#~ msgstr "Willkommen auf dem %s Server (%s Port: %d)."
-
-#~ msgid "Welcome to the %s Server at port %d."
-#~ msgstr "Willkommen auf dem %s Server (Port %d)."
-
-#~ msgid "Turn-blocking game play: waiting on %s to finish turn..."
-#~ msgstr "Runden-Sperre aktiv: %s hat die Runde noch nicht beendet..."
-
-#~ msgid "%s has been added as an AI-controlled player."
-#~ msgstr "%s ist als KI-Spieler dazu gekommen."
-
-#~ msgid "Game: %s has been added as an AI-controlled player."
-#~ msgstr "Spiel: Der KI-Spieler %s ist dazu gekommen."
-
-#~ msgid "Invalid name '%s'"
-#~ msgstr "Unzulässiger Name '%s'"
-
-#~ msgid "Rejected connection from %s with invalid name."
-#~ msgstr "Verbindungsaufbau mit %s wegen unzulässigem Namen abgewiesen."
-
-#~ msgid "Connection request from %s from %s"
-#~ msgstr "%s von %s erbittet Verbindung."
-
-#~ msgid "Connection request from %s from %s (connection named %s)"
-#~ msgstr "%s von %s erbittet Verbindung (unter dem Namen %s)."
-
-#~ msgid "%s has client version %d.%d.%d%s"
-#~ msgstr "%s hat Client %d.%d.%d%s."
-
-#~ msgid ""
-#~ "The client is missing a capability that this server needs.\n"
-#~ "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may "
-#~ "help!"
-#~ msgstr ""
-#~ "UPDATE ERFORDERLICH:\n"
-#~ "Der Client hat nicht die vom Server benötigten Fähigkeiten.\n"
-#~ "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
-
-#~ msgid "%s was rejected: Mismatched capabilities."
-#~ msgstr "%s abgewiesen: inkompatible Version."
-
-#~ msgid ""
-#~ "The server is missing a capability that the client needs.\n"
-#~ "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may "
-#~ "help!"
-#~ msgstr ""
-#~ "UPDATE ERFORDERLICH:\n"
-#~ "Der Server hat nicht die vom Client benötigten Fähigkeiten.\n"
-#~ "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
-
-#~ msgid "Sorry, no observation of barbarians in this game."
-#~ msgstr "Die Beobachtung von Barbaren ist in diesem Spiel nicht möglich."
-
-#~ msgid "%s was rejected: No observation of barbarians."
-#~ msgstr ""
-#~ "%s abgewiesen: Die Beobachtung von Barbaren ist in diesem Spiel "
-#~ "unzulässig."
-
-#~ msgid "Sorry, no observation of dead players in this game."
-#~ msgstr ""
-#~ "Die Beobachtung gestorbener Spieler ist in diesem Spiel nicht möglich."
-
-#~ msgid "%s was rejected: No observation of dead players."
-#~ msgstr ""
-#~ "%s abgewiesen: Die Beobachtung gestorbener Spieler ist in diesem Spiel "
-#~ "unzulässig."
-
-#~ msgid "Sorry, no observation of AI players in this game."
-#~ msgstr "Die Beobachtung von KI-Spielern ist in diesem Spiel nicht möglich."
-
-#~ msgid "%s was rejected: No observation of AI players."
-#~ msgstr ""
-#~ "%s abgewiesen: Die Beobachtung von KI-Spielern ist in diesem Spiel "
-#~ "unzulässig."
-
-#~ msgid "Sorry, no reconnections to human-mode players in this game."
-#~ msgstr ""
-#~ "Verlorene Verbindungen können in diesem Spiel nicht wieder aufgebaut "
-#~ "werden."
-
-#~ msgid "%s was rejected: No reconnection to human players."
-#~ msgstr "%s abgewiesen: Kein Neuaufbau verlorener Verbindungen."
-
-#~ msgid "Sorry, someone else already has that name."
-#~ msgstr "Dieser Name ist bereits vergeben."
-
-#~ msgid "%s was rejected: Name %s already used."
-#~ msgstr "%s abgewiesen: der Name %s wird bereits benutzt."
-
-#~ msgid "Sorry, %s is already connected."
-#~ msgstr "Verbindung zu %s besteht schon."
-
-#~ msgid "%s was rejected: %s already connected."
-#~ msgstr "%s abgewiesen: Verbindung zu %s besteht schon."
-
-#~ msgid "Sorry, the game is already running."
-#~ msgstr "Das Spiel hat bereits angefangen."
-
-#~ msgid "%s was rejected: Game running and unknown name %s."
-#~ msgstr "%s abgewiesen: Das Spiel läuft und der Name %s ist nicht bekannt."
-
-#~ msgid "Sorry, the game is full."
-#~ msgstr ""
-#~ "Mitspielen ist leider nicht mehr möglich: Die max. Spielerzahl ist "
-#~ "bereits erreicht."
-
-#~ msgid "%s was rejected: Maximum number of players reached."
-#~ msgstr "%s abgewiesen: Höchstzahl der Spieler erreicht."
-
-#~ msgid "Sorry, no new players allowed in this game."
-#~ msgstr "Neue Spieler sind in diesem Spiel nicht erlaubt."
-
-#~ msgid "%s was rejected: No connections as new player."
-#~ msgstr "%s abgewiesen: Neue Spieler nicht zugelassen."
-
-#~ msgid "Lost connection: %s."
-#~ msgstr "Verbindung verloren: %s."
-
-#~ msgid "Game: Lost connection: %s."
-#~ msgstr "Spiel: Verbindung zu %s verloren."
-
-#~ msgid "Princebishop"
-#~ msgstr "Erzbischof"
+"Die Zulu sind ein kriegerisches Bantu-Volk, die Anfang des 18. Jahrhunderts "
+"von Westzentralafrika in den Süden einwanderten, wo sie die Khoisan Völker "
+"eroberten und mit europäischen Siedlern zusammenstießen."
