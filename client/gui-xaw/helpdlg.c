@@ -298,7 +298,8 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
 			      NULL);
   }
 
-  XtAddCallback(l, XtNcallback, help_tree_node_callback, (XtPointer)tech);
+  XtAddCallback(l, XtNcallback, help_tree_node_callback,
+		INT_TO_XTPOINTER(tech));
 
   XtVaSetValues(l, XtVaTypedArg, XtNbackground, 
 		XtRString, bg, strlen(bg)+1, NULL);

@@ -1330,7 +1330,8 @@ void popup_government_dialog(void)
 				     XtNfromVert, prev,
 				     XtNlabel, (XtArgVal)governments[i].name,
 				     NULL);
-    XtAddCallback(button, XtNcallback, government_callback, (XtPointer)i);
+    XtAddCallback(button, XtNcallback, government_callback,
+		  INT_TO_XTPOINTER(i));
     XtSetSensitive(button, can_change ? TRUE : FALSE);
     prev = button;
   }
@@ -1391,9 +1392,8 @@ static void pillage_callback(Widget w, XtPointer client_data,
   if (client_data) {
     struct unit *punit = find_unit_by_id (unit_to_use_to_pillage);
     if (punit) {
-      request_new_unit_activity_targeted (punit,
-					  ACTIVITY_PILLAGE,
-					  (int)client_data);
+      request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
+					 XTPOINTER_TO_INT(client_data));
     }
   }
 
@@ -1432,7 +1432,8 @@ void popup_pillage_dialog(struct unit *punit,
 			       XtNlabel,
 			         (XtArgVal)(map_get_infrastructure_text (what)),
 			       NULL);
-    XtAddCallback (button, XtNcallback, pillage_callback, (XtPointer)what);
+    XtAddCallback(button, XtNcallback, pillage_callback,
+		  INT_TO_XTPOINTER(what));
     prev = button;
     may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
   }
@@ -1453,7 +1454,7 @@ static void unit_connect_callback (Widget w, XtPointer client_data,
 				   XtPointer call_data)
 {
   struct unit *punit;
-  int activity = (int)client_data;
+  int activity = XTPOINTER_TO_INT(client_data);
 
   if (!is_showing_unit_connect_dialog) {
     destroy_message_dialog(w);
@@ -1513,8 +1514,8 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
 			       XtNlabel,
 			         (XtArgVal)(get_activity_text (activity)),
 			       NULL);
-    XtAddCallback (button, XtNcallback, unit_connect_callback, 
-		   (XtPointer)activity);
+    XtAddCallback(button, XtNcallback, unit_connect_callback,
+		  INT_TO_XTPOINTER(activity));
     prev = button;
   }
   button =
@@ -2078,8 +2079,8 @@ void create_races_dialog(void)
 
 
   for(i=0; i<game.playable_nation_count; i++) {
-    XtAddCallback(races_toggles[i], XtNcallback, 
-		  races_toggles_callback, (XtPointer)i);
+    XtAddCallback(races_toggles[i], XtNcallback,
+		  races_toggles_callback, INT_TO_XTPOINTER(i));
   }
 
 
@@ -2167,16 +2168,12 @@ void races_toggles_set_sensitive(struct packet_nations_used *packet)
 void races_toggles_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
-  int index, race;
+  int index = XTPOINTER_TO_INT(client_data);
+  int race = races_toggles_to_nations[index];
   int j;
   int leader_count;
-  char **leaders;
+  char **leaders = get_nation_leader_names(race, &leader_count);
   Widget entry;
-
-  index = (int)client_data;
-  race = races_toggles_to_nations[index];
-
-  leaders = get_nation_leader_names(race, &leader_count);
 
   if(races_leader_pick_popupmenu)
     XtDestroyWidget(races_leader_pick_popupmenu);
@@ -2193,10 +2190,8 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 			      smeBSBObjectClass,
 			      races_leader_pick_popupmenu,
 			      NULL);
-    XtAddCallback(entry,
-		  XtNcallback,
-		  races_leader_pick_callback,
-		  (XtPointer)((MAX_NUM_NATIONS * race) + j));
+    XtAddCallback(entry, XtNcallback, races_leader_pick_callback,
+		  INT_TO_XTPOINTER(MAX_NUM_NATIONS * race + j));
   }
 
   races_leader_set_values(race, myrand(leader_count));
@@ -2213,10 +2208,8 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 void races_leader_pick_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
-  int race, lead;
-
-  race = ((int)client_data) / MAX_NUM_NATIONS;
-  lead = ((int)client_data) - (MAX_NUM_NATIONS * race);
+  int race = XTPOINTER_TO_INT(client_data) / MAX_NUM_NATIONS;
+  int lead = XTPOINTER_TO_INT(client_data) - (MAX_NUM_NATIONS * race);
 
   races_leader_set_values(race, lead);
 }

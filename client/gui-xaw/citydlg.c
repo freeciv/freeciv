@@ -1784,8 +1784,8 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     xaw_expose_now(pixcomm);
 
     XtRemoveAllCallbacks(pixcomm, XtNcallback);
-    XtAddCallback(pixcomm, XtNcallback, 
-		  support_units_callback, (XtPointer)punit->id);
+    XtAddCallback(pixcomm, XtNcallback,
+		  support_units_callback, INT_TO_XTPOINTER(punit->id));
     XtSetSensitive(pixcomm, TRUE);
   }
 
@@ -1845,7 +1845,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 
     XtRemoveAllCallbacks(pixcomm, XtNcallback);
     XtAddCallback(pixcomm, XtNcallback, 
-		  present_units_callback, (XtPointer)punit->id);
+		  present_units_callback, INT_TO_XTPOINTER(punit->id));
     XtSetSensitive(pixcomm, TRUE);
   }
 
@@ -2121,10 +2121,10 @@ void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 		      "Treasury contains %d gold."),
 		    unit_types[ut1].name, unit_types[ut2].name,
 		    value, game.player_ptr->economic.gold);
-        popup_message_dialog(toplevel, "upgradedialog", buf,
-                             unitupgrade_callback_yes, (XtPointer)(punit->id), 0,
-                             unitupgrade_callback_no, 0, 0,
-                             NULL);
+	popup_message_dialog(toplevel, "upgradedialog", buf,
+			     unitupgrade_callback_yes,
+			     INT_TO_XTPOINTER(punit->id), 0,
+			     unitupgrade_callback_no, 0, 0, NULL);
       } else {
         my_snprintf(buf, sizeof(buf),
 		    _("Upgrading %s to %s costs %d gold.\n"

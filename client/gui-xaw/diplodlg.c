@@ -246,8 +246,9 @@ static int fill_diplomacy_tech_menu(Widget popupmenu,
       Widget entry=
 	XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 				popupmenu, NULL);
-      XtAddCallback(entry, XtNcallback, diplomacy_dialog_tech_callback, 
-		    (XtPointer)(plr0->player_no*10000+plr1->player_no*100+i)); 
+      XtAddCallback(entry, XtNcallback, diplomacy_dialog_tech_callback,
+		    INT_TO_XTPOINTER(plr0->player_no * 10000 +
+				     plr1->player_no * 100 + i));
       flag=1;
     }
   }
@@ -285,10 +286,10 @@ static int fill_diplomacy_city_menu(Widget popupmenu,
     Widget entry=
       XtVaCreateManagedWidget(city_list_ptrs[j]->name, smeBSBObjectClass, 
 			      popupmenu, NULL);
-    XtAddCallback(entry, XtNcallback, diplomacy_dialog_city_callback, 
-		  (XtPointer)(city_list_ptrs[j]->id*1024
-			      + plr0->player_no*32
-			      + plr1->player_no));
+    XtAddCallback(entry, XtNcallback, diplomacy_dialog_city_callback,
+		  INT_TO_XTPOINTER(city_list_ptrs[j]->id * 1024
+				   + plr0->player_no * 32
+				   + plr1->player_no));
   }
   free(city_list_ptrs);
   return i;

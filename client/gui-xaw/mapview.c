@@ -1172,7 +1172,7 @@ void scrollbar_jump_callback(Widget w, XtPointer client_data,
 void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 			     XtPointer position_val)
 {
-  int position = (int) position_val, is_real;
+  int position = XTPOINTER_TO_INT(position_val), is_real;
 
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)

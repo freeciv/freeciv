@@ -362,8 +362,7 @@ void rates_scroll_jump_callback(Widget w, XtPointer client_data,
 void rates_scroll_scroll_callback(Widget w, XtPointer client_data,
 				  XtPointer position_val)
 {
-  int pos=(int)position_val;
-  int val;
+  int val, pos = XTPOINTER_TO_INT(position_val);
   
   if(w==rates_tax_scroll) {
     if(pos<0)

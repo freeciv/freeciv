@@ -1015,9 +1015,8 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 
     popup_message_dialog(toplevel, "upgradedialog", buf,
 			 upgrade_callback_yes,
-			 (XtPointer)(activeunits_type[ret->list_index]), 0,
-			 upgrade_callback_no, 0, 0,
-			 NULL);
+			 INT_TO_XTPOINTER(activeunits_type[ret->list_index]),
+			 0, upgrade_callback_no, 0, 0, NULL);
   }
 }
 

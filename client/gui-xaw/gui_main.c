@@ -405,7 +405,7 @@ void ui_main(int argc, char *argv[])
     XtVaSetValues(econ_label[i], XtNbitmap,
 		  get_citizen_pixmap(i<5?1:2), NULL);
     XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
-		  (XtPointer)i);  
+		  INT_TO_XTPOINTER(i));
   }
 		
   XtAddCallback(map_horizontal_scrollbar, XtNjumpProc, 

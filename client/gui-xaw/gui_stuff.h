@@ -38,4 +38,7 @@ Widget xaw_intl_string_width(Widget w);
 #define I_S(w)  xaw_intl_string(w)
 #define I_SW(w) xaw_intl_string_width(w)
 
+#define INT_TO_XTPOINTER(m_i)	((XtPointer)((long)(m_i)))
+#define XTPOINTER_TO_INT(m_p)	((int)((long)(m_p)))
+
 #endif  /* FC__GUI_STUFF_H */

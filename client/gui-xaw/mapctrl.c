@@ -91,9 +91,9 @@ static void name_new_city_callback(Widget w, XtPointer client_data,
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   input_dialog_create(toplevel, "shellnewcityname",
-    _("What should we call our new city?"), suggestname,
-    name_new_city_callback, (XtPointer)punit->id,
-    name_new_city_callback, (XtPointer)0);
+		      _("What should we call our new city?"), suggestname,
+		      name_new_city_callback, INT_TO_XTPOINTER(punit->id),
+		      name_new_city_callback, INT_TO_XTPOINTER(0));
 }
 
 /**************************************************************************

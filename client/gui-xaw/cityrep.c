@@ -346,7 +346,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 	  XtVaCreateManagedWidget(items[i].descr, smeBSBObjectClass,
 				  city_popupmenu, NULL);
       XtAddCallback(entry, XtNcallback, city_change_callback,
-		    (XtPointer) (items[i].cid));
+		    INT_TO_XTPOINTER(items[i].cid));
     }
 
     if (cids_used == 0)
@@ -373,7 +373,7 @@ void city_change_callback(Widget w, XtPointer client_data,
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
     struct packet_city_request packet;
-    cid my_cid = (cid) client_data;
+    cid my_cid = (cid) XTPOINTER_TO_INT(client_data);
     Boolean unit;
     int build_nr;
       
