@@ -87,8 +87,97 @@ Sat Jun  6 03:23:07 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
 - Fix typo in metaserver code, PRE_GAME_STATE instead of CLIENT_PRE_GAME_STATE
 - Fixed bugs with partisan creation, make it faster too
 - Submarines can no longer attack land based tiles. Thanks Peter Schaeffer!
-- Optimization in the AI code, in particular auto-settlers. 
+- Improved AI, reduced CPU usage, and more (Syela) :
 
+-- Changes that matter to regular players:
+  
+  Allowed non-AI players to set tech goals (goal label, goal widget,
+   PACKET_PLAYER_TECH_GOAL, pinfo->tech_goal)
+  Added food supply to city dialog and recentered dialog header
+  Added 'Export log' option to the Game menu (log_output_window)
+  Included Darren Smith's patch ('create' command) and changed ai_select_race to
+   be random unless names matched (Napoleon chooses French, Joe chooses randomly)
+  Properly initialized the void_tile for map_get_tile with y out of bounds
+  Changed some implementations of map_distance to real_map_distance
+  Added more goals to the races[], then almost obsoleted them with tech AI
+  Set did_buy to -1 in create_city to allow "Can't buy in new cities" message
+  Displaced the worker already on a tile where a city was created
+  Fixed a typo in happy_lux that devalued lux in cities with unhappy people
+  Fixed some typoes involving race_name_plural
+  Made sure goto started with a zoc-ok, non-attack move
+  Fixed a typo so triremes have a 50% chance of disappearing (instead of 49%)
+  Map_adjusted x in create_unit
+  Made attack messages more detailed
+  Made first tech a choose_goal_tech (big deal)
+  Made ai_advisor_choose_building the default in advisor_choose_build
+  Placed the displaced workers that used to become entertainers
+  Changed the turn sequence from auto_settlers, sniff_packets, end_turn to
+    shuffle_players, ai_start_turn, auto_settlers, sniff_packets, end_turn
+  
+  Wrote most of an AI ...
+  
+-- Changes related to reducing CPU usage by slightly increasing memory usage:
+  
+  Wrote init_move_costs, reset_move_costs, city_shield_bonus, city_tax_bonus,
+   city_science_bonus, set_city_shield_bonus, set_city_tax_bonus,
+   set_city_science_bonus, assign_settlers_player, assign_settlers
+  Added shield_bonus, tax_bonus, science_bonus to city struct
+  Added worked, assigned, move_cost to tile and implemented them
+  Obsoleted old is_already_assigned, is_worked_here
+  
+-- Changes that matter to code-hackers
+  
+  Moved ai_do_last_activities to the TOP of update_player_activities
+  Moved update_city_activities above update_tech so got_tech works now
+  Used set_worker_city instead of workarounds so ->worked worked
+  Used set_unit_activity instead of workarounds so ->assigned worked
+  Commented out some redundant checks in old auto_settler functs
+  Returned something useful in building_other_wonder
+  Made snide comments all over the code
+  Split up ai_manage_city, ai_do_activities, can_build_improvement,
+   handle_city_buy, set_trade_prod, add_buildings_effect
+  Wrote real_map_distance, sq_map_distance, could_build_improvement,
+   shuffle_players, could_unit_move_to_tile, really_handle_city_buy
+  
+-- Some behind the scenes elements of the AI
+  
+  Wrote advdomestic.c, advmilitary.c, ai_manage_buildings,
+   ai_city_choose_build, ai_choose_attacker,  unit_attack_desirability,
+   ai_choose_defender_limited, many utilities in aitech.c, ai_select_tech,
+   ai_manage_tech, ai_advisor_choose_building, ai_manage_explorer,
+   should_unit_change_homecity, unit_belligerence, unit_vulnerability,
+   reinforcements_value, ai_military_findvictim, ai_military_gothere,
+   unit_defensiveness, find_something_to_kill, probably more in ai/*.c,
+   city_tile_value, better_tile, wants_to_be_bigger, probably more.
+  Obsoleted old ai_city_choose_build, ai_spend_gold, best_tile, best_food_tile
+  Rewrote worst_elvis_tile, ai_find_elvis_pos, ai_make_elvis,
+    make_scientists_taxmen, ai_manage_taxes, ai_manage_government,
+    auto_settler_findwork
+  
+  Updated somewhat the comments in aihand.c to show what I'd done
+  Started ai_manage_city with a city_check_workers
+  Hacked ai_next_tech_goal to use my (not-yet-ready) ai_select_tech_goal
+  Correctly calculated agression in findtarget so pikemen don't attack
+   and legions on mountains do
+  Returned maxbuycost in ai_gold_reserve if the AI really needs money
+  Worked around savegame/cityspot bug but island_data will be obsolete soon
+  Forced military units idle at top and bottom of ai_manage_military
+  Forced military units to fortify if possible at bottom of ai_manage_military
+  Reset the ai_roles for military units every turn to prevent tunnel-vision
+  Added AIUNIT_EXPLORE for units to explore
+  Added building_want, danger, trade_want, grave_danger to city AI
+  Added maxbuycost, tech_want, tech_turns to player ai
+  Fixed ai_military_findjob so that the right unit defends cities and others don't
+   and to allow military units to explore (find huts, map-discover, etc.)
+  Fixed ai_military_attack to use my AI
+  Made the AI not place workers that would be unhappy
+  Aborted goto for AI units instead of attacking without using AI attack functs
+  Forced asess_danger for ai players and civ_score on game load
+  Lit all squares in city radius when the AI conquers a city
+  Hijacked content[0] for my AI (building_want needs it)
+  Wrote the worker_loop and added prodneed to it
+  Forced ai_next_tech_goal in update_tech for AI
+  
 1.5.4 
 - Small, very basic ai has been included. It needs a lot of work. Any
 volunteers? 
