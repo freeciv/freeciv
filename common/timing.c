@@ -248,7 +248,7 @@ void start_timer(struct timer *t)
   }
   if (t->type == TIMER_CPU) {
     t->start.c = clock();
-    if (t->start.c == -1) {
+    if (t->start.c == (clock_t) -1) {
       report_clock_failed(t);
       return;
     }
@@ -261,7 +261,7 @@ void start_timer(struct timer *t)
     }
 #else
     t->start.t = time(NULL);
-    if (t->start.t == -1) {
+    if (t->start.t == (time_t) -1) {
       report_time_failed(t);
       return;
     }
@@ -298,7 +298,7 @@ void stop_timer(struct timer *t)
   }
   if (t->type == TIMER_CPU) {
     clock_t now = clock();
-    if (now == -1) {
+    if (now == (clock_t) -1) {
       report_clock_failed(t);
       return;
     }
@@ -325,7 +325,7 @@ void stop_timer(struct timer *t)
     t->start.tv = now;
 #else
     time_t now = time(NULL);
-    if (now == -1) {
+    if (now == (time_t) -1) {
       report_time_failed(t);
       return;
     }
