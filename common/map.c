@@ -1402,35 +1402,51 @@ int map_num_tiles(void)
   return map.xsize * map.ysize;
 }
 
-/**************************************************************************
-Topology function to find the vector which has the minimum "real"
-distance between the map positions (x0, y0) and (x1, y1).  If there is
-more than one vector with equal distance, no guarantee is made about
-which is found.
+/****************************************************************************
+  Topology function to find the vector which has the minimum "real"
+  distance between the map positions (x0, y0) and (x1, y1).  If there is
+  more than one vector with equal distance, no guarantee is made about
+  which is found.
 
-Real distance is defined as the larger of the distances in the x and y
-direction; since units can travel diagonally this is the "real" distance
-a unit has to travel to get from point to point.
+  Real distance is defined as the larger of the distances in the x and y
+  direction; since units can travel diagonally this is the "real" distance
+  a unit has to travel to get from point to point.
 
-(See also: real_map_distance, map_distance, and sq_map_distance.)
+  (See also: real_map_distance, map_distance, and sq_map_distance.)
 
-The ranges of the return values are currently:
--map.xsize/2 < dx <= map.xsize/2
--map.ysize   < dy <  map.ysize
-**************************************************************************/
+  With the standard topology the ranges of the return value are:
+    -map.xsize/2 <= dx <= map.xsize/2
+    -map.ysize   <  dy <  map.ysize
+****************************************************************************/
 void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1)
 {
-  CHECK_MAP_POS(x0, y0);
-  CHECK_MAP_POS(x1, y1);
+  if (topo_has_flag(TF_WRAPX) || topo_has_flag(TF_WRAPY)) {
+    /* Wrapping is done in native coordinates. */
+    map_to_native_pos(&x0, &y0, x0, y0);
+    map_to_native_pos(&x1, &y1, x1, y1);
 
-  *dx = x1 - x0;
+    /* Find the "native" distance vector. This corresponds closely to the
+     * map distance vector but is easier to wrap. */
+    *dx = x1 - x0;
+    *dy = y1 - y0;
+    if (topo_has_flag(TF_WRAPX)) {
+      /* Wrap dx to be in [-map.xsize/2, map.xsize/2). */
+      *dx = WRAP(*dx + map.xsize / 2, map.xsize) - map.xsize / 2;
+    }
+    if (topo_has_flag(TF_WRAPY)) {
+      /* Wrap dy to be in [-map.ysize/2, map.ysize/2). */
+      *dy = WRAP(*dy + map.ysize / 2, map.ysize) - map.ysize / 2;
+    }
 
-  if (*dx > map.xsize / 2) {
-    *dx -= map.xsize;
-  } else if (*dx <= -map.xsize / 2) {
-    *dx += map.xsize;
+    /* Convert the native delta vector back to a pair of map positions. */
+    x1 = x0 + *dx;
+    y1 = y0 + *dy;
+    native_to_map_pos(&x0, &y0, x0, y0);
+    native_to_map_pos(&x1, &y1, x1, y1);
   }
 
+  /* Find the final (map) vector. */
+  *dx = x1 - x0;
   *dy = y1 - y0;
 }
 
