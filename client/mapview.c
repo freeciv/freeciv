@@ -1364,18 +1364,19 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       pixmap_put_overlay_tile(pm, x, y, DESERTMINE_TILE);
   }
 
-  if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
-    int adjacent = (rail_card_tileno|road_card_tileno);
-    if (draw_diagonal_roads) {
-      adjacent |= (rail_semi_tileno|road_semi_tileno);
-    }
-    if(!adjacent) {
-      if(tspecial & S_RAILROAD) {
-	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES);
-      } else if(tspecial & S_ROAD) {
-	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES);
-      }
-    }
+  if (tspecial & S_RAILROAD) {
+    int adjacent = rail_card_tileno;
+    if (draw_diagonal_roads)
+      adjacent |= rail_semi_tileno;
+    if (!adjacent)
+      pixmap_put_overlay_tile(pm, x, y, RAIL_TILES);
+  }
+  else if (tspecial & S_ROAD) {
+    int adjacent = (rail_card_tileno | road_card_tileno);
+    if (draw_diagonal_roads)
+      adjacent |= (rail_semi_tileno | road_semi_tileno);
+    if (!adjacent)
+      pixmap_put_overlay_tile(pm, x, y, ROAD_TILES);
   }
 
 #if 00000
