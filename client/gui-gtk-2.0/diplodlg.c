@@ -365,7 +365,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     gtk_widget_show_all(item);
   }
 }
-                                                                                
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -550,10 +550,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   menubar = gtk_menu_bar_new();
   gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);
-                                                                                
+
   menu = gtk_menu_new();
   pdialog->menu0 = menu;
-                                                                                
+
   menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
 		  		gtk_image_new_from_stock(GTK_STOCK_ADD,
@@ -562,7 +562,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr0);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
-                                                                                
+
 
   /* them. */
   vbox = gtk_vbox_new(FALSE, 18);
@@ -606,10 +606,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   menubar = gtk_menu_bar_new();
   gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);
-                                                                                
+
   menu = gtk_menu_new();
   pdialog->menu1 = menu;
-                                                                                
+
   menuitem = gtk_image_menu_item_new_with_mnemonic(_("_Add Clause..."));
   gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(menuitem),
 		  		gtk_image_new_from_stock(GTK_STOCK_ADD,

@@ -843,7 +843,7 @@ struct server_list *get_lan_server_list(void) {
     pserver->status = mystrdup(status);
     pserver->players = mystrdup(players);
     pserver->metastring = mystrdup(metastring);
-                                                                                
+
     server_list_insert(lan_servers, pserver);
   } else {
     return lan_servers;

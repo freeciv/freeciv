@@ -455,7 +455,7 @@ tiles = { "row", "column", "tag"
  17,  9, "city.t_food_9"
 
 ; Veteran Levels: up to 9 military honors for experienced units
-                                                                                
+
  17, 10, "unit.vet_0"
  17, 11, "unit.vet_1"
  17, 12, "unit.vet_2"

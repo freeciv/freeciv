@@ -1289,7 +1289,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
     N_("Literacy\n(%)"), 
     N_("Spaceship\n")
   };
-                                                                                
+
   static GType model_types[NUM_SCORE_COLS] = {
     G_TYPE_STRING,
     G_TYPE_INT,
