@@ -1174,7 +1174,7 @@ static unsigned char *put_city_map(unsigned char *buffer, char *str)
 **************************************************************************/
 static void iget_city_map(struct pack_iter *piter, char *str, int navail)
 {
-  static const int index[21]=
+  static const int index[20]=
       {1,2,3, 5,6,7,8,9, 10,11, 13,14, 15,16,17,18,19, 21,22,23 };
   int i,j;
 

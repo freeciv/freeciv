@@ -680,7 +680,7 @@ static void raze_city(struct city *pcity)
 The following has to be called every time a city, pcity, has changed
 owner to update the city's traderoutes.
 **************************************************************************/
-static void reestablish_city_trade_routes(struct city *pcity, int cities[4]) 
+static void reestablish_city_trade_routes(struct city *pcity, int cities[]) 
 {
   int i;
   struct city *oldtradecity;

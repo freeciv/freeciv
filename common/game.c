@@ -437,7 +437,7 @@ int civ_score(struct player *pplayer)
   int i;
   struct city *pcity;
   int landarea, settledarea;
-  static struct claim_map cmap = { NULL, NULL, NULL };
+  static struct claim_map cmap = { NULL, NULL, NULL,NULL };
 
   pplayer->score.happy=0;                       /* done */
   pplayer->score.content=0;                     /* done */   
