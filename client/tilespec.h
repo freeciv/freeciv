@@ -266,6 +266,7 @@ struct named_sprites {
 };
 
 extern struct named_sprites sprites;
+extern int fogstyle;
 
 struct Sprite *get_citizen_sprite(struct citizen_type type,
 				  int citizen_index,

@@ -25,6 +25,9 @@ flag_offset_y = 2
 ; Do not blend hills and mountains together.
 is_mountainous = 0
 
+; Use fogstyle 1 (old non-iso style)
+fogstyle = 1
+
 ; Use roadstyle 1 (old non-iso style)
 roadstyle = 1
 

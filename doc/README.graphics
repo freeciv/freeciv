@@ -104,6 +104,14 @@ options include:
                           2 : One sprite is drawn to show roads in all
                               directions.  There are thus 256 road and 256
                               rail sprites (64 for a hex tileset).
+  fogstyle              : Specifies how fog is drawn.
+                          0 : A single fog sprite is drawn on top of all
+                              other sprites for fogged tiles.  The
+                              tx.fog sprite is used for this.
+                          1 : Each sprite for a fogged tile is drawn fogged.
+                              The tx.fog sprite may be used for the fog
+                              drawing (but clipped by the mask of the
+                              underlying sprite).
   darkness_style        : Specifies how "encroaching darkness" is drawn.
                           0 : No darkness.
                           1 : A single sprite can be split into 4 parts, each
