@@ -15,6 +15,10 @@ Freeciv - Copyright (C) 2003 - The Freeciv Project
 
 #include "shared.h"
 
+#if defined HAVE_WORKING_FORK
+# define CLIENT_CAN_LAUNCH_SERVER
+#endif
+
 bool client_start_server(void);
 void client_kill_server(void);
 bool is_server_running(void);

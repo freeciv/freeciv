@@ -753,7 +753,11 @@ void gui_server_connect(void)
     return;
   }
 
+#ifdef CLIENT_CAN_LAUNCH_SERVER
   next_page = NEW_PAGE;
+#else
+  next_page = NETWORK_PAGE;
+#endif
   dialog_config = LOGIN_TYPE;
 
   dialog = gtk_dialog_new_with_buttons(NULL,
@@ -802,6 +806,7 @@ void gui_server_connect(void)
   vbox = gtk_vbutton_box_new();
   gtk_container_add(GTK_CONTAINER(align), vbox);
 
+#ifdef CLIENT_CAN_LAUNCH_SERVER
   radio = gtk_radio_button_new_with_mnemonic(group, _("_Start New Game"));
   group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio));
   gtk_container_add(GTK_CONTAINER(vbox), radio);
@@ -815,6 +820,7 @@ void gui_server_connect(void)
   
   g_signal_connect(radio, "toggled",G_CALLBACK(radio_command_callback),
                    GINT_TO_POINTER(LOAD_PAGE));
+#endif
 
   radio = gtk_radio_button_new_with_mnemonic(group,
       					     _("_Connect to Network Game"));
