@@ -285,7 +285,7 @@ static int check_native_vsnprintf(void)
   int ret;
 
   ret = test_snprintf(buf, ntrunc, "%s", test_str);
-#if DEBUG
+#ifdef DEBUG
   if (buf[ntrunc] != one_past) {
     fprintf(stderr, "debug: test_snprintf wrote past n\n");
   } else if (buf[ntrunc-1] != '\0') {

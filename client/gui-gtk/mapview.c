@@ -21,9 +21,7 @@
 #include <unistd.h>
 #endif
 
-#include <assert.h>
 #include <gtk/gtk.h>
-
 #include <gdk_imlib.h>
 
 #include "fcintl.h"
@@ -109,7 +107,6 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 static void put_overlay_tile_gpixmap(GtkPixcomm *pixmap,
 				     int canvas_x, int canvas_y,
 				     struct Sprite *ssprite);
-static void show_city_descriptions(void);
 static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 			    int canvas_x, int canvas_y);
 static void put_line(GdkDrawable *pm, int canvas_src_x, int canvas_src_y, int dir);

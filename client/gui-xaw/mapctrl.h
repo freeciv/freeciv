@@ -31,6 +31,5 @@ void center_on_unit(void);
 void update_line(int window_x, int window_y);
 
 extern int city_workers_color;
-extern struct city *city_workers_display;
 
 #endif  /* FC__MAPCTRL_H */
