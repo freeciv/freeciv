@@ -214,7 +214,8 @@ int assess_danger(struct city *pcity)
 /* After much contemplation, I've decided the answer is sometimes -- Syela */
       city_list_iterate(aplayer->cities, acity)
         if (acity->is_building_unit &&
-            build_points_left(acity) <= acity->shield_surplus) {
+            build_points_left(acity) <= acity->shield_surplus &&
+	    ai_fuzzy(pplayer,1)) {
           virtualunit.owner = i;
           virtualunit.x = acity->x;
           virtualunit.y = acity->y;
@@ -857,7 +858,8 @@ creating any other problems that are worse. -- Syela */
         && (danger < 101 || unit_list_size(&ptile->units) > 1 ||
 /* walls before a second defender, unless we need it RIGHT NOW */
          (!pcity->ai.grave_danger && /* I'm not sure this is optimal */
-         pplayer->economic.gold > (80 - pcity->shield_stock) * 2))) {
+         pplayer->economic.gold > (80 - pcity->shield_stock) * 2)) &&
+	ai_fuzzy(pplayer,1)) {
 /* or we can afford just to buy walls.  Added 980805 -- Syela */
       choice->choice = B_CITY; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_CITY]; /* hacked by assess_danger */
@@ -865,14 +867,16 @@ creating any other problems that are worse. -- Syela */
       choice->type = 0;
     } else if (pcity->ai.building_want[B_COASTAL] && def &&
         can_build_improvement(pcity, B_COASTAL) &&
-        (danger < 101 || unit_list_size(&ptile->units) > 1)) {
+        (danger < 101 || unit_list_size(&ptile->units) > 1) &&
+	ai_fuzzy(pplayer,1)) {
       choice->choice = B_COASTAL; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_COASTAL]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;
       choice->type = 0;
     } else if (pcity->ai.building_want[B_SAM] && def &&
         can_build_improvement(pcity, B_SAM) &&
-        (danger < 101 || unit_list_size(&ptile->units) > 1)) {
+        (danger < 101 || unit_list_size(&ptile->units) > 1) &&
+	ai_fuzzy(pplayer,1)) {
       choice->choice = B_SAM; /* great wall is under domestic */
       choice->want = pcity->ai.building_want[B_SAM]; /* hacked by assess_danger */
       if (!urgency && choice->want > 100) choice->want = 100;

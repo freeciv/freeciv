@@ -176,6 +176,7 @@ int ai_calc_city_buy(struct city *pcity)
 /**************************************************************************
 .. Spend money
 **************************************************************************/
+#ifdef UNUSED
 void ai_spend_gold(struct player *pplayer, int gold)
 { /* obsoleted by Syela */
   struct city *pc2=NULL;
@@ -208,7 +209,7 @@ void ai_spend_gold(struct player *pplayer, int gold)
     pplayer->economic.gold -= gold;
   }
 }
- 
+#endif 
 
 
 /**************************************************************************
@@ -248,7 +249,7 @@ void ai_manage_taxes(struct player *pplayer)
 
   if (!trade) { /* can't return right away - thanks for the evidence, Muzz */
     city_list_iterate(pplayer->cities, pcity) 
-      if (ai_fix_unhappy(pcity))
+      if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
         ai_scientists_taxmen(pcity);
     city_list_iterate_end;
     return; /* damn division by zero! */
@@ -262,7 +263,8 @@ void ai_manage_taxes(struct player *pplayer)
 /* printf("Does %s want to be bigger? %d\n", pcity->name, wants_to_be_bigger(pcity)); */
     if (pcity->size > 4 && pplayer->government >= G_REPUBLIC &&
         pcity->food_surplus > 0 &&
-        !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity)) {
+        !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity) &&
+	ai_fuzzy(pplayer,1)) {
 /*      printf("%d happy people in %s\n", pcity->ppl_happy[4], pcity->name);*/
       n = (((pcity->size + 1)>>1) - pcity->ppl_happy[4]) * 20;
       if (n > pcity->ppl_content[1] * 20) n += (n - pcity->ppl_content[1] * 20);
@@ -367,7 +369,7 @@ pplayer->name, trade, expense, m, n);*/
     city_refresh(pcity);
     add_adjust_workers(pcity);
     city_refresh(pcity);
-    if (ai_fix_unhappy(pcity))
+    if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
       ai_scientists_taxmen(pcity);
     if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
         pcity->food_stock + pcity->food_surplus < 0) 

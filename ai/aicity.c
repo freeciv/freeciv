@@ -273,7 +273,7 @@ void ai_new_spend_gold(struct player *pplayer)
     bestchoice.type = 0;
     bestchoice.choice = 0;
     city_list_iterate(pplayer->cities, acity)
-      if (acity->ai.choice.want > bestchoice.want) {
+      if (acity->ai.choice.want > bestchoice.want && ai_fuzzy(pplayer,1)) {
         bestchoice.choice = acity->ai.choice.choice;
         bestchoice.want = acity->ai.choice.want;
         bestchoice.type = acity->ai.choice.type;
@@ -290,7 +290,8 @@ void ai_new_spend_gold(struct player *pplayer)
         did_upgrade = 0;
 /* printf("%s wants %s, %s -> %s\n", pcity->name, unit_types[bestchoice.choice].name, 
 unit_types[punit->type].name, unit_types[id].name); */
-        if (id == bestchoice.choice) { /* and I can simply upgrade a unit I already have */
+        if (id == bestchoice.choice && ai_fuzzy(pplayer,1)) {
+	  /* and I can simply upgrade a unit I already have */
 /* printf("Trying to upgrade in %s.\n", pcity->name); */
           cost = unit_upgrade_price(pplayer, punit->type, id);
           if (cost < buycost) { /* and the upgrade would be cheaper */
@@ -309,9 +310,9 @@ unit_types[punit->type].name, unit_types[id].name); */
             }
           }
         }
-        if (id == bestchoice.choice || (punit->type == U_WARRIORS &&
+        if ((id == bestchoice.choice || (punit->type == U_WARRIORS &&
             bestchoice.choice == U_PHALANX) || (punit->type == U_PHALANX &&
-            bestchoice.choice == U_MUSKETEERS))  {
+            bestchoice.choice == U_MUSKETEERS)) && ai_fuzzy(pplayer,1))  {
           if (!did_upgrade) { /* might want to disband */
             build = pcity->shield_stock + (get_unit_type(punit->type)->build_cost>>1);
             total = get_unit_type(bestchoice.choice)->build_cost;
@@ -355,7 +356,10 @@ printf("%s is DOOMED!\n", pcity->name);
       }
 #endif
       else if (pplayer->economic.gold >= buycost && (!frugal || bestchoice.want > 200)) {
-        really_handle_city_buy(pplayer, pcity); /* adequately tested now */
+	if (ai_fuzzy(pplayer,1) || (pcity->ai.grave_danger
+				    && !assess_defense(pcity))) {
+	  really_handle_city_buy(pplayer, pcity); /* adequately tested now */
+	}
       } else if (bestchoice.type || !is_wonder(bestchoice.choice)) {
 /*        printf("%s wants %s but can't afford to buy it (%d < %d).\n",
 pcity->name, (bestchoice.type ? unit_name(bestchoice.choice) :
@@ -405,7 +409,8 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
       pcity = map_get_city(punit->x, punit->y);
       if (!pcity) continue;
       cost = unit_upgrade_price(pplayer, punit->type, id);
-      if (cost < pplayer->economic.gold) { /* let's just upgrade */
+      if (cost < pplayer->economic.gold && ai_fuzzy(pplayer,1)) {
+	/* let's just upgrade */
         pplayer->economic.gold -= cost;
         if (punit->hp==get_unit_type(punit->type)->hp)
           punit->hp=get_unit_type(id)->hp;
@@ -725,7 +730,7 @@ void ai_manage_city(struct player *pplayer, struct city *pcity)
 {
   city_check_workers(pplayer, pcity); /* no reason not to, many reasons to do so! */
   auto_arrange_workers(pcity);
-  if (ai_fix_unhappy(pcity))
+  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);
   ai_sell_obsolete_buildings(pcity);
 /* ai_city_choose_build(pplayer, pcity); -- moved by Syela */
@@ -931,7 +936,7 @@ pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_s
   }
   city_check_workers(pplayer, pcity);
   auto_arrange_workers(pcity);
-  if (ai_fix_unhappy(pcity))
+  if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);
   if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
       pcity->food_stock + pcity->food_surplus < 0) printf("Unresolved.\n");
@@ -954,7 +959,7 @@ printf("%s's %s is unhappy and causing unrest, disbanding it.\n", pcity->name, u
     city_check_workers(pplayer, acity);
     add_adjust_workers(acity);
     city_refresh(acity);
-    if (ai_fix_unhappy(acity))
+    if (ai_fix_unhappy(acity) && ai_fuzzy(pplayer,1))
       ai_scientists_taxmen(acity);
 /*printf("Readjusting workers in %s\n", acity->name);*/
     send_city_info(city_owner(acity), acity, 1);

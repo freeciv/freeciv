@@ -112,7 +112,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
           warmap.cost[map_adjust_x(x + i)][y + j] < best &&
           (!ai_handicap(pplayer, H_HUTS) || map_get_known(x+i, y+j, pplayer)) &&
           map_get_continent(x + i, y + j) == con &&
-          tile_is_accessible(punit, x+i, y+j)) {
+          tile_is_accessible(punit, x+i, y+j) && ai_fuzzy(pplayer,1)) {
             dest_x = map_adjust_x(x + i);
             dest_y = y + j;
             best = warmap.cost[dest_x][dest_y];
@@ -398,7 +398,7 @@ int is_my_turn(struct unit *punit, struct unit *pdef)
         if (!d) return 1; /* Thanks, Markus -- Syela */
         cur = unit_belligerence_primitive(aunit) *
               get_virtual_defense_power(punit->type, pdef->type, pdef->x, pdef->y) / d;
-        if (cur > val) return(0);
+        if (cur > val && ai_fuzzy(get_player(punit->owner),1)) return(0);
       unit_list_iterate_end;
     }
   }
@@ -468,7 +468,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
           if (a && is_my_turn(punit, pdef)) {
             e = ((b * a - f * d) * SHIELD_WEIGHTING / (a + d) - c * SHIELD_WEIGHTING);
 /* no need to amortize! */
-            if (e > best) {
+            if (e > best && ai_fuzzy(pplayer,1)) {
 /*printf("Better than %d is %d (%s)\n", best, e, unit_types[pdef->type].name);*/
               best = e; *dest_y = yy[j]; *dest_x = xx[i];
             } /*else printf("NOT better than %d is %d (%s)\n", best, e,
@@ -721,14 +721,14 @@ punit->x, punit->y, buddy->x, buddy->y, d, def);*/
     unit_list_iterate(pplayer->units, body)
       if (body->ai.charge == buddy->id) def = 0;
     unit_list_iterate_end;
-    if (def > val) { *aunit = buddy; val = def; }
+    if (def > val && ai_fuzzy(pplayer,1)) { *aunit = buddy; val = def; }
   unit_list_iterate_end;
   city_list_iterate(pplayer->cities, mycity)
     if (!goto_is_sane(pplayer, punit, mycity->x, mycity->y, 1)) continue;
     if (!mycity->ai.urgency) continue;
     d = unit_move_turns(punit, mycity->x, mycity->y);
     def = (mycity->ai.danger - assess_defense_quadratic(mycity))>>d;
-    if (def > val) { *acity = mycity; val = def; }
+    if (def > val && ai_fuzzy(pplayer,1)) { *acity = mycity; val = def; }
   city_list_iterate_end;
 /*printf("%s@(%d,%d) looking for charge; %d/%d\n", unit_types[punit->type].name,
 punit->x, punit->y, val, val * 100 / u);*/
@@ -817,7 +817,7 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
     val = look_for_charge(pplayer, punit, &aunit, &acity);
 
   }
-  if (q > val) {
+  if (q > val && ai_fuzzy(pplayer,1)) {
     punit->ai.ai_role = AIUNIT_DEFEND_HOME;
     return;
   }
@@ -974,11 +974,11 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
             !map_get_known(acity->x, acity->y, pplayer)) continue;
         sanity = (goto_is_sane(pplayer, punit, acity->x, acity->y, 1) &&
                  warmap.cost[acity->x][acity->y] < maxd); /* for Tangier->Malaga */
-        if ((is_ground_unit(punit) &&
+        if (ai_fuzzy(pplayer,1) && ((is_ground_unit(punit) &&
           ((sanity) || 
           ((ferryboat || harborcity) &&
                       warmap.seacost[acity->x][acity->y] <= 6 * THRESHOLD))) ||
-          (is_sailing_unit(punit) && warmap.seacost[acity->x][acity->y] < maxd)) {
+          (is_sailing_unit(punit) && warmap.seacost[acity->x][acity->y] < maxd))) {
           if ((pdef = get_defender(pplayer, punit, acity->x, acity->y))) {
             d = unit_vulnerability(punit, pdef);
             b = unit_types[pdef->type].build_cost + 40;
@@ -1063,7 +1063,7 @@ unit_types[punit->type].name, punit->x, punit->y,
 unit_types[ferryboat->type].name, bx, by,
 acity->name, acity->x, acity->y, sanity, c, e, best);*/
 
-          if (e > best) {
+          if (e > best && ai_fuzzy(pplayer,1)) {
             if (punit->id && is_ground_unit(punit) &&
                 !unit_flag(punit->type, F_MARINES) &&
                 map_get_continent(acity->x, acity->y) != con) {
@@ -1095,13 +1095,14 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
         if (ai_handicap(pplayer, H_TARGETS) &&
             !map_get_known(aunit->x, aunit->y, pplayer)) continue;
         if (unit_flag(aunit->type, F_CARAVAN) && !punit->id) continue; /* kluge */
-        if (aunit == get_defender(pplayer, punit, aunit->x, aunit->y) &&
+        if (ai_fuzzy(pplayer,1) &&
+	    (aunit == get_defender(pplayer, punit, aunit->x, aunit->y) &&
            ((is_ground_unit(punit) &&
                 map_get_continent(aunit->x, aunit->y) == con &&
                 warmap.cost[aunit->x][aunit->y] < maxd) ||
             (is_sailing_unit(punit) &&
                 goto_is_sane(pplayer, punit, aunit->x, aunit->y, 1) && /* Thanks, Damon */
-                warmap.seacost[aunit->x][aunit->y] < maxd))) {
+                warmap.seacost[aunit->x][aunit->y] < maxd)))) {
           d = unit_vulnerability(punit, aunit);
 
           b = unit_types[aunit->type].build_cost;
@@ -1121,7 +1122,7 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
             a0 = amortize(b0, MAX(1, c));
             e = ((a0 * b0) / (MAX(1, b0 - a0))) * 100 / (fprime * MORT);
           } else e = 0;
-          if (e > best) {
+          if (e > best && ai_fuzzy(pplayer,1)) {
             aa = a; bb = b; cc = c; dd = d;
             best = e; bestb0 = b0;
             *x = aunit->x;
@@ -1293,7 +1294,8 @@ punit->id, punit->x, punit->y, p, n);*/
   unit_list_iterate(pplayer->units, aunit)
 /*    if (aunit->ai.ferryboat == punit->id && warmap.seacost[aunit->x][aunit->y] < best) {*/
     if (aunit->ai.ferryboat && warmap.seacost[aunit->x][aunit->y] < best &&
-          !is_transporter_with_free_space(pplayer, aunit->x, aunit->y)) {
+          !is_transporter_with_free_space(pplayer, aunit->x, aunit->y) &&
+	  ai_fuzzy(pplayer,1)) {
 /*printf("Found a friend %d@(%d, %d)\n", aunit->id, aunit->x, aunit->y);*/
       x = aunit->x;
       y = aunit->y;

@@ -766,7 +766,7 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela */
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
         } else v2 = 0;
-        if (v2>v || (v2 == v && val > ww)) {
+        if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
 /*printf("Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d\n",
 gx, gy, v, x, y, v2, d, b);*/
 	  t=ACTIVITY_IRRIGATE;
@@ -780,7 +780,7 @@ gx, gy, v, x, y, v2, d, b);*/
           a = amortize(b, d);
           v2 = ((a * b) / (MAX(1, b - a)))>>6;
         } else v2 = 0;
-	if (v2>v || (v2 == v && val > ww)) {
+	if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
 /*printf("Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d\n",
 gx, gy, v, x, y, v2, d, b);*/
 	  t=ACTIVITY_MINE;
@@ -797,7 +797,7 @@ gx, gy, v, x, y, v2, d, b);*/
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
           } else v2 = 0;
-          if (v2>v || (v2 == v && val > ww)) {
+	  if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
 /*printf("Replacing (%d, %d) = %d with (%d, %d) R=%d d=%d, b=%d\n",
 gx, gy, v, x, y, v2, d, b);*/
 	    t=ACTIVITY_ROAD;
@@ -812,7 +812,7 @@ gx, gy, v, x, y, v2, d, b);*/
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
           } else v2 = 0;
-          if (v2>v || (v2 == v && val > ww)) {
+	  if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
   	    t=ACTIVITY_ROAD;
 	    v=v2; gx=x; gy=y; ww=val;
           }
@@ -825,7 +825,7 @@ gx, gy, v, x, y, v2, d, b);*/
             a = amortize(b, d);
             v2 = ((a * b) / (MAX(1, b - a)))>>6;
           } else v2 = 0;
-          if (v2>v || (v2 == v && val > ww)) {
+	  if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
   	    t=ACTIVITY_RAILROAD;
 	    v=v2; gx=x; gy=y; ww=val;
           }
@@ -892,7 +892,7 @@ in k_s_w/f_s_t_k, but only if find_boat succeeded */
 /* without this, the computer will go 6-7 tiles from X to build a city at Y */
           d *= 2;
 /* and then build its NEXT city halfway between X and Y. -- Syela */
-          z = city_desirability(x, y);
+          z = city_desirability(x, y) * ai_fuzzy(pplayer,1);
           v2 = amortize(z, d);
           
           b = (food * FOOD_WEIGHTING) * MORT;
