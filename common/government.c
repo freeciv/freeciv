@@ -155,12 +155,8 @@ struct government *get_government(int gov)
 ***************************************************************/
 struct government *get_gov_pplayer(struct player *pplayer)
 {
-  int gov;
-  
   assert(pplayer);
-  gov = pplayer->government;
-  assert(game.government_count > 0 && gov >= 0 && gov < game.government_count);
-  return &governments[gov];
+  return get_government(pplayer->government);
 }
 
 /***************************************************************
@@ -168,12 +164,8 @@ struct government *get_gov_pplayer(struct player *pplayer)
 ***************************************************************/
 struct government *get_gov_iplayer(int player_num)
 {
-  int gov;
-  
   assert(player_num >= 0 && player_num < game.nplayers);
-  gov = game.players[player_num].government;
-  assert(game.government_count > 0 && gov >= 0 && gov < game.government_count);
-  return &governments[gov];
+  return get_government(game.players[player_num].government);
 }
 
 /***************************************************************
