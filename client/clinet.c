@@ -82,6 +82,19 @@ extern char metaserver[];
 /**************************************************************************
 ...
 **************************************************************************/
+static void close_socket_callback(struct connection *pc)
+{
+  append_output_window(_("Lost connection to server!"));
+  freelog(LOG_NORMAL, "lost connection to server");
+  close(pc->sock);
+  remove_net_input();
+  popdown_races_dialog(); 
+  set_client_state(CLIENT_PRE_GAME_STATE);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 int connect_to_server(char *name, char *hostname, int port,
 		      char *errbuf, int n_errbuf)
 {
@@ -137,6 +150,7 @@ int connect_to_server(char *name, char *hostname, int port,
   /* gui-dependent details now in gui_main.c: */
   add_net_input(aconnection.sock);
   
+  close_socket_set_callback(close_socket_callback);
 
   /* now send join_request package */
 
@@ -179,12 +193,7 @@ void input_from_server(int fid)
     }
   }
   else {
-    append_output_window(_("Lost connection to server!"));
-    freelog(LOG_NORMAL, "lost connection to server");
-    close(fid);
-    remove_net_input();
-    popdown_races_dialog(); 
-    set_client_state(CLIENT_PRE_GAME_STATE);
+    close_socket_callback(&aconnection);
   }
 }
 
