@@ -370,9 +370,9 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
 
   if (!unit_flag(punit, F_UNDISBANDABLE)) { /* refuse to kill ourselves */
     if (pcity) {
-      pcity->shield_stock += (unit_type(punit)->build_cost/2);
+      pcity->shield_stock += unit_disband_shields(punit->type);
       /* If we change production later at this turn. No penalty is added. */
-      pcity->disbanded_shields += (unit_type(punit)->build_cost/2);
+      pcity->disbanded_shields += unit_disband_shields(punit->type);
 
       /* Note: Nowadays it's possible to disband unit in allied city and
        * your ally receives those shields. Should it be like this? Why not?
@@ -1105,8 +1105,8 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
     return;
   }
 
-  pcity_dest->shield_stock += unit_type(punit)->build_cost;
-  pcity_dest->caravan_shields += unit_type(punit)->build_cost;
+  pcity_dest->shield_stock += unit_build_shield_cost(punit->type);
+  pcity_dest->caravan_shields += unit_build_shield_cost(punit->type);
 
   conn_list_do_buffer(&pplayer->connections);
 

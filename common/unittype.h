@@ -179,7 +179,7 @@ struct unit_type {
   char sound_fight_alt[MAX_LEN_NAME];
   struct Sprite *sprite;
   enum unit_move_type move_type;
-  int build_cost;
+  int build_cost;			/* Use wrappers to access this. */
   int pop_cost;  /* number of workers the unit contains (e.g., settlers, engineers)*/
   int attack_strength;
   int defense_strength;
@@ -227,7 +227,9 @@ bool is_air_unittype(Unit_Type_id id);
 bool is_heli_unittype(Unit_Type_id id);
 bool is_ground_unittype(Unit_Type_id id);
 
-int unit_value(Unit_Type_id id);
+int unit_build_shield_cost(Unit_Type_id id);
+int unit_buy_gold_cost(Unit_Type_id id, int shields_in_stock);
+int unit_disband_shields(Unit_Type_id id);
 int unit_pop_value(Unit_Type_id id);
 
 const char *unit_name(Unit_Type_id id);

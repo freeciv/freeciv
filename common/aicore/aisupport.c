@@ -109,17 +109,17 @@ int city_gold_worth(struct city *pcity)
   unit_list_iterate(pcity->units_supported, punit) {
     if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       if (can_build_unit_direct(pcity, unit_type(punit)->obsoleted_by)) {
-        worth += unit_type(punit)->build_cost / 4; /* obsolete */
+        worth += unit_disband_shields(punit->type) / 2; /* obsolete */
       } else {
-        worth += unit_type(punit)->build_cost / 2; /* good stuff */
+        worth += unit_disband_shields(punit->type); /* good stuff */
       }
     }
   } unit_list_iterate_end;
   built_impr_iterate(pcity, impr) {
     if (improvement_types[impr].is_wonder && !wonder_obsolete(impr)) {
-      worth += improvement_types[impr].build_cost;
+      worth += impr_sell_gold(impr);
    } else {
-      worth += (improvement_types[impr].build_cost / 4);
+      worth += impr_sell_gold(impr) / 4;
     }
   } built_impr_iterate_end;
   if (city_unhappy(pcity)) {

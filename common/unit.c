@@ -231,11 +231,11 @@ bool unit_can_help_build_wonder(struct unit *punit, struct city *pcity)
       && !same_pos(punit->x, punit->y, pcity->x, pcity->y))
     return FALSE;
 
-  return unit_flag(punit, F_HELP_WONDER)
-         && punit->owner == pcity->owner
-         && !pcity->is_building_unit
-         && is_wonder(pcity->currently_building)
-         && pcity->shield_stock < improvement_value(pcity->currently_building);
+  return (unit_flag(punit, F_HELP_WONDER)
+	  && punit->owner == pcity->owner
+	  && !pcity->is_building_unit && is_wonder(pcity->currently_building)
+	  && (pcity->shield_stock
+	      < impr_build_shield_cost(pcity->currently_building)));
 }
 
 

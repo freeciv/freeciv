@@ -826,7 +826,7 @@ void ai_eval_buildings(struct city *pcity)
       }
 
       /* handle H_PROD here? -- Syela */
-      j = improvement_value(id);
+      j = impr_build_shield_cost(id);
       pcity->ai.building_want[id] = values[id] / j;
     } else {
       pcity->ai.building_want[id] = -values[id];
@@ -874,10 +874,11 @@ static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
   city_list_iterate(pplayer->cities, acity) {
     if (acity->is_building_unit
         && unit_type_flag(acity->currently_building, F_HELP_WONDER)
-        && acity->shield_stock >=
-             get_unit_type(acity->currently_building)->build_cost
-        && map_get_continent(acity->x, acity->y) == continent)
+        && (acity->shield_stock
+	    >= unit_build_shield_cost(acity->currently_building))
+        && map_get_continent(acity->x, acity->y) == continent) {
       caravans++;
+    }
   } city_list_iterate_end;
 
   /* Check all wonders in our cities being built, if one isn't worth a little
@@ -899,8 +900,8 @@ static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
         && is_wonder(acity->currently_building)
         && map_get_continent(acity->x, acity->y) == continent
         && acity != pcity
-        && build_points_left(acity) >
-             get_unit_type(unit_type)->build_cost * caravans) {
+        && (build_points_left(acity)
+	    > unit_build_shield_cost(unit_type) * caravans)) {
       
       /* Desire for the wonder we are going to help - as much as we want to
        * build it we want to help building it as well. */

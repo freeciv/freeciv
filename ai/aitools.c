@@ -701,11 +701,11 @@ int stack_cost(struct unit *pdef)
   if (is_stack_vulnerable(pdef->x, pdef->y)) {
     /* lotsa people die */
     unit_list_iterate(map_get_tile(pdef->x, pdef->y)->units, aunit) {
-      victim_cost += unit_type(aunit)->build_cost;
+      victim_cost += unit_build_shield_cost(aunit->type);
     } unit_list_iterate_end;
   } else {
     /* Only one unit dies if attack is successful */
-    victim_cost = unit_type(pdef)->build_cost;
+    victim_cost = unit_build_shield_cost(pdef->type);
   }
   
   return victim_cost;
@@ -795,19 +795,23 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   city_list_iterate_end;
 
   impr_type_iterate(i) {
-    if (!is_wonder(i) ||
-       (!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
-       pcity->shield_stock >= improvement_value(i) / 2) ||
-       (!is_building_other_wonder(pcity) &&
-        pcity->ai.grave_danger == 0 && /* otherwise caravans will be killed! */
-        pcity->ai.downtown * cities >= downtown &&
-        pcity->ai.danger * cities <= danger)) { /* too many restrictions? */
-/* trying to keep wonders in safe places with easy caravan access -- Syela */
+    if (!is_wonder(i)
+	|| (!pcity->is_building_unit && is_wonder(pcity->currently_building)
+	    && pcity->shield_stock >= impr_build_shield_cost(i) / 2)
+	|| (!is_building_other_wonder(pcity)
+	    /* otherwise caravans will be killed! */
+	    && pcity->ai.grave_danger == 0
+	    && pcity->ai.downtown * cities >= downtown
+	    && pcity->ai.danger * cities <= danger)) {
+      /* Is this too many restrictions? */
+      /* trying to keep wonders in safe places with easy caravan
+       * access -- Syela */
       if(pcity->ai.building_want[i]>want) {
-/* we have to do the can_build check to avoid Built Granary.  Now Building Granary. */
+	/* we have to do the can_build check to avoid Built Granary.
+	 * Now Building Granary. */
         if (can_build_improvement(pcity, i)) {
-          want=pcity->ai.building_want[i];
-          id=i;
+          want = pcity->ai.building_want[i];
+          id = i;
         } else {
 	  freelog(LOG_DEBUG, "%s can't build %s", pcity->name,
 		  get_improvement_name(i));

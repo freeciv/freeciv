@@ -415,7 +415,9 @@ struct city *find_city_wonder(Impr_Type_id id)
 **************************************************************************/
 int build_points_left(struct city *pcity)
 {
-  return (improvement_value(pcity->currently_building) - pcity->shield_stock);
+  int cost = impr_build_shield_cost(pcity->currently_building);
+
+  return cost - pcity->shield_stock;
 }
 
 /**************************************************************************
@@ -1887,7 +1889,7 @@ void do_sell_building(struct player *pplayer, struct city *pcity,
 		      Impr_Type_id id)
 {
   if (!is_wonder(id)) {
-    pplayer->economic.gold += improvement_value(id);
+    pplayer->economic.gold += impr_sell_gold(id);
     building_lost(pcity, id);
   }
 }
@@ -2236,7 +2238,7 @@ void city_landlocked_sell_coastal_improvements(int x, int y)
                            _("Game: You sell %s in %s (now landlocked)"
                              " for %d gold."),
                            get_improvement_name(impr), pcity->name,
-                           improvement_value(impr)); 
+                           impr_sell_gold(impr)); 
         }
       } built_impr_iterate_end;
     }

@@ -286,24 +286,16 @@ const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
 **************************************************************************/
 int city_buy_cost(struct city *pcity)
 {
-  int total,cost;
-  int build=pcity->shield_stock;
+  int cost, build = pcity->shield_stock;
 
   if (pcity->is_building_unit) {
-    total=unit_value(pcity->currently_building);
-    if (build>=total)
-      return 0;
-    cost=(total-build)*2+(total-build)*(total-build)/20; 
+    cost = unit_buy_gold_cost(pcity->currently_building, build);
   } else {
-    total=improvement_value(pcity->currently_building);
-    if (build>=total)
-      return 0;
-    cost=(total-build)*2;
-    if(is_wonder(pcity->currently_building))
-      cost*=2;
+    cost = impr_buy_gold_cost(pcity->currently_building, build);
   }
-  if(build == 0)
-    cost*=2;
+  if (build == 0) {
+    cost *= 2;
+  }
   return cost;
 }
 
@@ -1416,7 +1408,7 @@ int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, id, id_is_unit, FALSE) : 0;
   int improvement_cost = id_is_unit ?
-    get_unit_type(id)->build_cost : get_improvement_type(id)->build_cost;
+    unit_build_shield_cost(id) : impr_build_shield_cost(id);
 
   if (include_shield_stock && (city_shield_stock >= improvement_cost)) {
     return 1;

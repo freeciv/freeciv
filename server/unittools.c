@@ -236,15 +236,20 @@ static struct unit *choose_more_important_refuel_target(struct unit *punit1,
   if (punit1->fuel != punit2->fuel)
     return punit1->fuel < punit2->fuel? punit1: punit2;
   
-  if (unit_type(punit1)->build_cost != unit_type(punit2)->build_cost)
-    return unit_type(punit1)->build_cost >
-	unit_type(punit2)->build_cost ? punit1 : punit2;
+  if (unit_build_shield_cost(punit1->type)
+      != unit_build_shield_cost(punit2->type)) {
+    return (unit_build_shield_cost(punit1->type)
+	    > unit_build_shield_cost(punit2->type)) ? punit1 : punit2;
+  }
   
-  if (punit1->veteran != punit2->veteran)
-    return punit1->veteran > punit2->veteran? punit1: punit2;
-  
-  if (punit1->hp != punit2->hp)
-    return punit1->hp > punit2->hp? punit1: punit2;
+  if (punit1->veteran != punit2->veteran) {
+    return punit1->veteran > punit2->veteran ? punit1 : punit2;
+  }
+
+  if (punit1->hp != punit2->hp) {
+    return punit1->hp > punit2->hp ? punit1: punit2;
+  }
+
   return punit1;
 }
 
@@ -256,7 +261,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
   int potential_gold = 0;
 
   built_impr_iterate(pcity, pimpr) {
-    potential_gold += get_improvement_type(pimpr)->build_cost;
+    potential_gold += impr_sell_gold(pimpr);
   } built_impr_iterate_end;
 
   unit_list_iterate_safe(pcity->units_supported, punit) {

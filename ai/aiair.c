@@ -106,7 +106,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   /* Ok, we can attack, but is it worth it? */
 
   /* Cost of our unit */
-  unit_cost = unit_type(punit)->build_cost;
+  unit_cost = unit_build_shield_cost(punit->type);
   /* This is to say "wait, ill unit will get better!" */
   unit_cost = unit_cost * unit_type(punit)->hp / punit->hp; 
 
@@ -115,7 +115,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
   if (unit_flag(punit, F_MISSILE)) {
-    victim_cost -= unit_type(punit)->build_cost;
+    victim_cost -= unit_build_shield_cost(punit->type);
   }
 
   unit_attack = (int) (PROB_MULTIPLIER 

@@ -154,12 +154,38 @@ const char *get_improvement_name(Impr_Type_id id)
   return get_improvement_type(id)->name; 
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-int improvement_value(Impr_Type_id id)
+/****************************************************************************
+  Returns the number of shields it takes to build this improvement.
+****************************************************************************/
+int impr_build_shield_cost(Impr_Type_id id)
 {
-  return (improvement_types[id].build_cost);
+  return improvement_types[id].build_cost;
+}
+
+/****************************************************************************
+  Returns the amount of gold it takes to rush this improvement.
+****************************************************************************/
+int impr_buy_gold_cost(Impr_Type_id id, int shields_in_stock)
+{
+  int cost = 0, missing =
+      improvement_types[id].build_cost - shields_in_stock;
+
+  if (missing > 0) {
+    cost = 2 * missing;
+  }
+
+  if (is_wonder(id)) {
+    cost *= 2;
+  }
+  return cost;
+}
+
+/****************************************************************************
+  Returns the amount of gold received when this improvement is sold.
+****************************************************************************/
+int impr_sell_gold(Impr_Type_id id)
+{
+  return improvement_types[id].build_cost;
 }
 
 /**************************************************************************

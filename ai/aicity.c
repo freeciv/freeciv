@@ -115,11 +115,11 @@ static void ai_manage_buildings(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit)
     if (is_sailing_unit(punit))
       values[B_MAGELLAN] +=
-	  unit_type(punit)->build_cost * 2 * SINGLE_MOVE /
+	  unit_build_shield_cost(punit->type) * 2 * SINGLE_MOVE /
 	  unit_type(punit)->move_rate;
   unit_list_iterate_end;
   values[B_MAGELLAN] *= 100 * SHIELD_WEIGHTING;
-  values[B_MAGELLAN] /= (MORT * improvement_value(B_MAGELLAN));
+  values[B_MAGELLAN] /= (MORT * impr_build_shield_cost(B_MAGELLAN));
 
   /* This is a weird place to put tech advice */
   /* This was: > G_DESPOTISM; should maybe remove test, depending
@@ -449,8 +449,8 @@ static void ai_spend_gold(struct player *pplayer)
     expensive = (pcity->shield_stock == 0)
                 || (pplayer->economic.gold - buycost < limit);
 
-    if (bestchoice.type == CT_ATTACKER 
-        && buycost > unit_types[bestchoice.choice].build_cost * 2) {
+    if (bestchoice.type == CT_ATTACKER
+	&& buycost > unit_build_shield_cost(bestchoice.choice) * 2) {
        /* Too expensive for an offensive unit */
        continue;
     }
@@ -573,8 +573,8 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && (m == LAND_MOVING || m == SEA_MOVING)) {
       j = get_virtual_defense_power(v, i, pcity->x, pcity->y, FALSE, FALSE);
-      if (j > best || (j == best && get_unit_type(i)->build_cost <=
-                               get_unit_type(bestid)->build_cost)) {
+      if (j > best || (j == best && unit_build_shield_cost(i) <=
+                               unit_build_shield_cost(bestid))) {
         best = j;
         bestid = i;
       }
@@ -608,7 +608,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
 		       _("Game: %s is selling %s (not needed) for %d."), 
 		       pcity->name, get_improvement_name(i), 
-		       improvement_value(i)/2);
+		       impr_sell_gold(i));
       return; /* max 1 building each turn */
     }
   } built_impr_iterate_end;

@@ -199,7 +199,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       gain_theft = total_bulbs_required(pplayer) * TRADE_WEIGHTING;
     }
     gain = MAX(gain_incite, gain_theft);
-    loss = ut->build_cost * SHIELD_WEIGHTING;
+    loss = unit_build_shield_cost(u) * SHIELD_WEIGHTING;
 
     /* Probability to succeed, assuming no defending diplomat */
     p_success = game.diplchance;
@@ -219,7 +219,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     }
 
     want = military_amortize(pplayer, pcity, want, time_to_dest, 
-                             ut->build_cost);
+                             unit_build_shield_cost(u));
 
     if (!player_has_embassy(pplayer, city_owner(acity))
         && want < 99) {

@@ -120,7 +120,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
 		       _("Game: %s is selling %s (obsolete) for %d."),
 		       pcity->name, get_improvement_name(i), 
-		       improvement_value(i));
+		       impr_sell_gold(i));
       sold = TRUE;
     }
   } built_impr_iterate_end;
@@ -298,14 +298,15 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
     turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)
 		   / pcity->food_surplus;
 
-    if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
-	(pcity->currently_building == B_GRANARY) && (pcity->shield_surplus > 0)) {
-      turns_granary = (improvement_value(B_GRANARY) - pcity->shield_stock)
-		      / pcity->shield_surplus;
+    if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit
+	&& pcity->currently_building == B_GRANARY
+	&& pcity->shield_surplus > 0) {
+      turns_granary = (impr_build_shield_cost(B_GRANARY)
+		       - pcity->shield_stock) / pcity->shield_surplus;
       /* if growth and granary completion occur simultaneously, granary
 	 preserves food.  -AJS */
-      if ((turns_growth < 5) && (turns_granary < 5) &&
-	  (turns_growth < turns_granary)) {
+      if (turns_growth < 5 && turns_granary < 5
+	  && turns_growth < turns_granary) {
 	notify_conn_ex(dest, pcity->x, pcity->y,
 			 E_CITY_GRAN_THROTTLE,
 			 _("Game: Suggest throttling growth in %s to use %s "
@@ -924,14 +925,15 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 						   currently_building));
     return TRUE;
   }
-  if (pcity->shield_stock >= improvement_value(pcity->currently_building)) {
+  if (pcity->shield_stock
+      >= impr_build_shield_cost(pcity->currently_building)) {
     if (pcity->currently_building == B_PALACE) {
-      city_list_iterate(pplayer->cities, palace)
-	  if (city_got_building(palace, B_PALACE)) {
-	city_remove_improvement(palace, B_PALACE);
-	break;
-      }
-      city_list_iterate_end;
+      city_list_iterate(pplayer->cities, palace) {
+	if (city_got_building(palace, B_PALACE)) {
+	  city_remove_improvement(palace, B_PALACE);
+	  break;
+	}
+      } city_list_iterate_end;
     }
 
     space_part = TRUE;
@@ -946,8 +948,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       city_add_improvement(pcity, pcity->currently_building);
     }
     pcity->before_change_shields -=
-	improvement_value(pcity->currently_building);
-    pcity->shield_stock -= improvement_value(pcity->currently_building);
+	impr_build_shield_cost(pcity->currently_building);
+    pcity->shield_stock -= impr_build_shield_cost(pcity->currently_building);
     pcity->turn_last_built = game.year;
     /* to eliminate micromanagement */
     if (is_wonder(pcity->currently_building)) {
@@ -1046,11 +1048,13 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
             pplayer->name, pcity->name, unit_name(pcity->currently_building));            
     return TRUE;
   }
-  if (pcity->shield_stock >= unit_value(pcity->currently_building)) {
+  if (pcity->shield_stock
+      >= unit_build_shield_cost(pcity->currently_building)) {
     int pop_cost = unit_pop_value(pcity->currently_building);
 
     /* Should we disband the city? -- Massimo */
-    if (pcity->size == pop_cost && is_city_option_set(pcity, CITYO_DISBAND)) {
+    if (pcity->size == pop_cost
+	&& is_city_option_set(pcity, CITYO_DISBAND)) {
       return !disband_city(pcity);
     }
 
@@ -1079,8 +1083,10 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     /* to eliminate micromanagement, we only subtract the unit's
        cost */
-    pcity->before_change_shields -= unit_value(pcity->currently_building);
-    pcity->shield_stock -= unit_value(pcity->currently_building);
+    pcity->before_change_shields
+      -= unit_build_shield_cost(pcity->currently_building);
+    pcity->shield_stock
+      -= unit_build_shield_cost(pcity->currently_building);
 
     notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILT,
 		     /* TRANS: <city> is finished building <unit/building>. */
@@ -1199,16 +1205,13 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   cost = city_owner(pcity)->economic.gold + 1000;
 
   unit_list_iterate(map_get_tile(pcity->x,pcity->y)->units, punit) {
-    cost += unit_type(punit)->build_cost * game.incite_cost.unit_factor;
+    cost += (unit_build_shield_cost(punit->type)
+	     * game.incite_cost.unit_factor);
   } unit_list_iterate_end;
 
   /* Buildings */
   built_impr_iterate(pcity, i) {
-    if (!is_wonder(i)) {
-      cost += improvement_value(i) * game.incite_cost.improvement_factor;
-    } else {
-      cost += improvement_value(i) * 2 * game.incite_cost.improvement_factor;
-    }
+    cost += impr_build_shield_cost(i) * game.incite_cost.improvement_factor;
   } built_impr_iterate_end;
 
   /* Stability bonuses */

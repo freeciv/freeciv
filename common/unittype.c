@@ -190,12 +190,33 @@ bool unit_has_role(Unit_Type_id id, int role)
   return BV_ISSET(unit_types[id].roles, role - L_FIRST);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-int unit_value(Unit_Type_id id)
+/****************************************************************************
+  Returns the number of shields it takes to build this unit.
+****************************************************************************/
+int unit_build_shield_cost(Unit_Type_id id)
 {
-  return (unit_types[id].build_cost);
+  return unit_types[id].build_cost;
+}
+
+/****************************************************************************
+  Returns the amount of gold it takes to rush this unit.
+****************************************************************************/
+int unit_buy_gold_cost(Unit_Type_id id, int shields_in_stock)
+{
+  int cost = 0, missing = unit_types[id].build_cost - shields_in_stock;
+
+  if (missing > 0) {
+    cost = 2 * missing + (missing * missing) / 20;
+  }
+  return cost;
+}
+
+/****************************************************************************
+  Returns the number of shields received when this unit is disbanded.
+****************************************************************************/
+int unit_disband_shields(Unit_Type_id id)
+{
+  return unit_types[id].build_cost / 2;
 }
 
 /**************************************************************************
@@ -318,12 +339,10 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
   other attributes (like nation or government type) of the player the unit
   belongs to.
 **************************************************************************/
-int unit_upgrade_price(const struct player * const pplayer,
+int unit_upgrade_price(const struct player *const pplayer,
 		       const Unit_Type_id from, const Unit_Type_id to)
 {
-  const int diff = unit_value(to) - unit_value(from) / 2;
-
-  return (diff <= 0) ? 0 : (diff * 2 + diff * diff / 20);
+  return unit_buy_gold_cost(to, unit_disband_shields(from));
 }
 
 /**************************************************************************

@@ -583,7 +583,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
      * complicated and is now handled elsewhere. */
     if (unit_can_defend_here(defender)) {
       bool change = FALSE;
-      int build_cost = unit_type(defender)->build_cost;
+      int build_cost = unit_build_shield_cost(defender->type);
       int defense_rating = get_defense_rating(attacker, defender);
       /* This will make units roughly evenly good defenders look alike. */
       int unit_def 
@@ -637,7 +637,7 @@ struct unit *get_attacker(struct unit *defender, int x, int y)
   int bestvalue = -1, unit_a, best_cost = 0;
 
   unit_list_iterate(map_get_tile(x, y)->units, attacker) {
-    int build_cost = unit_type(attacker)->build_cost;
+    int build_cost = unit_build_shield_cost(attacker->type);
 
     if (pplayers_allied(unit_owner(defender), unit_owner(attacker))) {
       return NULL;

@@ -197,7 +197,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
   notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
 		   _("Game: You sell %s in %s for %d gold."), 
 		   get_improvement_name(id), pcity->name,
-		   improvement_value(id));
+		   impr_sell_gold(id));
   do_sell_building(pplayer, pcity, id);
 
   city_refresh(pcity);
@@ -256,15 +256,16 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   }
 
   if (pcity->is_building_unit) {
-    name=unit_types[pcity->currently_building].name;
-    total=unit_value(pcity->currently_building);
+    name = unit_types[pcity->currently_building].name;
+    total = unit_build_shield_cost(pcity->currently_building);
   } else {
-    name=get_improvement_name(pcity->currently_building);
-    total=improvement_value(pcity->currently_building);
+    name = get_improvement_name(pcity->currently_building);
+    total = impr_build_shield_cost(pcity->currently_building);
   }
-  cost=city_buy_cost(pcity);
-  if (cost == 0 || cost > pplayer->economic.gold)
-   return;
+  cost = city_buy_cost(pcity);
+  if (cost == 0 || cost > pplayer->economic.gold) {
+    return;
+  }
 
   /*
    * Need to make this more restrictive.  AI is sometimes buying

@@ -638,7 +638,7 @@ int build_cost_balanced(Unit_Type_id type)
 {
   struct unit_type *ptype = get_unit_type(type);
 
-  return 2 * ptype->build_cost * ptype->attack_strength /
+  return 2 * unit_build_shield_cost(type) * ptype->attack_strength /
       (ptype->attack_strength + ptype->defense_strength);
 }
 
@@ -841,7 +841,7 @@ static void reinforcements_cost_and_value(struct unit *punit, int x, int y,
 
         if (val != 0) {
           *value += val;
-          *cost += unit_type(aunit)->build_cost;
+          *cost += unit_build_shield_cost(aunit->type);
         }
       }
     } unit_list_iterate_end;
@@ -928,7 +928,7 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
       int vuln = unit_def_rating_sq(punit, pdef);
       int attack = reinforcements_value(punit, pdef->x, pdef->y) + att_rating;
       int benefit = stack_cost(pdef);
-      int loss = unit_type(punit)->build_cost;
+      int loss = unit_build_shield_cost(punit->type);
       
       attack *= attack;
       
@@ -1688,7 +1688,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         invasion_funct(aunit, TRUE, 0, (COULD_OCCUPY(aunit) ? 1 : 2));
         if ((pcity = map_get_city(goto_dest_x(aunit), goto_dest_y(aunit)))) {
           pcity->ai.attack += unit_att_rating(aunit);
-          pcity->ai.bcost += unit_type(aunit)->build_cost;
+          pcity->ai.bcost += unit_build_shield_cost(aunit->type);
         } 
       }
       invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
@@ -1725,7 +1725,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
   maxd = MIN(6, move_rate) * THRESHOLD + 1;
 
-  bcost = unit_type(punit)->build_cost;
+  bcost = unit_build_shield_cost(punit->type);
   bcost_bal = build_cost_balanced(punit->type);
 
   /* most flexible but costs milliseconds */
@@ -1795,7 +1795,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       
       if ((pdef = get_defender(punit, acity->x, acity->y))) {
         vuln = unit_def_rating_sq(punit, pdef);
-        benefit = unit_type(pdef)->build_cost;
+        benefit = unit_build_shield_cost(pdef->type);
       } else { 
         vuln = 0; 
         benefit = 0; 
@@ -1812,7 +1812,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         if (v > vuln) {
           /* They can build a better defender! */ 
           vuln = v; 
-          benefit = unit_types[def_type].build_cost; 
+          benefit = unit_build_shield_cost(def_type); 
         }
       }
 
@@ -1861,16 +1861,20 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
                            : SHIELD_WEIGHTING);
       /* build_cost of ferry */
-      needferry = (go_by_boat && !ferryboat ? unit_value(boattype) : 0);
+      needferry = (go_by_boat && !ferryboat
+		   ? unit_build_shield_cost(boattype) : 0);
       /* FIXME: add time to build the ferry? */
       want = military_amortize(pplayer, find_city_by_id(punit->homecity),
-                               want, MAX(1, move_time), bcost_bal + needferry);
+                               want, MAX(1, move_time),
+			       bcost_bal + needferry);
 
       /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
       if (want <= 0 && punit->id == 0 && best == 0) {
-        int bk_e = military_amortize(pplayer, find_city_by_id(punit->homecity),
+        int bk_e = military_amortize(pplayer,
+				     find_city_by_id(punit->homecity),
                                      benefit * SHIELD_WEIGHTING, 
-                                     MAX(1, move_time), bcost_bal + needferry);
+                                     MAX(1, move_time),
+				     bcost_bal + needferry);
 
         if (bk_e > bk) {
           *x = acity->x;
@@ -1959,7 +1963,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
 
       vuln = unit_def_rating_sq(punit, aunit);
-      benefit = unit_type(aunit)->build_cost;
+      benefit = unit_build_shield_cost(aunit->type);
  
       move_time = turns_to_enemy_unit(punit->type, move_rate, 
                                       aunit->x, aunit->y, aunit->type);

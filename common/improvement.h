@@ -110,7 +110,7 @@ struct impr_type {
   Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
   Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
   bool is_wonder;
-  int build_cost;
+  int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;
   struct impr_effect *effect;		/* list; .type==EFT_LAST terminated */
@@ -132,7 +132,11 @@ const char *impr_range_name(enum impr_range id);
 void improvements_free(void);
 struct impr_type *get_improvement_type(Impr_Type_id id);
 bool improvement_exists(Impr_Type_id id);
-int improvement_value(Impr_Type_id id);
+
+int impr_build_shield_cost(Impr_Type_id id);
+int impr_buy_gold_cost(Impr_Type_id id, int shields_in_stock);
+int impr_sell_gold(Impr_Type_id id);
+
 bool is_wonder(Impr_Type_id id);
 const char *get_improvement_name(Impr_Type_id id);
 

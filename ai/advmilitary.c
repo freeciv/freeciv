@@ -74,8 +74,8 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
       if (can_build_unit(pcity, i)
           && (cur > best
               || (cur == best
-                  && get_unit_type(i)->build_cost
-                     <= get_unit_type(bestid)->build_cost))) {
+                  && unit_build_shield_cost(i)
+                     <= unit_build_shield_cost(bestid)))) {
         best = cur;
         bestid = i;
       }
@@ -116,8 +116,8 @@ static Unit_Type_id ai_choose_bodyguard(struct city *pcity,
     /* Now find best */
     if (can_build_unit(pcity, i)) {
       j = ai_unit_defence_desirability(i);
-      if (j > best || (j == best && get_unit_type(i)->build_cost <=
-                               get_unit_type(bestid)->build_cost)) {
+      if (j > best || (j == best && unit_build_shield_cost(i) <=
+                               unit_build_shield_cost(bestid))) {
         best = j;
         bestid = i;
       }
@@ -648,9 +648,9 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
         }
         
         if ((desire > best ||
-             (desire == best && get_unit_type(unit_type)->build_cost <=
-                                get_unit_type(best_unit_type)->build_cost))
-            && unit_types[unit_type].build_cost <= pcity->shield_stock + 40) {
+             (desire == best && unit_build_shield_cost(unit_type) <=
+                                unit_build_shield_cost(best_unit_type)))
+            && unit_build_shield_cost(unit_type) <= pcity->shield_stock + 40) {
           best = desire;
           best_unit_type = unit_type;
         }
@@ -674,8 +674,9 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
         }
 
         /* Yes, there's some similarity with kill_desire(). */
-        tech_desire[unit_type] = desire * danger /
-                                (unit_types[unit_type].build_cost + tech_cost);
+        tech_desire[unit_type] = (desire * danger /
+				  (unit_build_shield_cost(unit_type)
+				   + tech_cost));
       }
   } simple_ai_unit_type_iterate_end;
   
@@ -691,7 +692,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     if (tech_desire[unit_type] > 0) {
       Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
       int desire = tech_desire[unit_type]
-                   * unit_types[best_unit_type].build_cost / best;
+                   * unit_build_shield_cost(best_unit_type) / best;
       
       pplayer->ai.tech_want[tech_req] += desire;
       
@@ -744,7 +745,7 @@ static void process_attacker_want(struct city *pcity,
 
   if (orig_move_type == LAND_MOVING && !boat && boattype < U_LAST) {
     /* cost of ferry */
-    needferry = unit_types[boattype].build_cost;
+    needferry = unit_build_shield_cost(boattype);
   }
   
   if (!is_stack_vulnerable(x,y)) {
@@ -783,7 +784,7 @@ static void process_attacker_want(struct city *pcity,
       int move_time;
       int bcost_balanced = build_cost_balanced(unit_type);
       /* See description of kill_desire() for info about this variables. */
-      int bcost = unit_types[unit_type].build_cost;
+      int bcost = unit_build_shield_cost(unit_type);
       int vuln;
       int attack = unittype_att_rating(unit_type, will_be_veteran,
                                        SINGLE_MOVE,
@@ -1011,7 +1012,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       def_vet = do_make_unit_veteran(acity, def_type);
       vuln = unittype_def_rating_sq(myunit->type, def_type,
                                     x, y, FALSE, def_vet);
-      benefit = unit_types[def_type].build_cost;
+      benefit = unit_build_shield_cost(def_type);
     } else {
       vuln = 0;
       benefit = 0;
@@ -1024,7 +1025,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                                      x, y, FALSE, pdef->veteran);
       if (vuln < m) {
         vuln = m;
-        benefit = unit_type(pdef)->build_cost;
+        benefit = unit_build_shield_cost(pdef->type);
         def_vet = pdef->veteran;
         def_type = pdef->type; 
       }
@@ -1043,7 +1044,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       return;
     }
 
-    benefit = unit_type(pdef)->build_cost;
+    benefit = unit_build_shield_cost(pdef->type);
     go_by_boat = FALSE;
 
     def_type = pdef->type;
@@ -1147,7 +1148,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
   case HELI_MOVING:
   case AIR_MOVING:
     if (player_knows_improvement_tech(pplayer, B_AIRPORT)
-        && pcity->shield_surplus > improvement_value(B_AIRPORT) / 10) {
+        && pcity->shield_surplus > impr_build_shield_cost(B_AIRPORT) / 10) {
       /* Only build this if we have really high production */
       choice->choice = B_AIRPORT;
       choice->type = CT_BUILDING;

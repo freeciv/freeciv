@@ -1428,7 +1428,10 @@ int unit_bribe_cost(struct unit *punit)
     dist=32;
   if (g->fixed_corruption_distance != 0)
     dist = MIN(g->fixed_corruption_distance, dist);
-  cost=(cost/(dist+2))*(unit_type(punit)->build_cost/10);
+  cost /= dist + 2;
+
+  cost *= unit_build_shield_cost(punit->type) / 10;
+
   /* FIXME: This is a weird one - should be replaced */
   if (unit_flag(punit, F_CITIES)) 
     cost/=2;
