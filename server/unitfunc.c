@@ -340,8 +340,8 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			 "Game: A%s %s %s was eliminated"
 			 " while infiltrating %s.", 
-			 n_if_vowel(get_race_name(cplayer->race)[0]), 
-			 get_race_name(cplayer->race),
+			 n_if_vowel(get_race_name(pplayer->race)[0]), 
+			 get_race_name(pplayer->race),
 			 unit_name(pdiplomat->type),
 			 pcity->name);
 	wipe_unit(0, pdiplomat);
