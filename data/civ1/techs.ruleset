@@ -1,6 +1,6 @@
 
 ; Modifying this file:
-; You shouldn't modify this file except to make bugfixes or
+; You should not modify this file except to make bugfixes or
 ; for other "maintenance".  If you want to make custom changes,
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
@@ -16,7 +16,7 @@ options="1.8.2a +no_a_none"
 ; Also, some effects are still hardwired, according to position
 ; in this list of sections.
 ;
-; The actual tag used (the * in [advance_*]) doesn't matter, except 
+; The actual tag used (the * in [advance_*]) does not matter, except 
 ; it must be unique within this file, and it may be used in debug 
 ; output when reading this file.
 ;
@@ -24,7 +24,8 @@ options="1.8.2a +no_a_none"
 ;
 ; name          = name as seen by user 
 ; req1, req2	= advances required before researching this one
-; flags       = special flag strings (see default/techs.ruleset)
+; flags         = special flag strings (see default/techs.ruleset)
+; helptext	= optional help text string (set units ruleset for examples)
 ;
 ; Special values for req1 and req2 are "None" (first section below) 
 ; and "Never" (never available).  If only one tech is required, 

@@ -616,7 +616,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 {
   int j;
   GtkWidget *w, *hbox;
-  char buf[4096];
+  char *buf = &long_buffer[0];
 
   create_help_page(HELP_TECH);
 
@@ -630,6 +630,11 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_widget_show_all(help_tree_scrolled);
 
     helptext_tech(buf, i, pitem->text);
+    if (advances[i].helptext) {
+      if (strlen(buf)) strcat(buf, "\n");
+      sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
+    }
+    wordwrap_string(buf, 68);
 
     w = gtk_label_new(buf);
     gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.0);

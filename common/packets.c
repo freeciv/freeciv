@@ -2075,6 +2075,11 @@ int send_packet_ruleset_tech(struct connection *pc,
   cptr=put_int8(cptr, packet->req[1]);
   cptr=put_int32(cptr, packet->flags);
   cptr=put_string(cptr, packet->name);
+  
+  /* This must be last, so client can determine length: */
+  if(packet->helptext) {
+    cptr=put_string(cptr, packet->helptext);
+  }
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -2089,6 +2094,7 @@ receive_packet_ruleset_tech(struct connection *pc)
   struct pack_iter iter;
   struct packet_ruleset_tech *packet=
     fc_malloc(sizeof(struct packet_ruleset_tech));
+  int len;
 
   pack_iter_init(&iter, pc);
 
@@ -2097,6 +2103,14 @@ receive_packet_ruleset_tech(struct connection *pc)
   iget_int8(&iter, &packet->req[1]);
   iget_int32(&iter, &packet->flags);
   iget_string(&iter, packet->name, sizeof(packet->name));
+
+  len = pack_iter_remaining(&iter);
+  if (len) {
+    packet->helptext = fc_malloc(len);
+    iget_string(&iter, packet->helptext, len);
+  } else {
+    packet->helptext = NULL;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

@@ -30,6 +30,9 @@ client/gui-gtk/spaceshipdlg.c
 client/gui-xaw/menu.c
 client/gui-xaw/messagedlg.c
 data/Freeciv
+data/default/techs.ruleset
+data/civ2/techs.ruleset
+data/civ1/techs.ruleset
 data/default/units.ruleset
 data/civ2/units.ruleset
 data/civ1/units.ruleset

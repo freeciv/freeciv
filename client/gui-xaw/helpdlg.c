@@ -29,6 +29,7 @@
 #include <X11/Xaw/Tree.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "mem.h"
@@ -875,21 +876,26 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  sprintf(buf+strlen(buf), "Allows %s.\n", 
 		  advances[j].name);
 	else
-	  sprintf(buf+strlen(buf), "Allows %s(with %s).\n", 
+	  sprintf(buf+strlen(buf), "Allows %s (with %s).\n", 
 		  advances[j].name, advances[advances[j].req[1]].name);
       }
       if(i==advances[j].req[1]) {
-	sprintf(buf+strlen(buf), "Allows %s(with %s).\n", 
+	sprintf(buf+strlen(buf), "Allows %s (with %s).\n", 
 		advances[j].name, advances[advances[j].req[0]].name);
       }
     }
-    XtVaSetValues(help_text, XtNstring, buf, NULL);
+    if (strlen(buf)) strcat(buf, "\n");
+    if (advances[i].helptext) {
+      sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
+    }
   }
   else {
     create_help_page(HELP_TECH);
     create_tech_tree(help_tech_tree, 0, A_LAST, 3);
-    XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
+    strcpy(buf, pitem->text);
   }
+  wordwrap_string(buf, 68);
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
 
 /**************************************************************************

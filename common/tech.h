@@ -61,6 +61,7 @@ struct advance {
   char name[MAX_LEN_NAME];
   int req[2];
   unsigned int flags;
+  char *helptext;
 };
 
 int get_invention(struct player *plr, int tech);

@@ -40,6 +40,8 @@ static int lookup_unit_type(struct section_file *file, char *prefix,
 static int lookup_tech(struct section_file *file, char *prefix,
 		       char *entry, int required, char *filename,
 		       char *description);
+static char *lookup_helptext(struct section_file *file, char *prefix);
+
 static enum tile_terrain_type lookup_terrain(char *name, int this);
 
 static void load_ruleset_techs(char *ruleset_subdir);
@@ -282,6 +284,23 @@ static int lookup_city_cost(struct section_file *file, char *prefix,
   return ival;
 }
 
+/**************************************************************************
+  Lookup optional helptext, returning allocated memory or NULL.
+**************************************************************************/
+static char *lookup_helptext(struct section_file *file, char *prefix)
+{
+  char *sval;
+  
+  sval = secfile_lookup_str_default(file, NULL, "%s.helptext", prefix);
+  if (sval) {
+    sval = skip_leading_spaces(sval);
+    if (strlen(sval)) {
+      return mystrdup(sval);
+    }
+  }
+  return NULL;
+}
+
 #ifdef UNUSED
 /**************************************************************************
  Return the index of the name in the list, or -1
@@ -405,6 +424,8 @@ static void load_ruleset_techs(char *ruleset_subdir)
       a->flags |= (1<<ival);
     }
     free(slist);
+
+    a->helptext = lookup_helptext(&file, sec[i]);
 
     a++;
   }
@@ -546,14 +567,7 @@ static void load_ruleset_units(char *ruleset_subdir)
     u->food_cost   = secfile_lookup_int(file, "%s.uk_food", sec[i]);
     u->gold_cost   = secfile_lookup_int(file, "%s.uk_gold", sec[i]);
 
-    u->helptext = NULL;
-    sval = secfile_lookup_str_default(file, NULL, "%s.helptext", sec[i]);
-    if (sval) {
-      sval = skip_leading_spaces(sval);
-      if (strlen(sval)) {
-	u->helptext = mystrdup(sval);
-      }
-    }
+    u->helptext = lookup_helptext(file, sec[i]);
   }
   
   /* flags */
@@ -1437,6 +1451,7 @@ static void send_ruleset_techs(struct player *dest)
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
     packet.flags = a->flags;
+    packet.helptext = a->helptext;   /* pointer assignment */
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {

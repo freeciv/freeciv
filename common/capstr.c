@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
     " +ruleset_control +ask_pillage +gen_tech1 +nationsruleset2" \
-    " +long_names +paratroopers1 +helptext1"
+    " +long_names +paratroopers1 +helptext2"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -114,7 +114,7 @@ const char * const our_capability = our_capability_internal;
    "paratroopers1" is for the support of the "Paratroopers" unit flag
    and the paratroopers_range field
 
-   "helptext1" means unit type helptext is sent from server.
+   "helptext2" means unit type and tech helptext is sent from server.
 */
 
 void init_our_capability(void)

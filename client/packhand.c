@@ -1102,6 +1102,9 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->req[0] = p->req[0];
   a->req[1] = p->req[1];
   a->flags = p->flags;
+  
+  free(a->helptext);
+  a->helptext = p->helptext;	/* pointer assignment */
 }
 
 /**************************************************************************

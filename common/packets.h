@@ -502,6 +502,7 @@ struct packet_ruleset_tech {
   int id, req[2];		/* indices for advances[] */
   int flags;
   char name[MAX_LEN_NAME];
+  char *helptext;		/* same as for packet_ruleset_unit, above */
 };
 
 struct packet_ruleset_building {
