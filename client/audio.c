@@ -157,13 +157,13 @@ void audio_real_init(const char *const spec_name,
     return;
   }
   if (!spec_name) {
-    freelog(LOG_FATAL, _("No audio ruleset given!"));
+    freelog(LOG_FATAL, _("No sound spec-file given!"));
     exit(EXIT_FAILURE);
   }
   freelog(LOG_VERBOSE, "Initializing sound using %s...", spec_name);
   filename = datafilename(spec_name);
   if (!filename) {
-    freelog(LOG_ERROR, _("Cannot find audio spec-file \"%s\"."), spec_name);
+    freelog(LOG_ERROR, _("Cannot find sound spec-file \"%s\"."), spec_name);
     freelog(LOG_ERROR, _("To get sound you need to download a sound set!"));
     freelog(LOG_ERROR, _("Get sound sets from <%s>."),
 	    "ftp://ftp.freeciv.org/freeciv/contrib/sounds/sets");
@@ -172,20 +172,20 @@ void audio_real_init(const char *const spec_name,
     return;
   }
   if (!section_file_load(tagfile, filename)) {
-    freelog(LOG_FATAL, _("Could not load audio spec-file: %s"), filename);
+    freelog(LOG_FATAL, _("Could not load sound spec-file: %s"), filename);
     exit(EXIT_FAILURE);
   }
 
   file_capstr = secfile_lookup_str(tagfile, "soundspec.options");
   if (!has_capabilities(us_capstr, file_capstr)) {
-    freelog(LOG_FATAL, _("soundspec file appears incompatible:"));
+    freelog(LOG_FATAL, _("sound spec-file appears incompatible:"));
     freelog(LOG_FATAL, _("file: \"%s\""), filename);
     freelog(LOG_FATAL, _("file options: %s"), file_capstr);
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(EXIT_FAILURE);
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
-    freelog(LOG_FATAL, _("soundspec file claims required option(s)"
+    freelog(LOG_FATAL, _("sound spec-file claims required option(s)"
 			 " which we don't support:"));
     freelog(LOG_FATAL, _("file: \"%s\""), filename);
     freelog(LOG_FATAL, _("file options: %s"), file_capstr);

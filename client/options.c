@@ -44,7 +44,7 @@ char default_server_host[512] = "localhost";
 int  default_server_port = DEFAULT_SOCK_PORT;
 char default_metaserver[512] = METALIST_ADDR;
 char default_tile_set_name[512] = "\0";
-char default_sound_set_name[512] = "stdsounds.spec";
+char default_sound_set_name[512] = "stdsounds.soundspec";
 char default_sound_plugin_name[512] = "\0";
 
 /** Local Options: **/
