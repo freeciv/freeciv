@@ -825,7 +825,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     get_city_dialog_production_row(row, sizeof(buf[0]), id, is_unit, *pcity);
     g_object_set(rend, "text", row[column], NULL);
 
-    if (*pcity) {
+    if (!is_unit && *pcity) {
       plr = city_owner(*pcity);
       useless = improvement_obsolete(plr, id)
 	|| improvement_redundant(plr, *pcity, id, FALSE);
