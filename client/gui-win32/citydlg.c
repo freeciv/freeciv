@@ -945,19 +945,6 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 **************************************************************************/
 
 
-static void activate_unit(struct unit *punit)
-{
-  if((punit->activity!=ACTIVITY_IDLE || punit->ai.control)
-     && can_unit_do_activity(punit, ACTIVITY_IDLE))
-    request_new_unit_activity(punit, ACTIVITY_IDLE);
-  set_unit_focus(punit);
-}    
-
-/**************************************************************************
-...
-**************************************************************************/
-
-
 static void buy_callback_yes(HWND w, void * data)
 {
   struct city_dialog *pdialog;
@@ -1408,7 +1395,7 @@ static void supported_units_activate_close_callback(HWND w, void * data){
   destroy_message_dialog(w);
  
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if((pcity=player_find_city_by_id(game.player_ptr, punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))
         CityDlgClose(pdialog);
@@ -1482,7 +1469,7 @@ static void present_units_activate_callback(HWND w, void * data)
   struct unit *punit;
  
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data)))
-    activate_unit(punit);
+    set_unit_focus(punit);
   destroy_message_dialog(w);
 }
  
@@ -1498,7 +1485,7 @@ static void present_units_activate_close_callback(HWND w, void * data)
   destroy_message_dialog(w);
  
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if((pcity=map_get_city(punit->x, punit->y)))
       if((pdialog=get_city_dialog(pcity)))
        CityDlgClose(pdialog);

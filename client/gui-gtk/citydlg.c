@@ -208,7 +208,6 @@ static int last_page = OVERVIEW_PAGE;
 /****************************************/
 
 static void initialize_city_dialogs(void);
-static void activate_unit(struct unit *punit);
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
 static gint keyboard_handler(GtkWidget * widget, GdkEventKey * event,
@@ -521,17 +520,6 @@ void popdown_all_city_dialogs(void)
   while (dialog_list_size(&dialog_list)) {
     close_city_dialog(dialog_list_get(&dialog_list, 0));
   }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void activate_unit(struct unit *punit)
-{
-  if ((punit->activity != ACTIVITY_IDLE || punit->ai.control)
-      && can_unit_do_activity(punit, ACTIVITY_IDLE))
-    request_new_unit_activity(punit, ACTIVITY_IDLE);
-  set_unit_focus(punit);
 }
 
 /**************************************************************************
@@ -2551,7 +2539,7 @@ static gint present_unit_middle_callback(GtkWidget * w,
       (pcity = map_get_city(punit->x, punit->y)) &&
       (pdialog = get_city_dialog(pcity)) && can_client_issue_orders() && 
       (ev->button == 2 || ev->button == 3)) {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if (ev->button == 2)
       close_city_dialog(pdialog);
   }
@@ -2574,7 +2562,7 @@ static gint supported_unit_middle_callback(GtkWidget * w,
       (pcity = find_city_by_id(punit->homecity)) &&
       (pdialog = get_city_dialog(pcity)) && can_client_issue_orders() &&
       (ev->button == 2 || ev->button == 3)) {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if (ev->button == 2)
       close_city_dialog(pdialog);
   }
@@ -2590,7 +2578,7 @@ static void unit_activate_callback(gpointer data)
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
-    activate_unit(punit);
+    set_unit_focus(punit);
 }
 
 /****************************************************************
@@ -2603,7 +2591,7 @@ static void supported_unit_activate_close_callback(gpointer data)
   struct city_dialog *pdialog;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if ((pcity = player_find_city_by_id(game.player_ptr, punit->homecity)))
       if ((pdialog = get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
@@ -2620,7 +2608,7 @@ static void present_unit_activate_close_callback(gpointer data)
   struct city_dialog *pdialog;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if ((pcity = map_get_city(punit->x, punit->y)))
       if ((pdialog = get_city_dialog(pcity)))
 	close_city_dialog(pdialog);

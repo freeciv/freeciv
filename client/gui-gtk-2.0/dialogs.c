@@ -1568,7 +1568,6 @@ static void unit_select_all_callback(GtkWidget *w, gpointer data)
     struct unit *punit = player_find_unit_by_id(game.player_ptr,
 						unit_select_ids[i]);
     if(punit) {
-      request_new_unit_activity(punit, ACTIVITY_IDLE);
       set_unit_focus(punit);
     }
   }
@@ -1582,7 +1581,6 @@ static void unit_select_callback(GtkWidget *w, int id)
   struct unit *punit = player_find_unit_by_id(game.player_ptr, id);
 
   if (punit) {
-    request_new_unit_activity(punit, ACTIVITY_IDLE);
     set_unit_focus(punit);
   }
 

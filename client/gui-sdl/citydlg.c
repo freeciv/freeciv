@@ -181,19 +181,6 @@ static void rebuild_citydlg_title_str(struct GUI *pWindow,
 
 
 /**************************************************************************
-  ...
-**************************************************************************/
-static void activate_unit(struct unit *pUnit)
-{
-  if ((pUnit->activity != ACTIVITY_IDLE || pUnit->ai.control)
-      && can_unit_do_activity(pUnit, ACTIVITY_IDLE)) {
-    request_new_unit_activity(pUnit, ACTIVITY_IDLE);
-  }
-
-  set_unit_focus(pUnit);
-}
-
-/**************************************************************************
   Destroy City Dlg.
 **************************************************************************/
 static void del_city_dialog(void)
@@ -355,7 +342,7 @@ static int activate_units_orders_city_dlg_callback(struct GUI *pButton)
 
   if ((pUnit =
        player_find_unit_by_id(game.player_ptr, MAX_ID - pButton->ID))) {
-    activate_unit(pUnit);
+    set_unit_focus(pUnit);
   }
 
   del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
@@ -391,7 +378,7 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct GUI
 
     center_tile_mapcanvas(pUnit->x, pUnit->y);
 
-    activate_unit(pUnit);
+    set_unit_focus(pUnit);
     refresh_rects();
   }
 

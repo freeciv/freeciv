@@ -612,7 +612,6 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	    struct unit *punit = player_find_unit_by_id(game.player_ptr,
 							unit_select_ids[i]);
 	    if(punit) {
-	      request_new_unit_activity(punit, ACTIVITY_IDLE);
 	      set_unit_focus(punit);
 	    }
 	  }  
@@ -624,7 +623,6 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	      struct unit *punit=player_find_unit_by_id(game.player_ptr,
 							unit_select_ids[id]);
 	      if(punit && punit->owner == game.player_idx) {
-		request_new_unit_activity(punit, ACTIVITY_IDLE);
 		set_unit_focus(punit);
 	      }   
 	    }

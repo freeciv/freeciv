@@ -1766,7 +1766,6 @@ void unit_select_all_callback(Widget w, XtPointer client_data,
     struct unit *punit = player_find_unit_by_id(game.player_ptr,
 						unit_select_ids[i]);
     if(punit) {
-      request_new_unit_activity(punit, ACTIVITY_IDLE);
       set_unit_focus(punit);
     }
   }
@@ -1789,7 +1788,6 @@ void unit_select_callback(Widget w, XtPointer client_data,
       struct unit *punit = player_find_unit_by_id(game.player_ptr,
 						  unit_select_ids[i]);
       if(punit) {
-	request_new_unit_activity(punit, ACTIVITY_IDLE);
 	set_unit_focus(punit);
       }
       return;

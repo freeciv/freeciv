@@ -1453,7 +1453,6 @@ static void unitsel_ready_all(struct tile **pptile)
       {
         struct unit *punit=unit_list_get(&ptile->units, i);
         if(punit) {
-          request_new_unit_activity(punit, ACTIVITY_IDLE);
           set_unit_focus(punit);
         }
       }

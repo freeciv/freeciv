@@ -1132,18 +1132,6 @@ static void present_units_ok_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-static void activate_unit(struct unit *punit)
-{
-  if((punit->activity!=ACTIVITY_IDLE || punit->ai.control)
-     && can_unit_do_activity(punit, ACTIVITY_IDLE))
-    request_new_unit_activity(punit, ACTIVITY_IDLE);
-  set_unit_focus(punit);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
 static void present_units_activate_callback(Widget w, XtPointer client_data, 
 					    XtPointer call_data)
 {
@@ -1152,7 +1140,7 @@ static void present_units_activate_callback(Widget w, XtPointer client_data,
   struct city_dialog *pdialog;
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if((pcity=map_get_city(punit->x, punit->y)))
       if((pdialog=get_city_dialog(pcity)))
 	city_dialog_update_present_units(pdialog, 0);
@@ -1173,7 +1161,7 @@ static void supported_units_activate_callback(Widget w, XtPointer client_data,
   struct city_dialog *pdialog;
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if((pcity=map_get_city(punit->x, punit->y)))
       if((pdialog=get_city_dialog(pcity)))
 	city_dialog_update_supported_units(pdialog, 0);
@@ -1197,7 +1185,7 @@ static void present_units_activate_close_callback(Widget w,
   destroy_message_dialog(w);
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if((pcity=map_get_city(punit->x, punit->y)))
       if((pdialog=get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
@@ -1218,7 +1206,7 @@ static void supported_units_activate_close_callback(Widget w,
   destroy_message_dialog(w);
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
-    activate_unit(punit);
+    set_unit_focus(punit);
     if((pcity=player_find_city_by_id(game.player_ptr, punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
@@ -1313,12 +1301,12 @@ void present_units_callback(Widget w, XtPointer client_data,
      (pdialog=get_city_dialog(pcity))) {
     
     if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
-      activate_unit(punit);
+      set_unit_focus(punit);
       close_city_dialog(pdialog);
       return;
     }
     if(e->type==ButtonRelease && e->xbutton.button==Button3)  {
-      activate_unit(punit);
+      set_unit_focus(punit);
       return;
     }
 
@@ -1624,12 +1612,12 @@ static void support_units_callback(Widget w, XtPointer client_data,
     if((pcity=find_city_by_id(punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))  {
 	if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
-	  activate_unit(punit);
+	  set_unit_focus(punit);
 	  close_city_dialog(pdialog);
 	  return;
 	}
 	if(e->type==ButtonRelease && e->xbutton.button==Button3)  {
-	  activate_unit(punit);
+	  set_unit_focus(punit);
 	  return;
 	}
 	popup_message_dialog(pdialog->shell,
