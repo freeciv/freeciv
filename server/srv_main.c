@@ -910,7 +910,6 @@ static void handle_alloc_nation(struct player *pplayer,
 				struct packet_alloc_nation *packet)
 {
   int nation_used_count;
-  struct packet_generic_values select_nation; 
 
   if (server_state != SELECT_RACES_STATE) {
     freelog(LOG_ERROR, _("Trying to alloc nation outside "
@@ -955,9 +954,8 @@ static void handle_alloc_nation(struct player *pplayer,
 		 get_nation_name(packet->nation_no), packet->name);
 
   /* inform player his choice was ok */
-  select_nation.value2=0xffff;
-  lsend_packet_generic_values(&pplayer->connections, PACKET_SELECT_NATION,
-			      &select_nation);
+  lsend_packet_generic_empty(&pplayer->connections,
+			     PACKET_SELECT_NATION_OK);
 
   pplayer->nation=packet->nation_no;
   sz_strlcpy(pplayer->name, packet->name);
@@ -992,28 +990,23 @@ static void handle_alloc_nation(struct player *pplayer,
 }
 
 /**************************************************************************
-Send request to select nation, mask1, mask2 contains those that were
-already selected and are not available
+ Sends the currently collected selected nations to the given player.
 **************************************************************************/
 static void send_select_nation(struct player *pplayer)
 {
-  struct packet_generic_values select_nation;
-                                           
-  select_nation.value1=0;                     /* assume int is 32 bit, safe */
-  select_nation.value2=0;
+  struct packet_nations_used packet;
 
-  /* set bits in mask corresponding to nations already selected by others */
+  packet.num_nations_used = 0;
+
   players_iterate(other_player) {
-    if (other_player->nation != MAX_NUM_NATIONS) {
-      if (other_player->nation < 32)
-	select_nation.value1 |= 1 << other_player->nation;
-      else
-	select_nation.value2 |= 1 << (other_player->nation - 32);
+    if (other_player->nation == MAX_NUM_NATIONS) {
+      continue;
     }
+    packet.nations_used[packet.num_nations_used] = other_player->nation;
+    packet.num_nations_used++;
   } players_iterate_end;
 
-  lsend_packet_generic_values(&pplayer->connections, PACKET_SELECT_NATION,
-			      &select_nation);
+  lsend_packet_nations_used(&pplayer->connections, &packet);
 }
 
 /**************************************************************************

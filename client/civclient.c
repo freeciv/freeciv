@@ -234,7 +234,7 @@ void handle_packet_input(char *packet, int type)
     break;
 
   case PACKET_SELECT_NATION:
-    handle_select_nation((struct packet_generic_values *)packet);
+    handle_select_nation((struct packet_nations_used *)packet);
     break;
 
   case PACKET_PLAYER_INFO:
@@ -387,6 +387,10 @@ void handle_packet_input(char *packet, int type)
     
   case PACKET_CONN_PING:
     send_packet_generic_empty(&aconnection, PACKET_CONN_PONG);
+    break;
+
+  case PACKET_SELECT_NATION_OK:
+    handle_select_nation(NULL);
     break;
 
   case PACKET_ATTRIBUTE_CHUNK:

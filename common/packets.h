@@ -125,6 +125,7 @@ enum packet_type {
   PACKET_PROCESSING_STARTED,
   PACKET_PROCESSING_FINISHED,
   PACKET_START_TURN,
+  PACKET_SELECT_NATION_OK,
   PACKET_LAST  /* leave this last */
 };
 
@@ -884,6 +885,14 @@ struct packet_attribute_chunk
   unsigned char data[ATTRIBUTE_CHUNK_SIZE];
 };
 
+/*********************************************************
+...
+*********************************************************/
+struct packet_nations_used {
+  int num_nations_used;
+  Nation_Type_id nations_used[MAX_NUM_PLAYERS];
+};
+
 /* These two are non-static for meta.c; others are now static --dwp */
 unsigned char *put_uint16(unsigned char *buffer, int val);
 unsigned char *put_string(unsigned char *buffer, const char *mystring);
@@ -1105,6 +1114,11 @@ void generic_handle_attribute_chunk(struct player *pplayer,
 int send_packet_generic_empty(struct connection *pc, enum packet_type type);
 struct packet_generic_empty *
 receive_packet_generic_empty(struct connection *pc);
+
+int send_packet_nations_used(struct connection *pc,
+			     const struct packet_nations_used *packet);
+struct packet_nations_used *receive_packet_nations_used(struct connection
+							*pc);
 
 #include "packets_lsend.h"		/* lsend_packet_* functions */
 

@@ -802,41 +802,27 @@ popup_unit_select_dialog(struct tile *ptile)
 /**************************************************************************
 
 **************************************************************************/
-void
-races_toggles_set_sensitive(int bits1, int bits2)
+void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
-  int i,mybits;
-  
-  mybits=bits1;
-  for(i=0; i<game.playable_nation_count && i<32; i++) {
-    if(mybits&1) {
-      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
-		   FALSE);
-      if(i==selected_nation)
-        select_random_race(races_dlg);
-    } else {
-      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
-		   TRUE);
-    }
-    mybits>>=1;
+  int i;
+
+  for (i = 0; i < game.playable_nation_count; i++) {
+    EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + i), TRUE);
   }
 
-  mybits=bits2;
+  freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
+  for (i = 0; i < packet->num_nations_used; i++) {
+    int nation = packet->nations_used[i];
 
-  for(i=32; i<game.playable_nation_count; i++) {
-    if(mybits&1) {
-      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
-		   FALSE);
-      
-      if(i==selected_nation)
-        select_random_race(races_dlg);
-    } else {
-      EnableWindow(GetDlgItem(races_dlg,ID_RACESDLG_NATION_BASE+i),
-		   TRUE);
+    freelog(LOG_DEBUG, "  [%d]: %d", i, nation);
+
+    EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + nation),
+		 FALSE);
+
+    if (nation == selected_nation) {
+      select_random_race(races_dlg);
     }
-    mybits>>=1;
   }
-
 }
 
 /****************************************************************

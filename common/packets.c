@@ -376,6 +376,7 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_PROCESSING_STARTED:
   case PACKET_PROCESSING_FINISHED:
   case PACKET_START_TURN:
+  case PACKET_SELECT_NATION_OK:
     return receive_packet_generic_empty(pc);
 
   case PACKET_NEW_YEAR:
@@ -385,7 +386,7 @@ void *get_packet_from_connection(struct connection *pc,
     return receive_packet_tile_info(pc);
 
   case PACKET_SELECT_NATION:
-    return receive_packet_generic_values(pc);
+    return receive_packet_nations_used(pc);
 
   case PACKET_REMOVE_UNIT:
   case PACKET_REMOVE_CITY:
@@ -4303,6 +4304,55 @@ struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
     freelog(LOG_ERROR, "invalid type in receive_packet_goto_route()");
     return NULL;
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_nations_used(struct connection *pc,
+			     const struct packet_nations_used *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  int i;
+
+  cptr = put_uint8(buffer + 2, PACKET_SELECT_NATION);
+
+  for (i = 0; i < packet->num_nations_used; i++) {
+    assert((packet->nations_used[i] & 0xffff) == packet->nations_used[i]);
+    cptr = put_uint16(cptr, packet->nations_used[i]);
+  }
+  put_uint16(buffer, cptr - buffer);
+  return send_packet_data(pc, buffer, cptr - buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_nations_used *receive_packet_nations_used(struct connection
+							*pc)
+{
+  struct pack_iter iter;
+  struct packet_nations_used *packet =
+      fc_malloc(sizeof(struct packet_nations_used));
+
+  pack_iter_init(&iter, pc);
+
+  packet->num_nations_used = 0;
+
+  for (;;) {
+    assert((pack_iter_remaining(&iter) % 2) == 0);
+
+    if (pack_iter_remaining(&iter) == 0) {
+      break;
+    }
+
+    iget_uint16(&iter, &packet->nations_used[packet->num_nations_used]);
+    packet->num_nations_used++;
+  }
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(pc->buffer);
+
+  return packet;
 }
 
 /**************************************************************************

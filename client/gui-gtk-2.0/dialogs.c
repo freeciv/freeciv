@@ -2071,38 +2071,31 @@ void races_dialog_returnkey(Widget w, XEvent *event, String *params,
 /**************************************************************************
 ...
 **************************************************************************/
-void races_toggles_set_sensitive(int bits1, int bits2)
+void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
-  int i, mybits;
+  int i;
 
-  mybits=bits1;
-
-  for(i=0; i<game.playable_nation_count && i<32; i++) {
-    if(mybits&1) {
-      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
-						   GINT_TO_POINTER(i))], FALSE );
-      if(i==selected_nation)
-	select_random_race();
-    } else {
-      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
-						   GINT_TO_POINTER(i))], TRUE );
-    }
-    mybits>>=1;
+  for (i = 0; i < game.playable_nation_count; i++) {
+    gtk_widget_set_sensitive(races_toggles[g_list_index
+					   (sorted_races_list,
+					    GINT_TO_POINTER(i))], TRUE);
   }
 
-  mybits=bits2;
+  freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
+  for (i = 0; i < packet->num_nations_used; i++) {
+    int nation = packet->nations_used[i];
 
-  for(i=32; i<game.playable_nation_count; i++) {
-    if(mybits&1) {
-      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
-						   GINT_TO_POINTER(i))], FALSE );
-      if(i==selected_nation)
-	select_random_race();
-    } else {
-      gtk_widget_set_sensitive( races_toggles[g_list_index(sorted_races_list,
-						   GINT_TO_POINTER(i))], TRUE );
+    freelog(LOG_DEBUG, "  [%d]: %d = %s", i, nation,
+	    get_nation_name(nation));
+
+    gtk_widget_set_sensitive(races_toggles[g_list_index
+					   (sorted_races_list,
+					    GINT_TO_POINTER(nation))],
+			     FALSE);
+
+    if (nation == selected_nation) {
+      select_random_race();
     }
-    mybits>>=1;
   }
 }
 

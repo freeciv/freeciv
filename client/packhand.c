@@ -1607,23 +1607,24 @@ void handle_remove_player(struct packet_generic_integer *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_select_nation(struct packet_generic_values *packet)
+void handle_select_nation(struct packet_nations_used *packet)
 {
-  if(get_client_state()==CLIENT_SELECT_RACE_STATE) {
-    if(packet->value2 == 0xffff) {
+  if (get_client_state() == CLIENT_SELECT_RACE_STATE) {
+    if (!packet) {
       set_client_state(CLIENT_WAITING_FOR_GAME_START_STATE);
       popdown_races_dialog();
+    } else {
+      races_toggles_set_sensitive(packet);
     }
-    else
-      races_toggles_set_sensitive( packet->value1, packet->value2);
-  }
-  else if(get_client_state()==CLIENT_PRE_GAME_STATE) {
+  } else if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     set_client_state(CLIENT_SELECT_RACE_STATE);
     popup_races_dialog();
-    races_toggles_set_sensitive( packet->value1, packet->value2);
+    assert(packet);
+    races_toggles_set_sensitive(packet);
+  } else {
+    freelog(LOG_ERROR,
+	    "got a select nation packet in an incompatible state");
   }
-  else
-    freelog(LOG_ERROR, "got a select nation packet in an incompatible state");
 }
 
 /**************************************************************************

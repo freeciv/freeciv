@@ -363,3 +363,11 @@ void lsend_packet_generic_empty(struct conn_list *dest, enum packet_type type)
   conn_list_iterate_end;
 }
 
+void lsend_packet_nations_used(struct conn_list *dest,
+			     const struct packet_nations_used *packet)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_nations_used(pconn, packet);
+  conn_list_iterate_end;
+}
+

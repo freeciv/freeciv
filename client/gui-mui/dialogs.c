@@ -1825,35 +1825,9 @@ void popdown_races_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void races_toggles_set_sensitive(int bits1, int bits2)
+void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
-// remove me
-#ifdef DISABLED
-  int i, selected, mybits;
-
-  mybits=bits1;
-
-  for(i=0; i<game.playable_nation_count && i<32; i++) {
-    if(mybits&1)
-      gtk_widget_set_sensitive( races_toggles[i], FALSE );
-    else
-      gtk_widget_set_sensitive( races_toggles[i], TRUE );
-    mybits>>=1;
-  }
-
-  mybits=bits2;
-
-  for(i=32; i<game.playable_nation_count; i++) {
-    if(mybits&1)
-      gtk_widget_set_sensitive( races_toggles[i], FALSE );
-    else
-      gtk_widget_set_sensitive( races_toggles[i], TRUE );
-    mybits>>=1;
-  }
-
-  if((selected=races_buttons_get_current())==-1)
-     return;
-#endif
+  /* not implemented */
 }
 
 /****************************************************************

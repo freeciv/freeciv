@@ -62,6 +62,7 @@ static Widget races_dialog_shell=NULL;
 static Widget races_form, races_toggles_form, races_label;
 static Widget *races_toggles=NULL;
 static int *races_toggles_to_nations=NULL;
+static int *nation_to_race_toggle = NULL;
 static Widget races_leader_form, races_leader;
 static Widget races_leader_pick_popupmenu, races_leader_pick_menubutton;
 static Widget races_sex_toggles[2], races_sex_form, races_sex_label;
@@ -178,7 +179,21 @@ static void notify_command_callback(Widget w, XtPointer client_data,
   XtSetSensitive(toplevel, TRUE);
 }
 
+/****************************************************************
+ ...
+*****************************************************************/
+static void select_random_race(void)
+{
+  /* try to find a free nation */
+  while (1) {
+    int race_toggle_index = myrand(game.playable_nation_count);
 
+    if (XtIsSensitive(races_toggles[race_toggle_index])) {
+      x_simulate_button_click(races_toggles[race_toggle_index]);
+      break;
+    }
+  }
+}
 
 /****************************************************************
 ...
@@ -2079,6 +2094,15 @@ void create_races_dialog(void)
     races_toggles_to_nations[i] = i;
   }
   qsort(races_toggles_to_nations, i, sizeof(int), races_indirect_compare);
+
+  /* Build nation_to_race_toggle */
+  free(nation_to_race_toggle);
+  nation_to_race_toggle =
+      fc_calloc(game.playable_nation_count, sizeof(int));
+  for (i = 0; i < game.playable_nation_count; i++) {
+    nation_to_race_toggle[races_toggles_to_nations[i]] = i;
+  }
+
   for(i=0; i<game.playable_nation_count; i++) {
     XtVaSetValues (races_toggles[i],
 		   XtNlabel, (XtArgVal)get_nation_name(races_toggles_to_nations[i]),
@@ -2090,7 +2114,7 @@ void create_races_dialog(void)
 		  (XtArgVal)city_styles[city_style_idx[i]].name, NULL);
   }
 
-  x_simulate_button_click(races_toggles[myrand(game.playable_nation_count)]);
+  select_random_race();
 }
 
 /****************************************************************
@@ -2106,24 +2130,34 @@ void racesdlg_key_ok(Widget w)
 /**************************************************************************
 ...
 **************************************************************************/
-void races_toggles_set_sensitive(int bits1, int bits2)
+void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
-  int i, race, selected;
-  Boolean sens;
+  int i;
 
-  for(i=0; i<game.playable_nation_count; i++) {
-    race = races_toggles_to_nations[i];
-    sens = !( ( ((race<32)?bits1:bits2) >> ((race<32)?race:race-32) )&1 );
-    XtSetSensitive(races_toggles[i], sens);
+  for (i = 0; i < game.playable_nation_count; i++) {
+    XtSetSensitive(races_toggles[nation_to_race_toggle[i]], TRUE);
   }
 
-  if((selected=races_buttons_get_current())==-1)
-    return;
-  race = races_toggles_to_nations[selected];
+  freelog(LOG_DEBUG, "%d nations used:", packet->num_nations_used);
+  for (i = 0; i < packet->num_nations_used; i++) {
+    int nation = packet->nations_used[i], selected_nation = -1;
 
-  if( (bits1 & (1<<race)) || 
-      (race>32 && (bits2 & (1<<(race-32))) ) )
-    XawToggleUnsetCurrent(races_toggles[0]);
+    if (races_buttons_get_current() != -1) {
+      selected_nation =
+	  races_toggles_to_nations[races_buttons_get_current()];
+    }
+
+    freelog(LOG_DEBUG, "  [%d]: %d = %s", i, nation,
+	    get_nation_name(nation));
+
+    if (nation == selected_nation) {
+      XawToggleUnsetCurrent(races_toggles[0]);
+      XtSetSensitive(races_toggles[nation_to_race_toggle[nation]], FALSE);
+      select_random_race();
+    } else {
+      XtSetSensitive(races_toggles[nation_to_race_toggle[nation]], FALSE);
+    }
+  }
 }
 
 /**************************************************************************
