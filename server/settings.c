@@ -109,7 +109,7 @@ static bool allowtake_callback(const char *value, const char **error_string)
 
   for (i = 0; i < len; i++) {
     /* Check to see if the character is a primary label. */
-    if (strchr("HhAadb", value[i])) {
+    if (strchr("HhAadbOo", value[i])) {
       havecharacter_state = TRUE;
       continue;
     }
@@ -852,6 +852,7 @@ struct settings_s settings[] = {
                 "letters. This only affects future uses of the take or "
                 "observe command; it is not retroactive. The characters "
 		"and their meanings are:\n"
+                "    o,O = Global observer\n"
                 "    b   = Barbarian players\n"
                 "    d   = Dead players\n"
                 "    a,A = AI players\n"
