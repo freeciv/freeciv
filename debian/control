@@ -1,7 +1,7 @@
 Source: freeciv
 Section: games
 Priority: optional
-Maintainer: Richard Braakman <dark@xs4all.nl>
+Maintainer: Lalo Martins <lalo@webcom.com>
 Standards-Version: 2.4.0.0
 
 Package: freeciv

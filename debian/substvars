@@ -1,1 +1,0 @@
-shlibs:Depends=libc6, xlib6g (>= 3.3-5), xpm4g (>= 3.4j-0)

@@ -1,8 +1,24 @@
-freeciv (1.6.0-1) unstable; urgency=low
+freeciv (1.7.1-1) unstable; urgency=low
 
-  * New debian maintainer.
+  * New upstream release
 
- -- James Blackwell <james@merconline.com>  Fri, 29 May 1998 17:12:22 -0700
+ -- Lalo Martins <lalo@webcom.com>  Thu, 17 Sep 1998 00:12:51 -0500
+
+freeciv (1.7.0-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Lalo Martins <lalo@webcom.com>  Fri,  7 Aug 1998 22:07:31 -0300
+
+freeciv (1.6.3-1) unstable; urgency=low
+
+  * New maintainer.
+  * New upstream release.
+  * Added menu entry for server too.
+  * Changed debian/rules to work with the configure script and cope with
+    the new files (CHANGES->ChangeLog for one) for /usr/doc.
+
+ -- Lalo Martins <lalo@webcom.com>  Sat, 20 Jun 1998 05:58:41 -0300
 
 freeciv (1.5.4-1) unstable; urgency=low
 

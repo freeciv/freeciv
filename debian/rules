@@ -9,24 +9,27 @@ XAWDIR = debian/tmp/usr/lib/xaw-wrappers/conf
 MANDIR = debian/tmp/usr/man
 MENUDIR = debian/tmp/usr/lib/menu
 
-config:
+config.status:
 	$(checkdir)
-	# xmkmf is hard to find if you're root.
 	./configure
-	touch config
 
-build: config
+build: config.status
 	$(checkdir)
 	make CDEBUGFLAGS="-O2 -g -Wall"
 	touch build
 
 clean:
 	$(checkdir)
-	-rm -f config build
+	-rm -f config.log config.cache config.status build
 # Assume that if the makefile doesn't exist, it was deleted by a previous
 # "make clean" so there's no need to repeat it.
 	-make clean
-	-rm -f debian/*~ Makefile Makefile.bak core
+# this assumption may lead to stray binaries and objects hanging around, so
+# we try to remove them by hand just in case.
+	-rm -f */*.o
+	-rm -f */*.a
+	-rm -f server/civserver client/civclient
+	-rm -f debian/*~ Makefile Makefile.bak core */Makefile
 	-rm -rf debian/tmp* debian/files debian/substvars
 
 binary-indep:
@@ -48,8 +51,9 @@ binary-arch: checkroot build
 	install -p -m 644 debian/xaw-wrappers ${XAWDIR}/freeciv
 # manpages
 	install -d ${MANDIR}/man6
-	install -p -m 644 debian/civclient.man ${MANDIR}/man6/civclient.6
-	install -p -m 644 debian/civserver.man ${MANDIR}/man6/civserver.6
+	# manpages? where were them?
+	#install -p -m 644 man6/*.6 ${MANDIR}/man6
+	install -p -m 644 debian/*.6 ${MANDIR}/man6
 	install -p -m 644 debian/civ.man ${MANDIR}/man6/civ.6
 	gzip -9 ${MANDIR}/man6/*.6
 # menu entry
@@ -70,8 +74,14 @@ binary-arch: checkroot build
 	install -p -m 644 ChangeLog ${DOCDIR}/changelog
 	gzip -9v ${DOCDIR}/changelog
 	install -p -m 644 README ${DOCDIR}
+	install -p -m 644 README.AI ${DOCDIR}
+	install -p -m 644 NEWS ${DOCDIR}
+	gzip -9v ${DOCDIR}/NEWS
 	install -p -m 644 CREDITS ${DOCDIR}
 	install -p -m 644 HOWTOPLAY ${DOCDIR}
+	gzip -9v ${DOCDIR}/HOWTOPLAY
+	install -p -m 644 freeciv_hackers_guide.txt ${DOCDIR}
+	gzip -9v ${DOCDIR}/freeciv_hackers_guide.txt
 	install -p -m 644 debian/README.Debian ${DOCDIR}
 #
 	dpkg-shlibdeps client/civclient server/civserver

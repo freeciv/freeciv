@@ -1,1 +1,2 @@
 ?package(freeciv):needs="x11" section="Games/Strategy" icon="none" title="FreeCiv client" command="/usr/games/civ"
+?package(freeciv):needs="text" section="Games/Strategy" icon="none" title="FreeCiv server" command="/usr/games/civserver"
