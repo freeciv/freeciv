@@ -796,7 +796,7 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
 	popup_unit_select_dialog(ptile);
     }
   }
-  else if(ev->button==Button2)
+  else if(ev->button==Button2||ev->state&ControlMask)
     popit(ev->x, ev->y, xtile, ytile);
   else
     center_tile_mapcanvas(xtile, ytile);

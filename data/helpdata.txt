@@ -341,7 +341,8 @@ Mouse:
 ======                                 
   Left-click:  (on city):  Pop up city window        
                (on unit):  Activate unit             
-  Center-click:            Show tile info                     
+  Center-click or
+     Control-right-click:  Show tile info 
   Right-click:             Center tile in view                
   Shift-click:             Wake up sentried units on tile     
                                        
