@@ -194,26 +194,61 @@ static void popup_diplomacy_dialog(struct player *plr0, struct player *plr1)
 
 
 /****************************************************************
-...
+ Create tech menu - create sub menus if techs don't fit on screen
 *****************************************************************/
 static int fill_diplomacy_tech_menu(GtkWidget *popupmenu, 
 				    struct player *plr0, struct player *plr1)
 {
-  int i, flag;
+  int i, j, lines, flag;
+  GtkWidget *parentmenu;
+  
+  parentmenu = popupmenu;
+  j = 1;
+
+  /* We assume that the height of a menu item is 30 pixels, which is more  *
+   * than the standard font used on Linux. It doesn't do much harm if font *
+   * is smaller. If the user chooses a much bigger font, though, the menu  *
+   * will still run out of the screen.                            - ChrisK */
+  lines = (gdk_screen_height() / 30) - 1;
 
   for(i=1, flag=0; i<game.num_tech_types; i++) {
     if(get_invention(plr0, i)==TECH_KNOWN && 
        (get_invention(plr1, i)==TECH_UNKNOWN || 
-	get_invention(plr1, i)==TECH_REACHABLE))
-	{
-	  GtkWidget *item=gtk_menu_item_new_with_label(advances[i].name);
+	get_invention(plr1, i)==TECH_REACHABLE)) {
+      if(j == lines) {
+        /* Last entry for current menu:                                 *
+         * create "more" item and submenu, create tech item and append  *
+         * to submenu, make submenu current parentmenu        - ChrisK  */
+           
+        GtkWidget *submenu = gtk_menu_new();
+        GtkWidget *more = gtk_menu_item_new_with_label(_("more"));
+        GtkWidget *item = gtk_menu_item_new_with_label(advances[i].name);
 
-	  gtk_menu_append(GTK_MENU(popupmenu),item);
-	  gtk_signal_connect(GTK_OBJECT(item), "activate",
-			     GTK_SIGNAL_FUNC(diplomacy_dialog_tech_callback),
-			     GINT_TO_POINTER(plr0->player_no * 10000 +
-					     plr1->player_no * 100 + i));
-      flag=1;
+        gtk_menu_item_configure(GTK_MENU_ITEM(more), FALSE, TRUE);
+        gtk_menu_item_set_submenu(GTK_MENU_ITEM(more), submenu);
+	gtk_menu_append(GTK_MENU(parentmenu), more);
+        gtk_menu_append(GTK_MENU(submenu), item);
+        gtk_signal_connect(GTK_OBJECT(item), "activate",
+	  GTK_SIGNAL_FUNC(diplomacy_dialog_tech_callback),
+	  GINT_TO_POINTER(plr0->player_no * 10000 +
+	  plr1->player_no * 100 + i));
+
+        parentmenu = submenu;
+        j = 1;
+
+      } else {
+        /* create tech item and append to parentmenu           - ChrisK  */
+        
+        GtkWidget *item = gtk_menu_item_new_with_label(advances[i].name);
+        gtk_menu_append(GTK_MENU(parentmenu), item);
+        gtk_signal_connect(GTK_OBJECT(item), "activate",
+	  GTK_SIGNAL_FUNC(diplomacy_dialog_tech_callback),
+	  GINT_TO_POINTER(plr0->player_no * 10000 +
+	  plr1->player_no * 100 + i));
+
+        j++;
+        flag = 1;
+      }
     }
   }
 
@@ -231,7 +266,10 @@ static int fill_diplomacy_city_menu(GtkWidget *popupmenu,
 				    struct player *plr0, struct player *plr1)
 {
   int i = 0, j = 0, n = city_list_size(&plr0->cities);
+  int k, lines;
   struct city **city_list_ptrs;
+  GtkWidget *parentmenu;
+
   if (n>0) {
     city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
   } else {
@@ -246,17 +284,54 @@ static int fill_diplomacy_city_menu(GtkWidget *popupmenu,
   } city_list_iterate_end;
 
   qsort(city_list_ptrs, i, sizeof(struct city*), city_name_compare);
+
+  parentmenu = popupmenu;
+  k = 1;
+                     
+  /* We assume that the height of a menu item is 30 pixels, which is more  *
+   * than the standard font used on Linux. It doesn't do much harm if font *
+   * is smaller. If the user chooses a much bigger font, though, the menu  *
+   * will still run out of the screen.                            - ChrisK */
+  lines = (gdk_screen_height() / 30) - 1;
   
   for(j=0; j<i; j++) {
-      GtkWidget *item=gtk_menu_item_new_with_label(city_list_ptrs[j]->name);
+    if(k == lines) {
+      /* Last entry for current menu:                                 *
+       * create "more" item and submenu, create tech item and append  *
+       * to submenu, make submenu current parentmenu        - ChrisK  */
+           
+      GtkWidget *submenu = gtk_menu_new();
+      GtkWidget *more = gtk_menu_item_new_with_label(_("more"));
+      GtkWidget *item = gtk_menu_item_new_with_label(city_list_ptrs[j]->name);
 
-      gtk_menu_append(GTK_MENU(popupmenu),item);
+      gtk_menu_item_configure(GTK_MENU_ITEM(more), FALSE, TRUE);
+      gtk_menu_item_set_submenu(GTK_MENU_ITEM(more), submenu);
+      gtk_menu_append(GTK_MENU(parentmenu), more);
+      gtk_menu_append(GTK_MENU(submenu), item);
       gtk_signal_connect(GTK_OBJECT(item), "activate",
 			 GTK_SIGNAL_FUNC(diplomacy_dialog_city_callback),
 			 GINT_TO_POINTER(city_list_ptrs[j]->id * 1024 +
 					 plr0->player_no * 32 +
 					 plr1->player_no));
+
+      parentmenu = submenu;
+      k = 1;
+
+    } else {
+      /* create tech item and append to parentmenu       - ChrisK  */
+
+      GtkWidget *item = gtk_menu_item_new_with_label(city_list_ptrs[j]->name);
+      gtk_menu_append(GTK_MENU(parentmenu), item);
+      gtk_signal_connect(GTK_OBJECT(item), "activate",
+			 GTK_SIGNAL_FUNC(diplomacy_dialog_city_callback),
+			 GINT_TO_POINTER(city_list_ptrs[j]->id * 1024 +
+					 plr0->player_no * 32 +
+					 plr1->player_no));
+
+      k++;
+    }        
   }
+
   free(city_list_ptrs);
   return i;
 }
