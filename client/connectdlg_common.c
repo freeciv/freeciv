@@ -144,10 +144,8 @@ code will come later
 bool client_start_server(void)
 {
 #ifdef HAVE_WORKING_FORK
-  int i = 0;
-  int nargs = 4; /* base number of args */
-  char **argv = NULL;
   char buf[512];
+  int connect_tries = 0;
 
   /* only one server (forked from this client) shall be running at a time */ 
   client_kill_server();
@@ -157,46 +155,32 @@ bool client_start_server(void)
   /* find a free port */ 
   server_port = min_free_port();
 
-  /* determine how many args we need */
-  if (logfile) {
-    nargs += 4;
-  }
-  if (scriptfile) {
-    nargs += 2;
-  }
-
-  argv = fc_malloc(nargs * sizeof(char*));
-  argv[i] = fc_malloc(10);
-  my_snprintf(argv[i++], 10, "civserver");
-  argv[i] = fc_malloc(3);
-  my_snprintf(argv[i++], 3, "-p");
-  argv[i] = fc_malloc(7);
-  my_snprintf(argv[i++], 7, "%d", server_port);
-
-  if (logfile) {
-    argv[i] = fc_malloc(8);
-    my_snprintf(argv[i++], 8, "--debug");
-    argv[i] = fc_malloc(2);
-    my_snprintf(argv[i++], 2, "3");
-    argv[i] = fc_malloc(6);
-    my_snprintf(argv[i++], 6, "--log");
-    argv[i] = fc_malloc(strlen(logfile) + 1);
-    my_snprintf(argv[i++], strlen(logfile) + 1, logfile);
-  }
-  if (scriptfile) {
-    argv[i] = fc_malloc(7);
-    my_snprintf(argv[i++], 7, "--read");
-    argv[i] = fc_malloc(strlen(scriptfile) + 1);
-    my_snprintf(argv[i++], strlen(scriptfile) + 1, scriptfile);
-  }
-  argv[i] = NULL;
-
   server_pid = fork();
   
   if (server_pid == 0) {
-    int fd;
+    int fd, argc = 0;
+    const int max_nargs = 10;
+    char *argv[max_nargs + 1], port_buf[32];
 
-    /* inside the fork */  
+    /* inside the child */
+
+    /* Set up the command-line parameters. */
+    my_snprintf(port_buf, sizeof(port_buf), "%d", server_port);
+    argv[argc++] = "civserver";
+    argv[argc++] = "-p";
+    argv[argc++] = port_buf;
+    if (logfile) {
+      argv[argc++] = "--debug";
+      argv[argc++] = "3";
+      argv[argc++] = "--log";
+      argv[argc++] = logfile;
+    }
+    if (scriptfile) {
+      argv[argc++] = "--read";
+      argv[argc++] = scriptfile;
+    }
+    argv[argc] = NULL;
+    assert(argc <= max_nargs);
 
     /* avoid terminal spam, but still make server output available */ 
     fclose(stdout);
@@ -234,19 +218,14 @@ bool client_start_server(void)
     _exit(1);
   } 
 
-  /* don't need these anymore */ 
-  for (i = 0; i < nargs - 1; i++) {
-    free(argv[i]);
-  }
-  free(argv);
-
   /* a reasonable number of tries */ 
-  while(connect_to_server((char *)user_username(), "localhost", server_port, 
+  while(connect_to_server(user_username(), "localhost", server_port, 
                           buf, sizeof(buf)) == -1) {
     myusleep(WAIT_BETWEEN_TRIES);
 
-    if (i > NUMBER_OF_TRIES)  break;
-    i++;
+    if (connect_tries++ > NUMBER_OF_TRIES) {
+      break;
+    }
   }
 
   /* weird, but could happen, if server doesn't support new startup stuff
