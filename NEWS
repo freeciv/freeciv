@@ -24,6 +24,7 @@ WHAT'S CHANGED SINCE 1.10.0:
  - Fortifying now takes a turn to complete (like Civ1/2).
  - Added correct Civ2 style of Apollo wonder (shows entire map, rather
    than just cities).  Selected by "civstyle" server option.
+ - Aggressive sea units no longer cause unhappiness when in a city.
  - Added Civ2 rule that firepower is reduced to 1 for both the defender
    and the attacker when a ship bombards a land unit.
  - When changing current research, if user changes back to what was being
