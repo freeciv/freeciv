@@ -368,6 +368,11 @@ struct Sprite *get_cursor_sprite(enum cursor_type cursor,
 struct Sprite *get_attention_crosshair_sprite(void);
 struct Sprite *get_indicator_sprite(enum indicator_type indicator,
 				    int index);
+struct Sprite *get_unit_unhappy_sprite(struct tileset *t,
+				       const struct unit *punit);
+struct Sprite *get_unit_upkeep_sprite(struct tileset *t,
+				      Output_type_id otype,
+				      const struct unit *punit);
 
 /* These variables contain the size of the tiles used within the game.
  *

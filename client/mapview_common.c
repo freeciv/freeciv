@@ -968,20 +968,17 @@ void put_unit_city_overlays(struct unit *punit,
 			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y)
 {
-  int unhappy = CLIP(0, punit->unhappiness, 2);
+  struct Sprite *sprite;
 
-  /* draw overlay pixmaps */
-  if (unhappy > 0) {
-    canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			   sprites.upkeep.unhappy[unhappy - 1]);
+  sprite = get_unit_unhappy_sprite(tileset, punit);
+  if (sprite) {
+    canvas_put_sprite_full(pcanvas, canvas_x, canvas_y, sprite);
   }
 
   output_type_iterate(o) {
-    int upkeep = CLIP(0, punit->upkeep[o], 2);
-
-    if (upkeep > 0 && sprites.upkeep.output[o][upkeep - 1]) {
-      canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			     sprites.upkeep.output[o][upkeep - 1]);
+    sprite = get_unit_upkeep_sprite(tileset, o, punit);
+    if (sprite) {
+      canvas_put_sprite_full(pcanvas, canvas_x, canvas_y, sprite);
     }
   } output_type_iterate_end;
 }

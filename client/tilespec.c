@@ -3950,6 +3950,43 @@ struct Sprite *get_indicator_sprite(enum indicator_type indicator,
   return sprites.indicator[indicator][index];
 }
 
+/****************************************************************************
+  Return a sprite for the unhappiness of the unit - to be shown as an
+  overlay on the unit in the city support dialog, for instance.
+
+  May return NULL if there's no unhappiness.
+****************************************************************************/
+struct Sprite *get_unit_unhappy_sprite(struct tileset *t,
+				       const struct unit *punit)
+{
+  const int unhappy = CLIP(0, punit->unhappiness, 2);
+
+  if (unhappy > 0) {
+    return sprites.upkeep.unhappy[unhappy - 1];
+  } else {
+    return NULL;
+  }
+}
+
+/****************************************************************************
+  Return a sprite for the upkeep of the unit - to be shown as an overlay
+  on the unit in the city support dialog, for instance.
+
+  May return NULL if there's no unhappiness.
+****************************************************************************/
+struct Sprite *get_unit_upkeep_sprite(struct tileset *t,
+				      Output_type_id otype,
+				      const struct unit *punit)
+{
+  const int upkeep = CLIP(0, punit->upkeep[otype], 2);
+
+  if (upkeep > 0) {
+    return sprites.upkeep.output[otype][upkeep - 1];
+  } else {
+    return NULL;
+  }
+}
+
 /**************************************************************************
   Loads the sprite. If the sprite is already loaded a reference
   counter is increased. Can return NULL if the sprite couldn't be
