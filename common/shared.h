@@ -22,6 +22,25 @@
 
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING
 
+/* Capabilities: Author: Mitch Davis (mjd@alphalink.com.au)
+ *
+ * Here's the string a client and server trade to find out if they can talk
+ * to each other, and using which protocol version.  The string is a comma-
+ * separated list of words, where each word indicates a capability that
+ * this version of Freeciv understands.  If a capability word is mandatory,
+ * it should start with a "+".
+ *
+ * eg, #define CAPABILITY "+1.6, MapScroll, +AutoSettlers"
+ *
+ * Note that there are separate c_capability and s_capability char[]'s in
+ * the client and server, which are valid if the client has been accepted
+ * by the server.  Client and server software can test these strings for
+ * a capability by calling the has_capability fn in capability.c.
+ */
+
+/* The default string is really simple */
+#define CAPABILITY "+1.6"
+
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2
 

@@ -20,10 +20,12 @@
 #define MSG_SIZE          1536
 #define ADDR_LENGTH         32
 
+extern char c_capability[MSG_SIZE];
+extern char s_capability[MSG_SIZE];
+
 enum packet_type {
   PACKET_REQUEST_JOIN_GAME,
-  PACKET_REPLY_JOIN_GAME_ACCEPT,
-  PACKET_REPLY_JOIN_GAME_REJECT,
+  PACKET_JOIN_GAME_REPLY,
   PACKET_SERVER_SHUTDOWN,
   PACKET_UNIT_INFO,
   PACKET_MOVE_UNIT,
@@ -276,6 +278,17 @@ struct packet_req_join_game {
   int major_version;
   int minor_version;
   int patch_version;
+  char capability[MSG_SIZE];
+};
+
+
+/*********************************************************
+ ... and the server replies.
+*********************************************************/
+struct packet_join_game_reply {
+  int you_can_join;             /* true/false */
+  char message[MSG_SIZE];
+  char capability[MSG_SIZE];
 };
 
 
@@ -305,15 +318,6 @@ struct packet_generic_message {
 *********************************************************/
 struct packet_generic_integer {
   int value;
-};
-
-
-/*********************************************************
- and the servers replies.
-*********************************************************/
-struct server_reply_join_game {
-  int you_can_join;             /* true/false */
-  char msg[MSG_SIZE];
 };
 
 
@@ -470,6 +474,11 @@ int send_packet_req_join_game(struct connection *pc,
 			      struct packet_req_join_game *request);
 struct packet_req_join_game *recieve_packet_req_join_game(struct 
 							  connection *pc);
+
+int send_packet_join_game_reply(struct connection *pc, 
+			       struct packet_join_game_reply *reply);
+struct packet_join_game_reply *recieve_packet_join_game_reply(struct 
+							      connection *pc);
 
 int send_packet_alloc_race(struct connection *pc, 
 			   struct packet_alloc_race *packet);

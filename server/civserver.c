@@ -50,6 +50,7 @@
 #include <meta.h>
 #include <advmilitary.h>
 #include <aihand.h>
+#include <capability.h>
 
 void show_ending();
 void end_game();
@@ -90,6 +91,10 @@ char usage[] =
 
 int port=DEFAULT_SOCK_PORT;
 int nocity_send=0;
+
+/* These are the capability strings for the client and the server. */
+char c_capability[MSG_SIZE]="";
+char s_capability[MSG_SIZE]="";
 
 /* The next three variables make selecting races for AI players cleaner */
 int races_avail[R_LAST];
@@ -189,6 +194,10 @@ int main(int argc, char *argv[])
   
   printf(FREECIV_NAME_VERSION " server\n> ");
   fflush(stdout);
+
+  strcpy(s_capability, CAPABILITY);
+  if (getenv("FREECIV_CAPS"))
+    strcpy(s_capability, getenv("FREECIV_CAPS"));
 
   game_init();
 
@@ -936,17 +945,19 @@ void send_select_race(struct player *pplayer)
 void accept_new_player(char *name, struct connection *pconn)
 {
   int i;
-  struct packet_generic_message gen_packet;
-  char buf[512];
+  struct packet_join_game_reply packet;
+  char hostname[512];
+
+  packet.you_can_join=1;
+  strcpy(packet.capability, CAPABILITY);
 
   strcpy(game.players[game.nplayers].name, name);
   game.players[game.nplayers].conn=pconn;
   game.players[game.nplayers].is_connected=1;
   if (pconn) {
     strcpy(game.players[game.nplayers].addr, pconn->addr); 
-    sprintf(gen_packet.message, "Welcome %s.", name);
-    send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_ACCEPT, 
-  			        &gen_packet);
+    sprintf(packet.message, "Welcome %s.", name);
+    send_packet_join_game_reply(pconn, &packet);
     log(LOG_NORMAL, "%s[%s] has joined the game.", name, pconn->addr);
     for(i=0; i<game.nplayers; ++i)
       notify_player(&game.players[i],
@@ -962,10 +973,10 @@ void accept_new_player(char *name, struct connection *pconn)
     server_state=SELECT_RACES_STATE;
 
   /* now notify the player about the server etc */
-  if (pconn && (gethostname(buf, 512)==0)) {
+  if (pconn && (gethostname(hostname, 512)==0)) {
      notify_player(&game.players[game.nplayers-1],
 		   "Welcome to the %s Server running at %s", 
-		   FREECIV_NAME_VERSION, buf);
+		   FREECIV_NAME_VERSION, hostname);
      notify_player(&game.players[game.nplayers-1],
 		   "There's currently %d player%s connected:", game.nplayers,
 		   game.nplayers>1 ? "s" : "");
@@ -981,94 +992,119 @@ void accept_new_player(char *name, struct connection *pconn)
 ...
 **************************************************************************/
 
-void handle_request_join_game(struct connection *pconn, 
-			      struct packet_req_join_game *request)
+void reject_new_player(char *msg, struct connection *pconn)
 {
-  struct packet_generic_message gen_packet;
+  struct packet_join_game_reply packet;
+  
+  packet.you_can_join=0;
+  strcpy(packet.capability, s_capability);
+  strcpy(packet.message, msg);
+  send_packet_join_game_reply(pconn, &packet);
+}
+  
+/**************************************************************************
+...
+**************************************************************************/
+
+void handle_request_join_game(struct connection *pconn, 
+			      struct packet_req_join_game *req)
+{
   struct player *pplayer;
+  char msg[MSG_SIZE];
   
-  log(LOG_NORMAL, "Connection from %s with client version %d.%d.%d", request->name, 
-      request->major_version, request->minor_version, request->patch_version);
-  
-  if(request->major_version<MAJOR_VERSION || 
-     (request->major_version==MAJOR_VERSION && request->minor_version<MINOR_VERSION)) {
-    sprintf(gen_packet.message, "You have to upgrade your client to a newer version\nThis server is version %d.%d.%d - Your client is Freeciv version %d.%d.%d",
+  log(LOG_NORMAL, "Connection from %s with client version %d.%d.%d", req->name,
+      req->major_version, req->minor_version, req->patch_version);
+#if 0
+  log(LOG_NORMAL, "Client caps: %s Server Caps: %s", req->capability, s_capability);
+#endif
+  /* Make sure the server has every capability the client needs */
+  if (!has_capabilities(s_capability, req->capability)) {
+    sprintf(msg, "The server is missing a capability that this client needs.\n"
+	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
-	    request->major_version, request->minor_version, request->patch_version);
-    
-    send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_REJECT, &gen_packet);
-    log(LOG_NORMAL, "%s was rejected, because of an outdated client", request->name);
+	    req->major_version, req->minor_version, req->patch_version);
+    reject_new_player(msg, pconn);
+    log(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
     close_connection(pconn);
     return;
   }
-  
-  if(request->major_version>MAJOR_VERSION || request->minor_version>MINOR_VERSION) {
-    sprintf(gen_packet.message, "The server is too old for this client\nThis server is version %d.%d.%d - Your client is Freeciv version %d.%d.%d",
+
+  /* Make sure the client has every capability the server needs */
+  if (!has_capabilities(req->capability, s_capability)) {
+    sprintf(msg, "The client is missing a capability that the server needs.\n"
+	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
 	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
-	    request->major_version, request->minor_version, request->patch_version);
-    
-    send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_REJECT, &gen_packet);
-    log(LOG_NORMAL, "%s was rejected, because of too new a client", request->name);
+	    req->major_version, req->minor_version, req->patch_version);
+    reject_new_player(msg, pconn);
+    log(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
     close_connection(pconn);
     return;
   }
-  
-  if((pplayer=find_player_by_name(request->name))!=0) {
+
+  if(pplayer=find_player_by_name(req->name)) {
     if(!pplayer->conn) {
-      sprintf(gen_packet.message, "Welcome back %s.", pplayer->name);
+      /* can I use accept_new_player here?? mjd */
+      struct packet_join_game_reply packet;
+
       pplayer->conn=pconn;
       pplayer->is_connected=1;
       strcpy(pplayer->addr, pconn->addr); 
-      send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_ACCEPT, 
-				  &gen_packet);
+      sprintf(packet.message, "Welcome back %s.", pplayer->name);
+      packet.you_can_join=1;
+      strcpy(packet.capability, s_capability);
+      send_packet_join_game_reply(pconn, &packet);
       log(LOG_NORMAL, "%s has reconnected.", pplayer->name);
       if(server_state==RUN_GAME_STATE) {
 	send_all_info(pplayer);
         send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
       }
+
+      return;
     }
-    else if(server_state==PRE_GAME_STATE) {
+
+    if(server_state==PRE_GAME_STATE) {
       if(game.nplayers==game.max_players) {
-	strcpy(gen_packet.message, "Sorry you can't join. The game is full.");
-	send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_REJECT, 
-				    &gen_packet);
-	log(LOG_NORMAL, "game full - %s was rejected.", request->name);    
+	reject_new_player("Sorry you can't join. The game is full.", pconn);
+	log(LOG_NORMAL, "game full - %s was rejected.", req->name);    
 	close_connection(pconn);
+
+        return;
       }
-      else
-	accept_new_player(request->name, pconn);
+      accept_new_player(req->name, pconn);
+
+      return;
     }
-    else {
-      sprintf(gen_packet.message, 
-	      "You can't join the game. %s is already connected.", 
-	      pplayer->name);
-      send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_REJECT,
-				  &gen_packet);
-      log(LOG_NORMAL, "%s was rejected.", pplayer->name);
-      close_connection(pconn);
-    }
+
+    sprintf(msg, "You can't join the game. %s is already connected.", 
+	    pplayer->name);
+    reject_new_player(msg, pconn);
+    log(LOG_NORMAL, "%s was rejected.", pplayer->name);
+    close_connection(pconn);
+
+    return;
   }
-  else {  /* unknown name */
-    if(server_state!=PRE_GAME_STATE) {
-      strcpy(gen_packet.message, 
-	     "Sorry you can't join. The game is already running.");
-      send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_REJECT, 
-				  &gen_packet);
-      log(LOG_NORMAL, "game running - %s was rejected.", request->name);
-      lost_connection_to_player(pconn);
-      close_connection(pconn);
-    }
-    else if(game.nplayers==game.max_players) {
-      strcpy(gen_packet.message, "Sorry you can't join. The game is full.");
-      send_packet_generic_message(pconn, PACKET_REPLY_JOIN_GAME_REJECT, 
-				  &gen_packet);
-      log(LOG_NORMAL, "game full - %s was rejected.", request->name);    
-      close_connection(pconn);
-    }
-    else {
-      accept_new_player(request->name, pconn);    
-    }
+
+  /* unknown name */
+
+  if(server_state!=PRE_GAME_STATE) {
+    reject_new_player("Sorry you can't join. The game is already running.",
+		      pconn);
+    log(LOG_NORMAL, "game running - %s was rejected.", req->name);
+    lost_connection_to_player(pconn);
+    close_connection(pconn);
+
+    return;
   }
+
+  if(game.nplayers==game.max_players) {
+    reject_new_player("Sorry you can't join. The game is full.", pconn);
+    log(LOG_NORMAL, "game full - %s was rejected.", req->name);    
+    close_connection(pconn);
+
+    return;
+  }
+
+  accept_new_player(req->name, pconn);    
 }
 
 /**************************************************************************

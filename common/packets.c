@@ -42,15 +42,12 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_REQUEST_JOIN_GAME:
     return recieve_packet_req_join_game(pc);
 
-  case PACKET_REPLY_JOIN_GAME_ACCEPT:
-    return recieve_packet_generic_message(pc);
-    
-  case PACKET_REPLY_JOIN_GAME_REJECT:
-    return recieve_packet_generic_message(pc);
+  case PACKET_JOIN_GAME_REPLY:
+    return recieve_packet_join_game_reply(pc);
 
   case PACKET_SERVER_SHUTDOWN:
     return recieve_packet_generic_message(pc);
-           
+
   case PACKET_UNIT_INFO:
     return recieve_packet_unit_info(pc);
 
@@ -157,7 +154,6 @@ unsigned char *get_int8(unsigned char *buffer, int *val)
   return buffer+1;
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -166,7 +162,6 @@ unsigned char *put_int8(unsigned char *buffer, int val)
   *buffer++=val&0xff;
   return buffer;
 }
-
 
 /**************************************************************************
 ...
@@ -1204,6 +1199,23 @@ int send_packet_req_join_game(struct connection *pc, struct
   cptr=put_int32(cptr, request->major_version);
   cptr=put_int32(cptr, request->minor_version);
   cptr=put_int32(cptr, request->patch_version);
+  cptr=put_string(cptr, request->capability);
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_join_game_reply(struct connection *pc, struct 
+			        packet_join_game_reply *reply)
+{
+  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  cptr=put_int16(buffer+2, PACKET_JOIN_GAME_REPLY);
+  cptr=put_int32(cptr, reply->you_can_join);
+  cptr=put_string(cptr, reply->message);
+  cptr=put_string(cptr, reply->capability);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1256,6 +1268,29 @@ recieve_packet_req_join_game(struct connection *pc)
   cptr=get_int32(cptr, &packet->major_version);
   cptr=get_int32(cptr, &packet->minor_version);
   cptr=get_int32(cptr, &packet->patch_version);
+  cptr=get_string(cptr, packet->capability);
+
+  remove_packet_from_buffer(&pc->buffer);
+
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_join_game_reply *
+recieve_packet_join_game_reply(struct connection *pc)
+{
+  unsigned char *cptr;
+  struct packet_join_game_reply *packet=
+    malloc(sizeof(struct packet_join_game_reply));
+
+  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int16(cptr, NULL);
+  
+  cptr=get_int32(cptr, &packet->you_can_join);
+  cptr=get_string(cptr, packet->message);
+  cptr=get_string(cptr, packet->capability);
 
   remove_packet_from_buffer(&pc->buffer);
 

@@ -32,6 +32,29 @@ extern struct Sprite *radar_gfx_sprite;
 /**************************************************************************
 ...
 **************************************************************************/
+void handle_join_game_reply(struct packet_join_game_reply *packet)
+{
+  char msg[MSG_SIZE];
+
+  strcpy(s_capability, packet->capability);
+
+  if (packet->you_can_join) {
+    log(LOG_DEBUG, "join game accept:%s", packet->message);
+  } else {
+    sprintf(msg, "You were rejected from the game: %s", packet->message);
+    append_output_window(msg);
+  }
+  if (strcmp(s_capability, c_capability)==0)
+    return;
+  sprintf(msg, "Client capability string: %s", c_capability);
+  append_output_window(msg);
+  sprintf(msg, "Server capability string: %s", s_capability);
+  append_output_window(msg);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void handle_remove_city(struct packet_generic_integer *packet)
 {
   client_remove_city(packet->value);

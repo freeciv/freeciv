@@ -5,6 +5,8 @@ noinst_LIBRARIES = libcivcommon.a
 INCLUDES = -I $(srcdir)/../ai
 
 libcivcommon_a_SOURCES = \
+		capability.c	\
+		capability.h	\
 		city.c		\
 		city.h		\
 		diptreaty.c	\

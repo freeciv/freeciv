@@ -60,6 +60,9 @@ int seconds_to_turndone;
 int last_turn_gold_amount;
 int turn_gold_difference;
 
+char c_capability[MSG_SIZE]="";
+char s_capability[MSG_SIZE]="";
+
 int did_advance_tech_this_turn;
 int message_values[E_LAST];
 void handle_move_unit(struct packet_move_unit *packet);
@@ -95,22 +98,18 @@ int main(int argc, char *argv[])
 void handle_packet_input(char *packet, int type)
 {
   switch(type) {
-  case PACKET_REPLY_JOIN_GAME_ACCEPT:
-    log(LOG_DEBUG, "join game accept:%s", ((struct packet_generic_message *)
-	packet)->message);
-    break;
-
-  case PACKET_REPLY_JOIN_GAME_REJECT:
-    append_output_window("You were rejected from the game:");
-    append_output_window(((struct packet_generic_message *)packet)->message);
+  case PACKET_JOIN_GAME_REPLY:
+    handle_join_game_reply((struct packet_join_game_reply *)packet);
     break;
 
   case PACKET_SERVER_SHUTDOWN:
     log(LOG_DEBUG, "server shutdown");
     break;
+
   case PACKET_BEFORE_NEW_YEAR:
     handle_before_new_year();
     break;
+
   case PACKET_NEW_YEAR:
     handle_new_year((struct packet_new_year *)packet);
     break;
@@ -145,35 +144,35 @@ void handle_packet_input(char *packet, int type)
     
   case PACKET_CHAT_MSG:
     handle_chat_msg((struct packet_generic_message *)packet);
-  break;
+    break;
 
   case PACKET_PAGE_MSG:
     handle_page_msg((struct packet_generic_message *)packet);
-  break;
+    break;
     
   case PACKET_CITY_INFO:
     handle_city_info((struct packet_city_info *)packet);
-  break;
+    break;
 
   case PACKET_REMOVE_UNIT:
     handle_remove_unit((struct packet_generic_integer *)packet);
-  break;
+    break;
 
   case PACKET_REMOVE_CITY:
     handle_remove_city((struct packet_generic_integer *)packet);
-  break;
+    break;
     
   case PACKET_UNIT_COMBAT:
     handle_unit_combat((struct packet_unit_combat *)packet);
-  break;
+    break;
 
   case PACKET_GAME_STATE:
     handle_game_state(((struct packet_generic_integer *)packet));
-  break;
+    break;
 
   case PACKET_NUKE_TILE:
     handle_nuke_tile(((struct packet_nuke_tile *)packet));
-  break;
+    break;
 
   case PACKET_DIPLOMACY_INIT_MEETING:
     handle_diplomacy_init_meeting((struct packet_diplomacy_info *)packet);  

@@ -68,6 +68,8 @@ noinst_LIBRARIES = libcivcommon.a
 INCLUDES = -I $(srcdir)/../ai
 
 libcivcommon_a_SOURCES = \
+		capability.c 	\
+		capability.h 	\
 		city.c		\
 		city.h		\
 		diptreaty.c	\
@@ -106,8 +108,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libcivcommon_a_LIBADD = 
-libcivcommon_a_OBJECTS =  city.o diptreaty.o game.o genlist.o log.o \
-map.o packets.o player.o shared.o tech.o unit.o
+libcivcommon_a_OBJECTS = capability.o city.o diptreaty.o game.o genlist.o log.o map.o packets.o player.o shared.o tech.o unit.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
