@@ -1531,7 +1531,7 @@ static struct player *split_player(struct player *pplayer)
   nations_used = NULL;
   pick_ai_player_name(cplayer->nation,cplayer->name);
 
-  sz_strlcpy(cplayer->username, "Server AI");
+  sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
   cplayer->government = game.government_when_anarchy;  
   cplayer->revolution = 1;
