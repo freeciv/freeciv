@@ -1251,8 +1251,18 @@ bool handle_unit_establish_trade(struct player *pplayer,
   send_player_info(pplayer, pplayer);
   city_refresh(pcity_homecity);
   city_refresh(pcity_dest);
+
+  /* Notify the owners of the city. */
   send_city_info(pplayer, pcity_homecity);
   send_city_info(city_owner(pcity_dest), pcity_dest);
+
+  /* 
+   * Notify the players about the other city so that they get the
+   * tile_trade value.
+   */
+  send_city_info(city_owner(pcity_dest), pcity_homecity);
+  send_city_info(pplayer, pcity_dest);
+
   conn_list_do_unbuffer(&pplayer->connections);
   return TRUE;
 }
