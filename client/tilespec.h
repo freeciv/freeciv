@@ -27,6 +27,20 @@ struct unit;
 struct player;
 
 struct drawn_sprite {
+  enum {
+    DRAWN_SPRITE,	/* Draw a sprite. */
+    DRAWN_GRID		/* Draw the map grid now. */
+  } type;
+
+  enum {
+    /* Only applicable in iso-view.  "Full" sprites overlap into the top
+     * half-tile of UNIT_TILE_HEIGHT. */
+    DRAW_NORMAL,
+    DRAW_FULL
+  } style;
+
+  /* These files only apply for DRAWN_SPRITE. */
+  bool foggable;	/* Set to FALSE for sprites that are never fogged. */
   struct Sprite *sprite;
   int offset_x, offset_y;	/* offset from tile origin */
 };

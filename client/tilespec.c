@@ -1434,13 +1434,17 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
   return sprites.city.tile[style][city_styles[style].tiles_num+1];
 }
 
-#define ADD_SPRITE(s, x_offset, y_offset) \
+#define ADD_SPRITE(s, draw_style, draw_fog, x_offset, y_offset)	\
   (assert(s != NULL),                     \
+   sprs->type = DRAWN_SPRITE,             \
+   sprs->style = draw_style,              \
    sprs->sprite = s,                      \
+   sprs->foggable = draw_fog,             \
    sprs->offset_x = x_offset,             \
    sprs->offset_y = y_offset,             \
    sprs++)
-#define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, 0, 0)
+#define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, DRAW_NORMAL, TRUE, 0, 0)
+#define ADD_SPRITE_FULL(s) ADD_SPRITE(s, DRAW_FULL, TRUE, 0, 0)
 
 /**********************************************************************
   Fill in the sprite array for the city
@@ -1453,7 +1457,7 @@ static int fill_city_sprite_array(struct drawn_sprite *sprs,
   *solid_bg = FALSE;
 
   if (!solid_color_behind_units) {
-    ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+    ADD_SPRITE(get_city_nation_flag_sprite(pcity), DRAW_FULL, TRUE,
 	       flag_offset_x, flag_offset_y);
   } else {
     *solid_bg = TRUE;
@@ -1494,30 +1498,6 @@ static int fill_city_sprite_array(struct drawn_sprite *sprs,
   }
 
   ADD_SPRITE_SIMPLE(sprites.city.size[pcity->size % 10]);
-
-  return sprs - save_sprs;
-}
-
-/**********************************************************************
-  Fill in the sprite array for the city
-  (small because things have to be done later in isometric view.)
-***********************************************************************/
-int fill_city_sprite_array_iso(struct drawn_sprite *sprs, struct city *pcity)
-{
-  struct drawn_sprite *save_sprs = sprs;
-
-  ADD_SPRITE(get_city_nation_flag_sprite(pcity),
-	     flag_offset_x, flag_offset_y);
-
-  if (pcity->client.occupied) {
-    ADD_SPRITE_SIMPLE(get_city_occupied_sprite(pcity));
-  }
-
-  ADD_SPRITE_SIMPLE(get_city_sprite(pcity));
-
-  if (pcity->client.unhappy) {
-    ADD_SPRITE_SIMPLE(sprites.city.disorder);
-  }
 
   return sprs - save_sprs;
 }
@@ -1572,20 +1552,20 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
   if (is_isometric) {
     if (backdrop) {
       ADD_SPRITE(get_unit_nation_flag_sprite(punit),
-		 flag_offset_x, flag_offset_y);
+		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
     }
   } else {
     if (backdrop) {
       if (!solid_color_behind_units) {
 	ADD_SPRITE(get_unit_nation_flag_sprite(punit),
-		   flag_offset_x, flag_offset_y);
+		   DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
       } else {
 	*solid_bg = TRUE;
       }
     }
   }
 
-  ADD_SPRITE_SIMPLE(unit_type(punit)->sprite);
+  ADD_SPRITE_FULL(unit_type(punit)->sprite);
 
   if(punit->activity!=ACTIVITY_IDLE) {
     struct Sprite *s = NULL;
@@ -1637,38 +1617,38 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
       break;
     }
 
-    ADD_SPRITE_SIMPLE(s);
+    ADD_SPRITE_FULL(s);
   }
 
   if (punit->ai.control && punit->activity != ACTIVITY_EXPLORE) {
     if (is_military_unit(punit)) {
-      ADD_SPRITE_SIMPLE(sprites.unit.auto_attack);
+      ADD_SPRITE_FULL(sprites.unit.auto_attack);
     } else {
-      ADD_SPRITE_SIMPLE(sprites.unit.auto_settler);
+      ADD_SPRITE_FULL(sprites.unit.auto_settler);
     }
   }
 
   if (punit->connecting) {
-    ADD_SPRITE_SIMPLE(sprites.unit.connect);
+    ADD_SPRITE_FULL(sprites.unit.connect);
   }
 
   if (unit_has_orders(punit)) {
     if (punit->orders.repeat) {
-      ADD_SPRITE_SIMPLE(sprites.unit.patrol);
+      ADD_SPRITE_FULL(sprites.unit.patrol);
     } else {
-      ADD_SPRITE_SIMPLE(sprites.unit.go_to);
+      ADD_SPRITE_FULL(sprites.unit.go_to);
     }
   }
 
   if (stack || punit->occupy) {
-    ADD_SPRITE_SIMPLE(sprites.unit.stack);
+    ADD_SPRITE_FULL(sprites.unit.stack);
   } else {
-    ADD_SPRITE_SIMPLE(sprites.unit.vet_lev[punit->veteran]);
+    ADD_SPRITE_FULL(sprites.unit.vet_lev[punit->veteran]);
   }
  
   ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / unit_type(punit)->hp;
   ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
-  ADD_SPRITE_SIMPLE(sprites.unit.hp_bar[ihp]);
+  ADD_SPRITE_FULL(sprites.unit.hp_bar[ihp]);
 
   return sprs - save_sprs;
 }
@@ -1993,7 +1973,7 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
 	continue;
       }
 
-      ADD_SPRITE(sprites.terrain[other]->blend[dir],
+      ADD_SPRITE(sprites.terrain[other]->blend[dir], DRAW_NORMAL, TRUE,
 		 offsets[dir][0], offsets[dir][1]);
     }
   }
@@ -2069,7 +2049,8 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 	  int x = (is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
 	  int y = (is_isometric ? iso_offsets[i][1] : noniso_offsets[i][1]);
 
-	  ADD_SPRITE(draw->layer[l].cells[array_index][i], x, y);
+	  ADD_SPRITE(draw->layer[l].cells[array_index][i],
+		     DRAW_NORMAL, TRUE, x, y);
 	}
       }
 #undef MATCH
@@ -2096,7 +2077,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 	  int offsets[4][2] = {{W / 2, 0}, {0, H / 2}, {W / 2, H / 2}, {0, 0}};
 
 	  if (UNKNOWN(dir)) {
-	    ADD_SPRITE(sprites.tx.darkness[dir],
+	    ADD_SPRITE(sprites.tx.darkness[dir], DRAW_NORMAL, TRUE,
 		       offsets[dir][0], offsets[dir][1]);
 	  }
 	}
@@ -2173,6 +2154,8 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
   int tileno, dir;
   struct tile *ptile = map_get_tile(x, y);
   struct city *pcity = ptile->city;
+  struct unit *punit = get_drawable_unit(x, y, citymode);
+  struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
 
   *solid_bg = FALSE;
@@ -2236,16 +2219,54 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
     if (contains_special(tspecial, S_HUT) && draw_specials) {
       ADD_SPRITE_SIMPLE(sprites.tx.village);
     }
+  }
 
-#if 0
-    /* These are drawn later in isometric view (on top of city.) */
-    if (contains_special(tspecial, S_POLLUTION)) {
-      ADD_SPRITE_SIMPLE(sprites.tx.pollution);
+  /* Add grid. */
+  sprs->type = DRAWN_GRID;
+  sprs++;
+
+  if (pcity && draw_cities) {
+    ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+	       DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
+    if (pcity->client.occupied) {
+      ADD_SPRITE_FULL(get_city_occupied_sprite(pcity));
     }
-    if (contains_special(tspecial, S_FALLOUT)) {
-      ADD_SPRITE_SIMPLE(sprites.tx.fallout);
+    ADD_SPRITE_FULL(get_city_sprite(pcity));
+    if (pcity->client.unhappy) {
+      ADD_SPRITE_FULL(sprites.city.disorder);
     }
-#endif
+  }
+
+  if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
+    ADD_SPRITE_FULL(sprites.tx.airbase);
+  }
+
+  if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
+    ADD_SPRITE_SIMPLE(sprites.tx.pollution);
+  }
+  if (draw_pollution && contains_special(tspecial, S_FALLOUT)) {
+    ADD_SPRITE_SIMPLE(sprites.tx.fallout);
+  }
+
+  /* City size.  Drawing this under fog makes it hard to read. */
+  if (pcity && draw_cities) {
+    if (pcity->size >= 10) {
+      ADD_SPRITE(sprites.city.size_tens[pcity->size / 10], DRAW_FULL,
+		 FALSE, 0, 0);
+    }
+    ADD_SPRITE(sprites.city.size[pcity->size % 10], DRAW_FULL,
+	       FALSE, 0, 0);
+  }
+
+  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
+    bool stacked = (unit_list_size(&map_get_tile(x, y)->units) > 1);
+    bool backdrop = !pcity;
+
+    sprs += fill_unit_sprite_array(sprs, punit, solid_bg, stacked, backdrop);
+  }
+
+  if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)) {
+    ADD_SPRITE_FULL(sprites.tx.fortress);
   }
 
   return sprs - save_sprs;

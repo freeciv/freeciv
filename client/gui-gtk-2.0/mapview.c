@@ -27,7 +27,6 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
-#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "player.h"
@@ -1054,27 +1053,6 @@ static void pixmap_put_drawn_sprite(GdkDrawable *pixmap,
 /**************************************************************************
 Only used for isometric view.
 **************************************************************************/
-static void put_city_pixmap_draw(struct city *pcity, GdkPixmap *pm,
-				 int canvas_x, int canvas_y,
-				 int offset_x, int offset_y_unit,
-				 int width, int height_unit,
-				 bool fog)
-{
-  struct drawn_sprite sprites[80];
-  int count = fill_city_sprite_array_iso(sprites, pcity);
-  int i;
-
-  for (i=0; i<count; i++) {
-    if (sprites[i].sprite) {
-      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &sprites[i],
-			      offset_x, offset_y_unit, width, height_unit,
-			      fog);
-    }
-  }
-}
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
 static void pixmap_put_black_tile_iso(GdkDrawable *pm,
 				      int canvas_x, int canvas_y,
 				      int offset_x, int offset_y,
@@ -1104,11 +1082,8 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				enum draw_type draw)
 {
   struct drawn_sprite tile_sprs[80];
-  struct city *pcity;
-  struct unit *punit, *pfocus;
-  enum tile_special_type special;
   int count, i;
-  bool solid_bg, fog, tile_hilited;
+  bool solid_bg, fog;
   struct canvas canvas_store = {.type = CANVAS_PIXMAP, .v.pixmap = pm};
 
   if (!width || !(height || height_unit))
@@ -1128,11 +1103,6 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   normalize_map_pos(&x, &y);
 
   fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
-  pcity = map_get_city(x, y);
-  punit = get_drawable_unit(x, y, citymode);
-  pfocus = get_unit_in_focus();
-  special = map_get_special(x, y);
-  tile_hilited = (map_get_tile(x,y)->client.hilite != HILITE_NONE);
 
   if (solid_bg) {
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
@@ -1160,74 +1130,30 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 
   /*** Draw terrain and specials ***/
   for (i = 0; i < count; i++) {
-    if (tile_sprs[i].sprite)
-      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[i],
-			      offset_x, offset_y, width, height, fog);
-    else
-      freelog(LOG_ERROR, "sprite is NULL");
+    switch (tile_sprs[i].type) {
+    case DRAWN_SPRITE:
+      switch (tile_sprs[i].style) {
+      case DRAW_NORMAL:
+	pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[i],
+				offset_x, offset_y, width, height,
+				fog && tile_sprs[i].foggable);
+	break;
+      case DRAW_FULL:
+	pixmap_put_drawn_sprite(pm, canvas_x,
+				canvas_y - NORMAL_TILE_HEIGHT / 2,
+				&tile_sprs[i], offset_x, offset_y_unit,
+				width, height_unit,
+				fog && tile_sprs[i].foggable);
+	break;
+      }
+      break;
+    case DRAWN_GRID:
+      /*** Grid (map grid, borders, coastline, etc.) ***/
+      tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y,
+		     draw, citymode);
+      break;
+    }
   }
-
-  /*** Grid (map grid, borders, coastline, etc.) ***/
-  tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y, draw, citymode);
-
-  /*** City and various terrain improvements ***/
-  if (pcity && draw_cities) {
-    put_city_pixmap_draw(pcity, pm,
-			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
-			 offset_x, offset_y_unit,
-			 width, height_unit, fog);
-  }
-  if (contains_special(special, S_AIRBASE) && draw_fortress_airbase)
-    pixmap_put_overlay_tile_draw(pm,
-				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-				 sprites.tx.airbase,
-				 offset_x, offset_y_unit,
-				 width, height_unit, fog);
-  if (contains_special(special, S_FALLOUT) && draw_pollution)
-    pixmap_put_overlay_tile_draw(pm,
-				 canvas_x, canvas_y,
-				 sprites.tx.fallout,
-				 offset_x, offset_y,
-				 width, height, fog);
-  if (contains_special(special, S_POLLUTION) && draw_pollution)
-    pixmap_put_overlay_tile_draw(pm,
-				 canvas_x, canvas_y,
-				 sprites.tx.pollution,
-				 offset_x, offset_y,
-				 width, height, fog);
-
-  /*** city size ***/
-  /* Not fogged as it would be unreadable */
-  if (pcity && draw_cities) {
-    if (pcity->size>=10)
-      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-				   sprites.city.size_tens[pcity->size/10],
-				   offset_x, offset_y_unit,
-				   width, height_unit, 0);
-
-    pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-				 sprites.city.size[pcity->size%10],
-				 offset_x, offset_y_unit,
-				 width, height_unit, 0);
-  }
-
-  /*** Unit ***/
-  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    bool stacked = (unit_list_size(&map_get_tile(x, y)->units) > 1);
-    bool backdrop = !pcity;
-
-    put_unit(punit, stacked, backdrop, &canvas_store,
-	     canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
-	     offset_x, offset_y_unit,
-	     width, height_unit);
-  }
-
-  if (contains_special(special, S_FORTRESS) && draw_fortress_airbase)
-    pixmap_put_overlay_tile_draw(pm,
-				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-				 sprites.tx.fortress,
-				 offset_x, offset_y_unit,
-				 width, height_unit, fog);
 }
 
 /**************************************************************************

@@ -911,32 +911,6 @@ static void pixmap_put_drawn_sprite(HDC hdc,
   
 }
 
-
-
-/**************************************************************************
-Only used for isometric view.
-**************************************************************************/
-static void put_city_pixmap_draw(struct city *pcity,HDC hdc,
-                                 int canvas_x, int canvas_y,
-                                 int offset_x, int offset_y_unit,
-                                 int width, int height_unit,
-				 bool fog)
-{
-  struct drawn_sprite sprites[80];
-  int count = fill_city_sprite_array_iso(sprites, pcity);
-  int i;
-
-  for (i=0; i<count; i++) {
-    if (sprites[i].sprite) {
-      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &sprites[i],
-                                   offset_x, offset_y_unit,
-                                   width, height_unit,
-                                   fog);
-    }
-  }
-}
-
-
 /**************************************************************************
 Only used for isometric view.
 **************************************************************************/
@@ -948,10 +922,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 enum draw_type draw)
 {
   struct drawn_sprite tile_sprs[80];
-  struct city *pcity;
-  struct unit *punit, *pfocus;
   struct canvas canvas_store={hdc,NULL};
-  enum tile_special_type special;
   int count, i;
   bool fog, solid_bg, is_real;
 
@@ -968,10 +939,6 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   is_real = normalize_map_pos(&x, &y);
   assert(is_real);
   fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
-  pcity = map_get_city(x, y);
-  punit = get_drawable_unit(x, y, citymode);
-  pfocus = get_unit_in_focus();
-  special = map_get_special(x, y);
 
   if (solid_bg) {
     HPEN oldpen;
@@ -994,103 +961,28 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
 
   /*** Draw terrain and specials ***/
   for (i = 0; i < count; i++) {
-    if (tile_sprs[i].sprite)
-      pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
-                                   offset_x, offset_y, width, height, fog);
-    else
-      freelog(LOG_ERROR, "sprite is NULL");
-  }
-
-  /*** Grid (map grid, borders, coastline, etc.) ***/
-  tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y, draw, citymode);
-
-  if (draw_coastline && !draw_terrain) {
-    enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
-    int x1, y1;
-    HPEN old;
-    old=SelectObject(hdc,pen_std[COLOR_STD_OCEAN]);
-    x1=x;
-    y1=y-1;
-    if (normalize_map_pos(&x1,&y1)) { 
-      t2=map_get_terrain(x1,y1);
-      if (draw & D_M_R && (is_ocean(t1) ^ is_ocean(t2))) {
-	MoveToEx(hdc,canvas_x+NORMAL_TILE_WIDTH/2,canvas_y,NULL);
-	LineTo(hdc,canvas_x+NORMAL_TILE_WIDTH,
-	       canvas_y+NORMAL_TILE_HEIGHT/2);
+    switch (tile_sprs[i].type) {
+    case DRAWN_SPRITE:
+      switch (tile_sprs[i].style) {
+      case DRAW_NORMAL:
+	pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[i],
+				offset_x, offset_y, width, height,
+				fog && tile_sprs[i].foggable);
+	break;
+      case DRAW_FULL:
+	pixmap_put_drawn_sprite(hdc,
+				canvas_x, canvas_y - NORMAL_TILE_HEIGHT / 2,
+				&tile_sprs[i],
+				offset_x, offset_y_unit, width, height_unit,
+				fog && tile_sprs[i].foggable);
+	break;
       }
-    }
-    x1=x-1; 
-    y1=y;
-    if (normalize_map_pos(&x1, &y1)) {
-      t2 = map_get_terrain(x1, y1);
-      if (draw & D_M_L && (is_ocean(t1) ^ is_ocean(t2))) {
-	MoveToEx(hdc,canvas_x,canvas_y+NORMAL_TILE_HEIGHT/2,NULL);
-	LineTo(hdc,canvas_x+NORMAL_TILE_WIDTH/2,canvas_y); 
-      }
+    case DRAWN_GRID:
+      /*** Grid (map grid, borders, coastline, etc.) ***/
+      tile_draw_grid(&canvas_store, x, y, canvas_x, canvas_y,
+		     draw, citymode);
     }
   }
-  
-  /*** City and various terrain improvements ***/
-  if (pcity && draw_cities) {
-    put_city_pixmap_draw(pcity, hdc,
-			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
-                         offset_x, offset_y_unit,
-                         width, height_unit, fog);
-  }
-  
-  if (contains_special(special, S_AIRBASE) && draw_fortress_airbase)
-    pixmap_put_overlay_tile_draw(hdc,
-                                 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-                                 sprites.tx.airbase,
-                                 offset_x, offset_y_unit,
-                                 width, height_unit, fog);
-  if (contains_special(special, S_FALLOUT) && draw_pollution)
-    pixmap_put_overlay_tile_draw(hdc,
-                                 canvas_x, canvas_y,
-                                 sprites.tx.fallout,
-                                 offset_x, offset_y,
-                                 width, height, fog);
-  if (contains_special(special, S_POLLUTION) && draw_pollution)
-    pixmap_put_overlay_tile_draw(hdc,
-                                 canvas_x, canvas_y,
-                                 sprites.tx.pollution,
-                                 offset_x, offset_y,
-                                 width, height, fog);
-  
-  /*** city size ***/
-  /* Not fogged as it would be unreadable */
-  if (pcity && draw_cities) {
-    if (pcity->size>=10)
-      pixmap_put_overlay_tile_draw(hdc, 
-				   canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-                                   sprites.city.size_tens[pcity->size/10],
-                                   offset_x, offset_y_unit,
-				   width, height_unit, 0);
-
-    pixmap_put_overlay_tile_draw(hdc, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-				 sprites.city.size[pcity->size%10],
-                                 offset_x, offset_y_unit,
-                                 width, height_unit, 0);  
-  }
-
-    /*** Unit ***/
-  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    bool stacked = (unit_list_size(&map_get_tile(x, y)->units) > 1);
-    bool backdrop = !pcity;
-
-    put_unit(punit, stacked, backdrop, &canvas_store,
-             canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
-             offset_x, offset_y_unit,
-             width, height_unit);
-  }
-  
-  if (contains_special(special, S_FORTRESS) && draw_fortress_airbase)
-    pixmap_put_overlay_tile_draw(hdc,
-                                 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
-                                 sprites.tx.fortress,
-                                 offset_x, offset_y_unit,
-                                 width, height_unit, fog);
-  
 }
 
 /**************************************************************************
