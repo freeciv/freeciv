@@ -33,9 +33,6 @@ KNOWN BUGS:
    diplomat (at least the last move, into the enemy) using the arrow 
    keys instead of the "goto" command.
 
- - In the Gtk+ client, the unit icons in a city dialog are not always 
-   updated properly if you leave the dialog open.
-
  - The server truncates the display of very long hostnames.
 
  - There may be some cases when the "red squares" in the city dialog
