@@ -59,6 +59,7 @@ COMMON_OBJS= common/log.o common/map.o common/packets.o common/shared.o \
              common/unit.o common/player.o common/game.o common/genlist.o \
 	     common/tech.o common/city.o common/diptreaty.o common/capability.o
 
+
 OBJS1 = $(CLIENT_OBJS) $(COMMON_OBJS)
 OBJS2 = $(SERVER_OBJS) $(COMMON_OBJS)
 
@@ -67,6 +68,10 @@ SER_LIBS = $(SOCKLIB)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
+
+client/resources.o: client/Freeciv.h
+client/Freeciv.h: data/Freeciv
+	client/ad2c $< > $@
 
 ComplexProgramTarget_1(civclient, $(CLI_LIBS), $(SYSLIBS))
 ComplexProgramTarget_2(civserver, $(SER_LIBS), $(SYSLIBS))
