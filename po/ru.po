@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-12 11:37-0400\n"
+"POT-Creation-Date: 2004-10-12 12:52-0400\n"
 "PO-Revision-Date: 2004-10-09 18:47+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -7727,7 +7727,7 @@ msgstr "Хост не найден"
 
 #: client/connectdlg_common.c:75
 msgid "novice"
-msgstr "новичёк"
+msgstr "новичок"
 
 #: client/connectdlg_common.c:76
 msgid "easy"
@@ -18183,31 +18183,31 @@ msgstr "Индустриальный"
 
 #: data/default/cities.ruleset:106 data/nation/afghani.ruleset:5
 #: data/nation/american.ruleset:5 data/nation/argentine.ruleset:5
-#: data/nation/australian.ruleset:5 data/nation/belgian.ruleset:5
-#: data/nation/brazilian.ruleset:5 data/nation/canadian.ruleset:5
-#: data/nation/chilean.ruleset:5 data/nation/chinese.ruleset:5
-#: data/nation/columbian.ruleset:5 data/nation/croatian.ruleset:5
-#: data/nation/czech.ruleset:5 data/nation/danish.ruleset:5
-#: data/nation/dutch.ruleset:5 data/nation/english.ruleset:5
-#: data/nation/estonian.ruleset:5 data/nation/ethiopian.ruleset:5
-#: data/nation/filipino.ruleset:5 data/nation/finnish.ruleset:5
-#: data/nation/french.ruleset:5 data/nation/german.ruleset:5
-#: data/nation/hungarian.ruleset:5 data/nation/icelandic.ruleset:5
-#: data/nation/indian.ruleset:4 data/nation/indonesian.ruleset:5
-#: data/nation/irish.ruleset:5 data/nation/israeli.ruleset:5
-#: data/nation/italian.ruleset:5 data/nation/japanese.ruleset:5
-#: data/nation/kampuchean.ruleset:5 data/nation/kenyan.ruleset:5
-#: data/nation/korean.ruleset:5 data/nation/latvian.ruleset:5
-#: data/nation/lithuanian.ruleset:5 data/nation/malaysian.ruleset:5
-#: data/nation/mexican.ruleset:5 data/nation/nigerian.ruleset:5
-#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
-#: data/nation/russian.ruleset:5 data/nation/scottish.ruleset:4
-#: data/nation/serbian.ruleset:5 data/nation/singaporean.ruleset:17
-#: data/nation/slovenian.ruleset:5 data/nation/spanish.ruleset:5
-#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
-#: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
-#: data/nation/turk.ruleset:5 data/nation/ukrainian.ruleset:5
-#: data/nation/vietnamese.ruleset:5
+#: data/nation/australian.ruleset:5 data/nation/austrian.ruleset:5
+#: data/nation/belgian.ruleset:5 data/nation/brazilian.ruleset:5
+#: data/nation/canadian.ruleset:5 data/nation/chilean.ruleset:5
+#: data/nation/chinese.ruleset:5 data/nation/columbian.ruleset:5
+#: data/nation/croatian.ruleset:5 data/nation/czech.ruleset:5
+#: data/nation/danish.ruleset:5 data/nation/dutch.ruleset:5
+#: data/nation/english.ruleset:5 data/nation/estonian.ruleset:5
+#: data/nation/ethiopian.ruleset:5 data/nation/filipino.ruleset:5
+#: data/nation/finnish.ruleset:5 data/nation/french.ruleset:5
+#: data/nation/german.ruleset:5 data/nation/hungarian.ruleset:5
+#: data/nation/icelandic.ruleset:5 data/nation/indian.ruleset:4
+#: data/nation/indonesian.ruleset:5 data/nation/irish.ruleset:5
+#: data/nation/israeli.ruleset:5 data/nation/italian.ruleset:5
+#: data/nation/japanese.ruleset:5 data/nation/kampuchean.ruleset:5
+#: data/nation/kenyan.ruleset:5 data/nation/korean.ruleset:5
+#: data/nation/latvian.ruleset:5 data/nation/lithuanian.ruleset:5
+#: data/nation/malaysian.ruleset:5 data/nation/mexican.ruleset:5
+#: data/nation/nigerian.ruleset:5 data/nation/polish.ruleset:5
+#: data/nation/portuguese.ruleset:5 data/nation/russian.ruleset:5
+#: data/nation/scottish.ruleset:4 data/nation/serbian.ruleset:5
+#: data/nation/singaporean.ruleset:17 data/nation/slovenian.ruleset:5
+#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
+#: data/nation/swiss.ruleset:5 data/nation/taiwanese.ruleset:5
+#: data/nation/thai.ruleset:5 data/nation/turk.ruleset:5
+#: data/nation/ukrainian.ruleset:5 data/nation/vietnamese.ruleset:5
 msgid "Modern"
 msgstr "Современный"
 
@@ -20884,6 +20884,14 @@ msgid ""
 msgstr ""
 "Австралия была основана как колония для правонарушителей в 1788 году. Это "
 "единственная страна в мире, занимающая целый континент."
+
+#: data/nation/austrian.ruleset:3
+msgid "Austrian"
+msgstr "Австрийцы"
+
+#: data/nation/austrian.ruleset:4
+msgid "?plural:Austrians"
+msgstr "Австрийцы"
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
