@@ -949,7 +949,6 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 
   may_upgrade =
     ((inx != XAW_LIST_NONE) &&
-     (unit_type_exists (activeunits_type[inx])) &&
      (can_upgrade_unittype (game.player_ptr, activeunits_type[inx]) != -1));
 
   XtSetSensitive (upgrade_command, may_upgrade);
@@ -988,9 +987,8 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     ut1 = activeunits_type[ret->list_index];
-    if (!(unit_type_exists (ut1))) {
-      return;
-    }
+    CHECK_UNIT_TYPE(ut1);
+
     /* puts(unit_types[ut1].name); */
 
     ut2 = can_upgrade_unittype(game.player_ptr,
@@ -1073,9 +1071,9 @@ void activeunits_report_dialog_update(void)
     }
     unit_list_iterate_end;
     city_list_iterate(game.player_ptr->cities,pcity) {
-      if (pcity->is_building_unit &&
-	  (unit_type_exists (pcity->currently_building)))
+      if (pcity->is_building_unit) {
 	(unitarray[pcity->currently_building].building_count)++;
+      }
     }
     city_list_iterate_end;
 

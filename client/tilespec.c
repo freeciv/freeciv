@@ -1552,8 +1552,7 @@ void tilespec_setup_unit_type(int id)
   struct unit_type *ut = get_unit_type(id);
   
   ut->sprite = lookup_sprite_tag_alt(ut->graphic_str, ut->graphic_alt,
-				     unit_type_exists(id), "unit_type",
-				     ut->name);
+				     TRUE, "unit_type", ut->name);
 
   /* should maybe do something if NULL, eg generic default? */
 }

@@ -1303,7 +1303,7 @@ static void worklist_load(struct section_file *file,
       }
 
       if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
-	  ((pwl->wlefs[i] == WEF_UNIT) && !unit_type_exists(pwl->wlids[i])) ||
+	  pwl->wlefs[i] == WEF_UNIT ||
 	  ((pwl->wlefs[i] == WEF_IMPR) && !improvement_exists(pwl->wlids[i]))) {
 	pwl->wlefs[i] = WEF_END;
 	pwl->wlids[i] = 0;
@@ -1342,7 +1342,7 @@ static void worklist_load_old(struct section_file *file,
 	name = old_unit_type_name(id-68);
 	pwl->wlefs[i] = WEF_UNIT;
 	pwl->wlids[i] = find_unit_type_by_name_orig(name);
-	end = !unit_type_exists(pwl->wlids[i]);
+	end = (pwl->wlids[i] < 0 || pwl->wlids[i] >= game.num_unit_types);
       } else {				/* must be an improvement id */
 	name = old_impr_type_name(id);
 	pwl->wlefs[i] = WEF_IMPR;

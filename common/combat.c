@@ -409,7 +409,11 @@ static int defense_multiplication(Unit_Type_id att_type,
   struct city *pcity = map_get_city(ptile);
   int mod;
 
-  if (unit_type_exists(att_type)) {
+  CHECK_UNIT_TYPE(def_type);
+
+  if (att_type != U_LAST) {
+    CHECK_UNIT_TYPE(att_type);
+
     if (unit_type_flag(def_type, F_PIKEMEN)
 	&& unit_type_flag(att_type, F_HORSE)) {
       defensepower *= 2;

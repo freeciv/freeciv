@@ -73,7 +73,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ;		  this should be a standard tag.  Otherwise can use eg "-" 
 ;		  for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
-;                 "None" => available from start; "Never" => never available
+;                 "None" => available from start
 ; impr_req	= required city improvement, names from buildings.ruleset
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; move_type     = "Land" or "Sea" or "Air" or "Heli"
@@ -491,34 +491,6 @@ flags         = ""
 roles         = "DefendGood", "FirstBuild", "HutTech",
                 "BarbarianTech", "BarbarianBuildTech", "BarbarianSeaTech"
 
-[unit_fanatics]
-name          = _("Fanatics")
-move_type     = "Land"
-tech_req      = "Never"
-obsolete_by   = "None"
-graphic       = "u.fanatics"
-graphic_alt   = "-"
-sound_move    = "m_fanatics"
-sound_move_alt = "m_generic"
-sound_fight   = "f_fanatics"
-sound_fight_alt = "f_generic"
-build_cost    = 20
-pop_cost      = 0
-attack        = 4
-defense       = 4
-hitpoints     = 20
-firepower     = 1
-move_rate     = 1
-vision_range  = 1
-transport_cap = 0
-fuel          = 0
-uk_happy      = 1
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 0
-flags         = ""
-roles         = "DefendGood"
-
 [unit_partisan]
 name          = _("Partisan")
 move_type     = "Land"
@@ -763,62 +735,6 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "Hut"
-
-[unit_elephants]
-name          = _("Elephants")
-move_type     = "Land"
-tech_req      = "Never"
-obsolete_by   = "Crusaders"
-graphic       = "u.elephants"
-graphic_alt   = "-"
-sound_move    = "m_elephants"
-sound_move_alt = "m_generic"
-sound_fight   = "f_elephants"
-sound_fight_alt = "f_generic"
-build_cost    = 40
-pop_cost      = 0
-attack        = 4
-defense       = 1
-hitpoints     = 10
-firepower     = 1
-move_rate     = 2
-vision_range  = 1
-transport_cap = 0
-fuel          = 0
-uk_happy      = 1
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 0
-flags         = "Horse"
-roles         = "AttackFast"
-
-[unit_crusaders]
-name          = _("Crusaders")
-move_type     = "Land"
-tech_req      = "Never"
-obsolete_by   = "Dragoons"
-graphic       = "u.crusaders"
-graphic_alt   = "-"
-sound_move    = "m_crusaders"
-sound_move_alt = "m_generic"
-sound_fight   = "f_crusaders"
-sound_fight_alt = "f_generic"
-build_cost    = 40
-pop_cost      = 0
-attack        = 5
-defense       = 1
-hitpoints     = 10
-firepower     = 1
-move_rate     = 2
-vision_range  = 1
-transport_cap = 0
-fuel          = 0
-uk_happy      = 1
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 0
-flags         = "Horse"
-roles         = "AttackFast"
 
 [unit_knights]
 name          = _("Knights")

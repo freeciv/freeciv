@@ -59,7 +59,7 @@ veteran_move_bonus = 0, 0
 ;		  this should be a standard tag.  Otherwise can use eg "-" 
 ;		  for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
-;                 "None" => available from start; "Never" => never available
+;                 "None" => available from start
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
 ; move_type     = "Land" or "Sea" or "Air" or "Heli"
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)

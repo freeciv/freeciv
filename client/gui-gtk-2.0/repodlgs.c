@@ -1042,11 +1042,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
     
     n = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(activeunits_store), NULL);
 
-    if (row < n - 1 && unit_type_exists(activeunits_type[row])) {
-      is_unit_type = TRUE;
-    } else {
-      is_unit_type = FALSE;
-    }
+    is_unit_type = (row < n - 1);
   }
 
   if (!is_unit_type) {
@@ -1120,10 +1116,7 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response)
   /* nearest & upgrade commands. */
   row = gtk_tree_selection_get_row(activeunits_selection);
   ut1 = activeunits_type[row];
-
-  if (!unit_type_exists(ut1)) {
-    return;
-  }
+  CHECK_UNIT_TYPE(ut1);
 
   if (response == ACTIVEUNITS_NEAREST) {
     struct tile *ptile;
@@ -1200,9 +1193,9 @@ void activeunits_report_dialog_update(void)
     }
     unit_list_iterate_end;
     city_list_iterate(game.player_ptr->cities,pcity) {
-      if (pcity->is_building_unit &&
-	  (unit_type_exists (pcity->currently_building)))
+      if (pcity->is_building_unit) {
 	(unitarray[pcity->currently_building].building_count)++;
+      }
     }
     city_list_iterate_end;
 

@@ -440,7 +440,7 @@ bool can_build_unit(const struct city *pcity, Unit_Type_id id)
   if (!can_build_unit_direct(pcity, id)) {
     return FALSE;
   }
-  while (unit_type_exists((id = unit_types[id].obsoleted_by))) {
+  while ((id = unit_types[id].obsoleted_by) != -1) {
     if (can_player_build_unit_direct(city_owner(pcity), id)) {
 	return FALSE;
     }

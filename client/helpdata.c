@@ -241,13 +241,11 @@ void boot_help_texts(void)
 	help_list_init(&category_nodes);
 	if (current_type == HELP_UNIT) {
 	  unit_type_iterate(i) {
-	    if (unit_type_exists(i)) {
-	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s", unit_name(i));
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      help_list_insert_back(&category_nodes, pitem);
-	    }
+	    pitem = new_help_item(current_type);
+	    my_snprintf(name, sizeof(name), " %s", unit_name(i));
+	    pitem->topic = mystrdup(name);
+	    pitem->text = mystrdup("");
+	    help_list_insert_back(&category_nodes, pitem);
 	  } unit_type_iterate_end;
 	} else if (current_type == HELP_TECH) {
 	  tech_type_iterate(i) {
@@ -577,7 +575,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
   unit_type_iterate(utype) {
     const struct unit_type *u = get_unit_type(utype);
 
-    if (unit_type_exists(utype) && u->impr_requirement == which) {
+    if (u->impr_requirement == which) {
       if (u->tech_requirement != A_LAST) {
 	my_snprintf(buf + strlen(buf), bufsz - strlen(buf),
 		    _("* Allows %s (with %s).\n"), u->name,
@@ -642,10 +640,6 @@ void helptext_unit(char *buf, int i, const char *user_text)
   struct unit_type *utype;
 
   assert(buf&&user_text);
-  if (!unit_type_exists(i)) {
-    strcpy(buf, user_text);
-    return;
-  }
   utype = get_unit_type(i);
   
   buf[0] = '\0';

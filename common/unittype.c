@@ -67,21 +67,6 @@ static const char *unit_class_names[] = {
 };
 
 /**************************************************************************
-Returns 1 if the unit_type "exists" in this game, 0 otherwise.
-A unit_type doesn't exist if one of:
-- id is out of range
-- the unit_type has been flagged as removed by setting its
-  tech_requirement to A_LAST.
-**************************************************************************/
-bool unit_type_exists(Unit_Type_id id)
-{
-  if (id<0 || id>=U_LAST || id>=game.num_unit_types)
-    return FALSE;
-  else 
-    return unit_types[id].tech_requirement!=A_LAST;
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 struct unit_type *get_unit_type(Unit_Type_id id)
@@ -340,9 +325,11 @@ int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id)
 
   if (!can_player_build_unit_direct(pplayer, id))
     return -1;
-  while (unit_type_exists(id = unit_types[id].obsoleted_by))
-    if (can_player_build_unit_direct(pplayer, id))
+  while ((id = unit_types[id].obsoleted_by) != -1) {
+    if (can_player_build_unit_direct(pplayer, id)) {
       best_upgrade = id;
+    }
+  }
 
   return best_upgrade;
 }
@@ -474,8 +461,7 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
   Impr_Type_id impr_req;
   Tech_Type_id tech_req;
 
-  if (!unit_type_exists(id))
-    return FALSE;
+  CHECK_UNIT_TYPE(id);
   if (unit_type_flag(id, F_NUCLEAR)
       && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0)
     return FALSE;
@@ -518,9 +504,11 @@ bool can_player_build_unit(struct player *p, Unit_Type_id id)
 {  
   if (!can_player_build_unit_direct(p, id))
     return FALSE;
-  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
-    if (can_player_build_unit_direct(p, id))
+  while ((id = unit_types[id].obsoleted_by) != -1) {
+    if (can_player_build_unit_direct(p, id)) {
 	return FALSE;
+    }
+  }
   return TRUE;
 }
 
@@ -531,13 +519,11 @@ with future tech.  returns 0 if unit is obsolete.
 **************************************************************************/
 bool can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
 {
-  if (!unit_type_exists(id)) {
-    return FALSE;
-  }
+  CHECK_UNIT_TYPE(id);
   if (unit_type_flag(id, F_NOBUILD)) {
     return FALSE;
   }
-  while (unit_type_exists((id = unit_types[id].obsoleted_by))) {
+  while ((id = unit_types[id].obsoleted_by) != -1) {
     if (can_player_build_unit_direct(p, id)) {
 	return FALSE;
     }
@@ -550,7 +536,6 @@ The following functions use static variables so we can quickly look up
 which unit types have given flag or role.
 For these functions flags and roles are considered to be in the same "space",
 and any "role" argument can also be a "flag".
-Only units which pass unit_type_exists are counted.
 Unit order is in terms of the order in the units ruleset.
 **************************************************************************/
 static bool first_init = TRUE;
@@ -566,7 +551,7 @@ static void precalc_one(int i, bool (*func_has)(Unit_Type_id, int))
 
   /* Count: */
   unit_type_iterate(u) {
-    if(unit_type_exists(u) && func_has(u, i)) {
+    if (func_has(u, i)) {
       n_with_role[i]++;
     }
   } unit_type_iterate_end;
@@ -575,7 +560,7 @@ static void precalc_one(int i, bool (*func_has)(Unit_Type_id, int))
     with_role[i] = fc_malloc(n_with_role[i]*sizeof(Unit_Type_id));
     j = 0;
     unit_type_iterate(u) {
-      if(unit_type_exists(u) && func_has(u, i)) {
+      if (func_has(u, i)) {
 	with_role[i][j++] = u;
       }
     } unit_type_iterate_end;

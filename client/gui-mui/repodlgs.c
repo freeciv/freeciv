@@ -820,9 +820,9 @@ void activeunits_report_dialog_update(void)
 
   city_list_iterate(game.player_ptr->cities, pcity)
   {
-    if (pcity->is_building_unit &&
-	(unit_type_exists(pcity->currently_building)))
+    if (pcity->is_building_unit) {
       (unitarray[pcity->currently_building].building_count)++;
+    }
   }
   city_list_iterate_end;
 

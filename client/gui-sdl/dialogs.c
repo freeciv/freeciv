@@ -406,11 +406,12 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   
   ut1 = pUnit->type;
   
-  if (pUnit_Upgrade_Dlg || !unit_type_exists(ut1)) {
+  if (pUnit_Upgrade_Dlg) {
     /* just in case */
     flush_dirty();
     return;
   }
+  CHECK_UNIT_TYPE(ut1);
     
   pUnit_Upgrade_Dlg = MALLOC(sizeof(struct SMALL_DLG));
 

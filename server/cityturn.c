@@ -786,6 +786,8 @@ static void upgrade_building_prod(struct city *pcity)
   we can build.  Return id if we can't upgrade at all.  NB:  returning
   id doesn't guarantee that pcity really _can_ build id; just that
   pcity can't build whatever _obsoletes_ id.
+
+  FIXME: this function is a duplicate of can_upgrade_unittype.
 **************************************************************************/
 static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
 {
@@ -794,7 +796,7 @@ static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
   if (!can_build_unit_direct(pcity, check)) {
     return -1;
   }
-  while(unit_type_exists(check = unit_types[check].obsoleted_by)) {
+  while ((check = unit_types[check].obsoleted_by) != -1) {
     if (can_build_unit_direct(pcity, check)) {
       latest_ok = check;
     }
@@ -815,7 +817,7 @@ static void upgrade_unit_prod(struct city *pcity)
   int id = pcity->currently_building;
   int id2 = unit_upgrades_to(pcity, pcity->currently_building);
 
-  if (can_build_unit_direct(pcity, id2)) {
+  if (id2 != -1 && can_build_unit_direct(pcity, id2)) {
     pcity->currently_building = id2;
     notify_player_ex(pplayer, pcity->tile, E_UNIT_UPGRADED, 
 		  _("Game: Production of %s is upgraded to %s in %s."),

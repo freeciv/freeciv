@@ -104,13 +104,12 @@ static void get_units_report_data(struct units_entry *entries,
   } unit_list_iterate_end;
     
   city_list_iterate(game.player_ptr->cities, pCity) {
-    if (pCity->is_building_unit &&
-      (unit_type_exists(pCity->currently_building))) {
-        (entries[pCity->currently_building].building_count)++;
-	(total->building_count)++;
-        entries[pCity->currently_building].soonest_completions =
-		MIN(entries[pCity->currently_building].soonest_completions,
-			city_turns_to_build(pCity,
+    if (pCity->is_building_unit) {
+      (entries[pCity->currently_building].building_count)++;
+      (total->building_count)++;
+      entries[pCity->currently_building].soonest_completions =
+	MIN(entries[pCity->currently_building].soonest_completions,
+	    city_turns_to_build(pCity,
 				pCity->currently_building, TRUE, TRUE));
     }
   } city_list_iterate_end;
@@ -173,9 +172,10 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
   
   ut1 = MAX_ID - pWidget->ID;
   
-  if (pUnits_Upg_Dlg || !unit_type_exists(ut1)) {
+  if (pUnits_Upg_Dlg) {
     return 1;
   }
+  CHECK_UNIT_TYPE(ut1);
   
   set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;

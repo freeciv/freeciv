@@ -913,9 +913,10 @@ void create_activeunits_report_dialog(bool make_modal)
 *****************************************************************/
 void activeunits_list_callback(GtkWidget *w, gint row, gint column)
 {
-  if ((unit_type_exists(activeunits_type[row])) &&
-      (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1))
+  CHECK_UNIT_TYPE(activeunits_type[row]);
+  if (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) {
     gtk_widget_set_sensitive(upgrade_command, can_client_issue_orders());
+  }
 }
 
 /****************************************************************
@@ -950,8 +951,7 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
   row = GPOINTER_TO_INT(selection->data);
 
   ut1 = activeunits_type[row];
-  if (!(unit_type_exists (ut1)))
-    return;
+  CHECCK_UNIT_TYPE(ut1);
   /* puts(unit_types[ut1].name); */
 
   ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
@@ -1027,9 +1027,9 @@ void activeunits_report_dialog_update(void)
     }
     unit_list_iterate_end;
     city_list_iterate(game.player_ptr->cities,pcity) {
-      if (pcity->is_building_unit &&
-	  (unit_type_exists (pcity->currently_building)))
+      if (pcity->is_building_unit) {
 	(unitarray[pcity->currently_building].building_count)++;
+      }
     }
     city_list_iterate_end;
 

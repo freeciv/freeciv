@@ -221,8 +221,8 @@ struct unit_type {
 
 
 extern struct unit_type unit_types[U_LAST];
+#define CHECK_UNIT_TYPE(ut) (assert((ut) >= 0 && (ut) < game.num_unit_types))
 
-bool unit_type_exists(Unit_Type_id id);
 struct unit_type *get_unit_type(Unit_Type_id id);
 struct unit_type *unit_type(struct unit *punit);
 

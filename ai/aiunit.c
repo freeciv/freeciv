@@ -2401,7 +2401,7 @@ void update_simple_ai_types(void)
   int i = 0;
 
   unit_type_iterate(id) {
-    if (unit_type_exists(id) && !unit_type_flag(id, F_NONMIL)
+    if (!unit_type_flag(id, F_NONMIL)
 	&& !unit_type_flag(id, F_MISSILE)
 	&& !unit_type_flag(id, F_NO_LAND_ATTACK)
         && get_unit_type(id)->move_type != AIR_MOVING

@@ -869,25 +869,16 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     free(def_vblist);
   }
   
-  /* Tech requirement is used to flag removed unit_types, which
-     we might want to know for other fields.  After this we
-     can use unit_type_exists()
-  */
   unit_type_iterate(i) {
     u = &unit_types[i];
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
-				      FALSE, filename, u->name);
+				      TRUE, filename, u->name);
   } unit_type_iterate_end;
   
   unit_type_iterate(i) {
     u = &unit_types[i];
-    if (unit_type_exists(i)) {
-      u->obsoleted_by = lookup_unit_type(file, sec[i],
-					 "obsolete_by", FALSE, filename, u->name);
-    } else {
-      (void) section_file_lookup(file, "%s.obsolete_by", sec[i]); /* unused */
-      u->obsoleted_by = -1;
-    }
+    u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by",
+				       FALSE, filename, u->name);
   } unit_type_iterate_end;
 
   /* main stats: */
@@ -1018,20 +1009,12 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 
   /* Some more consistency checking: */
   unit_type_iterate(i) {
-    if (unit_type_exists(i)) {
-      u = &unit_types[i];
-      if (!tech_exists(u->tech_requirement)) {
-	freelog(LOG_ERROR,
-		"unit_type \"%s\" depends on removed tech \"%s\" (%s)",
-		u->name, advances[u->tech_requirement].name, filename);
-	u->tech_requirement = A_LAST;
-      }
-      if (u->obsoleted_by!=-1 && !unit_type_exists(u->obsoleted_by)) {
-	freelog(LOG_ERROR,
-		"unit_type \"%s\" obsoleted by removed unit \"%s\" (%s)",
-		u->name, unit_types[u->obsoleted_by].name, filename);
-	u->obsoleted_by = -1;
-      }
+    u = &unit_types[i];
+    if (!tech_exists(u->tech_requirement)) {
+      freelog(LOG_ERROR,
+	      "unit_type \"%s\" depends on removed tech \"%s\" (%s)",
+	      u->name, advances[u->tech_requirement].name, filename);
+      u->tech_requirement = A_LAST;
     }
   } unit_type_iterate_end;
 
