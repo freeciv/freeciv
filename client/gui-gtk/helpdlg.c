@@ -802,7 +802,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
   create_help_page(HELP_TECH);
 
-  if (i<game.num_tech_types&&i!=A_NONE) {
+  if (!is_future_tech(i)) {
     gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
 
     gtk_clist_freeze(GTK_CLIST(help_tree));

@@ -110,6 +110,8 @@ int num_unknown_techs_for_goal(struct player *plr, Tech_Type_id goal);
 int total_bulbs_required_for_goal(struct player *pplayer, Tech_Type_id goal);
 int is_tech_a_req_for_goal(struct player *pplayer, Tech_Type_id tech,
 			   Tech_Type_id goal);
+int is_future_tech(Tech_Type_id tech);
+const char *get_tech_name(struct player *pplayer, Tech_Type_id tech);
 
 void precalc_tech_data(void);
 

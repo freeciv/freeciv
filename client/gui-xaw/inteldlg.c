@@ -144,15 +144,9 @@ void intel_create_dialog(struct player *p)
 			  XtNlabel, buf,
 			  NULL);   
 
-  if (p->research.researching != A_NONE) {
-    my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
-		advances[p->research.researching].name,
-		p->research.bulbs_researched, total_bulbs_required(p));
-  } else {
-    my_snprintf(buf, sizeof(buf), _("Researching Future Tech. %d: %d/%d"),
-		((p->future_tech) + 1), p->research.bulbs_researched,
-		total_bulbs_required(p));
-  }
+  my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
+	      get_tech_name(p, p->research.researching),
+	      p->research.bulbs_researched, total_bulbs_required(p));
 
   XtVaCreateManagedWidget("intelreslabel", 
 			  labelWidgetClass, 

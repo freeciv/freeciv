@@ -2313,7 +2313,7 @@ static void hut_get_tech(struct unit *punit)
   pplayer->research.bulbs_researched = res_ed;
   pplayer->research.researching = res_ing;
  
-  if (new_tech!=A_NONE) {
+  if (!is_future_tech(new_tech)) {
     const char *tech_name = advances[new_tech].name;
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: You gain knowledge about %s."), tech_name);

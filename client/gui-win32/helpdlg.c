@@ -724,7 +724,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
   char *buf= &long_buffer[0];
 
   create_help_page(HELP_TECH);
-  if (i<game.num_tech_types&&i!=A_NONE) {
+  if (!is_future_tech(i)) {
     /*    
 	  create_tech_tree(GTK_CTREE(help_tree), i, TECH_TREE_DEPTH,
 	  TECH_TREE_EXPANDED_DEPTH, NULL);

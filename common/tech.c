@@ -10,11 +10,16 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "player.h"
@@ -350,7 +355,7 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
     return 0;
   }
 
-  if (tech > game.num_tech_types) {
+  if (is_future_tech(tech)) {
     /* Future techs use style 0 */
     tech_cost_style = 0;
   }
@@ -482,6 +487,36 @@ void precalc_tech_data()
     memset(counted, 0, sizeof(counted));
     advances[tech].num_reqs = precalc_tech_data_helper(tech, counted);
   }
+}
+
+/**************************************************************************
+ Is the given tech a future tech.
+**************************************************************************/
+int is_future_tech(Tech_Type_id tech)
+{
+  /*
+   * Future techs can be identify in two ways: the "tech >=
+   * game.num_tech_types" condition and the "tech == A_NONE"
+   * condition. FIXME: clean this up.
+   */
+  return (tech >= game.num_tech_types) || (tech == A_NONE);
+}
+
+/**************************************************************************
+ Return the name of the given tech. You don't have to free the return
+ pointer.
+**************************************************************************/
+const char *get_tech_name(struct player *pplayer, Tech_Type_id tech)
+{
+  static char buffer[200];
+
+  if (!is_future_tech(tech)) {
+    my_snprintf(buffer, sizeof(buffer), "%s", advances[tech].name);
+  } else {
+    my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
+		pplayer->future_tech + 1);
+  }
+  return buffer;
 }
 
 /**************************************************************************

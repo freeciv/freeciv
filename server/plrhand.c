@@ -294,22 +294,22 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
 		    advances[plr->ai.tech_goal].name);
     } else {
       choose_random_tech(plr);
-      if (plr->research.researching!=A_NONE && tech_found != A_NONE)
-	notify_player(plr,
-		     _("Game: Learned %s.  Scientists choose to research %s."),
-		     advances[tech_found].name,
-		     advances[plr->research.researching].name);
-      else if (tech_found != A_NONE)
-	notify_player(plr,
-		      _("Game: Learned %s.  Scientists choose to research "
-			"Future Tech. 1."),
-		      advances[tech_found].name);
-      else {
+      if (!is_future_tech(plr->research.researching)
+	  || !is_future_tech(tech_found)) {
+	notify_player(plr, _("Game: Learned %s.  Scientists "
+			     "choose to research %s."),
+		      advances[tech_found].name,
+		      get_tech_name(plr, plr->research.researching));
+      } else {
+	char buffer1[300];
+	char buffer2[300];
+
+	my_snprintf(buffer1, sizeof(buffer1), _("Game: Learned %s. "),
+		    get_tech_name(plr, plr->research.researching));
 	plr->future_tech++;
-	notify_player(plr,
-		      _("Game: Learned Future Tech. %d.  "
-			"Researching Future Tech. %d."),
-		      plr->future_tech,(plr->future_tech)+1);
+	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
+		    get_tech_name(plr, plr->research.researching));
+	notify_player(plr, "%s%s", buffer1, buffer2);
       }
     }
     if (saving_bulbs) {
@@ -347,7 +347,7 @@ void tech_researched(struct player* plr)
 {
   /* plr will be notified when new tech is chosen */
 
-  if (plr->research.researching != A_NONE) {
+  if (!is_future_tech(plr->research.researching)) {
     notify_embassies(plr, (struct player*)0,
 		     _("Game: The %s have researched %s."), 
 		     get_nation_name_plural(plr->nation),

@@ -8,6 +8,7 @@ common/mem.c
 common/player.c
 common/shared.c
 common/support.c
+common/tech.c
 common/unit.c
 common/unittype.c
 common/version.c

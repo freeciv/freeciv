@@ -225,19 +225,12 @@ void create_science_dialog(int make_modal)
   char goal_text[512];
   char *report_title;
   
-  if (game.player_ptr->research.researching != A_NONE) {
-    my_snprintf(current_text, sizeof(current_text),
-		_("Researching %s: %d/%d"),
-		advances[game.player_ptr->research.researching].name,
-		game.player_ptr->research.bulbs_researched,
-		total_bulbs_required(game.player_ptr));
-  } else {
-    my_snprintf(current_text, sizeof(current_text),
-		_("Researching Future Tech. %d: %d/%d"),
-		((game.player_ptr->future_tech) + 1),
-		game.player_ptr->research.bulbs_researched,
-		total_bulbs_required(game.player_ptr));
-  }
+  my_snprintf(current_text, sizeof(current_text),
+	      _("Researching %s: %d/%d"),
+	      get_tech_name(game.player_ptr,
+			    game.player_ptr->research.researching),
+	      game.player_ptr->research.bulbs_researched,
+	      total_bulbs_required(game.player_ptr));
 
   my_snprintf(goal_text, sizeof(goal_text),
 	      _("Goal: %s (%d steps)"),
@@ -515,18 +508,11 @@ void science_dialog_update(void)
     xaw_set_label(science_label, report_title);
     free(report_title);
 
-    if (game.player_ptr->research.researching != A_NONE) {
-      my_snprintf(text, sizeof(text), _("Researching %s: %d/%d"),
-		  advances[game.player_ptr->research.researching].name,
-		  game.player_ptr->research.bulbs_researched,
-		  total_bulbs_required(game.player_ptr));
-    } else {
-      my_snprintf(text, sizeof(text),
-		  _("Researching Future Tech. %d: %d/%d"),
-		  ((game.player_ptr->future_tech) + 1),
-		  game.player_ptr->research.bulbs_researched,
-		  total_bulbs_required(game.player_ptr));
-    }
+    my_snprintf(text, sizeof(text), _("Researching %s: %d/%d"),
+		get_tech_name(game.player_ptr,
+			      game.player_ptr->research.researching),
+		game.player_ptr->research.bulbs_researched,
+		total_bulbs_required(game.player_ptr));
     
     xaw_set_label(science_current_label, text);
 

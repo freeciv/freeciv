@@ -903,7 +903,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
   create_help_page(HELP_TECH);
   set_title_topic(pitem);
 
-  if (i<game.num_tech_types) {
+  if (!is_future_tech(i)) {
     create_tech_tree(help_tech_tree, 0, i, 3);
     helptext_tech(buf, i, pitem->text);
 

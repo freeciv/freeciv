@@ -720,7 +720,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
   create_help_page(HELP_TECH);
 
-  if (i < game.num_tech_types && i != A_NONE)
+  if (!is_future_tech(i))
   {
     if (help_tech_group)
     {
