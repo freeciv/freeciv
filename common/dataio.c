@@ -339,14 +339,20 @@ void dio_put_bit_string(struct data_out *dout, const char *value)
 {
   /* Note that size_t is often an unsigned type, so we must be careful
    * with the math when calculating 'bytes'. */
-  size_t bits = strlen(value), bytes = (bits + 7) / 8;
+  size_t bits = strlen(value), bytes;
+  size_t max = (unsigned short)(-1);
 
-  assert(bits < UCHAR_MAX);
+  if (bits > max) {
+    freelog(LOG_ERROR, "Bit string too long: %d bits.", bits);
+    assert(FALSE);
+    bits = max;
+  }
+  bytes = (bits + 7) / 8;
 
   if (enough_space(dout, bytes + 1)) {
     size_t i;
 
-    dio_put_uint8(dout, bits);
+    dio_put_uint16(dout, bits);
 
     for (i = 0; i < bits;) {
       int bit, data = 0;
@@ -587,7 +593,7 @@ void dio_get_bit_string(struct data_in *din, char *dest,
     return;
   }
 
-  dio_get_uint8(din, &npack);
+  dio_get_uint16(din, &npack);
   if (npack >= max_dest_size) {
     din->bad_bit_string = TRUE;
     dest[0] = '\0';

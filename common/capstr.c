@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.13.0 conn_info turn_founded unitbv +freeze_thaw "\
-                   "+civ2happy"
+                   "+civ2happy +long_bitstrings"
   
 /* "+1.13.0" is protocol for 1.13.0 release.
   
@@ -86,6 +86,10 @@ const char * const our_capability = our_capability_internal;
     "freeze_thaw" uses PACKET_FREEZE_HINT/PACKET_THAW_HINT.
 
     "civ2happy" changes the way specialists are taken from workers
+
+    "long_bitstrings" means bit strings sent over the network can be
+    up to 65k bits; see dio_put_bit_string/dio_get_bit_string in
+    dataio.c.
 */
 
 void init_our_capability(void)
