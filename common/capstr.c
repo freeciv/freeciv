@@ -70,48 +70,9 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
-ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players \
-submarine_flags +gen_impr +dipl_states select_unit send_secs_to_turn_done \
-+ds_no_contact"
+#define CAPABILITY "+1.11"
 
-/* "+1.10" is protocol for 1.10.0 stable release
-
-   "fog_of_war" is protocol extension for Fog of War.
-
-   "fortify_two_step" is protocol and rule change for fortifying in two steps.
-
-   "get_sabotage_list" is protocol extension for fetching an up-to-date
-   list of improvements when a Spy is attempting sabotage in a city.
-
-   "ocean_reclamation" is protocol extension for allowing changing ocean
-   tiles into "land" (non-ocean) tiles.
-
-   "dipl_cli_pop_dlg" is protocol extension for notification to client
-   of need to popup diplomat dialog.
-
-   "advance_focus_packet" is a protocol extension that the server uses to
-   tell the client that the server does not intend to move a unit further.
-
-   "30players" is raising the MAX_NUM_PLAYERS value from 14 to 30.
-
-   "submarine_flags" is F_SUBMARINE split into F_PARTIAL_INVIS,
-   F_MISSILE_CARRIER, F_NO_LAND_ATTACK
-
-   "gen_impr" is protocol extension for generalized improvements.
-
-   "dipl_states" is for servers and clients that understand diplomatic
-   states: alliances, cease-fires, and what-have-you.
-
-   "select_unit" is protocol extension for explicit handling of user
-   selection of units by clicking on the map.
-
-   "send_secs_to_turn_done" is that timeout information is sent in the
-   game_info packet, explicitly stating how many seconds are left in the
-   turn, for when clients re-connect, or when the timeout changes mid-turn.
-
-   "ds_no_contact" is the DS_NO_CONTACT diplomatic state. Also changes the
-   meaning of DS_NEUTRAL.
+/* "+1.11" is protocol for 1.11.0 stable release
 */
 
 void init_our_capability(void)

@@ -1691,8 +1691,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->spacerace);
 
   /* computed values */
-  if (pc && has_capability("send_secs_to_turn_done", pc->capability))
-    cptr=put_uint32(cptr, pinfo->seconds_to_turndone);
+  cptr=put_uint32(cptr, pinfo->seconds_to_turndone);
 
   put_uint16(buffer, cptr-buffer);
 
@@ -1740,10 +1739,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->spacerace);
 
   /* computed values */
-  if (pc && has_capability("send_secs_to_turn_done", pc->capability))
-    iget_uint32(&iter, &pinfo->seconds_to_turndone);
-  else
-    pinfo->seconds_to_turndone = 0;
+  iget_uint32(&iter, &pinfo->seconds_to_turndone);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2592,11 +2588,6 @@ receive_packet_ruleset_unit(struct connection *pc)
   if (packet->obsoleted_by>127) packet->obsoleted_by-=256;
   iget_uint8(&iter, &packet->fuel);
   iget_uint32(&iter, &packet->flags);
-  if ((packet->flags & (1<<F_PARTIAL_INVIS))
-      && !has_capability("submarine_flags", pc->capability)) {
-    /* Backwards compatibility for standard rulesets */
-    packet->flags |= ((1<<F_MISSILE_CARRIER) | (1<<F_NO_LAND_ATTACK));
-  }
   iget_uint32(&iter, &packet->roles);
   iget_uint8(&iter, &packet->happy_cost);   /* unit upkeep -- SKi */
   iget_uint8(&iter, &packet->shield_cost);
@@ -2920,8 +2911,7 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->may_irrigate);
   cptr=put_uint8(cptr, packet->may_mine);
   cptr=put_uint8(cptr, packet->may_transform);
-  if (pc && has_capability("ocean_reclamation", pc->capability))
-    cptr=put_uint8(cptr, packet->ocean_reclaim_requirement);
+  cptr=put_uint8(cptr, packet->ocean_reclaim_requirement);
   cptr=put_uint8(cptr, packet->river_move_mode);
   cptr=put_uint16(cptr, packet->river_defense_bonus);
   cptr=put_uint16(cptr, packet->river_trade_incr);
@@ -2959,10 +2949,7 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_uint8(&iter, &packet->may_irrigate);
   iget_uint8(&iter, &packet->may_mine);
   iget_uint8(&iter, &packet->may_transform);
-  if (pc && has_capability("ocean_reclamation", pc->capability))
-    iget_uint8(&iter, (int*)&packet->ocean_reclaim_requirement);
-  else
-    packet->ocean_reclaim_requirement = 9;
+  iget_uint8(&iter, (int*)&packet->ocean_reclaim_requirement);
   iget_uint8(&iter, (int*)&packet->river_move_mode);
   iget_uint16(&iter, &packet->river_defense_bonus);
   iget_uint16(&iter, &packet->river_trade_incr);

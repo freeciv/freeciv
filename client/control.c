@@ -979,10 +979,6 @@ void do_map_click(int xtile, int ytile)
     if(game.player_idx==punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
 	request_unit_selected(punit);
-	if (!(game.player_ptr->conn &&
-	      has_capability("select_unit", game.player_ptr->conn->capability))) {
-	  set_unit_focus(punit);
-	}
       }
     }
   }
