@@ -1,0 +1,30 @@
+[nation_boer]
+
+name=_("Boer")
+plural=_("?plural:Boers")
+leader= "Pretorius Jacobus", "Botha Louis", "Pretorius Wessel", "Kruger Paulus"
+leader_sex= "Male", "Male", "Male", "Male"
+flag="f.boer"
+flag_alt = "-"
+city_style = "European"
+
+attack=1
+expand=2
+civilized=1
+advisors=100,100,100,100,100,100,100
+tech_goals = "The Republic", "Trade", "Engineering", "Gunpowder",
+             "Railroad", "Explosives"
+wonder= "Magellan's Expedition"
+government= "Communism"
+
+cities =
+  "Kapstadt", "Pretoria", "Durban", "Johannesburg",
+  "Port Elisabeth", "Vereeniging", "Kimberley",
+  "Bloemfontein", "Welkom", "Bethlehem", "Postmasburg",
+  "Beaufort West", "Queenstown", "De Aar", "Aliwal North",
+  "Umtata", "Middelburg", "Springbok", "Victoria West",
+  "Paarl", "Saldanha", "Grahamstown", "Port Alfred",
+  "Port Shepstone", "Port St. Johns", "Pietermaritzburg",
+  "Lydenburg", "Ermelo", "Richard's Bay", "Klerksdorp",
+  "Vryburg", "Hotazel", "Postmasburg", "Pofadder",
+  "Kenhardt", "Oudtshoorn", "Bitterfontein"

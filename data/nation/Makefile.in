@@ -102,7 +102,7 @@ l = @l@
 
 pkgdatadir = $(datadir)/@PACKAGE@/nation
 
-pkgdata_DATA =  	american.ruleset		arab.ruleset			argentine.ruleset		australian.ruleset		aztec.ruleset			babylonian.ruleset		barbarian.ruleset		bavarian.ruleset		brazilian.ruleset		canadian.ruleset		carthaginian.ruleset		chinese.ruleset			cornish.ruleset			czech.ruleset			danish.ruleset			dunedain.ruleset		dutch.ruleset			egyptian.ruleset		estonian.ruleset       	english.ruleset			filipino.ruleset        	finnish.ruleset			french.ruleset			german.ruleset			greek.ruleset			hungarian.ruleset		inca.ruleset			indian.ruleset			irish.ruleset			israeli.ruleset			italian.ruleset			japanese.ruleset		kenyan.ruleset			korean.ruleset			krevi.ruleset			latvian.ruleset         	lithuanian.ruleset		misc_cities.ruleset		mongol.ruleset			mordor.ruleset			olympic.ruleset			persian.ruleset			polish.ruleset			portuguese.ruleset		roman.ruleset			russian.ruleset			scottish.ruleset		sioux.ruleset			spanish.ruleset			swedish.ruleset			thai.ruleset			turk.ruleset			ukrainian.ruleset		vietnamese.ruleset		viking.ruleset			welsh.ruleset			zulu.ruleset
+pkgdata_DATA =  	american.ruleset		arab.ruleset			argentine.ruleset		australian.ruleset		aztec.ruleset			babylonian.ruleset		barbarian.ruleset		bavarian.ruleset		boer.ruleset			brazilian.ruleset		canadian.ruleset		carthaginian.ruleset		chinese.ruleset			cornish.ruleset			czech.ruleset			danish.ruleset			dunedain.ruleset		dutch.ruleset			egyptian.ruleset		estonian.ruleset		english.ruleset			filipino.ruleset		finnish.ruleset			french.ruleset			german.ruleset			greek.ruleset			hungarian.ruleset		inca.ruleset			indian.ruleset			irish.ruleset			israeli.ruleset			italian.ruleset			japanese.ruleset		kenyan.ruleset			korean.ruleset			krevi.ruleset			latvian.ruleset			lithuanian.ruleset		misc_cities.ruleset		mongol.ruleset			mordor.ruleset			olympic.ruleset			persian.ruleset			polish.ruleset			portuguese.ruleset		roman.ruleset			russian.ruleset			scottish.ruleset		sioux.ruleset			spanish.ruleset			swedish.ruleset			thai.ruleset			turk.ruleset			ukrainian.ruleset		vietnamese.ruleset		viking.ruleset			welsh.ruleset			zulu.ruleset
 
 
 EXTRA_DIST = $(pkgdata_DATA)
@@ -163,7 +163,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pr $$/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \

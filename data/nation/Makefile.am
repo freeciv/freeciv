@@ -3,7 +3,7 @@
 ## Override automake so that "make install" puts these in proper place:
 pkgdatadir = $(datadir)/@PACKAGE@/nation
 
-pkgdata_DATA =          \
+pkgdata_DATA =			\
 	american.ruleset	\
 	arab.ruleset		\
 	argentine.ruleset	\
@@ -12,6 +12,7 @@ pkgdata_DATA =          \
 	babylonian.ruleset	\
 	barbarian.ruleset	\
 	bavarian.ruleset	\
+	boer.ruleset		\
 	brazilian.ruleset	\
 	canadian.ruleset	\
 	carthaginian.ruleset	\
@@ -22,9 +23,9 @@ pkgdata_DATA =          \
 	dunedain.ruleset	\
 	dutch.ruleset		\
 	egyptian.ruleset	\
-	estonian.ruleset       \
+	estonian.ruleset	\
 	english.ruleset		\
-	filipino.ruleset        \
+	filipino.ruleset	\
 	finnish.ruleset		\
 	french.ruleset		\
 	german.ruleset		\
@@ -39,7 +40,7 @@ pkgdata_DATA =          \
 	kenyan.ruleset		\
 	korean.ruleset		\
 	krevi.ruleset		\
-	latvian.ruleset         \
+	latvian.ruleset		\
 	lithuanian.ruleset	\
 	misc_cities.ruleset	\
 	mongol.ruleset		\
