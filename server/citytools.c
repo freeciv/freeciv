@@ -256,6 +256,8 @@ reason for rejection. There's 4 different modes:
 bool is_allowed_city_name(struct player *pplayer, const char *city_name,
 			  char *error_buf, size_t bufsz)
 {
+  struct connection *pconn;
+
   /* Mode 1: A city name has to be unique for each player. */
   if (game.allowed_city_names == 1 &&
       city_list_find_name(&pplayer->cities, city_name)) {
@@ -308,9 +310,14 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
 
   /* To prevent abuse, only players with HACK access (usually local
    * connections) can use non-ascii names.  Otherwise players could use
-   * confusing garbage names in multi-player games. */
+   * confusing garbage names in multi-player games.
+   *
+   * We can even reach here for an AI player, if all the cities of the
+   * original nation are exhausted and the backup nations have non-ascii
+   * names in them. */
   if (!is_ascii_name(city_name)
-      && find_conn_by_user(pplayer->username)->access_level != ALLOW_HACK) {
+      && (pconn = find_conn_by_user(pplayer->username))
+      && pconn->access_level != ALLOW_HACK) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz,
 		  _("%s is not a valid name. Only ASCII or "
