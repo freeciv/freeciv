@@ -26,7 +26,8 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender);
 
 
 /* move check related */
-int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc);
+int can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
+				      int dest_y, int igzoc);
 
 
 /* turn update related */

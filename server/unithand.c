@@ -875,7 +875,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
       lsend_packet_diplomat_action(player_reply_dest(pplayer), &packet);
       return 0;
-    } else if (!can_unit_move_to_tile(punit, dest_x, dest_y, igzoc)) {
+    } else if (!can_unit_move_to_tile_with_notify(punit, dest_x, dest_y, igzoc)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		map_get_terrain(punit->x, punit->y)==T_OCEAN
 			? _("Game: Diplomats cannot act from sea.")
@@ -1014,7 +1014,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   }
 
   /******* ok now move the unit *******/
-  if(can_unit_move_to_tile(punit, dest_x, dest_y, igzoc) &&
+  if(can_unit_move_to_tile_with_notify(punit, dest_x, dest_y, igzoc) &&
      try_move_unit(punit, dest_x, dest_y)) {
     int src_x = punit->x;
     int src_y = punit->y;

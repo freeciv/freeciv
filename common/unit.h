@@ -62,8 +62,12 @@ enum goto_route_type {
   ROUTE_GOTO, ROUTE_PATROL
 };
 
-enum move_reason {
-  MR_OTHER, MR_INVALID_TYPE_FOR_CITY_TAKE_OVER, MR_NO_WAR, MR_ZOC
+enum unit_move_result {
+  MR_OK, MR_BAD_TYPE_FOR_CITY_TAKE_OVER, MR_NO_WAR, MR_ZOC,
+  MR_BAD_ACTIVITY, MR_BAD_DESTINATION, MR_BAD_MAP_POSITION,
+  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT,
+  MR_NO_SEA_TRANSPORTER_CAPACITY,
+  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY
 };
 
 enum add_build_city_result {
@@ -241,13 +245,17 @@ int unit_being_aggressive(struct unit *punit);
 int can_step_taken_wrt_to_zoc(Unit_Type_id type, struct player *unit_owner,
 			      int src_x, int src_y, int dest_x,
 			      int dest_y);
-
-int can_unit_move_to_tile_with_reason(Unit_Type_id type,
-				      struct player *unit_owner,
-				      enum unit_activity activity,
-				      int connecting, int src_x, int src_y,
-				      int dest_x, int dest_y, int igzoc,
-				      enum move_reason *reason);
+int can_unit_move_to_tile(Unit_Type_id type,
+			  struct player *unit_owner,
+			  enum unit_activity activity,
+			  int connecting, int src_x,
+			  int src_y, int dest_x, int dest_y, int igzoc);
+enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
+					     struct player *unit_owner,
+					     enum unit_activity activity,
+					     int connecting, int src_x,
+					     int src_y, int dest_x,
+					     int dest_y, int igzoc);
 int unit_type_really_ignores_zoc(Unit_Type_id type);
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
 int zoc_ok_move(struct unit *punit, int x, int y);

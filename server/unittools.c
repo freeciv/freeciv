@@ -3047,22 +3047,20 @@ void goto_route_execute(struct unit *punit)
 /**************************************************************************
 ...
 **************************************************************************/
-int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
-			  int igzoc)
+int can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
+				      int dest_y, int igzoc)
 {
-  enum move_reason reason;
-  int result;
+  enum unit_move_result reason;
   int src_x = punit->x, src_y = punit->y;
 
-  result =
-      can_unit_move_to_tile_with_reason(punit->type, unit_owner(punit),
-					punit->activity, punit->connecting,
-					punit->x, punit->y, dest_x, dest_y,
-					igzoc, &reason);
-  if (result)
+  reason =
+      test_unit_move_to_tile(punit->type, unit_owner(punit),
+			     punit->activity, punit->connecting,
+			     punit->x, punit->y, dest_x, dest_y, igzoc);
+  if (reason == MR_OK)
     return 1;
 
-  if (reason == MR_INVALID_TYPE_FOR_CITY_TAKE_OVER) {
+  if (reason == MR_BAD_TYPE_FOR_CITY_TAKE_OVER) {
     char *units_str = get_units_with_flag_string(F_MARINES);
     if (units_str) {
       notify_player_ex(unit_owner(punit), src_x, src_y,

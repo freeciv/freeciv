@@ -1205,6 +1205,17 @@ int zoc_ok_move(struct unit *punit, int x, int y)
   return zoc_ok_move_gen(punit, punit->x, punit->y, x, y);
 }
 
+int can_unit_move_to_tile(Unit_Type_id type,
+			  struct player *unit_owner,
+			  enum unit_activity activity,
+			  int connecting, int src_x,
+			  int src_y, int dest_x, int dest_y, int igzoc)
+{
+  return MR_OK == test_unit_move_to_tile(type, unit_owner, activity,
+					 connecting, src_x,
+					 src_y, dest_x, dest_y, igzoc);
+}
+
 /**************************************************************************
   unit can be moved if:
   1) the unit is idle or on goto or connecting.
@@ -1219,38 +1230,32 @@ int zoc_ok_move(struct unit *punit, int x, int y)
   9) there is not a peaceful but un-allied city on the target tile
   10) there is no non-allied unit blocking (zoc) [or igzoc is true]
 **************************************************************************/
-int can_unit_move_to_tile_with_reason(Unit_Type_id type,
-				      struct player *unit_owner,
-				      enum unit_activity activity,
-				      int connecting, int src_x, int src_y,
-				      int dest_x, int dest_y, int igzoc,
-				      enum move_reason *reason)
+enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
+					     struct player *unit_owner,
+					     enum unit_activity activity,
+					     int connecting, int src_x,
+					     int src_y, int dest_x,
+					     int dest_y, int igzoc)
 {
   struct tile *pfromtile, *ptotile;
   int zoc;
   struct city *pcity;
 
-  /* To allow people to pass us NULL if they don't need the reason argument. */
-  enum move_reason dummy;
-  if (!reason) {
-    reason = &dummy;
-  }
-
   /* 1) */
   if (activity != ACTIVITY_IDLE
       && activity != ACTIVITY_GOTO
       && activity != ACTIVITY_PATROL && !connecting) {
-    return 0;
+    return MR_BAD_ACTIVITY;
   }
 
   /* 2) */
   if (!normalize_map_pos(&dest_x, &dest_y)) {
-    return 0;
+    return MR_BAD_MAP_POSITION;
   }
 
   /* 3) */
   if (!is_tiles_adjacent(src_x, src_y, dest_x, dest_y)) {
-    return 0;
+    return MR_BAD_DESTINATION;
   }
 
   pfromtile = map_get_tile(src_x, src_y);
@@ -1258,14 +1263,14 @@ int can_unit_move_to_tile_with_reason(Unit_Type_id type,
 
   /* 4) */
   if (is_non_allied_unit_tile(ptotile, unit_owner)) {
-    return 0;
+    return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
   }
 
   if (unit_types[type].move_type == LAND_MOVING) {
     /* 5) */
     if (ptotile->terrain == T_OCEAN &&
 	ground_unit_transporter_capacity(dest_x, dest_y, unit_owner) <= 0) {
-      return 0;
+      return MR_NO_SEA_TRANSPORTER_CAPACITY;
     }
 
     /* Moving from ocean */
@@ -1273,8 +1278,7 @@ int can_unit_move_to_tile_with_reason(Unit_Type_id type,
       /* 6) */
       if (!unit_flag(type, F_MARINES)
 	  && is_enemy_city_tile(ptotile, unit_owner)) {
-	*reason = MR_INVALID_TYPE_FOR_CITY_TAKE_OVER;
-	return 0;
+	return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
       }
     }
   } else if (unit_types[type].move_type == SEA_MOVING) {
@@ -1282,21 +1286,19 @@ int can_unit_move_to_tile_with_reason(Unit_Type_id type,
     if (ptotile->terrain != T_OCEAN
 	&& ptotile->terrain != T_UNKNOWN
 	&& !is_allied_city_tile(ptotile, unit_owner)) {
-	  return 0;
+      return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY;
     }
   }
 
   /* 8) */
   if (is_non_attack_unit_tile(ptotile, unit_owner)) {
-    *reason = MR_NO_WAR;
-    return 0;
+    return MR_NO_WAR;
   }
 
   /* 9) */
   pcity = ptotile->city;
   if (pcity && pplayers_non_attack(city_owner(pcity), unit_owner)) {
-    *reason = MR_NO_WAR;
-    return 0;
+    return MR_NO_WAR;
   }
 
   /* 10) */
@@ -1304,10 +1306,10 @@ int can_unit_move_to_tile_with_reason(Unit_Type_id type,
       || can_step_taken_wrt_to_zoc(type, unit_owner, src_x,
 				   src_y, dest_x, dest_y);
   if (!zoc) {
-    *reason = MR_ZOC;
+    return MR_ZOC;
   }
 
-  return zoc;
+  return MR_OK;
 }
 
 /*

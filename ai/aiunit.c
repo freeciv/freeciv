@@ -99,18 +99,16 @@ static int could_be_my_zoc(struct unit *myunit, int x0, int y0)
 int could_unit_move_to_tile(struct unit *punit, int src_x, int src_y,
 			    int dest_x, int dest_y)
 {
-  enum move_reason reason;
-  int result;
+  enum unit_move_result result;
 
   result =
-      can_unit_move_to_tile_with_reason(punit->type, unit_owner(punit),
-					punit->activity, punit->connecting,
-					punit->x, punit->y, dest_x, dest_y,
-					0, &reason);
-  if (result)
+      test_unit_move_to_tile(punit->type, unit_owner(punit),
+			     punit->activity, punit->connecting,
+			     punit->x, punit->y, dest_x, dest_y, 0);
+  if (result == MR_OK)
     return 1;
 
-  if (reason == MR_ZOC) {
+  if (result == MR_ZOC) {
     if (could_be_my_zoc(punit, src_x, src_y))
       return -1;
   }
@@ -268,7 +266,7 @@ int ai_manage_explorer(struct unit *punit)
       if (unknown > most_unknown
 	  && (landnear || !unit_flag(punit->type, F_TRIREME))
 	  && map_get_continent(x1, y1) == con
-	  && can_unit_move_to_tile(punit, x1, y1, 0)
+	  && can_unit_move_to_tile_with_notify(punit, x1, y1, 0)
 	  && !((pcity = map_get_city(x1,y1))
 	       && (unit_flag(punit->type, F_DIPLOMAT)
 		   || unit_flag(punit->type, F_CARAVAN)))
@@ -2233,7 +2231,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
     square_iterate(leader->x, leader->y, 1, x, y) {
       if (warmap.cost[x][y] > safest
-	  && can_unit_move_to_tile(leader, x, y, FALSE)) {
+	  && can_unit_move_to_tile_with_notify(leader, x, y, FALSE)) {
 	safest = warmap.cost[x][y];
 	freelog(LOG_DEBUG,
 		"Barbarian leader: safest is %d, %d, safeness %d", x, y,

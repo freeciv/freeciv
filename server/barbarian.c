@@ -236,8 +236,9 @@ int unleash_barbarians(struct player* victim, int x, int y)
           send_unit_info( 0, punit2);
           while(1) {
 	    rand_neighbour(x, y, &xu, &yu);
-	    if( can_unit_move_to_tile(punit2, xu, yu, TRUE) ) break;
-	    if( can_unit_move_to_tile(punit2, xb, yb, TRUE) ) {
+	    if (can_unit_move_to_tile_with_notify(punit2, xu, yu, TRUE))
+	      break;
+	    if (can_unit_move_to_tile_with_notify(punit2, xb, yb, TRUE)) {
               xu = xb; yu = yb;
               break;
 	    }
