@@ -513,9 +513,7 @@ SPRITE *crop_blankspace(SPRITE *s)
 GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
 {
   GdkPixbuf *dst;
-  int x, y, w, h;
-  guchar *pixels;
-  GdkImage *img;
+  int w, h;
 
   w = src->width;
   h = src->height;
@@ -525,22 +523,28 @@ GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
   gdk_pixbuf_get_from_drawable(dst, src->pixmap, NULL, 0, 0, 0, 0, w, h);
 
   /* convert mask */
-  img = gdk_drawable_get_image(src->mask, 0, 0, w, h);
+  if (src->mask) {
+    GdkImage *img;
+    int x, y;
+    guchar *pixels;
 
-  pixels = gdk_pixbuf_get_pixels(dst);
+    img = gdk_drawable_get_image(src->mask, 0, 0, w, h);
 
-  for (y = 0; y < h; y++) {
-    for (x = 0; x < w; x++) {
-      pixels += 3;
-	    
-      if (gdk_image_get_pixel(img, x, y)) {
-	*pixels++ = 255;
-      } else {
-	*pixels++ = 0;
+    pixels = gdk_pixbuf_get_pixels(dst);
+
+    for (y = 0; y < h; y++) {
+      for (x = 0; x < w; x++) {
+	pixels += 3;
+
+	if (gdk_image_get_pixel(img, x, y)) {
+	  *pixels++ = 255;
+	} else {
+	  *pixels++ = 0;
+	}
       }
     }
+    g_object_unref(img);
   }
-  g_object_unref(img);
 
   return dst;
 }
