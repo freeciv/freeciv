@@ -29,6 +29,7 @@ void tilespec_load_tiles(void);
 void tilespec_setup_unit_type(int id);
 void tilespec_setup_tile_type(int id);
 void tilespec_setup_government(int id);
+void tilespec_setup_nation_flag(int id);
 
 /* This the way directional indices are now encoded: */
 

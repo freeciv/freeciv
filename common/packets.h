@@ -99,7 +99,8 @@ enum packet_type {
   PACKET_RULESET_GOVERNMENT_RULER_TITLE,
   PACKET_RULESET_CONTROL,
   PACKET_CITY_NAME_SUGGEST_REQ,
-  PACKET_CITY_NAME_SUGGESTION
+  PACKET_CITY_NAME_SUGGESTION,
+  PACKET_RULESET_NATION
 };
 
 enum report_type {
@@ -335,8 +336,9 @@ struct packet_join_game_reply {
 ...
 *********************************************************/
 struct packet_alloc_race {
-  int race_no;
+  Nation_Type_id race_no;
   char name[MAX_LEN_NAME];
+  int is_male;
 };
 
 
@@ -366,6 +368,7 @@ struct packet_generic_integer {
 struct packet_player_info {
   int playerno;
   char name[MAX_LEN_NAME];
+  int is_male;
   int government;
   int embassy;
   int race;
@@ -455,6 +458,7 @@ struct packet_ruleset_control {
   int government_when_anarchy;
   int default_government;
   int government_count;
+  int nation_count;
 };
 
 /*********************************************************
@@ -607,6 +611,23 @@ struct packet_ruleset_government_ruler_title {
   char female_title[MAX_LEN_NAME];
 };
 
+struct packet_ruleset_nation {
+  int id;
+  char name[MAX_LEN_NAME];
+  char name_plural[MAX_LEN_NAME];
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
+};
+
+struct packet_select_race {
+  unsigned int mask1;           /* masks indicate already     */
+  unsigned int mask2;           /* selected nations           */
+                                /* mask2=ffff means choice OK */
+  Nation_Type_id nation_count;
+  char nation[MAX_NUM_NATIONS][MAX_LEN_NAME];
+  char leader[MAX_NUM_NATIONS][MAX_LEN_NAME];
+  int leader_sex[MAX_NUM_NATIONS];
+};
 
 /*********************************************************
 ...
@@ -847,6 +868,16 @@ int send_packet_ruleset_government_ruler_title(struct connection *pc,
 				struct packet_ruleset_government_ruler_title *packet);
 struct packet_ruleset_government_ruler_title *
 receive_packet_ruleset_government_ruler_title(struct connection *pc);
+
+int send_packet_ruleset_nation(struct connection *pc,
+			       struct packet_ruleset_nation *packet);
+struct packet_ruleset_nation *
+receive_packet_ruleset_nation(struct connection *pc);
+
+int send_packet_select_race(struct connection *pc,
+			    struct packet_select_race *packet);
+struct packet_select_race *
+receive_packet_select_race(struct connection *pc);
 
 int send_packet_before_end_year(struct connection *pc);
 

@@ -691,6 +691,7 @@ void create_start_positions(void)
       }
     }
   }
+  map.num_start_positions = game.nplayers;
 }
 
 /**************************************************************************

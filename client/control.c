@@ -256,15 +256,11 @@ all the server checks and messages here.)
 void request_unit_build_city(struct unit *punit)
 {
   if(can_unit_build_city(punit)) {
-    if (has_capability("citynamesuggest2", aconnection.capability)) {
-      struct packet_generic_integer req;
-      req.value = punit->id;
-      send_packet_generic_integer(&aconnection,
-				  PACKET_CITY_NAME_SUGGEST_REQ, &req);
-      /* the reply will trigger a dialog to name the new city */
-    } else {
-      popup_newcity_dialog(punit, city_name_suggestion(game.player_ptr));
-    }
+    struct packet_generic_integer req;
+    req.value = punit->id;
+    send_packet_generic_integer(&aconnection,
+				PACKET_CITY_NAME_SUGGEST_REQ, &req);
+    /* the reply will trigger a dialog to name the new city */
   }
   else {
     struct packet_unit_request req;

@@ -163,7 +163,7 @@ void handle_packet_input(char *packet, int type)
     break;
 
   case PACKET_SELECT_RACE:
-    handle_select_race((struct packet_generic_integer *)packet);
+    handle_select_race((struct packet_select_race *)packet);
     break;
 
   case PACKET_PLAYER_INFO:
@@ -266,6 +266,10 @@ void handle_packet_input(char *packet, int type)
     handle_ruleset_government_ruler_title((struct packet_ruleset_government_ruler_title *)packet);
     break;
   
+  case PACKET_RULESET_NATION:
+    handle_ruleset_nation((struct packet_ruleset_nation *)packet);
+    break;
+
   case PACKET_INCITE_COST:
     handle_incite_cost((struct packet_generic_values *)packet);
     break;

@@ -25,7 +25,7 @@ void popdown_races_dialog(void);
 
 void popup_unit_select_dialog(struct tile *ptile);
 
-void races_toggles_set_sensitive(int bits);
+void races_toggles_set_sensitive(int bits1, int bits2);
 
 void popup_revolution_dialog(void);
 void popup_government_dialog(void);

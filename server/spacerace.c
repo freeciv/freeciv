@@ -172,7 +172,7 @@ void handle_spaceship_launch(struct player *pplayer)
   notify_player_ex(0, 0, 0, E_SPACESHIP,
 		"Game: The %s have launched a spaceship! It is estimated to "
 		"arrive on Alpha Centauri in %s.",
-		races[pplayer->race].name,
+		get_race_name(pplayer->race),
 		textyear(arrival));
 
   send_spaceship_info(pplayer, 0);

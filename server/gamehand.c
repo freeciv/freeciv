@@ -17,11 +17,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "capability.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "packets.h"
 #include "registry.h"
 #include "version.h"
@@ -49,10 +51,13 @@ extern int rand_init;
 **************************************************************************/
 void init_new_game(void)
 {
-  int i, x, y,j;
+  int i, j, x, y;
+  int start_pos[MAX_NUM_PLAYERS]; /* indices into map.start_positions[] */
+  
   if (game.scenario!=1 && game.scenario!=2) {
     /* except in a scenario which provides them,
        shuffle the start positions around... */
+    assert(game.nplayers==map.num_start_positions);
     for (i=0; i<game.nplayers;i++) { /* no advantage to the romans!! */
       j=myrand(game.nplayers);
       x=map.start_positions[j].x;
@@ -63,15 +68,53 @@ void init_new_game(void)
       map.start_positions[i].y=y;
     }
   }
-  for(i=0; i<game.nplayers; i++) {
-    if(game.scenario==1 || game.scenario==2) {
-      /* in a scenario, choose starting positions by race */
-      x=map.start_positions[game.players[i].race].x;
-      y=map.start_positions[game.players[i].race].y;
-    } else {
-      x=map.start_positions[i].x;
-      y=map.start_positions[i].y;
+  /* In a scenario, choose starting positions by race.
+     If there are too few starts for number of nations, assign
+     to nations with specific starts first, then assign rest
+     to random from remainder.  (Would be better to label start
+     positions by nation etc, but this will do for now. --dwp)
+  */
+  if(game.scenario!=1 && game.scenario!=2) {
+    for(i=0; i<game.nplayers; i++) {
+      start_pos[i] = i;
+    } 
+  } else {
+    const int npos = map.num_start_positions;
+    int *pos_used = fc_calloc(npos, sizeof(int));
+    int nrem = npos;		/* remaining unused starts */
+    
+    for(i=0; i<game.nplayers; i++) {
+      int race = game.players[i].race;
+      if (race < npos) {
+	start_pos[i] = race;
+	pos_used[race] = 1;
+	nrem--;
+      } else {
+	start_pos[i] = npos;
+      }
     }
+    for(i=0; i<game.nplayers; i++) {
+      if (start_pos[i] == npos) {
+	int k;
+	assert(nrem>0);
+	k = myrand(nrem);
+	for(j=0; j<npos; j++) {
+	  if (!pos_used[j] && (0==k--)) {
+	    start_pos[i] = j;
+	    pos_used[j] = 1;
+	    nrem--;
+	    break;
+	  }
+	}
+	assert(start_pos[i] != npos);
+      }
+    }
+    free(pos_used);
+  }
+  
+  for(i=0; i<game.nplayers; i++) {
+    x=map.start_positions[start_pos[i]].x;
+    y=map.start_positions[start_pos[i]].y;
     /* For scenarios, huts may coincide with player starts;
        remove any such hut: */
     if(map_get_special(x,y)&S_HUT) {
@@ -329,6 +372,9 @@ int game_load(struct section_file *file)
   strcpy(game.ruleset.governments,
 	 secfile_lookup_str_default(file, "default",
 				    "game.ruleset.governments"));
+  strcpy(game.ruleset.nations,
+         secfile_lookup_str_default(file, "default", "game.ruleset.nations"));
+
 
   strcpy(game.demography,
 	 secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
@@ -494,6 +540,7 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.ruleset.buildings, "game.ruleset.buildings");
   secfile_insert_str(file, game.ruleset.terrain, "game.ruleset.terrain");
   secfile_insert_str(file, game.ruleset.governments, "game.ruleset.governments");
+  secfile_insert_str(file, game.ruleset.nations, "game.ruleset.nations");
   secfile_insert_str(file, game.demography, "game.demography");
 
   if (1) {

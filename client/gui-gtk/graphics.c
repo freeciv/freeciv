@@ -261,7 +261,7 @@ GdkPixmap *create_overlay_unit(int i)
 
   /* If we're using flags, put one on the tile */
   if(!use_solid_color_behind_units)  {
-    struct Sprite *flag=races[game.player_ptr->race].flag_sprite;
+    struct Sprite *flag=get_race(game.player_ptr)->flag_sprite;
 
     gdk_gc_set_clip_origin(civ_gc, 0, 0);
     gdk_gc_set_clip_mask(civ_gc, flag->mask);

@@ -9,6 +9,7 @@ pkgdata_DATA =          \
 	governments.ruleset \
 	units.ruleset	\
 	buildings.ruleset \
+	nations.ruleset	\
 	flags.xpm	\
 	flags.xpm.spec	\
 	roads.xpm	\

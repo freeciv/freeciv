@@ -193,6 +193,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_tile_info(pc);
 
   case PACKET_SELECT_RACE:
+    return receive_packet_select_race(pc);
+
   case PACKET_REMOVE_UNIT:
   case PACKET_REMOVE_CITY:
   case PACKET_GAME_STATE:
@@ -286,6 +288,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_ruleset_government(pc);
   case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
     return receive_packet_ruleset_government_ruler_title(pc);
+  case PACKET_RULESET_NATION:
+    return receive_packet_ruleset_nation(pc);
 
   case PACKET_SPACESHIP_INFO:
     return receive_packet_spaceship_info(pc);
@@ -1049,6 +1053,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int8(buffer+2, PACKET_PLAYER_INFO);
   cptr=put_int8(cptr, pinfo->playerno);
   cptr=put_string(cptr, pinfo->name);
+  cptr=put_int8(cptr, pinfo->is_male);
   cptr=put_int8(cptr, pinfo->government);
   cptr=put_int32(cptr, pinfo->embassy);
   cptr=put_int8(cptr, pinfo->race);
@@ -1096,6 +1101,7 @@ receive_packet_player_info(struct connection *pc)
 
   iget_int8(&iter,  &pinfo->playerno);
   iget_string(&iter, pinfo->name, sizeof(pinfo->name));
+  iget_int8(&iter,  &pinfo->is_male);
   iget_int8(&iter,  &pinfo->government);
   iget_int32(&iter,  &pinfo->embassy);
   iget_int8(&iter,  &pinfo->race);
@@ -1807,6 +1813,7 @@ int send_packet_alloc_race(struct connection *pc,
   cptr=put_int8(buffer+2, PACKET_ALLOC_RACE);
   cptr=put_int32(cptr, packet->race_no);
   cptr=put_string(cptr, packet->name);
+  cptr=put_int8(cptr,packet->is_male);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1826,6 +1833,7 @@ receive_packet_alloc_race(struct connection *pc)
 
   iget_int32(&iter, &packet->race_no);
   iget_string(&iter, packet->name, sizeof(packet->name));
+  iget_int8(&iter, &packet->is_male);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -1907,6 +1915,8 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_int8(cptr, packet->government_when_anarchy);
   
   cptr=put_int8(cptr, packet->num_unit_types);
+ 
+  cptr=put_int8(cptr, packet->nation_count);
 
   cptr=put_tech_list(cptr, packet->rtech.pop_pollution);
   cptr=put_tech_list(cptr, packet->rtech.partisan_req);
@@ -1947,6 +1957,8 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_int8(&iter, &packet->government_when_anarchy);
 
   iget_int8(&iter, &packet->num_unit_types);
+
+  iget_int8(&iter, &packet->nation_count);
 
   iget_tech_list(&iter, packet->rtech.pop_pollution);
   iget_tech_list(&iter, packet->rtech.partisan_req);
@@ -2458,6 +2470,102 @@ receive_packet_ruleset_government_ruler_title(struct connection *pc)
   iget_string(&iter, packet->male_title, sizeof(packet->male_title));
   iget_string(&iter, packet->female_title, sizeof(packet->female_title));
 
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_nation(struct connection *pc,
+			       struct packet_ruleset_nation *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_NATION);
+
+  cptr=put_int8(cptr, packet->id);
+
+  cptr=put_string(cptr, packet->name);
+  cptr=put_string(cptr, packet->name_plural);
+  cptr=put_string(cptr, packet->graphic_str);
+  cptr=put_string(cptr, packet->graphic_alt);
+
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_nation *
+receive_packet_ruleset_nation(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_ruleset_nation *packet=
+    fc_malloc(sizeof(struct packet_ruleset_nation));
+
+  pack_iter_init(&iter, pc);
+
+  iget_int8(&iter, &packet->id);
+  iget_string(&iter, packet->name, sizeof(packet->name));
+  iget_string(&iter, packet->name_plural, sizeof(packet->name_plural));
+  iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
+  iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_select_race(struct connection *pc,
+			    struct packet_select_race *packet)
+{
+  int i;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_int8(buffer+2, PACKET_SELECT_RACE);
+
+  cptr=put_int32(cptr, packet->mask1);
+  cptr=put_int32(cptr, packet->mask2);
+  cptr=put_int8(cptr, packet->nation_count);
+  for( i=0; i<packet->nation_count; i++) {
+       cptr=put_string(cptr, packet->nation[i]);
+       cptr=put_string(cptr, packet->leader[i]);
+       cptr=put_int8(cptr, packet->leader_sex[i]);
+  }
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_select_race *
+receive_packet_select_race(struct connection *pc)
+{
+  int i;
+  struct pack_iter iter;
+  struct packet_select_race *packet=
+    fc_malloc(sizeof(struct packet_select_race));
+
+  pack_iter_init(&iter, pc);
+
+  iget_int32(&iter, &packet->mask1);
+  iget_int32(&iter, &packet->mask2);
+  iget_int8(&iter, &packet->nation_count);
+  if( packet->mask2 != 0xffff ) {         /* 0xffff means race choice was OK */
+    for( i=0; i<packet->nation_count; i++) {
+      iget_string(&iter, packet->nation[i], MAX_LEN_NAME);
+      iget_string(&iter, packet->leader[i], MAX_LEN_NAME);
+      iget_int8(&iter, &packet->leader_sex[i]);
+    }
+  }
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
   return packet;

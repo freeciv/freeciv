@@ -55,6 +55,7 @@ extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
 extern char name[512];
 extern struct city *city_workers_display;
+extern struct player_race *races;
 
 /**************************************************************************
 ...
@@ -134,7 +135,7 @@ void handle_game_state(struct packet_generic_integer *packet)
   
   if(get_client_state()==CLIENT_SELECT_RACE_STATE && 
      packet->value==CLIENT_GAME_RUNNING_STATE &&
-     game.player_ptr->race == R_LAST) {
+     game.player_ptr->race == MAX_NUM_NATIONS) {
     popdown_races_dialog();
   }
   
@@ -645,6 +646,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   
   strcpy(pplayer->name, pinfo->name);
   pplayer->race=pinfo->race;
+  pplayer->is_male=pinfo->is_male;
   
   pplayer->economic.gold=pinfo->gold;
   pplayer->economic.tax=pinfo->tax;
@@ -971,20 +973,30 @@ void handle_remove_player(struct packet_generic_integer *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_select_race(struct packet_generic_integer *packet)
+void handle_select_race(struct packet_select_race *packet)
 {
+  int i;
   if(get_client_state()==CLIENT_SELECT_RACE_STATE) {
-    if(packet->value==-1) {
+    if(packet->mask2 == 0xffff) {
       set_client_state(CLIENT_WAITING_FOR_GAME_START_STATE);
       popdown_races_dialog();
     }
     else
-      races_toggles_set_sensitive(packet->value);
+      races_toggles_set_sensitive( packet->mask1, packet->mask2);
   }
   else if(get_client_state()==CLIENT_PRE_GAME_STATE) {
     set_client_state(CLIENT_SELECT_RACE_STATE);
+
+    game.nation_count = packet->nation_count;
+    if( races ) free(races);
+    races = fc_calloc(game.nation_count, sizeof(struct player_race));
+    for( i=0; i<game.nation_count; i++) {
+      strcpy( races[i].name, packet->nation[i]);
+      strcpy( races[i].leader_name, packet->leader[i]);
+      races[i].leader_is_male = packet->leader_sex[i];
+    }
     popup_races_dialog();
-    races_toggles_set_sensitive(packet->value);
+    races_toggles_set_sensitive( packet->mask1, packet->mask2);
   }
   else
     freelog(LOG_VERBOSE, "got a select race packet in an incompatible state");
@@ -993,7 +1005,7 @@ void handle_select_race(struct packet_generic_integer *packet)
 /**************************************************************************
   Take arrival of ruleset control packet to indicate that
   current allocated governments should be free'd, and new
-  memory allocated for new size.
+  memory allocated for new size. The same for nations.
 **************************************************************************/
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
@@ -1035,6 +1047,10 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   for(i=0; i<game.government_count; i++) {
     get_government(i)->ruler_titles = NULL;
   }
+
+  game.nation_count = packet->nation_count;
+  if(races) free(races);
+  races = fc_calloc(game.nation_count, sizeof(struct player_race));
 }
 
 /**************************************************************************
@@ -1284,6 +1300,28 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
   terrain_control.pollution_food_penalty = p->pollution_food_penalty;
   terrain_control.pollution_shield_penalty = p->pollution_shield_penalty;
   terrain_control.pollution_trade_penalty = p->pollution_trade_penalty;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_nation(struct packet_ruleset_nation *p)
+{
+  struct player_race *pl;
+
+  if(p->id < 0 || p->id >= game.nation_count || p->id >= MAX_NUM_NATIONS) {
+    freelog(LOG_NORMAL, "Received bad nation id %d in handle_ruleset_nation()",
+	    p->id);
+    return;
+  }
+  pl = &races[p->id];
+
+  strcpy(pl->name, p->name);
+  strcpy(pl->name_plural, p->name_plural);
+  strcpy(pl->flag_graphic_str, p->graphic_str);
+  strcpy(pl->flag_graphic_alt, p->graphic_alt);
+
+  tilespec_setup_nation_flag(p->id);
 }
 
 /**************************************************************************

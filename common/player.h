@@ -25,11 +25,10 @@ struct Sprite;			/* opaque; client-gui specific */
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
 #define PLAYER_DEFAULT_LUXURY_RATE 0
 #define MAX_NUM_TECH_GOALS 10
+#define MAX_NUM_NATIONS  63
 
-enum race_type {
-  R_ROMAN, R_BABYLONIAN, R_GERMAN, R_EGYPTIAN, R_AMERICAN, R_GREEK, R_INDIAN, 
-  R_RUSSIAN, R_ZULU, R_FRENCH, R_AZTEC, R_CHINESE, R_ENGLISH, R_MONGOL, R_LAST
-};
+
+typedef int Nation_Type_id;
 
 enum advisor_type {ADV_ISLAND, ADV_MILITARY, ADV_TRADE, ADV_SCIENCE, ADV_FOREIGN, ADV_ATTITUDE, ADV_DOMESTIC, ADV_LAST};
 
@@ -54,6 +53,9 @@ struct player_race {
   char name[MAX_LEN_NAME];
   char name_plural[MAX_LEN_NAME];
   char flag_graphic_str[MAX_LEN_NAME];
+  char flag_graphic_alt[MAX_LEN_NAME];
+  char leader_name[MAX_LEN_NAME];
+  int leader_is_male;
   int attack;     /* c 0 = optimize for food, 2 =  optimize for prod  */
                   /* c0 = large amount of buildings, 2 = units */
 /* attack has been un-implemented for the time being. -- Syela */
@@ -160,7 +162,7 @@ struct player {
   char name[MAX_LEN_NAME];
   int is_male;
   int government;
-  enum race_type race;
+  Nation_Type_id race;
   int turn_done;
   int nturns_idle;
   int is_alive;
@@ -186,9 +188,11 @@ struct player *find_player_by_name(char *name);
 void player_set_unit_focus_status(struct player *pplayer);
 int player_has_embassy(struct player *pplayer, struct player *pplayer2);
 
-enum race_type find_race_by_name(char *name);
-char *get_race_name(enum race_type race);
-char *get_race_name_plural(enum race_type race);
+Nation_Type_id find_race_by_name(char *name);
+char *get_race_name(Nation_Type_id race);
+char *get_race_name_plural(Nation_Type_id race);
+char *get_race_leader_name(Nation_Type_id race);
+int get_race_leader_sex(Nation_Type_id race);
 struct player_race *get_race(struct player *plr);
 int player_can_see_unit(struct player *pplayer, struct unit *punit);
 struct unit *player_find_visible_unit(struct player *pplayer, struct tile *);
@@ -207,9 +211,6 @@ int ai_handicap(struct player *pplayer, enum handicap_type htype);
 int ai_fuzzy(struct player *pplayer, int normal_decision);
 
 void init_race_goals(void);
-
-extern struct player_race races[];
-extern char *default_race_leader_names[];
 
 char *cmdlevel_name(enum cmdlevel_id lvl);
 enum cmdlevel_id cmdlevel_named (char *token);

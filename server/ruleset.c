@@ -29,6 +29,10 @@
 
 #include "ruleset.h"
 
+extern char ***default_nation_city_names;
+extern char **misc_city_names;
+extern struct player_race *races;
+
 static char *openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);
 static char *check_ruleset_capabilities(struct section_file *file,
@@ -46,12 +50,14 @@ static void load_ruleset_units(char *ruleset_subdir);
 static void load_ruleset_buildings(char *ruleset_subdir);
 static void load_ruleset_terrain(char *ruleset_subdir);
 static void load_ruleset_governments(char *ruleset_subdir);
+static void load_ruleset_nations(char *ruleset_subdir);
 
 static void send_ruleset_techs(struct player *dest);
 static void send_ruleset_units(struct player *dest);
 static void send_ruleset_buildings(struct player *dest);
 static void send_ruleset_terrain(struct player *dest);
 static void send_ruleset_governments(struct player *dest);
+static void send_ruleset_nations(struct player *dest);
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
@@ -1050,7 +1056,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
     while((c = secfile_lookup_str_default(&file, NULL,
 					  "%s.ruler_titles%d.nation",
 					  sec[i], ++j))) {
-      enum race_type race;
+      Nation_Type_id race;
       if (strcmp(c, "-") == 0) {
 	race = DEFAULT_TITLE;
 	have_default = 1;
@@ -1161,11 +1167,142 @@ static void send_ruleset_control(struct player *dest)
 
   packet.num_unit_types = game.num_unit_types;
 
+  packet.nation_count = game.nation_count;
+
   for(to=0; to<game.nplayers; to++) {           /* dests */
     if(dest==0 || get_player(to)==dest) {
       send_packet_ruleset_control(get_player(to)->conn, &packet);
     }
   }
+}
+
+/**************************************************************************
+Load nations.ruleset file
+**************************************************************************/
+static void load_ruleset_nations(char *ruleset_subdir)
+{
+  struct section_file file;
+  char *filename, *datafile_options;
+  struct player_race *pl;
+  int *res, dim, i, j;
+  char temp_name[MAX_LEN_NAME];
+  char **cities, **techs;
+
+  filename = openload_ruleset_file(&file, ruleset_subdir, "nations");
+  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  section_file_lookup(&file,"datafile.description"); /* unused */
+
+  i=0; /* this here check how many nations are */
+  while( strlen(secfile_lookup_str_default(&file, "", "nation%d.name", i++)) );
+  game.nation_count = i-1;
+  freelog(LOG_VERBOSE, "There are %d nations defined", game.nation_count);
+  
+  if ( game.nation_count >= MAX_NUM_NATIONS || game.nation_count == 0) {
+    freelog(LOG_FATAL, "There can must be between 1 and %d nations", MAX_NUM_NATIONS);
+    exit(1);    
+  }
+  races = fc_calloc( game.nation_count, sizeof(struct player_race));
+  default_nation_city_names = fc_calloc( game.nation_count, sizeof(char**));
+
+  for( i=0, pl=races; i<game.nation_count; i++, pl++ ) {
+    strcpy( pl->name, secfile_lookup_str(&file, "nation%d.name", i));
+    strcpy( pl->name_plural, secfile_lookup_str(&file, "nation%d.plural", i));
+    strcpy( pl->leader_name, secfile_lookup_str(&file, "nation%d.leader", i)); 
+
+    /* check if nation or leader name is not already defined */
+    for( j=0; j<i; j++) {
+      if(!strcmp(races[j].name,pl->name) ){
+        freelog(LOG_FATAL, "Nation %s already defined in section nation%d", pl->name, j);
+        exit(1);
+      }
+      if(!strcmp(races[j].name_plural,pl->name_plural)) {
+        freelog(LOG_FATAL, "Nation %s already defined in section nation%d", 
+                pl->name_plural, j);
+        exit(1);
+      }
+      if(!strcmp(races[j].leader_name,pl->leader_name)) {
+        freelog(LOG_FATAL, "Leader %s already defined in section nation%d", 
+                pl->leader_name, j);
+        exit(1);
+      }
+    }
+
+    strcpy( temp_name, secfile_lookup_str(&file, "nation%d.leader_sex", i));
+    if( strcmp(temp_name, "Male")==0 )
+      pl->leader_is_male = 1;
+    else if( strcmp(temp_name, "Female")==0 )
+      pl->leader_is_male = 0;
+    else {
+      freelog( LOG_FATAL, "Nation %d leader sex must be Male or Female but is %s", 
+               i, temp_name);
+      exit(1);
+    }
+
+    strcpy(pl->flag_graphic_str,
+	   secfile_lookup_str(&file, "nation%d.flag", i));
+    strcpy(pl->flag_graphic_alt,
+	   secfile_lookup_str(&file, "nation%d.flag_alt", i));
+
+    pl->attack = secfile_lookup_int_default(&file, 2, "nation%d.attack", i);
+    pl->expand = secfile_lookup_int_default(&file, 2, "nation%d.expand", i);
+    pl->civilized = secfile_lookup_int_default(&file, 2, "nation%d.civilized", i);
+
+    res = secfile_lookup_int_vec(&file, &dim, "nation%d.advisors", i);
+    if( dim != ADV_LAST ) {
+      freelog( LOG_FATAL, "Nation %d number of advisors must be %d but is %d", 
+               i, ADV_LAST, dim);
+      exit(1); 
+    }
+    for ( j=0; j<ADV_LAST; j++) 
+      pl->advisors[j] = res[j];
+    if(res) free(res);
+
+    techs = secfile_lookup_str_vec(&file, &dim, "nation%d.tech_goals", i);
+    if( dim > MAX_NUM_TECH_GOALS ) {
+      freelog( LOG_VERBOSE, "Only %d techs can used from %d defined for nation %s",
+               MAX_NUM_TECH_GOALS, dim, pl->name_plural);
+      dim = MAX_NUM_TECH_GOALS;
+    }
+    for ( j=0; j<dim; j++) {
+      pl->goals_str.tech[j] = fc_calloc((strlen(techs[j])+1), sizeof(char));
+      strcpy( pl->goals_str.tech[j], techs[j]);
+    }
+    while( j < MAX_NUM_TECH_GOALS )
+      pl->goals_str.tech[j++] = "";
+    if (techs) free(techs);
+
+    strcpy( temp_name, secfile_lookup_str(&file, "nation%d.wonder", i));
+    pl->goals_str.wonder = fc_calloc((strlen(temp_name)+1), sizeof(char));
+    strcpy( pl->goals_str.wonder, temp_name);
+
+    strcpy( temp_name, secfile_lookup_str(&file, "nation%d.government", i));
+    pl->goals_str.government = fc_calloc((strlen(temp_name)+1), sizeof(char));
+    strcpy( pl->goals_str.government, temp_name);
+
+    /* read city names - jk */
+    cities = secfile_lookup_str_vec(&file, &dim, "nation%d.cities", i);
+    default_nation_city_names[i] = fc_calloc(dim+1, sizeof(char*));
+    default_nation_city_names[i][dim] = NULL;
+    for ( j=0; j<dim; j++) {
+      default_nation_city_names[i][j] = fc_calloc((strlen(cities[j])+1), sizeof(char));
+      strcpy( default_nation_city_names[i][j], cities[j]);
+    }
+    if(cities) free(cities);
+  }
+
+  /* read miscellaneous city names */
+
+  cities = secfile_lookup_str_vec(&file, &dim, "misc.cities");
+  misc_city_names = fc_calloc(dim+1, sizeof(char*));
+  for ( j=0; j<dim; j++) {
+    misc_city_names[j] = fc_calloc((strlen(cities[j])+1), sizeof(char));
+    strcpy( misc_city_names[j], cities[j]);      
+  }
+  misc_city_names[dim] = NULL;
+  if(cities) free(cities);
+
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
 }
 
 /**************************************************************************
@@ -1425,10 +1562,35 @@ static void send_ruleset_governments(struct player *dest)
 /**************************************************************************
 ...  
 **************************************************************************/
+static void send_ruleset_nations(struct player *dest)
+{
+  struct packet_ruleset_nation packet;
+  struct player_race *p;
+  int to;
+
+  for(p=races; p<races+game.nation_count; p++) {
+    packet.id = p-races;
+    strcpy(packet.name, p->name);
+    strcpy(packet.name_plural, p->name_plural);
+    strcpy(packet.graphic_str, p->flag_graphic_str);
+    strcpy(packet.graphic_alt, p->flag_graphic_alt);
+
+    for(to=0; to<game.nplayers; to++) {           /* dests */
+      if(dest==0 || get_player(to)==dest) {
+	send_packet_ruleset_nation(get_player(to)->conn, &packet);
+      }
+    }
+  }
+}
+
+/**************************************************************************
+...  
+**************************************************************************/
 void load_rulesets(void)
 {
   freelog(LOG_NORMAL, "Loading rulesets");
   load_ruleset_techs(game.ruleset.techs);
+  load_ruleset_nations(game.ruleset.nations);
   load_ruleset_governments(game.ruleset.governments);
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);
@@ -1455,6 +1617,7 @@ void send_rulesets(struct player *dest)
   send_ruleset_units(dest);
   send_ruleset_buildings(dest);
   send_ruleset_terrain(dest);
+  send_ruleset_nations(dest);
   
   for(to=0; to<game.nplayers; to++) {
     if(dest==0 || get_player(to)==dest) {

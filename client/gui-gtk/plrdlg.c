@@ -178,7 +178,7 @@ void update_players_dialog(void)
 	sprintf(namebuf,"%-16s", game.players[i].name);
 
       row[0] = namebuf;
-      row[1] = races[game.players[i].race].name;
+      row[1] = get_race_name(game.players[i].race);
       row[2] = player_has_embassy(game.player_ptr, &game.players[i]) ? "X":" ";
       row[3] = statebuf;
       row[4] = game.players[i].addr;

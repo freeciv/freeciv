@@ -27,127 +27,7 @@
 
 extern int is_server;
 
-/* Additional goals added by Syela 
- * Note not all of the preferences etc in the following are
- * actually used currently. -- dwp
- */
-struct player_race races[]= { 
-  {"Roman", "Romans", "f.italy",          1, 2, 2,
-     {100,100,100,100,100,100,100},
-   { {"The Republic", "The Wheel", "Iron Working", "Construction", "Railroad",
-      "", "", "", "", ""},
-     "Leonardo's Workshop",   /* wonder not actually checked in choose_build */
-     "Democracy"}
-  },
-  {"Babylonian", "Babylonians", "f.iraq_old", 0, 0, 2,
-     {100,100,100,100,100,100,100},
-   { {"Monarchy", "Philosophy", "Mathematics", "Chivalry", "Theology",
-      "Religion" /*civ1*/, "", "", "", ""},
-     "Hanging Gardens",
-     "Monarchy"}
-  },
-  {"German", "Germans", "f.germany",         2, 0, 2,        
-   {100,100,100,100,100,100,100},
-   { {"The Republic", "Iron Working", "Gunpowder", "Explosives", "Flight",
-      "", "", "", "", ""},
-     "J.S. Bach's Cathedral",
-     "Republic"}
-  },
-  {"Egyptian", "Egyptians", "f.egypt",    1, 1, 2,    
-   {100,100,100,100,100,100,100}, /* different order for experiment and flavor */
-   { {"Monarchy", "Philosophy", "Navigation", "Iron Working", "Railroad",
-      "", "", "", "", ""},
-     "Pyramids"  ,
-     "Monarchy"}
-  },
-  {"American", "Americans", "f.usa",     0, 1, 2,    
-   {100,100,100,100,100,100,100},
-   { {"The Republic", "Trade", "Engineering", "Democracy", "Railroad",
-      "Explosives", "Automobile", "", "", ""},
-     "Statue of Liberty",
-     "Democracy"}
-  },
-  {"Greek", "Greeks", "f.greece",         1, 2, 0,          
-   {100,100,100,100,100,100,100},
-   { {"The Republic", "Philosophy", "Trade", "Engineering", "Iron Working",
-      "Railroad", "", "", "", ""},
-     "Lighthouse",
-     "Republic"}
-  },
-  {"Indian", "Indians", "f.india",        0, 0, 1,        
-   {100,100,100,100,100,100,100},
-   { {"Monarchy", "Philosophy", "The Republic", "Iron Working", "Engineering",
-      "Railroad", "", "", "", ""},
-     "Oracle",
-     "Republic"}
-  },
-  {"Russian", "Russians", "f.russia",      2, 1, 0,      
-   {100,100,100,100,100,100,100},
-   { {"Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
-      "Railroad", "Communism", "", "", ""},
-     "Women's Suffrage",
-     "Communism"}
-  },
-  {"Zulu", "Zulus", "f.rwanda",            2, 1, 1,            
-   {100,100,100,100,100,100,100},
-   { {"Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
-      "Railroad", "Communism", "", "", ""},
-     "Apollo Program",
-     "Communism"}
-  },
-  {"French", "French", "f.france",         2, 2, 2,         
-   {100,100,100,100,100,100,100},
-   { {"Monarchy", "Chivalry", "Philosophy", "The Republic", "Monotheism",
-      "Religion" /*civ1*/, "Engineering", "Navigation", "Railroad", ""},
-     "Magellan's Expedition",
-     "Republic"}
-  },
-  {"Aztec", "Aztecs", "f.mexico",          1, 0, 2,          
-   {100,100,100,100,100,100,100},
-   { {"Monarchy", "Chivalry", "Iron Working", "Trade", "Navigation",
-      "Railroad", "Communism", "", "", ""},
-     "Hoover Dam",
-     "Communism"}
-  },
-  {"Chinese", "Chinese", "f.china",       1, 1, 2,     
-   {100,100,100,100,100,100,100},
-   { {"Monarchy", "Trade", "Philosophy", "Bridge Building", "Railroad",
-      "Communism", "", "", "", ""},
-     "Great Wall",
-     "Communism"}
-  },
-  {"English", "English", "f.united_kingdom",       1, 2, 1,     
-     {100,100,100,100,100,100,100},
-   { {"Monarchy", "Chivalry", "Trade", "Theology", "Religion" /*civ1*/,
-      "Navigation", "Democracy", "Railroad", "", ""},
-     "King Richard's Crusade",
-     "Democracy"}
-  },
-  {"Mongol", "Mongols", "f.mongolia",        2, 2, 0,      
-   {100,100,100,100,100,100,100},
-   { {"Monarchy", "Chivalry", "Trade", "Bridge Building", "Railroad",
-      "", "", "", "", ""},
-     "Sun Tzu's War Academy",
-     "Monarchy"}
-  }
-};
-
-char *default_race_leader_names[] = {
-  "Caesar",
-  "Hammurabi",
-  "Frederick",
-  "Rameses",
-  "Lincoln",
-  "Alexander",
-  "Gandhi",
-  "Stalin",
-  "Shaka",
-  "Napoleon",
-  "Montezuma",
-  "Mao",
-  "Elizabeth",
-  "Genghis"
-};
+struct player_race *races;
 
 /***************************************************************
 ...
@@ -171,11 +51,11 @@ int player_owns_city(struct player *pplayer, struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
-enum race_type find_race_by_name(char *name)
+Nation_Type_id find_race_by_name(char *name)
 {
   int i;
 
-  for(i=0; i<R_LAST; i++)
+  for(i=0; i<game.nation_count; i++)
      if(!mystrcasecmp(name, get_race_name (i)))
 	return i;
 
@@ -185,15 +65,25 @@ enum race_type find_race_by_name(char *name)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_race_name(enum race_type race)
+char *get_race_name(Nation_Type_id race)
 {
   return races[race].name;
+}
+
+char *get_race_leader_name(Nation_Type_id race)
+{
+  return races[race].leader_name;
+}
+
+int get_race_leader_sex(Nation_Type_id race)
+{
+  return races[race].leader_is_male;
 }
 
 /***************************************************************
 ...
 ***************************************************************/
-char *get_race_name_plural(enum race_type race)
+char *get_race_name_plural(Nation_Type_id race)
 {
   return races[race].name_plural;
 }
@@ -213,7 +103,7 @@ void player_init(struct player *plr)
   strcpy(plr->name, "YourName");
   plr->is_male = 1;
   plr->government=game.default_government;
-  plr->race=R_LAST;
+  plr->race=MAX_NUM_NATIONS;
   plr->capital=0;
   unit_list_init(&plr->units);
   city_list_init(&plr->cities);
@@ -418,7 +308,7 @@ void init_race_goals(void)
   struct player_race *prace;
   struct government *gov;
 
-  for(prace=races; prace<races+R_LAST; prace++) {
+  for(prace=races; prace<races+game.nation_count; prace++) {
     name = prace->name_plural;
     str = prace->goals_str.government;
     gov = find_government_by_name(str);

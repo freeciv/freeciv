@@ -419,7 +419,7 @@ void set_bulb_sol_government(int bulb, int sol, int government)
 **************************************************************************/
 static struct Sprite *get_city_race_flag_sprite(struct city *pcity)
 {
-  return races[game.players[pcity->owner].race].flag_sprite;
+  return get_race(&game.players[pcity->owner])->flag_sprite;
 }
 
 /**************************************************************************
@@ -427,7 +427,7 @@ static struct Sprite *get_city_race_flag_sprite(struct city *pcity)
 **************************************************************************/
 static struct Sprite *get_unit_race_flag_sprite(struct unit *punit)
 {
-  return races[game.players[punit->owner].race].flag_sprite;
+  return get_race(&game.players[punit->owner])->flag_sprite;
 }
 
 /**************************************************************************

@@ -155,8 +155,9 @@ struct civ_map {
   int riverlength;
   int forestsize;
   int generator;
+  int num_start_positions;
   struct tile *tiles;
-  struct map_position start_positions[R_LAST];
+  struct map_position start_positions[MAX_NUM_NATIONS];
 };
 
 int map_is_empty(void);

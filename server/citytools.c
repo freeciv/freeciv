@@ -679,9 +679,11 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y)
 
 static struct player *split_player(struct player *pplayer)
 {
-  int races_used[R_LAST], i, num_races_avail=R_LAST, pick;
+  int *races_used, i, num_races_avail=game.nation_count, pick;
   int newplayer = game.nplayers;
   struct player *cplayer = &game.players[newplayer];
+
+  races_used = fc_calloc(game.nation_count,sizeof(int));
   
   /* make a new player */
 
@@ -689,7 +691,7 @@ static struct player *split_player(struct player *pplayer)
   
   /* select a new name and race for the copied player. */
 
-  for(i=0; i<R_LAST;i++){ 
+  for(i=0; i<game.nation_count;i++){ 
     races_used[i]=i;
   }
 
@@ -700,7 +702,7 @@ static struct player *split_player(struct player *pplayer)
 
   pick = myrand(num_races_avail);
 
-  for(i=0; i<R_LAST; i++){ 
+  for(i=0; i<game.nation_count; i++){ 
     if(races_used[i] != -1)
       pick--;
     if(pick < 0) break;
@@ -709,6 +711,7 @@ static struct player *split_player(struct player *pplayer)
   /* Rebel will always be an AI player */
 
   cplayer->race = races_used[i];
+  free(races_used);
   pick_ai_player_name(cplayer->race,cplayer->name);
 
   cplayer->is_connected = 0;

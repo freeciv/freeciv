@@ -321,7 +321,7 @@ void map_save(struct section_file *file)
 
   /* don't save start positions in a type 3 scenario */
   if(game.scenario!=3) {
-    for(i=0; i<R_LAST; i++) {
+    for(i=0; i<game.nation_count; i++) {
       secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
       secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
     }
@@ -406,16 +406,27 @@ void map_save(struct section_file *file)
 
 /***************************************************************
 load starting positions for the players from a savegame file
+Now we don't know how many start positions are nor how many
+should be because rulesets are loaded later. So try to load as
+many as they are; there should be at least enough for every
+player.  This could be changed/improved in future.
 ***************************************************************/
 void map_startpos_load(struct section_file *file)
 {
-  int i;
+  int i=0, pos;
 
-  for(i=0; i<R_LAST; i++) {
-    map.start_positions[i].x=secfile_lookup_int(file, "map.r%dsx", i);
-    map.start_positions[i].y=secfile_lookup_int(file, "map.r%dsy", i);
+  while( (pos = secfile_lookup_int_default(file, -1, "map.r%dsx", i)) != -1) {
+    map.start_positions[i].x = pos;
+    map.start_positions[i].y = secfile_lookup_int(file, "map.r%dsy", i);
+    i++;
   }
-  
+  map.num_start_positions = i;
+
+  if (map.num_start_positions < MAX_NUM_PLAYERS) {
+    freelog(LOG_FATAL, "Too few starts %d (need at least %d)",
+	    map.num_start_positions, MAX_NUM_PLAYERS);
+    exit(1);
+  }
 }
 
 /***************************************************************

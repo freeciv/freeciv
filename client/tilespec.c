@@ -35,6 +35,8 @@
 
 #include "tilespec.h"
 
+extern struct player_race *races;
+
 char *main_intro_filename;
 char *minimap_intro_filename;
 
@@ -356,11 +358,6 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(citizen[7], "citizen.unhappy_0");
   SET_SPRITE(citizen[8], "citizen.unhappy_1");
 
-  for(i=0; i<R_LAST; i++) {
-    j = secfile_lookup_int(&tag_sf, "%s", races[i].flag_graphic_str);
-    races[i].flag_sprite = tile_sprites[j];
-  }
-
   SET_SPRITE(spaceship.solar_panels, "spaceship.solar_panels");
   SET_SPRITE(spaceship.life_support, "spaceship.solar_panels");
   SET_SPRITE(spaceship.habitation,   "spaceship.habitation");
@@ -602,3 +599,17 @@ void tilespec_setup_government(int id)
   /* should probably do something if NULL, eg generic default? */
 }
 
+/**********************************************************************
+  Set nation flag sprite value; should only happen after
+  tilespec_load_tiles().
+***********************************************************************/
+void tilespec_setup_nation_flag(int id)
+{
+  struct player_race *this = &races[id];
+
+  this->flag_sprite = lookup_sprite_tag_alt(this->flag_graphic_str, 
+					    this->flag_graphic_alt,
+					    1, "nation", this->name);
+
+  /* should probably do something if NULL, eg generic default? */
+}

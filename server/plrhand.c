@@ -1141,7 +1141,7 @@ static void update_player_aliveness(struct player *pplayer)
       notify_player_ex(0, 0,0, E_DESTROYED, "Game: The %s are no more!", 
 		       get_race_name_plural(pplayer->race));
       gamelog(GAMELOG_GENO, "%s civilization destroyed",
-              races[pplayer->race].name);
+              get_race_name(pplayer->race));
 
       map_know_all(pplayer);
       send_all_known_tiles(pplayer);
@@ -1431,9 +1431,9 @@ void handle_player_revolution(struct player *pplayer)
   pplayer->revolution=myrand(5)+1;
   pplayer->government=game.government_when_anarchy;
   notify_player(pplayer, "Game: The %s have incited a revolt!", 
-		races[pplayer->race].name);
+		get_race_name(pplayer->race));
   gamelog(GAMELOG_REVOLT,"The %s revolt!",
-                races[pplayer->race].name);
+                get_race_name(pplayer->race));
 
   if (!pplayer->ai.control)
      check_player_government_rates(pplayer);
@@ -1604,6 +1604,7 @@ void send_player_info(struct player *src, struct player *dest)
              info.playerno=i;
              strcpy(info.name, game.players[i].name);
              info.race=game.players[i].race;
+             info.is_male=game.players[i].is_male;
 
              info.gold=game.players[i].economic.gold;
              info.tax=game.players[i].economic.tax;
@@ -1662,6 +1663,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   strcpy(plr->addr, "---.---.---.---");
 
   plr->nturns_idle=0;
+  plr->is_male=secfile_lookup_int_default(file, 1, "player%d.is_male", plrno);
   plr->is_alive=secfile_lookup_int(file, "player%d.is_alive", plrno);
   plr->ai.control = secfile_lookup_int(file, "player%d.ai.control", plrno);
   plr->ai.tech_goal = secfile_lookup_int(file, "player%d.ai.tech_goal", plrno);
@@ -1928,6 +1930,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
    
+  secfile_insert_int(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_int(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_int(file, plr->ai.control, "player%d.ai.control", plrno);
   secfile_insert_int(file, plr->ai.tech_goal, "player%d.ai.tech_goal", plrno);

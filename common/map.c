@@ -90,6 +90,7 @@ void map_init(void)
   map.forestsize=MAP_DEFAULT_FORESTS;
   map.generator=MAP_DEFAULT_GENERATOR;
   map.tiles=0;
+  map.num_start_positions=0;
 
   tile_init(&void_tile);
 }
