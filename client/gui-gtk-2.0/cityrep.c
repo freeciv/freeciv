@@ -111,8 +111,8 @@ static void get_city_table_header(char *text[], int n)
 
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(text[i], n, "%*s\n%*s",
-	    NEG_VAL(spec->width), spec->title1 ? _(spec->title1) : "",
-	    NEG_VAL(spec->width), spec->title2 ? _(spec->title2) : "");
+	    NEG_VAL(spec->width), spec->title1 ? spec->title1 : "",
+	    NEG_VAL(spec->width), spec->title2 ? spec->title2 : "");
   }
 }
 
@@ -494,7 +494,7 @@ static void update_view_menu(GtkWidget *show_item)
 
   menu = gtk_menu_new();
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    item = gtk_check_menu_item_new_with_label(_(spec->explanation));
+    item = gtk_check_menu_item_new_with_label(spec->explanation);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), spec->show);
     g_signal_connect(item, "toggled", G_CALLBACK(toggle_view), (gpointer)spec);

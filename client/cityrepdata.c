@@ -201,38 +201,41 @@ static char *cr_entry_cma(struct city *pcity)
 #define FUNC_TAG(var)  cr_entry_##var, #var 
 
 struct city_report_spec city_report_specs[] = {
-  { TRUE, -15, 0, NULL,  N_("Name"),      N_("City Name"),
+  { TRUE, -15, 0, NULL,  N_("?city:Name"),      N_("City Name"),
                                       FUNC_TAG(cityname) },
-  { TRUE,  2, 1, NULL,  N_("Sz"),        N_("Size"),
+  { TRUE, 2, 1, NULL,  N_("?size:Sz"),        N_("Size"),
                                       FUNC_TAG(size) },
   { TRUE,  -8, 1, NULL,  N_("State"),     N_("Rapture/Peace/Disorder"),
                                       FUNC_TAG(hstate_verbose) },
   { FALSE,  1, 1, NULL,  NULL,            N_("Concise *=Rapture, X=Disorder"),
                                       FUNC_TAG(hstate_concise) },
-  { TRUE,  10, 1, N_("Workers"), N_("H/C/U/A"),
-                                      N_("Workers: Happy, Content, Unhappy, Angry"),
-                                      FUNC_TAG(workers) },
-  { FALSE,  7, 1, N_("Special"), N_("E/S/T"),
-                                      N_("Entertainers, Scientists, Taxmen"),
-                                      FUNC_TAG(specialists) },
-  { TRUE,  10, 1, N_("Surplus"), N_("F/P/T"),
-                                      N_("Surplus: Food, Production, Trade"),
+  { TRUE, 10, 1, N_("Workers"),
+    N_("?happy/content/unhappy/angry:H/C/U/A"),
+    N_("Workers: Happy, Content, Unhappy, Angry"),
+    FUNC_TAG(workers) },
+  { FALSE, 7, 1, N_("Special"),
+    N_("?entertainers/scientists/taxmen:E/S/T"),
+    N_("Entertainers, Scientists, Taxmen"),
+    FUNC_TAG(specialists) },
+  { TRUE,  10, 1, N_("Surplus"), N_("?food/prod/trade:F/P/T"),
+                                 N_("Surplus: Food, Production, Trade"),
                                       FUNC_TAG(resources) },
-  { TRUE,  10, 1, N_("Economy"), N_("G/L/S"),
-                                      N_("Economy: Gold, Luxuries, Science"),
+  { TRUE,  10, 1, N_("Economy"), N_("?gold/lux/sci:G/L/S"),
+                                 N_("Economy: Gold, Luxuries, Science"),
                                       FUNC_TAG(output) },
-  { FALSE,  1, 1, N_("n"), N_("T"),       N_("Number of Trade Routes"),
+  { FALSE,  1, 1, N_("?trade_routes:n"), N_("?trade_routes:T"),
+                                         N_("Number of Trade Routes"),
                                       FUNC_TAG(num_trade) },
   { TRUE,   7, 1, N_("Food"), N_("Stock"), N_("Food Stock"),
                                       FUNC_TAG(food) },
-  { FALSE,  3, 1, NULL, N_("Pol"),        N_("Pollution"),
+  { FALSE,  3, 1, NULL, N_("?pollution:Pol"),        N_("Pollution"),
                                       FUNC_TAG(pollution) },
-  { FALSE,  3, 1, NULL, N_("Cor"),        N_("Corruption"),
+  { FALSE,  3, 1, NULL, N_("?corruption:Cor"),        N_("Corruption"),
                                       FUNC_TAG(corruption) },
   { TRUE,  15, 1, NULL, N_("CMA"),	      N_("City Management Agent"),
                                       FUNC_TAG(cma) },
   { TRUE,   0, 1, N_("Currently Building"), N_("(Stock,Target,Turns,Buy)"),
-                                      N_("Currently Building"),
+                                            N_("Currently Building"),
                                       FUNC_TAG(building) }
 };
 
@@ -254,4 +257,26 @@ bool *city_report_spec_show_ptr(int i)
 char *city_report_spec_tagname(int i)
 {
   return city_report_specs[i].tagname;
+}
+
+/******************************************************************
+  Initialize city report data.  Currently all this does is
+  pre-translate the fields (to make things easier on the GUI
+  writers).  Should be called before the GUI starts up.
+******************************************************************/
+void init_city_report_data(void)
+{
+  int i;
+
+  for (i = 0; i < NUM_CREPORT_COLS; i++) {
+    struct city_report_spec* p = &city_report_specs[i];
+
+    if (p->title1) {
+      p->title1 = Q_(p->title1);
+    }
+    if (p->title2) {
+      p->title2 = Q_(p->title2);
+    }
+    p->explanation = _(p->explanation);
+  }
 }

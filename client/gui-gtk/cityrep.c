@@ -134,8 +134,8 @@ static void get_city_table_header(char *text[], int n)
 
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(text[i], n, "%*s\n%*s",
-	    NEG_VAL(spec->width), spec->title1 ? _(spec->title1) : "",
-	    NEG_VAL(spec->width), spec->title2 ? _(spec->title2) : "");
+	    NEG_VAL(spec->width), spec->title1 ? spec->title1 : "",
+	    NEG_VAL(spec->width), spec->title2 ? spec->title2 : "");
   }
 }
 
@@ -1379,7 +1379,7 @@ static void create_city_report_config_dialog(void)
 			FALSE, FALSE, 0);
 
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    config_toggle[i]=gtk_check_button_new_with_label(_(spec->explanation));
+    config_toggle[i] = gtk_check_button_new_with_label(spec->explanation);
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(config_shell)->vbox), config_toggle[i],
 			FALSE, FALSE, 0);

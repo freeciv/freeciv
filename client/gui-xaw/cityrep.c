@@ -146,8 +146,8 @@ static char *get_city_table_header(void)
 	cat_snprintf(text, sizeof(text), "%*s", spec->space, " ");
 
       cat_snprintf(text, sizeof(text), "%*s", spec->width,
-		   (j ? (spec->title2 ? _(spec->title2) : "")
-		    : (spec->title1 ? _(spec->title1) : "")));
+		   (j ? (spec->title2 ? spec->title2 : "")
+		    : (spec->title1 ? spec->title1 : "")));
     }
     if (j==0) sz_strlcat(text, "\n");
   }
@@ -694,7 +694,7 @@ void create_city_report_config_dialog(void)
 					     config_form, NULL));
 
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    my_snprintf(buf, sizeof(buf), "%-32s", _(spec->explanation));
+    my_snprintf(buf, sizeof(buf), "%-32s", spec->explanation);
     above = (i==1)?config_label:config_optlabel;
 
     config_optlabel = XtVaCreateManagedWidget("cityconfiglabel", 

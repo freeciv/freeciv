@@ -27,9 +27,9 @@ struct city_report_spec {
   bool show;			/* modify this to customize */
   int width;			/* 0 means variable; rightmost only */
   int space;			/* number of leading spaces (see below) */
-  char *title1;
-  char *title2;
-  char *explanation;
+  char *title1;			/* already translated or NULL */
+  char *title2;			/* already translated or NULL */
+  char *explanation;		/* already translated */ 
   char *(*func)(struct city*);
   char *tagname;		/* for save_options */
 };
@@ -60,5 +60,7 @@ extern struct city_report_spec city_report_specs[];
 int num_city_report_spec(void);
 bool *city_report_spec_show_ptr(int i);
 char *city_report_spec_tagname(int i);
+
+void init_city_report_data(void);
 
 #endif  /* FC__CITYREPDATA_H */

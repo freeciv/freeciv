@@ -45,6 +45,7 @@
 
 #include "chatline_g.h"
 #include "citydlg_g.h"
+#include "cityrepdata.h"
 #include "climisc.h"
 #include "clinet.h"
 #include "connectdlg_g.h"
@@ -191,6 +192,7 @@ int main(int argc, char *argv[])
   my_init_network();
   init_messages_where();
   init_our_capability();
+  init_city_report_data();
   game_init();
 
   conn_list_init(&game.all_connections);

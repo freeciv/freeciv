@@ -127,7 +127,7 @@ static void create_cityrep_config_dlg(HWND hWnd)
   box=fcwin_vbox_new(hWnd,FALSE);
   fcwin_box_add_static_default(box,_("Set columns shown"),-1,SS_CENTER);
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {     
-    fcwin_box_add_checkbox(box,_(spec->explanation),
+    fcwin_box_add_checkbox(box, spec->explanation,
 			   ID_CITYREP_CONFIG_BASE+i,0,FALSE,FALSE,5);
   }
   fcwin_box_add_button(box,_("Close"),IDOK,0,FALSE,FALSE,15);
@@ -284,8 +284,8 @@ static void get_city_table_header(char *text[], int n)
   int i;
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(text[i], n, "%*s\n%*s",
-            NEG_VAL(spec->width), spec->title1 ? _(spec->title1): "",
-            NEG_VAL(spec->width), spec->title2 ? _(spec->title2): "");
+            NEG_VAL(spec->width), spec->title1 ? spec->title1: "",
+            NEG_VAL(spec->width), spec->title2 ? spec->title2: "");
   }
 }             
                   
@@ -832,8 +832,8 @@ static void list_minsize(LPPOINT minsize,void *data)
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {    
     if (!spec->show) continue;
     width=spec->width>0?spec->width:-spec->width;
-    width=MAX(strlen(spec->title1 ? _(spec->title1): ""),width);
-    width=MAX(strlen(spec->title2 ? _(spec->title2): ""),width);
+    width = MAX(strlen(spec->title1 ? spec->title1: ""), width);
+    width = MAX(strlen(spec->title2 ? spec->title2: ""), width);
     width_total+=width+2;
   }
   minsize->x=(list_singlechar.right-list_singlechar.left)*width_total;
@@ -854,8 +854,8 @@ static void list_setsize(LPRECT setsize,void *data)
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     if (!sort_buttons[i]) continue;
     w=spec->width>0?spec->width:-spec->width;
-    w=MAX(w,strlen(spec->title1 ? _(spec->title1): ""));
-    w=MAX(w,strlen(spec->title2 ? _(spec->title2): ""));
+    w = MAX(strlen(spec->title1 ? spec->title1: ""), w);
+    w = MAX(strlen(spec->title2 ? spec->title2: ""), w);
     w+=2;
     w*=(list_singlechar.right-list_singlechar.left);
     MoveWindow(sort_buttons[i],x,y,w-1,button_h,TRUE);
