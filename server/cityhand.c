@@ -51,8 +51,8 @@ void reallocate_cache(void)
 {
   int i;
 
-  flog(LOG_NORMAL,"Increasing max city id index from %d to %d",
-      citycachesize,citycachesize*2);
+  flog(LOG_DEBUG,"Increasing max city id index from %d to %d",
+       citycachesize,citycachesize*2);
   citycachesize*=2;
   citycache=realloc(citycache,sizeof(*citycache)*citycachesize);
   for(i=citycachesize/2;i<citycachesize;i++)  citycache[i]=NULL;
@@ -61,7 +61,7 @@ void reallocate_cache(void)
 void add_city_to_cache(struct city *pcity)
 {
   if(pcity->id < citycachesize)  {
-	citycache[pcity->id]=pcity;
+    citycache[pcity->id]=pcity;
   } else {
     reallocate_cache();
     add_city_to_cache(pcity);
