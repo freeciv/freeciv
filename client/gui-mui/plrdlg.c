@@ -149,7 +149,7 @@ HOOKPROTONH(players_render, void, char **array, APTR msg)
     if (i == game.player_idx) {
       sz_strlcpy(dsbuf, "-");
     } else {
-      pds = player_get_diplstate(game.player_idx, i);
+      pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
       if (pds->type == DS_CEASEFIRE) {
 	my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		    diplstate_text(pds->type), pds->turns_left);
@@ -200,15 +200,14 @@ static void players_active(void)
     struct player *pplayer;
     playerno -= 100;
 
-    pplayer = &game.players[playerno];
+    pplayer = get_player(playerno);
 
     if (pplayer->spaceship.state != SSHIP_NONE)
       set(player_spaceship_button, MUIA_Disabled, FALSE);
     else
       set(player_spaceship_button, MUIA_Disabled, TRUE);
 
-    switch(player_get_diplstate(game.player_idx, playerno)->type)
-    {
+    switch (pplayer_get_diplstate(game.player_ptr, pplayer)->type) {
       case DS_WAR:
       case DS_NO_CONTACT:
 	   set(player_war_button, MUIA_Disabled, TRUE);

@@ -393,6 +393,7 @@ is inside the visible map.
 int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
 {
   int map_canvas_store_twidth = xget(main_map_area, MUIA_Map_HorizVisible);
+  int map_canvas_store_theight = xget(main_map_area, MUIA_Map_VertVisible);
   int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
   int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
 
