@@ -2289,6 +2289,18 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit->paradropped=secfile_lookup_int_default(file, 0, "player%d.u%d.paradropped",
                                                   plrno, i);
 
+    /* Initialize upkeep values: these are hopefully initialized
+       elsewhere before use (specifically, in city_support(); but
+       fixme: check whether always correctly initialized?).
+       Below is mainly for units which don't have homecity --
+       otherwise these don't get initialized (and AI calculations
+       etc may use junk values).
+    */
+    punit->unhappiness = 0;
+    punit->upkeep      = 0;
+    punit->upkeep_food = 0;
+    punit->upkeep_gold = 0;
+    
     /* allocate the unit's contribution to fog of war */
     unfog_area(&game.players[punit->owner],
 	       punit->x,punit->y,get_unit_type(punit->type)->vision_range);
