@@ -34,6 +34,7 @@
 #include <settlers.h>
 #include <unittools.h>
 #include <gamehand.h>		/* send_game_info */
+#include <stdinhand.h>		/* set_ai_level_direct */
 
 /****************************************************************
 ...
@@ -749,9 +750,9 @@ struct player *split_player(struct player *pplayer)
   cplayer->ai.prev_gold = pplayer->ai.prev_gold;
   cplayer->ai.maxbuycost = pplayer->ai.maxbuycost;
   cplayer->ai.handicap = pplayer->ai.handicap;
-  cplayer->ai.skill_level = pplayer->ai.skill_level;
   cplayer->ai.warmth = pplayer->ai.warmth;
-
+  set_ai_level_direct(cplayer, game.skill_level);
+		    
   for(i = 0; i<A_LAST ; i++){
     cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
     cplayer->ai.tech_turns[i] = pplayer->ai.tech_turns[i];
