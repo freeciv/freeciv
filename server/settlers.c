@@ -839,7 +839,8 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   generate_warmap(mycity, punit);
   city_list_iterate(pplayer->cities, pcity)
     worst = worst_worker_tile_value(pcity);
-    city_map_iterate(i, j) {
+    /* try to work near the city */
+    city_map_iterate_outwards(i, j)
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
       x = map_adjust_x(pcity->x + i - 2);
       y = pcity->y + j - 2;	/* No adjust! */
@@ -979,7 +980,7 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
         }
       } /* end if we are a legal destination */
-    } /* end city map iterate */
+    city_map_iterate_outwards_end;
   city_list_iterate_end;
 
   /** Found the best square to upgrade, have gx, gy, best_newv, best_act **/

@@ -29,6 +29,23 @@
 
 static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 
+
+/* Iterate a city map, from the center (the city) outwards */
+
+int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2] =
+{
+  { 2, 2 },
+
+  { 1, 2 }, { 2, 1 }, { 3, 2 }, { 2, 3 },
+  { 1, 3 }, { 1, 1 }, { 3, 1 }, { 3, 3 },
+
+  { 0, 2 }, { 2, 0 }, { 4, 2 }, { 2, 4 },
+  { 0, 3 }, { 0, 1 },
+  { 1, 0 }, { 3, 0 },
+  { 4, 1 }, { 4, 3 },
+  { 3, 4 }, { 1, 4 }
+};
+
 /****************************************************************
 All the city improvements:
 Use get_improvement_type(id) to access the array.

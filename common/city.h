@@ -91,6 +91,26 @@ enum city_options {
       if (! ((x == 0 || x == 4) && (y == 0 || y == 4)))
 
 
+/* Iterate a city map, from the center (the city) outwards */
+
+extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2];
+
+#define city_map_iterate_outwards(x, y) { \
+  int city_map_iterate_outwards_index; \
+  for \
+  ( \
+    city_map_iterate_outwards_index = 0; \
+    city_map_iterate_outwards_index < (CITY_MAP_SIZE*CITY_MAP_SIZE)-4; \
+    city_map_iterate_outwards_index++ \
+  ) \
+  { \
+    x = city_map_iterate_outwards_indices[city_map_iterate_outwards_index][0]; \
+    y = city_map_iterate_outwards_indices[city_map_iterate_outwards_index][1];
+
+#define city_map_iterate_outwards_end } }
+
+
+
 struct ai_choice {
   int choice;            /* what the advisor wants */
   int want;              /* how bad it wants it (0-100) */
