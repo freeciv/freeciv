@@ -23,15 +23,18 @@ if CLIENT_GUI_WIN32
 GUI_SUBDIR = gui-win32
 endif
 
+ALL_ESD_FILES=audio_esd.c audio_esd.h
+ALL_SDL_FILES=audio_sdl.c audio_sdl.h
+ALL_WINMM_FILES=audio_winmm.c audio_winmm.h
+
 if ESD
-ESD_FILES=audio_esd.c audio_esd.h
+ESD_FILES=$(ALL_ESD_FILES)
 endif
 if SDL
-SDL_FILES=audio_sdl.c audio_sdl.h
+SDL_FILES=$(ALL_SDL_FILES)
 endif
-
 if WINMM
-WINMM_FILES=audio_winmm.c audio_winmm.h
+WINMM_FILES=$(ALL_WINMM_FILES)
 endif
 
 EXTRA_DIST= 	gui-mui/autogroupclass.c         \
@@ -96,7 +99,11 @@ EXTRA_DIST= 	gui-mui/autogroupclass.c         \
 		gui-mui/wldlg.c                  \
 		gui-mui/wldlg.h                  \
 		gui-mui/worklistclass.c          \
-		gui-mui/worklistclass.h
+		gui-mui/worklistclass.h          \
+		\
+		$(ALL_ESD_FILES)                 \
+		$(ALL_SDL_FILES)                 \
+		$(ALL_WINMM_FILES)
 
 
 ## This is usually false, so "include" is not recursed into 
