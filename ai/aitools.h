@@ -67,4 +67,6 @@ bool ai_assess_military_unhappiness(struct city *pcity, struct government *g);
 int ai_evaluate_government(struct player *pplayer, struct government *g);
 bool ai_wants_no_science(struct player *pplayer);
 
+bool is_player_dangerous(struct player *pplayer, struct player *aplayer);
+
 #endif  /* FC__AITOOLS_H */

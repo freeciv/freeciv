@@ -24,7 +24,19 @@ struct unit;
  * start of every turn. 
  */
 
+struct ai_dip_intel {
+  bool is_allied_with_enemy;
+  bool at_war_with_ally;
+  bool is_allied_with_ally;
+};
+
 struct ai_data {
+  /* AI diplomacy and opinions on other players */
+  struct {
+    int acceptable_reputation;
+    struct ai_dip_intel player_intel[MAX_NUM_PLAYERS];
+  } diplomacy;
+
   /* Long-term threats, not to be confused with short-term danger */
   struct {
     bool invasions;   /* check if we need to consider invasions */

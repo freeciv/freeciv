@@ -439,9 +439,7 @@ static int assess_danger(struct city *pcity)
     int move_rate, dist, vulnerability;
     bool igwall;
 
-    if (!pplayers_at_war(city_owner(pcity), aplayer)) {
-      /* Ignore players we are not at war with. This is not optimal,
-         but will have to do until we have working diplomacy. */
+    if (!is_player_dangerous(city_owner(pcity), aplayer)) {
       continue;
     }
 

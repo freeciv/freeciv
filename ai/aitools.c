@@ -71,6 +71,24 @@ int military_amortize(struct player *pplayer, struct city *pcity,
   return amortize(value, delay + build_time);
 }
 
+/**********************************************************************
+  There are some signs that a player might be dangerous: We are at 
+  war with him, he has lousy reputation, he has done lots of ignoble 
+  things to us, or he is an ally of one of our enemies (a ticking 
+  bomb to be sure).
+***********************************************************************/
+bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+  struct ai_dip_intel *adip 
+    = &ai->diplomacy.player_intel[aplayer->player_no];
+
+  return (pplayers_at_war(pplayer, aplayer)
+          || pplayer->diplstates[aplayer->player_no].has_reason_to_cancel
+          || ai->diplomacy.acceptable_reputation > aplayer->reputation
+          || adip->is_allied_with_enemy);
+}
+
 /**************************************************************************
   Create a virtual unit to use in build want estimation. pcity can be 
   NULL.

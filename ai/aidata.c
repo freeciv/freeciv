@@ -72,8 +72,9 @@ void ai_data_turn_init(struct player *pplayer)
   ai->threats.sea       = FALSE;
 
   players_iterate(aplayer) {
-    /* allies and ourselves we trust, we don't trust peace treaties that much */
-    if (pplayers_allied(pplayer, aplayer)) continue;
+    if (!is_player_dangerous(pplayer, aplayer)) {
+      continue;
+    }
 
     /* The idea is that if there aren't any hostile cities on
      * our continent, the danger of land attacks is not big
@@ -194,6 +195,45 @@ void ai_data_turn_init(struct player *pplayer)
       ai->stats.workers[(int)map_get_continent(punit->x, punit->y)]++;
     }
   } unit_list_iterate_end;
+
+  /* Diplomacy */
+
+  /* Question: What can we accept as the reputation of a player before
+   * we start taking action to prevent us from being suckered?
+   * Answer: Very little. */
+  ai->diplomacy.acceptable_reputation =
+           GAME_DEFAULT_REPUTATION -
+           GAME_DEFAULT_REPUTATION / 4;
+
+  /* Set per-player variables. We must set all players, since players 
+   * can be created during a turn, and we don't want those to have 
+   * invalid values. */
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    struct player *aplayer = get_player(i);
+
+    ai->diplomacy.player_intel[i].is_allied_with_enemy = FALSE;
+    ai->diplomacy.player_intel[i].at_war_with_ally = FALSE;
+    ai->diplomacy.player_intel[i].is_allied_with_ally = FALSE;
+
+    players_iterate(check_pl) {
+      if (check_pl == pplayer || check_pl == aplayer
+          || !check_pl->is_alive) {
+        continue;
+      }
+      if (pplayers_allied(aplayer, check_pl)
+          && pplayers_at_war(pplayer, check_pl)) {
+       ai->diplomacy.player_intel[i].is_allied_with_enemy = TRUE;
+      }
+      if (pplayers_allied(pplayer, check_pl)
+          && pplayers_at_war(aplayer, check_pl)) {
+        ai->diplomacy.player_intel[i].at_war_with_ally = TRUE;
+      }
+      if (pplayers_allied(aplayer, check_pl)
+          && pplayers_allied(pplayer, check_pl)) {
+        ai->diplomacy.player_intel[i].is_allied_with_ally = TRUE;
+      }
+    } players_iterate_end;
+  }
 
   /* 
    * Priorities. NEVER set these to zero! Weight values are usually
