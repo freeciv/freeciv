@@ -635,9 +635,12 @@ struct packet_conn_info {
 };
 
 struct packet_conn_ping_info {
+  int old_connections;
+  int old_conn_id[MAX_NUM_PLAYERS];
+  float old_ping_time[MAX_NUM_PLAYERS];
   int connections;
-  int conn_id[MAX_NUM_PLAYERS];
-  float ping_time[MAX_NUM_PLAYERS];
+  int conn_id[MAX_NUM_CONNECTIONS];
+  float ping_time[MAX_NUM_CONNECTIONS];
 };
 
 struct packet_conn_ping {

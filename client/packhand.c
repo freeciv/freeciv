@@ -1662,23 +1662,26 @@ void handle_conn_info(struct packet_conn_info *pinfo)
 }
 
 /*************************************************************************
-...
+  Handles a conn_ping_info packet from the server.  This packet contains
+  ping times for each connection.
 **************************************************************************/
-void handle_conn_ping_info(int connections, int *conn_id, float *ping_time)
+void handle_conn_ping_info(struct packet_conn_ping_info *packet)
 {
   int i;
 
-  for (i = 0; i < connections; i++) {
-    struct connection *pconn = find_conn_by_id(conn_id[i]);
+  for (i = 0; i < packet->connections; i++) {
+    struct connection *pconn = find_conn_by_id(packet->conn_id[i]);
 
     if (!pconn) {
       continue;
     }
 
-    pconn->ping_time = ping_time[i];
+    pconn->ping_time = packet->ping_time[i];
     freelog(LOG_DEBUG, "conn-id=%d, ping=%fs", pconn->id,
 	    pconn->ping_time);
   }
+  /* The old_ping_time data is ignored. */
+
   update_players_dialog();
 }
 
