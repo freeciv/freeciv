@@ -602,7 +602,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   }
 
   if (!net_lookup_service(metaname, metaport, &addr)) {
-    (void) mystrlcpy(errbuf, _("Failed looking up host"), n_errbuf);
+    (void) mystrlcpy(errbuf, _("Failed looking up metaserver's host"), n_errbuf);
     return NULL;
   }
   
