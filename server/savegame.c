@@ -131,7 +131,8 @@
           freelog(LOG_ERROR, _("Reason: line not found"));                    \
         } else {                                                              \
           freelog(LOG_ERROR, _("Reason: line too short "                      \
-                  "(expected %d got %d"), map.xsize, strlen(line));           \
+                  "(expected %d got %lu"), map.xsize,                         \
+                  (unsigned long) strlen(line));                              \
         }                                                                     \
         freelog(LOG_ERROR, "secfile_lookup_line='%s'",                        \
                 #secfile_lookup_line);                                        \
