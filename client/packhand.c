@@ -1043,8 +1043,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 	 * logic is a little shaky since it's not clear whether we can
 	 * see the internals of the city or not; however, the server should
 	 * send us a city update to clear things up. */
-	pcity->client.occupied =
-	    (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+	bool new_occupied =
+	  (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+
+	if (pcity->client.occupied != new_occupied) {
+	  pcity->client.occupied = new_occupied;
+	  refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	}
 
         if(pcity->id==punit->homecity)
 	  repaint_city = TRUE;
@@ -1054,7 +1059,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       
       if((pcity=map_get_city(punit->x, punit->y)))  {
 	/* Unit moved into a city - obviously it's occupied. */
-	pcity->client.occupied = TRUE;
+	if (!pcity->client.occupied) {
+	  pcity->client.occupied = TRUE;
+	  refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	}
 
         if(pcity->id == punit->homecity)
 	  repaint_city = TRUE;
