@@ -236,6 +236,7 @@ int city_buy_cost(struct city *pcity);
 int city_happy(struct city *pcity);  /* generally use celebrating instead */
 int city_unhappy(struct city *pcity);                /* anarchy??? */
 int city_celebrating(struct city *pcity);            /* love the king ??? */
+int city_rapture_grow(struct city *pcity);
 
 /* improvement functions */
 

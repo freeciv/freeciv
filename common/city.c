@@ -928,11 +928,27 @@ int city_unhappy(struct city *pcity)
   return (pcity->ppl_happy[4]<pcity->ppl_unhappy[4]);
 }
 
+/**************************************************************************
+cities celebrate only after consecutive happy turns
+**************************************************************************/
 int city_celebrating(struct city *pcity)
 {
-    struct government *g = get_gov_pcity(pcity);
-    return (pcity->size>=g->rapture_size && pcity->was_happy && city_happy(pcity));
+  struct government *g = get_gov_pcity(pcity);
+  return (pcity->size>=g->rapture_size && pcity->was_happy && city_happy(pcity));
 }
+
+/**************************************************************************
+.rapture is checked instead of city_celebrating() because this function is
+called after .was_happy was updated.
+**************************************************************************/
+int city_rapture_grow(struct city *pcity)
+{
+  struct government *g = get_gov_pcity(pcity);
+  return (pcity->rapture>0 && pcity->food_surplus>0 &&
+	  government_has_flag(g, G_RAPTURE_CITY_GROWTH));
+}
+
+/**************************************************************************/
 
 /* The find_city_by_id() code has returned from its trip to server land and
  * lives in common once again.  There are two ways find_city_by_id() works. 

@@ -773,6 +773,7 @@ static void city_increase_size(struct city *pcity)
 {
   int have_square, x, y;
   int has_granary = city_got_effect(pcity, B_GRANARY);
+  int rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
   int new_food;
   
   if (!city_got_building(pcity, B_AQUEDUCT)
@@ -814,10 +815,15 @@ static void city_increase_size(struct city *pcity)
   }
 
   pcity->size++;
-  if (has_granary)
-    new_food = ((pcity->size+1) * game.foodbox) / 2;
-  else
-    new_food = 0;
+  /* Do not empty food stock if city is growing by celebrating */
+  if (rapture_grow) {
+    new_food = (pcity->size+1) * game.foodbox;
+  } else {
+    if (has_granary)
+      new_food = ((pcity->size+1) * game.foodbox) / 2;
+    else
+      new_food = 0;
+  }
   pcity->food_stock = MIN(pcity->food_stock, new_food);
 
   /* If there is enough food, and the city is big enough,
@@ -879,7 +885,7 @@ static void city_reduce_size(struct city *pcity)
 static void city_populate(struct city *pcity)
 {
   pcity->food_stock+=pcity->food_surplus;
-  if(pcity->food_stock >= (pcity->size+1)*game.foodbox) 
+  if(pcity->food_stock >= (pcity->size+1)*game.foodbox || city_rapture_grow(pcity))
     city_increase_size(pcity);
   else if(pcity->food_stock<0) {
     /* FIXME: should this depend on units with ability to build
@@ -1440,12 +1446,6 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
   city_check_workers(pplayer, pcity);
   city_refresh(pcity);
 
-  /* increase city size if it is in rapture -- jjm */
-  if (city_celebrating(pcity) && government_has_flag(g, G_RAPTURE_CITY_GROWTH) &&
-      pcity->size >= g->rapture_size && pcity->food_surplus > 0) {
-    city_increase_size(pcity);
-  }
-
   if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
     (pcity->currently_building == B_GRANARY) && (pcity->food_surplus > 0)
     && (pcity->shield_surplus > 0)) {
@@ -1481,26 +1481,29 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
       if (pcity->rapture == 1)
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
 			 _("Game: We Love The %s Day celebrated in %s."), 
-			 get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
+			 get_ruler_title(pplayer->government, pplayer->is_male,
+					 pplayer->nation),
 			 pcity->name);
     }
     else {
       if (pcity->rapture)
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
 			 _("Game: We Love The %s Day canceled in %s."),
-			 get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
+			 get_ruler_title(pplayer->government, pplayer->is_male,
+					 pplayer->nation),
 			 pcity->name);
       pcity->rapture=0;
     }
     pcity->was_happy=city_happy(pcity);
 
-      {
-        int id=pcity->id;
-        city_populate(pcity);
-        if(!city_list_find_id(&pplayer->cities, id))
-	  return 0;
-      }
-     
+    /* City population updated here, after the rapture stuff above. --Jing */
+    {
+      int id=pcity->id;
+      city_populate(pcity);
+      if(!city_list_find_id(&pplayer->cities, id))
+	return 0;
+    }
+
     pcity->is_updated=1;
 
     pcity->did_sell=0;
