@@ -65,6 +65,7 @@ void give_citymap_from_player_to_player(struct city *pcity,
 void send_all_known_tiles(struct conn_list *dest);
 void send_tile_info(struct conn_list *dest, struct tile *ptile);
 void reveal_hidden_units(struct player *pplayer, struct tile *ptile);
+void conceal_hidden_units(struct player *pplayer, struct tile *ptile);
 void unfog_area(struct player *pplayer, struct tile *ptile, int len);
 void fog_area(struct player *pplayer, struct tile *ptile, int len);
 void upgrade_city_rails(struct player *pplayer, bool discovery);

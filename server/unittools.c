@@ -1524,6 +1524,7 @@ static void server_remove_unit(struct unit *punit)
   struct city *pcity = map_get_city(punit->tile);
   struct city *phomecity = find_city_by_id(punit->homecity);
   struct tile *unit_tile = punit->tile;
+  struct player *unitowner = unit_owner(punit);
 
 #ifndef NDEBUG
   unit_list_iterate(punit->tile->units, pcargo) {
@@ -1561,6 +1562,9 @@ static void server_remove_unit(struct unit *punit)
 
   game_remove_unit(punit);
   punit = NULL;
+
+  /* Hide any submarines that are no longer visible. */
+  conceal_hidden_units(unitowner, unit_tile);
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   map_city_radius_iterate(unit_tile, ptile1) {
