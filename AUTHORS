@@ -16,14 +16,14 @@ Here are some of the people in the Freeciv team:
      Trent Piepho <xyzzy@u.washington.edu> (Core)
      David Pfitzner <dwp@mso.anu.edu.au> (Patches)
      Cedric Tefft <cedric@earthling.net>
-     Reinier Post <reinpost@win.tue.nl>
+     Reinier Post <rp@win.tue.nl>
      Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
      Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>
      Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (Autoconfig)
      Greg Wooledge <wooledge@kellnet.com>
      Massimo Campostrini <campo@mailbox.difi.unipi.it>
      Sverker Wiberg <sverkerw@Update.UU.SE>
-     Per I Mathisen <perrin@kvalito.no> (GTK+ port)
+     Per I Mathisen <permath@ifi.ntnu.no> (GTK+ port)
      Vasco Alexandre da Silva Costa <vasc@camoes.rnl.ist.utl.pt> (GTK+ port)
      Markus Linnala <maage@cs.tut.fi>
      Trevor Pering <pering@tongass.EECS.Berkeley.EDU>
@@ -45,6 +45,7 @@ Here are some of the people in the Freeciv team:
      Alex Rhomberg <rhomberg@ife.ee.ethz.ch>
      Sergey Shkonda <serg@bcs.zp.ua>
      Matthew Hunt <mph@pobox.com>
+     Mika Korhonen <mikak@ee.oulu.fi>
      Robert Donn <squirk@ihug.co.nz>
 
      ... and others.  Tell me if I missed your name.
@@ -54,7 +55,6 @@ Here are some of the people in the Freeciv team:
      Andrew E. Schulman <andrex@alw.nih.gov>
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
      Ben Korvemaker <benjamin@cs.ualberta.ca>
-     Mika Korhonen <mikak@ees2.oulu.fi>
 
   Website hosting:
 
@@ -62,7 +62,8 @@ Here are some of the people in the Freeciv team:
 
   Mailing list hosting:
 
-     John Goerzen <jgoerzen@complete.org> (+ Java civclient project)
+     John Goerzen <jgoerzen@complete.org> (+java civclient project)
+     Ryan Rehder <twolf@kc.net> (freeciv.midsun.com: Mar '98 to Nov '98)
 
   Other contributors up to the 1.7.0 release:
 
