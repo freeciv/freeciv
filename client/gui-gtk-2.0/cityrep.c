@@ -179,7 +179,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   GtkWidget *menu;
   cid cids[U_LAST + B_LAST];
   struct item items[U_LAST + B_LAST];
-  int i, item, cids_used, num_selected = 0;
+  int i, item, cids_used;
   char *row[4];
   char buf[4][64];
 
@@ -191,6 +191,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   if (change_prod) {
     struct pcity_vector selected;
     ITree it;
+    int num_selected = 0;
 
     pcity_vector_init(&selected);
     pcity_vector_reserve(&selected, size);
@@ -207,6 +208,8 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
       *pdest = pcity;
       num_selected++;
     }
+
+    assert(num_selected == size);
 
     cids_used = collect_cids1(cids, pcity_vector_get(&selected, 0),
         		      num_selected, append_units,
