@@ -351,7 +351,7 @@ void tilespec_setup_theme(void)
     freelog(LOG_FATAL, "Your current tileset don't contains GUI theme graphic\n"
     "Please use other tileset with GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
-     "(upload.freeciv.org/pub/freeciv/incoming) ftp side and download DELUXE tileset theme");
+     "(ftp.freeciv.org/pub/freeciv/incoming) ftp side and download DELUXE tileset theme");
   }
   
   load_theme_surface(pBuf, Button, "theme.button");

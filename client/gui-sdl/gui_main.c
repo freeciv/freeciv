@@ -486,13 +486,12 @@ void ui_init(void)
   iSDL_Flags |= SDL_INIT_NOPARACHUTE;
   
 #if 0
- /* event in other thread ( only linux and BeOS ) */  
+ /* events in other thread ( only linux and BeOS ) */  
   iSDL_Flags |= SDL_INIT_EVENTTHREAD;
 #endif
   
   /* auto center new windows in X enviroment */
-  setenv("SDL_VIDEO_CENTERED", "yes", 0);
-  
+  putenv((char *)"SDL_VIDEO_CENTERED=yes");
   init_sdl(iSDL_Flags);
   
   freelog(LOG_NORMAL, _("Using Video Output: %s"),

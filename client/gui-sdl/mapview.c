@@ -92,6 +92,9 @@ static SDL_Surface *pBlinkSurfaceA;
 static SDL_Surface *pBlinkSurfaceB;
 
 static SDL_Surface *pMapGrid;
+static bool UPDATE_OVERVIEW_MAP = FALSE;
+int OVERVIEW_START_X;
+int OVERVIEW_START_Y;
 
 SDL_Surface *pDitherMask;
 
@@ -247,6 +250,10 @@ static bool is_flush_queued = FALSE;
 **************************************************************************/
 void unqueue_flush(void)
 {
+  if(UPDATE_OVERVIEW_MAP) {
+    refresh_overview_viewrect();
+    UPDATE_OVERVIEW_MAP = FALSE;
+  }
   flush_dirty();
   is_flush_queued = FALSE;
 }
@@ -1069,7 +1076,10 @@ void set_overview_dimensions(int w, int h)
 
   OVERVIEW_TILE_WIDTH = MAX(1, 160 / w);
   OVERVIEW_TILE_HEIGHT = MAX(1, 100 / h);
-
+  
+  OVERVIEW_START_X = FRAME_WH + (160 - OVERVIEW_TILE_WIDTH * map.xsize) / 2;
+  OVERVIEW_START_Y = FRAME_WH + (100 - OVERVIEW_TILE_WIDTH * map.ysize) / 2;
+  
   enable(ID_TOGGLE_UNITS_WINDOW_BUTTON);
 
   enable(ID_TOGGLE_MAP_WINDOW_BUTTON);
@@ -1097,8 +1107,8 @@ void set_overview_dimensions(int w, int h)
 void overview_update_tile(int x, int y)
 {
   struct GUI *pMMap = get_minimap_window_widget();
-  SDL_Rect cell_size = {OVERVIEW_TILE_WIDTH * x + FRAME_WH,
-			OVERVIEW_TILE_HEIGHT * y + FRAME_WH,
+  SDL_Rect cell_size = {OVERVIEW_TILE_WIDTH * x + OVERVIEW_START_X,
+			OVERVIEW_TILE_HEIGHT * y + OVERVIEW_START_Y,
 			OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT};
   SDL_Color color = *(get_game_colorRGB(overview_tile_color(x, y)));
 
@@ -1107,6 +1117,7 @@ void overview_update_tile(int x, int y)
   SDL_FillRect(pMMap->theme, &cell_size,
 	    SDL_MapRGBA(pMMap->theme->format, color.r,color.g,
     					color.b,color.unused));
+  UPDATE_OVERVIEW_MAP = TRUE;
 }
 
 /**************************************************************************
@@ -1114,16 +1125,13 @@ void overview_update_tile(int x, int y)
 **************************************************************************/
 void refresh_overview_canvas(void)
 {
-
+  struct GUI *pMMap = get_minimap_window_widget();
   SDL_Rect map_area = {FRAME_WH, FRAME_WH, 160, 100}; 
-  SDL_Rect cell_size = {FRAME_WH, FRAME_WH,
+  SDL_Rect cell_size = {OVERVIEW_START_X, OVERVIEW_START_Y,
 			OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT};
-
   SDL_Color std_color;
   Uint16 col = 0, row = 0;
-
-  struct GUI *pMMap = get_minimap_window_widget();
-
+  			
   /* clear map area */
   SDL_FillRect(pMMap->theme, &map_area, 
   	SDL_MapRGB(pMMap->theme->format, 0x0, 0x0, 0x0));
@@ -1139,7 +1147,7 @@ void refresh_overview_canvas(void)
 
     if (col == map.xsize) {
       cell_size.y += OVERVIEW_TILE_HEIGHT;
-      cell_size.x = FRAME_WH;
+      cell_size.x = OVERVIEW_START_X;
       row++;
       if (row == map.ysize) {
 	break;
@@ -1228,23 +1236,27 @@ void refresh_overview_viewrect(void)
     return;
   }
   
+  freelog(LOG_DEBUG, "MAPVIEW: refresh_overview_viewrect");
+  
   pMMap = get_minimap_window_widget();
     
   map_area.x = 0;
   map_area.y = pMMap->dst->h - pMMap->theme->h;
-  map_area.w = 160;
-  map_area.h = 100;
-  
+    
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
 
     SDL_BlitSurface(pMMap->theme, NULL, pMMap->dst, &map_area);
     
-    map_area.x += FRAME_WH;
-    map_area.y += FRAME_WH;
-    map_area.w = 160;
-    map_area.h = 100;
+    map_area.x += OVERVIEW_START_X;
+    map_area.y += OVERVIEW_START_Y;
+    map_area.w = MIN(160 , OVERVIEW_TILE_WIDTH * map.xsize);
+    map_area.h = MIN(100 , OVERVIEW_TILE_HEIGHT * map.ysize);
+    
+    putframe(pMMap->dst , map_area.x - 1, map_area.y - 1,
+			map_area.x + map_area.w + 1,
+    			map_area.y + map_area.h + 1, 0xFFFFFFFF);
+    
     /* The x's and y's are in overview coordinates. */
-
     map_w = mapview_canvas.tile_width;
     map_h = mapview_canvas.tile_height;
     
@@ -1255,18 +1267,19 @@ void refresh_overview_viewrect(void)
     }
 #endif
     
-    Wx = OVERVIEW_TILE_WIDTH * map_view_x0 + FRAME_WH;
-    Wy = OVERVIEW_TILE_HEIGHT * map_view_y0 + FRAME_WH;
+    Wx = OVERVIEW_TILE_WIDTH * map_view_x0;
+    Wy = OVERVIEW_TILE_HEIGHT * map_view_y0;
 
-    Nx = Wx + OVERVIEW_TILE_WIDTH * map_w + FRAME_WH;
-    Ny = Wy - OVERVIEW_TILE_HEIGHT * map_w + FRAME_WH;
-    Sx = Wx + OVERVIEW_TILE_WIDTH * map_h + FRAME_WH;
-    Sy = Wy + OVERVIEW_TILE_HEIGHT * map_h + FRAME_WH;
-    Ex = Nx + OVERVIEW_TILE_WIDTH * map_h + FRAME_WH;
-    Ey = Ny + OVERVIEW_TILE_HEIGHT * map_h + FRAME_WH;
+    Nx = Wx + OVERVIEW_TILE_WIDTH * map_w;
+    Ny = Wy - OVERVIEW_TILE_HEIGHT * map_w;
+    
+    Sx = Wx + OVERVIEW_TILE_WIDTH * map_h;
+    Sy = Wy + OVERVIEW_TILE_HEIGHT * map_h;
+    Ex = Nx + OVERVIEW_TILE_WIDTH * map_h;
+    Ey = Ny + OVERVIEW_TILE_HEIGHT * map_h;
 
-    color = SDL_MapRGBA(pMMap->theme->format, 255, 255, 255, 255);
-
+    color = 0xFFFFFFFF;
+    
     putline_on_mini_map(&map_area, Nx, Ny, Ex, Ey, color, pMMap->dst);
 
     putline_on_mini_map(&map_area, Sx, Sy, Ex, Ey, color, pMMap->dst);
@@ -1321,7 +1334,7 @@ void refresh_overview_viewrect(void)
 
     real_redraw_icon(pBuf);
 
-
+    sdl_dirty_rect(pMMap->size);
     /*add_refresh_rect(pMMap->size);*/
 
   } else {/* map hiden */

@@ -66,6 +66,9 @@
 
 #include "mapctrl.h"
 
+extern int OVERVIEW_START_X;
+extern int OVERVIEW_START_Y;
+
 /* New City Dialog */
 static struct SMALL_DLG *pNewCity_Dlg = NULL;
   
@@ -403,6 +406,48 @@ static int togle_msg_window(struct GUI *pWidget)
   return -1;
 }
 
+static int minimap_window_callback(struct GUI *pWidget)
+{
+    
+  if ((SDL_Client_Flags & CF_MINI_MAP_SHOW) &&  
+      (Main.event.motion.x >= OVERVIEW_START_X) &&
+      (Main.event.motion.x <
+	  OVERVIEW_START_X + OVERVIEW_TILE_WIDTH * map.xsize) &&
+      (Main.event.motion.y >=
+	  Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y) &&
+      (Main.event.motion.y <
+	  Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y +
+			  OVERVIEW_TILE_HEIGHT * map.ysize)) {
+    center_tile_mapcanvas(
+        (Main.event.motion.x - OVERVIEW_START_X) / OVERVIEW_TILE_WIDTH,
+	(Main.event.motion.y -
+	    (Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y)) /
+						    OVERVIEW_TILE_HEIGHT);
+  }
+  
+  return -1;
+}
+
+static int unit_info_window_callback(struct GUI *pWidget)
+{
+  switch(Main.event.button.button) {
+    case SDL_BUTTON_LEFT:
+      advance_unit_focus();
+    break;
+    case SDL_BUTTON_MIDDLE:
+  
+    break;
+    case SDL_BUTTON_RIGHT:
+      request_center_focus_unit();
+    break;
+    default:
+      abort();
+    break;
+  }
+  
+  return -1;
+}
+
 
 /* ============================== Public =============================== */
 
@@ -538,7 +583,8 @@ void Init_MapView(void)
   pBuf->string16->backcol.g = 255;
   pBuf->string16->backcol.b = 255;
   pBuf->string16->backcol.unused = 128;
-  
+  pBuf->action = unit_info_window_callback;
+  set_wstate(pBuf, WS_NORMAL);
   add_to_gui_list(ID_UNITS_WINDOW, pBuf);
   pUnits_Info_Window = pBuf;
 
@@ -632,7 +678,8 @@ void Init_MapView(void)
   FREESURFACE(pIcon_theme);  
   
   SDL_SetAlpha(pBuf->theme , 0x0 , 0x0);
-  
+  pBuf->action = minimap_window_callback;
+  set_wstate(pBuf, WS_NORMAL);
   add_to_gui_list(ID_MINI_MAP_WINDOW, pBuf);
   pMiniMap_Window = pBuf;
 
@@ -1020,7 +1067,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
       (pWindow, pLogo, NULL, pWindow->size.w, pWindow->size.h)) {
     FREESURFACE(pLogo);
   }
-
+  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
   /* enable widgets */
   set_wstate(pCancel_Button, WS_NORMAL);
   set_wstate(pOK_Button, WS_NORMAL);

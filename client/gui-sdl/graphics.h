@@ -25,7 +25,6 @@
 #define FC__GRAPHICS_H
 
 #include "graphics_g.h"
-#include "gui_mem.h"
 
 #define	RECT_LIMIT	80
 /* #define	HAVE_MMX1 */
@@ -126,6 +125,7 @@
     }									\
     for(; n > 0; --n) {   						\
 	double_pixel_copy_increment;					\
+        n--;								\
     }									\
 }
 
@@ -144,6 +144,7 @@
 	}								\
 	for(; n > 0; --n) {   						\
 	  quatro_pixel_copy_increment;					\
+	  n -= 3;							\
         }								\
 }
 

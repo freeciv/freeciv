@@ -31,7 +31,7 @@ Some Infos:
 Current GUI Theme graphics is loaded via tilesets.
 You must have tileset with support of those graphics to proper run SDLClient.
 Default tileset for SDLClient is "Deluxe" tileset which can be found in
-upload.freeciv.org/pub/freeciv/incoming ftp site.
+ftp.freeciv.org/pub/freeciv/incoming ftp site.
 Please run client with -t deluxe option.
 
 Please link/copy/move unicode ttf font to game/data dir as "stdfont.ttf".
