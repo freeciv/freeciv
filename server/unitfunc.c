@@ -2167,9 +2167,6 @@ void get_a_tech(struct player *pplayer, struct player *target)
           advances[i].name,
           get_nation_name_plural(target->nation));
 
-  do_conquer_cost(pplayer);
-  found_new_tech(pplayer,i,0,1);
-
   notify_player(pplayer, _("Game: You acquired %s from %s."),
 		advances[i].name, target->name); 
   notify_player(target, _("Game: %s discovered %s in the city."), pplayer->name, 
@@ -2178,6 +2175,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		   get_nation_name_plural(pplayer->nation),
 		   advances[i].name,
 		   get_nation_name_plural(target->nation));
+
+  do_conquer_cost(pplayer);
+  found_new_tech(pplayer,i,0,1);
 }
 
 /**************************************************************************

@@ -1190,7 +1190,6 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
       return;
     }
     city_auto_remove_worker(pcity);
-    get_a_tech(pplayer, cplayer);
     coins=cplayer->economic.gold;
     coins=myrand((coins/20)+1)+(coins*(pcity->size))/200;
     pplayer->economic.gold+=coins;
@@ -1228,6 +1227,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
               get_nation_name_plural(pplayer->nation));
 
     }
+    get_a_tech(pplayer, cplayer);
 
     pnewcity=fc_malloc(sizeof(struct city));
     make_partisans(pcity);
