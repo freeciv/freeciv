@@ -737,12 +737,17 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity == ACTIVITY_EXPLORE) {
     bool more_to_explore = ai_manage_explorer(punit);
-    if (more_to_explore && player_find_unit_by_id(pplayer, id)) {
-      handle_unit_activity_request(punit, ACTIVITY_EXPLORE);
-    } else {
-      send_unit_info(NULL, punit);
+
+    if (!player_find_unit_by_id(pplayer, id)) {
+      /* Died */
       return;
     }
+
+    if (more_to_explore) {
+      handle_unit_activity_request(punit, ACTIVITY_EXPLORE);
+    }
+    send_unit_info(NULL, punit);
+    return;
   }
 
   if (activity==ACTIVITY_PILLAGE) {

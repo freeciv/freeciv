@@ -635,11 +635,11 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
 	if (more_to_explore) {
 	  /* ai_manage_explorer sets the activity to idle, so we reset
 	   * it. */
-	  set_unit_activity(punit, ACTIVITY_EXPLORE);
-	  send_unit_info(NULL, punit);
-	} else {
-	  punit->ai.control = FALSE;
-	}
+          set_unit_activity(punit, ACTIVITY_EXPLORE);
+        } else {
+          punit->ai.control = FALSE;
+        }
+        send_unit_info(NULL, punit);
       }
     }
   }
