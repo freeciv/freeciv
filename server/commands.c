@@ -188,12 +188,14 @@ const struct command commands[] = {
       "only the <player-name> argument is allowed")
   },
   {"observe",    ALLOW_INFO,
-   /* TRANS: translate text between [] and <> only */
-   N_("observe [connection-name] <player-name>"),
-   N_("Observe a player."),
+   /* TRANS: translate text between [] only */
+   N_("observe [connection-name] [player-name]"),
+   N_("Observe a player or the whole game."),
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to observe a player. If you're not one of these, "
-      "only the <player-name> argument is allowed")
+      "only the [player-name] argument is allowed. If the console gives no "
+      "player-name or the connection uses no arguments, then the connection "
+      "is attached to a global observer.")
   },
   {"detach",    ALLOW_INFO,
    /* TRANS: translate text between <> only */
