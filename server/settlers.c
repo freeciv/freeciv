@@ -1226,11 +1226,13 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
       }
     }
   } else punit->ai.control=0;
+ /* The above line makes non-AI autosettlers go off auto When they run
+    out of squares to improve. I would like keep them on, prepared for
+    future pollution and warming, but there wasn't consensus to do so. */
 
   if (punit->ai.control
       && punit->moves_left
       && punit->activity == ACTIVITY_IDLE) {
-    /* if players can build with 0 moves left, so should the AI */
     if (same_pos(gx, gy, punit->x, punit->y)) {
       if (best_act == ACTIVITY_UNKNOWN) {
         remove_city_from_minimap(gx, gy); /* yeah, I know. -- Syela */
@@ -1310,11 +1312,11 @@ static void assign_settlers_player(struct player *pplayer)
         ptile->assigned = ptile->assigned | i; /* assigned for us only */
       } else {
         ptile = map_get_tile(punit->x, punit->y);
-        ptile->assigned = 32767; /* assigned for everyone */
+        ptile->assigned = 0xFFFFFFFF; /* assigned for everyone */
       }
     } else {
       ptile = map_get_tile(punit->x, punit->y);
-      ptile->assigned = ptile->assigned | (32767 ^ i); /* assigned for everyone else */
+      ptile->assigned = ptile->assigned | (0xFFFFFFFF ^ i); /* assigned for everyone else */
     }
   unit_list_iterate_end;
 }
