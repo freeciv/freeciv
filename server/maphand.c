@@ -294,9 +294,12 @@ void fog_area(struct player *pplayer, int x, int y, int len)
 	freelog (LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
 		 x,y,ptile->seen[pplayer->player_no]);
 	ptile->seen[pplayer->player_no]--;
-	if (ptile->seen[pplayer->player_no] > 60000)
-	  freelog(LOG_FATAL, "square %i,%i has a seen value > 60000 (wrap) for player %s",
-		  abs_x, abs_y, pplayer->name);     
+	if (ptile->seen[pplayer->player_no] > 60000) {
+	  freelog(LOG_FATAL,
+		  "Square %i,%i has a seen value > 60000 (wrap) for player %s.",
+		  abs_x, abs_y, pplayer->name);
+	  abort();
+	}
 	if (ptile->seen[pplayer->player_no] == 0) {
 	  update_player_tile_last_seen(pplayer,abs_x,abs_y);
 	  send_tile_info(pplayer, abs_x, abs_y);
@@ -478,8 +481,8 @@ void map_startpos_load(struct section_file *file)
   }
 
   if (i < MAX_NUM_PLAYERS) {
-    freelog(LOG_FATAL, _("Too few starts %d (need at least %d)."
-			 " Filling out with 0,0 start positions."),
+    freelog(LOG_NORMAL, _("Too few starts %d (need at least %d)."
+			  " Filling out with 0,0 start positions."),
 	    i, MAX_NUM_PLAYERS);
   }
 
@@ -1006,11 +1009,11 @@ void player_tile_init(struct player_tile *ptile)
 ***************************************************************/
 struct player_tile *map_get_player_tile(struct player *pplayer,int x, int y)
 {
-  if(y<0 || y>=map.ysize) {
-    freelog(LOG_FATAL, "Trying to get nonexistant tile at %i,%i", x,y);
-    return player_tiles[pplayer->player_no]+map_adjust_x(x)+map_adjust_y(y)*map.xsize;
-  } else
-    return player_tiles[pplayer->player_no]+map_adjust_x(x)+y*map.xsize;
+  if (y<0 || y>=map.ysize) {
+    freelog(LOG_FATAL, "Trying to get nonexistant tile at %i,%i.", x,y);
+    abort();
+  }
+  return player_tiles[pplayer->player_no]+map_adjust_x(x)+y*map.xsize;
 }
 
 /***************************************************************

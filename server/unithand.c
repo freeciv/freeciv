@@ -842,12 +842,14 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     send_unit_info(unit_owner(punit), punit);
 
     /* if is_diplomat_action_available() then there must be a city or a unit */
-    if ((pcity = map_get_city(dest_x,dest_y)))
+    if ((pcity = map_get_city(dest_x,dest_y))) {
       packet.target_id = pcity->id;
-    else if (pdefender)
+    } else if (pdefender) {
       packet.target_id = pdefender->id;
-    else
-      freelog(LOG_FATAL, "Bug in unithand.c");
+    } else {
+      freelog(LOG_FATAL, "Bug in unithand.c: no diplomat target.");
+      abort();
+    }
     packet.diplomat_id = punit->id;
     packet.action_type = DIPLOMAT_CLIENT_POPUP_DIALOG;
     send_packet_diplomat_action(unit_owner(punit)->conn, &packet);
