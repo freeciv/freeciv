@@ -206,7 +206,9 @@ struct named_sprites {
       *stack,
       *transform,
       *connect,
-      *patrol;
+      *patrol,
+      *lowfuel,
+      *tired;
   } unit;
   struct {
     struct Sprite

@@ -88,4 +88,7 @@ tiles = { "row", "column", "tag"
   3, 6, "unit.vet_7"
   3, 7, "unit.vet_8"
   3, 8, "unit.vet_9"
+
+  3, 11, "unit.lowfuel"
+  3, 11, "unit.tired"
 }

@@ -1196,6 +1196,8 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.transform,    "unit.transform");
   SET_SPRITE(unit.connect,      "unit.connect");
   SET_SPRITE(unit.patrol,       "unit.patrol");
+  SET_SPRITE(unit.lowfuel, "unit.lowfuel");
+  SET_SPRITE(unit.tired, "unit.tired");
 
   for(i=0; i<NUM_TILES_HP_BAR; i++) {
     my_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
@@ -1836,6 +1838,20 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
     } else {
       ADD_SPRITE_FULL(sprites.unit.go_to);
     }
+  }
+
+  if (sprites.unit.lowfuel
+      && unit_type(punit)->fuel > 0
+      && punit->fuel == 1
+      && punit->moves_left <= 2 * SINGLE_MOVE) {
+    /* Show a low-fuel graphic if the plane has 2 or fewer moves left. */
+    ADD_SPRITE_FULL(sprites.unit.lowfuel);
+  }
+  if (sprites.unit.tired
+      && punit->moves_left < SINGLE_MOVE) {
+    /* Show a "tired" graphic if the unit has fewer than one move
+     * remaining. */
+    ADD_SPRITE_FULL(sprites.unit.tired);
   }
 
   if (stack || punit->occupy) {
