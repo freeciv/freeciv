@@ -39,6 +39,7 @@
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
+#include "diplhand.h"
 #include "gamelog.h"
 #include "gotohand.h"
 #include "mapgen.h"		/* assign_continent_numbers */
@@ -2092,14 +2093,19 @@ static void do_nuke_tile(struct player *pplayer, int x, int y)
 }
 
 /**************************************************************************
-  nuke all the squares in a 3x3 square around the center of the explosion
-  pplayer is the player that caused the explosion.
+  Nuke all the squares in a 3x3 square around the center of the explosion
+  pplayer is the player that caused the explosion. You lose reputation
+  each time.
 **************************************************************************/
 void do_nuclear_explosion(struct player *pplayer, int x, int y)
 {
   square_iterate(x, y, 1, x1, y1) {
     do_nuke_tile(pplayer, x1, y1);
   } square_iterate_end;
+
+  /* Give reputation penalty to nuke users */
+  pplayer->reputation = MAX(GAME_MAX_REPUTATION - REPUTATION_LOSS_NUKE, 0);
+  send_player_info(pplayer, NULL);
 
   notify_conn_ex(&game.game_connections, x, y, E_NUKE,
 		 _("Game: %s detonated a nuke!"), pplayer->name);

@@ -13,6 +13,8 @@
 #ifndef FC__DIPLHAND_H
 #define FC__DIPLHAND_H
 
+#define REPUTATION_LOSS_NUKE (GAME_MAX_REPUTATION - GAME_MAX_REPUTATION * 0.03)
+
 struct Treaty;
 struct player;
 struct packet_diplomacy_info;
