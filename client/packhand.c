@@ -616,7 +616,7 @@ void handle_game_info(struct packet_game_info *pinfo)
     game.player_idx=pinfo->player_idx;
     game.player_ptr=&game.players[game.player_idx];
   }
-  for(i=0; i<A_LAST; i++)
+  for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     game.global_advances[i]=pinfo->global_advances[i];
   for(i=0; i<B_LAST; i++)
     game.global_wonders[i]=pinfo->global_wonders[i];
@@ -660,7 +660,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->government=pinfo->government;
   pplayer->embassy=pinfo->embassy;
 
-  for(i=0; i<A_LAST; i++)
+  for(i=0; i<game.num_tech_types; i++)
     pplayer->research.inventions[i]=pinfo->inventions[i]-'0';
   update_research(pplayer);
 
@@ -1031,6 +1031,7 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.default_government = packet->default_government;
 
   game.num_unit_types = packet->num_unit_types;
+  game.num_tech_types = packet->num_tech_types;
 
   governments = fc_calloc(game.government_count, sizeof(struct government));
   for(i=0; i<game.government_count; i++) {
@@ -1092,7 +1093,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 {
   struct advance *a;
 
-  if(p->id < 0 || p->id >= A_LAST) {
+  if(p->id < 0 || p->id >= game.num_tech_types || p->id >= A_LAST) {
     freelog(LOG_NORMAL, "Received bad advance id %d in handle_ruleset_tech()",
 	    p->id);
     return;

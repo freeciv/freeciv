@@ -1166,7 +1166,7 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_int8(cptr, pinfo->conquercost);
   cptr=put_int8(cptr, pinfo->unhappysize);
   
-  for(i=0; i<A_LAST; i++)
+  for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     cptr=put_int8(cptr, pinfo->global_advances[i]);
   for(i=0; i<B_LAST; i++)
     cptr=put_int16(cptr, pinfo->global_wonders[i]);
@@ -1211,7 +1211,7 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_int8(&iter, &pinfo->conquercost);
   iget_int8(&iter, &pinfo->unhappysize);
   
-  for(i=0; i<A_LAST; i++)
+  for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     iget_int8(&iter, &pinfo->global_advances[i]);
   for(i=0; i<B_LAST; i++)
     iget_int16(&iter, &pinfo->global_wonders[i]);
@@ -1918,6 +1918,7 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_int8(cptr, packet->government_when_anarchy);
   
   cptr=put_int8(cptr, packet->num_unit_types);
+  cptr=put_int8(cptr, packet->num_tech_types);
  
   cptr=put_int8(cptr, packet->nation_count);
 
@@ -1954,6 +1955,7 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_int8(&iter, &packet->government_when_anarchy);
 
   iget_int8(&iter, &packet->num_unit_types);
+  iget_int8(&iter, &packet->num_tech_types);
 
   iget_int8(&iter, &packet->nation_count);
 

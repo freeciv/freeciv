@@ -81,6 +81,7 @@ struct civ_game {
   int turnblock;
   
   int num_unit_types;
+  int num_tech_types;  /* including A_NONE */
 
   int government_count;
   int default_government;

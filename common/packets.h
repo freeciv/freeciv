@@ -446,6 +446,7 @@ struct packet_ruleset_control {
   int aqueduct_size;
   int sewer_size;
   int num_unit_types;
+  int num_tech_types;
   struct {
     int get_bonus_tech;
     int cathedral_plus;

@@ -482,7 +482,7 @@ static void help_update_improvement(const struct help_item *pitem,
     gtk_set_label(help_ilabel[1], "0");
     gtk_set_label(help_ilabel[3], "0");
     gtk_set_label(help_ilabel[5], _("(Never)"));
-/*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3);*/
   }
   gtk_widget_show_all(help_itable);
 
@@ -522,7 +522,7 @@ static void help_update_wonder(const struct help_item *pitem,
     gtk_set_label(help_wlabel[1], "0");
     gtk_set_label(help_wlabel[3], _("(Never)"));
     gtk_set_label(help_wlabel[5], _("None"));
-/*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3); */
+/*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3); */
   }
   gtk_widget_show_all(help_wtable);
 
@@ -620,7 +620,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
   create_help_page(HELP_TECH);
 
-  if (i<A_LAST&&i!=A_NONE) {
+  if (i<game.num_tech_types&&i!=A_NONE) {
     gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
 
     gtk_clist_freeze(GTK_CLIST(help_tree));
@@ -665,7 +665,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
     }
 
-    for(j=0; j<A_LAST; ++j) {
+    for(j=0; j<game.num_tech_types; ++j) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE) {
           hbox = gtk_hbox_new(FALSE, 0);

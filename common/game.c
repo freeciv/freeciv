@@ -556,7 +556,7 @@ int civ_score(struct player *pplayer)
     free_landarea_map(&cmap);
   }
 
-  for (i=0;i<A_LAST;i++) 
+  for (i=0;i<game.num_tech_types;i++) 
     if (get_invention(pplayer, i)==TECH_KNOWN) 
       pplayer->score.techs++;
   pplayer->score.techs+=(((pplayer->future_tech)*5)/2);
@@ -734,6 +734,7 @@ void game_init(void)
   strcpy(game.ruleset.nations, GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
   game.num_unit_types = 0;
+  game.num_tech_types = 0;
 
   game.government_count = 0;
   game.default_government = G_MAGIC;        /* flag */
@@ -745,7 +746,7 @@ void game_init(void)
   
   for(i=0; i<MAX_NUM_PLAYERS; i++)
     player_init(&game.players[i]);
-  for (i=0; i<A_LAST; i++) 
+  for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
     game.global_advances[i]=0;
   for (i=0; i<B_LAST; i++)
     game.global_wonders[i]=0;

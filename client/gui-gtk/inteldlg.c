@@ -156,7 +156,7 @@ void intel_create_dialog(struct player *p)
 
   gtk_clist_freeze(GTK_CLIST(list));
 
-  for(i=1, j=0; i<A_LAST; i++)
+  for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
     if(get_invention(p, i)==TECH_KNOWN) {
       if(get_invention(game.player_ptr, i)==TECH_KNOWN)
 	strcpy(tech_list_names[j], advances[i].name);

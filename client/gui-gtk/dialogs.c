@@ -687,7 +687,7 @@ static int create_advances_list(struct player *pplayer,
   advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
-    for(i=1; i<A_LAST; i++) {
+    for(i=A_FIRST; i<game.num_tech_types; i++) {
       gchar *row[1];
 
       if(get_invention(pvictim, i)==TECH_KNOWN && 

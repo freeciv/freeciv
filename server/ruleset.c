@@ -366,9 +366,15 @@ static void load_ruleset_techs(char *ruleset_subdir)
 
   /* The names: */
   sec = secfile_get_secnames_prefix(&file, "advance_", &num_techs);
-  if(num_techs + A_FIRST != A_LAST) {
-    /* sometime this restriction should be removed */
-    freelog(LOG_FATAL, "Bad number of techs %d (%s)", num_techs, filename);
+  freelog(LOG_VERBOSE, "%d advances (including possibly unused)", num_techs);
+  if(num_techs == 0) {
+    freelog(LOG_FATAL, "No Advances?! (%s)", filename);
+    exit(1);
+  }
+
+  if(num_techs + A_FIRST > A_LAST) {
+    freelog(LOG_FATAL, "Too many advances (%d, max %d) (%s)",
+	    num_techs, A_LAST-A_FIRST, filename);
     exit(1);
   }
 
@@ -378,6 +384,7 @@ static void load_ruleset_techs(char *ruleset_subdir)
   advances[A_NONE].req[1] = A_NONE;
   advances[A_NONE].flags = 0;
 
+  game.num_tech_types = num_techs + 1; /* includes A_NONE */
   a = &advances[A_FIRST];
 
   /* have to read all names first, so can lookup names for reqs! */
@@ -434,7 +441,7 @@ static void load_ruleset_techs(char *ruleset_subdir)
      Non-removed techs depending on removed techs is too
      broken to fix by default, so die.
   */   
-  for( i=0; i<A_LAST; i++ ) {
+  for( i=A_FIRST; i<game.num_tech_types; i++ ) {
     if (tech_exists(i)) {
       a = &advances[i];
       if (!tech_exists(a->req[0])) {
@@ -1206,6 +1213,7 @@ static void send_ruleset_control(struct player *dest)
   packet.default_government = game.default_government;
 
   packet.num_unit_types = game.num_unit_types;
+  packet.num_tech_types = game.num_tech_types;
 
   packet.nation_count = game.nation_count;
 
@@ -1445,7 +1453,7 @@ static void send_ruleset_techs(struct player *dest)
   struct advance *a;
   int to;
 
-  for(a=advances; a<advances+A_LAST; a++) {
+  for(a=advances; a<advances+game.num_tech_types; a++) {
     packet.id = a-advances;
     strcpy(packet.name, a->name);
     packet.req[0] = a->req[0];

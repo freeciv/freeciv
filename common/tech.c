@@ -64,7 +64,7 @@ void update_research(struct player *plr)
 {
   int i;
   
-  for (i=0;i<A_LAST;i++) {
+  for (i=0;i<game.num_tech_types;i++) {
     if(!tech_exists(i)) {
       plr->research.inventions[i]=TECH_UNKNOWN;
       continue;
@@ -150,7 +150,7 @@ A tech doesn't exist if one of:
 **************************************************************************/
 int tech_exists(Tech_Type_id id)
 {
-  if (id<0 || id>=A_LAST)
+  if (id<0 || id>=game.num_tech_types)
     return 0;
   else 
     return advances[id].req[0]!=A_LAST && advances[id].req[1]!=A_LAST;
@@ -164,7 +164,7 @@ Tech_Type_id find_tech_by_name(const char *s)
 {
   int i;
 
-  for( i=0; i<A_LAST; i++ ) {
+  for( i=0; i<game.num_tech_types; i++ ) {
     if (strcmp(advances[i].name, s)==0)
       return i;
   }
@@ -190,7 +190,7 @@ enum tech_flag_id tech_flag_from_str(char *s)
 
   assert(sizeof(flag_names)/sizeof(char*)==TF_LAST);
   
-  for(i=0; i<A_LAST; i++) {
+  for(i=0; i<TF_LAST; i++) {
     if (mystrcasecmp(flag_names[i], s)==0) {
       return i;
     }
@@ -205,7 +205,7 @@ enum tech_flag_id tech_flag_from_str(char *s)
 int find_tech_by_flag( int index, int flag )
 {
   int i;
-  for(i=index;i<A_LAST;i++)
+  for(i=index;i<game.num_tech_types;i++)
   {
     if(tech_flag(i,flag)) return i;
   }

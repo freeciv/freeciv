@@ -12,9 +12,7 @@ description="Civ2 technology data for Freeciv (incomplete)"
 options="1.8.2a +no_a_none"
 
 ; Below: The individual advances, one per section.
-; For now, the number of such sections must be kept the same (=89).
-; Also, some effects are still hardwired, according to position
-; in this list of sections.
+; The number can be variable, up to 199.
 ;
 ; The actual tag used (the * in [advance_*]) does not matter, except 
 ; it must be unique within this file, and it may be used in debug 

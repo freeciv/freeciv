@@ -254,7 +254,7 @@ void boot_help_texts(void)
 	    }
 	  }
 	} else if(current_type==HELP_TECH) {
-	  for(i=1; i<A_LAST; i++) {                 /* skip A_NONE */
+	  for(i=A_FIRST; i<game.num_tech_types; i++) {                 /* skip A_NONE */
 	    if(!seen[i] && tech_exists(i)) {
 	      pitem = new_help_item(current_type);
 	      sprintf(name, " %s", advances[i].name);
@@ -639,7 +639,7 @@ void helptext_wonder(char *buf, int which,
     u = get_role_unit(F_NUCLEAR, 0);
     assert(u<game.num_unit_types);
     t = get_unit_type(u)->tech_requirement;
-    assert(t<A_LAST);
+    assert(t<game.num_tech_types);
     sprintf(buf+strlen(buf),
 	   _("Allows all players with knowledge of %s to build %s units.\n"),
 	   advances[t].name, get_unit_type(u)->name);

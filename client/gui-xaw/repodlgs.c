@@ -222,7 +222,7 @@ void create_science_dialog(int make_modal)
 	  advances[game.player_ptr->ai.tech_goal].name,
           tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
   
-  for(i=1, j=0; i<A_LAST; i++)
+  for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
     if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
       strcpy(tech_list_names[j], advances[i].name);
       tech_list_names_ptrs[j]=tech_list_names[j];
@@ -310,7 +310,7 @@ void create_science_dialog(int make_modal)
 				NULL);
 
   
-  for(i=1, flag=0; i<A_LAST; i++)
+  for(i=A_FIRST, flag=0; i<game.num_tech_types; i++)
     if(get_invention(game.player_ptr, i)==TECH_REACHABLE) {
       Widget entry=
       XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
@@ -323,7 +323,7 @@ void create_science_dialog(int make_modal)
   if(!flag)
     XtSetSensitive(science_change_menu_button, FALSE);
   
- for(i=1, flag=0; i<A_LAST; i++)
+ for(i=A_FIRST, flag=0; i<game.num_tech_types; i++)
     if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
        advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
        tech_goal_turns(game.player_ptr, i) < 11) {
@@ -502,7 +502,7 @@ void science_dialog_update(void)
 
     xaw_set_label(science_goal_label, text);
 
-    for(i=1, j=0; i<A_LAST; i++)
+    for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
 	strcpy(tech_list_names[j], advances[i].name);
 	tech_list_names_ptrs[j]=tech_list_names[j];
@@ -519,7 +519,7 @@ void science_dialog_update(void)
 				   science_change_menu_button, 
 				   NULL);
     
-      for(i=1, flag=0; i<A_LAST; i++)
+      for(i=A_FIRST, flag=0; i<game.num_tech_types; i++)
       if(get_invention(game.player_ptr, i)==TECH_REACHABLE) {
 	Widget entry=
 	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
@@ -539,7 +539,7 @@ void science_dialog_update(void)
 				  science_goal_menu_button, 
 				  NULL);
     
-    for(i=1, flag=0; i<A_LAST; i++)
+    for(i=A_FIRST, flag=0; i<game.num_tech_types; i++)
       if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
          advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
          tech_goal_turns(game.player_ptr, i) < 11) {

@@ -215,13 +215,13 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
   memset(cache, 0, sizeof(cache));
-  for (i = A_NONE; i < A_LAST; i++) {
+  for (i = A_NONE; i < game.num_tech_types; i++) {
     j = pplayer->ai.tech_turns[i];
     if (j) { /* if we already got it we don't want it */
       values[i] += pplayer->ai.tech_want[i];
       memset(prereq, 0, sizeof(prereq));
       find_prerequisites(pplayer, i, prereq);
-      for (k = A_NONE; k < A_LAST; k++) {
+      for (k = A_NONE; k < game.num_tech_types; k++) {
         if (prereq[k]) {
           cache[i][k]++;
           values[k] += pplayer->ai.tech_want[i] / j;
@@ -230,9 +230,9 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
     }
   }
 
-  for (i = A_NONE; i < A_LAST; i++) {
+  for (i = A_NONE; i < game.num_tech_types; i++) {
     if (pplayer->ai.tech_turns[i]) {
-      for (k = A_NONE; k < A_LAST; k++) {
+      for (k = A_NONE; k < game.num_tech_types; k++) {
         if (cache[i][k]) {
           goal_values[i] += values[k];
         }
@@ -253,7 +253,7 @@ to be doing; it just looks strange. -- Syela */
   }
 
   j = 0; k = 0;
-  for (i = A_NONE; i < A_LAST; i++) {
+  for (i = A_NONE; i < game.num_tech_types; i++) {
     if (values[i] > values[j] && get_invention(pplayer, i) == TECH_REACHABLE) j = i;
     if (goal_values[i] > goal_values[k]) k = i;
   }
@@ -286,7 +286,7 @@ void calculate_tech_turns(struct player *pplayer)
 {
   int i;
   memset(pplayer->ai.tech_turns, 0, sizeof(pplayer->ai.tech_turns));
-  for (i = A_NONE + 1; i < A_LAST; i++) {
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
     pplayer->ai.tech_turns[i] = tech_goal_turns(pplayer, i);
   }
 }

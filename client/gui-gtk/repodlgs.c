@@ -362,12 +362,12 @@ void science_dialog_update(void)
 
   gtk_clist_freeze(GTK_CLIST(science_list));
   gtk_clist_clear(GTK_CLIST(science_list));
-  for(n=0, i=1; i<A_LAST; i++)
+  for(n=0, i=A_FIRST; i<game.num_tech_types; i++)
   {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN))
       n++;
   }
-  for(j=0, i=1; i<A_LAST; i++)
+  for(j=0, i=A_FIRST; i<game.num_tech_types; i++)
   {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)){
       if (j==4)
@@ -397,7 +397,7 @@ void science_dialog_update(void)
   hist=0;
   if (game.player_ptr->research.researching!=A_NONE)
   {
-    for(i=1, j=0; i<A_LAST; i++)
+    for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
     {
       if(get_invention(game.player_ptr, i)!=TECH_REACHABLE)
 	continue;
@@ -440,7 +440,7 @@ void science_dialog_update(void)
   }
 
   hist=0;
-  for(i=1, j=0; i<A_LAST; i++)
+  for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
   {
     if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
        advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&

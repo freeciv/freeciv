@@ -229,7 +229,7 @@ int player_knows_techs_with_flag(struct player *pplayer, int flag)
 {
   int i;
   int count=0;
-  for( i=0; i<A_LAST; i++ ) {
+  for( i=A_FIRST; i<game.num_tech_types; i++ ) {
     if((get_invention(pplayer, i) == TECH_KNOWN) && tech_flag(i,flag))
       count++;
   }

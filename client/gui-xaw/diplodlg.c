@@ -225,7 +225,7 @@ static int fill_diplomacy_tech_menu(Widget popupmenu,
 {
   int i, flag;
   
-  for(i=1, flag=0; i<A_LAST; i++) {
+  for(i=A_FIRST, flag=0; i<game.num_tech_types; i++) {
     if(get_invention(plr0, i)==TECH_KNOWN && 
        (get_invention(plr1, i)==TECH_UNKNOWN || 
 	get_invention(plr1, i)==TECH_REACHABLE)) {

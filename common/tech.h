@@ -26,7 +26,7 @@ typedef int Tech_Type_id;
 
 #define A_NONE 0
 #define A_FIRST 1
-#define A_LAST 89
+#define A_LAST MAX_NUM_ITEMS
 /*
    A_NONE is a special tech value, used as a flag in various
    cases where no tech is required.

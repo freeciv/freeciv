@@ -730,7 +730,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->research.researchpoints = pplayer->research.researchpoints;
   cplayer->research.researching = pplayer->research.researching;
   
-  for(i = 0; i<A_LAST ; i++)
+  for(i = 0; i<game.num_tech_types ; i++)
     cplayer->research.inventions[i] = pplayer->research.inventions[i];
   cplayer->turn_done = 1; /* Have other things to think about - paralysis*/
   cplayer->embassy = 0;   /* all embassys destroyed */
@@ -745,7 +745,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->ai.warmth = pplayer->ai.warmth;
   set_ai_level_direct(cplayer, game.skill_level);
 		    
-  for(i = 0; i<A_LAST ; i++){
+  for(i = 0; i<game.num_tech_types ; i++){
     cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
     cplayer->ai.tech_turns[i] = pplayer->ai.tech_turns[i];
   }

@@ -199,7 +199,7 @@ void send_game_info(struct player *dest)
   ginfo.foodbox = game.foodbox;
   ginfo.civstyle=game.civstyle;
   ginfo.spacerace = game.spacerace;
-  for(i=0; i<A_LAST; i++)
+  for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     ginfo.global_advances[i]=game.global_advances[i];
   for(i=0; i<B_LAST; i++)
     ginfo.global_wonders[i]=game.global_wonders[i];

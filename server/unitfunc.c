@@ -220,7 +220,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* If tech is specified, then a spy chose the tech to steal.  Diplomats can't do this */
   
   if(!unit_flag(pdiplomat->type, F_SPY) || !tech){  
-    for (i=1;i<A_LAST;i++) {
+    for (i=A_FIRST;i<game.num_tech_types;i++) {
       if (get_invention(pplayer, i)!=TECH_KNOWN && get_invention(target, i)== TECH_KNOWN) {
  	j++;
       }
@@ -254,13 +254,13 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     }
     
     j=myrand(j)+1;
-    for (i=1;i<A_LAST;i++) {
+    for (i=A_FIRST;i<game.num_tech_types;i++) {
       if (get_invention(pplayer, i)!=TECH_KNOWN && 
  	  get_invention(target, i)== TECH_KNOWN) 
  	j--;
       if (!j) break;
     }
-    if (i==A_LAST) {
+    if (i==game.num_tech_types) {
       freelog(LOG_NORMAL, "Bug in diplomat_a_tech");
       return;
     }
@@ -1581,7 +1581,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
   int tec;
   int i;
   int j=0;
-  for (i=0;i<A_LAST;i++) {
+  for (i=0;i<game.num_tech_types;i++) {
     if (get_invention(pplayer, i)!=TECH_KNOWN && 
 	get_invention(target, i)== TECH_KNOWN) {
       j++;
@@ -1597,13 +1597,13 @@ void get_a_tech(struct player *pplayer, struct player *target)
     return;
   }
   j=myrand(j)+1;
-  for (i=0;i<A_LAST;i++) {
+  for (i=0;i<game.num_tech_types;i++) {
     if (get_invention(pplayer, i)!=TECH_KNOWN && 
 	get_invention(target, i)== TECH_KNOWN) 
       j--;
     if (!j) break;
   }
-  if (i==A_LAST) {
+  if (i==game.num_tech_types) {
     freelog(LOG_NORMAL, "Bug in get_a_tech");
   }
   gamelog(GAMELOG_TECH,"%s acquire %s from %s",

@@ -1063,7 +1063,7 @@ static void great_library(struct player *pplayer)
     return;
   if (find_city_wonder(B_GREAT)) {
     if (pplayer->player_no==find_city_wonder(B_GREAT)->owner) {
-      for (i=0;i<A_LAST;i++) {
+      for (i=0;i<game.num_tech_types;i++) {
 	if (get_invention(pplayer, i)!=TECH_KNOWN 
 	    && game.global_advances[i]>=2) {
 	  notify_player_ex(pplayer,0,0, E_TECH_GAIN, "Game: %s acquired from The Great Library!", advances[i].name);
@@ -1267,7 +1267,7 @@ void choose_random_tech(struct player *plr)
   if (plr->research.researched >0)
     plr->research.researched = 0;
   update_research(plr);
-  for (i=0;i<A_LAST;i++)
+  for (i=0;i<game.num_tech_types;i++)
     if (get_invention(plr, i)==TECH_REACHABLE) 
       researchable++;
   if (researchable==0) { 
@@ -1276,7 +1276,7 @@ void choose_random_tech(struct player *plr)
   }
   choosen=myrand(researchable)+1;
   
-  for (i=0;i<A_LAST;i++)
+  for (i=0;i<game.num_tech_types;i++)
     if (get_invention(plr, i)==TECH_REACHABLE) {
       choosen--;
       if (!choosen) break;
@@ -1318,7 +1318,7 @@ void choose_tech_goal(struct player *plr, int tech)
 void init_tech(struct player *plr, int tech)
 {
   int i;
-  for (i=0;i<A_LAST;i++) 
+  for (i=0;i<game.num_tech_types;i++) 
     set_invention(plr, i, 0);
   set_invention(plr, A_NONE, TECH_KNOWN);
 
@@ -1617,7 +1617,7 @@ void send_player_info(struct player *src, struct player *dest)
              info.researchpoints=game.players[i].research.researchpoints;
              info.researching=game.players[i].research.researching;
              info.tech_goal=game.players[i].ai.tech_goal;
-             for(j=0; j<A_LAST; j++)
+             for(j=0; j<game.num_tech_types; j++)
                info.inventions[j]=game.players[i].research.inventions[j]+'0';
              info.inventions[j]='\0';
              info.future_tech=game.players[i].future_tech;
@@ -1696,7 +1696,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     
   plr->capital=secfile_lookup_int(file, "player%d.capital", plrno);
 
-  for(i=0; i<A_LAST; i++)
+  for(i=0; i<game.num_tech_types; i++)
     set_invention(plr, i, (p[i]=='1') ? TECH_KNOWN : TECH_UNKNOWN);
   
   if (has_capability("spacerace", savefile_options)) {
@@ -1956,7 +1956,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->capital, 
 		      "player%d.capital", plrno);
 
-  for(i=0; i<A_LAST; i++)
+  for(i=0; i<game.num_tech_types; i++)
     invs[i]=(get_invention(plr, i)==TECH_KNOWN) ? '1' : '0';
   invs[i]='\0';
   secfile_insert_str(file, invs, "player%d.invs", plrno);

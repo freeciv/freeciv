@@ -740,7 +740,7 @@ static void help_update_improvement(const struct help_item *pitem,
     xaw_set_label(help_improvement_upkeep_data, "0 ");
     xaw_set_label(help_improvement_variant_data,"0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
-    create_tech_tree(help_tech_tree, 0, A_LAST, 3);
+    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
   }
   set_title_topic(pitem);
   helptext_improvement(buf, which, pitem->text);
@@ -779,7 +779,7 @@ static void help_update_wonder(const struct help_item *pitem,
     xaw_set_label(help_wonder_variant_data, "0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
     xaw_set_label(help_wonder_obsolete_data, "None");
-    create_tech_tree(help_tech_tree, 0, A_LAST, 3); 
+    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3); 
   }
   set_title_topic(pitem);
   helptext_wonder(buf, which, pitem->text);
@@ -837,7 +837,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_hp_data, "0 ");
     xaw_set_label(help_unit_visrange_data, "0 ");
     xaw_set_label(help_improvement_req_data, "(Never)");
-    create_tech_tree(help_tech_tree, 0, A_LAST, 3);
+    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
     xaw_set_label(help_wonder_obsolete_data, "None");
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
@@ -856,7 +856,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
   create_help_page(HELP_TECH);
   set_title_topic(pitem);
 
-  if (i<A_LAST) {
+  if (i<game.num_tech_types) {
     create_tech_tree(help_tech_tree, 0, i, 3);
     helptext_tech(buf, i, pitem->text);
 
@@ -871,7 +871,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 		get_unit_type(j)->name);
     }
 
-    for(j=0; j<A_LAST; ++j) {
+    for(j=0; j<game.num_tech_types; ++j) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE)
 	  sprintf(buf+strlen(buf), "Allows %s.\n", 
@@ -892,7 +892,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
   }
   else {
     create_help_page(HELP_TECH);
-    create_tech_tree(help_tech_tree, 0, A_LAST, 3);
+    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
     strcpy(buf, pitem->text);
   }
   wordwrap_string(buf, 68);

@@ -70,7 +70,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
-    " +ruleset_control +ask_pillage +gen_tech1 +nationsruleset2" \
+    " +ruleset_control +ask_pillage +gen_tech2 +nationsruleset2" \
     " +long_names +paratroopers1 +helptext2 dconn_in_sel_nat"
 
 /* "caravan1" means the server automatically establishes a traderoute
@@ -101,8 +101,8 @@ const char * const our_capability = our_capability_internal;
 
    "ask_pillage" means that the player is asked for what to pillage.
 
-   "gen_tech1" means generalised some tech data (packets changed)
-   and added flags for techs
+   "gen_tech2" means generalised some tech data (packets changed),
+   added flags for techs and variable number of techs
 
    "nationsruleset2" is for new nations.ruleset changes;
    this implies/requires/replaces old "citynamesuggest" tag;
