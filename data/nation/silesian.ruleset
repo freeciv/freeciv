@@ -18,17 +18,19 @@ civilized=1
 advisors=100,100,100,100,100,100,100
 init_techs=""
 
-tech_goals="The Republic", "Trade", "Navigation", "Railroad", "Steel"
-wonder="Great Wall" ; Yes, we had own great wall ( iso-8896-2 ("Wa³y ¦l±skie") )
+tech_goals="The Republic", "Trade", "Feudalism", "Railroad", "Steel"
+wonder="Great Wall" ; Yes, we had own great wall ( iso-8859-2 ("Wa³y ¦l±skie") )
 government="Democracy"
 
 ; if you want your favourite city to be in more prominent place, go ahead
 ; only leave first 3 cities where they are
 
 cities =
-  "Wroclaw", "Legnica", "Opole", "Katowice", "Zielona Góra", "Glogów",
-  "Boleslawiec", "Walbrzych", "Gliwice", "Rybnik", "Jelenia Gora",
-  "Swidnica", "Lubin", "Chojnów", "Malczyce", "Klodzko", "Bytom",
-  "Oswiecim", "Zlotoryja", "Bielany", "Zgorzelec", "Zary", "Bystrzyca",
-  "Zagan", "Bogatynia", "Chocianów", "Nowa Sól", "Zabrze", "Sosnowiec",
-  "Rokitki", "Luban", "Polkowice", "Lubiaz", "Kedziezyn-Kozle"
+  "Wroclaw", "Opole", "Katowice", "Legnica", "Zielona Góra (hills, grassland)",
+  "Glogów (forest)", "Boleslawiec", "Walbrzych", "Gliwice", "Rybnik (river)", 
+  "Jelenia Gora (mountains)", "Swidnica", "Lubin", "Chojnów", "Malczyce", 
+  "Klodzko", "Bytom", "Oswiecim", "Zlotoryja", "Bielany", "Zgorzelec", 
+  "Zary", "Bystrzyca (river)", "Zagan", "Bogatynia", 
+  "Chocianów", "Nowa Sól", "Zabrze", "Sosnowiec (forest)",
+  "Rokitki", "Luban", "Polkowice", "Lubiaz", "Kedzierzyn-Kozle",
+  "Chorzów", "Bielsko", "Cieszyn"
