@@ -451,6 +451,13 @@ static void handle_accept_button(struct Diplomacy_dialog *pdialog)
                              &pa);
 
 }
+/****************************************************************
+
+*****************************************************************/
+static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
+{
+  DestroyWindow(pdialog->mainwin);
+}
 
 /****************************************************************
 
