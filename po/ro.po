@@ -173,11 +173,11 @@ msgstr "Sãrac"
 
 #: common/player.c:426
 msgid "Despicable"
-msgstr ""
+msgstr "Dispreþuitor"
 
 #: common/player.c:428
 msgid "Atrocious"
-msgstr ""
+msgstr "Criminal"
 
 #: common/player.c:438
 msgid "?diplomatic_state:Neutral"
@@ -190,7 +190,7 @@ msgstr "?diplomatic_state:Rãzboi"
 #: client/gui-gtk/diplodlg.c:442 client/gui-mui/diplodlg.c:627
 #: client/gui-xaw/diplodlg.c:512 common/player.c:440
 msgid "?diplomatic_state:Cease-fire"
-msgstr ""
+msgstr "?diplomatic_state:Armistiþiu"
 
 #: client/gui-gtk/diplodlg.c:447 client/gui-mui/diplodlg.c:631
 #: client/gui-xaw/diplodlg.c:516 common/player.c:441
@@ -452,7 +452,7 @@ msgstr "Revoltã a bãºtinaºilor lîngã %s sub conducerea lui %s."
 #: server/barbarian.c:397
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr ""
+msgstr "Au fost observaþi piraþi în apropiere de %s!"
 
 #: server/cityhand.c:131
 msgid "Game: you don't have a worker here."
@@ -505,22 +505,22 @@ msgstr "Oraº nr. %d"
 
 #: server/citytools.c:104
 msgid "A poorly-named city"
-msgstr ""
+msgstr "Un oraº prost denumit"
 
 #: server/citytools.c:657
 #, c-format
 msgid "Game: Changed homecity of %s to %s."
-msgstr ""
+msgstr "Joc: Noul oraº natal al %s este %s."
 
 #: server/citytools.c:667
 #, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
-msgstr ""
+msgstr "Joc: %s în %s transferat de la %s la %s."
 
 #: server/citytools.c:676
 #, c-format
 msgid "Game: Transfered %s from %s to %s."
-msgstr ""
+msgstr "Joc: Transferat %s de la %s la %s."
 
 #: server/citytools.c:922
 #, c-format
@@ -534,12 +534,12 @@ msgstr ""
 #: server/citytools.c:1092
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
-msgstr ""
+msgstr "Joc: Noul oraº natal al %s este %s."
 
 #: server/citytools.c:1123
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "Joc: %s a parãsit oraºul lichidat %s pentru a nu eºua."
 
 #: server/citytools.c:1134
 #, c-format
@@ -547,6 +547,8 @@ msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
 msgstr ""
+"Joc: Când %s a fost lichidat %s dumneavoastrã n-a putut fugii ºi "
+"ca atare a eºuat."
 
 #: server/citytools.c:1222
 #, c-format
@@ -566,7 +568,7 @@ msgstr "Joc: Aþi cucerit oraºul %s! %d galbeni vã cad pradã."
 #: server/citytools.c:1250
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
-msgstr ""
+msgstr "Joc: %s a cucerit %s ºi %d galbeni i-au cãzut pradã."
 
 #: server/citytools.c:1261
 #, c-format
@@ -576,7 +578,7 @@ msgstr "Joc: Aþi eliberat %s!! Prada este de %d galbeni."
 #: server/citytools.c:1266
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
-msgstr ""
+msgstr "Joc: %s a eliberat %s ºi %d galbeni i-au cãzut pradã."
 
 #: server/citytools.c:1789
 msgid " from the worklist"
@@ -612,7 +614,7 @@ msgstr ""
 #: server/cityturn.c:827
 #, c-format
 msgid "Game: %s may soon grow to size %i."
-msgstr "Joc: %s va creºte la mãrimea %i."
+msgstr "Joc: %s va creºte în curând la mãrimea %i."
 
 #: server/cityturn.c:834
 #, c-format
@@ -1025,11 +1027,11 @@ msgstr ""
 #: server/diplomats.c:371
 #, c-format
 msgid "Game: Your %s was sabotaged by %s!"
-msgstr ""
+msgstr "Joc: %s dumneavoastrã a fost sabotat de %s!"
 
 #: server/diplomats.c:422
 msgid "Game: You can't bribe a unit from this nation."
-msgstr ""
+msgstr "Joc: Nu puteþi mitui o unitate a acestei naþiuni."
 
 #: server/diplomats.c:430
 #, c-format
@@ -1044,7 +1046,7 @@ msgstr ""
 #: server/diplomats.c:452
 #, c-format
 msgid "Game: Your %s was bribed by %s."
-msgstr ""
+msgstr "Joc: %s dumneavostrã a fost mituit de %s."
 
 #: server/diplomats.c:548
 #, c-format
@@ -1079,7 +1081,7 @@ msgstr ""
 #: server/diplomats.c:660
 #, c-format
 msgid "Game: Your %s stole %s from %s."
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã a furat %s de la %s."
 
 #: server/diplomats.c:664
 #, c-format
@@ -1089,7 +1091,7 @@ msgstr ""
 #: server/diplomats.c:668 server/plrhand.c:516
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
-msgstr ""
+msgstr "Joc: %si au furat %s de la %s."
 
 #: server/diplomats.c:730
 msgid "Game: You can't subvert a city from this nation."
@@ -1122,7 +1124,7 @@ msgstr ""
 #: server/diplomats.c:804
 #, c-format
 msgid "Game: %s has revolted, %s influence suspected."
-msgstr ""
+msgstr "Joc: %s s-a revoltat. Se bãnuieºte influenza %sã."
 
 #: server/diplomats.c:882
 #, c-format
@@ -1137,32 +1139,32 @@ msgstr ""
 #: server/diplomats.c:921
 #, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã n-a gãsit nimic de sabotat în %s."
 
 #: server/diplomats.c:962
 #, c-format
 msgid "Game: You cannot sabotage a wonder or a %s!"
-msgstr ""
+msgstr "Joc: Nu puteþi sabota o minune sau %s!"
 
 #: server/diplomats.c:972
 #, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã n-a gãsit %s sã saboteze în %s."
 
 #: server/diplomats.c:998
 #, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã a distrus producþia de %s în %s."
 
 #: server/diplomats.c:1002
 #, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
-msgstr ""
+msgstr "Joc: Producþia de %s a fost distrusã în %s. Suspectaþi sunt %si."
 
 #: server/diplomats.c:1020
 #, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã a fost prins încercând sã saboteze!"
 
 #: server/diplomats.c:1024
 #, c-format
@@ -1172,12 +1174,12 @@ msgstr ""
 #: server/diplomats.c:1037
 #, c-format
 msgid "Game: Your %s destroyed the %s in %s."
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã a distrus %s în %s."
 
 #: server/diplomats.c:1041
 #, c-format
 msgid "Game: The %s destroyed the %s in %s."
-msgstr ""
+msgstr "Joc: %si au distrus %s în %s."
 
 #: server/diplomats.c:1124
 #, c-format
@@ -1187,7 +1189,7 @@ msgstr ""
 #: server/diplomats.c:1135
 #, c-format
 msgid "Game: Your %s was eliminated by a defending %s in %s."
-msgstr "Joc: %s dumneavoastrã a fost eliminat de un %s apãrãtor în %s."
+msgstr "Joc: %sul dumneavoastrã a fost eliminat de un %s apãrãtor în %s."
 
 #: server/diplomats.c:1141
 #, c-format
@@ -1200,16 +1202,18 @@ msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s."
 msgstr ""
+"Joc: %sul dumneavoastrã ºi-a terminat misiunea cu succes ºi s-a întors "
+"nevãtãmat la %s."
 
 #: server/diplomats.c:1210
 #, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã a fost prins dupã ce ºi-a terminat misiunea în %s."
 
 #: server/diplomats.c:1215
 #, c-format
 msgid "Game: Your %s was captured after completing her mission."
-msgstr ""
+msgstr "Joc: %sul dumneavoastrã a fost prins dupã ce ºi-a terminat misiunea."
 
 #: server/diplomats.c:1256
 #, c-format
@@ -1283,7 +1287,7 @@ msgstr ""
 #: server/mapgen.c:1113
 #, c-format
 msgid "The map has %i starting positions on %i isles."
-msgstr ""
+msgstr "Harta are %i poziþii de start pe %i insule."
 
 #: server/mapgen.c:1675
 msgid "High landmass - this may take a few seconds."
@@ -1367,17 +1371,17 @@ msgstr ""
 
 #: server/meta.c:331
 msgid "Waiting"
-msgstr ""
+msgstr "Aºtept"
 
 #: server/plrhand.c:120
 #, c-format
 msgid "Game: %s acquired from The Great Library!"
-msgstr ""
+msgstr "Joc: Aþi obþinut %s de la Marea Bibliotecã!"
 
 #: server/plrhand.c:125
 #, c-format
 msgid "Game: The %s have aquired %s from the Great Library."
-msgstr ""
+msgstr "Joc: %si au obþinut %s de la Marea Bibliotecã."
 
 #: server/plrhand.c:189
 #, c-format
@@ -1404,22 +1408,22 @@ msgstr ""
 #: server/plrhand.c:272
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
-msgstr ""
+msgstr "Joc: Aþi învãþat %s. Oamenii de ºtiinþa se focuseazã pe %s, þinta find %s"
 
 #: server/plrhand.c:281
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
-msgstr ""
+msgstr "Joc: Aþi învãþat %s. Oamenii de ºtiinþa cerceteazã %s."
 
 #: server/plrhand.c:286
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
-msgstr ""
+msgstr "Joc: Aþi învãþat %s. Oamenii de ºtiinþa cerceteazã Teh. Viitoare 1."
 
 #: server/plrhand.c:292
 #, c-format
 msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
-msgstr ""
+msgstr "Joc: Aþi învãþat Teh. Viitoare %d. Cercetând Teh. Viitoare %d."
 
 #: server/plrhand.c:302
 msgid ""
@@ -1430,12 +1434,12 @@ msgstr ""
 #: server/plrhand.c:317
 #, c-format
 msgid "Game: The %s have researched %s."
-msgstr ""
+msgstr "Joc: %si au dezvoltat %s."
 
 #: server/plrhand.c:321
 #, c-format
 msgid "%s discover %s"
-msgstr ""
+msgstr "%s descoperã %s"
 
 #: server/plrhand.c:327
 #, c-format
@@ -1470,12 +1474,12 @@ msgstr ""
 #: server/plrhand.c:512
 #, c-format
 msgid "Game: You acquired %s from %s."
-msgstr ""
+msgstr "Joc: Aþi obþinut %s de la %s."
 
 #: server/plrhand.c:514
 #, c-format
 msgid "Game: %s discovered %s in the city."
-msgstr ""
+msgstr "Joc: %s a descoperit %s în oraº."
 
 #: server/plrhand.c:536
 msgid "Game: Cannot change rates before game start."
@@ -1673,7 +1677,7 @@ msgstr "Mediocrii"
 
 #: server/report.c:75
 msgid "Hilarious"
-msgstr ""
+msgstr "Ridicolii"
 
 #: server/report.c:75
 msgid "Worthless"
@@ -1685,7 +1689,7 @@ msgstr "Pateticii"
 
 #: server/report.c:76
 msgid "Useless"
-msgstr ""
+msgstr "Inutilii"
 
 #: server/report.c:127
 #, c-format
@@ -1703,7 +1707,7 @@ msgstr "%2d: Oraºul %s %s de mãrimea %d cu %d minuni\n"
 
 #: server/report.c:186 server/report.c:228
 msgid "Traveler's Report:"
-msgstr "Calãtori Povestesc:"
+msgstr "Calãtori relateazã:"
 
 #: server/report.c:187
 msgid "The Five Greatest Cities in the World!"
@@ -1731,19 +1735,19 @@ msgstr "Minunile lumii"
 
 #: server/report.c:582
 msgid "st"
-msgstr ""
+msgstr "-ul"
 
 #: server/report.c:585
 msgid "nd"
-msgstr ""
+msgstr "-lea"
 
 #: server/report.c:588
 msgid "rd"
-msgstr ""
+msgstr "-lea"
 
 #: server/report.c:593 server/report.c:598
 msgid "th"
-msgstr ""
+msgstr "-lea"
 
 #: server/report.c:680 server/report.c:695 server/report.c:704
 #: server/report.c:720
@@ -1876,7 +1880,7 @@ msgstr ""
 
 #: server/rulesout.c:55
 msgid "boats move +1"
-msgstr ""
+msgstr "nave miºcãri +1"
 
 #: server/rulesout.c:56
 msgid "bridges"
@@ -1913,15 +1917,15 @@ msgstr ""
 
 #: server/spacerace.c:161
 msgid "Game: You need to have a capital in order to launch your spaceship."
-msgstr ""
+msgstr "Joc: Aveþi nevoie de o capitalã pentru a putea lansa nava spaþialã."
 
 #: server/spacerace.c:166
 msgid "Game: Your spaceship is already launched!"
-msgstr ""
+msgstr "Joc: Nava dumneavoastrã spaþialã a fost deja lansatã!"
 
 #: server/spacerace.c:171
 msgid "Game: Your spaceship can't be launched yet!"
-msgstr ""
+msgstr "Joc: Nava dumneavoastrã spaþialã nu poate fi încã lansatã!"
 
 #: server/spacerace.c:180
 #, c-format
@@ -1929,6 +1933,8 @@ msgid ""
 "Game: The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
+"Joc: %si au lansat o navã spaþialã!  Se estimeazã cã va ajunge pe Alpha "
+"Centauri în anul %s."
 
 #: server/spacerace.c:199
 msgid "Game: Spaceship action received, but you don't have a spaceship!"
@@ -1977,12 +1983,12 @@ msgstr ""
 #: server/spacerace.c:339
 #, c-format
 msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
-msgstr ""
+msgstr "Joc: Pierzând legãtura cu capitala, nava spaþialã %sã este pierdutã!"
 
 #: server/spacerace.c:373
 #, c-format
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
-msgstr ""
+msgstr "Joc: Nava spaþialã %sã a ajuns pe Alpha Centauri."
 
 #: server/srv_main.c:320
 #, c-format
@@ -2054,7 +2060,7 @@ msgstr ""
 #: server/srv_main.c:1017
 #, c-format
 msgid "%s has joined as player %s."
-msgstr ""
+msgstr "%s participã ca jucãtorul %s."
 
 #: server/srv_main.c:1022
 #, c-format
@@ -2079,17 +2085,17 @@ msgstr ""
 #: server/srv_main.c:1103
 #, c-format
 msgid "%s has been added as an AI-controlled player."
-msgstr ""
+msgstr "%s a fost adãugat ca jucãtor AI."
 
 #: server/srv_main.c:1105
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
-msgstr ""
+msgstr "Joc: %s a fost adãugat ca jucãtor AI."
 
 #: server/srv_main.c:1192
 #, c-format
 msgid "Invalid name '%s'"
-msgstr ""
+msgstr "Nume invalid '%s'"
 
 #: server/srv_main.c:1194
 #, c-format
@@ -2215,12 +2221,12 @@ msgstr "%s a fost refusat: Un jucãtor nou nu poate conecta."
 #: server/srv_main.c:1388
 #, c-format
 msgid "Lost connection: %s."
-msgstr ""
+msgstr "Legãtura pierdutã cu %s."
 
 #: server/srv_main.c:1396
 #, c-format
 msgid "Game: Lost connection: %s."
-msgstr ""
+msgstr "Joc: Legãtura pierdutã cu %s."
 
 #: server/srv_main.c:1480
 #, c-format
@@ -2278,7 +2284,7 @@ msgstr ""
 
 #: server/srv_main.c:1812
 msgid "Now accepting new client connections."
-msgstr ""
+msgstr "Accept jucãtori ..."
 
 #: server/srv_main.c:1871
 msgid "Last player has disconnected: will need to restart."
@@ -2290,15 +2296,15 @@ msgstr "Joc: Jocul sa terminat ..."
 
 #: server/stdinhand.c:152
 msgid "Map width in squares"
-msgstr ""
+msgstr "Lãþimea harþii în patrate"
 
 #: server/stdinhand.c:157
 msgid "Map height in squares"
-msgstr ""
+msgstr "Înãlþimea harþii în patrate"
 
 #: server/stdinhand.c:165
 msgid "Method used to generate map"
-msgstr ""
+msgstr "Metoda folositã pentru generarea hãrþii"
 
 #: server/stdinhand.c:166
 msgid ""
@@ -2380,7 +2386,7 @@ msgstr ""
 
 #: server/stdinhand.c:253
 msgid "Minimum number of players"
-msgstr ""
+msgstr "Numãr minim de jucãtori"
 
 #: server/stdinhand.c:254
 msgid ""
@@ -2390,7 +2396,7 @@ msgstr ""
 
 #: server/stdinhand.c:260
 msgid "Maximum number of players"
-msgstr ""
+msgstr "Numãr maxim de jucãtori"
 
 #: server/stdinhand.c:261
 msgid ""
@@ -2411,11 +2417,11 @@ msgstr ""
 
 #: server/stdinhand.c:278
 msgid "Number of initial settlers per player"
-msgstr ""
+msgstr "Numãr iniþial de coloniºti pe jucãtor"
 
 #: server/stdinhand.c:283
 msgid "Number of initial explorers per player"
-msgstr ""
+msgstr "Numãr iniþial de exploratori pe jucãtor"
 
 #: server/stdinhand.c:288
 msgid "Area where initial units are located"
@@ -2429,11 +2435,11 @@ msgstr ""
 
 #: server/stdinhand.c:295
 msgid "Starting gold per player"
-msgstr ""
+msgstr "Numãr iniþial de galbeni pe jucãtor"
 
 #: server/stdinhand.c:300
 msgid "Number of initial advances per player"
-msgstr ""
+msgstr "Numãr iniþial de tehnologii pe jucãtor"
 
 #: server/stdinhand.c:306
 msgid "Data subdir containing techs.ruleset"
@@ -2651,7 +2657,7 @@ msgstr ""
 
 #: server/stdinhand.c:500
 msgid "Reduce city population after attack"
-msgstr ""
+msgstr "Reduce populaþia oraºului dupã atac"
 
 #: server/stdinhand.c:501
 msgid ""
@@ -2665,7 +2671,7 @@ msgstr ""
 
 #: server/stdinhand.c:524
 msgid "Barbarian appearance frequency"
-msgstr ""
+msgstr "Frecvenþa apariþiei barbarilor"
 
 #: server/stdinhand.c:525
 msgid ""
@@ -2682,7 +2688,7 @@ msgstr ""
 
 #: server/stdinhand.c:535
 msgid "Barbarians will not appear before this year."
-msgstr ""
+msgstr "Barbari nu vor apãrea inainte de acest an."
 
 #: server/stdinhand.c:540
 msgid "Whether to enable fog of war"
@@ -2720,7 +2726,7 @@ msgstr ""
 
 #: server/stdinhand.c:567
 msgid "Minimum number of cities for civil war"
-msgstr ""
+msgstr "Numãrul minim de oraºe pentru un rãzboi civil"
 
 #: server/stdinhand.c:568
 msgid ""
@@ -2775,7 +2781,7 @@ msgstr "Anul în care jocul se terminã"
 
 #: server/stdinhand.c:627
 msgid "Maximum seconds per turn"
-msgstr ""
+msgstr "Numãr maxim de secunde pe rundã"
 
 #: server/stdinhand.c:628
 msgid ""
@@ -2838,7 +2844,7 @@ msgstr ""
 
 #: server/stdinhand.c:672
 msgid "What is in the Demographics report"
-msgstr ""
+msgstr "Ce apare în raportul demografic"
 
 #: server/stdinhand.c:673
 msgid ""
@@ -2951,7 +2957,7 @@ msgstr ""
 
 #: server/stdinhand.c:910
 msgid "Show a list of players or connections."
-msgstr ""
+msgstr "Aratã o listã a jucãtorilor sau a legãturilor."
 
 #: server/stdinhand.c:911
 msgid ""
@@ -2966,7 +2972,7 @@ msgstr "Terminã jocul ºi opreºte serverul."
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:920
 msgid "cut <connection-name>"
-msgstr ""
+msgstr "cut <nume-legãturã>"
 
 #: server/stdinhand.c:921
 msgid "Cut a client's connection to server."
@@ -2986,10 +2992,12 @@ msgid ""
 "explain\n"
 "explain <option-name>"
 msgstr ""
+"explain\n"
+"explain <nume-opþiune>"
 
 #: server/stdinhand.c:931
 msgid "Explain server options."
-msgstr ""
+msgstr "Explicã opþiunile server."
 
 #: server/stdinhand.c:932
 msgid ""
@@ -3006,6 +3014,9 @@ msgid ""
 "show <option-name>\n"
 "show <option-prefix>"
 msgstr ""
+"show\n"
+"show <nume-opþiune>\n"
+"show <prefix-opþiune>"
 
 #: server/stdinhand.c:942
 msgid "Show server options."
@@ -3063,7 +3074,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:977
 msgid "metaserver <address>"
-msgstr ""
+msgstr "metaserver <adresa>"
 
 #: server/stdinhand.c:978
 msgid "Set address for metaserver to report to."
@@ -3072,7 +3083,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:982
 msgid "aitoggle <player-name>"
-msgstr ""
+msgstr "aitoggle <nume-jucãtor>"
 
 #: server/stdinhand.c:983
 msgid "Toggle AI status of player."
@@ -3081,7 +3092,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:987
 msgid "create <player-name>"
-msgstr ""
+msgstr "create <nume-jucãtor>"
 
 #: server/stdinhand.c:988
 msgid "Create an AI player with a given name."
@@ -3097,6 +3108,8 @@ msgid ""
 "easy\n"
 "easy <player-name>"
 msgstr ""
+"easy\n"
+"easy <nume-jucãtor>"
 
 #: server/stdinhand.c:996
 msgid "Set one or all AI players to 'easy'."
@@ -3115,6 +3128,8 @@ msgid ""
 "normal\n"
 "normal <player-name>"
 msgstr ""
+"normal\n"
+"normal <nume-jucãtor>"
 
 #: server/stdinhand.c:1005
 msgid "Set one or all AI players to 'normal'."
@@ -3133,6 +3148,8 @@ msgid ""
 "hard\n"
 "hard <player-name>"
 msgstr ""
+"hard\n"
+"hard <nume-jucãtor>"
 
 #: server/stdinhand.c:1014
 msgid "Set one or all AI players to 'hard'."
@@ -3202,7 +3219,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1063
 msgid "remove <player-name>"
-msgstr ""
+msgstr "remove <nume-jucãtor>"
 
 #: server/stdinhand.c:1064
 msgid "Fully remove player from game."
@@ -3422,30 +3439,30 @@ msgstr ""
 #: server/stdinhand.c:1549
 #, c-format
 msgid "Game: %s is now AI-controlled."
-msgstr ""
+msgstr "Joc: %s este controlat acum de AI."
 
 #: server/stdinhand.c:1551
 #, c-format
 msgid "%s is now under AI control."
-msgstr ""
+msgstr "%s este controlat acum de AI."
 
 #: server/stdinhand.c:1567
 #, c-format
 msgid "Game: %s is now human."
-msgstr ""
+msgstr "Joc: %s este acum un om."
 
 #: server/stdinhand.c:1569
 #, c-format
 msgid "%s is now under human control."
-msgstr ""
+msgstr "%s este acum sub control uman."
 
 #: server/stdinhand.c:1607
 msgid "Can't add AI players once the game has begun."
-msgstr ""
+msgstr "Nu pot adãuga jucãtori AI odatã ce jocul a început."
 
 #: server/stdinhand.c:1614
 msgid "Can't add more players, server is full."
-msgstr ""
+msgstr "Nu pot adãuga jucãtori noi, serverul este plin."
 
 #: server/stdinhand.c:1620
 msgid "Can't use an empty name."
@@ -3458,7 +3475,7 @@ msgstr ""
 
 #: server/stdinhand.c:1634
 msgid "A player already exists by that name."
-msgstr ""
+msgstr "Un jucãtor cu acest nume deja existã."
 
 #: server/stdinhand.c:1643
 #, c-format
@@ -3468,7 +3485,7 @@ msgstr "Eroare la crearea unui nou jucãtor AI: %s."
 #: server/stdinhand.c:1650
 #, c-format
 msgid "Created new AI player: %s."
-msgstr ""
+msgstr "Creat pe %s ca nou jucãtor AI."
 
 #: server/stdinhand.c:1673
 msgid "Players cannot be removed once the game has started."
@@ -4045,11 +4062,11 @@ msgstr "Joc: Nici o acþiune diplomatica posibilã."
 
 #: server/unithand.c:852
 msgid "Game: You can't attack there."
-msgstr ""
+msgstr "Joc: Aici nu puteþi ataca."
 
 #: server/unithand.c:858
 msgid "Game: This unit has no moves left."
-msgstr ""
+msgstr "Joc: Aceastã unitate nu mai poate miºca."
 
 #: server/unithand.c:864
 #, c-format
@@ -4166,7 +4183,7 @@ msgstr "Joc: %s dumneavoastrã s-a întors la realimentare."
 #: server/unittools.c:687
 #, c-format
 msgid "Game: Your %s has run out of fuel."
-msgstr "Joc: %s dumneavoastrã a ramas farã combustibil."
+msgstr "Joc: %sul dumneavoastrã a ramas farã combustibil."
 
 #: server/unittools.c:857
 #, c-format
@@ -4325,30 +4342,30 @@ msgstr "Joc: Aþi gãsit %d galbeni"
 
 #: server/unittools.c:2396
 msgid "Game: You found ancient scrolls of wisdom."
-msgstr ""
+msgstr "Joc: Ãti gãsit o scripturã veche."
 
 #: server/unittools.c:2411
 #, c-format
 msgid "Game: You gain knowledge about %s."
-msgstr ""
+msgstr "Joc: Aþi dobândit cunoºtinþe despre %s."
 
 #: server/unittools.c:2417
 #, c-format
 msgid "Game: The %s have aquired %s from ancient scrolls of wisdom."
-msgstr ""
+msgstr "Joc: %si au dobândit %s dintr-o scripturã veche."
 
 #: server/unittools.c:2426
 #, c-format
 msgid "Game: You gain knowledge about Future Tech. %d."
-msgstr ""
+msgstr "Joc: Aþi dobândid cunoºtinþe despre Teh. Avansatã %d."
 
 #: server/unittools.c:2441
 msgid "Game: A band of friendly mercenaries joins your cause."
-msgstr ""
+msgstr "Joc: Un trup de mercenari vrea sã lupte sub comanda dvs."
 
 #: server/unittools.c:2457
 msgid "Game: An abandoned village is here."
-msgstr ""
+msgstr "Joc: Aici este o localitate abandonatã."
 
 #: server/unittools.c:2469
 msgid "Game: You have unleashed a horde of barbarians!"
@@ -4361,11 +4378,13 @@ msgstr "Joc: %s dumneavoastrã a fost ucis de barbari!"
 
 #: server/unittools.c:2490
 msgid "Game: Friendly nomads are impressed by you, and join you."
-msgstr ""
+msgstr "Joc: Un grup de nomazi vi se alãturã."
 
 #: server/unittools.c:2514
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
+"Joc: Zborul dvs deasupra tribului i-a speriat pe locuitori, care în panicã\n"
+"     au fugit în toate direcþile."
 
 #: server/unittools.c:3099
 #, c-format
@@ -4408,11 +4427,11 @@ msgstr "Mãrime"
 #: client/cityrepdata.c:199 client/gui-gtk/plrdlg.c:104
 #: client/gui-mui/plrdlg.c:184
 msgid "State"
-msgstr "Stat"
+msgstr "Statut"
 
 #: client/cityrepdata.c:199
 msgid "Rapture/Peace/Disorder"
-msgstr ""
+msgstr "Bucurie/Liniºte/Dezordine"
 
 #: client/cityrepdata.c:201
 msgid "Concise *=Rapture, X=Disorder"
@@ -4480,7 +4499,7 @@ msgstr ""
 
 #: client/cityrepdata.c:215
 msgid "Number of Trade Routes"
-msgstr "iNumãrul de Schimburi Comerciale"
+msgstr "Numãrul de Schimburi Comerciale"
 
 #: client/cityrepdata.c:217 client/gui-gtk/repodlgs.c:847
 #: client/gui-mui/repodlgs.c:765
@@ -4687,13 +4706,11 @@ msgstr "Joc: N-am gãsit o rutã spre destinaþie!"
 #: client/control.c:1275
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr ""
-"Joc: Din pãcate patrularea unitãþilor aeriene nu este incã "
-"implementatã"
+"Joc: Din pãcate patrularea unitãþilor aeriene nu este incã implementatã"
 
 #: client/helpdata.c:109
-#, fuzzy
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
-msgstr "Teren       Stradã Irigaþie       Minã          Transformare"
+msgstr "Teren       Stradã Irigaþie       Minare         Transformare\n"
 
 #: client/helpdata.c:136
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
@@ -4867,7 +4884,7 @@ msgstr ""
 
 #: client/helpdata.c:692
 msgid "* Must end "
-msgstr "* Trebuie sã termine"
+msgstr "* Trebuie sã termine "
 
 #: client/helpdata.c:694
 msgid "second "
@@ -5131,11 +5148,11 @@ msgstr ""
 
 #: client/options.c:145
 msgid "Unit Bought"
-msgstr ""
+msgstr "Unitate cumpãratã"
 
 #: client/options.c:146
 msgid "Wonder Stopped"
-msgstr ""
+msgstr "Minunea opritã"
 
 #: client/options.c:147
 msgid "City Needs Aq Being Built"
@@ -5143,15 +5160,15 @@ msgstr ""
 
 #: client/options.c:148
 msgid "Diplomat Actions - Own"
-msgstr ""
+msgstr "Acþiuni diplomatice proprii"
 
 #: client/options.c:149
 msgid "Unit Attack Failed"
-msgstr ""
+msgstr "Atacul a eºuat"
 
 #: client/options.c:150
 msgid "Unit Attack Succeeded"
-msgstr ""
+msgstr "Atacat cu succes"
 
 #: client/options.c:151
 msgid "Suggest Growth Throttling"
@@ -5163,27 +5180,27 @@ msgstr ""
 
 #: client/options.c:153
 msgid "Barbarian Uprising"
-msgstr ""
+msgstr "Rãscoala barbarilor"
 
 #: client/options.c:154
 msgid "Worklist Events"
-msgstr ""
+msgstr "Plan de lucru"
 
 #: client/options.c:155
 msgid "Pact Cancelled"
-msgstr ""
+msgstr "Tratatul anulat"
 
 #: client/options.c:156
 msgid "Diplomatic Incident"
-msgstr ""
+msgstr "Incident diplomatic"
 
 #: client/options.c:157
 msgid "First Contact"
-msgstr ""
+msgstr "Primul contact"
 
 #: client/options.c:158
 msgid "City May Soon Grow"
-msgstr ""
+msgstr "Oraºul va creºte în curând"
 
 #: client/options.c:159
 msgid "Wonder Made Obsolete"
@@ -5191,7 +5208,7 @@ msgstr ""
 
 #: client/options.c:160
 msgid "Famine Feared in City"
-msgstr ""
+msgstr "Pericol de foamete în oraº"
 
 #: client/options.c:161
 msgid "Wonder Will Be Finished Next Turn"
@@ -5225,7 +5242,7 @@ msgstr "Nu pot salva setãrile."
 
 #: client/options.c:352
 msgid "Saved settings."
-msgstr ""
+msgstr "Salvat setãrile."
 
 #: client/packhand.c:120
 #, c-format
@@ -5372,19 +5389,19 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1016 client/gui-gtk/citydlg.c:1598
 msgid "_Activate unit"
-msgstr ""
+msgstr "_Activeazã unitatea"
 
 #: client/gui-gtk/citydlg.c:1018 client/gui-gtk/citydlg.c:1600
 msgid "Activate unit, _close dialog"
-msgstr ""
+msgstr "Activeazã unitatea, închide _dialogul"
 
 #: client/gui-gtk/citydlg.c:1020
 msgid "_Sentry unit"
-msgstr ""
+msgstr "_Þine poziþia"
 
 #: client/gui-gtk/citydlg.c:1022
 msgid "_Fortify unit"
-msgstr "_Forificã unitatea"
+msgstr "_Fortificã unitatea"
 
 #: client/gui-gtk/citydlg.c:1024 client/gui-gtk/citydlg.c:1602
 msgid "_Disband unit"
@@ -5392,7 +5409,7 @@ msgstr "_Dizolvã unitatea"
 
 #: client/gui-gtk/citydlg.c:1026
 msgid "Make new _homecity"
-msgstr ""
+msgstr "Nou oraº _natal"
 
 #: client/gui-gtk/citydlg.c:1028
 msgid "_Upgrade unit"
@@ -5453,7 +5470,7 @@ msgstr ""
 #: client/gui-gtk/citydlg.c:1156 client/gui-gtk/menu.c:696
 #: client/gui-mui/gui_main.c:309 client/gui-xaw/menu.c:191
 msgid "Done"
-msgstr ""
+msgstr "Gata"
 
 #: client/gui-gtk/citydlg.c:1171
 #, c-format
@@ -5589,12 +5606,14 @@ msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"Modernizeazã %s în %s pentru %d galbeni?\n"
+"Trezoreria conþine %d galbeni."
 
 #: client/gui-gtk/citydlg.c:1986 client/gui-gtk/repodlgs.c:984
 #: client/gui-mui/dialogs.c:1898 client/gui-mui/repodlgs.c:821
 #: data/Freeciv:2406
 msgid "Upgrade Obsolete Units"
-msgstr ""
+msgstr "Modernizeazã unitãþile învechite"
 
 #: client/gui-gtk/citydlg.c:1993 client/gui-mui/dialogs.c:1904
 #: client/gui-xaw/citydlg.c:2157
@@ -5603,6 +5622,8 @@ msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"Modernizarea a %s în %s costã %d galbeni.\n"
+"Trezoreria conþine %d galbeni."
 
 #: client/gui-gtk/citydlg.c:2112 client/gui-mui/citydlg.c:551
 #: client/gui-mui/citydlg.c:580 client/gui-mui/worklistclass.c:216
@@ -5645,7 +5666,7 @@ msgstr "Minune"
 #: client/gui-gtk/citydlg.c:2209 client/gui-mui/citydlg.c:525
 #: client/gui-mui/worklistclass.c:107
 msgid "Built"
-msgstr ""
+msgstr "Construieºte"
 
 #: client/gui-gtk/citydlg.c:2210 client/gui-mui/citydlg.c:527
 #: client/gui-mui/worklistclass.c:109
@@ -5670,7 +5691,7 @@ msgstr "Elviºi"
 #: client/gui-gtk/citydlg.c:2515 client/gui-mui/citydlg.c:1230
 #: client/gui-xaw/citydlg.c:2638
 msgid "Scientists"
-msgstr ""
+msgstr "Cercetãtori"
 
 #: client/gui-gtk/citydlg.c:2515 client/gui-mui/citydlg.c:1231
 #: client/gui-xaw/citydlg.c:2638
@@ -5731,11 +5752,11 @@ msgstr ""
 
 #: client/gui-gtk/cityrep.c:360
 msgid "No Wonders Available"
-msgstr ""
+msgstr "Nici o minune disponibilã"
 
 #: client/gui-gtk/cityrep.c:373
 msgid "No Units Available"
-msgstr ""
+msgstr "Nici o unitate disponibilã"
 
 #: client/gui-gtk/cityrep.c:435 client/gui-gtk/cityrep.c:437
 #: client/gui-gtk/cityrep.c:1161 client/gui-gtk/diplodlg.c:376
@@ -5876,7 +5897,7 @@ msgstr "Versiune"
 
 #: client/gui-gtk/connectdlg.c:128 client/gui-mui/connectdlg.c:157
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #: client/gui-gtk/connectdlg.c:128 client/gui-gtk/plrdlg.c:117
 #: client/gui-mui/connectdlg.c:158 client/gui-mui/plrdlg.c:336
@@ -5934,7 +5955,6 @@ msgid "Message:"
 msgstr "Mesaj:"
 
 #: client/gui-gtk/dialogs.c:333 data/Freeciv:507
-#, fuzzy
 msgid "Goto and Close"
 msgstr "Mergi la ºi Închide"
 
@@ -5949,7 +5969,7 @@ msgstr ""
 #: client/gui-gtk/dialogs.c:407 client/gui-mui/dialogs.c:228 data/Freeciv:2352
 #: data/Freeciv:2365
 msgid "Bribe Enemy Unit"
-msgstr ""
+msgstr "Mituieºte unitatea inamicã"
 
 #: client/gui-gtk/dialogs.c:412 client/gui-mui/dialogs.c:234
 #: client/gui-xaw/dialogs.c:428
@@ -6131,9 +6151,8 @@ msgid "Help build _Wonder"
 msgstr "Ajutã la construcþia _Minuni"
 
 #: client/gui-gtk/dialogs.c:1284 client/gui-mui/dialogs.c:1141
-#, fuzzy
 msgid "Choose Your New Government"
-msgstr "Alege un Guvern nou"
+msgstr "Alege un guvern nou"
 
 #: client/gui-gtk/dialogs.c:1295 client/gui-mui/dialogs.c:1142
 #: data/Freeciv:2427
@@ -6933,7 +6952,7 @@ msgstr "Ordine"
 #: client/gui-gtk/menu.c:638 client/gui-gtk/menu.c:1058
 #: client/gui-gtk/menu.c:1061
 msgid "_Build City"
-msgstr "Construieºte _Oraº"
+msgstr "_Construieºte Oraº"
 
 #: client/gui-gtk/menu.c:640 client/gui-gtk/menu.c:1071
 #: client/gui-gtk/menu.c:1077
@@ -6997,13 +7016,12 @@ msgid "_Connect"
 msgstr "_Conecteazã"
 
 #: client/gui-gtk/menu.c:678
-#, fuzzy
 msgid "Patrol (_Q)"
 msgstr "Patruleazã (_Q)"
 
 #: client/gui-gtk/menu.c:680
 msgid "_Go to"
-msgstr ""
+msgstr "Mer_gi la"
 
 #: client/gui-gtk/menu.c:682
 msgid "Go|Airlift to City"
@@ -7012,7 +7030,7 @@ msgstr ""
 #: client/gui-gtk/menu.c:686 client/gui-mui/gui_main.c:302
 #: client/gui-xaw/menu.c:184
 msgid "Disband Unit"
-msgstr ""
+msgstr "Dizolvã unitatea"
 
 #: client/gui-gtk/menu.c:688
 msgid "Diplomat|Spy Actions"
@@ -7260,7 +7278,7 @@ msgstr "_Închide"
 
 #: client/gui-gtk/messagewin.c:154
 msgid "_Goto location"
-msgstr "_Mergi la locul"
+msgstr "Mer_gi la locul"
 
 #: client/gui-gtk/messagewin.c:160 client/gui-mui/messagewin.c:250
 msgid "_Popup City"
@@ -7561,7 +7579,7 @@ msgstr "Redenumeºte"
 #: data/Freeciv:2085
 #, fuzzy
 msgid "Insert"
-msgstr "Insereazã"
+msgstr "Introduce"
 
 #: client/gui-gtk/wldlg.c:240 client/gui-gtk/wldlg.c:387 data/Freeciv:1955
 #: data/Freeciv:2091
@@ -9991,7 +10009,7 @@ msgid ""
 "keep them happy.  When conquering other civilizations, it may be helpful to "
 "switch to one of the more militant styles of government."
 msgstr ""
-"1. Sfat:  Sub Republicã sau Democraþie rãzboaiele de cucerire sunt greu "
+"1. SFAT:  Sub Republicã sau Democraþie rãzboaiele de cucerire sunt greu "
 "de condus dacã cetãþeni nu sunt þinuþi fericiþi cu multe bunuri de"
 " lux.  Pentru a cuceri alte civilizaþi meritã sã se treacã la o formã de "
 "guvernãmânt mai militaristã."
@@ -10214,7 +10232,7 @@ msgid ""
 "build a light spaceship with many propulsion units that will arrive earlier. "
 " The only other option is to capture their capital."
 msgstr ""
-"Sfat:  Dacã o civilizaþie inamicã a lansat o navã spaþialã, încercaþi "
+"SFAT:  Dacã o civilizaþie inamicã a lansat o navã spaþialã, încercaþi "
 "sã construiþi o navã micã ºi uºoara, echipatã cu sisteme de propulsie "
 "din belºug, care va ajunge mai repede la destinaþie.  Singura posibilitate înafarã"
 " de prima menþionatã este de a cuceri capitala civilizaþiei respective."
@@ -10434,7 +10452,7 @@ msgid ""
 "simply has no effect on the pollution generated in the city."
 msgstr ""
 "Neutralizeazã poluarea provocatã de populaþie.  Populaþia "
-"pur ºi simplu nu mai are efect asupra poluþie într-un oraº."
+"pur ºi simplu nu mai are efect asupra poluãri într-un oraº."
 
 #: data/civ1/buildings.ruleset:514 data/civ2/buildings.ruleset:499
 #: data/default/buildings.ruleset:689
@@ -11239,12 +11257,12 @@ msgstr "Anarhia"
 #: data/civ1/governments.ruleset:144 data/civ2/governments.ruleset:142
 #: data/default/governments.ruleset:143
 msgid "Mr."
-msgstr ""
+msgstr "Dl."
 
 #: data/civ1/governments.ruleset:145 data/civ2/governments.ruleset:143
 #: data/default/governments.ruleset:144
 msgid "Ms."
-msgstr ""
+msgstr "Dna."
 
 #: data/civ1/governments.ruleset:147 data/civ2/governments.ruleset:145
 #: data/default/governments.ruleset:146
@@ -12201,8 +12219,8 @@ msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr ""
-"Munþi sunt regiuni cu altitudini extreme îngreunând foarte mult agricultura ºi "
-"negoþul."
+"Munþi sunt regiuni cu altitudini extreme îngreunând foarte mult agricultura "
+"ºi negoþul."
 
 #: data/civ1/terrain.ruleset:396 data/civ2/terrain.ruleset:404
 #: data/classic/terrain.ruleset:396 data/default/terrain.ruleset:404
@@ -12317,6 +12335,11 @@ msgid ""
 "Roads and railroads can only be built on River squares if your civilization "
 "has learned Bridge Building technology."
 msgstr ""
+"Râurile, pe lângã a fi o sursã de hranã, înleznesc comunicaþiile "
+"ºi negoþul.\n"
+"\n"
+"Strãzi ºi cãi ferate pot fi construite pe pãtrate cu un râu doar "
+"dupã descoperirea Construcþiei de poduri."
 
 #: data/civ1/units.ruleset:73 data/civ2/units.ruleset:64
 #: data/default/units.ruleset:64
@@ -12341,7 +12364,7 @@ msgid ""
 msgstr ""
 "Coloniºti sunt una din unitãþile cheie în acest joc.  Ei pot fi folosiþi "
 "la fondarea de noi oraºe, la irigare pãmântului, la construirea de strãzi, "
-"cãi ferate, fortãreþe, base aeriene ºi mine. Tot ei pot curãþa poluþia ºi "
+"cãi ferate, fortãreþe, base aeriene ºi mine. Tot ei pot curãþa poluarea ºi "
 "contaminare radioactivã.  Coloniºti costã întreþinere în hranã ºi "
 "producþie. Ei pot muri dacã în oraºul cei suportã izbucneºte foamnetea.\n"
 "\n"
@@ -12376,10 +12399,10 @@ msgstr ""
 "ori mai repede decât aceºtia.  Ingineri pot pe deasupra transforma forma "
 "de teren; spre exemplu sã converteascã tundra în deºert.\n"
 "\n"
-"1. Sfat:  Pe cât posibil transformaþi Coloniºti în Ingineri deoarece au nevoie "
+"1. SFAT:  Pe cât posibil transformaþi Coloniºti în Ingineri deoarece au nevoie "
 "aceaºi resurse ca ºi Coloniºti de rând.\n"
 "\n"
-"2. Sfat:  Dacã cumva reuºiþi sã construiþi Atelierul lui Leonardo, cercetaþi "
+"2. SFAT:  Dacã cumva reuºiþi sã construiþi Atelierul lui Leonardo, cercetaþi "
 "tehnologia Explosivilor înainte ca Atelierul sã devinã obsolet.  În astfel Coloniºti "
 "dumneavoastra vor fi transformaþi în Ingineri farã sã coste nici un ban."
 
@@ -12417,7 +12440,7 @@ msgstr "Lãncieri"
 #: data/civ1/units.ruleset:254 data/civ2/units.ruleset:258
 #: data/default/units.ruleset:258
 msgid "Musketeers"
-msgstr "Muºchetar"
+msgstr "Muºchetari"
 
 #: data/civ1/units.ruleset:278 data/civ2/units.ruleset:282
 #: data/default/units.ruleset:282
@@ -12626,7 +12649,7 @@ msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
 msgstr ""
-"Sfat:  O unitate foarte rapidã care este de folos în urmãrirea ºi "
+"SFAT:  O unitate foarte rapidã care este de folos în urmãrirea ºi "
 "distrugerea de Transportoare."
 
 #: data/civ1/units.ruleset:974 data/civ2/units.ruleset:1012
@@ -12665,6 +12688,9 @@ msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
+"SFAT: Pãziþivã portavionul cu câteva nave rapide ºi un cuirasat, "
+"deoarece pierderea unui portavion încãcat plin este FOARTE costisitoare"
+" ºi dureroasã."
 
 #: data/civ1/units.ruleset:1098 data/civ2/units.ruleset:1137
 #: data/default/units.ruleset:1137
@@ -12674,7 +12700,7 @@ msgstr "Transportor"
 #: data/civ1/units.ruleset:1121 data/civ2/units.ruleset:1160
 #: data/default/units.ruleset:1160
 msgid "Cruise Missile"
-msgstr ""
+msgstr "Rachetã"
 
 #: data/civ2/units.ruleset:1181 data/default/units.ruleset:1181
 msgid ""
@@ -12803,8 +12829,8 @@ msgid ""
 msgstr ""
 "Dacã conducãtorul barbarilor este ucis pe un pãtrat fãrã sã fie "
 "apãrat de o unitate militarã, se primesc 100 de galbeni ca rãscumpãrare."
-" Acest fapt este valabil dacã atacul a fost condus de o unitate terestrã sau "
-"de un elicopter."
+" Acest fapt este doar valabil dacã atacul a fost condus de o unitate "
+"terestrã sau de un elicopter."
 
 #: data/civ1/units.ruleset:94
 msgid ""
@@ -12828,7 +12854,7 @@ msgstr "Militia"
 
 #: data/civ1/units.ruleset:859
 msgid "Sail"
-msgstr ""
+msgstr "Corabie"
 
 #: data/civ1/units.ruleset:1165
 msgid ""
@@ -12872,7 +12898,7 @@ msgstr ""
 
 #: data/nation/american.ruleset:13
 msgid "Reverend"
-msgstr ""
+msgstr "Preot"
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -13032,15 +13058,15 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:15
 msgid "Reina"
-msgstr ""
+msgstr "Reina"
 
 #: data/nation/catalan.ruleset:17
 msgid "Arquebisbe"
-msgstr ""
+msgstr "Arquebisbe"
 
 #: data/nation/catalan.ruleset:17
 msgid "Gran Bruixa"
-msgstr ""
+msgstr "Gran Bruixa"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -13056,7 +13082,7 @@ msgstr ""
 
 #: data/nation/chilean.ruleset:17 data/nation/french.ruleset:12
 msgid "Archbishop"
-msgstr ""
+msgstr "Archiepiscop"
 
 #: data/nation/chilean.ruleset:18
 msgid "Supreme Director"
@@ -13119,11 +13145,11 @@ msgstr "Danezi"
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xFA.
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
-msgstr ""
+msgstr "Dúnedain"
 
 #: data/nation/dunedain.ruleset:8
 msgid "?plural:Dunedan"
-msgstr ""
+msgstr "Dúnedani"
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -13159,11 +13185,11 @@ msgstr "Englezi"
 
 #: data/nation/english.ruleset:14
 msgid "Lord Protector"
-msgstr ""
+msgstr "Lord Protector"
 
 #: data/nation/english.ruleset:14
 msgid "Lady Protector"
-msgstr ""
+msgstr "Lady Protector"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -13199,7 +13225,7 @@ msgstr "Fracezi"
 
 #: data/nation/french.ruleset:11
 msgid "Premier"
-msgstr ""
+msgstr "Premier"
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -13215,7 +13241,7 @@ msgstr "Cancelar"
 
 #: data/nation/german.ruleset:14
 msgid "Princebishop"
-msgstr ""
+msgstr "Arhiepiscop"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -13267,11 +13293,11 @@ msgstr "Irlandezi"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr ""
+msgstr "Israelit"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr ""
+msgstr "Israeliþi"
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
@@ -13363,15 +13389,15 @@ msgstr "Mordor"
 
 #: data/nation/mordor.ruleset:4
 msgid "?plural:Mordors"
-msgstr ""
+msgstr "Mordori"
 
 #: data/nation/mordor.ruleset:12
 msgid "Overlord"
-msgstr ""
+msgstr "Overlord"
 
 #: data/nation/mordor.ruleset:13
 msgid "Dark Lord"
-msgstr ""
+msgstr "Dark Lord"
 
 #: data/nation/olympic.ruleset:3
 msgid "Olympic"
@@ -13403,19 +13429,19 @@ msgstr "Polonezi"
 
 #: data/nation/polish.ruleset:15
 msgid "Dyktator"
-msgstr ""
+msgstr "Dyktator"
 
 #: data/nation/polish.ruleset:15
 msgid "Dyktatorka"
-msgstr ""
+msgstr "Dyktatorka"
 
 #: data/nation/polish.ruleset:16
 msgid "Prymas"
-msgstr ""
+msgstr "Prymas"
 
 #: data/nation/polish.ruleset:18
 msgid "Pierwszy Sekretarz"
-msgstr ""
+msgstr "Pierwszy Sekretarz"
 
 #: data/nation/polish.ruleset:19 data/nation/polish.ruleset:20
 msgid "Prezydent"
