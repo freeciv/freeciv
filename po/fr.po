@@ -7,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.13.1-devel\n"
-"POT-Creation-Date: 2003-01-17 10:37+0100\n"
-"PO-Revision-Date: 1999-09-13 10:22+0200\n"
+"Project-Id-Version: Freeciv 1.14.0\n"
+"POT-Creation-Date: 2003-01-24 16:24+0100\n"
+"PO-Revision-Date: 2002-12-20 10:22+0200\n"
 "Last-Translator: Freeciv french team <freeciv-fr@egroups.fr>\n"
 "Language-Team: FRENCH <FR@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9783,9 +9783,8 @@ msgid "Host"
 msgstr "Hôte"
 
 #: client/gui-gtk-2.0/plrdlg.c:193
-#, fuzzy
 msgid "Idle Turns"
-msgstr "Tours"
+msgstr "Tours Inactifs"
 
 #: client/gui-gtk-2.0/plrdlg.c:301 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
@@ -10168,9 +10167,8 @@ msgid "Disconnect"
 msgstr "Se déconnecter"
 
 #: client/gui-gtk/diplodlg.c:226 client/gui-gtk/diplodlg.c:306
-#, fuzzy
 msgid "more"
-msgstr "Tank"
+msgstr "plus"
 
 #: client/gui-gtk/finddlg.c:92 client/gui-win32/cityrep.c:899
 #: client/gui-win32/finddlg.c:126 data/Freeciv:1089 data/Freeciv:1561
@@ -13115,7 +13113,6 @@ msgstr ""
 "volantes (y compris missiles et Hélicoptères), la défense est quintuplée ; "
 
 #: data/helpdata.txt:916
-#, fuzzy
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -13123,7 +13120,7 @@ msgid ""
 msgstr ""
 " - la force du défenseur est doublée de nouveau s'il se situe dans une ville "
 "possédant une Batterie SAM et si l'attaquant est une unité aérienne (sauf si "
-"c'est un Hélicoptère) ou un missile ; "
+"c'est un Hélicoptère) ou un missile."
 
 #: data/helpdata.txt:920
 msgid ""
@@ -13179,27 +13176,34 @@ msgstr ""
 #: data/helpdata.txt:940
 msgid "The firepower of the attacker and defender are also modified."
 msgstr ""
+"Les puissances de feu des attaquant et défenseur sont également modifiées."
 
 #: data/helpdata.txt:942
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
 msgstr ""
+" - Si le défenseur est un bateau et est à l'intérieur d'une ville, la "
+"puissance de feu de l'attaquant est doublée et la puissance de feu du bateau "
+"est réduite à 1."
 
 #: data/helpdata.txt:945
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
 msgstr ""
+" - Si un Chasseur attaque un hélicoptère, la puissance de feu de "
+"l'hélicoptère est réduite à 1."
 
 #: data/helpdata.txt:948
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
 msgstr ""
+" - Si un bateau attaque une unité terrestre sur la terre, la puissance de "
+"feu de chacun d'entre eux est réduite à 1."
 
 #: data/helpdata.txt:951
-#, fuzzy
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -13215,10 +13219,8 @@ msgstr ""
 "défenseur est généré. Si ce nombre est supérieur à la force du défenseur, le "
 "défenseur perd un nombre de point de vie égal à la puissance de feu de "
 "l'attaquant. Sinon, l'attaquant perd un nombre de points de vie égal à la "
-"puissance de feu du défenseur (à moins que le défenseur soit un navire à "
-"l'intérieur d'une ville, dans ce cas l'attaquant perd 1 point de vie -- les "
-"navires dans un port ne sont pas capables de manoeuvrer efficacement). La "
-"première unité à atteindre 0 (ou moins) point de vie perd."
+"puissance de feu du défenseur. La première unité à atteindre 0 (ou moins) "
+"point de vie perd."
 
 #: data/helpdata.txt:966
 #, no-c-format
@@ -13297,7 +13299,7 @@ msgstr ""
 
 #: data/helpdata.txt:999
 msgid "Both units keep their firepower of 1 unchanged."
-msgstr ""
+msgstr "Chacune des unités garde sa puissance de feu de 1 inchangée."
 
 #: data/helpdata.txt:1002
 #, no-c-format
@@ -13370,22 +13372,21 @@ msgstr ""
 
 #: data/helpdata.txt:1041
 msgid "The firepower of the Battleship is set from 2 to 1."
-msgstr ""
+msgstr "La puissance de feu du bateau de guerre est ramenée de 2 à 1."
 
 #: data/helpdata.txt:1044
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
 "than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
 "the attacker loses 1 hit point."
 msgstr ""
 "À chaque round, un nombre aléatoire entre 1 et 405 est généré. Si ce nombre "
-"est supérieur à 225 (à peu près 44% de chance) le défenseur perd 2 points de "
-"vie (la puissance de feu de l'attaquant est de 2). Sinon, l'attaquant perd 1 "
-"point de vie."
+"est supérieur à 225 (à peu près 44% de chance) le défenseur perd 1 point de "
+"vie. Sinon, l'attaquant perd 1 point de vie."
 
 #: data/helpdata.txt:1055
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
 "is 25% less likely to score a hit in any given round, but the Battleship has "
@@ -13394,11 +13395,10 @@ msgid ""
 "points left."
 msgstr ""
 "Dans ce cas, les chances sont largement du côté de l'attaquant. Le Navire de "
-"Guerre a 25% moins de chance de toucher dans un round, mais quand il le "
-"fait, il provoque deux fois plus de dommages à l'ennemi. De plus, le Navire "
-"de Guerre a deux fois plus de points de vie. Le Navire de Guerre devrait "
-"perdre à peu près 30% de ses points durant le combat... Après quoi il "
-"devrait lui rester 2 points de mouvement."
+"Guerre a 25% moins de chance de toucher dans un round, mais il a deux fois "
+"plus de points de vie. Le Navire de Guerre devrait perdre à peu près 60% de "
+"ses points durant le combat et doit s'attendre à ce qu'il ne lui reste plus "
+"de points de mouvement."
 
 #: data/helpdata.txt:1064
 msgid "Zones of Control"
@@ -16472,14 +16472,12 @@ msgid "Religion"
 msgstr "Religion"
 
 #: data/history/techs.ruleset:158
-#, fuzzy
 msgid "Riflery"
-msgstr "Fusiliers"
+msgstr "Armurerie"
 
 #: data/history/techs.ruleset:200
-#, fuzzy
 msgid "Milling"
-msgstr "  Pillage"
+msgstr "Manufacture"
 
 #: data/default/terrain.ruleset:51 data/civ2/terrain.ruleset:51
 #: data/history/terrain.ruleset:51
@@ -18214,6 +18212,3 @@ msgstr "Zoulou"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zoulous"
-
-#~ msgid "Game: You now have access level '%s'."
-#~ msgstr "Jeu : vous avez à présent le niveau d'accès '%s'."
