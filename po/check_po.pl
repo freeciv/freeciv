@@ -358,5 +358,5 @@ while(<>) {
         }
         next LINE;
     }
-    die "Unexpected: ", $_;
+    die "Unexpected at $.: ", $_;
 }
