@@ -68,7 +68,7 @@ int unit_move_rate(struct unit *punit)
     }
  
     if (move_rate < 2 * SINGLE_MOVE) {
-      move_rate = 2 * SINGLE_MOVE; 
+      move_rate = MIN(2 * SINGLE_MOVE, unit_type(punit)->move_rate);
     }
     break;
 
