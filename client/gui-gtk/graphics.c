@@ -304,6 +304,7 @@ char **gfx_fileextensions(void)
 {
   static char *ext[] =
   {
+    "png",
     "xpm",
     NULL
   };
