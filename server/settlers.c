@@ -1151,7 +1151,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
       map_get_tile(gx, gy)->assigned =
         map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
     } else {
-      UNIT_LOG(LOG_NORMAL, punit, "giving up trying to improve terrain");
+      UNIT_LOG(LOG_DEBUG, punit, "giving up trying to improve terrain");
       return; /* We cannot do anything */
     }
     set_goto_dest(punit, gx, gy); /* TMP */
@@ -1480,15 +1480,17 @@ void contemplate_new_city(struct city *pcity)
 }
 
 /**************************************************************************
-used to use old crappy formulas for settler want, but now using actual
-want!
+  Estimates the want for a terrain improver (aka worker) by creating a 
+  virtual unit and feeding it to evaluate_improvements.
+
+  TODO: AI does not ship F_SETTLERS around, only F_CITIES - Per
 **************************************************************************/
 void contemplate_terrain_improvements(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   struct unit *virtualunit;
   int want;
-  int gx, gy; /* dummies */
+  int gx, gy;
   enum unit_activity best_act;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   struct ai_data *ai = ai_data_get(pplayer);
@@ -1506,21 +1508,14 @@ void contemplate_terrain_improvements(struct city *pcity)
   want = evaluate_improvements(virtualunit, &best_act, &gx, &gy);
   free(virtualunit);
 
-/* FIXME: AI does not ship F_SETTLERS around, only F_CITIES - Per */
-#ifdef AI_SMART
-  unit_list_iterate(pplayer->units, qpass) {
-    /* We want a ferryboat with want 199 */
-    if (qpass->ai.ferryboat == pcity->id)
-      want = -199;
-  } unit_list_iterate_end; 
-#endif
-
   /* modify our desire based on available statistics to prevent
    * overflooding with worker type units if they come cheap in
    * the ruleset */
   want /= MAX(1, ai->stats.workers[ptile->continent]
                  / MAX(1, ai->stats.cities[ptile->continent]));
 
+  CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d)",
+	   unit_name(unit_type), want, get_activity_text(best_act), gx, gy);
   assert(want >= 0);
   pcity->ai.settler_want = want;
 }
