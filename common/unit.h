@@ -129,26 +129,60 @@ struct unit {
      and city.units_supported; they are only used for save/reload */
 };
 
-#define F_CARAVAN      (1<<0)
-#define F_MISSILE      (1<<1)
-#define F_IGZOC        (1<<2)
-#define F_NONMIL       (1<<3)
-#define F_IGTER        (1<<4)
-#define F_CARRIER      (1<<5)
-#define F_ONEATTACK    (1<<6)
-#define F_PIKEMEN      (1<<7)
-#define F_HORSE        (1<<8)
-#define F_IGWALL       (1<<9)
-#define F_FIELDUNIT    (1<<10)
-#define F_AEGIS        (1<<11)
-#define F_FIGHTER      (1<<12)
-#define F_MARINES      (1<<13)
-#define F_SUBMARINE    (1<<14)
-#define F_SETTLERS     (1<<15)
-#define F_DIPLOMAT     (1<<16)
-#define F_TRIREME      (1<<17)     /* Trireme sinking effect */
-#define F_NUCLEAR      (1<<18)     /* Nuclear attack effect */
-#define F_SPY          (1<<19)     /* Enhanced spy abilities */
+/* Unit "special effects" flags:
+   Note this is now an enumerated type, and not power-of-two integers
+   for bits, though unit_type.flags is still a bitfield, and code
+   which uses unit_flag() without twiddling bits is unchanged.
+   (It is easier to go from i to (1<<i) than the reverse.)
+*/
+enum unit_flag_id { 
+  F_CARAVAN=0,
+  F_MISSILE,   
+  F_IGZOC,     
+  F_NONMIL,      
+  F_IGTER,       
+  F_CARRIER,     
+  F_ONEATTACK,   
+  F_PIKEMEN,     
+  F_HORSE,       
+  F_IGWALL,      
+  F_FIELDUNIT,   
+  F_AEGIS,       
+  F_FIGHTER,     
+  F_MARINES,     
+  F_SUBMARINE,   
+  F_SETTLERS,    
+  F_DIPLOMAT,    
+  F_TRIREME,          /* Trireme sinking effect */
+  F_NUCLEAR,          /* Nuclear attack effect */
+  F_SPY,              /* Enhanced spy abilities */
+  F_LAST
+};
+
+/* Unit "roles": these are similar to unit flags but differ in that
+   they don't represent intrinsic properties or abilities of units,
+   but determine which units are used (mainly by the server or AI)
+   in various circumstances, or "roles".
+   Note that in some cases flags can act as roles, eg, we don't need
+   a role for "settlers", because we can just use F_SETTLERS.
+   So we make sure flag values and role values are distinct,
+   so some functions can use them interchangably.
+*/
+#define L_FIRST 64		/* should be >= F_LAST */
+enum unit_role_id {
+  L_FIRSTBUILD=L_FIRST, /* is built first when city established */
+  L_EXPLORER,           /* initial explorer unit */
+  L_HUT,                /* can be found in hut */
+  L_HUT_TECH,           /* can be found in hut, global tech required */
+  L_PARTISAN,           /* is created in Partisan circumstances */
+  L_DEFEND_OK,          /* ok on defense (AI) */
+  L_DEFEND_GOOD,        /* primary purpose is defense (AI) */
+  L_ATTACK_FAST,        /* quick attacking unit (Horse..Armor) (unused)*/
+  L_ATTACK_STRONG,      /* powerful attacking unit (Catapult..) (unused) */
+  L_FERRYBOAT,	        /* is useful for ferrying (AI) */
+  L_LAST
+};
+
 struct unit_type {
   char name[MAX_LENGTH_NAME];
   int graphics;
@@ -164,7 +198,8 @@ struct unit_type {
   int firepower;
   int obsoleted_by;
   int fuel;
-  int flags;
+  unsigned int flags;
+  unsigned int roles;
 };
 
 
@@ -244,10 +279,16 @@ void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list);
 void transporter_min_cargo_to_unitlist(struct unit *ptran,
 				       struct unit_list *list);
 int unit_flag(enum unit_type_id id, int flag);
+int unit_has_role(enum unit_type_id id, int role);
 int can_upgrade_unittype(struct player *pplayer, enum unit_type_id id);
 int unit_upgrade_price(struct player *pplayer, enum unit_type_id from, enum unit_type_id to);
 
 int unit_type_exists(enum unit_type_id id);
 enum unit_type_id find_unit_type_by_name(char *s);
+
+void role_unit_precalcs(void);
+int num_role_units(int role);
+enum unit_type_id get_role_unit(int role, int index);
+enum unit_type_id best_role_unit(struct city *pcity, int role);
 
 #endif

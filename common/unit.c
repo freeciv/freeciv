@@ -11,7 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 #include <stdio.h>
+#include <stdlib.h>		/* malloc,free */
 #include <string.h>
+#include <assert.h>
 
 #include <game.h>
 #include <unit.h>
@@ -20,63 +22,10 @@
 #include <player.h>
 #include <log.h>
 
-/* cost ,flags, attack, defense, move, tech_req, vision, transport?, HP, FP, Obsolete, FUEL */
-
-struct unit_type unit_types[U_LAST]={
-  {"Settlers",      24, LAND_MOVING, 40,   0,  1,  1*3, A_NONE,        1,  0, 20, 1, U_ENGINEERS, 0, F_SETTLERS | F_NONMIL },
-  {"Engineers",     42, LAND_MOVING, 40,   0,  2,  2*3, A_EXPLOSIVES,  1,  0, 20, 1, -1, 0, F_SETTLERS | F_NONMIL },
-  {"Warriors",      18, LAND_MOVING, 10,   1,  1,  1*3, A_NONE,        1,  0, 10, 1, U_PIKEMEN, 0, 0},
-  {"Phalanx",       21, LAND_MOVING, 20,   1,  2,  1*3, A_BRONZE,      1,  0, 10, 1, U_PIKEMEN, 0, 0},
-  {"Archers",       28, LAND_MOVING, 30,   3,  2,  1*3, A_WARRIORCODE, 1,  0, 10, 1, U_MUSKETEERS, 0, 0},
-  {"Legion",        16, LAND_MOVING, 40,   4,  2,  1*3, A_IRON,        1,  0, 10, 1, U_MUSKETEERS, 0, 0},
-  {"Pikemen",       37, LAND_MOVING, 20,   1,  2,  1*3, A_FEUDALISM,   1,  0, 10, 1, U_MUSKETEERS, 0, F_PIKEMEN},
-  {"Musketeers",    19, LAND_MOVING, 30,   3,  3,  1*3, A_GUNPOWDER,   1,  0, 20, 1, U_RIFLEMEN, 0,0 },
-  {"Fanatics",      49, LAND_MOVING, 20,   4,  4,  1*3, A_LAST,        1,  0, 20, 1, -1, 0,0},
-  {"Partisan",      36, LAND_MOVING, 50,   4,  4,  1*3, A_GUERILLA,    1,  0, 20, 1, -1, 0,F_IGTER | F_IGZOC},
-  {"Alpine Troops", 45, LAND_MOVING, 50,   5,  5,  1*3, A_TACTICS,     1,  0, 20, 1, -1, 0,F_IGTER},  
-  {"Riflemen",      22, LAND_MOVING, 40,   5,  4,  1*3, A_CONSCRIPTION,1,  0, 20, 1, -1, 0,0},
-  {"Marines",       40, LAND_MOVING, 60,   8,  5,  1*3, A_AMPHIBIOUS,  1,  0, 20, 1, -1, 0,F_MARINES},
-  {"Paratroopers",   0, LAND_MOVING, 60,   6,  4,  1*3, A_COMBINED,    1,  0, 20, 1, -1, 0,0},
-  {"Mech. Inf.",    17, LAND_MOVING, 50,   6,  6,  3*3, A_LABOR,       1,  0, 30, 1, -1, 0,0},
-  {"Horsemen",       8, LAND_MOVING, 20,   2,  1,  2*3, A_HORSEBACK,   1,  0, 10, 1, U_KNIGHTS, 0,F_HORSE},
-  {"Chariot",        9, LAND_MOVING, 30,   3,  1,  2*3, A_WHEEL,       1,  0, 10, 1, U_KNIGHTS, 0,F_HORSE},
-  {"Elephants",     39, LAND_MOVING, 40,   4,  1,  2*3, A_POLYTHEISM,  1,  0, 10, 1, U_CRUSADERS, 0,0}, 
-  {"Crusaders",     38, LAND_MOVING, 40,   5,  1,  2*3, A_MONOTHEISM,  1,  0, 10, 1, U_DRAGOONS, 0,F_HORSE},   
-  {"Knights",       15, LAND_MOVING, 40,   4,  2,  2*3, A_CHIVALRY,    1,  0, 10, 1, U_DRAGOONS, 0,F_HORSE},
-  {"Dragoons",      32, LAND_MOVING, 50,   5,  2,  2*3, A_LEADERSHIP,  1,  0, 20, 1, U_CAVALRY, 0,F_HORSE},
-  {"Cavalry",       29, LAND_MOVING, 60,   8,  3,  2*3, A_TACTICS,     1,  0, 20, 1, U_ARMOR, 0,0},           /* IS NOT a normal horse attack */
-  {"Armor",          0, LAND_MOVING, 80,  10,  5,  3*3, A_MOBILE,      1,  0, 30, 1, -1, 0,0},
-  {"Catapult",       7, LAND_MOVING, 40,   6,  1,  1*3, A_MATHEMATICS, 1,  0, 10, 1, U_CANNON, 0,0},
-  {"Cannon",         4, LAND_MOVING, 40,   8,  1,  1*3, A_METALLURGY,  1,  0, 20, 1, U_ARTILLERY, 0,0},
-  {"Artillery",     43, LAND_MOVING, 50,  10,  1,  1*3, A_MACHINE,     1,  0, 20, 2, U_HOWITZER, 0,0},
-  {"Howitzer",       1, LAND_MOVING, 70,  12,  2,  2*3, A_ROBOTICS,    1,  0, 30, 2, -1, 0,F_IGWALL},
-  {"Fighter",       12, AIR_MOVING,  60,   4,  3, 10*3, A_FLIGHT,      2,  0, 20, 2, U_SFIGHTER, 1,F_FIGHTER  | F_FIELDUNIT},
-  {"Bomber",         3, AIR_MOVING, 120,  12,  1,  8*3, A_ADVANCED,    2,  0, 20, 2, U_SBOMBER, 2,F_FIELDUNIT|F_ONEATTACK},
-  {"Helicopter",    44, HELI_MOVING,100,  10,  3,  6*3, A_COMBINED,    2,  0, 20, 2, -1, 0,F_ONEATTACK |F_FIELDUNIT},
-  {"Stealth Fighter",47,AIR_MOVING,  80,   8,  4, 14*3, A_STEALTH,     2,  0, 20, 2, -1, 1,F_FIELDUNIT| F_FIGHTER},
-  {"Stealth Bomber",46, AIR_MOVING, 160,  14,  5, 12*3, A_STEALTH,     2,  0, 20, 2, -1, 2,F_FIELDUNIT|F_ONEATTACK},
-  {"Trireme",       27, SEA_MOVING,  40,   1,  1,  3*3, A_MAPMAKING,   1,  2, 10, 1, U_CARAVEL, 0,F_FIELDUNIT | F_TRIREME},
-  {"Caravel",       23, SEA_MOVING,  40,   2,  1,  3*3, A_NAVIGATION,  1,  3, 10, 1, U_GALLEON, 0,0},
-  {"Galleon",       35, SEA_MOVING,  40,   0,  2,  4*3, A_MAGNETISM,   1,  4, 20, 1, U_TRANSPORT, 0,0},
-  {"Frigate",       13, SEA_MOVING,  50,   4,  2,  4*3, A_MAGNETISM,   1,  2, 20, 1, U_IRONCLAD, 0,F_FIELDUNIT},
-  {"Ironclad",      14, SEA_MOVING,  60,   4,  4,  4*3, A_STEAM,       1,  0, 30, 1, U_DESTROYER, 0,F_FIELDUNIT},
-  {"Destroyer",     31, SEA_MOVING,  60,   4,  4,  6*3, A_ELECTRICITY, 2,  0, 30, 1, -1, 0,F_FIELDUNIT},
-  {"Cruiser",       10, SEA_MOVING,  80,   6,  6,  5*3, A_STEEL,       2,  0, 30, 2, U_AEGIS, 0,F_FIELDUNIT},
-  {"AEGIS Cruiser", 48, SEA_MOVING, 100,   8,  8,  5*3, A_ROCKETRY,    2,  0, 30, 2, -1, 0,F_AEGIS | F_FIELDUNIT},
-  {"Battleship",     2, SEA_MOVING, 160,  12, 12,  4*3, A_AUTOMOBILE,  2,  0, 40, 2, -1, 0,F_FIELDUNIT},
-  {"Submarine",     25, SEA_MOVING,  60,  10,  2,  3*3, A_COMBUSTION,  2,  8, 30, 2, -1, 0,F_FIELDUNIT|F_SUBMARINE},
-  {"Carrier",        6, SEA_MOVING, 160,   1,  9,  5*3, A_ADVANCED,    2,  8, 40, 2, -1, 0,F_FIELDUNIT|F_CARRIER},
-  {"Transport",     26, SEA_MOVING,  50,   0,  3,  5*3, A_INDUSTRIALIZATION,2, 8, 30, 1, -1, 0,0},
-  {"Cruise Missile",30, AIR_MOVING,  60,  18,  0, 12*3, A_ROCKETRY,    1,  0, 10, 3, -1, 1,F_FIELDUNIT | F_MISSILE | F_ONEATTACK},
-  {"Nuclear",       20, AIR_MOVING, 160,  99,  0, 16*3, A_ROCKETRY,    1,  0, 10, 1, -1, 1,F_FIELDUNIT | F_ONEATTACK | F_MISSILE | F_NUCLEAR},
-  {"Diplomat",      11, LAND_MOVING, 30,   0,  0,  2*3, A_WRITING,     1,  0, 10, 1, U_SPY, 0,F_DIPLOMAT | F_IGZOC | F_NONMIL},
-  {"Spy",           41, LAND_MOVING, 30,   0,  0,  3*3, A_ESPIONAGE,   2,  0, 10, 1, -1, 0,F_DIPLOMAT | F_SPY | F_IGZOC | F_NONMIL},
-  {"Caravan",        5, LAND_MOVING, 50,   0,  1,  1*3, A_TRADE,       1,  0, 10, 1, U_FREIGHT, 0,F_CARAVAN | F_IGZOC | F_NONMIL},
-  {"Freight",       34, LAND_MOVING, 50,   0,  1,  2*3, A_CORPORATION, 1,  0, 10, 1, -1, 0,F_CARAVAN | F_IGZOC | F_NONMIL},
-  {"Explorer",      33, LAND_MOVING, 30,   0,  1,  1*3, A_SEAFARING,   1,  0, 10, 1, U_PARTISAN, 0,F_NONMIL | F_IGTER | F_IGZOC}
-
-};
-
+struct unit_type unit_types[U_LAST];
+/* the unit_types array is now setup in:
+   server/ruleset.c (for the server)
+   client/packhand.c (for the client) */
 
 /***************************************************************
 ...
@@ -545,15 +494,27 @@ int is_field_unit(struct unit *punit)
 
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 int unit_flag(enum unit_type_id id, int flag)
 {
-  return unit_types[id].flags & flag;
+  assert(flag>=0 && flag<F_LAST);
+  return unit_types[id].flags & (1<<flag);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
+int unit_has_role(enum unit_type_id id, int role)
+{
+  assert(role>=L_FIRST && role<L_LAST);
+  return unit_types[id].roles & (1<<(role-L_FIRST));
+}
 
+/**************************************************************************
+...
+**************************************************************************/
 int unit_value(enum unit_type_id id)
 {
   return (unit_types[id].build_cost);
@@ -970,6 +931,112 @@ enum unit_type_id find_unit_type_by_name(char *s)
   for( i=0; i<U_LAST; i++ ) {
     if (strcmp(unit_types[i].name, s)==0)
       return i;
+  }
+  return U_LAST;
+}
+
+
+/**************************************************************************
+The following functions use static variables so we can quickly look up
+which unit types have given flag or role.
+For these functions flags and roles are considered to be in the same "space",
+and any "role" argument can also be a "flag".
+Only units which pass unit_type_exists are counted.
+Unit order is in terms of the order in enum unit_type_id.
+**************************************************************************/
+static int first_init = 1;
+static int n_with_role[L_LAST];
+static enum unit_type_id *with_role[L_LAST];
+
+/**************************************************************************
+Do the real work for role_unit_precalcs, for one role (or flag), given by i.
+**************************************************************************/
+static void precalc_one(int i, int (*func_has)(enum unit_type_id, int))
+{
+  enum unit_type_id u;
+  int j;
+
+  /* Count: */
+  for(u=0; u<U_LAST; u++) {
+    if(unit_type_exists(u) && func_has(u, i)) {
+      n_with_role[i]++;
+    }
+  }
+  if(n_with_role[i] > 0) {
+    with_role[i] = malloc(n_with_role[i]*sizeof(enum unit_type_id));
+    for(j=0, u=0; u<U_LAST; u++) {
+      if(unit_type_exists(u) && func_has(u, i)) {
+	with_role[i][j++] = u;
+      }
+    }
+    assert(j==n_with_role[i]);
+  }
+}
+
+/**************************************************************************
+Initialize; it is safe to call this multiple times (eg, if units have
+changed due to rulesets in client).
+**************************************************************************/
+void role_unit_precalcs(void)
+{
+  int i;
+  
+  if(!first_init) {
+    for(i=0; i<L_LAST; i++) {
+      free(with_role[i]);
+    }
+  }
+  for(i=0; i<L_LAST; i++) {
+    with_role[i] = NULL;
+    n_with_role[i] = 0;
+  }
+
+  for(i=0; i<F_LAST; i++) {
+    precalc_one(i, unit_flag);
+  }
+  for(i=L_FIRST; i<L_LAST; i++) {
+    precalc_one(i, unit_has_role);
+  }
+  first_init = 0;
+}
+
+/**************************************************************************
+How many unit types have specified role/flag.
+**************************************************************************/
+int num_role_units(int role)
+{
+  assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
+  return n_with_role[role];
+}
+
+/**************************************************************************
+Return index-th unit with specified role/flag.
+Index -1 means (n-1), ie last one.
+**************************************************************************/
+enum unit_type_id get_role_unit(int role, int index)
+{
+  assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
+  if (index==-1) index = n_with_role[role]-1;
+  assert(index>=0 && index<n_with_role[role]);
+  return with_role[role][index];
+}
+
+/**************************************************************************
+Return "best" unit this city can build, with given role/flag.
+Returns U_LAST if none match.
+**************************************************************************/
+enum unit_type_id best_role_unit(struct city *pcity, int role)
+{
+  enum unit_type_id u;
+  int j;
+  
+  assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
+
+  for(j=n_with_role[role]-1; j>=0; j--) {
+    u = with_role[role][j];
+    if (can_build_unit(pcity, u)) {
+      return u;
+    }
   }
   return U_LAST;
 }

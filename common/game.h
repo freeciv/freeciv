@@ -126,7 +126,6 @@ int research_time(struct player *pplayer);
 int total_player_citizens(struct player *pplayer);
 int civ_score(struct player *pplayer);
 void initialize_globals();
-void set_civ_style(int style);
 
 struct player *get_player(int player_id);
 

@@ -58,88 +58,6 @@ int research_time(struct player *pplayer)
   return timemod*pplayer->research.researchpoints*game.techlevel;
 }
 
-void set_tech_req(int tech, int req1, int req2)
-{
-  advances[tech].req[0]=req1;
-  advances[tech].req[1]=req2;
-}
-
-void set_unit_req(int unit, int req, int obs_by)
-{
-  unit_types[unit].tech_requirement = req;
-  unit_types[unit].obsoleted_by = obs_by;
-}
-
-void set_building_req(int building, int req, int obs_by)
-{
-  improvement_types[building].tech_requirement = req;
-  improvement_types[building].obsolete_by = obs_by;
-}
-
-void remove_tech(int tech)
-{
-  set_tech_req(tech, A_LAST, A_LAST);
-}
-
-void remove_unit(int unit)
-{
-  set_unit_req(unit, A_LAST, -1);
-}
-
-void remove_building(int building)
-{
-  set_building_req(building, A_LAST, A_NONE);
-}
-
-void set_civ2_style(void)
-{
-  remove_tech(A_FUNDAMENTALISM);
-
-  remove_unit(U_FANATICS); 
-
-  remove_tech(A_ENVIRONMENTALISM); /* add it and solar plant will be in */
-  remove_building(B_SOLAR);	/* better to do this too --dwp */
-
-  remove_unit(U_CRUSADERS);       /* i don't see the point in combat units */
-  remove_unit(U_ELEPHANT);        /* in the peaceful part of the tech tree */
-  remove_unit(U_PARATROOPERS);
-}
-
-void set_civ1_style(void)
-{
-  set_civ2_style();
-  return; /* this return should be removed when the stuff below is correct */
-#if 0				/* avoid line-not-reached warnings */
-  remove_tech(A_SEAFARING);
-  remove_tech(A_GUERILLA);
-  remove_tech(A_ENVIRONMENTALISM);
-  remove_tech(A_AMPHIBIOUS);
-  remove_tech(A_TACTICS);
-  /* etc */
-  set_tech_req(A_NAVIGATION, A_MAPMAKING, A_ASTRONOMY);
-  /* etc */
-  remove_unit(U_ARCHERS);
-  /* etc */
-  set_unit_req(U_KNIGHTS, A_CHIVALRY, A_AUTOMOBILE);
-  /* etc */
-  remove_building(B_OFFSHORE);
-  /* etc */
-  set_building_req(B_MICHELANGELO, A_THEOLOGY, A_COMMUNISM);
-  /* etc */
-#endif
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void set_civ_style(int style)
-{
-  if (style == 1) 
-    set_civ1_style();
-  else if (style == 2)
-    set_civ2_style();
-}
-
 int total_player_citizens(struct player *pplayer)
 {
   return (pplayer->score.happy
@@ -371,16 +289,10 @@ void game_init(void)
   game.save_nturns=10;
   game.randseed=GAME_DEFAULT_RANDSEED;
 
-  /* these will later have defaults, be adjustable, etc, via rulesets: */
-  game.aqueduct_size = 8;
-  game.sewer_size = 12;
+  strcpy(game.ruleset.techs, GAME_DEFAULT_RULESET);
+  strcpy(game.ruleset.units, GAME_DEFAULT_RULESET);
+  strcpy(game.ruleset.buildings, GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
-  game.rtech.get_bonus_tech  = A_PHILOSOPHY;
-  game.rtech.boat_fast       = A_POWER;
-  game.rtech.cathedral_plus  = A_THEOLOGY;
-  game.rtech.cathedral_minus = A_COMMUNISM;
-  game.rtech.colosseum_plus  = A_ELECTRICITY;
-  game.rtech.nav             = A_NAVIGATION;
   
   map_init();
   

@@ -22,83 +22,13 @@
 static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 
 /****************************************************************
-all the city improvements
-use get_improvement_type(id) to access the array
-variant=0 for all improvements, until rulesets.
+All the city improvements:
+Use get_improvement_type(id) to access the array.
+The improvement_types array is now setup in:
+   server/ruleset.c (for the server)
+   client/packhand.c (for the client)
 *****************************************************************/
-struct improvement_type improvement_types[B_LAST]={
-  /* Buildings */
-  {"Airport", 0, A_RADIO, 160, 3, A_NONE},
-  {"Aqueduct", 0, A_CONSTRUCTION, 80, 2, A_NONE},
-  {"Bank", 0, A_BANKING, 120, 3, A_NONE}, 
-  {"Barracks",0, A_NONE,  40, 1, A_GUNPOWDER},
-  {"Barracks II",0, A_GUNPOWDER,  40, 1, A_COMBUSTION},
-  {"Barracks III",0, A_COMBUSTION,  40, 1, A_NONE},
-  {"Cathedral",0, A_MONOTHEISM, 120, 3, A_NONE},
-  {"City Walls",0, A_MASONRY, 80, 0, A_NONE},
-  {"Coastal Defense",0, A_METALLURGY, 80, 1, A_NONE},
-  {"Colosseum",0, A_CONSTRUCTION, 100, 4, A_NONE},
-  {"Courthouse", 0, A_CODE, 80, 1, A_NONE},
-  {"Factory", 0, A_INDUSTRIALIZATION, 200, 4, A_NONE},
-  {"Granary", 0, A_POTTERY, 60, 1, A_NONE},
-  {"Harbour", 0, A_SEAFARING, 60, 1, A_NONE},
-  {"Hydro Plant", 0, A_ELECTRONICS, 240, 4, A_NONE},
-  {"Library", 0, A_WRITING, 80, 1, A_NONE},
-  {"Marketplace", 0, A_CURRENCY, 80, 1, A_NONE},
-  {"Mass Transit", 0, A_MASS, 160, 4, A_NONE},
-  {"Mfg. Plant", 0, A_ROBOTICS, 320, 6, A_NONE},
-  {"Nuclear Plant", 0, A_POWER, 160, 2, A_NONE},
-  {"Offshore Platform", 0, A_MINIATURIZATION, 160, 3, A_NONE}, 
-  {"Palace", 0, A_MASONRY, 100, 0, A_NONE},
-  {"Police Station", 0, A_COMMUNISM, 60, 2, A_NONE},
-  {"Port Facility", 0, A_AMPHIBIOUS, 80, 3, A_NONE},   
-  {"Power Plant",0, A_REFINING, 160, 4, A_NONE},
-  {"Recycling Center", 0, A_RECYCLING, 200, 2, A_NONE},
-  {"Research Lab", 0, A_COMPUTERS, 160, 3, A_NONE},
-  {"SAM Battery", 0, A_ROCKETRY, 100, 2, A_NONE},
-  {"SDI Defense", 0, A_LASER, 200, 4, A_NONE}, 
-  {"Sewer System", 0, A_SANITATION, 120, 2, A_NONE},  
-  {"Solar Plant", 0, A_ENVIRONMENTALISM, 320, 4, A_NONE},/*can't be build yet*/
-  {"Space Component", 0, A_PLASTICS, 160, 0, A_NONE},    /*can't be build yet*/
-  {"Space Module", 0, A_SUPERCONDUCTOR, 320, 0, A_NONE}, /*can't be build yet*/
-  {"Space Structural", 0, A_SPACEFLIGHT, 80, 0, A_NONE}, /*can't be build yet*/
-  {"Stock Exchange", 0, A_ECONOMICS, 160, 4, A_NONE},
-  {"Super Highways", 0, A_AUTOMOBILE, 160, 3, A_NONE},
-  {"Supermarket", 0, A_REFRIGERATION, 120, 3, A_NONE}, 
-  {"Temple", 0, A_CEREMONIAL, 40, 1, A_NONE},
-  {"University", 0, A_UNIVERSITY, 160, 3, A_NONE},
-  /* Wonders */
-  {"Apollo Program", 1, A_SPACEFLIGHT, 600, 0, A_NONE},
-  {"A.Smith's Trading Co.", 1, A_ECONOMICS, 400, 0, A_NONE},
-  {"Colossus", 1, A_BRONZE, 200, 0, A_FLIGHT}, 
-  {"Copernicus' Observatory", 1, A_ASTRONOMY, 300, 0, A_NONE},
-  {"Cure For Cancer", 1, A_GENETIC, 600, 0, A_NONE},
-  {"Darwin's Voyage", 1, A_RAILROAD, 300, 0, A_NONE},
-  {"Eiffel Tower", 1, A_LAST, 300, 0, A_NONE},
-  {"Great Library", 1, A_LITERACY, 300, 0, A_ELECTRICITY},
-  {"Great Wall", 1, A_MASONRY, 300, 0, A_METALLURGY},
-  {"Hanging Gardens", 1, A_POTTERY, 200, 0, A_RAILROAD},
-  {"Hoover Dam", 1, A_ELECTRONICS, 600, 0, A_NONE},
-  {"Isaac Newton's College", 1, A_THEORY, 400, 0, A_NONE},
-  {"J.S. Bach's Cathedral", 1, A_THEOLOGY, 400, 0, A_NONE},
-  {"King Richard's Crusade", 1, A_ENGINEERING, 300, 0,  A_INDUSTRIALIZATION},
-  {"Leonardo's Workshop", 1, A_INVENTION, 400, 0, A_AUTOMOBILE}, 
-  {"Lighthouse", 1, A_MAPMAKING, 200, 0, A_MAGNETISM},
-  {"Magellan's Expedition", 1, A_NAVIGATION, 400, 0, A_NONE},
-  {"Manhattan Project", 1, A_FISSION, 600, 0, A_NONE},
-  {"Marco Polo's Embassy", 1, A_LAST, 200, 0, A_COMMUNISM},
-  {"Michelangelo's Chapel", 1, A_MONOTHEISM, 400, 0, A_NONE},
-  {"Oracle", 1, A_MYSTICISM, 300, 0, A_THEOLOGY},
-  {"Pyramids",1, A_MASONRY, 200, 0, A_NONE},
-  {"SETI Program", 1, A_COMPUTERS, 600, 0, A_NONE},
-  {"Shakespeare's Theatre", 1, A_MEDICINE, 300,0, A_NONE},
-  {"Statue of Liberty", 1, A_DEMOCRACY, 400, 0, A_NONE},
-  {"Sun Tzu's War Academy", 1, A_FEUDALISM, 300, 0, A_MOBILE},
-  {"United Nations", 1, A_COMMUNISM, 600, 0, A_NONE},
-  {"Women's Suffrage", 1, A_INDUSTRIALIZATION, 600, 0, A_NONE},
-  /* special */
-  {"Capitalization", 0, A_CORPORATION, 999, 0, A_NONE}
-};
+struct improvement_type improvement_types[B_LAST];
 
 
 char *default_roman_city_names[] = {
