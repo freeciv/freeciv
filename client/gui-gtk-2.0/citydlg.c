@@ -165,7 +165,6 @@ struct city_dialog {
 
 static GdkBitmap *icon_bitmap;
 static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
-static int notebook_tab_accels[NUM_PAGES - 1];	/* so localization works */
 
 static struct dialog_list dialog_list;
 static bool city_dialogs_have_been_initialised;
@@ -187,7 +186,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog);
 static void create_and_append_happiness_page(struct city_dialog *pdialog);
 static void create_and_append_cma_page(struct city_dialog *pdialog);
 static void create_and_append_trade_page(struct city_dialog *pdialog);
-static void create_and_append_misc_page(struct city_dialog *pdialog);
+static void create_and_append_settings_page(struct city_dialog *pdialog);
 
 static struct city_dialog *create_city_dialog(struct city *pcity,
 					      bool make_modal);
@@ -237,11 +236,6 @@ static void citizens_callback(GtkWidget * w, GdkEventButton * ev,
 			      gpointer data);
 static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev);
 static void draw_map_canvas(struct city_dialog *pdialog);
-
-static void change_callback(GtkWidget * w, gpointer data);
-static void change_command_callback(GtkWidget *w, gint rid, gpointer data);
-static void change_list_callback(GtkTreeView *view, GtkTreePath *path,
-				 GtkTreeViewColumn *col, gpointer data);
 
 static void buy_callback(GtkWidget * w, gpointer data);
 
@@ -463,32 +457,22 @@ void popdown_all_city_dialogs(void)
 static gint keyboard_handler(GtkWidget * widget, GdkEventKey * event,
 			     struct city_dialog *pdialog)
 {
-  int page;
-
-  for (page = 0; page < NUM_PAGES - 1; page++) {
-    if ((event->keyval == notebook_tab_accels[page]) &&
-	(!meta_accelerators || (event->state & GDK_MOD1_MASK))) {
-      gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook), page);
+  if (event->state & GDK_CONTROL_MASK) {
+    switch (event->keyval) {
+    case GDK_Left:
+      gtk_notebook_prev_page(GTK_NOTEBOOK(pdialog->notebook));
       return TRUE;
+      
+    case GDK_Right:
+      gtk_notebook_next_page(GTK_NOTEBOOK(pdialog->notebook));
+      return TRUE;
+
+    default:
+      break;
     }
   }
 
-  page = gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
-
-  switch (event->keyval) {
-  case GDK_Left:
-    gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook),
-			  (page = (page > 0) ? page - 1 : NUM_PAGES - 2));
-    break;
-  case GDK_Right:
-    gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook),
-			  (page = (page < NUM_PAGES - 2) ? page + 1 : 0));
-    break;
-  default:
-    return FALSE;
-  }
-
-  return TRUE;
+  return FALSE;
 }
 
 /****************************************************************
@@ -562,8 +546,6 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_container_set_border_width(GTK_CONTAINER(page), 2);
 
   label = gtk_label_new(tab_title);
-  notebook_tab_accels[OVERVIEW_PAGE] =
-      gtk_label_parse_uline(GTK_LABEL(label), tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -715,6 +697,42 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_show_all(page);
 }
 
+
+/****************************************************************
+...
+*****************************************************************/
+static void
+target_drag_data_received(GtkWidget *w, GdkDragContext *context,
+			  gint x, gint y, GtkSelectionData *data,
+			  guint info, guint time, gpointer user_data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *) user_data;
+  GtkTreeModel *model;
+  GtkTreePath *path;
+
+  if (gtk_tree_get_row_drag_data(data, &model, &path)) {
+    GtkTreeIter it;
+
+    if (gtk_tree_model_get_iter(model, &it, path)) {
+      cid cid;
+      struct packet_city_request packet;
+
+      gtk_tree_model_get(model, &it, 0, &cid, -1);
+
+      packet.city_id = pdialog->pcity->id;
+      packet.build_id = cid_id(cid);
+      packet.is_build_id_unit_id = cid_is_unit(cid);
+
+      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
+
+      gtk_drag_finish(context, TRUE, FALSE, time);
+    }
+    gtk_tree_path_free(path);
+  }
+
+  gtk_drag_finish(context, FALSE, FALSE, time);
+}
+
 /****************************************************************
                     **** Production Page **** 
 *****************************************************************/
@@ -722,10 +740,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
   char *tab_title = _("Production");
   GtkWidget *label = gtk_label_new(tab_title);
-  GtkWidget *page, *hbox, *editor;
-
-  notebook_tab_accels[WORKLIST_PAGE] =
-      gtk_label_parse_uline(GTK_LABEL(label), tab_title);
+  GtkWidget *page, *hbox, *editor, *bar;
 
   page = gtk_vbox_new(FALSE, 6);
 
@@ -741,11 +756,14 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER
 		    (pdialog->overview.currently_building_frame), hbox);
 
-  pdialog->overview.progress_label = gtk_progress_bar_new();
-  gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.progress_label,
-		     TRUE, TRUE, 0);
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(pdialog->overview.progress_label),
-	_("%d/%d %d turns"));
+  bar = gtk_progress_bar_new();
+  pdialog->overview.progress_label = bar;
+  gtk_box_pack_start(GTK_BOX(hbox), bar, TRUE, TRUE, 0);
+  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
+
+  add_worklist_dnd_target(bar);
+  g_signal_connect(bar, "drag_data_received",
+		   G_CALLBACK(target_drag_data_received), pdialog);
 
   pdialog->overview.buy_command = gtk_button_new_with_mnemonic(_("_Buy"));
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.buy_command,
@@ -755,11 +773,8 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->overview.change_command,
 		     FALSE, FALSE, 0);
 
-  gtk_signal_connect(GTK_OBJECT(pdialog->overview.buy_command), "clicked",
-		     GTK_SIGNAL_FUNC(buy_callback), pdialog);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->overview.change_command),
-		     "clicked", GTK_SIGNAL_FUNC(change_callback), pdialog);
+  g_signal_connect(pdialog->overview.buy_command, "clicked",
+		   G_CALLBACK(buy_callback), pdialog);
 
 
   editor = create_worklist(&pdialog->pcity->worklist, pdialog->pcity);
@@ -781,8 +796,6 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   page = gtk_hbox_new(FALSE, 6);
 
   label = gtk_label_new(tab_title);
-  notebook_tab_accels[HAPPINESS_PAGE] =
-      gtk_label_parse_uline(GTK_LABEL(label), tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -833,8 +846,6 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
   page = gtk_vbox_new(FALSE, 0);
 
   label = gtk_label_new(tab_title);
-  notebook_tab_accels[CMA_PAGE] =
-      gtk_label_parse_uline(GTK_LABEL(label), tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -855,13 +866,10 @@ static void create_and_append_trade_page(struct city_dialog *pdialog)
   page = gtk_hbox_new(TRUE, 0);
 
   label = gtk_label_new(tab_title);
-  notebook_tab_accels[TRADE_PAGE] =
-      gtk_label_parse_uline(GTK_LABEL(label), tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   pdialog->overview.tradelist = gtk_label_new("Uninitialized.");
-  gtk_widget_set_name(pdialog->overview.tradelist, "city label");
   gtk_label_set_justify(GTK_LABEL(pdialog->overview.tradelist),
 			GTK_JUSTIFY_LEFT);
   gtk_container_add(GTK_CONTAINER(page), pdialog->overview.tradelist);
@@ -872,14 +880,14 @@ static void create_and_append_trade_page(struct city_dialog *pdialog)
 /****************************************************************
                     **** Misc. Settings Page **** 
 *****************************************************************/
-static void create_and_append_misc_page(struct city_dialog *pdialog)
+static void create_and_append_settings_page(struct city_dialog *pdialog)
 {
   int i;
-  int per_row = 2;
-  GtkWidget *hbox, *vbox, *page, *table, *frame, *label;
-  GSList *group = NULL;
+  GtkWidget *vbox, *vbox2, *page, *frame, *label, *button;
+  GtkSizeGroup *size;
+  GSList *group;
 
-  char *tab_title = _("Misc. Settings");
+  char *tab_title = _("Settings");
 
   static char *new_citizens_label[] = {
     N_("Entertainers"),
@@ -901,7 +909,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
     N_("Happiness page"),
     N_("CMA page"),
     N_("Trade Routes page"),
-    N_("This Misc. Settings page"),
+    N_("This Settings page"),
     N_("Last active page")
   };
 
@@ -912,125 +920,106 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   /* initialize signal_blocker */
   pdialog->misc.block_signal = 0;
 
-  page = gtk_hbox_new(TRUE, 0);
 
+  page = gtk_table_new(2, 2, FALSE);
+  gtk_table_set_col_spacings(GTK_TABLE(page), 18);
+  gtk_container_set_border_width(GTK_CONTAINER(page), 12);
+  
+  size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+  
   label = gtk_label_new(tab_title);
-  notebook_tab_accels[MISC_PAGE] =
-      gtk_label_parse_uline(GTK_LABEL(label), tab_title);
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  frame = gtk_frame_new(_("City options"));
-  gtk_box_pack_start(GTK_BOX(page), frame, FALSE, TRUE, 0);
+  vbox = gtk_vbox_new(FALSE, 12);
+  gtk_table_attach(GTK_TABLE(page), vbox, 0, 1, 0, 1,
+		   GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 0);
+  gtk_size_group_add_widget(size, vbox);
 
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(frame), vbox);
-
-  hbox = gtk_hbox_new(TRUE, 0);	/* new citizens and rename */
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
-
-  frame = gtk_frame_new(_("Auto attack vs"));
+  /* new_citizens radio */
+  frame = gtk_frame_new(_("New citizens are"));
   gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
 
+  vbox2 = gtk_vbox_new(TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(frame), vbox2);
+
+  intl_slist(ARRAY_SIZE(new_citizens_label), new_citizens_label,
+             &new_citizens_label_done);
+
+  group = NULL;
+  for (i = 0; i < ARRAY_SIZE(new_citizens_label); i++) {
+    button = gtk_radio_button_new_with_mnemonic(group, new_citizens_label[i]);
+    pdialog->misc.new_citizens_radio[i] = button;
+    gtk_container_add(GTK_CONTAINER(vbox2), button);
+    g_signal_connect(button, "toggled",
+		     G_CALLBACK(cityopt_callback), pdialog);
+    group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(button));
+  }
+  
   /* auto-attack table */
+  frame = gtk_frame_new(_("Auto attack vs"));
+  gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
 
   intl_slist(ARRAY_SIZE(city_opts_label), city_opts_label,
              &city_opts_label_done);
 
-  table = gtk_table_new(2, 2, FALSE);
-  gtk_container_add(GTK_CONTAINER(frame), table);
+  vbox2 = gtk_vbox_new(TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
-  for(i = 0; i < NUM_CITY_OPTS - 1; i++){
-    pdialog->misc.city_opts[i] = 
-                      gtk_check_button_new_with_label(city_opts_label[i]);
-    gtk_table_attach(GTK_TABLE(table), pdialog->misc.city_opts[i],
-		     i%per_row, i%per_row+1, i/per_row, i/per_row+1,
-                     GTK_FILL, 0, 0, 0);
-
-    gtk_signal_connect(GTK_OBJECT(pdialog->misc.city_opts[i]), "toggled",
-                       GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
-
+  for (i = 0; i < ARRAY_SIZE(city_opts_label) - 1; i++) {
+    button = gtk_check_button_new_with_mnemonic(city_opts_label[i]);
+    pdialog->misc.city_opts[i] = button;
+    gtk_container_add(GTK_CONTAINER(vbox2), button);
+    g_signal_connect(button, "toggled",
+		     G_CALLBACK(cityopt_callback), pdialog);
   }
 
-  /* the disband-if-size-1 button */
-
-  pdialog->misc.city_opts[NUM_CITY_OPTS - 1] =
-      gtk_check_button_new_with_label(city_opts_label[NUM_CITY_OPTS - 1]);
-  gtk_box_pack_start(GTK_BOX(vbox), pdialog->misc.city_opts[NUM_CITY_OPTS - 1], 
-                     FALSE, FALSE, 0);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->misc.city_opts[NUM_CITY_OPTS - 1]), 
-                     "toggled", GTK_SIGNAL_FUNC(cityopt_callback), pdialog);
-
-  frame = gtk_hseparator_new();
-  gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 4);
-
-  /* now we go back and fill the hbox with new_citizens radio and rename */
-
-  frame = gtk_frame_new(_("New citizens are"));
-  gtk_box_pack_start(GTK_BOX(hbox), frame, FALSE, TRUE, 0);
-
-  vbox = gtk_vbox_new(FALSE, 0);	/* new_citizens radio box */
-  gtk_container_add(GTK_CONTAINER(frame), vbox);
-
-  intl_slist(ARRAY_SIZE(new_citizens_label), new_citizens_label,
-             &new_citizens_label_done);
-  for (i = 0; i < 3; i++) {
-    pdialog->misc.new_citizens_radio[i] =
-	gtk_radio_button_new_with_label(group, new_citizens_label[i]);
-    group =
-	gtk_radio_button_group(GTK_RADIO_BUTTON
-			       (pdialog->misc.new_citizens_radio[i]));
-    gtk_box_pack_start(GTK_BOX(vbox), pdialog->misc.new_citizens_radio[i],
-		       FALSE, FALSE, 0);
-    gtk_signal_connect(GTK_OBJECT(pdialog->misc.new_citizens_radio[i]),
-		       "toggled", GTK_SIGNAL_FUNC(cityopt_callback),
-		       pdialog);
-  }
-
-  frame = gtk_frame_new(_("City name"));
-  gtk_box_pack_start(GTK_BOX(hbox), frame, FALSE, TRUE, 0);
-
-  vbox = gtk_vbox_new(FALSE, 0);	/* rename button box */
-  gtk_container_add(GTK_CONTAINER(frame), vbox);
-
-  pdialog->misc.rename_command = gtk_button_new_with_label(_("Rename"));
-  gtk_box_pack_start(GTK_BOX(vbox), pdialog->misc.rename_command, FALSE,
-		     TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(pdialog->misc.rename_command, GTK_CAN_DEFAULT);
-
-  gtk_signal_connect(GTK_OBJECT(pdialog->misc.rename_command), "clicked",
-		     GTK_SIGNAL_FUNC(rename_callback), pdialog);
-
-  gtk_widget_set_sensitive(pdialog->misc.rename_command,
-			   can_client_issue_orders());
   /* next is the next-time-open radio group in the right column */
-
   frame = gtk_frame_new(_("Next time open"));
-  gtk_box_pack_start(GTK_BOX(page), frame, FALSE, TRUE, 0);
+  gtk_table_attach(GTK_TABLE(page), frame, 1, 2, 0, 1,
+		   GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 0);
+  gtk_size_group_add_widget(size, frame);
 
-  vbox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(frame), vbox);
-
-  group = NULL;			/* reinitialize group for next radio set */
+  vbox2 = gtk_vbox_new(TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(frame), vbox2);
 
   intl_slist(ARRAY_SIZE(misc_whichtab_label), misc_whichtab_label,
              &misc_whichtab_label_done);
-  for (i = 0; i < NUM_PAGES; i++) {
-    pdialog->misc.whichtab_radio[i] =
-	gtk_radio_button_new_with_label(group, misc_whichtab_label[i]);
-    group =
-	gtk_radio_button_group(GTK_RADIO_BUTTON
-			       (pdialog->misc.whichtab_radio[i]));
-    gtk_box_pack_start(GTK_BOX(vbox), pdialog->misc.whichtab_radio[i],
-		       FALSE, FALSE, 0);
-    gtk_signal_connect(GTK_OBJECT(pdialog->misc.whichtab_radio[i]),
-		       "toggled", GTK_SIGNAL_FUNC(misc_whichtab_callback),
-		       GINT_TO_POINTER(i));
+  
+  group = NULL;
+  for (i = 0; i < ARRAY_SIZE(misc_whichtab_label); i++) {
+    button = gtk_radio_button_new_with_mnemonic(group, misc_whichtab_label[i]);
+    pdialog->misc.whichtab_radio[i] = button;
+    gtk_container_add(GTK_CONTAINER(vbox2), button);
+    g_signal_connect(button, "toggled",
+		     G_CALLBACK(misc_whichtab_callback), GINT_TO_POINTER(i));
+    group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(button));
   }
 
-  /* we choose which page to popup by default */
+  /* now we go back and fill the hbox rename */
+  frame = gtk_frame_new(_("City"));
+  gtk_table_attach(GTK_TABLE(page), frame, 0, 1, 1, 2,
+		   GTK_FILL | GTK_EXPAND, GTK_FILL, 0, 12);
 
+  vbox2 = gtk_vbox_new(TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(frame), vbox2);
+
+  button = gtk_button_new_with_mnemonic(_("_Rename"));
+  pdialog->misc.rename_command = button;
+  gtk_container_add(GTK_CONTAINER(vbox2), button);
+  g_signal_connect(button, "clicked",
+		   G_CALLBACK(rename_callback), pdialog);
+
+  gtk_widget_set_sensitive(button, can_client_issue_orders());
+  
+  /* the disband-if-size-1 button */
+  button = gtk_check_button_new_with_mnemonic(city_opts_label[NUM_CITY_OPTS-1]);
+  pdialog->misc.city_opts[NUM_CITY_OPTS - 1] = button;
+  gtk_container_add(GTK_CONTAINER(vbox2), button);
+  g_signal_connect(button, "toggled",
+		   G_CALLBACK(cityopt_callback), pdialog);
+
+  /* we choose which page to popup by default */
   gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON
 			      (pdialog->
 			       misc.whichtab_radio[new_dialog_def_page]),
@@ -1041,12 +1030,12 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   gtk_widget_show_all(page);
 
   if (new_dialog_def_page == (NUM_PAGES - 1)) {
-    gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook), last_page);
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(pdialog->notebook),
+				  last_page);
   } else {
-    gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook),
-			  new_dialog_def_page);
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(pdialog->notebook),
+				  new_dialog_def_page);
   }
-
 }
 
 /****************************************************************
@@ -1079,6 +1068,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 	NULL,
   	0,
 	NULL);
+  gtk_window_set_role(GTK_WINDOW(pdialog->shell), "city");
 
   if (make_modal) {
     gtk_window_set_transient_for(GTK_WINDOW(pdialog->shell),
@@ -1136,7 +1126,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   create_and_append_trade_page(pdialog);
 
   if (pcity->owner == game.player_idx) {
-    create_and_append_misc_page(pdialog);
+    create_and_append_settings_page(pdialog);
   } else {
     gtk_notebook_set_page(GTK_NOTEBOOK(pdialog->notebook), OVERVIEW_PAGE);
   }
@@ -2424,196 +2414,19 @@ static void buy_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void create_change(struct city_dialog *pdialog)
-{
-  GtkWidget *cshell, *sw, *view;
-  int i;
-  static char *titles[4] =
-      { N_("Type"), N_("Info"), N_("Cost"), N_("Turns") };
-  static bool titles_done;
-  char *row[4];
-  char buf[4][64];
-  cid cids[U_LAST + B_LAST];
-  int item, cids_used;
-  struct item items[U_LAST + B_LAST];
-  GtkListStore *store;
-
-  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
-
-  cshell = gtk_dialog_new_with_buttons(_("Change Production"),
-	GTK_WINDOW(pdialog->shell),
-	GTK_DIALOG_DESTROY_WITH_PARENT,
-	GTK_STOCK_HELP,
-	GTK_RESPONSE_HELP,
-	GTK_STOCK_CANCEL,
-	GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OK,
-	GTK_RESPONSE_OK,
-	NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(cshell),
-	GTK_RESPONSE_OK);
-  pdialog->change_shell = cshell;
-
-  g_signal_connect(cshell, "response",
-		   G_CALLBACK(change_command_callback), pdialog);
-  g_signal_connect(cshell, "destroy",
-                   G_CALLBACK(gtk_widget_destroyed), &pdialog->change_shell);
-
-  gtk_window_set_position(GTK_WINDOW(cshell), GTK_WIN_POS_MOUSE);
-
-  /* list */
-  store = gtk_list_store_new(5, G_TYPE_INT,
-				G_TYPE_STRING,
-			        G_TYPE_STRING,
-			        G_TYPE_STRING,
-			        G_TYPE_STRING);
-
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  g_object_unref(store);
-  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-  pdialog->change_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-
-  sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_size_request(sw, -1, 350);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->vbox), sw, TRUE, TRUE, 0);
-
-  /* Set up the doubleclick-on-list-item handler */
-  g_signal_connect(view, "row_activated",
-		   G_CALLBACK(change_list_callback), pdialog);
-
-  for (i = 0; i < 4; i++) {
-    GtkCellRenderer *renderer;
-    GtkTreeViewColumn *col;
-
-    renderer = gtk_cell_renderer_text_new();
-    col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-	"text", i+1, NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
-
-    row[i] = buf[i];
-
-    if (i>= 2) {
-      g_object_set(G_OBJECT(renderer), "xalign", 1.0, NULL);
-      gtk_tree_view_column_set_alignment(col, 1.0);
-    }
-  }
-
-  cids_used = collect_cids4(cids, pdialog->pcity, 0);
-  name_and_sort_items(cids, cids_used, items, TRUE, pdialog->pcity);
-
-  for (item = 0; item < cids_used; item++) {
-    cid cid = items[item].cid;
-    GtkTreeIter it;
-
-    get_city_dialog_production_row(row, sizeof(buf[0]),
-    	                           cid_id(cid), cid_is_unit(cid),
-    	                           pdialog->pcity);
-
-    gtk_list_store_append(store, &it);
-    gtk_list_store_set(store, &it,
-	0, cid,
-	1, row[0],
-	2, row[1],
-	3, row[2],
-	4, row[3], -1);
-  }
-
-  gtk_tree_view_focus(GTK_TREE_VIEW(view));
-
-  gtk_widget_show_all(GTK_DIALOG(cshell)->vbox);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void change_callback(GtkWidget *w, gpointer data)
-{
-  struct city_dialog *pdialog;
-
-  pdialog = (struct city_dialog *) data;
-
-  if (!pdialog->change_shell) {
-    create_change(pdialog);
-  }
-
-  gtk_window_present(GTK_WINDOW(pdialog->change_shell));
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void change_command_callback(GtkWidget *w, gint rid, gpointer data)
-{
-  struct city_dialog *pdialog;
-  GtkTreeModel *m;
-  GtkTreeIter it;
-
-  pdialog = (struct city_dialog *) data;
-
-  if (rid == GTK_RESPONSE_HELP) {
-    if (gtk_tree_selection_get_selected(pdialog->change_selection, &m, &it)) {
-      cid cid;
-      int id;
-
-      gtk_tree_model_get(m, &it, 0, &cid, -1);
-      id = cid_id(cid);
-
-      if (cid_is_unit(cid)) {
-        popup_help_dialog_typed(get_unit_type(id)->name, HELP_UNIT);
-      } else if (is_wonder(id)) {
-        popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
-      } else {
-        popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
-      }
-    } else {
-      popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
-    }
-    return;
-  } else if (rid == GTK_RESPONSE_OK) {
-    if (gtk_tree_selection_get_selected(pdialog->change_selection, &m, &it)) {
-      cid cid;
-      struct packet_city_request packet;
-
-      gtk_tree_model_get(m, &it, 0, &cid, -1);
-
-      packet.city_id = pdialog->pcity->id;
-      packet.build_id = cid_id(cid);
-      packet.is_build_id_unit_id = cid_is_unit(cid);
-
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-    }
-  }
-  gtk_widget_destroy(pdialog->change_shell);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void change_list_callback(GtkTreeView *view, GtkTreePath *path,
-				 GtkTreeViewColumn *col, gpointer data)
-{
-  /* Allows new production options to be selected via a double-click */
-  change_command_callback(NULL, GTK_RESPONSE_OK, data);
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static void sell_callback(Impr_Type_id id, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
   GtkWidget *shl;
   
-  if (!can_client_issue_orders() || pdialog->pcity->did_sell) {
+  if (pdialog->pcity->did_buy || pdialog->pcity->did_sell ||
+      pdialog->pcity->owner != game.player_idx) {
     return;
   }
   
-  assert(city_got_building(pdialog->pcity, id));
-  if (is_wonder(id))
+  if (!city_got_building(pdialog->pcity, id) || is_wonder(id)) {
     return;
+  }
 
   pdialog->sell_id = id;
 
