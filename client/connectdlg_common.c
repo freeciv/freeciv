@@ -159,7 +159,7 @@ bool client_start_server(void)
   
   if (server_pid == 0) {
     int fd, argc = 0;
-    const int max_nargs = 10;
+    const int max_nargs = 13;
     char *argv[max_nargs + 1], port_buf[32];
 
     /* inside the child */
@@ -169,6 +169,9 @@ bool client_start_server(void)
     argv[argc++] = "civserver";
     argv[argc++] = "-p";
     argv[argc++] = port_buf;
+    argv[argc++] = "-q";
+    argv[argc++] = "1";
+    argv[argc++] = "-e";
     if (logfile) {
       argv[argc++] = "--debug";
       argv[argc++] = "3";

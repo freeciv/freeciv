@@ -1490,7 +1490,8 @@ void srv_main(void)
   /* Run server loop */
   while (TRUE) {
     srv_loop();
-    if (game.timeout == -1) {
+    if (game.timeout == -1 || srvarg.exit_on_end) {
+      /* For autogames or if the -e option is specified, exit the server. */
       server_quit();
     }
 

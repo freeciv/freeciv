@@ -40,6 +40,8 @@ struct server_arguments {
   char extra_metaserver_info[256];
   /* quit if there no players after a given time interval */
   int quitidle;
+  /* exit the server on game ending */
+  bool exit_on_end;
 };
 
 void srv_init(void);

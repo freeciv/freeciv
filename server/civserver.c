@@ -98,6 +98,8 @@ int main(int argc, char *argv[])
 	showhelp = TRUE;
 	break;
       }
+    } else if (is_option("--exit-on-end", argv[inx])) {
+      srvarg.exit_on_end = TRUE;
     } else if ((option = get_option("--info", argv, &inx, argc))) {
       sz_strlcpy(srvarg.extra_metaserver_info, option);
     } else if ((option = get_option("--debug", argv, &inx, argc))) {
@@ -144,6 +146,8 @@ int main(int argc, char *argv[])
 
     fprintf(stderr, _("  -p, --port PORT\tListen for clients on port PORT\n"));
     fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"));
+    fprintf(stderr, _("  -e, --exit-on-end\t"
+		      "When a game ends, exit instead of restarting\n"));
     fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
