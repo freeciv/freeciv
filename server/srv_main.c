@@ -1663,6 +1663,7 @@ void lost_connection_to_client(struct connection *pconn)
   
   send_conn_info_remove(&pconn->self, &game.est_connections);
   send_player_info(pplayer, 0);
+  notify_if_first_access_level_is_available();
 
   /* Cancel diplomacy meetings */
   if (!pplayer->is_connected) { /* may be still true if multiple connections */

@@ -445,7 +445,7 @@ static int server_accept_connection(int sockfd)
       pconn->first_packet = 1;
       pconn->byte_swap = 0;
       pconn->capability[0] = '\0';
-      pconn->access_level = (i?default_access_level:first_access_level);
+      pconn->access_level = access_level_for_next_connection();
 
       sz_strlcpy(pconn->name, makeup_connection_name(&pconn->id));
       sz_strlcpy(pconn->addr,

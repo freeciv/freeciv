@@ -29,11 +29,13 @@ void show_players(struct connection *caller);
 
 void toggle_ai_player_direct(struct connection *caller, struct player *subject);
 
+/* for sernet.c in initing a new connection */
+enum cmdlevel_id access_level_for_next_connection(void);
+
+void notify_if_first_access_level_is_available(void);
+
 #ifdef HAVE_LIBREADLINE
 char **freeciv_completion(char *text, int start, int end);
 #endif
-
-extern enum cmdlevel_id default_access_level;  /* for sernet.c in */
-extern enum cmdlevel_id   first_access_level;  /* initing a new connection */
 
 #endif /* FC__STDINHAND_H */
