@@ -37,6 +37,7 @@ int section_file_save(struct section_file *my_section_file,
 void section_file_free(struct section_file *file);
 void section_file_check_unused(struct section_file *file,
 			       const char *filename);
+const char *secfile_filename(const struct section_file *file);
 
 void secfile_insert_int(struct section_file *my_section_file, 
 			int val, char *path, ...)

@@ -232,9 +232,12 @@ section_file_insert_internal(struct section_file *my_section_file,
 			     char *fullpath);
 
 /**************************************************************************
-...
+  Return the filename the sectionfile was loaded as, or "(anonymous)"
+  if this sectionfile was created rather than loaded from file.
+  The memory is managed internally, and should not be altered,
+  nor used after section_file_free() called for the sectionfile.
 **************************************************************************/
-static const char *secfile_filename(const struct section_file *file)
+const char *secfile_filename(const struct section_file *file)
 {
   if (file->filename) {
     return file->filename;
