@@ -96,64 +96,35 @@ So first in step 4 will we introduce attacking AI. (if it ever gets that far)
 -- I don't know who wrote this, but I've gone a different direction -- Syela
  */
 
-static void ai_before_work(struct player *pplayer);
-static void ai_manage_taxes(struct player *pplayer); 
-static void ai_manage_government(struct player *pplayer);
-static void ai_manage_diplomacy(struct player *pplayer);
-static void ai_manage_spaceship(struct player *pplayer);
-static void ai_after_work(struct player *pplayer);
-
-/**************************************************************************
- Main AI routine.
-**************************************************************************/
-
-void ai_do_first_activities(struct player *pplayer)
-{
-  ai_before_work(pplayer); 
-  ai_manage_units(pplayer); /* STOP.  Everything else is at end of turn. */
-}
-
-void ai_do_last_activities(struct player *pplayer)
-{
-/*  ai_manage_units(pplayer);  very useful to include this! -- Syela */
-/* I finally realized how stupid it was to call manage_units in update_player_ac
-instead of right before it.  Managing units before end-turn reset now. -- Syela */
-  calculate_tech_turns(pplayer); /* has to be here thanks to the above */
-  ai_manage_cities(pplayer);
-  /* manage cities will establish our tech_wants. */
-  /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
-  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
-  ai_manage_taxes(pplayer); 
-  freelog(LOG_DEBUG, "Managing %s's government.", pplayer->name);
-  ai_manage_government(pplayer); 
-  ai_manage_diplomacy(pplayer);
-  ai_manage_tech(pplayer); 
-  freelog(LOG_DEBUG, "Managing %s's spaceship.", pplayer->name);
-  ai_manage_spaceship(pplayer);
-  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
-  ai_after_work(pplayer);
-  freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
-}
-
+#ifdef UNUSED
 /**************************************************************************
  update advisors/structures
 **************************************************************************/
-  
 static void ai_before_work(struct player *pplayer)
 {
-  ; /* all instances of fnord and references thereto have been deleted. -- Syela */
+
 }
 
+/**************************************************************************
+ well am not sure what will happend here yet, maybe some more analysis
+**************************************************************************/
+static void ai_after_work(struct player *pplayer)
+{
+
+}
 
 /**************************************************************************
  Trade tech and stuff, this one will probably be blank for a long time.
 **************************************************************************/
-
 static void ai_manage_diplomacy(struct player *pplayer)
 {
 
 }
+#endif /* UNUSED */
 
+/**************************************************************************
+ handle spaceship related stuff
+**************************************************************************/
 static void ai_manage_spaceship(struct player *pplayer)
 {
   if (game.spacerace) {
@@ -169,75 +140,6 @@ static void ai_manage_spaceship(struct player *pplayer)
 }
 
 /**************************************************************************
- well am not sure what will happend here yet, maybe some more analysis
-**************************************************************************/
-
-static void ai_after_work(struct player *pplayer)
-{
-
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-#ifdef UNUSED
-int ai_calc_city_buy(struct city *pcity)
-{
-  int val;
-  if (pcity->is_building_unit) {   /* add wartime stuff here */
-    return ((pcity->size*10)/(2*city_get_defenders(pcity)+1))
-;
-  } else {                         /* crude function, add some value stuff */
-    if (pcity->currently_building==B_CAPITAL)
-      return 0;
-    val = ((pcity->size*20)/(city_get_buildings(pcity)+1));
-    val = val * (30 - pcity->shield_prod); /* yes it'll become negative if > 30 */
-    return val;
-  }
-}
-#endif /* UNUSED */
-
-/**************************************************************************
-.. Spend money
-**************************************************************************/
-#ifdef UNUSED
-void ai_spend_gold(struct player *pplayer, int gold)
-{ /* obsoleted by Syela */
-  struct city *pc2=NULL;
-  int maxwant, curwant;
-  maxwant = 0;
-  city_list_iterate(pplayer->cities, pcity) 
-    if ((curwant = ai_calc_city_buy(pcity)) > maxwant) {
-      maxwant = curwant;
-      pc2 = pcity;
-    }
-  city_list_iterate_end;
-
-  if (!pc2) return;
-  if (pc2->is_building_unit) {
-    if (city_buy_cost(pc2) > gold)
-      return;
-    pplayer->economic.gold -= city_buy_cost(pc2);
-    pc2->shield_stock = unit_value(pc2->currently_building);
-  } else { 
-    if (city_buy_cost(pc2) < gold) {
-      pplayer->economic.gold -= city_buy_cost(pc2);
-      pc2->shield_stock = improvement_value(pc2->currently_building);
-      return;
-    }
-    /* we don't have to end the build, we just pool in some $ */
-    if (is_wonder(pc2->currently_building)) 
-      pc2->shield_stock +=(gold/4);
-    else
-      pc2->shield_stock +=(gold/2);
-    pplayer->economic.gold -= gold;
-  }
-}
-#endif /* UNUSED */
-
-
-/**************************************************************************
 .. Set tax/science/luxury rates. Tax Rates > 40 indicates a crisis.
  total rewrite by Syela 
 **************************************************************************/
@@ -245,7 +147,7 @@ static void ai_manage_taxes(struct player *pplayer)
 {
   struct government *g = get_gov_pplayer(pplayer);
   int gnow = pplayer->economic.gold;
-  int sad = 0, trade = 0, m, n, i, expense = 0, tot;
+  int trade = 0, m, n, i, expense = 0, tot;
   int waste[40]; /* waste with N elvises */
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -266,7 +168,6 @@ static void ai_manage_taxes(struct player *pplayer)
     pcity->ppl_elvis = 0; pcity->ppl_taxman = 0; pcity->ppl_scientist = 0;
     add_adjust_workers(pcity); /* less wasteful than auto_arrange, required */
     city_refresh(pcity);
-    sad += pcity->ppl_unhappy[4];
     trade += pcity->trade_prod * city_tax_bonus(pcity) / 100;
     freelog(LOG_DEBUG, "%s has %d trade.", pcity->name, pcity->trade_prod);
     for (i = 0; i < game.num_impr_types; i++)
@@ -460,15 +361,13 @@ static void ai_manage_taxes(struct player *pplayer)
   city_list_iterate_end;
 }
 
-/* --------------------------GOVERNMENT--------------------------------- */
-
 /**************************************************************************
  change the government form, if it can and there is a good reason
 **************************************************************************/
 #ifndef NEW_GOV_EVAL
 static void ai_manage_government(struct player *pplayer)
 {
-  int goal = get_nation_by_plr(pplayer)->goals.government;
+  int goal;
   int subgoal;
   int failsafe;
   
@@ -575,3 +474,41 @@ static void ai_manage_government(struct player *pplayer)
   return;
 }
 #endif /* NEW_GOV_EVAL */
+
+/**************************************************************************
+ Main AI routine.
+**************************************************************************/
+void ai_do_first_activities(struct player *pplayer)
+{
+#ifdef UNUSED
+  ai_before_work(pplayer); 
+#endif
+  ai_manage_units(pplayer); /* STOP.  Everything else is at end of turn. */
+}
+
+void ai_do_last_activities(struct player *pplayer)
+{
+/*  ai_manage_units(pplayer);  very useful to include this! -- Syela */
+/* I finally realized how stupid it was to call manage_units in update_player_ac
+instead of right before it.  Managing units before end-turn reset now. -- Syela */
+  calculate_tech_turns(pplayer); /* has to be here thanks to the above */
+  ai_manage_cities(pplayer);
+  /* manage cities will establish our tech_wants. */
+  /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
+  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
+  ai_manage_taxes(pplayer); 
+  freelog(LOG_DEBUG, "Managing %s's government.", pplayer->name);
+  ai_manage_government(pplayer);
+#ifdef UNUSED
+  ai_manage_diplomacy(pplayer);
+#endif
+  ai_manage_tech(pplayer); 
+  freelog(LOG_DEBUG, "Managing %s's spaceship.", pplayer->name);
+  ai_manage_spaceship(pplayer);
+  freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
+#ifdef UNUSED
+  ai_after_work(pplayer);
+#endif
+  freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
+}
+
