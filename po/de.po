@@ -1704,7 +1704,7 @@ msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 #: server/plrhand.c:3057 server/plrhand.c:3061
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
-msgstr "Spiel: Kontakt zu %2$s (beherrscht die %1$s) aufgenommen."
+msgstr "Spiel: Die %s entdeckt. Ihr Herrscher ist %s."
 
 #: server/ruleset.c:96
 #, c-format
@@ -1751,50 +1751,41 @@ msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
 msgid "Loading rulesets"
 msgstr "Lade rulesets"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:54
 msgid "+1 tech to 1st"
-msgstr "+1 tech to 1st"
+msgstr "1 zusätzlicher Fortschritt"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:55
 msgid "boats move +1"
-msgstr "boats move +1"
+msgstr "1 zusätzlicher BP für Schiffe"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:56
 msgid "bridges"
-msgstr "bridges"
+msgstr "Brücken"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:57
 msgid "railroads"
-msgstr "railroads"
+msgstr "Eisenbahnen"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:58
 msgid "fortresses"
-msgstr "fortresses"
+msgstr "Befestigungen"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:59
 msgid "pop. pollution"
-msgstr "pop. pollution"
+msgstr "Bev. Umweltverschmutzung"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:60
 msgid "trade reduced"
-msgstr "trade reduced"
+msgstr "Handel reduziert"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:61
 msgid "airbases"
-msgstr "airbases"
+msgstr "Flughäfen"
 
-# EH: AFAIK macht eine Übersetzung der rulesout.c-Texte keinen Sinn.
 #: server/rulesout.c:62
 msgid "farmland"
-msgstr "farmland"
+msgstr "Ackerland"
 
 #: server/spacerace.c:163
 msgid "Game: Your spaceship is already launched!"
@@ -4438,7 +4429,7 @@ msgstr "Spiel: Habe %s von (%d, %d) nach %s teleportiert."
 
 #: client/cityrepdata.c:68
 msgid "Rapture"
-msgstr "Begeisterung"
+msgstr "Fest"
 
 #: client/cityrepdata.c:69
 msgid "Disorder"
@@ -4470,11 +4461,11 @@ msgstr "Status"
 
 #: client/cityrepdata.c:198
 msgid "Rapture/Peace/Disorder"
-msgstr "Begeisterung/Friede/Aufruhr"
+msgstr "Fest/Friede/Aufruhr"
 
 #: client/cityrepdata.c:200
 msgid "Concise *=Rapture, X=Disorder"
-msgstr "einspaltige Statusanzeige: *=Begeisterung, X=Aufruhr"
+msgstr "einspaltige Statusanzeige: *=Fest, X=Aufruhr"
 
 #: client/cityrepdata.c:202 client/gui-xaw/citydlg.c:2589
 msgid "Workers"
@@ -5080,7 +5071,7 @@ msgstr "Ansicht auf die Stadt im Stadtfenster zentriere      "
 
 #: client/options.c:68
 msgid "Concise City Production    "
-msgstr "Produktion ändern          "
+msgstr "Kurzdarstellung der Stadtproduktion"
 
 #: client/options.c:69
 msgid "End Turn when done moving  "
@@ -7800,7 +7791,7 @@ msgstr "Im Bau Name       Zählt Kostet Total"
 
 #: data/Freeciv:1846
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Einheit       Modernisierung im Gange  aktiv    Schild  Nahrung"
+msgstr "Einheit  Modernisieren  Im Bau  Aktiv  Schild  Nahrung"
 
 #: data/Freeciv:1926
 msgid "Rename worklist"
@@ -7953,7 +7944,7 @@ msgid ""
 " Host"
 msgstr ""
 "Name             Staat       Botschaft Dipl. Status    Reputation    Status  "
-"Staatsform Server"
+" Server"
 
 #: data/Freeciv:3081
 msgid "Intelligence"
@@ -13091,7 +13082,7 @@ msgstr "Schirmherrin"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "estenisch"
+msgstr "estnisch"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
@@ -13099,11 +13090,11 @@ msgstr "?plural:Esten"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "filipinisch"
+msgstr "philippinisch"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "?plural:Filipinen"
+msgstr "?plural:Philippinen"
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
