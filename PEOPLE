@@ -1,0 +1,281 @@
+Lots of thanks are due to the following people for their various
+contributions to the Freeciv project. 
+
+  Original authors, otherwise known as the Great Danes:
+  (They are no longer involved, please don't mail them about bugs etc.).
+  
+     Peter Joachim Unold  <pjunold@daimi.aau.dk>
+     Claus Leth Gregersen <leth@daimi.aau.dk>
+     Allan Ove Kjeldbjerg <allan@daimi.aau.dk>
+
+  Present administrators:
+
+     Tony Stuckey    <stuckey@jaka.ece.uiuc.edu> (since v. 1.8.1)
+     David Pfitzner  <dwp@mso.anu.edu.au>
+
+  Past administrators:
+
+     Mitch Davis  <mjd@alphalink.com.au>  (versions 1.5.2 to 1.7.2)
+     Nicolas Brunel  <brunel@lim.univ-mrs.fr>  (January 1999 to June 1999)
+
+  Coders for the 1.8 series:
+
+	David Pfitzner <dwp@mso.anu.edu.au> (rulesets, spacerace)
+	Vasco Alexandre da Silva Costa <vasc@camoes.rnl.ist.utl.pt> (GTK+)
+	Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (ai diplomat use)
+	Trent Piepho <xyzzy@u.washington.edu>
+	Rizos Sakellariou <rizos@cs.rice.edu>
+	Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
+	Kris Bubendorfer <kris@MCS.VUW.AC.NZ> (civil war, trade cities)
+	Greg Wooledge <wooledge@kellnet.com> (helpdata.txt, settlers/engineers)
+	Reinier Post <rp@win.tue.nl> (server commands from clients)
+	Jeff Mallatt <jjm@codewell.com> (diagonal roads)
+	Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (spacerace)
+	Per Mathisen <permath@ifi.ntnu.no> (improved server console)
+	Markus Linnala <maage@cs.tut.fi> (logging)
+	Jake Kesinger <kesinger@math.ttu.edu> (gamelog, american city names)
+	Sebastian Fischmeister <sfischme@nexus.lzk.tuwien.ac.at> (autoattack)
+	Patrick Smith <patsmith@pobox.com>
+	Peter Schaefer <schaefer@malaga.math.uni-augsburg.de> (mapgen)
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (scenario code)
+	Massimo Campostrini <campo@mailbox.difi.unipi.it>
+	Olivier Rolland <billl@esil.univ-mrs.fr> (detachable Gtk+ panels)
+	Daniel Burrows <Daniel_Burrows@brown.edu> (hp regeneration)
+	Sune Kirkeby <sune@interspace.dk>
+	Andrew Donkin <ard@scms.waikato.ac.nz>
+	Michael Gastright <gastrig@snmpi.com>
+	P. E. Jean <pejean.lists@iname.com> (fixed Gtk+ warnings problem)
+	Lalo Martins <lalo@debian.org> (client --help, --version parsing)
+	Daniel Deckers <fh5y076@public.uni-hamburg.de>
+	Bobby D. Bryant <bdbryant@mail.utexas.edu>
+	Sebastian Bauer <sebauer@t-online.de>
+	Christopher C Chimelis <chris@classnet.med.miami.edu> (fixes for Alpha)
+	Alexander Mai <st002279@HRZPUB.tu-darmstadt.de>  (fixes for OS/2)
+	Bussi Andrea <bta@edu.al.unipmn.it> (ctrl + button)
+	Fabrice Noilhan <Fabrice.Noilhan@ens.fr> (fix warnings on Solaris)
+	Mitch Davis <mjd@alphalink.com.au> (ChangeLog)
+
+  Coders prior to the 1.8 series:
+     (Version numbers refer to the first non-beta release 
+     to contain that patch or bugfix.)
+
+     Mitch Davis <mjd@alphalink.com.au>
+         (admin and patches 1.7.x, 1.6.x; many patches 1.5.2, 1.4.4, 1.4.3)
+     John Stonebraker <ppaqebb@surfshop.net>
+         (huge AI improvement and other patches 1.7.x, 1.6.x)
+     Trent Piepho <xyzzy@u.washington.edu> (core patches 1.7.x, 1.6.x)
+     David Pfitzner <dwp@mso.anu.edu.au> (co-admin 1.7.2, patches 1.7.x)
+     Peter Schaefer <schaefer@malaga.math.uni-augsburg.de>
+         (mapgen and other patches 1.7.x, 1.6.x)
+     Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
+         (diplomat/spy patches 1.7.x)
+     Greg Wooledge <wooledge@kellnet.com> 
+         (helptext and other patches 1.7.2, 1.7.0)
+     Massimo Campostrini <campo@mailbox.difi.unipi.it>
+         (city names and other patches 1.7.2, 1.4.6, 1.0h, 1.0e)
+     Cedric Tefft <cedric@earthling.net> (patches 1.7.x)
+     Reinier Post <reinpost@win.tue.nl> (patches 1.7.x)
+     Markus Linnala <maage@cs.tut.fi> (configure and other patches 1.7.x)
+     Daniel Gudlat <gudlat@informatik.hu-berlin.de> (scenario patch 1.7.2)
+     Christian Grothoff <ma0035@stud.uni-wuppertal.de> (patch 1.7.0)
+     Dee Jay Randall <randal@cs.uregina.ca> (patches 1.7.2, 1.7.1)
+     Per Mathisen <permath@ifi.ntnu.no> (patches and bug reports 1.7.2, 1.7.1)
+     Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu> (patches 1.7.2, 1.7.1)
+     Sverker Wiberg <sverkerw@Update.UU.SE>
+         (configure patches 1.7.2, helptext patch 1.7.0)
+     Mirar <mirar@idonex.se> (patches 1.7.2)
+     Michael Bickel <Michael.Bickel@informatik.uni-erlangen.de> (patches 1.7.2)
+     Paul Cameron <pmcamero@socs.uts.EDU.AU> (patches 1.7.2)
+     Patrick Smith <patsmith@pobox.com> (patch 1.7.2)
+     Mark Brown <broonie@tardis.ed.ac.uk> (aqueductloss patch 1.7.2)
+     Mika Korhonen <mikak@ee.oulu.fi> (patch and bug report 1.7.2)
+     Alex Rhomberg <rhomberg@ife.ee.ethz.ch> (Alpha patch 1.7.2)
+     Sergey Shkonda <serg@bcs.zp.ua> (patch 1.7.2)
+     Matthew Hunt <mph@pobox.com> (patch 1.7.2)
+     Alexander Mai <st002279@HRZPUB.tu-darmstadt.de> (OS/2 patch 1.7.2)
+     Rizos Sakellariou <rizos@cs.rice.edu> (city names 1.7.2)
+     Robert Donn <squirk@ihug.co.nz> (debian/ patch 1.7.2)
+
+     Trevor Pering <pering@tongass.EECS.Berkeley.EDU>
+         (scorelog and other patches 1.7.1)
+     Walter Misar <misar@rbg.informatik.tu-darmstadt.de>
+         (patch and bug reports 1.7.1)
+     Finn Arne Gangstad <finnag@guardian.no> (Solaris configure patch 1.7.1)
+
+     James Blackwell <innocent@mercury.merconline.com> 
+         (docs patches 1.7.0, co-admin 1.6.x, bug report 1.4.4)
+     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> 
+         (patches 1.7.0, autoconf support 1.6.0)
+     Frank Muzzulini <muzz@albatross.pond.sub.org> 
+         (patches and bug report 1.7.0)
+     Olli Helenius <ollhel@jytol.fi> (patches 1.7.0)
+     Jason Merrill <jason@yorick.cygnus.com> (patches 1.7.0)
+     Carl Bartels <cb@bravo436.chem.mcgill.ca> (patch 1.7.0)
+     Seth Golub <seth@thehouse.org> (patch 1.7.0)
+     Jake Kesinger <kesinger@math.ttu.edu> (city names patch 1.7.0)
+     Sam Holden <sholden@pgrad.cs.usyd.edu.au> (GNU-Win32 patch 1.7.0)
+
+     Olav Andree Brevik <olavb@ifi.uio.no> (patch 1.6.3, many patches 1.6.0)
+     Markus L. Noga <ut6e@rz.uni-karlsruhe.de> (patch 1.6.3)
+     Andrew Donkin <ard@scms.waikato.ac.nz> (patch 1.0j)
+
+     Erik Vasaasen (Freeciv motto), Peter Mains (metaserver), Rene
+     Schalburg (startup scripts), Robert H. Forsman Jr (canvas
+     widget), Warwick Allison, Stephan Boettcher, Matthias Gessl,
+     Thomas Kraube, Brian Thomas, Troels Valsted Hansen (Amiga),
+     Peter Skov (help buttons), Peter Meerwald (OS/2), Michael
+     Hohensee (icons, HOWTOPLAY), Rajala Ilkka, Richard Braakman
+     and Jan Echternach.
+
+  Graphics:
+
+	Ralph Engels <rengels@hydra.informatik.uni-ulm.de> (default tileset)
+	Tatu Rissanen <tatu.rissanen@hut.fi> ("trident" tileset)
+	Alexandre Beraud <a_beraud@lemel.fr> (space, wonders, small)
+	Bruno Gilleta <gilleta@pento.esil.univ-mrs.fr> (improved classic)
+	Trent Piepho <xyzzy@u.washington.edu>
+	David Pfitzner <dwp@mso.anu.edu.au> (roads)
+	Frank Muzzulini <muzz@albatross.pond.sub.org> (artillery icon)
+	Allan Ove Kjeldbjerg <allan@daimi.aau.dk> (original graphics)
+
+  Maps:
+
+	Christian Grothoff <ma0035@stud.uni-wuppertal.de> (Europe v1.0)
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (Earth)
+	Jerzy Klek <qpkjeek@epk.ericsson.se> (Europe v1.1)
+
+  Site hosting:
+
+	Paul Zastoupil <paul@adn.net> (from May '99)
+	Tracy Reed <treed@ultraviolet.org> (to April '99)
+
+  Mailing lists:
+
+	John Goerzen <jgoerzen@complete.org>
+	Ryan Rehder <twolf@kc.net> (freeciv.midsun.com: Mar '98 to Nov '98)
+
+  Website (FWNG):
+
+	Martin Willemoes Hansen <mwh@stampede.org>
+
+  FAQ Maintainer:
+
+	Reinier Post <rp@win.tue.nl>
+
+  Website contributors:
+
+	Patrick Gardella <patrick@cre8tivegroup.com> (Games Announcement)
+	Fabrice Noilhan <fabrice.noilhan@ens.fr> (Poll system)
+	Tomi Sarvela (Graphics)
+
+  Previous Webmasters:
+
+	Mitch Davis <mjd@alphalink.com.au>
+	Ian Rees <irees@sat.net>
+	Allan Ove Kjeldbjerg <allan@daimi.aau.dk>
+
+  Freeciv Metaserver:
+
+	Peter Dam Mains <lancelot@daimi.au.dk>
+
+  Mirror Sites:
+
+	Tod Detre <tod@tod.net> 
+	    (http://www.tod.net/freeciv and ftp://129.22.250.198/freeciv)
+
+  Bug reports:
+
+	Todd Goodman <tsg1@earthlink.net>
+	Frank Schaefer <fransch@netscape.net>
+	Marko Lindqvist <caz@students.cc.tut.fi>
+	Dee Jay Randall <randal@cs.uregina.ca>
+	Brent Nelson <nelson@realcase.com>
+	Anders Wegge Jakobsen <wegge@wegge.dk>
+	Peter Berg Larsen <pebl@math.ku.dk>
+	Chip Richards <chipr@niestu.com>
+	Andy Black <ablack@bvsd.k12.co.us>
+	Andrew E. Schulman <andrex@alw.nih.gov>
+	Jonathan Hall <jonhall@futureks.net>
+	Mel Ooran <melooran@yahoo.com>
+	David Usherwood <davidu@infocat.co.uk>
+	Matt Busigin <jediknight@xwing.org>
+	Chris Buchanan <csbuchan@undergrad.math.uwaterloo.ca>
+	Chris Lawrence <lawrencc@debian.org>
+	Alexandre Beraud <a_beraud@lemel.fr>
+
+  Bug reports during 1.7 series:
+
+	Andrew E. Schulman <andrex@alw.nih.gov>
+	Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+	Ben Korvemaker <benjamin@cs.ualberta.ca>
+
+  Manual:
+
+	David King <crkinger@usa.net> (new Freeciv Client and Server Guides)
+
+  Localisation (l10n):
+
+	David Pérez Serrada <dperezs@nexo.es> (Spanish help-file)
+	Moritz Muehlenhoff <UMuehlenhoff@t-online.de> (Deutsch helpdata.txt)
+	Nicolas Lannier <Nicolas.Lannier@epita.fr> (Translation to French)
+
+  Package maintainers:
+
+	Lalo Martins <lalo@debian.org> (Debian GNU/Linux)
+	Martin Willemoes Hansen <mwh@stampede.org> (Stampede GNU/Linux)
+	Todd Goodman <tsg1@earthlink.net> (Windows with Cygwin and X server)
+	Hugo van der Kooji <hvdkooij@caiw.nl> (Redhat Linux)
+	Niilo Kajander <ganon@neutech.fi> (Slackware Linux)
+	Fred Hohlen <fhohlen@mindspring.com> (LinuxPPC)
+	Sebastian Bauer <sebauer@t-online.de> (Amiga)
+
+  Monetary donations:
+
+	Ian Rees (Domain name)
+	Paul Zastoupil (Domain name)
+	Martin Willemoes Hansen <mwh@stampede.org> (Domain name)
+	Mitch Davis <mjd@aus.hp.com> (Domain name)
+	James Blackwell <innocent@mercury.merconline.com> (Domain name)
+
+  Civworld: (our map editor)
+
+	Benjamin Drieu <drieu@bocal.cs.univ-paris8.fr> (original author)
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (recent maintainer)
+
+  Modpacks:
+
+	Bobby D. Bryant <bdbryant@mail.utexas.edu> (Ancients)
+
+  Projects:
+
+	Daniel Glassey <danglassey@geocities.com> (Windows port - GTK+)
+	Justin Hopkins <hop@elwood.pionet.net> (Windows port - native)
+	Andy Black <ablack@bvsd.k12.co.us> (Mac port)
+	Mark Nettle <mark@bluefire.com.au> (Fantasy modpack)
+	Marko Lindqvist <caz@students.cc.tut.fi> (AI client)
+
+  Others:
+
+	Francisco CHAGAS Barros <chagas@linkexpress.com.br>
+	    (official brazilian freeciv group, also a helpdata.txt)
+	Dustin Reyes <crusader@linuxgames.com> 
+	    (Interview on http://www.linuxgames.com)
+	Preston Hillensbeck <prestonh@ametro.net>
+	    (A solution to the KDE problem)
+
+  And finally...
+
+     The guys in the DAIMI labs, who playtested early versions of
+     Freeciv for the Great Danes.
+
+     The members of the freeciv-dev mailing list, coders and non-
+     coders alike.  You've all made valuable comments and contributions.
+
+     Sid Meier, for slight inspiration.
+
+
+  If we have missed someone or details have changed, please accept our
+  apologies and let us know.  Contact one of the administrators (above) 
+  or email <freeciv-dev@freeciv.org>.
+
+                    The Freeciv Team.
