@@ -302,7 +302,7 @@ void rates_set_values(int tax, int no_tax_scroll,
     sprintf(buf, "Tax: %d%%", tax);
     xaw_set_label(rates_tax_label, buf);
     if(!no_tax_scroll)
-      XawScrollbarSetThumb(rates_tax_scroll, (tax/10)*1/11.0f, 1/11.0f);
+      my_XawScrollbarSetThumb(rates_tax_scroll, (tax/10)*1/11.0f, 1/11.0f);
     rates_tax_value=tax;
   }
 
@@ -310,7 +310,7 @@ void rates_set_values(int tax, int no_tax_scroll,
     sprintf(buf, "Luxury: %d%%", lux);
     xaw_set_label(rates_lux_label, buf);
     if(!no_lux_scroll)
-      XawScrollbarSetThumb(rates_lux_scroll, (lux/10)*1/11.0f, 1/11.0f);
+      my_XawScrollbarSetThumb(rates_lux_scroll, (lux/10)*1/11.0f, 1/11.0f);
     rates_lux_value=lux;
   }
 
@@ -318,7 +318,7 @@ void rates_set_values(int tax, int no_tax_scroll,
     sprintf(buf, "Science: %d%%", sci);
     xaw_set_label(rates_sci_label, buf);
     if(!no_sci_scroll)
-      XawScrollbarSetThumb(rates_sci_scroll, (sci/10)*1/11.0f, 1/11.0f);
+      my_XawScrollbarSetThumb(rates_sci_scroll, (sci/10)*1/11.0f, 1/11.0f);
     rates_sci_value=sci;
   }
   
