@@ -44,7 +44,7 @@
 "*connectdialog.*.cbetaline.label: \
 THIS IS A BETA RELEASE\\n\
 Freeciv 1.7 will be released\\n\
-July 26 at http://www.freeciv.org",
+August 5 at http://www.freeciv.org",
 "*connectdialog.*.cbetaline.fromVert: cconnectc",
 "*connectdialog.*.cbetaline.justify: left",
 "*connectdialog.*.cbetaline.background: grey",
