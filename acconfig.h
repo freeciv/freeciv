@@ -13,15 +13,14 @@
 
 #undef PACKAGE
 #undef VERSION
-#undef MAILING_LIST
-#undef SITE
 #undef MAJOR_VERSION
 #undef MINOR_VERSION
 #undef PATCH_VERSION
 #undef IS_BETA_VERSION
 #undef VERSION_STRING
 #undef FREECIV_DATADIR
-#undef HAVE_USLEEP
+#undef MAILING_LIST
+#undef SITE
 #undef HAVE_LIBICE
 #undef HAVE_LIBSM
 #undef HAVE_LIBX11

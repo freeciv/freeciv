@@ -28,15 +28,14 @@
 
 #undef PACKAGE
 #undef VERSION
-#undef MAILING_LIST
-#undef SITE
 #undef MAJOR_VERSION
 #undef MINOR_VERSION
 #undef PATCH_VERSION
 #undef IS_BETA_VERSION
 #undef VERSION_STRING
 #undef FREECIV_DATADIR
-#undef HAVE_USLEEP
+#undef MAILING_LIST
+#undef SITE
 #undef HAVE_LIBICE
 #undef HAVE_LIBSM
 #undef HAVE_LIBX11
@@ -59,6 +58,9 @@
 /* Define if you have the strstr function.  */
 #undef HAVE_STRSTR
 
+/* Define if you have the usleep function.  */
+#undef HAVE_USLEEP
+
 /* Define if you have the <sys/ioctl.h> header file.  */
 #undef HAVE_SYS_IOCTL_H
 
@@ -70,5 +72,12 @@
 
 /* Define if you have the nls library (-lnls).  */
 #undef HAVE_LIBNLS
+
+/* Name of package */
+#undef PACKAGE
+
+/* Version number of package */
+#undef VERSION
+
 
 #endif /* FC_CONFIG_H */
