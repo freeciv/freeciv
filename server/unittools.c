@@ -165,15 +165,15 @@ int is_sailing_unit_tile(int x, int y)
 **************************************************************************/
 int is_my_zoc(struct unit *myunit, int x0, int y0)
 {
- 
-  struct unit_list *punit_list;
-  struct unit *punit;
   int x,y;
+  int ax,ay;
   int owner=myunit->owner;
+
   for (x=x0-1;x<x0+2;x++) for (y=y0-1;y<y0+2;y++) {
-      if (is_enemy_unit_tile(x,y,owner))
-	if ((is_sailing_unit(myunit) && is_sailing_unit_tile(x,y)) ||
-	    (!is_sailing_unit(myunit) && !is_sailing_unit_tile(x,y)) )
+    ax=map_adjust_x(x); ay=map_adjust_y(y);
+    if (is_enemy_unit_tile(ax,ay,owner))
+      if ((is_sailing_unit(myunit) && is_sailing_unit_tile(ax,ay)) ||
+	  (!is_sailing_unit(myunit) && !is_sailing_unit_tile(ax,ay)) )
 	    return 0;
   }
   return 1;
