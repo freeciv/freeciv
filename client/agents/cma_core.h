@@ -53,7 +53,7 @@ void cma_release_city(struct city *pcity);
  * given parameter is filled if pointer is non-NULL. The parameter is
  * only valid if cma_is_city_under_agent returns true.
  */
-bool cma_is_city_under_agent(struct city *pcity,
+bool cma_is_city_under_agent(const struct city *pcity,
 			     struct cm_parameter *parameter);
 
 /***************** utility methods *************************************/

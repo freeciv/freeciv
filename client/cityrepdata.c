@@ -37,7 +37,7 @@
  is handled later.
 *************************************************************************/
 
-static char *cr_entry_cityname(struct city *pcity)
+static const char *cr_entry_cityname(const struct city *pcity)
 {
   static char buf[REPORT_CITYNAME_ABBREV+1];
   if (strlen(pcity->name) <= REPORT_CITYNAME_ABBREV) {
@@ -50,14 +50,14 @@ static char *cr_entry_cityname(struct city *pcity)
   }
 }
 
-static char *cr_entry_size(struct city *pcity)
+static const char *cr_entry_size(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->size);
   return buf;
 }
 
-static char *cr_entry_hstate_concise(struct city *pcity)
+static const char *cr_entry_hstate_concise(const struct city *pcity)
 {
   static char buf[4];
   my_snprintf(buf, sizeof(buf), "%s", (city_celebrating(pcity) ? "*" :
@@ -65,7 +65,7 @@ static char *cr_entry_hstate_concise(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_hstate_verbose(struct city *pcity)
+static const char *cr_entry_hstate_verbose(const struct city *pcity)
 {
   static char buf[16];
   my_snprintf(buf, sizeof(buf), "%s",
@@ -75,7 +75,7 @@ static char *cr_entry_hstate_verbose(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_workers(struct city *pcity)
+static const char *cr_entry_workers(const struct city *pcity)
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d/%d/%d", pcity->ppl_happy[4],
@@ -84,35 +84,35 @@ static char *cr_entry_workers(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_happy(struct city *pcity)
+static const char *cr_entry_happy(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_happy[4]);
   return buf;
 }
 
-static char *cr_entry_content(struct city *pcity)
+static const char *cr_entry_content(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_content[4]);
   return buf;
 }
 
-static char *cr_entry_unhappy(struct city *pcity)
+static const char *cr_entry_unhappy(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_unhappy[4]);
   return buf;
 }
 
-static char *cr_entry_angry(struct city *pcity)
+static const char *cr_entry_angry(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_angry[4]);
   return buf;
 }
 
-static char *cr_entry_specialists(struct city *pcity)
+static const char *cr_entry_specialists(const struct city *pcity)
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d/%d",
@@ -122,28 +122,28 @@ static char *cr_entry_specialists(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_entertainers(struct city *pcity)
+static const char *cr_entry_entertainers(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[SP_ELVIS]);
   return buf;
 }
 
-static char *cr_entry_scientists(struct city *pcity)
+static const char *cr_entry_scientists(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[SP_SCIENTIST]);
   return buf;
 }
 
-static char *cr_entry_taxmen(struct city *pcity)
+static const char *cr_entry_taxmen(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[SP_TAXMAN]);
   return buf;
 }
 
-static char *cr_entry_attack(struct city *pcity)
+static const char *cr_entry_attack(const struct city *pcity)
 {
   static char buf[32];
   int attack_best[4] = {-1, -1, -1, -1}, i;
@@ -175,7 +175,7 @@ static char *cr_entry_attack(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_defense(struct city *pcity)
+static const char *cr_entry_defense(const struct city *pcity)
 {
   static char buf[32];
   int defense_best[4] = {-1, -1, -1, -1}, i;
@@ -207,7 +207,7 @@ static char *cr_entry_defense(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_supported(struct city *pcity)
+static const char *cr_entry_supported(const struct city *pcity)
 {
   static char buf[8];
   int num_supported = 0;
@@ -221,7 +221,7 @@ static char *cr_entry_supported(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_present(struct city *pcity)
+static const char *cr_entry_present(const struct city *pcity)
 {
   static char buf[8];
   int num_present = 0;
@@ -235,7 +235,7 @@ static char *cr_entry_present(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_resources(struct city *pcity)
+static const char *cr_entry_resources(const struct city *pcity)
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d/%d",
@@ -245,7 +245,7 @@ static char *cr_entry_resources(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_foodplus(struct city *pcity)
+static const char *cr_entry_foodplus(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
@@ -253,7 +253,7 @@ static char *cr_entry_foodplus(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_prodplus(struct city *pcity)
+static const char *cr_entry_prodplus(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
@@ -261,7 +261,7 @@ static char *cr_entry_prodplus(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_tradeplus(struct city *pcity)
+static const char *cr_entry_tradeplus(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
@@ -269,7 +269,7 @@ static char *cr_entry_tradeplus(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_output(struct city *pcity)
+static const char *cr_entry_output(const struct city *pcity)
 {
   static char buf[32];
   int goldie;
@@ -283,7 +283,7 @@ static char *cr_entry_output(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_gold(struct city *pcity)
+static const char *cr_entry_gold(const struct city *pcity)
 {
   static char buf[8];
   int income = city_gold_surplus(pcity);
@@ -295,7 +295,7 @@ static char *cr_entry_gold(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_luxury(struct city *pcity)
+static const char *cr_entry_luxury(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
@@ -303,7 +303,7 @@ static char *cr_entry_luxury(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_science(struct city *pcity)
+static const char *cr_entry_science(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
@@ -311,7 +311,7 @@ static char *cr_entry_science(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_food(struct city *pcity)
+static const char *cr_entry_food(const struct city *pcity)
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d",
@@ -320,7 +320,7 @@ static char *cr_entry_food(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_growturns(struct city *pcity)
+static const char *cr_entry_growturns(const struct city *pcity)
 {
   static char buf[8];
   int turns = city_turns_to_grow(pcity);
@@ -334,21 +334,21 @@ static char *cr_entry_growturns(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_pollution(struct city *pcity)
+static const char *cr_entry_pollution(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d", pcity->pollution);
   return buf;
 }
 
-static char *cr_entry_num_trade(struct city *pcity)
+static const char *cr_entry_num_trade(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%d", city_num_trade_routes(pcity));
   return buf;
 }
 
-static char *cr_entry_building(struct city *pcity)
+static const char *cr_entry_building(const struct city *pcity)
 {
   static char buf[128];
   const char *from_worklist =
@@ -388,23 +388,23 @@ static char *cr_entry_building(struct city *pcity)
   return buf;
 }
 
-static char *cr_entry_corruption(struct city *pcity)
+static const char *cr_entry_corruption(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d", pcity->corruption);
   return buf;
 }
 
-static char *cr_entry_waste(struct city *pcity)
+static const char *cr_entry_waste(const struct city *pcity)
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d", pcity->shield_waste);
   return buf;
 }
 
-static char *cr_entry_cma(struct city *pcity)
+static const char *cr_entry_cma(const struct city *pcity)
 {
-  return (char *) cmafec_get_short_descr_of_city(pcity);
+  return cmafec_get_short_descr_of_city(pcity);
 }
 
 /* City report options (which columns get shown)

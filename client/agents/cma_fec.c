@@ -212,7 +212,7 @@ int cmafec_preset_num(void)
 /**************************************************************************
 ...
 **************************************************************************/
-const char *cmafec_get_short_descr_of_city(struct city *pcity)
+const char *cmafec_get_short_descr_of_city(const struct city *pcity)
 {
   struct cm_parameter parameter;
 
