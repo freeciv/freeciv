@@ -99,24 +99,6 @@ void update_report_dialogs(void)
 }
 
 /****************************************************************
-...
-****************************************************************/
-char *get_report_title(char *report_name)
-{
-  char buf[512];
-
-  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
-	  report_name,
-	  get_government_name(game.player_ptr->government),
-	  get_nation_name_plural(game.player_ptr->nation),
-	  get_ruler_title(game.player_ptr->government, game.player_ptr->is_male, game.player_ptr->nation),
-	  game.player_ptr->name,
-	  textyear(game.year));
-
-  return mystrdup(buf);
-}
-
-/****************************************************************
  Callback for the Goal popup (cycle)
 ****************************************************************/
 static void science_goal(ULONG * newgoal)
@@ -317,7 +299,7 @@ void popup_science_dialog(bool make_modal)
 
   if (science_wnd)
   {
-    char *report_title = get_report_title(_("Science Advisor"));
+    const char *report_title = get_report_title(_("Science Advisor"));
     int turns_to_advance = tech_turns_to_advance(game.player_ptr);
 
     if (turns_to_advance == FC_INFINITY) {
@@ -327,7 +309,6 @@ void popup_science_dialog(bool make_modal)
 	       PL_("%s\n(%d turn/advance)", "%s\n(%d turns/advance)",
 		   turns_to_advance), report_title, turns_to_advance);
     }
-    free(report_title);
 
     DoMethod(science_cycle_group, MUIM_Group_InitChange);
     {
@@ -564,11 +545,9 @@ static void create_trade_report_dialog(void)
 	End,
     End;
 
-  if (trade_wnd)
-  {
-    char *report_title = report_title = get_report_title(_("Trade Advisor"));
-    set(trade_title_text, MUIA_Text_Contents, report_title);
-    free(report_title);
+  if (trade_wnd) {
+    set(trade_title_text, MUIA_Text_Contents,
+	get_report_title(_("Trade Advisor")));
 
     DoMethod(trade_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, trade_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(trade_close_button, MUIM_Notify, MUIA_Pressed, FALSE, trade_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
@@ -584,7 +563,6 @@ static void create_trade_report_dialog(void)
 void economy_report_dialog_update(void)
 {
   int tax, total;
-  char *report_title;
   static struct improvement_entry entries[B_LAST];
   int i, entries_used = 0;
 
@@ -594,11 +572,8 @@ void economy_report_dialog_update(void)
   if (!trade_wnd)
     return;
 
-  if ((report_title = get_report_title(_("Trade Advisor"))))
-  {
-    set(trade_title_text, MUIA_Text_Contents, report_title);
-    free(report_title);
-  }
+  set(trade_title_text, MUIA_Text_Contents,
+      get_report_title(_("Trade Advisor")));
 
   set(trade_imprv_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(trade_imprv_listview, MUIM_NList_Clear);
@@ -814,10 +789,8 @@ void create_activeunits_report_dialog(bool make_modal)
 
   if (actunit_wnd)
   {
-    char *report_title;
-    report_title = get_report_title(_("Military Report"));
-    set(actunit_title_text, MUIA_Text_Contents, report_title);
-    free(report_title);
+    set(actunit_title_text, MUIA_Text_Contents,
+	get_report_title(_("Military Report")))
     set(actunit_upgrade_button, MUIA_Disabled, TRUE);
 
     DoMethod(actunit_wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, actunit_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
@@ -842,7 +815,6 @@ void activeunits_report_dialog_update(void)
     int building_count;
   };
 
-  char *report_title;
   int i;
   struct actunit_units_entry entry;
   struct repoinfo unitarray[U_LAST];
@@ -852,9 +824,8 @@ void activeunits_report_dialog_update(void)
   if (is_report_dialogs_frozen())
     return;
 
-  report_title = get_report_title(_("Military Report"));
-  set(actunit_title_text, MUIA_Text_Contents, report_title);
-  free(report_title);
+  set(actunit_title_text, MUIA_Text_Contents,
+      get_report_title(_("Military Report")));
 
   memset(unitarray, '\0', sizeof(unitarray));
   unit_list_iterate(game.player_ptr->units, punit)

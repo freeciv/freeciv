@@ -35,6 +35,7 @@
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "text.h"
 #include "tilespec.h"
 
 #include "chatline.h"

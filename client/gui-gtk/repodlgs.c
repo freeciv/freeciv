@@ -35,6 +35,7 @@
 #include "clinet.h"
 #include "repodlgs_common.h"
 #include "control.h"
+#include "text.h"
 
 #include "cityrep.h"
 #include "dialogs.h"

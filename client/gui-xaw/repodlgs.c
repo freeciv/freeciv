@@ -48,6 +48,7 @@
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "optiondlg.h"
+#include "text.h"
 
 #include "repodlgs.h"
 #include "repodlgs_common.h"
@@ -126,37 +127,20 @@ void update_report_dialogs(void)
 /****************************************************************
 ...
 ****************************************************************/
-char *get_report_title(char *report_name)
+const char *get_centered_report_title(char *report_name)
 {
-  char buf[512];
-  
-  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
-	      report_name,
-	      get_government_name(game.player_ptr->government),
-	      get_nation_name_plural(game.player_ptr->nation),
-	      get_ruler_title(game.player_ptr->government,
-			      game.player_ptr->is_male, game.player_ptr->nation),
-	      game.player_ptr->name,
-	      textyear(game.year));
-
-  return create_centered_string(buf);
+  return create_centered_string(get_report_title(report_name));
 }
 
 /****************************************************************
 ...
 ****************************************************************/
-static char *get_report_title_plus(char *report_name, const char *additional)
+static const char *get_report_title_plus(const char *report_name,
+					 const char *additional)
 {
   char buf[512];
   
-  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s\n%s"),
-	      report_name,
-	      get_government_name(game.player_ptr->government),
-	      get_nation_name_plural(game.player_ptr->nation),
-	      get_ruler_title(game.player_ptr->government,
-			      game.player_ptr->is_male, game.player_ptr->nation),
-	      game.player_ptr->name,
-	      textyear(game.year),
+  my_snprintf(buf, sizeof(buf), "%s%s", get_report_title(report_name),
 	      additional);
 
   return create_centered_string(buf);
@@ -218,7 +202,7 @@ void create_science_dialog(bool make_modal)
   char rate_text[128];
   char current_text[512];
   char goal_text[512];
-  char *report_title;
+  const char *report_title;
   
   my_snprintf(current_text, sizeof(current_text),
 	      _("Researching %s: %d/%d"),
@@ -260,7 +244,7 @@ void create_science_dialog(bool make_modal)
 					  XtNlabel, 
 					  report_title,
 					  NULL);
-  free(report_title);
+  free((void *) report_title);
 
   science_current_label = XtVaCreateManagedWidget("sciencecurrentlabel", 
 						  labelWidgetClass, 
@@ -475,11 +459,11 @@ void science_dialog_update(void)
     static char *tech_list_names_ptrs[A_LAST+1];
     int j, flag;
     size_t i;
-    char *report_title;
+    const char *report_title;
     
     report_title = get_report_title_plus(_("Science"), science_dialog_text());
     xaw_set_label(science_label, report_title);
-    free(report_title);
+    free((void *) report_title);
 
     my_snprintf(text, sizeof(text), _("Researching %s: %d/%d"),
 		get_tech_name(game.player_ptr,
@@ -607,7 +591,7 @@ void create_economy_report_dialog(bool make_modal)
 {
   Widget economy_form;
   Widget close_command;
-  char *report_title;
+  const char *report_title;
   
   economy_dialog_shell =
     I_T(XtVaCreatePopupShell("reporteconomypopup", 
@@ -620,13 +604,13 @@ void create_economy_report_dialog(bool make_modal)
 					 economy_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title(_("Economy"));
+  report_title=get_centered_report_title(_("Economy"));
   economy_label = XtVaCreateManagedWidget("reporteconomylabel", 
 				       labelWidgetClass, 
 				       economy_form,
 				       XtNlabel, report_title,
 				       NULL);
-  free(report_title);
+  free((void *) report_title);
 
   economy_list_label =
     I_L(XtVaCreateManagedWidget("reporteconomylistlabel", labelWidgetClass, 
@@ -763,13 +747,13 @@ void economy_report_dialog_update(void)
     Dimension width; 
     static char *economy_list_names_ptrs[B_LAST+1];
     static char economy_list_names[B_LAST][200];
-    char *report_title;
+    const char *report_title;
     char economy_total[48];
     struct improvement_entry entries[B_LAST];
     
-    report_title=get_report_title(_("Economy"));
+    report_title=get_centered_report_title(_("Economy"));
     xaw_set_label(economy_label, report_title);
-    free(report_title);
+    free((void *) report_title);
 
     get_economy_report_data(entries, &entries_used, &total, &tax);
 
@@ -861,7 +845,7 @@ void create_activeunits_report_dialog(bool make_modal)
 {
   Widget activeunits_form;
   Widget close_command, refresh_command;
-  char *report_title;
+  const char *report_title;
   
   activeunits_dialog_shell =
     I_T(XtVaCreatePopupShell("reportactiveunitspopup", 
@@ -874,13 +858,13 @@ void create_activeunits_report_dialog(bool make_modal)
 					 activeunits_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title(_("Units"));
+  report_title=get_centered_report_title(_("Units"));
   activeunits_label = XtVaCreateManagedWidget("reportactiveunitslabel", 
 				       labelWidgetClass, 
 				       activeunits_form,
 				       XtNlabel, report_title,
 				       NULL);
-  free(report_title);
+  free((void *) report_title);
 
   activeunits_list_label =
     I_L(XtVaCreateManagedWidget("reportactiveunitslistlabel", 
@@ -1058,12 +1042,12 @@ void activeunits_report_dialog_update(void)
     static char activeunits_list_names[U_LAST][200];
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;
-    char *report_title;
+    const char *report_title;
     char activeunits_total[100];
     
-    report_title=get_report_title(_("Units"));
+    report_title = get_centered_report_title(_("Units"));
     xaw_set_label(activeunits_label, report_title);
-    free(report_title);
+    free((void *) report_title);
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {

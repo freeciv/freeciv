@@ -374,14 +374,9 @@ static void create_city_report_dialog(void)
 	End,
     End;
 
-  if (cityrep_wnd)
-  {
-    char *report_title = get_report_title(_("City Report"));
-    if (report_title)
-    {
-      set(cityrep_title_text, MUIA_Text_Contents, report_title);
-      free(report_title);
-    }
+  if (cityrep_wnd) {
+    set(cityrep_title_text, MUIA_Text_Contents,
+	get_report_title(_("City Report")));
 
     set(cityrep_change_button, MUIA_Disabled, TRUE);
     set(cityrep_center_button, MUIA_Disabled, TRUE);
@@ -408,16 +403,13 @@ static void create_city_report_dialog(void)
 *****************************************************************/
 void city_report_dialog_update(void)
 {
-  char *report_title;
-
   if (!cityrep_wnd)
     return;
   if (is_report_dialogs_frozen())
     return;
 
-  report_title = get_report_title(_("City Advisor"));
-  set(cityrep_title_text, MUIA_Text_Contents, report_title);
-  free(report_title);
+  set(cityrep_title_text, MUIA_Text_Contents,
+      get_report_title(_("City Advisor")));
 
   set(cityrep_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(cityrep_listview, MUIM_NList_Clear);

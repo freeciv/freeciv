@@ -39,6 +39,7 @@
 #include "control.h"		/* get_unit_in_focus() */
 #include "goto.h"
 #include "options.h"
+#include "text.h"
 #include "tilespec.h"
 
 #include "citydlg.h"		/* For reset_city_dialogs() */
@@ -112,13 +113,7 @@ void update_turn_done_button(bool do_restore)
 **************************************************************************/
 void update_timeout_label(void)
 {
-  char buffer[512];
-
-  if (game.timeout <= 0)
-    sz_strlcpy(buffer, Q_("?timeout:off"));
-  else
-    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
-  gtk_set_label(timeout_label, buffer);
+  gtk_set_label(timeout_label, get_timeout_label_text());
 }
 
 /**************************************************************************

@@ -54,6 +54,7 @@
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
+#include "text.h"
 #include "tilespec.h"
 
 #include "mapctrl.h"
@@ -110,7 +111,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
   if (tile_get_known(xtile, ytile)>=TILE_KNOWN_FOGGED) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass,
 				map_canvas, NULL, 0);
-    content = popup_info_text(xtile,ytile);
+    content = (char *) popup_info_text(xtile, ytile);
     /* content is provided to us as a single string with multiple lines,
        but xaw doens't support multi-line labels.  So we break it up.
        We mangle it in the process, but who cares?  It's never going to be

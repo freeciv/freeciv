@@ -399,77 +399,6 @@ void center_on_something(void)
 }
 
 /**************************************************************************
-Format a duration, in seconds, so it comes up in minutes or hours if
-that would be more meaningful.
-(7 characters, maximum.  Enough for, e.g., "99h 59m".)
-**************************************************************************/
-void format_duration(char *buffer, int buffer_size, int duration)
-{
-  if (duration < 0)
-    duration = 0;
-  if (duration < 60)
-    my_snprintf(buffer, buffer_size, Q_("?seconds:%02ds"),
-		duration);
-  else if (duration < 3600)	/* < 60 minutes */
-    my_snprintf(buffer, buffer_size, Q_("?mins/secs:%02dm %02ds"),
-		duration/60, duration%60);
-  else if (duration < 360000)	/* < 100 hours */
-    my_snprintf(buffer, buffer_size, Q_("?hrs/mns:%02dh %02dm"),
-		duration/3600, (duration/60)%60);
-  else if (duration < 8640000)	/* < 100 days */
-    my_snprintf(buffer, buffer_size, Q_("?dys/hrs:%02dd %02dh"),
-		duration/86400, (duration/3600)%24);
-  else
-    my_snprintf(buffer, buffer_size, Q_("?duration:overflow"));
-}
-
-/**************************************************************************
- Concats buf with activity progress text for given tile. Returns
- number of activities.
-**************************************************************************/
-int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
-{
-  int activity_total[ACTIVITY_LAST];
-  int activity_units[ACTIVITY_LAST];
-  int num_activities = 0;
-  int remains, turns, i, mr, au;
-  struct tile *ptile = map_get_tile(x, y);
-
-  memset(activity_total, 0, sizeof(activity_total));
-  memset(activity_units, 0, sizeof(activity_units));
-
-  unit_list_iterate(ptile->units, punit) {
-    mr = get_unit_type(punit->type)->move_rate;
-    au = (mr > 0) ? mr / SINGLE_MOVE : 1;
-    activity_total[punit->activity] += punit->activity_count;
-    if (punit->moves_left > 0) {
-      /* current turn */
-      activity_total[punit->activity] += au;
-    }
-    activity_units[punit->activity] += au;
-  }
-  unit_list_iterate_end;
-
-  for (i = 0; i < ACTIVITY_LAST; i++) {
-    if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
-      if (num_activities > 0)
-	(void) mystrlcat(buf, "/", buf_size);
-      remains = map_activity_time(i, x, y) - activity_total[i];
-      if (remains > 0) {
-	turns = 1 + (remains + activity_units[i] - 1) / activity_units[i];
-      } else {
-	/* activity will be finished this turn */
-	turns = 1;
-      }
-      cat_snprintf(buf, buf_size, "%s(%d)", get_activity_text(i), turns);
-      num_activities++;
-    }
-  }
-
-  return num_activities;
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 cid cid_encode(bool is_unit, int id)
@@ -909,62 +838,6 @@ int num_present_units_in_city(struct city *pcity)
 }
 
 /**************************************************************************
-  Returns a description of the given spaceship. The string doesn't
-  have to be freed. If pship is NULL returns a text with the same
-  format as the final one but with dummy values.
-**************************************************************************/
-char *get_spaceship_descr(struct player_spaceship *pship)
-{
-  static char buf[512];
-  char arrival[16], travel_buf[100], mass_buf[100];
-
-  if (!pship) {
-    return _("Population:       1234\n"
-	     "Support:           100 %\n"
-	     "Energy:            100 %\n"
-	     "Mass:            12345 tons\n"
-	     "Travel time:      1234 years\n"
-	     "Success prob.:     100 %\n"
-	     "Year of arrival:  1234 AD");
-  }
-
-  if (pship->propulsion > 0) {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-		_("Travel time:     %5.1f years"),
-		(float) (0.1 * ((int) (pship->travel_time * 10.0))));
-  } else {
-    my_snprintf(travel_buf, sizeof(travel_buf),
-		"%s", _("Travel time:        N/A     "));
-  }
-
-  if (pship->state == SSHIP_LAUNCHED) {
-    sz_strlcpy(arrival, textyear((int) (pship->launch_year
-					+ (int) pship->travel_time)));
-  } else {
-    sz_strlcpy(arrival, "-   ");
-  }
-
-  my_snprintf(mass_buf, sizeof(mass_buf),
-	      PL_("Mass:            %5d ton",
-		  "Mass:            %5d tons", pship->mass), pship->mass);
-
-  my_snprintf(buf, sizeof(buf),
-	      _("Population:      %5d\n"
-		"Support:         %5d %%\n"
-		"Energy:          %5d %%\n"
-		"%s\n"
-		"%s\n"
-		"Success prob.:   %5d %%\n"
-		"Year of arrival: %8s"),
-	      pship->population,
-	      (int) (pship->support_rate * 100.0),
-	      (int) (pship->energy_rate * 100.0),
-	      mass_buf,
-	      travel_buf, (int) (pship->success_rate * 100.0), arrival);
-  return buf;
-}
-
-/**************************************************************************
   Creates a struct packet_generic_message packet and injects it via
   handle_chat_msg.
 **************************************************************************/
@@ -1092,70 +965,6 @@ struct city *get_nearest_city(struct unit *punit, int *sq_dist)
   return pcity_near;
 }
 
-#define FAR_CITY_SQUARE_DIST (2*(6*6))
-
-/**************************************************************************
-  Fill buf (of size bufsz) with proper nearest city message.
-  Returns buf.
-**************************************************************************/
-char *get_nearest_city_text(struct city *pcity, int sq_dist,
-			    char *buf, size_t bufsz)
-{
-  /* just to be sure */
-  if (!pcity) {
-    sq_dist = -1;
-  }
-
-  my_snprintf(buf, bufsz, 
-	      (sq_dist >= FAR_CITY_SQUARE_DIST) ? _("far from %s")
-	      : (sq_dist > 0) ? _("near %s")
-	      : (sq_dist == 0) ? _("in %s")
-	      : "%s",
-	      pcity ? pcity->name : "");
-
-  return buf;
-}
-
-/**************************************************************************
-  Returns unit description (as static buffer).
-**************************************************************************/
-const char *unit_description(struct unit *punit)
-{
-  struct city *pcity, *pcity_near;
-  int pcity_near_dist;
-  static char buffer[512];
-  char buffer2[64];
-  char buffer3[64];
-  char buffer4[64];
-  struct unit_type *ptype = unit_type(punit);
-
-  pcity = player_find_city_by_id(game.player_ptr, punit->homecity);
-  pcity_near = get_nearest_city(punit, &pcity_near_dist);
-
-  if (pcity) {
-    my_snprintf(buffer3, sizeof(buffer3), _("from %s"), pcity->name);
-  } else {
-    buffer3[0] = 0;
-  }
-
-  my_snprintf(buffer4, sizeof(buffer4), _("%s"), ptype->name);
-
-  if (ptype->veteran[punit->veteran].name[0] != '\0') {
-    sz_strlcat(buffer4, " (");
-    sz_strlcat(buffer4, ptype->veteran[punit->veteran].name);
-    sz_strlcat(buffer4, ")");
-  }
-
-  my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s\n%s", 
-	      buffer4,
-	      unit_activity_text(punit), 
-	      buffer3,
-	      get_nearest_city_text(pcity_near, pcity_near_dist,
-				    buffer2, sizeof(buffer2)));
-
-  return buffer;
-}
-
 /**************************************************************************
   Called when the "Buy" button is pressed in the city report for every
   selected city. Checks for coinage and sufficient funds or request the
@@ -1192,58 +1001,6 @@ void cityrep_buy(struct city *pcity)
 		name, value, game.player_ptr->economic.gold);
     append_output_window(buf);
   }
-}
-
-/**************************************************************************
-  Returns the text to display in the science dialog.
-**************************************************************************/
-const char *science_dialog_text()
-{
-  int turns_to_advance;
-  static char text[512];
-  struct player *plr = game.player_ptr;
-  int ours = 0, theirs = 0;
-
-  /* Sum up science */
-  players_iterate(pplayer) {
-    enum diplstate_type ds = pplayer_get_diplstate(plr, pplayer)->type;
-
-    if (plr == pplayer) {
-      city_list_iterate(pplayer->cities, pcity) {
-        ours += pcity->science_total;
-      } city_list_iterate_end;
-    } else if (ds == DS_TEAM) {
-      theirs += pplayer->research.bulbs_last_turn;
-    }
-  } players_iterate_end;
-
-  if (ours == 0 && theirs == 0) {
-    my_snprintf(text, sizeof(text), _("Progress: no research"));
-    return text;
-  }
-  if (ours < 0 || theirs < 0) {
-    die("Negative science in science_dialog_text");
-  }
-  turns_to_advance = (total_bulbs_required(plr) + ours + theirs - 1)
-                     / (ours + theirs);
-  if (theirs == 0) {
-    /* Simple version, no techpool */
-    my_snprintf(text, sizeof(text),
-                PL_("Progress: %d turn/advance (%d pts/turn)",
-                    "Progress: %d turns/advance (%d pts/turn)",
-                    turns_to_advance),
-                turns_to_advance, ours);
-  } else {
-    /* Techpool version */
-    my_snprintf(text, sizeof(text),
-                PL_("Progress: %d turn/advance (%d pts/turn, "
-                    "%d pts/turn from team)",
-                    "Progress: %d turns/advance (%d pts/turn, "
-                    "%d pts/turn from team)",
-                    turns_to_advance),
-                turns_to_advance, ours, theirs);
-  }
-  return text;
 }
 
 void common_taxrates_callback(int i)

@@ -1129,13 +1129,12 @@ city_report_dialog_update(void)
   char  buf   [NUM_CREPORT_COLS][64];
   char full_row[1024];
   int   i;
-  char *report_title;
   struct city_report_spec *spec; 
   if(is_report_dialogs_frozen()) return;    
   if (!hCityRep)
     return;
-  report_title=get_report_title(_("City Advisor"));      
-  SetWindowText(GetDlgItem(hCityRep,ID_CITYREP_TOP),report_title);
+  SetWindowText(GetDlgItem(hCityRep, ID_CITYREP_TOP),
+		get_report_title(_("City Advisor")));
   for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
     {
       row[i] = buf[i];    

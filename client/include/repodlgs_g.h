@@ -18,7 +18,6 @@
 
 #include "repodlgs_common.h"
 
-char *get_report_title(char *report_name);
 void update_report_dialogs(void);
 
 void science_dialog_update(void);

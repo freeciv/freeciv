@@ -45,6 +45,7 @@
 #include "options.h"
 #include "packhand_gen.h"
 #include "control.h"
+#include "text.h"
 
 #include "repodlgs_common.h"
 #include "repodlgs.h"

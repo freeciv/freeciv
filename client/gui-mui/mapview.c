@@ -177,13 +177,7 @@ void update_turn_done_button(bool do_restore)
 **************************************************************************/
 void update_timeout_label(void)
 {
-  char buffer[64];
-  if (game.timeout <= 0)
-    sz_strlcpy(buffer, _("off"));
-  else
-    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
-
-  settext(main_timeout_text, buffer);
+  settext(main_timeout_text, get_timeout_label_text());
 }
 
 /**************************************************************************

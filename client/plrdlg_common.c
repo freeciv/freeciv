@@ -195,28 +195,6 @@ static const char *col_idle(struct player *plr)
 }
 
 /******************************************************************
-  TODO: When the new common code for players dialog is finally used
-  by all clients make this function static and name it col_ping().
-*******************************************************************/
-const char *get_ping_time_text(struct player *pplayer)
-{
-  static char buffer[32];
-
-  if (conn_list_size(&pplayer->connections) > 0
-      && conn_list_get(&pplayer->connections, 0)->ping_time != -1.0) {
-    double ping_time_in_ms =
-	1000 * conn_list_get(&pplayer->connections, 0)->ping_time;
-
-    my_snprintf(buffer, sizeof(buffer), _("%6d.%02d ms"),
-		(int) ping_time_in_ms,
-		((int) (ping_time_in_ms * 100.0)) % 100);
-  } else {
-    buffer[0] = '\0';
-  }
-  return buffer;
-}
-
-/******************************************************************
  ...
 *******************************************************************/
 struct player_dlg_column player_dlg_columns[] = {

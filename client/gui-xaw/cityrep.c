@@ -53,6 +53,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "repodlgs.h"
+#include "text.h"
 
 #include "cityrep.h"
 
@@ -210,7 +211,7 @@ void popdown_city_report_dialog(void)
 void create_city_report_dialog(bool make_modal)
 {
   Widget close_command;
-  char *report_title;
+  const char *report_title;
   
   city_dialog_shell =
     I_T(XtVaCreatePopupShell("reportcitypopup", 
@@ -223,14 +224,14 @@ void create_city_report_dialog(bool make_modal)
 				      city_dialog_shell,
 				      NULL);   
 
-  report_title=get_report_title(_("Cities"));
+  report_title=get_centered_report_title(_("Cities"));
   city_label = XtVaCreateManagedWidget("reportcitylabel", 
 				       labelWidgetClass, 
 				       city_form,
 				       XtNlabel, 
 				       report_title,
 				       NULL);
-  free(report_title);
+  free((void *) report_title);
   city_list_label = XtVaCreateManagedWidget("reportcitylistlabel", 
 				            labelWidgetClass, 
 				            city_form,
@@ -511,7 +512,7 @@ void city_report_dialog_update(void)
     Dimension width;
     static int n_alloc = 0;
     static char **city_list_text = NULL;
-    char *report_title;
+    const char *report_title;
 
     n = city_list_size(&game.player_ptr->cities);
     freelog(LOG_DEBUG, "%d cities in report", n);
@@ -529,9 +530,9 @@ void city_report_dialog_update(void)
       }
     }
        
-    report_title=get_report_title(_("Cities"));
+    report_title=get_centered_report_title(_("Cities"));
     xaw_set_label(city_label, report_title);
-    free(report_title);
+    free((void *) report_title);
 
     xaw_set_label(city_list_label, get_city_table_header());
     

@@ -54,6 +54,7 @@
 #include "tilespec.h"
 #include "wldlg.h"
 #include "log.h"
+#include "text.h"
 #include "cityicon.ico"
 
 #include "citydlg.h"

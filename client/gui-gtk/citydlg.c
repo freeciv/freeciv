@@ -56,6 +56,7 @@
 #include "inputdlg.h"
 #include "mapview.h"
 #include "repodlgs.h"
+#include "text.h"
 #include "wldlg.h"
 
 #include "citydlg.h"

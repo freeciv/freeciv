@@ -43,6 +43,7 @@
 #include "colors.h"
 #include "graphics.h"
 #include "options.h"
+#include "text.h"
 
 #include "plrdlg.h"
 

@@ -43,6 +43,7 @@
 #include "menu.h"
 #include "tilespec.h"
 #include "cma_core.h"
+#include "text.h"
 
 #include "mapctrl.h"
 

@@ -19,7 +19,6 @@
 struct city;
 struct Clause;
 struct player;
-struct player_spaceship;
 struct unit;
 
 typedef int cid;
@@ -31,8 +30,6 @@ void client_remove_unit(struct unit *punit);
 
 void client_change_all(cid x, cid y);
 
-void format_duration(char *buffer, int buffer_size, int duration);
-
 const char *get_embassy_status(struct player *me, struct player *them);
 const char *get_vision_status(struct player *me, struct player *them);
 void client_diplomacy_clause_string(char *buf, int bufsiz,
@@ -43,8 +40,6 @@ int client_warming_sprite(void);
 int client_cooling_sprite(void);
 
 void center_on_something(void);
-
-int concat_tile_activity_text(char *buf, int buf_size, int x, int y);
 
 /* 
  * A compound id (cid) can hold all objects a city can build:
@@ -107,7 +102,6 @@ int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
 int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
-char *get_spaceship_descr(struct player_spaceship *pship);
 void create_event(int x, int y, enum event_type event,
 		  const char *format, ...)
      fc__attribute((format (printf, 4, 5)));
@@ -119,11 +113,6 @@ void reports_thaw(void);
 void reports_force_thaw(void);
 
 struct city *get_nearest_city(struct unit *punit, int *sq_dist);
-char *get_nearest_city_text(struct city *pcity, int sq_dist,
-			    char *buf, size_t bufsz);
-
-const char *unit_description(struct unit *punit);
-const char *science_dialog_text(void);
 
 void cityrep_buy(struct city *pcity);
 void common_taxrates_callback(int i);

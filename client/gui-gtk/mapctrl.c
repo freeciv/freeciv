@@ -34,6 +34,7 @@
 #include "cma_core.h"
 #include "control.h"
 #include "goto.h"
+#include "text.h"
 #include "tilespec.h"
 
 #include "chatline.h"

@@ -53,6 +53,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "repodlgs.h"
+#include "text.h"
 #include "tilespec.h"
 #include "climisc.h"
 

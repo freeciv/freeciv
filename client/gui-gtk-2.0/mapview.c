@@ -46,6 +46,7 @@
 #include "mapctrl.h"
 #include "options.h"
 #include "tilespec.h"
+#include "text.h"
 
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
@@ -112,13 +113,7 @@ void update_turn_done_button(bool do_restore)
 **************************************************************************/
 void update_timeout_label(void)
 {
-  char buffer[512];
-
-  if (game.timeout <= 0)
-    sz_strlcpy(buffer, Q_("?timeout:off"));
-  else
-    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
-  gtk_label_set_text(GTK_LABEL(timeout_label), buffer);
+  gtk_label_set_text(GTK_LABEL(timeout_label), get_timeout_label_text());
 }
 
 /**************************************************************************
@@ -126,23 +121,13 @@ void update_timeout_label(void)
 **************************************************************************/
 void update_info_label( void )
 {
-  char buffer	[512];
   int  d;
   int  sol, flake;
 
   gtk_frame_set_label(GTK_FRAME(main_frame_civ_name),
 		      get_nation_name(game.player_ptr->nation));
 
-  my_snprintf(buffer, sizeof(buffer),
-	      _("Population: %s\nYear: %s\n"
-		"Gold: %d\nTax: %d Lux: %d Sci: %d"),
-	      population_to_text(civ_population(game.player_ptr)),
-	      textyear(game.year), game.player_ptr->economic.gold,
-	      game.player_ptr->economic.tax,
-	      game.player_ptr->economic.luxury,
-	      game.player_ptr->economic.science);
-
-  gtk_label_set_text(GTK_LABEL(main_label_info), buffer);
+  gtk_label_set_text(GTK_LABEL(main_label_info), get_info_label_text());
 
   sol = client_warming_sprite();
   flake = client_cooling_sprite();
@@ -178,32 +163,13 @@ void update_info_label( void )
 		       _("Shows your current luxury/science/tax rates;"
 			 "click to toggle them."), "");
 
-  my_snprintf(buffer, sizeof(buffer),
-	      _("Shows your progress in researching "
-		"the current technology.\n"
-		"%s: %d/%d."),
-		advances[game.player_ptr->research.researching].name,
-		game.player_ptr->research.bulbs_researched,
-		total_bulbs_required(game.player_ptr));
-  gtk_tooltips_set_tip(main_tips, bulb_ebox, buffer, "");
-  
-  my_snprintf(buffer, sizeof(buffer),
-	      _("Shows the progress of global warming:\n"
-		"%d."),
-	      sol);
-  gtk_tooltips_set_tip(main_tips, sun_ebox, buffer, "");
-
-  my_snprintf(buffer, sizeof(buffer),
-	      _("Shows the progress of nuclear winter:\n"
-		"%d."),
-	      flake);
-  gtk_tooltips_set_tip(main_tips, flake_ebox, buffer, "");
-
-  my_snprintf(buffer, sizeof(buffer),
-	      _("Shows your current government:\n"
-		"%s."),
-	      get_government_name(game.player_ptr->government));
-  gtk_tooltips_set_tip(main_tips, government_ebox, buffer, "");
+  gtk_tooltips_set_tip(main_tips, bulb_ebox, get_bulb_tooltip(), "");
+  gtk_tooltips_set_tip(main_tips, sun_ebox, get_global_warming_tooltip(),
+		       "");
+  gtk_tooltips_set_tip(main_tips, flake_ebox, get_nuclear_winter_tooltip(),
+		       "");
+  gtk_tooltips_set_tip(main_tips, government_ebox, get_government_tooltip(),
+		       "");
 }
 
 /**************************************************************************
@@ -218,34 +184,12 @@ void update_info_label( void )
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
+  gtk_frame_set_label(GTK_FRAME(unit_info_frame),
+		      get_unit_info_label_text1(punit));
+  gtk_label_set_text(GTK_LABEL(unit_info_label),
+		     get_unit_info_label_text2(punit));
+
   if(punit) {
-    char buffer[512];
-    struct city *pcity =
-	player_find_city_by_id(game.player_ptr, punit->homecity);
-    int infrastructure =
-	get_tile_infrastructure_set(map_get_tile(punit->x, punit->y));
-    struct unit_type *ptype = unit_type(punit);
-
-    my_snprintf(buffer, sizeof(buffer), "%s", ptype->name);
-
-    if (ptype->veteran[punit->veteran].name[0] != '\0') {
-      sz_strlcat(buffer, " (");
-      sz_strlcat(buffer, _(ptype->veteran[punit->veteran].name));
-      sz_strlcat(buffer, ")");
-    }
-
-    gtk_frame_set_label(GTK_FRAME(unit_info_frame), buffer);
-
-    my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s%s",
-		(hover_unit == punit->id) ?
-		_("Select destination") : unit_activity_text(punit),
-		map_get_tile_info_text(punit->x, punit->y),
-		infrastructure ?
-		map_get_infrastructure_text(infrastructure) : "",
-		infrastructure ? "\n" : "", pcity ? pcity->name : "",
-		infrastructure ? "" : "\n");
-    gtk_label_set_text(GTK_LABEL(unit_info_label), buffer);
-
     if (hover_unit != punit->id)
       set_hover_state(NULL, HOVER_NONE);
 
@@ -268,8 +212,6 @@ void update_unit_info_label(struct unit *punit)
       break;
     }
   } else {
-    gtk_frame_set_label( GTK_FRAME(unit_info_frame),"");
-    gtk_label_set_text(GTK_LABEL(unit_info_label), "\n\n\n");
     gdk_window_set_cursor(root_window, NULL);
   }
   update_unit_pix_label(punit);

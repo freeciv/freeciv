@@ -41,6 +41,7 @@
 #include "optiondlg.h"    
 #include "repodlgs_common.h"
 #include "repodlgs.h"
+#include "text.h"
 
 static HWND economy_dlg;
 static HWND activeunits_dlg;
@@ -50,26 +51,6 @@ extern HWND root_window;
 extern struct connection aconnection;               
 int economy_improvement_type[B_LAST];   
 int activeunits_type[U_LAST]; 
-
-/**************************************************************************
-
-**************************************************************************/
-char *
-get_report_title(char *report_name)
-{
- static char buf[512];
- 
-  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
-          report_name,
-          get_government_name(game.player_ptr->government),
-          get_nation_name_plural(game.player_ptr->nation),
-          get_ruler_title(game.player_ptr->government,
-                          game.player_ptr->is_male, game.player_ptr->nation),
-          game.player_ptr->name,
-          textyear(game.year));
- 
-  return buf;      
-}
 
 /**************************************************************************
 
@@ -91,13 +72,11 @@ void
 science_dialog_update(void)
 {
  
-  char text[512], rate[128];
-  int i, hist, id, turns_to_advance, steps;
-  char *report_title;
+  char text[512];
+  int i, hist, id, steps;
 
   if (!science_dlg) return;            
-  report_title=get_report_title(_("Science"));
-  sz_strlcpy(text, report_title);
+  sz_strlcpy(text, get_report_title(_("Science")));
   sz_strlcat(text, science_dialog_text());
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_TOP),text);
   ListBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_LIST));
@@ -295,7 +274,6 @@ economy_report_dialog_update(void)
    
   HWND lv;
   int tax, total, i, entries_used;
-  char  *report_title;
   char   buf0 [64];
   char   buf1 [64];
   char   buf2 [64];
@@ -307,9 +285,8 @@ economy_report_dialog_update(void)
   if(is_report_dialogs_frozen()) return;      
   if(!economy_dlg) return;
   lv=GetDlgItem(economy_dlg,ID_TRADEREP_LIST);
-  report_title=get_report_title(_("Economy"));
-  SetWindowText(GetDlgItem(economy_dlg,ID_TRADEREP_TOP),
-		report_title);
+  SetWindowText(GetDlgItem(economy_dlg, ID_TRADEREP_TOP),
+		get_report_title(_("Economy")));
   ListView_DeleteAllItems(lv);
   row[0] = buf0;
   row[1] = buf1;
@@ -603,13 +580,12 @@ activeunits_report_dialog_update(void)
 
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;
-    char  *report_title;
 
     char *row[AU_COL];
     char   buf[AU_COL][64];
 
-    report_title=get_report_title(_("Units"));
-    SetWindowText(GetDlgItem(activeunits_dlg,ID_MILITARY_TOP),report_title);
+    SetWindowText(GetDlgItem(activeunits_dlg, ID_MILITARY_TOP),
+		  get_report_title(_("Units")));
     lv=GetDlgItem(activeunits_dlg,ID_MILITARY_LIST);
     ListView_DeleteAllItems(lv);
     for (i = 0; i < ARRAY_SIZE(row); i++) {

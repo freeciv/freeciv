@@ -70,6 +70,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "options.h"
+#include "text.h"
 #include "tilespec.h"
 
 #include "cityicon.ico"

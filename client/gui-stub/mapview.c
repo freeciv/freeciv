@@ -74,15 +74,8 @@ void update_unit_info_label(struct unit *punit)
 void update_timeout_label(void)
 {
   /* PORTME */
-  char buffer[512];
-
-  if (game.timeout <= 0) {
-    sz_strlcpy(buffer, Q_("?timeout:off"));
-  } else {
-    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
-  }
-
-  /* ... */
+    
+  /* set some widget based on get_timeout_label_text() */
 }
 
 /****************************************************************************

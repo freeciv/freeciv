@@ -146,6 +146,8 @@ struct player_ai {
 
 /* Diplomatic states (how one player views another).
  * (Some diplomatic states are "pacts" (mutual agreements), others aren't.)
+ *
+ * Adding to or reordering this array will break many things.
  */
 enum diplstate_type {
   DS_NEUTRAL = 0,
