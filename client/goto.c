@@ -321,22 +321,22 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  if (ground_unit_transporter_capacity(x1, y1, punit->owner) <= 0)
 	    continue;
 	  else
-	    move_cost = 3;
+	    move_cost = SINGLE_MOVE;
 	} else if (psrctile->terrain == T_OCEAN) {
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
-	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
+	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_types[punit->type].move_rate);
 	} else if (igter) {
-	  move_cost = (psrctile->move_cost[dir] ? 1 : 0);
+	  move_cost = (psrctile->move_cost[dir] ? MOVE_COST_ROAD : 0);
 	} else {
 	  move_cost = MIN(psrctile->move_cost[dir], unit_types[punit->type].move_rate);
 	}
 
 	if (pdesttile->terrain == T_UNKNOWN) {
-	  /* Don't go into the unknown. 9 is an arbitrary deterrent. */
-	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? 3 : 9;
+	  /* Don't go into the unknown. * 3 is an arbitrary deterrent. */
+	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 3 * SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
 	  add_to_queue = 0;
-	  move_cost = 3;
+	  move_cost = SINGLE_MOVE;
 	} else if (is_non_allied_city_tile(pdesttile, punit->owner)) {
 	  add_to_queue = 0;
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1))
@@ -360,17 +360,17 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	  continue; /* No need for all the calculations */
 
 	if (pdesttile->terrain == T_UNKNOWN) {
-	  move_cost = 6; /* arbitrary */
+	  move_cost = 2*SINGLE_MOVE; /* arbitrary */
 	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)
 		   || is_non_allied_city_tile(pdesttile, punit->owner)) {
 	  add_to_queue = 0;
-	  move_cost = 3;
+	  move_cost = SINGLE_MOVE;
 	} else if (psrctile->move_cost[dir] != -3) {/*is -3 if sea units can move between*/
 	  continue;
 	} else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1)) {
-	  move_cost = 7;
+	  move_cost = 2*SINGLE_MOVE+1;
 	} else {
-	  move_cost = 3;
+	  move_cost = SINGLE_MOVE;
 	}
 
 	total_cost = move_cost + goto_map.move_cost[x][y];
@@ -392,7 +392,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	if (goto_map.move_cost[x1][y1] <= goto_map.move_cost[x][y])
 	  continue; /* No need for all the calculations */
 
-	move_cost = 3;
+	move_cost = SINGLE_MOVE;
 	/* Planes could run out of fuel, therefore we don't care if territory
 	   is unknown. Also, don't attack except at the destination. */
 

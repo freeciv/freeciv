@@ -409,7 +409,9 @@ int is_at_coast(int x, int y)
 int is_coastline(int x, int y)
 {
   adjc_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) != T_OCEAN)
+    enum tile_terrain_type ter = map_get_terrain(x1, y1);
+    if (ter != T_OCEAN
+	&& ter != T_UNKNOWN)
       return 1;
   } adjc_iterate_end;
 

@@ -326,10 +326,10 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	    continue;
 	} else if (ptile->terrain == T_OCEAN) {
 	  int base_cost = get_tile_type(map_get_terrain(x1, y1))->movement_cost * SINGLE_MOVE;
-	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
+	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_types[punit->type].move_rate);
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
-	  move_cost = (ptile->move_cost[dir] ? 3 : 0);
+	  move_cost = (ptile->move_cost[dir] ? SINGLE_MOVE : 0);
         else if (punit)
 	  move_cost = MIN(ptile->move_cost[dir], unit_types[punit->type].move_rate);
 	/* else c = ptile->move_cost[k]; 
@@ -713,13 +713,13 @@ static int find_the_shortest_path(struct unit *punit,
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? 1 : MIN(base_cost, unit_types[punit->type].move_rate);
 	} else if (igter)
-	  move_cost = (psrctile->move_cost[dir] ? 3 : 0);
+	  move_cost = (psrctile->move_cost[dir] ? SINGLE_MOVE : 0);
 	else
 	  move_cost = MIN(psrctile->move_cost[dir], unit_types[punit->type].move_rate);
 
 	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
-	  /* Don't go into the unknown. 15 is an arbitrary deterrent. */
-	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? 3 : 15;
+	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
+	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE;
 	} else if (is_non_allied_unit_tile(pdesttile, punit->owner)) {
 	  if (x1 != dest_x || y1 != dest_y) { /* Allow players to target anything */
 	    if (pplayer->ai.control) {
@@ -777,18 +777,19 @@ static int find_the_shortest_path(struct unit *punit,
 	if (psrctile->move_cost[dir] != -3 /* is -3 if sea units can move between */
 	    && (dest_x != x1 || dest_y != y1)) /* allow ships to target a shore */
 	  continue;
-	else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1))
-	  move_cost = 7;
-	else
+	else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1)) {
+	  move_cost = 2*SINGLE_MOVE+1;
+	} else {
 	  move_cost = SINGLE_MOVE;
+	}
 
 	/* See previous comment on pcargo */
-	if (x1 == dest_x && y1 == dest_y && pcargo && move_cost < 60 &&
+	if (x1 == dest_x && y1 == dest_y && pcargo && move_cost < 20*SINGLE_MOVE &&
 	    !is_my_zoc(pcargo, x, y))
-	  move_cost = 60;
+	  move_cost = 20*SINGLE_MOVE;
 
 	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer))
-	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? 3 : 15; /* arbitrary deterrent. */
+	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE; /* arbitrary deterrent. */
 
 	/* We don't allow attacks during GOTOs here; you can almost
 	   always find a way around enemy units on sea */
