@@ -1292,4 +1292,5 @@ void rand_neighbour(int x0, int y0, int *x, int *y)
   *y = y0 + DIR_DY[choice];
 
   assert(is_real_tile(*x, *y));
+  normalize_map_pos(x, y);
 }

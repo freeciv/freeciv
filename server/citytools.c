@@ -1887,6 +1887,7 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
     int map_x = pcity->x + city_x - CITY_MAP_SIZE/2;
     int map_y = pcity->y + city_y - CITY_MAP_SIZE/2;
     assert(is_real_tile(map_x, map_y));
+    normalize_map_pos(&map_x, &map_y);
 
     map_city_radius_iterate(map_x, map_y, x1, y1) {
       struct city *pcity2 = map_get_city(x1, y1);
