@@ -110,15 +110,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   unit_cost = unit_cost * unit_type(punit)->hp / punit->hp; 
 
   /* Determine cost of enemy units */
-  if( is_stack_vulnerable(dest_x, dest_y) ) {
-    /* lotsa people die */
-    unit_list_iterate(map_get_tile(dest_x, dest_y)->units, aunit) {
-      victim_cost += unit_type(aunit)->build_cost;
-    } unit_list_iterate_end;
-  } else {
-    /* Only one unit dies if attack is successful */
-    victim_cost = unit_type(pdefender)->build_cost;
-  }
+  victim_cost = stack_cost(pdefender);
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
   if (unit_flag(punit, F_MISSILE)) {

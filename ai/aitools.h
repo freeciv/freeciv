@@ -42,7 +42,7 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
                                  Unit_Type_id type, bool make_veteran);
 void destroy_unit_virtual(struct unit *punit);
-bool is_stack_vulnerable(int x, int y);
+int stack_cost(struct unit *pdef);
 
 bool ai_unit_gothere(struct unit *punit);
 bool ai_unit_goto(struct unit *punit, int x, int y);

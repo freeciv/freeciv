@@ -455,11 +455,32 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
   Is it a city/fortress or will the whole stack die in an attack
   TODO: use new killstack thing
 **************************************************************************/
-bool is_stack_vulnerable(int x, int y)
+static bool is_stack_vulnerable(int x, int y)
 {
   return !(map_get_city(x, y) != NULL ||
 	   map_has_special(x, y, S_FORTRESS) ||
 	   map_has_special(x, y, S_AIRBASE) );
+}
+
+/**************************************************************************
+  Calculate the value of the target unit including the other units which
+  will die in a successful attack
+**************************************************************************/
+int stack_cost(struct unit *pdef)
+{
+  int victim_cost = 0;
+
+  if (is_stack_vulnerable(pdef->x, pdef->y)) {
+    /* lotsa people die */
+    unit_list_iterate(map_get_tile(pdef->x, pdef->y)->units, aunit) {
+      victim_cost += unit_type(aunit)->build_cost;
+    } unit_list_iterate_end;
+  } else {
+    /* Only one unit dies if attack is successful */
+    victim_cost = unit_type(pdef)->build_cost;
+  }
+  
+  return victim_cost;
 }
 
 /**************************************************************************
