@@ -264,7 +264,7 @@ enum turn_mode {
 
   /* Assumes that the unit is never lucky in the random rulings and so
    * yields the worst travel time. */
-  TM_WORST_TIME,
+  TM_WORST_TIME
 };
 
 /* Full specification of a position and time to reach it. */
