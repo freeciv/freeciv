@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-07 01:05+0100\n"
+"POT-Creation-Date: 2005-03-07 15:27+0100\n"
 "PO-Revision-Date: 2005-03-07 01:45+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team: English <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: common/city.c:253 client/cityrepdata.c:484
 #: client/gui-gtk-2.0/repodlgs.c:927 client/gui-gtk/repodlgs.c:843
@@ -1198,9 +1198,9 @@ msgstr "Spel: %s is klaar met het bouwen van %s."
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] ""
-"Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang.Spel: %s "
-"versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
+msgstr[0] "Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang."
+msgstr[1] ""
+"Spel: %s versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
 
 #: server/cityturn.c:1012 server/plrhand.c:158
 #, c-format
@@ -8238,7 +8238,7 @@ msgid ""
 "* Each of your cities will avoid paying for as much %s upkeep as their city "
 "size.\n"
 msgstr ""
-"* Elk van uw steden zal evenveel %d onderhoud vermijden als de grootte van "
+"* Elk van uw steden zal evenveel %s onderhoud vermijden als de grootte van "
 "de stad.\n"
 
 #: client/helpdata.c:1249
@@ -9466,6 +9466,7 @@ msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
 msgstr[0] ""
 "Voortgang: %d beurt/vooruitgang (%d pnt/beurt, %d pnt/beurt van team)"
+msgstr[1] ""
 "Voortgang: %d beurten/vooruitgang (%d pnt/beurt, %d pnt/beurt van team)"
 
 #: client/text.c:456 client/gui-mui/mapview.c:190
@@ -14444,18 +14445,21 @@ msgstr ""
 "(geen onderzoek)"
 
 #: client/gui-mui/repodlgs.c:309
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
 "(%d turn/advance)"
+msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
-msgstr ""
+msgstr[0] ""
 "%s\n"
-"(%d beurt/vooruitgang)"
-"%s\n"
+"(%d beurt/vooruitgang)%s\n"
 "(%d beurten/vooruitgang)"
-""
+msgstr[1] ""
+"%s\n"
+"(%d beurt/vooruitgang)%s\n"
+"(%d beurten/vooruitgang)"
 
 #: client/gui-mui/repodlgs.c:326 client/gui-mui/repodlgs.c:327
 msgid "_Goal"
