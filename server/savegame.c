@@ -775,7 +775,7 @@ static void player_load(struct player *plr, int plrno,
 				   plrno, i);
 
     j = secfile_lookup_int(file, "player%d.c%d.did_buy", plrno, i);
-    pcity->did_buy = (i != 0);
+    pcity->did_buy = (j != 0);
     if (j == -1 && pcity->turn_founded == -2) {
       pcity->turn_founded = game.turn;
     }
