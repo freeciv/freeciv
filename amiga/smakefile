@@ -25,7 +25,7 @@ TO = OBJNAME=
 OBJDIR = ${OBJDIR1}/
 
 COMMONOBJS = $(OBJDIR)common/astring.o $(OBJDIR)common/capability.o $(OBJDIR)common/capstr.o $(OBJDIR)common/city.o $(OBJDIR)common/diptreaty.o \
- $(OBJDIR)common/fcintl.o $(OBJDIR)common/game.o $(OBJDIR)common/genlist.o $(OBJDIR)common/government.o $(OBJDIR)common/hash.o $(OBJDIR)common/inputfile.o \
+ $(OBJDIR)common/fcintl.o $(OBJDIR)common/game.o $(OBJDIR)common/genlist.o $(OBJDIR)common/government.o $(OBJDIR)common/hash.o $(OBJDIR)common/idex.o $(OBJDIR)common/inputfile.o \
  $(OBJDIR)common/log.o $(OBJDIR)common/map.o $(OBJDIR)common/nation.o $(OBJDIR)common/packets.o $(OBJDIR)common/player.o \
  $(OBJDIR)common/mem.o $(OBJDIR)common/rand.o $(OBJDIR)common/registry.o $(OBJDIR)common/sbuffer.o $(OBJDIR)common/shared.o \
  $(OBJDIR)common/spaceship.o $(OBJDIR)common/support.o $(OBJDIR)common/tech.o $(OBJDIR)common/timing.o $(OBJDIR)common/unit.o $(OBJDIR)common/version.o \
@@ -182,6 +182,9 @@ ${OBJDIR}common/government.o: ${FREECIV_DIR}common/government.c
 
 ${OBJDIR}common/hash.o: ${FREECIV_DIR}common/hash.c
   ${CC} ${FREECIV_DIR}common/hash.c ${COMMONDIRS} ${TO}$@ ${CCFLAGS}
+
+${OBJDIR}common/idex.o: ${FREECIV_DIR}common/idex.c
+  ${CC} ${FREECIV_DIR}common/idex.c ${COMMONDIRS} ${TO}$@ ${CCFLAGS}
 
 ${OBJDIR}common/inputfile.o: ${FREECIV_DIR}common/inputfile.c
   ${CC} ${FREECIV_DIR}common/inputfile.c ${COMMONDIRS} ${TO}$@ ${CCFLAGS}
