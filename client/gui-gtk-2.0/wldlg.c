@@ -236,6 +236,8 @@ static GtkWidget *create_worklists_report(void)
     rend, "text", 0, NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), list);
@@ -300,7 +302,6 @@ enum {
 static GtkTargetEntry wl_dnd_targets[] = {
   { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_APP, TARGET_GTK_TREE_MODEL_ROW },
 };
-
 
 
 
@@ -527,7 +528,7 @@ static void advanced_callback(GtkToggleButton *toggle, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void src_row_callback(GtkTreeView *src_view, GtkTreePath *path,
+static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
 			     GtkTreeViewColumn *col, gpointer data)
 {
   struct worklist_data *ptr;
@@ -537,7 +538,7 @@ static void src_row_callback(GtkTreeView *src_view, GtkTreePath *path,
   
   ptr = data;
 
-  src_model = gtk_tree_view_get_model(src_view);
+  src_model = GTK_TREE_MODEL(ptr->src);
   dst_model = GTK_TREE_MODEL(ptr->dst);
 
   gtk_tree_model_get_iter(src_model, &src_it, path);
@@ -557,7 +558,7 @@ static void src_row_callback(GtkTreeView *src_view, GtkTreePath *path,
 /****************************************************************
 ...
 *****************************************************************/
-static void dst_row_callback(GtkTreeView *dst_view, GtkTreePath *path,
+static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
 			     GtkTreeViewColumn *col, gpointer data)
 {
   struct worklist_data *ptr;
@@ -565,11 +566,73 @@ static void dst_row_callback(GtkTreeView *dst_view, GtkTreePath *path,
   GtkTreeIter it;
 
   ptr = data;
-  dst_model = gtk_tree_view_get_model(dst_view);
+  dst_model = GTK_TREE_MODEL(ptr->dst);
   
   gtk_tree_model_get_iter(dst_model, &it, path);
   gtk_list_store_remove(GTK_LIST_STORE(dst_model), &it);
   commit_worklist(ptr);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
+				       gpointer data)
+{
+  if (ev->keyval == GDK_Insert) {
+    GtkTreeModel *model;
+    GtkTreeIter it;
+    GtkTreePath *path;
+    struct worklist_data *ptr;
+
+    ptr = data;
+    if (!gtk_tree_selection_get_selected(ptr->src_selection, &model, &it)) {
+      return FALSE;
+    }
+
+    path = gtk_tree_model_get_path(model, &it);
+    src_row_callback(NULL, path, NULL, ptr);
+    gtk_tree_path_free(path);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
+				       gpointer data)
+{
+  if (ev->keyval == GDK_Delete) {
+    GtkTreeModel *model;
+    GtkTreeIter it;
+    GtkTreePath *path;
+    struct worklist_data *ptr;
+
+    ptr = data;
+    model = GTK_TREE_MODEL(ptr->dst);
+
+    /* this is bloody slow but since the list is short, no problem. */
+    path = gtk_tree_path_new_first();
+    
+    while (gtk_tree_model_get_iter(model, &it, path)) {
+
+      if (gtk_tree_selection_iter_is_selected(ptr->dst_selection, &it)) {
+	gtk_list_store_remove(GTK_LIST_STORE(model), &it);
+      } else {
+	gtk_tree_path_next(path);
+      }
+    }
+
+    gtk_tree_path_free(path);
+
+    commit_worklist(ptr);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
 }
 
 /****************************************************************
@@ -619,7 +682,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 {
   GtkWidget *editor, *table, *sw, *bbox;
   GtkWidget *src_view, *dst_view, *label, *button;
-  GtkWidget *menubar, *menuitem, *menu;
+  GtkWidget *menubar, *item, *menu, *image;
   GtkWidget *align, *arrow, *check;
   GtkSizeGroup *group;
 
@@ -662,6 +725,8 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
   
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_table_attach(GTK_TABLE(table), sw, 3, 5, 1, 2,
@@ -713,6 +778,8 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_table_attach(GTK_TABLE(table), sw, 0, 2, 1, 2,
@@ -758,9 +825,11 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 
   menu = gtk_menu_new();
   
-  menuitem = gtk_image_menu_item_new_from_stock(GTK_STOCK_ADD, NULL);
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
+  image = gtk_image_new_from_stock(GTK_STOCK_ADD, GTK_ICON_SIZE_MENU);
+  item = gtk_image_menu_item_new_with_mnemonic(_("_Add Global Worklist"));
+  gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), ptr);
 
   button = gtk_button_new_from_stock(GTK_STOCK_HELP);
@@ -771,7 +840,8 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   
   ptr->src_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(src_view));
   ptr->dst_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(dst_view));
-  
+  gtk_tree_selection_set_mode(ptr->dst_selection, GTK_SELECTION_MULTIPLE);
+
   
   if (!pcity || (can_client_issue_orders() &&
 		 city_owner(pcity) == game.player_ptr)) {
@@ -781,9 +851,15 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 		     G_CALLBACK(src_row_callback), ptr);
     g_signal_connect(dst_view, "row_activated",
 		     G_CALLBACK(dst_row_callback), ptr);
+
     g_signal_connect(dst_view, "drag_end",
 		     G_CALLBACK(dst_dnd_callback), ptr);
 
+    g_signal_connect(src_view, "key_press_event",
+		     G_CALLBACK(src_key_press_callback), ptr);
+    g_signal_connect(dst_view, "key_press_event",
+		     G_CALLBACK(dst_key_press_callback), ptr);
+   
     if (pcity) {
       gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(src_view),
 					     GDK_BUTTON1_MASK,
@@ -792,7 +868,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
 					     GDK_ACTION_COPY);
     }
   } else {
-    gtk_widget_set_sensitive(menuitem, FALSE);
+    gtk_widget_set_sensitive(item, FALSE);
   }
 
   
@@ -821,6 +897,8 @@ void refresh_worklist(struct worklist *pwl)
     gint id;
     GtkTreeIter it;
 
+    GtkTreePath *path;
+
 
     ptr = g_object_get_data(G_OBJECT(editor), "data");
 
@@ -834,17 +912,25 @@ void refresh_worklist(struct worklist *pwl)
     gtk_list_store_clear(ptr->src);
 
     cids_used = collect_cids4(cids, ptr->pcity, ptr->advanced);
-    name_and_sort_items(cids, cids_used, items, TRUE, ptr->pcity);
+    name_and_sort_items(cids, cids_used, items, FALSE, ptr->pcity);
 
+    path = NULL;
     for (i = 0; i < cids_used; i++) {
       gtk_list_store_append(ptr->src, &it);
       gtk_list_store_set(ptr->src, &it, 0, (gint) items[i].cid, -1);
 
       if (selected && items[i].cid == id) {
-	gtk_tree_selection_select_iter(ptr->src_selection, &it);
+	path = gtk_tree_model_get_path(GTK_TREE_MODEL(ptr->src), &it);
       }
     }
+    if (path) {
+      GtkTreeView *view;
 
+      view = gtk_tree_selection_get_tree_view(ptr->src_selection);
+      gtk_tree_view_set_cursor(view, path, NULL, FALSE);
+      gtk_tree_path_free(path);
+    }
+    
 
     /* refresh target worklist. */
     gtk_list_store_clear(ptr->dst);
