@@ -124,9 +124,9 @@ struct Sprite *te_load_gfx(const char *filename)
   my_snprintf(prefix[0], sizeof(prefix[0]), "themes/%s/%s/", current_theme,
 	      current_res);
   my_snprintf(prefix[1], sizeof(prefix[1]), "themes/%s/", current_theme);
-  my_snprintf(prefix[2], sizeof(prefix[2]), "themes/default/%s/",
+  my_snprintf(prefix[2], sizeof(prefix[2]), "themes/common/%s/",
 	      current_res);
-  my_snprintf(prefix[3], sizeof(prefix[3]), "themes/default/");
+  my_snprintf(prefix[3], sizeof(prefix[3]), "themes/common/");
   my_snprintf(prefix[4], sizeof(prefix[4]), "themes/");
   my_snprintf(prefix[5], sizeof(prefix[5]), "%s", "");
 
