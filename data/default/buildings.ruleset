@@ -325,7 +325,7 @@ With a Barracks, each new land unit built in a city will\
 [building_cathedral]
 name		= _("Cathedral")
 tech_req	= "Monotheism"
-bldg_req	= "None"
+bldg_req	= "Temple"
 graphic	= "b.cathedral"
 graphic_alt	= "-"
 ;terr_gate	=
@@ -954,7 +954,7 @@ Building a Recycling Center reduces the amount of pollution\
 [building_research_lab]
 name		= _("Research Lab")
 tech_req	= "Computers"
-bldg_req	= "Library"
+bldg_req	= "University"
 graphic	= "b.research_lab"
 graphic_alt	= "-"
 ;terr_gate	=
@@ -1105,7 +1105,7 @@ A city can only have one Solar Plant, Hydro Plant, Power Plant, or\
 [building_space_component]
 name		= _("Space Component")
 tech_req	= "Plastics"
-bldg_req	= "None"
+bldg_req	= "Factory"
 graphic	= "b.space_component"
 graphic_alt	= "-"
 ;terr_gate	=
@@ -1136,7 +1136,7 @@ Before you can build any spaceship parts, the Apollo Program wonder\
 [building_space_module]
 name		= _("Space Module")
 tech_req	= "Superconductors"
-bldg_req	= "None"
+bldg_req	= "Factory"
 graphic	= "b.space_modules"
 graphic_alt	= "-"
 ;terr_gate	=
@@ -1176,7 +1176,7 @@ Before you can build any spaceship parts, the Apollo Program wonder\
 [building_space_structural]
 name		= _("Space Structural")
 tech_req	= "Space Flight"
-bldg_req	= "None"
+bldg_req	= "Factory"
 graphic	= "b.space_structural"
 graphic_alt	= "-"
 ;terr_gate	=
