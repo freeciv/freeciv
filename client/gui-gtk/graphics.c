@@ -45,6 +45,8 @@
 #include "drop_cursor_mask.xbm"
 #include "nuke_cursor.xbm"
 #include "nuke_cursor_mask.xbm"
+#include "patrol_cursor.xbm"
+#include "patrol_cursor_mask.xbm"
 
 extern GtkWidget *	toplevel;
 extern GdkWindow *	root_window;
@@ -56,6 +58,7 @@ SPRITE *		radar_gfx_sprite;
 GdkCursor *		goto_cursor;
 GdkCursor *		drop_cursor;
 GdkCursor *		nuke_cursor;
+GdkCursor *		patrol_cursor;
 
 extern GdkFont *	main_font;
 
@@ -212,6 +215,19 @@ void load_cursors(void)
   nuke_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
 					  white, black,
 					  nuke_cursor_x_hot, nuke_cursor_y_hot);
+  gdk_bitmap_unref(pixmap);
+  gdk_bitmap_unref(mask);
+
+  /* patrol */
+  pixmap = gdk_bitmap_create_from_data(root_window, patrol_cursor_bits,
+				      patrol_cursor_width,
+				      patrol_cursor_height);
+  mask   = gdk_bitmap_create_from_data(root_window, patrol_cursor_mask_bits,
+				      patrol_cursor_mask_width,
+				      patrol_cursor_mask_height);
+  patrol_cursor = gdk_cursor_new_from_pixmap(pixmap, mask,
+					     white, black,
+					     patrol_cursor_x_hot, patrol_cursor_y_hot);
   gdk_bitmap_unref(pixmap);
   gdk_bitmap_unref(mask);
 }

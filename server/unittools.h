@@ -18,15 +18,6 @@ struct player;
 struct unit;
 
 int can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y, int igzoc);
-struct city *is_enemy_city_tile(struct tile *ptile, int playerid);
-struct city *is_allied_city_tile(struct tile *ptile, int playerid);
-struct city *is_non_attack_city_tile(struct tile *ptile, int playerid);
-struct city *is_non_allied_city_tile(struct tile *ptile, int playerid);
-struct unit *is_allied_unit_tile(struct tile *ptile, int playerid);
-struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid);
-struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid);
-struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid);
-int is_my_zoc(struct unit *myunit, int x0, int y0);
 int zoc_ok_move(struct unit *punit,int x, int y);
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
 int unit_bribe_cost(struct unit *punit);

@@ -54,6 +54,7 @@
 
 #include "menu.h"
 
+extern struct connection aconnection;
 
 /* stuff for run-time mutable menu text */
 
@@ -169,6 +170,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Auto Attack"), 0          },     "a", MENU_ORDER_AUTO_ATTACK, 0 },
     { { N_("Auto Explore"), 0         },     "x", MENU_ORDER_AUTO_EXPLORE, 0 },
     { { N_("Connect"), 0              },     "C", MENU_ORDER_CONNECT, 0 },
+    { { N_("Patrol"), 0               },     "q", MENU_ORDER_PATROL, 0 },
     { { N_("Go to"), 0                },     "g", MENU_ORDER_GOTO, 0 },
     { { N_("Go/Airlift to City"), 0   },     "l", MENU_ORDER_GOTO_CITY, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
@@ -332,6 +334,10 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 
 			   can_unit_do_connect(punit, ACTIVITY_IDLE));
+      /* also remove extern struct connection aconnection when removing capability */
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_PATROL, 
+			   can_unit_do_activity(punit, ACTIVITY_PATROL)
+			   && has_capability("activity_patrol", aconnection.capability));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_GOTO_CITY,
 			   any_cities);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_WONDER,
@@ -568,6 +574,9 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_ORDER_CONNECT:
     key_unit_connect();
+    break;
+  case MENU_ORDER_PATROL:
+    key_unit_patrol();
     break;
   case MENU_ORDER_GOTO:
     key_unit_goto();

@@ -439,9 +439,14 @@ int sniff_packets(void)
 	if(pconn->used && FD_ISSET(pconn->sock, &readfs)) {
 	  if(read_socket_data(pconn->sock, pconn->buffer)>=0) {
 	    char *packet;
-	    int type;
-	    while((packet=get_packet_from_connection(pconn, &type))) {
-	      handle_packet_input(pconn, packet, type);
+	    int type, result;
+	    while (1) {
+	      packet = get_packet_from_connection(pconn, &type, &result);
+	      if (result) {
+		handle_packet_input(pconn, packet, type);
+	      } else {
+		break;
+	      }
 	    }
 	  } else {
 	    close_socket_callback(pconn);
@@ -614,6 +619,7 @@ void init_connections(void)
     pconn->used = 0;
     conn_list_init(&pconn->self);
     conn_list_insert(&pconn->self, pconn);
+    pconn->route = NULL;
   }
 #ifdef __VMS
   {

@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -73,7 +74,7 @@ void handle_unit_goto_tile(struct player *pplayer,
     if (get_transporter_capacity(punit))
       assign_units_to_transporter(punit, 1);
 
-    do_unit_goto(punit, GOTO_MOVE_ANY);  
+    do_unit_goto(punit, GOTO_MOVE_ANY, 1);
   }
 }
 
@@ -100,7 +101,7 @@ void handle_unit_connect(struct player *pplayer,
       /* avoid wasting first turn if unit cannot do the activity
 	 on the starting tile */
       if (! can_unit_do_activity(punit, req->activity_type)) 
-	do_unit_goto(punit, get_activity_move_restriction(req->activity_type));
+	do_unit_goto(punit, get_activity_move_restriction(req->activity_type), 0);
     }
   }
 }
@@ -1402,10 +1403,15 @@ static void handle_unit_activity_dependencies(struct unit *punit,
 void handle_unit_activity_request(struct unit *punit, 
 				  enum unit_activity new_activity)
 {
-  if(can_unit_do_activity(punit, new_activity)) {
+  if (can_unit_do_activity(punit, new_activity)) {
     enum unit_activity old_activity = punit->activity;
     int old_target = punit->activity_target;
     set_unit_activity(punit, new_activity);
+    if (punit->pgr != NULL) {
+      free(punit->pgr->pos);
+      free(punit->pgr);
+      punit->pgr = NULL;
+    }
     send_unit_info(0, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
@@ -1512,4 +1518,140 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->packet_use = packet_use;
   packet->info_city_id = info_city_id;
   packet->serial_num = serial_num;
+}
+
+/**************************************************************************
+Moves a unit according to its pgr (goto or patrol order). If two consequetive
+positions in the route is not adjacent it is assumed to be a goto. The unit
+is put on idle if a move fails.
+If the activity is ACTIVITY_PATROL the map positions are put back in the
+route (at the end).  To avoid infinite loops on railroad we stop for this
+turn when the unit is back where it started, eben if it have moves left.
+**************************************************************************/
+void goto_route_execute(struct unit *punit)
+{
+  struct goto_route *pgr = punit->pgr;
+  int index, x, y, res;
+  int patrol_stop_index = pgr->last_index;
+  int unitid = punit->id;
+  struct player *pplayer = unit_owner(punit);
+
+  assert(pgr);
+  while (1) {
+    freelog(LOG_DEBUG, "running a round\n");
+
+    index = pgr->first_index;
+    if (index == pgr->last_index) {
+      free(punit->pgr);
+      punit->pgr = NULL;
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      return;
+    }
+    x = pgr->pos[index].x; y = pgr->pos[index].y;
+    freelog(LOG_DEBUG, "%i,%i -> %i,%i\n", punit->x, punit->y, x, y);
+
+    /* Move unit */
+    if (is_tiles_adjacent(punit->x, punit->y, x, y)) {
+      int last_tile = (index+1)%pgr->length == pgr->last_index;
+      freelog(LOG_DEBUG, "handling\n");
+      res = handle_unit_move_request(punit, x, y, 0, !last_tile);
+      if (!player_find_unit_by_id(pplayer, unitid))
+	return;
+      if (!res && punit->moves_left) {
+	freelog(LOG_DEBUG, "move idling\n");
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	return;
+      }
+    } else {
+      freelog(LOG_DEBUG, "goto tiles not adjacent; goto cancelled");
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      return;
+    }
+
+    if (!same_pos(x, y, punit->x, punit->y))
+      return; /* Ran out of more points */
+
+    pgr->first_index = (pgr->first_index+1) % pgr->length;
+
+    /* When patroling we go in little circles; done by reinserting points */
+    if (punit->activity == ACTIVITY_PATROL) {
+      pgr->pos[pgr->last_index].x = x;
+      pgr->pos[pgr->last_index].y = y;
+      pgr->last_index = (pgr->last_index+1) % pgr->length;
+
+      if (patrol_stop_index == pgr->first_index) {
+	freelog(LOG_DEBUG, "stopping because we ran a round\n");
+	return; /* don't patrol more than one round */
+      }
+    }
+  } /* end while*/
+}
+
+/**************************************************************************
+Recieves goto route packages.
+**************************************************************************/
+static void handle_route(struct player *pplayer, struct packet_goto_route *packet)
+{
+  struct goto_route *pgr;
+  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+
+  if (!punit || unit_owner(punit) != pplayer) {
+    free(packet->pos);
+    return;
+  }
+  pgr = fc_malloc(sizeof(struct goto_route));
+
+  assert(packet->first_index == 0);
+  assert(packet->last_index == packet->length - 1);
+
+  pgr->pos = packet->pos; /* here goes the malloced packet->pos */
+  pgr->first_index = 0;
+  pgr->length = packet->length;
+  pgr->last_index = packet->length-1; /* index magic... */
+  punit->pgr = pgr;
+
+  {
+    int i = pgr->first_index;
+    freelog(LOG_DEBUG, "first:%d, last:%d, length:%d",
+	   pgr->first_index, pgr->last_index, pgr->length);
+    for (; i < pgr->last_index;i++)
+      freelog(LOG_DEBUG, "%d,%d", pgr->pos[i].x, pgr->pos[i].y);
+  }
+
+  assert(pgr->last_index > pgr->first_index);
+  if (punit->activity == ACTIVITY_GOTO) {
+    punit->goto_dest_x = pgr->pos[pgr->last_index-1].x;
+    punit->goto_dest_y = pgr->pos[pgr->last_index-1].y;
+    send_unit_info(pplayer, punit);
+  }
+
+  goto_route_execute(punit);
+}
+
+/**************************************************************************
+Recieves goto route packages.
+**************************************************************************/
+void handle_goto_route(struct player *pplayer, struct packet_goto_route *packet)
+{
+  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+
+  if (!punit || punit->owner != pplayer->player_no)
+    return;
+
+  handle_unit_activity_request(punit, ACTIVITY_GOTO);
+  handle_route(pplayer, packet);
+}
+
+/**************************************************************************
+Recieves goto route packages.
+**************************************************************************/
+void handle_patrol_route(struct player *pplayer, struct packet_goto_route *packet)
+{
+  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+
+  if (!punit || punit->owner != pplayer->player_no)
+    return;
+
+  handle_unit_activity_request(punit, ACTIVITY_PATROL);
+  handle_route(pplayer, packet);
 }

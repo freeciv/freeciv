@@ -840,7 +840,6 @@ static void player_load(struct player *plr, int plrno,
   unit_list_init(&plr->units);
   nunits=secfile_lookup_int(file, "player%d.nunits", plrno);
   
-  /* this should def. be placed in unit.c later - PU */
   for(i=0; i<nunits; i++) { /* read the units */
     struct unit *punit;
     struct city *pcity;
@@ -916,7 +915,53 @@ static void player_load(struct player *plr, int plrno,
     punit->upkeep      = 0;
     punit->upkeep_food = 0;
     punit->upkeep_gold = 0;
-    
+
+    /* load the goto route */
+    {
+      int len = secfile_lookup_int_default(file, 0, "player%d.u%d.goto_length", plrno, i);
+      if (len > 0) {
+	char *goto_buf, *goto_buf_ptr;
+	struct goto_route *pgr = fc_malloc(sizeof(struct goto_route));
+	pgr->pos = fc_malloc((len+1) * sizeof(struct map_position));
+	pgr->first_index = 0;
+	pgr->length = len+1;
+	pgr->last_index = len;
+	punit->pgr = pgr;
+
+	/* get x coords */
+	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_x", plrno, i);
+	goto_buf_ptr = goto_buf;
+	for (j = 0; j < len; j++) {
+	  if (!sscanf(goto_buf_ptr, "%d", &pgr->pos[j].x))
+	    abort();
+	  while (*goto_buf_ptr != ',') {
+	    goto_buf_ptr++;
+	    if (goto_buf_ptr == '\0')
+	      abort();
+	  }
+	  goto_buf_ptr++;
+	}
+	/* get y coords */
+	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_y", plrno, i);
+	goto_buf_ptr = goto_buf;
+	for (j = 0; j < len; j++) {
+	  if (!sscanf(goto_buf_ptr, "%d", &pgr->pos[j].y))
+	    abort();
+	  while (*goto_buf_ptr != ',') {
+	    goto_buf_ptr++;
+	    if (goto_buf_ptr == '\0')
+	      abort();
+	  }
+	  goto_buf_ptr++;
+	}
+      } else {
+	/* mark unused strings as read to avoid warnings */
+	secfile_lookup_str_default(file, "", "player%d.u%d.goto_route_x", plrno, i);
+	secfile_lookup_str_default(file, "", "player%d.u%d.goto_route_y", plrno, i);
+	punit->pgr = NULL;
+      }
+    }
+
     /* allocate the unit's contribution to fog of war */
     unfog_area(&game.players[punit->owner],
 	       punit->x,punit->y,get_unit_type(punit->type)->vision_range);
@@ -1279,6 +1324,43 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->paradropped, "player%d.u%d.paradropped", plrno, i);
     secfile_insert_int(file, punit->transported_by,
 		       "player%d.u%d.transported_by", plrno, i);
+    if (punit->pgr && punit->pgr->first_index != punit->pgr->last_index) {
+      struct goto_route *pgr = punit->pgr;
+      int index = pgr->first_index;
+      int len = 0;
+      while (pgr && index != pgr->last_index) {
+	len++;
+	index = (index + 1) % pgr->length;
+      }
+      assert(len > 0);
+      secfile_insert_int(file, len, "player%d.u%d.goto_length", plrno, i);
+      /* assumption about the chars per map position */
+      assert(MAP_MAX_HEIGHT < 1000 && MAP_MAX_WIDTH < 1000);
+      {
+	char *goto_buf = fc_malloc(4 * len + 1);
+	char *goto_buf_ptr = goto_buf;
+	index = pgr->first_index;
+	while (index != pgr->last_index) {
+	  goto_buf_ptr += sprintf(goto_buf_ptr, "%d,", pgr->pos[index].x);
+	  index = (index + 1) % pgr->length;
+	}
+	*goto_buf_ptr = '\0';
+	secfile_insert_str(file, goto_buf, "player%d.u%d.goto_route_x", plrno, i);
+
+	goto_buf_ptr = goto_buf;
+	index = pgr->first_index;
+	while (index != pgr->last_index) {
+	  goto_buf_ptr += sprintf(goto_buf_ptr, "%d,", pgr->pos[index].y);
+	  index = (index + 1) % pgr->length;
+	}
+	*goto_buf_ptr = '\0';
+	secfile_insert_str(file, goto_buf, "player%d.u%d.goto_route_y", plrno, i);
+      }
+    } else {
+      secfile_insert_int(file, 0, "player%d.u%d.goto_length", plrno, i);
+      secfile_insert_str(file, "", "player%d.u%d.goto_route_x", plrno, i);
+      secfile_insert_str(file, "", "player%d.u%d.goto_route_y", plrno, i);
+    }
   }
   unit_list_iterate_end;
 

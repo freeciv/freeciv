@@ -35,6 +35,7 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
+#include "goto.h"
 #include "graphics.h"
 #include "inputdlg.h"
 #include "mapview.h"
@@ -297,6 +298,47 @@ gint butt_down_mapcanvas(GtkWidget *widget, GdkEventButton *event)
   return TRUE;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void create_line_at_mouse_pos(void)
+{
+  int x, y;
+
+  gdk_window_get_pointer(map_canvas->window, &x, &y, 0);
+
+  update_line(x, y);
+}
+
+extern int line_dest_x; /* from goto.c */
+extern int line_dest_y;
+/**************************************************************************
+...
+**************************************************************************/
+void update_line(int window_x, int window_y)
+{
+  int x, y;
+
+  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+      && draw_goto_line) {
+    x = map_adjust_x(map_view_x0 + window_x/NORMAL_TILE_WIDTH);
+    y = map_adjust_y(map_view_y0 + window_y/NORMAL_TILE_HEIGHT);
+
+    if (line_dest_x != x || line_dest_y != y) {
+      undraw_line();
+      draw_line(x, y);
+    }
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event)
+{
+  update_line(event->x, event->y);
+  return TRUE;
+}
 
 /**************************************************************************
   Find the "best" city to associate with the selected tile.  

@@ -49,6 +49,8 @@ civclient_SOURCES = \
 	clinet.h	\
 	control.c	\
 	control.h	\
+	goto.c		\
+	goto.h		\
 	helpdata.c	\
 	helpdata.h	\
 	packhand.c	\

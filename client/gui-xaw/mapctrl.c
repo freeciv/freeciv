@@ -46,6 +46,7 @@
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
+#include "goto.h"
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "inputdlg.h"
@@ -314,6 +315,49 @@ static struct city *find_city_near_tile(int x, int y)
     }
   }
   return last_pcity = pcity2;
+}
+
+extern int line_dest_x; /* from goto.c */
+extern int line_dest_y;
+/**************************************************************************
+...
+**************************************************************************/
+void update_line(int window_x, int window_y)
+{
+  int x, y;
+
+  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+      && draw_goto_line) {
+    x = map_adjust_x(map_view_x0 + window_x/NORMAL_TILE_WIDTH);
+    y = map_adjust_y(map_view_y0 + window_y/NORMAL_TILE_HEIGHT);
+
+    if (line_dest_x != x || line_dest_y != y) {
+      undraw_line();
+      draw_line(x, y);
+    }
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void create_line_at_mouse_pos(void)
+{
+  Bool on_same_screen;
+  Window root, child;
+  int rx, ry, x, y;
+  unsigned int mask;
+
+  on_same_screen =
+    XQueryPointer(display, XtWindow(map_canvas),
+		  &root, &child,
+		  &rx, &ry,
+		  &x, &y,
+		  &mask);
+
+  if (on_same_screen) {
+    update_line(x, y);
+  }
 }
 
 /**************************************************************************

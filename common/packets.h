@@ -113,6 +113,8 @@ enum packet_type {
   PACKET_CONN_INFO,
   PACKET_SHORT_CITY,
   PACKET_PLAYER_REMOVE_VISION,
+  PACKET_GOTO_ROUTE,
+  PACKET_PATROL_ROUTE,
   PACKET_LAST  /* leave this last */
 };
 
@@ -837,6 +839,14 @@ struct packet_sabotage_list
   char improvements[B_LAST+1];
 };
 
+struct packet_goto_route
+{
+  int length;
+  int first_index;
+  int last_index;
+  struct map_position *pos;
+  int unit_id;
+};
 
 /* These two are non-static for meta.c; others are now static --dwp */
 unsigned char *put_uint16(unsigned char *buffer, int val);
@@ -1040,8 +1050,12 @@ int send_packet_sabotage_list(struct connection *pc,
 struct packet_sabotage_list *
 receive_packet_sabotage_list(struct connection *pc);
 
-void *get_packet_from_connection(struct connection *pc, int *ptype);
+void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
+
+int send_packet_goto_route(struct connection *pc, struct packet_goto_route *packet,
+			   enum goto_route_type type);
+struct packet_goto_route *receive_packet_goto_route(struct connection *pc);
 
 #include "packets_lsend.h"		/* lsend_packet_* functions */
 

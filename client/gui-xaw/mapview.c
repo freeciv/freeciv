@@ -27,6 +27,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
+#include "log.h"
 #include "map.h"
 #include "player.h"
 #include "rand.h"
@@ -39,6 +40,7 @@
 #include "climisc.h"
 #include "colors.h"
 #include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */
+#include "goto.h"
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
@@ -68,6 +70,7 @@ extern Display	*display;
 extern GC civ_gc, font_gc, prod_font_gc;
 extern GC fill_bg_gc;
 extern GC fill_tile_gc;
+extern GC line_gc;
 extern XFontStruct *main_font_struct;
 extern XFontStruct *prod_font_struct;
 extern Window root_window;
@@ -91,6 +94,7 @@ extern struct Sprite *radar_gfx_sprite;
 extern Cursor goto_cursor;
 extern Cursor drop_cursor;
 extern Cursor nuke_cursor;
+extern Cursor patrol_cursor;
 
 extern Pixmap map_canvas_store;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
@@ -103,10 +107,6 @@ int map_view_x0, map_view_y0;
 /* used by map_canvas expose func */ 
 int force_full_repaint;
 
-extern int goto_state;
-extern int paradrop_state;
-extern int nuke_state;
-
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct Sprite *ssprite);
 static void show_city_descriptions(void);
@@ -116,6 +116,10 @@ static void show_city_descriptions(void);
 Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
+extern struct client_goto_map goto_map;
+
+static void put_line(Pixmap pm, int canvas_src_x, int canvas_src_y,
+		     int map_src_x, int map_src_y, int dir, int first_draw);
 
 /**************************************************************************
 ...
@@ -308,25 +312,34 @@ void update_unit_info_label(struct unit *punit)
     struct city *pcity;
     pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
     my_snprintf(buffer, sizeof(buffer), "%s %s\n%s\n%s\n%s", 
-	    get_unit_type(punit->type)->name,
-	    (punit->veteran) ? _("(veteran)") : "",
-	    (goto_state==punit->id) ? 
-	    _("Select destination") : unit_activity_text(punit), 
-	    map_get_tile_info_text(punit->x, punit->y),
-	    pcity ? pcity->name : "");
+		get_unit_type(punit->type)->name,
+		(punit->veteran) ? _("(veteran)") : "",
+		(hover_unit==punit->id) ? 
+		_("Select destination") : unit_activity_text(punit), 
+		map_get_tile_info_text(punit->x, punit->y),
+		pcity ? pcity->name : "");
     xaw_set_label(unit_info_label, buffer);
 
-    if ((goto_cursor != (Cursor) None) && (drop_cursor != (Cursor) None)) {
-      if (goto_state == punit->id) {
-	if (paradrop_state)
-	  XDefineCursor(display, XtWindow(map_canvas), drop_cursor);
-	else if (nuke_state)
-	  XDefineCursor(display, XtWindow(map_canvas), nuke_cursor);
-	else
-	  XDefineCursor(display, XtWindow(map_canvas), goto_cursor);
-      } else {
-	XUndefineCursor(display, XtWindow(map_canvas));
-      }
+    if (hover_unit != punit->id)
+      set_hover_state(NULL, HOVER_NONE);
+
+    switch (hover_state) {
+    case HOVER_NONE:
+      XUndefineCursor(display, XtWindow(map_canvas));
+      break;
+    case HOVER_PATROL:
+      XDefineCursor(display, XtWindow(map_canvas), patrol_cursor);
+      break;
+    case HOVER_GOTO:
+    case HOVER_CONNECT:
+      XDefineCursor(display, XtWindow(map_canvas), goto_cursor);
+      break;
+    case HOVER_NUKE:
+      XDefineCursor(display, XtWindow(map_canvas), nuke_cursor);
+      break;
+    case HOVER_PARADROP:
+      XDefineCursor(display, XtWindow(map_canvas), drop_cursor);
+      break;
     }
   } else {
     xaw_set_label(unit_info_label, "");
@@ -1130,6 +1143,17 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
     /* tile is unknow */
     pixmap_put_black_tile(pm, x,y);
   }
+
+  if (abs_y0 >= 0 && abs_y0 < map.ysize && !citymode) {
+    int dir, first = 1;
+    for (dir = 0; dir < 8; dir++)
+      if (goto_map.drawn[abs_x0][abs_y0] & (1<<dir)) {
+	int x1 = x*NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
+	int y1 = y*NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+	put_line(pm, x1, y1, abs_x0, abs_y0, dir, first);
+	first = 0;
+      }
+  }
 }
 
 /**************************************************************************
@@ -1272,4 +1296,208 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
   update_map_canvas(0, 0, map_canvas_store_twidth, map_canvas_store_theight, 1);
   update_map_canvas_scrollbars();
   refresh_overview_viewrect();
+}
+
+
+/**************************************************************************
+Put a line on a pixmap. This line goes from the center of a tile
+(canvas_src_x, canvas_src_y) to the border of the tile.
+Note that this means that if you want to draw a line from x1,y1->x2,y2 you
+must call this function twice; once to draw from the center of x1,y1 to the
+border of the tile, with a dir argument. And once from x2,y2 with a dir
+argument for the opposite direction. This is necessary to enable the
+refreshing of a single tile
+
+Since the line_gc that is used to draw the line has function GDK_INVERT,
+drawing a line once and then again will leave the map unchanged. Therefore
+this function is used both to draw and undraw lines.
+
+There are two issues that make this function somewhat complex:
+1) The center pixel should only be drawn once (or it could be inverted
+   twice). This is done by adjusting the line starting point depending on
+   if the line we are drawing is the first line to be drawn. (not strictly
+   correct; read on to 2))
+(in the following I am assuming a tile width of 30 (as trident); replace as
+neccesary This point is not a problem with tilesets with odd height/width,
+fx engels with height 45)
+2) Since the tile has width 30 we cannot put the center excactly "at the
+   center" of the tile (that would require the width to be an odd number).
+   So we put it at 15,15, with the effect that there is 15 pixels above and
+   14 underneath (and likewise horizontally). This has an unfortunent
+   consequence for the drawing in dirs 2 and 5 (as used in the DIR_DX and
+   DIR_DY arrays); since we want to draw the line to the very corner of the
+   tile the line vector will be (14,-15) and (-15,14) respectively, which
+   would look wrong when drawn. To make the lines look nice the starting
+   point of dir 2 is moved one pixel up, and the starting point of dir 5 is
+   moved one pixel left, so the vectors will be (14,-14) and (-14,14).
+   Also, because they are off-center the starting pixel is not drawn when
+   drawing one of these directions.
+**************************************************************************/
+static void put_line(Pixmap pm, int canvas_src_x, int canvas_src_y,
+		     int map_src_x, int map_src_y, int dir, int first_draw)
+{
+  int dir2;
+  int canvas_dest_x = canvas_src_x + DIR_DX[dir] * NORMAL_TILE_WIDTH/2;
+  int canvas_dest_y = canvas_src_y + DIR_DY[dir] * NORMAL_TILE_WIDTH/2;
+  int start_pixel = 1;
+  int has_only25 = 1;
+  int num_other = 0;
+  /* if they are not equal we cannot draw nicely */
+  int equal = NORMAL_TILE_WIDTH == NORMAL_TILE_HEIGHT;
+
+  if (map_src_y == map.ysize)
+    abort();
+
+  if (!first_draw) {
+    /* only draw the pixel at the src one time. */
+    for (dir2 = 0; dir2 < 8; dir2++) {
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
+	start_pixel = 0;
+	break;
+      }
+    }
+  }
+
+  if (equal) { /* bit of a mess but neccesary */
+    for (dir2 = 0; dir2 < 8; dir2++) {
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<dir2) && dir != dir2) {
+	if (dir2 != 2 && dir2 != 5) {
+	  has_only25 = 0;
+	  num_other++;
+	}
+      }
+    }
+    if (has_only25) {
+      if (dir == 2 || dir == 5)
+	start_pixel = 0;
+      else
+	start_pixel = 1;
+    } else if (dir == 2 || dir == 5)
+      start_pixel = first_draw && !(num_other == 1);
+
+    switch (dir) {
+    case 0:
+    case 1:
+    case 3:
+      break;
+    case 2:
+    case 4:
+      canvas_dest_x -= DIR_DX[dir];
+      break;
+    case 5:
+    case 6:
+      canvas_dest_y -= DIR_DY[dir];
+      break;
+    case 7:
+      canvas_dest_x -= DIR_DX[dir];
+      canvas_dest_y -= DIR_DY[dir];
+      break;
+    default:
+      abort();
+    }
+
+    if (dir == 2) {
+      if (start_pixel)
+	XDrawPoint(display, pm, line_gc, canvas_src_x, canvas_src_y);
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<1) && !first_draw)
+	XDrawPoint(display, pm, line_gc, canvas_src_x+1, canvas_src_y);
+      canvas_src_y -= 1;
+    } else if (dir == 5) {
+      if (start_pixel)
+	XDrawPoint(display, pm, line_gc, canvas_src_x, canvas_src_y);
+      if (goto_map.drawn[map_src_x][map_src_y] & (1<<3) && !first_draw)
+	XDrawPoint(display, pm, line_gc, canvas_src_x+1, canvas_src_y);
+      canvas_src_x -= 1;
+    } else {
+      if (!start_pixel) {
+	canvas_src_x += DIR_DX[dir];
+	canvas_src_y += DIR_DY[dir];
+      }
+      if (dir == 1 && goto_map.drawn[map_src_x][map_src_y] & (1<<2) && !first_draw)
+	XDrawPoint(display, pm, line_gc, canvas_src_x, canvas_src_y-1);
+      if (dir == 3 && goto_map.drawn[map_src_x][map_src_y] & (1<<5) && !first_draw)
+	XDrawPoint(display, pm, line_gc, canvas_src_x-1, canvas_src_y);
+    }
+  } else { /* !equal */
+    if (!start_pixel) {
+      canvas_src_x += DIR_DX[dir];
+      canvas_src_y += DIR_DY[dir];
+    }
+  }
+
+  freelog(LOG_DEBUG, "%i->%i; x0: %i; twidth %i\n",
+	  map_src_x, map_canvas_adjust_x(map_src_x),
+	  map_view_x0, map_canvas_store_twidth);
+  freelog(LOG_DEBUG, "%i,%i-> %i,%i : %i,%i -> %i,%i\n",
+	  map_src_x, map_src_y, map_src_x + DIR_DX[dir], map_src_y + DIR_DY[dir],
+	  canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
+
+  /* draw it (at last!!) */
+  XDrawLine(display, pm, line_gc, canvas_src_x, canvas_src_y, canvas_dest_x, canvas_dest_y);
+}
+
+/**************************************************************************
+draw a line from src_x,src_y -> dest_x,dest_y on both map_canvas and
+map_canvas_store
+**************************************************************************/
+void draw_segment(int src_x, int src_y, int dest_x, int dest_y)
+{
+  int map_start_x, map_start_y;
+  int dir, x, y;
+
+  for (dir = 0; dir < 8; dir++) {
+    x = map_adjust_x(src_x + DIR_DX[dir]);
+    y = src_y + DIR_DY[dir];
+    if (x == dest_x && y == dest_y) {
+      if (!(goto_map.drawn[src_x][src_y] & (1<<dir))) {
+	map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
+	map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+	if (tile_visible_mapcanvas(src_x, src_y))
+	  put_line(XtWindow(map_canvas), map_start_x, map_start_y, src_x, src_y, dir, 0);
+	put_line(map_canvas_store, map_start_x, map_start_y, src_x, src_y, dir, 0);
+	goto_map.drawn[src_x][src_y] |= (1<<dir);
+
+	map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
+	map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
+	if (tile_visible_mapcanvas(dest_x, dest_y))
+	  put_line(XtWindow(map_canvas), map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
+	put_line(map_canvas_store, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
+	goto_map.drawn[dest_x][dest_y] |= (1<<(7-dir));
+      }
+      return;
+    }
+  }
+}
+
+/**************************************************************************
+remove the line from src_x,src_y -> dest_x,dest_y on both map_canvas and
+map_canvas_store
+**************************************************************************/
+void undraw_segment(int src_x, int src_y, int dest_x, int dest_y)
+{
+  int map_start_x, map_start_y;
+  int dir, x, y;
+
+  for (dir = 0; dir < 8; dir++) {
+    x = map_adjust_x(src_x + DIR_DX[dir]);
+    y = src_y + DIR_DY[dir];
+    if (x == dest_x && y == dest_y) {
+      if (goto_map.drawn[src_x][src_y] & (1<<dir)) {
+	map_start_x = map_canvas_adjust_x(src_x) * NORMAL_TILE_WIDTH + NORMAL_TILE_WIDTH/2;
+	map_start_y = map_canvas_adjust_y(src_y) * NORMAL_TILE_HEIGHT + NORMAL_TILE_HEIGHT/2;
+	if (tile_visible_mapcanvas(src_x, src_y))
+	  put_line(XtWindow(map_canvas), map_start_x, map_start_y, src_x, src_y, dir, 0);
+	put_line(map_canvas_store, map_start_x, map_start_y, src_x, src_y, dir, 0);
+	goto_map.drawn[src_x][src_y] &= ~(1<<dir);
+
+	map_start_x += DIR_DX[dir] * NORMAL_TILE_WIDTH;
+	map_start_y += DIR_DY[dir] * NORMAL_TILE_HEIGHT;
+	if (tile_visible_mapcanvas(dest_x, dest_y))
+	  put_line(XtWindow(map_canvas), map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
+	put_line(map_canvas_store, map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
+	goto_map.drawn[dest_x][dest_y] &= ~(1<<(7-dir));
+      }
+      return;
+    }
+  }
 }

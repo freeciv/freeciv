@@ -64,4 +64,8 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
 		  int carried, int select_it, enum unit_info_use packet_use,
 		  int info_city_id, int new_serial_num);
 
+void handle_goto_route(struct player *pplayer, struct packet_goto_route *packet);
+void handle_patrol_route(struct player *pplayer, struct packet_goto_route *packet);
+void goto_route_execute(struct unit *punit);
+
 #endif  /* FC__UNITHAND_H */

@@ -18,13 +18,15 @@
 
 struct player;
 struct city;
+struct goto_route;
+struct tile;
 
 enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE,
   ACTIVITY_IRRIGATE, ACTIVITY_FORTIFIED, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
   ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
   ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE, ACTIVITY_FORTIFYING,
-  ACTIVITY_FALLOUT,
+  ACTIVITY_FALLOUT, ACTIVITY_PATROL,
   ACTIVITY_LAST   /* leave this one last */
 };
 
@@ -49,6 +51,14 @@ enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
                     AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
                     AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE,
                     AIUNIT_PILLAGE };
+
+enum goto_move_restriction {
+  GOTO_MOVE_ANY, GOTO_MOVE_CARDINAL_ONLY, GOTO_MOVE_STRAIGHTEST
+};
+
+enum goto_route_type {
+  ROUTE_GOTO, ROUTE_PATROL
+};
 
 struct unit_ai {
   int control; /* 0: not automated    1: automated */
@@ -89,6 +99,7 @@ struct unit {
   int paradropped;
   int connecting;
   int transported_by;
+  struct goto_route *pgr;
 };
 
 
@@ -159,5 +170,12 @@ int missile_carrier_capacity(int x, int y, int playerid);
 int airunit_carrier_capacity(int x, int y, int playerid);
 
 struct player *unit_owner(struct unit *punit);
+
+struct unit *is_allied_unit_tile(struct tile *ptile, int playerid);
+struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid);
+struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid);
+struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid);
+
+int is_my_zoc(struct unit *myunit, int x0, int y0);
 
 #endif  /* FC__UNIT_H */

@@ -104,6 +104,10 @@ struct connection {
   /* Used in the server, "access_level" stores the access granted
    * to the client corresponding to this connection.
    */
+  struct map_position *route;
+  int route_length;
+  /* These are used when recieving goto routes; they are send split, and in
+     the time where the route is partially recieved it is stored here. */
 };
 
 

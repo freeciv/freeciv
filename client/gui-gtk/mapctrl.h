@@ -25,6 +25,8 @@ gint adjust_workers(GtkWidget *widget, GdkEventButton *ev);
 gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev);
 gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev);
 gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev);
+gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event);
+void update_line(int window_x, int window_y);
 
 void center_on_unit(void);
 void focus_to_next_unit(void);

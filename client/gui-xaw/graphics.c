@@ -50,6 +50,8 @@
 #include "drop_cursor_mask.xbm"
 #include "nuke_cursor.xbm"
 #include "nuke_cursor_mask.xbm"
+#include "patrol_cursor.xbm"
+#include "patrol_cursor_mask.xbm"
 
 extern int display_depth;
 extern Display *display;
@@ -66,6 +68,7 @@ struct Sprite *radar_gfx_sprite;
 Cursor goto_cursor;
 Cursor drop_cursor;
 Cursor nuke_cursor;
+Cursor patrol_cursor;
 
 static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
  				       int width, int height);
@@ -217,6 +220,17 @@ void load_cursors(void)
   nuke_cursor = XCreatePixmapCursor(display, pixmap, mask,
 				    &white, &black,
 				    nuke_cursor_x_hot, nuke_cursor_y_hot);
+  XFreePixmap(display, pixmap);
+  XFreePixmap(display, mask);
+
+  /* patrol */
+  pixmap = XCreateBitmapFromData(display, root_window, patrol_cursor_bits,
+				 patrol_cursor_width, patrol_cursor_height);
+  mask   = XCreateBitmapFromData(display, root_window, patrol_cursor_mask_bits,
+				 patrol_cursor_mask_width, patrol_cursor_mask_height);
+  patrol_cursor = XCreatePixmapCursor(display, pixmap, mask,
+				      &white, &black,
+				      patrol_cursor_x_hot, patrol_cursor_y_hot);
   XFreePixmap(display, pixmap);
   XFreePixmap(display, mask);
 }

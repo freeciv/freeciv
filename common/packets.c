@@ -151,11 +151,14 @@ static void swab_puint32(int *ptr)
 }
 
 /**************************************************************************
-...
+presult indicates if there is more packets in the cache. We return result
+instead of just testing if the returning package is NULL as we sometimes
+return a NULL packet even if everything is OK (receive_packet_goto_route).
 **************************************************************************/
-void *get_packet_from_connection(struct connection *pc, int *ptype)
+void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult)
 {
   int len, type;
+  *presult = 0;
 
   if (pc->used==0)
     return NULL;		/* connection was closed, stop reading */
@@ -194,6 +197,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   freelog(LOG_DEBUG, "packet type %d len %d", type, len);
 
   *ptype=type;
+  *presult = 1;
 
   switch(type) {
 
@@ -355,10 +359,15 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_CONN_INFO:
     return receive_packet_conn_info(pc);
 
+  case PACKET_GOTO_ROUTE:
+  case PACKET_PATROL_ROUTE:
+    return receive_packet_goto_route(pc);
+
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));
     remove_packet_from_buffer(pc->buffer);
+    *presult = 0;
     return NULL;
   };
 }
@@ -2156,14 +2165,15 @@ return 0;
   cptr=put_uint8(cptr, req->upkeep_food);
   cptr=put_uint8(cptr, req->upkeep_gold);
   cptr=put_uint8(cptr, req->unhappiness);
-/* when removing "nuclear_fallout" capability,
-   leave only the code from the *else* clause (send unmodified activity) */
-if (pc && !has_capability("nuclear_fallout", pc->capability)) {
-if (req->activity == ACTIVITY_FALLOUT)
+  /* various modifications when playing with clients with other capabilities */
+if (pc && !has_capability("nuclear_fallout", pc->capability)
+&& req->activity == ACTIVITY_FALLOUT) {
 cptr=put_uint8(cptr, ACTIVITY_POLLUTION);
-else
-cptr=put_uint8(cptr, req->activity);
-} else {  /* the following is the code to leave when removing "nuclear_fallout" */
+} else if (pc && !has_capability("activity_patrol", pc->capability)
+&& req->activity == ACTIVITY_PATROL) {
+cptr=put_uint8(cptr, ACTIVITY_GOTO);
+} else {
+ /* leave only this when removing capability strings */
   cptr=put_uint8(cptr, req->activity);
 }
   cptr=put_uint8(cptr, req->activity_count);
@@ -4014,4 +4024,158 @@ receive_packet_sabotage_list(struct connection *pc)
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
   return packet;
+}
+
+enum packet_goto_route_type {
+  GR_FIRST_MORE, GR_FIRST_LAST, GR_MORE, GR_LAST
+};
+#define GOTO_CHUNK 20
+/**************************************************************************
+Chop the route up and send the pieces one by one.
+**************************************************************************/
+int send_packet_goto_route(struct connection *pc,
+			   struct packet_goto_route *packet,
+			   enum goto_route_type type)
+{
+  int i;
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  int num_poses = packet->last_index > packet->first_index ?
+    packet->last_index - packet->first_index :
+    packet->length - packet->first_index + packet->last_index;
+  int num_chunks = (num_poses + GOTO_CHUNK - 1) / GOTO_CHUNK;
+  int this_chunk = 1;
+  int chunk_pos;
+
+  i = packet->first_index;
+  assert(num_chunks > 0);
+  while (i != packet->last_index) {
+    switch (type) {
+    case ROUTE_GOTO:
+      cptr = put_uint8(buffer+2, PACKET_GOTO_ROUTE);
+      break;
+    case ROUTE_PATROL:
+      cptr = put_uint8(buffer+2, PACKET_PATROL_ROUTE);
+      break;
+    default:
+      abort();
+    }
+
+    chunk_pos = 0;
+    if (this_chunk == 1) {
+      if (num_chunks == 1)
+	cptr = put_uint8(cptr, GR_FIRST_LAST);
+      else
+	cptr = put_uint8(cptr, GR_FIRST_MORE);
+    } else {
+      if (this_chunk == num_chunks)
+	cptr = put_uint8(cptr, GR_LAST);
+      else
+	cptr = put_uint8(cptr, GR_MORE);
+    }
+
+    while (i != packet->last_index && chunk_pos < GOTO_CHUNK) {
+      cptr = put_uint8(cptr, packet->pos[i].x);
+      cptr = put_uint8(cptr, packet->pos[i].y);
+      i++; i%=packet->length;
+      chunk_pos++;
+    }
+    /* if we finished fill the last chunk with NOPs */
+    for (; chunk_pos < GOTO_CHUNK; chunk_pos++) {
+      cptr = put_uint8(cptr, map.xsize);
+      cptr = put_uint8(cptr, map.ysize);
+    }
+
+    cptr = put_uint16(cptr, packet->unit_id);
+
+    put_uint16(buffer, cptr-buffer);
+    send_connection_data(pc, buffer, cptr-buffer);
+    this_chunk++;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
+Pick up and reassemble the pieces. Note that this means it will return NULL
+if the received piece isn't the last one.
+**************************************************************************/
+struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
+{
+  struct pack_iter iter;
+  int i, num_valid = 0;
+  enum packet_goto_route_type type;
+  struct map_position pos[GOTO_CHUNK];
+  struct map_position *pos2;
+  struct packet_goto_route *packet;
+  int length, unit_id;
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint8(&iter, (int *)&type);
+  for (i = 0; i < GOTO_CHUNK; i++) {
+    iget_uint8(&iter, &pos[i].x);
+    iget_uint8(&iter, &pos[i].y);
+    if (pos[i].x != map.xsize) num_valid++;
+  }
+  iget_uint16(&iter, &unit_id);
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(pc->buffer);
+
+  /* sanity check */
+  if (pc->route == NULL)
+    pc->route_length = 0;
+
+  switch (type) {
+  case GR_FIRST_MORE:
+    free(pc->route);
+    pc->route = fc_malloc(GOTO_CHUNK * sizeof(struct map_position));
+    pc->route_length = GOTO_CHUNK;
+    for (i = 0; i < GOTO_CHUNK; i++) {
+      pc->route[i].x = pos[i].x;
+      pc->route[i].y = pos[i].y;
+    }
+    return NULL;
+  case GR_LAST:
+    packet = fc_malloc(sizeof(struct packet_goto_route));
+    packet->unit_id = unit_id;
+    length = pc->route_length+num_valid+1;
+    if (pc->route == NULL)
+      freelog(LOG_ERROR, "Got a GR_LAST packet with NULL without previous route");
+    packet->pos = fc_malloc(length * sizeof(struct map_position));
+    packet->length = length;
+    packet->first_index = 0;
+    packet->last_index = length-1;
+    for (i = 0; i < pc->route_length; i++)
+      packet->pos[i] = pc->route[i];
+    for (i = 0; i < num_valid; i++)
+      packet->pos[i+pc->route_length] = pos[i];
+    free(pc->route);
+    pc->route = NULL;
+    return packet;
+  case GR_FIRST_LAST:
+    packet = fc_malloc(sizeof(struct packet_goto_route));
+    packet->unit_id = unit_id;
+    packet->pos = fc_malloc((num_valid+1) * sizeof(struct map_position));
+    packet->length = num_valid + 1;
+    packet->first_index = 0;
+    packet->last_index = num_valid;
+    for (i = 0; i < num_valid; i++)
+      packet->pos[i] = pos[i];
+    return packet;
+  case GR_MORE:
+    pos2 = fc_malloc((GOTO_CHUNK+pc->route_length) * sizeof(struct map_position));
+    if (pc->route == NULL)
+      freelog(LOG_ERROR, "Got a GR_MORE packet with NULL without previous route");
+    for (i = 0; i < pc->route_length; i++)
+      pos2[i] = pc->route[i];
+    for (i = 0; i < GOTO_CHUNK; i++)
+      pos2[i+pc->route_length] = pos[i];
+    free(pc->route);
+    pc->route = pos2;
+    pc->route_length += GOTO_CHUNK;
+    return NULL;
+  default:
+    freelog(LOG_ERROR, "invalid type in receive_packet_goto_route()");
+    return NULL;
+  }
 }

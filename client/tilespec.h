@@ -113,7 +113,8 @@ struct named_sprites {
       *sentry,
       *stack,
       *transform,
-      *connect;
+      *connect,
+      *patrol;
   } unit;
   struct {
     struct Sprite

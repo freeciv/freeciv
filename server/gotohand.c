@@ -1121,13 +1121,19 @@ find_air_first_destination(punit, &waypoint_x, &waypoint_y)
 to get a waypoint to goto. The actual goto is still done with
 find_the_shortest_path(pplayer, punit, waypoint_x, waypoint_y, restriction)
 **************************************************************************/
-void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
+void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
+		  int trigger_special_ability)
 {
   struct player *pplayer = unit_owner(punit);
   int x, y, dir;
   static const char *d[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   int unit_id, dest_x, dest_y, waypoint_x, waypoint_y;
   struct unit *penemy = NULL;
+
+  if (punit->pgr) {
+    goto_route_execute(punit);
+    return;
+  }
 
   unit_id = punit->id;
   dest_x = waypoint_x = punit->goto_dest_x;
@@ -1188,7 +1194,8 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
       if (!punit->moves_left)
 	return;
       last_tile = same_pos(x, y, punit->goto_dest_x, punit->goto_dest_y);
-      if (!handle_unit_move_request(punit, x, y, FALSE, !last_tile)) {
+      if (!handle_unit_move_request(punit, x, y, FALSE,
+				    !(last_tile && trigger_special_ability))) {
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if (punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
@@ -1236,9 +1243,10 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
 
   /* normally we would just do this unconditionally, but if we had an
      airplane goto we might not be finished even if the loop exited */
-  if (punit->x == dest_x && punit->y == dest_y)
-    punit->activity=ACTIVITY_IDLE;
-  else if (punit->moves_left) {
+  if (punit->x == dest_x && punit->y == dest_y) {
+    if (punit->activity != ACTIVITY_PATROL)
+      punit->activity=ACTIVITY_IDLE;
+  } else if (punit->moves_left) {
     advance_unit_focus(punit);
   }
 

@@ -102,6 +102,7 @@ GdkPixmap *	gray50, *gray25;
 GdkGC *		mask_fg_gc;
 GdkGC *		mask_bg_gc;
 GdkPixmap *	mask_bitmap;
+GdkGC *         line_gc;
 
 GdkFont *	main_font;
 GdkFont *	city_productions_font;
@@ -513,8 +514,9 @@ static void setup_widgets(void)
   map_canvas		      = gtk_drawing_area_new();
 
   gtk_widget_set_events(map_canvas, GDK_EXPOSURE_MASK
-        			      |GDK_BUTTON_PRESS_MASK
-        			      |GDK_KEY_PRESS_MASK);
+        			   |GDK_BUTTON_PRESS_MASK
+        			   |GDK_KEY_PRESS_MASK
+                                   |GDK_POINTER_MOTION_MASK);
 
   gtk_drawing_area_size(GTK_DRAWING_AREA(map_canvas), 510, 300);
   gtk_container_add(GTK_CONTAINER(frame), map_canvas);
@@ -534,6 +536,8 @@ static void setup_widgets(void)
         	      GTK_SIGNAL_FUNC( butt_down_mapcanvas ), NULL );
   gtk_signal_connect( GTK_OBJECT( map_canvas ), "button_press_event",
         	      GTK_SIGNAL_FUNC( butt_down_wakeup ), NULL );
+  gtk_signal_connect(GTK_OBJECT(map_canvas), "motion_notify_event",
+		     GTK_SIGNAL_FUNC(move_mapcanvas), NULL);
 
   {   /* the message window */
       GtkWidget *text;
@@ -711,6 +715,10 @@ void ui_main(int argc, char **argv)
 
   single_tile_pixmap	      = gdk_pixmap_new(root_window, 
         			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
+
+  line_gc = gdk_gc_new(GTK_WIDGET(map_canvas)->window);
+  /* I am open to suggestion of a better function than invert */
+  gdk_gc_set_function(line_gc, GDK_INVERT);
 
   load_options();
 

@@ -41,6 +41,12 @@
 /*******************************************************************************
  Action Routines!!
 *******************************************************************************/
+static void xaw_mouse_moved(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  XButtonEvent *ev=&event->xbutton;
+  update_line(ev->x, ev->y);
+}
+
 static void xaw_btn_adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   mapctrl_btn_adjust_workers(event);
@@ -465,6 +471,12 @@ static void xaw_key_unit_pollution(Widget w, XEvent *event, String *argv, Cardin
     key_unit_pollution();
 }
 
+static void xaw_key_unit_patrol(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_PATROL))
+    key_unit_patrol();
+}
+
 static void xaw_key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_ROAD))
@@ -575,6 +587,7 @@ static void xaw_msg_quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal
  Table of Actions!!
 *******************************************************************************/
 static XtActionsRec Actions[] = {
+  { "mouse-moved", xaw_mouse_moved },
   { "btn-adjust-workers", xaw_btn_adjust_workers },
   { "btn-select-citymap", xaw_btn_select_citymap },
   { "btn-select-mapcanvas", xaw_btn_select_mapcanvas },
@@ -642,6 +655,7 @@ static XtActionsRec Actions[] = {
   { "key-unit-paradrop-or-pollution", xaw_key_unit_paradrop_or_pollution },
   { "key-unit-pillage", xaw_key_unit_pillage },
   { "key-unit-pollution", xaw_key_unit_pollution },
+  { "key-unit-patrol", xaw_key_unit_patrol },
   { "key-unit-road", xaw_key_unit_road },
   { "key-unit-road-or-traderoute", xaw_key_unit_road_or_traderoute },
   { "key-unit-traderoute", xaw_key_unit_traderoute },

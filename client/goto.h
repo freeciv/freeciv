@@ -10,25 +10,31 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__MAPCTRL_H
-#define FC__MAPCTRL_H
+#ifndef FC__GOTO_H
+#define FC__GOTO_H
 
-#include <X11/Intrinsic.h>
+#include "map.h"
 
-#include "mapctrl_g.h"
+struct client_goto_map {
+  short **move_cost;
+  char **vector;
+  char **returned;
+  char **drawn;
+  int unit_id; /* The unit of the goto map */
+  int src_x, src_y;
+};
 
+void create_goto_map(struct unit *punit, int src_x, int src_y,
+		     enum goto_move_restriction restriction);
+int transfer_route_to_stack(int dest_x, int dest_y);
+int transfer_route_to_stack_circular(int dest_x, int dest_y);
+void init_client_goto(void);
 
-void mapctrl_key_city_workers(XEvent *event);
-void mapctrl_btn_adjust_workers(XEvent *event);
+void draw_line(int dest_x, int dest_y);
+void undraw_line(void);
 
-void mapctrl_btn_mapcanvas(XEvent *event);
-void mapctrl_btn_overviewcanvas(XEvent *event);
-void mapctrl_btn_wakeup(XEvent *event);
+void goto_array_clear(void);
+void goto_array_insert(int x, int y);
+void goto_array_send(struct unit *punit);
 
-void focus_to_next_unit(void);
-void center_on_unit(void);
-
-void update_line(int window_x, int window_y);
-
-
-#endif  /* FC__MAPCTRL_H */
+#endif /* FC__GOTO_H */

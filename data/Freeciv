@@ -2760,6 +2760,7 @@ Freeciv*inputlinetext.translations:		#override \
 !
 
 Freeciv*mapcanvas.translations:\
+   <MouseMoved>:      mouse-moved()                    \n\
    Shift<BtnDown>:    btn-adjust-workers()             \n\
    <BtnDown>:         btn-select-mapcanvas()           \n\
    Ctrl<Key>f:        key-open-find-city()             \n\
@@ -2787,6 +2788,7 @@ Freeciv*mapcanvas.translations:\
    <Key>n:            key-unit-fallout()               \n\
    <Key>o:            key-unit-transform()             \n\
    <Key>p:            key-unit-paradrop-or-pollution() \n\
+   <Key>q:            key-unit-patrol()                \n\
    <Key>r:            key-unit-road-or-traderoute()    \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\
@@ -2862,6 +2864,7 @@ Freeciv*overviewcanvas.translations:\
    <Key>n:            key-unit-fallout()               \n\
    <Key>o:            key-unit-transform()             \n\
    <Key>p:            key-unit-paradrop-or-pollution() \n\
+   <Key>q:            key-unit-patrol()                \n\
    <Key>r:            key-unit-road-or-traderoute()    \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\

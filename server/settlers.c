@@ -785,7 +785,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   punit->goto_dest_y=map_adjust_y(y);
   set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(0, punit);
-  do_unit_goto(punit, GOTO_MOVE_ANY);
+  do_unit_goto(punit, GOTO_MOVE_ANY, 0);
   return 1;
 }
 

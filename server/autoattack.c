@@ -175,7 +175,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   punit->goto_dest_y=enemy->y;
   
   send_unit_info(0,punit);
-  do_unit_goto(punit, GOTO_MOVE_ANY);
+  do_unit_goto(punit, GOTO_MOVE_ANY, 0);
   
   punit = find_unit_by_id(id);
   
@@ -185,7 +185,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
     punit->goto_dest_y=pcity->y;
     send_unit_info(0,punit);
     
-    do_unit_goto(punit, GOTO_MOVE_ANY);
+    do_unit_goto(punit, GOTO_MOVE_ANY, 0);
     
     if (unit_list_find(&map_get_tile(pcity->x, pcity->y)->units, id)) {
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
@@ -237,7 +237,7 @@ static void auto_attack_player(struct player *pplayer)
        && is_military_unit(punit)
        && punit->activity == ACTIVITY_GOTO
        && punit->moves_left == get_unit_type(punit->type)->move_rate) {
-      do_unit_goto(punit, GOTO_MOVE_ANY);
+      do_unit_goto(punit, GOTO_MOVE_ANY, 0);
     }
   }
   unit_list_iterate_end;

@@ -45,6 +45,7 @@
 #include "clinet.h"		/* aconnection */
 #include "control.h"
 #include "dialogs_g.h"
+#include "goto.h"               /* client_goto_init() */
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
@@ -142,8 +143,15 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
 **************************************************************************/
 void handle_remove_city(struct packet_generic_integer *packet)
 {
-  struct city *pcity=find_city_by_id(packet->value);
-  if(pcity!=NULL) client_remove_city(pcity);
+  struct city *pcity = find_city_by_id(packet->value);
+  int x, y;
+
+  if (pcity==NULL)
+    return;
+
+  x = pcity->x; y = pcity->y;
+  client_remove_city(pcity);
+  reset_move_costs(x, y);
 }
 
 /**************************************************************************
@@ -432,6 +440,8 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
 	 get_nation_name(city_owner(pcity)->nation),
 	 pcity->name, pcity->id, pcity->x, pcity->y);
   }
+
+  reset_move_costs(pcity->x, pcity->y);
 }
 
 /**************************************************************************
@@ -904,6 +914,7 @@ void handle_map_info(struct packet_map_info *pinfo)
 
   map_allocate();
   climap_init_continents();
+  init_client_goto();
   
   set_overview_dimensions(map.xsize, map.ysize);
 }
@@ -1385,6 +1396,8 @@ void handle_tile_info(struct packet_tile_info *packet)
     ptile->special = packet->special;
   }
   ptile->known = packet->known;
+
+  reset_move_costs(packet->x, packet->y);
 
   /* fog of war remove units */
   if (ptile->known <= TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {

@@ -1158,3 +1158,55 @@ int city_turns_to_build(struct city *pcity, int id, int id_is_unit)
     return 999;
   }
 }
+
+/**************************************************************************
+ is there an enemy city on this tile?
+**************************************************************************/
+struct city *is_enemy_city_tile(struct tile *ptile, int playerid)
+{
+  struct city *pcity = ptile->city;
+
+  if (pcity && players_at_war(playerid, pcity->owner))
+    return pcity;
+  else
+    return NULL;
+}
+
+/**************************************************************************
+ is there an friendly city on this tile?
+**************************************************************************/
+struct city *is_allied_city_tile(struct tile *ptile, int playerid)
+{
+  struct city *pcity = ptile->city;
+
+  if (pcity && players_allied(playerid, pcity->owner))
+    return pcity;
+  else
+    return NULL;
+}
+
+/**************************************************************************
+ is there an enemy city on this tile?
+**************************************************************************/
+struct city *is_non_attack_city_tile(struct tile *ptile, int playerid)
+{
+  struct city *pcity = ptile->city;
+
+  if (pcity && players_non_attack(playerid, pcity->owner))
+    return pcity;
+  else
+    return NULL;
+}
+
+/**************************************************************************
+ is there an non_allied city on this tile?
+**************************************************************************/
+struct city *is_non_allied_city_tile(struct tile *ptile, int playerid)
+{
+  struct city *pcity = ptile->city;
+
+  if (pcity && !players_allied(playerid, pcity->owner))
+    return pcity;
+  else
+    return NULL;
+}

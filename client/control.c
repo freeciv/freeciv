@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 
 #include "capability.h"
@@ -30,6 +31,7 @@
 #include "menu_g.h"
 
 #include "civclient.h"
+#include "goto.h"
 #include "options.h"
 #include "tilespec.h"
 
@@ -45,18 +47,12 @@ int num_units_below = MAX_NUM_UNITS_BELOW;
 /* unit_focus points to the current unit in focus */
 static struct unit *punit_focus;
 
-/* set high, if the player has selected goto */
-/* actually, set to id of unit goto-ing (id is non-zero) */
-int goto_state;
-
-/* set high, if the player has selected nuke */
-int nuke_state;
-
-/* set high, if the player has selected paradropping */
-int paradrop_state;
-
-/* set high if the player has selected connect */
-int connect_state;
+/* These should be set via set_hover_state() */
+int hover_unit = 0; /* id of unit hover_state applies to */
+enum cursor_hover_state hover_state = HOVER_NONE;
+/* This may only be here until client goto is fully implemented.
+   It is reset each time the hower_state is reset. */
+int draw_goto_line = 1;
 
 /* units involved in current combat */
 static struct unit *punit_attacking;
@@ -65,6 +61,21 @@ static struct unit *punit_defending;
 /*************************************************************************/
 
 static struct unit *find_best_focus_candidate(void);
+
+/**************************************************************************
+...
+**************************************************************************/
+void set_hover_state(struct unit *punit, enum cursor_hover_state state)
+{
+  assert(punit || state==HOVER_NONE);
+  draw_goto_line = 1;
+  if (punit)
+    hover_unit = punit->id;
+  else
+    hover_unit = 0;
+  hover_state = state;
+  undraw_line();
+}
 
 /**************************************************************************
 ...
@@ -178,10 +189,8 @@ void advance_unit_focus(void)
 
   punit_focus=find_best_focus_candidate();
 
-  goto_state=0;
-  nuke_state=0;
-  paradrop_state=0;
-  connect_state=0;
+  set_hover_state(NULL, HOVER_NONE);
+  undraw_line();
 
   if(!punit_focus) {
     unit_list_iterate(game.player_ptr->units, punit) {
@@ -469,10 +478,18 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 void request_unit_goto(void)
 {
   struct unit *punit=get_unit_in_focus();
-     
-  if(punit) {
-    goto_state=punit->id;
+
+  if (punit) {
+    set_hover_state(punit, HOVER_GOTO);
     update_unit_info_label(punit);
+    /* Not yet implemented for air units */
+    if (is_air_unit(punit)) {
+      draw_goto_line = 0;
+    } else {
+      goto_array_clear();
+      create_goto_map(punit, punit->x, punit->y, GOTO_MOVE_ANY);
+      create_line_at_mouse_pos();
+    }
   }
 }
 
@@ -484,9 +501,8 @@ void request_unit_connect(void)
 {
   struct unit *punit=get_unit_in_focus();
      
-  if(punit && can_unit_do_connect (punit, ACTIVITY_IDLE)) {
-    goto_state=punit->id;
-    connect_state=1;
+  if (punit && can_unit_do_connect (punit, ACTIVITY_IDLE)) {
+    set_hover_state(punit, HOVER_CONNECT);
     update_unit_info_label(punit);
   }
 }
@@ -768,8 +784,7 @@ void request_unit_nuke(struct unit *punit)
   if(!(punit->moves_left))
     do_unit_nuke(punit);
   else {
-    nuke_state=1;
-    goto_state=punit->id;
+    set_hover_state(punit, HOVER_NUKE);
     update_unit_info_label(punit);
   }
 }
@@ -786,9 +801,29 @@ void request_unit_paradrop(struct unit *punit)
   if(!can_unit_paradrop(punit))
     return;
 
-  paradrop_state=1;
-  goto_state=punit->id;
+  set_hover_state(punit, HOVER_PARADROP);
   update_unit_info_label(punit);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void request_unit_patrol(void)
+{
+  struct unit *punit = get_unit_in_focus();
+
+  if (punit && has_capability("activity_patrol", aconnection.capability)) {
+    set_hover_state(punit, HOVER_PATROL);
+    update_unit_info_label(punit);
+    /* Not yet implemented for air units */
+    if (is_air_unit(punit)) {
+      draw_goto_line = 0;
+    } else {
+      goto_array_clear();
+      create_goto_map(punit, punit->x, punit->y, GOTO_MOVE_ANY);
+      create_line_at_mouse_pos();
+    }
+  }
 }
 
 /**************************************************************************
@@ -884,29 +919,43 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
 }
 
 /**************************************************************************
- Finish the goto mode and let the unit which is stored in goto_state move
+ Finish the goto mode and let the unit which is stored in hover_unit move
  to a given location.
  returns 1 if goto mode was activated before calling this function
  otherwise 0 (then this function does nothing)
 **************************************************************************/
 int do_goto(int xtile, int ytile)
 {
-  if(goto_state) {
-    struct unit *punit;
+  if (hover_unit && hover_state == HOVER_GOTO) {
+    struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
-    if((punit=player_find_unit_by_id(game.player_ptr, goto_state))) {
-      struct packet_unit_request req;
-      req.unit_id=punit->id;
-      req.name[0]='\0';
-      req.x=xtile;
-      req.y=ytile;
-      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+    if (punit) {
+      if (is_air_unit(punit)) {
+	struct packet_unit_request req;
+	req.unit_id = punit->id;
+	req.name[0] = '\0';
+	req.x = xtile;
+	req.y = ytile;
+	send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+      } else if (transfer_route_to_stack(xtile, ytile)) {
+	if (has_capability("activity_patrol", aconnection.capability)) {
+	  goto_array_send(punit);
+	} else {
+	  struct packet_unit_request req;
+	  req.unit_id=punit->id;
+	  req.name[0]='\0';
+	  req.x = xtile;
+	  req.y = ytile;
+	  send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
+	}
+      } else {
+	append_output_window(_("Game: Didn't find a route to the destination!"));
+      }
+      goto_array_clear();
+      undraw_line();
     }
 
-    goto_state=0;
-    nuke_state=0;
-    paradrop_state=0;
-    connect_state=0;
+    set_hover_state(NULL, HOVER_NONE);
 
     return 1;
   }
@@ -918,65 +967,45 @@ int do_goto(int xtile, int ytile)
 **************************************************************************/
 void do_map_click(int xtile, int ytile)
 {
-  struct city *pcity;
-  struct tile *ptile;
+  struct city *pcity = map_get_city(xtile, ytile);
+  struct tile *ptile = map_get_tile(xtile, ytile);
+  struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
-  ptile=map_get_tile(xtile, ytile);
-  pcity=map_get_city(xtile, ytile);
-
-  if(goto_state) { 
-    struct unit *punit;
-
-    if((punit=player_find_unit_by_id(game.player_ptr, goto_state))) {
-      struct packet_unit_request req;
-
-      if(paradrop_state) {
-        do_unit_paradrop_to(punit, xtile, ytile);
-        goto_state=0;
-        nuke_state=0;
-        paradrop_state=0;
-	connect_state=0;
-	update_unit_info_label(punit);
-        return;
-      }
-
-      if(connect_state) {
-        popup_unit_connect_dialog(punit, xtile, ytile);
-        goto_state=0;
-        nuke_state=0;
-        paradrop_state=0;
-        connect_state=0;
-        return;
-      }
-
-      if(nuke_state &&
-	 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
+  if (punit && hover_state != HOVER_NONE) {
+    switch (hover_state) {
+    case HOVER_NONE:
+      abort(); /* well; shouldn't get here :) */
+      break;
+    case HOVER_GOTO:
+      do_goto(xtile, ytile);
+      break;
+    case HOVER_NUKE:
+      if (3 * real_map_distance(punit->x, punit->y, xtile, ytile)
+	  > punit->moves_left) {
         append_output_window(_("Game: Too far for this unit."));
-        goto_state=0;
-        nuke_state=0;
-        paradrop_state=0;
-        connect_state=0;
-        update_unit_info_label(punit);
-        return;
+      } else {
+	do_goto(xtile, ytile);
+	/* note that this will be executed by the server after the goto */
+	if (!pcity)
+	  do_unit_nuke(punit);
       }
-
-      req.unit_id=punit->id;
-      req.name[0]='\0';
-      req.x=xtile;
-      req.y=ytile;
-      send_packet_unit_request(&aconnection, &req, PACKET_UNIT_GOTO_TILE);
-      if(nuke_state && (!pcity))
-	do_unit_nuke(punit);
+      break;
+    case HOVER_PARADROP:
+      do_unit_paradrop_to(punit, xtile, ytile);
+      break;
+    case HOVER_CONNECT:
+      popup_unit_connect_dialog(punit, xtile, ytile);
+      break;
+    case HOVER_PATROL:
+      do_unit_patrol_to(punit, xtile, ytile);
+      break;	
     }
-
-    goto_state=0;
-    nuke_state=0;
-    paradrop_state=0;
-    connect_state=0;
+    set_hover_state(NULL, HOVER_NONE);
+    update_unit_info_label(punit);
     return;
   }
   
-  if(pcity && game.player_idx==pcity->owner) {
+  if (pcity && game.player_idx==pcity->owner) {
     popup_city_dialog(pcity, 0);
     return;
   }
@@ -1090,6 +1119,31 @@ void do_unit_paradrop_to(struct unit *punit, int x, int y)
 }
  
 /**************************************************************************
+Paradrop to a location
+**************************************************************************/
+void do_unit_patrol_to(struct unit *punit, int x, int y)
+{
+if (has_capability("activity_patrol", aconnection.capability)) {
+  request_new_unit_activity(punit, ACTIVITY_PATROL);
+
+  if (is_air_unit(punit)) {
+    append_output_window(_("Game: Sorry, airunit patrol not yet implemented."));
+    return;
+  } else if (transfer_route_to_stack_circular(x, y)) {
+    goto_array_send(punit);
+  } else {
+    append_output_window(_("Game: Didn't find a route to the destination!"));
+  }
+  goto_array_clear();
+  undraw_line();
+
+  set_hover_state(NULL, HOVER_NONE);
+} else {
+  /* nothing */
+}
+}
+ 
+/**************************************************************************
 ...
 **************************************************************************/
 void request_unit_wait(struct unit *punit)
@@ -1129,17 +1183,13 @@ void request_center_focus_unit(void)
 **************************************************************************/
 void key_cancel_action(void)
 {
-  if(goto_state) {
-    struct unit *punit;
+  if (hover_state != HOVER_NONE) {
+    struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
-    punit=player_find_unit_by_id(game.player_ptr, goto_state);
-
-    goto_state=0;
-    nuke_state=0;
-    paradrop_state=0;
-    connect_state=0;
+    set_hover_state(NULL, HOVER_NONE);
 
     update_unit_info_label(punit);
+    undraw_line();
   }
 }
 
@@ -1437,6 +1487,14 @@ void key_unit_paradrop(void)
   if(get_unit_in_focus())
     if(can_unit_paradrop(punit_focus))
       request_unit_paradrop(punit_focus);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_unit_patrol(void)
+{
+  request_unit_patrol();
 }
 
 /**************************************************************************

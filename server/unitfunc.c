@@ -1499,7 +1499,7 @@ void player_restore_units(struct player *pplayer)
 	      punit->goto_dest_x = x_itr;
 	      punit->goto_dest_y = y_itr;
 	      set_unit_activity(punit, ACTIVITY_GOTO);
-	      do_unit_goto(punit, GOTO_MOVE_ANY);
+	      do_unit_goto(punit, GOTO_MOVE_ANY, 0);
 	      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
 			       _("Game: Your %s has returned to refuel."),
 			       unit_name(punit->type));
@@ -1907,6 +1907,7 @@ void create_unit_full(struct player *pplayer, int x, int y,
   punit->connecting = 0;
 
   punit->transported_by = -1;
+  punit->pgr = NULL;
 
   unfog_area(pplayer,x,y,get_unit_type(punit->type)->vision_range);
   send_unit_info(0, punit);
@@ -2104,7 +2105,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 
   if (punit->connecting && !can_unit_do_activity(punit, activity)) {
     punit->activity_count = 0;
-    do_unit_goto(punit, get_activity_move_restriction(activity));
+    do_unit_goto(punit, get_activity_move_restriction(activity), 0);
   }
 
   /* if connecting, automagically build prerequisities first */
@@ -2230,7 +2231,7 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
       if (punit2->activity == activity) {
 	if (punit2->connecting) {
 	  punit2->activity_count = 0;
-	  do_unit_goto(punit2, get_activity_move_restriction(activity));
+	  do_unit_goto(punit2, get_activity_move_restriction(activity), 0);
 	}
 	else {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
@@ -2251,11 +2252,14 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
        punit->ai.passenger || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
-      do_unit_goto(punit, GOTO_MOVE_ANY);
+      do_unit_goto(punit, GOTO_MOVE_ANY, 1);
     }
     return;
   }
-  
+
+  if (punit->activity == ACTIVITY_PATROL)
+    goto_route_execute(punit);
+
   send_unit_info(0, punit);
 
   /* Any units that landed in water or boats that landed on land as a
@@ -2742,6 +2746,11 @@ static void server_remove_unit(struct unit *punit)
   struct city *phomecity = find_city_by_id(punit->homecity);
 
   remove_unit_sight_points(punit);
+
+  if (punit->pgr) {
+    free(punit->pgr->pos);
+    free(punit->pgr);
+  }
 
   packet.value = punit->id;
   /* FIXME: maybe we should only send to those players who can see the unit,
@@ -3491,6 +3500,7 @@ static void check_unit_activity(struct unit *punit)
       && punit->activity != ACTIVITY_GOTO
       && punit->activity != ACTIVITY_SENTRY
       && punit->activity != ACTIVITY_EXPLORE
+      && punit->activity != ACTIVITY_PATROL
       && !punit->connecting)
     set_unit_activity(punit, ACTIVITY_IDLE);
 }

@@ -18,3 +18,8 @@ set_turn_done_button_state( int state )
 {
 	/* PORTME */
 }
+
+void create_line_at_mouse_pos(void)
+{
+	/* PORTME */
+}

@@ -21,6 +21,7 @@
 
 struct player;
 struct government;
+struct tile;
 
 
 enum specialist_type {
@@ -311,5 +312,10 @@ int citygov_free_gold(struct city *pcity, struct government *gov);
 /* city style functions */
 int get_city_style(struct city *pcity);
 int get_style_by_name(char *);
+
+struct city *is_enemy_city_tile(struct tile *ptile, int playerid);
+struct city *is_allied_city_tile(struct tile *ptile, int playerid);
+struct city *is_non_attack_city_tile(struct tile *ptile, int playerid);
+struct city *is_non_allied_city_tile(struct tile *ptile, int playerid);
 
 #endif  /* FC__CITY_H */

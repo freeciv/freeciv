@@ -26,6 +26,17 @@ struct map_position {
   int x,y;
 };
 
+struct goto_route {
+  int first_index; /* first valid tile pos */
+  int last_index; /* point to the first non_legal pos. Note that the pos
+		   is always alloced in the pos array (for coding reasons) */
+  int length; /* length of pos array (use this as modulus when iterating)
+		 Note that this is always at least 1 greater than the number
+		 of valid positions, to make comparing first_index with
+		 last_index during wrapped iteration easier. */
+  struct map_position *pos;
+};
+
 struct tile {
   enum tile_terrain_type terrain;
   enum tile_special_type special;
@@ -321,6 +332,25 @@ extern struct tile_type tile_types[T_LAST];
       SI_x_itr = map_adjust_x(SI_x_itr1);
 
 #define square_iterate_end                                                    \
+    }                                                                         \
+  }                                                                           \
+}
+
+/* Iterate through all tiles adjacent to a tile */
+#define adjc_iterate(RI_center_x, RI_center_y, RI_x_itr, RI_y_itr)            \
+{                                                                             \
+  int RI_x_itr1;                                                              \
+  for (RI_y_itr = RI_center_y - 1;                                            \
+       RI_y_itr <= RI_center_y + 1; RI_y_itr++) {                             \
+    if (RI_y_itr < 0 || RI_y_itr >= map.ysize)                                \
+      continue;                                                               \
+    for (RI_x_itr1 = RI_center_x - 1;                                         \
+	 RI_x_itr1 <= RI_center_x + 1; RI_x_itr1++) {                         \
+      RI_x_itr = map_adjust_x(RI_x_itr1);                                     \
+      if (RI_x_itr == RI_center_x && RI_y_itr == RI_center_y)                 \
+        continue; 
+
+#define adjc_iterate_end                                                      \
     }                                                                         \
   }                                                                           \
 }

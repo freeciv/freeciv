@@ -216,11 +216,16 @@ void disconnect_from_server(void)
 void input_from_server(int fid)
 {
   if(read_socket_data(fid, aconnection.buffer)>=0) {
-    int type;
+    int type, result;
     char *packet;
 
-    while((packet=get_packet_from_connection(&aconnection, &type))) {
-      handle_packet_input(packet, type);
+    while (1) {
+      packet = get_packet_from_connection(&aconnection, &type, &result);
+      if (result) {
+	handle_packet_input(packet, type);
+      } else {
+	break;
+      }
     }
   }
   else {

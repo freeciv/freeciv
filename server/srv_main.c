@@ -898,6 +898,10 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
 {
   struct player *pplayer;
 
+  /* a NULL packet can be returned from receive_packet_goto_route() */
+  if (packet == NULL)
+    return;
+
   switch(type) {
   case PACKET_REQUEST_JOIN_GAME:
     handle_request_join_game(pconn, (struct packet_req_join_game *)packet);
@@ -1104,6 +1108,12 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   case PACKET_PLAYER_REMOVE_VISION:
     handle_player_remove_vision(pplayer, (struct packet_generic_integer *)packet);
+    break;
+  case PACKET_GOTO_ROUTE:
+    handle_goto_route(pplayer, (struct packet_goto_route *)packet);
+    break;
+  case PACKET_PATROL_ROUTE:
+    handle_patrol_route(pplayer, (struct packet_goto_route *)packet);
     break;
   default:
     freelog(LOG_ERROR, "Received unknown packet %d from %s",

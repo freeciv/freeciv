@@ -460,6 +460,7 @@ Keyboard:\n\
   r: build (r)oad/railroad  (settler units)\n\
   r: establish trade (r)oute  (caravan units)\n\
   R: incite a (R)evolution\n\
+  q: unit patrol  (then left-click mouse to select destination)\n\
   s: (s)entry unit\n\
   u: (u)nload boat\n\
   w: (w)ait until later in turn\n\

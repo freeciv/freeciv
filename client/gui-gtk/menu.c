@@ -56,6 +56,7 @@ GtkItemFactory *item_factory=NULL;
 
 static void menus_rename(const char *path, char *s);
 
+extern struct connection aconnection;
 
 /****************************************************************
 ...
@@ -97,6 +98,7 @@ enum MenuID {
   MENU_ORDER_BUILD_CITY,
   MENU_ORDER_ROAD,
   MENU_ORDER_CONNECT,
+  MENU_ORDER_PATROL,
   MENU_ORDER_POLLUTION,
   MENU_ORDER_FALLOUT,
   MENU_ORDER_FORTIFY,
@@ -280,6 +282,10 @@ static void orders_menu_callback(gpointer callback_data,
    case MENU_ORDER_CONNECT:
     if(get_unit_in_focus())
       request_unit_connect();
+    break;
+   case MENU_ORDER_PATROL:
+    if(get_unit_in_focus())
+      request_unit_patrol();
     break;
    case MENU_ORDER_POLLUTION:
     if(get_unit_in_focus()) {
@@ -602,6 +608,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_AUTO_EXPLORE					},
   { "/" N_("Orders") "/" N_("_Connect"),		"<shift>c",
 	orders_menu_callback,	MENU_ORDER_CONNECT					},
+  { "/" N_("Orders") "/" N_("Patrol"),			"q",
+	orders_menu_callback,	MENU_ORDER_PATROL					},
   { "/" N_("Orders") "/" N_("_Go to"),			"g",
 	orders_menu_callback,	MENU_ORDER_GOTO						},
   { "/" N_("Orders") "/" N_("Go|Airlift to Cit_y"),	"l",
@@ -934,6 +942,10 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));
       menus_set_sensitive("<main>/Orders/Connect",
 			  can_unit_do_connect(punit, ACTIVITY_IDLE));
+      /* also remove extern struct connection aconnection when removing capability */
+      menus_set_sensitive("<main>/Orders/Patrol",
+			  can_unit_do_activity(punit, ACTIVITY_PATROL)
+			  && has_capability("activity_patrol", aconnection.capability));
       menus_set_sensitive("<main>/Orders/Clean Pollution",
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradrop(punit));

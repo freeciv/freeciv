@@ -487,8 +487,9 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.road,	        "unit.road");
   SET_SPRITE(unit.sentry,	"unit.sentry");      
   SET_SPRITE(unit.stack,	"unit.stack");
-  SET_SPRITE(unit.transform,    "unit.transform");   
-  SET_SPRITE(unit.connect,      "unit.connect");   
+  SET_SPRITE(unit.transform,    "unit.transform");
+  SET_SPRITE(unit.connect,      "unit.connect");
+  SET_SPRITE(unit.patrol,       "unit.patrol");
 
   for(i=0; i<NUM_TILES_HP_BAR; i++) {
     my_snprintf(buffer, sizeof(buffer), "unit.hp_%d", i*10);
@@ -874,6 +875,10 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit)
 
   if (punit->connecting) {
     *sprs++ = sprites.unit.connect;
+  }
+
+  if (punit->activity == ACTIVITY_PATROL) {
+    *sprs++ = sprites.unit.patrol;
   }
 
   ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / get_unit_type(punit->type)->hp;

@@ -15,11 +15,8 @@
 
 #include "map.h"		/* MAP_MAX_ */
 
-enum goto_move_restriction {
-  GOTO_MOVE_ANY, GOTO_MOVE_CARDINAL_ONLY, GOTO_MOVE_STRAIGHTEST
-};
-
-void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction);
+void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
+		  int trigger_special_ability);
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type which);

@@ -14,6 +14,8 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
@@ -522,6 +524,7 @@ char* get_activity_text (int activity)
   case ACTIVITY_TRANSFORM:	text = _("Transform"); break;
   case ACTIVITY_AIRBASE:	text = _("Airbase"); break;
   case ACTIVITY_FALLOUT:	text = _("Fallout"); break;
+  case ACTIVITY_PATROL:  	text = _("Patrol"); break;
   default:			text = _("Unknown"); break;
   }
 
@@ -648,6 +651,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
   switch(activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_GOTO:
+  case ACTIVITY_PATROL:
     return 1;
 
   case ACTIVITY_POLLUTION:
@@ -910,6 +914,7 @@ char *unit_activity_text(struct unit *punit)
    case ACTIVITY_SENTRY:
    case ACTIVITY_GOTO:
    case ACTIVITY_EXPLORE:
+   case ACTIVITY_PATROL:
      return get_activity_text (punit->activity);
    case ACTIVITY_PILLAGE:
      if(punit->activity_target == 0) {
@@ -1075,4 +1080,89 @@ int airunit_carrier_capacity(int x, int y, int playerid)
     airall += misonly;
 
   return airall;
+}
+
+/**************************************************************************
+Returns true if the tile contains an allied unit and only allied units.
+(ie, if your nation A is allied with B, and B is allied with C, a tile
+containing units from B and C will return false)
+**************************************************************************/
+struct unit *is_allied_unit_tile(struct tile *ptile, int playerid)
+{
+  struct unit *punit = NULL;
+
+  unit_list_iterate(ptile->units, cunit)
+    if (players_allied(playerid, cunit->owner))
+      punit = cunit;
+    else
+      return NULL;
+  unit_list_iterate_end;
+
+  return punit;
+}
+
+/**************************************************************************
+ is there an enemy unit on this tile?
+**************************************************************************/
+struct unit *is_enemy_unit_tile(struct tile *ptile, int playerid)
+{
+  unit_list_iterate(ptile->units, punit)
+    if (players_at_war(punit->owner, playerid))
+      return punit;
+  unit_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+ is there an non-allied unit on this tile?
+**************************************************************************/
+struct unit *is_non_allied_unit_tile(struct tile *ptile, int playerid)
+{
+  unit_list_iterate(ptile->units, punit)
+    if (!players_allied(punit->owner, playerid))
+      return punit;
+  unit_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+ is there an unit we have peace or ceasefire with on this tile?
+**************************************************************************/
+struct unit *is_non_attack_unit_tile(struct tile *ptile, int playerid)
+{
+  unit_list_iterate(ptile->units, punit)
+    if (players_non_attack(punit->owner, playerid))
+      return punit;
+  unit_list_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Is this square controlled by the unit's owner?
+
+  Here "is_my_zoc" means essentially a square which is
+  *not* adjacent to an enemy unit on a land tile.
+  (Or, currently, an enemy city even if empty.)
+
+  Note this function only makes sense for ground units.
+**************************************************************************/
+int is_my_zoc(struct unit *myunit, int x0, int y0)
+{
+  int x,y;
+  int ax,ay;
+  int owner=myunit->owner;
+
+  assert(is_ground_unit(myunit));
+     
+  for (x=x0-1;x<x0+2;x++) for (y=y0-1;y<y0+2;y++) {
+    ax=map_adjust_x(x);
+    ay=map_adjust_y(y);
+    if ((map_get_terrain(ax,ay)!=T_OCEAN)
+	&& is_non_allied_unit_tile(map_get_tile(ax,ay), owner))
+      return 0;
+  }
+  return 1;
 }
