@@ -8,12 +8,12 @@ AC_DEFUN([AM_ALSA_SUPPORT],
   [
 #include <sys/asoundlib.h>
 #if defined(SND_LIB_MAJOR) && defined(SND_LIB_MINOR)
-#if SND_LIB_MAJOR>0 || (SND_LIB_MAJOR==0 && SND_LIB_MINOR>=6)
+#if SND_LIB_MAJOR>1 || (SND_LIB_MAJOR==1 && SND_LIB_MINOR>=0)
 AP_maGiC_VALUE
 #endif
 #endif
   ],
-  AC_MSG_RESULT([>= 0.6])
+  AC_MSG_RESULT([>= 1.0])
   AC_MSG_CHECKING(for Audio File Library version)
   AC_EGREP_CPP([AP_maGiC_VALUE],
   [
