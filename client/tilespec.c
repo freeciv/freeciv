@@ -1324,15 +1324,21 @@ static void tilespec_lookup_sprite_tags(void)
   }
 
   /* Corner road/rail graphics are used by roadstyle 0 and 1. */
-  SET_SPRITE_OPT(rail.corner[DIR8_NORTHWEST], "r.c_rail_nw");
-  SET_SPRITE_OPT(rail.corner[DIR8_NORTHEAST], "r.c_rail_ne");
-  SET_SPRITE_OPT(rail.corner[DIR8_SOUTHWEST], "r.c_rail_sw");
-  SET_SPRITE_OPT(rail.corner[DIR8_SOUTHEAST], "r.c_rail_se");
+  if (roadstyle == 0 || roadstyle == 1) {
+    for (i = 0; i < num_valid_tileset_dirs; i++) {
+      enum direction8 dir = valid_tileset_dirs[i];
 
-  SET_SPRITE_OPT(road.corner[DIR8_NORTHWEST], "r.c_road_nw");
-  SET_SPRITE_OPT(road.corner[DIR8_NORTHEAST], "r.c_road_ne");
-  SET_SPRITE_OPT(road.corner[DIR8_SOUTHWEST], "r.c_road_sw");
-  SET_SPRITE_OPT(road.corner[DIR8_SOUTHEAST], "r.c_road_se");
+      if (!is_cardinal_tileset_dir(dir)) {
+	my_snprintf(buffer, sizeof(buffer), "r.c_road_%s",
+		    dir_get_tileset_name(dir));
+	SET_SPRITE_OPT(road.corner[dir], buffer);
+
+	my_snprintf(buffer, sizeof(buffer), "r.c_rail_%s",
+		    dir_get_tileset_name(dir));
+	SET_SPRITE_OPT(rail.corner[dir], buffer);
+      }
+    }
+  }
 
   SET_SPRITE(explode.nuke, "explode.nuke");
 
@@ -2051,6 +2057,7 @@ static int fill_road_corner_sprites(struct drawn_sprite *sprs,
 				    bool rail, bool *rail_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
+  int i;
 
   assert(draw_roads_rails);
   if (!(draw_diagonal_roads || is_isometric)) {
@@ -2070,33 +2077,23 @@ static int fill_road_corner_sprites(struct drawn_sprite *sprs,
    * connects two tiles, only the railroad (no road) is drawn between
    * those tiles.
    */
-  if (sprites.road.corner[DIR8_NORTHEAST]
-      && (road_near[DIR8_NORTH] && road_near[DIR8_EAST]
-	  && !(rail_near[DIR8_NORTH] && rail_near[DIR8_EAST]))
-      && !(road && road_near[DIR8_NORTHEAST]
-	   && !(rail && rail_near[DIR8_NORTHEAST]))) {
-    ADD_SPRITE_SIMPLE(sprites.road.corner[DIR8_NORTHEAST]);
-  }
-  if (sprites.road.corner[DIR8_NORTHWEST]
-      && (road_near[DIR8_NORTH] && road_near[DIR8_WEST]
-	  && !(rail_near[DIR8_NORTH] && rail_near[DIR8_WEST]))
-      && !(road && road_near[DIR8_NORTHWEST]
-	   && !(rail && rail_near[DIR8_NORTHWEST]))) {
-    ADD_SPRITE_SIMPLE(sprites.road.corner[DIR8_NORTHWEST]);
-  }
-  if (sprites.road.corner[DIR8_SOUTHEAST]
-      && (road_near[DIR8_SOUTH] && road_near[DIR8_EAST]
-	  && !(rail_near[DIR8_SOUTH] && rail_near[DIR8_EAST]))
-      && !(road && road_near[DIR8_SOUTHEAST]
-	   && !(rail && rail_near[DIR8_SOUTHEAST]))) {
-    ADD_SPRITE_SIMPLE(sprites.road.corner[DIR8_SOUTHEAST]);
-  }
-  if (sprites.road.corner[DIR8_SOUTHWEST]
-      && (road_near[DIR8_SOUTH] && road_near[DIR8_WEST]
-	  && !(rail_near[DIR8_SOUTH] && rail_near[DIR8_WEST]))
-      && !(road && road_near[DIR8_SOUTHWEST]
-	   && !(rail && rail_near[DIR8_SOUTHWEST]))) {
-    ADD_SPRITE_SIMPLE(sprites.road.corner[DIR8_SOUTHWEST]);
+  for (i = 0; i < num_valid_tileset_dirs; i++) {
+    enum direction8 dir = valid_tileset_dirs[i];
+
+    if (!is_cardinal_tileset_dir(dir)) {
+      /* Draw corner sprites for this non-cardinal direction. */
+      int cw = (i + 1) % num_valid_tileset_dirs;
+      int ccw = (i + num_valid_tileset_dirs - 1) % num_valid_tileset_dirs;
+      enum direction8 dir_cw = valid_tileset_dirs[cw];
+      enum direction8 dir_ccw = valid_tileset_dirs[ccw];
+
+      if (sprites.road.corner[dir]
+	  && (road_near[dir_cw] && road_near[dir_ccw]
+	      && !(rail_near[dir_cw] && rail_near[dir_ccw]))
+	  && !(road && road_near[dir] && !(rail && rail_near[dir]))) {
+	ADD_SPRITE_SIMPLE(sprites.road.corner[dir]);
+      }
+    }
   }
 
   return sprs - saved_sprs;
@@ -2109,6 +2106,7 @@ static int fill_rail_corner_sprites(struct drawn_sprite *sprs,
 				    bool rail, bool *rail_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
+  int i;
 
   assert(draw_roads_rails);
   if (!(draw_diagonal_roads || is_isometric)) {
@@ -2120,25 +2118,22 @@ static int fill_rail_corner_sprites(struct drawn_sprite *sprs,
   /* Rails going diagonally adjacent to this tile need to be
    * partly drawn on this tile. */
 
-  if (sprites.rail.corner[DIR8_NORTHEAST]
-      && rail_near[DIR8_NORTH] && rail_near[DIR8_EAST]
-      && !(rail && rail_near[DIR8_NORTHEAST])) {
-    ADD_SPRITE_SIMPLE(sprites.rail.corner[DIR8_NORTHEAST]);
-  }
-  if (sprites.rail.corner[DIR8_NORTHWEST]
-      && rail_near[DIR8_NORTH] && rail_near[DIR8_WEST]
-      && !(rail && rail_near[DIR8_NORTHWEST])) {
-    ADD_SPRITE_SIMPLE(sprites.rail.corner[DIR8_NORTHWEST]);
-  }
-  if (sprites.rail.corner[DIR8_SOUTHEAST]
-      && rail_near[DIR8_SOUTH] && rail_near[DIR8_EAST]
-      && !(rail && rail_near[DIR8_SOUTHEAST])) {
-    ADD_SPRITE_SIMPLE(sprites.rail.corner[DIR8_SOUTHEAST]);
-  }
-  if (sprites.rail.corner[DIR8_SOUTHWEST]
-      && rail_near[DIR8_SOUTH] && rail_near[DIR8_WEST]
-      && !(rail && rail_near[DIR8_SOUTHWEST])) {
-    ADD_SPRITE_SIMPLE(sprites.rail.corner[DIR8_SOUTHWEST]);
+  for (i = 0; i < num_valid_tileset_dirs; i++) {
+    enum direction8 dir = valid_tileset_dirs[i];
+
+    if (!is_cardinal_tileset_dir(dir)) {
+      /* Draw corner sprites for this non-cardinal direction. */
+      int cw = (i + 1) % num_valid_tileset_dirs;
+      int ccw = (i + num_valid_tileset_dirs - 1) % num_valid_tileset_dirs;
+      enum direction8 dir_cw = valid_tileset_dirs[cw];
+      enum direction8 dir_ccw = valid_tileset_dirs[ccw];
+
+      if (sprites.rail.corner[dir]
+	  && rail_near[dir_cw] && rail_near[dir_ccw]
+	  && !(rail && rail_near[dir])) {
+	ADD_SPRITE_SIMPLE(sprites.rail.corner[dir]);
+      }
+    }
   }
 
   return sprs - saved_sprs;

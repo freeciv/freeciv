@@ -181,7 +181,7 @@ struct named_sprites {
       *odd[MAX_INDEX_HALF],     /* first unused */
       /* for roadstyle 0 and 1 */
       *isolated,
-      *corner[NUM_DIRECTION_NSEW], /* only diagonal directions used */
+      *corner[8], /* Indexed by direction; only non-cardinal dirs used. */
       *total[MAX_INDEX_VALID];     /* includes all possibilities */
   } road, rail;
   struct {
