@@ -171,8 +171,6 @@ int main(int argc, char *argv[])
 	       _("  -g, --gamelog FILE\tUse FILE as game logfile\n"));
     fc_fprintf(stderr,
 	       _("  -h, --help\t\tPrint a summary of the options\n"));
-    fc_fprintf(stderr,
-	       _("  -i, --info INFO\tExtra info for the metaserver\n"));
     fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
     fc_fprintf(stderr, _("  -m, --meta\t\tNotify metaserver and "
 			 "send server's info\n"));
