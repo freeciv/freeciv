@@ -109,6 +109,14 @@ int main(int argc, char *argv[])
 	showhelp = TRUE;
 	break;
       }
+#ifdef AUTHENTICATION_ENABLED 
+    } else if (is_option("--auth", argv[inx])) {
+      srvarg.auth_enabled = TRUE;
+    } else if (is_option("--Guests", argv[inx])) {
+      srvarg.auth_allow_guests = TRUE;
+    } else if (is_option("--Newusers", argv[inx])) {
+      srvarg.auth_allow_newusers = TRUE;
+#endif
     } else if (is_option("--version", argv[inx]))
       showvers = TRUE;
     else {
@@ -129,6 +137,11 @@ int main(int argc, char *argv[])
 
   if (showhelp) {
     fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+#ifdef AUTHENTICATION_ENABLED 
+    fprintf(stderr, _("  -a  --auth\t\tEnable server authentication.\n"));
+    fprintf(stderr, _("  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"));
+    fprintf(stderr, _("  -N  --Newusers\tAllow new users to login if auth is enabled.\n"));
+#endif
     fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
 #ifdef DEBUG
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"

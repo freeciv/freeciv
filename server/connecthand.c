@@ -41,10 +41,6 @@
 
 #include "connecthand.h"
 
-/* TODO: these should probably server options */
-#define NEW_USERS_ALLOWED  /* if defined, new users may log in. */
-#define GUESTS_ALLOWED     /* if defined, users can log in as guests */
-
 #define GUEST_NAME "guest"
 
 #define MIN_PASSWORD_LEN  6  /* minimum length of password */
@@ -213,54 +209,6 @@ bool handle_login_request(struct connection *pconn,
 {
   char msg[MAX_LEN_MSG];
   
-  remove_leading_trailing_spaces(req->username);
-
-  /* Name-sanity check: could add more checks? */
-  if (strlen(req->username) == 0 || my_isdigit(req->username[0])
-      || mystrcasecmp(req->username, "all") == 0
-      || mystrcasecmp(req->username, "none") == 0
-      || mystrcasecmp(req->username, ANON_USER_NAME) == 0) {
-    my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
-    reject_new_connection(msg, pconn);
-    freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),
-            pconn->addr);
-    return FALSE;
-  } 
-
-#ifdef AUTHENTICATION_ENABLED 
-  /* assign the client a unique guest name */
-  if (is_guest_name(req->username)) {
-#ifdef GUESTS_ALLOWED
-    char old_guest_name[MAX_LEN_NAME];
-
-    sz_strlcpy(old_guest_name, req->username);
-    get_unique_guest_name(req->username);
-
-    if (strncmp(old_guest_name, req->username, MAX_LEN_NAME) != 0) {
-      notify_conn(&pconn->self, _("Warning: the guest name '%s' has been "
-                                  "taken, renaming to user '%s'."),
-                                  old_guest_name, req->username);
-    }
-#else
-    reject_new_connection(_("Guests are not allowed on this server."), pconn);
-    return FALSE;
-#endif /* GUESTS_ALLOWED */
-  }
-#endif /* AUTHENTICATION_ENABLED */
-
-  /* don't allow duplicate logins */
-  conn_list_iterate(game.all_connections, aconn) {
-    if (strcmp(req->username, aconn->username) == 0) { 
-      my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
-                  req->username);
-      reject_new_connection(msg, pconn);
-      freelog(LOG_NORMAL,
-              _("Rejected connection from %s with duplicate login name."),
-              aconn->addr);
-      return FALSE;
-    }
-  } conn_list_iterate_end;
-
   freelog(LOG_NORMAL, _("Connection request from %s from %s"),
           req->username, pconn->addr);
   
@@ -302,73 +250,105 @@ bool handle_login_request(struct connection *pconn,
     return FALSE;
   }
 
-#ifdef AUTHENTICATION_ENABLED 
-  /* if authentication is enabled, we need an extra check as to whether
-   * a connection can be established: the client must authenticate itself */
+  remove_leading_trailing_spaces(req->username);
 
-  if (has_capability("auth", req->capability) 
-      && !is_guest_name(req->username)) {
-    char tmpname[MAX_LEN_NAME] = "\0";
-    char buffer[MAX_LEN_MSG];
-
-    sz_strlcpy(pconn->username, req->username);
-
-    switch(user_db_load(pconn)) {
-    case USER_DB_ERROR:
-#ifdef GUESTS_ALLOWED
-      sz_strlcpy(tmpname, pconn->username);
-      get_unique_guest_name(tmpname); /* do not pass pconn->username here! */
-      sz_strlcpy(pconn->username, tmpname);
-
-      freelog(LOG_ERROR, "Error reading database; connection -> guest");
-      notify_conn(&pconn->self, _("There was an error reading the user "
-                                  "database, logging in as guest connection "
-                                  "'%s'."), pconn->username);
-      establish_new_connection(pconn);
-#else
-      reject_new_connection(_("There was an error reading the user database "
-                            "and guest logins are not allowed. Sorry"), pconn);
-#endif /* GUESTS_ALLOWED */
-      break;
-    case USER_DB_SUCCESS:
-      /* we found a user */
-      my_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
-		  pconn->username);
-      dsend_packet_authentication_req(pconn, AUTH_LOGIN_FIRST, buffer);
-      pconn->server.status = AS_REQUESTING_OLD_PASS;
-      break;
-    case USER_DB_NOT_FOUND:
-      /* we couldn't find the user, he is new */
-#ifdef NEW_USERS_ALLOWED
-      sz_strlcpy(buffer, _("Enter a password (and remember it)."));
-      dsend_packet_authentication_req(pconn, AUTH_NEWUSER_FIRST, buffer);
-      pconn->server.status = AS_REQUESTING_NEW_PASS;
-#else
-      reject_new_connection(_("This server allows only preregistered users. "
-                              "Sorry."), pconn);
-#endif /* NEW_USERS_ALLOWED */
-      break;
-    default:
-      assert(0);
-      break;
-    }
-
-    return TRUE;
-  } else if (!is_guest_name(req->username)) {
-#ifdef GUESTS_ALLOWED
-    get_unique_guest_name(req->username);
-    sz_strlcpy(pconn->username, req->username);
-
-    notify_conn(&pconn->self, _("Warning: your non-authenticating client "
-                                "is logging into an authenticating server, "
-                                "logging in as guest connection '%s'."), 
-                                pconn->username);
-#else
-    reject_new_connection(_("Your non-authenticating client is logging into "
-                            "an authenticating server. Guest logins are not "
-                            "allowed. Sorry") , pconn);
+  /* Name-sanity check: could add more checks? */
+  if (strlen(req->username) == 0 || my_isdigit(req->username[0])
+      || mystrcasecmp(req->username, "all") == 0
+      || mystrcasecmp(req->username, "none") == 0
+      || mystrcasecmp(req->username, ANON_USER_NAME) == 0) {
+    my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
+    reject_new_connection(msg, pconn);
+    freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),
+            pconn->addr);
     return FALSE;
-#endif /* GUESTS_ALLOWED */
+  } 
+
+  /* don't allow duplicate logins */
+  conn_list_iterate(game.all_connections, aconn) {
+    if (strcmp(req->username, aconn->username) == 0) { 
+      my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
+                  req->username);
+      reject_new_connection(msg, pconn);
+      freelog(LOG_NORMAL,
+              _("Rejected connection from %s with duplicate login name."),
+              aconn->addr);
+      return FALSE;
+    }
+  } conn_list_iterate_end;
+
+#ifdef AUTHENTICATION_ENABLED 
+  if (srvarg.auth_enabled) {
+    /* assign the client a unique guest name/reject if guests aren't allowed */
+    if (is_guest_name(req->username)) {
+      if (srvarg.auth_allow_guests) {
+        char old_guest_name[MAX_LEN_NAME];
+
+        sz_strlcpy(old_guest_name, req->username);
+        get_unique_guest_name(req->username);
+
+        if (strncmp(old_guest_name, req->username, MAX_LEN_NAME) != 0) {
+          notify_conn(&pconn->self, _("Warning: the guest name '%s' has been "
+                                      "taken, renaming to user '%s'."),
+                      old_guest_name, req->username);
+        }
+      } else {
+        reject_new_connection(_("Guests are not allowed on this server. "
+                                "Sorry."), pconn);
+        return FALSE;
+      }
+    } else {
+      /* we are not a guest, we need an extra check as to whether a 
+       * connection can be established: the client must authenticate itself */
+      char tmpname[MAX_LEN_NAME] = "\0";
+      char buffer[MAX_LEN_MSG];
+
+      sz_strlcpy(pconn->username, req->username);
+
+      switch(user_db_load(pconn)) {
+      case USER_DB_ERROR:
+        if (srvarg.auth_allow_guests) {
+          sz_strlcpy(tmpname, pconn->username);
+          get_unique_guest_name(tmpname); /* don't pass pconn->username here */
+          sz_strlcpy(pconn->username, tmpname);
+
+          freelog(LOG_ERROR, "Error reading database; connection -> guest");
+          notify_conn(&pconn->self, _("There was an error reading the user "
+                                      "database, logging in as guest "
+                                      "connection '%s'."), pconn->username);
+          establish_new_connection(pconn);
+        } else {
+          reject_new_connection(_("There was an error reading the user "
+                                  "database and guest logins are not "
+                                  "allowed. Sorry"), pconn);
+          return FALSE;
+        }
+        break;
+      case USER_DB_SUCCESS:
+        /* we found a user */
+        my_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
+                    pconn->username);
+        dsend_packet_authentication_req(pconn, AUTH_LOGIN_FIRST, buffer);
+        pconn->server.status = AS_REQUESTING_OLD_PASS;
+        break;
+      case USER_DB_NOT_FOUND:
+        /* we couldn't find the user, he is new */
+        if (srvarg.auth_allow_newusers) {
+          sz_strlcpy(buffer, _("Enter a new password (and remember it)."));
+          dsend_packet_authentication_req(pconn, AUTH_NEWUSER_FIRST, buffer);
+          pconn->server.status = AS_REQUESTING_NEW_PASS;
+        } else {
+          reject_new_connection(_("This server allows only preregistered "
+                                  "users. Sorry."), pconn);
+          return FALSE;
+        }
+        break;
+      default:
+        assert(0);
+        break;
+      }
+      return TRUE;
+    }
   }
 #endif /* AUTHENTICATION_ENABLED */
 

@@ -174,6 +174,10 @@ void srv_init(void)
 
   srvarg.extra_metaserver_info[0] = '\0';
 
+  srvarg.auth_enabled = FALSE;
+  srvarg.auth_allow_guests = FALSE;
+  srvarg.auth_allow_newusers = FALSE;
+
   /* initialize teams */
   team_init();
 

@@ -46,6 +46,10 @@ struct server_arguments {
   bool exit_on_end;
   /* what kind of end game we should use */
   bv_draw draw;
+  /* authentication options */
+  bool auth_enabled;            /* defaults to FALSE */
+  bool auth_allow_guests;       /* defaults to TRUE */
+  bool auth_allow_newusers;     /* defaults to TRUE */
 };
 
 void srv_init(void);
