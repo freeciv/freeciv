@@ -847,12 +847,7 @@ void create_activeunits_report_dialog(bool make_modal)
 	GTK_RESPONSE_CLOSE);
   gtk_window_set_modal(GTK_WINDOW(activeunits_dialog_shell), make_modal);
 
-  g_signal_connect(activeunits_dialog_shell, "response",
-		   G_CALLBACK(activeunits_command_callback), NULL);
-  g_signal_connect(activeunits_dialog_shell, "destroy",
-		   G_CALLBACK(activeunits_destroy_callback), NULL);
-
-  activeunits_store = gtk_list_store_newv(AU_COL+1, model_types);
+  activeunits_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
   activeunits_report_dialog_update();
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(activeunits_store));
@@ -891,24 +886,29 @@ void create_activeunits_report_dialog(bool make_modal)
 	activeunits_cell_data_func, GINT_TO_POINTER(i), NULL);
     }
 
-
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   }
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(activeunits_dialog_shell)->vbox),
 	view, TRUE, TRUE, 0);
 
   upgrade_command = gtk_button_new_with_mnemonic(_("_Upgrade"));
-  gtk_widget_set_sensitive(upgrade_command, FALSE);
   gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
 			       upgrade_command, 1);
+  gtk_widget_set_sensitive(upgrade_command, FALSE);
 
   refresh_command = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
   gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
 			       refresh_command, 2);
 
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
+
+  g_signal_connect(activeunits_dialog_shell, "response",
+		   G_CALLBACK(activeunits_command_callback), NULL);
+  g_signal_connect(activeunits_dialog_shell, "destroy",
+		   G_CALLBACK(activeunits_destroy_callback), NULL);
+
   gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->action_area);
-  gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
 /****************************************************************
