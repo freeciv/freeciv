@@ -43,6 +43,37 @@ static int did_init_treaties;
 
 
 /**************************************************************************
+Checks if the player numbers in the packet are sane.
+**************************************************************************/
+static int check_packet(struct packet_diplomacy_info *packet, int check_other)
+{
+  if (packet->plrno0 >= game.nplayers) {
+    freelog(LOG_ERROR, "plrno0 is %d >= game.nplayers (%d).",
+	    packet->plrno0, game.nplayers);
+    return 0;
+  }
+  if (packet->plrno1 >= game.nplayers) {
+    freelog(LOG_ERROR, "plrno1 is %d >= game.nplayers (%d).",
+	    packet->plrno1, game.nplayers);
+    return 0;
+  }
+  if (check_other && packet->plrno_from >= game.nplayers) {
+    freelog(LOG_ERROR, "plrno_from is %d >= game.nplayers (%d).",
+	    packet->plrno_from, game.nplayers);
+    return 0;
+
+    if (packet->plrno_from != packet->plrno0
+	&& packet->plrno_from != packet->plrno1) {
+      freelog(LOG_ERROR, "plrno_from(%d) != plrno0(%d) and plrno1(%d)",
+	      packet->plrno_from, packet->plrno0, packet->plrno1);
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
@@ -65,7 +96,6 @@ struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
   return 0;
 }
 
-
 /**************************************************************************
 pplayer clicked the accept button. If he accepted the treaty we check the
 clauses. If both players have now accepted the treaty we execute the agreed
@@ -77,6 +107,9 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
   struct Treaty *ptreaty;
   struct player *plr0, *plr1, *pgiver, *pdest, *other;
   int *giver_accept;
+
+  if (!check_packet(packet, 1))
+    return;
 
   plr0 = &game.players[packet->plrno0];
   plr1 = &game.players[packet->plrno1];
@@ -369,7 +402,10 @@ void handle_diplomacy_remove_clause(struct player *pplayer,
 {
   struct Treaty *ptreaty;
   struct player *plr0, *plr1, *pgiver;
-  
+
+  if (!check_packet(packet, 1))
+    return;
+
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
   pgiver=&game.players[packet->plrno_from];
@@ -395,24 +431,12 @@ void handle_diplomacy_create_clause(struct player *pplayer,
   struct player *plr0, *plr1, *pgiver;
   int capability;
 
+  if (!check_packet(packet, 1))
+    return;
+
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
   pgiver=&game.players[packet->plrno_from];
-
-  /* 
-   * If we are trading cities, then it is possible that the
-   * dest is unaware of it's existence.  We have 2 choices,
-   * forbid it, or lighten that area.  If we assume that
-   * the giver knows what they are doing, then 2. is the
-   * most powerful option - I'll choose that for now.
-   *                           - Kris Bubendorfer
-   */
-
-  if(packet->clause_type == CLAUSE_CITY){
-    struct city *pcity = find_city_by_id(packet->value);
-    if (pcity && !map_get_known_and_seen(pcity->x, pcity->y, plr1->player_no))
-      give_citymap_from_player_to_player(pcity, plr0, plr1);
-  }
 
   capability = 1;
   conn_list_iterate(plr0->connections, pconn) {
@@ -432,8 +456,22 @@ void handle_diplomacy_create_clause(struct player *pplayer,
     return;
   }
 
-  if((ptreaty=find_treaty(plr0, plr1))) {
-    if(add_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {
+  if ((ptreaty=find_treaty(plr0, plr1))) {
+    if (add_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {
+      /* 
+       * If we are trading cities, then it is possible that the
+       * dest is unaware of it's existence.  We have 2 choices,
+       * forbid it, or lighten that area.  If we assume that
+       * the giver knows what they are doing, then 2. is the
+       * most powerful option - I'll choose that for now.
+       *                           - Kris Bubendorfer
+       */
+      if (packet->clause_type == CLAUSE_CITY){
+	struct city *pcity = find_city_by_id(packet->value);
+	if (pcity && !map_get_known_and_seen(pcity->x, pcity->y, plr1->player_no))
+	  give_citymap_from_player_to_player(pcity, plr0, plr1);
+      }
+
       lsend_packet_diplomacy_info(&plr0->connections, 
 				 PACKET_DIPLOMACY_CREATE_CLAUSE, 
 				 packet);
@@ -482,6 +520,9 @@ void handle_diplomacy_cancel_meeting(struct player *pplayer,
 {
   struct player *plr0, *plr1, *theother;
 
+  if (!check_packet(packet, 0))
+    return;
+
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
   
@@ -498,10 +539,13 @@ void handle_diplomacy_init(struct player *pplayer,
 {
   struct packet_diplomacy_info pa;
   struct player *plr0, *plr1;
-  
+
+  if (!check_packet(packet, 0))
+    return;
+
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
-  
+
   if(!find_treaty(plr0, plr1)) {
     if(player_has_embassy(plr0, plr1) && plr0->is_connected && 
        plr0->is_alive && plr1->is_connected && plr1->is_alive) {
