@@ -923,8 +923,8 @@ void put_city_pixmap(struct city *pcity, GdkPixmap *pm, int xtile, int ytile)
   SPRITE *mysprite;
 
   if(use_solid_color_behind_units) {
-    gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-					game.players[pcity->owner].nation] );
+    gdk_gc_set_foreground( fill_bg_gc,
+			   colors_standard[player_color(city_owner(pcity))]);
     gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
 		    xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
 		    NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
@@ -1006,8 +1006,8 @@ void put_unit_pixmap(struct unit *punit, GdkPixmap *pm, int xtile, int ytile)
       }
     } else
     {
-      gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-                             game.players[punit->owner].nation] );
+      gdk_gc_set_foreground( fill_bg_gc,
+			     colors_standard[player_color(get_player(punit->owner))]);
       gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
                           xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
                           NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
@@ -1036,8 +1036,9 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
 
     if(!sprites[0])
     {
-      gtk_pixcomm_fill(p, colors_standard[COLOR_STD_RACE0+
-                       game.players[punit->owner].nation], FALSE);
+      gtk_pixcomm_fill(p,
+		       colors_standard[player_color(get_player(punit->owner))],
+		       FALSE);
     }
 
     for(i=0;i<count;i++)
@@ -1183,8 +1184,8 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 
       if(pplayer)
       {
-        gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-                    pplayer->nation] );
+        gdk_gc_set_foreground( fill_bg_gc,
+			       colors_standard[player_color(pplayer)] );
         gdk_draw_rectangle( pm, fill_bg_gc, TRUE,
                     x1, y1, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT );
       }

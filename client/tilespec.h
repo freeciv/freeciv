@@ -22,6 +22,8 @@
 #include "map.h"		/* NUM_DIRECTION_NSEW */
 
 struct Sprite;			/* opaque; gui-dep */
+struct unit;
+struct player;
 
 void tilespec_read_toplevel(const char *tileset_name);
 void tilespec_load_tiles(void);
@@ -35,6 +37,8 @@ void tilespec_setup_nation_flag(int id);
 
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int citymode);
 int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit);
+
+int player_color(struct player *pplayer);
 
 /* This the way directional indices are now encoded: */
 

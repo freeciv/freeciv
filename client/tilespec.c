@@ -34,6 +34,7 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "colors_g.h"
 #include "control.h" /* for fill_xxx */
 #include "graphics_g.h"
 #include "options.h" /* for fill_xxx */
@@ -1074,3 +1075,16 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   return sprs - save_sprs;
 }
 
+
+/**********************************************************************
+  Not sure which module to put this in...
+  It used to be that each nation had a color, when there was
+  fixed number of nations.  Now base on player number instead,
+  since still limited to less than 14.  Could possibly improve
+  to allow players to choose their preferred color etc.
+  Return is really "enum color_std".
+***********************************************************************/
+int player_color(struct player *pplayer)
+{
+  return COLOR_STD_RACE0 + pplayer->player_no;
+}

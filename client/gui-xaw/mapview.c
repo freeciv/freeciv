@@ -876,8 +876,8 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
   struct Sprite *mysprite;
 
   if(use_solid_color_behind_units) {
-    XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-                   game.players[pcity->owner].nation]);
+    XSetForeground(display, fill_bg_gc,
+		   colors_standard[player_color(city_owner(pcity))]);
     XFillRectangle(display, pm, fill_bg_gc, 
 		   xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
 		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -956,8 +956,8 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
       }
     } else
     {
-      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-                     game.players[punit->owner].nation]);
+      XSetForeground(display, fill_bg_gc,
+		     colors_standard[player_color(get_player(punit->owner))]);
       XFillRectangle(display, pm, fill_bg_gc, 
                      xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT, 
                      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -1105,8 +1105,8 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 
       if(pplayer)
       {
-        XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
-                       pplayer->nation]);
+        XSetForeground(display, fill_bg_gc,
+		       colors_standard[player_color(pplayer)]);
         XFillRectangle(display, pm, fill_bg_gc, 
                        x1,y1,NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       }
