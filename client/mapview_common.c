@@ -2530,7 +2530,7 @@ bool map_canvas_resized(int width, int height)
   if (map_exists() && can_client_change_view()) {
     if (tile_size_changed) {
       update_map_canvas_visible();
-      refresh_overview_canvas();
+      center_tile_overviewcanvas(get_center_tile_mapcanvas());
       redrawn = TRUE;
     }
 
