@@ -474,6 +474,7 @@ void game_renumber_players(int plrno)
   /* a bit of cleanup to keep connections sane */
   conn_list_init(&game.players[game.nplayers].connections);
   game.players[game.nplayers].is_connected = FALSE;
+  game.players[game.nplayers].was_created = FALSE;
   game.players[game.nplayers].ai.control = FALSE;
   sz_strlcpy(game.players[game.nplayers].name, ANON_PLAYER_NAME);
   sz_strlcpy(game.players[game.nplayers].username, ANON_USER_NAME);
