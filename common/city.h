@@ -351,6 +351,11 @@ struct city {
   int airlift;
   int original;			/* original owner */
   int city_options;		/* bitfield; positions as enum city_options */
+
+  /* info for dipl/spy investigation -- used only in client */
+  struct unit_list info_units_supported;
+  struct unit_list info_units_present;
+
   struct ai_city ai;
 };
 

@@ -1742,15 +1742,22 @@ static int units_scroll_maintenance(int nunits, int nshow, int *base,
 void city_dialog_update_supported_units(struct city_dialog *pdialog, 
 					int unitid)
 {
+  struct unit_list *plist;
   int i, adj_base;
   struct genlist_iterator myiter;
   struct unit *punit;
   Widget pixcomm;
 
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_supported);
+  } else {
+    plist = &(pdialog->pcity->units_supported);
+  }
+
   adj_base=
     units_scroll_maintenance
     (
-     pdialog->pcity->units_supported.list.nelements,
+     plist->list.nelements,
      pdialog->num_units_shown,
      &(pdialog->support_unit_base),
      pdialog->support_unit_next_command,
@@ -1758,8 +1765,8 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     );
 
   genlist_iterator_init(&myiter,
-	&pdialog->pcity->units_supported.list,
-	pdialog->support_unit_base);
+			&(plist->list),
+			pdialog->support_unit_base);
 
   for(i=0;
       i<pdialog->num_units_shown && ITERATOR_PTR(myiter);
@@ -1797,15 +1804,22 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 *****************************************************************/
 void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 {
+  struct unit_list *plist;
   int i, adj_base;
   struct genlist_iterator myiter;
   struct unit *punit;
   Widget pixcomm;
 
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_present);
+  } else {
+    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+  }
+
   adj_base=
     units_scroll_maintenance
     (
-     map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units.list.nelements,
+     plist->list.nelements,
      pdialog->num_units_shown,
      &(pdialog->present_unit_base),
      pdialog->present_unit_next_command,
@@ -1813,8 +1827,8 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     );
 
   genlist_iterator_init(&myiter, 
-	&map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units.list,
-	pdialog->present_unit_base);
+			&(plist->list),
+			pdialog->present_unit_base);
 
   for(i=0;
       i<pdialog->num_units_shown && ITERATOR_PTR(myiter);
@@ -2526,6 +2540,15 @@ void close_city_dialog(struct city_dialog *pdialog)
 
   free(pdialog->support_unit_pixcomms);
   free(pdialog->present_unit_pixcomms);
+
+  unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
+    free(psunit);
+  } unit_list_iterate_end;
+  unit_list_unlink_all(&(pdialog->pcity->info_units_supported));
+  unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
+    free(psunit);
+  } unit_list_iterate_end;
+  unit_list_unlink_all(&(pdialog->pcity->info_units_present));
 
   if(pdialog->is_modal)
     XtSetSensitive(toplevel, TRUE);

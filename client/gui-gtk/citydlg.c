@@ -1256,6 +1256,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 					int unitid)
 {
   int i;
+  struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
 
@@ -1266,8 +1267,14 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     if(i==NUM_UNITS_SHOWN)
       unitid=0;
   }
-  
-  genlist_iterator_init(&myiter, &pdialog->pcity->units_supported.list, 0);
+
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_supported);
+  } else {
+    plist = &(pdialog->pcity->units_supported);
+  }
+
+  genlist_iterator_init(&myiter, &(plist->list), 0);
 
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
@@ -1309,6 +1316,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 {
   int i;
+  struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
   
@@ -1320,9 +1328,14 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
       unitid=0;
   }
 
-  genlist_iterator_init(&myiter, 
-	&map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units.list, 0);
-  
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_present);
+  } else {
+    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+  }
+
+  genlist_iterator_init(&myiter, &(plist->list), 0);
+
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
     
@@ -2068,6 +2081,15 @@ void close_city_dialog(struct city_dialog *pdialog)
 
   if (pdialog->change_shell)
     gtk_widget_destroy(pdialog->change_shell);
+
+  unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
+    free(psunit);
+  } unit_list_iterate_end;
+  unit_list_unlink_all(&(pdialog->pcity->info_units_supported));
+  unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
+    free(psunit);
+  } unit_list_iterate_end;
+  unit_list_unlink_all(&(pdialog->pcity->info_units_present));
 
   gtk_widget_destroy(pdialog->shell);
   free(pdialog);

@@ -160,7 +160,9 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 			  struct city *pcity)
 {
   struct player *cplayer;
-  struct packet_city_info packet;
+  int first_packet;
+  struct packet_unit_info unit_packet;
+  struct packet_city_info city_packet;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
@@ -171,12 +173,30 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   freelog (LOG_DEBUG, "investigate: unit: %d", pdiplomat->id);
 
-  /* Send city info to investigator's player.
-     As this is a special case we bypass send_city_info*/
+  /* Do It... */
   update_dumb_city(pplayer, pcity);
-  package_city(pcity, &packet);
-  packet.diplomat_investigate = 1;
-  send_packet_city_info(pplayer->conn, &packet);
+  /* Special case for a diplomat/spy investigating a city:
+     The investigator needs to know the supported and present
+     units of a city, whether or not they are fogged. So, we
+     send a list of them all before sending the city info.
+     As this is a special case we bypass send_unit_info. */
+  first_packet = TRUE;
+  unit_list_iterate(pcity->units_supported, punit) {
+    package_unit(punit, &unit_packet, punit->x, punit->y, FALSE, FALSE,
+		 UNIT_INFO_CITY_SUPPORTED, pcity->id, first_packet);
+    send_packet_unit_info(pplayer->conn, &unit_packet);
+    first_packet = FALSE;
+  } unit_list_iterate_end;
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    package_unit(punit, &unit_packet, punit->x, punit->y, FALSE, FALSE,
+		 UNIT_INFO_CITY_PRESENT, pcity->id, first_packet);
+    send_packet_unit_info(pplayer->conn, &unit_packet);
+    first_packet = FALSE;
+  } unit_list_iterate_end;
+  /* Send city info to investigator's player.
+     As this is a special case we bypass send_city_info. */
+  package_city(pcity, &city_packet, TRUE);
+  send_packet_city_info(pplayer->conn, &city_packet);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;
@@ -2911,30 +2931,8 @@ void send_unit_info_to_onlookers(struct player *dest, struct unit *punit,
   int o;
   struct packet_unit_info info;
 
-  info.id=punit->id;
-  info.owner=punit->owner;
-  info.x=punit->x;
-  info.y=punit->y;
-  info.homecity=punit->homecity;
-  info.veteran=punit->veteran;
-  info.type=punit->type;
-  info.movesleft=punit->moves_left;
-  info.hp=punit->hp / game.firepower_factor;
-  info.activity=punit->activity;
-  info.activity_count=punit->activity_count;
-  info.unhappiness=punit->unhappiness;
-  info.upkeep=punit->upkeep;
-  info.upkeep_food=punit->upkeep_food;
-  info.upkeep_gold=punit->upkeep_gold;
-  info.ai=punit->ai.control;
-  info.fuel=punit->fuel;
-  info.goto_dest_x=punit->goto_dest_x;
-  info.goto_dest_y=punit->goto_dest_y;
-  info.activity_target=punit->activity_target;
-  info.paradropped=punit->paradropped;
-  info.connecting=punit->connecting;
-  info.carried = carried;
-  info.select_it = select_it;
+  package_unit(punit, &info, x, y, carried, select_it,
+	       UNIT_INFO_IDENTITY, 0, FALSE);
 
   for (o=0; o<game.nplayers; o++) {          /* dests */
     if (!dest || &game.players[o]==dest) {

@@ -62,6 +62,7 @@ char *city_name_suggestion(struct player *pplayer);
 void reality_check_city(struct player *pplayer,int x, int y);
 void update_dumb_city(struct player *pplayer, struct city *pcity);
 void send_all_known_cities(struct player *dest);
-void package_city(struct city *pcity, struct packet_city_info *packet);
+void package_city(struct city *pcity, struct packet_city_info *packet,
+		  int dipl_invest);
 
 #endif  /* FC__CITYHAND_H */

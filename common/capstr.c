@@ -70,9 +70,13 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11"
+#define CAPABILITY "+1.11 diplomat_investigate_fix"
 
 /* "+1.11" is protocol for 1.11.0 stable release
+
+   "diplomat_investigate_fix" extends the protocol so that diplomat
+   investigation of a city reveals the correct supported and present
+   unit lists.
 */
 
 void init_our_capability(void)

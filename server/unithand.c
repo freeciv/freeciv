@@ -1387,3 +1387,49 @@ void handle_unit_paradrop_to(struct player *pplayer,
   if (punit)
     do_paradrop(punit, req->x, req->y);
 }
+
+/**************************************************************************
+...
+**************************************************************************/
+void package_unit(struct unit *punit, struct packet_unit_info *packet,
+		  int x, int y, int carried, int select_it,
+		  enum unit_info_use packet_use, int info_city_id,
+		  int new_serial_num)
+{
+  static unsigned int serial_num = 0;
+
+  /* a 16-bit unsigned number, never zero */
+  if (new_serial_num) {
+    serial_num = (serial_num + 1) & 0xFFFF;
+    if (serial_num == 0)
+      serial_num++;
+  }
+
+  packet->id = punit->id;
+  packet->owner = punit->owner;
+  packet->x = punit->x;
+  packet->y = punit->y;
+  packet->homecity = punit->homecity;
+  packet->veteran = punit->veteran;
+  packet->type = punit->type;
+  packet->movesleft = punit->moves_left;
+  packet->hp = punit->hp / game.firepower_factor;
+  packet->activity = punit->activity;
+  packet->activity_count = punit->activity_count;
+  packet->unhappiness = punit->unhappiness;
+  packet->upkeep = punit->upkeep;
+  packet->upkeep_food = punit->upkeep_food;
+  packet->upkeep_gold = punit->upkeep_gold;
+  packet->ai = punit->ai.control;
+  packet->fuel = punit->fuel;
+  packet->goto_dest_x = punit->goto_dest_x;
+  packet->goto_dest_y = punit->goto_dest_y;
+  packet->activity_target = punit->activity_target;
+  packet->paradropped = punit->paradropped;
+  packet->connecting = punit->connecting;
+  packet->carried = carried;
+  packet->select_it = select_it;
+  packet->packet_use = packet_use;
+  packet->info_city_id = info_city_id;
+  packet->serial_num = serial_num;
+}

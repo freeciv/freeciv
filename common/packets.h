@@ -132,6 +132,12 @@ enum spaceship_action_type {
   SSHIP_ACT_PLACE_SOLAR_PANELS
 };
 
+enum unit_info_use {
+  UNIT_INFO_IDENTITY,
+  UNIT_INFO_CITY_SUPPORTED,
+  UNIT_INFO_CITY_PRESENT
+};
+
 /*********************************************************
   diplomacy action!
 *********************************************************/
@@ -293,8 +299,14 @@ struct packet_unit_info {
   int activity_target;
   int paradropped;
   int connecting;
+  /* in packet only, not in unit struct */
   int carried;
   int select_it;
+  int packet_use;	/* see enum unit_info_use */
+  int info_city_id;	/* for UNIT_INFO_CITY_SUPPORTED
+			   and UNIT_INFO_CITY_PRESENT uses */
+  int serial_num;	/* a 16-bit unsigned number, never zero
+			   (not used by UNIT_INFO_IDENTITY) */
 };
 
 

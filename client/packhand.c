@@ -65,6 +65,44 @@ extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
 extern char name[512];
 
+
+/**************************************************************************
+...
+**************************************************************************/
+static void unpackage_unit(struct unit *punit, struct packet_unit_info *packet)
+{
+  punit->id = packet->id;
+  punit->owner = packet->owner;
+  punit->x = packet->x;
+  punit->y = packet->y;
+  punit->homecity = packet->homecity;
+  punit->veteran = packet->veteran;
+  punit->type = packet->type;
+  punit->moves_left = packet->movesleft;
+  punit->hp = packet->hp;
+  punit->activity = packet->activity;
+  punit->activity_count = packet->activity_count;
+  punit->unhappiness = packet->unhappiness;
+  punit->upkeep = packet->upkeep;
+  punit->upkeep_food = packet->upkeep_food;
+  punit->upkeep_gold = packet->upkeep_gold;
+  punit->ai.control = packet->ai;
+  punit->fuel = packet->fuel;
+  punit->goto_dest_x = packet->goto_dest_x;
+  punit->goto_dest_y = packet->goto_dest_y;
+  punit->activity_target = packet->activity_target;
+  punit->paradropped = packet->paradropped;
+  punit->connecting = packet->connecting;
+  /* not in packet, only in unit struct */
+  punit->focus_status = FOCUS_AVAIL;
+  punit->bribe_cost = 0;	/* done by handle_incite_cost() */
+  punit->foul = 0;		/* never used in client/ */
+  punit->ord_map = 0;		/* never used in client/ */
+  punit->ord_city = 0;		/* never used in client/ */
+  punit->moved = 0;		/* never used in client/ */
+  punit->transported_by = 0;	/* never used in client/ */
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -273,6 +311,8 @@ void handle_city_info(struct packet_city_info *packet)
   
   if(city_is_new) {
     unit_list_init(&pcity->units_supported);
+    unit_list_init(&pcity->info_units_supported);
+    unit_list_init(&pcity->info_units_present);
     city_list_insert(&game.players[packet->owner].cities, pcity);
     map_set_city(pcity->x, pcity->y, pcity);
     if(pcity->owner==game.player_idx)
@@ -447,6 +487,43 @@ void handle_unit_info(struct packet_unit_info *packet)
   int repaint_unit;
   int repaint_city;		/* regards unit's homecity */
 
+  /* Special case for a diplomat/spy investigating a city:
+     The investigator needs to know the supported and present
+     units of a city, whether or not they are fogged. So, we
+     send a list of them all before sending the city info. */
+  if ((packet->packet_use == UNIT_INFO_CITY_SUPPORTED) ||
+      (packet->packet_use == UNIT_INFO_CITY_PRESENT)) {
+    static int last_serial_num = 0;
+    /* fetch city -- abort if not found */
+    pcity = find_city_by_id(packet->info_city_id);
+    if (!pcity) {
+      return;
+    }
+    /* new serial number -- clear everything */
+    if (last_serial_num != packet->serial_num) {
+      last_serial_num = packet->serial_num;
+      unit_list_iterate(pcity->info_units_supported, psunit) {
+	free(psunit);
+      } unit_list_iterate_end;
+      unit_list_unlink_all(&(pcity->info_units_supported));
+      unit_list_iterate(pcity->info_units_present, ppunit) {
+	free(ppunit);
+      } unit_list_iterate_end;
+      unit_list_unlink_all(&(pcity->info_units_present));
+    }
+    /* okay, append a unit struct to the proper list */
+    if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
+      punit = fc_malloc(sizeof(struct unit));
+      unpackage_unit(punit, packet);
+      unit_list_insert(&(pcity->info_units_supported), punit);
+    } else if (packet->packet_use == UNIT_INFO_CITY_PRESENT) {
+      punit = fc_malloc(sizeof(struct unit));
+      unpackage_unit(punit, packet);
+      unit_list_insert(&(pcity->info_units_present), punit);
+    }
+    /* done with special case */
+    return;
+  }
 
   repaint_unit = 0;
   repaint_city = 0;
@@ -595,39 +672,14 @@ void handle_unit_info(struct packet_unit_info *packet)
 
   else {      /* create new unit */
     punit=fc_malloc(sizeof(struct unit));
-    
-    punit->id=packet->id;
+    unpackage_unit(punit, packet);
     idex_register_unit(punit);
-    
-    punit->owner=packet->owner;
-    punit->x=packet->x;
-    punit->y=packet->y;
-    punit->veteran=packet->veteran;
-    punit->homecity=packet->homecity;
-    punit->type=packet->type;
-    punit->moves_left=packet->movesleft;
-    punit->hp=packet->hp;
-    punit->unhappiness=packet->unhappiness;
-    punit->activity=packet->activity;
-    punit->upkeep=packet->upkeep;
-    punit->upkeep_food=packet->upkeep_food;
-    punit->upkeep_gold=packet->upkeep_gold;
-    punit->fuel=packet->fuel;
-    punit->goto_dest_x=packet->goto_dest_x;
-    punit->goto_dest_y=packet->goto_dest_y;
-    punit->activity_target=packet->activity_target;
-    punit->ai.control=packet->ai;
-    punit->paradropped=packet->paradropped;
-    punit->connecting=packet->connecting;
-    
+
     punit->activity_count=0;	/* never used in client/ or common/  --dwp */
-    punit->bribe_cost=0;	/* done by handle_incite_cost() */
-    
-    punit->focus_status=FOCUS_AVAIL;
-    
+
     unit_list_insert(&game.players[packet->owner].units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
-    
+
     if((pcity=find_city_by_id(punit->homecity)))
       unit_list_insert(&pcity->units_supported, punit);
 
@@ -635,7 +687,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 	   get_nation_name(get_player(punit->owner)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
-    
+
     if (packet->carried)
       repaint_unit=0;
     else

@@ -784,7 +784,7 @@ void send_city_info_at_tile(struct player *dest, int x, int y)
   if (pcity && (!dest || powner == dest) && !nocity_send) {
     /* send all info to the owner */
     update_dumb_city(powner, pcity);
-    package_city(pcity, &packet);
+    package_city(pcity, &packet, FALSE);
     send_packet_city_info(powner->conn, &packet);
   }
 
@@ -935,7 +935,8 @@ void reestablish_city_trade_routes(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-void package_city(struct city *pcity, struct packet_city_info *packet)
+void package_city(struct city *pcity, struct packet_city_info *packet,
+		  int dipl_invest)
 {
   int i, x, y;
   char *p;
@@ -977,7 +978,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet)
   packet->is_building_unit=pcity->is_building_unit;
   packet->currently_building=pcity->currently_building;
   copy_worklist(&packet->worklist, pcity->worklist);
-  packet->diplomat_investigate=0;
+  packet->diplomat_investigate=dipl_invest;
 
   packet->airlift=pcity->airlift;
   packet->did_buy=pcity->did_buy;

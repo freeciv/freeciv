@@ -1612,7 +1612,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 void city_dialog_update_supported_units(struct city_dialog *pdialog,
 					int unitid)
 {
-
+  struct unit_list *plist;
   int i;
   struct genlist_iterator myiter;
   struct unit *punit;
@@ -1628,7 +1628,13 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 
   pdialog->supported2_group = HGroup, End;
 
-  genlist_iterator_init(&myiter, &pdialog->pcity->units_supported.list, 0);
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_supported);
+  } else {
+    plist = &(pdialog->pcity->units_supported);
+  }
+
+  genlist_iterator_init(&myiter, &(plist->list), 0);
 
   for (i = 0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++)
   {
@@ -1651,6 +1657,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 *****************************************************************/
 void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 {
+  struct unit_list *plist;
   int i;
   struct genlist_iterator myiter;
   struct unit *punit;
@@ -1664,11 +1671,15 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     MUI_DisposeObject(pdialog->present2_group);
   }
 
-
   pdialog->present2_group = HGroup, End;
 
-  genlist_iterator_init(&myiter,
-	&map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units.list, 0);
+  if(pdialog->pcity->owner != game.player_idx) {
+    plist = &(pdialog->pcity->info_units_present);
+  } else {
+    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+  }
+
+  genlist_iterator_init(&myiter, &(plist->list), 0);
 
   for (i = 0; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter), i++)
   {
@@ -1744,6 +1755,14 @@ void close_city_dialog(struct city_dialog *pdialog)
   if (pdialog)
   {
     genlist_unlink(&dialog_list, pdialog);
+    unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
+      free(psunit);
+    } unit_list_iterate_end;
+    unit_list_unlink_all(&(pdialog->pcity->info_units_supported));
+    unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
+      free(psunit);
+    } unit_list_iterate_end;
+    unit_list_unlink_all(&(pdialog->pcity->info_units_present));
     if (pdialog->worklist_wnd)
     {
       set(pdialog->worklist_wnd, MUIA_Window_Open, FALSE);

@@ -1902,6 +1902,15 @@ int send_packet_unit_info(struct connection *pc,
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   unsigned char pack;
 
+/* when removing "diplomat_investigate_fix" capability,
+remove this *entire* piece of code (to REMOVE TO HERE, below) */
+if (pc && !has_capability("diplomat_investigate_fix", pc->capability)) {
+if (req->packet_use != UNIT_INFO_IDENTITY) {
+return 0;
+}
+}
+/* REMOVE TO HERE */
+
   cptr=put_uint8(buffer+2, PACKET_UNIT_INFO);
   cptr=put_uint16(cptr, req->id);
   cptr=put_uint8(cptr, req->owner);
@@ -1927,8 +1936,13 @@ int send_packet_unit_info(struct connection *pc,
   cptr=put_uint8(cptr, req->goto_dest_x);
   cptr=put_uint8(cptr, req->goto_dest_y);
   cptr=put_uint16(cptr, req->activity_target);
+if (pc && has_capability("diplomat_investigate_fix", pc->capability)) {
+  cptr=put_uint8(cptr, req->packet_use);
+  cptr=put_uint16(cptr, req->info_city_id);
+  cptr=put_uint16(cptr, req->serial_num);
+}
   if(req->fuel) cptr=put_uint8(cptr, req->fuel);
-  
+
   put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
@@ -2110,6 +2124,15 @@ receive_packet_unit_info(struct connection *pc)
   iget_uint8(&iter, &packet->goto_dest_x);
   iget_uint8(&iter, &packet->goto_dest_y);
   iget_uint16(&iter, &packet->activity_target);
+if (pc && has_capability("diplomat_investigate_fix", pc->capability)) {
+  iget_uint8(&iter, &packet->packet_use);
+  iget_uint16(&iter, &packet->info_city_id);
+  iget_uint16(&iter, &packet->serial_num);
+} else {
+  packet->packet_use=UNIT_INFO_IDENTITY;
+  packet->info_city_id=0;
+  packet->serial_num=0;
+}
   if (pack_iter_remaining(&iter) >= 1) {
     iget_uint8(&iter, &packet->fuel);
   } else {
