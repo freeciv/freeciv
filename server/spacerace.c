@@ -155,7 +155,7 @@ void handle_spaceship_launch(struct player *pplayer)
 {
   struct player_spaceship *ship = &pplayer->spaceship;
   int arrival;
-  
+
   if (ship->state >= SSHIP_LAUNCHED) {
     notify_player(pplayer, _("Game: Your spaceship is already launched!"));
     return;
@@ -165,15 +165,15 @@ void handle_spaceship_launch(struct player *pplayer)
     notify_player(pplayer, _("Game: Your spaceship can't be launched yet!"));
     return;
   }
-  
+
   ship->state = SSHIP_LAUNCHED;
   ship->launch_year = game.year;
   arrival = ship->launch_year + (int) ship->travel_time;
-  
+
   notify_player_ex(0, -1, -1, E_SPACESHIP,
 		_("Game: The %s have launched a spaceship!  "
 		  "It is estimated to arrive on Alpha Centauri in %s."),
-		get_nation_name(pplayer->nation),
+		get_nation_name_plural(pplayer->nation),
 		textyear(arrival));
 
   send_spaceship_info(pplayer, 0);
@@ -338,7 +338,6 @@ void spaceship_lost(struct player *pplayer)
 }
 
 /**************************************************************************
-...
 Use shuffled order to randomly resolve ties.
 **************************************************************************/
 void check_spaceship_arrivals(void)
@@ -372,4 +371,3 @@ void check_spaceship_arrivals(void)
 		     get_nation_name(best_pplayer->nation));
   }
 }
-
