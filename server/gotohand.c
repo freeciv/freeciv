@@ -387,6 +387,14 @@ static void init_gotomap(int orig_x, int orig_y)
 {
   int x;
 
+  if (!warmap.cost[0]) {
+    for (x = 0; x < map.xsize; x++) {
+      warmap.cost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
+      warmap.seacost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
+      warmap.vector[x]=fc_malloc(map.ysize*sizeof(unsigned char));
+    }
+  }
+
   for (x = 0; x < map.xsize; x++) {
     memset(warmap.cost[x],255,map.ysize*sizeof(unsigned char));
     memset(warmap.seacost[x],255,map.ysize*sizeof(unsigned char));
