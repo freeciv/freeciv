@@ -929,9 +929,10 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   city_map_iterate(i, j) {
     int x=map_adjust_x(pcity->x+i-2), y=map_adjust_y(pcity->y+j-2);
     struct city *acity=map_get_tile(x,y)->worked;
-    if(acity!=NULL && acity!=pcity)  {
-      if(acity->x==x && acity->y==y) continue;  /* can't stop working city center */
-/*printf("Availing square in %s\n", acity->name);*/
+    if(acity!=NULL && acity!=pcity && acity->owner==pcity->owner)  {
+      if(acity->x==x && acity->y==y) /* can't stop working city center */
+	continue;  
+      /*printf("Availing square in %s\n", acity->name);*/
       set_worker_city(acity, map_to_city_x(acity, x), 
                       map_to_city_y(acity, y), C_TILE_EMPTY);
       if (!city_list_find_id(&minilist, acity->id))
