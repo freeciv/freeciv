@@ -5,7 +5,9 @@ dnl Test for SDL and needed libraries for gui-sdl
 
 AC_DEFUN([FC_SDL_CLIENT],
 [
-  if test "$client" = sdl || test "$client" = yes ; then
+  if test "$client" = yes; then
+    AC_MSG_WARN([Not checking for SDL; use --enable-client=sdl to enable])
+  elif test "$client" = sdl ; then
     AM_PATH_SDL([1.1.4], [sdl_found="yes"], [sdl_found="no"])
     if test "$sdl_found" = yes; then
       ac_save_CFLAGS="$CFLAGS"
