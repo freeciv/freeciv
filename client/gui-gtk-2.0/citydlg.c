@@ -375,7 +375,7 @@ void refresh_city_dialog(struct city *pcity)
     bool have_present_units =
 	(unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) > 0);
 
-    update_worklist_editor(pdialog->wl_editor);
+    refresh_worklist(&pdialog->pcity->worklist);
 
     city_dialog_update_information(pdialog->happiness.info_label, pdialog);
     refresh_happiness_dialog(pdialog->pcity);
@@ -554,13 +554,14 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
 static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
   GtkWidget *top, *vbox, *page, *align;
+  GtkWidget *hbox, *ebox;
   GtkWidget *frame, *table, *label, *sw, *view;
   GtkCellRenderer *rend;
   GtkListStore *store;
 
-  char *tab_title = _("_Overview");
+  char *tab_title = _("Overview");
 
-  page = gtk_vbox_new(FALSE, 12);
+  page = gtk_vbox_new(FALSE, 0);
   gtk_container_set_border_width(GTK_CONTAINER(page), 2);
 
   label = gtk_label_new(tab_title);
@@ -569,6 +570,22 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
+  /**** Citizens bar here ****/
+  hbox = gtk_hbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, TRUE, 0);
+
+  ebox = gtk_event_box_new();
+  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
+  gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 0);
+  pdialog->citizen_pixmap =
+      gtk_pixcomm_new(SMALL_TILE_WIDTH * NUM_CITIZENS_SHOWN,
+		      SMALL_TILE_HEIGHT);
+  gtk_misc_set_padding(GTK_MISC(pdialog->citizen_pixmap), 2, 2);
+  gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
+  gtk_signal_connect(GTK_OBJECT(ebox), "button_press_event",
+		     GTK_SIGNAL_FUNC(citizens_callback), pdialog);
+
+  /* info/map/improvements */
   top = gtk_hbox_new(FALSE, 6);
   gtk_box_pack_start(GTK_BOX(page), top, TRUE, TRUE, 0);
 
@@ -596,7 +613,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   /* present and supported units (overview page) */
   pdialog->overview.supported_units_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(page), pdialog->overview.supported_units_frame,
-		     FALSE, FALSE, 0);
+		     FALSE, FALSE, 12);
   pdialog->overview.present_units_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(page), pdialog->overview.present_units_frame,
 		     FALSE, FALSE, 0);
@@ -706,9 +723,9 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 *****************************************************************/
 static void create_and_append_worklist_page(struct city_dialog *pdialog)
 {
-  char *tab_title = _("_Production");
+  char *tab_title = _("Production");
   GtkWidget *label = gtk_label_new(tab_title);
-  GtkWidget *page, *hbox;
+  GtkWidget *page, *hbox, *editor;
 
   notebook_tab_accels[WORKLIST_PAGE] =
       gtk_label_parse_uline(GTK_LABEL(label), tab_title);
@@ -748,13 +765,8 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 		     "clicked", GTK_SIGNAL_FUNC(change_callback), pdialog);
 
 
-  pdialog->wl_editor =
-      create_worklist_editor(&pdialog->pcity->worklist, pdialog->pcity,
-			     (void *) pdialog, commit_city_worklist, NULL, 1);
-  gtk_box_pack_start(GTK_BOX(page), pdialog->wl_editor->shell, TRUE, TRUE, 0);
-  gtk_signal_connect(GTK_OBJECT(pdialog->shell), "key_press_event",
-		     GTK_SIGNAL_FUNC(pdialog->wl_editor->keyboard_handler),
-		     pdialog->wl_editor);
+  editor = create_worklist(&pdialog->pcity->worklist, pdialog->pcity);
+  gtk_box_pack_start(GTK_BOX(page), editor, TRUE, TRUE, 0);
 
   gtk_widget_show_all(page);
 
@@ -767,9 +779,9 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *vbox, *label, *table, *align;
-  char *tab_title = _("_Happiness");
+  char *tab_title = _("Happiness");
 
-  page = gtk_hbox_new(FALSE, 0);
+  page = gtk_hbox_new(FALSE, 6);
 
   label = gtk_label_new(tab_title);
   notebook_tab_accels[HAPPINESS_PAGE] =
@@ -804,8 +816,11 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 		     "button_press_event",
 		     GTK_SIGNAL_FUNC(button_down_citymap), NULL);
 
+  align = gtk_alignment_new(0.5, 0.5, 0, 0);
+  gtk_container_add(GTK_CONTAINER(vbox), align);
+  
   table = create_city_info_table(pdialog->happiness.info_label);
-  gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(align), table);
 
   gtk_widget_show_all(page);
 }
@@ -816,7 +831,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 static void create_and_append_cma_page(struct city_dialog *pdialog)
 {
   GtkWidget *page, *label;
-  char *tab_title = _("CM_A");
+  char *tab_title = _("CMA");
 
   page = gtk_vbox_new(FALSE, 0);
 
@@ -837,8 +852,8 @@ static void create_and_append_cma_page(struct city_dialog *pdialog)
 *****************************************************************/
 static void create_and_append_trade_page(struct city_dialog *pdialog)
 {
-  GtkWidget *page, *frame, *label;
-  char *tab_title = _("_Trade Routes");
+  GtkWidget *page, *label;
+  char *tab_title = _("Trade Routes");
 
   page = gtk_hbox_new(TRUE, 0);
 
@@ -848,14 +863,11 @@ static void create_and_append_trade_page(struct city_dialog *pdialog)
 
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  frame = gtk_frame_new(_("Established trade routes"));
-
   pdialog->overview.tradelist = gtk_label_new("Uninitialized.");
   gtk_widget_set_name(pdialog->overview.tradelist, "city label");
   gtk_label_set_justify(GTK_LABEL(pdialog->overview.tradelist),
 			GTK_JUSTIFY_LEFT);
-  gtk_container_add(GTK_CONTAINER(frame), pdialog->overview.tradelist);
-  gtk_box_pack_start(GTK_BOX(page), frame, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(page), pdialog->overview.tradelist);
 
   gtk_widget_show_all(page);
 }
@@ -870,7 +882,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   GtkWidget *hbox, *vbox, *page, *table, *frame, *label;
   GSList *group = NULL;
 
-  char *tab_title = _("_Misc. Settings");
+  char *tab_title = _("Misc. Settings");
 
   static char *new_citizens_label[] = {
     N_("Entertainers"),
@@ -1049,7 +1061,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
   struct city_dialog *pdialog;
 
   GtkWidget *close_command;
-  GtkWidget *hbox, *vbox, *ebox;
+  GtkWidget *vbox;
 
   if (!city_dialogs_have_been_initialised)
     initialize_city_dialogs();
@@ -1106,21 +1118,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
 
   vbox = GTK_DIALOG(pdialog->shell)->vbox;
-
-  /**** Citizens bar here ****/
-
-  hbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
-
-  ebox = gtk_event_box_new();
-  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
-  gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 0);
-  pdialog->citizen_pixmap =
-      gtk_pixcomm_new(SMALL_TILE_WIDTH * NUM_CITIZENS_SHOWN,
-		      SMALL_TILE_HEIGHT);
-  gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
-  gtk_signal_connect(GTK_OBJECT(ebox), "button_press_event",
-		     GTK_SIGNAL_FUNC(citizens_callback), pdialog);
 
   /**** -Start of Notebook- ****/
 
@@ -2695,8 +2692,8 @@ static void switch_page_callback(GtkNotebook * notebook,
 				 GtkNotebookPage * page, gint page_num,
 				 gpointer data)
 {
+#if 0
   struct city_dialog *pdialog = (struct city_dialog *) data;
-
   /* gtk_notebook_get_current_page() is actually the */
   /* page from which we switched.                    */
   if (gtk_notebook_get_current_page(notebook) == WORKLIST_PAGE) {
@@ -2705,6 +2702,7 @@ static void switch_page_callback(GtkNotebook * notebook,
       commit_worklist(pdialog->wl_editor);
     }
   }
+#endif
 }
 
 /****************************************************************
@@ -2925,9 +2923,6 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   gtk_widget_hide(pdialog->shell);
 
   if (pdialog->pcity->owner == game.player_idx) {
-    if(pdialog->wl_editor->changed){
-      commit_worklist(pdialog->wl_editor);
-    }
     close_happiness_dialog(pdialog->pcity);
     close_cma_dialog(pdialog->pcity);
   }
@@ -3043,9 +3038,6 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   }
 
   /* cleanup worklist and happiness dialogs */
-  if(pdialog->wl_editor->changed){
-    commit_worklist(pdialog->wl_editor);
-  }
   close_happiness_dialog(pdialog->pcity);
 
   pdialog->pcity = new_pcity;
