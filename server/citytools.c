@@ -1703,7 +1703,7 @@ int city_can_work_tile(struct city *pcity, int city_x, int city_y)
 /**************************************************************************
 Sets tile worked status.
 city_x, city_y is in city map coords.
-You need to call sync_cities for teh affected cities to be synced with the
+You need to call sync_cities for the affected cities to be synced with the
 client.
 
 You should not use this function unless you really know what you are doing!
@@ -1744,7 +1744,7 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 
 /**************************************************************************
 city_x, city_y is in city map coords.
-You need to call sync_cities for teh affected cities to be synced with the
+You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
 void server_remove_worker_city(struct city *pcity, int city_x, int city_y)
@@ -1756,7 +1756,7 @@ void server_remove_worker_city(struct city *pcity, int city_x, int city_y)
 
 /**************************************************************************
 city_x, city_y is in city map coords.
-You need to call sync_cities for teh affected cities to be synced with the
+You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
 void server_set_worker_city(struct city *pcity, int city_x, int city_y)
@@ -1768,7 +1768,7 @@ void server_set_worker_city(struct city *pcity, int city_x, int city_y)
 
 /**************************************************************************
 Wrapper.
-You need to call sync_cities for teh affected cities to be synced with the
+You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
 void update_city_tile_status_map(struct city *pcity, int map_x, int map_y)

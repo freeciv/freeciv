@@ -145,7 +145,7 @@ void remove_obsolete_buildings(struct player *pplayer)
 }
 
 /**************************************************************************
-You need to call sync_cities for teh affected cities to be synced with the
+You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
 static void worker_loop(struct city *pcity, int *foodneed,
@@ -219,7 +219,7 @@ static void worker_loop(struct city *pcity, int *foodneed,
 }
 
 /**************************************************************************
-You need to call sync_cities for teh affected cities to be synced with the
+You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
 int add_adjust_workers(struct city *pcity)
@@ -256,7 +256,7 @@ int add_adjust_workers(struct city *pcity)
 }
 
 /**************************************************************************
-You need to call sync_cities for teh affected cities to be synced with the
+You need to call sync_cities for the affected cities to be synced with the
 client.
 **************************************************************************/
 void auto_arrange_workers(struct city *pcity)
