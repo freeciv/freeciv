@@ -35,5 +35,6 @@ void map_save(struct section_file *file);
 void map_startpos_load(struct section_file *file);
 void map_tiles_load(struct section_file *file);
 void map_load(struct section_file *file);
+void map_rivers_overlay_load(struct section_file *file);
 
 #endif  /* FC__MAPHAND_H */

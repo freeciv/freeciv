@@ -460,6 +460,7 @@ void map_tiles_load(struct section_file *file)
     }
   }
 }
+
 /***************************************************************
 load a complete map from a savegame file
 ***************************************************************/
@@ -589,6 +590,41 @@ void map_load(struct section_file *file)
  	freelog(LOG_FATAL, "unknown known flag (map.d) in map "
 		"at position(%d,%d): %d '%c'", x, y, ch, ch);
 	exit(1);
+      }
+    }
+  }
+}
+
+/***************************************************************
+load the rivers overlay map from a savegame file
+
+(This does not need to be called from map_load(), because
+ map_load() loads the rivers overlay along with the rest of
+ the specials.  Call this only if you've already called
+ map_tiles_load(), and want to overlay rivers defined as
+ specials, rather than as terrain types.)
+***************************************************************/
+void map_rivers_overlay_load(struct section_file *file)
+{
+  int x, y;
+
+  /* get "next" 4 bits of special flags;
+     extract the rivers overlay from them */
+  for(y=0; y<map.ysize; y++) {
+    char *terline=secfile_lookup_str_default(file, NULL, "map.n%03d", y);
+
+    if (terline) {
+      for(x=0; x<map.xsize; x++) {
+	char ch=terline[x];
+
+	if(isxdigit(ch)) {
+	  map_get_tile(x, y)->special |=
+	    ((ch-(isdigit(ch) ? '0' : 'a'-10))<<8) & S_RIVER;
+	} else if(ch!=' ') {
+	  freelog(LOG_FATAL, "unknown rivers overlay flag (map.n) in map "
+		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
+	  exit(1);
+	}
       }
     }
   }

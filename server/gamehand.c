@@ -420,6 +420,9 @@ int game_load(struct section_file *file)
           return 1; /* make this a type 1 scenario */
         }
         map_tiles_load(file);
+        if (has_capability("riversoverlay",savefile_options)) {
+	  map_rivers_overlay_load(file);
+	}
         if (has_capability("startpos",savefile_options)) {
           map_startpos_load(file);
           return 2; /* make this a type 2 scenario */
