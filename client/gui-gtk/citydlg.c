@@ -307,7 +307,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 {
   int i;
   struct city_dialog *pdialog;
-  GtkWidget *box, *table, *frame, *vbox, *scrolled, *hbox;
+  GtkWidget *box, *frame, *vbox, *scrolled, *hbox;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
@@ -414,20 +414,20 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   pdialog->building_label=gtk_frame_new(NULL);
   gtk_box_pack_start(GTK_BOX(box), pdialog->building_label, FALSE, FALSE, 0);
   
-  table=gtk_table_new(3, 1, FALSE);
-  gtk_container_add(GTK_CONTAINER(pdialog->building_label), table);
+  hbox=gtk_hbox_new(FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(pdialog->building_label), hbox);
 
   pdialog->progress_label=gtk_progress_bar_new();
   gtk_progress_bar_set_bar_style(GTK_PROGRESS_BAR (pdialog->progress_label),
 				 GTK_PROGRESS_CONTINUOUS);
   gtk_progress_set_show_text(GTK_PROGRESS (pdialog->progress_label), TRUE);
-  gtk_table_attach_defaults(GTK_TABLE(table), pdialog->progress_label,0,1,1,2);
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->progress_label, FALSE, FALSE, 1);
 
   pdialog->buy_command=gtk_accelbutton_new(_("_Buy"), accel);
-  gtk_table_attach_defaults(GTK_TABLE(table), pdialog->buy_command,1,2,1,2);
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->buy_command, TRUE, TRUE, 0);
 
   pdialog->change_command=gtk_accelbutton_new(_("_Change"), accel);
-  gtk_table_attach_defaults(GTK_TABLE(table), pdialog->change_command,2,3,1,2);
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->change_command, TRUE, TRUE, 0);
   
   pdialog->improvement_list=gtk_clist_new(1);
   gtk_clist_set_column_width(GTK_CLIST(pdialog->improvement_list), 0,
