@@ -1088,6 +1088,9 @@ void put_unit_gpixmap(struct unit *punit, GtkPixmap *p, int xtile, int ytile)
      case ACTIVITY_GOTO:
       tileno=G_TILE;
       break;
+     case ACTIVITY_TRANSFORM:
+      tileno=O_TILE;
+      break;
      default:
       break;
     }
