@@ -24,6 +24,7 @@
 #include "unit.h"
 
 #include "gotohand.h"
+#include "plrhand.h"
 
 #include "aidata.h"
 #include "ailog.h"
@@ -69,6 +70,9 @@ void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai,
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
+  if (pplayer->debug) {
+    notify_conn(&game.est_connections, buffer);
+  }
   freelog(minlevel, buffer);
 }
 
@@ -100,6 +104,9 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
+  if (pcity->debug) {
+    notify_conn(&game.est_connections, buffer);
+  }
   freelog(minlevel, buffer);
 }
 
@@ -151,6 +158,9 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
+  if (punit->debug) {
+    notify_conn(&game.est_connections, buffer);
+  }
   freelog(minlevel, buffer);
 }
 
@@ -192,5 +202,8 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
               unit_owner(punit)->name, unit_type(punit)->name,
               punit->id, punit->x, punit->y, s, id, x, y);
   cat_snprintf(buffer, sizeof(buffer), msg);
+  if (punit->debug) {
+    notify_conn(&game.est_connections, buffer);
+  }
   freelog(minlevel, buffer);
 }
