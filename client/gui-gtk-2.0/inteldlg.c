@@ -75,7 +75,7 @@ void intel_create_dialog(struct player *p)
   struct city *pcity;
 
   int i;
-  static char *table_text[] = {
+  static const char *table_text[] = {
     N_("Ruler:"),
     N_("Government:"),
     N_("Capital:"),

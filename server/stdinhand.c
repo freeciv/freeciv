@@ -142,14 +142,14 @@ enum sset_category {
   SSET_NUM_CATEGORIES
 };
 
-char *sset_category_names[]= { N_("Geological"),
-			       N_("Ecological"),
-			       N_("Sociological"),
-			       N_("Economic"),
-			       N_("Military"),
-			       N_("Scientific"),
-			       N_("Internal"),
-			       N_("Networking") };
+const char *sset_category_names[]= { N_("Geological"),
+				     N_("Ecological"),
+				     N_("Sociological"),
+				     N_("Economic"),
+				     N_("Military"),
+				     N_("Scientific"),
+				     N_("Internal"),
+				     N_("Networking") };
 
 #define SSET_MAX_LEN  16             /* max setting name length (plus nul) */
 #define TOKEN_DELIMITERS " \t\n,"
