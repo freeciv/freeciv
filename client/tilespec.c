@@ -1420,12 +1420,14 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
   tileset_setup_citizen_types(t);
 
-  SET_SPRITE(spaceship.solar_panels, "spaceship.solar_panels");
-  SET_SPRITE(spaceship.life_support, "spaceship.life_support");
-  SET_SPRITE(spaceship.habitation,   "spaceship.habitation");
-  SET_SPRITE(spaceship.structural,   "spaceship.structural");
-  SET_SPRITE(spaceship.fuel,         "spaceship.fuel");
-  SET_SPRITE(spaceship.propulsion,   "spaceship.propulsion");
+  for (i = 0; i < SPACESHIP_COUNT; i++) {
+    const char *names[SPACESHIP_COUNT]
+      = {"solar_panels", "life_support", "habitation",
+	 "structural", "fuel", "propulsion"};
+
+    my_snprintf(buffer, sizeof(buffer), "spaceship.%s", names[i]);
+    SET_SPRITE(spaceship[i], buffer);
+  }
 
   for (i = 0; i < CURSOR_LAST; i++) {
     const char *names[CURSOR_LAST] = {"goto", "patrol", "paradrop", "nuke"};
@@ -3840,6 +3842,15 @@ void tileset_free_tiles(struct tileset *t)
   } specfile_list_iterate_end;
 
   sprite_vector_free(&sprites.explode.unit);
+}
+
+/**************************************************************************
+  Return the sprite for drawing the given spaceship part.
+**************************************************************************/
+struct Sprite *get_spaceship_sprite(struct tileset *t,
+				    enum spaceship_part part)
+{
+  return sprites.spaceship[part];
 }
 
 /**************************************************************************

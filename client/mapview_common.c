@@ -2398,7 +2398,10 @@ void init_mapcanvas_and_overview(void)
 ****************************************************************************/
 void get_spaceship_dimensions(int *width, int *height)
 {
-  get_sprite_dimensions(sprites.spaceship.habitation, width, height);
+  struct Sprite *sprite
+    = get_spaceship_sprite(tileset, SPACESHIP_HABITATION);
+
+  get_sprite_dimensions(sprite, width, height);
   *width *= 7;
   *height *= 7;
 }
@@ -2412,8 +2415,11 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   int i, x, y;  
   const struct player_spaceship *ship = &pplayer->spaceship;
   int w, h;
+  struct Sprite *sprite;
+  struct tileset *t = tileset;
 
-  get_sprite_dimensions(sprites.spaceship.habitation, &w, &h);
+  sprite = get_spaceship_sprite(t, SPACESHIP_HABITATION);
+  get_sprite_dimensions(sprite, &w, &h);
 
   canvas_put_rectangle(pcanvas, COLOR_STD_BLACK, 0, 0, w * 7, h * 7);
 
@@ -2430,9 +2436,9 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
     x = modules_info[i].x * w / 4 - w / 2;
     y = modules_info[i].y * h / 4 - h / 2;
 
-    sprite = (k == 0 ? sprites.spaceship.habitation
-	      : k == 1 ? sprites.spaceship.life_support
-	      : sprites.spaceship.solar_panels);
+    sprite = (k == 0 ? get_spaceship_sprite(t, SPACESHIP_HABITATION)
+	      : k == 1 ? get_spaceship_sprite(t, SPACESHIP_LIFE_SUPPORT)
+	      : get_spaceship_sprite(t, SPACESHIP_SOLAR_PANEL));
     canvas_put_sprite_full(pcanvas, x, y, sprite);
   }
 
@@ -2448,8 +2454,8 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
     x = components_info[i].x * w / 4 - w / 2;
     y = components_info[i].y * h / 4 - h / 2;
 
-    sprite = ((k == 0) ? sprites.spaceship.fuel
-	      : sprites.spaceship.propulsion);
+    sprite = ((k == 0) ? get_spaceship_sprite(t, SPACESHIP_FUEL)
+	      : get_spaceship_sprite(t, SPACESHIP_PROPULSION));
 
     canvas_put_sprite_full(pcanvas, x, y, sprite);
   }
@@ -2461,6 +2467,7 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
     x = structurals_info[i].x * w / 4 - w / 2;
     y = structurals_info[i].y * h / 4 - h / 2;
 
-    canvas_put_sprite_full(pcanvas, x, y, sprites.spaceship.structural);
+    sprite = get_spaceship_sprite(t, SPACESHIP_STRUCTURAL);
+    canvas_put_sprite_full(pcanvas, x, y, sprite);
   }
 }

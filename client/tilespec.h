@@ -212,6 +212,16 @@ enum icon_type {
   ICON_COUNT
 };
 
+enum spaceship_part {
+  SPACESHIP_SOLAR_PANEL,
+  SPACESHIP_LIFE_SUPPORT,
+  SPACESHIP_HABITATION,
+  SPACESHIP_STRUCTURAL,
+  SPACESHIP_FUEL,
+  SPACESHIP_PROPULSION,
+  SPACESHIP_COUNT
+};
+
 struct named_sprites {
   struct Sprite
     *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
@@ -237,15 +247,7 @@ struct named_sprites {
     int count;
     struct Sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
   } citizen[NUM_TILES_CITIZEN], specialist[SP_MAX];
-  struct {
-    struct Sprite
-      *solar_panels,
-      *life_support,
-      *habitation,
-      *structural,
-      *fuel,
-      *propulsion;
-  } spaceship;
+  struct Sprite *spaceship[SPACESHIP_COUNT];
   struct {
     int hot_x, hot_y;
     struct Sprite *icon;
@@ -363,6 +365,8 @@ struct named_sprites {
 
 extern struct named_sprites sprites;
 
+struct Sprite *get_spaceship_sprite(struct tileset *t,
+				    enum spaceship_part part);
 struct Sprite *get_citizen_sprite(struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity);
