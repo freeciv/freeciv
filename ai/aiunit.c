@@ -1872,6 +1872,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   generate_warmap(map_get_city(closest_unit->x, closest_unit->y), closest_unit);
 
   do {
+    int last_x, last_y;
     freelog(LOG_DEBUG, "Barbarian leader: moves left: %d\n", leader->moves_left);
     for (dx = -1; dx <= 1; dx++) {
       for (dy = -1; dy <= 1; dy++) {
@@ -1896,7 +1897,23 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     }
 
     freelog(LOG_DEBUG, "Fleeing to %d, %d.", safest_x, safest_y);
+    last_x = leader->x;
+    last_y = leader->y;
     auto_settler_do_goto(pplayer, leader, safest_x, safest_y);
+    if (leader->x == last_x && leader->y == last_y) {
+      /* Deep inside the goto handling code, in 
+	 server/unithand.c::handle_unite_move_request(), the server
+	 may decide that a unit is better off not moving this turn,
+	 because the unit doesn't have quite enough movement points
+	 remaining.  Unfortunately for us, this favor that the server
+	 code does may lead to an endless loop here in the barbarian
+	 leader code:  the BL will try to flee to a new location, execute 
+	 the goto, find that it's still at its present (unsafe) location,
+	 and repeat.  To break this loop, we test for the condition
+	 where the goto doesn't do anything, and break if this is
+	 the case. */
+      break;
+    }
   } while (leader->moves_left > 0);
 }
 
