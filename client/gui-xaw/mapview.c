@@ -944,7 +944,7 @@ void put_nuke_mushroom_pixmaps(int x, int y)
     }
   }
   XSync(display, 0);
-  sleep(1);
+  myusleep(1000000);
 
   update_map_canvas(x-1, y-1, 3, 3, TRUE);
 }

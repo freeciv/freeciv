@@ -985,7 +985,7 @@ void put_nuke_mushroom_pixmaps(int x, int y)
 			    mysprite);
 
     gdk_flush();
-    sleep(1);
+    myusleep(1000000);
 
     update_map_canvas_visible();
   } else {
@@ -1008,7 +1008,7 @@ void put_nuke_mushroom_pixmaps(int x, int y)
     }
 
     gdk_flush();
-    sleep(1);
+    myusleep(1000000);
 
     update_map_canvas(x-1, y-1, 3, 3, TRUE);
   }
