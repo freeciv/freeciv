@@ -363,19 +363,26 @@ void center_on_something(void)
     center_tile_mapcanvas(punit->x, punit->y);
   } else {
     /* Just any known tile will do; search near the middle first. */
-    iterate_outward(map.xsize / 2, map.ysize / 2,
-		    MAX(map.xsize / 2, map.ysize / 2), x, y) {
+    int center_map_x, center_map_y;
+
+    native_to_map_pos(&center_map_x, &center_map_y,
+		      map.xsize / 2, map.ysize / 2);
+
+    /* Iterate outward from the center tile.  We have to give a radius that
+     * is guaranteed to be larger than the map will be.  Although this is
+     * a misuse of map.xsize and map.ysize (which are native dimensions),
+     * it should give a sufficiently large radius. */
+    iterate_outward(center_map_x, center_map_y,
+		    map.xsize + map.ysize, x, y) {
       if (tile_get_known(x, y) != TILE_UNKNOWN) {
 	center_tile_mapcanvas(x, y);
-	goto OUT;
+	return;
       }
-    }
-    iterate_outward_end;
+    } iterate_outward_end;
+
     /* If we get here we didn't find a known tile.
        Refresh a random place to clear the intro gfx. */
-    center_tile_mapcanvas(map.xsize / 2, map.ysize / 2);
-  OUT:
-    ;				/* do nothing */
+    center_tile_mapcanvas(center_map_x, center_map_y);
   }
 }
 
