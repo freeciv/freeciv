@@ -506,19 +506,22 @@ bool built_elsewhere(struct city *pc, int wonder)
 }
 
 /**************************************************************************
-...
+  Will unit of this type be created as veteran?
 **************************************************************************/
 bool do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 {
-  if (unit_type_flag(id, F_DIPLOMAT))
+  if (unit_type_flag(id, F_DIPLOMAT)) {
     return government_has_flag(get_gov_pcity(pcity), G_BUILD_VETERAN_DIPLOMAT);
+  }
 
-  if (is_ground_unittype(id) || improvement_variant(B_BARRACKS)==1)
+  if (is_ground_unittype(id) || improvement_variant(B_BARRACKS) == 1) {
     return city_got_barracks(pcity);
-  else if (is_water_unit(id))
-    return (city_affected_by_wonder(pcity, B_LIGHTHOUSE) || city_got_building(pcity, B_PORT));
-  else
+  } else if (is_water_unit(id)) {
+    return (city_affected_by_wonder(pcity, B_LIGHTHOUSE)
+            || city_got_building(pcity, B_PORT));
+  } else {
     return city_got_building(pcity, B_AIRPORT);
+  }
 }
 
 /**************************************************************************
