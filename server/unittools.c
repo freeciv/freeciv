@@ -2125,7 +2125,7 @@ void do_nuclear_explosion(struct player *pplayer, int x, int y)
   } square_iterate_end;
 
   /* Give reputation penalty to nuke users */
-  pplayer->reputation = MAX(GAME_MAX_REPUTATION - REPUTATION_LOSS_NUKE, 0);
+  pplayer->reputation = MAX(pplayer->reputation - REPUTATION_LOSS_NUKE, 0);
   send_player_info(pplayer, NULL);
 
   notify_conn_ex(&game.game_connections, x, y, E_NUKE,
