@@ -2224,10 +2224,10 @@ void handle_processing_finished(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void notify_about_incomming_packet(struct connection *pc,
+void notify_about_incoming_packet(struct connection *pc,
 				   int packet_type, int size)
 {
-  freelog(LOG_DEBUG, "incomming packet={type=%d, size=%d}", packet_type,
+  freelog(LOG_DEBUG, "incoming packet={type=%d, size=%d}", packet_type,
 	  size);
 }
 

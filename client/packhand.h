@@ -63,7 +63,7 @@ void handle_processing_started(void);
 void handle_processing_finished(void);
 void handle_start_turn(void);
 
-void notify_about_incomming_packet(struct connection *pc,
+void notify_about_incoming_packet(struct connection *pc,
 				   int packet_type, int size);
 void notify_about_outgoing_packet(struct connection *pc,
 				  int packet_type, int size,

@@ -150,12 +150,12 @@ struct connection {
   } server;
 
   /*
-   * Called before an incomming packet is processed. The packet_type
+   * Called before an incoming packet is processed. The packet_type
    * argument should really be a "enum packet_type". However due
    * circular dependency this is impossible.
    */
-  void (*incomming_packet_notify) (struct connection * pc,
-				   int packet_type, int size);
+  void (*incoming_packet_notify) (struct connection * pc,
+				  int packet_type, int size);
 
   /*
    * Called before a packet is sent. The packet_type argument should

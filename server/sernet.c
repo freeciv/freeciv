@@ -703,7 +703,7 @@ static int server_accept_connection(int sockfd)
       pconn->notify_of_writable_data = NULL;
       pconn->server.currently_processed_request_id = 0;
       pconn->server.last_request_id_seen = 0;
-      pconn->incomming_packet_notify = NULL;
+      pconn->incoming_packet_notify = NULL;
       pconn->outgoing_packet_notify = NULL;
 
       sz_strlcpy(pconn->name, makeup_connection_name(&pconn->id));

@@ -283,8 +283,8 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
   *ptype=type;
   *presult = 1;
 
-  if (pc->incomming_packet_notify) {
-    pc->incomming_packet_notify(pc, type, len);
+  if (pc->incoming_packet_notify) {
+    pc->incoming_packet_notify(pc, type, len);
   }
 
 #if PACKET_SIZE_STATISTICS
