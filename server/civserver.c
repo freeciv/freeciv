@@ -415,6 +415,13 @@ main_start_players:
   if(!myrand_is_init())
     mysrand(game.randseed);
 
+#ifdef TEST_RANDOM		/* not defined anywhere, set it if you want it */
+  test_random1(200);
+  test_random1(2000);
+  test_random1(20000);
+  test_random1(200000);
+#endif
+    
   if(game.is_new_game)
     generate_ai_players();
    

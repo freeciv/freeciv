@@ -31,4 +31,6 @@ int myrand_is_init(void);
 RANDOM_STATE get_myrand_state(void);
 void set_myrand_state(RANDOM_STATE state);
 
+void test_random1(int n);
+
 #endif  /* FC__RAND_H */
