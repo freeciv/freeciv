@@ -50,6 +50,7 @@
 #include "connectdlg.h"
 #include "dialogs.h"
 #include "diplodlg.h"
+#include "finddlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
 #include "helpdata.h"		/* boot_help_texts() */
@@ -62,6 +63,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "plrdlg.h"
+#include "ratesdlg.h"
 #include "repodlgs.h"
 #include "resources.h"
 #include "spaceshipdlg.h"
@@ -133,6 +135,32 @@ static XrmOptionDescRec cmd_options[] = {
 static void timer_callback(caddr_t client_data, XtIntervalId *id);
 static void show_info_popup(Widget w, XEvent *event, String *argv,
 			    Cardinal *argc);
+static void key_open_players(Widget w, XEvent *event, String *argv,
+			     Cardinal *argc);
+static void key_open_messages(Widget w, XEvent *event, String *argv,
+			      Cardinal *argc);
+static void key_open_rates(Widget w, XEvent *event, String *argv,
+			   Cardinal *argc);
+static void key_open_find_city(Widget w, XEvent *event, String *argv,
+			       Cardinal *argc);
+static void key_ask_revolution(Widget w, XEvent *event, String *argv,
+			       Cardinal *argc);
+static void key_open_city_report(Widget w, XEvent *event, String *argv,
+				 Cardinal *argc);
+static void key_open_military_report(Widget w, XEvent *event, String *argv,
+				     Cardinal *argc);
+static void key_open_trade_report(Widget w, XEvent *event, String *argv,
+				  Cardinal *argc);
+static void key_open_science_report(Widget w, XEvent *event, String *argv,
+				    Cardinal *argc);
+static void key_open_wonders(Widget w, XEvent *event, String *argv,
+			     Cardinal *argc);
+static void key_open_top_five(Widget w, XEvent *event, String *argv,
+			      Cardinal *argc);
+static void key_open_demographics(Widget w, XEvent *event, String *argv,
+				  Cardinal *argc);
+static void key_open_spaceship(Widget w, XEvent *event, String *argv,
+			       Cardinal *argc);
 static void quit_freeciv(Widget w, XEvent *event, String *argv,
 			 Cardinal *argc);
 
@@ -209,6 +237,19 @@ XtActionsRec Actions[] = {
   { "show-info-popup",  show_info_popup},
   { "select-mapcanvas", butt_down_mapcanvas},
   { "select-overviewcanvas", butt_down_overviewcanvas},
+  { "key-open-players", key_open_players},
+  { "key-open-messages", key_open_messages},
+  { "key-open-rates", key_open_rates},
+  { "key-open-find-city", key_open_find_city},
+  { "key-ask-revolution", key_ask_revolution},
+  { "key-open-city-report", key_open_city_report},
+  { "key-open-military-report", key_open_military_report},
+  { "key-open-trade-report", key_open_trade_report},
+  { "key-open-science-report", key_open_science_report},
+  { "key-open-wonders", key_open_wonders},
+  { "key-open-top-five", key_open_top_five},
+  { "key-open-demographics", key_open_demographics},
+  { "key-open-spaceship", key_open_spaceship},
   { "focus-to-next-unit", focus_to_next_unit },
   { "center-on-unit", center_on_unit },
   { "inputline-return", inputline_return },
@@ -764,7 +805,162 @@ static void show_info_popup(Widget w, XEvent *event, String *argv,
   
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_players(Widget w, XEvent *event, String *argv,
+			     Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_players_dialog();
+    }
+}
 
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_messages(Widget w, XEvent *event, String *argv,
+			     Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_meswin_dialog();
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_rates(Widget w, XEvent *event, String *argv,
+			   Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_rates_dialog();
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_find_city(Widget w, XEvent *event, String *argv,
+			       Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_find_dialog();
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_ask_revolution(Widget w, XEvent *event, String *argv,
+			       Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_revolution_dialog();
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_city_report(Widget w, XEvent *event, String *argv,
+				 Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_city_report_dialog(0);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_military_report(Widget w, XEvent *event, String *argv,
+				     Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_activeunits_report_dialog(0);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_trade_report(Widget w, XEvent *event, String *argv,
+				  Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_trade_report_dialog(0);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_science_report(Widget w, XEvent *event, String *argv,
+				    Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      popup_science_dialog(0);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_wonders(Widget w, XEvent *event, String *argv,
+			     Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_top_five(Widget w, XEvent *event, String *argv,
+			      Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      send_report_request(REPORT_TOP_5_CITIES);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_demographics(Widget w, XEvent *event, String *argv,
+				  Cardinal *argc)
+{
+  if (get_client_state()==CLIENT_GAME_RUNNING_STATE)
+    {
+      send_report_request(REPORT_DEMOGRAPHIC);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void key_open_spaceship(Widget w, XEvent *event, String *argv,
+			       Cardinal *argc)
+{
+  if ((get_client_state()==CLIENT_GAME_RUNNING_STATE) &&
+      (game.player_ptr->spaceship.state!=SSHIP_NONE))
+    {
+      popup_spaceship_dialog(game.player_ptr);
+    }
+}
 
 /**************************************************************************
 ...

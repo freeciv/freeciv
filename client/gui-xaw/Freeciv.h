@@ -20,6 +20,7 @@
 "Freeciv*Text*background: White",
 "Freeciv*SmeBSB.foreground: Black",
 "Freeciv*SmeBSB.background: White",
+"Freeciv*SmeLine.foreground: Black",
 "Freeciv*Scrollbar.foreground: Black",
 "Freeciv*Scrollbar.background: White",
 "Freeciv*Toggle.foreground: Black",
@@ -1495,12 +1496,15 @@ Year of arrival:  1234 AD",
 "Freeciv*reportactiveunitsupgradecommand.left:        chainLeft",
 "Freeciv*reportactiveunitsupgradecommand.right:       chainLeft",
 "Freeciv*gamemenu.label:                 Game",
+"Freeciv*kingdommenu.label:              Kingdom",
 "Freeciv*viewmenu.label:                 View",
 "Freeciv*ordersmenu.label:               Orders",
 "Freeciv*reportsmenu.label:              Reports",
 "Freeciv*helpmenu.label:                 Help",
 "Freeciv*gamemenu.background:            Blue",
 "Freeciv*gamemenu.foreground:            White",
+"Freeciv*kingdommenu.background:         Blue",
+"Freeciv*kingdommenu.foreground:         White",
 "Freeciv*viewmenu.background:            Blue",
 "Freeciv*viewmenu.foreground:            White",
 "Freeciv*ordersmenu.background:          Blue",
@@ -1510,13 +1514,17 @@ Year of arrival:  1234 AD",
 "Freeciv*helpmenu.background:            Blue",
 "Freeciv*helpmenu.foreground:            White",
 "Freeciv*gamemenu.borderWidth:           0",
+"Freeciv*kingdommenu.borderWidth:        0",
 "Freeciv*viewmenu.borderWidth:           0",
 "Freeciv*ordersmenu.borderWidth:         0",
 "Freeciv*reportsmenu.borderWidth:        0",
 "Freeciv*helpmenu.borderWidth:           0",
 "Freeciv*gamemenu.left:                  chainLeft",
 "Freeciv*gamemenu.right:                 chainLeft",
-"Freeciv*viewmenu.fromHoriz:             gamemenu",
+"Freeciv*kingdommenu.fromHoriz:          gamemenu",
+"Freeciv*kingdommenu.left:               chainLeft",
+"Freeciv*kingdommenu.right:              chainLeft",
+"Freeciv*viewmenu.fromHoriz:             kingdommenu",
 "Freeciv*viewmenu.left:                  chainLeft",
 "Freeciv*viewmenu.right:                 chainLeft",
 "Freeciv*ordersmenu.fromHoriz:           viewmenu",
@@ -1997,6 +2005,19 @@ Now.. Go give'em hell!",
    Ctrl<Key>g:        key-map-grid()        \\n\
    Shift<BtnDown>:    adjust-workers()      \\n\
    <BtnDown>:         select-mapcanvas()    \\n\
+   <Key>F3:           key-open-players()         \\n\
+   <Key>F4:           key-open-messages()        \\n\
+   Shift<Key>t:       key-open-rates()           \\n\
+   Shift<Key>c:       key-open-find-city()       \\n\
+   Shift<Key>r:       key-ask-revolution()       \\n\
+   <Key>F1:           key-open-city-report()     \\n\
+   <Key>F2:           key-open-military-report() \\n\
+   <Key>F5:           key-open-trade-report()    \\n\
+   <Key>F6:           key-open-science-report()  \\n\
+   <Key>F7:           key-open-wonders()         \\n\
+   <Key>F8:           key-open-top-five()        \\n\
+   <Key>F11:          key-open-demographics()    \\n\
+   <Key>F12:          key-open-spaceship()       \\n\
    <Key>Tab:          focus-to-next-unit()  \\n\
    <Key>c:            center-on-unit()      \\n\
    <Key>KP_8:         key-unit-north()      \\n\
