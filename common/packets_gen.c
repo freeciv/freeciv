@@ -18836,9 +18836,9 @@ static struct packet_conn_ping_info *receive_packet_conn_ping_info_100(struct co
     {
       int i;
     
-      if(real_packet->connections > MAX_NUM_PLAYERS) {
+      if(real_packet->connections > MAX_NUM_CONNECTIONS) {
         freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->connections = MAX_NUM_PLAYERS;
+        real_packet->connections = MAX_NUM_CONNECTIONS;
       }
       for (i = 0; i < real_packet->connections; i++) {
         {
@@ -18855,9 +18855,9 @@ static struct packet_conn_ping_info *receive_packet_conn_ping_info_100(struct co
     {
       int i;
     
-      if(real_packet->connections > MAX_NUM_PLAYERS) {
+      if(real_packet->connections > MAX_NUM_CONNECTIONS) {
         freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->connections = MAX_NUM_PLAYERS;
+        real_packet->connections = MAX_NUM_CONNECTIONS;
       }
       for (i = 0; i < real_packet->connections; i++) {
         int tmp;
@@ -18979,6 +18979,190 @@ static int send_packet_conn_ping_info_100(struct connection *pc, const struct pa
   SEND_PACKET_END;
 }
 
+#define hash_packet_conn_ping_info_101 hash_const
+
+#define cmp_packet_conn_ping_info_101 cmp_const
+
+BV_DEFINE(packet_conn_ping_info_101_fields, 3);
+
+static struct packet_conn_ping_info *receive_packet_conn_ping_info_101(struct connection *pc, enum packet_type type)
+{
+  packet_conn_ping_info_101_fields fields;
+  struct packet_conn_ping_info *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_conn_ping_info *clone;
+  RECEIVE_PACKET_START(packet_conn_ping_info, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_conn_ping_info_101, cmp_packet_conn_ping_info_101);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->old_connections = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    
+    {
+      int i;
+    
+      if(real_packet->connections > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->connections = MAX_NUM_PLAYERS;
+      }
+      for (i = 0; i < real_packet->connections; i++) {
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->old_conn_id[i] = readin;
+    }
+      }
+    }
+  }
+  if (BV_ISSET(fields, 2)) {
+    
+    {
+      int i;
+    
+      if(real_packet->connections > MAX_NUM_PLAYERS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->connections = MAX_NUM_PLAYERS;
+      }
+      for (i = 0; i < real_packet->connections; i++) {
+        int tmp;
+    
+        dio_get_uint32(&din, &tmp);
+        real_packet->old_ping_time[i] = (float)(tmp) / 1000000.0;
+      }
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_conn_ping_info_101(struct connection *pc, const struct packet_conn_ping_info *packet)
+{
+  const struct packet_conn_ping_info *real_packet = packet;
+  packet_conn_ping_info_101_fields fields;
+  struct packet_conn_ping_info *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_CONN_PING_INFO];
+  int different = 0;
+  SEND_PACKET_START(PACKET_CONN_PING_INFO);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_conn_ping_info_101, cmp_packet_conn_ping_info_101);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->old_connections != real_packet->old_connections);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+
+    {
+      differ = (old->connections != real_packet->connections);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->connections; i++) {
+          if (old->old_conn_id[i] != real_packet->old_conn_id[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+
+    {
+      differ = (old->connections != real_packet->connections);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->connections; i++) {
+          if (old->old_ping_time[i] != real_packet->old_ping_time[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->old_connections);
+  }
+  if (BV_ISSET(fields, 1)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->connections; i++) {
+        dio_put_uint8(&dout, real_packet->old_conn_id[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 2)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->connections; i++) {
+          dio_put_uint32(&dout, (int)(real_packet->old_ping_time[i] * 1000000));
+      }
+    } 
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
 static void ensure_valid_variant_packet_conn_ping_info(struct connection *pc)
 {
   int variant = -1;
@@ -18988,8 +19172,10 @@ static void ensure_valid_variant_packet_conn_ping_info(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if(TRUE) {
+  } else if((has_capability("conn_ping_info", pc->capability) && has_capability("conn_ping_info", our_capability))) {
     variant = 100;
+  } else if(!(has_capability("conn_ping_info", pc->capability) && has_capability("conn_ping_info", our_capability))) {
+    variant = 101;
   } else {
     die("unknown variant");
   }
@@ -19012,6 +19198,7 @@ struct packet_conn_ping_info *receive_packet_conn_ping_info(struct connection *p
 
   switch(pc->phs.variant[PACKET_CONN_PING_INFO]) {
     case 100: return receive_packet_conn_ping_info_100(pc, type);
+    case 101: return receive_packet_conn_ping_info_101(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
@@ -19032,6 +19219,7 @@ int send_packet_conn_ping_info(struct connection *pc, const struct packet_conn_p
 
   switch(pc->phs.variant[PACKET_CONN_PING_INFO]) {
     case 100: return send_packet_conn_ping_info_100(pc, packet);
+    case 101: return send_packet_conn_ping_info_101(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }

@@ -15,7 +15,6 @@
 
 struct connection;
 
-#define MAX_NUM_CONNECTIONS (2 * (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS))
 #define DEFAULT_SOCK_PORT 5555
 #define BUF_SIZE 512
 

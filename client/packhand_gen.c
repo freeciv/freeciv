@@ -231,10 +231,7 @@ bool client_handle_packet(enum packet_type type, void *packet)
     return TRUE;
 
   case PACKET_CONN_PING_INFO:
-    handle_conn_ping_info(
-      ((struct packet_conn_ping_info *)packet)->connections,
-      ((struct packet_conn_ping_info *)packet)->conn_id,
-      ((struct packet_conn_ping_info *)packet)->ping_time);
+    handle_conn_ping_info(packet);
     return TRUE;
 
   case PACKET_CONN_PING:

@@ -65,6 +65,7 @@ typedef unsigned int fc_bool;
 /* MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS <= 32 !!!! */
 #define MAX_NUM_PLAYERS  30
 #define MAX_NUM_BARBARIANS   2
+#define MAX_NUM_CONNECTIONS (2 * (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS))
 #define MAX_NUM_ITEMS   200	/* eg, unit_types */
 #define MAX_NUM_TECH_LIST 10
 #define MAX_NUM_BUILDING_LIST 10
