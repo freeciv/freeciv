@@ -772,7 +772,7 @@ static int find_the_shortest_path(struct unit *punit,
 	  continue; /* No need for all the calculations */
 
 	if (psrctile->move_cost[dir] != -3 /* is -3 if sea units can move between */
-	    && (dest_x != x1 || dest_y != y1)) /* allow ai transports to target a shore */
+	    && (dest_x != x1 || dest_y != y1)) /* allow ships to target a shore */
 	  continue;
 	else if (unit_flag(punit->type, F_TRIREME) && !is_coastline(x1, y1))
 	  move_cost = 7;
