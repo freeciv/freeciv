@@ -86,6 +86,7 @@ EXTRA_DIST=	acconfig.old			\
 		m4/sdl-client.m4		\
 		m4/sound.m4			\
 		m4/vsnprintf.m4			\
+		m4/win32-client.m4		\
 		m4/x.213			\
 		m4/x.252			\
 		vms/config.h_vms		\

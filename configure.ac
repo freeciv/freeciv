@@ -293,7 +293,6 @@ if test x"$MINGW32" = "xyes"; then
   AC_DEFINE(WIN32_NATIVE, 1, [Mingw32-specific setting - native])
   AC_DEFINE(HAVE_WINSOCK, 1, [Mingw32-specific setting - winsock])
   SERVER_LIBS="-lwsock32"
-  CFLAGS="$CFLAGS -fnative-struct"
 fi
 
 dnl Check and choose clients
@@ -456,21 +455,7 @@ You may need to install a libpng \"development\" package.]))
   fi
 
   dnl Win32-specific overrides
-  if test "$client" = win32 || test "$client" = yes ; then
-    if test x"$MINGW32" = "xyes"; then
-      AC_CHECK_HEADER(png.h, ,
-         AC_MSG_ERROR("You have to install libpng"))
-      AC_CHECK_LIB(png, png_read_image,,
-         AC_MSG_ERROR("You have to install libpng"),-lz)
-      found_client=yes
-      CLIENT_LIBS="-lwsock32 -lcomctl32  -lpng -lz -mwindows"
-    fi
-    if test "x$found_client" = "xyes"; then
-      client=win32
-    elif test "$client" = "win32"; then
-      AC_MSG_ERROR(specified client 'win32' not configurable)
-    fi
-  fi
+  FC_WIN32_CLIENT
 
   dnl Stub-specific overrides
   if test "$client" = stub ; then
