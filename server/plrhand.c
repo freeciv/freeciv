@@ -28,6 +28,7 @@
 #include <cityturn.h>
 #include <citytools.h>
 #include <unitfunc.h> 
+#include <unittools.h>
 #include <civserver.h>
 #include <maphand.h>
 #include <map.h>

@@ -184,7 +184,6 @@ void unit_list_unlink(struct unit_list *This, struct unit *punit);
 char *unit_name(enum unit_type_id id);
 
 
-int unit_bribe_cost(struct unit *punit);
 int diplomat_can_do_action(struct unit *pdiplomat,
 			   enum diplomat_actions action, 
 			   int destx, int desty);
