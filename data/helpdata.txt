@@ -921,6 +921,8 @@ Anarchy.
 ---
 # Sun Tzu's War Academy
 All your new ground units become veterans.
+The chance of a unit becoming a veteran after a battle increases
+from 50% to 100%
 ---
 # United Nations
 Units regains one extra hitpoint per turn.
