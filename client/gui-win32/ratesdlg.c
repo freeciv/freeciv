@@ -165,7 +165,7 @@ static void handle_hscroll(HWND hWnd,HWND hWndCtl,UINT code,int pos)
       return;
     }
   id=GetDlgCtrlID(hWndCtl);
-  pos=PosCur;
+  pos = min(10, max(0, PosCur));
   if (id==ID_RATES_TAX)
     {
       int tax_value;
