@@ -43,6 +43,7 @@ struct ColorText_Data
   STRPTR contents;
 
   LONG innerleft,innertop,innerright,innerbottom;
+  LONG setup; /* TRUE if between MUIM_Setup and MUIM_Cleanup */
 };
 
 
@@ -117,16 +118,17 @@ STATIC ULONG ColorText_Setup(struct IClass * cl, Object * o, Msg msg)
 
   if (data->ownbg)
   {
-    data->bgcol = ObtainBestPenA(cm,
+    data->bgpen = ObtainBestPenA(cm,
                                  MAKECOLOR32(((data->bgcol >> 16)&0xff)),
                                  MAKECOLOR32(((data->bgcol >> 8)&0xff)),
                                  MAKECOLOR32((data->bgcol & 0xff)), NULL);
-  } else data->bgcol = -1;
+  } else data->bgpen = -1;
 
   data->innerleft=2;
   data->innertop=1;
   data->innerright=2;
   data->innerbottom=1;
+  data->setup = TRUE;
 
   return TRUE;
 }
@@ -136,9 +138,11 @@ STATIC ULONG ColorText_Cleanup(struct IClass * cl, Object * o, Msg msg)
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
 
+  data->setup = FALSE;
+
   cm = _screen(o)->ViewPort.ColorMap;
 
-  if (data->bgcol != -1) ReleasePen(cm, data->bgcol);
+  if (data->bgpen != -1) ReleasePen(cm, data->bgpen);
 
   return DoSuperMethodA(cl, o, msg);
 }
@@ -175,9 +179,9 @@ STATIC ULONG ColorText_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * m
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   DoSuperMethodA(cl,o,(Msg)msg);
 
-  if (data->bgcol != -1)
+  if (data->bgpen != -1)
   {
-    SetAPen(_rp(o), data->bgcol);
+    SetAPen(_rp(o), data->bgpen);
     RectFill(_rp(o),_mleft(o), _mtop(o), _mright(o), _mbottom(o));
   }
 
@@ -193,6 +197,8 @@ STATIC ULONG ColorText_Set(struct IClass *cl, Object * o, struct opSet *msg)
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   struct TagItem *tl = msg->ops_AttrList;
   struct TagItem *ti;
+  BOOL redraw = FALSE;
+  BOOL pen_changed = FALSE;
 
   while ((ti = NextTagItem(&tl)))
   {
@@ -201,18 +207,42 @@ STATIC ULONG ColorText_Set(struct IClass *cl, Object * o, struct opSet *msg)
 	case  MUIA_ColorText_Contents:
 	      if(data->contents) FreeVec(data->contents);
 	      data->contents = StrCopy((STRPTR)ti->ti_Data);
+	      redraw = TRUE;
       	      break;
 
         case  MUIA_ColorText_Background:
-              data->bgcol = ti->ti_Data;
-              data->ownbg = TRUE;
+              if (data->bgcol != ti->ti_Data)
+              {
+              	data->bgcol = ti->ti_Data;
+                data->ownbg = TRUE;
+                redraw = TRUE;
+                pen_changed = TRUE;
+              }
 	      break;
       }
   }
-/*
-  return ColorText_Draw(cl, o, (struct MUIP_Draw *) msg);
-      if(data->ownbg) set(o,MUIA_FillArea,FALSE);*/
-  return 0;
+
+  if (redraw)
+  {
+    if (data->setup)
+    {
+      struct ColorMap *cm;
+      LONG old_pen;
+
+      cm = _screen(o)->ViewPort.ColorMap;
+      old_pen = data->bgpen;
+      if (pen_changed)
+      {
+	data->bgpen = ObtainBestPenA(cm,
+             MAKECOLOR32(((data->bgcol >> 16)&0xff)),
+             MAKECOLOR32(((data->bgcol >> 8)&0xff)),
+             MAKECOLOR32((data->bgcol & 0xff)), NULL);
+      }
+      MUI_Redraw(o, MADF_DRAWOBJECT);
+      if (old_pen != -1 && pen_changed) ReleasePen(cm,old_pen);
+    }
+  }
+  return DoSuperMethodA(cl,o,(Msg)msg);
 }
 
 DISPATCHERPROTO(ColorText_Dispatcher)

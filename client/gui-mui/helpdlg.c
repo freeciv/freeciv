@@ -193,7 +193,7 @@ static Object *MakeHelpButton(STRPTR label, enum help_page_type type)
 }
 
 /****************************************************************
- Creates tech button background color
+ Returns a tech buttons background color
 *****************************************************************/
 static ULONG GetTechBG(int tech)
 {
@@ -216,11 +216,11 @@ static ULONG GetTechBG(int tech)
   return bg;
 }
 
-#define TECHTYPE_NOTSET		A_LAST+2
+#define TECHTYPE_NOTSET	A_LAST+2
 #define TECHTYPE_NONE		A_LAST+1
 
 /****************************************************************
- Creates tech button text
+ Returns a tech buttons text
 *****************************************************************/
 static char *GetTechText(int tech)
 {
@@ -236,8 +236,6 @@ static char *GetTechText(int tech)
   return text;
 }
 
-
-
 /****************************************************************
  Creates a tech button
 *****************************************************************/
@@ -246,22 +244,10 @@ static Object *MakeTechButton(int tech)
   return ColorTextObject,
     ButtonFrame,
     MUIA_UserData, HELP_TECH,
-    MUIA_Weight, 0,
     tech == TECHTYPE_NOTSET ? TAG_IGNORE : MUIA_ColorText_Background, GetTechBG(tech),
     tech == TECHTYPE_NOTSET ? TAG_IGNORE : MUIA_ColorText_Contents, GetTechText(tech),
     MUIA_InputMode, MUIV_InputMode_RelVerify,
     End;
-}
-
-/****************************************************************
- Update a tech button
-*****************************************************************/
-void UpdateTechButton(Object *o, int tech)
-{
-  SetAttrs(o,
-    MUIA_ColorText_Background, GetTechBG(tech),
-    MUIA_ColorText_Contents, GetTechText(tech),
-    TAG_DONE);
 }
 
 /****************************************************************
@@ -275,6 +261,17 @@ static Object *MakeHelpButtonTech(int tech)
     DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, button);
 
   return button;
+}
+
+/****************************************************************
+ Update a tech button
+*****************************************************************/
+static void UpdateTechButton(Object *o, int tech)
+{
+  SetAttrs(o,
+    MUIA_ColorText_Background, GetTechBG(tech),
+    MUIA_ColorText_Contents, GetTechText(tech),
+    TAG_DONE);
 }
 
 /****************************************************************
