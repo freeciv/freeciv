@@ -63,10 +63,18 @@ int log_parse_level_str(char *level_str)
   }
   if (n == 0) {
     level = atoi(level_str);
-    if (level >= LOG_NORMAL && level <= LOG_DEBUG) {
+    #ifdef DEBUG
+    if (level >= LOG_FATAL && level <= LOG_DEBUG) {
+    #else
+    if (level >= LOG_FATAL && level <= LOG_VERBOSE) {
+    #endif
       return level;
     } else {
       fprintf(stderr, "Bad log level %d in \"%s\".\n", level, level_str);
+      #ifndef DEBUG
+      if (level == LOG_DEBUG)
+      fprintf(stderr, "Freeciv must be compiled with the DEBUG flag to use LOG_DEBUG\n");
+      #endif
       return -1;
     }
   }
