@@ -15,10 +15,10 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -470,7 +470,7 @@ void science_dialog_update(void)
 	      steps);
   gtk_set_label(science_goal_label,text);
 
-  if (game.player_ptr->ai.tech_goal==A_NONE) {
+  if (game.player_ptr->ai.tech_goal == A_NONE) {
     item = gtk_menu_item_new_with_label(advances[A_NONE].name);
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
   }
@@ -538,13 +538,13 @@ void popup_economy_report_dialog(bool make_modal)
 *****************************************************************/
 void create_economy_report_dialog(bool make_modal)
 {
-  static gchar *titles_[4] = {
+  static char *titles[4] = {
     N_("Building Name"),
     N_("Count"),
     N_("Cost"),
     N_("U Total")
   };
-  static gchar **titles;
+  static bool titles_done;
   int i;
 
   static GType model_types[4] = {
@@ -555,8 +555,7 @@ void create_economy_report_dialog(bool make_modal)
   };
   GtkWidget *view, *sw;
 
-  if (!titles)
-    titles = intl_slist(4, titles_);
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   
   economy_dialog_shell = gtk_dialog_new_with_buttons(_("Economy"),
   	NULL,
@@ -687,8 +686,8 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
   i = economy_improvement_type[row];
 
   genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
-  for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-    pcity=(struct city *)ITERATOR_PTR(myiter);
+    for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
+      pcity=(struct city *)ITERATOR_PTR(myiter);
 
     if(!pcity->did_sell && city_got_building(pcity, i) && 
        (response_id == 2 ||
@@ -712,8 +711,7 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
 	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
 	_("No %s could be sold"), get_improvement_name(i));
   }
-  g_signal_connect_swapped(shell, "response",
-                           G_CALLBACK(gtk_widget_destroy), GTK_OBJECT(shell));
+  g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
   gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
   gtk_window_present(GTK_WINDOW(shell));
 }
@@ -814,7 +812,7 @@ static void activeunits_cell_data_func(GtkTreeViewColumn *col,
 *****************************************************************/
 void create_activeunits_report_dialog(bool make_modal)
 {
-  static gchar *titles_[AU_COL] = {
+  static char *titles[AU_COL] = {
     N_("Unit Type"),
     N_("U"),
     N_("In-Prog"),
@@ -822,7 +820,7 @@ void create_activeunits_report_dialog(bool make_modal)
     N_("Shield"),
     N_("Food")
   };
-  static gchar **titles;
+  static bool titles_done;
   int i;
 
   static GType model_types[AU_COL+1] = {
@@ -837,8 +835,7 @@ void create_activeunits_report_dialog(bool make_modal)
   GtkWidget *view, *sw;
   GtkWidget *refresh_command;
 
-  if (!titles)
-    titles = intl_slist(AU_COL, titles_);
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
   	NULL,
@@ -958,7 +955,6 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
   int        ut1, ut2;
   gint       row;
   GtkWidget *shell;
-  gint       res;
 
   switch (response_id) {
     case 1:     break;
@@ -986,11 +982,10 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
 	game.player_ptr->economic.gold);
   gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
 
-  res = gtk_dialog_run(GTK_DIALOG(shell));
-
-  if (res == GTK_RESPONSE_YES) {
+  if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
     send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
   }
+
   gtk_widget_destroy(shell);
 }
 

@@ -139,8 +139,8 @@ void popup_worklists_report(struct player *pplr)
 {
   GtkWidget *button, *scrolled;
   GtkAccelGroup *accel;
-  char *title[1] = { N_("Available worklists") };
-  static char **clist_title = NULL;
+  static char *title[1] = { N_("Available worklists") };
+  static bool title_done;
 
   /* Report window already open */
   if (report_dialog && report_dialog->shell)
@@ -169,10 +169,9 @@ void popup_worklists_report(struct player *pplr)
 
   /* - First, create the column selection widget.  Label the
      columns. */
-  if (!clist_title) {
-    clist_title = intl_slist(1, title);
-  }
-  report_dialog->list = gtk_clist_new_with_titles(1, clist_title);
+  intl_slist(ARRAY_SIZE(title), title, &title_done);
+  
+  report_dialog->list = gtk_clist_new_with_titles(1, title);
   gtk_clist_column_titles_passive(GTK_CLIST(report_dialog->list));
 
   gtk_signal_connect(GTK_OBJECT(report_dialog->list), "select_row",
@@ -306,23 +305,21 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   GtkWidget *button, *scrolled, *dialog_hbox, *hbox, *vbox, *frame;
   /* GtkAccelGroup *accel = gtk_accel_group_new(); */
 
-  static char **wl_clist_titles = NULL;
-  char *wl_titles[] = { N_("Type"),
+  static char *wl_titles[] = { N_("Type"),
     N_("Info"),
     N_("Cost")
   };
+  static bool wl_titles_done;
 
-  static char **avail_clist_titles = NULL;
-  char *avail_titles[] = { N_("Type"),
+  static char *avail_titles[] = { N_("Type"),
     N_("Info"),
     N_("Cost"),
     N_("Turns")
   };
+  static bool avail_titles_done;
 
-  if (!wl_clist_titles)
-    wl_clist_titles = intl_slist(3, wl_titles);
-  if (!avail_clist_titles)
-    avail_clist_titles = intl_slist(4, avail_titles);
+  intl_slist(ARRAY_SIZE(wl_titles), wl_titles, &wl_titles_done);
+  intl_slist(ARRAY_SIZE(avail_titles), avail_titles, &avail_titles_done);
 
   peditor = fc_malloc(sizeof(struct worklist_editor));
 
@@ -363,7 +360,7 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
 
   /* Make the list for current worklist. */
 
-  peditor->worklist = gtk_clist_new_with_titles(3, wl_clist_titles);
+  peditor->worklist = gtk_clist_new_with_titles(3, wl_titles);
   gtk_container_add(GTK_CONTAINER(scrolled), peditor->worklist);
 
   for (i = 0; i < 3; i++) {
@@ -426,7 +423,7 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
 
   /* Make the list for available targets. */
 
-  peditor->avail = gtk_clist_new_with_titles(4, avail_clist_titles);
+  peditor->avail = gtk_clist_new_with_titles(4, avail_titles);
   gtk_container_add(GTK_CONTAINER(scrolled), peditor->avail);
 
   for (i = 0; i < 4; i++) {

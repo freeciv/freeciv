@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -122,25 +123,26 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
 }
 
 /**************************************************************************
-  Returns gettext-converted list of n strings.  Allocates the space
-  for the returned list, but the individual strings in the list are
-  as returned by gettext().  In case of no NLS, the strings will be
-  the original strings, so caller should ensure that the originals
+  Returns gettext-converted list of n strings.  The individual strings
+  in the list are as returned by gettext().  In case of no NLS, the strings
+  will be the original strings, so caller should ensure that the originals
   persist for as long as required.  (For no NLS, still allocate the
   list, for consistency.)
 
   (This is not directly gui/gtk related, but it fits in here
   because so far it is used for doing i18n for gtk titles...)
 **************************************************************************/
-char **intl_slist(int n, char **s)
+void intl_slist(int n, char **s, bool *done)
 {
-  char **ret = fc_malloc(n * sizeof(char*));
   int i;
 
-  for(i=0; i<n; i++) {
-    ret[i] = _(s[i]);
+  if (!*done) {
+    for(i=0; i<n; i++) {
+      s[i] = _(s[i]);
+    }
+
+    *done = TRUE;
   }
-  return ret;
 }
 
 /****************************************************************

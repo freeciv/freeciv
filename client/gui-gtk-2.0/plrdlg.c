@@ -179,7 +179,7 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
 **************************************************************************/
 void create_players_dialog(void)
 {
-  static gchar *titles_[NUM_COLUMNS] = {
+  static gchar *titles[NUM_COLUMNS] = {
     N_("Name"),
     N_("Flag"),
     N_("Nation"),
@@ -193,7 +193,7 @@ void create_players_dialog(void)
     N_("Host"),
     N_("Idle Turns")
   };
-  static gchar **titles;
+  static bool titles_done;
 
   static GType model_types[NUM_COLUMNS+2] = {
     G_TYPE_STRING,
@@ -234,7 +234,7 @@ void create_players_dialog(void)
   model_types[1] = GDK_TYPE_PIXBUF;
   model_types[COLOR_COLUMN] = GDK_TYPE_COLOR;
 
-  if (!titles) titles = intl_slist(NUM_COLUMNS, titles_);
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   players_dialog_shell = gtk_dialog_new_with_buttons(_("Players"),
     NULL,

@@ -543,7 +543,7 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
   int i;
   GtkWidget *hbox, *table, *label;
 
-  char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
+  static char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
     N_("Prod:"),
     N_("Trade:"),
     N_("Gold"),
@@ -554,8 +554,7 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
     N_("Corruption:"),
     N_("Pollution:")
   };
-
-  char **output_intl_label = NULL;
+  static bool output_label_done;
 
   hbox = gtk_hbox_new(TRUE, 0);	/* to give the table padding inside the frame */
 
@@ -566,10 +565,10 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
   gtk_table_set_col_spacing(GTK_TABLE(table), 0, 5);
   gtk_box_pack_start(GTK_BOX(hbox), table, FALSE, FALSE, 4);
 
-  output_intl_label = intl_slist(NUM_INFO_FIELDS, output_label);
+  intl_slist(ARRAY_SIZE(output_label), output_label, &output_label_done);
 
   for (i = 0; i < NUM_INFO_FIELDS; i++) {
-    label = gtk_label_new(output_intl_label[i]);
+    label = gtk_label_new(output_label[i]);
     gtk_widget_set_name(label, "city label");	/* for font style? */
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1, GTK_FILL, 0,
@@ -616,10 +615,9 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   char *improvement_title[] = { N_("City improvements"),
     N_("Upkeep")
   };
+  static bool improvement_title_done;
 
   char *tab_title = _("City _Overview");
-
-  char **improvement_clist_title = NULL;
 
   page = gtk_vbox_new(FALSE, 1);
 
@@ -841,11 +839,11 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-  if (!improvement_clist_title) {
-    improvement_clist_title = intl_slist(2, improvement_title);
-  }
+  intl_slist(ARRAY_SIZE(improvement_title), improvement_title,
+	     &improvement_title_done);
+
   pdialog->overview.improvement_list =
-      gtk_clist_new_with_titles(2, improvement_clist_title);
+      gtk_clist_new_with_titles(2, improvement_title);
   gtk_clist_column_titles_passive(GTK_CLIST
 				  (pdialog->overview.improvement_list));
   gtk_clist_set_column_justification(GTK_CLIST
@@ -1244,21 +1242,23 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 
   char *tab_title = _("_Misc. Settings");
 
-  char *new_citizens_label[] = {
+  static char *new_citizens_label[] = {
     N_("Entertainers"),
     N_("Scientists"),
     N_("Taxmen")
   };
+  static bool new_citizens_label_done;
 
-  char *city_opts_label[NUM_CITY_OPTS] = {
+  static char *city_opts_label[NUM_CITY_OPTS] = {
     N_("Land units"),
     N_("Sea units"),
     N_("Helicopters"),
     N_("Air units"),
     N_("Disband if build settler at size 1")
   };
+  static bool city_opts_label_done;
 
-  char *misc_whichtab_label[NUM_PAGES] = {
+  static char *misc_whichtab_label[NUM_PAGES] = {
     N_("City Overview page"),
     N_("Units page"),
     N_("Worklist page"),
@@ -1268,10 +1268,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
     N_("This Misc. Settings page"),
     N_("Last active page")
   };
-
-  char **new_citizens_intl_label = NULL;
-  char **city_opts_intl_label = NULL;
-  char **misc_whichtab_intl_label = NULL;
+  static bool misc_whichtab_label_done;
 
   /* initialize signal_blocker */
   pdialog->misc.block_signal = 0;
@@ -1298,14 +1295,15 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 
   /* auto-attack table */
 
-  city_opts_intl_label = intl_slist(NUM_CITY_OPTS, city_opts_label);
+  intl_slist(ARRAY_SIZE(city_opts_label), city_opts_label,
+	     &city_opts_label_done);
 
   table = gtk_table_new(2, 2, FALSE);
   gtk_container_add(GTK_CONTAINER(frame), table);
 
   for(i = 0; i < NUM_CITY_OPTS - 1; i++){
     pdialog->misc.city_opts[i] = 
-                      gtk_check_button_new_with_label(city_opts_intl_label[i]);
+                      gtk_check_button_new_with_label(city_opts_label[i]);
     gtk_table_attach(GTK_TABLE(table), pdialog->misc.city_opts[i],
 		     i%per_row, i%per_row+1, i/per_row, i/per_row+1,
                      GTK_FILL, 0, 0, 0);
@@ -1318,7 +1316,7 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   /* the disband-if-size-1 button */
 
   pdialog->misc.city_opts[NUM_CITY_OPTS - 1] =
-      gtk_check_button_new_with_label(city_opts_intl_label[NUM_CITY_OPTS - 1]);
+      gtk_check_button_new_with_label(city_opts_label[NUM_CITY_OPTS - 1]);
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->misc.city_opts[NUM_CITY_OPTS - 1], 
                      FALSE, FALSE, 0);
 
@@ -1336,10 +1334,11 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
   vbox = gtk_vbox_new(FALSE, 0);	/* new_citizens radio box */
   gtk_container_add(GTK_CONTAINER(frame), vbox);
 
-  new_citizens_intl_label = intl_slist(3, new_citizens_label);
+  intl_slist(ARRAY_SIZE(new_citizens_label), new_citizens_label,
+	     &new_citizens_label_done);
   for (i = 0; i < 3; i++) {
     pdialog->misc.new_citizens_radio[i] =
-	gtk_radio_button_new_with_label(group, new_citizens_intl_label[i]);
+	gtk_radio_button_new_with_label(group, new_citizens_label[i]);
     group =
 	gtk_radio_button_group(GTK_RADIO_BUTTON
 			       (pdialog->misc.new_citizens_radio[i]));
@@ -1374,11 +1373,12 @@ static void create_and_append_misc_page(struct city_dialog *pdialog)
 
   group = NULL;			/* reinitialize group for next radio set */
 
-  misc_whichtab_intl_label = intl_slist(NUM_PAGES, misc_whichtab_label);
+  intl_slist(ARRAY_SIZE(misc_whichtab_label), misc_whichtab_label,
+	     &misc_whichtab_label_done);
   for (i = 0; i < NUM_PAGES; i++) {
     pdialog->misc.whichtab_radio[i] =
 	gtk_radio_button_new_with_label(group,
-					misc_whichtab_intl_label[i]);
+					misc_whichtab_label[i]);
     group =
 	gtk_radio_button_group(GTK_RADIO_BUTTON
 			       (pdialog->misc.whichtab_radio[i]));
@@ -2912,9 +2912,9 @@ static void change_callback(GtkWidget *w, gpointer data)
   GtkWidget *cshell, *sw, *view;
   struct city_dialog *pdialog;
   int i;
-  static gchar *titles_[4] =
+  static char *titles[4] =
       { N_("Type"), N_("Info"), N_("Cost"), N_("Turns") };
-  static gchar **titles = NULL;
+  static bool titles_done;
   char *row[4];
   char buf[4][64];
   cid cids[U_LAST + B_LAST];
@@ -2922,9 +2922,7 @@ static void change_callback(GtkWidget *w, gpointer data)
   struct item items[U_LAST + B_LAST];
   GtkListStore *store;
 
-  if (!titles) {
-    titles = intl_slist(4, titles_);
-  }
+  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
   pdialog = (struct city_dialog *) data;
 
