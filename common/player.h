@@ -46,7 +46,7 @@ enum handicap_type {
   H_CITYBUILDINGS=8, /* doesn't know what buildings are in enemy cities */
   H_CITYUNITS=16, /* doesn't know what units are in enemy cities */
   H_DEFENSIVE=32, /* builds lots of defensive buildings without calculating need */
-  H_VETERAN=64, /* doesn't know veteran status of enemy units */
+  H_EXPERIMENTAL=64, /* enable experimental AI features (for testing) */
   H_SUB=128, /* doesn't know where subs may be lurking */
 /* below this point are milder handicaps that I can actually implement -- Syela */
   H_RATES=256, /* can't set its rates beyond government limits */

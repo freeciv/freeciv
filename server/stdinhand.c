@@ -945,6 +945,9 @@ enum command_id {
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
+#ifdef DEBUG
+  CMD_EXPERIMENTAL,
+#endif
   CMD_CMDLEVEL,
   CMD_FIRSTLEVEL,
   CMD_TIMEOUT,
@@ -1134,6 +1137,19 @@ static const struct command commands[] = {
       "sets the default level for any new AI players to 'hard'.  With an "
       "argument, sets the skill level for that player only.")
   },
+#ifdef DEBUG
+  {"experimental",	ALLOW_CTRL,
+   /* TRANS: translate text between <> only */
+   N_("experimental\n"
+      "experimental <player-name>"),
+   N_("Set one or all AI players to 'experimental'."),
+   N_("With no arguments, sets all AI players to skill 'experimental', and "
+      "sets the default level for any new AI players to this.  With an "
+      "argument, sets the skill level for that player only. THIS IS ONLY "
+      "FOR TESTING OF NEW AI FEATURES! For ordinary servers, this option "
+      "has no effect.")
+  },
+#endif
   {"cmdlevel",	ALLOW_HACK,  /* confusing to leave this at ALLOW_CTRL */
    /* TRANS: translate text between <> only */
    N_("cmdlevel\n"
@@ -1584,7 +1600,7 @@ static const char *name_of_skill_level(int level)
 {
   const char *nm[11] = { "UNUSED", "UNKNOWN", "UNKNOWN", "easy",
 			 "UNKNOWN", "normal", "UNKNOWN", "hard",
-			 "UNKNOWN", "UNKNOWN", "UNKNOWN" };
+			 "UNKNOWN", "UNKNOWN", "experimental" };
   
   assert(level>0 && level<=10);
   return nm[level];
@@ -1595,17 +1611,17 @@ static const char *name_of_skill_level(int level)
 ***************************************************************/
 static int handicap_of_skill_level(int level)
 {
-  int h[11] = { -1, 
-		H_NONE, 
-		H_NONE, 
+  int h[11] = { -1,
+		H_NONE,
+		H_NONE,
 		H_RATES | H_TARGETS | H_HUTS | H_DEFENSIVE,
-		H_NONE, 
-		H_RATES | H_TARGETS | H_HUTS, 
-		H_NONE, 
-		H_NONE, 
-		H_NONE, 
-		H_NONE, 
-		H_NONE, 
+		H_NONE,
+		H_RATES | H_TARGETS | H_HUTS,
+		H_NONE,
+		H_NONE,
+		H_NONE,
+		H_NONE,
+		H_EXPERIMENTAL,
 		};
   
   assert(level>0 && level<=10);
@@ -1880,8 +1896,9 @@ static void write_init_script(char *script_filename)
 
     fprintf(script_file, "%s\n",
 	(game.skill_level <= 3) ?	"easy" :
-	(game.skill_level >= 6) ?	"hard" :
-					"normal");
+	(game.skill_level == 5) ?	"medium" :
+	(game.skill_level < 10) ?	"hard" :
+					"experimental");
 
     if (*srvarg.metaserver_addr != '\0' &&
 	((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)) ||
@@ -2534,12 +2551,19 @@ static void set_ai_level(struct connection *caller, char *name, int level)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
-  enum command_id cmd = (level <= 3) ?	CMD_EASY :
-			(level >= 6) ?	CMD_HARD :
-					CMD_NORMAL;
-    /* kludge - these commands ought to be 'set' options really - rp */
+  /* kludge - these commands ought to be 'set' options really - rp */
+  enum command_id cmd = CMD_EASY;
 
   assert(level > 0 && level < 11);
+
+  switch(level) {
+    case 3 : cmd=CMD_EASY; break;
+    case 5 : cmd=CMD_NORMAL; break;
+    case 7 : cmd=CMD_HARD; break;
+#ifdef DEBUG
+    case 10 : cmd=CMD_EXPERIMENTAL; break;
+#endif
+  }
 
   pplayer=find_player_by_name_prefix(name, &match_result);
 
@@ -3159,6 +3183,11 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_HARD:
     set_ai_level(caller, arg, 7);
     break;
+#ifdef DEBUG
+  case CMD_EXPERIMENTAL:
+    set_ai_level(caller, arg, 10);
+    break;
+#endif
   case CMD_QUIT:
     quit_game(caller);
     break;
@@ -3901,6 +3930,9 @@ static const int player_cmd[] = {
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
+#ifdef DEBUG
+  CMD_EXPERIMENTAL,
+#endif
   CMD_REMOVE,
   -1
 };
