@@ -21,6 +21,7 @@ typedef struct _AppResources {
   Boolean showHelp;
   Boolean showVersion;
   String  logfile;
+  int     loglevel;
   String  name;
   int     port;
   String  server;

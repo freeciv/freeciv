@@ -63,7 +63,7 @@ extern int  server_port;
 ...
 **************************************************************************/
 char usage[] = 
-"Usage: %s [-bhlpsv] [--bgcol] [--cmap] [--help] [--log] [--name]\n\t[--port] [--server] [--version]\n";
+"Usage: %s [-bhlpsv] [--bgcol] [--cmap] [--help] [--log] [--name]\n\t[--port] [--server] [--debug] [--version]\n";
 
 /**************************************************************************
 ...
@@ -79,6 +79,8 @@ XtResource resources[] = {
       XtOffset(AppResources *,port), XtRImmediate, (XtPointer)False},
     { "server", "Server", XtRString, sizeof(String),
       XtOffset(AppResources *,server), XtRImmediate, (XtPointer)False},
+    { "logLevel", "LogLevel", XtRInt, sizeof(int),
+      XtOffset(AppResources *,loglevel), XtRImmediate, (XtPointer)False},
     { "version", "Version", XtRString, sizeof(String),
       XtOffset(AppResources *,version), XtRImmediate, (XtPointer)False},
     { "showHelp", "ShowHelp", XtRBoolean, sizeof(Boolean),
@@ -96,11 +98,13 @@ static XrmOptionDescRec options[] = {
  { "-name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "-port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "-server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
+ { "-debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },
  { "--help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },
  { "--log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
  { "--name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "--port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
+ { "--debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "--server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
  { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }
 };
@@ -257,9 +261,8 @@ void x_main(int argc, char *argv[])
                             XtNumber(resources), NULL, 0);
   
   log_init(appResources.logfile);
-  log_set_level(LOG_NORMAL);
+  log_set_level(appResources.loglevel);
 
-  
 /*  XSynchronize(display, 1); 
   XSetErrorHandler(myerr);*/
 
@@ -286,11 +289,12 @@ void x_main(int argc, char *argv[])
     fprintf(stderr, "This is the Freeciv client\n");
     fprintf(stderr, usage, argv[0]);
     fprintf(stderr, "  -help\t\t\tPrint a summary of the options\n");
-    fprintf(stderr, "  -log F\t\t\tUse F as logfile\n");
-    fprintf(stderr, "  -name N\t\t\tUse N as name\n");
-    fprintf(stderr, "  -port N\t\t\tconnect to port N\n");
+    fprintf(stderr, "  -log F\t\tUse F as logfile\n");
+    fprintf(stderr, "  -name N\t\tUse N as name\n");
+    fprintf(stderr, "  -port N\t\tconnect to port N\n");
     fprintf(stderr, "  -server S\t\tConnect to the server at S\n");
-    fprintf(stderr, "  -version\t\t\tPrint the version number\n");
+    fprintf(stderr, "  -debug N\t\tSet debug log level (0,1,2)\n");
+    fprintf(stderr, "  -version\t\tPrint the version number\n");
     exit(0);
   }
   

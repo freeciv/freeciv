@@ -2,6 +2,7 @@
 "*server:                              localhost",
 "*port:                                5555",
 "*version:                             1.7.1",
+"*logLevel:                            1",
 "*connectdialog.*.title: Connect to FreeCiv Server",
 "*connectdialog.cform.background: lightblue",
 "*connectdialog.*.cheadline.label: Freeciv Server Selection",

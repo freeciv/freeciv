@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <resources.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -14,7 +13,7 @@
 #include <chatline.h>
 #include <shared.h>
 
-extern AppResources appResources;
+/* extern AppResources appResources; */
 extern Widget toplevel;
 extern char name[];
 extern char server_host[];

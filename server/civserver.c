@@ -117,6 +117,7 @@ int main(int argc, char *argv[])
   char *script_filename=NULL;
   int i;
   int save_counter;
+  int log_level=LOG_NORMAL;
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
 
@@ -176,6 +177,15 @@ int main(int argc, char *argv[])
 	break;
       }
     }
+    else if(!strcmp("-d", argv[i]) || !strcmp("--debug", argv[i])) { 
+      if(++i<argc) 
+	log_level=atoi(argv[i]);
+      else {
+	fprintf(stderr, "Error: no debug log level specified.\n");
+	h=1;
+	break;
+      }
+    }
     else if(!strcmp("-v", argv[i]) || !strcmp("--version", argv[i])) { 
       v=1;
     }
@@ -196,6 +206,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -p, --port N\t\t\tconnect to port N\n");
     fprintf(stderr, "  -r, --read\t\t\tRead startup script\n");
     fprintf(stderr, "  -s, --server H\t\tList this server as host H\n");
+    fprintf(stderr, "  -d, --debug N\t\t\tSet debug log level (0,1,2)\n");
     fprintf(stderr, "  -v, --version\t\t\tPrint the version number\n");
     exit(0);
   }
@@ -206,7 +217,7 @@ int main(int argc, char *argv[])
   }
 
   log_init(log_filename);
-  log_set_level(LOG_NORMAL);
+  log_set_level(log_level);
   
   printf(FREECIV_NAME_VERSION " server\n> ");
 #if MINOR_VERSION < 7
