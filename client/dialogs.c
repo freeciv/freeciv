@@ -468,7 +468,7 @@ void diplomat_incite_callback(Widget w, XtPointer client_data,
 	 sprintf(buf, "Incite a revolt for %d gold?\nTreasure %d gold.", 
 		 pcity->incite_revolt_cost,
 		 game.player_ptr->economic.gold);
-	 popup_message_dialog(toplevel, "diplomatbribedialog", buf,
+	 popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
 			      diplomat_incite_yes_callback, 0,
 			      diplomat_incite_no_callback, 0, 0);
       }
