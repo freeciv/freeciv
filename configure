@@ -5978,7 +5978,7 @@ fi
 
 for ac_hdr in arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
                  sys/select.h sys/signal.h sys/socket.h sys/termio.h \
-		 sys/time.h sys/types.h sys/uio.h termios.h unistd.h
+		 sys/time.h sys/types.h sys/uio.h termios.h unistd.h fcntl.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
