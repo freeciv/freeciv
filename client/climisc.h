@@ -13,7 +13,8 @@
 #ifndef FC__CLIMISC_H
 #define FC__CLIMISC_H
 
-#include "shared.h" /* MAX_LEN_NAME */
+#include "shared.h"		/* MAX_LEN_NAME */
+#include "terrain.h"		/* enum known_type */
 
 struct city;
 struct Clause;
