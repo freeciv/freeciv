@@ -97,7 +97,6 @@ static void create_activeunits_report_dialog(bool make_modal);
 static void activeunits_command_callback(struct gui_dialog *dlg, int response);
 static void activeunits_selection_callback(GtkTreeSelection *selection,
 					   gpointer data);
-static int activeunits_type[U_LAST];
 static struct gui_dialog *activeunits_dialog_shell = NULL;
 static GtkListStore *activeunits_store;
 static GtkTreeSelection *activeunits_selection;
@@ -934,7 +933,7 @@ void create_activeunits_report_dialog(bool make_modal)
   static bool titles_done;
   int i;
 
-  static GType model_types[AU_COL+1] = {
+  static GType model_types[AU_COL+2] = {
     G_TYPE_STRING,
     G_TYPE_BOOLEAN,
     G_TYPE_INT,
@@ -942,7 +941,8 @@ void create_activeunits_report_dialog(bool make_modal)
     G_TYPE_INT,
     G_TYPE_INT,
     G_TYPE_INT,
-    G_TYPE_BOOLEAN
+    G_TYPE_BOOLEAN,
+    G_TYPE_INT
   };
   GtkWidget *view, *sw, *align;
 
@@ -1030,20 +1030,17 @@ void create_activeunits_report_dialog(bool make_modal)
 static void activeunits_selection_callback(GtkTreeSelection *selection,
 					   gpointer data)
 {
-  gint row;
-  gboolean is_unit_type;
-  
-  if ((row = gtk_tree_selection_get_row(selection)) == -1) {
-    is_unit_type = FALSE;
-  } else {
-    gint n;
-    
-    n = gtk_tree_model_iter_n_children(GTK_TREE_MODEL(activeunits_store), NULL);
+  int ut;
+  GtkTreeModel *model;
+  GtkTreeIter it;
 
-    is_unit_type = (row < n - 1);
+  ut = U_LAST;
+  if (gtk_tree_selection_get_selected(activeunits_selection, &model, &it)) {
+    gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
   }
 
-  if (!is_unit_type) {
+
+  if (ut == U_LAST) {
     gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 				      ACTIVEUNITS_NEAREST, FALSE);
 
@@ -1054,7 +1051,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
 				      ACTIVEUNITS_NEAREST,
 				      can_client_issue_orders());	
     
-    if (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) {
+    if (can_upgrade_unittype(game.player_ptr, ut) != -1) {
       gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 					ACTIVEUNITS_UPGRADE,
 					can_client_issue_orders());	
@@ -1098,9 +1095,9 @@ static struct unit *find_nearest_unit(Unit_Type_id type, struct tile *ptile)
 *****************************************************************/
 static void activeunits_command_callback(struct gui_dialog *dlg, int response)
 {
-  int        ut1, ut2;
-  gint       row;
-  GtkWidget *shell;
+  int           ut1, ut2;
+  GtkTreeModel *model;
+  GtkTreeIter   it;
 
   switch (response) {
     case ACTIVEUNITS_NEAREST:
@@ -1112,8 +1109,11 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response)
   }
 
   /* nearest & upgrade commands. */
-  row = gtk_tree_selection_get_row(activeunits_selection);
-  ut1 = activeunits_type[row];
+  ut1 = U_LAST;
+  if (gtk_tree_selection_get_selected(activeunits_selection, &model, &it)) {
+    gtk_tree_model_get(model, &it, AU_COL + 1, &ut1, -1);
+  }
+
   CHECK_UNIT_TYPE(ut1);
 
   if (response == ACTIVEUNITS_NEAREST) {
@@ -1132,7 +1132,9 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response)
       }
     }
   } else {
-    ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
+    GtkWidget *shell;
+
+    ut2 = can_upgrade_unittype(game.player_ptr, ut1);
 
     shell = gtk_message_dialog_new(
 	  NULL,
@@ -1210,13 +1212,13 @@ void activeunits_report_dialog_update(void)
 		4, unitarray[i].upkeep[O_SHIELD],
 		5, unitarray[i].upkeep[O_FOOD],
 		6, unitarray[i].upkeep[O_GOLD],
-		7, TRUE, -1);
+		7, TRUE,
+		8, ((unitarray[i].active_count > 0) ? i : U_LAST), -1);
 	g_value_init(&value, G_TYPE_STRING);
 	g_value_set_static_string(&value, unit_name(i));
 	gtk_list_store_set_value(activeunits_store, &it, 0, &value);
 	g_value_unset(&value);
 
-	activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
 	k++;
 	unittotals.active_count += unitarray[i].active_count;
 	output_type_iterate(o) {
@@ -1234,7 +1236,8 @@ void activeunits_report_dialog_update(void)
     	    4, unittotals.upkeep[O_SHIELD],
     	    5, unittotals.upkeep[O_FOOD],
 	    6, unittotals.upkeep[O_GOLD],
-	    7, FALSE, -1);
+	    7, FALSE,
+	    8, U_LAST, -1);
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, _("Totals:"));
     gtk_list_store_set_value(activeunits_store, &it, 0, &value);
