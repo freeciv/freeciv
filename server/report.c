@@ -153,34 +153,48 @@ static int nr_wonders(struct city *pcity)
 **************************************************************************/
 void report_top_five_cities(struct conn_list *dest)
 {
-  struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*5);
+  const int NUM_BEST_CITIES = 5;
+  /* a wonder equals WONDER_FACTOR citizen */
+  const int WONDER_FACTOR = 5;
+  struct player_score_entry *size =
+      fc_malloc(sizeof(struct player_score_entry) * NUM_BEST_CITIES);
   int i;
   char buffer[4096];
-  struct city *pcity;
-  buffer[0]=0;
-  for (i=0;i<5;i++) {
-    size[i].value=0;
-    size[i].idx=0;
+
+  for (i = 0; i < NUM_BEST_CITIES; i++) {
+    size[i].value = 0;
+    size[i].idx = 0;
   }
-  for (i=0;i<game.nplayers;i++) {
-    city_list_iterate(game.players[i].cities, pcity) {
-      if ((pcity->size+nr_wonders(pcity)*5)>size[4].value) {
-	size[4].value=pcity->size+nr_wonders(pcity)*5;
-	size[4].idx=pcity->id;
-	qsort(size, 5, sizeof(struct player_score_entry), secompare);
+
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      int value_of_pcity = pcity->size + nr_wonders(pcity) * WONDER_FACTOR;
+
+      if (value_of_pcity > size[NUM_BEST_CITIES - 1].value) {
+	size[NUM_BEST_CITIES - 1].value = value_of_pcity;
+	size[NUM_BEST_CITIES - 1].idx = pcity->id;
+	qsort(size, NUM_BEST_CITIES, sizeof(struct player_score_entry),
+	      secompare);
       }
+    } city_list_iterate_end;
+  } players_iterate_end;
+
+  buffer[0] = 0;
+  for (i = 0; i < NUM_BEST_CITIES; i++) {
+    struct city *pcity = find_city_by_id(size[i].idx);
+
+    if (!pcity) {
+	/* 
+	 * pcity may be NULL if there are less then NUM_BEST_CITIES in
+	 * the whole game.
+	 */
+      break;
     }
-    city_list_iterate_end;
-  }
-  for (i=0;i<5;i++) {
-    pcity=find_city_by_id(size[i].idx);
-    if (pcity) { 
-      cat_snprintf(buffer, sizeof(buffer),
-		   _("%2d: The %s City of %s of size %d, with %d wonders\n"),
-		   i+1, get_nation_name(city_owner(pcity)->nation),pcity->name, 
-		   pcity->size, nr_wonders(pcity));
-    }
+
+    cat_snprintf(buffer, sizeof(buffer),
+		 _("%2d: The %s City of %s of size %d, with %d wonders\n"),
+		 i + 1, get_nation_name(city_owner(pcity)->nation),
+		 pcity->name, pcity->size, nr_wonders(pcity));
   }
   free(size);
   page_conn(dest, _("Traveler's Report:"),
