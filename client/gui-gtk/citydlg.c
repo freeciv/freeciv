@@ -283,7 +283,7 @@ static void change_list_callback(GtkWidget * w, gint row, gint col,
 static void change_help_callback(GtkWidget * w, gpointer data);
 
 static void buy_callback(GtkWidget * w, gpointer data);
-static void buy_callback_yes(GtkWidget * w, gpointer data);
+static void buy_callback_yes(gpointer data);
 static void buy_close_callback(gpointer data);
 
 static void sell_callback(GtkWidget * w, gpointer data);
@@ -2923,7 +2923,7 @@ static void buy_close_callback(gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void buy_callback_yes(GtkWidget * w, gpointer data)
+static void buy_callback_yes(gpointer data)
 {
   struct city_dialog *pdialog;
   struct packet_city_request packet;

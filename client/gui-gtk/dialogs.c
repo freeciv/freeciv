@@ -1412,7 +1412,7 @@ static void popup_mes_close(GtkWidget *dialog_shell)
   }
 
   if (close_callback) {
-    close_callback(close_callback_data);
+    (*close_callback)(close_callback_data);
   }
 
   free(buttons);
@@ -1424,7 +1424,7 @@ static void popup_mes_close(GtkWidget *dialog_shell)
 static gint popup_mes_del_callback(GtkWidget * widget, GdkEvent * event,
 				   gpointer data)
 {
-  GtkWidget *dialog_shell = (GtkWidget *) data;
+  GtkWidget *dialog_shell = GTK_WIDGET(data);
   void (*close_callback) (gpointer) =
       gtk_object_get_data(GTK_OBJECT(dialog_shell), "close_callback");
 
@@ -1439,22 +1439,20 @@ static gint popup_mes_del_callback(GtkWidget * widget, GdkEvent * event,
 /****************************************************************
 ...
 *****************************************************************/
-static int popup_mes_handle_callback(GtkWidget * widget, gpointer data)
+static void popup_mes_handle_callback(GtkWidget * widget, gpointer data)
 {
-  GtkWidget *dialog_shell = (GtkWidget *) data;
+  GtkWidget *dialog_shell = GTK_WIDGET(data);
   int button = (int)gtk_object_get_data(GTK_OBJECT(widget), "button");
   struct button_descr *buttons =
       gtk_object_get_data(GTK_OBJECT(dialog_shell), "buttons");
 
   if (buttons[button].callback) {
-    buttons[button].callback(buttons[button].data);
+    (*buttons[button].callback)(buttons[button].data);
   }
 
   popup_mes_close(dialog_shell);
 
   gtk_widget_destroy(dialog_shell);
-
-  return FALSE;
 }
 
 /****************************************************************
