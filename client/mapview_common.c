@@ -324,11 +324,48 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 }
 
 /****************************************************************************
+  Normalize (wrap) the GUI position.  This is equivalent to a map wrapping,
+  but in GUI coordinates so that pixel accuracy is preserved.
+****************************************************************************/
+static void normalize_gui_pos(int *gui_x, int *gui_y)
+{
+  int map_x, map_y, nat_x, nat_y, gui_x0, gui_y0, diff_x, diff_y;
+
+  /* Convert the (gui_x, gui_y) into a (map_x, map_y) plus a GUI offset
+   * from this tile. */
+  gui_to_map_pos(&map_x, &map_y, *gui_x, *gui_y);
+  map_to_gui_pos(&gui_x0, &gui_y0, map_x, map_y);
+  diff_x = *gui_x - gui_x0;
+  diff_y = *gui_y - gui_y0;
+
+  /* Perform wrapping without any realness check.  It's important that
+   * we wrap even if the map position is unreal, which normalize_map_pos
+   * doesn't necessarily do. */
+  map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
+  if (topo_has_flag(TF_WRAPX)) {
+    nat_x = FC_WRAP(nat_x, map.xsize);
+  }
+  if (topo_has_flag(TF_WRAPY)) {
+    nat_y = FC_WRAP(nat_y, map.ysize);
+  }
+  native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+
+  /* Now convert the wrapped map position back to a GUI position and add the
+   * offset back on. */
+  map_to_gui_pos(gui_x, gui_y, map_x, map_y);
+  *gui_x += diff_x;
+  *gui_y += diff_y;
+}
+
+/****************************************************************************
   Change the mapview origin, clip it, and update everything.
 ****************************************************************************/
 static void set_mapview_origin(int gui_x0, int gui_y0)
 {
   int xmin, xmax, ymin, ymax, xsize, ysize;
+
+  /* Normalize (wrap) the mapview origin. */
+  normalize_gui_pos(&gui_x0, &gui_y0);
 
   /* First wrap/clip the position.  Wrapping is done in native positions
    * while clipping is done in scroll (native) positions. */
@@ -404,12 +441,22 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
     *ymax += NORMAL_TILE_HEIGHT;
 
     /* To be able to center on positions near the edges, we have to be
-     * allowed to scroll past those edges. */
+     * allowed to scroll all the way to those edges.  To allow wrapping the
+     * clipping boundary needs to extend past the edge - a half-tile in
+     * iso-view or a full tile in non-iso view.  The above math already has
+     * taken care of some of this so all that's left is to fix the corner
+     * cases. */
     if (topo_has_flag(TF_WRAPX)) {
       *xmax += *xsize;
+
+      /* We need to be able to scroll a little further to the left. */
+      *xmin -= NORMAL_TILE_WIDTH;
     }
     if (topo_has_flag(TF_WRAPY)) {
       *ymax += *ysize;
+
+      /* We need to be able to scroll a little further up. */
+      *ymin -= NORMAL_TILE_HEIGHT;
     }
   } else {
     /* Otherwise it's hard.  Very hard.  Impossible, in fact.  This is just
