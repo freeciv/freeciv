@@ -1002,9 +1002,10 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 			     XtPointer position_val)
 {
   int position = XTPOINTER_TO_INT(position_val);
-  int scroll_x, scroll_y;
+  int scroll_x, scroll_y, xstep, ystep;
 
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
+  get_mapview_scroll_step(&xstep, &ystep);
 
   if (!can_client_change_view()) {
     return;
@@ -1012,16 +1013,16 @@ void scrollbar_scroll_callback(Widget w, XtPointer client_data,
 
   if(w==map_horizontal_scrollbar) {
     if (position > 0) {
-      scroll_x++;
+      scroll_x += xstep;
     } else {
-      scroll_x--;
+      scroll_x -= xstep;
     }
   }
   else {
     if (position > 0) {
-      scroll_y++;
+      scroll_y += ystep;
     } else {
-      scroll_y--;
+      scroll_y -= ystep;
     }
   }
 

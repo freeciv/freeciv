@@ -1130,12 +1130,13 @@ void update_map_canvas_scrollbars(void)
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
 {
-  int xmin, ymin, xmax, ymax, xsize, ysize;
+  int xmin, ymin, xmax, ymax, xsize, ysize, xstep, ystep;
 
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
+  get_mapview_scroll_step(&xstep, &ystep);
 
-  map_hadj = gtk_adjustment_new(-1, xmin, xmax, 1, xsize, xsize);
-  map_vadj = gtk_adjustment_new(-1, ymin, ymax, 1, ysize, ysize);
+  map_hadj = gtk_adjustment_new(-1, xmin, xmax, xstep, xsize, xsize);
+  map_vadj = gtk_adjustment_new(-1, ymin, ymax, ystep, ysize, ysize);
 
   gtk_range_set_adjustment(GTK_RANGE(map_horizontal_scrollbar),
 	GTK_ADJUSTMENT(map_hadj));

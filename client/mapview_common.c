@@ -476,6 +476,16 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 }
 
 /****************************************************************************
+  Find the scroll step for the mapview.  This is the amount to scroll (in
+  scroll coordinates) on each "step".  See also get_mapview_scroll_window.
+****************************************************************************/
+void get_mapview_scroll_step(int *xstep, int *ystep)
+{
+  *xstep = 1;
+  *ystep = (topo_has_flag(TF_ISO) ? 2 : 1);
+}
+
+/****************************************************************************
   Find the current scroll position (origin) of the mapview.
 ****************************************************************************/
 void get_mapview_scroll_pos(int *scroll_x, int *scroll_y)

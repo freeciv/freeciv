@@ -149,6 +149,7 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y);
 void get_mapview_scroll_window(int *xmin, int *ymin,
 			       int *xmax, int *ymax,
 			       int *xsize, int *ysize);
+void get_mapview_scroll_step(int *xstep, int *ystep);
 void get_mapview_scroll_pos(int *scroll_x, int *scroll_y);
 void set_mapview_scroll_pos(int scroll_x, int scroll_y);
 
