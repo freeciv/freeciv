@@ -729,9 +729,10 @@ void report_demographics(struct connection *pconn)
     return;
   }
 
-  my_snprintf(civbuf, sizeof(civbuf), _("The %s of the %s"),
+  my_snprintf(civbuf, sizeof(civbuf), _("The %s of the %s (%s)"),
 	      get_government_name(pplayer->government),
-	      get_nation_name_plural(pplayer->nation));
+	      get_nation_name_plural(pplayer->nation),
+	      textyear(game.year));
 
   buffer[0] = '\0';
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
