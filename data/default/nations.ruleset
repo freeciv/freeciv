@@ -1352,7 +1352,7 @@ cities =
 
 name=_("Argentine")
 plural=_("?plural:Argentines")
-leader="San Martin", "de Rosas", "Rivadavia", "Penon"
+leader="San Martin", "Rosas", "Rivadavia", "Peron"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.argentina"
 flag_alt = "-"
@@ -1369,8 +1369,11 @@ wonder="J.S. Bach's Cathedral"
 government="Democracy"
 
 cities =
-  "Buenos Airies", "Cordoba", "Rosario", "Mendoza", "Tucuman",
-  "Mar del Plata", "Santa Fe"
+  "Buenos Aires", "Cordoba", "Rosario", "Mendoza", "Tucuman",
+  "Mar del Plata", "Santa Fe", "Ushuaia", "La Plata", "Posadas",
+  "Neuquen", "Corrientes", "Catamarca", "Formosa", "Resistencia",
+  "Salta", "Bahia Blanca", "Viedma", "Comodoro Rivadavia",
+  "Rawson", "Rio Grande"
 
 
 [nation37]
