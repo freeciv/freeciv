@@ -298,14 +298,26 @@ char* popup_info_text(int xtile, int ytile)
     }
   }
   if (pcity) {
-      my_snprintf(buf, sizeof(buf), _("\nCity: %s(%s,%s)"), pcity->name,
-		  get_nation_name(city_owner(pcity)->nation),
-		  diplo_adjectives[game.player_ptr->
-				   diplstates[city_owner(pcity)->player_no].type]);
+    /* Look at city owner, not tile owner (the two should be the same, if
+     * borders are in use). */
+    struct player *owner = city_owner(pcity);
+
+    if (owner == game.player_ptr){
+      /* TRANS: "\nCity: <name> (<nation>)" */
+      my_snprintf(buf, sizeof(buf), _("\nCity: %s (%s)"), pcity->name,
+		  get_nation_name(owner->nation));
       sz_strlcat(out, buf);
-      if (city_got_citywalls(pcity)) {
-	sz_strlcat(out, _(" with City Walls"));
-      }
+    } else if (owner) {
+      /* TRANS: "\nCity: <name> (<nation>,<diplomatic_state>)" */
+      my_snprintf(buf, sizeof(buf), _("\nCity: %s (%s,%s)"), pcity->name,
+		  get_nation_name(owner->nation),
+		  diplo_adjectives[game.player_ptr->
+				   diplstates[owner->player_no].type]);
+      sz_strlcat(out, buf);
+    }
+    if (city_got_citywalls(pcity)) {
+      sz_strlcat(out, _(" with City Walls"));
+    }
   } 
   if (get_tile_infrastructure_set(ptile)) {
     my_snprintf(buf, sizeof(buf), _("\nInfrastructure: %s"),
