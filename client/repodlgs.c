@@ -46,8 +46,7 @@
 #include <chatline.h>
 #include <dialogs.h>
 #include <optiondlg.h>
-
-#define MAX_CITIES_SHOWN 256
+#include <log.h>
 
 extern Widget toplevel, main_form, map_canvas;
 
@@ -108,7 +107,7 @@ Widget city_center_command, city_popup_command, city_buy_command,
 Widget city_change_command, city_popupmenu;
 
 int city_dialog_shell_is_modal;
-int cities_in_list[MAX_CITIES_SHOWN];
+int *cities_in_list = NULL;
 
 static char *dummy_city_list[]={ 
   "    "
@@ -945,12 +944,29 @@ void city_report_dialog_update(void)
 {
   if(delay_report_update) return;
   if(city_dialog_shell) {
-    int i=0;
-    Dimension width; 
-    static char *city_list_names_ptrs[MAX_CITIES_SHOWN+1];
-    static char city_list_names[MAX_CITIES_SHOWN][200];
+    int i=0, n;
+    Dimension width;
+    static int n_alloc = 0;
+    static char **city_list_names = 0;
+    static char **city_list_names_ptrs = 0;
     char *report_title;
 
+    n = city_list_size(&game.player_ptr->cities);
+    flog(LOG_DEBUG, "%d cities in report", n);
+    if(n_alloc == 0 || n > n_alloc) {
+      int j, n_prev = n_alloc;
+      
+      n_alloc = n + 32;
+      flog(LOG_DEBUG, "city report n_alloc increased to %d", n_alloc);
+      cities_in_list = realloc(cities_in_list, n_alloc*sizeof(int));
+      city_list_names_ptrs = realloc(city_list_names_ptrs,
+				(n_alloc+1)*sizeof(char*));
+      city_list_names = realloc(city_list_names, n_alloc*sizeof(char*));
+      for(j=n_prev; j<n_alloc; j++) {
+	city_list_names[j] = malloc(200);
+      }
+    }
+       
     report_title=get_report_title("City Advisor");
     xaw_set_label(city_label, report_title);
     free(report_title);
