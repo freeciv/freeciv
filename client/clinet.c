@@ -184,7 +184,11 @@ int try_to_connect(char *username, char *errbuf, int errbufsize)
     (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     my_closesocket(aconnection.sock);
     aconnection.sock = -1;
+#ifdef WIN32_NATIVE
+    return -1;
+#else
     return errno;
+#endif
   }
 
   if (aconnection.buffer) {
