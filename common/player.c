@@ -314,22 +314,18 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit)
 {
   if(punit->owner==pplayer->player_no)
     return 1;
-  if(unit_flag(punit->type, F_SUBMARINE)) {
+  if(is_hiding_unit(punit)) {
+    /* Search for units/cities that might be able to see the sub/missile */
     int x, y;
-    for(y=punit->y-1; y<punit->y+2; ++y) { 
+    struct city *pcity;
+    struct unit *punit2;
+    for(y=punit->y-1; y<=punit->y+1; ++y) { 
       if(y<0 || y>=map.ysize)
 	continue;
-      for(x=punit->x-1; x<punit->x+2; ++x) { 
-	struct city *pcity;
-	struct unit_list *srclist;
-	struct genlist_iterator myiter;
-	srclist=&map_get_tile(x, y)->units;
-	genlist_iterator_init(&myiter, &srclist->list, 0);
-	for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-	  struct unit *pu=(struct unit *)ITERATOR_PTR(myiter);
-	  if(pu->owner==pplayer->player_no)
-	    return 1;
-	}
+      for(x=punit->x-1; x<=punit->x+1; ++x) { 
+	if((punit2=unit_list_get(&map_get_tile(x, y)->units, 0)) &&
+	   punit2->owner == pplayer->player_no ) return 1;
+
 	if((pcity=map_get_city(x, y)) && pcity->owner==pplayer->player_no)
 	  return 1;
       }
@@ -338,6 +334,20 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit)
   }
   
   return 1;
+}
+
+/***************************************************************
+  Return a pointer to a visible unit, if there is one.
+***************************************************************/
+struct unit *player_find_visible_unit(struct player *pplayer, struct tile *ptile)
+{
+  if(unit_list_size(&ptile->units)==0) return NULL;
+
+  unit_list_iterate(ptile->units, punit)
+    if(player_can_see_unit(pplayer, punit)) return punit;
+  unit_list_iterate_end;
+
+  return NULL;
 }
 
 /***************************************************************

@@ -520,6 +520,25 @@ int is_field_unit(struct unit *punit)
 
 }
 
+
+/**************************************************************************
+  Is the unit one that is invisible on the map, which is currently limited
+  to subs and missiles in subs.
+**************************************************************************/
+int is_hiding_unit(struct unit *punit)
+{
+  if(unit_flag(punit->type, F_SUBMARINE)) return 1;
+  if(unit_flag(punit->type, F_MISSILE)) {
+    if(map_get_terrain(punit->x, punit->y)==T_OCEAN) {
+      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
+	if(unit_flag(punit2->type, F_SUBMARINE)) return 1;
+      } unit_list_iterate_end;
+    }
+  }
+  return 0;
+}
+
+
 /**************************************************************************
 ...
 **************************************************************************/

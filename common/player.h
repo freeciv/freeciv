@@ -18,6 +18,8 @@
 #include "city.h"
 #include "spaceship.h"
 
+struct tile;
+
 #define PLAYER_DEFAULT_TAX_RATE 50
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
 #define PLAYER_DEFAULT_LUXURY_RATE 0
@@ -157,6 +159,7 @@ char *get_race_name(enum race_type race);
 char *get_race_name_plural(enum race_type race);
 struct player_race *get_race(struct player *plr);
 int player_can_see_unit(struct player *pplayer, struct unit *punit);
+struct unit *player_find_visible_unit(struct player *pplayer, struct tile *);
 int player_owns_city(struct player *pplayer, struct city *pcity);
 
 struct city *player_find_city_by_id(struct player *pplayer, int city_id);

@@ -700,6 +700,7 @@ void popit(int xin, int yin, int xtile, int ytile)
   Position x, y;
   char s[512];
   struct city *pcity;
+  struct unit *punit;
   struct tile *ptile=map_get_tile(xtile, ytile);
 
   
@@ -738,9 +739,8 @@ void popit(int xin, int yin, int xtile, int ytile)
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
     
-    if(unit_list_size(&ptile->units) && !pcity) {
+    if((punit=player_find_visible_unit(game.player_ptr, ptile)) && !pcity) {
       char cn[64];
-      struct unit *punit=unit_list_get(&ptile->units, 0);
       struct unit_type *ptype=get_unit_type(punit->type);
       cn[0]='\0';
       if(punit->owner==game.player_idx) {

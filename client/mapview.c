@@ -575,13 +575,11 @@ void set_overview_tile_foreground_color(int x, int y)
   
   if(!ptile->known)
     XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  else if((punit=unit_list_get(&ptile->units, 0))) {
-    if(player_can_see_unit(game.player_ptr, punit)) {
-      if(punit->owner==game.player_idx)
-	XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_YELLOW]);
-      else
-	XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RED]);
-    }
+  else if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+    if(punit->owner==game.player_idx)
+      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_YELLOW]);
+    else
+      XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RED]);
   }
   else if((pcity=map_get_city(x, y))) {
     if(pcity->owner==game.player_idx)
@@ -594,7 +592,6 @@ void set_overview_tile_foreground_color(int x, int y)
   else
     XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_GROUND]);
 }
-
 
 
 /**************************************************************************
@@ -1071,7 +1068,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   int rail_card_tileno=0, rail_semi_tileno=0, road_card_tileno=0, road_semi_tileno=0;
   int rail_card_count=0, rail_semi_count=0, road_card_count=0, road_semi_count=0;
 
-  int tileno,n;
+  int tileno;
   struct tile *ptile;
   struct Sprite *mysprite;
   struct unit *punit;
@@ -1092,21 +1089,19 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 
   if(!flags_are_transparent) {  /* non-transparent flags-> just draw city or unit.*/
     if((pcity=map_get_city(abs_x0, abs_y0)) &&
-       (citymode || !punit || punit->x!=abs_x0 || punit->y!=abs_y0 ||
-	unit_list_size(&ptile->units)==0)) {
+       (citymode || !(punit=get_unit_in_focus()) || punit->x!=abs_x0 || punit->y!=abs_y0)) {
 	put_city_pixmap(pcity, pm, x, y);
 	return;
     }
 
-    if(!flags_are_transparent)
-      if((n=unit_list_size(&ptile->units))>0)
-	if(!citymode || unit_list_get(&ptile->units, 0)->owner!=game.player_idx) {
-	  if(player_can_see_unit(game.player_ptr, unit_list_get(&ptile->units, 0))) {
-	    put_unit_pixmap(unit_list_get(&ptile->units, 0), pm, x, y);
-	    if(n>1)  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
-	    return;
-	  }
-        }
+    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+      if(!citymode || punit->owner!=game.player_idx) {
+	put_unit_pixmap(punit, pm, x, y);
+	if(unit_list_size(&ptile->units)>1)
+	  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
+	return;
+      }
+    }
   }
     
   ttype=map_get_terrain(abs_x0, abs_y0);
@@ -1375,20 +1370,20 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       pixmap_put_overlay_tile(pm, x, y, tileno);
   }
 
-  if(flags_are_transparent) { /* cities, too! */
+  if(flags_are_transparent) {  /* transparent flags -> draw city or unit last */
     if((pcity=map_get_city(abs_x0, abs_y0))) {
       put_city_pixmap(pcity, pm, x, y);
-      if(punit!=unit_list_get(&ptile->units,0))	/* only draw active unit in cities. */
-	return;
     }
-    if((n=unit_list_size(&ptile->units))>0)
-      if(!citymode || unit_list_get(&ptile->units, 0)->owner!=game.player_idx) {
-	if(player_can_see_unit(game.player_ptr, unit_list_get(&ptile->units, 0))) {
-	  put_unit_pixmap(unit_list_get(&ptile->units, 0), pm, x, y);
-	  if(n>1)  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
-	}
+
+    if((punit=player_find_visible_unit(game.player_ptr, ptile))) {
+      if(pcity && punit!=get_unit_in_focus()) return;
+      if(!citymode || punit->owner!=game.player_idx) {
+	put_unit_pixmap(punit, pm, x, y);
+	if(unit_list_size(&ptile->units)>1)  
+	  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
       }
-  }  
+    }
+  }
 }
 
 
