@@ -66,7 +66,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
 			     int lux, int no_lux_scroll,
 			     int sci, int no_sci_scroll)
 {
-  char buf[16];
+  char buf[64];
   int tax_lock, lux_lock, sci_lock;
   int maxrate;
   
@@ -352,7 +352,7 @@ static void create_rates_dialog(void)
 *****************************************************************/
 void popup_rates_dialog( void )
 {
-    char buf[50];
+    char buf[64];
 
     gtk_widget_set_sensitive(toplevel, FALSE );
     create_rates_dialog();

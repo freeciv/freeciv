@@ -81,7 +81,7 @@ void popup_rates_dialog(void)
 {
   Position x, y;
   Dimension width, height;
-  char buf[50];
+  char buf[64];
 
   XtSetSensitive(main_form, FALSE);
 
@@ -254,7 +254,7 @@ void rates_set_values(int tax, int no_tax_scroll,
 		      int lux, int no_lux_scroll,
 		      int sci, int no_sci_scroll)
 {
-  char buf[16];
+  char buf[64];
   Boolean tax_lock, lux_lock, sci_lock;
   int maxrate;
   

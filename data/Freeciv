@@ -1340,7 +1340,7 @@ Freeciv*ratesgovlabel.background:      lightblue
 Freeciv*ratesgovlabel.justify:         left
 
 ! dummy label:
-Freeciv*ratestaxlabel.label:           Tax:   0%
+Freeciv*ratestaxlabel.label:           Tax:               0%
 Freeciv*ratestaxlabel.fromVert:        ratesgovlabel
 Freeciv*ratestaxlabel.borderWidth:     0
 Freeciv*ratestaxlabel.justify:         left
@@ -1358,7 +1358,7 @@ Freeciv*ratestaxtoggle.internalHeight: 0
 Freeciv*ratestaxtoggle.background:     cyan
 
 ! dummy label:
-Freeciv*ratesluxlabel.label:           Luxury:   0%
+Freeciv*ratesluxlabel.label:           Luxury:            0%
 Freeciv*ratesluxlabel.fromVert:        ratestaxscroll
 Freeciv*ratesluxlabel.borderWidth:     0
 Freeciv*ratesluxlabel.justify:         left
@@ -1377,7 +1377,7 @@ Freeciv*ratesluxtoggle.radioGroup:     ratestaxtoggle
 Freeciv*ratesluxtoggle.background:     cyan
 
 ! dummy label:
-Freeciv*ratesscilabel.label:           Science:   0%
+Freeciv*ratesscilabel.label:           Science:           0%
 Freeciv*ratesscilabel.fromVert:        ratesluxscroll
 Freeciv*ratesscilabel.borderWidth:     0
 Freeciv*ratesscilabel.justify:         left
