@@ -4,7 +4,7 @@
 # ###########################################################
 # # German translation for Freeciv                          #
 # # Copyright (C)1999-2002 Free Software Foundation, Inc.   #
-# # Egbert Hinzen <garfy@ehinzen.de>, 1999-2002             #
+# # Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002       #
 # ###########################################################
 #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -17,14 +17,14 @@
 # + Sollten Sie Rechtschreibfehler oder andere OFFENSICHTLICHE          +
 # + Fehler in der Übersetzung finden, senden Sie bitte einen mit        +
 # + 'diff -u' erstellten PATCH an den Koordinator,                      +
-# + Egbert Hinzen <garfy@ehinzen.de>.                                   +
+# + Egbert Hinzen <egbert@hinzen-koeln.de>.                             +
 # + Sollten Ihnen "bessere" Übersetzungen einfallen, senden Sie         +
 # + bitte KEINEN PATCH, sondern mailen Sie Ihre Vorschläge als TEXT     +
 # + an die Adresse <freeciv.de@freelists.org>.                          +
 # + Wenn Sie an der Verbesserung der deutschen Übersetzung              +
 # + mitarbeiten möchten, abonnieren Sie doch unsere Mailingliste mit    +
 # + einer Email mit dem Subject: subscribe an:                          +
-# + <freeciv.de-request@freelists.org>.                                  +
+# + <freeciv.de-request@freelists.org>.                                 +
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # ###################################
@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: 1.13\n"
 "POT-Creation-Date: 2002-04-06 21:41+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
+"Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -1028,7 +1028,7 @@ msgstr ""
 "- über Programmfehler in ENGLISCH\n"
 "  mit einer Email an <%s>.\n"
 "- über Probleme mit der deutschen Übersetzung\n"
-"  mit einer Email an <garfy@ehinzen.de>.\n"
+"  mit einer Email an <freeciv.de@freelists.org>.\n"
 "\n"
 
 #: server/console.c:178
@@ -7397,7 +7397,7 @@ msgstr "sowie Beispiele"
 
 #: client/gui-gtk/cma_fe.c:391
 msgid "see README.cma."
-msgstr "stehen in docs/README.cma.de"
+msgstr "stehen in docs/de/README.cma.de"
 
 #: client/gui-gtk/cma_fe.c:465
 msgid "new preset"
@@ -11151,8 +11151,9 @@ msgid ""
 "  freeciv-dev@freeciv.org"
 msgstr ""
 "Freeciv ist ein ursprünglich englisches Programm; die erste vollständige "
-"Übersetzung ins Deutsche stammt von Egbert Hinzen <garfy@ehinzen.de>. Seit "
-"1999 wird sie ständig aktualisiert und verbessert.\n"
+"Übersetzung ins Deutsche stammt von Egbert Hinzen "
+"<egbert@hinzen-koeln.de>. Seit 1999 wird sie ständig aktualisiert und "
+"verbessert.\n"
 "\n"
 "Grundsätzlich erkennt Freeciv die für den Benutzer sinnvollste Sprache "
 "selbständig anhand der Systemeinstellungen. Diese Voreinstellung läßt sich "
