@@ -3,7 +3,7 @@
 name=_("American")
 plural=_("?plural:Americans")
 leader="Lincoln", "Washington", "Franklin D. Roosevelt",
-       "J.F. Kennedy", "Eleonore Roosevelt"
+       "J.F. Kennedy", "Eleanore Roosevelt"
 leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="f.usa"
 flag_alt = "-"
