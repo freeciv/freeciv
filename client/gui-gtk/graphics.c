@@ -311,7 +311,7 @@ struct Sprite *load_gfxfile(const char *filename)
   int		 w, h;
 
   if(!(im=gdk_imlib_load_image((char*)filename))) {
-    freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
+    freelog(LOG_FATAL, "Failed reading graphics file: %s", filename);
     exit(EXIT_FAILURE);
   }
 

@@ -214,32 +214,27 @@ extern char current_tile_set_name[512];
 extern char *main_intro_filename;
 extern char *minimap_intro_filename;
 
-/* NOTE: The following comments are out of date and need to
- *       be revised!  -- dwp
+/* These variables contain the size of the tiles used within the game.
  *
- * These variables contain thee size of the tiles used within the game.
- * Tiles for the units and city squares, etc, are usually 30x30.
- * Tiles for things like food production, etc, are usually 15x20.  We
- * say "usually" for two reasons:  
+ * "normal" tiles include most mapview graphics, particularly the basic
+ * terrain graphics.
  *
- * First, it is feasible to replace the tiles in the .xpm files with
- * ones of some other size.  Mitch Davis (mjd@alphalink.com.au) has
- * done this, and replaced all the tiles with the ones from the
- * original Civ.  The tiles from the original civ are 32x32.  All that
- * is required is that these constants be changed.
+ * "unit" tiles are those used for drawing units.  In iso view these are
+ * larger than normal tiles to mimic a 3D effect.
  *
- * Second, although there is currently no "zoom" feature as in the
- * original Civ, we might add it some time in the future.  If and when
- * this happens, we'll have to stop using the constants, and go back
- * to using ints which change at runtime.  Note, this would require
- * quite a bit of memory and pixmap management work, so it seems like
- * a nasty task.
+ * "small" tiles are used for extra "theme" graphics, particularly sprites
+ * for citizens, governments, and other panel indicator icons.
  *
- * BUG: pjunold informs me that there are hard-coded geometries in
- * the Freeciv.h file which will prevent ideal displaying of pixmaps
- * which are not of the original 30x30 size.  Also, the pixcomm widget
- * apparently also does not handle this well.  Truthfully, I hadn't
- * noticed at all! :-) (mjd)
+ * Various parts of the code may make additional assumptions, including:
+ *   - in non-iso view:
+ *     - NORMAL_TILE_WIDTH == NORMAL_TILE_HEIGHT
+ *     - UNIT_TILE_WIDTH == NORMAL_TILE_WIDTH
+ *     - UNIT_TILE_HEIGHT == NORMAL_TILE_HEIGHT
+ *   - in iso-view:
+ *     - NORMAL_TILE_WIDTH == 2 * NORMAL_TILE_HEIGHT
+ *     - UNIT_TILE_WIDTH == NORMAL_TILE_WIDTH
+ *     - UNIT_TILE_HEIGHT == NORMAL_TILE_HEIGHT * 3 / 2
+ *     - NORMAL_TILE_WIDTH and NORMAL_TILE_HEIGHT are even
  */
 
 extern int NORMAL_TILE_WIDTH;
