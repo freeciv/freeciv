@@ -8,6 +8,18 @@ srcfile=client/civclient.h
 # Uncomment the line below to debug this file
 #DEBUG=defined
 
+USE_NLS=yes
+
+# Leave out NLS checks
+for NAME in $@ ; do
+  if test "x$NAME" = "x--disable-nls"; then 
+    echo "+ nls checks disabled"
+    USE_NLS=no
+    break
+  fi
+done
+
+
 debug ()
 # print out a debug message if DEBUG is a defined variable
 {
@@ -39,9 +51,9 @@ version_check ()
 
   debug "version $VERSION"
   if [ "$EXACT_VERSION" -eq 0 ]; then
-    echo -n "+ checking for $PACKAGE >= $VERSION ... "
+    echo "+ checking for $PACKAGE >= $VERSION ... " | tr -d '\n'
   else
-    echo -n "+ checking for $PACKAGE == $VERSION ... "
+    echo "+ checking for $PACKAGE == $VERSION ... " | tr -d '\n'
   fi
 
   ($PACKAGE --version) < /dev/null > /dev/null 2>&1 || 
@@ -56,8 +68,8 @@ version_check ()
   pkg_version=`$PACKAGE --version|head -n 1|sed 's/^[a-zA-z\.\ ()]*//;s/ .*$//'`
   debug "pkg_version $pkg_version"
   pkg_major=`echo $pkg_version | cut -d. -f1`
-  pkg_minor=`echo $pkg_version | cut -d. -f2`
-  pkg_micro=`echo $pkg_version | cut -d. -f3`
+  pkg_minor=`echo $pkg_version | sed s/-.*// | cut -d. -f2`
+  pkg_micro=`echo $pkg_version | sed s/-.*// | cut -d. -f3`
   test -z "$pkg_minor" && pkg_minor=0
   test -z "$pkg_micro" && pkg_micro=0
 
@@ -102,8 +114,17 @@ version_check ()
 
 version_check 1 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 13 || DIE=1
 version_check 0 "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 4 || DIE=1
-version_check 0 "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE=1
-version_check 0 "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE=1
+if [ "$USE_NLS" = "yes" ] ; then
+  DIE2=0
+  version_check 0 "xgettext" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE2=1
+  version_check 0 "msgfmt" "ftp://ftp.gnu.org/pub/gnu/gettext/" 0 10 38 || DIE2=1
+  if test "$DIE2" -eq 1; then
+    echo 
+    echo "You may want to use --disable-nls to disable NLS."
+    echo "This will also remove the dependency for xgettext and msgfmt."
+    DIE=1
+  fi    
+fi
 
 if test "$DIE" -eq 1; then
 	exit 1
