@@ -313,6 +313,16 @@ int center_main_window_on_screen(void)
   SDL_VERSION(&myinfo.version);
   if (SDL_GetWMInfo(&myinfo) > 0)
   {
+#ifdef WIN32_NATIVE
+    
+    /* Port ME - Write center window code with WinAPI instructions */
+    
+    return 0;
+#else
+    
+#if 0 
+    /* this code is for X and is only example what should be write to other 
+       eviroments */
     Screen *defscr;
     Display *d = myinfo.info.x11.display;
     myinfo.info.x11.lock_func();
@@ -321,7 +331,9 @@ int center_main_window_on_screen(void)
                (defscr->width - Main.screen->w) / 2,
                (defscr->height - Main.screen->h) / 2);
     myinfo.info.x11.unlock_func();
+#endif    
     return 0;
+#endif
   }
   return -1;
 }

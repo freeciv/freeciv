@@ -1105,7 +1105,7 @@ void city_report_dialog_update(void)
       }
     } city_list_iterate_end;
     /* check it there are some city widgets left on list */
-    if(pWidget->next != pCityRep->pBeginActiveWidgetList) {
+    if(pWidget && pWidget->next != pCityRep->pBeginActiveWidgetList) {
       real_info_city_report_dialog_update();
       return;
     }

@@ -274,7 +274,7 @@ static void set_new_order_widget_start_pos(void)
 
   w = (pInfoWind->size.x - 10) - xx;
   
-  if ( w < pTmpWidget->size.w + 10 ) {
+  if (w < pTmpWidget->size.w + 10) {
     if(pMiniMap->size.h == pInfoWind->size.h) {
       xx = 0;
       w = Main.gui->w;
@@ -285,7 +285,7 @@ static void set_new_order_widget_start_pos(void)
     }
   }
     
-  count_on_line = (w + pTmpWidget->size.w + 4)/ (pTmpWidget->size.w + 5);
+  count_on_line = w / (pTmpWidget->size.w + 5);
 
   /* find how many to reposition */
   while (TRUE) {
