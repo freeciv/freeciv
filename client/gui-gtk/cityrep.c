@@ -152,7 +152,7 @@ void popup_city_report_dialog(int make_modal)
       city_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
-	gtk_widget_set_sensitive(toplevel, FALSE);
+	gtk_widget_set_sensitive(top_vbox, FALSE);
       
       create_city_report_dialog(make_modal);
       gtk_set_relative_position(toplevel, city_dialog_shell, 10, 10);
@@ -1077,7 +1077,7 @@ static void city_close_callback(GtkWidget *w, gpointer data)
 {
 
   if(city_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(toplevel, TRUE);
+     gtk_widget_set_sensitive(top_vbox, TRUE);
    gtk_widget_destroy(city_dialog_shell);
    city_dialog_shell=NULL;
 }

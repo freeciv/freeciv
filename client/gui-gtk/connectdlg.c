@@ -59,7 +59,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
   if(connect_to_server(name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1) {
     gtk_widget_destroy(dialog);
-    gtk_widget_set_sensitive(toplevel,TRUE);
+    gtk_widget_set_sensitive(top_vbox,TRUE);
   }
   else
     append_output_window(errbuf);
@@ -133,7 +133,7 @@ void gui_server_connect(void)
   if (!titles) titles = intl_slist(6, titles_);
 
   gtk_widget_set_sensitive(turn_done_button, FALSE);
-  gtk_widget_set_sensitive(toplevel, FALSE);
+  gtk_widget_set_sensitive(top_vbox, FALSE);
 
   dialog=gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(dialog),"delete_event",

@@ -152,7 +152,7 @@ void popup_science_dialog(int make_modal)
     science_dialog_shell_is_modal=make_modal;
     
     if(make_modal)
-      gtk_widget_set_sensitive(toplevel, FALSE);
+      gtk_widget_set_sensitive(top_vbox, FALSE);
     
     create_science_dialog(make_modal);
     gtk_set_relative_position(toplevel, science_dialog_shell, 10, 10);
@@ -323,7 +323,7 @@ void science_close_callback(GtkWidget *widget, gpointer data)
 {
 
   if(science_dialog_shell_is_modal)
-    gtk_widget_set_sensitive(toplevel, TRUE);
+    gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(science_dialog_shell);
   science_dialog_shell=NULL;
 }
@@ -547,7 +547,7 @@ void popup_economy_report_dialog(int make_modal)
       economy_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
-	gtk_widget_set_sensitive(toplevel, FALSE);
+	gtk_widget_set_sensitive(top_vbox, FALSE);
       
       create_economy_report_dialog(make_modal);
       gtk_set_relative_position(toplevel, economy_dialog_shell, 10, 10);
@@ -673,7 +673,7 @@ void economy_close_callback(GtkWidget *w, gpointer data)
 {
 
   if(economy_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(toplevel, TRUE);
+     gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(economy_dialog_shell);
   economy_dialog_shell=NULL;
 }
@@ -811,7 +811,7 @@ void popup_activeunits_report_dialog(int make_modal)
       activeunits_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
-	gtk_widget_set_sensitive(toplevel, FALSE);
+	gtk_widget_set_sensitive(top_vbox, FALSE);
       
       create_activeunits_report_dialog(make_modal);
       gtk_set_relative_position(toplevel, activeunits_dialog_shell, 10, 10);
@@ -979,7 +979,7 @@ void activeunits_close_callback(GtkWidget *w, gpointer data)
 {
 
   if(activeunits_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(toplevel, TRUE);
+     gtk_widget_set_sensitive(top_vbox, TRUE);
    gtk_widget_destroy(activeunits_dialog_shell);
    activeunits_dialog_shell=0;
 }

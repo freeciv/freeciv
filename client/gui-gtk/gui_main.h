@@ -44,6 +44,7 @@ extern int              single_tile_pixmap_height;
 extern GtkText *        main_message_area;
 extern GtkWidget *      text_scrollbar;
 extern GtkWidget *      toplevel;
+extern GtkWidget *      top_vbox;
 extern GtkWidget *      main_frame_civ_name;
 extern GtkWidget *      main_label_info;
 extern GtkWidget *      econ_label[10];

@@ -56,7 +56,7 @@ void popup_find_dialog(void)
 
   get_center_tile_mapcanvas(&original_x, &original_y);
 
-  gtk_widget_set_sensitive(toplevel, FALSE);
+  gtk_widget_set_sensitive(top_vbox, FALSE);
   
   find_dialog_shell=gtk_widget_new(GTK_TYPE_DIALOG,
 				   "GtkWindow::title", _("Find City"),
@@ -155,7 +155,7 @@ static void update_find_dialog(GtkWidget *find_list)
 static void popdown_find_dialog(void)
 {
   gtk_widget_destroy(find_dialog_shell);
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
 }
 
 /**************************************************************************

@@ -54,7 +54,7 @@ void popup_intel_dialog(struct player *p)
     intel_create_dialog(p);
     gtk_set_relative_position(toplevel, intel_dialog_shell, 25, 25);
     gtk_widget_show(intel_dialog_shell);
-    gtk_widget_set_sensitive(toplevel, FALSE);
+    gtk_widget_set_sensitive(top_vbox, FALSE);
   }
 }
 
@@ -202,7 +202,7 @@ void intel_create_dialog(struct player *p)
 **************************************************************************/
 void intel_close_command_callback(GtkWidget *w, gpointer data)
 { 
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(intel_dialog_shell);
   intel_dialog_shell=NULL;
 }

@@ -67,7 +67,7 @@ void popup_messageopt_dialog(void)
 /*  gtk_set_relative_position(toplevel, shell, 15, 0);*/
   gtk_window_set_position (GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   gtk_widget_show(shell);
-  gtk_widget_set_sensitive(toplevel, FALSE);
+  gtk_widget_set_sensitive(top_vbox, FALSE);
 }
 
 /**************************************************************************
@@ -167,7 +167,7 @@ GtkWidget *create_messageopt_dialog(void)
 **************************************************************************/
 void messageopt_cancel_command_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy((GtkWidget *)data);
 }
 
@@ -178,7 +178,7 @@ void messageopt_ok_command_callback(GtkWidget *w, gpointer data)
 {
   int i, j;
 
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
 
   for(i=0;i<E_LAST;i++)  {
     messages_where[i] = 0;

@@ -81,6 +81,7 @@ int		single_tile_pixmap_width, single_tile_pixmap_height;
 
 GtkWidget *	drawing;
 GtkWidget *	toplevel;
+GtkWidget *	top_vbox;
 
 GdkGC *		civ_gc;
 GdkGC *		fill_bg_gc;
@@ -353,7 +354,6 @@ static void select_pixmap_callback(GtkWidget *w, GdkEvent *ev, int i)
 **************************************************************************/
 static void setup_widgets(void)
 {
-  GtkWidget	      *vbox;
   GtkWidget	      *hbox;
   GtkWidget	      *vbox1;
   GtkWidget           *avbox;
@@ -366,17 +366,17 @@ static void setup_widgets(void)
   GtkStyle	      *text_style;
   int		       i;
 
-  vbox = gtk_vbox_new( FALSE, 5 );
-  gtk_container_add( GTK_CONTAINER( toplevel ), vbox );
-  
-  setup_menus( toplevel, &menubar );
-  gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
-
   paned = gtk_vpaned_new();
-  gtk_box_pack_start( GTK_BOX( vbox ), paned, TRUE, TRUE, 0 );
+  gtk_container_add(GTK_CONTAINER(toplevel), paned);
 
-  hbox = gtk_hbox_new( FALSE, 0 );
-  gtk_paned_pack1(GTK_PANED(paned), hbox, TRUE, FALSE);
+  top_vbox = gtk_vbox_new(FALSE, 5);
+  gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
+  
+  setup_menus(top_vbox, &menubar);
+  gtk_box_pack_start(GTK_BOX(top_vbox), menubar, FALSE, FALSE, 0);
+
+  hbox = gtk_hbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(top_vbox), hbox, TRUE, FALSE, 0);
 
   vbox1 = gtk_vbox_new( FALSE, 3 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
@@ -623,7 +623,7 @@ static void setup_widgets(void)
       GTK_SIGNAL_FUNC(keyboard_handler), NULL);
 /*  gtk_key_snooper_install(keyboard_handler, NULL);*/
 
-  gtk_widget_show_all(vbox);
+  gtk_widget_show_all(paned);
   gtk_widget_hide(more_arrow_pixmap);
 }
 

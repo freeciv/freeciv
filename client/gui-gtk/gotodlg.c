@@ -82,7 +82,7 @@ void popup_goto_dialog(void)
 
   get_center_tile_mapcanvas(&original_x, &original_y);
   
-  gtk_widget_set_sensitive(toplevel, FALSE);
+  gtk_widget_set_sensitive(top_vbox, FALSE);
   
   goto_dialog_shell=gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(goto_dialog_shell), "delete_event",
@@ -212,7 +212,7 @@ static void update_goto_dialog(GtkWidget *goto_list)
 static void popdown_goto_dialog(void)
 {
   gtk_widget_destroy(goto_dialog_shell);
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
 }
 
 /**************************************************************************

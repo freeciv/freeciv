@@ -39,7 +39,7 @@ void inputline_return(GtkWidget *w, gpointer data)
 
   theinput = gtk_entry_get_text(GTK_ENTRY(w));
   
-  if(*theinput) {
+  if(GTK_WIDGET_STATE(top_vbox) != GTK_STATE_INSENSITIVE && *theinput) {
     mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
     send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
   }

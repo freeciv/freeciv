@@ -758,7 +758,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   refresh_city_dialog(pdialog->pcity);
 
   if(make_modal)
-    gtk_widget_set_sensitive(toplevel, FALSE);
+    gtk_widget_set_sensitive(top_vbox, FALSE);
   
   pdialog->is_modal=make_modal;
   gtk_widget_grab_default(pdialog->close_command);
@@ -2423,7 +2423,7 @@ static void close_city_dialog(struct city_dialog *pdialog)
   genlist_unlink(&dialog_list, pdialog);
 
   if(pdialog->is_modal)
-    gtk_widget_set_sensitive(toplevel, TRUE);
+    gtk_widget_set_sensitive(top_vbox, TRUE);
 
   if (pdialog->worklist_shell)
     gtk_widget_destroy(pdialog->worklist_shell);

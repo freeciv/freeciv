@@ -198,7 +198,7 @@ static void rates_ok_command_callback(GtkWidget *widget, gpointer data)
 {
   struct packet_player_request packet;
   
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(rates_dialog_shell);
 
   packet.tax=rates_tax_value;
@@ -213,7 +213,7 @@ static void rates_ok_command_callback(GtkWidget *widget, gpointer data)
 **************************************************************************/
 static void rates_cancel_command_callback(GtkWidget *widget, gpointer data)
 {
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(rates_dialog_shell);
 }
 
@@ -353,7 +353,7 @@ void popup_rates_dialog(void)
 {
     char buf[64];
 
-    gtk_widget_set_sensitive(toplevel, FALSE );
+    gtk_widget_set_sensitive(top_vbox, FALSE );
     create_rates_dialog();
 
     my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
@@ -390,7 +390,7 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
     }
   }
 
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(option_dialog_shell);
 }
 
@@ -480,5 +480,5 @@ void popup_option_dialog(void)
 
 /*  gtk_set_relative_position(toplevel, option_dialog_shell, 25, 25);*/
   gtk_widget_show(option_dialog_shell);
-  gtk_widget_set_sensitive(toplevel, FALSE);
+  gtk_widget_set_sensitive(top_vbox, FALSE);
 }

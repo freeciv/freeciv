@@ -143,7 +143,7 @@ static int connect_unit_y;
 static void notify_command_callback(GtkWidget *w, GtkWidget *t)
 {
   gtk_widget_destroy( t );
-  gtk_widget_set_sensitive( toplevel, TRUE );
+  gtk_widget_set_sensitive( top_vbox, TRUE );
 }
 
 /****************************************************************
@@ -151,7 +151,7 @@ static void notify_command_callback(GtkWidget *w, GtkWidget *t)
 *****************************************************************/
 gint deleted_callback(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-  gtk_widget_set_sensitive( toplevel, TRUE );
+  gtk_widget_set_sensitive( top_vbox, TRUE );
   return FALSE;
 }
 
@@ -219,7 +219,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_set_relative_position (toplevel, notify_dialog_shell, 10, 10);
   gtk_widget_show( notify_dialog_shell );
 
-  gtk_widget_set_sensitive( toplevel, FALSE );
+  gtk_widget_set_sensitive( top_vbox, FALSE );
 }
 
 /****************************************************************
@@ -285,21 +285,21 @@ static void notify_goto_command_callback(GtkWidget *w, gpointer data)
   notify_goto_widget_remove(w);
 
   gtk_widget_destroy(w->parent->parent->parent);
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
 }
 
 static void notify_no_goto_command_callback(GtkWidget *w, gpointer data)
 {
   notify_goto_widget_remove(w);
   gtk_widget_destroy(w->parent->parent->parent);
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
 }
 
 static gint notify_deleted_callback(GtkWidget *widget, GdkEvent *event,
 				    gpointer data)
 {
   notify_goto_widget_remove(widget);
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   return FALSE;
 }
 
@@ -345,7 +345,7 @@ void popup_notify_goto_dialog(char *headline, char *lines,int x, int y)
   gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->action_area );
   gtk_widget_show(notify_dialog_shell);
 
-  gtk_widget_set_sensitive(toplevel, FALSE);
+  gtk_widget_set_sensitive(top_vbox, FALSE);
 }
 
 
@@ -553,7 +553,7 @@ static void spy_close_tech_callback(GtkWidget *w, gpointer data)
 {
 
   if(spy_tech_shell_is_modal)
-     gtk_widget_set_sensitive(toplevel, TRUE);
+     gtk_widget_set_sensitive(top_vbox, TRUE);
    gtk_widget_destroy(spy_tech_shell);
    spy_tech_shell=0;
 
@@ -567,7 +567,7 @@ static void spy_close_sabotage_callback(GtkWidget *w, gpointer data)
 {
 
   if(spy_sabotage_shell_is_modal)
-     gtk_widget_set_sensitive(toplevel, TRUE);
+     gtk_widget_set_sensitive(top_vbox, TRUE);
    gtk_widget_destroy(spy_sabotage_shell);
    spy_sabotage_shell=0;
 
@@ -1270,7 +1270,7 @@ void popup_government_dialog(void)
   if(!is_showing_government_dialog) {
     is_showing_government_dialog=1;
   
-    gtk_widget_set_sensitive(toplevel, FALSE);
+    gtk_widget_set_sensitive(top_vbox, FALSE);
   
     dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
@@ -1391,7 +1391,7 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
     is_showing_pillage_dialog = TRUE;
     unit_to_use_to_pillage = punit->id;
 
-    gtk_widget_set_sensitive (toplevel, FALSE);
+    gtk_widget_set_sensitive (top_vbox, FALSE);
 
     dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
@@ -1490,7 +1490,7 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
   connect_unit_x = dest_x;
   connect_unit_y = dest_y;
 
-  gtk_widget_set_sensitive (toplevel, FALSE);
+  gtk_widget_set_sensitive (top_vbox, FALSE);
 
   dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
@@ -1644,7 +1644,7 @@ static void unit_select_all_callback(GtkWidget *w, gpointer data)
 {
   int i;
 
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(unit_select_dialog_shell);
   unit_select_dialog_shell=0;
   
@@ -1668,7 +1668,7 @@ static void unit_select_callback(GtkWidget *w, struct unit *punit)
     set_unit_focus(punit);
   }
 
-  gtk_widget_set_sensitive(toplevel, TRUE);
+  gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(unit_select_dialog_shell);
   unit_select_dialog_shell=0;
 }
@@ -1706,7 +1706,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   GtkWidget *unit_select_all_command, *unit_select_close_command;
 
   if (!unit_select_dialog_shell){
-  gtk_widget_set_sensitive(toplevel, FALSE);
+  gtk_widget_set_sensitive(top_vbox, FALSE);
 
   unit_select_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(unit_select_dialog_shell),"delete_event",
@@ -1799,7 +1799,7 @@ popup the dialog 10% inside the main-window
 *****************************************************************/
 void popup_races_dialog(void)
 {
-  gtk_widget_set_sensitive (toplevel, FALSE);
+  gtk_widget_set_sensitive (top_vbox, FALSE);
 
   create_races_dialog ();
 
@@ -1812,7 +1812,7 @@ void popup_races_dialog(void)
 void popdown_races_dialog(void)
 {
   if (races_dialog_shell) {
-    gtk_widget_set_sensitive (toplevel, TRUE);
+    gtk_widget_set_sensitive (top_vbox, TRUE);
     gtk_widget_destroy (races_dialog_shell);
     races_dialog_shell = NULL;
     g_list_free(sorted_races_list);
