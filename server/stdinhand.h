@@ -27,6 +27,8 @@ void set_ai_level_directer(struct player *pplayer, int level);
 void read_init_script(char *script_filename);
 void show_players(struct connection *caller);
 
+void quit_game(struct connection *caller);
+
 void toggle_ai_player_direct(struct connection *caller, struct player *subject);
 
 /* for sernet.c in initing a new connection */

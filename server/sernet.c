@@ -117,12 +117,18 @@ static int readline_handled_input = 0;
 *****************************************************************************/
 static void handle_readline_input_callback(char *line)
 {
-  if (line) {
-    if (*line)
-      add_history(line);
-    con_prompt_enter();		/* just got an 'Enter' hit */
-    handle_stdin_input((struct connection*)NULL, line);
+  if (!line) { /* This happens if you type an EOF character with
+		  nothing on the current line. */
+    printf("quit");
+    quit_game(NULL); /* Maybe print an 'are you sure?' message? */
   }
+
+  if (*line)
+    add_history(line);
+
+  con_prompt_enter();		/* just got an 'Enter' hit */
+  handle_stdin_input((struct connection*)NULL, line);
+
   readline_handled_input = 1;
 }
 

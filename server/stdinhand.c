@@ -64,7 +64,6 @@ static enum cmdlevel_id default_access_level = ALLOW_INFO;
 static enum cmdlevel_id   first_access_level = ALLOW_INFO;
 
 static void cut_client_connection(struct connection *caller, char *playername);
-static void quit_game(struct connection *caller);
 static void show_help(struct connection *caller, char *arg);
 static void show_list(struct connection *caller, char *arg);
 static void show_connections(struct connection *caller);
@@ -2768,7 +2767,7 @@ static void cut_client_connection(struct connection *caller, char *name)
 /**************************************************************************
 ...
 **************************************************************************/
-static void quit_game(struct connection *caller)
+void quit_game(struct connection *caller)
 {
   struct packet_generic_message gen_packet;
   gen_packet.message[0]='\0';
