@@ -74,7 +74,7 @@ void global_warming(int effect)
   freelog(LOG_NORMAL, "Global warming: %d", game.heating);
 
   k = map_num_tiles();
-  while(effect && k--) {
+  while(effect > 0 && (k--) > 0) {
     rand_map_pos(&x, &y);
     if (map_get_terrain(x, y) != T_OCEAN) {
       if (is_terrain_ecologically_wet(x, y)) {
@@ -130,7 +130,7 @@ void nuclear_winter(int effect)
   freelog(LOG_NORMAL, "Nuclear winter: %d", game.cooling);
 
   k = map_num_tiles();
-  while(effect && k--) {
+  while(effect > 0 && (k--) > 0) {
     rand_map_pos(&x, &y);
     if (map_get_terrain(x, y) != T_OCEAN) {
       switch (map_get_terrain(x, y)) {
@@ -387,7 +387,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
     info.special = ptile->special;
   }
   else if (map_get_known(x, y, pplayer)) {
-    if (map_get_seen(x, y, pplayer)) { /* known and seen */
+    if (map_get_seen(x, y, pplayer) != 0) { /* known and seen */
       update_tile_knowledge(pplayer,x,y); /* visible; update info */
       info.known = TILE_KNOWN;
     } else { /* known but not seen */
@@ -722,7 +722,7 @@ static void really_show_area(struct player *pplayer, int x, int y)
       send_city_info(pplayer, pcity);
     }
 
-    if (map_get_seen(x, y, pplayer)) {
+    if (map_get_seen(x, y, pplayer) != 0) {
       unit_list_iterate(map_get_tile(x, y)->units, punit)
 	send_unit_info(pplayer, punit);
       unit_list_iterate_end;
@@ -781,7 +781,7 @@ bool map_get_known_and_seen(int x, int y, struct player *pplayer)
   int offset = map_inx(x, y);
 
   return TEST_BIT((map.tiles + offset)->known, pplayer->player_no)
-      && (pplayer->private_map + offset)->seen;
+      && ((pplayer->private_map + offset)->seen != 0);
 }
 
 /***************************************************************
@@ -809,7 +809,7 @@ void map_change_seen(int x, int y, struct player *pplayer, int change)
 int map_get_own_seen(int x, int y, struct player *pplayer)
 {
   int own_seen = map_get_player_tile(x, y, pplayer)->own_seen;
-  if (own_seen)
+  if (own_seen != 0)
     assert(map_get_known(x, y, pplayer));
   return own_seen;
 }
@@ -1125,7 +1125,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 	       pplayer->username, pplayer2->username);
 	whole_map_iterate(x, y) {
 	  int change = map_get_own_seen(x, y, pplayer);
-	  if (change) {
+	  if (change != 0) {
 	    map_change_seen(x, y, pplayer2, change);
 	    if (map_get_seen(x, y, pplayer2) == change) {
 	      really_unfog_area(pplayer2, x, y);

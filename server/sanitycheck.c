@@ -36,11 +36,11 @@ static void check_specials(void)
     int special = map_get_special(x, y);
 
     if (contains_special(special, S_RAILROAD))
-      assert(special & S_ROAD);
+      assert(contains_special(special, S_ROAD));
     if (contains_special(special, S_FARMLAND))
-      assert(special & S_IRRIGATION);
+      assert(contains_special(special, S_IRRIGATION));
     if (contains_special(special, S_SPECIAL_1))
-      assert(!(special & S_SPECIAL_2));
+      assert(!contains_special(special,  S_SPECIAL_2));
 
     if (contains_special(special, S_MINE))
       assert(get_tile_type(terrain)->mining_result == terrain);
@@ -216,7 +216,7 @@ static void check_units(void) {
       assert(unit_owner(punit) == pplayer);
       assert(is_real_tile(x, y));
 
-      if (punit->homecity) {
+      if (punit->homecity != 0) {
 	pcity = player_find_city_by_id(pplayer, punit->homecity);
 	assert(pcity != NULL);
 	assert(city_owner(pcity) == pplayer);

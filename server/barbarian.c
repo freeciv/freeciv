@@ -180,7 +180,7 @@ bool unleash_barbarians(struct player* victim, int x, int y)
   int i, xu, yu, me;
   bool alive = TRUE;     /* explorer survived */
 
-  if(!game.barbarianrate || (game.year < game.onsetbarbarian)) {
+  if(game.barbarianrate == 0 || (game.year < game.onsetbarbarian)) {
     unit_list_iterate(map_get_tile(x, y)->units, punit) {
       wipe_unit_safe(punit, &myiter);
     } unit_list_iterate_end;
@@ -199,8 +199,8 @@ bool unleash_barbarians(struct player* victim, int x, int y)
   }
 
   adjc_iterate(x, y, x1, y1) {
-    land_cnt += is_free_land(x1, y1, barbarians);
-    sea_cnt += is_free_sea(x1, y1, barbarians);
+    land_cnt += is_free_land(x1, y1, barbarians) ? 1 : 0;
+    sea_cnt += is_free_sea(x1, y1, barbarians) ? 1 : 0;
   } adjc_iterate_end;
 
   if( land_cnt >= 3 ) {           /* enough land, scatter guys around */
@@ -403,7 +403,7 @@ void summon_barbarians(void)
 {
   int i, n;
 
-  if(!game.barbarianrate)
+  if(game.barbarianrate == 0)
     return;
 
   if(game.year < game.onsetbarbarian)

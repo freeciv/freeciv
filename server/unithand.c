@@ -85,7 +85,7 @@ void handle_unit_goto_tile(struct player *pplayer,
     /* Normally units on goto does not pick up extra units, even if
        the units are in a city and are sentried. But if we just started
        the goto We want to take them with us, so we do this. */
-    if (get_transporter_capacity(punit))
+    if (get_transporter_capacity(punit) > 0)
       assign_units_to_transporter(punit, TRUE);
 
     do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
@@ -733,8 +733,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   }
   if (unit_flag(punit, F_ONEATTACK)) 
     punit->moves_left = 0;
-  pwinner=(punit->hp) ?     punit : pdefender;
-  plooser=(pdefender->hp) ? punit : pdefender;
+  pwinner = (punit->hp > 0) ? punit : pdefender;
+  plooser = (pdefender->hp > 0) ? punit : pdefender;
     
   combat.attacker_unit_id=punit->id;
   combat.defender_unit_id=pdefender->id;
@@ -921,7 +921,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       && pcity
       && pcity->owner != punit->owner
       && !pplayers_allied(city_owner(pcity), unit_owner(punit))
-      && punit->homecity) {
+      && punit->homecity != 0) {
     struct packet_unit_request req;
     req.unit_id = punit->id;
     req.city_id = pcity->id;
@@ -1018,12 +1018,12 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
  
     /* This is for debugging only, and seems to be obsolete as the error message
        never appears */
-    if (pplayer->ai.control && punit->ai.passenger) {
+    if (pplayer->ai.control && punit->ai.passenger != 0) {
       struct unit *passenger;
       passenger = unit_list_find(&psrctile->units, punit->ai.passenger);
       if (passenger) {
  	/* removed what seemed like a very bad abort() -- JMC/jjm */
- 	if (!get_transporter_capacity(punit)) {
+ 	if (get_transporter_capacity(punit) == 0) {
  	  freelog(LOG_NORMAL, "%s#%d@(%d,%d) thinks %s#%d is a passenger?",
  		  unit_name(punit->type), punit->id, punit->x, punit->y,
  		  unit_name(passenger->type), passenger->id);
@@ -1062,7 +1062,7 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     if (pplayer->ai.control &&
  	punit->ai.bodyguard > 0 &&
  	(bodyguard = unit_list_find(&psrctile->units, punit->ai.bodyguard)) &&
- 	!bodyguard->moves_left) {
+ 	bodyguard->moves_left == 0) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
  		       _("Game: %s doesn't want to leave its bodyguard."),
  		       unit_type(punit)->name);
@@ -1284,7 +1284,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
   case ACTIVITY_IDLE:
     if (old_activity == ACTIVITY_PILLAGE) {
       int prereq = map_get_infrastructure_prerequisite(old_target);
-      if (prereq) {
+      if (prereq != 0) {
 	unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
 	  if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	      (punit2->activity_target == prereq)) {

@@ -388,7 +388,7 @@ static char *lookup_string(struct section_file *file, char *prefix,
   sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, suffix);
   if (sval) {
     sval = skip_leading_spaces(sval);
-    if (strlen(sval)) {
+    if (strlen(sval) > 0) {
       return mystrdup(sval);
     }
   }
@@ -410,7 +410,7 @@ static enum tile_terrain_type lookup_terrain(char *name, int tthis)
 {
   int i;
 
-  if ((!(*name)) || (0 == strcmp(name, "none")) || (0 == strcmp(name, "no")))
+  if (*name == '\0' || (0 == strcmp(name, "none")) || (0 == strcmp(name, "no")))
     {
       return (T_LAST);
     }
@@ -675,11 +675,11 @@ static void load_ruleset_units(struct section_file *file)
     u->transport_capacity =
       secfile_lookup_int(file,"%s.transport_cap", sec[i]);
     u->hp = secfile_lookup_int(file,"%s.hitpoints", sec[i]);
-    if( max_hp && u->hp > max_hp ) {
+    if (max_hp != 0 && u->hp > max_hp) {
       u->hp = max_hp;
     }
     u->firepower = secfile_lookup_int(file,"%s.firepower", sec[i]);
-    if( max_firepower && u->firepower > max_firepower ) {
+    if (max_firepower != 0 && u->firepower > max_firepower) {
       u->firepower = max_firepower;
     }
     if (u->firepower <= 0) {
@@ -1069,7 +1069,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
       item =
 	secfile_lookup_str_default(file, "", "%s.effect%d.cond_bldg", sec[i], j);
-      if (*item) {
+      if (*item != '\0') {
 	e->cond_bldg = find_improvement_by_name(item);
 	if (e->cond_bldg == B_LAST) {
 	  freelog(LOG_ERROR,
@@ -1083,7 +1083,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
       item =
 	secfile_lookup_str_default(file, "", "%s.effect%d.cond_gov", sec[i], j);
-      if (*item) {
+      if (*item != '\0') {
 	struct government *g = find_government_by_name(item);
 	if (!g) {
 	  freelog(LOG_ERROR,
@@ -1100,7 +1100,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
       item =
 	secfile_lookup_str_default(file, "None", "%s.effect%d.cond_adv", sec[i], j);
-      if (*item) {
+      if (*item != '\0') {
 	e->cond_adv = find_tech_by_name(item);
 	if (e->cond_adv == A_LAST) {
 	  freelog(LOG_ERROR,
@@ -1114,7 +1114,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
       item =
 	secfile_lookup_str_default(file, "", "%s.effect%d.cond_eff", sec[i], j);
-      if (*item) {
+      if (*item != '\0') {
 	e->cond_eff = effect_type_from_str(item);
 	if (e->cond_eff == EFT_LAST) {
 	  freelog(LOG_ERROR,
@@ -1128,7 +1128,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
       item =
 	secfile_lookup_str_default(file, "", "%s.effect%d.aff_unit", sec[i], j);
-      if (*item) {
+      if (*item != '\0') {
 	e->aff_unit = unit_class_from_str(item);
 	if (e->aff_unit == UCL_LAST) {
 	  freelog(LOG_ERROR,
@@ -1142,7 +1142,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
       item =
 	secfile_lookup_str_default(file, "", "%s.effect%d.aff_terr", sec[i], j);
-      if (*item) {
+      if (*item != '\0') {
 	if (0 == strcmp("None", item)) {
 	  e->aff_terr = T_LAST;
 	} else {
@@ -1161,7 +1161,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
       item =
 	secfile_lookup_str_default(file, "", "%s.effect%d.aff_spec", sec[i], j);
-      if (*item) {
+      if (*item != '\0') {
 	if (0 == strcmp("None", item)) {
 	  e->aff_spec = S_NO_SPECIAL;
 	} else {
@@ -1311,7 +1311,7 @@ static void load_ruleset_terrain(struct section_file *file)
   {
     char *s = secfile_lookup_str_default(file, NULL,
       "parameters.river_help_text");
-    terrain_control.river_help_text = (s && *s) ? mystrdup(s) : NULL;
+    terrain_control.river_help_text = (s && *s != '\0') ? mystrdup(s) : NULL;
   }
   terrain_control.fortress_defense_bonus =
     secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");

@@ -143,7 +143,7 @@ has ended.
 **************************************************************************/
 static void update_revolution(struct player *pplayer)
 {
-  if(pplayer->revolution) 
+  if(pplayer->revolution > 0) 
     pplayer->revolution--;
 }
 
@@ -221,7 +221,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
   plr->got_tech = TRUE;
   plr->research.techs_researched++;
-  was_first = !game.global_advances[tech_found];
+  was_first = (game.global_advances[tech_found] == 0);
 
   if (was_first) {
     gamelog(GAMELOG_TECH,_("%s are first to learn %s"),
@@ -230,7 +230,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     
     /* Alert the owners of any wonders that have been made obsolete */
     for (wonder = 0; wonder < game.num_impr_types; wonder++) {
-      if (game.global_wonders[wonder] && is_wonder(wonder) &&
+      if (game.global_wonders[wonder] != 0 && is_wonder(wonder) &&
 	  improvement_types[wonder].obsolete_by == tech_found &&
 	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {
 	notify_player_ex(city_owner(pcity), -1, -1, E_WONDER_OBSOLETE,
@@ -283,7 +283,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
     saved_bulbs = plr->research.bulbs_researched;
 
-    if (choose_goal_tech(plr)) {
+    if (choose_goal_tech(plr) != 0) {
       notify_player(plr, 
 		    _("Game: Learned %s.  "
 		      "Our scientists focus on %s, goal is %s."),
@@ -403,7 +403,7 @@ int choose_goal_tech(struct player *plr)
     ai_next_tech_goal(plr); /* tech-AI has been changed */
     sub_goal = get_next_tech(plr, plr->ai.tech_goal); /* should be changed */
   } else sub_goal = get_next_tech(plr, plr->ai.tech_goal);
-  if (!sub_goal) {
+  if (sub_goal == 0) {
     if (plr->ai.control || plr->research.techs_researched == 1) {
       ai_next_tech_goal(plr);
       sub_goal = get_next_tech(plr, plr->ai.tech_goal);
@@ -412,7 +412,7 @@ int choose_goal_tech(struct player *plr)
     }
   }
 
-  if (sub_goal) {
+  if (sub_goal != 0) {
     plr->research.researching=sub_goal;
   }   
   return sub_goal;
@@ -444,7 +444,7 @@ void choose_random_tech(struct player *plr)
   for (i = 0; i < game.num_tech_types; i++) {
     if (get_invention(plr, i) == TECH_REACHABLE) {
       choosen--;
-      if (!choosen) {
+      if (choosen == 0) {
 	break;
       }
     }
@@ -547,7 +547,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
       j++;
     }
   }
-  if (!j)  {
+  if (j == 0)  {
     if (target->future_tech > pplayer->future_tech) {
       found_new_future_tech(pplayer);
 
@@ -568,7 +568,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     if (get_invention(pplayer, i)!=TECH_KNOWN && 
 	get_invention(target, i)== TECH_KNOWN) 
       j--;
-    if (!j) break;
+    if (j == 0) break;
   }
   if (i==game.num_tech_types) {
     freelog(LOG_ERROR, "Bug in get_a_tech");
@@ -813,7 +813,7 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   }
 
   /* if there's a reason to cancel the pact, do it without penalty */
-  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel) {
+  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
     pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
     if (has_senate)
       notify_player(pplayer, _("The senate passes your bill because of the "
@@ -1141,7 +1141,7 @@ static void package_player_info(struct player *plr,
     packet->techs_researched= plr->research.techs_researched;
     packet->researching     = plr->research.researching;
     packet->future_tech     = plr->future_tech;
-    if (plr->revolution)
+    if (plr->revolution != 0)
       packet->revolution    = 1;
     else
       packet->revolution    = 0;
@@ -1677,7 +1677,12 @@ bool civil_war_triggered(struct player *pplayer)
   /* Now compute the contribution of the cities. */
   
   city_list_iterate(pplayer->cities, pcity)
-    prob += city_unhappy(pcity) * 5 - city_celebrating(pcity) * 5;
+    if (city_unhappy(pcity)) {
+      prob += 5;
+    }
+    if (city_celebrating(pcity)) {
+      prob -= 5;
+    }
   city_list_iterate_end;
 
   freelog(LOG_VERBOSE, "Civil war chance for %s: prob %d, dice %d",
@@ -1745,7 +1750,7 @@ void civil_war(struct player *pplayer)
   j = city_list_size(&pplayer->cities);	    /* number left to process */
   city_list_iterate(pplayer->cities, pcity) {
     if (!city_got_building(pcity, B_PALACE)) {
-      if (i >= j || (i > 0 && myrand(2))) {
+      if (i >= j || (i > 0 && myrand(2) == 1)) {
 	/* Transfer city and units supported by this city to the new owner
 
 	 We do NOT resolve stack conflicts here, but rather later.

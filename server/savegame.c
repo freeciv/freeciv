@@ -715,7 +715,7 @@ static void player_load(struct player *plr, int plrno,
       ship->life_support = secfile_lookup_int(file, "%s.life_support", prefix);
       ship->solar_panels = secfile_lookup_int(file, "%s.solar_panels", prefix);
       st = secfile_lookup_str(file, "%s.structure", prefix);
-      for(i=0; i<NUM_SS_STRUCTURALS && *st; i++, st++) {
+      for(i=0; i<NUM_SS_STRUCTURALS && *st != '\0'; i++, st++) {
 	ship->structure[i] = ((*st) == '1');
       }
       if (ship->state >= SSHIP_LAUNCHED) {
@@ -890,7 +890,7 @@ static void player_load(struct player *plr, int plrno,
     ceff_vector_init(&pcity->effects);
 
     for(x=0; x<game.num_impr_types; x++) {
-      if (*p && *p++=='1') {
+      if (*p != '\0' && *p++=='1') {
         city_add_improvement(pcity,x);
       }
     }
@@ -1005,7 +1005,7 @@ static void player_load(struct player *plr, int plrno,
 	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_x", plrno, i);
 	goto_buf_ptr = goto_buf;
 	for (j = 0; j < len; j++) {
-	  if (!sscanf(goto_buf_ptr, "%d", &pgr->pos[j].x))
+	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].x) == 0)
 	    abort();
 	  while (*goto_buf_ptr != ',') {
 	    goto_buf_ptr++;
@@ -1018,7 +1018,7 @@ static void player_load(struct player *plr, int plrno,
 	goto_buf = secfile_lookup_str(file, "player%d.u%d.goto_route_y", plrno, i);
 	goto_buf_ptr = goto_buf;
 	for (j = 0; j < len; j++) {
-	  if (!sscanf(goto_buf_ptr, "%d", &pgr->pos[j].y))
+	  if (sscanf(goto_buf_ptr, "%d", &pgr->pos[j].y) == 0)
 	    abort();
 	  while (*goto_buf_ptr != ',') {
 	    goto_buf_ptr++;
@@ -1491,7 +1491,7 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.c%d.currently_building", plrno, i);
 
     for(j=0; j<game.num_impr_types; j++)
-      buf[j]=(pcity->improvements[j]) ? '1' : '0';
+      buf[j]=(pcity->improvements[j] != I_NONE) ? '1' : '0';
     buf[j]='\0';
     secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
 
@@ -1962,7 +1962,7 @@ void game_load(struct section_file *file)
     set_myrand_state(rstate);
   } else {
     /* mark it */
-    secfile_lookup_int_default(file, TRUE, "game.save_random");
+    secfile_lookup_bool_default(file, TRUE, "game.save_random");
   }
 
 
@@ -1984,7 +1984,7 @@ void game_load(struct section_file *file)
   if (!game.is_new_game && game.load_options.load_players) {
     /* destroyed wonders: */
     string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
-    for(i=0; i<game.num_impr_types && string[i]; i++) {
+    for (i = 0; i < game.num_impr_types && string[i] != '\0'; i++) {
       if (string[i] == '1') {
 	game.global_wonders[i] = -1; /* destroyed! */
       }

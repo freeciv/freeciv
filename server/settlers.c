@@ -91,14 +91,14 @@ int amortize(int benefit, int delay)
   int s = 1;
   assert(delay >= 0);
   if (benefit < 0) { s = -1; benefit *= s; }
-  while (delay && benefit) {
+  while (delay > 0 && benefit != 0) {
     denom = 1;
-    while (delay >= 12 && !(benefit>>28) && !(denom>>27)) {
+    while (delay >= 12 && (benefit >> 28) == 0 && (denom >> 27) == 0) {
       benefit *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
       denom *= 5;      /* as long as MORT remains 24! -- Syela */
       delay -= 12;
     }
-    while (!(benefit>>25) && delay && !(denom>>25)) {
+    while ((benefit >> 25) == 0 && delay > 0 && (denom >> 25) == 0) {
       benefit *= num;
       denom *= MORT;
       delay--;
@@ -235,7 +235,7 @@ static int city_desirability(struct player *pplayer, int x, int y)
 /* all of these kluges are hardcoded amortize calls to save much CPU use -- Syela */
       } else if (ptile->terrain == T_OCEAN && har) food[i][j] += MORT; /* harbor */
       shield[i][j] = get_tile_shield_base(ptile) * sh;
-      if (is_city_center(i, j) && !shield[i][j]) {
+      if (is_city_center(i, j) && shield[i][j] == 0) {
 	shield[i][j] = sh;
       }
       if (ptile->terrain == T_OCEAN && har) shield[i][j] += sh;
@@ -256,8 +256,8 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
         else if (con2 == con)
           road[i][j] = t * ptype->road_trade_incr - 70; /* KLUGE */ /* actualy exactly 70 1/2 */
       }
-      if (trade[i][j]) trade[i][j] += t;
-      else if (road[i][j]) road[i][j] += t;
+      if (trade[i][j] != 0) trade[i][j] += t;
+      else if (road[i][j] != 0) road[i][j] += t;
     }
   }
   city_map_checked_iterate_end;
@@ -275,7 +275,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
 	jj = j;
       }
     } city_map_iterate_end;
-    if (!best) return(0);
+    if (best == 0) return(0);
     val = (shield[ii][jj] + mine[ii][jj]) +
           (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
           (trade[ii][jj] + road[ii][jj]);
@@ -288,7 +288,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
   }
 
   f = food[2][2] + irrig[2][2];
-  if (!f) return(0); /* no starving cities, thank you! -- Syela */
+  if (f == 0) return(0); /* no starving cities, thank you! -- Syela */
   val = f * FOOD_WEIGHTING + /* this needs to be here, strange as it seems */
           (shield[2][2] + mine[2][2]) +
           (trade[2][2] + road[2][2]);
@@ -307,13 +307,13 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
 		     x, y, val, har, f);
 
   for (n = 1; n <= 20 && f > 0; n++) {
-    for (a = 1; a; a--) {
+    for (a = 1; a > 0; a--) {
       best = 0; worst = -1; b2 = 0; i0 = 0; j0 = 0; ii = 0; jj = 0;
       city_map_iterate(i, j) {
         cur = (food[i][j]) * food_weighting(n) + /* ignoring irrig on purpose */
               (shield[i][j] + mine[i][j]) +
               (trade[i][j] + road[i][j]);
-	if (!taken[i][j]) {
+	if (taken[i][j] == 0) {
 	  if (cur > best) {
 	    b2 = best;
 	    best = cur;
@@ -328,7 +328,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
 	  j0 = j;
 	}
       } city_map_iterate_end;
-      if (!best) break;
+      if (best == 0) break;
       cur = amortize((shield[ii][jj] + mine[ii][jj]) +
             (food[ii][jj] + irrig[ii][jj]) * FOOD_WEIGHTING + /* seems to be needed */
             (trade[ii][jj] + road[ii][jj]), d);
@@ -366,7 +366,7 @@ get this EXACTLY right instead of just reasonably close. -- Syela */
 	}
       }
     }
-    if (!best) break;
+    if (best == 0) break;
     if (f > 0) d += (game.foodbox * MORT * n + (f*g) - 1) / (f*g);
     if (n == 4) {
       val -= amortize(40 * SHIELD_WEIGHTING + (50 - 20 * g) * FOOD_WEIGHTING, d); /* lers */
@@ -655,12 +655,12 @@ static int road_bonus(int x, int y, int spc)
       rd[k] = FALSE;
     } else {
       ptile = map_get_tile(x1, y1);
-      rd[k] = ptile->special&spc;
+      rd[k] = tile_has_special(ptile, spc);
       te[k] = (ptile->terrain == T_MOUNTAINS || ptile->terrain == T_OCEAN);
       if (!rd[k]) {
 	unit_list_iterate(ptile->units, punit)
 	  if (punit->activity == ACTIVITY_ROAD || punit->activity == ACTIVITY_RAILROAD)
-	    rd[k] = spc;
+	    rd[k] = TRUE;
 	unit_list_iterate_end;
       }
     }
@@ -816,7 +816,7 @@ int find_boat(struct player *pplayer, int *x, int *y, int cap)
       }
     }
   unit_list_iterate_end;
-  if (id) return(id);
+  if (id != 0) return(id);
 #ifdef ALLOW_VIRTUAL_BOATS
   city_list_iterate(pplayer->cities, pcity)
     if (pcity->is_building_unit &&
@@ -893,7 +893,7 @@ static int unit_food_cost(struct unit *punit)
 {
   int cost;
 
-  if (punit->id) {
+  if (punit->id != 0) {
     cost = 30;
   } else {
     /* It is a virtuel unit, so must start in a city... */
@@ -914,7 +914,7 @@ static int unit_food_upkeep(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   int upkeep = utype_food_cost(unit_type(punit),
 			       get_gov_pplayer(pplayer));
-  if (punit->id && !punit->homecity)
+  if (punit->id != 0 && punit->homecity == 0)
     upkeep = 0; /* thanks, Peter */
 
   return upkeep;
@@ -990,13 +990,13 @@ static int evaluate_city_building(struct unit *punit,
 	/* for Rome->Carthage */
 	if (!is_terrain_near_tile(x, y, T_OCEAN)) {
 	  mv_cost = 9999;
-	} else if (boatid) {
-	  if (!punit->id && mycity->id == boatid) {
+	} else if (boatid != 0) {
+	  if (punit->id == 0 && mycity->id == boatid) {
 	    w_virtual = TRUE;
 	  }
 	  mv_cost = warmap.cost[bx][by] + real_map_distance(bx, by, x, y)
 	    + mv_rate; 
-	} else if (punit->id ||
+	} else if (punit->id != 0 ||
 		   !is_terrain_near_tile(mycity->x, mycity->y, T_OCEAN)) {
 	  mv_cost = 9999;
 	} else {
@@ -1014,7 +1014,7 @@ static int evaluate_city_building(struct unit *punit,
 	 build a city at Y */
       d *= 2;
       /* and then build its NEXT city halfway between X and Y. -- Syela */
-      b = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer, TRUE);
+      b = city_desirability(pplayer, x, y) * (ai_fuzzy(pplayer, TRUE) ? 1 : 0);
       newv = amortize(b, d);
 
       b = (food_upkeep * FOOD_WEIGHTING) * MORT;
@@ -1024,7 +1024,7 @@ static int evaluate_city_building(struct unit *punit,
       /* newv is now the value over mort turns */
       newv = (newv * 100) / MORT / ((w_virtual ? 80 : 40) + food_cost);
 
-      if (best_newv && map_get_city(x, y)) newv = 0;
+      if (best_newv != 0 && map_get_city(x, y)) newv = 0;
 	  
       /* I added a line to discourage settling in existing cities, but it was
 	 inadequate.  It may be true that in the short-term building infrastructure
@@ -1046,7 +1046,7 @@ static int evaluate_city_building(struct unit *punit,
       if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
 	freelog(LOG_DEBUG,
 		"%s @(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d", 
-		(punit->id ? unit_type(punit)->name : mycity->name), 
+		(punit->id != 0 ? unit_type(punit)->name : mycity->name), 
 		punit->x, punit->y, x, y, b, newv, d);
       } else if (newv > best_newv) {
 	best_newv = newv;
@@ -1220,8 +1220,8 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 	|| (ferryboat
 	    && goto_is_sane(ferryboat, gx, gy, TRUE)
 	    && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
-		|| !could_unit_move_to_tile(punit, punit->x, punit->y,
-					    gx, gy)))) {
+		|| could_unit_move_to_tile(punit, punit->x, punit->y,
+					    gx, gy) == 0))) {
       int x, y;
       punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1); /* might need 2 */
       freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
@@ -1234,7 +1234,7 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 				 punit->ai.ferryboat);
       punit->goto_dest_x = gx;
       punit->goto_dest_y = gy;
-      if (ferryboat && (!ferryboat->ai.passenger
+      if (ferryboat && (ferryboat->ai.passenger == 0
 			|| ferryboat->ai.passenger == punit->id)) {
 	freelog(LOG_DEBUG,
 		"We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).",
@@ -1251,7 +1251,7 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 	&& (!ferryboat
 	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		&& could_unit_move_to_tile(punit, punit->x, punit->y,
-					   gx, gy)))) {
+					   gx, gy) != 0))) {
       auto_settler_do_goto(pplayer, punit, gx, gy);
       if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
       punit->ai.ferryboat = 0;
@@ -1459,7 +1459,7 @@ static void assign_settlers(void)
 static void assign_region(int x, int y, int player_no, int distance, int s)
 {
   square_iterate(x, y, distance, x1, y1) {
-    if (!s || is_terrain_near_tile(x1, y1, T_OCEAN))
+    if (s == 0 || is_terrain_near_tile(x1, y1, T_OCEAN))
       territory[x1][y1] &= (1<<player_no);
   } square_iterate_end;
 }
@@ -1471,7 +1471,7 @@ static void assign_territory_player(struct player *pplayer)
 {
   int n = pplayer->player_no;
   unit_list_iterate(pplayer->units, punit)
-    if (unit_type(punit)->attack_strength) {
+    if (unit_type(punit)->attack_strength != 0) {
 /* I could argue that phalanxes aren't really a threat, but ... */
       if (is_sailing_unit(punit)) {
         assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 1);

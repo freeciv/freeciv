@@ -81,15 +81,15 @@ void handle_city_change_specialist(struct player *pplayer,
     if(pcity->size<5) 
       return; 
 
-    if(!pcity->ppl_elvis)
+    if(pcity->ppl_elvis == 0)
       return;
     pcity->ppl_elvis--;
   } else if(preq->specialist_from==SP_TAXMAN) {
-    if (!pcity->ppl_taxman)
+    if (pcity->ppl_taxman == 0)
       return;
     pcity->ppl_taxman--;
   } else if (preq->specialist_from==SP_SCIENTIST) {
-    if (!pcity->ppl_scientist)
+    if (pcity->ppl_scientist == 0)
       return;
     pcity->ppl_scientist--;
   } else {
@@ -164,15 +164,15 @@ void handle_city_make_worker(struct player *pplayer,
     return;
   }
 
-  if (!city_specialists(pcity)
+  if (city_specialists(pcity) == 0
       || get_worker_city(pcity, preq->worker_x, preq->worker_y) != C_TILE_EMPTY)
     return;
 
   server_set_worker_city(pcity, preq->worker_x, preq->worker_y);
 
-  if (pcity->ppl_elvis) 
+  if (pcity->ppl_elvis > 0) 
     pcity->ppl_elvis--;
-  else if (pcity->ppl_scientist) 
+  else if (pcity->ppl_scientist > 0) 
     pcity->ppl_scientist--;
   else 
     pcity->ppl_taxman--;
@@ -250,7 +250,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if (pcity->is_building_unit && pcity->anarchy) {
+  if (pcity->is_building_unit && pcity->anarchy != 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     _("Game: Can't buy units when city is in disorder."));
     return;
@@ -264,7 +264,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     total=improvement_value(pcity->currently_building);
   }
   cost=city_buy_cost(pcity);
-  if ((!cost) || (cost>pplayer->economic.gold))
+  if (cost == 0 || cost > pplayer->economic.gold)
    return;
 
   /*
@@ -334,7 +334,7 @@ void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
 **************************************************************************/
 void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *preq)
 {
-  if (preq->value) {
+  if (preq->value != 0) {
     struct city *pcity = find_city_by_id(preq->value);
 
     if (!pcity) 

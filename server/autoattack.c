@@ -111,7 +111,7 @@ static struct unit *search_best_target(struct player *pplayer,
      *  perhaps there is a better algorithm in the ai-package -- fisch
      */
     score = (unit_type(enemy)->defense_strength + (enemy->hp / 2)
-	     + (get_transporter_capacity(enemy) ? 1 : 0));
+	     + (get_transporter_capacity(enemy) > 0 ? 1 : 0));
 
     if(!best_enemy || score >= best_score) {
       best_score = score;
@@ -212,7 +212,7 @@ static void auto_attack_player(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     /* fasten things up -- fisch */
     if ((pcity->city_options & CITYOPT_AUTOATTACK_BITS) != 0
-	&& !pcity->anarchy) {
+	&& pcity->anarchy == 0) {
       auto_attack_city(pplayer, pcity);
     }
   }

@@ -380,7 +380,7 @@ static void begin_turn(void)
 {
   /* See if the value of fog of war has changed */
   if (game.fogofwar != game.fogofwar_old) {
-    if (game.fogofwar == 1) {
+    if (game.fogofwar) {
       enable_fog_of_war();
       game.fogofwar_old = TRUE;
     } else {
@@ -592,7 +592,7 @@ void alloc_id(int id)
 
 int get_next_id_number(void)
 {
-  while(is_id_allocated(++global_id_counter) || !global_id_counter) ;
+  while(is_id_allocated(++global_id_counter) || global_id_counter == 0) ;
   return global_id_counter;
 }
 
@@ -872,7 +872,7 @@ bool handle_packet_input(struct connection *pconn, char *packet, int type)
 static bool check_for_full_turn_done(void)
 {
   /* fixedlength is only applicable if we have a timeout set */
-  if (game.fixedlength && game.timeout)
+  if (game.fixedlength && game.timeout != 0)
     return FALSE;
 
   players_iterate(pplayer) {
@@ -1518,7 +1518,7 @@ static void generate_ai_players(void)
       pplayer->nation =
 	mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
       pplayer->city_style = get_nation_city_style(pplayer->nation);
-      pplayer->is_male = myrand(2);
+      pplayer->is_male = (myrand(2) == 1);
     }
 
     announce_ai_player(pplayer);
@@ -1564,7 +1564,7 @@ static void generate_ai_players(void)
     if (check_nation_leader_name(nation, player_name)) {
       pplayer->is_male = get_nation_leader_sex(nation, player_name);
     } else {
-      pplayer->is_male = myrand(2);
+      pplayer->is_male = (myrand(2) == 1);
     }
     announce_ai_player(pplayer);
     set_ai_level_direct(pplayer, pplayer->ai.skill_level);
@@ -1894,7 +1894,7 @@ main_start_players:
     }
   }
 
-  if(!game.randseed) {
+  if(game.randseed == 0) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
     game.randseed = time(NULL) & (MAX_UINT32 >> 1);

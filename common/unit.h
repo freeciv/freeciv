@@ -153,7 +153,7 @@ struct unit {
 #define unit_list_iterate_safe(unitlist, punit) \
 { \
   int _size = unit_list_size(&unitlist); \
-  if (_size) { \
+  if (_size > 0) { \
     int *_ids = fc_malloc(sizeof(int) * _size); \
     int _i = 0; \
     unit_list_iterate(unitlist, punit) { \

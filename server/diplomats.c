@@ -565,7 +565,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "steal-tech: count of technologies: %d", count);
 
   /* Determine the target (-1 is future tech). */
-  if (!count) {
+  if (count == 0) {
     /*
      * Either only future-tech or nothing to steal:
      * If nothing to steal, say so, deduct movement cost and return.
@@ -911,7 +911,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * Won't pick something that doesn't exit.
      * If nothing to do, say so, deduct movement cost and return.
      */
-    if (!count && (!(pcity->shield_stock))) {
+    if (count == 0 && pcity->shield_stock == 0) {
       notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 			_("Game: Your %s could not find anything to"
 			  " sabotage in %s."), 
@@ -921,7 +921,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       freelog (LOG_DEBUG, "sabotage: random: nothing to do");
       return;
     }
-    if (!count || myrand (2)) {
+    if (count == 0 || myrand (2) == 1) {
       target = -1;
       freelog (LOG_DEBUG, "sabotage: random: targeted production: %d", target);
     } else {
@@ -1009,7 +1009,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      */
     capital = find_palace (city_owner (pcity));
     if ((pcity == capital) || (improvement == B_CITY)) {
-      if (myrand (2)) {
+      if (myrand (2) == 1) {
 	/* Caught! */
 	notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 			  _("Game: Your %s was caught in the attempt"
@@ -1346,7 +1346,7 @@ int unit_bribe_cost(struct unit *punit)
   }
   else
     dist=32;
-  if (g->fixed_corruption_distance)
+  if (g->fixed_corruption_distance != 0)
     dist = MIN(g->fixed_corruption_distance, dist);
   cost=(cost/(dist+2))*(unit_type(punit)->build_cost/10);
   /* FIXME: This is a weird one - should be replaced */

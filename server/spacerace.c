@@ -83,10 +83,10 @@ void spaceship_calc_derived(struct player_spaceship *ship)
 
   ship->population = habitation * 10000;
 
-  if (habitation) {
+  if (habitation > 0) {
     ship->support_rate = life_support / (double) habitation;
   }
-  if (life_support+habitation) {
+  if (life_support + habitation > 0) {
     ship->energy_rate = 2.0 * solar_panels / (double)(life_support+habitation);
   }
   if (fuel>0 && propulsion>0) {

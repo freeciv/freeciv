@@ -108,7 +108,7 @@ void meta_addr_split(void)
 
   if ((metaserver_port_separator = strchr(srvarg.metaserver_addr,':'))) {
     metaserver_port_separator[0] = '\0';
-    if ((specified_port=atoi(&metaserver_port_separator[1]))) {
+    if ((specified_port=atoi(&metaserver_port_separator[1])) != 0) {
       srvarg.metaserver_port = (unsigned short int)specified_port;
     }
   }

@@ -235,7 +235,7 @@ void send_game_info(struct conn_list *dest)
     ginfo.global_wonders[i] = game.global_wonders[i];
   /* the following values are computed every
      time a packet_game_info packet is created */
-  if (game.timeout)
+  if (game.timeout != 0)
     ginfo.seconds_to_turndone =
 	game.turn_start + game.timeout - time(NULL);
 

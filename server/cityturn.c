@@ -205,13 +205,13 @@ static void worker_loop(struct city *pcity, int *foodneed,
 	}
       }
     } city_map_iterate_outwards_end;
-    if (bx || by) {
+    if (bx != 0 || by != 0) {
       server_set_worker_city(pcity, bx, by);
       (*workers)--; /* amazing what this did with no parens! -- Syela */
       *foodneed -= city_get_food_tile(bx,by,pcity) - 2;
       *prodneed -= city_get_shields_tile(bx,by,pcity) - 1;
     }
-  } while(*workers && (bx || by));
+  } while(*workers != 0 && (bx != 0 || by != 0));
   *foodneed += 2 * (*workers - 1 - e);
   *prodneed += (*workers - 1 - e);
   if (*prodneed > 0) {
@@ -295,13 +295,13 @@ void auto_arrange_workers(struct city *pcity)
 
   worker_loop(pcity, &foodneed, &prodneed, &workers);
 
-  while (workers && (taxwanted ||sciwanted)) {
-    if (taxwanted) {
+  while (workers > 0 && (taxwanted > 0 || sciwanted > 0)) {
+    if (taxwanted > 0) {
       workers--;
       pcity->ppl_taxman++;
       taxwanted--;
     } 
-    if (sciwanted && workers) {
+    if (sciwanted > 0 && workers > 0) {
       workers--;
       pcity->ppl_scientist++;
       sciwanted--;
@@ -441,13 +441,13 @@ void city_reduce_size(struct city *pcity, int pop_loss)
     pcity->food_stock = city_granary_size(pcity->size);
   }
 
-  while (pop_loss > 0 && city_specialists(pcity)) {
-    if(pcity->ppl_taxman) {
+  while (pop_loss > 0 && city_specialists(pcity) > 0) {
+    if(pcity->ppl_taxman > 0) {
       pcity->ppl_taxman--;
-    } else if(pcity->ppl_scientist) {
+    } else if(pcity->ppl_scientist > 0) {
       pcity->ppl_scientist--;
     } else {
-      assert(pcity->ppl_elvis);
+      assert(pcity->ppl_elvis > 0);
       pcity->ppl_elvis--; 
     }
     pop_loss--;
@@ -488,7 +488,7 @@ void city_increase_size(struct city *pcity)
     }
     /* Granary can only hold so much */
     new_food = (city_granary_size(pcity->size) *
-		(100 - game.aqueductloss/(1+has_granary))) / 100;
+		(100 - game.aqueductloss / (1 + (has_granary ? 1 : 0)))) / 100;
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
   }
@@ -507,7 +507,7 @@ void city_increase_size(struct city *pcity)
     }
     /* Granary can only hold so much */
     new_food = (city_granary_size(pcity->size) *
-		(100 - game.aqueductloss/(1+has_granary))) / 100;
+		(100 - game.aqueductloss / (1 + (has_granary ? 1 : 0)))) / 100;
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
   }
@@ -882,7 +882,7 @@ static void city_distribute_surplus_shields(struct player *pplayer,
 
   while (pcity->shield_surplus < 0) {
     unit_list_iterate(pcity->units_supported, punit) {
-      if (utype_shield_cost(unit_type(punit), g)) {
+      if (utype_shield_cost(unit_type(punit), g) > 0) {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, unit_type(punit)->name);
@@ -1112,8 +1112,8 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 static void check_pollution(struct city *pcity)
 {
   int k=100;
-  if (pcity->pollution && myrand(100)<=pcity->pollution) {
-    while (k) {
+  if (pcity->pollution != 0 && myrand(100) <= pcity->pollution) {
+    while (k > 0) {
       /* place pollution somewhere in city radius */
       int cx = myrand(CITY_MAP_SIZE);
       int cy = myrand(CITY_MAP_SIZE);
@@ -1185,7 +1185,7 @@ void city_incite_cost(struct city *pcity)
       dist=32;
     if (city_got_building(pcity, B_COURTHOUSE)) 
       dist/=2;
-    if (g->fixed_corruption_distance)
+    if (g->fixed_corruption_distance != 0)
       dist = MIN(g->fixed_corruption_distance, dist);
     pcity->incite_revolt_cost/=(dist + 3);
     pcity->incite_revolt_cost*=pcity->size;
@@ -1246,7 +1246,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
   /* the AI often has widespread disorder when the Gardens or Oracle
      become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
   while (pplayer->ai.control && city_unhappy(pcity)) {
-    if (!ai_make_elvis(pcity)) break;
+    if (ai_make_elvis(pcity) == 0) break;
   } /* putting this lower in the routine would basically be cheating. -- Syela */
 
   /* reporting of celebrations rewritten, copying the treatment of disorder below,
@@ -1262,7 +1262,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 			 pcity->name);
     }
     else {
-      if (pcity->rapture)
+      if (pcity->rapture != 0)
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
 			 _("Game: We Love The %s Day canceled in %s."),
 			 get_ruler_title(pplayer->government, pplayer->is_male,
@@ -1303,7 +1303,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 			 pcity->name);
     }
     else {
-      if (pcity->anarchy)
+      if (pcity->anarchy != 0)
         notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
 	  	         _("Game: Order restored in %s."), pcity->name);
       pcity->anarchy=0;

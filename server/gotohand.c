@@ -333,7 +333,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_type(punit)->move_rate);
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
-	  move_cost = (ptile->move_cost[dir] ? SINGLE_MOVE : 0);
+	  move_cost = (ptile->move_cost[dir] != 0 ? SINGLE_MOVE : 0);
         else if (punit)
 	  move_cost = MIN(ptile->move_cost[dir], unit_type(punit)->move_rate);
 	/* else c = ptile->move_cost[k]; 
@@ -661,7 +661,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? 1 : MIN(base_cost, unit_type(punit)->move_rate);
 	} else if (igter)
-	  move_cost = (psrctile->move_cost[dir] ? SINGLE_MOVE : 0);
+	  move_cost = (psrctile->move_cost[dir] != 0 ? SINGLE_MOVE : 0);
 	else
 	  move_cost = MIN(psrctile->move_cost[dir], unit_type(punit)->move_rate);
 
@@ -1107,7 +1107,7 @@ static int find_a_direction(struct unit *punit,
 	    }
 
 	    attack_of_enemy = get_attack_power(aunit);
-	    if (!attack_of_enemy) {
+	    if (attack_of_enemy == 0) {
 	      continue;
 	    }
 	    
@@ -1145,7 +1145,7 @@ static int find_a_direction(struct unit *punit,
      * Clip the fitness value.
      */
     if (fitness[dir] < 1 && (!unit_owner(punit)->ai.control
-                     || !punit->ai.passenger 
+                     || punit->ai.passenger == 0
                      || punit->moves_left >= 2 * SINGLE_MOVE)) {
       fitness[dir] = 1;
     }

@@ -163,7 +163,7 @@ void handle_chat_msg(struct connection *pconn,
   genmsg.x = -1;
   genmsg.y = -1;
   genmsg.event =-1;
-  for(cp=packet->message; *cp; ++cp)
+  for (cp = packet->message; *cp != '\0'; ++cp)
     if(!isprint(*cp & 0x7f)) {
       *cp='\0';
       break;

@@ -958,7 +958,7 @@ static PlayerNameStatus test_player_name(char* name)
 {
   int len = strlen(name);
 
-  if (!len) {
+  if (len == 0) {
       return PNameEmpty;
   } else if (len > MAX_LEN_NAME-1) {
       return PNameTooLong;
@@ -1597,7 +1597,7 @@ static void metaconnection_command(struct connection *caller, char *arg)
 static void metainfo_command(struct connection *caller, char *arg)
 {
   sz_strlcpy(srvarg.metaserver_info_line, arg);
-  if (send_server_info_to_metaserver(TRUE, FALSE) == 0) {
+  if (!send_server_info_to_metaserver(TRUE, FALSE)) {
     cmd_reply(CMD_METAINFO, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
   } else {
@@ -1934,13 +1934,13 @@ static void write_init_script(char *script_filename)
 	(game.skill_level >= 6) ?	"hard" :
 					"normal");
 
-    if (*srvarg.metaserver_addr &&
+    if (*srvarg.metaserver_addr != '\0' &&
 	((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)) ||
 	 (srvarg.metaserver_port != DEFAULT_META_SERVER_PORT))) {
       fprintf(script_file, "metaserver %s\n", meta_addr_port());
     }
 
-    if (*srvarg.metaserver_info_line &&
+    if (*srvarg.metaserver_info_line != '\0' &&
 	(0 != strcmp(srvarg.metaserver_info_line,
 		     default_meta_server_info_string()))) {
       fprintf(script_file, "metainfo %s\n", srvarg.metaserver_info_line);
@@ -2004,7 +2004,7 @@ static void rulesout_command(struct connection *caller, char *arg)
   if (*s == '\0') goto usage;
   rules = s;
 
-  while (*s && !isspace(*s)) s++;
+  while (*s != '\0' && !isspace(*s)) s++;
   if (*s == '\0') goto usage;
   *s = '\0';			/* terminate rules */
   
@@ -2137,15 +2137,15 @@ static void cmdlevel_command(struct connection *caller, char *str)
   struct connection *ptarget;
 
   /* find the start of the level: */
-  for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
+  for(cptr_s=str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
 
   /* copy the level into arg_level[] */
-  for(cptr_d=arg_level; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++) {
+  for(cptr_d=arg_level; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++) {
     *cptr_d=*cptr_s;
   }
   *cptr_d='\0';
   
-  if (!arg_level[0]) {
+  if (arg_level[0] == '\0') {
     /* no level name supplied; list the levels */
 
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, _("Command access levels in effect:"));
@@ -2180,17 +2180,17 @@ static void cmdlevel_command(struct connection *caller, char *str)
   }
 
   /* find the start of the name: */
-  for(; *cptr_s && !isalnum(*cptr_s); cptr_s++);
+  for(; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
 
   /* copy the name into arg_name[] */
   for(cptr_d=arg_name;
-      *cptr_s && (*cptr_s == '-' || *cptr_s == ' ' || isalnum(*cptr_s));
+      *cptr_s != '\0' && (*cptr_s == '-' || *cptr_s == ' ' || isalnum(*cptr_s));
       cptr_s++ , cptr_d++) {
     *cptr_d=*cptr_s;
   }
   *cptr_d='\0';
  
-  if (!arg_name[0]) {
+  if (arg_name[0] == '\0') {
     /* no playername supplied: set for all connections, and set the default */
     conn_list_iterate(game.est_connections, pconn) {
       if (set_cmdlevel(caller, pconn, level)) {
@@ -2392,7 +2392,7 @@ static void show_help_option_list(struct connection *caller,
 	}
       }
     }
-    if (buf[0])
+    if (buf[0] != '\0')
       cmd_reply(help_cmd, caller, C_COMMENT, buf);
   }
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
@@ -2406,12 +2406,12 @@ static void explain_option(struct connection *caller, char *str)
   char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int cmd;
 
-  for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
-  for(cptr_d=command; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++)
+  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
+  for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
-  if (*command) {
+  if (*command != '\0') {
     cmd=lookup_option(command);
     if (cmd==-1) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("No explanation for that yet."));
@@ -2556,12 +2556,12 @@ static void show_command(struct connection *caller, char *str)
   int cmd,i,len1;
   int clen = 0;
 
-  for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
-  for(cptr_d=command; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++)
+  for (cptr_s = str; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
+  for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
-  if (*command) {
+  if (*command != '\0') {
     cmd=lookup_option(command);
     if (cmd>=0 && !may_view_option(caller, cmd)) {
       cmd_reply(CMD_SHOW, caller, C_FAIL,
@@ -2673,18 +2673,18 @@ static void set_command(struct connection *caller, char *str)
   int val, cmd;
   struct settings_s *op;
 
-  for(cptr_s=str; *cptr_s && !is_ok_opt_name_char(*cptr_s); cptr_s++);
+  for (cptr_s = str; *cptr_s != '\0' && !is_ok_opt_name_char(*cptr_s); cptr_s++);
 
   for(cptr_d=command;
-      *cptr_s && is_ok_opt_name_char(*cptr_s);
+      *cptr_s != '\0' && is_ok_opt_name_char(*cptr_s);
       cptr_s++, cptr_d++) {
     *cptr_d=*cptr_s;
   }
   *cptr_d='\0';
   
-  for(; *cptr_s && is_ok_opt_name_value_sep_char(*cptr_s); cptr_s++);
+  for (; *cptr_s != '\0' && is_ok_opt_name_value_sep_char(*cptr_s); cptr_s++);
 
-  for(cptr_d=arg; *cptr_s && is_ok_opt_value_char(*cptr_s); cptr_s++ , cptr_d++)
+  for (cptr_d = arg; *cptr_s != '\0' && is_ok_opt_value_char(*cptr_s); cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
 
@@ -2714,7 +2714,7 @@ static void set_command(struct connection *caller, char *str)
   
   if (SETTING_IS_INT(op)) {
     val = atoi(arg);
-    if (!val && arg[0] != '0') {
+    if (val == 0 && arg[0] != '0') {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
 		_("Value must be an integer."));
     } else if (val >= op->min_value && val <= op->max_value) {
@@ -2819,7 +2819,7 @@ void handle_stdin_input(struct connection *caller, char *str)
 
   /* Is it a comment or a blank line? */
   /* line is comment if the first non-whitespace character is '#': */
-  for(cptr_s=str; *cptr_s && isspace(*cptr_s); cptr_s++);
+  for (cptr_s = str; *cptr_s != '\0' && isspace(*cptr_s); cptr_s++);
   if(*cptr_s == 0 || *cptr_s == '#') {
     return;
   }
@@ -2828,14 +2828,14 @@ void handle_stdin_input(struct connection *caller, char *str)
      given on the server command line - rp */
   if (*cptr_s == SERVER_COMMAND_PREFIX) cptr_s++;
 
-  for(; *cptr_s && !isalnum(*cptr_s); cptr_s++);
+  for (; *cptr_s != '\0' && !isalnum(*cptr_s); cptr_s++);
 
   /*
    * cptr_s points now to the beginning of the real command. It has
    * skipped leading whitespace, the SERVER_COMMAND_PREFIX and any
    * other non-alphanumeric characters.
    */
-  for(cptr_d=command; *cptr_s && isalnum(*cptr_s) &&
+  for (cptr_d = command; *cptr_s != '\0' && isalnum(*cptr_s) &&
       cptr_d < command+sizeof(command)-1; cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
   *cptr_d='\0';
@@ -3158,7 +3158,7 @@ static void show_help_command_list(struct connection *caller,
 	}
       }
     }
-    if (buf[0])
+    if (buf[0] != '\0')
       cmd_reply(help_cmd, caller, C_COMMENT, buf);
   }
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);

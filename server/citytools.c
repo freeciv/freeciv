@@ -257,7 +257,7 @@ int worst_worker_tile_value(struct city *pcity)
       continue;
     if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
       tmp = city_tile_value(pcity, x, y, 0, 0);
-      if (tmp < worst || !worst) worst = tmp;
+      if (tmp < worst || worst == 0) worst = tmp;
     }
   } city_map_iterate_end;
   return(worst);
@@ -274,7 +274,7 @@ int best_worker_tile_value(struct city *pcity)
 	(get_worker_city(pcity, x, y) == C_TILE_WORKER) ||
 	can_place_worker_here(pcity, x, y)) {
       tmp = city_tile_value(pcity, x, y, 0, 0);
-      if (tmp < best || !best) best = tmp;
+      if (tmp < best || best == 0) best = tmp;
     }
   } city_map_iterate_end;
   return(best);
@@ -701,7 +701,7 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[])
   struct city *oldtradecity;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (cities[i]) {
+    if (cities[i] != 0) {
       oldtradecity = find_city_by_id(cities[i]);
       assert(oldtradecity != NULL);
       if (can_establish_trade_route(pcity, oldtradecity)) {   
@@ -1675,13 +1675,13 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
   int i, tb;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (!pc1->trade[i]) {
+    if (pc1->trade[i] == 0) {
       pc1->trade[i]=pc2->id;
       break;
     }
   }
   for (i = 0; i < NUM_TRADEROUTES; i++) {
-    if (!pc2->trade[i]) {
+    if (pc2->trade[i] == 0) {
       pc2->trade[i]=pc1->id;
       break;
     }
@@ -1785,7 +1785,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   }
 
   /* Tell the player what's up. */
-  if (event)
+  if (event != 0)
     notify_player_ex(pplayer, pcity->x, pcity->y, event,
 		     _("Game: %s is building %s%s."),
 		     pcity->name, name, source);

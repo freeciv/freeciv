@@ -253,7 +253,7 @@ void flush_packets(void)
 
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       struct connection *pconn = &connections[i];
-      if(pconn->used && pconn->send_buffer->ndata) {
+      if(pconn->used && pconn->send_buffer->ndata > 0) {
 	FD_SET(pconn->sock, &writefs);
 	FD_SET(pconn->sock, &exceptfs);
 	max_desc=MAX(pconn->sock, max_desc);
@@ -276,11 +276,11 @@ void flush_packets(void)
 		  conn_description(pconn));
 	  close_socket_callback(pconn);
         } else {
-	  if(pconn->send_buffer && pconn->send_buffer->ndata) {
+	  if(pconn->send_buffer && pconn->send_buffer->ndata > 0) {
 	    if(FD_ISSET(pconn->sock, &writefs)) {
 	      flush_connection_send_buffer_all(pconn);
 	    } else {
-	      if(game.tcptimeout && pconn->last_write
+	      if(game.tcptimeout != 0 && pconn->last_write != 0
 		 && (time(NULL)>pconn->last_write + game.tcptimeout)) {
 	        freelog(LOG_NORMAL, "cut connection %s due to lagging player",
 			conn_description(pconn));
@@ -347,7 +347,7 @@ int sniff_packets(void)
   if(year!=game.year) {
     if (server_state == RUN_GAME_STATE) year=game.year;
   }
-  if (!game.timeout)
+  if (game.timeout == 0)
     game.turn_start = time(NULL);
   
   while(TRUE) {
@@ -361,10 +361,10 @@ int sniff_packets(void)
 
 
     /* quit server if no players for 'srvarg.quitidle' seconds */
-    if (srvarg.quitidle && server_state != PRE_GAME_STATE) {
+    if (srvarg.quitidle != 0 && server_state != PRE_GAME_STATE) {
       static time_t last_noplayers;
       if(conn_list_size(&game.est_connections) == 0) {
-	if (last_noplayers) {
+	if (last_noplayers != 0) {
 	  if (time(NULL)>last_noplayers + srvarg.quitidle) {
 	    sz_strlcpy(srvarg.metaserver_info_line,
 		       "restarting for lack of players");
@@ -443,7 +443,7 @@ int sniff_packets(void)
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(connections[i].used) {
 	FD_SET(connections[i].sock, &readfs);
-	if(connections[i].send_buffer->ndata) {
+	if(connections[i].send_buffer->ndata > 0) {
 	  FD_SET(connections[i].sock, &writefs);
 	}
 	FD_SET(connections[i].sock, &exceptfs);
@@ -454,7 +454,7 @@ int sniff_packets(void)
 
     if(select(max_desc+1, &readfs, &writefs, &exceptfs, &tv)==0) { /* timeout */
       send_server_info_to_metaserver(FALSE, FALSE);
-      if((game.timeout) 
+      if(game.timeout != 0
 	&& (time(NULL)>game.turn_start + game.timeout)
 	&& (server_state == RUN_GAME_STATE)){
 	con_prompt_off();
@@ -481,7 +481,7 @@ int sniff_packets(void)
 #endif /* !__VMS */
       }
     }
-    if (!game.timeout)
+    if (game.timeout == 0)
       game.turn_start = time(NULL);
 
     if(FD_ISSET(sock, &exceptfs)) {	     /* handle Ctrl-Z suspend/resume */
@@ -601,11 +601,11 @@ int sniff_packets(void)
 
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
         struct connection *pconn = &connections[i];
-        if(pconn->used && pconn->send_buffer && pconn->send_buffer->ndata) {
+        if(pconn->used && pconn->send_buffer && pconn->send_buffer->ndata > 0) {
 	  if(FD_ISSET(pconn->sock, &writefs)) {
 	    flush_connection_send_buffer_all(pconn);
 	  } else {
-	    if(game.tcptimeout && pconn->last_write
+	    if(game.tcptimeout != 0 && pconn->last_write != 0
 	       && (time(NULL)>pconn->last_write + game.tcptimeout)) {
 	      freelog(LOG_NORMAL, "cut connection %s due to lagging player",
 		      conn_description(pconn));
@@ -619,7 +619,7 @@ int sniff_packets(void)
   }
   con_prompt_off();
 
-  if((game.timeout) 
+  if(game.timeout != 0
      && (time(NULL)>game.turn_start + game.timeout))
     return 0;
   return 1;
@@ -791,7 +791,7 @@ static void start_processing_request(struct connection *pconn,
 				     int request_id)
 {
   assert(request_id);
-  assert(!pconn->server.currently_processed_request_id);
+  assert(pconn->server.currently_processed_request_id == 0);
   freelog(LOG_DEBUG, "start processing packet %d from connection %d",
 	  request_id, pconn->id);
   if (strlen(pconn->capability) == 0

@@ -175,7 +175,7 @@ void maybe_make_veteran(struct unit *punit)
   if (player_owns_active_wonder(unit_owner(punit), B_SUNTZU))
     punit->veteran = TRUE;
   else
-    punit->veteran = myrand(2);
+    punit->veteran = (myrand(2) == 1);
 }
 
 /**************************************************************************
@@ -196,9 +196,9 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
 
   freelog(LOG_VERBOSE, "attack:%d, defense:%d, attack firepower:%d, defense firepower:%d",
 	  attackpower, defensepower, attack_firepower, defense_firepower);
-  if (!attackpower) {
+  if (attackpower == 0) {
       attacker->hp=0; 
-  } else if (!defensepower) {
+  } else if (defensepower == 0) {
       defender->hp=0;
   }
   while (attacker->hp>0 && defender->hp>0) {
@@ -211,9 +211,9 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
   if (attacker->hp<0) attacker->hp = 0;
   if (defender->hp<0) defender->hp = 0;
 
-  if (attacker->hp)
+  if (attacker->hp > 0)
     maybe_make_veteran(attacker); 
-  else if (defender->hp)
+  else if (defender->hp > 0)
     maybe_make_veteran(defender);
 }
 
@@ -290,15 +290,15 @@ static void handle_leonardo(struct player *pplayer)
       unit_list_insert(&candidates, punit); /* Potential candidate :) */
   } unit_list_iterate_end;
 	
-  if (!unit_list_size(&candidates))
+  if (unit_list_size(&candidates) == 0)
     return; /* We have Leonardo, but nothing to upgrade! */
 	
-  if (!leonardo_variant)
+  if (leonardo_variant == 0)
     candidate_to_upgrade=myrand(unit_list_size(&candidates));
 
   i=0;	
   unit_list_iterate(candidates, punit) {
-    if (leonardo_variant || i == candidate_to_upgrade) {
+    if (leonardo_variant != 0 || i == candidate_to_upgrade) {
       upgrade_type=can_upgrade_unittype(pplayer, punit->type);
       notify_player(pplayer,
             _("Game: %s has upgraded %s to %s%s."),
@@ -987,7 +987,7 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity==ACTIVITY_GOTO) {
     if (!punit->ai.control && (!is_military_unit(punit) ||
-       punit->ai.passenger || !pplayer->ai.control)) {
+       punit->ai.passenger != 0 || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
       do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
@@ -1037,7 +1037,7 @@ static void update_unit_activity(struct unit *punit)
 	  struct tile *ptile2 = map_get_tile(x, y);
 	  if (ptile2->terrain != T_OCEAN
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
-	    if (get_transporter_capacity(punit2))
+	    if (get_transporter_capacity(punit2) > 0)
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
 		    "Moved %s's %s due to changing land to sea at (%d, %d).",
@@ -1059,7 +1059,7 @@ static void update_unit_activity(struct unit *punit)
 	  if (ptile2->terrain == T_OCEAN
 	      && ground_unit_transporter_capacity(x, y,
 						  unit_owner(punit2)) > 0) {
-	    if (get_transporter_capacity(punit2))
+	    if (get_transporter_capacity(punit2) > 0)
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
 		    "Embarked %s's %s due to changing land to sea at (%d, %d).",
@@ -1097,7 +1097,7 @@ static void update_unit_activity(struct unit *punit)
 	  struct tile *ptile2 = map_get_tile(x, y);
 	  if (ptile2->terrain == T_OCEAN
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
-	    if (get_transporter_capacity(punit2))
+	    if (get_transporter_capacity(punit2) > 0)
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
 		    "Moved %s's %s due to changing sea to land at (%d, %d).",
@@ -1118,7 +1118,7 @@ static void update_unit_activity(struct unit *punit)
 	  struct tile *ptile2 = map_get_tile(x, y);
 	  if (is_allied_city_tile(ptile2, unit_owner(punit2))
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
-	    if (get_transporter_capacity(punit2))
+	    if (get_transporter_capacity(punit2) > 0)
 	      sentry_transported_idle_units(punit2);
 	    freelog(LOG_VERBOSE,
 		    "Docked %s's %s due to changing sea to land at (%d, %d).",
@@ -1302,7 +1302,7 @@ static void place_partisans(struct city *pcity, int count)
   int x, y;
   int u_type = get_role_unit(L_PARTISAN, 0);
 
-  while (count-- && find_a_good_partisan_spot(pcity, u_type, &x, &y)) {
+  while ((count--) > 0 && find_a_good_partisan_spot(pcity, u_type, &x, &y)) {
     struct unit *punit;
     punit = create_unit(city_owner(pcity), x, y, u_type, FALSE, 0, -1);
     if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
@@ -1329,7 +1329,7 @@ void make_partisans(struct city *pcity)
   if (num_role_units(L_PARTISAN)==0)
     return;
   if (!tech_exists(game.rtech.u_partisan)
-      || !game.global_advances[game.rtech.u_partisan]
+      || game.global_advances[game.rtech.u_partisan] == 0
       || pcity->original != pcity->owner)
     return;
 
@@ -1873,7 +1873,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     unitcount = 1;
   }
 
-  if (!unitcount) {
+  if (unitcount == 0) {
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, vunit)
       if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit)))
 	unitcount++;
@@ -2134,7 +2134,7 @@ static void do_nuke_tile(struct player *pplayer, int x, int y)
     }
   }
 
-  if (map_get_terrain(x, y) != T_OCEAN && myrand(2)) {
+  if (map_get_terrain(x, y) != T_OCEAN && myrand(2) == 1) {
     if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!map_has_special(x, y, S_POLLUTION)) {
 	map_set_special(x, y, S_POLLUTION);
@@ -2177,7 +2177,7 @@ bool try_move_unit(struct unit *punit, int dest_x, int dest_y)
     punit->moves_left=0;
     send_unit_info(unit_owner(punit), punit);
   }
-  return punit->moves_left;
+  return punit->moves_left > 0;
 }
 
 /**************************************************************************
@@ -2788,7 +2788,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
   /*  struct government *g = get_gov_pplayer(pplayer);*/
   bool senthome = FALSE;
 
-  if (punit->homecity)
+  if (punit->homecity != 0)
     homecity = find_city_by_id(punit->homecity);
 
   wakeup_neighbor_sentries(punit);
@@ -2906,7 +2906,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
   conn_list_do_buffer(&pplayer->connections);
 
-  if (punit->ai.ferryboat) {
+  if (punit->ai.ferryboat != 0) {
     struct unit *ferryboat;
     ferryboat = unit_list_find(&psrctile->units, punit->ai.ferryboat);
     if (ferryboat) {
@@ -2938,7 +2938,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   /* Transporting units. We first make a list of the units to be moved and
      then insert them again. The way this is done makes sure that the
      units stay in the same order. */
-  if (get_transporter_capacity(punit) && transport_units) {
+  if (get_transporter_capacity(punit) > 0 && transport_units) {
     struct unit_list cargo_units;
 
     /* First make a list of the units to be moved. */
