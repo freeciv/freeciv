@@ -47,7 +47,7 @@
 /* This is only used in version.c, and only if IS_BETA_VERSION is true.
    The month[] array is defined in version.c (index: 1==Jan, 2==Feb, ...). */
 #ifndef NEXT_RELEASE_MONTH
-#define NEXT_RELEASE_MONTH	(month[11])
+#define NEXT_RELEASE_MONTH	(month[12])
 #endif
 
 #ifndef VERSION_STRING
