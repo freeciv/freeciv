@@ -57,6 +57,8 @@ struct iter_index *city_map_iterate_outwards_indices;
 
 struct citystyle *city_styles = NULL;
 
+int city_tiles;
+
 /**************************************************************************
   Return TRUE if the given city coordinate pair is "valid"; that is, if it
   is a part of the citymap and thus is workable by the city.
@@ -204,6 +206,11 @@ void generate_city_map_indices(void)
 {
   int i = 0, dx, dy;
   struct iter_index *array = city_map_iterate_outwards_indices;
+
+  city_tiles = 0;
+  city_map_iterate(city_x, city_y) {
+    city_tiles++;
+  } city_map_iterate_end;
 
   /* Realloc is used because this function may be called multiple times. */
   array = fc_realloc(array, CITY_TILES * sizeof(*array));

@@ -190,7 +190,7 @@ static struct {
       struct cm_result *cache1;
       struct cm_result all_entertainer;
     } combinations[MAX_COMBINATIONS];
-  } results[MAX_FIELDS_USED + 1];
+  } *results;
 
   struct city *pcity;
 } cache3;
@@ -1151,6 +1151,10 @@ static void build_cache3(struct city *pcity)
   int i, j, total_tile_trade;
   struct tile_stats tile_stats;
   bool is_celebrating = base_city_celebrating(pcity);
+
+  cache3.results
+    = fc_realloc(cache3.results,
+		 (MAX_FIELDS_USED + 1) * sizeof(*cache3.results));
 
   if (cache3.pcity != pcity) {
     cache3.pcity = NULL;

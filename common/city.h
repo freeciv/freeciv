@@ -66,7 +66,7 @@ enum city_options {
 #define CITY_MAP_SIZE (CITY_MAP_RADIUS * 2 + 1) 
 
 /* Number of tiles a city can use */
-#define CITY_TILES (CITY_MAP_SIZE * CITY_MAP_SIZE - 4)
+#define CITY_TILES city_tiles
 
 #define INCITE_IMPOSSIBLE_COST (1000 * 1000 * 1000)
 
@@ -105,6 +105,7 @@ enum city_options {
 extern struct iter_index {
   int dx, dy, dist;
 } *city_map_iterate_outwards_indices;
+extern int city_tiles;
 
 /* Iterate a city map, from the center (the city) outwards.
  * (city_x, city_y) will be the city coordinates. */
