@@ -440,8 +440,9 @@ const char *get_info_label_text(void)
 	     population_to_text(civ_population(game.player_ptr)));
   add_line(_("Year: %s"), textyear(game.year));
   add_line(_("Gold: %d"), game.player_ptr->economic.gold);
-  add(_("Tax: %d Lux: %d Sci: %d"), game.player_ptr->economic.tax,
-      game.player_ptr->economic.luxury, game.player_ptr->economic.science);
+  add_line(_("Tax: %d Lux: %d Sci: %d"), game.player_ptr->economic.tax,
+	   game.player_ptr->economic.luxury,
+	   game.player_ptr->economic.science);
   RETURN;
 }
 
