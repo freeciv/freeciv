@@ -440,7 +440,7 @@ dnl Checks for library functions.
 AC_TYPE_SIGNAL
 AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(fdopen gethostname getpwuid gettimeofday select \
+AC_CHECK_FUNCS(fdopen gethostname getpwuid gettimeofday inet_aton select \
                snooze strerror strcasecmp strncasecmp strlcat \
                strlcpy strstr usleep vsnprintf)
 

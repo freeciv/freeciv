@@ -1071,7 +1071,7 @@ if test "${with_efence+set}" = set; then
 fi
 
 
-for ac_prog in mawk gawk nawk awk
+for ac_prog in gawk mawk nawk awk
 do
 # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -6842,7 +6842,7 @@ fi
 
 fi
 
-for ac_func in fdopen gethostname getpwuid gettimeofday select \
+for ac_func in fdopen gethostname getpwuid gettimeofday inet_aton select \
                snooze strerror strcasecmp strncasecmp strlcat \
                strlcpy strstr usleep vsnprintf
 do
