@@ -307,8 +307,14 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "Fanatic"
 roles         = "DefendGood"
+helptext      = _("\
+Only Fundamentalist nations can build Fanatic units.\
+\n\n\
+Fundamentalist nations can maintain Fanatic units without\
+ having to pay any shields for upkeep.\ 
+")
 
 [unit_partisan]
 name          = _("Partisan")

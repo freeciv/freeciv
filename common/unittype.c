@@ -45,7 +45,7 @@ static const char *flag_names[] = {
   "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
   "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack",
-  "AddToCity"
+  "AddToCity", "Fanatic"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -123,6 +123,8 @@ int is_water_unit(Unit_Type_id id)
 **************************************************************************/
 int utype_shield_cost(struct unit_type *ut, struct government *g)
 {
+  if (government_has_flag(g, G_FANATIC_TROOPS) &&
+      (ut->flags & (1 << F_FANATIC))) return 0;
   return ut->shield_cost * g->unit_shield_cost_factor;
 }
 
@@ -397,10 +399,13 @@ ignoring whether unit is obsolete and assuming the
 player has a coastal city.
 **************************************************************************/
 int can_player_build_unit_direct(struct player *p, Unit_Type_id id)
-{  
+{
   if (!unit_type_exists(id))
     return 0;
   if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
+    return 0;
+  if (unit_flag(id, F_FANATIC)
+      && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS))
     return 0;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
     return 0;

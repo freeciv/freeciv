@@ -70,7 +70,8 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"
+#define CAPABILITY "+1.11.6 conn_info pop_cost turn attributes new_bonus_tech"\
+" fund_added"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
@@ -87,6 +88,8 @@ const char * const our_capability = our_capability_internal;
 
    "new_bonus_tech" is the ability to make every tech a bonus tech
    like A_PHILOSOPHY
+
+   "fund_added" introduces support for fundamentalism form of government.
 */
 
 void init_our_capability(void)

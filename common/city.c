@@ -372,13 +372,8 @@ Whether given city can build given unit,
 ignoring whether unit is obsolete.
 **************************************************************************/
 int can_build_unit_direct(struct city *pcity, Unit_Type_id id)
-{  
-  struct player *p=city_owner(pcity);
-  if (!unit_type_exists(id))
-    return 0;
-  if (unit_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
-    return 0;
-  if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
+{
+  if (!can_player_build_unit_direct(city_owner(pcity), id))
     return 0;
   if (!is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN) && is_water_unit(id))
     return 0;
@@ -456,6 +451,11 @@ int improvement_upkeep(struct city *pcity, int i)
   if (improvement_types[i].upkeep == 1 &&
       city_affected_by_wonder(pcity, B_ASMITHS)) 
     return 0;
+  if (government_has_flag(get_gov_pcity(pcity), G_CONVERT_TITHES_TO_MONEY)
+      && (i == B_TEMPLE || i == B_COLOSSEUM || i == B_CATHEDRAL)) {
+    return 0;
+  }
+  
   return (improvement_types[i].upkeep);
 }
 
@@ -470,6 +470,10 @@ static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths)
     return 0;
   if (asmiths && improvement_types[i].upkeep == 1) 
     return 0;
+  if (government_has_flag(get_gov_pcity(pcity), G_CONVERT_TITHES_TO_MONEY)
+      && (i == B_TEMPLE || i == B_COLOSSEUM || i == B_CATHEDRAL)) {
+    return 0;
+  }
   return (improvement_types[i].upkeep);
 }
 
@@ -1331,6 +1335,32 @@ static int set_city_tax_bonus(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
+static int get_city_tithes_bonus(struct city *pcity)
+{
+  int tithes_bonus = 0;
+
+  if (!government_has_flag
+      (get_gov_pcity(pcity), G_CONVERT_TITHES_TO_MONEY)) {
+    return 0;
+  }
+
+  if (city_got_building(pcity, B_TEMPLE))
+    tithes_bonus += get_temple_power(pcity);
+  if (city_got_building(pcity, B_COLOSSEUM))
+    tithes_bonus += get_colosseum_power(pcity);
+  if (city_got_effect(pcity, B_CATHEDRAL))
+    tithes_bonus += get_cathedral_power(pcity);
+  if (city_affected_by_wonder(pcity, B_BACH))
+    tithes_bonus += 2;
+  if (city_affected_by_wonder(pcity, B_CURE))
+    tithes_bonus += 1;
+
+  return tithes_bonus;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static int set_city_science_bonus(struct city *pcity)
 {
   int science_bonus = 100;
@@ -1356,17 +1386,26 @@ calculate the incomes according to the taxrates and # of specialists.
 static void set_tax_income(struct city *pcity)
 {
   int sci = 0, tax = 0, lux = 0, rate;
+  int sci_rate = city_owner(pcity)->economic.science;
+  int lux_rate = city_owner(pcity)->economic.luxury;
+  int tax_rate = 100 - sci_rate - lux_rate;
+
   pcity->science_total = 0;
   pcity->luxury_total = 0;
   pcity->tax_total = 0;
   rate = pcity->trade_prod;
+  if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
+    if (sci_rate > 50) {
+      sci_rate = 50;
+      tax_rate = 100 - sci_rate - lux_rate;
+    }
+  }
+
   while (rate) {
     if (get_gov_pcity(pcity)->index != game.government_when_anarchy) {
-      tax +=
-	  (100 - city_owner(pcity)->economic.science -
-	   city_owner(pcity)->economic.luxury);
-      sci += city_owner(pcity)->economic.science;
-      lux += city_owner(pcity)->economic.luxury;
+      tax += tax_rate;
+      sci += sci_rate;
+      lux += lux_rate;
     } else {			/* ANARCHY */
       lux += 100;
     }
@@ -1388,7 +1427,8 @@ static void set_tax_income(struct city *pcity)
   }
   pcity->luxury_total += (pcity->ppl_elvis * 2);
   pcity->science_total += (pcity->ppl_scientist * 3);
-  pcity->tax_total += (pcity->ppl_taxman * 3);
+  pcity->tax_total +=
+      (pcity->ppl_taxman * 3) + get_city_tithes_bonus(pcity);
 }
 
 /**************************************************************************
@@ -1403,6 +1443,10 @@ static void add_buildings_effect(struct city *pcity)
   tax_bonus = set_city_tax_bonus(pcity);	
   science_bonus = set_city_science_bonus(pcity);
   shield_bonus = set_city_shield_bonus(pcity);
+
+  if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
+    science_bonus /= 2;
+  }
 
   pcity->shield_prod = (pcity->shield_prod * shield_bonus) / 100;
   pcity->luxury_total = (pcity->luxury_total * tax_bonus) / 100;
@@ -1533,8 +1577,9 @@ static void citizen_happy_buildings(struct city *pcity)
 static void citizen_happy_wonders(struct city *pcity)
 {
   int bonus = 0;
+
   happy_copy(pcity, 3);
-  bonus = 0;
+
   if (city_affected_by_wonder(pcity, B_HANGING)) {
     bonus += 1;
     if (city_got_building(pcity, B_HANGING))
@@ -1557,6 +1602,10 @@ static void citizen_happy_wonders(struct city *pcity)
     bonus--;
   }
   if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
+    pcity->ppl_content[4] += pcity->ppl_unhappy[4];
+    pcity->ppl_unhappy[4] = 0;
+  }
+  if (government_has_flag(get_gov_pcity(pcity), G_NO_UNHAPPY_CITIZENS)) {
     pcity->ppl_content[4] += pcity->ppl_unhappy[4];
     pcity->ppl_unhappy[4] = 0;
   }
@@ -1779,7 +1828,7 @@ void generic_city_refresh(struct city *pcity)
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_happy_buildings(pcity);	/* temple cathedral colosseum */
   city_support(pcity);		/* manage settlers, and units */
-  citizen_happy_wonders(pcity);	/* happy wonders */
+  citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
 }
 

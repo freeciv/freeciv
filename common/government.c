@@ -39,20 +39,15 @@
  * o Test the new government evaluation code (AI).
  *   [ It seems fine to me, although it favours Democracy very early
  *   on. This is because of the huge trade bonus. -SKi ]
- */
-
-/*
- * WISHLIST:
  * o Implement the features needed for fundamentalism:
- *   - Units that require a government to be built, and have special
- *     upkeep values under that government. (Fanatics).
- *   - NO_UNHAPPY_CITIZENS flag for governments.
- *   - CONVERT_TITHES_TO_MONEY flag for governments (surplus only?).
- *   - A research penalty that is applied after all other modifiers.
  *   - A diplomatic penalty modifier when international incidents occur.
  *     (Spy places nuke in city, goes to war, etc).
  *     [ Is this one of those Civ II "features" best be ignored?  I am
  *     inclined to think so -SKi ]
+ */
+
+/*
+ * WISHLIST:
  * o Features needed for CTP-style rules, just more trade, science and
  *   production modifiers.  (Just counting CTP governments, only
  *   basics).
@@ -64,7 +59,9 @@ struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
 
 static const char *flag_names[] = {
   "Build_Veteran_Diplomats", "Revolution_When_Unhappy", "Has_Senate",
-  "Unbribable", "Inspires_Partisans", "Rapture_City_Growth"
+  "Unbribable", "Inspires_Partisans", "Rapture_City_Growth",
+  "Fanatic_Troops", "No_Unhappy_Citizens", "Convert_Tithes_To_Money",
+  "Reduced_Research"
 };
 static const char *hint_names[] = {
   "Is_Nice", "Favors_Growth"

@@ -104,6 +104,8 @@ enum unit_flag_id {
   F_MISSILE_CARRIER,  /* Like F_CARRIER, but missiles only (Submarine) */
   F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
   F_ADD_TO_CITY,      /* unit can add to city population */
+  F_FANATIC,          /* Only Fundamentalist government can build
+			 these units */
   F_LAST
 };
 
