@@ -1189,24 +1189,29 @@ void city_incite_cost(struct city *pcity)
   if (city_got_building(pcity, B_PALACE)) {
     pcity->incite_revolt_cost = INCITE_IMPOSSIBLE_COST;
   } else {
-    pcity->incite_revolt_cost=city_owner(pcity)->economic.gold +1000;
-    capital=find_palace(city_owner(pcity));
+    pcity->incite_revolt_cost = city_owner(pcity)->economic.gold + 1000;
+    capital = find_palace(city_owner(pcity));
     if (capital) {
       int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
-      dist=MIN(32, tmp);
+      dist = MIN(32, tmp);
+    } else {
+      /* No capital? Take max penalty! */
+      dist = 32;
     }
-    else 
-      dist=32;
-    if (city_got_building(pcity, B_COURTHOUSE)) 
-      dist/=2;
-    if (g->fixed_corruption_distance != 0)
+    if (city_got_building(pcity, B_COURTHOUSE)) {
+      dist /= 2; /* courthouse halves the distance penalty */
+    }
+    if (g->fixed_corruption_distance != 0) {
       dist = MIN(g->fixed_corruption_distance, dist);
-    pcity->incite_revolt_cost/=(dist + 3);
-    pcity->incite_revolt_cost*=pcity->size;
-    if (city_unhappy(pcity))
-      pcity->incite_revolt_cost/=2;
-    if (unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)==0)
-      pcity->incite_revolt_cost/=2;
+    }
+    pcity->incite_revolt_cost /= (dist + 3);
+    pcity->incite_revolt_cost *= pcity->size;
+    if (city_unhappy(pcity)) {
+      pcity->incite_revolt_cost /= 2;
+    }
+    if (unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)==0) {
+      pcity->incite_revolt_cost /= 2;
+    }
   }
 }
 
