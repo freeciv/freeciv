@@ -64,7 +64,6 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  enum tile_special_type
 						  new_target);
 static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id, struct city *pcity_dest);
-static void how_to_declare_war(struct player *pplayer);
 static bool unit_bombard(struct unit *punit, struct tile *ptile);
 
 /**************************************************************************
@@ -907,15 +906,6 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 /**************************************************************************
 ...
 **************************************************************************/
-static void how_to_declare_war(struct player *pplayer)
-{
-  notify_player_ex(pplayer, NULL, E_NOEVENT,
-		   _("Cancel treaty in the players dialog first (F3)."));
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 					      struct tile *dest_tile,
 					      bool igzoc)
@@ -1050,27 +1040,15 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
 
   if (is_non_allied_unit_tile(pdesttile, pplayer) 
       || is_non_allied_city_tile(pdesttile, pplayer)) {
-    struct unit *victim;
+    struct unit *victim = NULL;
 
     /* We can attack ONLY in enemy cities */
-    if (pcity && !pplayers_at_war(city_owner(pcity), pplayer)) {
+    if ((pcity && !pplayers_at_war(city_owner(pcity), pplayer))
+        || (victim = is_non_attack_unit_tile(pdesttile, pplayer))) {
       notify_player_ex(pplayer, punit->tile, E_NOEVENT,
-		       _("Can't attack %s "
-			 "because you are not at war with %s."),
-		       pcity->name,
-		       city_owner(pcity)->name);
-      how_to_declare_war(pplayer);
-      return FALSE;
-    }
-
-    /* Tile must contain ONLY enemy units. */
-    if ((victim = is_non_attack_unit_tile(pdesttile, pplayer))) {
-      notify_player_ex(pplayer, punit->tile, E_NOEVENT,
-                       _("Can't attack %s's unit "
-			 "because you are not at war with %s."),
-                       unit_owner(victim)->name,
-                       unit_owner(victim)->name);
-      how_to_declare_war(pplayer);
+                       _("You must declare war on %s first.  Try using "
+                         "players dialog (F3)."), victim == NULL ?
+                       city_owner(pcity)->name : unit_owner(victim)->name);
       return FALSE;
     }
 
