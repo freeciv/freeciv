@@ -473,6 +473,7 @@ void tilespec_reread(const char *tileset_name)
       tilespec_setup_tech_type(tech_id);
     }
   } tech_type_iterate_end;
+  tilespec_setup_specialist_types();
 
   /* tilespec_load_tiles reverts the city tile pointers to 0.  This
      is a workaround. */
