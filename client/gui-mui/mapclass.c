@@ -140,7 +140,8 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 
       if ((pcity = map_get_city(xtile, ytile)))
       {
-	my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name, get_nation_name(game.players[pcity->owner].nation));
+	my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
+		    get_nation_name(city_owner(pcity)->nation));
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 
 	if(text_obj)
@@ -173,7 +174,8 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	  if (pcity)
 	    my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
 	}
-	my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name, get_nation_name(game.players[punit->owner].nation), cn);
+	my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,
+		    get_nation_name(unit_owner(punit)->nation), cn);
 
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 	DoMethod(group, OM_ADDMEMBER, text_obj);

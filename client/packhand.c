@@ -425,7 +425,7 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     unit_list_init(&pcity->units_supported);
     unit_list_init(&pcity->info_units_supported);
     unit_list_init(&pcity->info_units_present);
-    city_list_insert(&game.players[pcity->owner].cities, pcity);
+    city_list_insert(&city_owner(pcity)->cities, pcity);
     map_set_city(pcity->x, pcity->y, pcity);
     if(pcity->owner==game.player_idx)
       city_report_dialog_update();
@@ -766,7 +766,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 
   repaint_unit = 0;
   repaint_city = 0;
-  punit = player_find_unit_by_id(&game.players[packet->owner], packet->id);
+  punit = player_find_unit_by_id(get_player(packet->owner), packet->id);
 
   if(punit) {
     int dest_x,dest_y;
@@ -916,7 +916,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 
     punit->activity_count=0;	/* never used in client/ or common/  --dwp */
 
-    unit_list_insert(&game.players[packet->owner].units, punit);
+    unit_list_insert(&get_player(packet->owner)->units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
     if((pcity=find_city_by_id(punit->homecity)))

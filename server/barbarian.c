@@ -329,7 +329,7 @@ static void try_summon_barbarians(void)
   if( !(pc = dist_nearest_city(NULL, x, y, 1, 0)) )       /* any city */
     return;
 
-  victim = &game.players[pc->owner];
+  victim = city_owner(pc);
 
   dist = real_map_distance(x, y, pc->x, pc->y);
   freelog(LOG_DEBUG,"Closest city to %d %d is %s at %d %d which is %d far", 

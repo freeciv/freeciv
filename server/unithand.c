@@ -617,7 +617,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_types[punit->type].name, 
-	  game.players[pdefender->owner].name, 
+	  unit_owner(pdefender)->name,
 	  unit_types[pdefender->type].name);
 
   /* Sanity checks */
@@ -645,11 +645,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST_ATT,
 		       _("Game: Your Nuclear missile was shot down by"
 			 " SDI defences, what a waste."));
-      notify_player_ex(&game.players[pcity->owner], 
-		       def_x, def_y, E_UNIT_WIN, 
+      notify_player_ex(city_owner(pcity), def_x, def_y, E_UNIT_WIN,
 		       _("Game: The nuclear attack on %s was avoided by"
-			 " your SDI defense."),
-		       pcity->name); 
+			 " your SDI defense."), pcity->name);
       wipe_unit(punit);
       return;
     } 
@@ -715,9 +713,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   if(punit==plooser) {
     /* The attacker lost */
     freelog(LOG_DEBUG, "Attacker lost: %s's %s against %s's %s.",
-	    pplayer->name, unit_types[punit->type].name, 
-	    game.players[pdefender->owner].name, 
-	    unit_types[pdefender->type].name);
+	    pplayer->name, unit_types[punit->type].name,
+	    unit_owner(pdefender)->name, unit_types[pdefender->type].name);
 
     notify_player_ex(unit_owner(pwinner),
 		     pwinner->x, pwinner->y, E_UNIT_WIN,
@@ -965,7 +962,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   if (pdefender) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: No war declared against %s, cannot attack."),
-		     game.players[pdefender->owner].name);
+		     unit_owner(pdefender)->name);
     how_to_declare_war(pplayer);
     return 0;
   }
@@ -1009,8 +1006,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     if (!players_at_war(pcity->owner, punit->owner)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		       _("Game: No war declared against %s, cannot take "
-			 "over city."),
-		       game.players[pcity->owner].name);
+			 "over city."), city_owner(pcity)->name);
       how_to_declare_war(pplayer);
       return 0;
     }

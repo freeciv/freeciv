@@ -1529,7 +1529,7 @@ static int is_airunit_refuel_point(int x, int y, int playerid,
 **************************************************************************/
 void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 {
-  struct player *pplayer = &game.players[punit->owner];
+  struct player *pplayer = unit_owner(punit);
   int range = get_unit_type(punit->type)->vision_range;
 
   if (punit->hp==get_unit_type(punit->type)->hp) {
@@ -2110,7 +2110,7 @@ int try_move_unit(struct unit *punit, int dest_x, int dest_y)
   if (myrand(1+map_move_cost(punit, dest_x, dest_y))>punit->moves_left &&
       punit->moves_left<unit_move_rate(punit)) {
     punit->moves_left=0;
-    send_unit_info(&game.players[punit->owner], punit);
+    send_unit_info(unit_owner(punit), punit);
   }
   return punit->moves_left;
 }

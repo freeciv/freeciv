@@ -1351,7 +1351,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 void initialize_infrastructure_cache(struct city *pcity)
 {
-  struct player *pplayer = &game.players[pcity->owner];
+  struct player *pplayer = city_owner(pcity);
   int best = best_worker_tile_value(pcity);
   city_map_iterate(i, j) {
     pcity->ai.detox[i][j] = ai_calc_pollution(pcity, i, j, best);

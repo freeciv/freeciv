@@ -477,7 +477,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
     struct unit *debug_unit = unit_list_get(&map_get_tile(x, y)->units, 0);
     freelog(LOG_ERROR, "Get_def bugged at (%d,%d). The most likely course"
 	    " is a unit on an ocean square without a transport. The owner"
-	    " of the unit is %s", x, y, game.players[debug_unit->owner].name);
+	    " of the unit is %s", x, y, unit_owner(debug_unit)->name);
   }
 
   return bestdef;

@@ -617,7 +617,7 @@ static void raze_city(struct city *pcity)
   pcity->improvements[B_PALACE]=I_NONE;
 
   /* land barbarians are more likely to destroy city improvements */
-  if( is_land_barbarian(&game.players[pcity->owner]) )
+  if (is_land_barbarian(city_owner(pcity)))
     razechance += 30;
 
   for (i=0;i<game.num_impr_types;i++) {
@@ -1086,10 +1086,8 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
 		     _("Game: %s has been destroyed by %s."), 
 		     pcity->name, pplayer->name);
-    gamelog(GAMELOG_LOSEC,"%s (%s) (%i,%i) destroyed by %s",
-	    pcity->name,
-	    get_nation_name(game.players[pcity->owner].nation),
-	    pcity->x,pcity->y,
+    gamelog(GAMELOG_LOSEC, "%s (%s) (%i,%i) destroyed by %s", pcity->name,
+	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y,
 	    get_nation_name_plural(pplayer->nation));
     remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
@@ -1113,12 +1111,9 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 		     _("Game: %s conquered %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
-    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s",
-	    pcity->name,
-	    get_nation_name(game.players[pcity->owner].nation),
-	    pcity->x,pcity->y,
-	    get_nation_name_plural(pplayer->nation));
-    
+    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) conquered by %s", pcity->name,
+	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y,
+	    get_nation_name_plural(pplayer->nation));    
   } else {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     _("Game: You have liberated %s!!"
@@ -1129,10 +1124,8 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 		     _("Game: %s liberated %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
-    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s",
-	    pcity->name,
-	    get_nation_name(game.players[pcity->owner].nation),
-	    pcity->x,pcity->y,
+    gamelog(GAMELOG_CONQ, "%s (%s) (%i,%i) liberated by %s", pcity->name,
+	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y,
 	    get_nation_name_plural(pplayer->nation));
   }
 

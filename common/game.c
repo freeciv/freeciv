@@ -637,7 +637,7 @@ void game_remove_unit(int unit_id)
     }
 
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
-    unit_list_unlink(&game.players[punit->owner].units, punit);
+    unit_list_unlink(&unit_owner(punit)->units, punit);
     
     idex_unregister_unit(punit);
     
@@ -659,7 +659,7 @@ void game_remove_city(struct city *pcity)
   city_map_iterate(x,y) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_iterate_end;
-  city_list_unlink(&game.players[pcity->owner].cities, pcity);
+  city_list_unlink(&city_owner(pcity)->cities, pcity);
   map_set_city(pcity->x, pcity->y, NULL);
   idex_unregister_city(pcity);
   free(pcity->worklist);

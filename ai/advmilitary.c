@@ -248,7 +248,7 @@ int assess_danger(struct city *pcity)
   struct unit *funit = &virtualunit; /* saves me a lot of typing. -- Syela */
 
   memset(&virtualunit, 0, sizeof(struct unit));
-  pplayer = &game.players[pcity->owner];
+  pplayer = city_owner(pcity);
 
   generate_warmap(pcity, 0); /* generates both land and sea maps */
 

@@ -1123,8 +1123,8 @@ static void player_load(struct player *plr, int plrno,
       } square_iterate_end;
     }
     /* allocate the unit's contribution to fog of war */
-    unfog_area(&game.players[punit->owner],
-	       punit->x,punit->y,get_unit_type(punit->type)->vision_range);
+    unfog_area(unit_owner(punit), punit->x, punit->y,
+	       get_unit_type(punit->type)->vision_range);
 
     unit_list_insert_back(&plr->units, punit);
 

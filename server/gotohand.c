@@ -283,11 +283,11 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   if (pcity) {
     orig_x = pcity->x;
     orig_y = pcity->y;
-    pplayer = &game.players[pcity->owner];
+    pplayer = city_owner(pcity);
   } else {
     orig_x = punit->x;
     orig_y = punit->y;
-    pplayer = &game.players[punit->owner];
+    pplayer = unit_owner(punit);
   }
 
   init_warmap(orig_x, orig_y, move_type);
@@ -1051,7 +1051,7 @@ static int find_a_direction(struct unit *punit,
         }
       }
 
-      if (d[k] < 1 && (!game.players[punit->owner].ai.control ||
+      if (d[k] < 1 && (!unit_owner(punit)->ai.control ||
          !punit->ai.passenger || punit->moves_left >= 6)) d[k] = 1;
       if (d[k] > best) { 
         best = d[k];

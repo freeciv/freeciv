@@ -128,9 +128,9 @@ static void popit(int xin, int yin, int xtile, int ytile)
     }
     
     if((pcity=map_get_city(xtile, ytile))) {
-      my_snprintf(s, sizeof(s), _("City: %s(%s) %s"), pcity->name, 
-	      get_nation_name(game.players[pcity->owner].nation),
-	      city_got_citywalls(pcity) ? _("with City Walls") : "");
+      my_snprintf(s, sizeof(s), _("City: %s(%s) %s"), pcity->name,
+		  get_nation_name(city_owner(pcity)->nation),
+		  city_got_citywalls(pcity) ? _("with City Walls") : "");
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
     }
 
@@ -150,8 +150,8 @@ static void popit(int xin, int yin, int xtile, int ytile)
 	if(pcity)
 	  my_snprintf(cn, sizeof(cn), "/%s", pcity->name);
       }
-      my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name, 
-	      get_nation_name(game.players[punit->owner].nation), cn);
+      my_snprintf(s, sizeof(s), _("Unit: %s(%s%s)"), ptype->name,
+		  get_nation_name(unit_owner(punit)->nation), cn);
       XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
       if(punit->owner==game.player_idx)  {

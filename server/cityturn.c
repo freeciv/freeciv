@@ -587,7 +587,7 @@ static void city_populate(struct city *pcity)
 			 _("Game: Famine feared in %s, %s lost!"), 
 			 pcity->name, utname);
 	gamelog(GAMELOG_UNITFS, "%s lose %s (famine)",
-		get_nation_name_plural(game.players[pcity->owner].nation),
+		get_nation_name_plural(city_owner(pcity)->nation),
 		utname);
 	if (city_got_effect(pcity, B_GRANARY))
 	  pcity->food_stock=city_granary_size(pcity->size)/2;
@@ -611,7 +611,7 @@ static int advisor_choose_build(struct player *pplayer, struct city *pcity)
   int id=-1;
   int want=0;
 
-  if (!game.players[pcity->owner].ai.control)
+  if (!city_owner(pcity)->ai.control)
     ai_eval_buildings(pcity); /* so that ai_advisor is smart even for humans */
   ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
   freelog(LOG_DEBUG, "Advisor_choose_build got %d/%d"
@@ -849,7 +849,7 @@ static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
 **************************************************************************/
 static void upgrade_unit_prod(struct city *pcity)
 {
-  struct player *pplayer=&game.players[pcity->owner];
+  struct player *pplayer = city_owner(pcity);
   int id = pcity->currently_building;
   int id2 = unit_upgrades_to(pcity, unit_types[id].obsoleted_by);
 

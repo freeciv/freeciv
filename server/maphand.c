@@ -679,10 +679,12 @@ For removing a unit. The actual removal is done in server_remove_unit
 **************************************************************************/
 void remove_unit_sight_points(struct unit *punit)
 {
-  int x = punit->x,y = punit->y,range = get_unit_type(punit->type)->vision_range;
-  struct player *pplayer = &game.players[punit->owner];
+  int x = punit->x, y = punit->y, range =
+      get_unit_type(punit->type)->vision_range;
+  struct player *pplayer = unit_owner(punit);
 
-  freelog(LOG_DEBUG, "Removing unit sight points at  %i,%i",punit->x,punit->y);
+  freelog(LOG_DEBUG, "Removing unit sight points at  %i,%i", punit->x,
+	  punit->y);
 
   fog_area(pplayer, x, y, range);
 }

@@ -633,10 +633,9 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
               unit_list_size(&(map_get_tile(punit->x, punit->y)->units)) < 2 &&
 	      get_total_attack_power(patt, punit)) { 
 	  freelog(LOG_DEBUG, "%s defending %s from %s's %s",
-			get_unit_type(punit->type)->name,
-			map_get_city(x, y)->name,
-			game.players[pdef->owner].name,
-			get_unit_type(pdef->type)->name);
+		  get_unit_type(punit->type)->name,
+		  map_get_city(x, y)->name,
+		  unit_owner(pdef)->name, get_unit_type(pdef->type)->name);
         } else {
           a = reinforcements_value(punit, pdef->x, pdef->y);
           a += unit_belligerence_primitive(punit);
@@ -670,7 +669,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
       }
       if (map_get_tile(x1, y1)->special & S_HUT && best < 99999 &&
           could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) &&
-          !is_barbarian(&game.players[punit->owner]) &&
+          !is_barbarian(unit_owner(punit)) &&
 /*          zoc_ok_move(punit, x1, y1) && !is_sailing_unit(punit) &&*/
           punit->ai.ai_role != AIUNIT_ESCORT && /* makes life easier */
           !punit->ai.charge && /* above line seems not to work. :( */

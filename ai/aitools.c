@@ -129,7 +129,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   int want=0;
   struct player *plr;
         
-  plr = &game.players[pcity->owner];
+  plr = city_owner(pcity);
      
   /* too bad plr->score isn't kept up to date. */
   city_list_iterate(plr->cities, acity)

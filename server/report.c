@@ -203,7 +203,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
 	if ((pcity=find_city_by_id(game.global_wonders[i]))) {
 	  cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
 		       get_impr_name_ex(pcity, i), pcity->name,
-		       get_nation_name(game.players[pcity->owner].nation));
+		       get_nation_name(city_owner(pcity)->nation));
 	} else {
 	  cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
 		       get_improvement_type(i)->name);

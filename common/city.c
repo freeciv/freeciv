@@ -1360,10 +1360,10 @@ static void set_tax_income(struct city *pcity)
   while (rate) {
     if (get_gov_pcity(pcity)->index != game.government_when_anarchy) {
       tax +=
-	  (100 - game.players[pcity->owner].economic.science -
-	   game.players[pcity->owner].economic.luxury);
-      sci += game.players[pcity->owner].economic.science;
-      lux += game.players[pcity->owner].economic.luxury;
+	  (100 - city_owner(pcity)->economic.science -
+	   city_owner(pcity)->economic.luxury);
+      sci += city_owner(pcity)->economic.science;
+      lux += city_owner(pcity)->economic.luxury;
     } else {			/* ANARCHY */
       lux += 100;
     }
@@ -1426,7 +1426,7 @@ static void citizen_happy_size(struct city *pcity)
   int workers, tmp;
 
   workers = pcity->size - city_specialists(pcity);
-  tmp = content_citizens(&game.players[pcity->owner]);
+  tmp = content_citizens(city_owner(pcity));
   pcity->ppl_content[0] = MAX(0, MIN(workers, tmp));
   pcity->ppl_unhappy[0] = workers - pcity->ppl_content[0];
   pcity->ppl_happy[0] = 0;	/* no one is born happy */
@@ -1580,7 +1580,8 @@ static void unhappy_city_check(struct city *pcity)
 static void set_pollution(struct city *pcity)
 {
   int poppul = 0;
-  struct player *pplayer = &game.players[pcity->owner];
+  struct player *pplayer = city_owner(pcity);
+
   pcity->pollution = pcity->shield_prod;
   if (city_got_building(pcity, B_RECYCLING))
     pcity->pollution /= 3;
@@ -1852,7 +1853,7 @@ int city_specialists(struct city *pcity)
 **************************************************************************/
 int get_temple_power(struct city *pcity)
 {
-  struct player *p = &game.players[pcity->owner];
+  struct player *p = city_owner(pcity);
   int power = 1;
   if (get_invention(p, game.rtech.temple_plus) == TECH_KNOWN)
     power = 2;
@@ -1866,7 +1867,7 @@ int get_temple_power(struct city *pcity)
 **************************************************************************/
 int get_cathedral_power(struct city *pcity)
 {
-  struct player *p = &game.players[pcity->owner];
+  struct player *p = city_owner(pcity);
   int power = 3;
   if (get_invention(p, game.rtech.cathedral_minus /*A_COMMUNISM */ ) ==
       TECH_KNOWN) power--;
@@ -1883,8 +1884,8 @@ int get_cathedral_power(struct city *pcity)
 **************************************************************************/
 int get_colosseum_power(struct city *pcity)
 {
+  struct player *p = city_owner(pcity);
   int power = 3;
-  struct player *p = &game.players[pcity->owner];
   if (get_invention(p, game.rtech.colosseum_plus /*A_ELECTRICITY */ ) ==
       TECH_KNOWN) power++;
   return power;

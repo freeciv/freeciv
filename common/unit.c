@@ -39,8 +39,8 @@
 int unit_move_rate(struct unit *punit)
 {
   int val;
-  struct player *pplayer;
-  pplayer = &game.players[punit->owner];
+  struct player *pplayer = unit_owner(punit);
+  
   val = get_unit_type(punit->type)->move_rate;
   if (!is_air_unit(punit) && !is_heli_unit(punit)) 
     val = (val * punit->hp) / get_unit_type(punit->type)->hp;
@@ -113,10 +113,8 @@ int is_diplomat_action_available(struct unit *pdiplomat,
         return players_at_war(playerid, pcity->owner);
       if(action==DIPLOMAT_MOVE)
         return players_allied(playerid, pcity->owner);
-      if(action==DIPLOMAT_EMBASSY &&
-	 !is_barbarian(&game.players[pcity->owner]) &&
-	 !player_has_embassy(&game.players[pdiplomat->owner], 
-			     &game.players[pcity->owner]))
+      if (action == DIPLOMAT_EMBASSY && !is_barbarian(city_owner(pcity)) &&
+	  !player_has_embassy(unit_owner(pdiplomat), city_owner(pcity)))
 	return 1;
       if(action==SPY_POISON &&
 	 pcity->size>1 &&
@@ -124,8 +122,8 @@ int is_diplomat_action_available(struct unit *pdiplomat,
         return players_at_war(playerid, pcity->owner);
       if(action==DIPLOMAT_INVESTIGATE)
         return 1;
-      if(action==DIPLOMAT_STEAL && !is_barbarian(&game.players[pcity->owner]))
-        return 1;
+      if (action == DIPLOMAT_STEAL && !is_barbarian(city_owner(pcity)))
+	return 1;
       if(action==DIPLOMAT_INCITE)
         return !players_allied(pcity->owner, pdiplomat->owner);
       if(action==DIPLOMAT_ANY_ACTION)
@@ -615,7 +613,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
   struct tile *ptile;
   struct tile_type *type;
 
-  pplayer = &game.players[punit->owner];
+  pplayer = unit_owner(punit);
   ptile = map_get_tile(punit->x, punit->y);
   type = get_tile_type(ptile->terrain);
 

@@ -801,7 +801,7 @@ void tilespec_setup_nation_flag(int id)
 ***********************************************************************/
 static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
 {
-  return get_nation_by_plr(&game.players[pcity->owner])->flag_sprite;
+  return get_nation_by_plr(city_owner(pcity))->flag_sprite;
 }
 
 /**********************************************************************
@@ -809,7 +809,7 @@ static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
 ***********************************************************************/
 static struct Sprite *get_unit_nation_flag_sprite(struct unit *punit)
 {
-  return get_nation_by_plr(&game.players[punit->owner])->flag_sprite;
+  return get_nation_by_plr(unit_owner(punit))->flag_sprite;
 }
 
 /**************************************************************************
