@@ -191,17 +191,21 @@ static void find_prerequisites(struct player *pplayer, int i, int *prereq)
   }
 }
 
+/**************************************************************************
+  ...
+**************************************************************************/
 static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
 			   struct ai_choice *gol)
 {
   Tech_Type_id i, k, l;
   int j;
+  int num_cities_nonzero;
   int values[A_LAST];
   int goal_values[A_LAST];
   int prereq[A_LAST];
   unsigned char cache[A_LAST][A_LAST];
   
-  int c = MAX(1, city_list_size(&pplayer->cities));
+  num_cities_nonzero = MAX(1, city_list_size(&pplayer->cities));
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
   memset(cache, 0, sizeof(cache));
@@ -251,18 +255,20 @@ to be doing; it just looks strange. -- Syela */
 		advances[l].name, values[l], pplayer->ai.tech_want[l]);
   if (choice) {
     choice->choice = l;
-    choice->want = values[l] / c;
-    choice->type = values[pplayer->research.researching] / c; /* hijacking this ...
-                                          in order to leave tech_wants alone */
+    choice->want = values[l] / num_cities_nonzero;
+    choice->type = values[pplayer->research.researching] / num_cities_nonzero;
+    /* hijacking this ... in order to leave tech_wants alone */
   }
 
   if (gol) {
     gol->choice = k;
-    gol->want = goal_values[k] / c;
-    gol->type = goal_values[pplayer->ai.tech_goal] / c;
+    gol->want = goal_values[k] / num_cities_nonzero;
+    gol->type = goal_values[pplayer->ai.tech_goal] / num_cities_nonzero;
     freelog(LOG_DEBUG,
-	    "Gol->choice = %s, gol->want = %d, goal_value = %d, c = %d",
-	    advances[gol->choice].name, gol->want, goal_values[k], c);
+	    "Gol->choice = %s, gol->want = %d, goal_value = %d, "
+	    "num_cities_nonzero = %d",
+	    advances[gol->choice].name, gol->want, goal_values[k],
+	    num_cities_nonzero);
   }
   return;
 }
