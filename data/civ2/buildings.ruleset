@@ -54,8 +54,8 @@ Allows a city to produce veteran air units.  Also, damaged air units\
 \n\n\
 Two cities with Airports can airlift one unit per turn. \
  Airlifting instantly transports the unit from one city to another\
- and will use all of the unit's MP.  A unit must have some MP left\
- to be airlifted.\
+ and will use all of the unit's movement points.  A unit must have\
+ some movement points left to be airlifted.\
 ")
 
 [building_aqueduct]
@@ -215,8 +215,8 @@ build_cost  = 200
 upkeep      = 4
 variant     = 0
 helptext    = _("\
-Increases the shield production in a city by 50%.  Also contributes\
- to pollution.\
+Increases the shield production in a city by 50%, but also contributes\
+ significantly to pollution.\
 ")
 
 [building_granary]
@@ -228,9 +228,9 @@ build_cost  = 60
 upkeep      = 1
 variant     = 0
 helptext    = _("\
-If a city has a Granary, then when it grows or shrinks, the amount\
- of stored food will be set to half full.  This helps a city to grow\
- faster, and withstand famine more easily.\
+The amount of stored food will be set to half full whenever a city\
+ with a Granary shrinks or grows. This helps a city to grow faster\
+ and more easily withstand famine.\
 ")
 ; NOTE:
 ; In Civ2, city size reduction does not generate food like this.
@@ -281,7 +281,7 @@ build_cost  = 80
 upkeep      = 1
 variant     = 0
 helptext    = _("\
-Increases the science production in a city by 50%.\
+Increases the science output in a city by 50%.\
 ")
 
 [building_marketplace]
@@ -293,7 +293,7 @@ build_cost  = 80
 upkeep      = 1
 variant     = 0
 helptext    = _("\
-Increases the luxury and tax production in a city by 50%.\
+Increases the luxury and tax output in a city by 50%.\
 ")
 
 [building_mass_transit]
@@ -641,8 +641,9 @@ build_cost  = 600
 upkeep      = 0
 variant     = 0
 helptext    = _("\
-City improvements which would normally have an upkeep of 1 are free\
- of upkeep, for all cities.\
+All cities on the map become visible for the player who owns it. \
+ It allows all players to start building spaceship parts (assuming\
+ they have researched the necessary technologies).\
 ")
 
 [building_asmiths_trading_co]
@@ -654,9 +655,8 @@ build_cost  = 400
 upkeep      = 0
 variant     = 0
 helptext    = _("\
-All cities on the map become visible for the player who owns it. \
- It allows all players to start building spaceship parts (assuming\
- they have researched the necessary technologies).\
+City improvements which would normally have an upkeep of 1 are free\
+ of upkeep, for all cities.\
 ")
 
 [building_colossus]
@@ -693,7 +693,8 @@ build_cost  = 600
 upkeep      = 0
 variant     = 0
 helptext    = _("\
-Makes one unhappy citizen content in all cities.\
+This stunning technological achievement makes one unhappy\
+ citizen content in all cities.\
 ")
 
 [building_darwins_voyage]
@@ -705,7 +706,9 @@ build_cost  = 300
 upkeep      = 0
 variant     = 0
 helptext    = _("\
-Gives two immediate technology advances.\
+Charles Darwin's voyage sparked the discovery of the evolution\
+ of the species, which inspired greater confidence in science.\
+ Gives two immediate technology advances.\
 ")
 
 [building_eiffel_tower]
@@ -1027,7 +1030,7 @@ variant     = 0
 helptext    = _("\
 This is not a normal improvement.  Instead, setting a city's\
  production to Capitalization means its shield production is\
- converted to tax production (money).\
+ converted to tax output (money).\
 ")
 
 [b_special]

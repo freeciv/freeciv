@@ -33,7 +33,7 @@ options="1.8.2a +no_a_none"
 ;
 ; "Bonus_Tech" = player gets extra tech if rearched first
 ;               Note: currently only one tech with this flag is supported
-; "Boat_Fast" = all see units get one extra move point
+; "Boat_Fast" = all sea units get one extra move point
 ; "Bridge"   = "Settler" unit types can build bridges over rivers
 ; "Railroad" = "Settler" unit types can build rail roads
 ; "Fortress" = "Settler" unit types can build fortress

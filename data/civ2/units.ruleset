@@ -1256,7 +1256,7 @@ helptext      = _("\
  once per city).\
 \n\n\
 - A Diplomat can also bribe an enemy unit, if that unit is the only\
- one on its square.\
+ unit on its square.\
 \n\n\
 - Diplomats can even start a revolution in an enemy city and turn\
  it into your own, if you have the money!\
@@ -1334,9 +1334,9 @@ helptext      = _("\
 Every Caravan that is used to build a wonder will add 50 shields\
  towards the production of the wonder.\
 \n\n\
-TIP:  A well-known strategy is to build wonders in one turn, by\
- stockpiling a stack of Caravans, then bringing them all\
- into the city where the wonder is to be built.\
+TIP:  You can stockpile a stack of Caravans in advance and bring\
+ them all into a city where you have started to build a wonder,\
+ and finish it in only one turn!\
 ")
 
 [unit_freight]
