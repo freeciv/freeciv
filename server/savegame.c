@@ -669,6 +669,9 @@ static void player_load(struct player *plr, int plrno,
   char *p;
   char *savefile_options = get_savefile_options(file);
 
+  /* Initialise list of improvements with Player-wide equiv_range */
+  improvement_status_init(plr->improvements);
+
   player_map_allocate(plr);
 
   plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
@@ -962,11 +965,14 @@ static void player_load(struct player *plr, int plrno,
     }
 
     p=secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
+
+    /* Initialise list of improvements with City- and Building-wide
+       equiv_ranges */
+    improvement_status_init(pcity->improvements);
+
     for(x=0; x<game.num_impr_types; x++) {
-      if (*p) {
-	pcity->improvements[x]=(*p++=='1') ? 1 : 0;
-      } else {
-	pcity->improvements[x]=0;
+      if (*p && *p++=='1') {
+        city_add_improvement(pcity,x);
       }
     }
 
@@ -2040,6 +2046,11 @@ void game_load(struct section_file *file)
 
   game.is_new_game = !secfile_lookup_int_default(file, 1, "game.save_players");
 
+  if (!game.is_new_game) { /* If new game, this is done in srv_main.c */
+    /* Initialise lists of improvements with World and Island equiv_ranges */
+    improvement_status_init(game.improvements);
+  }
+
   map_load(file);
 
   if (!game.is_new_game && game.load_options.load_players) {
@@ -2116,6 +2127,11 @@ void game_load(struct section_file *file)
     } players_iterate_end;
   } else {
     game.nplayers = 0;
+  }
+
+  if (!game.is_new_game) {
+    /* Set active city improvements/wonders and their effects */
+    update_all_effects();
   }
 
   game.player_idx=0;

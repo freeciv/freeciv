@@ -29,6 +29,18 @@ struct player;
  */
 typedef int Impr_Type_id;
 
+/* Improvement status
+ * (for cities' lists of improvements)
+ * An enum or bitfield would be neater here, but we use a typedef for
+ * a) less memory usage and b) compatibility with old behaviour
+ */
+typedef unsigned char Impr_Status;
+#define I_NONE       0   /* Improvement not built */
+#define I_ACTIVE     1   /* Improvement built, and having its effect */
+#define I_OBSOLETE   2   /* Built, but obsoleted by a tech */
+#define I_REDUNDANT  3   /* Built, but replaced by wonder/other building */
+
+
 /* FIXME: Remove this define when there is per-file need for this enum. */
 #define OLD_IMPR_TYPE_ENUM
 /* FIXME: Remove this enum and the ifdef/endif when gen-impr implemented. */
@@ -213,14 +225,21 @@ int is_wonder(Impr_Type_id id);
 char *get_improvement_name(Impr_Type_id id);
 int improvement_variant(Impr_Type_id id);	/* FIXME: remove when gen-impr obsoletes */
 int improvement_obsolete(struct player *pplayer, Impr_Type_id id);
+int improvement_redundant(struct player *pplayer,struct city *pcity,
+                          Impr_Type_id id,int want_to_build);
 int wonder_obsolete(Impr_Type_id id);
 int is_wonder_useful(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(char *s);
+void improvement_status_init(Impr_Status *improvements);
 
 /* player related improvement and unit functions */
 
 int could_player_eventually_build_improvement(struct player *p, Impr_Type_id id);
 int could_player_build_improvement(struct player *p, Impr_Type_id id);
 int can_player_build_improvement(struct player *p, Impr_Type_id id);
+
+/* city related improvement functions */
+
+void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);
 
 #endif  /* FC__IMPROVEMENT_H */

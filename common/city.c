@@ -20,6 +20,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "log.h"
 #include "map.h"
 #include "support.h"
 
@@ -153,7 +154,8 @@ int map_to_city_y(struct city *pcity, int y)
 }
 
 /**************************************************************************
-...
+ FIXME: This should be replaced in the near future with
+ improvment_redundant()
 **************************************************************************/
 int wonder_replacement(struct city *pcity, Impr_Type_id id)
 {
@@ -256,63 +258,74 @@ struct player *city_owner(struct city *pcity)
 }
 
 /**************************************************************************
-...
-  modularized so the AI can choose the tech it wants -- Syela 
+ Returns 1 if the given city is next to or on one of the given building's
+ terr_gate (terrain) or spec_gate (specials), or if the building has no
+ terrain/special requirements.
+**************************************************************************/
+static int city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
+{
+  struct impr_type *impr;
+  enum tile_terrain_type *terr_gate;
+  enum tile_special_type *spec_gate;
+
+  impr = get_improvement_type(id);
+  spec_gate = impr->spec_gate;
+  terr_gate = impr->terr_gate;
+
+  if (*spec_gate==S_NO_SPECIAL && *terr_gate==T_LAST) return 1;
+
+  for (;*spec_gate!=S_NO_SPECIAL;spec_gate++) {
+    if (map_get_special(pcity->x,pcity->y) & *spec_gate ||
+        is_special_near_tile(pcity->x,pcity->y,*spec_gate)) return 1;
+  }
+
+  for (;*terr_gate!=T_LAST;terr_gate++) {
+    if (map_get_terrain(pcity->x,pcity->y) == *terr_gate ||
+        is_terrain_near_tile(pcity->x,pcity->y,*terr_gate)) return 1;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
+ Will this city ever be able to build this improvement?
+ Doesn't check for building prereqs
+**************************************************************************/
+int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
+{
+  /* also does an improvement_exists() */
+  if (!could_player_eventually_build_improvement(city_owner(pcity),id))
+    return 0;
+
+  if (city_got_building(pcity, id))
+    return 0;
+
+  if (!city_has_terr_spec_gate(pcity,id))
+    return 0;
+
+  return !improvement_redundant(city_owner(pcity),pcity, id,1);
+}
+
+/**************************************************************************
+ Could this improvment be built in the city, without checking if the
+ owner has the required tech, but if all other pre reqs are fulfiled? 
+ modularized so the AI can choose the tech it wants -- Syela 
 **************************************************************************/
 int could_build_improvement(struct city *pcity, Impr_Type_id id)
 {
-  if (!improvement_exists(id))
+  struct impr_type *impr;
+
+  if (!can_eventually_build_improvement(pcity, id))
     return 0;
-  if (city_got_building(pcity, id))
-    return 0;
-  if ((city_got_building(pcity, B_HYDRO)|| city_got_building(pcity, B_POWER) ||
-      city_got_building(pcity, B_NUCLEAR)) && (id==B_POWER || id==B_HYDRO || id==B_NUCLEAR))
-    return 0;
-  if (id==B_RESEARCH && !city_got_building(pcity, B_UNIVERSITY))
-    return 0;
-  if (id==B_UNIVERSITY && !city_got_building(pcity, B_LIBRARY))
-    return 0;
-  if (id==B_STOCK && !city_got_building(pcity, B_BANK))
-    return 0;
-  if (id == B_SEWER && !city_got_building(pcity, B_AQUEDUCT))
-    return 0;
-  if (id==B_BANK && !city_got_building(pcity, B_MARKETPLACE))
-    return 0;
-  if (id==B_MFG && !city_got_building(pcity, B_FACTORY))
-    return 0;
-  if ((id==B_HARBOUR || id==B_COASTAL || id == B_OFFSHORE || id == B_PORT) && !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
-    return 0;
-  if (id == B_HYDRO
-      && !(map_get_terrain(pcity->x, pcity->y) == T_RIVER)
-      && !(map_get_special(pcity->x, pcity->y) & S_RIVER)
-      && !(map_get_terrain(pcity->x, pcity->y) == T_MOUNTAINS)
-      && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
-      && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER)
-      && !is_special_near_tile(pcity->x, pcity->y, S_RIVER)
-     )
-    return 0;
-  if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
-    if (!game.global_wonders[B_APOLLO]) {
+
+  impr = get_improvement_type(id);
+
+  /* The building pre req */
+  if (impr->bldg_req != B_LAST)
+    if (!city_got_building(pcity,impr->bldg_req))
       return 0;
-    } else {
-      struct player *p=city_owner(pcity);
-      if (p->spaceship.state >= SSHIP_LAUNCHED)
-	return 0;
-      if (id == B_SSTRUCTURAL && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
-	return 0;
-      if (id == B_SCOMP && p->spaceship.components >= NUM_SS_COMPONENTS)
-	return 0;
-      if (id == B_SMODULE && p->spaceship.modules >= NUM_SS_MODULES)
-	return 0;
-    }
-  }
-  if (is_wonder(id)) {
-    if (game.global_wonders[id]) return 0;
-  } else {
-    struct player *pplayer=city_owner(pcity);
-    if (improvement_obsolete(pplayer, id)) return 0;
-  }
-  return !wonder_replacement(pcity, id);
+
+  return 1;
 }
 
 /**************************************************************************
@@ -329,54 +342,6 @@ int can_build_improvement(struct city *pcity, Impr_Type_id id)
   return(could_build_improvement(pcity, id));
 }
 
-/**************************************************************************
-Will this city ever be able to build this improvement?
-**************************************************************************/
-int can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
-{
-  /* Can the _player_ ever build the improvement? */
-  if (!could_player_eventually_build_improvement(city_owner(pcity), id))
-    return 0;
-  
-  /* The player can build the improvement.  Check for other requirements
-     that are city-specific.  At this point, all we really care about is
-     whether there are any terrain restrictions -- we figure that improvement
-     preconditions (like building a marketplace before a bank) will 
-     be settled out on their own. */
-  
-  /* Does the city already have one of these improvements? */
-  if (city_got_building(pcity, id))
-    return 0;
-
-  /* At most one power plant per city. */
-  if ((city_got_building(pcity, B_HYDRO) || 
-       city_got_building(pcity, B_POWER) ||
-       city_got_building(pcity, B_NUCLEAR)) && 
-      (id==B_POWER || id==B_HYDRO || id==B_NUCLEAR))
-    return 0;
-
-  /* Costal improvements require a coast. */
-  if ((id==B_HARBOUR || id==B_COASTAL || id == B_OFFSHORE || id == B_PORT) &&
-      !is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN))
-    return 0;
-  
-  /* A hydro dam has some fun terrain requirements. */
-  if ((id == B_HYDRO)
-      && !(map_get_terrain(pcity->x, pcity->y) == T_RIVER)
-      && !(map_get_special(pcity->x, pcity->y) & S_RIVER)
-      && !(map_get_terrain(pcity->x, pcity->y) == T_MOUNTAINS)
-      && !is_terrain_near_tile(pcity->x, pcity->y, T_MOUNTAINS)
-      && !is_terrain_near_tile(pcity->x, pcity->y, T_RIVER)
-      && !is_special_near_tile(pcity->x, pcity->y, S_RIVER)
-     )
-    return 0;
-
-  /* Don't allow improvements that are supplanted by wonders. */
-  if (wonder_replacement(pcity, id))
-    return 0;
-
-  return 1;
-}
 
 /**************************************************************************
 Whether given city can build given unit,
@@ -1276,3 +1241,44 @@ int city_granary_size(int city_size)
   return (game.rgame.granary_food_ini * game.foodbox) +
     (game.rgame.granary_food_inc * city_size * game.foodbox) / 100;
 }
+
+/**************************************************************************
+ Adds an improvement (and its effects) to a city, and sets the global
+ arrays if the improvement has effects and/or an equiv_range that
+ extend outside of the city.
+ N.B. The building is created "active" and its effects "inactive"; however,
+      a global wonder (or other building) may render the building redundant,
+      and the necessary techs/other effects/buildings may be present to
+      activate the effects, so update_all_effects() must be called to resolve
+      these dependencies.
+**************************************************************************/
+void city_add_improvement(struct city *pcity,Impr_Type_id impr)
+{
+  mark_improvement(pcity,impr,I_ACTIVE);
+}
+
+/**************************************************************************
+ Removes an improvement (and its effects) from a city, and updates the global
+ arrays if the improvement has effects and/or an equiv_range that
+ extend outside of the city.
+ N.B. Must call update_all_effects() to resolve dependencies.
+**************************************************************************/
+void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
+{
+  freelog(LOG_DEBUG,"Improvement %s removed from city %s",
+          improvement_types[impr].name,pcity->name);
+  mark_improvement(pcity,impr,I_NONE);
+
+  /* If the building had a larger equiv_range than just this city, there may
+     be other improvements in the same range - so make sure they are restored */
+  if (improvement_types[impr].equiv_range>EFR_CITY) {
+    players_iterate(pothplayer) {
+      city_list_iterate(pothplayer->cities,pothcity) {
+        if (pothcity->improvements[impr]!=I_NONE) {
+          mark_improvement(pothcity,impr,pothcity->improvements[impr]);
+        }
+      } city_list_iterate_end;
+    } players_iterate_end;
+  }
+}
+

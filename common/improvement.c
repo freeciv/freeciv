@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "map.h"
 #include "support.h"
 #include "tech.h"
 
@@ -271,6 +272,67 @@ int improvement_obsolete(struct player *pplayer, Impr_Type_id id)
 }
 
 /**************************************************************************
+ Fills in lists of improvements at all equiv_ranges that might affect the
+ given city (owned by the given player)
+**************************************************************************/
+static void fill_ranges_improv_lists(Impr_Status *implist[EFR_LAST],
+				     struct city *pcity,
+				     struct player *pplayer)
+{
+  int i,cont=-1;
+  for (i=0;i<EFR_LAST;i++) implist[i]=NULL;
+
+  if (pcity) {
+    implist[EFR_CITY]=pcity->improvements;
+    cont = map_get_continent(pcity->x,pcity->y);
+  }
+
+  if (pplayer) {
+    implist[EFR_PLAYER]=pplayer->improvements;
+    if (cont >= 0 && pplayer->island_improv) {
+      implist[EFR_ISLAND] = &pplayer->island_improv[cont*game.num_impr_types];
+    }
+  }
+
+  implist[EFR_WORLD]=game.improvements;
+}
+
+/**************************************************************************
+ Checks whether the building is within the equiv_range of a building that
+ replaces it
+**************************************************************************/
+int improvement_redundant(struct player *pplayer,struct city *pcity,
+                          Impr_Type_id id,int want_to_build) 
+{
+  int i;
+  Impr_Status *equiv_list[EFR_LAST];
+  Impr_Type_id *ept;
+
+  /* Make lists of improvements that affect this city */
+  fill_ranges_improv_lists(equiv_list,pcity,pplayer);
+
+  /* For every improvement named in equiv_dupl or equiv_repl, check for
+     its presence in any of the lists (we check only for its presence, and
+     assume that it has the "equiv" effect even if it itself is redundant) */
+  for (ept=improvement_types[id].equiv_repl;ept && *ept!=B_LAST;ept++) {
+    for (i=0;i<EFR_LAST;i++) {
+      if (equiv_list[i] && equiv_list[i][*ept] != I_NONE) return 1;
+    }
+  }
+
+  /* equiv_dupl makes buildings redundant, but that shouldn't stop you
+     from building them if you really want to */
+  if (!want_to_build) {
+    for (ept=improvement_types[id].equiv_dupl;ept && *ept!=B_LAST;ept++) {
+      for (i=0;i<EFR_LAST;i++) {
+	if (equiv_list[i] && equiv_list[i][*ept] != I_NONE) return 1;
+      }
+    }
+  }
+  return 0;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int wonder_obsolete(Impr_Type_id id)
@@ -290,36 +352,56 @@ int is_wonder_useful(Impr_Type_id id)
 }
 
 /**************************************************************************
+ Clears a list of improvements - sets them all to I_NONE
+**************************************************************************/
+void improvement_status_init(Impr_Status *improvements)
+{
+  int i;
+  for (i=0;i<game.num_impr_types;i++) improvements[i]=I_NONE;
+}
+
+/**************************************************************************
   Whether player could build this improvement, assuming they had
   the tech req, and assuming a city with the right pre-reqs etc.
 **************************************************************************/
 int could_player_eventually_build_improvement(struct player *p,
 					      Impr_Type_id id)
 {
+  struct impr_type *impr;
+
+  /* This also checks if tech req is Never */
   if (!improvement_exists(id))
     return 0;
 
-  /* You can't build an improvement if it's tech requirement is Never. */
-  /*   if (improvement_types[id].tech_req == A_LAST) return 0; */
-  /* This is what "exists" means, done by improvement_exists() above --dwp */
-  
-  if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
-    if (!game.global_wonders[B_APOLLO]) {
-      return 0;
-    } else {
-      if (p->spaceship.state >= SSHIP_LAUNCHED)
-	return 0;
-      if (id == B_SSTRUCTURAL && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
-	return 0;
-      if (id == B_SCOMP && p->spaceship.components >= NUM_SS_COMPONENTS)
-	return 0;
-      if (id == B_SMODULE && p->spaceship.modules >= NUM_SS_MODULES)
-	return 0;
+  impr = get_improvement_type(id);
+
+  if (impr->effect) {
+    struct impr_effect *peffect = impr->effect;
+    Eff_Type_id type;
+
+    /* This if for a spaceship component is asked */
+    while ((type = peffect->type) != EFT_LAST) {
+      if (type == EFT_SPACE_PART) {
+      	/* TODO: remove this */
+	if (!game.global_wonders[B_APOLLO])
+	  return 0;
+        if (p->spaceship.state >= SSHIP_LAUNCHED)
+	  return 0;
+	if (peffect->amount == 1 && p->spaceship.structurals >= NUM_SS_STRUCTURALS)
+	  return 0;
+	if (peffect->amount == 2 && p->spaceship.components >= NUM_SS_COMPONENTS)
+	  return 0;
+	if (peffect->amount == 3 && p->spaceship.modules >= NUM_SS_MODULES)
+	  return 0;
+      }
+      peffect++;
     }
   }
   if (is_wonder(id)) {
+    /* Can't build wonder if already built */
     if (game.global_wonders[id]) return 0;
   } else {
+    /* Can't build if obsolette */
     if (improvement_obsolete(p, id)) return 0;
   }
   return 1;
@@ -351,3 +433,27 @@ int can_player_build_improvement(struct player *p, Impr_Type_id id)
     return 0;
   return(could_player_build_improvement(p, id));
 }
+
+/**************************************************************************
+ Marks an improvment to the status
+**************************************************************************/
+void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status)
+{
+  Eff_Range_id equiv_range;
+  Impr_Status *improvements,*equiv_list[EFR_LAST];
+  struct player *pplayer;
+
+  pcity->improvements[id] = status;
+  pplayer = city_owner(pcity);
+  equiv_range = improvement_types[id].equiv_range;
+
+  /* Get the relevant improvement list */
+  fill_ranges_improv_lists(equiv_list,pcity,pplayer);
+  improvements = equiv_list[equiv_range];
+
+  if (improvements) {
+    /* And set the same status */
+    improvements[id] = status;
+  }
+}
+

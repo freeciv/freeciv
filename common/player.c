@@ -102,6 +102,12 @@ void player_init(struct player *plr)
   }
   plr->gives_shared_vision = 0;
   plr->really_gives_vision = 0;
+
+  /* Initialise list of improvements with Player-wide equiv_range */
+  improvement_status_init(plr->improvements);
+  /* Blank lists of Island-range improvements (these are initialised
+     elsewhere (server: player_map_allocate) */
+  plr->island_improv = NULL;
 }
 
 /***************************************************************

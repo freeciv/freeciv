@@ -1006,3 +1006,44 @@ void translate_data_names(void)
 #undef name_strlcpy
 
 }
+
+/***************************************************************
+ Update the improvments effects
+***************************************************************/
+void update_all_effects(void)
+{
+  int i;
+
+  freelog(LOG_DEBUG,"update_all_effects");
+
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities,pcity) {
+      for (i=0;i<game.num_impr_types;i++) {
+        if (pcity->improvements[i]==I_NONE) continue;
+        if (improvement_obsolete(pplayer,i)) {
+          freelog(LOG_DEBUG,"%s in %s is obsolete",
+                  improvement_types[i].name,pcity->name);
+          mark_improvement(pcity,i,I_OBSOLETE);
+        }
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
+
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities,pcity) {
+      for (i=0;i<game.num_impr_types;i++) {
+        if (pcity->improvements[i]==I_NONE ||
+            pcity->improvements[i]==I_OBSOLETE) continue;
+        if (improvement_redundant(pplayer,pcity,i,0)) {
+          freelog(LOG_DEBUG,"%s in %s is redundant",
+                  improvement_types[i].name,pcity->name);
+          mark_improvement(pcity,i,I_REDUNDANT);
+        } else {
+          mark_improvement(pcity,i,I_ACTIVE);
+          freelog(LOG_DEBUG,"%s in %s is active!",
+                  improvement_types[i].name,pcity->name);
+        }
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
+}

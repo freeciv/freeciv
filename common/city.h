@@ -222,7 +222,7 @@ struct city {
   int is_building_unit;    /* boolean unit/improvement */
   int currently_building;
   
-  unsigned char improvements[B_LAST];
+  Impr_Status improvements[B_LAST];
   
   struct worklist *worklist;
 
@@ -372,5 +372,8 @@ int city_exists_within_city_radius(int x, int y, int may_be_on_center);
 
 /* granary size as a function of city size */
 int city_granary_size(int city_size);
+
+void city_add_improvement(struct city *pcity,Impr_Type_id impr);
+void city_remove_improvement(struct city *pcity,Impr_Type_id impr);
 
 #endif  /* FC__CITY_H */

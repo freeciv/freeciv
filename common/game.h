@@ -19,6 +19,7 @@
 #endif
 
 #include "connection.h"		/* struct conn_list */
+#include "improvement.h"	/* Impr_Status */
 #include "shared.h"
 #include "player.h"
 
@@ -90,6 +91,7 @@ struct civ_game {
   int global_wonders[B_LAST];              /* contains city id's */
          /* global_wonders[] may also be (-1), or the id of a city
 	    which no longer exists, if the wonder has been destroyed */
+  Impr_Status improvements[B_LAST]; /* improvements with equiv_range==World */
 
   int heating; /* Number of polluted squares. */
   int globalwarming; /* Total damage done. (counts towards a warming event.) */
@@ -230,6 +232,8 @@ void translate_data_names(void);
 
 struct player *get_player(int player_id);
 int get_num_human_and_ai_players(void);
+
+void update_all_effects(void);
 
 extern struct civ_game game;
 

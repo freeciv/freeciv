@@ -15,6 +15,7 @@
 
 #include "city.h"
 #include "connection.h"		/* struct conn_list */
+#include "improvement.h"	/* Impr_Status */
 #include "nation.h"
 #include "shared.h"
 #include "spaceship.h"
@@ -158,6 +159,9 @@ struct player {
   struct player_tile *private_map;
   unsigned int gives_shared_vision; /* bitvector those that give you shared vision */
   unsigned int really_gives_vision; /* takes into account that p3 may see what p1 has via p2 */
+  Impr_Status improvements[B_LAST]; /* improvements with equiv_range==Player */
+  Impr_Status *island_improv; /* improvements with equiv_range==Island, dimensioned to
+			 	 [map.num_continents][game.num_impr_types] */
 };
 
 void player_init(struct player *plr);

@@ -782,7 +782,10 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
 static void raze_city(struct city *pcity)
 {
   int i, razechance = game.razechance;
-  pcity->improvements[B_PALACE]=0;
+
+  /* We don't use city_remove_improvement here as the global effects
+     stuff has already been handled by transfer_city */
+  pcity->improvements[B_PALACE]=I_NONE;
 
   /* land barbarians are more likely to destroy city improvements */
   if( is_land_barbarian(&game.players[pcity->owner]) )
@@ -791,7 +794,7 @@ static void raze_city(struct city *pcity)
   for (i=0;i<game.num_impr_types;i++) {
     if (city_got_building(pcity, i) && !is_wonder(i) 
 	&& (myrand(100) < razechance)) {
-      pcity->improvements[i]=0;
+      pcity->improvements[i]=I_NONE;
     }
   }
   nullify_prechange_production(pcity);
@@ -851,6 +854,16 @@ struct city *transfer_city(struct player *ptaker,
   unit_list_unlink_all(&pcity->units_supported);
   unit_list_init(&pcity->units_supported);
 
+  /* Remove all global improvement effects that this city confers (but
+     then restore the local improvement list - we need this to restore the
+     global effects for the new city owner) */
+  for (i=0;i<game.num_impr_types;i++) {
+    if (pcity->improvements[i]!=I_NONE) {
+      city_remove_improvement(pcity,i);
+      pcity->improvements[i]=I_ACTIVE;
+    }
+  }
+
   city_list_unlink(&pgiver->cities, pcity);
   pcity->owner = ptaker->player_no;
   city_list_insert(&ptaker->cities, pcity);
@@ -907,6 +920,14 @@ struct city *transfer_city(struct player *ptaker,
   initialize_infrastructure_cache(pcity);
   if (raze)
     raze_city(pcity);
+
+  /* Restore any global improvement effects that this city confers */
+  for (i=0;i<game.num_impr_types;i++) {
+    if (pcity->improvements[i]!=I_NONE) {
+      city_add_improvement(pcity,i);
+    }
+  }
+  update_all_effects();
 
   /* If the city was building something we haven't invented we
      must change production. */
@@ -991,11 +1012,13 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   /* Set up the worklist */
   pcity->worklist = create_worklist();
 
-  for(i=0; i<game.num_impr_types; i++)
-    pcity->improvements[i]=0;
-  if(!pplayer->capital) {
+  /* Initialise list of improvements with City- and Building-wide equiv_range */
+  improvement_status_init(pcity->improvements);
+
+  if (!pplayer->capital) {
     pplayer->capital=1;
-    pcity->improvements[B_PALACE]=1;
+    city_add_improvement(pcity,B_PALACE);
+    update_all_effects();
   }
   pcity->turn_last_built = game.year;
   pcity->turn_changed_target = game.year;
@@ -1076,10 +1099,20 @@ void remove_city(struct city *pcity)
   int o, x, y;
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  int i;
 
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
           get_nation_name_plural(pplayer->nation),
           pcity->name,pcity->x,pcity->y);
+
+  /* Explicitly remove all improvements, to properly remove any global effects
+     and to handle the preservation of "destroyed" effects */
+  for (i=0;i<game.num_impr_types;i++) {
+    if (pcity->improvements[i]!=I_NONE) {
+      city_remove_improvement(pcity,i);
+    }
+  }
+  update_all_effects();
 
   /* This is cutpasted with modifications from transfer_city_units. Yes, it is ugly.
      But I couldn't see a nice way to make them use the same code */
@@ -1598,7 +1631,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   p=packet->improvements;
   for(i=0; i<game.num_impr_types; i++)
-    *p++=(pcity->improvements[i]) ? '1' : '0';
+    *p++=(city_got_building(pcity,i)) ? '1' : '0';
   *p='\0';
 }
 
@@ -1722,7 +1755,6 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
 void do_sell_building(struct player *pplayer, struct city *pcity, int id)
 {
   if (!is_wonder(id)) {
-    pcity->improvements[id]=0;
     pplayer->economic.gold += improvement_value(id);
     building_lost(pcity, id);
   }
@@ -1735,7 +1767,7 @@ void building_lost(struct city *pcity, int id)
 {
   struct player *owner = city_owner(pcity);
 
-  pcity->improvements[id]=0;
+  city_remove_improvement(pcity,id);
   if (id == B_PALACE &&
       ((owner->spaceship.state == SSHIP_STARTED) ||
        (owner->spaceship.state == SSHIP_LAUNCHED))) {

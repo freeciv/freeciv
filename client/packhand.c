@@ -340,8 +340,12 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->is_building_unit=packet->is_building_unit;
   pcity->currently_building=packet->currently_building;
-  if (city_is_new)
+  if (city_is_new) {
     pcity->worklist = create_worklist();
+
+    /* Initialise list of improvements with City- or Building-wide equiv_range */
+    improvement_status_init(pcity->improvements);
+  }
   copy_worklist(pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
   pcity->did_sell=packet->did_sell;
@@ -367,8 +371,15 @@ void handle_city_info(struct packet_city_info *packet)
     }
   }
     
-  for(i=0; i<game.num_impr_types; i++)
-    pcity->improvements[i]=(packet->improvements[i]=='1') ? 1 : 0;
+  for(i=0; i<game.num_impr_types; i++) {
+    if (packet->improvements[i]=='1') {
+      if (pcity->improvements[i]==I_NONE) city_add_improvement(pcity,i);
+    } else if (city_is_new) {
+      pcity->improvements[i]=I_NONE;
+    } else if (pcity->improvements[i]!=I_NONE) {
+      city_remove_improvement(pcity,i);
+    }
+  }
 
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
            pcity->owner==game.player_idx) || packet->diplomat_investigate;
@@ -399,6 +410,7 @@ void handle_city_info(struct packet_city_info *packet)
       timer_initialized = 1;
     }
   }
+  update_all_effects();
 }
 
 /**************************************************************************
@@ -526,8 +538,20 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->ppl_happy[4]   = 0;
   }
 
-  pcity->improvements[B_PALACE] = packet->capital;
-  pcity->improvements[B_CITY]   = packet->walls;
+  if (city_is_new) improvement_status_init(pcity->improvements);
+
+  if (packet->capital) {
+    if (pcity->improvements[B_PALACE]==I_NONE)
+      city_add_improvement(pcity,B_PALACE);
+  } else if (!city_is_new) {
+    city_remove_improvement(pcity,B_PALACE);
+  }
+  if (packet->walls) {
+    if (pcity->improvements[B_CITY]==I_NONE)
+      city_add_improvement(pcity,B_CITY);
+  } else if (!city_is_new) {
+    city_remove_improvement(pcity,B_CITY);
+  }
 
   if (city_is_new)
     pcity->worklist = create_worklist();
@@ -565,10 +589,7 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->did_buy            = 0;
     pcity->did_sell           = 0;
     pcity->was_happy          = 0;
-    for(i=0; i<game.num_impr_types; i++) {
-      if (i != B_PALACE && i != B_CITY)
-        pcity->improvements[i] = 0;
-    }
+
     for(y=0; y<CITY_MAP_SIZE; y++)
       for(x=0; x<CITY_MAP_SIZE; x++)
 	pcity->city_map[x][y] = C_TILE_EMPTY;
@@ -580,6 +601,7 @@ void handle_short_city(struct packet_short_city *packet)
   if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
     update_city_descriptions();
   }
+  update_all_effects();
 }
 
 /**************************************************************************
@@ -966,14 +988,25 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.nuclearwinter=pinfo->nuclearwinter;
   game.cooling=pinfo->cooling;
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+  	improvement_status_init(game.improvements);
     game.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.player_idx];
   }
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     game.global_advances[i]=pinfo->global_advances[i];
-  for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
-    game.global_wonders[i]=pinfo->global_wonders[i];
-  
+  for(i=0; i<B_LAST/*game.num_impr_types*/; i++) {
+     game.global_wonders[i]=pinfo->global_wonders[i];
+/* Only add in the improvement if it's in a "foreign" (i.e. unknown) city
+   and has equiv_range==World - otherwise we deal with it in its home
+   city anyway */
+    if (is_wonder(i) && improvement_types[i].equiv_range==EFR_WORLD &&
+        !find_city_by_id(game.global_wonders[i])) {
+      if (game.global_wonders[i]<=0) game.improvements[i]=I_NONE;
+      else game.improvements[i]=I_ACTIVE;
+    }
+  }
+  update_all_effects();
+
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     if(get_client_state()==CLIENT_SELECT_RACE_STATE)
       popdown_races_dialog();
@@ -2108,7 +2141,7 @@ void handle_sabotage_list(struct packet_sabotage_list *packet)
   if (punit && pcity) {
     int i;
     for(i=0; i<game.num_impr_types; i++)
-      pcity->improvements[i] = (packet->improvements[i]=='1') ? 1 : 0;
+      pcity->improvements[i] = (packet->improvements[i]=='1') ? I_ACTIVE : I_NONE;
 
     popup_sabotage_dialog(pcity);
   }

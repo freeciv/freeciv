@@ -38,7 +38,7 @@ void init_new_game(void)
   int vx, vy, dx, dy;
   Unit_Type_id utype;
   int start_pos[MAX_NUM_PLAYERS]; /* indices into map.start_positions[] */
-  
+
   if (!map.fixed_start_positions) {
     /* except in a scenario which provides them,
        shuffle the start positions around... */
@@ -145,6 +145,9 @@ void init_new_game(void)
       create_unit(&game.players[i], dx, dy, utype, 0, 0, -1);
     }
   }
+
+  /* Initialise list of improvements with World-wide equiv_range */
+  improvement_status_init(game.improvements);
 }
 
 

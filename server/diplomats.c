@@ -209,7 +209,7 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   /* Send city improvements info to player. */
   p = packet.improvements;
   for(i=0; i<game.num_impr_types; i++)
-    *p++=(pcity->improvements[i]) ? '1' : '0';
+    *p++=city_got_building(pcity,i)?'1':'0';
   *p='\0';
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
@@ -1046,6 +1046,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
     /* Do it. */
     building_lost(pcity, target);
+    update_all_effects();
   }
 
   /* Update clients. */

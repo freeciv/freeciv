@@ -573,6 +573,8 @@ void remove_obsolete_buildings_city(struct city *pcity, int refresh)
     }
   }
 
+  if (sold) update_all_effects();
+
   if (sold && refresh) {
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
@@ -1356,7 +1358,7 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
       if (pcity->currently_building==B_PALACE) {
 	city_list_iterate(pplayer->cities, palace) 
 	  if (city_got_building(palace, B_PALACE)) {
-	    palace->improvements[B_PALACE]=0;
+            city_remove_improvement(palace,B_PALACE);
 	    break;
 	  }
 	city_list_iterate_end;
@@ -1371,7 +1373,8 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	pplayer->spaceship.modules++;
       } else {
 	space_part = 0;
-	pcity->improvements[pcity->currently_building]=1;
+	city_add_improvement(pcity,pcity->currently_building);
+	update_all_effects();
       }
       pcity->before_change_shields-=
 			  improvement_value(pcity->currently_building); 

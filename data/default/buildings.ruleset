@@ -33,10 +33,14 @@ options="1.10.1"
 ;		  special value "None" means no requirement
 ; terr_gate	= list of terrain types, one of which on or adjacent
 ;		  to city allows city to build improvement; empty
-;		  list means always allowed to build
+;		  list means always allowed to build if nothing in spec_gate
+;		  is given (that means only if both terr_gate and spec_gate
+;		  are empty the building can be bulit everywhere)
 ; spec_gate	= list of special types, one of which on or adjacent
 ;		  to city allows city to build improvement; empty
-;		  list means always allowed to build
+;		  list means always allowed to build if nothing in terr_gate
+;		  is given (that means only if both terr_gate and spec_gate
+;		  are empty the building can be built everywhere)
 ; equiv_range	= range for which this may be equivalent to another
 ;		  building; one of:
 ;		    "None", "Building", "City", "Island", "Player", "World"
@@ -297,8 +301,8 @@ bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
 equiv_range	= "City"
-equiv_dupl	= "Barracks II", "Barracks III"
-equiv_repl	= "Sun Tzu's War Academy"
+;equiv_dupl	= 
+equiv_repl	= "Sun Tzu's War Academy","Barracks II", "Barracks III"
 obsolete_by	= "Gunpowder"
 is_wonder	= 0
 build_cost	= 40
@@ -324,8 +328,8 @@ bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
 equiv_range	= "City"
-equiv_dupl	= "Barracks III"
-equiv_repl	= "Sun Tzu's War Academy"
+;equiv_dupl	=
+equiv_repl	= "Sun Tzu's War Academy", "Barracks III"
 obsolete_by	= "Mobile Warfare"
 is_wonder	= 0
 build_cost	= 40
@@ -585,8 +589,8 @@ bldg_req	= "None"
 terr_gate	= "Mountains"
 spec_gate	= "River"
 equiv_range	= "City"
-equiv_dupl	= "Power Plant", "Nuclear Plant", "Solar Plant"
-equiv_repl	= "Hoover Dam"
+;equiv_dupl	=
+equiv_repl	= "Hoover Dam", "Power Plant", "Nuclear Plant", "Solar Plant"
 obsolete_by	= "None"
 is_wonder	= 0
 build_cost	= 240
@@ -719,8 +723,8 @@ bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
 equiv_range	= "City"
-equiv_dupl	= "Power Plant", "Hydro Plant", "Solar Plant"
-equiv_repl	= "Hoover Dam"
+;equiv_dupl	=
+equiv_repl	= "Hoover Dam", "Power Plant", "Hydro Plant", "Solar Plant"
 obsolete_by	= "None"
 is_wonder	= 0
 build_cost	= 160
@@ -867,8 +871,8 @@ bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
 equiv_range	= "City"
-equiv_dupl	= "Nuclear Plant", "Hydro Plant"
-equiv_repl	= "Hoover Dam"
+;equiv_dupl	= 
+equiv_repl	= "Hoover Dam", "Nuclear Plant", "Hydro Plant", "Solar Plant"
 obsolete_by	= "None"
 is_wonder	= 0
 build_cost	= 160
@@ -1027,8 +1031,8 @@ bldg_req	= "None"
 ;terr_gate	=
 ;spec_gate	=
 equiv_range	= "City"
-equiv_dupl	= "Power Plant", "Hydro Plant", "Nuclear Plant"
-equiv_repl	= "Hoover Dam"
+;equiv_dupl	=
+equiv_repl	= "Hoover Dam", "Power Plant", "Hydro Plant", "Nuclear Plant"
 obsolete_by	= "None"
 is_wonder	= 0
 build_cost	= 320

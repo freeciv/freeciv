@@ -168,7 +168,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			  pcity->name);
 	    return;
 	  }
-	  if (pcity->improvements[B_PALACE]) {
+	  if (city_got_building(pcity,B_PALACE)) {
 	    notify_player(pplayer,
 			  _("Game: Your capital (%s) is requested, "
 			    "you can't accept treaty."),
