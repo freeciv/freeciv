@@ -1,5 +1,5 @@
 ====================
-Freeciv Version 1.11
+Freeciv Version 1.14
 ====================
 
 Bienvenue à Freeciv !
@@ -158,22 +158,23 @@ Client :
 
   |  % civclient &
 
-  Une autre option du client que vous devriez apprécier est '--tiles',
-  qui peut être utilisée pour choisir des "tilesets" différents
-  (c'est-à-dire des graphismes différents pour le terrain, les unités,
-  etc). La distribution fournit deux tilesets principaux, appelés
-  "trident" et "engels" et deux variantes, "trident_shields" et
-  "engels_shields". Dans cette distribution, "trident" est le tileset
-  par défaut (dans certaines distributions précédentes, c'était
-  "engels"). Les deux tilesets principaux ont des styles graphiques
-  différents ; vous pouvez préférer l'un ou l'autre. Les variantes
-  "_shields" utilisent des drapeaux de la forme de boucliers, plus
-  petits. Les tiles trident sont petites, et peuvent donc être plus
-  adaptées si vous avez un petit écran. Prenez vous-même une décision en
-  les essayant toutes. Pour tester le tileset engels : lancez le client
-  ainsi :
+  Une autre option du client que vous devriez apprécier est '--tiles', qui
+  peut être utilisée pour choisir des "tilesets" (ou jeux de graphiques)
+  différents (c'est-à-dire des graphismes différents pour le terrain, les
+  unités, etc). La distribution fournit deux tilesets principaux :
+  - isotrident : un jeu de graphiques isométrique similaire dans la forme à
+    celui de civ2 (pas encore supporté par le client Xaw).
+  - trident : un jeu de graphiques "style civ1" avec des case de 30x30. Le
+    jeu de graphiques trident a une variante nommée "trident_shields".
+  
+  Dans cette distribution, le tileset par défaut pour les clients GTK+,
+  amiga, et win32 est isotrident, tandis que Xaw a trident par défaut.
+  "engels_shields". Les variantes "_shields" utilisent des drapeaux de la
+  forme de boucliers, plus petits. 
+  Essayez-les tous et prennez une décison par vous même. Pour tester le
+  tileset trident : lancez le client ainsi :
 
-  |  % civclient --tiles engels
+  |  % civclient --tiles trident
 
   D'autres tilesets sont disponibles sur le site ftp.
 
@@ -244,11 +245,8 @@ Remarques :
 
  1) Étant donnée l'inclusion de nouvelles fonctionnalités, des versions
     différentes du client et du serveur sont souvent
-    incompatibles. Toutes les incompatibilités ne peuvent pas être
-    repérées et rapportées facilement. Par exemple, si un client de
-    version 1.8.0 (ou plus récente) essaie de se connecter à un serveur
-    1.7.2 : le client semble se connecter, mais il ne reçoit jamais
-    aucun message du serveur.
+    incompatibles. La version 1.14.0 est par exemple incompatible avec les
+    versions 1.13.0 ou antérieures.
 
  2) Si le bouton Métaserveur dans la boîte de dialogue de connexion ne
     fonctionne pas, vérifiez si votre fournisser d'accès utilise un
@@ -257,12 +255,8 @@ Remarques :
     proxy.monfournisseur.com, sur le port 8888, positionnez $http_proxy
     à http://proxy.monfournisseur.com:8888/ avant de lancer le client.
 
- 3) Parfois, il n'y a pas de partie sur le métaserveur. Ceci peut venir
-    du fait que le métaserveur a changé d'hôte et que les anciennes
-    versions de Freeciv ne connaissent pas la nouvelle adresse. Dans ce
-    cas, les parties n'apparaissent plus sur le métaserveur par défaut
-    et vous devez utilisez l'option '--meta'. Si vous voulez jouer à une
-    partie sur le métaserveur et qu'il n'y en a pas, essayez d'en lancer
+ 3) Parfois, il n'y a pas de partie sur le métaserveur. Cela arrive. Le
+    nombre de joeurs présents varie selon l'heure. Essayez d'en lancer
     une vous-même !
 
 
@@ -307,10 +301,8 @@ Le serveur est suffisamment intelligent pour "compléter" les
 noms. Ainsi, si vous avez tapez "pas:", il cherchera un nom de joueur
 qui commence par 'pas'.
 
-Sur les serveurs récents (version 1.8.1 ou plus récente, ainsi que
-quelques versions de développement 1.8.0), vous pouvez exécuter des
-commandes du serveur depuis la ligne de saisie du client en les
-préfixant de '/' :
+Vous pouvez exécuter des commandes du serveur depuis la ligne de saisie du
+client :
 
   |  /list
   |  /set settlers 4
@@ -332,7 +324,7 @@ Pour avoir beaucoup plus de renseignements à propos du client, du
 serveur et des concepts et règles du jeu, consultez le manuel de Freeciv
 disponible sur le site web :
 
-  http://www.freeciv.org/manual/manual.html
+  http://www.freeciv.org/manual/fr/
 
 
 Fin de la partie :
@@ -376,20 +368,12 @@ La partie peut ensuite être redémarrée avec la commande 'start', comme
 d'habitude.
 
 
-Autodémarrage du serveur :
-==========================
-
-Lorsque le nombre maximum de joueurs s'est connecté, le serveur démarre
-automatiquement. Le nombre maximum de joueurs peut être réglé avec
-l'option 'maxplayers'.
-
-
 Localisation :
 ==============
 
 Freeciv supporte un certain nombre de langues (dont le Français ;) ).
 
-Vous pouvez choisir quel langue vous souhaitez en précisant une
+Vous pouvez choisir quelle langue vous souhaitez en précisant une
 "locale". Chaque locale a un nom standard (par exemple, 'fr' pour
 Français). Si vous avez installé Freeciv, vous pouvez choisir une locale
 en positionnant la variable d'environnement LANG correctement, avant de
@@ -478,18 +462,23 @@ Nous maintenons 6 listes de diffusion :
 
   freeciv          Discussions générales.
   freeciv-announce Annonces d'intérêt général.
-		   C'est une liste en "lecture seule", avec des messages
-		   peu fréquents. En d'autres termes, vous ne pouvez que
-		   la lire, et pas y écrire. Les annonces qui y sont
-		   envoyées le sont aussi sur freeciv.
+                   C'est une liste en "lecture seule", avec des messages
+                   peu fréquents. En d'autres termes, vous ne pouvez que
+                   la lire, et pas y écrire. Les annonces qui y sont
+                   envoyées le sont aussi sur freeciv.
+  freeciv-i18n     Traduction de Freeciv.
+                   Toutes les discussions relatives à le traduction du code
+                   de la documentation et du site web de Freeciv en
+                   d'autres langages que l'anglais.
   freeciv-dev      Développement de Freeciv.
   freeciv-data     Développement du répertoire "data".
-		   Discussions sur les règles, les tiles, etc.
+                   Discussions sur les règles, les tiles, etc.
   freeciv-java     Développement du client Freeciv en Java.
+  freeciv-ai       Développement de l'IA de Freeciv.
   freeciv-cvs      Annonces de changements sur le CVS.
-		   C'est une liste en "lecture seule", diffusant des
-		   messages automatisés. En d'autres termes, vous ne
-		   pouvez que la lire, et pas y écrire.
+                   C'est une liste en "lecture seule", diffusant des
+                   messages automatisés. En d'autres termes, vous ne
+                   pouvez que la lire, et pas y écrire.
 
 Toutes ces listes sont publiques et chacun est le bienvenu pour s'y
 inscrire.
@@ -503,35 +492,50 @@ Pour s'inscrire (ou se désinscrire) à ces listes, procédez comme suit :
       Pour vous inscrire :
         subscribe freeciv
         subscribe freeciv-announce
+        subscribe freeciv-i18n
         subscribe freeciv-dev
         subscribe freeciv-data
         subscribe freeciv-java
+        subscribe freeciv-ai
         subscribe freeciv-cvs
       Pour vous désinscrire :
         unsubscribe freeciv
         unsubscribe freeciv-announce
+        unsubscribe freeciv-i18n
         unsubscribe freeciv-dev
         unsubscribe freeciv-data
         unsubscribe freeciv-java
+        unsubscribe freeciv-ai
         unsubscribe freeciv-cvs
 
 Pour envoyer un e-mail sur les listes, adressez-le à :
 
   Pour freeciv, il doit être envoyé à <freeciv@freeciv.org>.
+  Pour freeciv-i18n, il doit être envoyé à <freeciv-i18n@freeciv.org>.
   Pour freeciv-dev, il doit être envoyé à <freeciv-dev@freeciv.org>.  
   Pour freeciv-data, il doit être envoyé à <freeciv-data@freeciv.org>.
   Pour freeciv-java, il doit être envoyé à <freeciv-java@freeciv.org>.
+  Pour freeciv-ai, il doit être envoyé à <freeciv-ai@freeciv.org>.
 
 En plus de tout ceci, vous pouvez participer à la liste des traducteurs
-français de Freeciv à l'adresse suivante : freeciv-fr@egroups.fr La
+français de Freeciv à l'adresse suivante : freeciv-fr@yahoogroupes.fr La
 chasse aux bogues de traduction et aux mauvaises traductions est ouverte
 toute l'année et à tous, et les beta-tests sont rarement désagréables :-)
+
+
+Internet Relay Chat (IRC)
+=========================
+
+Quelques joueurs et développeurs squattent sur #freeciv sur le réseau
+Open Projects. Essayez de vous connecter au serveur
+
+        irc.openprojects.net
 
 
 Nouvelles versions :
 ====================
 
-Nous sortons une nouvelle version de Freeciv environ tous les trois
+Nous sortons une nouvelle version de Freeciv environ tous les quatre
 mois. Consultez le site web de Freeciv de temps en temps pour voir si
 une version plus récente est sortie !
 
@@ -541,4 +545,4 @@ Et pour conclure :
 
 Amusez-vous bien et envoyez les en enfer !
 
-				   -- L'équipe de Freeciv
+                                   -- L'équipe de Freeciv
