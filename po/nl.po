@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2001-02-26 09:32+0100\n"
-"PO-Revision-Date: 2001-02-26 14:38 CET\n"
+"POT-Creation-Date: 2001-03-05 09:33+0100\n"
+"PO-Revision-Date: 2001-03-05 09:38 CET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,21 +26,21 @@ msgstr "?gebouwd:B"
 msgid "?obsolete:O"
 msgstr "?overtollig:O"
 
-#: common/connection.c:439
+#: common/connection.c:441
 #, c-format
 msgid "%s from %s"
 msgstr "%s van %s"
 
-#: common/connection.c:445
+#: common/connection.c:447
 msgid " (connection incomplete)"
 msgstr " (verbinding onvolledig)"
 
-#: common/connection.c:449
+#: common/connection.c:451
 #, c-format
 msgid " (player %s)"
 msgstr " (speler %s)"
 
-#: common/connection.c:453
+#: common/connection.c:455
 msgid " (observer)"
 msgstr " (waarnemer)"
 
@@ -284,11 +284,11 @@ msgstr "Fortificeren"
 msgid "Fortified"
 msgstr "Gefortificeerd"
 
-#: client/gui-mui/gui_main.c:287 client/gui-mui/mapclass.c:1784 client/gui-mui/mapclass.c:3111 client/gui-xaw/menu.c:173 common/unit.c:499
+#: client/gui-mui/gui_main.c:287 client/gui-mui/mapclass.c:1822 client/gui-mui/mapclass.c:3149 client/gui-xaw/menu.c:173 common/unit.c:499
 msgid "Sentry"
 msgstr "Op Wacht"
 
-#: client/gui-gtk/menu.c:662 client/gui-mui/gui_main.c:288 client/gui-mui/mapclass.c:1786 client/gui-xaw/menu.c:174 common/unit.c:501
+#: client/gui-gtk/menu.c:662 client/gui-mui/gui_main.c:288 client/gui-mui/mapclass.c:1824 client/gui-xaw/menu.c:174 common/unit.c:501
 msgid "Pillage"
 msgstr "Plunder"
 
@@ -1035,7 +1035,7 @@ msgstr "Spel: Uw %s stal %s van %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spel: %s's %s stal %s van %s."
 
-#: server/diplomats.c:668 server/plrhand.c:514
+#: server/diplomats.c:668 server/plrhand.c:515
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spel: De %s hebben %s gestolen van de %s."
@@ -1341,185 +1341,185 @@ msgstr "%s zijn de eersten die %s leren"
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Spel: Ontdekking van %s VEROUDERT %s in %s!"
 
-#: server/plrhand.c:244
+#: server/plrhand.c:245
 #, c-format
 msgid "Game: Discovery of %s makes the government form %s available. You may want to start a revolution."
 msgstr "Spel: Ontdekking van %s maakt de bestuursvorm %s beschikbaar. U wilt misschien een revolutie beginnen."
 
-#: server/plrhand.c:270
+#: server/plrhand.c:271
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Spel: %s geleerd. Onze wetenschappers onderzoeken nu %s, doel is %s."
 
-#: server/plrhand.c:279
+#: server/plrhand.c:280
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Spel: %s geleerd. Wetenschappers kiezen %s voor verder onderzoek."
 
-#: server/plrhand.c:284
+#: server/plrhand.c:285
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research Future Tech. 1."
 msgstr "Spel: %s geleerd. Wetenschappers kiezen Toekomst Tech. 1. voor verder onderzoek."
 
-#: server/plrhand.c:290
+#: server/plrhand.c:291
 #, c-format
 msgid "Game: Learned Future Tech. %d.  Researching Future Tech. %d."
 msgstr "Spel: Toekomst Tech. %d geleerd. Wetenschappers kiezen Toekomst Tech. %d voor verder onderzoek."
 
-#: server/plrhand.c:300
+#: server/plrhand.c:301
 msgid "Game: Great philosophers from all the world join your civilization; you get an immediate advance."
 msgstr "Spel: Grote filosofen van de hele wereld zoeken uw beschaving op; u krijgt een onmiddelijke voorsprong."
 
-#: server/plrhand.c:315
+#: server/plrhand.c:316
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Spel: De %s hebben %s onderzocht."
 
-#: server/plrhand.c:319
+#: server/plrhand.c:320
 #, c-format
 msgid "%s discover %s"
 msgstr "%s ontdekken %s"
 
-#: server/plrhand.c:325
+#: server/plrhand.c:326
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spel: De %s hebben Toekomst Tech. %d onderzocht."
 
-#: server/plrhand.c:329
+#: server/plrhand.c:330
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "%s ontdekken Toekomst Tech. %d"
 
-#: server/plrhand.c:439
+#: server/plrhand.c:440
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spel: Technologisch doel is %s."
 
-#: server/plrhand.c:483
+#: server/plrhand.c:484
 #, c-format
 msgid "Game: You acquire Future Tech %d from %s."
 msgstr "Spel: U verwierf Toekomst Tech %d van %s."
 
-#: server/plrhand.c:486
+#: server/plrhand.c:487
 #, c-format
 msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Spel: %s ontdekte Toekomst Tech. %d in de stad."
 
-#: server/plrhand.c:489
+#: server/plrhand.c:490
 #, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
 msgstr "Spel: De %s ontdekten Toekomst Tech %d van de %s (veroverd)."
 
-#: server/plrhand.c:510
+#: server/plrhand.c:511
 #, c-format
 msgid "Game: You acquired %s from %s."
 msgstr "Spel: U verwierf %s van %s."
 
-#: server/plrhand.c:512
+#: server/plrhand.c:513
 #, c-format
 msgid "Game: %s discovered %s in the city."
 msgstr "Spel: %s ontdekten %s in de stad."
 
-#: server/plrhand.c:534
+#: server/plrhand.c:535
 msgid "Game: Cannot change rates before game start."
 msgstr "Spel: Kan waarden niet aanpassen voordat het spel is begonnen."
 
-#: client/gui-gtk/gamedlgs.c:244 server/plrhand.c:547
+#: client/gui-gtk/gamedlgs.c:244 server/plrhand.c:548
 msgid "Tax"
 msgstr "Belasting"
 
-#: client/gui-gtk/gamedlgs.c:264 server/plrhand.c:549
+#: client/gui-gtk/gamedlgs.c:264 server/plrhand.c:550
 msgid "Luxury"
 msgstr "Luxe"
 
-#: client/gui-gtk/gamedlgs.c:284 client/gui-gtk/repodlgs.c:182 client/gui-gtk/repodlgs.c:184 client/gui-gtk/repodlgs.c:392 client/gui-mui/repodlgs.c:299 client/gui-xaw/menu.c:203 client/gui-xaw/repodlgs.c:270 client/gui-xaw/repodlgs.c:506 data/Freeciv:1360 server/plrhand.c:551
+#: client/gui-gtk/gamedlgs.c:284 client/gui-gtk/repodlgs.c:182 client/gui-gtk/repodlgs.c:184 client/gui-gtk/repodlgs.c:392 client/gui-mui/repodlgs.c:299 client/gui-xaw/menu.c:203 client/gui-xaw/repodlgs.c:270 client/gui-xaw/repodlgs.c:506 data/Freeciv:1360 server/plrhand.c:552
 msgid "Science"
 msgstr "Wetenschap"
 
-#: server/plrhand.c:552
+#: server/plrhand.c:553
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spel: %s waarde overschreidt het maximum voor %s."
 
-#: server/plrhand.c:619
+#: server/plrhand.c:620
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spel: %s regeert de %s nu als een %s."
 
-#: server/plrhand.c:653
+#: server/plrhand.c:654
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spel: De %s zijn in opstand gekomen!"
 
-#: server/plrhand.c:680
+#: server/plrhand.c:681
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Belastingswaarde overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:686
+#: server/plrhand.c:687
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Wetenschapswaarde overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:692
+#: server/plrhand.c:693
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spel: Waarde voor luxe overschreidt het maximum voor %s; aangepast."
 
-#: server/plrhand.c:769
+#: server/plrhand.c:770
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
 msgstr "De senaat accepteert uw voorstel vanwege de aanhoudende provocaties van de %s."
 
-#: server/plrhand.c:779
+#: server/plrhand.c:780
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spel: Uw reputatie is nu %s."
 
-#: server/plrhand.c:783
+#: server/plrhand.c:784
 msgid "Game: The senate decides to dissolve rather than support your actions any longer."
 msgstr "Spel: De senaat besluit tot oplossing in plaats van uw akties nog langer te ondersteunen."
 
-#: server/plrhand.c:840 server/plrhand.c:848
+#: server/plrhand.c:841 server/plrhand.c:849
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spel: De diplomatieke toestand tussen de %s en de %s is nu %s."
 
-#: server/plrhand.c:845
+#: server/plrhand.c:846
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr "Spel: %s heeft de diplomatieke overeenkomst verbroken!"
 
-#: server/plrhand.c:1271
+#: server/plrhand.c:1272
 #, c-format
 msgid "Removing player %s."
 msgstr "Verwijder speler %s."
 
-#: server/plrhand.c:1272
+#: server/plrhand.c:1273
 msgid "Game: You've been removed from the game!"
 msgstr "Spel: U bent uit het spel verwijderd!"
 
-#: server/plrhand.c:1282
+#: server/plrhand.c:1283
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s is uit het spel verwijderd."
 
-#: server/plrhand.c:1313 server/plrhand.c:1317
+#: server/plrhand.c:1314 server/plrhand.c:1318
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
 
-#: server/plrhand.c:1699
+#: server/plrhand.c:1700
 #, c-format
 msgid "Game: Your nation is thrust into civil war,  %s is declared the leader of the rebel states."
 msgstr "Spel: Uw natie is verzonken in burgeroorlog, %s is benoemd als de leider van de rebellerende staten."
 
-#: server/plrhand.c:1718
+#: server/plrhand.c:1719
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spel: %s verklaart alliantie aan %s."
 
-#: server/plrhand.c:1735
+#: server/plrhand.c:1736
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's administrative\n"
@@ -1949,108 +1949,122 @@ msgstr "Spel: Bezorgde burgers wijzen u erop dat de wapenstilstand met %s binnen
 msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "Spel: De wapenstilstand met %s is afgelopen. U bent nu neutraal tegenover de %s."
 
-#: server/srv_main.c:794
+#: server/srv_main.c:799
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Kon spel niet als %s bewaren"
 
-#: server/srv_main.c:796
+#: server/srv_main.c:801
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spel bewaard als %s"
 
-#: server/srv_main.c:826
+#: server/srv_main.c:831
 msgid "The game is already running."
 msgstr "Het spel is al begonnen."
 
-#: server/srv_main.c:830
+#: server/srv_main.c:835
 msgid "Starting game."
 msgstr "Spel begint."
 
-#: server/srv_main.c:1188
+#: server/srv_main.c:946
+#, c-format
+msgid "got a packet of type %d outside RUN_GAME_STATE"
+msgstr "Ontving een pakket van type %d buiten RUN_GAME_STATE"
+
+#: server/srv_main.c:957
+#, c-format
+msgid "Got a packet of type %d from a dead or observer player"
+msgstr "Ontving een pakket van type %d van een dode speler of observator"
+
+#: server/srv_main.c:1203
+msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
+msgstr "Probeerde een natie te alloceren buiten SELECT_RACES_STATE!"
+
+#: server/srv_main.c:1211
 msgid "Please choose a non-blank name."
 msgstr "Kies alstublieft een niet-lege naam."
 
-#: server/srv_main.c:1210
+#: server/srv_main.c:1233
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Er is al een speler met de naam '%s'. Kies alstublieft een andere naam."
 
-#: server/srv_main.c:1216
+#: server/srv_main.c:1239
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s is de %s heerser %s."
 
-#: server/srv_main.c:1243
+#: server/srv_main.c:1266
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Geen naties meer over: Verwijder speler %s."
 
-#: server/srv_main.c:1246
+#: server/srv_main.c:1269
 msgid "Game: Sorry, there are no nations left."
 msgstr "Spel: Sorry, er zijn geen naties meer over."
 
-#: server/srv_main.c:1301
+#: server/srv_main.c:1324
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s doet mee als speler %s."
 
-#: server/srv_main.c:1306
+#: server/srv_main.c:1329
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Spel: Verbinding %s van %s doet mee als speler %s."
 
-#: server/srv_main.c:1329
+#: server/srv_main.c:1352
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Welkom bij de %s Server, draaiend op %s, poort %d."
 
-#: server/srv_main.c:1332
+#: server/srv_main.c:1355
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Welkom bij de %s Server op poort %d."
 
-#: server/srv_main.c:1344
+#: server/srv_main.c:1367
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Wissel-beurt spel: wacht tot %s zijn zet heeft gedaan..."
 
-#: server/srv_main.c:1387
+#: server/srv_main.c:1410
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s is toegevoegd als een KI-gestuurde speler."
 
-#: server/srv_main.c:1389
+#: server/srv_main.c:1412
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
 
-#: server/srv_main.c:1476
+#: server/srv_main.c:1499
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "Ongeldige naam '%s'"
 
-#: server/srv_main.c:1478
+#: server/srv_main.c:1501
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
 
-#: server/srv_main.c:1485
+#: server/srv_main.c:1508
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "Verzoek tot verbinding van %s van %s"
 
-#: server/srv_main.c:1489
+#: server/srv_main.c:1512
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "Verzoek tot verbinding van %s van %s (verbinding heet %s)"
 
-#: server/srv_main.c:1493
+#: server/srv_main.c:1516
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s heeft client versie %d.%d.%d%s"
 
-#: server/srv_main.c:1503
+#: server/srv_main.c:1526
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2059,12 +2073,12 @@ msgstr ""
 "De client mist een mogelijkheid die deze server nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/srv_main.c:1510 server/srv_main.c:1526
+#: server/srv_main.c:1533 server/srv_main.c:1549
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s is geweigerd: Afwijkende mogelijkheden."
 
-#: server/srv_main.c:1519
+#: server/srv_main.c:1542
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2073,133 +2087,133 @@ msgstr ""
 "De server mist een mogelijkheid die de client nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/srv_main.c:1536
+#: server/srv_main.c:1559
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Sorry, geen waarnemers van barbaren in dit spel."
 
-#: server/srv_main.c:1539
+#: server/srv_main.c:1562
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr "%s is gewijgerd: Geen waarnemers van barbaren."
 
-#: server/srv_main.c:1546
+#: server/srv_main.c:1569
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
 
-#: server/srv_main.c:1549
+#: server/srv_main.c:1572
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr "%s is gewijgerd: Geen waarnemers van dode spelers."
 
-#: server/srv_main.c:1556
+#: server/srv_main.c:1579
 msgid "Sorry, no observation of AI players in this game."
 msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
 
-#: server/srv_main.c:1559
+#: server/srv_main.c:1582
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr "%s is gewijgerd: Geen waarnemers van KI-spelers."
 
-#: server/srv_main.c:1566
+#: server/srv_main.c:1589
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr "Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
 
-#: server/srv_main.c:1569
+#: server/srv_main.c:1592
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr "%s is gewijgerd: Geen verbindingsherstel met menselijke spelers."
 
-#: server/srv_main.c:1588
+#: server/srv_main.c:1611
 msgid "Sorry, someone else already has that name."
 msgstr "Sorry, iemand anders gebruikt die naam al."
 
-#: server/srv_main.c:1590
+#: server/srv_main.c:1613
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "%s is geweigerd, Naam %s is al in gebruik."
 
-#: server/srv_main.c:1597
+#: server/srv_main.c:1620
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Sorry, %s is al verbonden."
 
-#: server/srv_main.c:1600
+#: server/srv_main.c:1623
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s is geweigerd, %s heeft al verbinding."
 
-#: server/srv_main.c:1631
+#: server/srv_main.c:1654
 msgid "Sorry, the game is already running."
 msgstr "Sorry, het spel is al begonnen."
 
-#: server/srv_main.c:1632
+#: server/srv_main.c:1655
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
 
-#: server/srv_main.c:1640
+#: server/srv_main.c:1663
 msgid "Sorry, the game is full."
 msgstr "Sorry, het spel is vol."
 
-#: server/srv_main.c:1641
+#: server/srv_main.c:1664
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s is gewijgerd: Maximum aantal spelers bereikt."
 
-#: server/srv_main.c:1649
+#: server/srv_main.c:1672
 msgid "Sorry, no new players allowed in this game."
 msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
 
-#: server/srv_main.c:1650
+#: server/srv_main.c:1673
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s is gewijgerd: Geen verbindingen als nieuwe speler."
 
-#: server/srv_main.c:1672
+#: server/srv_main.c:1695
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Verbinding verbroken: %s."
 
-#: server/srv_main.c:1680
+#: server/srv_main.c:1703
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Spel: Verbinding verbroken: %s."
 
-#: server/srv_main.c:1764
+#: server/srv_main.c:1787
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
 
-#: server/srv_main.c:1805
+#: server/srv_main.c:1828
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1812
+#: server/srv_main.c:1835
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1826
+#: server/srv_main.c:1849
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fout bij maken nieuwe KI-speler: %s\n"
 
-#: server/srv_main.c:1885
+#: server/srv_main.c:1908
 #, c-format
 msgid "Player %d"
 msgstr "Speler %d"
 
-#: server/srv_main.c:1900
+#: server/srv_main.c:1923
 msgid "Argh! ran out of nations!"
 msgstr "Nee hè, geen naties meer!"
 
-#: server/srv_main.c:1917
+#: server/srv_main.c:1940
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI bestuurt de %s geregeerd door %s."
 
-#: server/srv_main.c:1923
+#: server/srv_main.c:1946
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spel: %s regeert de %s."
@@ -3069,599 +3083,605 @@ msgstr "Dit verwijdert een speler *volledig* uit het spel, inclusief alle steden
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1069
-msgid "save <file-name>"
-msgstr "save <bestandsnaam>"
+msgid ""
+"save\n"
+"save <file-name>"
+msgstr ""
+"save\n"
+"save <bestandsnaam>"
 
-#: server/stdinhand.c:1070
+#: server/stdinhand.c:1071
 msgid "Save game to file."
 msgstr "Bewaar spel in bestand."
 
-#: server/stdinhand.c:1071
+#: server/stdinhand.c:1072
 msgid ""
-"Save the current game to a file.  To reload a savegame created by 'save', start the server with the command-line argument:\n"
+"Save the current game to file <file-name>.  If no file-name argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
+"To reload a savegame created by 'save', start the server with the command-line argument:\n"
 "    --file <filename>\n"
 "and use the 'start' command once players have reconnected."
 msgstr ""
-"Bewaar het huidige spel in een bestand.  Om een met 'save' gemaakt bewaard spel opnieuw te laden, start de server met de opdrachtregel-optie:\n"
+"Bewaar het huidige spel in bestand <bestandsnaam>. Als geen bestandsnaam wordt opgegeven, wordt \"<auto-save naam prefix><jaar>m.sav[.gz]\" gebruikt.\n"
+"Om een met 'save' gemaakt bewaard spel opnieuw te laden, start de server met de opdrachtregel-optie:\n"
 "    --file <bestandsnaam>\n"
 "of\n"
 "    -f <bestandsnaam>\n"
 "en gebruik de opdracht 'start' wanneer de spelers weer verbinding hebben."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1078
+#: server/stdinhand.c:1081
 msgid "read <file-name>"
 msgstr "read <bestandsnaam>"
 
-#: server/stdinhand.c:1079
+#: server/stdinhand.c:1082
 msgid "Process server commands from file."
 msgstr "Verwerk server opdrachten uit bestand."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1083
+#: server/stdinhand.c:1086
 msgid "write <file-name>"
 msgstr "write <bestandsnaam>"
 
-#: server/stdinhand.c:1084
+#: server/stdinhand.c:1087
 msgid "Write current settings as server commands to file."
 msgstr "Schrijf huidige instellingen als server opdrachten naar bestand."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1088
+#: server/stdinhand.c:1091
 msgid "rulesout <rules-type> <file-name>"
 msgstr "rulesout <type-spelregels> <bestandsnaam>"
 
-#: server/stdinhand.c:1089
+#: server/stdinhand.c:1092
 msgid "Write selected rules information to file."
 msgstr "Schrijf geselecteerde spelregel-informatie naar bestand."
 
-#: server/stdinhand.c:1090
+#: server/stdinhand.c:1093
 msgid "Write a file with information from currently loaded ruleset data.  Requires that the ruleset data has been loaded (e.g., after 'start').  Currently the only option for <rules-type> is 'techs', which writes information about all the advances (technologies).  This can be used by the 'techtree' utility program to produce a graph of the advances."
 msgstr "Schrijf een bestand met informatie over de op dit moment geladen spelregel-data. Vereist dat de spelregel-data geladen is (bijv. na 'start'). Op dit moment is de enige optie voor <type-spelregels> 'techs', dat informatie over alle vooruitgangen (technologieën) wegschrijft. Dit kan worden gebruikt door het 'techtree' hulpprogramma om een grafiek van de vooruitgangen te maken."
 
 #. TRANS: translate text between <> only
-#: server/stdinhand.c:1098
+#: server/stdinhand.c:1101
 msgid "log <message>"
 msgstr "log <bericht>"
 
-#: server/stdinhand.c:1099
+#: server/stdinhand.c:1102
 msgid "Generate a log message."
 msgstr "Genereer een log bericht."
 
-#: server/stdinhand.c:1100
+#: server/stdinhand.c:1103
 msgid "Generates a 'log message' with level 1.  This is mostly useful for debugging the logging system."
 msgstr "Genereert een 'log bericht' met niveau 1. Dit is meestal bruikbaar voor het debuggen van het log systeem."
 
-#: server/stdinhand.c:1105
+#: server/stdinhand.c:1108
 msgid "Change server output style to 'RFC-style'."
 msgstr "Wijzig de server uitvoerstijl naar 'RFC-stijl'."
 
-#: server/stdinhand.c:1109
+#: server/stdinhand.c:1112
 msgid "Change server output style to normal style."
 msgstr "Wijzig de server uitvoerstijl naar de normale stijl."
 
-#: server/stdinhand.c:1113
+#: server/stdinhand.c:1116
 msgid "Abort the server and generate a 'core' file."
 msgstr "Breek de server af en genereer een 'core' bestand."
 
-#: server/stdinhand.c:1114
+#: server/stdinhand.c:1117
 msgid "This is mostly useful for debugging purposes."
 msgstr "Dit is zeer bruikbaar voor debugging doeleinden."
 
-#: server/stdinhand.c:1223
+#: server/stdinhand.c:1226
 msgid "(ambiguous)"
 msgstr "(dubbelzinnig)"
 
-#: client/packhand.c:903 server/stdinhand.c:1224
+#: client/packhand.c:903 server/stdinhand.c:1227
 msgid "(unknown)"
 msgstr "(onbekend)"
 
-#: server/stdinhand.c:1300
+#: server/stdinhand.c:1303
 msgid "Name is empty, so cannot be a player."
 msgstr "Naam is leeg, dus kan geen speler zijn."
 
-#: server/stdinhand.c:1304
+#: server/stdinhand.c:1307
 msgid "Name is too long, so cannot be a player."
 msgstr "Naam is te lang, dus kan geen speler zijn."
 
-#: server/stdinhand.c:1308
+#: server/stdinhand.c:1311
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Spelers naam prefix '%s' is dubbelzinnig."
 
-#: server/stdinhand.c:1312
+#: server/stdinhand.c:1315
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Geen speler met de naam '%s'."
 
-#: server/stdinhand.c:1316 server/stdinhand.c:1351
+#: server/stdinhand.c:1319 server/stdinhand.c:1354
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Onverwachte match_result %d (%s) voor '%s'."
 
-#: server/stdinhand.c:1335
+#: server/stdinhand.c:1338
 msgid "Name is empty, so cannot be a connection."
 msgstr "Naam is leeg, dus kan geen verbinding zijn."
 
-#: server/stdinhand.c:1339
+#: server/stdinhand.c:1342
 msgid "Name is too long, so cannot be a connection."
 msgstr "Naam is te lang, dus kan geen verbinding zijn."
 
-#: server/stdinhand.c:1343
+#: server/stdinhand.c:1346
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Verbindingsnaam prefix '%s' is dubbelzinnig."
 
-#: server/stdinhand.c:1347
+#: server/stdinhand.c:1350
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Geen verbinding met de naam '%s'."
 
-#: server/stdinhand.c:1366
+#: server/stdinhand.c:1369
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Open metaserver verbinding met [%s]."
 
-#: server/stdinhand.c:1369
+#: server/stdinhand.c:1372
 msgid "Metaserver connection opened."
 msgstr "Verbinding met metaserver geopend."
 
-#: server/stdinhand.c:1380
+#: server/stdinhand.c:1383
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Verbreek metaserver verbinding met [%s]."
 
-#: server/stdinhand.c:1383
+#: server/stdinhand.c:1386
 msgid "Metaserver connection closed."
 msgstr "Verbinding met metaserver gesloten."
 
-#: server/stdinhand.c:1396
+#: server/stdinhand.c:1399
 msgid "Metaserver connection is open."
 msgstr "Verbinding met metaserver is open."
 
-#: server/stdinhand.c:1399
+#: server/stdinhand.c:1402
 msgid "Metaserver connection is closed."
 msgstr "Verbinding met metaserver is gesloten."
 
-#: server/stdinhand.c:1407
+#: server/stdinhand.c:1410
 msgid "Metaserver connection is already open."
 msgstr "Verbinding met metaserver is al open."
 
-#: server/stdinhand.c:1415
+#: server/stdinhand.c:1418
 msgid "Metaserver connection is already closed."
 msgstr "Verbinding met metaserver is al gesloten."
 
-#: server/stdinhand.c:1419
+#: server/stdinhand.c:1422
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argument moet 'u', 'up', 'd', 'down' of '?' zijn."
 
-#: server/stdinhand.c:1431
+#: server/stdinhand.c:1434
 msgid "Not reporting to the metaserver."
 msgstr "Rapporteer niet aan de metaserver."
 
-#: server/stdinhand.c:1433
+#: server/stdinhand.c:1436
 #, c-format
 msgid "Metaserver infostring set to '%s'."
 msgstr "Metaserver informatieregel ingesteld op '%s'."
 
-#: server/stdinhand.c:1436
+#: server/stdinhand.c:1439
 msgid "Metaserver info string set."
 msgstr "Metaserver informatieregel ingesteld."
 
-#: server/stdinhand.c:1450
+#: server/stdinhand.c:1453
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metaserver is nu [%s]."
 
-#: server/stdinhand.c:1453
+#: server/stdinhand.c:1456
 msgid "Metaserver address set."
 msgstr "Metaserver adres ingesteld."
 
-#: server/stdinhand.c:1525
+#: server/stdinhand.c:1528
 msgid "The game cannot be saved before it is started."
 msgstr "Het spel kan niet bewaard worden voordat het begonnen is."
 
-#: server/stdinhand.c:1539
+#: server/stdinhand.c:1542
 msgid "Cannot toggle a barbarian player."
 msgstr "Kan status van barbaarse speler niet veranderen."
 
-#: server/stdinhand.c:1545
+#: server/stdinhand.c:1548
 #, c-format
 msgid "Game: %s is now AI-controlled."
 msgstr "Spel: %s is nu KI-gestuurd."
 
-#: server/stdinhand.c:1547
+#: server/stdinhand.c:1550
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s is nu onder KI-besturing."
 
-#: server/stdinhand.c:1561
+#: server/stdinhand.c:1564
 #, c-format
 msgid "Game: %s is now human."
 msgstr "Spel: %s is nu menselijk."
 
-#: server/stdinhand.c:1563
+#: server/stdinhand.c:1566
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s is nu onder menselijke besturing."
 
-#: server/stdinhand.c:1601
+#: server/stdinhand.c:1604
 msgid "Can't add AI players once the game has begun."
 msgstr "Kan geen KI-spelers meer toevoegen als het spel al begonnen is."
 
-#: server/stdinhand.c:1608
+#: server/stdinhand.c:1611
 msgid "Can't add more players, server is full."
 msgstr "Kan geen spelers meer toevoegen, server is vol."
 
-#: server/stdinhand.c:1614
+#: server/stdinhand.c:1617
 msgid "Can't use an empty name."
 msgstr "Kan geen lege naam gebruiken."
 
-#: server/stdinhand.c:1621
+#: server/stdinhand.c:1624
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Die naam is langer dan het maximum van %d letters."
 
-#: server/stdinhand.c:1628
+#: server/stdinhand.c:1631
 msgid "A player already exists by that name."
 msgstr "Er is al een speler met die naam."
 
-#: server/stdinhand.c:1637
+#: server/stdinhand.c:1640
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Fout bij maken nieuwe ki-speler: %s."
 
-#: server/stdinhand.c:1644
+#: server/stdinhand.c:1647
 #, c-format
 msgid "Created new AI player: %s."
 msgstr "Nieuwe KI-speler gemaakt: %s."
 
-#: server/stdinhand.c:1667
+#: server/stdinhand.c:1670
 msgid "Players cannot be removed once the game has started."
 msgstr "Spelers kunnen niet worden verwijderd nadat het spel begonnen is."
 
-#: server/stdinhand.c:1675
+#: server/stdinhand.c:1678
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Speler %s verwijderd uit het spel."
 
-#: server/stdinhand.c:1685
+#: server/stdinhand.c:1688
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
 msgstr "Sorry, de opdracht '%s' is nog niet geïmplementeerd."
 
-#: server/stdinhand.c:1716
+#: server/stdinhand.c:1719
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Kon script bestand '%s' niet lezen."
 
-#: server/stdinhand.c:1790
+#: server/stdinhand.c:1793
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Kon script bestand '%s' niet schrijven."
 
-#: server/stdinhand.c:1822
+#: server/stdinhand.c:1825
 #, c-format
 msgid "Cannot output rules: ruleset data not loaded (e.g., use '%sstart')."
 msgstr "Kan spelregels niet uitvoeren: spelregel-data niet geladen (gebruik bijv. '%sstart')."
 
-#: server/stdinhand.c:1846
+#: server/stdinhand.c:1849
 #, c-format
 msgid "Bad rulesout type: '%s' (%s).  Try '%shelp rulesout'."
 msgstr "Verkeerd rulesout type: '%s' (%s). Probeer '%shelp rulesout'."
 
-#: server/stdinhand.c:1855
+#: server/stdinhand.c:1858
 #, c-format
 msgid "Saved techs rules data to '%s'."
 msgstr "Spelregel-data voor techs weggeschreven naar '%s'."
 
-#: server/stdinhand.c:1858
+#: server/stdinhand.c:1861
 #, c-format
 msgid "Failed saving techs rules data to '%s'."
 msgstr "Kon spelregel-data voor techs niet wegschrijven naar '%s'."
 
-#: server/stdinhand.c:1870
+#: server/stdinhand.c:1873
 #, c-format
 msgid "Usage: rulesout <ruletype> <filename>.  Try '%shelp rulesout'."
 msgstr "Gebruik: rulesout <spelregel-type> <bestandsnaam>. Probeer '%shelp rulesout'."
 
-#: server/stdinhand.c:1889
+#: server/stdinhand.c:1892
 #, c-format
 msgid "Cannot decrease command access level '%s' for connection '%s'; you only have '%s'."
 msgstr "Kan opdracht toegangsniveau '%s' niet verlagen voor verbinding '%s'; u hebt zelf slechts '%s'."
 
-#: server/stdinhand.c:1897
+#: server/stdinhand.c:1900
 #, c-format
 msgid "Game: You now have access level '%s'."
 msgstr "Spel: U hebt nu toegangsniveau '%s'."
 
-#: server/stdinhand.c:1945
+#: server/stdinhand.c:1948
 #, c-format
 msgid "Game: Anyone can assume command access level '%s' now by issuing the 'firstlevel' command."
 msgstr "Spel: Iedereen kan opdrachttoegangsniveau '%s' aannemen door de 'firstlevel' opdracht te gebruiken."
 
-#: server/stdinhand.c:1976
+#: server/stdinhand.c:1979
 msgid "Command access levels in effect:"
 msgstr "Opdrachttoegangsniveau's in gebruik:"
 
-#: server/stdinhand.c:1984
+#: server/stdinhand.c:1987
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Opdrachtniveau voor nieuwe verbindingen: %s"
 
-#: server/stdinhand.c:1987
+#: server/stdinhand.c:1990
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Opdrachttoegangsniveau voor eerste speler die het neemt: %s"
 
-#: server/stdinhand.c:1996
+#: server/stdinhand.c:1999
 msgid "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr "Fout: opdrachttoegangsniveau moet 'none', 'info', ctrl' of 'hack' zijn."
 
-#: server/stdinhand.c:2001
+#: server/stdinhand.c:2004
 #, c-format
 msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "Kan opdrachttoegangsniveau niet opwaarderen naar '%s'; u hebt zelf slechts '%s'."
 
-#: server/stdinhand.c:2023 server/stdinhand.c:2078
+#: server/stdinhand.c:2026 server/stdinhand.c:2081
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Opdrachttoegangsniveau gezet op '%s' voor verbinding %s."
 
-#: server/stdinhand.c:2027 server/stdinhand.c:2082
+#: server/stdinhand.c:2030 server/stdinhand.c:2085
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Opdrachttoegangsniveau kon niet op '%s' gezet worden voor verbinding '%s'."
 
-#: server/stdinhand.c:2036 server/stdinhand.c:2050
+#: server/stdinhand.c:2039 server/stdinhand.c:2053
 #, c-format
 msgid "Default command access level set to '%s'."
 msgstr "Standaard opdrachttoegangsniveau gezet op '%s'."
 
-#: server/stdinhand.c:2038
+#: server/stdinhand.c:2041
 #, c-format
 msgid "Game: All players now have access level '%s'."
 msgstr "Spel: Alle spelers hebben nu toegangsniveau '%s'."
 
-#: server/stdinhand.c:2043 server/stdinhand.c:2057
+#: server/stdinhand.c:2046 server/stdinhand.c:2060
 #, c-format
 msgid "'First come' command access level also raised to '%s'."
 msgstr "'First come' opdrachttoegangsniveau ook opgehoogd tot '%s'."
 
-#: server/stdinhand.c:2052
+#: server/stdinhand.c:2055
 #, c-format
 msgid "Game: New connections will have access level '%s'."
 msgstr "Spel: Nieuwe verbindingen zullen toegangsniveau '%s' hebben."
 
-#: server/stdinhand.c:2064
+#: server/stdinhand.c:2067
 #, c-format
 msgid "'First come' command access level set to '%s'."
 msgstr "'First come' opdrachttoegangsniveau gezet op '%s'."
 
-#: server/stdinhand.c:2066
+#: server/stdinhand.c:2069
 #, c-format
 msgid "Game: 'First come' command access level set to '%s'."
 msgstr "Spel: 'First come' opdrachttoegangsniveau gezet op '%s'."
 
-#: server/stdinhand.c:2071
+#: server/stdinhand.c:2074
 #, c-format
 msgid "Default command access level also lowered to '%s'."
 msgstr "Standaard opdrachttoegangsniveau ook verlaagd naar '%s'."
 
-#: server/stdinhand.c:2101
+#: server/stdinhand.c:2104
 msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr "De 'firstlevel' opdracht heeft geen zin vanaf de server's opdrachtregel."
 
-#: server/stdinhand.c:2104
+#: server/stdinhand.c:2107
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "U hebt al opdrachttoegangsniveau '%s' of beter."
 
-#: server/stdinhand.c:2108
+#: server/stdinhand.c:2111
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
 msgstr "Iemand anders heeft al opdrachttoegangsniveau '%s' of beter."
 
-#: server/stdinhand.c:2113
+#: server/stdinhand.c:2116
 #, c-format
 msgid "Your command access level has been increased to '%s'."
 msgstr "Uw opdrachttoegangsniveau is verhoogd naar '%s'."
 
-#: server/stdinhand.c:2116
+#: server/stdinhand.c:2119
 #, c-format
 msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
 msgstr "Spel: Verbinding '%s' heeft 'first come' toegangsniveau genomen, '%s'."
 
-#: server/stdinhand.c:2154 server/stdinhand.c:2157
+#: server/stdinhand.c:2157 server/stdinhand.c:2160
 msgid "Option:"
 msgstr "Optie:"
 
-#: server/stdinhand.c:2167 server/stdinhand.c:2893
+#: server/stdinhand.c:2170 server/stdinhand.c:2896
 msgid "Description:"
 msgstr "Beschrijving:"
 
-#: server/stdinhand.c:2172
+#: server/stdinhand.c:2175
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: server/stdinhand.c:2173
+#: server/stdinhand.c:2176
 msgid "changeable"
 msgstr "veranderbaar"
 
-#: server/stdinhand.c:2173
+#: server/stdinhand.c:2176
 msgid "fixed"
 msgstr "vast"
 
-#: server/stdinhand.c:2178
+#: server/stdinhand.c:2181
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Waarde: %d, Minimaal: %d, Standaard: %d, Maximaal: %d"
 
-#: server/stdinhand.c:2182
+#: server/stdinhand.c:2185
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Waarde: \"%s\", Standaard: \"%s\""
 
-#: server/stdinhand.c:2200
+#: server/stdinhand.c:2203
 msgid "Explanations are available for the following server options:"
 msgstr "Uitleg is beschibaar voor de volgende server-opties:"
 
-#: server/stdinhand.c:2240
+#: server/stdinhand.c:2243
 msgid "No explanation for that yet."
 msgstr "Nog geen uitleg daarvoor."
 
-#: server/stdinhand.c:2243 server/stdinhand.c:2502
+#: server/stdinhand.c:2246 server/stdinhand.c:2505
 msgid "Ambiguous option name."
 msgstr "Dubbelzinnige optienaam."
 
-#: server/stdinhand.c:2267
+#: server/stdinhand.c:2270
 #, c-format
 msgid "%-20svalue  (min , max)"
 msgstr "%-20swaarde (min , max)"
 
-#: server/stdinhand.c:2267 server/stdinhand.c:2411
+#: server/stdinhand.c:2270 server/stdinhand.c:2414
 msgid "Option"
 msgstr "Optie"
 
-#: server/stdinhand.c:2269
+#: server/stdinhand.c:2272
 msgid "Server Options (initial)"
 msgstr "Serveropties (initiëel)"
 
-#: server/stdinhand.c:2270
+#: server/stdinhand.c:2273
 msgid "Server Options (ongoing)"
 msgstr "Serveropties (aanhoudend)"
 
-#: server/stdinhand.c:2308 server/stdinhand.c:2333 server/stdinhand.c:2344
+#: server/stdinhand.c:2311 server/stdinhand.c:2336 server/stdinhand.c:2347
 #, c-format
 msgid "%s is now %s."
 msgstr "%s is nu %s."
 
-#: server/stdinhand.c:2336
+#: server/stdinhand.c:2339
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s wordt niet gestuurd door een KI."
 
-#: server/stdinhand.c:2348
+#: server/stdinhand.c:2351
 #, c-format
 msgid "Setting game.skill_level to %d."
 msgstr "Zet game.skill_level op %d."
 
-#: server/stdinhand.c:2357
+#: server/stdinhand.c:2360
 msgid "Crashing and burning."
 msgstr "Stort neer en staat in brand."
 
-#: server/stdinhand.c:2385
+#: server/stdinhand.c:2388
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Sorry, u hebt geen toegang om optie '%s' te bekijken."
 
-#: server/stdinhand.c:2390
+#: server/stdinhand.c:2393
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Onbekende optie '%s'."
 
-#: server/stdinhand.c:2407
+#: server/stdinhand.c:2410
 msgid "+ means you may change the option"
 msgstr "+ betekent u mag deze optie wijzigen"
 
-#: server/stdinhand.c:2408
+#: server/stdinhand.c:2411
 msgid "= means the option is on its default value"
 msgstr "= betekent de optie is op zijn standaard waarde"
 
-#: server/stdinhand.c:2411
+#: server/stdinhand.c:2414
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s waarde  (min,max)      "
 
-#: server/stdinhand.c:2412
+#: server/stdinhand.c:2415
 msgid "description"
 msgstr "beschrijving"
 
-#: server/stdinhand.c:2497
+#: server/stdinhand.c:2500
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Ongedefiniëerd argument. Gebruik: set <optie> <waarde>."
 
-#: server/stdinhand.c:2507
+#: server/stdinhand.c:2510
 msgid "You are not allowed to set this option."
 msgstr "U mag deze optie niet instellen."
 
-#: server/stdinhand.c:2512
+#: server/stdinhand.c:2515
 msgid "This setting can't be modified after the game has started."
 msgstr "Deze instelling kan niet veranderd worden nadat het spel begonnen is."
 
-#: server/stdinhand.c:2524 server/stdinhand.c:2527
+#: server/stdinhand.c:2527 server/stdinhand.c:2530
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Optie: %s is gezet op %d."
 
-#: server/stdinhand.c:2544
+#: server/stdinhand.c:2547
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Waarde buiten bereik (minimaal: %d, maximaal: %d)."
 
-#: server/stdinhand.c:2554 server/stdinhand.c:2557
+#: server/stdinhand.c:2557 server/stdinhand.c:2560
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Optie: %s is ingesteld op \"%s\"."
 
-#: server/stdinhand.c:2565
+#: server/stdinhand.c:2568
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Stringwaarde te lang. Gebruik: set <option> <value>."
 
-#: server/stdinhand.c:2590
+#: server/stdinhand.c:2593
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Sorry, u mag geen serveropdrachten geven."
 
-#: server/stdinhand.c:2617
+#: server/stdinhand.c:2620
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "Waarschuwing: '%s' opgevat als '%s', maar het is dubbelzinnig. Probeer '%shelp'."
 
-#: server/stdinhand.c:2622
+#: server/stdinhand.c:2625
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Onbekende opdracht. Probeer '%shelp'."
 
-#: server/stdinhand.c:2628
+#: server/stdinhand.c:2631
 msgid "You are not allowed to use this command."
 msgstr "U mag deze opdracht niet gebruiken."
 
-#: server/stdinhand.c:2704
+#: server/stdinhand.c:2707
 msgid "The game must be running before you can see the score."
 msgstr "Het spel moet begonnen zijn voordat u de score kunt zien."
 
-#: server/stdinhand.c:2737
+#: server/stdinhand.c:2740
 #, c-format
 msgid "Reduced maxplayers from %i to %i to fit to the number of start positions."
 msgstr "Verminderde maxplayers van %i naar %i om het aantal startposities te evenaren."
 
-#: server/stdinhand.c:2749
+#: server/stdinhand.c:2752
 msgid "Had to cut down the number of players to the number of map start positions, there must be something wrong with the savegame or you adjusted the maxplayers value."
 msgstr "Moest het aantal spelers verminderen tot het aantal startposities op de kaart, er moet iets mis zijn met het opgeslagen spel of u hebt de waarde van maxplayers veranderd."
 
-#: server/stdinhand.c:2762
+#: server/stdinhand.c:2765
 msgid "Not enough players, game will not start."
 msgstr "Niet genoeg spelers, spel zal niet beginnen."
 
-#: server/stdinhand.c:2769
+#: server/stdinhand.c:2772
 msgid "Cannot start the game: it is already running."
 msgstr "Kan spel niet starten: het is al begonnen."
 
-#: server/stdinhand.c:2778
+#: server/stdinhand.c:2781
 msgid "Cannot end the game: no game running."
 msgstr "Kan spel niet beëindigen: geen spel aktief."
 
-#: server/stdinhand.c:2806
+#: server/stdinhand.c:2809
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Verbreek verbinding met %s."
 
-#: server/stdinhand.c:2819
+#: server/stdinhand.c:2822
 msgid "Goodbye."
 msgstr "Tot ziens."
 
-#: server/stdinhand.c:2834
+#: server/stdinhand.c:2837
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -3701,100 +3721,100 @@ msgstr ""
 "  save   - om het huidige spel te bewaren\n"
 "  quit   - om de server te verlaten"
 
-#: server/stdinhand.c:2869 server/stdinhand.c:2872
+#: server/stdinhand.c:2872 server/stdinhand.c:2875
 msgid "Command:"
 msgstr "Opdracht:"
 
-#: server/stdinhand.c:2876
+#: server/stdinhand.c:2879
 msgid "Synopsis: "
 msgstr "Beknopt: "
 
-#: server/stdinhand.c:2885
+#: server/stdinhand.c:2888
 #, c-format
 msgid "Level: %s"
 msgstr "Niveau: %s"
 
-#: server/stdinhand.c:2910
+#: server/stdinhand.c:2913
 msgid "The following server commands are available:"
 msgstr "De volgende serveropdrachten zijn beschikbaar:"
 
-#: server/stdinhand.c:2985
+#: server/stdinhand.c:2988
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Help argument '%s' is dubbelzinnig."
 
-#: server/stdinhand.c:2990
+#: server/stdinhand.c:2993
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Geen overeenkomst voor help argument '%s'."
 
-#: server/stdinhand.c:3048
+#: server/stdinhand.c:3051
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Verkeerd argument voor list: '%s'. Probeer '%shelp list'."
 
-#: server/stdinhand.c:3080
+#: server/stdinhand.c:3083
 msgid "List of players:"
 msgstr "Lijst van spelers:"
 
-#: server/stdinhand.c:3084
+#: server/stdinhand.c:3087
 msgid "<no players>"
 msgstr "<geen spelers>"
 
-#: server/stdinhand.c:3106
+#: server/stdinhand.c:3109
 #, c-format
 msgid "username %s, "
 msgstr "gebruikersnaam %s, "
 
-#: data/nation/barbarian.ruleset:3 server/stdinhand.c:3110
+#: data/nation/barbarian.ruleset:3 server/stdinhand.c:3113
 msgid "Barbarian"
 msgstr "Barbaars"
 
-#: server/stdinhand.c:3112
+#: server/stdinhand.c:3115
 msgid "AI"
 msgstr "KI"
 
-#: server/stdinhand.c:3114
+#: server/stdinhand.c:3117
 msgid "Human"
 msgstr "Menselijk"
 
-#: server/stdinhand.c:3117
+#: server/stdinhand.c:3120
 msgid ", Dead"
 msgstr ", Dood"
 
-#: server/stdinhand.c:3120
+#: server/stdinhand.c:3123
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", moeilijkheidsniveau %s"
 
-#: server/stdinhand.c:3124
+#: server/stdinhand.c:3127
 #, c-format
 msgid ", nation %s"
 msgstr ", natie %s"
 
-#: server/stdinhand.c:3131
+#: server/stdinhand.c:3134
 msgid " 1 connection:"
 msgstr " 1 verbinding:"
 
-#: server/stdinhand.c:3133
+#: server/stdinhand.c:3136
 #, c-format
 msgid " %d connections:"
 msgstr " %d verbindingen:"
 
-#: server/stdinhand.c:3139
+#: server/stdinhand.c:3142
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s van %s, (opdrachttoegangsniveau %s), buffergrootte=%dkb"
 
-#: server/stdinhand.c:3144
+#: server/stdinhand.c:3147
 msgid " (observer mode)"
 msgstr " (waarnemers modus)"
 
-#: server/stdinhand.c:3161
+#: server/stdinhand.c:3164
 msgid "List of connections to server:"
 msgstr "Lijst met verbindingen met server:"
 
-#: server/stdinhand.c:3165
+#: server/stdinhand.c:3168
 msgid "<no connections>"
 msgstr "<geen verbindingen>"
 
@@ -4156,54 +4176,54 @@ msgstr "Spel: Ontbond uw %s bij (%d, %d)."
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spel: Teleporteerde uw %s van (%d, %d) naar %s."
 
-#: server/unittools.c:2175
+#: server/unittools.c:2177
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Spel: %s verloren toen %s verloren ging."
 
-#: server/unittools.c:2227
+#: server/unittools.c:2229
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spel: Barbaarse leider gevangengenomen, %d goud losgeld betaald."
 
-#: server/unittools.c:2247
+#: server/unittools.c:2249
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s%s."
 
-#: server/unittools.c:2277
+#: server/unittools.c:2279
 #, c-format
 msgid "Game: You lost %d units to an attack from %s's %s%s."
 msgstr "Spel: U verloor %d eenheden onder een aanval van %s's %s%s."
 
-#: server/unittools.c:2289
+#: server/unittools.c:2291
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s."
 
-#: server/unittools.c:2493
+#: server/unittools.c:2495
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spel: %s succesvol overgeplaatst."
 
-#: server/unittools.c:2513
+#: server/unittools.c:2515
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spel: Deze eenheid kan niet worden geparadropt."
 
-#: server/unittools.c:2522
+#: server/unittools.c:2524
 msgid "Game: The destination location is not known."
 msgstr "Spel: De plaats van bestemming is onbekend."
 
-#: server/unittools.c:2529
+#: server/unittools.c:2531
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Spel: Kan niet paradroppen in de oceaan."
 
-#: server/unittools.c:2538
+#: server/unittools.c:2540
 #, c-format
 msgid "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Spel: De afstand naar het doel (%i) is groter dan het bereik van de eenheid (%i)."
 
-#: server/unittools.c:2549
+#: server/unittools.c:2551
 msgid "Game: Cannot paradrop because there are enemy units on the destination location."
 msgstr "Spel: Kan niet paradroppen omdat er vijandelijke eenheden op de plaats van bestemming zijn."
 
@@ -6572,7 +6592,7 @@ msgstr "Ontbind Eenheid"
 msgid "Diplomat|Spy Actions"
 msgstr "Diplomaat|Spion Akties"
 
-#: client/gui-gtk/menu.c:692 client/gui-mui/gui_main.c:306 client/gui-mui/mapclass.c:1796 client/gui-xaw/menu.c:192
+#: client/gui-gtk/menu.c:692 client/gui-mui/gui_main.c:306 client/gui-mui/mapclass.c:1834 client/gui-xaw/menu.c:192
 msgid "Explode Nuclear"
 msgstr "Explodeer Kernraket"
 
@@ -6767,11 +6787,11 @@ msgstr "Ber:"
 msgid "Pop:"
 msgstr "Pop:"
 
-#: client/gui-gtk/messagewin.c:124 client/gui-gtk/messagewin.c:136 client/gui-mui/messagewin.c:142 client/gui-mui/messagewin.c:226 client/gui-xaw/menu.c:109 data/Freeciv:3170 data/Freeciv:3171 data/Freeciv:3180
+#: client/gui-gtk/messagewin.c:124 client/gui-gtk/messagewin.c:136 client/gui-mui/messagewin.c:142 client/gui-mui/messagewin.c:237 client/gui-xaw/menu.c:109 data/Freeciv:3170 data/Freeciv:3171 data/Freeciv:3180
 msgid "Messages"
 msgstr "Berichten"
 
-#: client/gui-gtk/messagewin.c:148 client/gui-mui/citydlg.c:1344 client/gui-mui/cityrep.c:393 client/gui-mui/dialogs.c:138 client/gui-mui/dialogs.c:185 client/gui-mui/dialogs.c:1486 client/gui-mui/messagewin.c:237 client/gui-mui/plrdlg.c:346 client/gui-mui/repodlgs.c:581 client/gui-mui/repodlgs.c:860 client/gui-mui/spaceshipdlg.c:230
+#: client/gui-gtk/messagewin.c:148 client/gui-mui/citydlg.c:1344 client/gui-mui/cityrep.c:393 client/gui-mui/dialogs.c:138 client/gui-mui/dialogs.c:185 client/gui-mui/dialogs.c:1486 client/gui-mui/messagewin.c:248 client/gui-mui/plrdlg.c:346 client/gui-mui/repodlgs.c:581 client/gui-mui/repodlgs.c:860 client/gui-mui/spaceshipdlg.c:230
 msgid "_Close"
 msgstr "_Sluit"
 
@@ -6779,11 +6799,11 @@ msgstr "_Sluit"
 msgid "_Goto location"
 msgstr "_Ga naar lokatie"
 
-#: client/gui-gtk/messagewin.c:160 client/gui-mui/messagewin.c:239
+#: client/gui-gtk/messagewin.c:160 client/gui-mui/messagewin.c:250
 msgid "_Popup City"
 msgstr "_Popup Stad"
 
-#: client/gui-gtk/messagewin.c:272 client/gui-mui/messagewin.c:285 client/gui-xaw/messagewin.c:252
+#: client/gui-gtk/messagewin.c:272 client/gui-mui/messagewin.c:297 client/gui-xaw/messagewin.c:252
 msgid "Game: "
 msgstr "Spel: "
 
@@ -6961,7 +6981,7 @@ msgstr "Schild"
 msgid "Totals: ..."
 msgstr "Totalen: ..."
 
-#: client/gui-gtk/repodlgs.c:875 client/gui-mui/mapclass.c:3121 data/Freeciv:1893
+#: client/gui-gtk/repodlgs.c:875 client/gui-mui/mapclass.c:3159 data/Freeciv:1893
 msgid "Upgrade"
 msgstr "Waardeer op"
 
@@ -7507,19 +7527,19 @@ msgstr "Centreer Venster"
 msgid "Order"
 msgstr "Opdracht"
 
-#: client/gui-mui/gui_main.c:275 client/gui-mui/gui_main.c:1343 client/gui-mui/mapclass.c:1766 client/gui-xaw/menu.c:155
+#: client/gui-mui/gui_main.c:275 client/gui-mui/gui_main.c:1343 client/gui-mui/mapclass.c:1804 client/gui-xaw/menu.c:155
 msgid "Build City"
 msgstr "Bouw Stad"
 
-#: client/gui-mui/gui_main.c:276 client/gui-mui/gui_main.c:1386 client/gui-mui/mapclass.c:1770 client/gui-xaw/menu.c:157
+#: client/gui-mui/gui_main.c:276 client/gui-mui/gui_main.c:1386 client/gui-mui/mapclass.c:1808 client/gui-xaw/menu.c:157
 msgid "Build Road"
 msgstr "Bouw Weg"
 
-#: client/gui-mui/gui_main.c:277 client/gui-mui/gui_main.c:1368 client/gui-mui/mapclass.c:1820 client/gui-xaw/menu.c:162
+#: client/gui-mui/gui_main.c:277 client/gui-mui/gui_main.c:1368 client/gui-mui/mapclass.c:1858 client/gui-xaw/menu.c:162
 msgid "Build Mine"
 msgstr "Bouw Mijn"
 
-#: client/gui-mui/gui_main.c:278 client/gui-mui/gui_main.c:1359 client/gui-mui/mapclass.c:1813 client/gui-xaw/menu.c:159
+#: client/gui-mui/gui_main.c:278 client/gui-mui/gui_main.c:1359 client/gui-mui/mapclass.c:1851 client/gui-xaw/menu.c:159
 msgid "Build Irrigation"
 msgstr "Bouw Irrigatie"
 
@@ -7527,23 +7547,23 @@ msgstr "Bouw Irrigatie"
 msgid "Transform Terrain"
 msgstr "Transformeer Terrein"
 
-#: client/gui-mui/gui_main.c:281 client/gui-mui/mapclass.c:1774 client/gui-xaw/menu.c:166
+#: client/gui-mui/gui_main.c:281 client/gui-mui/mapclass.c:1812 client/gui-xaw/menu.c:166
 msgid "Build Fortress"
 msgstr "Bouw Fort"
 
-#: client/gui-mui/gui_main.c:282 client/gui-mui/mapclass.c:1776 client/gui-xaw/menu.c:167
+#: client/gui-mui/gui_main.c:282 client/gui-mui/mapclass.c:1814 client/gui-xaw/menu.c:167
 msgid "Build Airbase"
 msgstr "Bouw Luchtbasis"
 
-#: client/gui-mui/gui_main.c:283 client/gui-mui/gui_main.c:1312 client/gui-mui/mapclass.c:1778 client/gui-xaw/menu.c:168
+#: client/gui-mui/gui_main.c:283 client/gui-mui/gui_main.c:1312 client/gui-mui/mapclass.c:1816 client/gui-xaw/menu.c:168
 msgid "Clean Pollution"
 msgstr "Verwijder Verontreiniging"
 
-#: client/gui-mui/gui_main.c:284 client/gui-mui/mapclass.c:1780 client/gui-xaw/menu.c:170
+#: client/gui-mui/gui_main.c:284 client/gui-mui/mapclass.c:1818 client/gui-xaw/menu.c:170
 msgid "Clean Nuclear Fallout"
 msgstr "Verwijder Radioaktieve Besmetting"
 
-#: client/gui-mui/gui_main.c:286 client/gui-mui/mapclass.c:1782 client/gui-mui/mapclass.c:3090 client/gui-xaw/menu.c:172
+#: client/gui-mui/gui_main.c:286 client/gui-mui/mapclass.c:1820 client/gui-mui/mapclass.c:3128 client/gui-xaw/menu.c:172
 msgid "Fortify"
 msgstr "Fortificeer"
 
@@ -7551,7 +7571,7 @@ msgstr "Fortificeer"
 msgid "Make Homecity"
 msgstr "Maak Hoofdstad"
 
-#: client/gui-mui/gui_main.c:291 client/gui-mui/mapclass.c:1798 client/gui-xaw/menu.c:177
+#: client/gui-mui/gui_main.c:291 client/gui-mui/mapclass.c:1836 client/gui-xaw/menu.c:177
 msgid "Unload"
 msgstr "Los"
 
@@ -7559,15 +7579,15 @@ msgstr "Los"
 msgid "Wake up others"
 msgstr "Wek anderen"
 
-#: client/gui-mui/gui_main.c:294 client/gui-mui/mapclass.c:1788 client/gui-xaw/menu.c:180
+#: client/gui-mui/gui_main.c:294 client/gui-mui/mapclass.c:1826 client/gui-xaw/menu.c:180
 msgid "Auto Settler"
 msgstr "Auto Kolonist"
 
-#: client/gui-mui/gui_main.c:295 client/gui-mui/mapclass.c:1790 client/gui-xaw/menu.c:181
+#: client/gui-mui/gui_main.c:295 client/gui-mui/mapclass.c:1828 client/gui-xaw/menu.c:181
 msgid "Auto Attack"
 msgstr "Auto Aanval"
 
-#: client/gui-mui/gui_main.c:296 client/gui-mui/mapclass.c:1792 client/gui-xaw/menu.c:182
+#: client/gui-mui/gui_main.c:296 client/gui-mui/mapclass.c:1830 client/gui-xaw/menu.c:182
 msgid "Auto Explore"
 msgstr "Auto Onderzoek"
 
@@ -7648,23 +7668,23 @@ msgstr ""
 msgid "Change to %s"
 msgstr "Verander in %s"
 
-#: client/gui-mui/gui_main.c:1307 client/gui-mui/mapclass.c:1794 client/gui-xaw/menu.c:169
+#: client/gui-mui/gui_main.c:1307 client/gui-mui/mapclass.c:1832 client/gui-xaw/menu.c:169
 msgid "Paradrop"
 msgstr "Drop Para's"
 
-#: client/gui-mui/gui_main.c:1339 client/gui-mui/mapclass.c:1768 client/gui-xaw/menu.c:156
+#: client/gui-mui/gui_main.c:1339 client/gui-mui/mapclass.c:1806 client/gui-xaw/menu.c:156
 msgid "Add to City"
 msgstr "Voeg toe aan Stad"
 
-#: client/gui-mui/gui_main.c:1355 client/gui-mui/mapclass.c:1810 client/gui-xaw/menu.c:160
+#: client/gui-mui/gui_main.c:1355 client/gui-mui/mapclass.c:1848 client/gui-xaw/menu.c:160
 msgid "Build Farmland"
 msgstr "Bouw Landbouwgrond"
 
-#: client/gui-mui/gui_main.c:1377 client/gui-mui/mapclass.c:1827
+#: client/gui-mui/gui_main.c:1377 client/gui-mui/mapclass.c:1865
 msgid "Transform terrain"
 msgstr "Transformeer terrein"
 
-#: client/gui-mui/gui_main.c:1382 client/gui-mui/mapclass.c:1772 client/gui-xaw/menu.c:158
+#: client/gui-mui/gui_main.c:1382 client/gui-mui/mapclass.c:1810 client/gui-xaw/menu.c:158
 msgid "Build Railroad"
 msgstr "Bouw Spoorweg"
 
@@ -7714,50 +7734,50 @@ msgstr ""
 "Produktie: %d\n"
 "Handel:    %d"
 
-#: client/gui-mui/mapclass.c:1737
+#: client/gui-mui/mapclass.c:1775
 #, c-format
 msgid "City %s"
 msgstr "Stad: %s"
 
-#: client/gui-mui/mapclass.c:1739
+#: client/gui-mui/mapclass.c:1777
 #, c-format
 msgid "Unit %s"
 msgstr "Eenheid %s"
 
-#: client/gui-mui/mapclass.c:1741
+#: client/gui-mui/mapclass.c:1779
 #, c-format
 msgid "Tile %s"
 msgstr "Vlak: %s"
 
-#: client/gui-mui/mapclass.c:1754 data/Freeciv:3218
+#: client/gui-mui/mapclass.c:1792 data/Freeciv:3218
 msgid "Popup City"
 msgstr "Popup Stad"
 
-#: client/gui-mui/mapclass.c:1800
+#: client/gui-mui/mapclass.c:1838
 msgid "Wake up"
 msgstr "Wek"
 
-#: client/gui-mui/mapclass.c:1802 client/gui-mui/mapclass.c:3074 client/gui-mui/mapclass.c:3223
+#: client/gui-mui/mapclass.c:1840 client/gui-mui/mapclass.c:3112 client/gui-mui/mapclass.c:3261
 msgid "Activate"
 msgstr "Aktiveer"
 
-#: client/gui-mui/mapclass.c:1856
+#: client/gui-mui/mapclass.c:1894
 msgid "List all units"
 msgstr "Toon alle eenheden"
 
-#: client/gui-mui/mapclass.c:1871
+#: client/gui-mui/mapclass.c:1909
 msgid "Connect to this location"
 msgstr "Verbind met deze lokatie"
 
-#: client/gui-mui/mapclass.c:1874
+#: client/gui-mui/mapclass.c:1912
 msgid "Goto this location"
 msgstr "Ga naar deze lokatie"
 
-#: client/gui-mui/mapclass.c:3080 client/gui-mui/mapclass.c:3227
+#: client/gui-mui/mapclass.c:3118 client/gui-mui/mapclass.c:3265
 msgid "Disband"
 msgstr "Ontbind"
 
-#: client/gui-mui/mapclass.c:3099 data/Freeciv:1185
+#: client/gui-mui/mapclass.c:3137 data/Freeciv:1185
 msgid "Make new homecity"
 msgstr "Maak nieuwe hoofdstad"
 
@@ -7779,7 +7799,7 @@ msgstr "Bevolking: %s"
 msgid "Tax:%d Lux:%d Sci:%d"
 msgstr "Bel:%d Lux:%d Wet:%d"
 
-#: client/gui-mui/messagewin.c:238
+#: client/gui-mui/messagewin.c:249
 msgid "_Goto Location"
 msgstr "_Ga naar lokatie"
 
@@ -8633,9 +8653,9 @@ msgid ""
 "  x: auto-e(x)plore\n"
 "\n"
 "  1: move south-west                  F1: open City Report\n"
-"  2: move south                       F2: open Military Report\n"
+"  2: move south                       F2: open Unit Report\n"
 "  3: move south-east                  F3: open Players dialog\n"
-"  4: move west                        F5: open Trade Report\n"
+"  4: move west                        F5: open Economy Report\n"
 "  5: focus on next unit               F6: open Science Report\n"
 "  6: move east                        F7: open World Wonders\n"
 "  7: move north-west                  F8: open Top Five Cities\n"
@@ -8643,9 +8663,9 @@ msgid ""
 "  9: move north-east                 F11: open Demographics\n"
 "                                     F12: open Spaceship\n"
 "\n"
-"  arrows: move unit            control-g: grid lines on/off\n"
-"   space: unit stay put        control-n: city names on/off\n"
-"     tab: focus on next unit   control-p: city production on/off\n"
+"  arrows: move unit            Control-g: grid lines on/off\n"
+"   space: unit stay put        Control-n: city names on/off\n"
+"     tab: focus on next unit   Control-p: city production on/off\n"
 "  return: turn done"
 msgstr ""
 "Toetenbord:\n"
@@ -8655,19 +8675,19 @@ msgstr ""
 "  b: (b)ouw stad  (kolonisten eenheden)\n"
 "  b: help wonder (b)ouwen  (karavaan eenheden)\n"
 "  c: (c)entreer venster op eenheid\n"
-"  C: eenheid verbind (dan linker-klik muis om bestemming te kiezen)\n"
+"  C: eenheid verbind (dan linker muisknop om bestemming te kiezen)\n"
 "  d: (d)iplomaat/spionage acties (diplomaat/spion eenheden)\n"
 "  D: Ontmantel eenheid\n"
 "  e: bouw luchtbasis (luchtbasis eenheden)\n"
 "  f: (f)ortificeer eenheid  (militaire eenheden)\n"
 "  f: bouw (f)ort op vlak  (kolonisten eenheden)\n"
 "  F: open Zoek Stad dialoog\n"
-"  g: eenheid (g)a-naar (dan linker-klik muis om bestemming te kiezen)\n"
+"  g: eenheid (g)a-naar (dan linker muisknop om bestemming te kiezen)\n"
 "  h: verander (h)oofdstad (in stad op huidige positie)\n"
-"  i: bouw (i)rrigatie/landbouwgrond (kan terrein transformeren)\n"
+"  i: bouw (i)rrigatie/landbouwgrond (kolonisten; kan terrein transformeren)\n"
 "  l: ga/v(l)ieg naar stad\n"
 "  L: open Werk(l)ijst dialoog\n"
-"  m: bouw (m)ijn (kan terrein transformeren)\n"
+"  m: bouw (m)ijn (kolonisten eenheden; kan terrein transformeren)\n"
 "  n: verwijder radioactief afval\n"
 "  N: explodeer Ker(n)wapen\n"
 "  o: transf(o)rmeer terrein\n"
@@ -8679,7 +8699,7 @@ msgstr ""
 "  r: vestig handels(r)oute (karavaan eenheden)\n"
 "  R: ontketen een (R)evolutie\n"
 "  s: zet eenheid op wacht\n"
-"  t: toon vlakken die stad gebruikt (muis boven of bij stad)\n"
+"  t: (t)oon vlakken die stad gebruikt (muis boven of bij stad)\n"
 "  T: open belas(t)ing/luxe/wetenschap waarden dialoog\n"
 "  u: laad/los schip\n"
 "  w: (w)acht tot later in de beurt\n"
@@ -8691,7 +8711,7 @@ msgstr ""
 "  3: beweeg zuidoost                 F3: open Spelers dialoog\n"
 "  4: beweeg west                     F5: open Handels Rapport\n"
 "  5: volgende eenheid                F6: open Wetenschaps Rapport\n"
-"  6: beweeg oost                     F7: open Wereld Wonderen\n"
+"  6: beweeg oost                     F7: open Wereldwonderen\n"
 "  7: beweeg noordwest                F8: open Top Vijf Steden\n"
 "  8: beweeg noord                   F10: open Berichten dialoog\n"
 "  9: beweeg noordoost               F11: open Volkenkunde\n"
