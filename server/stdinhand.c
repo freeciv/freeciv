@@ -3319,7 +3319,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 	      _("Ambiguous option name."));
     return FALSE;
   }
-  if (!may_set_option(caller,cmd)) {
+  if (!may_set_option(caller,cmd) && !check) {
      cmd_reply(CMD_SET, caller, C_FAIL,
 	       _("You are not allowed to set this option."));
     return FALSE;
