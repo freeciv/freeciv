@@ -97,8 +97,11 @@ enum diplomat_actions {
 struct unit_ai {
   int control;
   int ai_role;
+  int ferryboat;
+  int passenger;
+  int bodyguard;
+  int charge; /* couldn't find a better synonym -- Syela */
 };
-
 
 struct unit {
   enum unit_type_id type;
