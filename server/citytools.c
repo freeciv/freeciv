@@ -979,14 +979,17 @@ void create_city(struct player *pplayer, struct tile *ptile,
   auto_arrange_workers(pcity);
 
   /* Put vision back to normal, if fortress acted as a watchtower */
-  if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)
-      && map_has_special(ptile, S_FORTRESS)) {
+  if (map_has_special(ptile, S_FORTRESS)) {
+    /* This could be a helper function. */
     unit_list_iterate((ptile)->units, punit) {
-      unfog_area(pplayer, punit->tile,
-		 unit_type(punit)->vision_range);
-      fog_area(pplayer, punit->tile, get_watchtower_vision(punit));
-    }
-    unit_list_iterate_end;
+      struct player *owner = unit_owner(punit);
+
+      if (player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
+        unfog_area(owner, punit->tile,
+                   unit_type(punit)->vision_range);
+        fog_area(owner, punit->tile, get_watchtower_vision(punit));
+      }
+    } unit_list_iterate_end;
   }
   map_clear_special(ptile, S_FORTRESS);
   update_tile_knowledge(ptile);

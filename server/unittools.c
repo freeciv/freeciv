@@ -646,13 +646,16 @@ static void update_unit_activity(struct unit *punit)
 	}
 
 	/* If a watchtower has been pillaged, reduce sight to normal */
-	if (what == S_FORTRESS
-	    && player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
+	if (what == S_FORTRESS) {
 	  freelog(LOG_VERBOSE, "Watchtower pillaged!");
-	  unit_list_iterate(punit->tile->units,
-			    punit2) {
-            if (is_ground_unit(punit2)) {
-              change_vision_range(pplayer, punit2->tile, get_watchtower_vision(punit2),
+	  /* This could be a helper function. */
+	  unit_list_iterate(punit->tile->units, punit2) {
+            struct player *owner = unit_owner(punit2);
+
+            if (is_ground_unit(punit2)
+                && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
+              change_vision_range(owner, punit2->tile,
+				  get_watchtower_vision(punit2),
                                   unit_type(punit2)->vision_range);
             }
 	  }
@@ -675,18 +678,22 @@ static void update_unit_activity(struct unit *punit)
       update_tile_knowledge(punit->tile);
       
       /* If a watchtower has been pillaged, reduce sight to normal */
-      if (what_pillaged == S_FORTRESS
-	  && player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
+      if (what_pillaged == S_FORTRESS) {
 	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
+	/* This could be a helper function. */
 	unit_list_iterate(punit->tile->units, punit2) {
-          if (is_ground_unit(punit2)) {
-            change_vision_range(pplayer, punit->tile, get_watchtower_vision(punit2),
+          struct player *owner = unit_owner(punit2);
+
+          if (is_ground_unit(punit2)
+              && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
+            change_vision_range(owner, punit->tile,
+				get_watchtower_vision(punit2),
                                 unit_type(punit2)->vision_range);
           }
 	}
 	unit_list_iterate_end;
       }
-    }    
+    }
   }
 
   if (activity==ACTIVITY_POLLUTION) {
@@ -711,15 +718,18 @@ static void update_unit_activity(struct unit *punit)
       map_set_special(punit->tile, S_FORTRESS);
       unit_activity_done = TRUE;
       /* watchtower becomes effective */
-      if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)) {
-	unit_list_iterate(ptile->units, punit) {
-          if (is_ground_unit(punit)) {
-            change_vision_range(pplayer, punit->tile, unit_type(punit)->vision_range,
-                                get_watchtower_vision(punit));
-          }
-	}
-	unit_list_iterate_end;
+      /* This could be a helper function. */
+      unit_list_iterate(ptile->units, punit) {
+        struct player *owner = unit_owner(punit);
+
+        if (is_ground_unit(punit)
+            && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
+          change_vision_range(pplayer, punit->tile,
+			      unit_type(punit)->vision_range,
+                              get_watchtower_vision(punit));
+        }
       }
+      unit_list_iterate_end;
     }
   }
 
