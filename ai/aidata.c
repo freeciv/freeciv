@@ -97,9 +97,13 @@ void ai_data_turn_init(struct player *pplayer)
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
         if (unit_type(punit)->attack_strength > 1) {
-          Continent_id continent = map_get_continent(punit->x, punit->y);
-          ai->threats.ocean[-continent] = TRUE;
-        }
+	  square_iterate(punit->x, punit->y, 1, x2, y2) {
+	    if (is_ocean(map_get_terrain(x2, y2))) {
+	      Continent_id continent = map_get_continent(x2, y2);
+	      ai->threats.ocean[-continent] = TRUE;
+	    }
+	  } square_iterate_end;
+        } 
         continue;
       }
 
