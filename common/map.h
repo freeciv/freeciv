@@ -207,6 +207,20 @@ void reset_move_costs(int x, int y);
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
+/* Provide a block to convert from map to native coordinates.  This allows
+ * you to use a native version of the map position within the block.  Note
+ * that any changes to the native position won't affect the map position. */
+#define do_in_native_pos(nat_x, nat_y, map_x, map_y)                        \
+{                                                                           \
+  int _nat_x, _nat_y;                                                       \
+  map_to_native_pos(&_nat_x, &_nat_y, map_x, map_y);			    \
+  {                                                                         \
+    const int nat_x = _nat_x, nat_y = _nat_y;
+
+#define do_in_native_pos_end                                                \
+  }                                                                         \
+}
+
 static inline int map_pos_to_index(int map_x, int map_y);
 
 /* index_to_map_pos(int *, int *, int) inverts map_pos_to_index */
@@ -258,17 +272,6 @@ bool tile_has_special(struct tile *ptile,
 bool contains_special(enum tile_special_type all,
 		      enum tile_special_type to_test_for);
 
-/*
- * A "border position" is any one that _may have_ positions within
- * map distance dist that are non-normal.  To see its correctness,
- * consider the case where dist is 1 or 0.
- *
- * TODO: implement this for iso-maps.
- */
-#define IS_BORDER_MAP_POS(x, y, dist)                         \
-  (topo_has_flag(TF_ISO)                                      \
-   || (x) < (dist) || (x) >= map.xsize - (dist)               \
-   || (y) < (dist) || (y) >= map.ysize - (dist))
 
 bool normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
@@ -664,6 +667,26 @@ static inline int map_pos_to_index(int map_x, int map_y)
   CHECK_MAP_POS(map_x, map_y);
   map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
   return native_pos_to_index(nat_x, nat_y);
+}
+
+/****************************************************************************
+  A "border position" is any map position that _may have_ positions within
+  real map distance dist that are non-normal.  To see its correctness,
+  consider the case where dist is 1 or 0.
+****************************************************************************/
+static inline bool IS_BORDER_MAP_POS(int map_x, int map_y, int dist)
+{
+  do_in_native_pos(nat_x, nat_y, map_x, map_y) {
+    /* HACK: An iso-map compresses the value in the X direction but not in
+     * the Y direction.  Hence (x+1,y) is 1 tile away while (x,y+2) is also
+     * one tile away. */
+    int xdist = dist, ydist = topo_has_flag(TF_ISO) ? (2 * dist) : dist;
+
+    return (nat_x < xdist 
+	    || nat_y < ydist
+	    || nat_x >= map.xsize - xdist
+	    || nat_y >= map.ysize - ydist);
+  } do_in_native_pos_end;
 }
 
 #endif  /* FC__MAP_H */
