@@ -288,28 +288,13 @@ const char *get_special_name(enum tile_special_type type)
 /***************************************************************
 ...
 ***************************************************************/
-int xdist(int x0, int x1)
-{
-  int dist = (x0 > x1) ? x0 - x1 : x1 - x0;
-  return MIN(dist, map.xsize-dist);
-}
-
-/***************************************************************
-...
-***************************************************************/
-int ydist(int y0, int y1)
-{
-  return (y0 > y1) ? y0 - y1 : y1 - y0;
-}
-
-/***************************************************************
-...
-***************************************************************/
 int real_map_distance(int x0, int y0, int x1, int y1)
 {
-  int xd = xdist(x0, x1);
-  int yd = ydist(y0, y1);
-  return MAX(xd, yd);
+  int dx, dy;
+
+  map_distance_vector(&dx, &dy, x0, y0, x1, y1);
+
+  return MAX(abs(dx), abs(dy));
 }
 
 /***************************************************************
@@ -317,9 +302,13 @@ int real_map_distance(int x0, int y0, int x1, int y1)
 ***************************************************************/
 int sq_map_distance(int x0, int y0, int x1, int y1)
 {
-  int xd = xdist(x0, x1);
-  int yd = ydist(y0, y1);
-  return (xd*xd + yd*yd);
+  /* We assume map_distance_vector gives us the vector with the
+     minimum squared distance. Right now this is true. */
+  int dx, dy;
+
+  map_distance_vector(&dx, &dy, x0, y0, x1, y1);
+
+  return (dx*dx + dy*dy);
 }
 
 /***************************************************************
@@ -327,7 +316,13 @@ int sq_map_distance(int x0, int y0, int x1, int y1)
 ***************************************************************/
 int map_distance(int x0, int y0, int x1, int y1)
 {
-  return xdist(x0, x1) + ydist(y0, y1);
+  /* We assume map_distance_vector gives us the vector with the
+     minimum map distance. Right now this is true. */
+  int dx, dy;
+
+  map_distance_vector(&dx, &dy, x0, y0, x1, y1);
+
+  return abs(dx) + abs(dy);
 }
 
 /***************************************************************
@@ -1125,14 +1120,7 @@ int map_move_cost(struct unit *punit, int x, int y)
 ***************************************************************/
 int is_tiles_adjacent(int x0, int y0, int x1, int y1)
 {
-  CHECK_MAP_POS(x1, y1);
-  /* (x0,y0) are checked in adjc_iterate */
-  adjc_iterate(x0, y0, x, y) {
-    if (x == x1 && y == y1)
-      return 1;
-  } adjc_iterate_end;
-
-  return 0;
+  return real_map_distance(x0, y0, x1, y1) == 1;
 }
 
 /***************************************************************
@@ -1315,6 +1303,38 @@ int map_num_tiles(void)
 }
 
 /**************************************************************************
+Topology function to find the vector which has the minimum "real"
+distance between the map positions (x0, y0) and (x1, y1).  If there is
+more than one vector with equal distance, no guarantee is made about
+which is found.
+
+Real distance is defined as the larger of the distances in the x and y
+direction; since units can travel diagonally this is the "real" distance
+a unit has to travel to get from point to point.
+
+(See also: real_map_distance, map_distance, and sq_map_distance.)
+
+The ranges of the return values are currently:
+-map.xsize/2 < dx <= map.xsize/2
+-map.ysize   < dy <  map.ysize
+**************************************************************************/
+void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1)
+{
+  CHECK_MAP_POS(x0, y0);
+  CHECK_MAP_POS(x1, y1);
+
+  *dx = x1 - x0;
+
+  if (*dx > map.xsize / 2) {
+    *dx -= map.xsize;
+  } else if (*dx <= -map.xsize / 2) {
+    *dx += map.xsize;
+  }
+
+  *dy = y1 - y0;
+}
+
+/**************************************************************************
 Random neighbouring square.
 **************************************************************************/
 void rand_neighbour(int x0, int y0, int *x, int *y)
@@ -1411,8 +1431,10 @@ Returns 1 if the move from the position (start_x,start_y) to
 **************************************************************************/
 int is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 {
+  int diff_x, diff_y;
+
   assert(is_tiles_adjacent(start_x, start_y, end_x, end_y));
 
-  /* FIXME: this check will not work with an orthogonal map */
-  return (start_x == end_x) || (start_y == end_y);
+  map_distance_vector(&diff_x, &diff_y, start_x, start_y, end_x, end_y);
+  return (diff_x == 0) || (diff_y == 0);
 }

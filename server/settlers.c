@@ -767,8 +767,8 @@ int is_ok_city_spot(int x, int y)
   for (i = 0; i < game.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) {
       if (map_distance(x, y, pcity->x, pcity->y)<=8) {
-        dx = xdist(pcity->x, x);
-        dy = ydist(pcity->y, y);
+	map_distance_vector(&dx, &dy, pcity->x, pcity->y, x, y);
+	dx = abs(dx), dy = abs(dy);
 	/* these are heuristics... */
         if (dx<=5 && dy<5)
           return 0;

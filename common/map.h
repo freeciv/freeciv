@@ -184,8 +184,6 @@ char *map_get_tile_info_text(int x, int y);
 char *map_get_tile_fpt_text(int x, int y);
 struct tile *map_get_tile(int x, int y);
 
-int xdist(int x0, int x1);
-int ydist(int y0, int y1);
 int map_distance(int x0, int y0, int x1, int y1);
 int real_map_distance(int x0, int y0, int x1, int y1);
 int sq_map_distance(int x0, int y0, int x1, int y1);
@@ -295,6 +293,7 @@ int is_normal_map_pos(int x, int y);
 
 int normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
+void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1);
 int map_num_tiles(void);
 
 void rand_neighbour(int x0, int y0, int *x, int *y);

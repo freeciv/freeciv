@@ -414,17 +414,7 @@ static int dir_ok(int src_x, int src_y, int dest_x, int dest_y, int dir)
 {
   int diff_x, diff_y, dx, dy, scalar_product;
 
-  if (dest_x > src_x) {
-    diff_x = dest_x - src_x < map.xsize / 2 ? 1 : -1;
-  } else if (dest_x < src_x) {
-    diff_x = src_x - dest_x < map.xsize / 2 ? -1 : 1;
-  } else {			/* dest_x == src_x */
-    diff_x = 0;
-  }
-  if (dest_y != src_y)
-    diff_y = dest_y > src_y ? 1 : -1;
-  else
-    diff_y = 0;
+  map_distance_vector(&diff_x, &diff_y, src_x, src_y, dest_x, dest_y);
 
   DIRSTEP(dx, dy, dir);
   scalar_product = diff_x * dx + diff_y * dy;
@@ -443,23 +433,22 @@ FIXME: This is a bit crude; this only gives one correct path, but sometimes
 static int straightest_direction(int src_x, int src_y, int dest_x, int dest_y)
 {
   int best_dir;
-  int go_x, go_y;
+  int diff_x, diff_y;
 
-  /* Should we go up or down, east or west: go_x/y is the "step" in x/y.
-     Will allways be -1 or 1 even if src_x == dest_x or src_y == dest_y. */
-  go_x = dest_x > src_x ?
-    (dest_x-src_x < map.xsize/2 ? 1 : -1) :
-    (src_x-dest_x < map.xsize/2 ? -1 : 1);
-  go_y = dest_y > src_y ? 1 : -1;
+  /* Should we go up or down, east or west: diff_x/y is the "step" in x/y. */
+  map_distance_vector(&diff_x, &diff_y, src_x, src_y, dest_x, dest_y);
 
-  if (src_x == dest_x)
-    best_dir = (go_y > 0) ? 6 : 1;
-  else if (src_y == dest_y)
-    best_dir = (go_x > 0) ? 4 : 3;
-  else if (go_x > 0)
-    best_dir = (go_y > 0) ? 7 : 2;
-  else /* go_x < 0 */
-    best_dir = (go_y > 0) ? 5 : 0;
+  if (diff_x == 0) {
+    best_dir = (diff_y > 0) ? DIR8_SOUTH : DIR8_NORTH;
+  } else if (diff_y == 0) {
+    best_dir = (diff_x > 0) ? DIR8_EAST : DIR8_WEST;
+  } else if (diff_x > 0) {
+    best_dir = (diff_y > 0) ? DIR8_SOUTHEAST : DIR8_NORTHEAST;
+  } else if (diff_x < 0) {
+    best_dir = (diff_y > 0) ? DIR8_SOUTHWEST : DIR8_NORTHWEST;
+  } else {
+    assert(0);
+  }
 
   return (best_dir);
 }
