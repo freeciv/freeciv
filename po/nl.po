@@ -14042,7 +14042,7 @@ msgid ""
 "after the discovery of Electricity.)"
 msgstr ""
 "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden "
-"stedelingen tevreden. (Vier na de ontdekking van Electriciteit"
+"stedelingen tevreden. (Vier na de ontdekking van Electriciteit)"
 
 #: data/default/buildings.ruleset:509 data/civ2/buildings.ruleset:316
 #: data/civ1/buildings.ruleset:333 data/history/buildings.ruleset:318
