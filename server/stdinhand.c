@@ -1995,6 +1995,9 @@ static void write_init_script(char *script_filename)
         fprintf(script_file, "fix %s\n", settings[i].name);
       }
     }
+    
+    /* rulesetdir */
+    fprintf(script_file, "rulesetdir %s\n", game.rulesetdir);
 
     fclose(script_file);
 
