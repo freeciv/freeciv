@@ -1616,9 +1616,16 @@ void set_client_page(enum client_pages page)
   switch (new_page) {
   case PAGE_MAIN:
   case PAGE_START:
+    break;
   case PAGE_NATION:
+    gtk_tree_view_focus(gtk_tree_selection_get_tree_view(nation_selection));
+    break;
   case PAGE_LOAD:
+    gtk_tree_view_focus(gtk_tree_selection_get_tree_view(load_selection));
+    break;
   case PAGE_SCENARIO:
+    gtk_tree_view_focus(gtk_tree_selection_get_tree_view(scenario_selection));
+    break;
   case PAGE_GAME:
     break;
   case PAGE_NETWORK:
