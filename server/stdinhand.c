@@ -1726,7 +1726,6 @@ void read_init_script(struct connection *caller, char *script_filename)
 
 /**************************************************************************
 ...
-('caller' argument is unused)
 **************************************************************************/
 static void read_command(struct connection *caller, char *arg)
 {
