@@ -7,7 +7,7 @@ COMMONOBJS = common/astring.o common/capability.o common/capstr.o common/city.o 
  common/fcintl.o common/game.o common/genlist.o common/government.o common/inputfile.o \
  common/log.o common/map.o common/nation.o common/packets.o common/player.o \
  common/mem.o common/rand.o common/registry.o common/sbuffer.o common/shared.o \
- common/spaceship.o common/support.o common/tech.o common/timing.o common/unit.o \
+ common/spaceship.o common/support.o common/tech.o common/timing.o common/unit.o common/version.o \
  common/worklist.o
 COMMONDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}common
 
@@ -179,6 +179,9 @@ common/timing.o: ${FREECIV_DIR}common/timing.c
 
 common/unit.o: ${FREECIV_DIR}common/unit.c
   sc ${FREECIV_DIR}common/unit.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
+
+common/version.o: ${FREECIV_DIR}common/version.c
+  sc ${FREECIV_DIR}common/version.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
 
 common/worklist.o: ${FREECIV_DIR}common/worklist.c
   sc ${FREECIV_DIR}common/worklist.c ${COMMONDIRS} OBJNAME=$@ ${CCFLAGS}
@@ -408,6 +411,7 @@ install:
   copy Icons.info ${DESTDIR}
   copy ${FREECIV_DIR}data/*.(ilbm|txt|sav|serv) ${DESTDIR}/data
   copy ${FREECIV_DIR}data/trident.tilespec $(DESTDIR}/data
+  copy ${FREECIV_DIR}data/trident_shields.tilespec $(DESTDIR}/data
   copy ${FREECIV_DIR}data/civ1/*.ruleset ${DESTDIR}/data/civ1
   copy ${FREECIV_DIR}data/civ2/*.ruleset ${DESTDIR}/data/civ2
   copy ${FREECIV_DIR}data/classic/*.ruleset ${DESTDIR}/data/classic

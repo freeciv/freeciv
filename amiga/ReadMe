@@ -1,10 +1,10 @@
-Short:     Amiga Version 1.6 => Freeciv 1.9.1-devel
+Short:     Amiga Version 1.7 => Freeciv 1.9.3-devel
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga Version 1.6 => Freeciv 1.9.1-devel
+Kurz:      Amiga Version 1.7 => Freeciv 1.9.3-devel
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.6
+Version:   1.7
 
 Introduction
 ~~~~~~~~~~~~
@@ -86,6 +86,13 @@ clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.7 (05.02.2000)
+ - corresponds to Freeciv 1.9.3-devel
+ - worklist support added
+ - connect to support added
+ - new spy options support added
+ - visual explosion of units
+ 
 Version 1.6 (29.12.1999)
  - corresponds to latest Freeciv 1.9.1-devel
  - supports the new barbarians
@@ -147,12 +154,14 @@ Version 1.0 (27.09.99)
 How can you reach me?
 ~~~~~~~~~~~~~~~~~~~~~
 My e-mail address is:
-  sebauer@t-online.de
+  sebauer@t-online.de or
+  Sebastian.Bauer@in.stud.tu-ilmenau.de
 
 Address:
   Sebastian Bauer
   Neustädter Str. 50
   07768 Kahla
+  Germany
 
 Visit my homepage at
   http://home.t-online.de/home/sebauer/

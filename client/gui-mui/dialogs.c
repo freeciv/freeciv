@@ -27,11 +27,13 @@
 #include "version.h"
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "mem.h"
 #include "player.h"
 #include "packets.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "clinet.h"
@@ -221,7 +223,8 @@ void popup_bribe_dialog(struct unit *punit)
   
   if(game.player_ptr->economic.gold>=punit->bribe_cost)
   {
-    sprintf(buf, "Bribe unit for %d gold?\nTreasury contains %d gold.", punit->bribe_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),"Bribe unit for %d gold?\nTreasury contains %d gold.",
+                punit->bribe_cost, game.player_ptr->economic.gold);
 
     popup_message_dialog(main_wnd, "Bribe Enemy Unit", buf,
                          "Yes", diplomat_bribe_yes, 0,
@@ -229,7 +232,8 @@ void popup_bribe_dialog(struct unit *punit)
                          0);
   } else
   {
-    sprintf(buf, "Bribing the unit costs %d gold.\nTreasury contains %d gold.", punit->bribe_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf), "Bribing the unit costs %d gold.\nTreasury contains %d gold.",
+                punit->bribe_cost, game.player_ptr->economic.gold);
 
     popup_message_dialog(main_wnd, "Traitors Demand Too Much!", buf,
                          "Darn", message_close,0,
@@ -298,7 +302,11 @@ static void advance_steal(struct spy_data *data)
 __asm __saveds static void advance_display( register __a0 struct Hook *h, register __a2 char **array, register __a1 LONG which)
 {
   if(which)
-    *array = advances[which-100].name;
+  {
+    int tech = which-100;
+    if (tech == game.num_tech_types) *array = _("At Spy's Discretion");
+    else *array = advances[which-100].name;
+  }
   else
     *array = "Technology";
 }
@@ -341,12 +349,20 @@ static void create_advances_list(struct player *pplayer,
     if (pvictim)
     {
       /* you don't want to know what lag can do -- Syela */
+      int any_tech = FALSE;
       for(i=A_FIRST; i<game.num_tech_types; i++)
       {
         if(get_invention(pvictim, i)==TECH_KNOWN && (get_invention(pplayer, i)==TECH_UNKNOWN || get_invention(pplayer, i)==TECH_REACHABLE))
         {
           DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
+          any_tech = TRUE;
         }
+      }
+
+      if(has_capability("spy_discretion", aconnection.capability))
+      {
+	if (any_tech)
+	  DoMethod(listview, MUIM_NList_InsertSingle, 100+game.num_tech_types,MUIV_NList_Insert_Bottom);
       }
     }
 
@@ -389,7 +405,10 @@ static void imprv_sabotage(struct spy_data *data)
 *****************************************************************/
 __asm __saveds void imprv_display( register __a0 struct Hook *h, register __a2 char **array, register __a1 LONG which)
 {
-  *array = get_improvement_name(which-100);
+  int imprv = which-100;
+  if (imprv == -1) *array = _("City Production");
+  else if (imprv == B_LAST) *array = _("At Spy's Discretion");
+  else *array = get_improvement_name(imprv);
 }
 
 
@@ -427,13 +446,24 @@ static void create_improvements_list(struct player *pplayer,
   if(wnd)
   {
     int i;
+    int any_improvements=FALSE;
+    DoMethod(listview, MUIM_NList_InsertSingle, 100-1,MUIV_NList_Insert_Bottom);
     for(i=0; i<B_LAST; i++)
     {
       if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i))
       {
         DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
+        any_improvements = TRUE;
       }
-    }  
+    }
+
+    if(has_capability("spy_discretion", aconnection.capability))
+    {
+      if (any_improvements)
+      {
+        DoMethod(listview, MUIM_NList_InsertSingle, i+B_LAST,MUIV_NList_Insert_Bottom);
+      }
+    }
 
     DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 4, MUIM_CallHook, &standart_hook, spy_close, wnd);
     DoMethod(cancel_button,MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, spy_close, wnd);
@@ -468,7 +498,8 @@ void popup_incite_dialog(struct city *pcity)
 
   if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost)
   {
-    sprintf(buf, "Incite a revolt for %d gold?\nTreasury contains %d gold.", pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf),"Incite a revolt for %d gold?\nTreasury contains %d gold.",
+            pcity->incite_revolt_cost, game.player_ptr->economic.gold);
             diplomat_target_id = pcity->id;
 
     popup_message_dialog(main_wnd, "Incite a Revolt!", buf,
@@ -478,7 +509,8 @@ void popup_incite_dialog(struct city *pcity)
 
   } else
   {
-    sprintf(buf, "Inciting a revolt costs %d gold.\nTreasury contains %d gold.", pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+    my_snprintf(buf, sizeof(buf), "Inciting a revolt costs %d gold.\nTreasury contains %d gold.",
+                pcity->incite_revolt_cost, game.player_ptr->economic.gold);
     popup_message_dialog(main_wnd, "Traitors Demand Too Much!", buf,
                          "Darn", message_close,0,
                          0);
@@ -899,7 +931,7 @@ void popup_caravan_dialog(struct unit *punit, struct city *phomecity, struct cit
   int i=0;
   char buf[128];
 
-  sprintf(buf, "Your caravan from %s reaches the city of %s.\nWhat now?",
+  my_snprintf(buf, sizeof(buf),"Your caravan from %s reaches the city of %s.\nWhat now?",
           phomecity->name, pdestcity->name);
 
   if(can_establish_trade_route(phomecity, pdestcity))
@@ -1499,7 +1531,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
         pcity = city_list_find_id(&game.player_ptr->cities, punit->homecity);
 
-        sprintf(buffer, "%s%s\n%s\n%s", punittemp->name,
+        my_snprintf(buffer, sizeof(buffer),"%s%s\n%s\n%s", punittemp->name,
                (punit->veteran) ? " (veteran)" : "", unit_activity_text(punit),pcity ? pcity->name : "");
 
         o = HGroup,
