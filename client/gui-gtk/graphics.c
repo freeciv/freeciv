@@ -455,7 +455,7 @@ void sprite_draw_black_border(SPRITE * sprite)
 ***************************************************************************/
 SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
 {
-  SPRITE *dst = ctor_sprite_mask(src->pixmap, src->mask, new_w, new_h);
+  SPRITE *dst = ctor_sprite_mask(NULL, NULL, new_w, new_h);
   GdkImage *xi_src, *xi_dst, *xb_src;
   guint32 pixel;
   int xoffset_table[4096];
