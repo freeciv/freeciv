@@ -1422,7 +1422,8 @@ static void popup_mes_close(GtkWidget *dialog_shell)
   GtkWidget *parent =
       gtk_object_get_data(GTK_OBJECT(dialog_shell), "parent");
   void (*close_callback) (gpointer) =
-      gtk_object_get_data(GTK_OBJECT(dialog_shell), "close_callback");
+      (void (*)(gpointer)) gtk_object_get_data(GTK_OBJECT(dialog_shell),
+					       "close_callback");
   gpointer close_callback_data =
       gtk_object_get_data(GTK_OBJECT(dialog_shell), "close_callback_data");
   struct button_descr *buttons =
@@ -1451,7 +1452,8 @@ static gint popup_mes_del_callback(GtkWidget * widget, GdkEvent * event,
 {
   GtkWidget *dialog_shell = GTK_WIDGET(data);
   void (*close_callback) (gpointer) =
-      gtk_object_get_data(GTK_OBJECT(dialog_shell), "close_callback");
+      (void (*)(gpointer)) gtk_object_get_data(GTK_OBJECT(dialog_shell),
+					       "close_callback");
 
   if (close_callback) {
     popup_mes_close(dialog_shell);

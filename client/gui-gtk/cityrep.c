@@ -251,7 +251,8 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
   cid cid = GPOINTER_TO_INT(data);
   gint i;
   GtkObject *parent = GTK_OBJECT(w->parent);
-  TestCityFunc test_func = gtk_object_get_data(parent, "freeciv_test_func");
+  TestCityFunc test_func =
+      (TestCityFunc) gtk_object_get_data(parent, "freeciv_test_func");
   bool change_prod = 
     GPOINTER_TO_INT(gtk_object_get_data(parent, "freeciv_change_prod"));
 

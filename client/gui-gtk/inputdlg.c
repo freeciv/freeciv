@@ -32,8 +32,9 @@ static void input_dialog_close(GtkWidget * shell)
 {
   GtkWidget *parent = gtk_object_get_data(GTK_OBJECT(shell),
 					  "parent");
-  void (*cancel_callback) (gpointer) = gtk_object_get_data(GTK_OBJECT(shell),
-							   "cancel_callback");
+  void (*cancel_callback) (gpointer) =
+      (void (*)(gpointer)) gtk_object_get_data(GTK_OBJECT(shell),
+					       "cancel_callback");
   gpointer cancel_data = gtk_object_get_data(GTK_OBJECT(shell),
 					     "cancel_data");
 
@@ -53,6 +54,7 @@ static void input_dialog_ok_callback(GtkWidget * w, gpointer data)
   GtkWidget *parent = gtk_object_get_data(GTK_OBJECT(shell),
 					  "parent");
   void (*ok_callback) (const char *, gpointer) =
+      (void (*)(const char *, gpointer))
       gtk_object_get_data(GTK_OBJECT(shell),
 			  "ok_callback");
   gpointer ok_data = gtk_object_get_data(GTK_OBJECT(shell),
