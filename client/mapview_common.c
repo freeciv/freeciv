@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+#include "log.h"
 #include "map.h"
 #include "support.h"
 
@@ -348,5 +349,43 @@ void get_city_mapview_production(struct city *pcity,
       my_snprintf(buffer, buffer_len, "%s -",
                   pimprovement_type->name);
     }
+  }
+}
+
+static bool need_mapview_update = FALSE;
+
+/**************************************************************************
+  This function, along with unqueue_mapview_update(), helps in updating
+  the mapview when a packet is received.  Previously, we just called
+  update_map_canvas when (for instance) a city update was received.
+  Not only would this often end up with a lot of duplicated work, but it
+  would also draw over the city descriptions, which would then just
+  "disappear" from the mapview.  The hack is to instead call
+  queue_mapview_update in place of this update, and later (after all
+  packets have been read) call unqueue_mapview_update.  The functions
+  don't track which areas of the screen need updating, rather when the
+  unqueue is done we just update the whole visible mapqueue, and redraw
+  the city descriptions.
+
+  Using these functions, updates are done correctly, and are probably
+  faster too.  But it's a bit of a hack to insert this code into the
+  packet-handling code.
+**************************************************************************/
+void queue_mapview_update(void)
+{
+  need_mapview_update = TRUE;
+}
+
+/**************************************************************************
+  See comment for queue_mapview_update().
+**************************************************************************/
+void unqueue_mapview_update(void)
+{
+  freelog(LOG_DEBUG, "unqueue_mapview_update: need_update=%d",
+	  need_mapview_update ? 1 : 0);
+
+  if (need_mapview_update) {
+    update_map_canvas_visible();
+    need_mapview_update = FALSE;
   }
 }

@@ -65,4 +65,7 @@ struct city *find_city_near_tile(int x, int y);
 void get_city_mapview_production(struct city *pcity,
                                  char *buf, size_t buf_len);
 
+void queue_mapview_update(void);
+void unqueue_mapview_update(void);
+
 #endif /* FC__MAPVIEW_COMMON_H */

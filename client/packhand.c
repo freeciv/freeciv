@@ -334,7 +334,6 @@ void handle_city_info(struct packet_city_info *packet)
   bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
   struct city *pcity;
   bool popup;
-  bool update_descriptions = FALSE;
 
   pcity=find_city_by_id(packet->id);
 
@@ -351,16 +350,24 @@ void handle_city_info(struct packet_city_info *packet)
     idex_register_city(pcity);
   }
   else {
+    bool update_descriptions = FALSE;
+
     city_is_new = FALSE;
 
     /* Check if city desciptions should be updated */
     if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
       update_descriptions = TRUE;
-    }
-    if (draw_city_productions &&
-        ((pcity->is_building_unit != packet->is_building_unit) ||
-         (pcity->currently_building != packet->currently_building))) {
+    } else if (draw_city_productions &&
+	       (pcity->is_building_unit != packet->is_building_unit ||
+		pcity->currently_building != packet->currently_building ||
+		pcity->shield_surplus != packet->shield_surplus ||
+		pcity->shield_stock != packet->shield_stock)) {
       update_descriptions = TRUE;
+    }
+
+    /* update the descriptions if necessary */
+    if (update_descriptions && tile_visible_mapcanvas(packet->x, packet->y)) {
+      queue_mapview_update();
     }
 
     assert(pcity->id == packet->id);
@@ -461,31 +468,6 @@ void handle_city_info(struct packet_city_info *packet)
 
   handle_city_packet_common(pcity, city_is_new, popup, packet->diplomat_investigate);
 
-  /* update the descriptions if necessary */
-  if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
-    /* update it only every second (because of ChangeAll), this is not
-       a perfect solution at all! */
-    static bool timer_initialized;
-    static time_t timer;
-    bool really_update = TRUE;
-    time_t new_timer = time(NULL);
-
-    if (timer_initialized) {
-      double diff;
-      timer = time(NULL);
-      diff = difftime(new_timer,timer);
-      if (diff < 1.0) {
-	really_update = FALSE;
-      }
-    }
-
-    if (really_update) {
-      update_city_descriptions();
-      timer = new_timer;
-      timer_initialized = TRUE;
-    }
-  }
-
   try_update_effects(need_effect_update);
 }
 
@@ -515,12 +497,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   }
 
   if (draw_map_grid && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    int r = ((CITY_MAP_SIZE + 1) / 2);
-    int d = (2 * r) + 1;
-    int x = pcity->x - r;
-    int y = pcity->y - r;
-    normalize_map_pos(&x, &y);
-    update_map_canvas(x, y, d, d, TRUE);
+    queue_mapview_update();
   } else {
     refresh_tile_mapcanvas(pcity->x, pcity->y, TRUE);
   }

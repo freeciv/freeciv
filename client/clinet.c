@@ -73,6 +73,7 @@
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "agents.h"
+#include "mapview_common.h"	/* unqueue_mapview_update */
 
 #include "clinet.h"
 
@@ -332,6 +333,8 @@ void input_from_server(int fd)
   } else {
     close_socket_callback(&aconnection);
   }
+
+  unqueue_mapview_update();
 }
 
 /**************************************************************************
@@ -380,6 +383,8 @@ void input_from_server_till_request_got_processed(int fd,
       close_socket_callback(&aconnection);
     }
   }
+
+  unqueue_mapview_update();
 }
 
 #ifdef WIN32_NATIVE
