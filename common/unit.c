@@ -469,6 +469,22 @@ int is_square_threatened(struct player *pplayer, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
+int is_unit_near_a_friendly_city(struct unit *punit)
+{
+  int i,j;
+  struct city * pcity;
+
+  square_iterate (punit->x, punit->y, 3, i,j)
+    if ((pcity = map_get_city (i, j)) &&
+	(players_allied (punit->owner, pcity->owner))) return 1;
+  square_iterate_end
+
+  return 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 int is_field_unit(struct unit *punit)
 {
   return ((unit_flag(punit->type, F_FIELDUNIT) > 0));

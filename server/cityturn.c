@@ -420,13 +420,9 @@ int unit_being_aggressive(struct unit *punit)
   if (map_get_city(punit->x,punit->y))
     return 0;
   if (is_ground_unit(punit) &&
-      map_get_special(punit->x,punit->y)&S_FORTRESS) {
-    city_list_iterate(get_player(punit->owner)->cities, pcity) {
-      if (real_map_distance(punit->x, punit->y, pcity->x, pcity->y)<=3)
-	return 0;
-    }
-    city_list_iterate_end;
-  }
+      map_get_special(punit->x,punit->y)&S_FORTRESS) 
+    return !is_unit_near_a_friendly_city (punit);
+  
   return 1;
 }
 
