@@ -480,7 +480,7 @@ int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y)
   }
   
   /* Shore bombardement */
-  if (fromtile==T_OCEAN && is_sailing_unit(punit) && totile!=T_OCEAN)
+  if (fromtile==T_OCEAN && is_sailing_unit(punit) && totile!=T_OCEAN && !unit_flag(punit->type, F_SUBMARINE) )
     return (get_attack_power(punit)>0);
   return 1;
 }
