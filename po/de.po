@@ -26,6 +26,9 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
+# Revision 1.37  2000/02/21 21:43:09  jjm
+# Final source update for Version 1.10.0 release.
+#
 # Revision 1.36  2000/02/21 19:18:58  jjm
 # Updated German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
@@ -44,7 +47,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.10.0\n"
-"POT-Creation-Date: 2000-02-21 19:24+0100\n"
+"POT-Creation-Date: 2000-02-21 16:09-0500\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <freeciv-de@ehinzen.de>\n"
 
