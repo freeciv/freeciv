@@ -516,10 +516,14 @@ int can_build_unit(struct city *pcity, enum unit_type_id id)
 
 int city_population(struct city *pcity)
 {
+/*
   int i;
   int res=0;
   for (i=1;i<=pcity->size;i++) res+=i;
   return res*10000;
+*/
+  /*  Sum_{i=1}^{n} i  ==  n*(n+1)/2  */
+  return pcity->size * (pcity->size+1) * 5000;
 }
 
 /**************************************************************************

@@ -257,7 +257,15 @@ int rank_research(struct player *pplayer)
 
 int rank_calc_literacy(struct player *pplayer)
 {
-  return (pplayer->score.literacy*100)/(1+civ_population(pplayer));
+  int pop = civ_population(pplayer);
+
+  if (pop <= 0) {
+    return 0;
+  } else if (pop >= 10000) {
+    return pplayer->score.literacy/(pop/100);
+  } else {
+    return (pplayer->score.literacy*100)/pop;
+  }
 }
 
 int rank_literacy(struct player *pplayer)
