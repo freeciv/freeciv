@@ -807,7 +807,7 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
 		      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
 
-  if (!citymode) {
+  if (!citymode && goto_is_active()) {
     /* put any goto lines on the tile. */
     if (is_real) {
       enum direction8 dir;
