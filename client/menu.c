@@ -63,6 +63,7 @@ enum MenuID {
   MENU_ORDER_FORTIFY,
   MENU_ORDER_SENTRY,
   MENU_ORDER_PILLAGE,
+  MENU_ORDER_EXPLORE,
   MENU_ORDER_HOMECITY,
   MENU_ORDER_WAIT,
   MENU_ORDER_UNLOAD,
@@ -138,6 +139,7 @@ struct MenuEntry order_menu_entries[]={
     { "Go/Airlift to city  l", MENU_ORDER_GOTO_CITY, 0},
     { "Disband Unit        D", MENU_ORDER_DISBAND, 0},
     { "Pillage             P", MENU_ORDER_PILLAGE, 0},
+    { "Auto-explore        x", MENU_ORDER_EXPLORE, 0},
     { "Done              spc", MENU_ORDER_DONE, 0},
     { 0, MENU_END_OF_LIST, 0}
 };
@@ -233,6 +235,8 @@ void update_menus()
 			   can_unit_do_activity(punit, ACTIVITY_SENTRY));
       menu_entry_sensitive(orders_menu, MENU_ORDER_PILLAGE, 
 			   can_unit_do_activity(punit, ACTIVITY_PILLAGE));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_EXPLORE, 
+			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(orders_menu, MENU_ORDER_MINE, 
 			   can_unit_do_activity(punit, ACTIVITY_MINE));
       menu_entry_sensitive(orders_menu, MENU_ORDER_IRRIGATE, 
@@ -391,6 +395,10 @@ void orders_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
    case MENU_ORDER_PILLAGE:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_PILLAGE);
+     break;
+   case MENU_ORDER_EXPLORE:
+    if(get_unit_in_focus())
+      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_EXPLORE);
      break;
    case MENU_ORDER_DONE:
     if(get_unit_in_focus())
