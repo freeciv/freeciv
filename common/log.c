@@ -40,7 +40,7 @@ int flog(int level, char *message, ...)
   static char bufbuf[2][512];
   static int whichbuf=0;
   static unsigned int repeated=0; /* total times current message repeated */
-  static unsigned int next=1;	/* next total to print update */
+  static unsigned int next=2;	/* next total to print update */
   static unsigned int prev=0;	/* total on last update */
 
   if(level<=log_level) {
@@ -48,7 +48,7 @@ int flog(int level, char *message, ...)
     FILE *fs;
 
     if(log_filename) {
-      if(!(fs=fopen(log_filename, "a+b"))) {
+      if(!(fs=fopen(log_filename, "a"))) {
 	fprintf(stderr, "couldn't open logfile: %s for appending.\n", 
 		log_filename);
 	exit(1);
@@ -61,19 +61,35 @@ int flog(int level, char *message, ...)
     if(0==strncmp(bufbuf[0],bufbuf[1],511)){
       repeated++;
       if(repeated==next){
-	fprintf(fs, "%d: last message repeated %d times (total %d repeats)\n",
-		level, repeated-prev, repeated);
+	fprintf(fs, "%d: last message repeated %d times",
+		level, repeated-prev);
+	if (repeated>2) {
+	  fprintf(fs, " (total %d repeats)", repeated);
+	}
+	fprintf(fs, "\n");
 	prev=repeated;
-	next<<=1;
-	if(next==2) next=4;
+	next*=2;
       }
     }else{
       if(repeated>0 && repeated!=prev){
-	fprintf(fs, "%d: last message repeated %d times (total %d repeats)\n",
-		level, repeated-prev, repeated);	
+	if(repeated==1) {
+	  /* just repeat the previous message: */
+	  fprintf(fs, "%d: %s", level, bufbuf[!whichbuf]);
+	} else {
+	  if(repeated-prev==1) {
+	    fprintf(fs, "%d: last message repeated once", level);
+	  } else {
+	    fprintf(fs, "%d: last message repeated %d times",
+		    level, repeated-prev);
+	  }
+	  if (repeated>2) {
+	    fprintf(fs, " (total %d repeats)", repeated);
+	  }
+	}
+	fprintf(fs, "\n");
       }
       repeated=0;
-      next=1;
+      next=2;
       prev=0;
       fprintf(fs, "%d: %s\n", level, bufbuf[whichbuf]);
     }
@@ -85,8 +101,3 @@ int flog(int level, char *message, ...)
 
   return 1;
 }
-
-
-
-
-
