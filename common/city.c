@@ -890,7 +890,7 @@ int get_trade_tile(int x, int y, struct city *pcity)
   else
     t=get_tile_type(tile_t)->trade;
     
-  if (spec_t & S_RIVER) {
+  if ((spec_t & S_RIVER) && (tile_t != T_OCEAN)) {
     t += terrain_control.river_trade_incr;
   }
   if (spec_t & S_ROAD) {
