@@ -468,30 +468,24 @@ extern const int CAR_DIR_DY[4];
     case 0:                                            \
       IAC_x = x + 1;                                   \
       IAC_y = y;                                       \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
       break;                                           \
     case 1:                                            \
       IAC_x = x;                                       \
       IAC_y = y + 1;                                   \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
       break;                                           \
     case 2:                                            \
       IAC_x = x - 1;                                   \
       IAC_y = y;                                       \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
       break;                                           \
     case 3:                                            \
       IAC_x = x;                                       \
       IAC_y = y - 1;                                   \
-      if (!normalize_map_pos(&IAC_x, &IAC_y))          \
-	continue;                                      \
       break;                                           \
     default:                                           \
       abort();                                         \
-    }
+    }                                                  \
+    if (!normalize_map_pos(&IAC_x, &IAC_y))            \
+      continue;
 
 #define cartesian_adjacent_iterate_end                 \
   }                                                    \
