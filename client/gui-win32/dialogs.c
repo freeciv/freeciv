@@ -344,7 +344,7 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
     case WM_CREATE:
       break;
     case WM_CLOSE:
-      DestroyWindow(races_dlg);
+      popdown_races_dialog();
       break;
     case WM_DESTROY:
       races_dlg=NULL;
@@ -519,6 +519,7 @@ void
 popdown_races_dialog(void)
 {
   DestroyWindow(races_dlg);
+  SetFocus(root_window);
 }
 
 /**************************************************************************
@@ -664,6 +665,13 @@ popup_unit_select_dialog(struct tile *ptile)
   RECT rc,rc2;
   HBITMAP old;
   static HDC unitsel_dc;
+  
+  
+  /* unit select box might already be open; if so, close it */
+  if (unit_select_main) {
+    popdown_unit_select_dialog ();
+  }
+    
   if (!(unit_select_main=CreateWindow("freecivunitselect","Unit Selection",
 				      WS_POPUP | WS_CAPTION | WS_SYSMENU,
 				      CW_USEDEFAULT,
