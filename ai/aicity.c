@@ -398,14 +398,11 @@ static void ai_spend_gold(struct player *pplayer)
              > pcity->food_stock + pcity->food_surplus) {
         /* Don't build settlers in size 1 cities unless we grow next turn */
         continue;
-      } else {
-        if (city_list_size(&pplayer->cities) <= 8) {
-          /* Make AI get gold for settlers early game */
-          pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, buycost);
-        } else if (city_list_size(&pplayer->cities) > 25) {
-          /* Don't waste precious money buying settlers late game */
+      } else if (city_list_size(&pplayer->cities) > 6) {
+          /* Don't waste precious money buying settlers late game
+           * since this raises taxes, and we want science. Adjust this
+           * again when our tax algorithm is smarter. */
           continue;
-        }
       }
     } else {
       /* We are not a settler. Therefore we increase the cash need we
