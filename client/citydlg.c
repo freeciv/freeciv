@@ -701,6 +701,26 @@ void present_units_activate_close_callback(Widget w, XtPointer client_data,
 	close_city_dialog(pdialog);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+void supported_units_activate_close_callback(Widget w, XtPointer client_data, 
+					     XtPointer call_data)
+{
+  struct unit *punit;
+  struct city *pcity;
+  struct city_dialog *pdialog;
+
+  activate_unit((int)client_data);
+
+  destroy_message_dialog(w);
+
+  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
+    if((pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity)))
+      if((pdialog=get_city_dialog(pcity)))
+	close_city_dialog(pdialog);
+}
+
 
 
 /****************************************************************
@@ -1077,7 +1097,7 @@ void support_units_callback(Widget w, XtPointer client_data,
 			     "supportunitsdialog", 
 			     unit_description(punit),
 			     present_units_activate_callback, punit->id,
-			     present_units_activate_close_callback, punit->id, /* act+c */
+			     supported_units_activate_close_callback, punit->id, /* act+c */
 			     present_units_disband_callback, punit->id,
 			     present_units_cancel_callback, 0, 0);
 }
