@@ -1377,8 +1377,10 @@ static void city_dialog_update_information(GtkWidget **info_label,
 *****************************************************************/
 static void city_dialog_update_map(struct city_dialog *pdialog)
 {
-  struct canvas store = {.type = CANVAS_PIXMAP,
-    			 .v.pixmap = pdialog->map_canvas_store};
+  struct canvas store;
+
+  store.type = CANVAS_PIXMAP;
+  store.v.pixmap = pdialog->map_canvas_store;
 
   city_dialog_redraw_map(pdialog->pcity, &store);
 
