@@ -309,6 +309,8 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   ai->diplomacy.acceptable_reputation =
            GAME_DEFAULT_REPUTATION -
            GAME_DEFAULT_REPUTATION / 4;
+  ai->diplomacy.acceptable_reputation_for_ceasefire =
+           GAME_DEFAULT_REPUTATION / 3;
 
   /* Set per-player variables. We must set all players, since players 
    * can be created during a turn, and we don't want those to have 

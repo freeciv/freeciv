@@ -276,10 +276,13 @@ static int ai_goldequiv_clause(struct player *pplayer,
       break;
     }
 
-    /* Check if we can trust this guy. If we want to blast off to space,
+    /* Check if we can trust this guy. If we have to crash spacerace leader,
      * we don't care, though. */
     if (ai->diplomacy.acceptable_reputation > aplayer->reputation
-        && ai->diplomacy.strategy != WIN_SPACE) {
+        && ai->diplomacy.strategy != WIN_CAPITAL
+	&& (pclause->type != CLAUSE_CEASEFIRE
+	    || ai->diplomacy.acceptable_reputation_for_ceasefire > 
+	       aplayer->reputation)) {
       notify(aplayer, _("*%s (AI)* Begone scoundrel, we all know that"
              " you cannot be trusted!"), pplayer->name);
       worth = -BIG_NUMBER;
