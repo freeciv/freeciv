@@ -283,6 +283,8 @@ static void check_units(void) {
 **************************************************************************/
 static void check_players(void)
 {
+  int player_no;
+
   players_iterate(pplayer) {
     int found_palace = 0;
 
@@ -301,6 +303,20 @@ static void check_players(void)
 	       == pplayer2->diplstates[pplayer->player_no].turns_left);
     } players_iterate_end;
   } players_iterate_end;
+
+  /* Sanity checks on living and dead players. */
+  for (player_no = 0; player_no < ARRAY_SIZE(game.players); player_no++) {
+    struct player *pplayer = &game.players[player_no];
+
+    if (!pplayer->is_alive) {
+      /* Dead players' units and cities are disbanded in kill_player(). */
+      assert(unit_list_size(&pplayer->units) == 0);
+      assert(city_list_size(&pplayer->cities) == 0);
+    }
+
+    /* Dying player should have been killed already. */
+    assert(!pplayer->is_dying);
+  }
 }
 
 #endif /* !NDEBUG */

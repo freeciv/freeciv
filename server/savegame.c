@@ -781,7 +781,10 @@ static void player_load(struct player *plr, int plrno,
 
   city_list_init(&plr->cities);
   ncities=secfile_lookup_int(file, "player%d.ncities", plrno);
-  
+  if (!plr->is_alive && ncities > 0) {
+    ncities = 0; /* Some old savegames may be buggy. */
+  }
+
   for (i = 0; i < ncities; i++) { /* read the cities */
     struct city *pcity;
 
@@ -959,7 +962,10 @@ static void player_load(struct player *plr, int plrno,
 
   unit_list_init(&plr->units);
   nunits=secfile_lookup_int(file, "player%d.nunits", plrno);
-  
+  if (!plr->is_alive && nunits > 0) {
+    nunits = 0; /* Some old savegames may be buggy. */
+  }
+
   for(i=0; i<nunits; i++) { /* read the units */
     struct unit *punit;
     struct city *pcity;
