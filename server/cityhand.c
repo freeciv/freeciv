@@ -129,7 +129,7 @@ void handle_city_make_specialist(struct player *pplayer,
     sync_cities();
     return;
   }
-  if (is_worker_here(pcity, preq->worker_x, preq->worker_y) == C_TILE_WORKER) {
+  if (is_worker_here(pcity, preq->worker_x, preq->worker_y)) {
     server_remove_worker_city(pcity, preq->worker_x, preq->worker_y);
     pcity->ppl_elvis++;
     city_refresh(pcity);
