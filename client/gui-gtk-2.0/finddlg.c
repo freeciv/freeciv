@@ -66,10 +66,10 @@ void popup_find_dialog(void)
   find_dialog_shell = gtk_dialog_new_with_buttons(_("Find City"),
   	GTK_WINDOW(toplevel),
 	0,
-	GTK_STOCK_FIND,
-	GTK_RESPONSE_ACCEPT,
 	GTK_STOCK_CANCEL,
 	GTK_RESPONSE_REJECT,
+	GTK_STOCK_FIND,
+	GTK_RESPONSE_ACCEPT,
 	NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(find_dialog_shell),
 	GTK_RESPONSE_ACCEPT);
