@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.1-devel\n"
-"POT-Creation-Date: 2002-12-21 10:07+0100\n"
-"PO-Revision-Date: 2002-12-13 00:30+0100\n"
+"POT-Creation-Date: 2002-12-23 19:47+0100\n"
+"PO-Revision-Date: 2002-12-23 19:48+0100\n"
 "Last-Translator: Miguel Lobo <miguell@miguell.cjb.net>\n"
 "Language-Team: Spanish <ES@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9746,9 +9746,8 @@ msgid "Host"
 msgstr "Host"
 
 #: client/gui-gtk-2.0/plrdlg.c:193
-#, fuzzy
 msgid "Idle Turns"
-msgstr "Turnos"
+msgstr "Turnos Inactivo"
 
 #: client/gui-gtk-2.0/plrdlg.c:301 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
