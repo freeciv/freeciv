@@ -826,6 +826,8 @@ static void show_city_descriptions(void)
 
   for(y=0; y<map_canvas_store_theight; ++y) { 
     int ry=map_view_y0+y;
+    if (ry >= map.ysize)
+      break;
     for(x=0; x<map_canvas_store_twidth; ++x) { 
       int rx=(map_view_x0+x)%map.xsize;
       struct city *pcity;
@@ -1312,7 +1314,7 @@ void draw_segment(int src_x, int src_y, int dir)
   dest_x = src_x + DIR_DX[dir];
   dest_y = src_y + DIR_DY[dir];
 
-  assert(is_real_tile(dest_x, dest_y));
+  assert(IS_REAL_TILE(dest_x, dest_y));
   normalize_map_pos(&dest_x, &dest_y);
 
   /* A previous line already marks the place */
@@ -1353,7 +1355,7 @@ void undraw_segment(int src_x, int src_y, int dir)
 
   decrement_drawn(src_x, src_y, dir);
   refresh_tile_mapcanvas(src_x, src_y, 1);
-  assert(is_real_tile(dest_x, dest_y));
+  assert(IS_REAL_TILE(dest_x, dest_y));
   normalize_map_pos(&dest_x, &dest_y);
   refresh_tile_mapcanvas(dest_x, dest_y, 1);
   if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
@@ -1361,13 +1363,13 @@ void undraw_segment(int src_x, int src_y, int dir)
 		       on the adjacent tile when drawing in this direction. */
       dest_x = src_x + 1;
       dest_y = src_y;
-      assert(is_real_tile(dest_x, dest_y));
+      assert(IS_REAL_TILE(dest_x, dest_y));
       normalize_map_pos(&dest_x, &dest_y);
       refresh_tile_mapcanvas(dest_x, dest_y, 1);
     } else if (dir == 5) { /* the same */
       dest_x = src_x;
       dest_y = src_y + 1;
-      assert(is_real_tile(dest_x, dest_y));
+      assert(IS_REAL_TILE(dest_x, dest_y));
       normalize_map_pos(&dest_x, &dest_y);
       refresh_tile_mapcanvas(dest_x, dest_y, 1);
     }
