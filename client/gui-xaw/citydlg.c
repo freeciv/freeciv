@@ -46,8 +46,11 @@
 #include "shared.h"
 #include "support.h"
 
+#include "cma_fec.h"
+
 #include "cityrep.h"
 #include "citydlg.h"
+#include "cma_fe.h"
 #include "colors.h"
 #include "control.h" /* request_xxx and set_unit_focus */
 #include "dialogs.h"
@@ -97,7 +100,7 @@ struct city_dialog {
   Widget map_canvas;
   Widget sell_command;
   Widget close_command, rename_command, trade_command, activate_command;
-  Widget show_units_command, cityopt_command;
+  Widget show_units_command, cityopt_command, cma_command;
   Widget building_label, progress_label, buy_command, change_command,
     worklist_command, worklist_label;
   Widget improvement_viewport, improvement_list;
@@ -188,6 +191,8 @@ static void present_units_callback(Widget w, XtPointer client_data,
 				   XtPointer call_data);
 static void cityopt_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data);
+static void cma_callback(Widget w, XtPointer client_data,
+                         XtPointer call_data);
 static void popdown_cityopt_dialog(void);
 
 /****************************************************************
@@ -370,6 +375,7 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->show_units_command,
                    unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)
 		   ?True:False);
+    XtSetSensitive(pdialog->cma_command, True);
     XtSetSensitive(pdialog->cityopt_command, True);
   }
   if(pcity->owner == game.player_idx)  {
@@ -385,6 +391,7 @@ void refresh_city_dialog(struct city *pcity)
       XtSetSensitive(pdialog->rename_command, FALSE);
       XtSetSensitive(pdialog->activate_command, FALSE);
       XtSetSensitive(pdialog->show_units_command, FALSE);
+      XtSetSensitive(pdialog->cma_command, FALSE);
       XtSetSensitive(pdialog->cityopt_command, FALSE);
     }
   }
@@ -445,6 +452,7 @@ void popdown_all_city_dialogs(void)
     close_city_dialog(dialog_list_get(&dialog_list, 0));
   }
   popdown_cityopt_dialog();
+  popdown_cma_dialog();
 }
 
 
@@ -810,12 +818,20 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 			    XtNfromHoriz, pdialog->activate_command,
 			    NULL));
 
+  pdialog->cma_command =
+    I_L(XtVaCreateManagedWidget("cmacommand",
+                            commandWidgetClass,
+                            pdialog->main_form,
+                            XtNfromVert, first_present,
+                            XtNfromHoriz, pdialog->show_units_command,
+                            NULL));
+
   pdialog->cityopt_command=
     I_L(XtVaCreateManagedWidget("cityoptionscommand",
 			    commandWidgetClass,
 			    pdialog->main_form,
 			    XtNfromVert, first_present,
-			    XtNfromHoriz, pdialog->show_units_command,
+			    XtNfromHoriz, pdialog->cma_command,
 			    NULL));
 
 
@@ -1042,6 +1058,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 
   XtAddCallback(pdialog->cityopt_command, XtNcallback, cityopt_callback,
 		(XtPointer)pdialog);
+
+  XtAddCallback(pdialog->cma_command, XtNcallback, cma_callback,
+                (XtPointer)pdialog);
 
   dialog_list_insert(&dialog_list, pdialog);
 
@@ -1800,9 +1819,10 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   String now;
   
-  my_snprintf(buf, sizeof(buf), _("%s - %s citizens"),
+  my_snprintf(buf, sizeof(buf), _("%s - %s citizens  CMA: %s"),
 	      pdialog->pcity->name,
-	      population_to_text(city_population(pdialog->pcity)));
+	      population_to_text(city_population(pdialog->pcity)),
+                   cmafec_get_short_descr_of_city(pdialog->pcity));
 
   XtVaGetValues(pdialog->cityname_label, XtNlabel, &now, NULL);
   if(strcmp(now, buf) != 0) {
@@ -1861,21 +1881,25 @@ void citydlg_btn_select_citymap(Widget w, XEvent *event)
     }
   } dialog_list_iterate_end;
 
-  if(pcity) {
-    int xtile, ytile;
-    struct packet_city_request packet;
+  if (pcity) {
+    if (!cma_is_city_under_agent(pcity, NULL)) {
+      int xtile, ytile;
+      struct packet_city_request packet;
 
-    xtile=ev->x/NORMAL_TILE_WIDTH;
-    ytile=ev->y/NORMAL_TILE_HEIGHT;
-    packet.city_id=pcity->id;
-    packet.worker_x=xtile;
-    packet.worker_y=ytile;
+      xtile = ev->x/NORMAL_TILE_WIDTH;
+      ytile = ev->y/NORMAL_TILE_HEIGHT;
+      packet.city_id = pcity->id;
+      packet.worker_x = xtile;
+      packet.worker_y = ytile;
     
-    if(pcity->city_map[xtile][ytile]==C_TILE_WORKER)
-      send_packet_city_request(&aconnection, &packet, 
-			       PACKET_CITY_MAKE_SPECIALIST);
-    else if(pcity->city_map[xtile][ytile]==C_TILE_EMPTY)
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
+      if (pcity->city_map[xtile][ytile] == C_TILE_WORKER) {
+        send_packet_city_request(&aconnection, &packet, 
+   			         PACKET_CITY_MAKE_SPECIALIST);
+      } else if (pcity->city_map[xtile][ytile] == C_TILE_EMPTY) {
+        send_packet_city_request(&aconnection, &packet, 
+                                 PACKET_CITY_MAKE_WORKER);
+      }
+    }
   }
 }
 
@@ -2463,6 +2487,7 @@ void close_city_dialog(struct city_dialog *pdialog)
   if(pdialog->is_modal)
     XtSetSensitive(toplevel, TRUE);
   free(pdialog);
+  popdown_cma_dialog();
 }
 
 /****************************************************************
@@ -2722,3 +2747,16 @@ void popdown_cityopt_dialog(void)
     cityopt_shell = 0;
   }
 }
+
+/****************************************************************
+  The user clicked on the "CMA..." button in the citydialog.
+*****************************************************************/
+void cma_callback(Widget w, XtPointer client_data,
+                  XtPointer call_data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)client_data;
+  popdown_cma_dialog();
+  show_cma_dialog(pdialog->pcity, pdialog->shell);
+}
+
+

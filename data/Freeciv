@@ -1445,6 +1445,49 @@ Freeciv*scienceclosecommand.left:        chainLeft
 Freeciv*scienceclosecommand.right:       chainLeft
 
 !
+! Citizen Management Agent dialog 
+!
+Freeciv*cmapopup.title:                   _("Citizen Management Agent")
+Freeciv*cmapresetviewport.allowVert:      True
+Freeciv*cmapresetlist.defaultColumns:     1
+Freeciv*cmapresetlist.forceColumns:       true
+Freeciv*cmapresetlist.background:         white
+
+Freeciv*cmacommand.label:                 _("CMA...")
+Freeciv*cmahelpbutton.label:              _("Help")
+Freeciv*cmaclosebutton.label:             _("Close")
+Freeciv*cmaaddbutton.label:               _("Add Preset")
+Freeciv*cmaremovebutton.label:            _("Remove Preset")
+Freeciv*cmachangebutton.label:            _("Apply once")
+Freeciv*cmacontrolbutton.label:           _("Control City")
+Freeciv*cmareleasebutton.label:           _("Release City")
+
+Freeciv*cmasurpluslabel.label:            _("Minimal Surplus:")
+Freeciv*cmasurpluslabel.borderWidth:      0
+Freeciv*cmafactorlabel.label:             _("Factor:")
+Freeciv*cmafactorlabel.borderWidth:       0
+Freeciv*cmastatlabel.borderWidth:         0
+Freeciv*cmastatlabel.justify:             left
+
+Freeciv*cmapresetscroll.width:            70
+Freeciv*cmapresetscroll.height:           6
+Freeciv*cmapresetscroll.orientation:      horizontal
+Freeciv*cmapresetscroll.background:       white
+ 
+Freeciv*cmapresettoggle.label:            _("No")
+Freeciv*cmapresettoggle.background:       gray
+Freeciv*cmapresettoggle.shapeStyle:       oval
+Freeciv*cmapresettoggle.internalHeight:   0
+
+Freeciv*cmaremovepreset.title:                 _("Remove preset?")
+Freeciv*cmaremovepreset.*.dlabel.borderWidth:  0
+Freeciv*cmaremovepreset.*.button0.label:       _("Yes")
+Freeciv*cmaremovepreset.*.button0.fromVert:    dlabel
+Freeciv*cmaremovepreset.*.button1.label:       _("No")
+Freeciv*cmaremovepreset.*.button1.fromVert:    dlabel
+Freeciv*cmaremovepreset.*.button1.fromHoriz:   button0
+
+!
 ! City Options dialog
 !
 Freeciv*cityoptpopup.title:              _("City Options")
