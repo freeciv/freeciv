@@ -79,9 +79,6 @@ void send_player_turn_notifications(struct conn_list *dest);
 void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
-void player_load(struct player *plr, int plrno, struct section_file *file);
-void player_map_load(struct player *plr, int plrno, struct section_file *file);
-void player_save(struct player *plr, int plrno, struct section_file *file);
 
 void associate_player_connection(struct player *plr, struct connection *pconn);
 void unassociate_player_connection(struct player *plr, struct connection *pconn);

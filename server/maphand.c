@@ -14,11 +14,6 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -27,7 +22,6 @@
 #include "mem.h"
 #include "packets.h"
 #include "rand.h"
-#include "registry.h"
 #include "support.h"
 
 #include "cityhand.h"
@@ -50,11 +44,6 @@ static int map_get_sent(int x, int y, struct player *pplayer);
 static void map_set_sent(int x, int y, struct player *pplayer);
 static void map_clear_sent(int x, int y, struct player *pplayer);
 static void set_unknown_tiles_to_unsent(struct player *pplayer);
-static void map_rivers_overlay_save(struct section_file *file);
-
-static char dec2hex[] = "0123456789abcdef";
-static struct player_tile *player_tiles[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
-static char terrain_chars[] = "adfghjm prst";
 
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
@@ -491,392 +480,6 @@ void send_map_info(struct conn_list *dest)
   lsend_packet_map_info(dest, &minfo);
 }
 
-/***************************************************************
-...
-***************************************************************/
-void map_save(struct section_file *file)
-{
-  int i, x, y;
-  char *pbuf=fc_malloc(map.xsize+1);
-
-  /* map.xsize and map.ysize (saved as map.width and map.height)
-   * are now always saved in game_save()
-   */
-  secfile_insert_int(file, map.is_earth, "map.is_earth");
-
-  for(i=0; i<map.num_start_positions; i++) {
-    secfile_insert_int(file, map.start_positions[i].x, "map.r%dsx", i);
-    secfile_insert_int(file, map.start_positions[i].y, "map.r%dsy", i);
-  }
-    
-  /* put the terrain type */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=terrain_chars[map_get_tile(x, y)->terrain];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.t%03d", y);
-  }
-
-  if (!map.have_specials) {
-    if (map.have_rivers_overlay) {
-      map_rivers_overlay_save(file);
-    }
-    free(pbuf);
-    return;
-  }
-
-  /* put lower 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[map_get_tile(x, y)->special&0xf];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.l%03d", y);
-  }
-
-  /* put upper 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf0)>>4];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.u%03d", y);
-  }
-
-  /* put "next" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf00)>>8];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.n%03d", y);
-  }
-
-  /* put "final" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf000)>>12];
-    pbuf[x]='\0';
-
-    secfile_insert_str(file, pbuf, "map.f%03d", y);
-  }
-
-  /* put bit 0-3 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->known&0xf)];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.a%03d", y);
-  }
-
-  /* put bit 4-7 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf0))>>4];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.b%03d", y);
-  }
-
-  /* put bit 8-11 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf00))>>8];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.c%03d", y);
-  }
-
-  /* put bit 12-15 of known bits */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++)
-      pbuf[x]=dec2hex[((map_get_tile(x, y)->known&0xf000))>>12];
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.d%03d", y);
-  }
-  
-  free(pbuf);
-}
-
-/***************************************************************
-load starting positions for the players from a savegame file
-Now we don't know how many start positions there are nor how many
-should be because rulesets are loaded later. So try to load as
-many as they are; there should be at least enough for every
-player.  This could be changed/improved in future.
-***************************************************************/
-void map_startpos_load(struct section_file *file)
-{
-  int i=0, pos;
-
-  while( (pos = secfile_lookup_int_default(file, -1, "map.r%dsx", i)) != -1) {
-    map.start_positions[i].x = pos;
-    map.start_positions[i].y = secfile_lookup_int(file, "map.r%dsy", i);
-    i++;
-  }
-
-  if (i < game.max_players) {
-    freelog(LOG_VERBOSE,
-	    _("Number of starts (%d) are lower than max_players (%d),"
-	      " lowering max_players."),
- 	    i, game.max_players);
-    game.max_players = i;
-  }
-
-  map.num_start_positions = i;
-}
-
-/***************************************************************
-load the tile map from a savegame file
-***************************************************************/
-void map_tiles_load(struct section_file *file)
-{
-  int x, y;
-
-  map.is_earth=secfile_lookup_int(file, "map.is_earth");
-
-  /* In some cases we read these before, but not always, and
-   * its safe to read them again:
-   */
-  map.xsize=secfile_lookup_int(file, "map.width");
-  map.ysize=secfile_lookup_int(file, "map.height");
-
-  map_allocate();
-
-  /* get the terrain type */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.t%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char *pch;
-      if(!(pch=strchr(terrain_chars, terline[x]))) {
- 	freelog(LOG_FATAL, "unknown terrain type (map.t) in map "
-		"at position (%d,%d): %d '%c'", x, y, terline[x], terline[x]);
-	exit(1);
-      }
-      map_get_tile(x, y)->terrain=pch-terrain_chars;
-    }
-  }
-
-  assign_continent_numbers();
-}
-
-/***************************************************************
-load a complete map from a savegame file
-***************************************************************/
-void map_load(struct section_file *file)
-{
-  int x ,y;
-
-  /* map_init();
-   * This is already called in game_init(), and calling it
-   * here stomps on map.huts etc.  --dwp
-   */
-
-  map_tiles_load(file);
-  map_startpos_load(file);
-
-  /* get lower 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.l%03d", y);
-
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->special=ch-(isdigit(ch) ? '0' : ('a'-10));
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown special flag(lower) (map.l) in map "
- 	    "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-      else
-	map_get_tile(x, y)->special=S_NO_SPECIAL;
-    }
-  }
-
-  /* get upper 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.u%03d", y);
-
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown special flag(upper) (map.u) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-    }
-  }
-
-  /* get "next" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str_default(file, NULL, "map.n%03d", y);
-
-    if (terline) {
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown special flag(next) (map.n) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-  }
-
-  /* get "final" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str_default(file, NULL, "map.f%03d", y);
-
-    if (terline) {
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->special|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown special flag(final) (map.f) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-  }
-
-  /* get bits 0-3 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.a%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-      map_get_tile(x,y)->sent=0;
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known=ch-(isdigit(ch) ? '0' : ('a'-10));
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.a) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-      else
-	map_get_tile(x, y)->known=0;
-    }
-  }
-
-  /* get bits 4-7 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.b%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<4;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.b) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-    }
-  }
-
-  /* get bits 8-11 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.c%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<8;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.c) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-    }
-  }
-
-  /* get bits 12-15 of known flags */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str(file, "map.d%03d", y);
-    for(x=0; x<map.xsize; x++) {
-      char ch=terline[x];
-
-      if(isxdigit(ch)) {
-	map_get_tile(x, y)->known|=(ch-(isdigit(ch) ? '0' : 'a'-10))<<12;
-      } else if(ch!=' ') {
- 	freelog(LOG_FATAL, "unknown known flag (map.d) in map "
-		"at position(%d,%d): %d '%c'", x, y, ch, ch);
-	exit(1);
-      }
-    }
-  }
-  map.have_specials = 1;
-
-  /* Should be handled as part of send_all_know_tiles,
-     but do it here too for safety */
-  for(y=0; y<map.ysize; y++)
-    for(x=0; x<map.xsize; x++)
-      map_get_tile(x,y)->sent = 0;
-}
-
-/***************************************************************
-load the rivers overlay map from a savegame file
-
-(This does not need to be called from map_load(), because
- map_load() loads the rivers overlay along with the rest of
- the specials.  Call this only if you've already called
- map_tiles_load(), and want to overlay rivers defined as
- specials, rather than as terrain types.)
-***************************************************************/
-void map_rivers_overlay_load(struct section_file *file)
-{
-  int x, y;
-
-  /* get "next" 4 bits of special flags;
-     extract the rivers overlay from them */
-  for(y=0; y<map.ysize; y++) {
-    char *terline=secfile_lookup_str_default(file, NULL, "map.n%03d", y);
-
-    if (terline) {
-      for(x=0; x<map.xsize; x++) {
-	char ch=terline[x];
-
-	if(isxdigit(ch)) {
-	  map_get_tile(x, y)->special |=
-	    ((ch-(isdigit(ch) ? '0' : 'a'-10))<<8) & S_RIVER;
-	} else if(ch!=' ') {
-	  freelog(LOG_FATAL, "unknown rivers overlay flag (map.n) in map "
-		  "at position(%d,%d): %d '%c'", x, y, ch, ch);
-	  exit(1);
-	}
-      }
-    }
-  }
-  map.have_rivers_overlay = 1;
-}
-
-/***************************************************************
-  Save the rivers overlay map; this is a special case to allow
-  re-saving scenarios which have rivers overlay data.  This
-  only applies if don't have rest of specials.
-***************************************************************/
-static void map_rivers_overlay_save(struct section_file *file)
-{
-  char *pbuf = fc_malloc(map.xsize+1);
-  int x, y;
-  
-  /* put "next" 4 bits of special flags */
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++) {
-      pbuf[x]=dec2hex[(map_get_tile(x, y)->special&0xf00)>>8];
-    }
-    pbuf[x]='\0';
-    secfile_insert_str(file, pbuf, "map.n%03d", y);
-  }
-  free(pbuf);
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1007,7 +610,7 @@ int map_get_known_and_seen(int x, int y, int playerid)
 {
   int offset = map_adjust_x(x)+map_adjust_y(y)*map.xsize;
   return ((map.tiles+offset)->known)&(1u<<playerid) &&
-    (player_tiles[playerid]+offset)->seen;
+    (get_player(playerid)->private_map+offset)->seen;
 }
 
 /***************************************************************
@@ -1151,7 +754,7 @@ void player_map_allocate(struct player *pplayer)
 {
   int x,y;
 
-  player_tiles[pplayer->player_no]=
+  pplayer->private_map =
     fc_malloc(map.xsize*map.ysize*sizeof(struct player_tile));
   for(y=0; y<map.ysize; y++)
     for(x=0; x<map.xsize; x++)
@@ -1181,9 +784,11 @@ struct player_tile *map_get_player_tile(int x, int y, int playerid)
 {
   if(y<0 || y>=map.ysize) {
     freelog(LOG_ERROR, "Trying to get nonexistant tile at %i,%i", x,y);
-    return player_tiles[playerid]+map_adjust_x(x)+map_adjust_y(y)*map.xsize;
+    return get_player(playerid)->private_map
+      + map_adjust_x(x)+map_adjust_y(y)*map.xsize;
   } else
-    return player_tiles[playerid]+map_adjust_x(x)+y*map.xsize;
+    return get_player(playerid)->private_map
+      + map_adjust_x(x)+y*map.xsize;
 }
  
 /***************************************************************

@@ -75,6 +75,7 @@
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"
+#include "savegame.h"
 #include "sernet.h"
 #include "settlers.h"
 #include "spacerace.h"

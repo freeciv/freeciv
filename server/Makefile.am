@@ -47,6 +47,8 @@ libcivserver_a_SOURCES = \
 		ruleset.h	\
 		rulesout.c	\
 		rulesout.h	\
+		savegame.c	\
+		savegame.h	\
 		sernet.c	\
 		sernet.h	\
 		settlers.c	\

@@ -155,6 +155,7 @@ struct player {
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list connections;	       /* will replace conn */
   struct worklist worklists[MAX_NUM_WORKLISTS];
+  struct player_tile *private_map;
 };
 
 void player_init(struct player *plr);

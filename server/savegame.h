@@ -10,15 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GAMEHAND_H
-#define FC__GAMEHAND_H
+#ifndef FC__SAVEGAME_H
+#define FC__SAVEGAME_H
 
-struct section_file;
-struct conn_list;
+void game_load(struct section_file *file);
+void game_save(struct section_file *file);
 
-void init_new_game(void);
-void send_year_to_clients(int year);
-void send_game_info(struct conn_list *dest);
-void send_game_state(struct conn_list *dest, int state);
-
-#endif  /* FC__GAMEHAND_H */
+#endif /* FC__SAVEGAME_H */

@@ -29,6 +29,7 @@ server/plrhand.c
 server/report.c
 server/ruleset.c
 server/rulesout.c
+server/savegame.c
 server/spacerace.c
 server/srv_main.c
 server/stdinhand.c
