@@ -869,7 +869,7 @@ static void put_drawn_sprites(struct canvas *pcanvas,
   Draw the given unit onto the canvas store at the given location.  The
   area of drawing is UNIT_TILE_HEIGHT x UNIT_TILE_WIDTH.
 **************************************************************************/
-void put_unit(struct unit *punit,
+void put_unit(const struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];

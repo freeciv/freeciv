@@ -116,7 +116,7 @@ void reports_freeze_till(int request_id);
 void reports_thaw(void);
 void reports_force_thaw(void);
 
-struct city *get_nearest_city(struct unit *punit, int *sq_dist);
+struct city *get_nearest_city(const struct unit *punit, int *sq_dist);
 
 void cityrep_buy(struct city *pcity);
 void common_taxrates_callback(int i);

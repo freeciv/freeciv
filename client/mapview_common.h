@@ -159,7 +159,7 @@ void center_tile_mapcanvas(struct tile *ptile);
 bool tile_visible_mapcanvas(struct tile *ptile);
 bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile);
 
-void put_unit(struct unit *punit,
+void put_unit(const struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y);
 void put_city(struct city *pcity,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y);

@@ -975,7 +975,7 @@ enum known_type map_get_known(const struct tile *ptile,
   distance Parameter sq_dist may be NULL. Returns NULL only if no city is
   known. Favors punit owner's cities over other cities if equally distant.
 **************************************************************************/
-struct city *get_nearest_city(struct unit *punit, int *sq_dist)
+struct city *get_nearest_city(const struct unit *punit, int *sq_dist)
 {
   struct city *pcity_near;
   int pcity_near_dist;

@@ -1843,9 +1843,9 @@ static struct Sprite *get_city_nation_flag_sprite(struct city *pcity)
 }
 
 /**********************************************************************
- ...
+  Return a sprite for the national flag for this unit.
 ***********************************************************************/
-static struct Sprite *get_unit_nation_flag_sprite(struct unit *punit)
+static struct Sprite *get_unit_nation_flag_sprite(const struct unit *punit)
 {
   return get_nation_by_plr(unit_owner(punit))->flag_sprite;
 }
@@ -1957,7 +1957,7 @@ static void build_tile_data(struct tile *ptile,
   Fill in the sprite array for the unit
 ***********************************************************************/
 static int fill_unit_sprite_array(struct drawn_sprite *sprs,
-				  struct unit *punit,
+				  const struct unit *punit,
 				  bool stack, bool backdrop)
 {
   struct drawn_sprite *save_sprs = sprs;
@@ -2645,7 +2645,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 ****************************************************************************/
 int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
 		      struct tile *ptile,
-		      struct unit *punit, struct city *pcity,
+		      const struct unit *punit, struct city *pcity,
 		      bool citymode)
 {
   Terrain_type_id ttype, ttype_near[8];

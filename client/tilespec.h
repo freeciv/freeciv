@@ -113,7 +113,7 @@ void tilespec_free_city_tiles(int count);
 
 int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
 		      struct tile *ptile,
-		      struct unit *punit, struct city *pcity,
+		      const struct unit *punit, struct city *pcity,
 		      bool citymode);
 
 enum color_std player_color(const struct player *pplayer);

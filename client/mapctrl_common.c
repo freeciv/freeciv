@@ -709,7 +709,7 @@ static int unit_list_compare(const void *a, const void *b)
 /****************************************************************************
   Fill and sort the list of units on the tile.
 ****************************************************************************/
-void fill_tile_unit_list(struct tile *ptile, struct unit **unit_list)
+void fill_tile_unit_list(const struct tile *ptile, struct unit **unit_list)
 {
   int i = 0;
 
