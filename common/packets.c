@@ -3509,6 +3509,17 @@ void connection_do_unbuffer(struct connection *pc)
 
 
 /********************************************************************
+...
+********************************************************************/
+static CLOSE_FUN *	close_callback;
+
+void close_socket_set_callback(CLOSE_FUN *fun)
+{
+  close_callback = fun;
+}
+
+
+/********************************************************************
   write wrapper function -vasc
 ********************************************************************/
 static int write_socket_data(struct connection *pc,
@@ -3539,13 +3550,8 @@ static int write_socket_data(struct connection *pc,
 	  continue;
 	}
 #endif
-	if (errno == EPIPE) {
-	  buf->ndata = 0;
-	}
-	else
-	{
-	  buf->ndata -= start;
-	  memmove(buf->data, buf->data+start, buf->ndata);
+	if (close_callback) {
+	  (*close_callback)(pc);
 	}
 	return -1;
       }
@@ -3576,12 +3582,15 @@ void flush_connection_send_buffer(struct connection *pc)
 static int add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
-  if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more? */
-    memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
-    pc->send_buffer.ndata+=len;
-    return 1;
+  if (pc) {
+    if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more? */
+      memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
+      pc->send_buffer.ndata+=len;
+      return 1;
+    }
+    return 0;
   }
-  return 0;
+  return 1;
 }
 
 /********************************************************************

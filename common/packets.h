@@ -777,6 +777,9 @@ struct packet_sabotage_list
 };
 
 
+typedef	void	CLOSE_FUN	(struct connection *pc);
+
+
 struct connection {
   int sock, used;
   int first_packet;		/* check byte order on first packet */
@@ -992,6 +995,7 @@ receive_packet_sabotage_list(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
+void close_socket_set_callback(CLOSE_FUN *fun);
 void flush_connection_send_buffer(struct connection *pc);
 void connection_do_buffer(struct connection *pc);
 void connection_do_unbuffer(struct connection *pc);
