@@ -650,6 +650,7 @@ const char *m_pre_description(enum m_pre_result result)
   according to given comparison function.
   Returns type of match or fail, and for return <= M_PRE_AMBIGUOUS
   sets *ind_result with matching index (or for ambiguous, first match).
+  If max_len_name==0, treat as no maximum.
 ***************************************************************************/
 enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
 			       size_t n_names,
@@ -664,7 +665,7 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
   if (len == 0) {
     return M_PRE_EMPTY;
   }
-  if (len > max_len_name) {
+  if (len > max_len_name && max_len_name > 0) {
     return M_PRE_LONG;
   }
 

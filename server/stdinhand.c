@@ -712,6 +712,9 @@ static struct command commands[] = {
   {"crash",	ALLOW_HACK}
 };
 
+static const char *cmdname_accessor(int i) {
+  return commands[i].name;
+}
 /**************************************************************************
   Convert a named command into an id.
   If accept_ambiguity is true, return the first command in the
@@ -719,26 +722,21 @@ static struct command commands[] = {
   (This is a trick to allow ambiguity to be handled in a flexible way
   without importing notify_player() messages inside this routine - rp)
 **************************************************************************/
-static enum command_id command_named(char *token, int accept_ambiguity)
+static enum command_id command_named(const char *token, int accept_ambiguity)
 {
-  enum command_id i;
-  enum command_id found = CMD_UNRECOGNIZED;
-  int len = strlen(token);
+  enum m_pre_result result;
+  int ind;
 
-  for (i = 0; i < CMD_NUM; ++i) {
-    if (strncmp(commands[i].name, token, len) == 0) {
-      if (accept_ambiguity) {
-	return i;
-      } else if (found != CMD_UNRECOGNIZED) {
-        return CMD_AMBIGUOUS;
-      } else if (strlen(commands[i].name) == len) {
-	return i;
-      } else {
-        found = i;
-      }
-    }
+  result = match_prefix(cmdname_accessor, CMD_NUM, 0,
+			mystrncasecmp, token, &ind);
+
+  if (result < M_PRE_AMBIGUOUS) {
+    return ind;
+  } else if (result == M_PRE_AMBIGUOUS) {
+    return accept_ambiguity ? ind : CMD_AMBIGUOUS;
+  } else {
+    return CMD_UNRECOGNIZED;
   }
-  return found;
 }
 
 /**************************************************************************
@@ -1446,27 +1444,25 @@ static void cmdlevel_command(struct player *caller, char *str)
   }
 }
 
+static const char *optname_accessor(int i) {
+  return settings[i].name;
+}
 /**************************************************************************
 Find option index by name. Return index (>=0) on success, -1 if no
 suitable options were found, -2 if several matches were found.
 **************************************************************************/
-static int lookup_option(char *find)
+static int lookup_option(const char *name)
 {
-  int i, lastmatch = -1;
-    
-  for (i=0;settings[i].name!=NULL;i++) 
-    if (!strncmp(find, settings[i].name, strlen(find))) 
-    {
-	/* If name is a perfect match, not partial, assume
-	 * that this is the option the user wanted. */
-	if (!strcmp(find, settings[i].name))
-	  return i;
-	if (lastmatch != -1)
-	  return -2;
-	lastmatch = i;
-    }
-    
-  return lastmatch;
+  enum m_pre_result result;
+  int ind;
+  static int num = 0;		/* number of options */
+
+  while (settings[num].name!=NULL) num++;
+
+  result = match_prefix(optname_accessor, num, 0, mystrncasecmp, name, &ind);
+
+  return ((result < M_PRE_AMBIGUOUS) ? ind :
+	  (result == M_PRE_AMBIGUOUS) ? -2 : -1);
 }
 
 /**************************************************************************
@@ -1670,6 +1666,7 @@ static void show_command(struct player *caller, char *str)
   char buf[MAX_LEN_CMD+1];
   char command[MAX_LEN_CMD+1], *cptr_s, *cptr_d;
   int cmd,i,len1;
+  int clen = 0;
 
   for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
   for(cptr_d=command; *cptr_s && isalnum(*cptr_s); cptr_s++, cptr_d++)
@@ -1682,10 +1679,9 @@ static void show_command(struct player *caller, char *str)
       cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), command);
       return;
     }
-    else if (cmd==-2) {
-      cmd_reply(CMD_SHOW, caller, C_FAIL,
-		_("Ambiguous option name '%s'."), command);
-      return;
+    if (cmd==-2) {
+      /* allow ambiguous: show all matching */
+      clen = strlen(command);
     }
   } else {
    cmd = -1;  /* to indicate that no comannd was specified */
@@ -1709,8 +1705,9 @@ static void show_command(struct player *caller, char *str)
   buf[0] = '\0';
 
   for (i=0;settings[i].name;i++) {
-    if (cmd==-1 || cmd==i) {
-      /* in the latter case, this loop is inefficient. never mind - rp */
+    if (cmd==-1 || cmd==i
+	|| (cmd==-2 && mystrncasecmp(settings[i].name, command, clen)==0)) {
+      /* in the cmd==i case, this loop is inefficient. never mind - rp */
       struct settings_s *op = &settings[i];
       int len;
 
