@@ -1383,7 +1383,8 @@ static void load_ruleset_buildings(struct section_file *file)
 	}
 
 	/* Sometimes the ruleset will have to list "" here. */
-	req_type = secfile_lookup_str_default(file, "", "%s.effect%d.req_type",
+	req_type = secfile_lookup_str_default(file, NULL,
+					      "%s.effect%d.req_type",
 					      sec[i], j);
 	req_value = secfile_lookup_str_default(file, "", "%s.effect%d.req",
 					       sec[i], j);

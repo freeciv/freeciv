@@ -69,7 +69,8 @@ enum req_range req_range_from_str(const char *str)
 
 /****************************************************************************
   Parse a requirement type and value string into a requrement structure.
-  Returns REQ_LAST on error.
+  Returns REQ_LAST on error.  Passing in a NULL type is considered REQ_NONE
+  (not an error).
 
   Pass this some values like "Building", "Factory".
 ****************************************************************************/
@@ -81,10 +82,14 @@ struct requirement req_from_str(const char *type,
   const struct government *pgov;
 
   assert(ARRAY_SIZE(req_type_names) == REQ_LAST);
-  for (req.type = 0; req.type < ARRAY_SIZE(req_type_names); req.type++) {
-    if (0 == mystrcasecmp(req_type_names[req.type], type)) {
-      break;
+  if (type) {
+    for (req.type = 0; req.type < ARRAY_SIZE(req_type_names); req.type++) {
+      if (0 == mystrcasecmp(req_type_names[req.type], type)) {
+	break;
+      }
     }
+  } else {
+    req.type = REQ_NONE;
   }
 
   /* Scan the range string to find the range.  If no range is given a
