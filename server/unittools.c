@@ -520,18 +520,22 @@ int can_place_partisan(int x, int y)
 int enemies_at(struct unit *punit, int x, int y)
 {
   int i, j, a = 0, d;
+  struct player *pplayer = get_player(punit->owner);
+  d = unit_vulnerability_virtual(punit) *
+      get_tile_type(map_get_terrain(x, y))->defense_bonus;
   for (j = y - 1; j <= y + 1; j++) {
     if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
+      if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) continue;
       if (is_enemy_city_tile(i, j, punit->owner)) return 1;
       unit_list_iterate(map_get_tile(i, j)->units, enemy)
         if (enemy->owner != punit->owner &&
-            can_unit_attack_unit_at_tile(enemy, punit, x, y))
+            can_unit_attack_unit_at_tile(enemy, punit, x, y)) {
           a += unit_belligerence_basic(enemy);
+          if ((a * a * 10) >= d) return 1;
+        }
       unit_list_iterate_end;
     }
   }
-  d = unit_vulnerability_virtual(punit) *
-      get_tile_type(map_get_terrain(x, y))->defense_bonus;
-  return((a * a * 10) >= d); /* as good a quick'n'dirty should be -- Syela */
+  return 0; /* as good a quick'n'dirty should be -- Syela */
 }
