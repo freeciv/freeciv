@@ -121,17 +121,17 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   static struct timer *anim_timer = NULL; 
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
 
-  set_unit_focus_no_center(punit0);
-  set_unit_focus_no_center(punit1);
-  
   if (!do_combat_animation) {
     punit0->hp = hp0;
     punit1->hp = hp1;
+
     refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
     refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
 
     return;
   }
+
+  set_units_in_combat(punit0, punit1);
 
   do
   {
@@ -153,6 +153,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   } while (punit0->hp > hp0 || punit1->hp > hp1);
 
   DoMethod(main_map_area, MUIM_Map_ExplodeUnit, losing_unit);
+
+  set_units_in_combat(NULL, NULL);
 
   refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
   refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
