@@ -23,6 +23,7 @@
 
 #include "astring.h"
 #include "fcintl.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -44,6 +45,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
+#include "packhand.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
@@ -595,8 +597,13 @@ static GtkItemFactoryEntry menu_items[]	=
 	kingdom_menu_callback,	MENU_KINGDOM_WORKLISTS					},
   { "/" N_("Kingdom") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Kingdom") "/" N_("_Revolution"),	        "<shift>r",
-	kingdom_menu_callback,	MENU_KINGDOM_REVOLUTION					},
+  { "/" N_("Kingdom") "/" N_("_Government"),  NULL,
+	NULL,           0,                  "<Branch>"    },
+  { "/" N_("Kingdom") "/" N_("_Government") "/" N_("_Revolution!"),
+                                                 "<shift>r",
+	kingdom_menu_callback,	MENU_KINGDOM_REVOLUTION     },
+  { "/" N_("_Kingdom") "/" N_("_Government") "/sep1", NULL,
+	NULL,			0,			"<Separator>"	},
   /* View menu ... */
   { "/" N_("_View"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -964,6 +971,14 @@ static void menus_rename(const char *path, char *s)
 
 
 /****************************************************************
+  The player has chosen a government from the menu.
+*****************************************************************/
+static void government_callback(GtkMenuItem *item, gpointer data)
+{
+  set_government_choice(GPOINTER_TO_INT(data));
+}
+
+/****************************************************************
 Note: the menu strings should contain underscores as in the
 menu_items struct. The underscores will be removed elsewhere if
 the string is used for a lookup via gtk_item_factory_get_widget()
@@ -977,6 +992,44 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Orders", FALSE);
   } else {
     struct unit *punit;
+    GtkWidget *parent, *item;
+    const char *path;
+
+    path = translate_menu_path("<main>/_Kingdom/_Government", 1);
+
+    if ((parent = gtk_item_factory_get_widget(item_factory, path))) {
+      int i;
+      GList *iter, *iter_next;
+
+      /* remove previous government entries. */
+      iter = gtk_container_children(GTK_CONTAINER(parent));
+      for (iter = g_list_nth(iter, 2); iter; iter = iter_next) {
+        iter_next = iter->next;
+
+        gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(iter->data));
+      }
+
+      /* add new government entries. */
+      for (i = 0; i < game.government_count; i++) {
+        struct government *g = &governments[i];
+
+        if (i != game.government_when_anarchy) {
+          item = gtk_menu_item_new_with_label(g->name);
+          gtk_widget_show(item);
+
+          gtk_signal_connect(GTK_OBJECT(item), "activate",
+            GTK_SIGNAL_FUNC(government_callback), GINT_TO_POINTER(g->index));
+
+          if (!can_change_to_government(game.player_ptr, i)) {
+            gtk_widget_set_sensitive(item, FALSE);
+	  }
+
+          gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
+          gtk_widget_show(item);
+        }
+      }
+    }
+
     menus_set_sensitive("<main>/_Reports", TRUE);
     menus_set_sensitive("<main>/_Kingdom", TRUE);
     menus_set_sensitive("<main>/_View", TRUE);
@@ -986,7 +1039,7 @@ void update_menus(void)
 			can_client_issue_orders());
     menus_set_sensitive("<main>/_Kingdom/Work_lists",
 			can_client_issue_orders());
-    menus_set_sensitive("<main>/_Kingdom/_Revolution",
+    menus_set_sensitive("<main>/_Kingdom/_Government",
 			can_client_issue_orders());
 
     menus_set_sensitive("<main>/_Reports/S_paceship",
