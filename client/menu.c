@@ -84,6 +84,7 @@ enum MenuID {
   MENU_HELP_PLAYING,
   MENU_HELP_IMPROVEMENTS,
   MENU_HELP_UNITS,
+  MENU_HELP_COMBAT,
   MENU_HELP_TECH,
   MENU_HELP_TERRAIN,
   MENU_HELP_WONDERS,
@@ -160,6 +161,7 @@ struct MenuEntry help_menu_entries[]={
     { "Help Playing",      MENU_HELP_PLAYING, 0},
     { "Help Improvements", MENU_HELP_IMPROVEMENTS, 0},
     { "Help Units",        MENU_HELP_UNITS, 0},
+    { "Help Combat",       MENU_HELP_COMBAT, 0},
     { "Help Technology",   MENU_HELP_TECH, 0},
     { "Help Terrain",      MENU_HELP_TERRAIN, 0},
     { "Help Wonders",      MENU_HELP_WONDERS, 0},
@@ -461,6 +463,9 @@ void help_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   case MENU_HELP_UNITS:
     popup_help_dialog_string(HELP_UNITS_ITEM);
+    break;
+  case MENU_HELP_COMBAT:
+    popup_help_dialog_string(HELP_COMBAT_ITEM);
     break;
   case MENU_HELP_TECH:
     popup_help_dialog_string(HELP_TECHS_ITEM);

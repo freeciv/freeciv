@@ -1238,6 +1238,155 @@ end their turn next to a coast or in a port.
 This unit may be built from the start of the game.  It is the
 weakest unit.
 ---
+#Combat
+%% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-30.
+When one unit attacks another unit, either the attacker will be
+destroyed, or the defender will be destroyed -- never both (unless
+the attacker was a missile).  The outcome depends on several
+factors, including luck.
+
+First, the attacker's strength is modified.
+
+ - If the attacker is a veteran, its strength is multiplied by 1.5.
+ 
+ - "Exhausted" attackers are weaker: if the attacker has only 1/3
+   movement point left, its strength is divided by 3; if it has 2/3
+   movement point, its strength is multiplied by 2/3.  If the
+   attacker has 1 or more movement points left, no further
+   modifications occur.
+
+Next, the defender's strength is modified.
+
+ - If the defender is a veteran, then its strength is multiplied by
+   1.5.
+   
+ - Then the defender's strength is multiplied by the defense factor
+   of the terrain it occupies.
+   
+ - Next, the defender's strength is doubled if it is a Pikeman unit
+   defending against horsemen, or if it is an AEGIS Cruiser
+   defending against airborne units (including missiles and
+   Helicopters).
+   
+ - The defender's strength is doubled again if it is in a city with
+   a SAM Battery and the attacker is an air unit (other than a
+   Helicopter) or a missile.
+   
+ - An SDI Defense doubles the defender's strength yet again against
+   missile attacks.
+   
+ - If the attacker is a ship and the defender is in a city with a
+   Coastal Defense, the defender's strength is doubled.
+   
+ - Against ground units (other than Howitzers) and Helicopters,
+   defending units in a city with City Walls have their strength
+   tripled.
+   
+ - If the defender is in a fortress (and not a city), its strength
+   is doubled.
+   
+ - Finally, if the defender is a ground unit, and is either
+   fortified or inside a city, its strength is multiplied by 1.5.
+
+If, after these modifications, the attacker has a strength of 0, it
+automatically loses.  Otherwise, if the defender has a strength of
+0, the defender loses.
+
+After these preliminaries, combat occurs, as long as both units are
+still alive (i.e., hit points are greater than 0).  Each round, a
+random number between 1 and the sum of the attacker's and defender's
+strengths is generated.  If this number is greater than the
+defender's strength, the defender loses hit points equal to the
+attacker's firepower.  Otherwise, the attacker loses hit points
+equal to the defender's firepower (unless the defender is a ship, in
+which case the attacker loses 1 hit point -- ships in a harbor
+aren't able to maneuver effectively).  The first unit to reach 0 hit
+points (or negative hit points) loses.
+%% Actually, that's a little white lie.  The random number is really
+%% from 0 to (A+D-1), and the comparison is ">=D", not ">D".  The
+%% odds are the same both ways, but I think my explanation may be a
+%% little simpler for non-programmers who may be reading this.
+
+Whichever unit survives the fight has a chance of becoming a
+veteran, if it was not a veteran already.  If the winner's
+civilization has the Sun Tzu's War Academy (and if it isn't
+obsolete), the unit will always become a veteran.  Otherwise, the
+chance of becoming a veteran is 50%.
+
+If the attacker is a ground unit and wins, and the defender is in a
+city without City Walls, the city is reduced in size by 1.
+
+If the defender loses, and is not inside a city or fortress, all
+other units at the defender's location are destroyed along with the
+defender.
+---
+# Combat example 1
+Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement
+points left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1)
+inside a city with City Walls built on a Forest tile.
+
+The attacker's base strength is 8.  Veteran status makes this 12,
+but because it only has 2/3 movement points its final strength is 8.
+
+The defender's base strength is 3.  Because it is on a Forest tile,
+its strength becomes 4.5.  It is behind City Walls, so its strength
+is tripled, to 13.5.  It is a ground unit inside a city, so its
+strength is increased to 20.25.
+
+Strength values inside the game are actually multiplied by 10, with
+fractions dropped, so the attacker's strength is 80, and the
+defender's strength is 202.
+
+Each round of combat, a random number between 1 and 282 is
+generated.  If the number is greater than 202 (about a 28% chance),
+the defender loses 1 hit point.  Otherwise (about a 72% chance), the
+attacker loses 1 point.
+
+%% Double-check my calculations....  Consider 28 rounds of combat.
+%% The attacker should win about 8 of them, taking 8 HP off the
+%% defender's 20 HP total.  The defender should win the other 20,
+%% killing the attacker.
+Since both units have 20 hit points, the odds favor a victory for
+the defender.  The defender will probably lose somewhere around 40%
+of its hit points during the fight.  But the outcome is never
+certain as long as both units have non-zero strengths; the defender
+might emerge untouched, or it might lose most of its hit points, or
+it might even lose the battle.
+---
+# Combat example 2
+Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3
+movement points attacks a veteran Alpine Troops (A:5, D:5, HP:20,
+F:1) inside a city built on a Grassland tile, with City Walls and a
+Coastal Defense.
+
+The attacker's strength is 12, raised to 18 because of veteran
+status.
+
+The defender's strength is 5, raised to 7.5 due to veteran status.
+The terrain's defense factor is 1 (no effect).  The Coastal Defense
+doubles the defender's strength to 15.  The defender is a ground
+unit inside a city, so its total strength is 22.5.
+
+Internally, the values used for attacker and defender strength are
+180 and 225, respectively.
+
+Each round, a random number from 1 to 405 is generated.  If it is
+greater than 225 (about a 44% chance) the defender loses 2 hit
+points (the attacker's firepower is 2).  Otherwise, the attacker
+loses 1 hit point.
+
+%% Please, someone double-check my probability computations! :-(
+%% Consider 22 rounds of combat: the Battleship should win 10 of
+%% them, and the Alpine Troops 12.  That's enough to kill the Alpine
+%% Troops (precisely to 0 hit points), and inflict 12 hit points on
+%% the Battleship's 40 HP total.
+In this case, the odds greatly favor the attacker winning.  The
+Battleship is 25% less likely to score a hit in any given round,
+but when it does, it does twice as much damage to the enemy.  Also,
+the Battleship has twice as many hit points.  The Battleship should
+expect to lose about 30% of its hit points during the fight... after
+which it will still have 2 movement points left.
+---
 %% Terrain help by Greg Wooledge <wooledge@kellnet.com>.  First
 %% draft 1998-07-18.
 %% It would probably be better to have some client-side code to

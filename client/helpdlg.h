@@ -21,6 +21,7 @@ void boot_help_texts(void);
 #define HELP_CONTROLS_ITEM "Controls"
 #define HELP_IMPROVEMENTS_ITEM "City Improvements"
 #define HELP_UNITS_ITEM "Units"
+#define HELP_COMBAT_ITEM "Combat"
 #define HELP_TECHS_ITEM "Technology"
 #define HELP_TERRAIN_ITEM "Terrain"
 #define HELP_WONDERS_ITEM "Wonders of the World"
