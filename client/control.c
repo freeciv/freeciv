@@ -21,6 +21,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "timing.h"
 
 #include "audio.h"

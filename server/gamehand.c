@@ -24,6 +24,7 @@
 #include "improvement.h"
 #include "log.h"
 #include "mem.h"
+#include "movement.h"
 #include "packets.h"
 #include "rand.h"
 #include "registry.h"

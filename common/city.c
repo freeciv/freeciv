@@ -28,6 +28,7 @@
 #include "government.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "packets.h"
 
 #include "cm.h"
@@ -613,7 +614,7 @@ bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id)
   }
 
   /* You can't build naval units inland. */
-  if (!is_ocean_near_tile(pcity->tile) && is_water_unit(id)) {
+  if (!is_ocean_near_tile(pcity->tile) && is_sailing_unittype(id)) {
     return FALSE;
   }
   return TRUE;
@@ -649,7 +650,7 @@ bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
 
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
-  if (!is_ocean_near_tile(pcity->tile) && is_water_unit(id)) {
+  if (!is_ocean_near_tile(pcity->tile) && is_sailing_unittype(id)) {
     return FALSE;
   }
 

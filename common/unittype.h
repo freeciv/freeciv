@@ -49,10 +49,6 @@ typedef int Unit_Type_id;
   to hold full number of unit types.
 */
 
-enum unit_move_type {
-  LAND_MOVING = 1, SEA_MOVING, HELI_MOVING, AIR_MOVING
-};
-
 /* Classes for unit types.
  * (These must correspond to unit_class_names[] in unit.c.)
  */
@@ -230,11 +226,6 @@ bool unit_type_flag(Unit_Type_id id, int flag);
 bool unit_flag(const struct unit *punit, enum unit_flag_id flag);
 bool unit_has_role(Unit_Type_id id, int role);
 
-bool is_water_unit(Unit_Type_id id);
-bool is_air_unittype(Unit_Type_id id);
-bool is_heli_unittype(Unit_Type_id id);
-bool is_ground_unittype(Unit_Type_id id);
-
 int unit_build_shield_cost(Unit_Type_id id);
 int unit_buy_gold_cost(Unit_Type_id id, int shields_in_stock);
 int unit_disband_shields(Unit_Type_id id);
@@ -258,7 +249,6 @@ int unit_upgrade_price(const struct player *pplayer,
 Unit_Type_id find_unit_type_by_name(const char *name);
 Unit_Type_id find_unit_type_by_name_orig(const char *name_orig);
 
-enum unit_move_type unit_move_type_from_str(const char *s);
 Unit_Class_id unit_class_from_str(const char *s);
 enum unit_flag_id unit_flag_from_str(const char *s);
 enum unit_role_id unit_role_from_str(const char *s);

@@ -20,6 +20,7 @@
 #include "combat.h"
 #include "log.h"
 #include "map.h"
+#include "movement.h"
 #include "player.h"
 #include "unit.h"
 

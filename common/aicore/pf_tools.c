@@ -20,6 +20,8 @@
 
 #include "mem.h"
 
+#include "movement.h"
+
 #include "pf_tools.h"
 
 

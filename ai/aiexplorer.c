@@ -16,6 +16,7 @@
 #endif
 
 #include "log.h"
+#include "movement.h"
 #include "player.h"
 #include "unit.h"
 

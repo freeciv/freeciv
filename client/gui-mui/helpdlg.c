@@ -34,6 +34,7 @@
 #include "genlist.h"
 #include "government.h"
 #include "mem.h"
+#include "movement.h"
 #include "shared.h"
 #include "support.h"
 #include "tech.h"

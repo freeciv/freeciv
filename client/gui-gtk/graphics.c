@@ -25,6 +25,7 @@
 #include "game.h"
 #include "log.h"
 #include "mem.h"
+#include "movement.h"
 #include "shared.h"
 #include "support.h"
 #include "unit.h"

@@ -28,6 +28,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "player.h"
 #include "rand.h"
 #include "shared.h"
@@ -478,7 +479,7 @@ int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
   if (is_ground_unittype(id)) {
     return (get_city_bonus(pcity, EFT_LAND_VETERAN) > 0) ? 1 : 0;
   } else {
-    if (is_water_unit(id)) {
+    if (is_sailing_unittype(id)) {
       return (get_city_bonus(pcity, EFT_SEA_VETERAN) > 0) ? 1 : 0;
     } else {
       return (get_city_bonus(pcity, EFT_AIR_VETERAN) > 0) ? 1 : 0;

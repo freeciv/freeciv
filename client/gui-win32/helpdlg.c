@@ -28,11 +28,12 @@
 #include "game.h"
 #include "genlist.h"
 #include "government.h"
+#include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "shared.h"
 #include "tech.h"
 #include "unit.h"
-#include "map.h"
 #include "support.h"
 #include "version.h"
  

@@ -46,4 +46,13 @@ struct unit;
 #define MAX_RULESET_NAME_LENGTH 64
 #define RULESET_SUFFIX ".serv"
 
+/* This has to be put here for now, otherwise movement.h and unittype.h
+ * would have a recursive dependency. */
+enum unit_move_type {
+  LAND_MOVING = 1,
+  SEA_MOVING,
+  HELI_MOVING,
+  AIR_MOVING
+};
+
 #endif /* FC__FC_TYPES_H */

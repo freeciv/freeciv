@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "movement.h"
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"

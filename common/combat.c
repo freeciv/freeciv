@@ -20,6 +20,7 @@
 
 #include "log.h"
 #include "map.h"
+#include "movement.h"
 #include "packets.h"
 #include "unit.h"
 
@@ -438,7 +439,7 @@ static int defense_multiplication(Unit_Type_id att_type,
 	  && unit_type_flag(att_type, F_MISSILE)) {
 	defensepower = defensepower * (100 + mod) / 100;
       }
-    } else if (is_water_unit(att_type) && pcity) {
+    } else if (is_sailing_unittype(att_type) && pcity) {
       if ((mod = get_city_bonus(pcity, EFT_SEA_DEFEND)) > 0) {
 	defensepower = defensepower * (100 + mod) / 100;
       }

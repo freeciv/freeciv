@@ -23,6 +23,7 @@
 #include "game.h"
 #include "government.h"
 #include "mem.h"
+#include "movement.h"
 #include "player.h"
 #include "shared.h"
 #include "support.h"
@@ -36,9 +37,6 @@ struct unit_type unit_types[U_LAST];
    client/packhand.c (for the client)
 */
 
-static const char *move_type_names[] = {
-  "Land", "Sea", "Heli", "Air"
-};
 static const char *flag_names[] = {
   "TradeRoute" ,"HelpWonder", "Missile", "IgZOC", "NonMil", "IgTer", 
   "Carrier", "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
@@ -83,37 +81,6 @@ struct unit_type *unit_type(const struct unit *punit)
   return get_unit_type(punit->type);
 }
 
-/**************************************************************************
-  Return TRUE iff this unit type is a ground/land/normal unit type.
-**************************************************************************/
-bool is_ground_unittype(Unit_Type_id id)
-{
-  return (unit_types[id].move_type == LAND_MOVING);
-}
-
-/**************************************************************************
-  Return TRUE iff this unit type is an air unit type (including missiles).
-**************************************************************************/
-bool is_air_unittype(Unit_Type_id id)
-{
-  return (unit_types[id].move_type == AIR_MOVING);
-}
-
-/**************************************************************************
-  Return TRUE iff this unit type is a helicoptor unit type.
-**************************************************************************/
-bool is_heli_unittype(Unit_Type_id id)
-{
-  return (unit_types[id].move_type == HELI_MOVING);
-}
-
-/**************************************************************************
-  Return TRUE iff this unit type is a sailing/naval/sea/water unit type.
-**************************************************************************/
-bool is_water_unit(Unit_Type_id id)
-{
-  return (unit_types[id].move_type == SEA_MOVING);
-}
 
 /**************************************************************************
   Returns the upkeep of a unit of this type under the given government.
@@ -366,25 +333,6 @@ Unit_Type_id find_unit_type_by_name_orig(const char *name_orig)
   } unit_type_iterate_end;
 
   return U_LAST;
-}
-
-/**************************************************************************
-  Convert unit_move_type names to enum; case insensitive;
-  returns 0 if can't match.
-**************************************************************************/
-enum unit_move_type unit_move_type_from_str(const char *s)
-{
-  enum unit_move_type i;
-
-  /* a compile-time check would be nicer, but this will do: */
-  assert(ARRAY_SIZE(move_type_names) == (AIR_MOVING - LAND_MOVING + 1));
-
-  for(i=LAND_MOVING; i<=AIR_MOVING; i++) {
-    if (mystrcasecmp(move_type_names[i-LAND_MOVING], s)==0) {
-      return i;
-    }
-  }
-  return 0;
 }
 
 /**************************************************************************

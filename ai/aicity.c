@@ -27,6 +27,7 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "movement.h"
 #include "packets.h"
 #include "player.h"
 #include "rand.h"

@@ -21,6 +21,7 @@
 #include "combat.h"
 #include "game.h"
 #include "map.h"
+#include "movement.h"
 #include "log.h"
 #include "pf_tools.h"
 #include "player.h"

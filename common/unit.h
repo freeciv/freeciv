@@ -222,12 +222,10 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 				  enum diplomat_actions action,
 				  const struct tile *ptile);
 
-int unit_move_rate(const struct unit *punit);
 bool unit_can_help_build_wonder(const struct unit *punit,
 				const struct city *pcity);
 bool unit_can_help_build_wonder_here(const struct unit *punit);
 bool unit_can_est_traderoute_here(const struct unit *punit);
-bool unit_can_defend_here(const struct unit *punit);
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity);
 bool unit_has_orders(const struct unit *punit);
 
@@ -267,10 +265,6 @@ bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
-bool is_sailing_unit(const struct unit *punit);
-bool is_air_unit(const struct unit *punit);
-bool is_heli_unit(const struct unit *punit);
-bool is_ground_unit(const struct unit *punit);
 #define COULD_OCCUPY(punit) \
   ((is_ground_unit(punit) || is_heli_unit(punit)) && is_military_unit(punit))
 bool can_unit_add_to_city (const struct unit *punit);
@@ -313,23 +307,7 @@ int base_unsafe_terrain_loss_pct(const struct player *pplayer,
 
 bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile);
 bool unit_being_aggressive(const struct unit *punit);
-bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
-			       const struct player *unit_owner,
-			       const struct tile *src_tile,
-			       const struct tile *dst_tile);
-bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);
-bool can_unit_survive_at_tile(const struct unit *punit,
-			      const struct tile *ptile);
-bool can_unit_move_to_tile(const struct unit *punit, const struct tile *ptile,
-			   bool igzoc);
-enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
-					     const struct player *unit_owner,
-					     enum unit_activity activity,
-					     const struct tile *src_tile,
-					     const struct tile *dst_tile,
-					     bool igzoc);
 bool unit_type_really_ignores_zoc(Unit_Type_id type);
-bool zoc_ok_move(const struct unit *punit, const struct tile *ptile);
 
 bool is_build_or_clean_activity(enum unit_activity activity);
 

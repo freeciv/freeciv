@@ -36,6 +36,8 @@ libcivcommon_a_SOURCES = \
 		improvement.h	\
 		map.c		\
 		map.h		\
+		movement.c	\
+		movement.h	\
 		nation.c        \
 		nation.h        \
 		packets.c	\

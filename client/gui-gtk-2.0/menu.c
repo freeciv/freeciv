@@ -27,6 +27,7 @@
 #include "government.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "support.h"
 #include "unit.h"
 

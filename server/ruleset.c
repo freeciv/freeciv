@@ -28,6 +28,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "nation.h"
 #include "packets.h"
 #include "registry.h"

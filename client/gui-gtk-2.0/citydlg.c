@@ -28,6 +28,7 @@
 #include "game.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "packets.h"
 #include "player.h"
 #include "shared.h"

@@ -16,6 +16,7 @@
 #endif
 
 #include "log.h"
+#include "movement.h"
 #include "unit.h"
 
 #include "path_finding.h"

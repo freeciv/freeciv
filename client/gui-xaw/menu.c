@@ -27,6 +27,7 @@
 
 #include "fcintl.h"
 #include "mem.h"
+#include "movement.h"
 #include "support.h"
 
 #include "government.h"

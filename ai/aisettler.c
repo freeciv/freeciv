@@ -24,6 +24,7 @@
 #include "government.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "log.h"
 #include "packets.h"
 #include "path_finding.h"

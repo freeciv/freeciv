@@ -22,6 +22,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "movement.h"
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
@@ -31,56 +32,6 @@
 #include "city.h"
 #include "unit.h"
 
-/***************************************************************
-This function calculates the move rate of the unit taking into 
-account the penalty for reduced hitpoints (affects sea and land 
-units only) and the effects of wonders for sea units
-+ veteran bonus.
-
-FIXME: Use generalised improvements code instead of hardcoded
-wonder effects --RK
-***************************************************************/
-int unit_move_rate(const struct unit *punit)
-{
-  int move_rate = 0;
-  int base_move_rate = unit_type(punit)->move_rate 
-                       + unit_type(punit)->veteran[punit->veteran].move_bonus;
-
-  switch (unit_type(punit)->move_type) {
-  case LAND_MOVING:
-    move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
-    break;
- 
-  case SEA_MOVING:
-    move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
-
-    move_rate += (get_player_bonus(unit_owner(punit), EFT_SEA_MOVE)
-		  * SINGLE_MOVE);
-
-    if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
-      move_rate += SINGLE_MOVE;
-    }
- 
-    if (move_rate < 2 * SINGLE_MOVE) {
-      move_rate = MIN(2 * SINGLE_MOVE, base_move_rate);
-    }
-    break;
-
-  case HELI_MOVING:
-  case AIR_MOVING:
-    move_rate = base_move_rate;
-    break;
-
-  default:
-    die("In common/unit.c:unit_move_rate: illegal move type %d",
-  					unit_type(punit)->move_type);
-  }
-  
-  if (move_rate < SINGLE_MOVE && base_move_rate > 0) {
-    move_rate = SINGLE_MOVE;
-  }
-  return move_rate;
-}
 
 /**************************************************************************
 bribe unit
@@ -262,20 +213,6 @@ bool unit_can_est_traderoute_here(const struct unit *punit)
 	  && can_cities_trade(phomecity, pdestcity));
 }
 
-/**************************************************************************
-  Return TRUE iff the unit can be a defender at its current location.  This
-  should be checked when looking for a defender - not all units on the
-  tile are valid defenders.
-**************************************************************************/
-bool unit_can_defend_here(const struct unit *punit)
-{
-  if (is_ground_unit(punit)
-      && is_ocean(map_get_terrain(punit->tile))) {
-    return FALSE;
-  }
-  
-  return TRUE;
-}
 
 /**************************************************************************
 Returns the number of free spaces for ground units. Can be 0 or negative.
@@ -330,37 +267,6 @@ bool is_air_units_transport(const struct unit *punit)
 	      || unit_flag(punit, F_CARRIER)));
 }
 
-/**************************************************************************
-  Return TRUE iff the unit is a sailing/naval/sea/water unit.
-**************************************************************************/
-bool is_sailing_unit(const struct unit *punit)
-{
-  return (unit_type(punit)->move_type == SEA_MOVING);
-}
-
-/**************************************************************************
-  Return TRUE iff this unit is an air/plane unit (including missiles).
-**************************************************************************/
-bool is_air_unit(const struct unit *punit)
-{
-  return (unit_type(punit)->move_type == AIR_MOVING);
-}
-
-/**************************************************************************
-  Return TRUE iff this unit is a helicoptor unit.
-**************************************************************************/
-bool is_heli_unit(const struct unit *punit)
-{
-  return (unit_type(punit)->move_type == HELI_MOVING);
-}
-
-/**************************************************************************
-  Return TRUE iff this unit is a ground/land/normal unit.
-**************************************************************************/
-bool is_ground_unit(const struct unit *punit)
-{
-  return (unit_type(punit)->move_type == LAND_MOVING);
-}
 
 /**************************************************************************
   Is the unit capable of attacking?
@@ -1415,211 +1321,6 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 bool unit_type_really_ignores_zoc(Unit_Type_id type)
 {
   return (!is_ground_unittype(type)) || (unit_type_flag(type, F_IGZOC));
-}
-
-/**************************************************************************
-  Returns whether the unit is allowed (by ZOC) to move from (src_x,src_y)
-  to (dest_x,dest_y) (assumed adjacent).
-  You CAN move if:
-  1. You have units there already
-  2. Your unit isn't a ground unit
-  3. Your unit ignores ZOC (diplomat, freight, etc.)
-  4. You're moving from or to a city
-  5. You're moving from an ocean square (from a boat)
-  6. The spot you're moving from or to is in your ZOC
-**************************************************************************/
-bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
-			       const struct player *unit_owner,
-			       const struct tile *src_tile,
-			       const struct tile *dst_tile)
-{
-  if (unit_type_really_ignores_zoc(type))
-    return TRUE;
-  if (is_allied_unit_tile(dst_tile, unit_owner)) {
-    return TRUE;
-  }
-  if (map_get_city(src_tile) || map_get_city(dst_tile)) {
-    return TRUE;
-  }
-  if (is_ocean(map_get_terrain(src_tile))
-      || is_ocean(map_get_terrain(dst_tile))) {
-    return TRUE;
-  }
-  return (is_my_zoc(unit_owner, src_tile)
-	  || is_my_zoc(unit_owner, dst_tile));
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static bool zoc_ok_move_gen(const struct unit *punit,
-			    const struct tile *ptile1,
-			    const struct tile *ptile2)
-{
-  return can_step_taken_wrt_to_zoc(punit->type, unit_owner(punit),
-				   ptile1, ptile2);
-}
-
-/**************************************************************************
-  Convenience wrapper for zoc_ok_move_gen(), using the unit's (x,y)
-  as the starting point.
-**************************************************************************/
-bool zoc_ok_move(const struct unit *punit, const struct tile *ptile)
-{
-  return zoc_ok_move_gen(punit, punit->tile, ptile);
-}
-
-/****************************************************************************
-  Return TRUE iff the unit can "exist" at this location.  This means it can
-  physically be present on the tile (without the use of a transporter).
-****************************************************************************/
-bool can_unit_exist_at_tile(const struct unit *punit,
-			    const struct tile *ptile)
-{
-  if (ptile->city) {
-    return TRUE;
-  }
-
-  switch (unit_types[punit->type].move_type) {
-  case LAND_MOVING:
-    return !is_ocean(ptile->terrain);
-  case SEA_MOVING:
-    return is_ocean(ptile->terrain);
-  case AIR_MOVING:
-  case HELI_MOVING:
-    return TRUE;
-  }
-  die("Invalid move type");
-  return FALSE;
-}
-
-/****************************************************************************
-  Return TRUE iff the unit can "survive" at this location.  This means it can
-  not only be phsically present at the tile but will be able to survive
-  indefinitely on its own (without a transporter).  Units that require fuel
-  or have a danger of drowning are examples of non-survivable units.
-****************************************************************************/
-bool can_unit_survive_at_tile(const struct unit *punit,
-			      const struct tile *ptile)
-{
-  if (!can_unit_exist_at_tile(punit, ptile)) {
-    return FALSE;
-  }
-
-  if (map_get_city(ptile)) {
-    return TRUE;
-  }
-
-  /* TODO: check for dangerous positions (like triremes in deep water). */
-
-  switch (unit_types[punit->type].move_type) {
-  case LAND_MOVING:
-  case SEA_MOVING:
-    return TRUE;
-  case AIR_MOVING:
-  case HELI_MOVING:
-    return tile_has_special(punit->tile, S_AIRBASE);
-  }
-  die("Invalid move type");
-  return TRUE;
-}
-
-/**************************************************************************
-  Convenience wrapper for test_unit_move_to_tile.
-**************************************************************************/
-bool can_unit_move_to_tile(const struct unit *punit,
-			   const struct tile *dst_tile,
-			   bool igzoc)
-{
-  return MR_OK == test_unit_move_to_tile(punit->type, unit_owner(punit),
-					 punit->activity,
-					 punit->tile, dst_tile,
-					 igzoc);
-}
-
-/**************************************************************************
-  unit can be moved if:
-  1) the unit is idle or on server goto.
-  2) the target location is on the map
-  3) the target location is next to the unit
-  4) there are no non-allied units on the target tile
-  5) a ground unit can only move to ocean squares if there
-     is a transporter with free capacity
-  6) marines are the only units that can attack from a ocean square
-  7) naval units can only be moved to ocean squares or city squares
-  8) there are no peaceful but un-allied units on the target tile
-  9) there is not a peaceful but un-allied city on the target tile
-  10) there is no non-allied unit blocking (zoc) [or igzoc is true]
-**************************************************************************/
-enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
-					     const struct player *unit_owner,
-					     enum unit_activity activity,
-					     const struct tile *pfromtile,
-					     const struct tile *ptotile,
-					     bool igzoc)
-{
-  bool zoc;
-  struct city *pcity;
-
-  /* 1) */
-  if (activity != ACTIVITY_IDLE
-      && activity != ACTIVITY_GOTO) {
-    return MR_BAD_ACTIVITY;
-  }
-
-  /* 3) */
-  if (!is_tiles_adjacent(pfromtile, ptotile)) {
-    return MR_BAD_DESTINATION;
-  }
-
-  /* 4) */
-  if (is_non_allied_unit_tile(ptotile, unit_owner)) {
-    return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
-  }
-
-  if (unit_types[type].move_type == LAND_MOVING) {
-    /* 5) */
-    if (is_ocean(ptotile->terrain) &&
-	ground_unit_transporter_capacity(ptotile, unit_owner) <= 0) {
-      return MR_NO_SEA_TRANSPORTER_CAPACITY;
-    }
-
-    /* Moving from ocean */
-    if (is_ocean(pfromtile->terrain)) {
-      /* 6) */
-      if (!unit_type_flag(type, F_MARINES)
-	  && is_enemy_city_tile(ptotile, unit_owner)) {
-	return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
-      }
-    }
-  } else if (unit_types[type].move_type == SEA_MOVING) {
-    /* 7) */
-    if (!is_ocean(ptotile->terrain)
-	&& ptotile->terrain != T_UNKNOWN
-	&& !is_allied_city_tile(ptotile, unit_owner)) {
-      return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY;
-    }
-  }
-
-  /* 8) */
-  if (is_non_attack_unit_tile(ptotile, unit_owner)) {
-    return MR_NO_WAR;
-  }
-
-  /* 9) */
-  pcity = ptotile->city;
-  if (pcity && pplayers_non_attack(city_owner(pcity), unit_owner)) {
-    return MR_NO_WAR;
-  }
-
-  /* 10) */
-  zoc = igzoc
-    || can_step_taken_wrt_to_zoc(type, unit_owner, pfromtile, ptotile);
-  if (!zoc) {
-    return MR_ZOC;
-  }
-
-  return MR_OK;
 }
 
 /**************************************************************************

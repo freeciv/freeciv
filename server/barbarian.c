@@ -31,6 +31,7 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "movement.h"
 #include "nation.h"
 #include "rand.h"
 #include "support.h"

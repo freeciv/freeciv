@@ -21,6 +21,7 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "movement.h"
 #include "player.h"
 #include "terrain.h"
 #include "unit.h"
