@@ -723,9 +723,15 @@ void handle_player_rates(struct player *pplayer,
   if (preq->science<0 || preq->science >100) return;
   maxrate=get_government_max_rate (pplayer->government);
   if (preq->tax>maxrate || preq->luxury>maxrate || preq->science>maxrate) {
+    char *rtype;
+    if (preq->tax > maxrate)
+      rtype = "Tax";
+    else if (preq->luxury > maxrate)
+      rtype = "Luxury";
+    else
+      rtype = "Science";
     notify_player(pplayer, "Game: %s rate exceeds the max rate for %s.",
-		  (preq->tax>maxrate ? "Tax"
-		   : preq->luxury>maxrate ? "Luxury" : "Science"));
+                  rtype, get_government_name(pplayer->government));
   } else {
     pplayer->economic.tax=preq->tax;
     pplayer->economic.luxury=preq->luxury;
