@@ -43,20 +43,15 @@ void gtk_expose_now(GtkWidget *w)
 **************************************************************************/
 void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py)
 {
-  gint x=0, y=0;
-  
-  if (!GTK_WIDGET_REALIZED(ref))
-    gtk_widget_realize(ref);
-  if (!GTK_WIDGET_NO_WINDOW(ref))
-    gdk_window_get_origin(ref->window, &x, &y);
+  gint x, y, width, height;
 
-  x += px*ref->allocation.width/100;
-  y += py*ref->allocation.height/100;
+  gtk_window_get_position(GTK_WINDOW(ref), &x, &y);
+  gtk_window_get_size(GTK_WINDOW(ref), &width, &height);
 
-  if (!GTK_WIDGET_REALIZED(w))
-    gtk_widget_realize(w);
-  if (GTK_IS_WINDOW(w))
-    gdk_window_move(w->window, x, y);
+  x += px*width/100;
+  y += py*height/100;
+
+  gtk_window_move(GTK_WINDOW(w), x, y);
 }
 
 
