@@ -54,6 +54,7 @@
 
 #define NUM_UNITS_SHOWN  12
 #define NUM_CITIZENS_SHOWN 25   
+#define NUM_INFO_FIELDS 11      /* number of fields in city_info */
 #define ID_CITYOPT_RADIO 100
 #define ID_CITYOPT_TOGGLE 200
 #define NUM_TABS 6
@@ -72,10 +73,7 @@ struct city_dialog {
   HWND rename_but;
   HWND activate_but;
   HWND unitlist_but;
-  HWND prod_area[2];
-  HWND output_area[2];
-  HWND pollution_area[2];
-  HWND storage_area[2];
+  HWND info_label[2][NUM_INFO_FIELDS];
   HWND build_area;
   HWND supported_label;
   HWND present_label;
@@ -127,11 +125,9 @@ static void city_dialog_update_supported_units(HDC hdc,struct city_dialog *pdial
 static void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int id);
 static void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog);
 static void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog);
-static void city_dialog_update_production(struct city_dialog *pdialog);
-static void city_dialog_update_output(struct city_dialog *pdialog);
+static void city_dialog_update_information(HWND *info_label,
+                                           struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
-static void city_dialog_update_storage(struct city_dialog *pdialog);
-static void city_dialog_update_pollution(struct city_dialog *pdialog);        
 static void city_dialog_update_tradelist(struct city_dialog *pdialog);
 static void commit_city_worklist(struct worklist *pwl, void *data);
 static void resize_city_dialog(struct city_dialog *pdialog);
@@ -193,11 +189,9 @@ void refresh_city_dialog(struct city *pcity)
     ReleaseDC(pdialog->tab_childs[PAGE_HAPPINESS],hdc);
     
     city_dialog_update_improvement_list(pdialog);  
-    city_dialog_update_production(pdialog);
-    city_dialog_update_output(pdialog);
+    city_dialog_update_information(pdialog->info_label[0], pdialog);
+    city_dialog_update_information(pdialog->info_label[1], pdialog);
     city_dialog_update_building(pdialog);
-    city_dialog_update_storage(pdialog);
-    city_dialog_update_pollution(pdialog);    
     city_dialog_update_tradelist(pdialog);
     refresh_happiness_box(pdialog->happiness);
     resize_city_dialog(pdialog);
@@ -403,76 +397,9 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog,
   }
 }   
 
-
 /**************************************************************************
 ...
 **************************************************************************/
-
-void city_dialog_update_pollution(struct city_dialog *pdialog)   
-{
-  char buf[512];
-  struct city *pcity=pdialog->pcity;
-  my_snprintf(buf, sizeof(buf), _("Pollution:   %3d"), pcity->pollution);   
-  SetWindowText(pdialog->pollution_area[0],buf);
-  SetWindowText(pdialog->pollution_area[1],buf);
-}
-  
-/**************************************************************************
-...
-**************************************************************************/
-
-void city_dialog_update_storage(struct city_dialog *pdialog)   
-{
-  char buf[512];
-  struct city *pcity = pdialog->pcity;
-
-  my_snprintf(buf, sizeof(buf), _("Granary: %3d/%-3d"), pcity->food_stock,
-	      city_granary_size(pcity->size));   
-  SetWindowText(pdialog->storage_area[0],buf);
-  SetWindowText(pdialog->storage_area[1],buf);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
-void city_dialog_update_production(struct city_dialog *pdialog)   
-{
-  char buf[512];
-  struct city *pcity=pdialog->pcity;
-  my_snprintf(buf, sizeof(buf),
-	      _("Food:    %2d (%+2d)\nProd:    %2d (%+2d)\nTrade:   %2d (%+2d)"),
-	      pcity->food_prod, pcity->surplus[O_FOOD],
-	      pcity->shield_prod + pcity->waste[O_SHIELD],
-	      pcity->surplus[O_SHIELD],
-	      pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
-	      pcity->surplus[O_TRADE]);              
-  SetWindowText(pdialog->prod_area[0],buf);
-  SetWindowText(pdialog->prod_area[1],buf);
-}
-/**************************************************************************
-...
-**************************************************************************/
-
-
-void city_dialog_update_output(struct city_dialog *pdialog)   
-{
-  char buf[512];
-  struct city *pcity=pdialog->pcity;
-  my_snprintf(buf, sizeof(buf),
-	      _("Gold:    %2d (%+2d)\nLuxury:  %2d\nScience: %2d"),
-	      pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total),
-	      pcity->luxury_total,
-	      pcity->science_total);      
-  SetWindowText(pdialog->output_area[0],buf);
-  SetWindowText(pdialog->output_area[1],buf);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-
-
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf2[100], buf[32];
@@ -495,6 +422,67 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   SetWindowText(pdialog->build_area, buf2);
   resize_city_dialog(pdialog);
  
+}
+
+/****************************************************************
+   ...
++*****************************************************************/
+static void city_dialog_update_information(HWND *info_label,
+                                           struct city_dialog *pdialog)
+{
+  int i;
+  char buf[NUM_INFO_FIELDS][512];
+  struct city *pcity = pdialog->pcity;
+  int granaryturns;
+  enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE, 
+	 GRANARY, GROWTH, CORRUPTION, WASTE, POLLUTION 
+  };
+
+  /* fill the buffers with the necessary info */
+
+  my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
+	      pcity->food_prod, pcity->surplus[O_FOOD]);
+  my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
+	      pcity->shield_prod + pcity->waste[O_SHIELD],
+	      pcity->surplus[O_SHIELD]);
+  my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
+	      pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
+	      pcity->surplus[O_TRADE]);
+  my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
+	      pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total));
+  my_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
+	      pcity->luxury_total);
+
+  my_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%2d",
+	      pcity->science_total);
+
+  my_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%d/%-d",
+	      pcity->food_stock, city_granary_size(pcity->size));
+	
+  granaryturns = city_turns_to_grow(pcity);
+  if (granaryturns == 0) {
+    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("blocked"));
+  } else if (granaryturns == FC_INFINITY) {
+    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("never"));
+  } else {
+    /* A negative value means we'll have famine in that many turns.
+       But that's handled down below. */
+    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]),
+		PL_("%d turn", "%d turns", abs(granaryturns)),
+		abs(granaryturns));
+  }
+  my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%2d",
+	      pcity->waste[O_TRADE]);
+  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%2d",
+          pcity->waste[O_SHIELD]);
+  my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%2d",
+	      pcity->pollution);
+
+  /* stick 'em in the labels */
+
+  for (i = 0; i < NUM_INFO_FIELDS; i++) {
+    SetWindowText(info_label[i], buf[i]);
+  }
 }
 
 /**************************************************************************
@@ -676,6 +664,60 @@ static void upper_min(POINT *min,void *data)
   min->y=45;
 }
 
+/****************************************************************
+ used once in the overview page and once in the happiness page
+ **info_label points to the info_label in the respective struct
+****************************************************************/
+static struct fcwin_box *create_city_info_table(HWND owner, HWND *info_label)
+{
+  int i;
+  struct fcwin_box *hbox, *column1, *column2;
+  HWND label;
+
+  static const char *output_label[NUM_INFO_FIELDS] = { N_("Food:"),
+    N_("Prod:"),
+    N_("Trade:"),
+    N_("Gold:"),
+    N_("Luxury:"),
+    N_("Science:"),
+    N_("Granary:"),
+    N_("Change in:"),
+    N_("Corruption:"),
+    N_("Waste:"),
+    N_("Pollution:")
+  };
+
+  hbox = fcwin_hbox_new(owner, TRUE);
+  column1 = fcwin_vbox_new(owner, FALSE);
+  column2 = fcwin_vbox_new(owner, FALSE);
+  fcwin_box_add_box(hbox, column1, TRUE, TRUE, 0);
+  fcwin_box_add_box(hbox, column2, TRUE, TRUE, 0);
+
+  for (i = 0; i < NUM_INFO_FIELDS; i++) {
+    int padding;
+    switch(i) {
+      case 2:
+      case 6:
+      case 7:
+	padding = 10;
+	break;
+      default:
+	padding = 0;
+    }
+    
+    label = fcwin_box_add_static(column1, output_label[i], 0, SS_LEFT, FALSE, FALSE, padding);
+    SendMessage(label,
+	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
+
+    label = fcwin_box_add_static(column2, " ", 0, SS_LEFT, FALSE, FALSE, padding);
+    info_label[i] = label;
+    SendMessage(label,
+	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
+  }
+
+  return hbox;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -745,24 +787,10 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 				      0,0,TRUE,TRUE,5);
   
   upper_row=fcwin_hbox_new(pdialog->tab_childs[0],FALSE);
-  left_labels=fcwin_vbox_new(pdialog->tab_childs[0],FALSE);
+  left_labels = create_city_info_table(pdialog->tab_childs[0], 
+				       pdialog->info_label[0]);
   fcwin_box_add_groupbox(upper_row,_("City info"),left_labels,0,
 			 FALSE,FALSE,5);
-  
-  pdialog->prod_area[0]=fcwin_box_add_static_default(left_labels,
-						     " ",
-						     ID_CITY_PROD,
-						     SS_LEFT);
-  pdialog->output_area[0]=fcwin_box_add_static_default(left_labels,
-						       " ",
-						       ID_CITY_OUTPUT,
-						       SS_LEFT);
-  pdialog->pollution_area[0]=fcwin_box_add_static_default(left_labels," ",
-							  ID_CITY_POLLUTION,
-							  SS_LEFT);
-  pdialog->storage_area[0]=fcwin_box_add_static_default(left_labels," ",
-						     ID_CITY_STORAGE,
-						     SS_LEFT);
   
   grp_box=fcwin_vbox_new(pdialog->tab_childs[0],FALSE);
   fcwin_box_add_groupbox(upper_row,_("City map"),grp_box,0,TRUE,FALSE,5);
@@ -819,16 +847,8 @@ static void CityDlgCreate(HWND hWnd,struct city_dialog *pdialog)
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
   SendMessage(pdialog->present_label,
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
-  SendMessage(pdialog->storage_area[0],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
   SendMessage(pdialog->build_area,
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));    
-  SendMessage(pdialog->pollution_area[0],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
-  SendMessage(pdialog->prod_area[0],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
-  SendMessage(pdialog->output_area[0],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
   genlist_insert(&dialog_list, pdialog, 0);    
  
   for(i=0; i<NUM_UNITS_SHOWN;i++)
@@ -2055,24 +2075,15 @@ static void create_happiness_page(HWND win,
 {
   struct fcwin_box *hbox;
   struct fcwin_box *vbox;
+  struct fcwin_box *info;
   hbox = fcwin_hbox_new(win, FALSE);
   pdialog->happiness = create_happiness_box(pdialog->pcity, hbox, win);
   vbox = fcwin_vbox_new(win, FALSE);
   fcwin_box_add_box(hbox,vbox,FALSE,FALSE,0);
   fcwin_box_add_generic(vbox, map_minsize, map_setsize, NULL, &pdialog->maph,
 			TRUE,FALSE,0);
-  pdialog->prod_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
-  pdialog->output_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
-  pdialog->pollution_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
-  pdialog->storage_area[1]=fcwin_box_add_static_default(vbox," ",0,SS_LEFT);
-  SendMessage(pdialog->pollution_area[1],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
-  SendMessage(pdialog->prod_area[1],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
-  SendMessage(pdialog->output_area[1],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
-  SendMessage(pdialog->storage_area[1],
-	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0));  
+  info = create_city_info_table(win, pdialog->info_label[1]);
+  fcwin_box_add_box(vbox,info,FALSE,FALSE,0);
   fcwin_set_box(win,hbox);
 }
 
