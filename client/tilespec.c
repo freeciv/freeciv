@@ -57,7 +57,6 @@ char *main_intro_filename;
 char *minimap_intro_filename;
 
 struct named_sprites sprites;
-char current_tile_set_name[512];
 
 static const int DIR4_TO_DIR8[4] =
     { DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST };
@@ -206,8 +205,10 @@ static char *tilespec_fullname(const char *tileset_name)
   }
 
   /* Hack: this is the name of the tileset we're about to load.  We copy
-   * it here, since this is the only place where we know it. */
-  sz_strlcpy(current_tile_set_name, tileset_name);
+   * it here, since this is the only place where we know it.  Note this
+   * also means if you do "civ -t foo" this will change your *default*
+   * tileset to 'foo'. */
+  sz_strlcpy(default_tileset_name, tileset_name);
 
   fname = fc_malloc(strlen(tileset_name) + strlen(TILESPEC_SUFFIX) + 1);
   sprintf(fname, "%s%s", tileset_name, TILESPEC_SUFFIX);

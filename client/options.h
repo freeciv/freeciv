@@ -20,7 +20,7 @@ extern char default_user_name[512];
 extern char default_server_host[512];
 extern int default_server_port; 
 extern char default_metaserver[512];
-extern char default_tile_set_name[512];
+extern char default_tileset_name[512];
 extern char default_sound_set_name[512];
 extern char default_sound_plugin_name[512];
 

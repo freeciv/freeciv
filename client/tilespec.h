@@ -207,8 +207,6 @@ extern struct named_sprites sprites;
 struct Sprite *get_citizen_sprite(enum citizen_type type, int citizen_index,
 				  struct city *pcity);
 
-extern char current_tile_set_name[512];
-
 /* full pathnames: */
 extern char *main_intro_filename;
 extern char *minimap_intro_filename;

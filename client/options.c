@@ -47,7 +47,7 @@ char default_user_name[512] = "\0";
 char default_server_host[512] = "localhost";
 int  default_server_port = DEFAULT_SOCK_PORT;
 char default_metaserver[512] = METALIST_ADDR;
-char default_tile_set_name[512] = "\0";
+char default_tileset_name[512] = "\0";
 char default_sound_set_name[512] = "stdsounds";
 char default_sound_plugin_name[512] = "\0";
 
@@ -97,14 +97,12 @@ client_option options[] = {
   GEN_INT_OPTION(default_server_port,       N_("Default server's port")),
   GEN_STR_OPTION(default_metaserver,        N_("Default metaserver"),
 		 NULL, NULL),
-  GEN_STR_OPTION(default_tile_set_name,     N_("Default tileset"),
-		 get_tileset_list, NULL),
-  GEN_STR_OPTION(current_tile_set_name, N_("Current tileset (EXPERIMENTAL)"),
-		  get_tileset_list, tilespec_reread_callback),
   GEN_STR_OPTION(default_sound_set_name,    N_("Default name of sound set"),
 		 get_soundset_list, NULL),
   GEN_STR_OPTION(default_sound_plugin_name, N_("Default sound plugin"),
 		 get_soundplugin_list, NULL),
+  GEN_STR_OPTION(default_tileset_name,     N_("Tileset"),
+		 get_tileset_list, tilespec_reread_callback),
 
   GEN_BOOL_OPTION(solid_color_behind_units, N_("Solid unit background color")),
   GEN_BOOL_OPTION(sound_bell_at_new_turn,   N_("Sound bell at new turn")),

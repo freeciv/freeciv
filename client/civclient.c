@@ -77,7 +77,7 @@
    needed (hence, it is not 'extern'd in civclient.h) */
 bool is_server = FALSE;
 
-static char tile_set_name[512] = "\0";
+static char tileset_name[512] = "\0";
 char sound_plugin_name[512] = "\0";
 char sound_set_name[512] = "\0";
 char server_host[512] = "\0";
@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
       }
    } else if ((option = get_option("--tiles", argv, &i, argc)))
-      sz_strlcpy(tile_set_name, option);
+      sz_strlcpy(tileset_name, option);
    else if (is_option("--", argv[i])) {
      ui_separator = TRUE;
    } else { 
@@ -214,8 +214,9 @@ int main(int argc, char *argv[])
 
   load_general_options();
 
-  if (tile_set_name[0] == '\0') 
-    sz_strlcpy(tile_set_name, default_tile_set_name); 
+  if (tileset_name[0] == '\0') {
+    sz_strlcpy(tileset_name, default_tileset_name);
+  }
   if (sound_set_name[0] == '\0') 
     sz_strlcpy(sound_set_name, default_sound_set_name); 
   if (sound_plugin_name[0] == '\0')
@@ -234,7 +235,7 @@ int main(int argc, char *argv[])
   mysrand(time(NULL));
 
   boot_help_texts();
-  tilespec_read_toplevel(tile_set_name); /* get tile sizes etc */
+  tilespec_read_toplevel(tileset_name); /* get tile sizes etc */
 
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);
