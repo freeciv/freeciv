@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -34,6 +35,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
+#include "city.h"
 #include "player.h"
 #include "support.h"
 #include "unit.h"
@@ -347,7 +349,7 @@ void create_line_at_mouse_pos(void)
 **************************************************************************/
 void mapctrl_btn_adjust_workers(XEvent *event)
 {
-  int x,y;
+  int map_x, map_y, x, y, is_valid;
   XButtonEvent *ev=&event->xbutton;
   struct city *pcity;
   struct packet_city_request packet;
@@ -356,13 +358,16 @@ void mapctrl_btn_adjust_workers(XEvent *event)
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
 
-  x=ev->x/NORMAL_TILE_WIDTH; y=ev->y/NORMAL_TILE_HEIGHT;
-  x=map_adjust_x(map_view_x0+x); y=map_adjust_y(map_view_y0+y);
+  map_x = ev->x / NORMAL_TILE_WIDTH;
+  map_y = ev->y / NORMAL_TILE_HEIGHT;
+  map_x = map_adjust_x(map_view_x0 + map_x);
+  map_y = map_adjust_y(map_view_y0 + map_y);
 
-  if(!(pcity = find_city_near_tile(x,y)))  return;
+  if (!(pcity = find_city_near_tile(map_x, map_y)))
+    return;
 
-  x = map_to_city_x(pcity, x);
-  y = map_to_city_y(pcity, y);
+  is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
+  assert(is_valid);
 
   packet.city_id=pcity->id;
   packet.worker_x=x;
