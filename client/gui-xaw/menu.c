@@ -184,10 +184,10 @@ static struct MenuEntry order_menu_entries[]={
 };
 
 static struct MenuEntry reports_menu_entries[]={
-    { { N_("City Report"), 0          },    "F1", MENU_REPORT_CITY, 0 },
-    { { N_("Military Report"), 0      },    "F2", MENU_REPORT_MILITARY, 0 },
-    { { N_("Trade Report"), 0         },    "F5", MENU_REPORT_TRADE, 0 },
-    { { N_("Science Report"), 0       },    "F6", MENU_REPORT_SCIENCE, 0 },
+    { { N_("Cities"), 0               },    "F1", MENU_REPORT_CITIES, 0 },
+    { { N_("Units"), 0                },    "F2", MENU_REPORT_UNITS, 0 },
+    { { N_("Economy"), 0              },    "F5", MENU_REPORT_ECONOMY, 0 },
+    { { N_("Science"), 0              },    "F6", MENU_REPORT_SCIENCE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Wonders of the World"), 0 },    "F7", MENU_REPORT_WOW, 0 },
     { { N_("Top Five Cities"), 0      },    "F8", MENU_REPORT_TOP_CITIES, 0 },
@@ -609,14 +609,14 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
   size_t pane_num = (size_t)client_data;
 
   switch(pane_num) {
-   case MENU_REPORT_CITY:
+   case MENU_REPORT_CITIES:
     popup_city_report_dialog(0);
     break;
-   case MENU_REPORT_MILITARY:
+   case MENU_REPORT_UNITS:
     popup_activeunits_report_dialog(0);
     break;
-   case MENU_REPORT_TRADE:
-    popup_trade_report_dialog(0);
+   case MENU_REPORT_ECONOMY:
+    popup_economy_report_dialog(0);
     break;
    case MENU_REPORT_SCIENCE:
     popup_science_dialog(0);

@@ -108,10 +108,10 @@ char *create_centered_string(char *s)
       cp0=cp+1;
     }
   }
-  
   for(i=0; i<(maxlen-curlen)/2; i++)
     *rn++=' ';
   strcpy(rn, cp0);
+
   return r;
 }
 

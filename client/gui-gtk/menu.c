@@ -114,10 +114,10 @@ enum MenuID {
   MENU_ORDER_DONE,
   MENU_ORDER_NUKE,
 
-  MENU_REPORT_CITY,
+  MENU_REPORT_CITIES,
   MENU_REPORT_SCIENCE,
-  MENU_REPORT_TRADE,
-  MENU_REPORT_MILITARY,
+  MENU_REPORT_ECONOMY,
+  MENU_REPORT_UNITS,
   MENU_REPORT_DEMOGRAPHIC,
   MENU_REPORT_TOP_CITIES,
   MENU_REPORT_WOW,
@@ -369,16 +369,16 @@ static void reports_menu_callback(gpointer callback_data,
 				  guint callback_action, GtkWidget *widget)
 {
   switch(callback_action) {
-   case MENU_REPORT_CITY:
+   case MENU_REPORT_CITIES:
     popup_city_report_dialog(0);
     break;
    case MENU_REPORT_SCIENCE:
     popup_science_dialog(0);
     break;
-   case MENU_REPORT_TRADE:
-    popup_trade_report_dialog(0);
+   case MENU_REPORT_ECONOMY:
+    popup_economy_report_dialog(0);
     break;
-   case MENU_REPORT_MILITARY:
+   case MENU_REPORT_UNITS:
     popup_activeunits_report_dialog(0);
     break;
   case MENU_REPORT_DEMOGRAPHIC:
@@ -482,211 +482,212 @@ static void help_menu_callback(gpointer callback_data,
  */
 static GtkItemFactoryEntry menu_items[]	=
 {
-  { "/" N_("_Game"),			NULL,		NULL,
-    0,					"<Branch>"			      },
-  { "/" N_("Game") "/tearoff1",		NULL,		NULL,
-    0,					"<Tearoff>"			      },
-  { "/" N_("Game") "/sep1",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Game") "/" N_("Local Options"),	NULL,		game_menu_callback,
-    MENU_GAME_OPTIONS							      },
-  { "/" N_("Game") "/" N_("Message Options"),	NULL,		game_menu_callback,
-    MENU_GAME_MSG_OPTIONS						      },
-  { "/" N_("Game") "/" N_("Save Settings"),	NULL,		game_menu_callback,
-    MENU_GAME_SAVE_SETTINGS						      },
-  { "/" N_("Game") "/sep2",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Game") "/" N_("Players"),		"F3",		game_menu_callback,
-    MENU_GAME_PLAYERS							      },
-  { "/" N_("Game") "/" N_("Messages"),		"F10",		game_menu_callback,
-    MENU_GAME_MESSAGES							      },
-  { "/" N_("Game") "/sep3",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Game") "/" N_("Server Opt initial"), NULL,	game_menu_callback,
-    MENU_GAME_SERVER_OPTIONS1						      },
-  { "/" N_("Game") "/" N_("Server Opt ongoing"), NULL,	game_menu_callback,
-    MENU_GAME_SERVER_OPTIONS2						      },
-  { "/" N_("Game") "/sep4",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Game") "/" N_("Export Log"),	NULL,		game_menu_callback,
-    MENU_GAME_OUTPUT_LOG						      },
-  { "/" N_("Game") "/" N_("Clear Log"),	NULL,		game_menu_callback,
-    MENU_GAME_CLEAR_OUTPUT						      },
-  { "/" N_("Game") "/sep5",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Game") "/" N_("Disconnect"),	NULL,		game_menu_callback,
-    MENU_GAME_DISCONNECT						      },
-  { "/" N_("Game") "/" N_("Quit"),		"<control>q",   gtk_main_quit,
-    0									      },
-
-  { "/" N_("_Kingdom"),			NULL,		NULL,
-    0,					"<Branch>"			      },
-  { "/" N_("Kingdom") "/tearoff1",		NULL,		NULL,
-    0,					"<Tearoff>"			      },
-  { "/" N_("Kingdom") "/" N_("_Tax Rates"),	"<shift>t",	kingdom_menu_callback,
-    MENU_KINGDOM_TAX_RATE						      },
-  { "/" N_("Kingdom") "/sep1",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Kingdom") "/" N_("_Find City"),	"<control>f",	kingdom_menu_callback,
-    MENU_KINGDOM_FIND_CITY							      },
-  { "/" N_("Kingdom") "/" N_("Work_lists"),	"<shift>l",	kingdom_menu_callback,
-    MENU_KINGDOM_WORKLISTS							      },
-  { "/" N_("Kingdom") "/sep2",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Kingdom") "/" N_("Revolution"),	NULL,	kingdom_menu_callback,
-    MENU_KINGDOM_REVOLUTION						      },
-
-  { "/" N_("_View"),			NULL,		NULL,
-    0,					"<Branch>"			      },
-  { "/" N_("View") "/tearoff1",		NULL,		NULL,
-    0,					"<Tearoff>"			      },
-  { "/" N_("View") "/" N_("Map Grid"),		"<control>g",	view_menu_callback,
-    MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"			      },
-  { "/" N_("View") "/" N_("City Names"),	"<control>n",	view_menu_callback,
-    MENU_VIEW_SHOW_CITY_NAMES,		"<CheckItem>"			      },
-  { "/" N_("View") "/" N_("City Productions"),	"<control>p",	view_menu_callback,
-    MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"			      },
-  { "/" N_("View") "/sep1",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("View") "/" N_("Center View"),	"c",		view_menu_callback,
-    MENU_VIEW_CENTER_VIEW						      },
-
-  { "/" N_("_Orders")	,		NULL,		NULL,
-    0,					"<Branch>"			      },
-  { "/" N_("Orders") "/tearoff1",		NULL,		NULL,
-    0,					"<Tearoff>"			      },
-  { "/" N_("Orders") "/" N_("Build City"),	"b",		orders_menu_callback,
-    MENU_ORDER_BUILD_CITY						      },
-  { "/" N_("Orders") "/" N_("Build Road"),	"r",		orders_menu_callback,
-    MENU_ORDER_ROAD							      },
-  { "/" N_("Orders") "/" N_("Build Irrigation"), "i",		orders_menu_callback,
-    MENU_ORDER_IRRIGATE							      },
-  { "/" N_("Orders") "/" N_("Build Mine"),	"m",		orders_menu_callback,
-    MENU_ORDER_MINE							      },
-  { "/" N_("Orders") "/" N_("Transform Terrain"), "o",	orders_menu_callback,
-    MENU_ORDER_TRANSFORM							      },
-  { "/" N_("Orders") "/" N_("Build Fortress"), "<shift>f",	orders_menu_callback,
-    MENU_ORDER_FORTRESS							      },
-  { "/" N_("Orders") "/" N_("Build Airbase"), "e",		orders_menu_callback,
-    MENU_ORDER_AIRBASE								      },
-  { "/" N_("Orders") "/" N_("Clean Pollution"), "p",		orders_menu_callback,
-    MENU_ORDER_POLLUTION						      },
-  { "/" N_("Orders") "/" N_("Clean Nuclear Fallout"), "n",	orders_menu_callback,
-    MENU_ORDER_FALLOUT							      },
-  { "/" N_("Orders") "/sep1",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Orders") "/" N_("Fortify"),	"f",		orders_menu_callback,
-    MENU_ORDER_FORTIFY							      },
-  { "/" N_("Orders") "/" N_("Sentry"),	"s",		orders_menu_callback,
-    MENU_ORDER_SENTRY							      },
-  { "/" N_("Orders") "/" N_("Pillage"),	"<shift>p",	orders_menu_callback,
-    MENU_ORDER_PILLAGE							      },
-  { "/" N_("Orders") "/sep2",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Orders") "/" N_("Make Homecity"),	"h",		orders_menu_callback,
-    MENU_ORDER_HOMECITY							      },
-  { "/" N_("Orders") "/" N_("Unload"),	"u",		orders_menu_callback,
-    MENU_ORDER_UNLOAD							      },
-  { "/" N_("Orders") "/" N_("Wake up others"), "<shift>w",	orders_menu_callback,
-    MENU_ORDER_WAKEUP_OTHERS						      },
-  { "/" N_("Orders") "/sep3",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Orders") "/" N_("Auto Settler"),	"a",		orders_menu_callback,
-    MENU_ORDER_AUTO_SETTLER						      },
-  { "/" N_("Orders") "/" N_("Auto Attack"),	"<shift>a",	orders_menu_callback,
-    MENU_ORDER_AUTO_ATTACK						      },
-  { "/" N_("Orders") "/" N_("Auto Explore"),	"x",		orders_menu_callback,
-    MENU_ORDER_AUTO_EXPLORE						      },
-  { "/" N_("Orders") "/" N_("Connect"),	        "<shift>c",	orders_menu_callback,
-    MENU_ORDER_CONNECT							      },
-  { "/" N_("Orders") "/" N_("Go to"),		"g",		orders_menu_callback,
-    MENU_ORDER_GOTO							      },
-  { "/" N_("Orders") "/" N_("Go|Airlift to City"), "l",	orders_menu_callback,
-    MENU_ORDER_GOTO_CITY						      },
-  { "/" N_("Orders") "/sep4",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Orders") "/" N_("Disband Unit"),	"<shift>d",	orders_menu_callback,
-    MENU_ORDER_DISBAND							      },
-  { "/" N_("Orders") "/" N_("Help Build Wonder"), "<shift>b",	orders_menu_callback,
-    MENU_ORDER_BUILD_WONDER						      },
-  { "/" N_("Orders") "/" N_("Make Trade Route"), "<shift>r",	orders_menu_callback,
-    MENU_ORDER_TRADEROUTE						      },
-  { "/" N_("Orders") "/" N_("Diplomat|Spy Actions"), "<shift>b", orders_menu_callback,
-    MENU_ORDER_DIPLOMAT_DLG						      },
-  { "/" N_("Orders") "/" N_("Explode Nuclear"), "<shift>n",	orders_menu_callback,
-    MENU_ORDER_NUKE							      },
-  { "/" N_("Orders") "/sep5",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Orders") "/" N_("Wait"),		"w",		orders_menu_callback,
-    MENU_ORDER_WAIT							      },
-  { "/" N_("Orders") "/" N_("Done"),		"space",	orders_menu_callback,
-    MENU_ORDER_DONE							      },
-
-  { "/" N_("_Reports"),			NULL,		NULL,
-    0,					"<Branch>"			      },
-  { "/" N_("Reports") "/tearoff1",		NULL,		NULL,
-    0,					"<Tearoff>"			      },
-  { "/" N_("Reports") "/" N_("City Report"),	"F1",		reports_menu_callback,
-    MENU_REPORT_CITY							      },
-  { "/" N_("Reports") "/" N_("Military Report"), "F2",	reports_menu_callback,
-    MENU_REPORT_MILITARY						      },
-  { "/" N_("Reports") "/" N_("Trade Report"),	  "F5",		reports_menu_callback,
-    MENU_REPORT_TRADE							      },
-  { "/" N_("Reports") "/" N_("Science Report"), "F6",		reports_menu_callback,
-    MENU_REPORT_SCIENCE							      },
-  { "/" N_("Reports") "/sep1",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Reports") "/" N_("Wonders of the World"),	"F7",	reports_menu_callback,
-    MENU_REPORT_WOW							      },
-  { "/" N_("Reports") "/" N_("Top Five Cities"),"F8",		reports_menu_callback,
-    MENU_REPORT_TOP_CITIES						      },
-  { "/" N_("Reports") "/" N_("Demographics"),	"F11",		reports_menu_callback,
-    MENU_REPORT_DEMOGRAPHIC						      },
-  { "/" N_("Reports") "/" N_("Spaceship"),	"F12",		reports_menu_callback,
-    MENU_REPORT_SPACESHIP							      },
-
-  { "/" N_("_Help"),			NULL,		NULL,
-    0,					"<LastBranch>"			      },
-  { "/" N_("Help") "/tearoff1",		NULL,		NULL,
-    0,					"<Tearoff>"			      },
-  { "/" N_("Help") "/" N_("Languages"),		NULL,		help_menu_callback,
-    MENU_HELP_LANGUAGES							      },
-  { "/" N_("Help") "/" N_("Connecting"),	NULL,		help_menu_callback,
-    MENU_HELP_CONNECTING						      },
-  { "/" N_("Help") "/" N_("Controls"),		NULL,		help_menu_callback,
-    MENU_HELP_CONTROLS							      },
-  { "/" N_("Help") "/" N_("Chatline"),		NULL,		help_menu_callback,
-    MENU_HELP_CHATLINE							      },
-  { "/" N_("Help") "/" N_("Playing"),		NULL,		help_menu_callback,
-    MENU_HELP_PLAYING							      },
-  { "/" N_("Help") "/sep1",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Help") "/" N_("Improvements"),	NULL,		help_menu_callback,
-    MENU_HELP_IMPROVEMENTS						      },
-  { "/" N_("Help") "/" N_("Units"),		NULL,		help_menu_callback,
-    MENU_HELP_UNITS							      },
-  { "/" N_("Help") "/" N_("Combat"),		NULL,		help_menu_callback,
-    MENU_HELP_COMBAT							      },
-  { "/" N_("Help") "/" N_("ZOC"),		NULL,		help_menu_callback,
-    MENU_HELP_ZOC							      },
-  { "/" N_("Help") "/" N_("Technology"),	NULL,		help_menu_callback,
-    MENU_HELP_TECH							      },
-  { "/" N_("Help") "/" N_("Terrain"),		NULL,		help_menu_callback,
-    MENU_HELP_TERRAIN							      },
-  { "/" N_("Help") "/" N_("Wonders"),		NULL,		help_menu_callback,
-    MENU_HELP_WONDERS							      },
-  { "/" N_("Help") "/" N_("Government"),	NULL,		help_menu_callback,
-    MENU_HELP_GOVERNMENT						      },
-  { "/" N_("Help") "/" N_("Happiness"),		NULL,		help_menu_callback,
-    MENU_HELP_HAPPINESS							      },
-  { "/" N_("Help") "/" N_("Space Race"),	NULL,		help_menu_callback,
-    MENU_HELP_SPACE_RACE						      },
-  { "/" N_("Help") "/sep2",		NULL,		NULL,
-    0,					"<Separator>"			      },
-  { "/" N_("Help") "/" N_("Copying"),		NULL,		help_menu_callback,
-    MENU_HELP_COPYING							      },
-  { "/" N_("Help") "/" N_("About"),		NULL,		help_menu_callback,
-    MENU_HELP_ABOUT							      }
+  /* Game menu ... */
+  { "/" N_("_Game"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Game") "/tearoff1",				NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("Game") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("_Local Options"),		NULL,
+	game_menu_callback,	MENU_GAME_OPTIONS					},
+  { "/" N_("Game") "/" N_("Messa_ge Options"),		NULL,
+	game_menu_callback,	MENU_GAME_MSG_OPTIONS					},
+  { "/" N_("Game") "/" N_("_Save Settings"),		NULL,
+	game_menu_callback,	MENU_GAME_SAVE_SETTINGS					},
+  { "/" N_("Game") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("_Players"),			"F3",
+	game_menu_callback,	MENU_GAME_PLAYERS					},
+  { "/" N_("Game") "/" N_("_Messages"),			"F10",
+	game_menu_callback,	MENU_GAME_MESSAGES					},
+  { "/" N_("Game") "/sep3",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("Server Opt _initial"),	NULL,
+	game_menu_callback,	MENU_GAME_SERVER_OPTIONS1				},
+  { "/" N_("Game") "/" N_("Server Opt _ongoing"),	NULL,
+	game_menu_callback,	MENU_GAME_SERVER_OPTIONS2				},
+  { "/" N_("Game") "/sep4",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("_Export Log"),		NULL,
+	game_menu_callback,	MENU_GAME_OUTPUT_LOG					},
+  { "/" N_("Game") "/" N_("_Clear Log"),		NULL,
+	game_menu_callback,	MENU_GAME_CLEAR_OUTPUT					},
+  { "/" N_("Game") "/sep5",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Game") "/" N_("_Disconnect"),		NULL,
+	game_menu_callback,	MENU_GAME_DISCONNECT					},
+  { "/" N_("Game") "/" N_("_Quit"),			"<control>q",
+	gtk_main_quit,		0							},
+  /* Kingdom menu ... */
+  { "/" N_("_Kingdom"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Kingdom") "/tearoff1",			NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("Kingdom") "/" N_("_Tax Rates"),		"<shift>t",
+	kingdom_menu_callback,	MENU_KINGDOM_TAX_RATE					},
+  { "/" N_("Kingdom") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Kingdom") "/" N_("_Find City"),		"<control>f",
+	kingdom_menu_callback,	MENU_KINGDOM_FIND_CITY					},
+  { "/" N_("Kingdom") "/" N_("Work_lists"),		"<shift>l",
+	kingdom_menu_callback,	MENU_KINGDOM_WORKLISTS					},
+  { "/" N_("Kingdom") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Kingdom") "/" N_("_Revolution"),		NULL,
+	kingdom_menu_callback,	MENU_KINGDOM_REVOLUTION					},
+  /* View menu ... */
+  { "/" N_("_View"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("View") "/tearoff1",				NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("View") "/" N_("Map _Grid"),			"<control>g",
+	view_menu_callback,	MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("City _Names"),		"<control>n",
+	view_menu_callback,	MENU_VIEW_SHOW_CITY_NAMES,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("City _Productions"),		"<control>p",
+	view_menu_callback,	MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"	},
+  { "/" N_("View") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("View") "/" N_("_Center View"),		"c",
+	view_menu_callback,	MENU_VIEW_CENTER_VIEW					},
+  /* Orders menu ... */
+  { "/" N_("_Orders"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Orders") "/tearoff1",			NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("Orders") "/" N_("_Build City"),		"b",
+	orders_menu_callback,	MENU_ORDER_BUILD_CITY					},
+  { "/" N_("Orders") "/" N_("Build _Road"),		"r",
+	orders_menu_callback,	MENU_ORDER_ROAD						},
+  { "/" N_("Orders") "/" N_("Build _Irrigation"),	"i",
+	orders_menu_callback,	MENU_ORDER_IRRIGATE					},
+  { "/" N_("Orders") "/" N_("Build _Mine"),		"m",
+	orders_menu_callback,	MENU_ORDER_MINE						},
+  { "/" N_("Orders") "/" N_("Transf_orm Terrain"),	"o",
+	orders_menu_callback,	MENU_ORDER_TRANSFORM					},
+  { "/" N_("Orders") "/" N_("Build For_tress"),		"<shift>f",
+	orders_menu_callback,	MENU_ORDER_FORTRESS					},
+  { "/" N_("Orders") "/" N_("Build Airbas_e"),		"e",
+	orders_menu_callback,	MENU_ORDER_AIRBASE					},
+  { "/" N_("Orders") "/" N_("Clean _Pollution"),	"p",
+	orders_menu_callback,	MENU_ORDER_POLLUTION					},
+  { "/" N_("Orders") "/" N_("Clean _Nuclear Fallout"),	"n",
+	orders_menu_callback,	MENU_ORDER_FALLOUT					},
+  { "/" N_("Orders") "/sep1",			NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Orders") "/" N_("_Fortify"),		"f",
+	orders_menu_callback,	MENU_ORDER_FORTIFY					},
+  { "/" N_("Orders") "/" N_("_Sentry"),			"s",
+	orders_menu_callback,	MENU_ORDER_SENTRY					},
+  { "/" N_("Orders") "/" N_("Pi_llage"),		"<shift>p",
+	orders_menu_callback,	MENU_ORDER_PILLAGE					},
+  { "/" N_("Orders") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Orders") "/" N_("Make _Homecity"),		"h",
+	orders_menu_callback,	MENU_ORDER_HOMECITY					},
+  { "/" N_("Orders") "/" N_("_Unload"),			"u",
+	orders_menu_callback,	MENU_ORDER_UNLOAD					},
+  { "/" N_("Orders") "/" N_("Wake up others"),		"<shift>w",
+	orders_menu_callback,	MENU_ORDER_WAKEUP_OTHERS				},
+  { "/" N_("Orders") "/sep3",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Orders") "/" N_("_Auto Settler"),		"a",
+	orders_menu_callback,	MENU_ORDER_AUTO_SETTLER					},
+  { "/" N_("Orders") "/" N_("Auto Attac_k"),		"<shift>a",
+	orders_menu_callback,	MENU_ORDER_AUTO_ATTACK					},
+  { "/" N_("Orders") "/" N_("Auto E_xplore"),		"x",
+	orders_menu_callback,	MENU_ORDER_AUTO_EXPLORE					},
+  { "/" N_("Orders") "/" N_("_Connect"),		"<shift>c",
+	orders_menu_callback,	MENU_ORDER_CONNECT					},
+  { "/" N_("Orders") "/" N_("_Go to"),			"g",
+	orders_menu_callback,	MENU_ORDER_GOTO						},
+  { "/" N_("Orders") "/" N_("Go|Airlift to Cit_y"),	"l",
+	orders_menu_callback,	MENU_ORDER_GOTO_CITY					},
+  { "/" N_("Orders") "/sep4",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Orders") "/" N_("_Disband Unit"),		"<shift>d",
+	orders_menu_callback,	MENU_ORDER_DISBAND					},
+  { "/" N_("Orders") "/" N_("Help Build Wonder"),	"<shift>b",
+	orders_menu_callback,	MENU_ORDER_BUILD_WONDER					},
+  { "/" N_("Orders") "/" N_("Make Trade Route"),	"<shift>r",
+	orders_menu_callback,	MENU_ORDER_TRADEROUTE					},
+  { "/" N_("Orders") "/" N_("Diplomat|Spy Actions"),	"<shift>b",
+	orders_menu_callback,	MENU_ORDER_DIPLOMAT_DLG					},
+  { "/" N_("Orders") "/" N_("Explode Nuclear"),		"<shift>n",
+	orders_menu_callback,	MENU_ORDER_NUKE						},
+  { "/" N_("Orders") "/sep5",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Orders") "/" N_("_Wait"),			"w",
+	orders_menu_callback,	MENU_ORDER_WAIT						},
+  { "/" N_("Orders") "/" N_("Done"),			"space",
+	orders_menu_callback,	MENU_ORDER_DONE						},
+  /* Reports menu ... */
+  { "/" N_("_Reports"),					NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("Reports") "/tearoff1",			NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("Reports") "/" N_("_Cities"),		"F1",
+	reports_menu_callback,	MENU_REPORT_CITIES					},
+  { "/" N_("Reports") "/" N_("_Units"),			"F2",
+	reports_menu_callback,	MENU_REPORT_UNITS					},
+  { "/" N_("Reports") "/" N_("_Economy"),		"F5",
+	reports_menu_callback,	MENU_REPORT_ECONOMY					},
+  { "/" N_("Reports") "/" N_("_Science"),		"F6",
+	reports_menu_callback,	MENU_REPORT_SCIENCE					},
+  { "/" N_("Reports") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Reports") "/" N_("_Wonders of the World"),	"F7",
+	reports_menu_callback,	MENU_REPORT_WOW						},
+  { "/" N_("Reports") "/" N_("_Top Five Cities"),	"F8",
+	reports_menu_callback,	MENU_REPORT_TOP_CITIES					},
+  { "/" N_("Reports") "/" N_("_Demographics"),		"F11",
+	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
+  { "/" N_("Reports") "/" N_("S_paceship"),		"F12",
+	reports_menu_callback,	MENU_REPORT_SPACESHIP					},
+  /* Help menu ... */
+  { "/" N_("_Help"),					NULL,
+	NULL,			0,					"<LastBranch>"	},
+  { "/" N_("Help") "/tearoff1",				NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("Help") "/" N_("Language_s"),		NULL,
+	help_menu_callback,	MENU_HELP_LANGUAGES					},
+  { "/" N_("Help") "/" N_("Co_nnecting"),		NULL,
+	help_menu_callback,	MENU_HELP_CONNECTING					},
+  { "/" N_("Help") "/" N_("C_ontrols"),			NULL,
+	help_menu_callback,	MENU_HELP_CONTROLS					},
+  { "/" N_("Help") "/" N_("C_hatline"),			NULL,
+	help_menu_callback,	MENU_HELP_CHATLINE					},
+  { "/" N_("Help") "/" N_("_Playing"),			NULL,
+	help_menu_callback,	MENU_HELP_PLAYING					},
+  { "/" N_("Help") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Help") "/" N_("City _Improvements"),	NULL,
+	help_menu_callback,	MENU_HELP_IMPROVEMENTS					},
+  { "/" N_("Help") "/" N_("_Units"),			NULL,
+	help_menu_callback,	MENU_HELP_UNITS						},
+  { "/" N_("Help") "/" N_("Com_bat"),			NULL,
+	help_menu_callback,	MENU_HELP_COMBAT					},
+  { "/" N_("Help") "/" N_("_ZOC"),			NULL,
+	help_menu_callback,	MENU_HELP_ZOC						},
+  { "/" N_("Help") "/" N_("Techno_logy"),		NULL,
+	help_menu_callback,	MENU_HELP_TECH						},
+  { "/" N_("Help") "/" N_("_Terrain"),			NULL,
+	help_menu_callback,	MENU_HELP_TERRAIN					},
+  { "/" N_("Help") "/" N_("Won_ders"),			NULL,
+	help_menu_callback,	MENU_HELP_WONDERS					},
+  { "/" N_("Help") "/" N_("_Government"),		NULL,
+	help_menu_callback,	MENU_HELP_GOVERNMENT					},
+  { "/" N_("Help") "/" N_("Happin_ess"),		NULL,
+	help_menu_callback,	MENU_HELP_HAPPINESS					},
+  { "/" N_("Help") "/" N_("Space _Race"),		NULL,
+	help_menu_callback,	MENU_HELP_SPACE_RACE					},
+  { "/" N_("Help") "/sep2",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("Help") "/" N_("_Copying"),			NULL,
+	help_menu_callback,	MENU_HELP_COPYING					},
+  { "/" N_("Help") "/" N_("_About"),			NULL,
+	help_menu_callback,	MENU_HELP_ABOUT						}
 };
 
 
@@ -842,7 +843,7 @@ static void menus_rename(const char *path, char *s)
     item=gtk_menu_get_attach_widget(GTK_MENU(item));
   
   gtk_set_label(GTK_BIN(item)->child, s);
-/*  gtk_accel_label_refetch(GTK_ACCEL_LABEL(GTK_BIN(item)->child));*/
+  gtk_label_parse_uline(GTK_LABEL(GTK_BIN(item)->child), s);
 }
 
 
@@ -895,16 +896,17 @@ void update_menus(void)
     menus_set_active("<main>/View/City Productions", draw_city_productions);
 
     if((punit=get_unit_in_focus())) {
-      char *chgfmt = _("Change to %s");
-      char *transfmt = _("Transform to %s");
+      char *irrfmt = _("Change to %s (_I)");
+      char *minfmt = _("Change to %s (_M)");
+      char *transfmt = _("Transf_orm to %s");
       char irrtext[128], mintext[128], transtext[128];
       char *roadtext;
       enum tile_terrain_type  ttype;
       struct tile_type *      tinfo;
 
-      sz_strlcpy(irrtext, _("Build Irrigation"));
-      sz_strlcpy(mintext, _("Build Mine"));
-      sz_strlcpy(transtext, _("Transform Terrain"));
+      sz_strlcpy(irrtext, _("Build _Irrigation"));
+      sz_strlcpy(mintext, _("Build _Mine"));
+      sz_strlcpy(transtext, _("Transf_orm Terrain"));
       
       menus_set_sensitive("<main>/Orders/Auto Settler",
 			  (can_unit_do_auto(punit)
@@ -965,26 +967,26 @@ void update_menus(void)
 
       if (unit_flag(punit->type, F_CITIES)
 	 && map_get_city(punit->x, punit->y)) {
-       menus_rename("<main>/Orders/Build City", _("Add to City"));
+       menus_rename("<main>/Orders/Build City", _("Add to City (_B)"));
       } else {
-       menus_rename("<main>/Orders/Build City", _("Build City"));
+       menus_rename("<main>/Orders/Build City", _("_Build City"));
       }
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;
       tinfo = get_tile_type(ttype);
       if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype))
 	{
-	  my_snprintf (irrtext, sizeof(irrtext), chgfmt,
+	  my_snprintf (irrtext, sizeof(irrtext), irrfmt,
 		   (get_tile_type(tinfo->irrigation_result))->terrain_name);
 	}
       else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
 	{
-	  sz_strlcpy (irrtext, _("Build Farmland"));
+	  sz_strlcpy (irrtext, _("Bu_ild Farmland"));
 	}
       if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
 	{
-	  my_snprintf (mintext, sizeof(mintext), chgfmt,
+	  my_snprintf (mintext, sizeof(mintext), minfmt,
 		   (get_tile_type(tinfo->mining_result))->terrain_name);
 	}
       if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
@@ -994,9 +996,9 @@ void update_menus(void)
 	}
 
       if (unit_flag(punit->type, F_PARATROOPERS)) {
-       menus_rename("<main>/Orders/Clean Pollution", _("Paradrop"));
+       menus_rename("<main>/Orders/Clean Pollution", _("_Paradrop"));
       } else {
-       menus_rename("<main>/Orders/Clean Pollution", _("Clean Pollution"));
+       menus_rename("<main>/Orders/Clean Pollution", _("Clean _Pollution"));
       }
 
       menus_rename("<main>/Orders/Build Irrigation", irrtext);
@@ -1004,10 +1006,10 @@ void update_menus(void)
       menus_rename("<main>/Orders/Transform Terrain", transtext);
     
       if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
-	roadtext = _("Build Railroad");
+	roadtext = _("Build _Railroad");
 	road_activity=ACTIVITY_RAILROAD;  
       } else {
-	roadtext = _("Build Road");
+	roadtext = _("Build _Road");
 	road_activity=ACTIVITY_ROAD;  
       }
       menus_rename("<main>/Orders/Build Road", roadtext);

@@ -43,13 +43,13 @@ popup_science_dialog(int make_modal)
 }
 
 void
-trade_report_dialog_update(void)
+economy_report_dialog_update(void)
 {
 	/* PORTME */
 }
 
 void
-popup_trade_report_dialog(int make_modal)
+popup_economy_report_dialog(int make_modal)
 {
 	/* PORTME */
 }

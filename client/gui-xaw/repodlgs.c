@@ -81,20 +81,20 @@ Widget popupmenu, goalmenu;
 
 
 /******************************************************************/
-void create_trade_report_dialog(int make_modal);
-void trade_close_callback(Widget w, XtPointer client_data, 
+void create_economy_report_dialog(int make_modal);
+void economy_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
-void trade_selloff_callback(Widget w, XtPointer client_data,
+void economy_selloff_callback(Widget w, XtPointer client_data,
                             XtPointer call_data);
-void trade_list_callback(Widget w, XtPointer client_data,
+void economy_list_callback(Widget w, XtPointer client_data,
                          XtPointer call_data);
-int trade_improvement_type[B_LAST];
+int economy_improvement_type[B_LAST];
 
-Widget trade_dialog_shell;
-Widget trade_label, trade_label2;
-Widget trade_list, trade_list_label;
+Widget economy_dialog_shell;
+Widget economy_label, economy_label2;
+Widget economy_list, economy_list_label;
 Widget sellall_command, sellobsolete_command;
-int trade_dialog_shell_is_modal;
+int economy_dialog_shell_is_modal;
 
 /******************************************************************/
 void create_activeunits_report_dialog(int make_modal);
@@ -141,7 +141,7 @@ void update_report_dialogs(void)
 {
   if(delay_report_update) return;
   activeunits_report_dialog_update();
-  trade_report_dialog_update();
+  economy_report_dialog_update();
   city_report_dialog_update(); 
   science_dialog_update();
 }
@@ -154,13 +154,33 @@ char *get_report_title(char *report_name)
   char buf[512];
   
   my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s"),
-	  report_name,
-	  get_government_name(game.player_ptr->government),
-	  get_nation_name_plural(game.player_ptr->nation),
-	  get_ruler_title(game.player_ptr->government,
-			  game.player_ptr->is_male, game.player_ptr->nation),
-	  game.player_ptr->name,
-	  textyear(game.year));
+	      report_name,
+	      get_government_name(game.player_ptr->government),
+	      get_nation_name_plural(game.player_ptr->nation),
+	      get_ruler_title(game.player_ptr->government,
+			      game.player_ptr->is_male, game.player_ptr->nation),
+	      game.player_ptr->name,
+	      textyear(game.year));
+
+  return create_centered_string(buf);
+}
+
+/****************************************************************
+...
+****************************************************************/
+static char *get_report_title_plus(char *report_name, char *additional)
+{
+  char buf[512];
+  
+  my_snprintf(buf, sizeof(buf), _("%s\n%s of the %s\n%s %s: %s%s"),
+	      report_name,
+	      get_government_name(game.player_ptr->government),
+	      get_nation_name_plural(game.player_ptr->nation),
+	      get_ruler_title(game.player_ptr->government,
+			      game.player_ptr->is_male, game.player_ptr->nation),
+	      game.player_ptr->name,
+	      textyear(game.year),
+	      additional);
 
   return create_centered_string(buf);
 }
@@ -205,7 +225,7 @@ void create_science_dialog(int make_modal)
   int j, flag, num_list;
   size_t i;
   Dimension width;
-  char title_text[512], rate_text[128];
+  char rate_text[128];
   char current_text[512];
   char goal_text[512];
   char *report_title;
@@ -250,13 +270,9 @@ void create_science_dialog(int make_modal)
 					 science_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title(_("Science Advisor"));
-  sz_strlcpy(title_text, report_title);
-  free(report_title);
   my_snprintf(rate_text, sizeof(rate_text), _("\n(%d turns/advance)"),
 	      tech_turns_to_advance(game.player_ptr));
-  sz_strlcat(title_text, rate_text);
-  report_title=create_centered_string(title_text);
+  report_title=get_report_title_plus(_("Science"), rate_text);
   science_label = XtVaCreateManagedWidget("sciencelabel", 
 					  labelWidgetClass, 
 					  science_form,
@@ -487,20 +503,15 @@ void science_dialog_update(void)
     static char *tech_list_names_ptrs[A_LAST+1];
     int j, flag;
     size_t i;
-    char title_text[512], rate_text[128];
+    char rate_text[128];
     char *report_title;
-    
-    report_title=get_report_title(_("Science Advisor"));
-    sz_strlcpy(title_text, report_title);
-    free(report_title);
+
     my_snprintf(rate_text, sizeof(rate_text), _("\n(%d turns/advance)"),
 		tech_turns_to_advance(game.player_ptr));
-    sz_strlcat(title_text, rate_text);
-    report_title=create_centered_string(title_text);
+    report_title=get_report_title_plus(_("Science"), rate_text);
     xaw_set_label(science_label, report_title);
     free(report_title);
 
-    
     if (game.player_ptr->research.researching!=A_NONE) {
       my_snprintf(text, sizeof(text), _("Researching %s: %d/%d"),
 	      advances[game.player_ptr->research.researching].name,
@@ -579,33 +590,33 @@ void science_dialog_update(void)
 
 /****************************************************************
 
-                      TRADE REPORT DIALOG
+                      ECONOMY REPORT DIALOG
  
 ****************************************************************/
 
 /****************************************************************
 ...
 ****************************************************************/
-void popup_trade_report_dialog(int make_modal)
+void popup_economy_report_dialog(int make_modal)
 {
-  if(!trade_dialog_shell) {
+  if(!economy_dialog_shell) {
       Position x, y;
       Dimension width, height;
       
-      trade_dialog_shell_is_modal=make_modal;
+      economy_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
 	XtSetSensitive(main_form, FALSE);
       
-      create_trade_report_dialog(make_modal);
+      create_economy_report_dialog(make_modal);
       
       XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
       
       XtTranslateCoords(toplevel, (Position) width/10, (Position) height/10,
 			&x, &y);
-      XtVaSetValues(trade_dialog_shell, XtNx, x, XtNy, y, NULL);
+      XtVaSetValues(economy_dialog_shell, XtNx, x, XtNy, y, NULL);
       
-      XtPopup(trade_dialog_shell, XtGrabNone);
+      XtPopup(economy_dialog_shell, XtGrabNone);
    }
 }
 
@@ -613,75 +624,75 @@ void popup_trade_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_trade_report_dialog(int make_modal)
+void create_economy_report_dialog(int make_modal)
 {
-  Widget trade_form;
+  Widget economy_form;
   Widget close_command;
   char *report_title;
   
-  trade_dialog_shell =
-    I_T(XtVaCreatePopupShell("reporttradepopup", 
+  economy_dialog_shell =
+    I_T(XtVaCreatePopupShell("reporteconomypopup", 
 			     (make_modal ? transientShellWidgetClass :
 			      topLevelShellWidgetClass),
 			     toplevel, 0));
 
-  trade_form = XtVaCreateManagedWidget("reporttradeform", 
+  economy_form = XtVaCreateManagedWidget("reporteconomyform", 
 					 formWidgetClass,
-					 trade_dialog_shell,
+					 economy_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title(_("Trade Advisor"));
-  trade_label = XtVaCreateManagedWidget("reporttradelabel", 
+  report_title=get_report_title(_("Ecomony"));
+  economy_label = XtVaCreateManagedWidget("reporteconomylabel", 
 				       labelWidgetClass, 
-				       trade_form,
+				       economy_form,
 				       XtNlabel, report_title,
 				       NULL);
   free(report_title);
 
-  trade_list_label =
-    I_L(XtVaCreateManagedWidget("reporttradelistlabel", labelWidgetClass, 
-				trade_form, NULL));
+  economy_list_label =
+    I_L(XtVaCreateManagedWidget("reporteconomylistlabel", labelWidgetClass, 
+				economy_form, NULL));
   
-  trade_list
-    = XtVaCreateManagedWidget("reporttradelist", listWidgetClass,
-			      trade_form, NULL);
+  economy_list
+    = XtVaCreateManagedWidget("reporteconomylist", listWidgetClass,
+			      economy_form, NULL);
 
-  trade_label2
-    = XtVaCreateManagedWidget("reporttradelabel2", labelWidgetClass, 
-			      trade_form, NULL);
+  economy_label2
+    = XtVaCreateManagedWidget("reporteconomylabel2", labelWidgetClass, 
+			      economy_form, NULL);
 
   close_command =
-    I_L(XtVaCreateManagedWidget("reporttradeclosecommand", commandWidgetClass,
-				trade_form, NULL));
+    I_L(XtVaCreateManagedWidget("reporteconomyclosecommand", commandWidgetClass,
+				economy_form, NULL));
 
   sellobsolete_command =
-    I_L(XtVaCreateManagedWidget("reporttradesellobsoletecommand", 
+    I_L(XtVaCreateManagedWidget("reporteconomysellobsoletecommand", 
 				commandWidgetClass,
-				trade_form,
+				economy_form,
 				XtNsensitive, False,
 				NULL));
 
   sellall_command  =
-    I_L(XtVaCreateManagedWidget("reporttradesellallcommand", 
+    I_L(XtVaCreateManagedWidget("reporteconomysellallcommand", 
 				commandWidgetClass,
-				trade_form,
+				economy_form,
 				XtNsensitive, False,
 				NULL));
 	
-  XtAddCallback(trade_list, XtNcallback, trade_list_callback, NULL);
-  XtAddCallback(close_command, XtNcallback, trade_close_callback, NULL);
-  XtAddCallback(sellobsolete_command, XtNcallback, trade_selloff_callback, (XtPointer)0);
-  XtAddCallback(sellall_command, XtNcallback, trade_selloff_callback, (XtPointer)1);
-  XtRealizeWidget(trade_dialog_shell);
+  XtAddCallback(economy_list, XtNcallback, economy_list_callback, NULL);
+  XtAddCallback(close_command, XtNcallback, economy_close_callback, NULL);
+  XtAddCallback(sellobsolete_command, XtNcallback, economy_selloff_callback, (XtPointer)0);
+  XtAddCallback(sellall_command, XtNcallback, economy_selloff_callback, (XtPointer)1);
+  XtRealizeWidget(economy_dialog_shell);
 
   if(!make_modal)  {
-    XSetWMProtocols(display, XtWindow(trade_dialog_shell), 
+    XSetWMProtocols(display, XtWindow(economy_dialog_shell), 
 		    &wm_delete_window, 1);
-    XtOverrideTranslations(trade_dialog_shell,
-      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-trade-report()"));
+    XtOverrideTranslations(economy_dialog_shell,
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-economy-report()"));
   }
 
-  trade_report_dialog_update();
+  economy_report_dialog_update();
 }
 
 
@@ -689,15 +700,15 @@ void create_trade_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_list_callback(Widget w, XtPointer client_data, 
+void economy_list_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
   XawListReturnStruct *ret;
   int i;
-  ret=XawListShowCurrent(trade_list);
+  ret=XawListShowCurrent(economy_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    i=trade_improvement_type[ret->list_index];
+    i=economy_improvement_type[ret->list_index];
     if(i>=0 && i<game.num_impr_types && !is_wonder(i))
       XtSetSensitive(sellobsolete_command, TRUE);
       XtSetSensitive(sellall_command, TRUE);
@@ -710,28 +721,28 @@ void trade_list_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void trade_close_callback(Widget w, XtPointer client_data, 
+void economy_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
 
-  if(trade_dialog_shell_is_modal)
+  if(economy_dialog_shell_is_modal)
      XtSetSensitive(main_form, TRUE);
-  XtDestroyWidget(trade_dialog_shell);
-  trade_dialog_shell=0;
+  XtDestroyWidget(economy_dialog_shell);
+  economy_dialog_shell=0;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void tradereport_msg_close(Widget w)
+void economyreport_msg_close(Widget w)
 {
-  trade_close_callback(w, NULL, NULL);
+  economy_close_callback(w, NULL, NULL);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void trade_selloff_callback(Widget w, XtPointer client_data, 
+void economy_selloff_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
   int i,count=0,gold=0;
@@ -739,11 +750,11 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   struct packet_city_request packet;
   char str[64];
-  XawListReturnStruct *ret=XawListShowCurrent(trade_list);
+  XawListReturnStruct *ret=XawListShowCurrent(economy_list);
 
   if(ret->list_index==XAW_LIST_NONE) return;
 
-  i=trade_improvement_type[ret->list_index];
+  i=economy_improvement_type[ret->list_index];
 
   genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
   for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
@@ -774,20 +785,20 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void trade_report_dialog_update(void)
+void economy_report_dialog_update(void)
 {
   if(delay_report_update) return;
-  if(trade_dialog_shell) {
+  if(economy_dialog_shell) {
     int j, k, count, tax, cost, total;
     Dimension width; 
-    static char *trade_list_names_ptrs[B_LAST+1];
-    static char trade_list_names[B_LAST][200];
+    static char *economy_list_names_ptrs[B_LAST+1];
+    static char economy_list_names[B_LAST][200];
     char *report_title;
-    char trade_total[48];
+    char economy_total[48];
     struct city *pcity;
     
-    report_title=get_report_title(_("Trade Advisor"));
-    xaw_set_label(trade_label, report_title);
+    report_title=get_report_title(_("Economy"));
+    xaw_set_label(economy_label, report_title);
     free(report_title);
     total = 0;
     tax=0;
@@ -802,12 +813,12 @@ void trade_report_dialog_update(void)
 	city_list_iterate_end;
 	if (!count) continue;
 	cost = count * improvement_upkeep(pcity, j);
-	my_snprintf(trade_list_names[k], sizeof(trade_list_names[k]),
+	my_snprintf(economy_list_names[k], sizeof(economy_list_names[k]),
 		    "%-20s%5d%5d%6d", get_improvement_name(j),
 		    count, improvement_upkeep(pcity, j), cost);
 	total+=cost;
-	trade_list_names_ptrs[k]=trade_list_names[k];
-	trade_improvement_type[k]=j;
+	economy_list_names_ptrs[k]=economy_list_names[k];
+	economy_improvement_type[k]=j;
 	k++;
       }
       city_list_iterate(game.player_ptr->cities,pcity) {
@@ -819,25 +830,25 @@ void trade_report_dialog_update(void)
     }
     
     if(k==0) {
-      sz_strlcpy(trade_list_names[0],
+      sz_strlcpy(economy_list_names[0],
 		 "                                          ");
-      trade_list_names_ptrs[0]=trade_list_names[0];
+      economy_list_names_ptrs[0]=economy_list_names[0];
       k=1;
     }
-    trade_list_names_ptrs[k]=NULL;
+    economy_list_names_ptrs[k]=NULL;
 
-    my_snprintf(trade_total, sizeof(trade_total),
+    my_snprintf(economy_total, sizeof(economy_total),
 		_("Income:%6d    Total Costs: %6d"), tax, total); 
-    xaw_set_label(trade_label2, trade_total); 
+    xaw_set_label(economy_label2, economy_total); 
     
-    XawListChange(trade_list, trade_list_names_ptrs, 0, 0, 1);
+    XawListChange(economy_list, economy_list_names_ptrs, 0, 0, 1);
 
-    XtVaGetValues(trade_list, XtNwidth, &width, NULL);
-    XtVaSetValues(trade_list_label, XtNwidth, width, NULL); 
+    XtVaGetValues(economy_list, XtNwidth, &width, NULL);
+    XtVaSetValues(economy_list_label, XtNwidth, width, NULL); 
 
-    XtVaSetValues(trade_label2, XtNwidth, width, NULL); 
+    XtVaSetValues(economy_label2, XtNwidth, width, NULL); 
 
-    XtVaSetValues(trade_label, XtNwidth, width, NULL); 
+    XtVaSetValues(economy_label, XtNwidth, width, NULL); 
 
   }
   
@@ -896,7 +907,7 @@ void create_activeunits_report_dialog(int make_modal)
 					 activeunits_dialog_shell,
 					 NULL);   
 
-  report_title=get_report_title(_("Military Report"));
+  report_title=get_report_title(_("Units"));
   activeunits_label = XtVaCreateManagedWidget("reportactiveunitslabel", 
 				       labelWidgetClass, 
 				       activeunits_form,
@@ -952,7 +963,7 @@ void create_activeunits_report_dialog(int make_modal)
     XSetWMProtocols(display, XtWindow(activeunits_dialog_shell), 
 		    &wm_delete_window, 1);
     XtOverrideTranslations(activeunits_dialog_shell,
-      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-military-report()"));
+      XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-units-report()"));
   }
 
   activeunits_report_dialog_update();
@@ -1089,7 +1100,7 @@ void activeunits_report_dialog_update(void)
     char *report_title;
     char activeunits_total[100];
     
-    report_title=get_report_title(_("Military Report"));
+    report_title=get_report_title(_("Units"));
     xaw_set_label(activeunits_label, report_title);
     free(report_title);
 

@@ -184,7 +184,7 @@ static void xaw_key_move_north_west(Widget w, XEvent *event, String *argv, Cardi
 static void xaw_key_open_city_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
-     is_menu_item_active(MENU_REPORT, MENU_REPORT_CITY))
+     is_menu_item_active(MENU_REPORT, MENU_REPORT_CITIES))
     popup_city_report_dialog(0);
 }
 
@@ -193,6 +193,13 @@ static void xaw_key_open_demographics(Widget w, XEvent *event, String *argv, Car
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_DEMOGRAPHIC))
     send_report_request(REPORT_DEMOGRAPHIC);
+}
+
+static void xaw_key_open_economy_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+     is_menu_item_active(MENU_REPORT, MENU_REPORT_ECONOMY))
+    popup_economy_report_dialog(0);
 }
 
 static void xaw_key_open_find_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -214,13 +221,6 @@ static void xaw_key_open_messages(Widget w, XEvent *event, String *argv, Cardina
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
      is_menu_item_active(MENU_GAME, MENU_GAME_MESSAGES))
     popup_meswin_dialog();
-}
-
-static void xaw_key_open_military_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
-     is_menu_item_active(MENU_REPORT, MENU_REPORT_MILITARY))
-    popup_activeunits_report_dialog(0);
 }
 
 static void xaw_key_open_players(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -258,18 +258,18 @@ static void xaw_key_open_spaceship(Widget w, XEvent *event, String *argv, Cardin
     popup_spaceship_dialog(game.player_ptr);
 }
 
-static void xaw_key_open_trade_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
-     is_menu_item_active(MENU_REPORT, MENU_REPORT_TRADE))
-    popup_trade_report_dialog(0);
-}
-
 static void xaw_key_open_top_five(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
      is_menu_item_active(MENU_REPORT, MENU_REPORT_TOP_CITIES))
     send_report_request(REPORT_TOP_5_CITIES);
+}
+
+static void xaw_key_open_units_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+     is_menu_item_active(MENU_REPORT, MENU_REPORT_UNITS))
+    popup_activeunits_report_dialog(0);
 }
 
 static void xaw_key_open_wonders(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -531,6 +531,11 @@ static void xaw_msg_close_city_report(Widget w, XEvent *event, String *argv, Car
   cityrep_msg_close(w);
 }
 
+static void xaw_msg_close_economy_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  economyreport_msg_close(w);
+}
+
 static void xaw_msg_close_help(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   helpdlg_msg_close(w);
@@ -539,11 +544,6 @@ static void xaw_msg_close_help(Widget w, XEvent *event, String *argv, Cardinal *
 static void xaw_msg_close_messages(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   meswin_msg_close(w);
-}
-
-static void xaw_msg_close_military_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  activeunits_msg_close(w);
 }
 
 static void xaw_msg_close_players(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -561,9 +561,9 @@ static void xaw_msg_close_spaceship(Widget w, XEvent *event, String *argv, Cardi
   spaceshipdlg_msg_close(w);
 }
 
-static void xaw_msg_close_trade_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_msg_close_units_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  tradereport_msg_close(w);
+  activeunits_msg_close(w);
 }
 
 static void xaw_msg_quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -605,17 +605,17 @@ static XtActionsRec Actions[] = {
   { "key-move-north-west", xaw_key_move_north_west },
   { "key-open-city-report", xaw_key_open_city_report },
   { "key-open-demographics", xaw_key_open_demographics },
+  { "key-open-economy-report", xaw_key_open_economy_report },
   { "key-open-find-city", xaw_key_open_find_city },
   { "key-open-goto-airlift", xaw_key_open_goto_airlift },
   { "key-open-messages", xaw_key_open_messages },
-  { "key-open-military-report", xaw_key_open_military_report },
   { "key-open-players", xaw_key_open_players },
   { "key-open-rates", xaw_key_open_rates },
   { "key-open-revolution", xaw_key_open_revolution },
   { "key-open-science-report", xaw_key_open_science_report },
   { "key-open-spaceship", xaw_key_open_spaceship },
-  { "key-open-trade-report", xaw_key_open_trade_report },
   { "key-open-top-five", xaw_key_open_top_five },
+  { "key-open-units-report", xaw_key_open_units_report },
   { "key-open-wonders", xaw_key_open_wonders },
   { "key-open-worklists", xaw_key_open_worklists },
   { "key-unit-airbase", xaw_key_unit_airbase },
@@ -652,13 +652,13 @@ static XtActionsRec Actions[] = {
   { "key-unit-wakeup-others", xaw_key_unit_wakeup_others },
   { "msg-close-city", xaw_msg_close_city },
   { "msg-close-city-report", xaw_msg_close_city_report },
+  { "msg-close-economy-report", xaw_msg_close_economy_report },
   { "msg-close-help", xaw_msg_close_help },
   { "msg-close-messages", xaw_msg_close_messages },
-  { "msg-close-military-report", xaw_msg_close_military_report },
   { "msg-close-players", xaw_msg_close_players },
   { "msg-close-science-report", xaw_msg_close_science_report },
   { "msg-close-spaceship", xaw_msg_close_spaceship },
-  { "msg-close-trade-report", xaw_msg_close_trade_report },
+  { "msg-close-units-report", xaw_msg_close_units_report },
   { "msg-quit-freeciv", xaw_msg_quit_freeciv }
 };
 

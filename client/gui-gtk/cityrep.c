@@ -426,9 +426,9 @@ void create_city_report_dialog(int make_modal)
         GTK_SIGNAL_FUNC(city_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(city_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(city_dialog_shell),_("City Report"));
+  gtk_window_set_title(GTK_WINDOW(city_dialog_shell),_("Cities"));
 
-  report_title=get_report_title(_("City Advisor"));
+  report_title=get_report_title(_("Cities"));
   city_label = gtk_label_new(report_title);
 
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->vbox ),
@@ -1132,7 +1132,7 @@ void city_report_dialog_update(void)
   if(delay_report_update) return;
   if(!city_dialog_shell) return;
 
-    report_title=get_report_title(_("City Advisor"));
+    report_title=get_report_title(_("Cities"));
     gtk_set_label(city_label, report_title);
 
     for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
@@ -1265,7 +1265,7 @@ void create_city_report_config_dialog(void)
   int i;
   
   config_shell = gtk_dialog_new();
-  gtk_window_set_title (GTK_WINDOW(config_shell), _("Configure City Report"));
+  gtk_window_set_title (GTK_WINDOW(config_shell), _("Configure Cities Report"));
   gtk_window_set_position (GTK_WINDOW(config_shell), GTK_WIN_POS_MOUSE);
 
   config_label = gtk_label_new(_("Set columns shown"));

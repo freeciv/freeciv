@@ -215,7 +215,7 @@ void create_city_report_dialog(int make_modal)
 				      city_dialog_shell,
 				      NULL);   
 
-  report_title=get_report_title(_("City Advisor"));
+  report_title=get_report_title(_("Cities"));
   city_label = XtVaCreateManagedWidget("reportcitylabel", 
 				       labelWidgetClass, 
 				       city_form,
@@ -572,7 +572,7 @@ void city_report_dialog_update(void)
       }
     }
        
-    report_title=get_report_title(_("City Advisor"));
+    report_title=get_report_title(_("Cities"));
     xaw_set_label(city_label, report_title);
     free(report_title);
 

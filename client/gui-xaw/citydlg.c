@@ -392,7 +392,7 @@ void refresh_city_dialog(struct city *pcity)
   }
   if(pcity->owner == game.player_idx)  {
     city_report_dialog_update_city(pcity);
-    trade_report_dialog_update();
+    economy_report_dialog_update();
   } else {
     if(pdialog)  {
       /* Set the buttons we do not want live while a Diplomat investigates */

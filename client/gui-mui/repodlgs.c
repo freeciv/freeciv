@@ -114,7 +114,7 @@ void update_report_dialogs(void)
   if (delay_report_update)
     return;
   activeunits_report_dialog_update();
-  trade_report_dialog_update();
+  economy_report_dialog_update();
   city_report_dialog_update();
   science_dialog_update();
 }
@@ -502,13 +502,13 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *en
 /****************************************************************
 ...
 ****************************************************************/
-void popup_trade_report_dialog(int make_modal)
+void popup_economy_report_dialog(int make_modal)
 {
   if (!trade_wnd)
     create_trade_report_dialog(/*make_modal*/);
   if (trade_wnd)
   {
-    trade_report_dialog_update();
+    economy_report_dialog_update();
     set(trade_wnd, MUIA_Window_Open, TRUE);
   }
 }
@@ -604,7 +604,7 @@ static void create_trade_report_dialog(void/*int make_modal*/)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_report_dialog_update(void)
+void economy_report_dialog_update(void)
 {
   int tax, total;
   char *report_title;

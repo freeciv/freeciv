@@ -20,8 +20,8 @@ void update_report_dialogs(void);
 
 void science_dialog_update(void);
 void popup_science_dialog(int make_modal);
-void trade_report_dialog_update(void);
-void popup_trade_report_dialog(int make_modal);
+void economy_report_dialog_update(void);
+void popup_economy_report_dialog(int make_modal);
 void activeunits_report_dialog_update(void);
 void popup_activeunits_report_dialog(int make_modal);
 

@@ -1357,7 +1357,7 @@ Freeciv*ratescancelcommand.fromHoriz:  ratesokcommand
 !
 ! Science report dialog
 !
-Freeciv*sciencepopup.title:   _("Science Report")
+Freeciv*sciencepopup.title:   _("Science")
 Freeciv*sciencepopup.allowShellResize: True
 Freeciv*scienceform.resizable: True
 
@@ -1503,9 +1503,9 @@ Freeciv*cityoptcancelcommand.fromHoriz:  cityoptokcommand
 
 
 !
-! City report dialog
+! Cities report dialog
 !
-Freeciv*reportcitypopup.title:  _("City Report")
+Freeciv*reportcitypopup.title:  _("Cities")
 Freeciv*reportcitypopup.allowShellResize: True
 
 Freeciv*reportcitylabel.width:              600
@@ -1661,9 +1661,9 @@ Freeciv*spaceshiplaunchcommand.left:        chainLeft
 Freeciv*spaceshiplaunchcommand.right:       chainLeft
 
 !
-! City report configure dialog
+! Cities report configure dialog
 !
-Freeciv*cityconfig.title:        _("Configure City Report")
+Freeciv*cityconfig.title:        _("Configure Cities Report")
 
 Freeciv*cityconfig*Label.background:   lightblue
 Freeciv*cityconfig*Toggle.background:  cyan
@@ -1758,84 +1758,84 @@ Freeciv*chgalldialog.*.chgallcancelcommand.left:	chainLeft
 Freeciv*chgalldialog.*.chgallcancelcommand.right:	chainLeft
 
 !
-! Trade report dialog
+! Economy report dialog
 !
-Freeciv*reporttradepopup.title: _("Trade Report")
-Freeciv*reporttradepopup.allowShellResize: True
+Freeciv*reporteconomypopup.title:		_("Economy")
+Freeciv*reporteconomypopup.allowShellResize:	True
 
-Freeciv*reporttradeform.resizable:           true
-Freeciv*reporttradeform.top:                 chainTop
-Freeciv*reporttradeform.bottom:              chainBottom
-Freeciv*reporttradeform.left:                chainLeft
-Freeciv*reporttradeform.right:               chainRight
+Freeciv*reporteconomyform.resizable:	true
+Freeciv*reporteconomyform.top:		chainTop
+Freeciv*reporteconomyform.bottom:	chainBottom
+Freeciv*reporteconomyform.left:		chainLeft
+Freeciv*reporteconomyform.right:	chainRight
 
-Freeciv*reporttradelabel.resizable:          true
-!*reporttradelabel.width:              200
-Freeciv*reporttradelabel.justify:            center
-Freeciv*reporttradelabel.borderWidth:        0
-Freeciv*reporttradelabel.background:         lightblue
-Freeciv*reporttradelabel.top:                chainTop
-Freeciv*reporttradelabel.bottom:             chainTop
-Freeciv*reporttradelabel.left:               chainLeft
-Freeciv*reporttradelabel.right:              chainRight
+Freeciv*reporteconomylabel.resizable:	true
+!*reporteconomylabel.width:		200
+Freeciv*reporteconomylabel.justify:	center
+Freeciv*reporteconomylabel.borderWidth:	0
+Freeciv*reporteconomylabel.background:	lightblue
+Freeciv*reporteconomylabel.top:		chainTop
+Freeciv*reporteconomylabel.bottom:	chainTop
+Freeciv*reporteconomylabel.left:	chainLeft
+Freeciv*reporteconomylabel.right:	chainRight
 
-Freeciv*reporttradelistlabel.resizable:          true
-Freeciv*reporttradelistlabel.justify:            left
-Freeciv*reporttradelistlabel.borderWidth:        1
-Freeciv*reporttradelistlabel.top:                chainTop
-Freeciv*reporttradelistlabel.bottom:             chainTop
-Freeciv*reporttradelistlabel.left:               chainLeft
-Freeciv*reporttradelistlabel.right:              chainRight
-Freeciv*reporttradelistlabel.fromVert:           reporttradelabel
-Freeciv*reporttradelistlabel.label: _("Building Name       Count Cost Total")
-Freeciv*reporttradelist.fromVert:            reporttradelistlabel
-Freeciv*reporttradelist.forceColumns:        true
-Freeciv*reporttradelist.defaultColumns:      1
-Freeciv*reporttradelist.verticalList:        true
-Freeciv*reporttradelist.resizable:           true
-Freeciv*reporttradelist.top:                 chainTop
-Freeciv*reporttradelist.bottom:              chainBottom
-Freeciv*reporttradelist.left:                chainLeft
-Freeciv*reporttradelist.right:               chainRight
+Freeciv*reporteconomylistlabel.resizable:	true
+Freeciv*reporteconomylistlabel.justify:		left
+Freeciv*reporteconomylistlabel.borderWidth:	1
+Freeciv*reporteconomylistlabel.top:		chainTop
+Freeciv*reporteconomylistlabel.bottom:		chainTop
+Freeciv*reporteconomylistlabel.left:		chainLeft
+Freeciv*reporteconomylistlabel.right:		chainRight
+Freeciv*reporteconomylistlabel.fromVert:	reporteconomylabel
+Freeciv*reporteconomylistlabel.label:	_("Building Name       Count Cost Total")
+Freeciv*reporteconomylist.fromVert:		reporteconomylistlabel
+Freeciv*reporteconomylist.forceColumns:		true
+Freeciv*reporteconomylist.defaultColumns:	1
+Freeciv*reporteconomylist.verticalList:		true
+Freeciv*reporteconomylist.resizable:		true
+Freeciv*reporteconomylist.top:			chainTop
+Freeciv*reporteconomylist.bottom:		chainBottom
+Freeciv*reporteconomylist.left:			chainLeft
+Freeciv*reporteconomylist.right:		chainRight
 
 ! dummy label:
-Freeciv*reporttradelabel2.label		      Total Cost:
-Freeciv*reporttradelabel2.resizable:          true
-Freeciv*reporttradelabel2.justify:            left
-Freeciv*reporttradelabel2.borderWidth:        1
-Freeciv*reporttradelabel2.top:                chainBottom
-Freeciv*reporttradelabel2.bottom:             chainBottom
-Freeciv*reporttradelabel2.left:               chainLeft
-Freeciv*reporttradelabel2.right:              chainRight
-Freeciv*reporttradelabel2.fromVert:           reporttradelist
+Freeciv*reporteconomylabel2.label:		Total Cost:
+Freeciv*reporteconomylabel2.resizable:		true
+Freeciv*reporteconomylabel2.justify:		left
+Freeciv*reporteconomylabel2.borderWidth:	1
+Freeciv*reporteconomylabel2.top:		chainBottom
+Freeciv*reporteconomylabel2.bottom:		chainBottom
+Freeciv*reporteconomylabel2.left:		chainLeft
+Freeciv*reporteconomylabel2.right:		chainRight
+Freeciv*reporteconomylabel2.fromVert:		reporteconomylist
 
-Freeciv*reporttradeclosecommand.label:       _("Close")
-Freeciv*reporttradeclosecommand.fromVert:    reporttradelabel2
-Freeciv*reporttradeclosecommand.top:         chainBottom
-Freeciv*reporttradeclosecommand.bottom:      chainBottom
-Freeciv*reporttradeclosecommand.left:        chainLeft
-Freeciv*reporttradeclosecommand.right:       chainLeft
+Freeciv*reporteconomyclosecommand.label:	_("Close")
+Freeciv*reporteconomyclosecommand.fromVert:	reporteconomylabel2
+Freeciv*reporteconomyclosecommand.top:		chainBottom
+Freeciv*reporteconomyclosecommand.bottom:	chainBottom
+Freeciv*reporteconomyclosecommand.left:		chainLeft
+Freeciv*reporteconomyclosecommand.right:	chainLeft
 
-Freeciv*reporttradesellobsoletecommand.label:       _("Sell Obsolete")
-Freeciv*reporttradesellobsoletecommand.fromVert:    reporttradelabel2
-Freeciv*reporttradesellobsoletecommand.fromHoriz:   reporttradeclosecommand
-Freeciv*reporttradesellobsoletecommand.top:         chainBottom
-Freeciv*reporttradesellobsoletecommand.bottom:      chainBottom
-Freeciv*reporttradesellobsoletecommand.left:        chainLeft
-Freeciv*reporttradesellobsoletecommand.right:       chainLeft
+Freeciv*reporteconomysellobsoletecommand.label:		_("Sell Obsolete")
+Freeciv*reporteconomysellobsoletecommand.fromVert:	reporteconomylabel2
+Freeciv*reporteconomysellobsoletecommand.fromHoriz:	reporteconomyclosecommand
+Freeciv*reporteconomysellobsoletecommand.top:		chainBottom
+Freeciv*reporteconomysellobsoletecommand.bottom:	chainBottom
+Freeciv*reporteconomysellobsoletecommand.left:		chainLeft
+Freeciv*reporteconomysellobsoletecommand.right:		chainLeft
 
-Freeciv*reporttradesellallcommand.label:       _("Sell All")
-Freeciv*reporttradesellallcommand.fromVert:    reporttradelabel2
-Freeciv*reporttradesellallcommand.fromHoriz:   reporttradesellobsoletecommand
-Freeciv*reporttradesellallcommand.top:         chainBottom
-Freeciv*reporttradesellallcommand.bottom:      chainBottom
-Freeciv*reporttradesellallcommand.left:        chainLeft
-Freeciv*reporttradesellallcommand.right:       chainLeft
+Freeciv*reporteconomysellallcommand.label:	_("Sell All")
+Freeciv*reporteconomysellallcommand.fromVert:	reporteconomylabel2
+Freeciv*reporteconomysellallcommand.fromHoriz:	reporteconomysellobsoletecommand
+Freeciv*reporteconomysellallcommand.top:	chainBottom
+Freeciv*reporteconomysellallcommand.bottom:	chainBottom
+Freeciv*reporteconomysellallcommand.left:	chainLeft
+Freeciv*reporteconomysellallcommand.right:	chainLeft
 
 !
 ! Active units report dialog
 !
-Freeciv*reportactiveunitspopup.title:              _("Military Report")
+Freeciv*reportactiveunitspopup.title:              _("Units")
 Freeciv*reportactiveunitspopup.allowShellResize:   True
 
 Freeciv*reportactiveunitsform.resizable:           true
@@ -2794,9 +2794,9 @@ Freeciv*mapcanvas.translations:\
    <Key>w:            key-unit-wait()                  \n\
    <Key>x:            key-unit-auto-explore()          \n\
    <Key>F1:           key-open-city-report()           \n\
-   <Key>F2:           key-open-military-report()       \n\
+   <Key>F2:           key-open-units-report()          \n\
    <Key>F3:           key-open-players()               \n\
-   <Key>F5:           key-open-trade-report()          \n\
+   <Key>F5:           key-open-economy-report()        \n\
    <Key>F6:           key-open-science-report()        \n\
    <Key>F7:           key-open-wonders()               \n\
    <Key>F8:           key-open-top-five()              \n\
@@ -2869,9 +2869,9 @@ Freeciv*overviewcanvas.translations:\
    <Key>w:            key-unit-wait()                  \n\
    <Key>x:            key-unit-auto-explore()          \n\
    <Key>F1:           key-open-city-report()           \n\
-   <Key>F2:           key-open-military-report()       \n\
+   <Key>F2:           key-open-units-report()          \n\
    <Key>F3:           key-open-players()               \n\
-   <Key>F5:           key-open-trade-report()          \n\
+   <Key>F5:           key-open-economy-report()        \n\
    <Key>F6:           key-open-science-report()        \n\
    <Key>F7:           key-open-wonders()               \n\
    <Key>F8:           key-open-top-five()              \n\

@@ -66,18 +66,18 @@ GtkWidget *popupmenu, *goalmenu;
 
 
 /******************************************************************/
-void create_trade_report_dialog(int make_modal);
-void trade_close_callback(GtkWidget *widget, gpointer data);
-void trade_selloff_callback(GtkWidget *widget, gpointer data);
-void trade_list_callback(GtkWidget *w, gint row, gint column);
-void trade_list_ucallback(GtkWidget *w, gint row, gint column);
-int trade_improvement_type[B_LAST];
+void create_economy_report_dialog(int make_modal);
+void economy_close_callback(GtkWidget *widget, gpointer data);
+void economy_selloff_callback(GtkWidget *widget, gpointer data);
+void economy_list_callback(GtkWidget *w, gint row, gint column);
+void economy_list_ucallback(GtkWidget *w, gint row, gint column);
+int economy_improvement_type[B_LAST];
 
-GtkWidget *trade_dialog_shell=NULL;
-GtkWidget *trade_label, *trade_label2;
-GtkWidget *trade_list, *trade_list_label;
+GtkWidget *economy_dialog_shell=NULL;
+GtkWidget *economy_label, *economy_label2;
+GtkWidget *economy_list, *economy_list_label;
 GtkWidget *sellall_command, *sellobsolete_command;
-int trade_dialog_shell_is_modal;
+int economy_dialog_shell_is_modal;
 
 /******************************************************************/
 void create_activeunits_report_dialog(int make_modal);
@@ -121,7 +121,7 @@ void update_report_dialogs(void)
 {
   if(delay_report_update) return;
   activeunits_report_dialog_update();
-  trade_report_dialog_update();
+  economy_report_dialog_update();
   city_report_dialog_update(); 
   science_dialog_update();
 }
@@ -182,9 +182,9 @@ void create_science_dialog(int make_modal)
         GTK_SIGNAL_FUNC(science_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(science_dialog_shell));
 
-  gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science Report"));
+  gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science"));
 
-  report_title=get_report_title(_("Science Advisor"));
+  report_title=get_report_title(_("Science"));
   sz_strlcpy(text, report_title);
   my_snprintf(rate, sizeof(rate), _("\n(%d turns/advance)"),
 	      tech_turns_to_advance(game.player_ptr));
@@ -392,7 +392,7 @@ void science_dialog_update(void)
   GList *sorting_list = NULL;
 
   if(delay_report_update) return;
-  report_title=get_report_title(_("Science Advisor"));
+  report_title=get_report_title(_("Science"));
   sz_strlcpy(text, report_title);
   my_snprintf(rate, sizeof(rate), _("\n(%d turns/advance)"),
 	      tech_turns_to_advance(game.player_ptr));
@@ -537,25 +537,25 @@ void science_dialog_update(void)
 
 /****************************************************************
 
-                      TRADE REPORT DIALOG
+                      ECONOMY REPORT DIALOG
  
 ****************************************************************/
 
 /****************************************************************
 ...
 ****************************************************************/
-void popup_trade_report_dialog(int make_modal)
+void popup_economy_report_dialog(int make_modal)
 {
-  if(!trade_dialog_shell) {
-      trade_dialog_shell_is_modal=make_modal;
+  if(!economy_dialog_shell) {
+      economy_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
 	gtk_widget_set_sensitive(toplevel, FALSE);
       
-      create_trade_report_dialog(make_modal);
-      gtk_set_relative_position(toplevel, trade_dialog_shell, 10, 10);
+      create_economy_report_dialog(make_modal);
+      gtk_set_relative_position(toplevel, economy_dialog_shell, 10, 10);
 
-      gtk_widget_show(trade_dialog_shell);
+      gtk_widget_show(economy_dialog_shell);
    }
 }
 
@@ -563,7 +563,7 @@ void popup_trade_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void create_trade_report_dialog(int make_modal)
+void create_economy_report_dialog(int make_modal)
 {
   GtkWidget *close_command, *scrolled;
   char *report_title;
@@ -575,73 +575,73 @@ void create_trade_report_dialog(int make_modal)
 
   if (!titles) titles = intl_slist(4, titles_);
   
-  trade_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(trade_dialog_shell),"delete_event",
-        GTK_SIGNAL_FUNC(trade_close_callback),NULL );
-  gtk_accel_group_attach(accel, GTK_OBJECT(trade_dialog_shell));
+  economy_dialog_shell = gtk_dialog_new();
+  gtk_signal_connect( GTK_OBJECT(economy_dialog_shell),"delete_event",
+        GTK_SIGNAL_FUNC(economy_close_callback),NULL );
+  gtk_accel_group_attach(accel, GTK_OBJECT(economy_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(trade_dialog_shell),_("Trade Report"));
+  gtk_window_set_title(GTK_WINDOW(economy_dialog_shell),_("Economy"));
 
-  report_title=get_report_title(_("Trade Advisor"));
-  trade_label = gtk_label_new(report_title);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->vbox ),
-        trade_label, FALSE, FALSE, 0 );
+  report_title=get_report_title(_("Economy"));
+  economy_label = gtk_label_new(report_title);
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->vbox ),
+        economy_label, FALSE, FALSE, 0 );
 
-  trade_list = gtk_clist_new_with_titles( 4, titles );
-  gtk_clist_column_titles_passive(GTK_CLIST(trade_list));
+  economy_list = gtk_clist_new_with_titles( 4, titles );
+  gtk_clist_column_titles_passive(GTK_CLIST(economy_list));
   scrolled = gtk_scrolled_window_new(NULL,NULL);
-  gtk_clist_set_selection_mode(GTK_CLIST (trade_list), GTK_SELECTION_EXTENDED);
-  gtk_container_add(GTK_CONTAINER(scrolled), trade_list);
+  gtk_clist_set_selection_mode(GTK_CLIST (economy_list), GTK_SELECTION_EXTENDED);
+  gtk_container_add(GTK_CONTAINER(scrolled), economy_list);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
   			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize(trade_list, 300, 150);
+  gtk_widget_set_usize(economy_list, 300, 150);
 
   for ( i = 0; i < 4; i++ )
-    gtk_clist_set_column_auto_resize(GTK_CLIST(trade_list),i,TRUE);
+    gtk_clist_set_column_auto_resize(GTK_CLIST(economy_list),i,TRUE);
 
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->vbox ),
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->vbox ),
         scrolled, TRUE, TRUE, 0 );
 
-  trade_label2 = gtk_label_new(_("Total Cost:"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->vbox ),
-        trade_label2, FALSE, FALSE, 0 );
+  economy_label2 = gtk_label_new(_("Total Cost:"));
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->vbox ),
+        economy_label2, FALSE, FALSE, 0 );
 
   close_command = gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->action_area ),
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->action_area ),
         close_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( close_command, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( close_command );
 
   sellobsolete_command = gtk_button_new_with_label(_("Sell Obsolete"));
   gtk_widget_set_sensitive(sellobsolete_command, FALSE);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->action_area ),
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->action_area ),
         sellobsolete_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( sellobsolete_command, GTK_CAN_DEFAULT );
 
   sellall_command  = gtk_button_new_with_label(_("Sell All"));
   gtk_widget_set_sensitive(sellall_command, FALSE);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->action_area ),
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->action_area ),
         sellall_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( sellall_command, GTK_CAN_DEFAULT );
 
-  gtk_signal_connect(GTK_OBJECT(trade_list), "select_row",
-	GTK_SIGNAL_FUNC(trade_list_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(trade_list), "unselect_row",
-	GTK_SIGNAL_FUNC(trade_list_ucallback), NULL);
+  gtk_signal_connect(GTK_OBJECT(economy_list), "select_row",
+	GTK_SIGNAL_FUNC(economy_list_callback), NULL);
+  gtk_signal_connect(GTK_OBJECT(economy_list), "unselect_row",
+	GTK_SIGNAL_FUNC(economy_list_ucallback), NULL);
   gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
-	GTK_SIGNAL_FUNC(trade_close_callback), NULL);
+	GTK_SIGNAL_FUNC(economy_close_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(sellobsolete_command), "clicked",
-	GTK_SIGNAL_FUNC(trade_selloff_callback), (gpointer)0);
+	GTK_SIGNAL_FUNC(economy_selloff_callback), (gpointer)0);
   gtk_signal_connect(GTK_OBJECT(sellall_command), "clicked",
-	GTK_SIGNAL_FUNC(trade_selloff_callback), (gpointer)1);
+	GTK_SIGNAL_FUNC(economy_selloff_callback), (gpointer)1);
 
-  gtk_widget_show_all( GTK_DIALOG(trade_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(trade_dialog_shell)->action_area );
+  gtk_widget_show_all( GTK_DIALOG(economy_dialog_shell)->vbox );
+  gtk_widget_show_all( GTK_DIALOG(economy_dialog_shell)->action_area );
 
   gtk_widget_add_accelerator(close_command, "clicked",
 	accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
 
-  trade_report_dialog_update();
+  economy_report_dialog_update();
 }
 
 
@@ -649,11 +649,11 @@ void create_trade_report_dialog(int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_list_callback(GtkWidget *w, gint row, gint column)
+void economy_list_callback(GtkWidget *w, gint row, gint column)
 {
   int i;
 
-  i=trade_improvement_type[row];
+  i=economy_improvement_type[row];
   if(i>=0 && i<game.num_impr_types && !is_wonder(i))
     gtk_widget_set_sensitive(sellobsolete_command, TRUE);
     gtk_widget_set_sensitive(sellall_command, TRUE);
@@ -663,7 +663,7 @@ void trade_list_callback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_list_ucallback(GtkWidget *w, gint row, gint column)
+void economy_list_ucallback(GtkWidget *w, gint row, gint column)
 {
   gtk_widget_set_sensitive(sellobsolete_command, FALSE);
   gtk_widget_set_sensitive(sellall_command, FALSE);
@@ -672,19 +672,19 @@ void trade_list_ucallback(GtkWidget *w, gint row, gint column)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_close_callback(GtkWidget *w, gpointer data)
+void economy_close_callback(GtkWidget *w, gpointer data)
 {
 
-  if(trade_dialog_shell_is_modal)
+  if(economy_dialog_shell_is_modal)
      gtk_widget_set_sensitive(toplevel, TRUE);
-  gtk_widget_destroy(trade_dialog_shell);
-  trade_dialog_shell=NULL;
+  gtk_widget_destroy(economy_dialog_shell);
+  economy_dialog_shell=NULL;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void trade_selloff_callback(GtkWidget *w, gpointer data)
+void economy_selloff_callback(GtkWidget *w, gpointer data)
 {
   int i,count=0,gold=0;
   struct genlist_iterator myiter;
@@ -694,11 +694,11 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
   GList              *selection;
   gint                row;
 
-  while((selection = GTK_CLIST(trade_list)->selection) != NULL)
+  while((selection = GTK_CLIST(economy_list)->selection) != NULL)
   {
   row = (gint)selection->data;
 
-  i=trade_improvement_type[row];
+  i=economy_improvement_type[row];
 
   genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
   for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
@@ -722,7 +722,7 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
     my_snprintf(str, sizeof(str), _("No %s could be sold"),
 		get_improvement_name(i));
   }
-  gtk_clist_unselect_row(GTK_CLIST(trade_list),row,0);
+  gtk_clist_unselect_row(GTK_CLIST(economy_list),row,0);
   popup_notify_dialog(_("Sell-Off:"),_("Results"),str);
   }
   return;
@@ -731,10 +731,10 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void trade_report_dialog_update(void)
+void economy_report_dialog_update(void)
 {
   if(delay_report_update) return;
-  if(trade_dialog_shell) {
+  if(economy_dialog_shell) {
     int j, k, count, tax, cost, total;
     char  *report_title;
     char   buf0 [64];
@@ -742,14 +742,14 @@ void trade_report_dialog_update(void)
     char   buf2 [64];
     char   buf3 [64];
     gchar *row  [4];
-    char trade_total[48];
+    char economy_total[48];
     struct city *pcity;
     
-    report_title=get_report_title(_("Trade Advisor"));
-    gtk_set_label(trade_label, report_title);
+    report_title=get_report_title(_("Economy"));
+    gtk_set_label(economy_label, report_title);
 
-    gtk_clist_freeze(GTK_CLIST(trade_list));
-    gtk_clist_clear(GTK_CLIST(trade_list));
+    gtk_clist_freeze(GTK_CLIST(economy_list));
+    gtk_clist_clear(GTK_CLIST(economy_list));
 
     total = 0;
     tax=0;
@@ -774,10 +774,10 @@ void trade_report_dialog_update(void)
 	my_snprintf( buf2, sizeof(buf2), "%5d", improvement_upkeep(pcity, j) );
 	my_snprintf( buf3, sizeof(buf3), "%6d", cost );
 
-	gtk_clist_append( GTK_CLIST( trade_list ), row );
+	gtk_clist_append( GTK_CLIST( economy_list ), row );
 
 	total+=cost;
-	trade_improvement_type[k]=j;
+	economy_improvement_type[k]=j;
 	k++;
       }
       city_list_iterate(game.player_ptr->cities,pcity) {
@@ -787,12 +787,12 @@ void trade_report_dialog_update(void)
 	 tax+=pcity->shield_surplus;
       } city_list_iterate_end;
     }
-    my_snprintf(trade_total, sizeof(trade_total),
+    my_snprintf(economy_total, sizeof(economy_total),
 		_("Income:%6d    Total Costs: %6d"), tax, total); 
-    gtk_set_label(trade_label2, trade_total); 
+    gtk_set_label(economy_label2, economy_total); 
 
-    gtk_widget_show_all(trade_list);
-    gtk_clist_thaw(GTK_CLIST(trade_list));
+    gtk_widget_show_all(economy_list);
+    gtk_clist_thaw(GTK_CLIST(economy_list));
   }
   
 }
@@ -845,9 +845,9 @@ void create_activeunits_report_dialog(int make_modal)
         GTK_SIGNAL_FUNC(activeunits_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(activeunits_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),_("Military Report"));
+  gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),_("Units"));
 
-  report_title=get_report_title(_("Military Report"));
+  report_title=get_report_title(_("Units"));
   activeunits_label = gtk_label_new(report_title);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_label, FALSE, FALSE, 0 );
@@ -1017,7 +1017,7 @@ void activeunits_report_dialog_update(void)
     gchar *row[AU_COL];
     char   buf[AU_COL][64];
 
-    report_title=get_report_title(_("Military Report"));
+    report_title=get_report_title(_("Units"));
     gtk_set_label(activeunits_label, report_title);
 
     gtk_clist_freeze(GTK_CLIST(activeunits_list));

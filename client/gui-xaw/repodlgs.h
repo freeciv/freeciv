@@ -20,7 +20,7 @@
 
 void activeunits_msg_close(Widget w);
 void sciencereport_msg_close(Widget w);
-void tradereport_msg_close(Widget w);
+void economyreport_msg_close(Widget w);
 
 
 #endif  /* FC__REPODLGS_H */
