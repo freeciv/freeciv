@@ -713,7 +713,6 @@ static void response_callback(GtkWidget *w, gint response_id)
     connect_callback(connect_cmd, NULL);
     break;
   default:
-    client_kill_server();
     gtk_main_quit();
     break;
   }

@@ -975,7 +975,7 @@ void ui_main(int argc, char **argv)
 
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
-  
+
   /* Load resources */
   gtk_rc_parse_string(fallback_resources);
 
