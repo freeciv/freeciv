@@ -114,12 +114,7 @@ static const char *cr_entry_angry(const struct city *pcity)
 
 static const char *cr_entry_specialists(const struct city *pcity)
 {
-  static char buf[32];
-  my_snprintf(buf, sizeof(buf), "%d/%d/%d",
-	      pcity->specialists[SP_ELVIS],
-	      pcity->specialists[SP_SCIENTIST],
-	      pcity->specialists[SP_TAXMAN]);
-  return buf;
+  return specialists_string(pcity->specialists);
 }
 
 static const char *cr_entry_entertainers(const struct city *pcity)

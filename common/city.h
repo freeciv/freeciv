@@ -484,6 +484,7 @@ void adjust_city_free_cost(int *num_free, int *this_cost);
 int city_corruption(const struct city *pcity, int trade);
 int city_waste(const struct city *pcity, int shields);
 int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
+const char *specialists_string(const int *specialists);
 int get_temple_power(const struct city *pcity);
 int get_cathedral_power(const struct city *pcity);
 int get_colosseum_power(const struct city *pcity);

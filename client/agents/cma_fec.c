@@ -337,14 +337,9 @@ const char *cmafec_get_result_descr(struct city *pcity,
       my_snprintf(buf[j], BUFFER_SIZE, "%+3d", result->surplus[j]);
     }
 
-    my_snprintf(buf[6], BUFFER_SIZE, "%d/%d/%d/%d%s",
-		pcity->size -
-		(result->specialists[SP_ELVIS]
-		 + result->specialists[SP_SCIENTIST]
-		 + result->specialists[SP_TAXMAN]),
-		result->specialists[SP_ELVIS],
-		result->specialists[SP_SCIENTIST],
-		result->specialists[SP_TAXMAN],
+    my_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
+		pcity->size - cm_count_specialist(pcity, result),
+		specialists_string(result->specialists),
 		result->happy ? _(" happy") : "");
 
     my_snprintf(buf[7], BUFFER_SIZE, "%s",

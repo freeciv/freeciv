@@ -2464,6 +2464,31 @@ int city_specialists(const struct city *pcity)
 }
 
 /**************************************************************************
+  Return a string showing the number of specialists in the array.
+
+  For instance with a city with (0,3,1) specialists call
+
+    specialists_string(pcity->specialists);
+
+  and you'll get "0/3/1".
+**************************************************************************/
+const char *specialists_string(const int *specialists)
+{
+  size_t len = 0;
+  static char buf[5 * SP_COUNT];
+
+  specialist_type_iterate(sp) {
+    char *separator = (len == 0) ? "" : "/";
+
+    my_snprintf(buf + len, sizeof(buf) - len,
+		"%s%d", separator, specialists[sp]);
+    len += strlen(buf + len);
+  } specialist_type_iterate_end;
+
+  return buf;
+}
+
+/**************************************************************************
   Return the power (pacifying effect) of temples in the city.
 **************************************************************************/
 int get_temple_power(const struct city *pcity)

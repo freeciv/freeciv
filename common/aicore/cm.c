@@ -449,10 +449,8 @@ void cm_print_result(const struct city *pcity,
   }
 
   freelog(LOG_NORMAL,
-	  "print_result:  people: W/E/S/T %d/%d/%d/%d",
-	  worker, result->specialists[SP_ELVIS],
-	  result->specialists[SP_SCIENTIST],
-	  result->specialists[SP_TAXMAN]);
+	  "print_result:  people: (workers/specialists) %d/%s",
+	  worker, specialists_string(result->specialists));
 
   for (i = 0; i < NUM_STATS; i++) {
     freelog(LOG_NORMAL,
@@ -673,10 +671,10 @@ static void real_fill_out_result(struct city *pcity,
   /* Restore */
   memcpy(pcity, &backup, sizeof(struct city));
 
-  freelog(LOG_DEBUG, "xyz: w=%d e=%d s=%d t=%d trade=%d "
+  freelog(LOG_DEBUG, "xyz: w=%d s=%s trade=%d "
 	  "sci=%d lux=%d tax=%d dis=%s happy=%s",
-	  cm_count_worker(pcity, result), result->specialists[SP_ELVIS],
-	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN],
+	  cm_count_worker(pcity, result),
+	  specialists_string(result->specialists),
 	  result->surplus[TRADE],
 	  result->surplus[SCIENCE],
 	  result->surplus[LUXURY],
@@ -858,9 +856,8 @@ static void fill_out_result(struct city *pcity, struct cm_result *result,
       pcity->size - (base_combination->worker + scientists + taxmen);
 
   freelog(LOG_DEBUG,
-	  "fill_out_result(city='%s'(%d), entrt.s=%d, scien.s=%d, taxmen=%d)",
-	  pcity->name, pcity->id, result->specialists[SP_ELVIS],
-	  result->specialists[SP_SCIENTIST], result->specialists[SP_TAXMAN]);
+	  "fill_out_result(city='%s'(%d), specialists=%s)",
+	  pcity->name, pcity->id, specialists_string(result->specialists));
 
   /* try to fill result from cache2 */
   if (!base_combination->all_entertainer.found_a_valid) {
