@@ -565,3 +565,40 @@ void center_on_something(void)
     ;				/* do nothing */
   }
 }
+
+/*
+ * Concats buf with activity progress text for given tile. Returns
+ * number of activities.
+ */
+int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
+{
+  int activity_total[ACTIVITY_LAST];
+  int activity_units[ACTIVITY_LAST];
+  int num_activities = 0;
+  int remains, i, mr;
+  struct tile *ptile = map_get_tile(x, y);
+
+  memset(activity_total, 0, sizeof(activity_total));
+  memset(activity_units, 0, sizeof(activity_units));
+
+  unit_list_iterate(ptile->units, punit) {
+    activity_total[punit->activity] += punit->activity_count;
+    mr = get_unit_type(punit->type)->move_rate;
+    activity_units[punit->activity] += mr ? mr / SINGLE_MOVE : 1;
+  }
+  unit_list_iterate_end;
+
+  for (i = 0; i < ACTIVITY_LAST; i++) {
+    if (is_build_or_clean_activity(i) && activity_units[i]) {
+      if (num_activities)
+	mystrlcat(buf, "/", buf_size);
+      remains = map_activity_time(i, x, y) - activity_total[i];
+      cat_snprintf(buf, buf_size, "%s(%d)", get_activity_text(i),
+		   remains / activity_units[i] +
+		   (remains % activity_units[i] ? 1 : 0));
+      num_activities++;
+    }
+  }
+
+  return num_activities;
+}

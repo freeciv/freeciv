@@ -31,6 +31,7 @@
 #include "citydlg.h"
 #include "civclient.h"
 #include "clinet.h"
+#include "climisc.h"
 #include "colors.h"
 #include "control.h"
 #include "dialogs.h"
@@ -153,6 +154,13 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);
+      count++;
+    }
+    
+    sz_strlcpy(s, _("Activity: "));
+    if (concat_tile_activity_text(s, sizeof(s), xtile, ytile)) {
+      gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+		     "GtkLabel::label", s, NULL);
       count++;
     }
     

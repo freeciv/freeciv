@@ -262,4 +262,6 @@ int unit_type_really_ignores_zoc(Unit_Type_id type);
 int zoc_ok_move_gen(struct unit *punit, int x1, int y1, int x2, int y2);
 int zoc_ok_move(struct unit *punit, int x, int y);
 
+int is_build_or_clean_activity(enum unit_activity activity);
+
 #endif  /* FC__UNIT_H */

@@ -776,6 +776,35 @@ int map_clean_fallout_time(int x, int y)
 }
 
 /***************************************************************
+  Time to complete given activity on given tile.
+***************************************************************/
+int map_activity_time(enum unit_activity activity, int x, int y)
+{
+  switch (activity) {
+  case ACTIVITY_POLLUTION:
+    return map_clean_pollution_time(x, y);
+  case ACTIVITY_ROAD:
+    return map_build_road_time(x, y);
+  case ACTIVITY_MINE:
+    return map_build_mine_time(x, y);
+  case ACTIVITY_IRRIGATE:
+    return map_build_irrigation_time(x, y);
+  case ACTIVITY_FORTRESS:
+    return map_build_fortress_time(x, y);
+  case ACTIVITY_RAILROAD:
+    return map_build_rail_time(x, y);
+  case ACTIVITY_TRANSFORM:
+    return map_transform_time(x, y);
+  case ACTIVITY_AIRBASE:
+    return map_build_airbase_time(x, y);
+  case ACTIVITY_FALLOUT:
+    return map_clean_fallout_time(x, y);
+  default:
+    return 0;
+  }
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 static void clear_infrastructure(int x, int y)

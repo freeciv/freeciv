@@ -1362,3 +1362,24 @@ int unit_being_aggressive(struct unit *punit)
   
   return 1;
 }
+
+/*
+ * Returns true if given activity is some kind of building/cleaning.
+ */
+int is_build_or_clean_activity(enum unit_activity activity)
+{
+  switch (activity) {
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_ROAD:
+  case ACTIVITY_MINE:
+  case ACTIVITY_IRRIGATE:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_RAILROAD:
+  case ACTIVITY_TRANSFORM:
+  case ACTIVITY_AIRBASE:
+  case ACTIVITY_FALLOUT:
+    return 1;
+  default:
+    return 0;
+  }
+}

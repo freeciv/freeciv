@@ -263,6 +263,7 @@ int map_build_airbase_time(int x, int y);
 int map_build_fortress_time(int x, int y);
 int map_clean_pollution_time(int x, int y);
 int map_clean_fallout_time(int x, int y);
+int map_activity_time(enum unit_activity activity, int x, int y);
 
 int can_channel_land(int x, int y);
 int can_reclaim_ocean(int x, int y);

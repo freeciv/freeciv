@@ -798,6 +798,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 
   if(punit) {
     int dest_x,dest_y;
+    punit->activity_count = packet->activity_count;
     if((punit->activity!=packet->activity)         /* change activity */
        || (punit->activity_target!=packet->activity_target)) { /*   or act's target */
       repaint_unit=1;
@@ -941,8 +942,6 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit=fc_malloc(sizeof(struct unit));
     unpackage_unit(punit, packet);
     idex_register_unit(punit);
-
-    punit->activity_count=0;	/* never used in client/ or common/  --dwp */
 
     unit_list_insert(&get_player(packet->owner)->units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
