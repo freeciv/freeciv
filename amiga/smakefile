@@ -29,10 +29,11 @@ TCPSDK = #AmiTCP SDK (no define for this one!)
 #TCPSDK = ${DEF}MIAMI_SDK # the miami SDK
 
 # comment, if not debugging, disabled by default
-DEBFLAGS = LIB LIB:debug.lib #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG WARN=ALL IGNORE=61,63,120,148,165,178,212
+DEBFLAGS = LIB LIB:debug.lib #LIB LIB:debug.lib DEBUG=LINE NOSTRIPDEBUG WARN=ALL IGNORE=61,63,79,120,148,165,178,212
 # disabled warning types:
 # (in includes)   61 - undefined struct/union tag "tag-name"
 # (GCC)           63 - item "name" already declared
+#                 79 - duplicate of enumeration value (common/city.h)
 #                120 - Integral type mismatch: possible portability problem
 # (in includes)  148 - use of incomplete struct/union/enum tag "name"
 #                165 - use of narrow type in prototype
@@ -106,9 +107,9 @@ SERVERDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}server ${INC}${FREECIV_DI
 
 AMIGASERVEROBJS = ${OBJDIR}amigaserver.o
 
-CLIENTOBJS = ${OBJDIR}client/attribute.o ${OBJDIR}client/audio.o ${OBJDIR}client/audio_none.o ${OBJDIR}client/citydlg_common.o ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
- ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/mapview_common.o \
- ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/repodlgs_common.o ${OBJDIR}client/tilespec.o ${OBJDIR}client/agents/agents.o ${OBJDIR}client/agents/cma_core.o ${OBJDIR}client/agents/cma_fec.o
+CLIENTOBJS = ${OBJDIR}client/attribute.o ${OBJDIR}client/audio.o ${OBJDIR}client/audio_none.o ${OBJDIR}client/chatline_common.o ${OBJDIR}client/citydlg_common.o ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
+ ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/mapview_common.o ${OBJDIR}client/messagewin_common.o \
+ ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/plrdlg_common.o ${OBJDIR}client/repodlgs_common.o ${OBJDIR}client/tilespec.o ${OBJDIR}client/agents/agents.o ${OBJDIR}client/agents/cma_core.o ${OBJDIR}client/agents/cma_fec.o
 CLIENTDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}client ${INC}${FREECIV_DIR}common \
  ${INC}${FREECIV_DIR}client/include ${INC}${FREECIV_DIR}client/agents
 
@@ -469,7 +470,10 @@ ${OBJDIR}client/audio.o: ${FREECIV_DIR}client/audio.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/audio.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/audio_none.o: ${FREECIV_DIR}client/audio_none.c
-  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/audio_none.c ${CLIENTDIRS} ${TO}$@
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/audio_none.c ${CLIENTDIRS} ${DEF}NOSOCKETSPROTO ${TO}$@
+
+${OBJDIR}client/chatline_common.o: ${FREECIV_DIR}client/chatline_common.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/chatline_common.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/citydlg_common.o: ${FREECIV_DIR}client/citydlg_common.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/citydlg_common.c ${CLIENTDIRS} ${TO}$@
@@ -498,11 +502,17 @@ ${OBJDIR}client/helpdata.o: ${FREECIV_DIR}client/helpdata.c
 ${OBJDIR}client/mapview_common.o: ${FREECIV_DIR}client/mapview_common.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/mapview_common.c ${CLIENTDIRS} ${TO}$@
 
+${OBJDIR}client/messagewin_common.o: ${FREECIV_DIR}client/messagewin_common.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/messagewin_common.c ${CLIENTDIRS} ${TO}$@
+
 ${OBJDIR}client/options.o: ${FREECIV_DIR}client/options.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/options.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/packhand.o: ${FREECIV_DIR}client/packhand.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/packhand.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/plrdlg_common.o: ${FREECIV_DIR}client/plrdlg_common.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/plrdlg_common.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/repodlgs_common.o: ${FREECIV_DIR}client/repodlgs_common.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/repodlgs_common.c ${CLIENTDIRS} ${TO}$@

@@ -26,6 +26,10 @@
 
 #include "climisc.h"
 #include "fcintl.h"
+#include "mem.h"
+
+#include "chatline_common.h"
+
 #include "gui_main.h"
 #include "muistuff.h"
 

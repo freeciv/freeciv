@@ -1403,7 +1403,7 @@ void ui_main(int argc, char *argv[])
       Object *econ_group;
 
       /* we need to load options again after this to pick up worklists */
-      load_options();
+//      load_options();
 
       /* must be after load_options */
       DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_MAP_GRID,MUIA_Menuitem_Checked,draw_map_grid);

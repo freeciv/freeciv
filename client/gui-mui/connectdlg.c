@@ -58,7 +58,7 @@ static void connect_connect(void)
   sz_strlcpy(player_name, getstring(connect_name_string));
   sz_strlcpy(server_host, getstring(connect_host_string));
   server_port = xget(connect_port_string, MUIA_String_Integer);
-  
+
   if(connect_to_server(player_name, server_host, server_port,
 		       errbuf, sizeof(errbuf))!=-1)
   {
@@ -254,7 +254,7 @@ void gui_server_connect(void)
   AUTOCONNECT_INTERVAL milliseconds.  If anything else goes wrong, log
   a fatal error.
 **************************************************************************/
-static int try_to_autoconnect()
+static int try_to_autoconnect(void)
 {
 // Implement me
   return 0;
