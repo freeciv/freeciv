@@ -1,8 +1,8 @@
-Original: CVS-1.5
+Original: CVS-1.5.2.1
 Translator: SAWADA Katsuya <ama@petmail.net>
 
 =======================
-Freeciv バージョン 1.13
+Freeciv バージョン 1.14
 =======================
 
 ようこそ Freeciv へ!
@@ -20,9 +20,8 @@ Civilization II [tm] とのだいたいのルール互換です。わずかなルールは我々
 Freeciv は Civilization とは完全に独立して実装されています。 Freeciv 
 を遊ぶのに Civilization は必要ありません。
 
-まだサウンド・サポートはありませんし、コンピュータ・プレイヤーは交渉で
-きません。しかし、ルールは完璧で、マルチプレイヤーとネットワーク・コー
-ドは優秀です。
+まだコンピュータ・プレイヤーは交渉できません。しかし、ルールは完璧で、
+マルチプレイヤーとネットワーク・コードは優秀です。
 
 
 翻訳物:
@@ -246,7 +245,7 @@ Freeciv の実行には、サーバ、それからクライアント、AI の起動を必要とし
 注意:
 
  1) 新しい機能の追加により、クライアントとサーバのバージョンが違うとう
-    まくいきません。例えば 1.13.0 は、 1.12.0 やそれ以前のバージョンと
+    まくいきません。例えば 1.14.0 は、 1.13.0 やそれ以前のバージョンと
     は非互換です。
 
  2) 接続ダイアログでメタサーバ・ボタンが動作しない場合、あなたの ISP 
@@ -465,13 +464,16 @@ max の範囲のデバッグメッセージだけが印字されます。各ファイルに対して
 メーリングリスト:
 =================
 
-我々は七つのメーリングリストを維持しています:
+我々は八つのメーリングリストを維持しています:
 
   freeciv          一般的な議論。
   freeciv-announce 一般の人が関心を持つアナウンス
                    これはまれにしかメールされない「読み出し専用」リストです。
                    このリストへは投稿できません。読むだけです。
                    (ここへ送られたアナウンスは freeciv へも送られます。)
+  freeciv-i18n     Freeciv 翻訳。
+                   Freeciv コード、文章、ウェブサイトを英語以外に翻訳
+                   する上での議論。
   freeciv-dev      Freeciv 開発用。
   freeciv-data     Freeciv データディレクトリ開発用。
                    (rulesets, tilesets 他の議論)
@@ -491,6 +493,7 @@ max の範囲のデバッグメッセージだけが印字されます。各ファイルに対して
       参加するに場合:
         subscribe freeciv
         subscribe freeciv-announce
+        subscribe freeciv-i18n
         subscribe freeciv-dev
         subscribe freeciv-data
         subscribe freeciv-java
@@ -499,6 +502,7 @@ max の範囲のデバッグメッセージだけが印字されます。各ファイルに対して
       退会する場合:
         unsubscribe freeciv
         unsubscribe freeciv-announce
+        unsubscribe freeciv-i18n
         unsubscribe freeciv-dev
         unsubscribe freeciv-data
         unsubscribe freeciv-java
@@ -508,6 +512,7 @@ max の範囲のデバッグメッセージだけが印字されます。各ファイルに対して
 リストへ email を送るには:
 
   freeciv へは、メールを <freeciv@freeciv.org> へ送ります。
+  freeciv-i18n へは、メールを <freeciv-i18n@freeciv.org> へ送ります。
   freeciv-dev へは、メールを <freeciv-dev@freeciv.org> へ送ります。
   freeciv-data へは、メールを <freeciv-data@freeciv.org> へ送ります。
   freeciv-java へは、ヘールを <freeciv-java@freeciv.org> へ送ります。
