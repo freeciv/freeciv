@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.1-devel\n"
 "POT-Creation-Date: 2003-09-22 19:41+0200\n"
-"PO-Revision-Date: 2003-10-01 11:59+0100\n"
+"PO-Revision-Date: 2003-10-02 18:22+0200\n"
 "Last-Translator: Miguel Lobo <miguell@miguell.cjb.net>\n"
 "Language-Team: Spanish <ES@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2739,9 +2739,7 @@ msgstr ""
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
-msgstr ""
-"Se ha detectado una estructura de alianza inválida: la alianza de %s y %s "
-"se reduce a tratado de paz."
+msgstr "Se ha detectado una estructura de alianza inválida: la alianza de %s para %s se reduce a tratado de paz."
 
 #: server/savegame.c:1825
 msgid "Savegame too old, at least version 1.9.0 required."
@@ -5285,7 +5283,7 @@ msgstr "Uso: observe <nombre-del-jugador>"
 #: server/stdinhand.c:3268
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
-msgstr "%s ya controla de %s.  Si se usa 'observe' se eliminaría %s"
+msgstr "%s ya controla %s.  Si se usa 'observe' se eliminaría %s"
 
 #: server/stdinhand.c:3314
 #, c-format
