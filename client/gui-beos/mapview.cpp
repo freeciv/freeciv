@@ -7,25 +7,6 @@
 #include "mapview.h"
 
 int
-map_canvas_adjust_x(int x)	// HOOK
-{
-	// @@@@ will probably require some direct accesses
-	NOT_FINISHED( "map_canvas_adjust_x(int" );
-	return 0;
-}
-
-
-int
-map_canvas_adjust_y(int y)	// HOOK
-{
-	// @@@@ will probably require some direct accesses
-	NOT_FINISHED( "map_canvas_adjust_y(int" );
-	return 0;
-}
-
-
-
-int
 tile_visible_mapcanvas(int x, int y)	// HOOK
 {
 	// @@@@ will probably require some direct accesses

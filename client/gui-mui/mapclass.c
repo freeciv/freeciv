@@ -1194,7 +1194,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       {
       	/* Draw City Workers */
 	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
-	int color;
+	int color, is_real;
 	int x,y;
 	struct city *pcity = data->worker_pcity;
 
@@ -1206,8 +1206,13 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  if (data->worker_colornum == 3) data->worker_colornum = 0;
 	}
 
-	x = map_canvas_adjust_x(pcity->x);
-	y = map_canvas_adjust_y(pcity->y);
+	/* This used to use map_canvas_adjust_[xy], but that system is
+	   no good.  I've adjusted it to use a manual system instead. */
+	is_real = normalize_map_pos(&pcity->x, &pcity->y);
+	assert(is_real);
+	if (pcity->x < map_view_x0) {
+	  pcity->x += map.xsize;
+	}
 
 	SetAPen(_rp(o),color);
 

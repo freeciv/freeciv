@@ -4,20 +4,6 @@
 
 
 int
-map_canvas_adjust_x(int x)
-{
-	/* PORTME */
-	return 0;
-}
-
-int
-map_canvas_adjust_y(int y)
-{
-	/* PORTME */
-	return 0;
-}
-
-int
 tile_visible_mapcanvas(int x, int y)
 {
 	/* PORTME */
