@@ -239,16 +239,14 @@ unsigned char *get_string(unsigned char *buffer, char *mystring)
 **************************************************************************/
 unsigned char *put_city_map(unsigned char *buffer, char *str)
 {
-  const static int index[21]=
-      {1,2,3, 5,6,7,8,9, 10,11,12,13,14, 15,16,17,18,19, 21,22,23 };
+  const static int index[20]=
+      {1,2,3, 5,6,7,8,9, 10,11, 13,14, 15,16,17,18,19, 21,22,23 };
   int i;
-  int map=0;
 
-  for(i=0;i<21;i++)
-    if(str[index[i]]=='1') map|=(1<<i);
-  *buffer++=map&0xff;
-  *buffer++=(map>>8)&0xff;
-  *buffer++=(map>>16)&0xff;
+  for(i=0;i<20;i+=5)
+    *buffer++ = (str[index[i]]-'0')*81 + (str[index[i+1]]-'0')*27 +
+	        (str[index[i+2]]-'0')*9 + (str[index[i+3]]-'0')*3 +
+	        (str[index[i+4]]-'0')*1;
 
   return buffer;
 }
@@ -259,18 +257,23 @@ unsigned char *put_city_map(unsigned char *buffer, char *str)
 unsigned char *get_city_map(unsigned char *buffer, char *str)
 {
   const static int index[21]=
-      {1,2,3, 5,6,7,8,9, 10,11,12,13,14, 15,16,17,18,19, 21,22,23 };
-  int i;
-  int map;
+      {1,2,3, 5,6,7,8,9, 10,11, 13,14, 15,16,17,18,19, 21,22,23 };
+  int i,j;
 
-  map=(*buffer) | (*(buffer+1)<<8) | (*(buffer+2)<<16);
-  if(str)  {
-    str[0]='2'; str[4]='2'; str[20]='2'; str[24]='2'; str[25]='\0';
-    for(i=0;i<21;i++)
-      if(map&(1<<i))  str[index[i]]='1'; else str[index[i]]='0';
-  }
+  if(!str)  return buffer+4;
 
-  return buffer+3;
+  str[0]='2'; str[4]='2'; str[12]='1'; 
+  str[20]='2'; str[24]='2'; str[25]='\0';
+  for(i=0;i<20;)  {
+    j=*buffer++;
+    str[index[i++]]='0'+j/81; j%=81;
+    str[index[i++]]='0'+j/27; j%=27;
+    str[index[i++]]='0'+j/9; j%=9;
+    str[index[i++]]='0'+j/3; j%=3;
+    str[index[i++]]='0'+j;
+  };
+
+  return buffer;
 }
     
 /**************************************************************************
@@ -1053,8 +1056,10 @@ recieve_packet_city_info(struct connection *pc)
   
   cptr=get_int16(cptr, &packet->food_prod);
   cptr=get_int16(cptr, &packet->food_surplus);
+  if(packet->food_surplus > 32767) packet->food_surplus-=65536;
   cptr=get_int16(cptr, &packet->shield_prod);
   cptr=get_int16(cptr, &packet->shield_surplus);
+  if(packet->food_surplus > 32767) packet->food_surplus-=65536;
   cptr=get_int16(cptr, &packet->trade_prod);
   cptr=get_int16(cptr, &packet->corruption);
 
@@ -1212,7 +1217,7 @@ int send_packet_join_game_reply(struct connection *pc, struct
 			        packet_join_game_reply *reply)
 {
   unsigned char buffer[MAX_PACKET_SIZE], *cptr;
-  cptr=put_int16(buffer+2, PACKET_JOIN_GAME_REPLY);
+  cptr=put_int8(buffer+2, PACKET_JOIN_GAME_REPLY);
   cptr=put_int32(cptr, reply->you_can_join);
   cptr=put_string(cptr, reply->message);
   cptr=put_string(cptr, reply->capability);
@@ -1286,7 +1291,7 @@ recieve_packet_join_game_reply(struct connection *pc)
     malloc(sizeof(struct packet_join_game_reply));
 
   cptr=get_int16(pc->buffer.data, NULL);
-  cptr=get_int16(cptr, NULL);
+  cptr=get_int8(cptr, NULL);
   
   cptr=get_int32(cptr, &packet->you_can_join);
   cptr=get_string(cptr, packet->message);
