@@ -52,6 +52,7 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
+#include "aitools.h"
 
 #include "cityturn.h"
 
@@ -565,19 +566,12 @@ static void city_populate(struct city *pcity)
 **************************************************************************/
 void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
-  Impr_Type_id id = -1;
-  int val = 0;
+  struct ai_choice choice;
 
   /* See what AI has to say */
-  impr_type_iterate(i) {
-    if (pcity->ai.building_want[i] > val
-        && can_build_improvement(pcity, i)) {
-      val = pcity->ai.building_want[i];
-      id = i;
-    }
-  } impr_type_iterate_end;
-  if (id >= 0 && id < B_LAST) {
-    change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
+  ai_advisor_choose_building(pcity, &choice);
+  if (choice.choice >= 0 && choice.choice < B_LAST) {
+    change_build_target(pplayer, pcity, choice.choice, FALSE, E_IMP_AUTO);
     return;
   }
 
