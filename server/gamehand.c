@@ -302,7 +302,7 @@ static void apply_unit_ordering(void)
 ***************************************************************/
 void game_load(struct section_file *file)
 {
-  int i;
+  int i, o;
   enum server_states tmp_server_state;
   char *savefile_options=" ";
   char *string;
@@ -554,11 +554,24 @@ void game_load(struct section_file *file)
   for(i=0; i<game.nplayers; i++) {
     player_map_load(&game.players[i], i, file); 
   }
-  for(i=0; i<game.nplayers; i++) {
+  /* FIXME: This is a kluge to keep the AI working for the moment. */
+  /*        When the AI is taught to handle diplomacy, remove this. */
+  for (i = 0; i < game.nplayers; i++) {
     struct player *pplayer = get_player(i);
-    if (pplayer->ai.control)
-      neutralize_ai_player(pplayer);
-  }  
+    if (pplayer->ai.control) {
+      for (o = 0; o < game.nplayers; o++) {
+	struct player *pother = get_player(o);
+	if (pplayer != pother) {
+	  pplayer->diplstates[pother->player_no].type =
+	    pother->diplstates[pplayer->player_no].type =
+	    DS_WAR;
+	  pplayer->diplstates[pother->player_no].turns_left =
+	    pother->diplstates[pplayer->player_no].turns_left =
+	    16;
+	}
+      }
+    }
+  }
 
   initialize_globals();
   apply_unit_ordering();
