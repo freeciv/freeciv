@@ -525,7 +525,8 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     break;
   case AIR_MOVING:
   case HELI_MOVING:
-    die("Unsupported move_type");
+    parameter->get_MC = single_airmove; /* very crude */
+    break;
   }
 
   parameter->get_zoc = NULL;
@@ -555,7 +556,8 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
     break;
   case AIR_MOVING:
   case HELI_MOVING:
-    die("Unsupported move_type");
+    parameter->get_MC = single_airmove; /* very crude */
+    break;
   }
 
   if (unit_type(punit)->move_type == LAND_MOVING 

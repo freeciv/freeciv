@@ -517,7 +517,7 @@ static void begin_phase(bool is_new_phase)
   freelog(LOG_DEBUG, "Begin phase");
 
   conn_list_do_buffer(game.game_connections);
-  ai_data_movemap_init();
+  ai_data_movemap_recalculate();
 
   phase_players_iterate(pplayer) {
     pplayer->phase_done = FALSE;

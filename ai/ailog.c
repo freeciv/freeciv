@@ -271,7 +271,7 @@ void TIMING_LOG(int level, struct player *pplayer, const char *msg)
   }
 
   my_snprintf(buffer, sizeof(buffer), "... %g seconds. %s: ",
-              read_timer_seconds(t), pplayer->name);
+              read_timer_seconds(t), pplayer ? pplayer->name : "(all)");
   clear_timer_start(t);
   cat_snprintf(buffer, sizeof(buffer), msg);
   if (srvarg.timing_debug) {

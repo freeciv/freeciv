@@ -168,6 +168,8 @@ static void movemap_check_ferry(struct tile *ptile1, int id,
 **************************************************************************/
 void ai_data_movemap_recalculate(void)
 {
+  TIMING_LOG(LOG_DEBUG, NULL, "Generating movemap");
+
   /* Clean the slate */
   whole_map_iterate(ptile) {
     unsigned int r;
