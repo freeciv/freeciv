@@ -191,7 +191,7 @@ static int unit_move_turns(struct unit *punit, int x, int y)
 {
   int move_time;
   int move_rate = unit_type(punit)->move_rate;
- 
+
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
   
@@ -242,6 +242,8 @@ static int unit_move_turns(struct unit *punit, int x, int y)
 **************************************************************************/
 static bool tile_is_accessible(struct unit *punit, int x, int y)
 {
+  CHECK_UNIT(punit);
+
   if (unit_type_really_ignores_zoc(punit->type))
     return TRUE;
   if (is_my_zoc(unit_owner(punit), x, y))
@@ -273,6 +275,8 @@ bool ai_manage_explorer(struct unit *punit)
   int move_rate = unit_move_rate(punit);
   /* Range of unit's vision */
   int range;
+
+  CHECK_UNIT(punit);
 
   /* Get the range */
   /* FIXME: The vision range should NOT take into account watchtower benefit.
@@ -619,6 +623,8 @@ static bool stay_and_defend(struct unit *punit)
   struct city *pcity = map_get_city(punit->x, punit->y);
   bool has_defense = FALSE;
 
+  CHECK_UNIT(punit);
+
   if (!pcity) {
     return FALSE;
   }
@@ -820,6 +826,8 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
   int val = unit_belligerence_primitive(punit), cur, d;
   struct tile *ptile;
 
+  CHECK_UNIT(punit);
+
   square_iterate(pdef->x, pdef->y, 1, i, j) {
     ptile = map_get_tile(i, j);
     unit_list_iterate(ptile->units, aunit) {
@@ -866,7 +874,9 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
   int x = punit->x, y = punit->y;
   int best = 0;
   int stack_size = unit_list_size(&(map_get_tile(punit->x, punit->y)->units));
-  
+
+  CHECK_UNIT(punit);
+
   *dest_y = y;
   *dest_x = x;
  
@@ -1006,6 +1016,8 @@ static bool ai_military_rampage(struct unit *punit, int threshold)
   int x, y;
   int count = punit->moves_left + 1; /* break any infinite loops */
 
+  CHECK_UNIT(punit);
+
   while (punit->moves_left > 0 && count-- > 0
          && ai_military_findvictim(punit, &x, &y) >= threshold) {
     if (!ai_unit_attack(punit, x, y)) {
@@ -1026,6 +1038,8 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   struct unit *aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
   struct city *acity = find_city_by_id(punit->ai.charge);
   int x, y, id = punit->id;
+
+  CHECK_UNIT(punit);
 
   if (aunit && aunit->owner == punit->owner) { 
     /* protect a unit */
@@ -1074,6 +1088,8 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
   int ok, best = 0;
   enum tile_terrain_type t;
+
+  CHECK_UNIT(punit);
 
   adjc_iterate(dest_x, dest_y, x1, y1) {
     ok = 0;
@@ -1125,6 +1141,8 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
   int best_y = punit->y;
   int dist = 100;
   int search_dist = real_map_distance(pc->x, pc->y, punit->x, punit->y) - 1;
+
+  CHECK_UNIT(punit);
   
   square_iterate(punit->x, punit->y, search_dist, xx, yy) {
     if (map_get_continent(xx, yy, NULL) == 
@@ -1153,6 +1171,8 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
   struct city *dcity;
   struct tile *ptile;
   int d_type, d_val;
+
+  CHECK_UNIT(punit);
 
   id = punit->id; x = punit->x; y = punit->y;
 
@@ -1287,7 +1307,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
   }
 
   /* Dead unit shouldn't reach this point */
-  assert(player_find_unit_by_id(pplayer, id) != NULL);
+  CHECK_UNIT(punit);
   
   if (!same_pos(punit->x, punit->y, x, y)) {
     return 1;			/* moved */
@@ -1383,6 +1403,8 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
   int val, def;
   int q = 0;
   struct unit_type *punittype = get_unit_type(punit->type);
+
+  CHECK_UNIT(punit);
 
 /* tired of AI abandoning its cities! -- Syela */
   if (punit->homecity != 0 && (pcity = find_city_by_id(punit->homecity))) {
@@ -1509,6 +1531,9 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 {
   struct city *pcity;
+
+  CHECK_UNIT(punit);
+
   if (punit->homecity != 0){
     pcity=find_city_by_id(punit->homecity);
     freelog(LOG_DEBUG, "GOHOME (%d)(%d,%d)C(%d,%d)",
@@ -1627,6 +1652,8 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 			   int which)
 {
   int x, y;
+
+  CHECK_UNIT(punit);
 
   if (dest) {
     x = punit->goto_dest_x;
@@ -2047,6 +2074,8 @@ static struct city *find_nearest_safe_city(struct unit *punit)
   int best = 6 * THRESHOLD + 1, cur;
   bool ground = is_ground_unit(punit);
 
+  CHECK_UNIT(punit);
+
   generate_warmap(map_get_city(punit->x, punit->y), punit);
   players_iterate(aplayer) {
     if (pplayers_allied(pplayer,aplayer)) {
@@ -2089,6 +2118,8 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int id = punit->id;
   int ct = 10;
   struct city *pcity = NULL;
+
+  CHECK_UNIT(punit);
 
   /* Main attack loop */
   do {
@@ -2194,6 +2225,8 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   struct packet_unit_request req;
   int tradeval, best_city = -1, best=0;
 
+  CHECK_UNIT(punit);
+
   if (punit->ai.ai_role == AIUNIT_NONE) {
     if ((pcity = wonder_on_continent(pplayer, 
                              map_get_continent(punit->x, punit->y, NULL))) 
@@ -2266,6 +2299,8 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   struct unit_type *punittype = get_unit_type(punit->type);
   int best = 4 * punittype->move_rate, x = punit->x, y = punit->y;
   int n = 0, p = 0;
+
+  CHECK_UNIT(punit);
 
   if (!unit_list_find(&map_get_tile(punit->x, punit->y)->units, punit->ai.passenger))
     punit->ai.passenger = 0;
@@ -2342,6 +2377,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   } /* AI used to build frigates to attack and then use them as ferries -- Syela */
 
   /*** Find work ***/
+  CHECK_UNIT(punit);
 
   generate_warmap(map_get_city(punit->x, punit->y), punit);
   p = 0; /* yes, I know it's already zero. -- Syela */
@@ -2369,7 +2405,8 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     return;
   }
 
-/* do cool stuff here */
+  /* do cool stuff here */
+  CHECK_UNIT(punit);
 
   if (punit->moves_left == 0) return;
   pcity = find_city_by_id(punit->homecity);
@@ -2400,6 +2437,8 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
   struct city *pcity = map_get_city(punit->x, punit->y);
   struct city *safe = NULL;
   struct unit_type *punittype = get_unit_type(punit->type);
+
+  CHECK_UNIT(punit);
 
   if (pcity) {
     /* rest in city until the hitpoints are recovered, but attempt
@@ -2450,6 +2489,8 @@ decides what to do with a military unit.
 static void ai_manage_military(struct player *pplayer, struct unit *punit)
 {
   int id = punit->id;
+
+  CHECK_UNIT(punit);
 
   /* was getting a bad bug where a settlers caused a defender to leave home */
   /* and then all other supported units went on DEFEND_HOME/goto */
@@ -2534,6 +2575,8 @@ static bool unit_can_be_retired(struct unit *punit)
 **************************************************************************/
 static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 {
+  CHECK_UNIT(punit);
+
   /* retire useless barbarian units here, before calling the management
      function */
   if( is_barbarian(pplayer) ) {
@@ -2656,6 +2699,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   int safest = 0, safest_x = leader->x, safest_y = leader->y;
   struct unit *closest_unit = NULL;
   int dist, mindist = 10000;
+
+  CHECK_UNIT(leader);
 
   if (leader->moves_left == 0 || 
       (map_get_terrain(leader->x, leader->y) != T_OCEAN &&

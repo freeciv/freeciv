@@ -296,6 +296,8 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 {
   enum goto_result result = GR_FAILED;
 
+  CHECK_UNIT(punit);
+
   if (!is_airunit_refuel_point(punit->x, punit->y, 
 			       pplayer, punit->type, FALSE)) {
     /* We are out in the open, what shall we do? */

@@ -22,6 +22,16 @@ struct city;
 struct government;
 struct player;
 
+#ifdef DEBUG
+#define CHECK_UNIT(punit)                                        \
+ (assert(punit),                                                 \
+  assert(punit->type < U_LAST),                                  \
+  assert(punit->owner < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS),   \
+  assert(find_unit_by_id(punit->id)))
+#else
+#define CHECK_UNIT(punit) assert(TRUE)
+#endif
+
 enum bodyguard_enum {
   BODYGUARD_WANTED=-1,
   BODYGUARD_NONE

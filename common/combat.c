@@ -503,10 +503,15 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
   } unit_list_iterate_end;
 
   if (count > 0 && !bestdef) {
-    struct unit *debug_unit = unit_list_get(&map_get_tile(x, y)->units, 0);
-    freelog(LOG_ERROR, "Get_def bugged at (%d,%d). The most likely course"
-	    " is a unit on an ocean square without a transport. The owner"
-	    " of the unit is %s", x, y, unit_owner(debug_unit)->name);
+    struct tile *ptile = map_get_tile(x, y);
+    struct unit *punit = unit_list_get(&ptile->units, 0);
+
+    freelog(LOG_ERROR, "get_defender bug: %s's %s vs %s's %s (total %d"
+            " units) on %s at (%d,%d). ", unit_owner(attacker)->name,
+            unit_type(attacker)->name, unit_owner(punit)->name,
+            unit_type(punit)->name, unit_list_size(&ptile->units), 
+            get_terrain_name(ptile->terrain), x, y);
+    assert(FALSE);
   }
 
   return bestdef;

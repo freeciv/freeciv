@@ -143,6 +143,7 @@ void destroy_unit_virtual(struct unit *punit)
 **************************************************************************/
 bool ai_unit_gothere(struct unit *punit)
 {
+  CHECK_UNIT(punit);
   assert(punit->goto_dest_x != -1 && punit->goto_dest_y != -1);
   if (ai_unit_goto(punit, punit->goto_dest_x, punit->goto_dest_y)) {
     return TRUE; /* ... and survived */
@@ -163,6 +164,7 @@ bool ai_unit_goto(struct unit *punit, int x, int y)
   int oldx = punit->goto_dest_x, oldy = punit->goto_dest_y;
   enum unit_activity activity = punit->activity;
 
+  CHECK_UNIT(punit);
   /* TODO: log error on same_pos with punit->x|y */
   punit->goto_dest_x = x;
   punit->goto_dest_y = y;
@@ -218,6 +220,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 **************************************************************************/
 bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
 {
+  CHECK_UNIT(punit);
   if (punit->homecity == 0 && !unit_has_role(punit->type, L_EXPLORER)) {
     /* This unit doesn't pay any upkeep while it doesn't have a homecity,
      * so it would be stupid to give it one. There can also be good reasons
@@ -302,7 +305,7 @@ bool ai_unit_attack(struct unit *punit, int x, int y)
   int sanity = punit->id;
   bool alive;
 
-  assert(punit != NULL);
+  CHECK_UNIT(punit);
   assert(unit_owner(punit)->ai.control);
   assert(is_normal_map_pos(x, y));
   assert(is_tiles_adjacent(punit->x, punit->y, x, y));
@@ -339,7 +342,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   struct player *pplayer = unit_owner(punit);
   struct tile *ptile = map_get_tile(x,y);
 
-  assert(punit != NULL);
+  CHECK_UNIT(punit);
   assert(unit_owner(punit)->ai.control);
   assert(is_normal_map_pos(x, y));
   assert(is_tiles_adjacent(punit->x, punit->y, x, y));

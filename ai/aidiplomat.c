@@ -544,7 +544,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity, *ctarget = NULL;
 
-  assert((pplayer != NULL) && (punit != NULL));
+  CHECK_UNIT(punit);
 
   pcity = map_get_city(punit->x, punit->y);
   generate_warmap(pcity, punit);
@@ -630,6 +630,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     ai_unit_new_role(punit, task, ctarget->x, ctarget->y);
   }
 
+  CHECK_UNIT(punit);
   assert(punit->moves_left > 0 && ctarget && punit->ai.ai_role != AIUNIT_NONE);
 
   /* GOTO unless we want to stay */
