@@ -386,10 +386,40 @@ static int reinforcements_value(struct unit *punit, int x, int y)
   return(val);
 }
 
+static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *punit)
+{ 
+  int val = 0, val2 = 0, val3 = 0, i, j, x, y;
+  struct tile *ptile;
+
+  if (!pcity) return 0;
+
+  x=pcity->x;
+  y=pcity->y;
+  for (j = y - 1; j <= y + 1; j++) {
+    if (j < 0 || j >= map.ysize) continue;
+    for (i = x - 1; i <= x + 1; i++) {
+      ptile = map_get_tile(i, j);
+      unit_list_iterate(ptile->units, aunit)
+        if (aunit == punit || aunit->owner != punit->owner) continue;
+        val = (unit_belligerence_basic(aunit));
+        if (val) {
+          val2 += val;
+          val3 += unit_types[aunit->type].build_cost;
+        }
+      unit_list_iterate_end;
+    }
+  }
+  pcity->ai.a = val2;
+  pcity->ai.f = val3;
+  return(val2);
+}
+
+#ifdef UNUSED
 static int reinforcements_cost(struct unit *punit, int x, int y)
 { /* I might rather have one function which does this and the above -- Syela */
   int val = 0, i, j;
   struct tile *ptile;
+
   for (j = y - 1; j <= y + 1; j++) {
     if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
@@ -403,6 +433,7 @@ static int reinforcements_cost(struct unit *punit, int x, int y)
   }
   return(val);
 }
+#endif
 
 static int is_my_turn(struct unit *punit, struct unit *pdef)
 {
@@ -1005,8 +1036,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   for (i = 0; i < game.nplayers; i++) {
     aplayer = &game.players[i];
     city_list_iterate(aplayer->cities, acity)
-      acity->ai.a = reinforcements_value(punit, acity->x, acity->y);
-      acity->ai.f = reinforcements_cost(punit, acity->x, acity->y);
+      city_reinforcements_cost_and_value(acity, punit);
       acity->ai.invasion = 0;
     city_list_iterate_end;
   }
