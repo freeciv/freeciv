@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-30 17:21+0100\n"
+"PO-Revision-Date: 2005-01-30 17:29+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4668,12 +4668,12 @@ msgstr "Poslední hráč se odpojil: je třeba restart."
 #: server/stdinhand.c:239
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
-msgstr ""
+msgstr "Hlasování \"%s\" prošlo %d ku %d a %d se zdrželo."
 
 #: server/stdinhand.c:244
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
-msgstr ""
+msgstr "Hlasování \"%s\" neprošlo s %d proti, %d pro a %d se zdrželo."
 
 #: server/stdinhand.c:370
 msgid "(ambiguous)"
@@ -10491,7 +10491,7 @@ msgstr "Města: %d celkem, %d nad hranicí z %d měst.\n"
 #: client/gui-win32/happiness.c:201
 #, c-format
 msgid "%d content before penalty with "
-msgstr ""
+msgstr "%d spokojený před postihem s "
 
 #: client/gui-gtk-2.0/happiness.c:245
 #: client/gui-gtk/happiness.c:251
