@@ -152,7 +152,7 @@ static char *tilespec_fullname(const char *tileset_name)
     tileset_default = "trident";    /* Do not i18n! --dwp */
   }
 
-  if (tileset_name[0] == '\0') {
+  if (!tileset_name || tileset_name[0] == '\0') {
     tileset_name = tileset_default;
   }
 
@@ -386,7 +386,7 @@ void tilespec_read_toplevel(const char *tileset_name)
     assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
-    tilespec_read_toplevel("");
+    tilespec_read_toplevel(NULL);
     return;
   }
   if (!is_isometric && !overhead_view_supported()) {
