@@ -55,7 +55,7 @@
 #include "cityicon.ico"
 
 #define NUM_UNITS_SHOWN  12
-#define NUM_CITIZENS_SHOWN 3
+#define NUM_CITIZENS_SHOWN 25
 
 
 struct city_dialog {
