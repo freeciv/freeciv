@@ -48,8 +48,6 @@
 
 #include "mapctrl.h"
 
-/* Update the workers for a city on the map, when the update is received */
-struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
 int city_workers_color = COLOR_STD_WHITE;
 
@@ -317,9 +315,8 @@ gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
     return TRUE;
   }
 
-  if (can_client_issue_orders()
-      && (ev->button == 1) && (ev->state & GDK_SHIFT_MASK)) {
-    adjust_workers(w, ev);
+  if (ev->button == 1 && (ev->state & GDK_SHIFT_MASK)) {
+    adjust_workers_button_pressed(ev->x, ev->y);
     return TRUE;
   }
 
@@ -359,51 +356,6 @@ gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event)
 {
   update_line(event->x, event->y);
   return TRUE;
-}
-
-/**************************************************************************
-  Adjust the position of city workers from the mapcanvas
-**************************************************************************/
-void adjust_workers(GtkWidget *widget, GdkEventButton *ev)
-{
-  int x, y, map_x, map_y, is_valid;
-  struct city *pcity;
-  struct packet_city_request packet;
-  enum city_tile_type wrk;
-
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  if (!canvas_to_map_pos(&map_x, &map_y, ev->x, ev->y)) {
-    return;
-  }
-
-  pcity = find_city_near_tile(map_x, map_y);
-  if (!pcity) {
-    return;
-  }
-
-  if (cma_is_city_under_agent(pcity, NULL)) {
-    return;
-  }
-
-  is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
-  assert(is_valid);
-
-  packet.city_id = pcity->id;
-  packet.worker_x = x;
-  packet.worker_y = y;
-  
-  wrk = get_worker_city(pcity, x, y);
-  if (wrk == C_TILE_WORKER)
-    send_packet_city_request(&aconnection, &packet, 
-			    PACKET_CITY_MAKE_SPECIALIST);
-  else if (wrk == C_TILE_EMPTY)
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
-
-  /* When the city info packet is received, update the workers on the map*/
-  city_workers_display = pcity;
 }
 
 /**************************************************************************

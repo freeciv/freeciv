@@ -19,6 +19,8 @@
 
 #include "agents.h"
 #include "civclient.h"
+#include "clinet.h"
+#include "cma_core.h"
 #include "control.h"
 #include "goto.h"
 #include "mapctrl_g.h"
@@ -26,6 +28,9 @@
 #include "options.h"
 
 #include "mapctrl_common.h"
+
+/* Update the workers for a city on the map, when the update is received */
+struct city *city_workers_display = NULL;
 
 static bool turn_done_state;
 static bool is_turn_done_state_valid = FALSE;
@@ -76,6 +81,51 @@ void wakeup_button_pressed(int canvas_x, int canvas_y)
   if (can_client_issue_orders()) {
     if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
       wakeup_sentried_units(map_x, map_y);
+    }
+  }
+}
+
+/**************************************************************************
+  Adjust the position of city workers from the mapview.  Usually this is
+  done with SHIFT+left-click.
+**************************************************************************/
+void adjust_workers_button_pressed(int canvas_x, int canvas_y)
+{
+  int map_x, map_y, city_x, city_y;
+  struct city *pcity;
+  struct packet_city_request packet;
+  enum city_tile_type worker;
+
+  if (can_client_issue_orders()) {
+    if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
+      pcity = find_city_near_tile(map_x, map_y);
+      if (pcity && !cma_is_city_under_agent(pcity, NULL)) {
+	if (!map_to_city_map(&city_x, &city_y, pcity, map_x, map_y)) {
+	  assert(0);
+	}
+
+	packet.city_id = pcity->id;
+	packet.worker_x = city_x;
+	packet.worker_y = city_y;
+
+	worker = get_worker_city(pcity, city_x, city_y);
+	if (worker == C_TILE_WORKER) {
+	  send_packet_city_request(&aconnection, &packet,
+				   PACKET_CITY_MAKE_SPECIALIST);
+	} else if (worker == C_TILE_EMPTY) {
+	  send_packet_city_request(&aconnection, &packet,
+				   PACKET_CITY_MAKE_WORKER);
+	} else {
+	  /* If worker == C_TILE_UNAVAILABLE then we can't use this tile.  No
+	   * packet is sent and city_workers_display is not updated. */
+	  return;
+	}
+	
+	/* When the city info packet is received, update the workers on the
+	 * map.  This is a bad hack used to selectively update the mapview
+	 * when we receive the corresponding city packet. */
+	city_workers_display = pcity;
+      }
     }
   }
 }

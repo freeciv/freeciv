@@ -69,8 +69,6 @@
 
 #include "mapctrl.h"
 
-struct city *city_workers_display = NULL;
-
 /* New City Dialog */
 static struct SMALL_DLG *pNewCity_Dlg = NULL;
   

@@ -50,8 +50,6 @@
 #include "mapctrl.h"
 #include "gui_main.h"
 
-struct city *city_workers_display = NULL;
-
 HWND popit_popup=NULL;
 /*************************************************************************
 
@@ -218,41 +216,6 @@ static void popit(int x, int y, int xtile, int ytile)
 /**************************************************************************
 
 **************************************************************************/
-static void adjust_workers(int map_x, int map_y)
-{
-  int x, y, is_valid;
-  struct city *pcity;
-  struct packet_city_request packet;
-  enum city_tile_type wrk;
-  
-
-  pcity = find_city_near_tile(map_x, map_y);
-  if (!pcity) {
-    return;
-  }
-  
-  is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
-  assert(is_valid);
-  
-  packet.city_id=pcity->id;
-  packet.worker_x=x;
-  packet.worker_y=y;
-  
-  wrk = get_worker_city(pcity, x, y);
-  if(wrk==C_TILE_WORKER)
-    send_packet_city_request(&aconnection, &packet, 
-			     PACKET_CITY_MAKE_SPECIALIST);
-  else if(wrk==C_TILE_EMPTY)
-    send_packet_city_request(&aconnection, &packet, 
-			     PACKET_CITY_MAKE_WORKER);
-  
-  /* When the city info packet is received, update the workers on the map*/
-  city_workers_display = pcity;
-}
-
-/**************************************************************************
-
-**************************************************************************/
 static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM lParam)
 {
   HDC hdc;
@@ -271,7 +234,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
       break;
     }
     if (wParam&MK_SHIFT) {
-      adjust_workers(xtile,ytile);
+      adjust_workers_button_pressed(LOWORD(lParam), HIWORD(lParam));
       wakeup_button_pressed(LOWORD(lParam), HIWORD(lParam));
     } else if (wParam&MK_CONTROL){
       popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);

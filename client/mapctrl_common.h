@@ -20,7 +20,10 @@
 bool get_turn_done_button_state(void);
 void scroll_mapview(enum direction8 gui_dir);
 void wakeup_button_pressed(int canvas_x, int canvas_y);
+void adjust_workers_button_pressed(int canvas_x, int canvas_y);
 void update_turn_done_button_state(void);
 void update_line(int canvas_x, int canvas_y);
+
+extern struct city *city_workers_display;
 
 #endif /* FC__MAPVIEW_COMMON_H */

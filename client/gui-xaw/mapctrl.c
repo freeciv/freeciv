@@ -57,8 +57,6 @@
 
 #include "mapctrl.h"
 
-/* Update the workers for a city on the map, when the update is received */
-struct city *city_workers_display = NULL;
 /* Color to use to display the workers */
 int city_workers_color=COLOR_STD_WHITE;
 
@@ -285,50 +283,6 @@ void create_line_at_mouse_pos(void)
   if (on_same_screen) {
     update_line(x, y);
   }
-}
-
-/**************************************************************************
-  Adjust the position of city workers from the mapcanvas
-**************************************************************************/
-void mapctrl_btn_adjust_workers(XEvent *event)
-{
-  int map_x, map_y, x, y, is_valid;
-  XButtonEvent *ev=&event->xbutton;
-  struct city *pcity;
-  struct packet_city_request packet;
-  enum city_tile_type wrk;
-
-  if (!can_client_change_view()) {
-    return;
-  }
-
-  map_x = map_view_x0 + ev->x / NORMAL_TILE_WIDTH;
-  map_y = map_view_y0 + ev->y / NORMAL_TILE_HEIGHT;
-  is_valid = normalize_map_pos(&map_x, &map_y);
-  assert(is_valid);
-
-  if (!(pcity = find_city_near_tile(map_x, map_y)))
-    return;
-
-  is_valid = map_to_city_map(&x, &y, pcity, map_x, map_y);
-  assert(is_valid);
-
-  packet.city_id=pcity->id;
-  packet.worker_x=x;
-  packet.worker_y=y;
-
-  wrk = get_worker_city(pcity, x, y);
-  if(wrk==C_TILE_WORKER)
-    send_packet_city_request(&aconnection, &packet, 
-			     PACKET_CITY_MAKE_SPECIALIST);
-  else if(wrk==C_TILE_EMPTY)
-    send_packet_city_request(&aconnection, &packet, 
-			     PACKET_CITY_MAKE_WORKER);
-
-  /* When the city info packet is received, update the workers on the map*/
-  city_workers_display = pcity;
-
-  return;
 }
 
 /**************************************************************************

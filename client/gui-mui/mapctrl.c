@@ -50,9 +50,6 @@
 #include "muistuff.h"
 #include "mapclass.h"
 
-/* Update the workers for a city on the map, when the update is received */
-struct city *city_workers_display = NULL;
-
 /****************************************************************
 ...
 *****************************************************************/

@@ -20,8 +20,6 @@
 struct unit;
 struct city;
 
-extern struct city *city_workers_display;
-
 void popup_newcity_dialog(struct unit *punit, char *suggestname);
 
 void set_turn_done_button_state(bool state);

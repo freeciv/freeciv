@@ -19,8 +19,6 @@
 
 #include "mapctrl.h"
 
-struct city *city_workers_display = NULL;
-
 /**************************************************************************
   Popup a dialog to ask for the name of a new city.  The given string
   should be used as a suggestion.

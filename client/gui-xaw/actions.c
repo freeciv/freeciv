@@ -53,7 +53,7 @@ static void xaw_mouse_moved(Widget w, XEvent *event, String *argv, Cardinal *arg
 
 static void xaw_btn_adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  mapctrl_btn_adjust_workers(event);
+  adjust_workers_button_pressed(event->xbutton.x, event->xbutton.y);
 }
 
 static void xaw_btn_select_citymap(Widget w, XEvent *event, String *argv, Cardinal *argc)
