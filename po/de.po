@@ -6494,7 +6494,7 @@ msgstr "Flugzeuge"
 
 #: client/gui-gtk/citydlg.c:1265 client/gui-win32/citydlg.c:2135
 msgid "Disband if build settler at size 1"
-msgstr "Stadt der Größe 1 bei Siedlerbau auflösen"
+msgstr "Stadt der Größe 1\nbei Siedlerbau auflösen"
 
 #: client/gui-gtk/citydlg.c:1269
 msgid "City Overview page"
@@ -9063,7 +9063,7 @@ msgstr "Produziert werden können"
 #: client/gui-gtk/wldlg.c:463 client/gui-mui/worklistclass.c:647
 #: client/gui-mui/worklistclass.c:648
 msgid "Show future targets"
-msgstr "einschließlich noch nicht ausführbarer Aufträge"
+msgstr "Zeige alle Aufträge"
 
 #: client/gui-gtk/wldlg.c:473
 msgid "Undo"
