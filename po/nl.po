@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-02-03 10:27+0100\n"
-"PO-Revision-Date: 2003-02-03 10:49+0100\n"
+"POT-Creation-Date: 2003-02-10 17:03+0100\n"
+"PO-Revision-Date: 2003-02-10 17:32+0100\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -125,7 +125,7 @@ msgid "Mine"
 msgstr "Mijn"
 
 #: common/map.c:59 common/unit.c:545 server/report.c:115
-#: client/cityrepdata.c:475
+#: client/cityrepdata.c:483
 msgid "Pollution"
 msgstr "Verontreiniging"
 
@@ -157,7 +157,7 @@ msgstr "Luchthaven"
 msgid "Fallout"
 msgstr "Radioactief"
 
-#: common/packets.c:3171
+#: common/packets.c:3186
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -334,13 +334,13 @@ msgid "Fortified"
 msgstr "Gefortificeerd"
 
 #: common/unit.c:552 client/gui-mui/gui_main.c:247
-#: client/gui-mui/mapclass.c:1671 client/gui-mui/mapclass.c:2947
+#: client/gui-mui/mapclass.c:1674 client/gui-mui/mapclass.c:2950
 #: client/gui-xaw/menu.c:172
 msgid "Sentry"
 msgstr "Op Wacht"
 
 #: common/unit.c:554 client/gui-gtk-2.0/menu.c:674 client/gui-gtk/menu.c:675
-#: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1673
+#: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1676
 #: client/gui-win32/menu.c:333 client/gui-xaw/menu.c:173
 msgid "Pillage"
 msgstr "Plunder"
@@ -361,8 +361,8 @@ msgstr "Transformeer"
 msgid "Patrol"
 msgstr "Patrouilleer"
 
-#: common/unit.c:561 client/gui-gtk-2.0/citydlg.c:2235
-#: client/gui-gtk/citydlg.c:2301 client/gui-mui/citydlg.c:2115
+#: common/unit.c:561 client/gui-gtk-2.0/citydlg.c:2292
+#: client/gui-gtk/citydlg.c:2304 client/gui-mui/citydlg.c:2119
 #: client/gui-win32/citydlg.c:1381 client/gui-xaw/citydlg.c:1430
 msgid "Unknown"
 msgstr "Onbekend"
@@ -460,12 +460,12 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:232 server/citytools.c:1835
+#: ai/aicity.c:232 server/citytools.c:1838
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:241 server/citytools.c:1877
+#: ai/aicity.c:241 server/citytools.c:1880
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
@@ -599,7 +599,7 @@ msgstr ""
 "      Arbeiders verzamelen zich spontaan om de stad op te waarderen met "
 "spoorwegen."
 
-#: server/citytools.c:955 server/citytools.c:1137
+#: server/citytools.c:955 server/citytools.c:1138
 #, c-format
 msgid "%s lose %s (%i,%i)"
 msgstr "%s verliest %s (%i,%i)"
@@ -609,22 +609,22 @@ msgstr "%s verliest %s (%i,%i)"
 msgid "%s (%i, %i) founded by the %s"
 msgstr "%s (%i, %i) gesticht door de %s"
 
-#: server/citytools.c:1116
+#: server/citytools.c:1117
 #, c-format
 msgid "Game: You have founded %s"
 msgstr "Spel: U heeft %s gesticht."
 
-#: server/citytools.c:1163
+#: server/citytools.c:1164
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Spel: Hoofdstad verplaatst van %s naar %s."
 
-#: server/citytools.c:1194
+#: server/citytools.c:1195
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Spel: %s uit verlaten stad %s gehaald om vastzitten te voorkomen."
 
-#: server/citytools.c:1205
+#: server/citytools.c:1206
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
@@ -633,66 +633,66 @@ msgstr ""
 "Spel: Toen %s werd verlaten konden uw %s niet wegkomen en zijn daardoor vast "
 "komen te zitten."
 
-#: server/citytools.c:1308
+#: server/citytools.c:1309
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Spel: U vernietigt %s volledig."
 
-#: server/citytools.c:1310
+#: server/citytools.c:1311
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Spel: %s is vernietigd door %s."
 
-#: server/citytools.c:1312
+#: server/citytools.c:1313
 #, c-format
 msgid "%s (%s) (%i,%i) destroyed by %s"
 msgstr "%s (%s) (%i,%i) vernietigd door %s"
 
-#: server/citytools.c:1330
+#: server/citytools.c:1331
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Spel: U verovert %s, uw plunderingen leveren %d goud op!"
 
-#: server/citytools.c:1334
+#: server/citytools.c:1335
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Spel: %s veroverde %s en plunderde %d goud uit de stad."
 
-#: server/citytools.c:1337
+#: server/citytools.c:1338
 #, c-format
 msgid "%s (%s) (%i,%i) conquered by %s"
 msgstr "%s (%s) (%i,%i) veroverd door %s"
 
-#: server/citytools.c:1342
+#: server/citytools.c:1343
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Spel: U hebt %s bevrijdt!! plunderingen leveren %d goud op."
 
-#: server/citytools.c:1347
+#: server/citytools.c:1348
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Spel: %s bevrijdde %s en plunderde %d goud uit de stad."
 
-#: server/citytools.c:1350
+#: server/citytools.c:1351
 #, c-format
 msgid "%s (%s) (%i,%i) liberated by %s"
 msgstr "%s (%s) (%i,%i) bevrijdt door %s"
 
-#: server/citytools.c:1856
+#: server/citytools.c:1859
 msgid " from the worklist"
 msgstr " van de werklijst"
 
-#: server/citytools.c:1866
+#: server/citytools.c:1869
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Spel: %s is %s%s aan het bouwen."
 
-#: server/citytools.c:1870
+#: server/citytools.c:1873
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Spel: %s is %s aan het bouwen."
 
-#: server/citytools.c:2119
+#: server/citytools.c:2122
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Spel: U verkoopt %s in %s (nu ingesloten door land) voor %d goud."
@@ -1741,14 +1741,14 @@ msgid "Tax"
 msgstr "Belasting"
 
 #: server/plrhand.c:661 client/gui-gtk-2.0/gamedlgs.c:266
-#: client/gui-gtk/gamedlgs.c:264 client/gui-mui/citydlg.c:1682
+#: client/gui-gtk/gamedlgs.c:264 client/gui-mui/citydlg.c:1685
 #: client/gui-win32/ratesdlg.c:322
 msgid "Luxury"
 msgstr "Luxe"
 
 #: server/plrhand.c:663 client/gui-gtk-2.0/gamedlgs.c:286
 #: client/gui-gtk-2.0/repodlgs.c:139 client/gui-gtk/gamedlgs.c:284
-#: client/gui-gtk/repodlgs.c:153 client/gui-mui/citydlg.c:1686
+#: client/gui-gtk/repodlgs.c:153 client/gui-mui/citydlg.c:1689
 #: client/gui-mui/repodlgs.c:281 client/gui-win32/ratesdlg.c:328
 #: client/gui-win32/repodlgs.c:98 client/gui-xaw/menu.c:203
 #: client/gui-xaw/repodlgs.c:257 client/gui-xaw/repodlgs.c:498
@@ -1962,7 +1962,7 @@ msgstr "Onderzoekssnelheid"
 msgid "Literacy"
 msgstr "Geletterdheid"
 
-#: server/report.c:112 client/gui-mui/citydlg.c:1529
+#: server/report.c:112 client/gui-mui/citydlg.c:1532
 msgid "Production"
 msgstr "Productie"
 
@@ -2182,7 +2182,7 @@ msgstr "ondersteunde opties: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Spelregelbestand bevat vereiste optie(s) die wij niet ondersteunen:"
 
-#: server/ruleset.c:2765
+#: server/ruleset.c:2788
 msgid "Loading rulesets"
 msgstr "Laad spelregels"
 
@@ -2213,18 +2213,18 @@ msgstr ""
 "Aantal startplaatsen (%d) is lager dan max_players (%d), ik verlaag "
 "max_players."
 
-#: server/savegame.c:1769
+#: server/savegame.c:1770
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Opgeslagen spel te oud; tenminste versie 1.9.0 is nodig."
 
-#: server/savegame.c:1933
+#: server/savegame.c:1934
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Het opgeslagen spel gebruikt de klassieke spelregelset die niet langer "
 "ondersteund wordt."
 
-#: server/savegame.c:1942
+#: server/savegame.c:1943
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4155,7 +4155,7 @@ msgstr "Wissel de server uitvoerstijl tussen 'RFC-stijl en de normale stijl."
 msgid "(ambiguous)"
 msgstr "(dubbelzinnig)"
 
-#: server/stdinhand.c:1377 client/packhand.c:1040
+#: server/stdinhand.c:1377 client/packhand.c:1059
 msgid "(unknown)"
 msgstr "(onbekend)"
 
@@ -4891,152 +4891,152 @@ msgstr ""
 "Toegestane verbindingen formaat bevat ongeldige\n"
 "tekens. Probeer \"help allowconnect\"."
 
-#: server/unithand.c:168
+#: server/unithand.c:167
 #, c-format
 msgid "Game: Illegal packet, can't upgrade %s (yet)."
 msgstr "Spel: Illegaal pakket, kan %s (nog) niet opwaarderen."
 
-#: server/unithand.c:200
+#: server/unithand.c:199
 #, c-format
 msgid "Game: %d %s upgraded to %s for %d gold."
 msgstr "Spel: %d %s opgewaardeerd naar %s voor %d goud."
 
-#: server/unithand.c:206
+#: server/unithand.c:205
 msgid "Game: No units could be upgraded."
 msgstr "Spel: Er konden geen eenheden opgewaardeerd worden."
 
-#: server/unithand.c:228
+#: server/unithand.c:227
 msgid "Game: Illegal move, unit not in city!"
 msgstr "Spel: Ongeldige beweging, eenheid is niet in een stad!"
 
-#: server/unithand.c:233
+#: server/unithand.c:232
 #, c-format
 msgid "Game: Illegal package, can't upgrade %s (yet)."
 msgstr "Spel: Illegaal pakket, kan %s (nog) niet opwaarderen."
 
-#: server/unithand.c:239
+#: server/unithand.c:238
 #, c-format
 msgid "Game: Insufficient funds, upgrade costs %d."
 msgstr "Spel: Onvoldoende fondsen, opwaardering kost %d."
 
-#: server/unithand.c:246
+#: server/unithand.c:245
 #, c-format
 msgid "Game: %s upgraded to %s for %d gold."
 msgstr "Spel: %s opgewaardeerd naar %s voor %d goud."
 
-#: server/unithand.c:464
+#: server/unithand.c:463
 msgid "Game: Can't place city here."
 msgstr "Spel: Kan stad daar niet plaatsen."
 
-#: server/unithand.c:471
+#: server/unithand.c:470
 #, c-format
 msgid "Game: Only %s can build a city."
 msgstr "Spel: Alleen %s kan een stad bouwen."
 
-#: server/unithand.c:476
+#: server/unithand.c:475
 msgid "Game: Can't build a city."
 msgstr "Spel: Kan geen stad bouwen."
 
-#: server/unithand.c:485
+#: server/unithand.c:484
 #, c-format
 msgid "Game: Only %s can add to a city."
 msgstr "Spel: Alleen %s kan aan een stad toevoegen."
 
-#: server/unithand.c:490
+#: server/unithand.c:489
 msgid "Game: Can't add to a city."
 msgstr "Spel: Kan niet aan een stad toevoegen."
 
-#: server/unithand.c:496
+#: server/unithand.c:495
 #, c-format
 msgid "Game: %s unit has no moves left to add to %s."
 msgstr "Spel: %s eenheid heeft geen beweging over om aan %s toe te voegen."
 
-#: server/unithand.c:501
+#: server/unithand.c:500
 #, c-format
 msgid "Game: %s unit has no moves left to build city."
 msgstr "Spel: %s eenheid heeft geen beweging over om stad te bouwen."
 
-#: server/unithand.c:506
+#: server/unithand.c:505
 #, c-format
 msgid "Game: %s is too big to add %s."
 msgstr "Spel: %s is te groot voor toevoegen van %s."
 
-#: server/unithand.c:511 server/unithand.c:517
+#: server/unithand.c:510 server/unithand.c:516
 #, c-format
 msgid "Game: %s needs %s to grow, so you cannot add %s."
 msgstr "Spel: %s heeft %s nodig voor groei, dus u kunt geen %s toevoegen."
 
-#: server/unithand.c:526
+#: server/unithand.c:525
 #, c-format
 msgid "Game: Can't add %s to %s."
 msgstr "Spel: Kan %s niet toevoegen aan %s."
 
-#: server/unithand.c:548
+#: server/unithand.c:547
 #, c-format
 msgid "Game: %s added to aid %s in growing."
 msgstr "Spel: %s toegevoegd aan %s voor hulp bij groei."
 
-#: server/unithand.c:563
+#: server/unithand.c:562
 msgid "Game: Let's not build a city with such a stupid name."
 msgstr "Spel: Laten we geen stad bouwen met zo'n stomme naam."
 
-#: server/unithand.c:704
+#: server/unithand.c:699
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
 "Spel: Uw Kernraket is neergeschoten door een SDI verdediging, wat een "
 "verspilling."
 
-#: server/unithand.c:707
+#: server/unithand.c:702
 #, c-format
 msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Spel: De kernaanval op %s is voorkomen door uw SDI verdediging."
 
-#: server/unithand.c:808
+#: server/unithand.c:803
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
 msgstr "Spel: Uw %s%s overleefden de zielige aanval van %s's %s."
 
-#: server/unithand.c:817
+#: server/unithand.c:812
 #, c-format
 msgid "Game: Your attacking %s failed against %s's %s%s!"
 msgstr "Spel: Uw aanvallende %s faalden tegen %s's %s%s!"
 
-#: server/unithand.c:834
+#: server/unithand.c:829
 #, c-format
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
 msgstr "Spel: Uw aanvallende %s waren succesvol tegen %s's %s%s!"
 
-#: server/unithand.c:885
+#: server/unithand.c:880
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr "Spel: Verbreek eerst verdrag in de spelersdialoog (F3)."
 
-#: server/unithand.c:908
+#: server/unithand.c:903
 #, c-format
 msgid "Game: Only %s can attack from sea."
 msgstr "Spel: Alleen %s kunnen aanvallen vanuit zee."
 
-#: server/unithand.c:913
+#: server/unithand.c:908
 msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan niet aanvallen vanuit zee."
 
-#: server/unithand.c:918 server/unittools.c:2208
+#: server/unithand.c:913 server/unittools.c:2194
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spel: U kunt niet aanvallen voordat u de oorlog verklaard heeft."
 
-#: server/unithand.c:921
+#: server/unithand.c:916
 #, c-format
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Spel: %s kan alleen binnen uw eigen invloedssfeer bewegen."
 
-#: server/unithand.c:1005
+#: server/unithand.c:1000
 msgid "Game: Unit must be on land to perform diplomatic action."
 msgstr "Spel: Eenheid moet zich op land bevinden voor diplomatieke acties."
 
-#: server/unithand.c:1007
+#: server/unithand.c:1002
 msgid "Game: No diplomat action possible."
 msgstr "Spel: Geen diplomatieke actie mogelijk."
 
-#: server/unithand.c:1017
+#: server/unithand.c:1012
 #, c-format
 msgid ""
 "Game: Can't attack %s's unit in the city of %s because you are not at war "
@@ -5045,54 +5045,54 @@ msgstr ""
 "Spel: Kan %s's eenheden in de stad %s niet aanvallen omdat u niet in oorlog "
 "bent met %s."
 
-#: server/unithand.c:1028
+#: server/unithand.c:1023
 msgid "Game: You can't attack there."
 msgstr "Spel: U kunt hier niet aanvallen."
 
-#: server/unithand.c:1034
+#: server/unithand.c:1029
 msgid "Game: This unit has no moves left."
 msgstr "Spel: Deze eenheid heeft geen beweging meer over."
 
-#: server/unithand.c:1044
+#: server/unithand.c:1039
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Spel: %s brak GA NAAR af aangezien er eenheden in de weg staan."
 
-#: server/unithand.c:1058
+#: server/unithand.c:1053
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
 msgstr "Spel: Geen oorlog verklaard aan %s, kan niet aanvallen."
 
-#: server/unithand.c:1069
+#: server/unithand.c:1064
 msgid "Game: Only ground troops can take over a city."
 msgstr "Spel: Alleen grondtroepen kunnen een stad innemen."
 
-#: server/unithand.c:1076
+#: server/unithand.c:1071
 #, c-format
 msgid "Game: No war declared against %s, cannot take over city."
 msgstr "Spel: Geen oorlog verklaart aan %s, kan stad niet innemen."
 
-#: server/unithand.c:1126
+#: server/unithand.c:1121
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Spel: Uw %s help %s in %s te bouwen (%d resterend)."
 
-#: server/unithand.c:1168
+#: server/unithand.c:1163
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr "Spel: Sorry, uw %s kan hier geen handelsroute vestigen!"
 
-#: server/unithand.c:1174
+#: server/unithand.c:1169
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
 msgstr "      Er bestaat al een handelsroute tussen %s en %s!"
 
-#: server/unithand.c:1181 server/unithand.c:1188
+#: server/unithand.c:1176 server/unithand.c:1183
 #, c-format
 msgid "      The city of %s already has %d trade routes!"
 msgstr "      De stad %s heeft al %d handelsroutes!"
 
-#: server/unithand.c:1199
+#: server/unithand.c:1194
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -5179,120 +5179,120 @@ msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 "Spel: Uw %s ontbonden vanwege de verandering van zee naar land bij (%d, %d)."
 
-#: server/unittools.c:1131
+#: server/unittools.c:1118
 #, c-format
 msgid " at %s"
 msgstr " bij %s"
 
-#: server/unittools.c:1133
+#: server/unittools.c:1120
 #, c-format
 msgid " in %s"
 msgstr " in %s"
 
-#: server/unittools.c:1140
+#: server/unittools.c:1127
 #, c-format
 msgid " outside %s"
 msgstr " buiten %s"
 
-#: server/unittools.c:1143
+#: server/unittools.c:1130
 #, c-format
 msgid " near %s"
 msgstr " bij %s"
 
-#: server/unittools.c:1347
+#: server/unittools.c:1334
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
 msgstr "Spel: Ontbond uw %s bij (%d, %d)."
 
-#: server/unittools.c:1371
+#: server/unittools.c:1358
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spel: Teleporteerde uw %s van (%d, %d) naar %s."
 
-#: server/unittools.c:1770
+#: server/unittools.c:1757
 #, c-format
 msgid "Game: %s lost when %s was lost."
 msgstr "Spel: %s verloren toen %s verloren ging."
 
-#: server/unittools.c:1773
+#: server/unittools.c:1760
 #, c-format
 msgid "%s lose %s when %s lost"
 msgstr "%s verloren %s toen %s verloren ging"
 
-#: server/unittools.c:1821
+#: server/unittools.c:1808
 #, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr "Spel: Barbaarse leider gevangengenomen, %d goud losgeld betaald."
 
-#: server/unittools.c:1841
+#: server/unittools.c:1828
 #, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1844 server/unittools.c:1888
+#: server/unittools.c:1831 server/unittools.c:1875
 #, c-format
 msgid "%s lose %s to the %s"
 msgstr "De %s verliezen %s aan de %s"
 
-#: server/unittools.c:1869
+#: server/unittools.c:1856
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
 msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
 msgstr[0] "Spel: U verloor %d eenheid onder een aanval van %s's %s%s."
 msgstr[1] "Spel: U verloor %d eenheden onder een aanval van %s's %s%s."
 
-#: server/unittools.c:1884
+#: server/unittools.c:1871
 #, c-format
 msgid "Game: %s lost to an attack from %s's %s."
 msgstr "Spel: %s verloren onder een aanval van %s's %s."
 
-#: server/unittools.c:2063
+#: server/unittools.c:2049
 #, c-format
 msgid "Game: Your %s was nuked by %s."
 msgstr "Spel: Uw %s is geatomiseerd door %s."
 
-#: server/unittools.c:2065 server/unittools.c:2081
+#: server/unittools.c:2051 server/unittools.c:2067
 msgid "yourself"
 msgstr "uzelf"
 
-#: server/unittools.c:2069
+#: server/unittools.c:2055
 #, c-format
 msgid "Game: %s's %s was nuked."
 msgstr "Spel: %s's %s is geatomiseerd."
 
-#: server/unittools.c:2079
+#: server/unittools.c:2065
 #, c-format
 msgid "Game: %s was nuked by %s."
 msgstr "Spel: %s is geatomiseerd door %s."
 
-#: server/unittools.c:2086
+#: server/unittools.c:2072
 #, c-format
 msgid "Game: You nuked %s."
 msgstr "Spel: U atomiseerde %s."
 
-#: server/unittools.c:2123
+#: server/unittools.c:2109
 #, c-format
 msgid "Game: %s detonated a nuke!"
 msgstr "Spel: %s heeft een kernraket tot ontploffing gebracht."
 
-#: server/unittools.c:2161
+#: server/unittools.c:2147
 #, c-format
 msgid "Game: %s transported succesfully."
 msgstr "Spel: %s succesvol overgeplaatst."
 
-#: server/unittools.c:2185
+#: server/unittools.c:2171
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spel: Deze eenheid kan niet worden geparadropt."
 
-#: server/unittools.c:2194
+#: server/unittools.c:2180
 msgid "Game: The destination location is not known."
 msgstr "Spel: De plaats van bestemming is onbekend."
 
-#: server/unittools.c:2200
+#: server/unittools.c:2186
 msgid "Game: Cannot paradrop into ocean."
 msgstr "Spel: Kan niet paradroppen in de oceaan."
 
-#: server/unittools.c:2217
+#: server/unittools.c:2203
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -5300,69 +5300,69 @@ msgstr ""
 "Spel: De afstand naar het doel (%i) is groter dan het bereik van de eenheid "
 "(%i)."
 
-#: server/unittools.c:2229
+#: server/unittools.c:2215
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spel: Uw %s is in de oceaan geland en ging verloren."
 
-#: server/unittools.c:2241 server/unittools.c:2253
+#: server/unittools.c:2227 server/unittools.c:2239
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr "Spel: Uw %s is vermoord door vijandelijke eenheden in de landingszone."
 
-#: server/unittools.c:2276
+#: server/unittools.c:2262
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spel: U vond %d goud."
 
-#: server/unittools.c:2302
+#: server/unittools.c:2288
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spel: U hebt %s ontdekt in oude boekrollen met wijsheid."
 
-#: server/unittools.c:2304
+#: server/unittools.c:2290
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "%s ontdekken %s (Hut)"
 
-#: server/unittools.c:2306
+#: server/unittools.c:2292
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Spel: De %s hebben %s verkregen van oude boekrollen met wijsheid."
 
-#: server/unittools.c:2326
+#: server/unittools.c:2312
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spel: Een troep vriendelijke huurlingen sluit zich bij u aan."
 
-#: server/unittools.c:2343
+#: server/unittools.c:2329
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Hier is een verlaten dorp."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2341
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: U hebt een horde barbaren ontketend!"
 
-#: server/unittools.c:2358
+#: server/unittools.c:2344
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spel: Uw %s is vermoord door barbaren!"
 
-#: server/unittools.c:2374
+#: server/unittools.c:2360
 msgid "Game: You found a friendly city."
 msgstr "Spel: U heeft een bevriende stad gevonden."
 
-#: server/unittools.c:2379
+#: server/unittools.c:2365
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Spel: Vriendelijke nomaden zijn door u geïmponeerd en sluiten zich bij u aan."
 
-#: server/unittools.c:2404
+#: server/unittools.c:2390
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Spel: Uw verkenningsvlucht beangstigt de stam; zij verspreiden zich in "
 "terreur."
 
-#: server/unittools.c:3055
+#: server/unittools.c:3041
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -5487,9 +5487,9 @@ msgstr[1] "%3d beurten"
 
 #: client/citydlg_common.c:158 client/citydlg_common.c:276
 #: client/agents/cma_fec.c:264 client/agents/cma_fec.c:298
-#: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk/citydlg.c:1727
+#: client/gui-gtk-2.0/citydlg.c:1711 client/gui-gtk/citydlg.c:1728
 #: client/gui-mui/citydlg.c:108 client/gui-mui/citydlg.c:143
-#: client/gui-mui/citydlg.c:1901
+#: client/gui-mui/citydlg.c:1904
 msgid "never"
 msgstr "nooit"
 
@@ -5515,17 +5515,17 @@ msgid_plural "%s (%d) %d turns"
 msgstr[0] "%s (%d) %d beurt"
 msgstr[1] "%s (%d) %d beurten"
 
-#: client/citydlg_common.c:250 client/gui-mui/citydlg.c:670
+#: client/citydlg_common.c:250 client/gui-mui/citydlg.c:671
 #: client/gui-mui/worklistclass.c:114
 msgid "Wonder"
 msgstr "Wereldwonder"
 
-#: client/citydlg_common.c:252 client/gui-mui/citydlg.c:672
+#: client/citydlg_common.c:252 client/gui-mui/citydlg.c:673
 #: client/gui-mui/worklistclass.c:111
 msgid "Built"
 msgstr "Gebouwd"
 
-#: client/citydlg_common.c:255 client/gui-mui/citydlg.c:674
+#: client/citydlg_common.c:255 client/gui-mui/citydlg.c:675
 #: client/gui-mui/worklistclass.c:113
 msgid "Obsolete"
 msgstr "Verouderd"
@@ -5535,163 +5535,163 @@ msgstr "Verouderd"
 msgid "%d/turn"
 msgstr "%d/beurt"
 
-#: client/cityrepdata.c:71
+#: client/cityrepdata.c:72
 msgid "?city_state:Rapture"
 msgstr "?city_state:Extase"
 
-#: client/cityrepdata.c:72
+#: client/cityrepdata.c:73
 msgid "?city_state:Disorder"
 msgstr "?city_state:Onlusten"
 
-#: client/cityrepdata.c:73
+#: client/cityrepdata.c:74
 msgid "?city_state:Peace"
 msgstr "?city_state:Vrede"
 
-#: client/cityrepdata.c:355
+#: client/cityrepdata.c:356
 msgid "(worklist)"
 msgstr "(werklijst)"
 
-#: client/cityrepdata.c:413
+#: client/cityrepdata.c:421
 msgid "?city:Name"
 msgstr "?stad:Naam"
 
-#: client/cityrepdata.c:413
+#: client/cityrepdata.c:421
 msgid "City Name"
 msgstr "Stadsnaam"
 
-#: client/cityrepdata.c:415
+#: client/cityrepdata.c:423
 msgid "?size:Sz"
 msgstr "?grootte:Gr"
 
-#: client/cityrepdata.c:415
+#: client/cityrepdata.c:423
 msgid "Size"
 msgstr "Grootte"
 
-#: client/cityrepdata.c:417 client/gui-gtk-2.0/plrdlg.c:189
+#: client/cityrepdata.c:425 client/gui-gtk-2.0/plrdlg.c:189
 #: client/gui-gtk/plrdlg.c:138 client/gui-mui/plrdlg.c:172
 #: client/gui-win32/plrdlg.c:350
 msgid "State"
 msgstr "Toestand"
 
-#: client/cityrepdata.c:417
+#: client/cityrepdata.c:425
 msgid "Rapture/Peace/Disorder"
 msgstr "Extase/Vrede/Onlusten"
 
-#: client/cityrepdata.c:419
+#: client/cityrepdata.c:427
 msgid "Concise *=Rapture, X=Disorder"
 msgstr "Beknopt *=Extase, X=Onlusten"
 
-#: client/cityrepdata.c:421 client/gui-mui/citydlg.c:1435
+#: client/cityrepdata.c:429 client/gui-mui/citydlg.c:1438
 #: client/gui-xaw/citydlg.c:2529
 msgid "Workers"
 msgstr "Arbeiders"
 
-#: client/cityrepdata.c:422
+#: client/cityrepdata.c:430
 msgid "?happy/content/unhappy/angry:H/C/U/A"
 msgstr "?gelukkig/tevreden/ontevreden/kwaad:G/T/O/K"
 
-#: client/cityrepdata.c:423
+#: client/cityrepdata.c:431
 msgid "Workers: Happy, Content, Unhappy, Angry"
 msgstr "Arbeiders: Gelukkig, Tevreden, Ontevreden, Kwaad"
 
-#: client/cityrepdata.c:425
+#: client/cityrepdata.c:433
 msgid "?Happy workers:H"
 msgstr "?Gelukkige arbeiders:G"
 
-#: client/cityrepdata.c:425
+#: client/cityrepdata.c:433
 msgid "Workers: Happy"
 msgstr "Arbeiders: Gelukkig"
 
-#: client/cityrepdata.c:427
+#: client/cityrepdata.c:435
 msgid "?Content workers:C"
 msgstr "?Tevreden arbeiders:T"
 
-#: client/cityrepdata.c:427
+#: client/cityrepdata.c:435
 msgid "Workers: Content"
 msgstr "Arbeiders: Tevreden"
 
-#: client/cityrepdata.c:429
+#: client/cityrepdata.c:437
 msgid "?Unhappy workers:U"
 msgstr "?Ontevreden arbeiders:O"
 
-#: client/cityrepdata.c:429
+#: client/cityrepdata.c:437
 msgid "Workers: Unhappy"
 msgstr "Arbeiders: Ontevreden"
 
-#: client/cityrepdata.c:431
+#: client/cityrepdata.c:439
 msgid "?Angry workers:A"
 msgstr "?Kwade arbeiders:K"
 
-#: client/cityrepdata.c:431
+#: client/cityrepdata.c:439
 msgid "Workers: Angry"
 msgstr "Arbeiders: Kwaad"
 
-#: client/cityrepdata.c:433
+#: client/cityrepdata.c:441
 msgid "Special"
 msgstr "Speciaal"
 
-#: client/cityrepdata.c:434
+#: client/cityrepdata.c:442
 msgid "?entertainers/scientists/taxmen:E/S/T"
 msgstr "?showbiz/wetenschappers/belastingsambtenaren:S/W/B"
 
-#: client/cityrepdata.c:435
+#: client/cityrepdata.c:443
 msgid "Entertainers, Scientists, Taxmen"
 msgstr "Showbiz, Wetenschappers, Belastingsambtenaren"
 
-#: client/cityrepdata.c:437
+#: client/cityrepdata.c:445
 msgid "?Entertainers:E"
 msgstr "?Showbizz:S"
 
-#: client/cityrepdata.c:437 client/gui-gtk-2.0/citydlg.c:1266
-#: client/gui-gtk/citydlg.c:1282
+#: client/cityrepdata.c:445 client/gui-gtk-2.0/citydlg.c:1275
+#: client/gui-gtk/citydlg.c:1283
 msgid "Entertainers"
 msgstr "Showbizz"
 
-#: client/cityrepdata.c:439
+#: client/cityrepdata.c:447
 msgid "?Scientists:S"
 msgstr "?Wetenschappers:W"
 
-#: client/cityrepdata.c:439 client/gui-gtk-2.0/citydlg.c:1267
-#: client/gui-gtk/citydlg.c:1283 client/gui-mui/citydlg.c:1436
+#: client/cityrepdata.c:447 client/gui-gtk-2.0/citydlg.c:1276
+#: client/gui-gtk/citydlg.c:1284 client/gui-mui/citydlg.c:1439
 #: client/gui-win32/citydlg.c:2178 client/gui-xaw/citydlg.c:2529
 msgid "Scientists"
 msgstr "Wetenschappers"
 
-#: client/cityrepdata.c:441
+#: client/cityrepdata.c:449
 msgid "?Taxmen:T"
 msgstr "?Belastingsbeambten:B"
 
-#: client/cityrepdata.c:441 client/gui-gtk-2.0/citydlg.c:1268
-#: client/gui-gtk/citydlg.c:1284 client/gui-mui/citydlg.c:1437
+#: client/cityrepdata.c:449 client/gui-gtk-2.0/citydlg.c:1277
+#: client/gui-gtk/citydlg.c:1285 client/gui-mui/citydlg.c:1440
 #: client/gui-win32/citydlg.c:2180 client/gui-xaw/citydlg.c:2529
 msgid "Taxmen"
 msgstr "Belastingsbeambten"
 
-#: client/cityrepdata.c:443 client/cityrepdata.c:445
+#: client/cityrepdata.c:451 client/cityrepdata.c:453
 msgid "Best"
 msgstr "Beste"
 
-#: client/cityrepdata.c:443
+#: client/cityrepdata.c:451
 msgid "attack"
 msgstr "aanval"
 
-#: client/cityrepdata.c:444
+#: client/cityrepdata.c:452
 msgid "Best attacking units"
 msgstr "Beste aanvallende eenheden"
 
-#: client/cityrepdata.c:445
+#: client/cityrepdata.c:453
 msgid "defense"
 msgstr "verdediging"
 
-#: client/cityrepdata.c:446
+#: client/cityrepdata.c:454
 msgid "Best defending units"
 msgstr "Beste verdedigende eenheden"
 
-#: client/cityrepdata.c:447 client/cityrepdata.c:449
+#: client/cityrepdata.c:455 client/cityrepdata.c:457
 #: client/gui-gtk-2.0/cityrep.c:1082 client/gui-gtk-2.0/menu.c:637
 #: client/gui-gtk-2.0/repodlgs.c:868 client/gui-gtk/cityrep.c:560
 #: client/gui-gtk/menu.c:638 client/gui-gtk/repodlgs.c:829
-#: client/gui-mui/citydlg.c:1441 client/gui-mui/gui_main.c:228
+#: client/gui-mui/citydlg.c:1444 client/gui-mui/gui_main.c:228
 #: client/gui-win32/menu.c:314 client/gui-win32/repodlgs.c:618
 #: client/gui-win32/repodlgs.c:699 client/gui-win32/repodlgs.c:708
 #: client/gui-xaw/menu.c:145 client/gui-xaw/menu.c:200
@@ -5700,165 +5700,173 @@ msgstr "Beste verdedigende eenheden"
 msgid "Units"
 msgstr "Eenheden"
 
-#: client/cityrepdata.c:447
+#: client/cityrepdata.c:455
 msgid "?Supported (units):Sup"
 msgstr "?Ondersteund(e eenheden):Ond"
 
-#: client/cityrepdata.c:448
+#: client/cityrepdata.c:456
 msgid "Number of units supported"
 msgstr "Aantal ondersteunde eenheden"
 
-#: client/cityrepdata.c:449
+#: client/cityrepdata.c:457
 msgid "?Present (units):Prs"
 msgstr "?Aanwezig(e eenheden):Anw"
 
-#: client/cityrepdata.c:450
+#: client/cityrepdata.c:458
 msgid "Number of units present"
 msgstr "Aantal aanwezige eenheden"
 
-#: client/cityrepdata.c:452
+#: client/cityrepdata.c:460
 msgid "Surplus"
 msgstr "Overcapaciteit"
 
-#: client/cityrepdata.c:452
+#: client/cityrepdata.c:460
 msgid "?food/prod/trade:F/P/T"
 msgstr "?voeding/prod./handel:V/P/H"
 
-#: client/cityrepdata.c:453
+#: client/cityrepdata.c:461
 msgid "Surplus: Food, Production, Trade"
 msgstr "Overcapaciteit: Voeding, Productie, Handel"
 
-#: client/cityrepdata.c:455
+#: client/cityrepdata.c:463
 msgid "?Food surplus:F+"
 msgstr "?Voedingsoverschot:V+"
 
-#: client/cityrepdata.c:455
+#: client/cityrepdata.c:463
 msgid "Surplus: Food"
 msgstr "Overcapaciteit: Voeding"
 
-#: client/cityrepdata.c:457
+#: client/cityrepdata.c:465
 msgid "?Production surplus:P+"
 msgstr "?Productie-overschot:P+"
 
-#: client/cityrepdata.c:458
+#: client/cityrepdata.c:466
 msgid "Surplus: Production"
 msgstr "Overcapaciteit: Productie"
 
-#: client/cityrepdata.c:459
+#: client/cityrepdata.c:467
 msgid "?Trade surplus:T+"
 msgstr "?Handelsoverschot:H+"
 
-#: client/cityrepdata.c:459
+#: client/cityrepdata.c:467
 msgid "Surplus: Trade"
 msgstr "Overcapaciteit: Handel"
 
-#: client/cityrepdata.c:461 client/gui-gtk-2.0/repodlgs.c:582
+#: client/cityrepdata.c:469 client/gui-gtk-2.0/repodlgs.c:582
 #: client/gui-gtk/repodlgs.c:587 client/gui-win32/repodlgs.c:315
 #: client/gui-xaw/menu.c:202 client/gui-xaw/repodlgs.c:639
 #: client/gui-xaw/repodlgs.c:788 data/Freeciv:1765
 msgid "Economy"
 msgstr "Economie"
 
-#: client/cityrepdata.c:461
+#: client/cityrepdata.c:469
 msgid "?gold/lux/sci:G/L/S"
 msgstr "?goud/luxe/wet.:G/L/W"
 
-#: client/cityrepdata.c:462
+#: client/cityrepdata.c:470
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "Economie: Goud, Luxe, Wetenschap"
 
-#: client/cityrepdata.c:464
+#: client/cityrepdata.c:472
 msgid "?Gold:G"
 msgstr "?Goud:G"
 
-#: client/cityrepdata.c:464
+#: client/cityrepdata.c:472
 msgid "Economy: Gold"
 msgstr "Economie: Goud"
 
-#: client/cityrepdata.c:466
+#: client/cityrepdata.c:474
 msgid "?Luxury:L"
 msgstr "?Luxe:L"
 
-#: client/cityrepdata.c:466
+#: client/cityrepdata.c:474
 msgid "Economy: Luxury"
 msgstr "Economie: Luxe"
 
-#: client/cityrepdata.c:468
+#: client/cityrepdata.c:476
 msgid "?Science:S"
 msgstr "?Wetenschap:W"
 
-#: client/cityrepdata.c:468
+#: client/cityrepdata.c:476
 msgid "Economy: Science"
 msgstr "Economie: Wetenschap"
 
-#: client/cityrepdata.c:470
+#: client/cityrepdata.c:478
 msgid "?trade_routes:n"
 msgstr "?handelsroutes:n"
 
-#: client/cityrepdata.c:470
+#: client/cityrepdata.c:478
 msgid "?trade_routes:T"
 msgstr "?handelsroutes:T"
 
-#: client/cityrepdata.c:471
+#: client/cityrepdata.c:479
 msgid "Number of Trade Routes"
 msgstr "Aantal Handelsroutes"
 
-#: client/cityrepdata.c:473 client/gui-gtk-2.0/repodlgs.c:849
-#: client/gui-gtk/repodlgs.c:817 client/gui-mui/citydlg.c:1666
+#: client/cityrepdata.c:481 client/gui-gtk-2.0/repodlgs.c:849
+#: client/gui-gtk/repodlgs.c:817 client/gui-mui/citydlg.c:1669
 #: client/gui-mui/repodlgs.c:717 client/gui-win32/repodlgs.c:694
 msgid "Food"
 msgstr "Voeding"
 
-#: client/cityrepdata.c:473
+#: client/cityrepdata.c:481
 msgid "Stock"
 msgstr "Voorraad"
 
-#: client/cityrepdata.c:473
+#: client/cityrepdata.c:481
 msgid "Food Stock"
 msgstr "Voedsel Voorraad"
 
-#: client/cityrepdata.c:475
+#: client/cityrepdata.c:483
 msgid "?pollution:Pol"
 msgstr "?verontreiniging:Ver"
 
-#: client/cityrepdata.c:477
+#: client/cityrepdata.c:485
 msgid "Grow"
 msgstr "Groei"
 
-#: client/cityrepdata.c:477 client/gui-gtk-2.0/citydlg.c:2860
-#: client/gui-gtk-2.0/wldlg.c:318 client/gui-gtk/citydlg.c:2954
+#: client/cityrepdata.c:485 client/gui-gtk-2.0/citydlg.c:2998
+#: client/gui-gtk-2.0/wldlg.c:318 client/gui-gtk/citydlg.c:2957
 #: client/gui-gtk/wldlg.c:320 client/gui-win32/citydlg.c:1200
 #: client/gui-win32/wldlg.c:682
 msgid "Turns"
 msgstr "Beurten"
 
-#: client/cityrepdata.c:477
+#: client/cityrepdata.c:485
 msgid "Turns until growth/famine"
 msgstr "Beurten tot groei/hongersnood"
 
-#: client/cityrepdata.c:479
+#: client/cityrepdata.c:487
 msgid "?corruption:Cor"
 msgstr "?corruptie:Cor"
 
-#: client/cityrepdata.c:479
+#: client/cityrepdata.c:487
 msgid "Corruption"
 msgstr "Corruptie"
 
-#: client/cityrepdata.c:481 client/gui-gtk-2.0/cityrep.c:1088
+#: client/cityrepdata.c:489
+msgid "?waste:Was"
+msgstr "?waste:Afv"
+
+#: client/cityrepdata.c:489
+msgid "Waste"
+msgstr "Afval"
+
+#: client/cityrepdata.c:490 client/gui-gtk-2.0/cityrep.c:1088
 #: client/gui-gtk-2.0/cityrep.c:1232 client/gui-gtk/cityrep.c:566
-#: client/gui-gtk/cityrep.c:941 client/gui-mui/citydlg.c:1444
+#: client/gui-gtk/cityrep.c:941 client/gui-mui/citydlg.c:1447
 msgid "CMA"
 msgstr "Burgemeester"
 
-#: client/cityrepdata.c:481
+#: client/cityrepdata.c:490
 msgid "City Management Agent"
 msgstr "Stadsmanagement Agent"
 
-#: client/cityrepdata.c:483 client/cityrepdata.c:484
+#: client/cityrepdata.c:492 client/cityrepdata.c:493
 msgid "Currently Building"
 msgstr "In Aanbouw"
 
-#: client/cityrepdata.c:483
+#: client/cityrepdata.c:492
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Voorraad,Doel,Zetten,Koop)"
 
@@ -5909,11 +5917,11 @@ msgstr ""
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Niet-herkende optie: \"%s\"\n"
 
-#: client/civclient.c:659
+#: client/civclient.c:654
 msgid "Game started."
 msgstr "Spel begonnen."
 
-#: client/civclient.c:682
+#: client/civclient.c:677
 msgid "There was an error while auto connecting; aborting."
 msgstr ""
 "Er trad een fout op bij het automatisch maken van een verbinding; afbreken."
@@ -6127,11 +6135,11 @@ msgstr "Ongeldige metaserver URL, moet met 'http://' beginnen"
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ongeldige $http_proxy waarde, kan geen scheidend '/' vinden"
 
-#: client/control.c:611
+#: client/control.c:607
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Spel: Alleen transport-eenheden kunnen uitladen."
 
-#: client/control.c:805
+#: client/control.c:778
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
@@ -6139,23 +6147,23 @@ msgstr ""
 "Spel: Alleen kolonisten en militaire eenheden in steden kunnen in auto-modus "
 "worden gezet."
 
-#: client/control.c:838
+#: client/control.c:811
 msgid "Game: Only nuclear units can do this."
 msgstr "Spel: Alleen nucleaire eenheden kunnen dit."
 
-#: client/control.c:855
+#: client/control.c:828
 msgid "Game: Only paratrooper units can do this."
 msgstr "Spel: Alleen paratroepen eenheden kunnen dit."
 
-#: client/control.c:1260
+#: client/control.c:1233
 msgid "Game: Too far for this unit."
 msgstr "Spel: Te ver voor deze eenheid."
 
-#: client/control.c:1326 client/control.c:1375
+#: client/control.c:1299 client/control.c:1348
 msgid "Game: Didn't find a route to the destination!"
 msgstr "Spel: Kon geen route naar de bestemming vinden!"
 
-#: client/control.c:1366
+#: client/control.c:1339
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr ""
 "Spel: Sorry, patrouilleren met lucht-eenheden is nog niet geïmplementeerd."
@@ -6967,33 +6975,33 @@ msgstr "Client capaciteits string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capaciteits string: %s"
 
-#: client/packhand.c:698
+#: client/packhand.c:699
 #, c-format
 msgid "Start of turn %d"
 msgstr "Begin van beurt %d"
 
-#: client/packhand.c:769
+#: client/packhand.c:770
 msgid "Popup Request"
 msgstr "Popup Verzoek"
 
-#: client/packhand.c:1256
+#: client/packhand.c:1272
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI-modus is nu %s."
 
-#: client/packhand.c:1257
+#: client/packhand.c:1273
 msgid "ON"
 msgstr "AAN"
 
-#: client/packhand.c:1257
+#: client/packhand.c:1273
 msgid "OFF"
 msgstr "UIT"
 
-#: client/packhand.c:1267
+#: client/packhand.c:1283
 msgid "Game: Revolution finished"
 msgstr "Spel: Revolutie beëindigd"
 
-#: client/packhand.c:2188
+#: client/packhand.c:2212
 msgid "Other"
 msgstr "Anders"
 
@@ -7095,16 +7103,16 @@ msgid "custom"
 msgstr "anders"
 
 #: client/agents/cma_fec.c:284 client/agents/cma_fec.c:327
-#: client/gui-gtk-2.0/citydlg.c:1701 client/gui-gtk/citydlg.c:1732
+#: client/gui-gtk-2.0/citydlg.c:1716 client/gui-gtk/citydlg.c:1733
 #: client/gui-mui/citydlg.c:128 client/gui-mui/citydlg.c:172
-#: client/gui-mui/citydlg.c:1905
+#: client/gui-mui/citydlg.c:1908
 #, c-format
 msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] "%d beurt"
 msgstr[1] "%d beurten"
 
-#: client/agents/cma_fec.c:367 client/gui-mui/citydlg.c:2225
+#: client/agents/cma_fec.c:367 client/gui-mui/citydlg.c:2229
 msgid " happy"
 msgstr " gelukkig"
 
@@ -7135,7 +7143,7 @@ msgid "Cleared output window."
 msgstr "Outputvenster geschoond."
 
 #: client/gui-gtk-2.0/citydlg.c:566 client/gui-gtk/citydlg.c:580
-#: client/gui-mui/citydlg.c:1394 client/gui-mui/citydlg.c:1631
+#: client/gui-mui/citydlg.c:1395 client/gui-mui/citydlg.c:1634
 msgid "Food:"
 msgstr "Voeding:"
 
@@ -7144,80 +7152,82 @@ msgid "Prod:"
 msgstr "Prod:"
 
 #: client/gui-gtk-2.0/citydlg.c:568 client/gui-gtk/citydlg.c:582
-#: client/gui-mui/citydlg.c:1398 client/gui-mui/citydlg.c:1643
+#: client/gui-mui/citydlg.c:1399 client/gui-mui/citydlg.c:1646
 msgid "Trade:"
 msgstr "Handel:"
 
 #: client/gui-gtk-2.0/citydlg.c:569 client/gui-gtk/citydlg.c:583
-#: client/gui-mui/citydlg.c:1678 data/default/terrain.ruleset:376
-#: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
-#: data/history/terrain.ruleset:376
-msgid "Gold"
-msgstr "Goud"
+#: client/gui-mui/citydlg.c:1402 client/gui-mui/citydlg.c:1637
+msgid "Gold:"
+msgstr "Goud:"
 
 #: client/gui-gtk-2.0/citydlg.c:570 client/gui-gtk/citydlg.c:584
-#: client/gui-mui/citydlg.c:1403 client/gui-mui/citydlg.c:1640
+#: client/gui-mui/citydlg.c:1404 client/gui-mui/citydlg.c:1643
 #: client/gui-mui/gamedlgs.c:221
 msgid "Luxury:"
 msgstr "Luxe:"
 
 #: client/gui-gtk-2.0/citydlg.c:571 client/gui-gtk/citydlg.c:585
-#: client/gui-mui/citydlg.c:1405 client/gui-mui/citydlg.c:1646
+#: client/gui-mui/citydlg.c:1406 client/gui-mui/citydlg.c:1649
 #: client/gui-mui/gamedlgs.c:228
 msgid "Science:"
 msgstr "Wetenschap:"
 
 #: client/gui-gtk-2.0/citydlg.c:572 client/gui-gtk/citydlg.c:586
-#: client/gui-mui/citydlg.c:1408
+#: client/gui-mui/citydlg.c:1409
 msgid "Granary:"
 msgstr "Graansilo:"
 
 #: client/gui-gtk-2.0/citydlg.c:573 client/gui-gtk/citydlg.c:587
-#: client/gui-mui/citydlg.c:1410
+#: client/gui-mui/citydlg.c:1411
 msgid "Change in:"
 msgstr "Wijziging in:"
 
 #: client/gui-gtk-2.0/citydlg.c:574 client/gui-gtk/citydlg.c:588
-#: client/gui-mui/citydlg.c:1413
+#: client/gui-mui/citydlg.c:1414
 msgid "Corruption:"
 msgstr "Corruptie:"
 
 #: client/gui-gtk-2.0/citydlg.c:575 client/gui-gtk/citydlg.c:589
-#: client/gui-mui/citydlg.c:1415
+msgid "Waste: "
+msgstr "Afval: "
+
+#: client/gui-gtk-2.0/citydlg.c:576 client/gui-gtk/citydlg.c:590
+#: client/gui-mui/citydlg.c:1418
 msgid "Pollution:"
 msgstr "Verontreiniging:"
 
-#: client/gui-gtk-2.0/citydlg.c:635 client/gui-gtk/citydlg.c:634
+#: client/gui-gtk-2.0/citydlg.c:636 client/gui-gtk/citydlg.c:635
 msgid "City improvements"
 msgstr "Stadsverbeteringen"
 
-#: client/gui-gtk-2.0/citydlg.c:636 client/gui-gtk/citydlg.c:635
-#: client/gui-mui/citydlg.c:729 client/gui-win32/citydlg.c:930
+#: client/gui-gtk-2.0/citydlg.c:637 client/gui-gtk/citydlg.c:636
+#: client/gui-mui/citydlg.c:730 client/gui-win32/citydlg.c:930
 msgid "Upkeep"
 msgstr "Onderhoud"
 
-#: client/gui-gtk-2.0/citydlg.c:640 client/gui-gtk/citydlg.c:638
+#: client/gui-gtk-2.0/citydlg.c:641 client/gui-gtk/citydlg.c:639
 msgid "City _Overview"
 msgstr "Stads_overzicht"
 
-#: client/gui-gtk-2.0/citydlg.c:662 client/gui-gtk/citydlg.c:662
+#: client/gui-gtk-2.0/citydlg.c:663 client/gui-gtk/citydlg.c:663
 #: client/gui-win32/citydlg.c:836
 msgid "City info"
 msgstr "Stadsinfo"
 
-#: client/gui-gtk-2.0/citydlg.c:668 client/gui-gtk/citydlg.c:668
+#: client/gui-gtk-2.0/citydlg.c:669 client/gui-gtk/citydlg.c:669
 #: client/gui-win32/citydlg.c:855
 msgid "City map"
 msgstr "Stadskaart"
 
-#: client/gui-gtk-2.0/citydlg.c:845 client/gui-gtk/citydlg.c:852
+#: client/gui-gtk-2.0/citydlg.c:845 client/gui-gtk/citydlg.c:853
 #, c-format
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d beurten"
 
 #: client/gui-gtk-2.0/citydlg.c:847 client/gui-gtk-2.0/cityrep.c:648
-#: client/gui-gtk/citydlg.c:855 client/gui-gtk/cityrep.c:649
-#: client/gui-mui/citydlg.c:1535 client/gui-mui/cityrep.c:392
+#: client/gui-gtk/citydlg.c:856 client/gui-gtk/cityrep.c:649
+#: client/gui-mui/citydlg.c:1538 client/gui-mui/cityrep.c:392
 msgid "_Buy"
 msgstr "_Koop"
 
@@ -7225,319 +7235,293 @@ msgstr "_Koop"
 msgid "Chang_e"
 msgstr "Verand_er"
 
-#: client/gui-gtk-2.0/citydlg.c:893 client/gui-gtk-2.0/citydlg.c:1965
-#: client/gui-gtk-2.0/citydlg.c:3119 client/gui-gtk/citydlg.c:902
-#: client/gui-gtk/citydlg.c:2000 client/gui-gtk/citydlg.c:3217
+#: client/gui-gtk-2.0/citydlg.c:893 client/gui-gtk-2.0/citydlg.c:1982
+#: client/gui-gtk-2.0/citydlg.c:3255 client/gui-gtk/citydlg.c:903
+#: client/gui-gtk/citydlg.c:2003 client/gui-gtk/citydlg.c:3220
 #: client/gui-win32/citydlg.c:860
 msgid "Sell"
 msgstr "Verkoop"
 
 #: client/gui-gtk-2.0/citydlg.c:922 client/gui-gtk-2.0/menu.c:719
-#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk/citydlg.c:935
+#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk/citydlg.c:936
 #: client/gui-gtk/menu.c:720 client/gui-gtk/menu.c:763
 #: client/gui-win32/menu.c:356 client/gui-win32/menu.c:375
 msgid "_Units"
 msgstr "_Eenheden"
 
-#: client/gui-gtk-2.0/citydlg.c:964 client/gui-gtk/citydlg.c:977
+#: client/gui-gtk-2.0/citydlg.c:964 client/gui-gtk/citydlg.c:978
 #: client/gui-win32/citydlg.c:880
 msgid "Supported units"
 msgstr "Ondersteunde eenheden"
 
-#: client/gui-gtk-2.0/citydlg.c:968 client/gui-gtk/citydlg.c:981
-#: client/gui-mui/citydlg.c:1515 client/gui-mui/citydlg.c:1563
+#: client/gui-gtk-2.0/citydlg.c:968 client/gui-gtk/citydlg.c:982
+#: client/gui-mui/citydlg.c:1518 client/gui-mui/citydlg.c:1566
 #: client/gui-win32/citydlg.c:886
 msgid "Units present"
 msgstr "Aanwezige eenheden"
 
-#: client/gui-gtk-2.0/citydlg.c:1100 client/gui-gtk/citydlg.c:1111
+#: client/gui-gtk-2.0/citydlg.c:1109 client/gui-gtk/citydlg.c:1112
 msgid "Acti_vate present units"
 msgstr "_Activeer aanwezige eenheid"
 
-#: client/gui-gtk-2.0/citydlg.c:1106 client/gui-gtk/citydlg.c:1117
+#: client/gui-gtk-2.0/citydlg.c:1115 client/gui-gtk/citydlg.c:1118
 msgid "_Sentry idle units"
 msgstr "Zet ongebruikte eenheden op _wacht"
 
-#: client/gui-gtk-2.0/citydlg.c:1112 client/gui-gtk/citydlg.c:1123
+#: client/gui-gtk-2.0/citydlg.c:1121 client/gui-gtk/citydlg.c:1124
 msgid "_List present units"
 msgstr "_Lijst aanwezige eenheden"
 
-#: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk/citydlg.c:1148
+#: client/gui-gtk-2.0/citydlg.c:1146 client/gui-gtk/citydlg.c:1149
 msgid "_Worklist"
 msgstr "_Werklijst"
 
-#: client/gui-gtk-2.0/citydlg.c:1160 client/gui-gtk/citydlg.c:1171
+#: client/gui-gtk-2.0/citydlg.c:1169 client/gui-gtk/citydlg.c:1172
 msgid "_Happiness"
 msgstr "_Geluk"
 
-#: client/gui-gtk-2.0/citydlg.c:1209 client/gui-gtk/citydlg.c:1225
+#: client/gui-gtk-2.0/citydlg.c:1218 client/gui-gtk/citydlg.c:1226
 msgid "CM_A"
 msgstr "Burgemeester"
 
-#: client/gui-gtk-2.0/citydlg.c:1231 client/gui-gtk/citydlg.c:1247
+#: client/gui-gtk-2.0/citydlg.c:1240 client/gui-gtk/citydlg.c:1248
 msgid "_Trade Routes"
 msgstr "_Handelsroutes"
 
-#: client/gui-gtk-2.0/citydlg.c:1241 client/gui-gtk/citydlg.c:1257
+#: client/gui-gtk-2.0/citydlg.c:1250 client/gui-gtk/citydlg.c:1258
 msgid "Established trade routes"
 msgstr "Gevestigde handelsroutes"
 
-#: client/gui-gtk-2.0/citydlg.c:1263 client/gui-gtk/citydlg.c:1279
+#: client/gui-gtk-2.0/citydlg.c:1272 client/gui-gtk/citydlg.c:1280
 msgid "_Misc. Settings"
 msgstr "_Diverse Instellingen"
 
-#: client/gui-gtk-2.0/citydlg.c:1272 client/gui-gtk/citydlg.c:1288
-#: client/gui-mui/citydlg.c:1716 client/gui-mui/citydlg.c:1717
+#: client/gui-gtk-2.0/citydlg.c:1281 client/gui-gtk/citydlg.c:1289
+#: client/gui-mui/citydlg.c:1719 client/gui-mui/citydlg.c:1720
 msgid "Land units"
 msgstr "Landeenheden"
 
-#: client/gui-gtk-2.0/citydlg.c:1273 client/gui-gtk/citydlg.c:1289
-#: client/gui-mui/citydlg.c:1719 client/gui-mui/citydlg.c:1720
+#: client/gui-gtk-2.0/citydlg.c:1282 client/gui-gtk/citydlg.c:1290
+#: client/gui-mui/citydlg.c:1722 client/gui-mui/citydlg.c:1723
 msgid "Sea units"
 msgstr "Zee-eenheden"
 
-#: client/gui-gtk-2.0/citydlg.c:1274 client/gui-gtk/citydlg.c:1290
-#: client/gui-mui/citydlg.c:1722 client/gui-mui/citydlg.c:1723
+#: client/gui-gtk-2.0/citydlg.c:1283 client/gui-gtk/citydlg.c:1291
+#: client/gui-mui/citydlg.c:1725 client/gui-mui/citydlg.c:1726
 msgid "Helicopters"
 msgstr "Helicopters"
 
-#: client/gui-gtk-2.0/citydlg.c:1275 client/gui-gtk/citydlg.c:1291
-#: client/gui-mui/citydlg.c:1725 client/gui-mui/citydlg.c:1726
+#: client/gui-gtk-2.0/citydlg.c:1284 client/gui-gtk/citydlg.c:1292
+#: client/gui-mui/citydlg.c:1728 client/gui-mui/citydlg.c:1729
 msgid "Air units"
 msgstr "Luchteenheden"
 
-#: client/gui-gtk-2.0/citydlg.c:1276 client/gui-gtk/citydlg.c:1292
+#: client/gui-gtk-2.0/citydlg.c:1285 client/gui-gtk/citydlg.c:1293
 #: client/gui-win32/citydlg.c:2183
 msgid "Disband if build settler at size 1"
 msgstr "Verlaat als kolonisten gebouwd bij grootte 1"
 
-#: client/gui-gtk-2.0/citydlg.c:1280 client/gui-gtk/citydlg.c:1296
-#: client/gui-mui/citydlg.c:1448
+#: client/gui-gtk-2.0/citydlg.c:1289 client/gui-gtk/citydlg.c:1297
+#: client/gui-mui/citydlg.c:1451
 msgid "City Overview page"
 msgstr "Stadsoverzicht pagina"
 
-#: client/gui-gtk-2.0/citydlg.c:1281 client/gui-gtk/citydlg.c:1297
-#: client/gui-mui/citydlg.c:1449
+#: client/gui-gtk-2.0/citydlg.c:1290 client/gui-gtk/citydlg.c:1298
+#: client/gui-mui/citydlg.c:1452
 msgid "Units page"
 msgstr "Eenheden pagina"
 
-#: client/gui-gtk-2.0/citydlg.c:1282 client/gui-gtk/citydlg.c:1298
-#: client/gui-mui/citydlg.c:1450
+#: client/gui-gtk-2.0/citydlg.c:1291 client/gui-gtk/citydlg.c:1299
+#: client/gui-mui/citydlg.c:1453
 msgid "Worklist page"
 msgstr "Werklijst pagina"
 
-#: client/gui-gtk-2.0/citydlg.c:1283 client/gui-gtk/citydlg.c:1299
-#: client/gui-mui/citydlg.c:1451
+#: client/gui-gtk-2.0/citydlg.c:1292 client/gui-gtk/citydlg.c:1300
+#: client/gui-mui/citydlg.c:1454
 msgid "Happiness page"
 msgstr "Geluk pagina"
 
-#: client/gui-gtk-2.0/citydlg.c:1284 client/gui-gtk/citydlg.c:1300
-#: client/gui-mui/citydlg.c:1452
+#: client/gui-gtk-2.0/citydlg.c:1293 client/gui-gtk/citydlg.c:1301
+#: client/gui-mui/citydlg.c:1455
 msgid "CMA page"
 msgstr "Burgemeester"
 
-#: client/gui-gtk-2.0/citydlg.c:1285 client/gui-gtk/citydlg.c:1301
-#: client/gui-mui/citydlg.c:1453
+#: client/gui-gtk-2.0/citydlg.c:1294 client/gui-gtk/citydlg.c:1302
+#: client/gui-mui/citydlg.c:1456
 msgid "Trade Routes page"
 msgstr "Handelsroutes pagina"
 
-#: client/gui-gtk-2.0/citydlg.c:1286 client/gui-gtk/citydlg.c:1302
-#: client/gui-mui/citydlg.c:1454
+#: client/gui-gtk-2.0/citydlg.c:1295 client/gui-gtk/citydlg.c:1303
+#: client/gui-mui/citydlg.c:1457
 msgid "This Misc. Settings page"
 msgstr "Deze Diverse Instellingen pagina"
 
-#: client/gui-gtk-2.0/citydlg.c:1287 client/gui-gtk/citydlg.c:1303
-#: client/gui-mui/citydlg.c:1455
+#: client/gui-gtk-2.0/citydlg.c:1296 client/gui-gtk/citydlg.c:1304
+#: client/gui-mui/citydlg.c:1458
 msgid "Last active page"
 msgstr "Laatst actieve pagina"
 
-#: client/gui-gtk-2.0/citydlg.c:1305 client/gui-gtk/citydlg.c:1321
+#: client/gui-gtk-2.0/citydlg.c:1314 client/gui-gtk/citydlg.c:1322
 msgid "City options"
 msgstr "Stadsopties"
 
-#: client/gui-gtk-2.0/citydlg.c:1314 client/gui-gtk/citydlg.c:1330
-#: client/gui-mui/citydlg.c:1714
+#: client/gui-gtk-2.0/citydlg.c:1323 client/gui-gtk/citydlg.c:1331
+#: client/gui-mui/citydlg.c:1717
 msgid "Auto attack vs"
 msgstr "Auto aanval vs"
 
-#: client/gui-gtk-2.0/citydlg.c:1352 client/gui-gtk/citydlg.c:1367
-#: client/gui-mui/citydlg.c:1712 client/gui-win32/citydlg.c:2175
+#: client/gui-gtk-2.0/citydlg.c:1361 client/gui-gtk/citydlg.c:1368
+#: client/gui-mui/citydlg.c:1715 client/gui-win32/citydlg.c:2175
 msgid "New citizens are"
 msgstr "Nieuwe burgers zijn"
 
-#: client/gui-gtk-2.0/citydlg.c:1373 client/gui-gtk/citydlg.c:1387
+#: client/gui-gtk-2.0/citydlg.c:1382 client/gui-gtk/citydlg.c:1388
 msgid "City name"
 msgstr "Stadsnaam"
 
-#: client/gui-gtk-2.0/citydlg.c:1379 client/gui-gtk-2.0/wldlg.c:221
-#: client/gui-gtk/citydlg.c:1393 client/gui-gtk/wldlg.c:223
+#: client/gui-gtk-2.0/citydlg.c:1388 client/gui-gtk-2.0/wldlg.c:221
+#: client/gui-gtk/citydlg.c:1394 client/gui-gtk/wldlg.c:223
 #: client/gui-win32/citydlg.c:894 client/gui-win32/wldlg.c:309
 #: data/Freeciv:1942 data/Freeciv:2964
 msgid "Rename"
 msgstr "Hernoem"
 
-#: client/gui-gtk-2.0/citydlg.c:1389 client/gui-gtk/citydlg.c:1405
-#: client/gui-mui/citydlg.c:1737
+#: client/gui-gtk-2.0/citydlg.c:1398 client/gui-gtk/citydlg.c:1406
+#: client/gui-mui/citydlg.c:1740
 msgid "Next time open"
 msgstr "Volgende keer open"
 
-#: client/gui-gtk-2.0/citydlg.c:1545 client/gui-gtk/citydlg.c:1566
+#: client/gui-gtk-2.0/citydlg.c:1560 client/gui-gtk/citydlg.c:1567
 msgid "_Prev city"
 msgstr "Vorige stad (_p)"
 
-#: client/gui-gtk-2.0/citydlg.c:1550 client/gui-gtk/citydlg.c:1574
+#: client/gui-gtk-2.0/citydlg.c:1565 client/gui-gtk/citydlg.c:1575
 msgid "_Next city"
 msgstr "Volge_nde stad"
 
-#: client/gui-gtk-2.0/citydlg.c:1602 client/gui-gtk/citydlg.c:1634
+#: client/gui-gtk-2.0/citydlg.c:1617 client/gui-gtk/citydlg.c:1635
 #: client/gui-xaw/citydlg.c:1812
 #, c-format
 msgid "%s - %s citizens"
 msgstr "%s - %s inwoners"
 
-#: client/gui-gtk-2.0/citydlg.c:1607 client/gui-gtk/citydlg.c:1639
-#: client/gui-mui/citydlg.c:2140
+#: client/gui-gtk-2.0/citydlg.c:1622 client/gui-gtk/citydlg.c:1640
+#: client/gui-mui/citydlg.c:2144
 msgid " - DISORDER"
 msgstr " - WANORDE"
 
-#: client/gui-gtk-2.0/citydlg.c:1609 client/gui-gtk/citydlg.c:1641
-#: client/gui-mui/citydlg.c:2142
+#: client/gui-gtk-2.0/citydlg.c:1624 client/gui-gtk/citydlg.c:1642
+#: client/gui-mui/citydlg.c:2146
 msgid " - celebrating"
 msgstr " - festiviteiten"
 
-#: client/gui-gtk-2.0/citydlg.c:1611 client/gui-gtk/citydlg.c:1643
-#: client/gui-mui/citydlg.c:2144
+#: client/gui-gtk-2.0/citydlg.c:1626 client/gui-gtk/citydlg.c:1644
+#: client/gui-mui/citydlg.c:2148
 msgid " - happy"
 msgstr " - gelukkig"
 
-#: client/gui-gtk-2.0/citydlg.c:1694 client/gui-gtk/citydlg.c:1725
-#: client/gui-mui/citydlg.c:1899
+#: client/gui-gtk-2.0/citydlg.c:1709 client/gui-gtk/citydlg.c:1726
+#: client/gui-mui/citydlg.c:1902
 msgid "blocked"
 msgstr "geblokkeerd"
 
-#: client/gui-gtk-2.0/citydlg.c:1896 client/gui-gtk/citydlg.c:1929
+#: client/gui-gtk-2.0/citydlg.c:1913 client/gui-gtk/citydlg.c:1932
 msgid " (worklist)"
 msgstr " (werklijst)"
 
-#: client/gui-gtk-2.0/citydlg.c:1961 client/gui-gtk/citydlg.c:1995
+#: client/gui-gtk-2.0/citydlg.c:1978 client/gui-gtk/citydlg.c:1998
 #: client/gui-win32/citydlg.c:278
 #, c-format
 msgid "Upkeep (Total: %d)"
 msgstr "Onderhoud (Totaal: %d)"
 
-#: client/gui-gtk-2.0/citydlg.c:2093
+#: client/gui-gtk-2.0/citydlg.c:2124
 #, c-format
 msgid "Supported units: %d"
 msgstr "Ondersteunde eenheden: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2208
+#: client/gui-gtk-2.0/citydlg.c:2263
 #, c-format
 msgid "Present units: %d"
 msgstr "Aanwezige eenheden: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2235 client/gui-gtk/citydlg.c:2301
-#: client/gui-mui/citydlg.c:2115 client/gui-win32/citydlg.c:1381
+#: client/gui-gtk-2.0/citydlg.c:2292 client/gui-gtk/citydlg.c:2304
+#: client/gui-mui/citydlg.c:2119 client/gui-win32/citydlg.c:1381
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2238 client/gui-gtk/citydlg.c:2304
-#: client/gui-mui/citydlg.c:2118 client/gui-win32/citydlg.c:1384
+#: client/gui-gtk-2.0/citydlg.c:2295 client/gui-gtk/citydlg.c:2307
+#: client/gui-mui/citydlg.c:2122 client/gui-win32/citydlg.c:1384
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Handel met %s geeft %d opbrengst.\n"
 
-#: client/gui-gtk-2.0/citydlg.c:2244 client/gui-gtk/citydlg.c:2310
-#: client/gui-mui/citydlg.c:2124 client/gui-win32/citydlg.c:1390
+#: client/gui-gtk-2.0/citydlg.c:2301 client/gui-gtk/citydlg.c:2313
+#: client/gui-mui/citydlg.c:2128 client/gui-win32/citydlg.c:1390
 msgid "No trade routes exist."
 msgstr "Er zijn geen handelsroutes."
 
-#: client/gui-gtk-2.0/citydlg.c:2247 client/gui-gtk/citydlg.c:2313
-#: client/gui-mui/citydlg.c:2127 client/gui-win32/citydlg.c:1393
+#: client/gui-gtk-2.0/citydlg.c:2304 client/gui-gtk/citydlg.c:2316
+#: client/gui-mui/citydlg.c:2131 client/gui-win32/citydlg.c:1393
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "Totale opbrengst van handelsroutes: %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2404 client/gui-gtk-2.0/citydlg.c:2434
-#: client/gui-gtk/citydlg.c:2471 client/gui-gtk/citydlg.c:2503
-#: client/gui-win32/citydlg.c:1625 client/gui-win32/citydlg.c:1653
-#: data/Freeciv:1163 data/Freeciv:1199
-msgid "Unit Commands"
-msgstr "Eenheid opdrachten"
-
-#: client/gui-gtk-2.0/citydlg.c:2405 client/gui-gtk-2.0/citydlg.c:2435
-#: client/gui-gtk/citydlg.c:2473 client/gui-gtk/citydlg.c:2505
+#: client/gui-gtk-2.0/citydlg.c:2506 client/gui-gtk-2.0/citydlg.c:2558
+#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2508
 #: client/gui-win32/citydlg.c:1627 client/gui-win32/citydlg.c:1655
 msgid "_Activate unit"
 msgstr "_Activeer eenheid"
 
-#: client/gui-gtk-2.0/citydlg.c:2406 client/gui-gtk-2.0/citydlg.c:2436
-#: client/gui-gtk/citydlg.c:2474 client/gui-gtk/citydlg.c:2506
+#: client/gui-gtk-2.0/citydlg.c:2512 client/gui-gtk-2.0/citydlg.c:2564
+#: client/gui-gtk/citydlg.c:2477 client/gui-gtk/citydlg.c:2509
 #: client/gui-win32/citydlg.c:1629 client/gui-win32/citydlg.c:1657
 msgid "Activate unit, _close dialog"
 msgstr "Activeer eenheid, _sluit dialoog"
 
-#: client/gui-gtk-2.0/citydlg.c:2408 client/gui-gtk-2.0/citydlg.c:2441
-#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2511
+#: client/gui-gtk-2.0/citydlg.c:2518 client/gui-gtk-2.0/citydlg.c:2592
+#: client/gui-gtk/citydlg.c:2479 client/gui-gtk/citydlg.c:2514
 #: client/gui-win32/citydlg.c:1631 client/gui-win32/citydlg.c:1663
 msgid "_Disband unit"
 msgstr "_Ontbind eenheid"
 
-#: client/gui-gtk-2.0/citydlg.c:2409 client/gui-gtk-2.0/citydlg.c:2446
-#: client/gui-gtk-2.0/dialogs.c:967 client/gui-gtk-2.0/dialogs.c:992
-#: client/gui-gtk-2.0/dialogs.c:1024 client/gui-gtk/citydlg.c:2477
-#: client/gui-gtk/citydlg.c:2516 client/gui-gtk/dialogs.c:1060
-#: client/gui-gtk/dialogs.c:1086 client/gui-gtk/dialogs.c:1119
-#: client/gui-gtk/gotodlg.c:126 client/gui-mui/citydlg.c:1321
-#: client/gui-mui/cityrep.c:306 client/gui-mui/dialogs.c:343
-#: client/gui-mui/dialogs.c:440 client/gui-mui/dialogs.c:840
-#: client/gui-mui/dialogs.c:907 client/gui-mui/dialogs.c:942
-#: client/gui-mui/dialogs.c:1228 client/gui-mui/dialogs.c:1318
-#: client/gui-mui/finddlg.c:110 client/gui-mui/gamedlgs.c:238
-#: client/gui-mui/gamedlgs.c:330 client/gui-mui/gotodlg.c:169
-#: client/gui-mui/inputdlg.c:82 client/gui-mui/messagedlg.c:91
-#: client/gui-mui/worklistclass.c:717 client/gui-win32/citydlg.c:1633
-#: client/gui-win32/citydlg.c:1669 client/gui-win32/dialogs.c:1636
-#: client/gui-win32/dialogs.c:1658 client/gui-win32/dialogs.c:1688
-msgid "_Cancel"
-msgstr "_Annuleer"
-
-#: client/gui-gtk-2.0/citydlg.c:2438 client/gui-gtk/citydlg.c:2508
+#: client/gui-gtk-2.0/citydlg.c:2570 client/gui-gtk/citydlg.c:2511
 #: client/gui-win32/citydlg.c:1659
 msgid "_Sentry unit"
 msgstr "Zet eenheid op _wacht"
 
-#: client/gui-gtk-2.0/citydlg.c:2440 client/gui-gtk/citydlg.c:2510
+#: client/gui-gtk-2.0/citydlg.c:2581 client/gui-gtk/citydlg.c:2513
 #: client/gui-win32/citydlg.c:1661
 msgid "_Fortify unit"
 msgstr "_Fortificeer eenheid"
 
-#: client/gui-gtk-2.0/citydlg.c:2443 client/gui-gtk/citydlg.c:2513
+#: client/gui-gtk-2.0/citydlg.c:2598 client/gui-gtk/citydlg.c:2516
 #: client/gui-win32/citydlg.c:1665
 msgid "Make new _homecity"
 msgstr "Maak _nieuwe hoofdstad"
 
-#: client/gui-gtk-2.0/citydlg.c:2445 client/gui-gtk/citydlg.c:2515
+#: client/gui-gtk-2.0/citydlg.c:2608 client/gui-gtk/citydlg.c:2518
 #: client/gui-win32/citydlg.c:1667
 msgid "_Upgrade unit"
 msgstr "Waardeer eenheid _op"
 
-#: client/gui-gtk-2.0/citydlg.c:2635 client/gui-gtk/citydlg.c:2688
+#: client/gui-gtk-2.0/citydlg.c:2782 client/gui-gtk/citydlg.c:2691
 #: client/gui-mui/dialogs.c:1865 client/gui-win32/citydlg.c:1577
 #: client/gui-xaw/citydlg.c:2056
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Sorry: kan %s niet opwaarderen."
 
-#: client/gui-gtk-2.0/citydlg.c:2637 client/gui-gtk-2.0/citydlg.c:2668
-#: client/gui-gtk/citydlg.c:2690 client/gui-gtk/citydlg.c:2713
+#: client/gui-gtk-2.0/citydlg.c:2784 client/gui-gtk-2.0/citydlg.c:2815
+#: client/gui-gtk/citydlg.c:2693 client/gui-gtk/citydlg.c:2716
 #: client/gui-mui/dialogs.c:1866 client/gui-mui/dialogs.c:1890
 #: client/gui-win32/citydlg.c:1578 client/gui-win32/citydlg.c:1602
 #: data/Freeciv:2419
 msgid "Upgrade Unit!"
 msgstr "Waardeer Eenheid Op!"
 
-#: client/gui-gtk-2.0/citydlg.c:2648 client/gui-gtk/citydlg.c:2697
+#: client/gui-gtk-2.0/citydlg.c:2795 client/gui-gtk/citydlg.c:2700
 #: client/gui-mui/dialogs.c:1875 client/gui-win32/citydlg.c:1585
 #: client/gui-xaw/citydlg.c:2065
 #, c-format
@@ -7548,15 +7532,15 @@ msgstr ""
 "Waardeer %s op naar %s voor %d goud?\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2652 client/gui-gtk-2.0/repodlgs.c:1011
-#: client/gui-gtk/citydlg.c:2702 client/gui-gtk/repodlgs.c:942
+#: client/gui-gtk-2.0/citydlg.c:2799 client/gui-gtk-2.0/repodlgs.c:1011
+#: client/gui-gtk/citydlg.c:2705 client/gui-gtk/repodlgs.c:942
 #: client/gui-mui/dialogs.c:1879 client/gui-mui/repodlgs.c:773
 #: client/gui-win32/citydlg.c:1590 client/gui-win32/repodlgs.c:579
 #: data/Freeciv:2408
 msgid "Upgrade Obsolete Units"
 msgstr "Waardeer Verouderde Eenheden Op"
 
-#: client/gui-gtk-2.0/citydlg.c:2663 client/gui-gtk/citydlg.c:2709
+#: client/gui-gtk-2.0/citydlg.c:2810 client/gui-gtk/citydlg.c:2712
 #: client/gui-mui/dialogs.c:1885 client/gui-win32/citydlg.c:1597
 #: client/gui-xaw/citydlg.c:2075
 #, c-format
@@ -7567,8 +7551,8 @@ msgstr ""
 "Opwaarderen %s tot %s kost %d goud.\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2825 client/gui-gtk/citydlg.c:2900
-#: client/gui-mui/citydlg.c:1034 client/gui-win32/citydlg.c:1003
+#: client/gui-gtk-2.0/citydlg.c:2964 client/gui-gtk/citydlg.c:2903
+#: client/gui-mui/citydlg.c:1035 client/gui-win32/citydlg.c:1003
 #: client/gui-xaw/citydlg.c:1995
 #, c-format
 msgid ""
@@ -7578,16 +7562,16 @@ msgstr ""
 "%s kopen voor %d goud?\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2827 client/gui-gtk-2.0/citydlg.c:2844
-#: client/gui-gtk/citydlg.c:2904 client/gui-gtk/citydlg.c:2914
-#: client/gui-mui/citydlg.c:1037 client/gui-mui/citydlg.c:1047
+#: client/gui-gtk-2.0/citydlg.c:2966 client/gui-gtk-2.0/citydlg.c:2983
+#: client/gui-gtk/citydlg.c:2907 client/gui-gtk/citydlg.c:2917
+#: client/gui-mui/citydlg.c:1038 client/gui-mui/citydlg.c:1048
 #: client/gui-win32/citydlg.c:1006 client/gui-win32/citydlg.c:1015
 #: data/Freeciv:2155 data/Freeciv:2185
 msgid "Buy It!"
 msgstr "Koop Het!"
 
-#: client/gui-gtk-2.0/citydlg.c:2841 client/gui-gtk/citydlg.c:2910
-#: client/gui-mui/citydlg.c:1044 client/gui-win32/citydlg.c:1012
+#: client/gui-gtk-2.0/citydlg.c:2980 client/gui-gtk/citydlg.c:2913
+#: client/gui-mui/citydlg.c:1045 client/gui-win32/citydlg.c:1012
 #: client/gui-xaw/citydlg.c:2004
 #, c-format
 msgid ""
@@ -7597,59 +7581,59 @@ msgstr ""
 "%s kost %d goud.\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/citydlg.c:2860 client/gui-gtk-2.0/wldlg.c:309
-#: client/gui-gtk-2.0/wldlg.c:315 client/gui-gtk/citydlg.c:2954
+#: client/gui-gtk-2.0/citydlg.c:2998 client/gui-gtk-2.0/wldlg.c:309
+#: client/gui-gtk-2.0/wldlg.c:315 client/gui-gtk/citydlg.c:2957
 #: client/gui-gtk/wldlg.c:311 client/gui-gtk/wldlg.c:317
-#: client/gui-mui/citydlg.c:699 client/gui-mui/citydlg.c:728
+#: client/gui-mui/citydlg.c:700 client/gui-mui/citydlg.c:729
 #: client/gui-mui/worklistclass.c:237 client/gui-win32/citydlg.c:1191
 #: client/gui-win32/wldlg.c:673 client/gui-win32/wldlg.c:679
 msgid "Type"
 msgstr "Type"
 
-#: client/gui-gtk-2.0/citydlg.c:2860 client/gui-gtk-2.0/wldlg.c:310
-#: client/gui-gtk-2.0/wldlg.c:316 client/gui-gtk/citydlg.c:2954
+#: client/gui-gtk-2.0/citydlg.c:2998 client/gui-gtk-2.0/wldlg.c:310
+#: client/gui-gtk-2.0/wldlg.c:316 client/gui-gtk/citydlg.c:2957
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
-#: client/gui-mui/citydlg.c:700 client/gui-mui/worklistclass.c:238
+#: client/gui-mui/citydlg.c:701 client/gui-mui/worklistclass.c:238
 #: client/gui-win32/citydlg.c:1194 client/gui-win32/wldlg.c:674
 #: client/gui-win32/wldlg.c:680
 msgid "Info"
 msgstr "Info"
 
-#: client/gui-gtk-2.0/citydlg.c:2860 client/gui-gtk-2.0/repodlgs.c:566
+#: client/gui-gtk-2.0/citydlg.c:2998 client/gui-gtk-2.0/repodlgs.c:566
 #: client/gui-gtk-2.0/wldlg.c:311 client/gui-gtk-2.0/wldlg.c:317
-#: client/gui-gtk/citydlg.c:2954 client/gui-gtk/repodlgs.c:575
+#: client/gui-gtk/citydlg.c:2957 client/gui-gtk/repodlgs.c:575
 #: client/gui-gtk/wldlg.c:313 client/gui-gtk/wldlg.c:319
-#: client/gui-mui/citydlg.c:702 client/gui-mui/repodlgs.c:479
+#: client/gui-mui/citydlg.c:703 client/gui-mui/repodlgs.c:479
 #: client/gui-mui/worklistclass.c:239 client/gui-win32/citydlg.c:1198
 #: client/gui-win32/repodlgs.c:474 client/gui-win32/wldlg.c:675
 #: client/gui-win32/wldlg.c:681
 msgid "Cost"
 msgstr "Kosten"
 
-#: client/gui-gtk-2.0/citydlg.c:2873 client/gui-gtk/citydlg.c:2976
+#: client/gui-gtk-2.0/citydlg.c:3009 client/gui-gtk/citydlg.c:2979
 #: client/gui-win32/citydlg.c:1170 data/Freeciv:2014
 msgid "Change Production"
 msgstr "Verander Productie"
 
-#: client/gui-gtk-2.0/citydlg.c:3054 client/gui-gtk/citydlg.c:3167
-#: client/gui-mui/citydlg.c:1072 client/gui-win32/citydlg.c:1061
+#: client/gui-gtk-2.0/citydlg.c:3190 client/gui-gtk/citydlg.c:3170
+#: client/gui-mui/citydlg.c:1073 client/gui-win32/citydlg.c:1061
 #: client/gui-xaw/citydlg.c:2432
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "%s verkopen voor %d goud?"
 
-#: client/gui-gtk-2.0/citydlg.c:3058 client/gui-gtk/citydlg.c:3171
-#: client/gui-mui/citydlg.c:1077 client/gui-win32/citydlg.c:1066
+#: client/gui-gtk-2.0/citydlg.c:3194 client/gui-gtk/citydlg.c:3174
+#: client/gui-mui/citydlg.c:1078 client/gui-win32/citydlg.c:1066
 #: data/Freeciv:2174
 msgid "Sell It!"
 msgstr "Verkoop Het!"
 
-#: client/gui-gtk-2.0/citydlg.c:3059 client/gui-gtk-2.0/cma_fe.c:575
-#: client/gui-gtk/citydlg.c:2704 client/gui-gtk/citydlg.c:2906
-#: client/gui-gtk/citydlg.c:3173 client/gui-gtk/cma_fe.c:569
+#: client/gui-gtk-2.0/citydlg.c:3195 client/gui-gtk-2.0/cma_fe.c:575
+#: client/gui-gtk/citydlg.c:2707 client/gui-gtk/citydlg.c:2909
+#: client/gui-gtk/citydlg.c:3176 client/gui-gtk/cma_fe.c:569
 #: client/gui-gtk/dialogs.c:417 client/gui-gtk/dialogs.c:983
-#: client/gui-gtk/dialogs.c:1283 client/gui-mui/citydlg.c:1038
-#: client/gui-mui/citydlg.c:1078 client/gui-mui/dialogs.c:515
+#: client/gui-gtk/dialogs.c:1283 client/gui-mui/citydlg.c:1039
+#: client/gui-mui/citydlg.c:1079 client/gui-mui/dialogs.c:515
 #: client/gui-mui/dialogs.c:1162 client/gui-mui/dialogs.c:1880
 #: client/gui-mui/repodlgs.c:774 client/gui-win32/citydlg.c:1007
 #: client/gui-win32/citydlg.c:1066 client/gui-win32/citydlg.c:1591
@@ -7658,12 +7642,12 @@ msgstr "Verkoop Het!"
 msgid "_Yes"
 msgstr "_Ja"
 
-#: client/gui-gtk-2.0/citydlg.c:3060 client/gui-gtk-2.0/cma_fe.c:577
-#: client/gui-gtk/citydlg.c:2705 client/gui-gtk/citydlg.c:2907
-#: client/gui-gtk/citydlg.c:3174 client/gui-gtk/cma_fe.c:572
+#: client/gui-gtk-2.0/citydlg.c:3196 client/gui-gtk-2.0/cma_fe.c:577
+#: client/gui-gtk/citydlg.c:2708 client/gui-gtk/citydlg.c:2910
+#: client/gui-gtk/citydlg.c:3177 client/gui-gtk/cma_fe.c:572
 #: client/gui-gtk/dialogs.c:418 client/gui-gtk/dialogs.c:984
-#: client/gui-gtk/dialogs.c:1284 client/gui-mui/citydlg.c:1039
-#: client/gui-mui/citydlg.c:1079 client/gui-mui/dialogs.c:516
+#: client/gui-gtk/dialogs.c:1284 client/gui-mui/citydlg.c:1040
+#: client/gui-mui/citydlg.c:1080 client/gui-mui/dialogs.c:516
 #: client/gui-mui/dialogs.c:1163 client/gui-mui/dialogs.c:1881
 #: client/gui-mui/repodlgs.c:775 client/gui-win32/citydlg.c:1008
 #: client/gui-win32/citydlg.c:1067 client/gui-win32/citydlg.c:1593
@@ -7672,17 +7656,17 @@ msgstr "_Ja"
 msgid "_No"
 msgstr "_Nee"
 
-#: client/gui-gtk-2.0/citydlg.c:3129 client/gui-gtk/citydlg.c:3227
+#: client/gui-gtk-2.0/citydlg.c:3265 client/gui-gtk/citydlg.c:3230
 #, c-format
 msgid "Sell (worth %d gold)"
 msgstr "Verkoop (%d goud waard)"
 
-#: client/gui-gtk-2.0/citydlg.c:3230 client/gui-gtk/citydlg.c:3330
+#: client/gui-gtk-2.0/citydlg.c:3366 client/gui-gtk/citydlg.c:3333
 #: client/gui-win32/citydlg.c:1325 data/Freeciv:524
 msgid "Rename City"
 msgstr "Hernoem Stad"
 
-#: client/gui-gtk-2.0/citydlg.c:3232 client/gui-gtk/citydlg.c:3332
+#: client/gui-gtk-2.0/citydlg.c:3368 client/gui-gtk/citydlg.c:3335
 #: client/gui-win32/citydlg.c:1326 client/gui-xaw/citydlg.c:1387
 msgid "What should we rename the city to?"
 msgstr "Waarin zullen we de stadsnaam veranderen?"
@@ -7802,7 +7786,7 @@ msgid "Same Island"
 msgstr "Zelfde Eiland"
 
 #: client/gui-gtk-2.0/cityrep.c:1203 client/gui-gtk/cityrep.c:920
-#: client/gui-mui/citydlg.c:1522 client/gui-mui/citydlg.c:1561
+#: client/gui-mui/citydlg.c:1525 client/gui-mui/citydlg.c:1564
 #: client/gui-win32/cityrep.c:471
 msgid "Supported Units"
 msgstr "Ondersteunde Eenheden"
@@ -7851,24 +7835,24 @@ msgid "Delete preset"
 msgstr "Snelkeuze verwijderen"
 
 #: client/gui-gtk-2.0/cma_fe.c:198 client/gui-gtk/cma_fe.c:209
-#: client/gui-gtk/repodlgs.c:716 client/gui-mui/citydlg.c:1624
+#: client/gui-gtk/repodlgs.c:716 client/gui-mui/citydlg.c:1627
 #: client/gui-mui/repodlgs.c:534 client/gui-win32/repodlgs.c:388
 #: client/gui-xaw/repodlgs.c:769
 msgid "Results"
 msgstr "Resultaten"
 
 #: client/gui-gtk-2.0/cma_fe.c:212 client/gui-gtk/cma_fe.c:223
-#: client/gui-mui/citydlg.c:1663
+#: client/gui-mui/citydlg.c:1666
 msgid "Minimal Surplus"
 msgstr "Minimale overcapaciteit"
 
 #: client/gui-gtk-2.0/cma_fe.c:215 client/gui-gtk/cma_fe.c:226
-#: client/gui-mui/citydlg.c:1664
+#: client/gui-mui/citydlg.c:1667
 msgid "Factor"
 msgstr "Factor"
 
 #: client/gui-gtk-2.0/cma_fe.c:250 client/gui-gtk/cma_fe.c:261
-#: client/gui-mui/citydlg.c:1690 client/gui-mui/citydlg.c:1691
+#: client/gui-mui/citydlg.c:1693 client/gui-mui/citydlg.c:1694
 msgid "Celebrate"
 msgstr "Viering"
 
@@ -7881,7 +7865,7 @@ msgid "Control c_ity"
 msgstr "Bestuur _stad"
 
 #: client/gui-gtk-2.0/cma_fe.c:299 client/gui-gtk/cma_fe.c:310
-#: client/gui-mui/citydlg.c:1700
+#: client/gui-mui/citydlg.c:1703
 msgid "_Release city"
 msgstr "Ve_rlos stad"
 
@@ -7933,7 +7917,7 @@ msgid "Freeciv Server Selection"
 msgstr "Freeciv Server Keuze"
 
 #: client/gui-gtk-2.0/connectdlg.c:184 client/gui-gtk/connectdlg.c:162
-#: client/gui-mui/citydlg.c:1626 client/gui-win32/connectdlg.c:389
+#: client/gui-mui/citydlg.c:1629 client/gui-win32/connectdlg.c:389
 msgid "Name:"
 msgstr "Naam:"
 
@@ -8030,17 +8014,17 @@ msgstr ""
 "Maak automatisch verbinding met server \"%s\" op poort %d als \"%s\" elke %d."
 "%d seconden voor %d keren"
 
-#: client/gui-gtk-2.0/dialogs.c:254 client/gui-gtk-2.0/messagewin.c:170
+#: client/gui-gtk-2.0/dialogs.c:238 client/gui-gtk-2.0/messagewin.c:170
 #: client/gui-gtk/messagewin.c:160
 msgid "_Goto location"
 msgstr "_Ga naar locatie"
 
-#: client/gui-gtk-2.0/dialogs.c:259 client/gui-gtk-2.0/messagewin.c:176
+#: client/gui-gtk-2.0/dialogs.c:243 client/gui-gtk-2.0/messagewin.c:176
 #: client/gui-gtk/messagewin.c:166 client/gui-mui/messagewin.c:210
 msgid "_Popup City"
 msgstr "_Popup Stad"
 
-#: client/gui-gtk-2.0/dialogs.c:310 client/gui-gtk/dialogs.c:413
+#: client/gui-gtk-2.0/dialogs.c:294 client/gui-gtk/dialogs.c:413
 #: client/gui-mui/dialogs.c:225 client/gui-win32/dialogs.c:1378
 #: client/gui-xaw/dialogs.c:453
 #, c-format
@@ -8051,13 +8035,13 @@ msgstr ""
 "Koop eenheid om voor %d goud?\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/dialogs.c:312 client/gui-gtk/dialogs.c:415
+#: client/gui-gtk-2.0/dialogs.c:296 client/gui-gtk/dialogs.c:415
 #: client/gui-mui/dialogs.c:228 client/gui-win32/dialogs.c:1380
 #: data/Freeciv:2354 data/Freeciv:2367
 msgid "Bribe Enemy Unit"
 msgstr "Koop Vijandelijke Eenheid Om"
 
-#: client/gui-gtk-2.0/dialogs.c:317 client/gui-gtk/dialogs.c:421
+#: client/gui-gtk-2.0/dialogs.c:301 client/gui-gtk/dialogs.c:421
 #: client/gui-mui/dialogs.c:234 client/gui-win32/dialogs.c:1386
 #: client/gui-xaw/dialogs.c:462
 #, c-format
@@ -8068,7 +8052,7 @@ msgstr ""
 "Omkopen van de eenheid kost %d goud.\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/dialogs.c:319 client/gui-gtk-2.0/dialogs.c:883
+#: client/gui-gtk-2.0/dialogs.c:303 client/gui-gtk-2.0/dialogs.c:867
 #: client/gui-gtk/dialogs.c:424 client/gui-gtk/dialogs.c:990
 #: client/gui-mui/dialogs.c:237 client/gui-mui/dialogs.c:523
 #: client/gui-win32/dialogs.c:1390 client/gui-win32/dialogs.c:1589
@@ -8076,19 +8060,19 @@ msgstr ""
 msgid "Traitors Demand Too Much!"
 msgstr "Verraders Vragen Teveel!"
 
-#: client/gui-gtk-2.0/dialogs.c:597 client/gui-gtk/dialogs.c:690
+#: client/gui-gtk-2.0/dialogs.c:581 client/gui-gtk/dialogs.c:690
 #: client/gui-mui/dialogs.c:333 client/gui-win32/dialogs.c:1290
 #: data/Freeciv:2285
 msgid "Select Advance to Steal"
 msgstr "Kies Vooruitgang om te Stelen"
 
-#: client/gui-gtk-2.0/dialogs.c:604 client/gui-gtk/dialogs.c:697
+#: client/gui-gtk-2.0/dialogs.c:588 client/gui-gtk/dialogs.c:697
 #: client/gui-mui/dialogs.c:329 client/gui-win32/dialogs.c:1280
 #: data/Freeciv:2220 data/Freeciv:2253 data/Freeciv:2270
 msgid "Steal Technology"
 msgstr "Steel Technologie"
 
-#: client/gui-gtk-2.0/dialogs.c:622 client/gui-gtk-2.0/dialogs.c:720
+#: client/gui-gtk-2.0/dialogs.c:606 client/gui-gtk-2.0/dialogs.c:704
 #: client/gui-gtk-2.0/spaceshipdlg.c:217 client/gui-gtk-2.0/wldlg.c:201
 #: client/gui-gtk/cityrep.c:1435 client/gui-gtk/dialogs.c:214
 #: client/gui-gtk/dialogs.c:351 client/gui-gtk/dialogs.c:715
@@ -8114,12 +8098,12 @@ msgstr "Steel Technologie"
 msgid "Close"
 msgstr "Sluit"
 
-#: client/gui-gtk-2.0/dialogs.c:627 client/gui-gtk/dialogs.c:720
+#: client/gui-gtk-2.0/dialogs.c:611 client/gui-gtk/dialogs.c:720
 #: client/gui-win32/dialogs.c:1294 data/Freeciv:2301
 msgid "Steal"
 msgstr "Steel"
 
-#: client/gui-gtk-2.0/dialogs.c:663 client/gui-gtk-2.0/dialogs.c:757
+#: client/gui-gtk-2.0/dialogs.c:647 client/gui-gtk-2.0/dialogs.c:741
 #: client/gui-gtk/dialogs.c:756 client/gui-gtk/dialogs.c:850
 #: client/gui-mui/dialogs.c:309 client/gui-mui/dialogs.c:410
 #: client/gui-win32/dialogs.c:1187 client/gui-win32/dialogs.c:1414
@@ -8127,47 +8111,47 @@ msgstr "Steel"
 msgid "At Spy's Discretion"
 msgstr "Naar Spions Eigen Inzicht"
 
-#: client/gui-gtk-2.0/dialogs.c:670 client/gui-gtk/dialogs.c:763
+#: client/gui-gtk-2.0/dialogs.c:654 client/gui-gtk/dialogs.c:763
 #: client/gui-win32/dialogs.c:1192 client/gui-xaw/dialogs.c:779
 msgid "NONE"
 msgstr "GEEN"
 
-#: client/gui-gtk-2.0/dialogs.c:696 client/gui-gtk/dialogs.c:789
+#: client/gui-gtk-2.0/dialogs.c:680 client/gui-gtk/dialogs.c:789
 #: client/gui-mui/dialogs.c:430 client/gui-win32/dialogs.c:1504
 #: data/Freeciv:2327
 msgid "Select Improvement to Sabotage"
 msgstr "Kies te Saboteren Verbeteringen"
 
-#: client/gui-gtk-2.0/dialogs.c:703 client/gui-gtk/dialogs.c:796
+#: client/gui-gtk-2.0/dialogs.c:687 client/gui-gtk/dialogs.c:796
 #: client/gui-mui/dialogs.c:426 client/gui-win32/dialogs.c:1494
 #: data/Freeciv:2312
 msgid "Sabotage Improvements"
 msgstr "Saboteer Verbeteringen"
 
-#: client/gui-gtk-2.0/dialogs.c:725 client/gui-gtk/dialogs.c:818
+#: client/gui-gtk-2.0/dialogs.c:709 client/gui-gtk/dialogs.c:818
 #: client/gui-win32/dialogs.c:1508 data/Freeciv:2343
 msgid "Sabotage"
 msgstr "Saboteer"
 
-#: client/gui-gtk-2.0/dialogs.c:744 client/gui-gtk/dialogs.c:837
+#: client/gui-gtk-2.0/dialogs.c:728 client/gui-gtk/dialogs.c:837
 #: client/gui-mui/dialogs.c:409 client/gui-win32/dialogs.c:1403
 #: client/gui-xaw/dialogs.c:869
 msgid "City Production"
 msgstr "Stads Productie"
 
-#: client/gui-gtk-2.0/dialogs.c:867 client/gui-gtk/dialogs.c:972
+#: client/gui-gtk-2.0/dialogs.c:851 client/gui-gtk/dialogs.c:972
 #: client/gui-mui/dialogs.c:505 client/gui-win32/dialogs.c:1572
 #: client/gui-xaw/dialogs.c:1039
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "U kunt geen opstand ontketenen in %s."
 
-#: client/gui-gtk-2.0/dialogs.c:869 client/gui-gtk/dialogs.c:974
+#: client/gui-gtk-2.0/dialogs.c:853 client/gui-gtk/dialogs.c:974
 #: client/gui-mui/dialogs.c:507 client/gui-win32/dialogs.c:1574
 msgid "City can't be incited!"
 msgstr "Stad kan niet in opstand komen!"
 
-#: client/gui-gtk-2.0/dialogs.c:874 client/gui-gtk/dialogs.c:979
+#: client/gui-gtk-2.0/dialogs.c:858 client/gui-gtk/dialogs.c:979
 #: client/gui-mui/dialogs.c:510 client/gui-win32/dialogs.c:1578
 #: client/gui-xaw/dialogs.c:1045
 #, c-format
@@ -8178,13 +8162,13 @@ msgstr ""
 "Ontketen een opstand voor %d goud?\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/dialogs.c:876 client/gui-gtk/dialogs.c:981
+#: client/gui-gtk-2.0/dialogs.c:860 client/gui-gtk/dialogs.c:981
 #: client/gui-mui/dialogs.c:514 client/gui-win32/dialogs.c:1581
 #: data/Freeciv:2378
 msgid "Incite a Revolt!"
 msgstr "Ontketen een Opstand!"
 
-#: client/gui-gtk-2.0/dialogs.c:881 client/gui-gtk/dialogs.c:987
+#: client/gui-gtk-2.0/dialogs.c:865 client/gui-gtk/dialogs.c:987
 #: client/gui-mui/dialogs.c:521 client/gui-win32/dialogs.c:1586
 #: client/gui-xaw/dialogs.c:1055
 #, c-format
@@ -8195,7 +8179,7 @@ msgstr ""
 "Ontketenen van een opstand kost %d goud.\n"
 "Schatkist bevat %d goud."
 
-#: client/gui-gtk-2.0/dialogs.c:955 client/gui-gtk/dialogs.c:1047
+#: client/gui-gtk-2.0/dialogs.c:939 client/gui-gtk/dialogs.c:1047
 #: client/gui-win32/dialogs.c:1625 client/gui-xaw/dialogs.c:1119
 #, c-format
 msgid ""
@@ -8205,97 +8189,115 @@ msgstr ""
 "Uw %s is aangekomen bij %s.\n"
 "Hoe luiden uw bevelen?"
 
-#: client/gui-gtk-2.0/dialogs.c:960 client/gui-gtk/dialogs.c:1052
+#: client/gui-gtk-2.0/dialogs.c:944 client/gui-gtk/dialogs.c:1052
 #: client/gui-win32/dialogs.c:1630
 msgid " Choose Your Diplomat's Strategy"
 msgstr " Kies Uw Diplomaats Strategie"
 
-#: client/gui-gtk-2.0/dialogs.c:961 client/gui-gtk-2.0/dialogs.c:985
+#: client/gui-gtk-2.0/dialogs.c:945 client/gui-gtk-2.0/dialogs.c:969
 #: client/gui-gtk/dialogs.c:1054 client/gui-gtk/dialogs.c:1079
 #: client/gui-win32/dialogs.c:1631 client/gui-win32/dialogs.c:1652
 msgid "Establish _Embassy"
 msgstr "Vestig _Ambassade"
 
-#: client/gui-gtk-2.0/dialogs.c:962 client/gui-gtk/dialogs.c:1055
+#: client/gui-gtk-2.0/dialogs.c:946 client/gui-gtk/dialogs.c:1055
 #: client/gui-win32/dialogs.c:1632
 msgid "_Investigate City"
 msgstr "_Onderzoek Stad"
 
-#: client/gui-gtk-2.0/dialogs.c:963 client/gui-gtk/dialogs.c:1056
+#: client/gui-gtk-2.0/dialogs.c:947 client/gui-gtk/dialogs.c:1056
 #: client/gui-win32/dialogs.c:1633
 msgid "_Sabotage City"
 msgstr "_Saboteer stad"
 
-#: client/gui-gtk-2.0/dialogs.c:964 client/gui-gtk-2.0/dialogs.c:989
+#: client/gui-gtk-2.0/dialogs.c:948 client/gui-gtk-2.0/dialogs.c:973
 #: client/gui-gtk/dialogs.c:1057 client/gui-gtk/dialogs.c:1083
 #: client/gui-win32/dialogs.c:1634 client/gui-win32/dialogs.c:1656
 msgid "Steal _Technology"
 msgstr "Steel _Technologie"
 
-#: client/gui-gtk-2.0/dialogs.c:965 client/gui-gtk-2.0/dialogs.c:990
+#: client/gui-gtk-2.0/dialogs.c:949 client/gui-gtk-2.0/dialogs.c:974
 #: client/gui-gtk/dialogs.c:1058 client/gui-gtk/dialogs.c:1084
 #: client/gui-win32/dialogs.c:1635 client/gui-win32/dialogs.c:1657
 msgid "Incite a _Revolt"
 msgstr "Begin een _Revolutie"
 
-#: client/gui-gtk-2.0/dialogs.c:966 client/gui-gtk-2.0/dialogs.c:991
-#: client/gui-gtk-2.0/dialogs.c:1125 client/gui-gtk/dialogs.c:1059
+#: client/gui-gtk-2.0/dialogs.c:950 client/gui-gtk-2.0/dialogs.c:975
+#: client/gui-gtk-2.0/dialogs.c:1109 client/gui-gtk/dialogs.c:1059
 #: client/gui-gtk/dialogs.c:1085 client/gui-gtk/dialogs.c:1192
 #: client/gui-mui/dialogs.c:834 client/gui-mui/dialogs.c:901
 #: client/gui-mui/dialogs.c:1069 client/gui-win32/dialogs.c:1023
 msgid "_Keep moving"
 msgstr "Blijf _doorgaan"
 
-#: client/gui-gtk-2.0/dialogs.c:984 client/gui-gtk/dialogs.c:1077
+#: client/gui-gtk-2.0/dialogs.c:951 client/gui-gtk-2.0/dialogs.c:976
+#: client/gui-gtk-2.0/dialogs.c:1008 client/gui-gtk/citydlg.c:2480
+#: client/gui-gtk/citydlg.c:2519 client/gui-gtk/dialogs.c:1060
+#: client/gui-gtk/dialogs.c:1086 client/gui-gtk/dialogs.c:1119
+#: client/gui-gtk/gotodlg.c:126 client/gui-mui/citydlg.c:1322
+#: client/gui-mui/cityrep.c:306 client/gui-mui/dialogs.c:343
+#: client/gui-mui/dialogs.c:440 client/gui-mui/dialogs.c:840
+#: client/gui-mui/dialogs.c:907 client/gui-mui/dialogs.c:942
+#: client/gui-mui/dialogs.c:1228 client/gui-mui/dialogs.c:1318
+#: client/gui-mui/finddlg.c:110 client/gui-mui/gamedlgs.c:238
+#: client/gui-mui/gamedlgs.c:330 client/gui-mui/gotodlg.c:169
+#: client/gui-mui/inputdlg.c:82 client/gui-mui/messagedlg.c:91
+#: client/gui-mui/worklistclass.c:717 client/gui-win32/citydlg.c:1633
+#: client/gui-win32/citydlg.c:1669 client/gui-win32/dialogs.c:1636
+#: client/gui-win32/dialogs.c:1658 client/gui-win32/dialogs.c:1688
+msgid "_Cancel"
+msgstr "_Annuleer"
+
+#: client/gui-gtk-2.0/dialogs.c:968 client/gui-gtk/dialogs.c:1077
 #: client/gui-mui/dialogs.c:913 client/gui-win32/dialogs.c:1651
 #: data/Freeciv:2234
 msgid "Choose Your Spy's Strategy"
 msgstr "Kies Uw Spions Strategie"
 
-#: client/gui-gtk-2.0/dialogs.c:986 client/gui-gtk/dialogs.c:1080
+#: client/gui-gtk-2.0/dialogs.c:970 client/gui-gtk/dialogs.c:1080
 #: client/gui-win32/dialogs.c:1653
 msgid "_Investigate City (free)"
 msgstr "Onderzoek Stad (gratis)"
 
-#: client/gui-gtk-2.0/dialogs.c:987 client/gui-gtk/dialogs.c:1081
+#: client/gui-gtk-2.0/dialogs.c:971 client/gui-gtk/dialogs.c:1081
 #: client/gui-win32/dialogs.c:1654
 msgid "_Poison City"
 msgstr "_Vergiftig Stad"
 
-#: client/gui-gtk-2.0/dialogs.c:988 client/gui-gtk/dialogs.c:1082
+#: client/gui-gtk-2.0/dialogs.c:972 client/gui-gtk/dialogs.c:1082
 #: client/gui-win32/dialogs.c:1655
 msgid "Industrial _Sabotage"
 msgstr "Industrieële _Sabotage"
 
-#: client/gui-gtk-2.0/dialogs.c:1018 client/gui-gtk/dialogs.c:1112
+#: client/gui-gtk-2.0/dialogs.c:1002 client/gui-gtk/dialogs.c:1112
 #: client/gui-mui/dialogs.c:948 client/gui-win32/dialogs.c:1682
 #: data/Freeciv:2365
 msgid "Subvert Enemy Unit"
 msgstr "Werp Vijandelijke Eenheid Omver"
 
-#: client/gui-gtk-2.0/dialogs.c:1020 client/gui-gtk/dialogs.c:1114
+#: client/gui-gtk-2.0/dialogs.c:1004 client/gui-gtk/dialogs.c:1114
 #: client/gui-mui/dialogs.c:847 client/gui-mui/dialogs.c:950
 #: client/gui-win32/dialogs.c:1684 client/gui-xaw/dialogs.c:1179
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Sire, de diplomaat wacht op uw orders"
 
-#: client/gui-gtk-2.0/dialogs.c:1021 client/gui-gtk/dialogs.c:1115
+#: client/gui-gtk-2.0/dialogs.c:1005 client/gui-gtk/dialogs.c:1115
 #: client/gui-mui/dialogs.c:914 client/gui-mui/dialogs.c:951
 #: client/gui-win32/dialogs.c:1685 client/gui-xaw/dialogs.c:1180
 msgid "Sir, the spy is waiting for your command"
 msgstr "Sire, de spion wacht op uw orders"
 
-#: client/gui-gtk-2.0/dialogs.c:1022 client/gui-gtk/dialogs.c:1117
+#: client/gui-gtk-2.0/dialogs.c:1006 client/gui-gtk/dialogs.c:1117
 #: client/gui-mui/dialogs.c:928 client/gui-win32/dialogs.c:1686
 msgid "_Bribe Enemy Unit"
 msgstr "_Koop Vijandelijke Eenheid Om"
 
-#: client/gui-gtk-2.0/dialogs.c:1023 client/gui-gtk/dialogs.c:1118
+#: client/gui-gtk-2.0/dialogs.c:1007 client/gui-gtk/dialogs.c:1118
 #: client/gui-mui/dialogs.c:936 client/gui-win32/dialogs.c:1687
 msgid "_Sabotage Enemy Unit"
 msgstr "_Saboteer Vijandelijke Eenheid"
 
-#: client/gui-gtk-2.0/dialogs.c:1114 client/gui-gtk/dialogs.c:1181
+#: client/gui-gtk-2.0/dialogs.c:1098 client/gui-gtk/dialogs.c:1181
 #: client/gui-mui/dialogs.c:1036 client/gui-win32/dialogs.c:1012
 #: client/gui-xaw/dialogs.c:1280
 #, c-format
@@ -8306,57 +8308,57 @@ msgstr ""
 "Uw karavaan uit %s bereikt de stad %s.\n"
 "Wat nu?"
 
-#: client/gui-gtk-2.0/dialogs.c:1121 client/gui-gtk/dialogs.c:1188
+#: client/gui-gtk-2.0/dialogs.c:1105 client/gui-gtk/dialogs.c:1188
 #: client/gui-mui/dialogs.c:1075 client/gui-win32/dialogs.c:1019
 #: data/Freeciv:2194
 msgid "Your Caravan Has Arrived"
 msgstr "Uw Karavaan Is Aangekomen"
 
-#: client/gui-gtk-2.0/dialogs.c:1123 client/gui-gtk/dialogs.c:1190
+#: client/gui-gtk-2.0/dialogs.c:1107 client/gui-gtk/dialogs.c:1190
 #: client/gui-win32/dialogs.c:1021
 msgid "Establish _Traderoute"
 msgstr "Vestig _Handelsroute"
 
-#: client/gui-gtk-2.0/dialogs.c:1124 client/gui-gtk/dialogs.c:1191
+#: client/gui-gtk-2.0/dialogs.c:1108 client/gui-gtk/dialogs.c:1191
 #: client/gui-win32/dialogs.c:1022
 msgid "Help build _Wonder"
 msgstr "Help _Wonder te bouwen"
 
-#: client/gui-gtk-2.0/dialogs.c:1178 client/gui-gtk/dialogs.c:1260
+#: client/gui-gtk-2.0/dialogs.c:1162 client/gui-gtk/dialogs.c:1260
 #: client/gui-mui/dialogs.c:1139 client/gui-win32/dialogs.c:923
 msgid "Choose Your New Government"
 msgstr "Kies Uw Nieuwe Regering"
 
-#: client/gui-gtk-2.0/dialogs.c:1190 client/gui-gtk/dialogs.c:1261
+#: client/gui-gtk-2.0/dialogs.c:1174 client/gui-gtk/dialogs.c:1261
 #: client/gui-mui/dialogs.c:1140 client/gui-win32/dialogs.c:924
 #: data/Freeciv:2429
 msgid "Select government type:"
 msgstr "Kies regeringsvorm:"
 
-#: client/gui-gtk-2.0/dialogs.c:1261 client/gui-gtk/dialogs.c:1281
+#: client/gui-gtk-2.0/dialogs.c:1245 client/gui-gtk/dialogs.c:1281
 #: client/gui-mui/dialogs.c:1161 client/gui-win32/dialogs.c:873
 #: client/gui-xaw/dialogs.c:1394
 msgid "You say you wanna revolution?"
 msgstr "U zegt dat u een revolutie wilt?"
 
-#: client/gui-gtk-2.0/dialogs.c:1262 client/gui-gtk/dialogs.c:1280
+#: client/gui-gtk-2.0/dialogs.c:1246 client/gui-gtk/dialogs.c:1280
 #: client/gui-mui/dialogs.c:1161 client/gui-win32/dialogs.c:872
 #: data/Freeciv:2397
 msgid "Revolution!"
 msgstr "Revolutie!"
 
-#: client/gui-gtk-2.0/dialogs.c:1322 client/gui-gtk/dialogs.c:1350
+#: client/gui-gtk-2.0/dialogs.c:1306 client/gui-gtk/dialogs.c:1350
 #: client/gui-win32/dialogs.c:1756 data/Freeciv:2435
 msgid "What To Pillage"
 msgstr "Wat Te Plunderen"
 
-#: client/gui-gtk-2.0/dialogs.c:1329 client/gui-gtk/dialogs.c:1351
+#: client/gui-gtk-2.0/dialogs.c:1313 client/gui-gtk/dialogs.c:1351
 #: client/gui-mui/dialogs.c:1235 client/gui-win32/dialogs.c:1763
 #: data/Freeciv:2437
 msgid "Select what to pillage:"
 msgstr "Kies wat te plunderen:"
 
-#: client/gui-gtk-2.0/dialogs.c:1347 client/gui-gtk-2.0/dialogs.c:1456
+#: client/gui-gtk-2.0/dialogs.c:1331 client/gui-gtk-2.0/dialogs.c:1440
 #: client/gui-gtk-2.0/wldlg.c:485 client/gui-gtk/cityrep.c:1142
 #: client/gui-gtk/dialogs.c:1347 client/gui-gtk/dialogs.c:1427
 #: client/gui-gtk/finddlg.c:108 client/gui-gtk/gamedlgs.c:315
@@ -8375,88 +8377,88 @@ msgstr "Kies wat te plunderen:"
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: client/gui-gtk-2.0/dialogs.c:1432 client/gui-gtk/connectdlg.c:233
+#: client/gui-gtk-2.0/dialogs.c:1416 client/gui-gtk/connectdlg.c:233
 #: client/gui-gtk/dialogs.c:1430 client/gui-mui/gui_main.c:257
 #: client/gui-win32/connectdlg.c:414 client/gui-win32/dialogs.c:1966
 #: client/gui-xaw/menu.c:182 data/Freeciv:95 data/Freeciv:2445
 msgid "Connect"
 msgstr "Maak verbinding"
 
-#: client/gui-gtk-2.0/dialogs.c:1439 client/gui-gtk/dialogs.c:1431
+#: client/gui-gtk-2.0/dialogs.c:1423 client/gui-gtk/dialogs.c:1431
 #: client/gui-mui/dialogs.c:1325 client/gui-win32/dialogs.c:1973
 #: data/Freeciv:2447
 msgid "Choose unit activity:"
 msgstr "Kies actie voor eenheid:"
 
-#: client/gui-gtk-2.0/dialogs.c:1642 client/gui-gtk/dialogs.c:1715
+#: client/gui-gtk-2.0/dialogs.c:1626 client/gui-gtk/dialogs.c:1715
 msgid "Unit selection"
 msgstr "Eenheid keuze"
 
-#: client/gui-gtk-2.0/dialogs.c:1704 client/gui-gtk/dialogs.c:1774
+#: client/gui-gtk-2.0/dialogs.c:1688 client/gui-gtk/dialogs.c:1774
 #: client/gui-win32/dialogs.c:681 data/Freeciv:534
 msgid "Ready all"
 msgstr "Activeer alle"
 
-#: client/gui-gtk-2.0/dialogs.c:1853
+#: client/gui-gtk-2.0/dialogs.c:1837
 msgid " What Nation Will You Be?"
 msgstr "Welke Natie Zult U Zijn?"
 
-#: client/gui-gtk-2.0/dialogs.c:1861 client/gui-gtk/dialogs.c:1939
+#: client/gui-gtk-2.0/dialogs.c:1845 client/gui-gtk/dialogs.c:1939
 #: client/gui-win32/dialogs.c:480
 msgid "Select nation and name"
 msgstr "Kies naam van de natie"
 
-#: client/gui-gtk-2.0/dialogs.c:1903 client/gui-gtk/dialogs.c:1984
+#: client/gui-gtk-2.0/dialogs.c:1887 client/gui-gtk/dialogs.c:1984
 msgid "Nation:"
 msgstr "Natie:"
 
-#: client/gui-gtk-2.0/dialogs.c:1921 client/gui-gtk/dialogs.c:2003
+#: client/gui-gtk-2.0/dialogs.c:1905 client/gui-gtk/dialogs.c:2003
 msgid "Leader:"
 msgstr "Leider:"
 
-#: client/gui-gtk-2.0/dialogs.c:1930 client/gui-gtk/dialogs.c:2012
+#: client/gui-gtk-2.0/dialogs.c:1914 client/gui-gtk/dialogs.c:2012
 #: client/gui-win32/dialogs.c:491
 msgid "Select your sex"
 msgstr "Kies uw sexe"
 
-#: client/gui-gtk-2.0/dialogs.c:1937 client/gui-gtk/dialogs.c:2019
+#: client/gui-gtk-2.0/dialogs.c:1921 client/gui-gtk/dialogs.c:2019
 #: client/gui-mui/dialogs.c:1710 client/gui-win32/dialogs.c:493
 msgid "Male"
 msgstr "Mannelijk"
 
-#: client/gui-gtk-2.0/dialogs.c:1943 client/gui-gtk/dialogs.c:2025
+#: client/gui-gtk-2.0/dialogs.c:1927 client/gui-gtk/dialogs.c:2025
 #: client/gui-mui/dialogs.c:1711 client/gui-win32/dialogs.c:495
 #: data/Freeciv:3059
 msgid "Female"
 msgstr "Vrouwelijk"
 
-#: client/gui-gtk-2.0/dialogs.c:1964 client/gui-gtk/dialogs.c:2047
+#: client/gui-gtk-2.0/dialogs.c:1948 client/gui-gtk/dialogs.c:2047
 #: client/gui-win32/dialogs.c:499
 msgid "Select your city style"
 msgstr "Kies uw stads-stijl"
 
-#: client/gui-gtk-2.0/dialogs.c:2008 client/gui-gtk-2.0/menu.c:578
+#: client/gui-gtk-2.0/dialogs.c:1992 client/gui-gtk-2.0/menu.c:578
 #: client/gui-gtk/menu.c:579 client/gui-mui/dialogs.c:1777
 #: client/gui-win32/menu.c:288
 msgid "_Disconnect"
 msgstr "_Verbreek verbinding"
 
-#: client/gui-gtk-2.0/dialogs.c:2209 client/gui-gtk/dialogs.c:2307
+#: client/gui-gtk-2.0/dialogs.c:2193 client/gui-gtk/dialogs.c:2307
 #: client/gui-xaw/dialogs.c:2362
 msgid "You must select a nation."
 msgstr "U moet een natie kiezen."
 
-#: client/gui-gtk-2.0/dialogs.c:2214 client/gui-gtk/dialogs.c:2312
+#: client/gui-gtk-2.0/dialogs.c:2198 client/gui-gtk/dialogs.c:2312
 #: client/gui-xaw/dialogs.c:2367
 msgid "You must select your sex."
 msgstr "U moet uw sexe kiezen."
 
-#: client/gui-gtk-2.0/dialogs.c:2219 client/gui-gtk/dialogs.c:2317
+#: client/gui-gtk-2.0/dialogs.c:2203 client/gui-gtk/dialogs.c:2317
 #: client/gui-xaw/dialogs.c:2372
 msgid "You must select your city style."
 msgstr "U moet uw stads-stijl kiezen."
 
-#: client/gui-gtk-2.0/dialogs.c:2232 client/gui-gtk/dialogs.c:2330
+#: client/gui-gtk-2.0/dialogs.c:2216 client/gui-gtk/dialogs.c:2330
 #: client/gui-mui/dialogs.c:1638 client/gui-win32/dialogs.c:327
 #: client/gui-xaw/dialogs.c:2386
 msgid "You must type a legal name."
@@ -8646,18 +8648,18 @@ msgstr "_Steden"
 msgid "Show _All Cities"
 msgstr "Toon _alle steden"
 
-#: client/gui-gtk-2.0/gui_main.c:499 client/gui-gtk-2.0/gui_main.c:995
-#: client/gui-gtk/gui_main.c:410 client/gui-gtk/gui_main.c:871
+#: client/gui-gtk-2.0/gui_main.c:451 client/gui-gtk-2.0/gui_main.c:947
+#: client/gui-gtk/gui_main.c:362 client/gui-gtk/gui_main.c:823
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:772 client/gui-gtk/gui_main.c:694
+#: client/gui-gtk-2.0/gui_main.c:724 client/gui-gtk/gui_main.c:646
 #: client/gui-win32/gui_main.c:390 data/Freeciv:2553
 msgid "Turn Done"
 msgstr "Beurt Klaar"
 
-#: client/gui-gtk-2.0/gui_main.c:889 client/gui-gtk/gui_main.c:798
-#: client/gui-mui/gui_main.c:1025 client/gui-win32/gui_main.c:441
+#: client/gui-gtk-2.0/gui_main.c:841 client/gui-gtk/gui_main.c:750
+#: client/gui-mui/gui_main.c:1020 client/gui-win32/gui_main.c:441
 #: data/Freeciv:2744
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -8669,7 +8671,7 @@ msgstr ""
 "menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk-2.0/gui_main.c:1202 client/gui-gtk/gui_main.c:1105
+#: client/gui-gtk-2.0/gui_main.c:1154 client/gui-gtk/gui_main.c:1057
 #: client/gui-xaw/gui_main.c:694
 #, c-format
 msgid ""
@@ -8690,26 +8692,26 @@ msgstr ""
 "Bestuursvorm: %s"
 
 #: client/gui-gtk-2.0/happiness.c:103 client/gui-gtk/happiness.c:116
-#: client/gui-mui/citydlg.c:1443 client/gui-mui/citydlg.c:1580
+#: client/gui-mui/citydlg.c:1446 client/gui-mui/citydlg.c:1583
 #: client/gui-win32/citydlg.c:779 client/gui-win32/happiness.c:92
-#: client/gui-xaw/menu.c:228 data/helpdata.txt:1277
+#: client/gui-xaw/menu.c:228 data/helpdata.txt:1284
 msgid "Happiness"
 msgstr "Geluk"
 
 #: client/gui-gtk-2.0/happiness.c:234 client/gui-gtk/happiness.c:247
-#: client/gui-mui/citydlg.c:2293 client/gui-win32/happiness.c:195
+#: client/gui-mui/citydlg.c:2297 client/gui-win32/happiness.c:195
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities.\n"
 msgstr "Steden: %d totaal, %d boven drempelwaarde van %d steden.\n"
 
 #: client/gui-gtk-2.0/happiness.c:238 client/gui-gtk/happiness.c:251
-#: client/gui-mui/citydlg.c:2297 client/gui-win32/happiness.c:199
+#: client/gui-mui/citydlg.c:2301 client/gui-win32/happiness.c:199
 #, c-format
 msgid "%d content before penalty with "
 msgstr "%d tevreden voor bezwaring met "
 
 #: client/gui-gtk-2.0/happiness.c:240 client/gui-gtk/happiness.c:253
-#: client/gui-mui/citydlg.c:2299 client/gui-win32/happiness.c:201
+#: client/gui-mui/citydlg.c:2303 client/gui-win32/happiness.c:201
 #, c-format
 msgid "%d additional unhappy citizens."
 msgstr "%d toegevoegde ontevreden burgers."
@@ -8721,7 +8723,7 @@ msgid "Luxury: %d total."
 msgstr "Luxe: %d totaal."
 
 #: client/gui-gtk-2.0/happiness.c:274 client/gui-gtk/happiness.c:287
-#: client/gui-mui/citydlg.c:2315 client/gui-win32/happiness.c:236
+#: client/gui-mui/citydlg.c:2319 client/gui-win32/happiness.c:236
 msgid "Buildings: "
 msgstr "Gebouwen: "
 
@@ -8733,10 +8735,10 @@ msgstr "Gebouwen: "
 #: client/gui-gtk/happiness.c:308 client/gui-gtk/happiness.c:329
 #: client/gui-gtk/happiness.c:400 client/gui-gtk/happiness.c:407
 #: client/gui-gtk/happiness.c:420 client/gui-gtk/happiness.c:427
-#: client/gui-mui/citydlg.c:2322 client/gui-mui/citydlg.c:2329
-#: client/gui-mui/citydlg.c:2336 client/gui-mui/citydlg.c:2357
-#: client/gui-mui/citydlg.c:2406 client/gui-mui/citydlg.c:2413
-#: client/gui-mui/citydlg.c:2426 client/gui-mui/citydlg.c:2433
+#: client/gui-mui/citydlg.c:2326 client/gui-mui/citydlg.c:2333
+#: client/gui-mui/citydlg.c:2340 client/gui-mui/citydlg.c:2361
+#: client/gui-mui/citydlg.c:2410 client/gui-mui/citydlg.c:2417
+#: client/gui-mui/citydlg.c:2430 client/gui-mui/citydlg.c:2437
 #: client/gui-win32/happiness.c:243 client/gui-win32/happiness.c:250
 #: client/gui-win32/happiness.c:257 client/gui-win32/happiness.c:278
 #: client/gui-win32/happiness.c:348 client/gui-win32/happiness.c:355
@@ -8746,7 +8748,7 @@ msgstr ". "
 
 #: client/gui-gtk-2.0/happiness.c:301 client/gui-gtk-2.0/happiness.c:400
 #: client/gui-gtk/happiness.c:314 client/gui-gtk/happiness.c:413
-#: client/gui-mui/citydlg.c:2342 client/gui-mui/citydlg.c:2419
+#: client/gui-mui/citydlg.c:2346 client/gui-mui/citydlg.c:2423
 #: client/gui-win32/happiness.c:263 client/gui-win32/happiness.c:361
 msgid ""
 "\n"
@@ -8756,39 +8758,39 @@ msgstr ""
 "              "
 
 #: client/gui-gtk-2.0/happiness.c:309 client/gui-gtk/happiness.c:322
-#: client/gui-mui/citydlg.c:2350 client/gui-win32/happiness.c:271
+#: client/gui-mui/citydlg.c:2354 client/gui-win32/happiness.c:271
 msgid "("
 msgstr "("
 
 #: client/gui-gtk-2.0/happiness.c:313 client/gui-gtk/happiness.c:326
-#: client/gui-mui/citydlg.c:2354 client/gui-win32/happiness.c:275
+#: client/gui-mui/citydlg.c:2358 client/gui-win32/happiness.c:275
 msgid ")"
 msgstr ")"
 
 #: client/gui-gtk-2.0/happiness.c:321 client/gui-gtk-2.0/happiness.c:419
 #: client/gui-gtk/happiness.c:334 client/gui-gtk/happiness.c:432
-#: client/gui-mui/citydlg.c:2362 client/gui-mui/citydlg.c:2438
+#: client/gui-mui/citydlg.c:2366 client/gui-mui/citydlg.c:2442
 #: client/gui-win32/happiness.c:283 client/gui-win32/happiness.c:380
 msgid "None. "
 msgstr "Geen."
 
 #: client/gui-gtk-2.0/happiness.c:340 client/gui-gtk/happiness.c:353
-#: client/gui-mui/citydlg.c:2372 client/gui-win32/happiness.c:302
+#: client/gui-mui/citydlg.c:2376 client/gui-win32/happiness.c:302
 msgid "Units: "
 msgstr "Eenheden: "
 
 #: client/gui-gtk-2.0/happiness.c:344 client/gui-gtk/happiness.c:357
-#: client/gui-mui/citydlg.c:2376 client/gui-win32/happiness.c:306
+#: client/gui-mui/citydlg.c:2380 client/gui-win32/happiness.c:306
 msgid "Martial law in effect ("
 msgstr "Krijgswet van toepassing ("
 
 #: client/gui-gtk-2.0/happiness.c:348 client/gui-gtk/happiness.c:361
-#: client/gui-mui/citydlg.c:2380 client/gui-win32/happiness.c:310
+#: client/gui-mui/citydlg.c:2384 client/gui-win32/happiness.c:310
 msgid "no maximum, "
 msgstr "geen maximum, "
 
 #: client/gui-gtk-2.0/happiness.c:350 client/gui-gtk/happiness.c:363
-#: client/gui-mui/citydlg.c:2382 client/gui-win32/happiness.c:312
+#: client/gui-mui/citydlg.c:2386 client/gui-win32/happiness.c:312
 #, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
@@ -8796,13 +8798,13 @@ msgstr[0] "%d eenheid maximaal, "
 msgstr[1] "%d eenheden maximaal, "
 
 #: client/gui-gtk-2.0/happiness.c:354 client/gui-gtk/happiness.c:367
-#: client/gui-mui/citydlg.c:2386 client/gui-win32/happiness.c:316
+#: client/gui-mui/citydlg.c:2390 client/gui-win32/happiness.c:316
 #, c-format
 msgid "%d per unit). "
 msgstr "%d per eenheid). "
 
 #: client/gui-gtk-2.0/happiness.c:358 client/gui-gtk/happiness.c:371
-#: client/gui-mui/citydlg.c:2389 client/gui-win32/happiness.c:320
+#: client/gui-mui/citydlg.c:2393 client/gui-win32/happiness.c:320
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Militaire eenheden in het veld kunnen ontevredenheid veroorzaken. "
 
@@ -8812,7 +8814,7 @@ msgid "Military units have no happiness effect. "
 msgstr "Militaire eenheden kunnen geen ontevredenheid veroorzaken. "
 
 #: client/gui-gtk-2.0/happiness.c:380 client/gui-gtk/happiness.c:393
-#: client/gui-mui/citydlg.c:2399 client/gui-win32/happiness.c:341
+#: client/gui-mui/citydlg.c:2403 client/gui-win32/happiness.c:341
 msgid "Wonders: "
 msgstr "Wereldwonderen: "
 
@@ -9211,12 +9213,12 @@ msgid "What should we call our new city?"
 msgstr "Hoe zullen we onze nieuwe stad noemen?"
 
 #: client/gui-gtk-2.0/mapview.c:327 client/gui-gtk/mapview.c:328
-#: client/gui-win32/mapview.c:515 client/gui-xaw/mapview.c:204
+#: client/gui-win32/mapview.c:514 client/gui-xaw/mapview.c:204
 msgid "?timeout:off"
 msgstr "?timeout:uit"
 
 #: client/gui-gtk-2.0/mapview.c:344 client/gui-gtk/mapview.c:345
-#: client/gui-win32/mapview.c:452
+#: client/gui-win32/mapview.c:451
 #, c-format
 msgid ""
 "Population: %s\n"
@@ -9230,7 +9232,7 @@ msgstr ""
 "Belasting: %d Luxe: %d Wetenschap: %d"
 
 #: client/gui-gtk-2.0/mapview.c:403 client/gui-gtk/mapview.c:401
-#: client/gui-win32/mapview.c:490 client/gui-xaw/mapview.c:271
+#: client/gui-win32/mapview.c:489 client/gui-xaw/mapview.c:271
 msgid "(veteran)"
 msgstr "(veteraan)"
 
@@ -9584,7 +9586,7 @@ msgid "Diplomat\\/Spy Actions"
 msgstr "Diplomaat\\/Spion Acties"
 
 #: client/gui-gtk-2.0/menu.c:704 client/gui-gtk/menu.c:705
-#: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1683
+#: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1686
 #: client/gui-win32/menu.c:349 client/gui-xaw/menu.c:191
 msgid "Explode Nuclear"
 msgstr "Explodeer Kernraket"
@@ -9665,8 +9667,8 @@ msgstr "Volkenkun_de"
 msgid "S_paceship"
 msgstr "Ruimteschi_p"
 
-#: client/gui-gtk-2.0/menu.c:740 client/gui-gtk/citydlg.c:3018
-#: client/gui-gtk/menu.c:741 client/gui-mui/citydlg.c:1320
+#: client/gui-gtk-2.0/menu.c:740 client/gui-gtk/citydlg.c:3021
+#: client/gui-gtk/menu.c:741 client/gui-mui/citydlg.c:1321
 #: client/gui-win32/menu.c:367
 msgid "_Help"
 msgstr "_Help"
@@ -10076,7 +10078,7 @@ msgid "Active"
 msgstr "Actief"
 
 #: client/gui-gtk-2.0/repodlgs.c:848 client/gui-gtk/repodlgs.c:817
-#: client/gui-mui/citydlg.c:1670 client/gui-mui/repodlgs.c:716
+#: client/gui-mui/citydlg.c:1673 client/gui-mui/repodlgs.c:716
 #: client/gui-win32/repodlgs.c:694
 msgid "Shield"
 msgstr "Schild"
@@ -10192,48 +10194,54 @@ msgid "empty worklist"
 msgstr "lege werklijst"
 
 #: client/gui-gtk-2.0/wldlg.c:1350 client/gui-gtk/wldlg.c:1351
-#: client/gui-mui/citydlg.c:1442 client/gui-mui/worklistclass.c:159
+#: client/gui-mui/citydlg.c:1445 client/gui-mui/worklistclass.c:159
 #: client/gui-win32/citydlg.c:778 client/gui-win32/wldlg.c:950
 #: client/gui-win32/wldlg.c:996 data/Freeciv:2978
 msgid "Worklist"
 msgstr "Werklijst"
 
-#: client/gui-gtk/citydlg.c:750 client/gui-gtk/citydlg.c:806
-#: client/gui-gtk/citydlg.c:1029 client/gui-gtk/citydlg.c:1088
+#: client/gui-gtk/citydlg.c:751 client/gui-gtk/citydlg.c:807
+#: client/gui-gtk/citydlg.c:1030 client/gui-gtk/citydlg.c:1089
 msgid "<"
 msgstr "<"
 
-#: client/gui-gtk/citydlg.c:756 client/gui-gtk/citydlg.c:812
-#: client/gui-gtk/citydlg.c:1034 client/gui-gtk/citydlg.c:1092
+#: client/gui-gtk/citydlg.c:757 client/gui-gtk/citydlg.c:813
+#: client/gui-gtk/citydlg.c:1035 client/gui-gtk/citydlg.c:1093
 msgid ">"
 msgstr ">"
 
-#: client/gui-gtk/citydlg.c:860 client/gui-gtk/citydlg.c:3002
-#: client/gui-mui/citydlg.c:1698
+#: client/gui-gtk/citydlg.c:861 client/gui-gtk/citydlg.c:3005
+#: client/gui-mui/citydlg.c:1701
 msgid "_Change"
 msgstr "_Verander"
 
-#: client/gui-gtk/citydlg.c:1493 client/gui-gtk/citydlg.c:1501
+#: client/gui-gtk/citydlg.c:1494 client/gui-gtk/citydlg.c:1502
 #, c-format
 msgid "City of %s"
 msgstr "Stad van %s"
 
-#: client/gui-gtk/citydlg.c:1559
+#: client/gui-gtk/citydlg.c:1560
 msgid "Close dialog"
 msgstr "Sluit dialoog"
 
-#: client/gui-gtk/citydlg.c:2142
+#: client/gui-gtk/citydlg.c:2145
 #, c-format
 msgid "Supported units (%d)"
 msgstr "Ondersteunde eenheden (%d)"
 
-#: client/gui-gtk/citydlg.c:2274
+#: client/gui-gtk/citydlg.c:2277
 #, c-format
 msgid "Present units (%d)"
 msgstr "Aanwezige eenheden (%d)"
 
-#: client/gui-gtk/citydlg.c:2692 client/gui-gtk/citydlg.c:2715
-#: client/gui-gtk/citydlg.c:2916 client/gui-gtk/dialogs.c:425
+#: client/gui-gtk/citydlg.c:2474 client/gui-gtk/citydlg.c:2506
+#: client/gui-win32/citydlg.c:1625 client/gui-win32/citydlg.c:1653
+#: data/Freeciv:1163 data/Freeciv:1199
+msgid "Unit Commands"
+msgstr "Eenheid opdrachten"
+
+#: client/gui-gtk/citydlg.c:2695 client/gui-gtk/citydlg.c:2718
+#: client/gui-gtk/citydlg.c:2919 client/gui-gtk/dialogs.c:425
 #: client/gui-gtk/dialogs.c:976 client/gui-gtk/dialogs.c:992
 #: client/gui-mui/dialogs.c:238 client/gui-mui/dialogs.c:508
 #: client/gui-mui/dialogs.c:524 client/gui-win32/citydlg.c:1016
@@ -10244,7 +10252,7 @@ msgstr "Aanwezige eenheden (%d)"
 msgid "Darn"
 msgstr "Verdorie"
 
-#: client/gui-gtk/citydlg.c:3010
+#: client/gui-gtk/citydlg.c:3013
 msgid "Ca_ncel"
 msgstr "_Annuleer"
 
@@ -10402,7 +10410,7 @@ msgstr ""
 "Out = Output venster, Ber = Berichten venster,\n"
 "Pop = Popup individueel venster"
 
-#: client/gui-gtk/messagewin.c:154 client/gui-mui/citydlg.c:1748
+#: client/gui-gtk/messagewin.c:154 client/gui-mui/citydlg.c:1751
 #: client/gui-mui/cityrep.c:389 client/gui-mui/dialogs.c:137
 #: client/gui-mui/dialogs.c:184 client/gui-mui/dialogs.c:1483
 #: client/gui-mui/messagewin.c:208 client/gui-mui/plrdlg.c:322
@@ -10442,7 +10450,7 @@ msgstr "Inkomen:%6d   Totale Kosten: %6d"
 msgid "Totals: ..."
 msgstr "Totalen: ..."
 
-#: client/gui-gtk/repodlgs.c:854 client/gui-mui/mapclass.c:2957
+#: client/gui-gtk/repodlgs.c:854 client/gui-mui/mapclass.c:2960
 #: client/gui-win32/repodlgs.c:716 data/Freeciv:1895
 msgid "Upgrade"
 msgstr "Waardeer op"
@@ -10482,128 +10490,134 @@ msgid "Cleared output window.\n"
 msgstr "Uitvoervenster geschoond.\n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
-#: client/gui-mui/citydlg.c:618 client/gui-mui/worklistclass.c:213
+#: client/gui-mui/citydlg.c:619 client/gui-mui/worklistclass.c:213
 msgid "u8Unitsn"
 msgstr "u8Eenhedenn"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
-#: client/gui-mui/citydlg.c:625 client/gui-mui/worklistclass.c:221
+#: client/gui-mui/citydlg.c:626 client/gui-mui/worklistclass.c:221
 msgid "u8Improvementsn"
 msgstr "u8Verbeteringenn"
 
-#: client/gui-mui/citydlg.c:701
+#: client/gui-mui/citydlg.c:702
 msgid "Rounds"
 msgstr "Ronden"
 
-#: client/gui-mui/citydlg.c:1048 client/gui-mui/dialogs.c:1867
+#: client/gui-mui/citydlg.c:1049 client/gui-mui/dialogs.c:1867
 #: client/gui-mui/dialogs.c:1891
 msgid "_Darn"
 msgstr "_Verdorie"
 
-#: client/gui-mui/citydlg.c:1306
+#: client/gui-mui/citydlg.c:1307
 msgid "Freeciv - Cityproduction"
 msgstr "Freeciv - Stadsproductie"
 
-#: client/gui-mui/citydlg.c:1319 client/gui-mui/citydlg.c:1536
+#: client/gui-mui/citydlg.c:1320 client/gui-mui/citydlg.c:1539
 #: client/gui-mui/cityrep.c:393
 msgid "Chan_ge"
 msgstr "_Wijzig"
 
-#: client/gui-mui/citydlg.c:1396
+#: client/gui-mui/citydlg.c:1397
 msgid "Shields"
 msgstr "Schilden"
 
-#: client/gui-mui/citydlg.c:1401 client/gui-mui/citydlg.c:1634
-msgid "Gold:"
-msgstr "Goud:"
+#: client/gui-mui/citydlg.c:1416
+msgid "Waste:"
+msgstr "Afval:"
 
-#: client/gui-mui/citydlg.c:1440 client/gui-win32/citydlg.c:778
+#: client/gui-mui/citydlg.c:1443 client/gui-win32/citydlg.c:778
 msgid "City Overview"
 msgstr "Stadsoverzicht"
 
-#: client/gui-mui/citydlg.c:1445 client/gui-win32/citydlg.c:780
+#: client/gui-mui/citydlg.c:1448 client/gui-win32/citydlg.c:780
 #: data/Freeciv:2166
 msgid "Trade Routes"
 msgstr "Handelsroutes"
 
-#: client/gui-mui/citydlg.c:1446 client/gui-win32/citydlg.c:781
+#: client/gui-mui/citydlg.c:1449 client/gui-win32/citydlg.c:781
 msgid "Misc. Settings"
 msgstr "Diverse Instellingen"
 
-#: client/gui-mui/citydlg.c:1476
+#: client/gui-mui/citydlg.c:1479
 msgid "Freeciv - Cityview"
 msgstr "Freeciv - Steden"
 
-#: client/gui-mui/citydlg.c:1503
+#: client/gui-mui/citydlg.c:1506
 msgid "City Output"
 msgstr "Stads Uitvoer"
 
-#: client/gui-mui/citydlg.c:1508
+#: client/gui-mui/citydlg.c:1511
 msgid "Citymap"
 msgstr "Stadskaart"
 
-#: client/gui-mui/citydlg.c:1539 data/helpdata.txt:772
+#: client/gui-mui/citydlg.c:1542 data/helpdata.txt:772
 msgid "City Improvements"
 msgstr "Stadsverbeteringen"
 
-#: client/gui-mui/citydlg.c:1548
+#: client/gui-mui/citydlg.c:1551
 msgid "_Sell"
 msgstr "Ver_koop"
 
-#: client/gui-mui/citydlg.c:1619
+#: client/gui-mui/citydlg.c:1622
 msgid "_Add preset"
 msgstr "Snelkeuze toevoegen (_a)"
 
-#: client/gui-mui/citydlg.c:1620
+#: client/gui-mui/citydlg.c:1623
 msgid "_Delete preset"
 msgstr "Snelkeuze verwij_deren"
 
-#: client/gui-mui/citydlg.c:1637
+#: client/gui-mui/citydlg.c:1640
 msgid "Production:"
 msgstr "Productie:"
 
-#: client/gui-mui/citydlg.c:1651
+#: client/gui-mui/citydlg.c:1654
 msgid "People (W/E/S/T):"
 msgstr "Bevolking (W/E/P/H):"
 
-#: client/gui-mui/citydlg.c:1654
+#: client/gui-mui/citydlg.c:1657
 msgid "City grows:"
 msgstr "Stadsgroei:"
 
-#: client/gui-mui/citydlg.c:1657
+#: client/gui-mui/citydlg.c:1660
 msgid "Production completed:"
 msgstr "Productie gereed:"
 
-#: client/gui-mui/citydlg.c:1674 data/Freeciv:2966
+#: client/gui-mui/citydlg.c:1677 data/Freeciv:2966
 #: data/default/techs.ruleset:733 data/civ2/techs.ruleset:553
 #: data/civ1/techs.ruleset:553 data/history/techs.ruleset:562
 msgid "Trade"
 msgstr "Handel"
 
-#: client/gui-mui/citydlg.c:1699
+#: client/gui-mui/citydlg.c:1681 data/default/terrain.ruleset:376
+#: data/civ2/terrain.ruleset:376 data/civ1/terrain.ruleset:368
+#: data/history/terrain.ruleset:376
+msgid "Gold"
+msgstr "Goud"
+
+#: client/gui-mui/citydlg.c:1702
 msgid "C_hange permanent"
 msgstr "Wijzig permanent"
 
-#: client/gui-mui/citydlg.c:1730 client/gui-mui/citydlg.c:1731
+#: client/gui-mui/citydlg.c:1733 client/gui-mui/citydlg.c:1734
 msgid "_Disband if build settler at size 1"
 msgstr "_Verlaat als kolonist gebouwd bij grootte 1"
 
-#: client/gui-mui/citydlg.c:1851
+#: client/gui-mui/citydlg.c:1854
 #, c-format
 msgid "%s (%s) (worklist)"
 msgstr "%s (%s) (werklijst)"
 
-#: client/gui-mui/citydlg.c:2150
+#: client/gui-mui/citydlg.c:2154
 #, c-format
 msgid "%s citizens%s"
 msgstr "%s inwoners%s"
 
-#: client/gui-mui/citydlg.c:2154
+#: client/gui-mui/citydlg.c:2158
 #, c-format
 msgid "%s - %s citizens%s"
 msgstr "%s - %s inwoners%s"
 
-#: client/gui-mui/citydlg.c:2305
+#: client/gui-mui/citydlg.c:2309
 #, c-format
 msgid "Luxury: %d total (maximum %d usable). "
 msgstr "Luxe: %d totaal (maximaal %d bruikbaar). "
@@ -10891,58 +10905,58 @@ msgstr "Centreer Venster"
 msgid "Order"
 msgstr "Opdracht"
 
-#: client/gui-mui/gui_main.c:235 client/gui-mui/gui_main.c:1275
-#: client/gui-mui/mapclass.c:1653 client/gui-win32/menu.c:950
+#: client/gui-mui/gui_main.c:235 client/gui-mui/gui_main.c:1270
+#: client/gui-mui/mapclass.c:1656 client/gui-win32/menu.c:952
 #: client/gui-xaw/menu.c:154
 msgid "Build City"
 msgstr "Bouw Stad"
 
-#: client/gui-mui/gui_main.c:236 client/gui-mui/gui_main.c:1318
-#: client/gui-mui/mapclass.c:1657 client/gui-win32/menu.c:986
+#: client/gui-mui/gui_main.c:236 client/gui-mui/gui_main.c:1313
+#: client/gui-mui/mapclass.c:1660 client/gui-win32/menu.c:988
 #: client/gui-xaw/menu.c:156
 msgid "Build Road"
 msgstr "Bouw Weg"
 
-#: client/gui-mui/gui_main.c:237 client/gui-mui/gui_main.c:1300
-#: client/gui-mui/mapclass.c:1707 client/gui-win32/menu.c:909
+#: client/gui-mui/gui_main.c:237 client/gui-mui/gui_main.c:1295
+#: client/gui-mui/mapclass.c:1710 client/gui-win32/menu.c:911
 #: client/gui-xaw/menu.c:161
 msgid "Build Mine"
 msgstr "Bouw Mijn"
 
-#: client/gui-mui/gui_main.c:238 client/gui-mui/gui_main.c:1291
-#: client/gui-mui/mapclass.c:1700 client/gui-win32/menu.c:908
+#: client/gui-mui/gui_main.c:238 client/gui-mui/gui_main.c:1286
+#: client/gui-mui/mapclass.c:1703 client/gui-win32/menu.c:910
 #: client/gui-xaw/menu.c:158
 msgid "Build Irrigation"
 msgstr "Bouw Irrigatie"
 
-#: client/gui-mui/gui_main.c:239 client/gui-win32/menu.c:910
+#: client/gui-mui/gui_main.c:239 client/gui-win32/menu.c:912
 #: client/gui-xaw/menu.c:163
 msgid "Transform Terrain"
 msgstr "Transformeer Terrein"
 
-#: client/gui-mui/gui_main.c:241 client/gui-mui/mapclass.c:1661
+#: client/gui-mui/gui_main.c:241 client/gui-mui/mapclass.c:1664
 #: client/gui-xaw/menu.c:165
 msgid "Build Fortress"
 msgstr "Bouw Fort"
 
-#: client/gui-mui/gui_main.c:242 client/gui-mui/mapclass.c:1663
+#: client/gui-mui/gui_main.c:242 client/gui-mui/mapclass.c:1666
 #: client/gui-xaw/menu.c:166
 msgid "Build Airbase"
 msgstr "Bouw Vliegbasis"
 
-#: client/gui-mui/gui_main.c:243 client/gui-mui/gui_main.c:1244
-#: client/gui-mui/mapclass.c:1665 client/gui-win32/menu.c:977
+#: client/gui-mui/gui_main.c:243 client/gui-mui/gui_main.c:1239
+#: client/gui-mui/mapclass.c:1668 client/gui-win32/menu.c:979
 #: client/gui-xaw/menu.c:167
 msgid "Clean Pollution"
 msgstr "Verwijder Verontreiniging"
 
-#: client/gui-mui/gui_main.c:244 client/gui-mui/mapclass.c:1667
+#: client/gui-mui/gui_main.c:244 client/gui-mui/mapclass.c:1670
 #: client/gui-xaw/menu.c:169
 msgid "Clean Nuclear Fallout"
 msgstr "Verwijder Radioactieve Besmetting"
 
-#: client/gui-mui/gui_main.c:246 client/gui-mui/mapclass.c:1669
-#: client/gui-mui/mapclass.c:2926 client/gui-win32/menu.c:331
+#: client/gui-mui/gui_main.c:246 client/gui-mui/mapclass.c:1672
+#: client/gui-mui/mapclass.c:2929 client/gui-win32/menu.c:331
 #: client/gui-xaw/menu.c:171
 msgid "Fortify"
 msgstr "Fortificeer"
@@ -10951,7 +10965,7 @@ msgstr "Fortificeer"
 msgid "Make Homecity"
 msgstr "Maak Hoofdstad"
 
-#: client/gui-mui/gui_main.c:251 client/gui-mui/mapclass.c:1685
+#: client/gui-mui/gui_main.c:251 client/gui-mui/mapclass.c:1688
 #: client/gui-xaw/menu.c:176
 msgid "Unload"
 msgstr "Los"
@@ -10960,17 +10974,17 @@ msgstr "Los"
 msgid "Wake up others"
 msgstr "Wek anderen"
 
-#: client/gui-mui/gui_main.c:254 client/gui-mui/mapclass.c:1675
+#: client/gui-mui/gui_main.c:254 client/gui-mui/mapclass.c:1678
 #: client/gui-win32/menu.c:339 client/gui-xaw/menu.c:179
 msgid "Auto Settler"
 msgstr "Auto Kolonist"
 
-#: client/gui-mui/gui_main.c:255 client/gui-mui/mapclass.c:1677
+#: client/gui-mui/gui_main.c:255 client/gui-mui/mapclass.c:1680
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:180
 msgid "Auto Attack"
 msgstr "Auto Aanval"
 
-#: client/gui-mui/gui_main.c:256 client/gui-mui/mapclass.c:1679
+#: client/gui-mui/gui_main.c:256 client/gui-mui/mapclass.c:1682
 #: client/gui-xaw/menu.c:181
 msgid "Auto Explore"
 msgstr "Auto Onderzoek"
@@ -11035,15 +11049,15 @@ msgstr "Volkenkunde"
 msgid "Spaceship"
 msgstr "Ruimteschip"
 
-#: client/gui-mui/gui_main.c:886
+#: client/gui-mui/gui_main.c:881
 msgid "Freeciv Client"
 msgstr "Freeciv Client"
 
-#: client/gui-mui/gui_main.c:890
+#: client/gui-mui/gui_main.c:885
 msgid "Client for Freeciv"
 msgstr "Client voor Freeciv"
 
-#: client/gui-mui/gui_main.c:915
+#: client/gui-mui/gui_main.c:910
 msgid ""
 "Turn\n"
 "Done"
@@ -11051,37 +11065,37 @@ msgstr ""
 "Beurt\n"
 "Klaar"
 
-#: client/gui-mui/gui_main.c:1220 client/gui-win32/menu.c:901
+#: client/gui-mui/gui_main.c:1215 client/gui-win32/menu.c:903
 #: client/gui-xaw/menu.c:160 client/gui-xaw/menu.c:162
 #, c-format
 msgid "Change to %s"
 msgstr "Verander in %s"
 
-#: client/gui-mui/gui_main.c:1239 client/gui-mui/mapclass.c:1681
-#: client/gui-win32/menu.c:975 client/gui-xaw/menu.c:168
+#: client/gui-mui/gui_main.c:1234 client/gui-mui/mapclass.c:1684
+#: client/gui-win32/menu.c:977 client/gui-xaw/menu.c:168
 msgid "Paradrop"
 msgstr "Drop Para's"
 
-#: client/gui-mui/gui_main.c:1271 client/gui-mui/mapclass.c:1655
-#: client/gui-win32/menu.c:946 client/gui-xaw/menu.c:155
+#: client/gui-mui/gui_main.c:1266 client/gui-mui/mapclass.c:1658
+#: client/gui-win32/menu.c:948 client/gui-xaw/menu.c:155
 msgid "Add to City"
 msgstr "Voeg toe aan Stad"
 
-#: client/gui-mui/gui_main.c:1287 client/gui-mui/mapclass.c:1697
-#: client/gui-win32/menu.c:962 client/gui-xaw/menu.c:159
+#: client/gui-mui/gui_main.c:1282 client/gui-mui/mapclass.c:1700
+#: client/gui-win32/menu.c:964 client/gui-xaw/menu.c:159
 msgid "Build Farmland"
 msgstr "Bouw Landbouwgrond"
 
-#: client/gui-mui/gui_main.c:1309 client/gui-mui/mapclass.c:1714
+#: client/gui-mui/gui_main.c:1304 client/gui-mui/mapclass.c:1717
 msgid "Transform terrain"
 msgstr "Transformeer terrein"
 
-#: client/gui-mui/gui_main.c:1314 client/gui-mui/mapclass.c:1659
-#: client/gui-win32/menu.c:983 client/gui-xaw/menu.c:157
+#: client/gui-mui/gui_main.c:1309 client/gui-mui/mapclass.c:1662
+#: client/gui-win32/menu.c:985 client/gui-xaw/menu.c:157
 msgid "Build Railroad"
 msgstr "Bouw Spoorweg"
 
-#: client/gui-mui/gui_main.c:1427
+#: client/gui-mui/gui_main.c:1422
 msgid ""
 "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
@@ -11131,52 +11145,52 @@ msgstr ""
 "Productie: %d\n"
 "Handel:    %d"
 
-#: client/gui-mui/mapclass.c:1624
+#: client/gui-mui/mapclass.c:1627
 #, c-format
 msgid "City %s"
 msgstr "Stad: %s"
 
-#: client/gui-mui/mapclass.c:1626
+#: client/gui-mui/mapclass.c:1629
 #, c-format
 msgid "Unit %s"
 msgstr "Eenheid %s"
 
-#: client/gui-mui/mapclass.c:1628
+#: client/gui-mui/mapclass.c:1631
 #, c-format
 msgid "Tile %s"
 msgstr "Vlak: %s"
 
-#: client/gui-mui/mapclass.c:1641 client/gui-win32/messagewin.c:151
+#: client/gui-mui/mapclass.c:1644 client/gui-win32/messagewin.c:151
 #: data/Freeciv:3220
 msgid "Popup City"
 msgstr "Popup Stad"
 
-#: client/gui-mui/mapclass.c:1687
+#: client/gui-mui/mapclass.c:1690
 msgid "Wake up"
 msgstr "Wek"
 
-#: client/gui-mui/mapclass.c:1689 client/gui-mui/mapclass.c:2910
-#: client/gui-mui/mapclass.c:3059
+#: client/gui-mui/mapclass.c:1692 client/gui-mui/mapclass.c:2913
+#: client/gui-mui/mapclass.c:3062
 msgid "Activate"
 msgstr "Activeer"
 
-#: client/gui-mui/mapclass.c:1743
+#: client/gui-mui/mapclass.c:1746
 msgid "List all units"
 msgstr "Toon alle eenheden"
 
-#: client/gui-mui/mapclass.c:1758
+#: client/gui-mui/mapclass.c:1761
 msgid "Connect to this location"
 msgstr "Verbind met deze locatie"
 
-#: client/gui-mui/mapclass.c:1761
+#: client/gui-mui/mapclass.c:1764
 msgid "Goto this location"
 msgstr "Ga naar deze locatie"
 
-#: client/gui-mui/mapclass.c:2916 client/gui-mui/mapclass.c:3063
+#: client/gui-mui/mapclass.c:2919 client/gui-mui/mapclass.c:3066
 msgid "Disband"
 msgstr "Ontbind"
 
-#: client/gui-mui/mapclass.c:2935 data/Freeciv:1185
+#: client/gui-mui/mapclass.c:2938 data/Freeciv:1185
 msgid "Make new homecity"
 msgstr "Verhuis naar deze stad"
 
@@ -11615,7 +11629,7 @@ msgstr "Belasting Waarden"
 msgid "Transf_orm to Hills"
 msgstr "Transf_ormeer naar Heuvels"
 
-#: client/gui-win32/menu.c:902 client/gui-xaw/menu.c:164
+#: client/gui-win32/menu.c:904 client/gui-xaw/menu.c:164
 #, c-format
 msgid "Transform to %s"
 msgstr "Transformeer naar %s"
@@ -11894,7 +11908,7 @@ msgstr "IS"
 msgid "Government"
 msgstr "Regering"
 
-#: client/gui-xaw/menu.c:229 data/helpdata.txt:1350
+#: client/gui-xaw/menu.c:229 data/helpdata.txt:1357
 msgid "Space Race"
 msgstr "Ruimte Race"
 
@@ -12429,10 +12443,12 @@ msgstr ""
 "  F: open Zoek Stad dialoog\n"
 "  g: eenheid (g)a-naar (dan linker muisknop om bestemming te kiezen)\n"
 "  h: verander t(h)uisstad (in stad op huidige positie)\n"
-"  i: bouw (i)rrigatie/landbouwgrond (kolonisten/ingenieurs; kan terr. transf.)\n"
+"  i: bouw (i)rrigatie/landbouwgrond (kolonisten/ingenieurs; kan terr. "
+"transf.)\n"
 "  l: ga/v(l)ieg naar stad\n"
 "  L: open Werk(l)ijst dialoog\n"
-"  m: bouw (m)ijn (kolonisten/ingenieurs eenheden; kan terrein transformeren)\n"
+"  m: bouw (m)ijn (kolonisten/ingenieurs eenheden; kan terrein "
+"transformeren)\n"
 "  n: verwijder radioactief afval\n"
 "  N: explodeer Ker(n)wapen\n"
 "  o: transf(o)rmeer terrein\n"
@@ -13791,6 +13807,21 @@ msgstr ""
 
 #: data/helpdata.txt:1231
 msgid ""
+"Waste is the loss of shields due to inefficiency and greed. Under most forms "
+"of government, the farther away from the capital a city is, the more shields "
+"will be lost to waste.  (If you do not have a capital, your cities will "
+"suffer extremely high levels of waste.)  A Courthouse will reduce the level "
+"of waste in a city. Waste can result in your cities not building anything."
+msgstr ""
+"Afval is het verlies van schilden veroorzaakt door inefficiëntie en "
+"hebzucht. Onder de meeste regeringsvormen geldt hoe verder een stad "
+"verwijderd is van de hoofdstad, hoe meer schilden er verloren zullen gaan aan "
+"afval. (Als u geen hoofdstad hebt, zullen alle steden lijden aan een "
+"extreme vorm van afval.) Een Gerechtshof verkleint de mate van afval "
+"in een stad. Afval kan resulteren in het niets bouwen in uw steden."
+
+#: data/helpdata.txt:1238
+msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
 "keep them happy.  When conquering other civilizations, it may be helpful to "
@@ -13801,7 +13832,7 @@ msgstr ""
 "te houden. Wanneer u andere beschavingen verovert, kan het helpen om eerst "
 "om te schakelen naar één van de meer militante bestuursvormen."
 
-#: data/helpdata.txt:1237
+#: data/helpdata.txt:1244
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -13814,11 +13845,11 @@ msgstr ""
 "als u dat kunt; het verkrijgen van geavanceerde technologie in het begin van "
 "het spel geeft u een voorsprong."
 
-#: data/helpdata.txt:1246
+#: data/helpdata.txt:1253
 msgid " Civil War"
 msgstr "Burgeroorlog"
 
-#: data/helpdata.txt:1247
+#: data/helpdata.txt:1254
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -13830,7 +13861,7 @@ msgstr ""
 "komen en trouw verklaren aan een (nieuwe) KI-speler, die de helft van uw "
 "schatkist zal innemen en al uw technologische ontwikkelingen."
 
-#: data/helpdata.txt:1253
+#: data/helpdata.txt:1260
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
@@ -13838,7 +13869,7 @@ msgstr ""
 "Spelers blijven slechts één beurt in een toestand van burgeroorlog, waarna "
 "het rijk een toestand van anarchie ingaat."
 
-#: data/helpdata.txt:1256
+#: data/helpdata.txt:1263
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -13850,7 +13881,7 @@ msgstr ""
 "terug te winnen. Elke stad die iets te vieren heeft verkleint de kans op "
 "burgeroorlog, terwijl elke stad in wanorde deze kans vergroot."
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1269
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -13861,7 +13892,7 @@ msgstr ""
 "kleinere kans in burgeroorlog te verzinken dan die met een meer tiranniek "
 "bestuur."
 
-#: data/helpdata.txt:1266
+#: data/helpdata.txt:1273
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -13873,7 +13904,7 @@ msgstr ""
 "immuun zijn voor burgeroorlog.  Dit is echter een server-optie en kan "
 "varieren vanaf een minimumwaarde van 6."
 
-#: data/helpdata.txt:1278
+#: data/helpdata.txt:1285
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -13887,7 +13918,7 @@ msgstr ""
 "wanorde (wat de productie verstoord); maar wanneer uw burgers gelukkig zijn, "
 "dan zullen uw steden dat vieren en uw productie zal aanzienlijk stijgen."
 
-#: data/helpdata.txt:1285
+#: data/helpdata.txt:1292
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -13902,7 +13933,7 @@ msgstr ""
 "opstand uit te lokken. Aanhoudende wanorde onder Democratie kan leiden tot "
 "een spontane revolutie, die uw regering omverwerpt."
 
-#: data/helpdata.txt:1292
+#: data/helpdata.txt:1299
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -13916,7 +13947,7 @@ msgstr ""
 "Dit wordt aangeduidt met de term \"Extase\" op het Stedelijk Rapport. Het "
 "effect van vieringen varieert met de regeringsvorm:"
 
-#: data/helpdata.txt:1299
+#: data/helpdata.txt:1306
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -13926,7 +13957,7 @@ msgstr ""
 "productie groter dan twee van welk type dan ook (voeding, schilden, handel) "
 "vervallen."
 
-#: data/helpdata.txt:1303
+#: data/helpdata.txt:1310
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -13936,7 +13967,7 @@ msgstr ""
 "Republikeinse/Democratische regeringsvorm krijgen: 1 bonus handel in elk "
 "vlak dat al tenminste 1 handel oplevert."
 
-#: data/helpdata.txt:1307
+#: data/helpdata.txt:1314
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -13946,7 +13977,7 @@ msgstr ""
 "per beurt toenemen totdat er geen voedingsoverschot meer is of totdat het "
 "aantal gelukkige burgers niet langer groot genoeg is om iets te vieren."
 
-#: data/helpdata.txt:1312
+#: data/helpdata.txt:1319
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -13961,7 +13992,7 @@ msgstr ""
 "de server) zal ontevreden aangemaakt worden in plaats van tevreden. Als u "
 "een groot aantal steden bezit, dan wordt deze limiet teruggezet naar 3."
 
-#: data/helpdata.txt:1322
+#: data/helpdata.txt:1329
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -13982,7 +14013,7 @@ msgstr ""
 "Sommige wereldwonderen hebben ook hun effect op het geluk van de inwoners "
 "(zie de relevante gedeelten voor details)."
 
-#: data/helpdata.txt:1332
+#: data/helpdata.txt:1339
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -14011,7 +14042,7 @@ msgstr ""
 "afhankelijk van de spelregels), of door het omzetten van een gedeelte van uw "
 "Handel in Luxe."
 
-#: data/helpdata.txt:1351
+#: data/helpdata.txt:1358
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -14023,7 +14054,7 @@ msgstr ""
 "Centauri bereikt is het spel afgelopen en hebt u gewonnen. (Het is echter "
 "mogelijk om deze route uit te sluiten met server-opties.)"
 
-#: data/helpdata.txt:1357
+#: data/helpdata.txt:1364
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -14040,7 +14071,7 @@ msgstr ""
 "betekent dat waarschijnlijk dat deze route via server-opties is uitgezet "
 "voor uw spel.)"
 
-#: data/helpdata.txt:1365
+#: data/helpdata.txt:1372
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -14051,7 +14082,7 @@ msgstr ""
 "ruimteschepen van andere spelers te bekijken, selecteer de speler in het "
 "Spelers venster en klik op \"Ruimteschip\"."
 
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1377
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -14061,7 +14092,7 @@ msgstr ""
 "aan boord de reis niet overleven. Dit vermindert de score bonus van het "
 "ruimteschip, maar het telt nog steeds als een overwinning."
 
-#: data/helpdata.txt:1374
+#: data/helpdata.txt:1381
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -14069,7 +14100,7 @@ msgstr ""
 "Als de hoofdstad van een beschaving wordt ingenomen dan gaat een gelanceerd "
 "ruimteschip verloren, dus bescherm uw hoofdstad goed!!"
 
-#: data/helpdata.txt:1377
+#: data/helpdata.txt:1384
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -14230,14 +14261,13 @@ msgid "Courthouse"
 msgstr "Gerechtshof"
 
 #: data/default/buildings.ruleset:408 data/civ2/buildings.ruleset:337
-#: data/civ1/buildings.ruleset:354 data/history/buildings.ruleset:339
 msgid ""
-"Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
-"makes 1 unhappy citizen content.  Also halves the effective distance to the "
-"capital, for the purpose of calculating revolt cost."
+"Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
+"Courthouse makes 1 unhappy citizen content.  Also halves the effective "
+"distance to the capital, for the purpose of calculating revolt cost."
 msgstr ""
-"Vermindert de corruptie in een stad met 50%. Onder een Democratie maakt een "
-"Gerechtshof één ontevreden burger tevreden. Halveert ook de effectieve "
+"Vermindert de corruptie en afval in een stad met 50%. Onder een Democratie "
+"maakt een Gerechtshof één ontevreden burger tevreden. Halveert ook de effectieve "
 "afstand tot de hoofdstad in de berekening van de kosten van een opstand."
 
 #: data/default/buildings.ruleset:416 data/civ2/buildings.ruleset:345
@@ -15251,6 +15281,16 @@ msgstr ""
 "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden "
 "stedelingen tevreden."
 
+#: data/civ1/buildings.ruleset:354 data/history/buildings.ruleset:339
+msgid ""
+"Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
+"makes 1 unhappy citizen content.  Also halves the effective distance to the "
+"capital, for the purpose of calculating revolt cost."
+msgstr ""
+"Vermindert de corruptie in een stad met 50%. Onder een Democratie maakt een "
+"Gerechtshof één ontevreden burger tevreden. Halveert ook de effectieve "
+"afstand tot de hoofdstad in de berekening van de kosten van een opstand."
+
 #: data/civ1/buildings.ruleset:888
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
@@ -15359,287 +15399,140 @@ msgstr "Modern"
 msgid "PostModern"
 msgstr "Postmodern"
 
-#: data/default/governments.ruleset:102 data/civ2/governments.ruleset:101
-#: data/civ1/governments.ruleset:103 data/history/governments.ruleset:102
+#: data/default/governments.ruleset:111 data/civ2/governments.ruleset:110
+#: data/civ1/governments.ruleset:112 data/history/governments.ruleset:111
 msgid "Anarchy"
 msgstr "Anarchie"
 
-#: data/default/governments.ruleset:143 data/civ2/governments.ruleset:142
-#: data/civ1/governments.ruleset:144 data/history/governments.ruleset:143
+#: data/default/governments.ruleset:158 data/civ2/governments.ruleset:157
+#: data/civ1/governments.ruleset:159 data/history/governments.ruleset:158
 msgid "Mr."
 msgstr "Dhr."
 
-#: data/default/governments.ruleset:144 data/civ2/governments.ruleset:143
-#: data/civ1/governments.ruleset:145 data/history/governments.ruleset:144
+#: data/default/governments.ruleset:159 data/civ2/governments.ruleset:158
+#: data/civ1/governments.ruleset:160 data/history/governments.ruleset:159
 msgid "Ms."
 msgstr "Mevr."
 
-#: data/default/governments.ruleset:146 data/civ2/governments.ruleset:145
-#: data/civ1/governments.ruleset:147 data/history/governments.ruleset:146
+#: data/default/governments.ruleset:161
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
 "possible, rather than paying taxes or conducting research.\n"
 "\n"
-"Anarchy offers slightly less corruption than Despotism, but slightly more "
-"unhappiness.\n"
-"\n"
-"Settlers consume 1 food per turn under Anarchy.  Squares which would "
-"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
-"penalty (e.g., an irrigated grassland square which would normally yield 3 "
-"food only yields 2 food while you are in Anarchy). (This penalty is removed "
-"if the city is celebrating; see Happiness.)\n"
-"\n"
-"Under Anarchy, each of your cities can support a number of military units "
-"equal to its size without paying shields for upkeep. (Additional units "
-"require 1 production shield each.)\n"
-"\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
-"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
-"act content, and will not cause disorder.)"
+"Anarchy offers slightly less corruption than Despotism,\\ "
 msgstr ""
-"Anarchie is eenvoudigweg de afwezigheid van elke herkenbare regeringsvorm. "
-"Burgers zijn ongeorganiseerd en niet-productief en zullen hun inkomen zo "
-"snel mogelijk uitgeven, in plaats van belasting te betalen en onderzoek te "
-"verrichten.\n"
+"Anarchie is eenvoudigweg de afwezigheid van elke herkenbare bestuursvorm. "
+"Burgers zijn ongeorganiseerd en onproductief en zullen hun inkomen liever zo "
+"snel mogelijk uitgeven dan belasting betalen of onderzoek verrichten.\n"
 "\n"
-"Anarchie levert iets minder corruptie dan onder Dictatuur maar iets meer "
-"ontevredenheid.\n"
-"\n"
-"Kolonisten verbruiken 1 voeding per beurt. Vlakken die normaal gesproken "
-"meer dan twee eenheden voedsel, hulpbronnen of handel zouden leveren krijgen "
-"een 1-eenheid belasting (bv. een geïrigeerd grasland vlak zou normaal drie "
-"voedingen opleveren, maar levert slechts twee op onder Dictatuur). (Deze "
-"belasting vervalt zolang de stad iets viert; zie Geluk.)\n"
-"\n"
-"Onder Anarchie kan elk van uw steden evenveel militaire eenheden onderhouden "
-"als de stad burgers telt zonder onderhoud te betalen. (Alle volgende "
-"eenheden kosten elk 1 poduktiepunt per beurt.)\n"
-"\n"
-"U kunt krijgstucht opleggen onder Anarchie; elke militaire eenheid in een "
-"stad houdt 1 ontevreden burger tevreden. (Tenminste, opstandige burgers "
-"zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
+"Anarchie biedt iets minder corruptie en afval dan Dictatuur,\\ "
 
-#: data/default/governments.ruleset:173 data/civ2/governments.ruleset:172
-#: data/civ1/governments.ruleset:174 data/history/governments.ruleset:173
+#: data/default/governments.ruleset:188 data/civ2/governments.ruleset:187
+#: data/civ1/governments.ruleset:189 data/history/governments.ruleset:188
 msgid "Despotism"
 msgstr "Dictatuur"
 
-#: data/default/governments.ruleset:213 data/civ2/governments.ruleset:212
-#: data/civ1/governments.ruleset:214 data/history/governments.ruleset:213
+#: data/default/governments.ruleset:234 data/civ2/governments.ruleset:233
+#: data/civ1/governments.ruleset:235 data/history/governments.ruleset:234
 #: data/nation/chinese.ruleset:16
 msgid "Emperor"
 msgstr "Regent"
 
-#: data/default/governments.ruleset:214 data/civ2/governments.ruleset:213
-#: data/civ1/governments.ruleset:215 data/history/governments.ruleset:214
+#: data/default/governments.ruleset:235 data/civ2/governments.ruleset:234
+#: data/civ1/governments.ruleset:236 data/history/governments.ruleset:235
 msgid "Empress"
 msgstr "Regentes"
 
-#: data/default/governments.ruleset:216 data/civ2/governments.ruleset:215
-#: data/history/governments.ruleset:216
+#: data/default/governments.ruleset:237
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
 "\n"
-"Despotism suffers the highest level of corruption of all forms of "
-"government.\n"
-"\n"
-"Settlers consume 1 food per turn under Despotism.  Squares which would "
-"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
-"penalty (e.g., an irrigated grassland square which would normally yield 3 "
-"food only yields 2 food while you are under Despotic rule).  (This penalty "
-"is removed if the city is celebrating; see Happiness.)\n"
-"\n"
-"The maximum rate you can set for science, tax or luxuries is 60%.\n"
-"\n"
-"Under Despotism, each of your cities can support a number of military units "
-"equal to its size without paying shields for upkeep.  (Additional units "
-"require 1 production shield each.)\n"
-"\n"
-"You may impose martial law under Despotism: each military unit inside a city "
-"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
-"act content, and will not cause disorder.)"
+"Despotism suffers the highest level of corruption of all\\ "
 msgstr ""
-"Onder Dictatuur bent u de absolute alleenheerser over uw volk. Uw invloed op "
-"uw burgers is grotendeels gebaseerd op krijgstucht.\n"
+"Onder Dictatuur bent u de absolute alleenheerser over uw mensen. Uw bestuur "
+"over uw burgers is grotendeels gebaseerd op krijgstucht.\n"
 "\n"
-"Dictatuur leidt aan de hoogste mate van corruptie van alle regeringsvormen.\n"
-"\n"
-"Kolonisten verbruiken 1 voeding per beurt. Vlakken die normaal gesproken "
-"meer dan twee eenheden voedsel, hulpbronnen of handel zouden leveren krijgen "
-"een 1-eenheid belasting (bv. een geïrigeerd grasland vlak zou normaal drie "
-"voeding opleveren, maar levert slechts twee op onder Dictatuur). (Deze "
-"belasting vervalt zolang de stad iets viert; zie Geluk.)\n"
-"\n"
-"De maximale waarden voor wetenschap, belasting of luxe zijn 60%.\n"
-"\n"
-"Onder Dictatuur kan elk van uw steden evenveel militaire eenheden "
-"onderhouden als de stad burgers telt zonder onderhoud te betalen. (Alle "
-"volgende eenheden kosten elk 1 poduktiepunt per beurt.)\n"
-"\n"
-"U kunt krijgstucht opleggen onder Dictatuur; elke militaire eenheid in een "
-"stad houdt 1 ontevreden burger tevreden. (Tenminste, ontevreden burgers "
-"zullen zich gedragen en zullen geen wanorde veroorzaken.)"
+"Dictatuur lijdt aan de hoogste mate van corruptie van alle\\ "
 
-#: data/default/governments.ruleset:244 data/civ2/governments.ruleset:243
-#: data/civ1/governments.ruleset:243 data/history/governments.ruleset:244
+#: data/default/governments.ruleset:265 data/civ2/governments.ruleset:264
+#: data/civ1/governments.ruleset:264 data/history/governments.ruleset:265
 #: data/default/techs.ruleset:483 data/civ2/techs.ruleset:367
 #: data/civ1/techs.ruleset:367 data/history/techs.ruleset:374
 msgid "Monarchy"
 msgstr "Monarchie"
 
-#: data/default/governments.ruleset:284 data/civ2/governments.ruleset:283
-#: data/civ1/governments.ruleset:283 data/history/governments.ruleset:284
+#: data/default/governments.ruleset:311 data/civ2/governments.ruleset:310
+#: data/civ1/governments.ruleset:310 data/history/governments.ruleset:311
 #: data/nation/croatian.ruleset:23 data/nation/dunedain.ruleset:20
 #: data/nation/polish.ruleset:18 data/nation/serbian.ruleset:20
 #: data/nation/spanish.ruleset:20
 msgid "King"
 msgstr "Koning"
 
-#: data/default/governments.ruleset:285 data/civ2/governments.ruleset:284
-#: data/civ1/governments.ruleset:284 data/history/governments.ruleset:285
+#: data/default/governments.ruleset:312 data/civ2/governments.ruleset:311
+#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:312
 #: data/nation/croatian.ruleset:23 data/nation/dunedain.ruleset:20
 #: data/nation/polish.ruleset:18 data/nation/serbian.ruleset:20
 #: data/nation/spanish.ruleset:20
 msgid "Queen"
 msgstr "Koningin"
 
-#: data/default/governments.ruleset:287 data/civ2/governments.ruleset:286
-#: data/history/governments.ruleset:287
+#: data/default/governments.ruleset:314
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
 "\n"
-"Monarchy suffers the same small amount of corruption that the Republic "
-"does.\n"
-"\n"
-"Settlers consume 1 food per turn under Monarchy.\n"
-"\n"
-"If a city governed by a Monarchy is celebrating, it will receive a bonus of "
-"1 trade in each square which already produces at least 1 trade.  See "
-"Happiness for details.\n"
-"\n"
-"The maximum rate you can set for science, tax or luxuries is 70%.\n"
-"\n"
-"Under Monarchy, your cities can support up to 3 military units without "
-"paying shields for upkeep.  (Additional units require 1 production shield "
-"each.)\n"
-"\n"
-"You may impose limited martial law under Monarchy: each military unit in a "
-"city, up to a maximum of 3, will keep one unhappy citizen content."
+"Monarchy suffers the same small amount of corruption that\\ "
 msgstr ""
-"Onder een Monarchie dient een koning of een koningin als staathoofd voor uw "
-"regering.\n"
+"Onder Monarchie dient een koning of koningin als een adelijk boegbeeld voor "
+"uw regering.\n"
 "\n"
-"Monarchie lijdt aan dezelfde kleine hoeveelheid corruptie als de Republiek.\n"
-"\n"
-"Kolonisten verbruiken 1 voeding per beurt in een Monarchie.\n"
-"\n"
-"Als een stad in een Monarchie iets viert, dan ontvangt zij een bonus van 1 "
-"handel in elk vlak dat al tenminste 1 handel oplevert. Zie geluk voor "
-"details.\n"
-"\n"
-"De maximale waarden voor wetenschap, belasting of luxe zijn 70%.\n"
-"\n"
-"Onder Monarchie kunnen uw steden drie militaire eenheden ondersteunen zonder "
-"onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
-"voedingspunt per beurt.)\n"
-"\n"
-"U kunt een beperkte krijgstucht opleggen onder Monarchie; elke militaire "
-"eenheid in een stad, tot een maximum van 3, houdt 1 ontevreden burger "
-"tevreden."
+"Monarchie lijdt aan dezelfde kleine mate van corruptie als\\ "
 
-#: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
-#: data/civ1/governments.ruleset:311 data/history/governments.ruleset:314
+#: data/default/governments.ruleset:341 data/civ2/governments.ruleset:340
+#: data/civ1/governments.ruleset:338 data/history/governments.ruleset:341
 #: data/default/techs.ruleset:179 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:139 data/history/techs.ruleset:146
 msgid "Communism"
 msgstr "Communisme"
 
-#: data/default/governments.ruleset:354 data/default/governments.ruleset:355
-#: data/civ2/governments.ruleset:353 data/civ2/governments.ruleset:354
-#: data/civ1/governments.ruleset:351 data/civ1/governments.ruleset:352
-#: data/history/governments.ruleset:354 data/history/governments.ruleset:355
+#: data/default/governments.ruleset:387 data/default/governments.ruleset:388
+#: data/civ2/governments.ruleset:386 data/civ2/governments.ruleset:387
+#: data/civ1/governments.ruleset:384 data/civ1/governments.ruleset:385
+#: data/history/governments.ruleset:387 data/history/governments.ruleset:388
 msgid "Comrade"
 msgstr "Kameraad"
 
-#: data/default/governments.ruleset:357 data/civ2/governments.ruleset:356
-#: data/history/governments.ruleset:357
+#: data/default/governments.ruleset:390
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
 "gives a balance between military and commercial styles of government.\n"
 "\n"
-"Under Communism, corruption does not vary by distance from the capital; all "
-"cities (including the capital) have a modest amount of corruption.  In "
-"addition, Communist cities more than 10 squares away from the capital are "
-"considered to be only 10 squares away when computing the cost of inciting a "
-"revolt (see Units, Diplomat).\n"
-"\n"
-"Settlers consume 2 food per turn under Communism.\n"
-"\n"
-"If a city governed by Communism is celebrating, it will receive a bonus of 1 "
-"trade in each square which already produces at least 1 trade.  See Happiness "
-"for details.\n"
-"\n"
-"The maximum rate you can set for science, tax or luxuries is 80%.\n"
-"\n"
-"Diplomats and Spies created under Communism are always veterans.\n"
-"\n"
-"Under Communism, your cities can support up to 3 military units without "
-"paying shields for upkeep.  (Additional units require 1 production shield "
-"each.)\n"
-"\n"
-"You impose limited but efficient martial law under Communism.  Each military "
-"unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
-"content."
+"Under Communism, corruption does not vary by distance from\\ "
 msgstr ""
-"Een Communistische regering is gebaseerd op het ideaal dat alle mensen "
-"gelijk zijn. All goederen zijn eigendom van de staat, in plaats van privé "
-"personen. Communisme geeft een balans tussen een militaire en een "
-"commerciële regeringsvorm.\n"
+"Een Communistische regering is gebaseerd op het ideaal dat alle mensen gelijk "
+"zijn. Alle goederen zijn eigendom van de staat, in plaats van in handen van "
+"burgers. Communisme geeft een goede balans tussen militaire en commerciële "
+"stijlen van bestuur.\n"
 "\n"
-"Onder Communisme varieert de corruptie niet op basis van de afstand tot de "
-"hoofdstad; alle steden (inclusief de hoofdstad) hebben een lichte mate van "
-"corruptie. Daarnaast worden steden die zich meer dan 10 vlakken van de "
-"hoofdstad bevinden, beschouwd alsof ze 10 vlakken afstand van de hoofdstad "
-"waren wanneer de kosten van het starten van een revolutie moeten worden "
-"berekend (zie Eenheden, Diplomaat).\n"
-"\n"
-"Kolonisten verbruiken 2 voeding per beurt onder Communisme.\n"
-"\n"
-"Als een stad onder Communisme iets viert, dan ontvangt zij een bonus van 1 "
-"handelspunt per vlak waar al tenminste 1 handelspunt wordt verdient. Zie "
-"geluk voor details.\n"
-"\n"
-"De maximale waarden voor wetenschap, belasting of luxe zijn 80%.\n"
-"\n"
-"Diplomaten en Spionnen die tijdens Communisme worden gemaakt, zijn altijd "
-"veteranen.\n"
-"\n"
-"Onder Communisme kunnen uw steden drie militaire eenheden ondersteunen "
-"zonder onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
-"voedingspunt per beurt.)\n"
-"\n"
-"U legt een beperkte maar efficiënte krijgstucht op onder Communisme. Elke "
-"militaire eenheid in een stad, tot een maximum van 3, houdt 2 ontevreden "
-"burgers tevreden."
+"Onder Communisme is corruptie niet afhankelijk van de afstand van\\ "
 
-#: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
-#: data/civ1/governments.ruleset:386 data/history/governments.ruleset:391
+#: data/default/governments.ruleset:425 data/civ2/governments.ruleset:510
+#: data/civ1/governments.ruleset:419 data/history/governments.ruleset:424
 msgid "Republic"
 msgstr "Republiek"
 
-#: data/default/governments.ruleset:431 data/default/governments.ruleset:432
-#: data/civ2/governments.ruleset:510 data/civ2/governments.ruleset:511
-#: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
-#: data/history/governments.ruleset:431 data/history/governments.ruleset:432
+#: data/default/governments.ruleset:471 data/default/governments.ruleset:472
+#: data/civ2/governments.ruleset:556 data/civ2/governments.ruleset:557
+#: data/civ1/governments.ruleset:465 data/civ1/governments.ruleset:466
+#: data/history/governments.ruleset:470 data/history/governments.ruleset:471
 msgid "Consul"
 msgstr "Consul"
 
-#: data/default/governments.ruleset:434 data/civ2/governments.ruleset:513
-#: data/history/governments.ruleset:434
+#: data/default/governments.ruleset:474
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -15699,17 +15592,17 @@ msgstr ""
 "De burgers in een stad zullen 1 agressieve eenheid tolereren; elke volgende "
 "eenheid veroorzaakt elk 1 opstandige burger."
 
-#: data/default/governments.ruleset:471 data/civ2/governments.ruleset:550
-#: data/civ1/governments.ruleset:464 data/history/governments.ruleset:471
+#: data/default/governments.ruleset:511 data/civ2/governments.ruleset:597
+#: data/civ1/governments.ruleset:503 data/history/governments.ruleset:510
 #: data/default/techs.ruleset:219 data/civ2/techs.ruleset:169
 #: data/civ1/techs.ruleset:169 data/history/techs.ruleset:176
 msgid "Democracy"
 msgstr "Democratie"
 
-#: data/default/governments.ruleset:512 data/default/governments.ruleset:513
-#: data/civ2/governments.ruleset:591 data/civ2/governments.ruleset:592
-#: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
-#: data/history/governments.ruleset:512 data/history/governments.ruleset:513
+#: data/default/governments.ruleset:558 data/default/governments.ruleset:559
+#: data/civ2/governments.ruleset:644 data/civ2/governments.ruleset:645
+#: data/civ1/governments.ruleset:549 data/civ1/governments.ruleset:550
+#: data/history/governments.ruleset:557 data/history/governments.ruleset:558
 #: data/nation/brazilian.ruleset:19 data/nation/catalan.ruleset:19
 #: data/nation/chilean.ruleset:21 data/nation/croatian.ruleset:24
 #: data/nation/croatian.ruleset:25 data/nation/finnish.ruleset:18
@@ -15719,89 +15612,86 @@ msgstr "Democratie"
 msgid "President"
 msgstr "President"
 
-#: data/default/governments.ruleset:515 data/civ2/governments.ruleset:594
-#: data/history/governments.ruleset:515
+#: data/default/governments.ruleset:561
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
 "potential for unhappiness.  There is no corruption during Democracy, but "
-"citizens become very upset during wars.\n"
-"\n"
-"Settlers consume 2 food per turn under Democracy.  Squares with at least 1 "
-"trade resource get a trade bonus of 1 under Democracy.\n"
-"\n"
-"Democratic cities which are celebrating grow at a rate of 1 citizen per "
-"turn; see Happiness for details.\n"
-"\n"
-"There are no taxation limits under Democracy; you can set science, tax or "
-"luxuries to 100%.\n"
-"\n"
-"Under Democracy, military units require 1 production shield each for "
-"upkeep.  In addition the following units generate unhappiness:\n"
-"\n"
-"- Units with an attack strength greater than 0 which are not inside a city, "
-"or inside a fortress within 3 squares of a friendly city, generate 2 unhappy "
-"citizens.\n"
-"\n"
-"- Air units with an attack strength greater than 0 which are inside a city "
-"generate only 1 unhappy citizen.  Fighters generate no unhappiness.\n"
-"\n"
-"If a city remains in disorder more than 2 turns under Democratic rule, the "
-"citizens will spontaneously revolt and plunge your civilization into "
-"Anarchy.\n"
-"\n"
-"Because (happy) citizens of Democracy believe strongly in the government, "
-"their loyalty is unswerving.  Military units of Democratic civilizations "
-"cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
-"Diplomats and Spies."
+"citizens become very upset during\\ "
 msgstr ""
 "Onder Democratie regeren burgers rechtstreeks door te stemmen over zaken. "
-"Democratie geeft het hoogst mogelijke handelsniveau, maar geeft ook de "
-"grootst mogelijke aanleiding voor ongemak. Er is geen corruptie in een "
-"Democratie, maar burgers worden erg opgewonden tijdens oorlogen.\n"
-"\n"
-"Kolonisten verbruiken 2 voedsel per beurt onder Democratie. Vlakken met "
-"tenminste 1 handelspunt krijgen onder Democratie een bonus van 1.\n"
-"\n"
-"Democratische steden die iets vieren groeien met een snelheid van 1 burger "
-"per beurt; zie Geluk voor details.\n"
-"\n"
-"Er zijn geen beperkingen aan de waarden voor wetenschap, belasting en luxe "
-"onder Democratie: u kunt deze op 100% zetten.\n"
-"Onder een Democratie verbruiken militaire eenheden elk 1 productieschild "
-"voor instandhouding. Daar bovenop veroorzaken de volgende eenheden ongemak:\n"
-"\n"
-"- Eenheden met een aanvalssterkte groter dan 0 die zich niet in een stad "
-"bevinden, of die zich in een fort bevinden binnen 3 vlakken van een "
-"bevriende stad, veroorzaken twee opstandige burgers.\n"
-"- Lucht-eenheden met een aanvalssterkte groter dan 0 die zich in een stad of "
-"naast een fort bevinden veroorzaken slechts 1 opstandige burger. "
-"Jachtvliegtuigen veroorzaken geen ontevredenheid.\n"
-"\n"
-"Als een stad gedurende meer dan twee beurten in wanorde blijft onder een "
-"Democratisch bewind, dan zullen ze spontaan in opstand komen en de "
-"beschaving tot Anarchie laten vervallen.\n"
-"\n"
-"Omdat (tevreden) burgers van een Democratie sterk geloven in de regering, is "
-"hun trouw onaantastbaar. Militaire eenheden van een Democratie kunnen niet "
-"omgekocht worden en Democratische steden kunnen niet tot een opstand worden "
-"verleid door Diplomaten of Spionnen."
+"Democratie biedt het hoogst mogelijke niveau van handel, maar levert ook het "
+"grootste potentiëel op aan ontevredenheid. Er is geen corruptie onder "
+"Democratie, maar burgers worden heel snel opgewonden tijdens\\ "
 
-#: data/civ2/governments.ruleset:390 data/default/techs.ruleset:299
+#: data/civ2/governments.ruleset:160
+msgid ""
+"Anarchy is simply the absence of any recognizable government. Citizens are "
+"disorganized and unproductive, and will spend all income as quickly as "
+"possible, rather than paying taxes or conducting research.\n"
+"\n"
+"Anarchy offers slightly less corruption  and waste than Despotism, but\\ "
+msgstr ""
+"Anarchie is eenvoudigweg de afwezigheid van elke herkenbare bestuursvorm. "
+"Burgers zijn ongeorganiseerd en onproductief en zullen hun inkomen liever zo "
+"snel mogelijk uitgeven dan belasting betalen of onderzoek verrichten.\n"
+"\n"
+"Anarchie biedt iets minder corruptie en afval dan Dictatuur, maar\\ "
+
+#: data/civ2/governments.ruleset:236
+msgid ""
+"Under Despotism, you are the absolute ruler of your people.  Your control "
+"over your citizens is maintained largely by martial law.\n"
+"\n"
+"Despotism suffers the highest level of corruption and waste of all\\ "
+msgstr ""
+"Onder Dictatuur bent u de absolute alleenheerser over uw mensen. Het bestuur "
+"over uw burgers is grotendeels gebaseerd op krijgstucht.\n"
+"\n"
+"Dictatuur lijdt aan de hoogste mate van corruptie en afval van alle\\ "
+
+#: data/civ2/governments.ruleset:313 data/history/governments.ruleset:314
+msgid ""
+"Under Monarchy, a king or queen serves as a hereditary figurehead for your "
+"government.\n"
+"\n"
+"Monarchy suffers the same small amount of corruption and waste that\\ "
+msgstr ""
+"Onder Monarchie dient een koning of koningin als een adelijk boegbeeld voor "
+"uw regering.\n"
+"\n"
+"Monarchie lijdt aan dezelfde kleine mate van corruptie en afval als\\ "
+
+#: data/civ2/governments.ruleset:389 data/history/governments.ruleset:390
+msgid ""
+"A Communist government is based on the ideal that all people are equal.  All "
+"goods are owned by the state, rather than by private citizens.  Communism "
+"gives a balance between military and commercial styles of government.\n"
+"\n"
+"Under Communism, corruption and waste does not vary by distance from\\ "
+msgstr ""
+"Een Communistisch bewind is gebaseerd op het ideaal dat alle mensen gelijk "
+"zijn. Alle goederen zijn eigendom van de staat in plaats van privépersonen. "
+"Communisme geeft een balans tussen militaire en commerciële stijlen van "
+"bestuur.\n"
+"\n"
+"Onder Communisme zijn corruptie en afval niet afhankelijk van de afstand van\\ "
+
+#: data/civ2/governments.ruleset:423 data/default/techs.ruleset:299
 #: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
 #: data/history/techs.ruleset:236
 msgid "Fundamentalism"
 msgstr "Fundamentalisme"
 
-#: data/civ2/governments.ruleset:431
+#: data/civ2/governments.ruleset:470
 msgid "High Priest"
 msgstr "Hogepriester"
 
-#: data/civ2/governments.ruleset:432
+#: data/civ2/governments.ruleset:471
 msgid "High Priestess"
 msgstr "Hogepriesteres"
 
-#: data/civ2/governments.ruleset:434
+#: data/civ2/governments.ruleset:473
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -15825,14 +15715,14 @@ msgid ""
 "The maximum effective rate for science is 50%, the surplus is used for "
 "collecting tax, and furthermore the science production is halved.\n"
 "\n"
-"Cities under Fundamentalism suffer a small amount of corruption.\n"
+"Cities under Fundamentalism suffer a small amount of corruption and waste.\n"
 "\n"
 "Improvement that normally convert unhappy citizens to content citizens, "
 "produces `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
 msgstr ""
-"Fundamentalisme is een bestuursvorm die georganiseerd is rond een geloof. "
-"Het geloof, meestal religieus van aard, vormt een rigide richtlijn voor "
+"Fundamentalisme is een bestuursvorm die georganiseerd is rond een centraal "
+"geloof. Het geloof, meestal religieus van aard, vormt een rigide richtlijn voor "
 "acties en reacties van zowel de bestuurders als het volk.\n"
 "\n"
 "In een fundamentalistische samenleving zullen de mensen en haar bestuurders "
@@ -15843,7 +15733,7 @@ msgstr ""
 "zonder schilden te betalen voor onderhoud. (Meer eenheden vergen 1 productie-"
 "schild elk.) Fanatici-eenheden hebben geen onderhoud nodig.\n"
 "\n"
-"Kolonisten en ingenieurs verbruiken 2 voeding per beurt.\n"
+"Kolonisten en ingenieurs verbruiken 2 voeding per beurt onder Fundamentalisme.\n"
 "\n"
 "Als een stad onder Fundamentalistisch bestuur feest viert, krijgt deze een "
 "bonus van 1 handel in elk vlak die al tenminste 1 handel oplevert. Zie Geluk "
@@ -15856,13 +15746,130 @@ msgstr ""
 "productie gehalveerd.\n"
 "\n"
 "Steden onder Fundamentalistisch bestuur hebben een geringe mate van "
-"corruptie\n"
+"corruptie en afval.\n"
 "\n"
 "Verbeteringen die normaal ontevreden stedelingen tevreden zouden maken "
 "produceren 'tienden' (goud) gelijk aan het aantal stedelingen dat zij zouden "
 "beïnvloeden en vergen geen onderhoud."
 
-#: data/civ1/governments.ruleset:217
+#: data/civ2/governments.ruleset:559 data/history/governments.ruleset:473
+msgid ""
+"Under a Republican government, citizens hold an election to select a "
+"representative who will govern them; since elected leaders must remain "
+"popular to remain in control, citizens are given a greater degree of "
+"freedom.  Citizens under the Republic become unhappy easily, but the self-"
+"sufficiency of your citizens allows high levels of trade.\n"
+"\n"
+"Cities under the Republic suffer a small amount of corruption and waste.\n"
+"\n"
+"Settlers consume 2 food per turn under the Republic.  Squares with at least "
+"1 trade resource get a trade bonus of 1 under the Republic.\n"
+"\n"
+"Republican cities which are celebrating grow at a rate of 1 citizen per "
+"turn; see Happiness for details.\n"
+"\n"
+"The maximum rate you can set for science, tax or luxuries is 80%.\n"
+"\n"
+"Under the Republic, military units require 1 production shield each for "
+"upkeep.  In addition the following units are considered aggressive units:\n"
+"\n"
+"- units with an attack strength greater than 0 which are not inside a city "
+"or inside a fortress within 3 squares of a friendly city\n"
+"\n"
+"- air units (including missiles and helicopters, but not fighters) with an "
+"attack strength greater than 0, regardless of their location\n"
+"\n"
+"The citizens of a city will tolerate 1 aggressive unit; subsequent units "
+"will generate 1 unhappy citizen each."
+msgstr ""
+"Onder een Republiek houden de burgers een verkiezing om uit te maken wie hen "
+"mag regeren; aangezien gekozen leiders geliefd moeten blijven om te kunnen "
+"blijven regeren, hebben burgers een grotere mate van vrijheid. Burgers in "
+"een Republiek worden gemakkelijk ontevreden, maar de zelfstandigheid van uw "
+"burgers staat een hoge mate van handel toe.\n"
+"\n"
+"Steden in een Republiek hebben slechts een klein beetje corruptie en afval.\n"
+"\n"
+"Kolonisten verbruiken 2 voedsel per beurt in een Republiek. Vlakken met "
+"tenminste 1 handelspunt krijgen in een Republiek een bonus van 1.\n"
+"\n"
+"Republikeinse steden die iets vieren groeien met 1 burger per beurt; zie "
+"Geluk voor details.\n"
+"\n"
+"De maximale waarden voor wetenschap, belasting of luxe zijn 80%.\n"
+"\n"
+"Onder een Republiek verbruiken militaire eenheden 1 productiepunt per beurt "
+"voor onderhoud. Daarnaast worden de volgende eenheden als agressief "
+"beschouwd:\n"
+"\n"
+"- eenheden met een aanvalssterkte groter dan 0 die zich niet in een stad "
+"bevinden of in een fort binnen drie vlakken van een bevriende stad.\n"
+"\n"
+"- lucht-eenheden (inclusief raketten en helicopters, maar niet "
+"jachtvliegtuigen) met een aanvalssterkte groter dan 0, ongeacht hun "
+"locatie.\n"
+"\n"
+"De burgers in een stad zullen 1 agressieve eenheid tolereren; elke volgende "
+"eenheid veroorzaakt elk 1 opstandige burger."
+
+#: data/civ2/governments.ruleset:647
+msgid ""
+"Under Democracy, citizens govern directly by voting on issues. Democracy "
+"offers the highest possible level of trade, but also offers the most "
+"potential for unhappiness.  There is no corruption or waste during "
+"Democracy, but citizens become very upset during\\ "
+msgstr ""
+"Onder Democratie regeren de burgers rechtstreeks door stemming van zaken. "
+"Democratie biedt het hoogst mogelijk handelsniveau, maar heeft tevens het "
+"grootste potentieel aan ontevredenheid. Er is geen corruptie of afval tijdens "
+"Democratie, maar burgers worden heel snel ontevreden tijdens\\ "
+
+#: data/civ1/governments.ruleset:162
+msgid ""
+"Anarchy is simply the absence of any recognizable government. Citizens are "
+"disorganized and unproductive, and will spend all income as quickly as "
+"possible, rather than paying taxes or conducting research.\n"
+"\n"
+"Anarchy offers slightly less corruption than Despotism, but slightly more "
+"unhappiness.\n"
+"\n"
+"Settlers consume 1 food per turn under Anarchy.  Squares which would "
+"normally yield more than 2 units of food, shields or trade suffer a 1-unit "
+"penalty (e.g., an irrigated grassland square which would normally yield 3 "
+"food only yields 2 food while you are in Anarchy). (This penalty is removed "
+"if the city is celebrating; see Happiness.)\n"
+"\n"
+"Under Anarchy, each of your cities can support a number of military units "
+"equal to its size without paying shields for upkeep. (Additional units "
+"require 1 production shield each.)\n"
+"\n"
+"You may impose martial law under Anarchy: each military unit inside a city "
+"will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
+"act content, and will not cause disorder.)"
+msgstr ""
+"Anarchie is eenvoudigweg de afwezigheid van elke herkenbare regeringsvorm. "
+"Burgers zijn ongeorganiseerd en niet-productief en zullen hun inkomen zo "
+"snel mogelijk uitgeven, in plaats van belasting te betalen en onderzoek te "
+"verrichten.\n"
+"\n"
+"Anarchie levert iets minder corruptie dan onder Dictatuur maar iets meer "
+"ontevredenheid.\n"
+"\n"
+"Kolonisten verbruiken 1 voeding per beurt. Vlakken die normaal gesproken "
+"meer dan twee eenheden voedsel, hulpbronnen of handel zouden leveren krijgen "
+"een 1-eenheid belasting (bv. een geïrigeerd grasland vlak zou normaal drie "
+"voedingen opleveren, maar levert slechts twee op onder Dictatuur). (Deze "
+"belasting vervalt zolang de stad iets viert; zie Geluk.)\n"
+"\n"
+"Onder Anarchie kan elk van uw steden evenveel militaire eenheden onderhouden "
+"als de stad burgers telt zonder onderhoud te betalen. (Alle volgende "
+"eenheden kosten elk 1 poduktiepunt per beurt.)\n"
+"\n"
+"U kunt krijgstucht opleggen onder Anarchie; elke militaire eenheid in een "
+"stad houdt 1 ontevreden burger tevreden. (Tenminste, opstandige burgers "
+"zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
+
+#: data/civ1/governments.ruleset:238
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -15903,7 +15910,7 @@ msgstr ""
 "stad houdt 1 ontevreden burger tevreden. (Tenminste, opstandige burgers "
 "zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
 
-#: data/civ1/governments.ruleset:286
+#: data/civ1/governments.ruleset:313
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -15943,7 +15950,7 @@ msgstr ""
 "militaire eenheid in een stad, tot een maximum van 3, houdt 1 ontevreden "
 "burger tevreden."
 
-#: data/civ1/governments.ruleset:354
+#: data/civ1/governments.ruleset:387
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16000,7 +16007,7 @@ msgstr ""
 "militaire eenheid in een stad, tot een maximum van 3, houdt 2 ontevreden "
 "burgers tevreden."
 
-#: data/civ1/governments.ruleset:429
+#: data/civ1/governments.ruleset:468
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -16055,7 +16062,7 @@ msgstr ""
 "De burgers in een stad zullen 1 agressieve eenheid tolereren; elke volgende "
 "eenheid veroorzaakt elk 1 opstandige burger."
 
-#: data/civ1/governments.ruleset:507
+#: data/civ1/governments.ruleset:552
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -16106,6 +16113,99 @@ msgstr ""
 "bevriende stad, veroorzaken twee opstandige burgers.\n"
 "- Lucht-eenheden met een aanvalssterkte groter dan 0 die zich in een stad of "
 "naast een fort bevinden veroorzaken slechts 1 opstandige burger.\n"
+"\n"
+"Als een stad gedurende meer dan twee beurten in wanorde blijft onder een "
+"Democratisch bewind, dan zullen ze spontaan in opstand komen en de "
+"beschaving tot Anarchie laten vervallen.\n"
+"\n"
+"Omdat (tevreden) burgers van een Democratie sterk geloven in de regering, is "
+"hun trouw onaantastbaar. Militaire eenheden van een Democratie kunnen niet "
+"omgekocht worden en Democratische steden kunnen niet tot een opstand worden "
+"verleid door Diplomaten of Spionnen."
+
+#: data/history/governments.ruleset:161
+msgid ""
+"Anarchy is simply the absence of any recognizable government. Citizens are "
+"disorganized and unproductive, and will spend all income as quickly as "
+"possible, rather than paying taxes or conducting research.\n"
+"\n"
+"Anarchy offers slightly less corruption and waste than Despotism,\\ "
+msgstr ""
+"Anarchie is eenvoudigweg de afwezigheid van enige herkenbare regeringsvorm. "
+"Burgers zijn ongeorganiseerd en onproductief en zullen liever al hun inkomen "
+"zo snel mogelijk uitgeven dan belasting te betalen of onderzoek te plegen.\n"
+"\n"
+"Anarchie biedt iets minder corruptie en afval dan Dictatuur,\\ "
+
+#: data/history/governments.ruleset:237
+msgid ""
+"Under Despotism, you are the absolute ruler of your people.  Your control "
+"over your citizens is maintained largely by martial law.\n"
+"\n"
+"Despotism suffers the highest level of corruption and waste of all \\ "
+msgstr ""
+"Onder Dictatuur bent u de absolute alleenheerser van uw mensen. Uw bestuur "
+"van uw burgers wordt grotendeels in stand gehouden door krijgstucht.\n"
+"\n"
+"Dictatuur lijdt onder het hoogste niveau van corruptie en afval van alle \\ "
+
+#: data/history/governments.ruleset:560
+msgid ""
+"Under Democracy, citizens govern directly by voting on issues. Democracy "
+"offers the highest possible level of trade, but also offers the most "
+"potential for unhappiness.  There is no corruption or waste during "
+"Democracy, but citizens become very upset during wars.\n"
+"\n"
+"Settlers consume 2 food per turn under Democracy.  Squares with at least 1 "
+"trade resource get a trade bonus of 1 under Democracy.\n"
+"\n"
+"Democratic cities which are celebrating grow at a rate of 1 citizen per "
+"turn; see Happiness for details.\n"
+"\n"
+"There are no taxation limits under Democracy; you can set science, tax or "
+"luxuries to 100%.\n"
+"\n"
+"Under Democracy, military units require 1 production shield each for "
+"upkeep.  In addition the following units generate unhappiness:\n"
+"\n"
+"- Units with an attack strength greater than 0 which are not inside a city, "
+"or inside a fortress within 3 squares of a friendly city, generate 2 unhappy "
+"citizens.\n"
+"\n"
+"- Air units with an attack strength greater than 0 which are inside a city "
+"generate only 1 unhappy citizen.  Fighters generate no unhappiness.\n"
+"\n"
+"If a city remains in disorder more than 2 turns under Democratic rule, the "
+"citizens will spontaneously revolt and plunge your civilization into "
+"Anarchy.\n"
+"\n"
+"Because (happy) citizens of Democracy believe strongly in the government, "
+"their loyalty is unswerving.  Military units of Democratic civilizations "
+"cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
+"Diplomats and Spies."
+msgstr ""
+"Onder Democratie regeren burgers rechtstreeks door te stemmen over zaken. "
+"Democratie geeft het hoogst mogelijke handelsniveau, maar geeft ook de "
+"grootst mogelijke aanleiding voor ongemak. Er is geen corruptie of afval in een "
+"Democratie, maar burgers worden erg opgewonden tijdens oorlogen.\n"
+"\n"
+"Kolonisten verbruiken 2 voedsel per beurt onder Democratie. Vlakken met "
+"tenminste 1 handelspunt krijgen onder Democratie een bonus van 1.\n"
+"\n"
+"Democratische steden die iets vieren groeien met een snelheid van 1 burger "
+"per beurt; zie Geluk voor details.\n"
+"\n"
+"Er zijn geen beperkingen aan de waarden voor wetenschap, belasting en luxe "
+"onder Democratie: u kunt deze op 100% zetten.\n"
+"Onder een Democratie verbruiken militaire eenheden elk 1 productieschild "
+"voor instandhouding. Daar bovenop veroorzaken de volgende eenheden ongemak:\n"
+"\n"
+"- Eenheden met een aanvalssterkte groter dan 0 die zich niet in een stad "
+"bevinden, of die zich in een fort bevinden binnen 3 vlakken van een "
+"bevriende stad, veroorzaken twee opstandige burgers.\n"
+"- Lucht-eenheden met een aanvalssterkte groter dan 0 die zich in een stad of "
+"naast een fort bevinden veroorzaken slechts 1 opstandige burger. "
+"Jachtvliegtuigen veroorzaken geen ontevredenheid.\n"
 "\n"
 "Als een stad gedurende meer dan twee beurten in wanorde blijft onder een "
 "Democratisch bewind, dan zullen ze spontaan in opstand komen en de "
@@ -18163,10 +18263,10 @@ msgid ""
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the WWII victors."
 msgstr ""
-"De Italiaanse staat werd verenigd in 1870 AD na tientallen jaren van campagnes "
-"door nationalisten. Het was een monarchie onder het huis van Savoy tot 1922 "
-"AD, daarna een fascistische staat tot 1945 AD waarna de democratie werd "
-"hersteld door de overwinnaars van WO-II."
+"De Italiaanse staat werd verenigd in 1870 AD na tientallen jaren van "
+"campagnes door nationalisten. Het was een monarchie onder het huis van Savoy "
+"tot 1922 AD, daarna een fascistische staat tot 1945 AD waarna de democratie "
+"werd hersteld door de overwinnaars van WO-II."
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -18680,6 +18780,157 @@ msgstr ""
 "inheemse Khoisan veroverden en in botsing kwamen met Europese kolonisten."
 
 #~ msgid ""
+#~ "Under Despotism, you are the absolute ruler of your people.  Your control "
+#~ "over your citizens is maintained largely by martial law.\n"
+#~ "\n"
+#~ "Despotism suffers the highest level of corruption of all forms of "
+#~ "government.\n"
+#~ "\n"
+#~ "Settlers consume 1 food per turn under Despotism.  Squares which would "
+#~ "normally yield more than 2 units of food, shields or trade suffer a 1-"
+#~ "unit penalty (e.g., an irrigated grassland square which would normally "
+#~ "yield 3 food only yields 2 food while you are under Despotic rule).  "
+#~ "(This penalty is removed if the city is celebrating; see Happiness.)\n"
+#~ "\n"
+#~ "The maximum rate you can set for science, tax or luxuries is 60%.\n"
+#~ "\n"
+#~ "Under Despotism, each of your cities can support a number of military "
+#~ "units equal to its size without paying shields for upkeep.  (Additional "
+#~ "units require 1 production shield each.)\n"
+#~ "\n"
+#~ "You may impose martial law under Despotism: each military unit inside a "
+#~ "city will keep one unhappy citizen content.  (Or at least, unhappy "
+#~ "citizens will act content, and will not cause disorder.)"
+#~ msgstr ""
+#~ "Onder Dictatuur bent u de absolute alleenheerser over uw volk. Uw invloed "
+#~ "op uw burgers is grotendeels gebaseerd op krijgstucht.\n"
+#~ "\n"
+#~ "Dictatuur leidt aan de hoogste mate van corruptie van alle "
+#~ "regeringsvormen.\n"
+#~ "\n"
+#~ "Kolonisten verbruiken 1 voeding per beurt. Vlakken die normaal gesproken "
+#~ "meer dan twee eenheden voedsel, hulpbronnen of handel zouden leveren "
+#~ "krijgen een 1-eenheid belasting (bv. een geïrigeerd grasland vlak zou "
+#~ "normaal drie voeding opleveren, maar levert slechts twee op onder "
+#~ "Dictatuur). (Deze belasting vervalt zolang de stad iets viert; zie "
+#~ "Geluk.)\n"
+#~ "\n"
+#~ "De maximale waarden voor wetenschap, belasting of luxe zijn 60%.\n"
+#~ "\n"
+#~ "Onder Dictatuur kan elk van uw steden evenveel militaire eenheden "
+#~ "onderhouden als de stad burgers telt zonder onderhoud te betalen. (Alle "
+#~ "volgende eenheden kosten elk 1 poduktiepunt per beurt.)\n"
+#~ "\n"
+#~ "U kunt krijgstucht opleggen onder Dictatuur; elke militaire eenheid in "
+#~ "een stad houdt 1 ontevreden burger tevreden. (Tenminste, ontevreden "
+#~ "burgers zullen zich gedragen en zullen geen wanorde veroorzaken.)"
+
+#~ msgid ""
+#~ "Under Monarchy, a king or queen serves as a hereditary figurehead for "
+#~ "your government.\n"
+#~ "\n"
+#~ "Monarchy suffers the same small amount of corruption that the Republic "
+#~ "does.\n"
+#~ "\n"
+#~ "Settlers consume 1 food per turn under Monarchy.\n"
+#~ "\n"
+#~ "If a city governed by a Monarchy is celebrating, it will receive a bonus "
+#~ "of 1 trade in each square which already produces at least 1 trade.  See "
+#~ "Happiness for details.\n"
+#~ "\n"
+#~ "The maximum rate you can set for science, tax or luxuries is 70%.\n"
+#~ "\n"
+#~ "Under Monarchy, your cities can support up to 3 military units without "
+#~ "paying shields for upkeep.  (Additional units require 1 production shield "
+#~ "each.)\n"
+#~ "\n"
+#~ "You may impose limited martial law under Monarchy: each military unit in "
+#~ "a city, up to a maximum of 3, will keep one unhappy citizen content."
+#~ msgstr ""
+#~ "Onder een Monarchie dient een koning of een koningin als staathoofd voor "
+#~ "uw regering.\n"
+#~ "\n"
+#~ "Monarchie lijdt aan dezelfde kleine hoeveelheid corruptie als de "
+#~ "Republiek.\n"
+#~ "\n"
+#~ "Kolonisten verbruiken 1 voeding per beurt in een Monarchie.\n"
+#~ "\n"
+#~ "Als een stad in een Monarchie iets viert, dan ontvangt zij een bonus van "
+#~ "1 handel in elk vlak dat al tenminste 1 handel oplevert. Zie geluk voor "
+#~ "details.\n"
+#~ "\n"
+#~ "De maximale waarden voor wetenschap, belasting of luxe zijn 70%.\n"
+#~ "\n"
+#~ "Onder Monarchie kunnen uw steden drie militaire eenheden ondersteunen "
+#~ "zonder onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
+#~ "voedingspunt per beurt.)\n"
+#~ "\n"
+#~ "U kunt een beperkte krijgstucht opleggen onder Monarchie; elke militaire "
+#~ "eenheid in een stad, tot een maximum van 3, houdt 1 ontevreden burger "
+#~ "tevreden."
+
+#~ msgid ""
+#~ "A Communist government is based on the ideal that all people are equal.  "
+#~ "All goods are owned by the state, rather than by private citizens.  "
+#~ "Communism gives a balance between military and commercial styles of "
+#~ "government.\n"
+#~ "\n"
+#~ "Under Communism, corruption does not vary by distance from the capital; "
+#~ "all cities (including the capital) have a modest amount of corruption.  "
+#~ "In addition, Communist cities more than 10 squares away from the capital "
+#~ "are considered to be only 10 squares away when computing the cost of "
+#~ "inciting a revolt (see Units, Diplomat).\n"
+#~ "\n"
+#~ "Settlers consume 2 food per turn under Communism.\n"
+#~ "\n"
+#~ "If a city governed by Communism is celebrating, it will receive a bonus "
+#~ "of 1 trade in each square which already produces at least 1 trade.  See "
+#~ "Happiness for details.\n"
+#~ "\n"
+#~ "The maximum rate you can set for science, tax or luxuries is 80%.\n"
+#~ "\n"
+#~ "Diplomats and Spies created under Communism are always veterans.\n"
+#~ "\n"
+#~ "Under Communism, your cities can support up to 3 military units without "
+#~ "paying shields for upkeep.  (Additional units require 1 production shield "
+#~ "each.)\n"
+#~ "\n"
+#~ "You impose limited but efficient martial law under Communism.  Each "
+#~ "military unit inside a city, up to a maximum of 3, will keep 2 unhappy "
+#~ "citizens content."
+#~ msgstr ""
+#~ "Een Communistische regering is gebaseerd op het ideaal dat alle mensen "
+#~ "gelijk zijn. All goederen zijn eigendom van de staat, in plaats van privé "
+#~ "personen. Communisme geeft een balans tussen een militaire en een "
+#~ "commerciële regeringsvorm.\n"
+#~ "\n"
+#~ "Onder Communisme varieert de corruptie niet op basis van de afstand tot "
+#~ "de hoofdstad; alle steden (inclusief de hoofdstad) hebben een lichte mate "
+#~ "van corruptie. Daarnaast worden steden die zich meer dan 10 vlakken van "
+#~ "de hoofdstad bevinden, beschouwd alsof ze 10 vlakken afstand van de "
+#~ "hoofdstad waren wanneer de kosten van het starten van een revolutie "
+#~ "moeten worden berekend (zie Eenheden, Diplomaat).\n"
+#~ "\n"
+#~ "Kolonisten verbruiken 2 voeding per beurt onder Communisme.\n"
+#~ "\n"
+#~ "Als een stad onder Communisme iets viert, dan ontvangt zij een bonus van "
+#~ "1 handelspunt per vlak waar al tenminste 1 handelspunt wordt verdient. "
+#~ "Zie geluk voor details.\n"
+#~ "\n"
+#~ "De maximale waarden voor wetenschap, belasting of luxe zijn 80%.\n"
+#~ "\n"
+#~ "Diplomaten en Spionnen die tijdens Communisme worden gemaakt, zijn altijd "
+#~ "veteranen.\n"
+#~ "\n"
+#~ "Onder Communisme kunnen uw steden drie militaire eenheden ondersteunen "
+#~ "zonder onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
+#~ "voedingspunt per beurt.)\n"
+#~ "\n"
+#~ "U legt een beperkte maar efficiënte krijgstucht op onder Communisme. Elke "
+#~ "militaire eenheid in een stad, tot een maximum van 3, houdt 2 ontevreden "
+#~ "burgers tevreden."
+
+#~ msgid ""
 #~ " - If the defender is an AEGIS Cruiser defending against airborne units "
 #~ "(including missiles and Helicopters), the defense is quintupled."
 #~ msgstr ""
@@ -18790,9 +19041,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Schotland was een onafhankelijk koninkrijk voor de Vereniging van Kronen "
 #~ "met Engeland in 1701 AD."
-
-#~ msgid "Game: "
-#~ msgstr "Spel: "
 
 #~ msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 #~ msgstr "Te weinig geheugen bij proberen om %s %lu bytes op regel %d van %s."
