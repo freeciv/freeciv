@@ -238,6 +238,8 @@ bool unleash_barbarians(struct tile *ptile)
     if (sea_cnt > 0) {         /* maybe it's an island, try to get on boats */
       struct tile *btile = NULL;
 
+      /* FIXME: If anyone knows what this code is supposed to do, rewrite
+       * this comment to explain it. */
       unit_list_iterate((ptile)->units, punit2) {
         if (punit2->owner == me) {
           send_unit_info(NULL, punit2);
@@ -246,7 +248,7 @@ bool unleash_barbarians(struct tile *ptile)
 	    if (can_unit_move_to_tile(punit2, utile, TRUE)) {
 	      break;
             }
-	    if (can_unit_move_to_tile(punit2, btile, TRUE)) {
+	    if (btile && can_unit_move_to_tile(punit2, btile, TRUE)) {
 	      utile = btile;
               break;
 	    }
