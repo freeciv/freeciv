@@ -20,7 +20,6 @@ Peter Skov:            Included a help function in the "change button of the
                        citydialog" and several other dialogboxes.
                        Also made a patch to save "server settings"
 Peter Meerwald:        OS/2 version of FreeCiv (XFree86)
-merconline.com:        Made our Mirror site available (freeciv.merconline.com)
 Mitch Davis:           Many patches fixing spelling mistakes and various code
                        issues. Patch; introducing variable sized tiles and 
                        several helptext updates. 
