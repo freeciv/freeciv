@@ -28,7 +28,6 @@
 #include "log.h"
 #include "game.h"
 #include "map.h"
-#include "version.h"
 
 #include "chatline.h"
 #include "civclient.h"
@@ -46,7 +45,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
-
+#include "version.h"
 #include "gui_main.h"
 
 #include "freeciv.ico"
@@ -152,6 +151,7 @@ extern int	num_units_below;
 
 gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
 gint timer_callback(gpointer data);
+gint child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data);
 
 
 
@@ -165,7 +165,7 @@ void parse_options(int *argc, char **argv[])
 
   char *logfile=NULL;
   int loglevel;
-  
+
   /* set default argument values */
   loglevel=LOG_NORMAL;
 
@@ -406,6 +406,8 @@ void setup_widgets(void)
   GtkWidget	      *hbox2;
   GtkWidget	      *vbox1;
   GtkWidget	      *vbox2;
+  GtkWidget           *avbox;
+  GtkWidget           *handle_box;
 
   GtkWidget	      *frame;
 
@@ -419,42 +421,55 @@ void setup_widgets(void)
   gtk_container_add( GTK_CONTAINER( toplevel ), vbox );
   
   setup_menus( toplevel, &menubar );
-
-  gtk_box_pack_start( GTK_BOX( vbox ), menubar, FALSE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
 
   paned = gtk_vpaned_new();
   gtk_box_pack_start( GTK_BOX( vbox ), paned, TRUE, TRUE, 0 );
 
   hbox = gtk_hbox_new( FALSE, 0 );
-  gtk_paned_pack1(GTK_PANED(paned), hbox, TRUE, FALSE);
+  gtk_paned_pack1(GTK_PANED(paned), hbox, TRUE, TRUE);
 
   vbox1 = gtk_vbox_new( FALSE, 0 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
 
-  hbox2 = gtk_hbox_new( FALSE, 0 );
-  gtk_box_pack_start( GTK_BOX( vbox1 ), hbox2, FALSE, FALSE, 0 );
+  handle_box = gtk_handle_box_new();
+  gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
+  gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
+        	      GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
+  gtk_box_pack_start( GTK_BOX( vbox1 ), handle_box, FALSE, FALSE, 0 );
 
-  frame = gtk_frame_new( NULL );
-  gtk_box_pack_start( GTK_BOX( hbox2 ), frame, FALSE, FALSE, 0 );
-  
+  hbox2 = gtk_hbox_new( FALSE, 0 );
+  gtk_container_add(GTK_CONTAINER(handle_box), hbox2);
+
+
   overview_canvas	      = gtk_drawing_area_new();
 
   gtk_widget_set_events( overview_canvas, GDK_EXPOSURE_MASK
         			      | GDK_BUTTON_PRESS_MASK );
 
   gtk_drawing_area_size( GTK_DRAWING_AREA( overview_canvas ), 160, 100 );
-  gtk_container_add( GTK_CONTAINER( frame ), overview_canvas );
+  gtk_box_pack_start(GTK_BOX(hbox2), overview_canvas, TRUE, FALSE, 0);
 
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "expose_event",
         	      (GtkSignalFunc) overview_canvas_expose, NULL );
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "button_press_event",
         	      (GtkSignalFunc) butt_down_overviewcanvas, NULL );
 
+  handle_box = gtk_handle_box_new();
+  gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
+  gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
+		      GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
+  gtk_box_pack_start(GTK_BOX(vbox1), handle_box, FALSE, FALSE, 0);
+  
+  avbox = gtk_vbox_new(FALSE, 5);
+  gtk_container_add(GTK_CONTAINER(handle_box), avbox);
+
   {   /* Info on player's civilization */
       GtkWidget *vbox4;
 
       frame = gtk_frame_new(NULL);
-      gtk_box_pack_start(GTK_BOX(vbox1), frame, FALSE, FALSE, 0);
+      gtk_box_pack_start(GTK_BOX(avbox), frame, FALSE, FALSE, 0);
+
       main_frame_civ_name=frame;
 
       vbox4 = gtk_vbox_new(FALSE, 0);
@@ -479,7 +494,7 @@ void setup_widgets(void)
 
       /* make a box so the table will be centered */
       box4 = gtk_hbox_new( FALSE, 0 );
-      gtk_box_pack_start(GTK_BOX(vbox1), box4, FALSE, FALSE, 5);
+      gtk_box_pack_start(GTK_BOX(avbox), box4, FALSE, FALSE, 0);
 
       table = gtk_table_new(10, 2, FALSE);
       gtk_table_set_row_spacing(GTK_TABLE(table), 0, 0);
@@ -532,18 +547,28 @@ void setup_widgets(void)
   gtk_widget_set_style(turn_done_button, gtk_style_copy(turn_done_button->style));
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 5, 1, 2);
   }
+ 
+  handle_box = gtk_handle_box_new();
+  gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
+  gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
+		      GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
+  gtk_box_pack_start(GTK_BOX(vbox1), handle_box, FALSE, FALSE, 0);
+
+  avbox = gtk_vbox_new(FALSE, 5);
+  gtk_container_add(GTK_CONTAINER(handle_box), avbox);
 
   { /* selected unit status */
     GtkWidget *ubox;
 
+
     unit_info_frame = gtk_frame_new(NULL);
-    gtk_box_pack_start(GTK_BOX(vbox1), unit_info_frame, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(avbox), unit_info_frame, FALSE, FALSE, 0);
     
     unit_info_label = gtk_label_new("\n\n\n");
     gtk_container_add(GTK_CONTAINER(unit_info_frame), unit_info_label);
 
     ubox = gtk_hbox_new(FALSE,0);
-    gtk_box_pack_start(GTK_BOX(vbox1), ubox, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(avbox), ubox, FALSE, FALSE, 0);
 
     table = gtk_table_new( 2, 5, FALSE );
     gtk_box_pack_start(GTK_BOX(ubox),table,FALSE,FALSE,5);
@@ -609,16 +634,21 @@ void setup_widgets(void)
   {   /* the message window */
       GtkWidget *text, *vbox3;
 
+      handle_box = gtk_handle_box_new();
+      gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
+      gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
+			  GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
+      gtk_paned_pack2(GTK_PANED(paned), handle_box, TRUE, TRUE);
+
       vbox3 = gtk_vbox_new(FALSE, 5);
-      gtk_paned_pack2(GTK_PANED(paned), vbox3, FALSE, FALSE);
+      gtk_container_add(GTK_CONTAINER(handle_box), vbox3);
 
       hbox = gtk_hbox_new(FALSE, 0);
       gtk_box_pack_start(GTK_BOX(vbox3), hbox, TRUE, TRUE, 0);
 
-      text = gtk_widget_new (GTK_TYPE_TEXT,
-        		     "GtkWidget::parent", hbox,
-        		     "GtkText::word_wrap", TRUE,
-        		     NULL);
+      text = gtk_text_new(NULL, NULL);
+      gtk_box_pack_start(GTK_BOX(hbox), text, TRUE, TRUE, 0);
+      gtk_widget_set_usize(text, 600, 150);
       gtk_text_set_editable (GTK_TEXT (text), FALSE);
 
       text_scrollbar = gtk_vscrollbar_new (GTK_TEXT(text)->vadj);
@@ -653,6 +683,17 @@ void setup_widgets(void)
   gtk_widget_show_all(vbox);
 }
 
+/*
+ * so hbox is resized when the handle_boxes are detached
+ * this can be done only when all the handle_boxes are detached
+ * but I don't think it makes the whole thing slowlier if it's
+ * done each time.
+ */
+gint child_detached(GtkHandleBox *handle_box, GtkWidget *widget, gpointer user_data)
+{
+  gtk_widget_queue_resize(GTK_WIDGET(user_data));
+  return TRUE;
+}
 
 /**************************************************************************
 ...
@@ -773,6 +814,10 @@ int ui_main(int argc, char **argv)
         			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
 
   load_options();
+
+  /* This seed is not saved anywhere; randoms in the client should
+     have cosmetic effects only (eg city name suggestions).  --dwp */
+  mysrand(time(NULL));
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 
