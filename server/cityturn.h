@@ -26,6 +26,7 @@ void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
 int add_adjust_workers(struct city *pcity);   /* will add workers */
 
 void city_reduce_size(struct city *pcity, int num_workers);
+void city_increase_size(struct city *pcity);
 void send_global_city_turn_notifications(struct conn_list *dest);
 void send_city_turn_notifications(struct conn_list *dest, struct city *pcity);
 void begin_cities_turn(struct player *pplayer);

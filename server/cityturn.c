@@ -49,7 +49,6 @@
 
 static void check_pollution(struct city *pcity);
 static void city_populate(struct city *pcity);
-static void city_increase_size(struct city *pcity);
 
 static int worklist_change_build_target(struct player *pplayer, 
 					struct city *pcity);
@@ -457,7 +456,7 @@ void city_reduce_size(struct city *pcity, int pop_loss)
 /**************************************************************************
 Note: We do not send info about the city to the clients as part of this function
 **************************************************************************/
-static void city_increase_size(struct city *pcity)
+void city_increase_size(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
   int have_square;
