@@ -84,9 +84,11 @@ struct city_dialog {
   GtkWidget *support_unit_label;
   GtkWidget *support_unit_boxes		[NUM_UNITS_SHOWN];
   GtkWidget *support_unit_pixmaps	[NUM_UNITS_SHOWN];
+  GtkWidget *support_unit_button	[2];
   GtkWidget *present_unit_label;
   GtkWidget *present_unit_boxes		[NUM_UNITS_SHOWN];
   GtkWidget *present_unit_pixmaps	[NUM_UNITS_SHOWN];
+  GtkWidget *present_unit_button	[2];
   GtkWidget *change_shell, *change_list;
   GtkWidget *rename_input;
   GtkWidget *worklist_shell;
@@ -95,7 +97,9 @@ struct city_dialog {
   
   int citizen_type[NUM_CITIZENS_SHOWN];
   int support_unit_ids[NUM_UNITS_SHOWN];
+  int support_unit_pos;
   int present_unit_ids[NUM_UNITS_SHOWN];
+  int present_unit_pos;
   char improvlist_names[B_LAST+1][64];
   char *improvlist_names_ptrs[B_LAST+1];
   
@@ -303,11 +307,47 @@ static gint city_dialog_delete_callback(GtkWidget *w, GdkEvent *ev,
 /****************************************************************
 ...
 *****************************************************************/
+static void city_dialog_support_unit_pos_callback(GtkWidget *w, gpointer data)
+{
+  struct city_dialog *pdialog=((struct city_dialog *)data);
+
+  if (w==pdialog->support_unit_button[0]) {
+    pdialog->support_unit_pos--;
+  } else {
+    pdialog->support_unit_pos++;
+  }
+  if (pdialog->support_unit_pos<0) {
+    pdialog->support_unit_pos=0;
+  }
+  city_dialog_update_supported_units(pdialog, 0);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void city_dialog_present_unit_pos_callback(GtkWidget *w, gpointer data)
+{
+  struct city_dialog *pdialog=((struct city_dialog *)data);
+
+  if (w==pdialog->present_unit_button[0]) {
+    pdialog->present_unit_pos--;
+  } else {
+    pdialog->present_unit_pos++;
+  }
+  if (pdialog->present_unit_pos<0) {
+    pdialog->present_unit_pos=0;
+  }
+  city_dialog_update_present_units(pdialog, 0);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 {
   int i;
   struct city_dialog *pdialog;
-  GtkWidget *box, *frame, *vbox, *scrolled, *hbox;
+  GtkWidget *box, *frame, *vbox, *scrolled, *hbox, *vbox2;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
   pdialog=fc_malloc(sizeof(struct city_dialog));
@@ -484,6 +524,24 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
       gtk_widget_set_sensitive(pdialog->support_unit_boxes[i], FALSE);    
   }
 
+  vbox2=gtk_vbox_new(FALSE, 1);
+  gtk_box_pack_start(GTK_BOX(box), vbox2, TRUE, FALSE, 0);
+
+  pdialog->support_unit_button[0]=gtk_button_new_with_label("<");
+  gtk_box_pack_start(GTK_BOX(vbox2),
+  	pdialog->support_unit_button[0], TRUE, TRUE, 0);
+
+  pdialog->support_unit_button[1]=gtk_button_new_with_label(">");
+  gtk_box_pack_start(GTK_BOX(vbox2),
+  	pdialog->support_unit_button[1], TRUE, TRUE, 0);
+
+  gtk_signal_connect(GTK_OBJECT(pdialog->support_unit_button[0]), "clicked",
+	GTK_SIGNAL_FUNC(city_dialog_support_unit_pos_callback), pdialog);
+  gtk_signal_connect(GTK_OBJECT(pdialog->support_unit_button[1]), "clicked",
+	GTK_SIGNAL_FUNC(city_dialog_support_unit_pos_callback), pdialog);
+
+  pdialog->support_unit_pos=0;
+
 
   /* "present units" frame */
   pdialog->present_unit_label=gtk_frame_new(_("Units present"));
@@ -514,6 +572,25 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
     if(pcity->owner != game.player_idx)
       gtk_widget_set_sensitive(pdialog->present_unit_boxes[i], FALSE);    
   }
+
+  vbox2=gtk_vbox_new(FALSE, 1);
+  gtk_box_pack_start(GTK_BOX(box), vbox2, TRUE, FALSE, 0);
+
+  pdialog->present_unit_button[0]=gtk_button_new_with_label("<");
+  gtk_box_pack_start(GTK_BOX(vbox2),
+  	pdialog->present_unit_button[0], TRUE, TRUE, 0);
+
+  pdialog->present_unit_button[1]=gtk_button_new_with_label(">");
+  gtk_box_pack_start(GTK_BOX(vbox2),
+  	pdialog->present_unit_button[1], TRUE, TRUE, 0);
+
+  gtk_signal_connect(GTK_OBJECT(pdialog->present_unit_button[0]), "clicked",
+	GTK_SIGNAL_FUNC(city_dialog_present_unit_pos_callback), pdialog);
+  gtk_signal_connect(GTK_OBJECT(pdialog->present_unit_button[1]), "clicked",
+	GTK_SIGNAL_FUNC(city_dialog_present_unit_pos_callback), pdialog);
+
+  pdialog->present_unit_pos=0;
+
 
   /* "action area" buttons */
   pdialog->close_command=gtk_accelbutton_new(_("C_lose"), accel);
@@ -1261,6 +1338,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
+  int size;
 
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
@@ -1276,9 +1354,20 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
     plist = &(pdialog->pcity->units_supported);
   }
 
-  genlist_iterator_init(&myiter, &(plist->list), 0);
+  size=plist->list.nelements/NUM_UNITS_SHOWN;
+  if (size<=0 || pdialog->support_unit_pos>size) {
+    pdialog->support_unit_pos=0;
+  }
 
-  for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
+  gtk_widget_set_sensitive(pdialog->support_unit_button[0],
+  	(pdialog->support_unit_pos>0));
+  gtk_widget_set_sensitive(pdialog->support_unit_button[1],
+  	(pdialog->support_unit_pos<size));
+
+  genlist_iterator_init(&myiter, &(plist->list),
+  	pdialog->support_unit_pos*NUM_UNITS_SHOWN);
+
+  for(i=0;i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
         
     if(unitid && punit->id!=unitid)
@@ -1321,6 +1410,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   struct unit_list *plist;
   struct genlist_iterator myiter;
   struct unit *punit;
+  int size;
   
   if(unitid) {
     for(i=0; i<NUM_UNITS_SHOWN; i++)
@@ -1336,7 +1426,18 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
   }
 
-  genlist_iterator_init(&myiter, &(plist->list), 0);
+  size=plist->list.nelements/NUM_UNITS_SHOWN;
+  if (size<=0 || pdialog->present_unit_pos>size) {
+    pdialog->present_unit_pos=0;
+  }
+
+  gtk_widget_set_sensitive(pdialog->present_unit_button[0],
+  	(pdialog->present_unit_pos>0));
+  gtk_widget_set_sensitive(pdialog->present_unit_button[1],
+  	(pdialog->present_unit_pos<size));
+
+  genlist_iterator_init(&myiter, &(plist->list),
+  	pdialog->present_unit_pos*NUM_UNITS_SHOWN);
 
   for(i=0; i<NUM_UNITS_SHOWN&&ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter),i++) {
     punit=(struct unit*)ITERATOR_PTR(myiter);
