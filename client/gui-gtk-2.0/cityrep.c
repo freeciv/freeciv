@@ -15,11 +15,10 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
-#include <assert.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -162,11 +161,17 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   int i, item, cids_used;
   char *row[4];
   char buf[4][64];
+  
+  GtkSizeGroup *group[3];
+  const char *markup[3] = {
+    "weight=\"bold\"",
+    "font_family=\"Monospace\"",
+    ""
+  };
 
   gtk_menu_item_remove_submenu(parent_item);
   menu = gtk_menu_new();
   gtk_menu_item_set_submenu(parent_item, menu);
-  gtk_widget_set_name(menu, "Freeciv");
 
   if (change_prod) {
     GPtrArray *selected;
@@ -207,21 +212,52 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   g_object_set_data(G_OBJECT(menu), "freeciv_change_prod",
 		    GINT_TO_POINTER(change_prod));
 
+  for (i = 0; i < 3; i++) {
+    group[i] = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
+  }
+
   for (item = 0; item < cids_used; item++) {
     cid cid = items[item].cid;
-    GtkWidget *menu_item;
-    char txt[64];
+    GtkWidget *menu_item, *hbox, *label;
+    char txt[256];
 
     get_city_dialog_production_row(row, sizeof(buf[0]), cid_id(cid),
 				   cid_is_unit(cid), NULL);
-    my_snprintf(txt, sizeof(txt), "%-30s %-12s %4s", row[0], row[1], row[2]);
 
-    menu_item = gtk_menu_item_new_with_label(txt);
-    gtk_widget_set_name(menu_item, "monomenu");
+    menu_item = gtk_menu_item_new();
+    hbox = gtk_hbox_new(FALSE, 18);
+    gtk_container_add(GTK_CONTAINER(menu_item), hbox);
+
+    for (i = 0; i < 3; i++) {
+      if (row[i][0] == '\0') {
+	continue;
+      }
+
+      my_snprintf(txt, ARRAY_SIZE(txt), "<span %s>%s</span>",
+		  markup[i], row[i]);
+
+      label = gtk_label_new(NULL);
+      gtk_label_set_markup(GTK_LABEL(label), txt);
+
+      if (i == 0) {
+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+      } else {
+	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
+      }
+
+      gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 0);
+      gtk_size_group_add_widget(group[i], label);
+    }
+		
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
     g_signal_connect(menu_item, "activate", callback,
 		     GINT_TO_POINTER(items[item].cid));
   }
+
+  for (i = 0; i < 3; i++) {
+    g_object_unref(group[i]);
+  }
+  
   gtk_widget_show_all(menu);
 
   gtk_widget_set_sensitive(GTK_WIDGET(parent_item), (cids_used > 0));
@@ -381,7 +417,6 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     for (i = -1; i < cmafec_preset_num(); i++) {
       w = (i == -1 ? gtk_menu_item_new_with_label(_("none"))
 	   : gtk_menu_item_new_with_label(cmafec_preset_get_descr(i)));
-      gtk_widget_set_name(w, "monomenu");
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
 		       GINT_TO_POINTER(i));
@@ -400,7 +435,6 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
 
     if (found) {
       w = gtk_menu_item_new_with_label(_("none"));
-      gtk_widget_set_name(w, "monomenu");
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
 		       GINT_TO_POINTER(CMA_NONE));
@@ -422,7 +456,6 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     if (found) {
       /* we found city that's under agent but not a preset */
       w = gtk_menu_item_new_with_label(_("custom"));
-      gtk_widget_set_name(w, "monomenu");
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate",
@@ -442,7 +475,6 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
       } city_list_iterate_end;
       if (found) {
 	w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
-        gtk_widget_set_name(w, "monomenu");
 
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
 	g_signal_connect(w, "activate",
