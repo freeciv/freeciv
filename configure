@@ -1445,7 +1445,7 @@ test "$program_transform_name" = "" && program_transform_name="s,x,x,"
 
 
 
-ALL_LINGUAS="de en_GB es fr hu no pl pt pt_BR"
+ALL_LINGUAS="de en_GB es fr hu no pl pt pt_BR ru"
 echo $ac_n "checking for POSIXized ISC""... $ac_c" 1>&6
 echo "configure:1451: checking for POSIXized ISC" >&5
 if test -d /etc/conf/kconfig.d &&
