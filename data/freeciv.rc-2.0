@@ -62,13 +62,13 @@ style "comment_label"
   fg[PRELIGHT] = "blue"
 }
 
-style "default"
+style "dialog"
 {
-  GtkDialog::content_area_border = 0
+  GtkDialog::content_area_border = 6
   GtkDialog::action_area_border = 0
 }
 
-class	"GtkWidget"   	    	    	style	"default"
+class	"GtkDialog"   	    	    	style	"dialog"
 
 widget	"Freeciv*.city label"		style	"city_label"
 widget	"Freeciv*.notify label"		style	"notify_label"
@@ -79,3 +79,4 @@ widget	"Freeciv*.help text"		style	"help_text"
 widget	"*.Freeciv.monomenu.*"		style	"monospace_label"
 widget	"Freeciv*.chatline"		style	"chatline"
 widget	"Freeciv*.comment label"	style	"comment_label"
+
