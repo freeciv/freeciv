@@ -203,8 +203,11 @@ void flush_packets(void)
   time(&start);
 
   for(;;) {
-    tv.tv_sec=(time(NULL) - start + game.netwait);
+    tv.tv_sec=(game.netwait - (time(NULL) - start));
     tv.tv_usec=0;
+
+    if (tv.tv_sec < 0)
+      return;
 
     MY_FD_ZERO(&writefs);
     MY_FD_ZERO(&exceptfs);
@@ -215,7 +218,7 @@ void flush_packets(void)
       if(pconn->used && pconn->send_buffer->ndata) {
 	FD_SET(pconn->sock, &writefs);
 	FD_SET(pconn->sock, &exceptfs);
-       max_desc=MAX(pconn->sock, max_desc);
+	max_desc=MAX(pconn->sock, max_desc);
       }
     }
 
@@ -249,10 +252,6 @@ void flush_packets(void)
 	  }
         }
       }
-    }
-    
-    if (time(NULL) >= start + game.netwait) {
-      return;
     }
   }
 }
@@ -341,7 +340,9 @@ int sniff_packets(void)
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(connections[i].used) {
 	FD_SET(connections[i].sock, &readfs);
-	FD_SET(connections[i].sock, &writefs);
+	if(connections[i].send_buffer->ndata) {
+	  FD_SET(connections[i].sock, &writefs);
+	}
 	FD_SET(connections[i].sock, &exceptfs);
         max_desc=MAX(connections[i].sock, max_desc);
       }
@@ -449,19 +450,19 @@ int sniff_packets(void)
       }
 
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
-       struct connection *pconn = &connections[i];
-       if(pconn->used && pconn->send_buffer && pconn->send_buffer->ndata) {
-	 if(FD_ISSET(pconn->sock, &writefs)) {
-	   flush_connection_send_buffer_all(pconn);
-	 } else {
-	   if(game.tcptimeout && pconn->last_write
-	      && (time(NULL)>pconn->last_write + game.tcptimeout)) {
-	     freelog(LOG_NORMAL, "cut connection %s due to lagging player",
-		     conn_description(pconn));
-	     close_socket_callback(pconn);
-	   }
-	 }
-       }
+        struct connection *pconn = &connections[i];
+        if(pconn->used && pconn->send_buffer && pconn->send_buffer->ndata) {
+	  if(FD_ISSET(pconn->sock, &writefs)) {
+	    flush_connection_send_buffer_all(pconn);
+	  } else {
+	    if(game.tcptimeout && pconn->last_write
+	       && (time(NULL)>pconn->last_write + game.tcptimeout)) {
+	      freelog(LOG_NORMAL, "cut connection %s due to lagging player",
+		      conn_description(pconn));
+	      close_socket_callback(pconn);
+	    }
+	  }
+        }
       }
     }
     break;
