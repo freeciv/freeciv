@@ -14,6 +14,8 @@
 #include <config.h>
 #endif
 
+#include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,11 +23,7 @@
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 
-#ifdef XPM_H_NO_X11
-#include <xpm.h>
-#else
-#include <X11/xpm.h>
-#endif
+#include <png.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -292,24 +290,6 @@ static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask,
   return mysprite;
 }
 
-
-
-#ifdef UNUSED
-/***************************************************************************
-...
-***************************************************************************/
-void dtor_sprite(struct Sprite *mysprite)
-{
-  XFreePixmap(display, mysprite->pixmap);
-  if(mysprite->has_mask)
-    XFreePixmap(display, mysprite->mask);
-  free_colors(mysprite->pcolorarray, mysprite->ncols);
-  free(mysprite->pcolorarray);
-  free(mysprite);
-
-}
-#endif
-
 /***************************************************************************
  Returns the filename extensions the client supports
  Order is important.
@@ -318,7 +298,7 @@ const char **gfx_fileextensions(void)
 {
   static const char *ext[] =
   {
-    "xpm",
+    "png",
     NULL
   };
 
@@ -326,52 +306,224 @@ const char **gfx_fileextensions(void)
 }
 
 /***************************************************************************
+  Return true iff the given pixel is transparent.  The 'trans' and
+  'ntrans' parameters provide an array of transparent colors.
+***************************************************************************/
+static bool is_transparent(png_byte index, png_bytep trans, int ntrans)
+{
+  int i;
+
+  for (i = 0; i < ntrans; i++) {
+    if (index == trans[i]) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/***************************************************************************
+  Converts an image to a pixmap...
+***************************************************************************/
+static Pixmap image2pixmap(XImage *xi)
+{
+  Pixmap ret;
+  XGCValues values;
+  GC gc;
+  
+  ret = XCreatePixmap(display, root_window,
+		      xi->width, xi->height, xi->depth);
+
+  values.foreground = 1;
+  values.background = 0;
+  gc = XCreateGC(display, ret, GCForeground | GCBackground, &values);
+
+  XPutImage(display, ret, gc, xi, 0, 0, 0, 0, xi->width, xi->height);
+  XFreeGC(display, gc);
+  return ret;
+}
+
+/***************************************************************************
 ...
 ***************************************************************************/
 struct Sprite *load_gfxfile(const char *filename)
 {
+  png_structp pngp;
+  png_infop infop;
+  png_uint_32 sig_read = 0;
+  png_int_32 width, height, row, col;
+  int bit_depth, color_type, interlace_type;
+  FILE *fp;
+  int npalette, ntrans;
+  png_colorp palette;
+  png_bytep trans;
+  unsigned long *pcolorarray;
+  png_bytep *row_pointers;
   struct Sprite *mysprite;
-  Pixmap mypixmap, mask_bitmap;
-  int err;
-  XpmAttributes attributes;
-  
-  attributes.extensions = NULL;
-  attributes.valuemask = XpmCloseness|XpmColormap;
-  attributes.colormap = cmap;
-  attributes.closeness = 40000;
+  XImage *xi;
+  int has_mask;
 
-again:
-  
-  if((err=XpmReadFileToPixmap(display, root_window, (char*)filename, &mypixmap, 
-			      &mask_bitmap, &attributes))!=XpmSuccess) {
-    if(err==XpmColorError || err==XpmColorFailed) {
-      color_error();
-      goto again;
-    }
-    freelog(LOG_FATAL, _("Failed reading XPM file: %s"), filename);
+  fp = fopen(filename, "rb");
+  if (!fp) {
+    freelog(LOG_FATAL, _("Failed reading PNG file: %s"), filename);
     exit(EXIT_FAILURE);
   }
 
-  mysprite=fc_malloc(sizeof(struct Sprite));
-  
-  mysprite->pixmap=mypixmap;
-  mysprite->mask=mask_bitmap;
-  mysprite->has_mask=(mask_bitmap!=0);
-  mysprite->width=attributes.width;
-  mysprite->height=attributes.height;
+  pngp = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  if (!pngp) {
+    freelog(LOG_FATAL, _("Failed creating PNG struct"));
+    exit(EXIT_FAILURE);
+  }
 
+  infop = png_create_info_struct(pngp);
+  if (!infop) {
+    freelog(LOG_FATAL, _("Failed creating PNG struct"));
+    exit(EXIT_FAILURE);
+  }
+  
+  if (setjmp(pngp->jmpbuf)) {
+    freelog(LOG_FATAL, _("Failed while reading PNG file: %s"), filename);
+    exit(EXIT_FAILURE);
+  }
+
+  png_init_io(pngp, fp);
+  png_set_sig_bytes(pngp, sig_read);
+
+  png_read_info(pngp, infop);
+  png_get_IHDR(pngp, infop, &width, &height, &bit_depth, &color_type,
+	       &interlace_type, NULL, NULL);
+
+  png_set_strip_16(pngp);
+  png_set_packing(pngp);
+
+  if (png_get_PLTE(pngp, infop, &palette, &npalette)) {
+    int i;
+
+    pcolorarray = fc_malloc(npalette * sizeof(unsigned long));
+
+    for (i = 0; i < npalette; i++) {
+      XColor mycolor;
+
+      mycolor.red  = palette[i].red << 8;
+      mycolor.green = palette[i].green << 8;
+      mycolor.blue = palette[i].blue << 8;
+
+      if (XAllocColor(display, cmap, &mycolor)) {
+	pcolorarray[i] = mycolor.pixel;
+      } else {
+	/* We're out of colors.  For the rest of the palette, just
+	   find the closes match and use it. */
+	XColor *cols;
+	int ncols, j;
+
+	ncols = DefaultVisual(display, screen_number)->map_entries;
+	cols = fc_malloc(sizeof(XColor) * ncols);
+
+	for (j = 0; j < ncols; j++) {
+	  cols[j].pixel = j;
+	}
+	XQueryColors(display, cmap, cols, ncols);
+
+	for (; i < npalette; i++) {
+	  int best = INT_MAX;
+	  unsigned long pixel=0;
+
+	  for (j = 0; j < ncols; j++) {
+	    int rd, gd, bd, dist;
+	    
+	    rd = (cols[j].red  >> 8) - palette[i].red;
+	    gd = (cols[j].green >> 8) - palette[i].green;
+	    bd = (cols[j].blue >> 8) - palette[i].blue;
+	    dist = rd * rd + gd * gd + bd * bd;
+	    
+	    if (dist < best) {
+	      best = dist;
+	      pixel = j;
+	    }
+	  }
+	  pcolorarray[i] = pixel;
+	}
+	free(cols);
+	break;
+      }
+    }
+  } else {
+    freelog(LOG_FATAL, _("PNG file has no palette: %s"), filename);
+    exit(EXIT_FAILURE);
+  }
+
+  png_read_update_info(pngp, infop);
+  has_mask = png_get_tRNS(pngp, infop, &trans, &ntrans, NULL);
+
+  row_pointers = fc_malloc(sizeof(png_bytep) * height);
+
+  for (row = 0; row < height; row++) {
+    row_pointers[row] = fc_malloc(png_get_rowbytes(pngp, infop));
+  }
+
+  png_read_image(pngp, row_pointers);
+  png_read_end(pngp, infop);
+  fclose(fp);
+
+  mysprite=fc_malloc(sizeof(struct Sprite));
+  mysprite->pixmap = 0;
+  mysprite->mask = 0;
+  
+  xi = XCreateImage(display, DefaultVisual(display, screen_number),
+		    display_depth, ZPixmap, 0, NULL, width, height, 32, 0);
+  xi->data = fc_calloc(xi->bytes_per_line * xi->height, 1);
+
+  for (row = 0; row < height; row++) {
+    for (col = 0; col < width; col++) {
+      XPutPixel(xi, col, row, pcolorarray[row_pointers[row][col]]);
+    }
+  }
+  mysprite->pixmap = image2pixmap(xi);
+  XDestroyImage(xi);
+
+  if (has_mask) {
+    XImage *xm;
+
+    xm = XCreateImage(display, DefaultVisual(display, screen_number),
+		      1, XYBitmap, 0, NULL, width, height, 8, 0);
+    xm->data = fc_calloc(xm->bytes_per_line * xm->height, 1);
+
+    for (row = 0; row < height; row++) {
+      for (col = 0; col < width; col++) {
+	XPutPixel(xm, col, row,
+		  !is_transparent(row_pointers[row][col], trans, ntrans));
+      }
+    }
+    mysprite->mask = image2pixmap(xm);
+    XDestroyImage(xm);
+  }
+
+  mysprite->has_mask = has_mask;
+  mysprite->width = width;
+  mysprite->height = height;
+  mysprite->pcolorarray = pcolorarray;
+  mysprite->ncols = npalette;
+
+  for (row = 0; row < height; row++) {
+    free(row_pointers[row]);
+  }
+  free(row_pointers);
+  png_destroy_read_struct(&pngp, &infop, NULL);
   return mysprite;
 }
 
 /***************************************************************************
    Deletes a sprite.  These things can use a lot of memory.
-   
-   (How/why does this differ from dtor_sprite() ?  --dwp)
 ***************************************************************************/
 void free_sprite(struct Sprite *s)
 {
-  if(s->pixmap) XFreePixmap(display,s->pixmap);
-  if(s->has_mask) XFreePixmap(display,s->mask);
+  XFreePixmap(display, s->pixmap);
+  if (s->has_mask) {
+    XFreePixmap(display, s->mask);
+  }
+#if 0
+  free_colors(s->pcolorarray, s->ncols);
+#endif
+  free(s->pcolorarray);
   free(s);
 }
 
