@@ -2415,8 +2415,6 @@ static bool ai_ferry_find_interested_city(struct unit *pferry)
 static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
-  int oldbossid = -1;	/* Loop prevention. If boss doesn't want to move,
-			 * neither do we. */
 
   CHECK_UNIT(punit);
 
@@ -2438,17 +2436,20 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     /* Do we have the passenger-in-charge on board? */
     struct tile *ptile = map_get_tile(punit->x, punit->y);
 
-    if (punit->ai.passenger > 0 
-        && !unit_list_find(&ptile->units, punit->ai.passenger)) {
-      UNIT_LOG(LOGLEVEL_FERRY, punit, 
-	       "lost passenger-in-charge[%d], resetting",
-               punit->ai.passenger);
-      ai_set_passenger(punit, NULL);
-    } else if (oldbossid > 0) {
-      /* Need to look for a new boss */
-      UNIT_LOG(LOGLEVEL_FERRY, punit, "taking control back from [%d]", 
-	       oldbossid);
-      ai_set_passenger(punit, NULL);
+    if (punit->ai.passenger > 0) {
+      struct unit *psngr = find_unit_by_id(punit->ai.passenger);
+      
+      /* If the passenger-in-charge is adjacent, we should wait for it to 
+       * board.  We will pass control to it later.
+       * FIXME: A possible side-effect: a boat will linger near a passenger 
+       * which already landed. */
+      if (!psngr 
+	  || real_map_distance(punit->x, punit->y, psngr->x, psngr->y) > 1) {
+	UNIT_LOG(LOGLEVEL_FERRY, punit, 
+		 "lost passenger-in-charge[%d], resetting",
+		 punit->ai.passenger);
+	punit->ai.passenger = 0;
+      }
     }
 
     if (punit->ai.passenger <= 0) {
@@ -2470,11 +2471,6 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
         }
       } unit_list_iterate_end;
       
-      if (candidate && candidate->id == oldbossid) {
-	/* The boss decided to stay put on the ferry. We aren't moving. */
-	return;
-      }
-
       if (candidate) {
         UNIT_LOG(LOGLEVEL_FERRY, punit, 
                  "appointed %s[%d] our passenger-in-charge",
@@ -2487,11 +2483,11 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     }
 
     if (punit->ai.passenger > 0) {
+      int bossid = punit->ai.passenger;    /* Loop prevention */
       struct unit *boss = find_unit_by_id(punit->ai.passenger);
       int id = punit->id;                  /* To check if survived */
 
       assert(boss != NULL);
-      oldbossid = punit->ai.passenger;
 
       if (unit_flag(boss, F_SETTLERS) || unit_flag(boss, F_CITIES)) {
         /* Temporary hack: settlers all go in the end, forcing them 
@@ -2505,6 +2501,11 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     
       if (!find_unit_by_id(id) || punit->moves_left <= 0) {
         return;
+      }
+      if (find_unit_by_id(bossid) 
+	  && same_pos(punit->x, punit->y, boss->x, boss->y)) {
+	/* The boss decided to stay put on the ferry. We aren't moving. */
+	return;
       }
     } else {
       /* Cannot select a passenger-in-charge */

@@ -78,5 +78,7 @@ int ai_evaluate_government(struct player *pplayer, struct government *g);
 bool ai_wants_no_science(struct player *pplayer);
 
 bool is_player_dangerous(struct player *pplayer, struct player *aplayer);
+int find_ferry(struct unit *punit, int cap, struct pf_path **path);
+
 
 #endif  /* FC__AITOOLS_H */

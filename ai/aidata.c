@@ -395,8 +395,9 @@ void ai_data_init(struct player *pplayer)
 }
 
 /**************************************************************************
-  Use this wrapper to correctly update the statistics. Use NULL to
-  unregister any ferry that might be there.
+  Use this wrapper to correctly update the statistics. Use ferry=NULL to
+  request a ferry.  Should be used in conjunction with ai_set_passenger
+  if ferry!=NULL.
 **************************************************************************/
 void ai_set_ferry(struct unit *punit, struct unit *ferry)
 {
@@ -409,7 +410,6 @@ void ai_set_ferry(struct unit *punit, struct unit *ferry)
   } else if (ferry) {
     /* Make sure we delete punit from the list of potential passengers */
     ai_clear_ferry(punit);
-    ferry->ai.passenger = punit->id;
     punit->ai.ferryboat = ferry->id;
   }
 }
@@ -455,6 +455,37 @@ void ai_set_passenger(struct unit *punit, struct unit *passenger)
     }
     punit->ai.passenger = passenger->id;
   }
+}
+
+/**************************************************************************
+  Returns the number of available boats.  A simple accessor made to perform 
+  debug checks.
+**************************************************************************/
+int ai_available_boats(struct player *pplayer)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  /* To developer: Switch this checking on when testing some new 
+   * ferry code. */
+#if 0
+  int boats = 0;
+
+  unit_list_iterate(pplayer->units, punit) {
+    struct tile *ptile = map_get_tile(punit->x, punit->y);
+
+    if (is_sailing_unit(punit) && is_ground_units_transport(punit) 
+	&& punit->ai.passenger == FERRY_AVAILABLE) {
+      boats++;
+    }
+  } unit_list_iterate_end;
+
+  if (boats != ai->stats.available_boats) {
+    freelog(LOG_ERROR, "Boats miscounted: recorded %d but in reality %d",
+	    ai->stats.available_boats, boats);
+  }
+#endif
+
+  return ai->stats.available_boats;
 }
 
 /**************************************************************************
