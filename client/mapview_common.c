@@ -734,12 +734,6 @@ void put_unit(struct unit *punit, bool stacked, bool backdrop,
 			unit_width, unit_height);
     }
   }
-
-  if (punit->occupy != 0) {
-    canvas_put_sprite(pcanvas, canvas_x, canvas_y,
-		      sprites.unit.stack,
-		      unit_offset_x, unit_offset_y, unit_width, unit_height);
-  }
 }
 
 /**************************************************************************
