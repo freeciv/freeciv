@@ -377,10 +377,10 @@ void ai_manage_taxes(struct player *pplayer)
         if (incity && pcity->shield_surplus < 0) {
           if (incity == pcity) {
             if (visitor) {
+printf("Disbanding %s in %s\n", unit_types[punit->type].name, pcity->name);
               pack.unit_id = punit->id;
               handle_unit_disband(pplayer, &pack);
               city_refresh(pcity);
-printf("Disbanding %s in %s\n", unit_types[punit->type].name, pcity->name);
             } else visitor = punit;
           } else if (incity->shield_surplus > 0) {
             pack.unit_id = punit->id;
@@ -392,10 +392,10 @@ printf("Reassigning %s from %s to %s\n", unit_types[punit->type].name, pcity->na
         } /* end if */
       unit_list_iterate_end;
       if (pcity->shield_surplus < 0 && visitor) { /* AAAAAAAaaaaaaaAAAAAAAaaaaaaaAAAAAAA */
+printf("Disbanding %s in %s\n", unit_types[visitor->type].name, pcity->name);
         pack.unit_id = visitor->id;
         handle_unit_disband(pplayer, &pack);
         city_refresh(pcity);
-printf("Disbanding %s in %s\n", unit_types[visitor->type].name, pcity->name);
       }
     } /* end if we can't meet payroll */
     send_city_info(city_owner(pcity), pcity, 1);
