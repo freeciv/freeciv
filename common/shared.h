@@ -92,7 +92,7 @@ bool bv_check_mask(unsigned char *vec1, unsigned char *vec2, size_t size1,
   bv_check_mask((vec1).vec, (vec2).vec, sizeof((vec1).vec), sizeof((vec2).vec))
 
 #define BV_DEFINE(name, bits) \
-  typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name;
+  typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name
 
 char *create_centered_string(const char *s);
 
