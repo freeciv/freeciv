@@ -28,6 +28,7 @@
 #include "log.h"
 #include "game.h"
 #include "map.h"
+#include "version.h"
 
 #include "chatline.h"
 #include "civclient.h"
@@ -45,7 +46,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
-#include "version.h"
+
 #include "gui_main.h"
 
 #include "freeciv.ico"
@@ -814,10 +815,6 @@ int ui_main(int argc, char **argv)
         			NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, -1);
 
   load_options();
-
-  /* This seed is not saved anywhere; randoms in the client should
-     have cosmetic effects only (eg city name suggestions).  --dwp */
-  mysrand(time(NULL));
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 
