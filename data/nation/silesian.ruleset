@@ -10,8 +10,9 @@ leader = "Władysław Wygnaniec",
          "Henryk Pobożny",
 	 "Jerzy IV Wilhelm",
          "Józef Kożdoń",
-         "Jan Kustos" ;[sic!]
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+         "Jan Kustos",
+         "Wojciech Korfanty"
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.silesia"
 flag_alt = "-"
 city_style = "European"
@@ -68,4 +69,8 @@ cities =
   "Kędzierzyn-Koźle",
   "Chorzów",
   "Bielsko",
-  "Cieszyn"
+  "Cieszyn",
+  "Siemianowice Śląskie",
+  "Wojkowice",
+  "Będzin",
+  "Czeladź"
