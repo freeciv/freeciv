@@ -514,7 +514,6 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   struct unit *plooser, *pwinner;
   struct unit old_punit = *punit;	/* Used for new ship algorithm. -GJW */
   struct city *pcity;
-  struct city *nearcity1, *nearcity2;
   int def_x = pdefender->x, def_y = pdefender->y;
   
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
@@ -612,9 +611,6 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       send_packet_unit_combat(pconn, &combat);
     }
   } conn_list_iterate_end;
-
-  nearcity1 = dist_nearest_city(get_player(pwinner->owner), def_x, def_y, 0, 0);
-  nearcity2 = dist_nearest_city(get_player(plooser->owner), def_x, def_y, 0, 0);
   
   if(punit==plooser) {
     /* The attacker lost */
@@ -629,7 +625,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 		     " from %s's %s."),
 		     unit_name(pwinner->type), 
 		     get_location_str_in(get_player(pwinner->owner),
-					 pwinner->x, pwinner->y, " "),
+					 pwinner->x, pwinner->y),
 		     get_player(plooser->owner)->name,
 		     unit_name(plooser->type));
     
@@ -640,7 +636,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 		     get_player(pwinner->owner)->name,
 		     unit_name(pwinner->type),
 		     get_location_str_at(get_player(plooser->owner),
-					 pwinner->x, pwinner->y, " "));
+					 pwinner->x, pwinner->y));
     wipe_unit(plooser);
   }
   else {
@@ -660,7 +656,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 		     get_player(plooser->owner)->name,
 		     unit_name(plooser->type),
 		     get_location_str_at(get_player(pwinner->owner),
-					 plooser->x, plooser->y, " "));
+					 plooser->x, plooser->y));
     kill_unit(pwinner, plooser);
                /* no longer pplayer - want better msgs -- Syela */
   }
@@ -1250,7 +1246,6 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer;
-  struct city *pnewcity;
 
   /* if not at war, may peacefully enter city */
   if (!players_at_war(pplayer->player_no, pcity->owner))
@@ -1342,7 +1337,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   get_a_tech(pplayer, cplayer);
   make_partisans(pcity);
 
-  pnewcity = transfer_city(pplayer, cplayer, pcity , 0, 0, 1, 1);
+  transfer_city(pplayer, cplayer, pcity , 0, 0, 1, 1);
   send_player_info(pplayer, pplayer); /* Update techs */
 
   if (do_civil_war)

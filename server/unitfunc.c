@@ -670,12 +670,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		      unit_name (pdiplomat->type),
 		      pplayer->future_tech, cplayer->name);
     notify_player_ex (cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		      _("Game: A%s %s %s stole Future Tech. %d"
-			" from %s."),
-		      n_if_vowel (get_nation_name (pplayer->nation)[0]),
-		      get_nation_name (pplayer->nation),
-		      unit_name (pdiplomat->type),
-		      pplayer->future_tech, pcity->name);
+		      _("Game: Future Tech. %d stolen by %s %s from %s."),
+		      pplayer->future_tech, get_nation_name (pplayer->nation),
+		      unit_name (pdiplomat->type), pcity->name);
     gamelog (GAMELOG_TECH, "%s steals Future Tech. %d from the %s",
 	     get_nation_name_plural (pplayer->nation),
 	     pplayer->future_tech,
@@ -805,9 +802,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 			" of inciting a revolt!"),
 		      unit_name (pdiplomat->type));
     notify_player_ex (cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		      _("Game: You caught a%s %s %s attempting"
+		      _("Game: You caught %s %s attempting"
 			" to incite a revolt in %s!"),
-		      n_if_vowel (get_nation_name (pplayer->nation)[0]),
 		      get_nation_name (pplayer->nation),
 		      unit_name (pdiplomat->type), pcity->name);
     wipe_unit (pdiplomat);
@@ -910,9 +906,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			" of industrial sabotage!"),
 		      unit_name (pdiplomat->type));
     notify_player_ex (cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		      _("Game: You caught a%s %s %s attempting"
+		      _("Game: You caught %s %s attempting"
 			" sabotage in %s!"),
-		      n_if_vowel (get_nation_name (pplayer->nation)[0]),
 		      get_nation_name (pplayer->nation),
 		      unit_name (pdiplomat->type), pcity->name);
     wipe_unit (pdiplomat);
@@ -1047,9 +1042,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			    " of sabotage!"),
 			  unit_name (pdiplomat->type));
 	notify_player_ex (cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			  _("Game: You caught a%s %s %s attempting"
+			  _("Game: You caught %s %s attempting"
 			    " to sabotage the %s in %s!"),
-			  n_if_vowel (get_nation_name (pplayer->nation)[0]),
 			  get_nation_name (pplayer->nation),
 			  unit_name (pdiplomat->type),
 			  get_improvement_name (improvement), pcity->name);
@@ -1164,9 +1158,7 @@ static int diplomat_infiltrate_city (struct player *pplayer, struct player *cpla
 			  unit_name (punit->type),
 			  pcity->name);
 	notify_player_ex (cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-			  _("Game: A%s %s %s was eliminated"
-			    " while infiltrating %s."), 
-			  n_if_vowel (get_nation_name (pplayer->nation)[0]),
+			  _("Game: Eliminated %s %s while infiltrating %s."), 
 			  get_nation_name (pplayer->nation),
 			  unit_name (pdiplomat->type),
 			  pcity->name);
@@ -1258,8 +1250,8 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 static void maybe_cause_incident(enum diplomat_actions action, struct player *offender,
  				 struct unit *victim_unit, struct city *victim_city)
 {
-  struct player *victim_player;
-  int x,y;
+  struct player *victim_player = 0;
+  int x = 0, y = 0;
   if (victim_city) {
     x = victim_city->x;
     y = victim_city->y;
@@ -1460,7 +1452,7 @@ void player_restore_units(struct player *pplayer)
 		      improvement_types[B_LEONARDO].name,
 		      get_unit_type(punit->type)->name,
 		      get_unit_type(upgrade_type)->name,
-		      get_location_str_in(pplayer, punit->x, punit->y, ", "));
+		      get_location_str_in(pplayer, punit->x, punit->y));
 	punit->veteran = 0;
 	upgrade_unit(punit,upgrade_type);
 	leonardo = leonardo_variant;
@@ -2804,13 +2796,11 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 	  ITERATOR_NEXT((*iter));
 	}
 	notify_player_ex(get_player(playerid), x, y, E_UNIT_LOST,
-			 _("Game: You lost a%s %s when %s lost."),
-			 n_if_vowel(get_unit_type(pcargo->type)->name[0]),
+			 _("Game: %s lost when %s was lost."),
 			 get_unit_type(pcargo->type)->name,
 			 get_unit_type(punit->type)->name);
-	gamelog(GAMELOG_UNITL, "%s lose a%s %s when %s lost", 
+	gamelog(GAMELOG_UNITL, "%s lose %s when %s lost", 
 		get_nation_name_plural(game.players[playerid].nation),
-		n_if_vowel(get_unit_type(pcargo->type)->name[0]),
 		get_unit_type(pcargo->type)->name,
 		get_unit_type(punit->type)->name);
 	server_remove_unit(pcargo);
@@ -2848,7 +2838,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   struct city   *incity    = map_get_city(punit->x, punit->y);
   struct player *pplayer   = get_player(punit->owner);
   struct player *destroyer = get_player(pkiller->owner);
-  char *loc_str = get_location_str_in(pplayer, punit->x, punit->y, ", ");
+  char *loc_str = get_location_str_in(pplayer, punit->x, punit->y);
   int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int ransom, unitcount = 0;
   
@@ -2878,13 +2868,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
       (map_get_special(punit->x, punit->y)&S_AIRBASE) ||
       unitcount == 1) {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
-		     _("Game: You lost a%s %s under an attack from %s's %s%s."),
-		     n_if_vowel(get_unit_type(punit->type)->name[0]),
+		     _("Game: %s lost to an attack by %s's %s%s."),
 		     get_unit_type(punit->type)->name, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
-    gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
+    gamelog(GAMELOG_UNITL, "%s lose %s to the %s",
 	    get_nation_name_plural(pplayer->nation),
-	    n_if_vowel(get_unit_type(punit->type)->name[0]),
 	    get_unit_type(punit->type)->name,
 	    get_nation_name_plural(destroyer->nation));
 
@@ -2910,7 +2898,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i]>0) {
 	notify_player_ex(get_player(i), punit->x, punit->y, E_UNIT_LOST,
-			 _("Game: You lost %d units under an attack"
+			 _("Game: You lost %d units to an attack"
 			   " from %s's %s%s."),
 			 num_killed[i], destroyer->name,
 			 unit_name(pkiller->type), loc_str);
@@ -2922,14 +2910,12 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
       if (players_at_war(pkiller->owner, punit2->owner)) {
 	notify_player_ex(unit_owner(punit2), 
 			 punit2->x, punit2->y, E_UNIT_LOST,
-			 _("Game: You lost a%s %s under an attack"
+			 _("Game: %s lost to an attack"
 			   " from %s's %s."),
-			 n_if_vowel(get_unit_type(punit2->type)->name[0]),
 			 get_unit_type(punit2->type)->name, destroyer->name,
 			 unit_name(pkiller->type));
-	gamelog(GAMELOG_UNITL, "%s lose a%s %s to the %s",
+	gamelog(GAMELOG_UNITL, "%s lose %s to the %s",
 		get_nation_name_plural(get_player(punit2->owner)->nation),
-		n_if_vowel(get_unit_type(punit2->type)->name[0]),
 		get_unit_type(punit2->type)->name,
 		get_nation_name_plural(destroyer->nation));
 	wipe_unit_spec_safe(punit2, NULL, 0);
@@ -3003,12 +2989,9 @@ void advance_unit_focus(struct unit *punit)
   inside the city, otherwise when it happens "at" but "outside" the city.
   Eg, when an attacker fails, the attacker dies "at" the city, but
   not "in" the city (since the attacker never made it in).
-  The prefix is prepended to the message, _except_ for the last case; eg,
-  for adding space/punctuation between rest of message and location string.
   Don't call this function directly; use the wrappers below.
 **************************************************************************/
-static char *get_location_str(struct player *pplayer, int x, int y,
-				       char *prefix, int use_at)
+static char *get_location_str(struct player *pplayer, int x, int y, int use_at)
 {
   static char buffer[MAX_LEN_NAME+64];
   struct city *incity, *nearcity;
@@ -3016,19 +2999,19 @@ static char *get_location_str(struct player *pplayer, int x, int y,
   incity = map_get_city(x, y);
   if (incity) {
     if (use_at) {
-      my_snprintf(buffer, sizeof(buffer), _("%sat %s"), prefix, incity->name);
+      my_snprintf(buffer, sizeof(buffer), _(" at %s"), incity->name);
     } else {
-      my_snprintf(buffer, sizeof(buffer), _("%sin %s"), prefix, incity->name);
+      my_snprintf(buffer, sizeof(buffer), _(" in %s"), incity->name);
     }
   } else {
     nearcity = dist_nearest_city(pplayer, x, y, 0, 0);
     if (nearcity) {
       if (is_tiles_adjacent(x, y, nearcity->x, nearcity->y)) {
 	my_snprintf(buffer, sizeof(buffer),
-		   _("%soutside %s"), prefix, nearcity->name);
+		   _(" outside %s"), nearcity->name);
       } else {
 	my_snprintf(buffer, sizeof(buffer),
-		    _("%snear %s"), prefix, nearcity->name);
+		    _(" near %s"), nearcity->name);
       }
     } else {
       buffer[0] = '\0';
@@ -3037,14 +3020,20 @@ static char *get_location_str(struct player *pplayer, int x, int y,
   return buffer;
 }
 
-char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix)
+/**************************************************************************
+  See get_location_str() above.
+**************************************************************************/
+char *get_location_str_in(struct player *pplayer, int x, int y)
 {
-  return get_location_str(pplayer, x, y, prefix, 0);
+  return get_location_str(pplayer, x, y, 0);
 }
 
-char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix)
+/**************************************************************************
+  See get_location_str() above.
+**************************************************************************/
+char *get_location_str_at(struct player *pplayer, int x, int y)
 {
-  return get_location_str(pplayer, x, y, prefix, 1);
+  return get_location_str(pplayer, x, y, 1);
 }
 
 /**************************************************************************
@@ -3426,7 +3415,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
   struct city *homecity = NULL;
   struct player *pplayer = get_player(punit->owner);
   /*  struct government *g = get_gov_pplayer(pplayer);*/
-  int sentfrom = 0, sentto = 0, senthome = 0;
+  int senthome = 0;
   if (punit->homecity)
     homecity = find_city_by_id(punit->homecity);
 
@@ -3455,7 +3444,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
 	city_refresh(homecity);
 	send_city_info(pplayer, homecity);
       }
-      senthome = sentto = 1;
+      senthome = 1;
     }
 
     if (fromcity && fromcity->owner == punit->owner) { /* leaving a city */
@@ -3463,11 +3452,11 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
 	city_refresh(homecity);
 	send_city_info(pplayer, homecity);
       }
-      if (fromcity != homecity && !sentfrom) {
+      if (fromcity != homecity) {
 	city_refresh(fromcity);
 	send_city_info(pplayer, fromcity);
       }
-      senthome = sentfrom = 1;
+      senthome = 1;
     }
 
     /* entering/leaving a fortress */

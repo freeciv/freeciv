@@ -76,8 +76,8 @@ int move_unit(struct unit *punit, const int dest_x, const int dest_y,
 void assign_units_to_transporter(struct unit *ptrans, int take_from_land);
 void advance_unit_focus(struct unit *punit);
 
-char *get_location_str_in(struct player *pplayer, int x, int y, char *prefix);
-char *get_location_str_at(struct player *pplayer, int x, int y, char *prefix);
+char *get_location_str_in(struct player *pplayer, int x, int y);
+char *get_location_str_at(struct player *pplayer, int x, int y);
 
 enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity);
 

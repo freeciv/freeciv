@@ -183,7 +183,7 @@ void boot_help_texts(void)
 
   struct section_file file, *sf = &file;
   char *filename;
-  struct help_item *pitem = NULL;
+  struct help_item *pitem;
   int i, isec;
   char **sec, **paras;
   int nsec, npara;
@@ -220,16 +220,14 @@ void boot_help_texts(void)
   sec = secfile_get_secnames_prefix(sf, "help_", &nsec);
   
   for(isec=0; isec<nsec; isec++) {
-    
-    enum help_page_type current_type = HELP_ANY;
     char *gen_str =
       secfile_lookup_str_default(sf, NULL, "%s.generate", sec[isec]);
     
     if (gen_str) {
+      enum help_page_type current_type = HELP_ANY;
       if (!booted) {
 	continue; /* on initial boot data tables are empty */
       }
-      current_type = HELP_ANY;
       for(i=2; help_type_names[i]; i++) {
 	if(strcmp(gen_str, help_type_names[i])==0) {
 	  current_type = i;
@@ -513,9 +511,8 @@ void helptext_improvement(char *buf, int which, const char *user_text)
     if(improvement_exists(B_SEWER)) {
       char *s = improvement_types[B_SEWER].name;
       sprintf(buf+strlen(buf),
-	      _("(A%s %s is also required for a city to grow larger"
-		" than size %d.)  "),
-	      n_if_vowel(*s), s, game.sewer_size);
+	      _("(The %s improvement is also required for a city to grow"
+		" larger than size %d.)  "), s, game.sewer_size);
     }
     strcat(buf,"\n");
   }

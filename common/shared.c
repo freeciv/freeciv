@@ -54,20 +54,6 @@ static char *grouping = "\3";
 static char *grouping_sep = ",";
 static size_t grouping_sep_len = 1;
 
-
-/**************************************************************************
-  FIXME:  This is an inelegant, English-specific kludge that fails to
-  work correctly even in the limited case of English, e.g. "An hour".
-  It should be put to sleep in favour of a more general solution.
-**************************************************************************/
-char *n_if_vowel(char ch)
-{
-	if (strchr("AEIOUaeiou",ch))
-		return "n";
-	else
-		return "";
-}
-
 /***************************************************************
   Take a string containing multiple lines and create a copy where
   each line is padded to the length of the longest line and centered.
