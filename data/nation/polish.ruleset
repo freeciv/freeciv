@@ -31,13 +31,15 @@ wonder="Copernicus' Observatory"
 government="Democracy"
 
 cities =
- "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Gdansk",
- "Szczecin", "Lódz", "Torun", "Bydgoszcz", "Lublin", "Czestochowa",
- "Olsztyn", "Wloclawek", "Radom", "Kolobrzeg", "Kielce", "Bialystok",
- "Plock", "Rzeszów", "Tarnów", "Katowice", "Bielsko-Biala",
- "Sandomierz", "Legnica", "Walbrzych", "Gdynia", "Koszalin",
- "Slupsk", "Piotrków", "Konin", "Kalisz", "Krosno", "Przemysl",
- "Tarnobrzeg", "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane",
- "Oswiecim", "Glogow", "Jawor", "Zielona Gora", "Jelenia Gora",
- "Boleslawiec", "Gorzow", "Hel", "Puck","Opole", "Kolo"
+ "Gniezno", "Kraków", "Warszawa (river)", "Wroclaw", "Poznan", 
+ "Gdansk (ocean)", "Szczecin", "Lódz", "Torun", "Bydgoszcz", "Lublin", 
+ "Czestochowa", "Olsztyn", "Wloclawek", "Radom", "Kolobrzeg (ocean)", 
+ "Kielce", "Bialystok", "Plock", "Rzeszów", "Tarnów", "Katowice", 
+ "Bielsko-Biala", "Sandomierz", "Legnica", "Walbrzych", "Gdynia", 
+ "Koszalin", "Slupsk", "Piotrków", "Konin", "Kalisz", "Krosno", 
+ "Przemysl", "Tarnobrzeg", "Zamosc", "Chelm", "Suwalki", "Elblag", 
+ "Zakopane (mountains)", "Oswiecim", "Glogow", "Jawor", 
+ "Zielona Gora (hills, forest)",  "Jelenia Gora (hills)",
+ "Boleslawiec", "Gorzow", "Hel", "Puck","Opole", "Kolo", 
+ "Wisla (mountains, river)", "Klodzko"
 
