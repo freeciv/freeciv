@@ -121,10 +121,11 @@ enum city_tile_type get_worker_city(struct city *pcity, int city_x, int city_y)
 **************************************************************************/
 int is_worker_here(struct city *pcity, int city_x, int city_y) 
 {
-  if (x < 0 || x > 4 || y < 0 || y > 4 || ((x == 0 || x == 4) && (y == 0|| y==4))) {
+  if (!is_valid_city_coords(city_x, city_y)) {
     return 0;
   }
-  return (get_worker_city(pcity,x,y)==C_TILE_WORKER); 
+
+  return get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER;
 }
 
 /**************************************************************************
