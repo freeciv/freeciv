@@ -5,6 +5,10 @@ dnl Initialize with some random file to ensure the source is here.
 AC_INIT(common/game.c)
 AM_CONFIG_HEADER(config.h)
 
+dnl May not be quite correct, but autoconf version 2.9 is reported 
+dnl not to work, and version 2.12 is known to work:
+AC_PREREQ(2.12)
+
 PACKAGE=freeciv
 
 dnl client/server should always have the same major and minor versions
