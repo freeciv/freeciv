@@ -2418,7 +2418,7 @@ static bool unit_enter_hut(struct unit *punit)
     return ok;
   }
 
-  map_get_tile(punit->x, punit->y)->special^=S_HUT;
+  map_clear_special(punit->x, punit->y, S_HUT);
   send_tile_info(NULL, punit->x, punit->y);
 
   if (game.rgame.hut_overflight==OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {

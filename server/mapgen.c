@@ -1395,7 +1395,7 @@ static void make_huts(int number)
 	) {
       if (!is_hut_close(x,y)) {
 	number--;
-	map_get_tile(x,y)->special|=S_HUT;
+	map_set_special(x, y, S_HUT);
 	/* Don't add to islands[].goodies because islands[] not
 	   setup at this point, except for generator>1, but they
 	   have pre-set starters anyway. */
@@ -1416,10 +1416,10 @@ static void add_specials(int prob)
 	  if (!is_special_close(x,y)) {
 	    if (tile_types[ttype].special_1_name[0] != '\0' &&
 		(tile_types[ttype].special_2_name[0] == '\0' || (myrand(100)<50))) {
-	      map_get_tile(x,y)->special|=S_SPECIAL_1;
+	      map_set_special(x, y, S_SPECIAL_1);
 	    }
 	    else if (tile_types[ttype].special_2_name[0] != '\0') {
-	      map_get_tile(x,y)->special|=S_SPECIAL_2;
+	      map_set_special(x, y, S_SPECIAL_2);
 	    }
 	  }
 	}
