@@ -884,7 +884,6 @@ static gboolean worklist_key_pressed_callback(GtkWidget * w,
       break;
     default:
       return FALSE;
-      break;
     }
     return TRUE;
   }
@@ -922,7 +921,6 @@ static gboolean targets_key_pressed_callback(GtkWidget * w,
       break;
     default:
       return FALSE;
-      break;
     }
     return TRUE;
   }

@@ -553,7 +553,6 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
       break;
     default:
       return FALSE;
-      break;
     }
     return TRUE;
   }
