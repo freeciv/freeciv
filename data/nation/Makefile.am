@@ -42,13 +42,11 @@ pkgdata_DATA =			\
 	japanese.ruleset	\
 	kenyan.ruleset		\
 	korean.ruleset		\
-	krevi.ruleset		\
 	latvian.ruleset		\
 	lithuanian.ruleset	\
 	misc_cities.ruleset	\
 	mongol.ruleset		\
 	mordor.ruleset		\
-	olympic.ruleset		\
 	persian.ruleset		\
 	polish.ruleset		\
 	portuguese.ruleset	\
