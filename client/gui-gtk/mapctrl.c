@@ -489,5 +489,5 @@ void focus_to_next_unit(void)
 **************************************************************************/
 void set_turn_done_button_state(int state)
 {
-  gtk_widget_set_sensitive(turn_done_button, FALSE);
+  gtk_widget_set_sensitive(turn_done_button, state);
 }
