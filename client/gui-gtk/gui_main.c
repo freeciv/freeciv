@@ -648,9 +648,10 @@ void ui_main(int argc, char **argv)
      assumption is not quite true, but used to work more or less.
      This is a workaround until we can fix the problem properly
      in the next release.  */
-
-  if (!strcmp(setlocale(LC_CTYPE, NULL), "C"))
-    setenv("LC_CTYPE", "en_US.ISO8859-1", TRUE);
+#ifdef HAVE_PUTENV
+  if (!strcmp(setlocale(LC_CTYPE, (const char *)NULL), "C"))
+    putenv("LC_CTYPE=en_US.ISO8859-1");
+#endif
 #endif
 
   gtk_set_locale();
