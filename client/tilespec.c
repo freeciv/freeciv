@@ -3135,7 +3135,17 @@ struct Sprite *load_sprite(const char *tag_name)
 	exit(EXIT_FAILURE);
       }
     } else {
+      int sf_w, sf_h;
+
       ensure_big_sprite(ss->sf);
+      get_sprite_dimensions(ss->sf->big_sprite, &sf_w, &sf_h);
+      if (ss->x < 0 || ss->x + ss->width > sf_w
+	  || ss->y < 0 || ss->y + ss->height > sf_h) {
+	freelog(LOG_ERROR,
+		"Sprite '%s' in file '%s' isn't within the image!",
+		tag_name, ss->sf->file_name);
+	return NULL;
+      }
       ss->sprite =
 	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
 		    NULL, -1, -1);
