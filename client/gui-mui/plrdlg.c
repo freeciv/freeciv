@@ -233,7 +233,6 @@ static void players_active(void)
 
   set(player_meet_button, MUIA_Disabled, TRUE);
   set(player_intelligence_button, MUIA_Disabled, TRUE);
-  set(player_war_button, MUIA_Disabled, TRUE);
 }
 
 /**************************************************************************
