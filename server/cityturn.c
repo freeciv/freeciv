@@ -80,8 +80,6 @@ static void nullify_caravan_and_disband_plus(struct city *pcity);
 static void worker_loop(struct city *pcity, int *foodneed,
 			int *prodneed, int *workers);
 
-static void advisor_choose_build(struct player *pplayer, struct city *pcity);
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -618,7 +616,7 @@ static void city_populate(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static void advisor_choose_build(struct player *pplayer, struct city *pcity)
+void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice choice;
   int id=-1;

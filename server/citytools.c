@@ -915,9 +915,13 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     city_add_improvement(pcity, i);
   } built_impr_iterate_end;
 
-  /* If the city was building something we haven't invented we
-     must change production. */
-  /* advisor_choose_build(pcity);  we add the civ bug here :) */
+  /* Set production to something valid for pplayer, if not. */
+  if ((pcity->is_building_unit
+       && !can_build_unit_direct(pcity, pcity->currently_building))
+      || (!pcity->is_building_unit
+          && !can_build_improvement(pcity, pcity->currently_building))) {
+    advisor_choose_build(ptaker, pcity);
+  } 
 
   send_city_info(NULL, pcity);
 
