@@ -1114,7 +1114,7 @@ int handle_unit_establish_trade(struct player *pplayer,
   connection_do_buffer(pplayer->conn);
   notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
 		   _("Game: Your %s from %s has arrived in %s,"
-		   " and revenues amount to %d in gold."), 
+		   " and revenues amount to %d in gold and research."), 
 		   unit_name(punit->type), pcity_homecity->name,
 		   pcity_dest->name, revenue);
   wipe_unit(0, punit);
