@@ -1636,9 +1636,9 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
   gtk_tooltips_disable(pdialog->tips);
 
-  for (i=0; i<n; i++) {
+  i=0;
+  unit_list_iterate(*units, punit) {
     GtkWidget *cmd, *pix;
-    struct unit *punit = unit_list_get(units, i);
     
     cmd = pdialog->overview.supported_unit_nodes[i].cmd;
     pix = pdialog->overview.supported_unit_nodes[i].pix;
@@ -1673,7 +1673,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
     gtk_widget_show(pix);
     gtk_widget_show(cmd);
-  }
+    i++;
+  } unit_list_iterate_end;
 
   gtk_tooltips_enable(pdialog->tips);
 
@@ -1733,9 +1734,9 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
   gtk_tooltips_disable(pdialog->tips);
 
-  for (i=0; i<n; i++) {
+  i=0;
+  unit_list_iterate(*units, punit) {
     GtkWidget *cmd, *pix;
-    struct unit *punit = unit_list_get(units, i);
     
     cmd = pdialog->overview.present_unit_nodes[i].cmd;
     pix = pdialog->overview.present_unit_nodes[i].pix;
@@ -1767,7 +1768,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
     gtk_widget_show(pix);
     gtk_widget_show(cmd);
-  }
+    i++;
+  } unit_list_iterate_end;
 
   gtk_tooltips_enable(pdialog->tips);
 
