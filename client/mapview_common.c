@@ -1611,13 +1611,16 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 void move_unit_map_canvas(struct unit *punit,
 			  int map_x, int map_y, int dx, int dy)
 {
-  static struct timer *anim_timer = NULL; 
+  static struct timer *anim_timer = NULL;
   int dest_x, dest_y;
 
   /* only works for adjacent-square moves */
   if (dx < -1 || dx > 1 || dy < -1 || dy > 1 || (dx == 0 && dy == 0)) {
     return;
   }
+
+  /* Go ahead and start the timer. */
+  anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
   if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
     set_hover_state(NULL, HOVER_NONE);
@@ -1632,9 +1635,11 @@ void move_unit_map_canvas(struct unit *punit,
 
   if (tile_visible_mapcanvas(map_x, map_y)
       || tile_visible_mapcanvas(dest_x, dest_y)) {
-    int i, steps;
     int start_x, start_y;
     int canvas_dx, canvas_dy;
+    double timing_sec = (double)smooth_move_unit_msec / 1000.0, mytime;
+
+    assert(smooth_move_unit_msec > 0);
 
     if (is_isometric) {
       if (dx == 0) {
@@ -1667,50 +1672,40 @@ void move_unit_map_canvas(struct unit *punit,
       canvas_dy = NORMAL_TILE_HEIGHT * dy;
     }
 
-    /* Sanity check on the number of steps. */
-    if (smooth_move_unit_steps < 2) {
-      steps = 2;
-    } else if (smooth_move_unit_steps > MAX(abs(canvas_dx),
-					    abs(canvas_dy))) {
-      steps = MAX(abs(canvas_dx), abs(canvas_dy));
-    } else {
-      steps = smooth_move_unit_steps;
-    }
-
     map_to_canvas_pos(&start_x, &start_y, map_x, map_y);
     if (is_isometric) {
       start_y -= NORMAL_TILE_HEIGHT / 2;
     }
 
-    for (i = 1; i <= steps; i++) {
-      int this_x, this_y;
+    /* Flush before we start animating. */
+    flush_dirty();
+    gui_flush();
 
-      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    do {
+      int new_x, new_y;
 
-      this_x = start_x + (i * canvas_dx) / steps;
-      this_y = start_y + (i * canvas_dy) / steps;
+      mytime = MIN(read_timer_seconds(anim_timer), timing_sec);
+
+      new_x = start_x + canvas_dx * (mytime / timing_sec);
+      new_y = start_y + canvas_dy * (mytime / timing_sec);
 
       /* Backup the canvas store to the single_tile canvas. */
       canvas_copy(mapview_canvas.single_tile, mapview_canvas.store,
-		  this_x, this_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+		  new_x, new_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
       /* Draw */
-      put_unit_full(punit, mapview_canvas.store, this_x, this_y);
-      dirty_rect(this_x, this_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      put_unit_full(punit, mapview_canvas.store, new_x, new_y);
+      dirty_rect(new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
       /* Flush. */
       flush_dirty();
       gui_flush();
 
-      if (i < steps) {
-	usleep_since_timer_start(anim_timer, 10000);
-      }
-
-      /* Restore the backup. */
+      /* Restore the backup.  It won't take effect until the next flush. */
       canvas_copy(mapview_canvas.store, mapview_canvas.single_tile,
-		  0, 0, this_x, this_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-      dirty_rect(this_x, this_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    }
+		  0, 0, new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      dirty_rect(new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    } while (mytime < timing_sec);
   }
 }
 

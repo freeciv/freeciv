@@ -1227,7 +1227,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
 
     map_distance_vector(&dx, &dy, punit->x, punit->y,
                         target_unit->x, target_unit->y);
-    if (smooth_move_units) {
+    if (smooth_move_unit_msec > 0) {
       move_unit_map_canvas(punit, x, y, dx, dy);
     }
     refresh_tile_mapcanvas(x, y, FALSE);

@@ -55,8 +55,7 @@ char default_sound_plugin_name[512] = "\0";
 
 bool solid_color_behind_units = FALSE;
 bool sound_bell_at_new_turn = FALSE;
-bool smooth_move_units = TRUE;
-int  smooth_move_unit_steps = 3;
+int  smooth_move_unit_msec = 30;
 bool do_combat_animation = TRUE;
 bool ai_popup_windows = FALSE;
 bool ai_manual_turn_done = FALSE;
@@ -94,8 +93,8 @@ static client_option common_options[] = {
 
   GEN_BOOL_OPTION(solid_color_behind_units, N_("Solid unit background color")),
   GEN_BOOL_OPTION(sound_bell_at_new_turn,   N_("Sound bell at new turn")),
-  GEN_BOOL_OPTION(smooth_move_units,        N_("Smooth unit moves")),
-  GEN_INT_OPTION(smooth_move_unit_steps,    N_("Smooth unit move steps")),
+  GEN_INT_OPTION(smooth_move_unit_msec,
+		 N_("Unit movement animation time (milliseconds)")),
   GEN_BOOL_OPTION(do_combat_animation,      N_("Show combat animation")),
   GEN_BOOL_OPTION(ai_popup_windows,         N_("Popup dialogs in AI Mode")),
   GEN_BOOL_OPTION(ai_manual_turn_done,      N_("Manual Turn Done in AI Mode")),
