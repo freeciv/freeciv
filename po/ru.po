@@ -1,7 +1,7 @@
 # Copyright (C) 1999-2004 Free Software Foundation, Inc.
-#  Dmitriy Genzel <dg@cs.brown.edu>, 2001-2004.
-#  Egor Vyscrebentov <evyscr@murom.net>, 2003-2004.
-#  Alexandr Menovchicov <orders@kypi.ru>, 2003-2004.
+#  Dmitriy Genzel <dg@cs.brown.edu>, 2001-2005.
+#  Egor Vyscrebentov <evyscr@murom.net>, 2003-2005.
+#  Alexandr Menovchicov <orders@kypi.ru>, 2003-2005.
 #
 #  Email all translators at: freeciv-ru@yahoogroups.com
 #
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: FreeCiv-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 18:42+0300\n"
-"PO-Revision-Date: 2005-01-27 19:28+0300\n"
+"PO-Revision-Date: 2005-01-28 15:42+0300\n"
 "Last-Translator: Alexandr Menovchicov <orders@kypi.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -337,9 +337,8 @@ msgstr ""
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:401
-#, fuzzy
 msgid "Surviving requirements are only supported at world range."
-msgstr "Морские начальные соединения пока ещё не поддерживаются, %s не создано."
+msgstr "Требования для выживания поддерживаются только в мировом масштабе."
 
 #. TRANS: Obscure ruleset error
 #: common/tech.c:112
@@ -589,6 +588,10 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/.\n"
 msgstr ""
+"Вы запустили Freeciv без использования iconv. Если\n"
+"Вы используете набор символов latin1, некоторые символы\n"
+"могут отображаться неправильно. Вы можете загрузить iconv\n"
+"по адресу http://gnu.org/.\n"
 
 #: utility/fciconv.c:204
 #, c-format
@@ -1408,9 +1411,8 @@ msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves DIR\tСохранить игры в каталог DIR\n"
 
 #: server/civserver.c:198
-#, fuzzy
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr "  -s, --server HOST\tПодключиться к серверу HOST\n"
+msgstr "-S, --Serverid ID\tУстанавливает идентификатор сервера в ID\n"
 
 #: server/civserver.c:199
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -3870,9 +3872,8 @@ msgid "Number of initial techs per player"
 msgstr "Начальное число технологий на каждого игрока"
 
 #: server/settings.c:474
-#, fuzzy
 msgid "At the beginning of the game, each player is given this many technologies. The technologies chosen are random for each player. Depending on the value of tech_cost_style in the ruleset, a big value for techlevel can make the next techs really expensive."
-msgstr "В начале игры каждый игрок получает указанное количество технологий. Технологии выбираются случайным образом для каждого игрока."
+msgstr "В начале игры каждый игрок получает указанное количество технологий. Технологии выбираются случайным образом для каждого игрока. В зависимости от значения переменной tech_cost_style в наборе правил игры, большее значение переменной для уровня технологий означает, что следующая технология будет стоить дороже."
 
 #: server/settings.c:483
 msgid "Points required to gain a new tech"
@@ -5171,24 +5172,24 @@ msgid "Can only use this command once game has begun."
 msgstr "Эту команду можно использовать только после начала игры."
 
 #: server/stdinhand.c:2228
-#, fuzzy, c-format
+#, c-format
 msgid "%s diplomacy no longer debugged"
-msgstr "Отладка %s закончена"
+msgstr "Отладка дипломатии %s выключена"
 
 #: server/stdinhand.c:2232
-#, fuzzy, c-format
+#, c-format
 msgid "%s diplomacy debugged"
-msgstr "Отладка %s начата"
+msgstr "Отладка дипломатии %s включена"
 
 #: server/stdinhand.c:2251
-#, fuzzy, c-format
+#, c-format
 msgid "%s tech no longer debugged"
-msgstr "Отладка %s закончена"
+msgstr "Отладка технологии %s выключена"
 
 #: server/stdinhand.c:2255
-#, fuzzy, c-format
+#, c-format
 msgid "%s tech debugged"
-msgstr "Отладка %s начата"
+msgstr "Отладка технологии %s включена"
 
 #: server/stdinhand.c:2269
 #: server/stdinhand.c:2299
@@ -5499,9 +5500,9 @@ msgid "Your new vote cancelled your previous vote."
 msgstr "Ваше новое голосование отменяет предыдущее голосование."
 
 #: server/stdinhand.c:3360
-#, fuzzy, c-format
+#, c-format
 msgid "New vote (number %d) by %s: %s."
-msgstr "Новый голос, номер %d, от %s: %s."
+msgstr "Новый голос (номер %d) от %s: %s."
 
 #: server/stdinhand.c:3380
 msgid "You are not allowed to use this command."
@@ -7599,6 +7600,8 @@ msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
 msgstr ""
+"Пути, состоящие более чем из 99 ходов, не поддерживаются.\n"
+"Сообщите о данной ошибке на bugs@freeciv.org."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -7610,7 +7613,7 @@ msgstr "Сохранить настройки при выходе из игры"
 
 #: client/options.c:83
 msgid "If this option is selected, options will be saved automatically when you exit Freeciv."
-msgstr ""
+msgstr "Если данная настройка включена, настройки будут сохранены автоматически при выходе из Freeciv."
 
 #: client/options.c:87
 msgid "Default player's login name"
@@ -8517,7 +8520,6 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Вероятность победы: А:%d%% З:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
-#. FIXME: veteran status isn't handled properly here.
 #: client/text.c:292
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
@@ -15630,7 +15632,7 @@ msgstr "<th>Аэродром</th><th>Крепость</th>\n"
 #: manual/civmanual.c:267
 #, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
-msgstr ""
+msgstr "<th>Очистка загрязнения</th><th>Очистка радиоактивного загрязнения</th>\n"
 
 #: manual/civmanual.c:268
 #, c-format
@@ -16200,6 +16202,21 @@ msgid ""
 "  W: wake up other units on tile\n"
 "  c: center view on unit\n"
 msgstr ""
+"Передвижение соединения:\n"
+"==============\n"
+"  1: идти на юго-запад\n"
+"  2: идти на юг\n"
+"  3: идти на юго-восток\n"
+"  4: идти на запад\n"
+"  6: идти на восток\n"
+"  7: идти на северо-запад\n"
+"  8: идти на север\n"
+"  9: идти на северо-восток\n"
+"\n"
+"  5: фокус на предыдущем соединении\n"
+"  w: фокус на следующем соединении (подождать)\n"
+"  W: разбудить другие соединения в квадрате\n"
+"  c: центрировать вид на соединении\n"
 
 #: data/helpdata.txt:484
 msgid ""
@@ -16214,9 +16231,18 @@ msgid ""
 "        Ctrl-P: show city production on/off\n"
 "             t: show city workers (mouse over or near city)\n"
 msgstr ""
+"Главная карта (Клавиатура):\n"
+"================\n"
+"    Shift-home: центрировать на столице\n"
+"  Shift-arrows: перемещение по карте\n"
+"        Ctrl-G: вкл./выкл. сетку\n"
+"        Ctrl-B: вкл./выкл. границы\n"
+"        Ctrl-N: вкл./выкл. названия городов\n"
+"        Ctrl-R: вкл./выкл. размер городов\n"
+"        Ctrl-P: вкл./выкл. городское производство\n"
+"             t: показать городских рабочих (наведите мышкой или около города)\n"
 
 #: data/helpdata.txt:495
-#, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -16242,30 +16268,29 @@ msgid ""
 "  The cities that become highlighted on the map,\n"
 "  will also be highlighted in the City Report."
 msgstr ""
-"Мышь:\n"
-"=====\n"
+"Главная карта (Мышь):\n"
+"=================\n"
 "  Щелчок левой кнопкой:  (на городе):    Открыть окно города\n"
-"                       (на соединении):  Активизировать соединение\n"
+"  Щелчок левой кнопкой:  (на соединении):  Активизировать соединение\n"
+"  Щелчок левой кнопкой на соединении и перемещение курсора:  Команда Идти к для соединения\n"
 "  Щелчок средней кнопкой:                Показать информацию о квадрате\n"
 "  Щелчок правой кнопкой:                 Центрировать вид на квадрате\n"
 "\n"
-"  Щелчок левой кнопкой + Shift: (город/соед.): Копировать производство(GTK)\n"
-"  Щелчок правой кнопкой + Shift: (город):      Вставить производство (GTK)\n"
+"  Щелчок левой кнопкой + Shift: Копировать производство (GTK)\n"
+"  Щелчок правой кнопкой + Shift на городе:      Вставить производство (GTK)\n"
 "\n"
-"  Щечок левой кнопкой + Shift + Control: Назначить рабочего с главной карты\n"
+"  Щечок левой кнопкой + Shift + Control: Назначить рабочего\n"
 "  Щелчок средней кнопкой + Control:      Пробудить сторожащие соединения\n"
 "\n"
-"  Щелкнуть правой кнопкой и тащить:  Войти в режим Выделения Ареала (GTK)\n"
-"\n"
-"  В режиме Выделения Ареала:\n"
+"  Режим выделения области (GTK):\n"
 "  ==========================\n"
+"  Щелкнуть правой кнопкой и тащить:  Войти в режим Выделения области (GTK)\n"
 "  Щелчок левой кнопкой:          Изменить подсветку квадрата\n"
-"  Щелчок правой кнопкой:         Покинуть режим Выделения Ареала\n"
-"\n"
 "  Щелчок правой кнопкой + Shift: Вставить производство в подсвеченные города\n"
+"  Щелчок правой кнопкой:         Покинуть режим Выделения области\n"
 "\n"
-"  Города, которые становятся подсвеченными на карте,\n"
-"  будут также подсвечены в окне Списка Городов."
+"  Подсвеченные города на карте,\n"
+"  будут также выделены в отчёте Города."
 
 #: data/helpdata.txt:519
 msgid ""
@@ -16289,6 +16314,25 @@ msgid ""
 "\n"
 "Shift-Return: Turn done"
 msgstr ""
+"Диалоги и Отчёты:\n"
+"====================\n"
+"     F1: открыть отчёт Города\n"
+"     F2: открыть отчёт Соединения\n"
+"     F3: открыть диалог Игроки\n"
+"     F5: открыть отчёт Экономика\n"
+"     F6: открыть отчёт Наука\n"
+"     F7: открыть отчёт Мировые чудеса света\n"
+"     F8: открыть отчёт Пять величайших городов мира\n"
+"     F9: открыть Сообщения\n"
+"    F11: открыть Демографический отчёт\n"
+"    F12: открыть отчёт Космический корабль\n"
+"\n"
+"      T: открыть диалог Налоговые ставки\n"
+"      F: открыть диалог Найти город\n"
+" Ctrl-L: открыть диалог Рабочие списки\n"
+"      R: открыть диалог Революция\n"
+"\n"
+"Shift-Enter: Закончить ход"
 
 #: data/helpdata.txt:543
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
@@ -16300,11 +16344,11 @@ msgstr "  - Сообщения, начинающиеся с '/' интерпретируются как команды сервера и
 
 #: data/helpdata.txt:549
 msgid "  - Messages starting with 'John:' are private messages to 'John'. Names can be abbreviated. The server looks for players named 'John' and if that fails tries to match a username beginning with 'John' (like 'Johnathan')."
-msgstr ""
+msgstr "  - Сообщения, начинающиеся с 'Джон:' являются приватными сообщениями для игрока по имени 'Джон'. Имена можно укорачивать. Сервер ищет игроков с именем 'Джон', если таких игроков не найдено, то ищем игроков, чьи имена начинаются с 'Джон' (например 'Джонатан')"
 
 #: data/helpdata.txt:554
 msgid "  - Messages starting with 'John::' are private messages as above, but will match only users (not players) named 'John'.  'Johnathan' will still match."
-msgstr "  - Сообщения, начинающиеся с 'Джон::' посылаются только игроку Джо; имена игроков могут быть сокращены."
+msgstr "  - Сообщения, начинающиеся с 'Джон::' являются приватными сообщениями, отправляются только пользователям (не игрокам) с именем 'Джон'. "
 
 #: data/helpdata.txt:558
 msgid "  - Messages starting with '.' will be sent only to all your allies."
@@ -21088,13 +21132,11 @@ msgid "?plural:Danes"
 msgstr "Датчане"
 
 #. TRANS: The third letter in "Blatand" should be
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xE5.
 #: data/nation/danish.ruleset:9
 msgid "The founding of the Danish kingdom is generally assigned to the reign of Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
 msgstr "Основание Датского королевства обычно относят к правлению Харальда Блатанда, который объединил Данию между 958 и 988 г. н. э."
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xFA.
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
 msgstr "Дунэдайн"
