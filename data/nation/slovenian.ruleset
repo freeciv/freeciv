@@ -1,7 +1,7 @@
 [nation_slovenian]
 
 name=_("Slovenian")
-plural=_("Slovenians")
+plural=_("?plural:Slovenians")
 leader="Valuka", "Valtunk", "Kocelj", "Primoz Trubar"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.slovenia"
@@ -31,5 +31,3 @@ cities =
   "Kocevje", "Zidani Most", "Brezice", "Krsko", "Catez", "Ormoz",
   "Sentilj", "Dravograd", "Ravne", "Lasko", "Trzic", "Kranjska Gora",
   "Sezana", "Savudrija", "Pivka"
-
-

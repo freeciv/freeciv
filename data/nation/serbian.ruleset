@@ -1,7 +1,7 @@
 [nation_serbian]
 
 name=_("Serbian")
-plural=_("Serbians")
+plural=_("?plural:Serbians")
 leader="Vlastimir", "Caslav", "Vojislav", "Mihailo", "Bodin", "Nemanja",
        "Stefan Prvovjencani", "Stefan Uros", "Milutin", "Dusan",
        "Karadorde Petrovic", "Milos Obrenovic", "Aleksandar Petrovic",
@@ -43,5 +43,3 @@ cities =
   "Backa Palanka", "Futog", "Petrovaradin", "Muzlja", "Srbobran",
   "Novi Becej", "Backo Petrovo Selo", "Kula", "Apatin", "Sivac",
   "Crvenka", "Ada", "Backa Topola", "Bajmok", "Kanjiza"
-
-

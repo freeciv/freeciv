@@ -147,6 +147,7 @@ data/nation/catalan.ruleset
 data/nation/chilean.ruleset
 data/nation/chinese.ruleset
 data/nation/cornish.ruleset
+data/nation/croatian.ruleset
 data/nation/czech.ruleset
 data/nation/danish.ruleset
 data/nation/dunedain.ruleset
@@ -180,9 +181,11 @@ data/nation/portuguese.ruleset
 data/nation/roman.ruleset
 data/nation/russian.ruleset
 data/nation/scottish.ruleset
+data/nation/serbian.ruleset
 data/nation/silesian.ruleset
 data/nation/singaporean.ruleset
 data/nation/sioux.ruleset
+data/nation/slovenian.ruleset
 data/nation/spanish.ruleset
 data/nation/swedish.ruleset
 data/nation/thai.ruleset
