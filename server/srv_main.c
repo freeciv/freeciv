@@ -445,6 +445,8 @@ Note: This does not give "time" to any player;
 **************************************************************************/
 static void begin_turn(void)
 {
+  freelog(LOG_DEBUG, "Begin turn");
+
   /* See if the value of fog of war has changed */
   if (game.fogofwar != game.fogofwar_old) {
     if (game.fogofwar) {
@@ -455,6 +457,20 @@ static void begin_turn(void)
       game.fogofwar_old = FALSE;
     }
   }
+
+  freelog(LOG_DEBUG, "Shuffleplayers");
+  shuffle_players();
+
+  sanity_check();
+}
+
+/**************************************************************************
+  Begin a phase of movement.  This handles all beginning-of-phase actions
+  for one or more players.
+**************************************************************************/
+static void begin_phase(void)
+{
+  freelog(LOG_DEBUG, "Begin phase");
 
   conn_list_do_buffer(&game.game_connections);
 
@@ -478,6 +494,12 @@ static void begin_turn(void)
       ai_diplomacy_actions(pplayer);
     }
   } players_iterate_end;
+
+  freelog(LOG_DEBUG, "Aistartturn");
+  ai_start_turn();
+  send_start_turn_to_clients();
+
+  sanity_check();
 }
 
 /**************************************************************************
@@ -1337,18 +1359,10 @@ static void main_loop(void)
 
   while(server_state==RUN_GAME_STATE) {
     /* absolute beginning of a turn */
-    freelog(LOG_DEBUG, "Begin turn");
     begin_turn();
-
-    sanity_check();
+    begin_phase();
 
     force_end_of_sniff = FALSE;
-
-    freelog(LOG_DEBUG, "Shuffleplayers");
-    shuffle_players();
-    freelog(LOG_DEBUG, "Aistartturn");
-    ai_start_turn();
-    send_start_turn_to_clients();
 
     /* 
      * This will thaw the reports and agents at the client.
