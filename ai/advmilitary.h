@@ -26,6 +26,8 @@ int assess_danger(struct city *pcity);
 
 struct move_cost_map {
   unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+  unsigned char seacost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+/* I either need two arrays or >8 bits per element, so this is simplest -- Syela */
   struct city *warcity; /* so we know what we're dealing with here */
   struct unit *warunit; /* so we know what we're dealing with here */
 };
