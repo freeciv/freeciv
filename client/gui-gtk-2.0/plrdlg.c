@@ -47,7 +47,7 @@
 
 #include "plrdlg.h"
 
-static GtkWidget *players_dialog_shell;
+static struct gui_dialog *players_dialog_shell;
 static GtkWidget *players_list;
 static GtkTreeSelection *players_selection;
 static GtkWidget *players_int_command;
@@ -74,10 +74,17 @@ void popup_players_dialog(void)
 {
   if (!players_dialog_shell){
     create_players_dialog();
-    gtk_window_set_position(GTK_WINDOW(players_dialog_shell),
-	GTK_WIN_POS_MOUSE);
   }
-  gtk_window_present(GTK_WINDOW(players_dialog_shell));
+  gui_dialog_present(players_dialog_shell);
+}
+
+/****************************************************************
+ Raises the players dialog.
+****************************************************************/
+void raise_players_dialog(void)
+{
+  popup_players_dialog();
+  gui_dialog_raise(players_dialog_shell);
 }
 
 /****************************************************************
@@ -86,16 +93,8 @@ void popup_players_dialog(void)
 void popdown_players_dialog(void)
 {
   if (players_dialog_shell) {
-    gtk_widget_destroy(players_dialog_shell);
+    gui_dialog_destroy(players_dialog_shell);
   }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void players_destroy_callback(GtkObject *object, gpointer data)
-{
-  players_dialog_shell = NULL;
 }
 
 /**************************************************************************
@@ -258,19 +257,13 @@ void create_players_dialog(void)
   GtkWidget *sep, *sw;
   GtkWidget *menubar, *menu, *item;
 
-  players_dialog_shell = gtk_dialog_new_with_buttons(_("Players"),
-    NULL,
-    0,
-    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-    NULL);
-  setup_dialog(players_dialog_shell, toplevel);
+  gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_set_title(players_dialog_shell, _("Players"));
 
-  gtk_window_set_default_size(GTK_WINDOW(players_dialog_shell), -1, 270);
+  gui_dialog_add_button(players_dialog_shell,
+      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
-  g_signal_connect(players_dialog_shell, "destroy",
-    G_CALLBACK(players_destroy_callback), NULL);
-  g_signal_connect_swapped(players_dialog_shell, "response",
-    G_CALLBACK(gtk_widget_destroy), GTK_OBJECT(players_dialog_shell));
+  gui_dialog_set_default_size(players_dialog_shell, -1, 270);
 
   create_store();
 
@@ -345,13 +338,13 @@ void create_players_dialog(void)
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-		                 GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+		                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), players_list);
 
   menubar = gtk_menu_bar_new();
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox), menubar,
+  gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), menubar,
 		     FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox), sw,
+  gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), sw,
 		     TRUE, TRUE, 5);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Player"));
@@ -403,8 +396,9 @@ void create_players_dialog(void)
   gtk_widget_add_accelerator(players_sship_command,
     "activate", accel, GDK_S, 0, GTK_ACCEL_VISIBLE);
 
-  gtk_window_add_accel_group(GTK_WINDOW(players_dialog_shell), accel);
-  gtk_widget_show_all(GTK_DIALOG(players_dialog_shell)->vbox);
+  gtk_window_add_accel_group(
+      GTK_WINDOW(gui_dialog_get_toplevel(players_dialog_shell)), accel);
+  gui_dialog_show_all(players_dialog_shell);
 
   g_signal_connect(players_meet_command, "activate",
     G_CALLBACK(players_meet_callback), NULL);
@@ -420,8 +414,10 @@ void create_players_dialog(void)
   gtk_list_store_clear(store);
   update_players_dialog();
 
-  gtk_dialog_set_default_response(GTK_DIALOG(players_dialog_shell),
+  gui_dialog_set_default_response(players_dialog_shell,
     GTK_RESPONSE_CLOSE);
+
+  gtk_tree_view_focus(GTK_TREE_VIEW(players_list));
 }
 
 

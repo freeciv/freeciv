@@ -84,11 +84,13 @@ int overview_canvas_store_width = 2 * 80;
 int overview_canvas_store_height = 2 * 50;
 
 bool fullscreen_mode = FALSE;
+bool enable_tabs = TRUE;
 
 GtkWidget *toplevel;
+GdkWindow *root_window;
 GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
-GdkWindow *root_window;
+GtkWidget *top_notebook, *bottom_notebook;
 
 PangoFontDescription *main_font;
 PangoFontDescription *city_productions_font;
@@ -136,6 +138,7 @@ client_option gui_options[] = {
   GEN_BOOL_OPTION(dialogs_on_top,	N_("Keep dialogs on top")),
   GEN_BOOL_OPTION(show_task_icons,	N_("Show worklist task icons")),
   GEN_BOOL_OPTION(fullscreen_mode,	N_("Fullscreen Mode")),
+  GEN_BOOL_OPTION(enable_tabs,		N_("Enable status report tabs")),
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
@@ -311,6 +314,38 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
   }
 
   if (!client_is_observer()) {
+    if ((ev->state & GDK_SHIFT_MASK)) {
+      switch (ev->keyval) {
+	case GDK_Left:
+	  scroll_mapview(DIR8_WEST);
+	  return TRUE;
+
+	case GDK_Right:
+	  scroll_mapview(DIR8_EAST);
+	  return TRUE;
+
+	case GDK_Up:
+	  scroll_mapview(DIR8_NORTH);
+	  return TRUE;
+
+	case GDK_Down:
+	  scroll_mapview(DIR8_SOUTH);
+	  return TRUE;
+
+	case GDK_Home:
+	  key_center_capital();
+	  break;
+
+	case GDK_Return:
+	case GDK_KP_Enter:
+	  key_end_turn();
+	  break;
+  
+	default:
+	  break;
+      }
+    }
+
     switch (ev->keyval) {
       case GDK_KP_Up:
       case GDK_8:
@@ -318,7 +353,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	key_unit_move(DIR8_NORTH);
 	break;
 
-      case GDK_Page_Up:
       case GDK_KP_Page_Up:
       case GDK_9:
       case GDK_KP_9:
@@ -331,7 +365,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	key_unit_move(DIR8_EAST);
 	break;
 
-      case GDK_Page_Down:
       case GDK_KP_Page_Down:
       case GDK_3:
       case GDK_KP_3:
@@ -344,7 +377,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	key_unit_move(DIR8_SOUTH);
 	break;
 
-      case GDK_End:
       case GDK_KP_End:
       case GDK_1:
       case GDK_KP_1:
@@ -363,27 +395,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	key_unit_move(DIR8_NORTHWEST);
 	break;
 
-      case GDK_Left:
-        scroll_mapview(DIR8_WEST);
-        break;
-
-      case GDK_Right:
-        scroll_mapview(DIR8_EAST);
-        break;
-
-      case GDK_Up:
-        scroll_mapview(DIR8_NORTH);
-        break;
-
-      case GDK_Down:
-        scroll_mapview(DIR8_SOUTH);
-        break;
-
-      case GDK_Return:
-      case GDK_KP_Enter:
-        key_end_turn();
-        break;
-  
       case GDK_5:
       case GDK_KP_5: 
       case GDK_KP_Begin:
@@ -396,10 +407,6 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
   
       case GDK_t:
         key_city_workers(w, ev);
-        break;
-
-      case GDK_Home:
-        key_center_capital();
         break;
 
       case GDK_KP_Divide:
@@ -620,7 +627,7 @@ static void setup_widgets(void)
   int i;
   struct Sprite *sprite;
 
-  GtkWidget *notebook, *messages, *statusbar;
+  GtkWidget *notebook, *statusbar;
 
   message_buffer = gtk_text_buffer_new(NULL);
 
@@ -842,10 +849,18 @@ static void setup_widgets(void)
   unit_pixmap_table = table;
   populate_unit_pixmap_table();
 
+  top_notebook = gtk_notebook_new();  
+  GTK_WIDGET_UNSET_FLAGS(top_notebook, GTK_CAN_FOCUS);
+  gtk_notebook_set_tab_pos(GTK_NOTEBOOK(top_notebook), GTK_POS_BOTTOM);
+  gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
+  gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
+
   /* Map canvas and scrollbars */
 
   table = gtk_table_new(2, 2, FALSE);
-  gtk_box_pack_start(GTK_BOX(hbox), table, TRUE, TRUE, 0);
+
+  label = gtk_label_new_with_mnemonic(_("_Map"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), table, label);
 
   frame = gtk_frame_new(NULL);
   gtk_table_attach(GTK_TABLE(table), frame, 0, 1, 0, 1,
@@ -903,8 +918,11 @@ static void setup_widgets(void)
   gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
   avbox = detached_widget_fill(sbox);
 
-  notebook = gtk_notebook_new();
-  gtk_box_pack_start(GTK_BOX(avbox), notebook, TRUE, TRUE, 0);
+  bottom_notebook = gtk_notebook_new();
+  GTK_WIDGET_UNSET_FLAGS(bottom_notebook, GTK_CAN_FOCUS);
+  gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
+  gtk_notebook_set_scrollable(GTK_NOTEBOOK(bottom_notebook), TRUE);
+  gtk_box_pack_start(GTK_BOX(avbox), bottom_notebook, TRUE, TRUE, 0);
 
   vbox = gtk_vbox_new(FALSE, 0);
 
@@ -917,7 +935,7 @@ static void setup_widgets(void)
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
   label = gtk_label_new_with_mnemonic(_("_Chat"));
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
+  gtk_notebook_append_page(GTK_NOTEBOOK(bottom_notebook), vbox, label);
 
   text = gtk_text_view_new_with_buffer(message_buffer);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
@@ -951,21 +969,22 @@ static void setup_widgets(void)
   g_signal_connect(inputline, "key_press_event",
                    G_CALLBACK(inputline_handler), NULL);
 
-  label = gtk_label_new_with_mnemonic(_("_Messages"));
-
-  messages = create_meswin_area();
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), messages, label);
-
   /* Other things to take care of */
 
   gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
   gtk_widget_hide(more_arrow_pixmap);
 
+  if (enable_tabs) {
+    popup_meswin_dialog();
+  }
+
+  gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);
+  gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
+
   if (!map_scrollbars) {
     gtk_widget_hide(map_horizontal_scrollbar);
     gtk_widget_hide(map_vertical_scrollbar);
   }
-
 }
 
 /**************************************************************************

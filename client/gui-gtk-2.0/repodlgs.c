@@ -58,7 +58,7 @@ static void science_change_callback(GtkWidget * widget, gpointer data);
 static void science_goal_callback(GtkWidget * widget, gpointer data);
 
 /******************************************************************/
-static GtkWidget *science_dialog_shell = NULL;
+static struct gui_dialog *science_dialog_shell = NULL;
 static GtkWidget *science_label;
 static GtkWidget *science_current_label, *science_goal_label;
 static GtkWidget *science_change_menu_button, *science_goal_menu_button;
@@ -73,7 +73,7 @@ enum {
 };
 
 static void create_economy_report_dialog(bool make_modal);
-static void economy_command_callback(GtkWidget *w, gint response_id);
+static void economy_command_callback(struct gui_dialog *dlg, int response);
 static void economy_selection_callback(GtkTreeSelection *selection,
 				       gpointer data);
 struct economy_row {
@@ -82,7 +82,7 @@ struct economy_row {
 };
 static struct economy_row economy_row_type[U_LAST + B_LAST];
 
-static GtkWidget *economy_dialog_shell = NULL;
+static struct gui_dialog *economy_dialog_shell = NULL;
 static GtkWidget *economy_label2;
 static GtkListStore *economy_store;
 static GtkTreeSelection *economy_selection;
@@ -91,11 +91,11 @@ static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
 static void create_activeunits_report_dialog(bool make_modal);
-static void activeunits_command_callback(GtkWidget *w, gint response_id);
+static void activeunits_command_callback(struct gui_dialog *dlg, int response);
 static void activeunits_selection_callback(GtkTreeSelection *selection,
 					   gpointer data);
 static int activeunits_type[U_LAST];
-static GtkWidget *activeunits_dialog_shell = NULL;
+static struct gui_dialog *activeunits_dialog_shell = NULL;
 static GtkListStore *activeunits_store;
 static GtkTreeSelection *activeunits_selection;
 
@@ -109,7 +109,7 @@ static int activeunits_dialog_shell_is_modal;
 static void create_endgame_report(struct packet_endgame_report *packet);
 
 static GtkListStore *scores_store;
-static GtkWidget *endgame_report_shell;
+static struct gui_dialog *endgame_report_shell;
 static GtkWidget *scores_list;
 static GtkWidget *sw;
 
@@ -142,10 +142,19 @@ void popup_science_dialog(bool make_modal)
     science_dialog_shell_is_modal = make_modal;
     
     create_science_dialog(make_modal);
-    gtk_set_relative_position(toplevel, science_dialog_shell, 10, 10);
   }
 
-  gtk_window_present(GTK_WINDOW(science_dialog_shell));
+  gui_dialog_present(science_dialog_shell);
+}
+
+
+/****************************************************************
+ Raises the science dialog.
+****************************************************************/
+void raise_science_dialog(void)
+{
+  popup_science_dialog(FALSE);
+  gui_dialog_raise(science_dialog_shell);
 }
 
 
@@ -155,7 +164,7 @@ void popup_science_dialog(bool make_modal)
 void popdown_science_dialog(void)
 {
   if (science_dialog_shell) {
-    gtk_widget_destroy(science_dialog_shell);
+    gui_dialog_destroy(science_dialog_shell);
   }
 }
  
@@ -168,35 +177,22 @@ void create_science_dialog(bool make_modal)
   GtkWidget *frame, *hbox, *w;
   int i;
 
-  science_dialog_shell = gtk_dialog_new_with_buttons(_("Science"),
-  	NULL,
-	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
-	NULL);
-  setup_dialog(science_dialog_shell, toplevel);
-  gtk_dialog_set_default_response(GTK_DIALOG(science_dialog_shell),
-	GTK_RESPONSE_CLOSE);
+  gui_dialog_new(&science_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_set_title(science_dialog_shell, _("Science"));
 
-  if (make_modal) {
-    gtk_window_set_transient_for(GTK_WINDOW(science_dialog_shell),
-				 GTK_WINDOW(toplevel));
-    gtk_window_set_modal(GTK_WINDOW(science_dialog_shell), TRUE);
-  }
-
-  g_signal_connect(science_dialog_shell, "response",
-		   G_CALLBACK(gtk_widget_destroy), NULL);
-  g_signal_connect(science_dialog_shell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &science_dialog_shell);
+  gui_dialog_add_button(science_dialog_shell,
+      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_set_default_response(science_dialog_shell,
+      GTK_RESPONSE_CLOSE);
 
   science_label = gtk_label_new("no text set yet");
 
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
-        science_label, FALSE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
+        science_label, FALSE, FALSE, 0);
 
   frame = gtk_frame_new(_("Researching"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
-        frame, FALSE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
+        frame, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new( TRUE, 5 );
   gtk_container_add(GTK_CONTAINER(frame), hbox);
@@ -215,8 +211,8 @@ void create_science_dialog(bool make_modal)
   gtk_box_pack_start( GTK_BOX( hbox ), science_help_toggle, TRUE, FALSE, 0 );
 
   frame = gtk_frame_new( _("Goal"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
-        frame, FALSE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
+        frame, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new( TRUE, 5 );
   gtk_container_add(GTK_CONTAINER(frame),hbox);
@@ -235,7 +231,7 @@ void create_science_dialog(bool make_modal)
   gtk_box_pack_start( GTK_BOX( hbox ), w,TRUE, FALSE, 0 );
 
   hbox = gtk_hbox_new(TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(science_dialog_shell)->vbox),
+  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
 		     hbox, TRUE, TRUE, 5);
 
 
@@ -263,11 +259,10 @@ void create_science_dialog(bool make_modal)
 		     G_CALLBACK(science_help_callback), science_model[i]);
   }
 
-  gtk_widget_show_all(GTK_DIALOG(science_dialog_shell)->vbox);
+  gui_dialog_show_all(science_dialog_shell);
 
   science_dialog_update();
-  gtk_window_set_focus(GTK_WINDOW(science_dialog_shell),
-	science_change_menu_button);
+  gtk_widget_grab_focus(science_change_menu_button);
 }
 
 /****************************************************************
@@ -594,10 +589,19 @@ void popup_economy_report_dialog(bool make_modal)
     economy_dialog_shell_is_modal = make_modal;
 
     create_economy_report_dialog(make_modal);
-    gtk_set_relative_position(toplevel, economy_dialog_shell, 10, 10);
   }
 
-  gtk_window_present(GTK_WINDOW(economy_dialog_shell));
+  gui_dialog_present(economy_dialog_shell);
+}
+
+
+/****************************************************************
+ Raises the economy report dialog.
+****************************************************************/
+void raise_economy_report_dialog(void)
+{
+  popup_economy_report_dialog(FALSE);
+  gui_dialog_raise(economy_dialog_shell);
 }
 
 
@@ -607,11 +611,10 @@ void popup_economy_report_dialog(bool make_modal)
 void popdown_economy_report_dialog(void)
 {
   if (economy_dialog_shell) {
-    gtk_widget_destroy(economy_dialog_shell);
+    gui_dialog_destroy(economy_dialog_shell);
   }
 }
  
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -636,19 +639,8 @@ void create_economy_report_dialog(bool make_modal)
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
   
-  economy_dialog_shell = gtk_dialog_new_with_buttons(_("Economy"),
-  	NULL,
-	0,
-	NULL);
-  setup_dialog(economy_dialog_shell, toplevel);
-  gtk_dialog_set_default_response(GTK_DIALOG(economy_dialog_shell),
-	GTK_RESPONSE_CLOSE);
-
-  if (make_modal) {
-    gtk_window_set_transient_for(GTK_WINDOW(economy_dialog_shell),
-				 GTK_WINDOW(toplevel));
-    gtk_window_set_modal(GTK_WINDOW(economy_dialog_shell), TRUE);
-  }
+  gui_dialog_new(&economy_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_set_title(economy_dialog_shell, _("Economy"));
 
   economy_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
@@ -657,8 +649,7 @@ void create_economy_report_dialog(bool make_modal)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(economy_dialog_shell)->vbox),
-	sw, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(economy_dialog_shell->vbox), sw, TRUE, TRUE, 0);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(economy_store));
   g_object_unref(economy_store);
@@ -691,33 +682,32 @@ void create_economy_report_dialog(bool make_modal)
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   economy_label2 = gtk_label_new(_("Total Cost:"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(economy_dialog_shell)->vbox),
-	economy_label2, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(economy_dialog_shell->vbox), economy_label2,
+      FALSE, FALSE, 0);
   gtk_misc_set_padding(GTK_MISC(economy_label2), 5, 5);
 
-  sellobsolete_command = gtk_button_new_with_mnemonic(_("Sell _Obsolete"));
-  gtk_dialog_add_action_widget(GTK_DIALOG(economy_dialog_shell),
-			       sellobsolete_command, ECONOMY_SELL_OBSOLETE);
+  sellobsolete_command =
+    gui_dialog_add_button(economy_dialog_shell, _("Sell _Obsolete"),
+	ECONOMY_SELL_OBSOLETE);
   gtk_widget_set_sensitive(sellobsolete_command, FALSE);
 
-  sellall_command = gtk_button_new_with_mnemonic(_("Sell _All"));
-  gtk_dialog_add_action_widget(GTK_DIALOG(economy_dialog_shell),
-			       sellall_command, ECONOMY_SELL_ALL);
+  sellall_command =
+    gui_dialog_add_button(economy_dialog_shell, _("Sell _All"),
+	ECONOMY_SELL_ALL);
   gtk_widget_set_sensitive(sellall_command, FALSE);
 
-  gtk_dialog_add_button(GTK_DIALOG(economy_dialog_shell),
-			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(economy_dialog_shell,
+      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
-  g_signal_connect(economy_dialog_shell, "response",
-		   G_CALLBACK(economy_command_callback), NULL);
-  g_signal_connect(economy_dialog_shell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &economy_dialog_shell);
+  gui_dialog_response_set_callback(economy_dialog_shell,
+      economy_command_callback);
 
   economy_report_dialog_update();
-  gtk_window_set_default_size(GTK_WINDOW(economy_dialog_shell), -1, 350);
+  gui_dialog_set_default_size(economy_dialog_shell, -1, 350);
 
-  gtk_widget_show_all(GTK_DIALOG(economy_dialog_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(economy_dialog_shell)->action_area);
+  gui_dialog_set_default_response(economy_dialog_shell, GTK_RESPONSE_CLOSE);
+
+  gui_dialog_show_all(economy_dialog_shell);
 
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
@@ -756,16 +746,15 @@ static void economy_selection_callback(GtkTreeSelection *selection,
 /****************************************************************
 ...
 *****************************************************************/
-static void economy_command_callback(GtkWidget *w, gint response_id)
+static void economy_command_callback(struct gui_dialog *dlg, int response)
 {
   int i, is_impr;
   gint row;
   GtkWidget *shell;
   char buf[1024];
 
-  if (response_id != ECONOMY_SELL_OBSOLETE
-      && response_id != ECONOMY_SELL_ALL) {
-    gtk_widget_destroy(economy_dialog_shell);
+  if (response != ECONOMY_SELL_OBSOLETE && response != ECONOMY_SELL_ALL) {
+    gui_dialog_destroy(dlg);
     return;
   }
 
@@ -775,9 +764,9 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
   i = economy_row_type[row].type;
 
   if (is_impr == TRUE) {
-    if (response_id == ECONOMY_SELL_ALL) {
+    if (response == ECONOMY_SELL_ALL) {
       shell = gtk_message_dialog_new(
-	  GTK_WINDOW(economy_dialog_shell),
+	  GTK_WINDOW(gui_dialog_get_toplevel(dlg)),
 	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 	  _("Do you really wish to sell your %s?\n"),
@@ -792,19 +781,19 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
       }
     }
 
-    sell_all_improvements(i, response_id != ECONOMY_SELL_ALL,
-			  buf, sizeof(buf));
+    sell_all_improvements(i, response!= ECONOMY_SELL_ALL, buf, sizeof(buf));
   } else {
-    if (response_id == ECONOMY_SELL_OBSOLETE) {
+    if (response== ECONOMY_SELL_OBSOLETE) {
       return;
     }
     disband_all_units(i, FALSE, buf, sizeof(buf));
   }
 
-  shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
-				 GTK_DIALOG_DESTROY_WITH_PARENT,
-				 GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				 buf);
+  shell = gtk_message_dialog_new(
+      GTK_WINDOW(gui_dialog_get_toplevel(dlg)),
+      GTK_DIALOG_DESTROY_WITH_PARENT,
+      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+      buf);
 
   g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
   gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
@@ -888,10 +877,19 @@ void popup_activeunits_report_dialog(bool make_modal)
     activeunits_dialog_shell_is_modal = make_modal;
     
     create_activeunits_report_dialog(make_modal);
-    gtk_set_relative_position(toplevel, activeunits_dialog_shell, 10, 10);
   }
 
-  gtk_window_present(GTK_WINDOW(activeunits_dialog_shell));
+  gui_dialog_present(activeunits_dialog_shell);
+}
+
+
+/****************************************************************
+ Raises the units report dialog.
+****************************************************************/
+void raise_activeunits_report_dialog(void)
+{
+  popup_activeunits_report_dialog(FALSE);
+  gui_dialog_raise(activeunits_dialog_shell);
 }
 
 
@@ -901,7 +899,7 @@ void popup_activeunits_report_dialog(bool make_modal)
 void popdown_activeunits_report_dialog(void)
 {
   if (activeunits_dialog_shell) {
-    gtk_widget_destroy(activeunits_dialog_shell);
+    gui_dialog_destroy(activeunits_dialog_shell);
   }
 }
 
@@ -934,23 +932,11 @@ void create_activeunits_report_dialog(bool make_modal)
     G_TYPE_BOOLEAN
   };
   GtkWidget *view, *sw;
-  GtkWidget *command;
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
-  activeunits_dialog_shell = gtk_dialog_new_with_buttons(_("Units"),
-  	NULL,
-	0,
-	NULL);
-  setup_dialog(activeunits_dialog_shell, toplevel);
-  gtk_dialog_set_default_response(GTK_DIALOG(activeunits_dialog_shell),
-	GTK_RESPONSE_CLOSE);
-
-  if (make_modal) {
-    gtk_window_set_transient_for(GTK_WINDOW(activeunits_dialog_shell),
-				 GTK_WINDOW(toplevel));
-    gtk_window_set_modal(GTK_WINDOW(activeunits_dialog_shell), TRUE);
-  }
+  gui_dialog_new(&activeunits_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_set_title(activeunits_dialog_shell, _("Units"));
 
   activeunits_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
@@ -959,7 +945,7 @@ void create_activeunits_report_dialog(bool make_modal)
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(activeunits_dialog_shell)->vbox),
+  gtk_box_pack_start(GTK_BOX(activeunits_dialog_shell->vbox),
 	sw, TRUE, TRUE, 0);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(activeunits_store));
@@ -993,31 +979,29 @@ void create_activeunits_report_dialog(bool make_modal)
   }
   gtk_container_add(GTK_CONTAINER(sw), view);
 
-  command = gtk_stockbutton_new(GTK_STOCK_FIND, _("Find _Nearest"));
-  gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
-			       command, ACTIVEUNITS_NEAREST);
-  gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+  gui_dialog_add_stockbutton(activeunits_dialog_shell, GTK_STOCK_FIND,
+      _("Find _Nearest"), ACTIVEUNITS_NEAREST);
+  gui_dialog_set_response_sensitive(activeunits_dialog_shell,
       				    ACTIVEUNITS_NEAREST, FALSE);	
   
-  command = gtk_button_new_with_mnemonic(_("_Upgrade"));
-  gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
-			       command, ACTIVEUNITS_UPGRADE);
-  gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+  gui_dialog_add_button(activeunits_dialog_shell,
+      _("_Upgrade"), ACTIVEUNITS_UPGRADE);
+  gui_dialog_set_response_sensitive(activeunits_dialog_shell,
       				    ACTIVEUNITS_UPGRADE, FALSE);	
 
-  gtk_dialog_add_button(GTK_DIALOG(activeunits_dialog_shell),
-			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(activeunits_dialog_shell, GTK_STOCK_CLOSE,
+      GTK_RESPONSE_CLOSE);
 
-  g_signal_connect(activeunits_dialog_shell, "response",
-		   G_CALLBACK(activeunits_command_callback), NULL);
-  g_signal_connect(activeunits_dialog_shell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &activeunits_dialog_shell);
+  gui_dialog_set_default_response(activeunits_dialog_shell,
+      GTK_RESPONSE_CLOSE);
+
+  gui_dialog_response_set_callback(activeunits_dialog_shell,
+      activeunits_command_callback);
 
   activeunits_report_dialog_update();
-  gtk_window_set_default_size(GTK_WINDOW(activeunits_dialog_shell), -1, 350);
+  gui_dialog_set_default_size(activeunits_dialog_shell, -1, 350);
 
-  gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->action_area);
+  gui_dialog_show_all(activeunits_dialog_shell);
 
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
@@ -1046,22 +1030,22 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
   }
 
   if (!is_unit_type) {
-    gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 				      ACTIVEUNITS_NEAREST, FALSE);
 
-    gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 				      ACTIVEUNITS_UPGRADE, FALSE);
   } else {
-    gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 				      ACTIVEUNITS_NEAREST,
 				      can_client_issue_orders());	
     
     if (can_upgrade_unittype(game.player_ptr, activeunits_type[row]) != -1) {
-      gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+      gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 					ACTIVEUNITS_UPGRADE,
 					can_client_issue_orders());	
     } else {
-      gtk_dialog_set_response_sensitive(GTK_DIALOG(activeunits_dialog_shell),
+      gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 					ACTIVEUNITS_UPGRADE, FALSE);
     }
   }
@@ -1097,18 +1081,18 @@ static struct unit *find_nearest_unit(Unit_Type_id type, struct tile *ptile)
 /****************************************************************
 ...
 *****************************************************************/
-static void activeunits_command_callback(GtkWidget *w, gint response_id)
+static void activeunits_command_callback(struct gui_dialog *dlg, int response)
 {
   int        ut1, ut2;
   gint       row;
   GtkWidget *shell;
 
-  switch (response_id) {
+  switch (response) {
     case ACTIVEUNITS_NEAREST:
     case ACTIVEUNITS_UPGRADE:
       break;
     default:
-      gtk_widget_destroy(activeunits_dialog_shell);
+      gui_dialog_destroy(dlg);
       return;
   }
 
@@ -1120,7 +1104,7 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
     return;
   }
 
-  if (response_id == ACTIVEUNITS_NEAREST) {
+  if (response == ACTIVEUNITS_NEAREST) {
     struct tile *ptile;
     struct unit *punit;
 
@@ -1134,7 +1118,7 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
     ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
 
     shell = gtk_message_dialog_new(
-	  GTK_WINDOW(activeunits_dialog_shell),
+	  GTK_WINDOW(gui_dialog_get_toplevel(dlg)),
 	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -1292,19 +1276,14 @@ static void create_endgame_report(struct packet_endgame_report *packet)
   };
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
-  endgame_report_shell = gtk_dialog_new_with_buttons(
-                           _("The Greatest Civilizations in the world."),
-                           NULL, 0,
-                           GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-                           NULL);
 
-  gtk_window_set_default_size(GTK_WINDOW(endgame_report_shell), 700, 420);
-  g_signal_connect(endgame_report_shell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &endgame_report_shell);
-  g_signal_connect_swapped(endgame_report_shell, "response",
-                           G_CALLBACK(gtk_widget_destroy), 
-                           GTK_OBJECT(endgame_report_shell));
-  setup_dialog(endgame_report_shell, toplevel);
+  gui_dialog_new(&endgame_report_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_set_title(endgame_report_shell, _("Score"));
+  gui_dialog_add_button(endgame_report_shell, GTK_STOCK_CLOSE,
+      GTK_RESPONSE_CLOSE);
+
+  gui_dialog_set_default_size(endgame_report_shell, 700, 420);
+
   scores_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
   scores_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scores_store));
   g_object_unref(scores_store);
@@ -1328,11 +1307,9 @@ static void create_endgame_report(struct packet_endgame_report *packet)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), scores_list);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(endgame_report_shell)->vbox), sw,
-                     TRUE, TRUE, 0);
-  gtk_widget_show_all(GTK_DIALOG(endgame_report_shell)->vbox);
-  gtk_dialog_set_default_response(GTK_DIALOG(endgame_report_shell),
-                                  GTK_RESPONSE_CLOSE);
+  gtk_box_pack_start(GTK_BOX(endgame_report_shell->vbox), sw, TRUE, TRUE, 0);
+  gui_dialog_set_default_response(endgame_report_shell, GTK_RESPONSE_CLOSE);
+  gui_dialog_show_all(endgame_report_shell);
   
   /* Insert score statistics into table.  */
   gtk_list_store_clear(scores_store);
@@ -1364,9 +1341,8 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
 {
   if (!endgame_report_shell){
     create_endgame_report(packet);
-    gtk_set_relative_position(toplevel, endgame_report_shell, 10, 10);
   }
-  gtk_window_present(GTK_WINDOW(endgame_report_shell));
+  gui_dialog_present(endgame_report_shell);
 }
 
 /*************************************************************************

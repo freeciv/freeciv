@@ -42,6 +42,7 @@ extern PangoFontDescription *        main_font;
 extern PangoFontDescription *        city_productions_font;
 
 extern bool fullscreen_mode;
+extern bool enable_tabs;
 
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
@@ -84,6 +85,8 @@ extern GtkWidget *      map_vertical_scrollbar;
 extern GdkWindow *      root_window;
 
 extern GtkWidget *	toplevel_tabs;
+extern GtkWidget *	top_notebook;
+extern GtkWidget *	bottom_notebook;
 extern GtkTextBuffer *	message_buffer;
 
 void enable_menus(bool enable);

@@ -124,23 +124,20 @@ static GtkWidget *caravan_dialog;
 void popup_notify_dialog(const char *caption, const char *headline,
 			 const char *lines)
 {
-  GtkWidget *shell, *label, *headline_label, *sw;
+  static struct gui_dialog *shell;
+  GtkWidget *vbox, *label, *headline_label, *sw;
 
-  shell = gtk_dialog_new_with_buttons(caption,
-	NULL,
-	0,
-	GTK_STOCK_CLOSE,
-	GTK_RESPONSE_CLOSE,
-	NULL);
-  setup_dialog(shell, toplevel);
-  gtk_dialog_set_default_response(GTK_DIALOG(shell),
-    GTK_RESPONSE_CLOSE);
-  g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-  gtk_widget_set_name(shell, "Freeciv");
+  gui_dialog_new(&shell, GTK_NOTEBOOK(bottom_notebook));
+  gui_dialog_set_title(shell, caption);
+
+  gui_dialog_add_button(shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE); 
+  gui_dialog_set_default_response(shell, GTK_RESPONSE_CLOSE);
+
+  vbox = gtk_vbox_new(FALSE, 2);
+  gtk_box_pack_start(GTK_BOX(shell->vbox), vbox, TRUE, TRUE, 0);
 
   headline_label = gtk_label_new(headline);   
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox),
-		     headline_label, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), headline_label, FALSE, FALSE, 0);
   gtk_widget_set_name(headline_label, "notify label");
 
   gtk_label_set_justify(GTK_LABEL(headline_label), GTK_JUSTIFY_LEFT);
@@ -158,15 +155,14 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), sw,
-    TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
-  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
+  gui_dialog_show_all(shell);
 
-  gtk_widget_set_size_request(shell, -1, 265);
-  gtk_window_set_position(GTK_WINDOW(shell),
-    GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_present(GTK_WINDOW(shell));
+  gui_dialog_set_default_size(shell, -1, 265);
+  gui_dialog_present(shell);
+
+  shell = NULL;
 }
 
 /****************************************************************

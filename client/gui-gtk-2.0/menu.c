@@ -515,19 +515,19 @@ static void reports_menu_callback(gpointer callback_data,
 {
   switch(callback_action) {
    case MENU_REPORT_CITIES:
-    popup_city_report_dialog(0);
+    raise_city_report_dialog();
     break;
    case MENU_REPORT_UNITS:
-    popup_activeunits_report_dialog(0);
+    raise_activeunits_report_dialog();
     break;
   case MENU_REPORT_PLAYERS:
-    popup_players_dialog();
+    raise_players_dialog();
     break;
    case MENU_REPORT_ECONOMY:
-    popup_economy_report_dialog(0);
+    raise_economy_report_dialog();
     break;
    case MENU_REPORT_SCIENCE:
-    popup_science_dialog(0);
+    raise_science_dialog();
     break;
    case MENU_REPORT_WOW:
     send_report_request(REPORT_WONDERS_OF_THE_WORLD);
@@ -536,7 +536,7 @@ static void reports_menu_callback(gpointer callback_data,
     send_report_request(REPORT_TOP_5_CITIES);
     break;
   case MENU_REPORT_MESSAGES:
-    popup_meswin_dialog();
+    raise_meswin_dialog();
     break;
    case MENU_REPORT_DEMOGRAPHIC:
     send_report_request(REPORT_DEMOGRAPHIC);
@@ -693,7 +693,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Government") "/" N_("_Find City"),		"<shift>f",
 	government_menu_callback,	MENU_GOVERNMENT_FIND_CITY			},
-  { "/" N_("Government") "/" N_("_Worklists"),		"<control>w",
+  { "/" N_("Government") "/" N_("_Worklists"),		"<control>l",
 	government_menu_callback,	MENU_GOVERNMENT_WORKLISTS			},
   { "/" N_("Government") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
@@ -850,6 +850,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_WOW						},
   { "/" N_("Reports") "/" N_("_Top Five Cities"),	"F8",
 	reports_menu_callback,	MENU_REPORT_TOP_CITIES					},
+  { "/" N_("Reports") "/" N_("_Messages"),		"F9",
+	reports_menu_callback,	MENU_REPORT_MESSAGES					},
   { "/" N_("Reports") "/" N_("_Demographics"),		"F11",
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
   { "/" N_("Reports") "/" N_("S_paceship"),		"F12",
