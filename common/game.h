@@ -278,7 +278,7 @@ extern bool is_server;
 #define GAME_MIN_DISPERSION      0
 #define GAME_MAX_DISPERSION      10
 
-#define GAME_DEFAULT_TECHLEVEL   3
+#define GAME_DEFAULT_TECHLEVEL   0
 #define GAME_MIN_TECHLEVEL       0
 #define GAME_MAX_TECHLEVEL       50
 
