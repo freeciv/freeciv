@@ -47,6 +47,8 @@ extern char player_name[512];
 extern char metaserver[512];
 extern int  server_port;
 extern bool auto_connect;
+extern bool waiting_for_end_turn;
+extern bool turn_done_sent;
 
 extern int turn_gold_difference;
 extern int seconds_to_turndone;

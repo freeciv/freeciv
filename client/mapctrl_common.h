@@ -1,5 +1,5 @@
-/********************************************************************** 
- Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+/**********************************************************************
+ Freeciv - Copyright (C) 2002 - The Freeciv Poject
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,22 +10,13 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GUI_MAIN_G_H
-#define FC__GUI_MAIN_G_H
+
+#ifndef FC__MAPCTRL_COMMON_H
+#define FC__MAPCTRL_COMMON_H
 
 #include "shared.h"		/* bool type */
 
-struct unit;
+bool get_turn_done_button_state(void);
+void update_turn_done_button_state(void);
 
-void ui_init(void);
-void ui_main(int argc, char *argv[]);
-void sound_bell(void);
-void add_net_input(int);
-void remove_net_input(void);
-
-void set_unit_icon(int idx, struct unit *punit);
-void set_unit_icons_more_arrow(bool onoff);
-
-extern const char *client_string;
-
-#endif  /* FC__GUI_MAIN_G_H */
+#endif /* FC__MAPVIEW_COMMON_H */

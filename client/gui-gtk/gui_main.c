@@ -1044,18 +1044,6 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-void enable_turn_done_button(void)
-{
-  if(game.player_ptr->ai.control && !ai_manual_turn_done)
-    user_ended_turn();
-
-  gtk_widget_set_sensitive(turn_done_button,
-		           !game.player_ptr->ai.control || ai_manual_turn_done);
-}
-
-/**************************************************************************
  user clicked "Turn Done" button
 **************************************************************************/
 static void end_turn_callback(GtkWidget *w, gpointer data)

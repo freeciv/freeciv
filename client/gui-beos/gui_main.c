@@ -20,12 +20,6 @@ ui_main(int argc, char *argv[])		/* EXTERNAL HOOK */
 }
 
 void
-enable_turn_done_button(void)		/* HOOK */
-{
-	/* NOT_FINISHED( "enable_turn_done_button" ); */
-}
-
-void
 add_net_input(int sock)		/* HOOK */
 {
 	/* NOT_FINISHED( "add_net_input" ); */

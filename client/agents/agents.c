@@ -133,8 +133,6 @@ static void enqueue_call(struct my_agent *agent,
     }
   } call_list_iterate_end;
 
-  set_turn_done_button_state(FALSE);
-
   pcall2 = fc_malloc(sizeof(struct call));
 
   pcall2->agent = agent;
@@ -147,6 +145,8 @@ static void enqueue_call(struct my_agent *agent,
   if (DEBUG_TODO_LISTS) {
     freelog(LOG_NORMAL, "A: adding call");
   }
+
+  update_turn_done_button_state();
 }
 
 /***********************************************************************
@@ -235,9 +235,7 @@ static void call_handle_methods(void)
 
   currently_running = FALSE;
 
-  if (!agents_busy() && !game.player_ptr->turn_done && !client_is_observer()) {
-    set_turn_done_button_state(TRUE);
-  }
+  update_turn_done_button_state();
 }
 
 /***********************************************************************

@@ -25,7 +25,7 @@ bool tile_visible_and_not_on_border_mapcanvas(int x, int y);
 void update_info_label(void);
 void update_unit_info_label(struct unit *punit);
 void update_timeout_label(void);
-void update_turn_done_button(int do_restore);
+void update_turn_done_button(bool do_restore);
 void update_city_descriptions(void);
 void set_indicator_icons(int bulb, int sol, int flake, int gov);
 

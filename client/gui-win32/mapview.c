@@ -587,17 +587,21 @@ update_timeout_label(void)
 /**************************************************************************
 
 **************************************************************************/
-void
-update_turn_done_button(int do_restore)
+void update_turn_done_button(bool do_restore)
 {
-  static int flip;
-  if (do_restore) {
-    flip=0;
-    Button_SetState(turndone_button,0);
+  static bool flip = FALSE;
+
+  if (!get_turn_done_button_state()) {
     return;
   }
-  Button_SetState(turndone_button,flip);
-  flip=!flip;
+
+  if (do_restore) {
+    flip = FALSE;
+    Button_SetState(turndone_button, 0);
+  } else {
+    Button_SetState(turndone_button, flip);
+    flip = !flip;
+  }
 }
 
 /**************************************************************************

@@ -34,7 +34,7 @@ update_timeout_label(void)
 }
 
 void
-update_turn_done_button(int do_restore)
+update_turn_done_button(bool do_restore)
 {
 	/* PORTME */
 }

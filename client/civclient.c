@@ -90,7 +90,13 @@ int last_turn_gold_amount;
 int turn_gold_difference;
 
 /* TRUE if an end turn request is blocked by busy agents */
-static bool waiting_for_end_turn = FALSE;
+bool waiting_for_end_turn = FALSE;
+
+/* 
+ * TRUE for the time between sending PACKET_TURN_DONE and receiving
+ * PACKET_NEW_YEAR. 
+ */
+bool turn_done_sent = FALSE;
 
 static void client_remove_all_cli_conn(void);
 
@@ -441,11 +447,6 @@ void handle_packet_input(void *packet, int type)
 
   case PACKET_PROCESSING_FINISHED:
     handle_processing_finished();
-    /* This may thaw the agents, which may in turn have been blocking an
-     * end turn request */
-    if (waiting_for_end_turn) {
-      send_turn_done();
-    }
     break;
 
   case PACKET_START_TURN:
@@ -478,24 +479,34 @@ void send_turn_done(void)
 {
   struct packet_generic_message gen_packet;
 
-  waiting_for_end_turn = FALSE;
+  freelog(LOG_DEBUG, "send_turn_done() turn_done_button_state=%d",
+	  get_turn_done_button_state());
 
-  if (agents_busy()) {
-    waiting_for_end_turn = TRUE;
+  if (!get_turn_done_button_state()) {
     /*
      * The turn done button is disabled but the user may have press
      * the return key.
      */
+
+    if (agents_busy()) {
+      waiting_for_end_turn = TRUE;
+    }
+
     return;
   }
+
+  waiting_for_end_turn = FALSE;
+  turn_done_sent = TRUE;
 
   attribute_flush();
 
   gen_packet.message[0] = '\0';
 
   send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
-  set_turn_done_button_state(FALSE);
+
+  update_turn_done_button_state();
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -618,6 +629,7 @@ void set_client_state(enum client_states newstate)
       gui_server_connect();
     }
   }
+  update_turn_done_button_state();
 }
 
 

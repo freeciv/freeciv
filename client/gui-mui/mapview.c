@@ -152,17 +152,20 @@ void set_overview_dimensions(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_turn_done_button(int do_restore)
+void update_turn_done_button(bool do_restore)
 {
-  static int flip;
+  static bool flip = FALSE;
 
-  if (game.player_ptr->ai.control && !ai_manual_turn_done)
+  if (!get_turn_done_button_state()) {
     return;
+  }
 
-  if ((do_restore && flip) || !do_restore)
-  {
-    if (!flip) set(main_turndone_button,MUIA_Background, MUII_FILL);
-    else set(main_turndone_button,MUIA_Background, MUII_ButtonBack);
+  if ((do_restore && flip) || !do_restore) {
+    if (!flip) {
+      set(main_turndone_button, MUIA_Background, MUII_FILL);
+    } else {
+      set(main_turndone_button, MUIA_Background, MUII_ButtonBack);
+    }
     flip = !flip;
   }
 }

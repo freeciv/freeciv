@@ -147,6 +147,8 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	goto.h		\
 	helpdata.c	\
 	helpdata.h	\
+	mapctrl_common.c \
+	mapctrl_common.h \
 	mapview_common.c \
 	mapview_common.h \
 	messagewin_common.c \

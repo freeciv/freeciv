@@ -330,26 +330,25 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 /**************************************************************************
 ...
 **************************************************************************/
-void update_turn_done_button(int do_restore)
+void update_turn_done_button(bool do_restore)
 {
-   static int flip;
-   GdkGC      *fore, *back;
- 
-   if(game.player_ptr->ai.control && !ai_manual_turn_done)
-     return;
-   if((do_restore && flip) || !do_restore)
-   { 
-	
-	fore = turn_done_button->style->bg_gc[GTK_STATE_NORMAL];
-	back = turn_done_button->style->light_gc[GTK_STATE_NORMAL];
+  static bool flip = FALSE;
 
-	turn_done_button->style->bg_gc[GTK_STATE_NORMAL] = back;
-	turn_done_button->style->light_gc[GTK_STATE_NORMAL] = fore;
+  if (!get_turn_done_button_state()) {
+    return;
+  }
 
-	gtk_expose_now(turn_done_button);
+  if ((do_restore && flip) || !do_restore) {
+    GdkGC *fore = turn_done_button->style->bg_gc[GTK_STATE_NORMAL];
+    GdkGC *back = turn_done_button->style->light_gc[GTK_STATE_NORMAL];
 
-	flip=!flip;
-   }
+    turn_done_button->style->bg_gc[GTK_STATE_NORMAL] = back;
+    turn_done_button->style->light_gc[GTK_STATE_NORMAL] = fore;
+
+    gtk_expose_now(turn_done_button);
+
+    flip = !flip;
+  }
 }
 
 /**************************************************************************

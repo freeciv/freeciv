@@ -741,19 +741,6 @@ void sound_bell(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void enable_turn_done_button(void)
-{
-  if(game.player_ptr->ai.control && !ai_manual_turn_done)
-    user_ended_turn();
-
-  update_turn_done_button(1);
-  XtSetSensitive(turn_done_button, 
-                 !game.player_ptr->ai.control||ai_manual_turn_done);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void get_net_input(XtPointer client_data, int *fid, XtInputId *id)
 {
   input_from_server(*fid);

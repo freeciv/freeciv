@@ -25,12 +25,6 @@ sound_bell(void)
 }
 
 void
-enable_turn_done_button(void)
-{
-	/* PORTME */
-}
-
-void
 add_net_input(int sock)
 {
 	/* PORTME */

@@ -1348,9 +1348,7 @@ void key_cancel_action(void)
 **************************************************************************/
 void key_end_turn(void)
 {
-  if (!game.player_ptr->turn_done) {
-    send_turn_done();
-  }
+  send_turn_done();
 }
 
 /**************************************************************************

@@ -278,9 +278,6 @@ void handle_game_state(struct packet_generic_integer *packet)
   if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
     refresh_overview_canvas();
     refresh_overview_viewrect();
-    if (!client_is_observer()) {
-      enable_turn_done_button();
-    }
     player_set_unit_focus_status(game.player_ptr);
 
     update_info_label();	/* get initial population right */
@@ -646,11 +643,6 @@ void handle_short_city(struct packet_short_city *packet)
 **************************************************************************/
 void handle_new_year(struct packet_new_year *ppacket)
 {
-  update_turn_done_button(1);
-  if (!client_is_observer()) {
-    enable_turn_done_button();
-  }
-
   game.year = ppacket->year;
   /*
    * The turn was increased in handle_before_new_year()
@@ -706,6 +698,9 @@ void handle_start_turn(void)
   reports_thaw();
 
   agents_start_turn();
+
+  turn_done_sent = FALSE;
+  update_turn_done_button_state();
 
   if(game.player_ptr->ai.control && !ai_manual_turn_done) {
     user_ended_turn();
@@ -1206,6 +1201,9 @@ void handle_player_info(struct packet_player_info *pinfo)
     } 
   }
 
+  if (pplayer == game.player_ptr && pplayer->turn_done != pinfo->turn_done) {
+    update_turn_done_button_state();
+  }
   pplayer->turn_done=pinfo->turn_done;
   pplayer->nturns_idle=pinfo->nturns_idle;
   pplayer->is_alive=pinfo->is_alive;
@@ -1235,17 +1233,9 @@ void handle_player_info(struct packet_player_info *pinfo)
   update_players_dialog();
   update_worklist_report_dialog();
 
-  if(pplayer==game.player_ptr) {
-    if(get_client_state()==CLIENT_GAME_RUNNING_STATE) {
-      if (!game.player_ptr->turn_done) {
-	if (!client_is_observer()) {
-	  enable_turn_done_button();
-	}
-      } else {
-	update_turn_done_button(1);
-      }
-      update_info_label();
-    }
+  if (pplayer == game.player_ptr
+      && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    update_info_label();
   }
 }
 

@@ -56,7 +56,7 @@ update_unit_pix_label(struct unit *punit)	// HOOK
 
 
 void
-update_turn_done_button(int do_restore)	// HOOK
+update_turn_done_button(bool do_restore)	// HOOK
 {
     BMessage *msg = new BMessage( UI_UPDATE_TURN_DONE_BUTTON );
     msg->AddBool( "restore", !!do_restore );

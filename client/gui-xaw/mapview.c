@@ -178,26 +178,25 @@ void set_overview_dimensions(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_turn_done_button(int do_restore)
+void update_turn_done_button(bool do_restore)
 {
-   static int flip;
-   Pixel fore, back;
+  static bool flip = FALSE;
  
-   if(game.player_ptr->ai.control && !ai_manual_turn_done)
-     return;
-   if((do_restore && flip) || !do_restore) { 
-   
-      XtVaGetValues(turn_done_button, 
-		    XtNforeground, &fore,
-		    XtNbackground, &back, NULL);
-      
-      
-      XtVaSetValues(turn_done_button, 
-		    XtNforeground, back,
-		    XtNbackground, fore, NULL);
-      
-      flip=!flip;
-   }
+  if (!get_turn_done_button_state()) {
+    return;
+  }
+
+  if ((do_restore && flip) || !do_restore) {
+    Pixel fore, back;
+
+    XtVaGetValues(turn_done_button, XtNforeground, &fore,
+		  XtNbackground, &back, NULL);
+
+    XtVaSetValues(turn_done_button, XtNforeground, back,
+		  XtNbackground, fore, NULL);
+
+    flip = !flip;
+  }
 }
 
 

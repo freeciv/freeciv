@@ -15,6 +15,8 @@
 
 #include "shared.h"		/* bool type */
 
+#include "mapctrl_common.h"
+
 struct unit;
 struct city;
 

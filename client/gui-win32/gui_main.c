@@ -593,19 +593,6 @@ sound_bell(void)
 
 **************************************************************************/
 void
-enable_turn_done_button(void)
-{
-   if(game.player_ptr->ai.control && !ai_manual_turn_done)
-    user_ended_turn();    
-   EnableWindow(turndone_button,TRUE);
-}
-
-
-
-/**************************************************************************
-
-**************************************************************************/
-void
 add_net_input(int sock)
 {
   net_input=sock;

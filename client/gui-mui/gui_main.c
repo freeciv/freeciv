@@ -311,16 +311,6 @@ void sound_bell(void)
 }
 
 /****************************************************************
- Enables the Turn Done button
-*****************************************************************/
-void enable_turn_done_button(void)
-{
-  if (game.player_ptr->ai.control && !ai_manual_turn_done)
-    user_ended_turn();
-  set(main_turndone_button, MUIA_Disabled, !(!game.player_ptr->ai.control || ai_manual_turn_done));
-}
-
-/****************************************************************
  Callback for the chatline
 *****************************************************************/
 static void inputline_return(void)	/* from chatline.c */
