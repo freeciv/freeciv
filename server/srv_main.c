@@ -1292,7 +1292,7 @@ static void introduce_game_to_connection(struct connection *pconn)
   }
   dest = &pconn->self;
   
-  if (gethostname(hostname, 512)==0) {
+  if (my_gethostname(hostname, sizeof(hostname))==0) {
     notify_conn(dest, _("Welcome to the %s Server running at %s."), 
 		FREECIV_NAME_VERSION, hostname);
   } else {

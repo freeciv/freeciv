@@ -47,4 +47,6 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
 
 int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
 
+int my_gethostname(char *buf, size_t len);
+
 #endif  /* FC__SUPPORT_H */

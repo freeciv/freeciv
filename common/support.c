@@ -50,7 +50,7 @@
 #include <errno.h>
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>		/* usleep, fcntl */
+#include <unistd.h>		/* usleep, fcntl, gethostname */
 #endif
 
 #ifdef HAVE_SYS_TIME_H
@@ -442,4 +442,16 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
   ret = my_vsnprintf(str, n, format, ap);
   va_end(ap);
   return ret;
+}
+
+/**********************************************************************
+  Call gethostname() if supported, else just returns -1.
+***********************************************************************/
+int my_gethostname(char *buf, size_t len)
+{
+#ifdef HAVE_GETHOSTNAME
+  return gethostname(buf, len);
+#else
+  return -1;
+#endif
 }
