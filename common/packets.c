@@ -2053,6 +2053,7 @@ int send_packet_ruleset_tech(struct connection *pc,
   dio_put_uint8(&dout, packet->id);
   dio_put_uint8(&dout, packet->req[0]);
   dio_put_uint8(&dout, packet->req[1]);
+  dio_put_uint8(&dout, packet->root_req);
   dio_put_uint32(&dout, packet->flags);
   dio_put_uint32(&dout, packet->preset_cost);
   dio_put_uint32(&dout, packet->num_reqs);
@@ -2083,6 +2084,7 @@ receive_packet_ruleset_tech(struct connection *pc)
   dio_get_uint8(&din, &packet->id);
   dio_get_uint8(&din, &packet->req[0]);
   dio_get_uint8(&din, &packet->req[1]);
+  dio_get_uint8(&din, &packet->root_req);
   dio_get_uint32(&din, &packet->flags);
   dio_get_uint32(&din, &packet->preset_cost);
   dio_get_uint32(&din, &packet->num_reqs);

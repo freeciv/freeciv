@@ -95,7 +95,8 @@ static void build_required_techs_helper(struct player *pplayer,
 {
   /* The is_tech_a_req_for_goal condition is true if the tech is
    * already marked */
-  if (!tech_exists(tech) || get_invention(pplayer, tech) == TECH_KNOWN
+  if (!tech_is_available(pplayer, tech)
+      || get_invention(pplayer, tech) == TECH_KNOWN
       || is_tech_a_req_for_goal(pplayer, tech, goal)) {
     return;
   }
@@ -156,6 +157,25 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
 }
 
 /**************************************************************************
+  Returns TRUE iff the given tech is ever reachable by the given player
+  by checking tech tree limitations.
+**************************************************************************/
+bool tech_is_available(struct player *pplayer, Tech_Type_id id)
+{
+  if (!tech_exists(id)) {
+    return FALSE;
+  }
+
+  if (advances[id].root_req != A_NONE
+      && get_invention(pplayer, advances[id].root_req) != TECH_KNOWN) {
+    /* This tech requires knowledge of another tech before being 
+     * available. Prevents sharing of untransferable techs. */
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**************************************************************************
   Marks reachable techs. Calls build_required_techs to update the
   cache of requirements.
 **************************************************************************/
@@ -169,7 +189,7 @@ void update_research(struct player *pplayer)
   /* assert(get_invention(pplayer, A_NONE) == TECH_KNOWN); */
 
   for (i = 0; i < game.num_tech_types; i++) {
-    if (!tech_exists(i)) {
+    if (!tech_is_available(pplayer, i)) {
       set_invention(pplayer, i, TECH_UNKNOWN);
     } else {
       if (get_invention(pplayer, i) == TECH_REACHABLE) {
@@ -204,7 +224,8 @@ static Tech_Type_id get_next_tech_rec(struct player *pplayer,
 {
   Tech_Type_id sub_goal;
 
-  if (!tech_exists(goal) || get_invention(pplayer, goal) == TECH_KNOWN) {
+  if (!tech_is_available(pplayer, goal)
+      || get_invention(pplayer, goal) == TECH_KNOWN) {
     return A_UNSET;
   }
   if (get_invention(pplayer, goal) == TECH_REACHABLE) {
@@ -226,7 +247,8 @@ static Tech_Type_id get_next_tech_rec(struct player *pplayer,
 **************************************************************************/
 Tech_Type_id get_next_tech(struct player *pplayer, Tech_Type_id goal)
 {
-  if (!tech_exists(goal) || get_invention(pplayer, goal) == TECH_KNOWN) {
+  if (!tech_is_available(pplayer, goal)
+      || get_invention(pplayer, goal) == TECH_KNOWN) {
     return A_UNSET;
   }
   return (get_next_tech_rec(pplayer, goal));

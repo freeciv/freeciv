@@ -555,8 +555,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Examine the civilization for technologies to steal. */
   count = 0;
   for (index = A_FIRST; index < game.num_tech_types; index++) {
-    if ((get_invention (pplayer, index) != TECH_KNOWN) &&
-	(get_invention (cplayer, index) == TECH_KNOWN)) {
+    if (get_invention(pplayer, index) != TECH_KNOWN
+	&& get_invention(cplayer, index) == TECH_KNOWN
+	&& tech_is_available(pplayer, index)) {
       count++;
     }
   }
@@ -586,8 +587,9 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     target = -1;
     which = myrand (count);
     for (index = A_FIRST; index < game.num_tech_types; index++) {
-      if ((get_invention (pplayer, index) != TECH_KNOWN) &&
-	  (get_invention (cplayer, index) == TECH_KNOWN)) {
+      if (get_invention(pplayer, index) != TECH_KNOWN
+	  && get_invention(cplayer, index) == TECH_KNOWN
+	  && tech_is_available(pplayer, index)) {
 	if (which > 0) {
 	  which--;
 	} else {

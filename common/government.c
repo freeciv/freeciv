@@ -246,7 +246,10 @@ bool can_change_to_government(struct player *pplayer, int government)
 	 government >= 0 && government < game.government_count);
 
   req = governments[government].required_tech;
-  if (!tech_exists(req)) {
+  if (!tech_is_available(pplayer, req)) {
+    /* If the technology doesn't "exist" or if there is no way we can
+     * ever get it, then we can't change to the gov type even if we have
+     * a wonder that would otherwise allow it. */
     return FALSE;
   } else {
     return (get_invention(pplayer, req) == TECH_KNOWN

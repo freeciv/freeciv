@@ -184,9 +184,10 @@ static void popup_tech_menu(struct Diplomacy_dialog *pdialog,int plr)
   plr1=plr?pdialog->treaty.plr0:pdialog->treaty.plr1;
   menu=CreatePopupMenu();
   for(i=1, flag=0; i<game.num_tech_types; i++) {
-    if(get_invention(plr0, i)==TECH_KNOWN && 
-       (get_invention(plr1, i)==TECH_UNKNOWN || 
-        get_invention(plr1, i)==TECH_REACHABLE)) {
+    if (get_invention(plr0, i) == TECH_KNOWN
+        && (get_invention(plr1, i) == TECH_UNKNOWN || 
+            || get_invention(plr1, i) == TECH_REACHABLE)
+        && tech_is_available(plr1, i)) {
       AppendMenu(menu,MF_STRING,ID_ADVANCES_BASE+i,advances[i].name);
       iteminfo.dwItemData=plr0->player_no*10000+plr1->player_no*100+i;
       iteminfo.fMask = MIIM_DATA;

@@ -1895,10 +1895,10 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->req[0] = p->req[0];
   a->req[1] = p->req[1];
+  a->root_req = p->root_req;
   a->flags = p->flags;
   a->preset_cost = p->preset_cost;
   a->num_reqs = p->num_reqs;
-  
   a->helptext = p->helptext;	/* pointer assignment */
   
   tilespec_setup_tech_type(p->id);

@@ -15,6 +15,7 @@
 
 #include "connection.h"		/* struct connection, MAX_LEN_* */
 #include "map.h"
+#include "nation.h"
 #include "player.h"
 #include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
 #include "spaceship.h"
@@ -632,7 +633,7 @@ struct packet_ruleset_unit {
 };
 
 struct packet_ruleset_tech {
-  int id, req[2];		/* indices for advances[] */
+  int id, req[2], root_req;	/* indices for advances[] */
   int flags;
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];

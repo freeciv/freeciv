@@ -22,6 +22,9 @@ options="1.9"
 ;
 ; name          = name as seen by user 
 ; req1, req2	= advances required before researching this one
+; root_req      = advance required before acquiring this one, inherited
+;                 by all techs that require this tech in turn unless
+;                 "None" is given explicitly
 ; flags         = special flag strings
 ; graphic       = icon for technology
 ; graphic_alt   = alternate icon

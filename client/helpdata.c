@@ -785,7 +785,7 @@ void helptext_tech(char *buf, int i, const char *user_text)
 	      _("If we would now start with %s we would need %d bulbs."),
 	      advances[i].name,
 	      base_total_bulbs_required(game.player_ptr, i));
-    } else {
+    } else if (tech_is_available(game.player_ptr, i)) {
       sprintf(buf + strlen(buf),
 	      _("To reach %s we need to obtain %d other "
 		"technologies first. The whole project "
@@ -793,8 +793,11 @@ void helptext_tech(char *buf, int i, const char *user_text)
 	      advances[i].name,
 	      num_unknown_techs_for_goal(game.player_ptr, i) - 1,
 	      total_bulbs_required_for_goal(game.player_ptr, i));
+    } else {
+      sprintf(buf + strlen(buf),
+	      _("You cannot research this technology."));
     }
-    if (!techs_have_fixed_costs()) {
+    if (!techs_have_fixed_costs() && tech_is_available(game.player_ptr, i)) {
       sprintf(buf + strlen(buf),
 	      _(" This number may vary depending on what "
 		"other players will research.\n"));

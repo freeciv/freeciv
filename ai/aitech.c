@@ -50,8 +50,10 @@ static Tech_Type_id get_wonder_tech(struct player *plr)
       && !wonder_obsolete(building)) {
     Tech_Type_id tech = improvement_types[building].tech_req;
 
-    if (tech_exists(tech) && get_invention(plr, tech) != TECH_KNOWN)
+    if (tech_is_available(plr, tech) 
+        && get_invention(plr, tech) != TECH_KNOWN) {
       return tech;
+    }
   }
   return A_UNSET;
 }
@@ -70,8 +72,10 @@ static void ai_next_tech_goal_default(struct player *pplayer,
 
   for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
     Tech_Type_id j = prace->goals.tech[i];
-    if (!tech_exists(j) || get_invention(pplayer, j) == TECH_KNOWN) 
+    if (!tech_is_available(pplayer, j) 
+        || get_invention(pplayer, j) == TECH_KNOWN) {
       continue;
+    }
     dist = num_unknown_techs_for_goal(pplayer, j);
     if (dist < bestdist) { 
       bestdist = dist;
@@ -154,11 +158,18 @@ to be doing; it just looks strange. -- Syela */
     } else goal_values[i] = 0;
   }
 
-  l = A_UNSET;
-  k = A_UNSET;
+  l = A_UNSET; /* currently researched tech */
+  k = A_UNSET; /* current tech goal */
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    if (values[i] > values[l] && get_invention(pplayer, i) == TECH_REACHABLE) l = i;
-    if (goal_values[i] > goal_values[k]) k = i;
+    if (values[i] > values[l]
+        && tech_is_available(pplayer, i)
+        && get_invention(pplayer, i) == TECH_REACHABLE) {
+      l = i;
+    }
+    if (goal_values[i] > goal_values[k]
+        && tech_is_available(pplayer, i)) {
+      k = i;
+    }
   }
   freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", pplayer->name,
 		advances[l].name, values[l], pplayer->ai.tech_want[l]);

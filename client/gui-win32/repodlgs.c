@@ -144,9 +144,10 @@ science_dialog_update(void)
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_GOAL));
     hist=0;
   for(i=A_FIRST; i<game.num_tech_types; i++) {
-    if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
-       advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-       num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+    if (tech_is_available(game.player_ptr, i)
+        && get_invention(game.player_ptr, i) != TECH_KNOWN
+        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
+        && num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
       id=ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			    advances[i].name);
       ComboBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),

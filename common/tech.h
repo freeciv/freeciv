@@ -15,6 +15,8 @@
 
 #include "shared.h"
 
+#include "nation.h" /* Nation_Type_id */
+
 struct player;
 
 typedef int Tech_Type_id;
@@ -78,7 +80,8 @@ struct advance {
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
-  int req[2];
+  Tech_Type_id req[2];
+  Tech_Type_id root_req;		/* A_NONE means unrestricted */
   unsigned int flags;
   char *helptext;
 
@@ -108,6 +111,7 @@ void set_invention(struct player *pplayer, Tech_Type_id tech,
 void update_research(struct player *pplayer);
 Tech_Type_id get_next_tech(struct player *pplayer, Tech_Type_id goal);
 
+bool tech_is_available(struct player *pplayer, Tech_Type_id id);
 bool tech_exists(Tech_Type_id id);
 Tech_Type_id find_tech_by_name(const char *s);
 

@@ -595,6 +595,7 @@ static void player_load(struct player *plr, int plrno,
     p = (char *)name_order[secfile_lookup_int(file, "player%d.race", plrno)];
   }
   plr->nation = find_nation_by_name_orig(p);
+  init_tech(plr, game.tech); /* add techs from game and nation here */
 
   /* not all players have teams */
   if (section_file_lookup(file, "player%d.team", plrno)) {
@@ -684,8 +685,11 @@ static void player_load(struct player *plr, int plrno,
   plr->revolution=secfile_lookup_int_default(file, 0, "player%d.revolution",
                                              plrno);
 
-  for(i=0; i<game.num_tech_types; i++)
-    set_invention(plr, i, (p[i]=='1') ? TECH_KNOWN : TECH_UNKNOWN);
+  for (i = 0; i < game.num_tech_types; i++) {
+    if (p[i] == '1') {
+      set_invention(plr, i, TECH_KNOWN);
+    }
+  }
 
   update_research(plr);
 

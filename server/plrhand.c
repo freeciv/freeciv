@@ -130,7 +130,8 @@ void great_library(struct player *pplayer)
   if (find_city_wonder(B_GREAT)) {
     if (pplayer->player_no==find_city_wonder(B_GREAT)->owner) {
       for (i=0;i<game.num_tech_types;i++) {
-	if (get_invention(pplayer, i)!=TECH_KNOWN 
+	if (get_invention(pplayer, i) != TECH_KNOWN
+	    && tech_is_available(pplayer, i)
 	    && game.global_advances[i]>=2) {
 	  notify_player_ex(pplayer, -1, -1, E_TECH_GAIN,
 			   _("Game: %s acquired from The Great Library!"),
@@ -217,6 +218,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   assert((tech_exists(tech_found)
 	  && get_invention(plr, tech_found) != TECH_KNOWN)
 	 || tech_found == A_FUTURE);
+
+  assert(tech_is_available(plr, tech_found));
 
   plr->got_tech = TRUE;
   plr->research.techs_researched++;
@@ -582,8 +585,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
   int i;
   int j=0;
   for (i=0;i<game.num_tech_types;i++) {
-    if (get_invention(pplayer, i)!=TECH_KNOWN && 
-	get_invention(target, i)== TECH_KNOWN) {
+    if (get_invention(pplayer, i) != TECH_KNOWN
+	&& get_invention(target, i) == TECH_KNOWN
+	&& tech_is_available(pplayer, i)) {
       j++;
     }
   }
@@ -600,8 +604,9 @@ void get_a_tech(struct player *pplayer, struct player *target)
     /* pick random tech */
     j = myrand(j) + 1;
     for (i = 0; i < game.num_tech_types; i++) {
-      if (get_invention(pplayer, i) != TECH_KNOWN &&
-	  get_invention(target, i) == TECH_KNOWN) {
+      if (get_invention(pplayer, i) != TECH_KNOWN
+	  && get_invention(target, i) == TECH_KNOWN
+	  && tech_is_available(pplayer, i)) {
 	j--;
       }
       if (j == 0) {

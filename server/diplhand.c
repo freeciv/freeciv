@@ -147,6 +147,18 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
       if (pclause->from == pplayer) {
 	switch(pclause->type) {
 	case CLAUSE_ADVANCE:
+          if (!tech_is_available(other, pclause->value)) {
+	    /* It is impossible to give a technology to a civilization that
+	     * can never possess it (the client should enforce this). */
+	    freelog(LOG_ERROR, "Treaty: The %s can't have tech %s",
+                    get_nation_name_plural(other->nation),
+                    advances[pclause->value].name);
+	    notify_player(pplayer,
+                          _("Game: The %s can't accept %s."),
+                          get_nation_name_plural(other->nation),
+                          advances[pclause->value].name);
+	    return;
+          }
 	  if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
 	    freelog(LOG_ERROR,
                     "The %s don't know tech %s, but try to give it to the %s.",

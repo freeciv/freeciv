@@ -219,10 +219,10 @@ static int fill_diplomacy_tech_menu(GtkWidget *popupmenu,
   int i, flag;
 
   for(i=1, flag=0; i<game.num_tech_types; i++) {
-    if(get_invention(plr0, i)==TECH_KNOWN && 
-       (get_invention(plr1, i)==TECH_UNKNOWN || 
-	get_invention(plr1, i)==TECH_REACHABLE))
-	{
+    if (get_invention(plr0, i) == TECH_KNOWN
+        && (get_invention(plr1, i) == TECH_UNKNOWN
+	    || get_invention(plr1, i) == TECH_REACHABLE)
+        && tech_is_available(plr1, i)) {
 	  GtkWidget *item=gtk_menu_item_new_with_label(advances[i].name);
 
 	  gtk_menu_append(GTK_MENU(popupmenu),item);

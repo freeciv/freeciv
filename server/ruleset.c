@@ -205,8 +205,8 @@ static int lookup_tech(struct section_file *file, const char *prefix,
   char *sval;
   int i;
   
-  sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
-  if (!required && strcmp(sval, "Never")==0) {
+  sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
+  if (!sval || (!required && strcmp(sval, "Never") == 0)) {
     i = A_LAST;
   } else {
     i = find_tech_by_name(sval);
@@ -496,6 +496,7 @@ static void load_ruleset_techs(struct section_file *file)
   advances[A_NONE].req[0] = A_NONE;
   advances[A_NONE].req[1] = A_NONE;
   advances[A_NONE].flags = 0;
+  advances[A_NONE].root_req = A_LAST;
 
   a = &advances[A_FIRST];
   
@@ -505,7 +506,9 @@ static void load_ruleset_techs(struct section_file *file)
 
     a->req[0] = lookup_tech(file, sec[i], "req1", FALSE, filename, a->name);
     a->req[1] = lookup_tech(file, sec[i], "req2", FALSE, filename, a->name);
-    
+    a->root_req = lookup_tech(file, sec[i], "root_req", FALSE,
+			      filename, a->name);
+
     if ((a->req[0]==A_LAST && a->req[1]!=A_LAST) ||
 	(a->req[0]!=A_LAST && a->req[1]==A_LAST)) {
       freelog(LOG_ERROR, "for tech %s: \"Never\" with non-\"Never\" (%s)",
@@ -549,6 +552,46 @@ static void load_ruleset_techs(struct section_file *file)
     a->num_reqs = 0;
     
     a++;
+  }
+
+  /* Propagate a root tech up into the tech tree.  Thus if a technology
+   * X has Y has a root tech, then any technology requiring X also has
+   * Y as a root tech. */
+restart:
+  for (i = A_FIRST; i < num_techs; i++) {
+    a = &advances[i];
+    if (a->root_req != A_LAST && tech_exists(i)) {
+      int j;
+      bool out_of_order = FALSE;
+
+      /* Now find any tech depending on this technology and update it's
+       * root_req. */
+      for(j = A_FIRST; j < num_techs; j++) {
+        struct advance *b = &advances[j];
+        if ((b->req[0] == i || b->req[1] == i)
+            && b->root_req == A_LAST
+            && tech_exists(j)) {
+          b->root_req = a->root_req;
+	  if (j < i) {
+	    out_of_order = TRUE;
+          }
+        }
+      }
+
+      if (out_of_order) {
+	/* HACK: If we just changed the root_tech of a lower-numbered
+	 * technology, we need to go back so that we can propagate the
+	 * root_tech up to that technology's parents... */
+	goto restart;   
+      }
+    }
+  }
+  /* Now rename A_LAST to A_NONE for consistency's sake */
+  for (i = A_NONE; i < num_techs; i++) {
+    a = &advances[i];
+    if (a->root_req == A_LAST) {
+      a->root_req = A_NONE;
+    }
   }
 
   /* Some more consistency checking: 
@@ -2500,6 +2543,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     sz_strlcpy(packet.graphic_alt, a->graphic_alt);	  
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
+    packet.root_req = a->root_req;
     packet.flags = a->flags;
     packet.preset_cost = a->preset_cost;
     packet.num_reqs = a->num_reqs;

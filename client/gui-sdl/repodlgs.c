@@ -2954,9 +2954,10 @@ static int change_research_goal(struct GUI *pWidget)
    */
   count = 0;
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    if (get_invention(game.player_ptr, i) != TECH_KNOWN &&
-	advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-	num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+    if (tech_is_available(game.player_ptr, i)
+        && get_invention(game.player_ptr, i) != TECH_KNOWN
+        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
+	&& num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
 
       pStr = create_str16_from_char(advances[i].name, 10);
       pStr->style |= TTF_STYLE_BOLD;
