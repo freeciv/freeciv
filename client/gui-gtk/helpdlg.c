@@ -477,8 +477,8 @@ static void create_help_dialog(void)
   gtk_container_add( GTK_CONTAINER( help_frame ), help_box );
 
 
-  unit_tile = gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH,
-  					   NORMAL_TILE_HEIGHT);
+  unit_tile = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
+  					   UNIT_TILE_HEIGHT);
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
   help_itable = gtk_table_new(1, 6, FALSE);
