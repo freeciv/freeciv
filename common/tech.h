@@ -17,16 +17,24 @@
 
 struct player;
 
-enum tech_type_id {  
-  A_NONE=0,
-  A_LAST=89
-  /*
-     A_LAST is a value which is guaranteed to be larger than all
-     actual tech id values.  It is used as a flag value; it can
-     also be used for fixed allocations to ensure able to hold
-     full number of tech.
-  */
-};
+typedef int Tech_Type_id;
+/*
+  Above typedef replaces old "enum tech_type_id"; see comments about
+  Unit_Type_id in unit.h, since mainly apply here too, except don't
+  use Tech_Type_id very widely, and don't use (-1) flag values. (?)
+*/
+
+#define A_NONE 0
+#define A_LAST 89
+/*
+   A_NONE is a special tech value, used as a flag in various
+   cases where no tech is required.
+
+   A_LAST is a value which is guaranteed to be larger than all
+   actual tech id values.  It is used as a flag value; it can
+   also be used for fixed allocations to ensure able to hold
+   full number of techs.
+*/
 
 #define TECH_UNKNOWN 0
 #define TECH_KNOWN 1
@@ -44,8 +52,8 @@ void update_research(struct player *plr);
 int tech_goal_turns(struct player *plr, int goal);
 int get_next_tech(struct player *plr, int goal);
 
-int tech_exists(enum tech_type_id id);
-enum tech_type_id find_tech_by_name(char *s);
+int tech_exists(Tech_Type_id id);
+Tech_Type_id find_tech_by_name(const char *s);
 
 extern struct advance advances[];
 

@@ -141,7 +141,7 @@ A tech doesn't exist if one of:
   to A_LAST (this function returns 0 if either req is A_LAST, rather
   than both, to be on the safe side)
 **************************************************************************/
-int tech_exists(enum tech_type_id id)
+int tech_exists(Tech_Type_id id)
 {
   if (id<0 || id>=A_LAST)
     return 0;
@@ -153,7 +153,7 @@ int tech_exists(enum tech_type_id id)
 Does a linear search of advances[].name
 Returns A_LAST if none match.
 **************************************************************************/
-enum tech_type_id find_tech_by_name(char *s)
+Tech_Type_id find_tech_by_name(const char *s)
 {
   int i;
 
