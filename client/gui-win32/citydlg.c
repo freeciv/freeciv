@@ -1721,9 +1721,10 @@ static void city_dlg_mouse(struct city_dialog *pdialog, int x, int y,
       if ((x>=pdialog->map.x)&&(x<(pdialog->map.x+pdialog->map_w)))
 	{
 	  int tile_x,tile_y;
+	  xr = x - pdialog->map.x;
+	  yr = y - pdialog->map.y;
 
-	  if (canvas_to_city_pos(&tile_x, &tile_y,
-				 pdialog->map.x, pdialog->map.y)) {
+	  if (canvas_to_city_pos(&tile_x, &tile_y, xr, yr)) {
 	    city_toggle_worker(pdialog->pcity, tile_x, tile_y);
 	  }
 	}
