@@ -453,12 +453,11 @@ void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 **************************************************************************/
 void get_center_tile_mapcanvas(int *x, int *y)
 {
-  int is_real;
+  Dimension width, height;
+  XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
 
-  *x = map_view_x0 + map_canvas_store_twidth / 2;
-  *y = map_view_y0 + map_canvas_store_theight / 2;
-  is_real = normalize_map_pos(x, y);
-  assert(is_real);
+  /* This sets the pointers x and y */
+  get_map_xy(width/2, height/2, x, y);
 }
 
 /**************************************************************************
