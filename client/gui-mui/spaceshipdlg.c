@@ -1,0 +1,378 @@
+/********************************************************************** 
+ Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#include <libraries/mui.h>
+#include <mui/NListview_MCC.h>
+
+#include <clib/alib_protos.h>
+#include <proto/exec.h>
+#include <proto/muimaster.h>
+
+#include "fcintl.h"
+#include "game.h"
+#include "genlist.h"
+#include "map.h"
+#include "mem.h"
+#include "packets.h"
+#include "player.h"
+#include "shared.h"
+
+#include "clinet.h"
+#include "colors.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "helpdlg.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "repodlgs.h"
+#include "spaceship.h"
+#include "tilespec.h"
+
+#include "spaceshipdlg.h"
+
+// Amiga Client Stuff
+#include "muistuff.h"
+#include "mapclass.h"
+
+IMPORT Object *app;
+
+struct spaceship_dialog
+{
+  struct player *pplayer;
+
+  Object *wnd;
+  Object *info_text;
+  Object *spaceship_area;
+  Object *launch_button;
+};
+
+static struct genlist dialog_list;
+static int dialog_list_has_been_initialised;
+
+struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
+struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer);
+void close_spaceship_dialog(struct spaceship_dialog *pdialog);
+
+void spaceship_dialog_update_image(struct spaceship_dialog *pdialog);
+void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
+
+/****************************************************************
+...
+*****************************************************************/
+struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
+{
+  struct genlist_iterator myiter;
+
+  if (!dialog_list_has_been_initialised)
+  {
+    genlist_init(&dialog_list);
+    dialog_list_has_been_initialised = 1;
+  }
+
+  genlist_iterator_init(&myiter, &dialog_list, 0);
+
+  for (; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
+    if (((struct spaceship_dialog *) ITERATOR_PTR(myiter))->pplayer == pplayer)
+      return ITERATOR_PTR(myiter);
+
+  return 0;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void refresh_spaceship_dialog(struct player *pplayer)
+{
+  struct spaceship_dialog *pdialog;
+  struct player_spaceship *pship;
+
+  if (!(pdialog = get_spaceship_dialog(pplayer)))
+    return;
+
+  pship = &(pdialog->pplayer->spaceship);
+
+  if (game.spacerace
+      && pplayer->player_no == game.player_idx
+      && pship->state == SSHIP_STARTED
+      && pship->success_rate > 0)
+  {
+    set(pdialog->launch_button, MUIA_Disabled, FALSE);
+  }
+  else
+  {
+    set(pdialog->launch_button, MUIA_Disabled, TRUE);
+  }
+
+  spaceship_dialog_update_info(pdialog);
+  spaceship_dialog_update_image(pdialog);
+}
+
+/****************************************************************
+popup the dialog 10% inside the main-window 
+*****************************************************************/
+void popup_spaceship_dialog(struct player *pplayer)
+{
+  struct spaceship_dialog *pdialog;
+
+  if (!(pdialog = get_spaceship_dialog(pplayer)))
+    pdialog = create_spaceship_dialog(pplayer);
+
+  if (pdialog)
+    set(pdialog->wnd, MUIA_Window_Open, TRUE);
+}
+
+/****************************************************************
+popdown the dialog 
+*****************************************************************/
+void popdown_spaceship_dialog(struct player *pplayer)
+{
+  struct spaceship_dialog *pdialog;
+
+  if ((pdialog = get_spaceship_dialog(pplayer)))
+    close_spaceship_dialog(pdialog);
+}
+
+/****************************************************************
+ Must be called from the Application object so it is safe to
+ dispose the window
+*****************************************************************/
+static void space_close_real(struct spaceship_dialog **ppdialog)
+{
+  close_spaceship_dialog(*ppdialog);
+}
+
+/****************************************************************
+ Close the spaceship window
+*****************************************************************/
+static void space_close(struct spaceship_dialog ** ppdialog)
+{
+  set((*ppdialog)->wnd, MUIA_Window_Open, FALSE);
+  DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, space_close_real, *ppdialog);
+}
+
+/****************************************************************
+ Callback for the launch button
+*****************************************************************/
+static void space_launch(struct spaceship_dialog ** ppdialog)
+{
+  struct packet_spaceship_action packet;
+
+  packet.action = SSHIP_ACT_LAUNCH;
+  packet.num = 0;
+  send_packet_spaceship_action(&aconnection, &packet);
+  /* close_spaceship_dialog((struct spaceship_dialog *)data); */
+}
+
+/****************************************************************
+...
+*****************************************************************/
+struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
+{
+  Object *close_button;
+
+  struct spaceship_dialog *pdialog;
+  pdialog = (struct spaceship_dialog *) AllocVec(sizeof(struct spaceship_dialog), 0x10000);
+  if (!pdialog)
+    return NULL;
+
+  pdialog->pplayer = pplayer;
+
+  pdialog->wnd = WindowObject,
+    MUIA_Window_Title, pplayer->name,
+    MUIA_Window_ID, 'SPA\0' | (pplayer->player_no & 0xff),
+    WindowContents, VGroup,
+	Child, HGroup,
+	    Child, ScrollgroupObject,
+		MUIA_Scrollgroup_Contents, HGroupV,
+		    VirtualFrame,
+		    Child, pdialog->spaceship_area = MakeSpaceShip(&pplayer->spaceship),
+		    End,
+		End,
+	    Child, VGroup,
+		Child, HVSpace,
+		Child, HGroup,
+		    TextFrame,
+		    Child, MakeLabel("Population:\n"
+				     "Support:\n"
+				     "Energy:\n"
+				     "Mass:\n"
+				     "Travel time:\n"
+				     "Success prob.:\n"
+				     "Year of arrival:"),
+		    Child, pdialog->info_text = TextObject,
+			End,
+		    End,
+		Child, pdialog->launch_button = MakeButton("_Launch"),
+		Child, HVSpace,
+		End,
+	    End,
+	Child, HGroup,
+	    Child, close_button = MakeButton("_Close"),
+	    End,
+	End,
+    End;
+
+  if (pdialog->wnd)
+  {
+    DoMethod(pdialog->wnd, MUIM_Notify, MUIA_Window_CloseRequest, TRUE, pdialog->wnd, 4, MUIM_CallHook, &standart_hook, space_close, pdialog);
+    DoMethod(close_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, space_close, pdialog);
+    DoMethod(pdialog->launch_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, space_launch, pdialog);
+
+    DoMethod(app, OM_ADDMEMBER, pdialog->wnd);
+
+    genlist_insert(&dialog_list, pdialog, 0);
+    refresh_spaceship_dialog(pdialog->pplayer);
+    return pdialog;
+  }
+  FreeVec(pdialog);
+  return NULL;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
+{
+  char buf[512], arrival[16] = "-   ";
+  struct player_spaceship *pship = &(pdialog->pplayer->spaceship);
+
+  if (pship->state == SSHIP_LAUNCHED)
+  {
+    strcpy(arrival, textyear((int) (pship->launch_year
+				    + (int) pship->travel_time)));
+  }
+  sprintf(buf,
+	  "%5d\n"
+	  "%5d %%\n"
+	  "%5d %%\n"
+	  "%5d tons\n"
+	  "%5.1f years\n"
+	  "%5d %%\n"
+	  "%8s",
+	  pship->population,
+	  (int) (pship->support_rate * 100.0),
+	  (int) (pship->energy_rate * 100.0),
+	  pship->mass,
+	  (float) (0.1 * ((int) (pship->travel_time * 10.0))),
+	  (int) (pship->success_rate * 100.0),
+	  arrival);
+
+  set(pdialog->info_text, MUIA_Text_Contents, buf);
+}
+
+/****************************************************************
+...
+Should also check connectedness, and show non-connected
+parts differently.
+*****************************************************************/
+void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
+{
+/*
+   int i, j, k, x, y;  
+   struct Sprite *sprite = sprites.spaceship.habitation;   /* for size */
+  struct player_spaceship *ship = &pdialog->pplayer->spaceship;
+
+  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+  gdk_draw_rectangle(pdialog->image_canvas->window, fill_bg_gc, TRUE,
+		     0, 0, sprite->width * 7, sprite->height * 7);
+
+  for (i = 0; i < NUM_SS_MODULES; i++)
+  {
+    j = i / 3;
+    k = i % 3;
+    if ((k == 0 && j >= ship->habitation)
+	|| (k == 1 && j >= ship->life_support)
+	|| (k == 2 && j >= ship->solar_panels))
+    {
+      continue;
+    }
+    x = modules_info[i].x * sprite->width / 4 - sprite->width / 2;
+    y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
+
+    sprite = (k == 0 ? sprites.spaceship.habitation :
+	      k == 1 ? sprites.spaceship.life_support :
+	      sprites.spaceship.solar_panels);
+    gdk_gc_set_clip_origin(civ_gc, x, y);
+    gdk_gc_set_clip_mask(civ_gc, sprite->mask);
+    gdk_draw_pixmap(pdialog->image_canvas->window, civ_gc, sprite->pixmap,
+		    0, 0,
+		    x, y,
+		    sprite->width, sprite->height);
+    gdk_gc_set_clip_mask(civ_gc, NULL);
+  }
+
+  for (i = 0; i < NUM_SS_COMPONENTS; i++)
+  {
+    j = i / 2;
+    k = i % 2;
+    if ((k == 0 && j >= ship->fuel)
+	|| (k == 1 && j >= ship->propulsion))
+    {
+      continue;
+    }
+    x = components_info[i].x * sprite->width / 4 - sprite->width / 2;
+    y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
+
+    sprite = (k == 0) ? sprites.spaceship.fuel : sprites.spaceship.propulsion;
+
+    gdk_gc_set_clip_origin(civ_gc, x, y);
+    gdk_gc_set_clip_mask(civ_gc, sprite->mask);
+    gdk_draw_pixmap(pdialog->image_canvas->window, civ_gc, sprite->pixmap,
+		    0, 0,
+		    x, y,
+		    sprite->width, sprite->height);
+    gdk_gc_set_clip_mask(civ_gc, NULL);
+  }
+
+  sprite = sprites.spaceship.structural;
+
+  for (i = 0; i < NUM_SS_STRUCTURALS; i++)
+  {
+    if (!ship->structure[i])
+      continue;
+    x = structurals_info[i].x * sprite->width / 4 - sprite->width / 2;
+    y = structurals_info[i].y * sprite->height / 4 - sprite->height / 2;
+
+    gdk_gc_set_clip_origin(civ_gc, x, y);
+    gdk_gc_set_clip_mask(civ_gc, sprite->mask);
+    gdk_draw_pixmap(pdialog->image_canvas->window, civ_gc, sprite->pixmap,
+		    0, 0,
+		    x, y,
+		    sprite->width, sprite->height);
+    gdk_gc_set_clip_mask(civ_gc, NULL);
+  }
+  */
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void close_spaceship_dialog(struct spaceship_dialog *pdialog)
+{
+  if (pdialog)
+  {
+    set(pdialog->wnd, MUIA_Window_Open, FALSE);
+    DoMethod(app, OM_REMMEMBER, pdialog->wnd);
+    MUI_DisposeObject(pdialog->wnd);
+    FreeVec(pdialog);
+  }
+}
+
