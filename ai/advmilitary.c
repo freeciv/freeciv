@@ -990,8 +990,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
            &e, &v, myunit->x, myunit->y, boatspeed, needferry);
     }
 
-    if (e > choice->want && /* Without this &&, the AI will try to make attackers */
-        choice->want <= 100) { /* instead of defenders when being attacked -- Syela */
+    if (e > choice->want) { 
       if (!city_got_barracks(pcity) && is_ground_unit(myunit)) {
         if (player_knows_improvement_tech(pplayer, B_BARRACKS3))
           choice->choice = B_BARRACKS3;
@@ -1175,6 +1174,11 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
       choice->choice = v;
       choice->type = CT_NONMIL; /* Why not CT_DEFENDER? -- Caz */
     }
+  }
+
+  if (choice->want > 100) {
+    /* We are in severe danger, don't try to build attackers */
+    return;
   }
 
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
