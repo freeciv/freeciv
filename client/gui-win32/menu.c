@@ -915,7 +915,10 @@ update_menus(void)
       
       my_enable_menu(menu,IDM_REPORTS_SPACESHIP,
 		     game.player_ptr->spaceship.state=!SSHIP_NONE);
-      if((punit=get_unit_in_focus())) {
+      if(!(punit=get_unit_in_focus())) {
+	for(id=IDM_ORDERS_MENU+1;id<IDM_REPORTS_MENU;id++)
+	  my_enable_menu(menu,id,FALSE);
+      } else {
 	char *chgfmt = _("Change to %s");
 	char *transfmt = _("Transform to %s");
 	char irrtext[128], mintext[128], transtext[128];
