@@ -167,6 +167,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
     pcity->improvements[B_PALACE]=1;
   }
   pcity->anarchy=0;
+  pcity->rapture=0;
 
   pcity->city_options = CITYOPT_DEFAULT;
   

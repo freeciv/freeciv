@@ -290,9 +290,8 @@ static void ai_manage_taxes(struct player *pplayer)
     /* this code must be ABOVE the elvises[] if SIMPLISTIC is off */
     freelog(LOG_DEBUG, "Does %s want to be bigger? %d",
 		  pcity->name, wants_to_be_bigger(pcity));
-    if (g->rapture_size && pcity->size >= g->rapture_size  &&
-        pcity->food_surplus > 0 &&
-        !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity) &&
+    if (government_has_flag(g, G_RAPTURE_CITY_GROWTH) && pcity->size >= g->rapture_size  &&
+        pcity->food_surplus > 0 && !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity) &&
 	ai_fuzzy(pplayer,1)) {
       freelog(LOG_DEBUG, "%d happy people in %s",
 		    pcity->ppl_happy[4], pcity->name);

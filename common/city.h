@@ -182,6 +182,7 @@ struct city {
   /* turn states */
   int did_buy, did_sell, is_updated;
   int anarchy;                /* anarchy rounds count */ 
+  int rapture;                /* rapture rounds count */ 
   int was_happy;
   int airlift;
   int original;			/* original owner */

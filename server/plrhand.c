@@ -2048,6 +2048,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 						   plrno, i);
     pcity->tile_trade=pcity->trade_prod=0;
     pcity->anarchy=secfile_lookup_int(file, "player%d.c%d.anarchy", plrno,i);
+    pcity->rapture=secfile_lookup_int_default(file, 0, "player%d.c%d.rapture", plrno,i);
     pcity->was_happy=secfile_lookup_int(file, "player%d.c%d.was_happy", plrno,i);
     pcity->is_building_unit=secfile_lookup_int(file, 
 				    "player%d.c%d.is_building_unit", plrno, i);
@@ -2309,6 +2310,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, pcity->shield_stock, "player%d.c%d.shield_stock", 
 		       plrno, i);
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
+    secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);
     secfile_insert_int(file, pcity->was_happy, "player%d.c%d.was_happy", plrno,i);
     secfile_insert_int(file, pcity->did_buy, "player%d.c%d.did_buy", plrno,i);
     secfile_insert_int(file, pcity->did_sell, "player%d.c%d.did_sell", plrno,i);

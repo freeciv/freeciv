@@ -61,7 +61,7 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 ;		     empire size when base unhappiness is increased
 ; civil_war_chance = percentage change of civil war when capital is captured
 ;		     (and player has enough cities etc)
-; rapture_size     = if non-zero, city can grow by celebrating, when size is
+; rapture_size     = a happy city will celebrate when its size is
 ;		     this value or larger
 
 ; unit_*_factor = factor applied to individual unit upkeep for different 
@@ -111,7 +111,7 @@ max_single_rate  = 100  ; rates are irrelevant under Anarchy; use 100
 		        ; to avoid unnecessary changes during revolution
 civil_war_chance = 90
 empire_size_mod  = -5
-rapture_size     = 0
+rapture_size     = 3
 
 unit_unhappy_factor = 0
 unit_shield_factor  = 1
@@ -180,7 +180,7 @@ martial_law_per  = 1
 max_single_rate  = 100
 civil_war_chance = 80
 empire_size_mod  = -4
-rapture_size     = 0
+rapture_size     = 3
 
 unit_unhappy_factor = 0 
 unit_shield_factor  = 1
@@ -248,7 +248,7 @@ martial_law_per  = 1
 max_single_rate  = 100
 civil_war_chance = 70
 empire_size_mod  = -3
-rapture_size     = 0
+rapture_size     = 3
 
 unit_unhappy_factor = 0
 unit_shield_factor  = 1
@@ -315,7 +315,7 @@ martial_law_per  = 1
 max_single_rate  = 100
 civil_war_chance = 50
 empire_size_mod  = -2
-rapture_size     = 0
+rapture_size     = 3
 
 unit_unhappy_factor = 0
 unit_shield_factor  = 1
@@ -380,7 +380,7 @@ name        = _("Republic")
 tech_req    = "The Republic"
 graphic     = "gov.republic"
 graphic_alt = "-"
-flags       = "Has_Senate"
+flags       = "Has_Senate", "Rapture_City_Growth"
 hints       = "Is_Nice"
 subgoal	    = "Monarchy"
 
@@ -457,7 +457,7 @@ name        = _("Democracy")
 tech_req    = "Democracy"
 graphic     = "gov.democracy"
 graphic_alt = "-"
-flags       = "Has_Senate", "Revolution_When_Unhappy" 
+flags       = "Has_Senate", "Revolution_When_Unhappy", "Rapture_City_Growth"
 hints       = "Is_Nice"
 subgoal	    = "Republic"
 

@@ -1288,11 +1288,11 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
   int turns_growth, turns_granary;
 
   city_check_workers(pplayer, pcity);
+  city_refresh(pcity);
 
   /* fill citys food box if it is in rapture -- SKi */
-  if (city_refresh(pcity) && g->rapture_size &&
-      pcity->size >= g->rapture_size &&
-      pcity->food_surplus > 0) {
+  if (city_celebrating(pcity) && government_has_flag(g, G_RAPTURE_CITY_GROWTH) &&
+      pcity->size >= g->rapture_size && pcity->food_surplus > 0) {
     pcity->food_stock=(pcity->size+1)*game.foodbox+1; 
   }
 
@@ -1322,21 +1322,28 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     if (!ai_make_elvis(pcity)) break;
   } /* putting this lower in the routine would basically be cheating. -- Syela */
 
-  if (city_build_stuff(pplayer, pcity)) {
-    if (!pcity->was_happy && city_happy(pcity) && pcity->size>4) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
-	     	    _("Game: We Love The %s Day celebrated in %s."), 
-	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
-		    pcity->name);
-    }
-    if (!city_happy(pcity) && pcity->was_happy && pcity->size>4) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
-		    _("Game: We Love The %s Day canceled in %s."),
-	            get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
-		    pcity->name);
 
+  /* reporting of celebrations rewritten, copying the treatment of disorder below,
+     with the added rapture rounds count.  991219 -- Jing */
+  if (city_build_stuff(pplayer, pcity)) {
+    if (city_celebrating(pcity)) {
+      pcity->rapture++;
+      if (pcity->rapture == 1)
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
+			 _("Game: We Love The %s Day celebrated in %s."), 
+			 get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
+			 pcity->name);
+    }
+    else {
+      if (pcity->rapture)
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
+			 _("Game: We Love The %s Day canceled in %s."),
+			 get_ruler_title(pplayer->government, pplayer->is_male, pplayer->nation),
+			 pcity->name);
+      pcity->rapture=0;
     }
     pcity->was_happy=city_happy(pcity);
+
       {
         int id=pcity->id;
         city_populate(pcity);

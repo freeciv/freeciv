@@ -892,7 +892,8 @@ int city_unhappy(struct city *pcity)
 
 int city_celebrating(struct city *pcity)
 {
-  return (pcity->size>=5 && pcity->was_happy/* city_happy(pcity)*/);
+    struct government *g = get_gov_pcity(pcity);
+    return (pcity->size>=g->rapture_size && pcity->was_happy && city_happy(pcity));
 }
 
 /* The find_city_by_id() code has returned from its trip to server land and

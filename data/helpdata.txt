@@ -1163,7 +1163,7 @@ revolution, overthrowing your government.\
 "), _("\
 However, if the number of happy citizens in a city is at least as \
 great as the number of content citizens, and you have no unhappy \
-citizens in that city, and the city has at least 5 citizens, then \
+citizens in that city, and the city has at least 3 citizens, then \
 the city celebrates.  This is designated by the term \"Rapture\" on \
 the City Report.  The effects of celebration vary depending on your \
 government type:\

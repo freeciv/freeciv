@@ -30,6 +30,7 @@ enum government_flag_id {
   G_HAS_SENATE,			/* not implemented */
   G_UNBRIBABLE,
   G_INSPIRES_PARTISANS,
+  G_RAPTURE_CITY_GROWTH,        /* allows city to grow by celebrating */
   G_LAST_FLAG
 };
 enum government_hint_id {
@@ -80,8 +81,8 @@ struct government
   int   empire_size_mod;	/* (signed) offset to game.cityfactor to
 				   give city count when number of naturally
 				   content citizens is decreased */
-  int   rapture_size;		/* minimum city size for rapture; if 0,
-				   rapture is not possible */
+  int   rapture_size;		/* minimum city size for rapture; if 255,
+				   rapture is (practically) impossible */
 
   /* unit cost modifiers */
   int   unit_happy_cost_factor;
