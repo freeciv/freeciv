@@ -176,7 +176,7 @@ static bool send_to_metaserver(enum meta_flag flag)
   static char msg[8192];
   static char str[8192];
   int rest = sizeof(str);
-  int n;
+  int n = 0;
   char *s = str;
   char host[512];
   char state[20];
@@ -253,7 +253,10 @@ static bool send_to_metaserver(enum meta_flag flag)
       mystrlcpy(s, "dropplrs=1&", rest);
       s = end_of_strn(s, &rest);
     } else {
+      n = 0; /* a counter for players_available */
+
       players_iterate(plr) {
+        bool is_player_available = FALSE;
         char type[15];
         struct connection *pconn = find_conn_by_user(plr->username);
 
@@ -285,7 +288,34 @@ static bool send_to_metaserver(enum meta_flag flag)
         my_snprintf(s, rest, "plh[]=%s&",
                     pconn ? my_url_encode(pconn->addr) : "");
         s = end_of_strn(s, &rest);
+
+        /* is this player available to take?
+         * TODO: there's some duplication here with 
+         * stdinhand.c:is_allowed_to_take() */
+        if (is_barbarian(plr) && strchr(game.allow_take, 'b')) {
+          is_player_available = TRUE;
+        } else if (!plr->is_alive && strchr(game.allow_take, 'd')) {
+          is_player_available = TRUE;
+        } else if (plr->ai.control
+            && strchr(game.allow_take, (game.is_new_game ? 'A' : 'a'))) {
+          is_player_available = TRUE;
+        } else if (!plr->ai.control
+            && strchr(game.allow_take, (game.is_new_game ? 'H' : 'h'))) {
+          is_player_available = TRUE;
+        }
+
+        if (pconn) {
+          is_player_available = FALSE;
+        }
+
+        if (is_player_available) {
+          n++;
+        }
       } players_iterate_end;
+
+      /* send the number of available players. */
+      my_snprintf(s, rest, "available=%d&", n);
+      s = end_of_strn(s, &rest);
     }
 
     /* send some variables: should be listed in inverted order
@@ -312,6 +342,10 @@ static bool send_to_metaserver(enum meta_flag flag)
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 my_url_encode("maxplayers"), game.max_players);
+    s = end_of_strn(s, &rest);
+
+    my_snprintf(s, rest, "vn[]=%s&vv[]=%s&",
+                my_url_encode("allowtake"), game.allow_take);
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
