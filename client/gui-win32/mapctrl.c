@@ -376,7 +376,10 @@ void set_turn_done_button_state(bool state)
 **************************************************************************/
 void create_line_at_mouse_pos(void)
 {
-        /* PORTME */
+  POINT pos;
+  GetCursorPos(&pos);
+  ScreenToClient(map_window, &pos);
+  update_line(pos.x, pos.y);
 }
 
 /**************************************************************************

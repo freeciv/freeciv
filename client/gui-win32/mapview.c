@@ -49,6 +49,11 @@
 #include "mapview.h"
 #include "text.h"
 
+extern HCURSOR goto_cursor;
+extern HCURSOR drop_cursor;
+extern HCURSOR nuke_cursor;
+extern HCURSOR patrol_cursor;
+
 static struct Sprite *indicator_sprite[3];
 
 static HBITMAP intro_gfx;
@@ -250,28 +255,34 @@ update_info_label(void)
 void
 update_unit_info_label(struct unit *punit)
 {
-    if(punit) {
-    char buffer[512];
-    char buffer2[512];
-    
-    struct city *pcity;
-    pcity=player_find_city_by_id(game.player_ptr, punit->homecity);
- 
-    my_snprintf(buffer, sizeof(buffer), "%s %s",
-            unit_type(punit)->name,
-            (punit->veteran) ? _("(veteran)") : "" );
-    /* FIXME */         
-    my_snprintf(buffer2, sizeof(buffer2), "%s\n%s\n%s\n%s",buffer,
-		unit_activity_text(punit),
-		map_get_tile_info_text(punit->tile),
-		pcity ? pcity->name : "");     
-    SetWindowText(unitinfo_win,buffer2);
+  SetWindowText(unit_info_frame, get_unit_info_label_text1(punit));
+  SetWindowText(unit_info_label, get_unit_info_label_text2(punit));
+
+  if(punit) {
+    if (hover_unit != punit->id)
+      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
+    switch (hover_state) {
+      case HOVER_NONE:
+	SetCursor (LoadCursor(NULL, IDC_ARROW));
+	break;
+      case HOVER_PATROL:
+	SetCursor (patrol_cursor);
+	break;
+      case HOVER_GOTO:
+      case HOVER_CONNECT:
+	SetCursor (goto_cursor);
+	break;
+      case HOVER_NUKE:
+	SetCursor (nuke_cursor);
+	break;
+      case HOVER_PARADROP:
+	SetCursor (drop_cursor);
+	break;
     }
-    else
-      {
-	SetWindowText(unitinfo_win,"");
-	
-      }
+  } else {
+    SetCursor (LoadCursor(NULL, IDC_ARROW));
+  }
+
     do_mainwin_layout();
 }
 

@@ -450,7 +450,15 @@ static void win_text_minsize(HWND hWnd,POINT *rcmin,char *text)
   textrect.right=640;
   textrect.left=0;
   textrect.bottom=480;
-  DrawText(hdc,text,strlen(text),&textrect,DT_CALCRECT | DT_WORDBREAK);
+
+  /* Calculation is not done if text is zero length */
+  if (strlen(text) == 0) {
+    textrect.right = 0;
+    textrect.bottom = 0;
+  } else {
+    DrawText(hdc, text, strlen(text), &textrect, DT_CALCRECT | DT_WORDBREAK);
+  }
+
   if (font)
     SelectObject(hdc,old);
   ReleaseDC(hWnd,hdc);
