@@ -472,7 +472,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
     set_wstate(pBuf , FC_WS_NORMAL);
     
     if(load) {
-      (char *)pBuf->data.ptr = 1;
+      pBuf->data.ptr = (void *)1;
     } else {
       pBuf->data.ptr = NULL;
     }
@@ -635,7 +635,7 @@ static void set_cma_hscrollbars(void)
     
 }
 
-static bool is_worker(struct city *pCity, int x, int y)
+static bool is_worker(const struct city *pCity, int x, int y)
 {
   return pCma && pCma->pResult && pCma->pResult->worker_positions_used[x][y];
 }
@@ -682,34 +682,30 @@ void update_city_cma_dialog(void)
     dst.x = pBuf->size.x + 10;
 
     for (i = 0;
-      i < count - (result.entertainers + result.scientists + result.taxmen); i++) {
+      i < count - (result.specialists[SP_ELVIS]
+		   + result.specialists[SP_SCIENTIST]
+		   + result.specialists[SP_TAXMAN]); i++) {
       pText = get_citizen_surface(CITIZEN_CONTENT, i);
       SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
       dst.x += step;
     }
     
-    if (result.entertainers) {
-      pText = get_citizen_surface(CITIZEN_ELVIS, 0);
-      for (i = 0; i < result.entertainers; i++) {
-        SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
-        dst.x += step;
-      }
+    pText = get_citizen_surface(CITIZEN_ELVIS, 0);
+    for (i = 0; i < result.specialists[SP_ELVIS]; i++) {
+      SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+      dst.x += step;
     }
 
-    if (result.taxmen) {
-      pText = get_citizen_surface(CITIZEN_TAXMAN, 0);
-      for (i = 0; i < result.taxmen; i++) {
-        SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
-        dst.x += step;
-      }
+    pText = get_citizen_surface(CITIZEN_TAXMAN, 0);
+    for (i = 0; i < result.specialists[SP_TAXMAN]; i++) {
+      SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+      dst.x += step;
     }
 
-    if (result.scientists) {
-      pText = get_citizen_surface(CITIZEN_SCIENTIST, 0);
-      for (i = 0; i < result.scientists; i++) {
-        SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
-        dst.x += step;
-      }
+    pText = get_citizen_surface(CITIZEN_SCIENTIST, 0);
+    for (i = 0; i < result.specialists[SP_SCIENTIST]; i++) {
+      SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+      dst.x += step;
     }
   }
   
@@ -880,7 +876,7 @@ void popup_city_cma_dialog(struct city *pCity)
 			(WF_DRAW_THEME_TRANSPARENT));
 
     pBuf->action = min_horiz_cma_callback;
-    (int *)pBuf->data.ptr = &pCma->edited_cm_parm.minimal_surplus[i];
+    pBuf->data.ptr = &pCma->edited_cm_parm.minimal_surplus[i];
   
     set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -898,7 +894,7 @@ void popup_city_cma_dialog(struct city *pCity)
 			(WF_DRAW_THEME_TRANSPARENT));
 
     pBuf->action = factor_horiz_cma_callback;
-    (int *)pBuf->data.ptr = &pCma->edited_cm_parm.factor[i];
+    pBuf->data.ptr = &pCma->edited_cm_parm.factor[i];
   
     set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -921,7 +917,7 @@ void popup_city_cma_dialog(struct city *pCity)
 			(WF_DRAW_THEME_TRANSPARENT));
 
   pBuf->action = factor_horiz_cma_callback;
-  (int *)pBuf->data.ptr = &pCma->edited_cm_parm.happy_factor;
+  pBuf->data.ptr = &pCma->edited_cm_parm.happy_factor;
   
   set_wstate(pBuf, FC_WS_NORMAL);
 

@@ -29,6 +29,8 @@ void enable_city_dlg_widgets(void);
 void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest);
 SDL_Surface * get_scaled_city_map(struct city *pCity);
 void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
-	struct city *pCity, bool (*worker_check) (struct city *, int, int));
+			       const struct city *pCity,
+			       bool (*worker_check) (const struct city *,
+						     int, int));
 	  
 #endif	/* FC__CITYDLG_H */

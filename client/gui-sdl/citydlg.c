@@ -70,6 +70,7 @@
 #include "climap.h"
 #include "wldlg.h"
 #include "gui_tilespec.h"
+#include "text.h"
 
 #include "optiondlg.h"
 #include "menu.h"
@@ -719,12 +720,11 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 		pHome_City ? pHome_City->name : _("None"));
     
     if (pCityDlg->state == SUPPORTED_UNITS_PAGE) {
-      char buffer2[64];
       int pcity_near_dist;
       struct city *pNear_City = get_nearest_city(pUnit, &pcity_near_dist);
-      mystrlcat(cBuf, "\n", sizeof(cBuf));
-      mystrlcat(cBuf, get_nearest_city_text(pNear_City, pcity_near_dist,
-				  buffer2, sizeof(buffer2)), sizeof(cBuf));
+
+      sz_strlcat(cBuf, "\n");
+      sz_strlcat(cBuf, get_nearest_city_text(pNear_City, pcity_near_dist));
       pSurf = create_unit_surface(pUnit, 1);
     } else {
       pSurf = create_unit_surface(pUnit, 0);
@@ -1753,7 +1753,8 @@ static int resource_map_city_dlg_callback(struct GUI *pMap)
 /**************************************************************************
   ...
 **************************************************************************/
-static void fill_tile_resorce_surf(SDL_Surface * pTile, struct city *pCity,
+static void fill_tile_resorce_surf(SDL_Surface * pTile,
+				   const struct city *pCity,
 				   Uint16 city_col, Uint16 city_row)
 {
   int i, step;
@@ -1794,7 +1795,9 @@ static void fill_tile_resorce_surf(SDL_Surface * pTile, struct city *pCity,
   Refresh (update) the city resource map
 **************************************************************************/
 void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
-		struct city *pCity, bool (*worker_check) (struct city *, int, int))
+			       const struct city *pCity,
+			       bool (*worker_check) (const struct city *,
+						     int, int))
 {
 #ifndef NO_ISO
   register int col, row;

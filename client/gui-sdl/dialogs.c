@@ -1189,22 +1189,6 @@ static int adv_unit_sentry_idle_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int connect_here_callback(struct GUI *pWidget)
-{
-  int x = pWidget->data.cont->id0;
-  int y = pWidget->data.cont->id1;
-  
-  lock_buffer(pWidget->dst);  
-  popdown_advanced_terrain_dialog();
-  
-  /* may not work */
-  popup_unit_connect_dialog(get_unit_in_focus(), x, y);
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 static int goto_here_callback(struct GUI *pWidget)
 {
   int x = pWidget->data.cont->id0;
@@ -1439,7 +1423,8 @@ void popup_advanced_terrain_dialog(int x , int y)
     w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
     /* ----------- */
-    
+
+#if 0 /* FIXME: specific connect buttons */
     if(unit_flag(pFocus_Unit, F_SETTLERS)) {
       create_active_iconlabel(pBuf, pWindow->dst, pStr, _("Connect here"),
 						    connect_here_callback);
@@ -1452,6 +1437,7 @@ void popup_advanced_terrain_dialog(int x , int y)
       h += pBuf->size.h;
       
     }
+#endif
 
     if(can_unit_paradrop(pFocus_Unit) && pTile->known &&
       !(is_ocean(pTile->terrain) && is_ground_unit(pFocus_Unit)) &&
@@ -3479,56 +3465,6 @@ void popup_pillage_dialog(struct unit *pUnit,
 /* ======================================================================= */
 static struct SMALL_DLG *pConnect_Dlg = NULL;
 
-/****************************************************************
- ...
-*****************************************************************/
-static int connect_window_callback(struct GUI *pWindow)
-{
-  return std_move_window_group_callback(pConnect_Dlg->pBeginWidgetList, pWindow);
-}
-
-/****************************************************************
- ...
-*****************************************************************/
-static int unit_connect_callback(struct GUI *pWidget)
-{
-  enum unit_activity act = MAX_ID - pWidget->ID;
-  int x = pWidget->data.cont->id0;
-  int y = pWidget->data.cont->id1;
-  struct unit *pUnit = find_unit_by_id(pWidget->data.cont->value);
-        
-  popdown_connect_dialog();
-  flush_dirty();
-  
-  if (pUnit && unit_flag(pUnit, F_SETTLERS)) {
-    struct packet_unit_connect req;
-
-    req.activity_type = act;
-    req.unit_id = pUnit->id;
-    req.dest_x = x;
-    req.dest_y = y;
-    send_packet_unit_connect(&aconnection, &req);
-  }
-  return -1;
-}
-
-/****************************************************************
- ...
-*****************************************************************/
-static int exit_connect_dlg_callback(struct GUI *pWidget)
-{
-  struct unit *pUnit = find_unit_by_id(pWidget->data.cont->value);
-
-  popdown_connect_dialog();
-  
-  if (pUnit) {
-    update_unit_info_label(pUnit);
-  }
-  
-  flush_dirty();
-  return -1;
-}
-
 /**************************************************************************
   Popdown a dialog asking the unit how they want to "connect" their
   location to the destination.
@@ -3541,118 +3477,6 @@ static void popdown_connect_dialog(void)
 				pConnect_Dlg->pEndWidgetList);
     FREE(pConnect_Dlg);
   }
-}
-
-/**************************************************************************
-  Popup a dialog asking the unit how they want to "connect" their
-  location to the destination.
-**************************************************************************/
-void popup_unit_connect_dialog(struct unit *pUnit, int dest_x, int dest_y)
-{
-  struct GUI *pWindow = NULL, *pBuf = NULL;
-  SDL_String16 *pStr;
-  enum unit_activity activity;
-  int w = 0, h;
-  struct CONTAINER *pCont;
-    
-  if (pPillage_Dlg) {
-    return;
-  }
-
-  pConnect_Dlg = MALLOC(sizeof(struct SMALL_DLG));
-  is_unit_move_blocked = TRUE;
-  
-  pCont = MALLOC(sizeof(struct CONTAINER));
-  pCont->id0 = dest_x;
-  pCont->id1 = dest_y;
-  pCont->value = pUnit->id;
-  
-  h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
-    
-  /* window */
-  pStr = create_str16_from_char(_("Connect"), 12);
-  pStr->style |= TTF_STYLE_BOLD;
-  
-  pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
-    
-  pWindow->action = connect_window_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-  w = MAX(w, pWindow->size.w);
-  
-  add_to_gui_list(ID_CONNECT_DLG_WINDOW, pWindow);
-  pConnect_Dlg->pEndWidgetList = pWindow;
-    
-  /* ---------- */
-  /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  	(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
-  w += pBuf->size.w + 10;
-  pBuf->action = exit_connect_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
-  pBuf->data.cont = pCont;
-  
-  add_to_gui_list(ID_CONNECT_DLG_EXIT_BUTTON, pBuf);
-  /* ---------- */
-  
-  create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Choose unit activity:"), NULL);
-        
-  add_to_gui_list(ID_LABEL, pBuf);
-    
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
-  /* ---------- */
-  
-  for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
-    if (!can_unit_do_connect(pUnit, activity)) {
-      continue;
-    }
-
-    create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    get_activity_text(activity), unit_connect_callback);
-    
-    pBuf->data.cont = pCont;
-    
-    set_wstate(pBuf, FC_WS_NORMAL);
-        
-    add_to_gui_list(MAX_ID - activity, pBuf);
-    
-    w = MAX(w, pBuf->size.w);  
-    h += pBuf->size.h;
-  }
-  pConnect_Dlg->pBeginWidgetList = pBuf;
-  
-  /* setup window size and start position */
-  
-  pWindow->size.w = w + DOUBLE_FRAME_WH;
-  pWindow->size.h = h;
-  
-  put_window_near_map_tile(pWindow,
-  		w + DOUBLE_FRAME_WH, h, dest_x, dest_y);
-  resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
-  
-  /* setup widget size and start position */
-
-  /* exit button */  
-  pBuf = pWindow->prev;
-  
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
-  pBuf->size.y = pWindow->size.y + 1;
-
-  /* first special to connect */
-  pBuf = pBuf->prev;
-  setup_vertical_widgets_position(1,
-	pWindow->size.x + FRAME_WH,
-  	pWindow->size.y + WINDOW_TILE_HIGH + 2, w, 0,
-	pConnect_Dlg->pBeginWidgetList, pBuf);
-  
-  /* --------------------- */
-  /* redraw */
-  redraw_group(pConnect_Dlg->pBeginWidgetList, pWindow, 0);
-
-  flush_rect(pWindow->size);
-
 }
 
 /**************************************************************************
@@ -4731,21 +4555,17 @@ void popdown_races_dialog(void)
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
 **************************************************************************/
-void races_toggles_set_sensitive(int num_nations_used,
-				 Nation_Type_id * nations_used)
+void races_toggles_set_sensitive(bool *nations_used)
 {
-  
-  if (num_nations_used > 0) {
-    struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    int i, nation;
-    bool change = FALSE;
-    struct GUI *pNat;
-      
-    freelog(LOG_DEBUG, "%d nations used:", num_nations_used);
-    for (i = 0; i < num_nations_used; i++) {
-      nation = nations_used[i];
+  struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
+  Nation_Type_id nation;
+  bool change = FALSE;
+  struct GUI *pNat;
 
-      freelog(LOG_DEBUG,"  [%d]: %d = %s", i, nation, get_nation_name(nation));
+  for (nation = 0; nation < game.playable_nation_count; nation++) {
+    if (nations_used[nation]) {
+      freelog(LOG_DEBUG,"  [%d]: %d = %s", nation, nations_used[nation],
+	      get_nation_name(nation));
 
       pNat = get_widget_pointer_form_main_list(MAX_ID - nation);
       set_wstate(pNat, FC_WS_DISABLED);
@@ -4753,25 +4573,24 @@ void races_toggles_set_sensitive(int num_nations_used,
       if (nation == pSetup->nation) {
         change = TRUE;
       }
-      
     }
-  
-    if (change) {
-      do {
-	pSetup->nation = myrand(game.playable_nation_count);
-	pNat = get_widget_pointer_form_main_list(MAX_ID - pSetup->nation);
-      } while(get_wstate(pNat) == FC_WS_DISABLED);
-      if (get_wstate(pSetup->pName_Edit) == FC_WS_PRESSED) {
-        force_exit_from_event_loop();
-	set_wstate(pSetup->pName_Edit, FC_WS_NORMAL);
-      }
-      change_nation_label();
-      enable(MAX_ID - 1000 - pSetup->nation_city_style);
-      pSetup->nation_city_style = get_nation_city_style(pSetup->nation);
-      disable(MAX_ID - 1000 - pSetup->nation_city_style);
-      select_random_leader(pSetup->nation);
-    }
-    redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-    flush_rect(pNationDlg->pEndWidgetList->size);
   }
+  
+  if (change) {
+    do {
+      pSetup->nation = myrand(game.playable_nation_count);
+      pNat = get_widget_pointer_form_main_list(MAX_ID - pSetup->nation);
+    } while(get_wstate(pNat) == FC_WS_DISABLED);
+    if (get_wstate(pSetup->pName_Edit) == FC_WS_PRESSED) {
+      force_exit_from_event_loop();
+      set_wstate(pSetup->pName_Edit, FC_WS_NORMAL);
+    }
+    change_nation_label();
+    enable(MAX_ID - 1000 - pSetup->nation_city_style);
+    pSetup->nation_city_style = get_nation_city_style(pSetup->nation);
+    disable(MAX_ID - 1000 - pSetup->nation_city_style);
+    select_random_leader(pSetup->nation);
+  }
+  redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
+  flush_rect(pNationDlg->pEndWidgetList->size);
 }
