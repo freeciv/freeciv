@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "POT-Creation-Date: 2002-10-09 16:25+0200\n"
-"PO-Revision-Date: 2002-10-06 11:00+0200\n"
+"PO-Revision-Date: 2002-10-09 21:30+0200\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -4745,9 +4745,8 @@ msgid "You are not allowed to use this command."
 msgstr "Non avete il permesso di usare questo comando."
 
 #: server/stdinhand.c:3077
-#, fuzzy
 msgid "(server prompt)"
-msgstr " (modalità osservatore)"
+msgstr " (linea di comando del server)"
 
 #: server/stdinhand.c:3157
 msgid "The game must be running before you can see the score."
