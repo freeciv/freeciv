@@ -14,10 +14,8 @@
 #define __PLAYER_H
 
 #include "tech.h"
-#include "genlist.h"
 #include "unit.h"
 #include "city.h"
-#include "aitools.h"
 #define PLAYER_DEFAULT_TAX_RATE 50
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
 #define PLAYER_DEFAULT_LUXURY_RATE 0

@@ -33,6 +33,7 @@
 #include <events.h>
 #include <shared.h>
 #include <aiunit.h>
+#include <aitools.h>
 #include <settlers.h>
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 

@@ -33,10 +33,10 @@
 #include <events.h>
 #include <shared.h>
 #include <aiunit.h>
+#include <aitools.h>
 #include <sys/time.h>
 #include <gotohand.h>
 #include <settlers.h>
-#include <aiunit.h>
 
 extern struct move_cost_map warmap;
 
