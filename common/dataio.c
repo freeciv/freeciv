@@ -723,7 +723,7 @@ void dio_get_effect(struct data_in *din, struct impr_effect *peffect)
   dio_get_uint8(din, &peffect->cond_adv);
   dio_get_uint8(din, (int *) &(peffect->cond_eff));
   dio_get_uint8(din, (int *) &(peffect->aff_unit));
-  dio_get_uint8(din, (int *) &(peffect->aff_terr));
+  dio_get_sint16(din, (int *) &(peffect->aff_terr));
   dio_get_uint16(din, (int *) &(peffect->aff_spec));
 }
 
@@ -738,6 +738,6 @@ void dio_put_effect(struct data_out *dout, const struct impr_effect *peffect)
   dio_put_uint8(dout, peffect->cond_adv);
   dio_put_uint8(dout, peffect->cond_eff);
   dio_put_uint8(dout, peffect->aff_unit);
-  dio_put_uint8(dout, peffect->aff_terr);
+  dio_put_sint16(dout, peffect->aff_terr);
   dio_put_uint16(dout, peffect->aff_spec);
 }
