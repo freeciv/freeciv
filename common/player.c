@@ -116,7 +116,7 @@ char *default_race_leader_names[] = {
   "Caesar",
   "Hammurabi",
   "Frederick",
-  "Ramesses",
+  "Rameses",
   "Lincoln",
   "Alexander",
   "Gandhi",
