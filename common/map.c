@@ -1307,6 +1307,14 @@ void nearest_real_pos(int *x, int *y)
 }
 
 /**************************************************************************
+Returns the total number of (real) positions (or tiles) on the map.
+**************************************************************************/
+int map_num_tiles(void)
+{
+  return map.xsize * map.ysize;
+}
+
+/**************************************************************************
 Random neighbouring square.
 **************************************************************************/
 void rand_neighbour(int x0, int y0, int *x, int *y)

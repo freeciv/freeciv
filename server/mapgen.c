@@ -82,7 +82,7 @@ static void make_mountains(int thill)
       if (hmap(x, y)>thill) 
 	mount++;
     } whole_map_iterate_end;
-    if (mount<((map.xsize*map.ysize)*map.mountains)/1000) 
+    if (mount < (map_num_tiles() * map.mountains) / 1000)
       thill*=95;
     else 
       thill*=105;
@@ -197,7 +197,7 @@ static void make_forests(void)
 {
   int x,y;
   int forestsize=25;
-  forestsize=(map.xsize*map.ysize*map.forestsize)/1000;
+  forestsize = (map_num_tiles() * map.forestsize) / 1000;
    do {
     rand_map_pos(&x, &y);
     if (map_get_terrain(x, y)==T_GRASSLAND) {
@@ -645,7 +645,7 @@ static void make_rivers(void)
   int desirable_riverlength =
     map.riverlength *
     /* The size of the map (poles don't count). */
-    map.xsize * (map.ysize - 2) *
+    (map_num_tiles() - 2 * map.xsize) *
     /* Rivers need to be on land only. */
     map.landpercent /
     /* Adjustment value. Tested by me. Gives no rivers with 'set
@@ -823,7 +823,7 @@ static void make_land(void)
 {
   int tres=(maxval*map.landpercent)/100;
   int count=0;
-  int total=(map.xsize*map.ysize*map.landpercent)/100;
+  int total = (map_num_tiles() * map.landpercent) / 100;
   int forever=0;
   do {
     forever++;
@@ -1379,7 +1379,7 @@ static void make_huts(int number)
 {
   int x,y,l;
   int count=0;
-  while ((number*map.xsize*map.ysize)/2000 && count++<map.xsize*map.ysize*2) {
+  while (number * map_num_tiles() >= 2000 && count++ < map_num_tiles() * 2) {
     rand_map_pos(&x, &y);
     l=myrand(6);
     if (map_get_terrain(x, y)!=T_OCEAN && 
@@ -1637,7 +1637,7 @@ static int create_island(int islemass)
 	    islemass-i, islemass);
   }
   
-  tries= map.xsize*(long int)map.ysize/4;/* on a 40x60 map, there are 2400 places */
+  tries = map_num_tiles() / 4;	/* on a 40x60 map, there are 2400 places */
   while (!(i = place_island()) && --tries);
   return i;
 }

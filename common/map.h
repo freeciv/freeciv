@@ -287,6 +287,7 @@ int is_normal_map_pos(int x, int y);
 
 int normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
+int map_num_tiles(void);
 
 void rand_neighbour(int x0, int y0, int *x, int *y);
 void rand_map_pos(int *x, int *y);

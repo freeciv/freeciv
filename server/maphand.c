@@ -73,7 +73,7 @@ void global_warming(int effect)
 
   freelog(LOG_NORMAL, "Global warming: %d", game.heating);
 
-  k = map.xsize * map.ysize;
+  k = map_num_tiles();
   while(effect && k--) {
     rand_map_pos(&x, &y);
     if (map_get_terrain(x, y) != T_OCEAN) {
@@ -129,7 +129,7 @@ void nuclear_winter(int effect)
 
   freelog(LOG_NORMAL, "Nuclear winter: %d", game.cooling);
 
-  k =map.xsize * map.ysize;
+  k = map_num_tiles();
   while(effect && k--) {
     rand_map_pos(&x, &y);
     if (map_get_terrain(x, y) != T_OCEAN) {
