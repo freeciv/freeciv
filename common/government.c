@@ -35,8 +35,8 @@
  * o When change government, server should update cities and unit
  *   upkeep etc and send updated info to client.
  * o Implement actual cost for unit gold upkeep.
- * o ai_manage_cities() in aicity.c assigns tech_want to A_CODE,
- *   A_REPUBLIC and A_MONARCHY presumably for government purposes...
+ * o Possibly remove ai_gov_tech_hint stuff?
+ *   (See usage in ai_manage_cities() in aicity.c)
  * o Update help system: meaning of Nonmil and FieldUnit unit flags;
  *   dynamic help on governments.
  * o Test the new government evaluation code (AI).
@@ -62,6 +62,8 @@
  */
 
 struct government *governments;
+
+struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
 
 static char *flag_names[] = {
   "Build_Veteran_Diplomats", "Revolution_When_Unhappy", "Has_Senate",

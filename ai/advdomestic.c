@@ -156,10 +156,12 @@ static int pollution_cost(struct player *pplayer, struct city *pcity,
            id == B_HYDRO || id == B_HOOVER || id == B_NUCLEAR) p /= 2;
 
   if (!city_got_building(pcity, B_MASS) && id != B_MASS) {
-    if (get_invention(pplayer, A_INDUSTRIALIZATION)==TECH_KNOWN)  mod=1;
-    if (get_invention(pplayer, A_AUTOMOBILE)==TECH_KNOWN) mod=2;
-    if (get_invention(pplayer, A_MASS)==TECH_KNOWN) mod=3;
-    if (get_invention(pplayer, A_PLASTICS)==TECH_KNOWN) mod=4;
+    int i;
+    for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+      int tech = game.rtech.pop_pollution[i];
+      if (tech == A_LAST) break;
+      if (get_invention(pplayer, tech)==TECH_KNOWN) mod = i;
+    }
     poppul=(pcity->size*mod)/4;
     p += poppul;
   }
@@ -453,9 +455,13 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
         values[i] = (pcity->size + 1) * SHIELD_WEIGHTING;
       if (i == B_MICHELANGELO && !city_got_building(pcity, B_CATHEDRAL))
         values[i] = building_value(get_cathedral_power(pcity), pcity, val);
+      
+      /* The following is probably wrong if B_ORACLE req is
+	 not the same as game.rtech.temple_plus (was A_MYSTICISM)
+	 --dwp */
       if (i == B_ORACLE) {
         if (city_got_building(pcity, B_TEMPLE)) {
-          if (get_invention(pplayer, A_MYSTICISM) == TECH_KNOWN)
+          if (get_invention(pplayer, game.rtech.temple_plus) == TECH_KNOWN)
             values[i] = building_value(2, pcity, val);
           else {
             values[i] = building_value(4, pcity, val) - building_value(1, pcity, val);
@@ -463,7 +469,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
 /* The += has nothing to do with oracle, just the tech_Want of mysticism! */
           }
         } else {
-          if (get_invention(pplayer, A_MYSTICISM) != TECH_KNOWN) {
+          if (get_invention(pplayer, game.rtech.temple_plus) != TECH_KNOWN) {
             values[i] = building_value(2, pcity, val) - building_value(1, pcity, val);
             values[i] += building_value(2, pcity, val) - building_value(1, pcity, val);
           }

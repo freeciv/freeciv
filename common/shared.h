@@ -23,6 +23,7 @@
 
 #define MAX_NUM_PLAYERS  14
 #define MAX_NUM_ITEMS   200	/* eg, unit_types */
+#define MAX_NUM_TECH_LIST 10
 #define MAX_LEN_NAME     32
 #define MAX_LEN_ADDR     32
 

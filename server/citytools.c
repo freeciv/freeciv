@@ -101,7 +101,7 @@ int get_temple_power(struct city *pcity)
 {
   struct player *p=&game.players[pcity->owner];
   int power=1;
-  if (get_invention(p, A_MYSTICISM)==TECH_KNOWN)
+  if (get_invention(p, game.rtech.temple_plus)==TECH_KNOWN)
     power=2;
   if (city_affected_by_wonder(pcity, B_ORACLE)) 
     power*=2;

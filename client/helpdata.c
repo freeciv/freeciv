@@ -765,5 +765,16 @@ void helptext_tech(char *buf, int i, const char *user_text)
     sprintf(buf+strlen(buf), "Reduces the effect of Cathedrals.\n");
   if(game.rtech.colosseum_plus == i) 
     sprintf(buf+strlen(buf), "Improves the effect of Colosseums.\n");
+  if(game.rtech.temple_plus == i) 
+    sprintf(buf+strlen(buf), "Improves the effect of Temples.\n");
+  
+  if(game.rtech.construct_bridges == i) {
+    sprintf(buf+strlen(buf),
+	    "Allows Settlers to build roads on river squares.\n");
+  }
+  if(game.rtech.construct_fortress == i) 
+    sprintf(buf+strlen(buf), "Allows Settlers to build fortresses.\n");
+  if(game.rtech.construct_rail == i) 
+    sprintf(buf+strlen(buf), "Allows Settlers to upgrade roads to railroads.\n");
 }
 

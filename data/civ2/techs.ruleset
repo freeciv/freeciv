@@ -481,3 +481,22 @@ req2     = "None"
 
 bonus_tech="Philosophy"		; extra tech to first to research
 boat_fast="Nuclear Power"	; extra move point to ships
+
+construct_bridges="Bridge Building"
+construct_fortress="Construction"
+construct_rail="Railroad"
+
+; Pollution due to population is multipied by the index of
+; the rightmost tech player knows: (eg times 2 if player
+; knows Automobile)
+population_pollution = "Industrialization", "Automobile", 
+		       "Mass Production", "Plastics"
+
+; All of following must be known by city owner for
+; partisan uprising to occur:  (as well as other conditions)
+partisan_required = "Communism", "Gunpowder"
+
+; Each of the following known by the player establishing
+; a trade route reduces the initial revenue by cumulative
+; factors of 2/3:
+trade_route_reduce = "Railroad", "Flight"

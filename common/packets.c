@@ -65,6 +65,7 @@ static unsigned char *put_int32(unsigned char *buffer, int val);
 
 static unsigned char *put_bit_string(unsigned char *buffer, char *str);
 static unsigned char *put_city_map(unsigned char *buffer, char *str);
+static unsigned char *put_tech_list(unsigned char *buffer, int *techs);
 
 /* iget = iterator versions */
 static void iget_int8(struct pack_iter *piter, int *val);
@@ -74,6 +75,7 @@ static void iget_int32(struct pack_iter *piter, int *val);
 static void iget_string(struct pack_iter *piter, char *mystring, int navail);
 static void iget_bit_string(struct pack_iter *piter, char *str, int navail);
 static void iget_city_map(struct pack_iter *piter, char *str, int navail);
+static void iget_tech_list(struct pack_iter *piter, int *techs);
 
 /* Use the above iget versions instead of the get versions below,
  * except in special cases --dwp */
@@ -697,7 +699,42 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
     piter->bad_bit_string = 1;
   }
 }
+
+/**************************************************************************
+  Put list of techs, MAX_NUM_TECH_LIST entries or A_LAST terminated.
+  Only puts up to and including terminating entry (or MAX).
+**************************************************************************/
+static unsigned char *put_tech_list(unsigned char *buffer, int *techs)
+{
+  int i;
+   
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    buffer = put_int8(buffer, techs[i]);
+    if (techs[i] == A_LAST)
+      break;
+  }
+  return buffer;
+}
     
+/**************************************************************************
+  Get list of techs inversely to put_tech_list
+  (MAX_NUM_TECH_LIST entries or A_LAST terminated).
+  Arg for 'techs' should be >=MAX_NUM_TECH_LIST length array.
+  Fills trailings entries in 'techs' with A_LAST.
+**************************************************************************/
+static void iget_tech_list(struct pack_iter *piter, int *techs)
+{
+  int i;
+  
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    iget_int8(piter, &techs[i]);
+    if (techs[i] == A_LAST)
+      break;
+  }
+  for(; i<MAX_NUM_TECH_LIST; i++) {
+    techs[i] = A_LAST;
+  }
+}
 
 /*************************************************************************
 ...
@@ -1860,13 +1897,21 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_int8(cptr, packet->rtech.cathedral_plus);
   cptr=put_int8(cptr, packet->rtech.cathedral_minus);
   cptr=put_int8(cptr, packet->rtech.colosseum_plus);
+  cptr=put_int8(cptr, packet->rtech.temple_plus);
+  cptr=put_int8(cptr, packet->rtech.construct_bridges);
+  cptr=put_int8(cptr, packet->rtech.construct_fortress);
+  cptr=put_int8(cptr, packet->rtech.construct_rail);
 
   cptr=put_int8(cptr, packet->government_count);
   cptr=put_int8(cptr, packet->default_government);
   cptr=put_int8(cptr, packet->government_when_anarchy);
   
   cptr=put_int8(cptr, packet->num_unit_types);
-  
+
+  cptr=put_tech_list(cptr, packet->rtech.pop_pollution);
+  cptr=put_tech_list(cptr, packet->rtech.partisan_req);
+  cptr=put_tech_list(cptr, packet->rtech.trade_route_reduce);
+
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1892,12 +1937,20 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_int8(&iter, &packet->rtech.cathedral_plus);
   iget_int8(&iter, &packet->rtech.cathedral_minus);
   iget_int8(&iter, &packet->rtech.colosseum_plus);
+  iget_int8(&iter, &packet->rtech.temple_plus);
+  iget_int8(&iter, &packet->rtech.construct_bridges);
+  iget_int8(&iter, &packet->rtech.construct_fortress);
+  iget_int8(&iter, &packet->rtech.construct_rail);
   
   iget_int8(&iter, &packet->government_count);
   iget_int8(&iter, &packet->default_government);
   iget_int8(&iter, &packet->government_when_anarchy);
 
   iget_int8(&iter, &packet->num_unit_types);
+
+  iget_tech_list(&iter, packet->rtech.pop_pollution);
+  iget_tech_list(&iter, packet->rtech.partisan_req);
+  iget_tech_list(&iter, packet->rtech.trade_route_reduce);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

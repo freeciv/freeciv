@@ -783,7 +783,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
            unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
            !(ptile->special&S_ROAD) && ptile->terrain!=T_OCEAN &&
 	   ((ptile->terrain!=T_RIVER && !(ptile->special&S_RIVER)) || 
-	    get_invention(pplayer, A_BRIDGE)==TECH_KNOWN);
+	    get_invention(pplayer, game.rtech.construct_bridges)==TECH_KNOWN);
 
   case ACTIVITY_MINE:
     /* Don't allow it if someone else is irrigating this tile.
@@ -823,7 +823,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
 
   case ACTIVITY_FORTRESS:
     return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
-           get_invention(pplayer, A_CONSTRUCTION) == TECH_KNOWN &&
+           get_invention(pplayer, game.rtech.construct_fortress) == TECH_KNOWN &&
 	   !(ptile->special&S_FORTRESS) && ptile->terrain!=T_OCEAN;
 
   case ACTIVITY_SENTRY:
@@ -834,7 +834,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
     return terrain_control.may_road &&
            unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
            (ptile->special&S_ROAD) && !(ptile->special&S_RAILROAD) &&
-	   get_invention(&game.players[punit->owner], A_RAILROAD)==TECH_KNOWN;
+	   get_invention(pplayer, game.rtech.construct_rail)==TECH_KNOWN;
 
   case ACTIVITY_PILLAGE:
     {

@@ -1012,6 +1012,18 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.rtech.cathedral_plus = packet->rtech.cathedral_plus;
   game.rtech.cathedral_minus = packet->rtech.cathedral_minus;
   game.rtech.colosseum_plus = packet->rtech.colosseum_plus;
+  game.rtech.temple_plus = packet->rtech.temple_plus;
+  game.rtech.construct_bridges = packet->rtech.construct_bridges;
+  game.rtech.construct_fortress = packet->rtech.construct_fortress;
+  game.rtech.construct_rail = packet->rtech.construct_rail;
+
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    game.rtech.pop_pollution[i] = packet->rtech.pop_pollution[i];
+    game.rtech.partisan_req[i]  = packet->rtech.partisan_req[i];
+    game.rtech.trade_route_reduce[i] = packet->rtech.trade_route_reduce[i];
+    freelog(LOG_DEBUG, "techl %d: %d %d %d", i, game.rtech.pop_pollution[i],
+	    game.rtech.partisan_req[i], game.rtech.trade_route_reduce[i]);
+  }
 
   game.government_count = packet->government_count;
   game.government_when_anarchy = packet->government_when_anarchy;

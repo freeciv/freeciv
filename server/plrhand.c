@@ -1069,7 +1069,7 @@ static void great_library(struct player *pplayer)
 	  notify_player_ex(pplayer,0,0, E_TECH_GAIN, "Game: %s acquired from The Great Library!", advances[i].name);
 	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",get_race_name_plural(pplayer->race),advances[i].name);
 
-	  if (i==A_RAILROAD) {
+	  if (i==game.rtech.construct_rail) {
 	    upgrade_city_rails(pplayer, 0);
 	  }
 	  set_invention(pplayer, i, TECH_KNOWN);
@@ -1222,7 +1222,7 @@ int update_tech(struct player *plr, int bulbs)
     update_tech(plr, 1000000);
   }
 
-  if (old==A_RAILROAD) {
+  if (old==game.rtech.construct_rail) {
     upgrade_city_rails(plr, 1);
   }
   return 1;

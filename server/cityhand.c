@@ -66,10 +66,15 @@ int establish_trade_route(struct city *pc1, struct city *pc2)
     tb*=0.5;
   if (pc1->owner==pc2->owner)
     tb*=0.5;
-  if (get_invention(city_owner(pc1), A_RAILROAD)==TECH_KNOWN)
-    tb*=0.66;
-  if (get_invention(city_owner(pc1), A_FLIGHT)==TECH_KNOWN)
-    tb*=0.66;
+
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    int tech = game.rtech.trade_route_reduce[i];
+    if (tech == A_LAST)
+      break;
+    if (get_invention(city_owner(pc1), tech)==TECH_KNOWN)
+      tb*=0.66;
+    /* was: A_RAILROAD, A_FLIGHT */
+  }
   return tb;
 }
 

@@ -136,7 +136,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	 case CLAUSE_ADVANCE:
 	  notify_player(pdest, "Game: You are taught the knowledge of %s",
 			advances[pclause->value].name);
-	  if (pclause->value==A_RAILROAD) {
+	  if (pclause->value==game.rtech.construct_rail) {
 	    upgrade_city_rails(pdest, 0);
 	  }
 	  gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",

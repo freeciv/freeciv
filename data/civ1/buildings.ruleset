@@ -664,3 +664,4 @@ sewer_size=99;
 cathedral_plus="Never"
 cathedral_minus="Never"
 colosseum_plus="Never"
+temple_plus="Mysticism"

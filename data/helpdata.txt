@@ -909,7 +909,7 @@ improvements.
 # Banking
 ---
 # Bridge Building
-Allows Settlers to build roads on river squares.
+%% Allows Settlers to build roads on river squares.
 ---
 # Bronze Working
 ---
@@ -933,7 +933,7 @@ Allows changing government to Communism.
 # Conscription
 ---
 # Construction
-Allows Settlers to build fortresses.
+%% Allows Settlers to build fortresses.
 ---
 # The Corporation
 ---
@@ -1035,7 +1035,7 @@ Allows changing government to Monarchy.
 # Radio
 ---
 # Railroad
-Allows Settlers to upgrade roads to railroads.
+%% Allows Settlers to upgrade roads to railroads.
 ---
 # Recycling
 ---

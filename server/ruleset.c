@@ -184,6 +184,58 @@ static int lookup_tech(struct section_file *file, char *prefix,
 }
 
 /**************************************************************************
+ Lookup a prefix.entry string vector in the file and fill in the
+ array, which should hold MAX_NUM_TECH_LIST items.  Output array is
+ A_LAST terminated, and all entries before that are guaranteed to
+ tech_exist().  There should be at least one value, but it may be
+ "", meaning empty list.
+**************************************************************************/
+static void lookup_tech_list(struct section_file *file, char *prefix,
+			     char *entry, int *output, char *filename)
+{
+  char **slist;
+  int i, nval;
+
+  /* pre-fill with A_LAST: */
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    output[i] = A_LAST;
+  }
+  slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
+  if (nval==0) {
+    freelog(LOG_FATAL, "Missing string vector %s.%s (%s)",
+	    prefix, entry, filename);
+    exit(1);
+  }
+  if (nval>MAX_NUM_TECH_LIST) {
+    freelog(LOG_FATAL, "String vector %s.%s too long (%d, max %d) (%s)",
+	    prefix, entry, nval, MAX_NUM_TECH_LIST, filename);
+    exit(1);
+  }
+  if (nval==1 && strcmp(slist[0], "")==0) {
+    free(slist);
+    return;
+  }
+  for (i=0; i<nval; i++) {
+    char *sval = slist[i];
+    int tech = find_tech_by_name(sval);
+    if (tech==A_LAST) {
+      freelog(LOG_FATAL, "For %s %s (%d) couldn't match tech \"%s\" (%s)",
+	      prefix, entry, i, sval, filename);
+      exit(1);
+    }
+    if (!tech_exists(tech)) {
+      freelog(LOG_FATAL, "For %s %s (%d) tech \"%s\" is removed (%s)",
+	      prefix, entry, i, sval, filename);
+      exit(1);
+    }
+    output[i] = tech;
+    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, tech);
+  }
+  free(slist);
+  return;
+}
+
+/**************************************************************************
   Lookup entry in the file and return the corresponding government index;
   dies if can't find/match.  filename is for error message.
 **************************************************************************/
@@ -347,6 +399,19 @@ static void load_ruleset_techs(char *ruleset_subdir)
     lookup_tech(&file, "a_special", "bonus_tech", 0, filename, NULL);
   game.rtech.boat_fast =
     lookup_tech(&file, "a_special", "boat_fast", 0, filename, NULL);
+  game.rtech.construct_bridges =
+    lookup_tech(&file, "a_special", "construct_bridges", 0, filename, NULL);
+  game.rtech.construct_fortress =
+    lookup_tech(&file, "a_special", "construct_fortress", 0, filename, NULL);
+  game.rtech.construct_rail =
+    lookup_tech(&file, "a_special", "construct_rail", 0, filename, NULL);
+
+  lookup_tech_list(&file, "a_special", "population_pollution",
+		   game.rtech.pop_pollution, filename);
+  lookup_tech_list(&file, "a_special", "partisan_required",
+		   game.rtech.partisan_req, filename);
+  lookup_tech_list(&file, "a_special", "trade_route_reduce",
+		   game.rtech.trade_route_reduce, filename);
   
   section_file_check_unused(&file, filename);
   section_file_free(&file);
@@ -568,6 +633,15 @@ static void load_ruleset_units(char *ruleset_subdir)
     }
   }
 
+  /* pre-calculate game.rtech.u_partisan
+     (tech for first partisan unit, or A_LAST */
+  if (num_role_units(L_PARTISAN)==0) {
+    game.rtech.u_partisan = A_LAST;
+  } else {
+    j = get_role_unit(L_PARTISAN, 0);
+    j = game.rtech.u_partisan = get_unit_type(j)->tech_requirement;
+    freelog(LOG_DEBUG, "partisan tech is %s", advances[j].name);
+  }
 }
   
 /**************************************************************************
@@ -638,6 +712,8 @@ static void load_ruleset_buildings(char *ruleset_subdir)
     lookup_tech(&file, "b_special", "cathedral_minus", 0, filename, NULL);
   game.rtech.colosseum_plus =
     lookup_tech(&file, "b_special", "colosseum_plus", 0, filename, NULL);
+  game.rtech.temple_plus =
+    lookup_tech(&file, "b_special", "temple_plus", 0, filename, NULL);
 
   section_file_check_unused(&file, filename);
   section_file_free(&file);
@@ -1013,6 +1089,41 @@ static void load_ruleset_governments(char *ruleset_subdir)
     }
   }
 
+  /* ai tech_hints: */
+  j = -1;
+  while((c = secfile_lookup_str_default(&file, NULL,
+					"governments.ai_tech_hints%d.tech",
+					++j))) {
+    struct ai_gov_tech_hint *hint = &ai_gov_tech_hints[j];
+
+    if (j >= MAX_NUM_TECH_LIST) {
+      freelog(LOG_FATAL, "Too many ai tech_hints in %s", filename);
+      exit(1);
+    }
+    hint->tech = find_tech_by_name(c);
+    if (hint->tech == A_LAST) {
+      freelog(LOG_FATAL, "Could not match tech %s for gov ai_tech_hint %d (%s)",
+	      c, j, filename);
+      exit(1);
+    }
+    if (!tech_exists(hint->tech)) {
+      freelog(LOG_FATAL, "For gov ai_tech_hint %d, tech \"%s\" is removed (%s)",
+	      j, c, filename);
+      exit(1);
+    }
+    hint->turns_factor =
+      secfile_lookup_int(&file, "governments.ai_tech_hints%d.turns_factor", j);
+    hint->const_factor =
+      secfile_lookup_int(&file, "governments.ai_tech_hints%d.const_factor", j);
+    hint->get_first =
+      secfile_lookup_int(&file, "governments.ai_tech_hints%d.get_first", j);
+    hint->done =
+      secfile_lookup_int(&file, "governments.ai_tech_hints%d.done", j);
+  }
+  if (j<MAX_NUM_TECH_LIST) {
+    ai_gov_tech_hints[j].tech = A_LAST;
+  }
+
   section_file_check_unused(&file, filename);
   section_file_free(&file);
 }
@@ -1023,7 +1134,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
 static void send_ruleset_control(struct player *dest)
 {
   struct packet_ruleset_control packet;
-  int to;
+  int to, i;
 
   packet.aqueduct_size = game.aqueduct_size;
   packet.sewer_size = game.sewer_size;
@@ -1033,6 +1144,16 @@ static void send_ruleset_control(struct player *dest)
   packet.rtech.cathedral_plus = game.rtech.cathedral_plus;
   packet.rtech.cathedral_minus = game.rtech.cathedral_minus;
   packet.rtech.colosseum_plus = game.rtech.colosseum_plus;
+  packet.rtech.temple_plus = game.rtech.temple_plus;
+  packet.rtech.construct_bridges = game.rtech.construct_bridges;
+  packet.rtech.construct_fortress = game.rtech.construct_fortress;
+  packet.rtech.construct_rail = game.rtech.construct_rail;
+
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    packet.rtech.pop_pollution[i] = game.rtech.pop_pollution[i];
+    packet.rtech.partisan_req[i] = game.rtech.partisan_req[i];
+    packet.rtech.trade_route_reduce[i] = game.rtech.trade_route_reduce[i];
+  }
 
   packet.government_count = game.government_count;
   packet.government_when_anarchy = game.government_when_anarchy;

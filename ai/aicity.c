@@ -445,7 +445,8 @@ static void ai_new_spend_gold(struct player *pplayer)
 **************************************************************************/
 
 void ai_manage_cities(struct player *pplayer)
-{ 
+{
+  int i;
   pplayer->ai.maxbuycost = 0;
 
   city_list_iterate(pplayer->cities, pcity)
@@ -472,15 +473,22 @@ we don't rely on the seamap being current since we will recalculate. -- Syela */
 
   ai_new_spend_gold(pplayer);
 
-  if (get_invention(pplayer, A_CODE) != TECH_KNOWN) {
-    pplayer->ai.tech_want[A_CODE] += 150 * city_list_size(&pplayer->cities) *
-              tech_goal_turns(pplayer, A_CODE);
-  } else if (get_invention(pplayer, A_REPUBLIC) != TECH_KNOWN) {
-    pplayer->ai.tech_want[A_REPUBLIC] += city_list_size(&pplayer->cities) *
-              (tech_goal_turns(pplayer, A_REPUBLIC) * 90 + 90);
-/* these may need to be fudged further sometime -- Syela */
-    if (get_invention(pplayer, A_MONARCHY) != TECH_KNOWN)
-      pplayer->ai.tech_want[A_MONARCHY] += 150 * city_list_size(&pplayer->cities);
+  /* use ai_gov_tech_hints: */
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    struct ai_gov_tech_hint *hint = &ai_gov_tech_hints[i];
+
+    if (hint->tech == A_LAST)
+      break;
+    if (get_invention(pplayer, hint->tech) != TECH_KNOWN) {
+      pplayer->ai.tech_want[hint->tech] += city_list_size(&pplayer->cities)
+	* (hint->turns_factor * tech_goal_turns(pplayer, hint->tech)
+	   + hint->const_factor);
+      if (hint->get_first)
+	break;
+    } else {
+      if (hint->done)
+	break;
+    }
   }
 }
 

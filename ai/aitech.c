@@ -47,6 +47,11 @@ enum government_type {
   G_ANARCHY, G_DESPOTISM, G_MONARCHY, G_COMMUNISM, G_REPUBLIC, G_DEMOCRACY,
   G_LAST
 };
+/* temp hack: */
+#define A_MONARCHY  (get_government(G_MONARCHY)->required_tech)
+#define A_COMMUNISM (get_government(G_COMMUNISM)->required_tech)
+#define A_REPUBLIC  (get_government(G_REPUBLIC)->required_tech)
+#define A_DEMOCRACY (get_government(G_DEMOCRACY)->required_tech)
 static int get_government_tech(struct player *plr)
 {
   int government = get_race(plr)->goals.government;

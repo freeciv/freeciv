@@ -18,6 +18,12 @@ options="1.8.2 +tilespec +nontab"
 default="Despotism"
 when_anarchy="Anarchy"
 
+ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
+    "Code of Laws", 150,   0, 1, 0
+    "The Republic",  90,  90, 0, 1
+    "Monarchy",       0, 150, 0, 0
+}
+
 ; Below: The individual government types, one per section.
 ;
 ; The actual tag used (the * in [government_*]) doesn't matter, except 

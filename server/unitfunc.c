@@ -287,7 +287,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		   "Game: %s's %s stole %s from %s.", 
 		   pplayer->name, unit_name(pdiplomat->type),
 		   advances[i].name, pcity->name); 
-  if (i==A_RAILROAD) {
+  if (i==game.rtech.construct_rail) {
     upgrade_city_rails(pplayer, 0);
   }
   gamelog(GAMELOG_TECH,"%s steals %s from the %s",
@@ -485,8 +485,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
    
   map_set_city(pnewcity->x, pnewcity->y, pnewcity);
   if (terrain_control.may_road &&
-      (get_invention(pplayer,A_RAILROAD)==TECH_KNOWN) &&
-      (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
+      (get_invention(pplayer, game.rtech.construct_rail)==TECH_KNOWN) &&
+      (get_invention(cplayer, game.rtech.construct_rail)!=TECH_KNOWN) &&
       (!(map_get_special(pnewcity->x, pnewcity->y)&S_RAILROAD))) {
     notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
     map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
@@ -1535,7 +1535,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		advances[i].name, target->name); 
   notify_player(target, "Game: %s discovered %s in the city.", pplayer->name, 
 		advances[i].name); 
-  if (i==A_RAILROAD) {
+  if (i==game.rtech.construct_rail) {
     upgrade_city_rails(pplayer, 0);
   }
   if (pplayer->research.researching==i) {
@@ -1582,18 +1582,26 @@ void place_partisans(struct city *pcity,int count)
 **************************************************************************/
 void make_partisans(struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
-  int partisans;
+  struct player *pplayer;
+  int i, partisans;
 
   if (num_role_units(L_PARTISAN)==0)
     return;
-  if (!game.global_advances[A_GUERILLA] || pcity->original != pcity->owner)
+  if (!tech_exists(game.rtech.u_partisan)
+      || !game.global_advances[game.rtech.u_partisan]
+      || pcity->original != pcity->owner)
     return;
-  if (get_invention(city_owner(pcity), A_COMMUNISM) != TECH_KNOWN 
-      && get_invention(city_owner(pcity), A_GUNPOWDER) != TECH_KNOWN)
+
+  if (!government_has_flag(get_gov_pcity(pcity), G_INSPIRES_PARTISANS))
     return;
-  if (!government_has_flag(g, G_INSPIRES_PARTISANS))
-    return;
+  
+  pplayer = city_owner(pcity);
+  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
+    int tech = game.rtech.partisan_req[i];
+    if (tech == A_LAST) break;
+    if (get_invention(pplayer, tech) != TECH_KNOWN) return;
+    /* Was A_COMMUNISM and A_GUNPOWDER */
+  }
   
   partisans = myrand(1 + pcity->size/2) + 1;
   if (partisans > 8) 

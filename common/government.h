@@ -126,7 +126,22 @@ struct government
   struct Sprite *sprite;
 };
 
+/* This should possibly disappear; we don't bother sending these to client;
+   see code in ai_city.c: ai_manage_cities() for what they mean...
+*/
+struct ai_gov_tech_hint {
+  int tech;
+  int turns_factor;
+  int const_factor;
+  int get_first;
+  int done;
+};
+
 extern struct government *governments;
+
+extern struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
+/* like game.rtech lists, A_LAST terminated (for .tech)
+   and techs before that are guaranteed to exist */
 
 struct government *get_government(int gov);
 struct government *get_gov_iplayer(int player_num);
