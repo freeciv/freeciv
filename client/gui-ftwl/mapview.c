@@ -50,6 +50,7 @@
 #define FOCUS_LIST_DEPTH DEPTH_MIN+18
 
 static struct ct_point overview_pos;
+static struct ct_point detaildisplay_pos;
 static struct te_screen *screen;
 static struct sw_widget *mapview_canvas_window = NULL;
 static struct sw_widget *overview_window = NULL;
@@ -721,7 +722,8 @@ static void tile_list_select(int new_index)
 
     item->button =
 	sw_button_create(screen->window, NULL, NULL, background_faces);
-    sw_widget_set_position(item->button, 200 + i * 35, 430);
+    sw_widget_set_position(item->button, detaildisplay_pos.x + i * 35,
+                           detaildisplay_pos.y);
     sw_button_set_callback(item->button,
 			   tile_list_select_callback, (void *)i);
     sw_widget_set_tooltip(item->button,
@@ -1092,6 +1094,9 @@ static void read_properties(void)
 
   /* Overview position */
   overview_pos = te_read_point(file, "overview", "position");
+
+  /* Unit, city and tile view position */
+  detaildisplay_pos = te_read_point(file, "detaildisplay", "position");
 
   tooltip_template = te_read_tooltip(file, "focus", FALSE);
 

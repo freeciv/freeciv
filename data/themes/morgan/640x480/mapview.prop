@@ -3,6 +3,12 @@
 position.x = 9
 position.y = 371
 
+[detaildisplay]
+; The place where detailed info on units, cities and tiles
+; is shown when clicked on.
+position.x = 200
+position.y = 430
+
 [focus]
 tooltip-color="#000000"
 tooltip-background="#f4ed8b"
