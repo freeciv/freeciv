@@ -189,12 +189,16 @@ void gui_server_connect(void)
     GtkWidget *label2;
     GtkStyle *style;
 
-    label2=gtk_label_new (beta_message());
+    label2 = gtk_label_new(beta_message());
 
-    style=gtk_style_copy (label2->style);
-    style->fg[GTK_STATE_NORMAL]=*colors_standard[COLOR_STD_RED];
-    gtk_widget_set_style (label2, style);
-    gtk_table_attach_defaults (GTK_TABLE (table), label2, 0, 2, 3, 4);
+    if (!(style = gtk_rc_get_style(label2))) {
+      style = label2->style;
+    }
+    style = gtk_style_copy(style);
+
+    style->fg[GTK_STATE_NORMAL] = *colors_standard[COLOR_STD_RED];
+    gtk_widget_set_style(label2, style);
+    gtk_table_attach_defaults(GTK_TABLE (table), label2, 0, 2, 3, 4);
   }
 #endif
 
