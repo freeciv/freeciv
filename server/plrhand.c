@@ -2326,6 +2326,11 @@ void player_map_load(struct player *plr, int plrno, struct section_file *file)
 {
   int x,y,i;
 
+  if (!plr->is_alive)
+    for (x=0; x<map.xsize; x++)
+      for (y=0; y<map.ysize; y++)
+	map_get_tile(x,y)->seen[plrno]++;
+
   /* load map if:
      1) it from a fog of war build
      2) fog of war was on (otherwise the private map wasn't saved)
