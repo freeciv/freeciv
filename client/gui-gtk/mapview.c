@@ -225,7 +225,7 @@ GtkObject *		map_hadj, *map_vadj;
   int x, y;                                                                \
   int x1, y1;                                                              \
   for (x1 = 0; x1 < map_canvas_store_twidth; x1++) {                       \
-    x = (map_view_x0 + x) % map.xsize;                                     \
+    x = (map_view_x0 + x1) % map.xsize;                                    \
     for (y1 = 0; y1 < map_canvas_store_twidth; y1++) {                     \
       y = map_view_y0 + y1;                                                \
       if (normalize_map_pos(&x, &y)) {
