@@ -5,7 +5,7 @@
 %%
 %% Notice! no line may be more than 68 chars wide: --------------->|
 %%
-#About Freeciv
+#About
 Freeciv is a turn-based strategy game, in which each player becomes
 the leader of a civilization, fighting to obtain the ultimate goal:
 The extinction of all other civilizations.
@@ -512,7 +512,8 @@ and will use all of the unit's MP.  A unit must have some MP left
 to be airlifted.
 ---
 # Aqueduct
-Allows a city to grow larger than size 8.
+Allows a city to grow larger than size 8.  (A Sewer system is also
+required for a city to grow larger than size 12.)
 ---
 # Bank
 Together with the Marketplace improvement, a Bank increases the
@@ -583,6 +584,7 @@ faster, and withstand famine more easily.
 ---
 # Harbour
 Gives one food resource extra on all water terrain-types.  
+The city needs to be coastal to build this improvement.
 ---
 # Hydro Plant
 Reduces the amount of pollution generated in a city.  It also
@@ -720,6 +722,7 @@ improvements.
 # Conscription
 ---
 # Construction
+Allows Settlers to build fortresses.
 ---
 # The Corporation
 ---
@@ -966,7 +969,7 @@ roles, depends on the Unit's strength in attack, defense and it's
 ability to move.
 ---
 # AEGIS Cruiser
-Doubles defence against missiles.
+Doubles defence against missiles and aircraft.
 ---
 # Alpine Troops
 Alpine Troops treat all squares as if they have roads.
@@ -986,15 +989,17 @@ the end of its second turn, it runs out of fuel and is lost.
 # Cannon
 ---
 # Caravan
-Used to establish trade routes and help build Wonders.
-Every caravan that is used to build a Wonder will add 50
+Used to establish trade routes and help build Wonders.  Caravans
+ignore the zone of control.
+Every Caravan that is used to build a Wonder will add 50
 shields towards the production of the Wonder.
 
 TIP: A well-known strategy is to build Wonders in one turn, by
-     stockpiling a stack of caravans, then bringing them all
+     stockpiling a stack of Caravans, then bringing them all
      into the city where the Wonder is to be built.
 ---
 # Caravel
+This unit can convey up to 3 land-based units across water.
 ---
 # Carrier
 The Carrier can carry up to 8 airborne Units.
@@ -1072,15 +1077,18 @@ control.  A very useful unit for mapping unknown territory.
 ---
 # Fighter
 If a Fighter is unable to end its turn in a city or on a Carrier 
-unit, it runs out of fuel and is lost.
+unit, it runs out of fuel and is lost.  Fighters (and Stealth
+Fighters) are the only units which can attack enemy air units.
 ---
 # Freight
 Used to establish trade routes, or help build Wonders.  The Freight
 unit replaces the Caravan, and moves at twice the speed.
 ---
 # Frigate
+This unit can convey up to 2 land-based units across water.
 ---
 # Galleon
+This unit can convey up to 4 land-based units across water.
 ---
 # Helicopter
 The Helicopter is a very powerful unit, as it can both fly and
@@ -1100,6 +1108,7 @@ This unit ignores the effect of City Walls.
 # Legion
 ---
 # Marines
+Marines can attack enemy cities from sea units on Ocean squares.
 ---
 # Mech. Inf.
 This unit has the strongest defence strength of any land unit, but
@@ -1129,14 +1138,20 @@ TIP 2: You may be involved in a situation where you've invaded an
 %% Not implemented, simply too powerful.
 ---
 # Partisan
-A number of partisans are granted free when an enemy conquers your
-city.
+Treats all terrain as if it had roads and ignores any zone of
+control.  A number of partisans are granted free when an enemy
+conquers your city (but only under special conditions).
+%% Should these conditions be listed here?  From server/unitfunc.c:
+%%  1) Guerilla warfare must be known by atleast 1 player
+%%  2) The owner of the city is the original player.
+%%  3) The player must know about communism and gunpowder
+%%  4) the player must run either a democracy or a communist society.
 ---
 # Phalanx
 ---
 # Pikemen
 The defence of these units is doubled if attacked by horseback
-units.
+units (other than Cavalry).
 ---
 # Riflemen
 ---
@@ -1164,12 +1179,97 @@ but has a weak defence.
 This unit can convey up to 8 land-based units across water.
 ---
 # Trireme
+This unit can convey up to 2 land-based units across water.
 Special: Triremes have a 50% risk of being lost at sea unless they
 end their turn next to a coast or in a port.
 ---
 # Warriors
 This unit may be built from the start of the game.  It is the
 weakest unit.
+---
+%% Terrain help by Greg Wooledge <wooledge@kellnet.com>.  First
+%% draft 1998-07-18.
+%% It would probably be better to have some client-side code to
+%% automatically pull terrain information from the tile_types[]
+%% array, but this is better than nothing.
+#Terrain
+The different types of terrain each have different strengths and
+drawbacks.  When choosing a place for a new city, make sure there
+are enough food-producing squares nearby to support your growing
+population.
+
+The net benefit of a square for your city depends on your government
+type as well as city improvements and wonders.
+---
+# Arctic
+Food: 0.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.
+With Seals, Arctic squares will produce 2 Food.
+Arctic squares cannot be irrigated or mined.
+---
+# Desert
+Food: 0.  Production: 1.  Trade: 0.  Movement: 1.  Defense: 1.
+With an Oasis, Desert squares will produce 3 Food.
+Deserts can be mined or irrigated (but not both at the same time).
+---
+# Forest
+Food: 1.  Production: 2.  Trade: 0.  Movement: 2.  Defense: 1.5.
+With Game, Forest squares will produce 2 extra Food.
+Forests can be irrigated, which converts them to Plains.  Forests
+cannot be mined.
+---
+# Grassland
+Food: 2.  Production: 0.  Trade: 0.  Movement: 1.  Defense: 1.
+With Resources, Grassland squares will produce 1 Production.
+Grasslands can be irrigated.  If mined, Grasslands will be converted
+to Forest.
+---
+# Hills
+Food: 1.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 2.
+With Coals, Hills squares will produce 2 Production.
+Hills can be irrigated or mined (but not both at the same time).
+---
+# Jungle
+Food: 1.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
+With Gems, Jungle squares will produce 4 Trade.
+Jungles can be irrigated, which converts them to Grassland, or
+mined, which converts them to Forest.
+---
+# Mountains
+Food: 0.  Production: 1.  Trade: 0.  Movement: 3.  Defense: 3.
+With Gold, Mountain squares will produce 5 Trade.
+Mountains can be mined, but not irrigated.
+---
+# Ocean
+Food: 1.  Production: 0.  Trade: 2.  Movement: boat.  Defense: 1.
+With Fish, Ocean squares will produce 2 extra Food.
+Only sea units (Triremes and other boats) can travel on the Ocean.
+Ocean squares can never be polluted.
+---
+# Plains
+Food: 1.  Production: 1.  Trade: 0.  Movement: 1.  Defense: 1.
+With Horses, Plains squares will produce 2 extra Food.
+Plains can be irrigated.  If mined, Plains will be converted to
+Forest.
+---
+# River
+Food: 2.  Production: 0.  Trade: 1.  Movement: 1(*).  Defense: 1.5.
+Units moving from one River square to another River square act as
+though there were a road joining them.
+With Resources, River squares will produce 1 Production.
+Rivers can be irrigated but not mined.
+Roads and railroads can only be built on River squares if your
+civilzation has learned Bridge Building technology.
+---
+# Swamp
+Food: 1.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
+With Oil, Swamp squares will produce 4 Production.
+Swamps can be irrigated, which converts them to Grassland, or mined,
+which converts them to Forest.
+---
+# Tundra
+Food: 1.  Production: 0.  Trade: 0.  Movement: 1.  Defense: 1.
+With Game, Tundra squares will produce 2 extra Food.
+Tundra cannot be irrigated or mined.
 ---
 %% This is for XEmacs.  It sets up the indentation.
 %% The paragraph-separate thing isn't working right.  Can someone
