@@ -25,14 +25,16 @@
 #include <gtk/gtk.h>
 
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"		/* government_graphic() */
-#include "map.h"
+#include "log.h"
 #include "mem.h"
-#include "player.h"
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
+
+#include "game.h"
+#include "government.h"		/* government_graphic() */
+#include "map.h"
+#include "player.h"
 
 #include "civclient.h"
 #include "climap.h"
@@ -891,6 +893,58 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 }
 
 /**************************************************************************
+  Created a fogged version of the sprite.  This can fail on older systems
+  in which case the callers needs a fallback.
+**************************************************************************/
+static void fog_sprite(struct Sprite *sprite)
+{
+  int x, y;
+  GdkImage* ftile;
+
+  if (gdk_drawable_get_visual(sprite->pixmap)->type
+      != GDK_VISUAL_TRUE_COLOR) {
+    /* In this case the below code won't work. */
+    return;
+  }
+
+  ftile = gdk_drawable_get_image(sprite->pixmap,
+				 0, 0, sprite->width, sprite->height);
+
+  /* Iterate over all pixels, reducing brightness by 50%. */
+  for (x = 0; x < sprite->width; x++) {
+    for (y = 0; y < sprite->height; y++) {
+      guint32 pixel =  gdk_image_get_pixel(ftile, x, y);
+
+      guint8 red = (((pixel & ftile->visual->red_mask) << 
+		     (32 - ftile->visual->red_shift 
+		      - ftile->visual->red_prec)) >> 24) / 2; 
+      guint8 green = (((pixel & ftile->visual->green_mask) <<
+		       (32 - ftile->visual->green_shift 
+			- ftile->visual->green_prec)) >> 24) / 2;
+      guint8 blue = (((pixel & ftile->visual->blue_mask) <<
+		      (32 - ftile->visual->blue_shift 
+		       - ftile->visual->blue_prec)) >> 24) / 2;
+      guint32 result = red << ftile->visual->red_shift
+	| green << ftile->visual->green_shift          
+	| blue << ftile->visual->blue_shift;
+
+      gdk_image_put_pixel(ftile, x , y, result);
+    }
+  }
+
+  /* Convert the image back to a pixmap, since pixmaps are much faster
+   * to draw. */
+  sprite->fogged = gdk_pixmap_new(root_window,
+				  sprite->width, sprite->height, -1);
+  gdk_gc_set_clip_origin(fill_tile_gc, 0, 0);
+  gdk_gc_set_clip_mask(fill_tile_gc, sprite->mask);
+  gdk_draw_image(sprite->fogged, fill_tile_gc, ftile,
+		 0, 0, 0, 0, sprite->width, sprite->height);
+  gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+  g_object_unref(ftile);
+}
+
+/**************************************************************************
 Only used for isometric view.
 **************************************************************************/
 static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
@@ -899,6 +953,29 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 bool fog)
 {
   if (!ssprite) {
+    return;
+  }
+
+  if (fog && better_fog && !ssprite->fogged) {
+    fog_sprite(ssprite);
+    if (!ssprite->fogged) {
+      freelog(LOG_NORMAL,
+	      _("Better fog will only work in truecolor.  Disabling it"));
+      better_fog = FALSE;
+    }
+  }
+
+  if (fog && better_fog) {
+    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_tile_gc, ssprite->mask);
+
+    gdk_draw_drawable(pixmap, fill_tile_gc,
+		      ssprite->fogged,
+		      0, 0,
+		      canvas_x, canvas_y,
+		      ssprite->width, ssprite->height);
+    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+
     return;
   }
 

@@ -1306,14 +1306,8 @@ void put_one_tile(struct canvas *pcanvas, struct tile *ptile,
 		  int canvas_x, int canvas_y, bool citymode)
 {
   if (tile_get_known(ptile) != TILE_UNKNOWN) {
-    struct drawn_sprite tile_sprs[80];
-
-    int count = fill_sprite_array(tile_sprs, ptile,
-				  get_drawable_unit(ptile, citymode),
-				  map_get_city(ptile), citymode);
-
-    put_drawn_sprites(pcanvas, canvas_x, canvas_y,
-		      count, tile_sprs, FALSE);
+    /* FIXME: These two functions should be merged. */
+    put_one_tile_iso(pcanvas, ptile, canvas_x, canvas_y, citymode);
   } else {
     /* tile is unknown */
     canvas_put_rectangle(pcanvas, COLOR_STD_BLACK,
@@ -1459,7 +1453,8 @@ void put_one_tile_iso(struct canvas *pcanvas, struct tile *ptile,
   int count = fill_sprite_array(tile_sprs, ptile,
 				get_drawable_unit(ptile, citymode),
 				ptile->city, citymode);
-  bool fog = ptile->known == TILE_KNOWN_FOGGED && draw_fog_of_war;
+  bool fog = (ptile->known == TILE_KNOWN_FOGGED && draw_fog_of_war
+	      && fogstyle == 0);
 
   /*** Draw terrain and specials ***/
   put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);

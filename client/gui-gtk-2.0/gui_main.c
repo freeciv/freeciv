@@ -86,6 +86,7 @@ int overview_canvas_store_height = 2 * 50;
 bool fullscreen_mode = TRUE;
 bool enable_tabs = TRUE;
 bool solid_unit_icon_bg = FALSE;
+bool better_fog = TRUE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -141,7 +142,9 @@ client_option gui_options[] = {
   GEN_BOOL_OPTION(fullscreen_mode,	N_("Fullscreen Mode")),
   GEN_BOOL_OPTION(enable_tabs,		N_("Enable status report tabs")),
   GEN_BOOL_OPTION(solid_unit_icon_bg,
-		  N_("Solid unit icon background color in city dialog"))
+		  N_("Solid unit icon background color in city dialog")),
+  GEN_BOOL_OPTION(better_fog,
+		  N_("Better fog-of-war drawing"))
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

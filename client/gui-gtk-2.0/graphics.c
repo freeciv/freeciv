@@ -290,7 +290,7 @@ SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask,
     SPRITE *mysprite = fc_malloc(sizeof(SPRITE));
 
     mysprite->pixmap	= mypixmap;
-
+    mysprite->fogged = NULL;
     mysprite->has_mask = (mask != NULL);
     mysprite->mask = mask;
 
@@ -354,6 +354,7 @@ struct Sprite *load_gfxfile(const char *filename)
   mysprite->height    = h;
 
   mysprite->pixbuf    = NULL;
+  mysprite->fogged = NULL;
 
   g_object_unref(im);
 
@@ -375,6 +376,9 @@ void free_sprite(SPRITE * s)
   }
   if (s->pixbuf) {
     g_object_unref(s->pixbuf);
+  }
+  if (s->fogged) {
+    g_object_unref(s->fogged);
   }
   free(s);
 }
@@ -460,7 +464,7 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
   mysprite->height    = new_h;
 
   mysprite->pixbuf    = NULL;
-
+  mysprite->fogged = NULL;
   g_object_unref(im);
 
   return mysprite;

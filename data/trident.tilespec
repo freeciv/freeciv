@@ -21,6 +21,9 @@ is_isometric = 0
 ; Use roadstyle 1 (old non-iso style)
 roadstyle = 1
 
+; Use fogstyle 1 (old non-iso style)
+fogstyle = 0
+
 ; Use darkness style 3 (15 sprites)
 darkness_style = 3
  
