@@ -63,9 +63,10 @@ static void players_vision_callback(GtkMenuItem *item, gpointer data);
 static void players_intel_callback(GtkMenuItem *item, gpointer data);
 static void players_sship_callback(GtkMenuItem *item, gpointer data);
 
-#define NUM_COLUMNS 12    /* number of columns in total */
-#define DEF_SORT_COLUMN 2 /* default sort column (1 = nation) */
-#define PLRNO_COLUMN 13   /* plrno column */
+#define NUM_COLUMNS 12                /* number of columns in total */
+#define DEF_SORT_COLUMN 2             /* default sort column (2 = nation) */
+#define COLOR_COLUMN (NUM_COLUMNS)    /* color column */
+#define PLRNO_COLUMN (NUM_COLUMNS+1)  /* plrno column */
 
 /**************************************************************************
 popup the dialog 10% inside the main-window 
@@ -231,7 +232,7 @@ void create_players_dialog(void)
   GtkWidget *sep;
 
   model_types[1] = GDK_TYPE_PIXBUF;
-  model_types[12] = GDK_TYPE_COLOR;
+  model_types[COLOR_COLUMN] = GDK_TYPE_COLOR;
 
   if (!titles) titles = intl_slist(NUM_COLUMNS, titles_);
 
@@ -283,7 +284,7 @@ void create_players_dialog(void)
 	NULL);
 
       col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-        "text", i, "foreground-gdk", NUM_COLUMNS, NULL);
+        "text", i, "foreground-gdk", COLOR_COLUMN, NULL);
       gtk_tree_view_column_set_sort_column_id(col, i);
     }
 
@@ -508,7 +509,7 @@ static void build_row(GtkTreeIter *it, int i)
    default:
      state_col = colors_standard[COLOR_STD_WHITE];
    }
-   gtk_list_store_set(store, it, 12, state_col, -1);
+   gtk_list_store_set(store, it, COLOR_COLUMN, state_col, -1);
 }
 
 
