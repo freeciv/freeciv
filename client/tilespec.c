@@ -1580,13 +1580,17 @@ void tilespec_setup_impr_type(int id)
 ***********************************************************************/
 void tilespec_setup_tech_type(int id)
 {
-  advances[id].sprite
-    = lookup_sprite_tag_alt(advances[id].graphic_str,
-			    advances[id].graphic_alt,
-			    FALSE, "tech_type",
-			    get_tech_name(game.player_ptr, id));
+  if (tech_exists(id)) {
+    advances[id].sprite
+      = lookup_sprite_tag_alt(advances[id].graphic_str,
+			      advances[id].graphic_alt,
+			      FALSE, "tech_type",
+			      get_tech_name(game.player_ptr, id));
 
-  /* should maybe do something if NULL, eg generic default? */
+    /* should maybe do something if NULL, eg generic default? */
+  } else {
+    advances[id].sprite = NULL;
+  }
 }
 
 /**********************************************************************
