@@ -1071,6 +1071,14 @@ Does not fill in the city or unit; that have to be done seperatly in
 isometric view. Also, no fog here.
 
 A return of -1 means the tile should be black.
+
+The sprites are drawn in the following order:
+ 1) basic terrain type (including river hack)
+ 2) mine
+ 3) irritation
+ 4) specials
+ 5) road/railroad
+ 6) huts
 ***********************************************************************/
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       struct Sprite **dither,
@@ -1169,6 +1177,14 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			  (ttype_west==T_MOUNTAINS || ttype_west==T_MOUNTAINS));
       *sprs++=sprites.tx.spec_mountain[tileno];
     }
+    
+    if (tspecial & S_IRRIGATION && !pcity && draw_irrigation) {
+      if (tspecial & S_FARMLAND) {
+	*sprs++ = sprites.tx.farmland;
+      } else {
+	*sprs++ = sprites.tx.irrigation;
+      }
+    }
 
     if (tspecial&S_RIVER) {
       tileno = INDEX_NSEW((tspecial_north&S_RIVER || ttype_north==T_OCEAN),
@@ -1192,24 +1208,25 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     *solid_bg = 1;
   }
 
-  if (draw_specials) {
-    if (tspecial & S_SPECIAL_1)
-      *sprs++ = tile_types[ttype].special[0].sprite;
-    else if (tspecial & S_SPECIAL_2)
-      *sprs++ = tile_types[ttype].special[1].sprite;
-  }
-
   if (tspecial & S_MINE && draw_mines) {
     /* We do not have an oil tower in isometric view yet... */
     *sprs++ = sprites.tx.mine;
   }
 
-  if (tspecial & S_IRRIGATION && !pcity && draw_irrigation) {
+  if (tspecial & S_IRRIGATION && !pcity && draw_irrigation
+      && !draw_terrain) {
     if (tspecial & S_FARMLAND) {
-      *sprs++=sprites.tx.farmland;
+      *sprs++ = sprites.tx.farmland;
     } else {
-      *sprs++=sprites.tx.irrigation;
+      *sprs++ = sprites.tx.irrigation;
     }
+  }
+  
+  if (draw_specials) {
+    if (tspecial & S_SPECIAL_1)
+      *sprs++ = tile_types[ttype].special[0].sprite;
+    else if (tspecial & S_SPECIAL_2)
+      *sprs++ = tile_types[ttype].special[1].sprite;
   }
 
   if (tspecial & S_RAILROAD && draw_roads_rails) {
@@ -1290,6 +1307,20 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 
 /**********************************************************************
   Fill in the sprite array for the tile at position (abs_x0,abs_y0)
+
+The sprites are drawn in the following order:
+ 1) basic terrain type
+ 2) river
+ 3) irritation
+ 4) road/railroad
+ 5) specials
+ 6) mine
+ 7) hut
+ 8) fortress
+ 9) airbase
+10) pollution
+11) fallout
+12) FoW
 ***********************************************************************/
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 			   int citymode, int *solid_bg, struct player **pplayer)
