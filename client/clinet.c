@@ -375,7 +375,7 @@ void input_from_server_till_request_got_processed(int fd,
 	  if (aconnection.client.last_processed_request_id_seen >=
 	      expected_request_id) {
 	    freelog(LOG_DEBUG, "ifstrgp: got it; returning");
-	    return;
+	    goto out;
 	  }
 	}
       }
@@ -384,6 +384,7 @@ void input_from_server_till_request_got_processed(int fd,
     }
   }
 
+out:
   unqueue_mapview_update();
 }
 
