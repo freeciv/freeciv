@@ -226,6 +226,7 @@ data/default/units.ruleset
 data/civ2/units.ruleset
 data/civ1/units.ruleset
 data/history/units.ruleset
+data/nation/afghani.ruleset
 data/nation/american.ruleset
 data/nation/arab.ruleset
 data/nation/argentine.ruleset
@@ -250,6 +251,7 @@ data/nation/dutch.ruleset
 data/nation/egyptian.ruleset
 data/nation/english.ruleset
 data/nation/estonian.ruleset
+data/nation/ethiopian.ruleset
 data/nation/filipino.ruleset
 data/nation/finnish.ruleset
 data/nation/french.ruleset
@@ -281,6 +283,7 @@ data/nation/sioux.ruleset
 data/nation/slovenian.ruleset
 data/nation/spanish.ruleset
 data/nation/swedish.ruleset
+data/nation/swiss.ruleset
 data/nation/thai.ruleset
 data/nation/turk.ruleset
 data/nation/ukrainian.ruleset
