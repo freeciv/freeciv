@@ -60,7 +60,7 @@
 
 #include "civclient.h"
 
-char metaserver[256]="";
+char metaserver[256];
 char server_host[512];
 char name[512];
 int server_port;
@@ -96,8 +96,8 @@ int main(int argc, char *argv[])
   /* set default argument values */
   loglevel=LOG_NORMAL;
   server_port=DEFAULT_SOCK_PORT;
-  mystrlcpy(server_host, "localhost", 512);
-  mystrlcpy(metaserver, METALIST_ADDR, 256);
+  sz_strlcpy(server_host, "localhost");
+  sz_strlcpy(metaserver, METALIST_ADDR);
   name[0] = '\0';
 
   i = 1;
@@ -128,13 +128,13 @@ int main(int argc, char *argv[])
    } else if ((option = get_option("--log",argv,&i,argc)) != NULL)
       logfile = mystrdup(option); /* never free()d */
    else if ((option = get_option("--name",argv,&i,argc)) != NULL)
-      mystrlcpy(name, option, 512);
+      sz_strlcpy(name, option);
    else if ((option = get_option("--metaserver",argv,&i,argc)) != NULL)
-      mystrlcpy(metaserver, option, 256);
+      sz_strlcpy(metaserver, option);
    else if ((option = get_option("--port",argv,&i,argc)) != NULL)
      server_port=atoi(option);
    else if ((option = get_option("--server",argv,&i,argc)) != NULL)
-      mystrlcpy(server_host, option, 512);
+      sz_strlcpy(server_host, option);
    else if ((option = get_option("--debug",argv,&i,argc)) != NULL) {
       loglevel=log_parse_level_str(option);
       if (loglevel==-1) {
@@ -153,7 +153,7 @@ int main(int argc, char *argv[])
 
   /* after log_init: */
   if (name[0] == '\0') {
-    mystrlcpy(name, user_username(), 512);
+    sz_strlcpy(name, user_username());
   }
 
   init_messages_where();
