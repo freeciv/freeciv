@@ -69,6 +69,7 @@ int could_unit_move_to_tile(struct unit *punit, int x, int y)
   struct tile *ptile,*ptile2;
   struct unit_list *punit_list;
   struct unit *punit2;
+  struct city *pcity;
   int zoc;
 
   if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO)
@@ -103,6 +104,14 @@ int could_unit_move_to_tile(struct unit *punit, int x, int y)
       if(!is_friendly_city_tile(x,y,punit->owner))
 	return 0;
   } 
+
+  if((pcity=map_get_city(x, y))) {
+    if ((pcity->owner!=punit->owner && (is_air_unit(punit) || 
+                                        !is_military_unit(punit)))) {
+        return 0;  
+    }
+  }
+
   zoc = zoc_ok_move(punit, x, y);
   return zoc;
 }
@@ -130,6 +139,7 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit,
 /* If this is our starting square, zoc should be valid, and we should check it! */
   if (same_pos(punit->x, punit->y, x0, y0)) {
     if (get_defender(pplayer, punit, x1, y1)) {
+      if (pplayer->ai.control) return -1; /* if we wanted to attack, we wouldn't GOTO */
       if (!can_unit_attack_tile(punit, x1, y1)) return -1;
     } else {
       if (!could_unit_move_to_tile(punit, x1, y1)) return -1;
