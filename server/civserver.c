@@ -1008,27 +1008,30 @@ void start_game(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void handle_report_request(struct player *pplayer, enum report_type type)
+static void handle_report_request(struct connection *pconn,
+				  enum report_type type)
 {
+  struct conn_list *dest = &pconn->self;
+  
   switch(type) {
    case REPORT_WONDERS_OF_THE_WORLD:
-    wonders_of_the_world(pplayer);
+    report_wonders_of_the_world(dest);
     break;
    case REPORT_TOP_5_CITIES:
-    top_five_cities(pplayer);
+    report_top_five_cities(dest);
     break;
    case REPORT_DEMOGRAPHIC:
-    demographics_report(pplayer);
+    report_demographics(pconn);
     break;
   case REPORT_SERVER_OPTIONS1:
-    report_server_options(pplayer, 1);
+    report_server_options(dest, 1);
     break;
   case REPORT_SERVER_OPTIONS2:
-    report_server_options(pplayer, 2);
+    report_server_options(dest, 2);
     break;
   case REPORT_SERVER_OPTIONS: /* obsolete */
   default:
-    notify_player(pplayer, "Game: request for unknown report (type %d)", type);
+    notify_conn(dest, "Game: request for unknown report (type %d)", type);
   }
 }
 
@@ -1178,8 +1181,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_diplomat_action(pplayer, (struct packet_diplomat_action *)packet);
     break;
   case PACKET_REPORT_REQUEST:
-    handle_report_request(pplayer, 
-     ((struct packet_generic_integer *)packet)->value);
+    handle_report_request(pconn,
+			  ((struct packet_generic_integer *)packet)->value);
     break;
   case PACKET_DIPLOMACY_INIT_MEETING:
     handle_diplomacy_init(pplayer, (struct packet_diplomacy_info *)packet);

@@ -160,8 +160,8 @@ static void historian_generic(enum historian_type which_news)
   which_historian=myrand(sizeof(historian_name)/sizeof(historian_name[0]));
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
     _(historian_name[which_historian]));
-  page_player_generic(0, _("Historian Publishes!"), title, buffer,
-		 BROADCAST_EVENT);
+  page_conn_etype(&game.game_connections, _("Historian Publishes!"),
+		  title, buffer, BROADCAST_EVENT);
 }
 
 static int nr_wonders(struct city *pcity)
@@ -174,7 +174,10 @@ static int nr_wonders(struct city *pcity)
   return res;
 }
 
-void top_five_cities(struct player *pplayer)
+/**************************************************************************
+  Send report listing the "best" 5 cities in the world.
+**************************************************************************/
+void report_top_five_cities(struct conn_list *dest)
 {
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*5);
@@ -206,11 +209,15 @@ void top_five_cities(struct player *pplayer)
     }
   }
   free(size);
-  page_player(pplayer, _("Traveler's Report:"),
-	      _("The Five Greatest Cities in the World!"), buffer);
+  page_conn(dest, _("Traveler's Report:"),
+	    _("The Five Greatest Cities in the World!"), buffer);
 }
 
-void wonders_of_the_world(struct player *pplayer)
+/**************************************************************************
+  Send report listing all built and destroyed wonders, and wonders
+  currently being built.
+**************************************************************************/
+void report_wonders_of_the_world(struct conn_list *dest)
 {
   int i;
   struct city *pcity;
@@ -247,8 +254,8 @@ void wonders_of_the_world(struct player *pplayer)
       }
     }
   }
-  page_player(pplayer, _("Traveler's Report:"),
-	      _("Wonders of the World"), buffer);
+  page_conn(dest, _("Traveler's Report:"),
+	    _("Wonders of the World"), buffer);
 }
 
 /**************************************************************************
@@ -835,10 +842,13 @@ static void dem_line_item(char *outptr, int nleft, struct player *pplayer,
     }
 }
 
-/*************************************************************************/
-
-void demographics_report(struct player *pplayer)
+/*************************************************************************
+  Send demographics report; what gets reported depends on value of
+  demographics server option.  
+*************************************************************************/
+void report_demographics(struct connection *pconn)
 {
+  struct player *pplayer = pconn->player;
   char civbuf[1024];
   char buffer[4096] = "";
   int inx;
@@ -880,14 +890,12 @@ void demographics_report(struct player *pplayer)
 	}
     }
 
-  if (!anyrows || (selcols == DEM_NONE))
-    {
-      page_player (pplayer,
-		   _("Demographics Report:"),
-		   _("Sorry, the Demographics report is unavailable."),
-		   "");
-      return;
-    }
+  if (pplayer == NULL || !anyrows || (selcols == DEM_NONE)) {
+    page_conn(&pconn->self, _("Demographics Report:"),
+	      _("Sorry, the Demographics report is unavailable."),
+	      "");
+    return;
+  }
 
   my_snprintf (civbuf, sizeof(civbuf), _("The %s of the %s"),
 	       get_government_name (pplayer->government),
@@ -907,7 +915,7 @@ void demographics_report(struct player *pplayer)
 	}
     }
 
-  page_player (pplayer, _("Demographics Report:"), civbuf, buffer);
+  page_conn(&pconn->self, _("Demographics Report:"), civbuf, buffer);
 }
 
 /**************************************************************************
@@ -1313,7 +1321,6 @@ void make_history_report(void)
 /**************************************************************************
 ...
 **************************************************************************/
-
 void show_ending(void)
 {
   int i,j=0;
@@ -1338,8 +1345,8 @@ void show_ending(void)
     }
   }
   free(size);
-  page_player(0, _("Final Report:"),
-	      _("The Greatest Civilizations in the world."), buffer);
+  page_conn(&game.game_connections, _("Final Report:"),
+	    _("The Greatest Civilizations in the world."), buffer);
 
 }
 
@@ -2125,9 +2132,9 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 /**************************************************************************
 This function pops up a non-modal message dialog on the player's desktop
 **************************************************************************/
-void page_player(struct player *pplayer, char *caption, char *headline,
-		 char *lines) {
-    page_player_generic(pplayer,caption,headline,lines,-1);
+void page_conn(struct conn_list *dest, char *caption, char *headline,
+	       char *lines) {
+  page_conn_etype(dest, caption, headline, lines, -1);
 }
 
 
@@ -2140,25 +2147,20 @@ event == BROADCAST_EVENT: message can safely be ignored by clients watching AI
                           players with ai_popup_windows off.
          For example: Herodot's report... and similar messages.
 **************************************************************************/
-void page_player_generic(struct player *pplayer, char *caption, char *headline,
-			 char *lines, int event) 
+void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
+		      char *lines, int event) 
 {
-  int i;
+  int len;
   struct packet_generic_message genmsg;
 
-  if(strlen(caption)+1+strlen(headline)+1+strlen(lines) >=
-     sizeof(genmsg.message)) {
-    freelog(LOG_NORMAL, _("Message too long in page_player_generic!!"));
-    return;
+  len = my_snprintf(genmsg.message, sizeof(genmsg.message),
+		    "%s\n%s\n%s", caption, headline, lines);
+  if (len >= sizeof(genmsg.message)) {
+    freelog(LOG_NORMAL, _("Message truncated in page_conn_etype!"));
   }
-  my_snprintf(genmsg.message, sizeof(genmsg.message),
-	      "%s\n%s\n%s", caption, headline, lines);
   genmsg.event = event;
   
-  for(i=0; i<game.nplayers; i++)
-    if(!pplayer || pplayer==&game.players[i])
-      send_packet_generic_message(game.players[i].conn, PACKET_PAGE_MSG, 
-				  &genmsg);
+  lsend_packet_generic_message(dest, PACKET_PAGE_MSG, &genmsg);
 }
 
 /**************************************************************************

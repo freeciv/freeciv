@@ -21,7 +21,7 @@ struct player;
   /* the character to mark chatlines as server commands */
 
 extern void handle_stdin_input(struct player *caller, char *str);
-extern void report_server_options(struct player *pplayer, int which);
+extern void report_server_options(struct conn_list *dest, int which);
 extern void set_ai_level_direct(struct player *pplayer, int level);
 extern void set_ai_level_directer(struct player *pplayer, int level);
 extern void read_init_script(char *script_filename);

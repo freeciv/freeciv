@@ -2112,13 +2112,13 @@ static void explain_option(struct player *caller, char *str)
 }
   
 /******************************************************************
-Send a report with server options to the client;
+Send a report with server options to specified connections.
 "which" should be one of:
 1: initial options only
 2: ongoing options only 
 (which=0 means all options; this is now obsolete and no longer used.)
 ******************************************************************/
-void report_server_options(struct player *pplayer, int which)
+void report_server_options(struct conn_list *dest, int which)
 {
   int i;
   char buffer[4096];
@@ -2146,7 +2146,7 @@ void report_server_options(struct player *pplayer, int which)
     }
   }
   freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
-  page_player(pplayer, caption, title, buffer);
+  page_conn(dest, caption, title, buffer);
 }
 
 /******************************************************************

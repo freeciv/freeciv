@@ -19,6 +19,7 @@ struct player;
 struct packet_player_request;
 struct section_file;
 struct connection;
+struct conn_list;
 
 void server_player_init(struct player *pplayer, int initmap);
 void server_remove_player(struct player *pplayer);
@@ -36,10 +37,10 @@ void neutralize_ai_player(struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 
-void page_player(struct player *pplayer, char *caption, char *headline,
-		 char *lines);
-void page_player_generic(struct player *pplayer, char *caption, char *headline,
-			 char *lines, int event);
+void page_conn(struct conn_list *dest, char *caption, char *headline,
+	       char *lines);
+void page_conn_etype(struct conn_list *dest, char *caption, char *headline,
+		     char *lines, int event);
 
 void notify_conn_ex(struct conn_list *dest, int x, int y, int event,
 		    const char *format, ...) 
@@ -72,11 +73,14 @@ void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);
 void choose_tech_goal(struct player *plr, int tech);
 int choose_goal_tech(struct player *plr);
-void wonders_of_the_world(struct player *pplayer);
-void demographics_report(struct player *pplayer);
-void top_five_cities(struct player *pplayer);
-void send_player_turn_notifications(struct player *pplayer);
+
 void make_history_report(void);
+void report_wonders_of_the_world(struct conn_list *dest);
+void report_top_five_cities(struct conn_list *dest);
+void report_demographics(struct connection *pconn);
+
+void send_player_turn_notifications(struct player *pplayer);
+
 void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
