@@ -19,7 +19,6 @@
 
 #include "colors_g.h"
 
-int get_colors(Display *display);
 void free_colors(unsigned long *pixels, int ncols);
 
 extern unsigned long colors_standard[COLOR_STD_LAST];
