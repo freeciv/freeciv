@@ -499,7 +499,7 @@ void request_unit_unload(struct unit *punit)
   struct packet_unit_request req;
 
   if(!get_transporter_capacity(punit)) {
-    append_output_window(_("Game: You can only unload transporter units."));
+    append_output_window(_("Game: Only transporter units can be unloaded."));
     return;
   }
 
@@ -729,8 +729,8 @@ void request_unit_auto(struct unit *punit)
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_AUTO);
   } else {
-    append_output_window(_("Game: Only settlers, and military units"
-			 " in cities, can be put in auto-mode."));
+    append_output_window(_("Game: Only settler units and military units"
+			   " in cities can be put in auto-mode."));
   }
 }
 
