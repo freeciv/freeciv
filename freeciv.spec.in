@@ -192,6 +192,10 @@ done
 		     localedir=$RPM_BUILD_ROOT%{_datadir}/locale \
 		     mandir=$RPM_BUILD_ROOT%{_mandir} \
 		     -C build-server
+%find_lang %{name}
+
+%clean
+rm -fr %buildroot
 
 %post server
 %update_menus
@@ -241,10 +245,6 @@ done
 				%name-client \
 				%{_gamesbindir}/civclient-xaw
 
-%find_lang %{name}
-
-%clean
-rm -fr %buildroot
 
 %files common -f %name.lang
 %defattr(644, root, root, 0755)
