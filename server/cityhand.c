@@ -426,6 +426,15 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   if ((!cost) || (cost>pplayer->economic.gold))
    return;
 
+  /*
+   * Need to make this more restrictive.  AI is sometimes buying
+   * things that force it to sell buildings due to upkeep problems.
+   * upkeep expense is only known in ai_manage_taxes().
+   * Also, we should sort this list so cheapest things are bought first,
+   * and/or take danger into account.
+   * AJS, 1999110
+   */
+
   pplayer->economic.gold-=cost;
   if (pcity->shield_stock < total){
     pcity->shield_stock=total; /* AI wants this -- Syela */
