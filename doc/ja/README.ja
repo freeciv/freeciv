@@ -1,4 +1,4 @@
-Original: CVS-1.8
+Original: CVS-1.9
 Translator: SAWADA Katsuya <ama@petmail.net>
 
 =======================
@@ -524,10 +524,10 @@ max の範囲のデバッグメッセージだけが印字されます。各ファイルに対して
 Internet Relay Chat (IRC)
 =========================
 
-一部のプレイヤーと開発者が Open Projects network の #freeciv に入りび
-たっています。サーバへ接続してみて下さい。
+一部のプレイヤーと開発者が freenode network の #freeciv に入りびたって
+います。サーバへ接続してみて下さい。
 
-	irc.openprojects.net
+	irc.freenode.net
 
 
 新版のリリース:
