@@ -3262,7 +3262,7 @@ echo "configure:3225: checking for catalogs to be installed" >&5
   
 
 
-        LOCALEDIR='${prefix}/${DATADIRNAME}/locale'
+        LOCALEDIR='${prefix}/share/locale'
         LOCALEDIR=`(
             test "x$prefix" = xNONE && prefix="$ac_default_prefix"
             test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
