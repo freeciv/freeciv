@@ -25,6 +25,7 @@
 #include "terrain.h"
 #include "unit.h"
 
+#include "citytools.h"
 #include "maphand.h"
 #include "sanitycheck.h"
 #include "unittools.h"
@@ -176,6 +177,12 @@ static void check_cities(void)
 		      "empty but in enemy territory!",
 		      pcity->name, x, y);
 	    }
+	    if (!city_can_work_tile(pcity, x, y)) {
+	      /* Complete check. */
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "empty but is unavailable!",
+		      pcity->name, x, y);
+	    }
 	    break;
 	  case C_TILE_WORKER:
 	    if (map_get_tile(map_x, map_y)->worked != pcity) {
@@ -194,12 +201,15 @@ static void check_cities(void)
 		      "worked but in enemy territory!",
 		      pcity->name, x, y);
 	    }
+	    if (!city_can_work_tile(pcity, x, y)) {
+	      /* Complete check. */
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "worked but is unavailable!",
+		      pcity->name, x, y);
+	    }
 	    break;
 	  case C_TILE_UNAVAILABLE:
-	    if (!map_get_tile(map_x, map_y)->worked
-		&& !is_enemy_unit_tile(ptile, pplayer)
-		&& map_is_known(map_x, map_y, pplayer)
-		&& (!owner || owner->player_no == pcity->owner)) {
+	    if (city_can_work_tile(pcity, x, y)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "unavailable but seems to be available!",
 		      pcity->name, x, y);
