@@ -956,7 +956,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   unit_type = best_role_unit(pcity, F_SETTLERS);
 
-  if (est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
+  if (unit_type != U_LAST
+      && est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
     /* settler_want calculated in settlers.c called from ai_manage_city() */
     int want = pcity->ai.settler_want;
 
@@ -985,7 +986,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   unit_type = best_role_unit(pcity, F_CITIES);
 
-  if (est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
+  if (unit_type != U_LAST
+      && est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
     /* founder_want calculated in settlers.c, called from ai_manage_city(). */
     int want = pcity->ai.founder_want;
 
@@ -1013,24 +1015,24 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     init_choice(&cur);
     ai_advisor_choose_building(pcity, &cur);
-    /* Allowing buy of peaceful units after much testing. -- Syela */
-    /* want > 100 means BUY RIGHT NOW */
-    /* if (choice->want > 100) choice->want = 100; */
     copy_if_better_choice(&cur, choice);
   }
 
-  /* FIXME: rather !is_valid_choice() --rwetmore */
   if (choice->want == 0) {
     /* Oh dear, better think of something! */
     unit_type = best_role_unit(pcity, F_TRADE_ROUTE);
     
+    choice->want = 1;
     if (unit_type != U_LAST) {
-      choice->want = 1;
       choice->type = CT_NONMIL;
       choice->choice = unit_type;
+    } else {
+      /* Capitalization is last resort */
+      choice->type = CT_BUILDING;
+      choice->choice = B_CAPITAL;
     }
   }
-  
+
   /* If we don't do following, we buy caravans in city X when we should be
    * saving money to buy defenses for city Y. -- Syela */
   if (choice->want >= 200) choice->want = 199;
