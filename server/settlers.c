@@ -1532,7 +1532,7 @@ void contemplate_terrain_improvements(struct city *pcity)
    * overflooding with worker type units if they come cheap in
    * the ruleset */
   want /= MAX(1, ai->stats.workers[ptile->continent]
-                 / ai->stats.cities[ptile->continent]);
+                 / (ai->stats.cities[ptile->continent] + 1));
   want -= MIN(ai->stats.workers[ptile->continent], want);
 
   CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
