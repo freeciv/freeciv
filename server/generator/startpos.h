@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__STARTING_POSITIONS
-#define FC__STARTING_POSITIONS
+#ifndef FC__STARTPOS_H
+#define FC__STARTPOS_H
 
 enum start_mode {
   MT_DEFAULT,

@@ -11,6 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#ifndef FC__SETTINGS_H
+#define FC__SETTINGS_H
+
 #include "shared.h"
 
 #include "game.h"
@@ -122,3 +125,5 @@ extern struct settings_s settings[];
 extern const int SETTINGS_NUM;
 
 bool sset_is_changeable(int idx);
+
+#endif				/* FC__SETTINGS_H */

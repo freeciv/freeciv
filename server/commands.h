@@ -11,6 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+#ifndef FC__COMMANDS_H
+#define FC__COMMANDS_H
+
 #include "connection.h"		/* for enum cmdlevel_id */
 
 /**************************************************************************
@@ -89,3 +92,5 @@ enum command_id {
 };
 
 extern const struct command commands[];
+
+#endif				/* FC__COMMANDS_H */

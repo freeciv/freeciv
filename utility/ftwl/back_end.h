@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __BE_H
-#define __BE_H
+#ifndef FC__BACK_END_H
+#define FC__BACK_END_H
 
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -153,4 +153,4 @@ void be_copy_osda_to_screen(struct osda *src);
 void be_write_osda_to_file(struct osda *osda, const char *filename);
 be_color be_get_color(int red, int green, int blue, int alpha);
 
-#endif
+#endif				/* FC__BACK_END_H */
