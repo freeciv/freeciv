@@ -190,7 +190,7 @@ void handle_city_info(struct packet_city_info *packet)
   i=0;
   for(y=0; y<CITY_MAP_SIZE; y++)
     for(x=0; x<CITY_MAP_SIZE; x++)
-      pcity->city_map[x][y]=packet->city_map[i++]-'0';
+      set_worker_city(pcity,x,y,packet->city_map[i++]-'0');
     
   for(i=0; i<B_LAST; i++)
     pcity->improvements[i]=(packet->improvements[i]=='1') ? 1 : 0;
