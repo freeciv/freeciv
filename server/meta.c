@@ -41,8 +41,9 @@
 #include <netdb.h>
 #endif 
 
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac network headers */
+#ifdef HAVE_OPENTRANSPORT
 #include <OpenTransport.h>
+#include <OpenTptInternet.h>
 #endif
 
 #include "packets.h"
@@ -53,7 +54,7 @@
 #define INADDR_NONE     0xffffffff
 #endif
 
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac network globals */
+#ifdef GENERATING_MAC    /* mac network globals */
 TEndpointInfo meta_info;
 EndpointRef meta_ep;
 InetAddress serv_addr;
@@ -65,7 +66,7 @@ static struct sockaddr_in	cli_addr,serv_addr;
 int send_to_metaserver(char *desc, char *info)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac alternate networking */
+#ifdef GENERATING_MAC       /* mac alternate networking */
   struct TUnitData xmit;
   OSStatus err;
   xmit.udata.maxlen = MAX_LEN_PACKET;
@@ -78,7 +79,7 @@ int send_to_metaserver(char *desc, char *info)
   cptr=put_string(cptr, desc);
   cptr=put_string(cptr, info);
   put_int16(buffer, cptr-buffer);
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
+#ifdef GENERATING_MAC  /* mac networking */
   xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);
 #else
@@ -90,7 +91,7 @@ int send_to_metaserver(char *desc, char *info)
 
 void server_close_udp(void)
 {
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
+#ifdef GENERATING_MAC  /* mac networking */
   OTUnbind(meta_ep);
 #else
   close(sockfd);
@@ -101,7 +102,7 @@ void server_open_udp(void)
 {
   char servername[]=METASERVER_ADDR;
   int bad;
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
+#ifdef GENERATING_MAC  /* mac networking */
   OSStatus err1;
   OSErr err2;
   InetSvcRef ref=OTOpenInternetServices(kDefaultInternetServicesPath, 0, &err1);
@@ -116,7 +117,7 @@ void server_open_udp(void)
    * server that we want to connect with, checks if server address 
    * is valid, both decimal-dotted and name.
    */
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
+#ifdef GENERATING_MAC  /* mac networking */
   if (err1 == 0)
   {
     err1=OTInetStringToAddress(ref, servername,&hinfo);
@@ -139,7 +140,7 @@ void server_open_udp(void)
   /*
    * Open a UDP socket (an Internet datagram socket).
    */
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
+#ifdef GENERATING_MAC  /* mac networking */
   meta_ep=OTOpenEndpoint(OTCreateConfiguration(kUDPName), 0, &meta_info, &err1);
   bad = (err1 != 0);
 #else  
@@ -159,7 +160,7 @@ void server_open_udp(void)
    * Bind any local address for us.
    */
   
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac networking */
+#ifdef GENERATING_MAC  /* mac networking */
   err1=OTBind(meta_ep, NULL, NULL);
   bad = (err1 != 0);
 #else

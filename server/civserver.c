@@ -40,7 +40,7 @@
 #include <termios.h>
 #endif
 
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac header(s) */
+#ifdef GENERATING_MAC  /* mac header(s) */
 #include <bool.h> /*from STL, but works w/ c*/
 #endif
 
@@ -144,8 +144,7 @@ int rand_init=0;
 /**************************************************************************
 ...
 **************************************************************************/
-#if (defined(GENERATING68K) || defined(GENERATINGPPC))
-				/* mac doesn't have comand line */
+#ifdef GENERATING_MAC 		/* mac doesn't have comand line */
 int main(void)
 #else 
 int main(int argc, char *argv[])
@@ -160,7 +159,7 @@ int main(int argc, char *argv[])
   int i;
   int save_counter=0;
   int loglevel=LOG_NORMAL;
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* Mac vars */
+#ifdef GENERATING_MAC         /* Mac vars */
   OSErr err;
   DialogPtr  optptr;
   bool done;
@@ -171,7 +170,7 @@ int main(int argc, char *argv[])
 
   strcpy(metaserver_info_line, DEFAULT_META_SERVER_INFO_STRING);
 
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* Mac Options */
+#ifdef GENERATING_MAC   /* Mac Options */
   optptr=GetNewDialog(128,nil,(WindowPtr)-1);
   err=SetDialogDefaultItem(optptr, 2);
   if (err != 0)
@@ -323,7 +322,7 @@ int main(int argc, char *argv[])
   gamelog_set_level(GAMELOG_FULL);
   gamelog(GAMELOG_NORMAL,"Starting new log");
   
-#if (defined(GENERATING68K) || defined(GENERATINGPPC))	/* mac beta notice */
+#ifdef GENERATING_MAC	/* mac beta notice */
   con_puts(C_COMMENT, "");
   con_puts(C_COMMENT, "This is an alpha/beta version of MacFreeciv.");
   con_puts(C_COMMENT, "Visit http://www.geocities.com/SiliconValley/Orchard/8738/MFC/index.html");

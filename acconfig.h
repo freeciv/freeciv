@@ -9,10 +9,14 @@
  *
  *   Need to mention HAVE_lib here when using FC_CHECK_X_LIB
  *   instead of AC_CHECK_LIB:  --dwp
+ *
+ *   Note PACKAGE and VERSION are now done automatically by
+ *   autoheader  --dwp
+ *
+ *   ALWAYS_ROOT and following correspond to entries used by
+ *   hand-written config.h files, and are not set by configure.
  */
 
-#undef PACKAGE
-#undef VERSION
 #undef MAJOR_VERSION
 #undef MINOR_VERSION
 #undef PATCH_VERSION
@@ -34,7 +38,10 @@
 #undef HAVE_LC_MESSAGES
 #undef HAVE_STPCPY
 #undef LOCALEDIR
-
+#undef ALWAYS_ROOT
+#undef STRICT_WINDOWS
+#undef GENERATING_MAC
+#undef HAVE_OPENTRANSPORT
 
 @BOTTOM@
 

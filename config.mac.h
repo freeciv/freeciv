@@ -1,22 +1,21 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+/* config.mac.h.  converted from config.h.in by Andy Black. */
 #ifndef FC_CONFIG_H
 #define FC_CONFIG_H
 
+#include <MacHeaders.h>
+
 /* Define if using alloca.c.  */
 #undef C_ALLOCA
-
-/* Define to empty if the keyword does not work.  */
-#undef const
 
 /* Define to one of _getb67, GETB67, getb67 for Cray-2 and Cray-YMP systems.
    This function is required for alloca.c support on those systems.  */
 #undef CRAY_STACKSEG_END
 
 /* Define if you have alloca, as a function or macro.  */
-#undef HAVE_ALLOCA
+#define HAVE_ALLOCA
 
 /* Define if you have <alloca.h> and it should be used (not on Ultrix).  */
-#undef HAVE_ALLOCA_H
+#define HAVE_ALLOCA_H
 
 /* Define if you don't have vprintf but do have _doprnt.  */
 #undef HAVE_DOPRNT
@@ -25,13 +24,13 @@
 #undef HAVE_MMAP
 
 /* Define if you have the vprintf function.  */
-#undef HAVE_VPRINTF
+#define HAVE_VPRINTF
 
 /* Define as __inline if that's what the C compiler calls it.  */
-#undef inline
+/*#undef inline*/ /* not needed?*/
 
 /* Define to `long' if <sys/types.h> doesn't define.  */
-#undef off_t
+#define off_t long
 
 /* Define if you need to in order for stat and other things to work.  */
 #undef _POSIX_SOURCE
@@ -40,7 +39,7 @@
 #undef RETSIGTYPE
 
 /* Define to `unsigned' if <sys/types.h> doesn't define.  */
-#undef size_t
+/*#undef size_t*/ /*not needed ?*/
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be
@@ -49,10 +48,10 @@
  STACK_DIRECTION < 0 => grows toward lower addresses
  STACK_DIRECTION = 0 => direction of growth unknown
  */
-#undef STACK_DIRECTION
+#define STACK_DIRECTION -1
 
 /* Define if you have the ANSI C header files.  */
-#undef STDC_HEADERS
+#define STDC_HEADERS
 
 /* Define if you can safely include both <sys/time.h> and <time.h>.  */
 #undef TIME_WITH_SYS_TIME
@@ -60,8 +59,11 @@
 /* Define if your <sys/time.h> declares struct tm.  */
 #undef TM_IN_SYS_TIME
 
+/* Define if your <time.h> declares struct tm.  */
+#define TM_IN_TIME
+
 /* Define if the X Window System is missing or not being used.  */
-#undef X_DISPLAY_MISSING
+#define X_DISPLAY_MISSING
 
 #undef MAJOR_VERSION
 #undef MINOR_VERSION
@@ -84,10 +86,16 @@
 #undef HAVE_LC_MESSAGES
 #undef HAVE_STPCPY
 #undef LOCALEDIR
-#undef ALWAYS_ROOT
+
+#define ALWAYS_ROOT 1
+
+/* copland Compatability (os x?), _MAC ONLY_ (pointless on other systems)*/
 #undef STRICT_WINDOWS
-#undef GENERATING_MAC
-#undef HAVE_OPENTRANSPORT
+#define STRICT_WINDOWS 1 /* seq used to enable strict windows */
+
+#define GENERATING_MAC
+#define HAVE_OPENTRANSPORT
+
 
 /* Define if you have the __argz_count function.  */
 #undef HAVE___ARGZ_COUNT
@@ -102,7 +110,7 @@
 #undef HAVE_DCGETTEXT
 
 /* Define if you have the getcwd function.  */
-#undef HAVE_GETCWD
+#define HAVE_GETCWD
 
 /* Define if you have the gethostname function.  */
 #undef HAVE_GETHOSTNAME
@@ -126,7 +134,7 @@
 #undef HAVE_SETENV
 
 /* Define if you have the setlocale function.  */
-#undef HAVE_SETLOCALE
+#define HAVE_SETLOCALE
 
 /* Define if you have the stpcpy function.  */
 #undef HAVE_STPCPY
@@ -135,16 +143,16 @@
 #undef HAVE_STRCASECMP
 
 /* Define if you have the strchr function.  */
-#undef HAVE_STRCHR
+#define HAVE_STRCHR
 
 /* Define if you have the strdup function.  */
 #undef HAVE_STRDUP
 
 /* Define if you have the strerror function.  */
-#undef HAVE_STRERROR
+#define HAVE_STRERROR
 
 /* Define if you have the strstr function.  */
-#undef HAVE_STRSTR
+#define HAVE_STRSTR
 
 /* Define if you have the usleep function.  */
 #undef HAVE_USLEEP
@@ -156,10 +164,10 @@
 #undef HAVE_ARPA_INET_H
 
 /* Define if you have the <limits.h> header file.  */
-#undef HAVE_LIMITS_H
+#define HAVE_LIMITS_H
 
 /* Define if you have the <locale.h> header file.  */
-#undef HAVE_LOCALE_H
+#define HAVE_LOCALE_H
 
 /* Define if you have the <malloc.h> header file.  */
 #undef HAVE_MALLOC_H
@@ -177,7 +185,7 @@
 #undef HAVE_PWD_H
 
 /* Define if you have the <string.h> header file.  */
-#undef HAVE_STRING_H
+#define HAVE_STRING_H
 
 /* Define if you have the <sys/ioctl.h> header file.  */
 #undef HAVE_SYS_IOCTL_H
@@ -210,7 +218,7 @@
 #undef HAVE_TERMIOS_H
 
 /* Define if you have the <unistd.h> header file.  */
-#undef HAVE_UNISTD_H
+#define HAVE_UNISTD_H
 
 /* Define if you have the i library (-li).  */
 #undef HAVE_LIBI
@@ -223,6 +231,5 @@
 
 /* Version number of package */
 #undef VERSION
-
 
 #endif /* FC_CONFIG_H */

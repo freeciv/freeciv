@@ -108,7 +108,7 @@ l = @l@
 
 SUBDIRS = $(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po 
 
-EXTRA_DIST = PEOPLE BUGS HOWTOPLAY README.AI README.rulesets 		civ ser freeciv_hackers_guide.txt
+EXTRA_DIST = PEOPLE BUGS HOWTOPLAY README.AI README.rulesets 		civ ser freeciv_hackers_guide.txt config.mac.h
 
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs

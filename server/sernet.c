@@ -71,7 +71,7 @@
 
 struct connection connections[MAX_NUM_CONNECTIONS];
 
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac network globals */
+#ifdef GENERATING_MAC      /* mac network globals */
 TEndpointInfo serv_info;
 EndpointRef serv_ep;
 #else

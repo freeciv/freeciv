@@ -33,7 +33,7 @@
 #include <sys/select.h>
 #endif
 
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac header(s) */
+#ifdef GENERATING_MAC
 #include <events.h> /* for WaitNextEvent() */
 #endif
 
@@ -287,7 +287,7 @@ char *mystrerror(int errnum)
 ***************************************************************/
 void myusleep(unsigned long usec)
 {
-#if (defined(GENERATING68K) || defined(GENERATINGPPC)) /* mac timeshare function */
+#ifdef GENERATING_MAC
   EventRecord the_event;  /* dummy var for timesharing */
   WaitNextEvent(0, &the_event, GetCaretTime(), nil); /* this is suposed to
      give other application procseor time for the mac*/
@@ -669,7 +669,7 @@ void init_nls(void)
 ***************************************************************************/
 void dont_run_as_root(const char *argv0, const char *fallback)
 {
-#if (defined(GENERATING68K) || defined(GENERATINGPPC) || defined(__EMX__))
+#if (defined(ALWAYS_ROOT) || defined(__EMX__))
   return;
 #else
   if (getuid()==0 || geteuid()==0) {
