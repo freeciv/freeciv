@@ -188,10 +188,12 @@ static void ai_manage_taxes(struct player *pplayer)
         if (pcity->ai.celebrate == TRUE) {
           freelog(LOGLEVEL_TAX, "setting %s to celebrate", pcity->name);
           cm_query_result(pcity, &cmp, &cmr);
-          apply_cmresult_to_city(pcity, &cmr);
-          generic_city_refresh(pcity, TRUE, NULL);
-          if (cmr.found_a_valid && !city_happy(pcity)) {
-            CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
+          if (cmr.found_a_valid) {
+            apply_cmresult_to_city(pcity, &cmr);
+            generic_city_refresh(pcity, TRUE, NULL);
+            if (!city_happy(pcity)) {
+              CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
+            }
           }
         }
       } city_list_iterate_end;
