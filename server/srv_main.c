@@ -464,7 +464,7 @@ void save_game(char *orig_filename)
     sz_strlcpy(filename, orig_filename);
   } else { /* If orig_filename is NULL or empty, use "civgame<year>m.sav" */
     my_snprintf(filename, sizeof(filename),
-		"%s%dm.sav", game.save_name, game.year);
+		"%s%+05dm.sav", game.save_name, game.year);
   }
   
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -503,7 +503,7 @@ static void save_game_auto(void)
   assert(strlen(game.save_name)<256);
   
   my_snprintf(filename, sizeof(filename),
-	      "%s%d.sav", game.save_name, game.year);
+	      "%s%+05d.sav", game.save_name, game.year);
   save_game(filename);
   gamelog_save();		/* should this be in save_game()? --dwp */
 }
