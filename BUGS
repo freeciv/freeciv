@@ -18,8 +18,8 @@ KNOWN BUGS:
    on the chatline, and the arrow keys no longer work to move units in
    the main window.  A way to get back to the main window is to use
    the <Tab> key to advance to focus to some other widget.  Then the
-   arrow keys will work again.  (Notably, clicking on the main window
-   does *not* give it the focus, unfortunately.)
+   arrow keys will work again.  (Clicking on the main window should also
+   do the trick.)
 
  - The easy AI is not easy enough for novice players.  If the AI is
    beating you up early in the game, try setting the "generator" server
