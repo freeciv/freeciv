@@ -1152,7 +1152,7 @@ msgstr "Sorry, uczestnik o takim imieniu ju¿ bierze udzia³ w grze."
 #: server/connecthand.c:346
 #, c-format
 msgid "%s was rejected: Name %s already used."
-msgstr "%s zosta³ odrzucony: Imiê zajête."
+msgstr "%s zosta³ odrzucony: Imiê %s zajête."
 
 #: server/connecthand.c:350
 #, c-format
@@ -4642,7 +4642,7 @@ msgstr "Wymagany jest argument.  Sk³adnia: %s <opcja>."
 #
 #: server/stdinhand.c:2940
 msgid "Unknown option name."
-msgstr "Nieznana opcja"
+msgstr "Nieznana opcja."
 
 #: server/stdinhand.c:2950
 #, c-format
@@ -8637,7 +8637,7 @@ msgstr "Wybierz cel"
 #
 #: client/gui-gtk-2.0/gotodlg.c:175
 msgid "Ci_ties:"
-msgstr "M_iasta"
+msgstr "M_iasta:"
 
 #
 #: client/gui-gtk-2.0/gotodlg.c:183
@@ -13593,7 +13593,7 @@ msgstr ""
 "siê, traci on tyle hitpointów ile wynosi si³a ognia atakuj±cego; w "
 "przeciwnym wypadku atakuj±cy traci tyle punktów ruchu ile wynosi si³a ognia "
 "atakuj±cego . Powy¿szy krok jest powtarzany, a¿ która¶ z jednostek utraci "
-"wszystkie hitpointy."
+"wszystkie hitpointy. "
 
 #: data/helpdata.txt:969
 #, no-c-format
@@ -14247,7 +14247,7 @@ msgid ""
 "number of cities (depending on your government as well as the server option "
 "cityfactor), the limit on content citizens is reduced to 3."
 msgstr ""
-"Domy¶lnie mieszkañcy s± zadowoleni.  Je¶li miasto wzrasta powy¿ej rozmiaru 4"
+"Domy¶lnie mieszkañcy s± zadowoleni.  Je¶li miasto wzrasta powy¿ej rozmiaru 4 "
 "(opcja serwera), to ka¿dy nowy mieszkaniec staje siê nieszczê¶liwy. Je¶li "
 "liczba miast przekracza okre¶lony limit(opcja serwera + typ ustroju) to "
 "rozmiar miasta, po którym mieszkañcy staj± siê nieszczê¶liwi jest "
@@ -18190,7 +18190,7 @@ msgstr "Aztecki"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
-msgstr "Aztecy"
+msgstr "?plural:Aztekowie"
 
 #: data/nation/aztec.ruleset:6
 msgid ""
@@ -18233,7 +18233,7 @@ msgstr "Bawarski"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "Bawarowie"
+msgstr "?plural:Bawarowie"
 
 #
 #: data/nation/bavarian.ruleset:6
@@ -18250,7 +18250,7 @@ msgstr "Burski"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "Burowie"
+msgstr "?plural:Burowie"
 
 #: data/nation/boer.ruleset:6
 msgid ""
@@ -18269,7 +18269,7 @@ msgstr "Brazylijski"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr "Brazylijczycy"
+msgstr "?plural:Brazylijczycy"
 
 #
 #: data/nation/brazilian.ruleset:6
@@ -18315,7 +18315,7 @@ msgstr "Kanadyjski"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr "Kanadyjczycy"
+msgstr "?plural:Kanadyjczycy"
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -18323,7 +18323,7 @@ msgstr "Kartagiñski"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr "Kartagiñczycy"
+msgstr "?plural:Kartagiñczycy"
 
 #: data/nation/carthaginian.ruleset:6
 msgid ""
@@ -18341,7 +18341,7 @@ msgstr "Kataloñski"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr "Kataloñczycy"
+msgstr "?plural:Kataloñczycy"
 
 #: data/nation/catalan.ruleset:6
 msgid ""
@@ -18389,7 +18389,7 @@ msgstr "Chylijski"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr "Chilijcycy"
+msgstr "?plural:Chilijczycy"
 
 #
 #: data/nation/chilean.ruleset:6
@@ -18416,7 +18416,7 @@ msgstr "Chiñski"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr "Chiñczycy"
+msgstr "?plural:Chiñczycy"
 
 #
 #: data/nation/chinese.ruleset:6
@@ -18433,7 +18433,7 @@ msgstr "Kornwalijski"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr "Kornwalijczycy"
+msgstr "?plural:Kornwalijczycy"
 
 #
 #: data/nation/cornish.ruleset:6
@@ -18450,7 +18450,7 @@ msgstr "Chorwacki"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr "Chorwaci"
+msgstr "?plural:Chorwaci"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
@@ -18466,7 +18466,7 @@ msgstr "Czesi"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr "Czesi"
+msgstr "?plural:Czesi"
 
 #
 #: data/nation/czech.ruleset:6
@@ -18491,7 +18491,7 @@ msgstr "Duñski"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr "Duñczycy"
+msgstr "?plural:Duñczycy"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
@@ -18513,7 +18513,7 @@ msgstr "Dúnudiañski"
 
 #: data/nation/dunedain.ruleset:8
 msgid "?plural:Dunedan"
-msgstr "Dúnudainowie"
+msgstr "?plural:Dúnudainowie"
 
 #
 #: data/nation/dunedain.ruleset:9 data/nation/mordor.ruleset:5
@@ -18530,7 +18530,7 @@ msgstr "Holenderski"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr "Holendrzy"
+msgstr "?plural:Holendrzy"
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
@@ -18538,7 +18538,7 @@ msgstr "Egipski"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr "Egipcjanie"
+msgstr "?plural:Egipcjanie"
 
 #: data/nation/egyptian.ruleset:6
 msgid ""
@@ -18561,7 +18561,7 @@ msgstr "Angielski"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "Anglicy"
+msgstr "?plural:Anglicy"
 
 #: data/nation/english.ruleset:6
 msgid ""
@@ -18586,7 +18586,7 @@ msgstr "Estoñski"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr "Estoñczycy"
+msgstr "?plural:Estoñczycy"
 
 #
 #: data/nation/estonian.ruleset:6
@@ -18637,7 +18637,7 @@ msgstr "Francuski"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr "Francuzi"
+msgstr "?plural:Francuzi"
 
 #: data/nation/french.ruleset:13
 msgid "Premier"
@@ -18649,7 +18649,7 @@ msgstr "Niemiecki"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr "Niemcy"
+msgstr "?plural:Niemcy"
 
 #: data/nation/german.ruleset:7
 msgid ""
@@ -18674,7 +18674,7 @@ msgstr "Grecki"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr "Grecy"
+msgstr "?plural:Grecy"
 
 #
 #: data/nation/greek.ruleset:6
@@ -18687,7 +18687,7 @@ msgstr "Wêgierski"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr "Wêgrzy"
+msgstr "?plural:Wêgrzy"
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
@@ -18695,7 +18695,7 @@ msgstr "Inkaski"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr "Inkowie"
+msgstr "?plural:Inkowie"
 
 #: data/nation/inca.ruleset:6
 msgid ""
@@ -18723,7 +18723,7 @@ msgstr "Hinduski"
 
 #: data/nation/indian.ruleset:5
 msgid "?plural:Indians"
-msgstr "Hindusi"
+msgstr "?plural:Hindusi"
 
 #: data/nation/indian.ruleset:13
 msgid "Maharaja"
@@ -18735,7 +18735,7 @@ msgstr "Irlandzki"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "Irlandczycy"
+msgstr "?plural:Irlandczycy"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -18743,7 +18743,7 @@ msgstr "¯ydowski"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "¯ydzi"
+msgstr "?plural:¯ydzi"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
@@ -18761,7 +18761,7 @@ msgstr "W³oski"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr "W³osi"
+msgstr "?plural:W³osi"
 
 #: data/nation/italian.ruleset:6
 msgid ""
@@ -18777,7 +18777,7 @@ msgstr "Japoñski"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
-msgstr "Japoñczycy"
+msgstr "?plural:Japoñczycy"
 
 #: data/nation/japanese.ruleset:13
 msgid "Shogun"
@@ -18789,7 +18789,7 @@ msgstr "Kenijski"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "Kenijczycy"
+msgstr "?plural:Kenijczycy"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -18797,7 +18797,7 @@ msgstr "Koreañski"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr "Koreañczycy"
+msgstr "?plural:Koreañczycy"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -18805,7 +18805,7 @@ msgstr "£otewski"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr "£otysze"
+msgstr "?plural:£otysze"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -18813,7 +18813,7 @@ msgstr "Litewski"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "Litwini"
+msgstr "?plural:Litwini"
 
 #: data/nation/lithuanian.ruleset:6
 msgid ""
@@ -18838,7 +18838,7 @@ msgstr "Mongolski"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr "Mongo³owie"
+msgstr "?plural:Mongo³owie"
 
 #: data/nation/mongol.ruleset:6
 msgid ""
@@ -18865,7 +18865,7 @@ msgstr "Mordoriañski"
 
 #: data/nation/mordor.ruleset:4
 msgid "?plural:Mordors"
-msgstr "Mordorianie"
+msgstr "?plural:Mordorianie"
 
 #: data/nation/mordor.ruleset:6
 msgid ""
@@ -18887,7 +18887,7 @@ msgstr "Perski"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr "Persowie"
+msgstr "?plural:Persowie"
 
 #: data/nation/persian.ruleset:6
 msgid ""
@@ -18905,7 +18905,7 @@ msgstr "Polski"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Polish"
-msgstr "Polacy"
+msgstr "?plural:Polacy"
 
 #: data/nation/polish.ruleset:16
 msgid "Dyktator"
@@ -18933,7 +18933,7 @@ msgstr "Portugalski"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr "Portugalczycy"
+msgstr "?plural:Portugalczycy"
 
 #: data/nation/portuguese.ruleset:6
 msgid ""
@@ -18947,7 +18947,7 @@ msgstr "Rzymski"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr "Rzymianie"
+msgstr "?plural:Rzymianie"
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
@@ -18955,7 +18955,7 @@ msgstr "Rosyjski"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "Rosjanie"
+msgstr "?plural:Rosjanie"
 
 #: data/nation/russian.ruleset:6
 msgid ""
@@ -18985,7 +18985,7 @@ msgstr "Szkocki"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr "Szkoci"
+msgstr "?plural:Szkoci"
 
 #: data/nation/scottish.ruleset:6
 msgid ""
@@ -19004,7 +19004,7 @@ msgstr "Serbski"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr "Serbowie"
+msgstr "?plural:Serbowie"
 
 #: data/nation/serbian.ruleset:6
 msgid ""
@@ -19019,7 +19019,7 @@ msgstr "¦l±ski"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr "¦l±zacy"
+msgstr "?plural:¦l±zacy"
 
 #: data/nation/silesian.ruleset:6
 msgid ""
@@ -19041,7 +19041,7 @@ msgstr "Singapurski"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "Singapurczycy"
+msgstr "?plural:Singapurczycy"
 
 #: data/nation/singaporean.ruleset:18
 msgid ""
@@ -19069,7 +19069,7 @@ msgstr "Siuksowy"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr "Siuksowie"
+msgstr "?plural:Siuksowie"
 
 #: data/nation/sioux.ruleset:13
 msgid "Chief"
@@ -19085,7 +19085,7 @@ msgstr "S³oweñski"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr "S³oweñcy"
+msgstr "?plural:S³oweñcy"
 
 #: data/nation/slovenian.ruleset:6
 msgid ""
@@ -19101,7 +19101,7 @@ msgstr "Hiszpañski"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr "Hiszpanie"
+msgstr "?plural:Hiszpanie"
 
 #: data/nation/spanish.ruleset:6
 msgid ""
@@ -19130,7 +19130,7 @@ msgstr "Szwedzki"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "Szwedzi"
+msgstr "?plural:Szwedzi"
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -19138,7 +19138,7 @@ msgstr "Tajski"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
-msgstr "Tajlandczycy"
+msgstr "?plural:Tajlandczycy"
 
 #: data/nation/thai.ruleset:6
 msgid ""
@@ -19152,7 +19152,7 @@ msgstr "Turecki"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr "Turcy"
+msgstr "?plural:Turcy"
 
 #: data/nation/turk.ruleset:6
 msgid ""
@@ -19168,7 +19168,7 @@ msgstr "Ukraiñski"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr "Ukraiñcy"
+msgstr "?plural:Ukraiñcy"
 
 #: data/nation/ukrainian.ruleset:6
 msgid ""
@@ -19186,7 +19186,7 @@ msgstr "Wietnamski"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
-msgstr "Wietnamczycy"
+msgstr "?plural:Wietnamczycy"
 
 #: data/nation/vietnamese.ruleset:6
 msgid ""
@@ -19200,7 +19200,7 @@ msgstr "Wikingowy"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr "Wikingowie"
+msgstr "?plural:Wikingowie"
 
 #: data/nation/viking.ruleset:6
 msgid ""
@@ -19218,7 +19218,7 @@ msgstr "Walijski"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "Walijczycy"
+msgstr "?plural:Walijczycy"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
@@ -19234,7 +19234,7 @@ msgstr "Zuluski"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
-msgstr "Zulusi"
+msgstr "?plural:Zulusi"
 
 #: data/nation/zulu.ruleset:16
 msgid ""
