@@ -1556,14 +1556,16 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    canvas_start_y = 0;
 	  }
 
-	  if (w > _mwidth(o)) w = _mwidth(o);
-	  if (h > _mheight(o)) h = _mheight(o);
+	  if (w + canvas_start_x > _mwidth(o)) w = _mwidth(o) - canvas_start_x;
+	  if (h + canvas_start_y > _mheight(o)) h = _mheight(o) - canvas_start_y;
 
           /* here we draw a rectangle that includes the updated tiles. */
-	  MyBltBitMapRastPort(data->map_bitmap, canvas_start_x, canvas_start_y,
+          if (w > 0 && h > 0)
+          {
+	    MyBltBitMapRastPort(data->map_bitmap, canvas_start_x, canvas_start_y,
 			      _rp(o), _mleft(o) + canvas_start_x, _mtop(o) + canvas_start_y,
 			      w,h, 0xc0);
-
+          }
 	}
       } else
       {
@@ -1749,16 +1751,9 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
       struct city *pcity;
       struct unit *punit, *focus;
       struct tile *ptile;
+      int x,y;
 
-      LONG x = msg->mx - _mleft(o);
-      LONG y = msg->my - _mtop(o);
-      x /= get_normal_tile_width();
-      y /= get_normal_tile_height();
-      x += data->horiz_first;
-      y += data->vert_first;
-
-      x = map_adjust_x(x);
-      y = map_adjust_y(y);
+      get_map_xy(msg->mx - _mleft(o), msg->my - _mtop(o), &x, &y);
 
       ptile = map_get_tile(x, y);
 

@@ -46,6 +46,7 @@
 #include "gui_main.h"
 #include "helpdata.h"
 #include "helpdlg.h"
+#include "tilespec.h"
 
 #include "colortextclass.h"
 #include "mapclass.h"
@@ -542,8 +543,8 @@ static void create_help_page(enum help_page_type type)
 	Child, HGroup,
 	    Child, HSpace(0),
 	    Child, help_unit_sprite = SpriteObject,
-		MUIA_FixWidth, get_normal_tile_width(),
-		MUIA_FixHeight, get_normal_tile_height(),
+		MUIA_FixWidth, UNIT_TILE_WIDTH,
+		MUIA_FixHeight, UNIT_TILE_HEIGHT,
 		MUIA_Sprite_Transparent, TRUE,
 		End,
 	    Child, HSpace(0),
@@ -868,7 +869,10 @@ static void help_update_terrain(const struct help_item *pitem,
     if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, "", End,
-	      Child, SpriteObject, MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1], End,
+	      Child, SpriteObject, MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
+	        MUIA_FixWidth, NORMAL_TILE_WIDTH,
+	        MUIA_FixHeight, NORMAL_TILE_HEIGHT,
+	      	End,
 	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
 	      End))
@@ -886,6 +890,8 @@ static void help_update_terrain(const struct help_item *pitem,
 	      Child, SpriteObject,
 		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
 		  MUIA_Sprite_OverlaySprite, tile->special[0].sprite,
+		  MUIA_FixWidth, NORMAL_TILE_WIDTH,
+		  MUIA_FixHeight, NORMAL_TILE_HEIGHT,
 		  End,
 	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
@@ -902,6 +908,8 @@ static void help_update_terrain(const struct help_item *pitem,
 	      Child, SpriteObject,
 		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
 		  MUIA_Sprite_OverlaySprite, tile->special[1].sprite,
+		  MUIA_FixWidth, NORMAL_TILE_WIDTH,
+		  MUIA_FixHeight, NORMAL_TILE_HEIGHT,
 		  End,
 	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
